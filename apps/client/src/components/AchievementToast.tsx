@@ -8,6 +8,7 @@ import { Trophy } from "lucide-react";
 import { useGamification } from "@/contexts/GamificationContext";
 import { isDialogActive } from "@/lib/dialogState";
 import { ToastSlot } from "@/components/toast";
+import LottiePlayer from "@/components/LottiePlayer";
 
 const TIER_COLORS: Record<string, string> = {
   bronze: "#cd7f32",
@@ -90,7 +91,17 @@ export default function AchievementToast() {
             className="w-10 h-10 rounded-full flex items-center justify-center text-lg shrink-0"
             style={{ background: `${tierColor}20` }}
           >
-            {newAchievement.icon}
+            {/* Lottie tier-flourish if one's been authored for this tier
+                (bronze/silver/gold/platinum/legendary → /art/lottie/
+                achievement-{tier}.json). Falls back to the existing
+                emoji icon so shipping behavior is preserved until the
+                JSON files land — this is a progressive upgrade. */}
+            <LottiePlayer
+              src={`/art/lottie/achievement-${newAchievement.tier}.json`}
+              loop={false}
+              fallback={<span>{newAchievement.icon}</span>}
+              className="w-10 h-10 flex items-center justify-center"
+            />
           </div>
           <div className="min-w-0">
             <div className="flex items-center gap-2">

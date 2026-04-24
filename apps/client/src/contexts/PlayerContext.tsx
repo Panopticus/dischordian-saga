@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useRef, useCallback, useEffect, type ReactNode } from "react";
 import type { LoredexEntry } from "./LoredexContext";
-import { publishAmplitude } from "../hooks/useAudioAmplitude";
+import { publishAmplitude, registerAnalyser } from "../hooks/useAudioAmplitude";
 
 interface PlayerContextType {
   currentSong: LoredexEntry | null;
@@ -264,6 +264,10 @@ function startAmplitudeDriver(audio: HTMLAudioElement): AmplitudeDriver {
       // routing through it does not attenuate playback.
       sharedSource.connect(sharedAnalyser);
       sharedAnalyser.connect(sharedAudioContext.destination);
+      // Expose the analyser through the hook's module so downstream
+      // visualizers (AudioSpectrum canvas, etc.) can pull raw
+      // frequency buffers without re-building their own Web Audio graph.
+      registerAnalyser(sharedAnalyser);
       return true;
     } catch (e) {
       // If the audio element was already bound to a source (HMR reload)
@@ -271,6 +275,7 @@ function startAmplitudeDriver(audio: HTMLAudioElement): AmplitudeDriver {
       // fall back silently — playback continues, amplitude stays at 0.
       console.warn("[Player] Audio analyser unavailable:", e);
       sharedAnalyser = null;
+      registerAnalyser(null);
       return false;
     }
   }

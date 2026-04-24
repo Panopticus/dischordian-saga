@@ -41,6 +41,19 @@ let current: AudioAmplitude = ZERO;
 type Subscriber = (a: AudioAmplitude) => void;
 const subscribers = new Set<Subscriber>();
 
+// Shared AnalyserNode reference — set by PlayerContext when the audio
+// graph is built. Exposed here so audio-spectrum visualizers (Album
+// hero, docked player) can pull raw frequency buffers without having
+// to reach into PlayerContext's module internals. Null when playback
+// hasn't started yet or the Web Audio graph couldn't be constructed.
+let sharedAnalyserRef: AnalyserNode | null = null;
+export function registerAnalyser(node: AnalyserNode | null): void {
+  sharedAnalyserRef = node;
+}
+export function getSharedAnalyser(): AnalyserNode | null {
+  return sharedAnalyserRef;
+}
+
 /**
  * Called from PlayerContext's RAF driver. Not part of the public API.
  * Clamps values and fans out to subscribers.

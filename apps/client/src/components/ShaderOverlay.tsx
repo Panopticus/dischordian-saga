@@ -20,6 +20,7 @@ import * as THREE from "three";
 import corruptionFrag from "@/shaders/corruption.frag";
 import moralityFrag from "@/shaders/morality.frag";
 import vertexShader from "@/shaders/vertex.vert";
+import { createCinematicComposer, type CinematicComposer } from "@/engine/cinematicComposer";
 
 interface ShaderOverlayProps {
   corruption: number;
@@ -59,6 +60,7 @@ export default function ShaderOverlay({
   const sceneRef = useRef<THREE.Scene | null>(null);
   const cameraRef = useRef<THREE.OrthographicCamera | null>(null);
   const materialRef = useRef<THREE.ShaderMaterial | null>(null);
+  const composerRef = useRef<CinematicComposer | null>(null);
   const rafRef = useRef<number>(0);
   const clockRef = useRef<THREE.Clock>(new THREE.Clock());
 
@@ -137,12 +139,25 @@ export default function ShaderOverlay({
     const quad = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), material);
     scene.add(quad);
 
+    // Cinematic post-processing chain — bloom + chromatic + vignette
+    // applied AFTER the corruption/morality pass. Strengths start at
+    // zero and ramp in the RAF loop based on the same corruption /
+    // morality drivers the shader uniforms already use. Players who
+    // aren't in a high-intensity narrative state see no change.
+    const cinematic = createCinematicComposer(renderer, scene, camera, {
+      bloom: { strength: 0, radius: 0.4, threshold: 0.75 },
+      chromatic: { amount: 0 },
+      vignette: { strength: 0, softness: 0.6 },
+    });
+    composerRef.current = cinematic;
+
     // Handle resize
     const onResize = () => {
       const w = window.innerWidth;
       const h = window.innerHeight;
       renderer.setSize(w, h);
       material.uniforms.u_resolution.value.set(w, h);
+      cinematic.setSize(w, h);
     };
     window.addEventListener("resize", onResize);
 
@@ -179,7 +194,23 @@ export default function ShaderOverlay({
         material.uniforms.u_themeColor.value = getThemeGlowColor();
       }
 
-      renderer.render(scene, camera);
+      // Drive the cinematic post-FX from the same narrative signals.
+      // Bloom ramps with BOTH corruption and morality absolute value
+      // so any intense narrative state lights the screen up. Chromatic
+      // aberration keys to corruption (lens stress). Vignette keys to
+      // morality (tunnel vision at the extremes of alignment).
+      const cinematicCorruption = material.uniforms.u_corruption.value as number;
+      const cinematicMorality = Math.abs(material.uniforms.u_morality.value as number);
+      const driver = Math.max(cinematicCorruption, cinematicMorality);
+      cinematic.setBloomStrength(
+        a11y.reduceGlow ? 0 : Math.max(driver * 1.1, 0) + cinematicMorality * 0.4,
+      );
+      cinematic.setChromaticAmount(a11y.reduceGlow ? 0 : cinematicCorruption * 0.012);
+      cinematic.setVignetteStrength(a11y.reduceGlow ? 0 : cinematicMorality * 0.35);
+
+      // Route through the composer; it internally runs the scene
+      // render pass + the three post-FX passes in order.
+      cinematic.render();
       rafRef.current = requestAnimationFrame(animate);
     };
 
@@ -189,6 +220,9 @@ export default function ShaderOverlay({
     return () => {
       cancelAnimationFrame(rafRef.current);
       window.removeEventListener("resize", onResize);
+
+      cinematic.dispose();
+      composerRef.current = null;
 
       quad.geometry.dispose();
       material.dispose();
