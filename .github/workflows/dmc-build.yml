@@ -11,7 +11,8 @@ name: DMC Build & Deploy
 # Required repo secrets:
 #   - AWS_ACCESS_KEY_ID
 #   - AWS_SECRET_ACCESS_KEY
-# IAM needs s3:PutObject + s3:HeadObject on arn:aws:s3:::dgrsart/cdn/client-public/*
+# IAM needs s3:PutObject + s3:GetObject on arn:aws:s3:::dgrsart/cdn/client-public/*
+# (HeadObject is authorized by s3:GetObject; there is no separate s3:HeadObject action.)
 
 on:
   push:

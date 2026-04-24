@@ -10,7 +10,9 @@
  *
  * Requires AWS_ACCESS_KEY_ID / AWS_SECRET_ACCESS_KEY in env (or any
  * other credential source resolvable by @aws-sdk/credential-provider-node)
- * with s3:PutObject + s3:HeadObject on the dgrsart bucket.
+ * with s3:PutObject + s3:GetObject on the dgrsart bucket. (HeadObject is
+ * authorized by s3:GetObject in IAM; there is no separate s3:HeadObject
+ * action.)
  */
 
 import { HeadObjectCommand, PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
