@@ -2231,3 +2231,33 @@ html.reduce-motion ::view-transition-old(root),
 html.reduce-motion ::view-transition-new(root) {
   animation: none;
 }
+
+/* ═══════════════════════════════════════════════════════
+   PAGE TITLE REVEAL — CSS-only clip-path wipe
+
+   Marquee H1s on route-level pages (Bridge, Settings,
+   Marketplace, Leaderboard, Forge, Album hero) get a subtle
+   left-to-right wipe-in when the page mounts. GPU-composited
+   clip-path transition — one line per consumer, zero JS cost,
+   reveal reads as "signal acquired" rather than the old static
+   placement.
+
+   Collapses under html.reduce-motion (title renders fully
+   visible immediately).
+   ═══════════════════════════════════════════════════════ */
+.page-title-reveal {
+  animation: pageTitleReveal
+    calc(500ms / max(0.1, var(--motion-intensity, 1)))
+    cubic-bezier(0.22, 1, 0.36, 1)
+    both;
+  will-change: clip-path, opacity;
+}
+@keyframes pageTitleReveal {
+  from { clip-path: inset(0 100% 0 0); opacity: 0.3; }
+  to   { clip-path: inset(0 0 0 0);    opacity: 1; }
+}
+html.reduce-motion .page-title-reveal {
+  animation: none;
+  clip-path: none;
+  opacity: 1;
+}

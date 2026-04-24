@@ -95,7 +95,7 @@ export default function MarketplacePage() {
           <span className="font-mono text-[10px] text-primary/70 tracking-[0.3em]">INTERGALACTIC MARKET</span>
           <div className="h-px flex-1 max-w-8 bg-gradient-to-l from-transparent to-primary/50" />
         </div>
-        <h1 className="font-display text-2xl sm:text-3xl font-black tracking-wider">
+        <h1 className="font-display text-2xl sm:text-3xl font-black tracking-wider page-title-reveal">
           <span className="text-primary">MARKETPLACE</span>
         </h1>
         <p className="font-mono text-xs text-muted-foreground mt-1">

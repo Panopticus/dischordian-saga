@@ -384,7 +384,7 @@ export default function SettingsPage() {
           <Settings size={18} className="text-[var(--neon-cyan)]" />
         </div>
         <div className="flex-1 min-w-0">
-          <h1 className="font-display text-lg font-bold tracking-wider text-foreground">SHIP CONFIGURATION</h1>
+          <h1 className="font-display text-lg font-bold tracking-wider text-foreground page-title-reveal">SHIP CONFIGURATION</h1>
           <p className="font-mono text-[10px] text-muted-foreground tracking-wider">System preferences, accessibility, and account</p>
         </div>
         <button
