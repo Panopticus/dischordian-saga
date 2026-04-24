@@ -2202,3 +2202,32 @@ html.quality-low .living-portrait__particle {
 html.quality-low .chess-arena-morality-wash {
   animation: none !important;
 }
+
+/* ═══════════════════════════════════════════════════════
+   VIEW TRANSITIONS — native route cross-fade
+   Activated on supporting browsers by lib/viewTransitions.ts,
+   which patches history.pushState/replaceState to wrap in
+   document.startViewTransition. Non-supporting browsers fall
+   back to AppShellImmersive's framer AnimatePresence.
+   ═══════════════════════════════════════════════════════ */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 220ms;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+::view-transition-old(root) {
+  animation-name: viewTransitionFadeOut;
+}
+::view-transition-new(root) {
+  animation-name: viewTransitionFadeIn;
+}
+@keyframes viewTransitionFadeOut {
+  to   { opacity: 0; transform: translate3d(0, -4px, 0) scale(0.995); }
+}
+@keyframes viewTransitionFadeIn {
+  from { opacity: 0; transform: translate3d(0, 4px, 0) scale(1.005); }
+}
+html.reduce-motion ::view-transition-old(root),
+html.reduce-motion ::view-transition-new(root) {
+  animation: none;
+}
