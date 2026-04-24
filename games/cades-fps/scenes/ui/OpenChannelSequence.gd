@@ -144,7 +144,9 @@ func _show_confirm(text: String, idx: int) -> void:
 func _show_salute(idx: int) -> void:
 	label.text = "[fist to chest]"
 	label.add_theme_color_override("font_color", Color(0.984, 0.749, 0.165))
-	Audio.play("sounds/land.ogg") # placeholder for salute sound
+	# "Land" thump reads surprisingly well as an armored-fist-to-chest
+	# salute at 0.9× pitch (see Audio.play randomization).
+	Audio.play("sounds/land.ogg")
 	await get_tree().create_timer(0.8, true).timeout
 	label.add_theme_color_override("font_color", Color(0.961, 0.624, 0.043))
 	_run_core_sequence(idx + 1)

@@ -101,7 +101,10 @@ func _try_open_channel() -> void:
 	var hud = $HUD
 	if hud and hud.has_node("OpenChannelPrompt"):
 		hud.get_node("OpenChannelPrompt").visible = false
-	Audio.play("sounds/weapon_change.ogg") # placeholder until channel_open.ogg exists
+	# Re-purposing the weapon-change SFX as the channel-open stinger —
+	# short percussive hit reads cleanly as "something just toggled" and
+	# the existing CC0 asset ships today.
+	Audio.play("sounds/weapon_change.ogg")
 	var scene: PackedScene = load(OPEN_CHANNEL_SCENE)
 	if scene == null:
 		_finish_open_channel()

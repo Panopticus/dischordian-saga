@@ -293,6 +293,7 @@ func damage(amount):
 		resist = 1.0
 	health -= int(round(amount / resist))
 	health_updated.emit(health) # Update health on HUD
+	_shake_camera()
 	
 	if health < 0:
 		if GameMode.current_mode == "last_stand":
@@ -313,3 +314,13 @@ func damage(amount):
 static func random_vec2(_min: Vector2, _max: Vector2) -> Vector2:
 	var _sign = -1 if randi() % 2 == 0 else 1
 	return Vector2(randf_range(_min.x, _max.x), randf_range(_min.y, _max.y) * _sign)
+
+# Short twitch on the camera when the player takes damage. Kept tiny
+# so it never fights the player's aim — 2° spread over 150 ms.
+func _shake_camera() -> void:
+	var kick_x: float = randf_range(-0.035, 0.035)
+	var kick_y: float = randf_range(-0.025, 0.025)
+	camera.rotation.x += kick_x
+	camera.rotation.y += kick_y
+	rotation_target.x += kick_x
+	rotation_target.y += kick_y

@@ -1,5 +1,11 @@
 extends CanvasLayer
 
+# Tracks the most recent health value so _on_health_updated can tell a
+# damage tick from a heal (or the initial set to 100) and flash only on
+# the former.
+var _last_health: int = 100
+var _flash_tween: Tween = null
+
 func _ready() -> void:
 	add_to_group("hud")
 	$ElaraSubtitle.visible = false
@@ -9,6 +15,7 @@ func _ready() -> void:
 	$BreachStatus.visible = false
 	$OpenChannelPrompt.visible = false
 	$WaveLabel.visible = false
+	$DamageFlash.color.a = 0.0
 	# Set mode-specific UI
 	set_mode_ui(GameMode.current_mode)
 
@@ -27,6 +34,16 @@ func _on_health_updated(health: int) -> void:
 		$Health.add_theme_color_override("font_color", Color(0.976, 0.451, 0.086))
 	else:
 		$Health.add_theme_color_override("font_color", Color(0.937, 0.267, 0.267))
+	if health < _last_health:
+		_flash_damage()
+	_last_health = health
+
+func _flash_damage() -> void:
+	if _flash_tween and _flash_tween.is_valid():
+		_flash_tween.kill()
+	$DamageFlash.color.a = 0.45
+	_flash_tween = create_tween()
+	_flash_tween.tween_property($DamageFlash, "color:a", 0.0, 0.35)
 
 func show_elara(text: String) -> void:
 	$ElaraSubtitle.text = text
