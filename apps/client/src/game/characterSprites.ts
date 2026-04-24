@@ -39,12 +39,30 @@ export interface SpriteSheet {
 /** Maps each wawa viseme to a cell index in the viseme sheet. */
 export type VisemeMap = Record<WawaViseme, number>;
 
+/** Position of the mouth on the bust, as fractions of the bust's width/height.
+ *  Used to composite a mouth-only viseme cell onto the bust without hiding
+ *  the eyes/hair. Origin is top-left of the visible bust frame. */
+export interface MouthBox {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
+
 export interface CharacterSprite {
   id: string;
   /** Static idle / bust image shown when nothing is animating. */
   bust: string;
   /** Mouth-shape sheet. Required for lip sync. */
   viseme?: SpriteSheet & { map: VisemeMap };
+  /** If true, the viseme sheet is a mouth-only close-up and should be
+   *  composited on top of `bust` at `mouthBox`, instead of replacing the
+   *  bust entirely. When false/undefined, the viseme sheet is treated as
+   *  a full-face grid (legacy NPC behaviour). */
+  visemeOverlay?: boolean;
+  /** Where to draw the mouth overlay on the bust. Required when
+   *  `visemeOverlay` is true. Values are 0-1 fractions. */
+  mouthBox?: MouthBox;
   /** Eye triptych: cell 0 open, 1 half, 2 closed. */
   blink?: SpriteSheet;
   /** Idle breathing loop. Played in order at low fps when not speaking. */
@@ -118,7 +136,9 @@ function npc(id: string): CharacterSprite {
 /* ─── Registry ─── */
 
 export const CHARACTER_SPRITES: Record<string, CharacterSprite> = {
-  /* Elara — protagonist; mouth-only viseme overlay, no blink/breathing in the bundle. */
+  /* Elara — protagonist; mouth-only viseme overlay, no blink/breathing in the bundle.
+     The viseme sheet is a close-up of the lower face; it is composited on top
+     of `bust` at `mouthBox`, rather than replacing the bust. */
   elara: {
     id: "elara",
     bust: assetUrl("characters/elara/idle_hologram.avif"),
@@ -127,6 +147,10 @@ export const CHARACTER_SPRITES: Record<string, CharacterSprite> = {
       cols: 4, rows: 4, frames: 16,
       map: ELARA_VISEME_MAP,
     },
+    visemeOverlay: true,
+    // Bust is 1045x1400; the mouth sits roughly centred, ~62% down the portrait.
+    // The overlay cell covers nose-to-chin so it blends with the surrounding face.
+    mouthBox: { x: 0.26, y: 0.50, width: 0.48, height: 0.32 },
   },
 
   /* The Human — protagonist; expression sheet only, no viseme/blink/breathing. */
