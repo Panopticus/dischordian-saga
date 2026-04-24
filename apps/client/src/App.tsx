@@ -142,6 +142,7 @@ const LeaderboardPage = lazy(() => import("./pages/LeaderboardPage"));
 const AwakeningPage = lazy(() => import("./pages/AwakeningPage"));
 const ArkExplorerPage = lazy(() => import("./pages/ArkExplorerPage"));
 const PreludePage = lazy(() => import("./pages/PreludePage"));
+const PreludeAct1GalleryPage = lazy(() => import("./pages/PreludeAct1GalleryPage"));
 const StoryModePage = lazy(() => import("./pages/StoryModePage"));
 const BossBattlePage = lazy(() => import("./pages/BossBattlePage"));
 const CardChallengePage = lazy(() => import("./pages/CardChallengePage"));
@@ -266,6 +267,7 @@ function Router() {
         <Route path="/terminus-swarm">{() => <GameRoute component={TerminusSwarmPage} />}</Route>
         <Route path="/ark" component={ArkExplorerPage} />
         <Route path="/prelude" component={PreludePage} />
+        <Route path="/prelude-act1-gallery" component={PreludeAct1GalleryPage} />
         <Route path="/story">{() => <GameRoute component={StoryModePage} />}</Route>
         <Route path="/ark-legacy" component={InceptionArkPage} />
         <Route path="/crew" component={CrewRosterPage} />
