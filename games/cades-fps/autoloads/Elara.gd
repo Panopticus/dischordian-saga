@@ -87,6 +87,23 @@ const LINES = {
 	"gm_contact_3": "They're curious about you specifically.",
 	"gm_final": "Final transmission. Full offer.",
 	"gm_theory": "The Game Master was destroyed from inside. Iron Lion is asking. I have a theory.",
+	# Boot Diagnostic — first-time calibration protocol. These fire
+	# directly from BootDiagnostic.gd via $HUD.show_elara rather than
+	# through the Elara queue, because the tutorial needs tighter
+	# pacing than the 7-second gameplay cooldown allows. The strings
+	# live here so they stay discoverable with the rest of Elara's
+	# voice and can later be lifted into VO_URLS if we author audio.
+	"boot_power_cycle": "CADES Unit, power cycle complete. Identity handshake — acknowledged. Running post-reboot diagnostic. Protocol three, standard.",
+	"boot_optics": "Optics online. Look around — anywhere. Confirm the gimbal tracks.",
+	"boot_optics_ok": "Optics nominal.",
+	"boot_locomotion": "Locomotion next. A calibration mark is lit on the deck. Walk to it.",
+	"boot_locomotion_ok": "Servos nominal. Jump systems cleared on the walk.",
+	"boot_weapons": "Weapons diagnostic. A target drone is inbound. Discharge your primary until it's down.",
+	"boot_weapons_ok": "Weapons nominal. Loadout integrity: full.",
+	"boot_loadout": "One more thing. Cycle to your secondary. A second drone, same protocol.",
+	"boot_loadout_ok": "Secondary discharge clean. Cycling back.",
+	"boot_complete": "Diagnostic complete. CADES Unit is cleared for theater. Returning you to the Matrix Anchor.",
+	"boot_abort": "Protocol aborted. Returning to the Matrix Anchor.",
 }
 
 func speak(key: String) -> void:

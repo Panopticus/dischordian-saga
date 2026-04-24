@@ -11,8 +11,12 @@ radius = 0.75
 transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 0, 0)
 script = ExtResource("1_scr")
 enemy_name = "MachineCommander"
+max_health = 260
 attack_damage = 20
 bob_amplitude = 1.0
+attack_pattern = &"shielded"
+shielded_window_on = 1.6
+shielded_window_off = 4.2
 
 [node name="Model" parent="." instance=ExtResource("1_mdl")]
 

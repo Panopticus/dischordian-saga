@@ -1,6 +1,8 @@
 extends Resource
 class_name Weapon
 
+@export var display_name: String = "WEAPON" # Shown on the HUD on toggle.
+
 @export_subgroup("Model")
 @export var model: PackedScene # Model of the weapon
 @export var position: Vector3 # On-screen position

@@ -37,6 +37,7 @@ func _ready() -> void:
 	hud.set_mode_ui("last_stand")
 	hud.update_tokens(GameMode.reinforcement_tokens)
 	$Player.health_updated.connect(hud._on_health_updated)
+	$Player.weapon_changed.connect(hud.update_weapon_name)
 	# If the channel is already primed for this run, let Elara say so.
 	if GameMode.awareness_level >= 5 and not GameMode.open_channel_used:
 		Elara.queue_for_run_start("open_channel_ready")
@@ -101,7 +102,10 @@ func _try_open_channel() -> void:
 	var hud = $HUD
 	if hud and hud.has_node("OpenChannelPrompt"):
 		hud.get_node("OpenChannelPrompt").visible = false
-	Audio.play("sounds/weapon_change.ogg") # placeholder until channel_open.ogg exists
+	# Re-purposing the weapon-change SFX as the channel-open stinger —
+	# short percussive hit reads cleanly as "something just toggled" and
+	# the existing CC0 asset ships today.
+	Audio.play("sounds/weapon_change.ogg")
 	var scene: PackedScene = load(OPEN_CHANNEL_SCENE)
 	if scene == null:
 		_finish_open_channel()

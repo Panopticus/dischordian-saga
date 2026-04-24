@@ -1,0 +1,124 @@
+[gd_scene load_steps=10 format=3]
+
+[ext_resource type="Script" path="res://scenes/levels/BootDiagnostic.gd" id="1_scr"]
+[ext_resource type="PackedScene" path="res://objects/player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/ui/HUD.tscn" id="3_hud"]
+[ext_resource type="PackedScene" path="res://scenes/ui/AmbientDrone.tscn" id="4_drone"]
+
+[sub_resource type="Environment" id="env"]
+background_mode = 1
+background_color = Color(0.02, 0.02, 0.03, 1)
+ambient_light_color = Color(0.12, 0.10, 0.08, 1)
+ambient_light_energy = 0.28
+fog_enabled = true
+fog_light_color = Color(0.04, 0.03, 0.02, 1)
+fog_density = 0.018
+tonemap_mode = 2
+glow_enabled = true
+glow_levels/2 = 0.4
+glow_levels/3 = 0.5
+glow_levels/5 = 4.2
+ssao_enabled = true
+ssao_radius = 0.5
+ssao_intensity = 0.9
+
+[sub_resource type="StandardMaterial3D" id="mat_floor"]
+albedo_color = Color(0.05, 0.04, 0.04, 1)
+emission_enabled = false
+
+[sub_resource type="StandardMaterial3D" id="mat_wall"]
+albedo_color = Color(0.07, 0.05, 0.04, 1)
+emission_enabled = false
+
+[sub_resource type="StandardMaterial3D" id="mat_mark"]
+albedo_color = Color(0.961, 0.624, 0.043, 1)
+emission_enabled = true
+emission = Color(0.984, 0.749, 0.165, 1)
+emission_energy_multiplier = 2.5
+
+[sub_resource type="BoxShape3D" id="mark_shape"]
+size = Vector3(2.0, 1.0, 2.0)
+
+[node name="BootDiagnostic" type="Node3D"]
+script = ExtResource("1_scr")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("env")
+
+[node name="Floor" type="MeshInstance3D" parent="."]
+mesh = BoxMesh.new()
+transform = Transform3D(15, 0, 0, 0, 0.1, 0, 0, 0, 30, 0, -0.05, 0)
+material_override = SubResource("mat_floor")
+
+[node name="WallLeft" type="MeshInstance3D" parent="."]
+mesh = BoxMesh.new()
+transform = Transform3D(0.3, 0, 0, 0, 4, 0, 0, 0, 30, -7.65, 2, 0)
+material_override = SubResource("mat_wall")
+
+[node name="WallRight" type="MeshInstance3D" parent="."]
+mesh = BoxMesh.new()
+transform = Transform3D(0.3, 0, 0, 0, 4, 0, 0, 0, 30, 7.65, 2, 0)
+material_override = SubResource("mat_wall")
+
+[node name="WallBack" type="MeshInstance3D" parent="."]
+mesh = BoxMesh.new()
+transform = Transform3D(15, 0, 0, 0, 4, 0, 0, 0, 0.3, 0, 2, -15.15)
+material_override = SubResource("mat_wall")
+
+[node name="WallFront" type="MeshInstance3D" parent="."]
+mesh = BoxMesh.new()
+transform = Transform3D(15, 0, 0, 0, 4, 0, 0, 0, 0.3, 0, 2, 15.15)
+material_override = SubResource("mat_wall")
+
+[node name="KeyLight" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.866, -0.5, 0, 0.5, 0.866, 0, 8, 0)
+light_color = Color(0.961, 0.624, 0.043, 1)
+light_energy = 0.4
+
+[node name="RoomAccent1" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 2, 8)
+light_color = Color(0.984, 0.749, 0.165, 1)
+light_energy = 0.6
+omni_range = 6.0
+
+[node name="RoomAccent2" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 2, -8)
+light_color = Color(0.984, 0.749, 0.165, 1)
+light_energy = 0.6
+omni_range = 6.0
+
+[node name="Player" parent="." instance=ExtResource("2_player")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -10)
+
+[node name="CalibrationMark" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4)
+
+[node name="Mesh" type="MeshInstance3D" parent="CalibrationMark"]
+mesh = BoxMesh.new()
+transform = Transform3D(1.5, 0, 0, 0, 0.05, 0, 0, 0, 1.5, 0, 0.03, 0)
+material_override = SubResource("mat_mark")
+
+[node name="Halo" type="OmniLight3D" parent="CalibrationMark"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
+light_color = Color(0.984, 0.749, 0.165, 1)
+light_energy = 1.6
+omni_range = 4.5
+
+[node name="Probe" type="Area3D" parent="CalibrationMark"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CalibrationMark/Probe"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("mark_shape")
+
+[node name="DroneSpawn" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 10)
+
+[node name="HUD" parent="." instance=ExtResource("3_hud")]
+
+[node name="AmbientDrone" parent="." instance=ExtResource("4_drone")]
+base_freq_a = 62.0
+base_freq_b = 93.0
+base_freq_c = 124.0
+amplitude = 0.08
+volume_db = -22.0
+fade_in_seconds = 2.0

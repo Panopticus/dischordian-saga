@@ -12,12 +12,21 @@ ambient_light_color = Color(0.06, 0.04, 0.10, 1)
 fog_enabled = true
 fog_light_color = Color(0.04, 0.03, 0.08, 1)
 fog_density = 0.05
+tonemap_mode = 2
+glow_enabled = true
+glow_levels/2 = 0.4
+glow_levels/3 = 0.5
+glow_levels/5 = 4.5
+ssao_enabled = true
+ssao_radius = 0.4
+ssao_intensity = 0.9
 
 [node name="VoidCorridor" type="Node3D"]
 script = ExtResource("1_scr")
 mode_id = "void_corridor"
 ambient_color = Color(0.06, 0.04, 0.10, 1)
 fog_color = Color(0.04, 0.03, 0.08, 1)
+enemy_scene_paths = Array[String](["res://objects/enemies/HierarchyAssassin.tscn", "res://objects/enemies/RealityShard.tscn", "res://objects/enemies/MachineDisruptor.tscn"])
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("env")

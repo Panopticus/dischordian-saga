@@ -18,11 +18,16 @@ extends Node3D
 @export var mode_id: String = "void_corridor"
 @export var ambient_color: Color = Color(0.10, 0.10, 0.16)
 @export var fog_color: Color = Color(0.04, 0.04, 0.08)
+# Legacy single-scene path kept for backwards compat. If enemy_scene_paths
+# is non-empty it wins; otherwise we fall back to enemy_scene_path.
 @export var enemy_scene_path: String = "res://objects/enemy.tscn"
+@export var enemy_scene_paths: Array[String] = []
+@export var spawn_interval: float = 1.2
 
 var kills: int = 0
 var start_time_ms: int = 0
 var result_sent: bool = false
+var _enemy_scenes: Array[PackedScene] = []
 
 @onready var _player: Node3D = $Player
 @onready var _spawn_points: Node = $SpawnPoints
@@ -31,6 +36,17 @@ func _ready() -> void:
 	GameMode.current_mode = mode_id
 	start_time_ms = Time.get_ticks_msec()
 	WaveManager.reset_for_new_run()
+	# Player death → mission-failure result. health_updated emits
+	# synchronously from player.damage() before its own scene reload,
+	# so the CADES_RESULT reaches the React side before the arena
+	# unmounts.
+	_player.health_updated.connect(_on_player_health_updated)
+	# HUD readouts for integrity + weapon name, matching the other
+	# combat-mode levels.
+	var hud := get_node_or_null("HUD")
+	if hud:
+		_player.health_updated.connect(hud._on_health_updated)
+		_player.weapon_changed.connect(hud.update_weapon_name)
 	# The ambient/fog lean on the main environment defaults — scenes
 	# can override by replacing WorldEnvironment in their .tscn, but
 	# the script won't force-replace a scene-provided Environment.
@@ -38,10 +54,21 @@ func _ready() -> void:
 		var env: Environment = $WorldEnvironment.environment
 		env.ambient_light_color = ambient_color
 		env.fog_light_color = fog_color
-	# Start the spawn loop. Short intervals so the 45-second mid-line
+	# Cache the enemy scene(s) once rather than load()-ing per spawn tick —
+	# web builds especially don't want an asset-cache round-trip every
+	# 1.2 s. enemy_scene_paths wins if set; otherwise fall back to the
+	# legacy single enemy_scene_path.
+	var paths: Array = enemy_scene_paths if not enemy_scene_paths.is_empty() else [enemy_scene_path]
+	for p in paths:
+		var s: PackedScene = load(p)
+		if s == null:
+			push_warning("MissionArena: failed to load enemy scene %s" % p)
+		else:
+			_enemy_scenes.append(s)
+	# Start the spawn loop. Tight intervals so the 45-second mid-line
 	# timer (wired on the React side) lands during a fight.
 	var spawn_timer := Timer.new()
-	spawn_timer.wait_time = 2.5
+	spawn_timer.wait_time = spawn_interval
 	spawn_timer.timeout.connect(_on_spawn_tick)
 	add_child(spawn_timer)
 	spawn_timer.start()
@@ -51,14 +78,14 @@ func _process(delta: float) -> void:
 
 func _on_spawn_tick() -> void:
 	if result_sent: return
+	if _enemy_scenes.is_empty(): return
 	var spawns := _spawn_points.get_children()
 	if spawns.is_empty(): return
 	var spawn: Node3D = spawns.pick_random()
-	var scene := load(enemy_scene_path)
-	if scene == null: return
+	var scene: PackedScene = _enemy_scenes.pick_random()
 	var enemy: Node3D = scene.instantiate()
-	if enemy.has_method("set"):
-		enemy.set("player", _player)
+	if "player" in enemy:
+		enemy.player = _player
 	enemy.position = spawn.position
 	enemy.tree_exited.connect(_on_enemy_killed)
 	add_child(enemy)
@@ -81,6 +108,10 @@ func _send_success() -> void:
 		"kills": kills,
 		"time_taken": elapsed_s,
 	})
+
+func _on_player_health_updated(new_health: int) -> void:
+	if new_health <= 0:
+		_on_player_died()
 
 func _on_player_died() -> void:
 	# Mission "loss" still reports — React side only raises the M-flag
