@@ -1,0 +1,36 @@
+asset_id,name,category,review_gate,resolution,priority,palette,composed_prompt
+era_first_light,"First Light",era_banner,A,1792x768,P0,"dawn amber, soot-black, one pale blue star","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: dawn amber, soot-black, one pale blue star
+
+Wide establishing shot of a single pre-warp colony fleet drifting away from a fractured home-world silhouette. Low-light amber dawn through atmospheric haze. Long horizontal composition; left third is the ruined planet, right two-thirds is the open dark with one hopeful navigation beacon. Mood: survival dawn.
+
+Negative: no explosions, no ships with visible guns, no text"
+era_ark_awakening,"Ark Awakening",era_banner,B,1792x768,P1,"ivory, cathedral gold, deep indigo sky, one distant red flare on the horizon","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: ivory, cathedral gold, deep indigo sky, one distant red flare on the horizon
+
+Panoramic interior-exterior hybrid: the Ark Cathedral hull opens and light pours out across a pale inhabited moon. Small refugee skiffs move toward it in silhouette. Warmer than First Light but still uncertain. Horizontal composition with the Ark centred-left, the moon-horizon on the right. Mood: gathering. The distant red flare foreshadows the Convergence.
+
+Negative: no weaponry, no crowds of faces, no text"
+era_sector_lord,"Sector Lord",era_banner,B,1792x768,P1,"brass, warm amber, leather-brown, one cold cyan holographic accent","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: brass, warm amber, leather-brown, one cold cyan holographic accent
+
+Wide view of a young empire's star-map table from above-and-to-the-side, with projected sector tokens floating in holographic amber above a brass surface. A gauntleted hand reaches in from the right to place one piece. Deep interior light, no window view. Mood: deliberate ascent.
+
+Negative: no player-character face, no readable glyphs, no modern UI chrome"
+era_galactic_power,"Galactic Power",era_banner,B,1792x768,P1,"cold steel, twilight violet, deep red in the outer corners only","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: cold steel, twilight violet, deep red in the outer corners only
+
+Panoramic fleet array in crescent formation over a populated world, seen from a great distance so the fleet reads as geometric pattern rather than individual ships. Twilight lighting. The horizon is just beginning to tint red-violet at the edges. Mood: dominion, but the sky is turning.
+
+Negative: no battle in progress, no muzzle-flashes, no text overlay"
+era_cosmic_convergence,"Cosmic Convergence",era_banner,B,1792x768,P1,"blood-red, absolute black, one single point of pure white where the impossible shape opens","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: blood-red, absolute black, one single point of pure white where the impossible shape opens
+
+The whole frame is bathed in a terrible red-dark corona — the Convergence arriving at galactic scale. Colossal impossible geometry (rings-within-rings, a door that is also an eye) occludes half the star-field. Tiny fleet silhouettes are below, in silhouette, utterly dwarfed. Horizontal composition with the geometry centred, fleet as a thin line along the bottom edge. Mood: witnessed apocalypse.
+
+Negative: no recognisable demon imagery, no fire plumes, no text"

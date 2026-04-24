@@ -36,6 +36,7 @@
     "vo:act7": "tsx apps/scripts/generate-act-vo.ts --act 7",
     "vo:spine": "pnpm vo:act2 && pnpm vo:act3 && pnpm vo:act4 && pnpm vo:act5 && pnpm vo:act6 && pnpm vo:act7",
     "art:generate-csv": "tsx apps/scripts/generate-act1-art-csv.ts",
+    "art:trade-empire": "tsx apps/scripts/generate-trade-empire-art-csv.ts",
     "loadout:generate-csv": "tsx apps/scripts/generate-earned-loadout-art-csv.ts",
     "suit:generate-csv": "tsx apps/scripts/generate-suit-art-csv.ts",
     "room-art:generate-csv": "tsx apps/scripts/generate-room-state-art-csv.ts",

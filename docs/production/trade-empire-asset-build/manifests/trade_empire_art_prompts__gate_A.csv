@@ -1,0 +1,29 @@
+asset_id,name,category,review_gate,resolution,priority,palette,composed_prompt
+wonder_ark_cathedral,"The Ark Cathedral",wonder,A,1024x1536,P0,"ivory, cathedral gold, void black, one distant cold-blue rim-light","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: ivory, cathedral gold, void black, one distant cold-blue rim-light
+
+Towering sacred starship converted into a living cathedral, hanging in deep space above a pale blue planet. Stained-glass viewports cast warm gold light from inside the hull onto drifting refugee skiffs. Gothic bio-mechanical spires tipped in white ivory, intertwined with memorial ribbons that fade into vacuum. Soft choir-light halo. Mood: shelter, vigil, the Potentials' home.
+
+Negative: no humans in frame, no visible text, no lens flare, no modern sci-fi clean lines"
+wonder_red_crystal_spire,"The Red Crystal Spire",wonder,A,1024x1536,P0,"deep red, obsidian, brass highlights, one sickly green reflection","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: deep red, obsidian, brass highlights, one sickly green reflection
+
+A jagged red crystalline obelisk the size of a mountain rising from an Authority megacity at dusk. Its refracted light stains every building blood-orange. Cargo freighters circle it like moths — Authority credits literally condense as red vapour at its base. Geometric crystal lattice recursive inward. Mood: wealth as law, law as weapon.
+
+Negative: no flames, no explicit logos, no cartoon sparkle"
+era_first_light,"First Light",era_banner,A,1792x768,P0,"dawn amber, soot-black, one pale blue star","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: dawn amber, soot-black, one pale blue star
+
+Wide establishing shot of a single pre-warp colony fleet drifting away from a fractured home-world silhouette. Low-light amber dawn through atmospheric haze. Long horizontal composition; left third is the ruined planet, right two-thirds is the open dark with one hopeful navigation beacon. Mood: survival dawn.
+
+Negative: no explosions, no ships with visible guns, no text"
+encounter_listener_static,"The Listener Behind the Static",encounter_key_art,A,1536x1152,P0,"CRT-green, static-grey, deep black, one pinprick of hot red on a recording indicator","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: CRT-green, static-grey, deep black, one pinprick of hot red on a recording indicator
+
+A dark bridge interior of a player ship at low power. Every monitor shows a single pale eye rendered entirely in RF static noise — blinking in sync across screens. One ceiling speaker hangs crooked, a mouth-shaped crack running down it. A human comms officer is turned away from the camera, frozen mid-movement. Left-heavy composition; negative space on the right reserved for the choice-list UI pane. Mood: someone is already listening.
+
+Negative: no jump-scare face, no gore, no explicit text on screens"
