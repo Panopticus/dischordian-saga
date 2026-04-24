@@ -31,6 +31,7 @@ import {
 } from "@/game/gameData";
 import FightArena2D from "@/game/FightArena2D";
 import KineticText from "@/components/void/KineticText";
+import { hapticFeedback } from "@/lib/haptics";
 import { triggerFailureRevelation } from "@/lib/failureRevelations";
 import { mapDifficultyToFightAI, createDefaultPerformance, type PlayerPerformance } from "@shared/dynamicDifficulty";
 import { useLivingUniverse } from "@/hooks/useDailyBrief";
@@ -217,6 +218,10 @@ export default function FightPage() {
     }
     setPhase("results");
     setShowPostBattleDialog(true);
+    // KO haptic punch. Fires on both victory and defeat — the
+    // physical impact of the match ending should be felt either
+    // way. haptics lib respects reduce-motion + hapticsEnabled.
+    hapticFeedback("ko");
   }, [gam, selectedDifficulty, recordAndReward, selectedOpponent, selectedPlayer, selectedArena, recordMatch, addMaterial]);
 
   // Story mode match end
@@ -2040,7 +2045,12 @@ function VsIntro({
   // actual transform so we're GPU-composited.
   const [shake, setShake] = useState(false);
   useEffect(() => {
-    const t = setTimeout(() => setShake(true), 850);
+    const t = setTimeout(() => {
+      setShake(true);
+      // Vibration punch in sync with the clash shake so the fight
+      // start HITS instead of just animating.
+      hapticFeedback("specialMove");
+    }, 850);
     return () => clearTimeout(t);
   }, []);
 
