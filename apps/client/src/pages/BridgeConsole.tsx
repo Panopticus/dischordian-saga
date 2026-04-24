@@ -193,7 +193,7 @@ export default function BridgeConsole() {
           <div className="w-1.5 h-1.5 rounded-full void-bg-success shadow-[0_0_6px_rgba(52,211,153,0.5)]" />
           <span className="font-mono text-[8px] void-text-energy tracking-[0.3em]">BRIDGE // ACTIVE</span>
         </div>
-        <h1 className="font-display text-lg font-bold tracking-wider text-white/80 mb-0.5">
+        <h1 className="font-display text-lg font-bold tracking-wider text-white/80 mb-0.5 page-title-reveal">
           Good {hour < 12 ? "morning" : hour < 18 ? "afternoon" : "evening"}, Operative.
         </h1>
         <p className="font-mono text-[9px] text-white/25">{greeting}</p>

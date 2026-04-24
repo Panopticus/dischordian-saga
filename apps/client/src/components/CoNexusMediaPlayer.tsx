@@ -11,6 +11,7 @@
  */
 import { useState, useMemo, useCallback, useRef, useEffect } from "react";
 import { usePlayer } from "@/contexts/PlayerContext";
+import AudioSpectrum from "@/components/AudioSpectrum";
 import { useLoredex, type LoredexEntry } from "@/contexts/LoredexContext";
 import { Link, useLocation } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
@@ -93,6 +94,21 @@ function MiniPlayer({
 
   return (
     <div className="relative">
+      {/* Mini audio spectrum strip — 32 log-scale bars across the
+          player's full width at 20px height. Only visible while a
+          track is actually playing so paused-state players don't
+          see noisy animation. Sits above the progress bar so it
+          reads as "the audio you're hearing" rather than a UI
+          decoration. */}
+      {isPlaying && song.audio_url && (
+        <div
+          className="h-5 w-full pointer-events-none"
+          style={{ background: "color-mix(in oklch, var(--bg-void) 85%, transparent)" }}
+        >
+          <AudioSpectrum bars={32} height={20} gradientStrength={0.4} />
+        </div>
+      )}
+
       {/* Progress bar */}
       <div className="h-[2px] relative" style={{ background: "var(--glass-border)" }}>
         <div

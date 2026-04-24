@@ -9,6 +9,7 @@ import { useGamification } from "@/contexts/GamificationContext";
 import { isDialogActive } from "@/lib/dialogState";
 import { ToastSlot } from "@/components/toast";
 import LottiePlayer from "@/components/LottiePlayer";
+import { hapticFeedback } from "@/lib/haptics";
 
 const TIER_COLORS: Record<string, string> = {
   bronze: "#cd7f32",
@@ -66,6 +67,16 @@ export default function AchievementToast() {
       setVisible(true);
     }
   }, [dialogSuppressed, newAchievement]);
+
+  // Fire haptics when the toast first becomes visible. Using a
+  // separate effect (keyed on `visible` + achievementId) so we pulse
+  // once per achievement, not on every render tick. Haptic lib
+  // respects reduce-motion + hapticsEnabled setting internally.
+  useEffect(() => {
+    if (visible && newAchievement) {
+      hapticFeedback("achievement");
+    }
+  }, [visible, newAchievement?.achievementId]);
 
   // Auto-dismiss is now owned by ToastSlot — we just pass durationMs
   // and it schedules/clears the timer for us. Keeping the state flag

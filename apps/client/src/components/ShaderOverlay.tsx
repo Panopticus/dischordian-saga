@@ -21,6 +21,7 @@ import corruptionFrag from "@/shaders/corruption.frag";
 import moralityFrag from "@/shaders/morality.frag";
 import vertexShader from "@/shaders/vertex.vert";
 import { createCinematicComposer, type CinematicComposer } from "@/engine/cinematicComposer";
+import { getQualityTier } from "@/lib/qualityTier";
 
 interface ShaderOverlayProps {
   corruption: number;
@@ -82,6 +83,13 @@ export default function ShaderOverlay({
   // ── Initialize Three.js scene ──
   useEffect(() => {
     if (!enabled) return;
+    // On low-power devices we skip the entire WebGL composite +
+    // post-FX chain. The corruption/morality signals are already
+    // visible in the dialog scanlines and per-element CSS effects,
+    // so dropping the global overlay here is a genuine quality
+    // compromise, not a silent no-op — but it keeps the 60fps
+    // budget reachable on the devices that need the slack.
+    if (getQualityTier() === "low") return;
 
     const container = containerRef.current;
     if (!container) return;

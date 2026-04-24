@@ -292,7 +292,7 @@ export default function ForgePage() {
           </Link>
           <div className="flex items-center gap-2">
             <Hammer size={14} className="void-text-premium" />
-            <span className="font-display text-xs font-bold tracking-[0.3em] void-text-premium">THE FORGE</span>
+            <span className="font-display text-xs font-bold tracking-[0.3em] void-text-premium page-title-reveal">THE FORGE</span>
           </div>
           <button
             onClick={() => setShowSkills(!showSkills)}

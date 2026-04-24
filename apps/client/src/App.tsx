@@ -54,6 +54,8 @@ import { useAuth } from "./_core/hooks/useAuth";
 import { useAnalytics } from "./hooks/useAnalytics";
 import { useTutorialOrchestrator } from "./hooks/useTutorialOrchestrator";
 import { syncFromServer, initSync } from "@/lib/settingsSync";
+import { detectQualityTier, applyQualityTierToDOM } from "@/lib/qualityTier";
+import { installViewTransitions } from "@/lib/viewTransitions";
 import { initCrossGameBeats } from "@/lib/crossGameBeats";
 import RecapOverlay, { shouldShowRecap, RECAP_INACTIVITY_DAYS } from "./components/RecapOverlay";
 import { loadingManager, LOADING_TASKS } from "@/lib/loadingProgress";
@@ -471,6 +473,17 @@ function GameGate() {
   useEffect(() => {
     if (!settingsSynced.current) {
       settingsSynced.current = true;
+      // Runtime perf-capability detection runs first so every
+      // subsequent consumer (composer mount, nebula glow, room
+      // ambient life) can gate on .quality-low before they
+      // allocate their expensive layers.
+      applyQualityTierToDOM(detectQualityTier());
+      // Progressive upgrade: patches history.pushState so route
+      // changes on supporting browsers run through the View
+      // Transitions API. Framer-motion AnimatePresence inside
+      // AppShellImmersive is the fallback for non-supporting
+      // browsers and reduce-motion.
+      installViewTransitions();
       initSync(trpcUtils);
       syncFromServer().catch(() => {/* silent — local settings are fallback */});
       // Tier 4D — wire the cross-game beats helper to the same tRPC

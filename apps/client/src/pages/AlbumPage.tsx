@@ -91,7 +91,7 @@ export default function AlbumPage() {
               className="min-w-0 flex flex-col justify-end"
             >
               <span className="font-mono text-[10px] tracking-[0.2em] text-muted-foreground/60">ALBUM</span>
-              <h1 className="font-display text-2xl sm:text-3xl lg:text-4xl font-black tracking-wider mt-1" style={{ color: meta.color }}>
+              <h1 className="font-display text-2xl sm:text-3xl lg:text-4xl font-black tracking-wider mt-1 page-title-reveal" style={{ color: meta.color }}>
                 {albumName.toUpperCase()}
               </h1>
               <p className="font-mono text-sm text-muted-foreground mt-1">Malkia Ukweli & the Panopticon</p>

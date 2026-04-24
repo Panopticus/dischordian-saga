@@ -15,6 +15,7 @@ import { FEATURE_ROADMAP, isFeatureUnlocked, FEATURE_CATEGORIES, type FeatureUnl
 import { getSessionDuration } from "@/lib/analytics";
 import { useElaraVO } from "@/hooks/useElaraVO";
 import { ToastSlot } from "@/components/toast";
+import LottiePlayer from "@/components/LottiePlayer";
 
 const STORAGE_KEY = "feature_unlocks_seen";
 
@@ -99,7 +100,15 @@ export default function FeatureUnlockToast() {
             className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0"
             style={{ background: `${category.color}20`, border: `1px solid ${category.color}40` }}
           >
-            <Sparkles size={18} style={{ color: category.color }} />
+            {/* Lottie category-unlock flourish if authored for this
+                category. Until then, fallback is the existing Sparkles
+                icon — shipping behavior preserved. */}
+            <LottiePlayer
+              src={`/art/lottie/feature-unlock-${current.category}.json`}
+              loop={false}
+              className="w-7 h-7"
+              fallback={<Sparkles size={18} style={{ color: category.color }} />}
+            />
           </div>
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 mb-1">

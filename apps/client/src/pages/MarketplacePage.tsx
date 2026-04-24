@@ -16,6 +16,7 @@ import season1Cards from "@/data/season1-cards.json";
 
 import LivingBackground from "@/components/LivingBackground";
 import { EmptyMarketplace } from "@/components/EmptyStates";
+import LottieSpinner from "@/components/LottieSpinner";
 
 type CardData = (typeof season1Cards)[number];
 
@@ -60,7 +61,7 @@ export default function MarketplacePage() {
     return (
       <div className="min-h-screen relative overflow-hidden flex items-center justify-center">
       <LivingBackground src="https://dgrsart.s3.us-east-2.amazonaws.com/page-backgrounds/MKT-001_marketplace.jpg" accent="var(--energy-accent)" opacity={0.13} particleCount={4} scanlines={false} />
-        <Loader2 className="animate-spin text-primary" size={32} />
+        <LottieSpinner size={32} />
       </div>
     );
   }
@@ -94,7 +95,7 @@ export default function MarketplacePage() {
           <span className="font-mono text-[10px] text-primary/70 tracking-[0.3em]">INTERGALACTIC MARKET</span>
           <div className="h-px flex-1 max-w-8 bg-gradient-to-l from-transparent to-primary/50" />
         </div>
-        <h1 className="font-display text-2xl sm:text-3xl font-black tracking-wider">
+        <h1 className="font-display text-2xl sm:text-3xl font-black tracking-wider page-title-reveal">
           <span className="text-primary">MARKETPLACE</span>
         </h1>
         <p className="font-mono text-xs text-muted-foreground mt-1">
@@ -261,7 +262,7 @@ function BrowseTab() {
       {/* Results */}
       {isLoading ? (
         <div className="flex justify-center py-12">
-          <Loader2 className="animate-spin text-primary" size={24} />
+          <LottieSpinner size={24} />
         </div>
       ) : !data?.listings.length ? (
         <EmptyMarketplace className="my-12" />
@@ -602,7 +603,7 @@ function AuctionsTab() {
       </div>
 
       {isLoading ? (
-        <div className="flex justify-center py-12"><Loader2 className="animate-spin text-primary" size={24} /></div>
+        <div className="flex justify-center py-12"><LottieSpinner size={24} /></div>
       ) : !data?.auctions.length ? (
         <EmptyMarketplace className="my-12" />
       ) : (
@@ -741,7 +742,7 @@ function BuyOrdersTab() {
       </div>
 
       {isLoading ? (
-        <div className="flex justify-center py-12"><Loader2 className="animate-spin text-primary" size={24} /></div>
+        <div className="flex justify-center py-12"><LottieSpinner size={24} /></div>
       ) : !data?.orders.length ? (
         <EmptyMarketplace className="my-12" />
       ) : (
@@ -1081,7 +1082,7 @@ function HistoryTab() {
   return (
     <div className="space-y-4">
       {isLoading ? (
-        <div className="flex justify-center py-12"><Loader2 className="animate-spin text-primary" size={24} /></div>
+        <div className="flex justify-center py-12"><LottieSpinner size={24} /></div>
       ) : !data?.transactions.length ? (
         <div className="text-center py-12">
           <History size={32} className="mx-auto text-muted-foreground/30 mb-3" />
