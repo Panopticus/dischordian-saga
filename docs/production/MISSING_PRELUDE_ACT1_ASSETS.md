@@ -1476,3 +1476,232 @@ All MISSING. 3:4 / 1536×2048.
 > Hyper-realistic cinematic portrait, 3:4, 4K, matchup-card framing. A woman of indeterminate age (could be forty, could be seventy — the canon is that she is older than she looks) seated at the §4.2 public card-table on the visitor side (not on the faculty dais — she is a fellow, not faculty). She wears plain traveler's robes in unbleached linen-cream with no institutional markings — no Academy crest, no faculty sigil, no rank indicator. A wide undyed flax sash loosely tied at her waist. Her hair is long, dark, and loose over one shoulder. Her face is serene and slightly sad — composed, unhurried, watching the viewer with the specific attention of someone who already knows how this meeting ends. Eyes directly at camera, soft. Not smiling but not sad; the expression of a person remembering something that hasn't happened yet. Her hands are loosely clasped in her lap — not on the table. Leaning against the chair to her right, angled upright: a dark wooden staff, as tall as a standing adult, worn smooth at the middle from a hand that has held it for decades. The staff's head is a simple blunt carved sphere in the same dark wood; no ornament, no crystal, no metal. The staff is subtly burnt at its lower third — charred, cracked, as if it has already lived through the fire that consumes it in the Prelude's burnt-card crew mission seventeen thousand years from this moment. The portrait paints it as if the burn is memory, not prophecy. Lighting: the §4.2 sun-shafts fall just to one side of her, illuminating the staff's lower burnt third and the chair beside her, but leaving her face softly lit by the cyan ambient only. Palette: cyan `#4ba3b5` on her face and the background, warm sun `#f5d98a` on the staff (bright on the char, golden on the unburnt upper two-thirds), unbleached cream `#e6dcc2` on her robes, dark wood `#3a2618` on the staff. Background: defocused atrium columns. Cinematic 4K. She is looking at where the staff will end up. The player has already seen the charred fragment in Beat J's Archives — this is where the burn begins. No rendered text.
 
 ---
+
+### §2.B.4 Card art — Cycle B (6 cards)
+
+All MISSING. 1024×1024 square, Nano Banana 2. Full composed prompts in
+`docs/production/act1-asset-build/manifests/act1_art_prompts__card_art.csv`
+rows 8–14 (`card_art_iron_stance` through `card_art_only_reason_i_stayed`).
+
+**§2.B.4.1 The Iron Stance (B1 unlock — Rare Light):**
+
+**Output:** `apps/client/public/art/cards/act1/card-art-iron-stance.png` + `.webp`
+
+> Square card-art composition (1024×1024). A single weathered iron tower-shield planted upright in the center of the frame, dug slightly into a packed-earth surface. Brushed steel surface, dented from prior impacts, with a faint warm-gold rim-light catching the upper edge from the right of frame. NO heraldry, NO insignia — the shield is functional, not ceremonial (canonical Iron Lion: he refuses institutional symbols). Background: out-of-focus warm-gold afternoon light, suggestion of a Mechronis Academy gate (deep wood-and-iron archway) defocused at the back of the frame. The shield casts a long shadow toward the viewer. Lower third clean for the card-name banner. The card is Rare Light; the visual register is HOLD THE LINE — render the shield as if it has been here a long time and intends to stay.
+
+**§2.B.4.2 The Recruiter's Gift (B2 unlock — Epic Neutral):**
+
+**Output:** `apps/client/public/art/cards/act1/card-art-recruiters-gift.png` + `.webp`
+
+> Square card-art composition (1024×1024). A single thin braided-fiber bracelet center-frame, laid loosely on a worn dark-wood surface (the Mechronis classroom card table). The braid is in three colors: deep insurgency-yellow `#eab308`, warm gold, and a dark gray-blue that picks up the Mechronis uniform palette. The bracelet is canonically Kael's gift — render it as worn but cared for, slightly frayed at the closure but still intact. Behind it on the table: a half-finished Dischordia card face-down, its back showing faint warm-gold trim. Background: out-of-focus warm-gold afternoon Mechronis classroom light, soft window-shaft from the left. NO HANDS in this composition — the bracelet is offered, awaiting acceptance. Lower third clean for the card-name banner. The card is Epic Neutral; the visual register is THE OFFER — quiet, without ceremony.
+
+**§2.B.4.3 The Weapon I Didn't Build (B3 unlock — Legendary Dark):**
+
+**Output:** `apps/client/public/art/cards/act1/card-art-weapon-i-didnt-build.png` + `.webp`
+
+> Square card-art composition (1024×1024). A pair of EMPTY hands at center-frame, palms turned up and slightly cupped, as if recently holding something that is no longer there. The hands are the Engineer's adult hands (worn, calloused, faint scar between the thumb and forefinger of the right hand — canonical match to §2.1.2 reference). NO weapon visible. The faint silhouette of an absent shape — vague, sword-like or stance-like — hovers in the empty palm-space, rendered as a thin outline of cool-grey light, almost a memory. Background: out-of-focus institutional Mechronis blue-gray, single warm-gold shaft cutting diagonally across the upper frame from off-frame-right. Lower third clean for the card-name banner. The card is Legendary Dark; the visual register is the CANONICAL ABSENCE — what the Engineer is holding is the choice he didn't make about Agent Zero. Render the absence with weight, not with melancholy.
+
+**§2.B.4.4 The Memorized Page (B4 unlock — Epic Dark):**
+
+**Output:** `apps/client/public/art/cards/act1/card-art-memorized-page.png` + `.webp`
+
+> Square card-art composition (1024×1024). A single torn page from a textbook, center-frame, lying flat on a dark wooden desk. The page's surface is BLANK — the canonical 'memorized page' is what's been removed, not what's printed. Faint impressions of erased text remain (graphite shadow, illegible). A single fingerprint smudge in the upper-left corner of the page. Beside the page: a small circular pale-blue Watcher sigil ~1cm, drawn in pencil, visually identical to the sigil on Young Eyes's wrist (§2.8 portrait cross-reference). Background: out-of-focus dark Mechronis fourth-year classroom under desk-lamp pool, single warm-yellow glow at the edge of the frame. Lower third clean for the card-name banner. The card is Epic Dark; the visual register is SURVEILLANCE-AS-INHERITANCE — the player gets this card because Young Eyes left it for them.
+
+**§2.B.4.5 The Classmate's Compass (B5 win unlock — Legendary Light):**
+
+**Output:** `apps/client/public/art/cards/act1/card-art-classmates-compass.png` + `.webp`
+
+> Square card-art composition (1024×1024). A small brass pocket compass center-frame, open and resting on a worn dark-wood surface (the senior common room coffee table). The compass face is canonical: the needle is NOT pointing north — it points slightly off-axis, toward the upper-right of the composition. The brass case has a single small engraved mark (no rendered text — abstract geometric, suggesting a younger Human's monogram). The needle catches a thin warm-gold reflection from off-frame-right (firelight). Background: out-of-focus fireplace warmth, leather armchair leg in soft focus at the back of the frame. Lower third clean for the card-name banner. The card is Legendary Light; the visual register is DIRECTION-AS-GIFT — the Human gave the Engineer this compass and the Engineer never asked why; render the brass with care, the needle's slight off-true as the canonical detail.
+
+**§2.B.4.6 "The only reason I stayed" (B5 loss unlock — Legendary Dark):**
+
+**Output:** `apps/client/public/art/cards/act1/card-art-only-reason-i-stayed.png` + `.webp`
+
+> Square card-art composition (1024×1024). The same Mechronis senior common-room setting as the Compass card, but EMPTY — a single leather armchair angled toward the fireplace, a low coffee-table-card-table in front of it with a Dischordia deck face-down on the surface. NO compass on this table; NO second armchair partner. The fireplace burns down to embers — warmer red-orange tones, softer light pool than the Compass card. Faint sepia film-grain heavier than other Cycle B cards. Background: bookshelves softly out-of-focus, a window at frame-right showing dusk-blue night beyond. Lower third clean for the card-name banner. The card is Legendary Dark; the visual register is the CANONICAL ABSENCE of the Human — the Engineer stayed for the conversation that didn't happen. Render the empty chair as the subject, not the table; the player should feel the seat is canonically the Human's seat.
+
+### §2.B.5 Cycle B Finale Cutscene — *To Be the Human*
+
+**Output:** `apps/client/public/videos/act1/to-be-the-human.mp4`
+**Duration:** 47s (range 40–55s) @ 24fps, 16:9
+**Status:** MISSING — prompts already authored in
+`docs/production/act1-asset-build/prompts/cutscenes/to-be-the-human_{start_frame,end_frame,motion}.txt`
+**Bible:** `ACT_1_SHIP_READY_BIBLE.md` §6.2
+**Fires after:** `the_seer_visit` match resolves
+**Flags set:** `act1_cycle_b_complete`, `to_be_the_human_shown`, `human_potential_seeded`
+
+**Dependencies:**
+- Start PNG: `assets/intermediate/act1/cutscenes/to-be-the-human_start.png`
+- End PNG: `assets/intermediate/act1/cutscenes/to-be-the-human_end.png`
+
+**START FRAME prompt:**
+> Mechronis Academy's main gate at dusk — a tall brass-and-basalt archway opening onto a stone plaza, the §4.2 atrium visible receding behind it through the opposite doorway. Two young men stand in the gate's threshold, backlit by the late-afternoon sun pouring across the plaza. On the left: the Engineer (seen from behind — hair, shoulders, cyan-grey blazer only, not his face — keep the Engineer faceless per Prelude hygiene). On the right: the Detective (student-years, as rendered in §5.2.1's matchup card), facing the Engineer in three-quarter profile, his hand extended for a parting handshake. Their hands are about to meet but have not yet. Around them, a few other students walk past in the dusk, blurred in motion. Palette: cyan institutional `#4ba3b5` fading on the Academy stone behind them, warm dusk gold `#e6a84a` flooding the plaza beyond the gate, long shadows thrown toward camera. Cinematic 4K. No rendered text. This is the last warm moment Act 1 gives the player. Every later cycle palette is colder.
+
+**END FRAME prompt:**
+> The same plaza, forty seconds later. The Engineer stands alone in the gate's threshold, seen from behind, unmoving. The Detective has walked out through the plaza and is a small receding figure near the far edge of frame, silhouetted against the dusk sun — his Mechronis blazer replaced mid-shot by a longer darker coat that almost reaches his ankles, a coat he did not own when the scene began. His walk has changed too: shoulders squarer, stride more deliberate. He is not the same person who walked out. The plaza is emptier now; other students are gone. The gate-arch throws a long shadow across the foreground. Palette: cyan `#4ba3b5` in the gate-shadow where the Engineer stands, dusk gold `#e6a84a` fading to purple-grey on the plaza, the Detective-now-almost-Human in silhouette against the last warm strip of sky. Cinematic 4K. The door closes here. The coat is the reveal. He is on his way to becoming the man the player already knows from the Prelude's whispered voice on the substrate layer. No rendered text.
+
+**VEO 3.1 motion prompt:**
+> Open on start frame — two young men at the Academy gate, hands about to meet. Hold 2s. Beat at 3s: handshake completes in slow motion, held 1.5s. Beat at 5s: the Detective steps back, nods once, turns away from the Engineer and begins to walk into the plaza. Camera stays locked on the Engineer's shoulders (seen from behind), the Detective receding ahead. Beat at 12s: key transformation beat — as the Detective walks away, his cyan-grey student blazer dissolves in a slow dust-wipe from his shoulders down, replaced by a longer darker coat that reaches past his knees (do not cut; the transition is a slow morph, not an edit). His stride shifts subtly. Beat at 22s: Engineer's voice-over: "He walked out of the Academy gate. He would not be called the Detective again for a very long time. He would be something else first." Beat at 30s: the Detective-now-Human reaches the far edge of the plaza, silhouetted against the dusk sun. Final 10s: hold on the Engineer's stationary back, the Human a small shape near the horizon, warm light falling from the left. Slow fade to cyan-cool black (the Cycle C palette beginning to bleed in). 24fps. Quiet, valedictory, the last warm moment before cold arrives.
+
+**Veo config:** 47s · 16:9 · 24fps · camera locked on Engineer's back,
+receding figure in plaza. The blazer → long-coat morph at 12s is the
+key hinge beat — if Veo fumbles it, render the before/after as separate
+Nano Banana 2 stills and hand-crossfade in After Effects.
+
+**Canon hygiene:** Engineer's face MUST never be rendered — always from
+behind. Detective's face is visible at start; by end he is silhouette
+only (a preview of the Human's canonical never-directly-shown status).
+
+**Audio hand-off:**
+- VO `vo-prince-to-be-the-human` @ ~22s — status: `prompted` (NOT yet
+  recorded). Output `apps/client/public/audio/act1/prince_to_be_the_human.mp3`,
+  duration ~8s. ElevenLabs against the `the_prince` voice profile.
+  Engineer memoir narration line verbatim in the motion prompt above.
+  Note: the `the_prince` voice profile is the Engineer's canonical
+  memoir voice (Prince = the Engineer's later identity), NOT the
+  Prelude Prince character from Beat E.
+- No ambient bed; plaza ambient + footfall runtime only.
+
+---
+
+## §2.C  Cycle C — Nexon / Zenon / Authority Tribunal
+
+Insurgency war + trial arc, §§13–18 of `ACT_1_SHIP_READY_BIBLE.md`. Four
+opponent matches (Warlord-Zero-First / Programmer / Game-Master-Original /
+Authority), one mid-cycle cutscene (`hacking-reality` after C1), and one
+cycle finale delivered as a React slideshow wiring (NOT a Veo render)
+plus the Act 1 Finale arc.
+
+> **Cycle C finale is already code-shipped.** The `cutscene-last-words-full`
+> entry in `asset_prompt_manifest.json` has `type: cutscene_wiring`,
+> `status: shipped`, `shipped_in_pr: 89`, `art_required: false`. It
+> renders in `apps/client/src/components/act1/Act1CycleCAuthorityWitnessing.tsx`
+> using the **Prelude Last Words slide WebPs** at
+> `apps/client/public/art/prelude/last-words/slide-{1..4}-{1..5}.webp`
+> + the shared `song_last_words_prelude_cut.mp3` (see §1.J.5).
+
+### §2.C.1 Rooms — Cycle C (3 primary rooms)
+
+**§2.C.1.1 Nexon Battlefield:**
+
+**Output:** `apps/client/public/art/rooms/room-nexon-battlefield.png` + `.webp`
+**Status:** MISSING
+**Aspect / res:** 16:9 / 1920×1080
+**Palette:** `#6b5a48 #b8752d #c66b3d #e06a1a #a6998a #4ba3b5`
+**Source prompt:** `docs/production/act1-asset-build/prompts/rooms/room-nexon-battlefield.txt`
+
+> Hyper-realistic cinematic still, 16:9, 4K. A collapsed defensive line at the outer edge of the city of Nexon, late evening after a full day of fighting. Mid-range shot depth. Foreground: a half-ruined brass-and-stone parapet wall — a staggered row of bunker emplacements broken through in the center of frame, the breach showing dust, embers, and the silhouette of a single overturned card-table set up in the lee of a surviving brass gun-emplacement. The card-table is intact, lightly scattered with face-down cards, two empty chairs. Behind the parapet, the city of Nexon in mid-distance: collapsed colonnades, the silhouettes of three partially-downed monuments, slow-rising columns of smoke threading upward through a low ceiling of dust. Far distance: ember-orange glow from sustained fires on the horizon. No natural light — scene lit only by distant fires, faint cold emergency flares, and a single high-angle brass spotlight from an unseen battalion-post casting one hard amber cone across the ruined parapet and the card-table. Volumetric dust at knee height, drifting visibly through the spotlight. Brass shell-casings and scattered field-pack debris on the ground. A torn Insurgency banner hangs limp from a broken flagpole at screen-right. No visible bodies, no visible soldiers — the battlefield is empty now. No rendered text. Palette: dust-brown `#6b5a48` dominant, polished brass `#b8752d` on the gun-emplacement and card-table edges, rust-orange `#c66b3d` on the ruined metalwork, ember-orange `#e06a1a` on the distant fires, bone-grey `#a6998a` on the stone, cold cyan `#4ba3b5` barely present on the emergency flares. Deliberately no warm sun, no honey, no dusty rose — the only warm color is fire. Anamorphic lens flare from the amber spotlight. Cinematic 4K composition, camera at standing adult eye level, three-quarter wide framing on the card-table in the breach.
+
+**§2.C.1.2 Zenon Cell (interrogation chamber):**
+
+**Output:** `apps/client/public/art/rooms/room-zenon-cell.png` + `.webp`
+**Status:** MISSING
+**Aspect / res:** 16:9 / 1920×1080
+**Palette:** `#55606e #6b6b65 #e8e8e8 #2a2a2d`
+**Source prompt:** `docs/production/act1-asset-build/prompts/rooms/room-zenon-cell.txt`
+
+> Hyper-realistic cinematic still, 16:9, 4K. Interior of a small interrogation chamber in the Zenon trial facility. The room is deliberately undersized — walls feel close, ceiling barely above head height. Concrete-grey walls, unpolished. A single square card-table dead center on a stained grey floor; one chair on each side facing each other across the table. Both chairs are institutional grey metal — identical, no distinction between interrogator and accused. A single rectangular overhead panel-light centered directly above the card-table, unshaded, casting a hard white-cold cone downward — only the table and two chairs are fully lit; walls recede into deep grey shadow at the frame edges. Empty tabletop (cards appear at runtime). No windows. One metal door at the far wall, closed, flush to the concrete, no handle visible from inside. A small blank brass identifying plate beside the door. No furniture beyond the table, two chairs, and the door. No decoration. No trace of anyone having been there before. Palette: cold institutional grey `#55606e` dominant on walls and floor, warmer grey `#6b6b65` on chairs, clinical white `#e8e8e8` in the overhead light-cone, deep shadow `#2a2a2d` at frame edges. No brass except the blank door plate. No cyan. No warmth. Soft film grain. No volumetric fog — the room is sealed too tight for drift. Cinematic 4K composition, camera at standing adult eye level, centered on the table, looking directly down the chair-to-chair axis from just behind one chair's back. The opposite of every previous environment's grandeur.
+
+**§2.C.1.3 Authority Gallery:**
+
+**Output:** `apps/client/public/art/rooms/room-authority-gallery.png` + `.webp`
+**Status:** MISSING
+**Aspect / res:** 16:9 / 1920×1080
+**Palette:** `#1c1a1a #d9a66a #8b7fbf #4ba3b5 #6b4a2d`
+**Source prompt:** `docs/production/act1-asset-build/prompts/rooms/room-authority-gallery.txt`
+
+> Hyper-realistic cinematic still, 16:9, 4K. A long vaulted ceremonial hall — the Authority's gallery. Deep perspective shot looking down the hall's length from near the entrance end. Along the left wall, a row of six tall crystal coffins in identical alcoves — each coffin a vertical standing container of clear faceted crystal, seven feet tall, narrow, each faintly lit from within by a soft low-saturation glow (three pale amber, two pale violet, one barely-visible pale cyan — the assignment is deliberate but the player does not yet know what it signifies). Each coffin appears empty on close inspection; the light inside is ambient, not from a figure. The right wall is blank polished black marble, reflecting the coffins' faint glow. Floor: continuous slab of the same black marble, unlit except by coffin glow. Center of the gallery's length, roughly two-thirds down the hall from camera: a single simple wooden chair facing away from camera, down the hall toward the gallery's back arch. The chair is unadorned, plain, almost domestic — the only organic material in a room of stone and crystal. Empty in this establishing still. Far end of the hall: a tall stone archway with a raised shallow dais beneath it. Above the arch, recessed deep into the shadowed upper wall, a silhouette is barely suggested — a darker shape against dark stone, identifiable only as an outline that could be a seated figure. Do not render face, gender, or detail. The silhouette is the Authority's presence; the player will never see more of it. Palette: black marble `#1c1a1a` dominant, pale amber `#d9a66a` from three coffins, pale violet `#8b7fbf` from two coffins, pale cyan `#4ba3b5` from one coffin (all at low saturation, barely visible), warm wood `#6b4a2d` on the single chair, deep shadow everywhere else. No rendered text. No warm ambient — the coffin glow is the only light. Volumetric cool air at ankle height, still, not drifting. Cinematic 4K composition, deep perspective, camera at standing adult eye level at the entrance end, looking down the hall's length toward the silhouette.
+
+### §2.C.2 Battlefield backdrops — Cycle C
+
+Per `act1_art_prompts__battlefield.csv` rows 6–10:
+
+| Asset ID | Output | Status | Notes |
+|---|---|---|---|
+| `bf_nexon_command_bunker` | `apps/client/public/art/backdrops/act1/bf-nexon-command-bunker.png` | MISSING | Warlord C1 interior battlefield |
+| `bf_zenon_field_tent` | `apps/client/public/art/backdrops/act1/bf-zenon-field-tent.png` | MISSING | Wanda Wyrlord (Programmer) C2 backdrop |
+| `bf_vortex_pressurized_bay` | `apps/client/public/art/backdrops/act1/bf-vortex-pressurized-bay.png` | MISSING | C3 Warlord Nano-Swarm "Hacking Reality" backdrop |
+| `bf_newbabylon_tribunal` | `apps/client/public/art/backdrops/act1/bf-newbabylon-tribunal.png` | MISSING | C4 Wayne Warden Tribunal backdrop |
+| `bf_ark_archives_dimmed` | `apps/client/public/art/backdrops/act1/bf-ark-archives-dimmed.png` | MISSING | Authority-chamber backdrop variant |
+
+Full prompts in the battlefield CSV.
+
+---
+
+### §2.C.3 Opponent portraits — Cycle C (4 matchup cards)
+
+All MISSING. 3:4 / 1536×2048.
+
+**§2.C.3.1 Warlord Zero First (Vernon Vortex — match C1, canonical Warlord first-form, Vex Solene no-face):**
+
+**Output:** `apps/client/public/art/matchups/act1/warlord-zero-first.png` + `.webp`
+**Source:** `docs/production/act1-asset-build/prompts/matchups/warlord-zero-first.txt`
+**Canon hygiene:** `vex_solene_no_face_reveal` — visor is full-face opaque; ONLY a faint iridescent shimmer at the visor lip is permitted.
+
+> Hyper-realistic cinematic portrait, 3:4, 4K, matchup-card framing. A fully armored figure standing at the §4.3 ruined brass parapet, mid-distance from camera (fills upper two-thirds of frame, lower third is the ruined parapet + card-table edge for UI overlay). Her armor is articulated brass-and-composite plate in a dusky-chrome finish — no Empire insignia, no faction marks, deliberately unornamented; this is field armor, not ceremonial. A segmented cuirass, pauldrons, greaves, gauntlets. The helm is full-face, a sculpted brass visor with a continuous horizontal scanning slit at eye level. The face is completely hidden. Along the visor's lower inner edge, a faint iridescent shimmer — barely visible, almost a heat-haze, the only visible indicator of the Vex-swarm infesting the body. The shimmer is subtle, not flashy; a viewer who doesn't know to look for it reads it as spotlight refraction on the visor. One gauntleted hand rests on the hilt of a broad short-bladed weapon at her side (do not render it drawn); the other is extended open-palmed toward the card-table in front of her as if offering the match. Her stance is still, not aggressive — a professional arriving to complete a transaction, not a warrior entering combat. Lighting: the §4.3 amber spotlight falls across her pauldron and the upper visor; the rest of her body is lit by distant ember-orange from the city fires and a faint cold cyan from emergency flares. The visor reflects the ember glow. Palette: dusky chrome `#6b6b65` on the armor, polished brass `#b8752d` at joints and edges, ember-orange `#e06a1a` on the visor's inner reflection and the city glow behind her, dust-brown `#6b5a48` in the background, faint iridescent shimmer (rainbow-pale, barely present) along the visor lip only. Background: defocused Nexon breach, smoke columns, a torn Insurgency banner at screen-right edge. Cinematic 4K. The face is hidden. The face will remain hidden for the entire Act 1 arc. Do not hint at who is wearing the body. No rendered text.
+
+**§2.C.3.2 Programmer (Wanda Wyrlord — match C2, forced-loss survivor):**
+
+**Output:** `apps/client/public/art/matchups/act1/programmer.png` + `.webp`
+**Source:** `docs/production/act1-asset-build/prompts/matchups/programmer.txt`
+
+> Hyper-realistic cinematic portrait, 3:4, 4K, matchup-card framing. A man in his mid-forties seated on the survivor side of the §4.3 ruined-parapet card-table, facing camera across the table. He is dressed in plain cold-weather travel clothing — a weather-worn dark-grey canvas coat buttoned to the throat, a simple coarse-knit wool scarf in muted ember-rust `#b85a1a` (the Nexon palette's warmest echo), fingerless work-gloves, no faction insignia of any kind. His hair is short, greying at the temples, neatly kept despite the battlefield setting. A trimmed salt-and-pepper beard. His face is calm and final — the composure of a person who has already made every decision that matters and is now only waiting for the match to end so he can go do what he has decided to do. Eyes on the viewer, steady, warm but unbound. No grief, no fear. He is already gone, and the portrait is the portrait of someone who hasn't realized yet that the conversation is already a memory. Over his shoulder: a canvas satchel, half-packed, resting on the chair beside him — the flap open, a rolled map and a small brass lockbox visible inside. A folded piece of thick paper peeks out from his coat pocket (do not render text on the paper; keep it closed and creased). One hand flat on the card-table, fingers spread over a single face-up card in mid-play; the other hand resting on the satchel's strap. Lighting: the §4.3 amber spotlight falls across his face and the card-table surface; ember-orange rim-lights his shoulders from the city behind him. Palette: dusky grey `#6b6b65` on his coat, ember-rust `#b85a1a` on the scarf, brass `#b8752d` on the satchel buckle and the table edge, amber spotlight `#d9a66a` on his face, dust-brown `#6b5a48` in the background. Background: defocused Nexon breach, same setting as §5.3.1. Cinematic 4K. He is going to lose this match on purpose. The portrait should sell it before the match starts. No rendered text.
+
+**§2.C.3.3 Game Master Original (Wayne Warden / pre-split — match C3, Zenon cell):**
+
+**Output:** `apps/client/public/art/matchups/act1/game-master-original.png` + `.webp`
+**Source:** `docs/production/act1-asset-build/prompts/matchups/game-master-original.txt`
+**Canon hygiene:** `pre_split_spectacles_single_frame_two_lenses` — ONE frame with TWO lenses, NOT the Acts-2+ Left/Right split.
+
+> Hyper-realistic cinematic portrait, 3:4, 4K, matchup-card framing. A thin man in his early fifties seated directly across the §4.4 interrogation chamber's card-table from camera, facing the viewer. He is lit by the single overhead panel-light's hard white cone — face and hands sharply illuminated, shoulders fading into the cell's deep grey shadow. He wears a tailored Empire legal-black suit: matte obsidian wool, no lapel insignia, no tie, a plain high-collared white shirt buttoned to the throat. His hair is thin, black, combed flat and receding. Clean-shaven. Crucially: he wears a single pair of wire-rimmed spectacles — two lenses in one frame, the conventional configuration. (Pre-split; do not render the later canonical two-separate-eyepieces Left/Right configuration the Game Master is known for in Acts 2+.) The spectacles' frames are slim and dark; the lenses are clear glass, rendering his eyes directly visible through them, not obscured. His face is measured and unreadable — no hostility, no smugness, no warmth; the specific professional neutrality of a prosecutor who has decided what he is going to do long before the match began and is only going through the motions of procedure. Eyes directly at camera, steady. Both hands flat on the table, palms down, fingers unnaturally still. Between his hands on the table surface: a single thick folio of pressed paper (do not render text; keep the folio closed). Palette: institutional grey `#55606e` on the walls behind him, hard clinical white `#e8e8e8` on his face/hands/shirt, deep shadow `#2a2a2d` at frame edges and on his suit, dark obsidian `#1c1a1a` on the suit fabric, thin silver glint on the spectacle frames. No brass. No warm light of any kind. No cyan. The only color temperature in frame is the panel light's clinical white. Soft film grain. Cinematic 4K. Remember his face. This is the last time he is one person. No rendered text.
+
+**§2.C.3.4 The Authority (match C4 / Cycle C finale / Act 1 finale — faceless, featureless, scale-ambiguous):**
+
+**Output:** `apps/client/public/art/matchups/act1/the-authority.png` + `.webp`
+**Source:** `docs/production/act1-asset-build/prompts/matchups/the-authority.txt`
+**Canon hygiene:** `faceless_featureless_scale_ambiguous` — no face, no hands, no insignia, no reflective surface, no scale cue.
+
+> Hyper-realistic cinematic portrait, 3:4, 4K, matchup-card framing, but composed as a deep-perspective hall shot rather than a seated-across-the-table two-shot. Camera is positioned at the §4.5 gallery entrance, low (seated eye level — the player's POV from where the Engineer will sit), looking down the long marble hall toward the back arch. The immediate foreground (lower third of frame) is the plain wooden chair where the Engineer will sit, empty in this still, facing away from camera toward the arch. The chair's back edges catch a faint sidelight from the coffin alcoves. Along the left wall of the hall, the six crystal coffins from §4.5 glow at their canonical saturations (three pale amber, two pale violet, one pale cyan). The right wall is black marble, reflecting the coffin glow as faint vertical streaks. The hall's floor stretches in deep perspective down to the shallow dais under the stone archway at the far end. Above the arch, recessed deep into shadowed upper stone, the Authority's silhouette — a barely-visible darker shape against darker stone, readable only as a seated or standing outline, completely featureless: no face, no hands, no color, no reflective surface, no insignia, no indication of scale. The silhouette is the matchup-card's true subject, but it is lit so faintly that the viewer's eye has to search for it; first-pass impression should be "empty hall with chair and coffins," second-pass impression should be "oh — there is someone there." Palette: black marble `#1c1a1a` dominant (floor, right wall, upper shadow where the silhouette sits), pale amber `#d9a66a` from three coffins, pale violet `#8b7fbf` from two, pale cyan `#4ba3b5` from one (all low-saturation), warm wood `#6b4a2d` on the empty chair, deep shadow everywhere else. No ambient warm light; no overhead lighting; no brass; no artificial color of any kind. Faint film grain. Volumetric cool air at ankle height, still. Cinematic 4K. The Authority has no face because the Authority is not a person. The Authority is the verdict — and in the next beat of runtime, the player sits down in the foreground chair and makes the argument. No rendered text.
+
+---
+
+### §2.C.4 Card art — Cycle C (5 cards, includes 2 Mythics)
+
+All MISSING. 1024×1024, Nano Banana 2. Full composed prompts in
+`act1_art_prompts__card_art.csv` rows 16–20 +
+`card_art_memory_card_procedural` (row 22, procedural template for the
+apprentice-permadeath trial).
+
+**§2.C.4.1 The Standstill (C1 unlock — Epic Light):**
+
+**Output:** `apps/client/public/art/cards/act1/card-art-standstill.png` + `.webp`
+
+> Square card-art composition (1024×1024). A single hourglass center-frame, but the sand is FROZEN MID-FALL — a thin column of grain suspended between the upper and lower bulbs, neither falling nor settling. The brass frame shows wear. Behind the hourglass: out-of-focus rust-orange `#e06a1a` Vortex sky from the Nexon battlefield, low muzzle-flash light at the bottom of the frame, but the immediate space around the hourglass holds a small bubble of warm-gold neutral light — the canonical 'one turn delay' rendered as physics-paused-locally. Lower third clean for the card-name banner. The card is Epic Light; the visual register is the WORLD HOLDING ITS BREATH. Render the suspended sand grain with crisp clarity; the war beyond it should be soft-focused so the viewer's eye lands on the frozen pause.
+
+**§2.C.4.2 The Converter (C2 unlock — Legendary Dark):**
+
+**Output:** `apps/client/public/art/cards/act1/card-art-converter.png` + `.webp`
+
+> Square card-art composition (1024×1024). A single soldier's helmet center-frame, lying on its side on a dusty Zenon battlefield surface. The helmet is HALF Insurgency mustard-yellow `#eab308` (the side facing the viewer, with a faded Insurgency medic patch visible on the shell), and HALF Warlord black-gunmetal `#1a1410` (the side facing away). The helmet's interior shows the canonical seam between the two — a thin line of cool-blue `#3b82f6` light tracing the conversion edge (intentional rhyme with Wanda's optic-rings, plants the swarm-and-cyborg connection). Background: out-of-focus Zenon battlefield smoke, distant rust-orange muzzle-flash low in the frame. Lower third clean for the card-name banner. The card is Legendary Dark; the visual register is the CANONICAL CONVERSION — render with care, not with menace. Wanda's canonical loss is that she IS what she converted.
+
+**§2.C.4.3 The Friend I Saved (C3 Mythic Light unlock):**
+
+**Output:** `apps/client/public/art/cards/act1/card-art-friend-i-saved.png` + `.webp`
+
+> Square card-art composition (1024×1024). The Engineer's right hand center-frame, palm-up, fingers slightly curled. A single silver-mercury droplet rests in the center of his palm, perfectly spherical, catching the warm-gold work-lamp light from above. The droplet is canonically a small piece of the Warlord's nano-swarm — render as brushed-mercury `#a8aab2` with a faint cool-blue `#3b82f6` specular highlight on its surface (the swarm's signature palette inversion: warm light enters silver, leaves cool-blue). Background: out-of-focus warm-gold light from the Vortex bay's overhead work-lamp, with the bokeh of the Resurrection Protocols' status LED visible as a soft small blue point in the upper-right of the frame. NO faces. The hand is the entire image. Lower third clean for the card-name banner — but reserve a small space for the procedural N-score flavor text (per §2.12, the flavor text varies by C3 N-value). The card is MYTHIC LIGHT — only the second Mythic in Act 1; the visual register is GIFT-AT-COST. Render the droplet as the entire emotional weight of the composition; the hand is offering, not holding.
+
+**§2.C.4.4 The Last Word (C4 Mythic Light unlock):**
+
+**Output:** `apps/client/public/art/cards/act1/card-art-last-word.png` + `.webp`
+
+> Square card-art composition (1024×1024). A single vintage broadcast microphone center-frame, mounted on a small polished black-stone surface — the canonical Tribunal-chamber-or-cell recording setup. The microphone is brass-bodied with a fine wire-mesh diaphragm; it shows a faint condensation halo around the mesh (the Engineer is breathing into it, right now). Warm-yellow Authority-spec spotlighting from above, hard down-shadow on the stone surface. Visible in soft focus behind the microphone: the unrolled Tribunal verdict scroll — partially or fully filled with ink lines depending on win/loss path; for the base still, render at half-fill so producers can composite the win/loss epigraph variant. NO faces. NO hands. The microphone is the entire subject. Lower third clean for the card-name banner. The card is MYTHIC LIGHT — the second of two Mythics in Act 1, alongside The Friend I Saved. The visual register is THE MOMENT BEFORE THE WORDS — render the breath-condensation as the canonical detail; the player should feel that the recording is about to begin and that everything in the universe will hear it.
+
+**§2.C.4.5 Memory Card (apprentice permadeath — procedural template, Epic Light):**
+
+**Output:** `apps/client/public/art/cards/act1/card-art-memory-card-procedural.png` + `.webp`
+**Type:** template — runtime composites the deceased apprentice's
+canonical portrait into the central slot. Generate ONCE as a generic
+memorial frame.
+
+> Square card-art composition (1024×1024) — PROCEDURAL TEMPLATE. The base composition is a generic apprentice portrait slot at center-frame, framed by a soft warm-gold memorial overlay (faint candle-light glow rim, fine particulate dust drifting upward, the canonical Witnessing-chorus visual cue). Producers composite the deceased apprentice's canonical portrait (from `apps/shared/apprentices.ts` generated identity) into the slot at runtime. The frame around the portrait: a thin brushed-brass border with three small notch marks at the bottom — one notch per trait that survived the player's choices (Resilience / Trust / Clarity). For the base still, render the portrait slot as a soft-focus silhouette of an apprentice-aged figure (no face details), the brass frame complete, the three notches present. Background: out-of-focus warm-gold candle-light, deep shadow at the corners. Lower third clean for the procedurally-generated apprentice name banner ('[Name] — In Memory'). The card is Epic Light; the visual register is MEMORIAL not reward. The §20.4 procedural flavor text branch (Resilience/Trust/Clarity-tanked variant) appears in the lower frame, not on the art itself.
+
+---
