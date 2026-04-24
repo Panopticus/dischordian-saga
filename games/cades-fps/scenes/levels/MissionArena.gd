@@ -31,6 +31,11 @@ func _ready() -> void:
 	GameMode.current_mode = mode_id
 	start_time_ms = Time.get_ticks_msec()
 	WaveManager.reset_for_new_run()
+	# Player death → mission-failure result. health_updated emits
+	# synchronously from player.damage() before its own scene reload,
+	# so the CADES_RESULT reaches the React side before the arena
+	# unmounts.
+	_player.health_updated.connect(_on_player_health_updated)
 	# The ambient/fog lean on the main environment defaults — scenes
 	# can override by replacing WorldEnvironment in their .tscn, but
 	# the script won't force-replace a scene-provided Environment.
@@ -81,6 +86,10 @@ func _send_success() -> void:
 		"kills": kills,
 		"time_taken": elapsed_s,
 	})
+
+func _on_player_health_updated(new_health: int) -> void:
+	if new_health <= 0:
+		_on_player_died()
 
 func _on_player_died() -> void:
 	# Mission "loss" still reports — React side only raises the M-flag
