@@ -148,9 +148,11 @@ export const CHARACTER_SPRITES: Record<string, CharacterSprite> = {
       map: ELARA_VISEME_MAP,
     },
     visemeOverlay: true,
-    // Bust is 1045x1400; the mouth sits roughly centred, ~62% down the portrait.
-    // The overlay cell covers nose-to-chin so it blends with the surrounding face.
-    mouthBox: { x: 0.26, y: 0.50, width: 0.48, height: 0.32 },
+    // Bust is 1045x1400; viseme cells are 512x512 (square). The box is sized
+    // and positioned so each cell's nose-tip and chin land on Elara's nose-tip
+    // (~y=0.29) and chin (~y=0.36), with the cell's hologram-collar glow
+    // overlapping the bust's collar. Width keeps the px aspect square.
+    mouthBox: { x: 0.389, y: 0.278, width: 0.162, height: 0.121 },
   },
 
   /* The Human — protagonist; expression sheet only, no viseme/blink/breathing. */
