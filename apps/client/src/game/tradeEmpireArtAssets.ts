@@ -35,12 +35,17 @@ const ASSET_BY_ID = new Map(
  * Resolve a Trade Empire art assetId to a CDN URL, or return undefined
  * if the id isn't in the prompt vault. Callers should treat undefined
  * (and image-load errors) as "no art yet — fall back to text-only".
+ *
+ * Files are served as WEBP (~16× smaller than the source PNGs while
+ * preserving fidelity at panel-display size). All major browsers ≥2020
+ * support WEBP; the <ArtThumb> wrapper hides itself onError if a
+ * client somehow can't decode it.
  */
 export function tradeEmpireArtUrl(assetId: string | undefined): string | undefined {
   if (!assetId) return undefined;
   const p = ASSET_BY_ID.get(assetId);
   if (!p) return undefined;
-  return assetUrl(`art/trade-empire/${CATEGORY_DIR[p.category]}/${assetId}.png`);
+  return assetUrl(`art/trade-empire/${CATEGORY_DIR[p.category]}/${assetId}.webp`);
 }
 
 /**
