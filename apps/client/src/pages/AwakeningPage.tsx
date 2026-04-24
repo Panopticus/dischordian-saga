@@ -187,15 +187,22 @@ function ElaraDialogBox({
   onVoPlaybackFailed?: () => void;
 }) {
   const { displayed, done, skip } = useTypewriter(text, 25);
+  // Exposed to HolographicElara so wawa-lipsync can drive visemes from
+  // the live VO stream. Null whenever we fall through to TTS.
+  const [voAudio, setVoAudio] = useState<HTMLAudioElement | null>(null);
 
   // Play VO audio via the singleton AwakeningVOPlayer — enforces
   // one-speaker-at-a-time and ducks the theme bed during playback.
   useEffect(() => {
-    if (!voAudioUrl) return;
-    if (PLAYED_VO_IDS.has(voAudioUrl)) return;
+    if (!voAudioUrl) { setVoAudio(null); return; }
+    if (PLAYED_VO_IDS.has(voAudioUrl)) { setVoAudio(null); return; }
     PLAYED_VO_IDS.add(voAudioUrl);
 
     const audio = AwakeningVOPlayer.play(voAudioUrl, themeAudio ?? null);
+    // Mark as CORS-friendly so the Web Audio API can read samples for
+    // lip sync. Safe on same-origin too; ignored when unsupported.
+    try { audio.crossOrigin = "anonymous"; } catch { /* older browsers */ }
+    setVoAudio(audio);
 
     const handleFailure = () => { onVoPlaybackFailed?.(); };
     audio.addEventListener("error", handleFailure);
@@ -218,6 +225,7 @@ function ElaraDialogBox({
     return () => {
       audio.removeEventListener("error", handleFailure);
       audio.removeEventListener("abort", handleFailure);
+      setVoAudio(null);
       // Only stop if this effect still owns the current VO — otherwise a
       // newer step already took over and we'd yank its audio.
       if (AwakeningVOPlayer.currentUrl === voAudioUrl) {
@@ -238,7 +246,7 @@ function ElaraDialogBox({
         {/* Holographic Elara portrait */}
         {showPortrait && (
           <div className="flex justify-center mb-4">
-            <HolographicElara size="md" isSpeaking={!done} />
+            <HolographicElara size="md" isSpeaking={!done} audio={voAudio} />
           </div>
         )}
 

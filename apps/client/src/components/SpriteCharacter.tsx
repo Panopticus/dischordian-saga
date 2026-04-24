@@ -33,6 +33,15 @@ const BLINK_INTERVAL_MAX = 7000;
 const BLINK_DURATION_MS = 140;
 const BREATHING_FPS = 10;
 
+/** When a character is "speaking" but we have no connected audio to analyse
+ *  (e.g. browser TTS, autoplay blocked, cross-origin CORS), cycle through a
+ *  short loop of plausible visemes so the mouth still moves. */
+const FAKE_VISEME_FPS = 7;
+const FAKE_VISEME_SEQUENCE: WawaViseme[] = [
+  "viseme_aa", "viseme_PP", "viseme_E", "viseme_O",
+  "viseme_sil", "viseme_I", "viseme_U", "viseme_FF",
+];
+
 const prefersReducedMotion =
   typeof matchMedia !== "undefined"
     ? matchMedia("(prefers-reduced-motion: reduce)").matches
@@ -103,23 +112,38 @@ export function SpriteCharacter({
 
     let raf = 0;
     let lastBreath = performance.now();
+    let lastFake = performance.now();
+    let fakeIdx = 0;
 
     const tick = (now: number) => {
       const s = stateRef.current;
       let dirty = false;
 
-      if (isSpeaking && audio && sprite.viseme && lipsyncRef.current) {
-        // Drive viseme cell from live audio analysis.
-        try {
-          lipsyncRef.current.processAudio();
-          const v = lipsyncRef.current.viseme as WawaViseme;
-          const cell = sprite.viseme.map[v] ?? 0;
+      if (isSpeaking && sprite.viseme) {
+        // Prefer live audio analysis; otherwise fall back to a timed viseme
+        // sequence so the mouth still animates (TTS / no-audio paths).
+        const haveLiveAnalysis =
+          audio && lipsyncRef.current && lastConnectedRef.current === audio;
+        if (haveLiveAnalysis) {
+          try {
+            lipsyncRef.current!.processAudio();
+            const v = lipsyncRef.current!.viseme as WawaViseme;
+            const cell = sprite.viseme.map[v] ?? 0;
+            if (cell !== s.visemeCell) {
+              s.visemeCell = cell;
+              dirty = true;
+            }
+          } catch {
+            // ignore — keep current cell
+          }
+        } else if (now - lastFake > 1000 / FAKE_VISEME_FPS) {
+          lastFake = now;
+          fakeIdx = (fakeIdx + 1) % FAKE_VISEME_SEQUENCE.length;
+          const cell = sprite.viseme.map[FAKE_VISEME_SEQUENCE[fakeIdx]] ?? 0;
           if (cell !== s.visemeCell) {
             s.visemeCell = cell;
             dirty = true;
           }
-        } catch {
-          // ignore — keep current cell
         }
       } else if (!isSpeaking && sprite.breathing && !prefersReducedMotion) {
         // Idle breathing cycle.
@@ -165,6 +189,41 @@ export function SpriteCharacter({
   if (!sprite) return null;
 
   const s = stateRef.current;
+
+  // Overlay mode: the viseme sheet is a mouth-only close-up that sits on
+  // top of the bust. Render the bust as the base and composite the mouth
+  // cell at `mouthBox` when speaking. The bust stays visible so the eyes,
+  // hair and shoulders aren't cropped away.
+  if (sprite.visemeOverlay && sprite.viseme && sprite.mouthBox) {
+    const box = sprite.mouthBox;
+    const bustStyle: CSSProperties = {
+      backgroundImage: `url(${sprite.bust})`,
+      backgroundSize: "cover",
+      backgroundPosition: "center top",
+      backgroundRepeat: "no-repeat",
+    };
+    const mouthStyle: CSSProperties = {
+      position: "absolute",
+      left: `${box.x * 100}%`,
+      top: `${box.y * 100}%`,
+      width: `${box.width * 100}%`,
+      height: `${box.height * 100}%`,
+      ...cellStyle(sprite.viseme, s.visemeCell),
+      backgroundSize: `${sprite.viseme.cols * 100}% ${sprite.viseme.rows * 100}%`,
+      pointerEvents: "none",
+    };
+    return (
+      <div
+        ref={containerRef}
+        data-npc-sprite={sprite.id}
+        data-speaking={isSpeaking ? "true" : undefined}
+        className={`relative w-full h-full ${className}`}
+        style={bustStyle}
+      >
+        {isSpeaking && <div style={mouthStyle} />}
+      </div>
+    );
+  }
 
   // Pick which sheet/cell to display this frame, in priority order:
   //   1. Blink (briefly) — closed eye cell from the triptych
