@@ -115,6 +115,48 @@ async function* walkWebp(
   }
 }
 
+/**
+ * Resolve the effective src root given whatever layout the producer
+ * ZIP unpacked into. Tries, in order:
+ *   1. --src itself (layout is already correct — has mapped subdirs)
+ *   2. --src/trade_empire       (original full-ZIP layout)
+ *   3. --src/<any one child dir> that itself contains mapped subdirs
+ * Throws with a useful message if none work.
+ */
+async function resolveSrcRoot(srcArg: string): Promise<string> {
+  async function hasMappedChild(dir: string): Promise<boolean> {
+    try {
+      for (const entry of await readdir(dir, { withFileTypes: true })) {
+        if (entry.isDirectory() && SUBDIR_MAP[entry.name]) return true;
+      }
+    } catch {
+      return false;
+    }
+    return false;
+  }
+
+  if (await hasMappedChild(srcArg)) return srcArg;
+
+  const tradeEmpire = join(srcArg, "trade_empire");
+  if (await hasMappedChild(tradeEmpire)) return tradeEmpire;
+
+  try {
+    for (const entry of await readdir(srcArg, { withFileTypes: true })) {
+      if (!entry.isDirectory()) continue;
+      const candidate = join(srcArg, entry.name);
+      if (await hasMappedChild(candidate)) return candidate;
+    }
+  } catch {
+    // fall through
+  }
+
+  throw new Error(
+    `Could not find a producer-layout root under ${srcArg}. Expected ` +
+      `one of [${Object.keys(SUBDIR_MAP).join(", ")}] as a direct child ` +
+      `or nested one level under a single wrapper directory.`,
+  );
+}
+
 interface UploadJob {
   absPath: string;
   destKey: string;
@@ -200,8 +242,12 @@ async function main(): Promise<void> {
   // (env, shared profile, EC2 metadata, ECS task role, web identity, etc.)
   // gets a chance. Surface any auth failure as a runtime error instead.
   const client = new S3Client({ region: REGION });
-  const jobs = await planUpload(args.srcRoot);
-  console.log(`Planned ${jobs.length} uploads from ${args.srcRoot}`);
+  const effectiveSrc = await resolveSrcRoot(args.srcRoot);
+  if (effectiveSrc !== args.srcRoot) {
+    console.log(`Resolved producer root: ${effectiveSrc}`);
+  }
+  const jobs = await planUpload(effectiveSrc);
+  console.log(`Planned ${jobs.length} uploads from ${effectiveSrc}`);
 
   const outcomes = await pool(jobs, (j) => uploadOne(client, j, args.dryRun), CONCURRENCY);
 
