@@ -82,7 +82,7 @@ export default function HolographicElara({
 
         ctx.beginPath();
         ctx.arc(p.x, adjustedY, p.size, 0, Math.PI * 2);
-        ctx.fillStyle = `color-mix(in oklch, var(--energy-primary) calc((p.opacity * flicker) * 100%), transparent)`;
+        ctx.fillStyle = `color-mix(in oklch, var(--energy-primary) ${p.opacity * flicker * 100}%, transparent)`;
         ctx.fill();
       }
 
@@ -124,7 +124,7 @@ export default function HolographicElara({
           <div
             className="absolute inset-0 rounded-full"
             style={{
-              background: `radial-gradient(circle, color-mix(in oklch, var(--energy-primary) calc((isSpeaking ? 0.25 : 0.1) * 100%), transparent) 0%, transparent 70%)`,
+              background: `radial-gradient(circle, color-mix(in oklch, var(--energy-primary) ${isSpeaking ? 25 : 10}%, transparent) 0%, transparent 70%)`,
               animation: isSpeaking ? "holoPulse 1s ease-in-out infinite" : "holoPulse 3s ease-in-out infinite",
             }}
           />
@@ -138,7 +138,7 @@ export default function HolographicElara({
               left: (dims.container - dims.image - 12) / 2,
               top: (dims.container - dims.image - 12) / 2,
               border: "1px solid color-mix(in oklch, var(--energy-primary) 30%, transparent)",
-              boxShadow: `0 0 15px color-mix(in oklch, var(--energy-primary) calc((isSpeaking ? 0.4 : 0.15) * 100%), transparent), inset 0 0 15px color-mix(in oklch, var(--energy-primary) calc((isSpeaking ? 0.2 : 0.05) * 100%), transparent)`,
+              boxShadow: `0 0 15px color-mix(in oklch, var(--energy-primary) ${isSpeaking ? 40 : 15}%, transparent), inset 0 0 15px color-mix(in oklch, var(--energy-primary) ${isSpeaking ? 20 : 5}%, transparent)`,
               animation: "holoRotate 8s linear infinite",
             }}
           />
