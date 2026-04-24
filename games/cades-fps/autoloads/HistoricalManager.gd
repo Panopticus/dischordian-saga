@@ -89,6 +89,8 @@ func flush_pending_gm_contact() -> void:
 			Elara.speak("gm_theory")
 
 func is_scenario_unlocked(scenario_id: String) -> bool:
+	if not SCENARIOS.has(scenario_id):
+		return false
 	var cond = SCENARIOS[scenario_id]["unlock_condition"]
 	match cond:
 		"always": return true

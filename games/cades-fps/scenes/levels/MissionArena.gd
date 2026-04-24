@@ -19,10 +19,12 @@ extends Node3D
 @export var ambient_color: Color = Color(0.10, 0.10, 0.16)
 @export var fog_color: Color = Color(0.04, 0.04, 0.08)
 @export var enemy_scene_path: String = "res://objects/enemy.tscn"
+@export var spawn_interval: float = 1.2
 
 var kills: int = 0
 var start_time_ms: int = 0
 var result_sent: bool = false
+var _enemy_scene: PackedScene
 
 @onready var _player: Node3D = $Player
 @onready var _spawn_points: Node = $SpawnPoints
@@ -43,10 +45,16 @@ func _ready() -> void:
 		var env: Environment = $WorldEnvironment.environment
 		env.ambient_light_color = ambient_color
 		env.fog_light_color = fog_color
-	# Start the spawn loop. Short intervals so the 45-second mid-line
+	# Cache the enemy scene once rather than load()-ing per spawn tick —
+	# web builds especially don't want an asset-cache round-trip every
+	# 1.2 s.
+	_enemy_scene = load(enemy_scene_path)
+	if _enemy_scene == null:
+		push_warning("MissionArena: failed to load enemy scene %s" % enemy_scene_path)
+	# Start the spawn loop. Tight intervals so the 45-second mid-line
 	# timer (wired on the React side) lands during a fight.
 	var spawn_timer := Timer.new()
-	spawn_timer.wait_time = 2.5
+	spawn_timer.wait_time = spawn_interval
 	spawn_timer.timeout.connect(_on_spawn_tick)
 	add_child(spawn_timer)
 	spawn_timer.start()
@@ -56,14 +64,13 @@ func _process(delta: float) -> void:
 
 func _on_spawn_tick() -> void:
 	if result_sent: return
+	if _enemy_scene == null: return
 	var spawns := _spawn_points.get_children()
 	if spawns.is_empty(): return
 	var spawn: Node3D = spawns.pick_random()
-	var scene := load(enemy_scene_path)
-	if scene == null: return
-	var enemy: Node3D = scene.instantiate()
-	if enemy.has_method("set"):
-		enemy.set("player", _player)
+	var enemy: Node3D = _enemy_scene.instantiate()
+	if "player" in enemy:
+		enemy.player = _player
 	enemy.position = spawn.position
 	enemy.tree_exited.connect(_on_enemy_killed)
 	add_child(enemy)

@@ -71,3 +71,14 @@ text = "KAEL'S OWN — M4 — The room at the end"
 [node name="BtnVexRecruit" type="Button" parent="VBox"]
 layout_mode = 2
 text = "VEX SOLÈNE — M6 — Accept the handshake"
+
+[node name="DescriptionSpacer" type="Control" parent="VBox"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 16)
+
+[node name="Description" type="RichTextLabel" parent="VBox"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 96)
+bbcode_enabled = true
+fit_content = true
+text = "[center]Hover a mode to see what it is.[/center]"

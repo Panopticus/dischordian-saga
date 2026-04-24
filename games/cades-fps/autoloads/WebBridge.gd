@@ -3,6 +3,8 @@ extends Node
 signal config_received(config: Dictionary)
 
 var is_web: bool = false
+var _config_timer: Timer = null
+var _config_received: bool = false
 
 # Section §G.11.1 — suit-set bonuses delivered by the React side in
 # CADES_CONFIG.suit_bonuses. Any subsystem (ShieldManager,
@@ -27,17 +29,20 @@ func _ready() -> void:
 			});
 			window.parent.postMessage({type: 'CADES_READY'}, '*');
 		""")
-		# Poll for config
-		var timer = Timer.new()
-		timer.wait_time = 0.5
-		timer.timeout.connect(_check_config)
-		add_child(timer)
-		timer.start()
+		# Poll for config. Stored on the instance so _check_config can stop
+		# it once CADES_CONFIG arrives; otherwise we'd keep calling back
+		# into the JS bridge every 500 ms for the life of the run.
+		_config_timer = Timer.new()
+		_config_timer.wait_time = 0.5
+		_config_timer.timeout.connect(_check_config)
+		add_child(_config_timer)
+		_config_timer.start()
 	else:
 		_dev_mode_config()
 
 func _check_config() -> void:
 	if not is_web: return
+	if _config_received: return
 	var result = JavaScriptBridge.eval("JSON.stringify(window._cadesConfig || null)")
 	if result != "null" and result != null:
 		var json = JSON.new()
@@ -57,6 +62,9 @@ func _check_config() -> void:
 				var sb = cfg.get("suit_bonuses", {})
 				if sb is Dictionary:
 					suit_bonuses = sb
+				_config_received = true
+				if _config_timer:
+					_config_timer.stop()
 				emit_signal("config_received", cfg)
 
 func send_result(data: Dictionary) -> void:
