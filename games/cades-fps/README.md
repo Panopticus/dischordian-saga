@@ -112,6 +112,26 @@ Wave-based HP scaling is applied at spawn time by `WaveManager`
 (`max_health * (1 + 0.08·(wave-1))`, capped at 3×), so per-archetype
 `max_health` is your *wave-1* value.
 
+## Tests
+
+A minimal headless test runner lives under `tests/`. It uses the real
+autoloads (no mocks) and covers the state-machine pieces where a silent
+regression would be hardest to notice: `GameMode.reset_for_mode`, the
+`WaveManager` wave table and HP-scaling formula, `HistoricalManager`
+scenario gating, and the `LoopManager` awareness-hold semantics.
+
+Run from Godot 4.6:
+
+```bash
+godot --headless --path games/cades-fps res://tests/Tests.tscn
+```
+
+Exit code is `0` when every test passes, `1` otherwise — wire into CI
+directly. `tests/TestRunner.gd` is ~60 lines; add new suites by creating
+a `test_xxx.gd` script with a `_suite_name()` method and `test_*`
+methods, then attaching it as a child of `Tests.tscn`'s `TestRunner`
+root.
+
 ## Branding TODOs
 
 `splash-screen.png` and `icon.png` still ship Kenney's starter-kit art
