@@ -1,0 +1,29 @@
+asset_id,name,category,review_gate,resolution,priority,palette,composed_prompt
+doctrine_swarm,"Swarm Doctrine",doctrine_banner,B,1024x512,P1,"gunmetal grey, swarm-orange engine trails, deep cobalt void, one accent white rim","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: gunmetal grey, swarm-orange engine trails, deep cobalt void, one accent white rim
+
+A wide horizontal composition of countless small fighter-craft arranged in a moving chevron pattern — readable as a single shape made of fifty distinct dots. Motion-blur implies speed. Two larger carrier silhouettes anchor the left and right edges. Mood: overwhelming by number.
+
+Negative: no individual named ships, no pilot views, no text"
+doctrine_iron_wall,"Iron Wall Doctrine",doctrine_banner,B,1024x512,P1,"bastion-grey, shield-cyan, deep blue planet, single gold command-insignia glow","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: bastion-grey, shield-cyan, deep blue planet, single gold command-insignia glow
+
+A horizontal wall-formation of heavy armoured cruisers overlapping shields, forming a literal wall across the frame. Weapons retracted, shields active as faint hexagonal pattern. Behind the wall, a calm blue planet; in front, incoming fire flecks that disintegrate at the shield line. Mood: immovable promise.
+
+Negative: no fire or explosion effects beyond sparks, no visible crew, no text"
+doctrine_archon_formation,"Archon Formation",doctrine_banner,B,1024x512,P1,"bone-white, blood-red trim, absolute black, one violet navigation flare","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: bone-white, blood-red trim, absolute black, one violet navigation flare
+
+Three identical battle-dreadnoughts in perfect geometric triangle formation, surrounded by smaller frigate escorts in mathematically precise orbits. Architect-aesthetic: white hulls, red-black trim, ritual symmetry. The background is a flat dark void with a single dimly-lit ringed world. Mood: order as doctrine.
+
+Negative: no asymmetry, no organic curves, no human figures"
+doctrine_antiquarian_tempo,"Antiquarian Tempo",doctrine_banner,B,1024x512,P1,"brass, vellum cream, indigo void, one pale violet accent along the glyph-line","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: brass, vellum cream, indigo void, one pale violet accent along the glyph-line
+
+A small elegant fleet (4–6 ships) mid-manoeuvre around a brass astrolabe-like superstructure floating in space. The ships trace curved light-trails that read as a musical phrase. Ship hulls are brass and vellum-cream with Antiquarian glyph-etching. Mood: war as composition.
+
+Negative: no visible weapons firing, no humans, no explicit sheet music on hulls"

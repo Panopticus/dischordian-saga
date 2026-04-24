@@ -47,6 +47,8 @@ export interface EraDefinition {
   unlocks: string[];
   /** Convergence pressure added just by reaching this era */
   convergenceOnEntry: number;
+  /** Optional 21:9 banner painting. Asset id in tradeEmpireArtPrompts. */
+  banner?: string;
 }
 
 export const ERAS: EraDefinition[] = [
@@ -339,6 +341,8 @@ export interface Wonder {
   convergenceOnBuild: number;
   /** Sanity floor this wonder guarantees */
   sanityFloor?: number;
+  /** Optional 2:3 key-art painting. Asset id in tradeEmpireArtPrompts. */
+  image?: string;
 }
 
 export const WONDERS: Wonder[] = [
@@ -483,6 +487,8 @@ export interface CivicPolicy {
     sanityPerCycle: number;
     doomPerCycle: number;
   }>;
+  /** Optional 1:1 heraldic icon. Asset id in tradeEmpireArtPrompts. */
+  icon?: string;
 }
 
 export const CIVIC_POLICIES: CivicPolicy[] = [
@@ -1001,6 +1007,8 @@ export interface FleetUnitProfile {
   /** What counters this unit */
   counteredBy: FleetUnitType[];
   role: string;
+  /** Optional 1:1 transparent-PNG silhouette. Asset id in tradeEmpireArtPrompts. */
+  silhouette?: string;
 }
 
 /**
@@ -1094,6 +1102,8 @@ export interface FleetDoctrine {
   requiredEra: EraId;
   /** Convergence pressure this doctrine adds per cycle */
   convergencePerCycle: number;
+  /** Optional 2:1 doctrine banner. Asset id in tradeEmpireArtPrompts. */
+  banner?: string;
 }
 
 export const FLEET_DOCTRINES: FleetDoctrine[] = [
@@ -1287,6 +1297,8 @@ export interface EldritchEncounter {
   choices: EldritchChoice[];
   /** Fires at most once per save */
   oneShot: boolean;
+  /** Optional 4:3 modal-backdrop key art. Asset id in tradeEmpireArtPrompts. */
+  keyArt?: string;
 }
 
 export interface EldritchChoice {

@@ -1,0 +1,29 @@
+asset_id,name,category,review_gate,resolution,priority,palette,composed_prompt
+encounter_listener_static,"The Listener Behind the Static",encounter_key_art,A,1536x1152,P0,"CRT-green, static-grey, deep black, one pinprick of hot red on a recording indicator","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: CRT-green, static-grey, deep black, one pinprick of hot red on a recording indicator
+
+A dark bridge interior of a player ship at low power. Every monitor shows a single pale eye rendered entirely in RF static noise — blinking in sync across screens. One ceiling speaker hangs crooked, a mouth-shaped crack running down it. A human comms officer is turned away from the camera, frozen mid-movement. Left-heavy composition; negative space on the right reserved for the choice-list UI pane. Mood: someone is already listening.
+
+Negative: no jump-scare face, no gore, no explicit text on screens"
+encounter_dreamers_weeping,"The Dreamer's Weeping",encounter_key_art,B,1536x1152,P1,"nebula purple, crystal cyan, ink black, one rose-gold rim on the nearest crystal","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: nebula purple, crystal cyan, ink black, one rose-gold rim on the nearest crystal
+
+The Dreamer's silhouette (vast, unfocused, only a shoulder and the curve of a distant cheek) across a nebula-scale void. A single tear becomes a cascade of crystalline shards falling slow-motion through space — some are raw Void Crystal, others are simply sad. Left-heavy composition with the tear-path curving from upper-left to mid-frame. Right third reserved for UI overlay. Mood: grief that can be mined.
+
+Negative: no readable face, no realistic tears, no religious halos"
+encounter_counted_crew,"The Counted Crew",encounter_key_art,B,1536x1152,P1,"warm tungsten, bone-white, deep brown, one cold blue glow from the manifest","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: warm tungsten, bone-white, deep brown, one cold blue glow from the manifest
+
+A cargo-bay manifest room. A roster projected on the wall lists names — but every name has two tallies next to it, and the second column is always one number higher than the first. In the foreground, an empty chair is pulled out from the table and gently rocking, seat-cushion still faintly indented. Strong chiaroscuro; left side of the composition is the chair, right side reserved for UI. Mood: someone who was never hired is at work.
+
+Negative: no ghost figures, no readable names, no motion blur"
+encounter_final_invitation,"The Final Invitation",encounter_key_art,B,1536x1152,P1,"obsidian door, honey-gold leak, deep space blue, one ember-orange reflection on the nearest ship's hull","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: obsidian door, honey-gold leak, deep space blue, one ember-orange reflection on the nearest ship's hull
+
+A colossal door suspended in open space — no wall, no station, just the door. Carved into it: a single polite welcome-glyph in a language that reads even to the viewer as a sentence ending in a question mark. A thin hairline crack runs down the centre; faint warm honey-coloured light leaks through. Distant fleet silhouettes approach from below like pilgrims. Left-heavy composition, door centred-left, right third reserved for UI. Mood: the choice framed as hospitality.
+
+Negative: no demon mouth, no claws, no explicit text in readable script"

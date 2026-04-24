@@ -1,0 +1,120 @@
+asset_id,name,category,review_gate,resolution,priority,palette,composed_prompt
+wonder_forge_monolith,"The Forge Monolith",wonder,B,1024x1536,P1,"char-black, forge white, molten amber, deep teal shadows","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: char-black, forge white, molten amber, deep teal shadows
+
+A black basalt monolith cracked open vertically to reveal a white-hot industrial furnace-core, taller than any surrounding shipyard. Robotic arms assemble frigate hulls in mid-air around it. Sparks drift in zero-g. Mood: industrial sublime, Architect-aesthetic, war as craft.
+
+Negative: no sci-fi chrome, no people, no ad-style energy beams"
+wonder_remembrance_garden,"The Remembrance Garden",wonder,B,1024x1536,P1,"moss green, paper-cream, slate grey, single violet floral accent","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: moss green, paper-cream, slate grey, single violet floral accent
+
+A silent grove of bioluminescent memorial trees growing out of a fractured starship prow that is half-buried on a mist-wet plain. Each tree's leaves are made of thin paper ledgers, wind-fluttering, inscribed with names too small to read. Kneeling silhouette of a crew member in the distance. Mood: grief held, not displayed.
+
+Negative: no tombstones, no readable names, no visible tears"
+wonder_chronarch_lens,"The Chronarch Lens",wonder,B,1024x1536,P1,"tarnished brass, indigo, vellum cream, one violet reflected flare","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: tarnished brass, indigo, vellum cream, one violet reflected flare
+
+A colossal brass-and-void-glass astronomical instrument the size of a small moon, half-occluding a ringed gas giant. Concentric rotating rings carved with Antiquarian glyphs. A single Antiquarian in layered robes stands on an observation platform, dwarfed by the lens. Inside the lens: a reflection of a future battle that hasn't happened. Mood: knowledge as trespass.
+
+Negative: no clocks, no gears in motion blur, no modern telescope silhouettes"
+wonder_hell_gate_sigil,"The Hell Gate Sigil",wonder,B,1024x1536,P1,"sigil-red, absolute black, one thin gold bar of rim-light on the nearest ship","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: sigil-red, absolute black, one thin gold bar of rim-light on the nearest ship
+
+An enormous circular warding sigil inscribed into the void at a Lagrange point — concentric rings of angry red glyphs holding shut a perfect black disc of nothing. Fleet ships orbit the sigil at a respectful distance. Faint silhouettes of things pressing outward from inside the disc. Mood: what we keep out, barely.
+
+Negative: no demon faces, no fire, no pentagrams"
+wonder_immune_choir,"The Immune Choir",wonder,B,1024x1536,P1,"pale white, cyan, pearl, one black spore accent","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: pale white, cyan, pearl, one black spore accent
+
+An orbital ring-station sheathed in pale white coral and translucent cyan membrane, singing — visualised as concentric pressure rings of pale light pulsing outward and dissolving Thought-Virus spores (small red-black motes) on contact. Below, a clean ocean planet. Mood: purification as lullaby.
+
+Negative: no medical symbols, no bio-hazard icons, no gore"
+wonder_dreamers_answer,"The Dreamer's Answer",wonder,B,1024x1536,P1,"nebula violet, warm amber fleet-lights, deep blue shadow, single white star-tear","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: nebula violet, warm amber fleet-lights, deep blue shadow, single white star-tear
+
+The Dreamer (colossal sleeping presence, only the curve of a shoulder and the side of a face visible) half-revealed inside a nebula, surrounded by a lattice of small warm lights — every light a ship of the player's fleet arrayed in a protective shell. Her eyes are closed; one single tear of starlight descends between galaxies. Mood: reprieve, not victory.
+
+Negative: no face fully shown, no religious iconography, no readable text"
+era_ark_awakening,"Ark Awakening",era_banner,B,1792x768,P1,"ivory, cathedral gold, deep indigo sky, one distant red flare on the horizon","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: ivory, cathedral gold, deep indigo sky, one distant red flare on the horizon
+
+Panoramic interior-exterior hybrid: the Ark Cathedral hull opens and light pours out across a pale inhabited moon. Small refugee skiffs move toward it in silhouette. Warmer than First Light but still uncertain. Horizontal composition with the Ark centred-left, the moon-horizon on the right. Mood: gathering. The distant red flare foreshadows the Convergence.
+
+Negative: no weaponry, no crowds of faces, no text"
+era_sector_lord,"Sector Lord",era_banner,B,1792x768,P1,"brass, warm amber, leather-brown, one cold cyan holographic accent","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: brass, warm amber, leather-brown, one cold cyan holographic accent
+
+Wide view of a young empire's star-map table from above-and-to-the-side, with projected sector tokens floating in holographic amber above a brass surface. A gauntleted hand reaches in from the right to place one piece. Deep interior light, no window view. Mood: deliberate ascent.
+
+Negative: no player-character face, no readable glyphs, no modern UI chrome"
+era_galactic_power,"Galactic Power",era_banner,B,1792x768,P1,"cold steel, twilight violet, deep red in the outer corners only","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: cold steel, twilight violet, deep red in the outer corners only
+
+Panoramic fleet array in crescent formation over a populated world, seen from a great distance so the fleet reads as geometric pattern rather than individual ships. Twilight lighting. The horizon is just beginning to tint red-violet at the edges. Mood: dominion, but the sky is turning.
+
+Negative: no battle in progress, no muzzle-flashes, no text overlay"
+era_cosmic_convergence,"Cosmic Convergence",era_banner,B,1792x768,P1,"blood-red, absolute black, one single point of pure white where the impossible shape opens","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: blood-red, absolute black, one single point of pure white where the impossible shape opens
+
+The whole frame is bathed in a terrible red-dark corona — the Convergence arriving at galactic scale. Colossal impossible geometry (rings-within-rings, a door that is also an eye) occludes half the star-field. Tiny fleet silhouettes are below, in silhouette, utterly dwarfed. Horizontal composition with the geometry centred, fleet as a thin line along the bottom edge. Mood: witnessed apocalypse.
+
+Negative: no recognisable demon imagery, no fire plumes, no text"
+encounter_dreamers_weeping,"The Dreamer's Weeping",encounter_key_art,B,1536x1152,P1,"nebula purple, crystal cyan, ink black, one rose-gold rim on the nearest crystal","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: nebula purple, crystal cyan, ink black, one rose-gold rim on the nearest crystal
+
+The Dreamer's silhouette (vast, unfocused, only a shoulder and the curve of a distant cheek) across a nebula-scale void. A single tear becomes a cascade of crystalline shards falling slow-motion through space — some are raw Void Crystal, others are simply sad. Left-heavy composition with the tear-path curving from upper-left to mid-frame. Right third reserved for UI overlay. Mood: grief that can be mined.
+
+Negative: no readable face, no realistic tears, no religious halos"
+encounter_counted_crew,"The Counted Crew",encounter_key_art,B,1536x1152,P1,"warm tungsten, bone-white, deep brown, one cold blue glow from the manifest","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: warm tungsten, bone-white, deep brown, one cold blue glow from the manifest
+
+A cargo-bay manifest room. A roster projected on the wall lists names — but every name has two tallies next to it, and the second column is always one number higher than the first. In the foreground, an empty chair is pulled out from the table and gently rocking, seat-cushion still faintly indented. Strong chiaroscuro; left side of the composition is the chair, right side reserved for UI. Mood: someone who was never hired is at work.
+
+Negative: no ghost figures, no readable names, no motion blur"
+encounter_final_invitation,"The Final Invitation",encounter_key_art,B,1536x1152,P1,"obsidian door, honey-gold leak, deep space blue, one ember-orange reflection on the nearest ship's hull","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: obsidian door, honey-gold leak, deep space blue, one ember-orange reflection on the nearest ship's hull
+
+A colossal door suspended in open space — no wall, no station, just the door. Carved into it: a single polite welcome-glyph in a language that reads even to the viewer as a sentence ending in a question mark. A thin hairline crack runs down the centre; faint warm honey-coloured light leaks through. Distant fleet silhouettes approach from below like pilgrims. Left-heavy composition, door centred-left, right third reserved for UI. Mood: the choice framed as hospitality.
+
+Negative: no demon mouth, no claws, no explicit text in readable script"
+doctrine_swarm,"Swarm Doctrine",doctrine_banner,B,1024x512,P1,"gunmetal grey, swarm-orange engine trails, deep cobalt void, one accent white rim","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: gunmetal grey, swarm-orange engine trails, deep cobalt void, one accent white rim
+
+A wide horizontal composition of countless small fighter-craft arranged in a moving chevron pattern — readable as a single shape made of fifty distinct dots. Motion-blur implies speed. Two larger carrier silhouettes anchor the left and right edges. Mood: overwhelming by number.
+
+Negative: no individual named ships, no pilot views, no text"
+doctrine_iron_wall,"Iron Wall Doctrine",doctrine_banner,B,1024x512,P1,"bastion-grey, shield-cyan, deep blue planet, single gold command-insignia glow","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: bastion-grey, shield-cyan, deep blue planet, single gold command-insignia glow
+
+A horizontal wall-formation of heavy armoured cruisers overlapping shields, forming a literal wall across the frame. Weapons retracted, shields active as faint hexagonal pattern. Behind the wall, a calm blue planet; in front, incoming fire flecks that disintegrate at the shield line. Mood: immovable promise.
+
+Negative: no fire or explosion effects beyond sparks, no visible crew, no text"
+doctrine_archon_formation,"Archon Formation",doctrine_banner,B,1024x512,P1,"bone-white, blood-red trim, absolute black, one violet navigation flare","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: bone-white, blood-red trim, absolute black, one violet navigation flare
+
+Three identical battle-dreadnoughts in perfect geometric triangle formation, surrounded by smaller frigate escorts in mathematically precise orbits. Architect-aesthetic: white hulls, red-black trim, ritual symmetry. The background is a flat dark void with a single dimly-lit ringed world. Mood: order as doctrine.
+
+Negative: no asymmetry, no organic curves, no human figures"
+doctrine_antiquarian_tempo,"Antiquarian Tempo",doctrine_banner,B,1024x512,P1,"brass, vellum cream, indigo void, one pale violet accent along the glyph-line","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: brass, vellum cream, indigo void, one pale violet accent along the glyph-line
+
+A small elegant fleet (4–6 ships) mid-manoeuvre around a brass astrolabe-like superstructure floating in space. The ships trace curved light-trails that read as a musical phrase. Ship hulls are brass and vellum-cream with Antiquarian glyph-etching. Mood: war as composition.
+
+Negative: no visible weapons firing, no humans, no explicit sheet music on hulls"

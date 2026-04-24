@@ -1,0 +1,43 @@
+asset_id,name,category,review_gate,resolution,priority,palette,composed_prompt
+fleet_scout,"Scout",fleet_silhouette,C,512x512,P1,"matte grey, cyan running-light","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: matte grey, cyan running-light
+
+Slim dart-shaped recon skimmer, twin swept wings, oversized sensor-dome nose, minimalist hull, 3/4 view on transparent ground. Mood: eye.
+
+Negative: no background, no motion blur, no pilot figures, no UI overlays, no text on hull"
+fleet_trader,"Trader",fleet_silhouette,C,512x512,P1,"matte grey, mustard-yellow cargo-seal stripe","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: matte grey, mustard-yellow cargo-seal stripe
+
+Blocky rounded freighter with visible modular cargo pods slung under the main hull, stub engines, civilian bridge bubble, 3/4 view on transparent ground. Mood: utility.
+
+Negative: no background, no motion blur, no pilot figures, no UI overlays, no text on hull"
+fleet_frigate,"Frigate",fleet_silhouette,C,512x512,P1,"matte grey, hazard-orange warning stripe at the nose","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: matte grey, hazard-orange warning stripe at the nose
+
+Narrow knife-hull with forward rail-gun spine and two side missile racks. Angular, purposeful, 3/4 view on transparent ground. Mood: hunter.
+
+Negative: no background, no motion blur, no pilot figures, no UI overlays, no text on hull"
+fleet_cruiser,"Cruiser",fleet_silhouette,C,512x512,P1,"matte grey, blood-red heat-vent trim","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: matte grey, blood-red heat-vent trim
+
+Mid-size capital hull with layered armour plating and a central battery turret. Squat, dense silhouette, 3/4 view on transparent ground. Mood: line-of-battle.
+
+Negative: no background, no motion blur, no pilot figures, no UI overlays, no text on hull"
+fleet_carrier,"Carrier",fleet_silhouette,C,512x512,P1,"matte grey, approach-green deck-light array","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: matte grey, approach-green deck-light array
+
+Long flat-decked carrier with twin parallel flight-deck strips, hangar mouths at bow and stern, tower superstructure offset to one side, 3/4 view on transparent ground. Mood: lifter.
+
+Negative: no background, no motion blur, no pilot figures, no UI overlays, no text on hull"
+fleet_flagship,"Flagship",fleet_silhouette,C,512x512,P1,"matte grey, gold prow insignia","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: matte grey, gold prow insignia
+
+Oversized command dreadnought with asymmetrical bridge pagoda, heavy forward prow, multiple secondary gun tiers, a distinct ceremonial banner mast, 3/4 view on transparent ground. Mood: throne.
+
+Negative: no background, no motion blur, no pilot figures, no UI overlays, no text on hull"

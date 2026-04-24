@@ -1,0 +1,8 @@
+asset_id,name,category,review_gate,resolution,priority,palette,composed_prompt
+market_pirate_raider,"Pirate Raider",pirate_portrait,C,768x768,P1,"rust-red, soot-black, salvage-yellow warning paint, one cold blue running-light","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: rust-red, soot-black, salvage-yellow warning paint, one cold blue running-light
+
+A battered bulk-carrier repainted by hand with a garish red-and-black raider sigil. Cargo-pod skeletons welded crooked, heavy-salvage hull patches, a single oversized broadside gun bolted amidships. Pirate's own small dinghy docked at the side like a parasite. The ship is parked, drifting lazy — engines cold, running lights dimmed to two. Background: empty trade-lane stars. Mood: rudeness as business model.
+
+Negative: no human face, no skull-and-crossbones cliché, no explosions"
