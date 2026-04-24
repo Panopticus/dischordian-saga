@@ -89,6 +89,17 @@ func update_breach_status(states: Dictionary) -> void:
 func show_open_channel() -> void:
 	$OpenChannelPrompt.visible = true
 
+var _weapon_name_tween: Tween = null
+
 func update_weapon_name(wname: String) -> void:
-	if has_node("WeaponName"):
-		$WeaponName.text = wname
+	if not has_node("WeaponName"):
+		return
+	var label: Label = $WeaponName
+	label.text = wname
+	label.add_theme_color_override("font_color", Color(0.961, 0.624, 0.043))
+	# Brief fade-in so the readout reads as "changed" rather than "is".
+	if _weapon_name_tween and _weapon_name_tween.is_valid():
+		_weapon_name_tween.kill()
+	label.modulate.a = 0.3
+	_weapon_name_tween = create_tween()
+	_weapon_name_tween.tween_property(label, "modulate:a", 1.0, 0.25)

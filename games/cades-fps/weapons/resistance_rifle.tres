@@ -6,6 +6,7 @@
 
 [resource]
 script = ExtResource("1_scr")
+display_name = "RESISTANCE RIFLE"
 model = ExtResource("1_mdl")
 rotation = Vector3(0, 180, 0)
 muzzle_position = Vector3(0.1, -0.4, 1.5)

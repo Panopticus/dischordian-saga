@@ -92,6 +92,7 @@ func _ready() -> void:
 	$Player.initiate_change_weapon(0)
 	$HUD.set_mode_ui("historical_incursions")
 	$Player.health_updated.connect($HUD._on_health_updated)
+	$Player.weapon_changed.connect($HUD.update_weapon_name)
 	Elara.speak(data["enter_line"])
 	# Spawn loop.
 	await get_tree().create_timer(3.0).timeout

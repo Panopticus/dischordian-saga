@@ -33,6 +33,7 @@ func _ready() -> void:
 	$Player.initiate_change_weapon(0)
 	$HUD.set_mode_ui("ship_defense")
 	$Player.health_updated.connect($HUD._on_health_updated)
+	$Player.weapon_changed.connect($HUD.update_weapon_name)
 	ShieldManager.shield_progress_updated.connect(_on_shield_update)
 	ShieldManager.shields_restored.connect(_on_shields_restored)
 	ShieldManager.shields_failed.connect(_on_shields_failed)

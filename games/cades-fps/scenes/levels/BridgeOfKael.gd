@@ -37,6 +37,7 @@ func _ready() -> void:
 	hud.set_mode_ui("last_stand")
 	hud.update_tokens(GameMode.reinforcement_tokens)
 	$Player.health_updated.connect(hud._on_health_updated)
+	$Player.weapon_changed.connect(hud.update_weapon_name)
 	# If the channel is already primed for this run, let Elara say so.
 	if GameMode.awareness_level >= 5 and not GameMode.open_channel_used:
 		Elara.queue_for_run_start("open_channel_ready")

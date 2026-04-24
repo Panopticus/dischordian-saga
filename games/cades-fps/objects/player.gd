@@ -33,6 +33,7 @@ var container_offset = Vector3(1.2, -1.1, -2.75)
 var tween: Tween
 
 signal health_updated
+signal weapon_changed(display_name: String)
 
 @onready var camera = $Head/Camera
 @onready var raycast = $Head/Camera/RayCast
@@ -281,9 +282,10 @@ func change_weapon():
 		child.layers = 2
 		
 	# Set weapon data
-	
+
 	raycast.target_position = Vector3(0, 0, -1) * weapon.max_distance
 	crosshair.texture = weapon.crosshair
+	weapon_changed.emit(weapon.display_name)
 
 func damage(amount):
 	# damage_resist_mult > 1.0 reduces incoming damage; React side sends

@@ -41,6 +41,12 @@ func _ready() -> void:
 	# so the CADES_RESULT reaches the React side before the arena
 	# unmounts.
 	_player.health_updated.connect(_on_player_health_updated)
+	# HUD readouts for integrity + weapon name, matching the other
+	# combat-mode levels.
+	var hud := get_node_or_null("HUD")
+	if hud:
+		_player.health_updated.connect(hud._on_health_updated)
+		_player.weapon_changed.connect(hud.update_weapon_name)
 	# The ambient/fog lean on the main environment defaults — scenes
 	# can override by replacing WorldEnvironment in their .tscn, but
 	# the script won't force-replace a scene-provided Environment.
