@@ -48,4 +48,7 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: us-east-2
-        run: pnpm tsx apps/scripts/upload-trade-empire-art.ts --src /tmp/te-art/trade_empire
+        # Pass the unzip parent — resolveSrcRoot auto-detects the
+        # producer-layout root regardless of whether the ZIP nests
+        # contents under trade_empire/, a wrapper dir, or at the top.
+        run: pnpm tsx apps/scripts/upload-trade-empire-art.ts --src /tmp/te-art
