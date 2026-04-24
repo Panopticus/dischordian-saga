@@ -6,7 +6,7 @@
      • COUNCIL (Diplomatic orders + peace conference)
      • CONVERGENCE (Doom / Sanity / Eldritch encounters)
    ═══════════════════════════════════════════════════════ */
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Crown,
@@ -65,6 +65,8 @@ import {
 } from "./tradeEmpireExpansion";
 import { GALACTIC_FACTIONS, type GalacticFactionId, type EmpireState } from "./tradeEmpire";
 import { tradeEmpireArtUrl } from "./tradeEmpireArtAssets";
+import { useActVO } from "../hooks/useActVO";
+import { TE_VO } from "../../../shared/tradeEmpireVoLines";
 
 /**
  * Renders a Trade Empire art thumbnail by assetId. Returns null if the
@@ -113,6 +115,7 @@ export function CivilizationPanel({
   saveEmpire,
   saveExpansion,
 }: PanelProps) {
+  const vo = useActVO("3");
   const resolvedArcs = empire.act3
     ? Object.values(empire.act3.arcs).filter((a) => a.status === "resolved").length
     : 0;
@@ -141,7 +144,9 @@ export function CivilizationPanel({
       lastEraCheck: Date.now(),
       convergence: withDoom,
     });
-  }, [activeEraIdx, qualifiedEra, expansion, saveExpansion]);
+    const lineId = TE_VO.eraAdvance[next.id as keyof typeof TE_VO.eraAdvance];
+    if (lineId) vo.speak(lineId);
+  }, [activeEraIdx, qualifiedEra, expansion, saveExpansion, vo]);
 
   const eligible = eligibleWonders(expansion);
   const eligibleCivics = civicsByEra(expansion.era);
@@ -198,7 +203,10 @@ export function CivilizationPanel({
       },
       convergence: withSanity,
     });
-  }, [expansion, saveExpansion]);
+    const lineId =
+      TE_VO.wonderComplete[current.wonderId as keyof typeof TE_VO.wonderComplete];
+    if (lineId) vo.speak(lineId);
+  }, [expansion, saveExpansion, vo]);
 
   const setCivic = useCallback(
     (slot: CivicSlot, civicId: string) => {
@@ -211,8 +219,10 @@ export function CivilizationPanel({
           cooldownUntil: Date.now() + 1000 * 60 * 60 * 4, // 4h cooldown
         },
       });
+      const lineId = TE_VO.civicAdopt[civicId as keyof typeof TE_VO.civicAdopt];
+      if (lineId) vo.speak(lineId);
     },
-    [expansion, saveExpansion],
+    [expansion, saveExpansion, vo],
   );
 
   const currentEraDef = ERAS[activeEraIdx];
@@ -563,6 +573,7 @@ export function MarketPanel({
   saveEmpire,
   saveExpansion,
 }: PanelProps) {
+  const vo = useActVO("3");
   const [give, setGive] = useState<Resource>("credits");
   const [receive, setReceive] = useState<Resource>("materials");
   const [amount, setAmount] = useState(4);
@@ -617,7 +628,11 @@ export function MarketPanel({
       rng: Math.random(),
     });
     saveExpansion({ ...expansion, pirate: result.next });
-  }, [empire.controlledSectors, expansion, saveExpansion]);
+    // Newly parked: pirate just landed on a sector this tick.
+    if (!expansion.pirate.parkedSector && result.next.parkedSector) {
+      vo.speak(TE_VO.pirate.parked);
+    }
+  }, [empire.controlledSectors, expansion, saveExpansion, vo]);
 
   const dispatchRaid = useCallback(() => {
     const result = dispatchAgainstPirate(expansion.pirate, empire.credits);
@@ -633,7 +648,8 @@ export function MarketPanel({
         totalStolen: expansion.pirate.totalStolen,
       },
     });
-  }, [empire, expansion, saveEmpire, saveExpansion]);
+    vo.speak(TE_VO.pirate.dispatched);
+  }, [empire, expansion, saveEmpire, saveExpansion, vo]);
 
   return (
     <div className="space-y-4">
@@ -809,6 +825,7 @@ export function CouncilPanel({
   saveEmpire,
   saveExpansion,
 }: PanelProps) {
+  const vo = useActVO("3");
   const knownFactions = useMemo(() => {
     return (Object.keys(empire.diplomacy) as GalacticFactionId[]).filter((f) => {
       const faction = GALACTIC_FACTIONS[f];
@@ -878,7 +895,18 @@ export function CouncilPanel({
         lastResolution: resolutions,
       },
     });
-  }, [empire, expansion, knownFactions, saveEmpire, saveExpansion]);
+    // Pick the most dramatic outcome to voice (priority: betrayal > misread
+    // > stalemate > aligned). Only one cycle line plays per resolution.
+    const outcomes = new Set(resolutions.map((r) => r.outcome));
+    const priority: Array<keyof typeof TE_VO.cycle> = [
+      "betrayal",
+      "misread",
+      "stalemate",
+      "aligned",
+    ];
+    const pick = priority.find((o) => outcomes.has(o));
+    if (pick) vo.speak(TE_VO.cycle[pick]);
+  }, [empire, expansion, knownFactions, saveEmpire, saveExpansion, vo]);
 
   const convene = useCallback(() => {
     if (selectedConferenceParties.length < 2) return;
@@ -942,7 +970,12 @@ export function CouncilPanel({
       conferences: [result.conference, ...expansion.conferences].slice(0, 20),
     });
     setSelectedConferenceParties([]);
-  }, [selectedConferenceParties, selectedTreaty, empire, expansion, saveEmpire, saveExpansion]);
+    vo.speak(
+      result.conference.outcome === "signed"
+        ? TE_VO.conference.signed
+        : TE_VO.conference.collapsed,
+    );
+  }, [selectedConferenceParties, selectedTreaty, empire, expansion, saveEmpire, saveExpansion, vo]);
 
   const toggleParty = (f: GalacticFactionId) => {
     setSelectedConferenceParties((prev) =>
@@ -1189,6 +1222,7 @@ export function WarRoomPanel({
   saveEmpire,
   saveExpansion,
 }: PanelProps) {
+  const vo = useActVO("3");
   const available = doctrinesByEra(expansion.era);
   const activeDoctrine = expansion.fleetDoctrine.active
     ? getDoctrineById(expansion.fleetDoctrine.active) ?? null
@@ -1200,8 +1234,10 @@ export function WarRoomPanel({
         ...expansion,
         fleetDoctrine: { ...expansion.fleetDoctrine, active: id },
       });
+      const lineId = TE_VO.doctrineAdopt[id as keyof typeof TE_VO.doctrineAdopt];
+      if (lineId) vo.speak(lineId);
     },
-    [expansion, saveExpansion],
+    [expansion, saveExpansion, vo],
   );
 
   const startProduction = useCallback(
@@ -1443,12 +1479,66 @@ export function ConvergencePanel({
   saveEmpire,
   saveExpansion,
 }: PanelProps) {
+  const vo = useActVO("3");
   const { convergence } = expansion;
   const penalty = sanityPenalty(convergence.sanity);
   const available = availableEncounters(convergence);
 
   const [activeEncounterId, setActiveEncounterId] = useState<string | null>(null);
   const active = ELDRITCH_ENCOUNTERS.find((e) => e.id === activeEncounterId);
+
+  // Doom whispers — speak when a new whisper crosses into revealedWhispers.
+  const prevWhispersLen = useRef(convergence.revealedWhispers.length);
+  useEffect(() => {
+    const len = convergence.revealedWhispers.length;
+    if (len > prevWhispersLen.current) {
+      const newest = convergence.revealedWhispers[len - 1];
+      // WHISPER_THRESHOLDS ids are "whisper_<key>"; TE_VO.doomWhisper keys
+      // are the bare "<key>".
+      const key = newest.replace(/^whisper_/, "") as keyof typeof TE_VO.doomWhisper;
+      const lineId = TE_VO.doomWhisper[key];
+      if (lineId) vo.speak(lineId);
+    }
+    prevWhispersLen.current = len;
+  }, [convergence.revealedWhispers, vo]);
+
+  // Sanity thresholds — speak Elara fragmented at downward crossings.
+  const prevSanity = useRef(convergence.sanity);
+  useEffect(() => {
+    const curr = convergence.sanity;
+    const prev = prevSanity.current;
+    if (prev >= 60 && curr < 60) vo.speak(TE_VO.sanity.below60);
+    else if (prev >= 30 && curr < 30) vo.speak(TE_VO.sanity.below30);
+    else if (prev >= 10 && curr < 10) vo.speak(TE_VO.sanity.below10);
+    prevSanity.current = curr;
+  }, [convergence.sanity, vo]);
+
+  // Encounter id (canonical) → TE_VO compact key. ELDRITCH_ENCOUNTERS
+  // entries use full descriptive ids like "the_listener_behind_the_static";
+  // TE_VO trims those to compact keys for the VO catalog.
+  const ENCOUNTER_KEY: Record<string, keyof typeof TE_VO.encounterOpen> = {
+    the_listener_behind_the_static: "listener_static",
+    the_dreamers_weeping: "dreamers_weeping",
+    the_counted_crew: "counted_crew",
+    the_final_invitation: "final_invitation",
+  };
+  const ENCOUNTER_OUTCOME_KEY: Record<
+    string,
+    keyof typeof TE_VO.encounterOutcome
+  > = {
+    the_listener_behind_the_static: "listener",
+    the_dreamers_weeping: "weeping",
+    the_counted_crew: "counted",
+    the_final_invitation: "final",
+  };
+
+  // Encounter open — speak narrator when modal mounts.
+  useEffect(() => {
+    if (!activeEncounterId) return;
+    const key = ENCOUNTER_KEY[activeEncounterId];
+    if (key) vo.speak(TE_VO.encounterOpen[key]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeEncounterId, vo]);
 
   const resolveChoice = useCallback(
     (encounterId: string, choiceId: string) => {
@@ -1460,8 +1550,14 @@ export function ConvergencePanel({
       if (!result) return;
       saveExpansion({ ...expansion, convergence: result.next });
       setActiveEncounterId(null);
+      const bucketKey = ENCOUNTER_OUTCOME_KEY[encounterId];
+      if (!bucketKey) return;
+      const bucket = TE_VO.encounterOutcome[bucketKey] as Record<string, string>;
+      const lineId = bucket[choiceId];
+      if (lineId) vo.speak(lineId);
     },
-    [convergence, expansion, saveExpansion],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [convergence, expansion, saveExpansion, vo],
   );
 
   const doomColor =

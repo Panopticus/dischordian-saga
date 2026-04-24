@@ -164,6 +164,55 @@ const SPEAKER_SETTINGS: Record<string, Settings> = {
     text_prefix:
       "*both narrators speaking in unison — record each voice separately at identical timing and phase-lock in post; in solo generation render this as whichever voiceId is set on the line* ",
   },
+  // ─── Trade Empire expansion speakers ───
+  the_antiquarian: {
+    stability: 0.65,
+    similarity_boost: 0.78,
+    style: 0.15,
+    use_speaker_boost: true,
+    text_prefix:
+      "*chronicler, archival, patient, professorial — speaks from outside time, lines feel cited rather than spoken, measured cadence with occasional dry wry inflection on millennia of witnessing* ",
+  },
+  locke: {
+    stability: 0.55,
+    similarity_boost: 0.8,
+    style: 0.3,
+    use_speaker_boost: true,
+    text_prefix:
+      "*chrome bureaucrat, silky and confident, female; always reading the room, calculation under the diplomatic warmth; tone shifts cooler when negotiations break down* ",
+  },
+  orin_fell: {
+    stability: 0.5,
+    similarity_boost: 0.78,
+    style: 0.3,
+    use_speaker_boost: true,
+    text_prefix:
+      "*field operative, direct and urgent, no nonsense; clipped cadence with faint signal-static undertone, Insurgency-trained, speaks in tradecraft not philosophy* ",
+  },
+  the_source: {
+    stability: 0.5,
+    similarity_boost: 0.78,
+    style: 0.4,
+    use_speaker_boost: true,
+    text_prefix:
+      "*Kael corrupted by the Thought Virus; viral red-black harmonic distortion underneath; alternates seductive inevitability with swarm-logic cold calculation; lucid Engineer-recruiter remnants flicker through* ",
+  },
+  the_architect: {
+    stability: 0.7,
+    similarity_boost: 0.78,
+    style: 0.1,
+    use_speaker_boost: true,
+    text_prefix:
+      "*red-eyed digital presence, computational, ancient, patient; speaks in chess-move logic with no inflection — pure information; rare flashes of acknowledged curiosity about the player* ",
+  },
+  mol_garath: {
+    stability: 0.55,
+    similarity_boost: 0.78,
+    style: 0.4,
+    use_speaker_boost: true,
+    text_prefix:
+      "*demonic bureaucrat, Master of R'lyeh; reptilian and ancient, infernal corporate logic; cold humour at mortal suffering, treats the galaxy as a hostile-acquisition target* ",
+  },
 };
 
 /**
