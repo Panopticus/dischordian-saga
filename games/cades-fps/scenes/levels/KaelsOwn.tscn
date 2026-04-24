@@ -26,6 +26,7 @@ script = ExtResource("1_scr")
 mode_id = "kaels_own"
 ambient_color = Color(0.25, 0.22, 0.14, 1)
 fog_color = Color(0.10, 0.08, 0.05, 1)
+enemy_scene_paths = Array[String](["res://objects/enemies/ReclamationEnforcer.tscn", "res://objects/enemies/ReclamationCommander.tscn", "res://objects/enemies/Salvager.tscn"])
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("env")

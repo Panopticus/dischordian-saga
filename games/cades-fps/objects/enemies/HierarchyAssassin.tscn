@@ -14,6 +14,9 @@ enemy_name = "HierarchyAssassin"
 max_health = 80
 attack_damage = 10
 bob_amplitude = 1.0
+attack_pattern = &"charger"
+charger_speed = 4.0
+charger_detonate_damage = 18
 
 [node name="Model" parent="." instance=ExtResource("1_mdl")]
 

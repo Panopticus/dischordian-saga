@@ -18,13 +18,16 @@ extends Node3D
 @export var mode_id: String = "void_corridor"
 @export var ambient_color: Color = Color(0.10, 0.10, 0.16)
 @export var fog_color: Color = Color(0.04, 0.04, 0.08)
+# Legacy single-scene path kept for backwards compat. If enemy_scene_paths
+# is non-empty it wins; otherwise we fall back to enemy_scene_path.
 @export var enemy_scene_path: String = "res://objects/enemy.tscn"
+@export var enemy_scene_paths: Array[String] = []
 @export var spawn_interval: float = 1.2
 
 var kills: int = 0
 var start_time_ms: int = 0
 var result_sent: bool = false
-var _enemy_scene: PackedScene
+var _enemy_scenes: Array[PackedScene] = []
 
 @onready var _player: Node3D = $Player
 @onready var _spawn_points: Node = $SpawnPoints
@@ -45,12 +48,17 @@ func _ready() -> void:
 		var env: Environment = $WorldEnvironment.environment
 		env.ambient_light_color = ambient_color
 		env.fog_light_color = fog_color
-	# Cache the enemy scene once rather than load()-ing per spawn tick —
+	# Cache the enemy scene(s) once rather than load()-ing per spawn tick —
 	# web builds especially don't want an asset-cache round-trip every
-	# 1.2 s.
-	_enemy_scene = load(enemy_scene_path)
-	if _enemy_scene == null:
-		push_warning("MissionArena: failed to load enemy scene %s" % enemy_scene_path)
+	# 1.2 s. enemy_scene_paths wins if set; otherwise fall back to the
+	# legacy single enemy_scene_path.
+	var paths: Array = enemy_scene_paths if not enemy_scene_paths.is_empty() else [enemy_scene_path]
+	for p in paths:
+		var s: PackedScene = load(p)
+		if s == null:
+			push_warning("MissionArena: failed to load enemy scene %s" % p)
+		else:
+			_enemy_scenes.append(s)
 	# Start the spawn loop. Tight intervals so the 45-second mid-line
 	# timer (wired on the React side) lands during a fight.
 	var spawn_timer := Timer.new()
@@ -64,11 +72,12 @@ func _process(delta: float) -> void:
 
 func _on_spawn_tick() -> void:
 	if result_sent: return
-	if _enemy_scene == null: return
+	if _enemy_scenes.is_empty(): return
 	var spawns := _spawn_points.get_children()
 	if spawns.is_empty(): return
 	var spawn: Node3D = spawns.pick_random()
-	var enemy: Node3D = _enemy_scene.instantiate()
+	var scene: PackedScene = _enemy_scenes.pick_random()
+	var enemy: Node3D = scene.instantiate()
 	if "player" in enemy:
 		enemy.player = _player
 	enemy.position = spawn.position

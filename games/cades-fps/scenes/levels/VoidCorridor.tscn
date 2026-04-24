@@ -26,6 +26,7 @@ script = ExtResource("1_scr")
 mode_id = "void_corridor"
 ambient_color = Color(0.06, 0.04, 0.10, 1)
 fog_color = Color(0.04, 0.03, 0.08, 1)
+enemy_scene_paths = Array[String](["res://objects/enemies/HierarchyAssassin.tscn", "res://objects/enemies/RealityShard.tscn", "res://objects/enemies/MachineDisruptor.tscn"])
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("env")

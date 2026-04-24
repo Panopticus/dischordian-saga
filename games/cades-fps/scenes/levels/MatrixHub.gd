@@ -86,5 +86,5 @@ func _enter_scenario(scenario_id: String) -> void:
 	var data = HistoricalManager.SCENARIOS.get(scenario_id, null)
 	if data == null: return
 	GameMode.current_scenario = scenario_id
-	var path = data.get("level_scene", "res://scenes/levels/ScenarioStub.tscn")
+	var path = data.get("level_scene", "res://scenes/levels/HistoricalScenario.tscn")
 	get_tree().change_scene_to_file(path)

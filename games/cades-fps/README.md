@@ -82,7 +82,7 @@ objects/               # in-world actors (player, enemy base, props)
   enemies/*.tscn       # per-archetype scenes that extend scripts/enemy_base.gd
 scenes/
   menus/ModeSelect     # boot scene
-  levels/              # BridgeOfKael, Ark1047, MatrixHub, mission arenas, ScenarioStub
+  levels/              # BridgeOfKael, Ark1047, MatrixHub, mission arenas, HistoricalScenario
   ui/                  # HUD, GMMessageUI, LoopResetUI, OpenChannelSequence
 scripts/               # non-autoload scripts (HUD, enemy_base, weapon, …)
 weapons/               # .tres weapon resources (8 weapons)

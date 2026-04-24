@@ -4,6 +4,9 @@ extends Node3D
 # procedurally decorates the level with unique geometry, lighting, and
 # enemy choice. Each scenario is a short arena defense: kill N enemies
 # then return to the Matrix Hub.
+#
+# All five non-`last_stand` Matrix pillars route here; HistoricalManager
+# owns the scenario → .tscn mapping.
 
 const SCENARIO_DATA = {
 	"first_breath": {

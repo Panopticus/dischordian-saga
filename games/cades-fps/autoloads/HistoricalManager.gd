@@ -14,7 +14,7 @@ const SCENARIOS = {
 		"subtitle": "The Architect before corruption — what he was",
 		"unlock_condition": "always",
 		"color": Color(0.937, 0.267, 0.267),
-		"level_scene": "res://scenes/levels/ScenarioStub.tscn",
+		"level_scene": "res://scenes/levels/HistoricalScenario.tscn",
 		"elara_approach": "pillar_first_breath",
 	},
 	"the_severance": {
@@ -22,7 +22,7 @@ const SCENARIOS = {
 		"subtitle": "Kael's assassination — the last uncorrupted moment",
 		"unlock_condition": "always",
 		"color": Color(0.231, 0.510, 0.965),
-		"level_scene": "res://scenes/levels/ScenarioStub.tscn",
+		"level_scene": "res://scenes/levels/HistoricalScenario.tscn",
 		"elara_approach": "pillar_severance",
 	},
 	"thaloria_burns": {
@@ -30,7 +30,7 @@ const SCENARIOS = {
 		"subtitle": "The Collector's first harvest — what it felt like",
 		"unlock_condition": "always",
 		"color": Color(0.659, 0.333, 0.969),
-		"level_scene": "res://scenes/levels/ScenarioStub.tscn",
+		"level_scene": "res://scenes/levels/HistoricalScenario.tscn",
 		"elara_approach": "pillar_thaloria",
 	},
 	"the_fall": {
@@ -38,7 +38,7 @@ const SCENARIOS = {
 		"subtitle": "The Oracle's last prophecy — what nobody was ready to hear",
 		"unlock_condition": "always",
 		"color": Color(0.545, 0.361, 0.965),
-		"level_scene": "res://scenes/levels/ScenarioStub.tscn",
+		"level_scene": "res://scenes/levels/HistoricalScenario.tscn",
 		"elara_approach": "pillar_fall",
 	},
 	"agent_zero_silence": {
@@ -46,7 +46,7 @@ const SCENARIOS = {
 		"subtitle": "What she chose to forget — and why",
 		"unlock_condition": "complete_5",
 		"color": Color(0.392, 0.455, 0.557),
-		"level_scene": "res://scenes/levels/ScenarioStub.tscn",
+		"level_scene": "res://scenes/levels/HistoricalScenario.tscn",
 		"elara_approach": "pillar_agent_zero",
 	},
 }
