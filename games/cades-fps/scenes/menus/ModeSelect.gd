@@ -3,6 +3,7 @@ extends Control
 # Short blurbs that tell the player what each mode actually is. Hover /
 # focus a button to see the matching entry in the Description panel.
 const MODE_DESCRIPTIONS := {
+	"BtnBootDiagnostic": "[b]First-time calibration.[/b] CADES Unit's post-reboot diagnostic — Elara walks you through optics, locomotion, and weapons. If this is your first boot, run it first. Escape aborts.",
 	"BtnLastStand": "[b]Infinite hold.[/b] Defend the Bridge of Kael. Waves keep coming — there's no win state, only how long you last. Dying increments your awareness; enough loops unlock the Iron Lion's Open Channel conversation.",
 	"BtnShipDefense": "[b]25-minute timer.[/b] Hold three breach zones on Inception Ark 1047 while Elara charges the shields. A Thoughtborn pilgrim walks toward CADES around the midpoint — hurting them costs shield progress.",
 	"BtnHistorical": "[b]Scenario replay.[/b] Step into archived consciousness-recordings from the Matrix of Dreams. Five pillars unlock from the start; Agent Zero's Silence unlocks once the other five are complete.",
@@ -20,6 +21,7 @@ func _ready() -> void:
 	$VBox/Subtitle.add_theme_font_size_override("font_size", 14)
 	$VBox/Subtitle.add_theme_color_override("font_color", Color(0.545, 0.361, 0.965))
 	for btn_name in [
+		"BtnBootDiagnostic",
 		"BtnLastStand", "BtnShipDefense", "BtnHistorical",
 		"BtnVoidCorridor", "BtnKaelsOwn", "BtnVexRecruit",
 	]:
@@ -32,6 +34,7 @@ func _ready() -> void:
 		btn.mouse_entered.connect(_on_button_highlight.bind(btn, btn_name))
 		btn.focus_exited.connect(_on_button_release.bind(btn))
 		btn.mouse_exited.connect(_on_button_release.bind(btn))
+	$VBox/BtnBootDiagnostic.pressed.connect(_on_boot_diagnostic)
 	$VBox/BtnLastStand.pressed.connect(_on_last_stand)
 	$VBox/BtnShipDefense.pressed.connect(_on_ship_defense)
 	$VBox/BtnHistorical.pressed.connect(_on_historical)
@@ -64,6 +67,11 @@ func _pulse_button(btn: Button, target_scale: Vector2) -> void:
 	tween.set_ease(Tween.EASE_OUT)
 	tween.tween_property(btn, "scale", target_scale, 0.12)
 	_button_tweens[btn] = tween
+
+func _on_boot_diagnostic() -> void:
+	# Tutorial runs outside the normal mode state machine — it sets its
+	# own current_mode in _ready.
+	get_tree().change_scene_to_file("res://scenes/levels/BootDiagnostic.tscn")
 
 func _on_last_stand() -> void:
 	GameMode.reset_for_mode("last_stand")

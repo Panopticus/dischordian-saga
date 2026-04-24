@@ -46,13 +46,18 @@ func _flash_damage() -> void:
 	_flash_tween.tween_property($DamageFlash, "color:a", 0.0, 0.35)
 
 func show_elara(text: String) -> void:
+	# Kill any in-flight fade before starting a new one — otherwise a
+	# rapid-fire sequence (the Boot Diagnostic) has stale tweens fading
+	# out a fresh subtitle mid-display.
+	if _elara_tween and _elara_tween.is_valid():
+		_elara_tween.kill()
 	$ElaraSubtitle.text = text
 	$ElaraSubtitle.visible = true
 	$ElaraSubtitle.modulate.a = 1.0
-	var tween = create_tween()
-	tween.tween_interval(4.5)
-	tween.tween_property($ElaraSubtitle, "modulate:a", 0.0, 1.0)
-	tween.tween_callback(func(): $ElaraSubtitle.visible = false)
+	_elara_tween = create_tween()
+	_elara_tween.tween_interval(4.5)
+	_elara_tween.tween_property($ElaraSubtitle, "modulate:a", 0.0, 1.0)
+	_elara_tween.tween_callback(func(): $ElaraSubtitle.visible = false)
 
 func update_time_held(seconds: float) -> void:
 	var h = int(seconds) / 3600
@@ -90,6 +95,7 @@ func show_open_channel() -> void:
 	$OpenChannelPrompt.visible = true
 
 var _weapon_name_tween: Tween = null
+var _elara_tween: Tween = null
 
 func update_weapon_name(wname: String) -> void:
 	if not has_node("WeaponName"):

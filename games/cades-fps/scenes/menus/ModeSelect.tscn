@@ -48,6 +48,10 @@ horizontal_alignment = 1
 layout_mode = 2
 custom_minimum_size = Vector2(0, 40)
 
+[node name="BtnBootDiagnostic" type="Button" parent="VBox"]
+layout_mode = 2
+text = "BOOT DIAGNOSTIC — Post-reboot calibration protocol"
+
 [node name="BtnLastStand" type="Button" parent="VBox"]
 layout_mode = 2
 text = "THE LAST STAND — Bridge of Kael — Iron Lion holds the line"
