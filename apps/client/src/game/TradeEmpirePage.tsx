@@ -42,9 +42,25 @@ import {
   getTechsByBranch, canResearch, getTechById,
   type TechBranch, type TechTreeState, DEFAULT_TECH_STATE,
 } from "./techTree";
-import { FlaskConical } from "lucide-react";
+import { FlaskConical, Coins, Handshake, Skull, Building2 } from "lucide-react";
 import LivingBackground from "@/components/LivingBackground";
 import { getNPCPortrait } from "@/game/npcPortraits";
+import {
+  CivilizationPanel,
+  MarketPanel,
+  CouncilPanel,
+  WarRoomPanel,
+  ConvergencePanel,
+} from "./TradeEmpireExpansionPanels";
+import {
+  migrateExpansion,
+  createInitialExpansion,
+  determineEra,
+  addDoom,
+  sumCivicModifiers,
+  sanityPenalty,
+  type ExpansionState,
+} from "./tradeEmpireExpansion";
 
 /* ─── TRADE EMPIRE BACKGROUNDS ─── */
 const TRADE_BACKGROUNDS: Record<string, { url: string; accent: string }> = {
@@ -73,22 +89,30 @@ function getTradeBackground(view: View) {
     case "sector_detail":
     case "routes":
     case "event_log":
+    case "convergence":
       return TRADE_BACKGROUNDS.map;
     case "missions":
     case "fleet":
+    case "market_exchange":
+    case "war_room":
       return TRADE_BACKGROUNDS.market;
     case "agents":
     case "research":
+    case "civilization":
       return TRADE_BACKGROUNDS.colony;
     case "diplomacy":
     case "act3":
+    case "council":
       return TRADE_BACKGROUNDS.office;
     default:
       return TRADE_BACKGROUNDS.map;
   }
 }
 
-type View = "map" | "missions" | "agents" | "diplomacy" | "fleet" | "research" | "sector_detail" | "act3" | "routes" | "event_log";
+type View =
+  | "map" | "missions" | "agents" | "diplomacy" | "fleet" | "research"
+  | "sector_detail" | "act3" | "routes" | "event_log"
+  | "civilization" | "market_exchange" | "council" | "war_room" | "convergence";
 
 const MISSION_TYPE_ICONS: Record<string, typeof Globe> = {
   trade: Package, espionage: Eye, diplomacy: Users, combat: Swords,
@@ -251,6 +275,19 @@ export default function TradeEmpirePage() {
       return createInitialEmpire();
     }
   });
+  const [expansion, setExpansion] = useState<ExpansionState>(() => {
+    const saved = localStorage.getItem("trade_empire_expansion");
+    if (!saved) return createInitialExpansion();
+    try {
+      return migrateExpansion(JSON.parse(saved));
+    } catch {
+      return createInitialExpansion();
+    }
+  });
+  const saveExpansion = useCallback((next: ExpansionState) => {
+    setExpansion(next);
+    localStorage.setItem("trade_empire_expansion", JSON.stringify(next));
+  }, []);
   const [selectedSector, setSelectedSector] = useState<string | null>(null);
   const [selectedMission, setSelectedMission] = useState<MissionDef | null>(null);
   // Audit 2H — trade_offered whisper fires when a new mission is
@@ -751,7 +788,9 @@ export default function TradeEmpirePage() {
           ) : null; })()}
           <div>
             <h1 className="font-display text-xl tracking-[0.2em] text-white">GALACTIC COMMAND</h1>
-            <p className="font-mono text-[10px] text-white/30">Ark Collective • Empire Level {empire.empireLevel}</p>
+            <p className="font-mono text-[10px] text-white/30">
+              Ark Collective • L{empire.empireLevel} • {expansion.era.replace(/_/g, " ").toUpperCase()} • Doom {expansion.convergence.doom}/Sanity {expansion.convergence.sanity}
+            </p>
           </div>
         </div>
         <div className="flex items-center gap-3 font-mono text-[10px]">
@@ -775,6 +814,11 @@ export default function TradeEmpirePage() {
           { id: "routes" as View, label: "ROUTES", icon: Route },
           { id: "event_log" as View, label: "EVENT LOG", icon: ScrollText },
           { id: "research" as View, label: "RESEARCH", icon: FlaskConical },
+          { id: "civilization" as View, label: "CIVILIZATION", icon: Building2 },
+          { id: "market_exchange" as View, label: "MARKET", icon: Coins },
+          { id: "council" as View, label: "COUNCIL", icon: Handshake },
+          { id: "war_room" as View, label: "WAR ROOM", icon: Send },
+          { id: "convergence" as View, label: "CONVERGENCE", icon: Skull },
         ].map(tab => {
           const Icon = tab.icon;
           return (
@@ -1451,6 +1495,48 @@ export default function TradeEmpirePage() {
               );
             })}
           </div>
+        )}
+
+        {/* ═══ EXPANSION PANELS ═══ */}
+        {view === "civilization" && (
+          <CivilizationPanel
+            empire={empire}
+            expansion={expansion}
+            saveEmpire={saveEmpire}
+            saveExpansion={saveExpansion}
+          />
+        )}
+        {view === "market_exchange" && (
+          <MarketPanel
+            empire={empire}
+            expansion={expansion}
+            saveEmpire={saveEmpire}
+            saveExpansion={saveExpansion}
+          />
+        )}
+        {view === "council" && (
+          <CouncilPanel
+            empire={empire}
+            expansion={expansion}
+            saveEmpire={saveEmpire}
+            saveExpansion={saveExpansion}
+          />
+        )}
+        {view === "war_room" && (
+          <WarRoomPanel
+            empire={empire}
+            expansion={expansion}
+            saveEmpire={saveEmpire}
+            saveExpansion={saveExpansion}
+          />
+        )}
+        {view === "convergence" && (
+          <ConvergencePanel
+            empire={empire}
+            expansion={expansion}
+            saveEmpire={saveEmpire}
+            saveExpansion={saveExpansion}
+          />
         )}
       </div>
 
