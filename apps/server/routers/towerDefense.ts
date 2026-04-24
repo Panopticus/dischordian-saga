@@ -544,19 +544,6 @@ export const towerDefenseRouter = router({
               timesRaided: sql`${spaceStations.timesRaided} + 1`,
             })
             .where(eq(spaceStations.id, input.defenderId));
-
-          // Give loot to attacker
-          const [attackerStation] = await db.select().from(spaceStations)
-            .where(eq(spaceStations.userId, ctx.user.id)).limit(1);
-          if (attackerStation) {
-            const attackerResources = { ...(attackerStation.storedResources || {}) } as Record<string, number>;
-            for (const [res, amount] of Object.entries(lootStolen)) {
-              attackerResources[res] = (attackerResources[res] || 0) + amount;
-            }
-            await db.update(spaceStations)
-              .set({ storedResources: attackerResources })
-              .where(eq(spaceStations.id, attackerStation.id));
-          }
         } else {
           await db.update(syndicateWorlds)
             .set({
@@ -565,6 +552,21 @@ export const towerDefenseRouter = router({
               timesRaided: sql`${syndicateWorlds.timesRaided} + 1`,
             })
             .where(eq(syndicateWorlds.id, input.defenderId));
+        }
+
+        // Credit loot to attacker's station (applies to both station and
+        // world raids — previously the UI reported loot for world raids but
+        // the attacker never actually received it).
+        const [attackerStation] = await db.select().from(spaceStations)
+          .where(eq(spaceStations.userId, ctx.user.id)).limit(1);
+        if (attackerStation) {
+          const attackerResources = { ...(attackerStation.storedResources || {}) } as Record<string, number>;
+          for (const [res, amount] of Object.entries(lootStolen)) {
+            attackerResources[res] = (attackerResources[res] || 0) + amount;
+          }
+          await db.update(spaceStations)
+            .set({ storedResources: attackerResources })
+            .where(eq(spaceStations.id, attackerStation.id));
         }
       }
 
