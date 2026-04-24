@@ -113,7 +113,16 @@ const ELARA_VISEME_MAP: VisemeMap = {
 
 /* ─── Helper: build the standard NPC sprite bundle ─── */
 
-function npc(id: string): CharacterSprite {
+/** Optional overrides for `npc()`. Pass `mouthBox` once an NPC's viseme sheet
+ *  has been regenerated as a tight mouth-only crop (matching the current
+ *  bust's identity) so it composites onto the bust instead of replacing it.
+ *  NPCs without a `mouthBox` fall back to the legacy bust-swap path, which
+ *  visually breaks until their viseme is regenerated. */
+interface NpcOverrides {
+  mouthBox?: MouthBox;
+}
+
+function npc(id: string, overrides: NpcOverrides = {}): CharacterSprite {
   return {
     id,
     bust: assetUrl(`characters/${id}/bust.avif`),
@@ -130,6 +139,9 @@ function npc(id: string): CharacterSprite {
       url: assetUrl(`characters/${id}/breathing.avif`),
       cols: 4, rows: 2, frames: 8,
     },
+    ...(overrides.mouthBox
+      ? { visemeOverlay: true, mouthBox: overrides.mouthBox }
+      : {}),
   };
 }
 
@@ -163,7 +175,12 @@ export const CHARACTER_SPRITES: Record<string, CharacterSprite> = {
 
   /* Main faction NPC speakers — full bundle. */
   agent_zero:        npc("agent_zero"),
-  adjudicator_locke: npc("adjudicator_locke"),
+  // Locke's viseme sheet is a 5×3 nose-to-chin mouth crop (cells ~409×409,
+  // 1:1). Box positions each cell's nose-tip and chin onto her bust's
+  // nose-tip (~y=0.42) and chin (~y=0.50). Width keeps px aspect square.
+  adjudicator_locke: npc("adjudicator_locke", {
+    mouthBox: { x: 0.428, y: 0.409, width: 0.143, height: 0.107 },
+  }),
   the_antiquarian:   npc("the_antiquarian"),
   the_source:        npc("the_source"),
   shadow_tongue:     npc("shadow_tongue"),
