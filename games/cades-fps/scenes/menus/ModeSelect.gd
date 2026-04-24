@@ -12,6 +12,8 @@ const MODE_DESCRIPTIONS := {
 }
 const DEFAULT_DESC := "[center]Hover a mode to see what it is.[/center]"
 
+var _button_tweens: Dictionary = {}
+
 func _ready() -> void:
 	$VBox/Title.add_theme_font_size_override("font_size", 48)
 	$VBox/Title.add_theme_color_override("font_color", Color(0.886, 0.910, 0.937))
@@ -21,25 +23,47 @@ func _ready() -> void:
 		"BtnLastStand", "BtnShipDefense", "BtnHistorical",
 		"BtnVoidCorridor", "BtnKaelsOwn", "BtnVexRecruit",
 	]:
-		var btn = $VBox.get_node(btn_name)
+		var btn: Button = $VBox.get_node(btn_name)
 		btn.add_theme_color_override("font_color", Color(0.886, 0.910, 0.937))
 		btn.add_theme_color_override("font_hover_color", Color(0.961, 0.941, 0.914))
-		btn.focus_entered.connect(_show_description.bind(btn_name))
-		btn.mouse_entered.connect(_show_description.bind(btn_name))
-		btn.mouse_exited.connect(_reset_description)
+		btn.pivot_offset = btn.size * 0.5
+		btn.resized.connect(func(): btn.pivot_offset = btn.size * 0.5)
+		btn.focus_entered.connect(_on_button_highlight.bind(btn, btn_name))
+		btn.mouse_entered.connect(_on_button_highlight.bind(btn, btn_name))
+		btn.focus_exited.connect(_on_button_release.bind(btn))
+		btn.mouse_exited.connect(_on_button_release.bind(btn))
 	$VBox/BtnLastStand.pressed.connect(_on_last_stand)
 	$VBox/BtnShipDefense.pressed.connect(_on_ship_defense)
 	$VBox/BtnHistorical.pressed.connect(_on_historical)
 	$VBox/BtnVoidCorridor.pressed.connect(_on_void_corridor)
 	$VBox/BtnKaelsOwn.pressed.connect(_on_kaels_own)
 	$VBox/BtnVexRecruit.pressed.connect(_on_vex_recruit)
+	# Fade-in: cover the whole menu in black, then ease out over 0.6 s so
+	# the title doesn't just pop in on scene change.
+	_fade_in()
 
-func _show_description(btn_name: String) -> void:
-	var desc: RichTextLabel = $VBox/Description
-	desc.text = MODE_DESCRIPTIONS.get(btn_name, DEFAULT_DESC)
+func _fade_in() -> void:
+	var overlay: ColorRect = $FadeOverlay
+	overlay.color.a = 1.0
+	var tween := create_tween()
+	tween.tween_property(overlay, "color:a", 0.0, 0.6)
 
-func _reset_description() -> void:
-	$VBox/Description.text = DEFAULT_DESC
+func _on_button_highlight(btn: Button, btn_name: String) -> void:
+	$VBox/Description.text = MODE_DESCRIPTIONS.get(btn_name, DEFAULT_DESC)
+	_pulse_button(btn, Vector2(1.04, 1.04))
+
+func _on_button_release(btn: Button) -> void:
+	_pulse_button(btn, Vector2(1.0, 1.0))
+
+func _pulse_button(btn: Button, target_scale: Vector2) -> void:
+	var prev: Tween = _button_tweens.get(btn, null)
+	if prev and prev.is_valid():
+		prev.kill()
+	var tween := create_tween()
+	tween.set_trans(Tween.TRANS_CUBIC)
+	tween.set_ease(Tween.EASE_OUT)
+	tween.tween_property(btn, "scale", target_scale, 0.12)
+	_button_tweens[btn] = tween
 
 func _on_last_stand() -> void:
 	GameMode.reset_for_mode("last_stand")

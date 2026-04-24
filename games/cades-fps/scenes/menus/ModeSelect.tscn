@@ -82,3 +82,11 @@ custom_minimum_size = Vector2(0, 96)
 bbcode_enabled = true
 fit_content = true
 text = "[center]Hover a mode to see what it is.[/center]"
+
+[node name="FadeOverlay" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 1)
+mouse_filter = 2
