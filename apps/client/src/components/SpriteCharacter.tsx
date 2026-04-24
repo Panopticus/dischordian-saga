@@ -202,6 +202,10 @@ export function SpriteCharacter({
       backgroundPosition: "center top",
       backgroundRepeat: "no-repeat",
     };
+    // Soft elliptical mask feathers the cell edges into the surrounding bust
+    // so the rectangular cell boundary doesn't read as a hard cutout. Inner
+    // ~35% stays fully opaque (mouth region); fades to transparent by ~85%.
+    const featherMask = "radial-gradient(ellipse at center, black 35%, transparent 85%)";
     const mouthStyle: CSSProperties = {
       position: "absolute",
       left: `${box.x * 100}%`,
@@ -210,6 +214,8 @@ export function SpriteCharacter({
       height: `${box.height * 100}%`,
       ...cellStyle(sprite.viseme, s.visemeCell),
       backgroundSize: `${sprite.viseme.cols * 100}% ${sprite.viseme.rows * 100}%`,
+      maskImage: featherMask,
+      WebkitMaskImage: featherMask,
       pointerEvents: "none",
     };
     return (
