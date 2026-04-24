@@ -1705,3 +1705,553 @@ memorial frame.
 > Square card-art composition (1024×1024) — PROCEDURAL TEMPLATE. The base composition is a generic apprentice portrait slot at center-frame, framed by a soft warm-gold memorial overlay (faint candle-light glow rim, fine particulate dust drifting upward, the canonical Witnessing-chorus visual cue). Producers composite the deceased apprentice's canonical portrait (from `apps/shared/apprentices.ts` generated identity) into the slot at runtime. The frame around the portrait: a thin brushed-brass border with three small notch marks at the bottom — one notch per trait that survived the player's choices (Resilience / Trust / Clarity). For the base still, render the portrait slot as a soft-focus silhouette of an apprentice-aged figure (no face details), the brass frame complete, the three notches present. Background: out-of-focus warm-gold candle-light, deep shadow at the corners. Lower third clean for the procedurally-generated apprentice name banner ('[Name] — In Memory'). The card is Epic Light; the visual register is MEMORIAL not reward. The §20.4 procedural flavor text branch (Resilience/Trust/Clarity-tanked variant) appears in the lower frame, not on the art itself.
 
 ---
+
+### §2.C.5 Mid-Cycle Cutscene — *Hacking Reality* (fires after C1 / Warlord-Zero-First)
+
+**Output:** `apps/client/public/videos/act1/hacking-reality.mp4`
+**Duration:** 35s (range 30–40s) @ 24fps, 16:9
+**Status:** MISSING — prompts already authored in
+`docs/production/act1-asset-build/prompts/cutscenes/hacking-reality_{start_frame,end_frame,motion}.txt`
+**Bible:** `ACT_1_SHIP_READY_BIBLE.md` §6.3
+**Fires after:** `the_warlord_zero_first` match resolves
+**Flags set:** `act1_hacking_reality_shown`, `architect_reality_edit_witnessed`
+
+**Dependencies:**
+- Start PNG: `assets/intermediate/act1/cutscenes/hacking-reality_start.png`
+- End PNG: `assets/intermediate/act1/cutscenes/hacking-reality_end.png`
+
+**START FRAME prompt:**
+> The §4.3 Nexon breach in the aftermath of the match. Two chairs at the card-table, one occupied by the Warlord (seen from behind — pauldron silhouette, visor-rim just visible), one occupied by the Engineer (seen from behind, cyan-grey blazer, face not visible). The card-table surface is lit by the amber spotlight. One final card face-up between them in the table's center. The Nexon skyline is dimmer than the environment still — the fighting has paused for this one match to resolve. Ember-orange still glowing on the horizon. Cinematic 4K. No rendered text.
+
+**END FRAME prompt:**
+> Same camera position, seconds later. The card-table is gone — not removed, replaced: the brass table has become a seamless polished black marble surface of the same shape and size, as if reality has been pasted-over where the table used to be. The two chairs are gone similarly; where the chairs sat, there are now two identical black marble plinths of the exact same silhouette, continuous with the new tabletop. The Engineer is no longer there — where he sat, there is only the plinth and a thin trail of cyan-grey cloth dust drifting down into a pile (the memoir will later name this the dust where he was). The Warlord still stands behind the transformed table, unmoving, visor still facing the plinth where the Engineer was. The ruined parapet behind her has also begun to change — the brass edges softening into black marble at the frame edges, a ripple of reality-edit spreading outward from the card-table to consume the battlefield itself. The ember-orange city glow in the far distance remains unchanged. Palette: black marble `#1c1a1a` on the edit-zone, dusky chrome `#6b6b65` on the Warlord's unchanged armor, ember-orange `#e06a1a` in the far background, cyan-grey cloth-dust `#8b9199` where the Engineer was. Cinematic 4K. The memoir is saying: the Engineer was there. Then he was not, because someone changed the room. No rendered text.
+
+**VEO 3.1 motion prompt:**
+> Open on start frame — two chairs, one final card on the card-table, Warlord and Engineer both seated. Hold 3s. Beat at 4s: Warlord's voice lands ("I said three moves. I meant three edits.") as her gauntleted hand lifts from the card-table surface. Beat at 8s: reality-edit beat 1 — the final card on the table dissolves into a fine geometric lattice and reforms as a blank black square, as if the card had never been played. Beat at 14s: reality-edit beat 2 — the brass card-table itself ripples in one continuous wave from center outward and reforms as polished black marble, the chairs warping into marble plinths along with it; the Warlord does not move, but the Engineer's silhouette becomes briefly translucent. Beat at 22s: reality-edit beat 3 — the camera's framing edges warp inward for a split second as the reality-edit radius expands; the Engineer is no longer in his chair-plinth, only the cyan-grey cloth-dust pile remains. The Warlord is still. Beat at 28s: Engineer's VO (off-camera) "She said three moves. She meant three edits. The third one was the rules themselves." Final 8s: slow pull-back revealing the edit radius spreading across the ruined parapet, freezing just short of the distant ember-orange city. Slow fade to dust-brown black. 24fps. Grave, clinical, the opposite of spectacle. The horror is the calm.
+
+**Veo config:** 35s · 16:9 · 24fps · locked-frame reality-edit
+sequence. The three reality-edit beats (card, table, Engineer) are
+hard transitions — Veo may fumble them. Fallback: render card-dissolve
+as a separate 2s clip via alpha-atlas, table-morph as a 6s Veo
+image-to-video with explicit mid-keyframe, Engineer-fade as a 3s alpha
+animation. Composite in After Effects.
+
+**Canon hygiene:** Engineer faceless throughout (seen from behind → ash
+pile). Warlord visor full-face, still only iridescent-shimmer canon.
+
+**Audio hand-off:**
+- VO `vo-warlord-three-edits` @ ~4s — status: `prompted` / NOT recorded.
+  Output `apps/client/public/audio/act1/warlord_three_edits.mp3`,
+  duration 3s. ElevenLabs `the_warlord` voice profile + post-processing
+  `warlord_visor_eq_preset` (visor-muffled high-frequency rolloff).
+  Line: "I said three moves. I meant three edits."
+- VO `vo-prince-third-edit-rules` @ ~28s — status: `prompted` / NOT
+  recorded. Output
+  `apps/client/public/audio/act1/prince_third_edit_rules.mp3`, duration
+  5s. ElevenLabs `the_prince` (Engineer memoir voice) profile. Line:
+  "She said three moves. She meant three edits. The third one was the
+  rules themselves."
+- No ambient bed; fires + wind + reality-edit stinger SFX runtime.
+
+---
+
+### §2.C.fin  Cycle C Finale — *Last Words* (React wiring, NOT a Veo render)
+
+**Component:** `apps/client/src/components/act1/Act1CycleCAuthorityWitnessing.tsx`
+**Helpers:** `apps/client/src/components/act1/act1CycleCWitnessing.ts`
+**Tests:** `apps/client/src/components/act1/act1CycleCWitnessing.test.ts`
+**Status:** `DONE-CODE` — shipped in PR #89. `art_required: false` per
+`asset_prompt_manifest.json`.
+
+This cycle finale does NOT render a Veo MP4. It renders a slideshow in
+React, reading:
+
+- **Slide images:** `apps/client/public/art/prelude/last-words/slide-{1..4}-{1..5}.webp` (4 × 5 grid = 20 slides, shared with the Prelude Beat J Archives cutscene). **Status to verify:** slide WebPs are referenced in the manifest — confirm they exist locally at `apps/client/public/art/prelude/last-words/` OR on the dgrsart primary CDN; render if missing.
+- **Audio:** `apps/client/public/audio/music/song_last_words_prelude_cut.mp3` — shared with Beat J §1.J.5 (**MISSING**, still to be produced by the canon-expansion pipeline).
+- **Duration:** 219.8s (~3m 40s).
+- **State writes:** `GameContext.setLightDarkAlignment` + narrative flags `act1_cycle_c_alignment_light` or `act1_cycle_c_alignment_dark`.
+- **Skip default:** `light`.
+- **Flags set:** `act_1_cycle_c_complete`, `act1_cycle_c_alignment_light|act1_cycle_c_alignment_dark`.
+
+**Remaining asset work for this cycle finale:** produce the *Last Words*
+song file (§1.J.5) and confirm the 20 slide WebPs exist locally. No new
+Veo render.
+
+### §2.C.fin2  Two Witnesses Part 2 (Antiquarian Section 6 slideshow wiring)
+
+**Component:** `apps/client/src/components/act1/TwoWitnessesPart2.tsx` (scaffolded, PR TBD)
+**Status:** `scaffolded`, `art_required: false`. Uses
+`apps/client/public/art/rooms/room-archives.webp` as a static backdrop
+(satisfied by §1.J.2 processing).
+**Duration:** 240s (~4m).
+**VO manifest:** `docs/production/act1-asset-build/prompts/voice/section6_antiquarian.csv` — **19 Antiquarian lines** still to record against the `antiq_fc_1` voice profile.
+**Fires after:** `act1_complete` (post-Authority).
+**Flags set:** `witness_antiquarian_met_part2`, `witness_enigma_met_part2`.
+**State writes:** `GameState.act1_closingChoice` via a `ChoicePillarAcceptDeclineDeflect` UI.
+
+---
+
+## §2.D  Act 1 Finale Cutscene
+
+Per `ACT_1_SHIP_READY_BIBLE.md` §18 and the asset manifest: the Act 1
+Finale is NOT a separate Veo render. The post-Authority epilogue is
+the *Last Words* finale wiring (§2.C.fin) plus the Two Witnesses Part 2
+slideshow wiring (§2.C.fin2) plus the §18 Tribunal-verdict epilogue
+card-art branches (Mythic Light `The Last Word` already covered in
+§2.C.4.4).
+
+**No additional Veo work required** beyond the per-cycle finales above
+once the *Last Words* song and the 20 last-words slide WebPs are
+delivered.
+
+---
+
+## §2.E  Act 1 — VO lines (cutscene narration + Section 6 bundle)
+
+### §2.E.1 Cutscene narration — 4 lines
+
+All `prompted`, none recorded. Render via ElevenLabs.
+
+| Line ID | Cutscene | Speaker | Voice profile | Output | Duration | Source line |
+|---|---|---|---|---|---|---|
+| `vo-little-watcher-sixteen-versions` | `welcome-to-celebration` | Little Watcher | `little_watcher` | `apps/client/public/audio/act1/little_watcher_sixteen_versions.mp3` | 3.5s | "I have watched sixteen versions of you already." |
+| `vo-prince-to-be-the-human` | `to-be-the-human` | The Prince (Engineer memoir) | `the_prince` | `apps/client/public/audio/act1/prince_to_be_the_human.mp3` | 8s | "He walked out of the Academy gate. He would not be called the Detective again for a very long time. He would be something else first." |
+| `vo-warlord-three-edits` | `hacking-reality` | The Warlord | `the_warlord` + `warlord_visor_eq_preset` post | `apps/client/public/audio/act1/warlord_three_edits.mp3` | 3s | "I said three moves. I meant three edits." |
+| `vo-prince-third-edit-rules` | `hacking-reality` | The Prince | `the_prince` | `apps/client/public/audio/act1/prince_third_edit_rules.mp3` | 5s | "She said three moves. She meant three edits. The third one was the rules themselves." |
+
+**Full scripts:** `docs/production/act1-asset-build/prompts/voice/cutscene_narration.csv`.
+
+### §2.E.2 Section 6 Antiquarian bundle — 19 lines
+
+**Speaker:** Antiquarian
+**Voice profile:** `antiq_fc_1` (same as Prelude Beat J's `antiq_fc_1`)
+**Filename pattern:** `antiq_s6_{line_id}.mp3`
+**Output dir:** `apps/client/public/audio/antiquarian/`
+**CSV manifest:** `docs/production/act1-asset-build/prompts/voice/section6_antiquarian.csv`
+**Status:** `drafted` — 19 lines scripted, none recorded.
+**Bible:** §9.10 / §9.10.1 of the UNIVERSAL prompting doc.
+
+These lines drive the post-Authority Two Witnesses Part 2 slideshow
+wiring (§2.C.fin2). Render all 19 in one ElevenLabs batch against the
+`antiq_fc_1` voice profile.
+
+### §2.E.3 UI components (4) — DONE-CODE or prompted
+
+Per manifest:
+
+| Component | File | Status |
+|---|---|---|
+| `VerdictStreamColumn` | `apps/client/src/components/act1/VerdictStreamColumn.tsx` | `prompted` — scaffolded, production-ready per design doc `docs/production/act1/public-witness-ui-spec.md`. |
+| `AuthorityPhaseBar` | `apps/client/src/components/act1/AuthorityPhaseBar.tsx` | `prompted` — per `docs/production/act1/authority-trial-phase-mechanic.md`. |
+| `WarlordLockoutChip` | `apps/client/src/components/act1/WarlordLockoutChip.tsx` | `prompted` — per `docs/production/act1/warlord-three-move-mechanic.md`. |
+| `SeerCardFlicker` | `apps/client/src/components/act1/SeerCardFlicker.tsx` | `prompted` — CSS/shader, no art asset required. |
+
+These are code deliverables, not render deliverables. Treat as
+implementation tasks for the client team.
+
+### §2.E.4 Animator reference (3) — 1 shipped, 2 prompted
+
+| Ref | Output | Status |
+|---|---|---|
+| Enigma blocking reference PNG (2×2 panel, 1920×1080) | `docs/production/act1/reference/enigma-blocking-sheet.png` | `prompted` |
+| Enigma gaze timeline CSV (24 rows) | `docs/production/act1/reference/enigma-gaze-timeline.csv` | `shipped` |
+| Enigma branch deltas MD (3 pages) | `docs/production/act1/reference/enigma-branch-deltas.md` | `shipped` |
+
+---
+
+# §11  Processing pipeline for INTERMEDIATE assets
+
+Everything tagged `INTERMEDIATE` in Parts 1 & 2 is already rendered —
+it sits in `assets/intermediate/prelude/` as an unprocessed source
+file. Processing is mechanical and should be done first, before any
+new renders.
+
+### §11.1 Room PNG → WebP (13 Prelude rooms)
+
+**Source directory:** `assets/intermediate/prelude/rooms/`
+**Source files:** `room-{cryo-bay,corridor,engineering,cargo-hold,galley,mess-hall,briefing-room,medical-bay,comms-array,archives,bridge,armory,captains-quarters}_original.png`
+**Target directory:** `apps/client/public/art/rooms/`
+
+Per room, produce both a PNG and a WebP at the canonical path (no
+`_original` suffix):
+
+```bash
+# Requires: imagemagick, cwebp (libwebp-tools)
+for src in assets/intermediate/prelude/rooms/room-*_original.png; do
+  name=$(basename "$src" _original.png)      # e.g. room-cryo-bay
+  cp "$src" "apps/client/public/art/rooms/${name}.png"
+  cwebp -q 82 "$src" -o "apps/client/public/art/rooms/${name}.webp"
+done
+```
+
+**Quality target:** `-q 82` (matches the existing convention in
+`apps/client/public/art/rooms/mystery-states/cryo-bay_*.webp` per
+`docs/production/ASSET_URLS.md`). Expected file sizes: ~250–400 KB
+per WebP, ~1.5–3 MB per PNG.
+
+After processing, run:
+
+```bash
+pnpm tsx apps/scripts/upload-public-to-s3.ts --only=art
+```
+
+to push to `dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/`.
+Verify `apps/server/preludeReadiness.test.ts` stops flagging the
+canonical paths as missing.
+
+### §11.2 Ambient WAV → MP3 + EBU R128 loudnorm (3 beds)
+
+**Source:** `assets/intermediate/prelude/audio/ambient_{bridge_powered_systems_mix,neural_rig_hum,transfer_array_standby}.wav`
+**Target:** `apps/client/public/audio/ambient/prelude/*.mp3`
+
+Per bible §4.6 / §13.6 / §16.6 loudness targets:
+
+| Bed | Target LUFS | True peak | LRA |
+|---|---|---|---|
+| `ambient_bridge_powered_systems_mix` | -18 LUFS | -1 dBTP | ≤ 8 LU |
+| `ambient_neural_rig_hum` | -19 LUFS | -1 dBTP | ≤ 6 LU |
+| `ambient_transfer_array_standby` | -20 LUFS | -1 dBTP | ≤ 6 LU |
+
+Single-pass encode (FFmpeg's `loudnorm` filter — two-pass is ideal, but
+single-pass is acceptable for seamless loops):
+
+```bash
+# Bridge (-18 LUFS):
+ffmpeg -i assets/intermediate/prelude/audio/ambient_bridge_powered_systems_mix.wav \
+  -af "loudnorm=I=-18:TP=-1:LRA=8" \
+  -c:a libmp3lame -q:a 2 \
+  apps/client/public/audio/ambient/prelude/ambient_bridge_powered_systems_mix.mp3
+
+# Neural rig (-19 LUFS):
+ffmpeg -i assets/intermediate/prelude/audio/ambient_neural_rig_hum.wav \
+  -af "loudnorm=I=-19:TP=-1:LRA=6" \
+  -c:a libmp3lame -q:a 2 \
+  apps/client/public/audio/ambient/prelude/ambient_neural_rig_hum.mp3
+
+# Transfer array (-20 LUFS):
+ffmpeg -i assets/intermediate/prelude/audio/ambient_transfer_array_standby.wav \
+  -af "loudnorm=I=-20:TP=-1:LRA=6" \
+  -c:a libmp3lame -q:a 2 \
+  apps/client/public/audio/ambient/prelude/ambient_transfer_array_standby.mp3
+```
+
+Run `upload-public-to-s3.ts --only=audio` after.
+
+### §11.3 VFX MP4 → WebM VP9 w/ alpha (6 VFX)
+
+**Source:** `assets/intermediate/prelude/vfx/{breath-pulse-strip,cryo-frost-retreat,film-damage-overlay,hologram-materialize,pod-hatch-cryogas,sepia-drain}.mp4`
+**Target:** `apps/client/public/art/vfx/prelude/*.webm`
+
+The intermediate MP4s already carry the motion; convert to WebM VP9
+with alpha channel preserved. If the MP4s lack alpha (ProRes 4444 or
+RGBA source preferred), the convert step needs to key a background
+color to alpha first — check with `ffprobe` before batch-converting.
+
+```bash
+for src in assets/intermediate/prelude/vfx/*.mp4; do
+  name=$(basename "$src" .mp4)
+  ffmpeg -i "$src" \
+    -c:v libvpx-vp9 -pix_fmt yuva420p -b:v 2M -deadline good -cpu-used 2 \
+    -auto-alt-ref 0 \
+    -an \
+    "apps/client/public/art/vfx/prelude/${name}.webm"
+done
+```
+
+**If alpha is not present in source:** fall back to rendering on a
+chroma-key background (pure green `#00ff00`) and key in post, OR
+re-request alpha source from the intermediate renderer.
+
+### §11.4 Upload + verify
+
+Once all §11.1–11.3 steps complete:
+
+```bash
+pnpm tsx apps/scripts/upload-public-to-s3.ts         # full sweep
+pnpm --filter server vitest run preludeReadiness.test.ts
+```
+
+The readiness test's dashboard logs should show room-asset deliveries
+jumping from 0 to 13 and VFX deliveries jumping from 0 to 6.
+
+### §11.5 Download last-words slides if missing
+
+The Cycle C finale (`§2.C.fin`) depends on
+`apps/client/public/art/prelude/last-words/slide-{1..4}-{1..5}.webp`
+(20 slides). These may exist on the primary CDN but not locally. Check:
+
+```bash
+ls apps/client/public/art/prelude/last-words/ 2>/dev/null || \
+  aws s3 cp s3://dgrsart/cdn/client-public/art/prelude/last-words/ \
+    apps/client/public/art/prelude/last-words/ \
+    --recursive
+```
+
+If neither exists, render via Nano Banana 2 per the slideshow frame
+descriptions in `CANON_REV_7_ORACLE_VEX_EXPANSION.md §5.6.9` /
+`SHIP_READY_ASSET_BIBLE.md §3.7`.
+
+---
+
+# PART 3 — Asset Delivery Checklist (flat)
+
+One row per asset. **Work the INTERMEDIATE rows first (§11 pipeline),
+then the MISSING rows in priority order.** `DONE-*` rows are
+informational — no action required.
+
+### §3.1 Prelude — cutscenes (15)
+
+| Beat | Output | Duration | Status | Tool | Priority |
+|---|---|---|---|---|---|
+| A | `apps/client/public/videos/prelude/prelude-beat-a-awakening.mp4` | 35s | MISSING | Veo 3.1 | P0 |
+| A.5 | `apps/client/public/videos/prelude/prelude-beat-a5-corridor.mp4` | 15s | MISSING | Veo 3.1 | P0 |
+| B | `apps/client/public/videos/prelude/prelude-beat-b-escape.mp4` | 20s | MISSING | Veo 3.1 | P0 |
+| C | `apps/client/public/videos/prelude/prelude-beat-c-crew-and-incubators.mp4` | 35s | MISSING | Veo 3.1 | P0 |
+| C.5 | `apps/client/public/videos/prelude/prelude-beat-c5-window.mp4` | 20s | MISSING | Veo 3.1 | P0 |
+| D | `apps/client/public/videos/prelude/prelude-beat-d-cargo-bay.mp4` | 30s | MISSING | Veo 3.1 | P0 |
+| D.5 | `apps/client/public/videos/prelude/prelude-beat-d5-galley.mp4` | 25s | MISSING | Veo 3.1 | P0 |
+| E | `apps/client/public/videos/prelude/prelude-beat-e-mess-hall-flashback.mp4` | 45s | MISSING | Veo 3.1 (split-render) | P0 |
+| F | `apps/client/public/videos/prelude/prelude-beat-f-briefing-room.mp4` | 30s | MISSING | Veo 3.1 (rendered-text) | P0 |
+| F.5 | `apps/client/public/videos/prelude/prelude-beat-f5-empty-chair.mp4` | 90s | MISSING | Veo 3.1 (split 30+30+30) | P0 |
+| G | `apps/client/public/videos/prelude/prelude-beat-g-medical-bay.mp4` | 25s | MISSING | Veo 3.1 | P0 |
+| H | `apps/client/public/videos/prelude/prelude-beat-h-comms-array.mp4` | 25s | MISSING | Veo 3.1 | P0 |
+| H.5 | `apps/client/public/videos/prelude/prelude-beat-h5-memo-pile.mp4` | 20s | MISSING | Veo 3.1 | P0 |
+| I | `apps/client/public/videos/prelude/prelude-beat-i-bridge-witnessing-activate.mp4` | 40s | MISSING | Veo 3.1 (split A+B) | P0 |
+| J | `apps/client/public/videos/prelude/prelude-beat-j-archives.mp4` | ~8m10s | MISSING | Veo 3.1 (10-clip split-render) | P0 |
+
+### §3.2 Prelude — rooms (13)
+
+All rooms have `_original.png` sources in `assets/intermediate/prelude/rooms/`.
+
+| Room | Output (PNG + WebP) | Status | Action |
+|---|---|---|---|
+| cryo-bay | `apps/client/public/art/rooms/room-cryo-bay.{png,webp}` | INTERMEDIATE + DONE-CDN-LEGACY | §11.1 process |
+| corridor | `apps/client/public/art/rooms/room-corridor.{png,webp}` | INTERMEDIATE | §11.1 process |
+| engineering | `apps/client/public/art/rooms/room-engineering.{png,webp}` | INTERMEDIATE + DONE-CDN-LEGACY | §11.1 process |
+| cargo-hold | `apps/client/public/art/rooms/room-cargo-hold.{png,webp}` | INTERMEDIATE + DONE-CDN-LEGACY | §11.1 process |
+| galley | `apps/client/public/art/rooms/room-galley.{png,webp}` | INTERMEDIATE | §11.1 process |
+| mess-hall | `apps/client/public/art/rooms/room-mess-hall.{png,webp}` | INTERMEDIATE | §11.1 process |
+| briefing-room | `apps/client/public/art/rooms/room-briefing-room.{png,webp}` | INTERMEDIATE | §11.1 process |
+| medical-bay | `apps/client/public/art/rooms/room-medical-bay.{png,webp}` | INTERMEDIATE + DONE-CDN-LEGACY | §11.1 process |
+| comms-array | `apps/client/public/art/rooms/room-comms-array.{png,webp}` | INTERMEDIATE + DONE-CDN-LEGACY | §11.1 process |
+| archives | `apps/client/public/art/rooms/room-archives.{png,webp}` | INTERMEDIATE + DONE-CDN-LEGACY | §11.1 process (high priority — Act 1 pages depend on it) |
+| bridge | `apps/client/public/art/rooms/room-bridge.{png,webp}` | INTERMEDIATE + DONE-CDN-LEGACY | §11.1 process (ResponsiveImage hard-coded path) |
+| armory | `apps/client/public/art/rooms/room-armory.{png,webp}` | INTERMEDIATE + DONE-CDN-LEGACY | §11.1 process |
+| captains-quarters | `apps/client/public/art/rooms/room-captains-quarters.{png,webp}` | INTERMEDIATE + DONE-CDN-LEGACY | §11.1 process |
+| observation-deck | `apps/client/public/art/rooms/room-observation-deck.{png,webp}` | DONE-CDN-LEGACY only (no intermediate) | Re-download from legacy CDN and place at canonical path, OR regenerate from `docs/production/prelude-asset-build/prompts/rooms/room-observation-deck.txt` |
+
+### §3.3 Prelude — state-aware room variants (8 already on CDN)
+
+| Variant | Output | Status |
+|---|---|---|
+| Cryo Bay × 4 states | `/art/rooms/mystery-states/cryo-bay_{initial,investigating,victim-identified,case-open-later}.webp` | DONE-CDN-LEGACY per `ASSET_URLS.md` Section F |
+| Medical Bay × 4 states | `/art/rooms/mystery-states/medical-bay_{initial,device-awakened,donated,refused}.webp` | DONE-CDN-LEGACY per `ASSET_URLS.md` Section F |
+
+Mirror to primary CDN via `upload-public-to-s3.ts` after placing
+locally.
+
+### §3.4 Prelude — VFX (23 total)
+
+**DONE-CODE** (17, no file required): `vfx_amber_counter_glyph`,
+`vfx_bench_standby_pip`, `vfx_chair_rim_hot_edge`,
+`vfx_choice_pillar_light_dark_split`,
+`vfx_data_slate_glow`, `vfx_elara_fade_out`,
+`vfx_galley_pilot_warm` (AmberGlow), `vfx_inbox_edge_sentence_bloom`,
+`vfx_inbox_envelope_unfold`, `vfx_incubator_pod_dormant_glow`,
+`vfx_lockbox_bio_recognize`, `vfx_med_pod_faint_pulse`,
+`vfx_memory_crystal_pulse`, `vfx_neural_rig_idle_hum_visual`,
+`vfx_peripheral_warm_halo`, `vfx_primary_lights_cascade`,
+`vfx_signal_intake_lit_panel`, `vfx_status_pip_color_shift`,
+`vfx_transfer_array_amber_standby`,
+`vfx_viewport_polarization_lift`, `vfx_witnessing_hub_hemisphere_bloom`.
+
+**INTERMEDIATE** (6, §11.3 process):
+
+| VFX | Source MP4 | Target WebM |
+|---|---|---|
+| `vfx_breath_pulse_strip` | `assets/intermediate/prelude/vfx/breath-pulse-strip.mp4` | `apps/client/public/art/vfx/prelude/breath-pulse-strip.webm` |
+| `vfx_cryo_frost_retreat` | `assets/intermediate/prelude/vfx/cryo-frost-retreat.mp4` | `apps/client/public/art/vfx/prelude/cryo-frost-retreat.webm` |
+| `vfx_film_damage_overlay` | `assets/intermediate/prelude/vfx/film-damage-overlay.mp4` | `apps/client/public/art/vfx/prelude/film-damage-overlay.webm` |
+| `vfx_hologram_materialize` | `assets/intermediate/prelude/vfx/hologram-materialize.mp4` | `apps/client/public/art/vfx/prelude/hologram-materialize.webm` |
+| `vfx_pod_hatch_cryogas` | `assets/intermediate/prelude/vfx/pod-hatch-cryogas.mp4` | `apps/client/public/art/vfx/prelude/pod-hatch-cryogas.webm` |
+| `vfx_sepia_drain` | `assets/intermediate/prelude/vfx/sepia-drain.mp4` | `apps/client/public/art/vfx/prelude/sepia-drain.webm` |
+
+**MISSING** (10, need Nano Banana 2 + Veo 3.1 render per §1.X):
+
+| VFX | Output WebM | Duration | Section |
+|---|---|---|---|
+| `vfx_iris_hatch_open` | `apps/client/public/art/vfx/prelude/iris-hatch-open.webm` | 3s | §1.B.3 |
+| `vfx_role_wireframe_bloom` | `apps/client/public/art/vfx/prelude/role-wireframe-bloom.webm` | 2.5s | §1.C.3 |
+| `vfx_starfield_drift_viewport` | `apps/client/public/art/vfx/prelude/starfield-drift.webm` | 10s loop | §1.C.5.3 |
+| `vfx_human_palm_frost` | `apps/client/public/art/vfx/prelude/human-palm-frost.webm` | 4s | §1.C.5.3 ⚠ CRITICAL |
+| `vfx_starlight_shaft_dust` | `apps/client/public/art/vfx/prelude/starlight-shaft-dust.webm` | 8s loop | §1.D.3 |
+| `vfx_mission_glyph_bloom` | `apps/client/public/art/vfx/prelude/mission-glyph-bloom.webm` | 1.5s | §1.D.3 |
+| `vfx_galley_steam_residue` | `apps/client/public/art/vfx/prelude/galley-steam-residue.webm` | 6s loop (P1/OPTIONAL) | §1.D.5.3 |
+| `vfx_diploma_ink_bloom` | `apps/client/public/art/vfx/prelude/diploma-ink-bloom.webm` | 2s | §1.E.3 |
+| `vfx_memo_holo_rise` | `apps/client/public/art/vfx/prelude/memo-holo-rise.webm` | 3.5s (rendered-text) | §1.F.3 |
+| `vfx_memo_paper_drift` | `apps/client/public/art/vfx/prelude/memo-paper-drift.webm` | 5s | §1.H.5.3 |
+| `vfx_log5_beam_transfer` | `apps/client/public/art/vfx/prelude/log5-beam-transfer.webm` | 3s | §1.J.3 |
+| `vfx_holo_pedestal_bloom` ×3 | `holo-pedestal-bloom{,.activation,-steady_state}.webm` | 3s + 3s + 8s loop | §1.J.3 |
+| `vfx_enigma_hand_on_rim` | `apps/client/public/art/vfx/prelude/enigma-hand-on-rim.webm` | 2s (subtle) | §1.J.3 |
+
+### §3.5 Prelude — audio beds (3)
+
+| Bed | Target MP3 | Status | LUFS |
+|---|---|---|---|
+| `ambient_neural_rig_hum` | `apps/client/public/audio/ambient/prelude/ambient_neural_rig_hum.mp3` | INTERMEDIATE | -19 |
+| `ambient_transfer_array_standby` | `apps/client/public/audio/ambient/prelude/ambient_transfer_array_standby.mp3` | INTERMEDIATE | -20 |
+| `ambient_bridge_powered_systems_mix` | `apps/client/public/audio/ambient/prelude/ambient_bridge_powered_systems_mix.mp3` | INTERMEDIATE | -18 |
+
+All three ready for §11.2 `loudnorm` pass.
+
+### §3.6 Prelude — VO lines (10 recorded + reactive layer)
+
+**All** Prelude VO lines are `DONE-S3-VO` and wired into manifests at
+`apps/shared/{elara,human,locke,prince,antiquarian}VoManifest.json`.
+Full URL list inline in §1.A–§1.J entries above. No action required.
+
+### §3.7 Prelude — songs
+
+| Song | Target | Status |
+|---|---|---|
+| `song_last_words_prelude_cut.mp3` | `apps/client/public/audio/music/song_last_words_prelude_cut.mp3` | MISSING (owned by canon-expansion pipeline per `CANON_REV_7_ORACLE_VEX_EXPANSION.md §5.6.9`) |
+| Log 5 long-form playback (~6m40s, Prince voice) | TBD — used inside Beat J | MISSING (likely canon-expansion pipeline) |
+
+### §3.8 Act 1 — rooms (5 primary + 10 battlefield backdrops)
+
+| Asset | Output | Status | Source prompt |
+|---|---|---|---|
+| `room-kindergarten` | `apps/client/public/art/rooms/room-kindergarten.{png,webp}` | MISSING | §2.A.1 |
+| `room-mechronis-atrium` | `apps/client/public/art/rooms/room-mechronis-atrium.{png,webp}` | MISSING | §2.B.1 |
+| `room-nexon-battlefield` | `apps/client/public/art/rooms/room-nexon-battlefield.{png,webp}` | MISSING | §2.C.1.1 |
+| `room-zenon-cell` | `apps/client/public/art/rooms/room-zenon-cell.{png,webp}` | MISSING | §2.C.1.2 |
+| `room-authority-gallery` | `apps/client/public/art/rooms/room-authority-gallery.{png,webp}` | MISSING | §2.C.1.3 |
+| `bf_celebration_schoolyard_day10` | `apps/client/public/art/backdrops/act1/bf-celebration-schoolyard-day10.png` | MISSING | CSV |
+| `bf_celebration_schoolyard_day20` | `…/bf-celebration-schoolyard-day20.png` | MISSING | CSV |
+| `bf_celebration_pavilion_day28` | `…/bf-celebration-pavilion-day28.png` | MISSING | CSV |
+| `bf_mechronis_classroom_standard` | `…/bf-mechronis-classroom-standard.png` | MISSING | CSV |
+| `bf_mechronis_common_room` | `…/bf-mechronis-common-room.png` | MISSING | CSV |
+| `bf_nexon_command_bunker` | `…/bf-nexon-command-bunker.png` | MISSING | CSV |
+| `bf_zenon_field_tent` | `…/bf-zenon-field-tent.png` | MISSING | CSV |
+| `bf_vortex_pressurized_bay` | `…/bf-vortex-pressurized-bay.png` | MISSING | CSV |
+| `bf_newbabylon_tribunal` | `…/bf-newbabylon-tribunal.png` | MISSING | CSV |
+| `bf_ark_archives_dimmed` | `…/bf-ark-archives-dimmed.png` | MISSING | CSV |
+
+CSV backdrops: `docs/production/act1-asset-build/manifests/act1_art_prompts__battlefield.csv`.
+
+### §3.9 Act 1 — opponent portraits (12)
+
+All MISSING, 3:4 / 1536×2048, Nano Banana 2.
+
+| ID | Output | Section |
+|---|---|---|
+| `matchup-little-meme` | `apps/client/public/art/matchups/act1/little-meme.{png,webp}` | §2.A.3.1 |
+| `matchup-little-collector` | `…/little-collector.{png,webp}` | §2.A.3.2 |
+| `matchup-little-watcher` | `…/little-watcher.{png,webp}` | §2.A.3.3 |
+| `matchup-detective-student` | `…/detective-student.{png,webp}` | §2.B.3.1 |
+| `matchup-iron-lion-expelled` | `…/iron-lion-expelled.{png,webp}` | §2.B.3.2 |
+| `matchup-professor-eidola` | `…/professor-eidola.{png,webp}` | §2.B.3.3 |
+| `matchup-professor-matrikala` | `…/professor-matrikala.{png,webp}` | §2.B.3.4 |
+| `matchup-seer-visit` | `…/seer-visit.{png,webp}` | §2.B.3.5 |
+| `matchup-warlord-zero-first` | `…/warlord-zero-first.{png,webp}` | §2.C.3.1 |
+| `matchup-programmer` | `…/programmer.{png,webp}` | §2.C.3.2 |
+| `matchup-game-master-original` | `…/game-master-original.{png,webp}` | §2.C.3.3 |
+| `matchup-the-authority` | `…/the-authority.{png,webp}` | §2.C.3.4 |
+
+### §3.10 Act 1 — card art (14)
+
+All MISSING, 1024×1024, Nano Banana 2. Full prompts in
+`act1_art_prompts__card_art.csv`.
+
+| Card | Rarity / Alignment | Section |
+|---|---|---|
+| `card_art_countermelody` | Common Neutral | §2.A.4.1 |
+| `card_art_jar_wouldnt_close` | Rare Light | §2.A.4.2 |
+| `card_art_first_card` | Epic Light | §2.A.4.3 |
+| `card_art_iron_stance` | Rare Light | §2.B.4.1 |
+| `card_art_recruiters_gift` | Epic Neutral | §2.B.4.2 |
+| `card_art_weapon_i_didnt_build` | Legendary Dark | §2.B.4.3 |
+| `card_art_memorized_page` | Epic Dark | §2.B.4.4 |
+| `card_art_classmates_compass` | Legendary Light | §2.B.4.5 |
+| `card_art_only_reason_i_stayed` | Legendary Dark | §2.B.4.6 |
+| `card_art_standstill` | Epic Light | §2.C.4.1 |
+| `card_art_converter` | Legendary Dark | §2.C.4.2 |
+| `card_art_friend_i_saved` | Mythic Light ⭐ | §2.C.4.3 |
+| `card_art_last_word` | Mythic Light ⭐ | §2.C.4.4 |
+| `card_art_memory_card_procedural` | Epic Light (template) | §2.C.4.5 |
+
+### §3.11 Act 1 — cutscenes (3 Veo + 2 wiring)
+
+| ID | Output | Duration | Status | Section |
+|---|---|---|---|---|
+| `welcome-to-celebration` | `apps/client/public/videos/act1/welcome-to-celebration.mp4` | 40s | MISSING (prompted) | §2.A.5 |
+| `to-be-the-human` | `apps/client/public/videos/act1/to-be-the-human.mp4` | 47s | MISSING (prompted) | §2.B.5 |
+| `hacking-reality` | `apps/client/public/videos/act1/hacking-reality.mp4` | 35s | MISSING (prompted) | §2.C.5 |
+| `cutscene-last-words-full` | React wiring — `Act1CycleCAuthorityWitnessing.tsx` | 219.8s | DONE-CODE (PR #89) | §2.C.fin |
+| `cutscene-two-witnesses-part2` | React wiring — `TwoWitnessesPart2.tsx` | 240s | scaffolded | §2.C.fin2 |
+
+### §3.12 Act 1 — VO (4 cutscene + 19 Section 6 = 23 lines)
+
+| Bundle | Output dir | Count | Status | Section |
+|---|---|---|---|---|
+| Cutscene narration | `apps/client/public/audio/act1/` | 4 | prompted — not recorded | §2.E.1 |
+| Section 6 Antiquarian | `apps/client/public/audio/antiquarian/antiq_s6_*.mp3` | 19 | drafted — not recorded | §2.E.2 |
+
+### §3.13 Act 1 — UI components (4) + animator reference (3)
+
+All code/doc deliverables, not render. Status per §2.E.3 + §2.E.4.
+
+### §3.14 Act 1 — songs
+
+| Song | Target | Status |
+|---|---|---|
+| `song_last_words_prelude_cut.mp3` | `apps/client/public/audio/music/song_last_words_prelude_cut.mp3` | MISSING — shared with Prelude Beat J |
+| 20 × `slide-{1..4}-{1..5}.webp` (Last Words slideshow) | `apps/client/public/art/prelude/last-words/` | TBD — verify on CDN before rendering |
+
+---
+
+## §12  Priority order — operator workflow
+
+1. **Process everything INTERMEDIATE** (§11). Zero cost, unblocks
+   `preludeReadiness.test.ts` for 13 rooms, 6 VFX, 3 ambient beds.
+   Upload via `upload-public-to-s3.ts`.
+2. **Render the 10 missing Prelude VFX** via Nano Banana 2 + Veo 3.1
+   per §1.B / §1.C / §1.C.5 / §1.D / §1.D.5 / §1.E / §1.F / §1.H.5 /
+   §1.J. `human-palm-frost` is the single highest priority.
+3. **Render the 14 missing Prelude cutscenes** in beat order A → J.
+   Beat J is 10 separate Veo clips; split-render per §1.J.1.
+4. **Render Act 1 rooms (5) + battlefields (10) + portraits (12) +
+   card art (14)** via Nano Banana 2. Parallelizable — dispatch to
+   the art pipeline as separate batches.
+5. **Render Act 1 cutscenes (3)** via Veo 3.1: Welcome to Celebration,
+   To Be the Human, Hacking Reality.
+6. **Record Act 1 VO (23 lines)** via ElevenLabs. Cutscene narration (4)
+   + Section 6 Antiquarian bundle (19).
+7. **Produce / confirm song assets**: *Last Words* prelude cut + Log 5
+   long-form + 20 Last Words slide WebPs.
+
+---
+
+## §13  Verification
+
+After each section completes:
+
+```bash
+# Readiness dashboard — Prelude.
+pnpm --filter server vitest run preludeReadiness.test.ts
+
+# Bible cross-audit — catches existing-asset regressions.
+pnpm --filter server vitest run preludeBibleAudit.test.ts
+
+# Full asset-url upload + CDN verification.
+pnpm tsx apps/scripts/upload-public-to-s3.ts --dry-run
+```
+
+When `preludeReadiness.test.ts`'s console dashboards show every
+category at full delivery, flip those dashboards from `console.log` to
+`expect.fail` (per the test's own design comment) to lock in the
+completion state.
+
+**Doc maintenance:** whenever an asset ships, update its row's status
+tag in Parts 1–2 inline AND in the corresponding Part 3 checklist row.
+The doc is the single source of truth for production status.
