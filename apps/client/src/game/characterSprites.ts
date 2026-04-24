@@ -174,7 +174,13 @@ export const CHARACTER_SPRITES: Record<string, CharacterSprite> = {
   },
 
   /* Main faction NPC speakers — full bundle. */
-  agent_zero:        npc("agent_zero"),
+  // Agent Zero's viseme sheet is a 5×3 nose-to-chin mouth crop (cells
+  // ~409×409, 1:1). Box positions each cell's nose-tip and chin onto her
+  // bust's nose-tip (~y=0.36) and chin (~y=0.44). Her face sits slightly
+  // right-of-center because of the asymmetric hood drape + windswept hair.
+  agent_zero:        npc("agent_zero", {
+    mouthBox: { x: 0.461, y: 0.340, width: 0.158, height: 0.118 },
+  }),
   // Locke's viseme sheet is a 5×3 nose-to-chin mouth crop (cells ~409×409,
   // 1:1). Box positions each cell's nose-tip and chin onto her bust's
   // nose-tip (~y=0.42) and chin (~y=0.50). Width keeps px aspect square.
