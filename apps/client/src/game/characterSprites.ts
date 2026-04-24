@@ -187,7 +187,15 @@ export const CHARACTER_SPRITES: Record<string, CharacterSprite> = {
   adjudicator_locke: npc("adjudicator_locke", {
     mouthBox: { x: 0.428, y: 0.409, width: 0.143, height: 0.107 },
   }),
-  the_antiquarian:   npc("the_antiquarian"),
+  // Antiquarian's viseme cells have a thinned mustache per the art brief
+  // (§2A §beard-clearance) so phoneme silhouettes read through. Box is
+  // sized so each cell's nose-tip lands on his bust's nose-tip (~y=0.40)
+  // and the cell's mouth region overlays where his mouth is hidden under
+  // the mustache (~y=0.46). Larger than the others because his cells
+  // include substantial visible beard that blends with the bust's beard.
+  the_antiquarian:   npc("the_antiquarian", {
+    mouthBox: { x: 0.256, y: 0.374, width: 0.287, height: 0.214 },
+  }),
   the_source:        npc("the_source"),
   shadow_tongue:     npc("shadow_tongue"),
   the_meme:          npc("the_meme"),
