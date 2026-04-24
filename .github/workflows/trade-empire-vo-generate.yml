@@ -1,0 +1,79 @@
+name: Trade Empire VO Generation
+
+# Manually triggered. Syncs the typed VO catalog into act3-vo-lines.json,
+# generates MP3s via ElevenLabs, uploads them to
+# s3://dgrsvoices/Act 3 Voices/, and opens a PR with the updated manifest
+# (apps/shared/act3VoManifest.json). Lines whose voiceId is still a
+# TODO_<NAME> placeholder are skipped via --skip-todo.
+#
+# Required repo secrets:
+#   - ELEVENLABS_API_KEY          (this workflow only)
+#   - AWS_ACCESS_KEY_ID           (shared with art-upload + dmc-build)
+#   - AWS_SECRET_ACCESS_KEY       (shared)
+
+on:
+  workflow_dispatch:
+    inputs:
+      only_section:
+        description: 'Optional: section filter, e.g. "§A" or "§H · Doom whisper"'
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Sync typed VO catalog → act3-vo-lines.json
+        run: pnpm vo:te-sync
+
+      - name: Generate VO (ElevenLabs + S3 upload)
+        env:
+          ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: us-east-2
+        run: |
+          ARGS="--act 3 --skip-todo"
+          if [ -n "${{ github.event.inputs.only_section }}" ]; then
+            ARGS="$ARGS --only \"${{ github.event.inputs.only_section }}\""
+          fi
+          pnpm tsx apps/scripts/generate-act-vo.ts $ARGS
+
+      - name: Open PR with manifest update
+        uses: peter-evans/create-pull-request@v7
+        with:
+          commit-message: "chore(vo): regenerate Act 3 VO manifest"
+          title: "chore(vo): regenerate Act 3 VO manifest"
+          body: |
+            Automated manifest update from the **Trade Empire VO Generation**
+            workflow. Each key is a line id; the value is either a full
+            `s3://dgrsvoices/...` URL (when S3 upload succeeded) or a
+            dev-relative path under `apps/client/public/`.
+
+            Run metadata:
+            - Section filter: `${{ github.event.inputs.only_section || '(none — all lines)' }}`
+            - Triggered by: `${{ github.actor }}`
+            - Commit: ${{ github.sha }}
+
+            Review & merge to light up the voiced moments in-game.
+          branch: bot/te-vo-manifest
+          delete-branch: true
+          add-paths: |
+            apps/shared/act3VoManifest.json
+            apps/scripts/act3-vo-lines.json
