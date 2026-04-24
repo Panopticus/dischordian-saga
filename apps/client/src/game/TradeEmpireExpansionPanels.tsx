@@ -64,6 +64,37 @@ import {
   type ConferenceTreaty,
 } from "./tradeEmpireExpansion";
 import { GALACTIC_FACTIONS, type GalacticFactionId, type EmpireState } from "./tradeEmpire";
+import { tradeEmpireArtUrl } from "./tradeEmpireArtAssets";
+
+/**
+ * Renders a Trade Empire art thumbnail by assetId. Returns null if the
+ * id is missing or unknown; on image-load failure (asset not yet on
+ * CDN) the <img> is hidden and the surrounding card falls back to
+ * its text-only state.
+ */
+function ArtThumb({
+  assetId,
+  alt,
+  className,
+}: {
+  assetId: string | undefined;
+  alt: string;
+  className?: string;
+}) {
+  const url = tradeEmpireArtUrl(assetId);
+  if (!url) return null;
+  return (
+    <img
+      src={url}
+      alt={alt}
+      loading="lazy"
+      className={className}
+      onError={(e) => {
+        (e.currentTarget as HTMLImageElement).style.display = "none";
+      }}
+    />
+  );
+}
 
 interface PanelProps {
   empire: EmpireState;
@@ -203,13 +234,18 @@ export function CivilizationPanel({
     <div className="space-y-4">
       {/* Era banner */}
       <div
-        className="p-4 rounded-2xl border"
+        className="relative p-4 rounded-2xl border overflow-hidden"
         style={{
           backgroundColor: currentEraDef.accent + "15",
           borderColor: currentEraDef.accent + "60",
         }}
       >
-        <div className="flex items-center justify-between mb-2">
+        <ArtThumb
+          assetId={currentEraDef.banner}
+          alt={`${currentEraDef.name} banner`}
+          className="absolute inset-0 w-full h-full object-cover opacity-25 pointer-events-none"
+        />
+        <div className="relative flex items-center justify-between mb-2">
           <div className="flex items-center gap-2">
             <Crown size={14} style={{ color: currentEraDef.accent }} />
             <p
@@ -224,12 +260,12 @@ export function CivilizationPanel({
           </p>
         </div>
         <p
-          className="font-mono text-[11px] italic"
+          className="relative font-mono text-[11px] italic"
           style={{ color: currentEraDef.accent }}
         >
           {currentEraDef.tagline}
         </p>
-        <p className="font-mono text-[10px] text-white/50 mt-2 leading-relaxed">
+        <p className="relative font-mono text-[10px] text-white/50 mt-2 leading-relaxed">
           {currentEraDef.description}
         </p>
 
@@ -309,29 +345,36 @@ export function CivilizationPanel({
 
         {/* In-progress wonder */}
         {inProgress && inProgressWonder && (
-          <div className="p-3 rounded-xl void-bg-success border void-border-success mb-2">
-            <div className="flex items-center justify-between">
-              <p className="font-mono text-xs void-text-energy font-bold">
-                BUILDING: {inProgressWonder.name}
-              </p>
-              <span className="font-mono text-[9px] void-text-energy">
-                {Math.round(wonderProgress)}%
-              </span>
-            </div>
+          <div className="p-3 rounded-xl void-bg-success border void-border-success mb-2 flex gap-3">
+            <ArtThumb
+              assetId={inProgressWonder.image}
+              alt={`${inProgressWonder.name} key art`}
+              className="w-12 h-16 object-cover rounded flex-shrink-0"
+            />
+            <div className="flex-1">
+              <div className="flex items-center justify-between">
+                <p className="font-mono text-xs void-text-energy font-bold">
+                  BUILDING: {inProgressWonder.name}
+                </p>
+                <span className="font-mono text-[9px] void-text-energy">
+                  {Math.round(wonderProgress)}%
+                </span>
+              </div>
             <div className="w-full h-1.5 rounded-full bg-white/5 overflow-hidden mt-2">
               <div
                 className="h-full rounded-full void-bg-success transition-all"
                 style={{ width: `${wonderProgress}%` }}
               />
             </div>
-            {wonderReady && (
-              <button
-                onClick={completeWonder}
-                className="w-full mt-2 py-1.5 rounded void-bg-success border void-border-success void-text-energy font-mono text-[10px] font-bold"
-              >
-                COMPLETE WONDER
-              </button>
-            )}
+              {wonderReady && (
+                <button
+                  onClick={completeWonder}
+                  className="w-full mt-2 py-1.5 rounded void-bg-success border void-border-success void-text-energy font-mono text-[10px] font-bold"
+                >
+                  COMPLETE WONDER
+                </button>
+              )}
+            </div>
           </div>
         )}
 
@@ -344,14 +387,21 @@ export function CivilizationPanel({
               return (
                 <div
                   key={id}
-                  className="p-2 rounded-lg bg-white/[0.04] border border-white/10"
+                  className="rounded-lg bg-white/[0.04] border border-white/10 overflow-hidden"
                 >
-                  <p className="font-mono text-[10px] void-text-energy font-bold">
-                    ✓ {w.name}
-                  </p>
-                  <p className="font-mono text-[8px] text-white/40 mt-0.5 italic">
-                    {w.flavor}
-                  </p>
+                  <ArtThumb
+                    assetId={w.image}
+                    alt={`${w.name} key art`}
+                    className="w-full h-20 object-cover"
+                  />
+                  <div className="p-2">
+                    <p className="font-mono text-[10px] void-text-energy font-bold">
+                      ✓ {w.name}
+                    </p>
+                    <p className="font-mono text-[8px] text-white/40 mt-0.5 italic">
+                      {w.flavor}
+                    </p>
+                  </div>
                 </div>
               );
             })}
@@ -372,31 +422,38 @@ export function CivilizationPanel({
                   key={w.id}
                   disabled={!canAfford}
                   onClick={() => startWonder(w.id)}
-                  className={`w-full text-left p-3 rounded-xl border transition-colors ${
+                  className={`w-full text-left rounded-xl border transition-colors overflow-hidden flex gap-3 ${
                     canAfford
                       ? "bg-white/[0.02] border-white/10 hover:bg-white/[0.04]"
                       : "bg-white/[0.01] border-white/5 opacity-40"
                   }`}
                 >
-                  <div className="flex items-center gap-2 mb-1">
-                    <div
-                      className="w-2 h-2 rounded-full"
-                      style={{ backgroundColor: faction.color }}
-                    />
-                    <p className="font-mono text-xs text-white font-bold">{w.name}</p>
-                    <span className="font-mono text-[8px] text-white/30 ml-auto">
-                      {w.buildHours}h
-                    </span>
-                  </div>
-                  <p className="font-mono text-[9px] text-white/40 italic">{w.flavor}</p>
-                  <p className="font-mono text-[9px] void-text-accent mt-1">{w.effect}</p>
-                  <div className="flex gap-3 mt-1.5 font-mono text-[9px] text-white/50">
-                    <span className="void-text-accent">{w.cost.credits} CRD</span>
-                    <span className="void-text-energy">{w.cost.materials} MAT</span>
-                    <span className="void-text-system">{w.cost.influence} INF</span>
-                    {w.convergenceOnBuild > 0 && (
-                      <span className="void-text-error">+{w.convergenceOnBuild} doom</span>
-                    )}
+                  <ArtThumb
+                    assetId={w.image}
+                    alt={`${w.name} key art`}
+                    className="w-16 h-24 object-cover flex-shrink-0"
+                  />
+                  <div className="flex-1 p-3">
+                    <div className="flex items-center gap-2 mb-1">
+                      <div
+                        className="w-2 h-2 rounded-full"
+                        style={{ backgroundColor: faction.color }}
+                      />
+                      <p className="font-mono text-xs text-white font-bold">{w.name}</p>
+                      <span className="font-mono text-[8px] text-white/30 ml-auto">
+                        {w.buildHours}h
+                      </span>
+                    </div>
+                    <p className="font-mono text-[9px] text-white/40 italic">{w.flavor}</p>
+                    <p className="font-mono text-[9px] void-text-accent mt-1">{w.effect}</p>
+                    <div className="flex gap-3 mt-1.5 font-mono text-[9px] text-white/50">
+                      <span className="void-text-accent">{w.cost.credits} CRD</span>
+                      <span className="void-text-energy">{w.cost.materials} MAT</span>
+                      <span className="void-text-system">{w.cost.influence} INF</span>
+                      {w.convergenceOnBuild > 0 && (
+                        <span className="void-text-error">+{w.convergenceOnBuild} doom</span>
+                      )}
+                    </div>
                   </div>
                 </button>
               );
@@ -451,26 +508,33 @@ export function CivilizationPanel({
                       key={c.id}
                       onClick={() => setCivic(slot, c.id)}
                       disabled={active || expansion.civics.cooldownUntil > Date.now()}
-                      className={`w-full text-left p-2 rounded-lg border transition-colors ${
+                      className={`w-full text-left p-2 rounded-lg border transition-colors flex gap-2 ${
                         active
                           ? "void-bg-success void-border-success"
                           : "bg-white/[0.02] border-white/10 hover:bg-white/[0.04]"
                       }`}
                     >
-                      <p
-                        className={`font-mono text-[10px] font-bold ${
-                          active ? "void-text-energy" : "text-white"
-                        }`}
-                      >
-                        {active ? "✓ " : ""}
-                        {c.name}
-                      </p>
-                      <p className="font-mono text-[9px] text-white/40 mt-0.5">
-                        {c.description}
-                      </p>
-                      <p className="font-mono text-[9px] void-text-accent mt-0.5">
-                        {c.effect}
-                      </p>
+                      <ArtThumb
+                        assetId={c.icon}
+                        alt={`${c.name} icon`}
+                        className="w-8 h-8 object-contain flex-shrink-0 rounded"
+                      />
+                      <div className="flex-1 min-w-0">
+                        <p
+                          className={`font-mono text-[10px] font-bold ${
+                            active ? "void-text-energy" : "text-white"
+                          }`}
+                        >
+                          {active ? "✓ " : ""}
+                          {c.name}
+                        </p>
+                        <p className="font-mono text-[9px] text-white/40 mt-0.5">
+                          {c.description}
+                        </p>
+                        <p className="font-mono text-[9px] void-text-accent mt-0.5">
+                          {c.effect}
+                        </p>
+                      </div>
                     </button>
                   );
                 })}
@@ -668,24 +732,31 @@ export function MarketPanel({
           </p>
         </div>
         {expansion.pirate.parkedSector ? (
-          <>
-            <p className="font-mono text-[10px] text-white/60">
-              Parked on:{" "}
-              <span className="void-text-error font-bold">
-                {expansion.pirate.parkedSector}
-              </span>
-              {" "} ({expansion.pirate.cyclesOnSector} cycles)
-            </p>
-            <p className="font-mono text-[9px] text-white/40 italic mt-1">
-              That sector's income is blocked until dislodged.
-            </p>
-            <button
-              onClick={dispatchRaid}
-              className="w-full mt-2 py-1.5 rounded void-bg-error border void-border-error void-text-error font-mono text-[10px] font-bold"
-            >
-              DISPATCH FLEET (50 CRD)
-            </button>
-          </>
+          <div className="flex gap-3">
+            <ArtThumb
+              assetId="market_pirate_raider"
+              alt="Pirate raider portrait"
+              className="w-16 h-16 object-cover rounded flex-shrink-0"
+            />
+            <div className="flex-1">
+              <p className="font-mono text-[10px] text-white/60">
+                Parked on:{" "}
+                <span className="void-text-error font-bold">
+                  {expansion.pirate.parkedSector}
+                </span>
+                {" "} ({expansion.pirate.cyclesOnSector} cycles)
+              </p>
+              <p className="font-mono text-[9px] text-white/40 italic mt-1">
+                That sector's income is blocked until dislodged.
+              </p>
+              <button
+                onClick={dispatchRaid}
+                className="w-full mt-2 py-1.5 rounded void-bg-error border void-border-error void-text-error font-mono text-[10px] font-bold"
+              >
+                DISPATCH FLEET (50 CRD)
+              </button>
+            </div>
+          </div>
         ) : (
           <p className="font-mono text-[10px] text-white/40 italic">
             Pirate out of range. No sector blocked.
@@ -1206,28 +1277,35 @@ export function WarRoomPanel({
               <button
                 key={d.id}
                 onClick={() => setDoctrine(d.id)}
-                className={`w-full text-left p-2 rounded-lg border ${
+                className={`w-full text-left rounded-lg border overflow-hidden ${
                   active
                     ? "void-bg-success void-border-success"
                     : "bg-white/[0.02] border-white/10 hover:bg-white/[0.04]"
                 }`}
               >
-                <p
-                  className={`font-mono text-[11px] font-bold ${
-                    active ? "void-text-energy" : "text-white"
-                  }`}
-                >
-                  {active ? "✓ " : ""}
-                  {d.name}
-                </p>
-                <p className="font-mono text-[9px] text-white/40 italic">
-                  {d.flavor}
-                </p>
-                {d.convergencePerCycle > 0 && (
-                  <p className="font-mono text-[8px] void-text-error mt-0.5">
-                    +{d.convergencePerCycle} doom/cycle while active
+                <ArtThumb
+                  assetId={d.banner}
+                  alt={`${d.name} banner`}
+                  className="w-full h-16 object-cover"
+                />
+                <div className="p-2">
+                  <p
+                    className={`font-mono text-[11px] font-bold ${
+                      active ? "void-text-energy" : "text-white"
+                    }`}
+                  >
+                    {active ? "✓ " : ""}
+                    {d.name}
                   </p>
-                )}
+                  <p className="font-mono text-[9px] text-white/40 italic">
+                    {d.flavor}
+                  </p>
+                  {d.convergencePerCycle > 0 && (
+                    <p className="font-mono text-[8px] void-text-error mt-0.5">
+                      +{d.convergencePerCycle} doom/cycle while active
+                    </p>
+                  )}
+                </div>
               </button>
             );
           })}
@@ -1242,11 +1320,17 @@ export function WarRoomPanel({
         <div className="grid grid-cols-3 gap-2 mb-3">
           {FLEET_UNIT_TYPES.map((t) => {
             const count = expansion.fleetDoctrine.composition[t] ?? 0;
+            const profile = FLEET_UNIT_PROFILES[t];
             return (
               <div
                 key={t}
                 className="p-2 rounded-lg bg-white/[0.02] border border-white/10 text-center"
               >
+                <ArtThumb
+                  assetId={profile.silhouette}
+                  alt={`${profile.label} silhouette`}
+                  className="mx-auto mb-1 w-10 h-10 object-contain"
+                />
                 <p className="font-mono text-[9px] text-white/40 tracking-wider uppercase">
                   {t}
                 </p>
@@ -1588,20 +1672,25 @@ export function ConvergencePanel({
               animate={{ scale: 1 }}
               exit={{ scale: 0.95 }}
               onClick={(e) => e.stopPropagation()}
-              className="w-full max-w-lg bg-black/95 border void-border-system rounded-2xl p-5 space-y-3"
+              className="relative w-full max-w-lg bg-black/95 border void-border-system rounded-2xl p-5 space-y-3 overflow-hidden"
             >
-              <p className="font-display text-sm tracking-[0.15em] void-text-system">
+              <ArtThumb
+                assetId={active.keyArt}
+                alt={`${active.name} key art`}
+                className="absolute inset-0 w-full h-full object-cover opacity-20 pointer-events-none"
+              />
+              <p className="relative font-display text-sm tracking-[0.15em] void-text-system">
                 {active.name.toUpperCase()}
               </p>
-              <p className="font-mono text-[11px] text-white/70 italic leading-relaxed">
+              <p className="relative font-mono text-[11px] text-white/70 italic leading-relaxed">
                 {active.opening}
               </p>
-              <div className="space-y-2 pt-2 border-t border-white/10">
+              <div className="relative space-y-2 pt-2 border-t border-white/10">
                 {active.choices.map((c) => (
                   <button
                     key={c.id}
                     onClick={() => resolveChoice(active.id, c.id)}
-                    className="w-full text-left p-3 rounded-xl bg-white/[0.04] border border-white/10 hover:bg-white/[0.08]"
+                    className="w-full text-left p-3 rounded-xl bg-black/60 border border-white/10 hover:bg-white/[0.08] backdrop-blur-sm"
                   >
                     <p className="font-mono text-[11px] text-white font-bold">
                       {c.label}
@@ -1617,7 +1706,7 @@ export function ConvergencePanel({
               </div>
               <button
                 onClick={() => setActiveEncounterId(null)}
-                className="w-full py-1.5 rounded bg-white/5 border border-white/10 text-white/40 font-mono text-[10px]"
+                className="relative w-full py-1.5 rounded bg-white/5 border border-white/10 text-white/40 font-mono text-[10px] backdrop-blur-sm"
               >
                 CLOSE (DECIDE LATER)
               </button>

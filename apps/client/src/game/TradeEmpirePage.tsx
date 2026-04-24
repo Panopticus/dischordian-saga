@@ -22,6 +22,7 @@ import {
   type EmpireState, type MissionDef, type GalacticFactionId,
   type Act3FactionId, type FactionArcPath, type SectorEventEntry,
 } from "./tradeEmpire";
+import { resolveSectorArtUrl } from "./tradeEmpireArtAssets";
 import {
   EYES_LORE_FRAGMENTS, ACT3_ENDINGS,
 } from "./eyesArc";
@@ -898,12 +899,24 @@ export default function TradeEmpirePage() {
             {selectedSectorData && selectedSectorFaction && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
                 className="p-4 rounded-xl bg-white/[0.02] border border-white/10">
-                {selectedSectorData.image && (
-                  <div className="relative h-32 -mx-4 -mt-4 mb-3 rounded-t-xl overflow-hidden">
-                    <img src={selectedSectorData.image} alt={selectedSectorData.name} className="w-full h-full object-cover" style={{ filter: "brightness(0.4) saturate(0.8)" }} />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 to-transparent" />
-                  </div>
-                )}
+                {(() => {
+                  const sectorArtUrl = resolveSectorArtUrl(selectedSectorData);
+                  if (!sectorArtUrl) return null;
+                  return (
+                    <div className="relative h-32 -mx-4 -mt-4 mb-3 rounded-t-xl overflow-hidden">
+                      <img
+                        src={sectorArtUrl}
+                        alt={selectedSectorData.name}
+                        className="w-full h-full object-cover"
+                        style={{ filter: "brightness(0.4) saturate(0.8)" }}
+                        onError={(e) => {
+                          (e.currentTarget.parentElement as HTMLElement).style.display = "none";
+                        }}
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 to-transparent" />
+                    </div>
+                  );
+                })()}
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2">
                     <div className="w-4 h-4 rounded-full" style={{ backgroundColor: selectedSectorFaction.color }} />

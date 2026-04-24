@@ -62,6 +62,7 @@ export const ERAS: EraDefinition[] = [
     gate: {},
     unlocks: ["galaxy_map", "starter_missions"],
     convergenceOnEntry: 0,
+    banner: "era_first_light",
   },
   {
     id: "ark_awakening",
@@ -73,6 +74,7 @@ export const ERAS: EraDefinition[] = [
     gate: { controlledSectors: 2, influence: 25 },
     unlocks: ["resource_market", "simultaneous_orders"],
     convergenceOnEntry: 5,
+    banner: "era_ark_awakening",
   },
   {
     id: "sector_lord",
@@ -84,6 +86,7 @@ export const ERAS: EraDefinition[] = [
     gate: { controlledSectors: 4, resolvedArcs: 1 },
     unlocks: ["wonders", "civic_policies", "pirate_events"],
     convergenceOnEntry: 10,
+    banner: "era_sector_lord",
   },
   {
     id: "galactic_power",
@@ -95,6 +98,7 @@ export const ERAS: EraDefinition[] = [
     gate: { controlledSectors: 7, resolvedArcs: 3, wondersBuilt: 1 },
     unlocks: ["fleet_doctrines", "peace_conference", "eldritch_contact"],
     convergenceOnEntry: 20,
+    banner: "era_galactic_power",
   },
   {
     id: "cosmic_convergence",
@@ -106,6 +110,7 @@ export const ERAS: EraDefinition[] = [
     gate: { controlledSectors: 10, resolvedArcs: 5, wondersBuilt: 3 },
     unlocks: ["dreamer_contact", "final_wonder", "convergence_climax"],
     convergenceOnEntry: 35,
+    banner: "era_cosmic_convergence",
   },
 ];
 
@@ -358,6 +363,7 @@ export const WONDERS: Wonder[] = [
     effect: "+20 Sanity floor. All Potentials recruited gain +10 loyalty.",
     convergenceOnBuild: 0,
     sanityFloor: 20,
+    image: "wonder_ark_cathedral",
   },
   {
     id: "red_crystal_spire",
@@ -370,6 +376,7 @@ export const WONDERS: Wonder[] = [
     requiredEra: "sector_lord",
     effect: "+30% credits income from all sectors. Authority reputation locked above -20.",
     convergenceOnBuild: 5,
+    image: "wonder_red_crystal_spire",
   },
   {
     id: "forge_monolith",
@@ -382,6 +389,7 @@ export const WONDERS: Wonder[] = [
     requiredEra: "sector_lord",
     effect: "Fleet production time halved. Wonders after this build 25% faster.",
     convergenceOnBuild: 8,
+    image: "wonder_forge_monolith",
   },
   {
     id: "remembrance_garden",
@@ -395,6 +403,7 @@ export const WONDERS: Wonder[] = [
     effect: "+15 Sanity floor. Losing a fleet unit costs only half the usual morale penalty.",
     convergenceOnBuild: 0,
     sanityFloor: 15,
+    image: "wonder_remembrance_garden",
   },
   {
     id: "chronarch_lens",
@@ -407,6 +416,7 @@ export const WONDERS: Wonder[] = [
     requiredEra: "galactic_power",
     effect: "Reveals all faction order stances one cycle before resolution. Intelligence +50/cycle.",
     convergenceOnBuild: 3,
+    image: "wonder_chronarch_lens",
   },
   {
     id: "hell_gate_sigil",
@@ -419,6 +429,7 @@ export const WONDERS: Wonder[] = [
     requiredEra: "galactic_power",
     effect: "+40% combat power vs. Hierarchy AND Thought Virus. Sanity floor capped at 40.",
     convergenceOnBuild: 15,
+    image: "wonder_hell_gate_sigil",
   },
   {
     id: "immune_choir",
@@ -432,6 +443,7 @@ export const WONDERS: Wonder[] = [
     effect: "Thought Virus contamination halved on all missions. +10 Sanity floor.",
     convergenceOnBuild: -5,
     sanityFloor: 10,
+    image: "wonder_immune_choir",
   },
   {
     id: "dreamers_answer",
@@ -445,6 +457,7 @@ export const WONDERS: Wonder[] = [
     effect: "Delays the Final Awakening by one full act. Raises sanity floor to 50. Ends with contact.",
     convergenceOnBuild: -20,
     sanityFloor: 50,
+    image: "wonder_dreamers_answer",
   },
 ];
 
@@ -502,6 +515,7 @@ export const CIVIC_POLICIES: CivicPolicy[] = [
     effect: "+15% fleet combat, +5 sanity/cycle. But factions remember who you are.",
     requiredEra: "sector_lord",
     modifiers: { fleetCombat: 15, sanityPerCycle: 5 },
+    icon: "civic_doctrine_iron_lion",
   },
   {
     id: "doctrine_nomad",
@@ -512,6 +526,7 @@ export const CIVIC_POLICIES: CivicPolicy[] = [
     effect: "+20% mission speed equivalent, +10 intelligence/cycle.",
     requiredEra: "sector_lord",
     modifiers: { intelligencePerCycle: 10 },
+    icon: "civic_doctrine_nomad",
   },
   {
     id: "doctrine_archon",
@@ -522,6 +537,7 @@ export const CIVIC_POLICIES: CivicPolicy[] = [
     effect: "+25% fleet combat, +10 materials/cycle, -5 sanity/cycle.",
     requiredEra: "galactic_power",
     modifiers: { fleetCombat: 25, materialsPerCycle: 10, sanityPerCycle: -5 },
+    icon: "civic_doctrine_archon",
   },
   // ─ Economy (how you produce) ─
   {
@@ -533,6 +549,7 @@ export const CIVIC_POLICIES: CivicPolicy[] = [
     effect: "+25% credits/cycle, -10% influence/cycle.",
     requiredEra: "ark_awakening",
     modifiers: { creditsPerCycle: 25, influencePerCycle: -10 },
+    icon: "civic_economy_free_ports",
   },
   {
     id: "economy_authority_tithe",
@@ -543,6 +560,7 @@ export const CIVIC_POLICIES: CivicPolicy[] = [
     effect: "+15% credits/cycle, +20 influence/cycle, Authority reputation +5/cycle.",
     requiredEra: "ark_awakening",
     modifiers: { creditsPerCycle: 15, influencePerCycle: 20 },
+    icon: "civic_economy_authority_tithe",
   },
   {
     id: "economy_antiquarian_ledger",
@@ -553,6 +571,7 @@ export const CIVIC_POLICIES: CivicPolicy[] = [
     effect: "+15 intelligence/cycle, +10 influence/cycle, -2 sanity/cycle.",
     requiredEra: "galactic_power",
     modifiers: { intelligencePerCycle: 15, influencePerCycle: 10, sanityPerCycle: -2 },
+    icon: "civic_economy_antiquarian_ledger",
   },
   // ─ Order (how you govern) ─
   {
@@ -564,6 +583,7 @@ export const CIVIC_POLICIES: CivicPolicy[] = [
     effect: "+15 influence/cycle, +3 sanity/cycle, -2 doom/cycle.",
     requiredEra: "ark_awakening",
     modifiers: { influencePerCycle: 15, sanityPerCycle: 3, doomPerCycle: -2 },
+    icon: "civic_order_council",
   },
   {
     id: "order_panopticon",
@@ -574,6 +594,7 @@ export const CIVIC_POLICIES: CivicPolicy[] = [
     effect: "+20 intelligence/cycle, +10 credits/cycle, -5 sanity/cycle, +1 doom/cycle.",
     requiredEra: "sector_lord",
     modifiers: { intelligencePerCycle: 20, creditsPerCycle: 10, sanityPerCycle: -5, doomPerCycle: 1 },
+    icon: "civic_order_panopticon",
   },
   {
     id: "order_remembrance",
@@ -584,6 +605,7 @@ export const CIVIC_POLICIES: CivicPolicy[] = [
     effect: "+10 sanity/cycle, -3 doom/cycle, -10% credits/cycle.",
     requiredEra: "sector_lord",
     modifiers: { creditsPerCycle: -10, sanityPerCycle: 10, doomPerCycle: -3 },
+    icon: "civic_order_remembrance",
   },
 ];
 
@@ -1028,6 +1050,7 @@ export const FLEET_UNIT_PROFILES: Record<FleetUnitType, FleetUnitProfile> = {
     counters: ["carrier"],
     counteredBy: ["trader"],
     role: "Fast recon. Dies quickly but sees first.",
+    silhouette: "fleet_scout",
   },
   trader: {
     type: "trader",
@@ -1040,6 +1063,7 @@ export const FLEET_UNIT_PROFILES: Record<FleetUnitType, FleetUnitProfile> = {
     counters: ["scout"],
     counteredBy: ["frigate"],
     role: "Heavy cargo + point defense. Bleeds scouts.",
+    silhouette: "fleet_trader",
   },
   frigate: {
     type: "frigate",
@@ -1052,6 +1076,7 @@ export const FLEET_UNIT_PROFILES: Record<FleetUnitType, FleetUnitProfile> = {
     counters: ["trader"],
     counteredBy: ["cruiser"],
     role: "Trader-killer. Balanced workhorse.",
+    silhouette: "fleet_frigate",
   },
   cruiser: {
     type: "cruiser",
@@ -1064,6 +1089,7 @@ export const FLEET_UNIT_PROFILES: Record<FleetUnitType, FleetUnitProfile> = {
     counters: ["frigate"],
     counteredBy: ["carrier"],
     role: "Frigate-hunter. Slow but devastating.",
+    silhouette: "fleet_cruiser",
   },
   carrier: {
     type: "carrier",
@@ -1076,6 +1102,7 @@ export const FLEET_UNIT_PROFILES: Record<FleetUnitType, FleetUnitProfile> = {
     counters: ["cruiser"],
     counteredBy: ["scout"],
     role: "Fighter platform. Cruisers can't close fast enough.",
+    silhouette: "fleet_carrier",
   },
   flagship: {
     type: "flagship",
@@ -1088,6 +1115,7 @@ export const FLEET_UNIT_PROFILES: Record<FleetUnitType, FleetUnitProfile> = {
     counters: [],
     counteredBy: [],
     role: "Capital ship. Outside the counter triangle. Loss is catastrophic.",
+    silhouette: "fleet_flagship",
   },
 };
 
@@ -1115,6 +1143,7 @@ export const FLEET_DOCTRINES: FleetDoctrine[] = [
     combatBonuses: { scout: 3, trader: 4 },
     requiredEra: "galactic_power",
     convergencePerCycle: 0,
+    banner: "doctrine_swarm",
   },
   {
     id: "iron_wall_doctrine",
@@ -1124,6 +1153,7 @@ export const FLEET_DOCTRINES: FleetDoctrine[] = [
     combatBonuses: { cruiser: 10, carrier: 15 },
     requiredEra: "galactic_power",
     convergencePerCycle: 1,
+    banner: "doctrine_iron_wall",
   },
   {
     id: "archon_formation",
@@ -1133,6 +1163,7 @@ export const FLEET_DOCTRINES: FleetDoctrine[] = [
     combatBonuses: { frigate: 8, cruiser: 8, carrier: 8 },
     requiredEra: "galactic_power",
     convergencePerCycle: 3,
+    banner: "doctrine_archon_formation",
   },
   {
     id: "antiquarian_tempo",
@@ -1142,6 +1173,7 @@ export const FLEET_DOCTRINES: FleetDoctrine[] = [
     combatBonuses: { cruiser: 5, carrier: 5, flagship: 10 },
     requiredEra: "cosmic_convergence",
     convergencePerCycle: 2,
+    banner: "doctrine_antiquarian_tempo",
   },
 ];
 
@@ -1325,6 +1357,7 @@ export const ELDRITCH_ENCOUNTERS: EldritchEncounter[] = [
     opening:
       "Elara wakes you at an hour that isn't on the schedule. The ship's long-range array is receiving a signal from a direction that has no stars. The signal is listening, not speaking. Someone has been listening for a long time. They would like to be invited.",
     oneShot: true,
+    keyArt: "encounter_listener_static",
     choices: [
       {
         id: "answer",
@@ -1365,6 +1398,7 @@ export const ELDRITCH_ENCOUNTERS: EldritchEncounter[] = [
     opening:
       "The Dreamer's barrier changes pitch for the first time in eleven years. The note is not an emergency. It is a grief. Elara tests the translation matrix three times. The output is the same: 'I am sorry. I cannot hold much longer.'",
     oneShot: true,
+    keyArt: "encounter_dreamers_weeping",
     choices: [
       {
         id: "stand_by",
@@ -1406,6 +1440,7 @@ export const ELDRITCH_ENCOUNTERS: EldritchEncounter[] = [
     opening:
       "The ship's manifest lists 43 crew. You count 44 in the commissary. You count again. 43. The surveillance footage shows 44 for exactly one frame, every third cycle. The Human speaks, for the first time in a week: 'I don't know that one.'",
     oneShot: true,
+    keyArt: "encounter_counted_crew",
     choices: [
       {
         id: "hunt",
@@ -1447,6 +1482,7 @@ export const ELDRITCH_ENCOUNTERS: EldritchEncounter[] = [
     opening:
       "Every screen on the Ark opens on the same image: a door. Not a metaphor. A door. The Dreamer is at its threshold, holding it closed with both hands. The Antiquarian watches from outside time, taking notes. A voice says: 'We are ready when you are.'",
     oneShot: true,
+    keyArt: "encounter_final_invitation",
     choices: [
       {
         id: "refuse",
