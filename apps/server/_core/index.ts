@@ -321,6 +321,15 @@ async function startServer() {
     bootstrapAnnouncementsTables().catch(e =>
       console.error("[AnnouncementsBootstrap] failed:", e),
     );
+
+    // Ensure citizen_characters.foundation exists. Migration 0054 is
+    // orphaned from _journal.json; without this column every SELECT
+    // against citizen_characters fails ("Unknown column 'foundation'")
+    // and the Awakening handoff breaks.
+    const { bootstrapCitizenSchema } = await import("../services/citizenSchemaBootstrap");
+    bootstrapCitizenSchema().catch(e =>
+      console.error("[CitizenSchemaBootstrap] failed:", e),
+    );
   }
 
   // Transmission achievements — upsert the `achievements` table rows

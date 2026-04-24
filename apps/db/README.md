@@ -96,3 +96,21 @@ hand-written migration should:
 1. Pick an index past the highest file on disk (currently 0048).
 2. Use `INFORMATION_SCHEMA` / `IF NOT EXISTS` guards so re-runs are no-ops.
 3. Document its orphaned status in this section of the README.
+
+## Startup bootstraps for critical orphan migrations
+
+When an orphan migration introduces a column that `schema.ts` already
+references in `SELECT *` queries, the only way to keep the server
+functional is to run the same DDL on boot. Each bootstrap is
+idempotent (INFORMATION_SCHEMA / IF NOT EXISTS guards) and logs a
+warning — not a crash — on failure so the process stays up.
+
+Current startup bootstraps (see `apps/server/_core/index.ts`):
+
+- `bootstrapAnnouncementsTables` — mirrors `0049_title_screen_announcements.sql`.
+- `bootstrapCitizenSchema` — mirrors `0054_citizen_foundation.sql`
+  (`citizen_characters.foundation`). Without this the Awakening handoff
+  breaks on deploys that haven't had a manual `drizzle-kit generate` pass.
+
+Each of these should be removed once the corresponding migration is
+added to `_journal.json` and the matching snapshot exists in `meta/`.
