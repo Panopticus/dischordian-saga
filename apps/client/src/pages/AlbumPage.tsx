@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft, Play, Disc3, ExternalLink, Clock, Music } from "lucide-react";
 import { usePageMeta } from "@/hooks/usePageMeta";
+import AudioSpectrum from "@/components/AudioSpectrum";
 
 const ALBUM_SLUGS: Record<string, string> = {
   "dischordian-logic": "Dischordian Logic",
@@ -109,6 +110,23 @@ export default function AlbumPage() {
           </div>
         </div>
       </div>
+
+      {/* Audio spectrum — live canvas visualizer fed by the shared
+          AnalyserNode registered in PlayerContext. Only drawn while a
+          track is playing on this album; when the player is paused or
+          on a different album, it idles silently (bars at 0). Gives
+          the discography the "this is a music game" beat the old
+          generic album detail view was missing. */}
+      {currentSong && tracks.some(t => t.id === currentSong.id) && isPlaying && (
+        <div className="px-4 sm:px-6 mt-3">
+          <AudioSpectrum
+            bars={72}
+            height={56}
+            accentColor={meta.color}
+            gradientStrength={0.55}
+          />
+        </div>
+      )}
 
       {/* Track List */}
       <div className="px-4 sm:px-6 mt-2">
