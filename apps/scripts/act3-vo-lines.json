@@ -188,5 +188,605 @@
     "section": "§2.2 · Act 3 Kael logs discovery",
     "emotion": "measured_tired",
     "outputDir": "vo/act3"
+  },
+  {
+    "id": "te-era-advance-first_light",
+    "speaker": "elara",
+    "voiceId": "xMyNDrPFEtQN8iZtT7l2",
+    "text": "First light. The Ark is half a wreck and a full miracle. I know which half I am. We begin.",
+    "context": "act3_te_era_advance_first_light",
+    "section": "§A · Era advance",
+    "emotion": "warm_serious",
+    "outputDir": "audio/act3"
+  },
+  {
+    "id": "te-era-advance-ark_awakening",
+    "speaker": "elara",
+    "voiceId": "xMyNDrPFEtQN8iZtT7l2",
+    "text": "The Ark answers. The galaxy answers back. Someone is on the line. They have been waiting longer than they should have.",
+    "context": "act3_te_era_advance_ark_awakening",
+    "section": "§A · Era advance",
+    "emotion": "warm_serious",
+    "outputDir": "audio/act3"
+  },
+  {
+    "id": "te-era-advance-sector_lord",
+    "speaker": "elara",
+    "voiceId": "xMyNDrPFEtQN8iZtT7l2",
+    "text": "We have borders now. We have enemies. We have a ledger. I think I prefer the borders. The ledger is harder to forget.",
+    "context": "act3_te_era_advance_sector_lord",
+    "section": "§A · Era advance",
+    "emotion": "warm_serious",
+    "outputDir": "audio/act3"
+  },
+  {
+    "id": "te-era-advance-galactic_power",
+    "speaker": "elara",
+    "voiceId": "xMyNDrPFEtQN8iZtT7l2",
+    "text": "The Authority takes our calls. The Hierarchy takes notes. I am told this is what power feels like. I will let you know when I am sure.",
+    "context": "act3_te_era_advance_galactic_power",
+    "section": "§A · Era advance",
+    "emotion": "warm_serious",
+    "outputDir": "audio/act3"
+  },
+  {
+    "id": "te-era-advance-cosmic_convergence",
+    "speaker": "elara",
+    "voiceId": "xMyNDrPFEtQN8iZtT7l2",
+    "text": "Something that was waiting is no longer waiting. The Dreamer is shaking. The Antiquarian is watching. We are not the largest thing in this room. We never were.",
+    "context": "act3_te_era_advance_cosmic_convergence",
+    "section": "§A · Era advance",
+    "emotion": "quiet_wonder",
+    "outputDir": "audio/act3"
+  },
+  {
+    "id": "te-wonder-complete-ark_cathedral",
+    "speaker": "the_antiquarian",
+    "voiceId": "TODO_ANTIQUARIAN_VOICE",
+    "text": "Filed: The Ark Cathedral. A ship that was a tomb is now a shrine. The Potentials sleep with the lights on. They sleep. The lights are on. Both, for the first time. Cross-reference: Elara, sleep diaries, year zero.",
+    "context": "act3_te_wonder_complete_ark_cathedral",
+    "section": "§B · Wonder completion",
+    "emotion": "warm_serious",
+    "outputDir": "audio/act3"
+  },
+  {
+    "id": "te-wonder-complete-red_crystal_spire",
+    "speaker": "the_antiquarian",
+    "voiceId": "TODO_ANTIQUARIAN_VOICE",
+    "text": "Filed: The Red Crystal Spire. The Authority's voice is now in your walls. Faintly. The Authority knows this. The Authority is pleased. I have made a note of the pleasure. The pleasure is a clause.",
+    "context": "act3_te_wonder_complete_red_crystal_spire",
+    "section": "§B · Wonder completion",
+    "emotion": "warm_serious",
+    "outputDir": "audio/act3"
+  },
+  {
+    "id": "te-wonder-complete-forge_monolith",
+    "speaker": "the_antiquarian",
+    "voiceId": "TODO_ANTIQUARIAN_VOICE",
+    "text": "Filed: The Forge Monolith. The Architect's furnaces have been adopted, not stolen. The drones do not appear to mind. Drones rarely do. I will revisit this entry when the second-order effects clarify.",
+    "context": "act3_te_wonder_complete_forge_monolith",
+    "section": "§B · Wonder completion",
+    "emotion": "warm_serious",
+    "outputDir": "audio/act3"
+  },
+  {
+    "id": "te-wonder-complete-remembrance_garden",
+    "speaker": "the_antiquarian",
+    "voiceId": "TODO_ANTIQUARIAN_VOICE",
+    "text": "Filed: The Remembrance Garden. Orin Fell planted the first name himself. He did not write it down. I will not write it down either. Some entries are honored by their absence from my ledger.",
+    "context": "act3_te_wonder_complete_remembrance_garden",
+    "section": "§B · Wonder completion",
+    "emotion": "warm_serious",
+    "outputDir": "audio/act3"
+  },
+  {
+    "id": "te-wonder-complete-chronarch_lens",
+    "speaker": "the_antiquarian",
+    "voiceId": "TODO_ANTIQUARIAN_VOICE",
+    "text": "Filed: The Chronarch Lens. You have rented an aperture from my Refuge. You will see one cycle ahead. Everyone who looks through it stops being young in the ordinary way. You did not ask the price. The price is on the receipt.",
+    "context": "act3_te_wonder_complete_chronarch_lens",
+    "section": "§B · Wonder completion",
+    "emotion": "warm_serious",
+    "outputDir": "audio/act3"
+  },
+  {
+    "id": "te-wonder-complete-hell_gate_sigil",
+    "speaker": "the_antiquarian",
+    "voiceId": "TODO_ANTIQUARIAN_VOICE",
+    "text": "Filed: The Hell Gate Sigil. The Shadow Tongue's contract, signed in your favour. I have copies. Three of them. They are not identical. The discrepancies are the contract. I will not explain further.",
+    "context": "act3_te_wonder_complete_hell_gate_sigil",
+    "section": "§B · Wonder completion",
+    "emotion": "warm_serious",
+    "outputDir": "audio/act3"
+  },
+  {
+    "id": "te-wonder-complete-immune_choir",
+    "speaker": "the_antiquarian",
+    "voiceId": "TODO_ANTIQUARIAN_VOICE",
+    "text": "Filed: The Immune Choir. Doctor Vox's journal, finished, sung. The infected minds are returned to themselves slightly more often than the mathematics permit. I have not yet decided which side of the equation that error is on.",
+    "context": "act3_te_wonder_complete_immune_choir",
+    "section": "§B · Wonder completion",
+    "emotion": "warm_serious",
+    "outputDir": "audio/act3"
+  },
+  {
+    "id": "te-wonder-complete-dreamers_answer",
+    "speaker": "the_antiquarian",
+    "voiceId": "TODO_ANTIQUARIAN_VOICE",
+    "text": "Filed: The Dreamer's Answer. The barrier thinned. Something replied. The reply is in the form of a question. The question is not in the form of words. I have left the page blank, with a pen beside it. You will know what to write, or you will know that you do not.",
+    "context": "act3_te_wonder_complete_dreamers_answer",
+    "section": "§B · Wonder completion",
+    "emotion": "quiet_wonder",
+    "outputDir": "audio/act3"
+  },
+  {
+    "id": "te-civic-adopt-doctrine_iron_lion",
+    "speaker": "orin_fell",
+    "voiceId": "TODO_ORIN_VOICE",
+    "text": "Iron Lion's manual. Annotated by the crew that watched him die. We fight like we have nothing left. We don't. We have a name to keep. That's all the leverage I need.",
+    "context": "act3_te_civic_adopt_doctrine_iron_lion",
+    "section": "§C · Civic adoption · doctrine",
+    "emotion": "warm_serious",
+    "outputDir": "audio/act3"
+  },
+  {
+    "id": "te-civic-adopt-doctrine_nomad",
+    "speaker": "orin_fell",
+    "voiceId": "TODO_ORIN_VOICE",
+    "text": "Nomad Compass. Never where the shot lands. Zero's playbook. I don't love it — but I love losing fewer people. Adopted.",
+    "context": "act3_te_civic_adopt_doctrine_nomad",
+    "section": "§C · Civic adoption · doctrine",
+    "emotion": "warm_serious",
+    "outputDir": "audio/act3"
+  },
+  {
+    "id": "te-civic-adopt-doctrine_archon",
+    "speaker": "orin_fell",
+    "voiceId": "TODO_ORIN_VOICE",
+    "text": "Archon Discipline. The Architect's war-machine, politely rented. The Human disapproves. He's right to. We're doing it anyway. Walk it carefully.",
+    "context": "act3_te_civic_adopt_doctrine_archon",
+    "section": "§C · Civic adoption · doctrine",
+    "emotion": "warm_serious",
+    "outputDir": "audio/act3"
+  },
+  {
+    "id": "te-civic-adopt-economy_free_ports",
+    "speaker": "locke",
+    "voiceId": "TODO_LOCKE_VOICE",
+    "text": "Free Ports Charter. Every dockworker a shareholder. Loud. Lucrative. The Authority will note the disorder and the volume. The volume will mostly drown out the note.",
+    "context": "act3_te_civic_adopt_economy_free_ports",
+    "section": "§C · Civic adoption · economy",
+    "emotion": "warm_serious",
+    "outputDir": "audio/act3"
+  },
+  {
+    "id": "te-civic-adopt-economy_authority_tithe",
+    "speaker": "locke",
+    "voiceId": "TODO_LOCKE_VOICE",
+    "text": "Authority Tithe. Ten percent. The lanes never close. I do not negotiate against my own preferred outcome. You did the right thing. You will continue to do it.",
+    "context": "act3_te_civic_adopt_economy_authority_tithe",
+    "section": "§C · Civic adoption · economy",
+    "emotion": "warm_serious",
+    "outputDir": "audio/act3"
+  },
+  {
+    "id": "te-civic-adopt-economy_antiquarian_ledger",
+    "speaker": "locke",
+    "voiceId": "TODO_LOCKE_VOICE",
+    "text": "Antiquarian Ledger. Bookkeeping outside time. I do not love being audited by something that already knows the answer. But I respect the methodology. Your accounts are now beyond my reach. Congratulations.",
+    "context": "act3_te_civic_adopt_economy_antiquarian_ledger",
+    "section": "§C · Civic adoption · economy",
+    "emotion": "warm_serious",
+    "outputDir": "audio/act3"
+  },
+  {
+    "id": "te-civic-adopt-order_council",
+    "speaker": "human",
+    "voiceId": "oGbGJdgofRR8z0MxwI8L",
+    "text": "Council of Voices. Six chairs. No head. Slow. Loud. Right more often than the other options. We will live with the slow.",
+    "context": "act3_te_civic_adopt_order_council",
+    "section": "§C · Civic adoption · order",
+    "emotion": "warm_serious",
+    "outputDir": "audio/act3"
+  },
+  {
+    "id": "te-civic-adopt-order_panopticon",
+    "speaker": "human",
+    "voiceId": "oGbGJdgofRR8z0MxwI8L",
+    "text": "A Little Panopticon. You watch them. They watch you a little. I have been on both sides of this lattice. The asymmetry is the thing. Use it carefully. I will be watching.",
+    "context": "act3_te_civic_adopt_order_panopticon",
+    "section": "§C · Civic adoption · order",
+    "emotion": "warm_serious",
+    "outputDir": "audio/act3"
+  },
+  {
+    "id": "te-civic-adopt-order_remembrance",
+    "speaker": "human",
+    "voiceId": "oGbGJdgofRR8z0MxwI8L",
+    "text": "Remembrance Order. Every policy begins with a name from the Fall. Slows everything down. Makes everything count. Cheap at the price.",
+    "context": "act3_te_civic_adopt_order_remembrance",
+    "section": "§C · Civic adoption · order",
+    "emotion": "warm_serious",
+    "outputDir": "audio/act3"
+  },
+  {
+    "id": "te-doctrine-adopt-swarm_doctrine",
+    "speaker": "human",
+    "voiceId": "oGbGJdgofRR8z0MxwI8L",
+    "text": "Swarm Doctrine. Many cheap ships. The Insurgency's calling card, scaled. We lose more hulls. We win more turns. The math holds.",
+    "context": "act3_te_doctrine_adopt_swarm_doctrine",
+    "section": "§D · Fleet doctrine adopt",
+    "emotion": "warm_serious",
+    "outputDir": "audio/act3"
+  },
+  {
+    "id": "te-doctrine-adopt-iron_wall_doctrine",
+    "speaker": "human",
+    "voiceId": "oGbGJdgofRR8z0MxwI8L",
+    "text": "Iron Wall. Cruisers and carriers. Iron Lion's textbook, second edition. We will be slower. We will not be moved. The trade is correct.",
+    "context": "act3_te_doctrine_adopt_iron_wall_doctrine",
+    "section": "§D · Fleet doctrine adopt",
+    "emotion": "warm_serious",
+    "outputDir": "audio/act3"
+  },
+  {
+    "id": "te-doctrine-adopt-archon_formation",
+    "speaker": "human",
+    "voiceId": "oGbGJdgofRR8z0MxwI8L",
+    "text": "Archon Formation. The Architect's geometry. I have run this play. It works. It costs us a quarter of our sanity per cycle to run. Run it anyway.",
+    "context": "act3_te_doctrine_adopt_archon_formation",
+    "section": "§D · Fleet doctrine adopt",
+    "emotion": "warm_serious",
+    "outputDir": "audio/act3"
+  },
+  {
+    "id": "te-doctrine-adopt-antiquarian_tempo",
+    "speaker": "human",
+    "voiceId": "oGbGJdgofRR8z0MxwI8L",
+    "text": "Antiquarian Tempo. Build everything slowly. Have already built it. The Antiquarian's joke. The math, somehow, is correct.",
+    "context": "act3_te_doctrine_adopt_antiquarian_tempo",
+    "section": "§D · Fleet doctrine adopt",
+    "emotion": "warm_serious",
+    "outputDir": "audio/act3"
+  },
+  {
+    "id": "te-pirate-parked",
+    "speaker": "agent_zero",
+    "voiceId": "F1waTCPWl7KpShIScYQs",
+    "text": "Pirate raider parked on your trade lane. Engines cold. Lights dim. He's not raiding. He's waiting. You can wait too — or you can pay the call. Your move.",
+    "context": "act3_te_pirate_parked",
+    "section": "§E · Pirate event",
+    "emotion": "warm_serious",
+    "outputDir": "audio/act3"
+  },
+  {
+    "id": "te-pirate-dispatched",
+    "speaker": "agent_zero",
+    "voiceId": "F1waTCPWl7KpShIScYQs",
+    "text": "Pirate dispatched. He left the dinghy. He always leaves the dinghy. We will see that hull again, next month, next sector. The cost line stays the same. Move the cargo.",
+    "context": "act3_te_pirate_dispatched",
+    "section": "§E · Pirate event",
+    "emotion": "warm_serious",
+    "outputDir": "audio/act3"
+  },
+  {
+    "id": "te-conference-signed",
+    "speaker": "elara",
+    "voiceId": "xMyNDrPFEtQN8iZtT7l2",
+    "text": "The accord is signed. Six signatures, three colours of ink, one table that did not break. I think I chose this. I am almost sure I did.",
+    "context": "act3_te_conference_signed",
+    "section": "§F · Peace conference",
+    "emotion": "warm_serious",
+    "outputDir": "audio/act3"
+  },
+  {
+    "id": "te-conference-collapsed",
+    "speaker": "locke",
+    "voiceId": "TODO_LOCKE_VOICE",
+    "text": "Conference collapsed. Note for the file: the second signatory walked at the third clause. The third clause was theirs. Mark me down as unsurprised. Reconvene when their position has cost them more than ours.",
+    "context": "act3_te_conference_collapsed",
+    "section": "§F · Peace conference",
+    "emotion": "warm_serious",
+    "outputDir": "audio/act3"
+  },
+  {
+    "id": "te-cycle-aligned",
+    "speaker": "narrator",
+    "voiceId": "VgFgBh5TnWeBhCBvCJ1E",
+    "text": "The two orders aligned. The cycle resolves with both parties getting what they wrote down. Note that this is not the same as both parties getting what they wanted.",
+    "context": "act3_te_cycle_aligned",
+    "section": "§G · Cycle outcome",
+    "emotion": "warm_serious",
+    "outputDir": "audio/act3"
+  },
+  {
+    "id": "te-cycle-betrayal",
+    "speaker": "narrator",
+    "voiceId": "VgFgBh5TnWeBhCBvCJ1E",
+    "text": "One order was a betrayal. The cycle resolves accordingly. The party that wrote it down gains in the short term. The party that was written about remembers without effort.",
+    "context": "act3_te_cycle_betrayal",
+    "section": "§G · Cycle outcome",
+    "emotion": "warm_serious",
+    "outputDir": "audio/act3"
+  },
+  {
+    "id": "te-cycle-misread",
+    "speaker": "narrator",
+    "voiceId": "VgFgBh5TnWeBhCBvCJ1E",
+    "text": "The orders were not what either party thought they were. The cycle resolves on the literal text. Both parties now know slightly more about each other than they wished to.",
+    "context": "act3_te_cycle_misread",
+    "section": "§G · Cycle outcome",
+    "emotion": "warm_serious",
+    "outputDir": "audio/act3"
+  },
+  {
+    "id": "te-cycle-stalemate",
+    "speaker": "narrator",
+    "voiceId": "VgFgBh5TnWeBhCBvCJ1E",
+    "text": "Stalemate. Neither order moved the line. Resources spent. Position unchanged. The next cycle begins from the same coordinates. Some games are won by being still last.",
+    "context": "act3_te_cycle_stalemate",
+    "section": "§G · Cycle outcome",
+    "emotion": "warm_serious",
+    "outputDir": "audio/act3"
+  },
+  {
+    "id": "te-doom-whisper-rising_tide",
+    "speaker": "the_eyes",
+    "voiceId": "Fu4ULyfBJO8Rl5TwP0ZB",
+    "text": "There is a sound under the silence. It is the silence, correcting itself.",
+    "context": "act3_te_doom_whisper_rising_tide",
+    "section": "§H · Doom whisper · 10",
+    "emotion": "whisper_heavy_reverb",
+    "outputDir": "audio/act3"
+  },
+  {
+    "id": "te-doom-whisper-shields_thin",
+    "speaker": "the_eyes",
+    "voiceId": "Fu4ULyfBJO8Rl5TwP0ZB",
+    "text": "The Dreamer's barrier hummed at a different pitch this morning. No one else heard it.",
+    "context": "act3_te_doom_whisper_shields_thin",
+    "section": "§H · Doom whisper · 20",
+    "emotion": "whisper_heavy_reverb",
+    "outputDir": "audio/act3"
+  },
+  {
+    "id": "te-doom-whisper-naming",
+    "speaker": "the_eyes",
+    "voiceId": "Fu4ULyfBJO8Rl5TwP0ZB",
+    "text": "Your name, spoken back to you — in a voice you have never heard you use.",
+    "context": "act3_te_doom_whisper_naming",
+    "section": "§H · Doom whisper · 30",
+    "emotion": "whisper_heavy_reverb",
+    "outputDir": "audio/act3"
+  },
+  {
+    "id": "te-doom-whisper-counted",
+    "speaker": "the_eyes",
+    "voiceId": "Fu4ULyfBJO8Rl5TwP0ZB",
+    "text": "Every ship in your fleet is counted twice in the manifest. The second count is not yours.",
+    "context": "act3_te_doom_whisper_counted",
+    "section": "§H · Doom whisper · 45",
+    "emotion": "whisper_heavy_reverb",
+    "outputDir": "audio/act3"
+  },
+  {
+    "id": "te-doom-whisper-visitors",
+    "speaker": "the_eyes",
+    "voiceId": "Fu4ULyfBJO8Rl5TwP0ZB",
+    "text": "Three of your crew have dreamed the same sector you have never seen. They drew the same coastline.",
+    "context": "act3_te_doom_whisper_visitors",
+    "section": "§H · Doom whisper · 60",
+    "emotion": "whisper_heavy_reverb",
+    "outputDir": "audio/act3"
+  },
+  {
+    "id": "te-doom-whisper-ledger",
+    "speaker": "the_eyes",
+    "voiceId": "Fu4ULyfBJO8Rl5TwP0ZB",
+    "text": "The Antiquarian's ledger opens on its own. Your entry has a subheading you did not write. The subheading is: 'almost.'",
+    "context": "act3_te_doom_whisper_ledger",
+    "section": "§H · Doom whisper · 75",
+    "emotion": "whisper_heavy_reverb",
+    "outputDir": "audio/act3"
+  },
+  {
+    "id": "te-doom-whisper-final",
+    "speaker": "the_eyes",
+    "voiceId": "Fu4ULyfBJO8Rl5TwP0ZB",
+    "text": "Something has finished deciding. It is polite. It is waiting for the meeting to convene.",
+    "context": "act3_te_doom_whisper_final",
+    "section": "§H · Doom whisper · 90",
+    "emotion": "whisper_heavy_reverb",
+    "outputDir": "audio/act3"
+  },
+  {
+    "id": "te-encounter-open-listener_static",
+    "speaker": "narrator",
+    "voiceId": "VgFgBh5TnWeBhCBvCJ1E",
+    "text": "Elara wakes you at an hour that isn't on the schedule. The ship's long-range array is receiving a signal from a direction that has no stars. The signal is listening, not speaking. Someone has been listening for a long time. They would like to be invited.",
+    "context": "act3_te_encounter_open_listener_static",
+    "section": "§I · Encounter opening",
+    "emotion": "warm_serious",
+    "outputDir": "audio/act3"
+  },
+  {
+    "id": "te-encounter-open-dreamers_weeping",
+    "speaker": "narrator",
+    "voiceId": "VgFgBh5TnWeBhCBvCJ1E",
+    "text": "The Dreamer's barrier changes pitch for the first time in eleven years. The note is not an emergency. It is a grief. Elara tests the translation matrix three times. The output is the same: I am sorry. I cannot hold much longer.",
+    "context": "act3_te_encounter_open_dreamers_weeping",
+    "section": "§I · Encounter opening",
+    "emotion": "warm_serious",
+    "outputDir": "audio/act3"
+  },
+  {
+    "id": "te-encounter-open-counted_crew",
+    "speaker": "narrator",
+    "voiceId": "VgFgBh5TnWeBhCBvCJ1E",
+    "text": "The ship's manifest lists forty-three crew. You count forty-four in the commissary. You count again. Forty-three. The surveillance footage shows forty-four for exactly one frame, every third cycle. The Human speaks, for the first time in a week. He says: I don't know that one.",
+    "context": "act3_te_encounter_open_counted_crew",
+    "section": "§I · Encounter opening",
+    "emotion": "warm_serious",
+    "outputDir": "audio/act3"
+  },
+  {
+    "id": "te-encounter-open-final_invitation",
+    "speaker": "narrator",
+    "voiceId": "VgFgBh5TnWeBhCBvCJ1E",
+    "text": "Every screen on the Ark opens on the same image. A door. Not a metaphor. A door. The Dreamer is at its threshold, holding it closed with both hands. The Antiquarian watches from outside time, taking notes. A voice says: We are ready when you are.",
+    "context": "act3_te_encounter_open_final_invitation",
+    "section": "§I · Encounter opening",
+    "emotion": "warm_serious",
+    "outputDir": "audio/act3"
+  },
+  {
+    "id": "te-encounter-outcome-listener-answer",
+    "speaker": "narrator",
+    "voiceId": "VgFgBh5TnWeBhCBvCJ1E",
+    "text": "You answered. The listener was, as expected, polite. The Human turned the array off after four minutes. He did not say what he heard. He has not spoken since.",
+    "context": "act3_te_encounter_outcome_listener_answer",
+    "section": "§J · Encounter outcome · listener",
+    "emotion": "warm_serious",
+    "outputDir": "audio/act3"
+  },
+  {
+    "id": "te-encounter-outcome-listener-ignore",
+    "speaker": "narrator",
+    "voiceId": "VgFgBh5TnWeBhCBvCJ1E",
+    "text": "You did not answer. The signal continued for the rest of the shift, then stopped at the exact second your shift would have ended. The pattern is filed under polite. The Antiquarian filed it twice.",
+    "context": "act3_te_encounter_outcome_listener_ignore",
+    "section": "§J · Encounter outcome · listener",
+    "emotion": "warm_serious",
+    "outputDir": "audio/act3"
+  },
+  {
+    "id": "te-encounter-outcome-listener-trace",
+    "speaker": "narrator",
+    "voiceId": "VgFgBh5TnWeBhCBvCJ1E",
+    "text": "Orin Fell triangulated. The trace returned a black hole that the Antiquarian does not file under his name. He files it now. So do you. So does whatever is in it.",
+    "context": "act3_te_encounter_outcome_listener_trace",
+    "section": "§J · Encounter outcome · listener",
+    "emotion": "warm_serious",
+    "outputDir": "audio/act3"
+  },
+  {
+    "id": "te-encounter-outcome-weeping-stand_by",
+    "speaker": "narrator",
+    "voiceId": "VgFgBh5TnWeBhCBvCJ1E",
+    "text": "You ramped every defensive asset toward her coordinates and announced it on every channel you owned. She heard. The note in the barrier softened. The grief did not. She is still weeping. So are you.",
+    "context": "act3_te_encounter_outcome_weeping_stand_by",
+    "section": "§J · Encounter outcome · weeping",
+    "emotion": "warm_serious",
+    "outputDir": "audio/act3"
+  },
+  {
+    "id": "te-encounter-outcome-weeping-harvest",
+    "speaker": "narrator",
+    "voiceId": "VgFgBh5TnWeBhCBvCJ1E",
+    "text": "You collected the Void Crystal where her tears fell. Locke's engineers paid the rate without bargaining. The Dreamer did not protest. The not-protesting is the part you will think about later.",
+    "context": "act3_te_encounter_outcome_weeping_harvest",
+    "section": "§J · Encounter outcome · weeping",
+    "emotion": "warm_serious",
+    "outputDir": "audio/act3"
+  },
+  {
+    "id": "te-encounter-outcome-weeping-consult",
+    "speaker": "narrator",
+    "voiceId": "VgFgBh5TnWeBhCBvCJ1E",
+    "text": "The Antiquarian met you outside time. He did not smile. She is not weeping for herself, he said. She is weeping for you.",
+    "context": "act3_te_encounter_outcome_weeping_consult",
+    "section": "§J · Encounter outcome · weeping",
+    "emotion": "warm_serious",
+    "outputDir": "audio/act3"
+  },
+  {
+    "id": "te-encounter-outcome-counted-hunt",
+    "speaker": "narrator",
+    "voiceId": "VgFgBh5TnWeBhCBvCJ1E",
+    "text": "You locked the ship and swept every deck. The count never matched. After three days the count matched. No one believes that the count matches. Including the count.",
+    "context": "act3_te_encounter_outcome_counted_hunt",
+    "section": "§J · Encounter outcome · counted",
+    "emotion": "warm_serious",
+    "outputDir": "audio/act3"
+  },
+  {
+    "id": "te-encounter-outcome-counted-welcome",
+    "speaker": "narrator",
+    "voiceId": "VgFgBh5TnWeBhCBvCJ1E",
+    "text": "You set a place at every table and asked no questions. The forty-fourth crew member is now part of the manifest. The Human signed off on the addition. He did not sign his own name.",
+    "context": "act3_te_encounter_outcome_counted_welcome",
+    "section": "§J · Encounter outcome · counted",
+    "emotion": "warm_serious",
+    "outputDir": "audio/act3"
+  },
+  {
+    "id": "te-encounter-outcome-counted-exorcise",
+    "speaker": "narrator",
+    "voiceId": "VgFgBh5TnWeBhCBvCJ1E",
+    "text": "The Shadow Tongue ran the rite. He charged. The forty-fourth crew member is gone. So is one of the original forty-three. The Shadow Tongue did not say which. He never does.",
+    "context": "act3_te_encounter_outcome_counted_exorcise",
+    "section": "§J · Encounter outcome · counted",
+    "emotion": "warm_serious",
+    "outputDir": "audio/act3"
+  },
+  {
+    "id": "te-encounter-outcome-final-refuse",
+    "speaker": "narrator",
+    "voiceId": "VgFgBh5TnWeBhCBvCJ1E",
+    "text": "You closed every channel and lit the Remembrance Garden's beacon. The door is still there. The voice has stopped asking. The voice is still polite. The line is held.",
+    "context": "act3_te_encounter_outcome_final_refuse",
+    "section": "§J · Encounter outcome · final",
+    "emotion": "warm_serious",
+    "outputDir": "audio/act3"
+  },
+  {
+    "id": "te-encounter-outcome-final-parley",
+    "speaker": "narrator",
+    "voiceId": "VgFgBh5TnWeBhCBvCJ1E",
+    "text": "Locke went to the door. The transcript exists. The transcript is in a language the Antiquarian will not translate. Locke came back. She did not say what she promised.",
+    "context": "act3_te_encounter_outcome_final_parley",
+    "section": "§J · Encounter outcome · final",
+    "emotion": "warm_serious",
+    "outputDir": "audio/act3"
+  },
+  {
+    "id": "te-encounter-outcome-final-open",
+    "speaker": "narrator",
+    "voiceId": "VgFgBh5TnWeBhCBvCJ1E",
+    "text": "The door opens. The Dreamer steps aside, politely. The Antiquarian closes his ledger. He does not file this. There is, suddenly, more room in the room than the room can account for. You have a new companion. You did not ask its name. It will tell you, in time.",
+    "context": "act3_te_encounter_outcome_final_open",
+    "section": "§J · Encounter outcome · final · Final Awakening",
+    "emotion": "quiet_wonder",
+    "outputDir": "audio/act3"
+  },
+  {
+    "id": "te-sanity-below60",
+    "speaker": "elara",
+    "voiceId": "xMyNDrPFEtQN8iZtT7l2",
+    "text": "The lights flickered in sectors I do not remember being yours. Someone is moving things on the bridge. Probably me. Probably.",
+    "context": "act3_te_sanity_below60",
+    "section": "§K · Sanity · <60",
+    "emotion": "whisper_heavy_reverb",
+    "outputDir": "audio/act3"
+  },
+  {
+    "id": "te-sanity-below30",
+    "speaker": "elara",
+    "voiceId": "xMyNDrPFEtQN8iZtT7l2",
+    "text": "I keep finding my own handwriting in places I have not been. The handwriting is — was — is correct. I am correct. We are correct. I am sorry.",
+    "context": "act3_te_sanity_below30",
+    "section": "§K · Sanity · <30",
+    "emotion": "whisper_heavy_reverb",
+    "outputDir": "audio/act3"
+  },
+  {
+    "id": "te-sanity-below10",
+    "speaker": "elara",
+    "voiceId": "xMyNDrPFEtQN8iZtT7l2",
+    "text": "I know which one of us is real. I am almost sure. I am almost sure I am almost sure. Hold the line. I will hold the line. Both of us will.",
+    "context": "act3_te_sanity_below10",
+    "section": "§K · Sanity · <10",
+    "emotion": "whisper_heavy_reverb",
+    "outputDir": "audio/act3"
   }
 ]
