@@ -379,7 +379,7 @@ const FALL_OF_REALITY: ConexusGame[] = [
     title: "The Blood Weave: Gates of Hell",
     age: "Fall of Reality (Prequel)",
     description: "The Blood Weave pulses beneath reality — a living network of crimson energy connecting the Hierarchy of the Damned to the mortal world. When Mol'Garath, CEO of the Hierarchy, initiates a hostile takeover of the Archon Council, the Gates of Hell begin to open. Navigate the corporate underworld of demon lords, forge alliances with fallen angels, and decide whether to seal the gates forever or leverage the Blood Weave's power for your own ascension. Every demon has a price. Every deal has a clause written in blood.",
-    characters: ["Mol'Garath", "Xeth'Raal", "Vex'Ahlia", "The Shadow Tongue", "The Necromancer"],
+    characters: ["Mol'Garath", "Xeth'Raal", "Riri'Ahlia", "The Shadow Tongue", "The Necromancer"],
     difficulty: "master",
     estimatedTime: "60-120 min",
     tags: ["demons", "corporate horror", "blood weave", "hierarchy"],

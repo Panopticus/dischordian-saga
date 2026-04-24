@@ -626,7 +626,7 @@ export const FIGHTER_INTROS: FighterIntro[] = [
     accentColor: "#7c3aed",
   },
   {
-    fighterId: "vexahlia",
+    fighterId: "ririahlia",
     titleCard: "VEX'AHLIA",
     epithet: "COO — The Taskmaster",
     quote: "Six arms. Six chances to break you. I only need one.",

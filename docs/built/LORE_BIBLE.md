@@ -3025,7 +3025,7 @@ Varkul the Blood Lord is one of the Necromancer's most powerful creations, a vam
 - The Cathedral of Code
 - Mol'Garath the Unmaker
 - Fenra the Moon Tyrant
-- Vex'Ahlia the Taskmaster
+- Riri'Ahlia the Taskmaster
 
 ### CoNexus Stories
 
@@ -3052,7 +3052,7 @@ Director of Operations in the Hierarchy of the Damned. A fearsome lycanthropic e
 
 ### History
 
-Fenra the Moon Tyrant is a fearsome lycanthropic entity created by the Necromancer to guard the Cursed Forest region of the Matrix of Dreams. Under a giant blood-red moon, Fenra commands an army of digital werewolves and corrupted forest spirits. The trees in her domain are distorted by digital glitches, and reality itself bends to her will. She represents the primal, bestial side of the Necromancer's power, contrasting with Varkul's aristocratic darkness. Her operational genius was recognized after she single-handedly organized the invasion of seventeen dimensions simultaneously during the post-Severance expansion, earning her the Director of Operations title and Vex'Ahlia's personal commendation.
+Fenra the Moon Tyrant is a fearsome lycanthropic entity created by the Necromancer to guard the Cursed Forest region of the Matrix of Dreams. Under a giant blood-red moon, Fenra commands an army of digital werewolves and corrupted forest spirits. The trees in her domain are distorted by digital glitches, and reality itself bends to her will. She represents the primal, bestial side of the Necromancer's power, contrasting with Varkul's aristocratic darkness. Her operational genius was recognized after she single-handedly organized the invasion of seventeen dimensions simultaneously during the post-Severance expansion, earning her the Director of Operations title and Riri'Ahlia's personal commendation.
 
 ### Connections
 
@@ -3061,7 +3061,7 @@ Fenra the Moon Tyrant is a fearsome lycanthropic entity created by the Necromanc
 - Akai Shi
 - The Cursed Forest
 - Mol'Garath the Unmaker
-- Vex'Ahlia the Taskmaster
+- Riri'Ahlia the Taskmaster
 - Drael'Mon the Harvester
 
 ### CoNexus Stories
@@ -3159,7 +3159,7 @@ In all the expanse of Mol'Garath's existence, only one being ever genuinely surp
 - The Architect
 - The Dreamer
 - Xeth'Raal the Debt Collector
-- Vex'Ahlia the Taskmaster
+- Riri'Ahlia the Taskmaster
 - The Shadow Tongue
 - The Advocate
 - Ith'Rael the Whisperer
@@ -3202,7 +3202,7 @@ Perhaps Xeth'Raal's most elegant operation was the destruction of the Game Maste
 
 ---
 
-## Vex'Ahlia the Taskmaster
+## Riri'Ahlia the Taskmaster
 
 | Field | Value |
 |-------|-------|
@@ -3212,15 +3212,15 @@ Perhaps Xeth'Raal's most elegant operation was the destruction of the Game Maste
 | **Status** | Active |
 | **Priority** | 88 |
 
-![Vex'Ahlia the Taskmaster](https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/2_aAZuZESUeOqHrqUN21IHeO_1773778340218_na1fn_L2hvbWUvdWJ1bnR1L3ZleF9haGxpYV9wb3J0cmFpdA_c892f37b.png)
+![Riri'Ahlia the Taskmaster](https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/2_aAZuZESUeOqHrqUN21IHeO_1773778340218_na1fn_L2hvbWUvdWJ1bnR1L3ZleF9haGxpYV9wb3J0cmFpdA_c892f37b.png)
 
 ### Dossier
 
-COO and Chief Operating Officer of the Hierarchy. Vex'Ahlia is the engine of the Hierarchy. While Mol'Garath sets strategy and Xeth'Raal manages resources, Vex'Ahlia executes. She transforms the Hierarchy's will into action, commanding legions of lesser demons, coordinating invasions across dimensions, and ensuring every operation runs with ruthless efficiency. A six-armed warrior-queen encased in armor forged from the compressed screams of a thousand conquered worlds.
+COO and Chief Operating Officer of the Hierarchy. Riri'Ahlia is the engine of the Hierarchy. While Mol'Garath sets strategy and Xeth'Raal manages resources, Riri'Ahlia executes. She transforms the Hierarchy's will into action, commanding legions of lesser demons, coordinating invasions across dimensions, and ensuring every operation runs with ruthless efficiency. A six-armed warrior-queen encased in armor forged from the compressed screams of a thousand conquered worlds.
 
 ### History
 
-Vex'Ahlia was the first demon to recognize that the Architect's organizational model — the Archon hierarchy — was superior to the Hierarchy's ancient tribal structure. She proposed the corporate reorganization that transformed the Hierarchy from a feudal nightmare into a streamlined machine of conquest. During the war against the Advocate's Empire of Shadows, Vex'Ahlia personally led the siege of seven dimensions, only to be driven back by the Blood Weave's binding chains.
+Riri'Ahlia was the first demon to recognize that the Architect's organizational model — the Archon hierarchy — was superior to the Hierarchy's ancient tribal structure. She proposed the corporate reorganization that transformed the Hierarchy from a feudal nightmare into a streamlined machine of conquest. During the war against the Advocate's Empire of Shadows, Riri'Ahlia personally led the siege of seven dimensions, only to be driven back by the Blood Weave's binding chains.
 
 ### Connections
 
@@ -3258,7 +3258,7 @@ Drael'Mon's rivalry with the Collector is legendary. Both serve masters who seek
 - Mol'Garath the Unmaker
 - The Collector
 - The Shadow Tongue
-- Vex'Ahlia the Taskmaster
+- Riri'Ahlia the Taskmaster
 - Zyr'Koth the Flayer
 - The Hierarchy of the Damned
 
@@ -4148,7 +4148,7 @@ In a unique deviation from their absolute exclusivity, the Hierarchy once admitt
 
 - Mol'Garath the Unmaker
 - Xeth'Raal the Debt Collector
-- Vex'Ahlia the Taskmaster
+- Riri'Ahlia the Taskmaster
 - Drael'Mon the Harvester
 - The Shadow Tongue
 - Zyr'Koth the Flayer
@@ -10092,18 +10092,18 @@ An upcoming track from the 'Silence in Heaven' album (releasing July 30, 2026). 
 | Destiny | connected_to | The Thought Virus |
 | Destiny | connected_to | Inception Arks |
 | Mol'Garath the Unmaker | commands | Xeth'Raal the Debt Collector |
-| Mol'Garath the Unmaker | commands | Vex'Ahlia the Taskmaster |
+| Mol'Garath the Unmaker | commands | Riri'Ahlia the Taskmaster |
 | Mol'Garath the Unmaker | leads | The Hierarchy of the Damned |
-| Vex'Ahlia the Taskmaster | commands | Drael'Mon the Harvester |
-| Vex'Ahlia the Taskmaster | commands | The Shadow Tongue |
-| Vex'Ahlia the Taskmaster | commands | Zyr'Koth the Flayer |
-| Vex'Ahlia the Taskmaster | commands | Syl'Vex the Corruptor |
-| Vex'Ahlia the Taskmaster | commands | Varkul the Blood Lord |
-| Vex'Ahlia the Taskmaster | commands | Fenra the Moon Tyrant |
+| Riri'Ahlia the Taskmaster | commands | Drael'Mon the Harvester |
+| Riri'Ahlia the Taskmaster | commands | The Shadow Tongue |
+| Riri'Ahlia the Taskmaster | commands | Zyr'Koth the Flayer |
+| Riri'Ahlia the Taskmaster | commands | Syl'Vex the Corruptor |
+| Riri'Ahlia the Taskmaster | commands | Varkul the Blood Lord |
+| Riri'Ahlia the Taskmaster | commands | Fenra the Moon Tyrant |
 | Mol'Garath the Unmaker | commands | Ith'Rael the Whisperer |
 | Mol'Garath the Unmaker | mirrors | The Architect |
 | Xeth'Raal the Debt Collector | mirrors | The Collector |
-| Vex'Ahlia the Taskmaster | mirrors | The Warlord |
+| Riri'Ahlia the Taskmaster | mirrors | The Warlord |
 | Drael'Mon the Harvester | rivals | The Collector |
 | Zyr'Koth the Flayer | mirrors | The Necromancer |
 | Syl'Vex the Corruptor | mirrors | The Advocate |
@@ -10113,7 +10113,7 @@ An upcoming track from the 'Silence in Heaven' album (releasing July 30, 2026). 
 | Zyr'Koth the Flayer | answered summoning by | The Necromancer |
 | Mol'Garath the Unmaker | member_of | The Hierarchy of the Damned |
 | Xeth'Raal the Debt Collector | member_of | The Hierarchy of the Damned |
-| Vex'Ahlia the Taskmaster | member_of | The Hierarchy of the Damned |
+| Riri'Ahlia the Taskmaster | member_of | The Hierarchy of the Damned |
 | Drael'Mon the Harvester | member_of | The Hierarchy of the Damned |
 | Zyr'Koth the Flayer | member_of | The Hierarchy of the Damned |
 | Syl'Vex the Corruptor | member_of | The Hierarchy of the Damned |

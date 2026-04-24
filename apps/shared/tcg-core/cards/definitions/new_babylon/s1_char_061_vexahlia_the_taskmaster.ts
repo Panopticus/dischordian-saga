@@ -1,5 +1,5 @@
 /**
- * s1_char_061 — Vex'Ahlia the Taskmaster
+ * s1_char_061 — Riri'Ahlia the Taskmaster
  *
  * Legendary unit · New Babylon faction · 8 cost · 12/10
  * Keywords: fury
@@ -29,7 +29,7 @@ import type { CardDefinition } from "../../../index";
 import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_061" as CardDefinition["id"],
-  name: "Vex'Ahlia the Taskmaster",
+  name: "Riri'Ahlia the Taskmaster",
   faction: "new_babylon",
   cardType: "unit",
   rarity: "legendary",
@@ -39,7 +39,7 @@ export const cardDef: CardDefinition = {
   abilities: [
     // --- Stun on every hit (simplified 30% chance) ---
     {
-      id: "vex_stun_on_hit" as CardDefinition["abilities"][number]["id"],
+      id: "riri_stun_on_hit" as CardDefinition["abilities"][number]["id"],
       trigger: { kind: "on_damage_dealt", by: "self" },
       effect: {
         op: "stun",

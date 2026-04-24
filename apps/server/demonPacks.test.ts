@@ -75,7 +75,7 @@ describe("Demon Fighter Sprites", () => {
     const { CHARACTER_CONFIGS } = await import("../client/src/game/CharacterModel3D");
     // Demon configs use base IDs (without -ceo/-cfo suffixes)
     const demonIds = [
-      "molgrath", "xethraal", "vexahlia",
+      "molgrath", "xethraal", "ririahlia",
       "draelmon", "zyrkoth", "sylvex",
       "varkul", "fenra", "ithrael"
     ];
@@ -148,7 +148,7 @@ describe("Demon Fighters in Game Data", () => {
     const names = DEMON_FIGHTERS.map((f) => f.name);
     expect(names).toContain("Mol'Garath");
     expect(names).toContain("Xeth'Raal");
-    expect(names).toContain("Vex'Ahlia");
+    expect(names).toContain("Riri'Ahlia");
   });
 });
 
@@ -233,7 +233,7 @@ describe("Trade Empire Demon Encounters", () => {
     const names = DEMON_FIGHTERS.map((f) => f.name);
     expect(names).toContain("Mol'Garath");
     expect(names).toContain("Xeth'Raal");
-    expect(names).toContain("Vex'Ahlia");
+    expect(names).toContain("Riri'Ahlia");
   });
 });
 

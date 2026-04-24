@@ -604,7 +604,7 @@ export const DEMON_FIGHTERS: FighterData[] = [
     frameProfile: { archetype: "tank", walkSpeedMult: 0.85, dashSpeedMult: 0.85, jumpForceMult: 0.9, lightStartup: 6, lightRecovery: 10, mediumStartup: 10, mediumRecovery: 17, heavyStartup: 9, heavyRecovery: 24, damageMult: 1.0, hitstunMult: 1.1, pushbackMult: 1.1, rangeMult: 1.0, meterGainMult: 1.2, maxComboHits: 9 },
   },
   {
-    id: "vexahlia", loredexId: "entity_93", name: "Vex'Ahlia", title: "COO — The Taskmaster",
+    id: "ririahlia", loredexId: "entity_93", name: "Riri'Ahlia", title: "COO — The Taskmaster",
     image: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/2_aAZuZESUeOqHrqUN21IHeO_1773778340218_na1fn_L2hvbWUvdWJ1bnR1L3ZleF9haGxpYV9wb3J0cmFpdA_c892f37b.png",
     faction: "hierarchy", locked: true, unlockCost: 1800, hp: 120, attack: 11, defense: 7, speed: 8,
     special: { name: "SIX-ARMED ASSAULT", damage: 42, description: "Unleashes a devastating flurry from all six arms simultaneously", cooldown: 300, color: "#e11d48" },

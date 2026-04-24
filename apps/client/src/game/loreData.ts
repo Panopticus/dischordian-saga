@@ -172,7 +172,7 @@ export interface HierarchyDemonDef {
 export const HIERARCHY: HierarchyDemonDef[] = [
   { id: "molgrath", name: "Mol'Garath", title: "The Unmaker", rank: "CEO & Chairman", domain: "Entropy & Unmaking", mirrorsArchon: "The Architect", opposesNeyon: "The Source", color: "#dc2626" },
   { id: "xethraal", name: "Xeth'Raal", title: "The Debt Collector", rank: "CFO", domain: "Soul Economics & Contracts", mirrorsArchon: "The Collector", opposesNeyon: "The Meme", color: "#eab308" },
-  { id: "vexahlia", name: "Vex'Ahlia", title: "The Taskmaster", rank: "COO", domain: "Military Operations", mirrorsArchon: "The Warlord", opposesNeyon: "Iron Lion", color: "#e11d48" },
+  { id: "ririahlia", name: "Riri'Ahlia", title: "The Taskmaster", rank: "COO", domain: "Military Operations", mirrorsArchon: "The Warlord", opposesNeyon: "Iron Lion", color: "#e11d48" },
   { id: "draelmon", name: "Drael'Mon", title: "The Harvester", rank: "SVP Acquisitions", domain: "Dimensional Conquest", mirrorsArchon: "The Collector", opposesNeyon: "The Oracle", color: "#7c3aed" },
   { id: "shadow_tongue", name: "The Shadow Tongue", title: "The Propagandist", rank: "SVP Communications", domain: "Language Corruption & Cultural Subversion", mirrorsArchon: "The Watcher", opposesNeyon: "The Enigma", color: "#6366f1" },
   { id: "zyrkoth", name: "Zyr'Koth", title: "The Flayer", rank: "SVP R&D", domain: "Thought Virus Engineering", mirrorsArchon: "The Necromancer", opposesNeyon: "The Human", color: "#10b981" },
