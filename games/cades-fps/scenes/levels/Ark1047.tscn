@@ -1,8 +1,9 @@
-[gd_scene load_steps=14 format=3]
+[gd_scene load_steps=15 format=3]
 
 [ext_resource type="Script" path="res://scenes/levels/Ark1047.gd" id="1_scr"]
 [ext_resource type="PackedScene" path="res://objects/player.tscn" id="2_player"]
 [ext_resource type="PackedScene" path="res://scenes/ui/HUD.tscn" id="3_hud"]
+[ext_resource type="PackedScene" path="res://scenes/ui/AmbientDrone.tscn" id="4_drone"]
 
 [sub_resource type="Environment" id="env"]
 background_mode = 1
@@ -240,3 +241,14 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
 [node name="CollisionShape3D" type="CollisionShape3D" parent="BreachZones/observation/DetectArea"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("breach_shape")
+
+[node name="AmbientDrone" parent="." instance=ExtResource("4_drone")]
+base_freq_a = 55.0
+base_freq_b = 82.41
+base_freq_c = 123.47
+amplitude = 0.10
+volume_db = -18.0
+fade_in_seconds = 4.5
+lfo_rate_a = 0.05
+lfo_rate_b = 0.09
+lfo_rate_c = 0.14

@@ -1,9 +1,10 @@
-[gd_scene load_steps=10 format=3]
+[gd_scene load_steps=11 format=3]
 
 [ext_resource type="Script" path="res://scenes/levels/BridgeOfKael.gd" id="1_scr"]
 [ext_resource type="PackedScene" path="res://objects/player.tscn" id="2_player"]
 [ext_resource type="PackedScene" path="res://scenes/ui/HUD.tscn" id="3_hud"]
 [ext_resource type="PackedScene" path="res://scenes/ui/LoopResetUI.tscn" id="4_loop"]
+[ext_resource type="PackedScene" path="res://scenes/ui/AmbientDrone.tscn" id="5_drone"]
 
 [sub_resource type="ProceduralSkyMaterial" id="sky_mat"]
 sky_top_color = Color(0, 0, 0, 1)
@@ -172,3 +173,11 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 1, 0)
 light_color = Color(0.984, 0.749, 0.165, 1)
 light_energy = 0.3
 omni_range = 2.0
+
+[node name="AmbientDrone" parent="." instance=ExtResource("5_drone")]
+base_freq_a = 49.0
+base_freq_b = 73.42
+base_freq_c = 98.0
+amplitude = 0.11
+volume_db = -16.0
+fade_in_seconds = 3.5
