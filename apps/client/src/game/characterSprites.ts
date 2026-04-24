@@ -196,7 +196,13 @@ export const CHARACTER_SPRITES: Record<string, CharacterSprite> = {
   the_antiquarian:   npc("the_antiquarian", {
     mouthBox: { x: 0.256, y: 0.374, width: 0.287, height: 0.214 },
   }),
-  the_source:        npc("the_source"),
+  // Source is bearded like the Antiquarian; viseme sheet has a thinned
+  // beard to let phoneme silhouettes read. Box lands cell nose (~y=0.12)
+  // on his bust nose (~y=0.32) and cell chin-zone (~y=0.85) on his bust
+  // chin-zone (~y=0.42). Face sits slightly right of frame centre.
+  the_source:        npc("the_source", {
+    mouthBox: { x: 0.458, y: 0.304, width: 0.184, height: 0.137 },
+  }),
   shadow_tongue:     npc("shadow_tongue"),
   the_meme:          npc("the_meme"),
 
