@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=7 format=3]
 
 [ext_resource type="Script" path="res://tests/TestRunner.gd" id="1_runner"]
 [ext_resource type="Script" path="res://tests/test_game_mode.gd" id="2_gm"]
 [ext_resource type="Script" path="res://tests/test_wave_manager.gd" id="3_wm"]
 [ext_resource type="Script" path="res://tests/test_historical_manager.gd" id="4_hm"]
 [ext_resource type="Script" path="res://tests/test_loop_manager.gd" id="5_lm"]
+[ext_resource type="Script" path="res://tests/test_attack_patterns.gd" id="6_ap"]
 
 [node name="TestRunner" type="Node"]
 script = ExtResource("1_runner")
@@ -20,3 +21,6 @@ script = ExtResource("4_hm")
 
 [node name="LoopManager" type="Node" parent="."]
 script = ExtResource("5_lm")
+
+[node name="AttackPatterns" type="Node" parent="."]
+script = ExtResource("6_ap")
