@@ -554,20 +554,20 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     unlockRequirement: { type: "specific_item", value: "observation-keycard" },
     connections: ["comms-array", "engineering"],
     hotspots: [
-      // Realigned 2026-04-25 from the AAA Final observation-deck prompt
-      // (docs/production/prelude-asset-build/prompts/rooms/room-
-      // observation-deck.txt). Layout: domed canopy fills the upper
-      // half; Vortex rift framed at 68%L/28%T; brass telescope at
-      // 26%L/62%T pointed at the rift; communion bench centre-rear at
-      // 50%L/72%T; five widely-spaced loungers around a perimeter
-      // railing; thin emergency floor strips; corridors out to Comms
-      // and Engineering at the perimeter edges.
-      { id: "music-terminal", name: "Music Terminal", description: "A sophisticated music system with the complete discography of Malkia Ukweli & the Panopticon.", x: 40, y: 60, width: 20, height: 22, type: "terminal", action: "/discography", elaraDialog: "The complete discography. Four albums spanning the entire narrative — Dischordian Logic, The Age of Privacy, The Book of Daniel 2:47, and the upcoming Silence in Heaven. Every song is a piece of the puzzle." },
-      { id: "viewport", name: "Viewport", description: "The vast expanse of space stretches before you. The stars look... wrong.", x: 8, y: 2, width: 84, height: 46, type: "examine", elaraDialog: "Look at the stars. They're beautiful, aren't they? But they're wrong. The constellations don't match any known configuration from any of the mapped universes. Either we've traveled very, very far... or we're somewhere that shouldn't exist." },
-      { id: "crew-memorial", name: "Crew Memorial", description: "A small memorial with names etched in light. The crew who didn't make it.", x: 72, y: 58, width: 16, height: 22, type: "examine", elaraDialog: "A memorial for the crew members who didn't survive the journey. One thousand and forty-seven names. They gave their lives to keep the Ark running while the Potentials slept. I remember every one of them." },
-      { id: "door-comms", name: "Comms Array", description: "Return to the Communications Array.", x: 1, y: 30, width: 8, height: 50, type: "door", action: "comms-array" },
-      { id: "door-engineering", name: "Engineering Access", description: "A maintenance hatch leading down to Engineering.", x: 91, y: 30, width: 8, height: 50, type: "door", action: "engineering" },
-      { id: "egg-obs-constellation", name: "Strange Constellation", description: "A pattern of stars that seems to form a face.", x: 66, y: 24, width: 5, height: 6, type: "examine", elaraDialog: "Do you see it? That cluster of stars... if you connect them, they form a face. Not just any face — it looks like the Watcher. The all-seeing eye of the Panopticon's surveillance network. But we're light-years from Panopticon space. How can the stars themselves form his likeness? Unless... the stars were arranged. By someone with the power to move suns." },
+      // Realigned 2026-04-25 against the actual delivered art (the
+      // Vortex-rift / telescope / communion-bench prompt was an earlier
+      // brief; the shipped render is a lounge: bar with backlit shelves
+      // on the left, sectional couch + glass coffee table foreground-
+      // centre, bioluminescent cylindrical aquariums in the corners,
+      // an audio-spectrum visualiser integrated into the right side of
+      // the viewport, nebula + ceiling skylight panels filling the upper
+      // two-thirds.
+      { id: "music-terminal", name: "Music Terminal", description: "A sophisticated music system with the complete discography of Malkia Ukweli & the Panopticon.", x: 62, y: 55, width: 28, height: 22, type: "terminal", action: "/discography", elaraDialog: "The complete discography. Four albums spanning the entire narrative — Dischordian Logic, The Age of Privacy, The Book of Daniel 2:47, and the upcoming Silence in Heaven. Every song is a piece of the puzzle." },
+      { id: "viewport", name: "Viewport", description: "The vast expanse of space stretches before you. The stars look... wrong.", x: 30, y: 2, width: 65, height: 70, type: "examine", elaraDialog: "Look at the stars. They're beautiful, aren't they? But they're wrong. The constellations don't match any known configuration from any of the mapped universes. Either we've traveled very, very far... or we're somewhere that shouldn't exist." },
+      { id: "crew-memorial", name: "Crew Memorial", description: "A small memorial with names etched in light. The crew who didn't make it.", x: 6, y: 24, width: 24, height: 36, type: "examine", elaraDialog: "A memorial for the crew members who didn't survive the journey. One thousand and forty-seven names. They gave their lives to keep the Ark running while the Potentials slept. I remember every one of them." },
+      { id: "door-comms", name: "Comms Array", description: "Return to the Communications Array.", x: 1, y: 80, width: 18, height: 18, type: "door", action: "comms-array" },
+      { id: "door-engineering", name: "Engineering Access", description: "A maintenance hatch leading down to Engineering.", x: 95, y: 30, width: 5, height: 55, type: "door", action: "engineering" },
+      { id: "egg-obs-constellation", name: "Strange Constellation", description: "A pattern of stars that seems to form a face.", x: 44, y: 8, width: 5, height: 6, type: "examine", elaraDialog: "Do you see it? That cluster of stars... if you connect them, they form a face. Not just any face — it looks like the Watcher. The all-seeing eye of the Panopticon's surveillance network. But we're light-years from Panopticon space. How can the stars themselves form his likeness? Unless... the stars were arranged. By someone with the power to move suns." },
     ],
   },
   {
