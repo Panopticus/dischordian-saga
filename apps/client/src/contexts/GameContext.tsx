@@ -385,22 +385,34 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     unlockRequirement: { type: "start" },
     connections: ["medical-bay", "bridge"],
     hotspots: [
-      { id: "cryo-pod", name: "Your Cryo Pod", description: "The pod you woke up in. Frost still clings to the glass. A data readout shows your vitals — somehow you survived.", x: 35, y: 30, width: 18, height: 35, type: "examine", elaraDialog: "That's your pod. Serial number AK-74-0074. You were in deep cryogenic suspension for... the chronometer is corrupted. Could be decades. Could be centuries." },
-      { id: "sealed-pods", name: "Sealed Pods", description: "Several pods remain sealed, their status indicators dark. Are they occupied?", x: 70, y: 25, width: 15, height: 30, type: "examine", elaraDialog: "Those pods are still sealed. Their status indicators went dark when the main power failed. I... I don't want to speculate about what's inside them. Not yet." },
-      { id: "cryo-terminal", name: "Cryo Terminal", description: "A terminal displaying your character data and vital statistics.", x: 12, y: 50, width: 14, height: 25, type: "terminal", action: "/character-sheet", elaraDialog: "This terminal has your biometric data — your species markers, class aptitudes, everything we determined during your awakening. You can review your Citizen profile here." },
-      { id: "door-medical", name: "Medical Bay Door", description: "A reinforced door leading to the Medical Bay. Green status light.", x: 88, y: 20, width: 10, height: 50, type: "door", action: "medical-bay" },
-      { id: "door-bridge", name: "Bridge Access", description: "A corridor leading up to Deck 2 — the Command deck.", x: 2, y: 20, width: 10, height: 50, type: "door", action: "bridge" },
-      { id: "data-crystal", name: "Data Crystal", description: "A glowing crystal wedged under a pod. It contains encrypted data.", x: 55, y: 70, width: 8, height: 10, type: "item", action: "data-crystal-alpha", elaraDialog: "A data crystal! These were used by the first wave to store personal logs. This one might contain information about what happened after they woke up." },
-      { id: "egg-cryo-scratch", name: "Scratched Symbol", description: "Barely visible scratch marks on the wall behind a pod.", x: 82, y: 72, width: 4, height: 5, type: "examine", elaraDialog: "Wait... those scratch marks. They form a symbol — the mark of the Antiquarian. But that's impossible. The Antiquarian is a myth, a figure from the deepest layers of the prophecy. Who carved this here, and when? This predates our launch." },
+      // Realigned 2026-04-25 to match the AAA Final cryo-bay render —
+      // a symmetrical corridor with sealed-pod rows on both side walls,
+      // the player's tilted/open pod centred mid-frame with cryo gas
+      // spilling onto the floor, and a back doorway leading to the
+      // Bridge stairs. The previous coords were calibrated for the
+      // legacy single-pod render and put the door markers on top of
+      // sealed pods. See /tmp/cryo_new_hotspots.png in the dev session
+      // for the visual overlay verification.
+      { id: "cryo-pod", name: "Your Cryo Pod", description: "The pod you woke up in. Frost still clings to the glass. A data readout shows your vitals — somehow you survived.", x: 47, y: 18, width: 22, height: 60, type: "examine", elaraDialog: "That's your pod. Serial number AK-74-0074. You were in deep cryogenic suspension for... the chronometer is corrupted. Could be decades. Could be centuries." },
+      { id: "sealed-pods", name: "Sealed Pods", description: "Several pods remain sealed, their status indicators dark. Are they occupied?", x: 6, y: 28, width: 28, height: 35, type: "examine", elaraDialog: "Those pods are still sealed. Their status indicators went dark when the main power failed. I... I don't want to speculate about what's inside them. Not yet." },
+      { id: "cryo-terminal", name: "Cryo Terminal", description: "A terminal displaying your character data and vital statistics.", x: 5, y: 62, width: 14, height: 22, type: "terminal", action: "/character-sheet", elaraDialog: "This terminal has your biometric data — your species markers, class aptitudes, everything we determined during your awakening. You can review your Citizen profile here." },
+      { id: "door-medical", name: "Medical Bay Door", description: "A reinforced door leading to the Medical Bay. Green status light.", x: 80, y: 65, width: 18, height: 32, type: "door", action: "medical-bay" },
+      { id: "door-bridge", name: "Bridge Access", description: "A corridor leading up to Deck 2 — the Command deck.", x: 43, y: 22, width: 14, height: 26, type: "door", action: "bridge" },
+      { id: "data-crystal", name: "Data Crystal", description: "A glowing crystal wedged under a pod. It contains encrypted data.", x: 38, y: 80, width: 7, height: 8, type: "item", action: "data-crystal-alpha", elaraDialog: "A data crystal! These were used by the first wave to store personal logs. This one might contain information about what happened after they woke up." },
+      { id: "egg-cryo-scratch", name: "Scratched Symbol", description: "Barely visible scratch marks on the wall behind a pod.", x: 87, y: 36, width: 3, height: 5, type: "examine", elaraDialog: "Wait... those scratch marks. They form a symbol — the mark of the Antiquarian. But that's impossible. The Antiquarian is a myth, a figure from the deepest layers of the prophecy. Who carved this here, and when? This predates our launch." },
       // Section F — Cryo Bay mystery hotspots. Each fires through the
       // cryo-mystery hotspot-handler branch in ArkExplorerPage which
-      // resolves the Look response via resolveVerbResponse().
-      { id: "dead-pod", name: "Dark Cryo Pod", description: "A pod whose status indicator is cold-blue instead of warm-gold. Something is in there.", x: 58, y: 35, width: 12, height: 30, type: "interact", action: "cryo-mystery:dead-pod" },
-      { id: "cracked-panel", name: "Cracked Control Panel", description: "The dark pod's control panel is split along a hairline seam. Sabotage?", x: 58, y: 65, width: 12, height: 8, type: "interact", action: "cryo-mystery:cracked-panel" },
-      { id: "medical-chart", name: "Medical Chart", description: "A printed medical chart magnet-clipped to the dark pod.", x: 62, y: 42, width: 6, height: 8, type: "interact", action: "cryo-mystery:medical-chart" },
-      { id: "frosted-glass", name: "Frosted Pod Glass", description: "Wipe the frost — see who's inside.", x: 60, y: 40, width: 8, height: 12, type: "interact", action: "cryo-mystery:frosted-glass" },
-      { id: "personal-effect", name: "Fallen Locket", description: "Something small has fallen under the pod housing.", x: 64, y: 72, width: 4, height: 5, type: "interact", action: "cryo-mystery:personal-effect" },
-      { id: "data-slate", name: "Hidden Data Slate", description: "The edge of a data-slate peeks out from under the pod.", x: 54, y: 74, width: 6, height: 4, type: "interact", action: "cryo-mystery:data-slate" },
+      // resolves the Look response via resolveVerbResponse(). The
+      // mystery cluster anchors on a single dark pod on the right wall
+      // (distinct from the player's pod and the rest of the sealed
+      // row) so the chart / glass / cracked-panel / fallen items read
+      // as one investigation scene.
+      { id: "dead-pod", name: "Dark Cryo Pod", description: "A pod whose status indicator is cold-blue instead of warm-gold. Something is in there.", x: 72, y: 30, width: 13, height: 28, type: "interact", action: "cryo-mystery:dead-pod" },
+      { id: "cracked-panel", name: "Cracked Control Panel", description: "The dark pod's control panel is split along a hairline seam. Sabotage?", x: 72, y: 58, width: 13, height: 6, type: "interact", action: "cryo-mystery:cracked-panel" },
+      { id: "medical-chart", name: "Medical Chart", description: "A printed medical chart magnet-clipped to the dark pod.", x: 78, y: 38, width: 4, height: 6, type: "interact", action: "cryo-mystery:medical-chart" },
+      { id: "frosted-glass", name: "Frosted Pod Glass", description: "Wipe the frost — see who's inside.", x: 73, y: 33, width: 7, height: 10, type: "interact", action: "cryo-mystery:frosted-glass" },
+      { id: "personal-effect", name: "Fallen Locket", description: "Something small has fallen under the pod housing.", x: 76, y: 64, width: 4, height: 4, type: "interact", action: "cryo-mystery:personal-effect" },
+      { id: "data-slate", name: "Hidden Data Slate", description: "The edge of a data-slate peeks out from under the pod.", x: 68, y: 66, width: 5, height: 3, type: "interact", action: "cryo-mystery:data-slate" },
     ],
   },
   {
