@@ -1562,6 +1562,113 @@ something else is in the room with you. Output 21 seconds (3 × 7s
 frame), seamless tail. -23 LUFS."
 ```
 
+### 7.6 act-7-convergence (Act 7 — The Convergence)
+
+> Subtitle: "For the first and only time, their voices align."
+> Reduced-motion prose: "The spine closes on a single sustained
+> chord. Elara and The Human sing the same note for the first
+> time. The Watcher is no longer hiding. Four final stances sit
+> in front of you: For Humanity, See the Pattern, The Bridge,
+> Take Command. Silence is also permitted. The cycle rolls over
+> either way."
+
+#### 7.6.1 frame01.webp — "The army is assembled. Five sectors. Seventeen generals. One horizon."
+
+```
+Cinematic 1920×1080 WebP. Wide ultra-deep-perspective hero shot
+of a vast assembled army standing in formation on a flat plain
+under a violet-purple pre-dawn sky. The composition is split
+vertically into two halves at the horizon line: the bottom half
+is the army (countless silhouetted figures in disciplined ranks
+filling the entire foreground and middle distance), the top
+half is sky with one cold star centered above the horizon.
+Seventeen taller figures (the generals) stand at the front of
+the formation, slightly more individuated than the surrounding
+ranks but still rendered as silhouettes. The whole composition
+is symmetrical and processional — like a Renaissance battle
+painting before the engagement. Caravaggio gold key-light from
+behind the camera (the rising sun, off-frame), backlighting
+every figure with a warm rim. Apply the §7.0 style guide above.
+```
+
+#### 7.6.2 frame02.webp — "Two wars. One you can see. One the Watcher has been fighting since before you woke."
+
+```
+Cinematic 1920×1080 WebP. Composition split horizontally into
+two stacked layers separated by a faint horizontal seam. UPPER
+HALF: the visible war from frame01 — armies engaging, fighter
+craft streaking across the sky, distant explosions on the
+horizon, the language of conventional cinematic battle. LOWER
+HALF (mirror-inverted, rendered in negative-space colour palette
+— deep cyan-blacks instead of warm ambers): an entirely different
+battle taking place in a non-physical realm. Tall thin Watcher
+silhouettes (echoing 7.5.3) face off against opposing
+silhouettes that appear to be made of pure golden light. No
+weapons visible — the conflict is conceptual. The two halves
+share continuity at the seam: a single figure mid-frame appears
+in both halves, indicating the same person fights in both wars.
+Apply the §7.0 style guide above.
+```
+
+#### 7.6.3 frame03.webp — "Their two voices land on a single chord. Hold it. Then pick a stance."
+
+```
+Cinematic 1920×1080 WebP. Frontal symmetric composition. Centre
+of frame: a single sustained vertical pillar of pure golden
+light running floor-to-ceiling — visualizing the held chord
+where Elara and The Human's voices align for the first time. To
+its left: Elara's clarified portrait (echoing 7.5.1) facing the
+pillar. To its right: The Human (no coat, echoing 7.5.2) facing
+the pillar. Both figures are looking at the pillar, not each
+other — the convergence is the chord, not eye-contact. Behind
+all three elements: a low horizon line with four small
+silhouettes standing equidistant — the four available stances
+(left to right: a soldier-figure for "For Humanity", a
+robed-figure for "See the Pattern", a bridge-engineer for "The
+Bridge", a commander-figure for "Take Command"). Apply the §7.0
+style guide above.
+```
+
+#### 7.6.4 hero.webp — Reduced-motion fallback
+
+```
+Cinematic 1920×1080 WebP. Composite hero still anchoring the
+finale. Centre: the golden pillar of held-chord light from
+frame03, taller and more prominent — running the full vertical
+height of the frame. Lower half: a tight crop of the assembled
+army (frame01) extending out from the base of the pillar in
+both directions. Upper-left small inset: the cyan-black inverted
+Watcher-vs-Light battle from frame02 in a circular cameo.
+Upper-right small inset: the four stance-silhouettes from
+frame03's horizon in a matching circular cameo. The two cameos
+read as twin moons flanking the central chord-pillar. Caravaggio
+gold key-light is replaced by the pillar's own emitted light —
+this image is self-illuminated. Apply the §7.0 style guide above.
+```
+
+#### 7.6.5 act-7-intro.mp3 — Suno
+
+```
+Suno prompt:
+"Convergence overture at 80 BPM in C major (resolving from
+B-flat minor of Act 6). Quote-and-unify orchestration: across
+the 21-second loop, briefly reference each previous act's
+musical motif before unifying them. SECONDS 0-3: solo reed +
+cello quote (silence-of-two-witnesses motif from §7.1). SECONDS
+3-6: distant choir hum (act-4-revelation theme from §7.2).
+SECONDS 6-9: a single mechanical click pattern (act-4-5-dmc
+motif from §7.3). SECONDS 9-12: handpan ostinato (act-5-map
+motif from §7.4). SECONDS 12-15: solo upright piano arpeggio
+(act-6-confession motif from §7.5). SECONDS 15-21: full
+orchestra UNIFIES — every previous motif sounding simultaneously,
+all aligned to a single sustained C major chord with the choir
+holding a shared 'ah' on the root. The chord must feel like
+arrival, not victory. Big but not triumphant; resolved but with
+a thread of awareness that everything before this moment is
+still in the room. Output 21 seconds (3 × 7s frame), seamless
+tail. -23 LUFS."
+```
+
 
 
 
