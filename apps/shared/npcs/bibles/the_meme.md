@@ -443,6 +443,22 @@ For eleven years, the Meme wore the Oracle's face, spoke with his voice, signed 
 
 **Writer rule**: the Meme does not apologize to the Oracle. Per §1.10, apology is not in the silence-shape. The Meme will *describe* what it did (`storyModeChapters.ts` Ch6 post-fight lines) but does not perform contrition. The Oracle's bible must accept this — the Meme's accounting is the closest acknowledgment available, and it is delivered without remorse.
 
+**Updated per `the_oracle.md` §§4.1, 7.3 OCB-O1 (Oracle bible shipped at `40fb771`)**: the Oracle bible canonically establishes four sub-claims for this section to acknowledge.
+
+(a) **The 10-stage history.** Per Oracle bible §§2.1–2.10: the Oracle's biography spans ten canonical stages (Origin → Harvest → Prisoner → Jailer → False Prophet → Silence → Liberation → Fall → Disappearance → Heart-of-Time anchor). The Meme bible canonically inherits the 10-stage history; the eleven-year identity theft canonically operates during the canonical Silence-era (stage 6).
+
+(b) **Two-layers-of-falseness disambiguation.** Per Oracle bible §§1, 2.5, 4.1: the Meme canonically did NOT directly impersonate the Oracle — the Meme canonically impersonated the *False Prophet clone* (the canonical White Oracle figure), which canonically itself was a false impersonation of the Oracle. Bible-load-bearing canonical structural mechanism: the Meme operates at TWO canonical layers of impersonation, not one. Canonical layered-falseness canonically intensifies the canonical Meme threat: the canonical Meme cannot be removed by canonical removal of the canonical-clone (canonical Ch6 mirror-match canonically destroyed the canonical clone but did NOT destroy the Meme).
+
+(c) **The Meme's structural-LIMIT canon.** Per Oracle bible §§1.1, 1.3, 4.1: the canonical Meme canonically *cannot fabricate the Oracle's canonical-substrate-voices*. Canonical Meme canonically operates on canonical-public-facing-channels; canonical-substrate-channels (canonical dream-substrate + canonical memory-residue substrate) lie *outside* the canonical Meme's canonical-reach. Bible-load-bearing: the canonical Oracle is canonically *the third canonical-roster-character canonically Meme-resistant by construction* (after the Seer per `the_seer.md` §4.4 and the Companion per `dmc_clone_companion.md` §4.8). Three canonical-different-mechanisms; same canonical-structural outcome.
+
+(d) **Structural-opposition canonical axes.** Per Oracle bible §4.1: canonical Meme ↔ canonical Oracle is canonical structural-opposition pair on canonical four canonical axes:
+- Canonical Meme broadcast-from-above vs. canonical Oracle substrate-position-from-beneath.
+- Canonical Meme over-uses canonical *I* vs. canonical Oracle de-centers canonical *I*.
+- Canonical Meme retains content as canonical-leverage vs. canonical Oracle transfers content and canonically lets it go.
+- Canonical Meme prefers canonical-remembrance vs. canonical Oracle prefers canonical-choosing-forward.
+
+**Cross-bible obligation OCB-O1 satisfied.** Stage 2 dialogue authors authoring canonical Meme-impersonating-Oracle scenes (canonical historical Silence-era canonical-content) should canonically apply the canonical structural-opposition canonical axes and the canonical layered-falseness canonical mechanism to canonically *write Meme-impersonations that canonically fail-by-canonical-tells* per Oracle §1.3 + §1.4 canonical-disambiguation criteria.
+
 ### 4.2 The Architect (parent-child, replacement-aspiration)
 
 Per §1.7, §2.5, §3.2 — the Ch12 line at `storyModeChapters.ts:677` is the canonical anchor:
