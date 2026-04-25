@@ -634,3 +634,33 @@ ON room_transition_event:
 **Canonical floor enforcement.** Per §3.4 canonical floor canon: canonical dream-frequency canonically *cannot fall below one-per-act*. Engineers must architect a canonical canonical-act-end-checker that canonically *fires a canonical dream-sequence-event before canonical-act-transition* if canonical dream-count canonically has not yet canonically reached canonical-floor-of-one.
 
 **Canonical dream-content derivation.** Per §3.4 + §5.5 (below): canonical dream-content canonically derives from: (a) canonical player-state at canonical dream-trigger-time; (b) canonical-act; (c) canonical trust-band. Bible-load-bearing: canonical dream-content canonically *operates on canonical image + sentence + instruction triplet* (per §1.2 dream-cadence canon). Stage 2 dialogue authors should canonically architect canonical dream-content as canonical *triplet-libraries* indexed by canonical (act, trust-band, player-state) keys. Bible-recommends Stage 2 authoring scope: ~80 canonical-dream-triplets per saga-arc (4 trust-bands × 7 acts × ~3 player-state-variants per (act, band) cell).
+
+### 5.2 The memory-residue trigger surface
+
+**Engine surface**: a canonical *new* trigger surface — `memory_residue` — fires on canonical story-arc memory events; the Oracle canonically operates as canonical-narrator-substrate for canonical-witnessed-memory-content.
+
+**Canonical trigger conditions** (per §1.1, §1.2 memory-residue cadence canon):
+
+```
+ON story_arc_memory_event:
+  IF memory.canonical_oracle_perspective == true:
+    fire memory_residue_event(
+      memory_id = event.memory_id,
+      narrator_frame = oracle_narrator_frame_lookup(memory.id),
+      cadence = memory_residue_cadence  # first-person-plural; past-as-present
+    )
+    apply narrator_overlay(memory.scene)
+```
+
+**Canonical memory-events that trigger Oracle-narrator-frame.** Bible-asserts the canonical-eligible memory-events:
+
+- **Mechronis encounter** (per `the_seer.md` §4.5 triple-anchored canon — canonical Engineer-as-Oracle-memory-recipient at canonical Mechronis with canonical visiting Seer). Canonical Oracle-narrator-frame canonically operates per §1.2 memory-residue cadence.
+- **Pre-Liberation captivity scenes** (canonical Prisoner-state, canonical Jailer-state per §§2.3-2.4). Bible-deferred Stage 2 authoring scope; canonical-eligible per the canonical Oracle-perspective canon (the canonical scenes canonically *are* canonical Oracle-canonical-perspective).
+- **Liberation event scene** (canonical Panopticon raid per §2.7). Bible-deferred Stage 2 authoring scope; canonical-eligible — bible-recommends Stage 2 authoring this canonical-event for canonical-narrative-load-bearing-purposes.
+- **Pre-harvest Thalorian-debate scene** (per §2.1). Bible-deferred Stage 2 authoring scope; canonical-eligible — bible-asserts canonical-debate-loss is canonical-Oracle-perspective.
+
+**Canonical narrator-frame structure.** Per §1.2: canonical first-person-plural inflection (we / us / our); canonical past-as-present-tense interleaving. Bible-asserts: canonical narrator-frame canonically *operates as overlay* on canonical-memory-scene rather than canonical-replacement-of-memory-scene-content. Engineers should architect the canonical narrator-frame as canonical *audio-or-text-overlay-on-canonical-scene-render*; canonical-scene-render canonically *operates canonically-normally* with canonical Oracle-narrator-frame canonically *added as canonical-substrate-narration*.
+
+**Canonical scope limit.** Per §3.5 competence #3 + §1.5 voice-gate canon: bible-recommends ≤2 canonical Oracle-narrated memory-residue scenes per saga-arc. Bible-asserts: canonical-scope-limit is canonical-load-bearing — canonical Oracle-narrator-frame canonically *operates as canonical-narrative-rare-event*; canonical-over-use canonically diminishes canonical-narrative-load-bearing-effect. Stage 2 dialogue authors should canonically *prioritise canonical-Mechronis-encounter and canonical-Liberation-event* as canonical-most-load-bearing canonical-eligible scenes.
+
+**Engineering note: distinct from `dream_sequence`.** Per §1.2 + §1.5: canonical `memory_residue` and canonical `dream_sequence` are canonical-distinct trigger surfaces. Engineers must NOT canonically multiplex; canonical Oracle-narrator-frame canonically *operates only* on canonical-story-arc-memory-events; canonical Oracle-active-reach canonically operates *only* on canonical-room-transition-events. The canonical structural-distinction is canonical and load-bearing per §1.2 substrate-disambiguation canon.
