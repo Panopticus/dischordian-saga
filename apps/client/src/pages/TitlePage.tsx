@@ -39,6 +39,40 @@ import { assetUrl } from "@/lib/assetUrl";
 const OPENING_MUSIC_SRC = assetUrl("audio/music/main-menu/the-enigmas-lament.mp3");
 const THRESHOLD_MS = 1500;
 
+/**
+ * Featured transmission pinned to the title screen.
+ *
+ * The lore bible (LORE_BIBLE.md) lists the canonical "Book of Daniel 2.0"
+ * music video on YouTube; surfacing it as a local AnnouncementRow keeps it
+ * available to the broadcast panel and the auto-intercept hook even when
+ * the database is empty (or unreachable in dev). The id is a sentinel
+ * outside the auto-increment range so we can short-circuit the
+ * markViewed/markDismissed mutations — those rows would orphan in
+ * `announcement_views` since this announcement has no DB backing.
+ */
+const FEATURED_TRANSMISSION_ID = 999_001;
+const FEATURED_TRANSMISSION: AnnouncementRow = {
+  id: FEATURED_TRANSMISSION_ID,
+  slug: "the-book-of-daniel",
+  category: "transmission_incoming",
+  priority: "high",
+  title: "THE BOOK OF DANIEL 2:47",
+  body: "Archival broadcast — Age of Revelation. Decode the prophecy.",
+  artUrl: null,
+  linkUrl: null,
+  videoUrl: "https://www.youtube.com/watch?v=sNBRlUrGRH4",
+  videoPosterUrl: null,
+  videoDurationSec: null,
+  triggerOnTitle: true,
+  triggerProbability: 100,
+  audience: "all",
+  publishedAt: new Date("2025-01-01T00:00:00Z"),
+  expiresAt: null,
+  firstSeenAt: null,
+  dismissedAt: null,
+};
+const isLocalAnnouncement = (id: number) => id >= FEATURED_TRANSMISSION_ID;
+
 interface TitlePageProps {
   /** Optional dismiss hook from TitleGate. If absent, the page
    *  renders the classic unauth-only flow (back-compat). */
@@ -145,8 +179,13 @@ export default function TitlePage({ onDismiss }: TitlePageProps = {}) {
     { audience: audienceTags, includeViews: isAuthenticated },
     { staleTime: 5 * 60 * 1000, refetchOnWindowFocus: false },
   );
-  const announcements: AnnouncementRow[] =
-    (announcementsQuery.data as AnnouncementRow[] | undefined) ?? [];
+  const announcements: AnnouncementRow[] = useMemo(() => {
+    const remote = (announcementsQuery.data as AnnouncementRow[] | undefined) ?? [];
+    // Drop any DB row that collides with the pinned feature so the
+    // local copy always wins (lets us update copy without a migration).
+    const filtered = remote.filter(a => a.slug !== FEATURED_TRANSMISSION.slug);
+    return [FEATURED_TRANSMISSION, ...filtered];
+  }, [announcementsQuery.data]);
 
   /* ─── local UI state ─── */
   const [showPanel, setShowPanel] = useState(false);
@@ -282,7 +321,7 @@ export default function TitlePage({ onDismiss }: TitlePageProps = {}) {
   const playVideo = useCallback((a: AnnouncementRow) => {
     setVideoPick(a);
     setShowPanel(false);
-    if (isAuthenticated) {
+    if (isAuthenticated && !isLocalAnnouncement(a.id)) {
       markViewedMutation.mutate({ announcementId: a.id });
     }
   }, [isAuthenticated, markViewedMutation]);
@@ -292,7 +331,7 @@ export default function TitlePage({ onDismiss }: TitlePageProps = {}) {
   }, []);
 
   const dismissVideo = useCallback(() => {
-    if (videoPick && isAuthenticated) {
+    if (videoPick && isAuthenticated && !isLocalAnnouncement(videoPick.id)) {
       markDismissedMutation.mutate({ announcementId: videoPick.id });
     }
   }, [videoPick, isAuthenticated, markDismissedMutation]);
@@ -446,11 +485,18 @@ export default function TitlePage({ onDismiss }: TitlePageProps = {}) {
             production value that separates a web demo from a shipped
             title. Both degrade cleanly under reduce-motion and when
             audio-reactivity is disabled in settings. */}
+        {/* The GlitchFx wrapper is `display: inline-block` so it
+            shrink-wraps the logo; the parent's `textAlign: center`
+            then centers the whole stack. Previously the wrapper was
+            `display: block` which spanned 100% width — `margin: auto`
+            on a full-width block is a no-op, so the inner <img> drifted
+            left of optical center. The chroma split also adds visual
+            mass, so we cancel any inherited padding here. */}
         <GlitchFx
           variant="chroma"
           intensity={0.45}
           audioReactive
-          style={{ display: "block", margin: "0 auto 0.5rem" }}
+          style={{ display: "inline-block", marginBottom: "0.5rem" }}
         >
           <img
             src={assetUrl("art/logos/dischordian-saga.png")}
@@ -460,6 +506,8 @@ export default function TitlePage({ onDismiss }: TitlePageProps = {}) {
               maxWidth: "min(340px, 70vw)",
               width: "auto",
               height: "auto",
+              marginLeft: "auto",
+              marginRight: "auto",
               filter: `drop-shadow(0 0 calc(30px + var(--audio-bass, 0) * 24px) ${toRgba(theme.palette.accent, 0.45)})`,
               transition: "filter 60ms linear",
             }}
