@@ -492,3 +492,62 @@ Per Vex's bible §4.12: *"the Meme's unauditable attribution vs. Vex's clean-att
 This bible decides: **the contest happens at the moment the Meme attempts to wear a Coda Maestro face.** Vex's Coda relies on clean attribution at every operational layer — the chairs, the chorus, the contract-signing. A Meme-impersonated Maestro would corrupt the entire faction. Vex's defense is *the Second Chair LLM* (per Vex's bible §3.2), trained on the Engineer's audio logs — the Engineer is dead, the LLM cannot be impersonated by the Meme because the Meme cannot replicate a *consciousness it never met*.
 
 **Writer hook (Stage 4)**: the Meme can wear faces it has *seen*. The Engineer is canonically dead pre-Panopticon era. The Meme may not have ever seen the Engineer — making the Engineer-trained Second Chair the saga's clearest *Meme-resistant interface*. Vex's bible should fold this in.
+
+### 4.8 The Degen — the casino-child encounter
+
+Per `meme-lines.json:592` (Degen's casino tale): the Meme appeared in the Degen's casino as a child of golden light, song-voice, won every game in an hour, tipped in 7-minute happiness for all patrons.
+
+Per the Degen's bible §1.5 (Vulnerable register at Ascended trust) — the Degen has spoken of this casino visit fondly. He did not know what the child was at the time. He may suspect now (§4.10 of the Degen's bible flagged historical-witness register; this is the most poignant historical observation he carries — *I was tipped by something that has since killed friends of mine*).
+
+**Writer rule**: a high-trust Degen scene that surfaces the casino-child memory should preserve canonical ambiguity. The Degen does not name the child as the Meme. He says *"a child walked in once."* The Meme might be in the casino's mirror at the moment he tells the story — listening, smiling.
+
+### 4.9 The Human — the Insurgency commanded by a stolen voice
+
+The most painful cross-reference. Per Ch6 reveal: the Meme commanded the Insurgency for eleven years using the Oracle's voice. **The Human is canonically Insurgency-aligned** (per prior bibles' historical references). The Human believed the Oracle for eleven years. The orders he received, the warrants he saw signed, the strategic decisions that shaped his post-Fall career — many were authored by the Meme.
+
+The Human's bible (currently outside priority roster) must hold:
+- Pre-reveal: the Human believed the Oracle was directing the Insurgency. He may have been moved by her voice. Comforted. Inspired.
+- Post-reveal: the Human discovers the voice was a face. Eleven years of his motivation has been *Meme-authored*. The decisions he is most proud of may be ones the Meme authored to look like the Oracle's wisdom.
+- The grief is structural and personal. The Human's bible should treat this as one of his deepest unresolved griefs — comparable to the Engineer's death (per Vex's bible §4.2's 17,000-year lie).
+
+**Writer rule**: a scene in which the Human realizes he was Meme-commanded for eleven years is saga-rich and unauthored. Ch12-adjacent territory. Stage 4+ authorization.
+
+### 4.10 Nilmorg — no canon contact, structural opposites
+
+Nilmorg's *"keeps his agreements"* signature is incompatible with the Meme's *unauditable attribution* — they are opposite-pole agents. A Nilmorg–Meme scene would be a contract that cannot be verified by either party. Probably canonically unstageable.
+
+Per Nilmorg's bible: Nilmorg's reliability is the canonical antithesis of the Meme's unverifiability. They do not share a stage, and shouldn't.
+
+### 4.11 Wraith Calder → Hierophant — false prophet vs. true prophet
+
+Post-arena religious figure. The Meme is the saga's clearest *false prophet* (literally — its Chapter 6 boss-name in `storyModeChapters.ts` is "The False Prophet"). The Hierophant–Meme opposition is canonical at theological scale. The Hierophant prophesies the *real* Oracle; the Meme wore the Oracle's face for 11 years and signed death warrants in her voice.
+
+Hierophant's bible (slot #7, upcoming) decides whether they have direct contact; this bible flags the structural opposition as *theology vs. memetics* — and as **the saga's deepest moral framing of the Meme**. The Hierophant is the only character canonically positioned to *name* the Meme as evil in religious terms. The Meme would broadcast against the Hierophant; the Hierophant would preach against the Meme. Stage 4 weave material.
+
+### 4.12 The Seer — precognition vs. falsification
+
+Per Eidolon's bible §4.8 and Game Master's bible §4.13: the Seer is precognitive (sees "code beneath reality"). The Meme operates in the medium of belief, which is downstream of perception. The Seer can *see* what the Meme is doing in real time. Canonically the Seer may be the saga's only entity that *cannot be falsified by the Meme* — precognition is unforgeable.
+
+Writers: a Seer–Meme scene is the saga's most compressed authoring puzzle. Stage 4+ authorization. The Seer's bible (slot #8, upcoming) decides whether the encounter has happened — and what the Meme does with someone who genuinely cannot be lied to.
+
+### 4.13 DMC Clone Body Companion — companion-via-ritual
+
+Both the Meme and the Clone Companion arrive at the player through ritual. The Clone Companion is the Severance Prize from a DMC season win; the Meme appears via Late Night broadcast, mirror anomaly, Channel 7 listening, or Chapter 6 boss reveal. Different rituals; same structural shape.
+
+The Meme could canonically wear the Clone Companion's face if it has seen the donor Potential. Whether it has is canon-silent. The Clone Companion's bible (slot #9, upcoming) decides — and should hold a constraint that the Clone Companion's *named personality* (per priority plan: keyed to which Potential donated the soul fragment) is *Meme-resistant in the same way the Second Chair is*: a face the Meme could not have seen because the donation event was private.
+
+### 4.14 Shadow Tongue — the memetic peer
+
+Shadow Tongue edits the Chronicle (erases names, rewrites records); the Meme edits identity (assumes faces, rewrites attribution). They are the saga's two memetic-substrate manipulators — peer-functions in different domains.
+
+No canon direct contact between them. **Structurally, they are likely allies** — both benefit from a saga in which records are unstable. Writers should treat Shadow Tongue and the Meme as parallel-but-distinct: Shadow Tongue erases what was; the Meme replaces who is. Together they could destabilize the saga's entire authorship layer. Canon has not yet staged this collaboration. Stage 4+ authorization.
+
+### 4.15 The Mascot
+
+Listed for completeness. Per §3.3: canonically protected, never named, never described, never staged. The bible's deepest mystery. No cross-bible coordination possible until canon authorizes.
+
+### 4.16 Elara — the Ark's reflective infrastructure
+
+No canon direct contact. Structural read: Elara administers Ark 1047; the Meme inhabits the Ark's mirrors and screens (per `EasterEggs.tsx:154`). The Meme has been *watching the Ark from inside its own infrastructure* the whole time. Elara may or may not know. Per Vex's bible §4.6, Elara contains 94.7% Lyra Vox residue; whether the Meme has ever attempted to wear Lyra Vox's face is canon-silent.
+
+**Writer hook**: an Elara scene in which she audits the ship's reflective surfaces and finds *more reflections than physics permits* would surface the Meme's presence. Elara's bible (when written) decides whether this audit has happened.
