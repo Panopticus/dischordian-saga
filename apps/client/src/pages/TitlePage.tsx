@@ -54,10 +54,19 @@ const THRESHOLD_MS = 1500;
  * player auto-detects and renders an iframe) or a direct mp4/webm URL
  * (rendered via the native <video> path with the VHS chroma filter).
  *
+ * Music videos currently live at s3://dgrsart/Videos/<filename> rather
+ * than under cdn/client-public/. The bucket prefix must allow anonymous
+ * s3:GetObject for the <video> element to fetch them — a presigned URL
+ * is per-user and expires, so don't paste those here. Use videoSrc()
+ * to build the stable URL from the raw filename.
+ *
  * Sentinel ids start at 999_001 so the markViewed/markDismissed
  * mutations can short-circuit — these rows have no DB backing and
  * would orphan in `announcement_views`.
  */
+const FEATURED_VIDEOS_BASE = "https://dgrsart.s3.us-east-2.amazonaws.com/Videos";
+const videoSrc = (filename: string) =>
+  `${FEATURED_VIDEOS_BASE}/${encodeURIComponent(filename)}`;
 const FEATURED_ID_BASE = 999_001;
 const FEATURED_TRANSMISSIONS: AnnouncementRow[] = [
   {
@@ -66,10 +75,12 @@ const FEATURED_TRANSMISSIONS: AnnouncementRow[] = [
     category: "transmission_incoming",
     priority: "high",
     title: "THE BOOK OF DANIEL 2:47",
-    body: "Archival broadcast — Age of Revelation. Decode the prophecy.",
+    body: "Malkia Ukweli & the Panopticon — official music video. Age of Revelation.",
     artUrl: null,
     linkUrl: null,
-    videoUrl: "https://www.youtube.com/watch?v=sNBRlUrGRH4",
+    videoUrl: videoSrc(
+      "Malkia Ukweli & the Panopticon - The Book of Daniel 2.0 (Official Music Video).mp4",
+    ),
     videoPosterUrl: null,
     videoDurationSec: null,
     triggerOnTitle: true,
