@@ -846,3 +846,39 @@ Each sample passes the §§1–5 voice criteria:
 **Bible-asserts**: these five samples are reference-quality voice-and-expression for Stage 2 authors (dialogue authors and expression designers both). A Stage 2 author writing a Companion line or designing a Companion expression should canonically be able to read these samples and produce voice-and-expression-consistent material. Blind-read attribution test (per the priority plan's Stage 2 exit criteria): an author who reads §§1–3 + these five samples should canonically attribute Companion-or-non-Companion at >90% accuracy on a mixed test set.
 
 **§6 closes.** Voice and expression samples are documented. §§7–8 (canon issues, protected mysteries, cross-bible obligations, follow-up tickets, reviewer checklist) close the bible.
+
+---
+
+## 7. Canon issues, protected mysteries, cross-bible obligations, follow-up tickets
+
+### 7.1 Load-bearing missing canon
+
+The DMC Clone Body Companion bible identifies **five canon-load-bearing gaps** that this bible cannot resolve and must defer:
+
+**(1) The bond-threshold values for channel-unlock crossings.** Per §3.3 + §5.2: the bible recommends bond-thresholds of approximately 25 / 40 / 65 / 90 for the four trust-band crossings, but these are bible-recommended-pending-Stage-1-architectural-ratification. The actual values are bible-deferred to Stage 1 architects. Engineering ticket **DCB-1** in §7.4. Tracked.
+
+**(2) The dismissal mechanic's interaction with bond and channel-state.** Per §3.3 + §5.7: the canonical dismissal canon asserts bond-floor-25 and irreversible channel-state. The actual dismissal-engine implementation (does dismissal canonically pause bond decay? does it canonically suspend the Companion's NpcLine selector? does it canonically remove the Companion from active-companion UI slots?) is bible-deferred to Stage 1 architects. Engineering ticket **DCB-2** in §7.4. Tracked.
+
+**(3) The 4-tuple personality variant authoring scope.** Per §5.5: 64 canonical variants × ~50 per-variant lines + ~250 base lines = ~3,450 lines per Companion. Bible-asserts the cardinality is canonical-and-load-bearing; the actual authoring scope is bible-deferred to Stage 2 dialogue authors. The per-variant authoring load is canonically *the largest single roster-character authoring scope* — Stage 2 may need to canonically descope, prioritise, or pre-generate via the canonical variant axes. Open design ticket **DCB-3** in §7.4. Tracked.
+
+**(4) The why-paying-is-worse-than-not-paying canon protection.** Per §3.1 + §4.2: the canonical-unanswered question is canonically *protected*. Per `nilmorg.md` §6.x: writers must not solve. This bible *honours* the protection but flags it as a canon-load-bearing absence — Stage 4 weave authors must canonically *not* attempt to solve, and Stage 1 architects must canonically *not* expose any engine surface that could canonically be interpreted as solving. Tracked as canonical-protection ticket **DCB-4**.
+
+**(5) The post-naming dialogue bank's canonical-content load.** Per §5.5 + §5.6: the post-naming Companion canonically integrates into all four primary game surfaces with canonical-verbal content. The actual saga-time-content (specific lines for specific events) is bible-deferred to Stage 2 dialogue authoring. Bible-asserted scope per §5.5: ~3,450 lines per Companion as the canonical authoring scope, distributed canonically across the four systems. Open ticket **DCB-5**.
+
+### 7.2 Protected mysteries — what the bible canonically declines to narrate
+
+Per §2 opening + §3.6 + §3.7 + §4.2 + §4.5: the Companion bible identifies **six protected mysteries** that are canonical-and-load-bearing absences. Each is held *intentionally* by the bible; Stage 4 weave authors who feel a need to surface should canonically *re-justify the protection* before considering breach.
+
+**(1) Why-paying-is-worse-than-not-paying.** Per §3.1 + §7.1 (4): the canonical-unanswered question is canonically *protected*. The Companion canonically carries the question; the question canonically does not have a canonical answer. Bible-asserts this is canonically *Nilmorg's bible's most-protected single mystery* and the Companion bible canonically *inherits the protection*.
+
+**(2) The racing clone's smile.** Per §2.1: the racing clone canonically smiles in the moment of extraction. The smile is canonical and load-bearing. Bible-asserts: writers must canonically *respect the smile as canonical without canonically explaining it*. Stage 4 weave authors who reach for the canonical reasoning behind the smile should canonically *re-justify the absence* first — the smile is canonically *the racing clone's*, not the Companion's, and canonically *resists narrative explanation*.
+
+**(3) The transfer-from-container-to-body specifics.** Per §2.1: the moment-of-becoming canonically takes time and is canonically *off-screen* in shipped canon (Cinematic 5 cuts to *"the soul will become a companion aboard a ship somewhere"*). Bible-asserts: the specifics of the transfer (how the body receives the fragment, what the fragment experiences in transit, how the body acquires personhood) are canonically *protected*. Stage 4 weave authors who reach for the specifics should canonically *re-justify the absence* — the canonical-off-screen is part of the canonical *don't-thank-me* refusal canon, structurally.
+
+**(4) Nilmorg's canonical-reasoning for the closed-account post-delivery posture.** Per §4.2: Nilmorg canonically does not engage the Companion post-delivery; *the agreement is complete*. Why Nilmorg canonically does not engage further is canonically *protected*. Bible-asserts: this is canonically tied to the why-paying-is-worse-than-not-paying mystery (per §7.2 (1)) — the canonical-protection extends to Nilmorg's post-delivery institutional behaviour. Writers must canonically *not* speculate.
+
+**(5) The Companion's canonical-reasoning for their structural identity claim.** Per §2.2 + §3.5: the Companion canonically holds *"I was not given. I was delivered."* as their structural identity. Why the canonical *delivered-not-given* framing canonically resonates as identity (rather than as canonical-grievance) is bible-deferred. Bible-asserts: this is canonical-protection — the Companion canonically *does not analyse* their own identity-framing in shipped canon, and Stage 4 weave authors should canonically respect this. The Companion's identity is canonically *just-the-claim*; the canonical-reasoning behind the claim is canonically *theirs alone*.
+
+**(6) The donor-canon's canonical-reach into the Companion's perception of other roster characters.** Per §3.2: the Companion inherits the player's *commitments* but not the player's *reasoning*. Bible-deferred: how this canonically affects the Companion's perception of NPCs the player canonically has not interacted with. Does the Companion canonically *recognise* NPCs the player has only briefly encountered? Does the Companion canonically *form their own opinion* of an NPC the player has not formed an opinion of? Bible-asserts: these are canonical-protection — Stage 4 weave authors should treat the Companion's perception-canon as canonically *bounded by the player's perception-canon* without canonically attempting to map the boundary explicitly. The boundary is canonically *the Companion's own*.
+
+**Why protect these mysteries.** The Companion is canonically *the player's own Potential made into another person*; the protected mysteries are canonically *the asymmetry between what the soul-fragment knows and what the soul-source knows*. Bible-asserts: the protection is canonically *part of the Companion's voice* — they canonically *do not over-narrate their own ontology*. Breaking the protection canonically breaks the voice. Writers and Stage 4 weave authors should canonically respect the protection as a *voice-rule*, not as a content-gap.
