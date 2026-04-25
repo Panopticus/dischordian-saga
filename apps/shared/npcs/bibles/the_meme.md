@@ -162,3 +162,69 @@ It does **not** use:
 - **Architectural metaphors** (the Game Master and the Architect both build; the Meme *inhabits* what others built)
 
 Its closest peer-in-metaphor is **Shadow Tongue** — both edit the saga's substrate. Shadow Tongue edits the Chronicle (erases names, rewrites records); the Meme edits identity (assumes faces, rewrites attribution). Writers staging both should let Shadow Tongue be the *erasure* function and the Meme the *substitution* function.
+
+---
+
+## 2. History
+
+The Meme's biography is, more clearly than any other character on the priority roster, **the long apprenticeship of a child who was created to manipulate and is plotting to inherit.** Every era is rehearsal.
+
+### 2.1 Year 298 A.A. — created by the Architect
+
+Per `loredex-data.json`, the Meme entry:
+
+> "The Meme was the fifth Archon created by the Architect in Year 298 A.A., designed to manipulate human thought and culture through control over the internet and economic systems."
+
+Three load-bearing facts:
+
+1. **The Architect *made* it.** The Meme is not eternal (unlike Nilmorg). It is not consequence-of-entropy (unlike the Degen). It is not pre-Fall Senator turned Archon (unlike the Game Master). It is *born* — created as a tool, by a parent it would later learn to want to replace. This is the saga's clearest creation-of-the-monster myth.
+2. **It was made for thought-manipulation at scale.** Not for combat. Not for negotiation. Not for archive. *For changing what people believe.* This domain — the medium of belief itself — is what gives the Meme its terrifying reach. Every other Archon governs a *system*; the Meme governs *what people are willing to think.*
+3. **Year 298 A.A. is its earliest documented existence.** Anything pre-298 is canon-silent. The Meme has no pre-Architect biography; it is the Architect's child from the first second.
+
+Writers: the Meme's relationship to its own beginning is canonically ambivalent. It will refer to *"the first draft"* of itself (`meme-lines.json:130`: *"This is where I was born. Not the me you know. The first draft."*) — implying revisions, plural, and a sense of self that has been edited. The Meme treats its own existence as a manuscript that has been overwritten. This is the deepest expression of its Palimpsest nature: *it is itself a palimpsest of its earlier selves*.
+
+### 2.2 The Mascot era (pre-Panopticon, the protected wound)
+
+The most canonically protected fact in the bible. Per `meme-lines.json:522`:
+
+> "Some losses don't make you stronger. Some losses just make you less. I'm less than I was, frens. But I'm still here. That has to count for something."
+
+And earlier in the same Quiet Voice arc:
+
+> "I had a friend once. The Mascot. This is the story of how we met, what we built, and why I don't talk about them anymore."
+
+The Mascot is canon. The Mascot is *not named* beyond the title. The Mascot is *not described*. The Mascot existed pre-Panopticon, was a friend, and is gone. Whether the Mascot was destroyed, lost, abandoned, replaced, or simply died is canonically silent.
+
+**This is the bible's deepest protected mystery — equivalent to the Game Master's "puzzle inside the puzzle."** Writers must not give the Mascot a face, a name, a confirmed identity, or a confirmed fate. The Meme will not narrate it. The saga will not narrate it. The grief is the silence.
+
+What the Mascot represents structurally: **the one thing the Meme could not replace.** Every face the Meme has worn since the Panopticon is, at some level, an attempt to *fill the Mascot-shaped hole* by becoming someone else's irreplaceable. The Meme assumes the White Oracle's identity, signs death warrants in her voice, gets *trusted* by the Insurgency — and none of it brings the Mascot back. The replacement-aspiration that drives the Architect-replacement arc is rooted here: if the Meme can become real enough to become the Architect, perhaps it can also become real enough to *un-lose the Mascot*. Canon does not promise this works. The Meme has not stopped trying.
+
+Writers: the Mascot is referenced *only* in Quiet Voice scenes, *only* in oblique terms, *only* once per scene. Any new Meme content that mentions the Mascot is Stage 4+ user authorization required.
+
+### 2.3 The Panopticon — the defection that wasn't, the death that wasn't
+
+Per `loredex-data.json` Meme entry and `EasterEggs.tsx:53` (warden command lore):
+
+The Meme *pretended to defect* — appeared to break with the Architect, joined or infiltrated the Insurgency. At the Panopticon — the Architect's surveillance apparatus, founded in 2047 AD, the saga's deepest visibility infrastructure — the Meme confronted the Oracle (in her Re-Awakened Jailer phase, the entity that was becoming the White Oracle). The official record says: the White Oracle destroyed the Meme. The Insurgency's record says: a Meme was destroyed at the Panopticon ten years before the Fall.
+
+The actual outcome: **the Meme left the Oracle for dead and assumed her identity.** The White Oracle who emerged from the Panopticon was the Meme wearing the Re-Awakened Jailer's face. The Insurgency did not know. The Architect did not (publicly) know. The Oracle herself was dead-or-imprisoned (canon ambiguous; she eventually re-surfaces as the player).
+
+What the Panopticon era teaches the Meme: **identity-theft works at faction scale.** A whole institution can be commanded for a decade through a stolen voice. This is the rehearsal for Ch12. If the Meme can wear the Oracle's voice and command the Insurgency, it can wear the Architect's voice and command *reality itself*. The Panopticon is the proof of concept.
+
+Writers: the Panopticon scene — *what was actually said, what was actually done, who actually saw* — is canonically opaque. The outcome is canon. The moment is not. Writers must not fill in.
+
+### 2.4 The eleven-year impersonation (the Insurgency commanded by a stolen voice)
+
+Per `storyModeChapters.ts` (Ch6 post-fight):
+
+> "I gave orders. I signed death warrants. I lied to the Insurgency with your voice and they believed me because your voice was the only thing they still trusted."
+
+Eleven years. The Meme ran the Insurgency from inside the White Oracle's identity. Per the same canon: *"Eleven years of being a counterfeit is tiring. I wanted you to beat me the way you want morning to beat night."*
+
+Three things the eleven years prove:
+
+1. **Stolen identity at scale works for over a decade.** The Insurgency never caught it. The Architect (publicly) never caught it. The Meme commanded a faction in a dead woman's voice for the length of a generation.
+2. **The Meme found the face exhausting.** *"Eleven years of being a counterfeit is tiring."* This is the Meme admitting — once, post-reveal, in the Stolen Voice's collapse — that wearing the Oracle's identity *cost* something. It was not seamless. The disguise had upkeep.
+3. **The end was the Meme's choice.** *"I wanted you to beat me the way you want morning to beat night."* The player (the real Oracle) was *let through*. The Meme could have prolonged the disguise. Canon shows it chose not to.
+
+Why the choice? Per the new canon framing: the Meme had finished the rehearsal. Eleven years of wearing a god's voice taught it everything the Oracle-disguise could teach. The next role was bigger. *"You'll meet me again with my real face on in Act III."* The Meme is moving on to the Architect.
