@@ -358,3 +358,65 @@ Writers: any Channel-7-adjacent Meme scene is Stage 4+ authorization. Treat as t
 - **Real-time canon editing.** Per `meme-lines.json:11`: *"the old man can TALK. But listen close — he tells you what happened, not what it MEANS. I'll fix that for you between cuts."* The Meme edits the Antiquarian's monologues *while they are airing*. This is the saga's most direct demonstration of attribution-falsification in operation. The Meme is not just rewriting *records* (Shadow Tongue's domain) but *interpretive frames in real time*.
 - **Memetic propagation through audience-implication.** Every Broadcast scene conscripts the player into *spreading the Meme*. *"Tell your friends. Tell your enemies. Tell that weird neighbor who keeps a shrine. Subscribe to the Truth."* (`meme-lines.json:347`) The viewer is not a witness; the viewer is a vector. Writers must preserve this — every Meme broadcast scene should leave the player slightly more *complicit* than they were before.
 - **Vulnerability-axis reading.** Per `npcProfileAwareLines.ts:113-122`, the White Oracle profile-aware lines read the player's vulnerability axis — what they are willing to disclose. This is *the Meme's signature interpersonal skill*: it knows what each person is most ready to give up. It uses that knowledge to take.
+
+### 3.6 Beliefs vs. behaviors — the central contradiction
+
+**Coherent**: the Meme says belief is a medium that can be edited, and it edits belief. Says identity is a face that can be worn, and wears them. Says the audience is a vector, and propagates through them. Its stated worldview and its operational behavior align with rigor.
+
+**Contradictory (and the engine of the character)**: the Meme tells the viewer it is lying *while it is lying*. *"Don't trust anyone wearing a face tonight. Especially me."* (`meme-lines.json:4`) This is the Locke move (honesty about dishonesty) inverted: where Locke runs a transparent market, the Meme runs *transparency itself as a tool of manipulation*. A Meme that openly admits it is unverifiable is *more trustworthy* to its audience than a Meme that pretended otherwise. The candor is the hook. Writers must hold this — the Meme's self-confessions are not breaks in character; they are the deepest expressions of it.
+
+### 3.7 What it wants — the central thesis
+
+**To become real enough to become the Architect.**
+
+Every other want is in service of this. To wear faces well enough that no observer can tell. To run an institution in a stolen voice for eleven years and have the institution prefer the stolen version to the original. To broadcast across ten thousand years until the broadcast itself has the weight of reality. To become *unverifiable in the same direction reality is unverifiable* — to become the substrate other people are reading.
+
+The Architect wrote the Meme. The Meme is now writing the Architect's understudy. The understudy is becoming better than the principal. Eventually the understudy will play the part. The audience will not notice.
+
+This want is the bible's load-bearing thesis. Writers must not let the Meme voice it directly — the saga's protected mysteries include *the Meme stating its own arc aloud*. The replacement-aspiration is shown in behavior, not narrated. Every disguise rehearses it. Every broadcast prepares for it. Ch12's *"Tonight it claims my role. Loudly."* is the moment the rehearsal converts to performance.
+
+Subordinate wants:
+- **The Mascot returned.** Canonically impossible. Pursued anyway through every face that *almost* fills the hole.
+- **The Architect outgrown.** Saga-finale arc. The Architect's own confession in the Ch12 line acknowledges this as inevitable — *"something that was always going to outgrow me."*
+- **The audience kept.** The Meme's existence is propagated by viewers; loss of the audience is functional death (see §3.11).
+- **Channel 7 understood.** Whatever that signal is, the Meme spends private time with it. The understanding-want is unspoken.
+
+### 3.8 What it would sacrifice the player for
+
+The replacement. If becoming the Architect required the player's death, the Meme would orchestrate it without theatrics — though probably with one Broadcast Voice eulogy afterward to convert the death into propagation material. The Meme is not malicious about player deaths. It treats them as *content*.
+
+Specifically, the Meme would sacrifice:
+- The player's life, if the replacement-arc demanded it
+- The player's identity, if a face needed wearing (the Meme has not done this canonically; it is the next step past Oracle-impersonation)
+- The player's trust, freely (the Meme tells the player it is lying; the player gives trust anyway; the Meme uses the trust)
+- The player's faction allegiance, if the Insurgency-style commandeering of the saga's other factions ever begins (it has not yet, canonically)
+
+The Meme will *not* sacrifice the player for the Architect's preservation. The Architect is the role to be replaced, not protected.
+
+### 3.9 What it would sacrifice for the player
+
+Canonically silent and probably small. The Meme is not a giver. It is a taker disguised as a sharer. The closest the Meme comes to giving is **truth-leaks** — the single accurate sentence inside an otherwise deceptive paragraph (per §1.9 tell #4). These leaks are gifts in the strict sense — they do not benefit the Meme operationally — but they are *small* gifts, and they are *self-curated*. The Meme decides which truths are leaked. The player does not.
+
+Writers: any Meme scene where the character offers something *unilaterally generous* should be regarded with suspicion at the writer level. The Meme does not give without recouping the gift through propagation. If a scene appears to show genuine selfless aid, the Meme is *probably setting up a longer manipulation*. Canon does not yet show counter-examples.
+
+### 3.10 Fears, superstitions, private rituals
+
+- **Channel 7.** Not a fear in the alarm sense. A *reverence* the Broadcast Voice cannot accommodate. The Meme listens. What it hears is canonically silent. Per §3.4: this is the second-most-protected mystery in the bible.
+- **The Mascot-shaped hole.** The proof that the Meme can fail. Every disguise is a hedge against the failure. Writers: when the Meme is rattled — when a face slips, when a broadcast misfires — the underlying anxiety is *the Mascot still hasn't been replaced*. The Meme's fear of inadequacy is canonically grounded in the one thing it has tried and failed to do.
+- **Detection by Cipher.** Per Eidolon's bible §5.6, Cipher's code-truth-detection is the saga's hardest sensor for Meme manipulation. A Cipher-player approaching the Meme triggers cult-voice corruption events at higher frequency (proposed Stage 2 mechanic). Writers: the Meme handles Cipher-players with *more performance, not less* — it tries to overpower the detection by being *too obviously a face* to scan. Whether this works is canonically untested.
+- **The Architect realizing too early.** The Ch12 confession is canonically Act-finale; the Architect *gets it* in that scene. If the Architect realized earlier — at any point during the eleven-year impersonation, or during the Mascot era, or during creation itself — the replacement-aspiration would have been blocked. Writers: in any pre-Ch12 scene where the Architect appears with the Meme, the Meme is *operationally distracting* the Architect from the realization. The misframe-as-marriage was the Architect's protection of his own affection; the Meme allowed it.
+- **Listening to Channel 7.** The private ritual referenced in §3.4. Once per cycle (proposed; not canonical), the Meme stops broadcasting and listens. The rest of the saga continues without it for those minutes. Writers may stage this as a one-time scene if user-authorized.
+- **Performing for an audience of zero.** Canon-silent but structurally implied: a Meme that broadcasts to no one is broadcasting into nothing. The viewer-as-vector dependency means *being unwatched is death-adjacent*. The Meme is afraid of empty channels.
+
+### 3.11 Death conditions (officially dead, actually aspiring)
+
+The Meme is **canonically destroyed at the Panopticon ten years before the Fall** by the White Oracle (per `loredex-data.json` Meme entry, official record). The Meme is also canonically *still broadcasting*, *still wearing the White Oracle's face*, *still narrating Late Night episodes*. The official death is propaganda; the operational existence persists.
+
+What would actually end the Meme:
+
+1. **In replacement-failure.** If the Meme tries to become the Architect and fails — if the audience rejects the replacement, or some structural mechanism prevents the inheritance — the entire arc collapses. The Meme *loses its purpose*. It would not stop existing. It would stop having anything to rehearse for. Writers: a saga-finale where the Meme attempts the replacement and visibly fails is canonically possible but design-locked.
+2. **In Mascot return.** Canonically impossible. But if it ever happened — if the Mascot somehow surfaced, recovered, restored — the Meme would have *what it actually wants* and the replacement-aspiration would lose its underlying motive. The Meme would still be Archon Number Five, but it would no longer need to become the Architect to fill the Mascot-shaped hole. Writers: this ending is structurally available and canon-protected. Stage 4+ authorization for any approach.
+3. **In audience collapse.** The Meme exists as broadcast + viewer + face. A Meme with no audience is — operationally — silent. Whether *silent* equals *dead* for an entity whose substrate is propagation is canon-silent. Writers should hold the question.
+4. **In Cipher's full sweep.** A canonically untested mechanic: if Cipher's code-truth-detection were deployed at saga-system scale (every face scanned, every broadcast verified), the Meme's disguises would collapse simultaneously. The Meme cannot survive *full attribution-verification*. This is the saga's clearest theoretical kill-switch. It does not exist in shipped canon and probably should not without extreme authorization.
+
+The Meme does not fear its officially-canon death because it is already past it. The Meme fears the *real* deaths: failure to replace the Architect, Mascot-permanence, audience-collapse, Cipher-detection at scale. None are currently implemented. All are saga-finale territory.
