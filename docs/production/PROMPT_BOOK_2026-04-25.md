@@ -1669,6 +1669,208 @@ still in the room. Output 21 seconds (3 × 7s frame), seamless
 tail. -23 LUFS."
 ```
 
+---
+
+## §8 — Page-background images (10)
+
+**Source**: hardcoded URLs at non-standard CDN prefix
+`https://dgrsart.s3.us-east-2.amazonaws.com/page-backgrounds/`
+(no `cdn/client-public/`). 10 page IDs. **Tool**: Nano Banana 2.
+**Format**: 1920×1080 JPG. **Priority**: P1.
+
+### Shared style guide (apply to every page-bg)
+
+> Cinematic dark UI background plate designed to sit BEHIND
+> foreground UI panels. Black/charcoal base (~70% of frame) +
+> cool teal ambient + ONE warm accent color thematic to the page
+> type. Low-key Caravaggio lighting — single key + ambient teal
+> fill. The brightest pixel sits on a rule-of-thirds intersection,
+> NOT centre (UI panels overlay centre). Match the existing live
+> `page-backgrounds/PVP-001/PVP-002/PVP-003` treatment. **No
+> people. No readable text on signage. No modern Earth-tech
+> logos. No anime/cel-shading. No harsh contour lines.**
+
+### 8.1 ACH-001_achievement-vault.jpg — Achievement Vault
+
+> Accent: deep gold (#D4AF37).
+
+```
+Apply the §8 style guide. Setting: a circular vault chamber
+viewed from the entrance threshold at low angle. Tiered shelves
+spiral up the walls of the chamber, each shelf lined with sealed
+black trophy cases (suggest forms only — no readable plaques).
+Centre of the chamber at the rule-of-thirds intersection: a
+single open empty pedestal where a trophy will eventually rest,
+lit by a deep gold spotlight from above. The vault door at the
+front of the frame is half-closed, its inner face engraved with
+a pattern of crossed laurel branches in tarnished bronze. Floor:
+dark polished marble with faint hexagonal inlay. 1920×1080 JPG.
+```
+
+### 8.2 BTP-001_season-command.jpg — Season Command (Battle Pass)
+
+> Accent: amber (#F5A524).
+
+```
+Apply the §8 style guide. Setting: a starship CIC bridge bathed
+in deep blue-black, with ONE central holographic projection table
+mid-room casting amber light. The projection shows orbital
+mechanics — concentric ring trajectories around an unnamed
+planet — but rendered abstractly enough not to read as any specific
+star system. The brightest pixel is the projection's central
+amber glow, positioned at the lower-right rule-of-thirds. Back
+wall: a curved tactical board displaying season-progress
+holograms (faint chevron-shapes climbing a graph, no numbers
+visible). Foreground: empty bridge crew chairs at consoles.
+1920×1080 JPG.
+```
+
+### 8.3 CHR-001_operative-dossier.jpg — Operative Dossier
+
+> Accent: dossier-red (#B91C1C).
+
+```
+Apply the §8 style guide. Setting: a field-office desk
+photographed at low working-angle. On the desk: open dossier
+folders fanned across the surface, manila tabs visible (no
+readable text), photographs paper-clipped into the folders
+(faces obscured / silhouetted). A single goose-neck desk lamp
+on the left of the frame casts a tight pool of dossier-red-
+tinted warm light onto the central folder, positioned at the
+upper-left rule-of-thirds. Behind the desk: a corkboard threat-
+board with red push-pins and red yarn connecting unseen photos.
+Foreground edge: a fountain pen and a small empty espresso cup.
+1920×1080 JPG.
+```
+
+### 8.4 DPL-001_negotiation-chamber.jpg — Diplomacy / Negotiation
+
+> Accent: emerald (#10B981).
+
+```
+Apply the §8 style guide. Setting: a long diplomatic table in a
+high-ceilinged chamber, photographed from behind one empty chair
+looking down the length of the table toward an opposing empty
+chair at the far end. Two opposing faction sigils carved into the
+back walls behind each chair (silhouette only — abstract crests,
+no text or recognizable logos). Centre of the table: a half-
+poured glass of water and a closed leather portfolio. Above the
+table: a single chandelier emitting cool emerald-tinted light at
+the rule-of-thirds intersection. Floor: deep mahogany. The room
+feels like it's been waiting for someone for a long time.
+1920×1080 JPG.
+```
+
+### 8.5 GLD-001_guild-hall.jpg — Guild Hall
+
+> Accent: warm orange (#F97316).
+
+```
+Apply the §8 style guide. Setting: a long mead-hall photographed
+from the entry doorway looking down its length toward a hearth
+at the far end. Exposed wooden roof beams. Banners of unrelated
+guilds hang from the beams in receding perspective (suggest
+crests only — no readable text). At the rule-of-thirds
+intersection (upper-right): the warm orange glow of the hearth
+fire reflecting on polished oak. Long communal tables run the
+length of the hall, partially set with empty wooden goblets and
+trenchers. Foreground: a single bench pulled out at an angle, as
+if someone just stood up. 1920×1080 JPG.
+```
+
+### 8.6 CMP-001_companion-quarters.jpg — Companion Quarters
+
+> Accent: lavender (#A78BFA).
+
+```
+Apply the §8 style guide. Setting: a communal sleeping room
+photographed at low evening light. Three to four bunks visible
+in receding perspective along one wall, blankets rumpled,
+pillows recently used. Personal items on small wooden shelves
+beside each bunk (a folded letter, a small woven figurine, a
+pressed flower in a jar — abstract enough not to read as any
+specific character's belongings). At the rule-of-thirds (lower-
+left): one bedside table with a single open book face-down on a
+soft lavender-tinted reading lamp. A small porthole window at
+the back wall shows deep blue night. The room feels lived-in but
+currently empty. 1920×1080 JPG.
+```
+
+### 8.7 INV-001_cargo-hold.jpg — Inventory / Cargo Hold
+
+> Accent: deep cyan (#0891B2).
+
+```
+Apply the §8 style guide. Setting: a starship cargo bay
+photographed from a high catwalk looking down. Stacks of
+unmarked metal crates of varying sizes arranged in shipping-grid
+formation, with cargo netting holding the upper stacks in place.
+Dim industrial deck lighting strips run along the floor at the
+edges of each crate row, casting faint deep-cyan ambient glow.
+At the rule-of-thirds intersection (lower-right): a single open
+crate with its contents partially visible — abstract glints of
+metal and amber light suggesting unidentified valuables. Bay
+doors closed at the far end. The space reads as utilitarian,
+quiet, midnight-shift. 1920×1080 JPG.
+```
+
+### 8.8 QST-001_mission-briefing.jpg — Quest / Mission Briefing
+
+> Accent: saffron (#EAB308).
+
+```
+Apply the §8 style guide. Setting: a war-room photographed from
+behind one of several empty chairs facing a central holographic
+mission-map table. The map projection (rule-of-thirds intersection,
+upper-left) shows a saffron-tinted topographic 3D view of an
+unnamed terrain — abstract enough not to read as a specific
+planet or location. Pinned on cork-boards along the back wall:
+hand-drawn schematic diagrams, route maps with red pencil
+annotations, photographs of unspecified locations. Foreground
+edge: a folded map and a coffee mug at the empty chair's place.
+The room feels like a briefing already delivered, waiting for
+its audience to return. 1920×1080 JPG.
+```
+
+### 8.9 MKT-001_marketplace.jpg — Marketplace
+
+> Accent: rust (#C2410C).
+
+```
+Apply the §8 style guide. Setting: a bazaar at twilight,
+photographed from the centre of a long market alley looking
+toward a distant city skyline at the end of the alley. Empty
+stalls line both sides, their canvas awnings rolled half-down,
+small tables holding unsold goods (fruits, fabrics, small
+unidentifiable trinkets) covered in evening shadow. Above the
+alley: a string of small warm rust-coloured lanterns hanging
+from cables zig-zagging across the alley overhead. At the rule-
+of-thirds intersection (lower-right): one lantern is brighter
+than the others and casts a tight pool of rust light onto a
+specific stall. Distant background: silhouetted city skyline at
+twilight, deep blue-violet sky. The market is closing for the
+night. 1920×1080 JPG.
+```
+
+### 8.10 STR-001_requisition-terminal.jpg — Store / Requisition Terminal
+
+> Accent: ice-blue (#7DD3FC).
+
+```
+Apply the §8 style guide. Setting: a clinical quartermaster's
+window photographed straight-on from the customer side. The
+window itself: a rectangular service opening cut into a dark
+metal wall, fronted by a brass grille with a small slot at desk-
+height for documents. Through the grille: glimpses of shelving
+behind the counter, stacked with unmarked metal cases and folded
+fabric. Single overhead pendant lamp casts a tight pool of cool
+ice-blue light onto the counter at the rule-of-thirds (upper-
+left), illuminating a small brass call-bell and a closed ledger.
+The quartermaster's chair behind the counter is empty, slightly
+turned. Floor: brushed concrete with painted yellow safety lines.
+1920×1080 JPG.
+```
+
 
 
 
