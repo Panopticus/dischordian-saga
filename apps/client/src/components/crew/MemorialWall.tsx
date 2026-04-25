@@ -8,6 +8,7 @@ import { FOUNDING_BLOODLINES, type BloodlineId } from "@/game/crewGenetics";
 import type { CrewState, SerializedCrewMember } from "@shared/crewPersistence";
 import { SPECTRAL_ART } from "@/data/nanobanna2Assets";
 import { CREW_SPECIES_TO_SPECTRAL, pickSpectralForId } from "../spectralFormMap";
+import { THE_ASSISTANT_CARD } from "@shared/darrenMemorial";
 
 interface Props {
   state: CrewState;
@@ -58,13 +59,47 @@ export default function MemorialWall({ state }: Props) {
     b => b.livingCount === 0 && b.deadCount > 0,
   );
 
+  const darrenSection = (
+    <section>
+      <div className="text-[10px] font-mono uppercase text-muted-foreground mb-2 tracking-wider">
+        IN MEMORIAM
+      </div>
+      <div
+        className="p-3 border border-border/40 rounded bg-background/40 flex gap-3"
+        style={{ borderLeftWidth: "3px", borderLeftColor: "#94a3b8" }}
+      >
+        <img
+          src={THE_ASSISTANT_CARD.artAsset}
+          alt=""
+          aria-hidden="true"
+          className="w-12 h-12 flex-shrink-0 object-contain opacity-90"
+          onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
+        />
+        <div className="flex-1 min-w-0">
+          <div className="font-display font-semibold text-sm">
+            {THE_ASSISTANT_CARD.name}
+          </div>
+          <div className="text-[10px] font-mono text-muted-foreground mb-1">
+            {THE_ASSISTANT_CARD.subtitle}
+          </div>
+          <div className="text-[10px] font-mono italic text-foreground/60">
+            "{THE_ASSISTANT_CARD.flavorText}"
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+
   if (deceased.length === 0) {
     return (
-      <div className="py-16 text-center">
-        <Skull size={40} className="mx-auto text-muted-foreground/30 mb-3" />
-        <div className="font-mono text-sm text-muted-foreground">
-          The memorial wall is empty. May it stay that way.
+      <div className="space-y-6">
+        <div className="py-16 text-center">
+          <Skull size={40} className="mx-auto text-muted-foreground/30 mb-3" />
+          <div className="font-mono text-sm text-muted-foreground">
+            The memorial wall is empty. May it stay that way.
+          </div>
         </div>
+        {darrenSection}
       </div>
     );
   }
@@ -173,6 +208,7 @@ export default function MemorialWall({ state }: Props) {
           })}
         </div>
       </section>
+      {darrenSection}
     </div>
   );
 }

@@ -1,4 +1,5 @@
 import { assetUrl } from "@/lib/assetUrl";
+import { ARENA_BACKGROUNDS } from "@/data/arenaAssets";
 /* ═══════════════════════════════════════════════════════
    FALL OF REALITY — Fighting Game Data
    Character roster, stats, special abilities, arenas
@@ -703,7 +704,7 @@ export const ARENAS: ArenaData[] = [
     bgGradient: "linear-gradient(180deg, #0a0a0a 0%, #1a0a2a 40%, #2a1a4a 70%, #0a0a1a 100%)",
     floorColor: "#1e1b4b",
     ambientColor: "#a855f7",
-    backgroundImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/terminus_bg-DX47zzMZ5k3JdifSRVmKhR.webp",
+    backgroundImage: ARENA_BACKGROUNDS.terminus.src,
   },
   {
     id: "mechronis",
@@ -711,7 +712,7 @@ export const ARENAS: ArenaData[] = [
     bgGradient: "linear-gradient(180deg, #0a1a0a 0%, #1a2a1a 40%, #2a3a2a 70%, #0a1a0a 100%)",
     floorColor: "#1a2e1a",
     ambientColor: "#22c55e",
-    backgroundImage: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/mechronis_bg-CYQGpJMy45LhszadcxaySY.webp",
+    backgroundImage: ARENA_BACKGROUNDS.mechronis.src,
   },
   {
     id: "crucible",
@@ -719,7 +720,7 @@ export const ARENAS: ArenaData[] = [
     bgGradient: "linear-gradient(180deg, #1a0a00 0%, #3d1a00 40%, #5a2a00 70%, #1a0a00 100%)",
     floorColor: "#431407",
     ambientColor: "#f97316",
-    backgroundImage: "https://res.cloudinary.com/dsenaozjq/image/upload/v1775505865/arena-the-crucible_nfnujk.jpg",
+    backgroundImage: ARENA_BACKGROUNDS.theCrucible.src,
   },
   {
     id: "blood-weave",
@@ -727,7 +728,7 @@ export const ARENAS: ArenaData[] = [
     bgGradient: "linear-gradient(180deg, #1a0000 0%, #330000 30%, #4d0000 50%, #660000 70%, #1a0000 100%)",
     floorColor: "#2d0000",
     ambientColor: "#dc2626",
-    backgroundImage: "https://res.cloudinary.com/dsenaozjq/image/upload/v1775505882/arena-the-blood-weave_mnyxzj.jpg",
+    backgroundImage: ARENA_BACKGROUNDS.theBloodWeave.src,
   },
   {
     id: "shadow-sanctum",
@@ -735,7 +736,7 @@ export const ARENAS: ArenaData[] = [
     bgGradient: "linear-gradient(180deg, #0a0014 0%, #1a0033 30%, #2a004d 50%, #1a0033 70%, #0a0014 100%)",
     floorColor: "#1a0033",
     ambientColor: "#7c3aed",
-    backgroundImage: "https://res.cloudinary.com/dsenaozjq/image/upload/v1775505917/arena-shadow-sanctum_kascod.jpg",
+    backgroundImage: ARENA_BACKGROUNDS.shadowSanctum.src,
   },
   {
     id: "ranked-table",

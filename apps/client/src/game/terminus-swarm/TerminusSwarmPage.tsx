@@ -30,7 +30,18 @@ import { useTerminusPvP } from "./pvpClient";
 import type { TerminusGameState, TurretDef, GamePhase } from "./types";
 
 import { assetUrl } from "@/lib/assetUrl";
+import { TERMINUS_KEYFRAMES } from "@/data/terminusCinematicAssets";
 type View = "intro" | "cinematic" | "puzzle" | "signal" | "map_select" | "playing" | "game_over" | "pvp_search" | "pvp_attack";
+
+/** Resolve poster (start frame) for a cinematic video URL by extracting its
+ * `cinNN` id and looking up the typed registry. Returns `undefined` if the
+ * URL doesn't match the cinematic naming pattern. */
+function getCinematicPoster(url: string): string | undefined {
+  const m = url.match(/\/(cin\d+)/);
+  if (!m) return undefined;
+  const key = m[1] as keyof typeof TERMINUS_KEYFRAMES;
+  return TERMINUS_KEYFRAMES[key]?.start;
+}
 
 const TURRET_LIST: TurretDef[] = Object.values(TURRETS);
 
@@ -593,7 +604,7 @@ export default function TerminusSwarmPage() {
               autoPlay
               playsInline
               onEnded={skipCinematic}
-              poster={cinematicUrl.replace(/\.mp4$/, "").replace(/.*\/(cin\d+).*/, assetUrl("art/terminus/cinematics/$1_start.png"))}
+              poster={getCinematicPoster(cinematicUrl)}
               className="w-full h-full object-contain"
             />
             <button
