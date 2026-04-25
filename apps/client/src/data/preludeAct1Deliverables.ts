@@ -235,45 +235,18 @@ export const PRELUDE_ROOM_BACKDROPS: Readonly<Record<string, ImagePair>> = {
   "cargo-hold": pair("art/rooms/prelude/room-cargo-hold.png"),
   engineering: pair("art/rooms/prelude/room-engineering.png"),
   bridge: pair("art/rooms/prelude/room-bridge.png"),
-  // PNG-only intermediates — the webp path still points at the
-  // PNG so <picture> falls through to it and the Bible manifest
-  // path-string layout stays uniform for consumers.
-  corridor: {
-    png: assetUrl("art/rooms/prelude/room-corridor.png"),
-    webp: assetUrl("art/rooms/prelude/room-corridor.png"),
-  },
-  galley: {
-    png: assetUrl("art/rooms/prelude/room-galley.png"),
-    webp: assetUrl("art/rooms/prelude/room-galley.png"),
-  },
-  "mess-hall": {
-    png: assetUrl("art/rooms/prelude/room-mess-hall.png"),
-    webp: assetUrl("art/rooms/prelude/room-mess-hall.png"),
-  },
-  "briefing-room": {
-    png: assetUrl("art/rooms/prelude/room-briefing-room.png"),
-    webp: assetUrl("art/rooms/prelude/room-briefing-room.png"),
-  },
-  "medical-bay": {
-    png: assetUrl("art/rooms/prelude/room-medical-bay.png"),
-    webp: assetUrl("art/rooms/prelude/room-medical-bay.png"),
-  },
-  "comms-array": {
-    png: assetUrl("art/rooms/prelude/room-comms-array.png"),
-    webp: assetUrl("art/rooms/prelude/room-comms-array.png"),
-  },
-  archives: {
-    png: assetUrl("art/rooms/prelude/room-archives.png"),
-    webp: assetUrl("art/rooms/prelude/room-archives.png"),
-  },
-  armory: {
-    png: assetUrl("art/rooms/prelude/room-armory.png"),
-    webp: assetUrl("art/rooms/prelude/room-armory.png"),
-  },
-  "captains-quarters": {
-    png: assetUrl("art/rooms/prelude/room-captains-quarters.png"),
-    webp: assetUrl("art/rooms/prelude/room-captains-quarters.png"),
-  },
+  // The remaining 9 rooms shipped to the top-level `art/rooms/` prefix
+  // (no `prelude/` subdir) under a separate earlier upload, with both
+  // PNG + WebP variants live. Confirmed by 2026-04-25 audit probe.
+  corridor: pair("art/rooms/room-corridor.png"),
+  galley: pair("art/rooms/room-galley.png"),
+  "mess-hall": pair("art/rooms/room-mess-hall.png"),
+  "briefing-room": pair("art/rooms/room-briefing-room.png"),
+  "medical-bay": pair("art/rooms/room-medical-bay.png"),
+  "comms-array": pair("art/rooms/room-comms-array.png"),
+  archives: pair("art/rooms/room-archives.png"),
+  armory: pair("art/rooms/room-armory.png"),
+  "captains-quarters": pair("art/rooms/room-captains-quarters.png"),
 } as const;
 
 /* ─── PRELUDE — AUDIO ─── */
