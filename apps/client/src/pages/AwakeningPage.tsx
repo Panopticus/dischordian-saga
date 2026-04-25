@@ -134,9 +134,15 @@ const AwakeningVOPlayer = (() => {
         current.onended = null;
         current.pause();
       }
-      const audio = new Audio(url);
+      // crossOrigin MUST be set before src so the browser issues the
+      // CORS preflight on initial load — required for wawa-lipsync's
+      // Web Audio analyser to read samples (otherwise connectAudio
+      // throws and Elara's mouth stalls on the REST cell).
+      const audio = new Audio();
+      audio.crossOrigin = "anonymous";
       audio.preload = "auto";
       audio.volume = 0.95;
+      audio.src = url;
       current = audio;
       currentUrl = url;
       const onDone = () => {
@@ -199,9 +205,6 @@ function ElaraDialogBox({
     PLAYED_VO_IDS.add(voAudioUrl);
 
     const audio = AwakeningVOPlayer.play(voAudioUrl, themeAudio ?? null);
-    // Mark as CORS-friendly so the Web Audio API can read samples for
-    // lip sync. Safe on same-origin too; ignored when unsupported.
-    try { audio.crossOrigin = "anonymous"; } catch { /* older browsers */ }
     setVoAudio(audio);
 
     const handleFailure = () => { onVoPlaybackFailed?.(); };

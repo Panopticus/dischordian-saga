@@ -133,29 +133,38 @@ export function SpriteCharacter({
       let dirty = false;
 
       if (isSpeaking && activeViseme) {
-        // Prefer live audio analysis; otherwise fall back to a timed viseme
-        // sequence so the mouth still animates (TTS / no-audio paths).
-        const haveLiveAnalysis =
-          audio && lipsyncRef.current && lastConnectedRef.current === audio;
-        if (haveLiveAnalysis) {
-          try {
-            lipsyncRef.current!.processAudio();
-            const v = lipsyncRef.current!.viseme as WawaViseme;
-            const cell = activeViseme.map[v] ?? 0;
-            if (cell !== s.visemeCell) {
-              s.visemeCell = cell;
-              dirty = true;
-            }
-          } catch {
-            // ignore — keep current cell
-          }
-        } else if (now - lastFake > 1000 / FAKE_VISEME_FPS) {
+        // Always advance the fake viseme cycle as a baseline so the mouth
+        // visibly moves the entire time the character is speaking — lip
+        // sync via wawa-lipsync is best-effort (CORS, AudioContext state,
+        // iOS Safari quirks) and silently degrades to viseme_sil when it
+        // can't read samples, which would otherwise leave the mouth
+        // frozen at REST.
+        if (now - lastFake > 1000 / FAKE_VISEME_FPS) {
           lastFake = now;
           fakeIdx = (fakeIdx + 1) % FAKE_VISEME_SEQUENCE.length;
           const cell = activeViseme.map[FAKE_VISEME_SEQUENCE[fakeIdx]] ?? 0;
           if (cell !== s.visemeCell) {
             s.visemeCell = cell;
             dirty = true;
+          }
+        }
+        // Lip sync override: when wawa-lipsync is wired up and reports a
+        // real phoneme (anything other than silence), prefer that cell.
+        const haveLiveAnalysis =
+          audio && lipsyncRef.current && lastConnectedRef.current === audio;
+        if (haveLiveAnalysis) {
+          try {
+            lipsyncRef.current!.processAudio();
+            const v = lipsyncRef.current!.viseme as WawaViseme;
+            if (v && v !== "viseme_sil") {
+              const cell = activeViseme.map[v] ?? 0;
+              if (cell !== s.visemeCell) {
+                s.visemeCell = cell;
+                dirty = true;
+              }
+            }
+          } catch {
+            // ignore — fake cycle already moved the mouth this frame
           }
         }
       } else if (!isSpeaking && sprite.breathing && !prefersReducedMotion) {
