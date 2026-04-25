@@ -655,3 +655,27 @@ Not canon until reviewed.
 - Sample 5 demonstrates the Act 4 memory-playback structural innovation. A reviewer should recognize: the Game Master is *teaching the player how to lose to him* by replaying his own loss to the Engineer. This is canonically unique authoring.
 - Sample 6 surfaces the canonical "you were always going to" frame at full Overwhelming presence-band weight, in a non-chess context. A reviewer should feel the mechanic — the Game Master has stopped being a chess opponent and become a *substrate the player is moving through*.
 - Cross-sample check: a reader given the six samples *without identity tags* should correctly label all six identities at ≥4-of-6 accuracy. If reviewers cannot distinguish Left from Right, the §1 voice rules need tightening.
+
+---
+
+## 7. Canon issues and open questions
+
+### 7.1 Load-bearing missing canon (must fill before Stage 2 authoring)
+
+- **The Antiquarian's full SIB-IX records** are referenced (`antiquariansJournal.ts:705-707`) but the full archive is not extracted. Before Stage 2, the complete SIB-IX index needs to be available to writers — the Antiquarian is the institutional historian for the Game Master and his records are load-bearing.
+- **The presence-band mechanic** (faint / loud / overwhelming) is canon-adjacent (per the priority plan) but unimplemented. Before Stage 2, the chess-frequency thresholds need to be specified, and the band-transition events need authoring.
+- **Cult-voice redaction system** has no current implementation. The corrupted text in `cadesNarrativeIntegration.ts:40` is a one-off canon example. A general redaction-overlay system needs to be specified for Stage 2 authoring.
+- **The Goggles' mechanical state** — they read source code; canon does not specify whether the Hierarchy can *use* them or merely *holds* them. The cult wants them back. Whether anyone in the Hierarchy can wear them post-Game-Master is canon-silent. Writers should *not* fill this in unless the Hierarchy bibles (Mol'Garath, Xeth'Raal, Riri'Ahlia) are written and authorize it.
+- **The split event** between Act 1 and Act 2 is canonically referenced but not authored. *When* did the Original split into Left and Right? Was it at the moment of destruction? Some interval after? A separate event entirely? Stage 2 authoring needs the transition scene — or the explicit decision that the transition is canonically silent.
+- **Iron Lion's imprint awakening** — Elara's anomaly note exists; the imprint's actual lines do not. The convergence with Jericho's Iron Lion succession (per the Degen's bible §3.11) is a saga-rich Stage 4 scene that requires authoring before any new Iron Lion canon is finalized.
+- **The other eleven Archons.** Canon names the Game Master as Archon Number Ten. The other Archons' names, domains, and relationships to the Game Master are unauthored. Before Stage 2, the Archon hierarchy needs at least a roster sketch — even if individual Archons are not given bibles.
+
+### 7.2 Intentional mysteries the bible protects
+
+- **Why the Game Master wanted the soul to exist.** The Antiquarian's puzzle (`antiquariansJournal.ts:707`). Canon-protected. Writers must not give him an answer. The puzzle is the character.
+- **Whether the Two are imprints, splinters, successors, or cult avatars.** Canon refuses. All four readings are compatible. Writers must not pick.
+- **What killed the Original from inside the Matrix.** Per Agent Zero / the Antiquarian: *"something inside the Matrix... woke up when a consciousness-imprint started asking questions it wasn't designed to ask."* The "something" is canon-protected. Writers must not name it.
+- **The substrate of the Matrix.** What the Matrix is *running on* is unspecified. The Goggles read source code; the Matrix archives consciousness; what they share at the substrate level is silent. Writers must hold.
+- **The Game Master's pre-Senator existence.** Canon shows him at the Senate desk. Anything before that is unrecorded. Writers must not pre-date.
+- **Whether the Original anticipated his own death.** He may have. He may not have. He recognized his playbook in Agent Zero's hands with *surprise* (`arenaWorldLore.ts`). Whether the surprise was the *fact* or the *operator* is canon-silent. Writers should not specify.
+- **The contents of the six archived scenarios** in the Matrix of Dreams (per `cadesNarrativeIntegration.ts:125`). Canon names them as *"key moments from the history of the Saga, preserved by the Game Master before his destruction."* What they are is not specified beyond Iron Lion's. The other five scenarios are open material for future bibles.
