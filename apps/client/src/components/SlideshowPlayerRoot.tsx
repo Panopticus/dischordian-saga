@@ -12,8 +12,9 @@
    a slideshow and it just plays over whatever's rendered.
    ═══════════════════════════════════════════════════════ */
 
-import { useCallback, useEffect, useMemo, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import SongSlideshow from "./SongSlideshow";
+import SongCinematicVideo from "./SongCinematicVideo";
 import { MatrixFrame } from "./MatrixFrame";
 import { useWitnessingStore } from "@/stores/witnessingStore";
 import { applySlideshowReward } from "@/stores/dischordiaCycleStore";
@@ -30,6 +31,14 @@ export function SlideshowPlayerRoot() {
   const completeActive = useWitnessingStore((s) => s.completeActiveSlideshow);
   const moments = useMemorableMomentsStore((s) => s.moments);
   const { setNarrativeFlag, state: gameState } = useGame();
+  // Acts 2-7 AAA Final cinematic drop — when an opener slideshow
+  // declares a `videoUrl`, prefer the MP4 player. If the video
+  // 404s, this flag flips and we fall back to the still-frame
+  // slideshow. Reset whenever the active slideshow changes.
+  const [videoFailed, setVideoFailed] = useState(false);
+  useEffect(() => {
+    setVideoFailed(false);
+  }, [active?.def.id]);
   // §14.1 · Silence-of-Two-Witnesses parenthetical VO — two quiet
   // voice-over beats (`silence-elara`, `silence-human`) that layer
   // on top of the SILENCE_OF_TWO_WITNESSES_SLIDESHOW cinematic. The
@@ -124,7 +133,21 @@ export function SlideshowPlayerRoot() {
 
   if (!active || !slideshowDef) return null;
 
-  const slideshow = (
+  // Acts 2-7 AAA Final — when the def declares a videoUrl and the
+  // video hasn't failed yet, route to the MP4 player. Music bed
+  // rides on `audioUrl` underneath. Falls through to the slideshow
+  // path if the video errors.
+  const useVideoPlayer = Boolean(slideshowDef.videoUrl) && !videoFailed;
+
+  const inner = useVideoPlayer ? (
+    <SongCinematicVideo
+      videoUrl={slideshowDef.videoUrl!}
+      audioUrl={slideshowDef.audioUrl}
+      title={slideshowDef.title}
+      onEnd={handleComplete}
+      onVideoError={() => setVideoFailed(true)}
+    />
+  ) : (
     <SongSlideshow
       frames={simpleFrames}
       audioSrc={slideshowDef.audioUrl}
@@ -134,9 +157,7 @@ export function SlideshowPlayerRoot() {
   );
 
   if (matrixFrameActive) {
-    return (
-      <MatrixFrame title={slideshowDef.title}>{slideshow}</MatrixFrame>
-    );
+    return <MatrixFrame title={slideshowDef.title}>{inner}</MatrixFrame>;
   }
-  return slideshow;
+  return inner;
 }

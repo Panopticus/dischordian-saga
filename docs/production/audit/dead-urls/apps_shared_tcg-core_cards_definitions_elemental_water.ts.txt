@@ -1,0 +1,5 @@
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/cards/element/s1_elem_water_02.webp
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/cards/element/s1_elem_water_01.webp
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/cards/element/s1_elem_water_03.webp
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/cards/element/s1_elem_water_04.webp
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/cards/element/s1_elem_water_05.webp

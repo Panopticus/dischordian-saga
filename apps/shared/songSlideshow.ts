@@ -20,6 +20,15 @@ export interface SongSlideshowDef {
   id: string;
   songId: string;
   audioUrl: string;
+  /**
+   * Optional cinematic video URL. When set, the slideshow player
+   * plays this MP4 in place of the still-frame slideshow and
+   * lets `audioUrl` ride underneath as the music bed. Used by
+   * the Acts 2-7 AAA Final cinematic drop where each act opener
+   * has both a `cin_act{N}_opener.mp4` and an `act-{N}-intro.mp3`.
+   * Falls back to the frame slideshow if the video 404s.
+   */
+  videoUrl?: string;
   durationMs: number;
   title: string;
   subtitle?: string;

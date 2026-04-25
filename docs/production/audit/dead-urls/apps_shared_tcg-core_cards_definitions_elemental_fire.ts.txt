@@ -1,0 +1,5 @@
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/cards/element/s1_elem_fire_01.webp
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/cards/element/s1_elem_fire_02.webp
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/cards/element/s1_elem_fire_05.webp
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/cards/element/s1_elem_fire_03.webp
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/cards/element/s1_elem_fire_04.webp

@@ -1,0 +1,5 @@
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/cards/class/s1_class_neyon_02.webp
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/cards/class/s1_class_neyon_03.webp
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/cards/class/s1_class_neyon_01.webp
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/cards/class/s1_class_neyon_05.webp
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/cards/class/s1_class_neyon_04.webp
