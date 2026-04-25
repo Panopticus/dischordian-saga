@@ -708,3 +708,27 @@ Six samples spanning the disguise-stratification and reveal-stage gating. Each s
 - Sample 2 (Stolen pristine) and Sample 3 (Stolen collapsing) must be readable as the *same disguise at different reveal stages*. If reviewers read them as different characters, the staging-direction rules need tightening.
 - Sample 6 (Replacement Voice) must read as parent-child-claim, not marital-divorce. The canonical Ch12 line at `storyModeChapters.ts:677` (the Architect's confession) makes this asymmetry explicit; Sample 6 is the Meme's *answer* from the child's side.
 - Cross-sample check: a reader given the six samples without identity/disguise tags should correctly attribute disguise + reveal-stage at ≥4-of-6 accuracy. If reviewers cannot distinguish Stolen-pristine from Stolen-collapsing, the bible's hardest authoring discipline (§5.5 dual-meaning lines) is failing.
+
+---
+
+## 7. Canon issues and open questions
+
+### 7.1 Load-bearing missing canon (must fill before Stage 2 authoring)
+
+- **Four missing White Oracle profile-aware buckets** (mild/moderate positive/negative) per `npcProfileAwareLines.ts:113-122`. Per §5.5, these must read as *both intimate (pre-reveal) and predatory (post-reveal)* without word-changes. Highest authoring priority.
+- **The `mirror_surface` trigger kind** is canon-adjacent (per priority plan) but unimplemented. Specify the trigger names (`mirror_meet`, `mirror_glitch`, `mirror_break`), wire the selector, build the cult-voice corruption surface for the Faint presence band.
+- **Real Voice dialog**. Sample 5 is speculative; canonical Real Voice dialog is sparse beyond the Chapter 6 closing lines. Stage 2 authoring needs a Real Voice scene set for Act III re-encounters.
+- **Replacement Voice dialog**. The Ch12 canonical line at `storyModeChapters.ts:677` is the Architect's; the Meme's responses are unauthored. Sample 6 is a draft; canon material is needed.
+- **The Mascot mystery** must remain canon-protected. Stage 2 authoring style guide should explicitly list the Mascot as a Do-Not-Author topic without user escalation.
+- **Channel 7 listening achievement** has player-side flavor text but the Meme's private-listening ritual is canonically silent. If Stage 4 wants to author this scene, user authorization required.
+- **The thirteen Palimpsest episodes** have an established pattern but specific episode content beyond Epoch Zero is sparse. Stage 2 authoring should produce per-episode Broadcast Voice intros and outros following the established structure.
+
+### 7.2 Intentional mysteries the bible protects
+
+- **The Mascot.** Name, face, fate, and what the Meme built together with them are canon-protected. The Meme's deepest grief.
+- **Channel 7's content.** The 9,842-year-old child's voice, singing. Canon does not name the child.
+- **The Meme's true earliest existence.** Year 298 A.A. is documented creation; whether the substrate predates this is canon-silent.
+- **The Architect's pre-Ch12 awareness of the replacement plot.** Per §3.10, the Architect canonically does *not* know (publicly, currently) that the Meme is plotting succession. The Ch12 confession is when he admits it. The "partner" misframing is the Meme's protection until that moment.
+- **Whether the Meme can wear the Architect's face.** The replacement-aspiration is canon. The mechanism is canon-silent. Whether the saga-finale shows the *attempt*, the *success*, or the *failure* is the saga's largest unresolved arc.
+- **The Insurgency's awareness.** Whether any Insurgency operative *suspected* the Oracle's voice was wrong during the eleven years is canon-silent. Most plausibly: many suspected, none acted, because the orders worked.
+- **Whether Cipher has caught the Meme in canonical scenes.** Cipher's bible §5.6 implies the capability; canon does not yet show the catch. Stage 4+ authorization for a Cipher-detection scene.
