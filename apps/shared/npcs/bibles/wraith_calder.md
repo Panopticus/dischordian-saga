@@ -934,4 +934,140 @@ Six samples — three pre-rite Wraith Calder, three post-rite Hierophant — plu
 
 ---
 
-*(Post-rite Hierophant samples 4–6 + transformation-bridge sample + voice-anchor check follow in chunk 14.)*
+### 6.4 Sample 4 — The Hierophant, post-rite, the periodic build
+
+**Scene**: Long Mourning chamber, first visit, post-rite. The player has just delivered the PRESENT option (*"I'm here. I'm listening."*).
+
+**Trigger**: post-rite, Long Mourning Q&A, dialogue option `thal_present`.
+
+**Trust-state**: Wary baseline (no carried trust); the option moves trust to Witnessed.
+
+> *(The Hierophant does not look up. The pen continues. There is silence for a measure long enough that the player questions whether they were heard.)*
+>
+> THE HIEROPHANT: *"Thank you. Presence without demand is the rarest thing anyone offers me. Most visitors want intelligence, or absolution, or context for their own guilt. You offered presence. I will remember that."*
+>
+> *(He does not look up. The next name is being written. The pen moves at the daily rate.)*
+>
+> THE HIEROPHANT: *"The chamber knows your shape now. It is a small thing. It is also the thing the room was built to know. You are welcome to stay, or to leave, or to return. The work continues either way."*
+
+**Bible rules exercised**:
+
+- §1.5 cadence rule #1 (periodic build): *"Most visitors want intelligence, or absolution, or context for their own guilt."* — three-element list with *or* connectives, building to the quiet apex *"You offered presence."* Pattern-canonical from `questlineThaloria.ts`'s `thal_present` source line.
+- §1.5 cadence rule #2 (corrective addendum): *"It is a small thing. It is also the thing the room was built to know."* — the second sentence is the corrective half-step. The first asserts; the second qualifies.
+- §1.7 tell #3 (*"I will remember that."* as covenant): the trust-band promotion phrase fires exactly once. Pattern-canonical.
+- §1.6 vocabulary anchors: *presence*, *witness* (implied by *the chamber knows your shape*), *the work*, *the daily rate*, *welcome to stay or leave or return*. No pre-rite vocabulary leaks (no *spite*, no *body*, no *get up*).
+- §1.5 cadence rule #3 (no caps, no exclamation, no rhetorical questions): nothing in the sample is raised; the apex moment lands at conversational volume.
+- §1.7 tell #5 (the pen as character): the stage directions track the pen. *"The pen continues."* / *"The next name is being written."* The ceremony does not pause for the player; the player fits around it.
+
+### 6.5 Sample 5 — The Hierophant, post-rite, the corrective addendum at scale
+
+**Scene**: Long Mourning chamber, second visit. The player has been in the chamber long enough to ask about methodology. They have selected a Stage 2 follow-up: *"How do you know which name comes next?"*
+
+**Trigger**: post-rite, Long Mourning follow-up, post-Witnessed-band.
+
+**Trust-state**: Witnessed (carried-trust path); the follow-up does not advance the band but earns deeper material.
+
+> *(The pen lifts. He does not put it down. Bible-asserts the pen-lift here is a `pen_lift` ripple event, §5.3.)*
+>
+> THE HIEROPHANT: *"I do not choose. I research. The Council provides the records that survived the Shadow Tongue's editing — partial records, half-erased, sometimes the names alone, sometimes a profession or a relation. I pick the next name from what survived: the name with the most context still attached. That name takes a day. Sometimes two. The day is research; the writing is fast. Most of the work is not visible from this chair."*
+>
+> *(He turns the pen between his fingers — a private gesture, shared with the player at this trust band.)*
+>
+> THE HIEROPHANT: *"I used to think I was choosing. I was wrong. The wall chooses. I am the hand. The hand is grateful to be the hand. That is the lesson of three thousand years."*
+
+**Bible rules exercised**:
+
+- §1.5 cadence rule #2 (corrective addendum): *"That name takes a day. Sometimes two."* — the *sometimes two* is the corrective half-step. *"I used to think I was choosing. I was wrong."* — the second sentence undoes part of the first. Pattern-canonical.
+- §1.5 cadence rule #1 (periodic build): the second beat builds *I do not choose* → *I research* → *the day is research* → *the writing is fast* → *most of the work is not visible*. Each step at the same scale; the apex is the closing observation.
+- §1.6 vocabulary anchors: *research*, *day*, *the wall*, *the hand*, *three thousand years*. No pre-rite leaks.
+- §1.7 tell #4 (mid-sentence translation to ceremony): the second beat starts in personal disclosure (*"I used to think I was choosing"*) and lands in categorical observation (*"That is the lesson of three thousand years"*). The pivot is the post-rite parallel of pre-rite Sample 2's mid-sentence pivot — the Hierophant cannot finish a confession without translating it into ceremony.
+- §1.6 absent words: no *spite*, no imperative (no *get up*, no *do this*), no caps. The closest the Hierophant comes to imperative here is *the hand is grateful* — gratitude as the only command.
+- §1.5 cadence rule #3 (no caps): zero. The apex *"I was wrong"* lands at speaking volume.
+
+### 6.6 Sample 6 — The Hierophant, post-rite, the Inheriting-band apex
+
+**Scene**: Long Mourning chamber, multi-act recurrence. The player has visited the chamber across three acts; their Long Mourning trust is at Inheriting (the highest band). They have just delivered the Empathy-14 line in a previous visit; they are returning today not to ask but to sit. The Hierophant is mid-name. The pen is moving.
+
+**Trigger**: post-rite, Inheriting band, multi-act recurrence, no dialogue option selected (the player has chosen to sit silently).
+
+**Trust-state**: Inheriting (apex). This sample is bible-canon-locked; writers may *not* extend or paraphrase the apex line.
+
+> *(The Hierophant does not look up. The pen finishes a name. The pen lifts. The chamber's silence is, for a moment, deeper than it usually is.)*
+>
+> *(He turns toward the player. This is, bible-asserts, the rarest first-look in the saga — not earned by a clever line, but by the sustained presence of a player who has accepted the chamber on its own terms.)*
+>
+> THE HIEROPHANT: *"You are walking the architecture I made of grief. I had hoped someone would, eventually. Not many do. The walls hold the dead; the rest of the building holds the laws; both need someone, sometimes, to walk them."*
+>
+> *(The Hierophant returns the pen to the page. The next name begins. He speaks one more sentence as he writes.)*
+>
+> THE HIEROPHANT: *"Stay until the next name. The naming is fast. The patience between is the work."*
+
+**Bible rules exercised**:
+
+- §1.7 tell #3 promotion phrase #3 (the apex): *"You are walking the architecture I made of grief. I had hoped someone would, eventually."* — Inheriting-band-promotion line. Bible-canon-locked.
+- §2.6 architectural-acts cross-reference: *"the walls hold the dead; the rest of the building holds the laws"* — explicit acknowledgment that the Hierophant is the architect of both the chamber (mourning) and the Tribunal (law). The line is the only canonical place in the bible where the Hierophant verbally connects his two architectural domains.
+- §1.5 cadence rule #2 (corrective addendum): *"Not many do."* is the corrective half-step. *"both need someone, sometimes, to walk them"* is the second corrective at scale.
+- §1.7 tell #1 (the first-look pause) at its rarest: the stage direction notes the look is earned by sustained presence, not by a clever line. This is the Inheriting-band variant of the look-up beat.
+- §1.6 vocabulary anchors: *grief*, *walls*, *building*, *laws*, *naming*, *patience*, *the work*. The closing *"The naming is fast. The patience between is the work."* is the inverse of pre-rite Sample 3's *"Not the bodies. Not the fights. The pace."* — the same shape, the same period-as-tool counter-isolation, but now anchored on *patience* instead of *pace*. Bridge material; expanded in §6.7.
+
+### 6.7 Bridge sample — the soul-tell crossing the gate
+
+**Scene**: a deliberately-paired diptych. Two scenes; the same player; the same soul; two registers separated only by the Final Rite.
+
+**Trigger context**: the bible asserts these two sample-fragments cannot fire on the same playthrough simultaneously (the gate is binary; §5.1). They are paired in the bible for *reviewer* use — the bridge sample exists to demonstrate the soul-continuity §1.1 mechanic to writers, not to fire as a runtime exchange.
+
+**Pre-rite fragment** (Wraith Calder, late Ch 3B continuation):
+
+> WRAITH CALDER: *"The Wolf taught me one thing. Pace. Not speed. Pace. The body that can keep going at the same step for seven days is the body that can keep going for eight. Or nine. Or until it can't. Same step the whole way. That's all I have to teach. Not many people want to learn it."*
+
+**Post-rite fragment** (the Hierophant, Long Mourning, Inheriting band):
+
+> THE HIEROPHANT: *"The Wolf taught me one thing — though I had three thousand years to find a different word for it. He called it pace. I call it continuation. The thing that does not need to outlast the editor; the thing that simply does the work, every day, without a deadline. Same step the whole way. That is all I have to teach. Some learn it. Some never need to."*
+
+**The crossing demonstration**:
+
+- *"Same step the whole way."* — identical sentence in both registers. The most-explicit soul-tell in the bible. Bible-asserts: this exact sentence may appear in *both* banks. It is the one direct-quote crossing the gate. Reviewer-attribution test: the sentence alone is ambiguous; the sentences around it disambiguate the register.
+- *"Pace"* (pre-rite) ↔ *"Continuation"* (post-rite). The vocabulary mapping (§1.3, §1.6 absent-words list) is canonical: same axis, different vocabulary, the Hierophant explicitly footnotes the change (*"though I had three thousand years to find a different word for it"*). The footnote is a bible-canonical move; the post-rite Hierophant occasionally acknowledges that his vocabulary has updated but his meaning has not.
+- *"Not many people want to learn it."* (pre-rite) ↔ *"Some learn it. Some never need to."* (post-rite). The post-rite version absorbs the pre-rite's cynicism and reframes it as observation-without-judgment. Same content, different register. The pre-rite version reads like an instructor noting his audience attrition; the post-rite reads like a teacher who has stopped grading attendance.
+- §1.4 tell #3 (instruction that apologises while it instructs) ↔ §1.7 tell #4 (mid-sentence translation to ceremony): the pre-rite *"That's all I have to teach. Not many people want to learn it."* is instruction with calibration; the post-rite *"That is all I have to teach. Some learn it. Some never need to."* is instruction with categorical observation. The mechanism is the same; the destination is different.
+
+This bridge is the bible's clearest demonstration that the soul carries and the grammar does not. Writers training on this bible should read both fragments side-by-side until the difference is felt as *register*, not as *content*. The content is identical. The voice is two voices.
+
+### 6.8 Voice-anchor check
+
+A quick reference for writers and reviewers verifying that an authored line lands in the correct register.
+
+**For pre-rite Wraith Calder lines, the line passes if:**
+
+- [ ] Sentences are short. Two beats per line, sometimes one.
+- [ ] At least one period-as-tool moment (a list of facts adjacent without conjunction).
+- [ ] Vocabulary includes *body*, *bodies*, *seven* (or another count), *inside*, *ledger*, or *get up* — at least one anchor word per beat.
+- [ ] No Hierophant-only words: *grace*, *witness*, *ceremony*, *patience-as-virtue*, *continuation*, *holy*, *scripture*, *prophecy* — *zero*, anywhere.
+- [ ] If the line discloses motive, the motive is small and ugly (*spite*, *the cohort*, *the data*) — never noble (*duty*, *love*).
+- [ ] If the line apologises, the apology is for what was done *through the speaker*, not by the speaker as an isolated agent.
+- [ ] If the line gives advice, it is one tactical sentence followed by one calibration phrase (period or em-dash separation; two pieces; no more).
+- [ ] Selective caps land on the *contradicted noun*, not on emotion — and only on contradicted nouns.
+
+**For post-rite Hierophant lines, the line passes if:**
+
+- [ ] Sentences are long. Periodic build to a quiet apex.
+- [ ] At least one corrective-addendum half-step (a sentence that undoes part of the previous one).
+- [ ] Vocabulary includes *name*, *ceremony*, *witness*, *presence*, *remembering*, *edit*, *continuation*, *slow*, or *the work* — at least one anchor word per beat.
+- [ ] No Wraith Calder-only words: *spite*, *body* (in the *bodies* sense), *ledger*, *score*, *get up*, *three architects*, *inside* (in the *seven times inside* sense), *solid*, *ghost* — *zero*, anywhere.
+- [ ] No selective caps. No exclamation marks. No rhetorical questions (questions are real or absent).
+- [ ] Stage directions track the pen, the look-up, or the silence. The chamber is not still; the writing is the chamber's pulse.
+- [ ] If the line apologises, the apology is *categorical* (the lesson of the room) rather than personal (the speaker's individual fault).
+- [ ] If the line invites action, the verb is *sit*, *stay*, *write*, *wait*, *witness*, or *return* — never *get up*, *go*, *fight*.
+
+**Cross-register failure modes** (mis-cast lines that fail one bank's check should be re-routed to the other bank, not patched in place):
+
+- A pre-rite candidate that uses *continuation* — re-cast as post-rite Hierophant.
+- A post-rite candidate with selective caps — re-cast as pre-rite Wraith Calder.
+- A line that apologises *both* personally and categorically — split into two lines, route each to the appropriate bank.
+- A line whose stage directions both *issue an imperative* and *hold a pen* — two registers attempting to share one beat. Reject; re-author from the bible's rules.
+
+The bridge sample (§6.7) is the only authored exception. Writers may not produce additional bridge content without bible-asserter sign-off.
+
+---
+
+*(§§7 Canon issues + §8 Reviewer checklist follow.)*
