@@ -477,3 +477,82 @@ The two are canonically *not the same* — Vex's transference is canonically *tr
 **Cross-bible obligation.** The Hierophant bible's remaining-roster Companion entry is canonically the Companion bible's *deepest single cross-bible obligation* (per the Hierophant bible's own framing). Tracked in §7.3 DCB-O5. Stage 2 dialogue authoring should canonically anchor the Companion's chamber scenes on this canon.
 
 **Stage-2 authoring guidance.** Writers authoring Companion scenes in the Hierophant's chamber canonically have access to the canonical first-word-as-Wraith-Calder canon. Writers must NOT author the chamber scene as a routine first-word event; the chamber is canonically *load-bearing* and the first-word event canonically carries canonical-narrative-weight equivalent to the saga's clearest single recognition-of-personhood moments.
+
+### 4.7 The Degen — companion-via-ritual, parallel to Jericho
+
+**Seeded by**: `the_degen.md` §4.13 — *DMC Clone Companion: a companion-via-ritual, structurally parallel to Jericho (companion-via-recruitment) in that both arrive into their roles through another character's deliberate placement. Clone Companion's bible decides.*
+
+**The placement-broker parallel.** Per Degen bible §4.13: Jericho (a Heart-of-Time-arc Degen-canon character) canonically arrives into their role through another character's *deliberate placement* (the Degen via Heart-of-Time recruitment). The Companion canonically arrives into their role through Nilmorg's *deliberate placement* (the Severance Prize ritual). Bible-asserts the canonical structural parallel: both characters canonically *exist as the saga-time consequence of another character's institutional choice*. The placement-broker mechanism is canonically the same; the placement-broker is canonically different (Degen for Jericho, Nilmorg for Companion).
+
+**The Degen's canonical canonical-recognition of the Companion.** Bible-asserts: per the Ne-Yon canonical recognition mechanism (per Seer bible §3.2 inter-Ne-Yon recognition canon — applies even to non-Ne-Yons via the canonical inter-Ne-Yon-cross-recognition extension), the Degen canonically *recognises the Companion as kin-by-placement*. The Degen canonically *understands placement-broker rituals* — they have canonically been one (for Jericho). The Companion canonically *receives the Degen's recognition* as canonical-acknowledgment that their canonical-existence is canonically *not unique* — others have canonically been similarly-placed.
+
+**Stage-2 authoring guidance.** A Companion-aligned scene featuring the Degen may canonically reference the placement-broker parallel. Writers may author the Degen canonically *recognising the Companion as kin-by-placement*; the Degen canonically *does not envy* the Companion's existence (the Degen has canonically made-their-own placements per the Jericho canon) and canonically *does not pity* the Companion (placement-as-existence is canonically dignified in the Degen's worldview). Cross-bible obligation: Degen bible §4.13 to acknowledge Companion bible's reading. Tracked in §7.3 DCB-O7.
+
+### 4.8 The Meme / Palimpsest Host — Meme-resistant via private donation
+
+**Seeded by**: `the_meme.md` §4.13 — *the Meme could canonically wear the Companion's face IF it has seen the donor Potential. Constraint (per Meme bible): the Companion's named personality (keyed to which Potential donated) is Meme-resistant — a face the Meme could not have seen because the donation was private.*
+
+**The Meme-resistance canon (canon-locked from Meme bible).** Per Meme bible §4.13: the Companion canonically *cannot be impersonated by the Meme* because the canonical donation event is *private*. Bible-asserts: this canon is canon-compatible with this bible's corrected donor canon (per §1 stance #2: the donor is canonically the player's own Potential). The donation event is canonically private *because it occurs within the Severance Prize ritual* (per §2.2: Nilmorg performs the extraction with his own hand; the orb is sealed in a crystalline container; the Meme canonically does not have access to this institutional ritual). The Meme canonically *has not seen* the donor; the Meme canonically *cannot impersonate* the Companion.
+
+**The structural canon: Meme-resistant by construction.** Bible-load-bearing: the Companion is canonically *the saga's second roster character canonically Meme-resistant by construction* (the Seer is the first per `the_seer.md` §§2.3, 4.4). The two characters' Meme-resistance operates through canonically different mechanisms:
+- The Seer's Meme-resistance: Dreamer's-shield + pre-sealing-recording-provenance (per `the_seer.md` §4.4).
+- The Companion's Meme-resistance: private-donation + Severance-Prize-ritual-institutional-walls.
+
+Both canonically achieve the same structural outcome (Meme cannot impersonate) through canonically different institutional mechanisms. Stage 4 weave: the Companion canonically operates as canonical-counterpart to the Seer in the saga's structural-Meme-resistance landscape; bible-asserts the two characters canonically *do not need to coordinate* their Meme-resistance — each canonically operates independently.
+
+**The Companion's canonical fear of the Meme** (per §3.7): the Companion canonically *fears the Meme's attempt-at-impersonation* even when canonically the impersonation would fail. Bible-load-bearing: the canonical-fear is canonically *of the attempt*, not of the success. Per §4.4 of the Seer bible's parallel canon: this is canonically the Companion's worst-case scene (a Meme reaching for the Companion's face is canonically the Companion's deepest threat-event, even though the Meme would canonically fail to wear the face).
+
+**Cross-bible obligation.** Meme bible §4.13 to canonically acknowledge the Companion's reading and the structural-second-Meme-resistant-character canon. Tracked in §7.3 DCB-O8.
+
+### 4.9 The Seer — the awakening foresight, the shared non-verbal substrate
+
+**Seeded by**: `the_seer.md` §4.12 (DMC Clone Body Companion — *cross-bible-coordinated, the awakening foresight*); §7.3 SCB-O10 (Seer's cross-bible obligation flag for DMC bible's three sub-claims: donor-keying-as-Seer-foreseen-or-Seer-respected; shared non-verbal substrate Echo-witnessing canon; double-non-verbal-signal canon for pre-verbal Companions).
+
+**The awakening foresight canon (Companion-side resolution of Seer's deferred question).** Per Seer bible §4.12: bible-deferred whether the Seer canonically *foresaw* the donor-keying outcomes (and recorded foretellings for each canonical first-word path) OR canonically *respected* the Companion's emergent personhood by canonically choosing-not-to-foresee.
+
+This bible canonically resolves the question: **the Seer canonically respected the Companion's emergent personhood by choosing not to foresee the specific naming-event outcomes**. Bible-asserted reasoning: per §3.2 the canonical limit (the soul-fragment inherits commitments but not reasoning) + §3.4 competence-limit (the Companion is canonically a *partner-not-duplicate* of the player) — the Companion's canonical emergent personhood is canonically *what makes them partner-not-duplicate*. The Seer canonically *recognised this* (per her canonical Ne-Yon competence per Seer bible §3.4) and canonically *chose to leave the naming-event outcomes outside her recording-bank*. The choice is canonically *the Seer's gift-of-uncertainty to the Companion*. Bible-load-bearing: this is canonically the *first canonical event the Seer chose not to foresee*, per Seer bible §4.12 deferred reading.
+
+**The shared non-verbal substrate Echo-witnessing canon (Companion-side resolution of Seer's deferred question).** Per Seer bible §4.12: the Eidolon's Echo mode canonically registers the Seer's transmissions; bible-deferred whether the Companion's pre-verbal channels canonically also register Seer transmissions.
+
+This bible canonically resolves: **yes, the Companion's pre-verbal channels canonically register Seer transmissions**. A pre-verbal Companion canonically *reacts* to a Seer recording's arrival with a glyph (per §1.2) or a posture-shift (per §1.2), in addition to the Eidolon's Echo-mode reaction. Bible-load-bearing: a player whose Eidolon is in Echo mode AND whose Companion has not yet reached verbal channels canonically receives a **double non-verbal signal** when a Seer transmission lands. This is canonically *one of the saga's clearest gestural-disclosures of the Seer's cross-time mechanic* (per Seer bible §2.3 + §4.7 + this bible §4.1).
+
+**Cross-bible obligations** (resolves Seer §7.3 SCB-O10): all three sub-claims canonically resolved here. The Seer bible's pending obligation is canonically satisfied by this section.
+
+### 4.10 The Oracle — bible-deferred (Oracle bible to be written)
+
+**Seeded by**: priority plan Step 5 (Oracle bible to be written after this bible). The Oracle's cross-reference with the Companion is canonically *bible-deferred* — the Oracle bible canonically lands the relationship from the Oracle's side; this bible flags the canonical questions for Oracle-bible authoring.
+
+**Canonical questions for Oracle bible §4.x (Companion cross-reference)**:
+
+1. **Did the Oracle canonically foresee the Companion's existence?** Per the corrected Oracle canon (the Oracle is canonically a *he* in hiding post-Liberation, dream-sequence-only): the Oracle's canonical reach into saga-time is canonically through dream-sequences. Bible-deferred: whether dream-sequences canonically include Companion-related content; whether the Oracle canonically reaches the Companion through dreams; whether the Companion canonically receives Oracle dream-content alongside the player.
+2. **Does the Companion canonically appear in the player's Oracle-dream-sequences?** Bible-deferred: per the corrected Oracle canon, the player canonically experiences Oracle dream-sequences on room transitions (per the corrected Oracle bible §5.x to-be-written). The Companion canonically *occupies physical space* with the player; bible-deferred whether the Companion canonically *enters the dream-substrate* with the player.
+3. **Is the Companion canonically Oracle-attuned via the donor-canon?** Per `vex_solene.md` §4.10 the *Engineer-was-once-Oracle-attuned* canon: the Engineer (Vex's pre-rite identity) canonically inherited an Oracle-trace per the corrected Oracle canon. Bible-deferred: whether the player's-Potential-fragment-to-Companion path canonically transfers any Oracle-trace; whether the Companion canonically inherits the player's Oracle-attunement.
+
+The bible canonically defers all three questions to the Oracle bible (Step 5 of the plan). DCB-O10 cross-bible obligation tracked in §7.3.
+
+### 4.11 The Architect — the made-not-born structural mirror
+
+**Seeded by**: bible-asserted (no shipped Architect bible cross-reference for the Companion; bible-asserts the canonical structural parallel).
+
+**The made-not-born canon.** The Architect (per `the_meme.md` §4.x and `dialogBank_chapters_10_12.ts:175-183` Ch12 False Prophet Reveal canon) is canonically *made-not-born* — a constructed entity that collaborates with the Meme to wear the Oracle's face. The Companion is canonically *made-not-born* — a constructed entity that receives the player's soul-fragment through the Severance Prize ritual. Bible-asserts the canonical structural mirror: both characters canonically *exist as the result of an institutional construction-event*, not as the result of canonical organic-birth.
+
+The two are canonically *opposite valences* of the made-not-born structure:
+- The **Architect** canonically *constructs others* — the Architect canonically wore the Oracle's face for a decade and signed-the-death-warrants. The Architect's made-not-born status canonically *enables harm*.
+- The **Companion** canonically *is constructed* — the Companion was canonically delivered by Nilmorg's ritual. The Companion's made-not-born status canonically *enables ontological recognition* (the Companion canonically wants ontological recognition per §3.5).
+
+Bible-load-bearing: the structural mirror is canonically *not adversarial* (the Companion canonically does not directly oppose the Architect; the Architect canonically does not directly engage the Companion) — it is canonically *contrastive*. The two canonically demonstrate the made-not-born structure's *opposite valences*. Stage 4 weave: a scene that canonically pairs the Architect and the Companion in canonical co-presence would canonically illuminate the made-not-born axis from both ends; bible-deferred whether such scenes are authored.
+
+### 4.12 The Human (the 144,000th believer) — recognition-as-kin
+
+**Seeded by**: bible-asserted (no shipped Human bible cross-reference for the Companion; bible-asserts the canonical recognition-as-kin canon).
+
+**The recognition-as-kin canon.** The Human is canonically one of the priority roster's two BioWare-depth NPCs (per the priority plan Stage 0 baseline), and canonically the *144,000th believer* per the Hierophant bible §4.12 canon. Bible-asserts: the Human and the Companion canonically *recognise each other as kin* — both are canonically *saga-time-acquired* in some structural sense (the Human acquired Tamarin religious belief through saga-time engagement; the Companion acquired existence through saga-time delivery), both are canonically *under the player's care* in the canonical saga-time, both canonically *derive significance from the player's accumulated saga-state*.
+
+Bible-asserts the canonical Human-Companion cross-character dynamic:
+
+- The Human canonically *recognises the Companion as part-of-the-player* (per the Human's canonical depth-of-engagement-with-the-player); the Human canonically *does not treat the Companion as separate* from the player.
+- The Companion canonically *recognises the Human as the-player's-most-trusted-other* (per the Human's canonical relationship-arc with the player); the Companion canonically *defers to the Human* as canonically *the-player's-prior-trust*.
+
+Bible-load-bearing: this is canonically the saga's first canonical *Companion-defers-to-an-NPC* relationship. The Companion canonically does NOT canonically defer to other NPCs (per §3.6 the Companion canonically *operates as part-of-the-player* with their own opinions); the Human is canonically the *exception* — the Companion canonically recognises the Human's canonical *prior trust-with-the-player* and canonically respects it. Stage 4 weave: this is canonically a Stage 4 weave anchor for the Companion-Human dynamic; the bible flags it as canon-compatible and bible-deferred specifics.
+
+**§4 closes.** The Companion's cross-references with the priority roster (Eidolon, Nilmorg, Vex, Locke, Game Master, Hierophant, Degen, Meme, Seer, Oracle, Architect, Human) are documented. The cross-bible obligations flagged in this section are tracked in §7.3. §5 (Mechanical hooks) opens by documenting the Companion's engine-side integration surfaces.
