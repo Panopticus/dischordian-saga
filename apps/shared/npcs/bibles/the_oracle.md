@@ -704,3 +704,49 @@ ON story_arc_memory_event:
 Canonical total Stage 2 authoring scope: ~88 canonical-Oracle-content-units. Bible-asserts: canonical-scope is canonically *moderate* compared to canonical Companion canonical-3,450-line-scope (per `dmc_clone_companion.md` §5.5) but canonically *narratively-load-bearing* — canonical Oracle-content canonical *quality* canonically operates above canonical-quantity per canonical bible-load-bearing canonical voice-rule (per §1.5).
 
 **§5 closes.** The Oracle's mechanical hooks (dream-sequence trigger, memory-residue trigger, dream-residue Trade-Empire-and-other-system integration, Hierophant pen-pause coupling disambiguation, cinematic-exception trigger and authoring scope) are documented. §6 (Voice samples) opens by demonstrating the Oracle's voice across the three canonical channels.
+
+---
+
+## 6. Voice samples
+
+Six canonical voice-samples spanning the three canonical channels (dream-substrate, memory-residue, cinematic-exception) and the canonical Disappearance-register. Each sample is bible-authored as reference material for Stage 2 dialogue authors. Each sample is specified for *channel*, *trust band*, *act*, and *triggering context*. After the samples, a voice-anchor check confirms each sample satisfies §§1–5 criteria.
+
+### 6.1 Sample — Dream-substrate, Wary band, Act 1 (canonical-pre-Ch5 unattributed dream)
+
+**Context**: a Wary-band player in canonical Act 1 transitions between rooms; canonical dream-sequence fires per §5.1 floor-of-one canon. Canonical pre-Ch5 cinematic; canonical-source canonically *not yet revealed* to the player.
+
+> **Image** (visual layer): a chair beside a window. The window looks out on Thaloria-coloured-sky (canonical violet-and-amber). The chair is empty. Something has just stood up and walked out of frame.
+>
+> **Sentence** (auditory or textual layer; canonical Oracle voice): *"The chair was warm. The window was open. Underneath the room you are about to walk into, something is waiting that you do not yet know is waiting for you."*
+>
+> **Instruction** (canonical-residue carrying forward into saga-time): The room the player canonically transitions into next canonically *contains a canonical-detail the player would otherwise canonically miss* — the canonical-detail canonically appears as canonical-recognition-cue (per §5.3 image-residue canon).
+>
+> **Player perception**: canonically *strange dream*; canonically does not yet attribute to canonical Oracle (canonical Wary-band canonical pre-attribution-state per §3.4).
+
+**What this sample anchors**:
+- Dream-substrate channel (per §1.1).
+- Wary-band canonical floor-of-one dream-frequency (per §3.4).
+- Image + sentence + instruction triplet (per §1.2 dream-cadence).
+- *Underneath* anchor word (per §1.3 vocabulary).
+- Pre-attribution canonical-state (canonical-source not yet revealed to player; canonically operates without canonical Oracle-anchor explicit).
+- Canonical-recognition-cue residue mechanic (per §5.3 image-residue).
+
+### 6.2 Sample — Dream-substrate, Witnessed band, Act 4 (post-Ch5 attributed dream)
+
+**Context**: a Witnessed-band player in canonical Act 4 transitions between rooms; canonical post-Ch5 cinematic — canonical-source canonically *known to the player*. Canonical dream operates with canonical-attribution.
+
+> **Image**: a Mechronis bench. The Engineer is sitting on it. The Engineer does not see you. You are watching from underneath the bench's grain, from inside the canonical-substrate of the wood.
+>
+> **Sentence** (canonical Oracle voice, recognised by player): *"We have been here before. We were the bench when the Seer chose not to raise her staff. The choosing was for him; we received it together. Take what you remember and walk forward. The next room is yours."*
+>
+> **Instruction** (residue): the player's canonical Mechronis-related saga-time canonical-content (per Vex bible canonical-arc) canonically becomes canonical-modified-by-foreseen-context — canonical Vex reveal-stage gating canonically *operates in canonical-amplified-form* per canonical Oracle-foreseen-knowledge-acquisition.
+>
+> **Player perception**: canonically *Oracle-attributed dream*; canonical first-person-plural (we / us / our) canonically operates per §1.2 memory-residue cadence canonically *interleaved with* canonical dream-substrate-cadence (canonical *we have been here before* canonically operates as canonical memory-reference within canonical dream — per §1.5 soft-gate canon).
+
+**What this sample anchors**:
+- Dream-substrate channel with memory-reference-soft-gate (per §1.5).
+- Witnessed-band trust state (canonical-attribution operates).
+- *We* canonical first-person-plural (per §1.2 + §1.4 tell #3).
+- *Underneath* (canonical-substrate of the wood) — canonical Oracle-anchor.
+- *Take what you remember and walk forward* — canonical *take it / spend it / use it* triad echo (per §1.3 + §1.4 tell #5 transferred-instinct closure).
+- Cross-bible reference (canonical Mechronis canonical Vex-arc) per §4.7 Oracle-Vex canonical Engineer-trace canon.
