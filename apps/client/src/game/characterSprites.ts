@@ -195,10 +195,11 @@ export const CHARACTER_SPRITES: Record<string, CharacterSprite> = {
   },
 
   /* Minnie — The Meme's first form (7-year-old girl per art brief §2N).
-     Inline registry entry because blink/breathing/expressions haven't been
-     generated yet; viseme sheet is the 5×3 NPC mouth grid. mouthBox sits
-     lower in the frame because the child face fills a larger fraction of
-     the bust and her mouth is below the bust vertical center. */
+     Inline registry entry because she shares the viseme grid layout with
+     standard NPCs but has her own bespoke expression set (neutral,
+     speaking, concerned, knowing, vulnerable). mouthBox sits lower in the
+     frame because the child face fills a larger fraction of the bust and
+     her mouth is below the bust vertical center. */
   minnie: {
     id: "minnie",
     bust: assetUrl("characters/minnie/bust.avif"),
@@ -209,6 +210,19 @@ export const CHARACTER_SPRITES: Record<string, CharacterSprite> = {
     },
     visemeOverlay: true,
     mouthBox: { x: 0.380, y: 0.470, width: 0.140, height: 0.105 },
+    blink: {
+      url: assetUrl("characters/minnie/blink.avif"),
+      cols: 3, rows: 1, frames: 3,
+    },
+    breathing: {
+      url: assetUrl("characters/minnie/breathing.avif"),
+      cols: 4, rows: 2, frames: 8,
+    },
+    expressions: {
+      url: assetUrl("characters/minnie/expressions.avif"),
+      cols: 5, rows: 1, frames: 5,
+      map: { neutral: 0, speaking: 1, concerned: 2, knowing: 3, vulnerable: 4 },
+    },
   },
 
   /* Main faction NPC speakers — full bundle. */
