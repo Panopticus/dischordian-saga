@@ -204,7 +204,13 @@ export const CHARACTER_SPRITES: Record<string, CharacterSprite> = {
     mouthBox: { x: 0.458, y: 0.304, width: 0.184, height: 0.137 },
   }),
   shadow_tongue:     npc("shadow_tongue"),
-  the_meme:          npc("the_meme"),
+  // The Meme is the silver-haired older corporate executive (mechanical
+  // hands at the desk). Bust shows him offset to the right of frame
+  // centre. mouthBox lands cell nose (~y=0.13) on his bust nose-tip
+  // (~y=0.34) and cell chin (~y=0.85) on his chin (~y=0.41).
+  the_meme:          npc("the_meme", {
+    mouthBox: { x: 0.520, y: 0.310, width: 0.140, height: 0.105 },
+  }),
 
   /* Bonus characters present in the bundle. Wired so any future faction
      NPC code that references these IDs gets a portrait for free.
@@ -224,10 +230,12 @@ export const CHARACTER_SPRITES: Record<string, CharacterSprite> = {
   degen:             npc("degen", {
     mouthBox: { x: 0.430, y: 0.350, width: 0.140, height: 0.105 },
   }),
-  // Eidola — bust is currently off-canon (smoke-figure render); awaiting
-  // a regenerated bust matching the §2K Sorrow-professor canon before her
-  // viseme can be wired.
-  eidola:            npc("eidola"),
+  // Eidola: corrected bust matches §2K Sorrow-professor canon (silver-streak
+  // hair, silver filigree at temples, sharp blazer + red turtleneck). Standard
+  // small mouthBox; cells are mouth-only crops identity-matched to the bust.
+  eidola:            npc("eidola", {
+    mouthBox: { x: 0.430, y: 0.340, width: 0.140, height: 0.105 },
+  }),
   engineer:          npc("engineer"),
   enigma:            npc("enigma", {
     mouthBox: { x: 0.430, y: 0.310, width: 0.140, height: 0.105 },
@@ -266,11 +274,12 @@ export const CHARACTER_SPRITES: Record<string, CharacterSprite> = {
   seer:              npc("seer", {
     mouthBox: { x: 0.430, y: 0.350, width: 0.140, height: 0.105 },
   }),
-  // Warlord — bust is currently the host-face (under-helm reveal canon)
-  // but viseme is visor-shimmer (armored canon). Awaiting the armored
-  // bust regen per art brief §2T before the visor-shimmer overlay
-  // composites correctly.
-  warlord:           npc("warlord"),
+  // Warlord: corrected bust is the armored helm-down canon per §2T. Viseme
+  // cells are visor-shimmer intensity (no mouth). Box is a large overlay
+  // covering the helm region so the shimmer composites on the visor.
+  warlord:           npc("warlord", {
+    mouthBox: { x: 0.290, y: 0.060, width: 0.420, height: 0.314 },
+  }),
   // Watcher's covid mask covers the lower face. Cells render mask-tension
   // deformation rather than visible lips. Box overlays the mask region.
   watcher:           npc("watcher", {
