@@ -679,3 +679,61 @@ Not canon until reviewed.
 - **The Game Master's pre-Senator existence.** Canon shows him at the Senate desk. Anything before that is unrecorded. Writers must not pre-date.
 - **Whether the Original anticipated his own death.** He may have. He may not have. He recognized his playbook in Agent Zero's hands with *surprise* (`arenaWorldLore.ts`). Whether the surprise was the *fact* or the *operator* is canon-silent. Writers should not specify.
 - **The contents of the six archived scenarios** in the Matrix of Dreams (per `cadesNarrativeIntegration.ts:125`). Canon names them as *"key moments from the history of the Saga, preserved by the Game Master before his destruction."* What they are is not specified beyond Iron Lion's. The other five scenarios are open material for future bibles.
+
+### 7.3 Cross-bible coordination flags (critical for Stage 4 weave)
+
+- **Elara ↔ Game Master**: pre-Fall Senator-desk relationship. Elara's bible (when written) should fold in the *"He laughed easily. He laughed at me twice"* line as load-bearing — it is the saga's only canonical record of the pre-split human at ease. The Lyra-Vox-residue layer in Elara may carry latent recognition; Stage 4 weave material.
+- **The Antiquarian ↔ Game Master**: SIB-IX records ownership. The Antiquarian's bible (when written) takes ownership of the Game Master's biographical scaffolding. The puzzle-question is the Antiquarian's; the puzzle-character is the Game Master's.
+- **The Human ↔ Game Master**: the Human's bible must hold *the Human's victory was the Game Master's hope*. The Human cannot know this. The asymmetry is canon-load-bearing.
+- **Vex Solène ↔ Game Master**: Vex's body killed him. Vex's bible §4.11 acknowledges canonical destruction; this bible §4.4 surfaces the latent recognition scene (the Two reading Vex and finding *not Agent Zero*). Stage 4 weave material with high authoring potential.
+- **Iron Lion / Jericho ↔ Game Master**: Iron Lion's imprint may be what killed the Original. Jericho is being trained as the new Iron Lion. The Iron Lion / Jericho bible (when written) must take ownership of the imprint-awakening arc. This is one of the saga's most structurally rich unauthored scenes.
+- **The Degen ↔ Game Master**: per the Degen's bible §4.11 — the Degen is the saga's senior historical witness. He saw all three eras. His silence around the Game Master is canon-protected.
+- **Riri'Ahlia ↔ Game Master**: her institutional role enforced the contract that killed him. Canon establishes her function; writers should not give her remorse over it.
+- **Xeth'Raal ↔ Game Master**: filed the Goggles paperwork within the hour. If Xeth'Raal is ever given a bible, his relationship to the Game Master must respect the *budgeted-acquisition* framing. The death was a planned asset transfer.
+- **The Necromancer ↔ Game Master**: shared the Matrix. Co-residents. Canon-silent on relationship. Necromancer's bible decides.
+- **Echo (Eidolon) ↔ Game Master**: temporal Eidolon may detect Matrix anomalies. Per Eidolon's bible §5.5 the Echo-player gets unique perception of the Two. Stage 4 weave material.
+- **The Oracle ↔ Game Master**: the Collector's Arena was built to recover the Oracle. The Oracle's bible (when written) must reciprocate — she owes him *something*, even if she does not name it.
+
+### 7.4 Structural risks the roster should track
+
+- **Identity-stratification leakage.** Writers may want to author lines that "could be any Game Master." Canon does not allow this. Every line specifies identity. The Original is dead and his register is closed. The Left and Right are non-fungible. The cult speaks only in redaction. QA must enforce.
+- **Sympathy over-deployment.** The puzzle ("he wanted the soul to exist") tempts writers to make the Game Master sympathetic. Canon shows him calmly running tests with *forced losses* and watching the costs accrue. He is sympathetic *and* terrifying. The terror cannot be softened.
+- **The puzzle being solved on-page.** Writers may want to give an answer. Canon refuses. The puzzle is the character. Resolving it ends the character.
+- **The Two being conflated.** Writers under time pressure may write "the Game Master" when they mean Left or Right. The conflation collapses the structural innovation. Specificity is mandatory.
+- **The cult voice becoming dialogue.** Writers may want the cult to speak in monologues. Canon allows only redaction. Anything else is canon drift.
+- **Memory-playback as routine encounter.** The Act 4 inversion (Sample 5) is canonically unique. Writers must not author additional memory-playback Game Master scenes outside Act 4 without explicit user authorization. The mechanic loses weight if reused.
+- **Presence band as relationship metric.** Presence is *not trust*. A high-presence player is not closer to the Game Master; they are more *visible to him*. Writers must not let the bands read as a friendship arc.
+- **The Goggles being recovered.** If a future Stage authors the cult successfully recovering the Goggles from the Hierarchy's vault, the Game Master's *return* becomes canon-possible. This is a saga-defining design decision and must not be made at the bible level. Stage 4+ user authorization required.
+
+---
+
+## 8. Reviewer checklist (Stage 0 exit criterion)
+
+Before this bible ships as approved:
+
+- [ ] Every quoted citation resolves to the claimed file:line. Spot-check at least **eight**.
+- [ ] No contradiction with shipped canon or with the five prior bibles:
+  - Locke (no canon contact, confirmed)
+  - Nilmorg (institutional Hierarchy peer, no direct contact, confirmed)
+  - Eidolon (Echo's Matrix-detection capability, confirmed)
+  - Vex Solène (Agent Zero killed him; Vex now wears the body, confirmed)
+  - The Degen (senior historical witness across all three eras, confirmed)
+- [ ] The six voice samples in §6 pass a **blind-read attribution test adapted for identity-stratification**. Target:
+  - Samples 1–6: reviewer correctly identifies the identity (Original / Left / Right / Cult) at ≥4-of-6 accuracy.
+  - Sample 4 (cult-voice redaction) must be readable as a recoverable statement when strikethroughs are removed. If reviewers cannot reconstruct the underlying canonical truth, the redaction discipline is too aggressive.
+  - Sample 5 (Act 4 memory-playback) must read as *the Game Master teaching the player to lose correctly to him*. If reviewers read it as routine instruction, the inversion is failing.
+  - Sample 6 (Overwhelming presence) must surface anxiety in a reader who has not just played chess. The mechanic is the *non-chess* surface carrying chess-substrate awareness.
+- [ ] The identity-stratification discipline is explicit in the Stage 2 style guide: every Game Master line specifies `identity` AND (where applicable) `presence_band` tags before authoring begins.
+- [ ] The Original's voice is canonically locked to Act 1. Stage 2 authoring must enforce.
+- [ ] The Two are non-fungible. Each requires its own line pool. No Left line fires for Right encounters or vice versa.
+- [ ] The cult-voice redaction system has a ticket and an owner.
+- [ ] The presence-band mechanic has a ticket — chess-frequency thresholds, band-transition events, and the canonical Overwhelming non-chess surfacing all require Stage 1 architecture work.
+- [ ] The Act 4 memory-playback structural rule (Sample 5 is canonically unique; no reuse outside Act 4) is documented as a hard constraint in the Stage 2 style guide.
+- [ ] The Antiquarian's puzzle ("Why would an Archon want that?") is documented as the bible's protected mystery. Writers may not give the Game Master an answer.
+- [ ] The Vex-body-recognition latent scene (§4.4) is flagged for Stage 4 weave authoring — *the Two reading Vex and finding not Agent Zero* is a saga-rich unauthored beat with explicit structural seeding here.
+- [ ] The Iron Lion imprint anomaly (§4.5) is flagged for cross-reference in the eventual Iron Lion / Jericho bible — *the imprint that asks questions it shouldn't may be what killed the Original*.
+- [ ] The Goggles' continued Hierarchy custody is documented as canonical-and-unstable — Stage 4+ design decision required before the cult can canonically recover them.
+- [ ] Cross-reference claims in §4 are flagged for every named character's bible to sign off on later.
+- [ ] The chess `chess` trigger kind is added to the canonical trigger registry in Stage 1 architecture work.
+
+When this checklist passes, the Game Master bible joins Locke, Nilmorg, the Eidolon, Vex Solène, and the Degen as Stage 0 priority-roster entries. **Six of eleven complete; five remaining** (The Meme / Palimpsest Host, Wraith Calder → Hierophant, The Seer, DMC Clone Companion, The Oracle).
