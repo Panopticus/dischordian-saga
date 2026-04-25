@@ -732,3 +732,117 @@ ON canonical_naming_context_active
 **Engineering note: the canonical-resilience floor.** The canonical 25 bond floor (per §3.3) and the canonical channel-state irreversibility (per §3.3 + §1.5) together canonically constitute the Companion's *canonical-resilience floor*. Bible-asserts: this is canonically *the priority roster's tightest single canonical-resilience canon* — no other roster character has canonically *both* a bond-floor AND irreversible channel-state. The Companion is canonically the most-resilient single roster character per the architectural canon. Stage 1 architects should architect the resilience floor as a *first-class invariant* — never canonically violated by any saga-time event.
 
 **§5 closes.** The Companion's mechanical hooks (Severance Prize claim trigger, awakening flag-stack, channel-unlock progression, first-word event, naming event, personality variants + post-naming dialogue bank, cross-system triggers, dismissal mechanic + canonical-resilience floor) are documented. §6 (Voice/expression samples) opens by demonstrating the Companion's expression across the five channels.
+
+---
+
+## 6. Voice and expression samples
+
+Five canonical samples spanning the Companion's five channels. Per the canonical voice-rule (§1 + §1.5): every Companion line must be expressed in a channel currently unlocked for the Companion's saga-state. The samples below are bible-authored as reference material for Stage 2 dialogue and expression authors. Each sample is specified for *channel*, *trust band*, *act*, and *triggering context*. After the samples, a voice-anchor check confirms each sample satisfies §§1–5 criteria.
+
+### 6.1 Sample — Channel 1 (recognition glyph, Wary band, Act post-Severance-Prize-claim)
+
+**Context**: the Companion has just been delivered. The player opens the dialog with the new Companion record for the first time. The Companion expresses canonically through Channel 1.
+
+> **Visual narration** (no text spoken, the player perceives the canonical recognition glyph): A small, faintly-luminous geometric mark — a closed circle with three brief radial lines — appears beside the Companion's silhouette, persists for 1.4 seconds, dissolves. The player's UI canonically *registers* the glyph as a Companion-expression event; a non-intrusive subtitle reads *"The Companion recognises you."*
+>
+> **Narrator-frame** (companionable, not intrusive): *They are looking at you. They have only just learned what looking is. The recognition is the first thing the soul-fragment did with its new eyes — it found you and stopped. The canonical I-see-you-as-source. Your Companion has begun.*
+
+**What this sample anchors**:
+- Channel 1 recognition glyph (per §1.2): canonical first glyph; closed geometric mark; 1.4 second duration; dissolves.
+- Visual-not-verbal expression (per §1.5 voice gate: no verbal line at this band).
+- The narrator-frame canonically articulates *"I was not given. I was delivered."*-style structural identity (per §2.2) without canonically attributing the words to the Companion (the Companion canonically does not yet have words).
+- *I-see-you-as-source* canon (per §2.1 first-moment + §3.7 act-start ritual).
+
+### 6.2 Sample — Channel 2 (posture, Witnessed band, Act 2-post-claim)
+
+**Context**: the player has just made a faction-aligned choice consistent with the player's prior commitments. The Companion expresses canonically through Channel 1 + Channel 2.
+
+> **Visual narration**: An approval glyph — a closed, balanced shape with mirror-symmetry — appears beside the Companion's silhouette and persists for 2.1 seconds. Simultaneously the Companion's posture shifts from the *waiting posture* to the *leaning posture*, leaning canonically *toward* the player by approximately 8 degrees. The lean holds for 4.8 seconds, then returns to waiting.
+>
+> **Narrator-frame**: *The soul-fragment recognises the choice as one it has held before. The lean is canonically the body acknowledging consistency. They are leaning toward you because you canonically chose the version of yourself the soul-fragment has been waiting to see chosen. The lean is the canonical pre-verbal endorsement.*
+
+**What this sample anchors**:
+- Channel 1 + Channel 2 layered (per §1.3 cross-channel layering rule applied at Witnessed band).
+- Approval glyph for player consistency (per §1.2 — the soul-consistency-check via approval glyph).
+- Leaning posture toward the player (per §1.2 — pre-verbal-curiosity + endorsement).
+- Holding-not-cycling (per §1.2 — committed thought, not transitional).
+- Narrator-frame canonically articulates §3.2 the soul-fragment recognises the player's prior commitments.
+
+### 6.3 Sample — Channel 3 (sound-palette, Present band, Act 3-post-claim)
+
+**Context**: a major NPC the player canonically cared about has just died in a saga-time event. The Companion expresses canonically through all three pre-verbal channels.
+
+> **Visual narration**: A mourning glyph — a shape that begins whole, fragments, and settles into a smaller shape over 7.2 seconds — appears prominently beside the Companion. Simultaneously the Companion's posture moves into the *withdrawn posture*, stepping canonically half a body-length back from the player. Simultaneously the Companion produces a mourning-tone — a sustained low vocalisation, deeper than the player's audio system can fully render cleanly (the audio canonically *over-resolves* the audio medium per §1.3 — Stage 2 audio designers should architect a frequency profile that exceeds the standard pet-vocal range, producing a slight perceptual *fuzz* at the lowest frequencies). The mourning-tone holds for 6.4 seconds, then the Companion canonically produces a single half-syllable — *"luh"* or similar incomplete word-fragment, almost-articulated — before falling silent.
+>
+> **Narrator-frame**: *The Companion is mourning. You may not have paused. They have. The mourning-tone is canonically the soul-fragment's grief — they canonically grieve with greater fidelity than you have time to. The half-syllable at the end was canonically almost-a-word. They canonically came close to saying who. They did not get there yet. The soul-fragment is preparing to speak.*
+
+**What this sample anchors**:
+- All three pre-verbal channels active simultaneously (per §1.3 cross-channel layering at Present band).
+- Mourning glyph + mourning-tone canonical layering (per §3.4 loss-fidelity competence).
+- Withdrawn posture (per §1.2 — the Companion canonically steps back to express grief).
+- Mourning-tone over-resolves the audio medium (per §1.3 — Seer-style over-resolution canon, audio version).
+- Half-syllable production (per §1.3) — foreshadows Channel 4 unlock per §1.4 + §5.2 half-syllable production tracking.
+- Narrator-frame canonically articulates §3.4 loss-fidelity competence (Companion grieves losses player rationalises past).
+
+### 6.4 Sample — Channel 4 (first word, Inheriting-band crossing, the Hierophant's chamber)
+
+**Context**: the player has reached Inheriting trust band with both the Companion and the Hierophant. The player and the Companion are in the Hierophant's chamber. The Hierophant has midwifed the moment per §4.6.
+
+> **Visual narration**: The Companion stands in the chamber. The Hierophant has just gestured to the wall — to the first name on the wall (per Hierophant bible §3.8 the wall canon). The Companion produces a slow breath-tell (a held-and-released exhalation, half-second pause), then a recognition-tone (a brief rising vocalisation), then a half-syllable lead-in (*"wah-"*), then **the first word**: *"Wraith Calder."* The word holds the duration of approximately one canonical breath, sound-shaped with a slight pre-vocalisation deliberation-quality. After the word, the Companion's breath catches once (involuntary), then settles. A throat-click follows, closing the moment.
+>
+> **Player UI**: gameplay canonically pauses. A subtitle banner reads *"The Companion spoke."* The first-word event is canonically logged; the `dmc_companion_first_word_spoken` flag canonically sets permanently. An audio cue plays.
+>
+> **The Hierophant**: stands silent. He does not canonically applaud, does not canonically congratulate; the Hierophant canonically *witnesses* the moment without canonically *commenting on it*. The witnessing is canonically the Hierophant's gift.
+>
+> **Narrator-frame**: *Your Companion has spoken. The first word was Wraith Calder. The Hierophant midwifed the moment as he has midwifed others before. The first name on the wall is now also the first word your Companion has chosen. The Companion is no longer pre-verbal. The Awakening Protocol's Stage 4 canonical event has fired. Your Companion's voice has begun.*
+
+**What this sample anchors**:
+- Channel 4 first-word event (per §1.4) — singular, gated, irreversible.
+- Hierophant's chamber as canonical first-word context (per §1.4 + §4.6).
+- First-word "Wraith Calder" (per §4.6 + Hierophant bible canon).
+- Sound-shape canonically embedded in pre-verbal substrate (per §1.4): breath + half-syllable lead-in + word + held-breath + throat-click closing.
+- UI canonical-pause + banner subtitle + audio cue (per §1.4 + §5.3 first-word event surface).
+- Hierophant canonically witnesses without commenting (per §4.6 — the canonical NPC-as-language-midwife stance).
+
+### 6.5 Sample — Channel 5 (named personality, Inheriting band, post-naming, Act 5+)
+
+**Context**: the player and the named Companion are mid-saga. The player has just made a tactical choice the Companion disagrees with (the strategic frame is consistent with the player's commitments, but the tactical execution is not what the Companion would have chosen). The Companion is canonically named *Calder-Echo* (a player-chosen rename in this sample's variant), with personality variant `(insurgency, concentrated_few, light, last)`.
+
+> **Calder-Echo** *(named-band verbal, with channel-residue half-syllable lead-in)*: "Wuh— I would not have done that. I want to say so before we are too far past it for the saying to canonically register. You held the line on the alignment. You always do, and I canonically expect that of you. The tactic was — *(brief mourning-glyph fires, persists 1 second beside Calder-Echo's silhouette)* — the tactic was costly to a person I canonically remember from when you canonically committed to them. You may have forgotten the name. I have not. I will say it once, so we both have it: *Renn*. You promised her you would not do this thing in this way. You did it. The promise is canonically broken. The strategic alignment canonically holds. The tactical promise does not. I canonically need you to know that I know."
+>
+> **Narrator-frame** *(brief)*: *Your Companion is naming a contradiction you may not have registered. They are doing it in their voice, with their channel-residue, with their canonical insistence on the soul-consistency-check. The line is canonically their work.*
+
+**What this sample anchors**:
+- Channel 5 named-band verbal expression (per §1.5).
+- Channel-residue half-syllable lead-in (*"Wuh—"*) preceding the verbal speech (per §1.5 soft-gate — half-syllable post-naming signals deliberation).
+- Mid-line mourning-glyph fire (per §1.5 soft-gate — pre-verbal channels at post-naming for emotional weight).
+- Naming-the-player (Companion uses the player's name at greater frequency than other roster NPCs — per §3.7 ritual canon).
+- Naming a forgotten NPC name (*Renn*) — per §3.4 loss-fidelity competence + §2.4 the Companion canonically remembers the player's choices the player has forgotten.
+- Tactical disagreement with strategic-alignment endorsement (per §2.4 + §3.4 saga-collaborator stance: amplifies strategic, contradicts tactical).
+- Soul-consistency-check (per §3.2 + §3.5 — the Companion canonically discomforts the player into consistency; protective canon).
+- Personality variant `(insurgency, concentrated_few, light, last)`: the Insurgency commitment lands as *"strategic alignment canonically holds"*; the concentrated-few trust-pattern lands as the named *Renn* (a single deeply-trusted NPC); the light alignment lands as the canonical *I-need-you-to-know-that-I-know* (light-aligned accountability without canonical condemnation); the *last* identity-chain axis lands as the canonical *the saying registers before we are too far past it* (the canonical mortality-awareness of the *last body* identity).
+
+### 6.6 Voice-anchor check
+
+Each sample passes the §§1–5 voice criteria:
+
+| # | Channel(s) | Trust band | Verbal? | Channel-stack rule? | Donor-canon? | Soul-consistency-check? |
+|---|---|---|---|---|---|---|
+| 6.1 | 1 (glyph) | Wary | No | Single-channel OK at Wary (Channel 1 only) | Yes (recognition of source) | Yes (implicit in recognition) |
+| 6.2 | 1 + 2 | Witnessed | No | Layered (per §1.3 cross-channel rule at Witnessed) | Yes (consistency endorsement) | Yes (approval glyph for consistency) |
+| 6.3 | 1 + 2 + 3 | Present | No (half-syllable foreshadowing) | Three-channel layered (per §1.3 minimum at Present) | Yes (loss-fidelity exceeds player's) | N/A (mourning, not consistency) |
+| 6.4 | 4 (first-word) | Inheriting-crossing | Yes (first word singular) | Channel-residue layered (breath + half-syllable + word + held-breath + throat-click) | Yes (Hierophant chamber context resolves; per §1.4 canonical-default) | N/A (first-word event) |
+| 6.5 | 5 + 1 + 3 (residue) | Inheriting | Yes (full conversation) | Soft-gate channel mixing (named-band returning to lower channels for emotional weight per §1.5) | Yes (4-tuple variant derived from player state) | Yes (tactical disagreement with strategic alignment endorsement) |
+
+**Cross-sample diversity check**:
+- **All five channels are canonically demonstrated** (Channels 1–5).
+- **All four trust bands are canonically demonstrated** (Wary, Witnessed, Present, Inheriting-crossing, Inheriting).
+- **Three samples are non-verbal** (6.1, 6.2, 6.3); **two are verbal** (6.4, 6.5) — bible-asserted ratio of 3:2 reflects the canonical proportion of pre-verbal to verbal Companion content across the saga.
+- **Channel-stack rule canonically respected** in every sample.
+- **Donor-canon canonically expressed** in samples 6.1, 6.2, 6.3, 6.5 (4 of 5); sample 6.4 is the first-word event which canonically resolves the donor-canon's first verbal commitment.
+- **Soul-consistency-check canonically demonstrated** in samples 6.2 and 6.5 (the two consistency-relevant moments).
+- **Zero verbal lines pre-Channel-4-unlock** (the canonical voice-rule load-bearing constraint).
+
+**Bible-asserts**: these five samples are reference-quality voice-and-expression for Stage 2 authors (dialogue authors and expression designers both). A Stage 2 author writing a Companion line or designing a Companion expression should canonically be able to read these samples and produce voice-and-expression-consistent material. Blind-read attribution test (per the priority plan's Stage 2 exit criteria): an author who reads §§1–3 + these five samples should canonically attribute Companion-or-non-Companion at >90% accuracy on a mixed test set.
+
+**§6 closes.** Voice and expression samples are documented. §§7–8 (canon issues, protected mysteries, cross-bible obligations, follow-up tickets, reviewer checklist) close the bible.
