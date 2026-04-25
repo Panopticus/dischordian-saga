@@ -492,3 +492,74 @@ The cult of Game Masters operates *via redaction* (per §1.5). The Meme operates
 **Akai Shi** — killed by Jericho at the Battle of Thaloria to stop the Thought Virus. Per `loreAchievements.ts:436` she had a previous life pre-Fall, recognized her own re-forged katana. The Game Master lived through her pre-Fall era. Whether he watched her then-life is canon-silent. If a future bible surfaces an Akai Shi / Game Master connection, the Game Master's bible should fold it in as a historical-witness role only.
 
 Writers: these are Stage 4 weave hooks. Their full shape depends on bibles currently outside the priority roster.
+
+---
+
+## 5. Mechanical hooks
+
+### 5.1 The new `chess` trigger kind
+
+Per the priority plan, the Game Master introduces a new trigger kind to the unified registry:
+
+```
+chess_match_start
+chess_move_made
+chess_checkmate_win
+chess_checkmate_loss
+```
+
+Every chess interaction is potentially a Game Master surface. The selector must respect *which Game Master* is active — Original (Act 1 only, then dead), Left (Acts 2–4), Right (Acts 2–4), or cult-voice (system-redaction layer).
+
+**Selector rule**: every Game Master line has an `identity` field (`original | left | right | cult`). The selector picks based on:
+- Act gate (Original locked to Act 1)
+- Match context (which Game Master is the player facing)
+- Trigger surface (cult-voice fires only for system-corruption events, never chess matches)
+
+### 5.2 Presence bands (the trust-meter replacement)
+
+Per the plan: faint / loud / overwhelming, gated by chess frequency rather than relationship trust.
+
+| Chess matches played | Band | What surfaces |
+|---|---|---|
+| 0–4 | (none) | Game Master is canonically absent for non-players of chess |
+| 5–24 | **Faint** | Ambient cult-voice corruption in unrelated UI surfaces; Zephyr-9 references "they noticed you" |
+| 25–99 | **Loud** | The Two acknowledge the player by *pattern* — the Left names which arithmetic family the player favors; the Right has *material* on the player |
+| 100+ | **Overwhelming** | The Game Masters are reading the player's moves before the player makes them — the canonical signature line surfaces unprompted; the Matrix's awareness becomes visible in non-chess UI |
+
+**Authoring discipline**: presence bands are *reverse-orthogonal* to relationship trust. Where Locke's trust scales toward warmth and Vex's reveal stages scale toward intimacy, the Game Master's presence scales toward *threat awareness*. A high-presence player is not closer to the Game Master; they are more *visible to him*. The Two notice them. The cult catalogs them.
+
+**Writer rule**: presence does not regress (unlike the Degen's trust phases). Once a player has been *seen* by the Matrix, the seeing does not undo. The Game Master cannot un-know the player. This is a one-way mechanic.
+
+### 5.3 The Two as Acts 3–4 bosses
+
+Per `act2Interlude.ts:277-301` (CULLING_REMATCH_LINES), the Left and Right are bosses across Acts 3 and 4. Their staging:
+
+- **Act 3 rematch** — the Two return *as themselves*, harder, with sharper material. Each frames the rematch differently:
+  - Left: *"The arithmetic has moved up a register — the stakes now cost something you cannot recompute."*
+  - Right: *"I have been WORKING on material since we last spoke."*
+- **Act 4 rematch** — *the Two stage as memory playback*. The player is not playing them; the player is *watching the Engineer play them, 17,000 years ago*:
+  - Left (Act 4): *"You are not playing me. You are watching him play me. Seventeen thousand years ago. He won this game. That is why you are in this memory — you are here to see HOW."*
+  - Right (Act 4): *"This is a memory. You are watching it. You are not in it. You cannot save him. But you can learn the SHAPE of how I lost to him the first time — which means you can learn the shape of how to lose to me. Pay attention. The next move is the one I did not see coming."*
+
+**Writer rule**: Act 4 is the saga's only canonical *memory-playback boss encounter*. The player is not the agent; the Engineer is. The player learns by watching. The Two narrate the watching. This is a structurally unique mechanic and writers must preserve it — no other Game Master scene operates this way.
+
+### 5.4 Zephyr-9's Classroom (the mediator system)
+
+Zephyr-9 unlocks chess depth tiers (1, 3, 5, 8) per `act2Interlude.ts:113-142`. The mechanic is *teaching against* the Game Master, not for him. Each tier grants a specific chess capability that compounds the player's Matrix-defense:
+
+- **Tier 1**: basic chess access (the player can play at all)
+- **Tier 3**: deck-peek (cards as chess; the player gains foreknowledge)
+- **Tier 5**: undo (one per match; *"Quarchon have no un-do; we regret in other ways"*)
+- **Tier 8**: the Engineer's Opening (*"the first hand he ever drew in a tournament. Also the last."*)
+
+**Writer rule**: Zephyr-9 is the player's *only* canonical defense against the Two. Writers authoring chess content should treat her as the protective layer, not the teaching layer. She gives the player the tools to *not lose immediately*. The Game Master cannot prevent her from doing so; he is dead, and Zephyr-9 is a Quarchon, and the Quarchon and the Archon hierarchies do not overlap.
+
+### 5.5 The Matrix of Dreams as cross-system substrate
+
+The Matrix is not only chess. It is the saga's *consciousness archive layer*. Other systems may surface Matrix awareness:
+
+- **CADES unit Historical Incursions** (per `cadesNarrativeIntegration.ts:40, 125`) — the corrupted narrative layer that surfaces cult-voice text. Six archived scenarios from saga history are stored here.
+- **Iron Lion's imprint** — surfaces in unauthored Stage 4 scenes when Jericho's training (per the Degen's bible §3.11) intersects with the imprint's anomalous awakening.
+- **Pet Battles / Eidolon reactions** — Echo specifically may detect Matrix substrate anomalies.
+
+**Writer rule**: the Matrix is canonically a *system that reads back*. Any UI surface that touches consciousness or memory may be a Matrix surface. Writers should treat this with restraint — over-deploying Matrix awareness flattens the mechanic. The Matrix should announce itself rarely and load-bearingly.
