@@ -927,3 +927,94 @@ The DMC Clone Body Companion bible files **eight DCB tickets** for follow-up eng
 **Bible-asserts**: DCB-1 through DCB-8 are the canonical follow-up scope for the Companion's mechanical and narrative surface. No additional tickets are anticipated at bible-completion time. If Stage 1+ work surfaces additional issues, file them as DCB-9 onward; the ticket-naming convention is canonical-and-extendable.
 
 **§7 closes.** Canon issues, protected mysteries, cross-bible obligations, and follow-up tickets are documented. §8 (Reviewer checklist) closes the bible.
+
+---
+
+## 8. Reviewer checklist
+
+The bible is complete when every item below is satisfied. Each item maps to a §-citation; reviewers should verify by reading the cited section.
+
+### 8.1 Voice (§1)
+
+- [ ] **Five expression channels documented** (glyphs, posture, sound-palette, first-word, named-personality) with channel-unlock progression. (§1.1)
+- [ ] **Channels 1–2 documented** with bible-asserted glyph categories (recognition, question, approval, mourning) and posture categories (waiting, bracing, leaning, withdrawn) plus holding-vs-cycling canon. (§1.2)
+- [ ] **Channel 3 documented** with sound-palette categories (breath-tells, throat-clicks, half-syllables, mourning-tone, recognition-tone) plus voluntary-vs-involuntary distinction plus over-resolution canon plus three-channel-minimum cross-channel layering. (§1.3)
+- [ ] **Channel 4 documented** with three required conditions, five canon-compatible first-word contexts (Hierophant chamber, another Severance ceremony, Eidolon translation, identity-chain completion, default fallback), sound-shape canon, UI canonical-pause requirement, irreversibility. (§1.4)
+- [ ] **Channel 5 + voice gate documented** with naming event, pre-naming-label retirement, 4-tuple personality variant axes, hard gates, soft gates, voice's load-bearing single rule. (§1.5)
+
+### 8.2 History (§2)
+
+- [ ] **Origin documented** (clone body grown in parallel with racing clone; soul fragment is fraction of player's own Potential; racing clone canonically smiles in extraction; Companion's first moment is recognition glyph). (§2.1)
+- [ ] **Severance Prize ritual documented** with 8-step canonical sequence; canonical line; canonical refusal; structural identity claim; Nilmorg's post-delivery indifference. (§2.2)
+- [ ] **Awakening Protocol timeline documented** (5 stages mapped to channel unlocks; trust-driven not time-driven; bond thresholds; per-stage canonical content). (§2.3)
+- [ ] **Post-naming relationship documented** (canonical voice etymology = player's voice + 5 stages of channel-residue; relationship dynamics; 4-tuple variable NpcProfile). (§2.4)
+
+### 8.3 Background (§3)
+
+- [ ] **DMC institutional culture documented** (institutional precision, disposable bodies as substrate, pay-it-don't-explain-it canon, closed-account framing). (§3.1)
+- [ ] **Player-as-donor anchor documented** (soul-consistency-check stance; canonical limit: commitments inherited but not reasoning). (§3.2)
+- [ ] **Trust-band model documented** (4 bands; channel-unlock-gated; high-water-mark; 25 bond floor; capability-gate not just content-gate). (§3.3)
+- [ ] **Competencies documented** (channel-anchored: pre-verbal recognition fidelity / loss-fidelity / soul-consistency-checking / pre-verbal patience; verbal naming losses / tactical disagreement; competence-limit = player's reasoning). (§3.4)
+- [ ] **Wants and sacrifices documented** (wants ontological recognition not affection; sacrifice-hierarchy: foresight-honesty > player's clean benefit > own preference). (§3.5)
+- [ ] **Beliefs vs. behaviors documented** (4 coherent beliefs; 1 deferred hypocrisy candidate DCB-3 trust-without-comprehension). (§3.6)
+- [ ] **Fears, superstitions, rituals, death conditions documented** (3 fears, no superstitions, 4 rituals, 4 death conditions including soul-fragment re-integration canon). (§3.7)
+
+### 8.4 Cross-references (§4)
+
+- [ ] **All twelve cross-references documented** (Eidolon, Nilmorg, Vex, Locke, Game Master, Hierophant, Degen, Meme, Seer, Oracle, Architect, Human). (§§4.1–4.12)
+- [ ] **Each cross-reference cites the seeded-by source** in the other bible (or asserts bible-asserted-no-shipped-source if applicable).
+- [ ] **Each cross-reference flags its cross-bible obligation** (file DCB-O ticket per §7.3).
+- [ ] **DCB-O5 (Hierophant)** is canonically the deepest single cross-bible obligation per the Hierophant bible's own framing; canonical first-word-as-Wraith-Calder canon resolved.
+- [ ] **DCB-O9 (Seer)** is canonically RESOLVED by §4.9 (closes Seer §7.3 SCB-O10).
+
+### 8.5 Mechanical hooks (§5)
+
+- [ ] **Severance Prize claim trigger documented** with 5-step claim flow + awakening flag-stack + cross-bible flag dependency. (§5.1)
+- [ ] **Channel-unlock progression documented** with bond thresholds + irreversibility + half-syllable production tracking. (§5.2)
+- [ ] **First-word event surface documented** with pseudocode + 5 contexts + UI canonical-pause requirement. (§5.3)
+- [ ] **Naming event surface documented** with pseudocode + 4-tuple personality variant derivation + pre-naming nickname retirement. (§5.4)
+- [ ] **Personality variants documented** (64 canonical variants; ~3,450 lines per Companion; base + variant-overlays architecture). (§5.5)
+- [ ] **Cross-system triggers documented** (Trade Empire, TCG, fight engine, ship rooms; special trigger for another player's Severance Prize ceremony). (§5.6)
+- [ ] **Dismissal mechanic + canonical-resilience floor documented** (bond-floor 25, channel-state irreversible, dismissal NOT meaning-death). (§5.7)
+
+### 8.6 Voice and expression samples (§6)
+
+- [ ] **Five samples** spanning all five channels. (§§6.1–6.5)
+- [ ] **Voice-anchor check table** confirms each sample passes §§1–5 criteria. (§6.6)
+- [ ] **3 non-verbal + 2 verbal ratio** canonically reflects saga proportion.
+- [ ] **All four trust bands** demonstrated.
+- [ ] **Channel-stack rule** respected in every sample.
+- [ ] **Zero verbal lines pre-Channel-4-unlock**.
+
+### 8.7 Canon, mysteries, obligations, tickets (§7)
+
+- [ ] **Five load-bearing missing canon items** flagged. (§7.1)
+- [ ] **Six protected mysteries** documented as canonical voice-rule-not-content-gap. (§7.2)
+- [ ] **Twelve cross-bible obligations** filed as DCB-O1 through DCB-O12 with statuses tracked. (§7.3)
+- [ ] **Eight follow-up tickets** filed as DCB-1 through DCB-8. (§7.4)
+
+### 8.8 Bible-level integrity checks
+
+- [ ] **No contradictions with shipped canon.** Every claim cites a code or canon source; reviewer can walk the citations. (Bible-wide.)
+- [ ] **Donor-canon correction documented**: the donor is canonically the player's own Potential, NOT a separately-chosen Potential from a pool (per §1 stance #2 + §2.1 + `deadMansCircuit.ts:800`). The priority plan's prior assumption is canonically corrected by this bible.
+- [ ] **No contradictions with prior shipped bibles** (Locke, Vex, Degen, Nilmorg, Game Master, Meme, Hierophant, Eidolon, Seer). Cross-references in §4 reconcile both directions; obligations filed for any one-side updates needed.
+- [ ] **The non-verbal-to-verbal-arc canon is internally consistent** across §§1, 2.3, 3.3, 5.2 (the load-bearing channel-by-channel acquisition canon). The channels-do-not-skip + channel-state-irreversible assertions are consistent everywhere they appear.
+- [ ] **The structural identity claim** (*"I was not given. I was delivered."* per §2.2 + Nilmorg §4.8) is consistent across all bible references.
+- [ ] **The Hierophant chamber as canonical-default first-word context** (per §1.4 + §4.6 + §6.4 sample) is consistent across all references.
+- [ ] **The 64-variant personality cardinality** (per §1.5 + §5.5) is consistent and canonically load-bearing.
+- [ ] **The Seer's cross-bible obligation SCB-O10** is canonically RESOLVED by §4.9.
+- [ ] **The Hierophant's cross-bible obligation** (deepest single in this bible) is canonically reciprocally satisfied by §4.6 + §6.4.
+
+### 8.9 Stage-2 onboarding readiness
+
+- [ ] **A new Stage 2 dialogue author can read this bible and produce voice-consistent Companion lines** (verbal and non-verbal) without further context, per the priority plan's blind-read attribution test design.
+- [ ] **The voice-anchor check (§6.6)** documents the pass/fail criteria for blind-read tests.
+- [ ] **The cross-bible obligations table (§7.3)** is the canonical source for Stage 0 closing-task reconciliation work.
+- [ ] **The follow-up tickets (§7.4)** are the canonical source for Stage 1 architectural surface work.
+- [ ] **Stage 2 dialogue authoring scope** (~3,450 lines per Companion per §5.5) is canonical-and-tracked.
+
+**Bible signed off when every checkbox above is verified by a reviewer.** The reviewer's commit message should reference this section by number.
+
+---
+
+**End of bible.** The DMC Clone Body Companion is the ninth shipped bible on the priority roster. Slot #10 (the Oracle) is the final remaining priority-roster bible.
