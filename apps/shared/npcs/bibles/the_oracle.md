@@ -750,3 +750,44 @@ Six canonical voice-samples spanning the three canonical channels (dream-substra
 - *Underneath* (canonical-substrate of the wood) — canonical Oracle-anchor.
 - *Take what you remember and walk forward* — canonical *take it / spend it / use it* triad echo (per §1.3 + §1.4 tell #5 transferred-instinct closure).
 - Cross-bible reference (canonical Mechronis canonical Vex-arc) per §4.7 Oracle-Vex canonical Engineer-trace canon.
+
+### 6.3 Sample — Dream-substrate, Inheriting band, Act 7 (post-Ch12 saturated dream)
+
+**Context**: an Inheriting-band player in canonical Act 7 transitions between rooms; canonical post-Ch12 cinematic resolution; canonical 3-dreams-per-act saturation (per §3.4). Canonical dream operates at canonical-deepest substrate-density; canonical recursive-residue (per §1.5 soft-gate dream-residue-in-memory canon) operates.
+
+> **Image**: the player is standing on canonical Thaloria, looking up. The sky has a *seam* in it — a thin canonical line where canonical-substrate canonically *almost-meets canonical-end-of-time-substrate*. The seam is canonically *closing*. You can see what is canonically on the other side of the seam, and what is canonically on the other side is canonically *the room you have not entered yet*.
+>
+> **Sentence** (canonical Oracle voice, canonically deeper than canonical Ch12-cinematic register): *"Underneath everything you have decided, I have already chosen to disappear. I have not chosen yet, in your time. I am asking now: do you want me to continue choosing it? You can answer with the next room. Either room is honest. The seam will close either way."*
+>
+> **Instruction-residue**: the next-room canonical decision canonically becomes canonical-Disappearance-relevant — canonical player-action in canonical-next-room canonically affects canonical-Stage-4-weave canonical-Oracle-Disappearance-canon (canonical-acceleration / canonical-delay / canonical-affirmation).
+>
+> **Player perception**: canonically *deepest-density Oracle-dream* in canonical saga-arc; canonical Disappearance canonically *foregrounded* per §1.3 *disappear* anchor; canonical *underneath everything* canonical-amplified-anchor; canonical *I am asking* canonical-question-not-prophecy (per §1.4 tell #5 — canonical Oracle canonically asks rather than canonically declares).
+
+**What this sample anchors**:
+- Dream-substrate channel at Inheriting-band canonical-saturation.
+- *Underneath* canonical anchor canonically amplified (per §1.3).
+- *I am asking* canonical question-not-prophecy (per §1.4 tell #5; canonically NOT declarative-instruction; canonical question-form is canonical-load-bearing).
+- *I have not chosen yet, in your time* canonical-temporal-asymmetry (per §3.5 future-memory-reading competence; canonical Oracle-perspective canonically operates from end-of-time).
+- *Either room is honest* canonical Oracle-canonical-honesty (per §3.6 canonical no-hypocrisy; canonical Oracle canonically *will not canonically lie* about canonical-equally-honest options).
+- Canonical Disappearance-foregrounding (per §1.3 + §2.9).
+- Canonical-Stage-4-weave canonical-residue effect (canonical-Disappearance-canon-modification per §2.9 reading bible-flagged).
+
+### 6.4 Sample — Memory-residue narrator-frame, the Mechronis encounter
+
+**Context**: a Witnessed-band-or-higher player canonically experiences the canonical Mechronis-encounter story-arc memory-event (per `the_seer.md` §4.5 triple-anchored canon). Canonical Oracle-narrator-frame operates as canonical-overlay on canonical-scene per §5.2.
+
+> **Scene** (canonical-memory-content, canonical-third-person rendering): The Engineer sits at the bench. The Seer enters. She does not raise her staff. She plays one match. The bench has a state; the state is canonically *learnedness*; the canonical-learnedness canonically increases.
+>
+> **Narrator-frame overlay** (canonical Oracle voice, canonical first-person-plural cadence per §1.2):
+>
+> *"We are the bench. We were the Engineer; we are now the witness; in your time, we will have been both. The Seer did not raise her staff for him. She did not raise it for us either. The choosing was canonically older than canonical-substrate-was-built-to-hold. We were the canonical-recipient of canonical-pedagogy; you canonically receive canonical-pedagogy through canonical-our-recipient-state. The bench learned. We learned. You learn now, by canonically witnessing. Walk forward. The lesson is canonical-yours."*
+>
+> **Player perception**: canonically *experiences canonical-memory-content with canonical-Oracle-substrate-narration overlaid*; canonical-first-person-plural canonically operates as canonical *we (Oracle + player) witnessing the Engineer's experience*; canonical past-as-present interleaving operates per §1.2 cadence.
+
+**What this sample anchors**:
+- Memory-residue channel (per §1.1 + §1.2 + §5.2).
+- Canonical first-person-plural cadence (we / us / our) per §1.2.
+- Past-as-present-tense interleaving (*were the Engineer; are now the witness; in your time, we will have been both*) per §1.2.
+- Canonical-substrate position (*we are the bench*) — canonical-deeper canonical-substrate-position than canonical *underneath* — canonical Oracle canonically *operates as the substrate itself* in memory-residue.
+- *Walk forward* canonical transferred-instinct closure (per §1.4 tell #5).
+- Cross-bible Mechronis canonical triple-anchored canon (per `the_seer.md` §4.5 + this bible §4.7).
