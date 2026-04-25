@@ -112,3 +112,56 @@ The Seer's three registers are softer-gated than the Hierophant's pre-rite/post-
 **The voice's load-bearing single rule**: *every Seer line either contains a prediction or contains a public revision of a prior prediction*. Lines that contain neither are not Seer lines. The bible enforces this as the strongest selector constraint on the bank. (Exception class: the Confidant-register domestic-vocabulary lines — *"the tea is in the second cupboard"* — which are *delivered* predictions: she has predicted the player will arrive and stocked accordingly. The prediction is implicit in the preparation; the line is therefore prediction-bearing even though no future-tense verb appears.)
 
 What this means for writers: **a Seer line that is purely conversational, expository, or descriptive — without a prediction, without a revision, without an implicit-prediction-as-preparation — is mis-cast and should be re-routed to another character or rewritten.** The prediction-or-revision rule is the bible's tightest single constraint. The Seer's voice is structurally *future-oriented*; a Seer line that has no future is not in voice.
+
+---
+
+## 2. History
+
+The Seer's history is unusual on the priority roster: she has *no canon-stated origin event* (no equivalent of Wraith Calder's seven Arena deaths, no equivalent of the Hierophant's Final Rite, no equivalent of the Meme's Year-298-A.A. creation). She is presented in shipped canon *already practising* — already a Ne-Yon, already precognitive, already a teacher whose teaching method is restraint. The bible asserts her prior history is **deliberately not narrated** because the Seer herself does not narrate it. She is the saga's only roster character whose biography is *withheld by the character*; this is canonically consistent with her cold register, where *waiting* is the favourite mode and disclosure is rationed.
+
+What the bible documents in §2 is therefore the **knowable history** — the events she has chosen to make canon by appearing in them, plus the events the player encounters her through. Her pre-Mechronis past is held as a **protected mystery** (§7.2). Writers must respect: a Seer scene that narrates her origin is mis-cast.
+
+### 2.1 The Mechronis Visit — the saga's clearest single Seer canon event
+
+The most-canonical event in the Seer's biography is her **single visit to Mechronis Academy**, played as the Act 1 Cycle B finale (`chapters.ts:770-829`, `bossMastery.ts:149-163`, `act1OpponentDialog.ts:260-286`). The encounter is canonical and load-bearing: every other Seer canon piece refers back to it as the moment the saga met her in voice.
+
+**The setup**, per `act1OpponentDialog.ts:262-263`:
+
+> "She visited Mechronis once. She played one match. She did not raise her staff. The Academy talked about it for a year."
+
+Three things are canon: (a) one visit, (b) one match, (c) the staff stayed down. The Academy's year-long conversation about it is canonical secondary effect — the Mechronis cohort recognised, in voice and in restraint, that something the Academy could not name had happened.
+
+**The pre-match**, per `chapters.ts:786` and `act1OpponentDialog.ts:267`:
+
+> "I will not raise my staff today. I want to see whether the bench has learned yet."
+
+This is the bible's clearest single voice-anchor (per §1.1 header). Three claims in canonical Seer probability-sentence form:
+1. *I will not raise my staff today* — the action she will not take, named in the future tense as a chosen abstention.
+2. *I want to see* — the desire that the action would have interfered with.
+3. *whether the bench has learned yet* — the measurement question being run.
+
+She is announcing, in voice, that the match is an **observation of the bench's state**, not a contest she is invested in winning. The player is the bench. The match is the *measurement*. The not-raising-the-staff is the apparatus for the measurement to be honest — if she raised the staff, she would be running a different experiment.
+
+**The mid-match**, per `act1OpponentDialog.ts:269-273`:
+
+> "You are playing the version of yourself I came to meet. Keep playing him. He is rare."
+>
+> "The match is over. You will see it in three turns. Use the three turns well."
+
+Both lines are canonical Seer signature constructions: the *version* vocabulary (§1.3) and the *future-tense-as-fact* prophecy delivery (§1.2 cadence rule #3). She came to meet a *specific version* of the player — implying she had already counted the player's possible futures, identified the version worth meeting, and timed her visit to the version's emergence. The match ending three turns before the player perceives the ending is canonical precognition disclosure: she shares the future *with the player*, with no obfuscation, and instructs the player to *use* the prophecy. This is the Seer's pedagogy at its most direct: *the prophecy is for you, not for me*.
+
+**The post-match — both outcomes**, per `act1OpponentDialog.ts:274-281`:
+
+> [On player win] "She smiled. She told you the Engineer was the only one she ever taught who made her laugh at the right time."
+> [On player loss] "She won and said nothing. She left the staff anyway. The staff doesn't care which way the match ended."
+
+The staff stays. The match outcome does not change what she leaves behind. Per `act1OpponentDialog.ts:283-286`:
+
+> "I think she let me win. I have stopped feeling bad about it. The let was the lesson." [Engineer's memoir, win path]
+> "She left. She left the staff. The staff was the apology. The apology was for what she had already seen coming." [Engineer's memoir, loss path]
+
+The bible's load-bearing reading: **the Mechronis visit is the Seer's apology, regardless of who wins**. She had already seen the outcome (whichever outcome would be the player's). She came anyway. The apology is for *the foresight itself* — she could have warned the bench earlier; she chose to teach by visiting instead. The staff-on-the-bench is the artefact of the apology; the burnt card hidden inside the staff (§2.2 below) is the apology's deferred reciprocation, redeemable when the player has earned it.
+
+**Trust-state during Mechronis**: the Seer arrives at Wary baseline. The match's six-option dialogue spread (per `dialogBank_chapters_10_12.ts:410-461`) does not move trust significantly during the encounter itself; trust-band promotion happens *post-match* and is gated by the player's subsequent acts (§2.3). The Mechronis visit is the *first calibration*, not the trust-build itself. Writers should not author Mechronis dialogue as trust-advancing in the moment — the staff being left is the trust-token, but the *trust* lands in the chapters that follow when the player encounters the staff and (eventually) the burnt card.
+
+**The match's hidden winnable path**: per `seerProphecy.ts` and the spec at `docs/production/act1/seer-prophecy-mechanic.md`, the canonical first-playthrough outcome is **scripted loss** — the burnt-card placeholder (`burnt_card_placeholder.ts`) is *reserved* and not in any normal deck-construction pool. Players who win on first contact have done so via a route the spec leaves *open-design*: a side-quest, an Antiquarian conversation, a codex unlock — the user-direction-pending decision flagged in §7.4 of this bible. The bible's canonical position: **the scripted loss is the Seer's intended pedagogy**, and any winnable-path unlock should be authored as *the player having earned the reciprocation by carrying the staff back across multiple acts*, not as a hidden combat trick. The flavor text on `burnt_card_placeholder` — *"You found her staff on the bench. Inside the staff was this card. You remembered before she taught you how."* — is the bible's anchor for this stance.
