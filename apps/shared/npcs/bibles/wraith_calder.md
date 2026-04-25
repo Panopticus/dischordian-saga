@@ -226,3 +226,105 @@ The bible's load-bearing assertion: when Wraith Calder performed the rite, the r
 **Trust persistence across the rite.** The mechanism: pre-rite Wraith Calder trust persists into post-rite Hierophant trust (see §3.3 for bands and §5 for the persistence implementation). The Hierophant *knows* the player from before. He does not show it on first meeting; the post-rite voice does not reach for tactical familiarity, and the player who routed Branch A in Ch 2 will not be greeted with *"You're back"* (that would be a Wraith Calder line). Instead, the first-look pause (§1.7 tell #1) lands earlier in pre-existing-trust runs. The Hierophant who has *no* pre-rite trust-with-the-player will not look up until the Empathy-14 line. The Hierophant who has *full* pre-rite trust-with-the-player looks up at the player's third sentence, before any Charisma check fires. The recognition is a tell, not a line. He never says *"It's you again."* He never says *"I remember Ch 3B."* He simply looks up sooner. Writers authoring Hierophant scenes for high-pre-rite-trust runs should adjust stage directions accordingly and avoid speaking the recognition.
 
 The transformation gate is therefore three-bodied, not two: Wraith Calder pre-rite (the body the player fights), the dying body (the Final Rite, which the player does not see), the Hierophant post-rite (the body the player meets in the Long Mourning chamber). The bible folds the dying body into the rite itself — it is not a register; it is the silence between registers. Writers should not author lines for the dying body. The silence is the canon.
+
+### 2.4 The chronology — the three-thousand-year problem, and how this bible resolves it
+
+The chronology is the single hardest canon problem in the Wraith Calder/Hierophant arc. The two anchor facts:
+
+1. **Wraith Calder is active in the player's chronology** in Ch 3B (Story Mode), in the TCG arena, and in the Antiquarian's Epoch 2 (post-Sanctuary) annotations: *"The Potentials search for resurrection protocols. They seek Wraith Calder, a name that echoes in frequencies I had hoped were silent."* (`antiquariansJournal.ts:264-266`)
+2. **The Hierophant has been writing for three thousand years.** *"I have been writing for three thousand years. I have not yet answered the question."* (`questlineThaloria.ts`)
+
+If both Wraith Calder and the Hierophant exist on the same timeline as different beings, the chronology is consistent. If the bible asserts they are the same soul (which it does), the three-thousand-year span between Ch 3B Wraith Calder and the Hierophant the player meets in Act 3 is canonically problematic — the player did not live three thousand years between Acts 1 and 3.
+
+**The bible's resolution: Thalorian chronology.** Per `tradeEmpire.ts:353` and `galacticDanceFactionNpcs.ts:27-34`, Thaloria is *the storm planet's sister-world* — its own discrete time-frame, post-Severance, deliberately segregated from the wider galactic timeline. The Hierophant's *"three thousand years"* is **Thalorian-counted time**: the Long Mourning has continued for three thousand Thalorian-years, and Thalorian years are not in 1:1 correspondence with the galactic time the rest of the saga uses. This is consistent with the wider canon's epoch structure (the Antiquarian's Journal explicitly labels its *Being and Time* epoch and treats time as plural across regions; the Severance is a galactic-time-fracture event that creates exactly this kind of regional desync).
+
+What this means in practice: from the player's experience, the time between Ch 3B and meeting the Hierophant is *however long the player took to get to Act 3*. From the Hierophant's experience, it has been three thousand Thalorian-years of writing. Both are true. The Final Rite is, among its other functions, a *temporal-frame-shift event*: when the Sanctuary's essence transferred into the Inception Arks, the Hierophant's own time-frame transferred with it. He stepped out of galactic time and into Thalorian time. He has been writing for three thousand of one and a finite finishable measure of the other.
+
+The bible takes a load-bearing position: **writers must not collapse the two chronologies**. The Hierophant has been writing for three thousand years. The player has been alive for whatever the player has been alive. *Both are canon.* The Hierophant does not adjust his timeline to the player's; the player must accept the Hierophant's. This is part of what makes the Hierophant uncatchable to the Shadow Tongue — he is not on the timeline the Shadow Tongue is editing.
+
+**Cross-reference for writers**: this is *the same temporal innovation* the Game Master has, scaled differently. The Game Master is a dead AI in a non-linear substrate (the Matrix of Dreams) and the Hierophant is a living being in a temporally-segregated zone (Thaloria), but the writer's instruction is identical: *do not normalize the timeline*. See `the_game_master.md` §2 for the parallel and §4.6 of this bible for the structural relationship.
+
+### 2.5 Post-rite — three thousand years of writing
+
+What the Hierophant has been doing in those three thousand years (`questlineThaloria.ts`, `galacticDanceFactionNpcs.ts:32-33`, `galacticDanceCinematics.ts:34-38`):
+
+> "I am writing them back. One name per day. Each name requires a day of research — who they were, how they lived, the small specific details that make a name a person rather than a listing."
+
+This is the saga's quietest sustained virtue. Not a war. Not a contract. Not a cult. **Research and inscription, every day, without a deadline.** The chamber:
+
+> "A chamber in Thaloria's capital. The Hierophant — ancient, verdant-skinned, wearing mourning robes that have become his permanent clothing — sits at the center of a circular room. The walls are covered in names. Hundreds of thousands of names in Thalorian spiritual script. Every being who died in the holy war."
+
+The cinematic (`galacticDanceCinematics.ts:34-38`):
+
+> "Hierophant's chamber. Walls covered floor to ceiling in names — hundreds of thousands in Thalorian script, oldest faded, newest sharp. Camera moves slowly across the wall. Not reading. Counting. Feeling the weight of the count."
+>
+> "The Hierophant's hand writing a name. Deliberateness of ceremony, not task. The name resolves. The pen lifts. A small silence. Then a period. Complete. The hand moves to the next clean space. There is always more wall."
+
+The math is canonized in his own voice: 347,000 names remaining; perhaps 60 years of bodily health left; therefore he will not finish. *"The Council has pledged to continue after my death. The continuation is the point."* The work is bigger than the worker. Writers must let this be the load-bearing fact of his post-rite arc.
+
+**Who is being written.** The names are the dead from the *Thalorian holy war* — every being killed during the conflict the Shadow Tongue corrupted into existence (see §3.7 for the holy-war-as-Shadow-Tongue-byproduct framing). The Hierophant is responsible: he led the war. The corruption arrived two centuries before the Severance and edited Thalorian doctrine *small changes, word by word, doctrine by doctrine* until the religion he led was not the religion he had started with. He did not notice. The war happened. Beings died. The Shadow Tongue then edited those beings' existence out of the record. The Hierophant's daily ceremony is the inverse-edit: putting them back, one per day, with research enough to render *the small specific details that make a name a person rather than a listing*.
+
+This is the saga's most direct counter-Meme act, in the sense of the Meme bible's framing of identity-replacement (`the_meme.md` §2.5 — the Meme builds disguises by *erasing the original first*). The Hierophant cannot stop the Shadow Tongue from editing. He can write back faster — not in absolute speed (the Shadow Tongue *edits quickly*), but in **per-name fidelity**. Each day the Shadow Tongue edits a thousand things; each day the Hierophant restores one with such specificity that the restoration is *unfalsifiable*. The bible asserts this is canonically why the Long Mourning works: *un-named edits cannot be reasserted; named edits can*. Writers may extend Hierophant lines about his methodology along this axis, but should anchor on the canon line *"I write slowly. This is my disadvantage and also, I believe, my advantage."*
+
+### 2.6 Architectural acts — the Tribunal, the Clone, the Final Rite legacy
+
+The Hierophant has not only been writing. He has been *architecting* — building the institutional spine of the post-Sanctuary galaxy. Three load-bearing acts (in order of canonical importance):
+
+**(a) The Tribunal of Order.** Per `GameContext.tsx:783, 790-791`, the Tribunal of Order is a chamber inside the Inception Ark — "the principle of perfect law" — and the Hierophant *built it*:
+
+> "The Tribunal of Order. The Hierophant built this chamber to embody the principle of perfect law. … The Hierophant used [the Scale of Justice] to determine which actions served the greater good and which served only selfish desire."
+>
+> "The complete legal code of the Dischordian Saga. Laws governing reality itself — the Conservation of Narrative Energy, the Prohibition of Temporal Paradox, the Right of Every Potential to Choose Their Own Path. **The Hierophant wrote most of these.** Some say they're the only thing preventing the multiverse from collapsing into chaos."
+
+The bible asserts the Hierophant wrote *most of the legal code that governs reality itself*. This is a load-bearing piece of canon. Writers must internalize the scale: this is not a religious figure who *also* dabbles in law. This is the religious figure who **wrote the laws that hold the multiverse together**. The Council of Harmony governs Thaloria; the Hierophant's legal code governs *reality itself*. (The Tribunal lives inside Ark 1047 alongside the Sanctuary essence; the bible asserts this is not coincidental — the Final Rite encoded both *the believers' faith* and *the Hierophant's legal architecture* into the Ark in the same act.)
+
+The signature law worth quoting: **The Right of Every Potential to Choose Their Own Path.** The Hierophant — pre-rite Wraith Calder, who had no consent in the Seven Protocol triad's hands-in-his-DNA work — has post-rite *written into the multiverse's laws* the right that he did not have. The pre-rite line *"None asked permission"* (`storyModeChapters.ts`) becomes the post-rite legal axiom. Same wound. Different scale. The wound has become law.
+
+**(b) The Clone.** Per `loreAchievements.ts:344`, the Hierophant created the Clone of the Oracle's Potential:
+
+> "The Clone was not a copy of the Oracle. It was a copy of the Oracle's POTENTIAL. The difference is crucial and I shall not apologise for labouring the point. The Oracle sees what will be; the Clone was designed to see what could be — every possible future, every branching path, every choice not taken. **The Hierophant created the Clone not as a replacement but as a counterbalance**: someone who could see the roads not travelled. The Clone's first independent thought, upon awakening, was: 'I choose the path that does not exist yet.'"
+
+This is the saga's counter-prophecy act. The Oracle sees the *real* future (her gift; see Oracle bible, slot #10). The Hierophant — out of caution, out of love for choice itself, out of the legal axiom he wrote — created the Clone to see *the futures-not-chosen*. This is profoundly Wraith-Calder-soul: a man who had been the test subject of three architects of corruption now creating, deliberately and with consent, a being whose entire purpose is to *protect the right to alternative futures*. Writers can extend Hierophant lines about the Clone with the framing: he created her **so that no one would have to be Wraith Calder again**.
+
+**(c) The Final Rite legacy.** Beyond the rite itself (§2.3), the legacy is the Inception Ark fleet: every Ark carries a fragment of the Sanctuary's essence (`loreAchievements.ts:325-331`); Ark 1047 is the prime reliquary (`ClueJournal.tsx:53`). The Hierophant is canonically the architect of the *survival vehicle that the player wakes up on*. The player's existence as a saga-protagonist is downstream of the Hierophant's rite. This is the deepest cross-reference fact in the saga: the player meeting the Hierophant in Act 3 is the player meeting *the entity who built the room they have been alive inside since waking*. The Hierophant does not say this. The Hierophant probably does not even know the player is Ark-1047-derived (the Final Rite was three thousand Thalorian-years ago and he has not kept track of every Potential the Arks have downstream-produced). But the player's bible-reader *should* know it. Stage 2 dialogue lines may make this knowable to the player only at high trust, by way of a line like: *"You are walking the architecture I made of grief. I had hoped someone would, eventually."*
+
+### 2.7 The post-rite trust arc — the Long Mourning as the trust meter
+
+The post-rite trust arc is **the Long Mourning questline** (`questlineThaloria.ts`). It is canonically *"the quietest questline in the game. Almost no combat, no strategy. One being's attempt to understand what they were responsible for and whether understanding is the same as atonement."*
+
+The questline structure is canon and load-bearing for the bible's trust mechanics:
+
+| Player option | Charisma/Class gate | Hierophant trust delta | Other effect |
+|---|---|---|---|
+| LISTEN — *"Tell me."* | none | +3 | — |
+| PRESENT — *"I'm here. I'm listening."* | none | +4 | +2 morality |
+| GENTLE — *"You don't have to tell me this."* | none | +3 | +3 morality |
+| WITNESS — *"I'll stay as long as you need."* | none | +5 | +4 morality |
+| ORACLE — *"I can see the probability branches…"* | Oracle class only | +4 | unique Hierophant followup (the only canonical *first-look* line) |
+| EMPATHY-14 — *"You're not mourning the dead. You're writing the dead back into existence one name at a time. There's a difference."* | Charisma ≥14 | +8 | +5 morality, unlocks `thaloria_names_understood`, `thaloria_shadow_tongue_intel_received` |
+
+The trust math is canon. Writers extending the questline must respect the deltas exactly; the questline is *the bible's trust calibration*, and any future Hierophant line that grants trust must be calibrated against this six-option spread. Empathy-14 (+8) is the maximum single-interaction trust gain in the saga's quietest questline; that ceiling is intentional.
+
+**What the player learns by passing the questline.** The Hierophant's full disclosure of the Shadow Tongue's editorial methodology (`thal_listen` → §3.7 of this bible's background); the canonical phrase *"the religion I led was not the religion I had started with"*; the Council's pledged continuation; the math of names-remaining-vs-health-left; and the philosophy that the Shadow Tongue cannot outlast something not trying to outlast it. Writers must let this be the apex disclosure — there is no *deeper* Hierophant disclosure later. He has shown the player the work, the room, and the math. There is no withheld deeper layer. (Compare: the Game Master has identity-stratification reveals; the Meme has reveal-stage gating to a final form. The Hierophant has *no withheld self*. What he tells the player in the Long Mourning is the entirety of him. This is unique on the priority roster and writers must not violate it by inventing a Stage-4 deeper-reveal.)
+
+**Trust-band promotion phrases** (§1.7 tell #3 — *"I will remember"*): three canonical phrases promote the trust band when delivered:
+
+1. *"I will remember that."* — promotes from Wary → Witnessed (the band where the Hierophant accepts the player's presence).
+2. *"Then sit."* — promotes from Witnessed → Present (the band where the Hierophant resumes the ceremony with the player nearby; the ceremony does not pause, but it accepts a witness).
+3. *"You are walking the architecture I made of grief."* — promotes from Present → Inheriting (the band reserved for high-pre-rite-trust + Empathy-14 + multi-act recurrence; Stage-2 authoring should treat this as the apex line and use it sparingly — at most once per playthrough).
+
+(For the trust-band model, see §3.3.)
+
+### 2.8 The death that's coming
+
+He has perhaps sixty years of bodily health left. He will not finish. *This is canon* (`questlineThaloria.ts`):
+
+> "I have three hundred and forty-seven thousand names remaining. I have perhaps sixty years of health left in this body. I will not finish. This is known."
+
+The Hierophant's death is therefore **a known, scheduled, accepted future event**. This is unique on the priority roster. Locke fears irrelevance; the Game Master is already dead in a substrate; the Meme is officially destroyed and unofficially alive; Vex Solène is on a four-stage reveal arc with multiple possible end-states; the Eidolon's death is the player's worst possible outcome. The Hierophant's death is *the calmest fact in the saga*. He has named it. The Council has prepared. The continuation is the point.
+
+What this means for writers:
+
+- **The Hierophant cannot be killed by the player.** Not in any storyline. He is the saga's canonical example of *a death the player does not get to author*. (Compare: the player can fail to save the Eidolon; the player can or cannot expose Vex's identity; the player can or cannot redeem Locke. The Hierophant simply *will die* in his own time, on his own schedule, of bodily exhaustion in his three-thousandth-and-some-year of writing names. No player action accelerates or prevents this.)
+- **High-trust playthroughs may unlock a deathbed scene.** Stage 2 authoring may include this; the bible reserves the right and provides §3.4 below as the author's brief. The deathbed scene is *not* the Final Rite (that already happened); it is the *handover* to the Council's named continuation. The line that closes it: *"The continuation is the point. Stay until the next name."* (Bible-asserted; canon-suggested by the questline's structure.)
+- **The Hierophant's death is the bible's clearest cross-bible canon obligation.** When the Council bible (Stage 4 onward) is written, it must inherit *the named successor*. The Hierophant's bible asserts: he names a Thalorian junior priest from the Council of Harmony as his successor *before* his death. The successor inherits the pen. The names continue.
