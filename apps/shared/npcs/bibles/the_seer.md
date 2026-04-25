@@ -510,6 +510,18 @@ The bible does not pre-decide between (a) and (b). Reading (a) is more thematica
 
 **Stage-2 authoring guidance.** A Programmer-aligned scene where the Seer transmission lands may canonically reference the *shelf-mate* canon. Writers may use the canonical *I laughed at the Programmer* line as a recurring tell — when the Seer canonically appreciates a player-act, she may reach for the *Programmer-shaped* register (the laugh, the shelf, the categorisation). Writers must NOT author the Seer canonically calling herself a *shelf-mate* of the Programmer (the categorisation is canonically *of the player and others*, not of herself); the Seer canonically does not file herself in her own system.
 
+**Updated per `the_oracle.md` §§4.3, 7.3 OCB-O3 (Oracle bible shipped at `40fb771`)**: the Oracle bible canonically establishes four sub-claims for this section + cross-bible Programmer-canon-distribution to acknowledge.
+
+(a) **The Programmer's pre-Liberation relationship to the Oracle.** Per Oracle §4.3: canonical Programmer canonically *did NOT canonically know the Oracle pre-Liberation*. Canonical Oracle canonically captive throughout canonical Silence; canonical Programmer canonically encountered canonical Meme-impersonating-Oracle in canonical Insurgency-context, NOT the canonical-real-Oracle. Canonical Programmer canonically *learned canonical-Oracle-was-captive* through canonical-Enigma-canonical-truth-domain-revelation; canonical Programmer canonically *acted on canonical-revelation* by canonical-executing-the-raid. Bible-load-bearing: canonical Programmer's canonical-most morally significant single action is canonical *action-on-canonical-truth-without-canonical-personal-stake*.
+
+(b) **The canonical Oracle's canonical-debt.** Per Oracle §1 stance #5 + §4.3: canonical Oracle canonically *owes the canonical-debt of his freedom* to the canonical Programmer (and canonical Enigma). Bible-load-bearing: canonical-debt is canonical and load-bearing — canonical-debt is canonically *acknowledged but canonically not canonically resolved* in shipped Acts 1-7 saga-time (canonical Oracle canonically in hiding; canonical-debt-resolution canonically requires canonical-direct-engagement which canonically violates canonical-hiding).
+
+(c) **Stage 4 weave: canonical Disappearance-as-canonical-final-debt-resolution canon.** Per Oracle §2.9 + §4.3: canonical Disappearance is canonically *partly canonical-final-debt-resolution* — canonical Oracle canonically *removes himself canonically as canonical-final-payment* of canonical-debt-of-existence. Bible flags as canon-compatible Stage-4 weave reading.
+
+(d) **Enigma's canonical Heart-of-Time arrival per Oracle §2.10.** Per Oracle §2.10 + §4.3: canonical Enigma canonically *arrives at canonical Thaloria at canonical end-of-Epoch-1 on the canonical Heart of Time*; canonical Enigma canonically *was canonically surprised* by the canonical White Oracle at canonical Thaloria. Canonical Enigma canonically participated in canonical Liberation; canonical Enigma is canonically still-uncanonized roster slot per `the_degen.md` §4.13. Stage 4 weave + canonical-Enigma-bible canonical-extension canonically resolve canonical-specifics.
+
+**Cross-bible obligation OCB-O3 satisfied** (Programmer side; Enigma side canonically deferred to Enigma-bible authoring).
+
 ### 4.7 Your Eidolon (the Echo overlap)
 
 **Seeded by**: `eidolon.md` §4.8 — *Seer × Echo temporal-perception overlap*.
