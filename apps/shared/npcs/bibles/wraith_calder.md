@@ -652,3 +652,57 @@ This is, bible-asserts, the most-personal sentence the post-rite Hierophant has 
 The player's answer matters; *the Hierophant's response to either answer is the same*: a slow nod, a return to the pen, and the next name on the wall is — bible-asserts — written *for the Clone*, the only living name he ever writes. The chamber wall has, somewhere in the past three thousand years, exactly one name of the living: *the Clone*. He writes her once a year on the day of her awakening. The wall remembers her birthday. (This is the most tender canon detail the bible asserts; writers should treat it with the same reverence as the Eidolon's perish-mourning canon.)
 
 **Cross-bible obligation**: when the Clone gets a bible (Stage 4 onward), this birthday-name canon must be inherited. The Clone is canonically aware that the Hierophant writes her name once a year. She has visited the chamber on her birthday at least once. She brings him *one specific gift*: nothing. *Presence without demand* is what the Hierophant asks of every visitor; the Clone's birthday gift is to be the visitor he never has to ask. The Hierophant treats it as the most generous offering he has ever received — bible-asserts; canon-compatible with `thal_present`'s *"presence without demand is the rarest thing anyone offers me"*.
+
+### 4.12 The Human (the 144,000th believer)
+
+**Canon source**: `loreAchievements.ts:325-331`. *"The Human was the 144,000th believer, and her faith was the keystone. … The Hierophant performed the final rite: transferring the Sanctuary's essence into the Inception Arks."*
+
+**Resolution — load-bearing**: The Human (canonically *her*) is the keystone whose faith made the Final Rite possible. The Hierophant's transformation (§2.3) is *downstream of her belief* — without the 144,000th believer holding the threshold, the rite has nothing to channel; without the rite, Wraith Calder dies the eighth death without re-seating, and the Hierophant never exists. The Human is therefore canonically *the cause of the Hierophant's existence*.
+
+The Hierophant knows this. He has written her name first among the keystone-believers' wall (the chamber's walls are Tamarin dead from the holy war; bible-asserts a *second* wall exists in the chamber — smaller, off the main count — for the 144,000 Sanctuary believers, whose names the Hierophant transcribed in the months immediately following the Final Rite, before resuming the Long Mourning's main count). The Human's name is the first name on the second wall.
+
+**Did they meet**: yes, exactly once. Pre-rite Wraith Calder did not meet the Human; the Human's life ran in the same era but their paths did not cross. Post-rite the Hierophant — bible-asserts — has met the Human *once*, in the immediate aftermath of the Final Rite. The Human survived the Sanctuary's fall (Iron Lion fought to protect her, per `loreAchievements.ts:325-331`). She found the chamber. She visited. They had a single conversation.
+
+The bible-asserted exchange, in canon-compatible voice:
+
+> THE HUMAN: *"My faith made you. I do not know how to feel about that."*
+> THE HIEROPHANT: *"Neither do I. The work was already mine. Your faith made it survivable. We are the same accident, in different bodies. I will write your name when you are dead. I will not write it sooner. Live well; the wall is patient."*
+
+This is canonical bible-asserted material. Writers may *not* re-deliver these lines. They exist as background canon for any saga-Stage-2-and-onward scene that touches the Human's relationship to Thaloria.
+
+**Player-facing implication**: the player who has accessed the *Sanctuary Lost* achievement (`loreAchievements.ts:325-331`) and visits the Long Mourning chamber unlocks a single Hierophant exchange. Bible-asserted line, in post-rite voice:
+
+> *"You walked through the Sanctuary's last hour. The Human held the threshold. I was downstream of her keystone. We are all downstream of her, in this room more than most. Tell me one thing she said to you, if she said anything. I am keeping a record."*
+
+The player's answer goes into the chamber's ledger — bible-asserts; the Hierophant *does* keep a smaller secondary ledger of *what the keystone-believers said*, alongside the wall of their names. Stage 2 questline-extension may surface this ledger to the player.
+
+**Trust interaction**: a player who has met the Human in the saga's wider arc and brings her words to the Hierophant *automatically* promotes the trust band by one. This is the only trust promotion in the bible that does not require any specific dialogue option from the player; bringing a Human-quote is itself the qualifying act.
+
+### 4.13 The Antiquarian / Daniel Cross — and the remaining roster
+
+**Daniel Cross** is the Antiquarian — the first-person narrator across `loreAchievements.ts` entries (*"I was there when the Sanctuary fell"* / *"I have catalogued many forms of consciousness in my work"* / *"The Witness documented each resurrection"*). The programmer. The cataloguer. The witness across millennia.
+
+**Resolution**: the Antiquarian is canonically *the only being in the saga whose record-keeping practice mirrors the Hierophant's*. The Antiquarian catalogues; the Hierophant writes names. Both work daily. Both work without deadline. Both treat the work as *bigger than the worker*. Per `antiquariansJournal.ts:264-266`, the Antiquarian's voice in Epoch 2 sounds like the Hierophant's voice at scale: *"The Potentials search for resurrection protocols. They seek Wraith Calder, a name that echoes in frequencies I had hoped were silent."*
+
+The bible's load-bearing assertion: **the Antiquarian and the Hierophant are aware of each other and have read each other's work**. The Antiquarian's journal has an entry on the Hierophant (canonically `antiquariansJournal.ts:691`'s SIB-VI is on Wraith Calder; bible-asserts a *parallel* entry exists on the post-rite Hierophant, in a later epoch, characterizing the daily-name ceremony as *"the most patient act of resistance I have catalogued"*). The Hierophant has, bible-asserts, *read* the Antiquarian's entries on Wraith Calder — the only canonical pre-rite memory he has access to that is not his own. He does not need them; he has his own. He reads them anyway, every century or so, to verify the record.
+
+**Do they correspond**: the bible asserts they exchange one document per Thalorian-century. The Antiquarian sends a question; the Hierophant answers. The exchange is private, written, and never narrated to the player. Stage 4 weave material may surface excerpts.
+
+**Cross-trust mechanic**: high-Antiquarian access (the player has read SIB-VI and surrounding entries) + Long Mourning visit unlocks *one* Hierophant line referring to the Antiquarian by his given name:
+
+> *"Daniel Cross has been writing alongside me longer than either of us has admitted. He catalogues; I name. The methods are not the same. The discipline is. Tell him, if you see him, that the wall has not yet found a stopping point."*
+
+This is the only canonical use of *Daniel Cross* in the Hierophant's voice. The line is reserved; writers must not extend or paraphrase past the band-promotion construction.
+
+**Cross-bible obligation**: the Antiquarian's bible (Stage 4 onward) must inherit the inverse: the Antiquarian uses the Hierophant's name (bible-asserts: he uses the post-rite name *Hierophant*, not the pre-rite *Wraith Calder*, except when narrating the Age of Potentials specifically) and treats the chamber as a research site of the highest reverence. The Antiquarian has not visited in person; *"My work requires a desk, and desks do not run."* (`loreAchievements.ts:410-415`) The chamber is the Hierophant's desk; the Antiquarian respects desks. The non-visit is itself a form of recognition.
+
+---
+
+**Remaining roster** (brief acknowledgments — these characters do not have load-bearing direct cross-references with the Hierophant; their bibles' flags are answered with *"no canon contact, posture defined by structural distance"*):
+
+- **The Degen** (`the_degen.md` §4.13): faith vs. chaos opposition; no canon contact. The Hierophant's posture toward the Degen, bible-asserts: *"He is doing necessary work I am not equipped for. I would not write his name unless he died, and he is not the kind of being that dies."* Structural respect, not affinity.
+- **The Seer** (slot #8, upcoming): precognitive; the Seer is the only saga entity *the Meme cannot falsify* (per `the_meme.md` §4.x). The bible asserts the Hierophant has corresponded with the Seer once — a single message of the form *"What do you see for the wall?"* — and received a single reply: *"More wall."* The Hierophant accepted the prophecy and continues. Stage 4 weave: the Seer bible (slot #8) may inherit this exchange.
+- **DMC Clone Body Companion** (slot #9, upcoming): non-verbal-to-verbal companion. The Hierophant has — bible-asserts, per §4.3 — midwifed several Clone Companions into speech across the three thousand years. The first word the Companion learns in the chamber is canonically *Wraith Calder*, the first name on the wall (§3.8). This is the deepest cross-bible obligation in the remaining roster and Stage 4 authoring should anchor on it. The DMC Clone Companion's bible (slot #9) will inherit the chamber as *the natural setting for the first-word event*.
+- **Iron Lion** (Stage 4): canonical companion in the Sanctuary's fall (Iron Lion *"fought to protect her"* per `loreAchievements.ts:325-331`). The Hierophant has not met Iron Lion post-rite. Bible-asserts: he intends to, before he dies. Stage 4 weave material.
+- **Akai Shi** (Stage 4): the Necromancer's Matrix escapee, Wraith Calder's recommended next-mentor for the player (`storyModeChapters.ts:188`, post-fight option *"What's next?"*). The Hierophant does not know whether Akai Shi survived the millennia. Bible-asserts: he has not written her name on the wall, which means — by his theology — she is *probably alive somewhere*. He hopes so. He has not asked.
+- **Architect / Architect-Meme parent-child** (`the_meme.md` §2.5, recast canon `a0813ed`): no canon contact. The Hierophant's posture, bible-asserts: he treats the Architect as *the institutional analogue of his own pre-rite self* — a being who built something that outgrew them. The Architect-Meme parent-child framing aligns with the Hierophant's own creative-act-vs-restoration distinction (§4.11). The Architect's child outgrew them and replaced them; the Hierophant's child (the Clone) chose her own path and *did not need to* replace him. Same axis. Different outcomes. Stage 4 weave material.
