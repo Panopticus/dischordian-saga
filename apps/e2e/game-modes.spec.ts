@@ -9,7 +9,7 @@ import { test, expect } from "@playwright/test";
 
 test.describe("Game mode smoke tests (requires auth)", () => {
   // Skip: needs authenticated session with rooms unlocked
-  test.skip(true, "Requires auth fixtures — add storageState for Google OAuth session with rooms unlocked");
+  test.skip(!process.env.E2E_AUTH_OPEN_ID, "Set E2E_AUTH_OPEN_ID + JWT_SECRET to mint a session storageState (rooms must already be unlocked for the test user)");
 
   test("chess page loads and board renders", async ({ page }) => {
     await page.goto("/chess");

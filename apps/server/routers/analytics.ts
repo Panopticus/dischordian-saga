@@ -10,6 +10,7 @@ import { TRPCError } from "@trpc/server";
 import { getDb } from "../db";
 import { analyticsEvents } from "../../db/schema";
 import { eq, sql, and, gte, lte, desc, count } from "drizzle-orm";
+import { getSearchRateLimitBuckets } from "../services/rippleEngine";
 
 // ─── Validation schemas ────────────────────────────────
 
@@ -210,15 +211,8 @@ export const analyticsRouter = router({
    *  rippleEngine `search_rate_limited` handler whenever a user
    *  trips a token bucket on any searchable endpoint (e.g.
    *  `christmasInJuly.searchGiftRecipients`). Admin-only.
-   *
-   *  NOTE(ci-green): rate-limit tracking is not yet implemented in
-   *  rippleEngine — the previous dynamic import of
-   *  `getSearchRateLimitCounts` referenced a phantom export. When the
-   *  `search_rate_limited` ripple handler starts populating in-memory
-   *  buckets, restore the import and return the counts here. Until
-   *  then, return an empty shape so the admin UI can render gracefully
-   *  and the endpoint stays visible as a placeholder. */
+   *  Returns the top buckets from the last 24 hours, sorted by hit count. */
   searchRateLimitBuckets: adminProcedure.query(async () => {
-    return { buckets: [] as Array<{ endpoint: string; count: number }> };
+    return getSearchRateLimitBuckets();
   }),
 });

@@ -62,7 +62,7 @@ test.describe("axe-core WCAG AA audit — public pages", () => {
 });
 
 test.describe("axe-core WCAG AA audit — auth-gated pages", () => {
-  test.skip(true, "Requires auth fixtures — pages below are behind AuthGate");
+  test.skip(!process.env.E2E_AUTH_OPEN_ID, "Set E2E_AUTH_OPEN_ID + JWT_SECRET to mint a session storageState (pages below behind AuthGate)");
 
   test("settings page has no WCAG AA violations", async ({ page }) => {
     await page.goto("/settings");
@@ -161,7 +161,7 @@ test.describe("Keyboard navigation — public", () => {
 });
 
 test.describe("Keyboard navigation — auth-gated", () => {
-  test.skip(true, "Requires auth fixtures — main nav is behind AuthGate");
+  test.skip(!process.env.E2E_AUTH_OPEN_ID, "Set E2E_AUTH_OPEN_ID + JWT_SECRET to mint a session storageState (main nav behind AuthGate)");
 
   test("Tab through main nav elements", async ({ page }) => {
     await page.goto("/");
@@ -246,7 +246,7 @@ test.describe("Keyboard navigation — auth-gated", () => {
    ═══════════════════════════════════════════════════════ */
 
 test.describe("Focus trap in dialogs — auth-gated", () => {
-  test.skip(true, "Requires auth fixtures — dialogs are behind AuthGate");
+  test.skip(!process.env.E2E_AUTH_OPEN_ID, "Set E2E_AUTH_OPEN_ID + JWT_SECRET to mint a session storageState (dialogs behind AuthGate)");
 
   test("Tab stays within open dialog", async ({ page }) => {
     await page.goto("/");
@@ -293,7 +293,7 @@ test.describe("Focus trap in dialogs — auth-gated", () => {
    ═══════════════════════════════════════════════════════ */
 
 test.describe("Skip-to-content link — auth-gated", () => {
-  test.skip(true, "Requires auth fixtures — SkipToContent is inside AppShell behind AuthGate");
+  test.skip(!process.env.E2E_AUTH_OPEN_ID, "Set E2E_AUTH_OPEN_ID + JWT_SECRET to mint a session storageState (SkipToContent behind AuthGate)");
 
   test("skip-to-content link exists, is focusable, and targets #main-content", async ({
     page,
@@ -356,7 +356,7 @@ test.describe("Screen reader aria-live regions — public", () => {
 });
 
 test.describe("Screen reader aria-live regions — auth-gated", () => {
-  test.skip(true, "Requires auth fixtures — LiveRegion components are behind AuthGate");
+  test.skip(!process.env.E2E_AUTH_OPEN_ID, "Set E2E_AUTH_OPEN_ID + JWT_SECRET to mint a session storageState (LiveRegion behind AuthGate)");
 
   test("app shell contains aria-live regions for announcements", async ({
     page,
