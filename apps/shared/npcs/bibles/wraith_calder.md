@@ -1230,4 +1230,92 @@ These commitments are the bible's primary contribution to Stage 1 architecture. 
 
 ---
 
-*(§7.4 follow-up bug tickets + §8 reviewer checklist follow.)*
+### 7.4 Follow-up bug tickets
+
+Source artifacts the bible found in error or in tension during canon extraction. These are source-of-truth fixes, not bible-only assertions; they should be filed as engineering-or-narrative tickets and resolved before the bibles are read alongside live game text.
+
+**Ticket WCB-1 — `loreAchievements.ts:329` "Daniel Cross" / Human conflation**:
+
+The canon-extraction agent's report (this bible's source corpus) misidentified Daniel Cross as the Human at `loreAchievements.ts:329`. User correction during chunk 7 of this bible established: **Daniel Cross is the Antiquarian / programmer (the first-person narrator across `loreAchievements.ts`)** — *not* the Human. The Human is the 144,000th believer, canonically a *her*, separate from Daniel Cross.
+
+*Action*: audit `loreAchievements.ts` and any downstream documentation, secondary lore exports, or marketing material that may have propagated the same conflation. The user-direction during chunk 7 (`canon-fix(npcs): Daniel Cross is the Antiquarian, not the Human` — commit `3c59459`) only corrected this bible's three internal references. Other places in the codebase have not been audited.
+
+*Sweep already performed*: this bible's chunk 7 confirmed (via `grep -n "Daniel Cross" apps/shared/npcs/bibles/*.md`) that no prior bible (Locke, Vex, Eidolon, Degen, Game Master, Meme) propagated the conflation. The conflation is therefore confined to *this bible's earlier drafts* (corrected in `3c59459`) and to whatever non-bible source material the canon-extraction agent read from. Stage 0 closing tasks should include a wider sweep of `apps/shared/`, `apps/client/`, and `docs/` for *both* names alongside *Sanctuary* / *144,000* references.
+
+*Owner*: bible team; coordinate with the Antiquarian bible (Stage 4) which inherits the cleaning-up obligation per §7.3.
+
+**Ticket WCB-2 — pre-rite Wraith Calder Insurgency-faction tag in `s1_char_106`**:
+
+`tcg-core/cards/definitions/insurgency/s1_char_106_wraith_calder.ts` files Wraith Calder under the *Insurgency* faction. Per §3.1 of this bible, his loyalty is *personal-to-the-cohort*, not *institutional-to-the-Insurgency*. The card's faction tag is mechanically correct (it deck-builds with Insurgency units, which matches his canonical alliances) but the *flavor* should not let writers conclude he is doctrinally Insurgent.
+
+*Action*: no code change required; flag for the TCG card-text editor: *if any Insurgency-doctrinal flavor text is added to the card during a future season-revision pass, ensure it is filtered through this bible's §3.1 distinction*. Wraith Calder is loyal to *Potentials-as-cohort*, not to *Insurgency-as-institution*.
+
+*Owner*: TCG content team.
+
+**Ticket WCB-3 — post-rite Hierophant TCG card (`s1_char_031`) faction tag also reads "Insurgency"**:
+
+`tcg-core/cards/definitions/insurgency/s1_char_031_the_hierophant.ts` files the post-rite Hierophant as Insurgency. Per §3.2 of this bible, his post-rite faction is `thaloria_council` (`galacticDanceFactionNpcs.ts:27-28`). The Insurgency tagging on the TCG card may be an artifact of *historical* loyalty (he was Insurgency pre-rite via Wraith Calder) but the card's deck-construction implications need a review.
+
+*Action*: confirm with TCG team whether the Hierophant card should be Insurgency-deck-eligible (current behaviour) or `thaloria_council`-eligible (canonical post-rite faction). The bible recommends: *Insurgency tag is acceptable as historical-loyalty-grandfathering; the rebirth-husk synergy with `s1_char_106` (per §5.6) requires both cards to be deck-co-eligible, which Insurgency tagging satisfies.*
+
+*Owner*: TCG content team.
+
+**Ticket WCB-4 — `questlineThaloria.ts` does not name the Tamarin religion**:
+
+The Long Mourning questline source uses *"the religion I led"* without naming it. The Stage 0 priority plan and this bible's §3.2 use *Tamarin* as the historical name of the Thalorians' native faith. The naming gap is bible-resolved (bible-asserts *Tamarin* is the historical faith name, *Thalorian* is the species/cultural identity) but the questline source itself is silent.
+
+*Action*: optional source amendment — add a single Hierophant line to `questlineThaloria.ts` naming the faith: *"The Tamarin faith. That is what we called it before the Shadow Tongue called it something else."* This would canonize §3.2's bible-assertion. Without the amendment, the bible's *Tamarin*-naming remains bible-only; with it, it becomes shipped canon.
+
+*Owner*: narrative team; user direction needed on whether to amend source or accept the bible-assertion.
+
+**Ticket WCB-5 — `loreAchievements.ts:344` "Hierophant created the Clone" — chronology check**:
+
+The Clone-creation lore at `loreAchievements.ts:344` attributes the Clone to the Hierophant. This is canonical and load-bearing for §4.11. However, the Clone's awakening date *"the moment the Age of Potentials truly began"* is an early-saga event, while the post-rite Hierophant exists in *post-Sanctuary-fall* time. The chronology gap between *Age of Potentials beginning* and *Sanctuary fall + Final Rite* needs verification.
+
+*Action*: audit `loreAchievements.ts` and the Antiquarian's Journal for the chronological order. The bible's resolution (§2.4 — Thalorian-time chronology) accommodates the gap: the Hierophant's *3,000 years* are Thalorian-counted, and his architectural acts (creating the Clone, building the Tribunal, writing the laws) all happen *within* his post-rite Thalorian-time window even if they appear, from the player's galactic-time chronology, to be much-earlier-than-Sanctuary's-fall events. But this is bible-asserted; canon does not directly reconcile.
+
+*Action 2*: optional canon amendment — a single Antiquarian's Journal annotation explicitly noting the Thalorian-time isolation of the Hierophant's chronology. Would resolve the canon question in shipped form rather than bible-only.
+
+*Owner*: narrative team; user direction needed.
+
+**Ticket WCB-6 — `lockeRelationship.ts:9` pronoun bug** (inherited from Locke bible §7):
+
+Per `adjudicator_locke.md` §7 follow-up tickets, `lockeRelationship.ts:9` contains the wrong pronoun for Locke (*"He never pretends"*). This bible inherits the awareness via §4.1 (which now correctly uses she/her for Locke). The Locke bible's ticket should be filed if it has not been; this bible re-flags it because §4.1 references Locke and the source bug should not be allowed to drift.
+
+*Action*: file pronoun correction to `lockeRelationship.ts:9`: *"He never pretends"* → *"She never pretends"*.
+
+*Owner*: narrative team or engineering.
+
+**Ticket WCB-7 — `arenaHazards.ts:224-228` Shade Fog loreTag**:
+
+The Shade Fog hazard's loreTag (*"Wraith Calder says the fog is the inside of his seventh death"*) is canonical and beautiful. No bug. *Note for the bible's record*: this loreTag is one of the saga's tightest single-sentence Wraith Calder voice samples and should be referenced in the Stage 0 blind-read attribution test set as a known-correct attribution data point. If reviewers cannot attribute *"the inside of his seventh death"* to Wraith Calder (vs. any other roster character), the calibration test has a methodology problem rather than a Wraith-Calder-voice problem.
+
+*Action*: include this loreTag in the Stage 0 closing tasks blind-read test set as a calibration anchor.
+
+*Owner*: bible team.
+
+**Ticket WCB-8 — Mascot canon (cross-bible — owned by Meme bible)**:
+
+This bible's §7.2 protected mystery #10 honours the Meme bible's Mascot canon. No action item from this bible; flagged here as a known cross-bible obligation that the Mascot's eventual surfacing must respect this bible's deference clause (the Hierophant does not name or identify the Mascot).
+
+*Owner*: Meme bible team; bible team if Mascot canon ever ships in shippable text.
+
+**Ticket WCB-9 — Long Mourning chamber rendering**:
+
+Stage 2 chamber rendering must respect: *hundreds of thousands of names* on the walls (`questlineThaloria.ts`); the cinematic camera language (`galacticDanceCinematics.ts:34-38`); the bible-asserted second wall for the 144,000 keystone-believers (§4.12); the bible-asserted single living name on the wall (the Clone, §4.11). The chamber is one of the bible's most-detailed spatial environments; the rendering brief should incorporate §3.2 (the chamber as the Thalorian governance complement to the Tribunal of Order) and §5.3 (the daily-rate enforcement and `pen_lift` event hooks).
+
+*Action*: when chamber rendering enters the schedule, brief the artist with this bible's §3.2 + §3.8 + §4.11 + §4.12 + §5.3 sub-sections.
+
+*Owner*: art/rendering team coordinated with bible team.
+
+**Ticket WCB-10 — naming convention**:
+
+This bible has been authored with `npcKey: wraith_calder` — the pre-rite name as the canonical key — per the original priority plan (the plan's wording was `npcKey: wraith_calder` with `post_arena: boolean`). The bible has used `post_rite` rather than `post_arena` for the gate flag because the transformation is the *Final Rite*, not the Collectors' Arena per se (the eighth death is the rite; the Arena is the rehearsal). The naming choice is intentional and §1.1 documents it.
+
+*Action*: confirm with Stage 1 architecture team that `post_rite` is the preferred flag name. If `post_arena` is preferred for plan-consistency, the bible's selector references must be updated globally before Stage 1 implementation. The bible recommends `post_rite` because it more accurately describes the gate semantics, but defers to architectural preference.
+
+*Owner*: Stage 1 architecture team.
+
+---
+
+*(§8 Reviewer checklist follows in the final chunk.)*
