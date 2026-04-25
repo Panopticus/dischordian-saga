@@ -11,8 +11,12 @@ echo "unique URLs to probe: $(wc -l < "$OUT.urls.tsv")"
 
 : > "$OUT"
 
+# Use null-byte delimiter (xargs -0) so URLs containing spaces or special
+# chars survive intact. GNU xargs supports -d '\n' but BSD xargs (macOS)
+# does not — null-delim works on both.
 awk -F'\t' '{print $1 "|" $2}' "$OUT.urls.tsv" \
-| xargs -P 48 -I {} -d '\n' bash -c '
+| tr '\n' '\0' \
+| xargs -0 -P 48 -I {} bash -c '
   pair="$1"
   url="${pair%%|*}"
   src="${pair#*|}"
