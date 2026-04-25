@@ -19,6 +19,16 @@ import { ChevronLeft, Map as MapIcon, Anchor, Swords, Flag, Snowflake, Skull, He
 import { useGame } from "@/contexts/GameContext";
 import type { Apprentice } from "@shared/apprentices";
 import { getArchetypeDef, getRarityTier } from "@shared/apprentices";
+import type { GraduateRole, LegionRoster } from "@shared/graduateLegion";
+
+const EMPTY_ROSTER: LegionRoster = { assignments: [], unassigned: [], sacrificedHistory: [] };
+
+const ROLE_TO_SLOTS: Partial<Record<GraduateRole, string[]>> = {
+  army_leader: ["army_1", "army_2", "army_3"],
+  trade_envoy: ["trade_1", "trade_2"],
+  tower_captain: ["tower"],
+  cryo_vault: ["cryo_1", "cryo_2"],
+};
 
 interface Deployment {
   id: string;
@@ -62,22 +72,46 @@ export default function LegionMapPage() {
   const graduates = (state.legionGraduates ?? {}) as Record<string, Apprentice>;
   const currentApprentice = state.apprentice as Apprentice | null;
   const fallen = (state.apprenticeFallen as Apprentice[]) ?? [];
+  const roster = (state.legionRoster ?? EMPTY_ROSTER) as LegionRoster;
   const [selectedNode, setSelectedNode] = useState<string | null>(null);
 
-  // Mock deployment assignments — in production these come from graduateLegion state
+  // Read live assignments from `legionRoster`. Each assignment may carry a
+  // specific `payload.deploymentId` (e.g. "army_2"); when absent we fill
+  // role slots in assignment order.
   const deploymentMap = useMemo(() => {
-    const map: Record<string, Apprentice | null> = {};
-    const graduateList = Object.values(graduates);
-    // Simple distribution: first 3 to armies, next 2 to trade, next 1 to tower, next 2 to cryo
-    const deploymentOrder = ["army_1", "army_2", "army_3", "trade_1", "trade_2", "tower", "cryo_1", "cryo_2"];
-    deploymentOrder.forEach((role, i) => {
-      map[role] = graduateList[i] ?? null;
-    });
-    // Ship shows current companion
-    map["ship"] = currentApprentice;
-    map["graveyard"] = fallen[fallen.length - 1] ?? null;
+    const map: Record<string, Apprentice | null> = {
+      ship: currentApprentice,
+      army_1: null, army_2: null, army_3: null,
+      trade_1: null, trade_2: null,
+      tower: null,
+      cryo_1: null, cryo_2: null,
+      graveyard: fallen[fallen.length - 1] ?? null,
+    };
+
+    const taken = new Set<string>();
+    const queued: { slots: string[]; apprenticeId: string }[] = [];
+
+    for (const asn of roster.assignments) {
+      const slots = ROLE_TO_SLOTS[asn.role];
+      if (!slots) continue;
+      const explicit = asn.payload?.deploymentId;
+      if (explicit && slots.includes(explicit) && !taken.has(explicit)) {
+        map[explicit] = graduates[asn.apprenticeId] ?? null;
+        taken.add(explicit);
+      } else {
+        queued.push({ slots, apprenticeId: asn.apprenticeId });
+      }
+    }
+
+    for (const { slots, apprenticeId } of queued) {
+      const slot = slots.find((s) => !taken.has(s));
+      if (!slot) continue;
+      map[slot] = graduates[apprenticeId] ?? null;
+      taken.add(slot);
+    }
+
     return map;
-  }, [graduates, currentApprentice, fallen]);
+  }, [roster, graduates, currentApprentice, fallen]);
 
   const selected = selectedNode ? MAP_NODES.find(n => n.id === selectedNode) : null;
   const selectedApprentice = selectedNode ? deploymentMap[selectedNode] : null;

@@ -17,11 +17,12 @@ import { test, expect } from "@playwright/test";
 // When storageState lands, flip the top-level skip to enable the suite.
 // ---------------------------------------------------------------------------
 
-const REQUIRES_AUTH =
-  "Requires auth fixtures — add storageState for Google OAuth session";
+const REQUIRES_AUTH = !process.env.E2E_AUTH_OPEN_ID;
+const REQUIRES_AUTH_MSG =
+  "Set E2E_AUTH_OPEN_ID + JWT_SECRET to mint a session storageState";
 
 test.describe("Transmission inbox (requires auth)", () => {
-  test.skip(true, REQUIRES_AUTH);
+  test.skip(REQUIRES_AUTH, REQUIRES_AUTH_MSG);
 
   test("inbox page loads with progress bar and epoch groupings", async ({ page }) => {
     await page.goto("/transmissions");
@@ -110,7 +111,7 @@ test.describe("Transmission inbox (requires auth)", () => {
 });
 
 test.describe("Transmission flag chain (requires auth)", () => {
-  test.skip(true, REQUIRES_AUTH);
+  test.skip(REQUIRES_AUTH, REQUIRES_AUTH_MSG);
 
   test("watching ep2-1 unlocks ep2-2 via the watched flag", async ({ page }) => {
     // Requires a pre-seeded account at level >= 10 so ep2-1 is unlocked.
@@ -132,7 +133,7 @@ test.describe("Transmission flag chain (requires auth)", () => {
 });
 
 test.describe("Spaces In Between fallback (requires auth)", () => {
-  test.skip(true, REQUIRES_AUTH);
+  test.skip(REQUIRES_AUTH, REQUIRES_AUTH_MSG);
 
   test("null-video SIB episode renders audio-intercept fallback", async ({ page }) => {
     // Requires humanTrust >= 1 to unlock the first SIB episode.

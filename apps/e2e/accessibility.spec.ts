@@ -11,7 +11,7 @@ import { test, expect } from "@playwright/test";
 test.describe("Skip-to-content link (requires auth)", () => {
   // The SkipToContent component is rendered inside the app shell, which
   // is only visible to authenticated users.
-  test.skip(true, "Requires auth fixtures — SkipToContent is inside AppShell behind AuthGate");
+  test.skip(!process.env.E2E_AUTH_OPEN_ID, "Set E2E_AUTH_OPEN_ID + JWT_SECRET to mint a session storageState (SkipToContent behind AuthGate)");
 
   test("skip-to-content link exists and navigates to #main-content", async ({ page }) => {
     await page.goto("/");
@@ -31,7 +31,7 @@ test.describe("Skip-to-content link (requires auth)", () => {
 });
 
 test.describe("Keyboard focusability (requires auth)", () => {
-  test.skip(true, "Requires auth fixtures — interactive elements are behind AuthGate");
+  test.skip(!process.env.E2E_AUTH_OPEN_ID, "Set E2E_AUTH_OPEN_ID + JWT_SECRET to mint a session storageState (interactive elements behind AuthGate)");
 
   test("all interactive elements in main nav are keyboard focusable", async ({ page }) => {
     await page.goto("/");
@@ -56,7 +56,7 @@ test.describe("Keyboard focusability (requires auth)", () => {
 });
 
 test.describe("ARIA labels on navigation (requires auth)", () => {
-  test.skip(true, "Requires auth fixtures — navigation is behind AuthGate");
+  test.skip(!process.env.E2E_AUTH_OPEN_ID, "Set E2E_AUTH_OPEN_ID + JWT_SECRET to mint a session storageState (navigation behind AuthGate)");
 
   test("main navigation has aria-label", async ({ page }) => {
     await page.goto("/");
