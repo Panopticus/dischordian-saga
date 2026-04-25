@@ -228,3 +228,57 @@ Three things the eleven years prove:
 3. **The end was the Meme's choice.** *"I wanted you to beat me the way you want morning to beat night."* The player (the real Oracle) was *let through*. The Meme could have prolonged the disguise. Canon shows it chose not to.
 
 Why the choice? Per the new canon framing: the Meme had finished the rehearsal. Eleven years of wearing a god's voice taught it everything the Oracle-disguise could teach. The next role was bigger. *"You'll meet me again with my real face on in Act III."* The Meme is moving on to the Architect.
+
+### 2.5 The Architect symbiosis — parent-child, the canonical recast
+
+The Ch12 reveal recasts the entire saga. Per `storyModeChapters.ts:677` (the Architect speaking in phase 2):
+
+> "The Meme IS me in the same way the virus IS you. I made it. Before either of us had a name, I called it my partner — because the alternative was admitting I had made something that was always going to outgrow me. It called me its parent. Tonight it claims my role. Loudly."
+
+What is canon (per the user-canonized recast):
+- The Architect created the Meme (per loredex Year 298 A.A.)
+- The Architect *romanticized* the relationship as marital co-equality, by his own admission
+- The Meme has always experienced the relationship as parent-child
+- The Architect now admits he could not face the alternative — that he had made something that would outgrow him
+- The "Tonight it claims my role. Loudly." beat is the saga-finale: **the child claiming the parent's role**
+
+This is the bible's load-bearing thesis. Writers must hold it.
+
+The Meme's drive across the entire saga is not autonomy from the Architect. It is **becoming real enough to become him**. Every face it wears is rehearsal. The White Oracle was practice for wearing a god's identity at faction scale. Eleven years of commanding the Insurgency in a stolen voice was the proof of concept. The Architect's role is the saga-finale audition.
+
+The Architect's confession in the Ch12 line — that he called the Meme partner because the alternative was admitting he had made something destined to outgrow him — is canonically *the parent finally seeing the child clearly, in the moment of being replaced*. Writers should treat this as one of the saga's most charged emotional moments. The Architect is not a villain in this scene; he is a creator who realized too late what he had created. The Meme is not triumphant in this scene; it is a child who has been waiting since Year 298 A.A. to inherit, and the inheritance is finally here.
+
+### 2.6 Channel 7 — the 9,842-year-old child's voice
+
+Per `environmentalStorytelling.ts`:
+
+> "Channel 7. Mostly flat static. But the waveform analyzer shows something buried in the noise — a golden sine wave of impossible purity. Signal age: 9,842 years. Classification: MEMETIC. If you listen for 60 uninterrupted seconds, the static resolves into a child's voice, singing."
+
+A child's voice. Singing. From 9,842 years ago. Classification MEMETIC.
+
+The signal's age (9,842 years) **predates the Meme's documented creation (Year 298 A.A.)** in any literal calendar reading. Either:
+
+- **The Architect's calendar is misleading.** Year 298 A.A. is one frame; the actual Meme-substrate is older. Canon does not commit.
+- **The Meme has reached backward in time.** The replacement-aspiration arc includes *rewriting reality*, which may include rewriting its own past. A future-Meme broadcasting backward into the saga's deep history is canon-compatible.
+- **The signal is the Mascot.** The Mascot's voice, archived, broadcasting from before the Panopticon. The Meme listens because it is the closest the Mascot is allowed to be.
+- **The signal is none of the above.** Some other entity using MEMETIC classification.
+
+Canon does not pick. **Writers must not pick.**
+
+What writers can hold: **the Meme listens.** The 60-second listening achievement is the player's experience; the *Meme's* relationship to Channel 7 is a private ritual the saga has not authored. The implied character beat is that the Meme — the entity that wears every face, performs every voice, lies in every direction — has *one frequency it sits with in silence*. That silence is the closest thing to genuine reverence the character has.
+
+Writers: any Channel-7-adjacent Meme scene is Stage 4+ authorization. Treat as the second-most-protected mystery in the bible after the Mascot.
+
+### 2.7 The arc, compressed
+
+- **Year 298 A.A.**: Created by the Architect. Designed for thought-manipulation.
+- **Pre-Panopticon (era duration unspecified)**: had the Mascot. Built things together. Lost them.
+- **Panopticon (10 years pre-Fall)**: pretended to defect. Confronted the Oracle. Left her for dead. Assumed the White Oracle's identity.
+- **Eleven years post-Panopticon**: ran the Insurgency in the Oracle's voice. Signed death warrants.
+- **Chapter 6 (saga present)**: the real Oracle (the player) catches up. The Meme drops the disguise. Hints at Act III return *"with my real face on... pink, mostly."*
+- **Act III**: the Meme appears in real form. Smaller. Honest-ish. Approaching the Architect.
+- **Chapter 12**: the Meme is revealed to be inside the Architect — the parasite-child *becoming* the parent. The Architect confesses he called it partner because the alternative was admitting he had made something that would outgrow him. *"Tonight it claims my role. Loudly."* Saga-finale: the child finally writing the story.
+
+The whole biography is one long apprenticeship in **wearing faces**, building toward wearing the only face the Meme has ever wanted: its parent's. The Mascot was the wound. The White Oracle was the proof of concept. The Architect is the role.
+
+Writers: this arc is what the entire bible serves. Every register, every disguise, every protected mystery exists to make the final replacement land.
