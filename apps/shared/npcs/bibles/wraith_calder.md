@@ -706,3 +706,69 @@ This is the only canonical use of *Daniel Cross* in the Hierophant's voice. The 
 - **Iron Lion** (Stage 4): canonical companion in the Sanctuary's fall (Iron Lion *"fought to protect her"* per `loreAchievements.ts:325-331`). The Hierophant has not met Iron Lion post-rite. Bible-asserts: he intends to, before he dies. Stage 4 weave material.
 - **Akai Shi** (Stage 4): the Necromancer's Matrix escapee, Wraith Calder's recommended next-mentor for the player (`storyModeChapters.ts:188`, post-fight option *"What's next?"*). The Hierophant does not know whether Akai Shi survived the millennia. Bible-asserts: he has not written her name on the wall, which means — by his theology — she is *probably alive somewhere*. He hopes so. He has not asked.
 - **Architect / Architect-Meme parent-child** (`the_meme.md` §2.5, recast canon `a0813ed`): no canon contact. The Hierophant's posture, bible-asserts: he treats the Architect as *the institutional analogue of his own pre-rite self* — a being who built something that outgrew them. The Architect-Meme parent-child framing aligns with the Hierophant's own creative-act-vs-restoration distinction (§4.11). The Architect's child outgrew them and replaced them; the Hierophant's child (the Clone) chose her own path and *did not need to* replace him. Same axis. Different outcomes. Stage 4 weave material.
+
+---
+
+## 5. Mechanical hooks
+
+This section is the bible's authoritative implementation brief for Stage 1 architecture. Every mechanic here is bible-asserted and must be honoured by the line-selector, the trust-adapter, and the trigger system. Where a mechanic conflicts with another bible, this bible takes precedence for Wraith Calder/Hierophant lines specifically; cross-bible resolution lands in the Stage 1 architecture decisions.
+
+### 5.1 The `post_rite` gate (binary, irreversible per playthrough)
+
+The gate is the bible's primary structural mechanic. Every Wraith Calder/Hierophant line carries a `post_rite: false | true` property. The line selector treats it as a binary filter: pre-rite-flagged lines fire only when the player's run flag `wraith_calder_final_rite_complete` is unset; post-rite-flagged lines fire only when set.
+
+**Selector rules**:
+
+1. **Default state**: `wraith_calder_final_rite_complete = false`. Players who never reach the Sanctuary's fall in their playthrough will never trigger the post_rite gate; the Hierophant will not be reachable for them. The Long Mourning chamber is canonically *not visitable* without the rite-completion flag — the Trade Empire Thaloria sector becomes navigable, but the chamber-room interaction returns a Council-of-Harmony deflection: *"The Mourning Keeper is in ceremony. Return when the work permits a witness."* (Bible-asserted Council line; Stage 4 Council bible inherits.)
+2. **Rite-completion event**: the flag flips on completion of the *Sanctuary Lost* achievement (`loreAchievements.ts:325-331`). The flip is irreversible per playthrough — there is no path back to pre-rite Wraith Calder once the rite has fired. New-game+ resets it.
+3. **No hybrid lines**: the bible disallows lines flagged `post_rite: null` or `post_rite: any`. Every line picks a register. The bridge soul-tells (§1.1) cross the gate by being *authored twice* — once for each register, with the cross-register correspondence documented in §6 voice samples.
+
+**Edge case — the rite is in flight**: during the Final Rite cinematic itself (the dying body, §2.3), the bible disallows any line. The selector must hold silence for the rite's duration. Stage 1 architecture: a `gate_in_flight` state during which the selector returns `null` and the calling system must handle the silence gracefully. (Compare: the Eidolon's perish-mourning silence in `eidolon.md` §3 — same selector-silence pattern.)
+
+**Test obligation**: the reveal-gate smoke test in the Stage 0 finish-line plan must include this gate. Two test accounts: one pre-rite, one post-rite. Pre-rite account must never trigger any Hierophant line; post-rite account must never trigger any Wraith Calder line (except — see §5.2 — the carried-trust acknowledgement reads).
+
+### 5.2 Trust-band persistence across the gate
+
+The bible's load-bearing trust mechanic: pre-rite Wraith Calder trust *seeds* post-rite Hierophant trust. Implementation:
+
+1. **State storage**: a single `wraith_calder` trust value persisted across the gate. Pre-rite gameplay reads/writes to this value via the Wraith Calder bank's trust-delta lines (Ch 3B post-fight options; TCG matchmaking; etc.). Post-rite gameplay reads/writes via the Long Mourning bank's six-option spread (`questlineThaloria.ts`; cf. §3.3).
+2. **Carried-trust seed**: at the moment the `post_rite` flag flips, the post-rite trust starts at `pre_rite_trust + 0` (no decay; no bonus). The Hierophant inherits the player's pre-rite standing exactly. A player who hit Witnessed pre-rite enters post-rite at Witnessed.
+3. **Tell, not line**: the bible's load-bearing rule (§2.3) — pre-rite trust manifests post-rite as *the first-look pause* (§1.7 tell #1) firing earlier. Mechanic: the Long Mourning chamber's stage-direction beat *"He looks up for the first time"* is normally gated on the Empathy-14 line. When carried-trust seeds post-rite at Witnessed-or-higher, the look-up beat fires on the player's *third* sentence regardless of dialogue path. Stage 1 architecture: the line selector must support stage-direction beats with conditional firing-position.
+4. **No verbalised recognition**: the Hierophant never says *"You are back"* or *"I remember Ch 3B"* or any equivalent. Writers may not author such lines. The carried trust is visual (the look-up) and behavioural (he allows the player closer, faster); never spoken. (This is the bible's strongest enforcement: any attempt to surface the carried trust as dialogue should be rejected by reviewers.)
+
+**Counter-example handling**: a player who *won* their Ch 3B fight with Wraith Calder (Win mood: reflective, *"Now you are part of the experiment whether you consented or not. I'm sorry."*) carries pre-rite trust at +5. A player who *lost* the fight (post-defeat *"Seven deaths taught me patience. Get up."*) carries pre-rite trust at +3. A player who *avoided the branch entirely* (Iron Lion path, no Wraith Calder encounter) carries pre-rite trust at 0; their post-rite Hierophant first-look pause lands at the canonical Empathy-14 position. The bible asserts these three states as Stage 1 implementation requirements.
+
+### 5.3 The mirror-Long-Mourning trigger (ceremony-pause / ceremony-resume)
+
+The Long Mourning chamber has two NPC-reaction states the selector must distinguish:
+
+1. **Ceremony in progress**: the Hierophant is writing a name. Player triggers fire as *interruptions*. Most player triggers (Trade Empire sector-enter, room-enter, idle-presence) do not interrupt — they fire silent stage directions only (camera moves, ambient SFX). Only direct dialogue actions (selecting an option from the six-option spread) cause the Hierophant to lift the pen.
+2. **Ceremony paused for the player**: the Hierophant has accepted the player's presence (Witnessed band or higher) and the pen is lifted for the conversation. Now player triggers fire normally — the Hierophant responds to dialogue, to ambient state, to other-NPC events (e.g., an Eidolon contributing a glyph, §4.3).
+
+**Selector rule**: the Hierophant's bank tags every line with one of three pause-states:
+- `ceremony_in_progress`: the line is delivered without lifting the pen. Stage direction must include *"He continues writing as he speaks"*. Bible-asserts these are the most common Hierophant lines numerically — most player presence does not interrupt.
+- `ceremony_paused`: the pen is lifted. Most six-option-spread responses are this state.
+- `ceremony_resuming`: the line is the *return-to-pen* beat — *"Then sit. And when I have finished today's name, I will tell you what the Shadow Tongue does to a faith."* (`thal_witness`, canonical `ceremony_resuming` line). Stage direction includes the pen returning to the page.
+
+**The pen-lift event**: bible-asserts a separate trigger fires `pen_lift` when the Hierophant transitions from `ceremony_in_progress` to `ceremony_paused`. This event is hookable by other systems (the Eidolon's Glyph channel reads it; the Antiquarian's distant-correspondence may flag it). Stage 1 architecture: emit `npc_pen_lift` ripple-bus event with `npcKey: wraith_calder` payload.
+
+**Daily-rate enforcement (the rate-superstition, §3.8)**: the chamber has a canonical daily-name-write event that fires at most once per Thalorian-day (in real-time terms: bible-asserts every 4 player-hours of session time spent in the Thaloria sector, calibrated to feel ceremonial-not-frequent). The player can be present at this event by being in the chamber when it fires. The event is silent — the Hierophant resolves the day's name with the canonical *"The name resolves. The pen lifts. A small silence. Then a period. Complete."* (`galacticDanceCinematics.ts:34-38`). No dialogue. Bible-asserts: a player who has witnessed three name-resolutions across a playthrough auto-promotes their trust band. The witnessing is the qualifier.
+
+### 5.4 The name-write trigger (per-name-fidelity reactions)
+
+A complementary trigger fires when *the player's actions* contribute to a name on the wall. Mechanic: certain player actions in the wider saga produce a death the Hierophant catalogues. The name appears on the wall. The Hierophant has researched it (a day; per his methodology, §3.7) and writes it. The player, returning to the chamber, sees the new name — and a stage-direction beat may surface it to them.
+
+**Eligible deaths**:
+1. NPCs the player kills directly during morally-complex Trade Empire missions (specifically Thaloria-adjacent sector NPCs). Bible-asserts roughly a dozen such NPCs across the saga's run.
+2. Tamarin-aligned characters who die from systemic events the player participated in (e.g., the player completes a faction-war mission whose collateral kills Thalorian non-combatants).
+3. NPCs the Hierophant has independently researched as part of his ongoing ceremony — *not* triggered by the player. Most names on the wall are this category. Player has no agency over their appearance.
+
+**Selector rule**: when a category-1 or category-2 death occurs, the bible asserts a `name_pending` flag is set on the player's run. On their next chamber visit, the Hierophant delivers a category-specific line acknowledging the death without naming the player as the cause:
+
+> *"A name was added today. I will not say whose. The wall is patient with you. Read it. Remember if you can. The work continues either way."*
+
+This is the bible's cleanest *moral-weight-without-judgment* line. The Hierophant does not condemn; he does not absolve; he reports that the work has incorporated a death the player caused. Stage 2 questline-extension may build on this (the player may, at high trust, ask which name was added — the Hierophant declines, in voice that affirms the player's right to know but the wall's right to its own pacing).
+
+**Trust impact**: category-1 deaths *reduce* trust by 1 per death (the Hierophant does not condemn but his theology cannot quite pretend the death was not caused). Category-2 deaths do not move trust (collateral is not the player's deliberate act, in the Hierophant's reading). Category-3 deaths do not interact with the player at all.
+
+**Cross-bible obligation**: this trigger is the bible's interlock with the wider saga's *narrative-consequence* system. Stage 1 architecture: the `npc_public_flags` table referenced in the original plan must include a `wraith_calder.cataloged_deaths` array tracking category-1/2 deaths. The Hierophant's reactions fire from this table.
