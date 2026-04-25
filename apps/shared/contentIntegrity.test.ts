@@ -532,3 +532,155 @@ describe("Empty String Checks", () => {
     expect(issues).toEqual([]);
   });
 });
+
+/* ═══════════════════════════════════════════════════════
+   SECTION 5: STUB MARKER CHECKS
+   User-facing narrative text fields must not contain stub
+   markers (TODO / FIXME / XXX / "placeholder"). Empty
+   strings are caught by Section 4; this catches the
+   "I'll fill it in later" leftovers.
+
+   Scope is narrative copy only. Structural enums (e.g.
+   inventorMythics' MythicBeatStatus = "placeholder") and
+   speaker/voice-id sentinels (e.g. tradeEmpireVoLines'
+   TODO_*_VOICE) are intentionally excluded — they are
+   workflow flags, not user-facing text.
+
+   Allow-list is empty as of the 2026-04-25 audit. Add an
+   entry only when paired with a tracking issue.
+   ═══════════════════════════════════════════════════════ */
+
+const STUB_MARKER_RE = /\b(TODO|FIXME|XXX|placeholder)\b/i;
+
+const STUB_MARKER_ALLOWLIST: ReadonlySet<string> = new Set<string>([]);
+
+function findStubMarker(label: string, text: unknown): string | null {
+  if (typeof text !== "string") return null;
+  if (!STUB_MARKER_RE.test(text)) return null;
+  const preview = text.length > 80 ? `${text.slice(0, 80)}…` : text;
+  return `${label}: stub marker present — "${preview}"`;
+}
+
+describe("Stub Marker Checks", () => {
+  it("loredex entries have no stub markers in bio or history", () => {
+    const issues: string[] = [];
+    for (const entry of loredexEntries as any[]) {
+      if (STUB_MARKER_ALLOWLIST.has(entry.id)) continue;
+      const label = entry.name ?? entry.id;
+      const bioIssue = findStubMarker(`${label} (bio)`, entry.bio);
+      if (bioIssue) issues.push(bioIssue);
+      const historyIssue = findStubMarker(`${label} (history)`, entry.history);
+      if (historyIssue) issues.push(historyIssue);
+    }
+    expect(issues).toEqual([]);
+  });
+
+  it("transmissions have no stub markers in user-facing text", () => {
+    const issues: string[] = [];
+    for (const t of ALL_TRANSMISSIONS) {
+      const label = `Episode ${t.episodeNumber} "${t.title}"`;
+      for (const [field, value] of [
+        ["title", t.title],
+        ["synopsis", t.synopsis],
+        ["memeIntro", t.memeIntro],
+        ["memeOutro", t.memeOutro],
+      ] as const) {
+        const issue = findStubMarker(`${label} (${field})`, value);
+        if (issue) issues.push(issue);
+      }
+    }
+    expect(issues).toEqual([]);
+  });
+
+  it("quests have no stub markers in name or description", () => {
+    const allQuests = [...DAILY_QUESTS, ...WEEKLY_QUESTS, ...EPOCH_QUESTS];
+    const issues: string[] = [];
+    for (const q of allQuests) {
+      const nameIssue = findStubMarker(`${q.id} (name)`, q.name);
+      if (nameIssue) issues.push(nameIssue);
+      const descIssue = findStubMarker(`${q.id} (description)`, q.description);
+      if (descIssue) issues.push(descIssue);
+    }
+    expect(issues).toEqual([]);
+  });
+
+  it("apprentice archetypes have no stub markers", () => {
+    const issues: string[] = [];
+    for (const a of ARCHETYPES) {
+      for (const [field, value] of [
+        ["personality", a.personality],
+        ["voiceDirection", a.voiceDirection],
+        ["breakingPoint", a.breakingPoint],
+      ] as const) {
+        const issue = findStubMarker(`${a.id} (${field})`, value);
+        if (issue) issues.push(issue);
+      }
+    }
+    expect(issues).toEqual([]);
+  });
+
+  it("seasonal events have no stub markers", () => {
+    const issues: string[] = [];
+    for (const e of SEASONAL_EVENTS) {
+      const nameIssue = findStubMarker(`${e.key} (name)`, e.name);
+      if (nameIssue) issues.push(nameIssue);
+      const descIssue = findStubMarker(`${e.key} (description)`, e.description);
+      if (descIssue) issues.push(descIssue);
+      for (const item of e.shopItems) {
+        const itemNameIssue = findStubMarker(`${e.key}/${item.key} (name)`, item.name);
+        if (itemNameIssue) issues.push(itemNameIssue);
+        const itemDescIssue = findStubMarker(
+          `${e.key}/${item.key} (description)`,
+          item.description,
+        );
+        if (itemDescIssue) issues.push(itemDescIssue);
+      }
+    }
+    expect(issues).toEqual([]);
+  });
+
+  it("story chapters have no stub markers in dialogue text", () => {
+    const issues: string[] = [];
+    for (const ch of ALL_CHAPTERS) {
+      const allEntries = [
+        ...(ch.preFight ?? []),
+        ...(ch.postFight ?? []),
+        ...(ch.postDefeatDialogue ?? []),
+      ];
+      for (const entry of allEntries) {
+        if (entry && typeof entry === "object" && "text" in entry && "speaker" in entry) {
+          const d = entry as { text?: string; speaker?: string };
+          const issue = findStubMarker(
+            `Chapter ${ch.chapter} "${ch.title}" (${d.speaker ?? "unknown"})`,
+            d.text,
+          );
+          if (issue) issues.push(issue);
+        }
+      }
+    }
+    expect(issues).toEqual([]);
+  });
+
+  it("guild hall tiers and decorations have no stub markers", () => {
+    const issues: string[] = [];
+    for (const t of HALL_TIERS) {
+      const issue = findStubMarker(`Tier ${t.tier} "${t.name}" (loreText)`, t.loreText);
+      if (issue) issues.push(issue);
+    }
+    for (const d of GUILD_DECORATIONS) {
+      const issue = findStubMarker(`${d.id} (description)`, d.description);
+      if (issue) issues.push(issue);
+    }
+    expect(issues).toEqual([]);
+  });
+
+  it("the stub marker regex actually catches the canonical patterns (sanity)", () => {
+    expect(STUB_MARKER_RE.test("Some line TODO finish this")).toBe(true);
+    expect(STUB_MARKER_RE.test("FIXME: rewrite")).toBe(true);
+    expect(STUB_MARKER_RE.test("xxx pending")).toBe(true);
+    expect(STUB_MARKER_RE.test("This is a placeholder bio")).toBe(true);
+    expect(STUB_MARKER_RE.test("A perfectly fine narrative line.")).toBe(false);
+    // Word-boundary check: substrings inside other words must not match.
+    expect(STUB_MARKER_RE.test("classified, redacted, embodied")).toBe(false);
+  });
+});
