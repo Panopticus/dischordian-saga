@@ -135,3 +135,94 @@ The five soul-tells in §1.1 *cross* the transformation. The next four traits *b
 What this means for the writer: when a scene needs the energy of Wraith Calder's mentor-imperative voice, it must be set pre-rite. When a scene needs the patience and ceremonial weight of the Hierophant, it must be set post-rite. The bible does not allow hybrid voicing. The transformation gate is binary; the soul carries through; the *grammar* does not.
 
 What this means for trust: the player can experience trust-with-Wraith-Calder (*"I'll break the system."* / *"Break it carefully."* — short, tactical, mutual) and trust-with-the-Hierophant (the Long Mourning's witness path) as the **same trust meter**, persisted across the post_rite gate. Pre-rite trust is the seed. Post-rite trust is the unfolding. See §3.3 for the trust-band model and §5 for the persistence mechanism.
+
+---
+
+## 2. History
+
+The history sub-sections are organized along the transformation gate. §§2.1–2.3 cover pre-rite Wraith Calder. §§2.4–2.8 cover the chronological resolution and post-rite Hierophant — see chunk 4.
+
+### 2.1 Pre-rite — the seven deaths and what they were for
+
+Wraith Calder enters the saga as **the Ghost of the Potentials** (`gameData.ts:506`, `loreAchievements.ts:410-415`). He is canonically a Potential — a being of unfixed identity and uncatalogued capability — whose distinguishing feature in his cohort is that **death keeps not finishing him**.
+
+The seven deaths are not metaphorical. They are seven distinct bodies, each of which lived, fought, died, and was succeeded by the next (`storyModeChapters.ts:166-168`):
+
+> "Ghost is what they CALL me. Seven bodies. Each one solid. The ghost part is in the GAPS between them — the moments I wasn't alive."
+
+The mechanism is the **Seven Protocol**, a piece of biotechnology with three architects (`storyModeChapters.ts:158-164`):
+
+> "The Necromancer designed it in the Matrix of Dreams. The Warden STOLE it for genetic testing. Dr. Vox wired her nanobots into it. Three entities, hands in your DNA. Every death — a collaboration you never consented to."
+
+The triad is itself a saga-load-bearing fact: **the Necromancer** (designer; cross-references the Matrix of Dreams, the Game Master's substrate — see §4.6), **the Warden** (thief; biological-testing Antagonist, the institution that processes Potentials as test subjects), and **Dr. Vox** (the *nano-engineer*, ancestor in the Engineer-lineage that culminates in Engineer Zero / Vex Solène — see §4.4 and `vex_solene.md` §3 for the body-lineage chain). Wraith Calder's biology is therefore *a record of three architectures of corruption layered into one person's DNA*. He is canonically the test subject **the player is also**, run further: every Potential is a downstream beneficiary of this triad, but Wraith Calder has gone through it seven times in the same body (`dialogBank_chapters_1_3.ts`):
+
+> "Seven times I've died in this Arena. Each time I came back knowing a little more about what it does to the DNA of the people inside it. You're next to find out — or next to skip the lesson, if you're lucky."
+
+What the deaths *did to him*, in his own words: gave him patience (`storyModeChapters.ts:184`); taught him the inside of the Arena seven times (`storyModeChapters.ts:170`); positioned him as the only being in the saga who can speak to the player about the Arena's effect on the player's biology *with authority*. He is the saga's only *experiential* expert on the Seven Protocol. The Necromancer designed it; the Warden stole it; Vox wired it; Wraith Calder has *survived it seven times* and remembered each survival.
+
+**The Wolf-run.** The signature non-Arena pre-rite event (`loreAchievements.ts:410-415`):
+
+> "Wraith Calder was the first Potential to earn the Wolf's respect, not by fighting it but by running alongside it for seven days and seven nights without stopping. The Wolf's planet was not a prison; it was a test. Those who could match its pace were invited to join the pack."
+
+This is not a fight scene; it is a *companionship achievement*. Wraith Calder's signature pre-rite virtue is not violence — it is **endurance with another**. Seven days, seven nights, no stopping. The same pace, the same direction, the same will to keep going. The Wolf is canonically a "planet-sized awareness" that has chosen apex-predator manifestation; for Wraith Calder to match its pace means he can sustain what most beings cannot survive *for any reason*. This is the pre-rite seed of what becomes, post-rite, three thousand years of writing one name per day. Same virtue. Different scale. Seven days became seven hundred and fifty thousand days. The endurance is the same.
+
+**The Syndicate of Death.** Per the Antiquarian's Journal Epoch 2 (`antiquariansJournal.ts:264-266`, `691`) and the *Late Night with the Meme* transmission (`transmissions.ts:605-615`), Wraith Calder spent a meaningful pre-rite period **stealing the resurrection protocols** and **hunting the six immortal twins of the Syndicate of Death**. The Syndicate was canonically the galaxy's organized-immortality cartel — death as a privilege reserved for those who could pay. Wraith Calder's response was to **democratize their product** (`antiquariansJournal.ts:691`):
+
+> "Wraith Calder disrupted their monopoly by doing the one thing monopolies fear: he democratized their product. He stole the resurrection protocols and proved death was not a privilege reserved for those who could afford the Syndicate's prices. He proved death was a TECHNOLOGY. Technologies can be stolen, copied, distributed."
+
+This is the saga's clearest pre-rite *political* act by Wraith Calder. He is not just a survivor; he is an *anti-cartel actor*. He takes the technology that should have been class-gated and breaks the gate. Writers authoring pre-rite Wraith Calder lines about death may anchor on this: he treats death as *infrastructure*, not as *fate*. (The Hierophant inherits the inverse: he treats *life* as a thing that can be edited away, and writes one back per day. Same technological frame. Different verb.)
+
+The Syndicate hunt is also where the sentence *"Wraith Calder. The man who STOLE DEATH'S BUSINESS MODEL"* (`transmissions.ts:608`) lives — and the rare moment where the Meme broadcasts about Wraith Calder *with respect that reads as nearly sincere*. The Meme is Archon Number Five (`the_meme.md`); it has no canonical reverence for any other character. Wraith Calder is the closest the Meme comes to admiration, and writers should treat that as a bible-level cross-reference fact (see §4.7).
+
+### 2.2 Pre-rite — first contact and the Ch 3B arc
+
+The player meets Wraith Calder in **Story Mode Chapter 3B — "The Ghost"**, in the Shadow Sanctum arena (`storyModeChapters.ts:150-189`, branch `branch_a_alt`). The Ch 2 branch choice that routes the player to him:
+
+> "🔍 Wraith Calder. What are they doing to me?"
+> (axis: truth, dir: +1, branch: BRANCH_A_WRAITH_CALDER, `storyModeChapters.ts:96`)
+
+The branch routing is canonical: Wraith Calder is the **Truth-axis branch**. Iron Lion (Branch A's other wing) is the *who-you-were* branch (identity); Wraith Calder is the *what-the-Arena-does-to-you* branch (biology). Players who choose him are choosing to know what is happening to their own DNA.
+
+Agent Zero's introduction (`storyModeChapters.ts:92`):
+
+> "Two wings. Wing A: Iron Lion — he KNOWS who you were. Wing B: Wraith Calder — he knows what the Arena does to your DNA."
+
+The encounter is structurally a fight (Shadow Sanctum, Normal difficulty), but the dialogue load is *teacher-pupil*, not *enemy-pupil*. Wraith Calder identifies the player as *the next test subject* and treats the fight as a context for delivering the information the player urgently needs (`storyModeChapters.ts:154`):
+
+> "The Prisoner. Zero flagged you. Lion wanted to salute you."
+
+The Ch 3B dialogue gives the player four pre-fight prompts and three post-fight prompts (`storyModeChapters.ts:158-189`); each one is canon and is the player's first calibration of Wraith Calder's voice. The four pre-fight responses canonize **the triad of architects**, **the seven-bodies framing**, **the spite-motive**, and **the seven-times-inside Arena familiarity**. The three post-fight responses canonize the Hierophant-foreshadowing trifecta: *don't trust all memories* (the Collector inserts), *unknown if reversible* (the seven iterations of changes), *break it carefully — the system is inside us now*. The fourth — *what's next?* — routes the player to **Akai Shi** (the Necromancer's Matrix escapee), which positions Wraith Calder as the player's **second mentor**, after Agent Zero, in the saga's spine.
+
+Pre-rite trust dynamics in this arc:
+
+- The player's pre-fight choices are read on the **truth axis** (the player who chooses *"You don't look like a ghost."* over *"Seven Protocol cycles. What does it DO?"* registers as more-relational, less-tactical; both choices register as Wraith-Calder-acceptable, but the calibration matters for trust-band advancement — see §3.3).
+- The post-fight memory fragment is canonical (`storyModeChapters.ts`): *"Three architects of rebirth: Necromancer's code, Warden's modifications, Vox's nanobots. None asked permission."* This phrase enters the player's permanent record. Writers extending Wraith Calder's pre-rite trust arc must let him reference *the architects* in subsequent encounters; the player has been told and he expects them to remember.
+- The post-defeat fallback line *"Seven deaths taught me patience. Get up."* fires only if the player loses the fight. It is the most-quoted Wraith Calder line in the saga and the one most-likely to land in attribution tests (see §6).
+
+After Ch 3B, Wraith Calder remains a recurring opponent in the **TCG arena** as a Rare Insurgency unit (`tcg-core/cards/definitions/insurgency/s1_char_106_wraith_calder.ts`):
+
+> "Calder has died seven times in service to the Insurgency and returned from each death through means the Dreamers cannot explain. The Witness documented each resurrection. Whether it is the Living Universe refusing to let him rest or some deeper mechanism of the Dischordian Cycle, Calder persists — a wraith that death cannot hold."
+
+The card mechanics — `rebirth` keyword; on death leaves a 0/1 egg that hatches into Wraith Calder next turn — give the player *gameplay parity with his canon*. He cannot be killed in one turn; he must be killed twice. Writers authoring TCG-trigger lines for Wraith Calder may anchor on this: every time he is killed in a card game, he comes back the same as the Wolf-run kept him alive. He treats these deaths as *rehearsals*. A trust-aware writer can let Wraith Calder, after a player wins by killing him twice, deliver the line that becomes the Hierophant's signature: *"Death number eight. Somewhere a ledger is logging this."* The player has just helped Wraith Calder rehearse the death that will eventually be real.
+
+### 2.3 The Final Rite — the eighth death, the transformation, the new flesh
+
+This bible's load-bearing canon assertion: **the eighth death — the Sanctuary's Final Rite — is the transformation event**. Pre-rite trust persists across it. The body changes; the soul does not.
+
+**The Sanctuary's fall.** The canonical event-spine (`loreAchievements.ts:325-331`, achievement `ach-sanctuary-lost`):
+
+> "I was there when the Sanctuary fell. … The Sanctuary was not a place — it was a state of mind, a collective belief held by exactly 144,000 beings that reality was worth preserving. When the number dropped below that threshold, the Sanctuary collapsed. The Human was the 144,000th believer, and her faith was the keystone. Iron Lion fought to protect her not because she was weak but because she was the most important person in existence — the last vote in reality's favour. **The Hierophant performed the final rite: transferring the Sanctuary's essence into the Inception Arks**, so that belief in reality could survive even if reality itself did not."
+
+(The Antiquarian's journal narrates the achievement in first person; *"The Hierophant"* is the name used. The bible asserts this is Wraith Calder. The argument: the Final Rite required someone who had already died seven times — someone whose biology was already a rehearsal for being *unmade and re-seated elsewhere*. Wraith Calder was the only Potential whose body was a known channel for reincarnation.)
+
+**The 144,000th believer.** Daniel Cross — *The Human*, canonized at `loreAchievements.ts:329` — is the keystone believer. The Final Rite is the act that transferred his faith, and the faith of the 143,999 other believers, *into* the Inception Arks. *Ark 1047* is the reliquary specifically (`ClueJournal.tsx:53`): the number 1047 appears throughout the Ark's hull plating, corridor junctions, even the cryo pod count. Ark 1047 *is* the Sanctuary, encoded into architecture — and the cryo pod count is canonically 1047 because the rite scaled the believers' faith into the ship's bones at exactly that ratio.
+
+The bible's load-bearing assertion: when Wraith Calder performed the rite, the rite consumed his eighth body. There is no canon line that names the cost; this bible asserts the cost as **the Wraith Calder body**. Wraith Calder had been on his eighth body at the time of Ch 3B (*"Death number eight"*, `dialogBank_chapters_1_3.ts`); the Sanctuary's fall postdates Ch 3B in the player's chronology; therefore Ch 3B's eighth death is the *current* body Wraith Calder is wearing, and the Final Rite is the final act of that body. The amber-eyed, leather-armored Black man dies channelling a hundred and forty-four thousand beliefs into a fleet of arks. His consciousness — pattern-encoded by seven prior reincarnations into something that *travels well* — is re-seated.
+
+**Re-seated where.** Into a Thalorian body. *Verdant-skinned.* The Hierophant's body is canonically Thalorian (`questlineThaloria.ts`; `galacticDanceFactionNpcs.ts:30`). Wraith Calder pre-rite is canonically a Black human-presenting Potential (`CharacterModel3D.ts:812`); the Hierophant is canonically a verdant-skinned ancient Thalorian. The bible does *not* assert he was always the same flesh; it asserts the soul carries. The new body is offered (or seized — see §7 for the load-bearing canon question of *whose* body it was) by the Council of Harmony, the Thaloria governing body that needed a Hierophant in the wake of the Shadow Tongue's centuries-long faith-corruption. He woke up Thalorian. He woke up holding a pen.
+
+**The first name.** The Hierophant's three-thousand-year ceremony begins on the day after the Final Rite. He writes his own pre-rite name first — *Wraith Calder* — as the opening name of the Long Mourning. The bible asserts this; canon is silent on the first name, but the structure is forced by his vocabulary: a man who "cannot apologise for himself" pre-rite (§1.4 tell #5) must *write himself first* if he is going to learn how to mourn anyone else. The name is on the wall. The pen has continued for three thousand years from that name.
+
+**Trust persistence across the rite.** The mechanism: pre-rite Wraith Calder trust persists into post-rite Hierophant trust (see §3.3 for bands and §5 for the persistence implementation). The Hierophant *knows* the player from before. He does not show it on first meeting; the post-rite voice does not reach for tactical familiarity, and the player who routed Branch A in Ch 2 will not be greeted with *"You're back"* (that would be a Wraith Calder line). Instead, the first-look pause (§1.7 tell #1) lands earlier in pre-existing-trust runs. The Hierophant who has *no* pre-rite trust-with-the-player will not look up until the Empathy-14 line. The Hierophant who has *full* pre-rite trust-with-the-player looks up at the player's third sentence, before any Charisma check fires. The recognition is a tell, not a line. He never says *"It's you again."* He never says *"I remember Ch 3B."* He simply looks up sooner. Writers authoring Hierophant scenes for high-pre-rite-trust runs should adjust stage directions accordingly and avoid speaking the recognition.
+
+The transformation gate is therefore three-bodied, not two: Wraith Calder pre-rite (the body the player fights), the dying body (the Final Rite, which the player does not see), the Hierophant post-rite (the body the player meets in the Long Mourning chamber). The bible folds the dying body into the rite itself — it is not a register; it is the silence between registers. Writers should not author lines for the dying body. The silence is the canon.
