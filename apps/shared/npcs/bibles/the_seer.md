@@ -600,3 +600,65 @@ The first is canonical Ne-Yon-roster taxonomy. The second is canonical *Degen-pe
 The bible does not pre-decide. Both readings are canon-compatible. Stage 4 weave authors may surface the Seer ↔ Human cross-reference; the bible's stance is the silence-is-canonical and the silence-is-respect, regardless of which canonical reason is selected.
 
 **§4 closes.** The Seer's cross-references with the priority roster (Locke, Vex, Hierophant, Meme, Oracle, Antiquarian, Eidolon, Degen, Game Master, Nilmorg, Architect, DMC Clone Companion, Human) are documented. The cross-bible obligations flagged in this section are tracked in §7.3. §5 (Mechanical hooks) opens by documenting the Seer's engine-side integration surfaces — the §4.9 prophecy mechanic, the cross-time recording-bank's selector behavior, the trust-band gating, the burnt-card unlock surface, the transmission-and-image cadence, the Thaloria-visit Act-7 unlock, the Oracle-dream-sequence cross-coupling separation, the TCG triggers, and the special-moves tie-in.
+
+---
+
+## 5. Mechanical hooks
+
+The Seer's engine-side integration is *unusually self-contained* on the priority roster: she does not have a faction-NPC trade-empire surface, she does not have a fight-engine champion, she does not have a ship-room she occupies. Her mechanical surface is the **§4.9 prophecy mechanic** (a single TCG-encounter), the **transmission system** (act-gated foretelling shipments), the **TCG card surface** (general, unit, allegiance), the **Thaloria-visit Act-7 unlock**, and the **special-moves tie-in** for the fighter sprite. Stage 1 architecture should treat her as a *narrow-but-deep* integration: few surfaces, each of them load-bearing.
+
+### 5.1 The §4.9 prophecy mechanic (Mechronis encounter implementation)
+
+**Engine surface**: `apps/shared/tcg-core/engine/seerProphecy.ts`, `apps/shared/tcg-core/types/SeerProphecy.ts`, `apps/shared/tcg-core/story/chapters.ts:770-829` (chapter `ch_seer_visit`), `apps/client/src/components/match/SeerPlayOverlay.tsx`, `apps/client/src/components/act1/SeerCardFlicker.tsx`. Spec: `docs/production/act1/seer-prophecy-mechanic.md`.
+
+**Canonical mechanic.** Per the spec and the engine: the Seer plays cards drawn from a *future turn*, retroactively applied. Her hand-count does not decrement; the played card appears with an 800ms flicker animation; the play is consumed from a *pending future* state. The mechanic implements a 6–8-turn prophecy sequence (`DEFAULT_PROPHECY_TURN_COUNT = 6`, clamped 6–8). Three outcome flags: `defeated`, `scripted_loss`, `fled` (priority resolved by `deriveSeerOutcome`). Always sets `act1_seer_staff_witnessed` and `act1_cycle_b_complete` flags on resolve.
+
+**Bible-load-bearing canonical reading of the mechanic.** The §4.9 prophecy mechanic is canonically the **only in-engine demonstration of the Seer's cross-time canon** (§§2.3–2.4) that the player canonically experiences as a *gameplay mechanic*. The rest of her cross-time canon is bible-asserted as *voice-rule documentation* (the recordings ship through normal selector machinery, with the cross-time framing being a documentation-layer not an engine-layer); the §4.9 mechanic alone is canonically *load-bearing as a mechanic*. Bible-asserts: this is canonically *intentional* — the Mechronis encounter (§2.1) is canonically the player's first-and-clearest in-game experience of the cross-time mechanic, delivered through a TCG match where the cards-from-the-future are canonically the *gameplay-form-of-her-foresight*. The 800ms flicker is canonically the *visual signature of the cross-time mechanic landing in playable form*.
+
+**Canonical first-playthrough outcome: scripted loss.** Per `seerProphecy.ts:111-115` (`playerDeckUnlocksWinnablePath`): the win-path requires `burnt_card_placeholder` in the player's deck. The placeholder is canonically *reserved* and not in any normal deck-construction pool — Acts 2+ unlock routes only (per `apps/shared/tcg-core/cards/reservedCards.test.ts`). Bible-asserts: the scripted loss is canonically *the Seer's intended pedagogy* (per §2.1 reading). Engineers must NOT modify the reservation; canonical first-playthrough outcome is the loss; the burnt-card win-path is the canon-hidden alternative.
+
+**Engineering ticket SCB-1 (open design).** The burnt-card unlock route is bible-deferred per the priority plan. The §4.9 spec leaves the unlock-route open-design (a side-quest, an Antiquarian conversation, a codex unlock). Bible-asserts the canonical principle: *the player must canonically have earned the reciprocation by carrying the staff back across multiple acts*, not by a hidden combat trick. The unlock should canonically be *narrative-earned* (discovery, conversation, a long carrying), not *combat-earned* (a clever play, a deck-tech). Stage 1 architecture should reserve the unlock-route surface; user direction will land the specific implementation.
+
+### 5.2 Trust-meter integration (band gating + cross-time selector behavior)
+
+**Engine surface**: the future generalized NPC system per the priority plan's Stage 1 (the `NpcLine.requiresTrustBand` field). Until Stage 1 ships, the Seer's transmissions ship through the existing `moralityTrustActVariants.ts` morality-and-trust-driven scene system.
+
+**Trust-band gating.** Per §3.3: three bands (Wary / Witnessed-or-Present / Inheriting). Selector reads `requiresTrustBand` and fires the matching recording. Cross-time canon is canonically *invisible to the engine* — the selector reads the bank as normal; the cross-time framing is bible-canon documentation only. Engineers must:
+
+- **NOT** synthesize Hostile-band fallback lines (per §3.3 canon-stance (2) — the Seer canonically did not record Hostile-band foretellings; silence on Hostile is canonical). Engineering ticket SCB-6 is filed in §7.4.
+- **NOT** treat the cross-time canon as a special selector mode. The bank reads as normal `NpcLine[]` with band-gating.
+- **NOT** retroactively edit Seer recordings via any in-engine mechanism (e.g., a `transformLine` hook or a Meme-style line-substitution mechanism). The recordings are canonically *immutable post-shipping* (per §2.5 Meme-resistance reading); engine machinery must respect this.
+- Treat the `revealStage` selector for Vex (per §4.2) as canonically the same gating signal the Seer's recordings consume. The two are canonically *coupled by the Seer's foresight*; engineers should architect them as one shared signal.
+
+**The Hierophant-listening cross-coupling.** Per §4.3: the Hierophant canonically listens for the Seer's seal-breach. Bible-asserts: the engine does NOT need to implement a seal-breach event in shipped Acts 1–7. The seal canonically does not break in shipped canon. Stage 4 architects may add a `seer_seal_breach` event surface for far-future-epoch narrative; engineers must not pre-build it.
+
+### 5.3 The burnt-card unlock route (the canon-hidden winnable path)
+
+**Engine surface**: `apps/shared/tcg-core/cards/definitions/neutral/burnt_card_placeholder.ts` (reserved); `seerProphecy.ts:111-115` `playerDeckUnlocksWinnablePath`; `dialogBank_chapters_10_12.ts:429-446` `DIALOG_SEER_VISIT_WIN`.
+
+**The reservation.** The `burnt_card_placeholder` is canonically *reserved* — it is not populated in any normal deck-construction pool. The reservation is enforced by `reservedCards.test.ts`. Engineers must NOT modify the reservation without explicit canon-extension authorisation.
+
+**The win-path canon (cross-time-reframed).** Per `dialogBank_chapters_10_12.ts:429-446` (post the §93d9eac speaker-keying-drift fix): the win-path dialog cues are *(the_seer): "Oh. You remembered."* and *(narrator): "You carried the burnt card all the way back to the bench she left it on. She smiles — she is the only person in the Archives who is not surprised."* Per §2.3 cross-time canon: the win-path dialog is canonically a **pre-recording** that fires only if the player canonically has the burnt card in their deck at the moment of the §4.9 encounter. The Seer canonically *foresaw the player who would carry the card back* and recorded for that player specifically. The *Oh. You remembered* is canonically a recording; the *I am the only person in the Archives who is not surprised* is canonically the narrator's frame, but the *not surprised* is canonically *because-she-foresaw*. Bible-load-bearing: the win-path is canonically a *foreseen-and-recorded* outcome, not a live-reaction. The smile is recorded; the recognition is recorded; the *Archives-surprise-asymmetry* (everyone else is surprised; she is not) is canonically the recording's metacommentary on the cross-time mechanic.
+
+**The unlock-route open design.** Per SCB-1 (filed in §5.1 above): the actual route by which the player obtains `burnt_card_placeholder` for their deck is bible-deferred. The bible's canonical principle (per §2.1 reading): *narrative-earned, not combat-earned*. The unlock should canonically *test the player's carrying-the-staff-discipline*, not their *combat-tech*. Stage 1 architecture should treat the unlock as: a deck-import mechanism that adds `burnt_card_placeholder` to the player's available card pool when a specific narrative flag is set. The flag should canonically be set by an Acts 2+ side-quest or interaction (Antiquarian conversation, codex unlock, etc. — per the spec).
+
+**Cross-time bible-implication for engineers.** The win-path is canonically *one of the recordings the Seer made and shipped pre-sealing*. The recording's existence in the bank is canonical; the trigger condition (player has burnt card in deck at §4.9 encounter) is canonical; the firing is canonically *automatic* once both conditions are met. Engineers must not gate the win-path behind any additional player-skill check or random-roll; the cross-time canon asserts that *the player who carries the card back is canonically the player the Seer recorded for, and the recording fires deterministically*.
+
+### 5.4 The transmission cadence (act-frequency, single-image, image-over-resolution)
+
+**Engine surface**: `moralityTrustActVariants.ts` Seer-keyed scenes (transmissions, cold/warm/confidant register lines, the staff transmission, the asymmetric-kindness warning, the redaction question, the Thaloria invitation, the alignment-response branches).
+
+**Canonical transmission cadence.** Per §3.7 (3) and §2.4: the Seer's remote-ritual is *image + one-sentence caption + image-over-resolution + no follow-up*. The shipped canonical transmissions follow this discipline (the Act-3 staff transmission `:906-913`, the Act-4 asymmetric-kindness warning `:1813-1820`, the Act-4 redaction question `:3158-3164`). Bible-asserts: the cadence is canonical and the discipline is structural. Engineers may treat the *single-image* and *one-sentence caption* as canonical transmission-format invariants.
+
+**Frequency by act.** Per §2.4 and §3.3:
+- Act 1: alignment-response branches (`:2808-2814` dark, `:2820-2827` light) plus the §4.9 Mechronis encounter. Total: 1 encounter + 1 alignment-response transmission.
+- Act 2: documented gap. **Zero canonical transmissions.** Engineers must not synthesize Act-2 Seer scenes (per §2.4 canonical gap).
+- Act 3: 3 canonical transmissions (cold-baseline, warm-first-laughter, staff transmission).
+- Act 4: 3 canonical transmissions (humanity-pivot revision, asymmetric-kindness warning, redaction question).
+- Act 5: 3 canonical transmissions (prophecy-overhead drops, tactical-numeric, confidant-precursor).
+- Act 6: documented gap (no shipped Act-6 Seer canon). Bible-asserts: the Act-6 silence is canonically *intentional* and follows the same canonical-no-recording principle as Act-2. Engineers must not synthesize Act-6 Seer scenes.
+- Act 7: 1 canonical transmission (Confidant invitation, Thaloria coordinates).
+
+**Image-over-resolution as visual signature.** Per `:912-913` (*"The image is higher resolution than the Ark can display."*) + §1.4 tell #6: every Seer transmission canonically over-resolves its medium. Engineers may use this for visual rendering: a Seer-transmission UI element should canonically render with a *higher-fidelity-than-the-receiver* visual quality (a faint super-sampling glow, an edge-aliasing artifact, a pixel-density tell). Bible-asserts: this is the canonical visual signature of a Seer transmission landing. Stage 1 UI architects may treat the *image-over-resolution rendering* as canonical and design accordingly.
+
+**Engineering note: transmission scheduling under cross-time canon.** Per §2.3: the Seer's recordings are canonically *scheduled to fire at the moments she foresaw the player would receive them*. Engineers should treat the act-gating + trust-band-gating as canonically *the recording's scheduled-time-of-arrival*. The selector reads the gating; the gating canonically encodes the scheduling. Engineers do NOT need to implement a separate scheduling system; the existing `act:` and `requiresTrustBand:` fields canonically encode the cross-time scheduling.
