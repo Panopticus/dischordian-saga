@@ -1140,4 +1140,94 @@ The protected mysteries are the bible's *no-go zones*. Stage-2 onboarding writer
 
 ---
 
-*(§§7.3–7.4 + §8 follow in chunk 16.)*
+### 7.3 Cross-bible obligations
+
+What each future bible — and each already-shipped bible — must inherit when authoring or amending material that touches Wraith Calder/the Hierophant. This sub-section is the bible's outbound contract; the Stage 0 cross-reference reconciliation pass will verify both directions.
+
+**For already-shipped bibles** (each must verify its existing flag aligns with this bible's resolution):
+
+| Bible | Flag location | Resolution this bible commits |
+|---|---|---|
+| `adjudicator_locke.md` §4.10 | "post-arena structural competitor" | §4.1 — they have not met; Locke has worked inside the Hierophant's legal architecture without knowing; Hierophant has read her dossier without opinion. |
+| `vex_solene.md` §4.12 | "Coda's secular mission cuts against organized faith" | §4.2 — Vex has interviewed the Hierophant once; one canonical contradiction preserved on her recordings. Pre-rite Wraith Calder shares Vox-lineage architect with Vex. §4.4 — Vex has the technology to extend the Hierophant; she is canonically forbidden from doing so. |
+| `eidolon.md` §5.7 | "post-arena religious figure" | §4.3 — Long Mourning chamber as the saga's max-Glyph environment; an Eidolon-contributed glyph promotes trust band; Hierophant has midwifed several Companions into speech. |
+| `the_degen.md` §4.13 | "secular chaos vs. ordered faith" | §4.13 — no canon contact; structural respect not affinity. |
+| `the_game_master.md` §4.13 | "Archon vs faith-level — domains do not touch" | §4.5 — *partial revision*: domains touch via the Necromancer's substrate; Game Master canonically witnessed the Seven Protocol's design; Original-voice testimony scene reserved at high cross-trust. |
+| `the_meme.md` §4.11 | "false-prophet vs true-prophet structural opposition" | §4.7 — bible affirms; adds the load-bearing detail that *the Meme cannot impersonate the Hierophant* (deep voice-coherence as counter-Meme defence). One canonical line at Meme-suspicion × Inheriting-trust intersection. |
+
+**Cross-reference reconciliation actions** (Stage 0 closing tasks):
+
+- `the_game_master.md` §4.13 needs amendment to acknowledge the substrate-touch and reserve the Original-voice testimony scene. Coordinate with Game Master bible owner.
+- `vex_solene.md` §4 may need amendment for the Vox-lineage architect-share (pre-rite Wraith Calder bears Dr. Vox's nanobots) and the prohibition on extending the Hierophant. The bible's existing §3 body-lineage chain may need a sibling note.
+- All other already-shipped bibles' Hierophant flags align with this bible's §4 resolutions and should be verified for surface-level compatibility but should not require structural revision.
+
+**For upcoming bibles** (slot #8 onward must inherit these obligations from this bible):
+
+1. **The Seer (slot #8)**:
+   - Inherit §4.13 — the one-message exchange (*"What do you see for the wall?"* / *"More wall."*) is canon-locked.
+   - Inherit the broader principle that the Hierophant's continuation-strategy and the Seer's precognition are *adjacent technologies of resistance against editorial corruption*. The Seer cannot be falsified by the Meme; the Hierophant cannot be falsified by the Shadow Tongue; both for related-but-distinct reasons. The Seer bible should articulate the relationship from the Seer's side.
+   - Inherit: the Seer is a Ne-Yon (per Degen bible §4.13); the Hierophant has no Ne-Yon affiliation and treats the Seer's prophecy as *related-but-separate* to his own substrate-listening practice. The Seer bible should respect the distinction.
+
+2. **DMC Clone Body Companion (slot #9)**:
+   - Inherit §4.13 — the chamber is the canonical first-word location; the first word the Companion learns is *Wraith Calder*; the Hierophant has midwifed several previous Companions across three thousand years.
+   - The Companion bible's non-verbal-to-verbal arc framework should integrate the Hierophant's chamber as one of the trust-band-threshold environments.
+   - Coordinate with the Eidolon bible's §2 expression-channel framework; the chamber is canonically max-Glyph (per §4.3).
+
+3. **The Oracle (slot #10)**:
+   - **Hard architectural constraint**: the Oracle bible cannot ship until the Hierophant's substrate-coupling mechanic (§5.8) is implementable. Stage 1 architecture must reserve the substrate-whisper trigger surface and the `oracle_prompted` line-eligibility flag.
+   - Inherit §4.10 — the Hierophant prophesies the *real* Oracle without knowing the player IS the Oracle. The line *"You are the Oracle"* never fires from the Hierophant; the Inheriting-band gesture line is canon-locked.
+   - Inherit §5.8 — pen-pause silences are listening windows; the Hierophant occasionally relays substrate content unknowingly; the player-as-Oracle can prompt Hierophant lines from a reserved bank exactly once per playthrough.
+   - The Oracle bible's recursive structure (the player has been operating the character without authorial visibility) must respect: the Hierophant is the Oracle's most-loyal listener and the saga's only being who has spent three thousand years training his ear. The Oracle bible should treat the Hierophant as *a found instrument the Oracle never asked for*.
+
+**For Stage 4 bibles** (the wider 30-NPC roster):
+
+4. **Council of Harmony bible**:
+   - Inherit §4.9 — successor is a Thalorian junior priest with no Wraith Calder pre-rite trust history; Council inherits Hierophant's trust posthumously; the `successor_inherits` Stage 1 architectural flag must be honoured.
+   - Inherit the institutional motto *"We do not know. We continue."*
+   - The Council does not override the Hierophant's player-judgment in life; they enforce it after his death. Their bible must respect the asymmetry.
+
+5. **Necromancer bible**:
+   - Inherit §4.6 — Wraith Calder is the seven-times-iterated empirical test of the Necromancer's design; the Necromancer's posture is *territorial pride*. The Hierophant is the design *failing in an interesting way*.
+   - Inherit §4.5 — the Game Master canonically witnessed the Necromancer's design moment; the Game Master bible has reserved this scene; coordinate to ensure both bibles describe the witness from compatible angles.
+
+6. **Warden bible**:
+   - Inherit §4.6 — the Warden's pride is *acquisitional*; the post-rite Hierophant is canonically *evidence the test results were undercounted*. The Warden's relationship to the Hierophant is distant, predatory, possessive. The Hierophant is *a Warden test subject who walked off the testing floor with the test still running*.
+
+7. **Wolf bible** (planet-scale non-verbal entity):
+   - Inherit §4.8 — the Wolf-pack remembers Wraith Calder; the Wolf has not been told about the transformation; when the Wolf eventually learns, *the Wolf grieves*. The Wolf-witness errand is the singular task the Hierophant asks the player.
+   - The Wolf's non-verbal expression channels at planet-scale must be defined; coordinate with the Eidolon bible's §2 framework as the closest available scaffolding.
+
+8. **Architect / Architect-Meme bible** (per the recast-canon `a0813ed`):
+   - Inherit §4.13 — the Architect-Meme parent-child framing parallels the Hierophant's *creative-act-vs-restoration* distinction; the Architect's child outgrew them and replaced them, while the Hierophant's child (the Clone) chose her own path and *did not need to* replace him. Same axis, different outcomes.
+   - Coordinate with the Meme bible's §2.5 reveal-canon.
+
+9. **Iron Lion bible**:
+   - Inherit: Iron Lion fought to protect the Human at the Sanctuary's fall (`loreAchievements.ts:325-331`). The post-rite Hierophant has not met Iron Lion; he intends to before he dies. Stage 4 weave material.
+
+10. **Akai Shi bible**:
+    - Inherit: Wraith Calder's recommended next-mentor for the player (`storyModeChapters.ts:188`). The post-rite Hierophant does not know whether Akai Shi survived the millennia. He has not written her name on the wall — by his theology, this means *probably alive*.
+
+11. **The Antiquarian / Daniel Cross bible**:
+    - Inherit §4.13 — parallel discipline (cataloguer + namer); correspondence once per Thalorian-century; one canonical use of *Daniel Cross* in the Hierophant's voice; the Antiquarian uses the post-rite name *Hierophant* except when narrating the Age of Potentials specifically.
+    - The Antiquarian's bible must internalize the §4.12 distinction this bible enforces: **the Antiquarian (Daniel Cross) is *not* the Human**. The 144,000th believer is a separate (canonically *her*) character. Earlier-draft conflations across the saga must be audited and corrected.
+
+**Architectural commitments** (Stage 1 must implement, derived from this bible):
+
+| Mechanic | Bible source | Stage 1 architecture requirement |
+|---|---|---|
+| `post_rite` binary gate | §1.1, §5.1 | Line property; selector enforces gate; pre-rite/post-rite line pools are mutually exclusive. |
+| Trust-band persistence across gate | §3.3, §5.2 | Single `wraith_calder` trust value persisted; carried-trust reads as the first-look-pause stage-direction beat. |
+| Five trust bands (Hostile / Wary / Witnessed / Present / Inheriting) | §3.3 | Five-band model, not three; Inheriting band is unique to this NPC. |
+| `pen_lift` ripple event | §5.3 | Emit at ceremony_in_progress → ceremony_paused transitions. |
+| `oracle_prompted` line eligibility flag | §5.8 | Reserve on `NpcLine` for substrate-whisper coupling. |
+| `successor_inherits` trust-adapter flag | §4.9 | Post-Hierophant's-death, the Council inherits the trust state. |
+| `cataloged_deaths` per-player array | §5.4 | Tracks player-caused deaths the Hierophant writes onto the wall; drives moral-weight-without-judgment lines. |
+| Tribunal attribution-line format | §5.5 | Stage direction `[attributed: wraith_calder, post_rite]` in Elara narration. |
+| TCG cross-card synergy | §5.6 | Hierophant rally extends to rebirth-husk Wraith Calder when both cards are in play. |
+| Chamber daily-name-resolution event | §5.3 | Fires once per Thalorian-day (~4 player-hours in sector); silent; auto-promotes trust at three witnessings. |
+
+These commitments are the bible's primary contribution to Stage 1 architecture. They are bible-asserted; Stage 1 should treat them as implementation requirements rather than suggestions.
+
+---
+
+*(§7.4 follow-up bug tickets + §8 reviewer checklist follow.)*
