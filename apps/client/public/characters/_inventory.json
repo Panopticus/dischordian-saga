@@ -315,41 +315,6 @@
     "bytes": 61965
   },
   {
-    "rel": "cades/bust.avif",
-    "src": "npcs/cades_bust.png",
-    "w": 1792,
-    "h": 2400,
-    "bytes": 109173
-  },
-  {
-    "rel": "cades/viseme.avif",
-    "src": "npcs/cades/viseme_grid.png",
-    "w": 2752,
-    "h": 1536,
-    "bytes": 151980
-  },
-  {
-    "rel": "cades/blink.avif",
-    "src": "npcs/cades/blink_triptych.png",
-    "w": 2528,
-    "h": 1696,
-    "bytes": 76853
-  },
-  {
-    "rel": "cades/breathing.avif",
-    "src": "npcs/cades/breathing_loop.png",
-    "w": 3168,
-    "h": 1344,
-    "bytes": 95912
-  },
-  {
-    "rel": "cades/expressions.avif",
-    "src": "npcs/cades/expressions/expression_sheet.png",
-    "w": 2752,
-    "h": 1536,
-    "bytes": 136758
-  },
-  {
     "rel": "collector/bust.avif",
     "src": "npcs/collector_bust.png",
     "w": 1792,
