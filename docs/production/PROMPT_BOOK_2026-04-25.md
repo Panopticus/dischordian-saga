@@ -1176,6 +1176,195 @@ Output 21 seconds (matches 3 × 7s slideshow frame timing),
 seamless tail. -23 LUFS."
 ```
 
+### 7.2 act-4-revelation (Act 4 — The Revelation)
+
+> Subtitle: "The Prisoner's memory is a door. You are the one
+> opening it." Reduced-motion prose: "The Prisoner's cell is
+> not a cell. It is a memory palace Kael built to hide the
+> names the Warlord took from him. The next four fights are
+> the extraction. You are the hand that reaches in."
+
+#### 7.2.1 frame01.webp — "The cell door is not a door. It is a mirror. Kael has been waiting for you."
+
+```
+Cinematic 1920×1080 WebP. Mid-shot of a prison cell door from the
+visitor's side — heavy iron-and-bone door set in a stone wall.
+Where the small door-window should be is instead a tarnished
+silvered mirror, faintly fogged at the edges. In the mirror's
+reflection: not the room behind the camera, but Kael — a tall,
+weathered man in a dark trench coat, hat lowered, standing in a
+warmly-lit interior space (a memory palace, painted as a sepia
+study). Kael's reflected gaze meets the viewer directly through
+the mirror. The door's lock is on the wrong side (inside, not
+outside). Caravaggio gold key-light from camera-right rakes the
+stone wall. Apply the §7.0 style guide above.
+```
+
+#### 7.2.2 frame02.webp — "Every fight from here is a memory extraction. The Arena is the interrogation room."
+
+```
+Cinematic 1920×1080 WebP. Mid-wide shot of a fighting Arena pit
+overlaid with the visual language of an interrogation room. The
+Arena floor is the same dust-ring as the rest of the game's
+fight art, but the surrounding seating is missing — replaced by
+high vault walls of dark stone. Above the pit, a single bare
+hanging bulb (interrogation-lamp style) swings on a long cord,
+casting a hard cone of cool-white light onto the centre. Two
+combatant silhouettes stand opposed in the centre but appear
+faintly translucent — they are not flesh, they are memories
+being extracted. Apply the §7.0 style guide above.
+```
+
+#### 7.2.3 frame03.webp — "Lay down the fight. Listen for the name he hid inside it."
+
+```
+Cinematic 1920×1080 WebP. Close-on-the-floor low-angle shot:
+the dust ring of the Arena pit in the foreground, a fallen
+combatant's open hand at the bottom of the frame holding a
+single small folded slip of paper. The slip has handwriting on
+it — readable as suggestion only, no actual text — and the
+handwriting is slightly different from the surrounding scene's
+visual language (it's Kael's). Mid-ground: the fallen
+combatant's silhouette already dissolving into amber motes that
+drift upward toward an unseen extraction point above frame.
+Background: the interrogation lamp from frame02 still hanging,
+now dimmer. Caravaggio key-light from camera-left grazing the
+paper slip. Apply the §7.0 style guide above.
+```
+
+#### 7.2.4 hero.webp — Reduced-motion fallback
+
+```
+Cinematic 1920×1080 WebP. Composite hero still combining the
+three frames into one painted composition. Left third: the cell
+door with mirror-window (frame01) cropped tight. Centre: the
+Arena interrogation pit (frame02) with the swinging bulb. Right
+third: the fallen-hand-with-paper detail (frame03) inset like a
+diptych panel. The three sections separated by faint vertical
+divisions — like a triptych altarpiece. Caravaggio gold
+key-light unifying the three with consistent lighting from
+upper-right. Apply the §7.0 style guide above.
+```
+
+#### 7.2.5 act-4-intro.mp3 — Suno
+
+```
+Suno prompt:
+"Cinematic act-opener at 90 BPM in D minor. Solo cello holds a
+sustained low-note drone for the first 4 seconds. A distant
+choir hum (no lyrics, just sustained 'oh' vowel) enters at 0:04,
+holding minor 7th harmony. At 0:18, a deep brass swell rises
+underneath — French horns + low trombones — building tension
+without quite resolving. A single struck timpani at 0:35 marks
+the turn. Strings ascend in the final 5 seconds toward a held
+unresolved chord that doesn't land before the loop ends.
+Caravaggio audio: warm low-mids, deep blacks in the spectrum,
+single gold-light high element. Dramatic but contained. Mood:
+dawning realization, irrevocable decision, the door has opened
+and you cannot un-open it. Output 21 seconds (3 × 7s frame),
+seamless tail. -23 LUFS."
+```
+
+### 7.3 act-4-5-dmc (Act 4.5 — Dead Man's Circuit interlude)
+
+> Subtitle: "Name your wager. The Circuit keeps it whether you
+> win or not." Reduced-motion prose: "The Circuit runs on
+> identity. Each lap costs you a name. The Degen Casino runs on
+> entropy. Each hand costs you a certainty. You pick the track,
+> you name the wager, and you pay it once. The chain remembers
+> which version of you finished."
+
+#### 7.3.1 frame01.webp — "The track is bone. The engines are memory. The stake is a name you will no longer answer to."
+
+```
+Cinematic 1920×1080 WebP. Wide low-angle shot of a racing
+circuit literally constructed from bone — the track surface is
+white-grey calcified material, the guardrails are femurs lashed
+together with brass wire, the start-finish line is a single
+intact spine arched across the track. In the middle distance:
+a low-slung racing engine sitting at the start line, its
+chassis painted in a faded golden script that reads (suggested,
+not literal) names of past racers. The engine is half-mechanical,
+half-translucent — the visible interior is filled with drifting
+amber light that is "memory." Sky above is deep purple-black
+with one cold star. Apply the §7.0 style guide above.
+```
+
+#### 7.3.2 frame02.webp — "The Degen's Pact is simple. Entropy is the dealer. Everyone at the table is already losing."
+
+```
+Cinematic 1920×1080 WebP. Mid-shot of a poker table inside the
+Degen's Casino, photographed from the dealer's-shoulder vantage.
+The table felt is deep cyan with the casino's signature
+six-pointed-star pattern. Five seats around the table — only
+silhouettes are visible (faceless players). In the dealer's
+position sits an empty chair; instead of a dealer, a tarnished
+brass scale rests on the table where the chip-tray would be —
+its left pan empty, its right pan piled with abstract tokens
+that visibly de-rezz into golden sand-grains and drift away with
+each second. The five player silhouettes have visibly fewer
+chips than the previous beat would suggest. Above the table, a
+single neon sign in the casino's red reads (suggested, not
+literal) "ENTROPY DEALS." Apply the §7.0 style guide above.
+```
+
+#### 7.3.3 frame03.webp — "Student. Seeker. Detective. The Last. One of these will be what's left of you."
+
+```
+Cinematic 1920×1080 WebP. Frontal portrait composition split
+into four equal vertical panels — like a quadriptych identity
+chart. Each panel shows a different silhouette of the player-
+character against a different muted background:
+  Panel 1 (left): "Student" — figure in academy uniform, head
+    bowed over a book, soft amber pendant lamp light.
+  Panel 2: "Seeker" — figure in travel cloak with a walking
+    staff, against a horizon at dusk.
+  Panel 3: "Detective" — figure in trench coat under a bare
+    interrogation bulb (echoing 7.2.2).
+  Panel 4 (right): "The Last" — figure standing alone in a
+    field, face fully obscured, slightly translucent.
+The four panels are connected by a faint red-cyan thread of
+light running horizontally across all four at chest height —
+the identity chain. One panel will be the survivor; the prompt
+should NOT favor any single one. Apply the §7.0 style guide
+above.
+```
+
+#### 7.3.4 hero.webp — Reduced-motion fallback
+
+```
+Cinematic 1920×1080 WebP. Composite hero still combining the
+three frames. Bottom half: the bone-track with the memory-engine
+at the start line (frame01) — wide and atmospheric. Upper-left
+quarter: a tight inset of the Degen's poker table with the brass
+scale (frame02). Upper-right quarter: a tight inset of the
+quadriptych identity chart (frame03), all four silhouettes
+visible in miniature. The two upper insets framed in ornate
+brass cartouche borders, like a casino marquee. Caravaggio
+key-light from upper-left unifying the composition. Apply the
+§7.0 style guide above.
+```
+
+#### 7.3.5 act-4_5-intro.mp3 — Suno
+
+```
+Suno prompt:
+"Cinematic interlude opener at 96 BPM in F minor. Synth pads
+holding suspended chords (Fm7sus4 → Cm7sus4 → Bbm7sus4 progression
+without resolution). Underneath: mechanical click pattern at 16th
+notes — like a vintage roulette wheel slowing down OR a heart
+monitor's irregular ticks (deliberately ambiguous). A single
+muted brass-plate strike at 0:08 marks each new clinical phrase.
+At 0:14, a wordless tenor vocal enters holding a sustained 'ah'
+on the F — held for 6 seconds, no vibrato, slightly off-tune
+(half a comma flat) so it feels uneasy. NO lyrics. NO percussion
+beyond the click pattern. Mood: clinical dread, the work
+continues, entropy is dealing the next hand whether you sit down
+or not. Output 21 seconds (3 × 7s frame), seamless tail.
+-23 LUFS."
+```
+
+
 
 
 
