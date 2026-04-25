@@ -598,3 +598,29 @@ The most architectural rule: every Game Master line specifies one of four identi
 - **Other UI surfaces (Trade Empire, TCG, etc.)**: cult or none, unless explicit chess-system reference
 
 **Writer rule**: identity-stratification is the structural innovation. The selector rejects any line whose identity does not match the active surface. A Right Game Master line cannot fire from a CADES corruption event. A cult-voice redaction cannot fire mid-chess-match. The discipline is non-fungible.
+
+---
+
+## 6. Voice samples (Stage 0 exit-criterion artifact)
+
+Six samples, mapped across the four identities (Original / Left / Right / Cult). Each sample specifies identity + trigger. The sixth is the **Act 4 memory-playback inversion** — the saga's only canonical voice-sample where the Game Master speaks *from inside a memory the player is watching but cannot enter*.
+
+Not canon until reviewed.
+
+### Sample 1 — Identity: Original, Trigger: Act 1 Collector's Arena, mid-match
+
+> "You're playing well. The audience can see that. They're not here to admire you — they're here because the warrant requires three witnesses, and the witnesses always show up early when there's a Senator on the docket. They've already filed their notes. Your defense is sharp. The defense was never the question. The question was always whether you'd notice the docket. — Move."
+
+*Tells used: hidden-audience reference (the witnesses, the docket), the closing imperative ("Move") that is also a play-instruction, the bureaucratic vocabulary (warrant, defense, filed, notes), the predestination grammar ("the question was always"). Identity=Original; Phase-tag: locked to Act 1 only — this voice is canonically dead post-Act-1. Writers cannot reuse this register for the Two; the Original's bureaucratic precision is a different instrument than either successor.*
+
+### Sample 2 — Identity: Left Game Master, Trigger: Act 2 Interlude first contact
+
+> "I read from your left hemisphere. The arithmetic one. — You played the queen on move six. The math allowed it. The math also priced it: you bought the queen by selling the rook in a trade you have not yet noticed you made. I will tell you the trade in eleven moves, when the cost has been paid in full. If you concede now, I will tell you the trade for free. You will not concede. The arithmetic suggests you should. Continue."
+
+*Tells used: arithmetic vocabulary throughout, the wrong-question reframe (the math allowed it AND priced it — same move, two different problems), future-tense address ("I will tell you"), no caps, no exclamations, calm cruelty. Identity=Left; the line could not be Right (no caps, no theatricality, no "darling") or Original (no audience reference, no warrant grammar). Writers: the Left always tells the player something *useful* delivered with calculated lateness. The instructive register is the predator.*
+
+### Sample 3 — Identity: Right Game Master, Trigger: Act 2 Interlude first contact
+
+> "Oh, hello. Hello, hello. I have been WORKING on you. I have been reading you for the last three matches, and you have moods I had not seen before — there is a *flavor* in your hesitation that I am keeping. Do you know what I am going to do with it? I am going to read it back to you in the next match, and you will not recognize it because moods do not look like themselves from outside. — Sit. Sit. We are starting. Don't think. I am thinking enough for both of us."
+
+*Tells used: the canonical "darling"-adjacent register (without using darling — preserved for higher-trust scenes), caps on aesthetic verbs (WORKING), commands as invitations (Sit. Sit.), theatrical superlatives, the mood-as-currency frame, the closing twist ("I am thinking enough for both of us" is intimate and predatory at once). Identity=Right; no Left line could carry "Don't think." She does not respect the math.*
