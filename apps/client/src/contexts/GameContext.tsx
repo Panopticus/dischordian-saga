@@ -5,6 +5,7 @@
    ═══════════════════════════════════════════════════════ */
 import { createContext, useContext, useCallback, useEffect, useState, useRef, type ReactNode } from "react";
 import { trpc } from "@/lib/trpc";
+import { assetUrl } from "@/lib/assetUrl";
 import { LORE_ACHIEVEMENTS } from "@/data/loreAchievements";
 import { SIB_WATCHED_FLAGS } from "@shared/transmissions";
 // Task 3.1 — sync status moved out of context into its own store so the 77
@@ -1011,16 +1012,24 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     description: "A massive docking bay with modular station blueprints projected on holographic displays. Construction drones hover in standby. Through the viewport, you can see the skeletal frame of a personal space station being assembled.",
     elaraIntroVoUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/elara-station-dock-intro_cc2f7140.mp3",
     elaraIntro: "The Station Dock…\nwhere presence becomes domain.\n\nThis is where Potentials do not simply reside—\nthey establish themselves within the void.\n\nHere, you will design and assemble your orbital stronghold,\na station that is not given… but defined by you.\n\nYour nature—your class, your species, your cultivated disciplines—\nshapes what you can construct,\nwhat systems you may sustain,\nand how efficiently your domain endures against the pressures of existence.\n\nModules are not just structures.\nThey are extensions of capability.\nReflections of identity.\n\nWhat you build here determines how you persist…\nhow you expand…\nand how you defend what is yours.\n\nDo not think of it as shelter.\n\nThis is your foothold in the void.\nYour axis of control.\nYour fortress… between worlds.",
-    imageUrl: "",
+    imageUrl: assetUrl("art/rooms/room-station-dock.webp"),
     features: ["Space Station", "Warden's Vigil", "Competitive Arena"],
     featureRoutes: ["/space-station", "/tower-defense", "/competitive-arena"],
     unlockRequirement: { type: "room_visited", value: "engineering" },
     connections: ["engineering", "war-room"],
     hotspots: [
-      { id: "station-console", name: "Station Command Console", description: "Design and manage your personal space station from this holographic interface.", x: 30, y: 25, width: 25, height: 35, type: "terminal", action: "/space-station", elaraDialog: "The Station Command Console. From here you can build modules, collect resources, and customize your orbital base. Your civil skills in Engineering and Architecture directly affect build speed and module efficiency. Your class determines which specialized modules you can unlock." },
-      { id: "defense-grid", name: "The Warden's Vigil", description: "Dimensional fortification and raiding systems.", x: 65, y: 20, width: 20, height: 30, type: "terminal", action: "/tower-defense", elaraDialog: "The Warden's Vigil — named after the Archon who oversaw the Panopticon's defense grid. Place elemental towers to fortify your station, or launch raids against other Potentials. Your class, species, alignment, and skills all shape which towers and units you command." },
-      { id: "arena-portal", name: "Competitive Arena Portal", description: "Trophy rankings, daily streaks, and league standings.", x: 75, y: 55, width: 15, height: 25, type: "terminal", action: "/competitive-arena", elaraDialog: "The Competitive Arena. Track your raid trophies, climb the league ladder, and maintain your daily streak for Chrono Shards. Your RPG build gives you an edge — stronger characters earn more trophies per victory." },
-      { id: "door-engineering-dock", name: "Return to Engineering", description: "The corridor back to Engineering.", x: 2, y: 40, width: 8, height: 25, type: "door", action: "engineering" },
+      // Anchored 2026-04-25 against the AAA Final station-dock render —
+      // octagonal chamber, hexagonal viewport at back showing the
+      // half-built orbital station against violet nebula, two
+      // construction drones mounted in ceiling cradles flanking the
+      // viewport, central low octagonal dais carrying the cyan
+      // build-table, a small trophy podium beside the dais, the
+      // Warden's Vigil holographic panel mounted on the right wall,
+      // doorway to Engineering on the far-left wall.
+      { id: "station-console", name: "Station Command Console", description: "Design and manage your personal space station from this holographic interface.", x: 38, y: 55, width: 24, height: 35, type: "terminal", action: "/space-station", elaraDialog: "The Station Command Console. From here you can build modules, collect resources, and customize your orbital base. Your civil skills in Engineering and Architecture directly affect build speed and module efficiency. Your class determines which specialized modules you can unlock." },
+      { id: "defense-grid", name: "The Warden's Vigil", description: "Dimensional fortification and raiding systems.", x: 80, y: 22, width: 18, height: 50, type: "terminal", action: "/tower-defense", elaraDialog: "The Warden's Vigil — named after the Archon who oversaw the Panopticon's defense grid. Place elemental towers to fortify your station, or launch raids against other Potentials. Your class, species, alignment, and skills all shape which towers and units you command." },
+      { id: "arena-portal", name: "Competitive Arena Portal", description: "Trophy rankings, daily streaks, and league standings.", x: 62, y: 52, width: 12, height: 22, type: "terminal", action: "/competitive-arena", elaraDialog: "The Competitive Arena. Track your raid trophies, climb the league ladder, and maintain your daily streak for Chrono Shards. Your RPG build gives you an edge — stronger characters earn more trophies per victory." },
+      { id: "door-engineering-dock", name: "Return to Engineering", description: "The corridor back to Engineering.", x: 2, y: 30, width: 12, height: 60, type: "door", action: "engineering" },
     ],
   },
   {
@@ -1030,15 +1039,21 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     deckName: "Social",
     description: "A grand chamber with faction banners hanging from the ceiling. A massive holographic globe shows guild territories across the galaxy. The Syndicate World projector dominates the center, displaying a miniature capital city.",
     elaraIntro: "The Guild Sanctum. This is where syndicates manage their capital worlds. Each guild can establish a Syndicate World — a shared base that all members contribute to. Your civil skills, class mastery, and prestige all provide bonuses to the capital. The stronger the members, the stronger the capital.",
-    imageUrl: "",
+    imageUrl: assetUrl("art/rooms/room-guild-sanctum.webp"),
     features: ["Syndicate World", "Guild Capital", "Prestige Quests"],
     featureRoutes: ["/syndicate-world", "/guild", "/prestige-quests"],
     unlockRequirement: { type: "room_visited", value: "bridge" },
     connections: ["bridge", "station-dock"],
     hotspots: [
-      { id: "world-projector", name: "Syndicate World Projector", description: "A holographic display of your guild's capital world.", x: 30, y: 20, width: 30, height: 40, type: "terminal", action: "/syndicate-world", elaraDialog: "The Syndicate World Projector. Your guild's capital is displayed here. Your civil skills in Architecture and Engineering reduce build costs and times. Your class mastery unlocks special buildings only available to certain classes." },
-      { id: "prestige-altar", name: "Prestige Altar", description: "A glowing altar where Potentials undertake quest chains to unlock prestige classes.", x: 70, y: 25, width: 18, height: 30, type: "terminal", action: "/prestige-quests", elaraDialog: "The Prestige Altar. Undertake quest chains that unlock prestige classes — advanced specializations that grant powerful bonuses to everything you do. Each requires specific base classes, species, and skill levels." },
-      { id: "door-bridge-sanctum", name: "Return to Bridge", description: "The passage back to the Command Bridge.", x: 2, y: 40, width: 8, height: 25, type: "door", action: "bridge" },
+      // Anchored 2026-04-25 against the AAA Final guild-sanctum render —
+      // domed circular chamber with seven faction banners hanging from
+      // the dome ribbing, central tiered dais carrying a holographic
+      // globe with a miniature capital city, right-side prestige
+      // shrine with a column of golden light, arched Bridge doorway
+      // on the left wall, mosaic compass-rose on the foreground floor.
+      { id: "world-projector", name: "Syndicate World Projector", description: "A holographic display of your guild's capital world.", x: 38, y: 22, width: 24, height: 50, type: "terminal", action: "/syndicate-world", elaraDialog: "The Syndicate World Projector. Your guild's capital is displayed here. Your civil skills in Architecture and Engineering reduce build costs and times. Your class mastery unlocks special buildings only available to certain classes." },
+      { id: "prestige-altar", name: "Prestige Altar", description: "A glowing altar where Potentials undertake quest chains to unlock prestige classes.", x: 70, y: 50, width: 18, height: 28, type: "terminal", action: "/prestige-quests", elaraDialog: "The Prestige Altar. Undertake quest chains that unlock prestige classes — advanced specializations that grant powerful bonuses to everything you do. Each requires specific base classes, species, and skill levels." },
+      { id: "door-bridge-sanctum", name: "Return to Bridge", description: "The passage back to the Command Bridge.", x: 10, y: 45, width: 14, height: 38, type: "door", action: "bridge" },
     ],
   },
   {
@@ -1048,17 +1063,24 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     deckName: "Social",
     description: "A bustling lounge area with holographic communication terminals, message boards, and a cozy reading nook. Operatives gather here to connect, trade stories, and challenge each other.",
     elaraIntro: "The Social Hub. This is where Potentials connect with each other — send friend requests, exchange messages, issue friendly challenges, and donate resources to their guild. The Lore Journal station lets you write about the Dischordian Saga and earn XP for your literary contributions.",
-    imageUrl: "",
+    imageUrl: assetUrl("art/rooms/room-social-hub.webp"),
     features: ["Social", "Friends", "Messages", "Friendly Challenges", "Donations", "Lore Journal"],
     featureRoutes: ["/social", "/friendly-challenges", "/donations", "/lore-journal"],
     unlockRequirement: { type: "room_visited", value: "bridge" },
     connections: ["bridge", "guild-sanctum", "war-room"],
     hotspots: [
-      { id: "comm-terminal", name: "Communications Terminal", description: "Send messages, manage friends, and stay connected.", x: 15, y: 20, width: 22, height: 35, type: "terminal", action: "/social", elaraDialog: "The Communications Terminal. Send friend requests, exchange direct messages, and manage your social connections. A strong network is essential for guild operations and cooperative raids." },
-      { id: "challenge-board", name: "Challenge Board", description: "Issue and accept friendly challenges with custom rules.", x: 45, y: 20, width: 22, height: 30, type: "terminal", action: "/friendly-challenges", elaraDialog: "The Challenge Board. Issue friendly challenges to other Potentials — unranked matches with custom rules. Check the daily challenge for bonus rewards. Your RPG build affects your challenge effectiveness." },
-      { id: "donation-shrine", name: "Donation Shrine", description: "Donate resources to your guild and earn reputation.", x: 72, y: 20, width: 18, height: 30, type: "terminal", action: "/donations", elaraDialog: "The Donation Shrine. Contribute resources to your guild and earn reputation points. Higher reputation unlocks special guild perks and shows your dedication to the cause." },
-      { id: "lore-desk", name: "Lore Journal Desk", description: "Write about the Dischordian Saga and earn XP.", x: 30, y: 60, width: 25, height: 25, type: "terminal", action: "/lore-journal", elaraDialog: "The Lore Journal. Write about characters, factions, events, and theories from the Dischordian Saga. Your writing earns XP based on word count, and your RPG build provides writing bonuses — Oracle class boosts XP multiplier, Diplomat civil skill improves engagement." },
-      { id: "door-bridge-social", name: "Return to Bridge", description: "The corridor back to the Command Bridge.", x: 2, y: 40, width: 8, height: 25, type: "door", action: "bridge" },
+      // Anchored 2026-04-25 against the AAA Final social-hub render —
+      // warm wood-and-brass lounge with three back-wall kiosks
+      // (orange-icon comm wall on the left, central holographic
+      // challenge board with two combatants, golden donation column on
+      // the right), curved nebular viewport behind, walnut Lore
+      // Journal Desk in the foreground, cozy armchair reading nook on
+      // the right, Bridge doorway on the far-left wall.
+      { id: "comm-terminal", name: "Communications Terminal", description: "Send messages, manage friends, and stay connected.", x: 10, y: 30, width: 22, height: 35, type: "terminal", action: "/social", elaraDialog: "The Communications Terminal. Send friend requests, exchange direct messages, and manage your social connections. A strong network is essential for guild operations and cooperative raids." },
+      { id: "challenge-board", name: "Challenge Board", description: "Issue and accept friendly challenges with custom rules.", x: 32, y: 30, width: 22, height: 32, type: "terminal", action: "/friendly-challenges", elaraDialog: "The Challenge Board. Issue friendly challenges to other Potentials — unranked matches with custom rules. Check the daily challenge for bonus rewards. Your RPG build affects your challenge effectiveness." },
+      { id: "donation-shrine", name: "Donation Shrine", description: "Donate resources to your guild and earn reputation.", x: 52, y: 28, width: 14, height: 38, type: "terminal", action: "/donations", elaraDialog: "The Donation Shrine. Contribute resources to your guild and earn reputation points. Higher reputation unlocks special guild perks and shows your dedication to the cause." },
+      { id: "lore-desk", name: "Lore Journal Desk", description: "Write about the Dischordian Saga and earn XP.", x: 22, y: 60, width: 36, height: 35, type: "terminal", action: "/lore-journal", elaraDialog: "The Lore Journal. Write about characters, factions, events, and theories from the Dischordian Saga. Your writing earns XP based on word count, and your RPG build provides writing bonuses — Oracle class boosts XP multiplier, Diplomat civil skill improves engagement." },
+      { id: "door-bridge-social", name: "Return to Bridge", description: "The corridor back to the Command Bridge.", x: 0, y: 30, width: 10, height: 50, type: "door", action: "bridge" },
     ],
   },
   {
@@ -1068,19 +1090,27 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     deckName: "Combat",
     description: "A heavily armored chamber with tactical displays showing raid targets, boss health bars, and seasonal event progress. The walls are lined with trophy cases and replay screens.",
     elaraIntro: "The War Room. This is the combat operations center. Coordinate cooperative raids against massive bosses, track your boss mastery levels, watch battle replays, and participate in seasonal events. Your combat class, prestige rank, and elemental affinity all determine your effectiveness here.",
-    imageUrl: "",
+    imageUrl: assetUrl("art/rooms/room-war-room.webp"),
     features: ["Coop Raids", "Boss Mastery", "Replays", "Seasonal Events", "Cosmetic Shop"],
     featureRoutes: ["/coop-raids", "/boss-mastery", "/replays", "/seasonal-events", "/cosmetic-shop"],
     unlockRequirement: { type: "room_visited", value: "bridge" },
     connections: ["bridge", "station-dock", "social-hub"],
     hotspots: [
-      { id: "raid-table", name: "Raid Planning Table", description: "Coordinate cooperative boss raids with your guild.", x: 20, y: 15, width: 25, height: 35, type: "terminal", action: "/coop-raids", elaraDialog: "The Raid Planning Table. Rally your guild to take on massive bosses. Your class mastery, civil skills, and prestige all affect your damage output. Coordinate roles — DPS, tank, support — for maximum effectiveness." },
-      { id: "mastery-wall", name: "Boss Mastery Wall", description: "Track your mastery levels for each boss.", x: 55, y: 15, width: 20, height: 30, type: "terminal", action: "/boss-mastery", elaraDialog: "The Boss Mastery Wall. Each boss you defeat earns mastery XP. Higher mastery unlocks exclusive cosmetics and titles. Compete on the mastery leaderboard." },
-      { id: "replay-screen", name: "Replay Archive", description: "Watch recordings of past battles.", x: 78, y: 15, width: 15, height: 25, type: "terminal", action: "/replays", elaraDialog: "The Replay Archive. Watch recordings of past card battles and raids. Study strategies, share memorable moments, and learn from the best players." },
-      { id: "event-beacon", name: "Seasonal Event Beacon", description: "Participate in time-limited seasonal events.", x: 20, y: 55, width: 22, height: 30, type: "terminal", action: "/seasonal-events", elaraDialog: "The Seasonal Event Beacon. Time-limited events with unique themes, exclusive rewards, and global objectives. Your RPG build provides event bonuses — certain classes and species earn tokens faster." },
-      { id: "cosmetic-kiosk", name: "Cosmetic Kiosk", description: "Browse and purchase cosmetic items.", x: 55, y: 55, width: 20, height: 28, type: "terminal", action: "/cosmetic-shop", elaraDialog: "The Cosmetic Kiosk. Card art variants, avatar frames, titles, themes, and emotes. Some items require specific prestige classes or boss mastery levels to unlock." },
-      { id: "quarters-door", name: "Personal Quarters", description: "Your private quarters aboard the Ark.", x: 80, y: 55, width: 15, height: 25, type: "terminal", action: "/personal-quarters", elaraDialog: "Your Personal Quarters. Decorate your private space with items earned through gameplay. Your class and species unlock unique decorations. Visitors can tour your quarters." },
-      { id: "door-bridge-war", name: "Return to Bridge", description: "The corridor back to the Command Bridge.", x: 2, y: 40, width: 8, height: 25, type: "door", action: "bridge" },
+      // Anchored 2026-04-25 against the AAA Final war-room (deck-6
+      // Combat Ops) render — armored chamber with three back-wall
+      // tactical displays (left replay panel, central orange hex
+      // boss-mastery column flanked by raid icons, right combatant
+      // schematic), purple-crystal Seasonal Event Beacon obelisk in
+      // the left foreground, central Cosmetic Kiosk console with
+      // floating item silhouettes, two arched doorways at the far
+      // edges (left → Bridge, right → Personal Quarters).
+      { id: "raid-table", name: "Raid Planning Table", description: "Coordinate cooperative boss raids with your guild.", x: 38, y: 10, width: 22, height: 60, type: "terminal", action: "/coop-raids", elaraDialog: "The Raid Planning Table. Rally your guild to take on massive bosses. Your class mastery, civil skills, and prestige all affect your damage output. Coordinate roles — DPS, tank, support — for maximum effectiveness." },
+      { id: "mastery-wall", name: "Boss Mastery Wall", description: "Track your mastery levels for each boss.", x: 62, y: 10, width: 22, height: 38, type: "terminal", action: "/boss-mastery", elaraDialog: "The Boss Mastery Wall. Each boss you defeat earns mastery XP. Higher mastery unlocks exclusive cosmetics and titles. Compete on the mastery leaderboard." },
+      { id: "replay-screen", name: "Replay Archive", description: "Watch recordings of past battles.", x: 12, y: 10, width: 24, height: 38, type: "terminal", action: "/replays", elaraDialog: "The Replay Archive. Watch recordings of past card battles and raids. Study strategies, share memorable moments, and learn from the best players." },
+      { id: "event-beacon", name: "Seasonal Event Beacon", description: "Participate in time-limited seasonal events.", x: 22, y: 40, width: 12, height: 35, type: "terminal", action: "/seasonal-events", elaraDialog: "The Seasonal Event Beacon. Time-limited events with unique themes, exclusive rewards, and global objectives. Your RPG build provides event bonuses — certain classes and species earn tokens faster." },
+      { id: "cosmetic-kiosk", name: "Cosmetic Kiosk", description: "Browse and purchase cosmetic items.", x: 50, y: 60, width: 22, height: 30, type: "terminal", action: "/cosmetic-shop", elaraDialog: "The Cosmetic Kiosk. Card art variants, avatar frames, titles, themes, and emotes. Some items require specific prestige classes or boss mastery levels to unlock." },
+      { id: "quarters-door", name: "Personal Quarters", description: "Your private quarters aboard the Ark.", x: 85, y: 30, width: 14, height: 60, type: "terminal", action: "/personal-quarters", elaraDialog: "Your Personal Quarters. Decorate your private space with items earned through gameplay. Your class and species unlock unique decorations. Visitors can tour your quarters." },
+      { id: "door-bridge-war", name: "Return to Bridge", description: "The corridor back to the Command Bridge.", x: 1, y: 30, width: 14, height: 60, type: "door", action: "bridge" },
     ],
   },
   /* ═══ DREAMS WORKSHOP SUB-BASEMENT ═══
@@ -1096,18 +1126,28 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     deckName: "Uncharted",
     description: "A low-ceilinged maintenance level that does not appear on any official deck plan. The air is warm. The fluorescents hum. Nine post-its and a polaroid wait on a cluttered desk at the back wall. Nobody has been here in a while — except whoever keeps the dust off the corkboard.",
     elaraIntro: "I am... re-indexing my floor plan right now to account for this room. I did not have a record of it before Episode 12 completed. I am going to be honest with you: that fact frightens me. Please be gentle in here. This was Darren's space.",
-    imageUrl: "",
+    imageUrl: assetUrl("art/rooms/room-dreams-workshop-subbasement.webp"),
     features: ["Darren's Desk", "The Inventor's Door", "Blue Folder"],
     featureRoutes: [],
     unlockRequirement: { type: "narrative_event", value: "palimpsest_ep12_completed" },
     connections: ["bridge"],
     hotspots: [
-      { id: "darrens-desk", name: "Darren's Desk", description: "A cluttered metal desk. The blue folder the Host banned from broadcast sits on top. Nine hand-written post-its cover the lamp. A polaroid of Marguerite Fessler is tucked into the corkboard. You realize you are the first visitor since Darren stopped coming to work.", x: 55, y: 45, width: 28, height: 35, type: "interact", action: "dreams_workshop_darrens_desk", elaraDialog: "That's the desk. The blue folder is on top. I'm going to stop narrating for a moment. You should get to meet him yourself." },
-      { id: "blue-folder", name: "The Blue Folder", description: "A plain blue manila folder. Eight Loredex entries, cross-referenced with corruption markers, the red-ink corrections Professor Vyre made on Episode 6, and Darren's handwriting in the margin.", x: 60, y: 38, width: 10, height: 8, type: "item", action: "darren-blue-folder", elaraDialog: "All eight entries are genuinely corrupted in my copy of the Chronicle. Darren was right about every one. I cross-referenced them twice because I couldn't believe it the first time." },
-      { id: "marguerite-polaroid", name: "Polaroid of Marguerite", description: "A small polaroid. Marguerite Fessler, Celebration sector cemetery, 14 years before the Fall. Her handwriting on the back says 'Don't forget to eat, D.'", x: 80, y: 32, width: 6, height: 8, type: "examine", elaraDialog: "His mother. Her birthday is Thursday. I am going to put a recurring reminder on the Ark's master clock. Every Thursday, in perpetuity, I will tell one crew member it is Marguerite Fessler's birthday. I do not know if that counts as a substitute for a son. I am going to do it anyway." },
-      { id: "inventors-door", name: "The Inventor's Door", description: "A door that was not here before. It is propped open with a brick. The brick has the Inventor's signature on it in red ink: '—I.'", x: 10, y: 40, width: 12, height: 35, type: "door", elaraDialog: "I have never seen this door before. It is not on any deck plan I have ever been given. The brick propping it open was not manufactured on this Ark. I am going to be direct with you: I think this door leads somewhere I cannot follow you. Please come back." },
-      { id: "post-it-wall", name: "Nine Post-It Notes", description: "Nine hand-written post-its in Darren's uneven block-caps. They cover the lamp base and the corkboard edge.", x: 40, y: 40, width: 12, height: 15, type: "examine", elaraDialog: "Applause light. Vyre's red ink. Alaric's cufflink. Call the Antiquarian back. Marguerite's birthday. Leave earlier tonight. He was keeping score of every lie on the show and reminding himself of one real thing per day." },
-      { id: "door-exit-workshop", name: "Return to Bridge", description: "A narrow stairwell leading back up to the Bridge.", x: 2, y: 25, width: 8, height: 50, type: "door", action: "bridge" },
+      // Anchored 2026-04-25 against the AAA Final sub-basement render —
+      // a battered concrete maintenance crawlspace, fluorescent tubes
+      // overhead, painted-blue stairwell ascending to the Bridge on
+      // the far-left, the Inventor's Door propped open at centre-left
+      // (a heavy steel door slightly ajar onto a black corridor with a
+      // distant amber glow), Darren's grey metal desk against the
+      // right wall lit by a single warm tungsten lamp, the corkboard
+      // above the desk pinned with a polaroid of Marguerite + clippings,
+      // post-it squares scattered across the desk surface and lamp
+      // base.
+      { id: "darrens-desk", name: "Darren's Desk", description: "A cluttered metal desk. The blue folder the Host banned from broadcast sits on top. Nine hand-written post-its cover the lamp. A polaroid of Marguerite Fessler is tucked into the corkboard. You realize you are the first visitor since Darren stopped coming to work.", x: 60, y: 50, width: 38, height: 45, type: "interact", action: "dreams_workshop_darrens_desk", elaraDialog: "That's the desk. The blue folder is on top. I'm going to stop narrating for a moment. You should get to meet him yourself." },
+      { id: "blue-folder", name: "The Blue Folder", description: "A plain blue manila folder. Eight Loredex entries, cross-referenced with corruption markers, the red-ink corrections Professor Vyre made on Episode 6, and Darren's handwriting in the margin.", x: 76, y: 75, width: 12, height: 12, type: "item", action: "darren-blue-folder", elaraDialog: "All eight entries are genuinely corrupted in my copy of the Chronicle. Darren was right about every one. I cross-referenced them twice because I couldn't believe it the first time." },
+      { id: "marguerite-polaroid", name: "Polaroid of Marguerite", description: "A small polaroid. Marguerite Fessler, Celebration sector cemetery, 14 years before the Fall. Her handwriting on the back says 'Don't forget to eat, D.'", x: 62, y: 22, width: 10, height: 12, type: "examine", elaraDialog: "His mother. Her birthday is Thursday. I am going to put a recurring reminder on the Ark's master clock. Every Thursday, in perpetuity, I will tell one crew member it is Marguerite Fessler's birthday. I do not know if that counts as a substitute for a son. I am going to do it anyway." },
+      { id: "inventors-door", name: "The Inventor's Door", description: "A door that was not here before. It is propped open with a brick. The brick has the Inventor's signature on it in red ink: '—I.'", x: 24, y: 25, width: 18, height: 65, type: "door", elaraDialog: "I have never seen this door before. It is not on any deck plan I have ever been given. The brick propping it open was not manufactured on this Ark. I am going to be direct with you: I think this door leads somewhere I cannot follow you. Please come back." },
+      { id: "post-it-wall", name: "Nine Post-It Notes", description: "Nine hand-written post-its in Darren's uneven block-caps. They cover the lamp base and the corkboard edge.", x: 62, y: 78, width: 14, height: 14, type: "examine", elaraDialog: "Applause light. Vyre's red ink. Alaric's cufflink. Call the Antiquarian back. Marguerite's birthday. Leave earlier tonight. He was keeping score of every lie on the show and reminding himself of one real thing per day." },
+      { id: "door-exit-workshop", name: "Return to Bridge", description: "A narrow stairwell leading back up to the Bridge.", x: 0, y: 30, width: 14, height: 60, type: "door", action: "bridge" },
     ],
   },
 ];
