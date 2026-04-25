@@ -13,9 +13,9 @@
    no fingerprinting library, no network request.
 
    Stages:
-     1. "gate"     — INITIATE / SKIP buttons
-     2. "scanning" — typewriter reveal of fingerprint lines
-     3. "done"     — 600ms pause, then onComplete()
+     1. "gate"     — CONFIRM OPERATOR / LOOK AWAY buttons
+     2. "scanning" — jagged-cadence reveal of fingerprint lines
+     3. "done"     — 250ms snap-shut flash, then onComplete()
 
    Reduce-motion and the SKIP button both fast-forward to
    `done` immediately. The "seen" flag is written on either
@@ -23,6 +23,7 @@
    ═══════════════════════════════════════════════════════ */
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
+import GlitchFx from "@/components/GlitchFx";
 import KineticText from "@/components/void/KineticText";
 
 const SEEN_KEY = "dischordia_handshake_seen";
@@ -96,7 +97,7 @@ function buildLines(fp: Fingerprint): ScanLine[] {
     { label: "CHRONOSPHERE", value: fp.timezone },
     { label: "SYSTEM CLOCK", value: fp.clock },
     { label: "ARK DESIGNATION", value: "1047" },
-    { label: "FINGERPRINT", value: "ACQUIRED" },
+    { label: "FINGERPRINT", value: "LOCKED" },
   ];
 }
 
@@ -109,6 +110,9 @@ export function SurveillanceOpening({ onComplete, force = false }: SurveillanceO
     return "gate";
   });
   const [revealed, setRevealed] = useState(0);
+  // One-shot "snap shut" frame on completion: LED flashes white,
+  // scanline accelerates, an inverse-color overlay flashes for ~250ms.
+  const [snapping, setSnapping] = useState(false);
   const completedRef = useRef(false);
 
   const fingerprint = useMemo(() => readFingerprint(), []);
@@ -118,10 +122,13 @@ export function SurveillanceOpening({ onComplete, force = false }: SurveillanceO
     if (completedRef.current) return;
     completedRef.current = true;
     try { localStorage.setItem(SEEN_KEY, "1"); } catch { /* ignore */ }
-    setStage("done");
-    // Slight beat before yielding so the final line has a chance
-    // to settle before the title flow takes over.
-    setTimeout(() => onComplete(), 600);
+    setSnapping(true);
+    // Snap-shut beat: 250ms of inverse flash + LED white-out before the
+    // title flow takes over. Replaces the old 600ms "settle" pause.
+    setTimeout(() => {
+      setStage("done");
+      onComplete();
+    }, 250);
   }, [onComplete]);
 
   // If we were already-seen on mount, hand control back immediately.
@@ -132,21 +139,25 @@ export function SurveillanceOpening({ onComplete, force = false }: SurveillanceO
     }
   }, [stage, onComplete]);
 
-  // Drive the scanning reveal on a fixed cadence. Reduce-motion
-  // collapses the whole sequence to a single tick.
+  // Drive the scanning reveal on a jagged cadence — snappy at the top,
+  // slowing on the invasive lines, with a tense punch on the final
+  // FINGERPRINT line. Variation reads as menace, not stutter.
+  // Reduce-motion collapses the whole sequence to a single tick.
+  const CADENCE = [120, 180, 220, 260, 320, 420, 600];
   useEffect(() => {
     if (stage !== "scanning") return;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduce) {
       setRevealed(lines.length);
-      const t = setTimeout(finish, 800);
+      const t = setTimeout(finish, 500);
       return () => clearTimeout(t);
     }
     if (revealed >= lines.length) {
-      const t = setTimeout(finish, 1000);
+      const t = setTimeout(finish, 350);
       return () => clearTimeout(t);
     }
-    const t = setTimeout(() => setRevealed(n => n + 1), revealed === 0 ? 350 : 700);
+    const delay = CADENCE[Math.min(revealed, CADENCE.length - 1)];
+    const t = setTimeout(() => setRevealed(n => n + 1), delay);
     return () => clearTimeout(t);
   }, [stage, revealed, lines.length, finish]);
 
@@ -160,7 +171,11 @@ export function SurveillanceOpening({ onComplete, force = false }: SurveillanceO
         position: "fixed",
         inset: 0,
         zIndex: 10000,
-        background: "#010020",
+        // Near-black with a faint cyan vignette so the readouts feel
+        // isolated "inside a screen". Snap-shut tints red.
+        background: snapping
+          ? "radial-gradient(circle at 50% 50%, #2a0004 0%, #0a0004 70%)"
+          : "radial-gradient(circle at 50% 50%, #061018 0%, #02000A 70%)",
         color: "#33E2E6",
         fontFamily: "'JetBrains Mono', 'Fira Code', monospace",
         display: "flex",
@@ -169,11 +184,12 @@ export function SurveillanceOpening({ onComplete, force = false }: SurveillanceO
         justifyContent: "center",
         padding: "2rem",
         overflow: "hidden",
+        transition: "background 180ms ease-out",
       }}
     >
       {/* Webcam-LED tell — small red dot in the upper-right that
-          pulses faster once scanning starts. Pure decoration; we
-          have no camera access. */}
+          pulses faster once scanning starts, and white-flashes for
+          the snap-shut frame. */}
       <div
         aria-hidden
         style={{
@@ -183,15 +199,19 @@ export function SurveillanceOpening({ onComplete, force = false }: SurveillanceO
           width: "10px",
           height: "10px",
           borderRadius: "50%",
-          background: "#FF3C40",
-          boxShadow: "0 0 12px rgba(255,60,64,0.85)",
-          animation: stage === "scanning"
-            ? "surv-led 0.8s steps(2) infinite"
-            : "surv-led 2.2s steps(2) infinite",
+          background: snapping ? "#FFFFFF" : "#FF3C40",
+          boxShadow: snapping
+            ? "0 0 28px rgba(255,255,255,0.95)"
+            : "0 0 12px rgba(255,60,64,0.85)",
+          animation: snapping
+            ? "none"
+            : stage === "scanning"
+              ? "surv-led 0.8s steps(2) infinite"
+              : "surv-led 2.2s steps(2) infinite",
         }}
       />
 
-      {/* Drifting scan line — only during the scanning stage. */}
+      {/* Drifting scan line — accelerates on snap-shut. */}
       {stage === "scanning" && (
         <div
           aria-hidden
@@ -203,8 +223,25 @@ export function SurveillanceOpening({ onComplete, force = false }: SurveillanceO
               "linear-gradient(to bottom, transparent 0%, rgba(51,226,230,0.18) 49%, rgba(51,226,230,0.4) 50%, rgba(51,226,230,0.18) 51%, transparent 100%)",
             backgroundSize: "100% 12px",
             backgroundRepeat: "no-repeat",
-            animation: "surv-scan 2.4s linear infinite",
+            animation: snapping
+              ? "surv-scan 0.6s linear infinite"
+              : "surv-scan 2.4s linear infinite",
             mixBlendMode: "screen",
+          }}
+        />
+      )}
+
+      {/* Snap-shut inverse flash — ~250ms hot frame on completion. */}
+      {snapping && (
+        <div
+          aria-hidden
+          style={{
+            position: "absolute",
+            inset: 0,
+            pointerEvents: "none",
+            background: "rgba(255,255,255,0.18)",
+            mixBlendMode: "difference",
+            animation: "surv-flash 250ms steps(3) forwards",
           }}
         />
       )}
@@ -250,6 +287,11 @@ export function SurveillanceOpening({ onComplete, force = false }: SurveillanceO
           0%   { background-position: 0 -10%; }
           100% { background-position: 0 110%; }
         }
+        @keyframes surv-flash {
+          0%   { opacity: 0.95; }
+          50%  { opacity: 0.4; }
+          100% { opacity: 0; }
+        }
         @media (prefers-reduced-motion: reduce) {
           [aria-label="Operator handshake"] * {
             animation: none !important;
@@ -271,7 +313,7 @@ function GateView({ onInitiate, onSkip }: { onInitiate: () => void; onSkip: () =
           marginBottom: "0.75rem",
         }}
       >
-        &gt; LOREDEX OS // INBOUND HANDSHAKE
+        &gt; DISCHORDIA // INBOUND // DO NOT MOVE
       </div>
       <h2
         style={{
@@ -282,7 +324,7 @@ function GateView({ onInitiate, onSkip }: { onInitiate: () => void; onSkip: () =
           textTransform: "uppercase",
         }}
       >
-        Initiate Handshake?
+        Hold Still. We Already See You.
       </h2>
       <p
         style={{
@@ -295,9 +337,7 @@ function GateView({ onInitiate, onSkip }: { onInitiate: () => void; onSkip: () =
           maxWidth: "52ch",
         }}
       >
-        Operator fingerprint not on file. Proceeding will let the Ark read
-        your local terminal — agent, locale, chronosphere, system clock —
-        nothing more. Data does not leave this device.
+        Do not look away. Confirm operator and we will leave the rest.
       </p>
       <div style={{ display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
         <button
@@ -317,15 +357,15 @@ function GateView({ onInitiate, onSkip }: { onInitiate: () => void; onSkip: () =
             boxShadow: "0 0 18px rgba(51,226,230,0.25)",
           }}
         >
-          ▶ Initiate
+          ▶ Confirm Operator
         </button>
         <button
           type="button"
           onClick={onSkip}
           style={{
             background: "transparent",
-            border: "1px solid rgba(255,255,255,0.25)",
-            color: "rgba(255,255,255,0.6)",
+            border: "1px solid rgba(255,60,64,0.35)",
+            color: "rgba(255,60,64,0.7)",
             padding: "0.65rem 1.5rem",
             fontSize: "0.7rem",
             letterSpacing: "0.28em",
@@ -334,7 +374,7 @@ function GateView({ onInitiate, onSkip }: { onInitiate: () => void; onSkip: () =
             textTransform: "uppercase",
           }}
         >
-          Skip
+          Look Away
         </button>
       </div>
     </div>
@@ -357,6 +397,18 @@ function ScanView({ lines, revealed }: { lines: ScanLine[]; revealed: number }) 
       <div style={{ display: "flex", flexDirection: "column", gap: "0.55rem" }}>
         {lines.slice(0, revealed).map((line, i) => {
           const isFinal = line.label === "FINGERPRINT";
+          // The last two lines glitch on reveal — RGB chroma split for
+          // a half-second so the late readouts feel intrusive.
+          const shouldGlitch = i >= lines.length - 2;
+          const valueNode = (
+            <KineticText
+              key={`${line.label}-${i}`}
+              text={line.value}
+              mode="decode"
+              speed={42}
+              showCursor={false}
+            />
+          );
           return (
             <div
               key={line.label}
@@ -367,20 +419,20 @@ function ScanView({ lines, revealed }: { lines: ScanLine[]; revealed: number }) 
                 fontSize: isFinal ? "0.95rem" : "0.78rem",
                 letterSpacing: "0.14em",
                 color: isFinal ? "#FF3C40" : "#33E2E6",
-                textShadow: isFinal ? "0 0 18px rgba(255,60,64,0.6)" : "none",
+                textShadow: isFinal
+                  ? "0 0 18px rgba(255,60,64,0.85), 0 0 36px rgba(255,60,64,0.45)"
+                  : "none",
               }}
             >
               <span style={{ opacity: 0.55, minWidth: "18ch" }}>
                 &gt; {line.label}
               </span>
               <span style={{ opacity: 0.95 }}>
-                <KineticText
-                  key={`${line.label}-${i}`}
-                  text={line.value}
-                  mode="decode"
-                  speed={42}
-                  showCursor={false}
-                />
+                {shouldGlitch ? (
+                  <GlitchFx variant="chroma">{valueNode}</GlitchFx>
+                ) : (
+                  valueNode
+                )}
               </span>
             </div>
           );
