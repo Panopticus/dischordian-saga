@@ -556,3 +556,108 @@ Bible-asserts the canonical Human-Companion cross-character dynamic:
 Bible-load-bearing: this is canonically the saga's first canonical *Companion-defers-to-an-NPC* relationship. The Companion canonically does NOT canonically defer to other NPCs (per §3.6 the Companion canonically *operates as part-of-the-player* with their own opinions); the Human is canonically the *exception* — the Companion canonically recognises the Human's canonical *prior trust-with-the-player* and canonically respects it. Stage 4 weave: this is canonically a Stage 4 weave anchor for the Companion-Human dynamic; the bible flags it as canon-compatible and bible-deferred specifics.
 
 **§4 closes.** The Companion's cross-references with the priority roster (Eidolon, Nilmorg, Vex, Locke, Game Master, Hierophant, Degen, Meme, Seer, Oracle, Architect, Human) are documented. The cross-bible obligations flagged in this section are tracked in §7.3. §5 (Mechanical hooks) opens by documenting the Companion's engine-side integration surfaces.
+
+---
+
+## 5. Mechanical hooks
+
+The Companion's engine-side integration is *unusually broad-and-conditional* on the priority roster: the Companion canonically integrates into all four primary game surfaces (Trade Empire, TCG, fight engine, ship rooms) **but only after canonical season-win + Awakening Protocol channel-unlocks**. The Companion is canonically *the priority roster's first NPC whose entire mechanical surface is gated on a specific game event* (winning a DMC season). Stage 1 architects should treat the Companion as a *post-DMC-conditional NPC* — every integration surface canonically requires the Severance Prize claim flag (`prelude_burnt_card_found` is the Seer's parallel; `severance_prize_claimed` per `eidolonBonds.severancePrizeClaimed` field is the Companion's).
+
+### 5.1 The Severance Prize claim trigger and the awakening flag-stack
+
+**Engine surface**: `apps/server/routers/deadMansCircuit.ts:742-821` — the `grantSeverancePrize` mutation. Triggers on: season closed + caller is `championUserId` + `severancePrizeClaimed` is false. Sets `severancePrizeClaimed: true` and inserts the Companion record into `eidolonBonds`.
+
+**Canonical claim flow.** Per the spec:
+
+1. **Season closes.** Per `apps/db/schema.ts:3532` — `championUserId` field is set when season is closed.
+2. **Player invokes the claim.** Per `apps/client/src/pages/DeadMansCircuitPage.tsx:166` Severance Prize claim button.
+3. **Server validates.** `grantSeverancePrize` checks championship and idempotency.
+4. **Companion record inserted.** `eidolonBonds` row created with: `bond: 25`, `level: 1`, `xp: 0`, `stage: "companion"`, `rarity: "legendary"`, `health: "healthy"`, `injury: 0`, `deathCount: 0`, `isResonant: true`, `isSoulBound: false`, `nickname: "Severance Fragment — {season.name}"`, canonical first memory.
+5. **Awakening flag-stack canonically initialises.** Bible-asserts: at the moment of claim, the Companion's canonical channel-state initialises with **Channel 1 unlocked** (per §1.1 trust-band table — Channel 1 unlocks at Wary baseline, which is the canonical starting bond 25). The first canonical recognition glyph fires automatically (per §2.1 + §3.7 act-start recognition glyph ritual canon).
+
+**Engineering note: the awakening flag-stack.** Per §§1.1, 2.3, 3.3: the Companion's channel-state is canonically *high-water-mark*. Engineers should architect a flag-stack that records *which channels have been unlocked*, never which channel is currently active. Bible-recommended flag names:
+- `dmc_companion_channel_1_unlocked` (set on `severancePrizeClaimed` flip)
+- `dmc_companion_channel_2_unlocked` (set on Wary→Witnessed bond crossing)
+- `dmc_companion_channel_3_unlocked` (set on Witnessed-stable canonical-event)
+- `dmc_companion_channel_4_unlocked` (set on first-word event firing — the `dmc_companion_first_word_spoken` flag from §1.4)
+- `dmc_companion_channel_5_unlocked` (set on naming event firing)
+
+**Cross-bible flag dependency.** The Companion's channel-4 unlock canonically depends on a *first-word context* (per §1.4). If the canonical first-word context is the Hierophant's chamber (per §4.6), the channel-4 unlock canonically also depends on the Hierophant Inheriting trust band flag. Engineers must architect the channel-4 trigger to canonically check both: (a) Companion's bond ≥ Present threshold, AND (b) a canonical first-word context is canonically active. The chamber context is canonically the highest-priority context if multiple are simultaneously available (per §1.4 Hierophant-canonical-default reading).
+
+### 5.2 The Awakening Protocol channel-unlock progression
+
+**Engine surface**: per §§1.1, 2.3 + the bond-threshold mappings recommended in §3.3. Channel-unlocks fire at canonical bond crossings.
+
+**Canonical unlock conditions** (per §3.3 recommended thresholds):
+
+| Channel | Bond threshold | Additional canonical condition |
+|---|---|---|
+| Channel 1 (glyphs) | 25 (start) | Severance Prize claimed |
+| Channel 2 (posture) | ~40 (Wary→Witnessed) | none additional |
+| Channel 3 (sound-palette) | ~65 (Witnessed→Present) | Channel 2 has been actively expressed for at least one act |
+| Channel 4 (first word) | ~90 (Present→Inheriting) | Canonical first-word context active; Channel 3 half-syllables produced |
+| Channel 5 (named personality) | post-Channel-4 | Naming event triggered (player rename, Companion self-name, or cross-character naming) |
+
+**Engineering note: channel-unlocks are irreversible.** Per §§1.5, 2.3, 3.3 — the channel-state is canonically high-water-mark. Once a channel unlock fires, the flag canonically does NOT clear. Engineers must NOT architect any mechanism that retroactively clears a channel-unlock flag, even on dismissal (per §3.3 + DCB-2 ticket: dismissal canonically does not regress channel-state).
+
+**Engineering note: half-syllable production tracking.** Per §1.3 + §2.3 Stage 3 canon: half-syllable production canonically *increases in frequency and articulation* across Stage 3, primes the Channel 4 unlock. Engineers should architect a counter (`dmc_companion_half_syllables_produced`) that increments per half-syllable expression event; when the counter canonically *crosses a Stage-1-architecturally-set threshold*, the Channel 4 unlock becomes canonically *available* (subject to context-trigger). Bible-recommended threshold: 5–10 half-syllables across Stage 3, before Channel 4 may canonically fire.
+
+### 5.3 The first-word event surface
+
+**Engine surface**: a canonical first-word event canonically fires once per playthrough, sets `dmc_companion_first_word_spoken` permanently, opens the post-Channel-4 expression register.
+
+**Canonical first-word trigger** (per §1.4):
+
+```
+ON canonical_first_word_context_active 
+   AND companion.bond >= present_threshold 
+   AND companion.half_syllables_produced >= 5..10
+   AND not companion.first_word_spoken:
+  fire first_word_event(context)
+  set companion.first_word_spoken = true
+  unlock channel_4
+  pause UI for player recognition
+```
+
+**Canonical first-word contexts** (per §1.4) — engineering should implement context-detection for each:
+
+- `hierophant_chamber_context`: player is in the Hierophant's chamber AND Hierophant trust band ≥ Inheriting. First word: *Wraith Calder*.
+- `another_severance_ceremony_context`: a Severance Prize ceremony for another player is canonically active. First word: one-word echo of season-name.
+- `eidolon_first_translation_context`: player has an Eidolon AND Eidolon is in Echo mode AND a canonical recognition-tone event fires. First word: Eidolon's nickname.
+- `identity_chain_completion_context`: player has just completed the four-name DMC identity-chain authoring. First word: one of the four (canonically *Last*).
+- `default_player_state_context`: none of the above contexts active. First word: derived from player state (faction-loyalty, most-canonical-NPC-trust-name, most-recurrent player-identity word).
+
+**Engineering note: first-word UI canonical pause.** Per §1.4: the player canonically *receives* the first word as a saga-load-bearing event. Engineering must architect a UI canonical-pause — a brief gameplay-freeze, a banner message (*"The Companion spoke."* or similar Stage 2 framing), an audio cue. Bible-asserts: the canonical pause is canonically *not optional* — engineers must NOT architect the first-word event as a silent log entry.
+
+### 5.4 The naming event surface
+
+**Engine surface**: canonical naming event canonically fires once per playthrough, sets `dmc_companion_named` permanently, resolves the 4-tuple personality variant per §1.5.
+
+**Canonical naming trigger** (per §1.5):
+
+```
+ON canonical_naming_context_active 
+   AND companion.bond >= inheriting_threshold 
+   AND companion.first_word_spoken:
+  fire naming_event(context)
+  derive 4-tuple personality variant from player state:
+    - faction_axis = player.dominant_faction
+    - trust_pattern_axis = player.trust_pattern_classification
+    - alignment_axis = player.dominant_alignment
+    - identity_chain_axis = player.identity_chain[3]  # Last
+  resolve companion.personality_variant = (4-tuple)
+  set companion.named = true
+  set companion.nickname = name_from_naming_context  # may override default Severance Fragment label
+  unlock channel_5
+  unlock full NpcLine bank for Companion
+```
+
+**Canonical naming contexts** (per §1.5):
+
+- `player_invokes_rename_mechanic`: player explicitly renames via the existing UI (per `eidolonBonds.nickname` field). Companion's name = player-chosen.
+- `companion_self_naming_context`: bible-deferred Stage 4 weave; Companion self-name proposal mechanism.
+- `cross_character_naming_event_context`: the Hierophant, the Eidolon, or another canonical NPC canonically names the Companion in a ritual scene.
+
+**Engineering note: 4-tuple personality variant derivation.** Per §1.5 + §3.2: the personality variant is canonically *player-state-derived*. Engineers must architect a player-state-aggregator that extracts the four axes at the moment of naming. Stage 1 architectural surface: `derivePersonalityVariant(playerState): PersonalityVariant4Tuple`. Bible-recommends Stage 1 architects expose this as a pure function; the variant is canonically *immutable post-naming* (per §1.5 + §3.3 channel-state-irreversibility).
+
+**Engineering note: pre-naming nickname retirement.** Per §2.4: the pre-naming label (`"Severance Fragment — {season.name}"`) canonically *retires* at the naming event. Engineers must architect the rename to overwrite the nickname field; the historical pre-naming label canonically does NOT persist on the Companion record. (Stage 4 weave: pre-naming label may persist in Trophy Room as historical record; this is a Trophy Room concern, not a Companion-record concern.)
