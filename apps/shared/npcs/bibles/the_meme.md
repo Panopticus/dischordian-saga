@@ -616,3 +616,33 @@ Per `npcProfileAwareLines.ts:113-122`, the White Oracle reads the player's vulne
 - **Strong negative** (low vulnerability): *"You will not tell me where you have been. Or with whom. Or why. I respect it. I also notice it. Both can be true."*
 
 **Writer rule**: the four missing magnitude buckets (mild_positive, moderate_positive, mild_negative, moderate_negative) need authoring before Stage 2. **Critically**, every White Oracle profile line operates on TWO meanings simultaneously — pre-reveal and post-reveal. Writers must compose lines that read as *intimate* before Chapter 6 and *predatory* after, without changing a word. This is the bible's hardest authoring discipline.
+
+### 5.6 Boss encounters (Chapter 6, Ch12)
+
+- **Chapter 6 — "The False Prophet"**: White Oracle vs. Player (the real Oracle), boss fight in Thaloria's bioluminescent canopy. The Meme reveals during/after the fight. Canonical post-fight lines (per `storyModeChapters.ts`) are locked.
+- **Ch12 — Phase 2 reveal**: the Architect-Meme symbiosis (parent-child recasting per §1.7). Saga-finale material. The canonical Ch12 line at `storyModeChapters.ts:677` is the reveal anchor.
+
+Writers: no additional Meme boss encounters should be authored without explicit user authorization. The two existing encounters carry the entire reveal arc.
+
+### 5.7 TCG cards
+
+- **White Oracle Mask** (artifact): *"The Meme's favorite disguise. Some say it became permanent."* — `bossEncounters.ts`. Pre-reveal context the player may collect without understanding.
+- **Meme's Distress Signal** (rare): *"Call for aid — summon a random ally card from your deck to the field."* Easter egg reward. Pre-reveal flavor that becomes troubling post-reveal.
+- **Meme's Mirror** (mythic): *"Reflect any attack back at the attacker. Can be used once per battle."* Easter egg reward. The mechanic *is* the character — mirroring as defensive identity-theft.
+- **The Assistant**: added to the player's deck post-Episode-13 (Darren Fessler's memorial). Scales with Palimpsest Signal meter.
+
+Writers: future Meme cards should encode *identity-substitution mechanics* (e.g., copy a card's stats, take an opponent's card temporarily, replace a card's effect). The card design ethics is *replacement*, not damage.
+
+### 5.8 Channel 7 listening achievement
+
+Per `environmentalStorytelling.ts`: *"If you listen for 60 uninterrupted seconds, the static resolves into a child's voice, singing."* The 60-second listen is achievement-gated. The achievement implies the player has chosen to *listen to the Meme listening*.
+
+**Writer rule**: the achievement's lore text should not name the child as the Meme, the Mascot, or anyone. Canon-protected ambiguity. The player's relationship to Channel 7 is private — like the Meme's.
+
+### 5.9 Easter eggs and cross-system surfaces
+
+- **`egg-captain-mirror`**: Captain's Quarters cracked mirror. Player's reflection moves wrong. Elara delivers the lore-revealing line. First Meme-presence canon for many players.
+- **`egg-comms-signal`**: MEME-PRIME signal trapped between dimensions. Awards Meme's Distress Signal card.
+- **`whiteoracle` secret command**: text-input easter egg revealing the disguise-impersonation theory pre-Chapter-6.
+- **`warden` secret command**: Panopticon collapse lore + Meme's identity-assumption opportunity.
+- **Prestige broadcast** (`meme-lines.json:606`): the Meme narrates when a player prestiges. The Broadcast Voice acknowledges the player's choice as either masochism or optimism. *"This is either the most optimistic or the most masochistic thing I've ever seen."*
