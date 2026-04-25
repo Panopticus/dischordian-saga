@@ -835,3 +835,27 @@ Each sample passes the §§1–5 voice criteria:
 **Bible-asserts**: these five samples are reference-quality voice for Stage 2 dialogue authors. A new author writing an Oracle line for Stage 2 should canonically be able to read these samples and produce voice-consistent material. Blind-read attribution test (per the priority plan's Stage 2 exit criteria): an author who reads these five samples plus §§1–3 should canonically attribute Oracle-or-non-Oracle at >90% accuracy on a mixed test set. Bible-load-bearing canonical disambiguation-pressure: the Oracle is canonically the saga's most-impersonated character (per §§1.3, 4.1) — canonical-impersonators canonically attempt canonical-Oracle-voice; canonical blind-read-attribution canonically operates *both* on canonical-roster-disambiguation (Oracle-vs-non-Oracle) and on canonical-impersonator-disambiguation (Oracle-vs-Meme-impersonating-Oracle-vs-False-Prophet). Stage 2 authors must canonically *handle both canonical-disambiguation-axes*.
 
 **§6 closes.** Voice samples are documented. §§7–8 (canon issues, protected mysteries, cross-bible obligations, follow-up tickets, reviewer checklist) close the bible.
+
+---
+
+## 7. Canon issues, protected mysteries, cross-bible obligations, follow-up tickets
+
+### 7.1 Load-bearing missing canon
+
+The Oracle bible identifies **eight canon-load-bearing gaps** that this bible cannot resolve and must defer:
+
+**(1) The Disappearance-form specifics.** Per §§2.9, 7.2: bible-recommends *dissolving* but canonical *vanishing* and canonical *ascending* both remain canon-compatible. Stage 4 weave authors choose. Engineering ticket **OCB-1**.
+
+**(2) The why-the-Collector-cared-about-the-soul-debate canon.** Per §§2.2, 3.3: bible-deferred to Collector-canon. The canonical Collector's canonical motivation for harvesting the canonical-Oracle-specifically is canonically *Collector-canon-territory*. Engineering / canon-extension ticket **OCB-2**.
+
+**(3) The canonical Enigma-bible specifics.** Per §4.3: the canonical Enigma is canonically still-uncanonized roster slot. Bible cannot canonically establish canonical Oracle-Enigma relationship-canon-in-detail without canonical-Enigma-bible. Open ticket **OCB-3**.
+
+**(4) The canonical Architect-bible specifics.** Per §4.5: canonical Architect-bible canonically not yet authored; canonical Architect canonically appears in canonical Meme bible §2.5 + Hierophant §4.x + this bible §4.5 but canonically not as canonical-standalone-bible. Open ticket **OCB-4**.
+
+**(5) The canonical Wraith Calder's Clone canonical-purpose specifics.** Per §4.4: canonical Hierophant's Clone canonically operates on canonical-soul-existence canonical-cause but canonical-specific-purpose, canonical-specific-target, canonical-specific-mechanism are canonically deferred to Stage 4 weave + canonical Hierophant-bible canonical-extension. Open ticket **OCB-5**.
+
+**(6) The canonical Heart-of-Time canonical end-of-Epoch-1 narrative content.** Per §2.10: canonical-anchor is canonically established but canonical-narrative-content (canonical-specific-scenes, canonical-specific-dialogue-among-the-four-presences, canonical-specific-saga-time-implications) is canonically deferred to Stage 4 weave authoring. Open ticket **OCB-6**.
+
+**(7) The Trade Empire dream-residue mission-unlock-flag schema.** Per §5.3: canonical-residue canonically operates as canonical mission-unlock-flag per canonical (act, dream-id) key, but canonical-engine-integration canonical-schema is canonically deferred to Stage 1 architects. Engineering ticket **OCB-7**.
+
+**(8) The canonical post-saga-arc canonical-Oracle-content.** Per §2.9 + §6.5: canonical Disappearance is canonical post-saga-arc; canonical Stage 4 weave canonical-content beyond canonical Acts 1-7 is canonically deferred. Bible-asserts: canonical Stage 4 weave canonical Oracle-content canonically operates on canonical *post-Disappearance-residue* (canonical-substrate canonically retains canonical *residue-of-recently-removed-presence* per §6.5 canonical-final-image canonical-substrate-still-vibrating-from-canonical-recently-removed-presence). Open ticket **OCB-8**.
