@@ -418,7 +418,7 @@ export const DIALOG_SEER_VISIT_PRE: DialogScene = {
       audioClipId: "vo_narr_seer_visit_pre_01",
     },
     {
-      speaker: "the_oracle",
+      speaker: "the_seer",
       mood: "curious",
       text: "I will not raise my staff today. I want to see whether the bench has learned yet.",
       audioClipId: "vo_seer_visit_pre_01",
@@ -432,7 +432,7 @@ export const DIALOG_SEER_VISIT_WIN: DialogScene = {
   kind: "chapter_post_win",
   cues: [
     {
-      speaker: "the_oracle",
+      speaker: "the_seer",
       mood: "warm",
       text: "Oh. You remembered.",
       audioClipId: "vo_seer_visit_win_01",
