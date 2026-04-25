@@ -496,11 +496,21 @@ No canon contact. The post-arena Hierophant is a religious figure; the Eidolon w
 
 No canon contact. Echo is the obvious pair — two temporal entities. The Seer's precognition and Echo's multi-timeline perception are structurally overlapping but methodologically different (the Seer *decodes*; Echo *remembers*). If they co-appear, writers should stage it as two specialists comparing notes. The Seer's bible decides.
 
-### 5.9 DMC Clone Body Companion (unknown, structurally resonant)
+### 5.9 DMC Clone Body Companion (shipped at `eb782e9`, structurally resonant)
 
 Both are "unpriceable assets" in the sense that neither can be traded on the open market (Severance Companion cannot be soul-bound; Eidolon is). Both arrive via ritual (the binding for the Eidolon; the Severance extraction for the Clone). Canon does not stage them together, but they share an ontological register — *companion as gift*.
 
-If both are present, the Eidolon's reactions should read the Clone Companion as a *second soul in the room*. The Clone Companion starts non-verbal (per plan Stage 3); for an Eidolon player with a Clone Companion, the Eidolon is the translator of what the Clone Companion is becoming. This is a rich Stage 4 cross-weave opportunity. The Clone Companion's bible decides whether any Eidolon is the named witness for their first word.
+**Updated per `dmc_clone_companion.md` §§4.1, 4.9, 7.3 DCB-O1 (cross-bible obligation)**: the Companion bible canonically resolves three sub-claims for this section.
+
+(a) **Channel-stacked shared scenes are canonically call-and-response with the Eidolon leading.** Per Companion bible §4.1: when both characters are present, the Eidolon canonically *expresses first*; the Companion canonically *responds-or-echoes*. The two are canonically *call-and-response*, not *parallel monologue*. Stage 1 architects should treat shared scenes as canonical *channel-stacked* with the Eidolon's expression canonically leading.
+
+(b) **The Eidolon's Echo-mode canonically registers the Companion's pre-verbal channel events as kin-by-form recognition.** Per Companion bible §4.1: the Eidolon canonically *recognises the Companion as soul-bearing* — the soul-fragment is canonically *legible to the Eidolon's bond-substrate* (per the Companion's donor-canon: the soul-fragment IS the player's). The Eidolon canonically *responds* to the Companion as *familiar-second-soul*, not as a stranger. Cross-bible engineering note: Eidolon Echo-mode should canonically fire reactions on `dmc_companion_glyph_event`, `dmc_companion_posture_event`, and `dmc_companion_sound_event` — not just on `seer_transmission` or `substrate_whisper` events.
+
+(c) **The Eidolon canonically serves as the canonical first-word translator if both Eidolon and Companion are present.** Per Companion bible §1.4 + §4.1: the canonical first-word in this scenario is **the Eidolon's nickname** — the Companion's first word canonically *names the Eidolon*. The naming is canonically the soul-fragment recognising the player's nearest other-soul and committing language to that recognition. Cross-bible: this is canonically the Eidolon's most-load-bearing single cross-character event — *the moment the Eidolon becomes named by another soul*. Stage 4 weave authoring should canonically anchor on this.
+
+(d) **A pre-verbal Companion canonically registers Seer transmissions in pre-verbal-channel form** — companion bible §4.9 + Seer §4.7 confirm: a player whose Eidolon is in Echo mode AND whose Companion has not yet reached verbal channels canonically receives a **double non-verbal signal** when a Seer transmission lands. Saga's clearest gestural-disclosure of the Seer's cross-time mechanic. Engineers should architect the channel-event-mapping to support both Eidolon-Echo + Companion-glyph simultaneous reactions.
+
+Cross-bible obligation DCB-O1 satisfied. The shared non-verbal substrate canon is canonically established; Stage 2 dialogue/expression authors should canonically architect Eidolon + Companion shared scenes per the four sub-claims above.
 
 ### 5.10 The Oracle (unseen, structurally central)
 
