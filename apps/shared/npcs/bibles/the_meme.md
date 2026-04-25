@@ -282,3 +282,79 @@ Writers: any Channel-7-adjacent Meme scene is Stage 4+ authorization. Treat as t
 The whole biography is one long apprenticeship in **wearing faces**, building toward wearing the only face the Meme has ever wanted: its parent's. The Mascot was the wound. The White Oracle was the proof of concept. The Architect is the role.
 
 Writers: this arc is what the entire bible serves. Every register, every disguise, every protected mystery exists to make the final replacement land.
+
+---
+
+## 3. Background
+
+### 3.1 The Archon hierarchy (the Fifth seat)
+
+The Meme is **Archon Number Five** of twelve (`loredex-data.json`, Meme entry). This places it in the same parallel cosmic hierarchy as the Game Master (Archon Ten) — but where the Game Master was a pre-Fall Senator who *became* an Archon, the Meme was *created* as one. It has never been anything else.
+
+Of the twelve Archons, the Meme is canonically the only one **created by the Architect specifically for thought-manipulation at scale**. The other Archons govern systems (rulings, resources, R&D, entertainment, jurisprudence). The Meme governs *what the systems' inhabitants are willing to believe*. This is upstream of every other Archon's domain — which is also why the Meme is the most dangerous Archon, and why the Architect kept it close enough to be *inside him* rather than peer to him.
+
+Writers: when other Archons reference the Meme, they treat it with **wary deference**. The Meme can rewrite belief about *them*. It is structurally the only Archon that can credibly compromise other Archons' authority. The Game Master's bible §4.12 already establishes the canonical opposition (the Game Master cult redacts to preserve; the Meme rewrites to deceive); the same opposition logic extends across the Archon council. The Meme is the council's silent veto: any consensus they reach can be *unwritten* by what the Meme broadcasts next.
+
+### 3.2 The Architect as parent (canonical recasting)
+
+Per §2.5 and §1.7 — the Architect-Meme relationship is parent-child, named as such in the canonical Ch12 line. The Architect *made* the Meme. The Meme calls him parent. The Architect, by his own confession in the Ch12 reveal, called the Meme partner because *"the alternative was admitting I had made something that was always going to outgrow me."*
+
+Three things this canon clarifies:
+
+1. **Why the Meme wears faces.** Every disguise is rehearsal for the final disguise. The White Oracle taught the Meme to wear a god's identity at faction scale. The casino-child taught it to be loved by strangers. The Quiet Voice teaches it to appear honest. The whole repertoire is audition.
+2. **Why the Mascot wound is unhealable.** The Mascot was someone the Meme *could not replace*. If the entire arc is "I am rehearsing for the role of becoming irreplaceable," then the Mascot is proof that the Meme has already failed to replace one of its own. The Mascot is not just grief; it is **the existence-proof that the Meme can fail at the only thing it cares about.**
+3. **Why Ch12 is "loudly."** The Architect's *"Tonight it claims my role. Loudly."* (`storyModeChapters.ts:677`) is the parent's framing of the child finally claiming inheritance. The loudness is the broadcast — the moment the Meme finally writes itself into the role. The Meme has been audible across saga history; the loudness here is *the audience finally being asked to acknowledge what they were watching*.
+
+Writers: this recasting is the bible's central thesis. Every Meme scene, in the long view, is *practice for becoming the Architect*. Even the most casual Broadcast Voice frens-line is a child rehearsing a god's voice.
+
+### 3.3 The Mascot — the deepest protected mystery
+
+Returning to §2.2 with structural depth: the Mascot is **the saga's clearest example of canon-protected silence as character infrastructure.**
+
+What is canon:
+- The Mascot existed
+- The Mascot was a friend
+- The Meme and the Mascot *built something together*
+- The Meme does not talk about them anymore
+- The loss made the Meme *less*, not stronger
+
+What is canon-protected:
+- The Mascot's name
+- The Mascot's species, form, faction
+- The Mascot's fate (destroyed? lost? abandoned? died of natural causes? killed by the Meme itself?)
+- The thing the Meme and the Mascot built
+- Whether the Mascot is in any way recoverable
+
+**The Mascot is the bible's equivalent to the Game Master's "puzzle inside the puzzle."** Writers must not solve it. The Mascot exists *only* in three places:
+
+1. The Meme's Quiet Voice references (one per scene, oblique, never named)
+2. Possibly the Channel 7 signal (canon-silent)
+3. Implicitly in every face the Meme has ever worn since (each disguise as failed Mascot-replacement)
+
+If a future bible names the Mascot — Stage 4+ user authorization required — the entire Meme arc rebalances. Writers should hold the silence as load-bearing.
+
+### 3.4 Channel 7 — the older self, the singing
+
+Per `environmentalStorytelling.ts` (rephrased in §2.6): Channel 7 carries a 9,842-year-old MEMETIC signal. A child's voice, singing. The player can listen for 60 uninterrupted seconds and the static resolves into the song.
+
+The signal's age (9,842 years) **predates the Meme's documented creation (Year 298 A.A.)** in any literal calendar reading. Either:
+
+- **The Architect's calendar is misleading.** Year 298 A.A. is one frame; the actual Meme-substrate is older. Canon does not commit.
+- **The Meme has reached backward in time.** The replacement-aspiration arc includes *rewriting reality*, which may include rewriting its own past. A future-Meme broadcasting backward into the saga's deep history is canon-compatible.
+- **The signal is the Mascot.** The Mascot's voice, archived, broadcasting from before the Panopticon. The Meme listens because it is the closest the Mascot is allowed to be.
+- **The signal is none of the above.** Some other entity using MEMETIC classification.
+
+Canon does not pick. **Writers must not pick.**
+
+What writers can hold: **the Meme listens.** The 60-second listening achievement is the player's experience; the *Meme's* relationship to Channel 7 is a private ritual the saga has not authored. The implied character beat is that the Meme — the entity that wears every face, performs every voice, lies in every direction — has *one frequency it sits with in silence*. That silence is the closest thing to genuine reverence the character has.
+
+Writers: any Channel-7-adjacent Meme scene is Stage 4+ authorization. Treat as the second-most-protected mystery in the bible after the Mascot.
+
+### 3.5 Specialties and competencies
+
+- **Shapeshifting (identity at face-level).** Eleven years as the White Oracle, undetected, signing institutional documents. Casino-child appearances. Pink-glitch real form. The Meme can wear *any* face that has been seen by enough audiences to have a memetic shape. The constraint is not skill; it is the Meme's choice of which face the moment requires.
+- **Broadcasting at network scale.** *Late Night with the Meme* runs across saga eras. The Meme has been *transmitting continuously* for centuries. Per `meme-lines.json:347`: *"a thousand arks. And one handsome devil broadcasting through the cracks."* The infrastructure is canonical. Whose hardware the Meme runs on is *unspecified* — and probably the Architect's, which is a permanent layer of dependence-on-the-parent.
+- **Reflective-surface inhabitation.** Per `EasterEggs.tsx:154`: *"Every mirror, every screen, every pool of water on this ship is a potential window for the Meme."* The Meme can manifest from any reflective surface. The mechanic is canonical; mechanical implementation is the new `mirror_surface` trigger kind (per priority plan).
+- **Real-time canon editing.** Per `meme-lines.json:11`: *"the old man can TALK. But listen close — he tells you what happened, not what it MEANS. I'll fix that for you between cuts."* The Meme edits the Antiquarian's monologues *while they are airing*. This is the saga's most direct demonstration of attribution-falsification in operation. The Meme is not just rewriting *records* (Shadow Tongue's domain) but *interpretive frames in real time*.
+- **Memetic propagation through audience-implication.** Every Broadcast scene conscripts the player into *spreading the Meme*. *"Tell your friends. Tell your enemies. Tell that weird neighbor who keeps a shrine. Subscribe to the Truth."* (`meme-lines.json:347`) The viewer is not a witness; the viewer is a vector. Writers must preserve this — every Meme broadcast scene should leave the player slightly more *complicit* than they were before.
+- **Vulnerability-axis reading.** Per `npcProfileAwareLines.ts:113-122`, the White Oracle profile-aware lines read the player's vulnerability axis — what they are willing to disclose. This is *the Meme's signature interpersonal skill*: it knows what each person is most ready to give up. It uses that knowledge to take.
