@@ -51,6 +51,29 @@ export default function HolographicElara({
   const animFrameRef = useRef<number>(0);
   const dims = SIZES[size];
 
+  // Audio-driven speaking extension: when a VO clip is attached, the typewriter
+  // (which drives `isSpeaking` from the parent) often finishes well before the
+  // audio does. Hold isSpeaking true for the full audio duration so the mouth
+  // keeps animating until Elara is actually done talking, not just done typing.
+  const [audioPlaying, setAudioPlaying] = useState(false);
+  useEffect(() => {
+    if (!audio) { setAudioPlaying(false); return; }
+    const play = () => setAudioPlaying(true);
+    const stop = () => setAudioPlaying(false);
+    audio.addEventListener("playing", play);
+    audio.addEventListener("ended", stop);
+    audio.addEventListener("pause", stop);
+    audio.addEventListener("emptied", stop);
+    if (!audio.paused && !audio.ended) setAudioPlaying(true);
+    return () => {
+      audio.removeEventListener("playing", play);
+      audio.removeEventListener("ended", stop);
+      audio.removeEventListener("pause", stop);
+      audio.removeEventListener("emptied", stop);
+    };
+  }, [audio]);
+  const speaking = isSpeaking || audioPlaying;
+
   // Particle field
   const particles = useMemo(() => {
     return Array.from({ length: 20 }, () => ({
@@ -124,8 +147,8 @@ export default function HolographicElara({
           <div
             className="absolute inset-0 rounded-full"
             style={{
-              background: `radial-gradient(circle, color-mix(in oklch, var(--energy-primary) ${isSpeaking ? 25 : 10}%, transparent) 0%, transparent 70%)`,
-              animation: isSpeaking ? "holoPulse 1s ease-in-out infinite" : "holoPulse 3s ease-in-out infinite",
+              background: `radial-gradient(circle, color-mix(in oklch, var(--energy-primary) ${speaking ? 25 : 10}%, transparent) 0%, transparent 70%)`,
+              animation: speaking ? "holoPulse 1s ease-in-out infinite" : "holoPulse 3s ease-in-out infinite",
             }}
           />
 
@@ -138,7 +161,7 @@ export default function HolographicElara({
               left: (dims.container - dims.image - 12) / 2,
               top: (dims.container - dims.image - 12) / 2,
               border: "1px solid color-mix(in oklch, var(--energy-primary) 30%, transparent)",
-              boxShadow: `0 0 15px color-mix(in oklch, var(--energy-primary) ${isSpeaking ? 40 : 15}%, transparent), inset 0 0 15px color-mix(in oklch, var(--energy-primary) ${isSpeaking ? 20 : 5}%, transparent)`,
+              boxShadow: `0 0 15px color-mix(in oklch, var(--energy-primary) ${speaking ? 40 : 15}%, transparent), inset 0 0 15px color-mix(in oklch, var(--energy-primary) ${speaking ? 20 : 5}%, transparent)`,
               animation: "holoRotate 8s linear infinite",
             }}
           />
@@ -189,7 +212,7 @@ export default function HolographicElara({
                 className="w-full h-full"
                 style={{ filter: "brightness(1.1) contrast(1.1) saturate(0.8)" }}
               >
-                <SpriteCharacter npcId="elara" audio={audio} isSpeaking={isSpeaking} />
+                <SpriteCharacter npcId="elara" audio={audio} isSpeaking={speaking} />
               </div>
             ) : (
               <img
@@ -266,7 +289,7 @@ export default function HolographicElara({
             )}
 
             {/* Speaking indicator - mouth glow */}
-            {isSpeaking && (
+            {speaking && (
               <div
                 className="absolute bottom-[20%] left-[30%] right-[30%] rounded-full"
                 style={{
@@ -331,7 +354,7 @@ export default function HolographicElara({
           >
             <div className="px-2 py-0.5 rounded-full bg-background/80 border border-[color-mix(in oklch, var(--energy-primary) 30%, transparent)]">
               <span className="font-mono text-[8px] tracking-[0.3em]" style={{ color: "color-mix(in oklch, var(--energy-primary) 80%, transparent)" }}>
-                {isSpeaking ? "◉ TRANSMITTING" : "◎ STANDBY"}
+                {speaking ? "◉ TRANSMITTING" : "◎ STANDBY"}
               </span>
             </div>
           </div>

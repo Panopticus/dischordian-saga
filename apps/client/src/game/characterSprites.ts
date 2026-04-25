@@ -53,6 +53,13 @@ export interface CharacterSprite {
   id: string;
   /** Static idle / bust image shown when nothing is animating. */
   bust: string;
+  /** CSS background-size for the bust. Defaults to "cover". Use a custom
+   *  value (e.g. "auto 220%") to zoom in on the face when the bust frames
+   *  too much body for the consumer's circular crop. */
+  bustSize?: string;
+  /** CSS background-position for the bust. Defaults to "center top". Use a
+   *  custom value to shift the visible window when zoomed in. */
+  bustPosition?: string;
   /** Mouth-shape sheet. Required for lip sync. */
   viseme?: SpriteSheet & { map: VisemeMap };
   /** If true, the viseme sheet is a mouth-only close-up and should be
@@ -61,7 +68,8 @@ export interface CharacterSprite {
    *  a full-face grid (legacy NPC behaviour). */
   visemeOverlay?: boolean;
   /** Where to draw the mouth overlay on the bust. Required when
-   *  `visemeOverlay` is true. Values are 0-1 fractions. */
+   *  `visemeOverlay` is true. Values are 0-1 fractions of the rendered
+   *  container (not the bust source). */
   mouthBox?: MouthBox;
   /** Eye triptych: cell 0 open, 1 half, 2 closed. */
   blink?: SpriteSheet;
@@ -154,17 +162,24 @@ export const CHARACTER_SPRITES: Record<string, CharacterSprite> = {
   elara: {
     id: "elara",
     bust: assetUrl("characters/elara/idle_hologram.avif"),
+    // Bust is 1045x1400 with the face in the upper third (eyes ~18%, chin
+    // ~32%). Cover + center-top frames the entire torso + hologram pad in
+    // the consumer's circular crop, so the face only occupies ~30% of the
+    // frame. Zoom 220% and slide down to centre the face at ~50% of the
+    // circle — the standard "transmission portrait" framing.
+    bustSize: "auto 220%",
+    bustPosition: "center 12%",
     viseme: {
       url: assetUrl("characters/elara/viseme.avif"),
       cols: 4, rows: 4, frames: 16,
       map: ELARA_VISEME_MAP,
     },
     visemeOverlay: true,
-    // Bust is 1045x1400; viseme cells are 512x512 (square). The box is sized
-    // and positioned so each cell's nose-tip and chin land on Elara's nose-tip
-    // (~y=0.29) and chin (~y=0.36), with the cell's hologram-collar glow
-    // overlapping the bust's collar. Width keeps the px aspect square.
-    mouthBox: { x: 0.389, y: 0.278, width: 0.162, height: 0.121 },
+    // Viseme cells are 512x512 (square). With the new zoom, the bust's
+    // nose-tip lands at ~34% and chin at ~55% of the rendered container.
+    // The mouthBox spans nose-to-chin in a square (height = width) so each
+    // square cell composites cleanly over the corresponding face region.
+    mouthBox: { x: 0.395, y: 0.34, width: 0.21, height: 0.21 },
   },
 
   /* The Human — protagonist; expression sheet only, no viseme/blink/breathing. */

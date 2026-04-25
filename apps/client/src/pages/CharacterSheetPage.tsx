@@ -555,7 +555,11 @@ export default function CharacterSheetPage() {
                 transition={{ delay: 0.3, duration: 0.6 }}
                 className="mb-8"
               >
-                <HolographicElara size="lg" isSpeaking={isTyping} />
+                {/* Hold "speaking" through the whole line read, not just the
+                    typewriter pass. The intro overlay has no VO audio, so
+                    without this the mouth stops moving the moment the line
+                    finishes typing — long before the player has advanced. */}
+                <HolographicElara size="lg" isSpeaking={showNarrativeIntro && narrativeStep < ELARA_INTRO_LINES.length} />
               </motion.div>
               <motion.div
                 initial={{ opacity: 0 }}
