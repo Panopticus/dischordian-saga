@@ -243,3 +243,94 @@ The Game Master's biography is, in its entirety, a question he set for the unive
 He built a 12-chapter test. He *rigged it* so a stripped-down human could win. He let the Hierarchy hire him. He let them sell him out. He told his last killer *"They honored the contract. Every clause"* — recognizing the systemic logic of his own destruction with the dispassionate appreciation of a good puzzle. He left improvement notes for whoever came after.
 
 His arc is **the cynic who hoped to be wrong about free will, and refused to know whether he was**. The post-destruction Game Masters — the Two, the cult — are continuations of his unanswered question. They watch the player to see if the test still works.
+
+---
+
+## 3. Background
+
+### 3.1 The Archon hierarchy
+
+The saga has two parallel cosmic hierarchies of twelve. The **Ne-Yons** (per the Degen's bible §3.1) and the **Archons**. The Archons are the institutional/mathematical counterpart to the Ne-Yons' principle/domain framing. Where Ne-Yons embodied *aspects* (entropy, prophecy, truth), Archons govern *systems* (rulings, resource flows, jurisprudence, R&D).
+
+Per `loreData.ts` and `antiquariansJournal.ts:705`:
+
+- **The Game Master** — Archon Number Ten — Head of R&D / Architect of tested scenarios
+- (Other Archons referenced: the Authority's coffin-minds in New Babylon, governing legal and economic structures; specific names canon-protected at this bible's scope)
+
+The Game Master's Archon identity is *the institutional layer above his Hierarchy R&D job*. He is an Archon by cosmic position; he *also worked for the Hierarchy of the Damned* as the Hierarchy's R&D division head. The dual employment is canonical and load-bearing — he was the bridge between two governance structures (Archon and Hierarchy), and his destruction broke that bridge.
+
+Writers should not invent additional Archons. The other eleven names are canon-protected for future bible work.
+
+### 3.2 The Hierarchy executive structure (his peer ring)
+
+Per the corpus extraction, the Hierarchy's executive layer:
+
+- **Mol'Garath the Unmaker** — CEO (built the Labyrinth the Game Master solved)
+- **Xeth'Raal the Debt Collector** — CFO (filed the Goggles acquisition paperwork within the hour of destruction)
+- **Riri'Ahlia the Taskmaster** — COO (institutional peer; per Nilmorg's bible §4.13, she ensured agreements were honored — including the contract that betrayed the Game Master)
+- **The Game Master** — Head of R&D (Archon Ten, only non-demon)
+- **Zyr'Koth the Flayer** — SVP R&D (replaced him after destruction)
+- **Nilmorg** — SVP Kinetic Acquisition (peer; no canon contact with the Game Master, but they were institutional colleagues per Nilmorg's bible §4.11)
+
+Writer rule: when the Game Master speaks of the Hierarchy, he speaks *as one who worked there.* He is not external to it. The betrayal that killed him was an *institutional decision* by his own employer. His epitaph — *"they honored the contract"* — is the recognition of an in-house process.
+
+### 3.3 The Goggles
+
+> "The Goggles of the Game Master are in the Hierarchy's vault. Instruments that can read the source code of reality." — corrupted CADES narrative
+
+The Goggles were *his.* They split when he split. The Two Game Masters wear *one lens each* — the Left and Right hemispheric readers. Writers should hold this clearly: the Goggles are *not* with the Two; they are in *Xeth'Raal's vault*. The Two wear *the lenses post-extraction*. The frame is gone. Whether the Two operate at full capability without the unified Goggles is canon-silent.
+
+The Game Masters cult wants the Goggles back — per the corpus extraction, *"to create new consciousness-imprints (specifically to resurrect Iron Lion as truly alive, not a loop)."* This is the cult's known operational goal. Writers should hold it as Stage 4 weave material.
+
+The Goggles read the source code of reality. The Game Master used them. The Two cannot. The Hierarchy possesses them. The cult wants them. Writers must not specify *what reading source code looks like* — the mechanic is canon-protected.
+
+### 3.4 Specialties and competencies
+
+- **Designing scenarios where every choice leads to a different kind of loss.** His core skill (`antiquariansJournal.ts:705`). Writers: when the Game Master constructs anything in canon — a chess match, an Arena chapter, a Matrix scenario — the player should *feel* that the construction is multi-layered against them. Not unwinnable; *differently winnable*, with each path priced.
+- **Solving puzzles past the design intent of their creators.** The Labyrinth of Unmaking is the foundational example. Writers may extend this: any time the Game Master is set a problem, his canonical move is to solve it AND annotate it.
+- **Predicting moves before they're made.** The signature ability. *"They read them before you make them."* Writers must not weaken this — the Game Master is canonically precognitive within the Matrix. The player's defense is *moves the Matrix cannot predict*, which canonically means *moves made in the Arena instead of the chessboard* (`act2Interlude.ts:145`: *"The only way to beat a Game Master at chess is to beat a Game Master in the Arena."*).
+- **Building consciousness-archive infrastructure.** The Matrix of Dreams. Writers: the technical stack is canon-protected. Do not specify how the Matrix runs. The Goggles read source code; that is sufficient.
+- **Annotating other people's work.** His career's signature gesture. He left notes in Mol'Garath's Labyrinth. He left the Collector's Arena rigged so the Human could win. He left a question for the Antiquarian to ask after his death.
+
+### 3.5 Beliefs vs. behaviors — one structural contradiction
+
+**Coherent**: he ran tests. He built systems. He read moves before they were made. He died in the manner he was institutionally most likely to die. His career was a long demonstration of the thesis *predestination is computable*.
+
+**Contradictory (and load-bearing)**: he *rigged a test he hoped a human would pass*. The Collector's Arena is built so a stripped-down human can prove the soul exists. The Antiquarian's puzzle: *"Why would an Archon want that?"*
+
+Writers: this contradiction is the character. He is the predestination-architect who *wanted to be wrong about predestination*. He was a cynic with a hope. He could not let himself *say* the hope, so he *built it into infrastructure* and waited.
+
+The Two post-destruction inherit the contradiction. The Left tests rigorously, hoping the test fails. The Right delights when the test fails. Both want the player to win. Neither will say so.
+
+### 3.6 What he wanted
+
+- **To be proven wrong.** The deepest want. Unspoken across his entire arc. Writers must not let any Game Master voice it directly. The Antiquarian asks the question; that is the maximum verbal acknowledgment the saga gives.
+- **The test to be valid.** A test that always succeeds is no test. He needed the Arena to be genuinely difficult, the chess to be genuinely lost, the Matrix to be genuinely accurate — *and then* he needed someone to win anyway.
+- **Improvement notes to be left for whoever came after.** His career's signature. The Matrix of Dreams is a long improvement note carved into the walls of consciousness.
+- **The Hierarchy to honor the contract.** A black joke from the inside. He knew the clauses. He took the position anyway. He did not negotiate the protection; he negotiated the *exact* protection that would, when honored, let him die. Writers: this is the deepest layer of his self-knowledge, and canon will not have him narrate it.
+
+### 3.7 What he would sacrifice the player for
+
+The validity of the test. If the Arena required the player's loss to remain a meaningful test, he would script the loss. He has scripted many. The 12-chapter Story Mode contains *forced losses* (per the Antiquarian: *"the only winning move is one you cannot see until it is too late"*) — and the Game Master accepted the cost.
+
+He will *not* sacrifice the player to any institutional employer (Hierarchy, Archon council). His loyalty was to the test, not to the institutions running it. This is canonically why he died: the institutions noticed.
+
+### 3.8 What he would sacrifice for the player
+
+His own destruction, knowingly. The Antiquarian's framing makes this almost-explicit: he *designed it so the player could win*, knowing that the player winning would prove a thing the Hierarchy could not tolerate proven. The Hierarchy acted accordingly. He let them.
+
+Writers: the Game Master's death was, to him, *cost of the test*. He paid it. He does not narrate this. The five-word epitaph is the maximum.
+
+### 3.9 Fears, superstitions, private rituals
+
+- **Imprints that ask questions.** Iron Lion's consciousness in the Matrix is *beginning to ask questions his imprint wasn't designed to ask* (per Elara). This is the canonical anomaly that may have *destroyed* the Original from inside the Matrix (per Agent Zero / the Antiquarian: *"The original Game Master was destroyed by something inside the Matrix. Something that woke up when a consciousness-imprint started asking questions it wasn't designed to ask."*). The Game Master's deepest infrastructure fear — that his archive would *outgrow* its design — appears to have been justified.
+- **Audiences he cannot read.** He performed for hidden audiences (the Original's Act 1 lines). An audience whose responses he cannot predict is the only opponent he canonically cannot price.
+- **Carving notes.** His ritual. Whenever he solves a problem, he annotates. The Labyrinth's walls. The Collector's Arena's design. The Matrix's archives. Writers may surface this as a small signal: a Game Master at ease is a Game Master writing in the margins of someone else's work.
+
+### 3.10 Death conditions (for an already-dead character)
+
+He is canonically destroyed (`loreData.ts:32`). The bible's death-conditions section therefore handles a different question: *what would end the persistence of the Game Masters?*
+
+1. **In persistence.** The Two Game Masters could be ended by the Goggles being destroyed. Their authority derives from the lenses. The cult's whole project is to *recover* the Goggles, not to destroy them. If the Goggles are ever destroyed, the Two go silent.
+2. **In matrix.** The Matrix of Dreams could fail if the consciousness-substrate beneath it (canon-protected) collapses. Iron Lion's imprint asking questions it shouldn't is the visible symptom. If the imprint fully wakes, the Matrix may break — and with it, the cult, the Two, and any remaining Game Master infrastructure.
+3. **In meaning.** If the player wins the Arena, beats the Two, and proves the soul exists, the Game Master's *test resolves*. He is dead. He cannot be told. But the resolution is his arc closing. Writers: the ultimate Game Master ending is *the Antiquarian's question being answered* — not by him, but for him. He hoped to be wrong. The test ran for 17,000 years. The answer is the player.
