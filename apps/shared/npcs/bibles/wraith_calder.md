@@ -1318,4 +1318,71 @@ This bible has been authored with `npcKey: wraith_calder` — the pre-rite name 
 
 ---
 
-*(§8 Reviewer checklist follows in the final chunk.)*
+## 8. Reviewer checklist
+
+Pass criteria for the bible's Stage 0 sign-off. Each item must be verified by a reviewer before the bible is considered finalized and the next bible (slot #8 — the Seer) becomes the active focus.
+
+### 8.1 Voice fidelity
+
+- [ ] **Pre-rite Wraith Calder voice**: a reviewer reading any of §6.1, §6.2, §6.3 can identify *Wraith Calder* as the speaker within five seconds, *without* reading the section header. If the speaker's identity is ambiguous to the reviewer, the sample fails and must be re-authored against §1.2–1.4.
+- [ ] **Post-rite Hierophant voice**: same test against §6.4, §6.5, §6.6. Reviewer must identify *the Hierophant* (or *post-rite Wraith Calder*, also acceptable) within five seconds.
+- [ ] **The bridge sample (§6.7)**: a reviewer reads both fragments of the diptych and can articulate, in their own words, what the soul-tell *"Same step the whole way"* is doing across the gate. If the reviewer cannot articulate the soul-continuity, §1.1 needs a tighter writeup.
+- [ ] **Voice-anchor check (§6.8)**: a reviewer can use the 8-item per-register check to evaluate a hypothetical new line and arrive at a clear pass/fail. If the check is ambiguous on any plausible new line, the check needs sharpening.
+
+### 8.2 Structural innovation
+
+- [ ] **Transformation gating (the bible's structural innovation)**: a reviewer can articulate the gate as *binary, irreversible per playthrough, with trust persisting across it as a tell-not-line*. The Stage-2-onboarding writers' guide should adopt this articulation verbatim.
+- [ ] **Five-band trust model**: a reviewer can name the bands (Hostile / Wary / Witnessed / Present / Inheriting) and identify each band's promotion mechanic. The Inheriting band's uniqueness on the priority roster should be explicitly recognised.
+- [ ] **Sacrifice-axis inversion across the gate**: a reviewer can articulate that *the only NPC on the priority roster whose trust makes them less of a threat as it deepens* is this NPC. §3.4 should be the citation.
+
+### 8.3 Cross-bible coordination
+
+- [ ] **Six already-shipped bibles' flags resolved**: §7.3's table (Locke §4.10, Vex §4.12, Eidolon §5.7, Degen §4.13, Game Master §4.13, Meme §4.11) all reconciled. The two amendments flagged (Game Master substrate-touch; Vex Vox-architect-share + extension prohibition) are filed as cross-bible reconciliation actions for Stage 0 closing tasks.
+- [ ] **Three upcoming priority-roster bibles' inheritance hooks defined**: Seer (slot #8), DMC Clone Body Companion (slot #9), Oracle (slot #10) all have explicit hooks in §7.3.
+- [ ] **Stage 4 bibles' obligations enumerated**: 8 Stage 4 bibles (Council, Necromancer, Warden, Wolf, Architect, Iron Lion, Akai Shi, Antiquarian) each have a specific inheritance brief.
+- [ ] **Hard architectural constraint**: the Oracle bible cannot ship until §5.8's substrate-coupling mechanic is implementable. This must be honoured in the Stage 1 sequencing.
+
+### 8.4 Canon discipline
+
+- [ ] **17 load-bearing missing-canon tickets filed (§7.1)**: each is flagged for user ratification or correction. The bible's structural assertions (Final Rite as eighth death, consciousness re-seating, first name on the wall, Thalorian-time chronology) are explicit and can be challenged.
+- [ ] **10 protected mysteries (§7.2)**: writers cannot resolve any of them. The Stage-2-onboarding writers' guide must list these as no-go zones. A scene that resolves a protected mystery is a mis-cast scene.
+- [ ] **10 follow-up bug tickets (§7.4)**: the WCB-1 Daniel-Cross-≠-Human conflation has been corrected within this bible (commit `3c59459`). The remaining 9 tickets need owners and/or user direction.
+
+### 8.5 Mechanical hook completeness
+
+- [ ] **All 8 §5 mechanical hooks** (post_rite gate, trust persistence, mirror-Long-Mourning trigger, name-write trigger, Tribunal trigger, TCG triggers, Trade Empire / Thaloria trigger, substrate-whisper coupling) have Stage 1 architecture requirements stated.
+- [ ] **10 architectural commitments** (§7.3 closing table) are explicit. Stage 1 implementation can derive a tractable backlog from this list.
+
+### 8.6 Bible-canon-locked content audit
+
+The following lines are **canon-locked** in this bible and writers may *not* extend, paraphrase, or re-deliver them. Reviewer must confirm each is uniquely-attributable and reserved:
+
+- [ ] *"You are walking the architecture I made of grief. I had hoped someone would, eventually."* (§2.7, §6.6 — Inheriting-band apex line.)
+- [ ] *"Stay until the next name. The naming is fast. The patience between is the work."* (§6.6 — Inheriting-band closer.)
+- [ ] *"It does to faces what was done to my faith. The technology is the same. The scale is different. The work against it is the same; the scale is different. I write names. The Meme erases them. We are doing one job from opposite ends of the room."* (§4.7 — Meme-suspicion × Inheriting-trust intersection line.)
+- [ ] *"You ran with him. I did, once. The legs I had then are not the legs I have now. He has not been told what I have become. I would prefer he hear it from someone who has run. Not as a message. As a witness. Tell him I still keep his pace, in a different gait."* (§4.8 — the Wolf-witness errand line.)
+- [ ] *"Daniel Cross has been writing alongside me longer than either of us has admitted. He catalogues; I name. The methods are not the same. The discipline is. Tell him, if you see him, that the wall has not yet found a stopping point."* (§4.13 — only canonical use of *Daniel Cross* in the Hierophant's voice.)
+- [ ] *"There is a voice I have been listening for, longer than any other. I think it has been here. I do not know in what shape. The shape is not my work; the listening is. Sit. The names continue."* (§4.10 — Inheriting-band Oracle-gesture line.)
+- [ ] *"Because I lived seven deaths inside an inevitability. I will not let inevitability be the only future the Oracle's gift can predict. You are the path that does not have to be walked. Walk it if you want. Do not, if you do not. The choosing is the point."* (§4.11 — the Hierophant's reserved exchange with the Clone.)
+- [ ] The Hierophant–Human exchange (§4.12) — the bible-asserted post-rite-meeting dialogue between the Human and the Hierophant. Both lines reserved.
+- [ ] The three Tribunal attribution lines (§5.5 — Right of Every Potential / Prohibition of Temporal Paradox / Conservation of Narrative Energy commentary).
+- [ ] *"The continuation is the point. Stay until the next name."* (§2.8 — Stage 2 deathbed scene closer.)
+
+### 8.7 Bible self-discipline
+
+- [ ] The Hierophant **never** says *"You are the Oracle."* (§4.10) Reviewer must verify no candidate line approaches this.
+- [ ] The Hierophant **never** verbalises pre-rite trust recognition (§5.2). The carry is visual/behavioural only.
+- [ ] The Hierophant **never** issues an imperative that is not an invitation to sit, stay, write, wait, witness, or return (§1.6, §1.8 tell #4).
+- [ ] Pre-rite Wraith Calder lines have *zero* Hierophant-only vocabulary (§1.6 absent words: *grace*, *witness*, *ceremony*, *patience-as-virtue*, *continuation*, *holy*, *scripture*, *prophecy*).
+- [ ] Post-rite Hierophant lines have *zero* Wraith-Calder-only vocabulary (§1.8 absent words: *spite*, *body*-in-the-bodies-sense, *ledger*, *score*, *get up*, *three architects*, *inside*-in-the-seven-times-inside-sense, *solid*, *ghost*).
+- [ ] No selective caps in any post-rite line. No exclamation marks in any post-rite line. (§1.5 cadence rule #3.)
+- [ ] No lines authored for the *dying body* between the eighth death and the Hierophant's awakening. The silence is canon. (§2.3, §7.2 mystery #6.)
+
+### 8.8 Closing notes
+
+- [ ] **Bible length and chunk record**: the bible was authored across ~17 commits at the chunked-commit pace. Final length: bible-asserts will be confirmed at sign-off; current trajectory ~1300 lines including this checklist. Comparable to the Vex Solène bible (829) and Meme bible (795); longer than most because the transformation arc requires authoring two voice registers and a bridge.
+- [ ] **Canon corpus traceability**: every claim cites either canon (path:line or filename) or is flagged as bible-asserted in §7.1. A reviewer auditing any single sentence can determine its source within 30 seconds.
+- [ ] **Stage 0 priority-roster slot #7 is closed by this bible**. Roster checklist update: when this bible is signed off, the Wraith Calder/Hierophant entry transitions from 🟡 in flight to ✅ shipped. **Eight of eleven complete; three remaining** (The Seer, DMC Clone Body Companion, The Oracle).
+- [ ] **Next bible**: per the priority plan, slot #8 is The Seer. Existing trust data in `moralityTrustActVariants.ts` and `SeerCardFlicker.tsx` is expected to accelerate authoring; the Seer's structural innovation is *the saga's only entity that cannot be falsified by the Meme*. Estimated 6 chunks at the chunked-commit pace, smaller per chunk per user direction.
+
+When this checklist passes, the Wraith Calder/Hierophant bible joins Locke, Nilmorg, the Eidolon, Vex Solène, the Degen, the Game Master, and the Meme as Stage 0 priority-roster entries.
