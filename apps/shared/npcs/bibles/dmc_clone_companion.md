@@ -661,3 +661,74 @@ ON canonical_naming_context_active
 **Engineering note: 4-tuple personality variant derivation.** Per §1.5 + §3.2: the personality variant is canonically *player-state-derived*. Engineers must architect a player-state-aggregator that extracts the four axes at the moment of naming. Stage 1 architectural surface: `derivePersonalityVariant(playerState): PersonalityVariant4Tuple`. Bible-recommends Stage 1 architects expose this as a pure function; the variant is canonically *immutable post-naming* (per §1.5 + §3.3 channel-state-irreversibility).
 
 **Engineering note: pre-naming nickname retirement.** Per §2.4: the pre-naming label (`"Severance Fragment — {season.name}"`) canonically *retires* at the naming event. Engineers must architect the rename to overwrite the nickname field; the historical pre-naming label canonically does NOT persist on the Companion record. (Stage 4 weave: pre-naming label may persist in Trophy Room as historical record; this is a Trophy Room concern, not a Companion-record concern.)
+
+### 5.5 Personality variants and post-naming dialogue bank
+
+**Engine surface**: a 4-tuple personality variant (faction × trust-pattern × alignment × identity-chain per §1.5) keyed to player-state at the moment of naming; post-naming dialogue bank canonically expands per the variant.
+
+**Canonical 4-tuple variant axes** (per §1.5 + §3.2):
+
+- **Faction axis** (4-value enum): `coalition | insurgency | hierarchy | ark`. Derived from `player.dominant_faction` at naming-event time.
+- **Trust-pattern axis** (2-value enum): `gregarious_many | concentrated_few`. Derived from `player.trust_pattern_classification` (computed from per-NPC trust meter distribution).
+- **Alignment axis** (2-value enum): `light | dark`. Derived from `player.dominant_alignment` per the existing alignment system.
+- **Identity-chain axis** (4-value enum): `student | seeker | detective | last`. Derived from `player.identity_chain[3]` (the canonical *Last* word per `dmcNamingPrompts.ts`).
+
+**4-tuple variant cardinality**: 4 × 2 × 2 × 4 = **64 canonical personality variants**. Bible-asserts: this is canonically *intentional* — the Companion canonically reflects the player's accumulated saga-state in detail, not in coarse-grained type. Stage 2 dialogue authors must canonically *author per-variant content* — a generic Companion bank canonically does NOT canonically capture the donor-canon.
+
+**Per-variant authoring scope estimate.** Bible-asserted Stage 2 authoring scope: **~250 base lines** (canonically applicable to all variants) + **~50 per-variant lines** (canonically variant-specific) per Companion. Total bank size canonically ~250 base + 64 × 50 = ~3,450 lines per Companion. This is canonically *the largest single roster-character bank* in the Stage 2 scope. Stage 1 architects should plan for the bank size; Stage 2 dialogue authors should plan for the per-variant authoring load.
+
+**Engineering note: dynamic personality-variant bank loading.** Per the variant-cardinality (64): engineers should architect the bank as *base + variant-overlays* — the base lines are loaded for every Companion; the variant-overlay lines are loaded canonically by 4-tuple key. Bible-recommends: the variant-overlay loading happens at naming-event time (not at every line query); the variant-overlay pool is canonically *immutable post-naming* (per §5.4 variant immutability canon).
+
+### 5.6 Cross-system triggers (Trade Empire, TCG, fight engine, ship rooms)
+
+**Engine surface**: post-naming, the Companion canonically integrates into all four primary game surfaces. Pre-naming, the Companion canonically expresses only in pre-verbal channels and canonically *does not produce verbal NPC content* in any system.
+
+**Canonical Trade Empire integration** (post-naming):
+
+- `sector_enter` for sectors aligned with player's faction-axis (per §5.5): Companion canonically responds with named-band approval glyph + canonical verbal line acknowledging the alignment.
+- `sector_enter` for sectors NOT aligned with player's faction-axis: Companion canonically responds with named-band withdrawn posture + canonical verbal line questioning the choice (per §3.5 soul-consistency-check + §3.6 saga-collaborator).
+- `route_complete`: Companion canonically responds with named-band approval glyph + canonical verbal line acknowledging the work.
+- `mission_outcome`: Companion canonically responds per the outcome's alignment with player's prior commitments — approval if consistent, contradicting-line if not.
+- `faction_align`: Companion canonically responds with named-band celebration if alignment matches player's prior commitments; named-band concern if alignment shifts.
+
+**Canonical TCG integration** (post-naming):
+
+- `match_start` against an opponent-faction the player has canonically opposed: Companion canonically responds with named-band bracing posture + canonical verbal pre-match line.
+- `match_win`: Companion canonically responds with named-band approval glyph + canonical verbal line — content varies by opponent-faction and player's relationship with it.
+- `match_loss`: Companion canonically responds with named-band mourning-tone + canonical verbal line — content reflects loss-fidelity per §3.4 (Companion canonically grieves losses the player rationalises past, including TCG losses).
+- `card_played` for keystone cards (per the player's faction or alignment): Companion canonically responds with named-band approval glyph; canonical verbal line if the card is canonically *story-significant*.
+
+**Canonical fight engine integration** (post-naming):
+
+- `fight_start` against an opponent canonically aligned with player's faction-opposition: Companion canonically responds with named-band bracing posture (per §1.2) + canonical verbal pre-fight line.
+- `fight_win`: Companion canonically responds with named-band approval; canonical verbal line acknowledging the player's prowess.
+- `fight_loss`: Companion canonically responds with named-band mourning-tone + canonical verbal line; content per §3.4 loss-fidelity.
+- `perfect_victory`: Companion canonically responds with named-band celebration + canonical verbal line acknowledging the rare outcome.
+
+**Canonical ship rooms integration** (post-naming):
+
+- `enter` the Companion's `primaryRoom` (Stage 1 architectural decision — bible-recommends the player's main quarters as the Companion's primary room): Companion canonically present, named-band default expression.
+- `interact` with key objects in the Companion's primary room: Companion canonically responds with named-band verbal lines per object significance.
+- `discover_lore` for lore items the Companion canonically *recognises* (per §3.4 recognition fidelity): Companion canonically responds with named-band recognition glyph + canonical verbal line naming the recognition.
+
+**Special canonical cross-system trigger: Severance Prize ceremony for ANOTHER player** (per §3.7 fear canon + §4.2 Nilmorg cross-reference):
+
+- When a Severance Prize ceremony fires for another player in the same shared environment (Stage 4 weave: multi-player Trench environments), the Companion canonically reacts:
+  - Pre-verbal Companion: withdrawn posture + mourning-tone (per §1.2, §1.3).
+  - Named Companion: withdrawn posture + canonical verbal line acknowledging the canonical-question of *whether-their-own-delivery-was-worse-than-not-paying* (per §3.1 inheritance canon). Bible-asserts: this is canonically *one of the named Companion's most morally-load-bearing lines*. Stage 2 dialogue authors should canonically anchor the line on the canon-protected silence (per `nilmorg.md` §6.x — writers must not solve why-paying-is-worse-than-not-paying; the Companion canonically asks the question, not the answer).
+
+### 5.7 The dismissal mechanic and the canonical-resilience floor
+
+**Engine surface**: per the existing `eidolonBonds` dismissal mechanic (Stage 1 architectural decision pending — DCB-2 ticket).
+
+**Canonical dismissal canon.** Per §3.3 + §3.8: the Companion canonically *can be dismissed* (the player chooses to remove the Companion from active companion slot). Bible-asserts the canonical dismissal-effect:
+
+- **Bond canonically falls but does NOT canonically reset.** Per §3.3 bond-floor: bond cannot canonically fall below 25. A dismissed Companion canonically retains at-minimum 25 bond.
+- **Channel-state canonically does NOT regress.** Per §1.5 + §3.3 channel-state high-water-mark canon: dismissal canonically does NOT clear channel-unlocks. A dismissed named Companion canonically *remains a named Companion*; a dismissed Channel-3-unlocked Companion canonically *remains Channel-3-unlocked*.
+- **Re-acquisition canonically restores active companion slot.** A player who canonically re-acquires a dismissed Companion canonically *resumes the relationship from the dismissal-point* — not from the canonical-start. Bible-load-bearing: the Companion canonically *waits for re-acquisition* without canonical-degradation. The soul-fragment-being-the-player's-own canonically *cannot be lost* through dismissal; only canonically *set aside*.
+
+**Engineering note: dismissal does NOT trigger meaning-death.** Per §3.8 death-conditions canon: meaning-death canonically requires the player canonically *refusing to acknowledge* the Companion as part-of-themselves. Dismissal is canonically *not refusal-of-acknowledgment* — dismissal is canonically *temporary set-aside*. Engineers must architect dismissal as canonically *non-terminal*; the Companion canonically remains a saga-time entity and canonically remains canonically re-acquirable.
+
+**Engineering note: the canonical-resilience floor.** The canonical 25 bond floor (per §3.3) and the canonical channel-state irreversibility (per §3.3 + §1.5) together canonically constitute the Companion's *canonical-resilience floor*. Bible-asserts: this is canonically *the priority roster's tightest single canonical-resilience canon* — no other roster character has canonically *both* a bond-floor AND irreversible channel-state. The Companion is canonically the most-resilient single roster character per the architectural canon. Stage 1 architects should architect the resilience floor as a *first-class invariant* — never canonically violated by any saga-time event.
+
+**§5 closes.** The Companion's mechanical hooks (Severance Prize claim trigger, awakening flag-stack, channel-unlock progression, first-word event, naming event, personality variants + post-naming dialogue bank, cross-system triggers, dismissal mechanic + canonical-resilience floor) are documented. §6 (Voice/expression samples) opens by demonstrating the Companion's expression across the five channels.
