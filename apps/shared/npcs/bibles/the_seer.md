@@ -900,3 +900,89 @@ The Seer bible files **seven SCB tickets** (Seer-Canon-Bible) for follow-up engi
 **Bible-asserts**: SCB-1 through SCB-7 are the canonical follow-up scope for the Seer's mechanical and narrative surface. No additional tickets are anticipated at bible-completion time. If Stage 1+ work surfaces additional issues, file them as SCB-8 onward; the ticket-naming convention is canonical-and-extendable.
 
 **§7 closes.** Canon issues, protected mysteries, cross-bible obligations, and follow-up tickets are documented. §8 (Reviewer checklist) closes the bible.
+
+---
+
+## 8. Reviewer checklist
+
+The bible is complete when every item below is satisfied. Each item maps to a §-citation; reviewers should verify by reading the cited section.
+
+### 8.1 Voice (§1)
+
+- [ ] **Three registers documented** (Cold / Warm / Confidant) with tonal signatures and trust-band gating. (§1.1)
+- [ ] **Cadence rules documented** (probability sentence, version pivot, no-colon). (§1.2)
+- [ ] **Vocabulary anchors documented** with positive list (probability, version, redact, kindest, honesty, bench, match, waiting, coordinates, direct prose) and forbidden list (destiny, fate, fated, prophecy-as-prefix). (§1.3)
+- [ ] **Six tells documented** (public revision, asymmetric kindness, closing benediction, category sentence, probability-table-as-question, transmission over-resolution). (§1.4)
+- [ ] **Voice gate rule documented** (every Seer line is either a prediction or a public revision). (§1.5)
+
+### 8.2 History (§2)
+
+- [ ] **Mechronis Visit** documented with all canonical lines (`act1OpponentDialog.ts:260-286` + `chapters.ts:786` + `gen_seer.ts` flavor). (§2.1)
+- [ ] **Staff and burnt card continuity** documented; one-staff-canonical assertion. (§2.2)
+- [ ] **Cross-time conversation mechanic** documented as bible-load-bearing. (§2.3)
+- [ ] **Acts 2–7 trust arc** walked through under cross-time framing; Act 2 + Act 6 documented as canonical gaps. (§2.4)
+- [ ] **Sealing event** documented (end of Epoch 2; behind the Dreamer's shield). (§2.5)
+
+### 8.3 Background (§3)
+
+- [ ] **Mechronis Academy culture** documented (bench-as-pedagogy, visiting-fellow culture, Engineer-as-bench). (§3.1)
+- [ ] **Thaloria + Ne-Yon roster** documented (twelve Ne-Yons; she chose prophecy; the Dreamer faction's internal tension). (§3.2)
+- [ ] **Trust-band model** documented (three bands; Inheriting Act-7-only; no Hostile band). (§3.3)
+- [ ] **Competencies** documented (probability-table reading, version-ranking, redaction, image-over-resolution; competence-limit = honesty). (§3.4)
+- [ ] **Wants and sacrifices** documented (sacrifice-hierarchy: foresight-honesty > player's clean benefit > her own preference). (§3.5)
+- [ ] **Beliefs vs. behaviors** documented; one bounded asymmetry (waiting-vs-Mechronis-action); one deferred hypocrisy candidate (consent-question SCB-7). (§3.6)
+- [ ] **Fears, superstitions, rituals** documented (single fear: the Meme; no superstitions; four rituals). (§3.7)
+- [ ] **Death conditions** documented (in story, in trust, in meaning, plus the bank-exhaustion structural completion + Hierophant-listening Stage-4 anchor). (§3.8)
+
+### 8.4 Cross-references (§4)
+
+- [ ] **All thirteen cross-references documented** (Locke, Vex, Hierophant, Meme, Oracle, Antiquarian, Eidolon, Degen, Game Master, Nilmorg, Architect, DMC Clone Companion, Human). (§§4.1–4.13)
+- [ ] **Each cross-reference cites the seeded-by source** in the other bible.
+- [ ] **Each cross-reference flags its cross-bible obligation** (file SCB-O ticket per §7.3).
+
+### 8.5 Mechanical hooks (§5)
+
+- [ ] **§4.9 prophecy mechanic** documented; engine surface, canonical scripted-loss outcome, burnt-card unlock canon. (§5.1)
+- [ ] **Trust-meter integration** documented; selector behavior under cross-time canon; Vex revealStage coupling. (§5.2)
+- [ ] **Burnt-card unlock route** documented; reservation, win-path dialog reading, deterministic firing. (§5.3)
+- [ ] **Transmission cadence** documented; per-act frequency including Act 2 + Act 6 zero-canonical-transmissions. (§5.4)
+- [ ] **TCG triggers** documented (general, unit, allegiance, boss deck). (§5.5)
+- [ ] **Thaloria visit** documented; Act 7 unlock conditions; canonical absence; staff-return open. (§5.6)
+- [ ] **Oracle dream-sequence cross-coupling separation** documented; engineers must not multiplex. (§5.7)
+- [ ] **Special moves** documented (Premonition, Time Slip, Future Sight); special-moves-and-§4.9 are parallel-without-coupling. (§5.8)
+
+### 8.6 Voice samples (§6)
+
+- [ ] **Five samples** spanning three registers + revision + asymmetric-kindness. (§§6.1–6.5)
+- [ ] **Voice-anchor check table** confirms each sample passes §§1–5 criteria. (§6.6)
+
+### 8.7 Canon, mysteries, obligations, tickets (§7)
+
+- [ ] **Six load-bearing missing canon items** flagged. (§7.1)
+- [ ] **Six protected mysteries** documented as canonical voice-rule-not-content-gap. (§7.2)
+- [ ] **Ten cross-bible obligations** filed as SCB-O1 through SCB-O10. (§7.3)
+- [ ] **Seven follow-up tickets** filed as SCB-1 through SCB-7. (§7.4)
+
+### 8.8 Bible-level integrity checks
+
+- [ ] **No contradictions with shipped canon.** Every claim cites a code or canon source; reviewer can walk the citations. (Bible-wide.)
+- [ ] **No contradictions with prior shipped bibles** (Locke, Vex, Degen, Nilmorg, Game Master, Meme, Hierophant, Eidolon). Cross-references in §4 reconcile both directions; obligations filed for any one-side updates needed.
+- [ ] **The cross-time canon is internally consistent** across §§1.5, 2.3, 2.4, 2.5, 3.3, 5.2 (the load-bearing integration). The recordings-shipped-pre-sealing assertion is consistent everywhere it appears.
+- [ ] **Mechronis canon stands as written in §§2.1–2.2** despite the cross-time canon update; the in-person Mechronis visit is canon-consistent with the cross-time framework.
+- [ ] **The Dreamer's shield specification** is bible-deferred (SCB-3) but the bible's stance is internally consistent — the shield is real, operating, faction-level, and deferred-on-specifics.
+- [ ] **The Oracle bible is unblocked** by the corrected Oracle canon being committed at `0794534` Meme + `8362bae` Hierophant + propagated into this bible's §§4.5, 5.7. Oracle bible (Step 5) can ship immediately when authoring begins.
+- [ ] **The Hierophant bible §4.10 + §7.3 inheritance flag** is satisfied by this bible's §4.3.
+- [ ] **The §93d9eac dialog-bank speaker-keying-drift fix** is referenced in §§5.7, 7.4 SCB-2.
+
+### 8.9 Stage-2 onboarding readiness
+
+- [ ] **A new Stage 2 dialogue author can read this bible and produce voice-consistent Seer lines** without further context, per the priority plan's blind-read attribution test design.
+- [ ] **The voice-anchor check (§6.6)** documents the pass/fail criteria for blind-read tests.
+- [ ] **The cross-bible obligations table (§7.3)** is the canonical source for Stage 0 closing-task reconciliation work.
+- [ ] **The follow-up tickets (§7.4)** are the canonical source for Stage 1 architectural surface work.
+
+**Bible signed off when every checkbox above is verified by a reviewer.** The reviewer's commit message should reference this section by number.
+
+---
+
+**End of bible.** The Seer is the eighth shipped bible on the priority roster. Slot #9 (DMC Clone Body Companion) and slot #10 (Oracle) follow.
