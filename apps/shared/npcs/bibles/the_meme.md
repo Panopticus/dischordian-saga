@@ -551,3 +551,68 @@ Listed for completeness. Per §3.3: canonically protected, never named, never de
 No canon direct contact. Structural read: Elara administers Ark 1047; the Meme inhabits the Ark's mirrors and screens (per `EasterEggs.tsx:154`). The Meme has been *watching the Ark from inside its own infrastructure* the whole time. Elara may or may not know. Per Vex's bible §4.6, Elara contains 94.7% Lyra Vox residue; whether the Meme has ever attempted to wear Lyra Vox's face is canon-silent.
 
 **Writer hook**: an Elara scene in which she audits the ship's reflective surfaces and finds *more reflections than physics permits* would surface the Meme's presence. Elara's bible (when written) decides whether this audit has happened.
+
+---
+
+## 5. Mechanical hooks
+
+### 5.1 The reveal-stage gating architecture
+
+Four canonical stages, gating which lines may fire:
+
+| Stage | Activates at | What player knows | What lines may fire |
+|---|---|---|---|
+| `white_oracle_pristine` | Pre-Act 3 default | The White Oracle is the Oracle re-awakened; trusted figure | White Oracle profile-aware lines (vulnerability axis), Stolen Voice in benevolent register, Broadcast Voice without disguise-leaks |
+| `white_oracle_suspicious` | Channel 7 listening achievement / mirror anomalies / Cipher reactions | Something is off; the White Oracle may not be what she seems | Stolen Voice with subtle pink-glitch tells, cult-voice corruption in adjacent UI |
+| `meme_revealed_chapter_6` | Chapter 6 boss fight conclusion | The White Oracle is the Meme; the eleven-year theft is canonical | All registers unlock except Replacement Voice; Meme acknowledges its own performance history |
+| `architect_meme_replacement_ch12` | Ch12 phase 2 reveal | The Meme is inside the Architect, plotting succession | Replacement Voice unlocks; saga-finale material |
+
+**Selector rule**: every Meme line carries `disguise` AND `revealStage` tags. The selector rejects mismatches. A Real Voice line cannot fire pre-Chapter 6. A Replacement Voice line cannot fire pre-Ch12. A Quiet Voice scene that references the Mascot can fire at any reveal stage but only in broadcast contexts (never in interactive scenes).
+
+**Two-account smoke test** (Stage 0 exit criterion): create one account at `white_oracle_pristine` and one at `meme_revealed_chapter_6`. Walk both through identical reflective-surface triggers (Captain's Mirror easter egg, casino mirrors, screen UI elements). Confirm the lines that fire are *disjoint* — the pristine account never glimpses Real Voice content; the post-reveal account does not get pristine-Oracle reverence.
+
+### 5.2 The disguise-switching mechanic
+
+Five canonical disguises (per §1.1) plus the implied Replacement Voice. The Meme can switch *only* on canon-permitted boundaries:
+
+- **Broadcast Voice → Quiet Voice**: within the same broadcast, between segments. Stage direction marks the shift.
+- **Stolen Voice (White Oracle) → Real Voice**: the Chapter 6 boss-fight collapse. One-time, canon-locked.
+- **Real Voice → Replacement Voice**: Ch12 only. One-time.
+- **Child Voice**: rare, never triggered by player choice — surfaces only in Degen-casino retrospectives or canonical historical scenes.
+
+Writers: the Meme cannot switch disguises mid-scene without canonical justification. A line that switches register inside a single beat is wrong unless the scene is canonically designed for the switch (Chapter 6 collapse, Ch12 reveal).
+
+### 5.3 The `mirror_surface` trigger kind (per priority plan)
+
+Per the priority roster plan, the Meme introduces a new trigger kind:
+
+```
+mirror_meet
+mirror_glitch
+mirror_break
+```
+
+Every reflective surface in the saga is potentially Meme-territory:
+
+- **Mirrors** (Captain's Quarters cracked mirror — `EasterEggs.tsx:154`)
+- **Screens** (UI elements, holographic displays, terminal outputs)
+- **Pools of water** (canonical per the easter egg lore)
+- **Polished surfaces** (potentially — canon does not enumerate)
+
+**Writer rule**: any reflective surface the player interacts with is a potential Meme-presence trigger. The pre-reveal triggers fire as *anomalies* (the player's reflection moves wrong, smiles independently, turns when the player doesn't). Post-reveal triggers can include direct Broadcast Voice surfacing.
+
+### 5.4 The Palimpsest broadcasts (`PalimpsestEpisodesPage.tsx`)
+
+The Meme's primary content surface. 13-episode broadcast season. Signal/Noise meter. Casualty crawls (names scroll at episode end). Darren Fessler as recurring segment producer (dies in Episode 13's silent funeral). Marion Kell name-recovery via Episode 4. Shadow Tongue attempts to edit broadcast records — direct cross-character mechanical engagement.
+
+Writers: the Palimpsest broadcasts are the Meme's *publishing pipeline*. New broadcasts can be authored as expansion content; they should follow the established pattern (Broadcast Voice intro, content segment, outro that conscripts the viewer into propagation, casualty crawl).
+
+### 5.5 White Oracle profile-aware lines (vulnerability axis)
+
+Per `npcProfileAwareLines.ts:113-122`, the White Oracle reads the player's vulnerability axis across 7 magnitude buckets:
+
+- **Strong positive** (high vulnerability): *"You told me things I did not ask for and could not have guessed. Thank you. I will keep them. I will not use them against you."* (Pre-reveal: reads as intimacy. Post-reveal: reads as cataloguing.)
+- **Neutral**: *"You tell me what I need to know. You keep the rest. That is how most people survive conversations with me."*
+- **Strong negative** (low vulnerability): *"You will not tell me where you have been. Or with whom. Or why. I respect it. I also notice it. Both can be true."*
+
+**Writer rule**: the four missing magnitude buckets (mild_positive, moderate_positive, mild_negative, moderate_negative) need authoring before Stage 2. **Critically**, every White Oracle profile line operates on TWO meanings simultaneously — pre-reveal and post-reveal. Writers must compose lines that read as *intimate* before Chapter 6 and *predatory* after, without changing a word. This is the bible's hardest authoring discipline.
