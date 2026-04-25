@@ -265,9 +265,11 @@ Pre-arena Wraith Calder is a Potential who ran with a Wolf for seven days; Locke
 
 The Oracle is the unseen entity preparing for the end. Locke would care about this enormously — the Oracle's visions are memories of collapsed timelines (`loreAchievements.ts` / `companionData.ts`), which is to say the Oracle has *priced futures data* that Locke's entire business model is built around pricing. If the Oracle speaks through the Ark, Locke wants in on the channel. The Oracle's bible should decide whether Locke has ever been one of the voices the Oracle has reached.
 
-### 4.12 DMC Clone Body Companion (new asset)
+### 4.12 DMC Clone Body Companion (new asset; Companion bible shipped at `eb782e9`)
 
 Starts silent, gains speech. Locke would take an immediate professional interest in a new-born companion with unclear loyalties. She would appraise. The Clone Companion's bible should consider Locke as the first person who treated them as a category of thing rather than a curiosity — this is, from Locke's side, a form of respect.
+
+**Updated per `dmc_clone_companion.md` §§4.4, 7.3 DCB-O4**: the Companion bible canonically ratifies the category-of-thing-not-curiosity canon and canonically extends — the Companion canonically *registers Locke's category-treatment as canonical-respect* and canonically responds with canonical-respect-of-its-own. **Locke is canonically the saga's first character to treat the Companion as an entity not a curiosity** (per Companion bible §4.4); this is the Companion's *clearest single positive cross-character relationship in shipped canon*. Stage 2 dialogue authoring of any Companion-Locke scene should canonically anchor on this canon.
 
 ### 4.13 The Eidolon (asset she cannot price)
 

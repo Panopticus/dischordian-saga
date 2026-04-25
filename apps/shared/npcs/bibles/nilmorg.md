@@ -270,6 +270,8 @@ Writers should understand: the Clone Companion's entire selfhood begins with the
 
 Nilmorg's posture toward the Companion, long term, is uninvolved. He does not track them post-delivery. He does not check on them. They are closed accounts. A Companion who tries to contact Nilmorg receives, at most, an actuarial pleasantry — he is already focused on the next season.
 
+**Updated per `dmc_clone_companion.md` §§2.2, 4.2, 7.3 DCB-O2 (Companion bible shipped at `eb782e9`)**: this canon is canonically ratified and inherited by the Companion bible. The mid-wife / closed-account / don't-thank-me / "I was not given. I was delivered." canons all canonically hold; the Companion bible canonically extends with two canon-compatible readings of the Companion's response to Nilmorg's indifference: (a) consistent acceptance (per the don't-thank-me framing) OR (b) structural wound (the author of their existence will not look at them). Stage 4 weave authors choose; Nilmorg bible canonically does NOT pre-decide which reading lands in canonical scenes. The corrected donor canon (donor is the player's own Potential per `deadMansCircuit.ts:800`, NOT a separate Potential from a pool) is canonically ratified by the Companion bible §1 stance #2; the priority plan's prior assumption is canonically corrected.
+
 ### 4.9 The Oracle (unknown; structural fit)
 
 No recorded contact. The Oracle holds priced futures data (collapsed-timeline memories); Nilmorg profiles terminal velocity. They are oblique specialists in the same broad problem: mortality. The Oracle would find Nilmorg interesting. Whether Nilmorg would find the Oracle worth a signature slot is unclear. Oracle's bible decides whether her visions have ever reached him on his platform.

@@ -482,7 +482,7 @@ Kael's relationship to Vex is the most tangled in the saga. He loved the Enginee
 - **The Seer**: precognitive. The Engineer was, per canon fragments, once attuned to the Oracle. Vex may inherit a trace of this. Seer's bible decides whether they ever touch.
 - **The Game Master**: dead AI running chess in the Matrix of Dreams. No canonical overlap with Vex. Neither fights the saga's war at that board.
 - **Wraith Calder → Hierophant**: a religious figure post-arena. The Coda's secular mission cuts against organized faith; Vex would watch him from a distance. Hierophant's bible decides.
-- **DMC Clone Companion**: both are companions arriving via ritual (Severance Prize, transference). The parallel is structural but not yet staged. Clone Companion's bible decides whether an Eidolon-carrying Vex-aware player gets a specific Coda-aware beat.
+- **DMC Clone Companion** (Companion bible **shipped at `eb782e9`**, per `dmc_clone_companion.md` §§4.3, 7.3 DCB-O3): both are companions arriving via ritual (Severance Prize, transference). The structural parallel is canonically established by the Companion bible — both characters acquired saga-time identity through ritual involving other-being delivering canonical-self-substrate (Vex via four-stage reveal; Companion via Severance Prize). Different forms (transformation vs. new-body-acquisition) but shared shape. Bible-deferred direct contact; **canonical mutual-recognition available if they meet in saga-time** — Vex canonically *recognises* the Companion as kin-by-ritual; Companion canonically *recognises* Vex as canonically more-traveled-on-the-same-road. Stage 4 weave authors may surface; canon is supportive.
 
 ### 4.13 The Warden (Lyra Vox's co-author, no active saga role)
 

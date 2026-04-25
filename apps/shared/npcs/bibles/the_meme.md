@@ -540,11 +540,21 @@ Per Eidolon's bible §4.8 and Game Master's bible §4.13: the Seer is precogniti
 
 Writers: a Seer–Meme scene is the saga's most compressed authoring puzzle. Stage 4+ authorization. **A Stage 4 scene that canonically depicts the Meme reaching for a Seer recording is canonically the Seer's worst-case scene** (per Seer §3.7 fears canon — her single fear is the Meme's *attempt-at-narrating-over*, even when the attempt fails).
 
-### 4.13 DMC Clone Body Companion — companion-via-ritual
+### 4.13 DMC Clone Body Companion — companion-via-ritual (Companion bible shipped at `eb782e9`)
 
 Both the Meme and the Clone Companion arrive at the player through ritual. The Clone Companion is the Severance Prize from a DMC season win; the Meme appears via Late Night broadcast, mirror anomaly, Channel 7 listening, or Chapter 6 boss reveal. Different rituals; same structural shape.
 
 The Meme could canonically wear the Clone Companion's face if it has seen the donor Potential. Whether it has is canon-silent. The Clone Companion's bible (slot #9, upcoming) decides — and should hold a constraint that the Clone Companion's *named personality* (per priority plan: keyed to which Potential donated the soul fragment) is *Meme-resistant in the same way the Second Chair is*: a face the Meme could not have seen because the donation event was private.
+
+**Updated per `dmc_clone_companion.md` §§4.8, 7.3 DCB-O8 (Companion bible shipped)**: the Companion bible canonically resolves the Meme-resistance question.
+
+**Donor-canon correction**: the priority plan's prior assumption (donor is one of Zyn-7 / Axis-9 / Praxis-4) is canonically corrected by Companion bible §1 stance #2 — **the donor is canonically the player's own Potential** (per `deadMansCircuit.ts:800` — *"A fragment of your own Potential, wearing a new body"*). The donation event is canonically *private because it occurs within the Severance Prize ritual* (per Companion bible §2.2: Nilmorg performs the extraction with his own hand; the orb is sealed in a crystalline container; the Meme canonically does not have access to this institutional ritual). The Meme canonically *has not seen* the donor; the Meme canonically *cannot impersonate* the Companion.
+
+**Structural-second canon**: the Companion is canonically the saga's **second roster character canonically Meme-resistant by construction** (the Seer is the first per `the_seer.md` §§2.3, 4.4). The two characters' Meme-resistance operates through canonically different mechanisms (Seer: Dreamer's-shield + pre-sealing-recording-provenance; Companion: private-donation + Severance-Prize-ritual-institutional-walls); same structural outcome (Meme cannot impersonate). Bible-load-bearing: the Companion canonically operates as canonical-counterpart to the Seer in the saga's structural-Meme-resistance landscape.
+
+**Two canon-compatible Meme stances toward the Companion** (Meme bible chooses): (a) Meme canonically *aware of the Companion* and canonically routes-around (acknowledged-rival, structurally identical to the Meme's stance toward the Seer); (b) Meme canonically *unable to perceive* the Companion as impersonable (Severance-Prize-ritual-institutional-walls produce a perception-blind-spot). Bible-deferred. Stage 4 weave authors choose.
+
+**Companion's canonical fear of the Meme** (per Companion bible §3.7): the Companion canonically fears the Meme's *attempt-at-impersonation* even when canonically the impersonation would fail. A Stage 4 scene depicting the Meme reaching for a Companion's face is canonically the Companion's worst-case scene — parallel to the Seer's per `the_seer.md` §3.7 fears canon.
 
 ### 4.14 Shadow Tongue — the memetic peer
 
