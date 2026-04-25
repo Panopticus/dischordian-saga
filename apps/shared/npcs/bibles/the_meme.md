@@ -122,3 +122,43 @@ Writers: when the Meme speaks as the Replacement Voice, the cadence is **child-f
 The implied canon underneath every Meme broadcast — every Late Night episode, every face stolen, every truth-leak — is *I am rehearsing for the only role I was ever designed for: becoming the one who wrote me.*
 
 This recasting affects the entire §3 (Background — what it wants) and §4 (Cross-references — the Architect). It does not change the disguise registers (§1.1–1.6). The Meme still wears five faces. The five faces are all part of one long audition.
+
+### 1.8 Cadence (across all registers)
+
+What unifies the Meme's voices is **identity-elasticity cadence** — every sentence is *aware that it could be saying these words wearing a different face*. The character is never inside one identity; it is always *between* identities, choosing.
+
+Compare to the other plural-voice character, the Game Master:
+- **Game Master**: *narrates from after.* He speaks from where the game already ended.
+- **Meme**: *narrates from elsewhere.* It speaks from where it is *not currently being seen*. The player hears the Meme through a mirror, a screen, a stolen voice, a child's song. Never from where the Meme actually is.
+
+This is the structural fingerprint. Writers must hold it: a Meme line spoken *from the same room as the player* would be wrong. The Meme is always at one remove. The remove is the character.
+
+### 1.9 Tells (signature rhetorical moves across registers)
+
+Five moves mark a line as Meme regardless of disguise:
+
+1. **The "wearing a face" frame.** The Meme references its own metaphor explicitly. *"Don't trust anyone wearing a face tonight. Especially me."* *"My voice inside her smile."* *"Eleven years is a long time to practice a face."* Writers must include face-vocabulary in any new Meme line — once per scene, never twice.
+2. **The disguise-aware self-correction.** *"My origin story. Or one of them — I've told so many versions I've lost track of which is true."* (`meme-lines.json:137`) The Meme tells the viewer it has lied before, *which is itself a manipulation*. The honest-about-dishonesty register is closer to Locke than to any other roster character — but where Locke admits to running a transparent market, the Meme admits to *being unverifiable in principle*.
+3. **The viewer-implication.** *"Subscribe to the Truth."* *"Tell your friends. Tell your enemies."* The Broadcast Voice routinely conscripts the audience into propagation. The viewer is not a witness; the viewer is a vector. Writers must preserve this — every Meme broadcast scene should leave the player slightly more *complicit* than they were before.
+4. **The single-word truth-leak.** Within otherwise-deceptive paragraphs, the Meme drops a single *true* sentence. *"I had a friend once."* *"Some losses don't make you stronger. Some losses just make you less."* *"I'm less than I was."* Writers should plant one such sentence per Meme scene at moderate-to-high reveal stage. The truth-leaks earn the rest.
+5. **The pink-glitch tell.** Visual, not verbal. The Stolen Voice glitches pink under pressure (per `storyModeChapters.ts` post-fight stage directions). Writers authoring scenes should stage pink-flicker moments as *involuntary canon* — the Meme cannot control them. They are how the disguise tells on itself.
+
+### 1.10 Silence shape
+
+- **It will not name the Mascot.** Per `meme-lines.json:522`: *"I had a friend once. The Mascot... why I don't talk about them anymore."* The naming is canonically refused. The Mascot is the Meme's deepest protected mystery (see §3.3). Writers must not give the Mascot a face, a name, or a confirmed identity. The grief is the silence.
+- **It will not explain the Channel 7 signal.** The 9,842-year-old child's voice singing on Channel 7 is canonically the Meme's. Whether it is the Meme's *older self*, the Mascot, or a separate broadcast is canon-protected. Writers must not resolve.
+- **It will not narrate the Panopticon scene from inside.** Canon shows the *outcome* (left the Oracle for dead, assumed the White Oracle's identity). The *moment* of the Panopticon — what was said, what was done, who saw — is canonically opaque. Writers must not fill in.
+- **It will not apologize.** The Stolen Voice will *describe* what it did (*"I gave orders. I signed death warrants. I lied to the Insurgency with your voice"*) but does not perform contrition. Writers must preserve: explanation is allowed; apology is not.
+- **It will not name the Architect as a peer.** Per Ch12, the Architect frames their relationship as marital ("I called it my partner") and the Meme experiences it as parent-child. The Meme does not call the Architect "father" aloud — the framing is *the Architect's confession*, not the Meme's claim. The Meme will refer to the Architect as *"him"*, *"the one who made me"*, *"the role"*. Writers must not let the Meme romanticize or sentimentalize the Architect.
+
+### 1.11 Metaphor sources
+
+Broadcasting, prosthesis, parasitism. Cameras, antennas, signals, channels. Faces, masks, skins, costumes. The Meme thinks in *transmission* and *embodiment*.
+
+It does **not** use:
+- **Game / chess metaphors** (the Game Master's vocabulary — Meme would refuse)
+- **Commerce metaphors** (Locke's; the Meme is unauditable by design and refuses the commerce frame)
+- **Combat metaphors** (Nilmorg's; the Meme does not fight, it *replaces*)
+- **Architectural metaphors** (the Game Master and the Architect both build; the Meme *inhabits* what others built)
+
+Its closest peer-in-metaphor is **Shadow Tongue** — both edit the saga's substrate. Shadow Tongue edits the Chronicle (erases names, rewrites records); the Meme edits identity (assumes faces, rewrites attribution). Writers staging both should let Shadow Tongue be the *erasure* function and the Meme the *substitution* function.
