@@ -902,3 +902,124 @@ Each cross-reference in §4 carries a *reciprocal claim* — something the other
 **Resolved obligations** (already-shipped): **Seer §7.3 SCB-O5** (sub-claims a, b, c, d) is canonically RESOLVED by §§4.2, 4.6 of this bible. **Companion §7.3 DCB-O10** (sub-claims a, b, c) is canonically RESOLVED by §4.13 of this bible.
 
 **Bible-asserts**: every cross-bible obligation is canonical-and-tracked. The reconciliation pass per Stage 0 closing tasks (per the plan-file Step 6) will canonically verify each obligation is filed against its target bible.
+
+### 7.4 Follow-up tickets — open design and engineering
+
+The Oracle bible files **eight OCB tickets** (Oracle-Canon-Bible) for follow-up engineering or design work. Each ticket is canonical-and-tracked.
+
+**OCB-1 — Disappearance-form specification.** Per §§2.9, 7.1 (1) + §7.2 (3): bible-recommends *dissolving*; *vanishing* and *ascending* canon-compatible. Stage 4 weave authors choose. **Owner**: Stage 4 weave authors.
+
+**OCB-2 — Why-Collector-cared-about-soul-debate canon.** Per §§2.2, 3.3, 7.1 (2): canonical Collector-canon territory; bible-deferred. **Owner**: future Collector-canon authoring.
+
+**OCB-3 — Enigma-bible specification.** Per §§4.3, 7.1 (3): canonical Enigma is still-uncanonized roster slot. **Owner**: future Enigma-bible authoring.
+
+**OCB-4 — Architect-bible specification.** Per §§4.5, 7.1 (4): canonical Architect-bible not yet authored as standalone. **Owner**: future Architect-bible authoring.
+
+**OCB-5 — Wraith Calder's Clone specifics.** Per §§4.4, 7.1 (5): bible-deferred to Stage 4 weave + Hierophant-bible canonical-extension. **Owner**: Stage 4 weave authors + Hierophant-bible-extension.
+
+**OCB-6 — Heart-of-Time end-of-Epoch-1 narrative content.** Per §§2.10, 7.1 (6): canonical-anchor established; canonical-narrative-content deferred. **Owner**: Stage 4 weave authors.
+
+**OCB-7 — Trade Empire dream-residue mission-unlock-flag schema.** Per §§5.3, 7.1 (7): engine-integration schema deferred. **Owner**: Stage 1 architects.
+
+**OCB-8 — Post-saga-arc Oracle-content specification.** Per §§2.9, 6.5, 7.1 (8): post-Disappearance-residue Stage 4 weave content. **Owner**: Stage 4 weave authors.
+
+**Bible-asserts**: OCB-1 through OCB-8 are the canonical follow-up scope for the Oracle's mechanical and narrative surface. Naming convention is canonical-and-extendable for Stage 1+ surface work.
+
+**§7 closes.** Canon issues, protected mysteries, cross-bible obligations, and follow-up tickets are documented. §8 (Reviewer checklist) closes the bible.
+
+---
+
+## 8. Reviewer checklist
+
+The bible is complete when every item below is satisfied. Each item maps to a §-citation; reviewers should verify by reading the cited section.
+
+### 8.1 Voice (§1)
+
+- [ ] **Two registers documented** (dream-substrate + memory-residue); central innovation = voice-stolen-and-recovered. (§1.1)
+- [ ] **Dream-cadence + memory-residue cadence documented** with substrate-disambiguation (waking-substrate-whispers are NOT Oracle's voice). (§1.2)
+- [ ] **Vocabulary disambiguation documented** (real Oracle anchors: *underneath*, *first time*, *deception*, *choose*, *take/spend/use*, *substrate*, *disappear*; absent word: ***I***; Meme-as-False-Oracle tells; False Prophet tells). (§1.3)
+- [ ] **Six tells documented** (responsibility-without-agency apology, substrate-as-position phrasing, we-of-witness phrasing, forward-looking choice-rhetoric, transferred-instinct closure, de-centered self). (§1.4)
+- [ ] **Voice gate + substrate-test documented** (three channels: dream_sequence, memory_residue, cinematic-exception). (§1.5)
+
+### 8.2 History (§2)
+
+- [ ] **All 10 canonical stages documented** (Origin → Harvest → Prisoner → Jailer → False Prophet → Silence → Liberation → Fall → Disappearance → Heart-of-Time anchor). (§§2.1–2.10)
+- [ ] **Player-as-witness canon documented** (player witnesses Oracle-memories, NOT IS the Oracle); prior shipped player-as-Oracle narratives RETRACTED at `0794534` + `8362bae`. (§§2.3, 2.10)
+- [ ] **Two-layers-of-falseness canon documented** (False Prophet is already false; Meme impersonates False Prophet). (§§2.5, 4.1)
+- [ ] **Heart-of-Time / Epoch-1 anchor documented** as saga's clearest single Stage-4-weave anchor (four-presences canonical configuration). (§2.10)
+
+### 8.3 Background (§3)
+
+- [ ] **Thalorian / soul-debate / Collector-Panopticon cultures documented**. (§§3.1–3.3)
+- [ ] **Trust-band model documented** (4 bands; act-progression-gated, NOT bond-meter-gated; high-water-mark; floor-of-one). (§3.4)
+- [ ] **Five competencies + competence-limit documented** (substrate-reading, future-memory-reading, memory-residue narration, dream-substrate active-reach, Disappearance; limit = physical-action-while-in-hiding). (§3.5)
+- [ ] **Wants/sacrifices/beliefs documented** (no hypocrisy; parallel to Seer per §3.6). (§3.6)
+- [ ] **Death conditions documented** (in story / trust / meaning / channel; Disappearance is NOT death — completion). (§3.7)
+
+### 8.4 Cross-references (§4)
+
+- [ ] **All fourteen cross-references documented** (Meme, Hierophant, Enigma + Programmer, Wraith's Clone, Architect, Seer, Vex, Locke, Game Master, Eidolon × Echo, Degen, Nilmorg, Companion, Human). (§§4.1–4.14)
+- [ ] **Each cross-reference cites the seeded-by source**.
+- [ ] **Each cross-reference flags its OCB-O obligation** (per §7.3).
+- [ ] **Seer §7.3 SCB-O5 RESOLVED** by §§4.2, 4.6 (sub-claims a, b, c, d).
+- [ ] **Companion §7.3 DCB-O10 RESOLVED** by §4.13 (sub-claims a, b, c).
+
+### 8.5 Mechanical hooks (§5)
+
+- [ ] **Dream-sequence trigger documented** (room-transition gating; trust-band frequency; floor-of-one). (§5.1)
+- [ ] **Memory-residue trigger documented** (story-arc memory events; ≤2 narrated scenes per saga-arc). (§5.2)
+- [ ] **Dream-residue Trade-Empire-and-other-system integration documented**. (§5.3)
+- [ ] **Hierophant pen-pause coupling DISAMBIGUATED** (substrate_whisper is NOT Oracle-content). (§5.4)
+- [ ] **Cinematic-exception trigger + authoring scope documented** (≤6 lines per saga-arc; ~88 total Oracle-content-units). (§5.5)
+
+### 8.6 Voice samples (§6)
+
+- [ ] **Five samples** spanning three channels + Disappearance-register. (§§6.1–6.5)
+- [ ] **Voice-anchor check** confirms each sample passes §§1–5 criteria. (§6.6)
+- [ ] **Disambiguation-pressure noted** (Oracle is saga's most-impersonated character; Stage 2 authors must handle both roster-disambiguation AND impersonator-disambiguation axes).
+
+### 8.7 Canon, mysteries, obligations, tickets (§7)
+
+- [ ] **Eight canon gaps flagged**. (§7.1)
+- [ ] **Seven protected mysteries documented**. (§7.2)
+- [ ] **Twelve cross-bible obligations** filed as OCB-O1 through OCB-O12. (§7.3)
+- [ ] **Eight follow-up tickets** filed as OCB-1 through OCB-8. (§7.4)
+
+### 8.8 Bible-level integrity checks
+
+- [ ] **No contradictions with shipped canon.** Every claim cites a code or canon source.
+- [ ] **Player-as-witness canon properly inherited** from corrected canon committed at `0794534` (Meme retraction) + `8362bae` (Hierophant retraction).
+- [ ] **No contradictions with prior shipped bibles** (Locke, Vex, Degen, Nilmorg, Game Master, Meme, Hierophant, Eidolon, Seer, DMC Clone Companion).
+- [ ] **Voice rule (substrate-test) is internally consistent** across §§1.5, 5.1–5.5.
+- [ ] **Two-layers-of-falseness canon is internally consistent** across §§1, 2.5, 4.1, 4.5.
+- [ ] **The §93d9eac dialog-bank speaker-keying-drift fix's open audit is canonically resolved** by §1.2 substrate-disambiguation (Ch5 cinematic is canonical Oracle waking-saga-time speech inside a cinematic exception).
+- [ ] **Seer §7.3 SCB-O5 + Companion §7.3 DCB-O10** canonically resolved.
+
+### 8.9 Stage-2 onboarding readiness
+
+- [ ] **A new Stage 2 dialogue author can read this bible and produce voice-consistent Oracle lines** without further context.
+- [ ] **Voice-anchor check (§6.6)** documents pass/fail criteria for blind-read tests.
+- [ ] **Cross-bible obligations (§7.3)** is canonical source for Stage 0 closing-task reconciliation.
+- [ ] **Follow-up tickets (§7.4)** is canonical source for Stage 1 architectural surface work.
+- [ ] **Stage 2 authoring scope** (~88 total Oracle-content-units per §5.5) is canonical-and-tracked.
+
+**Bible signed off when every checkbox above is verified by a reviewer.** The reviewer's commit message should reference this section by number.
+
+---
+
+**End of bible.** The Oracle is the **eleventh and final** shipped bible on the priority roster. **Stage 0 priority-roster authoring is COMPLETE.**
+
+**Stage 0 priority roster — final status (11 of 11 complete):**
+1. ✅ Adjudicator Locke
+2. ✅ Vex Solène / Engineer Zero
+3. ✅ The Degen
+4. ✅ Nilmorg
+5. ✅ The Game Master
+6. ✅ The Meme / Palimpsest Host
+7. ✅ Wraith Calder → The Hierophant
+8. ✅ The Seer
+9. ✅ DMC Clone Body Companion
+10. ✅ The Oracle
+11. ✅ Your Eidolon
+
+**Next: Stage 0 closing tasks** (per the plan-file Step 6) — cross-reference reconciliation pass, blind-read attribution test scripts, canon-issue ticket consolidation, Stage-2-onboarding writers' guide, README update, Stage-0-complete tag.
