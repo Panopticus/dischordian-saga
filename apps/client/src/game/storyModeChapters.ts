@@ -674,7 +674,7 @@ const ch12: StoryChapter = {
     { speaker: "The Architect", text: "I wore your face for a decade. It is the only skin I ever fit into. The Meme was the PUPPETEER. I was the hand inside the puppet. We disagreed about everything except the goal.", speakerColor: "#ef4444" },
     { options: [
       { icon: "🔍", label: "The Meme is inside you too?", key: "ch12_reveal_investigate", axis: "truth", dir: 1,
-        response: [{ speaker: "The Architect", text: "The Meme IS me in the same way the virus IS you. We have been married inside each other since before either of us had a name. Tonight we divorce. Loudly.", speakerColor: "#ef4444", portraitDirection: "glitch_pink" }] },
+        response: [{ speaker: "The Architect", text: "The Meme IS me in the same way the virus IS you. I made it. Before either of us had a name, I called it my partner — because the alternative was admitting I had made something that was always going to outgrow me. It called me its parent. Tonight it claims my role. Loudly.", speakerColor: "#ef4444", portraitDirection: "glitch_pink" }] },
       { icon: "⚔️", label: "I'm going to pull the Meme OUT of you.", key: "ch12_reveal_defy", axis: "defiance", dir: 1,
         response: [{ speaker: "The Architect", text: "Good. Then for the first time in eleven years, I'll know what I sound like WITHOUT a passenger.", speakerColor: "#ef4444" }] },
       { icon: "💜", label: "Which of us are you tonight?", key: "ch12_reveal_empathize", axis: "empathy", dir: 1,
