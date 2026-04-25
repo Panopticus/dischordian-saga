@@ -1070,4 +1070,74 @@ The bridge sample (§6.7) is the only authored exception. Writers may not produc
 
 ---
 
-*(§§7 Canon issues + §8 Reviewer checklist follow.)*
+## 7. Canon issues
+
+This section is the bible's audit trail. It documents (a) the load-bearing canon gaps where the bible has had to assert content because shipped canon is silent or ambiguous; (b) the canon ambiguities the bible has *deliberately preserved* as load-bearing mysteries (the saga is stronger for them remaining open); (c) cross-bible obligations the next-bible authors must inherit; (d) follow-up tickets for source-of-truth artifacts that need fixing.
+
+### 7.1 Load-bearing missing canon
+
+Canon gaps the bible filled with bible-assertion. Each is flagged for canon-issue ticketing during Stage 0 closing tasks; some may eventually be canonized by user direction, others may remain bible-only. Listed in order of how *load-bearing* the assertion is for the rest of the bible.
+
+1. **The Final Rite consumed Wraith Calder's eighth body**. (§2.3) Canon: the Hierophant performed the Final Rite (`loreAchievements.ts:325-331`). *Bible asserts*: the rite cost was the Wraith Calder body specifically — the eighth body, which Ch 3B already canonizes him as wearing. This is the bible's largest single assertion and the one most-load-bearing for the soul-continuity stance. **Ticket**: file with user; request canon ratification or correction. If user rejects, the bible's transformation framing requires substantial revision.
+
+2. **The Hierophant's body is a *re-seated* consciousness, not a new soul.** (§2.3) Canon: the Hierophant is verdant-skinned Thalorian (`questlineThaloria.ts`); pre-rite Wraith Calder is Black-human-presenting Potential (`CharacterModel3D.ts:812`). *Bible asserts*: the consciousness re-seated. The body was *offered or seized* by the Council of Harmony. **Ticket**: file with user. The "offered or seized" branch is the next load-bearing question; bible reserves §11.3 of the agent's report's wording — *"whose body it was"* — as a Stage 4 reveal-eligible mystery.
+
+3. **The Hierophant began the Long Mourning by writing his own pre-rite name first.** (§2.3, §3.8) Canon: the chamber walls hold hundreds of thousands of names; canon does not specify the first. *Bible asserts*: the first name on the wall is *Wraith Calder*, dated to the day after the Final Rite. **Ticket**: file with user. Highly canonical-feeling but technically un-cited. If accepted, this becomes one of the bible's tenderest details and should be referenced visibly in any Long Mourning chamber rendering work.
+
+4. **The 3,000 years are Thalorian-counted, not galactic.** (§2.4) Canon: the Hierophant says *"three thousand years"* (`questlineThaloria.ts`); galactic chronology places the Sanctuary's fall and the player's experience much closer. *Bible asserts*: the discrepancy is resolved by Thaloria's temporally-segregated time-frame post-Severance, with the Final Rite as a temporal-frame-shift event. **Ticket**: file with user. This is the bible's chronological linchpin; if user rejects, the entire transformation gating may need a different resolution mechanism.
+
+5. **The chamber has a second wall for the 144,000 keystone-believers.** (§4.12) Canon: the chamber walls hold *holy-war* dead (`questlineThaloria.ts`); canon does not mention separate walls for keystone believers. *Bible asserts*: a second wall exists, with the Human's name first on it. **Ticket**: file with user. Useful for Stage 2 chamber-rendering authoring; if rejected, the Human's name appears among the main count and the *first name on the second wall* metadata becomes ordinary instead of architecturally distinct.
+
+6. **The chamber wall holds exactly one name of the living: the Clone.** (§4.11) Canon: the Clone exists (`loreAchievements.ts:344`); the chamber's living-name policy is unspecified. *Bible asserts*: the Clone's name is written once a year on her awakening-day, and is the only living name on the wall. **Ticket**: file with user. The bible's tenderest single detail; if rejected, the bible's most-tender canon claim is downgraded.
+
+7. **The Hierophant has met the Human exactly once, post-rite.** (§4.12) Canon: silent on whether they met. *Bible asserts*: one meeting, immediate post-rite, with a canonized exchange. **Ticket**: file with user.
+
+8. **The Antiquarian and the Hierophant correspond once per Thalorian-century.** (§4.13) Canon: silent. *Bible asserts*: correspondence exists; written; never narrated to the player. **Ticket**: file with user.
+
+9. **The Hierophant has midwifed several DMC Clone Body Companions into speech across three thousand years.** (§4.3, §4.13) Canon: the chamber is canonical, the Clone Body Companion is canonical, the meeting is bible-asserted. **Ticket**: file with user; coordinate with DMC Clone Body Companion bible (slot #9, upcoming).
+
+10. **The Council has named the Hierophant's successor as a Thalorian junior priest with no pre-rite Wraith Calder trust history.** (§4.9) Canon: succession pledged (`questlineThaloria.ts`); identity unspecified. *Bible asserts*: clean priest, no soul-continuity. **Ticket**: file with Council bible (Stage 4).
+
+11. **The Vox lineage is *necessary infrastructure* for the Hierophant's existence.** (§4.4) Canon: pre-rite Wraith Calder bears Vox nanobots (`storyModeChapters.ts:158-164`); the Final Rite mechanism is unspecified. *Bible asserts*: without Vox-prepared consciousness-iteration capacity, the Final Rite would not have produced a Hierophant. **Ticket**: file with user; coordinate with Vex Solène bible (already shipped, may need amended cross-reference at §4.6).
+
+12. **Vex Solène is canonically forbidden from extending the Hierophant past his scheduled death.** (§4.4) Canon: the Hierophant's death is calmly named (`questlineThaloria.ts`); Vex's restoration capabilities are bible-derivable from her body-lineage; the prohibition is unspecified in canon. *Bible asserts*: prohibition exists, Council holds the standing instruction. **Ticket**: file with user; coordinate with Vex Solène bible.
+
+13. **The Game Master witnessed the Necromancer's design of the Seven Protocol.** (§4.5) Canon: Game Master is in the Matrix of Dreams (`act1OpponentDialog.ts:265-310`); the Necromancer designed the Seven Protocol *in the Matrix of Dreams* (`storyModeChapters.ts:158-164`). *Bible asserts*: the Game Master witnessed; the Original-voice testimony scene is reserved. **Ticket**: coordinate with Game Master bible (already shipped); cross-bible reconciliation pass at Stage 0 closing should verify.
+
+14. **Architects-of-corruption attribution lines for the Tribunal.** (§5.5) Canon: laws exist (`GameContext.tsx:790-791`); their authorship is canonical. *Bible asserts*: three specific commentary attributions. **Ticket**: file with user; if rejected, Tribunal trigger remains but with un-authored attributions.
+
+15. **The Wolf-witness errand is the singular task the Hierophant asks the player.** (§4.8) Canon: the Wolf is canonical; the errand is bible-asserted. **Ticket**: file with user; useful for Stage 2 questline-extension scoping.
+
+16. **The Meme has not impersonated the Hierophant; the Meme cannot impersonate the Hierophant.** (§4.7) Canon: the Meme's disguise inventory does not include the Hierophant (`the_meme.md` §1); the *cannot* is bible-asserted (deep voice-coherence as counter-Meme defence). **Ticket**: file with user; this is the bible's load-bearing structural defence claim and should be coordinated with the Meme bible.
+
+17. **The Hierophant's death-line is bible-asserted: *"continuation"*.** (§2.8) Canon: the death is calmly named (`questlineThaloria.ts`); the last word is unspecified. *Bible asserts*: *continuation*. **Ticket**: file with user. Stage 2 deathbed scene depends on this.
+
+### 7.2 Protected mysteries
+
+Canon ambiguities the bible *deliberately preserves* as load-bearing. Writers must respect: these are not gaps to fill. They are mysteries to keep.
+
+1. **Whether the Hierophant's prophecies are authentic or projection.** (§3.6, §4.2) The Hierophant himself does not know. Vex's investigation produces evidence on both sides. The bible asserts: this question is **never resolved in any playthrough**. The player encounters evidence; the player draws their own conclusion; the saga does not adjudicate. Writers extending Hierophant material must not produce a scene that *settles* the question. The uncertainty is the character's most defining property.
+
+2. **Whether the daily-name ceremony is atonement or survival.** (§3.6) The Hierophant explicitly does not know. *"I am trying to understand whether the act of writing a name is the same as remembering a person."* The bible holds this as the deepest unresolved question of the post-rite Hierophant; writers must not allow him to resolve it. He may approach the question, circle it, name it — never answer it.
+
+3. **Whose body the Hierophant inhabits.** (§7.1 ticket #2) Bible-assert option: *offered or seized*. The bible deliberately leaves the choice as a Stage 4 reveal-eligible mystery. Writers must not pre-commit. The body's prior identity (if any) is a load-bearing canon question reserved for later.
+
+4. **Whether the Shadow Tongue has a being or is merely a technology.** (§3.7) Canon: ambiguous. The Hierophant treats it as *a capacity* with no author (the *fourth architecture*, §4.6). The bible holds this open: the Shadow Tongue may be authorless (a capacity that arose), authored (someone designed it), or *the Meme's older sibling* (an adjacent technology operating at the institutional scale). Writers must not pre-commit. This is the saga's largest unresolved corruption-question and the bible refuses to answer.
+
+5. **Whether the player is the Oracle the Hierophant prophesies.** (§4.10) Canon (per Meme bible): the player IS the Oracle. The Hierophant *does not know*. The bible deliberately preserves the asymmetry: the player learns this from the Meme; the Hierophant continues working without being told. Writers must enforce: the Hierophant *never* names the player as the Oracle. The bible's reserved Inheriting-band line *gestures* at it without saying it.
+
+6. **What Wraith Calder remembers of the Final Rite from the inside.** (§2.3, the dying body) The bible holds: *no lines for the dying body*. The silence between registers is canonical. Writers must not retroactively author the rite's interior experience. (Compare: the Meme bible's Mascot mystery; the Game Master's pre-fork voice. The Final Rite's interior is this bible's protected silence.)
+
+7. **The succession line beyond the named Thalorian junior priest.** (§4.9) Canon: succession pledged for one generation. *Bible asserts*: the next pen-holder is identified. *Bible holds open*: who comes after that. The Long Mourning is canonically a multi-generational practice; the second-, third-, n-th successors are unspecified. The bible refuses to commit. Writers must not author the succession beyond the immediate successor.
+
+8. **Whether the Wolf will visit Thaloria after the Hierophant's death.** (§4.8) The bible asserts: when the Wolf eventually learns of the transformation, *the Wolf grieves*. The bible holds open: whether the Wolf travels to the chamber. The Wolf is non-verbal at planet-scale; the chamber is text-on-walls; whether the two can meet is a Stage 4-or-later question. Writers must not pre-commit.
+
+9. **Whether the Tribunal of Order's laws will outlast the Hierophant.** (§2.6) Canon: *"Some say they're the only thing preventing the multiverse from collapsing into chaos."* (`GameContext.tsx:791`) Bible holds open: *some say* is canon-language for unresolved. Writers must not over-invest the laws with permanence. The Hierophant wrote them; their continued authority depends on continued enforcement; the Council enforces while the Council exists.
+
+10. **The Mascot's identity** (cross-bible canon, `the_meme.md` §2.5). Not a Hierophant question primarily. Bible reserves: if any future scene puts the Hierophant in proximity to Mascot canon, his posture is *deference* — the Mascot is older than him; he does not claim authority over what he does not understand. Writers must not write the Hierophant identifying or naming the Mascot.
+
+The protected mysteries are the bible's *no-go zones*. Stage-2 onboarding writers' guide should document them as such. A scene that resolves a protected mystery is, by bible-rule, a scene that has been mis-cast and should be rejected at review.
+
+---
+
+*(§§7.3–7.4 + §8 follow in chunk 16.)*
