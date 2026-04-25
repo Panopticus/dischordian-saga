@@ -563,3 +563,38 @@ The Matrix is not only chess. It is the saga's *consciousness archive layer*. Ot
 - **Pet Battles / Eidolon reactions** — Echo specifically may detect Matrix substrate anomalies.
 
 **Writer rule**: the Matrix is canonically a *system that reads back*. Any UI surface that touches consciousness or memory may be a Matrix surface. Writers should treat this with restraint — over-deploying Matrix awareness flattens the mechanic. The Matrix should announce itself rarely and load-bearingly.
+
+### 5.6 The "beat in the Arena to beat in chess" mechanic
+
+Canon (`act2Interlude.ts:145`):
+
+> "The only way to beat a Game Master at chess is to beat a Game Master in the Arena. Ask Zephyr-9 how."
+
+This is a canonical cross-mechanic loop. Chess defeats are unwinnable through chess play alone; the player must defeat the Two *in the Arena* to unlock the ability to defeat them on the chessboard. The Arena is the player's *unpredictable* domain (the right hemisphere's surprise space); chess is the Game Master's *predictable* domain (the left hemisphere's arithmetic).
+
+**Writer rule**: chess defeats *should not be fully recoverable through chess training alone*. The mechanic is canonically locked: training-by-Zephyr-9 advances the player's chess depth, but *winning* against the Two requires Arena progression. This is a saga-design feature, not a bug. Writers must not author chess scenes that resolve the loop — only scenes that surface or progress it.
+
+### 5.7 The cult-voice redaction surface
+
+Per §1.5, the cult speaks by editing — strikethroughs, fragments, corrupted system text. The mechanical hook:
+
+- **CADES corruption events** trigger cult-voice text overlays
+- **The Goggles' continued Hierarchy custody** is the cult's *standing operational concern* — they want them back
+- **Iron Lion's awakening imprint** is what the cult monitors most closely (canonically it may have killed the Original; the cult may be trying to either contain or accelerate it, canon-silent)
+
+**Writer rule**: cult-voice surfaces fire on UI corruption events, not narrative beats. They are the saga's textual glitch layer. Writers must not author *cult-voice monologues*; they author cult-voice *redactions* of pre-existing text. The deletion is the line.
+
+### 5.8 No TCG card
+
+The Game Master has no current TCG card. Canon-silent on whether one will be added. **Writer rule**: if a Game Master TCG card is ever designed, it should mechanically embody his predestination — perhaps *forecasting the opponent's next card* or *locking the opponent's next move into a category the Game Master has pre-named*. Faction unclear: he was Hierarchy R&D so a Hierarchy faction card is plausible, but he is also an Archon outside Hierarchy proper. Design open.
+
+### 5.9 Cross-system identity-stratification gate
+
+The most architectural rule: every Game Master line specifies one of four identities (`original | left | right | cult`), AND every system that surfaces a Game Master line must respect the identity gate.
+
+- **Chess UI**: original (Act 1) → left/right (Acts 2+)
+- **CADES corruption text**: cult only
+- **Matrix scenarios**: any of the four, depending on which scenario
+- **Other UI surfaces (Trade Empire, TCG, etc.)**: cult or none, unless explicit chess-system reference
+
+**Writer rule**: identity-stratification is the structural innovation. The selector rejects any line whose identity does not match the active surface. A Right Game Master line cannot fire from a CADES corruption event. A cult-voice redaction cannot fire mid-chess-match. The discipline is non-fungible.
