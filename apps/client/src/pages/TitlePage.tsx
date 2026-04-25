@@ -53,20 +53,13 @@ const THRESHOLD_MS = 1500;
  * `videoUrl` accepts either a YouTube watch/embed/youtu.be URL (the
  * player auto-detects and renders an iframe) or a direct mp4/webm URL
  * (rendered via the native <video> path with the VHS chroma filter).
- *
- * Music videos currently live at s3://dgrsart/Videos/<filename> rather
- * than under cdn/client-public/. The bucket prefix must allow anonymous
- * s3:GetObject for the <video> element to fetch them — a presigned URL
- * is per-user and expires, so don't paste those here. Use videoSrc()
- * to build the stable URL from the raw filename.
+ * Self-hosted videos live under cdn/client-public/videos/title/music/
+ * and resolve through assetUrl() like every other media asset.
  *
  * Sentinel ids start at 999_001 so the markViewed/markDismissed
  * mutations can short-circuit — these rows have no DB backing and
  * would orphan in `announcement_views`.
  */
-const FEATURED_VIDEOS_BASE = "https://dgrsart.s3.us-east-2.amazonaws.com/Videos";
-const videoSrc = (filename: string) =>
-  `${FEATURED_VIDEOS_BASE}/${encodeURIComponent(filename)}`;
 const FEATURED_ID_BASE = 999_001;
 const FEATURED_TRANSMISSIONS: AnnouncementRow[] = [
   {
@@ -78,9 +71,7 @@ const FEATURED_TRANSMISSIONS: AnnouncementRow[] = [
     body: "Malkia Ukweli & the Panopticon — official music video. Age of Revelation.",
     artUrl: null,
     linkUrl: null,
-    videoUrl: videoSrc(
-      "Malkia Ukweli & the Panopticon - The Book of Daniel 2.0 (Official Music Video).mp4",
-    ),
+    videoUrl: assetUrl("videos/title/music/the-book-of-daniel.mp4"),
     videoPosterUrl: null,
     videoDurationSec: null,
     triggerOnTitle: true,
