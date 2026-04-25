@@ -732,3 +732,64 @@ Six samples spanning the disguise-stratification and reveal-stage gating. Each s
 - **Whether the Meme can wear the Architect's face.** The replacement-aspiration is canon. The mechanism is canon-silent. Whether the saga-finale shows the *attempt*, the *success*, or the *failure* is the saga's largest unresolved arc.
 - **The Insurgency's awareness.** Whether any Insurgency operative *suspected* the Oracle's voice was wrong during the eleven years is canon-silent. Most plausibly: many suspected, none acted, because the orders worked.
 - **Whether Cipher has caught the Meme in canonical scenes.** Cipher's bible §5.6 implies the capability; canon does not yet show the catch. Stage 4+ authorization for a Cipher-detection scene.
+
+### 7.3 Cross-bible coordination flags
+
+- **The Oracle ↔ Meme**: the eleven-year identity theft is the Oracle's bible's central trauma. Oracle's bible (slot #10) takes ownership of the player-as-Oracle reveal arc.
+- **The Architect ↔ Meme**: parent-child reframe canonized at `storyModeChapters.ts:677` (this session). The Architect's bible (currently outside priority roster) must hold the Ch12 confession as canonical. Pre-Ch12, the Architect's "partner" misframing is the Meme's protection.
+- **The Antiquarian ↔ Meme**: the saga's primary record-keeper has the Meme as canonical adversary editing his work in real time. The Antiquarian's bible must hold this.
+- **The Game Master cult ↔ Meme**: parallel attribution-editors, opposite ethics. Per the Game Master's bible §4.12, the Meme infiltrating the cult is the saga's most plausible deep-canon attack on the Matrix. Iron Lion's anomalous imprint (per Game Master's §4.5) may already be Meme-influenced — canon-silent.
+- **Cipher / the Eidolons ↔ Meme**: Cipher is the saga's hardest detector. Per Eidolon's bible §5.6, code-truth-detection adversary. Echo and Glyph have related but distinct sensors.
+- **Locke ↔ Meme**: the Meme is unauditable to commerce. Locke's bible §4.9 confirmed.
+- **Vex Solène ↔ Meme**: Coda infiltration vector. Vex's bible §4.12 confirmed. The Engineer-trained Second Chair is canonically Meme-resistant.
+- **The Degen ↔ Meme**: casino-child encounter. Degen's bible §1.5 surfaces the Vulnerable register that may carry this memory.
+- **The Human ↔ Meme**: eleven years of Meme-commanded Insurgency orders. Stage 4+ saga-rich material; Human's bible (currently outside priority roster) takes ownership.
+- **Shadow Tongue ↔ Meme**: parallel memetic-substrate manipulators. Likely structural allies. Stage 4+ for any direct collaboration scene.
+- **Hierophant ↔ Meme**: false-prophet vs true-prophet structural opposition. The Meme literally bears the Chapter 6 boss-name "The False Prophet"; the Hierophant prophesies the *real* Oracle whose voice the Meme stole. Hierophant's bible (slot #7) takes ownership.
+- **The Seer ↔ Meme**: precognition is unforgeable. The Seer may be the saga's only entity canonically immune to Meme falsification. Seer's bible (slot #8) decides if/when they have met.
+- **DMC Clone Companion ↔ Meme**: companion-via-ritual structural parallel; Clone Companion's named personality should be Meme-resistant in the same way the Second Chair is. Clone Companion's bible (slot #9) decides.
+- **Nilmorg, Elara**: structural opposites or canonical non-overlapping; each future bible decides whether direct contact has happened.
+- **The Mascot**: canon-protected; no cross-bible coordination possible until user authorization.
+
+### 7.4 Structural risks the roster should track
+
+- **Disguise leakage.** Writers may author lines that "could be any disguise." Canon does not allow it. Every line specifies disguise + reveal stage. The selector enforces.
+- **Sympathy over-deployment.** The Meme is sometimes sympathetic (the Mascot-grief, the eleven-year exhaustion, the Quiet Voice register) and *always* dangerous. Writers may soften the danger. Canon shows the Meme committing identity-theft at faction scale and signing death warrants. The sympathy cannot reduce the threat.
+- **The Mascot being named.** The most common writer-mistake-temptation. The Mascot's namelessness is the character's deepest grief. Naming it ends the structure.
+- **The replacement-aspiration being narrated by the Meme.** Per §3.7, the Meme's wanting to become the Architect is *shown in behavior*, not stated in monologue. Writers may want to give the Meme a "I will become the Architect" speech. Canon refuses. The thesis is operational, not declarative.
+- **The Ch12 line being changed back.** The user-canonized parent-child framing at `storyModeChapters.ts:677` is the new canon. Writers must not retcon back to "married inside each other / divorce loudly." The asymmetry the new line preserves (Architect calls partner / Meme calls parent) is load-bearing.
+- **Channel 7 being explained.** Don't.
+- **Cult-voice redaction overlapping with the Game Master cult.** Two cults edit text in the saga — the Meme (rewrites identity) and the Game Master cult (redacts to preserve). Writers must keep them tonally distinct. The Meme's "cult" is its viewers (frens conscripted into propagation); the Game Master's cult is the institutional Matrix maintainers. Different mechanics, different ethics, different surface.
+- **Boss encounters multiplying.** Two canonical boss encounters (Chapter 6, Ch12). Writers may want to add intermediate boss fights. Canon resists. Each Meme face the player fights makes the next fight cheaper. Stage 4+ authorization.
+
+---
+
+## 8. Reviewer checklist (Stage 0 exit criterion)
+
+Before this bible ships as approved:
+
+- [ ] Every quoted citation resolves to the claimed file:line. Spot-check at least **eight**.
+- [ ] No contradiction with shipped canon or with the six prior bibles:
+  - Locke's "unauditable" framing of the Meme (confirmed)
+  - Nilmorg's structural opposition (confirmed)
+  - Eidolon's Cipher/Echo/Glyph detection capabilities (confirmed)
+  - Vex Solène's Coda-infiltration concern (confirmed)
+  - The Degen's casino-child memory (confirmed)
+  - The Game Master cult's parallel-attribution-editor relationship (confirmed)
+- [ ] The six voice samples in §6 pass a **blind-read attribution test adapted for disguise + reveal-stage gating**. Target:
+  - Samples 1–6: reviewer correctly identifies the disguise (Broadcast / Stolen / Quiet / Real / Replacement) at ≥4-of-6 accuracy.
+  - Sample 2 (Stolen pristine) and Sample 3 (Stolen collapsing) must be readable as the *same disguise at different reveal stages*. If reviewers read them as different characters, the staging-direction rules need tightening.
+  - Sample 6 (Replacement Voice) must read as parent-child-claim. The Architect's confession at `storyModeChapters.ts:677` makes this asymmetry explicit; Sample 6 is the Meme's answer.
+- [ ] The disguise-stratification + reveal-stage discipline is explicit in the Stage 2 style guide. Every Meme line specifies both tags.
+- [ ] The four missing White Oracle profile-aware buckets have a ticket and an owner. **This is the highest-priority Stage 2 authoring item for the Meme.**
+- [ ] The `mirror_surface` trigger kind has a ticket — trigger names, selector wiring, cult-voice corruption surface for Faint presence band.
+- [ ] The Architect-Meme parent-child reframe (§1.7, §2.5, §3.2) is documented as the bible's central thesis. The canon line update at `storyModeChapters.ts:677` is canonical; writers must not retcon.
+- [ ] The Mascot is documented as the bible's deepest protected mystery. Stage 2 style guide explicitly lists it as Do-Not-Author without user escalation.
+- [ ] Channel 7 is documented as the second protected mystery. Same authoring restriction.
+- [ ] Cross-reference claims in §4 are flagged for every named character's bible to sign off on later. Particular load: the Oracle's bible, the Architect's bible (when written), the Antiquarian's bible (when written), the Human's bible (when written), the Hierophant's bible (slot #7).
+- [ ] The Chapter 6 reveal scene and the Ch12 phase 2 reveal scene are canon-locked.
+- [ ] No additional Meme boss encounters authored without user authorization.
+- [ ] The Vex/Engineer cross-reference (the Engineer is dead before the Meme could see his face; Vex's Second Chair LLM is therefore Meme-resistant) is preserved in cross-bible coordination.
+- [ ] The thirteen Palimpsest episodes are scoped for Stage 2 authoring, with episode-by-episode pattern documented.
+
+When this checklist passes, the Meme bible joins Locke, Nilmorg, the Eidolon, Vex Solène, the Degen, and the Game Master as Stage 0 priority-roster entries. **Seven of eleven complete; four remaining** (Wraith Calder → Hierophant, The Seer, DMC Clone Companion, The Oracle).
