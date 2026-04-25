@@ -61,31 +61,90 @@ const THRESHOLD_MS = 1500;
  * would orphan in `announcement_views`.
  */
 const FEATURED_ID_BASE = 999_001;
-const FEATURED_TRANSMISSIONS: AnnouncementRow[] = [
+
+interface FeatureSpec {
+  slug: string;
+  title: string;
+  body: string;
+  filename: string;
+  publishedAt: string;
+  /** When true the entry joins the auto-intercept pool. Exactly one
+   *  high-priority `triggerOnTitle` row plays per session (sessionStorage
+   *  guard); the rest sit in the broadcast panel for manual play. */
+  trigger?: boolean;
+}
+
+/**
+ * Edit this list to add or reorder featured videos. Filenames are the
+ * leaf under `cdn/client-public/videos/title/music/`. Bodies are
+ * placeholder copy — refine in-place; no DB migration required.
+ */
+const FEATURE_SPECS: FeatureSpec[] = [
   {
-    id: FEATURED_ID_BASE + 0,
     slug: "the-book-of-daniel",
-    category: "transmission_incoming",
-    priority: "high",
     title: "THE BOOK OF DANIEL 2:47",
     body: "Malkia Ukweli & the Panopticon — official music video. Age of Revelation.",
-    artUrl: null,
-    linkUrl: null,
-    videoUrl: assetUrl("videos/title/music/the-book-of-daniel.mp4"),
-    videoPosterUrl: null,
-    videoDurationSec: null,
-    triggerOnTitle: true,
-    triggerProbability: 100,
-    audience: "all",
-    publishedAt: new Date("2025-01-01T00:00:00Z"),
-    expiresAt: null,
-    firstSeenAt: null,
-    dismissedAt: null,
+    filename: "the-book-of-daniel.mp4",
+    publishedAt: "2025-01-01T00:00:00Z",
+    trigger: true,
   },
-  // Drop additional uploaded videos here. `priority: "normal"` keeps
-  // them in the broadcast panel without competing for the auto-intercept
-  // slot until you promote one.
+  {
+    slug: "building-the-architect",
+    title: "BUILDING THE ARCHITECT",
+    body: "Malkia Ukweli & the Panopticon — official video. The Architect, observed.",
+    filename: "building-the-architect.mp4",
+    publishedAt: "2025-02-01T00:00:00Z",
+  },
+  {
+    slug: "hypnotized",
+    title: "HYPNOTIZED",
+    body: "Official music video — mass-comfort doctrine on the open channel.",
+    filename: "hypnotized.mp4",
+    publishedAt: "2025-03-01T00:00:00Z",
+  },
+  {
+    slug: "brushstroke-of-the-empire",
+    title: "BRUSHSTROKE OF THE EMPIRE",
+    body: "CoNexus original — visual essay on empire and erasure.",
+    filename: "brushstroke-of-the-empire.mp4",
+    publishedAt: "2025-04-01T00:00:00Z",
+  },
+  {
+    slug: "baron-heart-of-time",
+    title: "BARON & THE HEART OF TIME",
+    body: "Archival footage — story arc S2.13. Baron meets the timeline.",
+    filename: "baron-heart-of-time.mp4",
+    publishedAt: "2025-05-01T00:00:00Z",
+  },
+  {
+    slug: "the-last-christmas",
+    title: "THE LAST CHRISTMAS",
+    body: "Archival broadcast — final transmission of the old calendar.",
+    filename: "the-last-christmas.mp4",
+    publishedAt: "2025-06-01T00:00:00Z",
+  },
 ];
+
+const FEATURED_TRANSMISSIONS: AnnouncementRow[] = FEATURE_SPECS.map((spec, i) => ({
+  id: FEATURED_ID_BASE + i,
+  slug: spec.slug,
+  category: "transmission_incoming",
+  priority: spec.trigger ? "high" : "normal",
+  title: spec.title,
+  body: spec.body,
+  artUrl: null,
+  linkUrl: null,
+  videoUrl: assetUrl(`videos/title/music/${spec.filename}`),
+  videoPosterUrl: null,
+  videoDurationSec: null,
+  triggerOnTitle: spec.trigger ?? false,
+  triggerProbability: 100,
+  audience: "all",
+  publishedAt: new Date(spec.publishedAt),
+  expiresAt: null,
+  firstSeenAt: null,
+  dismissedAt: null,
+}));
 const isLocalAnnouncement = (id: number) => id >= FEATURED_ID_BASE;
 
 interface TitlePageProps {
