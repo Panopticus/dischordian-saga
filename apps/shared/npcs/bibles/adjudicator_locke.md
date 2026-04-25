@@ -261,9 +261,19 @@ No quoted interaction, but a Meme that can inhabit any reflective surface is, to
 
 Pre-arena Wraith Calder is a Potential who ran with a Wolf for seven days; Locke has no quoted commerce with him. Post-arena, the Hierophant leads a resurrected religion prophesying the Oracle. Locke's faction interest cuts against any large-scale religious movement — she cannot sell "deniability" to true believers. Her post-arena posture is probably anxious respect for the Hierophant's organizational reach. Wraith/Hierophant's bible needs to confirm whether the Hierophant has historical knowledge of Locke's role in any Tamarin religious material.
 
-### 4.11 The Oracle (unseen, structurally central)
+### 4.11 The Oracle (unseen, structurally central; Oracle bible shipped at `40fb771`)
 
 The Oracle is the unseen entity preparing for the end. Locke would care about this enormously — the Oracle's visions are memories of collapsed timelines (`loreAchievements.ts` / `companionData.ts`), which is to say the Oracle has *priced futures data* that Locke's entire business model is built around pricing. If the Oracle speaks through the Ark, Locke wants in on the channel. The Oracle's bible should decide whether Locke has ever been one of the voices the Oracle has reached.
+
+**Updated per `the_oracle.md` §§4.8, 7.3 OCB-O7**: the Oracle bible canonically resolves this question. The Oracle is canonically *structurally non-available to Locke* — bible-load-bearing canonical reasons:
+
+(a) **Priced-futures interest canon canonically established.** Locke canonically *would canonically attempt canonical-Oracle-engagement* for canonical-priced-foresight-purposes if canonical Oracle-canonical-availability canonically operated. Per Oracle §3.5 future-memory-reading competence, the canonical Oracle's canonical foresight canonically *would canonically have canonical-economic-value* if canonical-Oracle-futures could canonically be canonically *priced and contracted*.
+
+(b) **Structural-non-availability canon.** The canonical Oracle canonically *cannot canonically be canonically priced or contracted* by Locke. Three canonical reasons: (i) canonical Oracle canonically operates from canonical hiding (per Oracle §2.7); canonical hiding canonically does NOT canonically engage canonical-public-facing canonical-economic-systems. (ii) canonical Oracle canonically operates on canonical-substrate-channels (per Oracle §1.1); canonical-substrate-channels canonically do NOT canonically operate as canonical-contractable-services. (iii) canonical Oracle's canonical *I will canonically disappear* canon (per Oracle §1.3 + §2.9) canonically operates *canonically against canonical-economic-engagement* — canonical Oracle canonically does NOT canonically build canonical-ongoing-relationship-substrate.
+
+(c) **Third-unpriceable-asset categorisation.** Locke canonically *recognises the canonical-non-availability* and canonically *files canonical Oracle as canonical-unpriceable* — Oracle is canonically Locke's canonical-third canonical-unpriceable-asset (parallel to canonical-soul-bound Eidolon and canonical Severance Companion per `nilmorg.md` §4.7). Locke canonically *respects the canonical-non-availability* without canonically attempting canonical-engagement.
+
+**OCB-O7 satisfied.**
 
 ### 4.12 DMC Clone Body Companion (new asset; Companion bible shipped at `eb782e9`)
 
