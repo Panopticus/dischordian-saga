@@ -125,3 +125,52 @@ The first-word event canonically requires three conditions:
 **The first-word's canonical irreversibility.** Per §2 stance #4: once Channel 4 fires, it canonically does not un-fire. The Companion canonically *cannot return to fully pre-verbal expression*. Engineers: the first-word event canonically sets a permanent narrative flag (`dmc_companion_first_word_spoken` or similar Stage 1 architectural surface); the flag canonically does not clear. The Companion's subsequent expression canonically *includes Channel 4 as available*, even if the Companion canonically continues to express in lower channels (a Companion who has spoken once may canonically not speak again for a long time, but they canonically *can* if the moment warrants).
 
 **Cross-bible note: the first-word as cross-character anchor.** The Hierophant's chamber as canonical first-word context (per the Hierophant bible cross-reference) is bible-asserted as the **canonical-default first-word context if the player has reached Hierophant Inheriting band**. The Hierophant has canonically *midwifed many Companions before this player's Companion*; the chamber canonically holds the *institutional substrate of first-word events*. Stage 4 weave: a player who reaches Hierophant Inheriting band canonically gets the *Wraith Calder* first-word; absent Hierophant Inheriting trust, the Companion's first-word is canonically context-derived from the alternative contexts above. Cross-bible obligation: the Hierophant bible's remaining-roster entry should canonically be acknowledged in §4.6 (Hierophant cross-reference).
+
+### 1.5 Channel 5 (Named personality) and the voice gate
+
+**Channel 5 — Named personality.** The Companion's fifth and final canonical expression channel, unlocked at the Inheriting-band crossing. The naming event canonically *resolves* the Companion from the post-first-word *speaking-but-not-yet-named* state into a fully-voiced NPC with their own bank, their own voice, and their own personality variant. From this point the Companion canonically operates as a *full roster character*.
+
+**The naming event.** Canonically gated by:
+
+1. **Channel 4 unlocked** (per §1.4) — the Companion has spoken at least once.
+2. **Trust band has crossed Inheriting** — the player has reached the highest trust level with the Companion. The Inheriting band is canonically the *minimum trust* at which a soul-fragment is canonically willing to *commit to a name*.
+3. **A canonical *naming context*** — like the first-word event, the naming is canonically context-triggered. Canon-compatible naming contexts:
+   - **Player explicitly invokes the rename mechanic** (per the existing `eidolonBonds.nickname` field's player-renameable canon — `schema.ts:2940-2978`). The player canonically *names* the Companion using the standard rename UI; the naming canonically commits the Companion's identity to the player-chosen name.
+   - **The Companion canonically self-names** — per Stage 4 weave open, the Companion may canonically *propose a name* in their own voice once the naming context is reached. Bible-deferred: whether the canonical self-naming overrides the player's rename, supplements it, or is offered as a *choice between player-name-and-self-name* is canon-deferred to Stage 4 authoring.
+   - **A cross-character naming event** — the Hierophant (per the chamber-context first-word canon), the Eidolon (per Eidolon §5.9 first-word translator canon), or another canonical NPC may canonically *name* the Companion in a cross-character ritual. Bible-deferred: whether such cross-character naming overrides the player's choice is canon-deferred.
+
+**The pre-naming label.** Per `deadMansCircuit.ts:786-808`: the Companion's canonical pre-naming `nickname` field is **`"Severance Fragment — {season.name}"`**. Bible-asserts: this pre-naming label is canonically *not a name* — it is a canonical *placeholder, an institutional-tag, a not-yet-self*. The Companion canonically *does not canonically respond to the pre-naming label as a name* — they canonically respond to it as *a description of how they were delivered*. Writers must respect: the pre-naming label is canonically *Nilmorg's bookkeeping*, not the Companion's identity.
+
+**The named-personality variants.** Per the donor-canon (§1 stance #2): the donor is the player's own Potential. The named-personality is canonically *keyed to player state* — a derivative of the player's accumulated saga-state at the moment of naming. Bible-asserted personality-variant axes:
+
+- **Faction-loyalty axis** — a player who has committed to Coalition has a Companion canonically *Coalition-aligned*; an Insurgency-aligned player has an Insurgency-aligned Companion; etc. The variant canonically *amplifies the player's commitment* — the Companion canonically does NOT contradict the player's faction loyalty (per §3 the Companion as soul-consistency-check).
+- **Trust-pattern axis** — a player whose accumulated trust patterns are canonically *high-trust-with-many* has a Companion canonically *gregarious and connecting*; a player whose trust patterns are canonically *high-trust-with-few-deep* has a Companion canonically *focused and concentrated*. Bible-asserts: the trust-pattern axis is canonically the *most-personality-defining single axis* — it canonically determines the Companion's canonical *style of being-with-people*.
+- **Alignment axis** — a player canonically Light-aligned has a Companion canonically *gentle and forgiving*; a player canonically Dark-aligned has a Companion canonically *hard-edged and accountable*. The alignment-axis canonically operates as a *moral-lens variant* — the Companion canonically *sees the saga through the player's moral lens*.
+- **Identity-chain axis** (per the four-name DMC identity-chain `dmcNamingPrompts.ts`): a player who completed the Student/Seeker/Detective/Last identity-chain canonically has a Companion *named-resonant-with-the-chain*. Bible-asserts: the identity-chain axis is canonically *the most narrative-resonant* axis — the Companion's named-personality canonically *reflects the player's own self-naming-arc*.
+
+The four axes canonically *combine* — a Companion is canonically *not one variant* but a *composite of all four player-state axes*. Stage 1 architects should treat the personality-variant as a *4-tuple* (faction × trust × alignment × identity-chain), not a single variant. The bible documents the axes; Stage 2+ authoring lands the specific personality-content per 4-tuple coordinate.
+
+**The voice gate — what cannot fire across channels, and what must.**
+
+The Companion's five channels are *strictly-ordered-and-irreversible*. The voice gate enforces:
+
+**Hard gates (lines may NEVER fire outside their authorised channel)**:
+
+- **Channel 5 (named-personality verbal lines) fire only at Inheriting-band-stable + post-naming-event.** A Companion who has been spoken-to-once but not-yet-named canonically may produce *a single word* (Channel 4) but canonically *cannot produce a full conversation*. Stage 2 authoring must respect this — no multi-sentence Companion lines pre-naming.
+- **Channel 4 (first word) fires exactly once per playthrough.** The flag is canonically permanent (`dmc_companion_first_word_spoken`). Engineers must not re-fire the first-word event.
+- **Channels 1–3 (pre-verbal) cannot canonically express named-personality content.** A glyph cannot canonically convey a named-personality opinion about a faction; a posture cannot canonically convey a Companion's narrative *position*. Pre-verbal channels canonically express *state*, not *position*. Writers must respect: pre-verbal expression is canonically state-bearing, not opinion-bearing.
+
+**Soft gates (lines *may* fire outside their authorised channel but require justification)**:
+
+- **Pre-verbal channels at post-naming.** Per §1.1: a named-band Companion canonically retains the option to express via lower channels. A glyph at a verbal moment is canonically *poignant*; a posture at a verbal moment is canonically *deliberate*. Writers may author named-Companion scenes that canonically *return to* a pre-verbal channel — but the return is canonically *intentional* and *expressive*, not *regression*. Bible-asserts: the named Companion canonically *chooses* the lower channel for emotional weight.
+- **The transitional half-syllable post-naming.** A named Companion canonically may produce *half-syllables* (per §1.3) as part of their verbal speech — a half-syllable preceding a word canonically signals *deliberation*. The half-syllable is canonical residue of the channel-3-substrate persisting into named-band expression.
+
+**Cross-bible voice-gate**: the Companion's voice does NOT shift channel based on the presence of other roster characters in the scene, with one exception: per Eidolon §5.9, an Eidolon-player may canonically experience the Eidolon as *translator* of the Companion's first word. In that specific scene, the Companion canonically may *speak the first word through* the Eidolon's expressive substrate — a cross-channel collaboration between Companion-Channel-4 and Eidolon-frequency-channel. Bible-deferred whether this counts as the Companion's first word or as a *shared-first-word* event; Stage 4 weave authors decide.
+
+**The voice's load-bearing single rule**: *every Companion line must canonically be expressed in a channel currently unlocked for the Companion's saga-state, AND every Companion line must canonically respect the channel-by-channel progression*. Lines that violate either constraint are canonically not Companion lines.
+
+What this means for writers: **a Companion line that fires verbal language pre-Channel-4-unlock, or fires named-personality content pre-Channel-5-unlock, or fires non-channel-bearing content post-Channel-5-unlock, is mis-cast and should be re-routed to another character or rewritten to respect the channel-progression.** The voice gate is the bible's tightest single selector constraint. The Companion's voice is *structurally channel-bound*; a Companion line that ignores the channel canon is not in voice.
+
+---
+
+**§1 closes.** The Companion's five-channel non-verbal-to-verbal arc is documented. §2 (History) opens by walking the canonical Severance Prize ceremony, the post-delivery awakening timeline, the channel-by-channel acquisition arc across acts, and the naming-event canonical resolution.
