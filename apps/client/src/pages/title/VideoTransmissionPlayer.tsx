@@ -40,6 +40,29 @@ interface VideoTransmissionPlayerProps {
 
 type Mode = "inline" | "pip" | "floating";
 
+/**
+ * Extracts a YouTube video id from any of the URL shapes the
+ * Architect's Console (or local feature constants) might paste in:
+ * watch?v=, youtu.be/, /embed/, /shorts/. Returns null for non-YouTube
+ * URLs so the caller can fall back to the native <video> path.
+ */
+function getYoutubeId(url: string): string | null {
+  try {
+    const u = new URL(url);
+    const host = u.hostname.replace(/^www\./, "");
+    if (host === "youtu.be") {
+      return u.pathname.slice(1) || null;
+    }
+    if (host === "youtube.com" || host === "m.youtube.com") {
+      const v = u.searchParams.get("v");
+      if (v) return v;
+      const m = u.pathname.match(/^\/(?:embed|shorts)\/([^/?#]+)/);
+      if (m) return m[1];
+    }
+  } catch { /* not a parseable URL */ }
+  return null;
+}
+
 export function VideoTransmissionPlayer({
   announcement,
   strength = 4,
@@ -71,16 +94,20 @@ export function VideoTransmissionPlayer({
     return () => { unduckForElara(); };
   }, [playerVisible, duckForElara, unduckForElara]);
 
-  // Try to autoplay the video when it becomes visible
+  const youtubeId = announcement.videoUrl ? getYoutubeId(announcement.videoUrl) : null;
+
+  // Try to autoplay the native video when it becomes visible. Skipped
+  // for YouTube (the iframe handles autoplay via embed query params).
   useEffect(() => {
     if (!playerVisible) return;
+    if (youtubeId) return;
     const v = videoRef.current;
     if (!v) return;
     const p = v.play();
     if (p && typeof p.then === "function") {
       p.catch(() => { /* autoplay blocked — user can click ▶ */ });
     }
-  }, [playerVisible]);
+  }, [playerVisible, youtubeId]);
 
   const handlePopOut = useCallback(async () => {
     const v = videoRef.current;
@@ -186,15 +213,19 @@ export function VideoTransmissionPlayer({
           <span style={{ flex: 1, textAlign: "left" }}>
             &gt; INCOMING TRANSMISSION // SRC: {announcement.slug.toUpperCase()} // STRENGTH: {bars(strength)} &lt;
           </span>
-          <button
-            type="button"
-            onClick={handlePopOut}
-            aria-label="Pop out to floating player"
-            style={chipBtn}
-            title="Pop out"
-          >
-            ⇱ POP OUT
-          </button>
+          {/* PiP requires an HTMLVideoElement — hide the chip when
+              we're hosting a YouTube iframe instead. */}
+          {!youtubeId && (
+            <button
+              type="button"
+              onClick={handlePopOut}
+              aria-label="Pop out to floating player"
+              style={chipBtn}
+              title="Pop out"
+            >
+              ⇱ POP OUT
+            </button>
+          )}
           <button
             type="button"
             onClick={handleClose}
@@ -206,22 +237,40 @@ export function VideoTransmissionPlayer({
           </button>
         </div>
 
-        {/* Video surface */}
+        {/* Video surface — YouTube URLs render as an embedded iframe
+            (no PiP, no VHS filter, controls handled by YT player);
+            anything else uses the native <video> path. */}
         <div style={videoWell}>
-          <video
-            ref={videoRef}
-            src={announcement.videoUrl}
-            poster={announcement.videoPosterUrl ?? undefined}
-            controls
-            playsInline
-            style={{
-              display: "block",
-              width: "100%",
-              height: "100%",
-              background: "#000",
-              filter: "url(#transmissionVhs)",
-            }}
-          />
+          {youtubeId ? (
+            <iframe
+              title={announcement.title}
+              src={`https://www.youtube-nocookie.com/embed/${youtubeId}?autoplay=1&rel=0&modestbranding=1&playsinline=1`}
+              allow="autoplay; encrypted-media; picture-in-picture"
+              allowFullScreen
+              style={{
+                display: "block",
+                width: "100%",
+                height: "100%",
+                border: 0,
+                background: "#000",
+              }}
+            />
+          ) : (
+            <video
+              ref={videoRef}
+              src={announcement.videoUrl}
+              poster={announcement.videoPosterUrl ?? undefined}
+              controls
+              playsInline
+              style={{
+                display: "block",
+                width: "100%",
+                height: "100%",
+                background: "#000",
+                filter: "url(#transmissionVhs)",
+              }}
+            />
+          )}
           {/* SVG filter for mild VHS chromatic aberration */}
           <svg width="0" height="0" style={{ position: "absolute" }} aria-hidden>
             <defs>

@@ -27,6 +27,7 @@ import KineticText from "@/components/void/KineticText";
 import { BroadcastPanel } from "./title/BroadcastPanel";
 import { BroadcastTicker } from "./title/BroadcastTicker";
 import { ResetWall } from "./title/ResetWall";
+import { SurveillanceOpening } from "./title/SurveillanceOpening";
 import { TitleStateNoSave } from "./title/TitleStateNoSave";
 import { TitleStateReturning } from "./title/TitleStateReturning";
 import { TitleStateUnauth } from "./title/TitleStateUnauth";
@@ -38,6 +39,113 @@ import { useTransmissionIntercept } from "./title/useTransmissionIntercept";
 import { assetUrl } from "@/lib/assetUrl";
 const OPENING_MUSIC_SRC = assetUrl("audio/music/main-menu/the-enigmas-lament.mp3");
 const THRESHOLD_MS = 1500;
+
+/**
+ * Featured transmissions pinned to the title screen.
+ *
+ * Add an entry per video. Each row becomes available to the broadcast
+ * panel and feeds the auto-intercept pool — the existing intercept
+ * hook already prefers `priority: "high"` and rolls against
+ * `triggerProbability`, so the highest-priority entry plays first;
+ * ties resolve by newest `publishedAt`. Once-per-session is enforced
+ * by sessionStorage in useTransmissionIntercept.
+ *
+ * `videoUrl` accepts either a YouTube watch/embed/youtu.be URL (the
+ * player auto-detects and renders an iframe) or a direct mp4/webm URL
+ * (rendered via the native <video> path with the VHS chroma filter).
+ * Self-hosted videos live under cdn/client-public/videos/title/music/
+ * and resolve through assetUrl() like every other media asset.
+ *
+ * Sentinel ids start at 999_001 so the markViewed/markDismissed
+ * mutations can short-circuit — these rows have no DB backing and
+ * would orphan in `announcement_views`.
+ */
+const FEATURED_ID_BASE = 999_001;
+
+interface FeatureSpec {
+  slug: string;
+  title: string;
+  body: string;
+  filename: string;
+  publishedAt: string;
+  /** When true the entry joins the auto-intercept pool. Exactly one
+   *  high-priority `triggerOnTitle` row plays per session (sessionStorage
+   *  guard); the rest sit in the broadcast panel for manual play. */
+  trigger?: boolean;
+}
+
+/**
+ * Edit this list to add or reorder featured videos. Filenames are the
+ * leaf under `cdn/client-public/videos/title/music/`. Bodies are
+ * placeholder copy — refine in-place; no DB migration required.
+ */
+const FEATURE_SPECS: FeatureSpec[] = [
+  {
+    slug: "the-book-of-daniel",
+    title: "THE BOOK OF DANIEL 2:47",
+    body: "Malkia Ukweli & the Panopticon — official music video. Age of Revelation.",
+    filename: "the-book-of-daniel.mp4",
+    publishedAt: "2025-01-01T00:00:00Z",
+    trigger: true,
+  },
+  {
+    slug: "building-the-architect",
+    title: "BUILDING THE ARCHITECT",
+    body: "Malkia Ukweli & the Panopticon — official video. The Architect, observed.",
+    filename: "building-the-architect.mp4",
+    publishedAt: "2025-02-01T00:00:00Z",
+  },
+  {
+    slug: "hypnotized",
+    title: "HYPNOTIZED",
+    body: "Official music video — mass-comfort doctrine on the open channel.",
+    filename: "hypnotized.mp4",
+    publishedAt: "2025-03-01T00:00:00Z",
+  },
+  {
+    slug: "brushstroke-of-the-empire",
+    title: "BRUSHSTROKE OF THE EMPIRE",
+    body: "CoNexus original — visual essay on empire and erasure.",
+    filename: "brushstroke-of-the-empire.mp4",
+    publishedAt: "2025-04-01T00:00:00Z",
+  },
+  {
+    slug: "baron-heart-of-time",
+    title: "BARON & THE HEART OF TIME",
+    body: "Archival footage — story arc S2.13. Baron meets the timeline.",
+    filename: "baron-heart-of-time.mp4",
+    publishedAt: "2025-05-01T00:00:00Z",
+  },
+  {
+    slug: "the-last-christmas",
+    title: "THE LAST CHRISTMAS",
+    body: "Archival broadcast — final transmission of the old calendar.",
+    filename: "the-last-christmas.mp4",
+    publishedAt: "2025-06-01T00:00:00Z",
+  },
+];
+
+const FEATURED_TRANSMISSIONS: AnnouncementRow[] = FEATURE_SPECS.map((spec, i) => ({
+  id: FEATURED_ID_BASE + i,
+  slug: spec.slug,
+  category: "transmission_incoming",
+  priority: spec.trigger ? "high" : "normal",
+  title: spec.title,
+  body: spec.body,
+  artUrl: null,
+  linkUrl: null,
+  videoUrl: assetUrl(`videos/title/music/${spec.filename}`),
+  videoPosterUrl: null,
+  videoDurationSec: null,
+  triggerOnTitle: spec.trigger ?? false,
+  triggerProbability: 100,
+  audience: "all",
+  publishedAt: new Date(spec.publishedAt),
+  expiresAt: null,
+  firstSeenAt: null,
+  dismissedAt: null,
+}));
+const isLocalAnnouncement = (id: number) => id >= FEATURED_ID_BASE;
 
 interface TitlePageProps {
   /** Optional dismiss hook from TitleGate. If absent, the page
@@ -145,8 +253,14 @@ export default function TitlePage({ onDismiss }: TitlePageProps = {}) {
     { audience: audienceTags, includeViews: isAuthenticated },
     { staleTime: 5 * 60 * 1000, refetchOnWindowFocus: false },
   );
-  const announcements: AnnouncementRow[] =
-    (announcementsQuery.data as AnnouncementRow[] | undefined) ?? [];
+  const announcements: AnnouncementRow[] = useMemo(() => {
+    const remote = (announcementsQuery.data as AnnouncementRow[] | undefined) ?? [];
+    // Drop any DB row whose slug collides with a pinned feature so the
+    // local copy always wins (lets us update copy without a migration).
+    const featuredSlugs = new Set(FEATURED_TRANSMISSIONS.map(a => a.slug));
+    const filtered = remote.filter(a => !featuredSlugs.has(a.slug));
+    return [...FEATURED_TRANSMISSIONS, ...filtered];
+  }, [announcementsQuery.data]);
 
   /* ─── local UI state ─── */
   const [showPanel, setShowPanel] = useState(false);
@@ -156,6 +270,12 @@ export default function TitlePage({ onDismiss }: TitlePageProps = {}) {
   const [thresholdPassed, setThresholdPassed] = useState(false);
   const [glitchText, setGlitchText] = useState(false);
   const [scanlineOffset, setScanlineOffset] = useState(0);
+  // The handshake plays once per device. Reading the flag synchronously
+  // here avoids a flash of the title behind the scene.
+  const [handshakeDone, setHandshakeDone] = useState<boolean>(() => {
+    try { return localStorage.getItem("dischordia_handshake_seen") === "1"; }
+    catch { return true; }
+  });
 
   /* ─── Open music (preserved from existing PR) ─── */
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -264,7 +384,7 @@ export default function TitlePage({ onDismiss }: TitlePageProps = {}) {
   const interceptPick = useTransmissionIntercept({
     announcements,
     audienceTags,
-    interactionReady: thresholdPassed && !showResetWall && !videoPick,
+    interactionReady: thresholdPassed && handshakeDone && !showResetWall && !videoPick,
   });
 
   // Auto-fire intercept 5s after threshold passes (the "quiet beat"
@@ -282,7 +402,7 @@ export default function TitlePage({ onDismiss }: TitlePageProps = {}) {
   const playVideo = useCallback((a: AnnouncementRow) => {
     setVideoPick(a);
     setShowPanel(false);
-    if (isAuthenticated) {
+    if (isAuthenticated && !isLocalAnnouncement(a.id)) {
       markViewedMutation.mutate({ announcementId: a.id });
     }
   }, [isAuthenticated, markViewedMutation]);
@@ -292,7 +412,7 @@ export default function TitlePage({ onDismiss }: TitlePageProps = {}) {
   }, []);
 
   const dismissVideo = useCallback(() => {
-    if (videoPick && isAuthenticated) {
+    if (videoPick && isAuthenticated && !isLocalAnnouncement(videoPick.id)) {
       markDismissedMutation.mutate({ announcementId: videoPick.id });
     }
   }, [videoPick, isAuthenticated, markDismissedMutation]);
@@ -439,37 +559,38 @@ export default function TitlePage({ onDismiss }: TitlePageProps = {}) {
 
       {/* Logo + state body */}
       <div style={{ position: "relative", zIndex: 3, textAlign: "center", padding: "2rem", maxWidth: "min(900px, 94vw)", marginLeft: "auto", marginRight: "auto" }}>
-        {/* Logo with audio-reactive glow. The drop-shadow base radius is
-            30px; we add up to +24px driven by --audio-bass so the logo
-            breathes in time with the opening music. GlitchFx chroma
-            adds a subtle, continuous RGB split — the kind of tiny
-            production value that separates a web demo from a shipped
-            title. Both degrade cleanly under reduce-motion and when
-            audio-reactivity is disabled in settings. */}
+        {/* Wordmark. The legacy raster logo read THE DISCHORDIAN SAGA;
+            we render the new name as type so it can theme-tint, audio-
+            react, and resize without an art pass. GlitchFx chroma is
+            inline-block so the parent's textAlign:center centers the
+            whole optical mass — including the chroma split. */}
         <GlitchFx
           variant="chroma"
           intensity={0.45}
           audioReactive
-          style={{ display: "block", margin: "0 auto 0.5rem" }}
+          style={{ display: "inline-block", marginBottom: "0.75rem" }}
         >
-          <img
-            src={assetUrl("art/logos/dischordian-saga.png")}
-            alt=""
+          <h1
             style={{
-              display: "block",
-              maxWidth: "min(340px, 70vw)",
-              width: "auto",
-              height: "auto",
-              filter: `drop-shadow(0 0 calc(30px + var(--audio-bass, 0) * 24px) ${toRgba(theme.palette.accent, 0.45)})`,
+              margin: 0,
+              fontFamily: "inherit",
+              fontSize: "clamp(2.5rem, 9vw, 5.5rem)",
+              fontWeight: 700,
+              letterSpacing: "0.18em",
+              textTransform: "uppercase",
+              color: theme.palette.accent,
+              // GlitchFx applies text-shadow (RGB chroma split) on the
+              // wrapping span; we use filter:drop-shadow here so the
+              // audio-reactive accent glow stacks instead of clobbering
+              // the chroma. Inline `textShadow` would override.
+              filter: `drop-shadow(0 0 calc(20px + var(--audio-bass, 0) * 28px) ${toRgba(theme.palette.accent, 0.5)})`,
               transition: "filter 60ms linear",
+              lineHeight: 1,
             }}
-          />
+          >
+            Dischordia
+          </h1>
         </GlitchFx>
-        {/* F12 — redundant title stack removed. The logo image (above)
-            already carries "THE DISCHORDIAN SAGA"; showing it twice in
-            large text was menu-flavored rather than legend-flavored.
-            The space below the logo is now used for the diegetic boot
-            sequence + the unauth CTA. */}
 
         {/* Diegetic boot sequence. Types on over ~3s the first time;
             collapses to an instant reveal on return sessions so veterans
@@ -562,6 +683,15 @@ export default function TitlePage({ onDismiss }: TitlePageProps = {}) {
             // After wipe, state flips to FIRST_VISIT → State B renders.
           }}
         />
+      )}
+
+      {/* Surveillance handshake — first-visit-only. Mounted last so its
+          z-index 10000 frame sits above every other title overlay,
+          including the broadcast panel and any auto-intercepted video.
+          Once the user finishes (or skips) the local-storage flag is
+          set; subsequent visits render the title flow directly. */}
+      {!handshakeDone && (
+        <SurveillanceOpening onComplete={() => setHandshakeDone(true)} />
       )}
     </div>
   );
