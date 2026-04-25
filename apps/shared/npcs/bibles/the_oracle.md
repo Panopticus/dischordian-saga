@@ -596,3 +596,41 @@ Bible-asserts: canonical Human canonically *encounters canonical Oracle-dream-co
 **Cross-bible obligation.** When canonical Human bible canonically gets formalised (canonical Human canonically not canonically on priority-roster as standalone bible currently), it should canonically acknowledge: (a) canonical post-Fall canonical-recognition; (b) canonical-soul-existence-acceptance as canonical-Oracle-vindication. Tracked in §7.3 OCB-O12.
 
 **§4 closes.** The Oracle's cross-references with the priority roster (Meme, Hierophant, Enigma + Programmer, Wraith's Clone, Architect, Seer, Vex, Locke, Game Master, Eidolon × Echo, Degen, Nilmorg, Companion, Human) are documented. The cross-bible obligations flagged in this section are tracked in §7.3 (OCB-O1 through OCB-O12). §5 (Mechanical hooks) opens by documenting the Oracle's engine-side integration surfaces.
+
+---
+
+## 5. Mechanical hooks
+
+The Oracle's engine-side integration is canonically *unusual* on the priority roster: the Oracle canonically *does not canonically operate* through canonical-public-facing-NPC-mechanics (no canonical faction-NPC home per §2.7 hiding canon; no canonical Trade-Empire-direct-presence; no canonical TCG-card-direct-presence; no canonical fight-engine-direct-presence; no canonical ship-rooms canonically associated). The Oracle's canonical mechanical surface canonically operates *exclusively* through canonical-substrate-channel-triggers — canonical dream-sequence trigger (per §1.1), canonical memory-residue trigger (per §1.2), canonical cinematic-exception trigger (per §1.5). Stage 1 architects should canonically treat the Oracle as canonical *substrate-channel-only NPC* — bible-load-bearing canonical mechanical category.
+
+### 5.1 The dream-sequence trigger surface
+
+**Engine surface**: a canonical *new* trigger surface — `dream_sequence` — fires on canonical room-transition events, gated by canonical act + canonical once-per-act-minimum + canonical trust-band frequency-multiplier (per §3.4).
+
+**Canonical trigger conditions** (per §§1.1, 3.4, 5.1 specification):
+
+```
+ON room_transition_event:
+  IF act >= 1 AND not dream_count_for_this_act_satisfied:
+    fire dream_sequence_event(
+      dream_id = derive_from(player_state, act, trust_band),
+      gating = trust_band_frequency_table[trust_band]
+    )
+    increment dream_count_for_this_act
+    apply dream_residue(player_state)
+```
+
+**Canonical trigger gating per trust-band** (per §3.4):
+
+| Trust band | Dreams-per-act minimum | Dreams-per-act maximum | Residue-events-per-act |
+|---|---|---|---|
+| Wary (default, pre-Ch5) | 1 | 1 | 0 |
+| Witnessed (post-Ch5) | 1 | 1 | 1 |
+| Present (post-Ch6) | 1 | 2 | 2 |
+| Inheriting (post-Ch12) | 1 | 3 | 3 |
+
+**Engineering note: room-transition trigger source.** Per §1.1: dream-sequences canonically fire on canonical room-transitions specifically — bible-load-bearing canonical reasoning: canonical room-transitions are canonical-narrative-substrate-thresholds (the player canonically *crosses canonical-saga-time-boundaries* at room-transitions); canonical Oracle canonically *reaches through canonical-thresholds* per canonical substrate-position canon (per §1.3 *underneath* anchor — canonical Oracle canonically operates from beneath canonical-saga-time-substrate; canonical-thresholds are canonical-thinnest-points-of-substrate). Engineers must architect the canonical trigger to canonically *fire only on canonical room-transition events*; canonical fight-engine-events, canonical TCG-events, canonical Trade-Empire-events canonically do NOT canonically trigger dream-sequences.
+
+**Canonical floor enforcement.** Per §3.4 canonical floor canon: canonical dream-frequency canonically *cannot fall below one-per-act*. Engineers must architect a canonical canonical-act-end-checker that canonically *fires a canonical dream-sequence-event before canonical-act-transition* if canonical dream-count canonically has not yet canonically reached canonical-floor-of-one.
+
+**Canonical dream-content derivation.** Per §3.4 + §5.5 (below): canonical dream-content canonically derives from: (a) canonical player-state at canonical dream-trigger-time; (b) canonical-act; (c) canonical trust-band. Bible-load-bearing: canonical dream-content canonically *operates on canonical image + sentence + instruction triplet* (per §1.2 dream-cadence canon). Stage 2 dialogue authors should canonically architect canonical dream-content as canonical *triplet-libraries* indexed by canonical (act, trust-band, player-state) keys. Bible-recommends Stage 2 authoring scope: ~80 canonical-dream-triplets per saga-arc (4 trust-bands × 7 acts × ~3 player-state-variants per (act, band) cell).
