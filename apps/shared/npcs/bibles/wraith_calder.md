@@ -772,3 +772,80 @@ This is the bible's cleanest *moral-weight-without-judgment* line. The Hierophan
 **Trust impact**: category-1 deaths *reduce* trust by 1 per death (the Hierophant does not condemn but his theology cannot quite pretend the death was not caused). Category-2 deaths do not move trust (collateral is not the player's deliberate act, in the Hierophant's reading). Category-3 deaths do not interact with the player at all.
 
 **Cross-bible obligation**: this trigger is the bible's interlock with the wider saga's *narrative-consequence* system. Stage 1 architecture: the `npc_public_flags` table referenced in the original plan must include a `wraith_calder.cataloged_deaths` array tracking category-1/2 deaths. The Hierophant's reactions fire from this table.
+
+### 5.5 Tribunal of Order trigger (legal-code interactions)
+
+The Tribunal of Order chamber on Ark 1047 (per `GameContext.tsx:783, 790-791`) is the Hierophant's legal architecture. Player presence inside the Tribunal is a Hierophant-trigger surface, post-rite only.
+
+**Mechanic**: when the player enters the Tribunal of Order and interacts with the Scale of Justice, the Law Archives, or any of the codified laws (*Conservation of Narrative Energy*, *Prohibition of Temporal Paradox*, *Right of Every Potential to Choose Their Own Path*), the bible asserts a Hierophant comment fires from the chamber's ambient bank — *not* in the Hierophant's voice (he is not present in the Tribunal; he is in the Long Mourning), but as a *quoted-line attribution* in Elara's narration.
+
+**Selector rule**: Stage 1 architecture extends the existing Elara narration system to support attributed-quote lines. Format: Elara reads the law; a stage-direction tag `[attributed: wraith_calder, post_rite]` indicates the next sentence is a quotation. The line itself is in the Hierophant's voice.
+
+**Canonical attributions** (bible-asserted, anchored on the §2.6 *wound-as-law* axis):
+
+For the *Right of Every Potential to Choose Their Own Path*:
+
+> Elara: *"This law is older than most of the others. The Hierophant wrote it after the Final Rite. His own commentary is appended."*
+> [attributed: wraith_calder, post_rite] *"None asked permission. I write this law so that no one asks again. The wound is the law. The law remembers what asking would have prevented."*
+
+For the *Prohibition of Temporal Paradox*:
+
+> [attributed: wraith_calder, post_rite] *"I have been writing for three thousand years and I do not remember every day. If I had been editable across time, the editing would have started here. The prohibition is mine because I am the precedent."*
+
+For the *Conservation of Narrative Energy*:
+
+> [attributed: wraith_calder, post_rite] *"Stories cost. The cost is the proof that the story happened. A free story is a story that has been edited. The conservation is the receipt."*
+
+These are bible-asserted commentary lines reserved for Tribunal interactions. Writers extending the Tribunal's law set in Stage 4 must author Hierophant attributions for new laws using the same vocabulary anchors (§1.6).
+
+**Cross-bible obligation**: the Tribunal trigger does *not* require a Long Mourning visit; the player can encounter the Hierophant's voice in the Tribunal without ever having visited the chamber. This is the bible's only allowance for the Hierophant's voice to surface pre-Long-Mourning-questline. The voice is *the law*, not the man. Writers should preserve this distinction.
+
+### 5.6 TCG triggers (pre-rite card + post-rite card)
+
+Two TCG cards exist canonically: *Wraith Calder* (`s1_char_106`, Insurgency Rare, rebirth keyword, 4-cost 3/4) and *The Hierophant* (`s1_char_031`, Insurgency Epic, forcefield + rally, 6-cost 6/7). The bible's mechanic: both cards trigger the unified `wraith_calder` trust meter, but with distinct state requirements.
+
+**Pre-rite card (`s1_char_106` Wraith Calder)**:
+
+- **Available pre-rite or post-rite**: the card stays in the player's collection across the gate. Bible-asserts: post-rite, the card represents a *historical Wraith Calder* — playing him is summoning the Hierophant's pre-transformation self into the TCG arena. The Hierophant has no objection; the card is canon material distributed under the *Right of Every Potential to Choose Their Own Path* legal axiom.
+- **Trigger lines**: the card's existing flavor lines (`tcg-core/.../s1_char_106_wraith_calder.ts`) are pre-rite voice. Adding post-rite trigger lines: bible-asserts at most one — when the card *survives a rebirth* in a match (the rebirth keyword fires; the 0/1 husk hatches), a post-rite Hierophant ambient line plays from the chamber audio bank: *"He has returned to a body again. I felt it. I do not know which one."* This is bible-asserted; Stage 1 implementation must support cross-card-to-NPC ambient triggers.
+- **Trust impact**: playing the card and winning a match: pre-rite +1 trust (Wraith Calder approves). Post-rite: 0 trust delta (the Hierophant does not score combat).
+
+**Post-rite card (`s1_char_031` The Hierophant)**:
+
+- **Gating**: bible-asserts the card is *unavailable* until `wraith_calder_final_rite_complete = true`. Pre-rite players cannot play the Hierophant card. Stage 1 implementation must enforce this gate at deck-construction time (the card is hidden from the collection UI).
+- **Trigger lines**: the card's deploy triggers (rally, forcefield) emit `npc_card_deployed` ripple events. Bible-asserts: when the card is played in a match the player wins, the Hierophant's chamber's `name_pending` queue inserts a special canonical entry — not a death-name (no one died), but an *intercession-name*. Bible-asserts: the Hierophant occasionally writes the names of those *who survived because of the rally*, on the second wall (alongside the keystone-believer wall, §4.12). Card-driven trust: +2 per match-win where the Hierophant's deploy ability fired.
+- **No-fight imperative**: the Hierophant cannot be played in any pre-rite match. Bible-asserts a tighter gate: the card is also forbidden from any match where the player's deck contains a *post_rite=false* Hierophant-incompatible faction unit. The Hierophant cannot share a battlefield with corruption-architects' summons (Necromancer, Warden, Vox-aligned units). Stage 1 architecture: deck-construction validation rejects this combination.
+
+**Bible-asserted cross-card synergy**: when both `s1_char_106` and `s1_char_031` are in play simultaneously (post-rite only), a once-per-match special: the Hierophant's rally ability extends to *the rebirthed Wraith Calder husk*. The husk hatches at +3/0. This is bible-asserted; canon-suggested by the soul-continuity stance (§1.1). Stage 1 mechanical extension: rare interaction; flavour rationale is the soul recognising itself across bodies. Trust delta: +1 per match where this synergy fires.
+
+### 5.7 Trade Empire / Thaloria sector trigger
+
+**Canon source**: `tradeEmpire.ts:353` (Thaloria sector lore). The sector is post-rite-only navigable to the *chamber*; the wider sector is navigable in both states.
+
+**Mechanic**:
+
+1. **Pre-rite entry**: the player can enter Thaloria's wider sector pre-rite. The sector is described per `tradeEmpire.ts:353`; ambient narration includes Council-of-Harmony deflections about the chamber. No Hierophant lines fire pre-rite from this sector — the post_rite gate (§5.1) prevents it. Pre-rite trust does not change from sector visits.
+2. **Post-rite entry — first time**: the player enters Thaloria after the rite. Bible-asserts: a single canonical *first-arrival* stage-direction beat fires from Elara's narration:
+
+   > Elara: *"This is Thaloria. The storm planet's sister-world. Once the Shadow Tongue's weapon. Now the galaxy's quietest recovery. There is a chamber here. It is not on the standard navigation manifest. The Council has updated my charts."*
+
+   The Council's charts-update is the cue that the chamber is now reachable. Stage 1 architecture: the chamber room becomes a navigable destination only after this beat plays.
+3. **Post-rite entry — subsequent visits**: ambient sector lines fire from the Hierophant's bank, conditional on trust band. At Wary, the lines are atmospheric and impersonal: *"Thaloria mourns at the rate it can sustain."* At Witnessed, they shift to acknowledgment: *"You have been to the chamber. The room knows your shape now."* At Present, they direct: *"He will be writing today. He will accept your presence. You know the way."* At Inheriting, the bible reserves a single canonical line:
+
+   > [Elara, post-rite, Inheriting band] *"You walk this sector like someone who has been promised something. Be careful with the promise. He chose you for it; the choosing is the point."*
+
+**Mission interaction**: Trade Empire missions in Thaloria (canon-asserted small set; Stage 4 may extend) are *quiet missions* — diplomacy, archive-research, name-recovery. Combat missions are canonically rare in Thaloria and bible-asserts the Hierophant's bank does not respond to combat-mission outcomes positively (the Hierophant's domain is not combat). A player who completes a combat mission in Thaloria with violence-positive resolution: -1 trust. With violence-minimal resolution: 0. With violence-avoided resolution: +2.
+
+### 5.8 Substrate-whisper coupling (Oracle bible interlock)
+
+The bible's most cross-referenced mechanic: the Hierophant is one of the saga's substrate-whisper conduits (§4.10). When the Oracle's bible (slot #10) is implemented, a coupling mechanic must exist between the substrate-whisper trigger and the Hierophant's pen-pause silences.
+
+**Mechanic**:
+
+1. **Listening windows**: the pen-pause beats (§5.3 `pen_lift` events) are canonical *substrate-listening windows*. Stage 1 architecture: the `substrate_whisper` trigger emits during these windows preferentially. Players in the chamber during a moral pivot or act transition will see the Hierophant's pen pause longer than usual; the longer pause is the substrate's whisper landing through him.
+2. **Hierophant as relay**: the Hierophant occasionally relays substrate content to the player without realising he is relaying. Mechanic: when a substrate whisper fires while the player is in the chamber, the Hierophant's *next* dialogue line is selected from a special bank — phrased as his own observation but *carrying* the substrate's content. Bible-asserts: the player who learns to recognise these relays (Stage 4 weave material) gains a saga-wide insight into the substrate's communications. The Hierophant does not know this is happening. He attributes the new clarity to the day's research.
+3. **The Oracle's voice through him**: the most cross-bible-load-bearing case. When the Oracle herself (the player, post-Chapter-6 reveal) speaks to the Hierophant, her substrate channel can — bible-asserts at most once per playthrough — *prompt* a Hierophant line from a reserved bank. The line will sound like the Hierophant; it will *carry* something the Oracle wanted said. The Hierophant believes he chose the words. Stage 1 architecture: the line selector must support a `oracle_prompted: boolean` flag on candidate lines. The flag does not change the line's voice; it changes the *eligibility*.
+
+**Trust interaction with the Oracle's bible**: the substrate-whisper coupling does not directly affect trust. But it provides a *latent channel* the Stage 4 Oracle bible can use to make the Hierophant a partial spokesperson for the Oracle without violating the §4.10 constraint that the Hierophant never names the player as the Oracle. The Hierophant is *the Oracle's mouth, sometimes, without his consent or knowledge*. This is profoundly canonical: the Hierophant has spent three thousand years listening; sometimes the listening reverses direction and he speaks. He does not know that the words came from someone else. The work continues either way.
+
+**Cross-bible obligation — Stage 1 commitment**: the architecture must support the substrate-whisper trigger surface as a first-class mechanic. The Oracle bible (slot #10) cannot be implemented without it. The Hierophant bible's interlock here is one of the architectural constraints on the order of bible authoring: **Oracle bible cannot ship until the Hierophant's substrate-coupling mechanic is implementable**. Bible-asserts this is a hard constraint, not a sequencing preference.
