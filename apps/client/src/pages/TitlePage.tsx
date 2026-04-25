@@ -20,6 +20,7 @@ import { motion } from "framer-motion";
 
 import { useAuth } from "@/_core/hooks/useAuth";
 import { useGame } from "@/contexts/GameContext";
+import { useSagaThemeBGM } from "@/contexts/SagaThemeBGMContext";
 import { trpc } from "@/lib/trpc";
 import GlitchFx from "@/components/GlitchFx";
 import KineticText from "@/components/void/KineticText";
@@ -277,6 +278,16 @@ export default function TitlePage({ onDismiss }: TitlePageProps = {}) {
     catch { return true; }
   });
 
+  /* ─── Solo the Enigma's Lament on the title screen.
+       The SagaThemeBGM provider auto-starts a shuffled saga theme on
+       the user's first interaction; on the title that bleeds under
+       the Lament. Suppress while mounted, restore on unmount. ─── */
+  const sagaBGM = useSagaThemeBGM();
+  useEffect(() => {
+    sagaBGM.suppress();
+    return () => sagaBGM.unsuppress();
+  }, [sagaBGM]);
+
   /* ─── Open music (preserved from existing PR) ─── */
   const audioRef = useRef<HTMLAudioElement | null>(null);
   useEffect(() => {
@@ -338,14 +349,29 @@ export default function TitlePage({ onDismiss }: TitlePageProps = {}) {
     return () => { clearTimeout(t1); clearTimeout(t2); };
   }, [hasSeenBoot]);
 
-  /* ─── Periodic glitch on title ─── */
+  /* ─── Periodic glitch on title.
+       For the first 4s after the handshake snaps shut, double the
+       cadence (~1.2-2.0s) so the title looks rattled by what just
+       happened, then settle to the normal 4-7s rhythm. ─── */
+  const [rattled, setRattled] = useState(false);
   useEffect(() => {
-    const interval = setInterval(() => {
+    if (!handshakeDone) return;
+    setRattled(true);
+    const t = setTimeout(() => setRattled(false), 4000);
+    return () => clearTimeout(t);
+  }, [handshakeDone]);
+  useEffect(() => {
+    let timer: ReturnType<typeof setTimeout>;
+    const tick = () => {
       setGlitchText(true);
       setTimeout(() => setGlitchText(false), 150);
-    }, 4000 + Math.random() * 3000);
-    return () => clearInterval(interval);
-  }, []);
+      const base = rattled ? 1200 : 4000;
+      const jitter = rattled ? 800 : 3000;
+      timer = setTimeout(tick, base + Math.random() * jitter);
+    };
+    timer = setTimeout(tick, rattled ? 200 : 4000 + Math.random() * 3000);
+    return () => clearTimeout(timer);
+  }, [rattled]);
 
   /* ─── Slow scanline drift ─── */
   useEffect(() => {
