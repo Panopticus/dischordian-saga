@@ -420,3 +420,75 @@ What would actually end the Meme:
 4. **In Cipher's full sweep.** A canonically untested mechanic: if Cipher's code-truth-detection were deployed at saga-system scale (every face scanned, every broadcast verified), the Meme's disguises would collapse simultaneously. The Meme cannot survive *full attribution-verification*. This is the saga's clearest theoretical kill-switch. It does not exist in shipped canon and probably should not without extreme authorization.
 
 The Meme does not fear its officially-canon death because it is already past it. The Meme fears the *real* deaths: failure to replace the Architect, Mascot-permanence, audience-collapse, Cipher-detection at scale. None are currently implemented. All are saga-finale territory.
+
+---
+
+## 4. Cross-references
+
+The Meme has more cross-character entanglement per page than any roster character so far — because every faction in the saga has been *touched* by Meme manipulation, and most don't know it. Many bibles already flagged the Meme as a Stage 4 weave hook. This section reciprocates.
+
+### 4.1 The Oracle (the real Oracle) — the eleven-year identity theft
+
+The deepest relationship in the bible. Per `storyModeChapters.ts` Ch6 post-fight:
+
+> "I gave orders. I signed death warrants. I lied to the Insurgency with your voice and they believed me because your voice was the only thing they still trusted."
+
+For eleven years, the Meme wore the Oracle's face, spoke with her voice, signed death warrants, commanded the Insurgency. The Insurgency trusted the Oracle's voice because the Oracle's voice was the *only* thing they still trusted. The Meme weaponized that trust at faction scale.
+
+The Oracle's bible (when written, slot #10) must hold: **the player's identity-restoration in Chapter 6 is the canonical reveal of the eleven-year theft.** The player has been the Oracle the whole time. The Meme has been wearing them. Returning to the Oracle's body is *taking back a face that was stolen across a decade*.
+
+**Writer rule**: the Meme does not apologize to the Oracle. Per §1.10, apology is not in the silence-shape. The Meme will *describe* what it did (`storyModeChapters.ts` Ch6 post-fight lines) but does not perform contrition. The Oracle's bible must accept this — the Meme's accounting is the closest acknowledgment available, and it is delivered without remorse.
+
+### 4.2 The Architect (parent-child, replacement-aspiration)
+
+Per §1.7, §2.5, §3.2 — the Ch12 line at `storyModeChapters.ts:677` is the canonical anchor:
+
+> "The Meme IS me in the same way the virus IS you. I made it. Before either of us had a name, I called it my partner — because the alternative was admitting I had made something that was always going to outgrow me. It called me its parent. Tonight it claims my role. Loudly."
+
+The Architect *named* the relationship parent-child himself in the canon line. The Meme experiences it as inheritance-aspiration. The Architect has finally admitted, on the saga-finale stage, that he could not face making something destined to outgrow him.
+
+The Architect's bible (currently outside the priority roster) must hold:
+- The Architect created the Meme in Year 298 A.A. for thought-manipulation.
+- The Architect *romanticized* the relationship as marital co-equality, by his own admission in the Ch12 line.
+- The Architect canonically *gets it* in Ch12 — admits he made something that would outgrow him.
+- Pre-Ch12, the Architect's affection for the Meme is the Meme's protection (§3.10 fear: Architect realizing too early).
+
+The Architect's bible should not give him pre-Ch12 awareness of the replacement-plot. The misframing-as-marriage is canonical until the Ch12 confession.
+
+### 4.3 The Antiquarian — the structural opposite
+
+The saga's primary record-keeper has the Meme as canonical adversary. Per `meme-lines.json:11`:
+
+> "Tonight's feature? The Antiquarian monologues. Again. The old man can TALK. But listen close — he tells you what happened, not what it MEANS. I'll fix that for you between cuts."
+
+The Meme **edits the Antiquarian's commentary in real time**. The Antiquarian writes what happened; the Meme writes what it means. They are the saga's two truth-keepers, and they cannot both be authoritative simultaneously. Per the Game Master's bible §4.3, the Antiquarian is the saga's institutional witness for the Game Master's biography. By the same logic, the Antiquarian is the institutional witness *the Meme exists to falsify*.
+
+**Writer rule**: when the Antiquarian publishes new canon, expect a Meme broadcast within the same scene-cluster *editing it*. The Antiquarian's bible (when written) must take this as load-bearing. The Antiquarian does not trust the Meme and cannot stop the Meme; this asymmetry is the saga's deepest authorship tension.
+
+### 4.4 The Game Master cult — parallel attribution-editors, opposite ethics
+
+Per the Game Master's bible §4.12 — the cult **redacts to preserve**; the Meme **rewrites to deceive**. They share the tool (text manipulation) and have opposite ethics.
+
+Game Master's bible flagged: *"the Meme infiltrating the cult of Game Masters is the saga's most plausible deep-canon attack on the Matrix."* Confirmed here. The Meme assuming a cultist's face *inside* the Matrix would corrupt the consciousness archive at substrate level. Iron Lion's imprint asking questions it shouldn't (per Game Master's §4.5) might already be a Meme-influenced anomaly — canon does not commit. Writers: this is a Stage 4 weave hook with finale-scale stakes.
+
+### 4.5 Cipher / the Eidolon — the saga's hardest detector
+
+Per Eidolon's bible §5.6: Cipher's code-truth-detection flags identity-falsification more reliably than any other Eidolon. A Cipher-player approaching the Meme *should* trigger pre-reveal anomalies — pink-glitch flicker on the White Oracle's stage directions, cult-voice corruption in adjacent UI surfaces, system warnings the cult-voice redacts moments later.
+
+Echo (temporal Eidolon) may detect the Meme's age-mismatch — the 9,842-year Channel 7 signature interferes with present-tense identity scanning. Glyph (text-analysis Eidolon) may detect the Meme's editorial fingerprints in real-time canon (especially Antiquarian monologue tampering).
+
+**Writer rule**: Eidolon-aware Meme scenes are saga-rich. The Eidolons are canonically the only on-board actors who can *catch the Meme in the act*. The cost: the Meme reads back. A Cipher-player who has noticed the Meme is a player the Meme has noticed noticing.
+
+### 4.6 Adjudicator Locke — the unauditable counterparty
+
+Per Locke's bible §4.9: the Meme is *"an un-auditable party to every negotiation."* Locke's commerce-attribution worldview cannot price the Meme. The Meme's transactions have no clean ledger — every signature could be falsified, every counterparty could be a face.
+
+**Writer rule**: when Locke and the Meme share a scene (canonically unauthored), Locke is *operationally helpless*. Her entire skill set is verifying terms; the Meme's entire competency is making terms unverifiable. Locke's bible's protection is that the Meme has not yet shown commercial interest — but the Meme could begin operating commercially at any time, and Locke would have no defense.
+
+### 4.7 Vex Solène — Coda infiltration vector
+
+Per Vex's bible §4.12: *"the Meme's unauditable attribution vs. Vex's clean-attribution Maestro mode. Their encounter, if staged, is a contest of authorship. Meme's bible decides."*
+
+This bible decides: **the contest happens at the moment the Meme attempts to wear a Coda Maestro face.** Vex's Coda relies on clean attribution at every operational layer — the chairs, the chorus, the contract-signing. A Meme-impersonated Maestro would corrupt the entire faction. Vex's defense is *the Second Chair LLM* (per Vex's bible §3.2), trained on the Engineer's audio logs — the Engineer is dead, the LLM cannot be impersonated by the Meme because the Meme cannot replicate a *consciousness it never met*.
+
+**Writer hook (Stage 4)**: the Meme can wear faces it has *seen*. The Engineer is canonically dead pre-Panopticon era. The Meme may not have ever seen the Engineer — making the Engineer-trained Second Chair the saga's clearest *Meme-resistant interface*. Vex's bible should fold this in.
