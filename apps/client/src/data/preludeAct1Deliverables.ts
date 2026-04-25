@@ -231,13 +231,18 @@ export const PRELUDE_VFX_SOURCE_MP4S: Readonly<Record<string, string>> = {
  * (`ResponsiveImage` falls back cleanly).
  */
 export const PRELUDE_ROOM_BACKDROPS: Readonly<Record<string, ImagePair>> = {
-  "cryo-bay": pair("art/rooms/prelude/room-cryo-bay.png"),
-  "cargo-hold": pair("art/rooms/prelude/room-cargo-hold.png"),
-  engineering: pair("art/rooms/prelude/room-engineering.png"),
-  bridge: pair("art/rooms/prelude/room-bridge.png"),
-  // The remaining 9 rooms shipped to the top-level `art/rooms/` prefix
-  // (no `prelude/` subdir) under a separate earlier upload, with both
-  // PNG + WebP variants live. Confirmed by 2026-04-25 audit probe.
+  // All 13 rooms ship to the top-level `art/rooms/` prefix — both PNG
+  // and WebP variants live. Confirmed by 2026-04-25 audit probe + the
+  // `scan-path-mismatches.sh` follow-up. Earlier registry revisions had
+  // 4 hero rooms under `art/rooms/prelude/`, but those keys were never
+  // populated (the production ZIP shipped under different filenames,
+  // e.g. `room-engineering-bay.png` vs the registry's
+  // `room-engineering.png`); the canonical bytes are at the top-level
+  // path for every room.
+  "cryo-bay": pair("art/rooms/room-cryo-bay.png"),
+  "cargo-hold": pair("art/rooms/room-cargo-hold.png"),
+  engineering: pair("art/rooms/room-engineering.png"),
+  bridge: pair("art/rooms/room-bridge.png"),
   corridor: pair("art/rooms/room-corridor.png"),
   galley: pair("art/rooms/room-galley.png"),
   "mess-hall": pair("art/rooms/room-mess-hall.png"),
