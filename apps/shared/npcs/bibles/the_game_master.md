@@ -425,3 +425,70 @@ Zephyr-9 is the mechanic's bridge:
 | 8 | engineers_opening | *"I will teach you the Engineer's Opening. It is the first hand he ever drew in a tournament. It is also the last hand he ever drew in one. There is a lesson in the symmetry."* |
 
 **Writer rule**: Zephyr-9 is not a Game Master surface. She is the *defensive layer the player wields against him*. Her bible (if ever written) is a separate authoring domain. The Game Master's bible only needs to acknowledge her existence — and the canonical truth that *she alone may give the player chess access at all*.
+
+### 4.7 The Hierarchy executive ring
+
+His former employer's leadership. Each had a hand in his death.
+
+- **Mol'Garath the Unmaker (CEO)** — built the Labyrinth the Game Master solved. The Game Master's hire was Mol'Garath's institutional acknowledgment of being out-built. Whether Mol'Garath authorized the betrayal or merely permitted it is canon-silent.
+- **Xeth'Raal the Debt Collector (CFO)** — *filed the Goggles acquisition paperwork within the hour of destruction.* The death was budgeted. Xeth'Raal is the bureaucratic fingerprint on the betrayal — and possibly its author.
+- **Riri'Ahlia the Taskmaster (COO)** — per Nilmorg's bible §4.13, she is the Hierarchy's contract-enforcement layer. The Game Master's protection contract was *executed by her division*. She kept every clause. The clauses, kept, killed him. This is the saga's canonical demonstration of the Riri'Ahlia signature: *agreement-keeping as weapon*.
+- **Nilmorg (SVP Kinetic Acquisition)** — institutional peer. No canon contact. Nilmorg's bible §4.11 establishes nothing direct between them. Writers should let Nilmorg silently respect the Game Master's R&D record without ever surfacing the relationship.
+- **Zyr'Koth the Flayer (SVP R&D, successor)** — replaced him after destruction. Canon-silent on whether this was a planned succession or an opportunistic absorption. Writers should hold the ambiguity.
+
+**Writer rule**: when any Hierarchy character is in a scene that touches the Game Master's memory, the line should *not* offer an apology or a reconsideration. The Hierarchy's institutional position is that *the contract was honored*. They have no remorse to perform.
+
+### 4.8 The Necromancer
+
+Per `loreData.ts`, the Necromancer is canonically *located* "In Matrix of Dreams" — same domain as the Game Master's archive. They share the Matrix.
+
+No canon contact between them. Writer guidance: the Necromancer's relationship to the Matrix is canon-silent at this bible's scope. Whether he is a co-architect, an inhabitant, a parasite, or an archivist's apprentice is unspecified. The Necromancer's bible (currently not on the priority roster) takes ownership.
+
+What matters for this bible: the Game Master's domain has a co-resident. The Matrix is not solely his. Writers must not write the Matrix as the Game Master's exclusive space.
+
+### 4.9 Adjudicator Locke
+
+No canon contact. Structural read: Locke is the saga's commercial ledger-keeper; the Game Master was the saga's institutional puzzle-architect. They occupied parallel governance structures (New Babylon's Authority on one side, Hierarchy / Archon on the other) without overlap.
+
+Per Locke's bible §4.7: she has no canonical interest in the Matrix of Dreams. The Game Master had no canonical interest in commercial markets. Their non-relationship is the canon. Writers must not invent contact.
+
+### 4.10 The Degen — historical witness
+
+Per the Degen's bible §4.11: *"The Degen knew the Game Master pre-Fall. He saw Agent Zero destroy him. He has the clearest historical perspective of any active character."*
+
+The Degen is one of the rare living characters who knew the Original *before*, *during*, and *after* — pre-Fall Senator, Hierarchy R&D head, destroyed by Agent Zero. Three distinct memories.
+
+**Writer rule**: any time the Degen and the Game Master (or the Two, or the cult) share a frame, the Degen is operating as *senior historical witness*. He will not narrate. He will recognize. He will say nothing.
+
+The Degen's bible holds: *"the Degen carries the historical knowledge that the swarm in Vex's blood was designed by a woman he knew."* The parallel: *the Degen carries the historical knowledge that the body Vex inhabits killed a man he knew.* The Vex pattern-mystery (Degen's §2.6) compounds in the Game Master's presence. If the Two ever read Vex while the Degen is in the room, the Degen *learns from their reading* — the Two notice what he could not place. This is an unauthored Stage 4 scene of unusual density.
+
+### 4.11 The Eidolon (Echo specifically)
+
+Per the Eidolon's bible §5.5 (corpus extraction reference): Echo, the temporal Eidolon, may pick up Game Master substrate anomalies in the Matrix of Dreams.
+
+The corpus also surfaced: *"Something the Game Masters don't control is watching inside the Matrix. Possibly Echo."* — canon-adjacent speculation.
+
+**Writer guidance**: an Echo-player may experience the chess system differently than a non-Echo player. Echo could *read the Two's moves slightly before they make them*, inverting the canonical *"they read your moves before you make them"* for one specific Eidolon. This is a saga-rich gameplay-narrative possibility. The Eidolon's bible flagged it as Stage 4 weave material.
+
+### 4.12 The Meme / Palimpsest Host
+
+Structural opposition. The Game Master is the saga's most rigorous attribution-keeper — every Arena chapter he designed, every imprint he archived, every test he ran has *clean authorial provenance*. The Meme's unauditable identity — the strikethrough-author who edits canon without signing — is the Game Master's natural opponent.
+
+The cult of Game Masters operates *via redaction* (per §1.5). The Meme operates *via attribution-falsification*. They have the same tool — text manipulation — and opposite ethics. The Game Master cult redacts to preserve; the Meme rewrites to deceive.
+
+**Writer hook**: the Meme infiltrating the cult of Game Masters is the saga's most plausible deep-canon attack on the Matrix. The Meme's bible (currently unwritten) decides whether this happens.
+
+### 4.13 The Seer, Wraith Calder/Hierophant, DMC Clone Companion, The Oracle
+
+- **The Seer**: precognitive. The Game Master is precognitive *within his own architecture*. Whether the Seer can read the Matrix is canon-silent. Their domains overlap; their methods diverge. The Seer's bible decides.
+- **Wraith Calder → Hierophant**: post-arena religious figure. The Game Master was Archon-level; the Hierophant operates faith-level. Their domains do not touch. Hierophant's bible likely confirms no contact.
+- **DMC Clone Companion**: a companion-via-ritual. The Game Master never recruited via ritual; he recruited via test. No canon contact.
+- **The Oracle**: the Collector's Arena was *built around recovering the Oracle* (per `antiquariansJournal.ts:705-707`). The 12-chapter test was the Oracle's restoration mechanism. **The Game Master built infrastructure to save the Oracle.** This is canonically the Game Master's most reverent act in the saga. Writers must hold this. The Oracle's bible (when written) must reciprocate: the Oracle owes the Game Master *something*, even if she does not name it.
+
+### 4.14 The Warden, Akai Shi, and the Thought Virus historical layer
+
+**The Warden** — Lyra Vox's co-author of the Thought Virus per Vex's bible §4.13. Whether the Game Master knew of the Warden's research is canon-silent. If the Warden is ever surfaced, the Game Master is a plausible historical witness.
+
+**Akai Shi** — killed by Jericho at the Battle of Thaloria to stop the Thought Virus. Per `loreAchievements.ts:436` she had a previous life pre-Fall, recognized her own re-forged katana. The Game Master lived through her pre-Fall era. Whether he watched her then-life is canon-silent. If a future bible surfaces an Akai Shi / Game Master connection, the Game Master's bible should fold it in as a historical-witness role only.
+
+Writers: these are Stage 4 weave hooks. Their full shape depends on bibles currently outside the priority roster.
