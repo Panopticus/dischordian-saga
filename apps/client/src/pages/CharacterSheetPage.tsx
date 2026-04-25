@@ -26,8 +26,17 @@ import { useGame } from "@/contexts/GameContext";
 import { useGamification } from "@/contexts/GamificationContext";
 import { Link as WLink } from "wouter";
 import PaperDollRenderer from "@/components/PaperDollRenderer";
+import PaperDollBG3 from "@/components/PaperDollBG3";
+import type { Loadout } from "@/game/paperDoll/compositePaperDoll";
+import {
+  resolveStarterLoadout,
+  type FoundationKey,
+  type StarterSpecies,
+} from "@shared/starterLoadout";
+import type { ClassKey, ElementKey } from "@shared/earnedLoadouts";
+import { ELEMENT_PALETTES } from "@shared/suitArtPrompts";
 import EquipmentPanel from "@/components/EquipmentPanel";
-import { type EquipSlot, type Species, type CharClass, getEquipmentById, calculateEquipmentStats, EQUIPMENT_DB } from "@/data/equipmentData";
+import { type EquipSlot, type Species, type CharClass, SLOT_CONFIG, RARITY_COLORS, getEquipmentById, calculateEquipmentStats, EQUIPMENT_DB } from "@/data/equipmentData";
 import { equipItem as globalEquipItem, type EquippedItem } from "@/game/equipmentState";
 import { canPrestige, getPrestigeLevel, getPrestigeStars, getPrestigeTitle, PRESTIGE_LEVELS, type PrestigeLevel } from "@shared/prestigeSystem";
 import { MASTERY_BRANCHES } from "@shared/masteryTree";
@@ -377,6 +386,84 @@ export default function CharacterSheetPage() {
   }, [gear, character.data?.characterClass]);
   const equipStats = useMemo(() => calculateEquipmentStats(paperDollEquipped), [paperDollEquipped]);
 
+  // ═══ BG3 LOADOUT — 18-slot paper doll with species base-mask/base-suit ═══
+  // The DB gear column is written in two shapes:
+  //   - creation flow writes { "base-mask": { id, baseLocked: true }, ... }
+  //   - updateGear writes flat { "base-mask": "<id>", ... }
+  // Read either shape defensively, and fall back to resolveStarterLoadout when
+  // a base slot is missing entirely (older saves pre-dating §G.2).
+  const bg3Loadout = useMemo<Loadout | null>(() => {
+    const char = character.data;
+    if (!char) return null;
+
+    const gearObj = (char.gear || {}) as Record<string, unknown>;
+    const readGearId = (val: unknown): string | null => {
+      if (typeof val === "string" && val.length > 0) return val;
+      if (val && typeof val === "object" && "id" in (val as object)) {
+        const id = (val as { id?: unknown }).id;
+        return typeof id === "string" && id.length > 0 ? id : null;
+      }
+      return null;
+    };
+
+    const foundation = ((char.foundation as FoundationKey | null | undefined)
+      ?? "humanity") as FoundationKey;
+    const maskMotif: StarterSpecies =
+      foundation === "humanity" ? "human" : (char.species as StarterSpecies);
+    const starter = resolveStarterLoadout({
+      species: maskMotif,
+      characterClass: char.characterClass as ClassKey,
+      element: char.element as ElementKey,
+      foundation,
+    });
+
+    const baseMaskId = readGearId(gearObj["base-mask"]) ?? starter.baseMaskId;
+    const baseSuitId = readGearId(gearObj["base-suit"]) ?? starter.baseSuitId;
+
+    const pieces: Record<string, { slot: string; artId: string }> = {
+      "base-mask": { slot: "base-mask", artId: baseMaskId },
+      "base-suit": { slot: "base-suit", artId: baseSuitId },
+    };
+
+    // Map legacy 6-slot equipment into their §G.1 counterparts so existing
+    // drops light up a slot on the BG3 doll. Items without suit-set art fall
+    // through to the placeholder rectangle for that slot.
+    const LEGACY_TO_SUIT: Record<string, string> = {
+      helm: "head",
+      armor: "chest",
+      weapon: "weapon-primary",
+      secondary: "weapon-offhand",
+      accessory: "ring-1",
+    };
+    for (const [legacy, suit] of Object.entries(LEGACY_TO_SUIT)) {
+      const id = readGearId(gearObj[legacy]);
+      if (id) pieces[suit] = { slot: suit, artId: id };
+    }
+
+    // Also honour suit-slot keys directly written to gear (forward-compat).
+    const SUIT_SLOTS = [
+      "head", "face", "neck", "shoulders", "back", "chest", "arms", "gloves",
+      "belt", "legs", "feet", "ring-1", "ring-2", "weapon-primary",
+      "weapon-offhand", "aura",
+    ] as const;
+    for (const slot of SUIT_SLOTS) {
+      if (pieces[slot]) continue;
+      const id = readGearId(gearObj[slot]);
+      if (id) pieces[slot] = { slot, artId: id };
+    }
+
+    return { pieces } as unknown as Loadout;
+  }, [character.data]);
+
+  // Element tint for BG3 — pull the anchor hex out of the palette descriptor.
+  const bg3ElementTint = useMemo(() => {
+    const el = character.data?.element as ElementKey | undefined;
+    if (!el) return undefined;
+    const pal = ELEMENT_PALETTES[el];
+    const m = /#([0-9a-f]{6})/i.exec(pal ?? "");
+    return m ? `#${m[1]}` : undefined;
+  }, [character.data?.element]);
+
   const updateGearMutation = trpc.citizen.updateGear.useMutation({
     onSuccess: () => { utils.citizen.getCharacter.invalidate(); },
   });
@@ -420,7 +507,10 @@ export default function CharacterSheetPage() {
     } else {
       globalEquipItem(slot, null);
     }
-    updateGearMutation.mutate({ gear: newGear });
+    // Send only the slot that changed — the server merges, so we mustn't
+    // re-send the whole gear blob (which may contain object-shape base-mask
+    // / base-suit entries that don't match the string-only zod schema).
+    updateGearMutation.mutate({ gear: { [slot]: itemId } });
   }, [gear, updateGearMutation]);
 
   // ═══ LOADING / AUTH / NO CHARACTER STATES ═══
@@ -685,17 +775,78 @@ export default function CharacterSheetPage() {
                     <div className={`absolute w-full h-0.5 ${isOrder ? "void-bg-success" : "void-bg-system"} animate-scan-line`} />
                   </div>
                   <div className="relative z-10 p-2">
-                    <PaperDollRenderer
-                      species={char.species as Species}
-                      alignment={char.alignment as "order" | "chaos"}
-                      element={char.element}
-                      equipped={paperDollEquipped}
-                      name={char.name}
-                      size="md"
-                      interactive
-                      onSlotClick={() => setShowEquipPanel(true)}
-                      moralityScore={gameState.moralityScore || 0}
-                    />
+                    {/* §G.9 18-slot BG3 paper doll — species-driven base-mask
+                        + base-suit composed under element-tinted gear layers.
+                        Slot pieces with shipped art render the PNG; others
+                        fall through to their placeholder rectangle so the
+                        silhouette of the character is always visible. */}
+                    <div className="relative" style={{ width: 240 }}>
+                      {bg3Loadout ? (
+                        <PaperDollBG3
+                          loadout={bg3Loadout}
+                          elementTint={bg3ElementTint}
+                          width={240}
+                        />
+                      ) : (
+                        <PaperDollRenderer
+                          species={char.species as Species}
+                          alignment={char.alignment as "order" | "chaos"}
+                          element={char.element}
+                          equipped={paperDollEquipped}
+                          name={char.name}
+                          size="md"
+                          moralityScore={gameState.moralityScore || 0}
+                        />
+                      )}
+
+                      {/* Nameplate */}
+                      {char.name && (
+                        <div className="absolute bottom-1 left-0 right-0 text-center pointer-events-none">
+                          <span className={`font-display text-xs tracking-[0.2em] ${isOrder ? "void-text-energy" : "void-text-system"}`}
+                            style={{ textShadow: `0 0 8px ${isOrder ? "color-mix(in oklch, var(--energy-primary) 50%, transparent)" : "color-mix(in oklch, var(--energy-system) 50%, transparent)"}` }}>
+                            {char.name}
+                          </span>
+                        </div>
+                      )}
+
+                      {/* Interactive slot indicators overlay — the BG3
+                          renderer draws the doll; we still want clickable
+                          chips so the player can jump into the equip panel
+                          on the correct slot. Positions come from the
+                          legacy SLOT_CONFIG which still lines up with the
+                          new silhouette. */}
+                      <div className="absolute inset-0 pointer-events-none">
+                        {(Object.entries(SLOT_CONFIG) as [EquipSlot, typeof SLOT_CONFIG[EquipSlot]][]).map(([slot, config]) => {
+                          const itemId = paperDollEquipped[slot];
+                          const item = itemId ? getEquipmentById(itemId) : null;
+                          const rarity = item ? RARITY_COLORS[item.rarity] : null;
+                          return (
+                            <motion.button
+                              key={slot}
+                              whileHover={{ scale: 1.15 }}
+                              whileTap={{ scale: 0.95 }}
+                              onClick={() => setShowEquipPanel(true)}
+                              className={`pointer-events-auto absolute w-7 h-7 rounded-full border-2 flex items-center justify-center transition-all cursor-pointer
+                                ${item
+                                  ? `${rarity!.border} ${rarity!.bg} shadow-lg`
+                                  : "border-dashed border-muted-foreground/30 bg-muted/20 hover:border-primary/50"
+                                }`}
+                              style={{
+                                left: `${config.position.x}%`,
+                                top: `${config.position.y}%`,
+                                transform: "translate(-50%, -50%)",
+                                boxShadow: item ? `0 0 8px ${item.glowColor}` : undefined,
+                              }}
+                              title={item ? `${config.label}: ${item.name}` : `${config.label}: Empty`}
+                            >
+                              <span className={`text-[8px] font-mono font-bold ${item ? rarity!.text : "text-muted-foreground/50"}`}>
+                                {config.label.charAt(0)}
+                              </span>
+                            </motion.button>
+                          );
+                        })}
+                      </div>
+                    </div>
                   </div>
                   <div className={`absolute top-1 left-1 w-4 h-4 border-t-2 border-l-2 ${isOrder ? "void-border-success" : "void-border-system"}`} />
                   <div className={`absolute top-1 right-1 w-4 h-4 border-t-2 border-r-2 ${isOrder ? "void-border-success" : "void-border-system"}`} />

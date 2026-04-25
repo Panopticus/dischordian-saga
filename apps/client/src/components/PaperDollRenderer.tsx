@@ -101,21 +101,10 @@ export default function PaperDollRenderer({
             <stop offset="0%" stopColor={elemColor} stopOpacity="0.15" />
             <stop offset="100%" stopColor={elemColor} stopOpacity="0" />
           </radialGradient>
-          {/* Body gradient — torso shading top→bottom */}
+          {/* Body gradient */}
           <linearGradient id={`body-grad-${species}`} x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stopColor={sv.skinTone} />
             <stop offset="100%" stopColor={sv.bodyColor} />
-          </linearGradient>
-          {/* Side-shadow gradient for chest/limb depth */}
-          <linearGradient id={`body-shade-${species}`} x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%" stopColor={sv.bodyColor} stopOpacity="0.6" />
-            <stop offset="50%" stopColor={sv.skinTone} stopOpacity="0" />
-            <stop offset="100%" stopColor={sv.bodyColor} stopOpacity="0.6" />
-          </linearGradient>
-          {/* Skin/limb gradient */}
-          <linearGradient id={`limb-grad-${species}`} x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor={sv.skinTone} />
-            <stop offset="100%" stopColor={sv.bodyColor} stopOpacity="0.8" />
           </linearGradient>
           {/* Glow filter */}
           <filter id="glow-soft">
@@ -193,117 +182,38 @@ export default function PaperDollRenderer({
             </>
           )}
 
-          {/* Neck — tapered into shoulders */}
+          {/* Neck */}
+          <rect x={-6 * dim.scale} y={44 * dim.scale} width={12 * dim.scale} height={12 * dim.scale}
+            fill={sv.skinTone} />
+
+          {/* Torso */}
           <path d={`
-            M ${-7 * dim.scale} ${42 * dim.scale}
-            L ${-9 * dim.scale} ${56 * dim.scale}
-            L ${9 * dim.scale} ${56 * dim.scale}
-            L ${7 * dim.scale} ${42 * dim.scale}
+            M ${-30 * dim.scale} ${56 * dim.scale}
+            Q ${-35 * dim.scale} ${80 * dim.scale} ${-28 * dim.scale} ${130 * dim.scale}
+            L ${28 * dim.scale} ${130 * dim.scale}
+            Q ${35 * dim.scale} ${80 * dim.scale} ${30 * dim.scale} ${56 * dim.scale}
             Z
-          `} fill={`url(#limb-grad-${species})`} stroke={sv.accentColor} strokeWidth={0.5 * dim.scale} strokeOpacity="0.3" />
+          `} fill={`url(#body-grad-${species})`} stroke={sv.accentColor} strokeWidth={1 * dim.scale} strokeOpacity="0.3" />
 
-          {/* Living humanoid body — wraps the torso/arms/legs in a single
-              breathing group so the whole figure rises and falls together
-              instead of feeling like a stick figure. Reduce-motion users
-              get a static pose (animateTransform respects the media query
-              via begin="indefinite" + dur). */}
-          <g>
-            <animateTransform
-              attributeName="transform"
-              type="translate"
-              values="0,0; 0,-0.6; 0,0"
-              dur="4.5s"
-              repeatCount="indefinite"
-              calcMode="spline"
-              keySplines="0.4 0 0.6 1; 0.4 0 0.6 1"
-            />
+          {/* Arms */}
+          <path d={`
+            M ${-30 * dim.scale} ${60 * dim.scale}
+            Q ${-45 * dim.scale} ${90 * dim.scale} ${-40 * dim.scale} ${130 * dim.scale}
+            L ${-35 * dim.scale} ${130 * dim.scale}
+            Q ${-38 * dim.scale} ${90 * dim.scale} ${-26 * dim.scale} ${62 * dim.scale}
+          `} fill={sv.skinTone} strokeOpacity="0.2" stroke={sv.accentColor} strokeWidth={0.5 * dim.scale} />
+          <path d={`
+            M ${30 * dim.scale} ${60 * dim.scale}
+            Q ${45 * dim.scale} ${90 * dim.scale} ${40 * dim.scale} ${130 * dim.scale}
+            L ${35 * dim.scale} ${130 * dim.scale}
+            Q ${38 * dim.scale} ${90 * dim.scale} ${26 * dim.scale} ${62 * dim.scale}
+          `} fill={sv.skinTone} strokeOpacity="0.2" stroke={sv.accentColor} strokeWidth={0.5 * dim.scale} />
 
-            {/* Shoulders — rounded deltoid caps so the silhouette reads as a
-                real torso instead of a flat-top rectangle. */}
-            <ellipse cx={-32 * dim.scale} cy={62 * dim.scale}
-              rx={10 * dim.scale} ry={9 * dim.scale}
-              fill={`url(#limb-grad-${species})`}
-              stroke={sv.accentColor} strokeWidth={0.5 * dim.scale} strokeOpacity="0.3" />
-            <ellipse cx={32 * dim.scale} cy={62 * dim.scale}
-              rx={10 * dim.scale} ry={9 * dim.scale}
-              fill={`url(#limb-grad-${species})`}
-              stroke={sv.accentColor} strokeWidth={0.5 * dim.scale} strokeOpacity="0.3" />
-
-            {/* Torso — broader chest, defined waist, hip flare */}
-            <path d={`
-              M ${-34 * dim.scale} ${62 * dim.scale}
-              C ${-38 * dim.scale} ${82 * dim.scale} ${-28 * dim.scale} ${100 * dim.scale} ${-26 * dim.scale} ${118 * dim.scale}
-              C ${-25 * dim.scale} ${128 * dim.scale} ${-28 * dim.scale} ${136 * dim.scale} ${-22 * dim.scale} ${140 * dim.scale}
-              L ${22 * dim.scale} ${140 * dim.scale}
-              C ${28 * dim.scale} ${136 * dim.scale} ${25 * dim.scale} ${128 * dim.scale} ${26 * dim.scale} ${118 * dim.scale}
-              C ${28 * dim.scale} ${100 * dim.scale} ${38 * dim.scale} ${82 * dim.scale} ${34 * dim.scale} ${62 * dim.scale}
-              Z
-            `} fill={`url(#body-grad-${species})`} stroke={sv.accentColor} strokeWidth={1 * dim.scale} strokeOpacity="0.4" />
-
-            {/* Side shading for chest depth */}
-            <path d={`
-              M ${-34 * dim.scale} ${62 * dim.scale}
-              C ${-38 * dim.scale} ${82 * dim.scale} ${-28 * dim.scale} ${100 * dim.scale} ${-26 * dim.scale} ${118 * dim.scale}
-              C ${-25 * dim.scale} ${128 * dim.scale} ${-28 * dim.scale} ${136 * dim.scale} ${-22 * dim.scale} ${140 * dim.scale}
-              L ${22 * dim.scale} ${140 * dim.scale}
-              C ${28 * dim.scale} ${136 * dim.scale} ${25 * dim.scale} ${128 * dim.scale} ${26 * dim.scale} ${118 * dim.scale}
-              C ${28 * dim.scale} ${100 * dim.scale} ${38 * dim.scale} ${82 * dim.scale} ${34 * dim.scale} ${62 * dim.scale}
-              Z
-            `} fill={`url(#body-shade-${species})`} opacity="0.5" />
-
-            {/* Sternum / chest centre line — adds vertical structure */}
-            <line x1="0" y1={66 * dim.scale} x2="0" y2={108 * dim.scale}
-              stroke={sv.accentColor} strokeWidth={0.6 * dim.scale} strokeOpacity="0.25" />
-            {/* Pec/chest shading curves */}
-            <path d={`M ${-22 * dim.scale} ${72 * dim.scale} Q ${-12 * dim.scale} ${88 * dim.scale} 0 ${88 * dim.scale}`}
-              fill="none" stroke={sv.accentColor} strokeWidth={0.6 * dim.scale} strokeOpacity="0.2" />
-            <path d={`M ${22 * dim.scale} ${72 * dim.scale} Q ${12 * dim.scale} ${88 * dim.scale} 0 ${88 * dim.scale}`}
-              fill="none" stroke={sv.accentColor} strokeWidth={0.6 * dim.scale} strokeOpacity="0.2" />
-
-            {/* Arms — proper bicep + forearm taper instead of a thin strip */}
-            <path d={`
-              M ${-38 * dim.scale} ${64 * dim.scale}
-              C ${-48 * dim.scale} ${78 * dim.scale} ${-50 * dim.scale} ${100 * dim.scale} ${-44 * dim.scale} ${130 * dim.scale}
-              C ${-43 * dim.scale} ${136 * dim.scale} ${-40 * dim.scale} ${138 * dim.scale} ${-36 * dim.scale} ${136 * dim.scale}
-              C ${-32 * dim.scale} ${120 * dim.scale} ${-30 * dim.scale} ${96 * dim.scale} ${-28 * dim.scale} ${72 * dim.scale}
-              Z
-            `} fill={`url(#limb-grad-${species})`} stroke={sv.accentColor} strokeWidth={0.5 * dim.scale} strokeOpacity="0.3" />
-            <path d={`
-              M ${38 * dim.scale} ${64 * dim.scale}
-              C ${48 * dim.scale} ${78 * dim.scale} ${50 * dim.scale} ${100 * dim.scale} ${44 * dim.scale} ${130 * dim.scale}
-              C ${43 * dim.scale} ${136 * dim.scale} ${40 * dim.scale} ${138 * dim.scale} ${36 * dim.scale} ${136 * dim.scale}
-              C ${32 * dim.scale} ${120 * dim.scale} ${30 * dim.scale} ${96 * dim.scale} ${28 * dim.scale} ${72 * dim.scale}
-              Z
-            `} fill={`url(#limb-grad-${species})`} stroke={sv.accentColor} strokeWidth={0.5 * dim.scale} strokeOpacity="0.3" />
-
-            {/* Hands — small ellipses so the arms don't taper to a knife edge */}
-            <ellipse cx={-40 * dim.scale} cy={140 * dim.scale} rx={5 * dim.scale} ry={4 * dim.scale}
-              fill={sv.skinTone} stroke={sv.accentColor} strokeWidth={0.4 * dim.scale} strokeOpacity="0.4" />
-            <ellipse cx={40 * dim.scale} cy={140 * dim.scale} rx={5 * dim.scale} ry={4 * dim.scale}
-              fill={sv.skinTone} stroke={sv.accentColor} strokeWidth={0.4 * dim.scale} strokeOpacity="0.4" />
-
-            {/* Legs — quad/calf taper, not flat rectangles */}
-            <path d={`
-              M ${-20 * dim.scale} ${140 * dim.scale}
-              C ${-22 * dim.scale} ${160 * dim.scale} ${-18 * dim.scale} ${180 * dim.scale} ${-15 * dim.scale} ${196 * dim.scale}
-              L ${-3 * dim.scale} ${196 * dim.scale}
-              C ${-5 * dim.scale} ${180 * dim.scale} ${-4 * dim.scale} ${160 * dim.scale} ${-4 * dim.scale} ${140 * dim.scale}
-              Z
-            `} fill={`url(#limb-grad-${species})`} stroke={sv.accentColor} strokeWidth={0.5 * dim.scale} strokeOpacity="0.3" />
-            <path d={`
-              M ${20 * dim.scale} ${140 * dim.scale}
-              C ${22 * dim.scale} ${160 * dim.scale} ${18 * dim.scale} ${180 * dim.scale} ${15 * dim.scale} ${196 * dim.scale}
-              L ${3 * dim.scale} ${196 * dim.scale}
-              C ${5 * dim.scale} ${180 * dim.scale} ${4 * dim.scale} ${160 * dim.scale} ${4 * dim.scale} ${140 * dim.scale}
-              Z
-            `} fill={`url(#limb-grad-${species})`} stroke={sv.accentColor} strokeWidth={0.5 * dim.scale} strokeOpacity="0.3" />
-
-            {/* Feet — boots */}
-            <ellipse cx={-9 * dim.scale} cy={198 * dim.scale} rx={8 * dim.scale} ry={3 * dim.scale}
-              fill={sv.bodyColor} stroke={sv.accentColor} strokeWidth={0.4 * dim.scale} strokeOpacity="0.4" />
-            <ellipse cx={9 * dim.scale} cy={198 * dim.scale} rx={8 * dim.scale} ry={3 * dim.scale}
-              fill={sv.bodyColor} stroke={sv.accentColor} strokeWidth={0.4 * dim.scale} strokeOpacity="0.4" />
-          </g>
+          {/* Legs */}
+          <rect x={-18 * dim.scale} y={130 * dim.scale} width={14 * dim.scale} height={60 * dim.scale}
+            rx={4 * dim.scale} fill={sv.bodyColor} stroke={sv.accentColor} strokeWidth={0.5 * dim.scale} strokeOpacity="0.3" />
+          <rect x={4 * dim.scale} y={130 * dim.scale} width={14 * dim.scale} height={60 * dim.scale}
+            rx={4 * dim.scale} fill={sv.bodyColor} stroke={sv.accentColor} strokeWidth={0.5 * dim.scale} strokeOpacity="0.3" />
 
           {/* Species body features */}
           {species === "demagi" && (
