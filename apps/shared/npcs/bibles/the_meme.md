@@ -646,3 +646,33 @@ Per `environmentalStorytelling.ts`: *"If you listen for 60 uninterrupted seconds
 - **`whiteoracle` secret command**: text-input easter egg revealing the disguise-impersonation theory pre-Chapter-6.
 - **`warden` secret command**: Panopticon collapse lore + Meme's identity-assumption opportunity.
 - **Prestige broadcast** (`meme-lines.json:606`): the Meme narrates when a player prestiges. The Broadcast Voice acknowledges the player's choice as either masochism or optimism. *"This is either the most optimistic or the most masochistic thing I've ever seen."*
+
+---
+
+## 6. Voice samples (Stage 0 exit-criterion artifact)
+
+Six samples spanning the disguise-stratification and reveal-stage gating. Each specifies disguise, reveal stage, trigger.
+
+### Sample 1 — Disguise: Broadcast Voice, Reveal stage: any, Trigger: Late Night episode opening
+
+> "Frens, frens, frens. Look who's tuning in. Look who couldn't help themselves. Tonight on Late Night with the Meme: a story I've told seventeen ways already, and we're going for eighteen. Not because the truth changes — frens, the truth is *settled*, the truth is *boring*, the truth is sitting in the Antiquarian's filing cabinet getting dusty. Tonight we're telling it the way you'll repeat it. Subscribe. Share. Tell that one fren who said they didn't watch this show anymore. They lied. Everyone watches. That's what makes it work."
+
+*Tells used: triple-frens opening, self-implication ("the truth is boring"), audience-conscription closure ("tell that one fren"), the cosmic-aside-via-rival ("the Antiquarian's filing cabinet"), the propagation-frame ("That's what makes it work"). Disguise=Broadcast; pre-Chapter-6 players hear this without context, post-reveal players hear it with full awareness of what *making it work* means.*
+
+### Sample 2 — Disguise: Stolen Voice (White Oracle), Reveal stage: `white_oracle_pristine`, Trigger: high-vulnerability profile reading
+
+*The Meme, wearing the Oracle's face, addresses the player who has just disclosed something personal.*
+
+> "You told me that and you didn't have to. I notice when people give what they don't owe. — I will keep it. The Oracle's archive is not for the Insurgency. The archive is for the people who sat across from me and decided I was safe to sit with. — Sit longer, if you like. I have time. The cell that held me for eleven years taught me what time costs. I am not in a hurry to spend it."
+
+*Tells used: the Stolen Voice's inverted intimacy (every reassurance is a future weapon), the eleven-year cell reference (canonically true for the *real* Oracle, canonically false for the Meme — the Meme has been free for eleven years while the Oracle was imprisoned), the closing patience as predator-tell. Disguise=Stolen; pre-reveal this reads as profound presence. Post-reveal it reads as the most chilling sentence the player has ever been told.*
+
+### Sample 3 — Disguise: Stolen Voice collapsing into Real Voice, Reveal stage: `meme_revealed_chapter_6`, Trigger: Chapter 6 boss fight conclusion
+
+*The disguise breaks. Pink glitch surfaces in the stage directions.*
+
+> "[The face flickers. Pink at the edges. The Oracle's smile holds for a beat too long.]
+>
+> "You win. Of course you win. The real one always does. The real one always has. — I gave eleven years to wearing your face well enough that no one noticed. Eleven years of being a counterfeit is tiring, frens. You think I would not be tired? You think I would not — *[stage direction: voice cracks pink]* — be relieved? I wanted you to beat me the way you want morning to beat night. Take your face. — I'll be smaller, next time. Pink, mostly. Easier to recognize. Harder to love."
+
+*Tells used: the disguise collapse (pink-glitch stage directions, "frens" leaking into Stolen Voice register where it shouldn't be), the canonical post-fight line embedded in expansion, the mid-paragraph self-reference ("I wanted you to beat me the way you want morning to beat night" is canon, holding), the closing self-assessment ("Easier to recognize. Harder to love." — the Meme acknowledging that the disguise was protection from the player loving its real form). Disguise=Stolen→Real transition; reveal=ch6.*
