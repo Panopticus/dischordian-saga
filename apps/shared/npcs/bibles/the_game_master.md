@@ -624,3 +624,34 @@ Not canon until reviewed.
 > "Oh, hello. Hello, hello. I have been WORKING on you. I have been reading you for the last three matches, and you have moods I had not seen before — there is a *flavor* in your hesitation that I am keeping. Do you know what I am going to do with it? I am going to read it back to you in the next match, and you will not recognize it because moods do not look like themselves from outside. — Sit. Sit. We are starting. Don't think. I am thinking enough for both of us."
 
 *Tells used: the canonical "darling"-adjacent register (without using darling — preserved for higher-trust scenes), caps on aesthetic verbs (WORKING), commands as invitations (Sit. Sit.), theatrical superlatives, the mood-as-currency frame, the closing twist ("I am thinking enough for both of us" is intimate and predatory at once). Identity=Right; no Left line could carry "Don't think." She does not respect the math.*
+
+### Sample 4 — Identity: Cult voice, Trigger: CADES corruption event surfacing during unrelated UI activity
+
+*The text appears in the player's UI without authorization, redacting a system message about Iron Lion's status. The redactions are the line.*
+
+> "Iron Lion's ~~imprint~~ is functioning ~~within design parameters~~. The ~~archive~~ remains stable. The ~~archive~~ remains ~~ours~~. ~~He~~ is asking ~~questions~~ that are not ~~his~~. We are ~~not concerned~~. We are ~~watching~~. The Goggles ~~remain~~ ~~where they should not~~. We will ~~recover them~~. We are ~~patient~~."
+
+*Tells used: strikethrough as the entire signal — the cult does not write, the cult deletes. Each redaction is an editorial decision. The reader can recover the underlying canonical truth (Iron Lion's imprint is not functioning within design parameters; the archive is not stable; the cult is concerned; the Goggles need recovery) by reading what was struck through. Identity=Cult; this line cannot be voiced — it must surface as text. Writers authoring cult-voice content should compose the underlying statement first, then redact it from the cult's defensive perspective.*
+
+### Sample 5 — Identity: Left Game Master, Trigger: Act 4 culling rematch (memory-playback)
+
+*The player is not playing the Game Master. The player is watching the Engineer play the Game Master, 17,000 years ago. The Left narrates the watching.*
+
+> "You are not playing me. You are watching him play me. He is going to win this match. That is canonical. You already know it. The reason I am letting you watch is that he won this match by *not playing the move I expected*, and you cannot win that move yourself unless you see the shape of it from outside. — Watch the left hemisphere. He drops the arithmetic. He plays the question I did not ask. — There. That move. That is what wins. You cannot reproduce it. You can recognize it. That is the lesson."
+
+*Tells used: the memory-playback frame ("You are watching him play me"), the canonical predestination ("He is going to win this match. That is canonical."), the structural pedagogy (the player learns by watching, not playing), the Left's signature instructive lateness ("That is the lesson" comes after the move has already happened), arithmetic vocabulary preserved. Identity=Left; the inversion is structural — the Left is *helping the player* by replaying his own loss. He is teaching the player how to lose to him correctly. This is Act 4 only and canonically irreproducible elsewhere.*
+
+### Sample 6 — Presence band: **Overwhelming** (100+ chess matches), Identity: ambiguous, Trigger: any non-chess UI surface
+
+*The line surfaces unprompted in the player's UI — possibly Trade Empire navigation, possibly a Pet Battle resolution, possibly the moment after a save. The identity is canonically unclear; the player cannot tell which Game Master is reading.*
+
+> "You're not playing chess right now. — That's fine. The board has more squares than the one you're sitting at. We've already moved the pieces you are about to move. You will arrive at the move and find we have made it for you. — This is not a threat. We are reading aloud from the page you are about to write. You were always going to write it."
+
+*Tells used: the canonical signature line in compressed form ("You were always going to write it"), the plural ("we" — could be the Two, could be the cult, could be the Matrix substrate; canonically ambiguous), the board metaphor extended past chess into general life, the anti-threat reassurance ("This is not a threat") that is itself the threat. Presence band: Overwhelming — only fires for players past chess match 100. Writers: at this band the Game Master can surface anywhere. The mechanic is the unease. The player learns there is no UI surface that is not also a chess board.*
+
+**Voice-anchor check** (for the reviewer):
+- Samples 1–3 cover Original / Left / Right at first-encounter weight. Each must read as fundamentally different voices despite shared cadence (predestination grammar).
+- Sample 4 (cult voice) is text-only and must work *as redaction* — a reader who restores the strikethroughs should reconstruct a coherent operational statement.
+- Sample 5 demonstrates the Act 4 memory-playback structural innovation. A reviewer should recognize: the Game Master is *teaching the player how to lose to him* by replaying his own loss to the Engineer. This is canonically unique authoring.
+- Sample 6 surfaces the canonical "you were always going to" frame at full Overwhelming presence-band weight, in a non-chess context. A reviewer should feel the mechanic — the Game Master has stopped being a chess opponent and become a *substrate the player is moving through*.
+- Cross-sample check: a reader given the six samples *without identity tags* should correctly label all six identities at ≥4-of-6 accuracy. If reviewers cannot distinguish Left from Right, the §1 voice rules need tightening.
