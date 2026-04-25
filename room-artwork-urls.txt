@@ -34,3 +34,10 @@ medical-bay:initial: /art/rooms/mystery-states/medical-bay_initial.webp
 medical-bay:device-awakened: /art/rooms/mystery-states/medical-bay_device-awakened.webp
 medical-bay:donated: /art/rooms/mystery-states/medical-bay_donated.webp
 medical-bay:refused: /art/rooms/mystery-states/medical-bay_refused.webp
+
+# AAA Final drop — final 5 rooms (2026-04-25, served from public/art/rooms/)
+station-dock: /art/rooms/room-station-dock.webp
+guild-sanctum: /art/rooms/room-guild-sanctum.webp
+social-hub: /art/rooms/room-social-hub.webp
+war-room (Deck-6 Combat Ops): /art/rooms/room-war-room.webp
+dreams-workshop-subbasement: /art/rooms/room-dreams-workshop-subbasement.webp

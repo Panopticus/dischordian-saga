@@ -10,6 +10,7 @@ import {
   type StarterSpecies,
 } from "../../shared/starterLoadout";
 import type { ClassKey, ElementKey } from "../../shared/earnedLoadouts";
+import { BASE_LOCKED_SLOTS } from "../../shared/suitEquipSlots";
 
 /* ═══════════════════════════════════════════════════
    Species / Class / Element configuration
@@ -476,7 +477,15 @@ export const citizenRouter = router({
       return { success: true };
     }),
 
-  /** Update equipped gear (persists slot→itemId mapping) */
+  /** Update equipped gear (persists slot→itemId mapping)
+   *
+   *  Merges the incoming slot updates into the existing gear JSON rather
+   *  than overwriting the whole blob. Critically, the §G.2 base-mask /
+   *  base-suit layers (written at character creation as
+   *  `{ id, baseLocked: true }`) are preserved — unequipping them is
+   *  disallowed (BASE_LOCKED_SLOTS) and re-equipping a different id
+   *  coerces to the same object shape so the lock survives round-trip.
+   *  Without this merge, every equip click wiped the species base body. */
   updateGear: protectedProcedure
     .input(
       z.object({
@@ -494,18 +503,33 @@ export const citizenRouter = router({
         .limit(1);
       if (!chars[0]) throw new Error("No citizen found");
 
-      // Filter out null values for clean storage
-      const cleanGear: Record<string, string> = {};
+      const existingGear = (chars[0].gear as Record<string, unknown> | null) ?? {};
+      const mergedGear: Record<string, unknown> = { ...existingGear };
+
       for (const [slot, itemId] of Object.entries(input.gear)) {
-        if (itemId) cleanGear[slot] = itemId;
+        const isBaseLocked = (BASE_LOCKED_SLOTS as ReadonlySet<string>).has(slot);
+        if (itemId === null) {
+          // Null clears a slot — but base-locked slots stay locked. A client
+          // that sends `null` for `base-mask` is buggy; silently ignore.
+          if (isBaseLocked) continue;
+          delete mergedGear[slot];
+          continue;
+        }
+        if (isBaseLocked) {
+          // Preserve the object shape so the creation flow's baseLocked
+          // flag round-trips through every equip operation.
+          mergedGear[slot] = { id: itemId, baseLocked: true };
+        } else {
+          mergedGear[slot] = itemId;
+        }
       }
 
       await db
         .update(citizenCharacters)
-        .set({ gear: cleanGear })
+        .set({ gear: mergedGear })
         .where(eq(citizenCharacters.id, chars[0].id));
 
-      return { success: true, gear: cleanGear };
+      return { success: true, gear: mergedGear };
     }),
 
   /* ═══════════════════════════════════════════════════

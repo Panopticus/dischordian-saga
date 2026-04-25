@@ -211,8 +211,8 @@ export function SpriteCharacter({
     const box = sprite.mouthBox;
     const bustStyle: CSSProperties = {
       backgroundImage: `url(${sprite.bust})`,
-      backgroundSize: "cover",
-      backgroundPosition: "center top",
+      backgroundSize: sprite.bustSize ?? "cover",
+      backgroundPosition: sprite.bustPosition ?? "center top",
       backgroundRepeat: "no-repeat",
     };
     // Soft elliptical mask feathers the cell edges into the surrounding bust
@@ -257,7 +257,12 @@ export function SpriteCharacter({
   } else if (sprite.breathing && !prefersReducedMotion) {
     style = cellStyle(sprite.breathing, s.breathFrame);
   } else {
-    style = { backgroundImage: `url(${sprite.bust})`, backgroundSize: "cover", backgroundPosition: "center top", backgroundRepeat: "no-repeat" };
+    style = {
+      backgroundImage: `url(${sprite.bust})`,
+      backgroundSize: sprite.bustSize ?? "cover",
+      backgroundPosition: sprite.bustPosition ?? "center top",
+      backgroundRepeat: "no-repeat",
+    };
   }
 
   return (
