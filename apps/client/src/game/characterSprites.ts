@@ -173,6 +173,23 @@ export const CHARACTER_SPRITES: Record<string, CharacterSprite> = {
     bust: assetUrl("characters/the_human/front_turnaround.avif"),
   },
 
+  /* Minnie — The Meme's first form (7-year-old girl per art brief §2N).
+     Inline registry entry because blink/breathing/expressions haven't been
+     generated yet; viseme sheet is the 5×3 NPC mouth grid. mouthBox sits
+     lower in the frame because the child face fills a larger fraction of
+     the bust and her mouth is below the bust vertical center. */
+  minnie: {
+    id: "minnie",
+    bust: assetUrl("characters/minnie/bust.avif"),
+    viseme: {
+      url: assetUrl("characters/minnie/viseme.avif"),
+      cols: 5, rows: 3, frames: 15,
+      map: NPC_5x3_VISEME_MAP,
+    },
+    visemeOverlay: true,
+    mouthBox: { x: 0.380, y: 0.470, width: 0.140, height: 0.105 },
+  },
+
   /* Main faction NPC speakers — full bundle. */
   // Agent Zero's viseme sheet is a 5×3 nose-to-chin mouth crop (cells
   // ~409×409, 1:1). Box positions each cell's nose-tip and chin onto her
@@ -203,7 +220,12 @@ export const CHARACTER_SPRITES: Record<string, CharacterSprite> = {
   the_source:        npc("the_source", {
     mouthBox: { x: 0.458, y: 0.304, width: 0.184, height: 0.137 },
   }),
-  shadow_tongue:     npc("shadow_tongue"),
+  // Shadow Tongue — corporate-adapted anomaly (§2E). Near-black skin,
+  // violet slit-pupil eyes, subtle face-drift across cells. Standard
+  // mouthBox.
+  shadow_tongue:     npc("shadow_tongue", {
+    mouthBox: { x: 0.400, y: 0.345, width: 0.140, height: 0.105 },
+  }),
   // The Meme is the silver-haired older corporate executive (mechanical
   // hands at the desk). Bust shows him offset to the right of frame
   // centre. mouthBox lands cell nose (~y=0.13) on his bust nose-tip
@@ -236,7 +258,12 @@ export const CHARACTER_SPRITES: Record<string, CharacterSprite> = {
   eidola:            npc("eidola", {
     mouthBox: { x: 0.430, y: 0.340, width: 0.140, height: 0.105 },
   }),
-  engineer:          npc("engineer"),
+  // Engineer (Phase 2 / Memoir per §2V/W). Black man with short-trimmed
+  // beard, goggles UP on forehead in the bust (listening variant). His
+  // beard is short enough to not need aggressive thinning. Standard box.
+  engineer:          npc("engineer", {
+    mouthBox: { x: 0.370, y: 0.285, width: 0.140, height: 0.105 },
+  }),
   enigma:            npc("enigma", {
     mouthBox: { x: 0.430, y: 0.310, width: 0.140, height: 0.105 },
   }),
