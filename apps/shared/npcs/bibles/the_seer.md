@@ -819,3 +819,43 @@ Each sample passes the §§1–5 voice criteria:
 **Bible-asserts**: these five samples are reference-quality voice for Stage 2 dialogue authors. A new author writing a Seer line for Stage 2 should canonically be able to read these samples and produce voice-consistent material. Blind-read attribution test (per the priority plan's Stage 2 exit criteria): an author who reads these five samples plus §§1–3 should canonically attribute Seer-or-non-Seer at >90% accuracy on a mixed test set. (Stage 2 exit criteria's blind-read test is per the priority plan's master process; the bible documents the materials for the test, not the test administration.)
 
 **§6 closes.** Voice samples are documented. §§7–8 (canon issues, protected mysteries, cross-bible obligations, follow-up tickets, reviewer checklist) close the bible.
+
+---
+
+## 7. Canon issues, protected mysteries, cross-bible obligations, follow-up tickets
+
+### 7.1 Load-bearing missing canon
+
+The Seer bible is unusually *complete* relative to the priority roster — most of her canonical events are shipped (the Mechronis visit, the staff continuity, the Acts 3+ transmission cadence, the Hierophant exchange, the alignment-response branches). Three canon-load-bearing gaps remain that this bible cannot resolve and must defer:
+
+**(1) The Dreamer's-shield specification.** Per §2.5: the shield is *bible-asserted as Dreamer-faction-level metaphysical seal*. Specifics — *what it is physically, who maintains it, whether it can be breached, what the cost of breach would be* — are bible-deferred and require user direction or Stage 4 weave authoring. The bible's stance is *the shield is real, operating, and not lightly broached*. A Stage 1 architectural plan that needs to implement the shield mechanically (e.g., a `dreamer_shield_state` engine flag) will need to land the specifics first. Tracked as **SCB-3** in §7.4.
+
+**(2) The why-she-sealed canon.** Per §2.5: three canon-compatible candidates (Fall of Reality triggered, Meme emergence triggered, work-completion). Bible-deferred. Stage 4 weave authors should choose; the bible flags but does not pre-decide. The choice canonically shapes the Seer ↔ Meme cross-reference (§4.4 reading (a) vs. (b)) and the Seer ↔ Oracle cross-reference (§4.5 reading (a) vs. (b)) — the why-she-sealed canon is canonically *upstream* of those cross-bible tensions.
+
+**(3) The burnt-card unlock route specification.** Per §§2.1, 5.1, 5.3: the canonical first-playthrough scripted-loss canon is solid; the canon-hidden winnable path requires `burnt_card_placeholder` in the player's deck; the unlock-route by which the player obtains the placeholder is bible-deferred per the spec. Bible-asserted canonical principle: *narrative-earned, not combat-earned*. The actual implementation (side-quest ID, Antiquarian conversation flag, codex unlock condition, etc.) is tracked as **SCB-1** in §7.4.
+
+**Three additional deferred-by-the-cross-time-canon questions**, bible-deferred:
+
+**(4) The in-universe perception of the cross-time mechanic.** Per §2.3 + §6.3 reading: does the player canonically perceive the conversation as live, or as mediated/recorded? Both readings are canon-compatible. Tracked as **SCB-4** in §7.4. Stage 4 weave authors should choose.
+
+**(5) The demotion-via-recording-silence mechanic.** Per §3.3 canon-stance (3) + §3.8 trust-death-conditions: a player who actively betrays the Seer's foresight (demands she stop revising, demands she redact) canonically receives recorded silence. The implementation question is whether the silence is *engine-enforced* (selector emits no Seer line for that player) or *narratively-enforced* (the engine emits standard lines but the narrator-frame describes the player as no-longer-receiving them). Tracked as **SCB-5** in §7.4.
+
+**(6) The consent-question for cross-time-recorded prophecy.** Per §3.6 the-one-canonical-hypocrisy-candidate: the recordings deliver foresight without canonical pre-consent from the player. Whether the cross-time recording's *question-form* (per §1.4 tell #5 + §6.2 sample) canonically counts as pre-consent or not is bible-deferred. Tracked as **SCB-7** in §7.4.
+
+### 7.2 Protected mysteries — what the bible canonically declines to narrate
+
+Per §2's opening canon-stance: the Seer is the saga's only roster character whose biography is *withheld by the character*. The protected mysteries are canonical and load-bearing — they are not gaps-to-be-filled-later; they are *canonical absences that serve the Seer's voice*.
+
+**(1) Her pre-Mechronis history.** Per §2 opening: the Seer is presented in shipped canon already practising. Her acquisition of the bench-as-pedagogy from Mechronis (per §3.1) is canonically protected — bible-asserts this as held *intentionally* by the Seer. Writers must NOT author origin-story content for her pre-Mechronis past. Stage 4 weave authors who feel a need to surface this should canonically *re-justify the protection* before considering breach — the absence is canonically *protective*, not provisional.
+
+**(2) Her name.** Per shipped canon: she is canonically *the Seer*. No personal name is shipped. Bible-asserts: this is canonical and load-bearing — her domain (prophecy, §3.2) canonically replaces the personal-name function in her biography. The Ne-Yon roster's other named members carry *role-titles-not-personal-names* (the Degen, the Enigma); the Seer fits the Ne-Yon convention. Writers must NOT author a personal name for her. Stage 4 weave authors who reach for one should canonically *re-justify the absence* first.
+
+**(3) Her age.** No canonical age. Bible-asserts: this is canonical and load-bearing. Her sealing-at-end-of-Epoch-2 (§2.5) places her age across at least two epochs, but specifics are protected. Writers may use *Empire-era* (per §6.3 sample) as a canonical idiom for *older than ordinary saga-time can measure*; specifics beyond that are protected.
+
+**(4) Her domain-choice moment.** Per §3.2: the choosing of prophecy as her Ne-Yon domain is canonically *singular, irreversible, and pre-saga*. The moment-of-choosing is canonically *the saga's most load-bearing single Seer scene the bible declines to narrate*. Stage 4 weave authors who need to surface the domain-choice moment should canonically treat it as the saga's most-protected single scene; the protection is bible-asserted as canonical and not provisional.
+
+**(5) Her relationship to the Dreamer faction's other members.** Per §3.2 + §4.4 (the False Prophet adjacency): the Dreamer faction shelters both her and the White Oracle. Her relationship to the *other* Dreamer-faction members (named or unnamed) is canonically protected — bible-asserts this as canonically Dreamer-faction-internal-affairs, not Seer-bible-territory. Stage 4 weave authors writing Dreamer-faction lore should land Dreamer canon first; the Seer's specific relationships to other Dreamer-aligned NPCs are bible-deferred to that authoring.
+
+**(6) The contents of recordings she made but the bible does not document.** Per §2.3 cross-time canon: she pre-recorded *every conversation* she would ever have with the player. The shipped Acts 1–7 canonical scenes (per §2.4) are a *subset* of the recordings she made. Bible-asserts: there are canonically *more recordings than the shipped canon documents*, and those additional recordings are canonically *protected* until Stage 2+ authoring surfaces them. Writers may add to the recording-bank in Stage 2; the bible flags that any addition is canonically a *previously-unscheduled foretelling now scheduled* — not a *new live moment*.
+
+**Why protect these mysteries.** Per §2 opening: the Seer is the saga's only roster character whose biography is withheld *by the character*. The protection is canonically *part of her voice* — she canonically does not narrate her own origin, name, age, domain-choice moment, or Dreamer-faction-adjacent relationships. Breaking the protection canonically breaks the voice. Writers and Stage 4 weave authors should canonically respect the protection as a *voice-rule*, not as a content-gap.
