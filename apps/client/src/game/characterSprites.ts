@@ -55,6 +55,12 @@ export interface CharacterSprite {
   bust: string;
   /** Mouth-shape sheet. Required for lip sync. */
   viseme?: SpriteSheet & { map: VisemeMap };
+  /** Optional second viseme sheet for per-line revelatory beats (e.g.
+   *  Shadow Tongue's hyperextended jaw with second-row teeth on open
+   *  vowels). When a caller sets `useHyperVisemes` on `SpriteCharacter`
+   *  and this field is present, the runtime draws from `visemeHyper`
+   *  instead of `viseme`. Must match `viseme`'s cell layout and map. */
+  visemeHyper?: SpriteSheet & { map: VisemeMap };
   /** If true, the viseme sheet is a mouth-only close-up and should be
    *  composited on top of `bust` at `mouthBox`, instead of replacing the
    *  bust entirely. When false/undefined, the viseme sheet is treated as
@@ -222,10 +228,24 @@ export const CHARACTER_SPRITES: Record<string, CharacterSprite> = {
   }),
   // Shadow Tongue — corporate-adapted anomaly (§2E). Near-black skin,
   // violet slit-pupil eyes, subtle face-drift across cells. Standard
-  // mouthBox.
-  shadow_tongue:     npc("shadow_tongue", {
-    mouthBox: { x: 0.400, y: 0.345, width: 0.140, height: 0.105 },
-  }),
+  // mouthBox. The `visemeHyper` slot points at a second sheet used per
+  // VO-line for revelatory beats (hyperextended jaw + second-row teeth
+  // on open vowels) — opt-in via `useHyperVisemes` on SpriteCharacter.
+  // Runtime falls back to the standard sheet if the hyper asset fails
+  // to load, so registering the slot before the asset exists is safe.
+  shadow_tongue:     (() => {
+    const base = npc("shadow_tongue", {
+      mouthBox: { x: 0.400, y: 0.345, width: 0.140, height: 0.105 },
+    });
+    return {
+      ...base,
+      visemeHyper: {
+        url: assetUrl("characters/shadow_tongue/viseme_hyper.avif"),
+        cols: 5, rows: 3, frames: 15,
+        map: NPC_5x3_VISEME_MAP,
+      },
+    };
+  })(),
   // The Meme is the silver-haired older corporate executive (mechanical
   // hands at the desk). Bust shows him offset to the right of frame
   // centre. mouthBox lands cell nose (~y=0.13) on his bust nose-tip
@@ -245,7 +265,12 @@ export const CHARACTER_SPRITES: Record<string, CharacterSprite> = {
     // not mouth shapes. Box overlays the mask region of the hooded bust.
     mouthBox: { x: 0.350, y: 0.300, width: 0.280, height: 0.209 },
   }),
-  cades:             npc("cades"),
+  // `cades` was never a character — CADES is the in-game FPS-mode
+  // investigation system (see apps/client/src/pages/CADESFPSPage.tsx).
+  // The registry stub + asset directory were created by mistake when the
+  // old art brief listed CADES as Part 2H; that section has since been
+  // retracted. Do not add `cades:` back unless the design genuinely adds
+  // a character by that name.
   collector:         npc("collector", {
     mouthBox: { x: 0.430, y: 0.380, width: 0.140, height: 0.105 },
   }),
