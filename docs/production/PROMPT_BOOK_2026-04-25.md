@@ -1364,6 +1364,204 @@ or not. Output 21 seconds (3 × 7s frame), seamless tail.
 -23 LUFS."
 ```
 
+### 7.4 act-5-map (Act 5 — The Reckoning)
+
+> Subtitle: "Kael's map is open. Five sectors. Twenty worlds. One
+> last stand." Reduced-motion prose: "Kael's map fills the
+> bridge. Five sectors, twenty worlds, a list of names the
+> Warlord took. Iron Lion's transmissions come in from Veridian
+> VI at 03:17 ship time. The final mission is already running.
+> You recruit, you dispatch, and you do not sleep."
+
+#### 7.4.1 frame01.webp — "He drew this on the back of a ration wrapper. Every planet. Every name."
+
+```
+Cinematic 1920×1080 WebP. Tight close-up shot from above of a
+crumpled silver ration wrapper laid flat on a metal mess-table.
+Hand-drawn in graphite on the inside of the wrapper: a star
+chart with five sector boundaries traced in confident strokes,
+twenty small star-points marked with planet glyphs, and beside
+each glyph a name written in the same handwriting (Kael's —
+read as suggestion only, no literal text). The wrapper is
+slightly torn at the upper edge. Beside it on the table: a
+chewed pencil stub, a half-finished cup of cold coffee, the
+edge of a fingerless tactical glove. Single warm pendant lamp
+overhead casts a tight pool of amber light, the rest of the
+table fading into deep blue-black shadow. Apply the §7.0 style
+guide above.
+```
+
+#### 7.4.2 frame02.webp — "Iron Lion is already moving. The Cades are tightening the line around Veridian VI."
+
+```
+Cinematic 1920×1080 WebP. Wide bridge-of-the-flagship shot:
+the foreground is a holographic tactical projection table
+displaying a 3D star map (the same map from 7.4.1, but rendered
+in living holo-cyan light). Three small luminous icons mark
+fleet positions — one large amber lion-glyph already pulled
+forward toward a target planet at the right of the projection,
+two cyan brackets tightening on the same target ("Veridian VI"
+suggested as a label, not literal). Mid-ground: a single bridge
+officer in silhouette stands at the projection table, back to
+the camera, head tilted toward an unseen comm channel. A faint
+red transmission-active light at the bottom of the projection.
+Background: bridge windows showing deep starfield. Caravaggio
+key-light from camera-left rakes the officer's shoulder. Apply
+the §7.0 style guide above.
+```
+
+#### 7.4.3 frame03.webp — "Recruit the army. Finish the mission. You cannot save the Lion. Try anyway."
+
+```
+Cinematic 1920×1080 WebP. Wide shot of the bridge taken from
+the rear of the room, looking forward through the projection
+table to the bridge windows beyond. The hologram from 7.4.2 is
+still up but now zoomed wider — five sector boundaries fully
+visible, twenty planet markers each ringed with small fleet
+icons being dispatched. The bridge officer from 7.4.2 has been
+joined by two more silhouettes — recruits. Through the bridge
+windows: a wing of small fighter craft already launching toward
+the starfield. The amber lion-glyph from frame02 is now pulled
+ALL the way to its target — a single small star — and is
+flickering. Caravaggio key-light tinted slightly red, suggesting
+imminent loss. Apply the §7.0 style guide above.
+```
+
+#### 7.4.4 hero.webp — Reduced-motion fallback
+
+```
+Cinematic 1920×1080 WebP. Composite hero still: the bridge
+projection table dominates the frame at low angle, the
+holographic star map filling most of the composition. Inset
+top-left in a small painted vignette: the crumpled
+ration-wrapper map (frame01) — like a "this is where it started"
+nod. Inset top-right in matching vignette: a tight crop of the
+flickering amber lion-glyph from frame03. Three silhouettes
+stand around the projection table in mid-distance. Bridge
+windows visible at top-edge showing fighter-wing launch.
+Caravaggio gold key-light from upper-right unifying the whole
+scene. Apply the §7.0 style guide above.
+```
+
+#### 7.4.5 act-5-intro.mp3 — Suno
+
+```
+Suno prompt:
+"Cartographer's overture at 100 BPM in A minor. Solo handpan
+plays a 4-note ostinato (A-C-E-G descending) for the first 8
+seconds, then doubles when ambient strings enter underneath
+(low cellos holding root, second violins on the 5th). Distant
+brass section sustains a single note at 0:14 — quiet but rising
+in volume across 7 seconds. A single ship-bell strike at 0:09.
+Layered very low underneath: an irregular slow blip — Iron Lion's
+incoming transmission tone, syncopated against the handpan's
+4/4. NO percussion beyond the bell and blip. NO lead vocals. NO
+choir. Mood: scope expanding, getting to know the shape of the
+world, the cartographer is finally awake. Output 21 seconds
+(3 × 7s frame), seamless tail. -23 LUFS."
+```
+
+### 7.5 act-6-confession (Act 6 — The Confession)
+
+> Subtitle: "Both of them finally spoke. Neither could look at
+> the other." Reduced-motion prose: "Elara admits she was human,
+> once. The Human admits he has been playing the villain to
+> cover a third thing neither of them can name out loud. The
+> room feels watched. The Watcher is named in this act. You
+> will choose how to stand when it is."
+
+#### 7.5.1 frame01.webp — "Elara's portrait is the clearest it has ever been. That is the first clue."
+
+```
+Cinematic 1920×1080 WebP. Tight portrait shot of Elara — but
+unlike every previous Elara appearance, the holographic glitch
+treatment is GONE. Her face is rendered with the highest level
+of painted realism in the entire game's art treatment: every
+freckle, every small expression around the eyes, the soft
+texture of her brown irises, the suggestion of breath catching
+in her throat. She is looking directly at the viewer. Her mouth
+is closed but mid-decision-to-open. Behind her: a deeply blurred
+soft warm interior space — wood paneling, a single low lamp.
+The Caravaggio amber key-light from camera-left, but dialed
+softer than the other cinematics. The clarity itself is the
+emotional beat. Apply the §7.0 style guide above.
+```
+
+#### 7.5.2 frame02.webp — "The Human takes his coat off. He has not done that in seventeen thousand years."
+
+```
+Cinematic 1920×1080 WebP. Mid-shot of The Human standing in
+profile, mid-motion of removing his trench coat — one shoulder
+already free, the coat sliding down his arm. Underneath the coat:
+a simple dark grey collared shirt, sleeves rolled at the
+forearms. His hat is on a small side table beside him. The room
+is the same warm interior implied behind Elara in 7.5.1 — wood-
+paneled, low lamp. He is not looking at the camera; his gaze is
+on the coat itself, an expression that reads as weight finally
+being allowed down. The discarded coat reveals slightly thinner
+arms than the trench-coat silhouette suggested across the rest
+of the game. Apply the §7.0 style guide above.
+```
+
+#### 7.5.3 frame03.webp — "There is a third thing in the room with you. It has been watching since Act 1."
+
+```
+Cinematic 1920×1080 WebP. Wide shot of the same warm wood-
+paneled room from 7.5.1 and 7.5.2, taken from a high corner
+vantage that wasn't visible in either previous frame. Both
+Elara (as a hologram in a small projection plinth) and The
+Human (no longer in coat) are visible mid-distance, seated
+across a small round table from each other, both leaning
+slightly inward. Between them on the table: two cups of
+something warm. The room's far wall has a small ornate gilded
+mirror — and in the mirror's reflection, instead of showing
+the room continuing, there is a third figure: a tall thin
+silhouette with no visible features, standing precisely where
+the camera is. The mirror's reflection of "the camera position"
+is occupied by The Watcher. The reveal must read as
+unmistakable but not jump-scare — Caravaggio quiet menace, the
+key-light from above-left unchanged from the previous frames.
+Apply the §7.0 style guide above.
+```
+
+#### 7.5.4 hero.webp — Reduced-motion fallback
+
+```
+Cinematic 1920×1080 WebP. Composite hero still emphasizing the
+revelation. Centre: the wide shot of the wood-paneled room with
+both narrators at the table (frame03 composition) — but the
+mirror on the far wall is enlarged and made the visual focus.
+The Watcher's silhouette in the mirror's reflection is the
+brightest pixel in the frame (paradoxically — a dark shape
+defined by negative-space brightness around it). Inset upper-
+left: tight portrait of clarified Elara (frame01) in a small
+oval cameo. Inset upper-right: The Human shrugging out of his
+coat (frame02) in matching cameo. The two cameos are connected
+to the central mirror-revelation by faint amber thread-of-light
+running across the composition. Apply the §7.0 style guide above.
+```
+
+#### 7.5.5 act-6-intro.mp3 — Suno
+
+```
+Suno prompt:
+"Confession theme at 70 BPM in B-flat minor. Solo upright piano
+in a stone-walled room with natural reverb (clear, no plate, no
+digital). Slow arpeggios in the left hand on i-VI-iv7
+progression. Right hand traces a single melody line — patient,
+sparse, with rests longer than the played notes. At 0:08, a solo
+cello enters underneath holding the root, doubling at the octave
+on a sustained breath. NO drums. NO choir. NO synths. Just two
+human-played instruments in a real-sounding room. The piano's
+sustain pedal is held throughout, allowing notes to bleed into
+each other. At 0:18, a third presence enters very faintly — a
+distant unidentifiable resonance (not an instrument, not a voice,
+just a low hum that doesn't belong) — for the last 3 seconds.
+Mood: stripped-bare honesty, the moment before truth, but
+something else is in the room with you. Output 21 seconds (3 × 7s
+frame), seamless tail. -23 LUFS."
+```
+
 
 
 
