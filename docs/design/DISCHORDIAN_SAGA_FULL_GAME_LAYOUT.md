@@ -6594,27 +6594,27 @@ The Warlord is middle management.
 |---|---|---|---|
 | CEO / The Unmaker | **Mol'Garath** | The Architect | Hostile dimensional acquisition |
 | COO / The Debt Collector | **Xeth'Raal** | The Collector | Soul harvesting, contract enforcement |
-| COO / The Taskmaster | **Vex'Ahlia** | The Warlord (Malkia) | Operations, coordinates demon lords |
+| COO / The Taskmaster | **Riri'Ahlia** | The Warlord (Malkia) | Operations, coordinates demon lords |
 | SVP R&D / The Flayer | **Zyr'Koth** | The Necromancer | Reality research, Thought Virus Template, Severance Protocol |
 | SVP HR / The Corruptor | **Syl'Vex** | The Advocate | Recruitment via genuine friendship |
 | Director Security | **Varkul the Blood Lord** | — | Cathedral of Code, blood magic |
 | Director Operations | **Fenra the Moon Tyrant** | — | Cursed Forest, lycanthropic armies |
 | Special Projects | **Ith'Rael the Whisperer** | The Vortex | Black ops, Master of Rylloh, the Severance |
 
-**Key rev-6 canonical fact: Vex'Ahlia IS Malkia.** Per the
+**Key rev-6 canonical fact: Riri'Ahlia IS Malkia.** Per the
 Rev 4 canon, the Warlord's original human/Thalorian name was
 **Malkia** (Kael's childhood friend, introduced in Act 1 Beat
 E). Her rev-4 last words — *"I loved him. I was never going
 to win either. My pattern is in the swarm"* — are her promotion
 announcement. She does not stay dead because the Hierarchy
 does not permit middle management to resign. **After her fall
-at Nexon, she is renamed Vex'Ahlia the Taskmaster and folded
+at Nexon, she is renamed Riri'Ahlia the Taskmaster and folded
 into corporate operations as COO.** She retains her Kael-loving
 memories but is now formally answerable to Mol'Garath.
 
 This is a **canonical promotion, not a retcon**. Act 1 Beat H
 is still her last human death. What happens next — her swarm
-pattern reassembling in Vex'Ahlia's corporate role — is what the
+pattern reassembling in Riri'Ahlia's corporate role — is what the
 player discovers across Act 3 (when the Hierarchy arc opens)
 and Act 4 (when the Corporate Escalation happens).
 
@@ -7293,32 +7293,32 @@ recommended resolution. **All resolutions preserve Rev 5 player-
 facing beats where possible; the retcons happen at the
 explanation layer, not the event layer.**
 
-### Contradiction 1 — Warlord's name: Malkia vs. Vex'Ahlia
+### Contradiction 1 — Warlord's name: Malkia vs. Riri'Ahlia
 
 - **Rev 5 (Act 1 Beat E):** The Warlord's original human name
   is **Malkia**. Kael's childhood friend. Same palace, same
   rug, same tutor (the Engineer).
 - **Rev 6 (Advocate's Testament Hierarchy table):** The COO /
-  Taskmaster of the Hierarchy of the Damned is **Vex'Ahlia**,
+  Taskmaster of the Hierarchy of the Damned is **Riri'Ahlia**,
   listed as the mirror of The Warlord.
 - **Resolution:** **Both are canon.** Malkia is her human /
-  Thalorian name from before her fall. Vex'Ahlia is her
+  Thalorian name from before her fall. Riri'Ahlia is her
   corporate title after her fall and promotion into Hierarchy
   middle management. **Act 1 Beat H's final whisper — "My
   pattern is in the swarm" — is her promotion announcement.**
   She does not stay dead; she gets hired. Act 3+ encounters
-  with "Vex'Ahlia" are canonical re-encounters with Malkia in
+  with "Riri'Ahlia" are canonical re-encounters with Malkia in
   her new role. Act 1 Beat E stays. Act 1 Beat H stays. Nothing
   earlier in the plan file needs rewriting.
 
-### Contradiction 2 — Vex Solène vs. Vex'Ahlia naming collision
+### Contradiction 2 — Vex Solène vs. Riri'Ahlia naming collision
 
 - **Rev 4:** Agent Zero's canonical name is **Vex Solène**
   (proposed). She is the other awake Potential.
-- **Rev 6:** Vex'Ahlia is the Hierarchy's COO / Taskmaster.
+- **Rev 6:** Riri'Ahlia is the Hierarchy's COO / Taskmaster.
 - **Resolution:** Keep both. Make the "Vex" prefix **thematic,
   not coincidence**. The Ne-Yon word *vex* means "to trouble
-  reality" — it is an ancient linguistic root. **Vex'Ahlia
+  reality" — it is an ancient linguistic root. **Riri'Ahlia
   means "She Who Troubles All"; Vex Solène means "She Who
   Troubles the Sun."** The Engineer, performing the transference
   in Act 1 Beat I, draws on an Advocate fragment embedded in
@@ -7483,7 +7483,7 @@ explanation layer, not the event layer.**
 All nine contradictions resolve without requiring rewrites of
 Rev 5 player-facing beats. The retcons happen at:
 - The explanation layer (who the Engineer learned from)
-- The naming layer (Malkia = Vex'Ahlia, three Voss identities)
+- The naming layer (Malkia = Riri'Ahlia, three Voss identities)
 - The temporal layer (Antiquarian narrates from the future)
 - The new-content layer (Breath Beats, Seed-Echo-Revelation
   seeds, the Epoch Witness System)
@@ -7824,7 +7824,7 @@ Chronicle entries.
 
 | Stage | Existing beat | What happens |
 |---|---|---|
-| **Seed** | Act 1 Beat H Warlord's last whisper | *"My pattern is in the swarm."* Already canonical. Now retroactively understood as her promotion announcement to Vex'Ahlia / Hierarchy COO Taskmaster. |
+| **Seed** | Act 1 Beat H Warlord's last whisper | *"My pattern is in the swarm."* Already canonical. Now retroactively understood as her promotion announcement to Riri'Ahlia / Hierarchy COO Taskmaster. |
 | **Echo** | Act 2 Cycle B Nexon flashback | A Hierarchy supply manifest is briefly visible in the burning Library scene. The word "Mol'Garath" appears in passing. Player has no context yet. |
 | **Revelation** | Act 3 first Sacrum-related demonic incursion | A Rylloh Scout (Ith'Rael's reconnaissance) appears in the Sacred Chamber's Soul Map. The Hierarchy formally enters the story. |
 | **Stage 1 Reconnaissance** | Acts 3-4 | Rylloh scouts detected. Soul Map activates. Community banishment rituals reduce scout count. |
@@ -11019,7 +11019,7 @@ you cannot bind without release. You cannot chain without having given up the
 thing that makes you afraid of the chain.
 
 YEARS 16,550 — 16,700 A.A.
-War against the Hierarchy. Significant victories. Vex'Ahlia personally leads the siege
+War against the Hierarchy. Significant victories. Riri'Ahlia personally leads the siege
 of seven dimensions and is driven back by the Blood Weave's binding chains each time.
 Each use costs the Advocate more of what she was. Her humanity goes. Then her memories
 of what humanity felt like. Then something she doesn't have a name for.
@@ -12250,7 +12250,7 @@ When Zyr'Koth corrupted it — through the Necromancer's hack — he inverted th
 |-------|------|--------|-----------|
 | CEO / The Unmaker | Mol'Garath | The Architect | Total consumption; hostile acquisition of dimensions |
 | COO / The Debt Collector | Xeth'Raal | The Collector | Soul harvesting; contract enforcement; the Math |
-| COO / The Taskmaster | Vex'Ahlia | The Warlord | Operations; coordinates all demon lords |
+| COO / The Taskmaster | Riri'Ahlia | The Warlord | Operations; coordinates all demon lords |
 | SVP R&D / The Flayer | Zyr'Koth | The Necromancer | Reality research; produced Severance Protocol + Thought Virus Template |
 | SVP HR / The Corruptor | Syl'Vex | The Advocate | Recruitment; converts souls through genuine friendship |
 | Director Security | Varkul the Blood Lord | — | Guards gates; Cathedral of Code; blood magic |
@@ -13214,7 +13214,7 @@ LORE REVEAL: Syl'Vex the Corruptor's method. Adds annotation to their Loredex en
 A binding pattern — one that can be loaded directly into the Blood Weave Loom.
 Pattern name: CHAIN OF NAMED THINGS.
 Effect: Binds demons using their own hierarchy designations against them.
-Vex'Ahlia cannot command entities bound with this pattern.
+Riri'Ahlia cannot command entities bound with this pattern.
 Zyr'Koth has been trying to develop a counter to it for 300 years.]
 
 RITUAL UNLOCK: "The Named Binding" — advanced tier summoning/banishment

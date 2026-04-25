@@ -631,7 +631,7 @@ export const tradeWarsRouter = router({
     ];
     const demonEnemies = [
       "Hierarchy Scout", "Blood Weave Tendril", "Damned Legionnaire", "Soul Collector Drone",
-      "Mol'Garath's Herald", "Vex'Ahlia's Vanguard", "Shadow Tongue Whisper", "Zyr'Koth's Experiment",
+      "Mol'Garath's Herald", "Riri'Ahlia's Vanguard", "Shadow Tongue Whisper", "Zyr'Koth's Experiment",
     ];
     // 20% chance of demon encounter (scales with XP)
     const demonChance = Math.min(0.35, 0.15 + (player.experience / 5000));

@@ -63,8 +63,8 @@ const DEMON_LEADERS: DemonLeader[] = [
     specialAbility: "Compound Interest — soul debts grow exponentially over time",
   },
   {
-    id: "vexahlia", entityId: "entity_93",
-    name: "Vex'Ahlia", title: "The Taskmaster",
+    id: "ririahlia", entityId: "entity_93",
+    name: "Riri'Ahlia", title: "The Taskmaster",
     corporateRole: "Chief Operating Officer",
     tier: "c-suite",
     image: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/2_aAZuZESUeOqHrqUN21IHeO_1773778340218_na1fn_L2hvbWUvdWJ1bnR1L3ZleF9haGxpYV9wb3J0cmFpdA_c892f37b.png",

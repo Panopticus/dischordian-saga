@@ -664,8 +664,8 @@ Files: `frame_{type}_{faction}.png` for each combination.
   *"After graduating from Mechronis Academy, he served for centuries as the Architect's most trusted agent, solving the univ..."*
 
 **`art_s1_char_061.png`** | unit | legendary | 8mana | 12/10
-  Vex'Ahlia the Taskmaster
-  Prompt: CHARACTER: Vex'Ahlia the Taskmaster, legendary unit. LEGENDARY: dramatic golden backlighting, epic sense of scale. Lore: COO of the Hierarchy. Commands the Blood Weave's armies across 17 dimensions simultaneously with six tireless arms.. Palette: Gold (#fbbf24), obsidian black, blood red accents,. Style: Opulent corporate dystopia. Crystal archives. Senate chamber.
+  Riri'Ahlia the Taskmaster
+  Prompt: CHARACTER: Riri'Ahlia the Taskmaster, legendary unit. LEGENDARY: dramatic golden backlighting, epic sense of scale. Lore: COO of the Hierarchy. Commands the Blood Weave's armies across 17 dimensions simultaneously with six tireless arms.. Palette: Gold (#fbbf24), obsidian black, blood red accents,. Style: Opulent corporate dystopia. Crystal archives. Senate chamber.
   *"COO of the Hierarchy. Commands the Blood Weave's armies across 17 dimensions simultaneously with six tireless arms."*
 
 **`art_s1_char_066.png`** | unit | epic | 5mana | 7/10

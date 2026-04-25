@@ -1452,7 +1452,7 @@ export const CHARACTER_SPECIALS: Record<string, CharacterSpecials> = {
     },
   },
 
-  "vexahlia": {
+  "ririahlia": {
     sp1: {
       name: "HEX SLASH",
       type: "rush",

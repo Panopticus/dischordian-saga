@@ -123,12 +123,12 @@
 **Type:** concept
 **Bio:** The reward for winning a Dead Man's Circuit season. A fragment of Potential essence — the winner's own soul — extracted and transferred into a new body. This body becomes a companion that follows the winner to their assigned Inception Ark. The Severance Prize is Nilmorg's most valuable commodity and his most binding agreement. He always pays. He never explains why that's worse than not paying.
 
-## Entry: Vex'Ahlia the Collector
-**ID:** entity_vexahlia
+## Entry: Riri'Ahlia the Collector
+**ID:** entity_ririahlia
 **Type:** character
 **Faction:** Hierarchy of the Damned
 **Status:** Active
-**Bio:** Mid-tier management in the Hierarchy of the Damned. Vex'Ahlia acquires souls the way a corporation acquires IP: patiently, legally, with good paperwork. She oversees the administrative side of Dead Man's Circuit — clone production quotas, Bone Lane maintenance, Severance Prize transfers. She is the one who ensures Nilmorg's agreements are honored. Her relationship with Mol'Garath is strictly professional. Her relationship with the clones is strictly contractual. Both of these statements are technically true.
+**Bio:** Mid-tier management in the Hierarchy of the Damned. Riri'Ahlia acquires souls the way a corporation acquires IP: patiently, legally, with good paperwork. She oversees the administrative side of Dead Man's Circuit — clone production quotas, Bone Lane maintenance, Severance Prize transfers. She is the one who ensures Nilmorg's agreements are honored. Her relationship with Mol'Garath is strictly professional. Her relationship with the clones is strictly contractual. Both of these statements are technically true.
 
 ## Entry: Neural Splice
 **ID:** technology_neural_splice

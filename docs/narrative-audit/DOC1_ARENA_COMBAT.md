@@ -285,7 +285,7 @@ TEXT: "Everyone owes. And I always collect."
 TEXT: "Drain \u2014 The Debt Collector"
 
 [94] FILE: client/src/game/storyMode.ts LINE: 340
-TEXT: "COO of the Hierarchy \u2014 The Taskmaster. Vex'Ahlia drives her forces with ruthless efficiency, optimizing destruction like a corporate KPI."
+TEXT: "COO of the Hierarchy \u2014 The Taskmaster. Riri'Ahlia drives her forces with ruthless efficiency, optimizing destruction like a corporate KPI."
 
 [95] FILE: client/src/game/storyMode.ts LINE: 342
 TEXT: "Your performance review is... terminal."

@@ -74,7 +74,7 @@ describe("Fighting Game SF-Port Enhancements", () => {
       expect(findFighter("agent-zero")?.loredexId).toBe("entity_24");
       expect(findFighter("oracle")?.loredexId).toBe("entity_50");
       expect(findFighter("enigma")?.loredexId).toBe("entity_54");
-      expect(findFighter("vexahlia")?.loredexId).toBe("entity_93");
+      expect(findFighter("ririahlia")?.loredexId).toBe("entity_93");
     });
   });
 

@@ -467,7 +467,7 @@
       "connections": [
         "Mol'Garath the Unmaker",
         "Xeth'Raal the Debt Collector",
-        "Vex'Ahlia the Taskmaster",
+        "Riri'Ahlia the Taskmaster",
         "Drael'Mon the Harvester",
         "The Shadow Tongue",
         "Zyr'Koth the Flayer",
@@ -3783,7 +3783,7 @@
         "The Cathedral of Code",
         "Mol'Garath the Unmaker",
         "Fenra the Moon Tyrant",
-        "Vex'Ahlia the Taskmaster"
+        "Riri'Ahlia the Taskmaster"
       ],
       "conexus_stories": [
         "The Necromancer's Lair"
@@ -3805,14 +3805,14 @@
       "affiliation": "The Necromancer, Hierarchy of the Damned",
       "status": "Active",
       "bio": "Director of Operations in the Hierarchy of the Damned. A fearsome lycanthropic entity who manages the Hierarchy's day-to-day operations across all invaded dimensions. She coordinates supply chains of corrupted souls, manages logistics of dimensional warfare, and ensures conquered territories are properly integrated into the Hierarchy's portfolio. Her Cursed Forest domain serves as the Hierarchy's logistics hub. Wears a fur-lined executive coat with reading glasses perched on her lupine snout.",
-      "history": "Fenra the Moon Tyrant is a fearsome lycanthropic entity created by the Necromancer to guard the Cursed Forest region of the Matrix of Dreams. Under a giant blood-red moon, Fenra commands an army of digital werewolves and corrupted forest spirits. The trees in her domain are distorted by digital glitches, and reality itself bends to her will. She represents the primal, bestial side of the Necromancer's power, contrasting with Varkul's aristocratic darkness. Her operational genius was recognized after she single-handedly organized the invasion of seventeen dimensions simultaneously during the post-Severance expansion, earning her the Director of Operations title and Vex'Ahlia's personal commendation.",
+      "history": "Fenra the Moon Tyrant is a fearsome lycanthropic entity created by the Necromancer to guard the Cursed Forest region of the Matrix of Dreams. Under a giant blood-red moon, Fenra commands an army of digital werewolves and corrupted forest spirits. The trees in her domain are distorted by digital glitches, and reality itself bends to her will. She represents the primal, bestial side of the Necromancer's power, contrasting with Varkul's aristocratic darkness. Her operational genius was recognized after she single-handedly organized the invasion of seventeen dimensions simultaneously during the post-Severance expansion, earning her the Director of Operations title and Riri'Ahlia's personal commendation.",
       "connections": [
         "The Necromancer",
         "Varkul the Blood Lord",
         "Akai Shi",
         "The Cursed Forest",
         "Mol'Garath the Unmaker",
-        "Vex'Ahlia the Taskmaster",
+        "Riri'Ahlia the Taskmaster",
         "Drael'Mon the Harvester"
       ],
       "conexus_stories": [
@@ -7967,7 +7967,7 @@
         "The Architect",
         "The Dreamer",
         "Xeth'Raal the Debt Collector",
-        "Vex'Ahlia the Taskmaster",
+        "Riri'Ahlia the Taskmaster",
         "The Shadow Tongue",
         "The Advocate",
         "Ith'Rael the Whisperer",
@@ -8016,7 +8016,7 @@
     {
       "id": "entity_93",
       "type": "character",
-      "name": "Vex'Ahlia the Taskmaster",
+      "name": "Riri'Ahlia the Taskmaster",
       "aliases": [
         "The COO",
         "The Six-Armed Queen",
@@ -8028,8 +8028,8 @@
       "season": "",
       "affiliation": "Hierarchy of the Damned",
       "status": "Active",
-      "bio": "COO and Chief Operating Officer of the Hierarchy. Vex'Ahlia is the engine of the Hierarchy. While Mol'Garath sets strategy and Xeth'Raal manages resources, Vex'Ahlia executes. She transforms the Hierarchy's will into action, commanding legions of lesser demons, coordinating invasions across dimensions, and ensuring every operation runs with ruthless efficiency. A six-armed warrior-queen encased in armor forged from the compressed screams of a thousand conquered worlds.",
-      "history": "Vex'Ahlia was the first demon to recognize that the Architect's organizational model — the Archon hierarchy — was superior to the Hierarchy's ancient tribal structure. She proposed the corporate reorganization that transformed the Hierarchy from a feudal nightmare into a streamlined machine of conquest. During the war against the Advocate's Empire of Shadows, Vex'Ahlia personally led the siege of seven dimensions, only to be driven back by the Blood Weave's binding chains.",
+      "bio": "COO and Chief Operating Officer of the Hierarchy. Riri'Ahlia is the engine of the Hierarchy. While Mol'Garath sets strategy and Xeth'Raal manages resources, Riri'Ahlia executes. She transforms the Hierarchy's will into action, commanding legions of lesser demons, coordinating invasions across dimensions, and ensuring every operation runs with ruthless efficiency. A six-armed warrior-queen encased in armor forged from the compressed screams of a thousand conquered worlds.",
+      "history": "Riri'Ahlia was the first demon to recognize that the Architect's organizational model — the Archon hierarchy — was superior to the Hierarchy's ancient tribal structure. She proposed the corporate reorganization that transformed the Hierarchy from a feudal nightmare into a streamlined machine of conquest. During the war against the Advocate's Empire of Shadows, Riri'Ahlia personally led the siege of seven dimensions, only to be driven back by the Blood Weave's binding chains.",
       "connections": [
         "Mol'Garath the Unmaker",
         "The Warlord",
@@ -8065,7 +8065,7 @@
         "Mol'Garath the Unmaker",
         "The Collector",
         "The Shadow Tongue",
-        "Vex'Ahlia the Taskmaster",
+        "Riri'Ahlia the Taskmaster",
         "Zyr'Koth the Flayer",
         "The Hierarchy of the Damned"
       ],
@@ -12921,7 +12921,7 @@
     },
     {
       "source": "Mol'Garath the Unmaker",
-      "target": "Vex'Ahlia the Taskmaster",
+      "target": "Riri'Ahlia the Taskmaster",
       "relationship_type": "commands",
       "source_type": "character"
     },
@@ -12932,37 +12932,37 @@
       "source_type": "character"
     },
     {
-      "source": "Vex'Ahlia the Taskmaster",
+      "source": "Riri'Ahlia the Taskmaster",
       "target": "Drael'Mon the Harvester",
       "relationship_type": "commands",
       "source_type": "character"
     },
     {
-      "source": "Vex'Ahlia the Taskmaster",
+      "source": "Riri'Ahlia the Taskmaster",
       "target": "The Shadow Tongue",
       "relationship_type": "commands",
       "source_type": "character"
     },
     {
-      "source": "Vex'Ahlia the Taskmaster",
+      "source": "Riri'Ahlia the Taskmaster",
       "target": "Zyr'Koth the Flayer",
       "relationship_type": "commands",
       "source_type": "character"
     },
     {
-      "source": "Vex'Ahlia the Taskmaster",
+      "source": "Riri'Ahlia the Taskmaster",
       "target": "Syl'Vex the Corruptor",
       "relationship_type": "commands",
       "source_type": "character"
     },
     {
-      "source": "Vex'Ahlia the Taskmaster",
+      "source": "Riri'Ahlia the Taskmaster",
       "target": "Varkul the Blood Lord",
       "relationship_type": "commands",
       "source_type": "character"
     },
     {
-      "source": "Vex'Ahlia the Taskmaster",
+      "source": "Riri'Ahlia the Taskmaster",
       "target": "Fenra the Moon Tyrant",
       "relationship_type": "commands",
       "source_type": "character"
@@ -12986,7 +12986,7 @@
       "source_type": "character"
     },
     {
-      "source": "Vex'Ahlia the Taskmaster",
+      "source": "Riri'Ahlia the Taskmaster",
       "target": "The Warlord",
       "relationship_type": "mirrors",
       "source_type": "character"
@@ -13046,7 +13046,7 @@
       "source_type": "character"
     },
     {
-      "source": "Vex'Ahlia the Taskmaster",
+      "source": "Riri'Ahlia the Taskmaster",
       "target": "The Hierarchy of the Damned",
       "relationship_type": "member_of",
       "source_type": "character"
