@@ -1,5 +1,133 @@
 # Art Materials Audit — 2026-04-25
 
+> **⚠️ TRIPLE-CHECK CORRECTIONS (added after first pass).** The first
+> pass below took `MISSING_PRELUDE_ACT1_ASSETS.md` at face value. That
+> doc was authored in PR #173 (`92e3b11`, 2026-04-23) and was **never
+> updated** when PR #180 (`dbdcb12`, 2026-04-24,
+> "feat(prelude/act1): land production asset drop + wire it up")
+> landed the actual production bundle. The corrections below
+> supersede §6–§8 / §11.5 of the first-pass audit. Specifically:
+>
+> ### What actually shipped in PR #180
+> Recorded in `apps/client/src/data/preludeAct1Deliverables.ts` (477
+> lines), wired into `PreludeSequencePlayer.tsx`, browsable at
+> `/prelude-act1-gallery`. All paths resolve via `assetUrl()` to the
+> dgrsart S3 bucket. Files are gitignored locally by design.
+>
+> | Bucket | Shipped | First-pass audit said |
+> |---|---|---|
+> | Prelude cutscene MP4s | **9 of 15** (a, b, c5, d, f, g [via medbay], h, i [via observation], j) + 2 alt takes | said 0/15 ❌ wrong |
+> | Prelude cutscene bookend stills | **12 beats × {start,end}** = 24 PNG+WebP pairs | not credited ❌ |
+> | Prelude VFX still frames | **11 VFX** with start/end/frame paintings (incl. **`vfx_human_palm_frost`**) | said all 10 missing ❌ |
+> | Prelude rooms | **13 rooms** at runtime path (4 PNG+WebP, 9 PNG-only) | said all INTERMEDIATE ❌ |
+> | Prelude music | 2 tracks (ambientShip, elaraTheme) | not credited ❌ |
+> | Act 1 cutscene MP4s | **3 shipped** (tavern-arrival, arena-challenge, council-revelation) + 6 bookends | said 3 missing ❌ |
+> | Act 1 rooms | **5 shipped** (tavern, market-square, council-chamber, dockyard, arena-lobby) | said 5 missing ❌ |
+> | Act 1 battlefields | **10 shipped** | said 10 missing ❌ |
+> | Act 1 portraits | **14 shipped** (incl. canon-named: human, elara, enigma, engineer, gamemaster, warlord, iron-lion, agent-zero, collector, degen, meme, necromancer, seer, watcher) | said 12 missing ❌ |
+> | Act 1 cards | **14 shipped** | said 14 missing ❌ |
+> | Act 1 music | 3 tracks (tavern, arena, council) | not credited ❌ |
+>
+> ### Naming caveat (still a real gap)
+> The PR #180 delivery uses **generic D&D-style names** (tavern,
+> arena-pit, fireball, shadow-bolt) instead of the **canon Bible
+> names** the spec asks for (kindergarten, mechronis-atrium,
+> nexon-battlefield, `card_art_countermelody`,
+> `card_art_jar_wouldnt_close`, `matchup-little-collector`, etc.).
+> The art **physically exists** and is wired in, but whether it
+> satisfies the canon spec is a creative-direction call, not an
+> asset-presence question. The 12 Act 1 opponent matchup portraits
+> the bible names are still a separate ask if canon-aligned art is
+> required.
+>
+> ### Acts 1 VO — also far more shipped than first pass said
+> First pass said "23 Act 1 VO lines missing" based on the bible
+> doc. Actual VO catalog totals across `apps/shared/*VoManifest.json`:
+>
+> | Manifest | Lines on S3 |
+> |---|---|
+> | elaraVoManifest.json | **412** |
+> | humanVoManifest.json | **212** |
+> | memeVoManifest.json | 90 |
+> | antiquarianVoManifest.json | 82 |
+> | cadesVoManifest.json | 46 |
+> | engineerMemoirVoManifest.json | 36 |
+> | palimpsestHostVoManifest.json | 33 |
+> | nilmorgVoManifest.json | 28 |
+> | sourceVoManifest.json | 28 |
+> | agent_zeroVoManifest.json | 24 |
+> | gamemasterVoManifest.json | 24 |
+> | degenVoManifest.json | 12 |
+> | storyModeVoManifest.json | 11 |
+> | lockeVoManifest.json | 9 |
+> | seerVoManifest.json | 8 |
+> | shadow_tongueVoManifest.json | 8 |
+> | (other 13 manifests) | 0–3 each |
+> | **Total** | **~1,389+ recorded VO lines on S3** |
+>
+> Elara alone has Act 1 pre/post-match commentary for every named
+> opponent: corey_collector, kanshi_sha_watcher, minnie_meme,
+> vernon_vortex, wanda_wyrlord, warlord_nano_swarm, etc. Plus
+> `act1_choice_*`, `act1_disinfo`, `act1_foundation`, `act1_grief`,
+> `act1_loyalty`, `act1_react_human`, `act1_reassure`,
+> `act1_signal_detect`, `act1_substrate_explain`. The "23 missing"
+> framing was for one specific tranche (cutscene narration + Section 6
+> Antiquarian); those 23 may still be unrecorded but the broader
+> Act 1 VO catalog is largely shipped.
+>
+> ### Acts 2–7 VO — still empty
+> `act{2,3,4,4_5,5,6,7}VoManifest.json` are all **0 mp3 entries** —
+> these were stubbed out by `apps/scripts/generate-act-vo.ts` /
+> PR #189 CI workflow but no recordings have populated them yet.
+> First-pass audit didn't flag this; it's a real gap.
+>
+> ### Trade Empire art — also shipped
+> PR #186 ("feat(trade-empire): wire producer-delivered art into game
+> + add CDN upload pipeline") and PR #182 (#wire art rendering across
+> all expansion panels) shipped the Trade Empire art bundle. The 13
+> CSV manifests under `docs/production/trade-empire-asset-build/`
+> (1,483 rows) are the spec; the producer-delivered art has landed
+> and is wired across expansion panels. First-pass audit listed only
+> the spec count, not the wire-up status — credit it as ✅ shipped.
+>
+> ### What's still genuinely missing (corrected punch list)
+> 1. **6 Prelude cutscene MP4s** — beats a5, c, d5, e, f5, h5 (the
+>    delivery covered 9 of 15)
+> 2. **6 INTERMEDIATE VFX** still need MP4→WebM VP9 conversion
+>    (cryo-frost-retreat, pod-hatch-cryogas, hologram-materialize,
+>    breath-pulse-strip, sepia-drain, film-damage-overlay) — though
+>    they're now usable as raw MP4 sources at runtime per the registry
+> 3. **3 ambient WAV→MP3** loudnorm pass still pending
+> 4. **observation-deck** Prelude room — CDN-LEGACY only, but
+>    PR #180's "beat-g-observation" video uses it as a backdrop, so
+>    the gap is local-canonical-path only
+> 5. **Acts 2–7 spine VO** — 0 lines recorded across 7 act manifests
+> 6. **Acts 2–7 runtime wiring** — 181 cinematic files on CDN but
+>    `SongSlideshow.tsx` etc. don't yet load `videos/acts/...`
+> 7. **MISSING_ART_PROMPTS.md 10 items** — these are still
+>    code-referenced fallbacks (arena-default, health-bar, chess
+>    pieces+board, trade frame, grid tile, 3 rooms, Darren Fessler
+>    badge); status unverified post-PR #180
+> 8. **MISSING_CUTSCENES.md 46 cinematics** — Loredex Discovery (13),
+>    Story Mode Fights (17), Dead Man's Circuit (6), Living Universe
+>    (5), Crew Awakening (3), Prestige Cycle (1), Companion Death (1).
+>    No evidence in git log that these specifically shipped; treat as
+>    ❌ still missing.
+> 9. **Canon-named Act 1 art** (kindergarten, mechronis-atrium,
+>    matchup-little-collector, card_art_countermelody, etc.) — only
+>    if creative direction insists on canon names over the generic
+>    D&D-style delivery; otherwise the slots are filled.
+> 10. **Last Words song + Log 5 long-form** — still tracked in
+>     canon-expansion pipeline; status TBD.
+>
+> ### Net delta vs first-pass total (~167 missing)
+> Corrected estimate: **~70 genuinely missing**, weighted heavily
+> toward Acts 2–7 spine VO (estimated 100s of lines pending) and the
+> 46 backlog cinematics. The first-pass audit double-counted assets
+> that PR #180 had already shipped.
+
+
+
 > Full audit of all art materials in the repo. "Completed" = file exists
 > on disk OR is published to a CDN/S3 path with a verified URL listing in
 > the repo. "Missing" = referenced by a manifest/spec/code path with no
