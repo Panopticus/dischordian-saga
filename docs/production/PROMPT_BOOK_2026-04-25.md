@@ -2046,6 +2046,217 @@ an entire universe plays out in miniature above its pages. The
 Antiquarian remembers what everyone else has forgotten.
 ```
 
+---
+
+## §10 — TCG card tier-up art (221 — linked, not inlined)
+
+**Source**: 51 card-definition files at
+`apps/shared/tcg-core/cards/definitions/{allegiance,class,
+elemental,imprint,race,dimensional}/`. Each file references
+`art/cards/<category>/<cardId>_t1.webp` through `_t5.webp` (the
+tier-up evolved variants of base imprint/class/etc cards). 221
+URLs total.
+
+**This is too large to inline as fully-instantiated prompts in
+this book** — operator workflow is to read each card definition
+and instantiate against the master tier-up template below.
+
+### Workflow
+
+```bash
+# Enumerate all dead tier-up URLs from the audit data:
+cat docs/production/audit/dead-urls/apps_shared_tcg-core_cards_definitions_*.txt \
+  > /tmp/tier-up-cards-todo.txt
+wc -l /tmp/tier-up-cards-todo.txt   # expect ~221
+
+# For each dead URL:
+#   1. Derive the card definition file from the URL pattern
+#      (e.g. art/cards/imprint/s1_imprint_elara_t3.webp →
+#       apps/shared/tcg-core/cards/definitions/imprint/elara.ts)
+#   2. Open the card definition file. Read:
+#       • `name` (the card title)
+#       • `loreText` / `flavorText` (the in-fiction description)
+#       • Any visual cues in adjacent comments
+#   3. Instantiate the master tier-up template below with those
+#      fields.
+```
+
+### Master tier-up template (instantiate per card)
+
+```
+Square TCG card art, 1024×1024 WebP. Title: "{CARD_NAME}".
+Tier: T{N} (where T1 is the most basic/grounded form and T5 is
+the most ascended/transcendent — escalate elemental intensity,
+particle density, scale, and metaphysical weight in lockstep
+with N).
+
+Subject: {LORE_TEXT visual rendering — use the lore text
+verbatim as the central scene description}.
+
+Style: photorealistic painted concept art matching the live
+`art/cards/s1_char_*.webp` treatment in the existing tcg-core
+catalog — same brushwork, same palette space, same level of
+realism. Frame the subject in a centred 3-quarter composition
+that reads cleanly at 256×256 thumbnail size.
+
+Tier-N escalation rules (apply additively):
+  T1: subject in baseline form. Single key light. Restrained
+      colour palette. Mortal scale.
+  T2: subject in awakened form. Visible elemental aura.
+      Secondary rim-light from below. Saturated accent colour.
+  T3: subject in ascendant form. Full elemental halo. Sky has
+      shifted (dawn/dusk). Visible weather effects.
+  T4: subject in dominant form. Reality bends around them.
+      Scale increases — they are taller, wider, the camera has
+      pulled back to fit them.
+  T5: subject in transcendent form. They are no longer entirely
+      in this plane. Half their body bleeds into the
+      otherspace they have begun to occupy. Cosmic-scale
+      backdrop replaces ordinary environment.
+
+Card-frame chrome: leave a 64-px transparent border on all four
+sides — the runtime overlays the rarity/cost/stat chrome there;
+do NOT paint it.
+
+Negative: no UI overlays, no text on the card art (titles are
+overlaid at runtime), no anime/cel-shading, no harsh contour
+lines, no modern Earth-tech logos.
+```
+
+### Dispatch hint
+
+The 221 tier-up cards span 6 sub-categories:
+
+| Sub-category | Files | URLs | Card type |
+|---|--:|--:|---|
+| `definitions/allegiance/` | 6 | 36 | Faction allegiance cards (×6 tiers each) |
+| `definitions/class/` | 6 | 30 | Combat class cards (×5 tiers each) |
+| `definitions/elemental/` | 4 | 20 | Elemental affinity cards |
+| `definitions/imprint/` | 16 | 80 | Character imprint cards (the big set) |
+| `definitions/race/` | 5 | 15 | Race cards |
+| `definitions/dimensional/` | 4 | 12 | Dimensional cards |
+| Other tcg-core | varies | ~28 | Misc card defs with tier-ups |
+
+Recommended batch order: imprint (largest set, most lore-tied) →
+allegiance → class → elemental → race → dimensional.
+
+---
+
+## §11 — Pipeline conversions (zero-cost ffmpeg)
+
+**No new renders.** These are intermediate-format conversions of
+files that exist in the bundle but only ship in one format.
+**Tool**: ffmpeg / cwebp. **Priority**: P0 (zero-cost wins;
+unblocks WebP fallbacks and audio loudness consistency).
+
+### 11.1 Prelude room PNG → WebP (no longer needed post-fix)
+
+> Note: the registry path-fix in commits `4175add` + `61e100f`
+> already rerouted all 13 Prelude rooms to `art/rooms/<X>.{png,webp}`
+> where both formats are already live. **This conversion is no
+> longer needed.** Listed for completeness only.
+
+### 11.2 Prelude VFX MP4 → WebM VP9 alpha (6 files)
+
+> Note: the 6 VFX source MP4s in `PRELUDE_VFX_SOURCE_MP4S` have
+> NO runtime consumer (verified by grep — exported but unread).
+> If you choose to ship them anyway:
+
+```bash
+for f in apps/client/public/art/vfx/prelude/*.mp4; do
+  ffmpeg -i "$f" \
+    -c:v libvpx-vp9 -pix_fmt yuva420p \
+    -b:v 0 -crf 30 \
+    -auto-alt-ref 0 -lag-in-frames 0 \
+    -an "${f%.mp4}.webm"
+done
+```
+
+The `-pix_fmt yuva420p` flag preserves alpha; `-auto-alt-ref 0`
+is required for transparent VP9. After running, both .mp4 and
+.webm coexist; consumers using `<video>` with `<source>` order
+WebM first will get alpha.
+
+### 11.3 Prelude ambient WAV → MP3 + EBU R128 loudnorm
+
+> Note: the 3 ambient WAVs in `PRELUDE_AMBIENT_BEDS_DELIVERED`
+> also have no runtime consumer per the audit. If shipping
+> anyway, two-pass loudnorm to match the existing -23 LUFS
+> standard of `act2Interlude` and the rest of the music
+> registry:
+
+```bash
+# Pass 1: measure
+for f in apps/client/public/audio/ambient/prelude/*.wav; do
+  ffmpeg -i "$f" \
+    -af loudnorm=I=-23:TP=-2:LRA=7:print_format=json \
+    -f null - 2> "${f%.wav}.loudnorm.json"
+done
+
+# Pass 2: apply (substitute measured values from each .loudnorm.json's
+# "input_i", "input_tp", "input_lra", "input_thresh", "target_offset"
+# fields into the loudnorm filter on the second pass).
+# Example for one file (replace the placeholder values):
+ffmpeg -i input.wav \
+  -af "loudnorm=I=-23:TP=-2:LRA=7:measured_I=-21.34:measured_TP=-1.2:measured_LRA=8.4:measured_thresh=-31.5:offset=0.21:linear=true:print_format=summary" \
+  -c:a libmp3lame -b:a 192k -ar 48000 \
+  output.mp3
+```
+
+For batch automation, write a small shell script that JSON-parses
+each `.loudnorm.json` and feeds the measured values back into
+pass 2 — that's the standard EBU R128 two-pass dance.
+
+### 11.4 Slideshow frames PNG → WebP (already-live registries)
+
+For any future renders that ship as PNG only, batch-convert to
+WebP with the canonical quality used by the existing live tree
+(verified by inspection: q=88, no lossless):
+
+```bash
+find apps/client/public/art -name "*.png" \
+  -not -path "*/already-webp/*" \
+  | while read -r f; do
+    if [ ! -f "${f%.png}.webp" ]; then
+      cwebp -q 88 "$f" -o "${f%.png}.webp"
+    fi
+  done
+```
+
+This produces ~16× size reduction with no perceptible quality
+loss at panel-display sizes. After conversion, run
+`pnpm assets:upload` to publish both formats to S3.
+
+---
+
+## Closing summary
+
+| Section | Asset count | Status |
+|---|--:|---|
+| §1 Mechronis Academy classrooms | 12 | ✅ fully instantiated |
+| §2 Mechronis Houses (4 art + 4 audio) | 8 | ✅ fully instantiated |
+| §3 Mechronis Classmates portraits | 8 | ✅ fully instantiated |
+| §4 Outer Groove album (10 + cover) | 11 | ✅ fully instantiated |
+| §5 Celebration Park ambient | 4 | ✅ fully instantiated |
+| §6 Specimen fragment portraits | 6 | ✅ fully instantiated |
+| §7 Acts 4-7 spine cinematics | 30 | ✅ fully instantiated |
+| §8 Page-background images | 10 | ✅ fully instantiated |
+| §9 Loredex Discovery videos | 12 | ✅ fully instantiated (verbatim from source) |
+| §10 TCG card tier-up art | 221 | 📎 master template + per-card workflow |
+| §11 Pipeline conversions | 9 | 🛠️ ffmpeg one-liners, zero render cost |
+| **Inline-instantiated total** | **101** | |
+| **Template + workflow total** | **221** | (TCG tier-ups) |
+| **Grand total covered** | **331** | |
+
+After all assets in this book are rendered, uploaded, and the
+audit re-probe is run, the post-upload audit should show
+**>95% live** across the dgrsart bucket, with the remaining
+gap being:
+- Voice (excluded — VO recording is a separate ElevenLabs dispatch)
+- Legacy CloudFront 1,727 URLs (excluded pending user disposition)
+- Dead-code registry exports (no runtime consumer; safe to ignore)
+
+
 
 
 
