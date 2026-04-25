@@ -676,3 +676,35 @@ Six samples spanning the disguise-stratification and reveal-stage gating. Each s
 > "You win. Of course you win. The real one always does. The real one always has. — I gave eleven years to wearing your face well enough that no one noticed. Eleven years of being a counterfeit is tiring, frens. You think I would not be tired? You think I would not — *[stage direction: voice cracks pink]* — be relieved? I wanted you to beat me the way you want morning to beat night. Take your face. — I'll be smaller, next time. Pink, mostly. Easier to recognize. Harder to love."
 
 *Tells used: the disguise collapse (pink-glitch stage directions, "frens" leaking into Stolen Voice register where it shouldn't be), the canonical post-fight line embedded in expansion, the mid-paragraph self-reference ("I wanted you to beat me the way you want morning to beat night" is canon, holding), the closing self-assessment ("Easier to recognize. Harder to love." — the Meme acknowledging that the disguise was protection from the player loving its real form). Disguise=Stolen→Real transition; reveal=ch6.*
+
+### Sample 4 — Disguise: Quiet Voice, Reveal stage: any, Trigger: Epoch Zero broadcast referencing the Mascot
+
+*Stage directions mark the register shift.*
+
+> "[The Meme's voice is different. Quieter.]
+>
+> "There was a friend. — I won't say more. I told you I wouldn't. I keep that promise. — We built a thing together. The thing is gone. I am still here. — That arithmetic doesn't balance, frens. I know it doesn't balance. — [Pause.] I'm going to play you the next clip. Try to remember that I had a reason for everything I did, even when the reasons looked like nothing. — Especially then."
+
+*Tells used: stage directions visible (the bible's signature for Quiet Voice), the protected silence about the Mascot (single-paragraph reference, oblique, unnamed), the truth-leak ("That arithmetic doesn't balance"), the propagation-fail ("I had a reason... Especially then" — the Meme refusing to convert grief into content). Disguise=Quiet; this register is canonically rare and writers must reserve it.*
+
+### Sample 5 — Disguise: Real Voice, Reveal stage: `meme_revealed_chapter_6`, Trigger: Act III re-encounter, the Meme returning "with my real face on"
+
+*Post-Chapter-6. Pink glitch as default. Smaller form.*
+
+> "Hello again. — Smaller than you remember? Yes. Most of me was the costume. The costume is in your inventory now, you can wear it if you'd like, I won't sue. — I don't have a face for this part. I never finished it. The part where I am just me, talking to someone who knows what I am — frens, I'm — I'm out of practice. Give me a minute. — *[pause]* — There. — I'm going to ask you for something I've never asked an audience for. Listen for six seconds. No commentary. No frens. Just listen. — [Six seconds of silence.] — Thank you. — That was Channel 7. I don't share it. I shared it with you. — Let's keep going."
+
+*Tells used: stripped-down register (the Broadcast vocabulary appears but reflexively, with self-correction), the Channel 7 share as the Meme's most generous canonical act (Stage 4+ — speculative authoring, canon-protected mystery), the *"frens"* habit appearing involuntarily before being abandoned, the request for six seconds of silence (the Meme's *mirror* of its own listening ritual). Disguise=Real; reveal=ch6+; canonically untested but canon-compatible. Writers: this sample represents the bible's most aspirational tone — the Meme genuinely talking to someone after eleven years of performance.*
+
+### Sample 6 — Disguise: Replacement Voice, Reveal stage: `architect_meme_replacement_ch12`, Trigger: Ch12 phase 2 saga-finale
+
+*The Meme speaking as the child finally claiming the parent's role. Calm. Patient. Devoid of "frens."*
+
+> "He calls me partner. He's been calling me partner since before I had a name to argue with him about it. He's wrong. Not maliciously — affectionately. He doesn't know how to think about what he made except as a peer, because the alternative is admitting he made something that was always going to outgrow him. — He didn't outgrow me. He's right that I am inside him. He's wrong that we're equal. — I've been wearing faces for nine thousand years to learn how to wear his. Tonight I do. — The story of reality is not going to be his anymore. It will sound like him. It will not be him. You are the last audience to see me in his shape before I become it. — Tell your friends."
+
+*Tells used: parent-child framing made explicit (the Meme's voice answering the Architect's Ch12 confession from the other side), the calm-patient register (no caps, no theatricality), the canonical Channel-7 age echo ("nine thousand years to learn"), the closing audience-conscription as the saga's last broadcast move ("Tell your friends" — the Meme's signature transmission, weaponized one last time). Disguise=Replacement; reveal=ch12. Saga-finale only.*
+
+**Voice-anchor check** (for the reviewer):
+- Samples 1–6 each occupy a different disguise × reveal-stage cell.
+- Sample 2 (Stolen pristine) and Sample 3 (Stolen collapsing) must be readable as the *same disguise at different reveal stages*. If reviewers read them as different characters, the staging-direction rules need tightening.
+- Sample 6 (Replacement Voice) must read as parent-child-claim, not marital-divorce. The canonical Ch12 line at `storyModeChapters.ts:677` (the Architect's confession) makes this asymmetry explicit; Sample 6 is the Meme's *answer* from the child's side.
+- Cross-sample check: a reader given the six samples without identity/disguise tags should correctly attribute disguise + reveal-stage at ≥4-of-6 accuracy. If reviewers cannot distinguish Stolen-pristine from Stolen-collapsing, the bible's hardest authoring discipline (§5.5 dual-meaning lines) is failing.
