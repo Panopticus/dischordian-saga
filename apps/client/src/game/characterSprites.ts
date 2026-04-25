@@ -207,25 +207,75 @@ export const CHARACTER_SPRITES: Record<string, CharacterSprite> = {
   the_meme:          npc("the_meme"),
 
   /* Bonus characters present in the bundle. Wired so any future faction
-     NPC code that references these IDs gets a portrait for free. */
-  architect:         npc("architect"),
+     NPC code that references these IDs gets a portrait for free.
+     Each `mouthBox` was hand-measured against its current bust so the
+     mouth-only viseme sheet composites onto the correct face region.
+     Characters without a mouthBox here either (a) don't speak in-game,
+     or (b) have a bust/viseme mismatch awaiting asset reconciliation. */
+  architect:         npc("architect", {
+    // Architect's "viseme" cells are mask-vibration emissive intensities,
+    // not mouth shapes. Box overlays the mask region of the hooded bust.
+    mouthBox: { x: 0.350, y: 0.300, width: 0.280, height: 0.209 },
+  }),
   cades:             npc("cades"),
-  collector:         npc("collector"),
-  degen:             npc("degen"),
+  collector:         npc("collector", {
+    mouthBox: { x: 0.430, y: 0.380, width: 0.140, height: 0.105 },
+  }),
+  degen:             npc("degen", {
+    mouthBox: { x: 0.430, y: 0.350, width: 0.140, height: 0.105 },
+  }),
+  // Eidola — bust is currently off-canon (smoke-figure render); awaiting
+  // a regenerated bust matching the §2K Sorrow-professor canon before her
+  // viseme can be wired.
   eidola:            npc("eidola"),
   engineer:          npc("engineer"),
-  enigma:            npc("enigma"),
-  eyes:              npc("eyes"),
-  gamemaster:        npc("gamemaster"),
-  iron_lion:         npc("iron_lion"),
-  kael_recruiter:    npc("kael_recruiter"),
-  matrikala:         npc("matrikala"),
-  necromancer:       npc("necromancer"),
-  nilmorg:           npc("nilmorg"),
-  programmer:        npc("programmer"),
-  seer:              npc("seer"),
+  enigma:            npc("enigma", {
+    mouthBox: { x: 0.430, y: 0.310, width: 0.140, height: 0.105 },
+  }),
+  eyes:              npc("eyes", {
+    mouthBox: { x: 0.430, y: 0.300, width: 0.140, height: 0.105 },
+  }),
+  // Gamemaster's "viseme" cells are dual-goggle emissive intensities.
+  // Box overlays the cyborg-skull face region of the bust. A second
+  // sheet `viseme_offset.avif` is shipped alongside for asymmetric
+  // L/R goggle-pulse cues — not yet wired in the registry.
+  gamemaster:        npc("gamemaster", {
+    mouthBox: { x: 0.350, y: 0.290, width: 0.290, height: 0.216 },
+  }),
+  // Iron Lion has a full rust-red beard; cells have a thinned mustache
+  // per the beard-clearance rule. Larger box for beard-to-beard blending.
+  iron_lion:         npc("iron_lion", {
+    mouthBox: { x: 0.380, y: 0.320, width: 0.240, height: 0.180 },
+  }),
+  // Kael Phase 1 (recruiter): early-phase goatee thinned for phoneme clarity.
+  kael_recruiter:    npc("kael_recruiter", {
+    mouthBox: { x: 0.400, y: 0.330, width: 0.220, height: 0.164 },
+  }),
+  matrikala:         npc("matrikala", {
+    mouthBox: { x: 0.430, y: 0.330, width: 0.140, height: 0.105 },
+  }),
+  necromancer:       npc("necromancer", {
+    mouthBox: { x: 0.430, y: 0.350, width: 0.140, height: 0.105 },
+  }),
+  nilmorg:           npc("nilmorg", {
+    mouthBox: { x: 0.430, y: 0.330, width: 0.140, height: 0.105 },
+  }),
+  programmer:        npc("programmer", {
+    mouthBox: { x: 0.430, y: 0.330, width: 0.140, height: 0.105 },
+  }),
+  seer:              npc("seer", {
+    mouthBox: { x: 0.430, y: 0.350, width: 0.140, height: 0.105 },
+  }),
+  // Warlord — bust is currently the host-face (under-helm reveal canon)
+  // but viseme is visor-shimmer (armored canon). Awaiting the armored
+  // bust regen per art brief §2T before the visor-shimmer overlay
+  // composites correctly.
   warlord:           npc("warlord"),
-  watcher:           npc("watcher"),
+  // Watcher's covid mask covers the lower face. Cells render mask-tension
+  // deformation rather than visible lips. Box overlays the mask region.
+  watcher:           npc("watcher", {
+    mouthBox: { x: 0.420, y: 0.330, width: 0.180, height: 0.134 },
+  }),
 };
 
 /** Resolve a character sprite bundle by NPC id, normalising the id. */
