@@ -1,0 +1,6 @@
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/specimens/lux
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/specimens/echo
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/specimens/glyph
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/specimens/cipher
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/specimens/flicker
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/specimens/gilt

@@ -1,0 +1,12 @@
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/classrooms/classroom-kanevas.jpg
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/classrooms/classroom-aoki.jpg
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/classrooms/classroom-halverez.jpg
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/classrooms/classroom-orphic.jpg
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/classrooms/classroom-mireille.jpg
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/classrooms/classroom-vellis.jpg
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/classrooms/classroom-kasra.jpg
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/classrooms/classroom-greenshaw.jpg
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/classrooms/classroom-vex.jpg
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/classrooms/classroom-vent.jpg
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/classrooms/classroom-vasara.jpg
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/classrooms/classroom-proctor.jpg

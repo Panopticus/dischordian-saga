@@ -1,0 +1,3 @@
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/cards/race/s1_race_human_02.webp
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/cards/race/s1_race_human_01.webp
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/cards/race/s1_race_human_03.webp

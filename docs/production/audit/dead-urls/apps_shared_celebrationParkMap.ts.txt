@@ -1,0 +1,4 @@
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/audio/ambient/celebration/chorus-plaza.mp3
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/audio/ambient/celebration/watchers-promenade.mp3
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/audio/ambient/celebration/princes-domain.mp3
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/audio/ambient/celebration/seeker-meadow.mp3

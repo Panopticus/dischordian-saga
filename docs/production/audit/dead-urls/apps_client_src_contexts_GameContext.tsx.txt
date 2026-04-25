@@ -1,0 +1,5 @@
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/room-dreams-workshop-subbasement.webp
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/room-guild-sanctum.webp
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/room-station-dock.webp
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/room-war-room.webp
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/rooms/room-social-hub.webp

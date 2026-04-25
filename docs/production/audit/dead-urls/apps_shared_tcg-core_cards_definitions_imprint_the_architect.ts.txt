@@ -1,0 +1,5 @@
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/cards/imprint/s1_imprint_the_architect_t1.webp
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/cards/imprint/s1_imprint_the_architect_t3.webp
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/cards/imprint/s1_imprint_the_architect_t2.webp
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/cards/imprint/s1_imprint_the_architect_t5.webp
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/cards/imprint/s1_imprint_the_architect_t4.webp

@@ -1,0 +1,17 @@
+https://dgrsart.s3.us-east-2.amazonaws.com/cabin-art/backgrounds
+https://dgrsart.s3.us-east-2.amazonaws.com/cabin-art/items
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/casino
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/events/christmas_in_july_2026
+https://dgrsart.s3.us-east-2.amazonaws.com/nilmorg-portraits
+https://dgrsart.s3.us-east-2.amazonaws.com/page-backgrounds
+https://dgrsart.s3.us-east-2.amazonaws.com/page-backgrounds/ACH-001_achievement-vault.jpg
+https://dgrsart.s3.us-east-2.amazonaws.com/page-backgrounds/BTP-001_season-command.jpg
+https://dgrsart.s3.us-east-2.amazonaws.com/page-backgrounds/CHR-001_operative-dossier.jpg
+https://dgrsart.s3.us-east-2.amazonaws.com/page-backgrounds/DPL-001_negotiation-chamber.jpg
+https://dgrsart.s3.us-east-2.amazonaws.com/page-backgrounds/GLD-001_guild-hall.jpg
+https://dgrsart.s3.us-east-2.amazonaws.com/page-backgrounds/CMP-001_companion-quarters.jpg
+https://dgrsart.s3.us-east-2.amazonaws.com/page-backgrounds/INV-001_cargo-hold.jpg
+https://dgrsart.s3.us-east-2.amazonaws.com/page-backgrounds/QST-001_mission-briefing.jpg
+https://dgrsart.s3.us-east-2.amazonaws.com/page-backgrounds/MKT-001_marketplace.jpg
+https://dgrsart.s3.us-east-2.amazonaws.com/page-backgrounds/STR-001_requisition-terminal.jpg
