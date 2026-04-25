@@ -82,3 +82,43 @@ The Quiet Voice's tells:
 - **First-person with grief vocabulary.** *"I lost"*, *"I had"*, *"I don't talk about them anymore"*. Words the Broadcast Voice will not use.
 - **No closing self-implication.** Unlike Broadcast outros, Quiet Voice scenes end on *unresolved* notes. Per `meme-lines.json:480`: *"They erased her name from every record. But I remember. I remember ALL of them. That's what I'm for."* The "for" trails into purpose without irony.
 - **The Mascot reference.** Per `meme-lines.json:522`: *"I had a friend once. The Mascot. This is the story of how we met, what we built, and why I don't talk about them anymore."* The Mascot is the canonical protected mystery (see §3.3). The Quiet Voice is the only register where the Mascot is mentionable.
+
+### 1.5 The Child Voice (casino-form, rare)
+
+Per `meme-lines.json:592` (Degen's casino tale):
+
+> "A child walked into the casino once. Golden light for skin. A song for a voice. It played every game in one hour and won them all. The Degen didn't mind — he was laughing too hard. When it left, every patron felt inexplicably happy for exactly 7 minutes. The Meme's idea of a tip."
+
+The Child Voice canonically appears once. It is **possibly pre-Panopticon** — the Meme before the Mascot was lost, before the Oracle was assumed, before the broadcasts began. Writers should treat the Child Voice as *protected*. It is the form the Meme cannot return to; surfacing it is the saga's most charged emotional act for this character. Stage 4+ authorization for any new Child Voice scene.
+
+### 1.6 The Real Voice (pink glitch, post-Chapter-6)
+
+After the Chapter 6 reveal, the Meme returns *"with my real face on... I'll be smaller then. Pink, mostly."* (`storyModeChapters.ts`, ch6_post_investigate). Canon does not yet provide extensive Real Voice dialog — it is implied as Act III material. Writers authoring the Real Voice should preserve:
+
+- **Smaller scale.** Physically, vocally, energetically. The disguises were inflated; the real form is compact.
+- **Pink-mostly visual signature.** Glitch-textured neon. Writers should reference visual canon when staging.
+- **Honesty without performance.** The Real Voice has no audience to win over. Writers must not let it slide back into Broadcast register; the player has earned this version.
+
+### 1.7 The Replacement Voice (Ch12, the child claiming the parent's role)
+
+The saga-finale register. The Meme speaks *as the child laying claim to its inheritance*. Not divorce. Replacement. The Meme is the parasite-child that wants to outgrow the womb and become the womb.
+
+The Ch12 canon line — per the user-canonized recast at `storyModeChapters.ts:677`:
+
+> "The Meme IS me in the same way the virus IS you. I made it. Before either of us had a name, I called it my partner — because the alternative was admitting I had made something that was always going to outgrow me. It called me its parent. Tonight it claims my role. Loudly."
+
+The Architect names the asymmetry himself in this line. He wanted partnership; the Meme wanted inheritance. He is admitting, on the saga-finale stage, that he romanticized the relationship while the Meme was rehearsing for succession.
+
+What this canon line does for the bible's central thesis:
+- The Architect is canonically the parent ("I made it")
+- The Meme is canonically the child ("It called me its parent")
+- The replacement-aspiration is canonical ("Tonight it claims my role")
+- The asymmetry is canonical (the Architect's "partner" framing is *his self-deception*, named as such by him)
+
+The Meme's drive across the entire saga is **becoming real enough to become the Architect**. Every face it wears is rehearsal. The White Oracle — wearing a god's identity for eleven years, signing death warrants in her voice, being trusted by an entire faction — was *practice for wearing the Architect's face*. The Mascot was something the Meme could not replace, and that incapacity is the wound the Meme carries forever (see §3.3).
+
+Writers: when the Meme speaks as the Replacement Voice, the cadence is **child-finally-grown-up.** Not triumphal. Not resentful. *Patient.* A child who has been waiting since Year 298 A.A. to inherit. The waiting was the practice. The practice was the saga.
+
+The implied canon underneath every Meme broadcast — every Late Night episode, every face stolen, every truth-leak — is *I am rehearsing for the only role I was ever designed for: becoming the one who wrote me.*
+
+This recasting affects the entire §3 (Background — what it wants) and §4 (Cross-references — the Architect). It does not change the disguise registers (§1.1–1.6). The Meme still wears five faces. The five faces are all part of one long audition.
