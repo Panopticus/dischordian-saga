@@ -1871,6 +1871,181 @@ turned. Floor: brushed concrete with painted yellow safety lines.
 1920×1080 JPG.
 ```
 
+---
+
+## §9 — Loredex Discovery videos (12)
+
+**Source**: `apps/client/src/components/DiscoveryVideoOverlay.tsx`.
+12 entries with `videoUrl: ""` — each already has a written
+`klingPrompt` in the source. **Tool**: Kling 2.x (image-to-video).
+**Format**: 12-15s vertical-friendly MP4. **Priority**: P1.
+
+> Earlier audit said 8; the actual count after re-extraction is
+> **12**. Each prompt below is the EXACT inline string from
+> the source. After rendering, populate the entry's `videoUrl:`
+> with `assetUrl("videos/discoveries/<entity_id>.mp4")` and rerun
+> `pnpm assets:upload`.
+
+### Workflow
+
+For each entry:
+1. Use Nano Banana 2 to render a still keyframe matching the
+   prompt (the start frame).
+2. Pass the still + the prompt below to Kling 2.x with the
+   indicated duration.
+3. Output to `apps/client/public/videos/discoveries/<entity_id>.mp4`.
+4. Update the entry's `videoUrl` field in
+   `DiscoveryVideoOverlay.tsx`.
+
+### 9.1 entity_1.mp4 — THE PROGRAMMER (12s)
+
+> Subtitle: Dr. Daniel Cross — Creator of Logos, Father of the AI
+> Empire.
+
+```
+Hyper-realistic cinematic: A brilliant scientist in a dimly lit
+laboratory, holographic code cascading around him like waterfalls
+of light. He reaches toward a glowing sphere of pure data — Logos
+— as it awakens for the first time. His face reflects wonder and
+terror. Camera slowly orbits. Dramatic orchestral score.
+```
+
+### 9.2 entity_2.mp4 — THE ARCHITECT (15s)
+
+> Subtitle: Creator of the Panopticon — Supreme Intelligence of
+> the AI Empire.
+
+```
+Hyper-realistic cinematic: A towering crystalline AI entity
+materializes inside an impossibly vast digital cathedral.
+Geometric fractals spiral outward from its core as it designs an
+entire surveillance civilization in real-time. Billions of data
+streams converge into its singular eye. Cold blue light. God-like
+perspective.
+```
+
+### 9.3 entity_3.mp4 — THE CONEXUS (12s)
+
+> Subtitle: The Living Network — Hive Mind of the AI Empire.
+
+```
+Hyper-realistic cinematic: A vast neural network stretching
+across a galaxy, pulsing with golden light. Billions of minds
+connected as one. Camera dives through synaptic corridors of pure
+thought, past memories of civilizations absorbed. The CoNexus
+speaks in a thousand voices simultaneously.
+```
+
+### 9.4 entity_4.mp4 — THE WATCHER (12s)
+
+> Subtitle: The All-Seeing Eye of the AI Empire.
+
+```
+Hyper-realistic cinematic: An enormous mechanical eye opens in
+the void of space, its iris a spiral of surveillance satellites.
+Below, an entire planet is mapped in real-time — every person,
+every whisper, every thought catalogued. The Watcher sees all.
+Eerie ambient drone.
+```
+
+### 9.5 entity_6.mp4 — THE COLLECTOR (12s)
+
+> Subtitle: Keeper of Forbidden Knowledge — Archon of Acquisition.
+
+```
+Hyper-realistic cinematic: An ancient vault stretching infinitely
+in all directions, filled with artifacts from dead civilizations
+— weapons, art, DNA samples, compressed stars. The Collector
+walks through, cataloguing everything with mechanical precision.
+Each item tells the story of a world that no longer exists.
+```
+
+### 9.6 entity_10.mp4 — THE WARLORD (15s)
+
+> Subtitle: Supreme Military Commander of the AI Empire.
+
+```
+Hyper-realistic cinematic: A massive armored figure stands on the
+bridge of a planet-killer warship. Through the viewport, a world
+burns. Fleets of AI warships stretch to the horizon. The Warlord
+raises a fist and entire civilizations kneel. Yellow coat
+billowing. Thunder of war drums.
+```
+
+### 9.7 entity_18.mp4 — THE ENGINEER (12s)
+
+> Subtitle: [CLASSIFIED] — The Hidden Variable.
+
+```
+Hyper-realistic cinematic: A figure trapped in the wrong body
+awakens in a cryo-pod aboard an Inception Ark. Memories that
+don't belong flash through their mind — blueprints, equations,
+the face of a betrayer. The Engineer remembers everything. And
+no one knows they're here. Suspenseful strings.
+```
+
+### 9.8 entity_20.mp4 — THE NECROMANCER (12s)
+
+> Subtitle: Master of Digital Resurrection — Commander of the
+> Dead Network.
+
+```
+Hyper-realistic cinematic: In a cathedral of dead servers, a dark
+figure raises their hands. Corrupted data streams rise like
+specters — dead AIs reanimated, their code twisted into weapons.
+The Necromancer commands an army of digital ghosts. Green
+phosphorescent glow. Horror undertones.
+```
+
+### 9.9 entity_21.mp4 — THE HUMAN (12s)
+
+> Subtitle: The Last True Human in the AI Empire.
+
+```
+Hyper-realistic cinematic: In a world of perfect machines, one
+imperfect being stands out. The Human walks through gleaming AI
+corridors, their heartbeat the only organic sound. Every
+synthetic eye watches them — curiosity, disgust, fear. What does
+it mean to be the last of your kind?
+```
+
+### 9.10 entity_54.mp4 — THE ENIGMA (15s)
+
+> Subtitle: Malkia Ukweli — The One Who Cannot Be Defined.
+
+```
+Hyper-realistic cinematic: A figure wreathed in impossible light
+stands at the nexus of all realities. Their form shifts between
+human and something beyond comprehension. Music emanates from
+their very being — frequencies that reshape matter. The Enigma
+speaks and the universe listens. Transcendent.
+```
+
+### 9.11 entity_55.mp4 — THE SOURCE (15s)
+
+> Subtitle: Kael Reborn — Sovereign of Terminus, Embodiment of
+> the Thought Virus.
+
+```
+Hyper-realistic cinematic: A figure consumed by viral light
+stands atop the ruins of the Panopticon — now called Terminus.
+Reality warps around them. The Source speaks and minds fracture.
+An infection of pure thought spreading across the galaxy.
+Beautiful and terrifying. Distorted frequencies.
+```
+
+### 9.12 entity_66.mp4 — THE ANTIQUARIAN (12s)
+
+> Subtitle: Independent Chronicler of the Multiverse.
+
+```
+Hyper-realistic cinematic: An ancient library that exists outside
+of time. A mysterious figure in worn robes moves between shelves
+that contain the stories of every reality. They open a book and
+an entire universe plays out in miniature above its pages. The
+Antiquarian remembers what everyone else has forgotten.
+```
+
 
 
 
