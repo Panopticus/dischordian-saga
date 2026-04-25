@@ -849,3 +849,89 @@ The bible's most cross-referenced mechanic: the Hierophant is one of the saga's 
 **Trust interaction with the Oracle's bible**: the substrate-whisper coupling does not directly affect trust. But it provides a *latent channel* the Stage 4 Oracle bible can use to make the Hierophant a partial spokesperson for the Oracle without violating the §4.10 constraint that the Hierophant never names the player as the Oracle. The Hierophant is *the Oracle's mouth, sometimes, without his consent or knowledge*. This is profoundly canonical: the Hierophant has spent three thousand years listening; sometimes the listening reverses direction and he speaks. He does not know that the words came from someone else. The work continues either way.
 
 **Cross-bible obligation — Stage 1 commitment**: the architecture must support the substrate-whisper trigger surface as a first-class mechanic. The Oracle bible (slot #10) cannot be implemented without it. The Hierophant bible's interlock here is one of the architectural constraints on the order of bible authoring: **Oracle bible cannot ship until the Hierophant's substrate-coupling mechanic is implementable**. Bible-asserts this is a hard constraint, not a sequencing preference.
+
+---
+
+## 6. Voice samples
+
+Six samples — three pre-rite Wraith Calder, three post-rite Hierophant — plus a transformation-bridge sample that demonstrates how a soul-tell crosses the gate. Each sample exercises specific §1 voice rules; the §6 anchor check at the end of chunk 14 lists the rules each sample is responsible for.
+
+**Sampling rule**: each sample is a *single scene*, never re-mixed across registers. The bible's voice gate (§1.8) is binary; samples enforce the gate by example. Reviewers should be able to read any sample below and identify the register in under five seconds without reading the header.
+
+### 6.1 Sample 1 — Wraith Calder, pre-rite, the architects-triad disclosure
+
+**Scene**: Ch 3B, Shadow Sanctum. The player has just been told they are *next* in the Arena's experiment. Wraith Calder is responding to a follow-up question about *how the Seven Protocol was built*.
+
+**Trigger**: pre-rite, dialogue option *"Tell me how it was built. Not what it does — how."*
+
+**Trust-state**: Wary baseline (no carried trust; player has not yet completed the fight).
+
+> WRAITH CALDER: *"The Necromancer designed it. The Warden STOLE it. Dr. Vox wired her nanobots into it. Three entities. Hands in your DNA. None asked permission."*
+>
+> *(Beat. He counts the player's stance with his eyes.)*
+>
+> WRAITH CALDER: *"The Necromancer's a programmer. He thinks in subroutines. The Warden's an institution. He thinks in test populations. Vox is a mechanic. She thinks in tolerances. Three different math problems wrote the same body."*
+>
+> WRAITH CALDER: *"Yours, now. Mine, eight times over. The ledger doesn't ask for the difference. It just keeps adding."*
+
+**Bible rules exercised**:
+
+- §1.2 cadence rule #1 (period as tool): every claim is its own sentence. *"The Necromancer designed it. The Warden STOLE it. Dr. Vox wired her nanobots into it."* — three periods, no conjunctions. The list lands as accusation.
+- §1.2 cadence rule #3 (selective caps for the contradicted noun): *"STOLE"* is the only cap. The player has been told elsewhere the Warden *acquired* the protocol; Wraith Calder corrects with the cap. The contradicted noun is *acquired* → *stole*.
+- §1.3 vocabulary anchors: *three architects*, *ledger*, *body* (not *life*), *DNA*, *eight times*. All canonical. *"Mine, eight times over."* uses *eight* — the next death — which is the Wraith Calder canonical count for the body he is currently in.
+- §1.4 tell #2 (counting himself): *"Mine, eight times over."* is the signature move — the listener implicitly asked who Wraith Calder is to know this; he answers with a count.
+- §1.4 tell #4 (mid-sentence pivot to ledger): the second-to-last beat translates personal disclosure (*"Mine"*) into operational accounting (*"The ledger doesn't ask for the difference"*). The pivot is bible-canonical.
+
+### 6.2 Sample 2 — Wraith Calder, pre-rite, the apology grammar
+
+**Scene**: Ch 3B post-fight, Win condition (the player won the duel). Wraith Calder is on the floor; he is not dying (the eighth body is not yet ready to be the last). He is reflecting. The player approaches.
+
+**Trigger**: pre-rite, post-fight Win mood: reflective.
+
+**Trust-state**: Witnessed-incoming (the win itself moves trust to +5 if the player chooses any of the four reflective post-fight options).
+
+> WRAITH CALDER: *"Good fight. Felt clean. The Arena likes it ugly — clean hurts it more."*
+>
+> *(He sits up. The amber in his eyes is dimmer than usual; the body is calibrating after the near-death.)*
+>
+> WRAITH CALDER: *"You felt it, didn't you. The flicker under the skin. Right after the killing blow. The DNA pivots. Three architects, hands moving in the dark. Now you know. Now you are part of the experiment whether you consented or not. I'm sorry."*
+>
+> *(Beat. He does not look away.)*
+>
+> WRAITH CALDER: *"That was for me to be sorry for. The cohort, that is. Not you specifically. You're walking it now. Walk it carefully."*
+
+**Bible rules exercised**:
+
+- §1.2 cadence rule #2 (em-dashes for the gap): *"three architects, hands moving in the dark"* — the dash structure does the work. The clause after the comma is the *real* observation; the clause before sets it up.
+- §1.4 tell #5 (the sorry): *"I'm sorry."* — single-word apology placed at the end of a tactical observation. The apology is *for the cohort the speaker was inside*, not for the speaker as an isolated agent. Bible-canonical pattern from `dialogBank_chapters_1_3.ts` Ch 3B Win mood: reflective.
+- §1.4 tell #4 (mid-sentence pivot): the last beat pivots from *"I'm sorry"* (personal disclosure) to *"The cohort"* (mission-frame), then to *"Walk it carefully"* (instructional return). Three states in three sentences.
+- §1.3 vocabulary: *cohort*, *clean*, *ugly*, *body calibrating*, *the cohort* (twice as anchor). No Hierophant words leak in (no *grace*, no *witness*, no *ceremony*).
+- §1.4 tell #3 (the instruction that apologises while it instructs): *"Walk it carefully"* is the closer — tactical task with a quiet calibration footnote. The footnote is the *carefully*.
+
+### 6.3 Sample 3 — Wraith Calder, pre-rite, the Wolf-pack disclosure (rare)
+
+**Scene**: TCG arena, off-cycle. The player has just won a match in which they played *Wraith Calder* (`s1_char_106`), and his rebirth keyword fired (he died once and came back). Between matches, in the arena lobby, Wraith Calder appears as a presence — an attribution-line, not a full encounter. Bible-asserts: this is the only canonical TCG-context where Wraith Calder speaks to the player about the Wolf.
+
+**Trigger**: pre-rite, TCG match-win with rebirth-fired keyword on `s1_char_106`.
+
+**Trust-state**: Witnessed (the player has played him; they know what he is).
+
+> WRAITH CALDER: *"The husk hatched. Good. Means the rebirth read clean — the body remembered itself."*
+>
+> *(He doesn't look up from whatever he's doing. Polishing a knife. Reading a star-chart. The nature of his off-stage activity is left to the artist.)*
+>
+> WRAITH CALDER: *"Once, before the seventh death, I ran with a Wolf for seven days. Not a wolf. A Wolf. Capital. Planet-sized. He invited me to keep his pace, and I did, and the legs I had then are still the legs I have now. Just with seven more deaths on top."*
+>
+> WRAITH CALDER: *"That's the part that survives. The pace. Not the bodies. Not the fights. The pace."*
+
+**Bible rules exercised**:
+
+- §1.4 tell #2 (counting himself): *"seven deaths"*, *"seventh death"* — even his Wolf-recollection is anchored on the count.
+- §1.3 vocabulary: *body remembered itself*, *legs*, *pace*, *seven*. Pre-rite Wolf material that does not leak into post-rite vocabulary (Hierophant would say *continuation*, never *pace*).
+- §1.2 cadence rule #1 (period as tool): the closer triple — *"That's the part that survives. The pace. Not the bodies. Not the fights. The pace."* — is canonical pattern. Repetition by isolated period rather than by clause-stacking.
+- §1.4 tell #1 (counting *himself*): the third-person-reflexive *"He invited me to keep his pace, and I did, and the legs I had then are still the legs I have now"* keeps the speaker in the count. The Wolf is *Capital*; Wraith Calder is *the legs*. The grammar respects the planet's scale.
+- §1.3 absent words: no *witness*, *patience*, *continuation*, *remembering*. The *part that survives* is *the pace* — the Wraith Calder version of the Hierophant's *continuation*. The two words map to each other across the gate; the bible's bridge sample (chunk 14) will demonstrate the mapping explicitly.
+
+---
+
+*(Post-rite Hierophant samples 4–6 + transformation-bridge sample + voice-anchor check follow in chunk 14.)*
