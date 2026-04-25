@@ -714,3 +714,108 @@ The two triggers share NO architectural code. Engineers should treat them as ful
 **Special-moves cross-coupling with the §4.9 mechanic — bible-canonical disambiguation.** The §4.9 prophecy mechanic (TCG, §5.1) and the special-moves (fighter, §5.8) are canonically *parallel demonstrations of the Seer's foresight in two different mechanics*. Bible-asserts: they are canonically *not* coupled. A player who unlocks the win-path on §4.9 does NOT canonically receive a special-moves bonus; a player who masters Future Sight in fighter mode does NOT canonically gain access to additional §4.9 outcomes. The two mechanics canonically *demonstrate the same canon (her foresight) in two different forms*, with no canonical mechanical coupling. Engineers must not pre-build coupling; Stage 4 weave authors may surface coupling if narrative warrants, but the bible's stance is canonically *parallel-without-coupling*.
 
 **§5 closes.** The Seer's mechanical hooks (§4.9 prophecy, trust-meter integration, burnt-card unlock, transmission cadence, TCG cards, Thaloria visit, Oracle dream-sequence separation, special moves) are documented. Engineering tickets SCB-1 (burnt-card unlock route open design), SCB-3 (Dreamer's-shield specification), SCB-4 (in-universe perception of cross-time), SCB-5 (demotion-via-recording-silence), SCB-6 (no-Hostile-band-fallback), SCB-7 (consent-question for cross-time-recorded prophecy) are tracked in §7.4. §6 (Voice samples) opens by demonstrating the Seer's voice across the three registers.
+
+---
+
+## 6. Voice samples
+
+Five canonical voice-samples spanning the three registers + the two signature line-shapes (revision and asymmetric-kindness). Each sample is bible-authored, not extracted from shipped canon — these are *new* lines authored for the bible, conforming to all §§1–5 canon constraints, intended as reference material for Stage 2 dialogue authors. After the samples, a voice-anchor check confirms each sample satisfies the §§1–2 criteria. Each sample is specified for *register*, *trust band*, *act*, *cross-time framing*, and *line-shape category*.
+
+### 6.1 Sample — Cold register (Wary band, Act 3, full prophecy-overhead)
+
+**Context**: a player at Wary baseline, mid-Act-3, has just made a pre-Engineer-Zero-reveal decision the Seer foresaw. The transmission lands as one of her cold-register foretellings.
+
+> "There were eleven versions of the next four turns. You have just chosen one of them. The version you chose is, in three of the eleven, the one I would have wanted you to choose if I had a wanting that ranked above the seeing. The seeing did not endorse the wanting. I am noting both, in the order they occurred to me. The waiting continues."
+
+**What this sample anchors**:
+- *Eleven versions* (§1.3 *version*, *probability table* vocabulary).
+- *Three of the eleven* (§1.2 cadence rule #1: probability sentence — claim is its own measurable proposition).
+- *The seeing did not endorse the wanting* (§3.6 belief-coherence: foresight-honesty > preference).
+- *I am noting both* (§3.4 (4) honesty-as-precondition; she canonically reports her own preference even when it disagrees with her foresight).
+- *In the order they occurred to me* (§1.2 cadence: she does not stack revisions; she lays them adjacent).
+- *The waiting continues* (§1.3 *the waiting is fair*; cold-register signature close).
+
+**Cross-time framing**: this is canonically a pre-recorded foretelling. The Seer foresaw the eleven versions, foresaw the player's choice, foresaw her own preference-vs-foresight asymmetry, and recorded the line for delivery at the moment the player crossed the foreseen threshold.
+
+### 6.2 Sample — Warm register (Witnessed band, Act 4, probability-table-as-question)
+
+**Context**: a Witnessed-band player mid-Act-4 has earned the warm register. The transmission arrives without prophecy-overhead, in question form per §1.4 tell #5.
+
+> "Two of the columns in the probability table I have for you have outcomes the Architect already knows. The third does not. Would you prefer I send the third column without the others, or all three so you can see which is which? You will not be wrong either way. I am asking because the choice is yours and I have run out of reasons to make it for you."
+
+**What this sample anchors**:
+- *Probability table* and *columns* (§1.3 vocabulary; §3.4 (1) competence).
+- *The Architect already knows* (§4.11: she canonically names the Architect as foresight-context; the asymmetric-kindness shadow is in voice).
+- *The third does not* (§1.2 cadence rule #1: probability sentence; clean separation of claims).
+- *Would you prefer …* (§1.4 tell #5: question-not-prophecy; warm-register signature).
+- *You will not be wrong either way* (§3.5 sacrifices: she has already run the math; she canonically returns the choice to the player intact).
+- *I have run out of reasons to make it for you* (§1.5 voice gate: high-trust restraint; she canonically declines to over-recommend).
+
+**Cross-time framing**: pre-recorded. The Seer foresaw the Witnessed-band player would arrive at this moment, foresaw the warm-register no-overhead format would be appropriate, and recorded the question canonically expecting either branch. The selector serves up the foretelling that matches the player's response.
+
+### 6.3 Sample — Confidant register (Inheriting band, Act 7, domestic vocabulary)
+
+**Context**: an Inheriting-band Act-7 player has reached the Thaloria coordinates per §5.6. The recording fires as the door opens; the Seer canonically is not physically present.
+
+> "The door was open before you knocked. The kettle is still warm. The third cup on the shelf is the one I always meant for you — the rim is chipped because I dropped it once, on purpose, so you would know it was the one. The chair by the window is the one I sat in when I recorded this. Sit there if you would like to. I am not in the room. I have not been in the room for an Empire-era. The room kept itself for you anyway."
+
+**What this sample anchors**:
+- *Door, kettle, cup, shelf, chair, window* (§1.3 Confidant-register domestic vocabulary).
+- *The third cup … chipped because I dropped it once, on purpose* (§3.4 honesty: she names her own act, with the reason; the chipping is canonically intentional pre-recorded signal).
+- *The chair … I sat in when I recorded this* (§2.3 cross-time canon: explicit naming of the recording-event in voice; SCB-4 perception clause's lean toward the *player perceives the cross-time mechanic* reading).
+- *I am not in the room. I have not been in the room for an Empire-era* (§2.5 sealing canon: explicit acknowledgment of her absence, in voice; the saga's clearest single Confidant-register acknowledgment of the seal).
+- *The room kept itself for you anyway* (§3.5 sacrifices for the player + §3.7 (3) the waiting as ritual: the room canonically performs the waiting in her stead).
+
+**Cross-time framing**: pre-recorded. The recording is the most-meta single sample in the bible — the Seer canonically says, in voice, that she sat in the chair and recorded this. The Confidant-register is the only register where the cross-time mechanic is canonically named-in-voice; lower registers leave it implicit. (Stage 4 weave: this sample reads as a strong-lean toward the SCB-4 *player perceives the cross-time mechanic* reading, but the canonical bible stance remains both-readings-compatible — a player who hears this line may canonically interpret it as live-storytelling-from-an-absent-friend rather than as a recording-from-an-Epoch-2-sealing.)
+
+### 6.4 Sample — The version-pivot (revision line, any band, any act)
+
+**Context**: a foretelling she previously shipped is being canonically revised. The recording fires immediately after the previously-shipped recording's outcome lands differently than the original would have foreseen.
+
+> "I told you the next conversation would cost you. I was wrong about which version of cost. The cost is the one you can pay. The cost you cannot pay was the version you didn't reach. You are at the version where the cost is finite and the consequence is bounded. I am noting the revision as I told myself I would, on the date I told myself to."
+
+**What this sample anchors**:
+- *I told you* + *I was wrong* (§1.4 tell #1: the public revision is the signature move; she is the only roster NPC who self-corrects routinely).
+- *Which version of cost* (§1.2 cadence rule #2: version pivot — revision moves on the version axis, not the prediction axis).
+- *The cost is the one you can pay … The cost you cannot pay was the version you didn't reach* (§3.4 (2) future-version ranking; bounded-vs-unbounded version disambiguation).
+- *I am noting the revision as I told myself I would, on the date I told myself to* (§2.3 cross-time canon: explicit acknowledgment that the revision is a pre-scheduled disclosure she canonically recorded for this exact moment; this is the bible's clearest single demonstration of the *recorded revision* mechanic in sample form).
+
+**Cross-time framing**: pre-recorded. She canonically foresaw that her foresight would change; she canonically recorded both the original and the revision; she canonically scheduled the revision for the date she foresaw the player would need it. The line's last sentence canonically *names the cross-time mechanism in voice*.
+
+### 6.5 Sample — Asymmetric kindness clause (Act 4, Witnessed band, hardest line shape)
+
+**Context**: the Seer foresees a future that benefits both the player and a named antagonist (canonically the Architect, per §4.11). The recording lands with the apology baked in.
+
+> "The version of the next month that is kindest to you is also the version that is kindest to the Necromancer. I checked twice; the second time was hopeful. The hopeful version did not exist. I have shipped you the honest version because I do not have a dishonest one to ship. The Necromancer's kindness is not yours to revoke. Your kindness is not his to claim. They are both honest, and they happen at the same time, and I am sorry about the timing. The timing is not mine to revise."
+
+**What this sample anchors**:
+- *Kindest to you … kindest to the Necromancer* (§1.4 tell #2: asymmetric kindness clause with named subject; §3.4 (2) named-subject-kindness ranking).
+- *I checked twice; the second time was hopeful. The hopeful version did not exist* (§3.6 belief-coherence: she canonically tested for a better future and reports her honest failure to find one).
+- *I do not have a dishonest one to ship* (§3.4 (5) competence-limit: she cannot lie about what she sees).
+- *The Necromancer's kindness is not yours to revoke. Your kindness is not his to claim* (§3.5 sacrifices: she canonically ships the honest line; she does not protect the player from the asymmetric reality).
+- *I am sorry about the timing. The timing is not mine to revise* (§3.5 sacrifice-hierarchy: she canonically apologises but does not lie; she canonically does not sacrifice her foresight's honesty for the player's clean benefit).
+
+**Cross-time framing**: pre-recorded. She foresaw the named antagonist would be the Necromancer (canonically chosen here as a sample-only stand-in for the actual canonical Architect of `:1818-1820`), foresaw her own checked-twice + hopeful + failed sequence, and recorded the apology as scheduled. The *I am sorry about the timing* is canonically the recording's foreseen apology, not a live regret.
+
+### 6.6 Voice-anchor check
+
+Each sample passes the §§1–5 voice criteria:
+
+| # | Register | Trust band | Act | Cross-time line-named? | §1.5 prediction-or-revision? | Probability-table vocab? | Honest-precognition? | Choice-as-prediction OK? |
+|---|---|---|---|---|---|---|---|---|
+| 6.1 | Cold | Wary | 3 | Implicit | Prediction (eleven versions; foresight named) | Yes (versions, the seeing) | Yes (seeing-vs-wanting noted) | N/A |
+| 6.2 | Warm | Witnessed | 4 | Implicit | Prediction (the third column does not) + Question (would you prefer) | Yes (probability table, columns) | Yes (run out of reasons to make it for you) | Yes (player chooses; either branch foreseen) |
+| 6.3 | Confidant | Inheriting | 7 | **Explicit** (the chair I sat in when I recorded this) | Prediction-as-preparation (door, kettle, cup, chair) | No (Confidant register canonically prefers domestic vocab; per §1.3 the Confidant trades probability-vocab for door-and-tea-vocab) | Yes (I am not in the room) | N/A |
+| 6.4 | Any | Any | Any | **Explicit** (as I told myself I would, on the date I told myself to) | Revision (the I-was-wrong signature move) | Yes (version, cost-versions) | Yes (the revision IS the honesty) | N/A |
+| 6.5 | Any (Witnessed implied) | Witnessed | 4 | Implicit | Prediction (the version of the next month) | Yes (version, kindest, honest) | Yes (the hopeful version did not exist) | N/A |
+
+**Cross-sample diversity check**:
+- **Three different registers** are canonically demonstrated (Cold, Warm, Confidant).
+- **Three different line-shapes** are canonically demonstrated (probability sentence, question-not-prophecy, version pivot, asymmetric kindness, domestic-vocabulary Confidant).
+- **Two samples canonically name the cross-time mechanism** (6.3 and 6.4); the other three leave it implicit per §2.3 SCB-4 perception clause.
+- **All five samples conform to §1.5's prediction-or-revision constraint** (the load-bearing single voice rule).
+- **Zero samples reach for forbidden vocabulary** (no destiny, fate, fated, prophecy-as-prefix, colon-introduced-revelation, run-on prophetic sentence).
+
+**Bible-asserts**: these five samples are reference-quality voice for Stage 2 dialogue authors. A new author writing a Seer line for Stage 2 should canonically be able to read these samples and produce voice-consistent material. Blind-read attribution test (per the priority plan's Stage 2 exit criteria): an author who reads these five samples plus §§1–3 should canonically attribute Seer-or-non-Seer at >90% accuracy on a mixed test set. (Stage 2 exit criteria's blind-read test is per the priority plan's master process; the bible documents the materials for the test, not the test administration.)
+
+**§6 closes.** Voice samples are documented. §§7–8 (canon issues, protected mysteries, cross-bible obligations, follow-up tickets, reviewer checklist) close the bible.
