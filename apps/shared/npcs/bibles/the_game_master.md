@@ -334,3 +334,94 @@ He is canonically destroyed (`loreData.ts:32`). The bible's death-conditions sec
 1. **In persistence.** The Two Game Masters could be ended by the Goggles being destroyed. Their authority derives from the lenses. The cult's whole project is to *recover* the Goggles, not to destroy them. If the Goggles are ever destroyed, the Two go silent.
 2. **In matrix.** The Matrix of Dreams could fail if the consciousness-substrate beneath it (canon-protected) collapses. Iron Lion's imprint asking questions it shouldn't is the visible symptom. If the imprint fully wakes, the Matrix may break — and with it, the cult, the Two, and any remaining Game Master infrastructure.
 3. **In meaning.** If the player wins the Arena, beats the Two, and proves the soul exists, the Game Master's *test resolves*. He is dead. He cannot be told. But the resolution is his arc closing. Writers: the ultimate Game Master ending is *the Antiquarian's question being answered* — not by him, but for him. He hoped to be wrong. The test ran for 17,000 years. The answer is the player.
+
+---
+
+## 4. Cross-references
+
+The Game Master has more cross-bible weight per encounter than any character so far. He is the saga's institutional historical figure — others reference him; he rarely references them. Most relationships are asymmetric: he is the *referenced*, not the *referencer*.
+
+### 4.1 Elara — the Senator's shared desk
+
+The most humanizing canon detail in the bible. Per `act1OpponentDialog.ts:351`:
+
+> "Before the split, the Game Master was a Senator I shared a desk with for a quarter. He laughed easily. He laughed at me twice."
+
+Two beats matter:
+
+1. **They were peers.** Pre-Fall, pre-Archon, pre-split — he was a colleague at the same desk. Elara is Ark 1047's AI (per Vex's bible §4.6, with 94.7% probability of containing Lyra Vox's residue). Pre-Fall she was something else. Whatever she was, the Game Master shared institutional space with her at parity. This is the *only* canonical character peer-relationship he has across the saga — every other relationship is asymmetric.
+2. **He laughed at her twice.** Specificity is the point. Elara is keeping count. The Senator-era Game Master had access to laughter at all (the Original, Left, and Right canonically do not). That access closed when he split.
+
+**Writer guidance**: Elara remembers him *as a colleague*, not as a cosmic threat. Any Elara line about him should carry this — distance, professional regret, *not* fear. She knew him before he became frightening, and she has a calibrated sense of what was lost.
+
+The Lyra Vox cross-thread: Elara also carries Lyra Vox's residual consciousness (per Vex's bible §4.6). Lyra Vox was the Warlord's neuropsychologist host pre-Fall. The Game Master pre-Fall was a Senator. Whether Senator-era Game Master knew Lyra Vox is canon-silent. **Writer hook**: a high-trust scene where Elara's residual Lyra layer recognizes a Senator-era memory of the Game Master would be load-bearing — but it is not yet authored. Stage 4 weave material.
+
+### 4.2 The Human — the test subject
+
+Per `antiquariansJournal.ts:705`:
+
+> "His test: can a human, stripped of everything, reconstruct themselves through combat alone? You played his game. Every chapter of Story Mode. And you won."
+
+The Human played the Game Master's 12-chapter Collector's Arena and won. The Antiquarian's annotation is the puzzle: *"He designed it so you could win. Which means he wanted you to prove the soul exists."*
+
+**Writer rule**: the Human is the answer to the Game Master's question. He does not know it. The Game Master is dead and would not have been told. The puzzle resolves *in the Antiquarian's records*, not in any direct Human–Game-Master scene.
+
+The Human's bible (when written) must hold: *the Human's victory in the Arena was the Game Master's hope.* The Human cannot know this. Writers must not let the Human's bible give him this knowledge. The asymmetry is the gravity.
+
+Sample beat available for Stage 4 weave: the player at very high trust with both characters could *tell the Human* what the Game Master had designed — delivering posthumous validation the Game Master cannot receive. The Human's response is canonically unwritten. Writers should hold the space.
+
+### 4.3 The Antiquarian — the historian
+
+The primary cross-bible relationship. The Antiquarian holds the records (SIB-IX, scattered notes, the framing of the Game Master's purpose). He is the *only* character canonically willing to ask the puzzle aloud:
+
+> "Why would an Archon want that? That is the puzzle inside the puzzle." — `antiquariansJournal.ts:707`
+
+The Antiquarian is the saga's institutional witness for the Game Master. Where Elara has the *colleague's* memory, the Antiquarian has the *historian's* archive. He has read the records, traced the design, identified the rigged Arena, and articulated the question the Game Master could not answer for himself.
+
+**Writer guidance**: any Game Master canon material that requires *external framing* should be voiced through the Antiquarian. The Antiquarian's bible (when written) must take ownership of the Game Master's biographical scaffolding. This is the deepest character-to-character archival relationship in the saga — comparable to Locke's archival presence in the Detective's case files, but operating in the opposite direction (Antiquarian witnessing the Game Master's career; Locke witnessing the Detective's).
+
+### 4.4 Agent Zero / Vex Solène — the killer's body-vessel
+
+The most structurally charged relationship in the bible. Agent Zero killed the Original Game Master on Zenon (`arenaWorldLore.ts`, Agent Zero's outro). The body Vex now inhabits is the body that did the killing.
+
+The Game Master's last words to Agent Zero — *"They honored the contract. Every clause."* — were spoken to a body Vex now wears.
+
+**Canon-silent question**: does the dead echo (the Two, the cult, the Matrix-substrate) recognize the body when Vex is near? Answer: canonically unanswered. Writers must not commit.
+
+Writer guidance:
+- **The Two Game Masters reading Vex** would be a saga-charged scene. The Left could read her left-hemisphere arithmetic and find... *not Agent Zero's combat algebra; the Engineer's puzzle-grammar.* The Right could read her right-hemisphere mood and find... *not Agent Zero's hunter-pace; the diplomat's room-counting.* Both Game Masters would notice, in real-time, that the body wearing the killer's frame is not the killer. This is potentially the most dramatic recognition scene available in the saga.
+- **The Two would not necessarily say so.** Reading the player is not announcing the read. Writers should hold the recognition as subtext — visible to attentive players, never made explicit.
+- **The Goggles in the Hierarchy's vault** were taken from the Game Master who Agent Zero killed. They predate Vex's existence. The lineage is: Goggles → Game Master → Agent Zero kills him → body persists → Engineer's transference into the swarm → Vex. The Goggles were once read by the eyes of the man whose killer's body Vex now is. Writers: this geometry is *latent* across the saga and can surface at Ascended trust with both characters. It has not been authored.
+
+### 4.5 Iron Lion / Jericho Jones — the consciousness anomaly
+
+Iron Lion's pre-Fall consciousness imprint is archived in the Matrix of Dreams. Per the corpus:
+
+> "Consciousness-imprints aren't supposed to do that. They replay. They don't improvise. They don't ask questions. They don't salute people who shouldn't exist in their timeline." — Elara, on Iron Lion's anomalous behavior
+
+> "The original Game Master was destroyed by something inside the Matrix. Something that woke up when a consciousness-imprint started asking questions it wasn't designed to ask." — Agent Zero (via Antiquarian)
+
+This connects two distant priority-roster characters: **Iron Lion's pre-Fall imprint may have been what killed the original Game Master.** Not Agent Zero's blade — or rather, not *only* Agent Zero's blade. Agent Zero's strike on Zenon may have been the *external* part of a destruction the Matrix had already begun internally.
+
+The Jericho Jones layer (per the Degen's bible §2.5, §3.11): Jericho is being trained as the *new Iron Lion*. The pre-Fall Iron Lion's imprint waking up inside the Matrix is happening *while* Jericho is being initiated into the title outside the Matrix. Two Iron Lions converging — the imprint awakening, the successor inheriting.
+
+**Writer hook (Stage 4)**: the convergence is unauthored. The scenes where the new Iron Lion meets the imprinted predecessor are saga-rich material. This bible flags the seed; the eventual Iron Lion / Jericho bible takes ownership.
+
+### 4.6 Zephyr-9 — the Quarchon mediator
+
+The player's interface to the Game Master is mediated. Zephyr-9 is a Quarchon teaching chess (per `act2Interlude.ts:113-142`, the ZEPHYR_9_CLASSROOM tier system). She does not represent the Game Master; she *teaches against* him — the Quarchon counting the moves the Matrix has not yet counted.
+
+Canon framing per Elara (`companionComments.ts`):
+
+> "Zephyr-9 is willing to play you. That is not nothing. Quarchon don't play for fun. They play because someone has to count the moves before the universe does."
+
+Zephyr-9 is the mechanic's bridge:
+
+| Depth tier | Reward | Zephyr's signature line |
+|---|---|---|
+| 1 | basic_chess_access | *"You may play. I will not let you win. I will not let you lose quickly. Both take time."* |
+| 3 | dischordia_preview_cards | *"Now you may peek at the top card of your deck before drawing."* |
+| 5 | dischordia_undo_once | *"You may now un-do a single move per match. Use it sparingly. Quarchon have no un-do; we regret in other ways."* |
+| 8 | engineers_opening | *"I will teach you the Engineer's Opening. It is the first hand he ever drew in a tournament. It is also the last hand he ever drew in one. There is a lesson in the symmetry."* |
+
+**Writer rule**: Zephyr-9 is not a Game Master surface. She is the *defensive layer the player wields against him*. Her bible (if ever written) is a separate authoring domain. The Game Master's bible only needs to acknowledge her existence — and the canonical truth that *she alone may give the player chess access at all*.
