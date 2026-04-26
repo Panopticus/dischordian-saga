@@ -463,14 +463,123 @@ const ALLEGIANCE_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "T6 = 'Champion' as SHAPE not character. CRITICAL: face MUST not be visible. The player is meant to see THEMSELVES walking forward. NO Iron Lion (he is the imprint, not the allegiance-champion). NO recognizable identity. Mirror-inverts Architect-allegiance t6 structurally: Architect t6 = the position (badge with indeterminate photograph); Insurgency t6 = the shape (back-of-figure, indeterminate). Both are anti-identity, faction-distinct.",
   },
+
+  // ─── NEW BABYLON ALLEGIANCE (clerk → Champion-as-young-Locke) ───
+  // Source canon: 'A clerk keeps the receipts you are about to need
+  // but would rather not have.' T6 is the version of Locke you get
+  // when they finally put their foot down and the foot makes a
+  // sound — so this is YOUNG Locke, pre-imprint-t5, the moment of
+  // his decision to become the Adjudicator he will be.
+  {
+    cardId: "s1_alleg_new_babylon_t1",
+    sceneDelta:
+      "Mid-shot. A Babylonian Clerk seated at a low filing-desk in a Babylon Hall of Records sub-office — early-twenties, in formal Babylon-administrative robes (fitted black wool with gold thread piping at the collar, a single silver pen-clip at the lapel). They are mid-sorting a thick folder of receipts into three labelled stacks on the desk: KEEP, FILE, RETURN. Their face is mildly-amused-bureaucratic, the look of a person who has noticed which receipts the player will eventually wish they had. The desk lamp casts a tight pool of warm amber on the receipts; the rest of the office recedes into cool grey. A small chrome filing-cabinet to camera-right is overflowing with similar receipts — the Clerk is steadily working through the backlog. They keep the receipts you are about to need but would rather not have.",
+    moodKeywords: [
+      "the receipts you are about to need but would rather not have",
+      "mildly amused bureaucratic",
+      "three labelled stacks",
+      "the overflowing chrome filing-cabinet",
+    ],
+    palette:
+      "New Babylon obsidian + gold thread piping + cool grey office + warm amber desk-lamp pool + a single saturated silver on the pen-clip",
+    composition:
+      "Mid-shot at filing-desk, Clerk in three-quarter, three receipt-stacks at lower-third, filing-cabinet at upper-right",
+    notes:
+      "T1 = clerk. Generic-young face. Receipts are unmarked-generic — no specific named-character paperwork. Mildly amused expression must read as INTERESTED-NOT-PETTY (the lore beat is foresight, not malice).",
+  },
+  {
+    cardId: "s1_alleg_new_babylon_t2",
+    sceneDelta:
+      "Mid-shot. A Babylonian Magistrate seated behind a long polished obsidian bench in a Babylon adjudication chamber — mid-thirties, in formal magisterial robes (deeper black with a single gold scales-of-justice pin at the throat). They have just turned their head a fraction to one specific seat in the audience, and we see the magistrate's eyes locked on a single off-frame target with the precision of someone who has identified the room's most important person and is signalling that they have noticed. Provoke visualized as the eye-contact-as-action. The chamber's other officers (anonymous silhouettes in lower-third) are visibly settling — the Magistrate's gaze has called the session to order, and the order will hold because that one person knows it has been called.",
+    moodKeywords: [
+      "the eye-contact at exactly the right person at exactly the right time",
+      "the session called to order",
+      "the gold scales-of-justice pin",
+      "the chamber settling",
+    ],
+    palette:
+      "New Babylon obsidian + gold scales-pin + cool grey adjudication chamber + warm amber high-window light + a single saturated silver accent on the bench's edge",
+    composition:
+      "Mid-shot at bench, Magistrate at frame-centre, off-frame audience-target implied camera-right by Magistrate's gaze direction, anonymous officers at lower-third",
+    notes:
+      "T2 = magistrate. Provoke visualized as eye-contact-as-deployable-weapon. Faction-distinct from all other provoke (interposition-by-body, interposition-by-stance, gravity, obligation, stillness): Magistrate's provoke is RECOGNITION — they have seen exactly the right person.",
+  },
+  {
+    cardId: "s1_alleg_new_babylon_t3",
+    sceneDelta:
+      "Mid-shot. A Babylonian Tax Collector — late-thirties, in dark wool with rose-gold accents at the cuff (echoing The Collector imprint's signature visual rhyme), walking a Babylon market street at dusk. She has a small leather collection-folio under her left arm and a fountain-pen in her right hand. She has just paused at a small stall and is in the act of receiving (palm-up, fingers slightly cupped) a single small token from an off-frame merchant — and from that token, faint rose-gold motes are drifting upward into her hand the same way they drift to the Collector imprint t2. Drain visualized as the gentle siphon, faction-distinct from Collector imprint by SCALE (small-personal vs eleven-centuries-architectural). Her face is composed and mildly apologetic — the polite version of taking a small amount of everything she handles. Behind her, the market-street's gold tower-lamps glow warm at twilight.",
+    moodKeywords: [
+      "a small amount of everything",
+      "very reasonable amount by year's end",
+      "rose-gold echoes the Collector imprint",
+      "polite mid-collection",
+    ],
+    palette:
+      "New Babylon obsidian + rose-gold cuff accents + warm amber street-lamps + cool grey twilight + a single saturated red on the leather folio",
+    composition:
+      "Mid-shot front three-quarter, Tax Collector at frame-centre receiving token, off-frame merchant's stall implied camera-left",
+    notes:
+      "T3 = tax collector. Rose-gold visual is intentional faction-rhyme with The Collector imprint (both New Babylon, both compounders); SCALE distinguishes them — Tax Collector = personal, daily, bureaucratic; Collector imprint = eleven-centuries, architectural.",
+  },
+  {
+    cardId: "s1_alleg_new_babylon_t4",
+    sceneDelta:
+      "Mid-shot. A Babylonian Victorious Adjudicator stands in a closed adjudication chamber — late-forties, in heavy court robes (substantial gold-piping at hem, a chrome-and-crimson Adjudicator-of-Record signet-ring on the right hand). They are in three-quarter at the bench, in the act of CLOSING a thick case-folder with a deliberate firm gesture, the cover meeting the leather binding with a soft authoritative click. Their other hand rests palm-down on the closed cover. Their expression is composed; the slight tightening at the jaw indicates that the polite version of closing a case used to end differently. Around the bench, faint rose-gold drain-motes drift up from the closed folder — drain at the institutional scale (the case took its toll on someone, and that toll has been collected into the institution's record).",
+    moodKeywords: [
+      "closes the books on every case they touch",
+      "the polite version of a sentence that used to end differently",
+      "the slight tightening at the jaw",
+      "the soft authoritative click",
+    ],
+    palette:
+      "New Babylon obsidian + gold court-piping + chrome-and-crimson signet-ring + warm amber bench-lamp + rose-gold drain-motes",
+    composition:
+      "Mid-shot at bench, Victorious Adjudicator in three-quarter, closing case-folder at lower-third, drain-motes drifting upward at frame mid-axis",
+    notes:
+      "T4 = victorious-adjudicator. The 'used to end differently' is the lore beat — visualized in the jaw-tightening, not in any depicted prior-execution-imagery. Subtle. New Babylon faction's relationship to violence is institutional, not theatrical.",
+  },
+  {
+    cardId: "s1_alleg_new_babylon_t5",
+    sceneDelta:
+      "Wider mid-shot. A Babylonian Archon-Elect stands at a high formal podium in the Babylon Chamber of Voices — early-fifties, in full senior magisterial robes (gold court-piping with a single chrome-and-crimson Archon-Aspirant chevron at the breast). The Chamber's tiered seats are visible behind them, half-occupied by anonymous Babylon Senators. The Archon-Elect has both hands resting on the podium's edge, mid-speech, but their EXPRESSION is patient-and-private: they have been one vote away for ninety years, and they have made their peace with it. Around the podium, a faint hexagonal forcefield-shimmer extends through the front three rows of the Chamber — provoke + drain + forcefield at the institutional scale, the Archon-Elect's seat is contested-territory but they have held it through 90 years of one-vote-short.",
+    moodKeywords: [
+      "one vote away for ninety years",
+      "the patient version of politics",
+      "the chrome-and-crimson chevron",
+      "patience-as-public-posture",
+    ],
+    palette:
+      "New Babylon obsidian Chamber + gold senatorial trim + warm amber pendant lights + cool cyan hexagonal forcefield-shimmer at front rows + a single saturated red on the chevron",
+    composition:
+      "Wider mid-shot at podium, Archon-Elect at upper-third, Chamber-tiers receding into mid-distance, forcefield-shimmer at frame mid-axis",
+    notes:
+      "T5 = archon-elect. The ninety-years note is the canonical lore beat. Anonymous Senators in the Chamber — no specific recognizable named character. Hexagonal forcefield-language matches Locke t4 + Architect t4 + Jailer t3 (faction-consistent forcefield visual: hexagonal, cyan, structural).",
+  },
+  {
+    cardId: "s1_alleg_new_babylon_t6",
+    sceneDelta:
+      "Hero composition. A YOUNG Locke — early-thirties, in early jurist's robes (charcoal grey with thin gold piping at the cuff, MUCH less ornate than his Imprint t1 desk-portrait) — stands at the front of an empty Babylon adjudication chamber. He has one hand resting on the edge of a wooden gavel-block at the bench; his other hand is raised to chest height, palm down, in a precise STOP gesture toward an off-frame interlocutor (the moment the foot comes down). His face is set but young — the face of a man who has just made the decision to become the Adjudicator he will be. The chamber is otherwise empty. Above his hand, a single faint hexagonal forcefield-shimmer is just beginning to form (forcefield keyword arriving as DECISION rather than as established jurisdiction). Heal-on-deploy-6 visualized as a faint warm amber pulse propagating outward from the chamber's central floor (the room is healthier for the decision being made).",
+    moodKeywords: [
+      "the version of Locke you get when they finally put their foot down",
+      "the foot makes a sound",
+      "the moment of decision",
+      "younger, less ornate, harder eyes",
+    ],
+    palette:
+      "New Babylon obsidian + early-jurist charcoal + thin gold piping + warm amber decision-pulse + cool cyan hexagonal forcefield arriving",
+    composition:
+      "Hero composition at empty chamber, young Locke at frame-centre, hand-raised stop-gesture at upper-third, gavel-block at lower-third",
+    notes:
+      "T6 = 'New Babylon Champion' = YOUNG LOCKE. CRITICAL: this is PRE-imprint-t1 Locke — a YOUNGER face than the Locke imprint set's tired-late-sixties man. The lore beat is the ARRIVAL of the man who becomes the Adjudicator. NO consenting crowd (that's imprint t5). NO cracked moon. Just the decision and the empty room. The face must read as 'recognizably Locke twenty-five years younger' to maintain canon continuity, but the t6 here is Locke earning his position — he has not yet earned his t1.",
+  },
 ] as const;
 
 /**
  * Allegiance faction's prompt registry, keyed by card id.
  *
- * Currently populated: 4 / 6 sets (Antiquarian, Architect, Dreamer,
- * Insurgency).
- * TODO: new_babylon, thought_virus.
+ * Currently populated: 5 / 6 sets (Antiquarian, Architect, Dreamer,
+ * Insurgency, New Babylon).
+ * TODO: thought_virus.
  */
 export const ALLEGIANCE_CARD_ART_PROMPTS: Readonly<
   Record<string, CardArtPrompt>
