@@ -415,6 +415,127 @@ export const VEX_SOLENE_BANK: ReadonlyArray<BankEntry> = [
     maxPlays: 1,
   },
 
+  // ─── engineer_zero_hint expansion (Phase 6b.2 sub-chunk D) ──────────
+  // Six additional hint-stage lines covering the canonical recognition
+  // surfaces per §1.5 tell #3 (self-interrupting near recognition):
+  // card recognition / dog tag / Antiquarian-line trigger / designed-
+  // without-remembering / handwriting recognition / Mechronis bench
+  // metaphor leakage. Per the bible: "She is *being* surprised, not
+  // performing surprise." The "I —" sentence-break is canon and load-
+  // bearing. §1.6 silence-shape preserved: she does NOT name the
+  // Engineer aloud even when his pattern fires through her.
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "vex.hint.act4.card_recognition.coda_3",
+    // Canonical Coda-3 card recognition per §1.5 tell #3 + §2.6
+    // canon. The canonical "Stop. Stop —" / "I — I have never seen
+    // it. I know that card." pattern lands the canonical break-in-
+    // sentence canon. Surface: match (the canonical TCG-table
+    // recognition moment).
+    text:
+      "Stop. Stop — play that again. I know that card. I — I have " +
+      "never seen it. I know that card. Where did you. — never mind. " +
+      "Continue. Continue, please.",
+    surfaces: ["match"],
+    requiresRevealStage: "engineer_zero_hint",
+    minAct: 4,
+    cooldownKey: "vex.hint.coda_3_recognition",
+    maxPlays: 1,
+    setsFlags: ["vex_coda_3_card_recognized"],
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "vex.hint.act4.dog_tag_recognition",
+    // Canonical dog-tag recognition per §1.5 tell #3 — the canonical
+    // "I have not been told" pattern lands the canonical informational-
+    // gap register. The Engineer's dog tag is canonical Engineer-era
+    // artifact per §2.x. Self-interrupting tell active.
+    text:
+      "That tag. Where did you find that tag. I have not been told " +
+      "about it. I — I should have been told about it. I am noting " +
+      "that I should have been told.",
+    surfaces: ["cinematic", "npc_line"],
+    requiresRevealStage: "engineer_zero_hint",
+    minAct: 4,
+    cooldownKey: "vex.hint.dog_tag_recognition",
+    maxPlays: 1,
+    setsFlags: ["vex_engineer_dog_tag_recognized"],
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "vex.hint.act5.antiquarian_line_recognition",
+    // Canonical Antiquarian-line recognition per §1.5 tell #3
+    // ("certain lines from the Antiquarian"). The canonical "the
+    // speaker is — the speaker was — the speaker is not me." pattern
+    // lands the canonical multi-state-of-self register without naming
+    // the Engineer aloud.
+    text:
+      "He said — Daniel said something just now. The phrase he used. " +
+      "I have heard that phrase before. I have not been told the " +
+      "speaker. The speaker is — the speaker was — the speaker is " +
+      "not me. Continue.",
+    surfaces: ["transmission"],
+    requiresRevealStage: "engineer_zero_hint",
+    minAct: 5,
+    cooldownKey: "vex.hint.antiquarian_line",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "vex.hint.act4.designed_without_remembering",
+    // Canonical "fingerprint is mine. The memory is not. Both are
+    // honest." register — the canonical Vex acknowledgment of the
+    // Engineer-trace operating through her hands without her
+    // memory. The canonical "Both are honest" close per §1.5 tell #1
+    // courtesy.
+    text:
+      "This protocol. I designed this protocol. I do not remember " +
+      "designing this protocol. The fingerprint is mine. The memory " +
+      "is not. Both are honest.",
+    surfaces: ["trade_empire", "npc_line"],
+    requiresRevealStage: "engineer_zero_hint",
+    minAct: 4,
+    cooldownKey: "vex.hint.designed_without_remembering",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "vex.hint.act5.engineer_trace_in_handwriting",
+    // Canonical handwriting recognition per §1.5 tell #3 — the
+    // canonical "the hand is younger. The hand is mine. The hand
+    // is not. — both are mine, in different states of repair."
+    // register lands the §1.3 "two states of repair" canonical
+    // canon directly.
+    text:
+      "That is my handwriting. The hand is younger. The hand is " +
+      "mine. The hand is not. — both are mine, in two states of " +
+      "repair. Walk forward.",
+    surfaces: ["cinematic"],
+    requiresRevealStage: "engineer_zero_hint",
+    minAct: 5,
+    cooldownKey: "vex.hint.handwriting_recognition",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "vex.hint.act4.bench_metaphor_leakage",
+    // Canonical Mechronis-vocabulary leakage — Vex notices her
+    // mouth using "bench" without her memory authorizing the
+    // metaphor. The canonical "the mouth has more than the
+    // memory" register lands the canonical asymmetric-self canon
+    // per §2.7.
+    text:
+      "I said 'the bench' just now. I said it without meaning " +
+      "Mechronis. Mechronis is in my mouth. Mechronis is not in my " +
+      "memory. The mouth has more than the memory. Note that.",
+    surfaces: ["transmission", "npc_line"],
+    requiresRevealStage: "engineer_zero_hint",
+    minAct: 4,
+    cooldownKey: "vex.hint.bench_metaphor_leakage",
+    maxPlays: 1,
+  },
+
   // ═════════════════════════════════════════════════════════════════════
   // STAGE 4: engineer_zero_confirmed (Acts 5+ — post-reveal full identity)
   // ═════════════════════════════════════════════════════════════════════
