@@ -796,6 +796,235 @@ export const NILMORG_BANK: ReadonlyArray<BankEntry> = [
   },
 
   // ═════════════════════════════════════════════════════════════════════
+  // POST-RACE OUTCOMES — 4 outcomes × 4 broadcast variants = 16 lines.
+  //
+  // Race Commentary register on the dmc surface; the Severance Prize
+  // ceremony has its own Lore/Ceremony register (already shipped above
+  // — nilmorg.severance.dont_thank_me / kept_his_agreement). This block
+  // lands BEFORE that ceremony, while the bone-pile is still settling.
+  //
+  // Outcomes:
+  //   winner       — race won (any tier)
+  //   runner_up    — second place, no Severance Prize
+  //   dnf          — did-not-finish; clone perished
+  //   controversy  — result protested by lane / bookmakers / Hierarchy
+  //
+  // Aphorism scarcity preserved: zero new aphorisms (the mid-race
+  // canonical-one already shipped). Three new instances of canonical
+  // bible quotes anchor the chunk: the §1.1 "VICTORY/betting-pool"
+  // pivot tell, the §1.1 "DEAD! DEAD! The clone is DEAD!" peak-
+  // intensity single-word repetition, and the §1.4 tell #2 third-
+  // person Nilmorg-grudgingly-applauds reverence.
+  // ═════════════════════════════════════════════════════════════════════
+
+  // ─── Outcome: winner ────────────────────────────────────────────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.postrace.winner.canonical_victory_yell",
+    // Canonical line per nilmorg-lines.json:137 voice anchor — the
+    // §1.1 register-pivot tell. Starts in Race Commentary, lands on
+    // a corporate noun ("betting pool"), snaps back to barker. THE
+    // canonical rhythmic fingerprint of the character.
+    text:
+      "VICTORY! Against all odds, against all bones, against Nilmorg's " +
+      "personal betting pool — YOU WIN!",
+    surfaces: ["dmc"],
+    unlockFlags: ["dmc_outcome_winner"],
+    cooldownKey: "nilmorg.postrace.winner",
+    maxPlays: 6,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.postrace.winner.new_crown",
+    text:
+      "And the CHAMPION crosses the line! The signature crosses the " +
+      "line WITH her! Nilmorg's collection has a NEW CROWN!",
+    surfaces: ["dmc"],
+    unlockFlags: ["dmc_outcome_winner"],
+    cooldownKey: "nilmorg.postrace.winner",
+    maxPlays: 6,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.postrace.winner.grudgingly_applauds",
+    // Canonical line per nilmorg-lines.json:144 voice anchor — the
+    // §1.4 tell #2 third-person self-narration deployed for an
+    // emotion he would otherwise hide (here, respect).
+    text:
+      "Nilmorg grudgingly applauds! NILMORG GRUDGINGLY APPLAUDS! Three " +
+      "claps! The maximum Nilmorg has ever offered!",
+    surfaces: ["dmc"],
+    unlockFlags: ["dmc_outcome_winner"],
+    cooldownKey: "nilmorg.postrace.winner",
+    maxPlays: 6,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.postrace.winner.projections_take_a_hit",
+    text:
+      "Predicted finish: top three! Actual finish: FIRST! Variance: " +
+      "significant! Nilmorg's projections take a HIT — but the file " +
+      "is RICHER for it!",
+    surfaces: ["dmc"],
+    unlockFlags: ["dmc_outcome_winner"],
+    cooldownKey: "nilmorg.postrace.winner",
+    maxPlays: 6,
+  },
+
+  // ─── Outcome: runner-up ─────────────────────────────────────────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.postrace.runner_up.hair_signature",
+    text:
+      "And SECOND! Just behind the line by a hair! That hair is now a " +
+      "SIGNATURE in Nilmorg's collection! Nothing is wasted at the " +
+      "TRENCH!",
+    surfaces: ["dmc"],
+    unlockFlags: ["dmc_outcome_runner_up"],
+    cooldownKey: "nilmorg.postrace.runner_up",
+    maxPlays: 6,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.postrace.runner_up.no_severance_tonight",
+    text:
+      "Runner-up! No Severance Prize tonight! Try again next season. " +
+      "The track REMEMBERS your splice.",
+    surfaces: ["dmc"],
+    unlockFlags: ["dmc_outcome_runner_up"],
+    cooldownKey: "nilmorg.postrace.runner_up",
+    maxPlays: 6,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.postrace.runner_up.poetry_lean",
+    // §1.4 tell #3: aestheticization. The lean-at-the-line is the
+    // canonical second-place gesture; the bible's metaphor source
+    // (§1.6) explicitly includes theatre — "the champion crosses
+    // the line" — and "lean" is the second-place poetic register.
+    text:
+      "Oh, the way she LEANED at the line! That lean was a POEM! That " +
+      "lean was POETRY! Nilmorg files it under DEDICATION.",
+    surfaces: ["dmc"],
+    unlockFlags: ["dmc_outcome_runner_up"],
+    cooldownKey: "nilmorg.postrace.runner_up",
+    maxPlays: 6,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.postrace.runner_up.thanks_for_the_show",
+    text:
+      "Photo finish — RESOLVED! Number Three by a wheel-rotation! " +
+      "Number Four by a wheel-rotation MINUS ONE! The Hierarchy thanks " +
+      "you both for the SHOW!",
+    surfaces: ["dmc"],
+    unlockFlags: ["dmc_outcome_runner_up"],
+    cooldownKey: "nilmorg.postrace.runner_up",
+    maxPlays: 6,
+  },
+
+  // ─── Outcome: DNF ───────────────────────────────────────────────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.postrace.dnf.engine_seized",
+    text:
+      "And THEY'RE OUT! Number Eight is OUT! Engine seized! Hopes " +
+      "seized! Splice plate REVOKED!",
+    surfaces: ["dmc"],
+    unlockFlags: ["dmc_outcome_dnf"],
+    cooldownKey: "nilmorg.postrace.dnf",
+    maxPlays: 6,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.postrace.dnf.unsentimental",
+    text:
+      "DNF! Did Not Finish! Did Not SURVIVE! Did Not GET PAID! The " +
+      "Trench is unsentimental about all three!",
+    surfaces: ["dmc"],
+    unlockFlags: ["dmc_outcome_dnf"],
+    cooldownKey: "nilmorg.postrace.dnf",
+    maxPlays: 6,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.postrace.dnf.tried_respected_unrewarded",
+    text:
+      "Nilmorg files Number Eight under TRIED! Nilmorg respects TRIED! " +
+      "Nilmorg does not REWARD TRIED! But Nilmorg RESPECTS!",
+    surfaces: ["dmc"],
+    unlockFlags: ["dmc_outcome_dnf"],
+    cooldownKey: "nilmorg.postrace.dnf",
+    maxPlays: 6,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.postrace.dnf.canonical_dead",
+    // Canonical line per nilmorg-lines.json:81 voice anchor — the
+    // §1.1 single-word-repetition tell at peak intensity. THE
+    // canonical DNF anchor; writers must preserve this.
+    text:
+      "DEAD! DEAD! The clone is DEAD! Number Eight will not be entering " +
+      "Bone-tier next season! Number Eight will not be entering ANY " +
+      "tier!",
+    surfaces: ["dmc"],
+    unlockFlags: ["dmc_outcome_dnf"],
+    cooldownKey: "nilmorg.postrace.dnf",
+    maxPlays: 6,
+  },
+
+  // ─── Outcome: controversy ───────────────────────────────────────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.postrace.controversy.protest_called",
+    text:
+      "PROTEST! A protest from Lane Three! The bookmakers are DEMANDING " +
+      "a review! Nilmorg's projections are NEUTRAL on the protest!",
+    surfaces: ["dmc"],
+    unlockFlags: ["dmc_outcome_controversy"],
+    cooldownKey: "nilmorg.postrace.controversy",
+    maxPlays: 6,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.postrace.controversy.permits_does_not_grant",
+    text:
+      "The Hierarchy permits protests. The Hierarchy DOES NOT GRANT " +
+      "them. Number Three's appeal is being filed. The file is THICK " +
+      "tonight!",
+    surfaces: ["dmc"],
+    unlockFlags: ["dmc_outcome_controversy"],
+    cooldownKey: "nilmorg.postrace.controversy",
+    maxPlays: 6,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.postrace.controversy.shrug_is_a_file_entry",
+    text:
+      "Nilmorg shrugs. Nilmorg's shrug is also a FILE ENTRY. Everything " +
+      "Nilmorg does is a FILE ENTRY!",
+    surfaces: ["dmc"],
+    unlockFlags: ["dmc_outcome_controversy"],
+    cooldownKey: "nilmorg.postrace.controversy",
+    maxPlays: 6,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.postrace.controversy.case_closed",
+    text:
+      "Protest DENIED! The result STANDS! The track is NEVER WRONG! " +
+      "Filed, sealed, paid — case CLOSED!",
+    surfaces: ["dmc"],
+    unlockFlags: ["dmc_outcome_controversy"],
+    cooldownKey: "nilmorg.postrace.controversy",
+    maxPlays: 6,
+  },
+
+  // ═════════════════════════════════════════════════════════════════════
   // CONTRACT-SIGNING (npc_line — institutional precision; NO hidden clauses)
   // ═════════════════════════════════════════════════════════════════════
 
