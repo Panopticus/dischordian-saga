@@ -16,6 +16,7 @@ import type { CardArtPromptRegistry } from "./types";
 import { IMPRINT_CARD_ART_PROMPTS } from "./imprint";
 import { ALLEGIANCE_CARD_ART_PROMPTS } from "./allegiance";
 import { CLASS_CARD_ART_PROMPTS } from "./class";
+import { RACE_CARD_ART_PROMPTS } from "./race";
 
 /**
  * The full card-art prompt registry.
@@ -30,10 +31,11 @@ import { CLASS_CARD_ART_PROMPTS } from "./class";
  *     Dreamer, Insurgency, New Babylon, Thought Virus)
  *   - class: 6 / 6 sets — COMPLETE (Assassin, Engineer, Ne-Yon,
  *     Oracle, Soldier, Spy)
+ *   - race: 1 / 5 sets (Human)
  *
  * Pending factions:
- *   - class (remaining 5 sets)
- *   - race, elemental, dimensional (tier-up sets)
+ *   - race (remaining 4 sets)
+ *   - elemental, dimensional (tier-up sets)
  *   - architect, antiquarian, dreamer, insurgency, new_babylon,
  *     thought_virus, neutral, panopticon, allegiance, class, race,
  *     elemental, dimensional
@@ -42,4 +44,5 @@ export const CARD_ART_PROMPTS: CardArtPromptRegistry = Object.freeze({
   ...IMPRINT_CARD_ART_PROMPTS,
   ...ALLEGIANCE_CARD_ART_PROMPTS,
   ...CLASS_CARD_ART_PROMPTS,
+  ...RACE_CARD_ART_PROMPTS,
 });
