@@ -6,6 +6,11 @@
 import { Server as SocketServer } from "socket.io";
 import type { Server as HttpServer } from "http";
 import { Chess } from "chess.js";
+import {
+  pickMultiplayerPreMatchLine,
+  pickMultiplayerEndLine,
+  hashMultiplayerSeed,
+} from "@shared/tcg-core/story/chessMultiplayerArena";
 
 interface Player {
   socketId: string;
@@ -139,13 +144,21 @@ export function registerChessMultiplayer(httpServer: HttpServer) {
         socket.join(gameId);
         io.sockets.sockets.get(opponent.socketId)?.join(gameId);
 
-        // Notify both players
+        // Notify both players, with the Game Master's pre-match
+        // line. All current multiplayer matches are ELO-tracked, so
+        // the rated register applies. Both players see the same
+        // line — gmCommentary is keyed by gameId, not by player.
+        const gmPreMatchCommentary = pickMultiplayerPreMatchLine(
+          true,
+          hashMultiplayerSeed(`pre|${gameId}`),
+        );
         const gameInfo = {
           gameId,
           white: { userId: white.userId, username: white.username, elo: white.elo },
           black: { userId: black.userId, username: black.username, elo: black.elo },
           timeControl: tc,
           fen: game.chess.fen(),
+          gmCommentary: gmPreMatchCommentary,
         };
 
         socket.emit("game:start", { ...gameInfo, color: isWhite ? "white" : "black" });
@@ -272,6 +285,10 @@ export function registerChessMultiplayer(httpServer: HttpServer) {
             pgn: game.chess.pgn(),
             whiteTime: game.whiteTime,
             blackTime: game.blackTime,
+            gmCommentary: pickMultiplayerEndLine(
+              resultReason ?? "",
+              hashMultiplayerSeed(`end|${data.gameId}|${resultReason}`),
+            ),
           });
           cleanupGame(data.gameId);
         }
@@ -300,6 +317,10 @@ export function registerChessMultiplayer(httpServer: HttpServer) {
         pgn: game.chess.pgn(),
         whiteTime: game.whiteTime,
         blackTime: game.blackTime,
+        gmCommentary: pickMultiplayerEndLine(
+          "resignation",
+          hashMultiplayerSeed(`end|${data.gameId}|resignation`),
+        ),
       });
       cleanupGame(data.gameId);
     });
@@ -331,6 +352,10 @@ export function registerChessMultiplayer(httpServer: HttpServer) {
         pgn: game.chess.pgn(),
         whiteTime: game.whiteTime,
         blackTime: game.blackTime,
+        gmCommentary: pickMultiplayerEndLine(
+          "agreement",
+          hashMultiplayerSeed(`end|${data.gameId}|agreement`),
+        ),
       });
       cleanupGame(data.gameId);
     });
@@ -407,6 +432,10 @@ export function registerChessMultiplayer(httpServer: HttpServer) {
                 pgn: g.chess.pgn(),
                 whiteTime: g.whiteTime,
                 blackTime: g.blackTime,
+                gmCommentary: pickMultiplayerEndLine(
+                  "abandonment",
+                  hashMultiplayerSeed(`end|${gameId}|abandonment`),
+                ),
               });
               cleanupGame(gameId);
             }
@@ -450,6 +479,10 @@ function startClock(io: SocketServer, gameId: string) {
           pgn: game.chess.pgn(),
           whiteTime: 0,
           blackTime: game.blackTime,
+          gmCommentary: pickMultiplayerEndLine(
+            "timeout",
+            hashMultiplayerSeed(`end|${gameId}|timeout`),
+          ),
         });
         cleanupGame(gameId);
       }
@@ -468,6 +501,10 @@ function startClock(io: SocketServer, gameId: string) {
           pgn: game.chess.pgn(),
           whiteTime: game.whiteTime,
           blackTime: 0,
+          gmCommentary: pickMultiplayerEndLine(
+            "timeout",
+            hashMultiplayerSeed(`end|${gameId}|timeout`),
+          ),
         });
         cleanupGame(gameId);
       }

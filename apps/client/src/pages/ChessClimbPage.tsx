@@ -29,6 +29,7 @@ import ChessSessionBanner from "@/components/ChessSessionBanner";
 import {
   readDaysSinceLastVisit,
   markVisitedNow,
+  daysBetween,
 } from "@/lib/chessLastVisit";
 import { useEffect, useState } from "react";
 import "@/styles/chessMatrix.css";
@@ -68,11 +69,23 @@ export default function ChessClimbPage() {
     } catch { return new Set(); }
   });
 
+  const lastVisitQ = trpc.chess.getLastVisit.useQuery(undefined, {
+    enabled: isAuthenticated,
+    refetchOnWindowFocus: false,
+  });
+  const markVisitMut = trpc.chess.markVisit.useMutation();
   const [daysSinceLastVisit, setDaysSinceLastVisit] = useState<number>(0);
   useEffect(() => {
     setDaysSinceLastVisit(readDaysSinceLastVisit());
     markVisitedNow();
-  }, []);
+    if (isAuthenticated) markVisitMut.mutate();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAuthenticated]);
+  useEffect(() => {
+    const serverLast = lastVisitQ.data?.lastVisitAt;
+    if (!serverLast) return;
+    setDaysSinceLastVisit(daysBetween(new Date(serverLast).getTime()));
+  }, [lastVisitQ.data]);
   const welcomeLine = pickDailyWelcomeLine(
     daysSinceLastVisit,
     hashString(`climb|${new Date().toISOString().slice(0, 10)}`),

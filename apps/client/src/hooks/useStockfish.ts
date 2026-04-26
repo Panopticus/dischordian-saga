@@ -34,6 +34,27 @@ interface UseStockfishReturn {
       deltaCp: number;
     }>
   >;
+  /** Walk a finished game with multipv=2 evaluation per ply. Slower
+   *  than `postGameAnalyze` but supplies the data needed for the
+   *  brilliancy detector. */
+  postGameAnalyzeWithBrilliancies: (
+    startFen: string,
+    moves: readonly string[],
+    opts?: { depth?: number; onProgress?: (ply: number) => void },
+  ) => Promise<
+    ReadonlyArray<{
+      ply: number;
+      fenBefore: string;
+      fenAfter: string;
+      evalBeforeCp: number;
+      evalAfterCp: number;
+      deltaCp: number;
+      playedUci: string;
+      bestUci: string | null;
+      bestEvalCp: number | null;
+      secondBestEvalCp: number | null;
+    }>
+  >;
 }
 
 export function useStockfish(initialPreset?: string): UseStockfishReturn {
@@ -100,6 +121,22 @@ export function useStockfish(initialPreset?: string): UseStockfishReturn {
     [],
   );
 
+  const postGameAnalyzeWithBrilliancies = useCallback(
+    async (
+      startFen: string,
+      moves: readonly string[],
+      opts?: { depth?: number; onProgress?: (ply: number) => void },
+    ) => {
+      if (!engineRef.current) return [] as const;
+      return engineRef.current.postGameAnalyzeWithBrilliancies(
+        startFen,
+        moves,
+        opts,
+      );
+    },
+    [],
+  );
+
   return {
     isReady,
     isThinking,
@@ -108,5 +145,6 @@ export function useStockfish(initialPreset?: string): UseStockfishReturn {
     configure,
     newGame,
     postGameAnalyze,
+    postGameAnalyzeWithBrilliancies,
   };
 }

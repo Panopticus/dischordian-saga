@@ -1,13 +1,15 @@
 /**
  * Client-side last-visit tracking for the chess pages.
  *
- * Stored in localStorage under `chess_last_visit_ms` as a numeric
- * milliseconds-since-epoch timestamp. Read on chess-page mount via
- * `readDaysSinceLastVisit`, then immediately stamped to "now" via
- * `markVisitedNow`.
+ * The authoritative store is server-side
+ * (`trpc.chess.getLastVisit` / `trpc.chess.markVisit`) so the
+ * welcome banner is consistent across devices. localStorage is the
+ * fallback for unauthenticated visitors and offline use — readers
+ * should prefer the server value when present and fall back to
+ * `readDaysSinceLastVisit()` here when the query is unavailable.
  *
- * Server-side cross-device tracking is intentionally deferred —
- * a single-device welcome is good enough for the first iteration.
+ * `daysBetween` is exported separately so the page can compute the
+ * server-derived band the same way without duplicating the math.
  */
 
 const KEY = "chess_last_visit_ms";
@@ -39,4 +41,18 @@ export function markVisitedNow(now: number = Date.now()): void {
   } catch {
     /* swallow — quota or private mode */
   }
+}
+
+/** Convert two epoch-ms timestamps (or a Date + Date) into integer
+ *  days between them, floored. Returns 0 if `prev` is at or after
+ *  `now`. Exposed so server-derived timestamps can use the same
+ *  banding as the localStorage fallback. */
+export function daysBetween(
+  prevMs: number,
+  now: number = Date.now(),
+): number {
+  if (!Number.isFinite(prevMs)) return 0;
+  const diff = now - prevMs;
+  if (diff <= 0) return 0;
+  return Math.floor(diff / MS_PER_DAY);
 }

@@ -4548,6 +4548,22 @@ export const chessClimbUnlocks = mysqlTable("chess_climb_unlocks", {
 });
 export type ChessClimbUnlocksRow = typeof chessClimbUnlocks.$inferSelect;
 
+/* ═══════════════════════════════════════════════════════
+   CHESS USER STATE — per-user UI breadcrumbs that need to
+   survive across devices. Currently just lastVisitAt for
+   the daily-welcome banner.
+   Migration: 0055_chess_user_state.sql
+   ═══════════════════════════════════════════════════════ */
+
+export const chessUserState = mysqlTable("chess_user_state", {
+  userId: int("userId").primaryKey(),
+  lastVisitAt: timestamp("lastVisitAt"),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  lastVisitIdx: index("idx_chess_user_state_last_visit").on(table.lastVisitAt),
+}));
+export type ChessUserStateRow = typeof chessUserState.$inferSelect;
+
 
 /* ═══════════════════════════════════════════════════════
    CHESS GAME REVIEWS — persisted post-game Stockfish analysis.
