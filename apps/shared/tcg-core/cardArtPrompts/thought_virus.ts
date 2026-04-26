@@ -432,16 +432,155 @@ const THOUGHT_VIRUS_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "Common spell. Anonymous warriors (back-three-quarter) preserve no-character-conflation. The 'drifted like a sigh' is rendered through the gentle-amorphous form contrasted with the visible-effect (blades dropping).",
   },
+  {
+    cardId: "s1_pack_cosm_armor_void",
+    sceneDelta:
+      "Mid-shot. A Void Sentinel — humanoid figure of indeterminate gender at frame-centre, body fully ENCASED in cool-violet-and-deep-black VOID-ARMOR (the canonical 'shielded by surrender to the Void' rendering). The armor is plate-and-chain combination of deep-violet substance with internal phosphor-green void-flickers. Where its face would be, a sealed cool-violet helmet with no visible features (full surrender to the Void). Faint translucent void-aura wraps the body — protective-shield emanation. Both arms hold a chrome-and-cool-violet ceremonial halberd. Behind the figure, a vast Void-rift in the deep-distance. NO face visible.",
+    moodKeywords: [
+      "the Void does not destroy",
+      "it shields those who surrender to it",
+      "fully encased in cool-violet-and-deep-black void-armor",
+      "sealed helmet with no visible features",
+    ],
+    palette:
+      "Cool-violet-and-deep-black void-armor + phosphor-green void-flickers + sealed cool-violet helmet + chrome-and-cool-violet ceremonial halberd + translucent void-aura + Void-rift in deep-distance + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, Sentinel at frame-centre, Void-rift behind",
+    notes:
+      "Epic unit. NO face visible (fully encased) preserves no-character-conflation. The 'surrender to Void' framing is rendered through the full-encasement.",
+  },
+  {
+    cardId: "s1_pack_cosm_board_void",
+    sceneDelta:
+      "Wider mid-shot. A Void Arena Rift — at frame-centre, a vast TEAR in the New Babylon arena-floor (the canonical 'arena tears open'). The tear extends across the full lower-third of the frame; through it, deep cool-violet VOID-SUBSTANCE pours upward into the arena — a translucent waterfall-of-void rising from below, cool-violet-and-phosphor-green substance overflowing onto the arena's surface. Around the tear, anonymous arena-figures (back-three-quarter, generic-mixed combatants) flee outward at frame-edges. Faint cool-violet void-fragments drift in mid-air around the rift. NO single dominant figure (the rift IS the subject).",
+    moodKeywords: [
+      "the arena tears open",
+      "the Void pours through",
+      "translucent waterfall-of-void rising from below",
+      "anonymous arena-figures fleeing at frame-edges",
+    ],
+    palette:
+      "Vast tear in New Babylon arena-floor + cool-violet void-substance + translucent void-waterfall + phosphor-green substance overflow + anonymous fleeing arena-figures + cool-violet void-fragments + cool deep-shadow",
+    composition:
+      "Wider mid-shot, rift at lower-third with void-waterfall rising, anonymous fleeing figures at frame-edges",
+    notes:
+      "Rare spell. Anonymous arena-figures preserve no-character-conflation. The 'arena tears open' is the canonical visualization — the void emerges from below, not descends from above.",
+  },
+  {
+    cardId: "s1_pack_cosm_tower_skin",
+    sceneDelta:
+      "Mid-shot. A Terminus Spire Guard — humanoid figure at frame-centre, body composed of charcoal-and-toxic-green substance (Hierarchy-aesthetic but more compact, more disciplined), in formal Spire-guard armor. They stand at the threshold of a Terminus Spire — both feet planted shoulder-width, both hands gripping a tall ceremonial chrome-and-toxic-green polearm planted vertically. Behind the Guard, the Spire's chrome-and-phosphor-green walls extend upward. Faint warm provoke-glow rims their leading shoulder. Critically: the Guard is COMPLETELY STILL — no animation, no shifting, no movement. The 'nothing passes them' framing is rendered through the absolute-stillness pose. Where their face would be, a sealed chrome-and-toxic-green visor.",
+    moodKeywords: [
+      "the Spire's guards do not move",
+      "they do not need to",
+      "nothing passes them",
+      "absolute-stillness pose, sealed visor",
+    ],
+    palette:
+      "Charcoal-and-toxic-green substance + chrome-and-toxic-green Spire-guard armor + sealed chrome-and-toxic-green visor + tall ceremonial polearm + warm provoke-rim + Terminus Spire chrome-and-phosphor-green walls + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, Guard at frame-centre at Spire-threshold, Spire-walls behind",
+    notes:
+      "Rare unit. NO face visible (sealed visor). The 'do not move' is rendered through the absolute-stillness pose. Distinct from Citadel Guardian (s1_char_079 — different specific role: New Babylon city-walls vs Hierarchy Spire-threshold) and Crystal Archive Guard (s1_char_120 — different specific role: archive-keeper vs Spire-sealer).",
+  },
+  {
+    cardId: "s1_pack_id_kael_patient_zero",
+    sceneDelta:
+      "Mid-shot. Kael at his canonical PATIENT-ZERO transformation moment — humanoid figure at frame-centre, generic pre-Fall-era features (weathered traveler's face, dark hair, lean build). CRITICAL: features are DISTINCT from contemporary Insurgency Kael (s1_char_012 — modern strategist, command-coat) — this Kael is rendered as an Ark-thief-era figure in tattered Ark-thief-leather-and-warm-cream travel-wear, NO modern command insignia. He is mid-action of HAVING JUST OPENED Ark 1047's contaminated chamber — visible chrome-and-phosphor-green Ark interior at frame-back, contamination already mid-spread. From his eyes, the canonical phosphor-green pupil-pinpricks have JUST APPEARED (the moment of infection). His expression shows mid-realization grief — every death (everyone he tried to save by stealing Ark 1047) is feeding the signal taking him over. Faint phosphor-green deathwatch-script begins to propagate outward (deathwatch keyword).",
+    moodKeywords: [
+      "the infection spreads through grief",
+      "every death feeds the signal",
+      "Kael at canonical Patient-Zero transformation moment",
+      "Ark-thief-era figure DISTINCT from contemporary Insurgency Kael",
+    ],
+    palette:
+      "Tattered Ark-thief-leather-and-warm-cream travel-wear + dark hair + lean build + chrome-and-phosphor-green Ark 1047 interior + black-void eye-sockets with phosphor-green pupil-pinpricks (just appearing) + phosphor-green deathwatch-script + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, Kael at frame-centre mid-transformation, Ark 1047 contaminated chamber behind",
+    notes:
+      "Epic unit. CRITICAL spoiler-discipline: this Kael is the HISTORICAL Ark-thief-era Kael (the 'original' patient zero), rendered as DISTINCT from contemporary Insurgency Kael (s1_char_012). Different visual archetype: tattered traveler's wear vs modern command-coat. The Act 5 'Kael Reborn' connection (whether contemporary Kael IS this Kael returned) stays preserved as secret. Generic pre-Fall-era features must NOT match s1_char_012 face.",
+  },
+  {
+    cardId: "s1_pack_id_kael_source",
+    sceneDelta:
+      "Wider mid-shot. Kael, the Source — same canonical Source visual signature as gen_thought_virus + s1_char_049 (brilliant-white core + toxic-green outer ring + face DELIBERATELY UNREADABLE obscured by infection-substance). At this card-stage, the Kael-name lingers in the title only — the figure is now SO consumed that no original-Kael features remain. His silhouette is taller, more imposing. From his outline, faint traces of the original-Kael TRAVELER'S form (Ark-thief travel-wear) are visible only as faint translucent ghost-fragments at the body-edges (the canonical 'no Kael anymore — only the signal'). Behind him, a vast cosmic Source-throne sanctum extends, the chrome-and-toxic-green corruption complete throughout. Faint phosphor-green Hierarchy-script propagates outward.",
+    moodKeywords: [
+      "there is no Kael anymore",
+      "there is only the signal",
+      "translucent ghost-fragments of original-Kael at body-edges",
+      "face DELIBERATELY UNREADABLE consistent with all Source renderings",
+    ],
+    palette:
+      "Brilliant-white core + toxic-green outer ring + toxic-green face-obscuring infection-substance + faint translucent original-Kael ghost-fragments at body-edges + chrome-and-toxic-green Source-throne sanctum + phosphor-green Hierarchy-script + cool deep-shadow",
+    composition:
+      "Wider mid-shot front three-quarter, Source at frame-centre, ghost-fragments at body-edges, sanctum behind",
+    notes:
+      "Legendary unit. CRITICAL spoiler-discipline: face DELIBERATELY UNREADABLE (consistent with gen_thought_virus + s1_char_049 + s1_pack_id_kael_patient_zero). The 'no Kael anymore' framing is rendered through the ghost-fragments — only traces remain. The Act 5 'Kael Reborn' connection NOT confirmed; specifically the visual must NOT match contemporary Insurgency Kael's face.",
+  },
+  {
+    cardId: "s1_pack_pet_void_crawler_1",
+    sceneDelta:
+      "Tight composition. A Void Grub — small phosphor-green-and-cool-violet larval creature, approximately 8cm long, at frame-centre. Body is segmented, slug-like. The Grub is mid-action of BURROWING into a faint translucent gap between two THOUGHT-BUBBLES (the canonical 'space between thoughts' rendering — two adjacent translucent thought-shapes visible in mid-air, the Grub burrowing between them). Two tiny phosphor-green eye-points. Around the Grub, the surrounding space shows faint translucent thought-residue. The Grub is settling in — waiting to die (the canonical short-life cycle).",
+    moodKeywords: [
+      "it burrows into the space between thoughts",
+      "and waits to die",
+      "two translucent thought-bubbles with Grub burrowing between",
+      "faint translucent thought-residue around",
+    ],
+    palette:
+      "Phosphor-green-and-cool-violet larval body + segmented slug-like form + two phosphor-green eye-points + translucent thought-bubbles + faint translucent thought-residue + cool deep-shadow",
+    composition:
+      "Tight composition, Grub at frame-centre between two thought-bubbles, thought-residue around",
+    notes:
+      "Common unit. NO human figure. The 'space between thoughts' is rendered through the literal between-thought-bubbles burrow-position. First stage of void-crawler lineage.",
+  },
+  {
+    cardId: "s1_pack_pet_void_crawler_2",
+    sceneDelta:
+      "Action mid-shot. A Void Stalker — adult-stage void-crawler, approximately 90cm long, mid-action of BACKSTAB on an anonymous figure at frame-centre. Body has matured: now a quadrupedal dark-violet-and-phosphor-green sleek hunter-form, four void-claw legs, one long curved void-tail with phosphor-green tip. The Stalker is BEHIND the anonymous victim (back-three-quarter on victim, generic civilian + tactical), tail extended forward into the victim's back. Faint warm backstab-glow rims the tail-tip (backstab keyword). Around the Stalker, faint cool-violet void-shimmer (canonical 'feeds from behind'). NO face on victim.",
+    moodKeywords: [
+      "it feeds from behind",
+      "you won't feel it until it's too late",
+      "quadrupedal dark-violet-and-phosphor-green sleek hunter",
+      "void-tail extended into victim's back",
+    ],
+    palette:
+      "Dark-violet-and-phosphor-green sleek hunter-body + four void-claw legs + long curved void-tail + phosphor-green tail-tip + warm backstab-glow + cool-violet void-shimmer + anonymous victim back-three-quarter + cool deep-shadow",
+    composition:
+      "Action mid-shot side three-quarter, Stalker behind anonymous victim, tail extended forward",
+    notes:
+      "Rare unit. NO victim face visible. Second stage of void-crawler lineage (escalation: 8cm slug → 90cm quadrupedal hunter).",
+  },
+  {
+    cardId: "s1_pack_pet_void_crawler_3",
+    sceneDelta:
+      "Wider mid-shot. A Void Leviathan — vast adult-stage void-crawler, approximately 4m long, body composed of dense cool-violet-and-phosphor-green void-substance, snake-like serpentine form. It is mid-action of CRAWLING OUT of a deep cool-violet VOID-RIFT in the air at frame-back-centre — head emerged, half the body still inside the rift. The Leviathan brings NOTHING with it (the canonical 'crawled out of nothing and brought nothing — nothing that erases everything it touches'). Around its leading edge, anything-it-touches visibly ERASES — faint translucent objects begin to fade where the Leviathan's body has passed. NO single dominant figure (the Leviathan IS the subject; the erased objects are anonymous fragments).",
+    moodKeywords: [
+      "it crawled out of nothing",
+      "and brought nothing with it",
+      "nothing that erases everything it touches",
+      "Leviathan emerging from void-rift, erasing along its path",
+    ],
+    palette:
+      "Dense cool-violet-and-phosphor-green void-substance + snake-like serpentine body + deep cool-violet void-rift + translucent fading objects (being erased) + cool deep-shadow",
+    composition:
+      "Wider mid-shot, Leviathan emerging from rift at frame-back-centre, fading objects along path",
+    notes:
+      "Epic unit. NO human figure. Third stage of void-crawler lineage. The 'erases everything it touches' is rendered through the visible fading-trail along the Leviathan's path.",
+  },
 ] as const;
 
 /**
  * Thought Virus faction's prompt registry, keyed by card id.
  *
- * Currently populated: 23 / 53 cards
+ * Currently populated: 31 / 53 cards
  * (gen_thought_virus, s1_char_032, s1_char_049, s1_char_070,
  *  s1_char_071, s1_char_072, s1_char_073, s1_char_074,
  *  s1_char_075, s1_char_076, s1_char_077, s1_char_113-116,
- *  s1_char_200, s1_pack_022-028).
+ *  s1_char_200, s1_pack_022-028,
+ *  s1_pack_cosm_armor_void, s1_pack_cosm_board_void,
+ *  s1_pack_cosm_tower_skin, s1_pack_id_kael_patient_zero,
+ *  s1_pack_id_kael_source, s1_pack_pet_void_crawler_1-3).
  */
 export const THOUGHT_VIRUS_CARD_ART_PROMPTS: Readonly<Record<string, CardArtPrompt>> =
   Object.freeze(
