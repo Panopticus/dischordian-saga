@@ -579,6 +579,21 @@ export default function SettingsPage() {
             onChange={(v) => updateSetting("captions", v)}
             icon={Accessibility}
           />
+          {/* Colorblind palette presets — remap the five energy/faction
+              tokens to a CVD-safe palette derived from Okabe-Ito. The
+              underlying CSS lives in apps/client/src/index.css under
+              "html.colorblind-*". */}
+          <OptionSelector
+            label="COLORBLIND PALETTE"
+            value={settings.colorblindMode}
+            onChange={(v) => updateSetting("colorblindMode", v)}
+            options={[
+              { value: "off", label: "Off", desc: "Default Void Energy palette", icon: Palette },
+              { value: "deuteranopia", label: "Deuteranopia", desc: "Red-green (M-cone)", icon: Eye },
+              { value: "protanopia", label: "Protanopia", desc: "Red-green (L-cone)", icon: Eye },
+              { value: "tritanopia", label: "Tritanopia", desc: "Blue-yellow (S-cone)", icon: Eye },
+            ]}
+          />
           <div>
             <div className="flex items-center gap-2 mb-1.5">
               <Type size={13} className="text-muted-foreground/60" />

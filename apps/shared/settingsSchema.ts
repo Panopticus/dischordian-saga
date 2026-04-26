@@ -6,6 +6,16 @@ export const settingsSchema = z.object({
   reduceMotion: z.boolean().default(false),
   dyslexiaFont: z.boolean().default(false),
   reduceGlow: z.boolean().default(false),
+  // Colorblind palette presets — remap the five energy/faction tokens
+  // (--energy-primary / -accent / -success / -error / -system) to a
+  // palette that stays distinguishable under each common CVD type.
+  // Off = the canonical Void Energy palette ships unchanged. The
+  // overrides are derived from the Okabe-Ito colorblind-safe palette
+  // (Bang Wong, Nature Methods 2011) — distinct under both red-green
+  // and blue-yellow vision losses.
+  colorblindMode: z
+    .enum(["off", "deuteranopia", "protanopia", "tritanopia"])
+    .default("off"),
 
   // Motion & FX — fine-grained control on top of reduceMotion.
   // motionIntensity multiplies ambient-motion amplitude (parallax offsets,

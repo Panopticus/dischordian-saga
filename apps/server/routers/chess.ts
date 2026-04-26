@@ -1973,7 +1973,9 @@ export const chessRouter = router({
    *  days-since-last-visit across devices, replacing the
    *  client-only localStorage breadcrumb. */
   getLastVisit: protectedProcedure.query(async ({ ctx }) => {
-    const db = await getDb();
+    // Match the canonical pattern used by every other db call site
+    // in this router (search this file for `(await getDb())!`).
+    const db = (await getDb())!;
     const [row] = await db
       .select({ lastVisitAt: chessUserState.lastVisitAt })
       .from(chessUserState)
@@ -1986,7 +1988,7 @@ export const chessRouter = router({
    *  call on every chess-page mount). Inserts a row on first
    *  call; updates on subsequent calls. */
   markVisit: protectedProcedure.mutation(async ({ ctx }) => {
-    const db = await getDb();
+    const db = (await getDb())!;
     const now = new Date();
     const [existing] = await db
       .select({ userId: chessUserState.userId })
