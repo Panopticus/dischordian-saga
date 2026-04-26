@@ -12,24 +12,24 @@
 
 import type { NpcKey } from "../types";
 import type { NpcDialogTree } from "./types";
+import { ADJUDICATOR_LOCKE_FIRST_MEETING } from "./adjudicator_locke/first_meeting";
 
 // Per-NPC trees are added here as they ship through Phase 6e.
-// Phase 6 Infrastructure ships only the scaffolding + a Locke
-// first-meeting fixture used by the lint test below.
+// Phase 6 Infrastructure shipped only the scaffolding + the aggregator;
+// per-NPC content authoring lands here as banks complete.
 
 const PER_NPC_TREES: ReadonlyArray<NpcDialogTree> = [
-  // Phase 6e fills these:
-  //   ADJUDICATOR_LOCKE_FIRST_MEETING,
-  //   NILMORG_FIRST_CONTACT,
-  //   YOUR_EIDOLON_BOND_RESONANCE,
-  //   VEX_SOLENE_CODA_INTRO,
-  //   THE_DEGEN_FIRST_GAME,
-  //   THE_SEER_MECHRONIS_BENCH,
-  //   THE_ORACLE_DREAM_INTRODUCTION,
-  //   THE_MEME_CH12_FUSION,
-  //   THE_GAME_MASTER_WITNESS_MODE,
-  //   WRAITH_CALDER_LONG_MOURNING_FIRST_VISIT,
-  //   DMC_CLONE_COMPANION_AWAKENING_ARRIVAL,
+  ADJUDICATOR_LOCKE_FIRST_MEETING,           // Phase 6a.2 ✅ (Locke first-meeting)
+  // NILMORG_FIRST_CONTACT,                  // Phase 6a.1 — DMC opening
+  // YOUR_EIDOLON_BOND_RESONANCE,            // Phase 6e — non-verbal
+  // VEX_SOLENE_CODA_INTRO,                  // Phase 6b.2
+  // THE_DEGEN_FIRST_GAME,                   // Phase 6c.1
+  // THE_SEER_MECHRONIS_BENCH,               // Phase 6b.1
+  // THE_ORACLE_DREAM_INTRODUCTION,          // Phase 6b.3
+  // THE_MEME_CH12_FUSION,                   // Phase 6d.2
+  // THE_GAME_MASTER_WITNESS_MODE,           // Phase 6d.1
+  // WRAITH_CALDER_LONG_MOURNING_FIRST_VISIT, // Phase 6d.3
+  // DMC_CLONE_COMPANION_AWAKENING_ARRIVAL,  // Phase 6c.2
 ];
 
 export const ALL_NPC_DIALOG_TREES: ReadonlyArray<NpcDialogTree> =

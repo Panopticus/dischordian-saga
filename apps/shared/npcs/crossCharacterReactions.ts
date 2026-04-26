@@ -172,6 +172,22 @@ export const CROSS_CHARACTER_REACTIONS: ReadonlyArray<CrossCharacterReaction> = 
       "completion.",
   },
 
+  // ─── Locke filed player as predatory at first contact (Phase 6a.2
+  //     first-meeting tree) ────────────────────────────────────────────
+  {
+    flag: "locke_filed_player_as_predatory_first_contact",
+    setBy: ["adjudicator_locke"],
+    reactsBy: ["future_reader"], // Locke's own variant grid + Phase 6+ NPCs
+    canonicalNote:
+      "Set when the player picks the canonical wit-axis branch in Locke's " +
+      "first-meeting dialog tree ('I'm here to find what you're hiding'). " +
+      "Canonical first-contact filing per §2.5 Predatory register — Locke " +
+      "files the branch as 'predatory' and starts the suspicion-as-leverage " +
+      "register. Downstream Phase 6+ content (Locke's own Predatory variant " +
+      "lines deepening; future Antiquarian / Vex register-shifts on a " +
+      "player who declared suspicion at minute one) react canonically.",
+  },
+
   // ─── Locke risk-tolerant filing (Phase 6a.2 sub-chunk D) ────────────
   {
     flag: "locke_filed_player_as_risk_tolerant",

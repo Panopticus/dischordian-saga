@@ -204,8 +204,10 @@ describe("ALL_NPC_DIALOG_TREES aggregator", () => {
     expect(Array.isArray(ALL_NPC_DIALOG_TREES)).toBe(true);
   });
 
-  it("getDialogTreesFor returns empty array for every priority-roster NPC pre-authoring", () => {
-    expect(getDialogTreesFor("adjudicator_locke").length).toBe(0);
+  it("getDialogTreesFor returns empty array for unauthored NPCs (silent-fail)", () => {
+    // Phase 6a.2 sub-chunk F shipped Locke's first-meeting tree; the
+    // rest stay empty until their sub-phase ships per the Phase 6e
+    // sequencing. Updated as banks land.
     expect(getDialogTreesFor("nilmorg").length).toBe(0);
     expect(getDialogTreesFor("the_seer").length).toBe(0);
     expect(getDialogTreesFor("vex_solene").length).toBe(0);
@@ -216,6 +218,12 @@ describe("ALL_NPC_DIALOG_TREES aggregator", () => {
     expect(getDialogTreesFor("the_meme").length).toBe(0);
     expect(getDialogTreesFor("wraith_calder").length).toBe(0);
     expect(getDialogTreesFor("your_eidolon").length).toBe(0);
+  });
+
+  it("Locke (Phase 6a.2 sub-chunk F) ships ≥1 dialog tree via the aggregator", () => {
+    expect(
+      getDialogTreesFor("adjudicator_locke").length,
+    ).toBeGreaterThanOrEqual(1);
   });
 
   it("getDialogTree returns undefined for unknown (npcKey, treeId)", () => {
