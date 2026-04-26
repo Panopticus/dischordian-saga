@@ -126,14 +126,117 @@ const THOUGHT_VIRUS_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "Common unit. Anonymous host (profile, no face) preserves no-character-conflation. The 'already someone else' framing is rendered through the burrow-action — the consumption is mid-flow, not yet complete on this card.",
   },
+  {
+    cardId: "s1_char_072",
+    sceneDelta:
+      "Mid-shot. A Memetic Carrier — humanoid figure of indeterminate gender at frame-centre, generic-anonymous features (no specific identifying detail), in plain civilian clothes. Their face is partially infected — the canonical phosphor-green pupil-pinpricks visible in black-void eyes, lips slightly parted as if mid-sentence. Around the figure's mouth and ears, faint translucent phosphor-green MEMETIC-IDEA-PARTICLES drift outward (the canonical 'spreads through comprehension' visualization — every word the Carrier speaks deposits a particle). At lower-third, anonymous figures (back-shots only) listen with rapt-confused attention, their own ears beginning to develop faint phosphor-green tints. NO direct horror — the spread is conversational, social.",
+    moodKeywords: [
+      "it does not spread through contact",
+      "it spreads through comprehension",
+      "phosphor-green memetic-particles drifting from mouth and ears",
+      "anonymous listeners' own ears beginning to tint",
+    ],
+    palette:
+      "Generic civilian-clothes + black-void eyes + phosphor-green pupil-pinpricks + translucent phosphor-green memetic-particles + anonymous listeners + cool deep-shadow + warm low conversation-light",
+    composition:
+      "Mid-shot front three-quarter, Carrier at frame-centre with memetic-particles drifting, anonymous listeners at lower-third",
+    notes:
+      "Common unit. Generic-anonymous features must NOT match any named character. The 'spreads through comprehension' is rendered through the conversational-spread visualization (no physical contact, only words/listening).",
+  },
+  {
+    cardId: "s1_char_073",
+    sceneDelta:
+      "Mid-shot. A Cognitive Blight — anonymous figure (back-three-quarter, generic civilian clothes) at frame-centre, mid-action of REWRITING. The figure's posture shows their consciousness mid-edit: a translucent INFECTION-FILAMENT (phosphor-green) descends from upper-frame INTO the back of their skull (the rewrite-channel). From the figure's body, multiple faint translucent BELIEF-LAYERS are visibly being EDITED — older cool-cyan loyalty-glyphs at their core are being replaced one-by-one with phosphor-green replacement-glyphs (synapse by synapse, the canonical 'rewrites one synapse at a time' rendering). Faint warm pierce-glow rims the infection-filament. NO face visible.",
+    moodKeywords: [
+      "it rewrites your beliefs one synapse at a time",
+      "until loyalty feels like a foreign language",
+      "translucent infection-filament descending into back of skull",
+      "cool-cyan loyalty-glyphs being replaced with phosphor-green replacements one-by-one",
+    ],
+    palette:
+      "Generic civilian back-three-quarter + translucent phosphor-green infection-filament + cool-cyan loyalty-glyphs (being replaced) + phosphor-green replacement-glyphs + warm pierce-glow + cool deep-shadow",
+    composition:
+      "Mid-shot back-three-quarter, Blight-victim at frame-centre, infection-filament descending from upper-frame, belief-layers mid-edit",
+    notes:
+      "Uncommon unit. Anonymous victim (back-three-quarter) preserves no-character-conflation. The 'one synapse at a time' is rendered through the visible glyph-replacement mid-flow.",
+  },
+  {
+    cardId: "s1_char_074",
+    sceneDelta:
+      "Wider mid-shot. A Vector Swarm — at frame-centre, a dispersed CLOUD of phosphor-green vector-particles, hundreds of small infection-vectors arrayed in mid-air at varying densities. The swarm has been partly STRUCK (visible at frame-left as a concentrated burst — the 'kill it' moment), but the strike has caused the swarm to SPLIT (multiple smaller swarms drifting outward at frame-edges). At frame-right, partial BURNING (small warm-orange flame-licks) is visible on another portion — but the burned portions DRIFT AWAY as toxic-green smoke. The swarm is unkillable; both responses fail. Faint translucent rebirth-doubled-edge runs along the swarm-cloud's outline. NO human figure.",
+    moodKeywords: [
+      "kill it and it splits",
+      "burn it and it drifts",
+      "ignore it and you are already too late",
+      "unkillable cloud — both kill and burn responses fail",
+    ],
+    palette:
+      "Phosphor-green vector-particles + concentrated burst at frame-left (struck) + smaller drifting swarms + warm-orange flame-licks (burning) + toxic-green smoke + translucent rebirth-doubled-edge + cool deep-shadow",
+    composition:
+      "Wider mid-shot, swarm-cloud at frame-centre, struck-burst at frame-left, burning at frame-right, drift-out at edges",
+    notes:
+      "Common unit. NO human figure. The 'kill it splits, burn it drifts' is the canonical visualization — both failed-response states made visible simultaneously.",
+  },
+  {
+    cardId: "s1_char_075",
+    sceneDelta:
+      "Mid-shot. A Plague Herald — male-presenting figure in mid-forties, generic-charismatic features (wide eyes mid-fanaticism, slight visible drooling, mouth open in mid-sermon), in tattered phosphor-green-and-cool-violet plague-priest robes. He stands at the centre of an infected congregation at frame-centre, mid-action of DELIVERING A SERMON — both arms extended outward in a wide preaching-gesture. From his MOUTH, faint translucent toxic-green LIVE-PATHOGEN-WORDS visibly emit forward (each word a glowing green spore, mid-flight toward off-frame congregation). Faint warm overcharge-glow rims his shoulders; faint cool drain-rim wraps his body. Around the congregation, anonymous infected listeners (back-shots) are visibly being-infected by his sermon-words.",
+    moodKeywords: [
+      "his sermons are not metaphors",
+      "every word is a live pathogen",
+      "toxic-green live-pathogen-words emitting from mouth",
+      "wide eyes mid-fanaticism, slight drooling",
+    ],
+    palette:
+      "Tattered phosphor-green-and-cool-violet plague-priest robes + translucent toxic-green live-pathogen-words + faint warm overcharge-glow + cool drain-rim + anonymous infected listeners + cool deep-shadow + warm low congregation-light",
+    composition:
+      "Mid-shot front three-quarter, Plague Herald at frame-centre with arms extended, listeners at lower-third",
+    notes:
+      "Rare unit. Generic-charismatic features must NOT match any named character. The 'every word a live pathogen' is rendered as the visible spore-words emitting from his mouth.",
+  },
+  {
+    cardId: "s1_char_076",
+    sceneDelta:
+      "Wider mid-shot. A Synaptic Horror — a non-human entity at frame-centre, body composed of LIVING DARKNESS-AND-SILENCE (deep cool-violet substance with internal phosphor-green void-flickers). Its silhouette suggests humanoid but DISLOCATED — limbs at unnatural angles, head twisted slightly off-axis. It exists in the GAP between thoughts (canonical 'gap between dying thought and silence'). Around it, the air shows visible THOUGHT-DECAY-RIPPLES — translucent fading thought-fragments at frame-edges visibly DYING (a thought ending, the silence beginning). Where its face would be, only DEEPER VOID. Faint warm backstab-glow rims its leading manipulator-tendril; faint phosphor-green deathwatch-script propagates outward.",
+    moodKeywords: [
+      "it lives in the gap between a dying thought and the silence that follows",
+      "deep cool-violet substance with phosphor-green void-flickers",
+      "limbs at unnatural angles, head twisted off-axis",
+      "translucent dying thought-fragments at frame-edges",
+    ],
+    palette:
+      "Deep cool-violet substance + phosphor-green void-flickers + dislocated humanoid silhouette + translucent fading thought-fragments + deeper-void face-region + warm backstab-glow + phosphor-green deathwatch-script + cool deep-shadow",
+    composition:
+      "Wider mid-shot front three-quarter, Synaptic Horror at frame-centre with dislocated body, dying thought-fragments at frame-edges",
+    notes:
+      "Epic unit. NO recognizable face (only deeper-void). NO human-character-conflation possible (the entity is alien-monstrous). The 'gap between thought and silence' is rendered through the surrounding dying thought-fragments.",
+  },
+  {
+    cardId: "s1_char_077",
+    sceneDelta:
+      "Wider mid-shot. A Mind Rot Drone — a phosphor-green-and-cool-violet aerial drone at frame-centre, approximately 1.2m wingspan, circling above a battlefield mid-distance. Body design: vulture-aspect with elongated infected-rotting features — phosphor-green-tinged feathers visibly rotting, cool-violet decay-substance dripping from the wing-tips. Where its head would be, three phosphor-green eye-points and a long curved beak. Below the drone at lower-third, anonymous battlefield-figures (back-shots, generic-mixed combatants) — but instead of feeding on bodies, the drone visibly EXTRACTS faint translucent SANITY-RIBBONS from the figures (rising from their heads upward into the drone's beak). Faint cool wind-trails behind the drone (flying); faint warm pierce-glow rims its talons.",
+    moodKeywords: [
+      "it circles above the battlefield like a vulture",
+      "except it feeds on sanity, not carrion",
+      "translucent sanity-ribbons rising from anonymous combatants into drone's beak",
+      "phosphor-green-tinged rotting feathers",
+    ],
+    palette:
+      "Phosphor-green-and-cool-violet drone-body + rotting feathers + cool-violet decay-drips + three phosphor-green eye-points + long curved beak + translucent sanity-ribbons + cool wind-trails + warm pierce-glow + cool battlefield + cool deep-shadow",
+    composition:
+      "Wider mid-shot, Drone at frame-centre upper-third circling, anonymous combatants at lower-third with sanity-ribbons rising",
+    notes:
+      "Rare unit. Anonymous combatants (back-shots) preserve no-character-conflation. The 'feeds on sanity not carrion' is the canonical visualization — sanity-ribbons rising vs blood-drops falling.",
+  },
 ] as const;
 
 /**
  * Thought Virus faction's prompt registry, keyed by card id.
  *
- * Currently populated: 5 / 53 cards
+ * Currently populated: 11 / 53 cards
  * (gen_thought_virus, s1_char_032, s1_char_049, s1_char_070,
- *  s1_char_071).
+ *  s1_char_071, s1_char_072, s1_char_073, s1_char_074,
+ *  s1_char_075, s1_char_076, s1_char_077).
  */
 export const THOUGHT_VIRUS_CARD_ART_PROMPTS: Readonly<Record<string, CardArtPrompt>> =
   Object.freeze(
