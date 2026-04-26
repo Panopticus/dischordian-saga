@@ -110,13 +110,100 @@ const CLASS_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "Unit card. Faction shift to architect at this tier (canonical: she became Akai Shi's apprentice). Face fully visible — generic-handsome scarred-young-woman; specifically NOT Agent Zero, NOT Elara, NOT any other named female character. Coat colour is deliberately ALMOST-BUT-NOT-QUITE Akai Shi red — visual translation of 'survived the training'.",
   },
+
+  // ─── ENGINEER CLASS — draw + mana-refund discipline ───
+  {
+    cardId: "s1_class_engineer_01",
+    sceneDelta:
+      "Mid-shot. A small Workshop Drone (the Engineer's smaller version of himself) at the Engineer's workbench from his Imprint t1 — but the camera is now lower, and the drone is the SUBJECT. The drone is approximately knee-high to a human, brass-and-glass clockwork, wearing a tiny leather apron in deliberate echo of the Engineer's own. Two articulating arms with gripper-pincers; a single brass-and-glass goggle-eye on the front of its body (oversized for its head, exactly the way the Engineer's own goggles are oversized). It is mid-task, holding a small clockwork sub-component up to the warm amber workbench-light for inspection. Behind it, slightly out-of-focus, the Engineer's larger workbench legs and the bottom of his apron. Draw-1 visualized as a fresh slip of paper drifting up from the drone's gripper toward the camera.",
+    moodKeywords: [
+      "the smaller version of himself",
+      "knee-high brass-and-glass",
+      "oversized goggle-eye echoing the master",
+      "the drifting slip of paper",
+    ],
+    palette:
+      "Antiquarian amber workbench + brass clockwork drone + warm leather apron + a single saturated bright accent on the inspection-component + cool blue depth-haze",
+    composition:
+      "Mid-shot at workbench, drone at frame-centre at low height, Engineer's legs at upper-third out-of-focus",
+    notes:
+      "Unit card. Faction-rhyme with The Engineer Imprint t1 — the workbench is the SAME workbench, the apron-language is consistent, the goggle-too-large is preserved at smaller scale. Engineer himself only seen as out-of-focus legs to keep the drone as subject.",
+  },
+  {
+    cardId: "s1_class_engineer_02",
+    sceneDelta:
+      "Mid-shot. An Insurgency-issue field-emplaced-radio in the foreground at lower-third, mid-modification — the chassis half-open, multiple internal components exposed. A pair of hands extended INTO the frame from camera-right is mid-action of swapping one component for another (slightly different colour, slightly different shape — clearly a custom Engineer-built replacement). The hands wear leather field-gloves with the sleeves of an Engineer-style apron just visible at the wrists. We do not see the Engineer's face — only the hands and the field-emplaced equipment. Above the modification, two faint warm-amber drifts of paper rise (draw-2 visualized) and a single faint cyan-cream pulse propagates outward from the swap-point (gain-1-mana-this-turn visualized as the modification PAYING ITSELF FORWARD in usable energy).",
+    moodKeywords: [
+      "every invention pays for itself or it is just a mistake with enthusiasm",
+      "the hands at the chassis",
+      "two paper-drifts and a mana-pulse",
+      "Engineer-apron sleeves visible at the wrists",
+    ],
+    palette:
+      "Insurgency slate field-equipment + Engineer-apron leather + warm amber paper-drifts + cool cyan-cream mana-pulse + a single saturated bright accent on the swapped component",
+    composition:
+      "Mid-shot front close-on hands and equipment, hands extended from camera-right, equipment at lower-third filling visual weight, drifts at upper-third",
+    notes:
+      "Spell card. Anonymous hands — preserves the Engineer's [CLASSIFIED] identity (only ever seen as legs/hands/back, never face). Faction shift to insurgency-equipment but Engineer-apron sleeves preserve faction-affiliation continuity.",
+  },
+  {
+    cardId: "s1_class_engineer_03",
+    sceneDelta:
+      "Wider mid-shot. A Kinetic Containment Sink — a brass-and-pipework structure approximately 2 meters tall standing in an Antiquarian workshop annex. The Sink looks like a cross between a small steam-engine and a piece of architectural sculpture: cylindrical brass core with copper pipes spiraling around it in a controlled-chaos pattern, three small glass-windowed pressure-gauges at human-eye height on the camera-side, and a single large copper exhaust-vent at the top emitting a slow steady plume of warm-amber haze. Behind it, three lab walls visibly PATCHED (different masonry colours, different brick-coursing) — the canonical 'patched the walls by telling the kinetic overflow where to go.' Provoke visualized as the Sink's geometric weight: anything entering this room will be channelled through it.",
+    moodKeywords: [
+      "the week he accidentally invented Rush",
+      "lost three lab walls",
+      "patched by telling the kinetic overflow where to go",
+      "controlled-chaos pipework",
+    ],
+    palette:
+      "Antiquarian amber workshop + brass core + copper pipework + warm amber exhaust-haze + a single saturated rust accent on the three patched-wall sections",
+    composition:
+      "Wider mid-shot at workshop annex, Sink at frame-centre filling vertical extent, three patched walls behind in mid-distance",
+    notes:
+      "Unit card. The patched walls are canon-direct from flavor text. NO Engineer in this frame (the structure is the subject, not the builder). Antiquarian workshop visual continuity with Engineer Imprint t3-t5.",
+  },
+  {
+    cardId: "s1_class_engineer_04",
+    sceneDelta:
+      "Tight composition. A single large Engineer-style blueprint spread flat across an Antiquarian drafting-table — the blueprint itself is the subject, filling 75% of the frame. The blueprint's surface shows precise schematic linework in cool cyan ink on cream paper, depicting a complex unrealized device (deliberately illegible at any zoom — the device is the player's imagination, not the artist's specification). The blueprint's edges curl up slightly from the drafting-table; the corners are weighted by small brass instruments. A single warm pencil rests across one corner mid-margin-note. Draw-3 visualized as three faint amber paper-drifts rising from three different annotation-points on the blueprint. NO human figure in the frame; no hands; no face.",
+    moodKeywords: [
+      "a design not yet talked out of itself by physics",
+      "cool cyan ink on cream paper",
+      "deliberately illegible specification",
+      "three drifts from three annotation-points",
+    ],
+    palette:
+      "Antiquarian amber drafting-table + cream blueprint paper + cool cyan schematic-ink + brass instrument-weights + warm amber paper-drifts",
+    composition:
+      "Tight overhead composition on blueprint, blueprint filling 75% of frame, brass instruments at corners, pencil mid-margin",
+    notes:
+      "Spell card. Specification is INTENTIONALLY illegible at any zoom — the device is the IDEA, not a buildable thing yet. NO Engineer's face / body / hands; the blueprint is the entire subject. Echoes Engineer Imprint t4 sketch-pages-fanning at simpler scale.",
+  },
+  {
+    cardId: "s1_class_engineer_05",
+    sceneDelta:
+      "Mid-shot. The Engineer's Apprentice — a young figure (mid-twenties, indeterminate gender, generic-young features) at a smaller workbench parallel to the Engineer's. They are mid-construction of an instrument that is RECOGNIZABLY the same instrument the Engineer built (compositionally similar, same brass-and-glass aesthetic) — but built in an entirely DIFFERENT way (different internal architecture, different component sequence, visibly novel). Their face is intent. They have rolled up their sleeves. Two papers float at chest height (draw-2). A faint cyan-cream pulse propagates from the new instrument back toward the workbench (gain-2-mana). The Engineer himself is implied across the room (a faint distant brass-and-glass goggles glint in the deep background, but no face) — observing without intervening. The apprentice has built the same instrument in a different way because the different way is the only thing that will teach them anything the master's way could not already say.",
+    moodKeywords: [
+      "the same instrument built in a different way",
+      "the different way is the only thing that will teach",
+      "Engineer observing from across the room without intervening",
+      "rolled-up sleeves, intent face",
+    ],
+    palette:
+      "Antiquarian amber workshop + brass apprentice-workbench + cream papers + cool cyan-cream mana-pulse + a single distant warm gold glint (the Engineer's goggles in deep background)",
+    composition:
+      "Mid-shot at apprentice's workbench, Apprentice in three-quarter centred, the Engineer implied at distant background as a single goggle-glint",
+    notes:
+      "Unit card. Apprentice face is generic-young — must NOT match any named character (no Programmer, no Elara, no Iron Lion). The Engineer himself is rendered as a single distant background glint to maintain his [CLASSIFIED] identity discipline. Echoes the Engineer Imprint set's workshop-architecture without revealing him directly.",
+  },
 ] as const;
 
 /**
  * Class faction's prompt registry, keyed by card id.
  *
- * Currently populated: 1 / 6 sets (Assassin).
- * TODO: engineer, neyon, oracle, soldier, spy.
+ * Currently populated: 2 / 6 sets (Assassin, Engineer).
+ * TODO: neyon, oracle, soldier, spy.
  */
 export const CLASS_CARD_ART_PROMPTS: Readonly<Record<string, CardArtPrompt>> =
   Object.freeze(
