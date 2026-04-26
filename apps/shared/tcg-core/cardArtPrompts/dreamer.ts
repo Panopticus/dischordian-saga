@@ -464,17 +464,105 @@ const DREAMER_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "Common unit. Deliberately ambiguous form (dragon-or-fox) is the visual key — the Familiar is a thought, not a creature. NO human figure. Echoes Air-elemental Breeze Whisper's barely-formed silhouette but explicitly Dreamer-aurora-violet rather than cool-cream-air.",
   },
+  {
+    cardId: "s1_pack_cosm_card_back",
+    sceneDelta:
+      "Wider mid-shot. Echoes of the Fall — at frame-centre, a vast translucent silver-mist DREAMER-MEMORY-GLYPH (a complex prophecy-pattern composed of overlapping aurora-violet ring-fragments and silver-mist arc-fragments). Around the glyph, the SCENE shows TWO STATES at once: the foreground (lower-third) shows a DAMAGED REALITY — dust-and-debris, broken architecture-fragments, a single shattered Dreamer-prophecy-mirror; the upper-third shows the GLYPH-ECHO PUTTING THINGS BACK — translucent silver-mist threads connecting broken-fragments back to their original positions in a slow rebuild. Mid-action of restoration. NO human figure. Faint warm-amber paper-drifts above.",
+    moodKeywords: [
+      "the Fall broke everything",
+      "the echoes put some of it back",
+      "two-state scene: damaged reality + glyph-echo restoration",
+      "translucent silver-mist threads connecting broken fragments",
+    ],
+    palette:
+      "Translucent silver-mist Dreamer-glyph + aurora-violet ring-fragments + cool-grey damaged reality + warm restoration-threads + warm-amber paper-drifts + warm low rebuild-light + cool deep-shadow",
+    composition:
+      "Wider mid-shot, glyph at frame-centre upper-third, damaged reality at lower-third, restoration-threads connecting",
+    notes:
+      "Rare spell. NO human figure (the spell IS the restoration-pattern). The Fall (Genesis-era event) is fully revealed at end of Epoch 2; rendering the AFTERMATH of the Fall is canon. The 'echoes putting things back' is rendered as the visible thread-restoration without specifying any single named restoration-target.",
+  },
+  {
+    cardId: "s1_pack_cosm_frame_gold",
+    sceneDelta:
+      "Tight composition. A Golden Prophecy Shard — a single crystallized fragment of vision, approximately 25cm long, hovering at frame-centre on a Dreamer-aligned display-pedestal. The shard is GOLDEN aurora-violet (golden alloy with internal aurora-violet glow), faceted and translucent, with embedded cool-cyan PROPHECY-FRAGMENT script visible within the crystal (a partial-prophecy made matter). Faint translucent aurora-violet resonance-rings emanate outward from the shard. Around the pedestal, faint warm-amber sanctum-light. NO human figure (the shard IS the subject). The pedestal sits on a small Dreamer-altar in a quiet sanctum-chamber.",
+    moodKeywords: [
+      "a fragment of the Oracle's golden vision",
+      "crystallized into matter",
+      "faceted and translucent",
+      "embedded prophecy-script visible within",
+    ],
+    palette:
+      "Golden alloy aurora-violet shard + internal aurora-violet glow + embedded cool-cyan prophecy-script + Dreamer-aligned display-pedestal + faint translucent resonance-rings + warm sanctum-light",
+    composition:
+      "Tight composition, shard at frame-centre on pedestal, faint sanctum-altar at lower-third",
+    notes:
+      "Rare unit. NO human figure (the Shard is the subject). The 'Oracle's golden vision crystallized' is the canonical visualization of prophecy-as-matter. Internal embedded script is illegible-but-suggestive (preserves the 'fragment' framing — incomplete on purpose).",
+  },
+  {
+    cardId: "s1_pack_id_oracle_ascended",
+    sceneDelta:
+      "Wider mid-shot. The Ascended Oracle — at frame-centre, the canonical Oracle-projection (silver-mist body, aurora-violet shimmer, faceless cream-mist face per Imprint set + gen_dreamer + s1_char_104) but rendered at MAXIMUM INTENSITY: the body is brighter and more saturated than any other Oracle-rendering, the silhouette is more solid, the aurora-violet shimmer extends in a wider radiance that fills the upper half of the frame. Around her, FROZEN ENEMY FIGURES are visible at lower-third: anonymous opponent silhouettes (generic-mixed faction-archetype gear) all caught mid-action, IMMOBILIZED IN COOL-CYAN STASIS-LIGHT (the absolute-foresight visualization — every enemy now KNOWN, therefore frozen). Her arms are extended in a wide ascended-gesture. NO face visible (cream-mist faceless oval per spoiler-discipline).",
+    moodKeywords: [
+      "the full prophecy realized",
+      "every enemy frozen in the light of absolute foresight",
+      "maximum intensity Oracle-projection",
+      "anonymous frozen enemy silhouettes",
+    ],
+    palette:
+      "Maximum-intensity silver-mist Oracle-body + saturated aurora-violet shimmer + faceless cream-mist oval + wider radiance + cool-cyan enemy stasis-light + anonymous frozen silhouettes + cool deep-shadow",
+    composition:
+      "Wider mid-shot front three-quarter, Oracle at frame-centre with arms extended ascended-gesture, frozen enemies at lower-third",
+    notes:
+      "Legendary unit. CRITICAL spoiler-discipline: face remains FACELESS cream-mist oval (consistent across all Oracle renderings — Imprint, gen_dreamer, s1_char_104, s1_class_oracle_05, Oracle's Wrath). Anonymous frozen-enemies prevent named-character conflation. The 'ascended' framing is rendered as INTENSITY-INCREASE rather than IDENTITY-REVEAL — preserves Oracle face-discipline.",
+  },
+  {
+    cardId: "s1_pack_id_oracle_prisoner",
+    sceneDelta:
+      "Mid-shot. The Prisoner — a humanoid figure within a cool-cyan suspension-pillar (consistent with s1_char_104 captive-state), but rendered with even LESS individual identity than the captive Oracle: the figure inside the suspension-medium is rendered as a TRANSLUCENT SILHOUETTE only, no white-robed Oracle-form, no silver-mist hair, just a generic humanoid shape barely visible through cool-cyan medium. At the figure's neck-region, a single chrome-and-cool-cyan SHIELD-PENDANT remains visible (the only thing not stripped). The face is absent — face-region shows only deep cool-cyan shadow. Around the suspension-pillar, faint cool-cyan stasis-glow. NO Architect-glyph speech-patterns (consistent with stripping — silence rather than puppet-speech).",
+    moodKeywords: [
+      "memory erased",
+      "identity stripped",
+      "only the shield remains",
+      "deep cool-cyan shadow where face would be",
+    ],
+    palette:
+      "Cool-cyan suspension-pillar + translucent humanoid silhouette inside + chrome-and-cool-cyan shield-pendant + cool-cyan stasis-glow + cool deep-shadow + cool ambient",
+    composition:
+      "Mid-shot front three-quarter, suspension-pillar at frame-centre with stripped silhouette, no Architect-glyph apparatus",
+    notes:
+      "Common unit. CRITICAL: this is a stripped-identity captive — DELIBERATELY DIFFERENT from the canonical captive Oracle (s1_char_104), which retains the Oracle's recognizable form. The Prisoner here has been further stripped — even the form is gone. The retained shield-pendant is canon-direct from flavor. Generic humanoid silhouette must NOT match any specific named character.",
+  },
+  {
+    cardId: "s1_pack_id_oracle_prophet",
+    sceneDelta:
+      "Wider mid-shot. The Oracle, Prophet — at frame-centre, the canonical Oracle-projection (silver-mist body, aurora-violet shimmer, faceless cream-mist face) but rendered in MID-PROPHECY-TRANSMISSION: from her body, FRAGMENTS OF PROPHECY emit forward in burning-bright sparks (each spark a different prophecy-fragment, varying brightness). Some sparks are dim (older prophecies fading); some are mid-bright (active prophecies); some are SEARING-BRIGHT (newest prophecies, most powerful). Her arms are extended outward in a wide transmission-gesture. The intensity is BETWEEN default-projection and ascended-mode — she is mid-broadcast. NO face visible (cream-mist faceless oval per spoiler-discipline). Around her, faint translucent prophecy-script trails.",
+    moodKeywords: [
+      "the prophecy returns in fragments",
+      "each piece burns brighter than the last",
+      "mid-prophecy-transmission",
+      "varying-brightness sparks emitting forward",
+    ],
+    palette:
+      "Silver-mist Oracle-body + aurora-violet shimmer + faceless cream-mist oval + warm-cream prophecy-fragment sparks (varying brightness) + faint translucent prophecy-script + cool deep-shadow",
+    composition:
+      "Wider mid-shot front three-quarter, Oracle at frame-centre with arms extended transmission-gesture, sparks emitting forward",
+    notes:
+      "Epic unit. CRITICAL spoiler-discipline: face remains FACELESS cream-mist oval (consistent across all Oracle renderings). The 'fragments' framing is rendered as varying-brightness sparks — each spark is a piece of prophecy, NOT a complete revelation. This is the BETWEEN-state (vs Prisoner = stripped, Ascended = full).",
+  },
 ] as const;
 
 /**
  * Dreamer faction's prompt registry, keyed by card id.
  *
- * Currently populated: 25 / 61 cards
+ * Currently populated: 30 / 61 cards
  * (gen_dreamer, s1_char_005, s1_char_014, s1_char_017,
  *  s1_char_023, s1_char_025, s1_char_027, s1_char_029,
  *  s1_char_034, s1_char_036, s1_char_037, s1_char_045,
  *  s1_char_046, s1_char_109, s1_char_110, s1_char_111,
- *  s1_char_112, s1_char_203, s1_pack_015-021).
+ *  s1_char_112, s1_char_203, s1_pack_015-021,
+ *  s1_pack_cosm_card_back, s1_pack_cosm_frame_gold,
+ *  s1_pack_id_oracle_ascended, s1_pack_id_oracle_prisoner,
+ *  s1_pack_id_oracle_prophet).
  */
 export const DREAMER_CARD_ART_PROMPTS: Readonly<Record<string, CardArtPrompt>> =
   Object.freeze(
