@@ -103,8 +103,8 @@ const PLAYED_VO_IDS = new Set<string>();
  *
  * Theme restoration happens on `ended`, `pause`, or component cleanup.
  * ────────────────────────────────────────────────────────────────── */
-const THEME_DUCKED = 0.12;
-const THEME_BED_AFTER_VO = 0.30;
+const THEME_DUCKED = 0.04;
+const THEME_BED_AFTER_VO = 0.20;
 
 const AwakeningVOPlayer = (() => {
   let current: HTMLAudioElement | null = null;
@@ -407,14 +407,14 @@ function AttributeAllocator({
       }}>
         <h3 className="font-display text-sm tracking-[0.2em] text-[var(--neon-cyan)] mb-1">NEURAL CALIBRATION</h3>
         <p className="font-mono text-[11px] text-muted-foreground/60 mb-4">
-          Distribute 9 points across your attributes. Each starts at 1, max 5.
-          <span className="text-[var(--neon-cyan)] ml-1">Remaining: {remaining}</span>
+          Distribute 9 signal channels across your neural lattice. Each begins at minimum resonance, peaks at full sync.
+          <span className="text-[var(--neon-cyan)] ml-1">Unbound channels: {remaining}</span>
         </p>
 
         {[
-          { label: "ATTACK", desc: "Offensive power", val: attack, key: "a" as const },
-          { label: "DEFENSE", desc: "Damage resistance", val: defense, key: "d" as const },
-          { label: "VITALITY", desc: "Health & endurance", val: vitality, key: "v" as const },
+          { label: "ATTACK", desc: "Strike resonance", val: attack, key: "a" as const },
+          { label: "DEFENSE", desc: "Shielding wave", val: defense, key: "d" as const },
+          { label: "VITALITY", desc: "Lifesignal depth", val: vitality, key: "v" as const },
         ].map(attr => (
           <div key={attr.key} className="flex items-center justify-between mb-3">
             <div className="w-24">
@@ -885,8 +885,8 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
               voAudioUrl={STEP_VO_AUDIO.ALIGNMENT_QUESTION}
               themeAudio={themeAudioRef.current}
               choices={[
-                { label: "Order. Structure. Control.", value: "order", description: "Orderly, disciplined. Light glow aura. +2 Attack bonus on cards." },
-                { label: "Freedom. Chaos. Choice.", value: "chaos", description: "Chaotic, brave. Dark glow aura. +2 Defense bonus on cards." },
+                { label: "Order. Structure. Control.", value: "order", description: "Orderly, disciplined. A pale aura traces your edges. The Architect's calm sharpens you toward the strike." },
+                { label: "Freedom. Chaos. Choice.", value: "chaos", description: "Chaotic, brave. A dark aura coils about you. The Dreamer's static makes you harder to pin down." },
               ]}
               onChoice={(v) => {
                 setCharacterChoice("alignment", v as any);

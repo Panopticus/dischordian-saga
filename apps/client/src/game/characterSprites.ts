@@ -181,11 +181,11 @@ export const CHARACTER_SPRITES: Record<string, CharacterSprite> = {
       map: ELARA_VISEME_MAP,
     },
     visemeOverlay: true,
-    // Viseme cells are 512x512 (square). With the new zoom, the bust's
-    // nose-tip lands at ~34% and chin at ~55% of the rendered container.
-    // The mouthBox spans nose-to-chin in a square (height = width) so each
-    // square cell composites cleanly over the corresponding face region.
-    mouthBox: { x: 0.395, y: 0.34, width: 0.21, height: 0.21 },
+    // Viseme cells are 512x512 (square). With the current zoom, the bust's
+    // mouth (lower lip) sits at ~50% of the rendered container height. The
+    // mouthBox is shorter than wide because lips are wider than tall — using
+    // a square overhang dragged neighboring nose/chin pixels into the cell.
+    mouthBox: { x: 0.395, y: 0.42, width: 0.21, height: 0.13 },
   },
 
   /* The Human — protagonist; expression sheet only, no viseme/blink/breathing. */

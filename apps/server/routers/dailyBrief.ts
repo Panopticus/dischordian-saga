@@ -417,56 +417,66 @@ export const dailyBriefRouter = router({
 
   /** Get current community pressure levels and active/emerging events */
   getUniverseState: publicProcedure.query(async () => {
+    const safeDefault = { pressure: DEFAULT_PRESSURE, activeEvents: [], emergingEvent: null, synergies: [], signalContent: null };
     const db = await getDb();
-    if (!db) return { pressure: DEFAULT_PRESSURE, activeEvents: [], emergingEvent: null, synergies: [] };
+    if (!db) return safeDefault;
 
-    // Aggregate pressure from last 30 days (rolling window)
-    const cutoff = new Date();
-    cutoff.setDate(cutoff.getDate() - 30);
+    // The daily_brief tables (pressure_events, universe_event_state) are
+    // optional infrastructure — a fresh deploy can be missing the migration
+    // and a transient DB hiccup shouldn't fault the whole UI. Failing soft
+    // here keeps the awakening flow from cratering on a SYSTEM MALFUNCTION.
+    try {
+      // Aggregate pressure from last 30 days (rolling window)
+      const cutoff = new Date();
+      cutoff.setDate(cutoff.getDate() - 30);
 
-    const aggregated = await db.select({
-      pressureType: pressureEvents.pressureType,
-      total: sql<number>`SUM(${pressureEvents.amount})`.as("total"),
-    }).from(pressureEvents)
-      .where(gte(pressureEvents.createdAt, cutoff))
-      .groupBy(pressureEvents.pressureType);
+      const aggregated = await db.select({
+        pressureType: pressureEvents.pressureType,
+        total: sql<number>`SUM(${pressureEvents.amount})`.as("total"),
+      }).from(pressureEvents)
+        .where(gte(pressureEvents.createdAt, cutoff))
+        .groupBy(pressureEvents.pressureType);
 
-    // Build pressure tracker from aggregated data
-    const pressure: PressureTracker = { ...DEFAULT_PRESSURE };
-    for (const row of aggregated) {
-      if (row.pressureType in pressure) {
-        (pressure as unknown as Record<string, number>)[row.pressureType] = Number(row.total) || 0;
+      // Build pressure tracker from aggregated data
+      const pressure: PressureTracker = { ...DEFAULT_PRESSURE };
+      for (const row of aggregated) {
+        if (row.pressureType in pressure) {
+          (pressure as unknown as Record<string, number>)[row.pressureType] = Number(row.total) || 0;
+        }
       }
+
+      // Get active universe events
+      const activeEvents = await db.select().from(universeEventState)
+        .where(eq(universeEventState.isActive, 1));
+
+      // Check what's emerging
+      const emergingEvent = getEmergingEvent(pressure);
+
+      // Check active synergies
+      const activeEventIds = activeEvents.map(e => e.eventId);
+      const activeSynergies = EVENT_SYNERGIES.filter(s =>
+        s.events.every(eId => activeEventIds.includes(eId))
+      );
+
+      const signalContent = getEventSignalContent(activeEventIds);
+
+      return {
+        pressure,
+        activeEvents: activeEvents.map(e => ({
+          eventId: e.eventId,
+          pressureScore: e.pressureScore,
+          activatedAt: e.activatedAt,
+          occurrenceCount: e.occurrenceCount,
+          event: ALL_EMERGENT_EVENTS.find(ae => ae.id === e.eventId),
+        })),
+        emergingEvent,
+        synergies: activeSynergies,
+        signalContent,
+      };
+    } catch (err) {
+      console.error("[dailyBrief.getUniverseState] failed, returning defaults:", err);
+      return safeDefault;
     }
-
-    // Get active universe events
-    const activeEvents = await db.select().from(universeEventState)
-      .where(eq(universeEventState.isActive, 1));
-
-    // Check what's emerging
-    const emergingEvent = getEmergingEvent(pressure);
-
-    // Check active synergies
-    const activeEventIds = activeEvents.map(e => e.eventId);
-    const activeSynergies = EVENT_SYNERGIES.filter(s =>
-      s.events.every(eId => activeEventIds.includes(eId))
-    );
-
-    const signalContent = getEventSignalContent(activeEventIds);
-
-    return {
-      pressure,
-      activeEvents: activeEvents.map(e => ({
-        eventId: e.eventId,
-        pressureScore: e.pressureScore,
-        activatedAt: e.activatedAt,
-        occurrenceCount: e.occurrenceCount,
-        event: ALL_EMERGENT_EVENTS.find(ae => ae.id === e.eventId),
-      })),
-      emergingEvent,
-      synergies: activeSynergies,
-      signalContent,
-    };
   }),
 
   /** Get event detail with NPC reactions */
@@ -676,73 +686,78 @@ async function recordPressureFromEvent(db: Db, userId: number, eventType: string
 
 /** Check if any emergent event should activate based on community pressure */
 async function checkEmergingEvents(db: Db): Promise<{ eventId: string; proximity: number } | null> {
-  // Aggregate last 30 days
-  const cutoff = new Date();
-  cutoff.setDate(cutoff.getDate() - 30);
+  try {
+    // Aggregate last 30 days
+    const cutoff = new Date();
+    cutoff.setDate(cutoff.getDate() - 30);
 
-  const aggregated = await db.select({
-    pressureType: pressureEvents.pressureType,
-    total: sql<number>`SUM(${pressureEvents.amount})`.as("total"),
-  }).from(pressureEvents)
-    .where(gte(pressureEvents.createdAt, cutoff))
-    .groupBy(pressureEvents.pressureType);
+    const aggregated = await db.select({
+      pressureType: pressureEvents.pressureType,
+      total: sql<number>`SUM(${pressureEvents.amount})`.as("total"),
+    }).from(pressureEvents)
+      .where(gte(pressureEvents.createdAt, cutoff))
+      .groupBy(pressureEvents.pressureType);
 
-  const pressure: PressureTracker = { ...DEFAULT_PRESSURE };
-  for (const row of aggregated) {
-    if (row.pressureType in pressure) {
-      (pressure as unknown as Record<string, number>)[row.pressureType] = Number(row.total) || 0;
-    }
-  }
-
-  const emerging = getEmergingEvent(pressure);
-  if (!emerging) return null;
-
-  // Check how many events are currently active
-  const activeCount = await db.select({ count: sql<number>`COUNT(*)`.as("count") })
-    .from(universeEventState)
-    .where(eq(universeEventState.isActive, 1));
-
-  const currentActive = Number(activeCount[0]?.count) || 0;
-
-  // If under the limit and threshold met, activate the event
-  if (emerging.proximity >= 100 && currentActive < MAX_CONCURRENT_EVENTS) {
-    const existing = await db.select().from(universeEventState)
-      .where(eq(universeEventState.eventId, emerging.eventId))
-      .limit(1);
-
-    const now = new Date();
-    const def = ALL_EMERGENT_EVENTS.find(e => e.id === emerging.eventId);
-    const cycleDays = def?.typicalCycleDays ?? 7;
-    const expiresAt = new Date(now);
-    expiresAt.setDate(expiresAt.getDate() + cycleDays);
-
-    if (existing[0]) {
-      if (!existing[0].isActive) {
-        await db.update(universeEventState)
-          .set({
-            isActive: 1,
-            pressureScore: Math.round(emerging.proximity * 100),
-            activatedAt: now,
-            expiresAt,
-            playerParticipation: 0,
-            occurrenceCount: existing[0].occurrenceCount + 1,
-          })
-          .where(eq(universeEventState.id, existing[0].id));
+    const pressure: PressureTracker = { ...DEFAULT_PRESSURE };
+    for (const row of aggregated) {
+      if (row.pressureType in pressure) {
+        (pressure as unknown as Record<string, number>)[row.pressureType] = Number(row.total) || 0;
       }
-    } else {
-      await db.insert(universeEventState).values({
-        eventId: emerging.eventId,
-        isActive: 1,
-        pressureScore: Math.round(emerging.proximity * 100),
-        activatedAt: now,
-        expiresAt,
-        playerParticipation: 0,
-        occurrenceCount: 1,
-      });
     }
 
-    logger.info(`[LivingUniverse] Event activated: ${emerging.eventId} (pressure: ${emerging.proximity}, expires: ${expiresAt.toISOString()})`);
-  }
+    const emerging = getEmergingEvent(pressure);
+    if (!emerging) return null;
 
-  return emerging;
+    // Check how many events are currently active
+    const activeCount = await db.select({ count: sql<number>`COUNT(*)`.as("count") })
+      .from(universeEventState)
+      .where(eq(universeEventState.isActive, 1));
+
+    const currentActive = Number(activeCount[0]?.count) || 0;
+
+    // If under the limit and threshold met, activate the event
+    if (emerging.proximity >= 100 && currentActive < MAX_CONCURRENT_EVENTS) {
+      const existing = await db.select().from(universeEventState)
+        .where(eq(universeEventState.eventId, emerging.eventId))
+        .limit(1);
+
+      const now = new Date();
+      const def = ALL_EMERGENT_EVENTS.find(e => e.id === emerging.eventId);
+      const cycleDays = def?.typicalCycleDays ?? 7;
+      const expiresAt = new Date(now);
+      expiresAt.setDate(expiresAt.getDate() + cycleDays);
+
+      if (existing[0]) {
+        if (!existing[0].isActive) {
+          await db.update(universeEventState)
+            .set({
+              isActive: 1,
+              pressureScore: Math.round(emerging.proximity * 100),
+              activatedAt: now,
+              expiresAt,
+              playerParticipation: 0,
+              occurrenceCount: existing[0].occurrenceCount + 1,
+            })
+            .where(eq(universeEventState.id, existing[0].id));
+        }
+      } else {
+        await db.insert(universeEventState).values({
+          eventId: emerging.eventId,
+          isActive: 1,
+          pressureScore: Math.round(emerging.proximity * 100),
+          activatedAt: now,
+          expiresAt,
+          playerParticipation: 0,
+          occurrenceCount: 1,
+        });
+      }
+
+      logger.info(`[LivingUniverse] Event activated: ${emerging.eventId} (pressure: ${emerging.proximity}, expires: ${expiresAt.toISOString()})`);
+    }
+
+    return emerging;
+  } catch (err) {
+    console.error("[dailyBrief.checkEmergingEvents] failed, skipping:", err);
+    return null;
+  }
 }

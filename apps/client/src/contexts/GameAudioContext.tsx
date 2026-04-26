@@ -105,8 +105,8 @@ class BGMEngine {
   duckForVO() {
     if (!this.duckGain || !this.ctx || this._ducked) return;
     this._ducked = true;
-    // Reduce to 20% volume over 300ms
-    this.duckGain.gain.setTargetAtTime(0.2, this.ctx.currentTime, 0.15);
+    // Reduce to 6% volume over 300ms — Elara's VO must dominate the mix.
+    this.duckGain.gain.setTargetAtTime(0.06, this.ctx.currentTime, 0.15);
   }
 
   /** Restore volume after Elara finishes */

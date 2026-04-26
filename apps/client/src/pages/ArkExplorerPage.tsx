@@ -740,97 +740,6 @@ export default function ArkExplorerPage() {
 
   const [isFullscreen, setIsFullscreen] = useState(false);
 
-  // ═══ CRYO BAY FIRST-VISIT ORIENTATION ═══
-  const [showCryoOrientation, setShowCryoOrientation] = useState(false);
-  const [orientationStep, setOrientationStep] = useState(0);
-  const [orientationText, setOrientationText] = useState("");
-  const [orientationTyping, setOrientationTyping] = useState(false);
-
-  const playerName = state.characterChoices.name || "Operative";
-  const playerSpecies = state.characterChoices.species;
-  const playerClass = state.characterChoices.characterClass;
-  const CRYO_ORIENTATION_LINES = useMemo(() => [
-    `Welcome back to the Cryo Bay, ${playerName}. Your neural scan is complete and your identity is confirmed. This is where your journey truly begins.`,
-    playerSpecies === "neyon"
-      ? "Your Ne-Yon hybrid signature is... extraordinary. The Ark's sensors have never registered anything like it. The ship itself seems to be responding to your presence."
-      : playerSpecies === "quarchon"
-      ? "Your Quarchon neural patterns are interfacing with the Ark's quantum systems. I'm detecting data streams I've never seen before. The ship is... talking to you."
-      : "Your DeMagi cellular signature is resonating with the Ark's elemental conduits. I can feel the ship's systems warming up. It recognizes you.",
-    "You're standing in the Habitation Deck \u2014 the lowest level of the Inception Ark. Above us is the Operations Deck with the Medical Bay, Archives, and Comms Array. At the top: the Command Deck, where the Bridge holds the answers you're looking for.",
-    playerClass === "engineer"
-      ? "As an Engineer, you'll want to examine every terminal and system you find. The Ark's technology is unlike anything in the known universes. Hack it. Understand it. Rebuild it."
-      : playerClass === "oracle"
-      ? "Your Oracle abilities may trigger visions as you explore. Pay attention to them \u2014 they're not random. The Ark is saturated with temporal echoes from its previous occupants."
-      : playerClass === "assassin"
-      ? "Your Assassin instincts will serve you well here. There are hidden passages, concealed items, and secrets that only someone with your perception would notice."
-      : playerClass === "soldier"
-      ? "Stay sharp, Soldier. The Ark may seem empty, but my sensors detect... anomalies. Some rooms have defense systems that are still active. Your combat training will be tested."
-      : "Keep your eyes open, Spy. Every room on this ship was designed to hide something. The previous crew left intelligence scattered everywhere \u2014 dead drops, coded messages, hidden caches.",
-    "Look around. Tap the glowing markers to investigate terminals, collect items, and unlock new areas. Everything on this ship tells a story. Some stories are harder to find than others.",
-    "One more thing \u2014 I've activated your Quest Tracker. It will guide you through the Ark's mysteries, one objective at a time. Complete objectives to earn Dream Tokens, XP, and rare cards.",
-    `I'll be here whenever you need me, ${playerName}. And remember \u2014 the Panopticon was built on secrets. Trust nothing at face value. Not even me.`,
-  ], [playerName, playerSpecies, playerClass]);
-
-  // Trigger orientation on first Cryo Bay visit (post-awakening)
-  useEffect(() => {
-    if (state.currentRoomId === "cryo-bay" && state.characterCreated) {
-      const seen = localStorage.getItem("loredex_cryo_orientation_seen");
-      if (!seen && state.rooms["cryo-bay"]?.visitCount === 1) {
-        setShowCryoOrientation(true);
-        localStorage.setItem("loredex_cryo_orientation_seen", "1");
-      }
-    }
-  }, [state.currentRoomId, state.characterCreated, state.rooms]);
-
-  // Dispatch dialog-active event for QuestTracker auto-minimize during orientation
-  useEffect(() => {
-    if (showCryoOrientation) {
-      window.dispatchEvent(new CustomEvent("elara-dialog", { detail: { active: true } }));
-      dialogOpened();
-    } else {
-      window.dispatchEvent(new CustomEvent("elara-dialog", { detail: { active: false } }));
-      dialogClosed();
-    }
-    return () => {
-      if (showCryoOrientation) dialogClosed();
-    };
-  }, [showCryoOrientation]);
-
-  // Typewriter for orientation
-  useEffect(() => {
-    if (!showCryoOrientation || orientationStep >= CRYO_ORIENTATION_LINES.length) return;
-    const line = CRYO_ORIENTATION_LINES[orientationStep];
-    setOrientationTyping(true);
-    setOrientationText("");
-    let idx = 0;
-    const interval = setInterval(() => {
-      if (idx < line.length) {
-        setOrientationText(line.slice(0, idx + 1));
-        idx++;
-      } else {
-        clearInterval(interval);
-        setOrientationTyping(false);
-      }
-    }, 25);
-    return () => clearInterval(interval);
-  }, [showCryoOrientation, orientationStep, CRYO_ORIENTATION_LINES]);
-
-  const advanceOrientation = useCallback(() => {
-    if (orientationTyping) {
-      setOrientationText(CRYO_ORIENTATION_LINES[orientationStep]);
-      setOrientationTyping(false);
-      return;
-    }
-    if (orientationStep < CRYO_ORIENTATION_LINES.length - 1) {
-      setOrientationStep(s => s + 1);
-    } else {
-      setShowCryoOrientation(false);
-      // After orientation ends, auto-launch the onboarding tutorial for new players
-      if (!isTutorialCompleted("tut-first-steps")) {
-        setTimeout(() => setShowOnboardingTutorial(true), 600);
-      }
-    }
-  }, [orientationTyping, orientationStep, CRYO_ORIENTATION_LINES, isTutorialCompleted]);
   const fullscreenRef = useCallback((node: HTMLDivElement | null) => {
     if (node) (window as any).__arkExplorerRef = node;
   }, []);
@@ -1092,10 +1001,11 @@ export default function ArkExplorerPage() {
   }, [transition, enterRoom, discoverEntry, completedTutorials]);
 
   const handleTutorialComplete = useCallback((flags: Record<string, boolean>, cardId?: string) => {
-    if (tutorialRoomId) {
+    const closingRoomId = tutorialRoomId;
+    if (closingRoomId) {
       setCompletedTutorials(prev => {
         const next = new Set(prev);
-        next.add(tutorialRoomId);
+        next.add(closingRoomId);
         return next;
       });
       // Set narrative flags in game state
@@ -1106,7 +1016,13 @@ export default function ArkExplorerPage() {
       }
     }
     setTutorialRoomId(null);
-  }, [tutorialRoomId]);
+    // After the cryo-bay opening narration finishes for the first time, hand
+    // off to the "First Steps Aboard the Ark" lore tutorial so onboarding
+    // continues without a separate orientation modal in between.
+    if (closingRoomId === "cryo-bay" && !isTutorialCompleted("tut-first-steps")) {
+      setTimeout(() => setShowOnboardingTutorial(true), 600);
+    }
+  }, [tutorialRoomId, isTutorialCompleted]);
 
   const handlePuzzleSolve = useCallback((roomId: string) => {
     setSolvedPuzzles(prev => {
@@ -1933,12 +1849,16 @@ export default function ArkExplorerPage() {
             roomId={tutorialRoomId}
             onComplete={handleTutorialComplete}
             onDismiss={() => {
+              const closingRoomId = tutorialRoomId;
               setCompletedTutorials(prev => {
                 const next = new Set(prev);
-                if (tutorialRoomId) next.add(tutorialRoomId);
+                if (closingRoomId) next.add(closingRoomId);
                 return next;
               });
               setTutorialRoomId(null);
+              if (closingRoomId === "cryo-bay" && !isTutorialCompleted("tut-first-steps")) {
+                setTimeout(() => setShowOnboardingTutorial(true), 600);
+              }
             }}
           />
         )}
@@ -1955,55 +1875,6 @@ export default function ArkExplorerPage() {
             onComplete={handleTransitionComplete}
             isNewRoom={transition.isNewRoom}
           />
-        )}
-      </AnimatePresence>
-
-      {/* ═══ CRYO BAY FIRST-VISIT ORIENTATION ═══ */}
-      <AnimatePresence>
-        {showCryoOrientation && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[200] flex items-end justify-center pb-6 sm:pb-10"
-            style={{ background: "linear-gradient(to top, color-mix(in oklch, var(--bg-void) 90%, transparent) 0%, color-mix(in oklch, var(--bg-void) 50%, transparent) 40%, color-mix(in oklch, var(--bg-void) 20%, transparent) 100%)" }}
-            onClick={advanceOrientation}
-          >
-            {/* Holographic Elara in the center-top */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.3, duration: 0.5 }}
-              className="absolute top-8 sm:top-12 left-1/2 -translate-x-1/2"
-            >
-              <HolographicElara size="lg" isSpeaking={orientationTyping} />
-            </motion.div>
-
-            {/* Dialog box */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5, duration: 0.4 }}
-              className="max-w-xl w-full mx-4 rounded-lg border border-[var(--neon-cyan)]/30 bg-background/90 p-5 cursor-pointer"
-              style={{ boxShadow: "0 0 var(--space-lg) color-mix(in oklch, var(--energy-primary) 10%, transparent)" }}
-            >
-              <div className="flex items-center gap-2 mb-3">
-                <div className="w-2 h-2 rounded-full bg-[var(--neon-cyan)] animate-pulse" />
-                <span className="font-display text-[10px] text-[var(--neon-cyan)]/70 tracking-[0.3em]">ELARA // ORIENTATION BRIEFING</span>
-                <span className="ml-auto font-mono text-[10px] text-muted-foreground/50">{orientationStep + 1}/{CRYO_ORIENTATION_LINES.length}</span>
-              </div>
-              <p className="font-mono text-sm text-foreground leading-relaxed min-h-[3rem]">
-                {orientationText}
-                {orientationTyping && <span className="inline-block w-2 h-4 bg-[var(--neon-cyan)] animate-pulse ml-0.5" />}
-              </p>
-              <div className="flex items-center justify-end mt-3 gap-2">
-                <span className="font-mono text-[10px] text-muted-foreground/50">
-                  {orientationTyping ? "TAP TO SKIP" : orientationStep < CRYO_ORIENTATION_LINES.length - 1 ? "TAP TO CONTINUE" : "TAP TO BEGIN EXPLORING"}
-                </span>
-                <ChevronRight size={12} className="text-[var(--neon-cyan)]/50" />
-              </div>
-            </motion.div>
-          </motion.div>
         )}
       </AnimatePresence>
 

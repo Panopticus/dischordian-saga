@@ -97,6 +97,7 @@ function buildLines(fp: Fingerprint): ScanLine[] {
     { label: "CHRONOSPHERE", value: fp.timezone },
     { label: "SYSTEM CLOCK", value: fp.clock },
     { label: "ARK DESIGNATION", value: "1047" },
+    { label: "VPN TRACE SIGNATURE", value: "DETECTED — ADJUSTING…" },
     { label: "FINGERPRINT", value: "LOCKED" },
   ];
 }
@@ -129,7 +130,7 @@ export function SurveillanceOpening({ onComplete, force = false }: SurveillanceO
     setTimeout(() => {
       setStage("done");
       onComplete();
-    }, 120);
+    }, 80);
   }, [onComplete]);
 
   // If we were already-seen on mount, hand control back immediately.
@@ -142,19 +143,20 @@ export function SurveillanceOpening({ onComplete, force = false }: SurveillanceO
 
   // Drive the scanning reveal on a jagged cadence — snappy at the top,
   // with just enough late-line drag to land FINGERPRINT as a punch.
-  // The whole sequence wraps in well under a second so the player never
-  // perceives it as a loading screen. Reduce-motion collapses to a tick.
-  const CADENCE = [40, 50, 60, 70, 90, 120, 180];
+  // The whole sequence wraps in well under half a second so the player
+  // never perceives it as a loading screen. Reduce-motion collapses to a
+  // tick.
+  const CADENCE = [24, 28, 32, 36, 50, 70, 95, 130];
   useEffect(() => {
     if (stage !== "scanning") return;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduce) {
       setRevealed(lines.length);
-      const t = setTimeout(finish, 120);
+      const t = setTimeout(finish, 80);
       return () => clearTimeout(t);
     }
     if (revealed >= lines.length) {
-      const t = setTimeout(finish, 140);
+      const t = setTimeout(finish, 80);
       return () => clearTimeout(t);
     }
     const delay = CADENCE[Math.min(revealed, CADENCE.length - 1)];
