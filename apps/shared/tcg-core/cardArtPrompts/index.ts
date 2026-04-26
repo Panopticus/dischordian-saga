@@ -14,6 +14,7 @@ export type { CardArtPrompt, CardArtPromptRegistry } from "./types";
 
 import type { CardArtPromptRegistry } from "./types";
 import { IMPRINT_CARD_ART_PROMPTS } from "./imprint";
+import { ALLEGIANCE_CARD_ART_PROMPTS } from "./allegiance";
 
 /**
  * The full card-art prompt registry.
@@ -24,13 +25,16 @@ import { IMPRINT_CARD_ART_PROMPTS } from "./imprint";
  *     Architect, The Collector, The Detective, The Dreamer, The
  *     Engineer, The Enigma, The Human, The Jailer, The Necromancer,
  *     The Oracle, The Source)
+ *   - allegiance: 1 / 6 sets (Antiquarian)
  *
  * Pending factions:
- *   - allegiance, class, race, elemental, dimensional (tier-up sets)
+ *   - allegiance (remaining 5 sets)
+ *   - class, race, elemental, dimensional (tier-up sets)
  *   - architect, antiquarian, dreamer, insurgency, new_babylon,
  *     thought_virus, neutral, panopticon, allegiance, class, race,
  *     elemental, dimensional
  */
 export const CARD_ART_PROMPTS: CardArtPromptRegistry = Object.freeze({
   ...IMPRINT_CARD_ART_PROMPTS,
+  ...ALLEGIANCE_CARD_ART_PROMPTS,
 });
