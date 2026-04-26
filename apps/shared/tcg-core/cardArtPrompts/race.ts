@@ -176,13 +176,66 @@ const RACE_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "Legendary unit. The 4,700-year session = empty seats waiting. Three keywords (provoke + forcefield + grow) rendered as three distinct visual elements simultaneously. Generic-ceremonial Senator face must NOT match any named character. Architect Senate-chamber visual continuity with Architect Allegiance set t6.",
   },
+
+  // ─── SYNTHETIC RACE — Architect's built-from-scratch entities ───
+  {
+    cardId: "s1_race_synthetic_01",
+    sceneDelta:
+      "Mid-shot. A Synthetic Worker — humanoid bipedal entity built of brushed-chrome plates and matte-black joint-mesh, approximately the size of a tall human. Their body's visual language is utilitarian: plain torso plate, simple cylindrical limbs, one small hex-cyan optical lens where each eye would be, a flat speaker-grille where the mouth would be. They stand at an Architect industrial fabrication-bay's input conveyor, mid-action of carrying a heavy crate of crystalline raw-stock. Their posture is purely functional. A faint warm slip of paper drifts up from above their leading shoulder (draw-1 visualized as the Architect-issued task-manifest spawning). Behind them, two more identical Synthetic Workers carry similar crates in mid-distance. The bay's floor is dirty-grey deck-plate; the ceiling-strip lights are cool-cyan.",
+    moodKeywords: [
+      "designed the week he needed a worker",
+      "forgot to ask whether anybody else needed something",
+      "purely functional posture",
+      "two more identical Workers behind",
+    ],
+    palette:
+      "Architect cool-cyan ceiling-strip + brushed-chrome plates + matte-black joint-mesh + warm amber paper-drift accent + dirty-grey deck-plate + warm crate-rust accent",
+    composition:
+      "Mid-shot front three-quarter, Worker at frame-centre carrying crate, conveyor and two more Workers at lower-third behind",
+    notes:
+      "Uncommon unit. Generic-utilitarian synthetic features — must NOT echo any named Architect-aligned character (specifically NOT The Architect's chrome aesthetic from his Imprint set, which is more architectural/elegant). The hex-cyan optical lens is the canonical Architect visual signature. Three identical Workers reinforce the 'designed without consultation' framing.",
+  },
+  {
+    cardId: "s1_race_synthetic_02",
+    sceneDelta:
+      "Wider mid-shot. A Synthetic Watchtower — taller, heavier-built than a Worker, with a wide reinforced lower-body plinth and a fortified upper-torso, optical lens cluster (FOUR hex-cyan lenses arrayed in a 2×2 pattern instead of the Worker's single pair) at the head, and articulating sensor-arms folded against the back. They stand utterly still at the entrance to an Architect outer-perimeter checkpoint, the geometry of their stance optimized for being a fixed obstacle. A translucent hexagonal-cyan forcefield-shimmer wraps them at body-edge (forcefield visualized). A faint warm provoke-glow rims their leading edge (provoke visualized — they exist to be the first thing engaged). On a small chest-mounted display, a real-time engagement-log scrolls in cool-cyan Architect-script. Behind them, a long Architect compound wall extends to either side; the time of day is cold midnight with cool starlight.",
+    moodKeywords: [
+      "stand in one place and be a very reliable shape",
+      "the enemy has to go through",
+      "writes a detailed log afterward",
+      "fixed obstacle, four lenses",
+    ],
+    palette:
+      "Architect cool-cyan + hex-cyan optical lenses + brushed-chrome heavy plate + hexagonal-cyan forcefield-shimmer + warm provoke-rim + cool midnight ambient + cool starlight",
+    composition:
+      "Wider mid-shot front three-quarter, Watchtower at frame-centre at checkpoint, compound wall extending to either side",
+    notes:
+      "Rare unit. Four hex-cyan lenses in 2×2 differentiate the Watchtower from the Worker (single pair). Engagement-log on chest display is canon-direct from flavor ('writes a detailed log afterward'). Forcefield + provoke dual-keyword rendering matches Architect-faction visual idiom established in Architect Allegiance set.",
+  },
+  {
+    cardId: "s1_race_synthetic_03",
+    sceneDelta:
+      "Wider mid-shot. A Chrome Archon — a tall ceremonial synthetic, the highest tier of Architect-built parliamentarian-class. Their body is brushed-chrome with deep-cyan inset detailing tracing parliamentary regalia patterns down the chest, a long ceremonial chrome-and-cyan cape, an elongated head with a single horizontal hex-cyan optical bar across where eyes would be (a parliamentary 'sees the whole motion at once' visual), and articulating fingers each tipped with a small cyan record-stylus. They stand at a tall lectern in the Architect parliamentary chamber, one hand resting on an open thick chrome-bound vote-record. The vote-record's pages glow faintly cool-cyan with eighteen-years-of-Wednesdays of motions logged. A translucent hexagonal-cyan forcefield around them; a faint warm provoke-glow rims their leading shoulder; a faint cool deathwatch-script (cool-cyan, NOT phosphor-green which is Hierarchy/Thought-Virus) drifts up from the vote-record (deathwatch visualized as Architect-aligned 'every motion is a body counted' framing). Behind them, the parliamentary chamber recedes — tiered chrome benches, dust-motes in cool-cyan light.",
+    moodKeywords: [
+      "do not eat, do not sleep, do not forget",
+      "the motion anyone voted for on the last eighteen years of Wednesdays",
+      "parliamentary regalia patterns",
+      "elongated head, horizontal optical bar",
+    ],
+    palette:
+      "Architect cool-cyan parliamentary chamber + brushed-chrome ceremonial body + deep-cyan inset regalia + hexagonal-cyan forcefield + warm provoke-rim + cool deathwatch-script + chrome-bound vote-record",
+    composition:
+      "Wider mid-shot front three-quarter, Chrome Archon at frame-centre at lectern, parliamentary chamber receding behind",
+    notes:
+      "Legendary unit. The horizontal optical bar (instead of vertical/round lenses) differentiates Archon-tier from Worker/Watchtower. Three keywords (provoke + forcefield + deathwatch) rendered simultaneously. Cool-cyan deathwatch-script DELIBERATELY differs from Hierarchy phosphor-green — the same mechanic, two completely different visual idioms per affiliation. Generic-Archon must NOT echo The Architect Imprint set (he is the BUILDER, this is one of his BUILT — distinct visual languages).",
+  },
 ] as const;
 
 /**
  * Race faction's prompt registry, keyed by card id.
  *
- * Currently populated: 3 / 5 races (Human, Demagi, Quarchon).
- * TODO: neyon, synthetic.
+ * Currently populated: 4 / 5 races (Human, Demagi, Quarchon, Synthetic).
+ * TODO: neyon.
  */
 export const RACE_CARD_ART_PROMPTS: Readonly<Record<string, CardArtPrompt>> =
   Object.freeze(
