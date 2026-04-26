@@ -325,6 +325,103 @@ export const ADJUDICATOR_LOCKE_BANK: ReadonlyArray<BankEntry> = [
     setsPublicFlags: ["locke_admitted_attachment_to_player"],
   },
 
+  // ─── Judicial (any trust + suspicious-vigilance player) ────────────
+  // Per §2.5: "she becomes formal and precise, turning the relationship
+  // into something like cross-examination, where she invites challenge
+  // so she can parry it." The canonical "I am filing this" register
+  // lands across all 5 bands; the band-progression escalates the
+  // posture (welcome-the-suspicion → invite-the-questioning →
+  // professional-respect-for-the-catch → audit-rehearsal → legacy-
+  // drafting). Sub-chunk B of the 5×5 variant grid.
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "locke.variant.judicial.prospect.welcome_to_the_docket",
+    text:
+      "You came in suspicious. I file 'arrived skeptical' under " +
+      "'professional'. Do not soften that. The client who reads the " +
+      "contract twice gets a contract worth reading twice. Welcome to " +
+      "the docket.",
+    surfaces: ["npc_line"],
+    requiresTrustBand: "Prospect",
+    playerAxisGate: {
+      axis: "vigilance",
+      magnitudes: ["moderate_positive", "strong_positive"],
+    },
+    cooldownKey: "locke.variant.judicial.prospect",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "locke.variant.judicial.client.cross_examination",
+    text:
+      "You are noting my phrasing. I will note that you are noting. We " +
+      "are now having a cross-examination, which is a form I prefer. The " +
+      "witness improves under questioning. Continue.",
+    surfaces: ["npc_line"],
+    requiresTrustBand: "Client",
+    playerAxisGate: {
+      axis: "vigilance",
+      magnitudes: ["moderate_positive", "strong_positive"],
+    },
+    cooldownKey: "locke.variant.judicial.client",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "locke.variant.judicial.partner.professional_courtesy",
+    text:
+      "You suspected me at the third quarter. You were correct to. The " +
+      "clause did say what you thought it said, and you proved it before " +
+      "I could pivot. I file that under 'professional courtesy'. Continue " +
+      "questioning.",
+    surfaces: ["npc_line"],
+    requiresTrustBand: "Partner",
+    playerAxisGate: {
+      axis: "vigilance",
+      magnitudes: ["moderate_positive", "strong_positive"],
+    },
+    cooldownKey: "locke.variant.judicial.partner",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "locke.variant.judicial.insider.audit_rehearsal",
+    text:
+      "You are not catching me out anymore. You are rehearsing for the " +
+      "room. Good. The Authority audits its own rulings; I would rather " +
+      "you audit mine first. Bring me the questions you would ask under " +
+      "oath.",
+    surfaces: ["npc_line"],
+    requiresTrustBand: "Insider",
+    playerAxisGate: {
+      axis: "vigilance",
+      magnitudes: ["moderate_positive", "strong_positive"],
+    },
+    cooldownKey: "locke.variant.judicial.insider",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "locke.variant.judicial.adjudicated.legacy_drafting",
+    // §3.6 deepest expression of professional respect: she shares
+    // succession-drafting with the player. The line is canonical
+    // "the only kind of legacy I am authorized to leave" — Locke
+    // naming her own institutional mortality through paperwork.
+    text:
+      "We are no longer cross-examining each other. We are drafting " +
+      "depositions for whoever inherits this office. I file that under " +
+      "the only kind of legacy I am authorized to leave. Continue.",
+    surfaces: ["npc_line"],
+    requiresTrustBand: "Adjudicated",
+    playerAxisGate: {
+      axis: "vigilance",
+      magnitudes: ["moderate_positive", "strong_positive"],
+    },
+    cooldownKey: "locke.variant.judicial.adjudicated",
+    maxPlays: 1,
+  },
+
   // ═════════════════════════════════════════════════════════════════════
   // TOUCHÉ — Vex locked out by Locke exclusivity (cross-character react)
   // ═════════════════════════════════════════════════════════════════════
