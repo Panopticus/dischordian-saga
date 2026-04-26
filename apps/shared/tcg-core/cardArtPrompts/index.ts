@@ -34,10 +34,10 @@ import { ELEMENTAL_CARD_ART_PROMPTS } from "./elemental";
  *     Oracle, Soldier, Spy)
  *   - race: 5 / 5 sets — COMPLETE (Human, Demagi, Quarchon,
  *     Synthetic, Ne-Yon)
- *   - elemental: 3 / 4 elements (Fire, Water, Earth)
+ *   - elemental: 4 / 4 elements — COMPLETE (Fire, Water, Earth, Air)
  *
  * Pending factions:
- *   - elemental (remaining 1 element), dimensional (tier-up sets)
+ *   - dimensional (tier-up sets)
  *   - architect, antiquarian, dreamer, insurgency, new_babylon,
  *     thought_virus, neutral, panopticon, allegiance, class, race,
  *     elemental, dimensional

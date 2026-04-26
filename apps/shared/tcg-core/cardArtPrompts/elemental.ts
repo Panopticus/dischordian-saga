@@ -278,13 +278,100 @@ const ELEMENTAL_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "Legendary unit. The 'mountains as ribs, rivers as veins, forests as fur' is canon-direct from flavor — rendered as the continent's geographic features mapping to body-features. Three keywords (provoke + forcefield + grow) rendered simultaneously. Tiny scale-village preserves the geographic-size framing without requiring any specific recognizable named-location.",
   },
+
+  // ─── AIR ELEMENT — flying + dispel + card draw ───
+  {
+    cardId: "s1_elem_air_01",
+    sceneDelta:
+      "Mid-shot. A Breeze Whisper — a small humanoid air-elemental, approximately knee-high to a human, made of barely-visible cool-cream translucent air-currents with faint internal swirl-patterns. The Breeze's silhouette is humanoid only by suggestion (head + shoulders + arms outline visible only because the surrounding air is slightly less moving). Two small luminous deeper-cream eye-points where eyes would be. They float at chest-height in a wide open cloister-corridor at midmorning, mid-air, NOT touching the ground. A faint warm slip of paper drifts up from above their right shoulder (draw-1 visualized). A subtle warm-cream wind-trail (flying visualized) wraps their lower body. Their posture is uncertain, head slightly tilted as if LISTENING for the instruction they have already partially received but cannot yet fully parse.",
+    moodKeywords: [
+      "the part of the air that has been given something to do",
+      "does not yet know by whom",
+      "uncertain, head slightly tilted, listening",
+      "barely-visible humanoid by suggestion",
+    ],
+    palette:
+      "Cool-cream translucent air-body + warm-cream wind-trails + warm midmorning cloister-corridor + faint warm paper-drift + soft daylight ambient",
+    composition:
+      "Mid-shot front three-quarter, Breeze at frame-centre at chest-height, cloister-corridor extending behind",
+    notes:
+      "Common unit. Generic-elemental form (no character-conflation). The 'doesn't know by whom' framing rendered as the listening-posture. Cool-cream-translucent is the canonical air-elemental visual idiom (distinct from water's denser cool-cyan).",
+  },
+  {
+    cardId: "s1_elem_air_02",
+    sceneDelta:
+      "Wider mid-shot. A Skyrider — a young human-presenting figure, indeterminate gender, generic-mixed features, mid-flight at altitude with NOTHING beneath them. They are NOT on a mount, NOT in a vehicle, NOT wearing visible wings — the air around their body simply behaves like a solid surface they can lean on. Their posture is leaning-forward in a flight-stance, arms slightly extended for balance, knees bent. They wear simple cool-cream traveling-clothes. Beneath their feet, the air-medium is rendered as a subtle cool-cream solid-shimmer — a surface that exists only because both they and the air have agreed on it. Faint cool wind-trails behind them (flying). Below, a wide aerial-view landscape: distant ground, mountains receding, clouds drifting. The light is mid-morning blue-sky.",
+    moodKeywords: [
+      "the air has agreed to behave like something that can be ridden",
+      "she has agreed to keep agreeing",
+      "leaning-forward in flight-stance with nothing beneath",
+      "subtle solid-shimmer under feet",
+    ],
+    palette:
+      "Cool-cream traveling-clothes + cool-cream solid-air-shimmer beneath feet + mid-morning blue sky + distant green-and-grey landscape below + cool wind-trails",
+    composition:
+      "Wider mid-shot side three-quarter, Skyrider mid-flight at frame-centre, aerial-view landscape beneath",
+    notes:
+      "Uncommon unit. Generic-mixed face must NOT match any named character. The 'cool-cream solid-air-shimmer beneath feet' is the canonical visualization of the agreement between rider and medium — direct rendering of the flavor.",
+  },
+  {
+    cardId: "s1_elem_air_03",
+    sceneDelta:
+      "Wider mid-shot. A Gale Chorus — multiple distinct wind-currents converging at a single mid-air locus, each current rendered as a faintly-visible cool-cream translucent ribbon-shape, each visibly DIFFERENT from the others (different opacity, different speed, different swirl-direction). Together they form a chord — a CHORUS — at the centre of the frame, their convergence-point producing a faint warm-amber harmonic-glow at its core. From the convergence-point, two warm slips of paper drift up (draw-2 visualized). NO human figure in the frame. The setting is a wide open mountain-valley plateau with mid-distance peaks; the time of day is dawn, the sky still warming. The wind-currents come IN to the convergence from many directions, including from behind the camera.",
+    moodKeywords: [
+      "no individual wind willing to commit to the key",
+      "they sing in chorus instead",
+      "multiple ribbons converging at a chord",
+      "no human in frame",
+    ],
+    palette:
+      "Cool-cream translucent wind-ribbons + warm-amber harmonic-glow at convergence + cool dawn mountain-valley + cool plateau ground + warm amber paper-drifts",
+    composition:
+      "Wider mid-shot, convergence-point at frame-centre with multiple ribbons converging from many directions, no human figures",
+    notes:
+      "Spell card. NO human figure (the chorus IS the subject). The 'no individual wind would commit to the key' framing is rendered as the multiple distinct ribbon-shapes (each with different physical properties) merging only at the chord-point. Echoes Engineer t4 / Spy t2 / Oracle t2 no-human-in-frame discipline for spell cards.",
+  },
+  {
+    cardId: "s1_elem_air_04",
+    sceneDelta:
+      "Wider mid-shot. A Cyclone Herald — a humanoid air-elemental of more dense and saturated cool-cream substance than lower-tier air elementals (the air around them is visibly THICKER, slightly compressed, almost about to become visible-as-water). They float in mid-air at moderate altitude, arms extended laterally in a wide spread-the-weather gesture. Around their lower body, a faint visible spiral-funnel begins to form (the cyclone's leading edge). Around their hands, faint translucent dispel-ripples (dispel visualized) propagate outward — the Herald is actively CLEARING THE WEATHER OF OTHER WEATHER (any visible competing weather around them is being thinned, dissipated). Their face is composed of two larger luminous deeper-cream eye-points and a horizontal mouth-line. Behind them, the deep-distance shows other-weather (storm-clouds) being dissolved by the dispel-ripples; ahead (off-frame) is what the cyclone will actually arrive as. Faint cool wind-trails wrap them.",
+    moodKeywords: [
+      "a cyclone does not announce itself",
+      "the Herald clears the weather of other weather",
+      "spiral-funnel beginning at the lower body",
+      "competing weather being dissolved",
+    ],
+    palette:
+      "Denser cool-cream air-body + spiral-funnel at lower body + translucent dispel-ripples + dissolving competing storm-clouds in deep-distance + cool wind-trails + cool overcast above",
+    composition:
+      "Wider mid-shot front three-quarter, Herald at frame-centre with arms extended, spiral-funnel below, competing weather dissolving behind",
+    notes:
+      "Epic unit. The 'clears the weather of other weather' is rendered as the dispel-ripples actively dissolving competing storm-clouds in the deep-distance — direct visualization of the dispel mechanic. The Herald is denser than common air-elementals, communicating tier-escalation.",
+  },
+  {
+    cardId: "s1_elem_air_05",
+    sceneDelta:
+      "Mid-shot. The Breath Before Language — a humanoid figure in mid-thirties, generic-mixed features, anonymous, mid-action of OPENING THEIR MOUTH to speak (lips parted, jaw slightly dropped, the moment of intake-breath-before-utterance held). They wear a long flowing coat made entirely of cool-cream translucent air-currents — the coat IS the breath, made wearable. Around the figure, the surrounding air is visibly AGITATED, swirling in slow patterns (the medium they are about to use is preparing itself). Three warm slips of paper drift up from above their shoulder (draw-3 visualized — the three things the figure has not yet committed to saying). Faint cool wind-trails behind them (flying); faint translucent dispel-ripples around their lips (dispel — the words are still potential, not actual). Their eyes are calm, deliberate, NOT YET open to any specific listener. NO specific listener visible — the figure is still alone with the breath.",
+    moodKeywords: [
+      "the quarter-second of air you are about to use",
+      "to say the thing you have not yet committed to",
+      "wearing the breath as a coat",
+      "the medium preparing itself",
+    ],
+    palette:
+      "Cool-cream translucent air-coat + warm-amber paper-drifts + cool agitated surrounding air + warm-amber human skin-warmth (face, hands) + neutral cool background",
+    composition:
+      "Mid-shot front three-quarter, figure at frame-centre with parted lips and intake-breath, coat-of-air visible at body, no listener present",
+    notes:
+      "Legendary unit. Generic-mid-thirties face must NOT match any named character. The 'wearing breath as a coat' is rendered literally — the figure's coat IS the air-current. The 'have not yet committed to saying' is rendered as no listener being present and lips parted but unspoken. Three keywords (flying + dispel + draw) rendered as three distinct visual elements.",
+  },
 ] as const;
 
 /**
  * Elemental faction's prompt registry, keyed by card id.
  *
- * Currently populated: 3 / 4 elements (Fire, Water, Earth).
- * TODO: air.
+ * Currently populated: 4 / 4 elements — COMPLETE
+ * (Fire, Water, Earth, Air).
  */
 export const ELEMENTAL_CARD_ART_PROMPTS: Readonly<Record<string, CardArtPrompt>> =
   Object.freeze(
