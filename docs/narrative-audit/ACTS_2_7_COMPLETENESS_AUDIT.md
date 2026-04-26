@@ -1,5 +1,67 @@
 # Acts 2–7 Dialog Completeness Audit
 
+> **STATUS — 2026-04 update:** the five structural recommendations at the
+> bottom of this file have all shipped. See
+> `docs/narrative-audit/SESSION_HANDOFF_ACTS_2_7.md` for the complete commit
+> trail (handoff covers branch `claude/write-narrative-acts-El8yv` through
+> `5daee3b`). The historical findings below are preserved for context, but
+> the per-act "Gaps" sections are no longer accurate. Current real state:
+>
+> | Recommendation | Shipped artifact |
+> |---|---|
+> | Per-opponent dialog tables for Acts 3, 4, 6, 7 | `act3OpponentDialog.ts`, `act4OpponentDialog.ts`, `act6OpponentDialog.ts`, `act7OpponentDialog.ts` (+ `acts2to7Opponents.ts`) |
+> | Reactive companion comments for Act 2–7 moments | `companionComments.ts` `cc_act2_*` through `cc_act7_*` (~30 entries) |
+> | `alternateAnswers` schema + first use | `companionAskTopics.ts` (`CompanionAskTopicAlternateAnswer`, `resolveAskAnswer`); `ask_human_who` carries Act 6 + Act 7 alternates |
+> | System tutors for Acts 2+ | `acts2to7SystemTutors.ts` |
+> | Cross-act Ask topic lattice | `companionAskLattice.ts` |
+>
+> **Genuine remaining narrative-side work** (verified 2026-04-26):
+>
+> 1. **Writing Audit V2 line fixes — partial pass applied 2026-04-26.**
+>    The audit's `storyMode.ts:LINE` paths are stale — text has moved to
+>    `apps/client/src/game/cinematicDesign.ts` (FIGHTER_INTROS quotes),
+>    `apps/shared/storyModeRewrite.ts` (Chapter 12 enhancements), and
+>    `apps/client/src/data/loredex-data.json` (codex). Status of the
+>    audit's 67 categorized fixes against the **current** codebase:
+>
+>    | Fix | Status | Notes |
+>    |---|---|---|
+>    | A.1 Architect "I merely ensured…" | ✅ applied | `cinematicDesign.ts:342` → "I corrected a draft." |
+>    | A.2 Watcher "You lose in all of them" | ✅ applied | `cinematicDesign.ts:398` → "eleven thousand cycles…anomaly" |
+>    | A.3 / A.6 / A.7 / A.8 | ⊘ refactored away | The original strings no longer exist; the in-fiction Architect speeches have already been re-authored in longer, more in-voice form |
+>    | A.4 / A.5 Architect Chapter 12 dialog | ⊘ already rewritten | `storyModeRewrite.ts` enhancedPreFightDialog supersedes; the `finest creation` phrasing here is part of a deliberately authored long passage in Architect's calibrating voice — leaving it preserves the rhythm |
+>    | B.1 Source "I was made to be a weapon" | ✅ applied | `cinematicDesign.ts:422` → full virus-interruption form |
+>    | B.2–B.5 Source story-chapter lines | ⊘ live in `apps/scripts/source-lines.json` (script reference), not `storyModeChapters.ts`. Already partially incorporate the audit's reframing (post-loss "no. Run. RUN.", post-win "I forgot I could still be one voice"). The explicit `ALL WILL BE — / CONSUMED —` interruption is intentionally dialed down here vs. the FIGHTER_INTROS B.1 quote. Defer further interruption work to a coordinated VO pass. |
+>    | C.1–C.3 Show-don't-tell narrator beats | ⊘ refactored away | The original bullet-summary lines no longer exist in `storyMode.ts`; the equivalent beats now live as authored cinematics in `postVictoryCinematics.ts` and `storyModeChapters.ts` with sensory-cascade phrasing already |
+>    | C.4 Cut opening crawl 6 → 3 entries | ⊘ scope mismatch | Opening narration has been restructured; not a 1:1 fix |
+>    | D.1–D.3 Length trims | ⊘ source descriptions already reauthored | Warlord/Meme/Engineer entity bios are now full multi-paragraph entries rather than one-liners; trim no longer applies |
+>    | E.1 Enigma "Your equations cannot contain me" | ✅ applied | `cinematicDesign.ts:358` → paradox form |
+>    | E.2 Shadow Tongue "truth is whatever I whisper" | ✅ applied | `cinematicDesign.ts:390` → "I don't lie. I revise." |
+>    | E.3 Game Master "just changed the rules" | ✅ applied | `cinematicDesign.ts:406` → with `[He is not surprised.]` stage direction |
+>    | F.1 Dreamer / F.2 Seer | ⊘ originals not present | Strings do not appear in current codebase; either refactored or pending |
+>    | G.1 Warlord Loredex bio | ⊘ already applied | `loredex-data.json` entity_10 already carries the audit's REPLACE text |
+>    | G.2 Engineer Loredex description | ✅ applied | `loredex-data.json` entity_18 description field expanded |
+>    | G.3 The Forgotten | ⊘ already applied | `loredex-data.json` entity_41 (line 2216) already carries the audit's REPLACE text |
+>    | G.4–G.11 SiH placeholder songs | ⊘ flagged in original audit as "not urgent" |
+>    | **H.1–H.4 Subject 0 / Subject Zero → Prisoner 74 global rename** | ❌ deliberately NOT applied | **Canonical decision evolved past the audit.** `apps/shared/broadcastLibrary.ts:40` explicitly contrasts the two names: *"Prisoner 74. That's what the Panopticon called me. Not Subject Zero. Prisoner 74. The number matters."* `storyModeChapters.ts:414` lists *"Oracle. Subject Zero. Prophet. Prisoner"* as the player's four canonical name layers. Applying the rename would flatten an intentional multi-name identity reveal. |
+>    | I.1–I.3 Chapter 12 foreshadowing seeds | ⊘ line numbers stale | The seeds are good narrative ideas but require re-anchoring against current chapter structure. Recommend re-writing as a fresh task with current line context. |
+>
+>    Net: **7 high-confidence fixes applied** in this pass; the remainder
+>    are either obsolete due to refactor, already shipped, or deliberately
+>    deferred for a coordinated revision against the current text.
+>
+> 2. Act 7 Convergence Seat close-line editorial pass — explicitly
+>    deferred until the finale cinematic locks (per session handoff).
+> 3. Cades-FPS / Dead Man's Circuit *emit* sides of cross-game beats —
+>    out of repo; the Loredex receivers are already wired.
+> 4. Real-player QA feedback into variant tuning (the 289-entry variant
+>    registry is first-pass authored).
+> 5. **Writing Audit V3** (recommended): a fresh audit pass against the
+>    current codebase rather than the historical text. The audit's
+>    1,247-entry structure is sound; the line-number anchors need
+>    refreshing. Pair with a per-character voice-consistency review of
+>    the now-shipped Acts 2–7 dialog tables.
+
 _Scope: `apps/client/src/data/narrativeActs.ts` and the per-act mechanics files.
 Companion to `docs/narrative-audit/WRITING_AUDIT_V2_INGAME.md` and the prelude/Act 1
 audit that produced the work in `apps/shared/act1OpponentDialog.ts`,
