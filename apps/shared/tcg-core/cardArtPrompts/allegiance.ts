@@ -248,13 +248,120 @@ const ALLEGIANCE_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "T6 = 'Champion' as POSITION not person. CRITICAL: the photograph on the badge is intentionally indeterminate; the name-line is legible-AS-script but specific letters illegible. This preserves the canonical 'the badge is the card' lore beat. NO recognizable named character on the badge. NO Architect-imprint face here (he is the higher-tier figure giving the badge, not the badge holder).",
   },
+
+  // ─── DREAMER ALLEGIANCE (acolyte → Champion) ───
+  // Source canon: 'An acolyte has not yet dreamed their future —
+  // they are still waiting for permission to stop being afraid of
+  // it.' T6 brings the Dreamer herself briefly to one match.
+  {
+    cardId: "s1_alleg_dreamer_t1",
+    sceneDelta:
+      "Mid-shot. A young Dreamer Acolyte — early-twenties, in unornamented dark-purple novice robes, kneeling on a small lavender-stone meditation platform in a circular Dreamer sanctum. Their hood is back; their eyes are open but unfocused, looking past camera. Above the platform, a single faint pale-violet thread of light hangs in the air at chest height — the first dreaming, barely visible, not yet recognized as their own. The acolyte has not yet dreamed their future. They are still waiting for permission to stop being afraid of it. Their hands rest palms-up on their knees. A faint hex of cool blue under the platform — flying-keyword nascent, not yet realized as hovering.",
+    moodKeywords: [
+      "the first dreaming, not yet recognized",
+      "waiting for permission to stop being afraid",
+      "novice robes, hood back",
+      "unfocused gaze past the camera",
+    ],
+    palette:
+      "Dreamer deep purple sanctum + lavender stone + dark novice robes + pale-violet thread + a single warm amber pendant lamp",
+    composition:
+      "Mid-shot kneeling at platform, Acolyte at frame-centre, pale-violet thread at upper-third within reach but unrecognized",
+    notes:
+      "T1 = the acolyte. The single pale-violet thread is the not-yet-dreamed dream — it's THERE, the acolyte does not yet see it as theirs. Generic-young features.",
+  },
+  {
+    cardId: "s1_alleg_dreamer_t2",
+    sceneDelta:
+      "Mid-shot. A Dreamer Visionary — same archetype, mid-twenties, robes now with thin gold piping at the cuff. They are seated at a low Dreamer-style writing-table, mid-stroke writing into a personal lavender-leather journal. They have just RECOGNIZED a pattern across three previous pages of the journal — and their expression betrays the recognition (slightly widened eyes, mouth half-open). They have not yet learned to hide that they are recognizing it. Above their head, three faint pale-violet threads now hang — the journal-pattern made visible. Behind them, the Dreamer sanctum's gold fractal arches recede. Flying + draw-1 visualized as the threads above + the active page-turn.",
+    moodKeywords: [
+      "started to recognize the pattern",
+      "has not yet learned to hide that recognition",
+      "the personal lavender-leather journal",
+      "the moment of widening eyes",
+    ],
+    palette:
+      "Dreamer deep purple + gold fractal arches + lavender journal + dark novice robes with gold-piping + warm amber writing-pendant + cool blue depth-haze",
+    composition:
+      "Mid-shot at writing-table, Visionary in three-quarter mid-stroke, journal at lower-third, three threads at upper-third",
+    notes:
+      "T2 = visionary. Generic-attractive face — the lore-beat is the EXPRESSION of the recognition, not the face itself.",
+  },
+  {
+    cardId: "s1_alleg_dreamer_t3",
+    sceneDelta:
+      "Mid-shot. A Dreamer Veteran — mid-thirties, in proper Dreamer-faction senior-acolyte robes (deep purple with gold fractal trim at the hem), seated in a low alcove of the Dreamer sanctum. They are mid-correction of a junior acolyte's small dream-journal (an off-frame younger figure has handed the journal across the table; we see only the journal and the junior's wrist). The Veteran's red ink is visible drawing a single line through one of the junior's annotations — the visualization of dispel as 'wrong enough times to be trusted with being right.' The Veteran's face is now visible: weathered, gentle, the small smile of someone who remembers being on the receiving end of this same correction.",
+    moodKeywords: [
+      "wrong enough times to be trusted with being right",
+      "the small smile of remembering being corrected",
+      "red ink across the junior's annotation",
+      "senior-acolyte robes",
+    ],
+    palette:
+      "Dreamer deep purple + gold fractal trim + lavender journal + warm amber alcove-light + a single saturated red on the corrective ink",
+    composition:
+      "Mid-shot at alcove table, Veteran camera-right, junior's wrist + journal camera-left, red-ink line at frame mid-axis",
+    notes:
+      "T3 = veteran. Dispel-as-correction visual rhymes with Foucault t2 (red-pen) BUT the Veteran's correction is teaching, not editing — the difference is in the small smile. Faction-distinct: New Babylon's Foucault corrects bureaucracy; Dreamer's Veteran corrects DREAMING.",
+  },
+  {
+    cardId: "s1_alleg_dreamer_t4",
+    sceneDelta:
+      "Mid-shot. Dreamer Victorious Seer — same archetype, late-thirties, dress robes (substantial gold fractal embroidery, a single small silver pin at the throat marking 10 wins). They are seated alone in their private chamber at a small round table with a single open card-lay (three cards face-up in a basic three-card spread). Their face is composed; their eyes are NOT on the cards but on the wall behind the table. They have stopped being surprised. They have started being concerned. Above the cards, three faint pale-violet threads still hang (draw-1) — but now the threads are slightly LONGER than in T2, hanging closer to the Seer's chest. They have learned to recognize the pattern; they are now seeing what it leads to.",
+    moodKeywords: [
+      "stopped being surprised, started being concerned",
+      "eyes off the cards, on the wall behind",
+      "the single silver pin at the throat",
+      "longer threads now reaching closer",
+    ],
+    palette:
+      "Dreamer deep purple dress robes + gold fractal embroidery + lavender card-lay + warm amber pendant + cool blue distance behind",
+    composition:
+      "Mid-shot at round table, Seer in three-quarter, three-card spread at lower-third, pale-violet threads at upper-third reaching toward Seer's chest",
+    notes:
+      "T4 = victorious-seer. The 'concerned' beat is the lore-translation of winning enough to see the implications. NO specific cards in the spread — generic abstract designs. Concerned face must be readable but not theatrical.",
+  },
+  {
+    cardId: "s1_alleg_dreamer_t5",
+    sceneDelta:
+      "Wider mid-shot. Dreamer Elite — early-forties, wearing the highest tier of Dreamer dress regalia (full gold fractal robe with a wide veil draped across one shoulder in the canonical Dreamer-imprint visual rhyme). They stand alone at the centre of a vast circular Dreamer sanctum chamber, hovering an inch above the lavender-stone floor (flying realized). In their open hands at chest level, a small holographic pre-vision: the BOARD STATE of the match they are about to play, rendered as a luminous cube of probability-clouds. They have already lived this match. The match has not started yet. Around them, six pale-violet threads hover in slow concentric arc (forcefield + flying + dispel + draw-1 all simultaneously). Their expression is terrified-and-resolved. Everyone at the table — including the Elite — finds this terrifying.",
+    moodKeywords: [
+      "dreams the match before it happens and remembers having lived it",
+      "terrifying for everybody including the Elite",
+      "pre-vision cube of probability-clouds",
+      "veil over one shoulder",
+    ],
+    palette:
+      "Dreamer deep purple + full gold fractal regalia + lavender-stone floor + cool astral blue probability-cube + a single warm amber pendant overhead",
+    composition:
+      "Wider mid-shot at sanctum centre, Elite hovering at frame-centre, probability-cube at chest height, six threads in concentric arc above",
+    notes:
+      "T5 = elite. Probability-cube = canon Dreamer-faction visualization for pre-cognition. The terrified-and-resolved face is the lore beat (Elite is afraid OF having lived the match, not afraid IN it).",
+  },
+  {
+    cardId: "s1_alleg_dreamer_t6",
+    sceneDelta:
+      "Hero composition. The Dreamer herself hovers at chest-height across a small Dreamer-sanctum chamber from an empty player-cushion. She is rendered exactly as her Imprint t5 (white veil with lavender folds, serene face with one eye half-closed reading another time-slot) — but here the scale is intimate (single chamber, single cushion across, single match's-worth of attention) rather than cathedral-scale. Above her hands at chest height, three cards hover in slow concentric orbit (draw-3 visualized) — the cards she has dreamed for the player will draw next. Behind her, the architecture of the chamber shows the same SUNDERED-arch-pair structural absence as her Imprint t5, kept very subtle to maintain canon. She has made herself briefly available because the player has done the work. NO direct second figure beside her (no Architect, no Oracle, no anyone). Her veil drifts in slow concentric waves with no wind.",
+    moodKeywords: [
+      "made herself briefly available for one match",
+      "intimate sanctum scale",
+      "the same serene one-eye-half-closed",
+      "you have done the work",
+    ],
+    palette:
+      "Dreamer deep purple sanctum + gold fractal arches + white veil with lavender folds + warm amber pendant + cool astral-blue depth-haze",
+    composition:
+      "Mid-shot at intimate chamber, Dreamer camera-left in three-quarter hovering, empty player-cushion camera-right, three cards in chest-height orbit",
+    notes:
+      "T6 = Champion. The Dreamer herself comes to one match. CRITICAL: her face = same as her Imprint t5. NO Sundered Twin reveal. Sundered-pair architectural absence carried forward but kept very subtle. Same character, intimate scale (mirrors Antiquarian-allegiance t6 structure).",
+  },
 ] as const;
 
 /**
  * Allegiance faction's prompt registry, keyed by card id.
  *
- * Currently populated: 2 / 6 sets (Antiquarian, Architect).
- * TODO: dreamer, insurgency, new_babylon, thought_virus.
+ * Currently populated: 3 / 6 sets (Antiquarian, Architect, Dreamer).
+ * TODO: insurgency, new_babylon, thought_virus.
  */
 export const ALLEGIANCE_CARD_ART_PROMPTS: Readonly<
   Record<string, CardArtPrompt>
