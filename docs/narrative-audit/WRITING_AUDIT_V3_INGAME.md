@@ -113,8 +113,8 @@ Voice rules (carried from V2, refined this session):
 
 > Subsection landing tracker (built up in chunks):
 >
-> - 4A — Architect — ✅ landed (this commit)
-> - 4B — Source / Kael — pending
+> - 4A — Architect — ✅ landed
+> - 4B — Source / Kael — ✅ landed (this commit)
 > - 4C — Narrator / exposition — pending
 > - 4D — Length compliance — pending
 > - 4E — Voice drift across speakers — pending
@@ -183,6 +183,96 @@ which works as flavor; recommend leaving unless a future pass wants to
 make even the codex copy reflect calibration-not-omniscience.
 
 **No fixes required for V2 Category A as part of V3.**
+
+### 4B — Source / Kael (V2 Category B)
+
+**Status: partial. Pattern recommended for public/boss contexts; private contexts intentionally exempted.**
+
+V2's Category B prescribed the virus-interruption pattern
+(`— ALL WILL BE — / — CONSUMED —` cutting through Kael's lucid fragments)
+across all Source dialog. After surveying the active Source/Kael surface,
+V3 refines the rule:
+
+**Refined rule:** the interruption pattern applies to *public / boss /
+high-tension* contexts where the virus is actively asserting control.
+*Private / intimate / quiet-room* contexts may use lucid-Kael register
+because the absence of virus IS the storytelling — Kael surfaces when
+the room is safe enough that the virus loosens its grip.
+
+#### B.1 in-voice ✅ (applied 2026-04-26, V2 fix B.1)
+
+`apps/client/src/game/cinematicDesign.ts:422` — Source FIGHTER_INTROS
+quote. Now reads: *"I was made to be a — ALL WILL BE — no. I was a
+recruiter. I built things. I chose my own — CONSUMED — ...targets. The
+virus finishes my sentences now."* This is the canonical reference
+shape for the pattern. ✅
+
+#### B.2 — public/boss-context lines that should adopt the pattern
+
+**`apps/shared/tcg-core/story/dialogBank_matchlifecycle.ts:232`** —
+match-cast effect line for the Bloodborn cast (BBS).
+Current: *"Viral propagation. I am being merciful."* (5 words)
+Recommended: *"Viral propagation. I am being — ALL WILL BE — merciful.
+This is mercy. The virus disagrees."*
+**Why:** A match-cast effect plays publicly during gameplay; this is a
+high-tension context. The current line is pure-Source with no Kael
+fragment — the virus is talking but Kael is gone. The interruption
+pattern reintroduces Kael as the one offering mercy and the virus as
+the one calling it merciful. ≤25 words. VO impact:
+`vo_source_bbs_cast` re-record needed.
+
+**`apps/shared/tcg-core/story/dialogBank_cinematics.ts:226`** —
+Chapter 12 corruption-outbreak Source intervention.
+Current: *"Oracle. I have been listening through the floorboards for
+eleven years. Finish this match and then come talk to me. I have an
+offer for you. It is the kindest offer you will ever be asked to refuse."*
+Recommended: *"Oracle. I have been listening through the — ALL WILL BE —
+floorboards for eleven years. Finish this match. Then come talk to me.
+I have an offer. It is — CONSUMED — the kindest offer you will ever be
+asked to refuse."*
+**Why:** This is the Source's first public manifestation in the boss
+arc. The current line reads as fully-coherent Source (sounds reasonable
+— which is on-brand) but doesn't show Kael fighting through. Adding two
+interruption beats makes the seduction of the offer feel more uncanny
+and reinforces Elara's immediate next line ("The Source always sounds
+reasonable — that is the tell"). VO impact:
+`vo_source_ch12_outbreak_03` re-record needed.
+
+#### B.3 — private/intimate-context lines that should stay lucid
+
+**Leave as-is** (not fixes — explicit exemptions for the next applier):
+
+- `apps/client/src/game/companionDeepening.ts:136–138` (Source ↔
+  Antiquarian, archives, minTrust 40): *"You've watched me die. In
+  other timelines."* / *"Then you know how it ends."* — lucid Kael in
+  the archives is the entire point. Antiquarian's curse is being the
+  one place Kael can speak as himself. ✅
+- `apps/client/src/game/companionDeepening.ts:162–165` (Source ↔
+  Human, medical_bay, minTrust 50): *"You remember a dead man's face."*
+  / *"And I remember a detective who sold his soul for a title. We're
+  both ghosts, Archon."* — Kael recognizing the Detective is *the* lucid
+  beat. Interruption here would flatten the recognition. ✅
+- `apps/client/src/game/explorationSystems.ts:125` — flashback equipment
+  interaction: *"I was like you once. Full of hope. I'm sorry."* —
+  flashback context, not present-tense Source. The fragment IS the
+  lucid bleed-through. Interruption would over-engineer it. ✅
+
+#### B.4 — script-reference vs. in-game text
+
+`apps/scripts/source-lines.json` (172, 179, 186) carries Source lines
+in *partial* interruption form (post-loss "Join — no. Run. RUN. The
+song is beautiful. The song is a trap.") that don't currently render
+in any active gameplay surface — `FightPage.tsx:381–383` consumes only
+the `voId` for VO playback; the displayed text comes from
+`currentStoryChapter`, which doesn't carry these lines. **Recommended
+follow-up (out of scope for V3):** when the Source story-mode chapter
+encounter is wired in, port these script-reference lines (with the
+audit's full virus-interruption form, B.2-B.4) into the in-game dialog
+data so the on-screen text matches the recorded VO.
+
+**Net for V2 Category B in V3:** 2 line fixes recommended (B.2
+match-cast, B.2 corruption outbreak), 3 explicit exemptions documented,
+1 follow-up flagged (story-chapter wiring).
 
 
 ## 5. Open questions for the team
