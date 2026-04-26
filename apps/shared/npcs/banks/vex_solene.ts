@@ -572,6 +572,130 @@ export const VEX_SOLENE_BANK: ReadonlyArray<BankEntry> = [
     maxPlays: 1,
   },
 
+  // ─── engineer_zero_confirmed expansion (Phase 6b.2 sub-chunk E) ─────
+  // Six additional confirmed-stage lines covering canonical post-
+  // reveal direct register surfaces. Each preserves §1.6 silence-
+  // shape: even at confirmed stage, Vex does NOT say "Engineer
+  // Zero" aloud. The canonical bothness is named via deixis ("the
+  // version of me before this one") + canonical "two states of
+  // repair" register per §1.3 + canonical "the body I'm in" register
+  // per §2.7.
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "vex.engineer.act5.both_directly_named",
+    // Canonical confirmed-stage cinematic landing the canonical
+    // "Both. The reveal does not subtract." register without
+    // saying his name aloud. Per §1.6: "the most explicit she
+    // gets is *'He saved me with that card'*" — even at confirmed,
+    // she canonically refers to him as "he" / "the version of me
+    // before this one."
+    text:
+      "You knew before I told you. Don't lie. I knew before I told " +
+      "myself. The not-telling was the work of the rite — the body " +
+      "had to be ready to hold both names. I am holding both now. " +
+      "Both are mine. The reveal does not subtract. Continue.",
+    surfaces: ["cinematic"],
+    requiresRevealStage: "engineer_zero_confirmed",
+    minAct: 5,
+    cooldownKey: "vex.engineer.both_directly_named",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "vex.engineer.act5.designed_your_trust",
+    // Canonical "I designed your trust" beat per writers'-guide
+    // canonical "because I designed your trust" arc. Mirrors the
+    // ask_vex_trust topic engineer_zero_confirmed alternate but in
+    // bank-line form for the canonical npc_line surface.
+    text:
+      "I designed your trust. Or rather — the version of me before " +
+      "this one designed it. The design was good. The design held. " +
+      "You knew before I told you. Don't lie. I designed your knowing.",
+    surfaces: ["npc_line"],
+    requiresRevealStage: "engineer_zero_confirmed",
+    minAct: 5,
+    cooldownKey: "vex.engineer.designed_your_trust",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "vex.engineer.act5.maestro_now_habit",
+    // Canonical Maestro-persona-as-habit-of-character register per
+    // §1.4 + §2.6. The canonical "Habits are honest. Performances
+    // are honest too" register lands the canonical bothness canon
+    // applied to the Maestro/Vex persona-pair.
+    text:
+      "The Maestro persona is now a habit. It used to be a " +
+      "performance. Habits are honest. Performances are honest too, " +
+      "in different ways. I will keep wearing the Maestro when you " +
+      "visit. The wearing is not pretense. Both are professional.",
+    surfaces: ["transmission", "npc_line"],
+    requiresRevealStage: "engineer_zero_confirmed",
+    minAct: 5,
+    cooldownKey: "vex.engineer.maestro_now_habit",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "vex.engineer.act6.glad_its_you_in_voice",
+    // Canonical "I'm glad it's you" canonical love-equivalent per
+    // §1.6 ("reserved for the player, late in the arc. This is her
+    // version of love.") The canonical "the line I save" register
+    // lands the canonical scarcity canon — this is the only line
+    // she canonically saves, and the player has earned it.
+    text:
+      "You came back. The coming-back was not in any version of the " +
+      "table I drew. The asymmetry-of-affection clause activated. " +
+      "I'm glad it's you. That's the line I save. You earned the " +
+      "saving.",
+    surfaces: ["cinematic", "transmission"],
+    requiresRevealStage: "engineer_zero_confirmed",
+    minAct: 6,
+    requiresTrustBand: "Confidant",
+    cooldownKey: "vex.engineer.glad_its_you_in_voice",
+    maxPlays: 1,
+    setsFlags: ["vex_glad_its_you_in_voice_received"],
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "vex.engineer.act5.coda_new_contracts",
+    // Canonical confirmed-stage Coda contract register per existing
+    // reveal_acknowledgment companion. Lands the canonical §1.3
+    // "two states of repair" register directly via "the hand is in
+    // two states of repair" canon. §1.6 silence-shape preserved —
+    // no Engineer-name aloud.
+    text:
+      "The Coda's books are open to you now. The Maestro's contracts " +
+      "and Vex's contracts are filed in the same cabinet. The cabinet " +
+      "is yours to read. Some entries are older than the body I'm in. " +
+      "Read them carefully. The handwriting is the same. The hand is " +
+      "in two states of repair.",
+    surfaces: ["npc_line", "trade_empire"],
+    requiresRevealStage: "engineer_zero_confirmed",
+    minAct: 5,
+    cooldownKey: "vex.engineer.coda_new_contracts",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "vex.engineer.act6.your_move",
+    // Canonical "Your move" trailing-word ending per §1.5 tell #2
+    // + `vexCardRecognition.ts:85` canonical anchor. The canonical
+    // "the move I expected was the move you made. The move I did
+    // not expect was the way you made it" register lands the
+    // canonical Vex precognition + recognition canon.
+    text:
+      "The card is on the table. The play is yours. The move I " +
+      "expected was the move you made. The move I did not expect was " +
+      "the way you made it. Your move.",
+    surfaces: ["match"],
+    requiresRevealStage: "engineer_zero_confirmed",
+    minAct: 6,
+    cooldownKey: "vex.engineer.your_move",
+    maxPlays: 2,
+  },
+
   // ═════════════════════════════════════════════════════════════════════
   // CATCH-ALLS (silent-fail compliance, stage-agnostic)
   // ═════════════════════════════════════════════════════════════════════
