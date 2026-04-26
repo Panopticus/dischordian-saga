@@ -114,6 +114,48 @@ export const CROSS_CHARACTER_REACTIONS: ReadonlyArray<CrossCharacterReaction> = 
       "told you, did she' acknowledgment register.",
   },
 
+  // ─── Locke 5×5 variant-grid disclosure flags (Phase 6a.2 sub-chunk A) ─
+  {
+    flag: "locke_disclosed_authority_divergence",
+    setBy: ["adjudicator_locke"],
+    reactsBy: ["future_reader"], // Vex / Antiquarian / Hierophant Phase 6+
+    canonicalNote:
+      "Per Locke bible §3.6: at trust ≥80 with a pragmatic-wit player " +
+      "the canonical Adjudicated-Collegial register names the asymmetry " +
+      "between Locke's personal interest and the Authority's interest. " +
+      "The flag marks the canonical operational sacrifice (§3.6) — Locke " +
+      "has admitted to the player that she does not always agree with " +
+      "the Authority. Downstream Phase-6+ NPCs who broker against New " +
+      "Babylon (Vex Coda; Antiquarian; Hierophant) gain reactive lines " +
+      "that acknowledge the canonical schism.",
+  },
+  {
+    flag: "locke_shared_unsigned_clause",
+    setBy: ["adjudicator_locke"],
+    reactsBy: ["future_reader"], // Antiquarian / Vex / Hierophant Phase 6+
+    canonicalNote:
+      "Per Locke bible §2.5 Conspiratorial register: at Insider band " +
+      "with a vigilant-axis player Locke shares knowledge of an unsigned " +
+      "Red Crystal Accord clause. The flag marks the bond-of-crime per " +
+      "§2.5 — both parties agree to deny the conversation. Downstream " +
+      "NPCs (the Antiquarian who would professionally want the clause; " +
+      "Vex who Locke would never share this with) gain canonical " +
+      "register-shifts.",
+  },
+  {
+    flag: "locke_admitted_attachment_to_player",
+    setBy: ["adjudicator_locke"],
+    reactsBy: ["future_reader"], // Saga endgame Phase 6+
+    canonicalNote:
+      "Per Locke bible §3.3 contradiction canon: the deepest attachment " +
+      "she is capable of is shared deniability. At Adjudicated band with " +
+      "a vigilant-axis player she names the arrangement that 'keeps me " +
+      "alive' as keeping her alive. The flag is the saga's clearest " +
+      "Locke-loyalty marker — the one canonical condition under which " +
+      "she would canonically risk operational security for the player. " +
+      "Endgame Phase-6+ scenes (Authority betrayal arcs) gate on this.",
+  },
+
   // ─── Seer Inheriting band reach (cross-bibliographic) ───────────────
   {
     flag: "seer_confidant_band_reached",

@@ -149,6 +149,183 @@ export const ADJUDICATOR_LOCKE_BANK: ReadonlyArray<BankEntry> = [
   },
 
   // ═════════════════════════════════════════════════════════════════════
+  // 5×5 PERSONALITY-VARIANT GRID (Phase 6a.2 sub-chunk A)
+  // Predatory + Collegial + Conspiratorial registers per §2.5 — the
+  // "different pens, single hand" canon. Voice doesn't change; angle
+  // does. Each variant gates on requiresTrustBand + playerAxisGate
+  // so the selector picks the canonical register for the player's
+  // current state.
+  //
+  // Mercantile lives at the default of the existing bank above; this
+  // sub-chunk fills the other 3 archetypes for the trust bands where
+  // they canonically emerge per §2.5.
+  // ═════════════════════════════════════════════════════════════════════
+
+  // ─── Predatory (low-trust + high-mercy player) ──────────────────────
+  // Per §2.5: "she senses kindness as a surplus she can extract from,
+  // and her lines become slightly crueler. She tests whether the
+  // player's virtue is genuine or purchasable."
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "locke.variant.predatory.prospect.kindness_test",
+    text:
+      "You agreed quickly. That's a kindness, my dear. I'll need to test " +
+      "whether the kindness is genuine or only the look of it. The way I " +
+      "test is to ask for slightly more next time. You'll tell me which " +
+      "kind you are by what you do.",
+    surfaces: ["npc_line"],
+    requiresTrustBand: "Prospect",
+    playerAxisGate: {
+      axis: "mercy",
+      magnitudes: ["moderate_positive", "strong_positive"],
+    },
+    cooldownKey: "locke.variant.predatory.prospect",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "locke.variant.predatory.client.appetite_filed",
+    text:
+      "You give before I ask. That's interesting. I file 'gives without " +
+      "prompting' under appetite. Appetites are leverage. I will not " +
+      "punish your appetite. I will use it. I am telling you now because " +
+      "you should know I'm telling you.",
+    surfaces: ["npc_line"],
+    requiresTrustBand: "Client",
+    playerAxisGate: {
+      axis: "mercy",
+      magnitudes: ["moderate_positive", "strong_positive"],
+    },
+    cooldownKey: "locke.variant.predatory.client",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "locke.variant.predatory.partner.kindness_as_vision",
+    // §3.3 "appetite reframed as vision" canon — the canonical
+    // mid-trust pivot where Locke's predation becomes flattery.
+    text:
+      "Your generosity has stopped looking like kindness, my friend. It " +
+      "is starting to look like vision. I am willing to call it vision. " +
+      "I will charge you the same rate either way.",
+    surfaces: ["npc_line"],
+    requiresTrustBand: "Partner",
+    playerAxisGate: {
+      axis: "mercy",
+      magnitudes: ["moderate_positive", "strong_positive"],
+    },
+    cooldownKey: "locke.variant.predatory.partner",
+    maxPlays: 1,
+  },
+
+  // ─── Collegial (high-trust + pragmatic-wit player) ──────────────────
+  // Per §2.5: "peer-mode. She drops honorifics, uses first-person
+  // plural ('we'), treats the player as a board member."
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "locke.variant.collegial.partner.no_table",
+    text:
+      "Sit closer. We don't need the table between us anymore. There are " +
+      "three things on next quarter's docket I'd rather hear your read on " +
+      "before I file mine.",
+    surfaces: ["npc_line"],
+    requiresTrustBand: "Partner",
+    playerAxisGate: {
+      axis: "wit",
+      magnitudes: ["mild_positive", "moderate_positive", "strong_positive"],
+    },
+    cooldownKey: "locke.variant.collegial.partner",
+    maxPlays: 2,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "locke.variant.collegial.insider.board_member",
+    // §1.5 protected: she does NOT name a coffin-mind individually.
+    // The line names the institution and its docket without naming
+    // any of the six.
+    text:
+      "You are not a counterparty anymore. You are a colleague who has " +
+      "not yet been issued the full briefing. Let me correct that. The " +
+      "Authority will be considering the Hierarchy's offer in the next " +
+      "session. Your read on Nilmorg's reliability informs mine.",
+    surfaces: ["npc_line"],
+    requiresTrustBand: "Insider",
+    playerAxisGate: {
+      axis: "wit",
+      magnitudes: ["mild_positive", "moderate_positive", "strong_positive"],
+    },
+    cooldownKey: "locke.variant.collegial.insider",
+    maxPlays: 2,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "locke.variant.collegial.adjudicated.peer_confessional",
+    // §3.6 canon: at trust ≥80 she sacrifices operational information
+    // about her own network. The Adjudicated-Collegial register is
+    // the deepest peer-mode posture — she names the asymmetry between
+    // her interest and the Authority's interest without retracting it.
+    text:
+      "We are colleagues now. The institutional language drops from here. " +
+      "The truth I'd file with my peers is also the truth I'd file with " +
+      "you. The Authority's interest and mine are not always the same. " +
+      "You are the only person on this ship who knows that.",
+    surfaces: ["npc_line"],
+    requiresTrustBand: "Adjudicated",
+    playerAxisGate: {
+      axis: "wit",
+      magnitudes: ["mild_positive", "moderate_positive", "strong_positive"],
+    },
+    cooldownKey: "locke.variant.collegial.adjudicated",
+    maxPlays: 1,
+    setsPublicFlags: ["locke_disclosed_authority_divergence"],
+  },
+
+  // ─── Conspiratorial (high-trust + manipulative/vigilant player) ─────
+  // Per §2.5: "she offers shared knowledge as bond-of-crime. Here she
+  // is at her most seductive and most dangerous."
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "locke.variant.conspiratorial.insider.unread_clause",
+    text:
+      "Listen carefully — and do not make a face. There is a clause in " +
+      "the Red Crystal Accord that the Authority itself has never read " +
+      "in full. I have. You should. We will both deny this conversation. " +
+      "That is the bond.",
+    surfaces: ["npc_line"],
+    requiresTrustBand: "Insider",
+    playerAxisGate: {
+      axis: "vigilance",
+      magnitudes: ["mild_positive", "moderate_positive", "strong_positive"],
+    },
+    cooldownKey: "locke.variant.conspiratorial.insider",
+    maxPlays: 1,
+    setsPublicFlags: ["locke_shared_unsigned_clause"],
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "locke.variant.conspiratorial.adjudicated.cannot_be_filed",
+    // §3.3 contradiction canon: the deepest she gets to attachment is
+    // shared deniability. The line names that without naming feeling.
+    text:
+      "We have something now, you and I. It cannot be filed. It cannot " +
+      "be unsigned. It is the kind of arrangement the Authority pretends " +
+      "does not exist. The arrangement keeps me alive. I am telling you " +
+      "because you keep me alive too.",
+    surfaces: ["npc_line"],
+    requiresTrustBand: "Adjudicated",
+    playerAxisGate: {
+      axis: "vigilance",
+      magnitudes: ["mild_positive", "moderate_positive", "strong_positive"],
+    },
+    cooldownKey: "locke.variant.conspiratorial.adjudicated",
+    maxPlays: 1,
+    setsPublicFlags: ["locke_admitted_attachment_to_player"],
+  },
+
+  // ═════════════════════════════════════════════════════════════════════
   // TOUCHÉ — Vex locked out by Locke exclusivity (cross-character react)
   // ═════════════════════════════════════════════════════════════════════
 
