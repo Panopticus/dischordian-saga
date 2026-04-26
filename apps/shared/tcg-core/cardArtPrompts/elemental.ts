@@ -104,13 +104,100 @@ const ELEMENTAL_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "Legendary unit. The pre-civilization landscape (bare rock + volcanic glow + no buildings) is the visual key to 'before there were hands.' Three keywords (rush + celerity + frenzy) rendered as three distinct visual elements simultaneously. Stable-flame silhouette differentiates from unstable lower-tier fire-elementals.",
   },
+
+  // ─── WATER ELEMENT — heal + dispel + drain ───
+  {
+    cardId: "s1_elem_water_01",
+    sceneDelta:
+      "Mid-shot. A Tide Keeper — a humanoid water-elemental, female-presenting silhouette, body composed of translucent cool-cyan water with subtle internal currents visible. They stand at the edge of an open shore, mid-tide, the sea at their right. Their posture is calm-attentive — they are NOT facing the wave currently breaking; they are facing the wave that comes AFTER, standing 'one wave back' from it. One hand is extended palm-down toward the friendly side (off-frame at frame-left), a faint warm-amber heal-glow pulse traveling down their arm and outward (heal-2 visualized). Behind them, the breaking wave is already past; ahead of them in the sea, the next wave is forming. Their face is composed of cool-cyan water with two small luminous deeper-cyan eye-points and a calm mouth-line.",
+    moodKeywords: [
+      "knows which wave is going to be the one that matters",
+      "stands one wave back",
+      "facing the wave after the breaking one",
+      "calm-attentive water-elemental",
+    ],
+    palette:
+      "Cool-cyan translucent water-body + warm-amber heal-glow + cool deep-sea blue + warm shore-sand + cool dawn ambient",
+    composition:
+      "Mid-shot side three-quarter, Tide Keeper at frame-centre, breaking wave behind them, forming wave ahead",
+    notes:
+      "Common unit. The 'one wave back from the wave that matters' framing is canon-direct from flavor — rendered as the Keeper's posture and gaze. Heal-glow as warm-amber is the canonical heal visual idiom (consistent with Locke Imprint set's Ark life-support visualization).",
+  },
+  {
+    cardId: "s1_elem_water_02",
+    sceneDelta:
+      "Wider mid-shot. A Dissolving Wave — a single tall wall of cool-cyan water mid-rise, approximately 4 meters tall, frozen at the apex of formation. Through the water's translucent body, ghostly traceries of QUESTIONS form into faint script-like patterns (the 'water taught to ask questions' visualized as visible interrogation-marks dissolved into the wave's structure). The wave is curling toward camera-right, where the implied target stands off-frame. A faint cool grey silence-nullification-haze (consistent with the silence keyword's visual idiom from Spy class spy_04) trails ahead of the wave's curl — the silencing is the wave's leading edge. NO human figure. The shore beneath is sparse; the sky is overcast.",
+    moodKeywords: [
+      "water that has been taught to ask questions",
+      "eventually becomes a solvent",
+      "questions visible as script in the wave's body",
+      "silence-haze at the leading edge",
+    ],
+    palette:
+      "Cool-cyan translucent wave + faint silver question-script in wave-body + cool grey silence-nullification-haze + cool overcast sky + sparse warm shore",
+    composition:
+      "Wider mid-shot side three-quarter, wave at frame-centre mid-curl toward camera-right, no human figures",
+    notes:
+      "Spell card. Silence keyword as cool-grey nullification-haze (consistent with spy_04 visual). The 'questions in the wave' is canon-direct from flavor — rendered as faint script-traceries within the translucent water-body.",
+  },
+  {
+    cardId: "s1_elem_water_03",
+    sceneDelta:
+      "Wider mid-shot. A Mercy Current — a slow visible current within a wider river, the current itself rendered as a pale-cream-cyan luminous flow distinct from the surrounding deeper-blue water. The current is FLOWING DOWNRIVER, visibly carrying NOTHING (no debris, no dust, no leaves — it has chosen not to take anything with it on purpose). Around the river, autumnal trees on either bank, leaves falling, but the current's surface is unbroken — the leaves drift past WITHOUT being absorbed. A friendly figure is implied at the lower-right (only their reaching hand visible at the river's edge, palm-up, mid-receiving), and a strong warm-amber heal-glow pulse travels from the current INTO their palm (heal-6 visualized). The light is late-afternoon golden-hour.",
+    moodKeywords: [
+      "the part of a river that decides not to take anything",
+      "leaves drift past without being absorbed",
+      "current flowing downriver carrying nothing",
+      "warm-amber heal-pulse into the palm",
+    ],
+    palette:
+      "Cool deeper-blue river + pale-cream-cyan luminous current + warm autumnal trees + warm late-afternoon golden-hour + warm-amber heal-pulse + warm river-bank shore",
+    composition:
+      "Wider mid-shot, river extending diagonally across frame, current at frame-centre, friendly hand at lower-right edge",
+    notes:
+      "Spell card. Anonymous reaching-hand (no body visible, only the hand) preserves no-character-conflation. The 'chosen not to take anything' is rendered as leaves passing the current's surface unabsorbed — canon-direct from flavor.",
+  },
+  {
+    cardId: "s1_elem_water_04",
+    sceneDelta:
+      "Mid-shot. An Abyssal Form — a humanoid water-elemental, but of DEEP-DARK water (almost black at the body-core, transitioning through deep-cyan-blue at the body's outer-edge to almost-clear at the silhouette-edge). The Form's body internal-currents are extremely slow, almost still, as if the water has weight. Where the Form's eyes would be, two small luminous deeper-cyan eye-points; the mouth-line is a single horizontal current. They stand on what was once a sea-floor — but the sea is gone, replaced by dry rocky ground with faint mineral-deposits suggesting the water that used to be there. Faint cool-cream drain-glow rims the Form's body (drain visualized); faint translucent ripple-patterns (dispel visualized) propagate outward at chest-height. The deep-background suggests an empty sky; the time of day is ambiguous.",
+    moodKeywords: [
+      "the bottom of a sea that existed for four days",
+      "the second week of the Fall",
+      "remembered by nobody",
+      "the water has weight",
+    ],
+    palette:
+      "Deep-dark water-core + deep-cyan outer-edge + dry rocky sea-floor + faint mineral-deposits + cool drain-rim + translucent dispel-ripples + ambiguous empty sky",
+    composition:
+      "Mid-shot front three-quarter, Abyssal Form at frame-centre, dry sea-floor beneath them, empty sky above",
+    notes:
+      "Epic unit. The 'sea that existed for four days in the second week of the Fall' is canon-direct from flavor — rendered as the dry rocky ground with mineral-deposits showing the absent water. The Fall (Genesis-era event) is fully revealed by end of Epoch 2. Dual-keyword rendering: drain = rim-glow, dispel = ripple-patterns.",
+  },
+  {
+    cardId: "s1_elem_water_05",
+    sceneDelta:
+      "Wider mid-shot. The Ocean That Forgives — a vast open ocean filling 70% of the frame, mid-distance to deep-distance, with a small humanoid figure (anonymous, generic-presenting, in shore-clothes) standing at the very edge of the shore in the lower-third of the frame, back to camera. The ocean is calm, deep cool-blue with subtle warm-amber dawn-light glittering on its surface. A SINGLE wave is mid-arrival from the deep distance, perfectly visible in its scale relative to the figure (the wave is small relative to the ocean but arriving WHETHER OR NOT THE FIGURE ASKED). The wave carries a faint warm-amber heal-glow at its leading edge (heal-8 visualized as the wave itself); a faint cool drain-rim wraps the figure (drain visualized as what the ocean takes back); faint translucent dispel-ripples propagate from the figure outward (dispel visualized). The figure's posture is open, receiving, exhausted-but-relieved.",
+    moodKeywords: [
+      "big enough that the thing you are ashamed of is smaller than a wave",
+      "the wave will arrive whether or not you asked",
+      "back-to-camera figure receiving",
+      "exhausted-but-relieved",
+    ],
+    palette:
+      "Deep cool-blue ocean + warm-amber dawn-glitter on surface + warm-amber heal-glow on wave-leading-edge + cool drain-rim + translucent dispel-ripples + warm shore-sand",
+    composition:
+      "Wider mid-shot back-three-quarter on figure, ocean filling 70% of frame, single arriving wave mid-distance",
+    notes:
+      "Legendary unit. CRITICAL: receiving figure is back-to-camera and ANONYMOUS — must NOT match any named character. The 'wave arrives whether or not you asked' framing is canon-direct from flavor and is rendered as the wave already mid-arrival before any visible request from the figure. Three effects (heal + drain + dispel) rendered as three distinct visual elements.",
+  },
 ] as const;
 
 /**
  * Elemental faction's prompt registry, keyed by card id.
  *
- * Currently populated: 1 / 4 elements (Fire).
- * TODO: water, earth, air.
+ * Currently populated: 2 / 4 elements (Fire, Water).
+ * TODO: earth, air.
  */
 export const ELEMENTAL_CARD_ART_PROMPTS: Readonly<Record<string, CardArtPrompt>> =
   Object.freeze(
