@@ -718,12 +718,97 @@ const INSURGENCY_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "Common unit. Anonymous tender (back-three-quarter) preserves no-character-conflation. The 'last frequency still carries' is rendered as the visible amplification-ripples + transmission-script.",
   },
+  {
+    cardId: "s1_song_091",
+    sceneDelta:
+      "Wider mid-shot. I Love War — at frame-centre, a tall figure WEARING DR. LYRA VOX'S SKIN as a weapon (the canonical 'Warlord wore Vox's skin like a weapon' visualization): the figure has Vox's external body-form (consistent with s1_char_006's neural-engineer features — chrome temple-band, white coat) but the eyes are NOT VOX'S — they are deep-violet WARLORD eyes, alien beneath the borrowed face. The skin shows visible CHROME-AND-COOL-CYAN NANOBOT-PATTERNS at the seams (hair-thin chrome circuits running along the jawline, the wrists, the neck — the nanobots that delivered the conquest). The Warlord's mouth is mid-words ('war IS love'). At lower-third, an anonymous SILVER-MIST AGENT ZERO outline (silhouette only, no facial detail) is mid-DISCOVERY of what is happening. Faint warm pierce-glow rims the Warlord's hands; faint warm overcharge-glow at the body's seams.",
+    moodKeywords: [
+      "the Warlord wore Vox's skin like a weapon",
+      "Agent Zero never saw the nanobots coming",
+      "war IS love to the Warlord",
+      "this was an act of intimate conquest",
+    ],
+    palette:
+      "Vox's chrome temple-band + white coat + deep-violet WARLORD eyes (NOT Vox's) + chrome-and-cool-cyan nanobot-patterns at seams + warm pierce-glow + warm overcharge-glow + silver-mist Agent Zero outline + cool deep-shadow",
+    composition:
+      "Wider mid-shot front three-quarter, Warlord-in-Vox's-skin at frame-centre, Agent Zero silver-mist outline at lower-third",
+    notes:
+      "Epic spell. CRITICAL spoiler-discipline: the canonical Warlord-using-Vox is established lore. Agent Zero rendered as silver-mist outline (no facial detail) consistent with her ghost-iconography in this set. The deep-violet WARLORD eyes are the visual key to 'borrowed skin' — different from Vox's natural eye-color rendering in s1_char_006.",
+  },
+  {
+    cardId: "s1_spell_104",
+    sceneDelta:
+      "Mid-shot. A Signal Intercept — at frame-centre, a small Insurgency-aligned RECEIVER-DEVICE on a low table in a quiet rebel-cell room. The device's chrome-and-signal-green frequency-display reads 'MIDNIGHT' in cool-cyan numerals. From the device, faint translucent silver-mist transmission-script propagates upward — Agent Zero's frequency, still alive. Around the table, FIVE anonymous rebel-cell members (back-three-quarter, Insurgency-slate gear) are gathered listening — heads slightly inclined toward the device, eyes intent. Faint warm low cell-light. The setting is intimate, sacred. NO faces visible.",
+    moodKeywords: [
+      "the signal died with Agent Zero, but the frequency lives on",
+      "every rebel cell still tunes in at midnight",
+      "MIDNIGHT on chrome-and-signal-green frequency-display",
+      "five anonymous listeners gathered, intimate sacred",
+    ],
+    palette:
+      "Chrome-and-signal-green receiver-device + cool-cyan MIDNIGHT display + translucent silver-mist transmission-script + Insurgency-slate cell-gear + warm low cell-light + cool deep-shadow",
+    composition:
+      "Mid-shot, receiver-device at frame-centre on table, five anonymous listeners arrayed around",
+    notes:
+      "Common spell. Anonymous listeners (back-three-quarter) preserve no-character-conflation. The MIDNIGHT display + tuning-in framing is canon-direct from flavor. NO Agent Zero render — only her transmission.",
+  },
+  {
+    cardId: "s1_spell_105",
+    sceneDelta:
+      "Action mid-shot. A Guerrilla Strike — at frame-centre, the moment of INSURGENCY STRIKE on an Architect-aligned target: an anonymous Architect-combat unit (chrome-and-cool-cyan plating, generic-architect features per the broader faction set) at frame-right is mid-fall (struck), with multiple translucent ATTACK-VECTOR LINES converging on it from MULTIPLE OFF-FRAME DIRECTIONS (each line representing a different rebel attacking from a different angle, none of them visible — they have already gone). The vectors visibly DISSIPATE at the impact-point. Faint warm-amber strike-flares at the impact-point. NO Insurgency-aligned figure visible — the rebels were here and have already gone.",
+    moodKeywords: [
+      "they never see us coming",
+      "by the time they've calculated our trajectory, we've already gone",
+      "multiple attack-vectors converging from off-frame directions",
+      "vectors dissipating after impact",
+    ],
+    palette:
+      "Chrome-and-cool-cyan Architect-combat unit + multiple translucent attack-vector lines + warm-amber strike-flares + cool battlefield ambient + cool deep-shadow",
+    composition:
+      "Action mid-shot, Architect target at frame-right mid-fall, attack-vectors converging from multiple off-frame directions",
+    notes:
+      "Common spell. NO Insurgency-aligned figure visible (the rebels are gone — canon-direct from flavor). Anonymous Architect target preserves no-character-conflation.",
+  },
+  {
+    cardId: "s1_spell_106",
+    sceneDelta:
+      "Mid-shot. An Encrypted Broadcast — at frame-centre, a chrome-and-signal-green Insurgency BROADCAST-DEVICE displaying a complex AGENT-ZERO ENCRYPTION-PATTERN (a dense interweaving cool-cyan-and-signal-green geometric pattern visibly indecipherable). Around the device, faint translucent silver-mist transmission-script extends outward (the broadcast in flight). Critically, at the deep-distance frame-edges, faint translucent ARCHITECT FIREWALL barriers visible BEING-PUNCHED-THROUGH by the encrypted signal — the broadcast passes the firewall WITHOUT BREAKING IT (the firewall doesn't know it has been crossed; the dead woman's handshake is invisible to it). NO human figure (the broadcast IS the spell).",
+    moodKeywords: [
+      "Agent Zero's encryption keys were never recovered",
+      "a dead woman's handshake that no firewall can parse",
+      "AGENT-ZERO ENCRYPTION-PATTERN displayed on device",
+      "broadcast crossing firewall without breaking it",
+    ],
+    palette:
+      "Chrome-and-signal-green broadcast-device + dense cool-cyan-and-signal-green encryption-pattern + translucent silver-mist transmission-script + faint translucent Architect firewall barriers + cool deep-shadow",
+    composition:
+      "Mid-shot, broadcast-device at frame-centre, transmission-script extending to firewalls at deep-distance frame-edges",
+    notes:
+      "Uncommon spell. NO human figure. The 'dead woman's handshake' framing is rendered through the indecipherable encryption-pattern + the firewalls being passed without trigger.",
+  },
+  {
+    cardId: "s1_spell_107",
+    sceneDelta:
+      "Wider mid-shot. A Dead Frequency Jam — at frame-centre, a vast Architect-aligned communications-grid being JAMMED by a deep-distance Insurgency broadcast. The broadcast's source is implied off-frame at deep-distance (faint translucent silver-mist arrival-rays converging toward the grid from one direction). The Architect-grid (multiple chrome-and-cool-cyan transmission-towers visible in mid-distance) is mid-failure: cool-cyan transmission-arcs are visibly INTERRUPTED at multiple points, the towers are mid-flicker. Around them, anonymous Architect-faction operators (back-shots only, generic chrome-and-cool-cyan uniforms) scramble in the foreground at lower-third trying to repair. The broadcast that did this was meant for the operators NOT for the Insurgency-allies (canonical 'meant for everyone else'). NO Insurgency figure visible.",
+    moodKeywords: [
+      "the broadcast that killed Agent Zero was never meant for her allies",
+      "it was meant for everyone else",
+      "Architect-grid mid-failure with interrupted transmission-arcs",
+      "anonymous operators scrambling to repair",
+    ],
+    palette:
+      "Architect chrome-and-cool-cyan transmission-towers + interrupted cool-cyan transmission-arcs + faint translucent silver-mist arrival-rays + anonymous Architect-operator silhouettes + cool deep-shadow + warm low communications-room light",
+    composition:
+      "Wider mid-shot, Architect-grid at frame-centre with interrupted arcs, operators scrambling at lower-third",
+    notes:
+      "Rare spell. Anonymous Architect operators (back-shots) preserve no-character-conflation. NO Insurgency-aligned figure visible (the spell is being delivered remotely). The 'meant for everyone else' is the canonical tactical-context made visible.",
+  },
 ] as const;
 
 /**
  * Insurgency faction's prompt registry, keyed by card id.
  *
- * Currently populated: 40 / 51 cards
+ * Currently populated: 45 / 51 cards
  * (gen_insurgency, s1_char_002, s1_char_010, s1_char_011,
  *  s1_char_012, s1_char_026, s1_char_028, s1_char_031,
  *  s1_char_040, s1_char_041, s1_char_044, s1_char_047,
@@ -734,7 +819,8 @@ const INSURGENCY_PROMPTS_LIST: readonly CardArtPrompt[] = [
  *  s1_reward_campaign_defiance, s1_reward_class_spy,
  *  s1_reward_companion_zero, s1_reward_crew_mission,
  *  s1_reward_eidolon_echo, s1_reward_guild_recruit,
- *  s1_reward_trade_insurgency, s1_reward_vote_t1_defiance).
+ *  s1_reward_trade_insurgency, s1_reward_vote_t1_defiance,
+ *  s1_song_091, s1_spell_104-107).
  */
 export const INSURGENCY_CARD_ART_PROMPTS: Readonly<Record<string, CardArtPrompt>> =
   Object.freeze(
