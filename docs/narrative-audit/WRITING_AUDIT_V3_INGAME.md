@@ -116,8 +116,8 @@ Voice rules (carried from V2, refined this session):
 > - 4A — Architect — ✅ landed
 > - 4B — Source / Kael — ✅ landed
 > - 4C — Narrator / exposition — ✅ landed
-> - 4D — Length compliance — ✅ landed (this commit)
-> - 4E — Voice drift across speakers — pending
+> - 4D — Length compliance — ✅ landed
+> - 4E — Voice drift across speakers — ✅ landed (this commit)
 > - 4F — Generic-villain rhetorical patterns — pending
 > - 4G — New surfaces (Acts 2–7, variant registry) — pending
 
@@ -359,6 +359,51 @@ Keeps drift under control while honouring the structural exception.
 **No urgent line fixes required.** The 25-word cap is upheld where it
 matters (mid-match taunts); the 33-word Source intro is a deliberate
 trade for the virus-interruption pattern.
+
+### 4E — Voice drift across speakers (V2 Category E)
+
+**Status: V2-flagged drifts closed; broader speaker sample is in voice.**
+
+#### V2-flagged drifts
+
+| V2 fix | Speaker | Status | Where |
+|---|---|---|---|
+| E.1 | Enigma | ✅ applied 2026-04-26 | `cinematicDesign.ts:358` — paradox form |
+| E.2 | Shadow Tongue | ✅ applied 2026-04-26 | `cinematicDesign.ts:390` — "I don't lie. I revise." |
+| E.3 | Game Master | ✅ applied 2026-04-26 | `cinematicDesign.ts:406` — `[He is not surprised.]` |
+
+#### Broader sample (speakers V2 didn't flag)
+
+- **Necromancer** — `dialogBank_chapters_4_6.ts:89` *"Death is not an
+  ending, Prisoner 74. It is a compile error. I fix those. I have been
+  fixing yours for longer than you have been alive to notice."* —
+  mathematics-as-faith voice. ✅
+  `storyModeChapters.ts:251` *"Prisoner 74. Thirteen iterations of this
+  conversation. You never remember the previous twelve. I do. It's a
+  strange intimacy."* — quiet-killer intimacy register. ✅
+  `postVictoryCinematics.ts` *"Green fire now. Soft, if it helps. Yes.
+  Like that."* — gentle/devastating. ✅
+
+- **Authority** — `dialogBank_chapters_10_12.ts:237–250` makes the
+  Authority's silence canonical: *"The proceeding convenes. Ten phases.
+  The Authority does not speak except to ask — and in the spaces between,
+  the Empire listens to what you say."* The deliberate non-speaking is
+  itself the voice. ✅
+
+- **Eyes** — `eyesArc.ts:26` *"My name is the Eyes. I was made to watch
+  by a man who could see everything."* — synthetic-protege intimacy
+  with the Watcher. ✅ Voice consistent across `eyesArc.ts`.
+
+- **Watcher** — beyond V2 fix A.2 (already applied), the Watcher does
+  not speak directly elsewhere. The watcher-shadow at
+  `act7OpponentDialog.ts:81` is a deliberate cover-not-the-thing — the
+  shadow speaks in calibration register: *"I am watching. I am also
+  not watching. You cannot play both at once. Pick one and commit."*
+  ✅ in voice.
+
+- **`architects_echo`** — covered in §4A. Exemplary. ✅
+
+**No additional drift fixes required.**
 
 
 ## 5. Open questions for the team
