@@ -313,16 +313,135 @@ const THOUGHT_VIRUS_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "Uncommon unit. Anonymous victim (back-three-quarter) preserves no-character-conflation. The 'sentence erased per blow' is the canonical visualization — words rising from victim into Ravager's skull-cavity.",
   },
+  {
+    cardId: "s1_pack_022",
+    sceneDelta:
+      "Mid-shot. A Viral Bloom — at frame-centre, a vast translucent toxic-green BLOOM unfurling in mid-air at chest-height, approximately 2m wide. The bloom appears almost beautiful — radial-symmetry petals of phosphor-green-and-cool-violet substance, faintly luminous. From the bloom's centre, faint translucent DIMINISHMENT-RIPPLES propagate outward toward off-frame targets. At lower-third, anonymous figures (back-three-quarter, generic civilian + tactical) whose bodies are visibly LESS-THAN-WHOLE — visibly thinner, faintly translucent at the extremities (the 'less than you were' rendering — they have already been diminished without realizing). NO faces visible.",
+    moodKeywords: [
+      "it does not kill — it diminishes",
+      "by the time you notice, you are less than you were",
+      "almost beautiful translucent toxic-green bloom",
+      "anonymous figures visibly less-than-whole",
+    ],
+    palette:
+      "Translucent toxic-green bloom + radial-symmetry phosphor-green-and-cool-violet petals + translucent diminishment-ripples + anonymous figures with thinning extremities + cool deep-shadow",
+    composition:
+      "Mid-shot, bloom at frame-centre at chest-height, anonymous diminished figures at lower-third",
+    notes:
+      "Rare spell. Anonymous figures (back-three-quarter, no faces) preserve no-character-conflation. The 'less than you were' is rendered through the visible thinning-extremity detail.",
+  },
+  {
+    cardId: "s1_pack_023",
+    sceneDelta:
+      "Action mid-shot. An Infected Drone — small chrome-and-phosphor-green aerial drone, approximately 30cm wingspan, at frame-centre mid-DESTRUCTION (the drone is mid-explosion, fragmenting outward). Critically, from the explosion's centre, multiple translucent toxic-green TRANSMISSION-PULSES burst outward in all directions (the canonical 'final act is not death — it is transmission'). The pulses reach off-frame targets at frame-edges. Around the destruction, faint warm rush-trails (rush keyword). NO human figure (the drone IS the subject). Background: cool battlefield ambient.",
+    moodKeywords: [
+      "its final act is not death",
+      "it is transmission",
+      "drone mid-explosion with toxic-green transmission-pulses bursting outward",
+      "fragments dispersing in all directions",
+    ],
+    palette:
+      "Chrome-and-phosphor-green drone-body + warm explosion-flares + translucent toxic-green transmission-pulses + warm rush-trails + cool battlefield ambient + cool deep-shadow",
+    composition:
+      "Action mid-shot, Drone mid-explosion at frame-centre, transmission-pulses bursting outward",
+    notes:
+      "Common unit. NO human figure. The 'final act is transmission' framing is rendered through the visible burst-pattern at destruction-moment.",
+  },
+  {
+    cardId: "s1_pack_024",
+    sceneDelta:
+      "Wider mid-shot. A Plague Architect — humanoid figure of indeterminate gender at frame-centre, body composed of charcoal-and-toxic-green substance, in tattered Hierarchy-builder's robes with chrome-and-phosphor-green architect's tools at the belt. They stand at the centre of a partially-built CATHEDRAL OF ROT — the structure is mid-construction at lower-third, with visible BRICKS made from FALLEN BODIES (anonymous, layered like masonry — back-shots only, generic-mixed) and visible MORTAR made from translucent toxic-green SCREAM-SUBSTANCE (the canonical 'every fallen is a brick, every scream is mortar' rendering). The Architect's arms are mid-action of placing a new body-brick into the rising wall. Faint phosphor-green deathwatch-script propagates outward (deathwatch keyword).",
+    moodKeywords: [
+      "every fallen soldier is a brick",
+      "every scream is mortar",
+      "the cathedral rises",
+      "anonymous body-bricks layered like masonry",
+    ],
+    palette:
+      "Charcoal-and-toxic-green Architect-body + tattered Hierarchy-builder's robes + chrome-and-phosphor-green architect's tools + anonymous body-bricks (back-shots) + translucent toxic-green scream-mortar + phosphor-green deathwatch-script + cool deep-shadow",
+    composition:
+      "Wider mid-shot front three-quarter, Plague Architect at frame-centre placing body-brick, cathedral rising at lower-third",
+    notes:
+      "Uncommon unit. Anonymous body-bricks (back-shots) preserve no-character-conflation. The 'cathedral of bodies and screams' is the canonical visualization made literal.",
+  },
+  {
+    cardId: "s1_pack_025",
+    sceneDelta:
+      "Wider mid-shot. A Corruption Wave — at frame-centre, a vast wave of toxic-green-and-cool-violet corruption-substance sweeping across an open battlefield, mid-flow. The wave is approximately 4m tall and extends across the full frame-width. INSIDE the wave, anonymous figures from BOTH SIDES (Insurgency-slate AND Architect-cyan AND Hierarchy-charcoal — visible representatives of multiple factions all back-shots, generic-mixed) are mid-CONSUMPTION (the wave does not discriminate). At the wave's TRAILING edge, faint translucent virus-substance LINGERS — the Virus feeds on what remains. NO single dominant figure (the wave IS the subject).",
+    moodKeywords: [
+      "the wave does not discriminate",
+      "it consumes friend and foe alike",
+      "but the Virus always feeds on what remains",
+      "multiple-faction figures all consumed simultaneously",
+    ],
+    palette:
+      "Toxic-green-and-cool-violet corruption-wave + Insurgency-slate + Architect-cyan + Hierarchy-charcoal anonymous figures + translucent lingering virus-substance + cool deep-shadow + warm battlefield-light",
+    composition:
+      "Wider mid-shot, wave at frame-centre sweeping across, multi-faction anonymous figures inside the wave",
+    notes:
+      "Epic spell. Anonymous multi-faction figures preserve no-character-conflation. The 'does not discriminate' framing is rendered through the visible cross-faction consumption.",
+  },
+  {
+    cardId: "s1_pack_026",
+    sceneDelta:
+      "Mid-shot. A Neural Hive — humanoid-amalgamation entity at frame-centre, approximately 1.8m tall, body composed of MULTIPLE FUSED NEURAL-PARASITES (visible smaller phosphor-green parasitic units bonded together in humanoid silhouette — see s1_char_071 Neural Parasite for the individual unit-form). Where its skin would be, the parasites are visible as overlapping carapace-plates. Where its head would be, ONE LARGER central parasite has assumed dominant-position. The Hive's chest shows visible PARASITE-SEEDS (small detached parasite-units, ready to deploy when the Hive is wounded — the canonical 'every wound is a seed' rendering). Faint phosphor-green glow from the seam-junctions. The Hive is mid-stride forward.",
+    moodKeywords: [
+      "kill it. please",
+      "but understand: every wound you inflict is a seed",
+      "humanoid silhouette of fused neural-parasites",
+      "parasite-seeds visible at chest ready to deploy",
+    ],
+    palette:
+      "Multiple fused phosphor-green neural-parasites + overlapping carapace-plates + larger central head-parasite + parasite-seeds at chest + phosphor-green seam-glow + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, Neural Hive at frame-centre mid-stride, parasite-seeds visible at chest",
+    notes:
+      "Common unit. Visual continuity with Neural Parasite (s1_char_071) — same parasite unit, this card's Hive is many of them fused. The 'every wound is a seed' is rendered through the visible parasite-seeds ready to deploy.",
+  },
+  {
+    cardId: "s1_pack_027",
+    sceneDelta:
+      "Wider mid-shot. A Terminus Dreadnought — vast architectural-mechanical entity at frame-centre, approximately 4m tall, body composed of dense charcoal-and-toxic-green WAR-PLATING (industrial Hierarchy-aesthetic but more massive, more permanent). It does not move; it stands still. Around it, the surrounding ENVIRONMENT visibly DECAYS in real-time — translucent decay-ripples propagate outward; nearby structures show visible mid-rot (chrome surfaces tarnishing, warm-leather darkening, organic matter wilting). At lower-third, anonymous figures (back-three-quarter, mixed factions) flee outward — but their fleeing-paths are visibly DECAYING beneath their feet (the further they move, the more rot). The Dreadnought's face is invisible behind a thick chrome-and-phosphor-green visor. NO motion from the Dreadnought.",
+    moodKeywords: [
+      "it does not chase",
+      "it simply exists, and everything around it decays",
+      "destroying it only accelerates the process",
+      "translucent decay-ripples + structures mid-rot + fleeing-paths decaying",
+    ],
+    palette:
+      "Dense charcoal-and-toxic-green war-plating + chrome-and-phosphor-green visor + translucent decay-ripples + visibly mid-rot structures + anonymous fleeing figures + decaying fleeing-paths + cool deep-shadow",
+    composition:
+      "Wider mid-shot front three-quarter, Dreadnought at frame-centre still, decay-ripples + fleeing figures at lower-third",
+    notes:
+      "Legendary unit. Anonymous fleeing figures (back-three-quarter) preserve no-character-conflation. The 'simply exists and everything decays' is rendered through the still-figure + active environmental-decay.",
+  },
+  {
+    cardId: "s1_pack_028",
+    sceneDelta:
+      "Wider mid-shot. A Spore Cloud — at frame-centre, a vast translucent toxic-green spore-cloud drifting across an open battlefield mid-flow. The cloud is amorphous, gentle-looking — approximately 6m wide, drifting like a sigh (the canonical 'drifted like a sigh' rendering). At lower-third, anonymous warriors (back-three-quarter, mixed factions, mid-stride toward the cloud) are visibly DROPPING THEIR BLADES — chrome-and-warm-gold blades falling from hands without comprehension. Their faces (back-shots only, no visible features) are mid-confusion. The spore-cloud is mid-influence; the warriors do not yet know why they have stopped fighting. NO single dominant figure.",
+    moodKeywords: [
+      "it drifted across the battlefield like a sigh",
+      "warriors dropped their blades without knowing why",
+      "translucent toxic-green spore-cloud drifting amorphously",
+      "anonymous warriors mid-blade-drop without comprehension",
+    ],
+    palette:
+      "Translucent toxic-green spore-cloud + chrome-and-warm-gold falling-blades + anonymous mixed-faction warrior-silhouettes + cool battlefield ambient + cool deep-shadow",
+    composition:
+      "Wider mid-shot, spore-cloud at frame-centre drifting, anonymous warriors at lower-third dropping blades",
+    notes:
+      "Common spell. Anonymous warriors (back-three-quarter) preserve no-character-conflation. The 'drifted like a sigh' is rendered through the gentle-amorphous form contrasted with the visible-effect (blades dropping).",
+  },
 ] as const;
 
 /**
  * Thought Virus faction's prompt registry, keyed by card id.
  *
- * Currently populated: 16 / 53 cards
+ * Currently populated: 23 / 53 cards
  * (gen_thought_virus, s1_char_032, s1_char_049, s1_char_070,
  *  s1_char_071, s1_char_072, s1_char_073, s1_char_074,
  *  s1_char_075, s1_char_076, s1_char_077, s1_char_113-116,
- *  s1_char_200).
+ *  s1_char_200, s1_pack_022-028).
  */
 export const THOUGHT_VIRUS_CARD_ART_PROMPTS: Readonly<Record<string, CardArtPrompt>> =
   Object.freeze(
