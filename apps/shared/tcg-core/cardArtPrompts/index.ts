@@ -19,6 +19,7 @@ import { CLASS_CARD_ART_PROMPTS } from "./class";
 import { RACE_CARD_ART_PROMPTS } from "./race";
 import { ELEMENTAL_CARD_ART_PROMPTS } from "./elemental";
 import { DIMENSIONAL_CARD_ART_PROMPTS } from "./dimensional";
+import { PANOPTICON_CARD_ART_PROMPTS } from "./panopticon";
 
 /**
  * The full card-art prompt registry.
@@ -38,10 +39,13 @@ import { DIMENSIONAL_CARD_ART_PROMPTS } from "./dimensional";
  *   - elemental: 4 / 4 elements — COMPLETE (Fire, Water, Earth, Air)
  *   - dimensional: 4 / 4 dimensions — COMPLETE (Time, Space,
  *     Probability, Reality)
+ *   - panopticon: 4 / 8 cards (Warden Prime, Oculus Sentinel,
+ *     Compliance Officer, Data Harvester)
  *
  * Pending factions:
+ *   - panopticon (remaining 4 cards)
  *   - architect, antiquarian, dreamer, insurgency, new_babylon,
- *     thought_virus, neutral, panopticon (per-faction character cards)
+ *     thought_virus, neutral (per-faction character cards)
  *   - architect, antiquarian, dreamer, insurgency, new_babylon,
  *     thought_virus, neutral, panopticon, allegiance, class, race,
  *     elemental, dimensional
@@ -53,4 +57,5 @@ export const CARD_ART_PROMPTS: CardArtPromptRegistry = Object.freeze({
   ...RACE_CARD_ART_PROMPTS,
   ...ELEMENTAL_CARD_ART_PROMPTS,
   ...DIMENSIONAL_CARD_ART_PROMPTS,
+  ...PANOPTICON_CARD_ART_PROMPTS,
 });
