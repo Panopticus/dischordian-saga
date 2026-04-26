@@ -342,6 +342,234 @@ export const NILMORG_BANK: ReadonlyArray<BankEntry> = [
   },
 
   // ═════════════════════════════════════════════════════════════════════
+  // MID-RACE TRIGGERS — first 3 events (lap-1, mid-pack, leader-shift)
+  // × 6 lines each = 18 lines. Race Commentary register; the selector
+  // picks one of the 6 variants per event so the broadcast doesn't
+  // repeat verbatim across long DMC sessions.
+  //
+  // Aphorism scarcity: per §1.4 tell #4, ONE calm-aphorism intrusion
+  // across the 18 lines. The rest stay in caps-laden triplet-crescendo.
+  //
+  // Remaining 3 events (crash, photo-finish, dead-tied) ship in the
+  // next chunk.
+  // ═════════════════════════════════════════════════════════════════════
+
+  // ─── Event: lap-1 (race just begun) ─────────────────────────────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.midrace.lap1.track_is_hungry",
+    text:
+      "And we are OFF! The bones are quiet. The bones are LISTENING. " +
+      "The track has woken up HUNGRY!",
+    surfaces: ["dmc"],
+    unlockFlags: ["dmc_event_lap1"],
+    cooldownKey: "nilmorg.midrace.lap1",
+    maxPlays: 6,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.midrace.lap1.signature_collection",
+    text:
+      "Six racers in the lane! Six splice signatures pouring through " +
+      "Nilmorg's collection feed! Already COLLECTING! Always COLLECTING!",
+    surfaces: ["dmc"],
+    unlockFlags: ["dmc_event_lap1"],
+    cooldownKey: "nilmorg.midrace.lap1",
+    maxPlays: 6,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.midrace.lap1.aesthetic_launch",
+    text:
+      "Look at that launch! That kinetic burst, that BEAUTIFUL kinetic " +
+      "burst — Nilmorg's portfolio is fattening before turn one!",
+    surfaces: ["dmc"],
+    unlockFlags: ["dmc_event_lap1"],
+    cooldownKey: "nilmorg.midrace.lap1",
+    maxPlays: 6,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.midrace.lap1.platform_alive",
+    text:
+      "Nilmorg leans forward. Nilmorg's pulse is already keeping the " +
+      "pace. The platform is ALIVE!",
+    surfaces: ["dmc"],
+    unlockFlags: ["dmc_event_lap1"],
+    cooldownKey: "nilmorg.midrace.lap1",
+    maxPlays: 6,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.midrace.lap1.ironic_condolence_early_out",
+    // §1.4 tell #5: gestures at sympathy then breaks frame.
+    text:
+      "AND THERE GOES Number Nine — already?! ALREADY! Nilmorg offers " +
+      "his sincere condolences. JUST KIDDING! The track is faster than " +
+      "her file.",
+    surfaces: ["dmc"],
+    unlockFlags: ["dmc_event_lap1"],
+    cooldownKey: "nilmorg.midrace.lap1",
+    maxPlays: 6,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.midrace.lap1.loud_and_quiet",
+    text:
+      "Lap one. The lane is LOUD. The bone pile is quiet. By lap three " +
+      "the loud and the quiet will TRADE PLACES. Watch.",
+    surfaces: ["dmc"],
+    unlockFlags: ["dmc_event_lap1"],
+    cooldownKey: "nilmorg.midrace.lap1",
+    maxPlays: 6,
+  },
+
+  // ─── Event: mid-pack (jostling in the cluster) ──────────────────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.midrace.midpack.jostling",
+    text:
+      "The middle of the pack is THICK! Bumpers kissing! Splice plates " +
+      "RINGING! Nilmorg loves a pile, does he not? HE DOES!",
+    surfaces: ["dmc"],
+    unlockFlags: ["dmc_event_midpack"],
+    cooldownKey: "nilmorg.midrace.midpack",
+    maxPlays: 6,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.midrace.midpack.projections_earn",
+    text:
+      "Mid-pack is where Nilmorg's projections earn their keep. Three " +
+      "of these will not finish. Two will. ONE will surprise.",
+    surfaces: ["dmc"],
+    unlockFlags: ["dmc_event_midpack"],
+    cooldownKey: "nilmorg.midrace.midpack",
+    maxPlays: 6,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.midrace.midpack.lovely_scrape",
+    // §1.4 tell #3: aestheticization of destruction.
+    text:
+      "Oh, that LOVELY scrape! That scrape was a SIGNATURE waiting to " +
+      "happen!",
+    surfaces: ["dmc"],
+    unlockFlags: ["dmc_event_midpack"],
+    cooldownKey: "nilmorg.midrace.midpack",
+    maxPlays: 6,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.midrace.midpack.pen_hungry",
+    text:
+      "Nilmorg's pen hovers! Nilmorg's pen is HUNGRY! The mid-pack is " +
+      "where the file gets THICK!",
+    surfaces: ["dmc"],
+    unlockFlags: ["dmc_event_midpack"],
+    cooldownKey: "nilmorg.midrace.midpack",
+    maxPlays: 6,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.midrace.midpack.acquisitions_plural",
+    text:
+      "Acquisitions in process! PLURAL! Nilmorg's quarterly numbers " +
+      "thank you, ladies, for the SCRUM!",
+    surfaces: ["dmc"],
+    unlockFlags: ["dmc_event_midpack"],
+    cooldownKey: "nilmorg.midrace.midpack",
+    maxPlays: 6,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.midrace.midpack.twelve_still_racing",
+    text:
+      "Number Twelve has lost a wheel! Number Twelve has lost dignity! " +
+      "Number Twelve has — WAIT — Number Twelve is STILL RACING! " +
+      "Nilmorg approves! NILMORG APPROVES!",
+    surfaces: ["dmc"],
+    unlockFlags: ["dmc_event_midpack"],
+    cooldownKey: "nilmorg.midrace.midpack",
+    maxPlays: 6,
+  },
+
+  // ─── Event: leader-shift (dramatic lead change) ─────────────────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.midrace.leadershift.rewriting_the_file",
+    text:
+      "AND THE LEAD CHANGES! Number Three on the OUTSIDE! Number One " +
+      "had the file! Number Three is REWRITING the file IN REAL TIME!",
+    surfaces: ["dmc"],
+    unlockFlags: ["dmc_event_leader_shift"],
+    cooldownKey: "nilmorg.midrace.leadershift",
+    maxPlays: 6,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.midrace.leadershift.projections_revised",
+    text:
+      "Nilmorg's projections did NOT see this. Nilmorg's projections " +
+      "are being REVISED. Nilmorg LIVES for the revision!",
+    surfaces: ["dmc"],
+    unlockFlags: ["dmc_event_leader_shift"],
+    cooldownKey: "nilmorg.midrace.leadershift",
+    maxPlays: 6,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.midrace.leadershift.foreclosure",
+    text:
+      "The kinetic energy! The TERMINAL VELOCITY! That is not a pass — " +
+      "that is a FORECLOSURE!",
+    surfaces: ["dmc"],
+    unlockFlags: ["dmc_event_leader_shift"],
+    cooldownKey: "nilmorg.midrace.leadershift",
+    maxPlays: 6,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.midrace.leadershift.deviation_ecstasy",
+    text:
+      "DEVIATION! The only thing worth watching! Number Three's " +
+      "signature just MOVED in Nilmorg's collection!",
+    surfaces: ["dmc"],
+    unlockFlags: ["dmc_event_leader_shift"],
+    cooldownKey: "nilmorg.midrace.leadershift",
+    maxPlays: 6,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.midrace.leadershift.tips_his_hat",
+    // §1.4 tell #2: third-person self-narration; the ring-announcer
+    // pose, naming an emotion he would otherwise hide.
+    text:
+      "Nilmorg tips his hat! NILMORG TIPS HIS HAT! New leader! New " +
+      "file entry! NEW SIGNATURE!",
+    surfaces: ["dmc"],
+    unlockFlags: ["dmc_event_leader_shift"],
+    cooldownKey: "nilmorg.midrace.leadershift",
+    maxPlays: 6,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.midrace.leadershift.aphorism_intrusion",
+    // The ONE calm-aphorism intrusion across the 18-line mid-race
+    // chunk per §1.4 tell #4 (one per ceremony beat — two in sequence
+    // flatten the effect). Bone-tier pre-race already used its
+    // canonical aphorism; this is the only mid-race instance.
+    text: "Speed in all things. Even the file.",
+    surfaces: ["dmc"],
+    unlockFlags: ["dmc_event_leader_shift"],
+    cooldownKey: "nilmorg.midrace.leadershift.aphorism",
+    maxPlays: 2,
+  },
+
+  // ═════════════════════════════════════════════════════════════════════
   // CONTRACT-SIGNING (npc_line — institutional precision; NO hidden clauses)
   // ═════════════════════════════════════════════════════════════════════
 
