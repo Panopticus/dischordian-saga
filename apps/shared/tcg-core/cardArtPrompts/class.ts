@@ -286,13 +286,100 @@ const CLASS_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "Unit card. Class restriction: only players who reached rank 3+ in three other classes unlock this card. The 'playing it off' visual posture is canon-direct from flavor — the cloak HIDES class-markers because the Avatar would never be caught wearing them visibly. This is the inverse of t1 (which displays both tokens openly). Generic-relaxed face must NOT match any named character.",
   },
+
+  // ─── ORACLE CLASS — prophecy + draw + dispel (Dreamer-faction) ───
+  {
+    cardId: "s1_class_oracle_01",
+    sceneDelta:
+      "Mid-shot. An Auspex bird — a small Dreamer-aligned divination-bird the size of a kestrel, with luminous silver-mist plumage and eyes that read as small mirror-discs catching aurora-violet light. The bird perches on a Dreamer-apprentice's outstretched wrist (the apprentice is in lower-left of frame, in three-quarter back, in plain Dreamer-cream robe — no face visible). The bird's head is turned to look slightly OFF-frame, intent on something the viewer cannot see. A faint warm slip of paper drifts up from where the bird's wing meets the apprentice's wrist (draw-1 visualized). Behind, a Dreamer training-loft at dawn — wide silver-violet windows, distant shelves of small cages, a single low oil-lamp at lower-right.",
+    moodKeywords: [
+      "a bird that already knows where the body is",
+      "first divination tool the apprentices learn",
+      "Dreamer training-loft at dawn",
+      "the bird looking off-frame at the future",
+    ],
+    palette:
+      "Dreamer aurora-violet + dawn-rose + silver-mist plumage + warm cream Dreamer-robe + faint warm paper-drift accent + low warm oil-lamp at lower-right",
+    composition:
+      "Mid-shot, bird at frame-centre on apprentice's wrist (apprentice in lower-left back-three-quarter), training-loft windows behind",
+    notes:
+      "Unit card. Apprentice's face deliberately hidden (back-three-quarter only) — the bird is the subject, the apprentice is just the perch. Generic-young apprentice posture must NOT match any named character. The Dreamer training-loft echoes the Dreamer Imprint set's environment without revealing The Oracle directly.",
+  },
+  {
+    cardId: "s1_class_oracle_02",
+    sceneDelta:
+      "Tight composition. A single Prescient Glyph carved into a Dreamer-stone tablet at the centre of the frame — the glyph itself is a circular silver-mist sigil with three nested rings, the outermost faintly catching aurora-violet light, the middle catching dawn-rose, the inner catching pure cream-white. The tablet is laid flat on a low Dreamer-altar; one corner of the tablet has freshly-flaking carved-stone-dust around the glyph's edge (the carving is recent — yesterday). Two faint warm slips of paper drift up from above the glyph, separating slightly as they rise (draw-2 visualized). NO human figure in the frame. The altar's deep background is intentionally out-of-focus — a hint of Dreamer-sanctum architecture but no specific identifying detail.",
+    moodKeywords: [
+      "a glyph you carved yesterday for today's version of you",
+      "fresh stone-dust at the carving's edge",
+      "three nested rings of light",
+      "spell — no human in frame",
+    ],
+    palette:
+      "Dreamer cream-white altar + silver-mist + aurora-violet outer ring + dawn-rose middle ring + cream-white inner ring + warm amber paper-drifts",
+    composition:
+      "Tight overhead composition on glyph and tablet, glyph filling 60% of frame, two paper-drifts rising from above",
+    notes:
+      "Spell card. Echoes Engineer t4 blueprint's no-human framing — the carved object is the entire subject. The 'yesterday's carving for today's need' temporal-loop is the canonical Oracle-school flavour without invoking The Oracle herself. Three nested rings are the Dreamer divination motif.",
+  },
+  {
+    cardId: "s1_class_oracle_03",
+    sceneDelta:
+      "Mid-shot. A Reader of Tomorrows — a Dreamer-school woman in mid-thirties, indeterminate ethnicity, generic-thoughtful features, in layered Dreamer cream-and-violet robes. She stands at a high arched window of a Dreamer sanctum-tower, the wind catching the outer layer of her robe. Her hands are extended in a wide untangling-gesture — fingers half-spread, palms angled toward each other, as if pulling apart two threads. Between her hands, two faint translucent ribbon-like patterns hover — one cool silver (the enemy's plan), one warm dawn-rose (the enemy's belief in the plan). The ribbons are visibly DIFFERENT from each other and her hands are mid-separating them. Faint silver-mist wing-shapes (flying visualized as projection-echoes around her shoulders, not literal wings) trail behind her. Her face is calm, focused, slightly amused.",
+    moodKeywords: [
+      "your enemy's plan and your enemy's belief in your enemy's plan are two different things",
+      "she can untangle both at once",
+      "two ribbons in her hands — silver and dawn-rose",
+      "wing-shape projection-echoes",
+    ],
+    palette:
+      "Dreamer cream-violet layered robes + cool silver plan-ribbon + warm dawn-rose belief-ribbon + aurora-violet sanctum-tower depth + silver-mist wing-shapes",
+    composition:
+      "Mid-shot front three-quarter, Reader at frame-centre with hands extended, sanctum window framing her at upper-third",
+    notes:
+      "Unit card. The two ribbons in different colours visualize the dispel keyword as 'untangling enemy belief from enemy plan' per flavor text. Wing-shape echoes (not literal wings) preserve the Dreamer flying-as-projection visual language used in the Dreamer Allegiance set. Generic-thoughtful face must NOT match any named character.",
+  },
+  {
+    cardId: "s1_class_oracle_04",
+    sceneDelta:
+      "Mid-shot. A Dreamer-school practitioner seen FROM THE BACK, seated at a low Dreamer-altar facing a broad mirror that fills the upper-half of the frame. The practitioner is in plain cream Dreamer-robes; their head is tilted slightly forward in concentration. In the mirror's surface, the reflected room is visible — but the reflection is subtly DIFFERENT from the room behind them: in the mirror, the room contains additional figures (silhouettes only — the room's 'opinion' of the practitioner taking visible shape). Three warm slips of paper drift up from above the mirror toward the upper-third of the frame (draw-3 visualized). NO faces visible — practitioner is back-only, mirror-figures are silhouettes only.",
+    moodKeywords: [
+      "what you see with first sight is the room",
+      "what you see with second sight is the room's opinion of you",
+      "back-only practitioner facing mirror",
+      "mirror-figures as silhouettes",
+    ],
+    palette:
+      "Dreamer cream practitioner-robe + dark Dreamer-altar + cool silver-violet mirror-light + warm dawn-rose silhouette-tinting + warm amber paper-drifts",
+    composition:
+      "Mid-shot back-three-quarter on practitioner, mirror filling upper-half of frame, paper-drifts rising at upper-third",
+    notes:
+      "Spell card. Practitioner shown back-only — preserves spoiler-discipline (no face = no character-conflation). The mirror-room-with-extra-figures is the canonical visualization of 'second sight = the room's opinion of you' from flavor. Echoes the Antiquarian's hidden-room motif from the Antiquarian Imprint set without invoking him directly.",
+  },
+  {
+    cardId: "s1_class_oracle_05",
+    sceneDelta:
+      "Wider mid-shot. The Oracle's Unbroken Signal — a luminous human-shape figure standing on the deck-side of a Dreamer-sanctum (NOT the figure of The Oracle herself, but a SHAPE THE LEAK TAKES — a projected echo of her broadcast given temporary form). The figure is roughly woman-sized, but its outline is partially translucent and its surface ripples with cream-white-and-aurora-violet signal-pattern light. Where a human face would be, there is a broad smooth oval of pure cream-mist with no features — the signal hasn't bothered to render a face because nobody asked it for one. The figure's posture is open-armed, a wide divinatory gesture — caught mid-broadcast. A faint translucent forcefield-ring (forcefield visualized) surrounds the figure at chest height. Two warm slips of paper drift up from above the figure (draw-2 visualized). Faint silver-mist wing-shapes (flying as projection-echo) trail behind. Around the figure, faint translucent ribbons (dispel visualized) untangle in the air. In the deep background, behind a silver-mist wall, a SUGGESTION of suspended silhouette in a processing-loop chamber — never sharp, never identifiable, just the SHAPE of a contained presence.",
+    moodKeywords: [
+      "the loop is supposed to contain her",
+      "it has been leaking since the day it closed",
+      "these cards are some of the shapes the leak takes",
+      "no face — the signal hasn't bothered",
+    ],
+    palette:
+      "Dreamer cream-mist + aurora-violet signal-pattern + silver-mist wing-echoes + translucent forcefield-ring + warm amber paper-drifts + cool deep-background silhouette",
+    composition:
+      "Wider mid-shot, signal-figure at frame-centre with arms open, suggested suspension-chamber in deep background through silver-mist wall",
+    notes:
+      "Legendary unit. CRITICAL spoiler-discipline: the figure is a PROJECTED ECHO OF THE LEAK, NOT The Oracle herself. The faceless cream-oval is the canonical visualization of 'shapes the leak takes' — the signal is rendering a body but not a face. The deep-background suspension-chamber is canon-revealed by end of Epoch 2 (the Insurgency knows where she is). Echoes The Oracle Imprint set's signal-pattern visual language while being explicitly NOT her.",
+  },
 ] as const;
 
 /**
  * Class faction's prompt registry, keyed by card id.
  *
- * Currently populated: 3 / 6 sets (Assassin, Engineer, Ne-Yon).
- * TODO: oracle, soldier, spy.
+ * Currently populated: 4 / 6 sets (Assassin, Engineer, Ne-Yon, Oracle).
+ * TODO: soldier, spy.
  */
 export const CLASS_CARD_ART_PROMPTS: Readonly<Record<string, CardArtPrompt>> =
   Object.freeze(
