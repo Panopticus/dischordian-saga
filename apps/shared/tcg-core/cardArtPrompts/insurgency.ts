@@ -803,12 +803,114 @@ const INSURGENCY_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "Rare spell. Anonymous Architect operators (back-shots) preserve no-character-conflation. NO Insurgency-aligned figure visible (the spell is being delivered remotely). The 'meant for everyone else' is the canonical tactical-context made visible.",
   },
+  {
+    cardId: "s1_spell_206",
+    sceneDelta:
+      "Wider mid-shot. A Supply Drop — at frame-centre, an Insurgency-aligned chrome-and-signal-green SUPPLY-CRATE descending through the air via translucent silver-mist parachute (visible canopy at upper-third). The crate is approximately 1m cube, mid-descent. Below the crate at lower-third, anonymous Insurgency-aligned figures (back-three-quarter, generic-mixed Insurgency-slate gear) gather in a small semicircle waiting to receive — hands raised in welcome-gesture, hopeful posture. Faint warm-amber HOPE-AURA visible around the figures (the canonical 'hope and ammunition' rendering); inside the crate (faintly visible through translucent panel), chrome-and-signal-green ammunition-cartridges glint. Cool sky above, Insurgency-aligned terrain below.",
+    moodKeywords: [
+      "the resistance runs on hope and ammunition",
+      "this crate has both",
+      "supply-crate mid-descent via silver-mist parachute",
+      "warm-amber hope-aura around waiting receivers",
+    ],
+    palette:
+      "Chrome-and-signal-green supply-crate + translucent silver-mist parachute-canopy + Insurgency-slate gear + warm-amber hope-aura + chrome-and-signal-green ammunition-cartridges + cool sky + Insurgency-aligned terrain",
+    composition:
+      "Wider mid-shot, parachute at upper-third, crate mid-descent at frame-centre, anonymous receivers at lower-third",
+    notes:
+      "Common spell. Anonymous receivers (back-three-quarter) preserve no-character-conflation. The hope-aura + visible-ammunition combination renders 'both' from flavor.",
+  },
+  {
+    cardId: "s1_spell_207",
+    sceneDelta:
+      "Action mid-shot. An Ambush Protocol — at frame-centre, an Architect patrol unit (anonymous chrome-and-cool-cyan combat-figures, three of them, all back-three-quarter walking AWAY from camera into a cool-cyan corridor) is mid-action of being ambushed: from off-frame at frame-edges, multiple ATTACK-VECTOR LINES converge on the patrol from FOUR DIFFERENT DIRECTIONS (the rebels are positioned around the patrol, none yet visible). The vectors are mid-flight (the strike has just begun). Faint warm-amber strike-flares at multiple impact-points on the patrol. NO Insurgency figure visible — they are still hidden in their positions. The corridor is dim, narrow, exit-blocked.",
+    moodKeywords: [
+      "they never see us coming",
+      "that is the point",
+      "Architect patrol mid-ambush from four directions",
+      "rebels still hidden",
+    ],
+    palette:
+      "Anonymous chrome-and-cool-cyan Architect-combat figures + multiple attack-vector lines from four directions + warm-amber strike-flares + dim narrow cool-cyan corridor + cool deep-shadow",
+    composition:
+      "Action mid-shot, Architect patrol at frame-centre walking away, attack-vectors converging from frame-edges",
+    notes:
+      "Uncommon spell. Anonymous Architect patrol (back-three-quarter) preserves no-character-conflation. NO visible Insurgency figures (canon-direct: 'never see us coming'). Echoes Guerrilla Strike (s1_spell_105) but with patrol-context vs single-target-context.",
+  },
+  {
+    cardId: "s1_spell_208",
+    sceneDelta:
+      "Wider mid-shot. A Rebel Yell — at frame-centre, a small Insurgency-aligned battle-line (approximately 100 anonymous Insurgency-slate-and-signal-green figures arrayed across mid-distance) at the moment of MASS-OUTBURST: the canonical 'starts in one throat and ends in a hundred fists.' At the frame-CENTRE of the line, a SINGLE figure (anonymous, back-three-quarter, forward of the line) is mid-shout (head thrown back, mouth open, fist raised). Around her, faint translucent warm-cream sound-waves emanate outward across the line. Following her shout, the rest of the line is RESPONDING: 99 raised fists in semicircular wave moving outward from the originator. NO faces visible (all back-three-quarter). The setting is open battlefield-terrain at dawn.",
+    moodKeywords: [
+      "the cry starts in one throat",
+      "and ends in a hundred fists",
+      "single originator at line-centre, hundred responders behind",
+      "warm-cream sound-waves emanating outward",
+    ],
+    palette:
+      "Insurgency-slate-and-signal-green battle-line + warm-cream sound-waves + raised fists in semicircular wave + cool battlefield-terrain + warm dawn-light + cool deep-shadow",
+    composition:
+      "Wider mid-shot back-three-quarter, originator at frame-centre forward, line of 100 responders behind in semicircular wave",
+    notes:
+      "Common spell. Anonymous all (back-three-quarter) preserves no-character-conflation. The 'one throat, hundred fists' is rendered through the visible originator + responder-wave geometry.",
+  },
+  {
+    cardId: "s1_spell_209",
+    sceneDelta:
+      "Mid-shot. A Safe House — at frame-centre, a quiet Insurgency-aligned doorway in a worn warm-leather door, faintly luminous WARM CANDLE-LIGHT visible through the door's small window (the canonical 'wait for the candle' signal). Below the door, three faint scuff-marks on the threshold (where multiple visitors have knocked three times). An anonymous figure (back-three-quarter, generic Insurgency-aligned traveler's-clothes, hood pulled up) stands at the door, hand mid-knock — third knock just delivered. Around the figure, faint warm protective-aura (the safe-house's magic of welcome). NO face visible. The setting is a quiet alleyway at dusk; cool deep-shadow.",
+    moodKeywords: [
+      "knock three times. wait for the candle",
+      "say the name they gave you when you first resisted",
+      "candle-light visible through door window",
+      "three scuff-marks on threshold from previous visitors",
+    ],
+    palette:
+      "Worn warm-leather door + warm candle-light through window + three scuff-marks at threshold + Insurgency-aligned traveler's-clothes + warm protective-aura + cool dusk alleyway + cool deep-shadow",
+    composition:
+      "Mid-shot back-three-quarter, anonymous visitor at door at frame-centre, candle-window above hand",
+    notes:
+      "Common spell. Anonymous visitor (back-three-quarter, hooded) preserves no-character-conflation. The 'three knocks + candle' is the canonical safe-house ritual — rendered through the scuff-marks + the lit candle.",
+  },
+  {
+    cardId: "s1_spell_210",
+    sceneDelta:
+      "Mid-shot. An Intel Leak — at frame-centre, an Architect-aligned chrome-and-cool-cyan VAULT-WALL with a SMALL CRACK (canon-direct from flavor: 'every wall has cracks'). Through the crack, faint translucent silver-mist DATA-RIBBONS extend outward — chrome-and-signal-green DATA-FRAGMENTS visibly leaking from the vault interior to the Insurgency-aligned recipient's hands at frame-right edge (only the recipient's hand visible, generic Insurgency-slate sleeve). On the recipient's palm, a small CHROME-AND-SIGNAL-GREEN KEY (the canonical 'every code has a key' rendering — the resistance has it). NO recipient face visible. Around the crack, faint warm-amber leak-glow.",
+    moodKeywords: [
+      "every wall has cracks",
+      "every code has a key",
+      "the resistance finds both",
+      "translucent data-ribbons leaking through wall-crack to recipient's palm",
+    ],
+    palette:
+      "Architect chrome-and-cool-cyan vault-wall + small wall-crack + translucent silver-mist data-ribbons + chrome-and-signal-green data-fragments + chrome-and-signal-green key on palm + warm-amber leak-glow + cool deep-shadow",
+    composition:
+      "Mid-shot, vault-wall at frame-centre, data-ribbons leaking to anonymous palm at frame-right edge",
+    notes:
+      "Uncommon spell. Anonymous recipient (hand only) preserves no-character-conflation. The wall-crack + key-on-palm is the canonical 'wall and code, both broken' visualization.",
+  },
+  {
+    cardId: "s1_spell_211",
+    sceneDelta:
+      "Wider mid-shot. A Scorched Earth — at frame-centre, a vast Insurgency-aligned terrain in flames: warm orange-and-amber fire spreading across the lower-half of the frame, the fire visibly ENGULFING BOTH FRIENDLY AND ENEMY POSITIONS without distinction. At frame-left, anonymous Insurgency-slate figures (back-three-quarter) are partially in the fire's path; at frame-right, anonymous Architect-cyan figures are also in the path. The fire moves indiscriminately. In the deep-distance, an Insurgency-aligned commander-silhouette (back-three-quarter, anonymous) watches from a high vantage — the desperate decision-maker who set the fire. Above, a cool-violet desperate sky.",
+    moodKeywords: [
+      "the fire does not distinguish between friend and foe",
+      "neither does desperation",
+      "fire engulfing both Insurgency and Architect positions indiscriminately",
+      "anonymous Insurgency-commander watching from high vantage",
+    ],
+    palette:
+      "Vast warm orange-and-amber fire + Insurgency-slate figures in path + Architect-cyan figures in path + Insurgency-commander silhouette at high vantage + cool-violet desperate sky + cool deep-shadow",
+    composition:
+      "Wider mid-shot, fire at lower-half spreading both ways, friend/foe figures both in path, commander silhouette at deep-distance high vantage",
+    notes:
+      "Rare spell. Anonymous figures across both factions (all back-three-quarter) preserve no-character-conflation. The 'no distinction' is the canonical desperate-tactical visualization — both sides equally consumed.",
+  },
 ] as const;
 
 /**
  * Insurgency faction's prompt registry, keyed by card id.
  *
- * Currently populated: 45 / 51 cards
+ * Currently populated: 51 / 51 cards — COMPLETE
  * (gen_insurgency, s1_char_002, s1_char_010, s1_char_011,
  *  s1_char_012, s1_char_026, s1_char_028, s1_char_031,
  *  s1_char_040, s1_char_041, s1_char_044, s1_char_047,
@@ -820,7 +922,7 @@ const INSURGENCY_PROMPTS_LIST: readonly CardArtPrompt[] = [
  *  s1_reward_companion_zero, s1_reward_crew_mission,
  *  s1_reward_eidolon_echo, s1_reward_guild_recruit,
  *  s1_reward_trade_insurgency, s1_reward_vote_t1_defiance,
- *  s1_song_091, s1_spell_104-107).
+ *  s1_song_091, s1_spell_104-107, s1_spell_206-211).
  */
 export const INSURGENCY_CARD_ART_PROMPTS: Readonly<Record<string, CardArtPrompt>> =
   Object.freeze(
