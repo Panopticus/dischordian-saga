@@ -40,6 +40,7 @@ import { sql } from "drizzle-orm";
 import { getDb } from "../server/db";
 import { bootstrapAnnouncementsTables } from "../server/services/announcementsBootstrap";
 import { bootstrapCitizenSchema } from "../server/services/citizenSchemaBootstrap";
+import { bootstrapWebhookEventsTable } from "../server/services/webhookEventsBootstrap";
 
 interface CheckResult {
   name: string;
@@ -140,9 +141,19 @@ async function main(): Promise<void> {
       detail: e instanceof Error ? e.message : String(e),
     });
   }
+  try {
+    await bootstrapWebhookEventsTable();
+    checks.push({ name: "bootstrapWebhookEventsTable() succeeded", ok: true });
+  } catch (e) {
+    checks.push({
+      name: "bootstrapWebhookEventsTable() succeeded",
+      ok: false,
+      detail: e instanceof Error ? e.message : String(e),
+    });
+  }
 
   // 4. Verify the bootstrap-targeted DDL landed
-  for (const tableName of ["announcements", "announcement_views"]) {
+  for (const tableName of ["announcements", "announcement_views", "processed_webhook_events"]) {
     const ok = await tableExists(db, tableName);
     checks.push({ name: `${tableName} table exists`, ok });
   }

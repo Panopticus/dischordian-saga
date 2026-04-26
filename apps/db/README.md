@@ -111,6 +111,13 @@ Current startup bootstraps (see `apps/server/_core/index.ts`):
 - `bootstrapCitizenSchema` — mirrors `0054_citizen_foundation.sql`
   (`citizen_characters.foundation`). Without this the Awakening handoff
   breaks on deploys that haven't had a manual `drizzle-kit generate` pass.
+- `bootstrapWebhookEventsTable` — mirrors
+  `0055_processed_webhook_events.sql` (`processed_webhook_events`
+  table). Without this the Stripe webhook handler's event-level
+  idempotency check fails open: replays of credit/dream purchases
+  (which carry no `payment_intent` and therefore aren't caught by the
+  unique index on `store_purchases.stripePaymentIntentId`) could
+  double-fulfill.
 
 Each of these should be removed once the corresponding migration is
 added to `_journal.json` and the matching snapshot exists in `meta/`.
