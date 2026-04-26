@@ -298,6 +298,101 @@ const IMPRINT_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "T5 = 'The Iron Lion, First Roar.' This is the founding-of-the-Insurgency moment, established Epoch 2 canon. CRITICAL spoiler-line: this is FIRST roar, not LAST. Do NOT show Veridian VI, do NOT show the helmet in the grass (Act 5+), do NOT show Kael as a mourner (Act 5 reveal). The frame is HOPE earning itself, not loss.",
   },
+
+  // ─── AGENT ZERO (Insurgency's lethal infiltrator, the silhouette
+  //     at the edge of memory, who stole Ark 1047 and was killed
+  //     for it then brought back) ───
+  // Source canon: she lifted Ark 1047 from Panopticon docking
+  // without a single alarm; the Warlord killed her; the Insurgency
+  // brought her back. She fights like someone with nothing left to
+  // lose because she has been past it. Mechanical: stealth (shape
+  // the opponent can't lock), eventually rush + ignore-armor.
+  // Faction: insurgency.
+  {
+    cardId: "s1_imprint_agent_zero_t1",
+    sceneDelta:
+      "Three-quarter mid-distance composition. A silhouette in a hooded utility jacket at the edge of a maintenance corridor doorway, half-stepped forward — the doorway itself rendered with a faint chromatic-aberration ghost-line as if it materialized a moment ago. The silhouette has no readable face yet; only the lower edge of the jaw, the firm line of a mouth, and one gloved hand resting on the door's frame. The corridor behind her is grey-green emergency-lit, streaked with the kind of long shadows that come from someone who has been moving too fast for the cameras to catch up. A faint signal-green telltale on the gauntlet's wrist.",
+    moodKeywords: [
+      "the silhouette at the edge of memory",
+      "the doorway that wasn't there a second ago",
+      "lookaway training",
+      "kept-quiet competence",
+    ],
+    palette:
+      "Insurgency slate + signal green emergency telltale + gunmetal grey corridor + a single rust-orange accent on a far doorframe sign",
+    composition:
+      "Mid-distance three-quarter, Agent Zero half-emerging from the doorway at upper-right third, corridor receding camera-left",
+    notes:
+      "T1 = mortal Agent Zero, pre-stealth-keyword. Face is intentionally indeterminate — keeps her readable as 'the shape that moves before you see her.' No tactical weapon visible; that escalates with tier.",
+  },
+  {
+    cardId: "s1_imprint_agent_zero_t2",
+    sceneDelta:
+      "Tighter mid-shot. We see her face now in three-quarter — late-twenties, sharp-eyed, deliberately unmemorable features (the kind of face designed to be forgotten in a crowd). Her hood is half-down. She is mid-step on a catwalk over a grey industrial pit. Behind her, a cluster of three security cameras visibly track in the WRONG direction — they have all just turned to follow a sound she made elsewhere a half-second earlier. A faint signal-green afterimage trails her shoulder (the previous beat of her motion still half-visible). Stealth visualized: the cameras' attention is the wrong attention.",
+    moodKeywords: [
+      "stealth as taught misdirection",
+      "the look-away masterclass",
+      "the previous beat still half-visible",
+      "deliberately forgettable",
+    ],
+    palette:
+      "Insurgency slate + signal green afterimage trail + cool grey camera-eye-glow on the wrong axis",
+    composition:
+      "Mid-shot on catwalk, Agent Zero in centre-foreground, three mis-tracking cameras at upper-third forming a visual triangle pointing AWAY from her",
+    notes:
+      "T2 = stealth-1-turn keyword. She is the SUBJECT, the cameras' tracking is the EVIDENCE the stealth works. Kept tight; no reveals.",
+  },
+  {
+    cardId: "s1_imprint_agent_zero_t3",
+    sceneDelta:
+      "Action mid-strike. Agent Zero is mid-air, dropping from above into a small tactical engagement, twin blades extended. Her form is rendered with TWO faint after-images trailing behind her — last-week's move and last-month's move both half-visible in slate-blue ghosting. Below her, three Panopticon enforcers are still looking the wrong direction (one toward where she WAS half a second ago). A signal-green muzzle-flash glow from one enforcer's rifle pointed AT NOTHING — they fired at where she had been. Stealth-2-turns + reveals-when-she-strikes visualized as the converging moment all three after-images collapse into the present strike.",
+    moodKeywords: [
+      "two motion-ghosts converging into present",
+      "the moves she would have made last week",
+      "the muzzle flash at empty air",
+      "earned lethality",
+    ],
+    palette:
+      "Insurgency slate + signal green telltale + a single warm rust-orange muzzle-flash AT empty space (visual irony)",
+    composition:
+      "Vertical descending action, Agent Zero at upper-third mid-fall, two motion-ghost trails at upper background, three off-target enforcers at lower-third",
+    notes:
+      "T3 = stealth-2 + reveals-on-strike. The motion-ghosts are the tier escalation — she's now visibly out of the linear timeline that the enforcers are working in.",
+  },
+  {
+    cardId: "s1_imprint_agent_zero_t4",
+    sceneDelta:
+      "Static composition this time — Agent Zero standing at the centre of a small tactical brief, surrounded by a half-circle of Insurgency operatives studying a holographic map projected from the table between them. She is the only one who is not looking at the map. She is looking past the camera, at something none of the others can see yet. Her face is fully visible now; her eyes carry the kind of attention that has been trained on three timelines at once. Her armour is sparse — practical plate over a dark long-sleeve, no insignia (she is not anybody's symbol). Stealth-3-turns + ignore-3-armor visualized as a faint slate-blue shimmer-aura around her, hexagonal, reading as 'she is currently being unsearched for in three different scanning systems.'",
+    moodKeywords: [
+      "three timelines at once",
+      "no insignia, never the symbol",
+      "the unsearched-for shimmer",
+      "tactical stillness",
+    ],
+    palette:
+      "Insurgency slate + signal green map-glow on the surrounding faces + cool gunmetal armour + a single warm pendant lamp upper-right",
+    composition:
+      "Mid-shot tactical-brief, Agent Zero centred but turned away from the group, looking past camera",
+    notes:
+      "T4 = stealth-3 + armor-pierce. The composition keeps her UNALIGNED with the rest of the group — she leads by being three moves ahead, not by pulling rank. Her face stays sharp + present-tense; we are NOT showing her as someone who has died yet (that's t5 territory).",
+  },
+  {
+    cardId: "s1_imprint_agent_zero_t5",
+    sceneDelta:
+      "Hero composition: she is mid-stride down the boarding ramp of Ark 1047 itself, the docked Panopticon hangar around her receding into deep grey distance, every alarm light on the hangar's far wall visibly OFF — she has crossed the entire docking layer without raising one. She is alone in the foreground. The Ark behind her is tilted at the angle of a vessel in the act of stealing itself away. A single warm amber light from the Ark's open hatch frames her in halo. Her jacket is the same utilitarian dark of all previous tiers but a faint resurrection-bloom of soft white light hangs at her shoulder-blades — a halo of return. Rush implied by stride. Stealth-3 implied by the unalarmed hangar. Ignore-armor implied by a Panopticon enforcer in the mid-background frozen in the middle of a draw, his armour visibly cracked at the seam where she has already passed and made her decision.",
+    moodKeywords: [
+      "the heist that made her name",
+      "the resurrection halo at her back",
+      "stolen ark, stolen breath",
+      "nothing left to lose because she has been past it",
+    ],
+    palette:
+      "Insurgency slate hangar + warm amber Ark-hatch halo behind her + signal green Ark cockpit telltales + a soft resurrection-white bloom at her shoulders",
+    composition:
+      "Wide hero, Agent Zero mid-stride at lower-third foreground, Ark 1047 mid-distance receding, frozen enforcer at mid-background camera-right",
+    notes:
+      "T5 = 'Agent Zero, The First Strike' — the heist that made her name + the resurrection that returned her. End-of-Epoch-2 canon. CRITICAL: do NOT show the Warlord killing her in this frame; the death + revival is BACKSTORY at this tier, not the narrative beat. The resurrection-bloom is intentional but subtle — not religious, not theatrical.",
+  },
 ] as const;
 
 /**
