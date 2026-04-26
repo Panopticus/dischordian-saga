@@ -122,13 +122,66 @@ const DIMENSIONAL_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "Legendary unit. The 'letters that answer with maps' is canon-direct from flavor — rendered as the drifting map-fragmented arrival-letters. Four keywords/effects (airdrop + celerity + flying + rush) rendered as four distinct visual elements simultaneously. Generic-scholar face must NOT match any named character.",
   },
+
+  // ─── PROBABILITY DIMENSION — Dreamer, draw + mana refund + flicker ───
+  {
+    cardId: "s1_dim_prob_01",
+    sceneDelta:
+      "Mid-shot. An Outcome Gambler — a Dreamer-school woman in mid-thirties at a low Dreamer-divination table, generic-mixed features, in cream-and-violet Dreamer-apprentice robes. Spread across the table in front of her are FACE-DOWN cards (a tarot-like Dreamer-divination spread), but a faint translucent ghost-image of EACH CARD already shows its face above the physical card (the prediction-already-made, before the draw). She has just turned over ONE card; the warm slip of paper drifting up from above her shoulder (draw-1 visualized) MATCHES the ghost-image she had already predicted. Her face is calm, slightly satisfied — every card she draws is one she had already bet on. Faint Dreamer aurora-violet ambient light from the table's surface; Dreamer-sanctum behind in mid-distance.",
+    moodKeywords: [
+      "every card she draws is one she had already bet on",
+      "before the match started",
+      "translucent ghost-image of each card above the physical card",
+      "calm, slightly satisfied",
+    ],
+    palette:
+      "Dreamer cream-and-violet apprentice-robes + aurora-violet table ambient + warm cream tarot-cards + faint translucent ghost-images + warm amber paper-drift + Dreamer-sanctum depth",
+    composition:
+      "Mid-shot front three-quarter, Gambler at frame-centre at low table, card-spread visible at lower-third with ghost-images above each card",
+    notes:
+      "Uncommon unit. Dreamer-sanctum visual continuity with Dreamer Allegiance set. The 'prediction-already-made before the draw' framing is rendered as the ghost-images above face-down cards. Generic-Dreamer-apprentice face must NOT match any named character.",
+  },
+  {
+    cardId: "s1_dim_prob_02",
+    sceneDelta:
+      "Mid-shot. A Bayes Adept — a Dreamer-school woman in mid-forties, generic-thoughtful features, in fuller Dreamer-scholar robes, standing at a tall Dreamer-sanctum lectern. Open before her on the lectern is a thick PROBABILITY-LEDGER — the pages visibly UPDATING in real time (translucent text fragments fading away as new translucent text fragments fade in over them). The viewer can SEE her priors updating: a previous probability-graph at left of the page is fading; a new updated graph at right is materializing. Her hand is mid-gesture above the page, palm-down, as if conducting the update. Three warm slips of paper drift up from above her shoulder (draw-3 visualized). Her face is composed but the visible REAL-TIME update of her ledger gives the scene its terror — watchers know they are witnessing the model getting smarter while they watch. Behind her, Dreamer-sanctum architecture in cool aurora-violet.",
+    moodKeywords: [
+      "updates her priors in public",
+      "you can watch the update happen in real time",
+      "which is terrifying",
+      "fading old graph, materializing new graph",
+    ],
+    palette:
+      "Dreamer fuller-scholar cream-and-violet robes + warm cream parchment + cool aurora-violet sanctum-lectern + faint translucent fading-text + warm amber paper-drifts + Dreamer-sanctum depth",
+    composition:
+      "Mid-shot front three-quarter, Adept at frame-centre at lectern, ledger-page mid-update at lower-third",
+    notes:
+      "Rare spell. The 'real-time prior update visible on the page' is the canonical visualization of the Bayes-update mechanic. Generic-Dreamer-scholar face must NOT match any named character. Dreamer-sanctum visual continuity preserved.",
+  },
+  {
+    cardId: "s1_dim_prob_03",
+    sceneDelta:
+      "Wider mid-shot. The Sum Over Histories — a Dreamer-school figure of indeterminate gender at the centre of a vast Dreamer cosmology-chamber. Around the figure, dozens of faint translucent versions of THE CURRENT MATCH play out simultaneously in mid-air — each version is a small floating ghost-board with different unit-positions, different remaining-life counts, different damage-dealt patterns. The figure stands at the chamber-centre, both arms slightly raised in a wide observational gesture. Their face is calm, open, KIND — they have seen every version, and they know it doesn't help to share which version is real. Faint cool wing-shape projection-echoes (flying as Dreamer projection-echo, NOT literal wings) trail behind their shoulders. Faint translucent dispel-ripples around their hands. Three warm slips of paper drift up from above (draw-3); a faint warm-amber mana-pulse propagates downward into the chamber-floor (gain-2-mana-this-turn visualized). The chamber is cool aurora-violet with deep-distance silver-mist haze.",
+    moodKeywords: [
+      "the only entity who has seen every possible version",
+      "she is kind about it",
+      "she does not tell you which version you are in",
+      "calm, open, kind",
+    ],
+    palette:
+      "Dreamer cream-and-violet full robes + cool aurora-violet cosmology-chamber + dozens of translucent ghost-board versions + cool wing-shape projection-echoes + translucent dispel-ripples + warm amber paper-drifts + warm-amber mana-pulse + silver-mist deep-distance",
+    composition:
+      "Wider mid-shot front three-quarter, figure at frame-centre with arms raised, dozens of small ghost-boards floating in mid-air around them",
+    notes:
+      "Legendary unit. CRITICAL spoiler-discipline: this figure is NOT The Oracle (the Dreamer-faction's master is in suspended processing-loop and cannot be directly rendered). The Sum Over Histories is a separate Dreamer-cosmology entity — generic-indeterminate features, kind expression. Three keywords (flying-as-projection + dispel + draw + mana) rendered as four distinct visual elements. The 'she does not tell you which version' is rendered as the kindness — the gift is the silence.",
+  },
 ] as const;
 
 /**
  * Dimensional faction's prompt registry, keyed by card id.
  *
- * Currently populated: 2 / 4 dimensions (Time, Space).
- * TODO: probability, reality.
+ * Currently populated: 3 / 4 dimensions (Time, Space, Probability).
+ * TODO: reality.
  */
 export const DIMENSIONAL_CARD_ART_PROMPTS: Readonly<Record<string, CardArtPrompt>> =
   Object.freeze(
