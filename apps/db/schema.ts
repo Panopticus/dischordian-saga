@@ -4749,3 +4749,63 @@ export const tradeContracts = mysqlTable("trade_contracts", {
   contractKeyIdx: index("idx_trade_contracts_contract_key").on(table.contractKey),
 }));
 export type TradeContractRow = typeof tradeContracts.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
+   PHASE 6 INFRASTRUCTURE — Per-NPC ask-topics + dialog tree state
+   See apps/shared/npcs/askTopics.ts (AskTopic registry) +
+   apps/shared/npcs/dialogTrees/ (per-NPC trees) +
+   apps/shared/npcs/conversationRunner.ts (state machine).
+   ═══════════════════════════════════════════════════════ */
+
+/**
+ * Per-user ask-topic history. Drives the canonical "you've already
+ * asked this; here's the re-entry response" pattern + cooldowns. One
+ * row per (user, topic) ask-event so the resolver can count repeats
+ * if a topic ever wants per-ask escalation.
+ */
+export const npcAskTopicHistory = mysqlTable("npc_ask_topic_history", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /** NpcKey from apps/shared/npcs/types.ts. */
+  npcKey: varchar("npcKey", { length: 64 }).notNull(),
+  /** AskTopic.id from apps/shared/npcs/askTopics.ts. */
+  topicId: varchar("topicId", { length: 256 }).notNull(),
+  askedAt: timestamp("askedAt").defaultNow().notNull(),
+}, (table) => ({
+  userIdIdx: index("idx_npc_ask_topic_history_user_id").on(table.userId),
+  userTopicIdx: index("idx_npc_ask_topic_history_user_topic").on(
+    table.userId,
+    table.npcKey,
+    table.topicId,
+  ),
+}));
+export type NpcAskTopicHistoryRow = typeof npcAskTopicHistory.$inferSelect;
+
+/**
+ * Per-user dialog-tree state. Supports tree-resume across sessions:
+ * if a player closes a multi-turn conversation mid-walk, the next
+ * session can resume at the same node. One row per (user, tree)
+ * with last-known node + completion timestamp.
+ */
+export const npcDialogTreeState = mysqlTable("npc_dialog_tree_state", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /** NpcKey from apps/shared/npcs/types.ts. */
+  npcKey: varchar("npcKey", { length: 64 }).notNull(),
+  /** NpcDialogTree.id from apps/shared/npcs/dialogTrees/. */
+  treeId: varchar("treeId", { length: 256 }).notNull(),
+  /** Current node id within the tree; null when conversation ended. */
+  currentNodeId: varchar("currentNodeId", { length: 256 }),
+  /** Set when the tree reaches a terminal node. */
+  completedAt: timestamp("completedAt"),
+  startedAt: timestamp("startedAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  userIdIdx: index("idx_npc_dialog_tree_state_user_id").on(table.userId),
+  userNpcTreeUniq: uniqueIndex("uniq_npc_dialog_tree_state_user_npc_tree").on(
+    table.userId,
+    table.npcKey,
+    table.treeId,
+  ),
+}));
+export type NpcDialogTreeStateRow = typeof npcDialogTreeState.$inferSelect;
