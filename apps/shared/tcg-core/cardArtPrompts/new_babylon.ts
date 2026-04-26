@@ -359,16 +359,170 @@ const NEW_BABYLON_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "Common unit. CRITICAL: forcefield is on the ARCHIVE (not the Guard) — canonical 'crystal absorbs, guard doesn't need to.' Generic-stalwart features must NOT match Citadel Guardian (s1_char_079 — different specific role: city-walls vs archive). Crystal-record visualization echoes Antiquarian relic-keeper aesthetics.",
   },
+  {
+    cardId: "s1_pack_029",
+    sceneDelta:
+      "Mid-shot. A Hostile Takeover — at frame-centre, Adjudicator Locke (same canonical features as gen_new_babylon: female mid-forties, eye-patch on left eye, deep warm-leather Adjudicator's coat) is mid-action of SIGNING a takeover-order with a chrome-and-warm-gold quill. Her face shows a small composed smile. The order at lower-third bears chrome-and-warm-gold script with a small chrome-and-warm-gold COMPENSATION-CLAUSE visibly highlighted. At frame-right edge, an anonymous courier (back-shot only) is mid-departure carrying the signed order. Behind Locke, faint warm low office-light. The signed order's recipient (the takeover-target) is implied off-frame and not expected to survive to collect.",
+    moodKeywords: [
+      "Locke smiled as he signed the order",
+      "the compensation was generous",
+      "the target was not expected to survive to collect it",
+      "small composed smile, single-eyed gaze, chrome-and-warm-gold quill",
+    ],
+    palette:
+      "Deep warm-leather Adjudicator's coat + chrome-and-warm-leather eye-patch + chrome-and-warm-gold quill + chrome-and-warm-gold takeover-order script + warm low office-light + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, Locke at frame-centre signing order, anonymous courier at frame-right edge departing",
+    notes:
+      "Rare spell. Visual continuity with gen_new_babylon + s1_char_001 (same Locke). Anonymous courier preserves no-character-conflation. NOTE: flavor uses 'he' but Locke is canonically female-presenting (gender-neutral pronouns may be misdirection in flavor text).",
+  },
+  {
+    cardId: "s1_pack_030",
+    sceneDelta:
+      "Action mid-shot. A Syndicate Enforcer — male-presenting figure in mid-thirties, generic-grim features (calm cold eyes, set jaw), in dark New Babylon syndicate-leathers (deep warm-leather over slate with chrome-and-warm-gold syndicate-mark at the chest). He stands at the centre of a back-alley scene at frame-centre, mid-action of CROUCHING beside a fallen anonymous body (back-shot only at lower-third) with one hand reaching INTO the body's pocket — extracting payment. His face shows efficient-procedural calm. Faint warm low alley-light; cool deep-shadow at the alley-edges. The setting is a quiet New Babylon back-alley.",
+    moodKeywords: [
+      "he does not ask for payment",
+      "he takes it from the corpse's pockets",
+      "the Syndicate calls it 'efficiency'",
+      "calm cold eyes, set jaw, efficient-procedural",
+    ],
+    palette:
+      "Deep warm-leather over slate syndicate-leathers + chrome-and-warm-gold syndicate-mark + warm low alley-light + anonymous fallen body + cool deep-shadow",
+    composition:
+      "Action mid-shot side three-quarter, Enforcer at frame-centre crouched beside fallen body, alley extending behind",
+    notes:
+      "Common unit. Anonymous fallen body (back-shot) preserves no-character-conflation. Generic-grim features must NOT match any named character. The 'efficiency' framing is rendered through the procedural-calm extraction-gesture.",
+  },
+  {
+    cardId: "s1_pack_031",
+    sceneDelta:
+      "Mid-shot. A Crystal Senator — male-presenting figure in mid-fifties, generic-distinguished features (composed eyes, slight knowing smile, distinguished-grey hair), in formal New Babylon Senator's robes (deep warm-leather-and-cream-marble fabric with chrome-and-warm-gold Senator's pin at the breast). He stands at frame-centre at a New Babylon Senate-corridor. Around his body, a translucent CRYSTALLIZED-CURRENCY forcefield-shimmer wraps him — the shield is visibly composed of HUNDREDS OF SMALL CRYSTALLINE COIN-FRAGMENTS suspended in mid-air around his body, each a separate piece of crystallized money forming a barrier. His face is composed, untroubled — no blade can afford to breach what wealth has built. Faint warm low Senate-corridor light.",
+    moodKeywords: [
+      "the Senator's shield is not magic — it is money",
+      "crystallized into a barrier no blade can afford to breach",
+      "translucent crystallized-currency forcefield of hundreds of coin-fragments",
+      "composed, untroubled, distinguished-grey hair",
+    ],
+    palette:
+      "Deep warm-leather-and-cream-marble Senator's robes + chrome-and-warm-gold Senator's pin + translucent crystallized coin-fragments + warm-gold currency-shimmer + warm low Senate-corridor light + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, Crystal Senator at frame-centre with currency-shield, Senate-corridor behind",
+    notes:
+      "Rare unit. Generic-distinguished features must NOT match Senator Voss (s1_char_117) — different specific archetype: Crystal Senator vs Voss-family. The currency-shield is a unique visual idiom for forcefield (vs standard hexagonal-cyan / green-tinted variants).",
+  },
+  {
+    cardId: "s1_pack_032",
+    sceneDelta:
+      "Wider mid-shot. A Market Crash — at frame-centre, a vast New Babylon trading-floor at the moment of CATASTROPHIC PRICE-COLLAPSE: multiple translucent warm-gold price-line-graphs visible in mid-air across the entire floor, each line CRASHING DOWNWARD simultaneously (the lines were UP a moment ago; they are now descending in unison). Around the trading-floor, anonymous traders (back-shots only, generic civilian + tactical figures) react in panic — some clutching heads, some falling to knees, some running toward exits at frame-edges. The floor itself is unbroken — the market is correcting, not the architecture. Faint warm-amber economic-shock-aura propagates outward. NO single dominant figure (the spell is the impersonal market).",
+    moodKeywords: [
+      "the market corrects itself",
+      "it does not care who is standing when it does",
+      "multiple price-line-graphs crashing simultaneously",
+      "anonymous traders in panic",
+    ],
+    palette:
+      "Translucent warm-gold price-line-graphs + descending lines + anonymous trader-silhouettes (back-shots) + warm-amber economic-shock-aura + warm New Babylon trading-floor + cool deep-shadow",
+    composition:
+      "Wider mid-shot, trading-floor filling frame, price-line-graphs crashing in mid-air, anonymous traders in panic at lower-third",
+    notes:
+      "Epic spell. Anonymous traders preserve no-character-conflation. The 'impersonal market' framing is rendered through the absence of any single dominant figure — the crash IS the subject.",
+  },
+  {
+    cardId: "s1_pack_033",
+    sceneDelta:
+      "Mid-shot. A Debt Collector — male-presenting figure in mid-thirties, generic-procedural features (no expression, calm dark eyes, average build), in plain New Babylon Debt-Collection coat (deep warm-leather over slate with a small chrome ledger-clip at the lapel). He stands at the threshold of an anonymous citizen's apartment-doorway at frame-centre — the doorway is OPEN, the citizen NOT VISIBLE (already gone or already taken). The Collector holds a chrome-and-warm-gold subtraction-stamp in his right hand, mid-action of striking it against an open ledger in his left hand (the line being struck through). His face shows no procedural emotion. Behind him, a quiet New Babylon residential-corridor.",
+    moodKeywords: [
+      "he does not knock",
+      "he does not ask",
+      "he simply subtracts",
+      "no expression, calm dark eyes",
+    ],
+    palette:
+      "Deep warm-leather over slate Debt-Collection coat + chrome ledger-clip + chrome-and-warm-gold subtraction-stamp + open ledger + warm low residential-corridor light + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, Collector at frame-centre at open doorway, residential-corridor behind",
+    notes:
+      "Common unit. Anonymous absent citizen (door open, no figure) preserves no-character-conflation. Generic-procedural features must NOT match Trade Enforcer (s1_char_118) — different specific role: door-to-door extraction vs trading-floor balance.",
+  },
+  {
+    cardId: "s1_pack_034",
+    sceneDelta:
+      "Wider mid-shot. Locke's Inner Circle — at frame-centre, FIVE FIGURES at a private New Babylon high-table (each in distinct New Babylon political/syndicate attire, all generic-distinguished features, all back-three-quarter or partial-profile — NO faces fully visible). At the head of the table at frame-back-centre, Adjudicator Locke is visible (back-three-quarter, eye-patch on left eye, recognizable by silhouette and patch — visual continuity with gen_new_babylon). The five figures are mid-discussion, hands gesture-active, the room is intimate-private. On the table at lower-third, a single chrome-and-warm-gold OWNERSHIP-LEDGER (the city itself written in it). Around the room, faint warm low elite-back-room light. They do not rule — they own.",
+    moodKeywords: [
+      "they do not rule New Babylon",
+      "they own it",
+      "and now they own whatever comes next",
+      "five figures at private high-table, Locke at the head, all back/partial",
+    ],
+    palette:
+      "Distinct New Babylon political/syndicate attire (varied) + Locke's chrome-and-warm-leather eye-patch + chrome-and-warm-gold ownership-ledger + warm low elite-back-room light + warm-leather high-table + cool deep-shadow",
+    composition:
+      "Wider mid-shot, high-table at frame-centre, five figures around with Locke at back, ownership-ledger at lower-third",
+    notes:
+      "Legendary unit. Anonymous Inner Circle (back/partial) preserves no-character-conflation. Locke's eye-patch establishes her presence by silhouette only (no face visible). The 'own whatever comes next' framing is rendered through the visible ownership-ledger.",
+  },
+  {
+    cardId: "s1_pack_035",
+    sceneDelta:
+      "Wider mid-shot. A Trade Embargo — at frame-centre, a set of New Babylon TRADE-ROUTE GATES across a wide trade-corridor (chrome-and-warm-gold ceremonial gates, mid-CLOSING). The gates are visible as multiple parallel-aligned barriers, each in its own gate-frame, all closing in unison at the same moment. Beyond the gates at deep-distance, OBJECTS-WAITING are visible (translucent stranded-cargo, faint silhouettes of merchant-figures unable to cross — anonymous, back-shots only). Above the gates, a single chrome-and-warm-gold EMBARGO-DECREE plaque hangs visibly. NO single dominant figure (the spell is the closing-action).",
+    moodKeywords: [
+      "the trade routes closed overnight",
+      "by morning, entire strategies had starved",
+      "trade-route gates mid-closing in unison",
+      "stranded-cargo and merchant-figures behind unable to cross",
+    ],
+    palette:
+      "Chrome-and-warm-gold ceremonial trade-gates + multiple parallel-aligned barriers + chrome-and-warm-gold embargo-decree plaque + translucent stranded-cargo + anonymous merchant-figures + warm trade-corridor sodium-light + cool deep-shadow",
+    composition:
+      "Wider mid-shot, trade-gates at frame-centre mid-closing, stranded merchants beyond at deep-distance",
+    notes:
+      "Uncommon spell. Anonymous merchants (back-shots) preserve no-character-conflation. The 'overnight closing' is rendered through the unanimous mid-close — multiple gates moving as one.",
+  },
+  {
+    cardId: "s1_pack_seed_fighter",
+    sceneDelta:
+      "Action mid-shot. Akai Shi, the Red Death — same canonical Akai Shi features as s1_char_003 (mid-thirties female, Potentials-glyph at left temple, dark hair tied back) but rendered in ARENA-CHAMPION posture: she stands at the centre of a New Babylon arena-floor at frame-centre, both feet planted shoulder-width, both hands gripping a single chrome-and-deep-crimson curved-blade in mid-finishing-strike (the blade is mid-arc, dripping with translucent blood-red strike-residue — faint). Around her, the arena's anonymous spectators (back-shots only, generic-mixed New Babylon citizens) cheer in mid-distance bleachers. Faint warm rush-trails at her heels (rush keyword); faint warm pierce-glow rims the blade-tip (pierce keyword). Her face shows arena-finality — no mercy.",
+    moodKeywords: [
+      "the arena has a champion",
+      "the champion has no mercy",
+      "Akai Shi at arena-floor in finishing-strike posture",
+      "anonymous arena-spectators cheering in bleachers",
+    ],
+    palette:
+      "Slate-and-deep-crimson combat-leathers + chrome-and-deep-crimson curved-blade + chrome-and-deep-crimson Potentials-glyph at left temple + translucent blood-red strike-residue + warm rush-trails + warm pierce-glow + warm New Babylon arena-floor + anonymous cheering spectators + cool deep-shadow",
+    composition:
+      "Action mid-shot front three-quarter, Akai Shi at frame-centre in finishing-strike, arena-spectators in bleachers behind",
+    notes:
+      "Legendary unit. Visual continuity with s1_char_003 (same character at arena-context vs post-cataclysm). Anonymous spectators preserve no-character-conflation. The 'Red Death' framing is rendered through the deep-crimson blade-residue.",
+  },
+  {
+    cardId: "s1_pack_seed_trade",
+    sceneDelta:
+      "Mid-shot. A Shadow Route Manifest — at frame-centre, an OPEN SHADOW-MANIFEST DOCUMENT laid flat on a low warm-leather smuggling-table. The manifest's surface shows a NEW BABYLON CITY-MAP with multiple visible TRADE-ROUTES marked in chrome-and-warm-gold INK (the official routes), but ALSO multiple SHADOW-ROUTES marked in translucent warm-amber INK (the routes that don't appear on any official chart). The shadow-routes are clearly more numerous and lead to richer destinations. An anonymous smuggler's hand (only fingertips visible at frame-bottom-edge, generic warm-leather sleeve) traces one of the shadow-routes with a fingertip. NO face visible.",
+    moodKeywords: [
+      "the routes that don't appear on any chart",
+      "are the ones that pay the most",
+      "official chrome-and-warm-gold routes + translucent warm-amber shadow-routes",
+      "anonymous smuggler's fingertip tracing shadow-route",
+    ],
+    palette:
+      "Open shadow-manifest document + warm-leather smuggling-table + chrome-and-warm-gold official-route ink + translucent warm-amber shadow-route ink + anonymous fingertip + warm low smuggling-table light + cool deep-shadow",
+    composition:
+      "Mid-shot, manifest at frame-centre on table, anonymous fingertip at frame-bottom-edge tracing shadow-route",
+    notes:
+      "Rare spell. Anonymous smuggler (fingertip only) preserves no-character-conflation. The two-color route-distinction (chrome-and-warm-gold official vs translucent warm-amber shadow) is the visual key to the canonical 'don't appear on charts' framing.",
+  },
 ] as const;
 
 /**
  * New Babylon faction's prompt registry, keyed by card id.
  *
- * Currently populated: 19 / 52 cards
+ * Currently populated: 28 / 52 cards
  * (gen_new_babylon, s1_char_001, s1_char_003, s1_char_020,
  *  s1_char_033, s1_char_061, s1_char_066, s1_char_078,
  *  s1_char_079, s1_char_080, s1_char_081, s1_char_082-085,
- *  s1_char_117-120).
+ *  s1_char_117-120, s1_pack_029-035, s1_pack_seed_fighter,
+ *  s1_pack_seed_trade).
  */
 export const NEW_BABYLON_CARD_ART_PROMPTS: Readonly<Record<string, CardArtPrompt>> =
   Object.freeze(
