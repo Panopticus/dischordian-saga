@@ -149,6 +149,311 @@ export const ADJUDICATOR_LOCKE_BANK: ReadonlyArray<BankEntry> = [
   },
 
   // ═════════════════════════════════════════════════════════════════════
+  // MULTI-STAGE CONTRACT DIALOG (Phase 6a.2 sub-chunk D — ~20 lines)
+  //
+  // Per Phase 2 contract template spec, Locke offers 3 canonical
+  // contract templates with multi-stage execution:
+  //   - locke.retainer_baseline       (3 stages — 9 lines)
+  //   - locke.exclusive_dealings      (2 stages — 6 lines)
+  //   - locke.audit_clause            (1 stage  — 3 lines)
+  // Each stage carries intro / check-in / completion beats.
+  //
+  // Plus the canonical "I told you" hidden-clause-discovered-mid-
+  // execution beats per §1.4 tell #4 (deferred-threat lands when
+  // the player did NOT audit at signing). 2 such beats = 20 lines
+  // total.
+  //
+  // Distinguishes Locke from Nilmorg: Locke contracts canonically
+  // HAVE fine print — the canonical opposite of Nilmorg's "no fine
+  // print, full disclosure as honeypot" register. Both are dangerous
+  // in opposite directions. Per §1.4 tell #4 the canonical Locke
+  // posture is to OFFER the audit (existing locke.signing.audit_offered
+  // line) and document the choice; she does not hide what she would
+  // disclose if asked.
+  // ═════════════════════════════════════════════════════════════════════
+
+  // ─── locke.retainer_baseline (3 stages × 3 beats = 9 lines) ─────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "locke.contract.retainer.stage1.intro",
+    text:
+      "Stage one of the retainer baseline. Standard New Babylon terms. " +
+      "Five-percent commission on routes I broker for you. The clause is " +
+      "on page three. Read it. The audit is still on offer.",
+    surfaces: ["npc_line"],
+    unlockFlags: ["locke_retainer_stage_1_started"],
+    cooldownKey: "locke.contract.retainer.stage1",
+    maxPlays: 2,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "locke.contract.retainer.stage1.midpoint",
+    text:
+      "Mid-stage check on the retainer: you have routed three deliveries. " +
+      "Two through me. One off-book. The off-book one is filed but " +
+      "unbilled. I will mention it once.",
+    surfaces: ["npc_line"],
+    unlockFlags: ["locke_retainer_stage_1_started"],
+    cooldownKey: "locke.contract.retainer.stage1.mid",
+    maxPlays: 2,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "locke.contract.retainer.stage1.completion",
+    text:
+      "Stage one closes. The retainer is active. The Authority has logged " +
+      "you under 'reliable counterparty'. The phrasing is theirs, not " +
+      "mine. Mine would be 'recurring'.",
+    surfaces: ["npc_line"],
+    unlockFlags: ["locke_retainer_stage_1_complete"],
+    cooldownKey: "locke.contract.retainer.stage1.complete",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "locke.contract.retainer.stage2.intro",
+    text:
+      "Stage two opens. The retainer expands to include sector permits in " +
+      "the Vox Corridor. The permits live in the second cabinet. Read " +
+      "those too. Or do not. The clause does not change either way.",
+    surfaces: ["npc_line"],
+    unlockFlags: ["locke_retainer_stage_2_started"],
+    cooldownKey: "locke.contract.retainer.stage2",
+    maxPlays: 2,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "locke.contract.retainer.stage2.midpoint",
+    text:
+      "Vox Corridor traffic is logged. Three deliveries this quarter. The " +
+      "Authority's revenue share has been calculated. Yours has not been " +
+      "delivered yet — that is stage three's deal.",
+    surfaces: ["npc_line"],
+    unlockFlags: ["locke_retainer_stage_2_started"],
+    cooldownKey: "locke.contract.retainer.stage2.mid",
+    maxPlays: 2,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "locke.contract.retainer.stage2.completion",
+    text:
+      "Stage two closes. The Vox Corridor permits are yours through the " +
+      "saga-quarter. Renew at the third tone or surrender them at the " +
+      "second. I file either.",
+    surfaces: ["npc_line"],
+    unlockFlags: ["locke_retainer_stage_2_complete"],
+    cooldownKey: "locke.contract.retainer.stage2.complete",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "locke.contract.retainer.stage3.intro",
+    text:
+      "Stage three: the renewal terms. The Authority offers a 12% rate " +
+      "increase. You may accept, counter, or close. I am not lobbying. I " +
+      "am presenting. The difference matters; do not collapse it.",
+    surfaces: ["npc_line"],
+    unlockFlags: ["locke_retainer_stage_3_started"],
+    cooldownKey: "locke.contract.retainer.stage3",
+    maxPlays: 2,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "locke.contract.retainer.stage3.midpoint",
+    text:
+      "Renewal deliberation pending. The Authority does not pressure " +
+      "deliberations. The Authority does, however, file the duration of " +
+      "the deliberation. Currently: nine days. The longest in your file. " +
+      "Just so you know.",
+    surfaces: ["npc_line"],
+    unlockFlags: ["locke_retainer_stage_3_started"],
+    cooldownKey: "locke.contract.retainer.stage3.mid",
+    maxPlays: 2,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "locke.contract.retainer.stage3.completion",
+    text:
+      "Stage three closes. The retainer is renewed or closed. The Authority's " +
+      "ledger is updated. So is mine. The two sets of books rarely match. " +
+      "They match here.",
+    surfaces: ["npc_line"],
+    unlockFlags: ["locke_retainer_stage_3_complete"],
+    cooldownKey: "locke.contract.retainer.stage3.complete",
+    maxPlays: 1,
+    setsFlags: ["locke_retainer_baseline_fulfilled"],
+  },
+
+  // ─── locke.exclusive_dealings (2 stages × 3 beats = 6 lines) ────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "locke.contract.exclusive.stage1.intro",
+    // Touché-arc canon: signing exclusivity locks Vex out per §2.3.
+    // The line names the canonical structural cost without softening
+    // it.
+    text:
+      "Stage one of the exclusive dealings agreement. New Babylon becomes " +
+      "your sole brokerage. Coda becomes a memory. Vex Solène becomes " +
+      "silent. You knew that when you signed.",
+    surfaces: ["npc_line"],
+    unlockFlags: ["locke_exclusive_stage_1_started"],
+    cooldownKey: "locke.contract.exclusive.stage1",
+    maxPlays: 2,
+    setsPublicFlags: ["vex_locked_out_by_locke_exclusivity"],
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "locke.contract.exclusive.stage1.midpoint",
+    text:
+      "Mid-stage check on exclusivity: a Coda offer arrived in your inbox. " +
+      "The Authority filed the offer as 'declined per contract terms'. You " +
+      "are not required to read it. I read it. Don't ask.",
+    surfaces: ["npc_line"],
+    unlockFlags: ["locke_exclusive_stage_1_started"],
+    cooldownKey: "locke.contract.exclusive.stage1.mid",
+    maxPlays: 2,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "locke.contract.exclusive.stage1.completion",
+    text:
+      "Stage one of exclusivity closes. The lock-out has held. Vex's " +
+      "silence has been catalogued. I respect the silence. So should you.",
+    surfaces: ["npc_line"],
+    unlockFlags: ["locke_exclusive_stage_1_complete"],
+    cooldownKey: "locke.contract.exclusive.stage1.complete",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "locke.contract.exclusive.stage2.intro",
+    text:
+      "Stage two of exclusivity opens. Renewal at the 90-day mark. Or " +
+      "breach, at the same mark. Both options have been priced. The " +
+      "Authority recommends the renewal. I am paid to make the " +
+      "recommendation.",
+    surfaces: ["npc_line"],
+    unlockFlags: ["locke_exclusive_stage_2_started"],
+    cooldownKey: "locke.contract.exclusive.stage2",
+    maxPlays: 2,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "locke.contract.exclusive.stage2.midpoint",
+    text:
+      "Mid-stage on exclusivity renewal: you have taken three meetings " +
+      "outside the contract. The Authority filed those. The contract " +
+      "permits up to two. We will discuss the third.",
+    surfaces: ["npc_line"],
+    unlockFlags: ["locke_exclusive_stage_2_started"],
+    cooldownKey: "locke.contract.exclusive.stage2.mid",
+    maxPlays: 2,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "locke.contract.exclusive.stage2.completion",
+    // Canonical Touché-arc closing register per §2.3. The line names
+    // both possible outcomes without flattering either; Vex's
+    // "forgives quickly" canon lands here.
+    text:
+      "Stage two of exclusivity closes. Either you renewed and Vex is " +
+      "locked out for another quarter — or you breached, and Vex is " +
+      "calling again. She forgives quickly. Neither of us is surprised.",
+    surfaces: ["npc_line"],
+    unlockFlags: ["locke_exclusive_stage_2_complete"],
+    cooldownKey: "locke.contract.exclusive.stage2.complete",
+    maxPlays: 1,
+    setsFlags: ["locke_exclusive_dealings_fulfilled"],
+  },
+
+  // ─── locke.audit_clause (1 stage × 3 beats = 3 lines) ───────────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "locke.contract.audit.stage1.intro",
+    // §4.4 Antiquarian audit canon: the audit is canonically mutual.
+    // The line names the canonical asymmetry — Locke is auditing the
+    // Antiquarian; the Antiquarian is auditing Locke; the player
+    // becomes a witness in the middle.
+    text:
+      "Stage one of the audit clause: the audit. The Antiquarian's " +
+      "archives are open to me. The Antiquarian is not in the archives " +
+      "this quarter. The Authority knows this. You know this now too.",
+    surfaces: ["npc_line"],
+    unlockFlags: ["locke_audit_stage_1_started"],
+    cooldownKey: "locke.contract.audit.stage1",
+    maxPlays: 2,
+    setsPublicFlags: ["locke_disclosed_antiquarian_audit"],
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "locke.contract.audit.stage1.midpoint",
+    text:
+      "Audit underway. Three discrepancies catalogued. None are mine. None " +
+      "are yours. The Antiquarian's accounting has a particular flavor. " +
+      "You may want to learn to read it.",
+    surfaces: ["npc_line"],
+    unlockFlags: ["locke_audit_stage_1_started"],
+    cooldownKey: "locke.contract.audit.stage1.mid",
+    maxPlays: 2,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "locke.contract.audit.stage1.completion",
+    text:
+      "Stage one of the audit clause closes. The audit is filed. The " +
+      "Antiquarian will receive his copy within the hour. Yours is on the " +
+      "second cabinet shelf. Read it before you read his.",
+    surfaces: ["npc_line"],
+    unlockFlags: ["locke_audit_stage_1_complete"],
+    cooldownKey: "locke.contract.audit.stage1.complete",
+    maxPlays: 1,
+    setsFlags: ["locke_audit_clause_fulfilled"],
+  },
+
+  // ─── Hidden-clause-discovered "I told you" beats (§1.4 tell #4) ─────
+  // Fires when the player did NOT audit at signing AND a clause has
+  // activated mid-execution. The canonical Locke posture: she does
+  // NOT gloat; she files the discovery as 'precedent' / 'pattern'.
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "locke.contract.hidden_clause.first_discovery",
+    text:
+      "There. Page three of the retainer. The clause says I am authorized " +
+      "to log every delivery sector you touch for seven saga-years. You " +
+      "did not audit. I told you the audit was on offer. I am telling you " +
+      "now. The deal stands. I file the discovery as 'precedent'. Continue.",
+    surfaces: ["npc_line"],
+    unlockFlags: ["locke_hidden_clause_first_activated"],
+    excludeFlags: ["locke_retainer_audit_disclosed"],
+    cooldownKey: "locke.contract.hidden_clause.first",
+    maxPlays: 1,
+    setsFlags: ["locke_hidden_clause_first_fired"],
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "locke.contract.hidden_clause.second_discovery",
+    // §1.4 tell #4 deferred-threat fully landed: the second hidden
+    // clause is filed as a PATTERN, not an isolated event. The
+    // Authority's risk-tolerant filing register tightens.
+    text:
+      "Second time. Different clause, same structure. You did not audit " +
+      "this one either. I file the pattern as 'risk-tolerant counterparty'. " +
+      "The Authority files it as 'discount-bearing'. They are not the " +
+      "same file. Mine is the one you would prefer to be in.",
+    surfaces: ["npc_line"],
+    unlockFlags: ["locke_hidden_clause_second_activated"],
+    excludeFlags: ["locke_retainer_audit_disclosed"],
+    cooldownKey: "locke.contract.hidden_clause.second",
+    maxPlays: 1,
+    setsFlags: ["locke_hidden_clause_pattern_fired"],
+    setsPublicFlags: ["locke_filed_player_as_risk_tolerant"],
+  },
+
+  // ═════════════════════════════════════════════════════════════════════
   // MERCANTILE BASELINE COVERAGE (Phase 6a.2 sub-chunk C — ~12 lines)
   //
   // Per the writers'-guide spec: Mercantile is the canonical default

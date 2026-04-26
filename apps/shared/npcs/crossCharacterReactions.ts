@@ -156,6 +156,24 @@ export const CROSS_CHARACTER_REACTIONS: ReadonlyArray<CrossCharacterReaction> = 
       "Endgame Phase-6+ scenes (Authority betrayal arcs) gate on this.",
   },
 
+  // ─── Locke risk-tolerant filing (Phase 6a.2 sub-chunk D) ────────────
+  {
+    flag: "locke_filed_player_as_risk_tolerant",
+    setBy: ["adjudicator_locke"],
+    reactsBy: ["future_reader"], // Nilmorg / Antiquarian / Hierophant Phase 6+
+    canonicalNote:
+      "Per Locke bible §1.4 tell #4 (deferred-threat) + §2.4 specificity " +
+      "canon: when the player canonically declines to audit TWICE, Locke " +
+      "files the canonical pattern as 'risk-tolerant counterparty' (her " +
+      "register) while the Authority files it as 'discount-bearing'. The " +
+      "flag marks the canonical institutional reclassification. Downstream " +
+      "Phase 6+ NPCs who broker against contracted players (Nilmorg's " +
+      "actuarial frame canonically interested in risk-tolerance; the " +
+      "Antiquarian who would canonically audit Locke's audits; Hierophant " +
+      "who would canonically file the player's risk-acceptance under his " +
+      "wall canon) gain reactive register-shifts when this flag is set.",
+  },
+
   // ─── Seer Inheriting band reach (cross-bibliographic) ───────────────
   {
     flag: "seer_confidant_band_reached",
