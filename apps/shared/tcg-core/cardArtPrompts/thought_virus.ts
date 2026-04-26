@@ -670,12 +670,114 @@ const THOUGHT_VIRUS_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "Epic unit. Generic-resolute features must NOT match any named character. The 'her crew remembers' is rendered through the off-frame memory-trails. The 'she chose' framing is rendered through the calm-composed face + the consecrated-deceased state.",
   },
+  {
+    cardId: "s1_reward_cycle_dark",
+    sceneDelta:
+      "Wider mid-shot. A Dusk Herald — humanoid figure of indeterminate gender at frame-centre, in formal Hierarchy-aligned dusk-priest robes (cool-violet-and-deep-charcoal ceremonial fabric with phosphor-green-and-cool-violet last-rites trim). They stand at the centre of a fading-twilight horizon at frame-centre, both hands raised in a wide announcing-gesture. Above their head, a faint translucent SUN visibly DESCENDING in stages — at frame-back, the sky shows seven distinct DUSK-STAGES layered (sunset-amber → sunset-rose → twilight-violet → dusk-purple → night-cool → deep-night → void-black). The Herald's voice (faint translucent script-emanation from the mouth) reads each stage's name. NO face visible (deep cool-violet hood obscures features).",
+    moodKeywords: [
+      "the light dies in stages",
+      "the Herald names each stage as it passes, like a priest reading last rites",
+      "seven distinct dusk-stages layered in sky",
+      "translucent script-emanation from mouth naming each stage",
+    ],
+    palette:
+      "Cool-violet-and-deep-charcoal Hierarchy-aligned dusk-priest robes + phosphor-green-and-cool-violet last-rites trim + translucent sun mid-descent + seven-stage dusk-sky (amber-rose-violet-purple-cool-deep-void) + translucent script-emanation + cool deep-shadow",
+    composition:
+      "Wider mid-shot front three-quarter, Herald at frame-centre with hands raised, seven-stage dusk-sky behind",
+    notes:
+      "Rare unit. NO face visible (hood obscures). The 'last rites for the dying light' framing is rendered through the visible seven-stage sky-layering.",
+  },
+  {
+    cardId: "s1_reward_eidolon_strain",
+    sceneDelta:
+      "Mid-shot. Strain, the Redeemed — humanoid figure at frame-centre, body composed of phosphor-green-and-warm-cream substance (the canonical 'plague redeemed' rendering — the green is contained, the warm-cream is the redemption working). Where its face would be, two warm-amber GRIEVING eye-points (visible tear-tracks running down the face — the canonical 'grieves for every life it took'). Around the figure, faint translucent silver-mist GHOST-FRAGMENTS of victims drift outward (souls remembered, the grief made visible). Critically: faint warm-amber STRENGTH-RIPPLES propagate outward from the body (the grief makes it stronger — the final cruelty). Phosphor-green deathwatch-script propagates faintly outward.",
+    moodKeywords: [
+      "it was a plague once",
+      "now it grieves for every life it took",
+      "the grief makes it stronger — that is its final cruelty",
+      "warm-amber tear-tracks + silver-mist victim-ghost-fragments + warm-amber strength-ripples",
+    ],
+    palette:
+      "Phosphor-green-and-warm-cream substance body + warm-amber grieving eye-points + warm-amber tear-tracks + translucent silver-mist victim-ghost-fragments + warm-amber strength-ripples + phosphor-green deathwatch-script + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, Strain at frame-centre, victim-fragments drifting outward, strength-ripples propagating",
+    notes:
+      "Rare unit. The dual visualization (grief + strength growing from grief) is canonical 'final cruelty' rendering. Generic non-human features (no specific named character).",
+  },
+  {
+    cardId: "s1_reward_outbreak_contain",
+    sceneDelta:
+      "Wider mid-shot. A Quarantine Field — at frame-centre, a translucent cool-violet QUARANTINE-DOME visible at mid-distance, the dome's perimeter clearly demarcated by faint cool-violet boundary-lines. INSIDE the dome (visible through translucent walls), the interior is mostly DARK and SILENT (the canonical 'fewer voices each expansion'). Around the dome, the perimeter shows visible EXPANSION-RINGS — three concentric cool-violet rings indicating the dome was originally smaller, expanded once, then twice more (each expansion-ring's interior progressively QUIETER than the last). Anonymous quarantine-personnel figures (back-three-quarter, generic Insurgency-aligned hazmat-gear) stand at the OUTER edge maintaining the field. NO faces visible.",
+    moodKeywords: [
+      "the quarantine zone expanded three times",
+      "each time, fewer voices came from inside",
+      "translucent cool-violet quarantine-dome with three expansion-rings",
+      "interior dark and silent",
+    ],
+    palette:
+      "Translucent cool-violet quarantine-dome + cool-violet boundary-lines + three concentric expansion-rings + dark-and-silent dome interior + Insurgency-aligned hazmat-gear silhouettes + cool deep-shadow + warm low perimeter-light",
+    composition:
+      "Wider mid-shot, dome at frame-centre with expansion-rings, anonymous personnel at outer edge",
+    notes:
+      "Rare spell. Anonymous personnel (back-three-quarter, hazmat) preserve no-character-conflation. The 'fewer voices each expansion' is rendered through the visible expansion-rings + the still-silent dome interior.",
+  },
+  {
+    cardId: "s1_reward_palimpsest_noise",
+    sceneDelta:
+      "Mid-shot. A Noise Agent — female-presenting figure at frame-centre, generic-anonymous features (no specific identifying details, eyes BLACK-VOID with phosphor-green pinpricks), in dark Hierarchy-noise-broadcaster's robes. She is mid-action of SPEAKING — but from her mouth, ONLY VISIBLE STATIC emerges (translucent grey-and-phosphor-green chaotic visual-static, no readable script — canonical 'speaks in static'). The static spreads outward in a wide cone toward off-frame targets. Despite the meaningless content, faint translucent IMPACT-RIPPLES are visible at the cone's edges (the static is hitting something — anonymous off-frame figures are visibly affected). NO clear face features.",
+    moodKeywords: [
+      "she speaks in static",
+      "the words mean nothing",
+      "the damage is very real",
+      "translucent grey-and-phosphor-green visual-static cone from mouth",
+    ],
+    palette:
+      "Dark Hierarchy-noise-broadcaster's robes + black-void eye-sockets + phosphor-green pupil-pinpricks + translucent grey-and-phosphor-green visual-static cone + translucent impact-ripples + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, Noise Agent at frame-centre with static-cone, impact-ripples at frame-edges",
+    notes:
+      "Rare unit. Generic-anonymous features must NOT match any named character. The 'static-without-meaning' is rendered through the chaotic visual-static — no readable text. The 'damage very real' is rendered through impact-ripples.",
+  },
+  {
+    cardId: "s1_reward_swarm_champion",
+    sceneDelta:
+      "Wider mid-shot. A Terminus Protocol — at frame-centre, a vast Hierarchy AUTOMATED-PROTOCOL-CONSOLE active in a quiet command-room. The console displays 'PROTOCOL: ACTIVE — WAVE 51 / FINAL' in chrome-and-phosphor-green script. From the console, faint translucent toxic-green PROTOCOL-PULSES propagate outward toward off-frame targets across multiple frame-edge directions. CRITICALLY, the pulses do NOT discriminate — at frame-edges, anonymous figures (back-three-quarter, mixed: infected AND merely-unlucky-bystanders, all generic-mixed) are visibly being-cleansed by the same pulses. NO operator at the console (the protocol is automated). Cool deep-shadow.",
+    moodKeywords: [
+      "fifty waves. then silence",
+      "the Protocol does not distinguish between the infected and the merely unlucky",
+      "automated console reading WAVE 51 / FINAL",
+      "anonymous figures being-cleansed without discrimination",
+    ],
+    palette:
+      "Hierarchy automated-protocol-console + chrome-and-phosphor-green script + translucent toxic-green protocol-pulses + anonymous mixed-state figures + cool command-room ambient + cool deep-shadow",
+    composition:
+      "Wider mid-shot, console at frame-centre, protocol-pulses extending outward, anonymous figures at frame-edges",
+    notes:
+      "Epic spell. NO operator + anonymous mixed-state figures preserve no-character-conflation. The 'does not distinguish' is rendered through the visible cleansing of both infected and merely-unlucky figures. Echoes Insurgency Scorched Earth (s1_spell_211) but with automated-Hierarchy framing rather than Insurgency-desperation.",
+  },
+  {
+    cardId: "s1_reward_swarm_survive",
+    sceneDelta:
+      "Wider mid-shot. A Swarm Survivor — female-presenting figure in mid-thirties, generic-resolute features (sharp eyes still alert, weathered face, hair tied back), in heavily-damaged Insurgency-aligned slate field-armor (visible repair-patches, scorched signal-green chest-rig). She stands at the centre of a battlefield-aftermath at frame-centre, both hands gripping a long chrome-and-signal-green weapon (broken at the tip, mid-repair). Around her at lower-third, the canonical 'wave twenty-five broke against her' visible — a ring of fallen anonymous infected-figures (back-three-quarter, generic-mixed Hierarchy-corrupted). She BROKE THEM BACK. Faint warm provoke-glow rims her shoulders. Her face shows defiant survival.",
+    moodKeywords: [
+      "wave twenty-five broke against her",
+      "she broke it back",
+      "heavily-damaged armor with repair-patches",
+      "ring of fallen anonymous infected-figures around",
+    ],
+    palette:
+      "Heavily-damaged Insurgency-aligned slate field-armor + visible repair-patches + scorched signal-green chest-rig + chrome-and-signal-green weapon (broken-tip mid-repair) + ring of fallen anonymous infected-figures + warm provoke-rim + cool battlefield-aftermath + cool deep-shadow",
+    composition:
+      "Wider mid-shot front three-quarter, Survivor at frame-centre with weapon, ring of fallen at lower-third",
+    notes:
+      "Rare unit. Anonymous fallen infected (back-three-quarter) preserve no-character-conflation. Generic-resolute features must NOT match any named character. The damaged-but-standing armor + ring of fallen is the canonical 'broke them back' visualization.",
+  },
 ] as const;
 
 /**
  * Thought Virus faction's prompt registry, keyed by card id.
  *
- * Currently populated: 37 / 53 cards
+ * Currently populated: 43 / 53 cards
  * (gen_thought_virus, s1_char_032, s1_char_049, s1_char_070,
  *  s1_char_071, s1_char_072, s1_char_073, s1_char_074,
  *  s1_char_075, s1_char_076, s1_char_077, s1_char_113-116,
@@ -685,7 +787,10 @@ const THOUGHT_VIRUS_PROMPTS_LIST: readonly CardArtPrompt[] = [
  *  s1_pack_id_kael_source, s1_pack_pet_void_crawler_1-3,
  *  s1_reward_boss_source, s1_reward_circuit_1st,
  *  s1_reward_circuit_survive, s1_reward_class_assassin,
- *  s1_reward_companion_kael, s1_reward_crew_sacrifice).
+ *  s1_reward_companion_kael, s1_reward_crew_sacrifice,
+ *  s1_reward_cycle_dark, s1_reward_eidolon_strain,
+ *  s1_reward_outbreak_contain, s1_reward_palimpsest_noise,
+ *  s1_reward_swarm_champion, s1_reward_swarm_survive).
  */
 export const THOUGHT_VIRUS_CARD_ART_PROMPTS: Readonly<Record<string, CardArtPrompt>> =
   Object.freeze(

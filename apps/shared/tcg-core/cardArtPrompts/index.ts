@@ -51,7 +51,7 @@ import { THOUGHT_VIRUS_CARD_ART_PROMPTS } from "./thought_virus";
  *   - dreamer: 61 / 61 cards — COMPLETE
  *   - insurgency: 51 / 51 cards — COMPLETE
  *   - new_babylon: 52 / 52 cards — COMPLETE
- *   - thought_virus: 37 / 53 cards
+ *   - thought_virus: 43 / 53 cards
  *
  * Pending factions:
  *   - thought_virus (remaining 48)
