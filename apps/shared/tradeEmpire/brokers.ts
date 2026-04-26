@@ -160,8 +160,7 @@ export const BROKER_REGISTRY: Readonly<Record<BrokerKey, BrokerDef>> = {
     },
     offersMissions: [],
     offersContracts: [
-      "degen.casino_data_source",
-      "degen.aleatory_contract",
+      // Phase 3 authoring scope; contracts not yet templated.
     ],
     refusalShape: "professional_distance",
     firstMeetingFlag: "broker_degen_first_meeting",
@@ -184,8 +183,7 @@ export const BROKER_REGISTRY: Readonly<Record<BrokerKey, BrokerDef>> = {
     },
     offersMissions: ["antiquarian_invitation"],
     offersContracts: [
-      "antiquarian.archive_research",
-      "antiquarian.attribution_recovery",
+      // Phase 3 authoring scope; contracts not yet templated.
     ],
     refusalShape: "ceremony_required",
     firstMeetingFlag: "broker_antiquarian_first_meeting",
@@ -209,8 +207,7 @@ export const BROKER_REGISTRY: Readonly<Record<BrokerKey, BrokerDef>> = {
     },
     offersMissions: ["salvage_debris", "contact_free_ports"],
     offersContracts: [
-      "freeport.long_haul_baseline",
-      "freeport.barter_chain",
+      // Phase 3 authoring scope; contracts not yet templated.
     ],
     metadata: {
       note: "Faction-neutral barter; minimal personality; no hidden clauses",
@@ -230,9 +227,7 @@ export const BROKER_REGISTRY: Readonly<Record<BrokerKey, BrokerDef>> = {
     },
     offersMissions: [],
     offersContracts: [
-      "thaloria.archive_research",
-      "thaloria.name_recovery",
-      "thaloria.diplomacy_silence",
+      // Phase 3 authoring scope; contracts not yet templated.
     ],
     refusalShape: "ceremony_required",
     firstMeetingFlag: "broker_thaloria_first_meeting",

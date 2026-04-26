@@ -166,9 +166,13 @@ export function validateContractDef(contract: ContractDef): ReadonlyArray<string
       errors.push(`${contract.contractKey}: duplicate stageId ${stage.stageId}`);
     }
     seenStageIds.add(stage.stageId);
-    if (stage.requiredMissionIds.length === 0) {
+    if (stage.requiredMissionIds.length === 0 && !stage.objective) {
+      // Stages with no required missions must have an objective string —
+      // this distinguishes "signing-completes-the-stage" patterns (e.g.,
+      // locke.exclusive_dealings.exclusivity_signed) from accidental empty
+      // stages.
       errors.push(
-        `${contract.contractKey}/${stage.stageId}: stage has no requiredMissionIds`,
+        `${contract.contractKey}/${stage.stageId}: stage has no requiredMissionIds AND no objective`,
       );
     }
   }
