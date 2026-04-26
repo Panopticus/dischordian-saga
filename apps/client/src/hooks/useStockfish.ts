@@ -18,6 +18,22 @@ interface UseStockfishReturn {
   getBestMove: (fen: string) => Promise<string | null>;
   configure: (preset: string | StockfishConfig) => void;
   newGame: () => void;
+  /** Walk a finished game move-by-move at the given depth and
+   *  return per-ply eval samples. Used by the post-game review. */
+  postGameAnalyze: (
+    startFen: string,
+    moves: readonly string[],
+    opts?: { depth?: number; onProgress?: (ply: number) => void },
+  ) => Promise<
+    ReadonlyArray<{
+      ply: number;
+      fenBefore: string;
+      fenAfter: string;
+      evalBeforeCp: number;
+      evalAfterCp: number;
+      deltaCp: number;
+    }>
+  >;
 }
 
 export function useStockfish(initialPreset?: string): UseStockfishReturn {
@@ -72,5 +88,25 @@ export function useStockfish(initialPreset?: string): UseStockfishReturn {
     }
   }, []);
 
-  return { isReady, isThinking, evaluation, getBestMove, configure, newGame };
+  const postGameAnalyze = useCallback(
+    async (
+      startFen: string,
+      moves: readonly string[],
+      opts?: { depth?: number; onProgress?: (ply: number) => void },
+    ) => {
+      if (!engineRef.current) return [] as const;
+      return engineRef.current.postGameAnalyze(startFen, moves, opts);
+    },
+    [],
+  );
+
+  return {
+    isReady,
+    isThinking,
+    evaluation,
+    getBestMove,
+    configure,
+    newGame,
+    postGameAnalyze,
+  };
 }

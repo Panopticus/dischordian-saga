@@ -15,8 +15,19 @@ import {
   PUZZLE_THEMES,
   type PuzzleTheme,
 } from "@shared/tcg-core/story/chessPuzzleIntros";
+import {
+  pickDailyWelcomeLine,
+  pickStreakMilestoneLine,
+} from "@shared/tcg-core/story/chessSessionDialog";
+import { hashString } from "@shared/tcg-core/story/chessReviewNarration";
+import ChessSessionBanner from "@/components/ChessSessionBanner";
+import { trpc } from "@/lib/trpc";
+import {
+  readDaysSinceLastVisit,
+  markVisitedNow,
+} from "@/lib/chessLastVisit";
 import { getLoginUrl } from "@/const";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 /** Today's ISO date in YYYY-MM-DD form, used both for intro
  *  selection and for server-side puzzle rotation. */
@@ -45,6 +56,22 @@ export default function ChessPuzzlePage() {
   const theme = useMemo(() => themeForDate(dateKey), [dateKey]);
   const intro = useMemo(() => pickPuzzleIntro(theme, dateKey), [theme, dateKey]);
 
+  // Daily welcome — read days since last visit ONCE on mount, then
+  // immediately stamp now so subsequent visits today are no-ops.
+  // Streak milestone reads from the existing puzzle streak query.
+  const streakQ = trpc.chessPuzzle.getPuzzleStreak.useQuery(undefined, {
+    enabled: isAuthenticated,
+    refetchOnWindowFocus: false,
+  });
+  const [daysSinceLastVisit, setDaysSinceLastVisit] = useState<number>(0);
+  useEffect(() => {
+    setDaysSinceLastVisit(readDaysSinceLastVisit());
+    markVisitedNow();
+  }, []);
+  const dateSeed = useMemo(() => hashString(dateKey), [dateKey]);
+  const welcomeLine = pickDailyWelcomeLine(daysSinceLastVisit, dateSeed);
+  const streakLine = pickStreakMilestoneLine(streakQ.data?.streak ?? 0, dateSeed);
+
   if (!isAuthenticated) {
     return (
       <div className="min-h-screen flex items-center justify-center p-8">
@@ -57,6 +84,7 @@ export default function ChessPuzzlePage() {
 
   return (
     <div className="min-h-screen p-6 max-w-3xl mx-auto text-void-text">
+      <ChessSessionBanner welcomeLine={welcomeLine} streakLine={streakLine} />
       <header className="mb-6">
         <h1 className="text-2xl tracking-wide">Puzzle of the Day</h1>
         <p className="text-xs uppercase tracking-widest text-void-text-muted mt-1">
