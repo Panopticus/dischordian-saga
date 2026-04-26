@@ -97,14 +97,81 @@ const PANOPTICON_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "Uncommon unit. CRITICAL: detainee is rendered as bound-hands-only — no face visible (preserves no-character-conflation and avoids gratuitous cruelty-rendering). The Harvester's three triangle-arrayed lenses differentiate from common Sentinel's single dominant lens. 'Instruments not weapons' is canon-direct framing — the procedural cruelty is SO procedural it doesn't need ostensibly-violent tooling.",
   },
+  {
+    cardId: "s1_char_054",
+    sceneDelta:
+      "Wider mid-shot. A Panoptic Drone — tiny aerial scout-drone, approximately 15cm wingspan, hovering at high altitude against an overcast cool-grey sky. Body is sleek slate-grey with chrome accents and a single bright cool-cyan optical lens at the front (the lens disproportionately large relative to the drone's tiny body). Two small wing-rotors with cool-cyan motion-blur. Below the drone (lower-third of frame), a wide aerial-view of a Panopticon city extends — chrome rooftops, cool-cyan street-lights in grids, tiny anonymous citizen-figures the size of pinpricks moving along streets. The drone's lens is angled DOWNWARD, recording. Faint cool wind-trails behind it (flying); a faint warm-amber paper-drift drifts upward from above the drone (on-death-draw-1 visualized as the data the drone has already transmitted, which will return when it falls).",
+    moodKeywords: [
+      "a speck against the grey sky",
+      "but it sees everything beneath it",
+      "lens disproportionately large for tiny body",
+      "the data it has already transmitted",
+    ],
+    palette:
+      "Slate-grey drone-body + chrome accents + dominant cool-cyan optical lens + cool-grey overcast sky + Panopticon city cool-cyan grid below + warm amber paper-drift",
+    composition:
+      "Wider mid-shot, drone at frame-centre upper-third, aerial-view city extending across lower-third",
+    notes:
+      "Common unit. NO human figure (the drone IS the subject). The disproportionate lens-to-body ratio reinforces the canonical Panopticon-set lens-motif. The overhead city-view rendering uses tiny pinprick figures to communicate scale without identifying any specific named location.",
+  },
+  {
+    cardId: "s1_char_055",
+    sceneDelta:
+      "Mid-shot. A Thought Censor — female-presenting, mid-thirties, generic-elegant features (calm, not cruel), in a tailored Panopticon psy-ops uniform: cool-cyan high-collar tunic with chrome filigree at the wrists, a slim cool-cyan optical-monocle worn over the LEFT eye (mirroring the Compliance Officer's right-eye monocle to communicate institutional symmetry — these are tools that match across roles). She stands in a Panopticon library-section, mid-action of running a fingertip down the spine of a book on a shelf. Around the book, a slow visible cool-grey silence-nullification-haze (consistent with Spy class spy_04 / Soldier rally-spell silence visual idiom) propagates outward — the desire to read is being burned out of any potential reader. A translucent green-tinted forcefield-shimmer wraps her at body-edge (forcefield). Behind her, the library's other shelves — but the books are intact; nothing visibly burned. The destruction is internal to the would-be reader.",
+    moodKeywords: [
+      "she does not burn books",
+      "she burns the desire to read them",
+      "fingertip down the spine of a book",
+      "destruction is internal to the would-be reader",
+    ],
+    palette:
+      "Panopticon cool-cyan high-collar tunic + chrome wrist filigree + cool-cyan optical-monocle (LEFT eye) + warm library wood-shelves + cool-grey silence-haze + translucent green-tinted forcefield + warm reading-light",
+    composition:
+      "Mid-shot front three-quarter, Censor at frame-centre at library-shelf, fingertip on book-spine, intact shelves behind",
+    notes:
+      "Rare unit. The LEFT-eye monocle deliberately mirrors Compliance Officer's RIGHT-eye monocle — institutional symmetry. The 'desire to read burned, not the books' is canon-direct from flavor and is rendered as the silence-haze around the book she is touching. Generic-elegant face must NOT match any named character. Cool-grey silence-haze visual continuity across all factions.",
+  },
+  {
+    cardId: "s1_char_056",
+    sceneDelta:
+      "Wider mid-shot. A Registry Clerk — male-presenting, mid-fifties, generic-bureaucrat features, completely unremarkable, in standard Panopticon clerical robe: slate-grey with cool-cyan piping at the cuffs. He sits at a low chrome-and-cool-cyan archive-desk in the centre of a vast Panopticon citizen-registry archive — the desk is surrounded on all sides by tall cool-cyan filing-cabinets receding into deep distance, each cabinet labeled with surname-ranges in fine cool-cyan script. He is mid-action of stamping a citizen-file with a chrome-and-cool-cyan rubber stamp; the stamp leaves a faint cool-cyan glow on the page (the +1 power buff to adjacent allies visualized as the bureaucratic seal-of-approval). At his elbow, two adjacent files — both glow faintly with the same cool-cyan buff-pulse, propagating one cabinet over to either side. His face is matter-of-fact, focused, the kind of face that has stamped 200,000 such files and intends to stamp 200,000 more.",
+    moodKeywords: [
+      "every citizen has a file",
+      "every file has a purpose",
+      "every purpose serves the Spire",
+      "200,000 files stamped, 200,000 more to come",
+    ],
+    palette:
+      "Panopticon slate-grey clerical robe + cool-cyan cuff-piping + chrome-and-cool-cyan archive-desk + tall filing-cabinets in deep distance + cool-cyan stamp-glow + warm desk-lamp at lower-right",
+    composition:
+      "Wider mid-shot front three-quarter, Clerk at desk in archive-centre, filing-cabinets receding to all sides, stamp mid-action on file",
+    notes:
+      "Common unit. The 'rally_buff' keyword is rendered as the cool-cyan bureaucratic seal-glow propagating to adjacent files — the buff IS the institutional approval. Generic-bureaucrat face must NOT match any named character. The deliberate institutional-banality framing is the visual key to 'every purpose serves the Spire' — the horror is the SCALE, not the cruelty.",
+  },
+  {
+    cardId: "s1_char_057",
+    sceneDelta:
+      "Mid-shot. A Blacksite Interrogator — a tall figure in heavy Panopticon black-detail field-armor (deeper-than-slate near-black plating with cool-cyan inset detailing), face DELIBERATELY OBSCURED by a wraparound chrome-and-cool-cyan tactical helmet that reflects light such that no facial features are visible. They stand at the entrance of a hidden Panopticon blacksite holding-cell, mid-step forward across the threshold — mid-stride is the rarest pose for this character (they normally arrive from elsewhere without step-evidence; the mid-stride communicates that this card has just deployed). A faint translucent stealth-shimmer (signal-cyan rather than signal-green; Panopticon variant of the Insurgency-spy stealth-haze) wraps them at body-edge. A faint warm pierce-glow rims their leading hand (which holds a cool-cyan-edged interrogation-instrument, NOT a weapon — same 'instruments-not-weapons' framing as the Data Harvester); a faint warm backstab-glow rims their trailing hand. A single warm slip of paper drifts up from above their leading shoulder (on-kill-draw-1 visualized as the file generated by the act). The blacksite cell behind them is dark, anonymous, faceless.",
+    moodKeywords: [
+      "the detainees never see her face",
+      "the files say she doesn't have one",
+      "instruments not weapons",
+      "wraparound helmet reflects no facial features",
+    ],
+    palette:
+      "Panopticon near-black armor + cool-cyan inset detailing + chrome-and-cool-cyan wraparound helmet + translucent signal-cyan stealth-shimmer + cool-cyan interrogation-instrument + warm pierce + warm backstab + warm paper-drift + dark anonymous cell",
+    composition:
+      "Mid-shot front three-quarter, Interrogator at frame-centre mid-stride across blacksite threshold, dark cell behind",
+    notes:
+      "Epic unit. CRITICAL: face is FULLY OBSCURED by the wraparound helmet — canon-direct from flavor 'the files say she doesn't have one.' Signal-cyan stealth-shimmer (Panopticon variant) differentiates from Insurgency-spy signal-green stealth — same mechanic, faction-coloured visual. Pierce + backstab dual-keyword rendering as dual hand-rim-glows. Generic-tall-figure silhouette (no specific named character).",
+  },
 ] as const;
 
 /**
  * Panopticon subgroup's prompt registry, keyed by card id.
  *
- * Currently populated: 4 / 8 cards
- * (s1_char_050, s1_char_051, s1_char_052, s1_char_053).
- * TODO: s1_char_054 through s1_char_057.
+ * Currently populated: 8 / 8 cards — COMPLETE
+ * (s1_char_050 through s1_char_057).
  */
 export const PANOPTICON_CARD_ART_PROMPTS: Readonly<Record<string, CardArtPrompt>> =
   Object.freeze(

@@ -39,11 +39,9 @@ import { PANOPTICON_CARD_ART_PROMPTS } from "./panopticon";
  *   - elemental: 4 / 4 elements — COMPLETE (Fire, Water, Earth, Air)
  *   - dimensional: 4 / 4 dimensions — COMPLETE (Time, Space,
  *     Probability, Reality)
- *   - panopticon: 4 / 8 cards (Warden Prime, Oculus Sentinel,
- *     Compliance Officer, Data Harvester)
+ *   - panopticon: 8 / 8 cards — COMPLETE
  *
  * Pending factions:
- *   - panopticon (remaining 4 cards)
  *   - architect, antiquarian, dreamer, insurgency, new_babylon,
  *     thought_virus, neutral (per-faction character cards)
  *   - architect, antiquarian, dreamer, insurgency, new_babylon,
