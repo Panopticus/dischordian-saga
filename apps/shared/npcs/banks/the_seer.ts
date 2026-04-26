@@ -888,6 +888,132 @@ export const THE_SEER_BANK: ReadonlyArray<BankEntry> = [
   },
 
   // ═════════════════════════════════════════════════════════════════════
+  // BURNT-CARD UNLOCK SURFACE (Phase 6b.1 sub-chunk G)
+  //
+  // Per the_seer.md §5.3 + §2.2 canonical canon: the burnt-card
+  // unlock route is the canonical canon-hidden winnable path for
+  // the §4.9 Mechronis prophecy match. The card is canonically
+  // hidden inside the staff she left at Mechronis; the player who
+  // carries the staff across multiple acts and finds the card
+  // unlocks the canonical pre-recorded win-path dialog.
+  //
+  // Per §5.3 the actual unlock-route is bible-deferred (SCB-1
+  // open-design ticket); narrative-earned-not-combat-earned canon.
+  // This block authors the canonical Seer transmissions that fire
+  // along the canonical arc:
+  //   - discovery (when the player canonically finds the card)
+  //   - carrying (recognition that the card is in the player's deck)
+  //   - pre-rematch (player approaches §4.9 with the card)
+  //   - win-path "Oh. You remembered." (canonical anchor per
+  //     dialogBank_chapters_10_12.ts:429-446)
+  //   - post-win "Archives not surprised" canonical narrator-frame
+  // ═════════════════════════════════════════════════════════════════════
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "seer.transmission.burnt_card.discovery",
+    // Per `burnt_card_placeholder.ts` canonical flavor: "You found
+    // her staff on the bench. Inside the staff was this card. You
+    // remembered before she taught you how." The line names the
+    // canonical "remembered before taught" canon directly per §2.3
+    // cross-time recording-self-naming canon.
+    text:
+      "You opened the staff. The card was inside. You remembered before " +
+      "I taught you how. That sentence is the canonical unlock — I " +
+      "recorded it for the version of you who would find the card " +
+      "without prompting. I did not prompt you. You found it anyway. " +
+      "The recording fires.",
+    surfaces: ["transmission"],
+    minAct: 2,
+    requiresTrustBand: "Witnessed",
+    unlockFlags: ["seer_burnt_card_discovered"],
+    cooldownKey: "seer.burnt_card.discovery",
+    maxPlays: 1,
+    setsFlags: ["seer_burnt_card_in_deck"],
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "seer.transmission.burnt_card.carrying",
+    // Per §5.3 canonical "carrying-the-staff-discipline" canon:
+    // the canonical mid-arc transmission acknowledging the player
+    // has the card in their deck and naming the rematch-rekey.
+    text:
+      "The transmission notices: the burnt card is in your deck. I am " +
+      "noting the carrying. The carrying is the unlock condition. The " +
+      "Mechronis encounter has been re-keyed by your deck contents. " +
+      "The match is no longer scripted-loss. Walk to the bench when " +
+      "you are ready.",
+    surfaces: ["transmission"],
+    minAct: 3,
+    requiresTrustBand: "Witnessed",
+    unlockFlags: ["seer_burnt_card_in_deck"],
+    cooldownKey: "seer.burnt_card.carrying",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "seer.transmission.burnt_card.pre_rematch",
+    // Per §5.3 canonical pre-rematch register: the canonical "you
+    // are about to play the card back" beat. Cross-time-canon-
+    // self-aware ("the I is in recording-form, as you know now").
+    text:
+      "[The transmission arrives shortly before the rematch: 'You are " +
+      "about to play the card back. The bench has been waiting. So " +
+      "have I — but the I is in recording-form, as you know now. Walk " +
+      "to the bench. The recording I made for this version of you is " +
+      "dense.']",
+    surfaces: ["transmission"],
+    minAct: 4,
+    requiresTrustBand: "Witnessed",
+    unlockFlags: ["seer_burnt_card_in_deck"],
+    cooldownKey: "seer.burnt_card.pre_rematch",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "seer.cinematic.burnt_card.win_path_oh_you_remembered",
+    // Per `dialogBank_chapters_10_12.ts:429-446` canonical anchor:
+    // "Oh. You remembered." THE canonical win-path line. Per §5.3
+    // cross-time canon: the line is canonically a pre-recording
+    // that fires only when the player canonically has the burnt
+    // card in their deck at the §4.9 encounter.
+    text: "Oh. You remembered.",
+    surfaces: ["cinematic"],
+    requiresTrustBand: "Witnessed",
+    unlockFlags: [
+      "seer_burnt_card_in_deck",
+      "seer_mechronis_rematch_won",
+    ],
+    cooldownKey: "seer.burnt_card.win_path_oh_remembered",
+    maxPlays: 1,
+    setsFlags: ["seer_burnt_card_win_path_unlocked"],
+    setsPublicFlags: ["seer_burnt_card_path_completed"],
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "seer.cinematic.burnt_card.archives_not_surprised",
+    // Per `dialogBank_chapters_10_12.ts:429-446` canonical narrator-
+    // frame: "You carried the burnt card all the way back to the
+    // bench she left it on. She smiles — she is the only person in
+    // the Archives who is not surprised." Per §5.3 cross-time canon
+    // metacommentary: the not-surprised is canonical because-she-
+    // foresaw; the Archives are surprised because the Archives are
+    // not foresighted; she was both.
+    text:
+      "[You carried the burnt card all the way back to the bench she " +
+      "left it on. She smiles — the smile is recorded. She is the only " +
+      "person in the Archives who is not surprised. The not-surprised " +
+      "is canonical: she foresaw this version of you. The Archives are " +
+      "surprised because the Archives are not foresighted; she was " +
+      "both.]",
+    surfaces: ["cinematic"],
+    requiresTrustBand: "Witnessed",
+    unlockFlags: ["seer_burnt_card_win_path_unlocked"],
+    cooldownKey: "seer.burnt_card.archives_not_surprised",
+    maxPlays: 1,
+  },
+
+  // ═════════════════════════════════════════════════════════════════════
   // CATCH-ALLS (silent-fail compliance)
   // ═════════════════════════════════════════════════════════════════════
 

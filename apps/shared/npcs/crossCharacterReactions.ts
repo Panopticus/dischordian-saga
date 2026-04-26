@@ -202,6 +202,23 @@ export const CROSS_CHARACTER_REACTIONS: ReadonlyArray<CrossCharacterReaction> = 
       "in the saga cannot be reached by his editorial mechanism.",
   },
 
+  // ─── Seer burnt-card path completed (Phase 6b.1 sub-chunk G) ───────
+  {
+    flag: "seer_burnt_card_path_completed",
+    setBy: ["the_seer"],
+    reactsBy: ["future_reader"], // Antiquarian (future bank) + Phase 6+
+    canonicalNote:
+      "Per Seer bible §5.3 + §2.2 canonical canon: the burnt-card " +
+      "unlock route is the canon-hidden winnable path for the §4.9 " +
+      "Mechronis prophecy match. Set when the player canonically " +
+      "carries the burnt card back across multiple acts and wins the " +
+      "rematch (canonical 'Oh. You remembered.' anchor lands). The flag " +
+      "opens downstream Phase 6+ reactive registers — the Antiquarian " +
+      "canonically catalogues the canon-hidden completion (his domain " +
+      "is the Archives canon per §5.3); other Phase 6+ NPCs gain " +
+      "canonical 'you carried the staff' acknowledgment register.",
+  },
+
   // ─── Locke filed player as predatory at first contact (Phase 6a.2
   //     first-meeting tree) ────────────────────────────────────────────
   {
