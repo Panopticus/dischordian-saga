@@ -17,6 +17,7 @@
     "test:e2e": "playwright test --config apps/e2e/playwright.config.ts",
     "db:push": "drizzle-kit generate && drizzle-kit migrate",
     "db:migrate:prod": "drizzle-kit migrate",
+    "db:smoke": "tsx apps/scripts/db-fresh-smoke.ts",
     "optimize:images": "tsx apps/scripts/optimize-images.ts",
     "optimize:images:dry": "tsx apps/scripts/optimize-images.ts --dry-run",
     "vo:generate-csv": "tsx apps/scripts/generate-vo-csv.ts",
