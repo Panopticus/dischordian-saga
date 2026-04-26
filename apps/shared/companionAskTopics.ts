@@ -195,6 +195,18 @@ export const COMPANION_ASK_TOPICS: readonly CompanionAskTopic[] = [
     unlockFlag: "act1_intro_complete",
     unlockedFromAct: 1,
     alternateAnswers: [
+      // V3 §5 follow-up — the Act 1 base answer's "Ask me again after
+      // Act 6" deferral becomes hollow once Kael's logs are unlocked
+      // (kael_lore_discovered fires from Act 3 onward). This Act-3
+      // alternate softens the deferral without surrendering the name —
+      // acknowledging the player has earned more than the rote brush-off
+      // while still holding the line until Act 6.
+      {
+        unlockedFromAct: 3,
+        requiredFlag: "kael_lore_discovered",
+        answer:
+          "You're closer now. You read his logs — that means you have most of the shape of me. Not the name yet. The name still costs more than I can spend in this chamber. But you're not asking blind anymore, and I am not deflecting blind. We've moved one corridor down the hallway. The door at the end opens in Act 6. Until then, ask me anything else and I will give you more than the deferral I gave you the first time.",
+      },
       {
         unlockedFromAct: 6,
         answer:
