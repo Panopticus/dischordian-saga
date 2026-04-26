@@ -773,6 +773,100 @@ const IMPRINT_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "T5 = 'The Architect, Prior Cause.' End-of-Epoch-2 canon. The planet-as-coat is the visual translation of his canonical metaphysical role (he is not a villain because he is angry; he is the terrain). CRITICAL spoiler-line: at this scale the face is HIDDEN by being structurally absent — the pole is where the face would be. This deliberately preserves the Acts 5-7 face-reveal beat. NO eye, NO third eye, NO crown of horns — just absence.",
   },
+
+  // ─── THE COLLECTOR (rose-gold chains of his own forging; eleven
+  //     centuries of small precious things, every one with a
+  //     handwritten label) ───
+  // Source canon: A patient man who takes a little from everything
+  // he touches; not greedy, just compounding. His collection has
+  // grown to the size where the room around him has started to
+  // apologize for its ceiling. Mechanical: drain + forcefield +
+  // stun. Faction: new_babylon.
+  {
+    cardId: "s1_imprint_the_collector_t1",
+    sceneDelta:
+      "Mid-shot of The Collector seated cross-legged on a low cushioned bench in a softly-lit Babylon parlour. He is a soft-faced man in his middle years, mild-mannered, wearing layered rose-gold chains of varying lengths around his neck — visibly all of his own crafting (the chain links unevenly hand-forged, no two identical). He is holding out toward the camera a single smaller chain — also rose-gold, also hand-forged, one finger looped through one of its links — with the most sincere and apologetic expression on his face: 'I would like you to have this, and I am sorry it costs what it costs.' The parlour around him is warm with low amber lamps and obsidian shelves filled with small precious objects. A single fresh handwritten label sits on the bench beside him, ink not yet dry.",
+    moodKeywords: [
+      "rose-gold chains of his own forging",
+      "the apologetic offering",
+      "the not-yet-dry label",
+      "patient warm-Babylon parlour",
+    ],
+    palette:
+      "New Babylon obsidian + warm rose-gold chains + amber parlour lamps + a single deep crimson velvet on the bench cushion",
+    composition:
+      "Mid-shot front three-quarter, Collector cross-legged, hand extended forward holding the smaller chain, parlour shelves receding behind",
+    notes:
+      "T1 = the offering. He is gentle, not predatory. The chain he is offering is genuinely beautiful AND genuinely binding. Both things are true. Apologetic expression must read as sincere — Collector canon is that he is NOT a hypocrite about what he is.",
+  },
+  {
+    cardId: "s1_imprint_the_collector_t2",
+    sceneDelta:
+      "Mid-shot. The Collector is now in three-quarter standing pose at a slightly larger Babylon receiving room. He is mid-handshake — his right hand clasped around the hand of an off-frame visitor (we see only the visitor's wrist and forearm, anonymous). Between their joined hands, faint rose-gold motes of light are slowly drifting from the visitor's wrist UP through the contact point INTO the Collector's grip — drain visualized as a slow gentle siphon, not a violent extraction. He is smiling warmly. The visitor's wrist is relaxed; the visitor does not yet realize anything is being given. Behind him, the room's shelves are visibly more populated than T1 — patience compounds. A small handwritten label rests on a nearby side-table next to a fresh small object he just labeled.",
+    moodKeywords: [
+      "drain as gentle siphon",
+      "the handshake mid-handshake",
+      "the visitor still relaxed",
+      "patience compounds",
+    ],
+    palette:
+      "New Babylon obsidian + warm rose-gold drift between hands + amber lamps + cool grey on the visitor's wrist (anonymous)",
+    composition:
+      "Mid-shot three-quarter, Collector camera-right, off-frame visitor's wrist camera-left, the rose-gold drift across the handshake at frame mid-axis",
+    notes:
+      "T2 = drain. The visitor is anonymous (only wrist visible) — keeps the card readable + spoiler-safe. The drain is slow + gentle, never grotesque; matches Collector canon (he is patient, not greedy).",
+  },
+  {
+    cardId: "s1_imprint_the_collector_t3",
+    sceneDelta:
+      "Wide-environment shot. A small, tasteful Babylon viewing-room: mahogany floor, amber lamps, walls lined with glass cases of small precious objects each carrying a handwritten label. The Collector stands at the centre of the room facing camera-left, where a Babylon citizen has frozen mid-stride — the citizen's body is suspended mid-motion, expression mildly puzzled, one foot just barely off the floor. The Collector has gestured a single finger toward the citizen with the same apologetic expression as T1; the citizen is held in the gentlest possible stasis. Stun visualized as patience extended into another body. Around the room, drift of rose-gold motes slowly toward the Collector from every direction (drain compounding from the room itself). On a side-table, the Collector's quill is mid-stroke writing a label for the citizen.",
+    moodKeywords: [
+      "stun as patience extended",
+      "the gentlest possible stasis",
+      "the quill mid-stroke",
+      "compounding from the room itself",
+    ],
+    palette:
+      "New Babylon obsidian + warm amber lamps + slow rose-gold drift from every direction + a single cool grey accent on the suspended citizen's far-side coat",
+    composition:
+      "Wide-environment composition, Collector camera-right of centre, suspended citizen camera-left mid-distance, room shelves filling background",
+    notes:
+      "T3 = drain + stun-on-deploy. The suspended citizen is anonymous Babylon. The Collector's finger-gesture is barely more deliberate than a pointing-out — establishes the canon that he stuns by NOTICING you, not by attacking. Quill writing a label = canonical 'every object has a handwritten label' beat.",
+  },
+  {
+    cardId: "s1_imprint_the_collector_t4",
+    sceneDelta:
+      "The room around him has grown. Wide hero composition: a vast multi-story Babylon arcade gallery, the Collector standing at a small mezzanine balcony at the centre of the gallery's vertical axis. The arcade's ceiling has visibly STRETCHED upward to accommodate his collection — the architecture itself apologizing. Below him, gallery-floor cabinets in concentric rings, each cabinet filled with thousands of small labeled objects. Above him, the ceiling vault arched impossibly high. He stands on the balcony in his rose-gold chains, hands resting on the rail, gazing peacefully down at the collection. A faint hexagonal forcefield-shimmer wraps the gallery's outer walls — his canonical 'the room around him has started to apologize for its ceiling' visualized as architectural deference. Stun-on-deploy visualized as a single small Babylon visitor frozen in mid-step on the gallery floor, their body the only one in the entire arcade.",
+    moodKeywords: [
+      "the architecture apologizing",
+      "the impossibly arched ceiling",
+      "rose-gold chains and forcefield-shimmer in concert",
+      "the peaceful gaze over the collection",
+    ],
+    palette:
+      "New Babylon obsidian + warm amber gallery-light + rose-gold chains + cool cyan forcefield-shimmer on outer walls + a single cool grey accent on the frozen visitor",
+    composition:
+      "Wide vertical hero composition, Collector at centre vertical axis on balcony, gallery extending vastly upward and downward",
+    notes:
+      "T4 = drain + forcefield + stun. The architecture-stretching-for-his-collection is canon Epoch 2 lore. CRITICAL: the gallery cabinets contain ANONYMOUS small precious objects (no recognizable named-character artifacts). NO Programmer's pen, NO Engineer's prototype, NO Iron Lion's medallion — the temptation to spoiler-tease via collection-Easter-eggs is real and must be RESISTED.",
+  },
+  {
+    cardId: "s1_imprint_the_collector_t5",
+    sceneDelta:
+      "Hero composition at the canonical scale. The Collector stands at the absolute centre of a vast circular hall — eleven centuries of his collection visible in concentric rings of glass cases extending to the horizon line, the rings labelled at outer edges by century in faint rose-gold script. He himself is at the precise centre, hands clasped in front of him, rose-gold chains hanging in their full layered weight. Above him, the hall's ceiling is now SO impossibly high that the upper portion of the architecture is lost in an amber haze (the room can no longer maintain a roof at his collection's scale). Around him, every visible object in every ring of cases has a small handwritten label — and the labels closest to him are visibly written in his own hand from across centuries (different inks, slightly different scripts, all his). At his feet a single fresh stack of blank labels and a quill, the quill not picked up because he has not yet been offered the next thing. His expression is sincerely apologetic. 'I am sorry the room is what it is. I am sorry it is exactly what you suspect. It is also true.'",
+    moodKeywords: [
+      "eleven centuries of small precious things in the same room",
+      "the labels written across centuries in his own hand",
+      "the architecture exceeding its own roof",
+      "sincerely apologetic at scale",
+    ],
+    palette:
+      "New Babylon obsidian + rose-gold concentric rings + warm amber haze fading the upper architecture + a single fresh-ink black on the stack of blank labels + cool cyan forcefield-shimmer at the outermost ring",
+    composition:
+      "Wide circular hero composition, Collector centred at exact axis, concentric labeled-cabinet rings extending to horizon",
+    notes:
+      "T5 = 'The Collector, Eleven Centuries.' End-of-Epoch-2 canon. CRITICAL spoiler-line: do NOT depict any specific recognizable item from his collection — every object is generic-precious-object. His role in late acts (collection as evidence in Acts 5-7) stays unspoiled; here we see the SHAPE of the collection, not the contents. His expression is sincere apology, never theatrical menace.",
+  },
 ] as const;
 
 /**
