@@ -1058,6 +1058,108 @@ const IMPRINT_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "T5 = 'The Dreamer, Sundered Twin.' End-of-Epoch-2 canon. CRITICAL spoiler-line: 'Sundered Twin' is rendered as the MISSING ARCH in the architecture, NOT as a second figure beside her. Showing the second figure would visually identify her twin (the Architect, Acts 5-7 reveal). The absence of the partner is the lore beat AND the spoiler-shield.",
   },
+
+  // ─── THE ENGINEER (Author of the Deck — built the prototype the
+  //     week the Oracle asked for a way to think about conflict
+  //     without having to live it; the reason any of this is being
+  //     played) ───
+  // Source canon: A man at a workbench in a room you cannot quite
+  // locate on the map. The goggles are too large; the goggles are
+  // always too large. He hands you the next tool before you realize
+  // you are going to need it. Mechanical: draw + mana-refund.
+  // Faction: antiquarian.
+  // SPOILER NOTE: The Engineer is canonically [CLASSIFIED] —
+  // explicitly the Hidden Variable. His true identity, the reason
+  // he is "trapped in the wrong body," and his Inception Ark
+  // backstory are the §9 (Discovery video) prompts, gated to that
+  // unlock. End of Epoch 2 canon: he is "the man at the workbench"
+  // who built the prototype TCG deck for the Oracle. His face
+  // remains intentionally generic across all 5 tiers.
+  {
+    cardId: "s1_imprint_the_engineer_t1",
+    sceneDelta:
+      "Mid-shot of the Engineer at his workbench — a long oak workbench with the patina of decades of careful work, set in a room the camera has trouble framing (the walls' angles are very subtly wrong; the ceiling's height is impossible to estimate; a floor-tile pattern seems to repeat at irregular intervals). He sits on a tall stool in three-quarter profile, leather apron over a simple linen shirt, sleeves rolled to the elbow. The brass-and-glass goggles on his forehead are visibly TOO LARGE for his head — they would slip off if he tilted forward. He is mid-tightening a small brass screw on a half-assembled clockwork object the size of a sparrow. His face is studious, calm, late-thirties, intentionally unmemorable features. The room around him is amber-lit by a single brass swing-arm lamp.",
+    moodKeywords: [
+      "the room you cannot quite locate on the map",
+      "the goggles are too large",
+      "the patina of decades of careful work",
+      "studious calm",
+    ],
+    palette:
+      "Antiquarian amber + parchment + brass workbench fittings + warm worn-leather apron + a single cool blue accent on the half-assembled clockwork's glass aperture",
+    composition:
+      "Mid-shot three-quarter at workbench, hands on the clockwork object at lower-third, goggles on forehead at upper-third, the room's wrong angles in deep background",
+    notes:
+      "T1 = mortal Engineer. CRITICAL spoiler-discipline: face MUST be intentionally generic + unmemorable. He is [CLASSIFIED] in canon; his face is the lore secret. Goggles-too-large is canonical visual identity (mentioned twice in flavor text). The wrong-angle room is the canonical 'cannot quite locate on the map' beat — must read as subtle, not surreal.",
+  },
+  {
+    cardId: "s1_imprint_the_engineer_t2",
+    sceneDelta:
+      "Mid-shot. The Engineer is half-turned toward the camera, holding out a tool in his open palm — a small, exquisitely-machined brass instrument of indeterminate purpose (it is clearly a tool, but it is a tool you have not yet thought to ask for). His other hand rests on the workbench beside a fresh piece of paper covered in his own technical sketches. His expression is mildly amused — the expression of a man who has handed you the thing you are about to need. The goggles are STILL on his forehead, still too large. Behind him, the workbench is now visibly ORGANIZED into a fan of similar-but-progressively-different tools — each one a refinement of the previous, each one labeled in his careful pencil. Draw-on-deploy visualized as the offered tool.",
+    moodKeywords: [
+      "the next tool before you realize",
+      "mildly amused foresight",
+      "the fan of progressively-different tools",
+      "still-too-large goggles",
+    ],
+    palette:
+      "Antiquarian amber + parchment + brass tool gleam + a single warm gold accent on the offered instrument + cool grey background haze",
+    composition:
+      "Mid-shot three-quarter, Engineer at frame-centre with tool-offering hand at upper-third, fan of tools across lower-third workbench",
+    notes:
+      "T2 = draw-1. Tool design: brass + glass + small + obviously precision-made. NOT a recognizable item from canon (no Programmer's pen, no Logos device, etc.). Tool serves the visual + mechanical lore beat; identity stays anonymous.",
+  },
+  {
+    cardId: "s1_imprint_the_engineer_t3",
+    sceneDelta:
+      "Mid-shot. The Engineer is now mid-action: BOTH hands engaged at the workbench, the right hand finishing one repair on a small mechanical device while the left hand is ALREADY beginning the next repair on a different device that appears just barely visible at the workbench's right edge (slightly out-of-focus). His face is in slight three-quarter, eyes on neither device — instead looking past them both, toward a third device implied but not visible at the workbench's far end. The goggles have FINALLY slipped down over his eyes (he has needed precision); their over-large lenses make his eyes appear distorted-wide. Around the workbench, three pieces of paper hover at low altitude (technical sketches lifted by gentle workshop draft) — each one a draft of the next problem he is solving. Draw-2 visualized as the two-page split of his sketches.",
+    moodKeywords: [
+      "already solving the next problem",
+      "the goggles finally on",
+      "two pages of next-thinking",
+      "the third device implied",
+    ],
+    palette:
+      "Antiquarian amber workbench + parchment papers + brass tool gleam + cool blue glass apertures on both devices + a single warm gold accent on the slipped-over goggles",
+    composition:
+      "Mid-shot three-quarter, Engineer at frame-centre, two devices at lower-thirds of left and right, three drafting papers hovering at upper-third",
+    notes:
+      "T3 = draw-2. The 'two devices in motion + third implied' is the visual rhyme of Antiquarian-faction foreknowledge (Detective t2 / Antiquarian t4 use similar layered-knowledge visual language). Goggles-finally-on is the lore beat earned at this tier (he has needed precision; foreknowledge requires care).",
+  },
+  {
+    cardId: "s1_imprint_the_engineer_t4",
+    sceneDelta:
+      "Wider mid-shot. The Engineer stands now at a longer workbench in the same impossible-room, surrounded by a half-circle of completed inventions — eight or nine different mechanical objects on display-stands, each labeled with his pencil-script. He is in three-quarter profile, hands resting on a fresh piece of paper, mid-sketch of the NEXT invention. To his right, a small brass tray of MANA-BRIGHT crystal shards (the canonical Antiquarian visualization of refunded mana) sits half-full — the inventions visibly cost less than the materials he laid out for them; they paid for themselves. His expression is weary-but-satisfied. Goggles on, forehead pushed-back slightly. Draw-2 + refund-1-mana visualized as the two pages of in-progress sketches AND the bright tray of returning shards.",
+    moodKeywords: [
+      "every invention pays for itself",
+      "the brass tray of returning shards",
+      "weary but satisfied",
+      "the half-circle of completed work",
+    ],
+    palette:
+      "Antiquarian amber workbench + parchment sketches + brass display-stands + a SATURATED bright cyan-white on the tray of mana-shards + a single warm gold accent on the goggles",
+    composition:
+      "Wider mid-shot, Engineer at frame-centre, half-circle of inventions in background arc, sketch-paper at lower-third, mana-tray at right",
+    notes:
+      "T4 = draw-2 + refund-1. The mana-tray uses the canonical Antiquarian-faction crystal-shard visual language (matches Antiquarian t3 motes-in-palm). Inventions on display are anonymous mechanical objects — must NOT include any recognizable canonical device (no Logos prototype, no signal beacon, no Inception Ark fragment).",
+  },
+  {
+    cardId: "s1_imprint_the_engineer_t5",
+    sceneDelta:
+      "Hero composition. The Engineer stands at the centre of a vast circular workshop hall — concentric tiers of workbenches receding outward to a horizon-line lost in amber haze, each tier filled with completed inventions on labelled stands. He is at the exact centre, holding in BOTH hands a single open prototype object: a flat rectangular wooden frame the size of a card-deck box, half-assembled, with a small inset compartment containing a single faintly-glowing card-blank. The prototype is unmistakably the FIRST PROTOTYPE OF THE TCG DECK ITSELF — the canonical Engineer-built artifact (built the week the Oracle asked for a way to think about conflict without having to live it). His face is fully visible: late-thirties, kind, deliberately unmemorable, the goggles finally pushed back on his forehead. Around him, tiers of completed inventions visibly pulse with their own faint glow. Below his hands, a brass tray pours TWO mana-shards' worth of bright cyan light back into the floor (refund-2). Three pages of fresh sketches hover in slow concentric orbit at chest height (draw-3).",
+    moodKeywords: [
+      "the prototype of the deck itself",
+      "the week the Oracle asked",
+      "the reason you are playing any of this",
+      "kind, unmemorable, finished his work",
+    ],
+    palette:
+      "Antiquarian amber concentric workshop + parchment sketches + brass workbench gleam + bright cyan-white mana-refund pour + warm gold sanctum-light from above",
+    composition:
+      "Wide circular hero, Engineer centred, workbench tiers receding outward, prototype-deck object at lower-third in his hands, three sketches in orbit at chest height",
+    notes:
+      "T5 = 'The Engineer, Author of the Deck.' End-of-Epoch-2 canon. The prototype-deck object is the canonical lore artifact (he built the first prototype the week the Oracle asked for a way to think about conflict without having to live it — directly from his t5 flavor text). CRITICAL spoiler-line: face MUST stay generic-unmemorable. He is canonically [CLASSIFIED] / 'the Hidden Variable' / 'trapped in the wrong body' (Discovery video #18) — none of those reveals are present in this t5 frame. He is just the man at the workbench who finished his work.",
+  },
 ] as const;
 
 /**
