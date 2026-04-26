@@ -65,6 +65,113 @@ export const NILMORG_BANK: ReadonlyArray<BankEntry> = [
     cooldownKey: "nilmorg.kept_agreement_acknowledged",
   },
 
+  // ─── Severance Prize extraction ritual (cinematic; pre-payment) ─────
+  // Canonical ritual per nilmorg.md §2.4:
+  //   The Wired Clone stands on a dark podium, designation glowing.
+  //   Nilmorg reaches down and extracts a golden glowing orb from the
+  //   clone's chest. The orb enters a crystalline container. The
+  //   container seals. The clone smiles. The clone earned this.
+  // Lore/Ceremony register: three-to-six-word sentences; no escalation;
+  // the flatness IS the threat. Each beat is one ritual step.
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.severance.ritual.podium",
+    text:
+      "The clone is on the podium. The designation is lit. The crowd has " +
+      "stopped moving. The track has stopped breathing. The Trench is " +
+      "always quiet for this part.",
+    surfaces: ["cinematic"],
+    unlockFlags: ["severance_ceremony_started"],
+    cooldownKey: "nilmorg.severance.ritual",
+    maxPlays: 5,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.severance.ritual.reach",
+    text:
+      "I will reach down now. I will not look away. Neither will she. We " +
+      "do this part together. That is the design.",
+    surfaces: ["cinematic"],
+    unlockFlags: ["severance_ceremony_started"],
+    cooldownKey: "nilmorg.severance.ritual",
+    maxPlays: 5,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.severance.ritual.orb_extracted",
+    text:
+      "The fragment lifts. Gold. Quiet. Heavier than it looks. Nothing in " +
+      "the room makes a sound. Including her.",
+    surfaces: ["cinematic"],
+    unlockFlags: ["severance_ceremony_started"],
+    cooldownKey: "nilmorg.severance.ritual",
+    maxPlays: 5,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.severance.ritual.container_approaches",
+    text:
+      "The container is here. Crystalline. Tuned to her resonance. The " +
+      "container has been waiting for this fragment since before she was " +
+      "born. That is also the design.",
+    surfaces: ["cinematic"],
+    unlockFlags: ["severance_ceremony_started"],
+    cooldownKey: "nilmorg.severance.ritual",
+    maxPlays: 5,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.severance.ritual.entry",
+    text:
+      "The fragment enters. The container accepts. The seam closes. There " +
+      "is no flash. There is no sound. Only completion.",
+    surfaces: ["cinematic"],
+    unlockFlags: ["severance_ceremony_started"],
+    cooldownKey: "nilmorg.severance.ritual",
+    maxPlays: 5,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.severance.ritual.clone_smiles",
+    // Canon §2.4 protected: the CLONE smiles. Not the recipient. The
+    // clone consented, knew what it was, raced anyway. Writers must
+    // not retroactively cast the clone as victimized.
+    text:
+      "She smiles. That is the part everyone gets wrong. She smiles. She " +
+      "earned this. Don't argue with me about what she earned.",
+    surfaces: ["cinematic"],
+    unlockFlags: ["severance_ceremony_started"],
+    cooldownKey: "nilmorg.severance.ritual",
+    maxPlays: 5,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.severance.ritual.between",
+    text:
+      "There is a moment between extraction and payment. The container " +
+      "holds the fragment. The fragment holds her last consent. I hold " +
+      "the moment. I do not release it until I am certain.",
+    surfaces: ["cinematic"],
+    unlockFlags: ["severance_ceremony_started"],
+    cooldownKey: "nilmorg.severance.ritual",
+    maxPlays: 5,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.severance.ritual.done_this_before",
+    // §2.5 institutional-precision register; this is the closest thing
+    // to a Nilmorg confession — he names the prior performances.
+    text:
+      "I have done this before. I will do this again. The repetition is " +
+      "the reliability. The reliability is the agreement. The agreement " +
+      "is what makes me who I am.",
+    surfaces: ["cinematic"],
+    unlockFlags: ["severance_ceremony_started"],
+    cooldownKey: "nilmorg.severance.ritual",
+    maxPlays: 5,
+  },
+
   // ═════════════════════════════════════════════════════════════════════
   // DMC SEASONAL-TIER COMMENTARY (DMC surface, trust-band gated)
   // ═════════════════════════════════════════════════════════════════════
