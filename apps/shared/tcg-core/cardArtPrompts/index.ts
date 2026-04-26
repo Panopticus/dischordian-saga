@@ -31,7 +31,7 @@ import { RACE_CARD_ART_PROMPTS } from "./race";
  *     Dreamer, Insurgency, New Babylon, Thought Virus)
  *   - class: 6 / 6 sets — COMPLETE (Assassin, Engineer, Ne-Yon,
  *     Oracle, Soldier, Spy)
- *   - race: 2 / 5 sets (Human, Demagi)
+ *   - race: 3 / 5 sets (Human, Demagi, Quarchon)
  *
  * Pending factions:
  *   - race (remaining 4 sets)

@@ -123,13 +123,66 @@ const RACE_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "Legendary unit. Canon: Xeth'Raal arranged Game Master's death by leaking strategic playbook to Agent Zero (Epoch 2 reveal in Agent Zero Imprint set lore). The retained playbook is the canonical 'sentimental reasons' detail. Three keywords (drain + deathwatch + provoke) rendered as three distinct visual elements. Generic-Archlord face must NOT match any named playable Hierarchy character.",
   },
+
+  // ─── QUARCHON RACE — Architect's silicon crystalline race ───
+  {
+    cardId: "s1_race_quarchon_01",
+    sceneDelta:
+      "Mid-shot. A Quarchon Latticework — a humanoid figure constructed entirely of pale-violet faceted crystal-lattice, approximately human-shaped but visibly UNFINISHED: the chest and upper-arms are dense crystal-lattice, the lower legs and head are still partially translucent with internal lattice-veins still being PROPAGATED in slow visible growth-pulses. They stand alone in an Architect crystallization-chamber — the chamber itself is crystalline cool-blue. Around the Latticework's body, a translucent hexagonal-cyan forcefield-shimmer wraps them at body-edge (the canonical Architect forcefield idiom). One faint warm-violet pulse-line runs from chest to head as a new lattice-row commits. Their face is partially-formed — eye-cavities yes, mouth-line yes, nose-ridge no, expression NONE.",
+    moodKeywords: [
+      "a lattice of intentions the Architect has not yet committed to",
+      "the forcefield is what he still reserves the right to",
+      "unfinished, propagating, expression none",
+      "the chamber is the womb",
+    ],
+    palette:
+      "Architect cold-blue crystallization-chamber + pale-violet faceted lattice + hexagonal-cyan forcefield-shimmer + warm-violet propagation-pulse + chrome chamber-frame",
+    composition:
+      "Mid-shot front three-quarter, Latticework at frame-centre in chamber, internal lattice-pattern visible through translucent regions",
+    notes:
+      "Uncommon unit. The hexagonal-cyan forcefield idiom is canon for Architect-faction (established in Architect Allegiance set t3-t6). The Latticework is deliberately UNFINISHED — chest dense, lower body still translucent — communicating 'intentions not yet committed.' Generic-blank features = Architect's lattice-without-personality.",
+  },
+  {
+    cardId: "s1_race_quarchon_02",
+    sceneDelta:
+      "Mid-shot. A Quarchon Archivist — taller and visibly OLDER than the Latticework (their crystal-lattice is denser, the facets smaller and more numerous, the colour shifted from pale-violet to a deeper amethyst at the body-core, their entire silhouette slightly thicker and heavier). They stand in an Architect archive-hall — tall lattice-shelves stacked with smaller crystal-records receding to either side. The Archivist's chest is partially open, revealing internal lattice-rings rotating slowly at different speeds (the racial 'memory by becoming denser' visualized as nested rings). One faint warm provoke-glow rims their leading shoulder; one faint cool-blue grow-pulse propagates outward from their core, adding a new outermost lattice-row in real-time. Their face is more formed than the Latticework — full eye-sockets with deep-amethyst pupils, a defined mouth-line, but still expressionless. Their posture is patient, immovable.",
+    moodKeywords: [
+      "remembering by becoming denser",
+      "the older one is, the more it weighs",
+      "more room in any conversation that thinks it has finished",
+      "patient, immovable",
+    ],
+    palette:
+      "Architect cold-blue archive-hall + deep amethyst lattice-core + pale-violet outer-rows + warm provoke-rim + cool grow-pulse + chrome shelving",
+    composition:
+      "Mid-shot front three-quarter, Archivist at frame-centre with chest-rings visible, lattice-shelves receding to either side",
+    notes:
+      "Rare unit. The 'memory by density' is rendered as nested rotating rings inside the chest — direct visualization of the racial mechanic. Grow keyword as a propagating outer-ring pulse. Provoke as a rim-glow on the leading shoulder. Generic-Archivist face must NOT match any named character.",
+  },
+  {
+    cardId: "s1_race_quarchon_03",
+    sceneDelta:
+      "Wider mid-shot. The Crystal Senator — an enormous Quarchon, taller than a human by half-again, of EXTREME density: their lattice has compacted into near-opaque deep-amethyst-and-violet crystal, the facets so small they read as a continuous slightly-sparkling surface. Their silhouette is broad and ceremonial — they wear NO clothing because their body IS the ceremony. They stand at a tall Architect Senate-rostrum, one hand raised in mid-gesture (an opening-remark gesture, held). Their face is deeply lined with crystal-fissures suggesting age but still expressionless. Behind them, the Architect Senate chamber recedes — empty seats on tiered crystal benches, dust-motes in cool-blue ambient light, ALL of which has the quality of having been waiting for 4,700 years. A faint warm provoke-glow rims their leading shoulder; a hexagonal-cyan forcefield around their entire body; a slow cool-blue grow-pulse adds a NEW row of lattice on their crown.",
+    moodKeywords: [
+      "in session for 4,700 years",
+      "has not yet finished his opening remarks",
+      "ten health, growing",
+      "the body is the ceremony",
+    ],
+    palette:
+      "Architect cold-blue Senate-chamber + deep-amethyst-and-violet near-opaque lattice + hexagonal-cyan forcefield + warm provoke-rim + cool grow-pulse + chrome rostrum",
+    composition:
+      "Wider mid-shot front three-quarter, Senator at frame-centre raised at rostrum, empty Senate seats receding behind",
+    notes:
+      "Legendary unit. The 4,700-year session = empty seats waiting. Three keywords (provoke + forcefield + grow) rendered as three distinct visual elements simultaneously. Generic-ceremonial Senator face must NOT match any named character. Architect Senate-chamber visual continuity with Architect Allegiance set t6.",
+  },
 ] as const;
 
 /**
  * Race faction's prompt registry, keyed by card id.
  *
- * Currently populated: 2 / 5 races (Human, Demagi).
- * TODO: neyon, quarchon, synthetic.
+ * Currently populated: 3 / 5 races (Human, Demagi, Quarchon).
+ * TODO: neyon, synthetic.
  */
 export const RACE_CARD_ART_PROMPTS: Readonly<Record<string, CardArtPrompt>> =
   Object.freeze(
