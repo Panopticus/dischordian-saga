@@ -207,6 +207,97 @@ const IMPRINT_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "T5 = 'The Antiquarian, Ending-Cataloguer.' This IS end-of-Epoch-2 canon (his archetype is fully established). CRITICAL: his face must read as 'kind elder scholar,' not as anyone the player would recognize from elsewhere in the game. The Programmer/Antiquarian connection is Act 5+ reveal. Twelve books = the twelve catalogued endings, established lore. NOT thirteen, NOT the Witness count.",
   },
+
+  // ─── IRON LION (Insurgency rally-figure, the fist already moving) ───
+  // Source canon: The Insurgency was a rumor until the Iron Lion
+  // showed up; afterward it was the shape of a fist already in
+  // motion. Mechanical: provoke + rush + frenzy. He arrives — he
+  // does not pace. Faction: insurgency.
+  {
+    cardId: "s1_imprint_iron_lion_t1",
+    sceneDelta:
+      "Wide low-angle hero shot at the perimeter of an Insurgency forward camp at dusk. The Iron Lion stands centre, mid-stride, weight forward, his greatcoat half-flared from the motion. His face is half-lit by a single flare-light from camera-right (gunmetal-blue cool, not warm). One gloved hand grips the strap of a shouldered rifle; the other is open, palm out — the body language of someone who has already committed to the charge. Behind him: the silhouette of the camp's perimeter wall, two sentries' heads turning at the sound of his roar. Above him: the first stars of evening over a low slate horizon. A faint signal-green telltale flickers on the rifle's optic.",
+    moodKeywords: [
+      "the charge already committed",
+      "perimeter dusk",
+      "gunmetal urgency",
+      "the fist mid-flight",
+    ],
+    palette:
+      "Insurgency slate blue + signal green telltale + gunmetal grey + encrypted-static texture in the perimeter wall",
+    composition:
+      "Wide low-angle hero, Iron Lion centred mid-stride, perimeter at lower-third, sky/stars at upper-third",
+    notes:
+      "T1 = the rumor has shown up. He is mortal, he is on the ground, he is moving. NO frenzy yet (that's t5). NO speech given yet. The camp behind him is still small.",
+  },
+  {
+    cardId: "s1_imprint_iron_lion_t2",
+    sceneDelta:
+      "Mid-shot. The Iron Lion has stopped between two figures and the approaching thing. He is in three-quarter stance, body angled to interpose, one arm extended back to keep two younger Insurgency recruits behind him. We see his face fully now — weathered, late-thirties, a deliberate stillness in his eyes. He has not yet moved to fight; he is waiting until the threat commits. The recruits behind him are looking at HIM, not the threat — they've decided to follow whatever he does. Background: a half-collapsed civilian street in deep dusk, signal-green emergency-light flickering off broken windows. A small Insurgency-issue medallion on his collar (a clenched fist, intentionally crude).",
+    moodKeywords: [
+      "interposition",
+      "the body becomes the wall",
+      "earned trust",
+      "still before motion",
+    ],
+    palette:
+      "Insurgency slate blue + signal green emergency-glow on the broken windows + gunmetal greatcoat",
+    composition:
+      "Mid-shot three-quarter, Iron Lion centred and angled, two recruits visible past his shoulder, threat off-frame to camera-right",
+    notes:
+      "T2 = provoke keyword visualized. He is the literal wall between the recruits and what's coming. The threat is OFF-frame on purpose — he is the visual focus, not what he's fighting.",
+  },
+  {
+    cardId: "s1_imprint_iron_lion_t3",
+    sceneDelta:
+      "Closer. Mid-arrival. The Iron Lion is mid-strike — left hand still extended back toward unseen allies, right hand bringing a broad-bladed combat knife around in the kind of arc that a body has only earned through repetition. His coat trails behind him like a slow flag. Above and behind him a faint sketch of the Insurgency rally-banner unfurled at half-distance (clenched fist + crossed dog-tags). His face is set — not snarling, not theatrical — the look of a man who has done this so often the choreography no longer requires anger. The strike is landing into off-frame; we see only the arc, not the impact. Signal-green telltales on his belt + on the banner. Slate-blue twilight ambient.",
+    moodKeywords: [
+      "rush as choreography",
+      "the arc, not the impact",
+      "earned violence",
+      "rally-banner deep behind",
+    ],
+    palette:
+      "Insurgency slate twilight + signal green telltales + gunmetal blade + a single warm rust-orange accent on the banner cloth",
+    composition:
+      "Tight mid-action, Iron Lion at upper-third caught mid-arc, banner mid-distance behind, allies implied off-frame left",
+    notes:
+      "T3 = provoke + rush. Action is in progress but the impact is out of frame — keeps the card readable + spoiler-safe (we don't show WHO he's fighting). Banner = canonical Insurgency rally symbol, established Epoch 2.",
+  },
+  {
+    cardId: "s1_imprint_iron_lion_t4",
+    sceneDelta:
+      "He has just landed in the centre of an engagement and the camp around him has straightened. Wide composition: eight Insurgency fighters in the foreground arc, all of them are looking at him, all of them are RAISING their weapons in the same instant — the rally pulse he carries with him. Iron Lion is centred, face fully visible, expression unchanged from T3 (still that practiced stillness), but a subtle warm-amber rim-light has joined the cool gunmetal — the people next to him have remembered why they signed up. The signal-green telltales now glow brighter (their morale just spiked). Behind: the perimeter wall is now visibly larger, the Insurgency camp grown around him over time.",
+    moodKeywords: [
+      "rally as deployable weapon",
+      "+2 power this turn",
+      "the people next to him remember why",
+      "earned warmth in the cold light",
+    ],
+    palette:
+      "Insurgency slate + brighter signal green + a NEW warm amber rim-light suggesting morale spike + gunmetal blades",
+    composition:
+      "Wide composition, Iron Lion centred, eight allies in a foreground arc all turning toward him",
+    notes:
+      "T4 = the rally-buff visualized. The eight allies are anonymous — no recognizable named characters. NO Kael in this frame; NO Programmer; nobody that would force a future-spoiler. Iron Lion's expression stays mortal — he is not a god yet, just a leader.",
+  },
+  {
+    cardId: "s1_imprint_iron_lion_t5",
+    sceneDelta:
+      "Hero composition at the founding moment. A large open square of an early Insurgency stronghold at the very moment the Iron Lion gives his first public roar. He stands centred on a low platform, weight on one foot, mouth open in a shout we cannot hear. The square is FILLED — hundreds of Insurgency fighters and civilians alike, all of them mid-raise of fists or weapons, the gesture rippling outward from him in concentric arcs. Above: a slate-blue dawn just breaking over the city's broken silhouette, the very first beam of warm light cutting diagonally across the square and landing on his shoulder. Frenzy: faint motion-blur ghost-images of him — three half-overlaid silhouettes of the same roar, captured a half-beat apart, suggesting the roar is not a single moment but a sustained inevitability. Provoke + rush implied by the geometry of the square: every body language vector points toward him AND outward toward an unseen enemy past the camera.",
+    moodKeywords: [
+      "founding moment",
+      "the rumor becomes the shape of a fist",
+      "frenzy as sustained inevitability",
+      "first dawn over the broken city",
+    ],
+    palette:
+      "Insurgency slate dawn + signal green crowd-glow + warm amber first-light from upper-right + gunmetal weapons",
+    composition:
+      "Wide hero panorama, Iron Lion small but visually centred on the platform, crowd radiating outward, dawn light vector picking him out",
+    notes:
+      "T5 = 'The Iron Lion, First Roar.' This is the founding-of-the-Insurgency moment, established Epoch 2 canon. CRITICAL spoiler-line: this is FIRST roar, not LAST. Do NOT show Veridian VI, do NOT show the helmet in the grass (Act 5+), do NOT show Kael as a mourner (Act 5 reveal). The frame is HOPE earning itself, not loss.",
+  },
 ] as const;
 
 /**
