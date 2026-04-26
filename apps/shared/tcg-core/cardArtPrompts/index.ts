@@ -26,6 +26,7 @@ import { DREAMER_CARD_ART_PROMPTS } from "./dreamer";
 import { INSURGENCY_CARD_ART_PROMPTS } from "./insurgency";
 import { NEW_BABYLON_CARD_ART_PROMPTS } from "./new_babylon";
 import { THOUGHT_VIRUS_CARD_ART_PROMPTS } from "./thought_virus";
+import { NEUTRAL_CARD_ART_PROMPTS } from "./neutral";
 
 /**
  * The full card-art prompt registry.
@@ -52,9 +53,10 @@ import { THOUGHT_VIRUS_CARD_ART_PROMPTS } from "./thought_virus";
  *   - insurgency: 51 / 51 cards — COMPLETE
  *   - new_babylon: 52 / 52 cards — COMPLETE
  *   - thought_virus: 53 / 53 cards — COMPLETE
+ *   - neutral: 6 / 79 cards
  *
  * Pending factions:
- *   - neutral (per-faction character cards)
+ *   - neutral (remaining 73)
  *   - architect, antiquarian, dreamer, insurgency, new_babylon,
  *     thought_virus, neutral, panopticon, allegiance, class, race,
  *     elemental, dimensional
@@ -73,4 +75,5 @@ export const CARD_ART_PROMPTS: CardArtPromptRegistry = Object.freeze({
   ...INSURGENCY_CARD_ART_PROMPTS,
   ...NEW_BABYLON_CARD_ART_PROMPTS,
   ...THOUGHT_VIRUS_CARD_ART_PROMPTS,
+  ...NEUTRAL_CARD_ART_PROMPTS,
 });
