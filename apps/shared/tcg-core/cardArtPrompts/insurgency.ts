@@ -327,17 +327,136 @@ const INSURGENCY_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "Common unit. Generic-quick-features must NOT match any named character (specifically NOT Agent Zero — different visual signature). The 'fire as bonus' framing is rendered as the small fire just-beginning behind her — she didn't need it to succeed.",
   },
+  {
+    cardId: "s1_pack_008",
+    sceneDelta:
+      "Wider mid-shot. A Dead Signal Burst — at frame-centre, an old broadcast-tower antenna at the top of a long-abandoned Insurgency communications-station. The antenna is BROADCASTING despite its dead-frequency: faint translucent signal-green burst-rays extend outward in all directions, but the rays are SCREAMING-pattern (jagged-edged, distorted, the canonical 'came back screaming' rendering). Around the antenna, faint cool-violet decay-substance still drifts (the frequency was supposed to be extinct). The station-floor is dust-covered (no human there in years). NO human figure. The deep-distance sky is dark cool-violet at twilight.",
+    moodKeywords: [
+      "the frequency was supposed to be extinct",
+      "it came back screaming",
+      "translucent signal-green burst-rays in screaming-pattern",
+      "no human figure — long abandoned",
+    ],
+    palette:
+      "Old broadcast-tower antenna + translucent signal-green screaming burst-rays + faint cool-violet decay-substance + dust-covered station-floor + dark cool-violet twilight + cool deep-shadow",
+    composition:
+      "Wider mid-shot, antenna at frame-centre upper-third, station-floor at lower-third, twilight sky behind",
+    notes:
+      "Rare spell. NO human figure (the spell IS the broadcast). The 'screaming-pattern' jagged-rays differentiate from normal smooth signal-green. Dust + abandoned station preserve the 'extinct frequency' framing.",
+  },
+  {
+    cardId: "s1_pack_009",
+    sceneDelta:
+      "Mid-shot. A Covert Operative — anonymous female-presenting figure (back-three-quarter, generic-mixed Insurgency-slate light infiltration-leathers), mid-action of HAVING ALREADY DEPARTED. The frame shows her partially-translucent (already three-quarters-vanished from the current sector) at frame-centre, with a faint translucent silver-mist DEPARTURE-TRAIL extending behind her toward a frame-left position where a faint sound-emission marker (a small chrome shot-pulse-icon) shows where the shot was just FIRED. She is moving fast — she was at the firing-position only a moment ago. NO face visible. The setting is a multi-corridor Insurgency-aligned sector-junction.",
+    moodKeywords: [
+      "by the time you hear the shot",
+      "she is already three sectors away",
+      "three-quarters-vanished from current sector",
+      "shot-pulse-icon at firing-position behind",
+    ],
+    palette:
+      "Insurgency-slate light infiltration-leathers + faint translucent body (three-quarters-vanished) + faint translucent silver-mist departure-trail + chrome shot-pulse-icon + multi-corridor Insurgency-aligned sector-junction + cool deep-shadow + warm fluorescent ceiling-strip",
+    composition:
+      "Mid-shot back-three-quarter on Operative, departure-trail extending to frame-left, shot-pulse-icon at trail's origin",
+    notes:
+      "Common unit. Anonymous figure (back-three-quarter, vanishing) preserves no-character-conflation. The 'three sectors away by the time you hear it' is rendered through the partially-vanished body + departure-trail.",
+  },
+  {
+    cardId: "s1_pack_010",
+    sceneDelta:
+      "Wider mid-shot. A Signal Repeater — at frame-centre, an Insurgency-aligned broadcast-tower (chrome-and-signal-green, mid-sized, mounted on a low rooftop). The tower is mid-action of TRANSMITTING simultaneously to multiple receivers: faint translucent signal-green ARC-LINES extend outward from the tower in many directions, each arc-line ending at a distant receiver (small chrome receiver-icons faintly visible at varying depths in the deep distance). Approximately a thousand arcs visible (suggesting count without requiring literal thousand). Below the tower, a small cell of anonymous Insurgency-aligned operatives (back-shots only) work at the tower's base maintaining transmission. NO faces visible.",
+    moodKeywords: [
+      "destroy the tower",
+      "the broadcast has already been copied to a thousand receivers",
+      "many translucent signal-green arc-lines to distant receivers",
+      "anonymous cell at tower-base",
+    ],
+    palette:
+      "Chrome-and-signal-green Insurgency broadcast-tower + translucent signal-green arc-lines + small chrome receiver-icons in deep-distance + Insurgency-slate cell-figures (back-shots) + cool low-rooftop ambient + cool deep-shadow",
+    composition:
+      "Wider mid-shot, tower at frame-centre, arc-lines extending to many distant receivers, cell at tower-base lower-third",
+    notes:
+      "Uncommon unit. Anonymous cell (back-shots only) preserves no-character-conflation. The 'thousand receivers' is canon-direct from flavor — rendered as many arc-lines to many receivers without requiring literal count.",
+  },
+  {
+    cardId: "s1_pack_011",
+    sceneDelta:
+      "Wider mid-shot. An Insurgent Commander — male-presenting figure in mid-fifties, generic-decisive features (composed eyes, deep-furrowed brow, weathered-but-firm jaw), in formal Insurgency-slate-and-warm-leather command-coat with a single signal-green commander-pin. He stands at frame-centre on a low Insurgency-aligned rallying-platform, both hands at his sides, head slightly raised. His face is mid-expression of having JUST GIVEN PERMISSION (not an order — permission). Below him in mid-distance, an Insurgency formation of dozens of soldiers ROARS UPWARD (mouths open, fists raised, the canonical 'has been waiting a long time' release). Faint warm rush-trails at the soldiers' bases (rush keyword granted to formation). His own face is composed-grave; the moment is theirs.",
+    moodKeywords: [
+      "he does not give orders",
+      "he gives permission",
+      "the Insurgency has been waiting a long time to hear it",
+      "the moment is theirs, not his",
+    ],
+    palette:
+      "Insurgency-slate-and-warm-leather command-coat + signal-green commander-pin + warm rush-trails at soldier-bases + roaring Insurgency formation + warm rallying-platform light + cool deep-shadow + warm dawn-sky behind",
+    composition:
+      "Wider mid-shot front three-quarter, Commander at frame-centre on platform, formation roaring at lower-third",
+    notes:
+      "Rare unit. The 'permission not orders' framing is rendered through the Commander's composed-grave expression + the formation's release. Generic-decisive features must NOT match Iron Lion (different specific archetype). Anonymous formation preserves no-character-conflation.",
+  },
+  {
+    cardId: "s1_pack_012",
+    sceneDelta:
+      "Wider mid-shot. A Rebel Arsenal — a quiet underground Insurgency cache-room at frame-centre. Wooden crates stacked at varying heights fill the lower-half of the frame; the crates are UNMARKED on the outside (no labels, no insignia). One crate at frame-centre is OPEN — revealing INSIDE: chrome-and-signal-green Insurgency-aligned weapons (rifles, energy-blades, signal-emitters) carefully arranged within. The weapons themselves bear small chrome-and-signal-green Insurgency-faction marks (the contents are marked even when the containers aren't). Faint warm low cache-light. NO human figure (the cache is hidden, nobody currently present).",
+    moodKeywords: [
+      "the crates were unmarked",
+      "the weapons inside were not",
+      "open crate revealing chrome-and-signal-green weapons",
+      "no human figure — hidden cache",
+    ],
+    palette:
+      "Wooden unmarked crates + chrome-and-signal-green Insurgency-aligned weapons + small chrome-and-signal-green faction-marks + warm low cache-light + cool deep-shadow + dim underground ambient",
+    composition:
+      "Wider mid-shot, cache-room with stacked crates at lower-half, one open crate at frame-centre revealing weapons",
+    notes:
+      "Common spell. NO human figure (the cache IS the subject). The 'unmarked outside, marked inside' is the visual key — rendered as the open crate's contrast.",
+  },
+  {
+    cardId: "s1_pack_013",
+    sceneDelta:
+      "Wider mid-shot. A Liberation Protocol — at frame-centre, the moment of a vast Insurgency-aligned ESCAPE-OPERATION: an Architect detention-facility's outer wall is mid-COLLAPSE (visible cool-cyan structural-failure with cool-grey debris falling), and through the breach, dozens of FREED PRISONERS (anonymous, generic-mixed civilians, all in worn Architect detention-uniforms) STREAM OUT into Insurgency-aligned safety. The prisoners are mid-flight, no specific named individual. Behind the breach, the detention-facility interior shows EMPTIED CELLS (cool-cyan light from now-vacant detention-rooms). At the breach-top, a faint translucent signal-green VANISHING-GLYPH propagates outward (the canonical 'vanishing act' visualization — both the prisoners and the IDENTIFICATION-of-them-as-prisoners disappear).",
+    moodKeywords: [
+      "they called it liberation",
+      "the enemy called it a vanishing act",
+      "both were correct",
+      "dozens of anonymous freed prisoners streaming through breach",
+    ],
+    palette:
+      "Architect detention-facility cool-cyan structural-failure + cool-grey falling debris + worn Architect detention-uniforms + cool-cyan emptied-cell light + translucent signal-green vanishing-glyph + cool deep-shadow + warm Insurgency safety beyond breach",
+    composition:
+      "Wider mid-shot, detention-wall breach at frame-centre with prisoners streaming through, emptied cells visible behind, vanishing-glyph at breach-top",
+    notes:
+      "Epic spell. Anonymous prisoners (generic-mixed) preserve no-character-conflation. The 'both correct' framing is rendered through the dual visualization — physical liberation (the breach) + identity-vanishing (the vanishing-glyph above the breach).",
+  },
+  {
+    cardId: "s1_pack_014",
+    sceneDelta:
+      "Wider mid-shot. Agent Zero, Reborn — same canonical Agent Zero features (mid-thirties, dark cropped hair, scar on left cheek) but rendered with REBIRTH-AURA: faint translucent silver-mist surrounding her body, brighter intensity than her standard renderings (gen_insurgency, s1_char_002 — both above), eyes more luminous deeper-warm-amber (visible signal-survival glow). She stands at the centre of an abandoned Insurgency-radio station — the ROOM where the signal was buried, the frequency burned, the name erased. She is THERE despite all of it. Around her, faint translucent broadcast-script (the new signal she carries forward) emanates outward. Faint warm rush-trails at her heels (rush keyword). Faint translucent rebirth-doubled-edge runs along her outline.",
+    moodKeywords: [
+      "they buried the signal",
+      "they burned the frequency",
+      "they erased the name",
+      "none of it mattered",
+    ],
+    palette:
+      "Insurgency-slate field-armor + signal-green chest-rig + dark cropped hair + scar on left cheek + faint translucent silver-mist rebirth-aura + luminous deeper-warm-amber eyes + faint translucent broadcast-script + warm rush-trails + translucent rebirth-doubled-edge + abandoned Insurgency-radio station",
+    composition:
+      "Wider mid-shot front three-quarter, Agent Zero Reborn at frame-centre with rebirth-aura, abandoned radio-station behind",
+    notes:
+      "Legendary unit. CRITICAL: visual continuity with gen_insurgency + s1_char_002 (same archetypal features) but rendered with REBIRTH-INTENSITY (brighter aura, more luminous eyes, broadcast-script emanation). The 'buried/burned/erased — none of it mattered' framing is rendered through her presence in the room where it all happened to her.",
+  },
 ] as const;
 
 /**
  * Insurgency faction's prompt registry, keyed by card id.
  *
- * Currently populated: 17 / 51 cards
+ * Currently populated: 24 / 51 cards
  * (gen_insurgency, s1_char_002, s1_char_010, s1_char_011,
  *  s1_char_012, s1_char_026, s1_char_028, s1_char_031,
  *  s1_char_040, s1_char_041, s1_char_044, s1_char_047,
  *  s1_char_105, s1_char_106, s1_char_107, s1_char_108,
- *  s1_char_202).
+ *  s1_char_202, s1_pack_008-014).
  */
 export const INSURGENCY_CARD_ART_PROMPTS: Readonly<Record<string, CardArtPrompt>> =
   Object.freeze(
