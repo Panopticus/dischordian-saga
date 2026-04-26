@@ -216,6 +216,93 @@ export const VEX_SOLENE_BANK: ReadonlyArray<BankEntry> = [
     maxPlays: 1,
   },
 
+  // ─── vex_public expansion (Phase 6b.2 sub-chunk C) ──────────────────
+  // Four additional vex_public lines covering canonical surfaces the
+  // existing pilot misses: the Coda pact-signing cinematic, contract-
+  // signing acknowledgment, mission-outcome success, and the canonical
+  // first-visit Coda sanctum room scene. Each preserves §1.6 silence-
+  // shape — NEVER "Engineer" / "Engineer Zero" aloud, NEVER "Agent
+  // Zero" as self-name. Per §1.4 canonical Maestro-persona register:
+  // unmasked, robed, in her sanctum; expansive Coda-vocabulary; the
+  // canonical "performance is the meaning" register.
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "vex.maestro.cinematic.coda_pact_signing",
+    // Canonical Coda-faction-pact signing scene per writers'-guide
+    // spec. The line lands the canonical "I am performing this. I am
+    // also meaning it. Both registers are professional." canon — the
+    // canonical Maestro-persona acknowledged-as-performative beat.
+    text:
+      "The Coda pact is signed. The chairs are filled. The Maestro " +
+      "persona is the one I will wear when you visit. The other " +
+      "register is the one I wear when no one is visiting. Both are " +
+      "professional. Tell me which you came to speak with.",
+    surfaces: ["cinematic"],
+    requiresRevealStage: "vex_public",
+    unlockFlags: ["vex_coda_pact_offered"],
+    cooldownKey: "vex.maestro.coda_pact_signing",
+    maxPlays: 1,
+    setsFlags: ["vex_coda_pact_signed"],
+    setsPublicFlags: ["player_in_coda_pact"],
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "vex.maestro.contract.signing_acknowledgment",
+    // Canonical contract-signing register per §1.5 tell #1 inventory-
+    // then-courtesy + §1.4 Maestro-persona canon. The canonical "I
+    // do not push. I do not pull." trailing-word resolution lands the
+    // canonical professional-courtesy close.
+    text:
+      "The contract names you. The contract names me. The Maestro " +
+      "persona is the signature; the Vex persona is the line above " +
+      "it. Sign where the Maestro signs. The line above is yours to " +
+      "read or not. I do not push. I do not pull.",
+    surfaces: ["npc_line"],
+    requiresRevealStage: "vex_public",
+    unlockFlags: ["vex_coda_pact_signed"],
+    cooldownKey: "vex.maestro.contract.signing",
+    maxPlays: 2,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "vex.maestro.trade_empire.mission_outcome_success",
+    // Canonical Coda mission-outcome register. Per §1.4 the Coda's
+    // accounting is canonically quieter than Locke's; the canonical
+    // "noting is quieter too" register lands the canonical
+    // institutional-difference canon between Coda and the Authority.
+    text:
+      "You completed the contract cleanly. I am noting the " +
+      "cleanliness. The Coda's books are quieter than Locke's; the " +
+      "noting is quieter too. You will not see the entry. The entry " +
+      "is real.",
+    surfaces: ["trade_empire"],
+    requiresRevealStage: "vex_public",
+    unlockFlags: ["vex_mission_succeeded"],
+    cooldownKey: "vex.maestro.mission_outcome_success",
+    maxPlays: 4,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "vex.maestro.room.coda_sanctum_first_visit",
+    // Canonical first-visit Coda sanctum cinematic per §1.4 canon:
+    // "unmasked, robed, in her sanctum. The Hitman armor is folded
+    // on a side bench." The canonical "the unmask is the welcome"
+    // register lands the canonical Maestro-persona invitation.
+    text:
+      "[The Coda sanctum opens before the player: three chairs in a " +
+      "circle, no podium, no audience. Vex stands at the central " +
+      "chair, unmasked. The Hitman armor is folded on a side bench.] " +
+      "You are here. The unmask is the welcome. Sit anywhere. The " +
+      "chairs do not have ranks.",
+    surfaces: ["room"],
+    requiresRevealStage: "vex_public",
+    unlockFlags: ["vex_coda_pact_signed"],
+    cooldownKey: "vex.maestro.room.coda_sanctum_first",
+    maxPlays: 1,
+    setsFlags: ["vex_coda_sanctum_visited"],
+  },
+
   {
     npcKey: NPC_KEY,
     lineId: "vex.maestro.touche.locked_out_by_locke",
@@ -394,5 +481,22 @@ export const VEX_SOLENE_BANK: ReadonlyArray<BankEntry> = [
     lineId: "vex.trade_empire.catchall",
     text: "The Coda's terms. Sign or pass; either way the contract is honest.",
     surfaces: ["trade_empire"],
+  },
+
+  // Catch-alls for npc_line + room surfaces (added Phase 6b.2 sub-chunk
+  // C when the canonical contract-signing + Coda-sanctum lines opened
+  // these surfaces). Silent-fail compliance per the canonical contract.
+  {
+    npcKey: NPC_KEY,
+    lineId: "vex.npc_line.catchall",
+    text: "The contract is the contract. The signature is the signature. Both belong to whoever signed.",
+    surfaces: ["npc_line"],
+  },
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "vex.room.catchall",
+    text: "The chairs are filled. The door is open. The work continues.",
+    surfaces: ["room"],
   },
 ];

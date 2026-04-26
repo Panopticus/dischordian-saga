@@ -202,6 +202,22 @@ export const CROSS_CHARACTER_REACTIONS: ReadonlyArray<CrossCharacterReaction> = 
       "in the saga cannot be reached by his editorial mechanism.",
   },
 
+  // ─── Player in Coda pact (Phase 6b.2 sub-chunk C) ──────────────────
+  {
+    flag: "player_in_coda_pact",
+    setBy: ["vex_solene"],
+    reactsBy: ["future_reader"], // Locke / Antiquarian / Phase 6+
+    canonicalNote:
+      "Per Vex bible §3.2 + writers'-guide spec: the canonical Coda " +
+      "pact is the Acts 3-4 first-contact moment where the player " +
+      "joins Coda's contract network. Set by the canonical pact-" +
+      "signing cinematic. Downstream Phase 6+ NPCs react: Locke " +
+      "registers the canonical 'pact-with-Coda' as a competing-" +
+      "broker entry; the Antiquarian registers the canonical 'Coda " +
+      "is auditing the audit' canon; other Phase 6+ NPCs gain the " +
+      "canonical Coda-counterparty acknowledgment register.",
+  },
+
   // ─── Seer burnt-card path completed (Phase 6b.1 sub-chunk G) ───────
   {
     flag: "seer_burnt_card_path_completed",
