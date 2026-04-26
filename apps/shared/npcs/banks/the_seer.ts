@@ -511,6 +511,197 @@ export const THE_SEER_BANK: ReadonlyArray<BankEntry> = [
   },
 
   // ═════════════════════════════════════════════════════════════════════
+  // REVISION-LINE CADENCE (Phase 6b.1 sub-chunk F)
+  //
+  // Five paired prediction+revision pairs (10 lines total) per the
+  // canonical §1.4 tell #1 (the public revision) + §1.2 cadence rule
+  // #2 (the version pivot — one axis at a time, never two revisions
+  // per breath).
+  //
+  // Per §1.4 tell #1: "the Seer admits a prior prediction was wrong,
+  // names the axis on which it was wrong (almost always 'which
+  // version'), and reports the consequence." Each pair below
+  // demonstrates the canonical pattern with a different revision
+  // axis: cost-bearer / timing / scope / kindness-direction /
+  // arrival-order.
+  //
+  // Each prediction line sets a canonical seer_prediction_<n>_made
+  // flag; each revision line gates on that flag so the cross-time
+  // pair canonically fires in canonical sequence.
+  // ═════════════════════════════════════════════════════════════════════
+
+  // ─── Pair 1: Cost-bearer revision (the cost lands on the bench, not you) ─
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "seer.transmission.prediction.cost_to_you",
+    text:
+      "The next match will cost you. The cost will land on you within " +
+      "the same hand. I am noting it now so I can revise it later if " +
+      "I am wrong about which hand.",
+    surfaces: ["transmission"],
+    minAct: 3,
+    requiresTrustBand: "Wary",
+    cooldownKey: "seer.prediction.cost_to_you",
+    maxPlays: 1,
+    setsFlags: ["seer_prediction_cost_to_you_made"],
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "seer.transmission.revision.cost_landed_on_bench",
+    // Canonical §1.4 tell #1 + §1.2 cadence rule #2 version-pivot.
+    text:
+      "I told you the cost would land on you. I was wrong about which " +
+      "version of cost. The cost landed on the bench, not on you. The " +
+      "bench has paid before. The bench is built for it.",
+    surfaces: ["transmission"],
+    minAct: 5,
+    requiresTrustBand: "Witnessed",
+    unlockFlags: ["seer_prediction_cost_to_you_made"],
+    cooldownKey: "seer.revision.cost_landed_on_bench",
+    maxPlays: 1,
+  },
+
+  // ─── Pair 2: Timing revision (seven days → eleven days) ─────────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "seer.transmission.prediction.engineer_seven_days",
+    text:
+      "You will receive a transmission from the Engineer within seven " +
+      "days. The Engineer will not say my name. The Engineer will say " +
+      "the staff.",
+    surfaces: ["transmission"],
+    minAct: 3,
+    requiresTrustBand: "Wary",
+    cooldownKey: "seer.prediction.engineer_seven_days",
+    maxPlays: 1,
+    setsFlags: ["seer_prediction_engineer_seven_days_made"],
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "seer.transmission.revision.engineer_eleven_days",
+    // Canonical timing-axis revision: she names the canonical "seven
+    // was the approximation; eleven was the duration" pivot. The
+    // §1.2 rule #2 discipline holds — one axis revised per breath.
+    text:
+      "The transmission arrived on day eleven, not day seven. I was " +
+      "wrong about which version of seven. Seven was the approximation; " +
+      "eleven was the duration. The Engineer said the staff. The staff " +
+      "was the part I was right about.",
+    surfaces: ["transmission"],
+    minAct: 4,
+    requiresTrustBand: "Witnessed",
+    unlockFlags: ["seer_prediction_engineer_seven_days_made"],
+    cooldownKey: "seer.revision.engineer_eleven_days",
+    maxPlays: 1,
+  },
+
+  // ─── Pair 3: Scope revision (faction → category) ────────────────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "seer.transmission.prediction.three_factions",
+    text:
+      "The choice in front of you affects three faction relationships. " +
+      "You will not see the third one shift until Act 6. I am noting " +
+      "all three so the third does not surprise you.",
+    surfaces: ["transmission"],
+    minAct: 4,
+    requiresTrustBand: "Witnessed",
+    cooldownKey: "seer.prediction.three_factions",
+    maxPlays: 1,
+    setsFlags: ["seer_prediction_three_factions_made"],
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "seer.transmission.revision.third_was_category",
+    // Canonical category-vs-faction pivot per §1.4 tell #4 (the
+    // category sentence). The Programmer's shelf canon lands here
+    // — cross-canon with §4.6 + the ask_seer_about_programmer topic.
+    text:
+      "I told you three faction relationships would shift. I was wrong " +
+      "about which version of three. The third was a category, not a " +
+      "faction. The category was 'the Programmer's shelf.' You moved " +
+      "on it. The Programmer noticed. The Authority did not.",
+    surfaces: ["transmission"],
+    minAct: 6,
+    requiresTrustBand: "Witnessed",
+    unlockFlags: ["seer_prediction_three_factions_made"],
+    cooldownKey: "seer.revision.third_was_category",
+    maxPlays: 1,
+  },
+
+  // ─── Pair 4: Kindness-direction revision (Architect → you) ──────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "seer.transmission.prediction.kindest_costs_architect",
+    text:
+      "The version of the next conversation that is kindest to you may " +
+      "also cost the Architect. I am preparing both transmissions. I " +
+      "will ship whichever version landed.",
+    surfaces: ["transmission"],
+    minAct: 3,
+    requiresTrustBand: "Wary",
+    cooldownKey: "seer.prediction.kindest_costs_architect",
+    maxPlays: 1,
+    setsFlags: ["seer_prediction_kindest_costs_architect_made"],
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "seer.transmission.revision.architect_did_not_pay",
+    // Canonical asymmetric-kindness inversion (§1.4 tell #2 + tell #1
+    // combined). The pair shows the Seer revising her own kindness-
+    // axis prediction.
+    text:
+      "I told you the kindest version might cost the Architect. I was " +
+      "wrong about which version of cost. The Architect did not pay. " +
+      "You did. The asymmetry inverted. I am noting the inversion.",
+    surfaces: ["transmission"],
+    minAct: 5,
+    requiresTrustBand: "Witnessed",
+    unlockFlags: ["seer_prediction_kindest_costs_architect_made"],
+    cooldownKey: "seer.revision.architect_did_not_pay",
+    maxPlays: 1,
+  },
+
+  // ─── Pair 5: Arrival-order revision (you ask first → I told first) ──
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "seer.transmission.prediction.you_will_ask_first",
+    text:
+      "You will ask me about the seal before I tell you about the seal. " +
+      "I am noting the order so I can revise it if I am wrong about " +
+      "which version of you arrived.",
+    surfaces: ["transmission"],
+    minAct: 4,
+    requiresTrustBand: "Witnessed",
+    cooldownKey: "seer.prediction.you_will_ask_first",
+    maxPlays: 1,
+    setsFlags: ["seer_prediction_you_will_ask_first_made"],
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "seer.transmission.revision.i_told_you_first",
+    // Canonical inversion-of-arrival-order revision. The pivot axis
+    // here is "first" — she predicted you would arrive first; she
+    // arrived first. The disclosure stands either way per the
+    // canonical "the disclosure stands" register.
+    text:
+      "I told you you would ask first. I was wrong about which version " +
+      "of first. I told you first; you did not ask. The order inverted. " +
+      "The disclosure stands either way.",
+    surfaces: ["transmission"],
+    minAct: 5,
+    requiresTrustBand: "Witnessed",
+    unlockFlags: ["seer_prediction_you_will_ask_first_made"],
+    cooldownKey: "seer.revision.i_told_you_first",
+    maxPlays: 1,
+  },
+
+  // ═════════════════════════════════════════════════════════════════════
   // CROSS-TIME PRE-RECORDING MECHANIC DIALOG (Phase 6b.1 sub-chunk E)
   //
   // Per the_seer.md §2.3 cross-time canon: every Seer line is
