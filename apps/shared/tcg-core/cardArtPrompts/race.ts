@@ -229,13 +229,66 @@ const RACE_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "Legendary unit. The horizontal optical bar (instead of vertical/round lenses) differentiates Archon-tier from Worker/Watchtower. Three keywords (provoke + forcefield + deathwatch) rendered simultaneously. Cool-cyan deathwatch-script DELIBERATELY differs from Hierarchy phosphor-green — the same mechanic, two completely different visual idioms per affiliation. Generic-Archon must NOT echo The Architect Imprint set (he is the BUILDER, this is one of his BUILT — distinct visual languages).",
   },
+
+  // ─── NE-YON RACE — Dischordian successor-humans, balanced + draw + flying ───
+  {
+    cardId: "s1_race_neyon_01",
+    sceneDelta:
+      "Mid-shot. A Ne-Yon Adept — a young human-presenting figure (early-twenties, indeterminate ethnicity, generic-mixed features), in plain Dischordian apprentice-robes (cream-and-warm-grey layered cloth, no visible faction-markers). They sit cross-legged on a low platform in a plain meditation-loft with a wide arched window behind them showing dawn light. Their eyes are half-lidded, focused. One hand is open in their lap; the other is raised, palm-out — a single warm slip of paper drifts up from the open hand toward the upper-third of the frame (draw-1 visualized). A faint warm-amber glow at their temples suggests heightened cognition (the eleven-percent-of-the-brain visualization). No special gear, no aura, no glow-rings — just a quiet practitioner using slightly more of themselves than the room expects.",
+    moodKeywords: [
+      "the same brain the first humans had",
+      "eleven percent — eleven percent more than the other races believe possible",
+      "plain meditation-loft at dawn",
+      "quiet practitioner, slightly more aware",
+    ],
+    palette:
+      "Dischordian cream-and-warm-grey apprentice-robes + warm dawn ambient light + warm cream meditation-platform + faint amber temple-glow + warm amber paper-drift",
+    composition:
+      "Mid-shot front three-quarter, Adept seated cross-legged at frame-centre, arched dawn-window behind",
+    notes:
+      "Uncommon unit. Generic-mixed features must NOT match any named character. The Ne-Yon visual language as a RACE is distinct from the Ne-Yon CLASS (which uses overt class-tokens) — the race is plain, restrained, faction-neutral, with the cognitive heightening rendered ONLY as faint temple-glow.",
+  },
+  {
+    cardId: "s1_race_neyon_02",
+    sceneDelta:
+      "Wider mid-shot. A Ne-Yon Bondwalker — a thirty-something human-presenting figure, generic-mixed features, in lightweight traveling cream-and-warm-grey wear, mid-flight on the back of a large pet-species (a Dischordian sky-raptor — a falconid bird the size of a small horse, deep-grey plumage flecked with warm-cream, intelligent gold-flecked eyes). The Bondwalker rides bareback (no saddle — the bird agreed to carry them, no contract beyond the agreement). Their posture is leaned-forward in flight-stance, one hand on the bird's shoulder-feathers, the other extended in balance. Both rider and bird have a SHARED faint warm-cream bond-shimmer running between them at the contact-point — the negotiation-as-bond visualized. Below them, a Dischordian valley at midmorning recedes — green meadows, distant terraced hills, a single warm village in the deep distance. Faint cool-cream wind-trails behind both rider and bird (flying visualized).",
+    moodKeywords: [
+      "any pet species that has agreed to ride them back",
+      "the negotiation is the first thing they teach",
+      "the academy is sometimes a bird",
+      "bareback, no saddle — only the agreement",
+    ],
+    palette:
+      "Dischordian cream-and-warm-grey traveling-wear + deep-grey raptor plumage with warm-cream flecks + warm midmorning sky + green valley below + faint warm-cream bond-shimmer + cool wind-trails",
+    composition:
+      "Wider mid-shot side three-quarter, Bondwalker and raptor mid-flight at frame-centre, valley receding at lower-third",
+    notes:
+      "Rare unit. The bareback-no-saddle is the canonical visualization of 'the negotiation is the bond.' Generic-Ne-Yon-rider face must NOT match any named character. Sky-raptor is a Dischordian fauna-species (consistent with established setting) and does NOT need to be a previously-rendered specific creature.",
+  },
+  {
+    cardId: "s1_race_neyon_03",
+    sceneDelta:
+      "Mid-shot. Kael, First of the Ne-Yon — a woman in her late-twenties at the moment of her first crossing into Ne-Yon, standing at the threshold of a Dischordian gateway-hall at dawn. She is generic-pre-Fall-human in features — long warm-brown hair, warm-amber eyes, a quiet smile. She wears archaic pre-Fall Atarion traveling-clothes (warm cream and dark-leather), simpler than later-era garments. Her posture is forward, mid-step, having just crossed through a low stone-arched gateway. Around her, faint warm-amber gateway-glow lingers (the moment of crossing). Faint cool-cream wing-shape projection-echoes (flying visualized as legacy-projection, NOT literal wings) trail behind her shoulders. Faint warm cream rush-trails leak from her trailing heel. Two warm slips of paper drift up from above her shoulder (draw-2 visualized). Her smile is the SPECIFIC kind of smile that her descendants will carry — a smile that begins at the inner-corner of the eye and reaches the mouth slightly later. The gateway-arch itself is plain, ancient, unornamented. Behind her through the arch, a hint of pre-Fall Atarion architecture; ahead of her, the open Dischordian dawn.",
+    moodKeywords: [
+      "the first human the Dischordian cosmology let through the gate",
+      "every Ne-Yon you meet will be wearing her smile somewhere",
+      "without knowing why",
+      "smile begins at the inner-corner of the eye",
+    ],
+    palette:
+      "Dischordian warm cream gateway-light + dark-leather Atarion traveling-wear + warm-brown hair + warm-amber eyes + cool wing-shape projection-echoes + warm rush-trails + warm amber paper-drifts",
+    composition:
+      "Mid-shot front three-quarter, Kael at frame-centre stepping through arched gateway, dawn ahead, pre-Fall Atarion architecture hinted behind",
+    notes:
+      "Legendary unit. CRITICAL spoiler-discipline: Kael as the historical First-of-the-Ne-Yon is established lore by end of Epoch 2. Her IDENTITY-AS-THE-SOURCE (Kael Reborn) is an Act 5 reveal and MUST NOT be visually confirmed here. Render her as a distinctly pre-Fall-historical figure — warm-amber palette, archaic traveling-clothes, no brilliant-white-dominance, no toxic-green outer ring (those are The Source's visual signatures). The smile-detail is canon-direct from flavor and is what every later Ne-Yon inherits. NO visual rhyme with The Source's Imprint card.",
+  },
 ] as const;
 
 /**
  * Race faction's prompt registry, keyed by card id.
  *
- * Currently populated: 4 / 5 races (Human, Demagi, Quarchon, Synthetic).
- * TODO: neyon.
+ * Currently populated: 5 / 5 races — COMPLETE
+ * (Human, Demagi, Quarchon, Synthetic, Ne-Yon).
  */
 export const RACE_CARD_ART_PROMPTS: Readonly<Record<string, CardArtPrompt>> =
   Object.freeze(
