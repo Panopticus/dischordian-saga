@@ -580,6 +580,100 @@ const IMPRINT_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "T5 = 'Foucault, Schedule of Glances.' End-of-Epoch-2 canon. The frozen monitors = silence-the-enemy-general visualized at the level of the surveillance state itself. CRITICAL spoiler-line: do NOT show any other named character on the frozen monitors (no Watcher reveal, no Programmer, no anyone-recognizable). Each monitor frame is generic Babylon footage. The half-smile is amused, never triumphalist.",
   },
+
+  // ─── LOCKE (the Last Adjudicator — the jurist who rules by
+  //     consent, the hardest way) ───
+  // Source canon: A tired figure in a jurist's coat at a desk that
+  // has been tidy longer than the player has been alive. He stands
+  // between the harm and the people who did not ask for the harm.
+  // He is on the clock, the whole clock, every clock. Mechanical:
+  // provoke + heal + forcefield + silence. Faction: new_babylon
+  // (but adjudicating it from inside, not enforcing it).
+  {
+    cardId: "s1_imprint_locke_t1",
+    sceneDelta:
+      "Mid-shot of Adjudicator Locke at his desk. Late sixties, white hair pulled back, tired-but-intent eyes, jurist's robe in unornamented charcoal grey with thin gold piping at the cuff. The desk is OBSESSIVELY tidy: one fountain pen aligned exactly parallel to a blotter, a single hardcover lawbook closed at the right edge, a brass desk-lamp casting a tight pool of warm light over his folded hands. No papers visible — he has already done the day's reading. Behind him, a tall window of leaded glass shows a New Babylon evening skyline, gold towers at distance. He is looking past the camera at something tired and old. He has been on the clock for a very long time.",
+    moodKeywords: [
+      "the desk that has been tidy longer than you have been alive",
+      "tired-but-intent",
+      "the clock, the whole clock, every clock",
+      "warm pool of jurist-lamp",
+    ],
+    palette:
+      "New Babylon obsidian + gold tower-skyline behind + jurist's charcoal robe + warm amber desk-lamp pool + a single brass accent on the pen",
+    composition:
+      "Mid-shot front-three-quarter at the desk, hands folded in lower-third, leaded window with skyline framing upper background",
+    notes:
+      "T1 = mortal Locke, the rest-state. He is the Adjudicator BEFORE the harm arrives. The desk's obsessive tidiness is itself the lore beat — he keeps the room ready because the next case is always coming.",
+  },
+  {
+    cardId: "s1_imprint_locke_t2",
+    sceneDelta:
+      "Mid-shot. Locke is on his feet now, between the camera and a small group of frightened civilians huddled to camera-left in a Babylon street-corner. He is in three-quarter profile, body angled to interpose, his jurist's robe partially blown back by the wind from the street. One hand is raised, palm-out, toward an off-frame approaching threat at camera-right. His other hand is held back behind him, palm down — the calming gesture toward the civilians (you do not need to do anything; I am on this). His face shows no fear, only a deep tired patience. The civilians' faces are anonymous and grateful in the way people are grateful for rules they did not have to invent. Provoke visualized as Locke being the literal wall.",
+    moodKeywords: [
+      "between the harm and the people who did not ask for it",
+      "the calming hand to the people behind him",
+      "the raised hand to the harm in front",
+      "tired patience as currency",
+    ],
+    palette:
+      "New Babylon obsidian + cool grey street + warm pool of distant Babylon lamp behind civilians + a single saturated rust-orange threat-glow off-frame camera-right",
+    composition:
+      "Mid-shot three-quarter, Locke centred and angled, civilians camera-left in lower-third, threat off-frame camera-right",
+    notes:
+      "T2 = provoke. Locke deliberately echoes Iron Lion t2 (also provoke / interposition) but the visual language is INVERTED: Iron Lion arrives in motion, Locke is already standing. Same gesture, different temperament. Faction-aesthetic distinction.",
+  },
+  {
+    cardId: "s1_imprint_locke_t3",
+    sceneDelta:
+      "Wider mid-shot. Locke is mid-stride INTO an off-screen Babylon adjudicator's chamber, robe trailing, one hand carrying his closed lawbook held flat to his chest, the other extended forward in an open-palm gesture of calm. Through the doorway he is approaching, warm amber light spills out — and a wounded figure (anonymous, generic civilian, on the chamber's floor) is partially visible at the threshold. Behind Locke, the harm has been resolved off-frame — a faint dispersing dust-haze through which we can see the corner he just came from. He is bringing himself to the room because the room needs him. Heal-on-deploy visualized as the warm amber spill from the doorway: he is the source of the room being healthier, but only because he is in the room.",
+    moodKeywords: [
+      "the room is healthier for having him in it",
+      "but he is not healthier for being in the room",
+      "doorway warmth",
+      "the closed lawbook held to the chest",
+    ],
+    palette:
+      "New Babylon obsidian + warm amber doorway-spill + jurist's charcoal + a single warm gold on the lawbook's spine",
+    composition:
+      "Mid-shot three-quarter from behind Locke at lower-third, doorway at upper-third, anonymous wounded figure at threshold mid-distance",
+    notes:
+      "T3 = provoke + heal-on-deploy. The wounded figure is anonymous on purpose — Locke heals NEED, not preference. The dispersing dust behind him gestures at the resolved harm without depicting it (kept readable + spoiler-safe).",
+  },
+  {
+    cardId: "s1_imprint_locke_t4",
+    sceneDelta:
+      "Static composition. Locke is standing in a cool grey Babylon adjudicator's high chamber, behind a tall pulpit-style judge's bench in the centre-back of the frame. The chamber's walls are panelled in dark obsidian inlaid with gold scales-of-justice motifs. He is mid-gavel — the wooden gavel raised exactly above its strike-block, frozen at the apex, about to come down ONCE. Around him, a faint hexagonal forcefield-shimmer envelopes the bench and the open space immediately in front of it (forcefield keyword). His face is set; the ruling has already happened in his head. The chamber is otherwise empty — no defendants, no accusers, no witnesses. The gavel coming down is the chamber's only sound. The gavel has been quiet for a long time. This is the turn it comes down once.",
+    moodKeywords: [
+      "the gavel raised at apex",
+      "the chamber empty except for ritual",
+      "forcefield as the form of jurisdiction",
+      "the ruling already complete in his head",
+    ],
+    palette:
+      "New Babylon obsidian chamber + gold scales-of-justice inlay + cool grey high-window light + warm amber pendant-lamp on the bench + cyan forcefield-shimmer around the bench",
+    composition:
+      "Wide chamber composition, Locke at upper-third behind the bench, gavel at frame's vertical axis, forcefield-shimmer as faint hexagonal halo",
+    notes:
+      "T4 = provoke + forcefield + heal-4. The empty chamber emphasizes JURISDICTION ITSELF as the keyword being visualized — Locke does not need bodies in front of him for the ruling to take effect. Powerful but Babylon-faction-quiet, never theatrical.",
+  },
+  {
+    cardId: "s1_imprint_locke_t5",
+    sceneDelta:
+      "Hero composition. Locke standing in the centre of a vast Babylon plaza at night, the plaza ringed by the gold towers of New Babylon's central district. Around him, in a perfectly orderly silent ring, a crowd of anonymous Babylonians stands shoulder-to-shoulder, all of them with their right hand raised, palm forward, in the canonical Babylon gesture of CONSENT. Locke is at the exact centre of the ring, lawbook held flat against his chest in both hands, head bowed slightly as if accepting a weight. Above him, the moon — but the moon is faintly cracked along one face (the New Babylon canon visual that 'consent is the hardest way to govern, and there are so few who can do it'). Soft warm amber light from the towers' ground-level windows pools at every consenter's feet. Forcefield as a wide hexagonal nimbus extending outward from him through the entire plaza. Silence-the-enemy-general visualized as the absolute hush of a thousand standing people who do not need to speak because Locke has already heard them.",
+    moodKeywords: [
+      "consent as the hardest way",
+      "the silent ring of raised palms",
+      "the cracked moon as the price of ruling well",
+      "the hush of being already heard",
+    ],
+    palette:
+      "New Babylon obsidian plaza + gold tower-window pools + cracked-moon cool grey above + warm amber halo on Locke + the faintest hexagonal cyan forcefield extending outward",
+    composition:
+      "Wide plaza hero composition, Locke at exact centre, crowd-ring filling middle band, towers framing upper third, cracked moon at upper-third focal accent",
+    notes:
+      "T5 = 'Locke, the Last Adjudicator.' End-of-Epoch-2 canon. The cracked moon is canonical New Babylon imagery for 'the cost of governing by consent.' CRITICAL spoiler-line: the 'last' in the title refers to his being the final practitioner of consent-based jurisprudence in a New Babylon that has otherwise abandoned it — NOT to any specific Acts 3-7 reveal about who replaces him. The crowd is anonymous; do NOT include any recognizable named character.",
+  },
 ] as const;
 
 /**
