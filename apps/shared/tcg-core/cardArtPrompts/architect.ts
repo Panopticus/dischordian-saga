@@ -346,16 +346,101 @@ const ARCHITECT_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "Rare unit. The 'attentive audience leaning forward' is the canonical visualization of consensus-manipulation. Generic-charismatic distinguished-grey hair must NOT match any specific named character. Forcefield + silence-haze dual-rendering matches both Architect-faction visual idioms.",
   },
+  {
+    cardId: "s1_char_100",
+    sceneDelta:
+      "Mid-shot. The Collector at puppet-state — same chrome-and-cool-cyan harvester body as s1_char_022, but visibly PUPPETED: a faint translucent cool-cyan ARCHITECT-HAND-OF-INFLUENCE descends from upper-frame, fingers spread, and threads of cool-cyan control-light extend down from each fingertip into the Collector's body (one thread to the head, two to the shoulders, two to the elbows, two to the wrists). The Collector's pose is mid-action of REACHING toward an anonymous figure at lower-right edge (only the figure's hand visible — the figure is asking 'what was your name?' to which the Collector's mid-extension replies 'it does not matter — you never had one'). The Collector's optical-array is faintly DIMMER than s1_char_022 (the puppet does not need to think). Behind, an Architect-cyan harvest-chamber.",
+    moodKeywords: [
+      "the Architect's hand reaches through the Collector",
+      "what was your name?",
+      "it does not matter — you never had one",
+      "translucent puppet-threads from fingertips",
+    ],
+    palette:
+      "Chrome-and-cool-cyan harvester body + cool-cyan optical-array (dimmer than s1_char_022) + translucent cool-cyan Architect-hand from upper-frame + cool-cyan puppet-threads + cool harvest-chamber + warm anonymous figure-hand at lower-right",
+    composition:
+      "Mid-shot front three-quarter, Collector at frame-centre with puppet-threads from upper-frame, anonymous hand at lower-right edge",
+    notes:
+      "Epic unit. CRITICAL distinction from s1_char_022: this is the Collector AS PUPPET (Architect's hand visible) rather than the Collector at autonomous battle-deployment. The dimmer optical-array communicates 'the puppet does not need to think.' Anonymous victim-hand preserves no-character-conflation.",
+  },
+  {
+    cardId: "s1_char_101",
+    sceneDelta:
+      "Mid-shot. Panoptic Warden Foucault at battle-scale — male-presenting figure in late-fifties, generic-Foucault features (consistent with Foucault Imprint set: bald, scholarly-thoughtful), but rendered in formal Architect-Panoptic warden-uniform: deep slate-and-cool-cyan administrative robes with chrome lapels. The CRITICAL canonical detail: his lower jaw is REPLACED with chrome — a precision-machined chrome jaw that articulates visibly when he speaks (the canonical 'chrome jaw clicks with each question' detail). He stands at an Architect interrogation-floor, mid-action of mid-question — chrome jaw caught mid-articulation. In his hand, a small chrome interrogation-clipboard with a single sheet (the answer is already known). His face is composed-grave, almost ceremonial. Cool-cyan-and-chrome interrogation-chamber behind.",
+    moodKeywords: [
+      "his chrome jaw clicks with each question",
+      "the answers are already known",
+      "the interrogation is merely ceremony",
+      "composed-grave, almost ceremonial",
+    ],
+    palette:
+      "Architect-Panoptic deep slate-and-cool-cyan warden-uniform + chrome lapels + chrome lower jaw + chrome interrogation-clipboard + cool-cyan interrogation-chamber + warm administrative-light",
+    composition:
+      "Mid-shot front three-quarter, Foucault at frame-centre mid-question with chrome jaw, clipboard in hand",
+    notes:
+      "Rare unit. CRITICAL canon-tie: chrome jaw is canon-direct from flavor and is also the Foucault Imprint set's signature feature (consistent visualization). Generic-Foucault-features (bald, scholarly-thoughtful) maintain visual continuity. Architect-Panoptic uniform contextualizes him within the surveillance-state apparatus.",
+  },
+  {
+    cardId: "s1_char_102",
+    sceneDelta:
+      "Mid-shot. An Arena Enforcer — humanoid-mechanical chrome-and-deep-crimson Architect arena-functionary, approximately 2m tall, with a plain rectangular cool-cyan optical visor at the head. Body has heavy chrome plating with deep-crimson Arena-rotation-glyphs etched at the chest. They stand at the entrance to an Architect Arena coliseum-floor, mid-action of EXTENDING ONE ARM TOWARD an anonymous citizen-figure (only the citizen's back visible at frame-right edge, walking forward into the Arena). The arm-extension is FIRM but not violent — administrative inevitability. Faint warm provoke-glow rims the Enforcer's leading shoulder. The Arena-coliseum's floor is visible at lower-third with crimson-and-chrome rotation-paint marking lines. Cool sky above; warm Arena-lights at deep-distance.",
+    moodKeywords: [
+      "your rotation has arrived",
+      "there is no deferral",
+      "there is no appeal",
+      "administrative inevitability",
+    ],
+    palette:
+      "Chrome-and-deep-crimson plating + cool-cyan optical visor + deep-crimson rotation-glyphs + warm provoke-rim + crimson-and-chrome Arena-floor paint + cool sky + warm Arena-lights deep-distance",
+    composition:
+      "Mid-shot front three-quarter, Enforcer at frame-centre with arm extended, anonymous citizen at frame-right edge walking into Arena",
+    notes:
+      "Common unit. Anonymous citizen (only back visible) preserves no-character-conflation. The 'firm but not violent' framing keeps the Enforcer in the administrative-inevitability mode (similar to Compliance Officer's procedural calm). Crimson rotation-paint canonically ties to Arena-system imagery.",
+  },
+  {
+    cardId: "s1_char_103",
+    sceneDelta:
+      "Wider mid-shot. An Inception Ark Sentry — a tall slim humanoid-mechanical sentinel built into the inner hull of a vast Architect orbital Ark. Body is integrated into the hull-wall: lower body merges into the Ark's chrome substructure, upper torso projects forward as a watchful figure. Head bears a single tall vertical cool-cyan ranged-targeting lens (NOT the dominant lens of Oculus Sentinel, NOR the dual-lens of Chronoguard — a tall narrow vertical slit-format optimized for long-range tracking). Both arms hold a long chrome ranged-rifle with cool-cyan emitter at the muzzle, weapon raised in a tracking position toward an off-frame target. Faint cool-cyan ranged-targeting laser-pip emits from the rifle's muzzle. Behind the sentry, the curved interior of the Ark hull extends — port-windows showing distant starlight on the other side.",
+    moodKeywords: [
+      "the Ark remembers every wavelength that has ever approached its hull",
+      "the sentries ensure none approach twice",
+      "tall vertical ranged-targeting slit-lens",
+      "lower body merged into hull-wall",
+    ],
+    palette:
+      "Chrome-and-cool-cyan integrated hull-substructure + tall vertical cool-cyan slit-lens + chrome ranged-rifle + cool-cyan ranged-targeting laser-pip + cool deep starlight through port-windows",
+    composition:
+      "Wider mid-shot front three-quarter, Sentry integrated into hull-wall at frame-centre, rifle in tracking-position, curved hull receding behind",
+    notes:
+      "Common unit. The integrated-into-hull lower-body is the visual key to 'sentries built into the Ark itself.' Tall vertical slit-lens differentiates from other Architect optical formats (Oculus dominant, Chronoguard dual, Watchtower 4-lens, Archon horizontal). NO human face (mechanical sentinel).",
+  },
+  {
+    cardId: "s1_char_104",
+    sceneDelta:
+      "Wider mid-shot. The White Oracle in her processing-loop captivity — within the central suspension chamber of an Architect deep-cyan oracle-processing facility. The Oracle herself is suspended within a tall vertical cool-cyan suspension-pillar at frame-centre — her body fully visible but rendered as TRANSLUCENT-WHITE (consistent with Oracle Imprint set's white-robed silver-mist visual): white robes, silver-mist hair, eyes-closed in processing-trance. The suspension-pillar's outer surface bears Architect-cyan circuitry. Around her, multiple chrome-and-cool-cyan apparatus-arms extend inward from the chamber walls, monitoring her. Critically, faint translucent cool-cyan SPEECH-PATTERN visualizations radiate outward from her mouth-region — the words are leaving her, but they are now the ARCHITECT'S words, not hers (visualized as the speech-pattern showing Architect-glyph-shapes rather than Oracle-aurora-script). The Oracle's face is calm, captured but not broken. Cold deep-cyan ambient.",
+    moodKeywords: [
+      "she speaks with the Oracle's voice, sees through the Oracle's eyes",
+      "wears the Oracle's fate",
+      "but the words are the Architect's",
+      "captive but not broken",
+    ],
+    palette:
+      "Translucent-white Oracle robes + silver-mist hair + cool-cyan suspension-pillar + Architect-cyan circuitry + chrome monitoring-apparatus + Architect-glyph speech-patterns + cold deep-cyan ambient",
+    composition:
+      "Wider mid-shot front three-quarter, Oracle suspended in pillar at frame-centre, monitoring-arms extending inward",
+    notes:
+      "Legendary unit. CRITICAL spoiler-discipline: this card depicts the captive White Oracle (Architect's-puppet form) — visual continuity with Oracle Imprint set's white-robed-silver-mist features but transposed into Architect-cyan suspension-context. The 'Architect-glyph speech-patterns' instead of Oracle-aurora-script is the visual key to 'the words are the Architect's.' Echoes Oracle Class spell s1_class_oracle_05's 'shapes the leak takes' framing — but that card showed the SIGNAL leaking out; this card shows the SOURCE captive. Same character, two states.",
+  },
 ] as const;
 
 /**
  * Architect faction's prompt registry, keyed by card id.
  *
- * Currently populated: 18 / 63 cards
+ * Currently populated: 23 / 63 cards
  * (gen_architect, gen_authority, s1_char_006-009, s1_char_013,
  *  s1_char_015, s1_char_016, s1_char_019, s1_char_021,
  *  s1_char_022, s1_char_024, s1_char_030, s1_char_035,
- *  s1_char_038, s1_char_039, s1_char_042).
+ *  s1_char_038, s1_char_039, s1_char_042, s1_char_100-104).
  */
 export const ARCHITECT_CARD_ART_PROMPTS: Readonly<Record<string, CardArtPrompt>> =
   Object.freeze(
