@@ -1652,6 +1652,108 @@ const IMPRINT_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "T5 = 'The White Oracle, Still Broadcasting.' End-of-Epoch-2 canon. CRITICAL: the sundered-pair architectural absence is a DIFFERENT arch-pair than Dreamer t5's — visual rhyme without identity-conflation. The Architect-cyan glint at the diagram's outer ring is the canonical containment marker (the loop is imposed by him); rendered very subtly to maintain the established Epoch 2 lore (the loop is leaking) without spoiling Acts 5-7 reveals about the Architect-Oracle relationship. Face partial under veil throughout. NO direct second figure (no Architect, no Dreamer, no anyone) in this composition.",
   },
+
+  // ─── THE SOURCE (Cheerful Unsurvivable — the cheerful end of every
+  //     conversation, and the conversations he is cheerfully ending
+  //     are not, strictly speaking, the conversations the people in
+  //     them signed up for) ───
+  // Source canon: A smiling androgynous figure in brilliant light;
+  // two small children dance in front, the dance does not quite
+  // look voluntary. The halo around him is photons and apology in
+  // the same proportion. He wants you to live; he wants the way
+  // you live to be a version he approves of. Mechanical: drain +
+  // forcefield + heal + silence. Faction: thought_virus.
+  // SPOILER NOTE: The Source's TRUE identity (Kael Reborn, per the
+  // §9 Discovery video) is an Acts 5+ reveal. End of Epoch 2 canon
+  // confirms only: smiling, androgynous, brilliant light, two
+  // dancing children, the photon-and-apology halo, the thought-
+  // virus faction alignment. The 'Sovereign of Terminus' / 'Kael
+  // Reborn' identity stays gated.
+  {
+    cardId: "s1_imprint_the_source_t1",
+    sceneDelta:
+      "Mid-shot. A smiling androgynous figure in brilliant flat-white light stands on a simple chrome plinth in a bare gallery space. They wear unornamented white robes that fall in straight folds, no jewelry, no insignia. Their face is rendered with deliberate softness — features blurred at the edges by the halo of brilliant light around their head and shoulders, the halo composed of countless tiny luminous particles that drift slowly outward from their body. Their smile is genuinely warm, not theatrical. In front of them, on the chrome floor, two small children — anonymous-young, indeterminate-age — are dancing in slow synchronized motion. Their dance is technically perfect; it does not quite look voluntary. NO faction tells visible. The Thought-Virus toxic-green is ABSENT from this frame.",
+    moodKeywords: [
+      "the smile is genuinely warm",
+      "the dance does not quite look voluntary",
+      "halo of luminous particles slowly drifting",
+      "deliberate softness at the face's edges",
+    ],
+    palette:
+      "Brilliant flat-white halo + chrome plinth + cool grey gallery + a single warm cream accent on the children's white-cotton garments + ZERO toxic-green at this tier",
+    composition:
+      "Mid-shot front three-quarter, Source on plinth at upper-third, two dancing children in the foreground at lower-third, gallery receding behind",
+    notes:
+      "T1 = the canonical visual identity. CRITICAL: the children must read as ANONYMOUS-YOUNG and indeterminate-age — not specific characters. The Thought-Virus faction palette (toxic green, void black) is ABSENT in T1; brilliant white + chrome only. The toxic-green tells escalate at later tiers per the keyword reveals.",
+  },
+  {
+    cardId: "s1_imprint_the_source_t2",
+    sceneDelta:
+      "Mid-shot. The Source in three-quarter, hands extended outward toward an off-frame audience (anonymous, implied). From their open palms, a faint THOUGHT-VIRUS-green-tinged motes-drift extends outward — NOT obviously corrupting, just gentle, the way pollen drifts from a fragrant tree. Around them, six anonymous figures (the audience implied earlier, now visible as silhouettes at frame's lower edge) are visibly RELAXING — postures softening, shoulders dropping. The Source is taking a little from each of them; they do not yet know. Drain visualized as the slow gentle pollen-drift FROM the audience BACK TO the Source. Their smile remains genuinely warm. The halo has acquired its first faint tinge of green at the perimeter — the toxic-green appears as a subtle outermost edge of the halo, not yet dominant.",
+    moodKeywords: [
+      "he loves everyone; he takes a little from everyone he loves",
+      "pollen drift from a fragrant tree",
+      "six anonymous figures relaxing",
+      "the first green at the halo's outer edge",
+    ],
+    palette:
+      "Brilliant white halo + chrome floor + a SUBTLE toxic-green tinge at halo perimeter + warm cream on Source's robes + cool grey on the relaxing anonymous figures",
+    composition:
+      "Mid-shot front three-quarter, Source at frame-centre with arms outward, six audience-silhouettes at lower-third receding, pollen-drift mid-air across composition",
+    notes:
+      "T2 = drain. The pollen-drift TOWARD the Source (not from him outward to them) is the faction-distinct drain visualization — gentle inward draw, not violent extraction. Source is the only imprint whose drain mechanic is RECEIVED-AS-LOVE rather than felt-as-loss. Toxic-green tinge introduced subtly at halo perimeter.",
+  },
+  {
+    cardId: "s1_imprint_the_source_t3",
+    sceneDelta:
+      "Mid-shot. The Source has stepped down from the plinth and is mid-stride toward camera in a small chrome-and-white ceremonial chamber. They have one hand extended palm-up forward, and from their palm, a single warm-cream healing-light is being directed off-frame (toward an off-camera 'general' figure). The healing-light is genuinely warming — cream and gold, no green. Behind the Source, two children continue their slow synchronized dance, but now there are FOUR children dancing in the same perfect synchrony — two more have joined since T1. Their dance is technically perfect; it does not quite look voluntary. The Source's halo has acquired a more visible tinge of toxic-green at the perimeter — still not dominant, but now noticeable.",
+    moodKeywords: [
+      "he wants you to live; he wants the way you live to be a version he approves of",
+      "four children in perfect synchrony",
+      "warm healing-light, no green in it",
+      "the green now noticeable at the halo's edge",
+    ],
+    palette:
+      "Brilliant white halo with VISIBLE toxic-green at perimeter + chrome chamber + warm cream healing-light + a single saturated red on a small chrome console at the chamber's edge",
+    composition:
+      "Mid-shot three-quarter, Source mid-stride at frame-centre, four children dancing at lower-third, healing-light extending camera-right",
+    notes:
+      "T3 = drain + heal-on-deploy-5. The healing is genuinely warm — Source canonically heals truly, not as trick. The escalation is in the dancing children (now four) and the halo's increasing green-tinge — both subtle visual indicators of his accumulating influence.",
+  },
+  {
+    cardId: "s1_imprint_the_source_t4",
+    sceneDelta:
+      "Wider mid-shot. The Source stands at the centre of a vast white-and-chrome ceremonial hall, surrounded by EIGHT children dancing in slow synchronized motion in concentric circles around him. Each child is anonymous, indeterminate-age, all in unornamented white-cotton garments. The Source's halo is now wider, visible as a hexagonal forcefield-shimmer at outer edge (forcefield keyword visualized as the halo's containment-geometry); the halo is photons and apology in the same proportion (canonical t4 flavor verbatim). His face is now slightly more visible — features still soft but readable as the gentle smiling androgynous figure. From his open hands, a saturated warm-cream healing-light extends toward off-frame — heal-7. The toxic-green at the halo perimeter is now present at moderate saturation — visible as a clear ring at the outermost edge.",
+    moodKeywords: [
+      "the halo is photons and apology in the same proportion",
+      "eight children in concentric synchronized circles",
+      "the visible toxic-green ring at halo perimeter",
+      "forcefield as halo-containment-geometry",
+    ],
+    palette:
+      "Brilliant white halo + visible toxic-green outer ring + chrome ceremonial hall + warm cream healing-light + a single subtle hexagonal cyan accent at the forcefield's geometry",
+    composition:
+      "Wider mid-shot, Source at frame-centre, eight children in concentric dance-circles, healing-light extending camera-right, halo's hexagonal forcefield perimeter",
+    notes:
+      "T4 = drain + forcefield + heal-7. The eight-children-in-concentric-circles is the lore beat (his accumulation continues; the dance is involuntary; he loves them). Halo's hexagonal forcefield-geometry is the faction-consistent forcefield visualization (matches Locke / Architect / Jailer hexagonal language).",
+  },
+  {
+    cardId: "s1_imprint_the_source_t5",
+    sceneDelta:
+      "Hero composition. The Source stands at the centre of a vast cathedral-scale white-and-chrome plaza — concentric rings of dancing children (now visibly TWELVE total, in a slow synchronized rotation around him at a single level), the brilliant halo around the Source now expanded to fill the upper third of the frame, photons and apology in equal proportion. His face is fully visible: smiling, androgynous, ageless, kind. Behind him, faint anonymous figures are in mid-conversation — anonymous-genericity is critical here — and the conversation is being CHEERFULLY ENDED by the Source's mere presence (the conversations the people in them signed up for are dissolving into the cheerful end). From his open palms, both healing-cream-light AND silencing-warm-amber-waves propagate outward (heal-10 + silence-enemy). The halo's toxic-green outer ring is now substantial — visible as a wide containing band at the halo's perimeter, but the BRILLIANT WHITE remains the dominant palette of the halo. Forcefield as wide hexagonal shimmer extending through the entire plaza. CRITICAL: NO Sovereign of Terminus imagery. NO Kael Reborn imagery. NO Terminus environment. NO viral-light explicit identity-marker. Only the smiling androgynous figure, the dance, the halo, the children.",
+    moodKeywords: [
+      "the cheerful end of every conversation",
+      "the conversations the people in them signed up for, dissolving",
+      "twelve children in slow synchronized rotation",
+      "photons and apology in equal proportion",
+    ],
+    palette:
+      "Brilliant white-dominant halo + substantial toxic-green outer ring + chrome plaza + warm cream healing-light + warm amber silencing-waves + cool cyan hexagonal forcefield-shimmer extending through plaza",
+    composition:
+      "Wide cathedral-plaza hero, Source at frame-centre, twelve children in single concentric dance-ring at chest height, halo filling upper third, anonymous conversations dissolving in mid-distance background",
+    notes:
+      "T5 = 'The Source, Cheerful Unsurvivable.' End-of-Epoch-2 canon. CRITICAL spoiler-discipline: NO Sovereign of Terminus imagery, NO Kael Reborn imagery, NO Terminus environment, NO viral-light explicit identity-marker. The §9 Discovery video reveal of the Source as Kael Reborn / Sovereign of Terminus stays gated. The card visualizes the Source AT THE LEVEL HE PRESENTS HIMSELF — smiling, kind, the cheerful end. The toxic-green outer ring IS the only Thought-Virus-faction marker, kept as outer band rather than dominant palette to maintain the canonical 'photons and apology in the same proportion.' Twelve children = visual rhyme with the Antiquarian-cluster (Antiquarian's twelve books, Detective's twelve motes, Human's twelve motes, Necromancer's circle of friends) — deliberate cross-faction visual language for end-of-Epoch-2 imprints.",
+  },
 ] as const;
 
 /**
