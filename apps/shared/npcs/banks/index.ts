@@ -18,6 +18,7 @@ import { THE_SEER_BANK } from "./the_seer";
 import { THE_ORACLE_BANK } from "./the_oracle";
 import { THE_MEME_BANK } from "./the_meme";
 import { THE_GAME_MASTER_BANK } from "./the_game_master";
+import { WRAITH_CALDER_BANK } from "./wraith_calder";
 
 type BankEntry = NpcLine & { surfaces: ReadonlyArray<DialogSurface> };
 
@@ -35,6 +36,7 @@ export const ALL_NPC_LINES: ReadonlyArray<BankEntry> = [
   ...THE_ORACLE_BANK,
   ...THE_MEME_BANK,
   ...THE_GAME_MASTER_BANK,
+  ...WRAITH_CALDER_BANK,
 ];
 
 /**
@@ -59,4 +61,5 @@ export {
   THE_ORACLE_BANK,
   THE_MEME_BANK,
   THE_GAME_MASTER_BANK,
+  WRAITH_CALDER_BANK,
 };
