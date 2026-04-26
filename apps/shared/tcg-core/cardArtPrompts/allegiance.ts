@@ -355,13 +355,122 @@ const ALLEGIANCE_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "T6 = Champion. The Dreamer herself comes to one match. CRITICAL: her face = same as her Imprint t5. NO Sundered Twin reveal. Sundered-pair architectural absence carried forward but kept very subtle. Same character, intimate scale (mirrors Antiquarian-allegiance t6 structure).",
   },
+
+  // ─── INSURGENCY ALLEGIANCE (recruit → Champion-as-shape) ───
+  // Source canon: 'A recruit showed up because the alternative was
+  // staying where they were. That is the whole pitch.' T6 is NOT a
+  // character — they are the shape the player makes out of
+  // themselves over a hundred matches of not backing down.
+  {
+    cardId: "s1_alleg_insurgency_t1",
+    sceneDelta:
+      "Mid-shot. An Insurgency Recruit at a forward-camp processing tent — early-twenties, in salvaged-civilian clothing (utility jacket over a cheap T-shirt, work boots), standing with their hands at their sides as a quartermaster off-frame fits them with a basic Insurgency-issue armband (we see the armband mid-tie at the recruit's left bicep). Their face is honest and slightly afraid: they showed up because the alternative was staying where they were, that's the whole pitch. Behind them, the camp's perimeter wall is visible at low-third, signal-green emergency-light flickering. Above the tent, dusk sky fading toward Insurgency slate-blue.",
+    moodKeywords: [
+      "showed up because the alternative was staying",
+      "honest and slightly afraid",
+      "the armband being tied",
+      "salvaged-civilian clothing",
+    ],
+    palette:
+      "Insurgency slate-blue dusk + signal-green emergency telltale + utility jacket + a single saturated red on the new armband",
+    composition:
+      "Mid-shot front three-quarter, Recruit at frame-centre, off-frame quartermaster's hands tying armband at upper-left, perimeter wall at lower-third",
+    notes:
+      "T1 = the recruit. Generic-young face; the lore beat is the armband mid-tie — they are mid-decision (and they have already decided).",
+  },
+  {
+    cardId: "s1_alleg_insurgency_t2",
+    sceneDelta:
+      "Mid-shot. An Insurgency Partisan mid-stride into a tactical engagement — three-quarter from camera-right, weight forward, Insurgency-issue field-gear now patinated with three months of wear. They have a basic combat-knife in their right hand, low-ready position, the kind of grip earned by use. Their face is set; not theatrical. They did not wait to be told the mission has started. Behind them, two more partisans (anonymous, at lower-third) are following their lead at the same forward-stride. Rush visualized as the geometry of the lead-stride: this person decided, the others followed.",
+    moodKeywords: [
+      "did not wait to be told the mission has started",
+      "the grip earned by use",
+      "two anonymous partisans following the lead",
+      "patinated three-month gear",
+    ],
+    palette:
+      "Insurgency slate twilight + signal-green field telltales + gunmetal blade + a single warm rust-orange accent on the partisan's armband",
+    composition:
+      "Mid-shot mid-stride, Partisan at upper-right third, two following silhouettes at lower-left third",
+    notes:
+      "T2 = partisan. Rush keyword visualized as initiative — they're the one whose forward-stride starts the engagement. Faction-distinct from Iron Lion's heroic-rush (he arrives from elsewhere); the Partisan is INSIDE the camp and started moving first.",
+  },
+  {
+    cardId: "s1_alleg_insurgency_t3",
+    sceneDelta:
+      "Mid-shot. An Insurgency Veteran in a dimly-lit Insurgency safehouse, early-thirties, late-evening, seated at a small wooden table. They have rolled up one sleeve and are showing a single specific scar (a long thin line down the forearm, well-healed, pencil-precise) to an off-frame younger partisan (we see only the younger partisan's wrist resting on the table near a glass of dark liquid). The Veteran's face is patient but final — they will show this scar once if you ask, and never again. Backstab + rush visualized as the scar's geometry: the wound was made from behind; the wound did not stop the Veteran from completing the action that earned them the scar. Behind them, the safehouse's signal-green emergency-light flickers.",
+    moodKeywords: [
+      "the scar shown once if you ask, and never again",
+      "patient but final",
+      "the dark liquid in the glass",
+      "the line down the forearm",
+    ],
+    palette:
+      "Insurgency slate-blue safehouse + signal-green emergency-light + warm amber lantern + a single saturated red on the well-healed scar + dark liquid",
+    composition:
+      "Mid-shot at small table, Veteran camera-right rolling up sleeve, off-frame partisan's wrist + glass camera-left, scar at frame mid-axis",
+    notes:
+      "T3 = veteran. The scar IS the lore beat — visualized but not theatrical. Faction-distinct from Necromancer's bone-flowers and Antiquarian-allegiance's scholarly tier-3 (rotates-into-storage). Insurgency rebirth-equivalent is 'lived through it once and got back up.'",
+  },
+  {
+    cardId: "s1_alleg_insurgency_t4",
+    sceneDelta:
+      "Wider mid-shot. An Insurgency Victorious Veteran stands at the centre of a small forward-base briefing circle — six anonymous Insurgency fighters arranged around them, all leaning slightly forward in attention. The Veteran is the focal point not by rank-marker but by GAZE — every other fighter is looking at them, none of them at the briefing-display behind. The Veteran's face is composed; they are the person the squad points at when the new recruit asks 'who decides when we go?' The answer is always 'him, last time.' On their forearm (sleeve again rolled up), the scar from T3 is now joined by a second scar — fresher, also pencil-precise. Rebirth visualized as the second scar (the rebirth keyword as Insurgency-faction-distinct: lived through it twice and got back up twice).",
+    moodKeywords: [
+      "him, last time",
+      "the second scar fresher beside the first",
+      "every other fighter looking at the Veteran",
+      "no rank-marker, only the gaze",
+    ],
+    palette:
+      "Insurgency slate forward-base + signal-green telltales + warm amber pendant + a single saturated red on the two scars",
+    composition:
+      "Wider mid-shot at briefing circle, Victorious Veteran at frame-centre, six fighters in arc around them",
+    notes:
+      "T4 = victorious-veteran. The 'him last time' beat is purely visual — every other fighter's gaze converges on the Victorious Veteran. NO official rank-marker, just earned attention.",
+  },
+  {
+    cardId: "s1_alleg_insurgency_t5",
+    sceneDelta:
+      "Mid-shot. An Insurgency Elite in a Panopticon relay-substation at night — five other Elites in the frame at various positions, all of them mid-task, all of them with a fresh tattoo on the same shoulder-blade (visible because the gear's been adjusted to display the inked spot for the camera as a deliberate identity-marker). The relay's chrome housing dominates the room behind them, the relay itself INTACT despite the breach (the canonical 'first unit to come back out with the relay intact' beat). The Elite at frame-centre is the player-character archetype — late-thirties, weathered, focused. Their tattoo is a single small chevron in fresh black ink. Rebirth + rush + frenzy + backstab visualized as the geometry: they are mid-extraction, intact, with the relay, and the kill they made on the way in is implied by a single spent shell-casing on the floor at frame's edge.",
+    moodKeywords: [
+      "first unit to breach and first unit to come back out with the relay intact",
+      "one new tattoo each",
+      "the spent casing at frame's edge",
+      "mid-extraction with the relay",
+    ],
+    palette:
+      "Insurgency slate relay-room + chrome relay-housing + signal-green relay-telltales + warm amber rail-lamps + a single saturated black on the fresh chevron tattoo",
+    composition:
+      "Mid-shot in relay-room, Elite player-archetype at frame-centre, four other Elites in mid-distance arc, relay-housing as background fill",
+    notes:
+      "T5 = elite. Tattoo + relay-intact are canon-direct from flavor text. Other Elites are anonymous (no recognizable named characters).",
+  },
+  {
+    cardId: "s1_alleg_insurgency_t6",
+    sceneDelta:
+      "Hero composition. The frame is dominated by a SINGLE FIGURE in three-quarter from BEHIND, walking forward into a slate-blue dawn breaking over a wide ruined landscape. The figure wears layered Insurgency gear (signal-green armband, utility jacket, scarred forearms barely visible at the cuffs) — but their FACE is not visible because the camera does not see them from the front. This is the 'shape the player makes out of themselves over a hundred matches of not backing down' — they are NOT a specific character. The shape is visible; the identity is whoever the player wants it to be. Above them, dawn light cuts across the horizon in a single warm beam. Around them, the ruined landscape fades into deep distance. NO face shown. NO identifying tattoo visible. NO official rank-marker. The Champion is the SHAPE.",
+    moodKeywords: [
+      "the shape you make out of yourself over a hundred matches of not backing down",
+      "not a specific character",
+      "back to camera, dawn ahead",
+      "whoever the player wants it to be",
+    ],
+    palette:
+      "Insurgency slate-blue dawn + signal-green armband + utility jacket + a single warm gold dawn-beam at horizon",
+    composition:
+      "Hero composition from behind, figure at lower-third frame-centre walking toward upper-third dawn-horizon",
+    notes:
+      "T6 = 'Champion' as SHAPE not character. CRITICAL: face MUST not be visible. The player is meant to see THEMSELVES walking forward. NO Iron Lion (he is the imprint, not the allegiance-champion). NO recognizable identity. Mirror-inverts Architect-allegiance t6 structurally: Architect t6 = the position (badge with indeterminate photograph); Insurgency t6 = the shape (back-of-figure, indeterminate). Both are anti-identity, faction-distinct.",
+  },
 ] as const;
 
 /**
  * Allegiance faction's prompt registry, keyed by card id.
  *
- * Currently populated: 3 / 6 sets (Antiquarian, Architect, Dreamer).
- * TODO: insurgency, new_babylon, thought_virus.
+ * Currently populated: 4 / 6 sets (Antiquarian, Architect, Dreamer,
+ * Insurgency).
+ * TODO: new_babylon, thought_virus.
  */
 export const ALLEGIANCE_CARD_ART_PROMPTS: Readonly<
   Record<string, CardArtPrompt>

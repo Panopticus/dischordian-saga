@@ -25,10 +25,11 @@ import { ALLEGIANCE_CARD_ART_PROMPTS } from "./allegiance";
  *     Architect, The Collector, The Detective, The Dreamer, The
  *     Engineer, The Enigma, The Human, The Jailer, The Necromancer,
  *     The Oracle, The Source)
- *   - allegiance: 3 / 6 sets (Antiquarian, Architect, Dreamer)
+ *   - allegiance: 4 / 6 sets (Antiquarian, Architect, Dreamer,
+ *     Insurgency)
  *
  * Pending factions:
- *   - allegiance (remaining 3 sets)
+ *   - allegiance (remaining 2 sets)
  *   - class, race, elemental, dimensional (tier-up sets)
  *   - architect, antiquarian, dreamer, insurgency, new_babylon,
  *     thought_virus, neutral, panopticon, allegiance, class, race,
