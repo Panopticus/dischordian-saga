@@ -61,7 +61,12 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
     }
   }, []);
 
-  /** Start the Saga Theme looping, then fade out the cinematic */
+  /** Hand off a paused Saga Theme audio element, then fade out the cinematic.
+   *  The theme is intentionally NOT started here — the AwakeningVOPlayer
+   *  starts it the moment Elara delivers her first VO line, so the player
+   *  doesn't hear an instrumental bed playing alone over the BLACKOUT
+   *  fade-in (which previously clashed with the cinematic's tail audio
+   *  and felt like two pieces of music fighting). */
   const handleComplete = useCallback(() => {
     if (completedRef.current) return;
     completedRef.current = true;
@@ -76,19 +81,12 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
       video.pause();
     }
 
-    // Create and start the theme song audio — it will loop
+    // Prepare (don't play) the theme audio. AwakeningVOPlayer starts it
+    // on the first VO trigger and fades it in alongside Elara's line.
     const themeAudio = new Audio(SAGA_THEME_URL);
     themeAudio.loop = true;
     themeAudio.volume = 0;
-    themeAudio.play().catch(() => {});
-
-    // Fade the theme in over ~1.5s
-    let vol = 0;
-    const fadeInInterval = setInterval(() => {
-      vol = Math.min(0.55, vol + 0.03);
-      themeAudio.volume = vol;
-      if (vol >= 0.55) clearInterval(fadeInInterval);
-    }, 50);
+    themeAudio.preload = "auto";
 
     // Visual fade out, then hand off
     setFadeOut(true);

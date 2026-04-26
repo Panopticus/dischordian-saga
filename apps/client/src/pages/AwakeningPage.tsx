@@ -93,6 +93,10 @@ const PLAYED_VO_IDS = new Set<string>();
  *
  *   - play(url, themeAudio): pauses any prior VO, starts the new one,
  *     and fades the theme from its current volume → THEME_DUCKED.
+ *     If the theme has not been started yet (it's prepared paused by
+ *     OpeningCinematic), play() also kicks it off — so the music bed
+ *     enters the moment Elara begins her first line, not during the
+ *     silent BLACKOUT fade-in that precedes her.
  *   - stop(): pauses the current VO and restores the theme to
  *     THEME_BED_AFTER_VO (a touch below the default 0.55 so Elara's
  *     silences still feel quiet, not foreground).
@@ -121,6 +125,14 @@ const AwakeningVOPlayer = (() => {
       theme.volume = Math.max(0, Math.min(1, startVol + delta * t));
       if (t >= 1 && fadeTimer) { clearInterval(fadeTimer); fadeTimer = null; }
     }, 50);
+  };
+
+  const startThemeIfNeeded = (theme: HTMLAudioElement | null) => {
+    if (!theme) return;
+    if (theme.paused) {
+      theme.volume = 0;
+      theme.play().catch(() => { /* autoplay blocked — VO gesture should cover us */ });
+    }
   };
 
   const restoreTheme = (theme: HTMLAudioElement | null) => {
@@ -153,7 +165,10 @@ const AwakeningVOPlayer = (() => {
       audio.addEventListener("pause", () => {
         if (audio.ended || audio.currentTime >= audio.duration) restoreTheme(theme);
       });
-      // Duck the theme bed while this VO plays.
+      // Kick the theme off (if cinematic handed it to us paused) and
+      // duck it under the VO. Fade is from 0 → THEME_DUCKED so the
+      // music bed slides in alongside Elara, never alone.
+      startThemeIfNeeded(theme);
       fadeThemeTo(theme, THEME_DUCKED, 400);
       return audio;
     },

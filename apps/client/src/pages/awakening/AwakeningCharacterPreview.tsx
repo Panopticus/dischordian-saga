@@ -17,10 +17,12 @@
    hangs above the ElaraDialogBox without fighting its layout.
    Mobile: collapses to a bottom-sheet pill that expands on tap.
    ═══════════════════════════════════════════════════════ */
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import type { CharacterChoices } from "@/contexts/GameContext";
 import {
   Flame, Eye, Target, Shield, Crown, Zap, Sparkles, Swords, Compass,
+  ChevronDown, ChevronUp,
 } from "lucide-react";
 import type { ComponentType } from "react";
 
@@ -54,6 +56,22 @@ export default function AwakeningCharacterPreview({ choices }: AwakeningCharacte
   const alignment = choices.alignment ? ALIGNMENT_META[choices.alignment] : null;
   const hasAnything = !!(species || characterClass || alignment || choices.element || choices.name);
 
+  // Mobile defaults to collapsed because the expanded card was tall enough
+  // to cover Elara's holographic portrait on phone-sized viewports — the
+  // player saw the dossier instead of the lip-sync animation. Desktop
+  // viewports have room for the full card alongside the dialog.
+  const [expanded, setExpanded] = useState<boolean>(() => {
+    if (typeof window === "undefined") return true;
+    return window.matchMedia("(min-width: 640px)").matches;
+  });
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const mq = window.matchMedia("(min-width: 640px)");
+    const onChange = (e: MediaQueryListEvent) => setExpanded(e.matches);
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
+
   // Suppress until the first real choice so we're not rendering an
   // empty "OPERATIVE DOSSIER" placeholder before the player even
   // opens their cryopod.
@@ -71,88 +89,113 @@ export default function AwakeningCharacterPreview({ choices }: AwakeningCharacte
       animate={{ opacity: 1, x: 0, scale: 1 }}
       transition={{ type: "spring", stiffness: 220, damping: 26 }}
       aria-label="Character dossier preview"
-      className="fixed z-[55] top-4 right-4 sm:top-6 sm:right-6 w-[min(240px,calc(100vw-32px))] rounded-xl border backdrop-blur-md pointer-events-none"
+      className={`fixed z-[55] top-4 right-4 sm:top-6 sm:right-6 rounded-xl border backdrop-blur-md ${expanded ? "w-[min(240px,calc(100vw-32px))]" : "w-auto"}`}
       style={{
         background: "color-mix(in oklch, var(--bg-void) 88%, transparent)",
         borderColor: `color-mix(in oklch, ${portraitAccent} 30%, transparent)`,
         boxShadow: `0 0 30px color-mix(in oklch, ${portraitAccent} 15%, transparent)`,
       }}
     >
-      {/* Portrait silhouette + aura */}
-      <div className="relative px-4 pt-4 pb-2 flex items-center gap-3">
+      {/* Header — always visible; doubles as collapse/expand toggle. */}
+      <button
+        type="button"
+        onClick={() => setExpanded(v => !v)}
+        aria-expanded={expanded}
+        aria-controls="awakening-dossier-rows"
+        className="relative w-full px-3 sm:px-4 pt-3 pb-2 sm:pt-4 flex items-center gap-2 sm:gap-3 text-left"
+      >
         <div
-          className="relative w-12 h-12 rounded-full shrink-0 flex items-center justify-center"
+          className="relative w-9 h-9 sm:w-12 sm:h-12 rounded-full shrink-0 flex items-center justify-center"
           style={{ background: aura }}
         >
           <div
-            className="w-10 h-10 rounded-full flex items-center justify-center border-2 transition-colors"
+            className="w-7 h-7 sm:w-10 sm:h-10 rounded-full flex items-center justify-center border-2 transition-colors"
             style={{
               background: `color-mix(in oklch, ${portraitAccent} 18%, transparent)`,
               borderColor: `color-mix(in oklch, ${portraitAccent} 60%, transparent)`,
               boxShadow: `0 0 12px color-mix(in oklch, ${portraitAccent} 40%, transparent)`,
             }}
           >
-            <Sparkles size={16} style={{ color: portraitAccent }} />
+            <Sparkles size={14} style={{ color: portraitAccent }} />
           </div>
         </div>
-        <div className="min-w-0 flex-1">
-          <p className="font-mono text-[9px] tracking-[0.3em] text-muted-foreground/60 uppercase">
-            Operative Dossier
-          </p>
-          <p
-            className="font-display text-sm font-bold truncate"
-            style={{ color: portraitAccent }}
-          >
-            {choices.name.trim() || "UNNAMED"}
-          </p>
-        </div>
-      </div>
+        {expanded && (
+          <div className="min-w-0 flex-1">
+            <p className="font-mono text-[9px] tracking-[0.3em] text-muted-foreground/60 uppercase">
+              Operative Dossier
+            </p>
+            <p
+              className="font-display text-sm font-bold truncate"
+              style={{ color: portraitAccent }}
+            >
+              {choices.name.trim() || "UNNAMED"}
+            </p>
+          </div>
+        )}
+        <span
+          className="shrink-0 text-muted-foreground/60"
+          aria-hidden
+        >
+          {expanded ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+        </span>
+      </button>
 
       {/* Rows — only visible once their corresponding choice is made,
           staggered in so the card feels like it's accreting the
-          character's identity piece by piece. */}
-      <div className="px-4 pb-3 space-y-1.5">
-        <AnimatePresence initial={false}>
-          {species && (
-            <PreviewRow
-              key="species"
-              label="Species"
-              value={species.label}
-              hint={species.tag}
-              valueColor={species.color}
-              icon={Flame}
-            />
-          )}
-          {characterClass && (
-            <PreviewRow
-              key="class"
-              label="Class"
-              value={characterClass.label}
-              hint={characterClass.tag}
-              icon={characterClass.icon}
-            />
-          )}
-          {choices.element && (
-            <PreviewRow
-              key="element"
-              label="Element"
-              value={choices.element.toUpperCase()}
-              hint={species?.tag ?? ""}
-              icon={Flame}
-            />
-          )}
-          {alignment && (
-            <PreviewRow
-              key="alignment"
-              label="Alignment"
-              value={alignment.label}
-              hint={alignment.label === "Order" ? "light glow · +2 ATK" : "dark glow · +2 DEF"}
-              valueColor={alignment.color}
-              icon={alignment.label === "Order" ? Shield : Crown}
-            />
-          )}
-        </AnimatePresence>
-      </div>
+          character's identity piece by piece. Hidden when collapsed
+          so the card doesn't cover the Elara portrait on mobile. */}
+      <AnimatePresence initial={false}>
+        {expanded && (
+          <motion.div
+            id="awakening-dossier-rows"
+            key="rows"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.2 }}
+            className="px-4 pb-3 space-y-1.5 overflow-hidden"
+          >
+            {species && (
+              <PreviewRow
+                key="species"
+                label="Species"
+                value={species.label}
+                hint={species.tag}
+                valueColor={species.color}
+                icon={Flame}
+              />
+            )}
+            {characterClass && (
+              <PreviewRow
+                key="class"
+                label="Class"
+                value={characterClass.label}
+                hint={characterClass.tag}
+                icon={characterClass.icon}
+              />
+            )}
+            {choices.element && (
+              <PreviewRow
+                key="element"
+                label="Element"
+                value={choices.element.toUpperCase()}
+                hint={species?.tag ?? ""}
+                icon={Flame}
+              />
+            )}
+            {alignment && (
+              <PreviewRow
+                key="alignment"
+                label="Alignment"
+                value={alignment.label}
+                hint={alignment.label === "Order" ? "light glow · +2 ATK" : "dark glow · +2 DEF"}
+                valueColor={alignment.color}
+                icon={alignment.label === "Order" ? Shield : Crown}
+              />
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.aside>
   );
 }
