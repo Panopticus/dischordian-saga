@@ -111,16 +111,79 @@ Voice rules (carried from V2, refined this session):
 
 ## 4. Findings (categorised)
 
-> Section 4 is built up incrementally; subsections will land in
-> follow-up edits. Status of each subsection appears here:
+> Subsection landing tracker (built up in chunks):
 >
-> - 4A — Architect (status: pending)
-> - 4B — Source / Kael (status: pending)
-> - 4C — Narrator / exposition (status: pending)
-> - 4D — Length compliance (≤25 words for fight-context) (status: pending)
-> - 4E — Voice drift across speakers (status: pending)
-> - 4F — Generic-villain rhetorical patterns (status: pending)
-> - 4G — New surfaces that did not exist for V2 (status: pending)
+> - 4A — Architect — ✅ landed (this commit)
+> - 4B — Source / Kael — pending
+> - 4C — Narrator / exposition — pending
+> - 4D — Length compliance — pending
+> - 4E — Voice drift across speakers — pending
+> - 4F — Generic-villain rhetorical patterns — pending
+> - 4G — New surfaces (Acts 2–7, variant registry) — pending
+
+### 4A — Architect (V2 Category A)
+
+**Status: largely closed. No new fixes recommended.**
+
+The Architect surface across the active narrative content is consistently
+in voice — measurement, calibration, vulnerability when it lands, never
+cliché-villain modesty or "I have already won" patterns. Sampled
+locations:
+
+- **`apps/client/src/game/cinematicDesign.ts:342`** — Architect intro
+  quote, post-V2-A.1: *"I did not create the universe. I corrected a
+  draft."* ✅ in voice.
+- **`apps/shared/tcg-core/story/dialogBank_chapters_10_12.ts:163–227`**
+  — Chapter 12 boss-fight three-phase dialog scenes (pre, win, loss).
+  All Architect cues use the *measurement / confession / vulnerability*
+  register. Notable:
+  - "Oracle. I foresaw this moment the day I built the Arena. … This is
+    the bad ending for me. I want you to know I prepared for it
+    anyway." (line 171) — foresight as acceptance, not threat. ✅
+  - "I am going to kneel eventually. You should know that going in. I
+    built a fight that allows me to kneel only after I have finished
+    the confession…" (line 177) — radical self-disclosure. ✅
+  - "I kneel. Good. That's — good. My schematic is already unrolling
+    across the floor like an apology I was holding closed for eleven
+    years." (line 197) — confession beat. ✅
+  - "Get up. I have two more phases I would hate for you to miss."
+    (line 223) — even loss-state stays in voice. ✅
+- **`apps/shared/tcg-core/story/dialogBank_cinematics.ts:170–229`** —
+  Phase 2 (False Prophet reveal) and Phase 3 (Corruption Outbreak)
+  cinematics. Every Architect cue is grief-tinged measurement:
+  - "I wore your face for a decade. It is the only skin I ever fit
+    into." (line 183) ✅
+  - "Phase three: the design eats itself. … which is what I was afraid
+    of, and why I built the walls so thick, and why the walls were
+    never the point." (line 220) ✅
+- **`apps/client/src/game/postVictoryCinematics.ts:267–270`** — Three
+  Architect cues across the Chapter 12 victory cinematic. All in voice.
+- **`apps/shared/storyModeRewrite.ts:120–124`** — The "I wore your face
+  for a decade" / "You were my finest creation" enhanced Chapter 12
+  pre-fight passage. The phrase *"finest creation"* survives here from
+  V2 fix A.5 — but the surrounding text has been rewritten in calibrating
+  voice and the phrase now reads as the Architect *naming* the Human's
+  identity to him directly, not as villain pride. ✅ leave.
+- **`apps/shared/questlineQuarchonCh3.ts:72–134`** — `architects_echo`
+  (a Quarchon AI construct distinct from the Architect itself). This
+  surface is exemplary — it explicitly *self-distinguishes* from the
+  Architect by what it does *not* say: *"The Architect would have said:
+  'Your compliance is required.' He would not have framed the
+  probability model as shared information."* (line 115). The whole
+  quest is V3-grade voice work; protect it.
+
+**Soft note (no action):** the Codex page at
+`apps/client/src/pages/CodexPage.tsx:148` describes the Surveillance
+Grid with the line *"By the time a resistance fighter decides to act,
+the Architect has already calculated and countered every possible
+move."* This is *static codex copy* describing Empire infrastructure
+(not Architect dialogue). It trends slightly toward V2's deprecated
+"already won" pattern but is in-fiction *propaganda*-style world-text,
+which works as flavor; recommend leaving unless a future pass wants to
+make even the codex copy reflect calibration-not-omniscience.
+
+**No fixes required for V2 Category A as part of V3.**
+
 
 ## 5. Open questions for the team
 
