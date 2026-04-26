@@ -49,10 +49,9 @@ import { NEW_BABYLON_CARD_ART_PROMPTS } from "./new_babylon";
  *   - architect: 63 / 63 cards — COMPLETE
  *   - dreamer: 61 / 61 cards — COMPLETE
  *   - insurgency: 51 / 51 cards — COMPLETE
- *   - new_babylon: 42 / 52 cards
+ *   - new_babylon: 52 / 52 cards — COMPLETE
  *
  * Pending factions:
- *   - new_babylon (remaining 47)
  *   - thought_virus, neutral (per-faction character cards)
  *   - architect, antiquarian, dreamer, insurgency, new_babylon,
  *     thought_virus, neutral, panopticon, allegiance, class, race,

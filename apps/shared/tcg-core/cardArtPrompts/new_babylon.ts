@@ -750,12 +750,182 @@ const NEW_BABYLON_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "Legendary unit. Generic-imperial features must NOT match Syndicate Overlord (s1_reward_syndicate_empire — different specific archetype: Galactic-Tycoon vs Syndicate-Overlord; both distinguished silver-streaked but distinct contexts). The 'galaxy is a market' framing is rendered through the multi-world pin + outer-space vista.",
   },
+  {
+    cardId: "s1_spell_116",
+    sceneDelta:
+      "Mid-shot. A Blood Tax — Adjudicator Locke (canonical features: female mid-forties, eye-patch on left eye, deep warm-leather Adjudicator's coat) at frame-centre, mid-action of TRANSFERRING A COST. Her right hand holds a chrome-and-warm-gold blood-token (visibly luminous deep-crimson); her left hand pushes a chrome-and-warm-gold INVOICE-LEDGER toward an off-frame recipient (only the recipient's hand visible at frame-right edge). The invoice's top-line shows 'COST: TRANSFERRED' in chrome-and-warm-gold script. Her face is composed, untroubled — she does not flinch. Behind her, faint warm low office-light.",
+    moodKeywords: [
+      "Locke never flinches at the cost",
+      "he simply adds it to someone else's invoice",
+      "transferring blood-token cost via invoice-ledger",
+      "untroubled, single-eyed gaze",
+    ],
+    palette:
+      "Deep warm-leather Adjudicator's coat + chrome-and-warm-leather eye-patch + chrome-and-warm-gold blood-token + deep-crimson token-glow + chrome-and-warm-gold invoice-ledger + warm low office-light + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, Locke at frame-centre, blood-token in right hand, invoice pushed toward off-frame recipient at frame-right edge",
+    notes:
+      "Uncommon spell. Visual continuity with all Locke renderings (eye-patch). NOTE: flavor uses 'he' for Locke; canonical visualization is female-presenting per gen_new_babylon. Anonymous recipient (hand only) preserves no-character-conflation.",
+  },
+  {
+    cardId: "s1_spell_117",
+    sceneDelta:
+      "Wider mid-shot. A Market Manipulation — at frame-centre, a New Babylon trading-floor at the moment of WHISPER-OBEDIENCE: anonymous Locke-aligned figure (back-three-quarter, deep warm-leather coat, hooded — only silhouette visible) in upper-third whispers something to a chrome-and-warm-gold market-controller console. From the whisper, a faint translucent silver-mist whisper-pulse propagates downward through the floor. The pulse REACHES the market AHEAD of the official market-shout (a chrome-and-warm-gold ALARM-INDICATOR at the floor's centre is just-beginning to flash but the prices have ALREADY shifted). Anonymous traders at lower-third react in slower-than-the-pulse confusion. Faint warm low trading-floor light.",
+    moodKeywords: [
+      "the market obeyed Locke's whisper before it heard the shout",
+      "by the time the correction came, fortunes had already changed hands",
+      "translucent silver-mist whisper-pulse arriving ahead of alarm-indicator",
+      "anonymous traders in slower-than-pulse confusion",
+    ],
+    palette:
+      "Deep warm-leather hooded Locke-aligned figure + chrome-and-warm-gold market-controller console + translucent silver-mist whisper-pulse + chrome-and-warm-gold alarm-indicator + anonymous trader-silhouettes + warm low trading-floor light + cool deep-shadow",
+    composition:
+      "Wider mid-shot, hooded figure at upper-third whispering, whisper-pulse descending, traders at lower-third reacting",
+    notes:
+      "Common spell. Anonymous Locke-aligned figure (hooded back-three-quarter) preserves Locke's identity-via-context (the whisper is hers). Anonymous traders preserve no-character-conflation.",
+  },
+  {
+    cardId: "s1_spell_118",
+    sceneDelta:
+      "Mid-shot. A Syndicate Contract — at frame-centre, a chrome-and-warm-gold CONTRACT-DOCUMENT laid open on a low warm-leather private-table. The contract's surface shows chrome-and-warm-gold ceremonial script with a SIGNATURE-LINE at the bottom AND a small blood-letting INSTRUMENT (a small chrome-and-warm-gold pin-needle) beside it (the canonical 'sign here, in blood'). An anonymous figure (only their hand visible at frame-bottom-edge, generic civilian sleeve) is mid-action of having JUST PRICKED their fingertip — a single drop of warm-crimson blood is mid-fall toward the signature-line. Their face is not visible. Faint warm low private-table light.",
+    moodKeywords: [
+      "sign here, in blood",
+      "the power is yours — for exactly as long as it takes to spend it",
+      "blood-letting pin-needle beside signature-line",
+      "single drop of warm-crimson blood mid-fall toward signature",
+    ],
+    palette:
+      "Chrome-and-warm-gold contract-document + chrome-and-warm-gold ceremonial script + chrome-and-warm-gold pin-needle + warm-crimson blood-drop + warm-leather private-table + anonymous fingertip + warm low private-table light + cool deep-shadow",
+    composition:
+      "Mid-shot, contract at frame-centre on table, anonymous fingertip at frame-bottom-edge with blood-drop mid-fall",
+    notes:
+      "Uncommon spell. Anonymous signer (fingertip only) preserves no-character-conflation. The 'sign in blood' is rendered through the visible blood-letting instrument + mid-fall drop.",
+  },
+  {
+    cardId: "s1_spell_119",
+    sceneDelta:
+      "Wider mid-shot. A Hostile Acquisition — at frame-centre, the moment of LOCKE'S BLOODLESS CONQUEST: a vast New Babylon Senate-chamber filled with leveraged-asset documents stacked on every Senate-bench (chrome-and-warm-gold contract-folders, signed-soul-receipts, leveraged-asset-deeds — the city itself in paper form). At the centre of the chamber, Adjudicator Locke (canonical features, eye-patch, deep warm-leather coat) stands at the central rostrum, both hands at sides, calm-victorious. On the rostrum before her, a single chrome-and-warm-gold CITY-DEED-DOCUMENT is freshly-signed. NO weapons visible (canonical 'didn't conquer with armies'). NO opposition figures visible — they have already been bought-out. Her face shows quiet satisfaction.",
+    moodKeywords: [
+      "Locke didn't conquer New Babylon with armies",
+      "he bought it — one signature, one soul, one leveraged asset at a time",
+      "Senate-chamber filled with leveraged-asset documents",
+      "no weapons visible, no opposition visible",
+    ],
+    palette:
+      "Deep warm-leather Adjudicator's coat + chrome-and-warm-leather eye-patch + chrome-and-warm-gold contract-folders + signed-soul-receipts + leveraged-asset-deeds + chrome-and-warm-gold city-deed-document + warm Senate-chamber sodium-light + cool deep-shadow",
+    composition:
+      "Wider mid-shot front three-quarter, Locke at frame-centre at rostrum, Senate-benches piled with documents around",
+    notes:
+      "Rare spell. Visual continuity with all Locke renderings. The 'bought not conquered' framing is rendered through the absence of weapons + presence of paper documents. NOTE: flavor uses 'he' for Locke; canonical visualization is female-presenting.",
+  },
+  {
+    cardId: "s1_spell_224",
+    sceneDelta:
+      "Mid-shot. A Tax Collector — male-presenting figure in late-thirties, generic-procedural features (no expression, calm dark eyes), in standard New Babylon Tax-Collector coat (warm-leather over slate with chrome-and-warm-gold tax-pin at the lapel). He stands at the threshold of an anonymous citizen's doorway at frame-centre, mid-action of EXTENDING A PALM toward the doorway interior — palm-up, demanding payment. The doorway is OPEN; the citizen NOT VISIBLE (only the doorway's interior is seen, dim warm low light within). In his other hand, a small chrome-and-warm-gold tax-tablet showing a flexible-currency conversion-table (multiple currency-types listed in chrome-and-warm-gold, all ending at a single deadline-date). His face is unmoved.",
+    moodKeywords: [
+      "payment is due",
+      "the currency is flexible",
+      "the deadline is not",
+      "palm-up demanding-gesture at anonymous doorway",
+    ],
+    palette:
+      "Warm-leather over slate Tax-Collector coat + chrome-and-warm-gold tax-pin + chrome-and-warm-gold tax-tablet + flexible-currency conversion-table + warm low doorway-light + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, Tax Collector at frame-centre at open doorway, palm extended into interior",
+    notes:
+      "Common spell. Generic-procedural features must NOT match Debt Collector (s1_pack_033) — both are extraction-figures but different specific roles: Tax-Collector demands at door vs Debt-Collector subtracts in absentia.",
+  },
+  {
+    cardId: "s1_spell_225",
+    sceneDelta:
+      "Mid-shot. A Bounty Notice — at frame-centre, a chrome-and-warm-gold BOUNTY-NOTICE plaque mounted on a warm-leather notice-board at a New Babylon district-square. The notice shows: a chrome-and-warm-gold redacted target-portrait at the upper, a chrome-and-warm-gold price-amount in the centre, and a chrome-and-warm-gold timestamp at the bottom (the dawn-time canonical 'goes up at dawn'). At lower-third, an anonymous bounty-hunter (back-three-quarter, generic-cool-leather) walks past the notice with a small smile — they have already begun the work. Faint warm noon-light from above (mid-day already; the work is being done quickly).",
+    moodKeywords: [
+      "the notice goes up at dawn",
+      "by noon, the work is done",
+      "chrome-and-warm-gold bounty-notice with redacted target-portrait",
+      "anonymous hunter walking past with small smile",
+    ],
+    palette:
+      "Chrome-and-warm-gold bounty-notice plaque + warm-leather notice-board + chrome-and-warm-gold redacted target-portrait + chrome-and-warm-gold price-amount + chrome-and-warm-gold timestamp + warm noon-light + cool deep-shadow",
+    composition:
+      "Mid-shot, bounty-notice at frame-centre on notice-board, anonymous hunter at lower-third walking past",
+    notes:
+      "Uncommon spell. Anonymous target-portrait (redacted) and hunter (back-three-quarter) preserve no-character-conflation. The dawn-to-noon rapid-execution is rendered through the warm noon-light setting.",
+  },
+  {
+    cardId: "s1_spell_226",
+    sceneDelta:
+      "Wider mid-shot. A Crystal Vault — at frame-centre, a vast CRYSTAL-WALLED VAULT chamber. INSIDE the vault (visible behind translucent crystal-walls), valuable items are arrayed on chrome-and-warm-gold shelves: art, chrome-and-warm-gold ingots, brass-and-glass mana-crystals, all visibly faintly LUMINOUS (appreciating value). OUTSIDE the vault at frame-edges, the surrounding chamber shows visible decay: dust, cobwebs, broken furniture (depreciating value). The vault's crystal-walls are sharp-edged; the IN-vs-OUT contrast is the visual key. NO human figure (the vault IS the subject). Faint warm low vault-interior glow.",
+    moodKeywords: [
+      "behind crystal walls, value appreciates",
+      "outside, everything depreciates",
+      "translucent crystal-walls separating appreciating-interior from depreciating-exterior",
+      "no human figure",
+    ],
+    palette:
+      "Translucent crystal-walls + chrome-and-warm-gold interior shelves + valuable art + chrome-and-warm-gold ingots + brass-and-glass mana-crystals + decayed exterior + dust and cobwebs + warm low vault-interior glow + cool deep-shadow",
+    composition:
+      "Wider mid-shot, vault at frame-centre, IN-interior appreciating, OUT-exterior decayed",
+    notes:
+      "Common spell. NO human figure (the vault IS the subject). The IN-vs-OUT visual contrast is the canonical visualization. Echoes Antiquarian Preservation Field (s1_spell_234) but applied to commercial value-preservation rather than temporal-preservation.",
+  },
+  {
+    cardId: "s1_spell_227",
+    sceneDelta:
+      "Mid-shot. A Leveraged Buyout — at frame-centre, an anonymous Locke-aligned syndicate-figure (back-three-quarter, deep warm-leather over slate vest, generic-procedural) stands at the threshold of an anonymous CITIZEN-OWNED ASSET (a small business-front, warm-leather signage above the door, dim warm interior visible). The syndicate-figure is mid-action of POSTING A 'NEW MANAGEMENT' notice on the door — a chrome-and-warm-gold plaque being affixed. The original-owner (also anonymous, only their feet visible at frame-bottom-edge being escorted away) is mid-departure. Faint warm low business-front light. The asset is being restructured. NO faces visible.",
+    moodKeywords: [
+      "your asset is underperforming",
+      "allow us to restructure it under new management",
+      "syndicate-figure posting NEW MANAGEMENT plaque",
+      "original-owner being escorted away (feet only visible)",
+    ],
+    palette:
+      "Deep warm-leather over slate syndicate-vest + chrome-and-warm-gold NEW MANAGEMENT plaque + warm-leather business-front signage + dim warm interior + anonymous original-owner feet + cool deep-shadow + warm low light",
+    composition:
+      "Mid-shot back-three-quarter on syndicate-figure at door, original-owner's feet at frame-bottom-edge departing",
+    notes:
+      "Rare spell. Anonymous syndicate-figure + anonymous original-owner preserve no-character-conflation. The 'restructuring under new management' euphemism is rendered through the polite plaque + the involuntary departure.",
+  },
+  {
+    cardId: "s1_spell_228",
+    sceneDelta:
+      "Wider mid-shot. Economic Sanctions — at frame-centre, a vast New Babylon CURRENCY-CONTROL CENTER chamber. Multiple chrome-and-warm-gold CURRENCY-FLOW VALVES are visible at upper-third, mid-action of CLOSING in unison (each valve has a small chrome-and-warm-gold off-position lever). From each closed valve, a faint translucent warm-gold currency-stream visibly STOPS at the valve's exit-point — currency that was flowing OUT to recipient-systems is now blocked. At lower-third, multiple anonymous starving-recipient silhouettes (back-three-quarter, generic-civilian + tactical figures, varying scales — even GOD-SIZED silhouettes among them per canonical 'even gods go hungry') stand visibly affected, hands clutched to empty-stomachs. NO faces visible.",
+    moodKeywords: [
+      "when New Babylon cuts the purse strings",
+      "even gods go hungry",
+      "chrome-and-warm-gold currency-flow valves mid-closing in unison",
+      "starving recipient silhouettes including god-sized variants",
+    ],
+    palette:
+      "Chrome-and-warm-gold currency-control center + chrome-and-warm-gold currency-flow valves + chrome-and-warm-gold off-position levers + faint translucent warm-gold currency-streams stopped + anonymous starving recipient silhouettes (varying scales) + warm low control-center light + cool deep-shadow",
+    composition:
+      "Wider mid-shot, valves at upper-third closing, anonymous starving recipients at lower-third",
+    notes:
+      "Uncommon spell. Anonymous recipients (back-three-quarter, varying scales including god-sized) preserve no-character-conflation. The 'even gods go hungry' is rendered through the scale-variation in the recipient silhouettes.",
+  },
+  {
+    cardId: "s1_spell_229",
+    sceneDelta:
+      "Wider mid-shot. A Liquidation Sale — at frame-centre, a New Babylon outdoor sale-yard at frame-centre, with multiple LOTS arranged in rows: chrome-and-warm-gold LOT-SIGNS labeling each row (chrome equipment lots, warm-leather property lots, warm-cream marble-statue lots — a full inventory of holdings). Critically, the LAST ROW at lower-third shows ANONYMOUS SOLDIERS (back-three-quarter, generic-mixed New Babylon-aligned tactical figures, all standing at parade-rest under a chrome-and-warm-gold 'SOLDIERS' lot-sign) — the canonical 'including the soldiers' framing made literal. Anonymous BUYERS (also back-three-quarter, generic civilian + foreign-aligned figures) walk past inspecting lots. NO faces visible.",
+    moodKeywords: [
+      "everything must go",
+      "including the soldiers",
+      "chrome-and-warm-gold SOLDIERS lot-sign over anonymous soldier-row",
+      "anonymous buyers walking past inspecting",
+    ],
+    palette:
+      "New Babylon outdoor sale-yard + chrome-and-warm-gold lot-signs + chrome equipment lots + warm-leather property lots + warm-cream marble-statue lots + chrome-and-warm-gold SOLDIERS lot-sign + anonymous soldier-row + anonymous buyer-silhouettes + warm sodium-light + cool deep-shadow",
+    composition:
+      "Wider mid-shot, sale-yard rows extending across frame, SOLDIERS row at lower-third, anonymous buyers walking through",
+    notes:
+      "Common spell. Anonymous soldiers + buyers preserve no-character-conflation. The 'including the soldiers' is rendered through the literal SOLDIERS lot-sign — making the ultimate-commodification visible.",
+  },
 ] as const;
 
 /**
  * New Babylon faction's prompt registry, keyed by card id.
  *
- * Currently populated: 42 / 52 cards
+ * Currently populated: 52 / 52 cards — COMPLETE
  * (gen_new_babylon, s1_char_001, s1_char_003, s1_char_020,
  *  s1_char_033, s1_char_061, s1_char_066, s1_char_078,
  *  s1_char_079, s1_char_080, s1_char_081, s1_char_082-085,
@@ -767,7 +937,8 @@ const NEW_BABYLON_PROMPTS_LIST: readonly CardArtPrompt[] = [
  *  s1_reward_guild_victory, s1_reward_syndicate_build,
  *  s1_reward_syndicate_empire, s1_reward_trade_act1,
  *  s1_reward_trade_act2, s1_reward_trade_empire,
- *  s1_reward_trade_tycoon).
+ *  s1_reward_trade_tycoon, s1_spell_116-119,
+ *  s1_spell_224-229).
  */
 export const NEW_BABYLON_CARD_ART_PROMPTS: Readonly<Record<string, CardArtPrompt>> =
   Object.freeze(
