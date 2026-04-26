@@ -4600,3 +4600,83 @@ export const memoryEnergyBalance = mysqlTable("memory_energy_balance", {
   userIdIdx: index("idx_memory_energy_balance_user_id").on(table.userId),
 }));
 export type MemoryEnergyBalanceRow = typeof memoryEnergyBalance.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
+   NPC SUBSTRATE — Stage 1 unified NPC infrastructure
+   See apps/shared/npcs/types.ts and apps/shared/npcs/registry.ts
+   for the canonical types + per-NPC metadata.
+   ═══════════════════════════════════════════════════════ */
+
+/**
+ * Per-NPC trust state for NPCs without a bespoke relationship store.
+ * Locke uses lockeRelationship (via adapter); Eidolon uses eidolonBonds
+ * (via adapter); Elara/Human use companionStats (via adapter).
+ * Other priority-roster NPCs read/write here directly.
+ */
+export const npcTrust = mysqlTable("npc_trust", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /** NpcKey from apps/shared/npcs/types.ts. */
+  npcKey: varchar("npcKey", { length: 64 }).notNull(),
+  /** Numeric trust 0-100 (band resolved at read-time via registry). */
+  trust: int("trust").notNull().default(0),
+  /** Current reveal-stage for staged NPCs (Vex, Hierophant, Meme, Companion, Oracle, Game Master). */
+  revealStage: varchar("revealStage", { length: 64 }),
+  /** Per-NPC narrative flags (Set<string> serialized as JSON array). */
+  flags: json("flags").$type<string[]>().default([]),
+  /** Last interaction timestamp; drives anti-spam windows. */
+  lastInteractionAt: timestamp("lastInteractionAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  userIdIdx: index("idx_npc_trust_user_id").on(table.userId),
+  userNpcUniq: uniqueIndex("uniq_npc_trust_user_npc").on(table.userId, table.npcKey),
+}));
+export type NpcTrustRow = typeof npcTrust.$inferSelect;
+
+/**
+ * Per-line history; drives cooldownKey + maxPlays enforcement.
+ * One row per (user, line) play event. Selector reads aggregate to filter
+ * out lines exceeding their cooldown / max-play budget.
+ */
+export const npcLineHistory = mysqlTable("npc_line_history", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  npcKey: varchar("npcKey", { length: 64 }).notNull(),
+  /** NpcLine.lineId. */
+  lineId: varchar("lineId", { length: 256 }).notNull(),
+  heardAt: timestamp("heardAt").defaultNow().notNull(),
+}, (table) => ({
+  userIdIdx: index("idx_npc_line_history_user_id").on(table.userId),
+  userNpcLineIdx: index("idx_npc_line_history_user_npc_line").on(
+    table.userId,
+    table.npcKey,
+    table.lineId,
+  ),
+}));
+export type NpcLineHistoryRow = typeof npcLineHistory.$inferSelect;
+
+/**
+ * Cross-NPC public flags — the "visible action" canon.
+ * When player canonically does something one NPC reacts to, the action
+ * gets a public flag (e.g., "betrayed_locke_in_act_4"). Other NPCs
+ * read these via reactsToPublicFlag in their NpcLine bank.
+ *
+ * This is how the saga remembers player choices across systems
+ * (Trade Empire ↔ TCG ↔ DMC ↔ Hierophant chamber ↔ Oracle dreams).
+ */
+export const npcPublicFlags = mysqlTable("npc_public_flags", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /** Canonical public-flag string (writer-coordinated; see crossCharacterReactions.ts). */
+  flag: varchar("flag", { length: 256 }).notNull(),
+  setAt: timestamp("setAt").defaultNow().notNull(),
+  /** Optional NpcKey of the NPC whose action set this flag. */
+  setBy: varchar("setBy", { length: 64 }),
+}, (table) => ({
+  userIdIdx: index("idx_npc_public_flags_user_id").on(table.userId),
+  userFlagUniq: uniqueIndex("uniq_npc_public_flags_user_flag").on(
+    table.userId,
+    table.flag,
+  ),
+}));
+export type NpcPublicFlagRow = typeof npcPublicFlags.$inferSelect;
