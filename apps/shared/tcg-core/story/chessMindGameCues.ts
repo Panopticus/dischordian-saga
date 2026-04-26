@@ -36,10 +36,20 @@ export interface MindGameCue {
   theme: QuoteTheme;
   /** Base prompt text the GM speaks as the cue opens. */
   prompt: string;
+  /** Optional additional prompt variants. When present, the
+   *  prompt rendered at runtime is picked deterministically
+   *  from `[prompt, ...promptAlternates]` using the seed passed
+   *  to `assembleCuePrompt`. Lets the same trigger feel fresh
+   *  across many matches without breaking the canonical line. */
+  promptAlternates?: readonly string[];
   choices: readonly MindGameChoice[];
   /** Archetype → reply line. Every archetype listed in `choices`
    *  MUST have a reply. `silent` is always present too. */
   replies: Readonly<Record<MindGameArchetype, string>>;
+  /** Optional per-archetype reply variants. Same selection
+   *  semantics as `promptAlternates` — when present, the reply
+   *  is chosen from `[replies[a], ...replyAlternates[a]]`. */
+  replyAlternates?: Readonly<Partial<Record<MindGameArchetype, readonly string[]>>>;
 }
 
 /* ═══════════════════════════════════════════════════════
@@ -53,6 +63,11 @@ const CUE_FIRST_NON_BOOK: MindGameCue = {
   theme: "preparation",
   prompt:
     "Already thinking. Good. Most of them play the first ten moves the way you breathe — without noticing. You just chose one. Did you mean to?",
+  promptAlternates: [
+    "Departing from book this early is either confidence or a typo. The position has the same shape either way. Tell me which one we are looking at.",
+    "Out of theory. The Architect's database refuses to score the move because it has not seen it before. I am looking at it with my own eyes, like the old days. What were you trying to do?",
+    "First non-book move arrives. The board is now a real game and not a citation. You are responsible for the next move on YOUR authority. Walk me through the idea.",
+  ],
   choices: [
     {
       id: "first_non_book_defiant",
@@ -97,6 +112,11 @@ const CUE_TEMPO_LOSS: MindGameCue = {
   theme: "deception",
   prompt:
     "You just deceived yourself. Not catastrophic, just — measurably. Did you mean to?",
+  promptAlternates: [
+    "Tempo lost. Not a blunder; a leak. The eval bar dipped about a pawn and a half. Do you know which move and do you know why?",
+    "Small concession. The kind of concession that settles into a position and quietly refuses to leave. You have time to repair it. Are you going to?",
+    "I watched the engine update against you on that move. The engine thinks you traded a small advantage for nothing. I want to hear your version before I agree.",
+  ],
   choices: [
     {
       id: "tempo_loss_defiant",
@@ -139,6 +159,11 @@ const CUE_STRONG_TACTIC: MindGameCue = {
   theme: "sacrifice",
   prompt:
     "Tal would have liked that. So did the Engineer, the day he beat me. Are you measuring yourself against him, or against me?",
+  promptAlternates: [
+    "That move just shifted the eval by almost a pawn. The Engineer would have written the move in his book and underlined it. I am marking it in mine. Whose mark do you care about more?",
+    "Sharp move. The kind of move that makes my old students pause when they see it in a database years later. Whose name do you want next to it in the database?",
+    "I saw that line on the board for two moves before you played the move that activated it. You saw it earlier than I did. I am calibrating. Tell me whether you want me to flatter or to keep notes.",
+  ],
   choices: [
     {
       id: "strong_tactic_defiant",
@@ -182,6 +207,11 @@ const CUE_TIME_BURN: MindGameCue = {
   theme: "patience",
   prompt:
     "The clock is part of the game. Capablanca played one move in two seconds, then sat for an hour. Both moves were the same move. What are you doing with the time?",
+  promptAlternates: [
+    "Two minutes on a single move. That is fine if it bought you a long calculation. It is expensive if it bought you uncertainty. Tell me which.",
+    "The clock has noticed you. Time spent on a move pays back in the move's quality or it does not. The position will tell us in about thirty seconds. Use the next ten of them to talk to me.",
+    "You are burning the clock. Burning the clock is not a strategy by itself. It is a SYMPTOM. Tell me the symptom and I will tell you whether the position is letting you waste time or making you waste it.",
+  ],
   choices: [
     {
       id: "time_burn_curious",
@@ -225,6 +255,11 @@ const CUE_OPPONENT_IN_TROUBLE: MindGameCue = {
   theme: "mercy",
   prompt:
     "I am behind. This is rare. I am curious whether you intend to convert, or whether you are about to be polite.",
+  promptAlternates: [
+    "The eval bar tilts toward you for the first time in this match. Most players relax here. Most players also lose the advantage in the next four moves. Choose your next move with that in mind.",
+    "You are winning. The position knows. I know. The model knows. Now we find out whether YOU know — because the next move tells me whether you trust the advantage or you are still playing for the chance.",
+    "I am losing. I want you to take note of the moment, because the moment will repeat in higher-stakes games. The question on the table is the same one I always ask: are you going to convert?",
+  ],
   choices: [
     {
       id: "opponent_trouble_defiant",
@@ -268,6 +303,11 @@ const CUE_PLAYER_BLUNDER: MindGameCue = {
   theme: "restraint",
   prompt:
     "Mistakes are the most honest thing you do at this board. Show me the next one.",
+  promptAlternates: [
+    "Two-pawn drop. The position used to be playable; now it is uphill. Uphill is not over. The next move is the one that decides whether the rest of the game is a slog or a recovery.",
+    "Blunder. I am not going to soften the word. Words are honest at the board because the board is honest. What you do next determines what KIND of game this becomes.",
+    "You just gave the engine a gift. The engine cannot smile but its eval bar can. Look at it; ignore it; play the position that is left. Most blunders are survivable if you stop reacting to the blunder.",
+  ],
   choices: [
     {
       id: "player_blunder_defiant",
@@ -312,6 +352,11 @@ const CUE_MID_SERIES: MindGameCue = {
   theme: "deception",
   prompt:
     "Mid-series offer, per the Architect's policy. Step down from the climb now and I keep whatever you've already won. I will not judge you — that is not in my contract.",
+  promptAlternates: [
+    "Architect's offer. The clipboard is in my hand. Step out, you keep what you have; step in, the next game decides the rest. I have read this script seventeen thousand times and the answer is always the contestant's. So — answer.",
+    "Time-out option. The Architect's contract calls it CONSIDERED WITHDRAWAL. I would call it a courtesy if it weren't also a recruitment tool — every contestant who declines becomes more interesting to him. He measures interest in tiers. Choose accordingly.",
+    "Mid-series, the standard offer. The smaller prize is real. The bigger prize is real. The pause between them is the part the Architect designed. He thinks about your hesitation more than he thinks about your moves. Be careful what your hesitation looks like.",
+  ],
   choices: [
     {
       id: "mid_series_defiant",
@@ -368,14 +413,53 @@ export function getAllMindGameCues(): readonly MindGameCue[] {
   return ALL_CUES;
 }
 
+/** Deterministic 32-bit string hash for variant selection. */
+function hashCueSeed(seed: string): number {
+  let h = 2166136261 >>> 0;
+  for (let i = 0; i < seed.length; i++) {
+    h ^= seed.charCodeAt(i);
+    h = Math.imul(h, 16777619) >>> 0;
+  }
+  return h;
+}
+
+/** Pick the prompt variant to use for a cue + seed. Returns the
+ *  canonical prompt when no alternates are defined; otherwise
+ *  picks deterministically from the union. */
+export function pickCuePromptVariant(cue: MindGameCue, seed: string): string {
+  const alternates = cue.promptAlternates ?? [];
+  if (alternates.length === 0) return cue.prompt;
+  const variants = [cue.prompt, ...alternates];
+  const h = hashCueSeed(`${seed}|prompt`);
+  return variants[h % variants.length];
+}
+
+/** Pick the reply variant for an archetype + seed. Falls back to
+ *  the canonical reply when no alternates exist for that archetype. */
+export function pickCueReplyVariant(
+  cue: MindGameCue,
+  archetype: MindGameArchetype,
+  seed: string,
+): string {
+  const baseReply = cue.replies[archetype];
+  const alternates = cue.replyAlternates?.[archetype] ?? [];
+  if (alternates.length === 0) return baseReply;
+  const variants = [baseReply, ...alternates];
+  const h = hashCueSeed(`${seed}|reply|${archetype}`);
+  return variants[h % variants.length];
+}
+
 /** Build a fully-assembled GM opening line for a cue, including
  *  the paired citation. The seed argument (a stable match id or
- *  cue-match concatenation) makes the pairing deterministic. */
+ *  cue-match concatenation) makes the pairing deterministic. When
+ *  the cue defines `promptAlternates`, the variant is also chosen
+ *  deterministically from the same seed. */
 export function assembleCuePrompt(
   cue: MindGameCue,
   seed: string,
 ): string {
   const pair = pairQuotes(cue.theme, seed);
   const citation = formatPairedCitation(pair);
-  return `${cue.prompt}\n\n${citation}`;
+  const prompt = pickCuePromptVariant(cue, seed);
+  return `${prompt}\n\n${citation}`;
 }
