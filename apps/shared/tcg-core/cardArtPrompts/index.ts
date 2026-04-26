@@ -47,7 +47,7 @@ import { INSURGENCY_CARD_ART_PROMPTS } from "./insurgency";
  *   - antiquarian: 39 / 39 cards — COMPLETE
  *   - architect: 63 / 63 cards — COMPLETE
  *   - dreamer: 61 / 61 cards — COMPLETE
- *   - insurgency: 24 / 51 cards
+ *   - insurgency: 32 / 51 cards
  *
  * Pending factions:
  *   - insurgency (remaining 46)

@@ -446,17 +446,155 @@ const INSURGENCY_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "Legendary unit. CRITICAL: visual continuity with gen_insurgency + s1_char_002 (same archetypal features) but rendered with REBIRTH-INTENSITY (brighter aura, more luminous eyes, broadcast-script emanation). The 'buried/burned/erased — none of it mattered' framing is rendered through her presence in the room where it all happened to her.",
   },
+  {
+    cardId: "s1_pack_cosm_trail_fire",
+    sceneDelta:
+      "Action mid-shot. A Void Flame Runner — female-presenting figure in early-thirties, generic-fierce features (sharp eyes, visible smile of someone who has accepted the price), in dark Insurgency-aligned light-leathers with deep-violet-and-warm-amber Void-marks at the wrists. She is mid-RUN across an Insurgency-aligned terrain, leading-foot landed, trailing-foot mid-arc. From her trailing path, faint translucent VOID-FLAME extends backward — flickering deep-violet-and-warm-amber flames that visibly EAT the ground behind her (the Void taught her). Faint warm rush-trails at her heels. Her face is forward-focused.",
+    moodKeywords: [
+      "she leaves fire in her wake",
+      "the Void taught her that",
+      "translucent void-flame eating the ground behind her",
+      "deep-violet-and-warm-amber Void-marks at wrists",
+    ],
+    palette:
+      "Dark Insurgency-aligned light-leathers + deep-violet-and-warm-amber Void-marks + translucent void-flame trail + flickering deep-violet flames + warm-amber flame-tint + warm rush-trails + cool deep-shadow",
+    composition:
+      "Action mid-shot side three-quarter, Runner mid-stride at frame-centre, void-flame trail extending backward",
+    notes:
+      "Rare unit. Generic-fierce features must NOT match any named character. The deep-violet-and-warm-amber Void-flame distinguishes from common warm-amber/orange fire (Void-touched fire is canonically marked).",
+  },
+  {
+    cardId: "s1_pack_id_kael_recruiter",
+    sceneDelta:
+      "Mid-shot. Kael, the Recruiter — same canonical contemporary Kael features (mid-thirties dark-hair-greying-at-temples male strategist, sharp dark eyes), but rendered at an EARLIER stage of his career — BEFORE the canonical 'infection': his expression is more IDEALISTIC, more open-faced (less calculating, more believing). He wears worn Insurgency-aligned recruiter's coat (warm-leather over slate, more humble than his s1_char_012 command-coat). He stands at the centre of an Insurgency-aligned recruitment-tent at frame-centre, mid-action of EXTENDING A WELCOME-HAND toward an anonymous prospect at frame-right (only the prospect's hand visible at edge). Behind him, a small Insurgency-aligned banner with 'something worth believing in' framing visible. NO infection-marks visible (the 'before' state per flavor).",
+    moodKeywords: [
+      "before the infection, Kael built something worth believing in",
+      "his soldiers would die for him — many did",
+      "more idealistic, more open-faced",
+      "extending welcome-hand toward anonymous prospect",
+    ],
+    palette:
+      "Worn Insurgency-aligned recruiter's coat + warm-leather over slate + dark-hair-greying-at-temples + sharp dark eyes + warm recruitment-tent ambient + Insurgency-aligned banner + warm low tent-light",
+    composition:
+      "Mid-shot front three-quarter, Kael at frame-centre extending welcome-hand, anonymous prospect's hand at frame-right edge",
+    notes:
+      "Rare unit. CRITICAL spoiler-discipline: same canonical Kael features as s1_char_012 (visual continuity preserved) but rendered at EARLIER career stage — pre-infection, more idealistic. NO infection-marks visible. Continuing spoiler-discipline: no brilliant-white-dominance, no toxic-green outer ring (Source-Reborn Act 5 reveal preserved).",
+  },
+  {
+    cardId: "s1_pack_pet_flicker_imp_1",
+    sceneDelta:
+      "Tight composition. A Spark Imp — a small humanoid creature, approximately 18cm tall, mid-EXPLOSION at frame-centre. Its body is composed of warm-orange-and-warm-amber spark-substance with internal cool-cyan core-pulse (instable, about to detonate). Its face shows TWO BRIGHT cool-cyan eye-points wide with feral focus and a small chrome-and-cyan jaw. Its body is mid-action of DETONATION — visible bright explosion-tendrils erupting outward from its center. Faint warm rush-trails at its base. The creature exists for one second; this is the second. Background: dark Insurgency-aligned underground.",
+    moodKeywords: [
+      "exists for exactly one brilliant, violent second",
+      "mid-detonation explosion-tendrils erupting",
+      "feral cool-cyan eye-points wide",
+      "this is the second",
+    ],
+    palette:
+      "Warm-orange-and-warm-amber spark-substance + internal cool-cyan core-pulse + cool-cyan eye-points + chrome-and-cyan jaw + warm explosion-tendrils + warm rush-trails + dark Insurgency-aligned underground",
+    composition:
+      "Tight composition, Spark Imp at frame-centre mid-detonation",
+    notes:
+      "Common unit. NO human figure. The 'one violent second' is rendered as the mid-detonation moment — captured in the instant of expense. First stage of flicker-imp lineage.",
+  },
+  {
+    cardId: "s1_pack_pet_flicker_imp_2",
+    sceneDelta:
+      "Action mid-shot. A Flicker Fiend — adult-stage spark-creature, approximately 50cm tall, body more substantial than the Spark Imp (denser warm-orange-and-warm-amber substance with internal deeper-cool-cyan core-pulse). Mid-action of FLICKERING-STRIKE: visible at TWO POSITIONS at frame-centre simultaneously — one position striking forward, one position striking from a different angle (the canonical 'doesn't flicker to escape — flickers to strike twice'). Both strike-positions show dual cool-cyan eye-points and warm-amber claws. Faint warm celerity-trails between the two positions. NO human figure. Dark Insurgency-aligned underground setting.",
+    moodKeywords: [
+      "doesn't flicker to escape",
+      "flickers to strike twice",
+      "two positions simultaneously, dual strikes",
+      "warm celerity-trails between positions",
+    ],
+    palette:
+      "Denser warm-orange-and-warm-amber spark-substance + deeper cool-cyan core-pulse + dual cool-cyan eye-points + warm-amber claws + warm celerity-trails + dark Insurgency-aligned underground",
+    composition:
+      "Action mid-shot, Fiend at TWO frame-centre positions, celerity-trails connecting",
+    notes:
+      "Rare unit. NO human figure. Second stage of flicker-imp lineage. The 'two positions' is the canonical flicker-strike visualization.",
+  },
+  {
+    cardId: "s1_pack_pet_flicker_imp_3",
+    sceneDelta:
+      "Wider mid-shot. An Inferno Djinn — vast adult-stage spark-creature, approximately 1.8m tall, body composed of dense warm-orange-and-warm-amber spark-substance fully solidified into a humanoid djinn-form. Its body shows broad-shouldered, powerful proportions with internal cool-cyan core-furnace-glow visible at chest. Where its face would be, three cool-cyan eye-points (escalation: 1→2→3 across lineage). It stands at the centre of a moment of DETONATION — faint warm explosion-tendrils erupting outward from its body in all directions, the explosion mid-flow (the Insurgency's detonation made flesh). Faint warm rush-trails at its base. Behind it, a vast dark Insurgency-aligned underground tunnel showing the demolition-pattern.",
+    moodKeywords: [
+      "the Insurgency doesn't knock",
+      "it detonates",
+      "humanoid djinn-form with internal furnace-glow",
+      "three cool-cyan eye-points",
+    ],
+    palette:
+      "Dense warm-orange-and-warm-amber spark-substance + internal cool-cyan core-furnace-glow + three cool-cyan eye-points + warm explosion-tendrils + warm rush-trails + dark Insurgency-aligned underground tunnel + warm demolition-light",
+    composition:
+      "Wider mid-shot front three-quarter, Inferno Djinn at frame-centre with detonation-aura, tunnel behind",
+    notes:
+      "Epic unit. NO human figure. Third stage of flicker-imp lineage with eye-escalation: 2 → dual → 3. The 'Insurgency detonates' is the canonical visualization.",
+  },
+  {
+    cardId: "s1_pack_pet_spore_fungus_1",
+    sceneDelta:
+      "Tight composition. A Spore Seedling — a small mushroom-like fungal organism, approximately 8cm tall, growing from a small Insurgency-aligned forest-floor patch at frame-centre. The seedling has a deep-violet-and-cool-cream cap with faint translucent spore-cloud emanating gently upward from beneath the cap (the spore-spread is constant, gentle, ongoing — kill OR ignore both spread it). Tiny faint warm-amber root-fibers visible at the base. The forest-floor around the seedling shows visible earlier-spread (small fungal-patches at varying depths). NO human figure.",
+    moodKeywords: [
+      "kill it and it spreads",
+      "ignore it and it spreads",
+      "no good option",
+      "translucent spore-cloud emanating gently upward",
+    ],
+    palette:
+      "Deep-violet-and-cool-cream mushroom-cap + translucent spore-cloud + warm-amber root-fibers + Insurgency-aligned forest-floor + earlier-spread fungal-patches + cool ambient + warm low forest-light",
+    composition:
+      "Tight composition, Seedling at frame-centre, forest-floor with earlier-spread visible",
+    notes:
+      "Common unit. NO human figure. The 'kill or ignore both spread' is rendered as the constant translucent spore-cloud — the spread is independent of action. First stage of spore-fungus lineage.",
+  },
+  {
+    cardId: "s1_pack_pet_spore_fungus_2",
+    sceneDelta:
+      "Mid-shot. A Mycelial Bloom — adult-stage fungal organism, approximately 60cm tall, with a wide elaborate BEAUTIFUL bloom-cap (deep-violet-and-cool-cream petals arranged in radial-symmetry, visibly luminous). The bloom is at frame-centre on an Insurgency-aligned forest-floor. From beneath the bloom-cap, dense translucent SPORE-CLOUDS emanate downward — the canonical 'bloom is beautiful, spores are not' contrast: the upper-cap is luminous and lovely; the spore-cloud below is faintly toxic-tinted, drifting outward in a wider pattern. Around the bloom, smaller translucent infected-particles drift upward into the air. NO human figure.",
+    moodKeywords: [
+      "the bloom is beautiful",
+      "the spores are not",
+      "luminous radial-symmetry cap above",
+      "toxic-tinted spore-cloud drifting outward below",
+    ],
+    palette:
+      "Deep-violet-and-cool-cream luminous bloom-cap + radial-symmetry petals + dense translucent spore-clouds + toxic-tinted spore-tint + Insurgency-aligned forest-floor + warm cap-glow + cool deep-shadow",
+    composition:
+      "Mid-shot, Bloom at frame-centre, spore-cloud drifting outward beneath",
+    notes:
+      "Rare unit. NO human figure. Second stage of spore-fungus lineage. The 'bloom beautiful, spores not' is rendered through the visual contrast — luminous cap above, toxic cloud below.",
+  },
+  {
+    cardId: "s1_pack_pet_spore_fungus_3",
+    sceneDelta:
+      "Wider mid-shot. A Fungal Colossus — vast adult-stage fungal organism, approximately 2.4m tall, with a massive dark-violet-and-deep-cream cap that fills the upper-half of the frame. The Colossus's roots/base extend into a battlefield-floor at lower-third, where ANONYMOUS FALLEN BODIES (back-shots only, generic-mixed combatants from various factions) are partially visible — the Colossus has fed on them. From the Colossus's body, faint translucent deathwatch-script (cool-violet, distinct from Hierarchy phosphor-green and Architect cool-cyan) propagates outward (deathwatch keyword visualized). Around the base, additional smaller fungal-blooms grow from the fallen — the garden grows. NO human face visible.",
+    moodKeywords: [
+      "it feeds on the fallen",
+      "every battlefield is a garden",
+      "fallen bodies partially visible at base",
+      "deathwatch-script propagating outward",
+    ],
+    palette:
+      "Dark-violet-and-deep-cream massive cap + cool-violet deathwatch-script + battlefield-floor + anonymous fallen bodies + smaller fungal-blooms growing from fallen + cool battlefield ambient + cool deep-shadow",
+    composition:
+      "Wider mid-shot, Colossus at frame-centre with cap dominating upper-half, fallen bodies + smaller blooms at lower-third",
+    notes:
+      "Epic unit. NO human face (fallen bodies are back-shots/anonymous). Third stage of spore-fungus lineage. The cool-violet deathwatch-script is a NEW faction-colored variant (distinct from Hierarchy phosphor-green and Architect cool-cyan deathwatch idioms).",
+  },
 ] as const;
 
 /**
  * Insurgency faction's prompt registry, keyed by card id.
  *
- * Currently populated: 24 / 51 cards
+ * Currently populated: 32 / 51 cards
  * (gen_insurgency, s1_char_002, s1_char_010, s1_char_011,
  *  s1_char_012, s1_char_026, s1_char_028, s1_char_031,
  *  s1_char_040, s1_char_041, s1_char_044, s1_char_047,
  *  s1_char_105, s1_char_106, s1_char_107, s1_char_108,
- *  s1_char_202, s1_pack_008-014).
+ *  s1_char_202, s1_pack_008-014, s1_pack_cosm_trail_fire,
+ *  s1_pack_id_kael_recruiter, s1_pack_pet_flicker_imp_1-3,
+ *  s1_pack_pet_spore_fungus_1-3).
  */
 export const INSURGENCY_CARD_ART_PROMPTS: Readonly<Record<string, CardArtPrompt>> =
   Object.freeze(
