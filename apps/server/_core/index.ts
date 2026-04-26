@@ -15,6 +15,7 @@ import { registerSpriteProxy } from "../spriteProxy";
 import { registerChessMultiplayer } from "../chessMultiplayer";
 import { ENV } from "./env";
 import { performanceMiddleware } from "../performanceMonitor";
+import { sentryErrorHandler, waitForSentry } from "../sentry";
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -276,6 +277,22 @@ async function startServer() {
   } else {
     serveStatic(app);
   }
+
+  // #88 Telemetry — Sentry error capture.
+  //
+  // Mounted AFTER all routes (Express error-handling middleware runs
+  // last in the chain). When SENTRY_DSN is set, every unhandled error
+  // bubbling out of a route handler is reported before the next error
+  // handler renders the response. When the env var is unset (local
+  // dev / tests / CI), the captureException call is a no-op and the
+  // error continues down the middleware chain unchanged.
+  app.use(sentryErrorHandler);
+
+  // Block startup briefly until Sentry's lazy init has resolved so
+  // any error thrown before request-binding (e.g. during the server
+  // bootstrap below) is also captured. Resolves immediately when
+  // SENTRY_DSN is unset.
+  await waitForSentry();
 
   const preferredPort = parseInt(process.env.PORT || "3000");
   const port = await findAvailablePort(preferredPort);
