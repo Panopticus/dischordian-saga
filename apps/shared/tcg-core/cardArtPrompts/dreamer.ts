@@ -702,12 +702,114 @@ const DREAMER_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "Epic unit. NO human figure. Third stage of temporal-cat lineage. The 'moves through time' is rendered as the multi-era ground-strata under the footsteps. Visually rhymes with Antiquarian Epoch Walker (s1_char_058) — same multi-era ground-transition idiom, applied here to a creature.",
   },
+  {
+    cardId: "s1_reward_campaign_finale",
+    sceneDelta:
+      "Wider mid-shot. A Resurrection Protocol — at frame-centre, a tall translucent column of cool-cream void-substance reaches from the floor up to off-frame upper-distance (the void where the Dreamer whispered). From within the column, a humanoid figure is RETURNING — emerging from the upper-third, body partially-translucent, descending downward into manifest reality. The figure is anonymous (back-three-quarter, generic-cool-leather restored gear). Critically, the returned figure is VISIBLY CHANGED: small details are different from any specific original — slight aurora-violet tint to skin, faint silver-mist fingertip-trails (residue of the void-passage). Around the figure, faint translucent void-substance falls away. NO face visible (back-three-quarter only).",
+    moodKeywords: [
+      "the Dreamer whispered into the void, and the void answered",
+      "what returns is changed — but it returns",
+      "anonymous figure returning, visibly changed",
+      "translucent void-substance falling away",
+    ],
+    palette:
+      "Translucent cool-cream void-column + warm-leather restored gear + faint aurora-violet skin-tint + silver-mist fingertip-trails + translucent void-substance + cool deep-shadow",
+    composition:
+      "Wider mid-shot back-three-quarter, void-column at frame-centre, returning figure mid-descent",
+    notes:
+      "Epic spell. Anonymous figure (back-three-quarter) preserves no-character-conflation. The 'changed but returned' framing is rendered through the aurora-violet tint and silver-mist trails — visible alteration without specifying who returned.",
+  },
+  {
+    cardId: "s1_reward_campaign_truth",
+    sceneDelta:
+      "Mid-shot. An Oracle's Memory Fragment — a single small CRYSTALLINE SHARD of silver-mist substance, approximately 20cm long, hovering at frame-centre on a Dreamer-sanctum altar. The shard is faintly luminous with internal aurora-violet WORLD-AS-MEANT-TO-BE script visible through translucent surface (a partial vision of the unbroken world). Around the shard, faint translucent prophecy-trails. The shard sits ALONE on a small altar — there are CRACK-MARKS on the altar's surface where OTHER SHARDS once sat (the canonical 'shattered herself rather than let the Architect possess her whole' visualization — multiple shards exist elsewhere). NO Oracle figure visible — only her fragment.",
+    moodKeywords: [
+      "she shattered herself rather than let the Architect possess her whole",
+      "each shard still remembers what the world was meant to be",
+      "single shard with internal world-as-meant-to-be script",
+      "crack-marks on altar where other shards sat",
+    ],
+    palette:
+      "Crystalline silver-mist Shard + internal aurora-violet world-script + faint translucent prophecy-trails + Dreamer-sanctum altar + crack-marks on altar surface + warm low altar-light + cool deep-shadow",
+    composition:
+      "Mid-shot, Shard at frame-centre on altar, crack-marks visible on altar-surface",
+    notes:
+      "Rare unit. NO Oracle figure visible (consistent with spoiler-discipline — the Oracle is captive/leak, not present in person). The crack-marks where other shards sat communicate 'multiple fragments' without requiring all to be drawn.",
+  },
+  {
+    cardId: "s1_reward_casino_dice",
+    sceneDelta:
+      "Tight composition. An Entropy Roll — a single chrome-and-aurora-violet DIE, approximately 5cm per side, mid-tumble at frame-centre. The die's faces show NUMBERED SYMBOLS in cool-cyan but each visible face shows a DIFFERENT POTENTIAL OUTCOME (one face shows a sword-icon, one shows a shield-icon, one shows a dawn-icon, one shows a void-icon — chaos chooses among diverse outcomes). The die is mid-tumble, blurred at the edges from rotation. Around the die, faint translucent probability-ribbons trail behind. NO human figure (the die IS the subject). Background: a quiet warm-leather casino-table surface (consistent with The Degen's casino).",
+    moodKeywords: [
+      "chaos doesn't choose sides",
+      "it just chooses",
+      "die mid-tumble with diverse-outcome faces",
+      "translucent probability-ribbons trailing",
+    ],
+    palette:
+      "Chrome-and-aurora-violet die + cool-cyan numbered-symbol faces + diverse outcome-icons + translucent probability-ribbons + warm-leather casino-table + cool deep-shadow",
+    composition:
+      "Tight composition, die at frame-centre mid-tumble, casino-table surface beneath",
+    notes:
+      "Common spell. NO human figure. Different faces showing different outcome-types is the canonical 'chaos chooses' visualization — multiple potentials in a single roll.",
+  },
+  {
+    cardId: "s1_reward_class_neyon",
+    sceneDelta:
+      "Mid-shot. An Awakened Ne-Yon — generic-mixed features figure in late-twenties, just OPENING THEIR EYES from a meditation-trance, in plain Dreamer-cream-and-warm-cream Ne-Yon meditation-robes. They sit cross-legged on a low Dreamer-meditation-platform. Around them, the AIR shows the FRESH EVIDENCE of their dream-conjuring: faint translucent silver-mist FORM-OUTLINES of every class-discipline they envisioned (assassin-strike trail, oracle-divination ring, soldier-formation echo, engineer-paper-drift, spy-stealth-shimmer, ne-yon-multi-token, all overlapping at chest-height in front of them). The Awakened figure stands AT the edge of the platform — they have JUST stood up, the dream becoming the body. Their face is calm, freshly-aware.",
+    moodKeywords: [
+      "the Ne-Yon dreamed of a warrior who mastered every discipline",
+      "then it opened its eyes, and the warrior was standing there",
+      "fresh evidence of dream-conjuring",
+      "every class-discipline visible as form-outlines around them",
+    ],
+    palette:
+      "Dreamer-cream-and-warm-cream Ne-Yon robes + low Dreamer-meditation-platform + translucent silver-mist form-outlines (assassin/oracle/soldier/engineer/spy/ne-yon overlapping) + cool deep-shadow + warm meditation-light",
+    composition:
+      "Mid-shot front three-quarter, Awakened Ne-Yon at frame-centre standing from platform, form-outlines hovering around",
+    notes:
+      "Legendary unit. The 'every class-discipline visible' is a canonical Ne-Yon visualization — multiple disciplines in one body (consistent with Ne-Yon class set s1_class_neyon_*). Generic-mixed features must NOT match any named character.",
+  },
+  {
+    cardId: "s1_reward_class_oracle",
+    sceneDelta:
+      "Mid-shot. A Master Oracle — female-presenting figure in mid-forties (NOT The Oracle herself; this is a Master-rank class-tier reward), generic-attentive features (calm, deeply present), in Dreamer-aurora-violet apprentice-master Oracle-school robes with three-nested-rings sigil at the throat. She stands in a quiet Dreamer-divination-chamber. In her right hand, a translucent silver-mist FORESIGHT-SCROLL is partially-unfurled showing PROPHESIED-WOUND-PATTERNS (cool-cyan damage-trajectory glyphs predicting future battle). Her left hand is placed on the chest of an anonymous ally figure (only the ally's shoulder visible at frame-right edge), preparing the ally with a faint warm-cream defense-pulse. Faint translucent dispel-ribbon trails around her hands.",
+    moodKeywords: [
+      "the Oracle sees every wound before it is dealt",
+      "and prepares accordingly",
+      "foresight-scroll showing prophesied-wound-patterns",
+      "warm-cream defense-pulse on ally",
+    ],
+    palette:
+      "Dreamer-aurora-violet apprentice-master Oracle-school robes + three-nested-rings sigil + translucent silver-mist foresight-scroll + cool-cyan damage-trajectory glyphs + warm-cream defense-pulse + translucent dispel-ribbon + cool divination-chamber ambient",
+    composition:
+      "Mid-shot front three-quarter, Master Oracle at frame-centre with scroll in right hand, anonymous ally-shoulder at frame-right edge",
+    notes:
+      "Rare unit. CRITICAL: this is a class-rank reward Oracle (Master Oracle, similar idiom to Master Engineer s1_reward_class_engineer), NOT The Oracle herself (whose face remains FACELESS cream-mist oval per spoiler-discipline). The Master Oracle is generic-attentive features; visible mid-forties woman, full-faced. Anonymous ally preserves no-character-conflation.",
+  },
+  {
+    cardId: "s1_reward_cycle_light",
+    sceneDelta:
+      "Wider mid-shot. A Dawn Ascendant — male-presenting figure in early-twenties at frame-centre, generic-quiet features (alert, slightly cold, attentive), in plain Dreamer-cool-cream cyclic-acolyte robes. He stands on a high Dreamer-aligned dawn-tower platform, both arms slightly extended outward in a wide CYCLE-WELCOMING gesture. Around him, the SCENE shows the moment of FIRST LIGHT after a long darkness: the sky at upper-third is mid-transition from deep cool-violet (night ending) to thin warm-amber (first dawn beginning), with the very first cool-cream sun-edge cresting at the horizon at upper-frame-right. The light hits him at an angle, casting a long cool shadow behind. His breath is visibly cold (a faint cool-cream exhale-cloud at his mouth). The light is BEAUTIFUL but COLD.",
+    moodKeywords: [
+      "when the Cycle turns, the first light is always the coldest",
+      "but it is light nonetheless",
+      "first sun-edge cresting at horizon",
+      "alert, slightly cold, attentive",
+    ],
+    palette:
+      "Dreamer-cool-cream cyclic-acolyte robes + deep cool-violet night-ending sky + thin warm-amber first-dawn + cool-cream sun-edge + cool-cream exhale-cloud + long cool shadow behind + cool deep-shadow",
+    composition:
+      "Wider mid-shot front three-quarter, Dawn Ascendant at frame-centre on tower-platform, dawn-horizon at upper-third",
+    notes:
+      "Rare unit. Generic-quiet features must NOT match any named character. The 'first light is the coldest' is rendered as the cool-tinted dawn (not the warm dawn typical of Dreamer-faction default). The visible cool exhale-breath is the visual key to the cold.",
+  },
 ] as const;
 
 /**
  * Dreamer faction's prompt registry, keyed by card id.
  *
- * Currently populated: 39 / 61 cards
+ * Currently populated: 45 / 61 cards
  * (gen_dreamer, s1_char_005, s1_char_014, s1_char_017,
  *  s1_char_023, s1_char_025, s1_char_027, s1_char_029,
  *  s1_char_034, s1_char_036, s1_char_037, s1_char_045,
@@ -717,7 +819,10 @@ const DREAMER_PROMPTS_LIST: readonly CardArtPrompt[] = [
  *  s1_pack_id_oracle_ascended, s1_pack_id_oracle_prisoner,
  *  s1_pack_id_oracle_prophet,
  *  s1_pack_pet_glyph_moth_1-3, s1_pack_pet_holo_fox_1-3,
- *  s1_pack_pet_temporal_kitten_1-3).
+ *  s1_pack_pet_temporal_kitten_1-3,
+ *  s1_reward_campaign_finale, s1_reward_campaign_truth,
+ *  s1_reward_casino_dice, s1_reward_class_neyon,
+ *  s1_reward_class_oracle, s1_reward_cycle_light).
  */
 export const DREAMER_CARD_ART_PROMPTS: Readonly<Record<string, CardArtPrompt>> =
   Object.freeze(
