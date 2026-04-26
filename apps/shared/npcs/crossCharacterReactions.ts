@@ -57,6 +57,21 @@ export const CROSS_CHARACTER_REACTIONS: ReadonlyArray<CrossCharacterReaction> = 
       "bank acknowledges via post-naming verbal lines.",
   },
 
+  // ─── Severance Prize cosmic refusal (Phase 6a.1 askTopics + bank) ──
+  {
+    flag: "nilmorg_refused_to_explain_severance",
+    setBy: ["nilmorg"],
+    reactsBy: ["future_reader"], // Locke / Antiquarian / Hierophant Phase 6+
+    canonicalNote:
+      "Per Nilmorg bible §1.5 protected refusal: 'He never explains why " +
+      "[the Severance Prize is] worse than not paying.' Set by the cosmic-" +
+      "refusal ask-topics (ask_nilmorg_dont_explain, ask_nilmorg_worse_" +
+      "than_not_paying) and by the recipient-reunion 'do not ask' line. " +
+      "Downstream NPCs (Locke per Touché disclosure register; the " +
+      "Antiquarian per his audit canon) react in Phase 6a.2+ as their " +
+      "banks land.",
+  },
+
   // ─── Seer Inheriting band reach (cross-bibliographic) ───────────────
   {
     flag: "seer_confidant_band_reached",

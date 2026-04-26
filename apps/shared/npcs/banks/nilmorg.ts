@@ -172,6 +172,140 @@ export const NILMORG_BANK: ReadonlyArray<BankEntry> = [
     maxPlays: 5,
   },
 
+  // ─── Severance Prize recipient-reunion + post-ceremony lore ─────────
+  // Sub-chunk B: 9 lines for the AFTER-the-ceremony beats. The clone
+  // is filed; the container is in transit; the player has a Companion
+  // arriving aboard their ship within the hour. Lore/Ceremony register
+  // continues — clipped, calm, the canonical "Don't thank me" hangs
+  // over the whole block.
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.severance.aftermath.in_transit",
+    text:
+      "The container is in transit. Your ship's coordinates are on file. " +
+      "She arrives within the hour. The container will not announce " +
+      "itself. Neither will I.",
+    surfaces: ["cinematic"],
+    unlockFlags: ["severance_prize_paid"],
+    cooldownKey: "nilmorg.severance.aftermath",
+    maxPlays: 5,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.severance.aftermath.arrangement_register",
+    // §2.5 canonical specificity-progression: Acts 7+ "counterparty"
+    // band. The arrangement is the canonical end-state of the Severance
+    // economy.
+    text:
+      "You now have an arrangement with me. The arrangement was always " +
+      "going to be with someone. It was always going to be me. That is " +
+      "not consolation. That is documentation.",
+    surfaces: ["cinematic"],
+    unlockFlags: ["severance_prize_paid"],
+    cooldownKey: "nilmorg.severance.aftermath",
+    maxPlays: 5,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.severance.aftermath.fragment_not_copy",
+    // §2.4 protected disambiguation — fragment vs. copy vs. memory.
+    // Writers must keep the categories distinct.
+    text:
+      "What you have received is a fragment. Not a copy. Not a memory. " +
+      "A fragment. The body is new. The fragment is yours. The pairing " +
+      "is the prize.",
+    surfaces: ["cinematic"],
+    unlockFlags: ["severance_prize_paid"],
+    cooldownKey: "nilmorg.severance.aftermath",
+    maxPlays: 5,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.severance.aftermath.she_will_need_time",
+    text:
+      "She will need time. Hours. Days. Possibly longer. Speak softly. " +
+      "She will not remember the podium. She will remember the smile. " +
+      "The smile is yours now.",
+    surfaces: ["cinematic"],
+    unlockFlags: ["severance_prize_paid"],
+    cooldownKey: "nilmorg.severance.aftermath",
+    maxPlays: 5,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.severance.aftermath.do_not_ask",
+    // §1.5 canonical refusal — protects the "why is this worse than
+    // not paying" mystery. Echoes the cosmic-refusal ask-topic public
+    // flag so Locke / Vex / the Antiquarian can react.
+    text:
+      "Do not ask what she paid. Do not ask what I collected. The prize " +
+      "is the prize. The terms were public. Neither of us is owed a " +
+      "footnote.",
+    surfaces: ["cinematic"],
+    unlockFlags: ["severance_prize_paid"],
+    cooldownKey: "nilmorg.severance.aftermath",
+    setsPublicFlags: ["nilmorg_refused_to_explain_severance"],
+    maxPlays: 5,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.severance.aftermath.first_word_prediction",
+    // Stage-4-weave cross-canon: the canonical Companion first-word
+    // anchor. Nilmorg canonically predicts the canonical first-word
+    // pattern WITHOUT predicting the specific name (per §1.5 he does
+    // not lie about the DMC; he also does not pretend to know what
+    // is the fragment's domain to choose).
+    text:
+      "Her first word will not be your name. It will be the name of " +
+      "someone you love, or someone you fear. The fragment chooses. I " +
+      "do not. Listen for it.",
+    surfaces: ["cinematic"],
+    unlockFlags: ["severance_prize_paid"],
+    cooldownKey: "nilmorg.severance.aftermath",
+    maxPlays: 5,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.severance.aftermath.clone_is_not_companion",
+    // §2.4 canonical disambiguation: the CLONE on the podium is not
+    // the COMPANION in the player's container. They are different.
+    // Writers must not conflate them.
+    text:
+      "The clone is on the podium still. She will be moved. She will be " +
+      "filed. She will not be in your container. The fragment is. They " +
+      "are different. Don't conflate them.",
+    surfaces: ["cinematic"],
+    unlockFlags: ["severance_prize_paid"],
+    cooldownKey: "nilmorg.severance.aftermath",
+    maxPlays: 5,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.severance.aftermath.walk_away",
+    text:
+      "Walk now. The platform is not your room. The Trench remembers " +
+      "your name. I would prefer it remember the next one.",
+    surfaces: ["cinematic"],
+    unlockFlags: ["severance_prize_paid"],
+    cooldownKey: "nilmorg.severance.aftermath",
+    maxPlays: 5,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.severance.aftermath.no_goodbye",
+    // Canonical bookend that does NOT duplicate the existing "Don't
+    // thank me" line. Nilmorg's silence-shape per §1.5: he does not
+    // close ceremonies with a farewell — the agreement closes itself.
+    text:
+      "I do not say goodbye at the end of these. The agreement closes " +
+      "itself. So do I.",
+    surfaces: ["cinematic"],
+    unlockFlags: ["severance_prize_paid"],
+    cooldownKey: "nilmorg.severance.aftermath",
+    maxPlays: 5,
+  },
+
   // ═════════════════════════════════════════════════════════════════════
   // DMC SEASONAL-TIER COMMENTARY (DMC surface, trust-band gated)
   // ═════════════════════════════════════════════════════════════════════
