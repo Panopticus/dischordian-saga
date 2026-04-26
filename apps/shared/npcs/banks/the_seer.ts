@@ -41,6 +41,59 @@ export const THE_SEER_BANK: ReadonlyArray<BankEntry> = [
   },
 
   // ═════════════════════════════════════════════════════════════════════
+  // ACT 2 SILENCE (Phase 6b.1 — the canonical no-content-here
+  // placeholder per the_seer.md §2.4)
+  //
+  // No Seer scene fires in Act 2 in shipped canon. Bible canon (§2.4):
+  // "she pre-recorded no Act-2 scenes. The silence is not absence-of-
+  // contact; it is a recording's no-content-here placeholder."
+  //
+  // These lines fire only when a specific narrative flag is set —
+  // canonical "the player has performed an action the Seer foresaw
+  // narrowly enough to record a placeholder for." The default Act-2
+  // experience remains canonical silence; these beats are foreseen-
+  // exception placeholders, not routine transmissions.
+  // ═════════════════════════════════════════════════════════════════════
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "seer.transmission.act2.silence.placeholder_named",
+    // §2.4 canonical: "the silence is not absence-of-contact; it is
+    // a recording's no-content-here placeholder, the Seer's foreseen
+    // judgment that Act 2 is the player's act to walk alone."
+    // §1.5 voice rule: the line is prediction-bearing — the
+    // canonical "I named the silence before sealing" IS the
+    // recording's prediction-of-itself.
+    text:
+      "[A transmission arrives that is itself the absence of a " +
+      "transmission. The schedule shows a clean line: zero entries " +
+      "for Act 2. The clean line is itself the foretelling. She " +
+      "named the silence before sealing. You walk this act alone — " +
+      "by her schedule, not by accident.]",
+    surfaces: ["transmission"],
+    minAct: 2,
+    maxAct: 2,
+    requiresTrustBand: "Wary",
+    unlockFlags: ["seer_act2_silence_acknowledged"],
+    cooldownKey: "seer.act2.silence",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "seer.transmission.act2.silence.foreseen_solo",
+    text:
+      "I foresaw this act. I allocated zero foretellings to it. The " +
+      "allocation is the prophecy. Walk it well. Walk it without me.",
+    surfaces: ["transmission"],
+    minAct: 2,
+    maxAct: 2,
+    requiresTrustBand: "Wary",
+    unlockFlags: ["seer_act2_silence_acknowledged"],
+    cooldownKey: "seer.act2.silence",
+    maxPlays: 1,
+  },
+
+  // ═════════════════════════════════════════════════════════════════════
   // COLD REGISTER / WARY BAND / Act 3 — full prophecy-overhead
   // ═════════════════════════════════════════════════════════════════════
 
@@ -73,6 +126,50 @@ export const THE_SEER_BANK: ReadonlyArray<BankEntry> = [
     minAct: 3,
     requiresTrustBand: "Wary",
     cooldownKey: "seer.staff_transmission",
+    maxPlays: 1,
+  },
+
+  // ─── Act 3 deepening lines (Phase 6b.1 sub-chunk B) ─────────────────
+  // The canonical "neither warm nor cold — that is the Seer" register
+  // beat per §1.3 + the canonical warm-bridge "prophecy-overhead drops"
+  // precursor that precedes the Act 5 first-laughter canonical scene.
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "seer.transmission.act3.cold.neither_warm_nor_cold",
+    // Per `moralityTrustActVariants.ts:1027-1028` canon: "That is
+    // neither warm nor cold — that is the Seer." The canonical rest-
+    // position register. The line names the register itself as the
+    // recording's content — meta-canonical per §2.3 cross-time canon.
+    text:
+      "[The Seer's transmission today carries no probability table, " +
+      "no version-pivot, no caveat. She is neither warm nor cold. " +
+      "That is neither warm nor cold — that is the Seer. The register " +
+      "is the rest position. She has no other rest position. You have " +
+      "just witnessed it.]",
+    surfaces: ["transmission"],
+    minAct: 3,
+    requiresTrustBand: "Wary",
+    cooldownKey: "seer.cold_rest_position",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "seer.transmission.act3.warm.prophecy_overhead_drops",
+    // Per §1.1 + §2.4: the canonical warm-register precursor to first-
+    // laughter — the prophecy-overhead reduces before the audible
+    // laugh lands. §1.5 voice rule satisfied via the prediction "you
+    // are crossing into the band" which is canonically prediction-
+    // bearing about the player's near-future trust state.
+    text:
+      "The transmission arrives with the prophecy-overhead reduced. " +
+      "She has not laughed yet. She has stopped warning you about the " +
+      "version you are not in. The reduction is the warmth. You are " +
+      "crossing into the band where she will trust you to read plainly.",
+    surfaces: ["transmission"],
+    minAct: 3,
+    requiresTrustBand: "Witnessed",
+    cooldownKey: "seer.warm_overhead_drops_precursor",
     maxPlays: 1,
   },
 
