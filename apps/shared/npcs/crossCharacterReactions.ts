@@ -187,6 +187,21 @@ export const CROSS_CHARACTER_REACTIONS: ReadonlyArray<CrossCharacterReaction> = 
       "the canonical Seer-Programmer historical-disclosure line.",
   },
 
+  // ─── Seer Meme-resistance disclosure (Phase 6b.1 cross-time chunk) ─
+  {
+    flag: "seer_meme_resistance_disclosed",
+    setBy: ["the_seer"],
+    reactsBy: ["future_reader"], // The Meme (future bank) + Phase 6+
+    canonicalNote:
+      "Per Seer bible §2.3 + cross-bible Meme canon: the Seer is the " +
+      "saga's only voice canonically Meme-resistant by construction — " +
+      "her recordings predate the Meme's editorial range. Set when the " +
+      "Witnessed-band cross-time mechanic line discloses this. The flag " +
+      "opens a downstream Meme-bible reactive register where the Meme " +
+      "canonically registers the player having learned that one voice " +
+      "in the saga cannot be reached by his editorial mechanism.",
+  },
+
   // ─── Locke filed player as predatory at first contact (Phase 6a.2
   //     first-meeting tree) ────────────────────────────────────────────
   {

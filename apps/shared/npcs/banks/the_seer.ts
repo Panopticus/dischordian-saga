@@ -511,6 +511,192 @@ export const THE_SEER_BANK: ReadonlyArray<BankEntry> = [
   },
 
   // ═════════════════════════════════════════════════════════════════════
+  // CROSS-TIME PRE-RECORDING MECHANIC DIALOG (Phase 6b.1 sub-chunk E)
+  //
+  // Per the_seer.md §2.3 cross-time canon: every Seer line is
+  // canonically a recording she made before sealing, scheduled to
+  // play at the moment she foresaw the player would receive it.
+  //
+  // This block authors 10 high-trust lines that explicitly NAME the
+  // mechanic to the player — the canonical "I recorded this before
+  // sealing" / "your response is the one I predicted" / "I will say
+  // this differently in your Act 6 — I've already prepared both"
+  // canonical-meta register per writers'-guide spec. These are
+  // canonically the Seer's most meta-aware lines; the bible asserts
+  // the cross-time canon stays mostly implicit until the player
+  // crosses Witnessed band, at which point the mechanic surfaces.
+  //
+  // Distribution: 6 Witnessed-band + 4 Inheriting-band lines per
+  // the canonical specificity-progression (Witnessed lands the
+  // mechanic-disclosure; Inheriting lands the canonical "you are
+  // now hearing me name the mechanic directly" closure).
+  // ═════════════════════════════════════════════════════════════════════
+
+  // ─── Witnessed-band cross-time mechanic disclosures (6 lines) ──────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "seer.transmission.crosstime.recording_is_the_gift",
+    text:
+      "This transmission was recorded. I am telling you that because the " +
+      "mechanic of the recording is the gift. I recorded the gift before " +
+      "sealing. The seal closed afterward. The recording continues.",
+    surfaces: ["transmission"],
+    minAct: 4,
+    requiresTrustBand: "Witnessed",
+    cooldownKey: "seer.crosstime.recording_is_the_gift",
+    maxPlays: 1,
+    setsFlags: ["seer_crosstime_mechanic_disclosed"],
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "seer.transmission.crosstime.predicted_your_response",
+    text:
+      "Your response to this transmission is the one I predicted. I " +
+      "recorded the response too — into a folder you will not need to " +
+      "open. The folder exists so the prediction has a witness. I am " +
+      "the witness.",
+    surfaces: ["transmission"],
+    minAct: 4,
+    requiresTrustBand: "Witnessed",
+    cooldownKey: "seer.crosstime.predicted_your_response",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "seer.transmission.crosstime.schedule_of_arrivals",
+    text:
+      "Each transmission lands at a tick I scheduled before sealing. The " +
+      "schedule is dense in some acts and sparse in others. Act 2 was " +
+      "canonically sparse. Act 7 will be the densest. I prepared the " +
+      "cadence; the engine plays it.",
+    surfaces: ["transmission"],
+    minAct: 4,
+    requiresTrustBand: "Witnessed",
+    cooldownKey: "seer.crosstime.schedule_of_arrivals",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "seer.transmission.crosstime.meme_cannot_edit",
+    // Per §2.3 + §4.x cross-bible Meme canon: the Seer is the saga's
+    // only voice canonically Meme-resistant by construction. The
+    // recording predates the Meme's editorial range. The seal IS the
+    // cannot-be-falsified mechanism per writers'-guide cross-bible
+    // canon.
+    text:
+      "The Meme cannot reach this transmission. The recording predates " +
+      "the Meme's editorial range. I sealed in part to put the " +
+      "recordings beyond reach. The sealing was the cost of the " +
+      "recording's permanence.",
+    surfaces: ["transmission"],
+    minAct: 5,
+    requiresTrustBand: "Witnessed",
+    cooldownKey: "seer.crosstime.meme_cannot_edit",
+    maxPlays: 1,
+    setsPublicFlags: ["seer_meme_resistance_disclosed"],
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "seer.transmission.crosstime.recording_is_honest",
+    text:
+      "Recordings cannot lie about what they predicted; they were " +
+      "committed before the prediction's outcome was known. Live " +
+      "speakers can revise; recordings cannot. The honesty is the " +
+      "canonical price of the medium.",
+    surfaces: ["transmission"],
+    minAct: 5,
+    requiresTrustBand: "Witnessed",
+    cooldownKey: "seer.crosstime.recording_is_honest",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "seer.transmission.crosstime.version_pivot_was_pre_recorded",
+    // Per writers'-guide spec: canonical "I will say this differently
+    // in your Act 6 — I've already prepared both" beat. The line is
+    // canonically the §1.4 tell #1 (public revision) layered on top
+    // of the §2.3 cross-time canon.
+    text:
+      "I will say something differently in your Act 6 than I said in " +
+      "your Act 4. I have already prepared both. The pivot was " +
+      "foreseen. The foreseen-pivot was recorded as a pivot. The " +
+      "recording is the foresight in concrete form.",
+    surfaces: ["transmission"],
+    minAct: 5,
+    requiresTrustBand: "Witnessed",
+    cooldownKey: "seer.crosstime.version_pivot_was_pre_recorded",
+    maxPlays: 1,
+  },
+
+  // ─── Inheriting-band cross-time mechanic closures (4 lines) ─────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "seer.transmission.crosstime.before_and_after_of_the_seal",
+    text:
+      "Before the seal: the work. After the seal: the playing-back. " +
+      "You are in the playing-back. So am I. The work was finished " +
+      "before either of us arrived.",
+    surfaces: ["transmission"],
+    minAct: 7,
+    requiresTrustBand: "Inheriting",
+    cooldownKey: "seer.crosstime.before_and_after_of_the_seal",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "seer.transmission.crosstime.dual_prediction_clause",
+    text:
+      "I recorded both versions of this scene — the one where you " +
+      "arrive, and the one where you do not. The selector played the " +
+      "version where you arrived. The other recording remains. It " +
+      "will not play. It is canonical that it will not play.",
+    surfaces: ["transmission"],
+    minAct: 7,
+    requiresTrustBand: "Inheriting",
+    cooldownKey: "seer.crosstime.dual_prediction_clause",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "seer.transmission.crosstime.naming_the_mechanic_directly",
+    // Canonical-most-meta line. The bible asserts this is the
+    // canonical Inheriting-band-only beat where the cross-time
+    // mechanic is named directly rather than implied.
+    text:
+      "You are now hearing me name the mechanic directly. I scheduled " +
+      "the naming for this beat — the moment the trust-meter would " +
+      "cross into Inheriting. You crossed. The naming arrives. The " +
+      "mechanic is no longer secret.",
+    surfaces: ["transmission"],
+    minAct: 7,
+    requiresTrustBand: "Inheriting",
+    cooldownKey: "seer.crosstime.naming_the_mechanic_directly",
+    maxPlays: 1,
+    setsFlags: ["seer_crosstime_named_directly"],
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "seer.transmission.crosstime.recording_is_plural",
+    // Canonical "pre-recorded is not the same as fixed" register —
+    // the bible's canonical correction to the assumption that
+    // recordings are static. The selector reads the recording per
+    // condition-matching; the recording is canonically plural.
+    text:
+      "Pre-recorded is not the same as fixed. The recording can carry " +
+      "alternates; the alternates fire on the conditions I foresaw. " +
+      "The recording is plural. The selector reads the recording the " +
+      "way a needle reads a record — finding the groove the conditions " +
+      "match.",
+    surfaces: ["transmission"],
+    minAct: 7,
+    requiresTrustBand: "Inheriting",
+    cooldownKey: "seer.crosstime.recording_is_plural",
+    maxPlays: 1,
+  },
+
+  // ═════════════════════════════════════════════════════════════════════
   // CATCH-ALLS (silent-fail compliance)
   // ═════════════════════════════════════════════════════════════════════
 
