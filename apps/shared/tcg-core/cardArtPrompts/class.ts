@@ -460,13 +460,100 @@ const CLASS_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "Legendary unit. The 'war is officially over' framing is canon — this represents an Insurgency holdout regiment from one of the early Epoch-2 archon-war fronts who never received the cease-fire-or-defeat signal. Generic weather-beaten face must NOT match any named character (specifically NOT Iron Lion's countenance). Three keywords visualized as three distinct visual elements (forward stance, frenzy-rim, rebirth-glow underfoot).",
   },
+
+  // ─── SPY CLASS — stealth + intel + sabotage (Insurgency-faction) ───
+  {
+    cardId: "s1_class_spy_01",
+    sceneDelta:
+      "Mid-shot. A figure in plain civilian clothes — late thirties, middle-class business-attire, generic-corporate features — stands at the edge of a Panopticon corporate-floor near a wall-mounted surveillance camera. The figure is not hiding, not in shadow, not cloaked — they are STANDING IN PLAIN VIEW. The camera's lens is angled toward them but its red recording-indicator is OFF. Their face is calm, slightly bored, holding a coffee-cup. A faint translucent untargetable-shimmer (the canonical Insurgency stealth-shimmer) wraps around them at body-edge — visible to the viewer, INVISIBLE to the camera by definition. Behind them, two other corporate workers walk past without noticing them. No special gear. No disguise. The Signal Ghost has simply stopped being seen.",
+    moodKeywords: [
+      "the cameras had stopped noticing them years before anyone asked",
+      "not chosen for training — chosen for invisibility",
+      "standing in plain view, completely unseen",
+      "calm, slightly bored, holding coffee",
+    ],
+    palette:
+      "Panopticon cool corporate slate + warm fluorescent ceiling + plain civilian beige-and-grey + faint translucent stealth-shimmer (signal-green tint) + dark dormant camera-lens",
+    composition:
+      "Mid-shot front three-quarter, Ghost at frame-centre near camera, two corporate workers walking past at lower-third",
+    notes:
+      "Unit card. Generic-corporate face must NOT match any named character. The DORMANT (red-light-off) camera is the visual key — they are stealthed not by hiding but by the surveillance system having stopped attending to them. This is the canonical Insurgency-spy doctrine.",
+  },
+  {
+    cardId: "s1_class_spy_02",
+    sceneDelta:
+      "Tight composition. A small folded paper note tucked into a hollow under a loose brick at the base of a Panopticon-suburb wall — the note is the subject, in lower-third of frame at near-distance, the brick lifted slightly to reveal it. The wall is ordinary, weathered, civilian — no surveillance, no markings, no signage. Above the note, two warm slips of paper drift up toward the upper-third of the frame (draw-2 visualized). NO human figure in the frame — the message has been left, the recipient hasn't arrived yet. A very faint fingerprint-smudge on the brick's edge suggests the previous handler's recent presence; otherwise the scene is empty. Time of day: late afternoon golden-hour, long shadows, no people anywhere on the street.",
+    moodKeywords: [
+      "an address nobody agreed on",
+      "the message is always already there when you arrive",
+      "no human in frame — the drop precedes the recipient",
+      "late-afternoon long shadows",
+    ],
+    palette:
+      "Insurgency dirty-yellow brick + warm cream paper-note + cool slate shadow + faint signal-green wax-seal accent + warm amber paper-drifts",
+    composition:
+      "Tight composition at brick-base, note in lower-third with brick lifted, two paper-drifts rising at upper-third",
+    notes:
+      "Spell card. Echoes Engineer t4 / Oracle t2 no-human-in-frame discipline — the OBJECT is the subject. The fingerprint-smudge is a tiny canonical detail (handlers always leave one, even when they don't mean to).",
+  },
+  {
+    cardId: "s1_class_spy_03",
+    sceneDelta:
+      "Mid-shot. A spy in mid-thirties, in plain Panopticon-corporate business-clothes (cheap suit, scuffed shoes, generic tie), stands at a small bathroom mirror in a generic Panopticon office-restroom. They are mid-action of putting on a SECOND set of clothes OVER the first — pulling a different tie around their collar in front of the mirror. Their reflection in the mirror shows a SUBTLY different person from what we see directly: slightly different posture, slightly different facial expression, slightly different hair-arrangement. Both versions are the same human, but the mirrored version is the Cover Name they have built. A faint translucent untargetable-shimmer (signal-green) wraps the mirrored version, NOT the direct version. A faint warm backstab-glow rims the mirrored version's hands at the tie. Their direct-view face is calm; their mirrored face is calmer.",
+    moodKeywords: [
+      "the cover name is not a lie",
+      "a separate person you built and then walked into like a coat",
+      "the mirrored version is calmer",
+      "putting the tie on in front of the mirror",
+    ],
+    palette:
+      "Panopticon corporate slate restroom + cheap brown suit + cool fluorescent + warm bathroom-light at lower-third + faint signal-green stealth-shimmer (mirror only) + warm amber backstab-glow (mirror hands)",
+    composition:
+      "Mid-shot back-three-quarter on direct figure, mirror filling upper-half of frame showing slightly-different reflection, tie-tying gesture at frame-centre",
+    notes:
+      "Unit card. The 'mirror shows a slightly-different person' is the visualization of a built-cover identity becoming a separate functional self. Both faces are deliberately generic — must not match any named character. This is the canonical Insurgency-spy character-construction visual idiom.",
+  },
+  {
+    cardId: "s1_class_spy_04",
+    sceneDelta:
+      "Wider mid-shot. A clandestine handler-meeting site at night — a small back-room office with one low desk-lamp, two chairs facing each other across the desk. ONE chair is empty (the spy's — they have just risen). The OTHER chair holds the Handler — a middle-aged figure in Insurgency-officer leathers, slumped slightly forward, head down on the desk in the unmistakable posture of a person who has just been silenced (NOT visibly killed — silenced; silence-keyword visualized as a faint translucent grey nullification-haze around the Handler's head and shoulders, blocking all word-output). On the desk, a single half-burnt photograph (the Handler's recruitment record) — the burning is in progress, smoke rising. The spy's silhouette exits frame-right at the door, retreating; we see only their back-shoulder and trailing coat-edge. NO face on either figure.",
+    moodKeywords: [
+      "every operative eventually has to kill the person who recruited them",
+      "usually to protect the secret of having been recruited at all",
+      "silenced, not killed — the file burns either way",
+      "spy exits frame, no face",
+    ],
+    palette:
+      "Insurgency cool slate back-room + warm low desk-lamp + warm orange burning-photograph + cool grey silence-nullification-haze + dark shadows + faint signal-green door-light at frame-right",
+    composition:
+      "Wider mid-shot, desk at frame-centre with empty chair and slumped Handler, burning photograph on desk, spy's back-edge exiting at frame-right",
+    notes:
+      "Spell card. The silence-nullification-haze around the Handler's head is the canonical visualization of the silence keyword (used previously in Architect Allegiance set). NEITHER figure shows a face — Handler is head-down, spy is back-edge-only. The burning photograph IS the secret being protected. Per flavor: this is canonically a thing that happens to every operative eventually.",
+  },
+  {
+    cardId: "s1_class_spy_05",
+    sceneDelta:
+      "Mid-shot. A figure standing at a quiet café table at midmorning — late thirties, plain civilian clothes, completely UNREMARKABLE features in the most specific possible way (the kind of face that sliding past you on a street you would forget within the hour, but which is wearing this unremarkable-ness as a deliberate construction). They are the Twelfth Archon's Apprentice. They sit alone at a small round table; on the table is a half-finished newspaper, a coffee-cup, and a single envelope. Their hands rest in their lap. A faint translucent untargetable-shimmer (signal-green) wraps them at body-edge. Three faint warm-amber paper-drifts rise behind them (draw-2 visualized — slightly more than usual). A faint warm backstab-glow rims the underside of the table where their hands sit. Behind them, the café is ordinary — three other patrons, a barista, no surveillance, no architectural detail of note. The room contains the Apprentice the way water contains a pebble it has rounded down for years.",
+    moodKeywords: [
+      "the Human trained only a handful and none of them know each other",
+      "they will not meet in the sequel — that's the point",
+      "unremarkable-ness as a deliberate construction",
+      "the room contains them like water around a pebble",
+    ],
+    palette:
+      "Insurgency cool slate café + warm midmorning sunlight + plain beige civilian wear + warm cream coffee-cup + warm amber paper-drifts + faint signal-green stealth-shimmer + faint warm backstab-glow under-table",
+    composition:
+      "Mid-shot front three-quarter, Apprentice at frame-centre at small café table, generic café environment, no surveillance visible",
+    notes:
+      "Legendary unit. CRITICAL: face is generic-unremarkable-deliberate, must NOT match The Human's specific imprint-rendered face (The Human is the master, this is the apprentice — separate-person discipline). The CAFÉ-TABLE-AT-MIDMORNING composition deliberately echoes The Human Imprint set's environmental visual language (ordinary café, ordinary table) without putting The Human himself in the frame — the master taught a craft, the apprentice now practices it in the same environment. End-of-Epoch-2 canon: The Human's apprentices are known to exist; their identities are not known to each other or to the public.",
+  },
 ] as const;
 
 /**
  * Class faction's prompt registry, keyed by card id.
  *
- * Currently populated: 5 / 6 sets (Assassin, Engineer, Ne-Yon, Oracle, Soldier).
- * TODO: spy.
+ * Currently populated: 6 / 6 sets — COMPLETE
+ * (Assassin, Engineer, Ne-Yon, Oracle, Soldier, Spy).
  */
 export const CLASS_CARD_ART_PROMPTS: Readonly<Record<string, CardArtPrompt>> =
   Object.freeze(

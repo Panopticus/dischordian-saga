@@ -28,7 +28,8 @@ import { CLASS_CARD_ART_PROMPTS } from "./class";
  *     The Oracle, The Source)
  *   - allegiance: 6 / 6 sets — COMPLETE (Antiquarian, Architect,
  *     Dreamer, Insurgency, New Babylon, Thought Virus)
- *   - class: 5 / 6 sets (Assassin, Engineer, Ne-Yon, Oracle, Soldier)
+ *   - class: 6 / 6 sets — COMPLETE (Assassin, Engineer, Ne-Yon,
+ *     Oracle, Soldier, Spy)
  *
  * Pending factions:
  *   - class (remaining 5 sets)
