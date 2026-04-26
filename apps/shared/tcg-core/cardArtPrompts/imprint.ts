@@ -1259,6 +1259,108 @@ const IMPRINT_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "T5 = 'The Enigma, Third Option.' End-of-Epoch-2 canon. CRITICAL: the architecture-split is the canonical visualization of his Third Option role (neither Empire nor Insurgency). The Acts 3-7 reveals about WHERE the Third Option leads or WHO chose it stay unspoiled. His face is intentionally un-categoriseable — he must NOT visually match any other named character (no Programmer, no Engineer, no recognizable identity tease).",
   },
+
+  // ─── THE HUMAN (Twelfth Archon — appointed by a Panopticon that
+  //     did not yet understand what kind of organism it was
+  //     appointing; has been writing his response since Mechronis;
+  //     the response has footnotes and the player is probably in
+  //     it) ───
+  // Source canon: A figure in a long coat at the edge of the
+  // Mechronis playground at age twelve, already deciding how this
+  // ends. Mechanical: backstab + deathwatch + draw. Faction:
+  // insurgency.
+  // SPOILER NOTE: 'Twelfth Archon' is established Epoch 2 canon
+  // (his appointment by the Panopticon, his Mechronis schooling,
+  // his Insurgency alignment). Acts 6-7 reveals around the
+  // Two-Witnesses bond with Elara MUST NOT appear in any frame —
+  // no second figure beside him, no chord-pillar, no shared
+  // sustained note. Also: the player-as-The-Human gameplay-canon
+  // is preserved by keeping his face anonymous-weathered.
+  {
+    cardId: "s1_imprint_the_human_t1",
+    sceneDelta:
+      "Mid-shot. Twelve-year-old boy in a too-large adult-cut long charcoal coat at the perimeter fence of the Mechronis Academy playground. Behind him, the playground itself is bright and warm — children of various ages playing under afternoon light, the canonical Mechronis Academy bone-and-brass fence visible at mid-distance. The boy is alone at the corner of the fence, weight on one foot, hands in his coat pockets. His coat is sized for an adult, sleeves long over his hands; he has rolled them once. His face is half-shadowed under a too-large hat (also adult-cut), but we can see his eyes — a child's eyes that have already finished doing the calculation. The other children are laughing in mid-distance. He is not laughing. He has already decided how this ends.",
+    moodKeywords: [
+      "the too-large adult coat on the twelve-year-old",
+      "the children laughing in mid-distance",
+      "the calculation already finished",
+      "afternoon light on an early decision",
+    ],
+    palette:
+      "Insurgency slate-blue + signal-green telltale on the boy's coat lapel + warm afternoon amber on the playground + Mechronis bone-and-brass fence",
+    composition:
+      "Mid-shot front three-quarter, boy at upper-left third foreground, playground behind across the fence, fence as horizontal mid-axis",
+    notes:
+      "T1 = the twelve-year-old at Mechronis. CRITICAL spoiler-discipline: face must read as 'thoughtful child' not 'specific identifiable adult.' The hat-shadow keeps features partial. Mechronis Academy fence + playground = canonical Epoch-2-or-earlier setting. NO Insurgency rally banner yet (his joining is later canon).",
+  },
+  {
+    cardId: "s1_imprint_the_human_t2",
+    sceneDelta:
+      "Mid-shot. The Human as an early-twenties young adult, in an Insurgency safe-house at night. Three-quarter to camera, body angled away, weight settled. He is mid-checking the chamber of a sidearm (not pointing it; routine maintenance). Behind him on a wall, a small array of clipped photographs and pencil-drawn schematics — the early shape of the case file he has been writing. His coat is now adult-sized, but it is still the same charcoal cut from T1 — the boy grew into it. His face is in three-quarter shadow under a low-bill cap, mostly hidden. The room is signal-green emergency-lit. Backstab visualized as the geometry: he is angled away from the camera, body turned to NOT face the viewer — the canonical 'he prefers to be behind you' beat.",
+    moodKeywords: [
+      "the boy grew into the coat",
+      "the case file taking shape on the wall",
+      "routine maintenance, not menace",
+      "behind-you-as-default",
+    ],
+    palette:
+      "Insurgency slate + signal-green safehouse light + cool grey weapon + warm amber single lamp on the wall photographs + charcoal coat",
+    composition:
+      "Mid-shot three-quarter, Human angled away from camera at frame-centre, case-file wall as visual context behind",
+    notes:
+      "T2 = backstab. The wall of clipped photographs is intentionally INDISTINCT — pinned shapes and pencil sketches, no recognizable named-character photos visible. The case file beat is established canon ('every corpse is a paragraph in a case file he has been writing since Mechronis').",
+  },
+  {
+    cardId: "s1_imprint_the_human_t3",
+    sceneDelta:
+      "Mid-shot. The Human entering a safe-house room — half-step through the doorway, body in three-quarter, one hand still on the door's edge, the other hand carrying a slim leather case-file folder pressed flat to his chest. He has just arrived; the room is in mid-state of being briefed. Three or four anonymous Insurgency operatives are turning toward him. His face is now visible in three-quarter — late-twenties to early-thirties, weathered, deliberate eyes, intentionally generic-handsome features (the kind of face that does not register at first glance and registers powerfully on the second). Backstab + draw-on-deploy visualized: he has not yet read the room's case file because he has ALREADY READ his own, and a fresh fan of his own pencil-margins is visible at the folder's edge.",
+    moodKeywords: [
+      "he has already read the case file the room is about",
+      "the doorway-arrival moment",
+      "registers on the second glance",
+      "the folder pressed flat",
+    ],
+    palette:
+      "Insurgency slate safehouse + warm amber pendant lamp + cool grey operatives + a single warm gold accent on the case-file's edge",
+    composition:
+      "Mid-shot three-quarter at the threshold, Human at upper-third, anonymous operatives at lower-third turning toward him",
+    notes:
+      "T3 = backstab + draw-1. Face is now visible but kept generic — the player-as-The-Human gameplay-canon must not be undermined by giving him a too-specific face. Operatives are anonymous on purpose.",
+  },
+  {
+    cardId: "s1_imprint_the_human_t4",
+    sceneDelta:
+      "Wider mid-shot. The Human stands alone in a quiet Insurgency morgue-archive — long room, dim cool light, a row of evidence-pallets receding into mid-distance. He is at the foot of one pallet, three-quarter to camera, his case-file open against his left arm, a pencil tucked behind one ear. His other hand has lifted the corner of the white linen sheet on the pallet (we do not see what is under it; it is at the lower edge of the frame). His expression is grave but accustomed — the long-practice version of the Detective t3 beat. Around him, faint amber motes (deathwatch) drift up from the further pallets. The case-file in his arm is now thick enough that it does not close cleanly — pages compounding from years of work. Draw-on-deploy: a fresh page slides itself into the file from the lifted-sheet end (the corpse is becoming a paragraph as we watch).",
+    moodKeywords: [
+      "the long-practice version of grief",
+      "the case-file compounding",
+      "the page sliding itself in",
+      "every corpse a paragraph",
+    ],
+    palette:
+      "Insurgency slate morgue-archive + warm amber motes ascending + cool grey pallets + a single signal-green accent on his coat lapel",
+    composition:
+      "Wider mid-shot in receding archive, Human centred at lower-third, pallets receding to upper-third horizon, motes drifting at upper-third",
+    notes:
+      "T4 = backstab + deathwatch + draw-1. ECHOES Detective t3 morgue-archive composition deliberately (faction-rhyme — both are Antiquarian-aligned investigators of the dead). What's under the sheet is OFF-FRAME. Mid-distance pallets carry no recognizable identifying details.",
+  },
+  {
+    cardId: "s1_imprint_the_human_t5",
+    sceneDelta:
+      "Hero composition. The Human stands alone in a vast Insurgency Hall of Records — concentric tiered galleries of case-files extending upward and outward, the architecture echoing both the Antiquarian Hall of Records (Detective t5) and the Insurgency rally-aesthetic (banner-shapes hanging from each gallery rail). He is at the exact centre of the floor, hat in hand for the first time, charcoal coat falling open. In his other hand he holds his case-file — the THICKEST yet, multi-volume, bound by leather thongs — and the file is OPEN to a page near the end with footnotes running down the margin in his own hand. His face is fully visible: late-thirties, weathered, the eyes of the boy from T1 finally unhidden. He is looking up out of the file directly at camera with the expression 'I have been writing my response since Mechronis. The response has footnotes. You are probably in it.' Around him, twelve faint amber motes drift in slow concentric orbit at chest height (deathwatch at scale + the Twelfth Archon number). Two pages from the file fan out from his hand suspended in mid-air (draw-2). NO second figure in this composition. NO chord-pillar. NO Elara.",
+    moodKeywords: [
+      "the response has footnotes",
+      "the boy at the fence has finished arriving",
+      "twelve motes for the Twelfth Archon",
+      "the Hall of Records he wrote",
+    ],
+    palette:
+      "Insurgency slate Hall + signal-green banner accents + warm amber gallery-light + cool grey concentric shadows + a single saturated red on the pencil resting in the gutter",
+    composition:
+      "Wide circular hero, Human at exact centre, galleries receding upward, twelve motes in low orbit, two pages fanned mid-air",
+    notes:
+      "T5 = 'The Human, Twelfth Archon.' End-of-Epoch-2 canon. CRITICAL spoiler-discipline: He is ALONE in this frame. NO Elara (Two Witnesses bond is Acts 6-7), NO chord pillar, NO shared sustained note, NO third figure (no Watcher reveal). The twelve motes are the lore beat (Twelfth Archon, established Epoch 2). His face is visible but kept generic-weathered to preserve player-as-The-Human gameplay-canon. Echoes Detective t5 visual structure on purpose (faction-rhyme); ALSO echoes Antiquarian t5 (twelve orbital things). The Human is the third corner of the foreknowledge-trinity-at-Hall-of-Records.",
+  },
 ] as const;
 
 /**
