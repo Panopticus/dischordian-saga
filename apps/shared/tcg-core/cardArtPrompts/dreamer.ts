@@ -243,15 +243,119 @@ const DREAMER_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "Rare unit. The 'two simultaneous resurrections, balanced' is the visual key to 'maintains balance.' Generic-archetype silhouettes (no specific named characters being resurrected). Generic-deliberate features must NOT match any named character.",
   },
+  {
+    cardId: "s1_char_046",
+    sceneDelta:
+      "Wider mid-shot. The Seer — male-presenting figure of indeterminate age (could be 30s, could be 70s, deliberately ambiguous), in plain unbound traveling-robes (no faction-markers, the canonical 'unbound by allegiance' detail), at the centre of a crossroads on a Dreamer-aligned hilltop. Around the Seer, FOUR DIRECTIONS are visible at the cardinal points: each direction shows a different translucent FORESIGHT-VISION (a different possible future the Seer can see — one direction shows opportunity, one shows danger, one shows balance, one shows shift). The Seer is mid-action of looking at ONE specific direction (frame-right), eyes focused, the rest of the body STILL. A translucent green-tinted forcefield-shimmer wraps them. The hilltop is windswept; faint cool-cyan visioning-rings emanate from the Seer's eyes outward.",
+    moodKeywords: [
+      "unbound by allegiance",
+      "identifies opportunities and dangers",
+      "foresight that shifts the balance",
+      "four directions, four possible futures",
+    ],
+    palette:
+      "Plain unbound traveling-robes + cool-cream Dreamer-hilltop + four translucent foresight-visions at cardinal points + translucent green-tinted forcefield + cool-cyan visioning-rings + warm windswept hilltop ambient",
+    composition:
+      "Wider mid-shot front three-quarter, Seer at frame-centre at crossroads, four foresight-visions at cardinal points",
+    notes:
+      "Rare unit. Indeterminate age is canon-direct from 'unbound' — the Seer doesn't fit any specific time-period. Plain robes (no faction markers) preserve unbound visualization. Four cardinal-direction visions is a new visual idiom for foresight-as-multi-path.",
+  },
+  {
+    cardId: "s1_char_109",
+    sceneDelta:
+      "Mid-shot. The Enigma (probability-variant) — female-presenting figure in mid-thirties, generic-quietly-confident features (slight smile, knowing eyes), in formal Dreamer-cream-and-aurora-violet probability-mage's robes. She stands at the centre of a Dreamer probability-chamber where multiple translucent COIN-FLIP visualizations float at chest-height around her — each coin caught mid-flip showing IMPOSSIBLE OUTCOMES (one coin showing both heads AND tails simultaneously, one showing neither, one showing a third faceless side). The Enigma is mid-action of FLIPPING ONE coin herself; the coin is mid-air at frame-centre, the moment-of-uncertainty held still. Faint translucent aurora-violet probability-ribbons trail from her hand. Her face shows the canonical 'exception that proves there are no rules' confidence — she is not breaking probability; she is OUTSIDE it.",
+    moodKeywords: [
+      "she does not break the rules of probability",
+      "she is the exception that proves there are no rules",
+      "coins showing impossible outcomes",
+      "flipping one coin held mid-air",
+    ],
+    palette:
+      "Dreamer-cream-and-aurora-violet probability-mage's robes + translucent coin-flip visualizations + aurora-violet probability-ribbons + cool probability-chamber + warm coin-glint + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, Enigma at frame-centre flipping coin, multiple impossible-coins floating around",
+    notes:
+      "Epic unit. CRITICAL: this card is DIFFERENT from s1_char_027 The Enigma (Warden-destroyer with overlapping identities). This Enigma is the PROBABILITY-EXCEPTION variant. Different visual signature: solid body (vs s1_char_027's overlapping silhouettes), confident face (vs s1_char_027's unfixed face), coin-flip visualizations. Same archetypal name, different facets.",
+  },
+  {
+    cardId: "s1_char_110",
+    sceneDelta:
+      "Mid-shot. A Prophecy Keeper — female-presenting figure in mid-forties, generic-attentive features (eyes half-closed in concentration), in plain Dreamer-cream sanctum-robes with a single small Living-Universe-pulse pendant at the throat (a small chrome-and-aurora-violet device that pulses faintly with the universe's heartbeat). She kneels at a low Dreamer-meditation-table, both hands extended outward palms-down, fingertips touching the table's surface. From the table's centre, a faint translucent AURORA-VIOLET HEARTBEAT-PULSE radiates outward in slow rhythmic waves — the Living Universe's heartbeat made visible. With each pulse, faint translucent prophecy-script (illegible but suggestive) propagates briefly outward then fades. Her face is rapt, listening. Cool Dreamer-sanctum ambient.",
+    moodKeywords: [
+      "reads the future in the Living Universe's heartbeat",
+      "not in tea leaves or stars",
+      "each pulse is a chapter yet unwritten",
+      "rapt, listening",
+    ],
+    palette:
+      "Plain Dreamer-cream sanctum-robes + chrome-and-aurora-violet heartbeat-pendant + translucent aurora-violet heartbeat-pulse + warm meditation-table + faint translucent prophecy-script + cool sanctum-ambient",
+    composition:
+      "Mid-shot front three-quarter, Keeper kneeling at meditation-table, heartbeat-pulse radiating from table's centre",
+    notes:
+      "Rare unit. The 'Living Universe's heartbeat' framing is rendered as the rhythmic aurora-violet pulse from the table-centre. Generic-attentive features must NOT match any named character. The illegible prophecy-script preserves the 'yet unwritten' framing — readable as PRESENCE rather than CONTENT.",
+  },
+  {
+    cardId: "s1_char_111",
+    sceneDelta:
+      "Mid-shot. A Vision Walker — female-presenting figure in early-twenties, generic-light features (slight, agile, lightly weathered), in plain Dreamer-cream-and-warm-leather traveling clothes, mid-action of WALKING ALONG A DREAMER-PATH that is invisible to ordinary perception. The path is rendered as a translucent silver-mist FOOTPATH visible only as faint cool-cream stones at her footsteps (the path is THERE but only her training reveals it). She is mid-stride, leading foot landing on the next stone. Around her, the SURROUNDING ENVIRONMENT shows TWO STATES simultaneously: at frame-left, the world as ORDINARY EYES see it (a wall, blocking her path); at frame-right, the world as the DREAMER'S EYES see it (the same wall has a passable archway right where she walks). Faint silver-mist wing-shape projection-echoes trail behind her shoulders.",
+    moodKeywords: [
+      "to the untrained eye, she vanishes",
+      "to the Dreamer's eye, she simply takes a different path",
+      "one that was always there",
+      "two states of the world: wall vs passable archway",
+    ],
+    palette:
+      "Dreamer-cream-and-warm-leather traveling clothes + translucent silver-mist footpath + faint cool-cream stones at footsteps + warm cool-cyan blocking-wall (left) + warm passable-archway (right) + silver-mist wing-shape projection-echoes",
+    composition:
+      "Mid-shot side three-quarter, Vision Walker mid-stride at frame-centre, two-state environment split at her path",
+    notes:
+      "Common unit. The 'two-state environment' (ordinary view vs Dreamer view) is the visual key to 'a different path that was always there.' Generic-light features must NOT match any named character. Wing-shape projection-echoes consistent with Dreamer flying-as-projection idiom.",
+  },
+  {
+    cardId: "s1_char_112",
+    sceneDelta:
+      "Mid-shot. A Reality Anchor — male-presenting figure in mid-fifties, generic-grounded features (steady eyes, solid stance), in plain heavy Dreamer-cream-and-deep-stone over-robes. He stands at frame-centre at a Dreamer reality-stabilization point, both feet planted shoulder-width with the floor visibly DEPRESSED beneath his weight (he is the certainty in a probabilistic world). Around him, faint translucent SHIFTING-PROBABILITY-RIPPLES try to propagate but visibly DECAY toward his body — within a circle of ground around the Anchor, the probability-shift cannot reach. The ground around him is solid, unchanging cool-stone; further out, the ground shows visible probability-flicker (multiple alternate-floor-textures briefly visible at the edges). A faint warm provoke-glow rims his shoulders. His face is composed-grave.",
+    moodKeywords: [
+      "in a world of shifting probabilities",
+      "certainty is the heaviest chain",
+      "ground depressed beneath his weight",
+      "probability-ripples decay toward his body",
+    ],
+    palette:
+      "Heavy Dreamer-cream-and-deep-stone over-robes + solid cool-stone ground around him + faint translucent shifting-probability-ripples + multiple alternate-floor-textures at edges + warm provoke-rim + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, Anchor at frame-centre with depressed-ground footprint, probability-ripples decaying inward",
+    notes:
+      "Common unit. The 'depressed ground' visual is the canonical 'heaviest chain' visualization — certainty has weight. Generic-grounded features must NOT match any named character.",
+  },
+  {
+    cardId: "s1_char_203",
+    sceneDelta:
+      "Mid-shot. An Astral Warden — female-presenting figure in mid-twenties, generic-poised features (calm, slightly secretive, attentive), in flowing Dreamer-aurora-violet robes with deep starfield embroidery (small embedded silver-mist star-points sewn throughout the fabric). She stands at the threshold of an opening Dreamer-portal at frame-centre, mid-action of having JUST STEPPED OUT of the dream. In her left hand, a SHIELD OF STARLIGHT — a translucent cool-cream shield, the size of a small buckler, composed of crystallized starlight (visible as compressed silver-mist substance with small twinkling deeper-stars within). In her right hand, a small folded note (the secret) extended outward toward an off-frame recipient. Her face is composed; the secret is meant only for the one who is looking. Translucent green-tinted forcefield-shimmer wraps her body.",
+    moodKeywords: [
+      "she stepped out of the dream",
+      "carrying a shield of starlight",
+      "and a secret meant only for you",
+      "small folded note extended outward",
+    ],
+    palette:
+      "Dreamer-aurora-violet robes + deep starfield embroidery + translucent cool-cream starlight-shield + translucent silver-mist substance + warm folded note + translucent green-tinted forcefield + cool dream-portal threshold",
+    composition:
+      "Mid-shot front three-quarter, Warden at frame-centre at portal-threshold, shield in left hand, note extended right",
+    notes:
+      "Uncommon unit. The shield-of-starlight is canon-direct from flavor — rendered as crystallized-starlight buckler. The 'secret meant only for you' is rendered as the extended folded note (the recipient is implied off-frame). Generic-poised features must NOT match any named character.",
+  },
 ] as const;
 
 /**
  * Dreamer faction's prompt registry, keyed by card id.
  *
- * Currently populated: 12 / 61 cards
+ * Currently populated: 18 / 61 cards
  * (gen_dreamer, s1_char_005, s1_char_014, s1_char_017,
  *  s1_char_023, s1_char_025, s1_char_027, s1_char_029,
- *  s1_char_034, s1_char_036, s1_char_037, s1_char_045).
+ *  s1_char_034, s1_char_036, s1_char_037, s1_char_045,
+ *  s1_char_046, s1_char_109, s1_char_110, s1_char_111,
+ *  s1_char_112, s1_char_203).
  */
 export const DREAMER_CARD_ART_PROMPTS: Readonly<Record<string, CardArtPrompt>> =
   Object.freeze(
