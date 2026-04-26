@@ -1969,13 +1969,8 @@ export const chessRouter = router({
 
 /* ─── PUZZLE STATE (DB-backed) ──────────────────────────── */
 async function hasSolvedPuzzle(userId: number, puzzleId: string): Promise<boolean> {
-  // Canonical pattern in this file: bang-narrow at the binding site so
-  // tsc's narrowing flows cleanly through subsequent .select() chains.
-  // Earlier `if (!db) return` form here was reported as `'db' is
-  // possibly 'null'` by tsc inside the where() chain — rare drizzle-mysql2
-  // narrowing loss; aligning with the pattern used by every other db call
-  // site in this router.
-  const db = (await getDb())!;
+  const db = await getDb();
+  if (!db) return false;
   const row = await db.select({ id: chessPuzzleProgress.id })
     .from(chessPuzzleProgress)
     .where(and(
@@ -1987,7 +1982,8 @@ async function hasSolvedPuzzle(userId: number, puzzleId: string): Promise<boolea
 }
 
 async function getSolvedPuzzleIds(userId: number): Promise<Set<string>> {
-  const db = (await getDb())!;
+  const db = await getDb();
+  if (!db) return new Set();
   const rows = await db.select({ puzzleId: chessPuzzleProgress.puzzleId })
     .from(chessPuzzleProgress)
     .where(eq(chessPuzzleProgress.userId, userId));
