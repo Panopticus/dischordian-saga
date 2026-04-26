@@ -30,9 +30,11 @@ import {
   npcTrust,
   npcLineHistory,
   npcPublicFlags,
+  npcAskTopicHistory,
+  npcDialogTreeState,
   eidolonBonds,
 } from "../../db/schema";
-import { and, eq } from "drizzle-orm";
+import { and, desc, eq } from "drizzle-orm";
 import { ripple } from "../services/rippleEngine";
 import { logger } from "../logger";
 import {
@@ -424,5 +426,153 @@ export const npcRouter = router({
         ok: true,
         trust: { ...next, flags: Array.from(next.flags) },
       };
+    }),
+
+  // ────────────────────────────────────────────────────────────────
+  // PHASE 6 INFRASTRUCTURE D5 — ask-topics + dialog tree state
+  // See apps/shared/npcs/askTopics.ts (AskTopic registry) +
+  // apps/shared/npcs/dialogTrees/ (per-NPC trees) +
+  // apps/shared/npcs/conversationRunner.ts (state machine).
+  // ────────────────────────────────────────────────────────────────
+
+  /**
+   * Read ask-topic history for a single NPC. Drives the "you've already
+   * asked this; here's the canonical re-entry response" pattern. Returns
+   * topicId + askedAt-epoch-ms ordered most-recent-first.
+   */
+  getAskTopicHistory: protectedProcedure
+    .input(z.object({ npcKey: npcKeySchema }))
+    .query(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) return [];
+      const rows = await db
+        .select()
+        .from(npcAskTopicHistory)
+        .where(
+          and(
+            eq(npcAskTopicHistory.userId, ctx.user.id),
+            eq(npcAskTopicHistory.npcKey, input.npcKey),
+          ),
+        )
+        .orderBy(desc(npcAskTopicHistory.askedAt));
+      return rows.map((r) => ({
+        topicId: r.topicId,
+        askedAt: r.askedAt.getTime(),
+      }));
+    }),
+
+  /**
+   * Record that a player asked a topic. Inserts npc_ask_topic_history;
+   * one row per ask event so the resolver can count repeats if a topic
+   * ever wants per-ask escalation.
+   */
+  recordAskTopicAsked: protectedProcedure
+    .input(
+      z.object({
+        npcKey: npcKeySchema,
+        topicId: z.string().min(1).max(256),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) return { ok: false, reason: "no_db" };
+      await db.insert(npcAskTopicHistory).values({
+        userId: ctx.user.id,
+        npcKey: input.npcKey as NpcKey,
+        topicId: input.topicId,
+      });
+      return { ok: true };
+    }),
+
+  /**
+   * Read in-flight dialog-tree state for a single (npcKey, treeId).
+   * Returns null when no state exists (player has never started this
+   * tree or completed it cleanly without resume-state).
+   */
+  getDialogTreeState: protectedProcedure
+    .input(
+      z.object({
+        npcKey: npcKeySchema,
+        treeId: z.string().min(1).max(256),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) return null;
+      const rows = await db
+        .select()
+        .from(npcDialogTreeState)
+        .where(
+          and(
+            eq(npcDialogTreeState.userId, ctx.user.id),
+            eq(npcDialogTreeState.npcKey, input.npcKey),
+            eq(npcDialogTreeState.treeId, input.treeId),
+          ),
+        )
+        .limit(1);
+      const row = rows[0];
+      if (!row) return null;
+      return {
+        npcKey: row.npcKey,
+        treeId: row.treeId,
+        currentNodeId: row.currentNodeId,
+        completedAt: row.completedAt?.getTime() ?? null,
+        startedAt: row.startedAt.getTime(),
+        updatedAt: row.updatedAt.getTime(),
+      };
+    }),
+
+  /**
+   * Write dialog-tree state. Upsert on (userId, npcKey, treeId) — the
+   * unique index enforces one in-flight state per tree. Pass
+   * `currentNodeId: null` + `completed: true` to mark the tree as
+   * completed; pass a node id to checkpoint mid-walk.
+   */
+  setDialogTreeState: protectedProcedure
+    .input(
+      z.object({
+        npcKey: npcKeySchema,
+        treeId: z.string().min(1).max(256),
+        currentNodeId: z.string().min(1).max(256).nullable(),
+        completed: z.boolean().optional(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) return { ok: false, reason: "no_db" };
+      const userId = ctx.user.id;
+      const npcKey = input.npcKey as NpcKey;
+      const completedAt = input.completed ? new Date() : null;
+
+      const existing = await db
+        .select({ id: npcDialogTreeState.id })
+        .from(npcDialogTreeState)
+        .where(
+          and(
+            eq(npcDialogTreeState.userId, userId),
+            eq(npcDialogTreeState.npcKey, npcKey),
+            eq(npcDialogTreeState.treeId, input.treeId),
+          ),
+        )
+        .limit(1);
+
+      if (existing.length > 0 && existing[0]?.id) {
+        await db
+          .update(npcDialogTreeState)
+          .set({
+            currentNodeId: input.currentNodeId,
+            completedAt,
+          })
+          .where(eq(npcDialogTreeState.id, existing[0].id));
+      } else {
+        await db.insert(npcDialogTreeState).values({
+          userId,
+          npcKey,
+          treeId: input.treeId,
+          currentNodeId: input.currentNodeId,
+          completedAt,
+        });
+      }
+      return { ok: true };
     }),
 });
