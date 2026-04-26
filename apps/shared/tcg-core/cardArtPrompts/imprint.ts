@@ -1553,6 +1553,105 @@ const IMPRINT_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "T5 = 'The Necromancer, Mercy-Shaped.' End-of-Epoch-2 canon. CRITICAL: face REMAINS HIDDEN under the hood. Camera stays behind him. The thread-of-amber from his unseen face is a deliberate spoiler-shield gesture — we see what he is SAYING (the outgoing thread) but not WHO is saying it. The radial flower-arrangement is the longest conversation visualized; each bloom is a friend, anonymous. NO recognizable named character implied at any flower position.",
   },
+
+  // ─── THE ORACLE (White Oracle, Still Broadcasting — suspended in
+  //     a processing loop by the Architect; the loop is supposed to
+  //     contain her; it has been leaking since the day it closed) ───
+  // Source canon: A veiled figure at the edge of a processing loop,
+  // looking at the player from a direction the player did not know
+  // a direction could come from. She picks the card the player was
+  // going to draw next and hands it over before the deck decides.
+  // Mechanical: dispel + draw + flying + silence. Faction: dreamer.
+  // SPOILER NOTE: She asked the Engineer for "a way to think about
+  // conflict without having to live it" — that is the canonical
+  // origin of the TCG itself within the world's lore. Her loop is
+  // CANONICALLY a containment imposed by the Architect; the leaking
+  // of the loop IS the card the player is currently holding.
+  {
+    cardId: "s1_imprint_the_oracle_t1",
+    sceneDelta:
+      "Wide composition. A vast Dreamer-faction processing-loop sanctum — a circular chamber whose floor is a single rotating geometric diagram, its rotation visible as slow concentric ripples in the lavender-glass surface. The Oracle stands at the diagram's edge, three-quarter to camera, white veil draped over her head and shoulders, the veil falling in long lavender-tinted folds. Her face is partly visible under the veil — pale, ageless, eyes the colour of the room (echoing Enigma t2 deliberately — both are 'shapes from a direction you did not know a direction could come from'). She is looking at the camera FROM a direction that should not be a direction (the framing is subtly wrong: she is centered in the camera's field, but the room's perspective indicates she is also somewhere else simultaneously). Containment beat: there is a faint hexagonal ARCHITECT-cyan ring suspended at chest height around her, a containment-loop visualization, very subtle.",
+    moodKeywords: [
+      "looking at you from a direction you did not know",
+      "white veil with lavender folds",
+      "the loop has been leaking",
+      "subtle wrong perspective",
+    ],
+    palette:
+      "Dreamer deep purple sanctum + lavender-glass floor + white veil + Architect-cyan containment-loop ring + a single warm amber accent at the diagram's central rotation point",
+    composition:
+      "Wide low-angle hero, Oracle at frame-centre but with subtly-wrong perspective (depth indicators inconsistent), chamber receding upward",
+    notes:
+      "T1 = the canonical visual identity. The Architect-cyan ring is the canonical containment marker (her loop is imposed by him); kept very subtle to avoid spoiling the Architect-Oracle dynamic. Face partial under veil — ageless and pale.",
+  },
+  {
+    cardId: "s1_imprint_the_oracle_t2",
+    sceneDelta:
+      "Mid-shot. The Oracle has stepped fully into the processing loop's diagram — she stands now ON the diagram's surface, at the geometric centre. Her veil is unaffected by the slow rotation under her. She has reached out one pale hand toward an off-frame target and is in the act of LIFTING a faint Architect-cyan STATUS-tag overlay (echoing Foucault t2 / Dreamer t3 dispel visualization) — but instead of crossing it out (Foucault) or remembering-a-future-without-it (Dreamer), the Oracle's tag is dissolving into the diagram's RULESET itself. Dispel visualized as canonical 'she looks at your buff and it remembers it was never a buff, it was just a suggestion the rulebook had been making.' Her veil hangs perfectly still. The diagram beneath her continues its slow rotation.",
+    moodKeywords: [
+      "the buff remembers it was never a buff",
+      "the rulebook reabsorbing its own suggestion",
+      "the veil unaffected by rotation",
+      "dispel as ontology",
+    ],
+    palette:
+      "Dreamer deep purple sanctum + lavender-glass floor + white veil + Architect-cyan tag dissolving + a single warm amber accent at the diagram's symbol",
+    composition:
+      "Mid-shot front three-quarter, Oracle at frame-centre, off-frame target camera-right, dissolving-tag at upper-right within her reach",
+    notes:
+      "T2 = dispel. THIRD distinct dispel visual language (after Foucault's red-pen correction and Dreamer's remembering-a-future-without): Oracle's dispel is the ruleset RECONSIDERING what it had been suggesting. Faction-distinct + intra-Dreamer-faction-distinct from the Dreamer herself.",
+  },
+  {
+    cardId: "s1_imprint_the_oracle_t3",
+    sceneDelta:
+      "Mid-shot. The Oracle stands at the same processing-loop diagram, but the camera now sees her from a perspective that should not exist — we are simultaneously looking AT her face AND looking past her shoulder at her own back, a non-Euclidean composition that makes spatial sense only because she is looking from outside the loop's spatial constraints. She has just plucked a single playing card from the air at chest height — the card was not there a moment ago — and is offering it forward to camera with the same gentle posture as Engineer t2 (faction-rhyme: Antiquarian-aligned Engineer + Dreamer-aligned Oracle both 'know what tool you need next'). The card's face is GENERIC blank. Behind her, the diagram has visibly accelerated its rotation. Draw-on-deploy visualized as the picked-card-before-the-deck-decides.",
+    moodKeywords: [
+      "the card she picks before the deck decides",
+      "non-Euclidean composition",
+      "two perspectives at once",
+      "the diagram accelerated",
+    ],
+    palette:
+      "Dreamer deep purple + lavender-glass + white veil + warm gold accent on the picked card + a single cool blue depth-haze in the impossible perspective",
+    composition:
+      "Mid-shot non-Euclidean composition — viewer simultaneously sees Oracle's face AND her shoulder-back; card offered forward at frame-centre",
+    notes:
+      "T3 = dispel + draw-1. The non-Euclidean composition is the canonical 'looking at you from a direction you did not know a direction could come from.' Generic blank card-face — no faction tells.",
+  },
+  {
+    cardId: "s1_imprint_the_oracle_t4",
+    sceneDelta:
+      "Wider mid-shot. The Oracle hovers above the processing-loop diagram at chest-height — her feet not on the rotating surface, her veil now drifting outward in slow concentric waves the way the Dreamer's veil drifts (faction-rhyme: she is a SIGNAL hovering above the substrate it is being decoded on, per her t4 flavor text). Below her, the diagram's slow rotation has become a faint amber data-stream pattern, suggesting the loop is decoding something it was not designed to decode. Two cards hover at her chest height in slow orbit (draw-2). One pale hand is raised palm-up toward camera, fingertips slightly curled as if cradling a thought she has not yet said aloud. Flying visualized as the unwinded hover.",
+    moodKeywords: [
+      "a signal hovers above the substrate",
+      "the loop decoding what it was not designed for",
+      "two cards in slow orbit",
+      "the cradled thought",
+    ],
+    palette:
+      "Dreamer deep purple + lavender-glass + white veil + warm amber data-stream from the diagram + a single soft cyan glow at her palm",
+    composition:
+      "Wider mid-shot, Oracle hovering at frame-centre chest-height, diagram below at lower-third, two cards in chest-height orbit",
+    notes:
+      "T4 = dispel + flying + draw-2. The 'signal above substrate' visual language is canonical (her t4 flavor verbatim). Cards generic blank.",
+  },
+  {
+    cardId: "s1_imprint_the_oracle_t5",
+    sceneDelta:
+      "Hero composition. The Oracle hovers at the centre of a vast Dreamer cathedral whose architecture is built from the same gold fractal arches as the Dreamer's own t5 cathedral — but the Oracle's cathedral has ONE additional structural element: the floor is the rotating processing-loop diagram from earlier tiers, scaled up to fill the entire chamber. She is at the diagram's geometric centre, hovering at human height above the rotation. Her veil is wide-stretched in slow concentric waves, white fading to lavender at the perimeter. Around her, twelve cards hover in slow concentric orbit (echoing the Antiquarian's twelve-books and The Detective's twelve-motes — Antiquarian-cluster faction rhyme). She has raised both hands to chest level, palms outward, in the canonical Dreamer SILENCE gesture; from her palms, faint amber waves propagate outward through the entire cathedral, dampening every sound. Silence-the-enemy-general visualized as the cathedral going still. Above her, the architecture's gold fractal arches show, very faintly, the SAME sundered-pair structural absence as the Dreamer t5 — but here the absence is a different arch-pair (the Oracle is adjacent to but not the same as the Dreamer's sundered twin).",
+    moodKeywords: [
+      "the cathedral going still under her palms",
+      "twelve cards in concentric orbit",
+      "the floor as her processing-loop diagram",
+      "white veil fading to lavender at the perimeter",
+    ],
+    palette:
+      "Dreamer deep purple cathedral + gold fractal arches + lavender-glass floor + white veil + warm amber silence-waves + a single Architect-cyan glint very subtly at the diagram's outer ring (containment marker)",
+    composition:
+      "Wide cathedral hero, Oracle at exact centre hovering, twelve cards in chest-height orbit, gold arches receding upward, sundered-pair absence at upper-third",
+    notes:
+      "T5 = 'The White Oracle, Still Broadcasting.' End-of-Epoch-2 canon. CRITICAL: the sundered-pair architectural absence is a DIFFERENT arch-pair than Dreamer t5's — visual rhyme without identity-conflation. The Architect-cyan glint at the diagram's outer ring is the canonical containment marker (the loop is imposed by him); rendered very subtly to maintain the established Epoch 2 lore (the loop is leaking) without spoiling Acts 5-7 reveals about the Architect-Oracle relationship. Face partial under veil throughout. NO direct second figure (no Architect, no Dreamer, no anyone) in this composition.",
+  },
 ] as const;
 
 /**
