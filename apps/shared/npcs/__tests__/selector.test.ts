@@ -62,13 +62,17 @@ function makeContext(overrides: Partial<NpcSelectorContext> = {}): NpcSelectorCo
   };
 }
 
-function makeLine(overrides: Partial<NpcLine> & { lineId: string }): NpcLine & { surfaces: ReadonlyArray<DialogSurface> } {
+type BankEntry = NpcLine & { surfaces: ReadonlyArray<DialogSurface> };
+
+function makeLine(
+  overrides: Partial<BankEntry> & { lineId: string },
+): BankEntry {
   return {
     npcKey: "adjudicator_locke",
     text: "stub line",
     surfaces: ["trade_empire"],
     ...overrides,
-  } as NpcLine & { surfaces: ReadonlyArray<DialogSurface> };
+  } as BankEntry;
 }
 
 // --- Tests ----------------------------------------------------------------
