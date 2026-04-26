@@ -244,15 +244,118 @@ const ARCHITECT_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "Epic unit. CRITICAL: this is the Architect-faction Collector at battle-scale (vs the Imprint Collector who is the curator-archetype). Visual continuity with the Collector Imprint card's chrome harvester-aesthetic but rendered in active battle-deployment with visible specimens. Generic-collector face (obscured by lens-array) preserves no-character-conflation across the two renderings.",
   },
+  {
+    cardId: "s1_char_024",
+    sceneDelta:
+      "Mid-shot. The Detective at battle-scale — a male-presenting figure in early-forties, generic-attentive features (alert eyes, slight smile of someone who has just noticed something others missed), in a long Architect-cyan investigator's coat over a cool-cream under-shirt. He stands at the centre of an Architect investigation-chamber with multiple CASE-EVIDENCE items arrayed on a long chrome examination-table at lower-third (each item a piece from a different unsolved Project Celebration mystery — small relics, papers, photo-fragments). He holds a chrome magnifier in his right hand, paused mid-examination of a single specific item. Behind him, the chamber's wall is covered with a STRING-AND-PIN investigation-board: red strings connecting photo-fragments and document-pages in a vast web. His face is intent, slightly amused — he is close to the answer he is not sure he wants.",
+    moodKeywords: [
+      "began his journey as a curious and determined Seeker",
+      "in the mysterious Project Celebration",
+      "string-and-pin investigation-board behind him",
+      "intent, slightly amused — close to the answer",
+    ],
+    palette:
+      "Architect-cyan investigator's coat + cool-cream under-shirt + chrome magnifier + chrome examination-table + warm photo-fragments + red investigation-strings + warm investigation-chamber lamp + cool-cyan ambient",
+    composition:
+      "Mid-shot front three-quarter, Detective at frame-centre at examination-table, string-and-pin board behind",
+    notes:
+      "Epic unit. Visual continuity with The Detective Imprint set (same character at battle-scale) — same archetypal investigator-attentive features. The string-and-pin investigation-board echoes the Imprint set's twelve-pattern motif (canonical for Detective character) without quoting it directly. Generic-attentive features must NOT match any other named character.",
+  },
+  {
+    cardId: "s1_char_030",
+    sceneDelta:
+      "Mid-shot. The Game Master — male-presenting figure in mid-forties, dark hair (slightly windswept), generic-cunning features (knowing smile, sharp eyes), in formal Architect-cyan strategist's robes with chrome chess-piece motifs subtly embroidered along the collar. He stands at a tall Architect strategy-table; on the table, a vast game-board (chess-like but with more pieces, more colors, more positions than standard chess — the canonical 'multidimensional game' visualization) extends across the entire table-surface. His right hand holds a single piece poised mid-move, hovering above its destination. A translucent green-tinted forcefield-shimmer wraps him at body-edge (forcefield variant — Game-Master plays from BEHIND a barrier; he is never in the game himself). His face is composed, calculating. Around the board, several pieces are knocked over (canon-direct from Game Master flavor: the Master arranges deaths from beyond the board).",
+    moodKeywords: [
+      "the tenth Archon created by the Architect in Year 550 A.A.",
+      "manifesting as a man with dark windswept hair",
+      "knowing smile, sharp eyes",
+      "playing from behind the forcefield",
+    ],
+    palette:
+      "Architect-cyan strategist's robes + chrome chess-piece collar-motifs + dark hair + warm strategy-table light + translucent green-tinted forcefield + multi-color game-board + cool deep-shadow + chrome strategy-table",
+    composition:
+      "Mid-shot front three-quarter, Game Master at frame-centre at strategy-table, game-board filling lower-third",
+    notes:
+      "Rare unit. CRITICAL canon-tie: Game Master was canonically killed by Agent Zero with Xeth'Raal's leaked playbook (per Demagi Archlord card s1_race_demagi_03 + Agent Zero Imprint set). This card depicts him at his apex BEFORE that event. Generic-cunning face with dark windswept hair matches the canon description. The 'forcefield from behind which he plays' is the canonical mechanic-as-metaphor for the Game Master's death-by-distance discipline.",
+  },
+  {
+    cardId: "s1_char_035",
+    sceneDelta:
+      "Mid-shot. The Jailer — at battle-scale, a tall male-presenting figure in heavy chrome-and-cool-cyan keeper's robes, generic-stern features (calm, judicial, weary), with a long wide-brimmed Architect-formal hat that throws a deeper shadow across his upper-face (the eyes only barely visible beneath the brim). At his belt, a heavy ring of chrome KEYS — each key a different shape, suggesting different cell-locks. He stands at the threshold of a long Architect prison-corridor; the corridor extends behind him with rows of cells visible (each cell-door has a single small cool-cyan-lit window-slot, but the cells themselves are dark). His pose is grounded, both hands clasped at his front, head slightly inclined as if listening to a prisoner's complaint. Faint warm provoke-glow rims his shoulders. His face is patient — the rotation discipline made visible.",
+    moodKeywords: [
+      "began as the Oracle, a revered figure",
+      "journeyed to Thaloria and bested the Collector in philosophical debate",
+      "now the Jailer in chrome-and-cool-cyan keeper's robes",
+      "patient — the rotation discipline made visible",
+    ],
+    palette:
+      "Heavy chrome-and-cool-cyan keeper's robes + wide-brimmed Architect-formal hat + chrome key-ring at belt + cool-cyan cell-window slots + dark prison-corridor cells + warm provoke-rim + cool deep-corridor shadow",
+    composition:
+      "Mid-shot front three-quarter, Jailer at frame-centre at corridor-threshold, cell-doors receding behind",
+    notes:
+      "Rare unit. Visual continuity with The Jailer Imprint set — same archetype, but rendered with the canon-Architect-faction chrome-keeper's-robes and the chrome key-ring at belt (vs the Imprint version's more abstract rotation-shaped framing). The wide-brimmed hat throwing shadow across upper-face is the visual key to 'patient observer of prisoners.' Generic-stern features must NOT match any other named character.",
+  },
+  {
+    cardId: "s1_char_038",
+    sceneDelta:
+      "Wider mid-shot. The Meme — a vast translucent FACE-LIKE PROJECTION at frame-centre, approximately filling the upper-half of the frame, rendered as a spectral cool-cyan light-pattern that suggests features without committing to a specific face (eyes-shape, mouth-shape, but the face never fully resolves — different viewers would see different specific faces depending on what each viewer brings to the image). The projection emanates from a small Architect broadcast-tower at lower-third (a chrome-and-cool-cyan multi-antenna emitter). Around the projection, faint translucent meme-script (illegible suggestive Architect-cyan text fragments) drifts through the air — the broadcasts that never stopped. The lower-third shows a small abandoned town with shadowed figures looking up at the projection — generic-anonymous townspeople, faces upturned, unable to look away.",
+    moodKeywords: [
+      "the fifth Archon created by the Architect in Year 298 A.A.",
+      "designed to manipulate human thought and culture",
+      "believed destroyed by the White Oracle — though the broadcasts never stopped",
+      "the face never fully resolves",
+    ],
+    palette:
+      "Translucent cool-cyan face-projection + chrome-and-cool-cyan broadcast-tower + cool-cyan meme-script fragments + cool small abandoned town below + dark shadowed townspeople + cool-cyan upward-gaze ambient",
+    composition:
+      "Wider mid-shot, vast face-projection at upper-third, broadcast-tower at lower-third, town with townspeople at very bottom",
+    notes:
+      "Epic unit. CRITICAL: the face-projection deliberately DOES NOT resolve to a specific named character — it is a Rorschach-suggestion that adapts to the viewer. The 'broadcasts never stopped' is canon-direct — even after the White Oracle's victory, the apparatus persists. Anonymous townspeople preserve no-character-conflation. Visual idiom is distinct from any other Architect-character.",
+  },
+  {
+    cardId: "s1_char_039",
+    sceneDelta:
+      "Mid-shot. The Necromancer at battle-scale — a tall figure in deep Architect-cyan-and-cool-violet sorcerer's robes with white-silver embroidery at the hem (consistent with canon: dark elven magician with white silver hair). He is shown BACK-TO-CAMERA at frame-centre — face never visible, only the back of his head with long white-silver hair flowing down, the hood of the sorcerer's robe pushed back. His arms are extended outward in a wide raising-gesture; from beneath his outstretched palms, faint translucent cool-violet death-mist propagates downward into a low Architect graveyard-floor at lower-third. From the death-mist, faint translucent humanoid silhouettes are RISING from the ground — multiple raised entities, each anonymous, each barely-visible. The setting is an Architect tomb-courtyard at midnight, cold cool-cyan ambient with faint warm-violet death-mist accent.",
+    moodKeywords: [
+      "the tenth Archon created by the Architect in Year 600 A.A.",
+      "dark elven magician with white silver hair",
+      "back-to-camera, never face",
+      "raising silhouettes from beneath the death-mist",
+    ],
+    palette:
+      "Architect deep-cyan-and-cool-violet sorcerer's robes + white-silver embroidery hem + long white-silver hair + translucent cool-violet death-mist + dark Architect graveyard-floor + faint translucent rising-silhouettes + cool-cyan midnight ambient",
+    composition:
+      "Mid-shot back-three-quarter on Necromancer, hands extended outward, raising-silhouettes at lower-third on graveyard-floor",
+    notes:
+      "Epic unit. CRITICAL spoiler-discipline: face NEVER visible (back-to-camera only) — same discipline as Necromancer Imprint set. Visual continuity preserved: white-silver hair + cool-violet sorcerer's-robes + death-mist canonical idiom. Anonymous raised-silhouettes preserve no-character-conflation.",
+  },
+  {
+    cardId: "s1_char_042",
+    sceneDelta:
+      "Mid-shot. The Politician — male-presenting figure in late-fifties, generic-charismatic features (warm smile, attentive eyes, hair distinguished-grey), in formal Architect-cyan-and-cool-cream political-robes with a single chrome lapel-pin shaped as the Architect's hexagonal sigil. He stands at a podium delivering an oration — both hands open in a wide-palms-upward inviting-gesture, head slightly tilted. Behind him, an audience of ATTENTIVE FIGURES is faintly visible at lower-third (each generic-anonymous, each leaning slightly forward, each with calm composed expressions — the audience has been MANIPULATED into agreement). Around him, a translucent green-tinted forcefield-shimmer wraps his body-edge (forcefield — the Politician is rhetorically shielded). Faint cool-cream silence-haze emanates from his hands toward the off-frame opposing voices (the silence-mechanic).",
+    moodKeywords: [
+      "the seventh Archon created by the Architect on Day 15 of Ascension, Year 419 A.A.",
+      "engineered to manipulate human consensus",
+      "wide-palms-upward inviting-gesture",
+      "audience manipulated into agreement",
+    ],
+    palette:
+      "Architect cool-cyan-and-cool-cream political-robes + chrome hexagonal lapel-pin + warm podium-light + warm distinguished-grey hair + translucent green-tinted forcefield + cool-cream silence-haze + cool audience ambient",
+    composition:
+      "Mid-shot front three-quarter, Politician at frame-centre at podium, attentive audience at lower-third",
+    notes:
+      "Rare unit. The 'attentive audience leaning forward' is the canonical visualization of consensus-manipulation. Generic-charismatic distinguished-grey hair must NOT match any specific named character. Forcefield + silence-haze dual-rendering matches both Architect-faction visual idioms.",
+  },
 ] as const;
 
 /**
  * Architect faction's prompt registry, keyed by card id.
  *
- * Currently populated: 12 / 63 cards
+ * Currently populated: 18 / 63 cards
  * (gen_architect, gen_authority, s1_char_006-009, s1_char_013,
  *  s1_char_015, s1_char_016, s1_char_019, s1_char_021,
- *  s1_char_022).
+ *  s1_char_022, s1_char_024, s1_char_030, s1_char_035,
+ *  s1_char_038, s1_char_039, s1_char_042).
  */
 export const ARCHITECT_CARD_ART_PROMPTS: Readonly<Record<string, CardArtPrompt>> =
   Object.freeze(
