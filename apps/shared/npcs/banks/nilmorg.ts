@@ -1403,6 +1403,285 @@ export const NILMORG_BANK: ReadonlyArray<BankEntry> = [
     cooldownKey: "nilmorg.contract.institutional_intro",
   },
 
+  // ─── Multi-stage Severance Prize contract (npc_line surface) ────────
+  // Phase 6a.1 final chunk: 20 lines walking the canonical
+  // broker_nilmorg_severance contract per Phase 2's 3-stage spec
+  // (extraction_witnessed → container_transit → delivery_to_recipient)
+  // plus pre-signing negotiation, breach handling, and post-completion
+  // closure. All lines stay in Lore/Ceremony register — the canonical
+  // institutional precision register where flatness IS the threat.
+  //
+  // Bible canon protections:
+  //   §1.5: NO fine print, NO hidden clauses, full disclosure as
+  //         honeypot — distinguishes Nilmorg from Locke (Locke
+  //         contracts canonically DO have hidden clauses)
+  //   §2.3: he keeps his agreements; the breach line documents
+  //         the asymmetry rather than threatening retaliation
+  //   §1.5: NO apologies, NO explainer-vocabulary
+
+  // Phase A — Pre-signing register (5 lines)
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.contract.presigning.read_twice",
+    text:
+      "Read it once. Read it twice. There is nothing on the second read " +
+      "that was not on the first. The Hierarchy forbids hidden clauses. " +
+      "So do I.",
+    surfaces: ["npc_line"],
+    unlockFlags: ["broker_nilmorg_engagement_started"],
+    cooldownKey: "nilmorg.contract.presigning",
+    maxPlays: 3,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.contract.presigning.candor_is_the_trap",
+    // Canonical full-disclosure-as-honeypot canon per §1.5: he tells
+    // you exactly what you're signing up for, and you sign up anyway.
+    // The candor IS the trap.
+    text:
+      "I will tell you what you are signing. I will not soften it. The " +
+      "candor is part of the agreement. Most counterparties do not " +
+      "realize until later that the candor was the trap.",
+    surfaces: ["npc_line"],
+    unlockFlags: ["broker_nilmorg_engagement_started"],
+    cooldownKey: "nilmorg.contract.presigning",
+    maxPlays: 3,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.contract.presigning.no_negotiation",
+    text:
+      "You may sign. You may decline. You may not negotiate. The terms " +
+      "of a Hierarchy of the Damned contract are not menu items.",
+    surfaces: ["npc_line"],
+    unlockFlags: ["broker_nilmorg_engagement_started"],
+    cooldownKey: "nilmorg.contract.presigning",
+    maxPlays: 3,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.contract.presigning.full_acceptance_gate",
+    text:
+      "If you sign, you sign all of it. There is no halfway. Halfway is " +
+      "what the file calls 'aborted' — and the file remembers.",
+    surfaces: ["npc_line"],
+    unlockFlags: ["broker_nilmorg_engagement_started"],
+    cooldownKey: "nilmorg.contract.presigning",
+    maxPlays: 3,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.contract.presigning.signed_filed_indexed",
+    text:
+      "Signed. Filed. Indexed. The Hierarchy will know within the hour. " +
+      "So will I.",
+    surfaces: ["npc_line"],
+    unlockFlags: ["severance_contract_signed"],
+    cooldownKey: "nilmorg.contract.presigning.confirmation",
+    maxPlays: 3,
+    setsFlags: ["broker_nilmorg_contract_active"],
+  },
+
+  // Phase B — Stage 1: extraction_witnessed (3 lines: intro / mid / close)
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.contract.stage1.intro",
+    text:
+      "Stage one: the extraction. You must witness. You may not look " +
+      "away. The witness is the agreement.",
+    surfaces: ["npc_line"],
+    unlockFlags: ["severance_contract_stage_1_started"],
+    cooldownKey: "nilmorg.contract.stage1",
+    maxPlays: 3,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.contract.stage1.midpoint",
+    text:
+      "She is on the podium. The platform is calibrated. Take a breath. " +
+      "The breath is also recorded — that is also the agreement.",
+    surfaces: ["npc_line"],
+    unlockFlags: ["severance_contract_stage_1_started"],
+    cooldownKey: "nilmorg.contract.stage1",
+    maxPlays: 3,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.contract.stage1.completion",
+    text:
+      "Stage one complete. The fragment is in the container. You did not " +
+      "look away. I noted the steadiness. The Hierarchy noted nothing. " +
+      "That asymmetry is yours to keep.",
+    surfaces: ["npc_line"],
+    unlockFlags: ["severance_contract_stage_1_complete"],
+    cooldownKey: "nilmorg.contract.stage1.complete",
+    maxPlays: 3,
+  },
+
+  // Phase C — Stage 2: container_transit (3 lines)
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.contract.stage2.intro",
+    text:
+      "Stage two: transit. The container leaves my platform now. It will " +
+      "be aboard your ship within the hour. Don't open it during transit.",
+    surfaces: ["npc_line"],
+    unlockFlags: ["severance_contract_stage_2_started"],
+    cooldownKey: "nilmorg.contract.stage2",
+    maxPlays: 3,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.contract.stage2.midpoint",
+    text:
+      "The container is en route. The Trench cannot reach it from here. " +
+      "Neither can the Hierarchy. The fragment is briefly between " +
+      "custodians.",
+    surfaces: ["npc_line"],
+    unlockFlags: ["severance_contract_stage_2_started"],
+    cooldownKey: "nilmorg.contract.stage2",
+    maxPlays: 3,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.contract.stage2.completion",
+    text:
+      "Stage two complete. The container is aboard your ship. The seal " +
+      "has held. It will hold until you are ready. You will know when.",
+    surfaces: ["npc_line"],
+    unlockFlags: ["severance_contract_stage_2_complete"],
+    cooldownKey: "nilmorg.contract.stage2.complete",
+    maxPlays: 3,
+  },
+
+  // Phase D — Stage 3: delivery_to_recipient (3 lines)
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.contract.stage3.intro",
+    text:
+      "Stage three: delivery. You will open the container. The body is " +
+      "inside. The fragment is inside the body. The pairing has begun.",
+    surfaces: ["npc_line"],
+    unlockFlags: ["severance_contract_stage_3_started"],
+    cooldownKey: "nilmorg.contract.stage3",
+    maxPlays: 3,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.contract.stage3.midpoint",
+    text:
+      "She is breathing. She is awake. She does not yet have words. Words " +
+      "come on her schedule, not yours. Don't rush it.",
+    surfaces: ["npc_line"],
+    unlockFlags: ["severance_contract_stage_3_started"],
+    cooldownKey: "nilmorg.contract.stage3",
+    maxPlays: 3,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.contract.stage3.completion",
+    // Canonical full-fulfillment institutional close. Echoes the
+    // ceremony-closes-itself bookend from the aftermath block.
+    text:
+      "Stage three complete. The contract is fulfilled. The platform " +
+      "paid. The clone smiled. The container sealed. She arrived. The " +
+      "agreement closes itself.",
+    surfaces: ["npc_line"],
+    unlockFlags: ["severance_contract_complete"],
+    cooldownKey: "nilmorg.contract.stage3.complete",
+    maxPlays: 3,
+    setsFlags: ["broker_nilmorg_contract_fulfilled"],
+  },
+
+  // Phase E — Edge cases (2 lines: walk-away refused / breach)
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.contract.edge.walkaway_refused",
+    text:
+      "You wish to leave. You may not. Witnesses do not leave. The " +
+      "agreement was witnessed; the agreement holds. Sit. Watch. The " +
+      "platform will not pause.",
+    surfaces: ["npc_line"],
+    unlockFlags: ["severance_contract_walk_away_attempted"],
+    cooldownKey: "nilmorg.contract.walkaway",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.contract.edge.breach_call",
+    // §2.3 canon: he keeps his agreements. When the player breaches,
+    // his response documents the asymmetry rather than threatening
+    // retaliation. The cost is structural, not punitive.
+    text:
+      "You broke the witness condition. The fragment is preserved. The " +
+      "contract is voided. You will not receive the prize. You will not " +
+      "be invoiced. The asymmetry is the cost.",
+    surfaces: ["npc_line"],
+    unlockFlags: ["severance_contract_breached"],
+    cooldownKey: "nilmorg.contract.breach",
+    maxPlays: 1,
+    setsFlags: ["broker_nilmorg_contract_voided"],
+  },
+
+  // Phase F — Pre-signing follow-ups (2 lines: alternates / forecaster)
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.contract.alternates.other_authorized",
+    // §2.6 canon — Cross-Game Side Quests reach into other systems.
+    // The alternates exist; he names them; he does not pitch them.
+    text:
+      "There are other contracts I am authorized to offer. Kinetic " +
+      "Acquisition. The Warlord's Bet. None of them resemble this one. " +
+      "This one is single-purpose.",
+    surfaces: ["npc_line"],
+    unlockFlags: ["broker_nilmorg_engagement_started"],
+    cooldownKey: "nilmorg.contract.alternates",
+    maxPlays: 2,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.contract.presigning.forecaster_seasons",
+    text:
+      "I do not predict your decision. I have authored both versions of " +
+      "next season already. One has you in it. One does not. Either is " +
+      "a complete season.",
+    surfaces: ["npc_line"],
+    unlockFlags: ["broker_nilmorg_engagement_started"],
+    cooldownKey: "nilmorg.contract.forecaster",
+    maxPlays: 2,
+  },
+
+  // Phase G — Post-completion register (2 lines)
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.contract.post.records_remain_open",
+    text:
+      "Contract closed. The Hierarchy's records are sealed. My records " +
+      "remain open. They are mine. I keep them.",
+    surfaces: ["npc_line"],
+    unlockFlags: ["broker_nilmorg_contract_fulfilled"],
+    cooldownKey: "nilmorg.contract.post.records",
+    maxPlays: 3,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.contract.post.next_season_pivot",
+    text:
+      "If you wish to enter another contract, the next season opens in " +
+      "time. The platform is patient. So am I.",
+    surfaces: ["npc_line"],
+    unlockFlags: ["broker_nilmorg_contract_fulfilled"],
+    cooldownKey: "nilmorg.contract.post.next_season",
+    maxPlays: 3,
+  },
+
   // ═════════════════════════════════════════════════════════════════════
   // TRENCH SECTOR ARRIVAL (room — first-visit cinematic)
   // ═════════════════════════════════════════════════════════════════════
