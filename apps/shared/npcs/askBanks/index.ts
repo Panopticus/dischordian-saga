@@ -16,6 +16,7 @@ import { NILMORG_ASK_TOPICS } from "./nilmorg";
 import { ADJUDICATOR_LOCKE_ASK_TOPICS } from "./adjudicator_locke";
 import { THE_SEER_ASK_TOPICS } from "./the_seer";
 import { VEX_SOLENE_ASK_TOPICS } from "./vex_solene";
+import { THE_ORACLE_ASK_TOPICS } from "./the_oracle";
 
 // Per-NPC banks are added here as they ship through Phase 6a-6e.
 // Phase 6 Infrastructure ships only the aggregator + types + resolver;
@@ -26,7 +27,7 @@ const PER_NPC_BANKS: ReadonlyArray<ReadonlyArray<AskTopic>> = [
   ADJUDICATOR_LOCKE_ASK_TOPICS,       // Phase 6a.2 ✅
   THE_SEER_ASK_TOPICS,                // Phase 6b.1 ✅
   VEX_SOLENE_ASK_TOPICS,              // Phase 6b.2 ✅
-  // THE_ORACLE_ASK_TOPICS,           // Phase 6b.3
+  THE_ORACLE_ASK_TOPICS,              // Phase 6b.3 ✅
   // THE_DEGEN_ASK_TOPICS,            // Phase 6c.1
   // DMC_CLONE_COMPANION_ASK_TOPICS,  // Phase 6c.2
   // THE_GAME_MASTER_ASK_TOPICS,      // Phase 6d.1

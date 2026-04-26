@@ -202,6 +202,50 @@ export const CROSS_CHARACTER_REACTIONS: ReadonlyArray<CrossCharacterReaction> = 
       "in the saga cannot be reached by his editorial mechanism.",
   },
 
+  // ─── Oracle clone canon disclosed (Phase 6b.3) ─────────────────────
+  {
+    flag: "oracle_clone_canon_disclosed",
+    setBy: ["the_oracle"],
+    reactsBy: ["future_reader"], // The Meme + Architect (future banks)
+    canonicalNote:
+      "Per Oracle bible §2.5 + writers'-guide spec: when the player " +
+      "asks the Oracle 'Was that you the Insurgency trusted?' the " +
+      "canonical answer discloses the canonical two-layer falsification " +
+      "(Architect's clone + Meme's impersonation). Set on canonical " +
+      "False-Prophet ask-topic. Downstream Phase 6+ NPCs gain the " +
+      "canonical 'you know about the clone' acknowledgment register.",
+  },
+
+  // ─── Oracle Meme disclosed to player (Phase 6b.3) ──────────────────
+  {
+    flag: "oracle_meme_disclosed_to_player",
+    setBy: ["the_oracle"],
+    reactsBy: ["future_reader"], // The Meme (future bank) + Phase 6+
+    canonicalNote:
+      "Per Oracle bible §4.1 + Meme bible §1.3 cross-bible canon: when " +
+      "the player asks the Oracle about the Meme, the canonical 11-year " +
+      "identity-theft register lands directly. The flag opens a " +
+      "downstream Meme-bible reactive register where the Meme " +
+      "canonically registers the player having received the canonical " +
+      "Stolen-Voice canon from the canonical-protected source.",
+  },
+
+  // ─── Oracle will refuse canonical return (Phase 6b.3) ──────────────
+  {
+    flag: "oracle_will_refuse_canonical_return",
+    setBy: ["the_oracle"],
+    reactsBy: ["future_reader"], // Wraith Calder / Hierophant Phase 6+
+    canonicalNote:
+      "Per Oracle bible §4.2 + Hierophant bible §4.10 cross-bible canon: " +
+      "the canonical 'he is preparing for my return; I am almost ready " +
+      "to refuse' register lands when the player asks the Oracle about " +
+      "the Hierophant. The flag signals that the Oracle has canonically " +
+      "disclosed his refusal-of-canonical-return canon to the player. " +
+      "Downstream Hierophant banks (when his Phase 6d.3 expansion " +
+      "ships) react canonically — the Hierophant will canonically " +
+      "receive him anyway.",
+  },
+
   // ─── Player in Coda pact (Phase 6b.2 sub-chunk C) ──────────────────
   {
     flag: "player_in_coda_pact",

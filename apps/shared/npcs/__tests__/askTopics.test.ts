@@ -217,10 +217,10 @@ describe("ALL_NPC_ASK_TOPICS aggregator", () => {
 
   it("getAskTopicsFor returns empty array for unauthored NPCs (silent-fail)", () => {
     // Phase 6a.1 shipped Nilmorg; Phase 6a.2 shipped Locke; Phase
-    // 6b.1 shipped Seer; Phase 6b.2 shipped Vex; the rest stay
-    // empty until their sub-phase ships per the Phase 6 sequencing.
-    // Updated as banks land.
-    expect(getAskTopicsFor("the_oracle").length).toBe(0);
+    // 6b.1 shipped Seer; Phase 6b.2 shipped Vex; Phase 6b.3 shipped
+    // Oracle; the rest stay empty until their sub-phase ships per
+    // the Phase 6 sequencing. Updated as banks land.
+    // (Oracle now ships ≥14 topics — see assertion below)
     expect(getAskTopicsFor("the_degen").length).toBe(0);
     expect(getAskTopicsFor("dmc_clone_companion").length).toBe(0);
     expect(getAskTopicsFor("the_game_master").length).toBe(0);
@@ -245,5 +245,9 @@ describe("ALL_NPC_ASK_TOPICS aggregator", () => {
 
   it("Vex Solène (Phase 6b.2) ships ≥10 topics via the aggregator", () => {
     expect(getAskTopicsFor("vex_solene").length).toBeGreaterThanOrEqual(10);
+  });
+
+  it("The Oracle (Phase 6b.3) ships ≥14 topics via the aggregator", () => {
+    expect(getAskTopicsFor("the_oracle").length).toBeGreaterThanOrEqual(14);
   });
 });
