@@ -140,14 +140,150 @@ const NEUTRAL_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "Uncommon unit. Generic-diplomatic features must NOT match any named character. Anonymous multi-faction representatives preserve no-character-conflation. The 'cover' framing is rendered through the polished-diplomacy posture — the cover is good.",
   },
+  {
+    cardId: "s1_char_086",
+    sceneDelta:
+      "Mid-shot. A Wandering Merchant — male-presenting figure in mid-fifties, generic-mercantile features (warm professional smile, weathered tradesman's face, distinguished but humble bearing), in worn neutral travel-merchant attire (warm-leather over cream linen with multi-faction trade-tokens visible at the belt — chrome Architect-cyan + warm-gold New Babylon + signal-green Insurgency + warm-amber Antiquarian — all clipped at the same belt). He stands at a small market-stall at frame-centre on a frontier-road, mid-action of HANDLING a chrome-and-warm-gold COIN-PURSE. Around the stall, varied trade-goods displayed (faction-neutral). NO faction-specific environment.",
+    moodKeywords: [
+      "he sells to all sides and swears allegiance to none",
+      "coin is the only faction that never falls",
+      "multi-faction trade-tokens at belt — chrome cyan + warm-gold + signal-green + amber",
+      "warm professional smile, weathered tradesman's face",
+    ],
+    palette:
+      "Worn warm-leather over cream linen + multi-faction trade-tokens + chrome-and-warm-gold coin-purse + frontier-road market-stall + warm low stall-light + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, Merchant at frame-centre at stall, varied trade-goods displayed",
+    notes:
+      "Common unit. Generic-mercantile features must NOT match any named character (specifically NOT The Degen — different role: stationary casino-host vs wandering frontier-merchant). The multi-faction-tokens at belt is the visual key to 'sells to all sides.'",
+  },
+  {
+    cardId: "s1_char_087",
+    sceneDelta:
+      "Mid-shot. A Scrapyard Golem — humanoid-mechanical entity at frame-centre, approximately 2.4m tall, body composed of MIXED SCRAP from diverse origins: chrome architect-plates at one shoulder, warm-leather sailing-mast for one arm, brass-and-glass clockwork at the chest, signal-green Insurgency-helm fragment for the head. The composition is canonically NON-WAR-DESIGN (the salvaged components were household / civilian / utility — washing-machine-drum chest, plow-blade arms). Faint warm provoke-glow rims its leading shoulder. The Golem's posture is alert combat-stance, but the cobbled-together body shows visible RECENT-LEARNING (some welds are fresh, recently-made). Behind it, a scrapyard at lower-third with more mixed-origin debris.",
+    moodKeywords: [
+      "built from the wreckage of a dozen machines",
+      "none of which were designed to kill",
+      "it learned that part on its own",
+      "household-civilian-utility salvaged components in combat-pose",
+    ],
+    palette:
+      "Mixed scrap substance + chrome architect-plates + warm-leather sailing-mast + brass-and-glass clockwork + signal-green Insurgency-helm fragment + washing-machine-drum chest + plow-blade arms + warm provoke-rim + scrapyard debris + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, Golem at frame-centre, scrapyard debris at lower-third behind",
+    notes:
+      "Common unit. NO human face (mechanical). The 'not designed to kill — learned that part' is the canonical visualization through the visibly-utility-origin components composed into combat-stance.",
+  },
+  {
+    cardId: "s1_char_088",
+    sceneDelta:
+      "Mid-shot. A Field Medic — female-presenting figure in late-twenties, generic-warm features (kind eyes, calm focused expression, hair tied back), in neutral medic's attire (cream-and-warm-gold cross-arm-band on warm-leather field-coat, chrome-and-warm-gold medical kit at hip). She kneels at frame-centre beside an anonymous wounded figure (back-three-quarter, mixed-faction tactical gear — could be ANY side). Her hands are mid-action of treating a visible warm-amber wound. Around her hands, faint cool drain-rim wraps her body (drain keyword — she takes the wound's pain into herself). She does not LOOK at the figure's faction-markings. Faint warm low field-light.",
+    moodKeywords: [
+      "she does not ask which side you fight for",
+      "only where it hurts",
+      "anonymous mixed-faction wounded figure",
+      "kind eyes, doesn't look at faction-markings",
+    ],
+    palette:
+      "Cream-and-warm-gold medic-attire + chrome-and-warm-gold medical kit + anonymous mixed-faction wounded + warm-amber wound + faint cool drain-rim + warm low field-light + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, Medic kneeling at frame-centre, wounded figure beside her",
+    notes:
+      "Uncommon unit. Anonymous wounded (mixed-faction) preserves no-character-conflation. Generic-warm features must NOT match any named character. The 'doesn't ask which side' is rendered through the medic's gaze focused on the wound, not the gear.",
+  },
+  {
+    cardId: "s1_char_089",
+    sceneDelta:
+      "Tight composition. A Courier Sprite — small luminous warm-amber-and-cool-cream creature, approximately 12cm long, mid-flight at frame-centre. Body is winged (translucent silver-mist wings) and slim, designed for speed. In its tiny grasping-hands, a SMALL SCROLL or MESSAGE-CAPSULE (chrome-and-warm-gold). The Sprite's body shows visible TIRING — it is mid-action of carrying the message past dangerous territory (cool-violet shadowy threats faintly visible at frame-edges). Faint warm rush-trails behind it; faint cool wind-trails above. The Sprite's brief-bright life is canonically nearing its end.",
+    moodKeywords: [
+      "it carries messages no one else dares to deliver",
+      "and pays for it with its brief, bright life",
+      "translucent silver-mist wings + chrome-and-warm-gold message-capsule",
+      "shadowy threats faintly visible at frame-edges",
+    ],
+    palette:
+      "Warm-amber-and-cool-cream Sprite-body + translucent silver-mist wings + chrome-and-warm-gold message-capsule + warm rush-trails + cool wind-trails + cool-violet shadowy threats at edges + cool deep-shadow",
+    composition:
+      "Tight composition, Sprite at frame-centre mid-flight with message-capsule, threats at frame-edges",
+    notes:
+      "Common unit. NO human figure. The 'brief bright life' framing is rendered through the visible tiring + dangerous environment.",
+  },
+  {
+    cardId: "s1_char_090",
+    sceneDelta:
+      "Action mid-shot. A Hired Blade — male-presenting figure in mid-thirties, generic-cool features (focused eyes, slight smirk, weathered scar on the brow), in mercenary-eclectic combat-attire (mixed pieces from multiple factions — could have served any side at any time, no clear current allegiance). At his belt, multiple chrome-and-warm-gold contract-pendants from previous-employers (visible different faction-emblems, all PAID/DONE). He is mid-stride forward, weapon (a chrome short-blade) raised. Faint warm rush-trails at heels (rush keyword). His face shows professional-detachment — the canonical 'loyalty is expensive, disloyalty more so' rendering — neither passion nor hatred, just contracted-execution.",
+    moodKeywords: [
+      "loyalty is expensive",
+      "disloyalty, more so",
+      "mercenary-eclectic with mixed-faction contract-pendants",
+      "professional-detachment — no passion, no hatred",
+    ],
+    palette:
+      "Mercenary-eclectic combat-attire + mixed-faction pieces + chrome-and-warm-gold contract-pendants + chrome short-blade + warm rush-trails + scar on brow + cool deep-shadow",
+    composition:
+      "Action mid-shot front three-quarter, Hired Blade at frame-centre mid-stride forward, weapon raised",
+    notes:
+      "Uncommon unit. Generic-cool features must NOT match any named character. The 'eclectic mercenary' is rendered through the deliberately-mixed-faction attire — no single allegiance.",
+  },
+  {
+    cardId: "s1_char_091",
+    sceneDelta:
+      "Mid-shot. A Border Scout — figure of indeterminate gender at frame-centre, generic-quiet features (alert eyes, hood pulled low partially-obscuring face, lean build), in neutral borderlands-traveler attire (cool-cream-and-warm-leather camouflaged-pattern cloak with chrome compass-pendant at the throat). They stand mid-action of OBSERVING a borderlands-vista at frame-centre, both hands at sides, body absolutely still (the canonical 'quiet enough to survive'). In their right hand, a small chrome-and-warm-gold scout's spyglass extended toward off-frame distance. Faint warm backstab-glow rims their leading hand (backstab keyword). The borderlands behind shows multiple competing-faction territories meeting (faint translucent boundary-markers in mid-distance). NO clear face features.",
+    moodKeywords: [
+      "the borderlands belong to no faction",
+      "only to those quiet enough to survive them",
+      "scout's spyglass extended, body absolutely still",
+      "translucent faction-boundary markers in mid-distance",
+    ],
+    palette:
+      "Cool-cream-and-warm-leather camouflaged-pattern cloak + chrome compass-pendant + chrome-and-warm-gold scout's spyglass + warm backstab-glow + translucent faction-boundary markers + cool borderlands ambient + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, Scout at frame-centre with spyglass, borderlands extending behind",
+    notes:
+      "Common unit. Hood-low + generic features preserves no-character-conflation. The 'belong to no faction' is rendered through the no-faction-marker attire + the multiple competing-territories visible behind.",
+  },
+  {
+    cardId: "s1_char_092",
+    sceneDelta:
+      "Action mid-shot. A Ruin Stalker — non-human predatory figure at frame-centre, body composed of corrupted-charcoal-and-warm-amber substance (NOT thought-virus phosphor-green; this is a different kind of corruption — pre-Fall ruin-substance). Quadrupedal feline-aspect with elongated jaw, glowing warm-amber eye-points, tattered leathery skin showing ancient damage. It is mid-leap toward off-frame target at frame-right (only target's edge-of-armor visible). Faint warm backstab-glow rims its leading paws; faint warm pierce-glow rims its claws. Behind it, the RUINS of the old world (pre-Fall architecture in cool-grey decay, broken columns, ash-covered ground). The Stalker has FORGOTTEN what it was. It only knows hunger.",
+    moodKeywords: [
+      "in the ruins of the old world, something still hunts",
+      "it does not remember what it was",
+      "only what it is hungry for",
+      "corrupted-charcoal-and-warm-amber feline-aspect with ancient damage",
+    ],
+    palette:
+      "Corrupted-charcoal-and-warm-amber substance + tattered leathery skin + warm-amber eye-points + warm backstab-glow + warm pierce-glow + cool-grey pre-Fall ruins + ash-covered ground + cool deep-shadow",
+    composition:
+      "Action mid-shot side three-quarter, Stalker at frame-centre mid-leap, ruins behind",
+    notes:
+      "Rare unit. NO human-character-conflation possible (the Stalker is alien-monstrous). The 'forgotten what it was' is rendered through the indistinct creature-form (recognizable as quadrupedal-feline only, not as any specific named species).",
+  },
+  {
+    cardId: "s1_char_093",
+    sceneDelta:
+      "Wider mid-shot. An Ironclad Veteran — male-presenting figure in mid-sixties, generic-grizzled-warrior features (deeply weathered face, full grey beard, slow grave eyes, heavy posture), in heavy worn IRONCLAD ARMOR (deep slate-and-warm-amber heavy plate, every-faction-emblem visibly OVERLAID across the armor — chrome Architect + warm-gold New Babylon + signal-green Insurgency + warm-amber Antiquarian + others — but ALL CROSSED-OUT with thick chrome strikes (he buried each of them; each banner crossed-out). He stands at the centre of a battlefield-overlook at frame-centre, both hands on the pommel of a tall planted iron sword. Behind him, multiple buried-graves at lower-third (the allies he buried). Faint warm provoke-glow rims his shoulders; translucent green-tinted forcefield wraps him; faint translucent rebirth-doubled-edge runs along his outline. His face is set, exhausted-but-standing.",
+    moodKeywords: [
+      "he has buried allies under every banner",
+      "now he fights only for the war itself",
+      "the one thing that never abandoned him",
+      "every-faction-emblem overlaid and CROSSED-OUT on his armor",
+    ],
+    palette:
+      "Deep slate-and-warm-amber heavy ironclad armor + every-faction-emblem (multiple, all crossed-out) + tall planted iron sword + warm provoke-rim + translucent green-tinted forcefield + translucent rebirth-doubled-edge + multiple buried-graves at lower-third + cool deep-shadow",
+    composition:
+      "Wider mid-shot front three-quarter, Veteran at frame-centre with planted sword, buried-graves at lower-third behind",
+    notes:
+      "Legendary unit. Generic-grizzled-warrior features must NOT match Iron Lion (different specific archetype: Insurgency-loyal vs faction-burned). The crossed-out-every-emblem is the canonical 'buried allies under every banner' visualization. Three keywords (provoke + forcefield + rebirth) rendered as three distinct visual elements.",
+  },
 ] as const;
 
 /**
  * Neutral faction's prompt registry, keyed by card id.
  *
- * Currently populated: 6 / 79 cards
+ * Currently populated: 14 / 79 cards
  * (burnt_card_placeholder, gen_game_master_original, gen_neutral,
- *  gen_programmer, gen_seer, s1_char_004).
+ *  gen_programmer, gen_seer, s1_char_004, s1_char_086-093).
  */
 export const NEUTRAL_CARD_ART_PROMPTS: Readonly<Record<string, CardArtPrompt>> =
   Object.freeze(
