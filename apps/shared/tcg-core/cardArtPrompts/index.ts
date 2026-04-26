@@ -20,6 +20,7 @@ import { RACE_CARD_ART_PROMPTS } from "./race";
 import { ELEMENTAL_CARD_ART_PROMPTS } from "./elemental";
 import { DIMENSIONAL_CARD_ART_PROMPTS } from "./dimensional";
 import { PANOPTICON_CARD_ART_PROMPTS } from "./panopticon";
+import { ANTIQUARIAN_CARD_ART_PROMPTS } from "./antiquarian";
 
 /**
  * The full card-art prompt registry.
@@ -40,9 +41,11 @@ import { PANOPTICON_CARD_ART_PROMPTS } from "./panopticon";
  *   - dimensional: 4 / 4 dimensions — COMPLETE (Time, Space,
  *     Probability, Reality)
  *   - panopticon: 8 / 8 cards — COMPLETE
+ *   - antiquarian: 5 / ~39 cards
  *
  * Pending factions:
- *   - architect, antiquarian, dreamer, insurgency, new_babylon,
+ *   - antiquarian (remaining ~34)
+ *   - architect, dreamer, insurgency, new_babylon,
  *     thought_virus, neutral (per-faction character cards)
  *   - architect, antiquarian, dreamer, insurgency, new_babylon,
  *     thought_virus, neutral, panopticon, allegiance, class, race,
@@ -56,4 +59,5 @@ export const CARD_ART_PROMPTS: CardArtPromptRegistry = Object.freeze({
   ...ELEMENTAL_CARD_ART_PROMPTS,
   ...DIMENSIONAL_CARD_ART_PROMPTS,
   ...PANOPTICON_CARD_ART_PROMPTS,
+  ...ANTIQUARIAN_CARD_ART_PROMPTS,
 });
