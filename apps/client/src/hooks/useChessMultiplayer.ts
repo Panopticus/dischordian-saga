@@ -23,6 +23,10 @@ interface GameState {
   status: "active" | "completed";
   result?: "white" | "black" | "draw";
   resultReason?: string;
+  /** Game Master narration injected by the server alongside the
+   *  `game:start` and `game:end` events. Replaced on each event,
+   *  so the most recent commentary is always the one displayed. */
+  gmCommentary?: string;
 }
 
 interface LiveGameEntry {
@@ -101,6 +105,7 @@ export function useChessMultiplayer(): UseChessMultiplayerReturn {
         blackTime: data.timeControl.initial * 1000,
         moves: [],
         status: "active",
+        gmCommentary: data.gmCommentary,
       });
     });
 
@@ -141,6 +146,7 @@ export function useChessMultiplayer(): UseChessMultiplayerReturn {
           resultReason: data.reason,
           whiteTime: data.whiteTime,
           blackTime: data.blackTime,
+          gmCommentary: data.gmCommentary ?? prev.gmCommentary,
         };
       });
     });

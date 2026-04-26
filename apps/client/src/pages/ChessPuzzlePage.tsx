@@ -25,6 +25,7 @@ import { trpc } from "@/lib/trpc";
 import {
   readDaysSinceLastVisit,
   markVisitedNow,
+  daysBetween,
 } from "@/lib/chessLastVisit";
 import { getLoginUrl } from "@/const";
 import { useEffect, useMemo, useState } from "react";
@@ -56,18 +57,35 @@ export default function ChessPuzzlePage() {
   const theme = useMemo(() => themeForDate(dateKey), [dateKey]);
   const intro = useMemo(() => pickPuzzleIntro(theme, dateKey), [theme, dateKey]);
 
-  // Daily welcome — read days since last visit ONCE on mount, then
-  // immediately stamp now so subsequent visits today are no-ops.
-  // Streak milestone reads from the existing puzzle streak query.
+  // Daily welcome — prefer the server-recorded lastVisit (cross-
+  // device) and fall back to localStorage for unauthenticated
+  // visitors. Mark the visit on mount in BOTH stores. Streak
+  // milestone reads from the existing puzzle streak query.
   const streakQ = trpc.chessPuzzle.getPuzzleStreak.useQuery(undefined, {
     enabled: isAuthenticated,
     refetchOnWindowFocus: false,
   });
+  const lastVisitQ = trpc.chess.getLastVisit.useQuery(undefined, {
+    enabled: isAuthenticated,
+    refetchOnWindowFocus: false,
+  });
+  const markVisitMut = trpc.chess.markVisit.useMutation();
   const [daysSinceLastVisit, setDaysSinceLastVisit] = useState<number>(0);
   useEffect(() => {
     setDaysSinceLastVisit(readDaysSinceLastVisit());
     markVisitedNow();
-  }, []);
+    if (isAuthenticated) markVisitMut.mutate();
+    // markVisitMut is stable across renders; isAuthenticated drives the call.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAuthenticated]);
+  // Once the server query resolves, prefer its value over the
+  // localStorage estimate.
+  useEffect(() => {
+    const serverLast = lastVisitQ.data?.lastVisitAt;
+    if (!serverLast) return;
+    const prevMs = new Date(serverLast).getTime();
+    setDaysSinceLastVisit(daysBetween(prevMs));
+  }, [lastVisitQ.data]);
   const dateSeed = useMemo(() => hashString(dateKey), [dateKey]);
   const welcomeLine = pickDailyWelcomeLine(daysSinceLastVisit, dateSeed);
   const streakLine = pickStreakMilestoneLine(streakQ.data?.streak ?? 0, dateSeed);
