@@ -255,6 +255,20 @@ export const CROSS_CHARACTER_REACTIONS: ReadonlyArray<CrossCharacterReaction> = 
       "crosses positive→negative threshold. Locke files canonically.",
   },
 
+  // ─── Faction-align positive (Phase 6a.2 sub-chunk C symmetric pair) ─
+  {
+    flag: "faction_align_new_babylon_positive",
+    setBy: ["system"], // Set by faction_align ripple handler when crossedThreshold === "positive"
+    reactsBy: ["adjudicator_locke"],
+    canonicalNote:
+      "Symmetric counterpart to faction_align_new_babylon_negative. " +
+      "Set by tradeEmpire completeMission faction_align ripple when " +
+      "New Babylon reputation crosses negative→positive threshold. " +
+      "Locke's canonical Mercantile-baseline response files the gain " +
+      "asymmetrically — positive ledgers don't require the same rate " +
+      "of footnotes per the bank's voice canon (§1.2 finance lexicon).",
+  },
+
   // ─── First-meeting flags (broker introductions) ─────────────────────
   {
     flag: "met_adjudicator_locke",

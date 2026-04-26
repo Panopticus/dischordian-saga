@@ -149,6 +149,213 @@ export const ADJUDICATOR_LOCKE_BANK: ReadonlyArray<BankEntry> = [
   },
 
   // ═════════════════════════════════════════════════════════════════════
+  // MERCANTILE BASELINE COVERAGE (Phase 6a.2 sub-chunk C — ~12 lines)
+  //
+  // Per the writers'-guide spec: Mercantile is the canonical default
+  // register and lives at the bank's bottom — but coverage was thin
+  // on trade_empire / additional rooms / cinematic transitions /
+  // additional npc_line beats. This sub-chunk fills those gaps so
+  // the 5×5 personality-variant grid feels densely populated rather
+  // than tier-band-thin.
+  //
+  // All 12 lines stay in canonical Mercantile register per §2.5
+  // ("straightforward broker mode. Default voice."). Finance
+  // vocabulary, transaction reframing, aphoristic close, deferred
+  // threat — the canonical Locke tells.
+  // ═════════════════════════════════════════════════════════════════════
+
+  // ─── Trade Empire surface (5 lines) ─────────────────────────────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "locke.mercantile.trade_empire.broker_engagement.prospect",
+    text:
+      "Welcome to the Authority's mission ledger. The first deal is small. " +
+      "The first deal is always small. The point is precedent, not profit. " +
+      "Take it; take it badly; take something else — but pick. The clock " +
+      "is the contract.",
+    surfaces: ["trade_empire"],
+    requiresTrustBand: "Prospect",
+    unlockFlags: ["broker_locke_engagement_offered"],
+    cooldownKey: "locke.mercantile.broker_first_offer",
+    maxPlays: 2,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "locke.mercantile.trade_empire.mission_success.client",
+    text:
+      "Delivery confirmed. The invoice has cleared. I file you under 'on " +
+      "time' for the first time. The file thickens; the rate hardens. " +
+      "Bring me the next manifest when you have it.",
+    surfaces: ["trade_empire"],
+    requiresTrustBand: "Client",
+    unlockFlags: ["locke_mission_succeeded"],
+    cooldownKey: "locke.mercantile.mission_success",
+    maxPlays: 4,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "locke.mercantile.trade_empire.mission_failure.client",
+    // §1.5 silence-shape: she does NOT express regret as regret.
+    // The line documents the cost without naming feeling.
+    text:
+      "Delivery missed. I do not file 'unfortunate'. I file 'cost-of-doing-" +
+      "business'. The cost is yours. We will discuss whether the next " +
+      "contract bears it as a discount or a clause.",
+    surfaces: ["trade_empire"],
+    requiresTrustBand: "Client",
+    unlockFlags: ["locke_mission_failed"],
+    cooldownKey: "locke.mercantile.mission_failure",
+    maxPlays: 4,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "locke.mercantile.trade_empire.route_5_runs.partner",
+    text:
+      "Five runs on this route. The Authority files the route as " +
+      "'consistent revenue'. I file the runner as 'consistent counterparty'. " +
+      "Both files are open. Continue.",
+    surfaces: ["trade_empire"],
+    requiresTrustBand: "Partner",
+    unlockFlags: ["route_milestone_5"],
+    cooldownKey: "locke.mercantile.route_5",
+    maxPlays: 2,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "locke.mercantile.trade_empire.route_25_runs.partner",
+    // §1.4 tell #2 aphoristic-close — "That is monetary policy" lands
+    // canonical canonical canonical. §1.6 metaphor source: monetary
+    // policy as Locke's signature aphorism.
+    text:
+      "Twenty-five runs. The route is now part of the Authority's ledger " +
+      "by repetition. The Authority did not authorize the route. The " +
+      "Authority will not un-authorize it now. That is monetary policy.",
+    surfaces: ["trade_empire"],
+    requiresTrustBand: "Partner",
+    unlockFlags: ["route_milestone_25"],
+    cooldownKey: "locke.mercantile.route_25",
+    maxPlays: 1,
+  },
+
+  // ─── Room surface (2 lines — fill missing Client + Adjudicated bands) ─
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "locke.mercantile.room.trade_nexus.client.ledger_opened",
+    // §2.4 Client band canon: "Locke has opened a ledger with your name
+    // on it." The line surfaces the canonical posture-shift directly.
+    text:
+      "You are no longer unpriced. I have opened a ledger with your name " +
+      "on it. The chair on the third column has been adjusted to your " +
+      "spine. Try to keep the back straight. The Authority watches what " +
+      "you bring to the bench.",
+    surfaces: ["room"],
+    requiresTrustBand: "Client",
+    minAct: 2,
+    cooldownKey: "locke.mercantile.room.client",
+    maxPlays: 2,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "locke.mercantile.room.trade_nexus.adjudicated.guest_column",
+    // §2.4 Adjudicated band canon: "Locke has rendered her verdict: you
+    // are worth the truth." The line names the institutional shift
+    // without breaking into warmth (per §2.4 anti-warmth canon).
+    text:
+      "You have your own seat now. The Authority calls it the 'guest " +
+      "column'. The Authority does not have guests. The Authority has " +
+      "counterparties whose paperwork is filed in the second cabinet. " +
+      "The second cabinet is yours.",
+    surfaces: ["room"],
+    requiresTrustBand: "Adjudicated",
+    cooldownKey: "locke.mercantile.room.adjudicated",
+    maxPlays: 1,
+  },
+
+  // ─── Cinematic surface (2 lines — first-contract-signed +
+  //     Adjudicated-band-first-reach canonical moments) ────────────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "locke.mercantile.cinematic.first_contract_signed",
+    text:
+      "There. The signature is on the docket. The ink is dry. The clause " +
+      "is yours to live with for the next seven saga-years. I have done " +
+      "my part. Yours starts at the second tone.",
+    surfaces: ["cinematic"],
+    unlockFlags: ["locke_first_contract_signed"],
+    cooldownKey: "locke.mercantile.cinematic.first_signed",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "locke.mercantile.cinematic.adjudicated_first_reach",
+    // §2.4 canonical Adjudicated-band threshold scene. Names the
+    // canonical six-counterparty cap (the six coffin-minds' named
+    // counterparties; the player becomes the seventh — institutional,
+    // not personal).
+    text:
+      "The Authority has rendered. You have earned the verdict " +
+      "'Adjudicated'. There are six counterparties at this tier. You " +
+      "are the seventh. The seat is small. The accountability is large. " +
+      "Welcome.",
+    surfaces: ["cinematic"],
+    requiresTrustBand: "Adjudicated",
+    unlockFlags: ["locke_adjudicated_first_reach"],
+    cooldownKey: "locke.mercantile.cinematic.adjudicated",
+    maxPlays: 1,
+    setsFlags: ["locke_player_adjudicated_tier_acknowledged"],
+  },
+
+  // ─── npc_line surface (3 lines — faction-align positive, broker
+  //     decline, broker re-engagement) ─────────────────────────────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "locke.mercantile.npc_line.faction_align.new_babylon_positive",
+    // Counterpart to the existing faction_align_new_babylon_negative
+    // line per the canonical symmetric-flag pattern.
+    text:
+      "Your standing with New Babylon just turned positive. I file these " +
+      "too. The file is shorter on this side; positive ledgers don't " +
+      "require the same rate of footnotes. You are now allowed to read " +
+      "three additional clauses. I will deliver them at your convenience.",
+    surfaces: ["npc_line"],
+    reactsToPublicFlag: "faction_align_new_babylon_positive",
+    cooldownKey: "locke.mercantile.faction.new_babylon_gain",
+    maxPlays: 2,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "locke.mercantile.npc_line.broker_decline",
+    // §1.4 tell #1 — transaction reframe. Refusal is filed as price
+    // discovery, not rejection. The line is canonical Locke posture
+    // toward declining clients.
+    text:
+      "You declined the offer. I file 'declined' next to your name. " +
+      "Decline is not refusal; it is price discovery. I will note the " +
+      "price you implied and revise my next pitch accordingly.",
+    surfaces: ["npc_line"],
+    unlockFlags: ["broker_locke_offer_declined"],
+    cooldownKey: "locke.mercantile.broker_decline",
+    maxPlays: 3,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "locke.mercantile.npc_line.broker_re_engagement",
+    text:
+      "You came back. The Authority does not file 'returned'. The Authority " +
+      "files 'recurring'. You are now recurring. Recurring counterparties " +
+      "get rates the first-time client does not see. That is the rate. " +
+      "That is the rate.",
+    surfaces: ["npc_line"],
+    unlockFlags: ["broker_locke_re_engaged"],
+    cooldownKey: "locke.mercantile.broker_reengage",
+    maxPlays: 2,
+  },
+
+  // ═════════════════════════════════════════════════════════════════════
   // 5×5 PERSONALITY-VARIANT GRID (Phase 6a.2 sub-chunk A)
   // Predatory + Collegial + Conspiratorial registers per §2.5 — the
   // "different pens, single hand" canon. Voice doesn't change; angle
