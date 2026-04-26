@@ -96,6 +96,34 @@ const ALIGNMENT_CONFIG = {
   },
 } as const;
 
+/** Ensure the user has a dream_balance row, swallowing all errors.
+ *
+ *  Used during citizen creation. The select intentionally projects only
+ *  `id` so a missing column on the deployed `dream_balance` table (e.g.
+ *  if the prod schema is one migration behind the application schema)
+ *  doesn't blow up the whole createCharacter mutation after the citizen
+ *  insert has already committed. Likewise the insert is wrapped in
+ *  try/catch — a duplicate-key race with another tab is fine, and any
+ *  other failure is recoverable on next read by getDreamBalance, which
+ *  also lazily inserts. */
+async function ensureDreamBalanceRow(db: NonNullable<Awaited<ReturnType<typeof getDb>>>, userId: number): Promise<void> {
+  try {
+    const existing = await db
+      .select({ id: dreamBalance.id })
+      .from(dreamBalance)
+      .where(eq(dreamBalance.userId, userId))
+      .limit(1);
+    if (existing.length > 0) return;
+    try {
+      await db.insert(dreamBalance).values({ userId });
+    } catch (insertErr) {
+      logger.warn("[citizen.ensureDreamBalanceRow] insert failed (non-fatal):", insertErr);
+    }
+  } catch (selectErr) {
+    logger.warn("[citizen.ensureDreamBalanceRow] select failed (non-fatal):", selectErr);
+  }
+}
+
 /** Calculate derived stats from attributes + species */
 function calculateDerivedStats(
   species: keyof typeof SPECIES_CONFIG,
@@ -173,14 +201,32 @@ export const citizenRouter = router({
       const db = await getDb();
       if (!db) throw new Error("Database unavailable");
 
-      // Check if user already has a primary citizen
+      // Check if user already has a primary citizen.
+      //
+      // IDEMPOTENT — if the citizen already exists, return success rather
+      // than throwing. The Awakening flow's client retries createCharacter
+      // when its first attempt looks like it failed; before this guard,
+      // the retry path would always crash with "You already have a
+      // Citizen" if the previous attempt's citizen INSERT actually
+      // succeeded but a downstream step (e.g. dream_balance init below)
+      // threw. The retry then locked the player out of completing
+      // creation despite a perfectly good citizen row already in place.
       const existing = await db
         .select()
         .from(citizenCharacters)
         .where(and(eq(citizenCharacters.userId, ctx.user.id), eq(citizenCharacters.isPrimary, 1)))
         .limit(1);
       if (existing.length > 0) {
-        throw new Error("You already have a Citizen. Use the character sheet to modify.");
+        // Backfill the dream_balance row in case the prior attempt
+        // failed before creating it. Best-effort; getDreamBalance is
+        // resilient and will lazily create the row on first read too.
+        await ensureDreamBalanceRow(db, ctx.user.id);
+        return {
+          success: true,
+          maxHp: existing[0].maxHp,
+          armor: existing[0].armor,
+          gear: (existing[0].gear ?? {}) as Record<string, unknown>,
+        };
       }
 
       // Validate dot budget: 9 total dots, each attribute 1-5
@@ -246,20 +292,12 @@ export const citizenRouter = router({
         isPrimary: 1,
       });
 
-      // Initialize Dream balance
-      const existingDream = await db
-        .select()
-        .from(dreamBalance)
-        .where(eq(dreamBalance.userId, ctx.user.id))
-        .limit(1);
-      if (existingDream.length === 0) {
-        await db.insert(dreamBalance).values({
-          userId: ctx.user.id,
-          dreamTokens: 0,
-          soulBoundDream: 0,
-          dnaCode: 0,
-        });
-      }
+      // Initialize Dream balance — best-effort. If this fails (column
+      // drift, transient DB error, etc.) the citizen row is already
+      // committed and getDreamBalance will lazily create the row on
+      // first read. Throwing here would surface the citizen as a
+      // creation failure to the client even though it exists.
+      await ensureDreamBalanceRow(db, ctx.user.id);
 
       return { success: true, maxHp, armor, gear: {} as Record<string, unknown> };
     }),
