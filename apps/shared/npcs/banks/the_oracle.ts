@@ -41,13 +41,14 @@ export const THE_ORACLE_BANK: ReadonlyArray<NpcLine & { surfaces: ReadonlyArray<
     requiresRevealStage: "dream_substrate",
   },
 
-  // Catch-all
+  // Catch-all (no gates — silent-fail contract). The canonically-bound
+  // dream_substrate revealStage is on the more-specific lines above;
+  // selector picks those when the player is in that state.
   {
     npcKey: "the_oracle",
     lineId: "oracle.dream.catchall",
     text: "Underneath. Something underneath the room you are walking into.",
     surfaces: ["dream_sequence"],
-    requiresRevealStage: "dream_substrate",
   },
   {
     npcKey: "the_oracle",

@@ -9,6 +9,7 @@
 // validation.
 
 import type { NpcKey, NpcLine, DialogSurface } from "../types";
+import { ADJUDICATOR_LOCKE_BANK } from "./adjudicator_locke";
 import { THE_SEER_BANK } from "./the_seer";
 import { THE_ORACLE_BANK } from "./the_oracle";
 import { THE_MEME_BANK } from "./the_meme";
@@ -21,6 +22,7 @@ type BankEntry = NpcLine & { surfaces: ReadonlyArray<DialogSurface> };
  * directly via apps/shared/npcs/selector.ts:selectNpcLine().
  */
 export const ALL_NPC_LINES: ReadonlyArray<BankEntry> = [
+  ...ADJUDICATOR_LOCKE_BANK,
   ...THE_SEER_BANK,
   ...THE_ORACLE_BANK,
   ...THE_MEME_BANK,
@@ -40,6 +42,7 @@ export function getBank(npcKey: NpcKey): ReadonlyArray<BankEntry> {
  * which character they want.
  */
 export {
+  ADJUDICATOR_LOCKE_BANK,
   THE_SEER_BANK,
   THE_ORACLE_BANK,
   THE_MEME_BANK,
