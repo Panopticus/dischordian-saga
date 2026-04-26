@@ -187,18 +187,23 @@ export function SagaThemeBGMProvider({ children }: { children: ReactNode }) {
     return () => audio.removeEventListener("ended", handleEnded);
   }, [currentThemeIdx, playTheme]);
 
-  // Start BGM on first user interaction if enabled
+  // Start BGM on first user interaction if enabled. If a host page (e.g.
+  // TitlePage, which solos the Enigma's Lament) has called `suppress()`
+  // before the user's first gesture, consume the gesture but don't begin
+  // playback — `unsuppress()` will start it later when the page unmounts.
+  // Without this, the auto-start used to fire on the INITIATE click and
+  // bleed a shuffled saga theme under the Lament.
   useEffect(() => {
     if (!enabled || userStartedRef.current) return;
 
     const startOnInteraction = () => {
       if (userStartedRef.current) return;
       userStartedRef.current = true;
-      // Shuffle start position
-      const startIdx = Math.floor(Math.random() * SAGA_THEMES.length);
-      playTheme(startIdx);
       document.removeEventListener("click", startOnInteraction);
       document.removeEventListener("keydown", startOnInteraction);
+      if (suppressedRef.current) return;
+      const startIdx = Math.floor(Math.random() * SAGA_THEMES.length);
+      playTheme(startIdx);
     };
 
     document.addEventListener("click", startOnInteraction);

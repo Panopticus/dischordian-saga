@@ -123,12 +123,13 @@ export function SurveillanceOpening({ onComplete, force = false }: SurveillanceO
     completedRef.current = true;
     try { localStorage.setItem(SEEN_KEY, "1"); } catch { /* ignore */ }
     setSnapping(true);
-    // Snap-shut beat: 250ms of inverse flash + LED white-out before the
-    // title flow takes over. Replaces the old 600ms "settle" pause.
+    // Snap-shut beat: brief inverse flash + LED white-out before the title
+    // flow takes over. Tight enough that the whole handshake reads as a
+    // single rapid scan, not a loading screen.
     setTimeout(() => {
       setStage("done");
       onComplete();
-    }, 250);
+    }, 120);
   }, [onComplete]);
 
   // If we were already-seen on mount, hand control back immediately.
@@ -140,20 +141,20 @@ export function SurveillanceOpening({ onComplete, force = false }: SurveillanceO
   }, [stage, onComplete]);
 
   // Drive the scanning reveal on a jagged cadence — snappy at the top,
-  // slowing on the invasive lines, with a tense punch on the final
-  // FINGERPRINT line. Variation reads as menace, not stutter.
-  // Reduce-motion collapses the whole sequence to a single tick.
-  const CADENCE = [120, 180, 220, 260, 320, 420, 600];
+  // with just enough late-line drag to land FINGERPRINT as a punch.
+  // The whole sequence wraps in well under a second so the player never
+  // perceives it as a loading screen. Reduce-motion collapses to a tick.
+  const CADENCE = [40, 50, 60, 70, 90, 120, 180];
   useEffect(() => {
     if (stage !== "scanning") return;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduce) {
       setRevealed(lines.length);
-      const t = setTimeout(finish, 500);
+      const t = setTimeout(finish, 120);
       return () => clearTimeout(t);
     }
     if (revealed >= lines.length) {
-      const t = setTimeout(finish, 350);
+      const t = setTimeout(finish, 140);
       return () => clearTimeout(t);
     }
     const delay = CADENCE[Math.min(revealed, CADENCE.length - 1)];
@@ -405,7 +406,7 @@ function ScanView({ lines, revealed }: { lines: ScanLine[]; revealed: number }) 
               key={`${line.label}-${i}`}
               text={line.value}
               mode="decode"
-              speed={42}
+              speed={14}
               showCursor={false}
             />
           );
