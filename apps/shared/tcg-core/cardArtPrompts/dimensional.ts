@@ -175,13 +175,66 @@ const DIMENSIONAL_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "Legendary unit. CRITICAL spoiler-discipline: this figure is NOT The Oracle (the Dreamer-faction's master is in suspended processing-loop and cannot be directly rendered). The Sum Over Histories is a separate Dreamer-cosmology entity — generic-indeterminate features, kind expression. Three keywords (flying-as-projection + dispel + draw + mana) rendered as four distinct visual elements. The 'she does not tell you which version' is rendered as the kindness — the gift is the silence.",
   },
+
+  // ─── REALITY DIMENSION — Architect, silence + dispel + control ───
+  {
+    cardId: "s1_dim_reality_01",
+    sceneDelta:
+      "Mid-shot. A Ground Truth Witness — a woman in mid-thirties at the witness-stand of an Architect tribunal-chamber, generic-honest features, in plain civilian clothes (slate-grey blouse + simple skirt, no faction-markers). Her right hand is raised in oath-position; her left hand holds a small notebook open to a page of dense personal observations. She is mid-testimony — her mouth is slightly open, mid-sentence. Around her, faint translucent dispel-ripples propagate outward (dispel visualized — her testimony is actively erasing the parts of the story that depended on nobody having been there). Behind her, the Architect tribunal-chamber is visible in deep cool-cyan formal architecture, with empty witness-benches. Her face is composed but tired — being the only one in the room means being the only one who can correct the record.",
+    moodKeywords: [
+      "she was in the room when it happened",
+      "removes the parts of the story that depend on nobody having been in the room",
+      "right hand raised in oath",
+      "composed but tired",
+    ],
+    palette:
+      "Architect cool-cyan tribunal-chamber + slate-grey civilian blouse + simple cream notebook + warm witness-light at lower-third + translucent dispel-ripples + cool deep-bench shadow",
+    composition:
+      "Mid-shot front three-quarter, Witness at frame-centre at witness-stand, oath-hand raised, notebook open, tribunal-chamber depth behind",
+    notes:
+      "Uncommon unit. Architect tribunal-chamber visual continuity with Architect Allegiance set. Generic-honest features (no specific named character). The 'parts of the story that depend on nobody having been there' framing is rendered as the dispel-ripples actively propagating outward.",
+  },
+  {
+    cardId: "s1_dim_reality_02",
+    sceneDelta:
+      "Wider mid-shot. A Consensus Weaver — a woman in late-thirties at the centre of an Architect parliamentary chamber, generic-elegant features, in formal cool-cyan-and-chrome diplomat's attire. She stands at the centre of a chamber where NINE OTHER FIGURES (each in similar formal attire, generic-mixed features, none specifically named) are visibly NODDING IN AGREEMENT WITH HER — the synchronized nod is mid-action across all nine. The Weaver herself is calm, listening as much as speaking, NOT visibly persuading — she has simply let nine others agree until any contrary version stops being one. Around her, faint cool-grey silence-nullification-haze (consistent with Spy class spy_04 / Soldier class silence visual) emanates from her toward the implied OFF-FRAME enemy general. Her face is composed-deliberate, slightly amused. The chamber's lighting is cool-cyan formal Architect-ambient.",
+    moodKeywords: [
+      "does not argue with your version of events",
+      "lets nine other people agree with hers until yours stops being one",
+      "synchronized nod across nine",
+      "composed-deliberate, slightly amused",
+    ],
+    palette:
+      "Architect cool-cyan-and-chrome formal attire + cool-cyan parliamentary chamber + cool-grey silence-nullification-haze + warm chamber-light + nine generic-elegant supporting figures",
+    composition:
+      "Wider mid-shot front three-quarter, Weaver at frame-centre, nine supporting figures arrayed in semicircle around her, all mid-nod",
+    notes:
+      "Rare spell. Cool-grey silence-haze consistent with the canonical silence visual idiom (used in Spy class spy_04 + Soldier class spell as well). The 'nine others agreeing' is rendered literally as nine supporting figures in a semicircle. Generic-elegant features for ALL ten characters — no named-character conflation.",
+  },
+  {
+    cardId: "s1_dim_reality_03",
+    sceneDelta:
+      "Wider mid-shot. The Thing That Is Actually Happening — a tall figure of indeterminate gender at the centre of an Architect Senate-chamber. Their body is rendered as a perfectly STILL composition of cool-cyan and chrome geometry — neither human nor mechanical, but a precise SHAPE that exists because it is what is actually here. They wear no expression; they make no gesture; they simply ARE. Around them, the chamber's other potential interpretations of THIS-MOMENT (faint translucent ghost-versions of competing realities — alternative-versions where they don't exist, alternative-versions where they're elsewhere, alternative-versions where the match is different) FADE AWAY in real-time, dissolved by their presence. A translucent green-tinted forcefield-shimmer wraps them (forcefield); a faint warm provoke-glow rims their leading shoulder; faint cool-grey silence-nullification-haze emanates outward in all directions; faint translucent dispel-ripples disperse the alternative-versions. Behind them, the Architect Senate-chamber is rendered with EXTREME PRECISION — every detail sharp, no ambiguity, no shadows that don't have a source. The chamber is the FIRST DRAFT of reality, written by the Architect, and it is what is actually happening.",
+    moodKeywords: [
+      "always happening — nothing in the match will convince it otherwise",
+      "the definition of reality the Architect was using when he wrote the first draft",
+      "alternative-versions fade away in real-time",
+      "no expression, no gesture, simply IS",
+    ],
+    palette:
+      "Architect cool-cyan + chrome + green-tinted forcefield-shimmer + warm provoke-rim + cool-grey silence-haze + translucent dispel-ripples dispersing competing realities + extreme-precision sharp-edged geometry",
+    composition:
+      "Wider mid-shot front three-quarter, figure at frame-centre with extreme stillness, alternative-versions fading at frame-edges, Senate-chamber rendered in precise architecture behind",
+    notes:
+      "Legendary unit. CRITICAL spoiler-discipline: this is NOT The Architect himself (his identity remains [CLASSIFIED] with face never visible). The Thing That Is Actually Happening is the FIRST DRAFT-of-reality rendered as a separate entity within the dimension. Three keywords (provoke + dispel + forcefield) plus silence rendered as four distinct visual elements simultaneously. Architect-faction visual idioms (hexagonal-cyan forcefield as green-tinted variant for cosmological-reality vs Architect-engineered structures, cool-grey silence-haze, cool-cyan precision architecture) all consistent with established faction language.",
+  },
 ] as const;
 
 /**
  * Dimensional faction's prompt registry, keyed by card id.
  *
- * Currently populated: 3 / 4 dimensions (Time, Space, Probability).
- * TODO: reality.
+ * Currently populated: 4 / 4 dimensions — COMPLETE
+ * (Time, Space, Probability, Reality).
  */
 export const DIMENSIONAL_CARD_ART_PROMPTS: Readonly<Record<string, CardArtPrompt>> =
   Object.freeze(
