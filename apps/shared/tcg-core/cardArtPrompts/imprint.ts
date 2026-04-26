@@ -1160,6 +1160,105 @@ const IMPRINT_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "T5 = 'The Engineer, Author of the Deck.' End-of-Epoch-2 canon. The prototype-deck object is the canonical lore artifact (he built the first prototype the week the Oracle asked for a way to think about conflict without having to live it — directly from his t5 flavor text). CRITICAL spoiler-line: face MUST stay generic-unmemorable. He is canonically [CLASSIFIED] / 'the Hidden Variable' / 'trapped in the wrong body' (Discovery video #18) — none of those reveals are present in this t5 frame. He is just the man at the workbench who finished his work.",
   },
+
+  // ─── THE ENIGMA (Third Option — the shape you are not sure was
+  //     just standing there; the only obvious-in-retrospect
+  //     decision was the one nobody saw coming) ───
+  // Source canon: A neutral-faction figure who arrives rather than
+  // walks. He attacks twice and lets you work out which was the
+  // real one. He drew the card before the card was in the deck.
+  // Mechanical: flying + celerity + draw. Faction: neutral.
+  // SPOILER NOTE: 'Third Option' canonically refers to him being
+  // a category that is NEITHER Insurgency NOR Empire — a viable
+  // narrative pathway the player can choose. End of Epoch 2 canon
+  // confirms his existence and his temperament; his deeper
+  // identity (and any Acts 3-7 reveal of where the Third Option
+  // leads) stays gated.
+  {
+    cardId: "s1_imprint_the_enigma_t1",
+    sceneDelta:
+      "Wide composition. A New Babylon plaza at dusk, deserted except for a single anonymous figure walking away from camera in the mid-distance. Closer to camera, on the plaza's near edge — between two columns — there appears to be a SECOND figure standing in three-quarter profile, but the figure is rendered as a soft chromatic-aberration ghost: cyan-and-magenta separation along the silhouette's edges, the body itself almost fully transparent except for the suggestion of a long coat and a slightly-tilted head. The walking-away figure has not seen the second figure. The viewer is also not entirely sure they have seen the second figure. He might have been there. He was probably something else. NO direct light source on him — he reads as a possibility-shape rather than a person.",
+    moodKeywords: [
+      "the shape you are not sure was just standing there",
+      "chromatic-aberration ghost",
+      "possibility rather than person",
+      "dusk plaza on the way to elsewhere",
+    ],
+    palette:
+      "Neutral starfield-blue dusk + obsidian plaza + the Enigma rendered in cyan-magenta separation only + a single warm amber distant lamp",
+    composition:
+      "Wide plaza composition, walking-away figure mid-distance camera-centred, the Enigma at near-edge between columns rendered as ghost",
+    notes:
+      "T1 = the indeterminate. CRITICAL spoiler-discipline: the Enigma in T1 must NOT be definitively present. Chromatic aberration + transparency + indirect lighting render him as a perception-question, not a character. No face, no body details, just the suggestion.",
+  },
+  {
+    cardId: "s1_imprint_the_enigma_t2",
+    sceneDelta:
+      "Mid-shot. The Enigma has ARRIVED — three-quarter portrait, but he is hovering an arm's-length above a marble floor in some unspecified vaulted hall. His feet are not on the ground. His coat falls in a single unbroken vertical line, neither rippled nor flared (the canonical 'he does not walk' visual). His face is now visible but deliberately ambiguous: indeterminate ethnicity, indeterminate age, eyes the colour of the hall behind him. He is not POSED — he is just THERE, mid-hover, hands in his coat pockets, gaze level on camera. Behind him, a faint chromatic-aberration ghost of HIMSELF lingers a beat behind his current position — visual evidence of arrival rather than walking. Flying visualized as the unwinded hover; the hovering body is uncannily still.",
+    moodKeywords: [
+      "the Enigma does not walk; he arrives",
+      "the chromatic ghost a beat behind",
+      "eyes the colour of the room",
+      "uncannily still hover",
+    ],
+    palette:
+      "Neutral hall grey + a single chromatic-aberration accent (cyan-magenta separation) on the lingering ghost + cool-blue marble + warm amber distant lamp",
+    composition:
+      "Mid-shot three-quarter, Enigma centred and hovering at arm's-length above floor, ghost-residue at upper-left",
+    notes:
+      "T2 = flying. He has now appeared definitively, but his identity is still kept ambiguous (eyes-as-room-colour is the canonical 'shape rather than person' tell). Echoes T1 chromatic aberration but as a TRAILING residue rather than as the primary form.",
+  },
+  {
+    cardId: "s1_imprint_the_enigma_t3",
+    sceneDelta:
+      "Action mid-strike. The Enigma is mid-air in a Neutral-faction sanctum (cool grey marble, blue-violet glass dome above), TWO instances of himself caught mid-attack at different angles to a single off-frame target. Both instances are equally solid (neither one is the chromatic-aberration ghost from previous tiers); both have a curved blade extended; both blades are a HALF-INSTANT from impact at points that would be physically incompatible (one strike going down, one going across). The two Enigmas are connected by a thin horizontal chromatic-aberration line that suggests the strikes are simultaneous but originating from one body that has briefly been in two places. His face on each instance is identical, calm, mildly amused. Celerity visualized as the genuine-twin attack — and the lore beat ('he attacks twice and lets you work out which was the real one') is visible because BOTH look real.",
+    moodKeywords: [
+      "two strikes, both real, work out which",
+      "the chromatic line connecting two simultaneous hims",
+      "calm and mildly amused",
+      "physical incompatibility as visual truth",
+    ],
+    palette:
+      "Neutral marble + blue-violet glass dome + two equally-saturated chromatic-aberration trails + cool-grey blades + a single warm amber accent at the connecting line",
+    composition:
+      "Action mid-air composition, two Enigmas at upper-left and lower-right thirds, chromatic line at frame mid-axis connecting them",
+    notes:
+      "T3 = flying + celerity. Faction-distinct from Akai Shi t3 (his celerity = lateral parallel-strike) and Agent Zero t3 (her motion-ghosts are temporal). The Enigma's celerity is BOTH-WERE-REAL — neither is the ghost. Both faces stay calm + amused.",
+  },
+  {
+    cardId: "s1_imprint_the_enigma_t4",
+    sceneDelta:
+      "Mid-shot. The Enigma stands at a Neutral-faction reading-table in some impossible library room. He is hovering as before (feet not on ground), but now leaning over the table with both hands resting flat on its surface. On the table, a fanned-out hand of cards face-up — but the cards are blank, blank-faced, identical generic abstract designs. He has reached forward with two fingers and is in the act of picking ONE specific blank card from the fan. Above the card he has chosen, faintly, a VERY soft chromatic-aberration ghost of a card-design begins to form (the card he drew before the card was in the deck). His expression is mildly amused, almost smiling. Draw-1 visualized as the ghost-design forming above the card.",
+    moodKeywords: [
+      "he drew the card before the card was in the deck",
+      "the ghost-design forming above the chosen blank",
+      "mildly amused, almost smiling",
+      "the impossible library hush",
+    ],
+    palette:
+      "Neutral cool-grey library + warm amber reading-table + cool-blue marble floor + chromatic-aberration cyan-magenta on the forming ghost-design + a single warm gold accent on the chosen card's edge",
+    composition:
+      "Mid-shot front three-quarter, Enigma leaning over table at upper-third, fanned cards at lower-third, ghost-design forming above chosen card",
+    notes:
+      "T4 = flying + celerity + draw-1. The cards are GENERIC blank-faced — must NOT show any recognizable card art (no Programmer card-back tease, no recognizable faction symbols). The ghost-design forming is intentional ambiguity — not a card the viewer can identify.",
+  },
+  {
+    cardId: "s1_imprint_the_enigma_t5",
+    sceneDelta:
+      "Hero composition. The Enigma stands at the centre of a vast vaulted Neutral-faction sanctum — a chamber whose architecture is exactly halfway between Empire-brutalist and Insurgency-utilitarian (a deliberate visual third option). He hovers at arm's-length above the floor, three-quarter to camera. In front of him, three cards float in a slow concentric orbit at chest height — each card face-up but blank-faced (draw-2 visualized as the central two cards; the third card is the one he drew before the card was in the deck). His face is fully visible at last but composed of features that read as deliberately UN-CATEGORISEABLE: not Empire-coded, not Insurgency-coded, not faction-coded. He is mildly smiling — the small amused smile of someone who has made the only obvious-in-retrospect decision he has ever made (the decision to BECOME the Enigma, which nobody saw coming). Behind him, the architecture splits into TWO mirrored halves on either side: the right half rendered in cool Empire-cyan, the left half in warm Insurgency-amber. He is the seam between them; he is the third option that is neither.",
+    moodKeywords: [
+      "the only obvious-in-retrospect decision",
+      "the seam between Empire and Insurgency",
+      "the small amused smile",
+      "third option as architecture",
+    ],
+    palette:
+      "Neutral seam — cool Empire-cyan on camera-right + warm Insurgency-amber on camera-left + chromatic-aberration accents around the orbit + a single saturated obsidian on the Enigma's coat",
+    composition:
+      "Wide hero, Enigma centred at frame's vertical mid-axis (the literal seam), three cards in low orbit at chest height, architecture split left/right",
+    notes:
+      "T5 = 'The Enigma, Third Option.' End-of-Epoch-2 canon. CRITICAL: the architecture-split is the canonical visualization of his Third Option role (neither Empire nor Insurgency). The Acts 3-7 reveals about WHERE the Third Option leads or WHO chose it stay unspoiled. His face is intentionally un-categoriseable — he must NOT visually match any other named character (no Programmer, no Engineer, no recognizable identity tease).",
+  },
 ] as const;
 
 /**
