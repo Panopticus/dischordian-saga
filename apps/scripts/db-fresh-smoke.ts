@@ -100,6 +100,7 @@ async function main(): Promise<void> {
   if (!process.env.DATABASE_URL) {
     console.error("[db-fresh-smoke] FAIL: DATABASE_URL is not set");
     process.exit(1);
+    return;
   }
 
   // 1. Pool reachability
@@ -107,6 +108,7 @@ async function main(): Promise<void> {
   if (!db) {
     console.error("[db-fresh-smoke] FAIL: getDb() returned null — pool did not connect");
     process.exit(1);
+    return;
   }
   checks.push({ name: "getDb() returns connected pool", ok: true });
 
