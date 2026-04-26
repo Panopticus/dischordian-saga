@@ -304,14 +304,151 @@ const ANTIQUARIAN_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "Common unit. Visually rhymes with Epoch Watcher (s1_char_121) but differentiated: dual-lens-visor vs single-oculus, blockier-positioned-low vs tall-tower-rim, guard-staff vs hands-on-parapet. Same era-of-construction lineage, different deployment. Brass-and-amber temporal-vault visual continuity with Time-dimension Hour-Unmaker (s1_dim_time_03).",
   },
+  {
+    cardId: "s1_pack_036",
+    sceneDelta:
+      "Wider mid-shot. A Temporal Collapse — a vast Antiquarian-amber book mid-CLOSING in mid-air at frame-centre, the spine pivoting as the cover swings down toward the pages. From the closing pages, faint translucent figure-silhouettes (the characters of the chapter) DRIFT BACK INTO the pages — each silhouette becoming progressively flatter and more text-like as it returns to its origin-page. The book is approximately 1.5m wide; the closing-action is mid-flow. NO human figure (the Antiquarian's act is implied by the book's autonomous closing). Around the book, the surrounding environment is fading — the chapter is ending, the room with it. Faint warm-amber temporal-substance leaks from the book's edges as the pages press together.",
+    moodKeywords: [
+      "the Antiquarian closed the chapter",
+      "every character returned to the page they came from",
+      "silhouettes drifting back into pages",
+      "the surrounding environment fading",
+    ],
+    palette:
+      "Antiquarian-amber book + warm-cream parchment pages + translucent figure-silhouettes + warm-amber temporal-substance + cool fading environment + cool deep-shadow",
+    composition:
+      "Wider mid-shot, book at frame-centre mid-closing, silhouettes drifting back into pages, environment fading at frame-edges",
+    notes:
+      "Epic spell. NO human figure (the act IS the spell). The 'characters returning to their origin-pages' is canon-direct from flavor — rendered as silhouettes literally re-becoming text. Echoes Engineer t4 / Spy t2 / Oracle t2 / Conflagration / Gale Chorus no-human-in-frame discipline.",
+  },
+  {
+    cardId: "s1_pack_037",
+    sceneDelta:
+      "Mid-shot. An Era Guardian — a tall non-human-shaped sentinel composed of weathered Antiquarian-amber stone with veins of warm-amber temporal-substance running through its body like lava through volcanic rock. Approximately 2.5m tall, blocky proportions. It stands at a tall threshold-arch BETWEEN ages — the arch is visibly liminal: on one side of the arch (frame-left), the architecture is older and warmer-amber; on the other (frame-right), the architecture is newer and cooler-cream. The Guardian's body straddles the threshold, planted firmly. A faint warm provoke-glow rims its leading shoulder. Around its body, faint distortion-rings show TIME ITSELF DETOURING — the very air bends around the Guardian's silhouette to avoid it. NO face (the Guardian has no need of one).",
+    moodKeywords: [
+      "guarded the threshold between ages",
+      "for so long that time itself detours around it",
+      "older-amber on one side, newer-cream on the other",
+      "no face — no need of one",
+    ],
+    palette:
+      "Weathered Antiquarian-amber stone + warm-amber temporal-substance veins + warm-amber threshold side + cool-cream other-side + warm provoke-rim + faint air-distortion-rings",
+    composition:
+      "Mid-shot front three-quarter, Guardian at frame-centre at threshold-arch, warm/cool architecture split frame at the arch",
+    notes:
+      "Common unit. Visually rhymes with Earth-elemental Tectonic Warden (s1_elem_earth_04) and Antiquarian Quarchon (different visual idioms shared across factions). The 'time detouring around it' is rendered as the air-distortion-rings (a new visual idiom for time-deflection). Generic faceless silhouette must NOT match any specific named character.",
+  },
+  {
+    cardId: "s1_pack_038",
+    sceneDelta:
+      "Action mid-shot. A Chrono Blade — a humanoid figure (anonymous, cool-leather Antiquarian-amber light-armor, generic-precise features) mid-attack with a long Antiquarian-amber-and-brass blade. The strike is rendered as THREE simultaneous instances of the same blade in different temporal-positions: the FIRST cut (faintest translucent) is mid-impact on an off-frame target with a faint warm wound visible; the SECOND cut (translucent but more solid) is already mid-arc through the air with the wound visibly already mostly-healed in a faint warm-cream resolve; the THIRD cut (most solid, the present-moment) is mid-arc and the wound is COMPLETELY HEALED. The figure's face is partially obscured by helm; their eyes are focused. Cool celerity after-image trails behind the blade-arcs. The implied target is at lower-frame-right.",
+    moodKeywords: [
+      "the first cut opens the wound",
+      "the second cut is already healing",
+      "you notice the third",
+      "three simultaneous blade-instances",
+    ],
+    palette:
+      "Antiquarian-amber-and-brass blade + cool-leather light-armor + warm-amber wound (first cut) + warm-cream healing (second cut) + cool celerity after-images + warm helm-shadow",
+    composition:
+      "Action mid-shot side three-quarter, three blade-instances at different temporal positions across frame, target implied at lower-right",
+    notes:
+      "Rare unit. The three temporal blade-instances are the canonical visualization of celerity-as-temporal-displacement (consistent with Antiquarian-faction's relationship to time). Anonymous figure (helm-obscured) preserves no-character-conflation. Generic-precise features must NOT match any named character.",
+  },
+  {
+    cardId: "s1_pack_039",
+    sceneDelta:
+      "Wider mid-shot. An Age of Reckoning — a wide vista showing TWO ages-of-architecture in transition: the closer foreground (lower-third) is the OLD AGE crumbling — visible CRUMBLING-ACTION in real-time on a foreground tower, stones flaking off and falling; the farther background (upper-third) is the NEW AGE mending — a partial-construction structure with visible scaffolding and figures actively rebuilding (tiny figures at scale). Between the two regions, the middle-distance shows a wide warm-amber temporal-pulse propagating outward from a centre-point — the cycle's transition-energy. NO foreground human figure (the spell is the ENVIRONMENT changing). The lighting transitions from cool-grey collapse-light at lower-third to warm-cream rebuilding-light at upper-third.",
+    moodKeywords: [
+      "the old age crumbles",
+      "the new age mends what it can",
+      "the cycle continues",
+      "transition-pulse between collapse and reconstruction",
+    ],
+    palette:
+      "Cool-grey collapse-stones + warm-amber temporal-pulse + warm-cream rebuilding scaffolding + warm reconstruction-light + cool foreground falling-stones + tiny figures for scale",
+    composition:
+      "Wider mid-shot, foreground crumbling-tower at lower-third, middle-distance pulse-wave, background rebuilding at upper-third",
+    notes:
+      "Uncommon spell. NO human figure in foreground (the spell IS the environmental cycle). Tiny scaffolding-figures at upper-third communicate scale without identifying any specific named location. Two-zone composition (collapse below, rebuild above) is the canonical visualization of 'cycle continues.'",
+  },
+  {
+    cardId: "s1_pack_040",
+    sceneDelta:
+      "Mid-shot. A Fossil Sentinel — a humanoid figure that has emerged from a thousand-age burial. Body composed of fossilized Antiquarian-amber substrate with embedded mineral-veins, approximately 1.9m tall, slightly hunched. Around its body, fragments of EXCAVATED EARTH still cling — patches of cool-grey earth and root-fragments at shoulders, knees, hips (it has just clawed itself out). One foot is still embedded in the dig-pit at lower-frame; the other foot has just stepped onto solid ground. The Sentinel's head is tilted slightly, REMEMBERING — a faint warm-amber grow-pulse propagates outward from its body. Eye-niches where eyes would be glow faintly warm-amber (memory returning). Behind it, the dig-pit is still half-open; behind the dig-pit, an Antiquarian excavation-camp in mid-distance.",
+    moodKeywords: [
+      "buried for a thousand ages",
+      "each one made it stronger",
+      "now it remembers why it was buried",
+      "patches of earth still clinging at shoulders and knees",
+    ],
+    palette:
+      "Fossilized Antiquarian-amber substrate + embedded mineral-veins + cool-grey earth-fragments + warm-amber eye-niches + warm grow-pulse + cool dig-pit shadow + warm distant excavation-camp light",
+    composition:
+      "Mid-shot front three-quarter, Sentinel at frame-centre mid-emergence, dig-pit at lower-third, excavation-camp behind",
+    notes:
+      "Common unit. The 'just clawed itself out' framing is rendered as the foot-still-in-pit + earth-fragments still clinging. The 'remembers why it was buried' is rendered as the head-tilt + memory-returning eye-glow — but the WHY is deliberately left ambiguous (the threat that prompted the burial may yet return). Generic non-specific face/body must NOT match any named character.",
+  },
+  {
+    cardId: "s1_pack_041",
+    sceneDelta:
+      "Wider mid-shot. The Archivist Supreme — a tall solitary figure at the centre of a vast Antiquarian archive-hall now COMPLETELY EMPTY. Where once stood thousands of catalogue-shelves, the floor now extends in cool-amber emptiness. At frame-centre, a single open BOOK floats at chest-height in front of the Archivist; the book's pages are shown blank EXCEPT for ONE remaining entry — a single line of writing at the page's centre. The Archivist holds nothing in their hands; their hands are at their sides, having just COMPLETED the erasure. The Archivist's face is grave, deliberate, slightly weary — they are now alone with the page where they stand. A faint warm-amber ambient glow from the book illuminates their face from below. Behind them, the empty archive-hall extends with no other occupants.",
+    moodKeywords: [
+      "opened the book of this age",
+      "erased every entry but one",
+      "the page where it stands alone",
+      "grave, deliberate, slightly weary",
+    ],
+    palette:
+      "Antiquarian-amber Archivist-Supreme robes + warm cream open book with single remaining entry + warm book-ambient glow + cool empty archive-hall + cool deep-shadow + cool wide-emptiness",
+    composition:
+      "Wider mid-shot front three-quarter, Archivist at frame-centre with floating book at chest-height, empty archive-hall extending behind",
+    notes:
+      "Legendary unit. The 'erased every entry but one' framing is the canonical Archivist-Supreme isolation visualization — rendered as the empty hall and the one-line book. The single-remaining-entry's TEXT is intentionally illegible at any zoom (it is the page where THEY stand — naming themselves into the only remaining record). Generic-grave face must NOT match any named character (specifically NOT The Antiquarian himself).",
+  },
+  {
+    cardId: "s1_pack_042",
+    sceneDelta:
+      "Mid-shot. A Memory Splice — a female-presenting figure (anonymous, generic-Antiquarian-junior-staff features), at a small intimate Antiquarian medical-chamber, mid-action of REACHING THROUGH a translucent warm-cream temporal-window into yesterday. The temporal-window is a vertical plane at frame-centre, approximately the size of a doorway, showing a YESTERDAY-VERSION of the same chamber but with a wounded patient lying on the table BEFORE the wound was inflicted. The Splicer's right arm is extended through the window plane, fingers closing around something (a moment-before-the-wound, rendered as a small luminous warm-amber memory-pulse). She is mid-extraction. On the present-side of the window, an unconscious body lies on the medical-table at lower-third (the patient receiving the splice — face turned away, anonymous). A faint warm-cream healing-pulse propagates outward from the splicer's grip. Her face is focused, careful.",
+    moodKeywords: [
+      "she reached into yesterday",
+      "pulled out a moment before the wound",
+      "the body remembered",
+      "translucent temporal-window at frame-centre",
+    ],
+    palette:
+      "Antiquarian-junior-staff cream-and-amber + warm-cream temporal-window + warm-amber memory-pulse + cool intimate medical-chamber + warm-cream healing-pulse + warm low chamber-lamp",
+    composition:
+      "Mid-shot front three-quarter, Splicer at frame-centre with arm through temporal-window, patient anonymous at lower-third on table",
+    notes:
+      "Common spell. Anonymous patient (face turned away) preserves no-character-conflation. The 'temporal-window into yesterday' is a new visual idiom — distinct from the timeline-thread/callipers used by other Antiquarian temporal-investigators. Generic-junior-staff features must NOT match any named character. Healing-pulse warm-cream consistent with other heal cards.",
+  },
+  {
+    cardId: "s1_pack_seed_governance",
+    sceneDelta:
+      "Wider mid-shot. The Antiquarian's Referendum — a vast Antiquarian-amber Council chamber at the moment a vote is being CALLED. At frame-centre, a tall ceremonial Council-podium with an open vote-ledger; behind the podium, the Antiquarian Council's twelve seats are now FILLED with senior Council members (each a different generic-scholarly archetype, all in Antiquarian-amber Council robes — but each visibly distinct: different ethnicities, different ages, different gestures, the diversity of the institution made visible). All twelve are leaning slightly forward, attentive. A single Council scribe at the podium has just stamped the vote-call onto the ledger — visualized as a cool-cyan pulse propagating from the stamp outward through the chamber. From the chamber's centre, two warm slips of paper drift up (draw-2 visualized); a warm-amber heal-pulse propagates outward through the air at chest-level (heal-2 visualized).",
+    moodKeywords: [
+      "the vote is called",
+      "the Archive opens",
+      "democracy remembers what tyrants forget",
+      "twelve seats now filled with attentive Council",
+    ],
+    palette:
+      "Antiquarian-amber Council chamber + Council-robe diversity (different ethnicities/ages/styles) + warm cream vote-ledger + cool-cyan stamp-pulse + warm amber paper-drifts + warm heal-pulse + warm reading-light",
+    composition:
+      "Wider mid-shot, podium at frame-centre with twelve filled Council seats arrayed behind, vote-call mid-stamp",
+    notes:
+      "Rare spell. CRITICAL contrast with gen_antiquarian (which shows ELEVEN EMPTY chairs around the senior female Council member): this card shows the chairs FILLED — the institution functioning at full quorum. The diversity of Council members is canon-implied from the Antiquarian's role as preserver of all civilizations. NO specific named character — all twelve generic-scholarly. Twelve-pattern is the canonical Council motif extended to populated diversity.",
+  },
 ] as const;
 
 /**
  * Antiquarian faction's prompt registry, keyed by card id.
  *
- * Currently populated: 16 / ~39 cards
+ * Currently populated: 24 / ~39 cards
  * (gen_antiquarian, s1_char_018, s1_char_043, s1_char_058-060,
- *  s1_char_062-065, s1_char_097, s1_char_121-124, s1_char_201).
+ *  s1_char_062-065, s1_char_097, s1_char_121-124, s1_char_201,
+ *  s1_pack_036-042, s1_pack_seed_governance).
  */
 export const ANTIQUARIAN_CARD_ART_PROMPTS: Readonly<Record<string, CardArtPrompt>> =
   Object.freeze(

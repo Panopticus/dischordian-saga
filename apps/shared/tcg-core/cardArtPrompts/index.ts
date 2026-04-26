@@ -41,7 +41,7 @@ import { ANTIQUARIAN_CARD_ART_PROMPTS } from "./antiquarian";
  *   - dimensional: 4 / 4 dimensions — COMPLETE (Time, Space,
  *     Probability, Reality)
  *   - panopticon: 8 / 8 cards — COMPLETE
- *   - antiquarian: 16 / ~39 cards
+ *   - antiquarian: 24 / ~39 cards
  *
  * Pending factions:
  *   - antiquarian (remaining ~34)
