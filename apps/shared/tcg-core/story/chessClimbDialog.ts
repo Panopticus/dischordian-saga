@@ -268,6 +268,262 @@ const CLIMB_T3_POST_LOSS: DialogScene = {
 };
 
 /* ═══════════════════════════════════════════════════════
+   MID-SERIES — between games of a best-of-3.
+   Each tier gets three variants keyed off the running
+   score from the player's perspective: LEADING (player up
+   1-0 or 2-1), TIED (1-1), TRAILING (down 0-1 or 1-2).
+   The corrupted GM voices most beats; Celebration leaks
+   exactly once per climb in a TRAILING beat at Tier 1+.
+   ═══════════════════════════════════════════════════════ */
+
+const CLIMB_T0_MID_LEADING: DialogScene = {
+  id: "chess_climb_t0_mid_leading",
+  label: "Chess Climb — Tier 0 (Exhibition) — Mid-Series (Leading)",
+  kind: "chapter_pre",
+  cues: [
+    {
+      speaker: "game_master_corrupted",
+      mood: "menacing",
+      text: "Up a game at EXHIBITION tier. The audience is impressed in the way a non-existent audience can be — sincerely, but quietly, and without applause. We switch colors next game. You play White. Don't get sentimental about the lead. The board doesn't remember who won the last one.",
+      audioClipId: "vo_gm_climb_t0_mid_leading_01",
+    },
+  ],
+};
+
+const CLIMB_T0_MID_TIED: DialogScene = {
+  id: "chess_climb_t0_mid_tied",
+  label: "Chess Climb — Tier 0 (Exhibition) — Mid-Series (Tied 1-1)",
+  kind: "chapter_pre",
+  cues: [
+    {
+      speaker: "game_master_corrupted",
+      mood: "menacing",
+      text: "ONE-ALL. We go to game three. ARMAGEDDON if game three draws — Black gets the time advantage and a draw counts as a Black win. The Architect designed the format. He thinks tiebreaks are entertainment. He is wrong, but he signs my paychecks. Sit down.",
+      audioClipId: "vo_gm_climb_t0_mid_tied_01",
+    },
+  ],
+};
+
+const CLIMB_T0_MID_TRAILING: DialogScene = {
+  id: "chess_climb_t0_mid_trailing",
+  label: "Chess Climb — Tier 0 (Exhibition) — Mid-Series (Trailing)",
+  kind: "chapter_pre",
+  cues: [
+    {
+      speaker: "game_master_corrupted",
+      mood: "menacing",
+      text: "Down a game. STATISTICALLY EXPECTED at Exhibition tier. The Architect's actuarial model predicts you lose this series 73 percent of the time, and the model is RARELY wrong about Tier 0. Game two starts in thirty seconds. You play White. Make the model nervous.",
+      audioClipId: "vo_gm_climb_t0_mid_trailing_01",
+    },
+  ],
+};
+
+const CLIMB_T1_MID_LEADING: DialogScene = {
+  id: "chess_climb_t1_mid_leading",
+  label: "Chess Climb — Tier 1 (Wagered) — Mid-Series (Leading)",
+  kind: "chapter_pre",
+  cues: [
+    {
+      speaker: "game_master_corrupted",
+      mood: "menacing",
+      text: "ONE-ZERO at WAGERED tier. The contract is stamped, the ELO is escrowed, and the Architect's audit log just blinked. One more win and you walk out with the promotion. Lose this game and we go to a decider. Capablanca said a master sees the same move at the right moment. The right moment is the next move. Find it.",
+      audioClipId: "vo_gm_climb_t1_mid_leading_01",
+    },
+  ],
+};
+
+const CLIMB_T1_MID_TIED: DialogScene = {
+  id: "chess_climb_t1_mid_tied",
+  label: "Chess Climb — Tier 1 (Wagered) — Mid-Series (Tied 1-1)",
+  kind: "chapter_pre",
+  cues: [
+    {
+      speaker: "game_master_corrupted",
+      mood: "menacing",
+      text: "ONE-ALL. The Architect's contract has a TIEBREAK CLAUSE in clause six and the language is intentionally upsetting. Game three settles the wager. I will not soften the stakes — you signed the clipboard. You can also DECLINE the decider right now, halve your wager, and walk. Take whichever option suits the next thirty minutes of your life.",
+      audioClipId: "vo_gm_climb_t1_mid_tied_01",
+    },
+  ],
+};
+
+const CLIMB_T1_MID_TRAILING: DialogScene = {
+  id: "chess_climb_t1_mid_trailing",
+  label: "Chess Climb — Tier 1 (Wagered) — Mid-Series (Trailing)",
+  kind: "chapter_pre",
+  cues: [
+    {
+      speaker: "game_master_corrupted",
+      mood: "menacing",
+      text: "ZERO-ONE. The clipboard is starting to vibrate. That is normal at this tier. The Architect's enforcement subroutine wakes up at 0-1 and begins drafting the demotion paperwork in advance — it ASSUMES the loss. You can disappoint the subroutine. Game two starts now. The board is the same; the stakes have just begun to lean.",
+      audioClipId: "vo_gm_climb_t1_mid_trailing_01",
+    },
+    {
+      speaker: "game_master_celebration",
+      mood: "warm",
+      text: "[The corrupted voice has thinned. The keepsake is leaking through.] Listen to me. I am only going to be in the room for one cue and then he is going to take the chair back. You are not playing badly. You are playing FOR something for the first time in this Arena. Your style changes when there are stakes. That is normal. Breathe. Look at the board. Find the move you would have played at Tier 0, when nothing mattered. That move is still on the board. Play it.",
+      audioClipId: "vo_gm_climb_t1_mid_trailing_02",
+    },
+  ],
+};
+
+const CLIMB_T2_MID_LEADING: DialogScene = {
+  id: "chess_climb_t2_mid_leading",
+  label: "Chess Climb — Tier 2 (Hierarchy's Table) — Mid-Series (Leading)",
+  kind: "chapter_pre",
+  cues: [
+    {
+      speaker: "game_master_corrupted",
+      mood: "menacing",
+      text: "ONE-ZERO at the HIERARCHY'S TABLE. The horned silhouettes at the back of the chamber have stopped pretending to look at their phones. They are looking at the board. They have not seen me lose at this tier in seventy-three matches. The Goggles between us shimmer faintly — they are scoring you. The Annotated Knight is one win away. Do not let go of it.",
+      audioClipId: "vo_gm_climb_t2_mid_leading_01",
+    },
+  ],
+};
+
+const CLIMB_T2_MID_TIED: DialogScene = {
+  id: "chess_climb_t2_mid_tied",
+  label: "Chess Climb — Tier 2 (Hierarchy's Table) — Mid-Series (Tied 1-1)",
+  kind: "chapter_pre",
+  cues: [
+    {
+      speaker: "game_master_corrupted",
+      mood: "menacing",
+      text: "ONE-ALL at the HIERARCHY'S TABLE. This is rarer than you understand. The demons are murmuring — that's the closest they come to enthusiasm. Game three decides the Annotated Knight, the lockout, and a column in the Architect's threat ledger that I am not allowed to read aloud. Sun Tzu wrote that the supreme art of war is to subdue the enemy without fighting. We are about to fight. Begin.",
+      audioClipId: "vo_gm_climb_t2_mid_tied_01",
+    },
+  ],
+};
+
+const CLIMB_T2_MID_TRAILING: DialogScene = {
+  id: "chess_climb_t2_mid_trailing",
+  label: "Chess Climb — Tier 2 (Hierarchy's Table) — Mid-Series (Trailing)",
+  kind: "chapter_pre",
+  cues: [
+    {
+      speaker: "game_master_corrupted",
+      mood: "menacing",
+      text: "ZERO-ONE. The middle management of the damned LIKES this. They have been instructed to enjoy losses by contestants and they are following the instruction with what passes for sincerity in their bracket of the afterlife. The Goggles between us are warm now. They are warmer when I am winning. I do not know why. I have stopped asking.",
+      audioClipId: "vo_gm_climb_t2_mid_trailing_01",
+    },
+    {
+      speaker: "game_master_celebration",
+      mood: "warm",
+      text: "[The keepsake bleeds through. The room dims one notch.] Stand up. Walk around the table once before you sit down again. The Hierarchy hates when contestants exercise the right to PAUSE — it makes us look like agents and not employees. You are an agent. Use the thirty seconds. Look at your last game. Find the move you almost played and rejected. That is usually the move that wins the second game. I love you. Sit down.",
+      audioClipId: "vo_gm_climb_t2_mid_trailing_02",
+    },
+  ],
+};
+
+const CLIMB_T3_MID_LEADING: DialogScene = {
+  id: "chess_climb_t3_mid_leading",
+  label: "Chess Climb — Tier 3 (Labyrinth Wager) — Mid-Series (Leading)",
+  kind: "chapter_pre",
+  cues: [
+    {
+      speaker: "game_master_celebration",
+      mood: "warm",
+      text: "One-zero. Mol'Garath has not moved from his seat. He has not blinked. He has not laughed. He is studying you the way he studied the Prince in the third hour of the Labyrinth, and the Prince walked out of that hour with the Goggles on his face. I want you to know what that meant. It meant the Unmaker had decided you were a NEW VARIABLE, and his interest in new variables is the closest he comes to mercy. Win the next one.",
+      audioClipId: "vo_gm_climb_t3_mid_leading_01",
+    },
+  ],
+};
+
+const CLIMB_T3_MID_TIED: DialogScene = {
+  id: "chess_climb_t3_mid_tied",
+  label: "Chess Climb — Tier 3 (Labyrinth Wager) — Mid-Series (Tied 1-1)",
+  kind: "chapter_pre",
+  cues: [
+    {
+      speaker: "game_master_celebration",
+      mood: "reflective",
+      text: "One-all at the LABYRINTH WAGER. The chamber is quiet. The Hierarchy is quiet. Mol'Garath is leaning forward — that is the posture he held the night the Prince beat me. I have not been in this exact configuration of light and tempo since the morning of the eleventh of Sowing, and that morning ended in the only loss of my Celebration career. I am noting the symmetry. So is he. Game three. Sit down. We are about to find out which pattern is the one that repeats.",
+      audioClipId: "vo_gm_climb_t3_mid_tied_01",
+    },
+  ],
+};
+
+const CLIMB_T3_MID_TRAILING: DialogScene = {
+  id: "chess_climb_t3_mid_trailing",
+  label: "Chess Climb — Tier 3 (Labyrinth Wager) — Mid-Series (Trailing)",
+  kind: "chapter_pre",
+  cues: [
+    {
+      speaker: "game_master_celebration",
+      mood: "guarded",
+      text: "Zero-one. The Unmaker is amused. Amused is not a state I have seen on his face in fourteen of our seventeen prior meetings, and the three times I did, the contestant lost the next game in under twenty moves. I do not want you to be the fourth. Look at me. The man playing the white pieces is a corpse running my template. He has my openings, my middlegame, and my endgame technique — and he does NOT have the part of me that tried something new at move twenty-three when the textbook said move twenty-three did not exist. You have access to that part. He does not.",
+      audioClipId: "vo_gm_climb_t3_mid_trailing_01",
+    },
+    {
+      speaker: "game_master_celebration",
+      mood: "warm",
+      text: "Game two starts in a moment. Play the move the textbook would not. He cannot calculate the move he was never trained to expect. Mol'Garath wants to see whether you can do what the Prince did. So do I. So, somewhere under the script, does the man across the table. We are all rooting for you, in the only way the dead are still allowed to root.",
+      audioClipId: "vo_gm_climb_t3_mid_trailing_02",
+    },
+  ],
+};
+
+/* ═══════════════════════════════════════════════════════
+   PROMOTION — fires once when the player clears a tier
+   for the first time and the next tier just unlocked.
+   Bridges the post-win cue and the next-tier pre-series
+   so the climb feels continuous instead of menu-driven.
+   ═══════════════════════════════════════════════════════ */
+
+const CLIMB_PROMOTION_TO_T1: DialogScene = {
+  id: "chess_climb_promotion_to_t1",
+  label: "Chess Climb — Promotion to Tier 1 (Wagered)",
+  kind: "chapter_post_win",
+  cues: [
+    {
+      speaker: "game_master_corrupted",
+      mood: "menacing",
+      text: "TIER ONE is now AVAILABLE in your menu. The Architect has minted a contract template under your account. The contract is currently EMPTY — it activates the first time you accept a Wagered series. You can leave it empty for the rest of your life if you want. The clipboard is just a clipboard until you sign.",
+      audioClipId: "vo_gm_climb_promotion_t1_01",
+    },
+  ],
+};
+
+const CLIMB_PROMOTION_TO_T2: DialogScene = {
+  id: "chess_climb_promotion_to_t2",
+  label: "Chess Climb — Promotion to Tier 2 (Hierarchy's Table)",
+  kind: "chapter_post_win",
+  cues: [
+    {
+      speaker: "game_master_corrupted",
+      mood: "menacing",
+      text: "TIER TWO is now AVAILABLE. The HIERARCHY'S TABLE — horned audience, the Goggles on the felt, lockouts measured in real-time hours, and a one-shot consumable for the winner. The Architect added a line to your audit log; it is a footnote, not a sentence. Yet. Sit when you are ready. The chairs do not warm up.",
+      audioClipId: "vo_gm_climb_promotion_t2_01",
+    },
+    {
+      speaker: "game_master_celebration",
+      mood: "guarded",
+      text: "Before you sit at that table — the Goggles between us were MINE. The day I lost them was the day the Architect promoted me to surveillance. I did not cry; I did not even know I had lost them yet. They sat on the felt at the Hierarchy's Table for three hundred years before anyone realized the Game Master they belonged to was not coming back. Wear them carefully if you win them. They will fit you better than they should.",
+      audioClipId: "vo_gm_climb_promotion_t2_02",
+    },
+  ],
+};
+
+const CLIMB_PROMOTION_TO_T3: DialogScene = {
+  id: "chess_climb_promotion_to_t3",
+  label: "Chess Climb — Promotion to Tier 3 (Labyrinth Wager)",
+  kind: "chapter_post_win",
+  cues: [
+    {
+      speaker: "game_master_celebration",
+      mood: "warm",
+      text: "TIER THREE is unlocked. The Labyrinth Wager. Mol'Garath has been notified. He will not appear at the table until you accept — that is part of the courtesy he extends to opponents he considers WORTH SEEING IN PERSON. You are the third such opponent in seventeen thousand years. The first was the Prince. The second was the Oracle. The third is whoever you become between now and the moment you sit down. Take your time. The chair will be empty until you fill it.",
+      audioClipId: "vo_gm_climb_promotion_t3_01",
+    },
+    {
+      speaker: "game_master_celebration",
+      mood: "reflective",
+      text: "Finish the Prince's Game first if you have not. The Labyrinth Wager has a passage where the moves of the Prince's queen sacrifice resolve themselves on the board between us — I cannot prevent it, and you will recognize it when it happens, and the recognition is the entire point. We will both look up at the same time. Mol'Garath will smile. He so rarely smiles.",
+      audioClipId: "vo_gm_climb_promotion_t3_02",
+    },
+  ],
+};
+
+/* ═══════════════════════════════════════════════════════
    EXPORT — the full scene catalog for registration in
    chessTutorial.ts's CHESS_TUTORIAL_SCENES array and for
    memory-resin keepsake harvesting.
@@ -275,17 +531,32 @@ const CLIMB_T3_POST_LOSS: DialogScene = {
 
 export const CHESS_CLIMB_SCENES: readonly DialogScene[] = Object.freeze([
   CLIMB_T0_PRE,
+  CLIMB_T0_MID_LEADING,
+  CLIMB_T0_MID_TIED,
+  CLIMB_T0_MID_TRAILING,
   CLIMB_T0_POST_WIN,
   CLIMB_T0_POST_LOSS,
   CLIMB_T1_PRE,
+  CLIMB_T1_MID_LEADING,
+  CLIMB_T1_MID_TIED,
+  CLIMB_T1_MID_TRAILING,
   CLIMB_T1_POST_WIN,
   CLIMB_T1_POST_LOSS,
   CLIMB_T2_PRE,
+  CLIMB_T2_MID_LEADING,
+  CLIMB_T2_MID_TIED,
+  CLIMB_T2_MID_TRAILING,
   CLIMB_T2_POST_WIN,
   CLIMB_T2_POST_LOSS,
   CLIMB_T3_PRE,
+  CLIMB_T3_MID_LEADING,
+  CLIMB_T3_MID_TIED,
+  CLIMB_T3_MID_TRAILING,
   CLIMB_T3_POST_WIN,
   CLIMB_T3_POST_LOSS,
+  CLIMB_PROMOTION_TO_T1,
+  CLIMB_PROMOTION_TO_T2,
+  CLIMB_PROMOTION_TO_T3,
 ]);
 
 /** Lookup: return the pre-series scene for a tier. */
@@ -320,4 +591,70 @@ export function getClimbPostScene(
     3: CLIMB_T3_POST_LOSS,
   };
   return lossMap[tierRank];
+}
+
+/** Score state from the player's perspective at the moment a
+ *  mid-series cue should fire. Used by the climb runner to pick
+ *  the right between-games scene. */
+export type ClimbMidState = "leading" | "tied" | "trailing";
+
+/** Convert a (playerWins, opponentWins) pair to the matching mid
+ *  state. Wins-only — draws collapse into "tied" if neither side
+ *  has more wins than the other. */
+export function climbMidStateFromScore(
+  playerWins: number,
+  opponentWins: number,
+): ClimbMidState {
+  if (playerWins > opponentWins) return "leading";
+  if (playerWins < opponentWins) return "trailing";
+  return "tied";
+}
+
+/** Lookup: return the mid-series scene for a tier + score state. */
+export function getClimbMidScene(
+  tierRank: number,
+  state: ClimbMidState,
+): DialogScene | undefined {
+  const map: Record<number, Record<ClimbMidState, DialogScene>> = {
+    0: {
+      leading: CLIMB_T0_MID_LEADING,
+      tied: CLIMB_T0_MID_TIED,
+      trailing: CLIMB_T0_MID_TRAILING,
+    },
+    1: {
+      leading: CLIMB_T1_MID_LEADING,
+      tied: CLIMB_T1_MID_TIED,
+      trailing: CLIMB_T1_MID_TRAILING,
+    },
+    2: {
+      leading: CLIMB_T2_MID_LEADING,
+      tied: CLIMB_T2_MID_TIED,
+      trailing: CLIMB_T2_MID_TRAILING,
+    },
+    3: {
+      leading: CLIMB_T3_MID_LEADING,
+      tied: CLIMB_T3_MID_TIED,
+      trailing: CLIMB_T3_MID_TRAILING,
+    },
+  };
+  return map[tierRank]?.[state];
+}
+
+/** Lookup: return the promotion scene for a newly unlocked tier
+ *  rank (the tier the player just gained access to, NOT the tier
+ *  they just cleared). Tier 0 has no promotion scene because it
+ *  is the entry tier. Returns undefined for unknown ranks. */
+export function getClimbPromotionScene(
+  newlyUnlockedRank: number,
+): DialogScene | undefined {
+  switch (newlyUnlockedRank) {
+    case 1:
+      return CLIMB_PROMOTION_TO_T1;
+    case 2:
+      return CLIMB_PROMOTION_TO_T2;
+    case 3:
+      return CLIMB_PROMOTION_TO_T3;
+    default:
+      return undefined;
+  }
 }

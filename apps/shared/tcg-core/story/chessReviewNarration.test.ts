@@ -1,7 +1,9 @@
 import { describe, it, expect } from "vitest";
 import {
   MISTAKE_TYPES,
+  BRILLIANCY_TYPES,
   pickReviewNarration,
+  pickBrilliancyNarration,
   hashString,
 } from "./chessReviewNarration";
 
@@ -35,5 +37,31 @@ describe("chessReviewNarration", () => {
   it("hashString is deterministic and varies by input", () => {
     expect(hashString("abc")).toBe(hashString("abc"));
     expect(hashString("abc")).not.toBe(hashString("abcd"));
+  });
+
+  it("every BrilliancyType has at least 2 alternate lines", () => {
+    for (const type of BRILLIANCY_TYPES) {
+      const seen = new Set<string>();
+      for (let seed = 0; seed < 100; seed++) {
+        seen.add(pickBrilliancyNarration(type, seed));
+      }
+      expect(seen.size).toBeGreaterThanOrEqual(2);
+    }
+  });
+
+  it("pickBrilliancyNarration is deterministic for a given (type, seed)", () => {
+    const a = pickBrilliancyNarration("tactical_blow", 42);
+    const b = pickBrilliancyNarration("tactical_blow", 42);
+    expect(a).toBe(b);
+  });
+
+  it("pickBrilliancyNarration substitutes {{moveNumber}}", () => {
+    const line = pickBrilliancyNarration("tactical_blow", 0, {
+      moveNumber: 23,
+    });
+    if (line.includes("Move ")) {
+      expect(line).not.toMatch(/\{\{moveNumber\}\}/);
+      expect(line).toMatch(/23/);
+    }
   });
 });

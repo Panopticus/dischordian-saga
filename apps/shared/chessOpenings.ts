@@ -62,6 +62,20 @@ export const CHESS_OPENINGS: readonly ChessOpening[] = Object.freeze([
         gmReaction:
           "The Italian proper. Bishop points at f7 — Black's king's pawn shield has a hole right there. Black usually mirrors with Bc5 or plays Bc5's cousin, Nf6, attacking your e4 pawn. Either way you have a real game.",
       },
+      {
+        afterFen:
+          "r1bqkb1r/pppp1ppp/2n2n2/4p3/2B1P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 4 4",
+        playerMove: "Nf6",
+        gmReaction:
+          "Two Knights Defense — Black skips the symmetrical Bc5 and counterattacks the e4 pawn instead. From here White can play the quiet 4.d3, the sharp 4.Ng5 (the Fried Liver Attack — DO NOT play this against anyone over 1500 unless you have memorized fifteen moves), or 4.d4 (the Italian Gambit). Memorize one. Pick the one that suits your taste for chaos.",
+      },
+      {
+        afterFen:
+          "r1bqkbnr/ppp2ppp/2np4/4p3/2B1P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 0 4",
+        playerMove: "d6",
+        gmReaction:
+          "The Hungarian Defense — Black plays d6 and prepares Be7, accepting a slightly cramped position in exchange for solidity. Old-fashioned, slightly drawish, but not bad. The Engineer used to say the Hungarian was the move you played when you wanted to read a book during the middlegame.",
+      },
     ],
   },
   {
@@ -87,6 +101,27 @@ export const CHESS_OPENINGS: readonly ChessOpening[] = Object.freeze([
         gmReaction:
           "Bb5 is the whole point. The bishop pins the knight against the e5 pawn and threatens to capture and double Black's queenside pawns. Every Spanish player you will ever meet has an opinion about a6 — it's the question Black asks to force the bishop to declare. Ba4 keeps the pressure; Bxc6 is a real alternative called the Exchange Variation.",
       },
+      {
+        afterFen:
+          "r1bqkbnr/2pp1ppp/p1B5/4p3/4P3/5N2/PPPP1PPP/RNBQK2R b KQkq - 0 4",
+        playerMove: "Bxc6",
+        gmReaction:
+          "Exchange Variation. White trades the bishop for the c6 knight and inflicts doubled pawns on Black's queenside. The downside: Black has the bishop pair in an open game. The upside: most amateurs do not know how to use the bishop pair, and the doubled pawns will haunt their endgame for forty moves. Lasker's favorite. Fischer's, too, in his quieter games.",
+      },
+      {
+        afterFen:
+          "r1bqkbnr/1ppp1ppp/p1n5/4p3/B3P3/5N2/PPPP1PPP/RNBQK2R b KQkq - 1 4",
+        playerMove: "Ba4",
+        gmReaction:
+          "The Main Line. Bishop tucks back to a4, maintains the pin, and lets Black continue with Nf6, Be7, O-O. From here we are deep in the territory the Russians spent the entire 20th century mapping. The Closed Spanish, the Open Spanish, the Berlin Defense — every choice has a fifty-year theoretical pedigree. Pick a system. Stay there for six months.",
+      },
+      {
+        afterFen:
+          "r1bqkb1r/pppp1ppp/2n2n2/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 4 4",
+        playerMove: "Nf6",
+        gmReaction:
+          "The Berlin Defense. Black does not play a6 first; instead Black develops with tempo by attacking e4. Kramnik used the Berlin to neutralize Kasparov for a whole World Championship. The endgame after 4.O-O Nxe4 5.d4 is famously drawish at the elite level and slightly unpleasant for White at the club level. A serious choice.",
+      },
     ],
   },
   {
@@ -110,6 +145,27 @@ export const CHESS_OPENINGS: readonly ChessOpening[] = Object.freeze([
         playerMove: "c4",
         gmReaction:
           "The gambit is offered. Black can take with dxc4 (Queen's Gambit Accepted — a solid choice that gives up the center but gets a concrete pawn) or decline with e6 or c6 or Nf6. At your level any response is fine if you know why you played it.",
+      },
+      {
+        afterFen:
+          "rnbqkbnr/ppp1pppp/8/8/2pP4/8/PP2PPPP/RNBQKBNR w KQkq - 0 3",
+        playerMove: "dxc4",
+        gmReaction:
+          "Queen's Gambit ACCEPTED. Black has the pawn and a slightly worse position; White has the center and the half-open c-file. Holding the c4 pawn is hard — Black usually returns it within ten moves and equalizes. The opening is good when Black has a specific plan; bad when Black just wants the pawn.",
+      },
+      {
+        afterFen:
+          "rnbqkbnr/pp2pppp/2p5/3p4/2PP4/8/PP2PPPP/RNBQKBNR w KQkq - 0 3",
+        playerMove: "c6",
+        gmReaction:
+          "The Slav Defense. Black declines the gambit by reinforcing the d5 pawn from a square that does NOT block the c8 bishop. Compare with 2…e6 (the Orthodox QGD), which blocks the bishop in. The Slav has been a top-level main line for a hundred years. Solid, principled, surprisingly sharp in some lines.",
+      },
+      {
+        afterFen:
+          "rnbqkbnr/ppp1pp1p/6p1/3p4/2PP4/8/PP2PPPP/RNBQKBNR w KQkq - 0 3",
+        playerMove: "g6",
+        gmReaction:
+          "Grünfeld setup. Black fianchettos the king's bishop and INVITES White to take the center, planning to undermine it later. The Grünfeld is sharp and theoretical — it is the opening Kasparov used to lose his title and Carlsen used to defend his. Be ready for a calculation game by move ten.",
       },
     ],
   },
@@ -136,6 +192,20 @@ export const CHESS_OPENINGS: readonly ChessOpening[] = Object.freeze([
         gmReaction:
           "The Najdorf move. It does nothing immediately — that is the point. It takes b5 away from any White knight that was thinking of jumping there, and it prepares b5 for Black. Najdorf himself said he did not understand why the move was so strong; he just noticed that he kept winning when he played it.",
       },
+      {
+        afterFen:
+          "rnbqkb1r/1p3ppp/p2ppn2/4P3/3N4/2N5/PPP2PPP/R1BQKB1R w KQkq - 0 7",
+        playerMove: "e5",
+        gmReaction:
+          "The Najdorf with …e5 — Black grabs space in the center, accepts a hole on d5, and plans Be7, O-O, and a slow queenside expansion. Fischer specialized in this against the English Attack. The hole on d5 is the position's defining tension; if you let White's knight settle there permanently you have lost the strategic argument.",
+      },
+      {
+        afterFen:
+          "rnbqkb1r/1p2pp1p/p2p1np1/8/3NP3/2N5/PPP2PPP/R1BQKB1R w KQkq - 0 7",
+        playerMove: "g6",
+        gmReaction:
+          "Najdorf with a Dragon-flavored fianchetto — the Dragondorf. Black is hedging between two complete systems. Sharp, dangerous, occasionally embarrassing if the move orders cross. Recommended ONLY if you have studied both the pure Najdorf and the pure Dragon for at least a month each.",
+      },
     ],
   },
   {
@@ -161,6 +231,20 @@ export const CHESS_OPENINGS: readonly ChessOpening[] = Object.freeze([
         gmReaction:
           "The fianchetto. The bishop aims along the long diagonal toward c3 and, once the center opens, toward your king. The King's Indian is about DELAYED violence. You will not see it coming until move sixteen or seventeen. By then it is too late.",
       },
+      {
+        afterFen:
+          "rnbqk2r/pppp1pbp/5np1/4p3/2PPP3/2N2N2/PP3PPP/R1BQKB1R w KQkq - 0 6",
+        playerMove: "e5",
+        gmReaction:
+          "Mar del Plata variation — Black plays …e5 to lock the center, and the game becomes a race: White attacks on the queenside, Black attacks on the kingside, and whoever gets there first wins. Theoretically critical, practically terrifying. The position is a chess engine's dream and a club player's coin flip.",
+      },
+      {
+        afterFen:
+          "rnbqkb1r/ppp1pp1p/3p1np1/8/2PPP3/2N5/PP3PPP/R1BQKBNR w KQkq - 0 4",
+        playerMove: "d6",
+        gmReaction:
+          "Standard King's Indian setup — Black has played Nf6, g6, Bg7, d6, and is preparing O-O followed by either e5 or c5. The d6 pawn is the keystone: it supports e5 and limits White's d-pawn. Memorize the pawn skeleton; the rest of the King's Indian is footnotes to the skeleton.",
+      },
     ],
   },
   {
@@ -184,6 +268,27 @@ export const CHESS_OPENINGS: readonly ChessOpening[] = Object.freeze([
         playerMove: "e6",
         gmReaction:
           "The French move. Black prepares d5 with support. It looks tiny but the entire strategic character of the game is now determined — you will play for kingside space, Black will play for queenside activity. The player who understands that dichotomy wins.",
+      },
+      {
+        afterFen:
+          "rnbqkbnr/ppp2ppp/4p3/3pP3/3P4/8/PPP2PPP/RNBQKBNR b KQkq - 0 3",
+        playerMove: "e5",
+        gmReaction:
+          "Advance Variation. White locks the center with e5 and gains space. Black's plan is to undermine the chain with c5 and f6 at the right moment. The c8 bishop is the chronic problem in this line — every French player has a project to free it. Some succeed.",
+      },
+      {
+        afterFen:
+          "rnbqkb1r/ppp2ppp/4pn2/3P4/3P4/2N5/PPP2PPP/R1BQKBNR b KQkq - 0 4",
+        playerMove: "exd5",
+        gmReaction:
+          "Exchange Variation. Most Black players hate this line because the symmetry feels unambitious; they are wrong to hate it. The Exchange French is dangerous if White knows the minority attack idea. Rubinstein won several games here in the 1920s. Drawish at master level, sharp at club level — the difference is in the bishop maneuvers nobody studies.",
+      },
+      {
+        afterFen:
+          "rnbqkb1r/ppp2ppp/4pn2/3p4/3PP3/2N5/PPP2PPP/R1BQKBNR w KQkq - 2 4",
+        playerMove: "Nf6",
+        gmReaction:
+          "Classical French. Black challenges the e4 pawn and accepts that White will probably push e5 next move. The Steinitz Variation, the McCutcheon, the Burn — multiple sub-systems branch from here. Pick one and play it for fifty games before considering another.",
       },
     ],
   },
@@ -209,6 +314,27 @@ export const CHESS_OPENINGS: readonly ChessOpening[] = Object.freeze([
         gmReaction:
           "The Caro move. Notice the difference from the French: here the c8 bishop has a clear path to f5 or g4 after the center opens. That difference IS the Caro-Kann. Memorize it. It will save you a thousand Black positions.",
       },
+      {
+        afterFen:
+          "rnbqkbnr/pp2pppp/2p5/3pP3/3P4/8/PPP2PPP/RNBQKBNR b KQkq - 0 3",
+        playerMove: "e5",
+        gmReaction:
+          "Advance Caro-Kann. White locks the center the way they would in a French — except here Black's bishop has a path. Black plays …Bf5 and equalizes more comfortably than in any French. Some grandmasters refuse to play 3.e5 against the Caro for that reason. They play 3.Nc3 instead.",
+      },
+      {
+        afterFen:
+          "rnbqkbnr/pp2pppp/2p5/3p4/3PN3/8/PPP2PPP/RNBQKB1R b KQkq - 0 3",
+        playerMove: "Nxe4",
+        gmReaction:
+          "The Classical Caro main line — White recaptures with the knight and Black plays …Bf5. From here we are in the territory Karpov mapped during his decade-long world championship reign. The plans are slow, the squares are precise, and the side that understands the c5 break wins more often than not.",
+      },
+      {
+        afterFen:
+          "rnbqkbnr/pp2pppp/2p5/3p4/2PP4/8/PP2PPPP/RNBQKBNR b KQkq - 0 3",
+        playerMove: "c4",
+        gmReaction:
+          "Panov-Botvinnik Attack. White transposes into a Queen's Gambit-like structure with an isolated d-pawn and active piece play. Aggressive, theoretical, and the line that breaks most amateur Caro players who only studied the quiet variations. Memorize the IQP middlegame plan or do not play it.",
+      },
     ],
   },
   {
@@ -232,6 +358,27 @@ export const CHESS_OPENINGS: readonly ChessOpening[] = Object.freeze([
         playerMove: "c4",
         gmReaction:
           "The English move. Nothing committed in the center. Black can meet it with e5 (reversed Sicilian), c5 (Symmetrical English), Nf6 (classical), or even e6 preparing d5 (a transposition to the Queen's Gambit). Your task is to understand which of YOUR systems works against whichever reply Black offers.",
+      },
+      {
+        afterFen:
+          "rnbqkbnr/pppp1ppp/8/4p3/2P5/8/PP1PPPPP/RNBQKBNR w KQkq - 0 2",
+        playerMove: "e5",
+        gmReaction:
+          "Reversed Sicilian. Black plays e5 and dares White to handle a Sicilian as the higher-rated side. Many lines are simply mirror images of the Sicilian Najdorf or Dragon with a tempo for the player who started the symmetry. Useful, slightly deceptive, and the line Carlsen used to neutralize the English at world-championship level.",
+      },
+      {
+        afterFen:
+          "rnbqkbnr/pp1ppppp/8/2p5/2P5/8/PP1PPPPP/RNBQKBNR w KQkq - 0 2",
+        playerMove: "c5",
+        gmReaction:
+          "Symmetrical English. Both sides will play the same moves for as long as the position permits. The first player to break symmetry chose the structure that benefits them more. The English at this level is a contest of patience: who waits longer, and who reads the position better when the symmetry finally cracks.",
+      },
+      {
+        afterFen:
+          "rnbqkb1r/pppppppp/5n2/8/2P5/8/PP1PPPPP/RNBQKBNR w KQkq - 1 2",
+        playerMove: "Nf6",
+        gmReaction:
+          "Classical English. Black develops first and waits to see what White does. The line transposes easily into the King's Indian, the Queen's Gambit, the Grünfeld — White's choice of d-pawn move at move three or four locks the structure. The English is a transposition cornerstone; understand the destination structures and you understand the English.",
       },
     ],
   },
