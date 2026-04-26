@@ -582,19 +582,159 @@ const INSURGENCY_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "Epic unit. NO human face (fallen bodies are back-shots/anonymous). Third stage of spore-fungus lineage. The cool-violet deathwatch-script is a NEW faction-colored variant (distinct from Hierarchy phosphor-green and Architect cool-cyan deathwatch idioms).",
   },
+  {
+    cardId: "s1_reward_campaign_defiance",
+    sceneDelta:
+      "Action mid-shot. A Rebel's Conviction — female-presenting figure in mid-twenties, generic-determined features (sharp eyes, set jaw, hair tied back), in standard Insurgency-slate field-armor mid-stride forward at frame-centre. She has just BROKEN FROM FORMATION — anonymous Insurgency-soldier silhouettes visible at frame-left in their original waiting-position, while she has stepped forward alone. Her weapon (a chrome-and-signal-green Insurgency rifle) is forward-aimed. Faint warm rush-trails at her heels (rush keyword). Her face shows decisive defiance — the canonical 'Architect doesn't wait, so neither will I' rendering. Behind her, an Architect target visible at deep-distance.",
+    moodKeywords: [
+      "they told her to wait for orders",
+      "she told them the Architect doesn't wait, so neither will she",
+      "broken from formation, stepped forward alone",
+      "decisive defiance",
+    ],
+    palette:
+      "Insurgency-slate field-armor + chrome-and-signal-green rifle + warm rush-trails + Insurgency-soldier silhouettes at frame-left + warm dawn-light + cool deep-shadow",
+    composition:
+      "Action mid-shot front three-quarter, Rebel at frame-centre mid-stride, formation behind at frame-left",
+    notes:
+      "Rare unit. Generic-determined features must NOT match any named character. The 'broke from formation' is rendered as the visible distance between her current position and the formation behind.",
+  },
+  {
+    cardId: "s1_reward_class_spy",
+    sceneDelta:
+      "Mid-shot. A Master Spy — female-presenting figure in late-thirties (NOT The Eyes, NOT Agent Zero — distinct generic-cool-precise features), in dark Insurgency-slate spy-leathers with deeper-than-standard chrome-and-signal-green wrist-cuffs (Master-rank tier indicator). She stands at the centre of a quiet Insurgency safe-house briefing-room. In her right hand, a small CHROME EXTRACTED-SECRET-DEVICE (a fingertip-sized signal-storage chip glowing faintly cool-cyan). In her left hand, multiple SIMILAR DEVICES are clipped at her belt (visible cluster — every secret extracted is in the arsenal). Faint signal-green stealth-shimmer at her body-edge. Her face is composed, slightly tired (Master-rank veterans carry the cost).",
+    moodKeywords: [
+      "every secret extracted is another weapon in the arsenal",
+      "Master-rank tier with belt-cluster of extracted-secret devices",
+      "composed, slightly tired",
+      "deeper-rank chrome-and-signal-green wrist-cuffs",
+    ],
+    palette:
+      "Dark Insurgency-slate spy-leathers + chrome-and-signal-green wrist-cuffs + chrome extracted-secret-device + belt-cluster of similar devices + signal-green stealth-shimmer + warm low briefing-room light + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, Master Spy at frame-centre with extracted-device, briefing-room behind",
+    notes:
+      "Rare unit. CRITICAL: this is a class-rank reward Master Spy (NOT Agent Zero, NOT The Eyes — distinct character). Generic-cool-precise features. Echoes Master Engineer (s1_reward_class_engineer) and Master Oracle (s1_reward_class_oracle) class-rank-reward pattern.",
+  },
+  {
+    cardId: "s1_reward_companion_zero",
+    sceneDelta:
+      "Mid-shot. Zero's Parting Gift — at frame-centre, a small chrome-and-signal-green INSURGENCY DATA-CYLINDER on a low surface, approximately 15cm tall, faintly luminous with internal cool-cyan signal-storage. The cylinder bears Agent Zero's small etched personal-mark (a tiny chrome scarred-zero glyph, recognizable from her body's left-cheek-scar motif). Around the cylinder, faint translucent signal-green broadcast-pulse propagates outward (the gift is still active). An anonymous figure (only their hands visible at frame-bottom-edge) holds the cylinder up — discovering it. The setting is an Insurgency-aligned room — perhaps a safe-house. NO Agent Zero present (the GIFT is what remains).",
+    moodKeywords: [
+      "Agent Zero always left something behind",
+      "a frequency, a signal, a reason to keep fighting",
+      "chrome-and-signal-green data-cylinder with personal-mark",
+      "anonymous hands discovering the gift",
+    ],
+    palette:
+      "Chrome-and-signal-green data-cylinder + cool-cyan internal signal-storage + chrome scarred-zero personal-mark + translucent signal-green broadcast-pulse + anonymous hands + Insurgency-aligned safe-house + warm low light + cool deep-shadow",
+    composition:
+      "Mid-shot, data-cylinder at frame-centre on surface, anonymous discovering-hands at frame-bottom-edge",
+    notes:
+      "Rare unit. Anonymous discovering-figure (hands only) preserves no-character-conflation. The personal-mark scarred-zero glyph references Agent Zero's left-cheek-scar without requiring her render.",
+  },
+  {
+    cardId: "s1_reward_crew_mission",
+    sceneDelta:
+      "Wider mid-shot. A Mission Briefing — at the centre of an Insurgency-aligned safe-house briefing-room, a low chrome-and-signal-green briefing-table holds an open mission-folder (warm-cream parchment with cool-cyan target-glyph visible on the page). Around the table, FIVE SILHOUETTES of Insurgency-aligned operatives stand in semicircle (anonymous, generic-mixed back-three-quarter, all in Insurgency-slate field-gear). They are mid-action of NOT NEEDING TO READ the briefing — they have done this twenty-five times before; they now stand looking at each other rather than the page (eyes on each other, attentive, ready for targets). NO faces visible. Faint warm low briefing-light.",
+    moodKeywords: [
+      "twenty-five missions deep",
+      "the crew doesn't need orders anymore",
+      "they need targets",
+      "five silhouettes looking at each other rather than the page",
+    ],
+    palette:
+      "Chrome-and-signal-green briefing-table + warm-cream mission-folder parchment + cool-cyan target-glyph + Insurgency-slate field-gear silhouettes + warm low briefing-light + cool deep-shadow",
+    composition:
+      "Wider mid-shot, briefing-table at frame-centre, five anonymous silhouettes in semicircle around",
+    notes:
+      "Rare spell. Anonymous crew (all back-three-quarter) preserves no-character-conflation. The 'looking at each other not the page' is the canonical visualization of crew-cohesion past the need for instruction.",
+  },
+  {
+    cardId: "s1_reward_eidolon_echo",
+    sceneDelta:
+      "Mid-shot. Echo, the Resonance — female-presenting figure in late-twenties, generic-poised features (calm eyes, slight smile, hair pulled back), in Insurgency-aligned cool-cream-and-signal-green resonance-mage's robes with a single small chrome-and-signal-green tuning-fork pendant at the throat. She stands at frame-centre at an Insurgency-aligned mid-battle position, mid-action of HAVING JUST STRUCK. From the strike, faint translucent silver-mist RESONANCE-RINGS extend outward in concentric waves, and as the rings reach allied figures (anonymous Insurgency-aligned silhouettes at frame-left and frame-right edges), the rings MEND visible damage on those allies — small wounds visibly healing in real-time as the resonance washes over them.",
+    moodKeywords: [
+      "every blow she strikes rings outward",
+      "mending what was broken",
+      "translucent silver-mist resonance-rings extending in concentric waves",
+      "wounds healing as resonance reaches allies",
+    ],
+    palette:
+      "Insurgency-aligned cool-cream-and-signal-green resonance-mage's robes + chrome-and-signal-green tuning-fork pendant + translucent silver-mist resonance-rings + warm-cream healing-pulses on allies + Insurgency-aligned mid-battle background + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, Echo at frame-centre post-strike, resonance-rings extending outward, allies at frame-edges",
+    notes:
+      "Rare unit. Anonymous allies preserve no-character-conflation. The 'every blow rings outward and mends' is the canonical resonance-cycle visualization.",
+  },
+  {
+    cardId: "s1_reward_guild_recruit",
+    sceneDelta:
+      "Mid-shot. A Fresh Recruit — male-presenting figure in late-teens, generic-untrained features (visible anger in the eyes, slight tremble in the body, no calm — pure willingness), in plain civilian clothes (no Insurgency-issue gear, just a worn jacket and trousers — they have no training, no equipment yet). He stands at frame-centre at the threshold of an Insurgency-aligned recruitment-tent, mid-step forward. In his right hand, a small chrome blade (clearly civilian, repurposed). Faint warm rush-trails at his heels (rush keyword — he is moving forward despite having nothing). His face is determined, scared, MOVING.",
+    moodKeywords: [
+      "no training. no gear",
+      "just anger and a willingness to die for the cause",
+      "civilian clothes, civilian blade",
+      "determined, scared, moving",
+    ],
+    palette:
+      "Worn civilian jacket and trousers + chrome civilian blade + warm rush-trails + Insurgency-aligned recruitment-tent threshold + warm low recruitment-light + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, Recruit at frame-centre at tent-threshold, mid-step forward",
+    notes:
+      "Common unit. Generic-untrained features must NOT match any named character. The 'no gear, no training' is rendered as the civilian clothes + repurposed civilian blade — visible amateur-state.",
+  },
+  {
+    cardId: "s1_reward_trade_insurgency",
+    sceneDelta:
+      "Wider mid-shot. A Smuggler's Cache — at frame-centre, a stack of WOODEN CRATES at an Insurgency-aligned underground waypoint. The TOP CRATE is open, revealing its FALSE BOTTOM lifted — beneath the false bottom, a small chrome-and-signal-green INSURGENCY DATA-DEVICE (similar to Zero's data-cylinder s1_reward_companion_zero) is revealed. From the device, faint translucent signal-green frequency-pulse extends upward — the canonical 'every frequency led to Agent Zero's ghost.' The frequency-pulse extends to the deep-distance where it forms into a faint translucent SHAPE OF AGENT ZERO (only suggestion — silver-mist outline, no specific facial detail, recognizable by silhouette only).",
+    moodKeywords: [
+      "every crate had a false bottom",
+      "every false bottom had a frequency",
+      "every frequency led to Agent Zero's ghost",
+      "translucent silver-mist Agent Zero outline at frequency's destination",
+    ],
+    palette:
+      "Wooden Insurgency-aligned crates + chrome-and-signal-green data-device + cool-cyan internal storage + translucent signal-green frequency-pulse + faint translucent silver-mist Agent Zero outline + cool underground ambient + warm low waypoint-light",
+    composition:
+      "Wider mid-shot, crates at frame-centre with open false-bottom, frequency-pulse extending toward Agent Zero outline at deep-distance",
+    notes:
+      "Rare spell. CRITICAL: Agent Zero's outline is SILHOUETTE ONLY (no facial detail) — preserves Agent Zero's iconic features without rendering her literally. The 'ghost' framing is rendered through the translucent silver-mist outline.",
+  },
+  {
+    cardId: "s1_reward_vote_t1_defiance",
+    sceneDelta:
+      "Mid-shot. A Signal Booster — anonymous Insurgency-aligned figure (back-three-quarter, generic-mixed Insurgency-slate field-gear), at the centre of an Insurgency-aligned communications-room. They tend to a chrome-and-signal-green BOOSTER-DEVICE on a wall-mounted rack at frame-right (the device pulses faintly signal-green). From the device, faint translucent signal-green AMPLIFICATION-RIPPLES extend outward through the room and beyond. The amplification carries Agent Zero's last frequency — visualized as faint translucent silver-mist transmission-script (illegible suggestion of her signal). NO face visible (back-three-quarter only).",
+    moodKeywords: [
+      "Agent Zero's last frequency still carries",
+      "the Booster makes sure everyone hears it",
+      "anonymous tender at chrome-and-signal-green device",
+      "amplification-ripples extending outward",
+    ],
+    palette:
+      "Insurgency-slate field-gear + chrome-and-signal-green booster-device + faint translucent signal-green amplification-ripples + faint translucent silver-mist transmission-script + Insurgency communications-room + warm low room-light",
+    composition:
+      "Mid-shot back-three-quarter, anonymous tender at frame-centre at booster-device, amplification-ripples extending outward",
+    notes:
+      "Common unit. Anonymous tender (back-three-quarter) preserves no-character-conflation. The 'last frequency still carries' is rendered as the visible amplification-ripples + transmission-script.",
+  },
 ] as const;
 
 /**
  * Insurgency faction's prompt registry, keyed by card id.
  *
- * Currently populated: 32 / 51 cards
+ * Currently populated: 40 / 51 cards
  * (gen_insurgency, s1_char_002, s1_char_010, s1_char_011,
  *  s1_char_012, s1_char_026, s1_char_028, s1_char_031,
  *  s1_char_040, s1_char_041, s1_char_044, s1_char_047,
  *  s1_char_105, s1_char_106, s1_char_107, s1_char_108,
  *  s1_char_202, s1_pack_008-014, s1_pack_cosm_trail_fire,
  *  s1_pack_id_kael_recruiter, s1_pack_pet_flicker_imp_1-3,
- *  s1_pack_pet_spore_fungus_1-3).
+ *  s1_pack_pet_spore_fungus_1-3,
+ *  s1_reward_campaign_defiance, s1_reward_class_spy,
+ *  s1_reward_companion_zero, s1_reward_crew_mission,
+ *  s1_reward_eidolon_echo, s1_reward_guild_recruit,
+ *  s1_reward_trade_insurgency, s1_reward_vote_t1_defiance).
  */
 export const INSURGENCY_CARD_ART_PROMPTS: Readonly<Record<string, CardArtPrompt>> =
   Object.freeze(
