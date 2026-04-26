@@ -935,6 +935,99 @@ export const ADJUDICATOR_LOCKE_BANK: ReadonlyArray<BankEntry> = [
   },
 
   // ═════════════════════════════════════════════════════════════════════
+  // TOUCHÉ EXTENSION (Phase 6a.2 sub-chunk E — 3 new Locke side lines)
+  //
+  // The canonical Locke ↔ Vex Touché-arc per §2.3 spans 5 canonical
+  // beats: pre-exclusivity warning → at-signing → post-active →
+  // at-end → at-breach. The contract block above carries the at-
+  // signing / post-active / at-end beats (stage1.intro / stage1.mid /
+  // stage2.completion). The existing locke.touche.vex_locked_out
+  // (below) carries the at-signing acknowledgment register.
+  //
+  // This sub-chunk fills the missing canonical anchors:
+  //   - pre_exclusivity_warning (Insider-band warning before signing)
+  //   - long_silence_acknowledged (60-day-mark commentary)
+  //   - breach_canonical ("You broke it. Vex isn't surprised. Neither
+  //     am I.")
+  // ═════════════════════════════════════════════════════════════════════
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "locke.touche.pre_exclusivity_warning",
+    // Per §2.3: at Insider band Locke discloses operational
+    // information that the Authority would not authorize her to
+    // share. The pre-exclusivity warning lands in this register —
+    // canonical "I am telling you what the Authority will not."
+    text:
+      "Insider rates apply, but I would file a warning before you sign " +
+      "the exclusivity. Vex Solène goes silent when locked out. Her " +
+      "silence is professional. Her silence is also long. The Authority " +
+      "charges you the same either way; I am telling you what the " +
+      "Authority will not.",
+    surfaces: ["npc_line"],
+    requiresTrustBand: "Insider",
+    unlockFlags: ["locke_exclusivity_offered"],
+    excludeFlags: ["locke_exclusive_stage_1_started"],
+    cooldownKey: "locke.touche.pre_exclusivity_warning",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "locke.touche.long_silence_acknowledged",
+    // 60-day mark canonical commentary — Vex's silence has tilted
+    // from "professional" to "discipline" per §2.3 canonical
+    // recognition of her one-counterparty-respect.
+    text:
+      "Sixty days into exclusivity. Coda has filed three additional " +
+      "declined offers. Vex has not authored a single message. The " +
+      "Authority files this as 'compliance'. I file it as 'discipline'. " +
+      "Hers, not yours.",
+    surfaces: ["npc_line"],
+    unlockFlags: ["locke_exclusive_60_day_mark_reached"],
+    cooldownKey: "locke.touche.long_silence",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "locke.touche.zero_history_reflective",
+    // Canonical disclosure beat: Partner-band reflective register
+    // mentioning the historical Zero / Locke "Touché" exchange per
+    // §2.3. Mirrors the ask_locke_about_vex ask-topic so the canonical
+    // public flag can fire via either dialogue path. Locke's canonical
+    // self-instrumentalization tell #3 lands here ("I am telling you
+    // I'm telling you").
+    text:
+      "There was a name on the file before yours, my dear. Agent Zero. " +
+      "We had a recorded exchange exactly once. We agreed to trade " +
+      "secrets later. The later has not arrived. I am telling you about " +
+      "her now because I am about to ask you to deliver the trade.",
+    surfaces: ["npc_line"],
+    requiresTrustBand: "Partner",
+    cooldownKey: "locke.touche.zero_history_reflective",
+    maxPlays: 1,
+    setsPublicFlags: ["locke_disclosed_zero_agent_history"],
+  },
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "locke.touche.breach_canonical",
+    // The canonical "You broke it. Vex isn't surprised. Neither am
+    // I." beat per writers'-guide spec. Names the canonical three-
+    // file structure: Authority (breach) / Locke (professional) /
+    // Vex (predicted) — three files for one event.
+    text:
+      "You broke the exclusivity. Vex isn't surprised. Neither am I. The " +
+      "Authority files 'breach' next to your name. I file 'professional'. " +
+      "Vex files 'predicted'. Three files; one event; the structure of " +
+      "the relationship has just doubled.",
+    surfaces: ["npc_line"],
+    unlockFlags: ["locke_exclusivity_breached"],
+    cooldownKey: "locke.touche.breach_canonical",
+    maxPlays: 1,
+    setsPublicFlags: ["locke_filed_player_breach_of_exclusivity"],
+  },
+
+  // ═════════════════════════════════════════════════════════════════════
   // TOUCHÉ — Vex locked out by Locke exclusivity (cross-character react)
   // ═════════════════════════════════════════════════════════════════════
 

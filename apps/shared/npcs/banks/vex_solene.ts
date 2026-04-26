@@ -105,6 +105,67 @@ export const VEX_SOLENE_BANK: ReadonlyArray<BankEntry> = [
     maxPlays: 1,
   },
 
+  // ─── Touché Extension — Vex reactive (Phase 6a.2 sub-chunk E) ───────
+  // Three reactive lines completing the canonical Vex side of the
+  // Locke ↔ Vex Touché-arc per §2.3. Each gates on a Locke-set
+  // public flag so the canonical cross-character cascade fires
+  // canonically when the player walks the canonical arc.
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "vex.maestro.touche.locke_disclosed_zero",
+    // Reactive on Locke's canonical "Tell me about Vex / Zero"
+    // disclosure (Phase 6a.2 ask-topic ask_locke_about_vex). The
+    // canonical Vex register is: she has been waiting; she is the
+    // counterparty Locke gestured at; the trade is still open.
+    text:
+      "So Locke told you. Good. We can finish trading secrets now if you " +
+      "like. Don't worry about her — she filed the disclosure three " +
+      "minutes after she made it. It is what she does. The trade is " +
+      "still open. I am the one who has been waiting.",
+    surfaces: ["transmission"],
+    requiresRevealStage: "vex_public",
+    reactsToPublicFlag: "locke_disclosed_zero_agent_history",
+    cooldownKey: "vex.touche.locke_disclosed_zero",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "vex.maestro.touche.breach_returned",
+    // Reactive on player breaching the exclusivity per Locke's
+    // canonical breach-canonical line. The Vex return register is
+    // canonical professional discipline — she made tea while waiting;
+    // she does not file; she names the difference.
+    text:
+      "You broke the lock-out. The Coda inbox shows you re-opened the " +
+      "channel. I filed nothing. I do not file. I did, however, make a " +
+      "cup of tea when the channel re-opened. Tell Locke whichever " +
+      "version of that fact you prefer her to hear.",
+    surfaces: ["transmission"],
+    requiresRevealStage: "vex_public",
+    reactsToPublicFlag: "locke_filed_player_breach_of_exclusivity",
+    cooldownKey: "vex.touche.breach_returned",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "vex.maestro.touche.long_silence_discipline",
+    // Reactive on the canonical end-of-exclusivity (renewed-or-
+    // breached). The canonical Vex register: she always waits the
+    // contract duration; her precision matches Locke's; the canonical
+    // "what professional respect looks like in our trade."
+    text:
+      "You can hear me again. I waited the contract duration. I always " +
+      "wait the contract duration. The Adjudicator's contracts are " +
+      "precise; my responses are precise. We are professionals. " +
+      "Continue.",
+    surfaces: ["transmission"],
+    requiresRevealStage: "vex_public",
+    unlockFlags: ["locke_exclusive_dealings_fulfilled"],
+    cooldownKey: "vex.touche.long_silence_discipline",
+    maxPlays: 1,
+  },
+
   // ═════════════════════════════════════════════════════════════════════
   // STAGE 3: engineer_zero_hint (Acts 3-4 — Engineer-trace audible)
   // ═════════════════════════════════════════════════════════════════════

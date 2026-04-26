@@ -156,6 +156,22 @@ export const CROSS_CHARACTER_REACTIONS: ReadonlyArray<CrossCharacterReaction> = 
       "Endgame Phase-6+ scenes (Authority betrayal arcs) gate on this.",
   },
 
+  // ─── Locke filed player breach of exclusivity (Phase 6a.2 Touché) ──
+  {
+    flag: "locke_filed_player_breach_of_exclusivity",
+    setBy: ["adjudicator_locke"],
+    reactsBy: ["vex_solene"],
+    canonicalNote:
+      "Per Locke bible §2.3 + writers'-guide Touché-arc canon: when the " +
+      "player breaches the exclusive-dealings contract, Locke's canonical " +
+      "breach-acknowledgment line files the canonical three-file " +
+      "structure (Authority: 'breach' / Locke: 'professional' / Vex: " +
+      "'predicted'). The flag opens the canonical Vex return register — " +
+      "she made a cup of tea while the channel was closed; she does not " +
+      "file. The cross-character cascade IS the canonical Touché-arc " +
+      "completion.",
+  },
+
   // ─── Locke risk-tolerant filing (Phase 6a.2 sub-chunk D) ────────────
   {
     flag: "locke_filed_player_as_risk_tolerant",
