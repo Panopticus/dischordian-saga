@@ -4680,3 +4680,72 @@ export const npcPublicFlags = mysqlTable("npc_public_flags", {
   ),
 }));
 export type NpcPublicFlagRow = typeof npcPublicFlags.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
+   TRADE EMPIRE PHASE 2 — Brokers + multi-stage Contracts
+   See apps/shared/tradeEmpire/{brokers,contracts,
+   contractTemplates}.ts for canonical types + templates.
+   ═══════════════════════════════════════════════════════ */
+
+/**
+ * Per-user broker engagement state. Tracks first-meeting flags,
+ * cumulative engagement count, lock-out status (e.g., Vex locked out
+ * by Locke exclusivity per Touché canon).
+ */
+export const tradeBrokerEngagement = mysqlTable("trade_broker_engagement", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  brokerKey: varchar("brokerKey", { length: 64 }).notNull(),
+  /** Total engagements (mission_offered + mission_accepted + mission_declined). */
+  engagementCount: int("engagementCount").notNull().default(0),
+  /** First-meeting timestamp; null if never met. */
+  firstMetAt: timestamp("firstMetAt"),
+  /** Lock-out status: broker declines to engage if locked. */
+  isLockedOut: boolean("isLockedOut").notNull().default(false),
+  /** Optional reason for lock-out (e.g., "vex_locked_out_by_locke_exclusivity"). */
+  lockedOutReason: varchar("lockedOutReason", { length: 256 }),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  userIdIdx: index("idx_trade_broker_engagement_user_id").on(table.userId),
+  userBrokerUniq: uniqueIndex("uniq_trade_broker_engagement_user_broker").on(
+    table.userId,
+    table.brokerKey,
+  ),
+}));
+export type TradeBrokerEngagementRow = typeof tradeBrokerEngagement.$inferSelect;
+
+/**
+ * Per-user runtime contract instance. References a template (ContractDef
+ * by contractKey) and tracks per-stage status, hidden-clause disclosures,
+ * and final outcome.
+ */
+export const tradeContracts = mysqlTable("trade_contracts", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /** Canonical template key (apps/shared/tradeEmpire/contractTemplates/). */
+  contractKey: varchar("contractKey", { length: 128 }).notNull(),
+  /** Owning broker (denormalized for query convenience). */
+  brokerKey: varchar("brokerKey", { length: 64 }).notNull(),
+  /** Contract status: signed → active → succeeded / failed / cancelled. */
+  status: mysqlEnum("status", [
+    "signed",
+    "active",
+    "succeeded",
+    "failed",
+    "cancelled",
+  ]).notNull().default("signed"),
+  /** Player audited the fine-print on signing? Drives hidden-clause disclosure UI. */
+  auditedOnSigning: boolean("auditedOnSigning").notNull().default(false),
+  /** Per-stage status, JSON: { [stageId]: ContractStageStatus }. */
+  stageStatus: json("stageStatus").$type<Record<string, string>>().default({}),
+  /** Disclosed hidden clauses, JSON: list of clause ids. */
+  disclosedClauses: json("disclosedClauses").$type<string[]>().default([]),
+  signedAt: timestamp("signedAt").defaultNow().notNull(),
+  resolvedAt: timestamp("resolvedAt"),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  userIdIdx: index("idx_trade_contracts_user_id").on(table.userId),
+  userStatusIdx: index("idx_trade_contracts_user_status").on(table.userId, table.status),
+  contractKeyIdx: index("idx_trade_contracts_contract_key").on(table.contractKey),
+}));
+export type TradeContractRow = typeof tradeContracts.$inferSelect;
