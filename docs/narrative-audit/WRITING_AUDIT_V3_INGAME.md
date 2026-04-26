@@ -114,8 +114,8 @@ Voice rules (carried from V2, refined this session):
 > Subsection landing tracker (built up in chunks):
 >
 > - 4A — Architect — ✅ landed
-> - 4B — Source / Kael — ✅ landed (this commit)
-> - 4C — Narrator / exposition — pending
+> - 4B — Source / Kael — ✅ landed
+> - 4C — Narrator / exposition — ✅ landed (this commit)
 > - 4D — Length compliance — pending
 > - 4E — Voice drift across speakers — pending
 > - 4F — Generic-villain rhetorical patterns — pending
@@ -273,6 +273,39 @@ data so the on-screen text matches the recorded VO.
 **Net for V2 Category B in V3:** 2 line fixes recommended (B.2
 match-cast, B.2 corruption outbreak), 3 explicit exemptions documented,
 1 follow-up flagged (story-chapter wiring).
+
+### 4C — Narrator / Exposition (V2 Category C)
+
+**Status: closed. No fixes required.**
+
+V2 Category C flagged 4 narrator beats as "explains instead of evokes":
+C.1 (Wraith Calder "recognition flashes across its haunted eyes"),
+C.2 ("The full truth crashes through: You are the Oracle…"), C.3 (Arena
+trembles "for the first time in millennia"), and C.4 (the 6-entry
+opening crawl "In the dying light of the Age of Privacy…").
+
+A grep for the original strings against the current codebase returns
+**zero hits.** Every flagged narrator beat has been refactored away.
+The current narrator surface, sampled across `storyModeChapters.ts`,
+follows the show-don't-tell rule cleanly:
+
+- *"Black. Heartbeat. A cell. Agent Zero appears — she hacked the Arena
+  scheduling matrix. She has 31 seconds before cameras cycle."* —
+  sensory cascade, no exposition.
+- *"Panopticon Central. The Jailer's portrait — a SKULL in green robes,
+  chains, one burning red eye. The Prisoner recoils."* — physical
+  details + reaction, no summary.
+- *"Iron Lion salutes — fist to chest. A subordinate saluting a
+  commander."* — gesture + read of the gesture, fused.
+- *"Castle of Death. Throne hall carved from compressed prayers."* —
+  surreal physical detail.
+- *"You fall. The fire is gentle. Somewhere, a clone tank hisses open.
+  A heart that hasn't beaten in eleven years starts keeping time again."*
+  — devastating cascade closer.
+
+These are V3-grade narrator prose. No fixes recommended.
+
+**No fixes required for V2 Category C as part of V3.**
 
 
 ## 5. Open questions for the team
