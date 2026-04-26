@@ -1,4 +1,5 @@
 import { Suspense, lazy, useState, useEffect, useRef, useCallback, type ReactNode, type ComponentType } from "react";
+import { MotionConfig } from "framer-motion";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/NotFound";
@@ -46,6 +47,7 @@ import { DischordiaCycleSync } from "./components/DischordiaCycleSync";
 import { ForgivenessChoicePanel } from "./components/ForgivenessChoicePanel";
 import { Act1ClosingChoicePanel } from "./components/Act1ClosingChoicePanel";
 import { useElaraTTS } from "./hooks/useElaraTTS";
+import { useReduceMotion } from "./hooks/useReduceMotion";
 import { useVoidEngine } from "./engine/useVoidEngine";
 import { useArchetypeDetection } from "./hooks/useArchetypeDetection";
 import { useSortingTrigger } from "./hooks/useSortingTrigger";
@@ -651,8 +653,16 @@ function initAccessibilitySettings() {
 initAccessibilitySettings();
 
 function App() {
+  // a11y #116 — bridge the user-facing reduce-motion setting AND the
+  // OS-level prefers-reduced-motion media query into Framer Motion's
+  // global config. CSS-driven animations are already gated by the
+  // `html.reduce-motion *` rules in index.css; this handles the JS
+  // animation surface (motion.div, AnimatePresence, etc.) for the
+  // ~328 framer-motion call sites.
+  const reduceMotion = useReduceMotion();
   return (
     <ErrorBoundary>
+      <MotionConfig reducedMotion={reduceMotion ? "always" : "never"}>
       <ThemeProvider defaultTheme="dark" switchable>
         <GamificationProvider>
           <GameProvider>
@@ -700,6 +710,7 @@ function App() {
           </GameProvider>
         </GamificationProvider>
       </ThemeProvider>
+      </MotionConfig>
     </ErrorBoundary>
   );
 }
