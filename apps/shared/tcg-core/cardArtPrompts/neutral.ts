@@ -276,14 +276,134 @@ const NEUTRAL_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "Legendary unit. Generic-grizzled-warrior features must NOT match Iron Lion (different specific archetype: Insurgency-loyal vs faction-burned). The crossed-out-every-emblem is the canonical 'buried allies under every banner' visualization. Three keywords (provoke + forcefield + rebirth) rendered as three distinct visual elements.",
   },
+  {
+    cardId: "s1_pack_043",
+    sceneDelta:
+      "Tight composition. A Void Crystal — at frame-centre, a single small VOID-CRYSTAL hovering at chest-height in mid-air. The crystal is approximately 8cm in diameter, faceted, with internal cool-violet-and-deep-black void-substance visible through translucent crystalline-faces. Critically, the crystal SEEMS WEIGHTLESS (the canonical 'costs nothing to hold') — but at lower-frame-edge, an anonymous figure (only fingertips visible, generic civilian) is mid-action of HOLDING it lightly. The figure's hand is FINE — but the GROUND beneath the fingertips is visibly STRAINING (small hairline cracks forming in the floor — 'costs everything to put down' rendered as the impossible cost of release: putting it down would shatter what's beneath). Faint cool-violet emanation around the crystal.",
+    moodKeywords: [
+      "it costs nothing to hold",
+      "it costs everything to put down",
+      "anonymous fingertips lightly holding crystal",
+      "ground beneath visibly straining with hairline cracks",
+    ],
+    palette:
+      "Faceted void-crystal + cool-violet-and-deep-black void-substance + translucent crystalline-faces + anonymous fingertips + warm low light + hairline cracks in floor + cool deep-shadow",
+    composition:
+      "Tight composition, crystal at frame-centre at chest-height, anonymous fingertips at frame-edge, straining ground below",
+    notes:
+      "Rare spell. Anonymous holder (fingertips only) preserves no-character-conflation. The 'costs everything to put down' is rendered through the visible cost-of-release in the strained-ground.",
+  },
+  {
+    cardId: "s1_pack_044",
+    sceneDelta:
+      "Mid-shot. An Ark Defender — humanoid-mechanical figure at frame-centre, body composed of plain CHROME-AND-COOL-CYAN Ark-construction (consistent with Inception Ark visual idiom from Destiny s1_char_005 and Ark Sentry s1_char_103). Critically, the body shows NO FACTION MARKINGS — no Architect-emblem, no Insurgency-emblem, no faction-decoration of any kind (the canonical 'no faction markings'). Only the small Inception Ark stenciled-serial-number is visible at the chest. They stand at an Ark interior corridor at frame-centre, both hands forward in defensive stance. Faint cool-cyan optical visor (single horizontal slit) at the head. Behind them, the Ark interior with cryotubes visible at lower-third.",
+    moodKeywords: [
+      "the Ark's defenders were built without faction markings",
+      "they defend the ship, not the ideology",
+      "only Inception Ark serial-number visible — no faction emblems",
+      "cryotubes visible behind",
+    ],
+    palette:
+      "Chrome-and-cool-cyan Ark-construction + Inception Ark serial-number + cool-cyan optical visor + Ark interior corridor + cryotube outlines + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, Defender at frame-centre in defensive stance, cryotubes at lower-third behind",
+    notes:
+      "Common unit. NO human face (mechanical). Visual continuity with Ark-thematic cards (Destiny + Locke + Ark Sentry). The 'defend the ship not the ideology' is rendered through the visible ABSENCE of faction emblems.",
+  },
+  {
+    cardId: "s1_pack_045",
+    sceneDelta:
+      "Mid-shot. A Universal Adapter — small chrome-and-warm-gold mechanical entity at frame-centre, approximately 60cm tall, humanoid-cute proportions. Body has MULTIPLE INTERFACE-PORTS visibly arrayed across its torso — chrome Architect-cyan port + warm-gold New Babylon port + signal-green Insurgency port + warm-amber Antiquarian port + others (one for every faction). It is mid-action of CONNECTING to a faction-specific equipment-rack (the rack is ambiguous-faction; could be any). The Adapter's port-of-the-day is visibly engaged. Faint warm low workshop-light. NO face (chrome blank-plate where face would be).",
+    moodKeywords: [
+      "it connects to any system, any faction, any purpose",
+      "versatility is the only true currency",
+      "multiple interface-ports for every faction",
+      "mid-action of connecting to ambiguous-faction equipment-rack",
+    ],
+    palette:
+      "Chrome-and-warm-gold Adapter-body + multi-faction interface-ports (architect-cyan + new-babylon-gold + insurgency-green + antiquarian-amber) + ambiguous-faction equipment-rack + warm low workshop-light + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, Adapter at frame-centre connecting to rack, ports visible across torso",
+    notes:
+      "Uncommon unit. NO human face. The 'connects to any system' is rendered through the visible multi-faction port-array. Distinct from Wandering Merchant's faction-tokens (those at belt; these are body-integrated ports).",
+  },
+  {
+    cardId: "s1_pack_046",
+    sceneDelta:
+      "Wider mid-shot. A Dimensional Rift — at frame-centre, a vast TEAR in mid-air across a battlefield, approximately 3m tall. The rift's edges show cool-violet-and-warm-amber distortion. Through the rift, a faint silhouette of WHAT CAME THROUGH is visible — but the silhouette is INTENTIONALLY UNREADABLE (only a vast indistinct shape that the viewer cannot decode; not a specific named entity). Around the rift, the air shows MEMORY-RIPPLES (the canonical 'considerably longer to forget'). At lower-third, anonymous combatants (back-three-quarter, mixed-faction) recoil from the rift, shielding their eyes. The rift is ALREADY CLOSING (faint translucent closing-edges visible) but the unreadable silhouette is mostly through.",
+    moodKeywords: [
+      "the rift opened for half a second",
+      "what came through took considerably longer to forget",
+      "intentionally unreadable silhouette — vast indistinct shape",
+      "anonymous combatants recoiling, shielding eyes",
+    ],
+    palette:
+      "Cool-violet-and-warm-amber rift edges + intentionally-unreadable interior silhouette + translucent memory-ripples + anonymous mixed-faction combatants + closing-edges + cool deep-shadow",
+    composition:
+      "Wider mid-shot, rift at frame-centre, anonymous recoiling combatants at lower-third",
+    notes:
+      "Rare spell. Anonymous combatants preserve no-character-conflation. The 'unreadable shape' is the visual key — preserves the mystery without committing to a specific entity.",
+  },
+  {
+    cardId: "s1_pack_047",
+    sceneDelta:
+      "Action mid-shot. An Emergency Protocol — at frame-centre, an anonymous figure (back-three-quarter, generic civilian) mid-FALL — they have just been struck by an off-frame blow at upper-right (visible faint trajectory-line). But CRITICALLY, the moment is FROZEN BETWEEN the blow and the fall: a translucent chrome-and-warm-amber PROTOCOL-FIELD has just activated around the figure, suspending them mid-air at the canonical 'space between the blow and the fall.' The protocol-field is rendered as a translucent geometric shield-pattern. From off-frame, the protocol's trigger-source (a small chrome-and-cool-cyan emergency-emitter visible at frame-edge) is mid-discharge. NO face visible.",
+    moodKeywords: [
+      "the protocol was designed for catastrophe",
+      "it activates in the space between the blow and the fall",
+      "figure suspended mid-fall by translucent chrome-and-warm-amber protocol-field",
+      "geometric shield-pattern, trigger-emitter at frame-edge",
+    ],
+    palette:
+      "Anonymous civilian back-three-quarter + faint trajectory-line + translucent chrome-and-warm-amber protocol-field + geometric shield-pattern + chrome-and-cool-cyan emergency-emitter + cool deep-shadow",
+    composition:
+      "Action mid-shot back-three-quarter, figure mid-fall at frame-centre suspended by protocol-field, emitter at frame-edge",
+    notes:
+      "Common spell. Anonymous figure (back-three-quarter) preserves no-character-conflation. The 'space between blow and fall' is the canonical visualization — the freeze-frame moment.",
+  },
+  {
+    cardId: "s1_pack_048",
+    sceneDelta:
+      "Wider mid-shot. Elara's Final Gift — at frame-centre, the canonical Elara figure (visual continuity: warm-amber hair, mid-thirties, deep slate-and-warm-gold field-armor) standing at her last-moment in an Insurgency-aligned final-broadcast chamber. CRITICAL pose: she is mid-action of TRANSMITTING outward, both hands extended forward palms-open, faint warm-cream-and-warm-amber FINAL-GIFT-PULSES propagating outward from her body in all directions (the canonical 'gave it to everyone'). Around her, anonymous recipients across the entire frame (back-shots only, mixed-faction silhouettes — Insurgency + Architect + neutral civilians + others) are receiving the gift simultaneously (each silhouette has a faint warm-cream gift-aura around them). Her face shows quiet certainty.",
+    moodKeywords: [
+      "she had one last thing to give",
+      "she gave it to everyone",
+      "warm-cream-and-warm-amber final-gift-pulses propagating in all directions",
+      "anonymous mixed-faction recipients all receiving simultaneously",
+    ],
+    palette:
+      "Insurgency-aligned deep slate-and-warm-gold field-armor + warm-amber hair + warm-cream-and-warm-amber final-gift-pulses + anonymous mixed-faction recipients + warm-cream gift-aura + cool deep-shadow",
+    composition:
+      "Wider mid-shot front three-quarter, Elara at frame-centre with arms extended, anonymous mixed-faction recipients receiving across frame",
+    notes:
+      "Epic unit. Visual continuity with Elara Imprint set + gen_neutral. The 'gave it to everyone' is rendered through the visible mixed-faction recipient-distribution — not just Insurgency.",
+  },
+  {
+    cardId: "s1_pack_049",
+    sceneDelta:
+      "Wider mid-shot. The Inception — at frame-centre, the GENESIS-MOMENT of the entire saga: a vast cool-violet-and-warm-cream PRE-EVERYTHING void-vista. In the very centre of the void, a single luminous point is visibly EXPANDING — the moment-of-beginning. From the point, faint translucent BRANCHING-PATHS extend outward in all directions (each branch a future faction's origin: a path that will become Architect-cyan, a path that will become Insurgency-green, a path that will become Antiquarian-amber, etc — but all still UNCOMMITTED, all still possibility). NO faces, NO factions yet. Around the moment, faint translucent INCEPTION-RIPPLES propagate.",
+    moodKeywords: [
+      "before the Architect, before the Insurgency, before the Virus and the Dream",
+      "there was this — the moment everything began",
+      "central luminous expanding point with branching-paths to all future factions",
+      "no faces, no factions yet, all still possibility",
+    ],
+    palette:
+      "Cool-violet-and-warm-cream pre-everything void + central luminous point + faint translucent branching-paths in faction-future colors (uncommitted) + translucent inception-ripples + cool deep-shadow",
+    composition:
+      "Wider mid-shot, central point at frame-centre, branching-paths radiating outward to all directions",
+    notes:
+      "Legendary unit. NO human figure (the inception is impersonal). The 'moment everything began' is rendered through the literal central-point + branching-paths visualization. Genesis-era event, fully revealed at end of Epoch 2.",
+  },
 ] as const;
 
 /**
  * Neutral faction's prompt registry, keyed by card id.
  *
- * Currently populated: 14 / 79 cards
+ * Currently populated: 21 / 79 cards
  * (burnt_card_placeholder, gen_game_master_original, gen_neutral,
- *  gen_programmer, gen_seer, s1_char_004, s1_char_086-093).
+ *  gen_programmer, gen_seer, s1_char_004, s1_char_086-093,
+ *  s1_pack_043-049).
  */
 export const NEUTRAL_CARD_ART_PROMPTS: Readonly<Record<string, CardArtPrompt>> =
   Object.freeze(
