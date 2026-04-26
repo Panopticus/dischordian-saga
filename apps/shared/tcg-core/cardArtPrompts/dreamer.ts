@@ -906,12 +906,182 @@ const DREAMER_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "Rare spell. Anonymous figure (back-three-quarter) preserves no-character-conflation. The 'not answers but restoration' is rendered as the warm-cream wash from the chamber — visible benefit without specifying any named-truth being received.",
   },
+  {
+    cardId: "s1_spell_108",
+    sceneDelta:
+      "Mid-shot. A Prophetic Collapse — anonymous female-presenting Dreamer-aligned figure (back-three-quarter, generic Dreamer-cream-and-aurora-violet seer-robes, eyes shown through hair-back as currently CLOSED). At frame-centre in front of her, MULTIPLE TRANSLUCENT TIMELINES converge from many directions toward a single VANISHING-POINT — each timeline rendered as a faint translucent ribbon-strand showing a different possible-future. The convergence-point is brilliant warm-amber. The figure is mid-action of OPENING her eyes — at the moment her eyes open, only ONE timeline will remain solid (the chosen one). NO face visible (back-three-quarter). The setting is a Dreamer-divination-platform under aurora-violet sky.",
+    moodKeywords: [
+      "she closed her eyes and saw every timeline converge",
+      "when she opened them, only one remained",
+      "multiple translucent timelines converging at warm-amber vanishing-point",
+      "back-three-quarter eyes-mid-opening",
+    ],
+    palette:
+      "Dreamer-cream-and-aurora-violet seer-robes + multiple translucent timeline-ribbons + warm-amber vanishing-point + Dreamer-divination-platform + aurora-violet sky + cool deep-shadow",
+    composition:
+      "Mid-shot back-three-quarter, figure at frame-centre, timeline-convergence at upper-third toward vanishing-point",
+    notes:
+      "Uncommon spell. Anonymous figure (back-three-quarter) preserves no-character-conflation. The convergence-of-timelines visualization is a new visual idiom — distinct from Probability Surge's reach-into-field.",
+  },
+  {
+    cardId: "s1_spell_109",
+    sceneDelta:
+      "Mid-shot. A Vision Cascade — at frame-centre, a TRANSLUCENT FOREST of FUTURE-BLOOMS: hundreds of small translucent silver-mist FLOWER-LIKE FORMATIONS suspended in the air at varying heights (each bloom is a different possible-future). One bloom at frame-centre is SEARING-BRIGHT (the chosen one); around it, the remaining blooms are visibly WITHERING (fading translucent, browning at the edges, dropping faint dust). An anonymous Dreamer-aligned hand (only fingertips visible at frame-bottom-edge, generic Dreamer-cream sleeve) plucks the bright bloom. NO face visible. The setting is a quiet Dreamer-cosmology-chamber.",
+    moodKeywords: [
+      "a thousand futures bloom in the Oracle's mind",
+      "she plucks the brightest and lets the rest wither",
+      "translucent forest of future-blooms",
+      "anonymous fingertips plucking the bright one",
+    ],
+    palette:
+      "Translucent silver-mist future-blooms + searing-bright chosen bloom + withering faint blooms + warm Dreamer-cream sleeve fingertips + cool Dreamer-cosmology-chamber + cool deep-shadow",
+    composition:
+      "Mid-shot, future-bloom forest at frame-centre, plucking fingertips at frame-bottom-edge",
+    notes:
+      "Common spell. Anonymous fingertips (no body visible) preserves no-character-conflation. The blooms-as-futures with one bright + many withering is the canonical Vision Cascade visualization.",
+  },
+  {
+    cardId: "s1_spell_110",
+    sceneDelta:
+      "Mid-shot. A Dream Walk — anonymous Dreamer-aligned figure (back-three-quarter, generic-cream traveling robes) standing at a Dreamer-Arena floor-position. The figure is mid-action of TRANSPLACING: their body shows a faint translucent DEPARTURE-AFTERIMAGE at frame-left (where they were standing one moment ago) and is currently solid at frame-right (where they are standing now, having simply DECIDED elsewhere into existence). Between the two positions, a faint translucent silver-mist transit-trail. The Arena beneath their new position visibly SHIFTED slightly to accommodate (translucent floor-tiles re-aligning). NO face visible.",
+    moodKeywords: [
+      "she dreamed of standing elsewhere, and the Arena obliged",
+      "reality is only stubborn for those who lack imagination",
+      "departure-afterimage at left, solid at right",
+      "Arena floor-tiles re-aligning to accommodate",
+    ],
+    palette:
+      "Generic Dreamer-cream traveling robes + translucent departure-afterimage + faint translucent silver-mist transit-trail + Dreamer-Arena floor + translucent floor-tile re-alignment + cool deep-shadow",
+    composition:
+      "Mid-shot back-three-quarter, departure-position at frame-left translucent, arrival-position at frame-right solid",
+    notes:
+      "Common spell. Anonymous figure preserves no-character-conflation. The transplace visual differs from Parallax Walker (s1_dim_space_01) — that was airdrop with ghost-trails as spatial displacement; this is dream-walk with floor-tile-re-alignment (the Arena agrees rather than being closed-over).",
+  },
+  {
+    cardId: "s1_spell_111",
+    sceneDelta:
+      "Wider mid-shot. A Probability Storm — at frame-centre, a vast STORM of overlapping translucent OUTCOME-BOLTS striking across an Architect-aligned battlefield simultaneously. Each bolt is rendered as a faint translucent aurora-violet lightning-strike between sky and ground; multiple bolts (hundreds, varying brightness) strike at varying positions across the battlefield-floor. Each bolt represents a different probable-attack-outcome arriving at once. Anonymous figures at lower-third (generic-mixed combatants, multiple, all back-three-quarter) are caught between the strikes — survivors visible at varying postures, looking around in confusion at the surviving-state. NO specific named character.",
+    moodKeywords: [
+      "every probable outcome struck at once",
+      "the survivors could only wonder which future they'd been assigned",
+      "hundreds of translucent outcome-bolts striking simultaneously",
+      "anonymous survivors in confusion at the surviving-state",
+    ],
+    palette:
+      "Translucent aurora-violet lightning-strikes + multiple varying-brightness bolts + cool battlefield-ground + Architect-cyan distant architecture + anonymous combatant silhouettes + cool deep-shadow",
+    composition:
+      "Wider mid-shot, storm of bolts filling upper-two-thirds, anonymous survivors at lower-third",
+    notes:
+      "Rare spell. Anonymous combatants (back-three-quarter, generic-mixed) preserve no-character-conflation. The 'every probable outcome at once' is rendered as the visible bolt-storm — making probability-as-multiplicity visible.",
+  },
+  {
+    cardId: "s1_spell_212",
+    sceneDelta:
+      "Tight composition. A Lucid Clarity — anonymous figure (back-three-quarter only, generic Dreamer-cream meditation-robes), eyes CLOSED in meditation, head tilted slightly. Despite their closed eyes, around their head, faint translucent silver-mist EVERYTHING-PERCEPTION-RIBBONS extend outward in all directions (the whole field of perception now visible, not blocked by closed eyes). The ribbons each carry faint readable hints of THINGS BEING SEEN (an enemy position, a hidden door, an approaching threat, all faintly readable as silver-mist suggestions). NO face visible. The setting is a quiet Dreamer-meditation-platform; cool deep-shadow.",
+    moodKeywords: [
+      "close your eyes",
+      "what do you see? everything",
+      "perception-ribbons extending outward in all directions",
+      "things being seen as faint silver-mist suggestions",
+    ],
+    palette:
+      "Dreamer-cream meditation-robes + translucent silver-mist perception-ribbons + faint readable everything-being-seen suggestions + cool Dreamer-meditation-platform + cool deep-shadow",
+    composition:
+      "Tight composition back-three-quarter, head at frame-centre, perception-ribbons extending outward in all directions",
+    notes:
+      "Common spell. Anonymous figure (back-three-quarter, eyes-closed) preserves no-character-conflation. The 'see everything with closed eyes' is the canonical Lucid Clarity visualization.",
+  },
+  {
+    cardId: "s1_spell_213",
+    sceneDelta:
+      "Action mid-shot. A Precognition — anonymous female-presenting figure (back-three-quarter, generic-cool-leather Dreamer-traveler's gear), mid-DODGE action: her body is LEANED SIDEWAYS just enough to miss a translucent enemy BLADE that has appeared at her former-position (the blade is visible at frame-left, mid-swing where she was three seconds ago). She has just moved. Above her head, a faint translucent THREE-SECOND-GLYPH (a small chrome-and-aurora-violet hourglass-symbol with three sand-grains visible) suggests the foresight-window. Her face is partially-visible (profile only, no full features), composed-deliberate. The setting is a battlefield-edge.",
+    moodKeywords: [
+      "she saw the blade three seconds before it fell",
+      "three seconds was enough",
+      "leaned sideways, blade swung through former position",
+      "translucent three-second-glyph above head",
+    ],
+    palette:
+      "Generic-cool-leather Dreamer-traveler's gear + translucent enemy blade + chrome-and-aurora-violet three-second-glyph hourglass-symbol + cool battlefield-edge + cool deep-shadow",
+    composition:
+      "Action mid-shot side three-quarter, figure leaned at frame-centre, blade at frame-left in former-position",
+    notes:
+      "Common spell. Anonymous figure (profile/back) preserves no-character-conflation. The three-second-glyph above-head is a new visual idiom for foresight-time-window made specific.",
+  },
+  {
+    cardId: "s1_spell_214",
+    sceneDelta:
+      "Mid-shot. A Mind's Eye — anonymous Dreamer-aligned figure (back-three-quarter, generic Dreamer-cream-and-aurora-violet meditation-robes) standing motionless at frame-centre. Her body is COMPLETELY STILL — no blink, no flinch, no movement at all. Around her head, a single translucent aurora-violet third-eye-glyph (a single deeper-aurora-violet eye-symbol on her forehead, faintly luminous) is RENDERING the spell. Around the figure, a small translucent BURST of action takes place at frame-right — a target struck, an enemy felled, an effect achieved — but the figure's body is unmoved. The thinking IS the action. NO mouth visible (no command spoken).",
+    moodKeywords: [
+      "she did not blink. she did not flinch",
+      "she simply thought, and it was done",
+      "third-eye-glyph at forehead",
+      "burst of action at frame-right while body unmoved",
+    ],
+    palette:
+      "Dreamer-cream-and-aurora-violet meditation-robes + translucent aurora-violet third-eye-glyph + faint deeper-aurora-violet eye-symbol + translucent action-burst at frame-right + cool deep-shadow",
+    composition:
+      "Mid-shot back-three-quarter, motionless figure at frame-centre, action-burst at frame-right",
+    notes:
+      "Uncommon spell. Anonymous figure preserves no-character-conflation. The 'thinking IS action' framing is rendered as the unmoved body + third-eye-glyph + remote action-burst.",
+  },
+  {
+    cardId: "s1_spell_215",
+    sceneDelta:
+      "Wider mid-shot. A Reality Fracture — at frame-centre, a CRACK runs vertically through reality, splitting the frame into two halves. The LEFT half shows a NIGHTMARE realm (deep cool-violet, twisted architecture, faint screaming-ribbons in the air, threatening shadow-figures in deep distance); the RIGHT half shows a GENTLE DAWN realm (warm-amber light, soft cream-cloud sky, a quiet meadow extending to deep distance, peaceful). Through the central crack, faint translucent crossover-ribbons connect the two halves — the boundary is fragile. NO human figure (the spell IS the crack). At the very crack-line, faint silver-mist edge-substance keeps the two from collapsing into each other.",
+    moodKeywords: [
+      "the crack runs through everything",
+      "on one side, nightmare. on the other, a gentle dawn",
+      "vertical crack splitting frame",
+      "fragile boundary, faint silver-mist edge-substance",
+    ],
+    palette:
+      "Deep cool-violet nightmare half (left) + warm-amber dawn half (right) + faint translucent crossover-ribbons + faint silver-mist edge-substance + cool deep-shadow + warm peaceful-meadow ambient",
+    composition:
+      "Wider mid-shot, crack at frame-centre vertical, two halves split frame",
+    notes:
+      "Rare spell. NO human figure (the spell IS the crack). The two-halves split is the canonical Reality Fracture visualization. Echoes Reality dimension Consensus Weaver's nine-supporters but applied at cosmic scale.",
+  },
+  {
+    cardId: "s1_spell_216",
+    sceneDelta:
+      "Action mid-shot. An Oracle's Blessing — at frame-centre, an enemy BLADE mid-passage THROUGH a friendly figure's chest — but the blade is rendered as TRANSLUCENT LIGHT and the friendly figure's body is rendered as TRANSLUCENT GLASS (the blade passes through without harm). The friendly figure (anonymous, back-three-quarter, generic Insurgency-aligned slate field-gear) is upright, untroubled. From off-frame upper-left, a faint translucent Oracle-syllable (a single cool-cream-and-aurora-violet glyph hovering in the air) is mid-emission — the syllable that caused the blade-light-passage. The enemy wielding the blade is anonymous off-frame at frame-right (only their hand visible at edge). NO face visible.",
+    moodKeywords: [
+      "the Oracle spoke a single syllable",
+      "the blade passed through like light through glass",
+      "blade as translucent light through translucent-glass body",
+      "single cool-cream Oracle-syllable glyph mid-emission",
+    ],
+    palette:
+      "Translucent light-blade + translucent glass-body + Insurgency-slate field-gear + cool-cream-and-aurora-violet Oracle-syllable glyph + warm anonymous enemy-hand at edge + cool deep-shadow",
+    composition:
+      "Action mid-shot, friendly figure at frame-centre back-three-quarter, blade passing through, syllable-glyph at upper-left",
+    notes:
+      "Common spell. Anonymous friendly + enemy preserve no-character-conflation. The 'blade like light through glass' is rendered literally as translucent-blade + translucent-glass-body. The single syllable-glyph preserves the spell's source without requiring an Oracle render in this card (consistent with Oracle face-discipline).",
+  },
+  {
+    cardId: "s1_spell_217",
+    sceneDelta:
+      "Wider mid-shot. A Dream Weave — anonymous Dreamer-aligned figure (back-three-quarter, generic Dreamer-cream-and-aurora-violet weaver-meditation robes), JUST WAKING — eyes half-opened, body uncurling from a meditation-cushion at lower-third. In front of her at upper-third, a vast TRANSLUCENT ARMY is mid-MARCHING ACROSS THE FRAME — multiple translucent silver-mist warrior-silhouettes in formation, banners visible (banners are silver-mist Dreamer-aligned), all moving from left to right. The army is mid-stride; they were already marching when she woke. Faint translucent dream-substance falls away from the army's edges (still settling into reality). NO specific named character.",
+    moodKeywords: [
+      "she dreamed of an army",
+      "when she woke, they were already marching",
+      "translucent silver-mist warrior-silhouettes mid-march",
+      "anonymous dreamer just-waking from cushion",
+    ],
+    palette:
+      "Dreamer-cream-and-aurora-violet weaver-meditation robes + cushion + translucent silver-mist warrior-silhouettes + silver-mist Dreamer-banners + faint translucent dream-substance falling + cool deep-shadow",
+    composition:
+      "Wider mid-shot back-three-quarter, dreamer at lower-third uncurling, army mid-march at upper-third",
+    notes:
+      "Rare spell. Anonymous dreamer (back-three-quarter, just-waking) preserves no-character-conflation. The 'army already marching when she woke' is rendered through the army's mid-stride state — they were not summoned-and-now-march; they were dreamed-and-already-marching.",
+  },
 ] as const;
 
 /**
  * Dreamer faction's prompt registry, keyed by card id.
  *
- * Currently populated: 51 / 61 cards
+ * Currently populated: 61 / 61 cards — COMPLETE
  * (gen_dreamer, s1_char_005, s1_char_014, s1_char_017,
  *  s1_char_023, s1_char_025, s1_char_027, s1_char_029,
  *  s1_char_034, s1_char_036, s1_char_037, s1_char_045,
@@ -927,7 +1097,8 @@ const DREAMER_PROMPTS_LIST: readonly CardArtPrompt[] = [
  *  s1_reward_class_oracle, s1_reward_cycle_light,
  *  s1_reward_eidolon_lux, s1_reward_palimpsest_signal,
  *  s1_reward_vortex_close, s1_reward_vortex_master,
- *  s1_reward_vote_t1_truth, s1_song_082).
+ *  s1_reward_vote_t1_truth, s1_song_082,
+ *  s1_spell_108-111, s1_spell_212-217).
  */
 export const DREAMER_CARD_ART_PROMPTS: Readonly<Record<string, CardArtPrompt>> =
   Object.freeze(
