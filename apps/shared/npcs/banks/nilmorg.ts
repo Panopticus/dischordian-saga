@@ -570,6 +570,232 @@ export const NILMORG_BANK: ReadonlyArray<BankEntry> = [
   },
 
   // ═════════════════════════════════════════════════════════════════════
+  // MID-RACE TRIGGERS — events 4-6 (crash, photo-finish, dead-tied) ×
+  // 6 lines each = 18 lines. The aestheticization-of-destruction
+  // register lands hardest here per §1.4 tell #3.
+  //
+  // Aphorism scarcity: zero new aphorisms in this chunk — the previous
+  // mid-race chunk already shipped the canonical one-per-beat allowance
+  // ("Speed in all things. Even the file."). Adding a second aphorism
+  // here would put two in sequence per the §1.4 prohibition.
+  // ═════════════════════════════════════════════════════════════════════
+
+  // ─── Event: crash (a racer goes down) ───────────────────────────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.midrace.crash.beautiful_crunch",
+    // Canonical line per nilmorg-lines.json:74 voice anchor — the
+    // aestheticization tell at peak intensity.
+    text:
+      "Oh, that CRUNCH! That BEAUTIFUL crunch! The bone-lane has a " +
+      "FRESH signature!",
+    surfaces: ["dmc"],
+    unlockFlags: ["dmc_event_crash"],
+    cooldownKey: "nilmorg.midrace.crash",
+    maxPlays: 6,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.midrace.crash.removes_his_hat",
+    text:
+      "Nilmorg removes his hat. Nilmorg replaces his hat. Nilmorg's " +
+      "collection has a NEW ENTRY!",
+    surfaces: ["dmc"],
+    unlockFlags: ["dmc_event_crash"],
+    cooldownKey: "nilmorg.midrace.crash",
+    maxPlays: 6,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.midrace.crash.track_is_pleased",
+    // Canonical line per nilmorg-lines.json:186 — the four-beat
+    // crescendo where track is the subject of the appetite-progression.
+    text:
+      "ANOTHER bone added to the circuit! The track GROWS! The track " +
+      "HUNGERS! The track is PLEASED!",
+    surfaces: ["dmc"],
+    unlockFlags: ["dmc_event_crash"],
+    cooldownKey: "nilmorg.midrace.crash",
+    maxPlays: 6,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.midrace.crash.rip_in_pieces",
+    // §1.4 tell #5: ironic condolence, gesture-then-break.
+    text:
+      "Number Five — REST IN PIECES! Nilmorg's sincere condolences. " +
+      "JUST KIDDING. NEXT!",
+    surfaces: ["dmc"],
+    unlockFlags: ["dmc_event_crash"],
+    cooldownKey: "nilmorg.midrace.crash",
+    maxPlays: 6,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.midrace.crash.signature_captured",
+    text:
+      "Last neural splice signal! Captured! Catalogued! Filed under " +
+      "MEMORABLE! Number Five lives forever — IN THE FILE!",
+    surfaces: ["dmc"],
+    unlockFlags: ["dmc_event_crash"],
+    cooldownKey: "nilmorg.midrace.crash",
+    maxPlays: 6,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.midrace.crash.terminal_trifecta",
+    text:
+      "Terminal velocity! Terminal CONTACT! Terminal SIGNATURE! The " +
+      "trifecta! Nilmorg is having a NIGHT!",
+    surfaces: ["dmc"],
+    unlockFlags: ["dmc_event_crash"],
+    cooldownKey: "nilmorg.midrace.crash",
+    maxPlays: 6,
+  },
+
+  // ─── Event: photo-finish (two racers crossing simultaneously) ───────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.midrace.photofinish.holding_breath",
+    text:
+      "Wheel to wheel! Splice plate to splice plate! Nilmorg is HOLDING " +
+      "HIS BREATH! Nilmorg DOES NOT BREATHE!",
+    surfaces: ["dmc"],
+    unlockFlags: ["dmc_event_photo_finish"],
+    cooldownKey: "nilmorg.midrace.photofinish",
+    maxPlays: 6,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.midrace.photofinish.cinematic_call",
+    text:
+      "And THE LINE! And THE LINE! AND THE LINE! Photo finish, ladies " +
+      "and demons! The CAMERAS will sort it!",
+    surfaces: ["dmc"],
+    unlockFlags: ["dmc_event_photo_finish"],
+    cooldownKey: "nilmorg.midrace.photofinish",
+    maxPlays: 6,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.midrace.photofinish.pulse_on_board",
+    text:
+      "Nilmorg's pulse! Nilmorg's PULSE! Nilmorg's pulse is on the " +
+      "BOARD!",
+    surfaces: ["dmc"],
+    unlockFlags: ["dmc_event_photo_finish"],
+    cooldownKey: "nilmorg.midrace.photofinish",
+    maxPlays: 6,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.midrace.photofinish.projections_refuse",
+    text:
+      "Nilmorg's projections refuse to call this one! Nilmorg's " +
+      "projections are TIED! The track ADJUDICATES!",
+    surfaces: ["dmc"],
+    unlockFlags: ["dmc_event_photo_finish"],
+    cooldownKey: "nilmorg.midrace.photofinish",
+    maxPlays: 6,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.midrace.photofinish.track_passes_the_call",
+    text:
+      "The track does not call THIS one! The track passes the call to " +
+      "the CAMERA! Nilmorg passes the call to the CAMERA TOO!",
+    surfaces: ["dmc"],
+    unlockFlags: ["dmc_event_photo_finish"],
+    cooldownKey: "nilmorg.midrace.photofinish",
+    maxPlays: 6,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.midrace.photofinish.never_waits",
+    text:
+      "Cameras spinning! Officials conferring! Nilmorg WAITS! NILMORG " +
+      "NEVER WAITS — but tonight, he does!",
+    surfaces: ["dmc"],
+    unlockFlags: ["dmc_event_photo_finish"],
+    cooldownKey: "nilmorg.midrace.photofinish",
+    maxPlays: 6,
+  },
+
+  // ─── Event: dead-tied (the impossible result) ───────────────────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.midrace.deadtied.same_atom",
+    text:
+      "DEAD TIED! DEAD! TIED! Both racers crossed the line at the SAME " +
+      "ATOM!",
+    surfaces: ["dmc"],
+    unlockFlags: ["dmc_event_dead_tied"],
+    cooldownKey: "nilmorg.midrace.deadtied",
+    maxPlays: 6,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.midrace.deadtied.file_confused",
+    text:
+      "Nilmorg's file is CONFUSED! Nilmorg's file is RARELY CONFUSED! " +
+      "Nilmorg APPROVES of confusion!",
+    surfaces: ["dmc"],
+    unlockFlags: ["dmc_event_dead_tied"],
+    cooldownKey: "nilmorg.midrace.deadtied",
+    maxPlays: 6,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.midrace.deadtied.consulting_himself",
+    text:
+      "The Hierarchy is consulting the bookmakers! The bookmakers are " +
+      "consulting the Hierarchy! Nilmorg is consulting HIMSELF!",
+    surfaces: ["dmc"],
+    unlockFlags: ["dmc_event_dead_tied"],
+    cooldownKey: "nilmorg.midrace.deadtied",
+    maxPlays: 6,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.midrace.deadtied.manual_being_written",
+    text:
+      "Tied races are not in the manual! The manual is being WRITTEN! " +
+      "The manual is being written BY THESE TWO!",
+    surfaces: ["dmc"],
+    unlockFlags: ["dmc_event_dead_tied"],
+    cooldownKey: "nilmorg.midrace.deadtied",
+    maxPlays: 6,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.midrace.deadtied.both_signatures_collected",
+    text:
+      "When the cameras cannot decide, the TRACK decides! And the track " +
+      "has decided — to HOLD! Both signatures collected! Both bones, " +
+      "FRESH!",
+    surfaces: ["dmc"],
+    unlockFlags: ["dmc_event_dead_tied"],
+    cooldownKey: "nilmorg.midrace.deadtied",
+    maxPlays: 6,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.midrace.deadtied.refuses_to_clarify",
+    // §1.4 tell #5 — gesture-then-break, in the negative form: he
+    // gestures at the audience's expectation of clarity and refuses.
+    text:
+      "Two winners?! Or two losers?! Nilmorg refuses to clarify! " +
+      "NILMORG WILL NOT clarify!",
+    surfaces: ["dmc"],
+    unlockFlags: ["dmc_event_dead_tied"],
+    cooldownKey: "nilmorg.midrace.deadtied",
+    maxPlays: 6,
+  },
+
+  // ═════════════════════════════════════════════════════════════════════
   // CONTRACT-SIGNING (npc_line — institutional precision; NO hidden clauses)
   // ═════════════════════════════════════════════════════════════════════
 
