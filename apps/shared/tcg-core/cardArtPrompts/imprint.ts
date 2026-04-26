@@ -486,6 +486,100 @@ const IMPRINT_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "T5 = 'Akai Shi, The Red Death.' End-of-Epoch-2 canon. The 'three enforcers looking the wrong way' is consistent with his canonical effect on the surveillance layer. CRITICAL spoiler-line: do NOT visually identify Akai Shi as anyone the player knows from another card or another faction. He is a HIRED hand for the Architect, not a former friend, not a hidden identity. His face must not match any other card's face.",
   },
+
+  // ─── FOUCAULT (the reader who built the surveillance layer he is
+  //     now reading; the man with the schedule of glances in his
+  //     inside pocket) ───
+  // Source canon: A New Babylon archivist who wrote the theory the
+  // Babylonians built their surveillance state from — but the
+  // Babylonians never read past the abstract. He keeps a copy with
+  // footnotes they would have needed. Mechanical: dispel + stealth
+  // (he installed the blind spots himself). Faction: new_babylon.
+  {
+    cardId: "s1_imprint_foucault_t1",
+    sceneDelta:
+      "Three-quarter mid-shot of a slim man in his late forties seated at a long oak reading-table in a New Babylon archive. He is in unornamented archivist's robes — black wool, a single small pewter pin at the lapel shaped like a fountain pen nib. His face is studious, kind in the way readers are kind, gold half-moon spectacles riding low on his nose. He is mid-page-turn in a thick clothbound manuscript open before him, one finger tracking down the margin where his own pencil has annotated a previous reading in his own hand. Behind him, the archive's spine-shelves recede into amber lamplight; on the far wall, faintly, a closed-circuit surveillance camera tilts in his direction — and visibly malfunctions, panning past him without registering him. He is not in any of the logs because he built the logs.",
+    moodKeywords: [
+      "the kindness of readers",
+      "the camera mis-registering",
+      "annotated against himself",
+      "amber-lamp archive hush",
+    ],
+    palette:
+      "New Babylon gold + obsidian + crystal blue + amber lamp warmth + a single pencil-grey accent on his annotation",
+    composition:
+      "Three-quarter seated portrait at the reading table, manuscript at lower-third filling visual weight, recede-shelves behind, malfunctioning camera in upper-right far background",
+    notes:
+      "T1 = mortal Foucault, the kind reader. The malfunctioning camera is the visual evidence of the lore beat — quiet, not theatrical. His face is fully visible because the camera-blind-spot is what's hidden, not him.",
+  },
+  {
+    cardId: "s1_imprint_foucault_t2",
+    sceneDelta:
+      "Mid-shot. Foucault is standing now in front of a wall of New Babylon surveillance feeds, dozens of small monitors patched together into a flickering mosaic that lights his face from below in cool blue. He has a red pen in his right hand and is mid-stroke — drawing a single decisive red line through a rectangular surveillance-tag overlay floating in mid-air in front of him (the buff-icon visualized as a ghostly Babylon-bureaucratic stamp). His other hand holds the open manuscript braced against his hip, finger marking the page. The tag he is crossing out is reading 'STATUS: TRACKED' in bureaucratic Babylon-script. His expression is mildly disapproving — the look of an editor catching a typo.",
+    moodKeywords: [
+      "dispel as red-pen correction",
+      "the editor catching the bureaucratic typo",
+      "cool monitor underlight",
+      "mild scholarly disapproval",
+    ],
+    palette:
+      "New Babylon obsidian + cool monitor-blue underlight + a single SATURATED RED on the pen and the corrected line + amber pocket-warmth on the manuscript",
+    composition:
+      "Mid-shot front-three-quarter, Foucault centred, monitor wall behind filling middle background, surveillance-tag overlay at upper-right within his arm's reach",
+    notes:
+      "T2 = dispel keyword visualized as the red-pen correction. The 'STATUS: TRACKED' tag is the BUFF being dispelled, intentionally rendered as a Babylon-bureaucratic artifact (canon-true for New Babylon faction aesthetic). NOT a magical effect — Foucault dispels by pointing out the paperwork is wrong.",
+  },
+  {
+    cardId: "s1_imprint_foucault_t3",
+    sceneDelta:
+      "Wide-environment shot. A long Babylonian corridor with surveillance cameras mounted at regular intervals, every camera turned slightly the WRONG way — they are all watching a piece of empty floor twenty paces from where Foucault is actually standing. Foucault is centred in the corridor, facing camera, manuscript under one arm, his other hand holding the red pen LOWERED at his side (he is not currently correcting anything; he is just walking through the blind spot he made). On the floor at his feet, almost invisible, a small chalked X marking 'install date 2 years ago' in his own annotation hand. The camera at the far end of the corridor visibly malfunctions as he passes under it — panning without registering. Stealth visualized as deliberate calm; he is not hiding, the corridor is just structurally unable to see him.",
+    moodKeywords: [
+      "the blind spot installed two years ago",
+      "the chalked install-date annotation",
+      "structural unseeability",
+      "scholarly walk through the gap",
+    ],
+    palette:
+      "New Babylon obsidian + cool surveillance-blue camera-eye glow at the wrong axis + amber lamp pools at corridor mid-points + a single chalk-white accent at his feet",
+    composition:
+      "Symmetrical centred corridor in deep one-point perspective, Foucault at mid-distance walking toward camera, cameras visibly mis-tracking",
+    notes:
+      "T3 = dispel + stealth-1. Different stealth language from Agent Zero (her stealth is speed) and Akai Shi (his is unmemorability). Foucault's stealth is INFRASTRUCTURE — he installed the blind spot, then walks through it on schedule. Established New Babylon canon.",
+  },
+  {
+    cardId: "s1_imprint_foucault_t4",
+    sceneDelta:
+      "Mid-shot. Foucault is in a cool-grey Babylonian audit chamber, seated at one end of a long polished obsidian table. Across from him, three Babylon adjudicators in full bureaucratic regalia (gold-trimmed black robes, scaled-justice pin) are visibly attempting to read a folio of papers — but the folio's pages are fluttering as if a small wind is moving them. Foucault is sitting with his manuscript open on the table in front of him, one hand resting on the open page; the other hand is raised barely, palm down, as if calming a restless dog. The page he is touching has the bureaucratic stamp 'BUREAU OF HONEST DECLARATIONS' visible in his annotated margin — and the adjudicators across from him cannot find their place in their own folio. Stealth-2 visualized: he carries a copy of the schedule of glances, the adjudicators are not in any of his footnotes today.",
+    moodKeywords: [
+      "the schedule of glances in his pocket",
+      "the calming hand to the restless dog",
+      "they cannot find their place",
+      "audit-chamber stillness",
+    ],
+    palette:
+      "New Babylon obsidian + gold adjudicator regalia + cool grey audit chamber + a single warm amber lamp on Foucault's manuscript",
+    composition:
+      "Three-quarter audit-chamber composition, Foucault camera-left in foreground, three adjudicators camera-right in mid-distance",
+    notes:
+      "T4 = dispel + stealth-2. The fluttering folio = the adjudicators losing their place. Foucault is OUT OF SCHEDULE today; their glance-routine had no entry for him at this hour. Dramatized with quiet humour, not menace — Foucault is amused, not predatory.",
+  },
+  {
+    cardId: "s1_imprint_foucault_t5",
+    sceneDelta:
+      "Hero composition. Foucault standing alone at the centre of a vast Babylonian rotunda — a circular hall ringed by tiered galleries of surveillance monitors, every monitor displaying a different angle of every other monitor (the recursive panopticon). He is at the precise centre of the rotunda's marble floor, manuscript spread open on a low reading-pedestal in front of him, one hand resting on the page, the other extended out as if delivering a quiet lecture. The faintest trace of his own handwriting (his footnotes on the surveillance theory the Babylonians built this rotunda from) drifts in the air as floating amber text-fragments around him — visible to us, invisible to the system. Every monitor in the gallery wall is freezing into a still frame at the same moment — the silence of the enemy general. His face: late fifties now, the kind of stillness that comes from outliving most of his arguments. Half-smile of the man who finally gets to read the footnote aloud.",
+    moodKeywords: [
+      "the recursive panopticon centred",
+      "footnotes drifting like amber leaves",
+      "the silence at the same moment across every monitor",
+      "the man who outlived his own theories",
+    ],
+    palette:
+      "New Babylon obsidian + gold gallery trim + cool monitor-blue (now frozen-still across the entire wall) + warm amber pedestal-lamp + a single saturated red where his pen rests on the manuscript",
+    composition:
+      "Wide rotunda hero shot, Foucault centred at the floor's exact centre, gallery rings receding upward, monitors filling middle band of the frame",
+    notes:
+      "T5 = 'Foucault, Schedule of Glances.' End-of-Epoch-2 canon. The frozen monitors = silence-the-enemy-general visualized at the level of the surveillance state itself. CRITICAL spoiler-line: do NOT show any other named character on the frozen monitors (no Watcher reveal, no Programmer, no anyone-recognizable). Each monitor frame is generic Babylon footage. The half-smile is amused, never triumphalist.",
+  },
 ] as const;
 
 /**
