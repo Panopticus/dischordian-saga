@@ -86,7 +86,7 @@ export const DIALOG_CH5_PRE: DialogScene = {
     {
       speaker: "necromancer",
       mood: "cryptic",
-      text: "Death is not an ending, Subject Zero. It is a compile error. I fix those. I have been fixing yours for longer than you have been alive to notice.",
+      text: "Death is not an ending, Prisoner 74. It is a compile error. I fix those. I have been fixing yours for longer than you have been alive to notice.",
       audioClipId: "vo_necro_ch5_pre_01",
     },
     {

@@ -295,7 +295,7 @@ export const DEFAULT_STORY_PROGRESS: StoryProgress = {
 export const THE_PRISONER = {
   id: "prisoner",
   name: "The Prisoner",
-  title: "Unknown — Designation: Subject Zero",
+  title: "Unknown — Designation: Prisoner 74",
   faction: "neutral" as const,
   locked: false,
   unlockCost: 0,
