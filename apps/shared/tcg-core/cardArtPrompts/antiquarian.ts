@@ -440,15 +440,117 @@ const ANTIQUARIAN_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "Rare spell. CRITICAL contrast with gen_antiquarian (which shows ELEVEN EMPTY chairs around the senior female Council member): this card shows the chairs FILLED — the institution functioning at full quorum. The diversity of Council members is canon-implied from the Antiquarian's role as preserver of all civilizations. NO specific named character — all twelve generic-scholarly. Twelve-pattern is the canonical Council motif extended to populated diversity.",
   },
+  {
+    cardId: "s1_reward_campaign_acceptance",
+    sceneDelta:
+      "Mid-shot. A Stoic Guardian — male-presenting figure in late-forties, generic-stoic features, in plain weathered Antiquarian-amber long-coat over simple linen tunic, one hand resting on the pommel of a tall planted ceremonial staff. He stands at the edge of a vast Antiquarian-amber memorial-ground where many small relics from previous ages are arrayed in concentric rings on the ground at lower-third (each relic from a different lost civilization, all SURVIVING). His posture is grounded, immovable. A faint warm provoke-glow rims his shoulders. Behind him, a low cool-cream sky at golden-hour. His face is quiet, considering — he is asking the Antiquarian's question back to the Antiquarian.",
+    moodKeywords: [
+      "the Antiquarian taught that time destroys all things",
+      "the Guardian simply asked: and what survives?",
+      "concentric rings of surviving relics",
+      "quiet, considering",
+    ],
+    palette:
+      "Weathered Antiquarian-amber long-coat + linen tunic + brass-tipped staff + warm-amber memorial-ground + concentric relic-rings + warm provoke-rim + warm golden-hour sky",
+    composition:
+      "Mid-shot front three-quarter, Guardian at frame-centre with planted staff, surviving-relic rings at lower-third",
+    notes:
+      "Rare unit. The 'and what survives' framing is canon-direct from flavor — rendered as the visible surviving relics in the memorial-ground. Generic-stoic face must NOT match any named character. Differentiates from Era Guardian (s1_pack_037 — non-human stone sentinel) by being a HUMAN figure explicitly questioning the Antiquarian's premise.",
+  },
+  {
+    cardId: "s1_reward_discovery_all",
+    sceneDelta:
+      "Wider mid-shot. The Complete Archive — a single small, deceptively-modest BOOK floating at chest-height at the centre of an empty Antiquarian-amber chamber. The book is approximately the size of a personal journal — maybe 20cm tall, 15cm wide, dark warm-leather binding with a single small twelve-pointed brass clasp. The book is OPEN, mid-page. From the open pages, faint warm-amber temporal-substance pulses outward in slow visible WAVES — and within each wave, faint translucent silhouettes of EVERY CIVILIZATION'S ENTIRE HISTORY are barely visible, layered into infinite-depth (the architecture of every age, the figures of every era, all packed into the book's pages). The book is visibly STRAINING — a faint warm-amber haze around its edges suggests the book is barely-containing what it holds. NO human figure (the spell IS the book).",
+    moodKeywords: [
+      "the complete record of everything that was, is, and will be",
+      "fits in one spell — barely",
+      "infinite-depth silhouettes layered into pages",
+      "the book straining at its edges",
+    ],
+    palette:
+      "Dark warm-leather book + brass twelve-pointed clasp + warm-amber temporal-substance waves + faint translucent civilization-silhouettes + warm-amber straining-haze + cool empty chamber + warm reading-light",
+    composition:
+      "Wider mid-shot, book at frame-centre at chest-height, temporal-waves propagating outward, no human figure",
+    notes:
+      "Legendary spell. NO human figure — the spell IS the book. The 'fits in one spell — barely' framing is the visual key, rendered as the book's visible STRAINING (haze at edges suggesting near-overflow). Echoes Engineer t4 / Spy t2 / Oracle t2 / Conflagration / Gale Chorus / Temporal Collapse no-human-in-frame discipline. The infinite-depth layering communicates 'everything' without naming any specific civilization.",
+  },
+  {
+    cardId: "s1_reward_lore_archivist",
+    sceneDelta:
+      "Mid-shot. A Knowledge Keeper — female-presenting figure in early-forties, generic-attentive features, in formal Antiquarian-scholar amber-and-cream robes. She sits cross-legged on the floor of a COMPLETELY DESTROYED archive-room — collapsed shelves, scattered burnt-paper-fragments, broken displays — but she is calm, eyes closed in concentration. Around her head, faint translucent warm-amber memory-pages float in mid-air (the entire contents of the lost archive, now stored only in her memory). The pages are visibly LEGIBLE in close inspection — each shows a different page-fragment of lost knowledge. She is the LAST LIBRARY STANDING. Her posture is meditative; her face is composed. Some destroyed-shelf debris around her is dust-covered and old (the destruction is not recent; she has been holding this for a long time).",
+    moodKeywords: [
+      "memorized every page of the lost archives",
+      "her mind is the last library standing",
+      "translucent memory-pages floating around her head",
+      "meditative, composed, holding for a long time",
+    ],
+    palette:
+      "Antiquarian-scholar amber-and-cream robes + cool-grey destroyed shelves + scattered burnt-paper + warm-amber translucent floating memory-pages + warm-cream cracks of remaining-light + dust-covered debris",
+    composition:
+      "Mid-shot front three-quarter, Keeper seated cross-legged at frame-centre, destroyed archive-room around her, floating memory-pages above head",
+    notes:
+      "Rare unit. Generic-attentive features must NOT match any named character. The 'last library standing' is rendered as the calm meditation amid destruction + the visible floating memory-pages around her head. The dust-covered debris is intentional — communicates that she has held this through years.",
+  },
+  {
+    cardId: "s1_reward_outbreak_cure",
+    sceneDelta:
+      "Tight composition. A Vaccine Protocol — a single MEDICAL VIAL at frame-centre on an Antiquarian medical-table, glowing faintly warm-cream healing-substance. Beside the vial, an OLD prescription-document is open — the document is CLEARLY DATED in Antiquarian-script with a date significantly EARLIER than the disease's emergence (the date is rendered as legible Antiquarian numerals; the text is intentionally illegible but the date is clear). A faint warm-amber temporal-resonance-ring propagates outward from the document (the canonical 'written before' visualized as visible time-anchoring). The vial's substance shows internal cool-cream micro-currents (active healing-protocol). NO human figure. The medical-table itself is plain warm-amber wood; warm low chamber-lamp at lower-right.",
+    moodKeywords: [
+      "the cure was written before the disease existed",
+      "the Antiquarian always knew what was coming",
+      "date significantly earlier than emergence",
+      "temporal-resonance-ring around the document",
+    ],
+    palette:
+      "Antiquarian medical-table warm-amber wood + warm-cream medical-vial + cool-cream internal micro-currents + warm-amber temporal-resonance-ring + warm low chamber-lamp + cool deep-shadow",
+    composition:
+      "Tight composition, vial at frame-centre on table, prescription-document beside it with visible early date",
+    notes:
+      "Rare spell. NO human figure (the spell IS the vial + document). The visible-early-date is the visual key — without the date, the framing 'written before' loses its punch. The Antiquarian-script numerals are legible at any zoom (deliberate — the date is the proof).",
+  },
+  {
+    cardId: "s1_reward_rpg_quest",
+    sceneDelta:
+      "Mid-shot. A Questmaster — female-presenting figure in mid-forties, generic-experienced features (visible weathering, calm eyes), in worn Antiquarian-traveler's leather-and-cream coat with FIFTY small clip-on tokens hanging from the inside hem (each token a different-shape, different-material — each completed quest's mark; the tokens visible as they hang). She stands at the centre of a quiet Antiquarian travelers'-rest at golden-hour, one hand on the pommel of a sheathed traveling-sword, the other holding an open quest-ledger marked with fifty entries (each numbered, fifty entries fully visible at the page). Behind her, a wide horizon at golden-hour suggests the road continues — but for now, she is at rest. Her face is composed, not boasting — fifty quests, fifty stories, all surviving them is just what she does.",
+    moodKeywords: [
+      "fifty quests, fifty stories",
+      "all of them end with her still standing",
+      "fifty clip-on tokens at the hem",
+      "composed, not boasting",
+    ],
+    palette:
+      "Antiquarian-traveler's leather-and-cream coat + clip-on tokens of varied materials + sheathed traveling-sword + open quest-ledger + warm golden-hour horizon + warm travelers'-rest ambient",
+    composition:
+      "Mid-shot front three-quarter, Questmaster at frame-centre, fifty hem-tokens visible, ledger in one hand",
+    notes:
+      "Rare unit. The fifty hem-tokens are the canonical visualization of fifty completed quests (count is not strict — the visual impression of MANY tokens is the goal). Generic-experienced face must NOT match any named character. Worn-but-not-shabby coat communicates 'still standing' — survival without bragging.",
+  },
+  {
+    cardId: "s1_reward_vote_t1_acceptance",
+    sceneDelta:
+      "Mid-shot. A Time Capsule — a small bronze-and-glass cylindrical artifact, approximately 40cm tall, standing on a low display-pedestal in a quiet Antiquarian preservation-chamber. The capsule has visible weathering — surface patina from long burial, a single deep crack along one side (the crack is HEALED, not open — the capsule survived). Its exterior shows etched Antiquarian-script (illegible but suggestive of cataloging). Internal warm-amber substance is visible through the glass-window section. A translucent warm-amber forcefield-shimmer wraps the capsule (forcefield — Antiquarian variant). Behind it, the display-chamber is sparse, low-lit, reverent. NO human figure. The healed-crack tells the story: it survived the Third Age's collapse; whatever attack comes now will not be what breaks it.",
+    moodKeywords: [
+      "survived the collapse of the Third Age",
+      "your attack will not be what breaks it",
+      "deep crack along one side, healed not open",
+      "the surface patina from long burial",
+    ],
+    palette:
+      "Bronze-and-glass capsule + patina + warm-amber internal substance + translucent warm-amber forcefield + cool sparse display-chamber + warm reverent low-lighting",
+    composition:
+      "Mid-shot, Capsule at frame-centre on display-pedestal, no human figure, sparse chamber behind",
+    notes:
+      "Common unit. NO human figure (the Capsule IS the subject). The healed-crack is the visual key to 'survived' — visible damage that was overcome, not absent damage. Antiquarian forcefield variant (warm-amber tinted) consistent with The Antiquarian himself (s1_char_018) and Earth-elemental green-tint differentiation.",
+  },
 ] as const;
 
 /**
  * Antiquarian faction's prompt registry, keyed by card id.
  *
- * Currently populated: 24 / ~39 cards
+ * Currently populated: 30 / ~39 cards
  * (gen_antiquarian, s1_char_018, s1_char_043, s1_char_058-060,
  *  s1_char_062-065, s1_char_097, s1_char_121-124, s1_char_201,
- *  s1_pack_036-042, s1_pack_seed_governance).
+ *  s1_pack_036-042, s1_pack_seed_governance, s1_reward_*[6]).
  */
 export const ANTIQUARIAN_CARD_ART_PROMPTS: Readonly<Record<string, CardArtPrompt>> =
   Object.freeze(
