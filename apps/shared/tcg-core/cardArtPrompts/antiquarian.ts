@@ -117,13 +117,99 @@ const ANTIQUARIAN_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "Common unit. Canon-direct from flavor: forcefield is on the RELIC, not the Keeper — visualized as the relic's own glow rather than the Keeper's body-shimmer. Junior-curator apprentice apron differentiates from The Antiquarian himself (master) and the senior-Council member (gen_antiquarian). Generic-attentive young face must NOT match any named character.",
   },
+  {
+    cardId: "s1_char_097",
+    sceneDelta:
+      "Mid-shot. A Temporal Archivist — a female-presenting Antiquarian Council researcher in mid-forties, in formal Antiquarian-amber catalogue-robes with twelve small brass clasp-buttons down the front (the twelve-pattern motif at clothing-detail). She stands at a tall battlefield-archive standing-desk on the verge of an Antiquarian-aligned battle-front (visible in the deep distance — small cool ash-clouds, distant figures in motion). She is mid-action of WRITING in an open hardbound war-ledger laid flat on the desk; her left hand traces a recently-completed entry, her right hand holds a freshly-dipped quill. A faint warm-amber grow-pulse propagates outward from her body (grow visualized — she gets larger the more wars she catalogues). Her face is composed, attentive, slightly relieved (she has seen this war end before). Behind the desk, a small portable Antiquarian-amber lamp; warm parchment ledger-pages stacked at the desk's right edge.",
+    moodKeywords: [
+      "every war she catalogues makes the next one easier to survive",
+      "twelve clasp-buttons down the front",
+      "battlefield-archive standing-desk",
+      "composed, attentive, slightly relieved",
+    ],
+    palette:
+      "Antiquarian-amber catalogue-robes + twelve brass clasp-buttons + warm parchment war-ledger + warm portable lamp + cool distant battlefield ash-haze + warm grow-pulse",
+    composition:
+      "Mid-shot front three-quarter, Archivist at frame-centre at standing-desk, distant battle-front at upper-third, ledger mid-entry on desk",
+    notes:
+      "Uncommon unit. NOTE: definition id is `s1_char_097` even though file is named s1_char_061; prompt key uses the actual id. The twelve clasp-buttons are the canonical Council twelve-pattern at clothing-detail. Generic-mid-forties researcher face must NOT match any named character.",
+  },
+  {
+    cardId: "s1_char_062",
+    sceneDelta:
+      "Mid-shot. An Hourglass Golem — a humanoid figure of brass-and-glass clockwork, approximately 2 meters tall, whose CHEST CAVITY contains a large transparent hourglass (the focal feature, occupying the upper-torso). The hourglass is currently mid-flow: cool-cream temporal-sand falling from upper to lower bulb, approximately 60% drained. The Golem's limbs are brass-articulated with internal warm-amber glow at the joint-seams. Where its head would be, a smaller secondary hourglass-disc serves as a face — two small warm-amber eye-points where the eyes would be on the disc. The Golem stands at the front of an Antiquarian battle-line in provoke-stance — feet shoulder-width, both arms forward in a wide-block. A faint warm provoke-glow rims its leading shoulder. Behind it, a low smoke-blackened battlefield mid-distance.",
+    moodKeywords: [
+      "when the last grain falls, the golem shatters",
+      "and time resumes its march",
+      "chest-cavity hourglass at 60% drained",
+      "head as smaller secondary hourglass-disc",
+    ],
+    palette:
+      "Brass-and-glass clockwork body + cool-cream temporal-sand mid-flow + warm-amber joint-seam glow + warm provoke-rim + cool battlefield smoke + warm hourglass interior light",
+    composition:
+      "Mid-shot front three-quarter, Golem at frame-centre in provoke-stance, chest-cavity hourglass dominant at frame-centre",
+    notes:
+      "Common unit. The chest-cavity hourglass at mid-drain is the visual key to the canonical 'when the last grain falls' framing — viewers can see the timer counting down. NO human figure (the Golem IS the subject). Brass-and-glass clockwork visual continuity with Engineer Imprint set + Time dimension.",
+  },
+  {
+    cardId: "s1_char_063",
+    sceneDelta:
+      "Mid-shot. A Paradox Acolyte — a young female-presenting figure, late-twenties, in plain Antiquarian-acolyte cream-and-amber under-robes, generic-uncertain features (visibly weary). She stands in a quiet Antiquarian sanctum-fragment at frame-centre — but the visual composition shows her DIED-AND-RESURRECTED MULTIPLE TIMES at once: her solid form is at frame-centre, but four faint translucent ghost-versions of her are visible at slight offset positions (each a previous death she did not learn from). Each ghost-version shows a slightly different mistake — one is reaching for something not there, one is mid-fall, one is turning away from a warning, one is repeating the gesture of the solid figure (about to die the same way again). A faint translucent rebirth-doubled-edge runs along her solid outline. Her face is uncertain, unable to look at the ghost-versions (she has not learned to acknowledge them).",
+    moodKeywords: [
+      "died a hundred times and learned nothing",
+      "four translucent ghost-versions of previous deaths",
+      "solid figure repeating the gesture of one ghost",
+      "uncertain, unable to look at the ghosts",
+    ],
+    palette:
+      "Antiquarian-acolyte cream-and-amber under-robes + faint translucent ghost-versions + warm sanctum-fragment ambient + cool deep-shadow + translucent rebirth-edge",
+    composition:
+      "Mid-shot front three-quarter, Acolyte solid at frame-centre, four ghost-versions at slight offsets around her, sanctum-fragment behind",
+    notes:
+      "Common unit. The four ghost-versions of previous deaths is the visual key to 'a hundred times and learned nothing' — only four are shown for legibility, but the framing communicates the larger pattern. Generic-uncertain young face must NOT match any named character. The 'unable to look at the ghosts' is rendered as the solid figure's gaze deliberately avoiding the ghost-positions.",
+  },
+  {
+    cardId: "s1_char_064",
+    sceneDelta:
+      "Mid-shot. A Memory Thief — a male-presenting figure in early-thirties, generic-unremarkable features (deliberately forgettable), in a long dark Antiquarian traveling-coat that obscures his silhouette. He stands at the edge of a Panopticon-suburb street at twilight, mid-action of REACHING INTO an anonymous person's mind — his right hand is extended toward the back of a passerby's head (only the back of the passerby's head and shoulders visible at frame-right edge), the hand visibly DRAWING OUT a faint translucent warm-cream memory-thread that connects from the passerby's head to the Thief's open palm. The thread is approximately 30cm long and visibly THINNER at the passerby's end (the memory has nearly come free). A faint warm backstab-glow rims the Thief's leading hand; a faint cool drain-rim wraps his body (drain). His face is calm, focused, almost regretful — he takes only what they will not miss.",
+    moodKeywords: [
+      "takes only what you will not miss",
+      "until you reach for it and find nothing there",
+      "translucent memory-thread from head to palm",
+      "calm, focused, almost regretful",
+    ],
+    palette:
+      "Antiquarian dark traveling-coat + warm-cream translucent memory-thread + Panopticon-suburb cool slate-twilight + warm backstab-glow + cool drain-rim + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, Thief at frame-centre, anonymous passerby's back-of-head at frame-right edge, memory-thread mid-extraction",
+    notes:
+      "Rare unit. The memory-thread visual is consistent with the Antiquarian-faction's relationship to time/memory as discrete extractable substances. Anonymous passerby (back-of-head only) preserves no-character-conflation. Generic-unremarkable face must NOT match any named character. The 'almost regretful' framing differentiates this from villainous theft — it's transactional.",
+  },
+  {
+    cardId: "s1_char_065",
+    sceneDelta:
+      "Wider mid-shot. An Age-Ender — a tall solitary figure in deep Antiquarian-amber long-coat, generic-ancient features (cannot tell exactly how old — older than middle-age, younger than aged), standing at the edge of a vast empty terrace-ruin. The terrace was once part of a civilization; that civilization has just ended. The Age-Ender carries a single tall ceremonial brass-and-glass closing-instrument (a long polearm-like object with a folded-clock at its head — the canonical Antiquarian time-closing implement). They are mid-action of PLACING the instrument's tip into a small recess at the centre of the terrace floor — the moment of ACT-OF-CLOSING. From the recess, a faint warm-amber pulse propagates outward (the marker visualized as a closing-pulse, NOT a destructive strike). Around the figure, a translucent green-tinted forcefield-shimmer wraps them (forcefield); a faint warm pierce-glow rims the instrument's leading edge (pierce). The civilization's ruins extend in deep distance on all sides — emptied, but not destroyed; intact, but silent.",
+    moodKeywords: [
+      "does not destroy civilizations",
+      "simply marks where one ends and silence begins",
+      "ceremonial brass-and-glass closing-instrument",
+      "emptied but not destroyed, intact but silent",
+    ],
+    palette:
+      "Antiquarian deep-amber long-coat + brass-and-glass closing-instrument + warm pierce-glow + translucent green-tinted forcefield + cool empty terrace-ruin + warm closing-pulse + cool deep-distance silence-haze",
+    composition:
+      "Wider mid-shot side three-quarter, Age-Ender at frame-centre placing instrument into recess, terrace-ruin extending behind",
+    notes:
+      "Epic unit. CRITICAL: the act is CEREMONIAL CLOSING, not destruction — canon-direct from flavor. The civilization's ruins are intact (no burning, no rubble) but silent. Generic-ancient face must NOT match The Antiquarian himself or any named Council character. The brass-and-glass closing-instrument is a new visual idiom for ceremonial-end (vs the ongoing-cataloging tools used by other Antiquarian characters).",
+  },
 ] as const;
 
 /**
  * Antiquarian faction's prompt registry, keyed by card id.
  *
- * Currently populated: 5 / ~39 cards
- * (gen_antiquarian, s1_char_018, s1_char_058, s1_char_059, s1_char_060).
+ * Currently populated: 10 / ~39 cards
+ * (gen_antiquarian, s1_char_018, s1_char_058-060,
+ *  s1_char_062-065, s1_char_097).
  */
 export const ANTIQUARIAN_CARD_ART_PROMPTS: Readonly<Record<string, CardArtPrompt>> =
   Object.freeze(
