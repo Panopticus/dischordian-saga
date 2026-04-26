@@ -393,6 +393,99 @@ const IMPRINT_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "T5 = 'Agent Zero, The First Strike' — the heist that made her name + the resurrection that returned her. End-of-Epoch-2 canon. CRITICAL: do NOT show the Warlord killing her in this frame; the death + revival is BACKSTORY at this tier, not the narrative beat. The resurrection-bloom is intentional but subtle — not religious, not theatrical.",
   },
+
+  // ─── AKAI SHI / 赤死 (the Red Death — Architect's silent removal
+  //     asset for problems the surveillance layer doesn't want on
+  //     its own camera feed) ───
+  // Source canon: a silhouette in a red coat at the edge of a doorway
+  // that was not there a second ago. Backstab + celerity + pierce.
+  // The Architect's preferred deletion vector when public records
+  // need to stay clean. Faction: architect.
+  {
+    cardId: "s1_imprint_akai_shi_t1",
+    sceneDelta:
+      "Wide composition, deep shadow. A maintenance corridor in a Panopticon black-site, deep night, single overhead bulb. A red coat — the only saturated colour in the frame — half-visible at the edge of a door-frame on camera-right. The figure inside the coat is silhouetted, no face, only the line of the coat's cut and one black-gloved hand resting flat on the door's surface. The door is open by maybe four inches. Behind the door (where we cannot see) is implied light; in front of the door (where we can) is the corridor's flat fluorescent grey. The coat IS the visual event of the frame. Everything else is subtraction.",
+    moodKeywords: [
+      "the red coat as visual punctuation",
+      "the doorway not there a second ago",
+      "subtractive composition",
+      "Architect-quiet menace",
+    ],
+    palette:
+      "Architect deep crimson coat (#ef4444) as the ONLY saturated colour + black steel + chrome + fluorescent grey corridor + a single silver glint on the door-handle",
+    composition:
+      "Wide corridor in deep perspective, the red coat at upper-right third, the rest of the frame deliberately empty",
+    notes:
+      "T1 = the silhouette. Not yet armed (visibly). Not yet in motion. The threat is the coat being THERE at all — a corridor that previously did not contain a red coat now does. Architect aesthetic: brutalist quiet, not theatrical horror.",
+  },
+  {
+    cardId: "s1_imprint_akai_shi_t2",
+    sceneDelta:
+      "Mid-shot. Akai Shi has stepped fully through the door; we see him in three-quarter from BEHIND a target who has not yet realized he is there. The target (a generic Panopticon analyst-silhouette, no recognizable identity) faces away, shoulders bent over a console. Akai Shi's red coat is mid-flare from the motion of stepping forward. His face is partially turned to camera but mostly shadowed under a wide-brimmed dark hat — we see the firm line of a jaw, nothing more. One gloved hand has just drawn a curved short blade from inside the coat; the blade is still rising. The target has not turned. The target is half a second from becoming aware. Backstab keyword visualized as the geometry of the moment: he is approaching from EXACTLY the angle the analyst is not facing.",
+    moodKeywords: [
+      "backstab as geometric inevitability",
+      "the half-second before awareness",
+      "the curved blade rising, not landing",
+      "professional, never theatrical",
+    ],
+    palette:
+      "Architect deep crimson coat + black steel hat + a single chrome glint on the blade + cool computational console-light on the target's far side",
+    composition:
+      "Mid-shot from over the analyst's near shoulder, Akai Shi at upper-right third mid-step, blade rising at lower-third",
+    notes:
+      "T2 = backstab. The target is anonymous — never a recognizable named character. The blade is RISING (not landed) so the moment is forever-suspended; this matters because Akai Shi the card represents the threat-state, not the kill itself.",
+  },
+  {
+    cardId: "s1_imprint_akai_shi_t3",
+    sceneDelta:
+      "Action peak. Akai Shi is mid-twin-strike: two faint motion-ghost duplicates of himself bracket the present-Akai-Shi from camera-left and camera-right, his red coat fanned in three slightly-different positions captured a half-beat apart. Twin curved short blades both extended, each blade landing into off-frame space at lower-left and lower-right respectively — celerity visualized as two simultaneous attacks from different angles by the same body. The space between the three motion-ghosts is filled with thin slate-grey afterimage haze. Floor: a single drop of crimson-tinted fluid mid-fall, suggesting an impact moment but not depicting one. His face: half-turned to camera-left, half-shadowed, expression entirely neutral.",
+    moodKeywords: [
+      "celerity as two strikes from one body",
+      "the motion-ghost trinity",
+      "the drop mid-fall (impact implied, not shown)",
+      "Architect-grade economy",
+    ],
+    palette:
+      "Architect deep crimson + chrome blade-glints + slate-grey afterimage haze + a single crimson droplet held mid-fall",
+    composition:
+      "Centred action triptych — three Akai Shi positions across the horizontal, blades at extreme outer angles",
+    notes:
+      "T3 = backstab + celerity. The motion-ghost technique echoes Agent Zero t3 (intentional — both are stealth-class operatives) but Akai Shi's ghosts are LATERAL (parallel-strike) where Agent Zero's were TEMPORAL (past-week / past-month). Different stealth language for different factions.",
+  },
+  {
+    cardId: "s1_imprint_akai_shi_t4",
+    sceneDelta:
+      "Static. Akai Shi standing on a low rooftop in Panopticon black-site district at night, the city lights below him reduced to slate-blue grid pattern, the moon a featureless grey disc. His red coat is the only saturated thing in the frame. Twin blades sheathed at his hips, both hands resting on their pommels. His face is fully visible now in three-quarter — late-thirties, deliberately featureless features (the kind of face the Architect's surveillance layer scrubs from training data so the layer cannot accidentally recognize him on its own feeds). He is not looking at any specific thing; he is the kind of stillness that comes from being deployed and waiting for the order. Rush-on-deploy implied by the rooftop-arrival composition (he just got here; he is not yet at work).",
+    moodKeywords: [
+      "the stillness of a deployed asset",
+      "scrubbed-from-training-data face",
+      "rooftop wait",
+      "twin blades at rest",
+    ],
+    palette:
+      "Architect deep crimson coat + black steel hat + slate-blue city below + a single cool moon disc + chrome pommel glints",
+    composition:
+      "Three-quarter standing portrait on rooftop, city as low-third grid backdrop, moon at upper-left, Akai Shi centred",
+    notes:
+      "T4 = backstab + celerity + rush-on-deploy. Composition deliberately inverts t1-t3 — those were ABOUT to happen / IN motion. T4 is the period between contracts. The 'scrubbed-from-training-data' note matters: established Architect canon (the surveillance layer literally does not know how to see him) but rendered as unmemorable face geometry, not as a special effect.",
+  },
+  {
+    cardId: "s1_imprint_akai_shi_t5",
+    sceneDelta:
+      "Hero composition: Akai Shi mid-flight across a vertical gap between two skyscrapers in the Panopticon central district, twin blades extended like a cross-shape across his body, red coat fanned to its absolute extreme, the coat's spread filling the upper third of the frame like a single saturated wound across the slate-grey city. His face is partly visible under the hat brim — eyes closed, the small smile of a craftsman mid-execution of a piece they know is going to land. Below him: a drop of forty stories, a mid-level sky-bridge passing under his trajectory, three Panopticon enforcers on the bridge looking the wrong way. Pierce visualized as a faint chromatic-aberration line trailing each blade-tip — the strike will go through whatever it lands in. Celerity + backstab + pierce reading as a single inevitability.",
+    moodKeywords: [
+      "the saturated wound across the slate sky",
+      "craftsman mid-execution",
+      "pierce as chromatic-aberration trail",
+      "the kind of art that gets a city quieter for a week",
+    ],
+    palette:
+      "Architect deep crimson coat at MAXIMUM saturation + slate-grey city + cool moonlight + chromatic-aberration cyan-magenta blade trails",
+    composition:
+      "Vertical hero composition — Akai Shi at upper third mid-leap, the city receding into fortieth-story drop below, two skyscraper edges framing left and right",
+    notes:
+      "T5 = 'Akai Shi, The Red Death.' End-of-Epoch-2 canon. The 'three enforcers looking the wrong way' is consistent with his canonical effect on the surveillance layer. CRITICAL spoiler-line: do NOT visually identify Akai Shi as anyone the player knows from another card or another faction. He is a HIRED hand for the Architect, not a former friend, not a hidden identity. His face must not match any other card's face.",
+  },
 ] as const;
 
 /**

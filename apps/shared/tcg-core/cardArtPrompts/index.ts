@@ -19,11 +19,11 @@ import { IMPRINT_CARD_ART_PROMPTS } from "./imprint";
  * The full card-art prompt registry.
  *
  * Populated factions:
- *   - imprint: 4 / 18 character sets (Elara, Antiquarian, Iron Lion,
- *     Agent Zero)
+ *   - imprint: 5 / 18 character sets (Elara, Antiquarian, Iron Lion,
+ *     Agent Zero, Akai Shi)
  *
  * Pending factions:
- *   - imprint (remaining 14 sets)
+ *   - imprint (remaining 13 sets)
  *   - architect, antiquarian, dreamer, insurgency, new_babylon,
  *     thought_virus, neutral, panopticon, allegiance, class, race,
  *     elemental, dimensional
