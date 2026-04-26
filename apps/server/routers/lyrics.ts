@@ -1,22 +1,36 @@
 /* ═══════════════════════════════════════════════════════
    LYRICS ROUTER — LLM-powered lyrics generation with lore context
+
+   Inputs are passed verbatim into the LLM prompt, so every
+   user-controlled field is run through `sanitizePlayerInput`
+   before interpolation and capped at conservative lengths in
+   the Zod schema. See apps/server/elaraGuardrails.ts for the
+   sanitizer's pattern set.
    ═══════════════════════════════════════════════════════ */
 import { z } from "zod";
 import { publicProcedure, router } from "../_core/trpc";
 import { invokeLLM } from "../_core/llm";
+import { sanitizePlayerInput } from "../elaraGuardrails";
 
 export const lyricsRouter = router({
   generate: publicProcedure
     .input(
       z.object({
-        songName: z.string(),
-        albumName: z.string(),
-        artistName: z.string(),
-        characters: z.array(z.string()),
+        songName: z.string().min(1).max(200),
+        albumName: z.string().min(1).max(200),
+        artistName: z.string().min(1).max(200),
+        characters: z.array(z.string().max(120)).max(20),
       })
     )
     .mutation(async ({ input }) => {
-      const { songName, albumName, artistName, characters } = input;
+      // Sanitize every user-controlled string before it lands in the
+      // LLM prompt. Strips control characters, fenced code blocks, and
+      // the canonical injection-pattern set (see INJECTION_PATTERNS in
+      // elaraGuardrails.ts).
+      const songName = sanitizePlayerInput(input.songName);
+      const albumName = sanitizePlayerInput(input.albumName);
+      const artistName = sanitizePlayerInput(input.artistName);
+      const characters = input.characters.map(sanitizePlayerInput).filter(Boolean);
 
       const characterContext =
         characters.length > 0

@@ -1,6 +1,7 @@
 import { logger } from "../logger";
 import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { invokeLLM } from "../_core/llm";
+import { sanitizePlayerInput } from "../elaraGuardrails";
 import { z } from "zod";
 import * as fs from "fs";
 import * as path from "path";
@@ -399,10 +400,16 @@ export const companionRouter = router({
         { role: "system", content: systemPrompt + moralityContext + eventContext },
       ];
 
+      // Sanitize every history item content before it reaches the
+      // LLM. The client can fabricate history (it's an input field),
+      // so a hostile client could otherwise plant forged "assistant"
+      // turns containing prompt overrides. DB-loaded history is
+      // already authored content but the sanitizer is a no-op on
+      // clean strings, so defense-in-depth costs nothing here.
       for (const msg of conversationHistory.slice(-10)) {
-        messages.push({ role: msg.role, content: msg.content });
+        messages.push({ role: msg.role, content: sanitizePlayerInput(msg.content) });
       }
-      messages.push({ role: "user", content: input.message });
+      messages.push({ role: "user", content: sanitizePlayerInput(input.message) });
 
       // Step 5: LLM path is off by default. Scripted dialog trees in
       // apps/shared/dialogTrees/humanAct1.ts run instead. Opt-in for
@@ -545,10 +552,13 @@ export const companionRouter = router({
         { role: "system", content: systemPrompt + eventContext },
       ];
 
+      // Same sanitization as chatWithHuman: client-supplied history
+      // and current message both run through the canonical injection-
+      // pattern stripper before reaching the model.
       for (const msg of conversationHistory.slice(-10)) {
-        messages.push({ role: msg.role, content: msg.content });
+        messages.push({ role: msg.role, content: sanitizePlayerInput(msg.content) });
       }
-      messages.push({ role: "user", content: input.message });
+      messages.push({ role: "user", content: sanitizePlayerInput(input.message) });
 
       // Step 5: LLM path is off by default. Scripted dialog trees in
       // apps/shared/dialogTrees/elaraAct1.ts run instead. Opt-in for
