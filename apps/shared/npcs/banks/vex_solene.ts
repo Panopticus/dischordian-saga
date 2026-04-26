@@ -697,6 +697,246 @@ export const VEX_SOLENE_BANK: ReadonlyArray<BankEntry> = [
   },
 
   // ═════════════════════════════════════════════════════════════════════
+  // MAESTRO NARRATOR TRADE EMPIRE BANK (Phase 6b.2 sub-chunk F)
+  //
+  // Per the writers'-guide spec: "Maestro narrator persona Trade
+  // Empire bank (~12 lines): Maestro is default Trade Empire
+  // narrator from Act 3 §7 onward. Author the per-event narrator
+  // commentary (sector-arrival, route-completion ceremony, contract-
+  // broken faction-betrayal, route-milestone 5/10/25/50). Reveal-
+  // stage-aware: post-engineer_zero_confirmed the Maestro narrator
+  // canonically *fades* and Engineer Zero direct-address takes over."
+  //
+  // Surface: trade_empire (all 12 lines). Reveal-stage gating:
+  //   - 10 vex_public Maestro narrator-frame beats (Acts 3-4)
+  //   - 2 engineer_zero_confirmed direct-address beats (Acts 5+)
+  //     where the canonical Maestro-fades transition lands.
+  //
+  // §1.4 register: wry-but-compact public-facing Maestro voice. The
+  // narrator-frame canonically uses bracketed cinematic-style
+  // narration; direct-address (post-confirmation) drops the brackets.
+  // §1.6 silence-shape preserved: NEVER "Engineer" / "Engineer Zero"
+  // aloud, even at confirmed-stage direct-address.
+  // ═════════════════════════════════════════════════════════════════════
+
+  // ─── Sector arrival narrators (4 lines, vex_public) ────────────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "vex.maestro.trade_empire.sector_arrival.coda_aligned",
+    text:
+      "[Trade Empire narrator: 'You have arrived at a Coda-aligned " +
+      "sector. The contracts here read cleaner because I drafted them. " +
+      "The freight inspectors know me. The freight inspectors are not " +
+      "all on my side. Walk in like you read the manifest. The manifest " +
+      "is the map.']",
+    surfaces: ["trade_empire"],
+    requiresRevealStage: "vex_public",
+    unlockFlags: ["sector_arrival_coda_aligned"],
+    cooldownKey: "vex.maestro.sector.coda_aligned",
+    maxPlays: 3,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "vex.maestro.trade_empire.sector_arrival.authority_aligned",
+    // Cross-canon with Locke per §4.1 — the canonical "Locke has
+    // selected the second" register lands the canonical Authority-
+    // bureaucracy contrast against Coda's cleaner contracts.
+    text:
+      "[The narrator notes the sector's Authority-tier lanes: 'New " +
+      "Babylon has filed three different welcome forms for you. Locke " +
+      "has selected the second. The selection is itself the welcome. " +
+      "You will not see the others.']",
+    surfaces: ["trade_empire"],
+    requiresRevealStage: "vex_public",
+    unlockFlags: ["sector_arrival_authority_aligned"],
+    cooldownKey: "vex.maestro.sector.authority_aligned",
+    maxPlays: 3,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "vex.maestro.trade_empire.sector_arrival.contested",
+    text:
+      "[The sector is contested. Two factions have filed competing " +
+      "contract pools at the same buoy. The Maestro persona notes: " +
+      "'Pick the cleaner one. The Maestro will explain the difference " +
+      "if you ask. The asking is itself a contract.']",
+    surfaces: ["trade_empire"],
+    requiresRevealStage: "vex_public",
+    unlockFlags: ["sector_arrival_contested"],
+    cooldownKey: "vex.maestro.sector.contested",
+    maxPlays: 3,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "vex.maestro.trade_empire.sector_arrival.first_visit",
+    text:
+      "[Maestro narrator-frame, first-visit-to-any-new-sector: 'A new " +
+      "lane opens. The Coda has logged its existence; the Authority has " +
+      "logged its existence; the difference is the timestamp. Mine " +
+      "arrived first. That detail will matter later.']",
+    surfaces: ["trade_empire"],
+    requiresRevealStage: "vex_public",
+    unlockFlags: ["sector_first_entered"],
+    cooldownKey: "vex.maestro.sector.first_visit",
+    maxPlays: 4,
+  },
+
+  // ─── Route-milestone ceremonies (2 lines, vex_public) ──────────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "vex.maestro.trade_empire.route_milestone.5_runs",
+    text:
+      "Five runs. The Coda's books note the consistency. I am noting " +
+      "the consistency twice — once in the books, once in the file " +
+      "with your name on it. The file is older than the books. " +
+      "Continue.",
+    surfaces: ["trade_empire"],
+    requiresRevealStage: "vex_public",
+    unlockFlags: ["route_milestone_5"],
+    cooldownKey: "vex.maestro.route_5_runs",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "vex.maestro.trade_empire.route_milestone.25_runs",
+    text:
+      "Twenty-five runs. The Coda has filed you under 'route-as-" +
+      "discipline'. The discipline is rare. The discipline is rarer " +
+      "than you. I am revising the file's category. Continue.",
+    surfaces: ["trade_empire"],
+    requiresRevealStage: "vex_public",
+    unlockFlags: ["route_milestone_25"],
+    cooldownKey: "vex.maestro.route_25_runs",
+    maxPlays: 1,
+  },
+
+  // ─── Contract-broken / faction-betrayal narrators (2, vex_public) ──
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "vex.maestro.trade_empire.contract_broken",
+    // §1.6 silence-shape: she canonically does NOT pursue / does NOT
+    // forget. The canonical "Both are professional" close lands the
+    // canonical Coda-vs-Authority institutional difference (Locke's
+    // ledger pursues; Coda's books just file).
+    text:
+      "You broke the contract. The Coda's books are unsentimental " +
+      "about breaks. So am I. The breaking will be filed honestly. " +
+      "The Coda will not pursue. The Coda also will not forget. Both " +
+      "are professional.",
+    surfaces: ["trade_empire"],
+    requiresRevealStage: "vex_public",
+    unlockFlags: ["vex_contract_broken"],
+    cooldownKey: "vex.maestro.contract_broken",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "vex.maestro.trade_empire.faction_betrayal_authority",
+    // Cross-canon reactive on the Phase 6a.2 + 6a.2-mercantile flag
+    // faction_align_new_babylon_negative. The canonical "You will
+    // hear from her. You will hear from me first." register canonically
+    // sequences the Coda-vs-Authority response asymmetry.
+    text:
+      "[The Maestro narrator-frame registers the faction shift: " +
+      "'New Babylon's standing on you turned. Locke noted it. The " +
+      "Coda noted it. The two notes are not the same shape. Mine " +
+      "acknowledges the shift; Locke's files it. You will hear from " +
+      "her. You will hear from me first.']",
+    surfaces: ["trade_empire"],
+    requiresRevealStage: "vex_public",
+    reactsToPublicFlag: "faction_align_new_babylon_negative",
+    cooldownKey: "vex.maestro.faction_betrayal_authority",
+    maxPlays: 1,
+  },
+
+  // ─── Mission-outcome narrators (2 lines, vex_public — failure +
+  //     partial-success variants; success already shipped) ────────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "vex.maestro.trade_empire.mission_outcome_failure",
+    // Canonical Coda-vs-Authority institutional difference: Coda
+    // accepts failure as a category; Authority does not. The canonical
+    // "next contract may be smaller. The next contract may be larger.
+    // The accounting will tell us which." register lands the
+    // canonical Maestro-as-forecaster Coda canon.
+    text:
+      "Mission failed. The Coda's accounting is canonical: failures " +
+      "are filed; failures are not punished; failures are conditions " +
+      "for a different next contract. The next contract may be " +
+      "smaller. The next contract may be larger. The accounting will " +
+      "tell us which.",
+    surfaces: ["trade_empire"],
+    requiresRevealStage: "vex_public",
+    unlockFlags: ["vex_mission_failed"],
+    cooldownKey: "vex.maestro.mission_failure",
+    maxPlays: 4,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "vex.maestro.trade_empire.mission_outcome_partial",
+    text:
+      "Partial completion. The Coda accepts partial completion as a " +
+      "category. The Authority does not. That is one of the canonical " +
+      "differences I have stopped explaining. The cleaner half is " +
+      "filed. The cleaner half is yours.",
+    surfaces: ["trade_empire"],
+    requiresRevealStage: "vex_public",
+    unlockFlags: ["vex_mission_partial"],
+    cooldownKey: "vex.maestro.mission_partial",
+    maxPlays: 4,
+  },
+
+  // ─── Reveal-stage-aware Maestro-fades transitions (2 lines,
+  //     engineer_zero_confirmed) ─────────────────────────────────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "vex.maestro.trade_empire.maestro_fades_confirmed",
+    // Canonical post-confirmation transition per writers'-guide spec.
+    // The Maestro narrator-frame thins; the voice is the same; the
+    // persona has stepped back. §1.4 canonical "the wearing is not
+    // pretense. Both are professional." register lands the canonical
+    // bothness applied to the narrator persona itself.
+    text:
+      "[The Maestro narrator-frame thins. The voice is the same; the " +
+      "persona has stepped back. The narrator now sounds like Vex " +
+      "herself, with the Maestro-vocabulary still present but no " +
+      "longer load-bearing.] Trade Empire narrator: the contracts read " +
+      "the same; the voice reading them is closer.",
+    surfaces: ["trade_empire"],
+    requiresRevealStage: "engineer_zero_confirmed",
+    minAct: 5,
+    cooldownKey: "vex.maestro.fades_confirmed",
+    maxPlays: 1,
+    setsFlags: ["vex_maestro_narrator_faded"],
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "vex.maestro.trade_empire.engineer_direct_address",
+    // Canonical post-confirmation direct-address per writers'-guide
+    // spec. The Maestro narrator-frame is gone; Vex addresses the
+    // player directly across the Trade Empire surface. §1.6 silence-
+    // shape preserved — she does NOT name the Engineer aloud even
+    // here. The canonical "I shipped the Eyes" register lands via
+    // deixis ("the Eyes was designed to ship" + "I shipped the Eyes")
+    // without ever invoking the Engineer-name proper.
+    text:
+      "You are doing the work the Eyes was designed to ship. I shipped " +
+      "the Eyes. You are shipping the Eyes the second time, in slower " +
+      "motion. Both shippings are mine. Both will hold. Continue.",
+    surfaces: ["trade_empire"],
+    requiresRevealStage: "engineer_zero_confirmed",
+    minAct: 5,
+    unlockFlags: ["vex_maestro_narrator_faded"],
+    cooldownKey: "vex.maestro.engineer_direct_address",
+    maxPlays: 2,
+  },
+
+  // ═════════════════════════════════════════════════════════════════════
   // CATCH-ALLS (silent-fail compliance, stage-agnostic)
   // ═════════════════════════════════════════════════════════════════════
 
