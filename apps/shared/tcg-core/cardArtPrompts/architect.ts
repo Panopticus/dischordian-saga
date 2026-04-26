@@ -720,12 +720,114 @@ const ARCHITECT_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "Epic unit. CRITICAL: anonymous challenger (back-to-camera, generic gear) preserves no-character-conflation. The Game Master HIMSELF is NOT in this card — only his pillar/sigil is present (he plays from BEHIND the forcefield per s1_char_030). The challenger represents whoever accepts the test.",
   },
+  {
+    cardId: "s1_reward_boss_architect",
+    sceneDelta:
+      "Wider mid-shot. An Architect's Schematic — a vast translucent cool-cyan SCHEMATIC-TABLET hovering at frame-centre (approximately 1.5m tall, 1m wide), the tablet's surface showing dense Architect engineering-glyphs in cool-cyan etched lines. The tablet itself appears INTACT but RECOVERED (the corners show faint warm-amber rescue-marks where it was pulled from somewhere). Around the tablet, faint translucent cool-cyan command-glyphs propagate outward — every line on the schematic is still active (every command still works). Below the tablet at lower-third, an Insurgency-aligned recovery-figure (anonymous, back-to-camera, in slate field-gear) stands with hands raised, mid-action of having JUST recovered the tablet. The setting is a half-collapsed Architect facility, dust-and-debris around but the tablet itself is pristine.",
+    moodKeywords: [
+      "the Architect fell, but his schematics survived",
+      "every line is a command",
+      "every command still works",
+      "translucent tablet pristine amid debris",
+    ],
+    palette:
+      "Translucent cool-cyan schematic-tablet + Architect engineering-glyph etching + warm-amber rescue-marks at corners + cool-cyan command-glyph propagation + Insurgency-slate recovery-figure (back) + cool dust-and-debris ambient + warm low rescue-light",
+    composition:
+      "Wider mid-shot, schematic-tablet at frame-centre, recovery-figure at lower-third with hands raised, half-collapsed facility behind",
+    notes:
+      "Rare spell. CRITICAL framing: 'the Architect fell' is a hypothetical / future-victory framing in the player's collection — the player has earned this through defeating an Architect boss encounter. Anonymous Insurgency-recovery-figure (back-to-camera) preserves no-character-conflation. The schematic itself is the subject; the figure is just compositional context.",
+  },
+  {
+    cardId: "s1_reward_boss_collector",
+    sceneDelta:
+      "Mid-shot. A Collector's Trophy — a tall chrome-and-cool-cyan trophy-pedestal at frame-centre, on top of which sits a CYLINDRICAL ARCHIVE-VESSEL (approximately 60cm tall, 30cm diameter). Inside the vessel, suspended in faint cool-cyan archival-medium, are HUNDREDS OF SMALL TRANSLUCENT NAME-PLAQUES floating in a dense cluster (each plaque is the size of a fingernail, each bearing a faintly-illegible name in cool-cyan script — names, faces, histories, all collected). The vessel is silent — no sound, no motion beyond the slow rotation of the suspended plaques. Behind the pedestal, an Architect-cyan trophy-hall extends with rows of similar pedestals (each holding a different Collector's-trophy, faintly visible in deep-distance). NO human figure.",
+    moodKeywords: [
+      "he collected names, faces, histories",
+      "this trophy remembers them all",
+      "silently — no sound, no motion",
+      "hundreds of translucent name-plaques suspended",
+    ],
+    palette:
+      "Chrome-and-cool-cyan trophy-pedestal + cylindrical archive-vessel + faint cool-cyan archival-medium + hundreds of translucent name-plaques + cool-cyan script + Architect-cyan trophy-hall + receding pedestal-rows + cool deep-shadow",
+    composition:
+      "Mid-shot, pedestal at frame-centre with archive-vessel on top, trophy-hall extending behind",
+    notes:
+      "Rare unit. NO human figure (the Trophy IS the subject). The 'remembers silently' framing is rendered as the vessel's complete silence — no light-pulses, no animation, just suspended plaques. Generic illegible names preserve no-character-conflation. Echoes Antiquarian Memory Thief (s1_char_064) memory-as-extracted-substance idiom but applied to identities rather than memories.",
+  },
+  {
+    cardId: "s1_reward_casino_pazaak",
+    sceneDelta:
+      "Mid-shot. A Pazaak Champion — male-presenting figure in late-twenties at a Pazaak gaming-table, generic-cool features (steady eyes, no expression), in formal Architect-cyan gambler's vest over a cool-cream under-shirt with a small chrome card-counter cuff at the right wrist. The Pazaak table at lower-third shows a hand mid-play: chrome-and-cool-cyan number-cards arrayed in two rows (player and opponent), the table's central digit-display showing TWENTY-ONE in cool-cyan glow. The Champion has just placed his final card; the win is locked. His hand still rests on the placed card. His face shows no visible tell — pure calculation rendered as facial composure. Faint translucent cool-cyan card-probability-rings emanate from his card-counter cuff (he was counting throughout). Behind him, a faint Architect casino-floor ambient.",
+    moodKeywords: [
+      "twenty-one wins",
+      "zero tells",
+      "pure calculation",
+      "no visible tell — composure as identity",
+    ],
+    palette:
+      "Architect-cyan gambler's vest + cool-cream under-shirt + chrome card-counter cuff + chrome-and-cool-cyan Pazaak cards + cool-cyan TWENTY-ONE central digit-display + translucent cool-cyan card-probability-rings + warm casino-floor ambient",
+    composition:
+      "Mid-shot front three-quarter, Champion at frame-centre at table, Pazaak hand at lower-third with TWENTY-ONE display",
+    notes:
+      "Rare unit. The chrome card-counter cuff at the wrist is a subtle visual idiom (he counts even on the cards he doesn't show). Generic-cool features must NOT match any other named character. The visible TWENTY-ONE display is canon-direct from flavor.",
+  },
+  {
+    cardId: "s1_reward_chess_tourney",
+    sceneDelta:
+      "Mid-shot. A Calculated Checkmate — a chess-board at frame-centre on a low Architect tournament-table, mid-game with the king's-position cornered. The pieces are chrome-and-cool-cyan with deep-crimson opposing pieces. The board is mid-CHECKMATE: a faint translucent cool-cyan FOUR-MOVE-PROJECTION OVERLAY hovers above the board, showing the four-move sequence as transparent piece-trajectory lines extending from current positions through to the final-mate position. A second translucent OVERLAY at lower-tone shows the OPPONENT'S three-move-realization (when they saw it, one move late). The two overlay-projections converge at the final mate-square. NO human figure visible at the table (only the played pieces). Tournament-spectators in faint translucent silhouette stand at the far side of the table, frozen mid-comprehension.",
+    moodKeywords: [
+      "checkmate in four",
+      "the opponent saw it in three",
+      "by then, it was already too late",
+      "two overlay-projections converging at final mate-square",
+    ],
+    palette:
+      "Chrome-and-cool-cyan player pieces + deep-crimson opposing pieces + translucent cool-cyan four-move overlay + lower-tone opponent's three-move overlay + warm Architect tournament-table + cool spectator silhouettes + cool deep-shadow",
+    composition:
+      "Mid-shot overhead three-quarter on chess-board, four-move overlay extending across, spectators at upper-third",
+    notes:
+      "Rare spell. NO direct human figure (the spell IS the calculation rendered visible). The two overlay-projections (planner's full plan + opponent's late realization) is the canonical visualization of 'four moves vs three moves seen.' Spectator silhouettes preserve no-character-conflation.",
+  },
+  {
+    cardId: "s1_reward_chess_win",
+    sceneDelta:
+      "Mid-shot. A Grandmaster's Gambit — male-presenting figure in mid-fifties, generic-distinguished features (composed, weathered, attentive), in formal Architect-cyan tournament-master's robes with a single small chrome chess-piece pin at the lapel. He sits at a tall private chess-table, mid-action of moving a single piece (the move is happening, the piece is mid-arc above its destination square). His left hand holds the piece; his right hand rests beside the board, palm-down. Behind him, a wall-mounted ARCHIVE OF RECORDED-GAMES — small chrome-and-cool-cyan game-record discs stacked in shelved arrays, each disc representing a previous match he learned from (specifically, every match the Architect played against civilizations — he watched all of them). His face is composed, slightly forward-leaning, focused.",
+    moodKeywords: [
+      "the Architect plays chess with civilizations",
+      "the Grandmaster learned from watching",
+      "wall-mounted archive of recorded-games",
+      "every match the Architect played",
+    ],
+    palette:
+      "Architect-cyan tournament-master's robes + chrome chess-piece lapel-pin + warm chess-table + chrome-and-cool-cyan game-record discs + chrome-and-cool-cyan shelved arrays + warm tournament-light + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, Grandmaster at frame-centre at chess-table mid-move, archive shelving behind",
+    notes:
+      "Rare unit. The 'archive of every match the Architect played' is the canonical 'learned from watching' visualization — without naming any specific civilization that fell. Generic-distinguished features must NOT match The Architect or any other named character. The single-piece-mid-move communicates ongoing-play.",
+  },
+  {
+    cardId: "s1_reward_class_engineer",
+    sceneDelta:
+      "Mid-shot. A Master Engineer — female-presenting figure in early-forties, generic-precise features (focused, calm, slightly tired), in worn Antiquarian-amber Master-grade engineer's apron over a cool-cream linen shirt with leather work-cuffs. She stands at a tall multi-station Antiquarian engineering-workshop, mid-action of CALIBRATING a brass-and-glass clockwork combat-construct (approximately her own height; the construct is the actual fighter). Her hands are inside the construct's open chest-cavity, adjusting an internal mechanism with a precision tool. The construct's eyes are partly-illuminated (mid-activation). Behind her, additional brass-and-glass partial-constructs are visible at neighboring stations, in earlier states of assembly. Faint warm-amber paper-drifts above her workbench (engineering documentation visible).",
+    moodKeywords: [
+      "the Engineer doesn't fight",
+      "she builds things that do",
+      "Master-grade Antiquarian-amber apron",
+      "hands inside the construct's chest-cavity",
+    ],
+    palette:
+      "Worn Antiquarian-amber Master-grade engineer's apron + cool-cream linen + leather work-cuffs + brass-and-glass clockwork construct + partial-illumination eyes + warm-amber paper-drifts + warm workshop-lamp + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, Master Engineer at frame-centre calibrating construct, additional partial-constructs at neighboring stations behind",
+    notes:
+      "Rare unit. CRITICAL: this is a senior MASTER-RANK engineer (a class-rank reward), NOT THE Engineer (whose identity remains [CLASSIFIED] in the Imprint set + Engineer Class set — face never visible across his renderings). Female-presenting + generic-precise features differentiates from THE Engineer. Brass-and-glass clockwork visual continuity with Engineer Imprint set + Time dimension.",
+  },
 ] as const;
 
 /**
  * Architect faction's prompt registry, keyed by card id.
  *
- * Currently populated: 40 / 63 cards
+ * Currently populated: 46 / 63 cards
  * (gen_architect, gen_authority, s1_char_006-009, s1_char_013,
  *  s1_char_015, s1_char_016, s1_char_019, s1_char_021,
  *  s1_char_022, s1_char_024, s1_char_030, s1_char_035,
@@ -733,7 +835,10 @@ const ARCHITECT_PROMPTS_LIST: readonly CardArtPrompt[] = [
  *  s1_pack_001-007, s1_pack_cosm_emote_taunt,
  *  s1_pack_cosm_ship_theme, s1_pack_id_human_archon,
  *  s1_pack_pet_data_serpent_1-3, s1_pack_pet_gilt_beetle_1-3,
- *  s1_pack_seed_chess).
+ *  s1_pack_seed_chess, s1_reward_boss_architect,
+ *  s1_reward_boss_collector, s1_reward_casino_pazaak,
+ *  s1_reward_chess_tourney, s1_reward_chess_win,
+ *  s1_reward_class_engineer).
  */
 export const ARCHITECT_CARD_ART_PROMPTS: Readonly<Record<string, CardArtPrompt>> =
   Object.freeze(
