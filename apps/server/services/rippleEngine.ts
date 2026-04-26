@@ -1180,6 +1180,74 @@ on("cover_identity_blown", async (ev) => {
 });
 
 /* ═══════════════════════════════════════════════════════
+   PHASE 2 NPC SUBSTRATE HANDLERS
+   ═══════════════════════════════════════════════════════ */
+
+/**
+ * severance_prize_paid (DMC → Trade Empire bridge):
+ * When a DMC season-end fires, open Nilmorg's severance broker
+ * engagement record (or unlock its lock-out if previously locked).
+ * Per nilmorg.md §5.7 deferred broker hook now active.
+ */
+on("severance_prize_paid", async (ev) => {
+  const { userId } = ev as { userId: number };
+  try {
+    const db = await getDb();
+    if (!db) return;
+    // Lazy import to avoid circular deps.
+    const { tradeBrokerEngagement } = await import("../../db/schema");
+    const existing = await db
+      .select({ id: tradeBrokerEngagement.id })
+      .from(tradeBrokerEngagement)
+      .where(
+        and(
+          eq(tradeBrokerEngagement.userId, userId),
+          eq(tradeBrokerEngagement.brokerKey, "broker_nilmorg_severance"),
+        ),
+      )
+      .limit(1);
+    if (existing.length > 0 && existing[0]?.id) {
+      await db
+        .update(tradeBrokerEngagement)
+        .set({ isLockedOut: false, lockedOutReason: null })
+        .where(eq(tradeBrokerEngagement.id, existing[0].id));
+    } else {
+      await db.insert(tradeBrokerEngagement).values({
+        userId,
+        brokerKey: "broker_nilmorg_severance",
+        firstMetAt: new Date(),
+      });
+    }
+    logger.info("severance_prize_paid → broker_nilmorg_severance unlocked", { userId });
+  } catch (err) {
+    logger.warn("severance_prize_paid handler failed", { err });
+  }
+});
+
+/**
+ * dream_residue (Oracle → Trade Empire bridge per OCB-7):
+ * Set a per-user mission-unlock flag keyed by (act, dreamId). The Trade
+ * Empire UI checks this flag to surface canonically-unlocked missions
+ * per the_oracle.md §5.3.
+ */
+on("dream_residue", async (ev) => {
+  const { userId, act, dreamId } = ev as { userId: number; act: number; dreamId: string };
+  try {
+    const db = await getDb();
+    if (!db) return;
+    const { npcPublicFlags } = await import("../../db/schema");
+    const flag = `dmc_oracle_residue_unlock_${act}_${dreamId}`;
+    await db
+      .insert(npcPublicFlags)
+      .values({ userId, flag, setBy: "the_oracle" })
+      .catch(() => {/* idempotent on unique violation */});
+    logger.info("dream_residue → public flag set", { userId, flag });
+  } catch (err) {
+    logger.warn("dream_residue handler failed", { err });
+  }
+});
+
+/* ═══════════════════════════════════════════════════════
    EXPORT — Single public interface
    ═══════════════════════════════════════════════════════ */
 
