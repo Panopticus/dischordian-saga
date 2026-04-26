@@ -345,17 +345,136 @@ const DREAMER_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "Uncommon unit. The shield-of-starlight is canon-direct from flavor — rendered as crystallized-starlight buckler. The 'secret meant only for you' is rendered as the extended folded note (the recipient is implied off-frame). Generic-poised features must NOT match any named character.",
   },
+  {
+    cardId: "s1_pack_015",
+    sceneDelta:
+      "Mid-shot. A Probability Surge — anonymous female-presenting Dreamer-aligned figure (back-three-quarter, generic-cream-and-aurora-violet robes), reaching her right hand INTO a translucent aurora-violet PROBABILITY-FIELD that hovers at chest-height in front of her. The field is rendered as a swirling cloud of overlapping ghost-futures (each ghost a different possible outcome — faintly visible as translucent miniature scenes). Her hand is mid-action of CLOSING around ONE specific ghost-future, pulling it FORWARD into reality. The pulled-future glows brighter than the others (the chosen outcome). NO face visible (back-three-quarter only). Around her, faint translucent paper-drifts.",
+    moodKeywords: [
+      "she did not see the future",
+      "she reached into the probability field and pulled out the one she wanted",
+      "anonymous reaching back-three-quarter",
+      "chosen ghost-future glowing brighter",
+    ],
+    palette:
+      "Cream-and-aurora-violet generic Dreamer robes + translucent aurora-violet probability-field + multiple translucent ghost-futures + warm pulled-future glow + warm-amber paper-drifts + cool deep-shadow",
+    composition:
+      "Mid-shot back-three-quarter, figure at frame-centre with hand in probability-field, chosen ghost-future being pulled forward",
+    notes:
+      "Common spell. Anonymous figure (back-three-quarter) preserves no-character-conflation. The 'reaching INTO probability and pulling out' is the canonical visualization of probability-as-medium rather than passive-prediction.",
+  },
+  {
+    cardId: "s1_pack_016",
+    sceneDelta:
+      "Mid-shot. A Vision Weaver — female-presenting figure in early-thirties, generic-deft features (focused, calm, slightly tired from continuous-work), in plain Dreamer-cream-and-aurora-violet weaver's apron over flowing under-robes. She sits at a tall LOOM at frame-centre — but the loom's threads are made of TRANSLUCENT FUTURE-STRANDS (each strand a different possible-future, woven in cool-cream and warm-amber and aurora-violet and silver-mist). At her hands, a NEW STRAND has just appeared — the canonical 'each dawn, a new strand' detail. She holds the new strand poised, deciding where to weave it. Behind her, a wide arched window onto a Dreamer-sanctum dawn (faint warm-amber sky). Her face is composed, attentive, the work continuing.",
+    moodKeywords: [
+      "she weaves futures like thread",
+      "each dawn, a new strand appears in her hands",
+      "loom threads made of translucent future-strands",
+      "composed, attentive, the work continuing",
+    ],
+    palette:
+      "Dreamer-cream-and-aurora-violet weaver's apron + flowing under-robes + tall loom + multi-color translucent future-strands + warm new-strand glow + warm dawn arched-window + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, Weaver at frame-centre at loom, dawn-window behind",
+    notes:
+      "Uncommon unit. Generic-deft features must NOT match any named character. The future-strand-loom is a new visual idiom — distinct from the Knowledge's library-balance and the Resurrectionist's altar.",
+  },
+  {
+    cardId: "s1_pack_017",
+    sceneDelta:
+      "Action mid-shot. Fate's Edge — a female-presenting figure in mid-thirties at frame-centre, in plain dark Dreamer-traveling-leathers, mid-action of HAVING CHOSEN. In front of her at frame-centre, a translucent enemy BLADE is FROZEN MID-SWING toward her chest — the blade's leading edge mere centimeters from her. She is unmoving, unflinching, calm. Around the blade, faint translucent aurora-violet TIMELINE-SELECTOR rings (the rings showing the moment of selection — a faint ghost of an alternate-timeline visible in the deep background where the blade DOES land, then fading). Her face is composed-grave; she made the choice. A small chrome-and-aurora-violet timeline-selector pendant at her throat is faintly luminous. NO opponent visible — only the blade.",
+    moodKeywords: [
+      "she saw the blade that would end her",
+      "she chose the timeline where it froze mid-swing",
+      "blade frozen centimeters from chest",
+      "composed-grave — she made the choice",
+    ],
+    palette:
+      "Dark Dreamer-traveling-leathers + translucent enemy blade + aurora-violet timeline-selector rings + faint deep-background alternate-timeline ghost + chrome-and-aurora-violet pendant + cool deep-shadow",
+    composition:
+      "Action mid-shot front three-quarter, figure at frame-centre, frozen blade at lower-third, timeline-rings around blade",
+    notes:
+      "Rare unit. Generic-mid-thirties features must NOT match any named character. The 'frozen blade with alternate-timeline ghost in deep-background' is the canonical visualization of timeline-selection — the choice made visible by what DIDN'T happen.",
+  },
+  {
+    cardId: "s1_pack_018",
+    sceneDelta:
+      "Wider mid-shot. A Dream Sentinel — humanoid translucent guardian, approximately 2m tall, body composed of CRYSTALLIZED-DREAM-SUBSTANCE (translucent silver-mist with internal aurora-violet swirls). It stands at the threshold of a Dreamer sanctum-corridor, both arms extended outward in a defensive blocking-pose. Behind the Sentinel, a vast translucent WALL extends across the corridor — the dreamed-of wall made manifest, currently solid (the Sentinel's belief in the wall sustains the wall). Faint warm provoke-glow rims its leading shoulder. Where its face would be, a single calm warm-amber dream-eye. NO human face. The corridor behind shows the wall holding firm.",
+    moodKeywords: [
+      "it dreams of an impenetrable wall",
+      "and so the wall exists",
+      "crystallized-dream-substance body",
+      "single calm warm-amber dream-eye",
+    ],
+    palette:
+      "Translucent silver-mist Sentinel-body + internal aurora-violet swirls + translucent dreamed-wall + warm-amber dream-eye + warm provoke-rim + cool sanctum-corridor + cool deep-shadow",
+    composition:
+      "Wider mid-shot front three-quarter, Sentinel at frame-centre with arms extended, dreamed-wall behind",
+    notes:
+      "Common unit. NO human face (the Sentinel is a dream-construct). The 'wall exists because dreamed' is the canonical Dreamer-faction reality-by-belief visualization.",
+  },
+  {
+    cardId: "s1_pack_019",
+    sceneDelta:
+      "Wider mid-shot. An Oracle's Wrath — at frame-centre, the canonical Oracle-projection (consistent with gen_dreamer + Oracle Imprint set: silver-mist, aurora-violet shimmer, faceless cream-mist) but rendered in DECISIVE-WRATH posture: arms extended outward in a wide condemnation-gesture, the projection's intensity is HIGHER than at default-state (brighter, more saturated aurora-violet, more solid silhouette). From her extended hands, two PARALLEL aurora-violet WRATH-BEAMS extend forward toward off-frame targets. The beams are NOT prediction-rays; they are ORDINATION-rays — ending what they touch. Around her, the air shows distortion-rings from the intensity. NO face visible (cream-mist faceless oval per canonical Oracle leak/projection visualization).",
+    moodKeywords: [
+      "she did not foresee your destruction",
+      "she ordained it",
+      "two parallel ordination-beams from extended hands",
+      "intensity higher than default-state",
+    ],
+    palette:
+      "Brighter Oracle silver-mist + saturated aurora-violet + faceless cream-mist oval + parallel aurora-violet wrath-beams + air-distortion-rings + cool deep-shadow",
+    composition:
+      "Wider mid-shot front three-quarter, Oracle-projection at frame-centre with arms extended, two beams toward off-frame targets",
+    notes:
+      "Epic spell. CRITICAL spoiler-discipline: face is FACELESS cream-mist oval (consistent with Oracle Imprint set + Oracle Class spell s1_class_oracle_05 + gen_dreamer). The 'ordination not prediction' is rendered as the destructive beams (vs the default observational projection).",
+  },
+  {
+    cardId: "s1_pack_020",
+    sceneDelta:
+      "Wider mid-shot. Prophecy Incarnate — a tall figure of indeterminate gender at frame-centre, body composed entirely of CRYSTALLIZED PROPHECY-SUBSTANCE (translucent aurora-violet with embedded readable PROPHECY-SCRIPT visible throughout the body — every limb, every fingertip, every contour shows running prophetic-text in cool-cyan glyphs). The figure has no separate clothes; the prophecy IS the body. Where their face would be, a wide aurora-violet PROPHECY-EYE (one large luminous eye occupying the entire face-region). The figure speaks; from their mouth-region, faint translucent prophetic-words emit forward. The setting is a vast featureless cool-cream void — no architecture, no environment, just the Prophecy made visible. The figure cannot be silenced.",
+    moodKeywords: [
+      "the prophecy did not predict the end",
+      "it was the end",
+      "given a body and a voice that would not be silenced",
+      "body composed of crystallized prophecy-substance",
+    ],
+    palette:
+      "Translucent aurora-violet prophecy-substance body + embedded cool-cyan prophecy-script + wide aurora-violet prophecy-eye + translucent prophetic-words emitting + featureless cool-cream void",
+    composition:
+      "Wider mid-shot front three-quarter, Prophecy Incarnate at frame-centre, void backdrop",
+    notes:
+      "Legendary unit. The body-IS-the-prophecy framing is the canonical visualization. NO specific named character (Prophecy Incarnate is by definition impersonal). The 'voice that would not be silenced' is rendered as the visible emitted-words — present even when not heard.",
+  },
+  {
+    cardId: "s1_pack_021",
+    sceneDelta:
+      "Tight composition. A Starlight Familiar — a small translucent silver-mist creature, approximately 15cm long, hovering at frame-centre in mid-air. Body shape suggests a tiny dragon-form or a fox-shape (deliberately ambiguous — different viewers will see different forms). Internal cool-cyan-and-aurora-violet starlight pulses softly within its body. Two tiny luminous deeper-cool-cyan eye-points. Around the Familiar, faint translucent starlight-trails of its single thought (the ONE thought it lived for, made visible as a brief luminous arc trailing through the air). The setting is a quiet Dreamer-sanctum night-window with starlight beyond. The Familiar is mid-action of fading — its substance visibly thinning at the edges (the thought is ending; the Familiar with it).",
+    moodKeywords: [
+      "lived for the span of a single thought",
+      "but what a thought it was",
+      "ambiguous dragon-or-fox form",
+      "substance visibly thinning at edges",
+    ],
+    palette:
+      "Translucent silver-mist Familiar-body + internal cool-cyan-and-aurora-violet starlight + deeper-cool-cyan eye-points + faint translucent starlight-trail-arc + warm Dreamer-sanctum night-window + cool starlight backdrop",
+    composition:
+      "Tight composition, Familiar at frame-centre hovering, sanctum-window behind",
+    notes:
+      "Common unit. Deliberately ambiguous form (dragon-or-fox) is the visual key — the Familiar is a thought, not a creature. NO human figure. Echoes Air-elemental Breeze Whisper's barely-formed silhouette but explicitly Dreamer-aurora-violet rather than cool-cream-air.",
+  },
 ] as const;
 
 /**
  * Dreamer faction's prompt registry, keyed by card id.
  *
- * Currently populated: 18 / 61 cards
+ * Currently populated: 25 / 61 cards
  * (gen_dreamer, s1_char_005, s1_char_014, s1_char_017,
  *  s1_char_023, s1_char_025, s1_char_027, s1_char_029,
  *  s1_char_034, s1_char_036, s1_char_037, s1_char_045,
  *  s1_char_046, s1_char_109, s1_char_110, s1_char_111,
- *  s1_char_112, s1_char_203).
+ *  s1_char_112, s1_char_203, s1_pack_015-021).
  */
 export const DREAMER_CARD_ART_PROMPTS: Readonly<Record<string, CardArtPrompt>> =
   Object.freeze(
