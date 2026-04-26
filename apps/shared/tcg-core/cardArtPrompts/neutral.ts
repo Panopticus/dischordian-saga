@@ -531,18 +531,158 @@ const NEUTRAL_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "Rare unit. Generic indeterminate features (no specific named character). The 'changed wrongness' is rendered through visible asymmetry + alien-uncanny expression.",
   },
+  {
+    cardId: "s1_reward_bonus_complete",
+    sceneDelta:
+      "Mid-shot. An Objective Secured — anonymous female-presenting operative (back-three-quarter, generic Insurgency-aligned slate-and-signal-green tactical gear) at frame-centre, mid-action of CHECKING A BRIEFING-TABLET (chrome-and-warm-gold device displaying mission-status). On the tablet's surface, visible '25/25 — OBJECTIVES COMPLETE' in chrome-and-warm-gold script, with a chrome-and-warm-gold NEXT-BRIEFING already partially displayed below (no celebration moment — already onto the next). Around her, faint warm low ops-room light. NO face visible. Behind her, a small chrome-and-warm-gold mission-board with previous twenty-five objectives all marked-complete.",
+    moodKeywords: [
+      "twenty-five objectives. twenty-five clean executions",
+      "the operative does not celebrate — she checks the next briefing",
+      "tablet showing 25/25 with NEXT-BRIEFING already loading",
+      "no celebration moment — straight to next",
+    ],
+    palette:
+      "Insurgency-aligned slate-and-signal-green tactical gear + chrome-and-warm-gold briefing-tablet + chrome-and-warm-gold script + completed mission-board + warm low ops-room light + cool deep-shadow",
+    composition:
+      "Mid-shot back-three-quarter, operative at frame-centre with tablet, mission-board behind",
+    notes:
+      "Rare spell. Anonymous operative (back-three-quarter) preserves no-character-conflation. The 'no celebration' framing is rendered through the immediate-next-task posture.",
+  },
+  {
+    cardId: "s1_reward_campaign_balanced",
+    sceneDelta:
+      "Wider mid-shot. The Balanced Witness — female-presenting figure in mid-fifties, generic-scholarly features (calm grave eyes, distinguished silver-streaked hair tied back, slight worn warmth), in formal Antiquarian-aligned witness-robes (cream-and-warm-amber academic fabric with chrome-and-warm-amber witness-pin at the lapel). She sits at a low writing-desk at frame-centre, mid-action of WRITING in a thick warm-leather chronicle. Around her, FOUR translucent past-vista-fragments float at frame-edges — each showing a different witnessed-history (frame-upper-left: Truth-seekers burning in cool-amber flame; frame-upper-right: Defiant falling in cool-grey rubble; frame-lower-left: Empaths weeping in warm-cream sorrow; frame-lower-right: Stoics enduring in cool-stone resolve). She has watched all four. NOW she writes. Her face is composed-grave.",
+    moodKeywords: [
+      "she watched the Truth-seekers burn and the Defiant fall",
+      "she watched the Empaths weep and the Stoics endure",
+      "then she wrote it all down",
+      "four translucent past-vista-fragments at frame-edges (one per archetype)",
+    ],
+    palette:
+      "Cream-and-warm-amber Antiquarian-aligned witness-robes + chrome-and-warm-amber witness-pin + warm-leather chronicle + four translucent past-vista-fragments (Truth-seekers cool-amber + Defiant cool-grey + Empaths warm-cream + Stoics cool-stone) + warm low writing-desk light + cool deep-shadow",
+    composition:
+      "Wider mid-shot front three-quarter, Witness at frame-centre at desk, four past-vista-fragments at frame-edges",
+    notes:
+      "Rare unit. Generic-scholarly features must NOT match any named character. The four-archetype-fragments is canon-direct from flavor. NOTE: this is a 'Balanced Witness' — distinct from the Two Witnesses (Acts 6-7 reveal); the Balanced Witness is a Council-historian rendering.",
+  },
+  {
+    cardId: "s1_reward_campaign_empathy",
+    sceneDelta:
+      "Wider mid-shot. A Compassion Protocol — at frame-centre, the original Inception Ark COMPASSION-CORE (a chrome-and-warm-cream ancient Ark control-vault, the canonical 'oldest protocol'). The vault is OPEN; its interior shows a faint translucent warm-cream COMPASSION-WAVE propagating outward across the entire frame, through the Ark's structure and beyond. As the wave reaches anonymous wounded figures (mixed-faction back-shots at lower-third), the figures' visible wounds CLOSE in real-time (warm-cream healing). The protocol has no targeting — it heals what it can reach. NO operator visible (the protocol is automated, ancient).",
+    moodKeywords: [
+      "the Ark's oldest protocol had no military purpose",
+      "it simply healed what it could reach",
+      "translucent warm-cream compassion-wave propagating outward",
+      "anonymous wounded mixed-faction figures with wounds closing in real-time",
+    ],
+    palette:
+      "Chrome-and-warm-cream ancient Ark compassion-core vault + translucent warm-cream compassion-wave + anonymous mixed-faction wounded + warm-cream healing-glow + cool deep-shadow",
+    composition:
+      "Wider mid-shot, vault at frame-centre upper-third, compassion-wave propagating across frame, anonymous wounded at lower-third",
+    notes:
+      "Rare spell. Anonymous wounded preserve no-character-conflation. The 'no military purpose' is rendered through the omnidirectional propagation (no targeting).",
+  },
+  {
+    cardId: "s1_reward_casino_jackpot",
+    sceneDelta:
+      "Wider mid-shot. A Lucky Break — at frame-centre, a casino-floor scene where the SLOT MACHINES + ROULETTE WHEEL + DICE-TABLES all simultaneously hit JACKPOT (visible chrome-and-warm-gold JACKPOT-LIGHTS flashing across multiple devices). At lower-third, an anonymous figure (back-three-quarter, generic-fortunate features barely visible — could be ANY type of patron) stands at a chrome-and-warm-gold cashier-window with multiple chrome-and-warm-gold WINNINGS-CHIPS in their hands. Around them, faint warm-gold luck-aura. Behind them, the casino-house in mid-distance shows EVERY DEVICE PAYING OUT (canonical 'today you're the house'). Faint warm bright lighting.",
+    moodKeywords: [
+      "the house always wins",
+      "unless you're the house",
+      "and today, you're the house",
+      "every device simultaneously paying out jackpot",
+    ],
+    palette:
+      "Chrome-and-warm-gold jackpot-lights + chrome-and-warm-gold winnings-chips + chrome-and-warm-gold cashier-window + warm-gold luck-aura + warm bright casino-floor lighting + cool deep-shadow",
+    composition:
+      "Wider mid-shot, casino-floor at frame-centre with all jackpots flashing, anonymous figure at lower-third with winnings",
+    notes:
+      "Rare spell. Anonymous fortunate figure preserves no-character-conflation. The 'today you're the house' is rendered through the simultaneous all-jackpot-payout visualization.",
+  },
+  {
+    cardId: "s1_reward_casino_slots",
+    sceneDelta:
+      "Mid-shot. A Lucky Spinner — male-presenting figure in mid-thirties, generic-confident features (warm satisfied smile, alert eyes, casual stance), in casual New Babylon-aligned casino-patron attire (warm-leather vest over warm-cream linen). He stands at a chrome-and-warm-gold slot-machine at frame-centre, mid-action of having JUST PULLED THE LEVER. The slot's reels show THREE CHERRIES (chrome-and-deep-crimson cherry-icons all aligned). Behind him, three off-frame enemies are visible (back-three-quarter, generic-cool-leather opponents) mid-COLLAPSE — three jackpots = three enemies-defeated. Faint warm-gold luck-aura around the slot-machine. His face shows lucky-day satisfaction.",
+    moodKeywords: [
+      "three cherries. three jackpots",
+      "three enemies who wished they'd stayed in bed",
+      "slot-reels showing aligned three-cherries",
+      "three off-frame enemies mid-collapse",
+    ],
+    palette:
+      "Casual warm-leather over warm-cream linen + chrome-and-warm-gold slot-machine + chrome-and-deep-crimson cherry-icons + warm-gold luck-aura + anonymous enemy silhouettes + warm casino-floor light + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, Spinner at frame-centre at slot-machine, anonymous enemies collapsing behind",
+    notes:
+      "Common unit. Anonymous enemies (back-three-quarter) preserve no-character-conflation. Generic-confident features must NOT match any named casino-figure (specifically NOT The Degen — different role: New Babylon-patron vs Dreamer-faction host).",
+  },
+  {
+    cardId: "s1_reward_challenge_streak",
+    sceneDelta:
+      "Mid-shot. An Honored Rival — at frame-centre, TWO figures in mid-action of HANDSHAKE: both are anonymous male-presenting (back-three-quarter, generic warriors in mixed-faction tactical gear, no specific identifying features), mid-thirties, similar build. They stand on a battlefield-aftermath (the canonical 'after the tenth fight'), both their armor visibly DAMAGED (matching wounds — they fought equally). Their right hands are clasped in honor-handshake; their left hands rest at their sides. Faint warm-cream rivalry-aura around the handshake-point. Behind them, ten translucent past-fight ghosts visible at mid-distance (each a brief glimpse of one of their previous ten fights). NO faces visible.",
+    moodKeywords: [
+      "they fought ten times",
+      "after the tenth, they shook hands",
+      "both were harder to kill for it",
+      "matching wounds + ten translucent past-fight ghosts behind",
+    ],
+    palette:
+      "Mixed-faction tactical gear + matching wounds + warm-cream rivalry-aura + handshake-clasp + ten translucent past-fight ghosts + cool battlefield-aftermath + cool deep-shadow",
+    composition:
+      "Mid-shot back-three-quarter on both figures, handshake at frame-centre, ten ghost-fights at mid-distance behind",
+    notes:
+      "Rare unit. Anonymous rivals preserve no-character-conflation. The 'ten fights' is rendered through the visible ten ghost-fights.",
+  },
+  {
+    cardId: "s1_reward_companion_all",
+    sceneDelta:
+      "Wider mid-shot. A Trusted Ally — female-presenting figure in mid-thirties at frame-centre, generic-resolute features (steady eyes, scarred jaw, hair tied back), in mixed-faction Insurgency-aligned tactical gear with VARIOUS COMPANION-MARKS visible across her body (small chrome talismans pinned to her armor — each from a different past-companion: a chrome-and-cool-cyan token, a chrome-and-warm-amber pendant, a chrome-and-signal-green emblem, others — each a 'mark' from a former bond). Around her, faint translucent COMPANION-GHOSTS visible at frame-edges (back-shots, generic-mixed-faction silhouettes — six former companions following her into battle). Faint warm-cream loyalty-aura. NO single dominant past-companion (all anonymous).",
+    moodKeywords: [
+      "every companion she ever bonded with left a mark",
+      "she carries them all into battle",
+      "various companion-marks pinned across armor",
+      "six translucent companion-ghosts at frame-edges",
+    ],
+    palette:
+      "Insurgency-aligned tactical gear + multiple companion-marks (mixed chrome accents) + translucent companion-ghosts (mixed-faction back-shots) + warm-cream loyalty-aura + cool deep-shadow + warm low battlefield-light",
+    composition:
+      "Wider mid-shot front three-quarter, Trusted Ally at frame-centre, companion-ghosts at frame-edges",
+    notes:
+      "Rare unit. Generic-resolute features + anonymous companion-ghosts preserve no-character-conflation. The 'carries them all' is rendered through the visible companion-marks + ghost-companions.",
+  },
+  {
+    cardId: "s1_reward_companion_elara",
+    sceneDelta:
+      "Wider mid-shot. Elara's Guidance — at frame-centre, a translucent ELARA-SILHOUETTE rendered in faint warm-amber hologram-substance (visual continuity with Elara renderings: warm-amber hair, calm composed features). The silhouette is HUGE-SCALE (approximately 4m tall, ethereal — not a physical Elara but a transmission-projection). Her voice manifests as faint translucent VOICE-WAVES propagating across multiple ANONYMOUS RECEIVERS at lower-third (mixed-faction back-shots, each with a small chrome-and-warm-amber receiver-device at their ear). Each receiver visibly HEALS as her voice reaches them. NO physical Elara (only her voice across channels).",
+    moodKeywords: [
+      "her voice carries across every channel",
+      "mending what others cannot reach",
+      "translucent Elara-silhouette as transmission-projection",
+      "voice-waves reaching anonymous mixed-faction receivers",
+    ],
+    palette:
+      "Translucent warm-amber hologram-Elara + warm-amber hair + voice-waves + chrome-and-warm-amber receiver-devices + anonymous mixed-faction receivers + warm-cream healing-glow + cool deep-shadow",
+    composition:
+      "Wider mid-shot, hologram-Elara at frame-centre, voice-waves reaching anonymous receivers at lower-third",
+    notes:
+      "Rare spell. Visual continuity with Elara renderings (canonical features) but rendered as transmission-projection (not physical). Anonymous receivers preserve no-character-conflation.",
+  },
 ] as const;
 
 /**
  * Neutral faction's prompt registry, keyed by card id.
  *
- * Currently populated: 29 / 79 cards
+ * Currently populated: 37 / 79 cards
  * (burnt_card_placeholder, gen_game_master_original, gen_neutral,
  *  gen_programmer, gen_seer, s1_char_004, s1_char_086-093,
  *  s1_pack_043-049, s1_pack_cosm_badge_s1, s1_pack_cosm_title_echo,
  *  s1_pack_id_elara_advocate, s1_pack_id_elara_panoptic,
  *  s1_pack_id_elara_ship_ai, s1_pack_id_human_detective,
- *  s1_pack_id_human_student, s1_pack_seed_gene).
+ *  s1_pack_id_human_student, s1_pack_seed_gene,
+ *  s1_reward_bonus_complete, s1_reward_campaign_balanced,
+ *  s1_reward_campaign_empathy, s1_reward_casino_jackpot,
+ *  s1_reward_casino_slots, s1_reward_challenge_streak,
+ *  s1_reward_companion_all, s1_reward_companion_elara).
  */
 export const NEUTRAL_CARD_ART_PROMPTS: Readonly<Record<string, CardArtPrompt>> =
   Object.freeze(
