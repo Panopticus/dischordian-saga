@@ -141,14 +141,117 @@ const DREAMER_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "Epic unit. CRITICAL: face is PARTIALLY rendered but specifically UNREADABLE — eyes/mouth-line visible but no fixed features. Body partially translucent. Indeterminate gender. Robes extend beyond body-silhouette into space (canon: 'beyond time and space'). The dream-substance shaping a beneficial-future diorama is canon-direct from 'shapes futures and scenarios that benefit the Ne-Yons.'",
   },
+  {
+    cardId: "s1_char_027",
+    sceneDelta:
+      "Wider mid-shot. The Enigma — a tall figure of indeterminate gender, body composed of overlapping CONTRADICTORY-IDENTITIES rendered as multiple translucent silhouettes layered at slight offsets (a male-presenting silhouette, a female-presenting silhouette, a non-binary silhouette, all visible simultaneously, none fully solid). They wear flowing Dreamer-aurora-violet robes with deep crimson under-tunic. Where their face would be, the layered identities show different partial-faces — the viewer cannot fix on any one. They stand at the centre of a Dreamer-sanctum war-archive, where a faded MEMORY-FRESCO at upper-third depicts the canonical pre-Fall destruction of the Warden alongside the White Oracle (warrior-figures and the Oracle's silver-mist projection wielding cool-cyan-and-aurora-violet light against a fragmenting Warden-figure — the historical victory). A translucent green-tinted forcefield-shimmer wraps the Enigma. Generic non-conflating silhouettes.",
+    moodKeywords: [
+      "played a crucial role in destroying the Warden alongside the White Oracle",
+      "before the Fall of Reality",
+      "overlapping contradictory-identities",
+      "viewer cannot fix on any one face",
+    ],
+    palette:
+      "Dreamer-aurora-violet robes + deep crimson under-tunic + multiple overlapping translucent identity-silhouettes + faded memory-fresco + translucent green-tinted forcefield + Dreamer-sanctum war-archive + cool deep-shadow",
+    composition:
+      "Wider mid-shot front three-quarter, Enigma at frame-centre with overlapping identities, memory-fresco at upper-third behind",
+    notes:
+      "Legendary unit. The Warden's destruction is canon at end of Epoch 2 (Genesis-era event, fully revealed). Memory-fresco depicts the historical event without naming the specific Warden-incarnation (which version was destroyed is left ambiguous). The Enigma's overlapping identities is the canonical 'enigma' visualization. Visual continuity with The Enigma Imprint set's third-option framing.",
+  },
+  {
+    cardId: "s1_char_029",
+    sceneDelta:
+      "Mid-shot. The Forgotten — a humanoid figure in mid-thirties at frame-centre, but the figure is RENDERED AS PARTIALLY FADING from existence: their body shows visible translucent gaps (forearms partially-transparent, jaw-line beginning to dissolve, edges of the silhouette feathering away). They wear plain Dreamer-cream traveling robes with no faction-markers (no insignia survives a forgotten-history). Around them, the SETTING ITSELF is empty — a featureless cool-cream space with no architecture, no other figures, no environment-marks (the absence of context is the visual key). Faint warm-amber memory-pages float around their head — but the pages are BLANK. Their face is half-formed: eyes visible, mouth-line visible, but no specific identifying features fix.",
+    moodKeywords: [
+      "no connected characters",
+      "no appearances in stories",
+      "partially fading from existence",
+      "empty featureless space — no environment marks",
+    ],
+    palette:
+      "Dreamer-cream traveling robes + faint translucent body-gaps + featureless cool-cream space + warm-amber blank memory-pages + faint feathering body-edge",
+    composition:
+      "Mid-shot front three-quarter, Forgotten at frame-centre fading, blank pages floating, no environment",
+    notes:
+      "Rare unit. CRITICAL: 'no environment, no marks' is canon-direct from flavor (the Forgotten has no connections, no appearances). The blank memory-pages communicate 'no stories' explicitly. Generic-fading face must NOT match any named character (the entire point is that they don't connect to anyone).",
+  },
+  {
+    cardId: "s1_char_034",
+    sceneDelta:
+      "Mid-shot. The Inventor — male-presenting figure in mid-fifties, generic-eccentric features (alert eyes, slightly rumpled), in a worn Dreamer-cream-and-aurora-violet inventor's smock over a cool-cream linen shirt with multiple chest-pocket tools clipped (small precision instruments). He stands at a long Dreamer-vision workshop bench at frame-centre. On the bench, a small INNOVATION mid-construction: a chrome-and-aurora-violet spherical artifact, partially-disassembled, with internal cool-cyan filigree visible through translucent panels. The Inventor holds in his right hand a long PRECISION TOOL with a Dreamer-amber tip; his left hand holds a small visionary-blueprint sketch. A translucent green-tinted forcefield-shimmer wraps the bench-area (forcefield). Around him, faint translucent dream-substance drifts (the Dreamer's visions made manifest as he works).",
+    moodKeywords: [
+      "driven by the Dreamer's visions",
+      "crafts tools and innovations that can empower or undermine any faction",
+      "small spherical artifact with cool-cyan internal filigree",
+      "alert eyes, slightly rumpled",
+    ],
+    palette:
+      "Dreamer-cream-and-aurora-violet inventor's smock + cool-cream linen + chrome-and-aurora-violet spherical artifact + cool-cyan internal filigree + translucent green-tinted forcefield + faint translucent dream-substance + warm bench-light",
+    composition:
+      "Mid-shot front three-quarter, Inventor at frame-centre at workshop-bench, artifact mid-construction at lower-third",
+    notes:
+      "Rare unit. Generic-eccentric features must NOT match The Engineer (whose identity is [CLASSIFIED] in Imprint set + Engineer Class set). Different aesthetic: this is a Dreamer-aligned visionary-inventor (cream-and-aurora-violet) vs the Antiquarian-aligned Engineer (amber-and-brass). Distinct visual lineages.",
+  },
+  {
+    cardId: "s1_char_036",
+    sceneDelta:
+      "Wider mid-shot. The Judge — tall figure of indeterminate gender at frame-centre, wearing formal Dreamer-aurora-violet judicial-robes with a deep crimson sash (the canonical balance-arbiter's regalia), a small chrome-and-aurora-violet ceremonial scale-pendant at the throat. They stand at the centre of a high circular Dreamer-judgment-chamber, both hands extended outward in a wide WEIGHING-GESTURE — the air between their hands shows a translucent aurora-violet-and-crimson SCALE-PROJECTION (not a physical scale; a manifest-scale of judgment) with two small translucent silhouettes balanced at the scale's pans (one at frame-left in faint cool blue, one at frame-right in faint warm amber — the two sides being weighed). The figure's face is composed, neutral, deeply attentive. Faint warm provoke-glow rims their leading shoulder.",
+    moodKeywords: [
+      "deciding the fate of individuals, civilizations, and ideologies",
+      "guided solely by their perception of balance",
+      "wide weighing-gesture between hands",
+      "two translucent silhouettes at scale's pans",
+    ],
+    palette:
+      "Dreamer-aurora-violet judicial-robes + deep crimson sash + chrome-and-aurora-violet scale-pendant + translucent aurora-violet-and-crimson scale-projection + cool-blue (left) + warm-amber (right) silhouettes + warm provoke-rim + cool Dreamer-judgment-chamber",
+    composition:
+      "Wider mid-shot front three-quarter, Judge at frame-centre with arms extended, scale-projection between hands, judgment-chamber depth behind",
+    notes:
+      "Rare unit. Indeterminate gender + neutral face is canon for the Judge (their balance-discipline requires non-aligned identity). The two translucent silhouettes at the pans (cool-blue + warm-amber) represent generic-archetype factions being weighed; NOT specific named characters.",
+  },
+  {
+    cardId: "s1_char_037",
+    sceneDelta:
+      "Mid-shot. The Knowledge — female-presenting figure in mid-forties, generic-thoughtful features (calm, slightly amused, attentive), in formal Dreamer-cream-and-aurora-violet scholar's robes with a single small Dreamer-three-rings sigil at the collar. She stands at a tall LIBRARY-BALANCE — the library wall behind her is divided into TWO HALVES vertically: the LEFT HALF shows fully-illuminated shelves of clear knowledge-books (books open, pages legible, warm reading-light); the RIGHT HALF shows shelves DELIBERATELY DARKENED, with books closed, spines facing inward (the kept-ignorance, the half she preserves). At her hands, a single book is held between the two halves — the boundary-keeper. A translucent green-tinted forcefield-shimmer wraps her body. Faint warm-amber paper-drifts above (draw idiom). The maintained equilibrium is the visual key.",
+    moodKeywords: [
+      "maintaining an equilibrium of enlightenment and ignorance",
+      "ensures the Ne-Yons remain indispensable",
+      "library wall divided: illuminated half + darkened half",
+      "the book held at the boundary",
+    ],
+    palette:
+      "Dreamer-cream-and-aurora-violet scholar's robes + Dreamer-three-rings sigil + warm illuminated half-library + cool darkened half-library + warm-amber paper-drifts + translucent green-tinted forcefield + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, Knowledge at frame-centre at library-balance, divided shelves filling background",
+    notes:
+      "Rare unit. The two-half-library visualization (illumination ↔ ignorance) is canon-direct from 'equilibrium of enlightenment and ignorance.' Generic-thoughtful features must NOT match any named character. The boundary-keeper-book at her hands is the visual key to her function.",
+  },
+  {
+    cardId: "s1_char_045",
+    sceneDelta:
+      "Wider mid-shot. The Resurrectionist — tall figure in early-fifties, generic-deliberate features (calm, slightly weary, very precise), in formal Dreamer-aurora-violet-and-deep-crimson resurrection-mage's robes with chrome ceremonial wrist-bands. They stand at a low circular resurrection-altar at frame-centre. On the altar, TWO smaller translucent figures are mid-resurrection simultaneously: one in faint warm-amber (Architect-aligned silhouette being raised), one in faint cool-violet (Hierarchy-aligned silhouette being raised), each at a different position around the altar. The Resurrectionist's hands are extended outward to BOTH figures in a balanced gesture — both are being equally restored. Around the altar, faint translucent resurrection-glow propagates outward in a balanced pattern. The maintained-balance is rendered as the symmetrical-resurrection composition.",
+    moodKeywords: [
+      "resurrecting key figures on both sides",
+      "maintain a balance favorable to the Ne-Yons",
+      "ensuring no faction becomes dominant",
+      "two translucent figures simultaneously raised — Architect + Hierarchy",
+    ],
+    palette:
+      "Dreamer-aurora-violet-and-deep-crimson resurrection-mage's robes + chrome ceremonial wrist-bands + warm-amber Architect-aligned silhouette + cool-violet Hierarchy-aligned silhouette + translucent resurrection-glow + warm circular altar + cool deep-sanctum-ambient",
+    composition:
+      "Wider mid-shot front three-quarter, Resurrectionist at frame-centre with hands extended to both sides, two simultaneous resurrections at altar",
+    notes:
+      "Rare unit. The 'two simultaneous resurrections, balanced' is the visual key to 'maintains balance.' Generic-archetype silhouettes (no specific named characters being resurrected). Generic-deliberate features must NOT match any named character.",
+  },
 ] as const;
 
 /**
  * Dreamer faction's prompt registry, keyed by card id.
  *
- * Currently populated: 6 / 61 cards
+ * Currently populated: 12 / 61 cards
  * (gen_dreamer, s1_char_005, s1_char_014, s1_char_017,
- *  s1_char_023, s1_char_025).
+ *  s1_char_023, s1_char_025, s1_char_027, s1_char_029,
+ *  s1_char_034, s1_char_036, s1_char_037, s1_char_045).
  */
 export const DREAMER_CARD_ART_PROMPTS: Readonly<Record<string, CardArtPrompt>> =
   Object.freeze(

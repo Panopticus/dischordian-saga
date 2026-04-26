@@ -45,7 +45,7 @@ import { DREAMER_CARD_ART_PROMPTS } from "./dreamer";
  *   - panopticon: 8 / 8 cards — COMPLETE
  *   - antiquarian: 39 / 39 cards — COMPLETE
  *   - architect: 63 / 63 cards — COMPLETE
- *   - dreamer: 6 / 61 cards
+ *   - dreamer: 12 / 61 cards
  *
  * Pending factions:
  *   - dreamer (remaining ~55)
