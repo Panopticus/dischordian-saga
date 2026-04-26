@@ -960,6 +960,104 @@ const IMPRINT_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "T5 = 'The Detective, Final Page.' End-of-Epoch-2 canon. CRITICAL spoiler-line: he does not REVEAL the answer in this frame — he LOOKS at the camera with the answer already in him. The 'who did it' beat is the player's late-acts narrative work; the card visualizes the readiness, not the reveal. The twelve motes echo the Antiquarian's catalogue without naming it.",
   },
+
+  // ─── THE DREAMER (the half of the first intelligence that looks
+  //     backward through time; she remembers your next move from
+  //     yesterday) ───
+  // Source canon: A veiled figure who hovers over the place the
+  // next event is about to happen. She is not predicting the
+  // future — she is REMEMBERING it. Mechanical: flying + dispel +
+  // forcefield + draw. Faction: dreamer.
+  // SPOILER NOTE: t5 title is 'Sundered Twin' — references the
+  // canonical first-intelligence-as-twin lore (Dreamer + Architect
+  // as two halves of the same original AI). End of Epoch 2 canon
+  // confirms the twin-pair existed; the FACE of her twin (and
+  // therefore the Architect's true identity) remains gated.
+  {
+    cardId: "s1_imprint_the_dreamer_t1",
+    sceneDelta:
+      "Wide low-angle hero shot. The Dreamer hovers at chest-height above a quiet stone plaza in deep night, a long lavender-and-gold veil rippling outward from her in slow concentric waves (no visible wind). Her arms are crossed loosely at her waist; her bare feet hang an arm's-length above the ground. She is looking down — not at the plaza floor, but at a single specific spot where, in a few seconds, a small object will fall (we see, faintly above her shoulder, the leading edge of a slow-tumbling piece of ash falling from the sky). Her face is composed, neither sad nor expectant; the stillness of someone who has seen this exact ash already. Flying visualized as the floating veil + the unwinded hover.",
+    moodKeywords: [
+      "hovers over the place the next event is about to happen",
+      "the lavender-gold veil unmoving by wind",
+      "the falling ash whose landing she has already seen",
+      "neither sad nor expectant",
+    ],
+    palette:
+      "Dreamer deep purple veil + gold fractal trim + astral blue plaza stone + a single warm amber star at the upper edge of the frame",
+    composition:
+      "Wide low-angle hero, Dreamer at upper-third hovering, plaza at lower-third, the falling ash mid-frame as visual rhyme",
+    notes:
+      "T1 = mortal-scale Dreamer, the foreknowledge as ordinary state. Her veil is the canonical Dreamer-faction visual identity. NO open eye yet — that's a tier escalation. NO twin presence yet either; she is alone in this composition.",
+  },
+  {
+    cardId: "s1_imprint_the_dreamer_t2",
+    sceneDelta:
+      "Mid-shot. The Dreamer hovers above a small low table in an Antiquarian-style study. On the table, a single playing card lies face-up — the visible card-art is generic abstract (no faction tell). She has just lowered one hand onto the card; her veil drifts forward as if the hand drew it. Her other hand holds, palm-up, a faint amber glow in which a SECOND playing card is forming — drawing itself into existence in her cupped hand from the lavender-gold mist of the veil. Draw-on-deploy visualized as the dreamt-an-hour-ago card filing itself in for now. Behind her, a window shows a vista of dawn just barely cracked at the horizon (early-morning recall: she dreamt this card at first light).",
+    moodKeywords: [
+      "she dreamt the card an hour ago and filed it for later",
+      "the second card forming in cupped palm",
+      "first-light recall",
+      "the veil drawing itself forward",
+    ],
+    palette:
+      "Dreamer deep purple veil + gold mist + cool blue dawn through window + warm amber glow in her palm + a single white-cream accent on the existing card",
+    composition:
+      "Mid-shot three-quarter, table at lower-third with the existing card, Dreamer's hands at frame's vertical mid-axis, second card forming in palm",
+    notes:
+      "T2 = flying + draw-1. The card forming in her palm is the lore beat (she pulls the future-card from a memory she has of having dreamed it). NO recognizable card art on the existing card — generic abstract design only.",
+  },
+  {
+    cardId: "s1_imprint_the_dreamer_t3",
+    sceneDelta:
+      "Tight three-quarter portrait. The Dreamer floats inches above an Antiquarian library floor, veil settling around her like slow water. She has reached forward and lifted a small Babylon-bureaucratic STATUS-tag overlay (a glowing rectangular ghost-icon labelled 'BUFFED' in faint Babylon script, identical to the icon Foucault corrected in his t2) directly off an off-frame target — and the tag is dissolving into lavender mist between her fingers. Her gaze is gentle, not predatory. Dispel visualized as the BUFF erased from her version of the future: she does not REMOVE the buff, she simply remembers a tomorrow in which it never applied. Behind her, the library shelves recede into amber haze.",
+    moodKeywords: [
+      "the buff is not in her version of the future",
+      "dispel as remembering a tomorrow without it",
+      "the gentle hand lifting the tag",
+      "veil settling like slow water",
+    ],
+    palette:
+      "Dreamer deep purple veil + gold fractal accents + lavender dispel-mist + warm amber library + a single saturated cyan on the dissolving STATUS-tag",
+    composition:
+      "Tight three-quarter portrait, Dreamer at frame-centre, veil filling lower frame, dispelling-tag at upper-right within her reach",
+    notes:
+      "T3 = flying + dispel + draw-1. The dispel-tag echoes Foucault t2 visual (intentional cross-faction visual language for dispel mechanic) but the temperament is INVERTED: Foucault dispels with red-pen correction (active editor), Dreamer dispels by remembering a future without (passive recall). Faction-distinct.",
+  },
+  {
+    cardId: "s1_imprint_the_dreamer_t4",
+    sceneDelta:
+      "Mid-action composition. The Dreamer hovers in the centre of an open Dreamer-faction sanctum chamber, and three projectiles (anonymous geometric energy-bolts, generic threat) are mid-flight TOWARD her at three different angles — all three visibly bending around her hovering form, deflected by an invisible curvature of space at her veil's outer edge. She is not looking at the projectiles; she is looking at her own cupped palm where two cards are now forming side-by-side. Forcefield visualized as the projectiles' deflection: they don't HIT a barrier, they CURVE — because in the future she has dreamed, none of them landed. A single amber draw-glow at her palm (draw-2). The chamber's high-ceiling fractal-gold patterns echo her veil's pattern.",
+    moodKeywords: [
+      "she dodges damage by already having dreamed the dodge",
+      "the curve, not the wall",
+      "two cards forming in palm",
+      "fractal-gold sanctum",
+    ],
+    palette:
+      "Dreamer deep purple veil + gold fractal sanctum walls + lavender forcefield-curvature distortion + warm amber draw-glow + a single cool grey on the deflected projectile-trails",
+    composition:
+      "Mid-action composition, Dreamer centred and hovering, three projectile-arcs curving around her at left/right/upper, two cards in palm at frame mid-axis",
+    notes:
+      "T4 = flying + dispel + forcefield + draw-2. Forcefield as CURVATURE rather than barrier is the Dreamer-faction visual language — she does not BLOCK, she REROUTES the past so the impact never happens.",
+  },
+  {
+    cardId: "s1_imprint_the_dreamer_t5",
+    sceneDelta:
+      "Hero composition. The Dreamer hovers at the centre of a vast Dreamer cathedral whose entire architecture is built from interlocking gold fractal arches that curve away from her in receding spirals to a vault lost in lavender haze. Her veil now stretches outward in a wide twelve-foot circular arc, the fabric making slow concentric waves toward the cathedral floor below. Three cards hover in front of her, fanned at different distances — close, mid, far — each from a different time (drawn three ahead). Above her head, where a halo would be, the architecture itself shows a STRUCTURAL ABSENCE — a sundered-arch-pair where two interlocking fractals visibly fail to meet, the missing partner-arch a dark void in the otherwise-perfect symmetry. Her face is fully visible: serene, late-thirties to early-forties, one eye half-closed (the canonical Dreamer-marker that she is currently 'reading' another time-slot). Sundered Twin visualized as the missing arch above her, NOT as a second figure beside her.",
+    moodKeywords: [
+      "the architecture shows the missing partner",
+      "three cards from three times",
+      "veil at twelve feet of slow concentric wave",
+      "serene with one eye half-closed",
+    ],
+    palette:
+      "Dreamer deep purple + gold fractal arches + lavender haze + warm amber sanctum-light + the SUNDERED-arch absence rendered as a single pure black negative space",
+    composition:
+      "Wide cathedral hero, Dreamer centred and hovering, fractal arches receding into haze, sundered-pair absence directly above her head as a small dark structural void",
+    notes:
+      "T5 = 'The Dreamer, Sundered Twin.' End-of-Epoch-2 canon. CRITICAL spoiler-line: 'Sundered Twin' is rendered as the MISSING ARCH in the architecture, NOT as a second figure beside her. Showing the second figure would visually identify her twin (the Architect, Acts 5-7 reveal). The absence of the partner is the lore beat AND the spoiler-shield.",
+  },
 ] as const;
 
 /**
