@@ -41,10 +41,9 @@ import { ANTIQUARIAN_CARD_ART_PROMPTS } from "./antiquarian";
  *   - dimensional: 4 / 4 dimensions — COMPLETE (Time, Space,
  *     Probability, Reality)
  *   - panopticon: 8 / 8 cards — COMPLETE
- *   - antiquarian: 30 / ~39 cards
+ *   - antiquarian: 39 / 39 cards — COMPLETE
  *
  * Pending factions:
- *   - antiquarian (remaining ~34)
  *   - architect, dreamer, insurgency, new_babylon,
  *     thought_virus, neutral (per-faction character cards)
  *   - architect, antiquarian, dreamer, insurgency, new_babylon,

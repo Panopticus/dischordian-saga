@@ -542,15 +542,169 @@ const ANTIQUARIAN_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "Common unit. NO human figure (the Capsule IS the subject). The healed-crack is the visual key to 'survived' — visible damage that was overcome, not absent damage. Antiquarian forcefield variant (warm-amber tinted) consistent with The Antiquarian himself (s1_char_018) and Earth-elemental green-tint differentiation.",
   },
+  {
+    cardId: "s1_spell_120",
+    sceneDelta:
+      "Wider mid-shot. A Timeline Collapse — the same vast Antiquarian-amber book as Temporal Collapse (s1_pack_036), but now CLOSED and the closed cover is mid-DISSOLVING. The book's body is breaking down into ash-like translucent warm-amber fragments that drift upward and outward. Where once stood a battlefield, the empty BOARD beneath the dissolving book is now visible — a flat empty Antiquarian-amber surface, free of any units, characters, or features. Faint warm-amber temporal-substance pulses outward in slow waves from the dissolution. NO human figure. The composition emphasizes the empty board waiting to be written again.",
+    moodKeywords: [
+      "the Antiquarian closed the book of this Age",
+      "its pages unraveled like ash",
+      "the board stood empty",
+      "waiting to be written again",
+    ],
+    palette:
+      "Antiquarian-amber book mid-dissolving + warm-amber ash-fragments + flat empty Antiquarian-amber board surface + warm-amber temporal-substance waves + cool deep-shadow at frame edges",
+    composition:
+      "Wider mid-shot, dissolving book at frame-centre, empty board surface at lower-third, ash-fragments drifting upward",
+    notes:
+      "Rare spell. Differentiates from Temporal Collapse (s1_pack_036 — characters returning to pages): this is the BOOK ITSELF dissolving, leaving the empty board. NO human figure. The empty board is the visual key — the spell wipes the slate.",
+  },
+  {
+    cardId: "s1_spell_121",
+    sceneDelta:
+      "Mid-shot. An Epoch Rewind — a wounded humanoid figure (anonymous, generic-soldier features, in scuffed Antiquarian-aligned light-armor) caught at the moment of REWIND: their body shows TWO simultaneous renderings — the LEFT half of the body (frame-left) shows the wounded form (visible scar, faint warm-amber blood-stain on the armor, slight slump), the RIGHT half (frame-right) shows the same person UNWOUNDED (clean armor, upright posture, eyes brighter). The boundary between the two halves runs vertically through the figure's centre and is rendered as a translucent warm-amber temporal-thread descending from above the head, splitting present from past. A faint warm-cream healing-pulse propagates outward from the boundary-thread. Their face is composed; the rewinding is happening TO them, not BY them.",
+    moodKeywords: [
+      "the wound was real, the scar was earned",
+      "the Antiquarian remembers a version of you that never bled",
+      "that version is more useful now",
+      "two halves: wounded left, unwounded right",
+    ],
+    palette:
+      "Antiquarian-aligned light-armor + warm-amber blood-stain (left half) + clean cool-cream armor (right half) + translucent warm-amber boundary-thread + warm-cream healing-pulse + cool background",
+    composition:
+      "Mid-shot front three-quarter, figure at frame-centre with vertical thread bisecting body, wounded/unwounded split halves",
+    notes:
+      "Common spell. Anonymous generic-soldier figure preserves no-character-conflation. The vertical body-split is the canonical visualization of 'remembers a version that never bled.' The 'happening TO them, not BY them' framing keeps the focus on the spell's external action.",
+  },
+  {
+    cardId: "s1_spell_122",
+    sceneDelta:
+      "Wider mid-shot. An Archaeological Dig — a deep VERTICAL DIG-SHAFT cut into the ground, viewed in cross-section so all THREE BURIED AGES are visible simultaneously as horizontal strata. The TOP layer (just below ground surface) shows current-Epoch-2 architecture-fragments and tools. The MIDDLE layer shows Epoch-1 architecture-fragments (different building style, older patina). The BOTTOM layer shows pre-Fall Atarion architecture-fragments (different again — the canonical pre-Fall style with cool-cream stone). At the dig-site, an Antiquarian-aligned archaeologist (anonymous, generic-Antiquarian-staff features, in dusty Antiquarian-amber excavator's clothing) is at the surface mid-action of HOLDING UP a single recovered relic; she is selecting which to keep. Around her, other recovered fragments are arranged on a sorting-tarp; many are visibly being SET ASIDE. Faint warm-amber paper-drifts hint at draw mechanics if applicable.",
+    moodKeywords: [
+      "three Ages buried beneath the current one",
+      "each with its own truths",
+      "keeps only what the next Age will need",
+      "selecting at the dig-site",
+    ],
+    palette:
+      "Antiquarian-amber excavator's clothing + cool-grey current-layer + warm-amber Epoch-1 layer + cool-cream pre-Fall bottom layer + warm sorting-tarp ambient + cool dig-shaft shadow",
+    composition:
+      "Wider mid-shot, dig-shaft cross-section visible at frame-left, archaeologist at frame-right at surface holding relic, sorting-tarp at lower-third",
+    notes:
+      "Uncommon spell. The three visible strata is the canonical 'three Ages' visualization. Anonymous archaeologist (generic-Antiquarian-staff) preserves no-character-conflation. The 'set aside' fragments make 'keeps only what is needed' visible — most relics are being LEFT.",
+  },
+  {
+    cardId: "s1_spell_230",
+    sceneDelta:
+      "Tight composition. A Chrono Anchor — a small wound on a humanoid forearm at frame-centre (only the forearm visible, anonymous, the arm is generic-cool-leather sleeve pulled back). The wound is mid-DISAPPEARING — not closing into a scar (scar would mean it healed) but NEVER-HAVING-HAPPENED (the wound is faintly translucent, fading to nothing, the skin beneath returning to unbroken). A faint warm-amber temporal-resonance-ring pulses outward from the wound-location (the canonical 'never happened' visualized as time-anchoring). Around the wound, the surrounding skin shows a faint warm-cream restoration-glow. NO face visible. The arm is held in a relaxed position — the bearer is calm.",
+    moodKeywords: [
+      "the wound closes",
+      "not because it healed",
+      "but because it never happened",
+      "fading to never-having-been",
+    ],
+    palette:
+      "Generic-cool-leather sleeve + warm skin-tone forearm + faint translucent fading-wound + warm-amber temporal-resonance-ring + warm-cream restoration-glow + cool deep-background",
+    composition:
+      "Tight close-on forearm at frame-centre, wound mid-fade, no face visible",
+    notes:
+      "Common spell. Anonymous arm only (no face) preserves no-character-conflation. The 'fading to never-happened' (vs healing-into-scar) is the canonical visual idiom — scar means time-passed-and-recovered, fade means time-was-rewound. Tight composition emphasizes the SPECIFIC change at the wound-site.",
+  },
+  {
+    cardId: "s1_spell_231",
+    sceneDelta:
+      "Wider mid-shot. A Temporal Fracture — a vast Antiquarian-amber clock-tower atrium with TWELVE LARGE clock-faces arrayed on the walls (the canonical twelve-pattern). All TWELVE clock-hands are FROZEN MID-MOVEMENT, their pendulums all hanging at different angles mid-swing. In the centre of the atrium, a small humanoid figure (a faint translucent silhouette of The Antiquarian, only suggested — no face, no specific identifying features, just a generic-archivist-cloaked-figure outline) walks forward at frame-centre, the only thing in motion. Around the figure, faint warm-amber temporal-resonance-rings pulse outward from each footstep. The atrium's lighting is frozen mid-flicker — the very LIGHT is paused, with mid-pulse motes hanging in the air.",
+    moodKeywords: [
+      "the clock hands stop",
+      "the pendulum hangs mid-swing",
+      "only the Antiquarian still moves",
+      "twelve frozen clock-faces, one walking figure",
+    ],
+    palette:
+      "Antiquarian-amber clock-tower atrium + twelve clock-face brass-and-glass + warm-amber paused-light motes + cool walls + faint translucent walking-figure + warm-amber resonance-rings",
+    composition:
+      "Wider mid-shot, atrium with twelve clock-faces visible on walls, walking figure at frame-centre, frozen lighting throughout",
+    notes:
+      "Uncommon spell. The twelve frozen clock-faces extend the Antiquarian twelve-pattern motif. CRITICAL spoiler-discipline: the walking figure is RENDERED ONLY AS TRANSLUCENT SILHOUETTE — no specific identifying features, no Antiquarian-amber-master beard, no distinct face. Per the lore boundary, The Antiquarian's face has been canonized in his Imprint set, but here the spell focuses on the ENVIRONMENT being frozen, with the figure as compositional accent only. Frozen mid-flicker lighting is the canonical paused-time visual idiom.",
+  },
+  {
+    cardId: "s1_spell_232",
+    sceneDelta:
+      "Wider mid-shot. A Fossil Record — a vast horizontal cross-section of Antiquarian-amber bedrock, viewed at the bottom of a deep dig-pit. Embedded in the rock-strata, FOSSILIZED BONES are visible — but the bones are unrecognizable, NOT human, NOT any known creature (the fossils are of beings from previous Ages, beings the current age has no name for). At the rock's surface, a single Antiquarian-aligned scholar (anonymous, generic-staff features, in dusty Antiquarian-amber excavator's robes) holds a SMALL CHISEL and a brush, mid-revelation of a newly-uncovered fossil. From the freshly-revealed fossil, faint translucent warm-amber GHOST-OUTLINE projections rise upward — the BLUEPRINT of a creature still-to-come, derived from the bones of what came before. The ghost-outline is humanoid-but-not-yet-defined.",
+    moodKeywords: [
+      "in the stone are the bones of what came before",
+      "in the bones is the blueprint of what comes next",
+      "fossils unrecognizable to any current age",
+      "ghost-outline rising from freshly-revealed bone",
+    ],
+    palette:
+      "Antiquarian-amber bedrock + cool-grey fossilized bones + cool dig-pit ambient + warm Antiquarian-amber excavator robes + warm-amber translucent blueprint ghost-outline + warm chisel-light",
+    composition:
+      "Wider mid-shot, bedrock cross-section at frame-centre with fossils embedded, scholar at lower-third with chisel, ghost-outline rising at upper-third",
+    notes:
+      "Common spell. The fossils are deliberately UNRECOGNIZABLE — they are from forgotten ages, not Earth-fauna. The ghost-outline rising from bone is the canonical 'bones are the blueprint' visualization. Generic-staff scholar preserves no-character-conflation.",
+  },
+  {
+    cardId: "s1_spell_233",
+    sceneDelta:
+      "Mid-shot. An Era Shift — a humanoid figure (anonymous, in current-era cool-cream traveling clothes, generic features) caught at the moment of TEMPORAL DISPLACEMENT: the figure's body is HALF in the present (right side of frame, modern environment around them — a clean Antiquarian-amber threshold) and HALF in a DEEPLY BURIED ancient age (left side of frame — the figure's left side is already half-COVERED in fossilized stone-strata at the body-edge, the visible environment around the left half is buried-rubble and ancient-architecture-fragments at the lower-third). The boundary between the two halves runs vertically through the body's centre. A faint warm-amber temporal-substance flows from present-to-past along the boundary. The figure's face is held mid-realization, eyes wide — they are mid-discovery of being forgotten.",
+    moodKeywords: [
+      "one moment you stand in the present",
+      "the next you are buried in an age that forgot your name",
+      "half buried already in fossil strata",
+      "mid-realization, eyes wide",
+    ],
+    palette:
+      "Cool-cream current-era traveling-clothes (right) + fossilized stone-strata (left) + warm Antiquarian-amber threshold (right) + cool buried-rubble ambient (left) + warm-amber temporal-substance boundary",
+    composition:
+      "Mid-shot front three-quarter, figure at frame-centre split vertically, present-right vs buried-past-left",
+    notes:
+      "Rare spell. Anonymous figure preserves no-character-conflation. The body-split with one-half-fossilized is the canonical 'buried in an age that forgot' visualization. The mid-realization expression is what makes this spell readable as something HAPPENING TO the target rather than passive imagery.",
+  },
+  {
+    cardId: "s1_spell_234",
+    sceneDelta:
+      "Wider mid-shot. A Preservation Field — a circular zone at frame-centre approximately 4m diameter, demarcated by a translucent warm-amber forcefield-cylinder (Antiquarian variant of the canonical forcefield idiom). Inside the field, an OLD Antiquarian-amber library-table holds books, scrolls, and a cup of mid-pour tea — all PERFECTLY PRESERVED, completely free of dust or age. Outside the field, the surrounding chamber shows visible decay: dust on the floor, cobwebs at the ceiling, an old broken chair. The field's boundary is sharp — the dust DOES NOT enter. A small Antiquarian-staff figure (anonymous, generic-junior features) stands at the field-boundary, hand passing through, observing how the inside is fresh while the outside is centuries-old. A faint warm-amber paused-time hum emanates from the field.",
+    moodKeywords: [
+      "the field hums with deep time",
+      "inside it, entropy is merely a suggestion",
+      "perfectly preserved within sharp boundary",
+      "dust does not enter",
+    ],
+    palette:
+      "Translucent warm-amber forcefield-cylinder + warm-amber preserved library-table inside + cool decayed surrounding chamber + warm pristine tea-pour + cool dust + cobwebs + warm-amber humming-glow",
+    composition:
+      "Wider mid-shot, field at frame-centre with preserved-table inside, decayed chamber around, observer at field-boundary",
+    notes:
+      "Common spell. The IN-vs-OUT contrast (preserved vs decayed) is the visual key. Sharp field-boundary at the dust-line communicates 'entropy is a suggestion' — entropy literally cannot cross. Anonymous observer preserves no-character-conflation. Antiquarian forcefield variant (warm-amber-tinted) consistent with established faction visual idiom.",
+  },
+  {
+    cardId: "s1_spell_235",
+    sceneDelta:
+      "Wider mid-shot. An Age of Silence — a vast pre-civilization landscape at primordial dawn: featureless cool-cream plain extending to a low warm-cream horizon, no architecture, no figures, no signs of any life or culture. The sky above is cool-cream gradient with no clouds, no sun visible, just diffuse light. In the FOREGROUND at lower-third, a single small Antiquarian-amber lectern (the only object in the entire frame) holds an open book at chest-height; the book's pages are BLANK — no script, no marks, the silence-before-the-first-word visualized literally. From the open blank pages, faint warm-amber resonance pulses outward, claiming the silence as the Antiquarian's. NO human figure. NO sound visualization (no birds, no wind-curls, no leaf-rustles — pre-everything).",
+    moodKeywords: [
+      "before the first word was spoken",
+      "there was the silence",
+      "the Antiquarian remembers it well",
+      "blank pages, featureless plain",
+    ],
+    palette:
+      "Cool-cream featureless plain + warm-cream low horizon + cool-cream pre-civilization sky + Antiquarian-amber lone lectern + cool-cream blank book-pages + warm-amber resonance",
+    composition:
+      "Wider mid-shot, vast empty plain extending to horizon, lone lectern with open blank book at lower-third",
+    notes:
+      "Rare spell. NO human figure (the spell IS the silence itself). The blank book-pages communicate 'before the first word' — every other Antiquarian book in this set has SOMETHING on its pages; this one is the exception. Echoes the no-human-in-frame discipline of other Antiquarian spells (Temporal Collapse, Timeline Collapse, Complete Archive, Vaccine Protocol).",
+  },
 ] as const;
 
 /**
  * Antiquarian faction's prompt registry, keyed by card id.
  *
- * Currently populated: 30 / ~39 cards
+ * Currently populated: 39 / 39 cards — COMPLETE
  * (gen_antiquarian, s1_char_018, s1_char_043, s1_char_058-060,
  *  s1_char_062-065, s1_char_097, s1_char_121-124, s1_char_201,
- *  s1_pack_036-042, s1_pack_seed_governance, s1_reward_*[6]).
+ *  s1_pack_036-042, s1_pack_seed_governance, s1_reward_*[6],
+ *  s1_spell_120-122, s1_spell_230-235).
  */
 export const ANTIQUARIAN_CARD_ART_PROMPTS: Readonly<Record<string, CardArtPrompt>> =
   Object.freeze(
