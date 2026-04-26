@@ -572,14 +572,121 @@ const ALLEGIANCE_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "T6 = 'New Babylon Champion' = YOUNG LOCKE. CRITICAL: this is PRE-imprint-t1 Locke — a YOUNGER face than the Locke imprint set's tired-late-sixties man. The lore beat is the ARRIVAL of the man who becomes the Adjudicator. NO consenting crowd (that's imprint t5). NO cracked moon. Just the decision and the empty room. The face must read as 'recognizably Locke twenty-five years younger' to maintain canon continuity, but the t6 here is Locke earning his position — he has not yet earned his t1.",
   },
+
+  // ─── THOUGHT VIRUS ALLEGIANCE (carrier → Source's-personal-attention) ───
+  // Source canon: 'The carrier does not know they are the carrier.
+  // That is, technically, the first symptom.' T6 brings the Source
+  // himself briefly to the table — interested in whether or not
+  // the player intends to survive the game.
+  {
+    cardId: "s1_alleg_thought_virus_t1",
+    sceneDelta:
+      "Mid-shot. A Thought Virus Carrier — early-twenties, in unornamented civilian clothing (grey work-shirt, simple jacket), seated at a small bistro-table in a New Babylon café. They are mid-conversation with an off-frame interlocutor (we see only the interlocutor's hand resting on the table near a coffee cup). The Carrier's face is BRIGHT — relaxed-and-friendly, the face of someone who is having a perfectly nice afternoon. They do not know they are the carrier; that is, technically, the first symptom. Across their right cheek, a single faint thread of toxic-green capillary-light is visible — not yet bright enough to register consciously, but already present. Drain visualized as a faint rose-tinge in the air between Carrier and off-frame interlocutor (gentle contagion, no malice).",
+    moodKeywords: [
+      "the carrier does not know they are the carrier",
+      "perfectly nice afternoon",
+      "first symptom is the unawareness",
+      "single thread of capillary-light not yet conscious",
+    ],
+    palette:
+      "Babylon café warm amber + cool grey daylight + civilian grey work-shirt + a single SUBTLE toxic-green capillary thread on the cheek + a faint rose-tinge in the conversation-air",
+    composition:
+      "Mid-shot at bistro-table, Carrier in three-quarter, off-frame interlocutor's hand + cup at lower-left, capillary thread at upper-right cheek",
+    notes:
+      "T1 = the carrier. The toxic-green is INTENTIONALLY subtle — not a glow, not a halo, just a single capillary thread visible to the viewer but not yet to the Carrier. Generic-young face. The bright relaxed-friendly expression IS the lore beat (unawareness as first symptom).",
+  },
+  {
+    cardId: "s1_alleg_thought_virus_t2",
+    sceneDelta:
+      "Mid-shot. A Thought Virus Evangelist — same Carrier archetype six months on, mid-twenties, now in clothing that's become slightly more careless (collar undone, hair slightly messier, the face brighter than it should be for the energy expended). They are mid-speech to a small group of three off-frame listeners (we see only the three listeners' shoulders and backs of heads, all leaning slightly forward). The Evangelist's expression is sincere joy — they are sharing the GOOD NEWS, which is that the good news is incurable. Their hands are extended outward in welcome. The toxic-green capillary thread on the cheek from T1 is now visible as a small NETWORK — three threads tracing across the right cheekbone toward the temple. Drain visualized as the rose-tinge in the air, now MORE saturated, drifting from the listeners back to the Evangelist.",
+    moodKeywords: [
+      "the good news is incurable",
+      "sincere joy of sharing",
+      "the brighter-than-energy-warrants face",
+      "capillary network tracing across cheekbone",
+    ],
+    palette:
+      "Thought-Virus toxic-green capillary network + warm rose drain-tinge in conversation air + cool grey listener-backs + a single saturated bright accent on the Evangelist's open hands",
+    composition:
+      "Mid-shot front three-quarter, Evangelist at frame-centre, three listener silhouettes at lower-third, capillary network at upper-third on right cheek",
+    notes:
+      "T2 = evangelist. Toxic-green has escalated subtly from T1 (single thread → small network of three). The listener-anonymity is critical (no recognizable named character should be receiving the message).",
+  },
+  {
+    cardId: "s1_alleg_thought_virus_t3",
+    sceneDelta:
+      "Mid-shot. A Thought Virus Strain-Keeper — late-thirties, in semi-formal dark robes with toxic-green thread embroidery at the cuff, seated at a low cataloging-desk in a small private study. On the desk in front of them, an open ledger with neatly-copied diagrams of viral mutations — three columns labelled BENEFICIAL (in the Virus's direction) / NEUTRAL / TROUBLESOME (in the player's direction). Most entries are filed under BENEFICIAL. Their face is now visibly transformed: the right side of the face is partly mapped with the toxic-green capillary network from earlier tiers, the network now substantial, tracing from temple down toward the jawline. They are mid-stroke entering a fresh diagram into the ledger, expression composed and scholarly. Deathwatch visualized as the dead anonymous-source-figures faintly catalogued in the ledger margin (small pencil-sketches, no recognizable identities).",
+    moodKeywords: [
+      "the mutations, most of which are improvements",
+      "improvements in the Virus's direction",
+      "all of which are getting worse in yours",
+      "scholarly composure",
+    ],
+    palette:
+      "Thought Virus toxic-green capillary network now substantial + dark robes + warm desk-lamp + a single saturated bright accent on the ledger's fresh entry",
+    composition:
+      "Mid-shot at cataloging-desk, Strain-Keeper in three-quarter, ledger at lower-third, capillary network at upper-third on right side of face",
+    notes:
+      "T3 = strain-keeper. Capillary network has grown to half-face. The 'improvements in the Virus's direction' beat is the visual irony of the ledger — most entries are BENEFICIAL. Anonymous source-sketches in margin must NOT be recognizable named characters.",
+  },
+  {
+    cardId: "s1_alleg_thought_virus_t4",
+    sceneDelta:
+      "Mid-shot. A Thought Virus Victorious Vector — mid-forties, in dark robes that have largely surrendered to the Virus's aesthetic (toxic-green piping at the hem, a single small Virus-faction sigil at the throat). They stand in a chamber that is partly Babylon-administrative and partly Virus-overgrown (toxic-green capillary growth tracing the chamber's far wall in slow patterns). They have just RAISED a glass of dark liquid in a victory-toast gesture toward an off-frame partner (no partner visible). Their face is now MORE-than-half-mapped with the capillary network — both cheeks, around both eyes — but their EXPRESSION is genuinely triumphant. They have stopped noticing they were the vector because the winning felt like theirs. Drain + deathwatch visualized as a faint rose-tinge halo around them — the institutional-scale drain has been COLLECTED into a personal victory.",
+    moodKeywords: [
+      "stopped noticing they were the vector",
+      "the winning felt like theirs",
+      "victory-toast to no one",
+      "more-than-half capillary network",
+    ],
+    palette:
+      "Thought Virus toxic-green capillary growth + dark robes with green-piping + warm rose drain-halo + cool grey/green hybrid chamber + a single saturated bright accent on the raised glass",
+    composition:
+      "Mid-shot at chamber, Victorious Vector at frame-centre, raised glass at upper-third, capillary growth pattern on far wall behind",
+    notes:
+      "T4 = victorious-vector. Capillary network now dominant on face. Triumphant expression is the lore beat — they cannot tell that they have stopped noticing.",
+  },
+  {
+    cardId: "s1_alleg_thought_virus_t5",
+    sceneDelta:
+      "Wider mid-shot. A Thought Virus Prime Vessel — early-fifties, in full Virus-faction high-vestment (deep dark robes overgrown with elaborate toxic-green capillary embroidery that visibly PULSES in slow rhythm), kneeling at a small private altar in a Virus inner-sanctum. The altar bears no specific Virus icon — just a single white-stone bowl filled with bright clear water. The Prime Vessel has both hands resting on the bowl's rim. Above their head, descending from a chamber-ceiling lost in toxic-green haze, a single thin column of BRILLIANT WHITE LIGHT touches the very top of the Vessel's skull. The Source is paying attention to this person specifically. The Prime Vessel's face is fully mapped with the capillary network now — and yet their expression is not exalted; it is RELUCTANT. They have the Source's attention; they are reluctant to describe what that feels like. Forcefield + drain + deathwatch all simultaneously: a faint hexagonal cyan shimmer at the bowl's water-surface, rose drain-tinge in the air, capillary growth across the entire chamber.",
+    moodKeywords: [
+      "has the Source's attention",
+      "reluctant to describe what that feels like",
+      "the brilliant white column descending",
+      "fully mapped capillary face",
+    ],
+    palette:
+      "Thought Virus toxic-green pulsing embroidery + dark robes + bright clear bowl-water + BRILLIANT WHITE attention-column + cool cyan hexagonal forcefield-shimmer + warm rose drain-air",
+    composition:
+      "Wider mid-shot at altar, Prime Vessel kneeling at frame-centre, white attention-column at vertical mid-axis touching skull, bowl at lower-third",
+    notes:
+      "T5 = prime-vessel. The brilliant-white column is the canonical visualization of 'the Source's attention' (echoes The Source imprint t1's brilliant-white halo). Reluctance on the face is the lore beat — being attended to by the Source is not pleasant.",
+  },
+  {
+    cardId: "s1_alleg_thought_virus_t6",
+    sceneDelta:
+      "Hero composition. The Source himself stands at the player's small Virus-overgrown chamber — across from an empty player-cushion, mid-room, halo blazing brilliant-white with toxic-green at the outer ring (canonical Source imprint t5 visual identity). His expression is gentle-curious. He has briefly come to find out whether or not the player intends to survive the game they are currently playing. NO dancing children in this composition (intimate one-on-one scale, not cathedral-twelve-children). His open hands at chest level offer a faint warm-cream healing-light directly toward the empty cushion (heal-on-deploy-8 visualized) AND a faint silencing-amber wave radiates outward from his shoulders (silence-the-enemy implied). The chamber's walls are toxic-green-overgrown but the SOURCE himself remains brilliant-white-dominant. Around the room, three small twelve-year-old anonymous figures (echoing his imprint t1's two children, but here KEPT TO THREE for chamber-scale) stand near the room's edges in slow synchronized stillness — not dancing, just present.",
+    moodKeywords: [
+      "interested in whether or not you intend to survive",
+      "intimate one-on-one chamber",
+      "the children present but stilled",
+      "gentle-curious",
+    ],
+    palette:
+      "Brilliant white halo (DOMINANT) + toxic-green outer halo-ring + dark Virus chamber + warm cream healing-light + warm amber silencing-waves + a single saturated rose accent at the empty cushion",
+    composition:
+      "Hero composition at Virus chamber, Source camera-left in three-quarter, empty player-cushion camera-right, three stilled children at room edges",
+    notes:
+      "T6 = 'Champion' = THE SOURCE briefly attending one match. CRITICAL: Source's face = same as his Imprint t5. NO Sovereign of Terminus / Kael Reborn imagery (Acts 5+ reveal). Brilliant-white-dominant halo with toxic-green only at outer ring (canonical 'photons and apology in the same proportion'). Children present but STILLED (intimate scale, not cathedral). Mirror-structurally with Antiquarian-allegiance t6 (intimate scale faction-archon visit) and Dreamer-allegiance t6 (same).",
+  },
 ] as const;
 
 /**
  * Allegiance faction's prompt registry, keyed by card id.
  *
- * Currently populated: 5 / 6 sets (Antiquarian, Architect, Dreamer,
- * Insurgency, New Babylon).
- * TODO: thought_virus.
+ * Currently populated: 6 / 6 sets — COMPLETE (Antiquarian,
+ * Architect, Dreamer, Insurgency, New Babylon, Thought Virus).
  */
 export const ALLEGIANCE_CARD_ART_PROMPTS: Readonly<
   Record<string, CardArtPrompt>
