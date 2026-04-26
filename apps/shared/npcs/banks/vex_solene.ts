@@ -52,7 +52,133 @@ export const VEX_SOLENE_BANK: ReadonlyArray<BankEntry> = [
       "will see whether either of us is canonically right. Walk forward.",
     surfaces: ["match"],
     requiresRevealStage: "eyes_of_reality",
+    minAct: 1,
+    maxAct: 1, // Canon-correction (Phase 6b.2 sub-chunk B): the canonical Mechronis match is Act 1 only.
     cooldownKey: "vex.ch6_post_match",
+    maxPlays: 1,
+  },
+
+  // ─── eyes_of_reality expansion (Phase 6b.2 sub-chunk B) ─────────────
+  // Six additional pre-reveal lines covering the canonical Trade Empire
+  // opening-sector narrator surface, additional Ch6 match commentary,
+  // pre-match positioning cinematic, route-completion narrator, an
+  // Acts-2 transmission bridge to vex_public, and a Ch6 post-match
+  // revealing-but-not-revealing closer. Per §1.6 silence shape: she
+  // does NOT name herself "Agent Zero" or refer to "Engineer" aloud.
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "vex.eyes_of_reality.trade_empire.opening_narrator",
+    // Per §1.7 metaphor source — Vex's narrator voice in Trade Empire
+    // pre-reveal stage uses canonical "the contracts" / "the lanes"
+    // vocabulary. The canonical "I will tell you who, eventually"
+    // register is the canonical Vex deferred-identity hint.
+    text:
+      "[The Trade Empire opening-sector narrator: 'Welcome to the " +
+      "trade lanes. The contracts here are canonically simple — the " +
+      "kind that do not need a hidden chair. Walk them carefully. " +
+      "Someone is reading every line you sign. I will tell you who, " +
+      "eventually.']",
+    surfaces: ["trade_empire"],
+    requiresRevealStage: "eyes_of_reality",
+    minAct: 1,
+    maxAct: 2,
+    cooldownKey: "vex.eyes.trade_empire.opening",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "vex.ch6.young_agent_zero.mid_match_pricing",
+    // §1.5 tell #1 inventory-then-courtesy variant — "the pricing was
+    // wrong" lands the canonical observation-and-courtesy beat. The
+    // self-correction "Note the correction" is canonical Vex tell #3
+    // bridge (she does not finish a sentence she has stopped trusting;
+    // here she finishes by naming what she'll redo).
+    text:
+      "Turn three. You played the burnt card I have been pricing for " +
+      "two years. The pricing was wrong. The card has more weight than " +
+      "the pricing said. Note the correction.",
+    surfaces: ["match"],
+    requiresRevealStage: "eyes_of_reality",
+    minAct: 1,
+    maxAct: 1,
+    cooldownKey: "vex.ch6_mid_match",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "vex.ch6.young_agent_zero.pre_match_positioning",
+    // Cinematic pre-match positioning. Per §1.6 silence shape: she
+    // does NOT introduce herself by name pre-reveal. The narrator-
+    // frame canonically lands the canonical "the opponent does not
+    // introduce herself. The opponent does not need to." register.
+    text:
+      "[The opponent across the bench is younger than the player " +
+      "expected, sharper than the briefing said, and quieter than " +
+      "Mechronis-trained reflex would predict. The opponent does not " +
+      "introduce herself. The opponent does not need to.]",
+    surfaces: ["match", "cinematic"],
+    requiresRevealStage: "eyes_of_reality",
+    minAct: 1,
+    maxAct: 1,
+    cooldownKey: "vex.ch6_pre_match_positioning",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "vex.eyes_of_reality.trade_empire.route_completion_narrator",
+    // Trade Empire route-completion narrator — the canonical "I will
+    // tell you who, eventually" register continues. The line
+    // canonically previews the canonical "the contract has not yet
+    // been offered" deferred-contract canon.
+    text:
+      "[A Trade Empire transmission arrives without identification: " +
+      "'You completed the route cleanly. The cleanliness was noted. " +
+      "The note will be filed. The filing is not yet the contract; " +
+      "the contract has not yet been offered. Continue.']",
+    surfaces: ["trade_empire"],
+    requiresRevealStage: "eyes_of_reality",
+    minAct: 1,
+    maxAct: 2,
+    cooldownKey: "vex.eyes.trade_empire.route_complete",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "vex.eyes_of_reality.transmission.act2_bridge_hello",
+    // §1.5 tell #5 canonical "professional courtesy as code-switch":
+    // the canonical "Hello" lands here as the canonical bridge from
+    // eyes_of_reality into the canonical vex_public first-contact
+    // register that opens in Act 3.
+    text:
+      "[The transmission arrives without preamble: 'I have been " +
+      "waiting for the right reason to be introduced. The reason has " +
+      "not arrived. The waiting is fair. Hello.']",
+    surfaces: ["transmission"],
+    requiresRevealStage: "eyes_of_reality",
+    minAct: 2,
+    maxAct: 2,
+    cooldownKey: "vex.eyes.transmission.act2_bridge",
+    maxPlays: 1,
+    setsFlags: ["vex_eyes_of_reality_bridge_received"],
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "vex.ch6.young_agent_zero.post_match_footnote",
+    // Paired closer to the existing post_match line. The canonical
+    // "the footnote will not contain my name. That is by design."
+    // register lands the canonical pre-reveal name-suppression canon
+    // — she canonically refuses self-naming even in Mechronis lore.
+    text:
+      "I am the kind of opponent who notes when the sequence breaks. " +
+      "The sequence broke. I noted. The Academy will draft a footnote " +
+      "about you. The footnote will not contain my name. That is by " +
+      "design.",
+    surfaces: ["match"],
+    requiresRevealStage: "eyes_of_reality",
+    minAct: 1,
+    maxAct: 1,
+    cooldownKey: "vex.ch6_post_match_footnote",
     maxPlays: 1,
   },
 
