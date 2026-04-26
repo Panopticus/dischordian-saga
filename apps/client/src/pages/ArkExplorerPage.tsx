@@ -61,9 +61,9 @@ import {
 } from "@shared/mobileNarrator";
 import { isRoomUnlocked as isPreludeRoomUnlocked } from "@shared/preludeRoomGate";
 import {
+  getRoomMysteryModule,
   resolveVerbResponse,
-  type CryoMysteryHotspotId,
-} from "@shared/cryoBayMystery";
+} from "@shared/roomMysteries";
 import LoreTutorialEngine from "@/components/LoreTutorialEngine";
 import NarrativeTrigger from "@/components/NarrativeTrigger";
 import InlineShipMap from "@/components/InlineShipMap";
@@ -1129,16 +1129,29 @@ export default function ArkExplorerPage() {
           }
           break;
         }
-        // Section F — Cryo Bay mystery hotspots. `cryo-mystery:<id>` is
-        // resolved against the verb × hotspot matrix in
-        // apps/shared/cryoBayMystery.ts. Default verb is Look (the
-        // verb-coin UI lands with the PointAndClickScene follow-up).
-        if (hotspot.action?.startsWith("cryo-mystery:")) {
-          const hotspotId = hotspot.action.slice("cryo-mystery:".length);
-          const mystery = resolveVerbResponse(
-            "look",
-            hotspotId as CryoMysteryHotspotId,
-          );
+        // Room mystery dispatch (Section F+). Two action prefixes:
+        //   `cryo-mystery:<id>`            — legacy, cryo bay only
+        //   `room-mystery:<roomId>:<id>`   — generic, any room module
+        // Both resolve against apps/shared/roomMysteries (registry +
+        // verb × hotspot matrices). Default verb is Look — the
+        // verb-coin UI ships in PointAndClickScene as a follow-up.
+        if (
+          hotspot.action?.startsWith("cryo-mystery:") ||
+          hotspot.action?.startsWith("room-mystery:")
+        ) {
+          let roomId: string;
+          let hotspotId: string;
+          if (hotspot.action.startsWith("cryo-mystery:")) {
+            roomId = "cryo-bay";
+            hotspotId = hotspot.action.slice("cryo-mystery:".length);
+          } else {
+            const rest = hotspot.action.slice("room-mystery:".length);
+            const sep = rest.indexOf(":");
+            roomId = sep === -1 ? "" : rest.slice(0, sep);
+            hotspotId = sep === -1 ? "" : rest.slice(sep + 1);
+          }
+          const mod = getRoomMysteryModule(roomId);
+          const mystery = mod ? resolveVerbResponse(mod, "look", hotspotId) : null;
           if (!mystery) {
             setElaraText("Nothing reveals itself here.");
             break;
@@ -1148,13 +1161,13 @@ export default function ArkExplorerPage() {
           if (mystery.logsClue) logClue(mystery.logsClue);
           if (mystery.grantsInventory) grantMysteryItem(mystery.grantsInventory);
           if (mystery.setsFlag) setNarrativeFlag(mystery.setsFlag);
-          if (mystery.unlocksExit === "medical-bay") {
-            // The unlockRequirement change on medical-bay handles the
-            // actual room gating; nudge the player with a notification.
+          if (mystery.unlocksExit) {
+            const exitDef = getRoomDef(mystery.unlocksExit);
+            const exitName = exitDef?.name?.toUpperCase() ?? mystery.unlocksExit.toUpperCase();
             notify(
               "room-unlock",
-              "MEDICAL BAY UNSEALED",
-              "The bulkhead has accepted your case file. The Med Bay is open.",
+              `${exitName} UNSEALED`,
+              "The bulkhead has accepted your case file. A new area is open.",
             );
           }
           break;

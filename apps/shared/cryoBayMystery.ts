@@ -23,9 +23,13 @@
        the ID tag and data-slate are combined.
    ═══════════════════════════════════════════════════════ */
 
-export type Verb = "look" | "use" | "talk";
-
-export const VERB_LIST: readonly Verb[] = ["look", "use", "talk"] as const;
+// Verb / VERB_LIST are canonical in the generic room-mystery
+// template so every room module shares one shape. Re-exported
+// here so existing imports of `@shared/cryoBayMystery` keep
+// resolving the same names.
+import type { Verb as TemplateVerb } from "./roomMysteries/_template";
+export { VERB_LIST } from "./roomMysteries/_template";
+export type Verb = TemplateVerb;
 
 /** Hotspot ids for the Section F cryo-bay scene. */
 export type CryoMysteryHotspotId =

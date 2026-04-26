@@ -138,10 +138,14 @@ export interface GameState {
   /** F13 — hidden Human light (-100..100). Mirror scalar for the second
    *  companion's noire-to-warmth arc. */
   humanLight: number;
-  /** Section F — Clue Journal entries keyed by Clue.id. Flat list ordered by arrival. */
-  clueJournal: import("@shared/cryoBayMystery").Clue[];
-  /** Section F — inventory items the player has collected in the Cryo Bay mystery scene. */
-  mysteryInventory: import("@shared/cryoBayMystery").CryoMysteryInventoryId[];
+  /** Section F — Clue Journal entries keyed by Clue.id. Flat list ordered by arrival.
+   *  `source` widens beyond the cryo bay so other room mystery modules
+   *  (medical bay, bridge, engineering, …) can log into the same journal. */
+  clueJournal: import("@shared/roomMysteries").Clue[];
+  /** Section F+ — inventory items the player has collected across any
+   *  room mystery scene. Storage is a flat string[] because each room
+   *  module declares its own narrow inventory id union. */
+  mysteryInventory: string[];
   claimedQuestRewards: string[];   // Quest IDs whose rewards have been claimed
   completedGames: string[];       // CoNexus game IDs the player has completed
   loreAchievements: string[];     // Lore achievement IDs earned
@@ -441,8 +445,11 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       // sitting on the left door, `door-cryo` floating off the left
       // edge, and `dna-helix` overlapping the right-wall cabinet.
       { id: "bio-bed", name: "Bio-Bed Scanner", description: "An advanced diagnostic bed with holographic readouts showing your current stats.", x: 40, y: 22, width: 22, height: 55, type: "terminal", action: "/character-sheet", elaraDialog: "The bio-bed can give you a full diagnostic. Your stats, your Dream resonance levels, your cellular integrity. Step on and I'll run a scan." },
-      { id: "dna-helix", name: "DNA Analysis Station", description: "A holographic double helix rotates slowly, mapping genetic markers.", x: 22, y: 28, width: 18, height: 42, type: "examine", elaraDialog: "The DNA analysis station. It maps your genetic markers against known species templates. DeMagi, Quarchon, Ne-Yon... your hybrid signature is fascinating." },
-      { id: "medicine-cabinet", name: "Medicine Cabinet", description: "Vials of glowing liquid. Some are labeled, others are not.", x: 82, y: 32, width: 14, height: 42, type: "examine", elaraDialog: "Medical supplies. Most are standard stim-packs and neural stabilizers. But some of these vials... I don't recognize the compounds. They weren't in the original manifest." },
+      // Medical Bay mystery hotspots — see apps/shared/roomMysteries/medicalBay.ts
+      // for the verb × hotspot matrix. The first Look on either of
+      // these logs a clue and flips `medbay_first_clue_found` (Tier 0 → 1).
+      { id: "dna-helix", name: "DNA Analysis Station", description: "A holographic double helix rotates slowly, mapping genetic markers.", x: 22, y: 28, width: 18, height: 42, type: "examine", action: "room-mystery:medical-bay:dna-helix", elaraDialog: "The DNA analysis station. It maps your genetic markers against known species templates. DeMagi, Quarchon, Ne-Yon... your hybrid signature is fascinating." },
+      { id: "medicine-cabinet", name: "Medicine Cabinet", description: "Vials of glowing liquid. Some are labeled, others are not.", x: 82, y: 32, width: 14, height: 42, type: "examine", action: "room-mystery:medical-bay:medicine-cabinet", elaraDialog: "Medical supplies. Most are standard stim-packs and neural stabilizers. But some of these vials... I don't recognize the compounds. They weren't in the original manifest." },
       { id: "medical-log", name: "Medical Log", description: "A data pad with the last medical officer's notes.", x: 25, y: 68, width: 10, height: 8, type: "item", action: "medical-log-001", elaraDialog: "The last medical officer's log. Dated... I can't read the timestamp. But the entries describe patients with unusual symptoms. Nightmares. Voices. Something about 'the signal.'" },
       { id: "observation-keycard", name: "Observation Keycard", description: "A biometric access card labeled 'OBS-DECK'. Stored in the medical safe.", x: 62, y: 66, width: 10, height: 10, type: "item", action: "observation-keycard", elaraDialog: "The Observation Keycard! It was in the medical safe all along. The previous crew stored sensitive access cards here for security. This will unlock the Observation Deck — the crew used it to monitor deep space anomalies. Take it." },
       { id: "door-cryo", name: "Cryo Bay Door", description: "Return to the Cryo Bay.", x: 6, y: 30, width: 15, height: 45, type: "door", action: "cryo-bay" },
@@ -1348,11 +1355,9 @@ interface GameContextValue {
   setActiveDeck: (cardIds: string[]) => void;
   // Narrative flags
   setNarrativeFlag: (flag: string, value?: boolean) => void;
-  // Section F — Cryo Bay mystery
-  logClue: (clue: import("@shared/cryoBayMystery").Clue) => void;
-  grantMysteryItem: (
-    itemId: import("@shared/cryoBayMystery").CryoMysteryInventoryId,
-  ) => void;
+  // Section F — Mystery actions (cryo bay + every other room module)
+  logClue: (clue: import("@shared/roomMysteries").Clue) => void;
+  grantMysteryItem: (itemId: string) => void;
   // Quest rewards
   claimQuestReward: (questId: string) => void;
   // Morality meter
@@ -2104,7 +2109,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
 
   /* ─── Section F — Cryo Bay mystery actions ─── */
 
-  const logClue = useCallback((clue: import("@shared/cryoBayMystery").Clue) => {
+  const logClue = useCallback((clue: import("@shared/roomMysteries").Clue) => {
     setState(prev => {
       // Idempotent: re-logging the same clue is a no-op.
       if (prev.clueJournal.some(c => c.id === clue.id)) return prev;
@@ -2122,7 +2127,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const grantMysteryItem = useCallback(
-    (itemId: import("@shared/cryoBayMystery").CryoMysteryInventoryId) => {
+    (itemId: string) => {
       setState(prev => {
         if (prev.mysteryInventory.includes(itemId)) return prev;
         return {
