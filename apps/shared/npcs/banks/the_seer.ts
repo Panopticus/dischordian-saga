@@ -254,6 +254,119 @@ export const THE_SEER_BANK: ReadonlyArray<BankEntry> = [
   },
 
   // ═════════════════════════════════════════════════════════════════════
+  // ACTS 4-5 DEEPENING (Phase 6b.1 sub-chunk C)
+  //
+  // Acts 4 + 5 canonical scenes from `moralityTrustActVariants.ts`:
+  //   Act 4 :1813-1820 → I-will-be-on-Thaloria coordinate-promise
+  //   Act 4 :3158-3164 → redaction-table-shape companion to column_question
+  //   Act 5 :1998-2005 → prophecy-overhead-drops narrator-frame
+  //   Act 5 :2415-2422 → tactical-no-overhead first-numeric beat
+  //   Act 5 :630-636   → confidant-precursor meta-line
+  //
+  // Per §2.4 cross-time canon, every line is canonically a recording
+  // pre-made before the end-of-Epoch-2 sealing.
+  // ═════════════════════════════════════════════════════════════════════
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "seer.transmission.act4.thaloria_coordinate_promise",
+    // Per §2.4 + :1813-1820 canon: the canonical "I will be on
+    // Thaloria when you need me" line is a coordinate-promise, NOT
+    // a person-promise. She is sealed; the promise is to the
+    // place — the door, the cupboard, the staff she carved before
+    // sealing. The canonical Stage-4 weave question (who opens
+    // the door?) is canonically deferred per the bible.
+    text:
+      "I will be on Thaloria when you need me. The sentence is shorter " +
+      "than my usual register. That is the point. The shortness is the " +
+      "recording's confidence. The promise is to the place, not to the " +
+      "presence. The door, the cupboard, the staff. I have arranged " +
+      "all three. Walk well, until the coordinates.",
+    surfaces: ["transmission"],
+    minAct: 4,
+    requiresTrustBand: "Witnessed",
+    cooldownKey: "seer.act4.thaloria_promise",
+    maxPlays: 1,
+    setsFlags: ["seer_thaloria_coordinate_promise_received"],
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "seer.transmission.act4.redaction_table_shape",
+    // Per :3158-3164 canon: companion beat to column_question. The
+    // canonical follow-through where she sends all three columns
+    // and names the sending as the trust gesture. The shape IS the
+    // trust; the output is, separately, the answer.
+    text:
+      "[Her transmission follows up. She has sent all three columns. " +
+      "The redaction was offered; the redaction was canonically refused " +
+      "on her side. She is showing you the table's shape so you can " +
+      "trust the output. The shape is the trust. The output is, " +
+      "separately, the answer.]",
+    surfaces: ["transmission"],
+    minAct: 4,
+    requiresTrustBand: "Witnessed",
+    unlockFlags: ["seer_column_question_answered"],
+    cooldownKey: "seer.act4.table_shape_followup",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "seer.transmission.act5.prophecy_overhead_drops_narrator",
+    // Per :1998-2005 canon: the canonical narrator-frame naming the
+    // overhead-drop. §1.1 voice canon: "From the Seer, direct prose
+    // is the most flattering register she has."
+    text:
+      "[The Seer's transmissions arrive without their usual prophecy-" +
+      "overhead — no caveats, no oblique frame. Direct prose. From " +
+      "the Seer, direct prose is the most flattering register she has. " +
+      "She is, in her way, telling you that she trusts you to read " +
+      "her plainly.]",
+    surfaces: ["transmission"],
+    minAct: 5,
+    requiresTrustBand: "Witnessed",
+    cooldownKey: "seer.act5.overhead_drops_narrator",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "seer.transmission.act5.tactical_no_overhead",
+    // Per :2415-2422 canon: the canonical "first time" no-overhead
+    // numeric transmission. The "first time" clause is bible-load-
+    // bearing: she pre-recorded the first numeric-no-overhead
+    // transmission to fire at this Act-5 beat specifically.
+    text:
+      "[A sequence of tactical probabilities arrives — clean, numeric, " +
+      "no oblique frame. She is, for the first time, trusting you to " +
+      "run the math yourself. The trust is the gift; the numbers are " +
+      "merely the wrapping.]",
+    surfaces: ["transmission"],
+    minAct: 5,
+    requiresTrustBand: "Witnessed",
+    cooldownKey: "seer.act5.tactical_no_overhead",
+    maxPlays: 1,
+    setsFlags: ["seer_first_numeric_no_overhead_received"],
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "seer.transmission.act5.confidant_precursor",
+    // Per :630-636 canon: the canonical meta-line where the
+    // recording refers to its own existence. §2.5 sealing canon
+    // protected — "present in recording, not in person" reframes
+    // the canonical-anchor under the cross-time canon.
+    text:
+      "[Her transmission opens with what reads as a smile. She has " +
+      "already seen the conversation you are about to have. She has " +
+      "chosen to be present for it anyway — present in recording, " +
+      "not in person. The choosing is the respect. She will let you " +
+      "lead.]",
+    surfaces: ["transmission"],
+    minAct: 5,
+    requiresTrustBand: "Witnessed",
+    cooldownKey: "seer.act5.confidant_precursor",
+    maxPlays: 1,
+  },
+
+  // ═════════════════════════════════════════════════════════════════════
   // CONFIDANT REGISTER / INHERITING BAND / Act 7 (single canonical line)
   // ═════════════════════════════════════════════════════════════════════
 
