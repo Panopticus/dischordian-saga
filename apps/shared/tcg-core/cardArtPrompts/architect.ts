@@ -550,17 +550,104 @@ const ARCHITECT_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "Uncommon unit. NO human figure (the Probe IS the subject). The visible damage-flare combined with the transmission-pulse-mid-flow communicates 'final transmission' without requiring the destruction to complete on-card. The dim dust-covered corridor implies the Probe was alone and unobserved.",
   },
+  {
+    cardId: "s1_pack_cosm_emote_taunt",
+    sceneDelta:
+      "Mid-shot. Architect's Mockery — same Architect-figure visual idiom as gen_architect (high collar + chrome diadem + face FULLY OBSCURED in shadow between), but rendered in a STANDING-MOCKERY pose: head tilted slightly back as if mid-laugh, both hands open at his sides in a wide what-can-you-do gesture, shoulders slightly raised. Around him, the air shows faint translucent cool-cyan AMUSEMENT-RIPPLES (the laughter visualized as visible compression-waves emanating outward from his obscured face). Behind him, an empty Architect formal chamber — the joke is on whoever is watching, but no one is being directly addressed. The figure is alone with his amusement; the viewer is the joke's eventual target.",
+    moodKeywords: [
+      "the Architect does not fight",
+      "the Architect laughs",
+      "wide what-can-you-do gesture",
+      "amusement-ripples emanating outward",
+    ],
+    palette:
+      "Architect deep-cyan formal-court robes + chrome diadem + chrome high collar + translucent cool-cyan amusement-ripples + empty cool Architect chamber + cool ambient",
+    composition:
+      "Mid-shot front three-quarter, Architect-figure at frame-centre in mocking-laughter pose, empty chamber behind",
+    notes:
+      "Rare unit. Same face-discipline as all Architect-figure cards (high collar + chrome diadem only shadow between). The laughter rendered as visible cool-cyan ripple-emission rather than mouth-action (face still hidden). 'The Architect's Mockery' is a cosmetic-emote card — visual purpose is to communicate disdainful amusement.",
+  },
+  {
+    cardId: "s1_pack_cosm_ship_theme",
+    sceneDelta:
+      "Wider mid-shot. A Corrupted Ark Fragment — a large detached SECTION of an Architect orbital Ark hull-plating, approximately 4m across, drifting in deep space against a backdrop of cold starlight. The fragment's chrome-and-cool-cyan exterior is heavily corrupted: cool-cyan circuitry streams across the surface have shifted to deep-violet-and-crimson rot-patterns, the original Architect-cyan emitters dimmed and SHIFTED to weeping a thin warm-amber data-leak-substance. The fragment's edge shows visible RUPTURE — torn metal where it broke from the rest of the Ark. From the fragment's interior surface (visible at its broken edge), a faint translucent erasure-glyph still pulses (it remembers how to erase). NO human figure. The deep starlight is cool-violet rather than cool-cyan (the reality around the fragment has bent).",
+    moodKeywords: [
+      "a piece of the Ark, corrupted beyond recognition",
+      "it still remembers how to erase",
+      "deep-violet-and-crimson rot-patterns",
+      "warm-amber data-leak weeping",
+    ],
+    palette:
+      "Chrome-and-cool-cyan Ark-plating + deep-violet-and-crimson rot-patterns + warm-amber data-leak + translucent erasure-glyph + cool-violet starlight + cool deep-space ambient",
+    composition:
+      "Wider mid-shot, fragment at frame-centre drifting, broken edge visible at lower-third, deep-violet starlight behind",
+    notes:
+      "Rare unit. NO human figure (the fragment IS the subject). The corruption-color-shift (cyan → violet/crimson) is the visual key to 'corrupted beyond recognition.' The persistent erasure-glyph communicates 'still remembers how to erase' without requiring the actual erasure to be active.",
+  },
+  {
+    cardId: "s1_pack_id_human_archon",
+    sceneDelta:
+      "Wider mid-shot. The Twelfth Archon imprisoned in substrate — a tall vertical chrome-and-cool-cyan substrate-vessel at frame-centre, approximately 3m tall, containing a HUMANOID FIGURE suspended in faint translucent cool-cyan medium. The figure's identity is DELIBERATELY OBSCURED — only silhouette and partial outline visible through the substrate-medium; gender, exact facial features, ethnicity all unreadable. Around the substrate-vessel's exterior, multiple chrome-and-cool-cyan cabling extends outward to the chamber walls — the prison feeds OUT (the imprisoned Archon STILL COMMANDS through the chains). Faint translucent command-glyphs propagate along the cables outward, communicating that the Archon's authority continues despite the imprisonment. The chamber behind is dim, cool-cyan, ceremonial-but-bound.",
+    moodKeywords: [
+      "imprisoned in substrate",
+      "still commands",
+      "even chains cannot silence authority",
+      "command-glyphs flow OUT through the chains",
+    ],
+    palette:
+      "Chrome-and-cool-cyan substrate-vessel + faint translucent cool-cyan medium + obscured humanoid silhouette + chrome-and-cool-cyan cables + translucent command-glyphs + dim cool-cyan ceremonial chamber",
+    composition:
+      "Wider mid-shot, substrate-vessel at frame-centre, cables extending outward to chamber walls, command-glyphs propagating outward",
+    notes:
+      "Legendary unit. CRITICAL spoiler-discipline: the imprisoned Archon's IDENTITY IS DELIBERATELY OBSCURED — not visually committed to The Human (imprint), not visually committed to any other named Archon. The framing 'still commands through the chains' is rendered as the outflowing command-glyphs through the cable-network. Generic-humanoid silhouette must NOT match any named character.",
+  },
+  {
+    cardId: "s1_pack_pet_data_serpent_1",
+    sceneDelta:
+      "Mid-shot. A Data Hatchling — a small newly-hatched cool-cyan data-serpent, approximately 30cm long, coiled at the base of a cool-cyan packet-header EGG (the egg is visibly translucent and cracked-open, with corrupted-packet-glyph residue still clinging to its shell-fragments). The hatchling itself is a slim translucent cool-cyan serpentine creature with two small glowing data-eyes (deeper-cyan), its body composed of compressed data-streams visibly flowing along its length. It is mid-action of LIFTING ITS HEAD for the first time, looking out at the world. The setting is the dark interior of an abandoned Architect data-server bay; dim warm ambient from a single corrupted indicator-light at the back. NO human figure.",
+    moodKeywords: [
+      "born from corrupted packet headers",
+      "the dreams of dead servers",
+      "newly-hatched, lifting head for first time",
+      "shell-fragments with corrupted glyph-residue",
+    ],
+    palette:
+      "Translucent cool-cyan data-serpent body + compressed data-stream flow + cool-cyan packet-header egg + corrupted-glyph residue + dim cool data-server bay + warm corrupted indicator-light",
+    composition:
+      "Mid-shot, hatchling at frame-centre coiled at egg-base, server-bay interior behind",
+    notes:
+      "Common unit. NO human figure. The 'corrupted packet headers + dead servers' birth-imagery is canon-direct from flavor — rendered as the corrupted-glyph residue on the shell-fragments. Pet-class card; whimsical but consistent with Architect-cyan visual language.",
+  },
+  {
+    cardId: "s1_pack_pet_data_serpent_2",
+    sceneDelta:
+      "Mid-shot. A Cipher Serpent — adult-stage data-serpent, approximately 1.5m long, coiled at the centre of a low chrome-and-cool-cyan trade-deck. Its body is denser and more articulated than the Hatchling — visible compressed-information-strata along its length (the bytes it has consumed). It holds in its forward-coil a SMALL TRANSLUCENT GLYPH-PACKET (a single cool-cyan secret rendered as a small pulsing data-cube). The serpent's data-eyes are larger, more knowing. Behind it, faint translucent data-trails of OTHER cipher-glyphs drift in the air — secrets it has previously sold. The chamber's lighting is cool-cyan trade-floor ambient with a faint warm transactional accent.",
+    moodKeywords: [
+      "each byte it consumes becomes a secret it can sell",
+      "compressed-information-strata along the body",
+      "trading-glyph held in forward-coil",
+      "data-trails of previous secrets sold",
+    ],
+    palette:
+      "Denser cool-cyan serpent-body + compressed-information-strata + translucent glyph-packet + faint translucent previous-secret trails + chrome-and-cool-cyan trade-deck + cool-cyan trade-floor ambient + warm transactional accent",
+    composition:
+      "Mid-shot, Cipher Serpent at frame-centre coiled on trade-deck, glyph-packet in forward-coil, previous-secrets drifting behind",
+    notes:
+      "Rare unit. The 'compressed-information-strata' visual is the canonical visualization of byte-consumption-becomes-secret. NO human figure. The drifting previous-secrets communicate ongoing trade-pattern without requiring named transactions.",
+  },
 ] as const;
 
 /**
  * Architect faction's prompt registry, keyed by card id.
  *
- * Currently populated: 30 / 63 cards
+ * Currently populated: 35 / 63 cards
  * (gen_architect, gen_authority, s1_char_006-009, s1_char_013,
  *  s1_char_015, s1_char_016, s1_char_019, s1_char_021,
  *  s1_char_022, s1_char_024, s1_char_030, s1_char_035,
  *  s1_char_038, s1_char_039, s1_char_042, s1_char_100-104,
- *  s1_pack_001-007).
+ *  s1_pack_001-007, s1_pack_cosm_emote_taunt,
+ *  s1_pack_cosm_ship_theme, s1_pack_id_human_archon,
+ *  s1_pack_pet_data_serpent_1, s1_pack_pet_data_serpent_2).
  */
 export const ARCHITECT_CARD_ART_PROMPTS: Readonly<Record<string, CardArtPrompt>> =
   Object.freeze(
