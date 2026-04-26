@@ -143,7 +143,7 @@ export const DIALOG_CH10_GENETIC_REVEAL: DialogScene = {
     {
       speaker: "foucault",
       mood: "guarded",
-      text: "Your genetic sequence, Prisoner 74, is a composite of every previous Oracle the Arena has processed. Twelve iterations. Each one died here. Each one left their sequence in the substrate. You are the thirteenth draft of a document the Arena has been editing for a century.",
+      text: "Your genetic sequence, Prisoner 74, is a composite of every previous Oracle the Arena has processed. Twelve sequence iterations — the Arena's tally, not the Panopticon's. Each one died here. Each one left their sequence in the substrate. You are the thirteenth draft of a document the Arena has been editing for a century.",
       audioClipId: "vo_foucault_ch10_cine_02",
     },
     {
