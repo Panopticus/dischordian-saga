@@ -667,12 +667,148 @@ const NEUTRAL_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "Rare spell. Visual continuity with Elara renderings (canonical features) but rendered as transmission-projection (not physical). Anonymous receivers preserve no-character-conflation.",
   },
+  {
+    cardId: "s1_reward_companion_max",
+    sceneDelta:
+      "Action mid-shot. A Bond of Trust — at frame-centre, TWO anonymous figures (back-three-quarter, generic mixed-faction tactical gear) standing back-to-back in a defensive bond-circle. Around their bodies, faint translucent warm-cream-and-warm-amber BOND-AURA pulses outward in unison (the canonical 'in that heartbeat invincible'). The bond is mid-action: they are CO-OPERATING perfectly — one's blade extended forward, the other's shield raised behind to protect. Behind them, anonymous off-frame attackers (back-shots) recoil from the bond-aura's protective-effect. The bond is brief — its translucent edges already beginning to fade.",
+    moodKeywords: [
+      "the bond lasted only a heartbeat",
+      "but in that heartbeat, they were invincible",
+      "two figures back-to-back with bond-aura pulsing",
+      "anonymous attackers recoiling from protective-effect",
+    ],
+    palette:
+      "Mixed-faction tactical gear + translucent warm-cream-and-warm-amber bond-aura + chrome-and-warm-gold weapons + anonymous attacker-silhouettes + cool deep-shadow",
+    composition:
+      "Action mid-shot back-three-quarter, two figures back-to-back at frame-centre, bond-aura pulsing, attackers recoiling at frame-edges",
+    notes:
+      "Common spell. Anonymous figures preserve no-character-conflation. NOTE: this is 'Bond of Trust' — distinct from Two Witnesses (Acts 6-7 reveal); rendered as a generic two-warrior bond, not the canonical specific bond.",
+  },
+  {
+    cardId: "s1_reward_crew_bloodline",
+    sceneDelta:
+      "Mid-shot. A Bloodline Inheritor — figure of indeterminate gender at frame-centre, generic-young features (mid-twenties, alert eyes, calm bearing), in plain heritage-traveler attire (warm-leather over warm-cream linen with a small chrome-and-warm-amber FAMILY-MEDALLION at the throat — the heirloom). Behind the figure at lower-third, a translucent BLOODLINE-LADDER visible — multiple translucent ancestor-silhouettes layered at receding depths (each generation's silhouette behind the next, going back in time). The figure stands forward of all the ancestors. Around their body, faint warm-amber inheritance-aura. NO specific identifying features.",
+    moodKeywords: [
+      "the bloodline runs deeper than code",
+      "each generation carries the weight of those before it",
+      "translucent bloodline-ladder of ancestor-silhouettes layered at receding depths",
+      "small chrome-and-warm-amber family-medallion at throat",
+    ],
+    palette:
+      "Heritage-traveler warm-leather + warm-cream linen + chrome-and-warm-amber family-medallion + translucent ancestor-silhouettes + warm-amber inheritance-aura + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, Inheritor at frame-centre, bloodline-ladder at lower-third behind",
+    notes:
+      "Rare unit. Generic-young features must NOT match any named character. The 'bloodline' is rendered through the literal layered-ancestor visualization.",
+  },
+  {
+    cardId: "s1_reward_crew_incubator",
+    sceneDelta:
+      "Wider mid-shot. An Incubator Prime — at frame-centre, a tall chrome-and-warm-cream INCUBATOR-VESSEL (canonically Inception-Ark-aligned, similar to cryotube but oriented for growth not preservation). Inside the vessel, a humanoid figure is mid-DEVELOPMENT — the figure is partially-formed, body visibly maturing in real-time. Around the vessel, TEN visible CYCLE-MARKINGS are etched on the vessel's outer chrome (small chrome-and-warm-amber notches showing cycle-count). The vessel emanates faint warm-cream patience-aura. NO operator visible (the Incubator endures alone). The figure inside has indeterminate features (still-growing).",
+    moodKeywords: [
+      "ten cycles of growth. ten cycles of patience",
+      "the Incubator endures what others cannot",
+      "ten cycle-markings etched on vessel exterior",
+      "humanoid figure inside partially-formed mid-development",
+    ],
+    palette:
+      "Chrome-and-warm-cream Inception-Ark-aligned incubator-vessel + chrome-and-warm-amber cycle-markings + indeterminate humanoid form inside + warm-cream patience-aura + cool deep-shadow + warm low Ark-light",
+    composition:
+      "Wider mid-shot, vessel at frame-centre, ten cycle-markings visible on exterior, indeterminate figure inside",
+    notes:
+      "Rare unit. Indeterminate humanoid (mid-development) preserves no-character-conflation. The 'ten cycles' is canon-direct from flavor (visible cycle-markings).",
+  },
+  {
+    cardId: "s1_reward_daily_streak",
+    sceneDelta:
+      "Mid-shot. A Dedicated Operative — male-presenting figure in mid-thirties, generic-disciplined features (calm steady eyes, set jaw, slightly-tired but composed bearing), in standard Insurgency-aligned slate operative-coat. He stands at the centre of an ops-room ready-station at frame-centre, mid-action of CHECKING IN — his right hand presses a chrome-and-warm-amber check-in panel (the panel displays 'STREAK: 30 / 30 — NO ABSENCE' in chrome-and-warm-amber script). His left hand holds a small briefing-tablet. Behind him, a chrome-and-warm-amber WALL-CALENDAR shows thirty consecutive days marked with chrome check-marks. Faint warm low ops-room light.",
+    moodKeywords: [
+      "thirty consecutive days. no sick leave. no excuses",
+      "the streak is the mission",
+      "STREAK: 30/30 — NO ABSENCE on check-in panel",
+      "thirty consecutive check-marks on wall-calendar",
+    ],
+    palette:
+      "Standard Insurgency-aligned slate operative-coat + chrome-and-warm-amber check-in panel + chrome-and-warm-amber wall-calendar + chrome check-marks + warm low ops-room light + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, Operative at frame-centre at check-in, wall-calendar behind",
+    notes:
+      "Common unit. Generic-disciplined features must NOT match any named character. The 'thirty consecutive days' is rendered through the visible 30/30 panel + calendar.",
+  },
+  {
+    cardId: "s1_reward_draft_perfect",
+    sceneDelta:
+      "Wider mid-shot. An Undefeated Drafter — female-presenting figure in mid-thirties, generic-confident features (calm satisfied smile, sharp focused eyes, distinguished bearing), in formal New Babylon-aligned draft-master attire (warm-leather over warm-cream linen with a single chrome-and-warm-gold UNDEFEATED-PIN at the lapel). She stands at a tall draft-master's table at frame-centre, mid-action of holding up a freshly-completed deck. Behind her, a chrome-and-warm-gold WALL-OF-VICTORIES displays many tournament-trophies in receding depth — ALL UNDEFEATED. The deck in her hand glows faintly chrome-and-warm-gold (perfect-construction). Faint warm-gold mastery-aura.",
+    moodKeywords: [
+      "zero losses. zero compromises. every pick was perfect",
+      "single chrome-and-warm-gold UNDEFEATED-PIN at lapel",
+      "wall-of-victories with many tournament-trophies in receding depth",
+      "freshly-completed deck glowing perfect-construction",
+    ],
+    palette:
+      "Warm-leather over warm-cream linen draft-master attire + chrome-and-warm-gold UNDEFEATED-PIN + tall draft-master's table + chrome-and-warm-gold wall-of-victories + warm-gold mastery-aura + cool deep-shadow",
+    composition:
+      "Wider mid-shot front three-quarter, Drafter at frame-centre with deck, wall-of-victories behind",
+    notes:
+      "Legendary unit. Generic-confident features must NOT match any named character. The 'zero losses' is rendered through the visible wall + UNDEFEATED-PIN.",
+  },
+  {
+    cardId: "s1_reward_draft_winner",
+    sceneDelta:
+      "Mid-shot. A Draft Master — female-presenting figure in late-twenties, generic-clever features (knowing smile, sharp eyes, hair tied back), in casual New Babylon-aligned draft-attire (warm-leather over cool-cream linen). She stands at a low draft-table at frame-centre, mid-action of ASSEMBLING A DECK from a SCATTERED PILE of OTHER-PEOPLES'-LEFTOVERS (visible chrome-and-warm-gold cards arrayed in a mess on one side of the table — leftovers; she is cherry-picking from the pile). The deck-she-is-building is visibly NEAT and ORGANIZED (chrome-and-warm-gold organized stack on the other side). Her face shows mid-smug-satisfaction.",
+    moodKeywords: [
+      "she builds winning decks from other people's leftovers",
+      "scattered pile of leftovers vs neat assembled deck",
+      "knowing smile, sharp eyes",
+      "mid-cherry-picking from leftover pile",
+    ],
+    palette:
+      "Warm-leather over cool-cream linen + chrome-and-warm-gold scattered leftover-cards (mess) + chrome-and-warm-gold organized assembled-deck (neat) + warm low draft-table light + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, Draft Master at frame-centre at table, leftover-pile and assembled-deck on opposite sides",
+    notes:
+      "Rare unit. Generic-clever features must NOT match any named character (specifically NOT Pazaak Champion or Nebula Shark — different specific archetype: deck-builder vs card-player). The 'leftovers vs assembled' contrast is the visual key.",
+  },
+  {
+    cardId: "s1_reward_graduate_deploy",
+    sceneDelta:
+      "Mid-shot. A Graduated Operative — female-presenting figure in mid-twenties, generic-bright features (alert intelligent eyes, slight warm smile, hair tied back), in fresh Insurgency-aligned graduate-uniform (deep slate-and-warm-cream tactical gear with chrome-and-warm-amber GRADUATION-PIN at the chest). She stands at the centre of a small forward-base barracks at frame-centre, mid-action of TEACHING — she leans forward toward an anonymous fellow-soldier (back-three-quarter at frame-right, generic Insurgency tactical gear), pointing at a chrome-and-warm-amber tactical-diagram in their hands. From her gesture, faint warm-cream knowledge-pulses propagate to the fellow-soldier. Her face shows generous-mentorship.",
+    moodKeywords: [
+      "she graduated top of her class",
+      "her first act was to teach everything she knew",
+      "to the soldier beside her",
+      "mid-teaching with knowledge-pulses to fellow-soldier",
+    ],
+    palette:
+      "Fresh Insurgency-aligned slate-and-warm-cream graduate-uniform + chrome-and-warm-amber GRADUATION-PIN + chrome-and-warm-amber tactical-diagram + faint warm-cream knowledge-pulses + warm low forward-base barracks light + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, Graduate at frame-centre teaching, anonymous fellow-soldier at frame-right",
+    notes:
+      "Rare unit. Anonymous fellow-soldier (back-three-quarter) preserves no-character-conflation. Generic-bright features must NOT match any named character. The 'taught everything she knew' is rendered through the visible knowledge-pulses + mentorship-pose.",
+  },
+  {
+    cardId: "s1_reward_graduate_master",
+    sceneDelta:
+      "Wider mid-shot. A Legion's Wisdom — at frame-centre, an anonymous figure (back-three-quarter, generic robes) seated at the centre of a multi-academy graduation-courtyard. Around the figure, FIVE distinct academic-banners hang at frame-edges (each from a different academy: chrome Architect-academy, warm-gold New Babylon-academy, signal-green Insurgency-academy, warm-amber Antiquarian-academy, cream-violet Dreamer-academy). The figure has earned graduation from ALL FIVE. Their pose is contemplative, both hands at sides. Faint warm-cream wisdom-aura around them. The canonical 'one lesson they share: adapt or die' is rendered as chrome-and-warm-amber 'ADAPT' visible in the air above their head (a single shared-word). NO face visible.",
+    moodKeywords: [
+      "every academy teaches something different",
+      "the graduate who finishes them all learns the one lesson they share",
+      "adapt or die",
+      "five academy-banners hanging + ADAPT word above head",
+    ],
+    palette:
+      "Generic robes + chrome Architect-academy banner + warm-gold New Babylon-academy banner + signal-green Insurgency-academy banner + warm-amber Antiquarian-academy banner + cream-violet Dreamer-academy banner + warm-cream wisdom-aura + chrome-and-warm-amber ADAPT word + cool deep-shadow",
+    composition:
+      "Wider mid-shot back-three-quarter, figure at frame-centre seated, five academy-banners at frame-edges, ADAPT word above",
+    notes:
+      "Rare spell. Anonymous figure preserves no-character-conflation. The 'one shared lesson' is rendered through the literal ADAPT word.",
+  },
 ] as const;
 
 /**
  * Neutral faction's prompt registry, keyed by card id.
  *
- * Currently populated: 37 / 79 cards
+ * Currently populated: 45 / 79 cards
  * (burnt_card_placeholder, gen_game_master_original, gen_neutral,
  *  gen_programmer, gen_seer, s1_char_004, s1_char_086-093,
  *  s1_pack_043-049, s1_pack_cosm_badge_s1, s1_pack_cosm_title_echo,
@@ -682,7 +818,11 @@ const NEUTRAL_PROMPTS_LIST: readonly CardArtPrompt[] = [
  *  s1_reward_bonus_complete, s1_reward_campaign_balanced,
  *  s1_reward_campaign_empathy, s1_reward_casino_jackpot,
  *  s1_reward_casino_slots, s1_reward_challenge_streak,
- *  s1_reward_companion_all, s1_reward_companion_elara).
+ *  s1_reward_companion_all, s1_reward_companion_elara,
+ *  s1_reward_companion_max, s1_reward_crew_bloodline,
+ *  s1_reward_crew_incubator, s1_reward_daily_streak,
+ *  s1_reward_draft_perfect, s1_reward_draft_winner,
+ *  s1_reward_graduate_deploy, s1_reward_graduate_master).
  */
 export const NEUTRAL_CARD_ART_PROMPTS: Readonly<Record<string, CardArtPrompt>> =
   Object.freeze(

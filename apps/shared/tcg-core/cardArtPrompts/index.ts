@@ -53,7 +53,7 @@ import { NEUTRAL_CARD_ART_PROMPTS } from "./neutral";
  *   - insurgency: 51 / 51 cards — COMPLETE
  *   - new_babylon: 52 / 52 cards — COMPLETE
  *   - thought_virus: 53 / 53 cards — COMPLETE
- *   - neutral: 37 / 79 cards
+ *   - neutral: 45 / 79 cards
  *
  * Pending factions:
  *   - neutral (remaining 73)
