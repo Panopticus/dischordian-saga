@@ -225,15 +225,119 @@ const INSURGENCY_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "Rare unit. The TWO affiliation-layers (Architect-cyan dominant + cool-violet Insurgency traces) is the canonical 'turned' visualization — he carries both histories. Anonymous prospect preserves no-character-conflation. Generic-charming-features must NOT match any named character.",
   },
+  {
+    cardId: "s1_char_047",
+    sceneDelta:
+      "Wider mid-shot. The Shadow Tongue — a vast non-human entity, approximately 3.5m tall, body composed of writhing deep-cool-violet shadow-substance with flickering deep-crimson interior glow. The figure's silhouette suggests humanoid but the form continuously SHIFTS at the edges (the entity is not bound to one shape). Where its mouth would be, a wide open MAW of deep-crimson light extends — and from the maw, a long translucent SHADOW-TONGUE extends forward into the air, this tongue covered in tiny writhing whisper-glyphs (the canonical name made literal). Around the entity, the air shows reality-distortion ripples. Behind it, the broken edge of an Empire-of-Shadows containment-rift (the rift it escaped through) is visible at deep distance — ragged-edged dark portal in the cool-cyan ground.",
+    moodKeywords: [
+      "Year 16,200 A.A. — escaped the infernal dominion of the Empire of Shadows",
+      "one of the few horrors to slip its leash",
+      "wide open maw with shadow-tongue extending",
+      "writhing whisper-glyphs along the tongue",
+    ],
+    palette:
+      "Deep-cool-violet shadow-substance body + flickering deep-crimson interior + open maw of deep-crimson light + translucent shadow-tongue + tiny writhing whisper-glyphs + reality-distortion ripples + broken Empire-of-Shadows containment-rift + cool deep-shadow",
+    composition:
+      "Wider mid-shot front three-quarter, Shadow Tongue at frame-centre, broken containment-rift in deep-distance behind",
+    notes:
+      "Legendary unit. Empire of Shadows is canon at end of Epoch 2 (established in Advocate s1_char_017 lore). The Shadow Tongue is a NON-HUMAN entity — face is alien-monstrous (open maw, writhing form). NO human-character-conflation possible. The escape from containment is canon-direct.",
+  },
+  {
+    cardId: "s1_char_105",
+    sceneDelta:
+      "Action mid-shot. Iron Lion in mid-action — same canonical features as s1_char_010 (late-fifties grizzled-warrior, full grey-streaked beard, weathered face, deep grave eyes), in heavier Insurgency battle-armor with signal-green chest-plate, mid-stride forward at the front of an Insurgency battle-line. He is not behind his soldiers; he is AHEAD of them — leading-foot already past the soldier-line at lower-third (anonymous Insurgency-soldier silhouettes visible behind him in mid-stride following). His weapon: a tall iron-and-gunmetal longsword, raised diagonally across the body in a ready-position. Faint warm rush-trails at his heels (rush keyword). Faint warm provoke-glow rims his shoulders. His face is set, focused, ahead of the line.",
+    moodKeywords: [
+      "he does not ask his soldiers to hold the line",
+      "he stands in front of it",
+      "leading-foot past the soldier-line",
+      "rush-trails at his heels",
+    ],
+    palette:
+      "Heavier Insurgency battle-armor + signal-green chest-plate + iron-and-gunmetal longsword + warm rush-trails + warm provoke-rim + Insurgency battle-line at lower-third + cool battlefield ambient",
+    composition:
+      "Action mid-shot front three-quarter, Iron Lion mid-stride at frame-centre, soldier-line behind",
+    notes:
+      "Epic unit. CRITICAL: this Iron Lion (s1_char_105) is rendered in MID-CHARGE (rush keyword) vs s1_char_010's PLANTED stance. Same character, two operational states (s1_char_010 = sentinel-pose, s1_char_105 = charge-pose). Visual continuity preserved (same face, same beard, same archetypal weathered-warrior).",
+  },
+  {
+    cardId: "s1_char_106",
+    sceneDelta:
+      "Mid-shot. Wraith Calder — male-presenting figure in mid-forties, generic-spectral features (deeply tired eyes, hollowed cheekbones, faint translucent skin-tone — visibly TIRED of dying), in worn Insurgency-slate field-armor with seven small chrome-and-cool-grey GRAVE-MARKER pins lined across the chest (each pin a small etched headstone-shape — seven graves marked). He stands at frame-centre at a small Insurgency cemetery-rise, looking down at a SEVENTH grave-mound at his feet (the seventh, freshly visited). His expression is composed-deliberate. Faint translucent rebirth-doubled-edge runs along his outline (rebirth keyword). Behind him, six other smaller grave-mounds visible at lower-third in the cemetery, each with a small marker. The setting is somber dawn.",
+    moodKeywords: [
+      "seven graves bear his name across seven battlefields",
+      "he has visited each one, and left them all",
+      "seven grave-marker pins on chest",
+      "deeply tired eyes — tired of dying",
+    ],
+    palette:
+      "Worn Insurgency-slate field-armor + seven chrome-and-cool-grey grave-marker pins + faint translucent skin-tone + translucent rebirth-doubled-edge + Insurgency cemetery-rise + six small grave-mounds + somber dawn-light + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, Calder at frame-centre at seventh grave, six smaller grave-mounds at lower-third",
+    notes:
+      "Rare unit. The seven grave-pins on chest is the canonical 'seven graves bear his name' visualization. Visible six grave-mounds + one at his feet = seven total (canon-direct). Generic-spectral features must NOT match any named character.",
+  },
+  {
+    cardId: "s1_char_107",
+    sceneDelta:
+      "Mid-shot. A Signal Operative — male-presenting figure in mid-twenties, generic-anonymous-courier features (plain face, lightly built), in plain Insurgency-aligned messenger-coat with a single small chrome shoulder-comm. He stands at the moment of HAVING ALREADY SENT THE MESSAGE — his right hand is just lowering from his shoulder-comm (the transmission complete), his head is turned slightly toward an off-frame approaching threat (frame-right). On the ground beneath him, a faint translucent transmission-pulse-trail (the message already on its way). His expression is composed-resigned. Faint warm-amber transmission-glow at the comm. The setting is a corner of an Insurgency-aligned alleyway.",
+    moodKeywords: [
+      "kill the messenger",
+      "the message was sent three seconds before you arrived",
+      "hand lowering from shoulder-comm — transmission complete",
+      "composed-resigned",
+    ],
+    palette:
+      "Insurgency-aligned messenger-coat + chrome shoulder-comm + faint translucent transmission-pulse-trail + warm-amber transmission-glow + Insurgency alleyway + cool low-light + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, Operative at frame-centre, hand lowering from comm, alleyway behind",
+    notes:
+      "Common unit. Generic-anonymous-courier face must NOT match any named character. The 'message already sent' is the canonical visualization — the threat arrives too late, the sacrifice is forewarned. Approaching off-frame threat preserves no-character-conflation.",
+  },
+  {
+    cardId: "s1_char_108",
+    sceneDelta:
+      "Wider mid-shot. A Guerrilla Cell — three Insurgency-aligned figures (anonymous, all back-three-quarter, generic-mixed gear in Insurgency-slate field-armor with signal-green chest-rigs) crouched in concealment at frame-centre. They are positioned in the ONE BLIND-SPOT of a vast Panopticon surveillance-grid: the lower-third of the frame shows the cell hidden BEHIND a chrome support-pillar; above and to either side, multiple chrome-and-cool-cyan surveillance-cameras are arrayed in scanning-positions, but their cones-of-view (faint translucent cool-cyan visible-arcs) all sweep AROUND the pillar's blind-side without overlapping into it. Each cell-member holds a weapon. Faint warm backstab-glow rims their leading hands. NO faces visible.",
+    moodKeywords: [
+      "the panopticon sees all directions but one",
+      "that is where they wait",
+      "three figures crouched in pillar's blind-side",
+      "multiple cameras with sweeping cones not overlapping into blind-spot",
+    ],
+    palette:
+      "Insurgency-slate field-armor + signal-green chest-rigs + chrome support-pillar + multiple chrome-and-cool-cyan surveillance-cameras + faint translucent cool-cyan visible-arcs + warm backstab-glow + cool surveillance-corridor ambient",
+    composition:
+      "Wider mid-shot, three-figure cell at frame-centre lower-third behind pillar, surveillance-cameras above with sweeping cones",
+    notes:
+      "Common unit. CRITICAL: anonymous figures (back-three-quarter, generic-mixed) preserve no-character-conflation. The 'one direction the Panopticon doesn't see' is rendered as the visible blind-spot architecture — making the panopticon's failure-state visible.",
+  },
+  {
+    cardId: "s1_char_202",
+    sceneDelta:
+      "Action mid-shot. A Saboteur — female-presenting figure in late-twenties, generic-quick-features (focused eyes, slight smirk, hair tied back), in Insurgency-slate light infiltration-leathers with signal-green wrist-cuffs. She is mid-EXIT from a sabotaged Architect facility: leading foot already across an open exit-doorway at frame-right, trailing foot just leaving the facility-floor at frame-left. Behind her in the facility-interior, a small visible FIRE has just begun (faint warm flames at frame-left mid-distance — the bonus). She is visibly LEAVING before the alarm — her face shows no urgency, just steady deliberate motion. Faint warm rush-trails at her heels. The exit beyond is dark Insurgency-territory.",
+    moodKeywords: [
+      "she was in and out before the alarm sounded",
+      "the fire was just a bonus",
+      "mid-exit through doorway",
+      "no urgency, steady deliberate motion",
+    ],
+    palette:
+      "Insurgency-slate light infiltration-leathers + signal-green wrist-cuffs + warm rush-trails + faint warm flame-glow inside facility + dark exit-doorway + cool deep-shadow",
+    composition:
+      "Action mid-shot side three-quarter, Saboteur at frame-centre mid-exit, beginning fire at frame-left mid-distance",
+    notes:
+      "Common unit. Generic-quick-features must NOT match any named character (specifically NOT Agent Zero — different visual signature). The 'fire as bonus' framing is rendered as the small fire just-beginning behind her — she didn't need it to succeed.",
+  },
 ] as const;
 
 /**
  * Insurgency faction's prompt registry, keyed by card id.
  *
- * Currently populated: 11 / 51 cards
+ * Currently populated: 17 / 51 cards
  * (gen_insurgency, s1_char_002, s1_char_010, s1_char_011,
  *  s1_char_012, s1_char_026, s1_char_028, s1_char_031,
- *  s1_char_040, s1_char_041, s1_char_044).
+ *  s1_char_040, s1_char_041, s1_char_044, s1_char_047,
+ *  s1_char_105, s1_char_106, s1_char_107, s1_char_108,
+ *  s1_char_202).
  */
 export const INSURGENCY_CARD_ART_PROMPTS: Readonly<Record<string, CardArtPrompt>> =
   Object.freeze(
