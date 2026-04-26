@@ -867,6 +867,99 @@ const IMPRINT_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "T5 = 'The Collector, Eleven Centuries.' End-of-Epoch-2 canon. CRITICAL spoiler-line: do NOT depict any specific recognizable item from his collection — every object is generic-precious-object. His role in late acts (collection as evidence in Acts 5-7) stays unspoiled; here we see the SHAPE of the collection, not the contents. His expression is sincere apology, never theatrical menace.",
   },
+
+  // ─── THE DETECTIVE (long coat in a doorway, three seconds in
+  //     and already knows who you are; reads three pages ahead and
+  //     tolerates the ending) ───
+  // Source canon: An Antiquarian-faction investigator who treats
+  // every corpse as evidence and evidence as compounding text. He
+  // has read further into the case than you have. Mechanical:
+  // backstab + deathwatch + draw. Faction: antiquarian.
+  {
+    cardId: "s1_imprint_the_detective_t1",
+    sceneDelta:
+      "Wide three-quarter establishing shot. The Detective in a long charcoal trench coat stands centred in a half-open doorway between a dimly-lit Antiquarian study room (warm amber, parchment) and the colder grey corridor where the camera waits. He has been there for exactly three seconds — there is a still-settling vapor of his exhaled breath visible in the cool corridor air. His hat is pulled low, his face shadowed except for the clean line of his jaw and one hand resting in his coat pocket. The other hand holds a closed leather-bound case-file pressed flat against his thigh. He has not yet stepped through. He is reading you. He is not in a hurry.",
+    moodKeywords: [
+      "three seconds and already knows who you are",
+      "the still-settling exhale-vapor",
+      "the case-file pressed flat",
+      "patient threshold",
+    ],
+    palette:
+      "Antiquarian amber + parchment study warmth behind + cool grey corridor in front + charcoal trench coat + a single warm amber accent on the hat-brim",
+    composition:
+      "Wide doorway composition, Detective centred in the doorway as the visual fulcrum between two color temperatures",
+    notes:
+      "T1 = mortal Detective at the threshold. Face must be partly shadowed under the hat — readable as 'the figure who has been there for three seconds' without revealing identity. His face is intentionally unmemorable middle-age weathered features.",
+  },
+  {
+    cardId: "s1_imprint_the_detective_t2",
+    sceneDelta:
+      "Mid-shot. The Detective is seated alone at an Antiquarian library desk, the case-file open in front of him, his right hand mid-page-turn — but his eyes are not on the page he is touching. They are on a page TWO further into the file (visible at three-quarter from the camera-side, fanned slightly out of stack). A sharp pencil hovers above that further page, as if mid-margin-note he hasn't actually written yet. Backstab visualized as the geometry of his attention: he is attacking the case from the angle the case did not expect (the wrong page; the page the writer thought the reader would not have reached yet). On deploy, draw 1 visualized as the second page lifting itself slightly toward him — the file cooperating with his foreknowledge.",
+    moodKeywords: [
+      "the page he is touching is not the page he is reading",
+      "the pencil hovering over the further page",
+      "backstab as wrong-angle approach",
+      "the file cooperating",
+    ],
+    palette:
+      "Antiquarian amber library + parchment + a single warm gold accent on the pencil + cool blue depth-haze in the receding shelves",
+    composition:
+      "Mid-shot three-quarter at the desk, case-file at lower-third, two pages visible (the touched and the read), Detective's hand and gaze on different pages",
+    notes:
+      "T2 = backstab + draw-1. The visual irony of his hand being one page behind his eyes is the lore beat. Echoes Antiquarian-faction tonal language (annotated text, future-knowledge as scholarship).",
+  },
+  {
+    cardId: "s1_imprint_the_detective_t3",
+    sceneDelta:
+      "Mid-shot. The Detective stands in an Antiquarian morgue-archive — long room, low cool light, twelve covered evidence-pallets on stretchers in receding parallel lines. He is at the foot of the nearest pallet, three-quarter to camera, case-file open against his left arm, his right hand pulling back the white linen sheet of the pallet by one corner. We do not see what is under the sheet (off-frame at lower edge). His expression is not horror; it is the focused compassion of someone who has been doing this work for years. Behind him, faint amber motes (deathwatch keyword) drift up from each of the further pallets — every corpse has a story to tell, and they are all telling theirs at once. On deploy, draw 1: the case-file's bottom-right page corner lifts faintly, as if turning itself.",
+    moodKeywords: [
+      "the focused compassion of long practice",
+      "deathwatch as ascending amber motes",
+      "every corpse is evidence and evidence compounds",
+      "the case-file turning itself",
+    ],
+    palette:
+      "Antiquarian amber motes + cool grey morgue-archive + parchment case-file + charcoal trench coat + a single warm amber accent on his right hand",
+    composition:
+      "Wide morgue-archive composition, Detective centred at the foot of nearest pallet, twelve pallets receding in symmetric lines, amber motes drifting at upper-third",
+    notes:
+      "T3 = backstab + deathwatch + draw-1. CRITICAL: do NOT show what is under the sheet. The corpse is anonymous evidence; revealing identity would be a lore-beat trespass and likely a spoiler. The twelve pallets echo the Antiquarian's twelve-endings catalogue without naming it — Antiquarian-faction visual rhyme.",
+  },
+  {
+    cardId: "s1_imprint_the_detective_t4",
+    sceneDelta:
+      "Tight portrait. The Detective at his Antiquarian study desk, three-quarter to camera, case-file open before him — and his eyes are now reading not the page in front of him, not the next page, but THREE pages ahead. The further pages of the file are visibly fanned out from the binding, each suspended in a slight upward arc (the pages cooperating with his foreknowledge as gravity-light). His pencil is poised but not writing — he is tolerating what he is reading rather than annotating it. Faint amber motes drift around his shoulders (deathwatch). The expression on his face is not satisfaction; it is the weary patience of a man who has been ready for the ending since the rumor of the case.",
+    moodKeywords: [
+      "reading three pages ahead",
+      "tolerating the ending",
+      "the file cooperating",
+      "weary patience",
+    ],
+    palette:
+      "Antiquarian amber + parchment + warm desk-lamp + a single cool grey accent on his hat resting beside the file",
+    composition:
+      "Tight portrait three-quarter, file at lower-third with pages fanned, Detective's gaze deliberately past the touched page",
+    notes:
+      "T4 = backstab + deathwatch + draw-2. The fan of pages is the visual metaphor for two cards drawn (= two further pages already in his head). His face is now fully visible — middle-aged, weathered, kind eyes — but kept generic enough not to suggest any identity-spoiler.",
+  },
+  {
+    cardId: "s1_imprint_the_detective_t5",
+    sceneDelta:
+      "Hero composition. The Detective stands alone in the centre of a vast Antiquarian Hall of Records — concentric circular galleries of case-files extending upward and outward to a vaulted ceiling lost in amber haze. He stands at the very centre of the floor, hat in hand for the first time, the long charcoal coat falling open. The case-file in his other hand is the THICKEST yet — the case as it has accumulated across his entire career — and it is open to the FINAL page, his pencil resting in the page's gutter. His face is fully visible: late fifties, lined, sad-but-not-defeated. He is looking up out of the file, directly at the camera, with the kind of expression that says 'I already know who did it, I already know why, I am here because the reader still has to be shown.' Around him, twelve faint amber motes hover in a slow concentric orbit at chest height (deathwatch at scale + the twelve catalogued endings). Three further pages of the case-file fan out from the binding suspended in mid-air (draw-3 visualized).",
+    moodKeywords: [
+      "the reader still has to be shown",
+      "the final page reached",
+      "twelve motes in slow orbit",
+      "sad but not defeated",
+    ],
+    palette:
+      "Antiquarian amber Hall + parchment cases + warm gold ceiling-haze + cool blue concentric gallery shadows + a single saturated red on the pencil resting in the gutter",
+    composition:
+      "Wide circular hero, Detective at exact centre, galleries receding upward, twelve motes in low orbit, three pages fanned mid-air",
+    notes:
+      "T5 = 'The Detective, Final Page.' End-of-Epoch-2 canon. CRITICAL spoiler-line: he does not REVEAL the answer in this frame — he LOOKS at the camera with the answer already in him. The 'who did it' beat is the player's late-acts narrative work; the card visualizes the readiness, not the reveal. The twelve motes echo the Antiquarian's catalogue without naming it.",
+  },
 ] as const;
 
 /**
