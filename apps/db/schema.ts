@@ -710,6 +710,45 @@ export const storePurchases = mysqlTable("store_purchases", {
 export type StorePurchase = typeof storePurchases.$inferSelect;
 
 /**
+ * Processed Stripe webhook events — event-level idempotency log.
+ *
+ * The unique index on `storePurchases.stripePaymentIntentId` (above)
+ * catches replays for purchases that carry an intent id. Credit and
+ * Dream purchases pay through a flow that produces no payment intent,
+ * so the intent column is NULL and MySQL treats every NULL as
+ * non-conflicting — meaning a replayed webhook for a credit purchase
+ * could double-fulfill before this table existed.
+ *
+ * The Stripe webhook handler inserts a row here keyed by the Stripe
+ * `event.id` *before* doing any fulfillment work. If the insert
+ * fails with a unique-violation, the event is a replay and the
+ * handler returns a 200 immediately, no fulfillment runs. Records
+ * are kept indefinitely so old replays remain blocked even after
+ * the original purchase row has been moved or archived.
+ */
+export const processedWebhookEvents = mysqlTable(
+  "processed_webhook_events",
+  {
+    id: int("id").autoincrement().primaryKey(),
+    /** Stripe `event.id` (e.g. `evt_…`). Unique. */
+    eventId: varchar("eventId", { length: 256 }).notNull(),
+    /** Stripe event type (e.g. `checkout.session.completed`). */
+    eventType: varchar("eventType", { length: 128 }).notNull(),
+    /** Source of the webhook — currently only `stripe`. Future-proof. */
+    source: varchar("source", { length: 32 }).notNull().default("stripe"),
+    processedAt: timestamp("processedAt").defaultNow().notNull(),
+  },
+  (table) => ({
+    uqEventId: uniqueIndex("uq_processed_webhook_events_event_id").on(
+      table.eventId,
+    ),
+    typeIdx: index("idx_processed_webhook_events_type").on(table.eventType),
+  }),
+);
+
+export type ProcessedWebhookEvent = typeof processedWebhookEvents.$inferSelect;
+
+/**
  * Ship upgrades for Trade Empire — purchased or earned.
  */
 export const shipUpgrades = mysqlTable("ship_upgrades", {

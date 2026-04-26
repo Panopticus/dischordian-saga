@@ -111,6 +111,43 @@ Current startup bootstraps (see `apps/server/_core/index.ts`):
 - `bootstrapCitizenSchema` — mirrors `0054_citizen_foundation.sql`
   (`citizen_characters.foundation`). Without this the Awakening handoff
   breaks on deploys that haven't had a manual `drizzle-kit generate` pass.
+- `bootstrapWebhookEventsTable` — mirrors
+  `0055_processed_webhook_events.sql` (`processed_webhook_events`
+  table). Without this the Stripe webhook handler's event-level
+  idempotency check fails open: replays of credit/dream purchases
+  (which carry no `payment_intent` and therefore aren't caught by the
+  unique index on `store_purchases.stripePaymentIntentId`) could
+  double-fulfill.
 
 Each of these should be removed once the corresponding migration is
 added to `_journal.json` and the matching snapshot exists in `meta/`.
+
+## CI guard — fresh-DB smoke test
+
+`apps/scripts/db-fresh-smoke.ts` (run via `pnpm db:smoke`, executed by
+the `db-smoke` job in `.github/workflows/ci.yml`) spins a clean MySQL 8
+service container, runs `drizzle-kit migrate`, then exercises the
+production-server bootstrap path against it:
+
+1. `getDb()` returns a connected pool.
+2. `__drizzle_migrations` carries rows (i.e. drizzle-kit migrate did
+   apply at least the journal-tracked entries).
+3. `bootstrapAnnouncementsTables()` succeeds.
+4. `bootstrapCitizenSchema()` succeeds.
+5. `announcements` and `announcement_views` tables exist post-bootstrap.
+6. `citizen_characters.foundation` column exists, *if* the
+   `citizen_characters` table itself is present (its base table ships in
+   an earlier orphan migration; the bootstrap is a no-op without it).
+
+The smoke test is the automated guard the journal-drift situation
+deserves. It catches regressions in:
+
+- any drizzle-kit-tracked migration in `_journal.json`
+- either of the two startup bootstraps for orphan migrations 0049 / 0054
+- new orphans added without a matching bootstrap (the assertions will
+  flag the gap because the bootstrap-targeted DDL won't land)
+
+When the full reconciliation eventually folds the orphans into the
+journal, the bootstrap functions and the `bootstrap*` checks in the
+smoke script come down together — the journal-tracked checks (steps
+1–2 above plus a `__drizzle_migrations` row count assertion) remain.

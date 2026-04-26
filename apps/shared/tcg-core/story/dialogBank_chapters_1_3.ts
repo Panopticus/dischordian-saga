@@ -29,7 +29,7 @@ export const DIALOG_CH1_PRE: DialogScene = {
     {
       speaker: "agent_zero",
       mood: "guarded",
-      text: "Subject Zero. Cameras cycle every forty-three seconds. I have thirty-one. The Collector wiped your memory but not your instincts — I need to see if your instincts still belong to who I think you are.",
+      text: "Prisoner 74. Cameras cycle every forty-three seconds. I have thirty-one. The Collector wiped your memory but not your instincts — I need to see if your instincts still belong to who I think you are.",
       audioClipId: "vo_zero_ch1_pre_01",
     },
     {
@@ -87,7 +87,7 @@ export const DIALOG_CH2_PRE: DialogScene = {
     {
       speaker: "the_jailer",
       mood: "menacing",
-      text: "Designation: Subject Zero. You survived the first match. That puts you in the rotation.",
+      text: "Designation: Prisoner 74. You survived the first match. That puts you in the rotation.",
       audioClipId: "vo_jailer_ch2_pre_01",
     },
     {
@@ -128,7 +128,7 @@ export const DIALOG_CH2_LOSS: DialogScene = {
     {
       speaker: "the_jailer",
       mood: "menacing",
-      text: "Return to your cell, Subject Zero. The rotation continues. You will be recalled at your scheduled interval. The cameras will not notice this interlude.",
+      text: "Return to your cell, Prisoner 74. The rotation continues. You will be recalled at your scheduled interval. The cameras will not notice this interlude.",
       audioClipId: "vo_jailer_ch2_loss_01",
     },
   ],

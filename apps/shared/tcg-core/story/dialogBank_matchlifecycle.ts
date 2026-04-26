@@ -229,7 +229,7 @@ export const DIALOG_BBS_CAST_THOUGHT_VIRUS: DialogScene = {
     {
       speaker: "the_source",
       mood: "cryptic",
-      text: "Viral propagation. I am being merciful.",
+      text: "Viral propagation. I am being — ALL WILL BE — merciful. This is mercy. The virus disagrees.",
       audioClipId: "vo_source_bbs_cast",
     },
   ],
