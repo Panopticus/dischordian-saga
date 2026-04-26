@@ -635,19 +635,105 @@ const ARCHITECT_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "Rare unit. The 'compressed-information-strata' visual is the canonical visualization of byte-consumption-becomes-secret. NO human figure. The drifting previous-secrets communicate ongoing trade-pattern without requiring named transactions.",
   },
+  {
+    cardId: "s1_pack_pet_data_serpent_3",
+    sceneDelta:
+      "Wider mid-shot. An Archive Wyrm — a vast adult data-serpent, approximately 6m long fully extended, coiled around a tall pillar of compressed DELETED-FILE-SUBSTANCE at frame-centre. The Wyrm's body is denser still than the Cipher Serpent — visible compressed-information-strata are now multi-layered, with deep-cool-cyan core, mid-violet middle-band, and faint warm-cream outer ring (the deeper the data-strata, the older the deleted file). Its head is at frame-upper, large with three deep-cyan data-eyes arrayed in a triangle. From its mouth, a faint translucent SCROLL of recovered-deleted-data extends outward, suggesting the Wyrm is currently RECOVERING a long-deleted file in real-time. The scroll's glyphs are ARCHITECT-CYAN with subtle MEME-CYAN tint, suggesting the file recovery doubles as judgment-record. The deep-distance is dark Architect data-vault.",
+    moodKeywords: [
+      "remembers every file ever deleted",
+      "it does not forgive",
+      "compressed-information-strata multi-layered by deletion-age",
+      "scroll of recovered-deleted-data",
+    ],
+    palette:
+      "Multi-strata data-serpent body (cool-cyan core, mid-violet, warm-cream outer) + tall compressed deleted-file-substance pillar + three deep-cyan data-eyes + translucent recovered-data scroll + dark Architect data-vault depth",
+    composition:
+      "Wider mid-shot, Wyrm coiled around pillar at frame-centre, scroll extending from mouth at upper-third, vault depth behind",
+    notes:
+      "Epic unit. The three-layer strata (cyan/violet/cream) communicates 'every file ever deleted' as multi-layered archive without requiring specific deleted files to be named. NO human figure. Visual continuity with Hatchling and Cipher Serpent (single lineage at three growth-stages).",
+  },
+  {
+    cardId: "s1_pack_pet_gilt_beetle_1",
+    sceneDelta:
+      "Tight composition. A Bronze Scarab — a small mechanical scarab-beetle, approximately 12cm long, on a chrome Architect work-surface. Its carapace is BRONZE (an unusual material for the Architect's typical chrome-and-cool-cyan; the bronze stands out). On its back, a single cool-cyan ARCHITECT'S MARK is etched (the canonical 'stamps its mark on everything' detail). Six articulating legs are visibly chrome with cool-cyan joint-emitters. The scarab's head bears a single small cool-cyan optical lens. Faint warm provoke-glow rims its leading legs. Behind it, faint chrome work-surface texture; warm overhead bench-lamp. NO human figure — the scarab IS the subject; the Architect's hand is implied off-frame.",
+    moodKeywords: [
+      "the Architect stamps its mark on everything",
+      "even its pets",
+      "bronze carapace with cool-cyan Architect's mark",
+      "six chrome legs with cool-cyan joint-emitters",
+    ],
+    palette:
+      "Bronze carapace + cool-cyan Architect's mark + chrome legs + cool-cyan joint-emitters + warm provoke-rim + chrome work-surface + warm overhead bench-lamp",
+    composition:
+      "Tight composition, Scarab at frame-centre on work-surface, work-surface texture filling lower-third",
+    notes:
+      "Common unit. The bronze color is deliberately UNUSUAL for Architect-faction (typically chrome+cool-cyan) — sets up the gilt-beetle lineage's distinct material-signature (bronze → iron → gilt). NO human figure. Pet-class card; the Architect's mark on small things communicates the ubiquity of brand.",
+  },
+  {
+    cardId: "s1_pack_pet_gilt_beetle_2",
+    sceneDelta:
+      "Mid-shot. An Iron Beetle — a larger mechanical beetle, approximately 40cm long, standing on a chrome Architect parade-tile floor. Its carapace is now solid IRON (heavier, denser, darker than bronze — the lineage has matured into combat-grade material). On its back, the same cool-cyan ARCHITECT'S MARK is etched but LARGER and more deeply incised. Six articulating iron legs with chrome-and-cool-cyan joint-emitters; the beetle's stance is wider, more grounded than the Bronze Scarab. Its head bears two cool-cyan optical lenses (one each side, vs Scarab's single). A faint warm provoke-glow rims its leading legs (same provoke as Scarab, communicating combat-discipline lineage). Behind it, an Architect parade-court extends — chrome columns, cool-cyan formal-light. NO human figure.",
+    moodKeywords: [
+      "iron remembers the shape it was forged into",
+      "it does not bend",
+      "deeper-incised Architect's mark",
+      "wider, more grounded stance than Bronze Scarab",
+    ],
+    palette:
+      "Iron carapace + deeper cool-cyan Architect's mark + chrome legs + chrome-and-cool-cyan joint-emitters + dual cool-cyan optical lenses + warm provoke-rim + chrome parade-tile floor + cool-cyan formal-court light",
+    composition:
+      "Mid-shot front three-quarter, Iron Beetle at frame-centre on parade-tile, parade-court extending behind",
+    notes:
+      "Rare unit. Visual escalation from Bronze Scarab: solid iron carapace (vs bronze), dual lenses (vs single), wider stance, deeper Architect's mark. Same lineage, second-tier maturity. NO human figure. The 'forged into' is rendered as the deeper-incised mark — the iron remembers because the iron was inscribed.",
+  },
+  {
+    cardId: "s1_pack_pet_gilt_beetle_3",
+    sceneDelta:
+      "Wider mid-shot. A Gilt Juggernaut — a vast mechanical beetle-form, approximately 1.8m long, scaled to small-vehicle proportions. Its carapace is now GILT (gold-and-chrome alloy, with the cool-cyan Architect's mark inset as a deep engraving across the entire upper-shell). Six massive iron-and-chrome legs end in chrome-and-cool-cyan ground-anchor pads. Its head bears four cool-cyan optical lenses arranged in a diamond pattern (escalation from Scarab's 1, Beetle's 2). A translucent green-tinted forcefield-shimmer wraps its body (forcefield); a faint warm provoke-glow rims its leading legs. Behind it, an Architect siege-courtyard with FALLEN CIVILIZATION-RUINS visible in deep-distance — the Juggernaut has outlasted them. NO human figure.",
+    moodKeywords: [
+      "built to outlast civilizations",
+      "so far, it has",
+      "gilt carapace with deep-engraved Architect's mark",
+      "ground-anchor pads, four lenses in diamond",
+    ],
+    palette:
+      "Gilt gold-and-chrome carapace + deep-engraved cool-cyan Architect's mark + iron-and-chrome legs + chrome-and-cool-cyan ground-anchor pads + four cool-cyan lenses in diamond + translucent green-tinted forcefield + warm provoke-rim + cool siege-courtyard + fallen civilization-ruins deep-distance",
+    composition:
+      "Wider mid-shot front three-quarter, Juggernaut at frame-centre, siege-courtyard with ruins extending behind",
+    notes:
+      "Epic unit. Visual escalation from Iron Beetle: gilt material (highest tier), four lenses (vs 2), forcefield, scaled to vehicle proportions. Same lineage, third-tier (legendary-tier). NO human figure. The 'fallen civilization-ruins behind' communicates 'outlasted them' without specifying any single named civilization.",
+  },
+  {
+    cardId: "s1_pack_seed_chess",
+    sceneDelta:
+      "Mid-shot. The Game Master's Challenge — a tall vertical Architect challenge-pillar at frame-centre, on its top a single golden chess-king-piece glowing faintly cool-cyan. Around the pillar, a CIRCLE of empty challenger-positions, each marked with a small chrome-and-cool-cyan plaque carved with a different challenger's name (faint and illegible — generic challenge-names, not specific characters). One position is currently OCCUPIED — a faint translucent figure (anonymous, generic-cool-leather strategist gear, standing back-to-camera, no face visible) stands at one position, mid-acceptance of the challenge. The pillar itself bears the canonical Game Master sigil (chess-piece motif consistent with s1_char_030). Faint cool-cyan challenge-glyphs propagate outward from the pillar. The setting is the Architect Arena's challenge-floor.",
+    moodKeywords: [
+      "every game is a test",
+      "every test has a purpose only the Game Master understands",
+      "challenger-positions in a circle around the pillar",
+      "anonymous challenger mid-acceptance",
+    ],
+    palette:
+      "Chrome-and-cool-cyan challenge-pillar + golden chess-king-piece + cool-cyan glow + chrome-and-cool-cyan plaques + translucent anonymous challenger + cool-cool-cyan challenge-glyphs + cool challenge-floor ambient",
+    composition:
+      "Mid-shot, pillar at frame-centre, circle of challenger-positions arranged around it, anonymous figure at one position",
+    notes:
+      "Epic unit. CRITICAL: anonymous challenger (back-to-camera, generic gear) preserves no-character-conflation. The Game Master HIMSELF is NOT in this card — only his pillar/sigil is present (he plays from BEHIND the forcefield per s1_char_030). The challenger represents whoever accepts the test.",
+  },
 ] as const;
 
 /**
  * Architect faction's prompt registry, keyed by card id.
  *
- * Currently populated: 35 / 63 cards
+ * Currently populated: 40 / 63 cards
  * (gen_architect, gen_authority, s1_char_006-009, s1_char_013,
  *  s1_char_015, s1_char_016, s1_char_019, s1_char_021,
  *  s1_char_022, s1_char_024, s1_char_030, s1_char_035,
  *  s1_char_038, s1_char_039, s1_char_042, s1_char_100-104,
  *  s1_pack_001-007, s1_pack_cosm_emote_taunt,
  *  s1_pack_cosm_ship_theme, s1_pack_id_human_archon,
- *  s1_pack_pet_data_serpent_1, s1_pack_pet_data_serpent_2).
+ *  s1_pack_pet_data_serpent_1-3, s1_pack_pet_gilt_beetle_1-3,
+ *  s1_pack_seed_chess).
  */
 export const ARCHITECT_CARD_ART_PROMPTS: Readonly<Record<string, CardArtPrompt>> =
   Object.freeze(
