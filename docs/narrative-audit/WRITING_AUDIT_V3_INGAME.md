@@ -117,8 +117,8 @@ Voice rules (carried from V2, refined this session):
 > - 4B — Source / Kael — ✅ landed
 > - 4C — Narrator / exposition — ✅ landed
 > - 4D — Length compliance — ✅ landed
-> - 4E — Voice drift across speakers — ✅ landed (this commit)
-> - 4F — Generic-villain rhetorical patterns — pending
+> - 4E — Voice drift across speakers — ✅ landed
+> - 4F — Generic-villain rhetorical patterns — ✅ landed (this commit)
 > - 4G — New surfaces (Acts 2–7, variant registry) — pending
 
 ### 4A — Architect (V2 Category A)
@@ -404,6 +404,33 @@ trade for the virus-interruption pattern.
 - **`architects_echo`** — covered in §4A. Exemplary. ✅
 
 **No additional drift fixes required.**
+
+### 4F — Generic-villain rhetorical patterns (V2 Category F)
+
+**Status: closed. Pattern absent from active dialog.**
+
+V2 flagged two lines as the "I have seen / calculated / predicted your
+defeat" rhetorical pattern that flattens villains into interchangeable
+threat-generators:
+
+- F.1 Dreamer: *"I have dreamed your death a thousand times. In some
+  dreams, you survive."*
+- F.2 Seer: *"You were going to do that. I already prepared."*
+
+A grep for the original strings against the current codebase returns
+**zero hits.** A broader sweep for the rhetorical family
+(`already.*calculated`, `already.*foreseen`, `already won`,
+`already.*predicted`, `inevitable.*outcome`) inside dialog `text:`
+fields returns **zero hits.** The pattern has been refactored away.
+
+The Dreamer and Seer voices are now established differently:
+- Dreamer: aesthetic-of-all-outcomes, contemplative not threatening
+- Seer: reacts-to-intent (not to action) — surfaces in
+  `act1OpponentDialog.ts` THE_SEER_VISIT block, where the Seer
+  *deliberately does not raise her staff* and *leaves it on the bench*.
+  The voice is patience, not prediction.
+
+**No fixes required for V2 Category F as part of V3.**
 
 
 ## 5. Open questions for the team
