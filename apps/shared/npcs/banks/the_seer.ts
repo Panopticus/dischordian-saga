@@ -367,6 +367,74 @@ export const THE_SEER_BANK: ReadonlyArray<BankEntry> = [
   },
 
   // ═════════════════════════════════════════════════════════════════════
+  // ACT 6 BRIDGE (Phase 6b.1 sub-chunk D) — canonical Witnessed-band
+  // bridge between Act 5 confidant-precursor and Act 7 confidant-
+  // invitation per writers'-guide spec ("Act 6: bridge between
+  // confidant-precursor and Act-7 invitation = 4 lines").
+  //
+  // Per §2.3 cross-time canon: every Act 6 line is canonically a
+  // recording made before sealing, scheduled to fire at this beat
+  // because she foresaw the player would arrive at the threshold of
+  // Inheriting band by Act 6.
+  // ═════════════════════════════════════════════════════════════════════
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "seer.transmission.act6.bridge.tea_is_being_prepared",
+    // Canonical preparation-as-implicit-prediction per §1.5 Confidant-
+    // exception class. The line names the upcoming canonical
+    // hospitality before the Inheriting band lands.
+    text:
+      "The transmission says: the tea is being prepared. The cupboard " +
+      "is being stocked. The door is not yet open. The door will be " +
+      "open. I am letting you know in advance because I will not " +
+      "announce the opening when it lands.",
+    surfaces: ["transmission"],
+    minAct: 6,
+    requiresTrustBand: "Witnessed",
+    cooldownKey: "seer.act6.tea_being_prepared",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "seer.transmission.act6.bridge.thaloria_will_open",
+    // Per §2.4 canonical Stage-4-weave-anchor canon: "the door-
+    // opening is a Stage 4 weave question — who opens the door?
+    // ... bible-asserts: the Seer's pre-recordings cover the player's
+    // arrival; the door-opening mechanism is canonically deferred."
+    // The line names the canonical independence of the two decisions.
+    text:
+      "Thaloria has decided when to open. I have decided where the " +
+      "cupboard goes. The two decisions are independent. They will " +
+      "rhyme. You will arrive between them.",
+    surfaces: ["transmission"],
+    minAct: 6,
+    requiresTrustBand: "Witnessed",
+    cooldownKey: "seer.act6.thaloria_will_open",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "seer.transmission.act6.bridge.last_recording_before_invitation",
+    // The canonical pre-invitation cadence: she names the invitation
+    // as the next thing to land, and pre-emptively names that the
+    // invitation is canonical coordinates rather than a transmission.
+    // §2.3 cross-time canon protected — the recording is canonical
+    // self-aware about its own canonical scheduled-end.
+    text:
+      "This is the last recording before the invitation lands. The next " +
+      "transmission will not be a transmission. It will be coordinates. " +
+      "Receive the coordinates. Walk to them. The door opens because I " +
+      "prepared it to open, not because I am there to open it.",
+    surfaces: ["transmission"],
+    minAct: 6,
+    requiresTrustBand: "Witnessed",
+    cooldownKey: "seer.act6.last_recording_before_invitation",
+    maxPlays: 1,
+    setsFlags: ["seer_invitation_imminent"],
+  },
+
+  // ═════════════════════════════════════════════════════════════════════
   // CONFIDANT REGISTER / INHERITING BAND / Act 7 (single canonical line)
   // ═════════════════════════════════════════════════════════════════════
 
@@ -388,6 +456,58 @@ export const THE_SEER_BANK: ReadonlyArray<BankEntry> = [
     maxPlays: 1,
     setsFlags: ["seer_thaloria_visited"],
     setsPublicFlags: ["seer_confidant_band_reached"],
+  },
+
+  // ─── Act 7 deepening (Phase 6b.1 sub-chunk D) ────────────────────────
+  // The staff-on-the-bench inheritance carries forward the Act 3
+  // staff_inheritance line into Act 7's canonical Confidant register.
+  // The who-opens-the-door beat names the Stage-4-weave-anchor canon
+  // per §2.4 (door-opening mechanism canonically deferred).
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "seer.cinematic.act7.confidant.staff_on_the_bench",
+    // The Act 3 staff_inheritance line ("Yours to return, if you ever
+    // decide to. No rush.") is the canonical earlier transmission;
+    // this Act 7 cinematic completes the inheritance cycle by placing
+    // the staff at the Thaloria coordinates. §2.5 sealing canon: she
+    // carved the staff before sealing; the bench is the canonical
+    // Mechronis-shape teaching object.
+    text:
+      "[The staff is on the bench at the coordinates. The bench is the " +
+      "canonical kind — Mechronis-shape, lower than usual, with a " +
+      "second-cupboard cabinet underneath. The staff is yours to " +
+      "return if you ever decide to. No rush. She did not leave a " +
+      "note this time. The staff is the note.]",
+    surfaces: ["cinematic"],
+    minAct: 7,
+    requiresTrustBand: "Inheriting",
+    unlockFlags: ["seer_thaloria_visited"],
+    cooldownKey: "seer.act7.staff_on_the_bench",
+    maxPlays: 1,
+    setsFlags: ["seer_staff_inheritance_completed"],
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "seer.cinematic.act7.confidant.who_opens_the_door",
+    // Per §2.4 canonical Stage-4-weave-anchor canon: "the door-opening
+    // is a Stage 4 weave question — who opens the door? the
+    // Hierophant? the Seer's recorded scheduling? the player's own
+    // arrival flag triggering an automated unlock?" The line names
+    // the question canonically without answering it. The Hierophant
+    // cross-canon per §4.3: he is on Thaloria but not at the door.
+    text:
+      "[The door is open. The door does not announce who opened it. " +
+      "She prepared the door's opening; she did not prepare to be " +
+      "there when it opened. The Hierophant is on Thaloria. He is " +
+      "not at the door. The door opened because the recording said " +
+      "it would. Walk in. The choosing of who walks in is yours.]",
+    surfaces: ["cinematic"],
+    minAct: 7,
+    requiresTrustBand: "Inheriting",
+    unlockFlags: ["seer_thaloria_visited"],
+    cooldownKey: "seer.act7.who_opens_the_door",
+    maxPlays: 1,
   },
 
   // ═════════════════════════════════════════════════════════════════════
