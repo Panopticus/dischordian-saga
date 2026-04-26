@@ -35,7 +35,7 @@ const ROOT = process.cwd();
 describe("Stripe webhook event-level idempotency", () => {
   it("schema exports processedWebhookEvents table", () => {
     const src = fs.readFileSync(path.resolve(ROOT, "apps/db/schema.ts"), "utf-8");
-    expect(src).toMatch(/export const processedWebhookEvents = mysqlTable\("processed_webhook_events"/);
+    expect(src).toMatch(/export const processedWebhookEvents = mysqlTable\(\s*"processed_webhook_events"/);
     expect(src).toMatch(/uq_processed_webhook_events_event_id/);
   });
 
