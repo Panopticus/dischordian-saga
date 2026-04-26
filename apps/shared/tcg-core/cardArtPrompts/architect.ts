@@ -822,12 +822,114 @@ const ARCHITECT_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "Rare unit. CRITICAL: this is a senior MASTER-RANK engineer (a class-rank reward), NOT THE Engineer (whose identity remains [CLASSIFIED] in the Imprint set + Engineer Class set — face never visible across his renderings). Female-presenting + generic-precise features differentiates from THE Engineer. Brass-and-glass clockwork visual continuity with Engineer Imprint set + Time dimension.",
   },
+  {
+    cardId: "s1_reward_companion_human",
+    sceneDelta:
+      "Mid-shot. The Human's Trust — at a quiet midmorning café-table (the canonical Human Imprint set's environment), a male-presenting figure in mid-fifties (deliberately generic, ordinary middle-class clothing — beige jacket, plain trousers, sturdy shoes) sits at one side of the table. He is The Human (twelfth Archon at end of Epoch 2, established in his Imprint set as the canonical café-figure). He extends his RIGHT HAND across the table in a TRUST-GESTURE — palm-up, open. The recipient at the other side of the table is the player-stand-in: anonymous, only their hand visible (also extended toward The Human's, mid-clasp). Their hand-clasp is mid-action, almost completed. Around the two clasped hands, a faint warm-cream trust-shimmer pulses outward — the moment of belief made visible. The Human's face is composed, quiet, considering — he has decided.",
+    moodKeywords: [
+      "the last organic Archon looked at you",
+      "saw something worth believing in",
+      "rarer than any algorithm",
+      "trust-shimmer at the moment of clasp",
+    ],
+    palette:
+      "Generic ordinary middle-class beige + plain warm-leather + warm midmorning café-light + warm-cream trust-shimmer + cool-cyan café ambient at deep-distance + warm anonymous hand-tone",
+    composition:
+      "Mid-shot, café-table at frame-centre, The Human at frame-left side, anonymous player-hand at frame-right side, hand-clasp at frame-centre",
+    notes:
+      "Rare unit. CRITICAL: visual continuity with The Human Imprint set (same café-table-at-midmorning + ordinary-middle-class clothing + composed-quiet face). The 'last organic Archon' framing is canon at end of Epoch 2 (established in Human Imprint set). Anonymous player-hand preserves the player-stand-in framing without committing to any specific named character. The trust-shimmer is a new visual idiom for the canon 'rarer than any algorithm' belief-moment.",
+  },
+  {
+    cardId: "s1_reward_crew_clone",
+    sceneDelta:
+      "Mid-shot. A Perfect Clone — a humanoid figure in standard Architect-cyan crew-uniform standing at the centre of an Architect cloning-bay. The figure's body is fully formed but visibly FRESH — there are faint cool-cyan birthing-fluid traces still on the skin near the joints, and a single chrome cloning-vat is visible at lower-frame-right (the figure has just stepped out of it). The Clone's face is generic-balanced, deliberately UNDISTINCTIVE (a face that could be anyone — no specific named character). Behind the Clone, a row of additional CHROME-AND-COOL-CYAN cloning-vats extends into deep-distance, each currently INACTIVE but ready (rebirth visualized as the inevitable next-vat-is-ready). A faint translucent rebirth-doubled-edge runs along the Clone's outline.",
+    moodKeywords: [
+      "the Architect's cloning bays produce flawless replicas",
+      "death is merely a reboot",
+      "fresh, with cooling-fluid traces at the joints",
+      "row of inactive cloning-vats ready behind",
+    ],
+    palette:
+      "Standard Architect-cyan crew-uniform + faint cool-cyan birthing-fluid traces + chrome cloning-vats + cool-cyan vat-light + translucent rebirth-doubled-edge + warm overhead bay-light + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, Clone at frame-centre, originating cloning-vat at frame-right, row of additional vats receding behind",
+    notes:
+      "Rare unit. CRITICAL: face is GENERIC-UNDISTINCTIVE — must NOT match any named character (this is one of many flawless replicas, identity unspecified). The single-vat-just-exited + receding-row-of-ready-vats is the canonical 'death is a reboot' visualization.",
+  },
+  {
+    cardId: "s1_reward_eidolon_cipher",
+    sceneDelta:
+      "Mid-shot. Cipher, Logic's Edge — humanoid-mechanical figure, approximately 1.9m tall, with a body of brushed-chrome-and-deep-cool-cyan armored plating that is more ANGULAR and SHARPER than typical Architect-faction units (the canonical 'Logic's Edge' geometric-edge identity). Where a face would be, a triangular cool-cyan optical visor (NOT round, NOT horizontal — TRIANGULAR, suggesting computational rather than visual processing). Both arms end in chrome cipher-blades (slim, edged with translucent cool-cyan). They stand at the centre of an Architect computation-floor, mid-action of executing a logical operation: faint translucent cool-cyan computation-glyphs propagate outward from their cipher-blades in calculation-spirals. The figure's pose is precise-balanced, both blades raised in a wide computational-stance. NO HUMAN FACE.",
+    moodKeywords: [
+      "Cipher does not think. Cipher computes",
+      "the distinction matters only to those who lose to it",
+      "triangular optical visor",
+      "cipher-blades with translucent cool-cyan edges",
+    ],
+    palette:
+      "Brushed-chrome-and-deep-cool-cyan angular plating + triangular cool-cyan optical visor + chrome cipher-blades + translucent cool-cyan blade-edges + cool-cyan computation-glyph spirals + cool computation-floor ambient",
+    composition:
+      "Mid-shot front three-quarter, Cipher at frame-centre with both blades raised, computation-glyphs spiraling outward",
+    notes:
+      "Rare unit. The TRIANGULAR optical visor is a new differentiator for Cipher (vs Chrome Archon horizontal, Watchtower 4-array, Sentry vertical-slit, Sentinel horizontal-bar) — each Architect-faction figure has a distinct visor-format communicating their role-purpose. NO human face. The angular-sharper geometry communicates 'Logic's Edge' as a visual signature.",
+  },
+  {
+    cardId: "s1_reward_station_complete",
+    sceneDelta:
+      "Wider mid-shot. A Station Commander — male-presenting figure in early-fifties at the helm of an Architect orbital command-station, generic-distinguished features (composed, alert, slightly satisfied), in formal Architect-cyan command-uniform with chrome epaulets and a single Architect-sigil at the breast. He stands at a tall observation-window at frame-centre, both hands clasped behind his back, looking OUTWARD through the window onto a vast Architect FLEET arrayed in formation in deep-distance space (multiple chrome-and-cool-cyan capital-ships visible, clustered defensively around the station). Behind him at lower-third, the command-station's bridge extends — chrome-and-cool-cyan crew-stations with anonymous crew-figures actively monitoring. A faint warm satisfied-smile is visible on his face. The station's last module has just locked into place; the fleet is ready.",
+    moodKeywords: [
+      "the station's last module locked into place",
+      "looked out at the fleet and smiled",
+      "now they were ready",
+      "fleet arrayed in formation in deep-distance",
+    ],
+    palette:
+      "Architect-cyan command-uniform + chrome epaulets + Architect-sigil breast + warm observation-window starlight + chrome-and-cool-cyan capital-ships in deep-distance + cool-cyan bridge crew-stations + cool deep-space ambient",
+    composition:
+      "Wider mid-shot back-three-quarter on Commander, observation-window with fleet at upper-third, bridge crew at lower-third",
+    notes:
+      "Rare unit. Generic-distinguished face must NOT match any named character. The 'fleet arrayed in formation' is the visual key to 'now they were ready.' Anonymous crew preserves no-character-conflation.",
+  },
+  {
+    cardId: "s1_reward_station_module",
+    sceneDelta:
+      "Wider mid-shot. A Module Integration — at the centre of an Architect orbital module-assembly bay, a humanoid-mechanical unit (anonymous, generic-Architect-combat features, NO specific named character) stands on a chrome assembly-platform. AROUND the unit, TEN distinct chrome-and-cool-cyan module-pieces float in mid-air at differing heights — each module is mid-INTEGRATION into the unit's body (each module is glowing faintly cool-cyan, mid-attachment). The integration is happening simultaneously across all ten modules. Faint cool-cyan integration-pulses propagate outward as each module commits. The unit's body itself is visibly more advanced post-integration than pre — visible upgrade-trajectory rendered in the body's mid-transformation. NO human face.",
+    moodKeywords: [
+      "ten modules, ten upgrades",
+      "the unit that walked in was adequate",
+      "the one that walked out was exceptional",
+      "ten modules mid-integration simultaneously",
+    ],
+    palette:
+      "Chrome assembly-platform + chrome-and-cool-cyan module-pieces + cool-cyan integration-glow + cool-cyan integration-pulses + cool module-bay ambient + warm overhead assembly-light",
+    composition:
+      "Wider mid-shot, unit at frame-centre on platform, ten modules floating around at differing heights, integration mid-flow",
+    notes:
+      "Rare spell. NO human face (mechanical unit). Anonymous unit preserves no-character-conflation (the spell is the upgrade-trajectory, not the upgraded unit). Ten visible modules is canon-direct from flavor.",
+  },
+  {
+    cardId: "s1_reward_tower_wave50",
+    sceneDelta:
+      "Wider mid-shot. A Terminus Bulwark — a vast architectural defensive bastion at the edge of an Architect outer-perimeter facing an open battlefield. The Bulwark is approximately 4m tall, 6m wide, made of chrome-and-cool-cyan reinforced plating with deep-engraved hexagonal Architect-sigils along the upper rim. Visible WEAR ON THE BULWARK: fifty distinct attack-marks (small dark scoring-lines, chip-impacts, blast-scorches) covering the front face, each at a different position, each at a different age (older marks duller, newer marks sharper). The Bulwark is INTACT — no breaches, no failures. At the moment of the card, an INCOMING BLAST (the fifty-first attack) is mid-impact at frame-centre — visible warm explosion-flare against the Bulwark's surface, with cool-cyan forcefield-deflection radiating outward. The Bulwark stands. Faint warm provoke-glow rims its leading edge.",
+    moodKeywords: [
+      "fifty waves broke against it",
+      "the fifty-first is still trying",
+      "fifty distinct attack-marks at differing ages",
+      "still intact — no breaches",
+    ],
+    palette:
+      "Chrome-and-cool-cyan reinforced plating + deep-engraved hexagonal Architect-sigils + dark fifty attack-marks + warm fifty-first explosion-flare + cool-cyan forcefield-deflection + warm provoke-rim + cool battlefield ambient",
+    composition:
+      "Wider mid-shot front three-quarter, Bulwark at frame-centre with attack-mark-covered face, fifty-first explosion mid-impact",
+    notes:
+      "Epic unit. NO human figure (the Bulwark IS the subject). The visible fifty attack-marks at differing ages is the canonical 'fifty waves broke' visualization — without requiring fifty distinct opponents to be drawn. The mid-impact-of-fifty-first explosion communicates 'still trying' as ongoing action.",
+  },
 ] as const;
 
 /**
  * Architect faction's prompt registry, keyed by card id.
  *
- * Currently populated: 46 / 63 cards
+ * Currently populated: 52 / 63 cards
  * (gen_architect, gen_authority, s1_char_006-009, s1_char_013,
  *  s1_char_015, s1_char_016, s1_char_019, s1_char_021,
  *  s1_char_022, s1_char_024, s1_char_030, s1_char_035,
@@ -838,7 +940,10 @@ const ARCHITECT_PROMPTS_LIST: readonly CardArtPrompt[] = [
  *  s1_pack_seed_chess, s1_reward_boss_architect,
  *  s1_reward_boss_collector, s1_reward_casino_pazaak,
  *  s1_reward_chess_tourney, s1_reward_chess_win,
- *  s1_reward_class_engineer).
+ *  s1_reward_class_engineer, s1_reward_companion_human,
+ *  s1_reward_crew_clone, s1_reward_eidolon_cipher,
+ *  s1_reward_station_complete, s1_reward_station_module,
+ *  s1_reward_tower_wave50).
  */
 export const ARCHITECT_CARD_ART_PROMPTS: Readonly<Record<string, CardArtPrompt>> =
   Object.freeze(
