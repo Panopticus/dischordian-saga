@@ -17,6 +17,7 @@ import { IMPRINT_CARD_ART_PROMPTS } from "./imprint";
 import { ALLEGIANCE_CARD_ART_PROMPTS } from "./allegiance";
 import { CLASS_CARD_ART_PROMPTS } from "./class";
 import { RACE_CARD_ART_PROMPTS } from "./race";
+import { ELEMENTAL_CARD_ART_PROMPTS } from "./elemental";
 
 /**
  * The full card-art prompt registry.
@@ -33,9 +34,10 @@ import { RACE_CARD_ART_PROMPTS } from "./race";
  *     Oracle, Soldier, Spy)
  *   - race: 5 / 5 sets — COMPLETE (Human, Demagi, Quarchon,
  *     Synthetic, Ne-Yon)
+ *   - elemental: 1 / 4 elements (Fire)
  *
  * Pending factions:
- *   - elemental, dimensional (tier-up sets)
+ *   - elemental (remaining 3 elements), dimensional (tier-up sets)
  *   - architect, antiquarian, dreamer, insurgency, new_babylon,
  *     thought_virus, neutral, panopticon, allegiance, class, race,
  *     elemental, dimensional
@@ -45,4 +47,5 @@ export const CARD_ART_PROMPTS: CardArtPromptRegistry = Object.freeze({
   ...ALLEGIANCE_CARD_ART_PROMPTS,
   ...CLASS_CARD_ART_PROMPTS,
   ...RACE_CARD_ART_PROMPTS,
+  ...ELEMENTAL_CARD_ART_PROMPTS,
 });
