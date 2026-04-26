@@ -140,13 +140,121 @@ const ALLEGIANCE_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "T6 = Champion tier — the faction-archon has come to the table. CRITICAL: Antiquarian's face here = same face as his Imprint t5 (late-middle-aged scholar, kind-elder); MUST NOT visually identify him as Daniel Cross / The Programmer reborn (Acts 5+ reveal). The intimate two-seat scale deliberately INVERTS the imprint t5's cathedral-orrery scale — same character, different relationship to the player.",
   },
+
+  // ─── ARCHITECT ALLEGIANCE (initiate → Champion) ───
+  // Source canon: 'The first thing the Architect gives you is a
+  // uniform. The uniform is not the point.' Champion-tier is THE
+  // POSITION, not a person — the badge is the same badge, the
+  // name on the badge changes.
+  {
+    cardId: "s1_alleg_architect_t1",
+    sceneDelta:
+      "Mid-shot of an Architect Initiate at the moment of receiving their uniform. They stand in three-quarter inside a chrome-and-obsidian Panopticon induction chamber, mid-twenties, crisp new black-steel duty-uniform, chrome insignia at the collar that has not yet acquired patina. The Initiate's posture is correct — but you can see in the small set of their shoulders that the uniform is heavier than they expected. The induction chamber is rigorously symmetric, lit cool-fluorescent grey. A single off-frame Panopticon officer is implied at camera-right (the one who handed over the uniform); the camera sees only the Initiate. The uniform is not the point. The Initiate does not yet know this.",
+    moodKeywords: [
+      "the uniform is heavier than expected",
+      "first day in the chrome",
+      "the insignia without patina",
+      "rigorously symmetric induction",
+    ],
+    palette:
+      "Architect deep crimson + black steel + chrome silver + cool fluorescent grey induction-chamber light",
+    composition:
+      "Mid-shot front three-quarter, Initiate at frame-centre, induction chamber framing in symmetric perspective behind",
+    notes:
+      "T1 = the new uniform. The Initiate's face is generic-young — establishes the canonical Architect Allegiance progression as a uniform-not-a-person.",
+  },
+  {
+    cardId: "s1_alleg_architect_t2",
+    sceneDelta:
+      "Mid-shot. Architect Loyal Servant stands at attention in a cell-corridor doorway — three-quarter facing camera, one gloved hand resting on the doorframe, the other at their side near the holster. Their uniform now has the patina of regular wear; the chrome insignia at the collar carries a faint fingerprint smudge. The doorway opens into a corridor where the Architect is NOT currently watching (no surveillance cameras visible in this corridor). The Servant stands in the doorway anyway. Provoke visualized as the literal interposition: they have decided that whether or not the Architect is watching today is irrelevant to whether they will be at this doorway today.",
+    moodKeywords: [
+      "in the doorway whether or not the Architect is watching",
+      "the patina of regular wear",
+      "fingerprint smudge on collar chrome",
+      "earned routine",
+    ],
+    palette:
+      "Architect deep crimson + black steel uniform + chrome with faint patina + cool grey corridor + a single warm amber distant pendant",
+    composition:
+      "Mid-shot three-quarter at doorway, Servant centred, off-camera-watching-corridor implied through the doorway behind",
+    notes:
+      "T2 = provoke. Faction-distinct from Iron Lion t2 (interposition-by-arrival), Locke t2 (interposition-by-stance), Architect-imprint t2 (provocation-by-gravity), and Jailer t1 (interposition-by-massive-stillness): the Loyal Servant's interposition is OBLIGATION — they would be there even unwatched. Same keyword, faction-internal-distinct.",
+  },
+  {
+    cardId: "s1_alleg_architect_t3",
+    sceneDelta:
+      "Mid-shot. Architect Veteran in a quiet briefing room — late-thirties, uniform now visibly older (slightly faded crimson piping, the chrome insignia worn to soft silver), seated at one corner of an obsidian table. They are mid-meal — a simple Empire-issue ration tray pulled close, half-eaten — and looking out at the camera with the expression of someone who has decided, on balance, that the inside is warmer. Their face is settled, neither happy nor regretful. Behind them, a wall-display shows a tactical diagram of a predetermined design (faint cool-blue grid, no recognizable specific operation). Grow visualized as the visible accumulation: their forearm, where their sleeve has ridden up, shows a small Architect-faction tattoo of a single chevron — earned-mark, earned-resolve.",
+    moodKeywords: [
+      "the inside is warmer",
+      "the settled face",
+      "earned chevron tattoo",
+      "ration-tray dinner",
+    ],
+    palette:
+      "Architect deep crimson + black steel + chrome with substantial patina + warm amber pendant + cool grey wall-display + a single warm gold accent on the chevron tattoo",
+    composition:
+      "Mid-shot front three-quarter at briefing-room table, Veteran at frame-centre, ration tray at lower-third, wall-display at upper-third",
+    notes:
+      "T3 = veteran. Grow keyword as accumulated earned-marks. The 'inside is warmer' note is the canonical lore beat; the Veteran's settled-face is the visual translation. Not theatrical pride; mostly tiredness and acceptance.",
+  },
+  {
+    cardId: "s1_alleg_architect_t4",
+    sceneDelta:
+      "Mid-shot. Architect Victorious Veteran stands in the same briefing room as T3 but at a more senior position — at the head of the obsidian table now, in their early-forties, uniform freshly re-issued and pressed but with the chrome of multiple campaign-medals at the breast. Above their head, a small spotlight from the ceiling catches them in a tighter pool of warm amber light (the Architect's quiet approval, which is a thing you only notice you have after you've earned it, made visible as light alone). Their hands rest on the table; their eyes carry the kind of fixed certainty that comes from having been to the far side of every match in this deck and come back. A faint hexagonal forcefield-shimmer wraps the table at the seat where they stand (forcefield keyword). NO opponent visible — the room is otherwise empty.",
+    moodKeywords: [
+      "the Architect's quiet approval as a tighter pool of light",
+      "fixed certainty from the far side of every match",
+      "campaign-medals chrome at the breast",
+      "the empty briefing room",
+    ],
+    palette:
+      "Architect deep crimson + black steel + chrome medals + a TIGHTER warm amber spotlight + cool cyan hexagonal forcefield-shimmer at the table-seat + cool grey room",
+    composition:
+      "Mid-shot front three-quarter at the head of the table, Victorious Veteran centred, spotlight pool at upper-third focused on them",
+    notes:
+      "T4 = victorious-tier. The TIGHTER spotlight is the lore-beat for 'the Architect's quiet approval' — visualized as a ceiling-spotlight that only this rank gets to stand under. Forcefield wraps the seat (their seat is now contested-territory).",
+  },
+  {
+    cardId: "s1_alleg_architect_t5",
+    sceneDelta:
+      "Wider mid-shot. Architect Elite stands in a senior briefing chamber — a high-ceilinged room with a single long obsidian conference table, the table's surface mirror-polished. They are at mid-table now, late-forties, decorated dress-uniform with chrome aiguillette at the right shoulder. In their right hand, a small private memo sealed with a chrome-and-crimson Architect signet; in their left hand, a stylus mid-margin-note. The memo is one of the ones the rank-and-file will never see; the memo does not tell the Elite what is going to happen next; it tells them that what is going to happen next has already been decided. Their expression is faintly amused-and-tired — the kind of face that has read enough of these memos to recognize the Architect's prose from the seal-design alone. Behind the Elite, the chamber's far wall shows a faint cool-blue tactical grid (the same grid from T3 but expanded and with more nodes lit).",
+    moodKeywords: [
+      "personally cc'd on memos the rank and file will never see",
+      "none of the memos tell them what is going to happen next",
+      "faintly amused-and-tired",
+      "Architect's prose recognizable from the seal alone",
+    ],
+    palette:
+      "Architect deep crimson + black steel + chrome aiguillette + warm amber pendant on memo + cool blue tactical-grid + a single saturated red on the seal",
+    composition:
+      "Wider mid-shot at conference table, Elite at mid-table in three-quarter, memo at lower-third, tactical-grid wall at upper-third",
+    notes:
+      "T5 = elite. The seal-design + amused-tired face is the lore beat. Memo content is illegible-by-design (the player knows it has been decided; they do not know what it has decided).",
+  },
+  {
+    cardId: "s1_alleg_architect_t6",
+    sceneDelta:
+      "Hero composition. The frame is dominated by a single CHROME EMPLOYEE BADGE the size of a hero-portrait — the badge held by a black-gloved hand at the badge's edge, the rest of the figure receding into the cool fluorescent grey of an Architect HR corridor. The badge has the Architect's standard chrome-and-crimson seal at top, a generic-bureaucratic photograph at centre (the photograph's face is intentionally indeterminate — the photograph could be anyone the system has appointed to this position), and a name-line that is rendered as legible-script-with-illegible-letters (the player perceives the name as A NAME without being able to read which name). The hand holding the badge wears the chrome ring of senior Empire rank. Behind the badge, a faint hexagonal forcefield-shimmer wraps the entire corridor (forcefield + provoke at scale). Silence-the-enemy-general visualized as the corridor's complete absence of sound (no other figures, no cameras, no doors, just the badge and the hand that holds it). The Architect Champion is not a character; they are the POSITION.",
+    moodKeywords: [
+      "the badge is the same badge",
+      "the name on the employee badge changes",
+      "the position, not a character",
+      "complete absence of sound",
+    ],
+    palette:
+      "Chrome badge + crimson seal + black-gloved hand + cool fluorescent grey corridor + cool cyan hexagonal forcefield-shimmer wrapping corridor + a single warm amber accent on the chrome ring",
+    composition:
+      "Hero composition with badge centred filling upper-two-thirds, hand at lower-third, corridor receding to deep perspective behind",
+    notes:
+      "T6 = 'Champion' as POSITION not person. CRITICAL: the photograph on the badge is intentionally indeterminate; the name-line is legible-AS-script but specific letters illegible. This preserves the canonical 'the badge is the card' lore beat. NO recognizable named character on the badge. NO Architect-imprint face here (he is the higher-tier figure giving the badge, not the badge holder).",
+  },
 ] as const;
 
 /**
  * Allegiance faction's prompt registry, keyed by card id.
  *
- * Currently populated: 1 / 6 sets (Antiquarian allegiance).
- * TODO: architect, dreamer, insurgency, new_babylon, thought_virus.
+ * Currently populated: 2 / 6 sets (Antiquarian, Architect).
+ * TODO: dreamer, insurgency, new_babylon, thought_virus.
  */
 export const ALLEGIANCE_CARD_ART_PROMPTS: Readonly<
   Record<string, CardArtPrompt>
