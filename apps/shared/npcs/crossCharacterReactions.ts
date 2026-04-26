@@ -172,6 +172,21 @@ export const CROSS_CHARACTER_REACTIONS: ReadonlyArray<CrossCharacterReaction> = 
       "completion.",
   },
 
+  // ─── Seer remembers laughing at the Programmer (Phase 6b.1) ────────
+  {
+    flag: "seer_remembers_laughing_at_programmer",
+    setBy: ["the_seer"],
+    reactsBy: ["future_reader"], // Antiquarian (future bible) + Phase 6+
+    canonicalNote:
+      "Per Seer bible §4.6 + writers'-guide spec: the canonical Seer-" +
+      "laughed-at-the-Programmer canon is the saga's clearest single " +
+      "Seer-Programmer cross-reference. Set when the player asks Seer " +
+      "about Daniel Cross / the Antiquarian. The flag opens a downstream " +
+      "Antiquarian-bible reactive register ('Tell her I remember it too') " +
+      "and signals to other Phase 6+ NPCs that the player has crossed " +
+      "the canonical Seer-Programmer historical-disclosure line.",
+  },
+
   // ─── Locke filed player as predatory at first contact (Phase 6a.2
   //     first-meeting tree) ────────────────────────────────────────────
   {
