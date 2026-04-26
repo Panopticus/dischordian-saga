@@ -21,6 +21,7 @@ import { lyricsRouter } from "./routers/lyrics";
 import { gameStateRouter } from "./routers/gameState";
 import { cardChallengeRouter } from "./routers/cardChallenge";
 import { adminRouter } from "./routers/admin";
+import { telemetryRouter } from "./routers/telemetry";
 import { contentRewardRouter } from "./routers/contentReward";
 import { transmissionsRouter } from "./routers/transmissions";
 import { fightLeaderboardRouter } from "./routers/fightLeaderboard";
@@ -127,6 +128,7 @@ export const appRouter = router({
   gameState: gameStateRouter,
   cardChallenge: cardChallengeRouter,
   admin: adminRouter,
+  telemetry: telemetryRouter,
   contentReward: contentRewardRouter,
   transmissions: transmissionsRouter,
   fightLeaderboard: fightLeaderboardRouter,
