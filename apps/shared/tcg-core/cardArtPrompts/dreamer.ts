@@ -549,12 +549,165 @@ const DREAMER_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "Epic unit. CRITICAL spoiler-discipline: face remains FACELESS cream-mist oval (consistent across all Oracle renderings). The 'fragments' framing is rendered as varying-brightness sparks — each spark is a piece of prophecy, NOT a complete revelation. This is the BETWEEN-state (vs Prisoner = stripped, Ascended = full).",
   },
+  {
+    cardId: "s1_pack_pet_glyph_moth_1",
+    sceneDelta:
+      "Tight composition. A Glyph Larva — a small translucent silver-mist creature, approximately 8cm long, clinging to the underside of a Dreamer-aligned reality-surface (the surface visible at upper-frame as a shimmering aurora-violet membrane). The Larva's body is segmented and quiet, with faint cool-cyan glyph-marks pulsing softly along its back (early-stage glyph-language). Two tiny deeper-cool-cyan eye-points. It is currently STILL, waiting. Faint translucent rebirth-doubled-edge runs along its outline (rebirth keyword visualized). NO human figure. The deep-background is dark Dreamer-otherspace.",
+    moodKeywords: [
+      "clings to the underside of reality",
+      "waiting to become something worth noticing",
+      "early-stage glyph-marks pulsing softly",
+      "translucent rebirth-doubled-edge",
+    ],
+    palette:
+      "Translucent silver-mist Larva-body + faint cool-cyan glyph-marks + deeper-cool-cyan eye-points + shimmering aurora-violet reality-membrane + translucent rebirth-edge + dark Dreamer-otherspace",
+    composition:
+      "Tight composition, Larva at frame-centre clinging to reality-membrane at upper-third, otherspace below",
+    notes:
+      "Common unit. NO human figure. The 'underside of reality' is the canonical visualization — the Larva is BENEATH the surface of the world, not yet on it. First stage of glyph-moth lineage.",
+  },
+  {
+    cardId: "s1_pack_pet_glyph_moth_2",
+    sceneDelta:
+      "Mid-shot. A Sigil Moth — adult-stage moth, approximately 30cm wingspan, with broad translucent silver-mist wings displaying readable PRAYER-SIGILS (each wing covered in cool-cyan glyph-script, the wings themselves are written-prayers). Body is slim, aurora-violet, with two larger deeper-cool-cyan eye-points. It is mid-flight at chest-height in a Dreamer-sanctum, faint cool-cream wing-trails behind. Around its wings, faint visible BLESSING-DUST drifts outward (the dust is faintly luminous, the blessing made visible). Faint silver-mist wing-shape projection-echoes consistent with Dreamer flying-as-projection idiom. NO human figure.",
+    moodKeywords: [
+      "its wings are prayers",
+      "its dust is a blessing",
+      "readable prayer-sigils on each wing",
+      "luminous blessing-dust drifting outward",
+    ],
+    palette:
+      "Translucent silver-mist wings + cool-cyan prayer-sigil script + slim aurora-violet body + deeper-cool-cyan eye-points + faint cool-cream wing-trails + luminous blessing-dust + cool Dreamer-sanctum ambient",
+    composition:
+      "Mid-shot side three-quarter, Sigil Moth at frame-centre mid-flight, wings spread to display sigils",
+    notes:
+      "Rare unit. NO human figure. The 'wings as prayers' is rendered literally — the wing-script is legible-but-suggestive (preserves prayer-as-presence rather than specific-content). Second stage of glyph-moth lineage.",
+  },
+  {
+    cardId: "s1_pack_pet_glyph_moth_3",
+    sceneDelta:
+      "Wider mid-shot. An Arcane Monarch — vast adult-stage moth, approximately 1.2m wingspan, fully spread wings dominating frame-centre. Wings are translucent silver-mist with DENSE cool-cyan glyph-script + interweaving aurora-violet COMBAT-MEMORIES (the wings now hold both prayers AND remembered-battles, the script and memory layered together). Body is more substantial than the Sigil Moth, with a broad cool-cyan thorax-marking. As wings spread, a translucent BATTLEFIELD-BENEATH-IT shows anonymous warrior-silhouettes RECOVERING combat-memory from the wing-script (figures regaining stances mid-fight). Faint cool-cream wing-trails. NO human face visible — the warrior-silhouettes are translucent only.",
+    moodKeywords: [
+      "when it spreads its wings, the battlefield remembers how to fight",
+      "wings layered with prayers and combat-memories",
+      "warrior-silhouettes recovering combat-memory below",
+      "vast 1.2m wingspan",
+    ],
+    palette:
+      "Translucent silver-mist wings + dense cool-cyan glyph-script + interweaving aurora-violet combat-memories + broad cool-cyan thorax-marking + translucent warrior-silhouettes below + cool wing-trails + cool deep-shadow",
+    composition:
+      "Wider mid-shot, Monarch at frame-centre with wings fully spread, translucent battlefield with warrior-silhouettes at lower-third",
+    notes:
+      "Epic unit. NO specific human face (warrior-silhouettes are translucent generic-archetype). Third stage of glyph-moth lineage. The 'battlefield remembers' is rendered as the warriors below recovering stances from the wing-script.",
+  },
+  {
+    cardId: "s1_pack_pet_holo_fox_1",
+    sceneDelta:
+      "Tight composition. A Fox Kit — a small luminous holographic fox, approximately 25cm long, mid-MATERIALIZATION at frame-centre. Body is translucent cool-cyan-and-aurora-violet with internal starlight-flecks visible. The Kit is mid-action of HAVING JUST BLINKED INTO EXISTENCE — its body is half-formed at the back end (still materializing), full-formed at the front. Two small tiny deeper-aurora-violet ear-tufts. Two cool-cyan eye-points already alert. Around it, faint translucent OZONE-RIPPLES (the smell rendered visible as concentric thin rings). Background: a quiet warm-leather Dreamer floor; faint warm distant lamp at frame-corner.",
+    moodKeywords: [
+      "blinked into existence smelling of ozone and starlight",
+      "half-formed at the back end (still materializing)",
+      "full-formed at the front",
+      "concentric ozone-rings visible",
+    ],
+    palette:
+      "Translucent cool-cyan-and-aurora-violet Kit-body + internal starlight-flecks + deeper-aurora-violet ear-tufts + cool-cyan eye-points + translucent ozone-ripples + warm-leather Dreamer floor + warm distant lamp",
+    composition:
+      "Tight composition, Fox Kit at frame-centre mid-materialization, ozone-ripples around",
+    notes:
+      "Common unit. NO human figure. The 'blinked into existence' is rendered as half-formed-back + full-formed-front. First stage of holo-fox lineage.",
+  },
+  {
+    cardId: "s1_pack_pet_holo_fox_2",
+    sceneDelta:
+      "Mid-shot. A Spectral Fox — adult-stage fox, approximately 60cm long, fully translucent cool-cyan-and-aurora-violet body, mid-action of WALKING ON A BEAM OF LIGHT. The light-beam extends diagonally across the frame from upper-left to lower-right (a translucent warm-cream beam), and the fox is balanced atop it, four paws on the beam-surface. Its body is now denser than the Kit but still partially translucent. Faint silver-mist wing-shape projection-echoes trail behind shoulders (Dreamer flying-as-projection idiom — the fox flies because it walks on light). Three deeper-cool-cyan eye-points (the third on the forehead — between-worlds awareness). NO human figure.",
+    moodKeywords: [
+      "between worlds, it learned to walk on light",
+      "balanced atop a translucent warm-cream beam",
+      "third eye on the forehead — between-worlds awareness",
+      "wing-shape projection-echoes",
+    ],
+    palette:
+      "Translucent cool-cyan-and-aurora-violet Spectral Fox-body + warm-cream light-beam + silver-mist wing-shape projection-echoes + three deeper-cool-cyan eye-points + cool deep-shadow",
+    composition:
+      "Mid-shot side three-quarter, Spectral Fox at frame-centre walking on diagonal light-beam",
+    notes:
+      "Rare unit. NO human figure. Second stage of holo-fox lineage. The 'walking on light' is rendered literally as the diagonal beam under the paws.",
+  },
+  {
+    cardId: "s1_pack_pet_holo_fox_3",
+    sceneDelta:
+      "Mid-shot. A Holographic Apex Fox — vast adult-stage fox, approximately 1m long at shoulder-height (large, regal), body now FULLY DENSE (no longer translucent — solid cool-cyan-and-aurora-violet mass), but rendered as EXISTING IN BOTH WORLDS SIMULTANEOUSLY: the body shows TWO overlapping renderings at slight offset, each fully-solid (vs the Kit's half-formed or the Spectral Fox's translucent — the Apex is BOTH). Both versions are aligned to occupy the same space. Faint silver-mist wing-shape projection-echoes trail behind. Five deeper-cool-cyan eye-points across the face (escalation: 2 → 3 → 5). Around the body, the air shows MULTI-WORLD distortion (each world's faint backdrop visible at the body-edges). NO human figure.",
+    moodKeywords: [
+      "no longer phases between worlds",
+      "it is both at once",
+      "two overlapping fully-solid renderings",
+      "five deeper eye-points across face",
+    ],
+    palette:
+      "Solid cool-cyan-and-aurora-violet Apex Fox-body + double overlapping rendering + silver-mist wing-shape projection-echoes + five deeper-cool-cyan eye-points + multi-world distortion at body-edges + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, Apex Fox at frame-centre with double-overlapping body, multi-world distortion at edges",
+    notes:
+      "Epic unit. NO human figure. Third stage of holo-fox lineage with eye-escalation: 2 (Kit) → 3 (Spectral) → 5 (Apex). The 'both at once' is rendered as the double-overlap — solid in both renderings simultaneously.",
+  },
+  {
+    cardId: "s1_pack_pet_temporal_kitten_1",
+    sceneDelta:
+      "Tight composition. A Chrono Kitten — a small kitten, approximately 15cm long, at frame-centre mid-leap. The body shows visible CELERITY-LIKE MOTION-BLUR at the back-end — the kitten is moving so fast through its own life that its trailing edge is BLURRED with after-image-trails (the canonical 'burning through nine lives so fast it looks like one'). Its body color is warm-cream with faint aurora-violet temporal-tint. Two bright cool-cyan eye-points wide with predatory focus. Around the body, faint warm rush-trails (rush keyword visualized). Background: a quiet Dreamer-sanctum floor; faint warm lamp ambient.",
+    moodKeywords: [
+      "nine lives, but it burns through them so fast",
+      "you'd swear it only has one",
+      "body trailing edge blurred with after-image-trails",
+      "predatory focus eye-points",
+    ],
+    palette:
+      "Warm-cream Chrono Kitten body + faint aurora-violet temporal-tint + cool-cyan eye-points + after-image-trails + warm rush-trails + warm Dreamer-sanctum floor + warm lamp",
+    composition:
+      "Tight composition, Kitten at frame-centre mid-leap, after-image-trails extending behind",
+    notes:
+      "Common unit. NO human figure. The 'nine lives compressed' is rendered as the after-image-trails — the kitten is multiple lives at once. First stage of temporal-cat lineage.",
+  },
+  {
+    cardId: "s1_pack_pet_temporal_kitten_2",
+    sceneDelta:
+      "Mid-shot. A Temporal Cat — mid-life cat, approximately 50cm long, sitting calmly at frame-centre on a low Dreamer-meditation cushion. The body is SUBTLY YOUNGER on one side than the other (visible asymmetric aging — left side shows slightly fuller fur, brighter eyes; right side shows slightly more weathered face, deeper-set eye). The aging-asymmetry is the canonical 'ages backward when no one is looking' rendering. Two amber eye-points, alert but composed. Around the cat, faint translucent temporal-resonance-rings propagate slowly (the time-effect ongoing). Background: a quiet Dreamer-altar with faint warm candle-light.",
+    moodKeywords: [
+      "ages backward when no one is looking",
+      "subtly younger on one side than the other",
+      "alert but composed",
+      "temporal-resonance-rings propagating",
+    ],
+    palette:
+      "Warm-cream Temporal Cat body + asymmetric aging (left younger, right older) + amber eye-points + translucent temporal-resonance-rings + warm Dreamer-altar candle-light + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, Cat at frame-centre on cushion, asymmetry visible across body",
+    notes:
+      "Rare unit. NO human figure. The asymmetric-aging is the visual key to 'ages backward when no one is looking' — different sides have lived different lengths. Second stage of temporal-cat lineage.",
+  },
+  {
+    cardId: "s1_pack_pet_temporal_kitten_3",
+    sceneDelta:
+      "Wider mid-shot. An Epoch Panther — vast adult panther, approximately 1.5m at shoulder, mid-stride across a wide Dreamer-vista. The Panther's body is fully solid deep cool-violet-and-warm-cream, sleek and powerful. Critically, the panther is rendered MOVING THROUGH TIME — each footstep along its path shows the GROUND BENEATH IT in a different era-state (the front paw lands on warm-amber pre-Fall stone; the back paw is leaving a cool-grey current-Epoch-2 ash; in between, the ground transitions through visible eras). Three cool-cyan eye-points (one on each side, one on forehead). Faint cool celerity after-image trails behind. The Panther's expression is CASUAL, almost bored — terrifying, casual ease.",
+    moodKeywords: [
+      "moves through time the way other creatures move through space",
+      "with terrifying, casual ease",
+      "ground beneath each footstep in a different era-state",
+      "casual, almost bored expression",
+    ],
+    palette:
+      "Solid deep cool-violet-and-warm-cream Panther body + warm-amber pre-Fall stone (front paw) + cool-grey current-Epoch-2 ash (back paw) + transitioning ground between + three cool-cyan eye-points + cool celerity after-images + cool wide vista",
+    composition:
+      "Wider mid-shot side three-quarter, Panther mid-stride at frame-centre, transitioning ground beneath footpath",
+    notes:
+      "Epic unit. NO human figure. Third stage of temporal-cat lineage. The 'moves through time' is rendered as the multi-era ground-strata under the footsteps. Visually rhymes with Antiquarian Epoch Walker (s1_char_058) — same multi-era ground-transition idiom, applied here to a creature.",
+  },
 ] as const;
 
 /**
  * Dreamer faction's prompt registry, keyed by card id.
  *
- * Currently populated: 30 / 61 cards
+ * Currently populated: 39 / 61 cards
  * (gen_dreamer, s1_char_005, s1_char_014, s1_char_017,
  *  s1_char_023, s1_char_025, s1_char_027, s1_char_029,
  *  s1_char_034, s1_char_036, s1_char_037, s1_char_045,
@@ -562,7 +715,9 @@ const DREAMER_PROMPTS_LIST: readonly CardArtPrompt[] = [
  *  s1_char_112, s1_char_203, s1_pack_015-021,
  *  s1_pack_cosm_card_back, s1_pack_cosm_frame_gold,
  *  s1_pack_id_oracle_ascended, s1_pack_id_oracle_prisoner,
- *  s1_pack_id_oracle_prophet).
+ *  s1_pack_id_oracle_prophet,
+ *  s1_pack_pet_glyph_moth_1-3, s1_pack_pet_holo_fox_1-3,
+ *  s1_pack_pet_temporal_kitten_1-3).
  */
 export const DREAMER_CARD_ART_PROMPTS: Readonly<Record<string, CardArtPrompt>> =
   Object.freeze(
