@@ -216,9 +216,9 @@ describe("ALL_NPC_ASK_TOPICS aggregator", () => {
   });
 
   it("getAskTopicsFor returns empty array for unauthored NPCs (silent-fail)", () => {
-    // Phase 6a.1 shipped Nilmorg; the rest stay empty until their
-    // sub-phase ships per the Phase 6 sequencing. Updated as banks land.
-    expect(getAskTopicsFor("adjudicator_locke").length).toBe(0);
+    // Phase 6a.1 shipped Nilmorg; Phase 6a.2 shipped Locke; the rest
+    // stay empty until their sub-phase ships per the Phase 6 sequencing.
+    // Updated as banks land.
     expect(getAskTopicsFor("the_seer").length).toBe(0);
     expect(getAskTopicsFor("vex_solene").length).toBe(0);
     expect(getAskTopicsFor("the_oracle").length).toBe(0);
@@ -232,5 +232,11 @@ describe("ALL_NPC_ASK_TOPICS aggregator", () => {
 
   it("Nilmorg (Phase 6a.1) ships ≥10 topics via the aggregator", () => {
     expect(getAskTopicsFor("nilmorg").length).toBeGreaterThanOrEqual(10);
+  });
+
+  it("Locke (Phase 6a.2) ships ≥10 topics via the aggregator", () => {
+    expect(
+      getAskTopicsFor("adjudicator_locke").length,
+    ).toBeGreaterThanOrEqual(10);
   });
 });

@@ -87,6 +87,33 @@ export const CROSS_CHARACTER_REACTIONS: ReadonlyArray<CrossCharacterReaction> = 
       "achievement.",
   },
 
+  // ─── Locke ↔ Vex Touché disclosure (Phase 6a.2 askTopics) ───────────
+  {
+    flag: "locke_disclosed_zero_agent_history",
+    setBy: ["adjudicator_locke"],
+    reactsBy: ["future_reader"], // Vex Phase 6b.2 banks react canonically
+    canonicalNote:
+      "Per Locke bible §2.3: the recorded Zero / Locke 'Touché' exchange " +
+      "is the only canonical peer-respect relationship Locke has on " +
+      "record. When the player asks Locke about Vex / Agent Zero and " +
+      "receives the Touché disclosure, downstream Vex banks (Phase 6b.2) " +
+      "react with the canonical 'Locke told you. We can finish trading " +
+      "secrets now if you like' register.",
+  },
+
+  // ─── Locke ↔ Antiquarian audit (Phase 6a.2 askTopics) ───────────────
+  {
+    flag: "locke_disclosed_antiquarian_audit",
+    setBy: ["adjudicator_locke"],
+    reactsBy: ["future_reader"], // The Antiquarian (future bible) reacts
+    canonicalNote:
+      "Per Locke bible §4.4: the Antiquarian audit is canonically mutual. " +
+      "When Locke discloses to the player that she is auditing the " +
+      "Antiquarian and being audited in return, downstream Antiquarian " +
+      "banks (when his bible ships) gain access to the canonical 'Locke " +
+      "told you, did she' acknowledgment register.",
+  },
+
   // ─── Seer Inheriting band reach (cross-bibliographic) ───────────────
   {
     flag: "seer_confidant_band_reached",
