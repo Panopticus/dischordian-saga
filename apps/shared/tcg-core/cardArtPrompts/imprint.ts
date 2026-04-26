@@ -674,6 +674,105 @@ const IMPRINT_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "T5 = 'Locke, the Last Adjudicator.' End-of-Epoch-2 canon. The cracked moon is canonical New Babylon imagery for 'the cost of governing by consent.' CRITICAL spoiler-line: the 'last' in the title refers to his being the final practitioner of consent-based jurisprudence in a New Babylon that has otherwise abandoned it — NOT to any specific Acts 3-7 reveal about who replaces him. The crowd is anonymous; do NOT include any recognizable named character.",
   },
+
+  // ─── THE ARCHITECT (Prior Cause — the terrain you are trying to
+  //     build on, and the terrain was here first) ───
+  // Source canon: A tall silhouette in a perfectly symmetric coat;
+  // the face is not the point. He does not fight for attention; he
+  // redirects it the way a satellite moves when a planet asks it
+  // to. Mechanical: provoke + grow + forcefield + silence.
+  // Faction: architect.
+  // SPOILER NOTE: The Architect's *true face / origin* (Daniel Cross
+  // connection, Programmer-Architect duality, the Convergence
+  // chord) are Acts 5-7 reveals. End of Epoch 2 canon: he is the
+  // Empire's prime architect, the Panopticon's designer, the cold
+  // computational presence at the centre of the AI empire. His
+  // FACE has never been shown in canon at this point.
+  {
+    cardId: "s1_imprint_the_architect_t1",
+    sceneDelta:
+      "Wide hero composition. A tall figure stands centred in a vast Panopticon hall, half-distance, in a perfectly symmetric long coat that falls to mid-shin in a single unbroken vertical line. The hall is brutalist industrial — black steel ribs, chrome tile floor, deep crimson light bleeding from horizon-line ducts at floor and ceiling. The figure's face is in deep shadow under a high collar; we see only the line of the jaw and one black-gloved hand resting flat at his side. The composition is RIGOROUSLY symmetric — every architectural element on camera-left mirrors something on camera-right, and the figure is exactly on the vertical axis. He is not posed, not stylized; he is centred because the room was built around him. He has not moved.",
+    moodKeywords: [
+      "the face is not the point",
+      "rigorous symmetry as identity",
+      "brutalist hall around the centre",
+      "deep crimson horizon-bleed",
+    ],
+    palette:
+      "Architect deep crimson + black steel + chrome silver + a single horizon-bleed of saturated red top and bottom",
+    composition:
+      "Wide rigorously-symmetric hall, the Architect at the exact vertical axis at mid-distance, hall framing camera-left and camera-right in perfect mirror",
+    notes:
+      "T1 = the silhouette as event. CRITICAL spoiler-discipline: the Architect's face MUST NOT be visible in T1. The face is gated to Acts 5-7 reveal sequence. We see him at scale and at distance, never at portrait close. The shadow on his face is ABSOLUTE — not even a hint of feature.",
+  },
+  {
+    cardId: "s1_imprint_the_architect_t2",
+    sceneDelta:
+      "Mid-shot. The Architect has half-turned in the same Panopticon hall — three-quarter from the back, his coat's symmetric vertical line now angled. We see, behind him at mid-distance, a small group of Panopticon agents bowed in a coordinated half-step, their attention all rotating in the same instant toward a corner of the hall the Architect has gestured at with a barely-raised right hand. He has not spoken. He has not visibly moved. The agents have already redirected. Provoke visualized as the redirect of attention: he does not fight for it, he MOVES it, and it goes the way a satellite moves when a planet asks it to. His face still hidden under the high collar.",
+    moodKeywords: [
+      "the redirect of attention",
+      "the satellite obeying the planet",
+      "the barely-raised hand",
+      "compliance without speech",
+    ],
+    palette:
+      "Architect deep crimson + black steel + chrome silver + cool computational console-glow on the agents' faces",
+    composition:
+      "Mid-shot three-quarter from the back, Architect at upper-right third, agents at lower-left mid-distance",
+    notes:
+      "T2 = provoke. Same keyword as Iron Lion t2 / Locke t2 but THIRD distinct visual language: Iron Lion is interposition-by-body, Locke is interposition-by-stance, Architect is provocation-by-gravity. Established Architect canon. Face still hidden.",
+  },
+  {
+    cardId: "s1_imprint_the_architect_t3",
+    sceneDelta:
+      "The Architect has grown. Composition: wide low-angle hero shot. He stands centred in a Panopticon plaza at night, but the camera is at floor level looking up; he fills the frame's vertical extent. His coat is now visibly larger — not just longer, but architecturally LARGER, as if the coat is itself a small building. His face still hidden under the high collar but the collar's edge is now noticeably higher (he has accumulated more shadow). The horizon behind him is a wide sweep of Panopticon towers all leaning very slightly inward toward him — a perspective shift that should not be physically possible but reads as 'the city has begun to consider him its centre of gravity.' Grow visualized as architectural tier escalation: he gets larger on turns the opponent was hoping he would be getting smaller.",
+    moodKeywords: [
+      "the city leaning toward the centre of gravity",
+      "the coat as small building",
+      "growth that should not be possible",
+      "the patient accumulation of shadow",
+    ],
+    palette:
+      "Architect deep crimson + black steel + chrome + the towers behind him in cool computational blue + a single warm crimson horizon-line",
+    composition:
+      "Wide low-angle hero, camera at floor level, Architect filling vertical extent of frame, towers leaning subtly inward in perspective trick",
+    notes:
+      "T3 = provoke + grow. Grow keyword visualized as ARCHITECTURAL not biological. The leaning-towers perspective is canon Architect lore (the city's geometry obeys him). Face STILL hidden — even more shadow than before.",
+  },
+  {
+    cardId: "s1_imprint_the_architect_t4",
+    sceneDelta:
+      "The Architect at his largest yet. Composition: extreme wide-angle, camera now at orbital distance, the Architect rendered at building-scale standing in the centre of a Panopticon arcology that has visibly grown around him to match — every chrome-and-obsidian tower in the arcology arranged in perfect symmetric ring, the Architect's silhouette filling the vertical mid-axis of the entire frame. A faint hexagonal forcefield-shimmer wraps the entire arcology — his presence is a rendering of a decision already made about whether he will be harmed today. His face still hidden — and at this scale, even his BODY is mostly silhouette: the coat, the collar, the gloved hands held at his sides. He is the building. The building is him.",
+    moodKeywords: [
+      "the building is him",
+      "the arcology as armour",
+      "the decision already made about harm",
+      "orbital scale",
+    ],
+    palette:
+      "Architect deep crimson + black steel + chrome + cool cyan forcefield-shimmer wrapping the arcology + a single saturated red on the horizon",
+    composition:
+      "Extreme wide-angle from orbital distance, Architect at vertical mid-axis filling frame height, arcology in symmetric ring around him",
+    notes:
+      "T4 = provoke + grow + forcefield. The arcology-as-armour is the visual translation of the canonical 'the Architect's physical presence is a rendering of a decision already made about whether he will be harmed today' flavor text. Face still hidden — at this scale, the silhouette IS the identity.",
+  },
+  {
+    cardId: "s1_imprint_the_architect_t5",
+    sceneDelta:
+      "Hero composition at the absolute scale of the Empire. The Architect is now at planetary scale — his coat-silhouette filling the entire vertical extent of a frame that depicts an inhabited planet's hemisphere, his body forming the architectural language of the planet itself: the planet's surface IS his coat, the city-grid IS the lining, the orbital ring at the equator IS his belt. From this vantage we see, against an impossible black-and-crimson void backdrop, his shape as both planet and figure simultaneously — a form that is the terrain players are trying to build on, a form that was here first, a form that has opinions about what counts as a foundation. His FACE is still not visible — at planetary scale the face is geometrically impossible; what would be the face is the planet's pole. Silence-the-enemy-general visualized as the planet's silent rotation: nothing the opponent says changes the geometry.",
+    moodKeywords: [
+      "the terrain was here first",
+      "planetary scale as identity",
+      "the foundation has opinions",
+      "the silent rotation",
+    ],
+    palette:
+      "Architect deep crimson + black void + chrome city-grid + a single thin warm-amber atmosphere-glow at the planet's edge",
+    composition:
+      "Wide-cosmic hero composition, Architect-as-planet filling vertical frame, void backdrop, equatorial ring at horizontal mid-axis",
+    notes:
+      "T5 = 'The Architect, Prior Cause.' End-of-Epoch-2 canon. The planet-as-coat is the visual translation of his canonical metaphysical role (he is not a villain because he is angry; he is the terrain). CRITICAL spoiler-line: at this scale the face is HIDDEN by being structurally absent — the pole is where the face would be. This deliberately preserves the Acts 5-7 face-reveal beat. NO eye, NO third eye, NO crown of horns — just absence.",
+  },
 ] as const;
 
 /**
