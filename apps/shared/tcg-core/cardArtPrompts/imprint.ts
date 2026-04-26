@@ -1456,6 +1456,103 @@ const IMPRINT_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "T5 = 'The Jailer, Rotation-Shaped.' End-of-Epoch-2 canon. CRITICAL: the unreadable-name motes are the visual translation of his canonical 'he never says their names out loud because saying them would count as a second crime on top of the first.' The shapes are deliberately illegible at any zoom level — the viewer perceives that they ARE name-shapes without being able to read any specific name. Helmet visor remains CLOSED through all 5 tiers.",
   },
+
+  // ─── THE NECROMANCER (Mercy-Shaped — unmakes his friends now,
+  //     because the alternative is leaving them in the hands of
+  //     people who would not know how to do it kindly; a person
+  //     whose face is hidden because if you saw it you would
+  //     recognize him) ───
+  // Source canon: Walking away from the viewer across a field of
+  // soft grey ash. Not a skeleton — a person whose face stays
+  // hidden as canonical visual identity. Every dying unit is a
+  // paragraph in a letter he has been writing to himself for
+  // longer than the player has been alive. Mechanical: deathwatch
+  // + rebirth + drain. Faction: dreamer.
+  {
+    cardId: "s1_imprint_the_necromancer_t1",
+    sceneDelta:
+      "Wide composition. A figure in a long grey coat walks AWAY from the viewer across a wide flat field of soft grey ash, mid-distance. The figure's hood is up; we see only the back of his coat and the shape of one shoulder slightly lower than the other (the gait of someone who carries something heavy). The horizon is a low pale line under a Dreamer-faction lavender twilight sky. There is no skeleton, no scythe, no death imagery — only the figure walking, the ash, and the long thin trail of slightly-disturbed ash he leaves behind him. NO face visible. NO turning back. NO weapon. NO halo. Just the walk.",
+    moodKeywords: [
+      "walking away across the soft grey ash",
+      "the back of the coat as identity",
+      "hidden because if you saw it you would recognize him",
+      "lavender twilight without theatrics",
+    ],
+    palette:
+      "Dreamer deep purple lavender twilight + soft grey ash + grey coat + a single warm amber horizon-line at the lowest band of sky",
+    composition:
+      "Wide horizon composition, figure walking away at mid-distance camera-centred, ash-trail behind him receding toward camera",
+    notes:
+      "T1 = the canonical visual identity. CRITICAL spoiler-discipline: face MUST stay hidden across all 5 tiers. The Necromancer's identity is gated to Acts reveals; if the player saw his face they would recognize him. Hood-up + back-to-camera is the established visual language.",
+  },
+  {
+    cardId: "s1_imprint_the_necromancer_t2",
+    sceneDelta:
+      "Mid-shot. The Necromancer at a small wooden writing-desk in some twilight room — a Dreamer-faction sanctum chamber with one tall lavender-glass window. He sits in three-quarter from BEHIND the camera; we see the back of his hooded head, his coat, the curve of one writing-arm extended toward a sheet of parchment on the desk. He is mid-stroke writing a single line. The parchment we can see has many many lines of similar writing — a long letter he has been writing to himself for longer than the player has been alive. Each line is a paragraph (a small note, a line, then a name-shape that is illegible — same illegibility convention as the Jailer t5). Deathwatch visualized as the compounded paragraphs.",
+    moodKeywords: [
+      "every dying unit is a paragraph",
+      "the letter he has been writing to himself",
+      "hooded back to camera as identity",
+      "the lavender twilight window",
+    ],
+    palette:
+      "Dreamer deep purple twilight + lavender-glass window light + grey coat + warm amber pencil-light + a single saturated cream on the parchment",
+    composition:
+      "Mid-shot from behind, hooded head at upper-third, parchment at lower-third filling visual weight",
+    notes:
+      "T2 = deathwatch. The illegible name-shapes echo The Jailer t5's mote-shapes (deliberate cross-faction visual rhyme — both characters are remembering people they cannot say). Face still hidden — camera is BEHIND him.",
+  },
+  {
+    cardId: "s1_imprint_the_necromancer_t3",
+    sceneDelta:
+      "Mid-shot. The Necromancer in three-quarter from BEHIND on the same ash-field from T1 — but now there is a small bone-white flower of soft light beside his foot, growing from the ash. Above him, the lavender twilight sky has visibly cooled toward indigo. He has stopped walking; one hand is half-extended downward, palm toward the bone-flower, not touching it. Rebirth visualized as the bone-white flower forming where a step ago there was only ash. He is permitting it; he is not making it. The dying have learned how to bloom in the ash he walks through. NO face visible. NO turning.",
+    moodKeywords: [
+      "the bone-white flower of soft light",
+      "permitting rather than making",
+      "the indigo cool above lavender",
+      "the dying have learned to bloom",
+    ],
+    palette:
+      "Dreamer deep purple → indigo above + soft grey ash + bone-white flower + grey coat + a single warm amber horizon-line at lowest band",
+    composition:
+      "Wide horizon composition, Necromancer at mid-distance from behind, bone-flower at lower-third in foreground close to his foot",
+    notes:
+      "T3 = deathwatch + rebirth. Bone-flower of soft light = canonical 'every strike leaves a flower of bone-white light behind' visual (his t4 flavor text). Brought forward to t3 because rebirth keyword arrives at t3 in the definition.",
+  },
+  {
+    cardId: "s1_imprint_the_necromancer_t4",
+    sceneDelta:
+      "Wider mid-shot. The Necromancer is now mid-strike on the ash-field — three-quarter from behind, one arm fully extended forward in a stylized pass-through gesture (palm flat, fingertips slightly curled), and from the off-frame point his hand passes through, a SINGLE bone-white flower of soft light is rising. Beside him in the ash, three previous bone-flowers are visible at various stages of having grown after his earlier strikes — each strike has left a bloom. Faint amber motes drift toward HIM from each bloom (drain visualized as ascending memorial-light flowing toward him). He is feeding from the kindness he is giving. Face still hidden — only the back of his coat, the pass-through arm, the silent posture.",
+    moodKeywords: [
+      "every strike a flower of bone-white light",
+      "drain as memorial-light flowing back to him",
+      "feeding from the kindness he gives",
+      "the row of previous blooms",
+    ],
+    palette:
+      "Dreamer deep purple twilight + soft grey ash + bone-white flowers + warm amber drift returning to him + grey coat",
+    composition:
+      "Mid-shot from behind, Necromancer at upper-left third mid-strike, four flowers across lower-third in receding row toward off-frame target",
+    notes:
+      "T4 = deathwatch + rebirth + heal-2-on-damage. The amber drift (drain) flowing TOWARD him from the flowers is the visual translation of canonical 'heals for 2 when he deals damage' — but rendered as memorial-light, not as energy-feeding. Mercy-shaped, never grotesque. Face still hidden.",
+  },
+  {
+    cardId: "s1_imprint_the_necromancer_t5",
+    sceneDelta:
+      "Hero composition. The Necromancer stands at the centre of the ash-field at full Dreamer twilight, three-quarter from BEHIND, surrounded by a wide circle of bone-white flowers in slow concentric expansion. His arms are at his sides; his hood is up; we see the back of him as the visual focus. The ash around the perimeter is in a slow wide rotation — drain at scale, the ash itself remembering. Above him, the Dreamer twilight sky has split into a soft chord of three colours — lavender on his right, indigo above, grey-rose on his left — the visual translation of the longest conversation he has been able to have about it. From his unseen face (still hidden under the hood), a SINGLE thread of warm-amber light extends forward into the field — the line he is writing to himself in the letter, made visible as outgoing light. Around his feet, bone-white flowers are arranged in a long radial pattern, each bloom marking a friend he has unmade kindly because the alternative was unkind hands. He is not in pain in this frame. He is in CONVERSATION.",
+    moodKeywords: [
+      "the longest conversation he has been able to have about it",
+      "the chord of three colours in the twilight",
+      "the thread of warm amber from the unseen face",
+      "kindly because the alternative was not",
+    ],
+    palette:
+      "Dreamer deep purple → indigo → grey-rose chord above + soft grey ash + bone-white concentric flower-circle + grey coat + a single thread of warm amber outgoing-light",
+    composition:
+      "Wide hero from behind, Necromancer at exact centre, concentric flower-circle at chest height, three-colour twilight chord above, ash in slow rotation",
+    notes:
+      "T5 = 'The Necromancer, Mercy-Shaped.' End-of-Epoch-2 canon. CRITICAL: face REMAINS HIDDEN under the hood. Camera stays behind him. The thread-of-amber from his unseen face is a deliberate spoiler-shield gesture — we see what he is SAYING (the outgoing thread) but not WHO is saying it. The radial flower-arrangement is the longest conversation visualized; each bloom is a friend, anonymous. NO recognizable named character implied at any flower position.",
+  },
 ] as const;
 
 /**
