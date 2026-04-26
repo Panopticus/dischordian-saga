@@ -90,6 +90,51 @@ test.describe("Reduced motion preference", () => {
   });
 });
 
+/**
+ * Colorblind palette presets — the SettingsPage exposes a four-way
+ * OptionSelector ("off" / "deuteranopia" / "protanopia" / "tritanopia").
+ * The selector writes through `saveSettings`, which (a) persists to
+ * localStorage under "loredex-settings" and (b) calls applySettingsToDOM
+ * in apps/client/src/lib/settingsSync.ts to toggle a `colorblind-{mode}`
+ * class on `<html>`.
+ *
+ * Apps/client/src/App.tsx also reads localStorage directly on first
+ * mount to apply the class before the settings page renders, so this
+ * test seeds localStorage and reloads the public landing page.
+ *
+ * Each mode is checked in turn, including "off" → no colorblind-* class.
+ */
+test.describe("Colorblind palette presets (public)", () => {
+  for (const mode of ["deuteranopia", "protanopia", "tritanopia"] as const) {
+    test(`${mode} mode applies html.colorblind-${mode}`, async ({ page }) => {
+      await page.goto("/");
+      await page.evaluate((m) => {
+        localStorage.setItem("loredex-settings", JSON.stringify({ colorblindMode: m }));
+      }, mode);
+      await page.reload();
+      // App.tsx applies the class on first mount from localStorage.
+      const html = page.locator("html");
+      await expect(html).toHaveClass(new RegExp(`colorblind-${mode}`));
+      // The other two modes must NOT be present (mutually exclusive).
+      const other = (["deuteranopia", "protanopia", "tritanopia"] as const).filter(
+        (m) => m !== mode,
+      );
+      for (const m of other) {
+        await expect(html).not.toHaveClass(new RegExp(`colorblind-${m}`));
+      }
+    });
+  }
+
+  test("off mode (default) applies no colorblind-* class", async ({ page }) => {
+    await page.goto("/");
+    // Clear any prior setting so we genuinely test the off default.
+    await page.evaluate(() => localStorage.removeItem("loredex-settings"));
+    await page.reload();
+    const className = await page.locator("html").getAttribute("class");
+    expect(className ?? "").not.toMatch(/colorblind-/);
+  });
+});
+
 test.describe("Title page keyboard accessibility (public)", () => {
   test("login button is focusable via keyboard", async ({ page }) => {
     await page.goto("/");

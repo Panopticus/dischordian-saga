@@ -63,6 +63,19 @@ function applySettingsToDOM(settings: GameSettings): void {
   // consumers already familiar with the convention pick it up.
   root.classList.toggle("captions-on", settings.captions);
   root.style.setProperty("--typewriter-speed-ms", String(settings.typewriterSpeed));
+
+  // Colorblind palette presets. Mutually exclusive — clear all three
+  // before applying so toggling between modes never accumulates classes.
+  // The CSS overrides live in apps/client/src/index.css (search:
+  // "html.colorblind-").
+  root.classList.remove(
+    "colorblind-deuteranopia",
+    "colorblind-protanopia",
+    "colorblind-tritanopia",
+  );
+  if (settings.colorblindMode && settings.colorblindMode !== "off") {
+    root.classList.add(`colorblind-${settings.colorblindMode}`);
+  }
 }
 
 // ─── Debounced Server Sync ───

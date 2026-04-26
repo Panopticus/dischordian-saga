@@ -2261,3 +2261,95 @@ html.reduce-motion .page-title-reveal {
   clip-path: none;
   opacity: 1;
 }
+
+/* ═══════════════════════════════════════════════════════
+   ACCESSIBILITY — Colorblind palette presets
+
+   Three mutually-exclusive overrides that remap the five
+   energy/faction tokens (--energy-primary / -accent /
+   -success / -error / -system) to a palette derived from
+   the Okabe-Ito colorblind-safe palette
+   (Bang Wong, Nature Methods 2011).
+
+   Goal: keep all five colors mutually distinguishable under
+   each common CVD type. Default (none of these classes set)
+   leaves the canonical Void Energy palette in place.
+
+   We override the --void-* upstream tokens too so any
+   downstream consumer that reads --void-error directly
+   (rather than the --energy-error alias) also gets the
+   accessible palette.
+
+   These tokens cascade through every faction-colored UI
+   element (buttons, badges, focus rings, card frames,
+   companion portraits) without painting over the rest of
+   the UI's color identity — the canvas, panel chrome, and
+   text colors are untouched.
+   ═══════════════════════════════════════════════════════ */
+
+/* Deuteranopia (M-cone weakness, red-green confusion).
+   Shift the red↔green axis to a blue-yellow + brightness
+   contrast that holds under deutan vision. */
+html.colorblind-deuteranopia,
+html.colorblind-deuteranopia [data-atmosphere] {
+  --void-primary: #56b4e9;       /* sky-blue */
+  --void-secondary: #e69f00;     /* Okabe-Ito orange */
+  --void-accent: #e69f00;
+  --void-success: #009e73;       /* bluish-green */
+  --void-error: #d55e00;         /* vermillion */
+  --void-premium: #f0e442;       /* yellow */
+  --void-system: #cc79a7;        /* reddish-purple */
+
+  --energy-primary: #56b4e9;
+  --energy-secondary: #e69f00;
+  --energy-accent: #e69f00;
+  --energy-success: #009e73;
+  --energy-error: #d55e00;
+  --energy-premium: #f0e442;
+  --energy-system: #cc79a7;
+}
+
+/* Protanopia (L-cone weakness, red appears darker).
+   Same Okabe-Ito basis as deutan but with vermillion held
+   bright and yellow swapped in for the secondary so the
+   error/accent pair stays separable. */
+html.colorblind-protanopia,
+html.colorblind-protanopia [data-atmosphere] {
+  --void-primary: #56b4e9;
+  --void-secondary: #f0e442;
+  --void-accent: #f0e442;
+  --void-success: #009e73;
+  --void-error: #d55e00;
+  --void-premium: #e69f00;
+  --void-system: #cc79a7;
+
+  --energy-primary: #56b4e9;
+  --energy-secondary: #f0e442;
+  --energy-accent: #f0e442;
+  --energy-success: #009e73;
+  --energy-error: #d55e00;
+  --energy-premium: #e69f00;
+  --energy-system: #cc79a7;
+}
+
+/* Tritanopia (S-cone weakness, blue-yellow confusion).
+   Pivot away from cyan/blue primaries; lean on red-green
+   + magenta + bluish-green + brightness contrast. */
+html.colorblind-tritanopia,
+html.colorblind-tritanopia [data-atmosphere] {
+  --void-primary: #d55e00;       /* vermillion replaces cyan */
+  --void-secondary: #cc79a7;     /* reddish-purple */
+  --void-accent: #cc79a7;
+  --void-success: #22c55e;       /* green is fine in tritanopia */
+  --void-error: #ef4444;         /* red is fine in tritanopia */
+  --void-premium: #f0e442;
+  --void-system: #009e73;        /* bluish-green */
+
+  --energy-primary: #d55e00;
+  --energy-secondary: #cc79a7;
+  --energy-accent: #cc79a7;
+  --energy-success: #22c55e;
+  --energy-error: #ef4444;
+  --energy-premium: #f0e442;
+  --energy-system: #009e73;
+}

@@ -635,6 +635,17 @@ function initAccessibilitySettings() {
       root.classList.remove("font-size-small", "font-size-medium", "font-size-large");
       root.classList.add(`font-size-${s.fontSize}`);
     }
+    // Colorblind palette presets — exactly one of the three modes
+    // applies at a time. Always clear before re-applying so toggling
+    // between modes never accumulates classes.
+    root.classList.remove(
+      "colorblind-deuteranopia",
+      "colorblind-protanopia",
+      "colorblind-tritanopia",
+    );
+    if (s.colorblindMode && s.colorblindMode !== "off") {
+      root.classList.add(`colorblind-${s.colorblindMode}`);
+    }
   } catch { /* silent */ }
 }
 initAccessibilitySettings();
