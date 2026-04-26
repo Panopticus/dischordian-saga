@@ -49,7 +49,7 @@ import { NEW_BABYLON_CARD_ART_PROMPTS } from "./new_babylon";
  *   - architect: 63 / 63 cards — COMPLETE
  *   - dreamer: 61 / 61 cards — COMPLETE
  *   - insurgency: 51 / 51 cards — COMPLETE
- *   - new_babylon: 35 / 52 cards
+ *   - new_babylon: 42 / 52 cards
  *
  * Pending factions:
  *   - new_babylon (remaining 47)

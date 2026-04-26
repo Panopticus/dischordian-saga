@@ -631,12 +631,131 @@ const NEW_BABYLON_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "Rare unit. Generic-resolute features must NOT match any named character (specifically NOT Agent Zero or Iron Lion — different specific archetypes). The planted-flag + dared-world framing is canon-direct from flavor.",
   },
+  {
+    cardId: "s1_reward_guild_victory",
+    sceneDelta:
+      "Wider mid-shot. A War Dividend — at frame-centre, a recently-concluded battlefield with smoke still rising at lower-third (anonymous fallen figures back-shots, broken weapons, scorched ground). Through the still-rising smoke, anonymous LOCKE'S ACCOUNTANTS (multiple figures, all in formal Locke-aligned warm-leather-and-cream-marble accountant-coats with chrome-and-warm-gold ledger-clips, all back-three-quarter, generic-procedural) MOVE FORWARD into the battlefield carrying chrome-and-warm-gold ledger-tablets. Above the scene, faint warm-gold dividend-glyphs visibly accumulate (the canonical 'before the smoke cleared' framing). NO faces visible.",
+    moodKeywords: [
+      "the guild war ended",
+      "Locke's accountants moved in before the smoke cleared",
+      "anonymous accountants advancing through still-rising smoke",
+      "warm-gold dividend-glyphs accumulating above",
+    ],
+    palette:
+      "Battlefield smoke + anonymous fallen figures + scorched ground + warm-leather-and-cream-marble accountant-coats + chrome-and-warm-gold ledger-clips + chrome-and-warm-gold ledger-tablets + warm-gold dividend-glyphs + cool deep-shadow",
+    composition:
+      "Wider mid-shot, battlefield at frame-centre with rising smoke, accountants advancing through, dividend-glyphs above",
+    notes:
+      "Epic spell. Anonymous accountants + fallen preserve no-character-conflation. The 'before the smoke cleared' framing is rendered through visible still-rising smoke + accountants already advancing.",
+  },
+  {
+    cardId: "s1_reward_syndicate_build",
+    sceneDelta:
+      "Mid-shot. A Syndicate Foreman — male-presenting figure in mid-fifties, generic-builder features (calm grave eyes, weathered hands, slight smile of satisfaction), in worn New Babylon construction-foreman's coat (warm-leather-and-warm-gold dust-coated working-attire with chrome-and-warm-gold foundation-medallion at the chest). He stands at the centre of a New Babylon construction-site at frame-centre, mid-action of inspecting a freshly-poured foundation. In the foreground at lower-third, a chrome-and-warm-gold cornerstone-plaque bears HIS OWN NAME (faintly legible, generic-builder-name) — the canonical 'twenty-first was his own.' Behind him, twenty other completed towers visible at varying depths in the background skyline.",
+    moodKeywords: [
+      "he poured the foundations for twenty towers",
+      "the twenty-first was his own",
+      "cornerstone-plaque with his own name",
+      "twenty completed towers visible in skyline behind",
+    ],
+    palette:
+      "Worn warm-leather-and-warm-gold construction-foreman's coat + chrome-and-warm-gold foundation-medallion + chrome-and-warm-gold cornerstone-plaque + warm New Babylon construction-site + twenty distant towers + warm sodium-light + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, Foreman at frame-centre at construction-site, twenty distant towers in skyline behind",
+    notes:
+      "Rare unit. Generic-builder features must NOT match any named character. The 'twenty-first his own' framing is rendered through the visible cornerstone-plaque at his feet + the twenty completed towers behind.",
+  },
+  {
+    cardId: "s1_reward_syndicate_empire",
+    sceneDelta:
+      "Wider mid-shot. A Syndicate Overlord — male-presenting figure in mid-fifties, generic-imperial features (composed grave eyes, distinguished silver-streaked beard, set jaw), in formal New Babylon Overlord's robes (deep warm-leather-and-warm-gold ceremonial fabric with chrome-and-warm-gold imperial-emblem at the breast). He stands at the centre of a vast Overlord's command-balcony at frame-centre, both hands on a chrome-and-warm-gold balcony-railing. Below the balcony at lower-third, a vast Overlord's FLEET extends across the deep-distance — multiple chrome-and-warm-gold capital-ships in formation visible (the fleet that made the fifth world's governor sign the treaty). Beside Overlord at frame-right edge, the SIGNED TREATY-DOCUMENT lies on a low side-table. His face is composed-grave.",
+    moodKeywords: [
+      "the fifth world fell without a shot",
+      "its governor took one look at the Overlord's fleet and signed the treaty",
+      "command-balcony overlooking vast fleet",
+      "signed treaty-document at side-table",
+    ],
+    palette:
+      "Deep warm-leather-and-warm-gold Overlord's robes + chrome-and-warm-gold imperial-emblem + chrome-and-warm-gold balcony-railing + vast chrome-and-warm-gold capital-ships in formation + signed treaty-document + warm command-balcony light + cool deep-shadow",
+    composition:
+      "Wider mid-shot back-three-quarter, Overlord at frame-centre at balcony, fleet extending below at lower-third",
+    notes:
+      "Epic unit. Generic-imperial features must NOT match Senator Voss (s1_char_117) — different specific archetype: Syndicate-Overlord vs Senator. The 'without a shot' is rendered through the visible fleet + signed treaty (no battle scene needed).",
+  },
+  {
+    cardId: "s1_reward_trade_act1",
+    sceneDelta:
+      "Mid-shot. A Trade Scout — male-presenting figure in mid-twenties, generic-young features (alert eyes, slight forward-lean of newcomer-energy), in light New Babylon Trade-Scout coat (warm-leather over warm-cream linen with chrome trade-scout pin at the lapel — Scout-rank insignia). He stands at the centre of an alien-frontier landscape at frame-centre, mid-action of FIRST CONTACT with an off-frame alien-merchant (only the alien-merchant's tentacle/limb visible at frame-right edge — generic alien-form, no specific named species). In his right hand, he extends a SMALL CHROME-AND-WARM-GOLD CONTRACT-SCROLL (the first contract). At his belt, a small chrome trade-coin-pouch (the first profit yet to come). His face shows excited determination.",
+    moodKeywords: [
+      "first contact",
+      "first contract",
+      "first profit",
+      "extending first contract-scroll to off-frame alien-merchant tentacle",
+    ],
+    palette:
+      "Light warm-leather Trade-Scout coat + cool-cream linen + chrome trade-scout pin + chrome-and-warm-gold contract-scroll + chrome trade-coin-pouch + warm alien-frontier landscape + generic alien-tentacle + warm sodium-light + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, Scout at frame-centre extending contract, alien-tentacle at frame-right edge",
+    notes:
+      "Common unit. Generic-young features must NOT match any named character. Anonymous alien-merchant (tentacle only) preserves no-character/species-conflation. The 'first contact' framing is the visual key.",
+  },
+  {
+    cardId: "s1_reward_trade_act2",
+    sceneDelta:
+      "Mid-shot. A Trade Captain — female-presenting figure in mid-thirties, generic-experienced features (sharp eyes, set jaw, weathered captain's bearing), in formal New Babylon Trade-Captain coat (deep warm-leather over slate with chrome-and-warm-gold Captain's-pin + a small chrome silenced-pistol at her hip). She stands at the deck of a New Babylon trade-ship at frame-centre, mid-action of INSPECTING A CARGO-MANIFEST in her right hand. The manifest's pages show classified-redacted entries (visible chrome-and-warm-gold REDACTION-BARS over multiple lines). Beside her at lower-third, a small CHROME KILL-COUNT-LEDGER lies open (also classified-redacted). Her face is composed-veteran.",
+    moodKeywords: [
+      "her cargo manifest is classified",
+      "so is her kill count",
+      "redacted-bars over both manifest and kill-count-ledger",
+      "composed-veteran captain's bearing",
+    ],
+    palette:
+      "Deep warm-leather over slate Trade-Captain coat + chrome-and-warm-gold Captain's-pin + chrome silenced-pistol + classified cargo-manifest with redaction-bars + chrome kill-count-ledger + warm trade-ship deck + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, Captain at frame-centre on trade-ship deck, manifest in hand, kill-ledger at side",
+    notes:
+      "Rare unit. Generic-experienced features must NOT match any named character. The dual-redacted-document framing (manifest + kill-count) is the canonical 'both classified' visualization.",
+  },
+  {
+    cardId: "s1_reward_trade_empire",
+    sceneDelta:
+      "Wider mid-shot. A Merchant's Fortune — at frame-centre, a vast OPEN VAULT in a New Babylon merchant's headquarters. Inside the vault, neatly-arrayed CHROME-AND-WARM-GOLD MANA-CRYSTAL-SHARDS (the crystallized mana-currency, hundreds visible in stacks) glow softly. Around the vault, faint translucent warm-gold currency-script reads 'MANA = MONEY' in chrome-and-warm-gold runes (the canonical Locke-quote made visible — 'mana is just money by another name'). At lower-third, an anonymous merchant's hand (only fingertips visible at frame-bottom-edge, generic warm-leather sleeve) reaches into the vault to withdraw a single shard. NO face visible.",
+    moodKeywords: [
+      "Adjudicar Locke once said that mana is just money by another name",
+      "he was not wrong",
+      "vault filled with chrome-and-warm-gold mana-crystal-shards",
+      "MANA = MONEY runes around the vault",
+    ],
+    palette:
+      "Vast open vault + chrome-and-warm-gold mana-crystal-shards + warm-gold currency-script runes + warm vault-light + anonymous reaching fingertips + cool deep-shadow",
+    composition:
+      "Wider mid-shot, vault at frame-centre filled with shards, anonymous fingertips at frame-bottom-edge withdrawing shard",
+    notes:
+      "Rare spell. NOTE: flavor uses 'he' for Locke; per gen_new_babylon canonical visualization Locke is female. The mana=money equivalence is the canonical Locke-philosophy made literal.",
+  },
+  {
+    cardId: "s1_reward_trade_tycoon",
+    sceneDelta:
+      "Wider mid-shot. A Galactic Tycoon — male-presenting figure in mid-fifties, generic-imperial features (composed knowing eyes, distinguished silver-streaked beard, slight grin), in formal New Babylon-aligned Galactic-Tycoon attire (deep warm-leather over warm-cream marble fabric with chrome-and-warm-gold MULTI-WORLD pin at the lapel — visible chrome icons of multiple distinct worlds). He stands at the centre of a vast NEW BABYLON SKY-LOUNGE at frame-centre, both hands behind his back. Behind him through tall arched windows, an OUTER-SPACE VISTA visible — multiple distant planets / star-systems clustered (the galaxy as his market). On a low side-table, a small chrome-and-warm-gold CREDIT-COUNTER reads '1,000,000+' (a million credits is just the beginning). His face is composed-knowing.",
+    moodKeywords: [
+      "a million credits is just the beginning",
+      "the galaxy is a market",
+      "multi-world pin showing chrome icons of multiple worlds",
+      "outer-space vista with planets/star-systems behind",
+    ],
+    palette:
+      "Deep warm-leather over warm-cream marble Galactic-Tycoon attire + chrome-and-warm-gold MULTI-WORLD pin + chrome-and-warm-gold credit-counter + tall arched windows + outer-space vista with distant planets + warm sky-lounge ambient + cool deep-space",
+    composition:
+      "Wider mid-shot front three-quarter, Tycoon at frame-centre at sky-lounge, outer-space vista behind",
+    notes:
+      "Legendary unit. Generic-imperial features must NOT match Syndicate Overlord (s1_reward_syndicate_empire — different specific archetype: Galactic-Tycoon vs Syndicate-Overlord; both distinguished silver-streaked but distinct contexts). The 'galaxy is a market' framing is rendered through the multi-world pin + outer-space vista.",
+  },
 ] as const;
 
 /**
  * New Babylon faction's prompt registry, keyed by card id.
  *
- * Currently populated: 35 / 52 cards
+ * Currently populated: 42 / 52 cards
  * (gen_new_babylon, s1_char_001, s1_char_003, s1_char_020,
  *  s1_char_033, s1_char_061, s1_char_066, s1_char_078,
  *  s1_char_079, s1_char_080, s1_char_081, s1_char_082-085,
@@ -644,7 +763,11 @@ const NEW_BABYLON_PROMPTS_LIST: readonly CardArtPrompt[] = [
  *  s1_pack_seed_trade, s1_reward_casino_high_roller,
  *  s1_reward_casino_poker, s1_reward_casino_vip,
  *  s1_reward_class_soldier, s1_reward_companion_locke,
- *  s1_reward_eidolon_auros, s1_reward_guild_territory).
+ *  s1_reward_eidolon_auros, s1_reward_guild_territory,
+ *  s1_reward_guild_victory, s1_reward_syndicate_build,
+ *  s1_reward_syndicate_empire, s1_reward_trade_act1,
+ *  s1_reward_trade_act2, s1_reward_trade_empire,
+ *  s1_reward_trade_tycoon).
  */
 export const NEW_BABYLON_CARD_ART_PROMPTS: Readonly<Record<string, CardArtPrompt>> =
   Object.freeze(
