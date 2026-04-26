@@ -115,8 +115,8 @@ Voice rules (carried from V2, refined this session):
 >
 > - 4A — Architect — ✅ landed
 > - 4B — Source / Kael — ✅ landed
-> - 4C — Narrator / exposition — ✅ landed (this commit)
-> - 4D — Length compliance — pending
+> - 4C — Narrator / exposition — ✅ landed
+> - 4D — Length compliance — ✅ landed (this commit)
 > - 4E — Voice drift across speakers — pending
 > - 4F — Generic-villain rhetorical patterns — pending
 > - 4G — New surfaces (Acts 2–7, variant registry) — pending
@@ -306,6 +306,59 @@ follows the show-don't-tell rule cleanly:
 These are V3-grade narrator prose. No fixes recommended.
 
 **No fixes required for V2 Category C as part of V3.**
+
+### 4D — Length compliance (V2 Category D)
+
+**Status: cap enforced for mid-match taunts; refined rule for FIGHTER_INTROS.**
+
+V2 Category D said *"Fight-context lines stay ≤ 25 words"* and listed
+three over-length offenders (Warlord, Meme, Engineer descriptions).
+Status of the rule today:
+
+#### Enforced by CI
+
+`apps/shared/act{1,3,4,6,7}OpponentDialog.test.ts` exports
+`TAUNT_WORD_CAP = 25` and asserts every `opponentMidMatchEarly` /
+`...Mid` / `...Late` field across all per-Act opponent dialog tables
+respects it. ✅ The cap holds for the mid-match taunt surface — 12 +
+3 + 3 + 2 + 4 = 24 opponents × 3 taunt fields = 72 lines all under 25
+words.
+
+#### Not enforced (informal guideline)
+
+`apps/client/src/game/cinematicDesign.ts` FIGHTER_INTROS quotes have
+no automated word-count guard. Sampled across all 47 fighter intros:
+
+- Most are 10–20 words. ✅
+- One outlier: the Source intro at line 422, applied this session per
+  V2 fix B.1 — **33 words**.
+
+#### V3 finding: the 25-word rule conflicts with V2's own B.1 prescription
+
+V2 prescribed both *"≤ 25 words for fight-context"* (rule D) and *"the
+virus interrupts humanity in Source dialog with `— ALL WILL BE —` /
+`— CONSUMED —` cadence"* (rule B). The B.1 REPLACE text V2 itself
+authored is 33 words by structural necessity — the virus-interruption
+pattern requires alternating Kael fragments and virus shouts, which
+cannot land inside 25 words.
+
+**Refined rule for V3:**
+
+| Surface | Cap | Notes |
+|---|---|---|
+| Per-Act `opponentMidMatch{Early,Mid,Late}` | **≤ 25 words (hard)** | Enforced by per-Act dialog tests. Plays mid-gameplay, must be punchy. |
+| FIGHTER_INTROS `quote` | Target ≤ 25, allow up to ~35 for virus-interruption pattern | Plays during character select / pre-match cinematic. Has more screen time. |
+| Pre/post-fight cinematic cues (`dialogBank_chapters_*.ts`) | No cap | Cinematics, not gameplay-blocking. |
+| Match-cast lines (`dialogBank_matchlifecycle.ts`) | **≤ 25 words (recommended)** | Plays during gameplay; same need for punch as taunts. |
+
+**Recommendation:** add a soft guard test that warns on
+FIGHTER_INTROS `quote` fields above 35 words, with a per-id exemption
+list for virus-interruption-pattern lines (currently just `source`).
+Keeps drift under control while honouring the structural exception.
+
+**No urgent line fixes required.** The 25-word cap is upheld where it
+matters (mid-match taunts); the 33-word Source intro is a deliberate
+trade for the virus-interruption pattern.
 
 
 ## 5. Open questions for the team
