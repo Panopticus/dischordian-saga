@@ -14,8 +14,10 @@
  * Faction-affiliation per class (varies by card within a class):
  *   - assassin: insurgency-affiliated mostly, top-tier architect
  *   - engineer: antiquarian-affiliated mostly
- *   - neyon: thought_virus-aligned (the post-Source neyonic
- *     transformation pattern)
+ *   - neyon: meta-class — hybrid practitioner who has mastered
+ *     three or more of the other five classes; visual language
+ *     is layered class-markers (spy + oracle, soldier + assassin,
+ *     etc.) NOT neyonic mutation. Faction-neutral.
  *   - oracle: dreamer-affiliated
  *   - soldier: insurgency / new_babylon mix
  *   - spy: architect / insurgency mix (loyalty in either direction)
@@ -197,13 +199,100 @@ const CLASS_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "Unit card. Apprentice face is generic-young — must NOT match any named character (no Programmer, no Elara, no Iron Lion). The Engineer himself is rendered as a single distant background glint to maintain his [CLASSIFIED] identity discipline. Echoes the Engineer Imprint set's workshop-architecture without revealing him directly.",
   },
+
+  // ─── NE-YON CLASS — hybrid discipline (the meta-class) ───
+  {
+    cardId: "s1_class_neyon_01",
+    sceneDelta:
+      "Mid-shot. A Hybrid Initiate at the centre of a neutral-grey training-floor — a young figure in mid-twenties, indeterminate gender, generic-mixed features, in plain practice-wear. They wear TWO visibly different class-tokens at once: a cracked-glass shard pendant on a leather cord around their neck (assassin-school) AND a small scrying-mirror tied at their belt (oracle-school) — the two disciplines literally hung side-by-side on the same body. They stand mid-stance — left foot back, right hand half-raised — caught between an oracle's stillness-pose and an assassin's pre-strike crouch. Behind them, two faint chalked floor-circles overlap in a Venn-diagram pattern. A single warm slip of paper drifts up from their open right hand (draw-1 visualized). Their face is calm, attentive, listening to the room.",
+    moodKeywords: [
+      "the first hybrid move is always spy + oracle",
+      "two disciplines on the same body",
+      "Venn-diagram floor-circles",
+      "calm attentive listening",
+    ],
+    palette:
+      "Neutral cool slate training-floor + warm cream practice-wear + cracked-glass shard at neck (assassin) + cool silver scrying-mirror at belt (oracle) + a single warm paper-drift accent",
+    composition:
+      "Mid-shot front three-quarter, Initiate at frame-centre, two overlapping floor-circles at lower-third",
+    notes:
+      "Unit card. Faction-neutral palette is intentional — Ne-Yons belong to NO faction. Two distinct class-tokens (glass shard + scrying mirror) MUST be both visible to communicate the hybrid identity. Generic-mixed features prevent character-conflation.",
+  },
+  {
+    cardId: "s1_class_neyon_02",
+    sceneDelta:
+      "Mid-shot. A Dual Discipline practitioner mid-leap, captured at the apex of a low arc — feet 30cm off the ground, arms extended in oracle's wide-sight gesture, but the LEFT hand carries a curved short-blade in reverse-grip (assassin's backstab posture). The figure wears a layered light-grey robe-over-tactical — the robe is oracle-school, the under-armor is assassin-school, both visibly worn together. Their eyes are open, focused on a target slightly behind and to camera-left — they have already seen where the target will be (oracle) and they are already past where the target is now (assassin). Faint cool-cream wind-trails behind them suggest the leap; faint warm-amber sight-lines emanate from their eyes toward the off-frame target.",
+    moodKeywords: [
+      "oracle's sight plus assassin's angle",
+      "you know where they will be AND you are already behind them",
+      "robe-over-tactical layering",
+      "two trails — wind and sight",
+    ],
+    palette:
+      "Neutral cool slate + warm oracle-cream robe + dark assassin-tactical under-layer + cool cream wind-trails + warm amber sight-lines",
+    composition:
+      "Mid-shot side three-quarter, figure mid-leap at frame-centre, target implied off-frame to camera-left",
+    notes:
+      "Unit card. The robe-over-tactical layered garment is the visual key to communicating two disciplines worn simultaneously. Sight-lines and wind-trails are deliberately different colours so the viewer parses the two disciplines as two distinct things sitting on the same body.",
+  },
+  {
+    cardId: "s1_class_neyon_03",
+    sceneDelta:
+      "Mid-shot. A Three-Schools Master in standing-sentinel pose at the centre of a neutral-grey practice-yard. Their stance is a soldier's grounded provoke — feet shoulder-width, weight forward, both hands forward in a wide-block guard. But their LEFT hand carries a curved assassin's short-blade and their RIGHT hand holds a small Engineer-style brass-and-glass instrument (a lateral-motion gauge). They wear a soldier's chest-rig WITH an assassin's hood pushed back AND an Engineer-apron strap visibly tied across the rig. Three faint amber paper-drifts rise from above the brass instrument (draw-1 visualized — the engineer's discipline paying out). Behind them, three faint chalked floor-circles overlap in a triple-Venn pattern. Their face is centred, deliberate, slightly amused — the room is going to wait on them and they know it.",
+    moodKeywords: [
+      "soldier's formation, assassin's celerity, engineer's draw",
+      "the room is going to wait on them",
+      "triple-Venn floor-circles",
+      "slightly amused, very deliberate",
+    ],
+    palette:
+      "Neutral cool slate practice-yard + warm soldier chest-rig leather + dark assassin hood + Antiquarian amber engineer-apron strap + brass-and-glass instrument + warm paper-drifts",
+    composition:
+      "Mid-shot front three-quarter sentinel-stance, Master at frame-centre with two visible weapons/instruments, three overlapping floor-circles at lower-third",
+    notes:
+      "Unit card. THREE distinct class-tokens (chest-rig, hood, apron-strap) plus TWO instruments (blade, brass-gauge) communicate three disciplines simultaneously. The triple-Venn echoes t1's Venn-pattern but expands to three.",
+  },
+  {
+    cardId: "s1_class_neyon_04",
+    sceneDelta:
+      "Mid-shot. A Syncretic Adept seated cross-legged on a low neutral-grey platform — but the platform floats 40cm above the ground (flying visualized as the platform itself, not the figure). Their hands are open in a wide gesture that reads simultaneously as oracle-blessing and engineer-presentation. They wear a single garment that is no longer parseable as any one school — it is woven from cream, slate, leather, and brass thread all at once, forming patterns that ALMOST resolve into known class-symbols but never quite settle. Two papers float at chest height (draw-2). A faint translucent ring around their head (dispel visualized) ripples outward. Their eyes are half-lidded, in the middle distance — they are not looking at any one thing. Behind them, the chalked floor-circles have multiplied to four, overlapping into a flower-pattern.",
+    moodKeywords: [
+      "four disciplines in the same body",
+      "sentences in a language the rest of the army does not speak",
+      "the disciplines have stopped being separate",
+      "flower-pattern floor-circles",
+    ],
+    palette:
+      "Neutral cool slate platform + woven-everything garment (cream + slate + leather + brass) + cool translucent dispel-ring + warm amber paper-drifts + cool half-lidded depth-haze",
+    composition:
+      "Mid-shot front three-quarter seated-cross-legged, platform floating at lower-third, four overlapping floor-circles in flower-pattern below platform",
+    notes:
+      "Unit card. The garment-pattern that ALMOST resolves but doesn't is the visual key to 'disciplines have stopped being separate things' — they're now one fabric. Floating platform = flying keyword without giving the figure literal wings.",
+  },
+  {
+    cardId: "s1_class_neyon_05",
+    sceneDelta:
+      "Wider mid-shot. The Five-Schools Avatar standing in a posture that is deliberately, almost suspiciously, RELAXED — leaning slightly against a stone pillar at the edge of a neutral-grey courtyard, one hand in pocket, the other holding a steaming cup of something. They wear a plain dark-grey traveling cloak that obscures all class-markers. Around them, FIVE faint floor-circles glow in a pentagram pattern at their feet — but the circles are subtle, almost hidden by the courtyard's natural texture. Three papers float around their shoulder (draw-3). A faint translucent dispel-ring around them. A single soft cream-coloured rush-glow under their feet (rush visualized as quiet readiness). Above their head, the air is faintly distorted — five overlapping subtle disciplines that the viewer can ALMOST count if they look carefully. Their face is open, friendly, completely casual — they are very good at playing it off.",
+    moodKeywords: [
+      "they are very good at playing it off",
+      "the discipline of not admitting it",
+      "five floor-circles hidden in courtyard texture",
+      "open, friendly, completely casual",
+    ],
+    palette:
+      "Neutral cool slate courtyard + plain dark traveling cloak + warm steaming-cup accent + faint cream rush-glow underfoot + cool translucent dispel-ring + warm amber paper-drifts",
+    composition:
+      "Wider mid-shot, Avatar leaning against pillar at frame-right, courtyard extending to frame-left, five subtle floor-circles in pentagram at lower-third",
+    notes:
+      "Unit card. Class restriction: only players who reached rank 3+ in three other classes unlock this card. The 'playing it off' visual posture is canon-direct from flavor — the cloak HIDES class-markers because the Avatar would never be caught wearing them visibly. This is the inverse of t1 (which displays both tokens openly). Generic-relaxed face must NOT match any named character.",
+  },
 ] as const;
 
 /**
  * Class faction's prompt registry, keyed by card id.
  *
- * Currently populated: 2 / 6 sets (Assassin, Engineer).
- * TODO: neyon, oracle, soldier, spy.
+ * Currently populated: 3 / 6 sets (Assassin, Engineer, Ne-Yon).
+ * TODO: oracle, soldier, spy.
  */
 export const CLASS_CARD_ART_PROMPTS: Readonly<Record<string, CardArtPrompt>> =
   Object.freeze(
