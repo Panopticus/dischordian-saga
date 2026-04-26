@@ -118,8 +118,8 @@ Voice rules (carried from V2, refined this session):
 > - 4C — Narrator / exposition — ✅ landed
 > - 4D — Length compliance — ✅ landed
 > - 4E — Voice drift across speakers — ✅ landed
-> - 4F — Generic-villain rhetorical patterns — ✅ landed (this commit)
-> - 4G — New surfaces (Acts 2–7, variant registry) — pending
+> - 4F — Generic-villain rhetorical patterns — ✅ landed
+> - 4G — New surfaces (Acts 2–7, variant registry) — ✅ landed (this commit)
 
 ### 4A — Architect (V2 Category A)
 
@@ -432,10 +432,158 @@ The Dreamer and Seer voices are now established differently:
 
 **No fixes required for V2 Category F as part of V3.**
 
+### 4G — New surfaces (post-V2)
+
+**Status: in voice across the board. Two minor optional refinements; one open question.**
+
+These surfaces did not exist when V2 was written. V3 audits each.
+
+#### 4G.1 — Per-Act opponent dialog (Acts 3, 4, 6, 7)
+
+`apps/shared/act3OpponentDialog.ts`, `act4OpponentDialog.ts`,
+`act6OpponentDialog.ts`, `act7OpponentDialog.ts` — all carry the
+12-field schema, all 12 opponents authored to Act 1's prose density.
+Already reviewed in detail in §4A–§4E. ✅
+
+Notable in voice:
+- Act 4 path-resolved dialogs — three mutually-exclusive battles
+  (Bridge / Discovery / Betrayal) with frame-voice all Elara, in three
+  distinct emotional registers without breaking the unified "Elara
+  remembers" rule.
+- Act 7 finale — `frameSpeaker` field added (`elara` / `human` /
+  `system` / `dual`), the only act with this layer of meta. The
+  Convergence Seat dual narration is V3-grade.
+
+#### 4G.2 — Reactive companion comments for Acts 2–7
+
+`apps/shared/companionComments.ts` `cc_act2_*` through `cc_act7_*`
+entries (~30 lines across 20 trigger points). Voice consistent with
+prelude/Act 1 entries — Elara as Senate-cadence, Human as
+encrypted/grieving. ✅
+
+#### 4G.3 — Companion ask topics for Acts 2+
+
+`apps/shared/companionAskTopics.ts` carries 21 act-gated topics across
+Acts 2–7, plus the `alternateAnswers` schema (Act 6 + Act 7 alternate
+answers on `ask_human_who`). Voice in line. ✅
+
+**Optional refinement:** the base answer for `ask_human_who` (Acts
+1–5) is *"Not yet. The name is dangerous in a specific way I have
+explained as best I can…"* — this currently reads as a single soft
+deflection. Consider authoring a Act-3 alternate answer that is one
+line softer (after the `kael_lore_discovered` flag, the Human's
+deferral could acknowledge the player's progress without giving up
+the name). Not urgent.
+
+#### 4G.4 — System tutors for Acts 2+
+
+`apps/shared/acts2to7SystemTutors.ts` — six tutors. **Exceptional
+voice work:** each tutor's speaker is matched to the system being
+taught with explicit `narrativeJustification`:
+
+- War Room (Act 4) → Elara (Senate military committee experience)
+- Star Map (Act 5) → `kael_log` (literally Kael's voice from his
+  archival log, addressed *"to the next reader"*)
+- Confession Journal (Act 6) → Antiquarian (canonical journal-voice)
+- Convergence Bridge (Act 7) → `dual` (both narrators alternating)
+
+The `kael_log` speaker is a particular triumph — using the dead man's
+own archived voice to teach the system that ships with his 447-entry
+dataset is the precise canon-respecting choice. Protect this surface.
+
+#### 4G.5 — Cross-act ask lattice
+
+`apps/shared/companionAskLattice.ts` — pure data layer (`buildAskLattice`
+returns available / upcoming / byAct / resolvedAnswers views). No
+narrative text to audit. ✅ structural.
+
+#### 4G.6 — 289-entry variant registry
+
+`apps/shared/moralityTrustActVariants.ts` carries 289 entries across
+all 7 acts and 5 surfaces (room / transmission / npc_line / journal /
+wheel_followup), bucketed by morality (machine/balanced/humanity) and
+trust (cold/neutral/warm/confidant). Sampled ~15 entries across
+machine/humanity bands and Acts 1–7:
+
+- Voice consistent within each Elara variant — humanity-band reads as
+  warmth/emotional-precision, machine-band reads as quieter/clinical-
+  but-not-cold. Same character, two registers.
+- Bridge Act-4 paired entries (`bridge_act4_pathA` / `bridge_act4_pathC`)
+  are exemplary — both describe the lighting preset "Warm 3," but
+  pathA says *"Warm 3 is on"* (in-voice) and pathC says *"one shade
+  off from Warm 3. Elara swears the preset is the same. It isn't. You
+  both know."* The structural diff carries the entire emotional weight.
+  ✅
+
+**Optional refinement:** the registry is first-pass authored across 7
+sprint commits. The `/dev/variants` QA harness exists to surface
+in-context renders. Recommend a real-player QA pass logged via the
+harness to flag any entries that read flat in actual context (per
+`SESSION_HANDOFF_ACTS_2_7.md` line 124). Not blocking.
+
+#### 4G.7 — Cross-game narrative threads
+
+`apps/shared/crossGameNarrativeThreads.ts` — 9 threads, 29 beats. The
+beat `canonicalDescription` fields are engineer-facing summaries of
+WHEN/WHAT each beat fires — they are not player-rendered text.
+Pragmatic and clear; no audit signal. ✅ structural.
+
+#### 4G.8 — Open question (logged, not blocking)
+
+The Necromancer at `storyModeChapters.ts:251` says *"Thirteen iterations
+of this conversation. You never remember the previous twelve."*
+After the iteration-count reconciliation in §1, the three counters
+in canon are:
+
+- 74 awakenings (Panopticon)
+- 12 sequence iterations / 13th draft (Arena, per `dialogBank_cinematics.ts:146`)
+- 13 conversations / 12 prior (Necromancer encounter count, this line)
+
+These are mathematically consistent (all three count different things)
+but the *thirteenness* of two of them invites a player to read
+significance. Open question for the writers' room: should the
+Necromancer line tilt to a different number to break the visual rhyme
+(e.g. *"Eleven iterations of this conversation"*) or stay at thirteen
+intentionally? Not a fix recommendation — a flag.
+
 
 ## 5. Open questions for the team
 
-> To be filled as findings land.
+Net of V3:
+
+1. **§4B follow-up — story-chapter wiring of source-lines.json.** When
+   the Source story-mode chapter encounter is wired in
+   (`FightPage.tsx:381–383` consumes the `voId` for VO; the displayed
+   text comes from `currentStoryChapter` which doesn't carry these
+   lines yet), port the `apps/scripts/source-lines.json` lines into
+   the in-game dialog data with full virus-interruption form so the
+   on-screen text matches the recorded VO.
+
+2. **§4D follow-up — soft FIGHTER_INTROS length guard.** Add a test
+   that warns on FIGHTER_INTROS `quote` fields above ~35 words, with
+   a per-id exemption list (currently just `source`). Documents the
+   structural exception without flattening it.
+
+3. **§4G.3 follow-up — Act 3 alternate for `ask_human_who`.** The
+   base "Not yet" answer could carry an Act-3 alternate that softens
+   after `kael_lore_discovered` without surrendering the name. Optional.
+
+4. **§4G.6 follow-up — variant-registry real-player QA pass.** First-
+   pass authored across 7 commits; surface the `/dev/variants` harness
+   to QA and triage any entries that read flat in actual context.
+
+5. **§4G.8 open question — Necromancer "Thirteen iterations" line vs.
+   the Arena's "thirteenth draft" line.** Mathematically consistent
+   but the visual rhyme invites significance-reading. Writers'-room
+   call.
+
+6. **VO re-record queue from this session's applied fixes:**
+   `vo_arch_*` (none changed in V3 since §4A is closed),
+   `vo_source_bbs_cast` (if §4B B.2 match-cast fix is applied),
+   `vo_source_ch12_outbreak_03` (if §4B B.2 corruption-outbreak fix
+   is applied), `vo_foucault_ch10_cine_02` (already noted in commit
+   `3d7ea3c`), and the 16 Subject Zero → Prisoner 74 lines
+   (already in the queue per commit `653c678`).
 
 ## 6. Verification protocol (when V3 fixes are applied)
 
@@ -452,4 +600,26 @@ The Dreamer and Seer voices are now established differently:
 
 ---
 
-*Document under construction — Section 4 to follow in chunks.*
+## 7. Net summary
+
+| Category | V2 fixes | V3 disposition |
+|---|---|---|
+| A — Architect | 8 fixes | 1 applied (A.1), 1 applied (A.2), 6 obsolete or already shipped. Surface in voice. |
+| B — Source / Kael | 5 fixes | 1 applied (B.1), 2 recommended for application (BBS match-cast, Ch12 corruption outbreak), 3 explicit exemptions (lucid contexts), 1 follow-up (story-chapter wiring) |
+| C — Narrator / exposition | 4 fixes | All originals refactored away. Closed. |
+| D — Length compliance | 9 fixes (originals refactored) | Cap enforced for mid-match taunts. Refined rule for FIGHTER_INTROS allowing virus-interruption-pattern exceptions. Soft guard recommended. |
+| E — Voice drift | 7 fixes (originals refactored) | E.1, E.2, E.3 applied. Broader speaker sample in voice. Closed. |
+| F — Generic villain patterns | 6 fixes | All originals refactored away. Pattern absent across active dialog. Closed. |
+| G — Loredex stubs | 11 fixes | G.1, G.2, G.3 applied (this session). G.4–G.11 obsolete (SiH bios authored). Closed by `STUB_DIALOG_AUDIT_2026-04.md`. |
+| H — Subject Zero rename | 4 fixes | Applied this session. 16 active-dialog occurrences renamed; explainer line preserved. Closed. |
+| I — Chapter 12 foreshadowing seeds | 5 inserts | Stale line anchors. Defer to a fresh creative pass against current chapter structure. |
+| New (post-V2) — Acts 2–7 + variant registry | n/a | All in voice. 2 optional refinements logged (Act-3 ask_human_who alternate; variant-registry real-player QA). 1 open question (Necromancer thirteen vs. Arena thirteen). |
+
+**V3 closes with:** 7 high-confidence fixes already applied this session
+(commits `18b571a`, `653c678`, `3d7ea3c`), 2 line fixes recommended for
+the next applier (§4B B.2), 4 follow-ups logged, 1 writers'-room
+question.
+
+---
+
+*Document complete. See §6 for verification protocol when fixes land.*
