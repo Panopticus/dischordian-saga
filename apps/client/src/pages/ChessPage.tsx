@@ -28,6 +28,17 @@ import { useStockfish } from "@/hooks/useStockfish";
 import { AI_PRESETS } from "@/lib/stockfishWorker";
 import ChessCinematic from "@/components/ChessCinematic";
 import LivingBackground from "@/components/LivingBackground";
+import ChessSessionBanner from "@/components/ChessSessionBanner";
+import ChessPostGameReview, {
+  type ReviewMistake,
+} from "@/components/ChessPostGameReview";
+import { pickDailyWelcomeLine } from "@shared/tcg-core/story/chessSessionDialog";
+import { hashString } from "@shared/tcg-core/story/chessReviewNarration";
+import { classifyDeltas } from "@/lib/postGameMistakeClassifier";
+import {
+  readDaysSinceLastVisit,
+  markVisitedNow,
+} from "@/lib/chessLastVisit";
 
 import { assetUrl } from "@/lib/assetUrl";
 /* ─── TIER CONFIG ─── */
@@ -83,6 +94,25 @@ export default function ChessPage() {
   const { user, isAuthenticated } = useAuth();
   const { state: gameState } = useGame();
   const [view, setView] = useState<GameView>("menu");
+  // Daily welcome — read days-since-last-visit ONCE on mount, then
+  // immediately stamp now so subsequent visits today are no-ops.
+  const [daysSinceLastVisit, setDaysSinceLastVisit] = useState<number>(0);
+  useEffect(() => {
+    setDaysSinceLastVisit(readDaysSinceLastVisit());
+    markVisitedNow();
+  }, []);
+  const welcomeLine = pickDailyWelcomeLine(
+    daysSinceLastVisit,
+    hashString(`chess|${new Date().toISOString().slice(0, 10)}`),
+  );
+
+  // Post-game review state. Populated when gameStatus transitions
+  // away from "active" — Stockfish walks the move history at depth
+  // 14 and the classifier buckets the resulting eval deltas.
+  const [reviewMistakes, setReviewMistakes] = useState<ReviewMistake[] | null>(null);
+  const [reviewSeed, setReviewSeed] = useState<number>(0);
+  const [reviewAnalyzing, setReviewAnalyzing] = useState<boolean>(false);
+  const reviewKickedOffForGameRef = useRef<number | null>(null);
   const [selectedMode, setSelectedMode] = useState<"casual" | "ranked" | "story" | "game_master" | "multiplayer">("casual");
   const [selectedCharacter, setSelectedCharacter] = useState<string | null>(null);
   const [selectedOpponent, setSelectedOpponent] = useState<string | null>(null);
@@ -351,6 +381,46 @@ export default function ChessPage() {
 
   // Stockfish engine hook
   const stockfish = useStockfish();
+
+  // Post-game review trigger. Player is always white in this page's
+  // flow (see Audit 3B note below). When gameStatus transitions away
+  // from "active" and we have an activeGameId, kick off Stockfish
+  // analysis once and feed the deltas through the classifier.
+  useEffect(() => {
+    if (gameStatus === "active") {
+      // New game starting — clear any prior review.
+      if (reviewMistakes !== null) setReviewMistakes(null);
+      if (reviewAnalyzing) setReviewAnalyzing(false);
+      reviewKickedOffForGameRef.current = null;
+      return;
+    }
+    if (!activeGameId || moveHistory.length === 0) return;
+    if (reviewKickedOffForGameRef.current === activeGameId) return;
+    if (!stockfish.isReady) return;
+    reviewKickedOffForGameRef.current = activeGameId;
+    setReviewAnalyzing(true);
+    const startFen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+    const seed = hashString(`${activeGameId}|${moveHistory.join(" ")}`);
+    setReviewSeed(seed);
+    stockfish
+      .postGameAnalyze(startFen, moveHistory, { depth: 14 })
+      .then((samples) => {
+        const mistakes = classifyDeltas(samples, "white");
+        setReviewMistakes(mistakes);
+      })
+      .catch(() => {
+        // On engine failure, fall through to the zero-state UI.
+        setReviewMistakes([]);
+      })
+      .finally(() => setReviewAnalyzing(false));
+  }, [
+    gameStatus,
+    activeGameId,
+    moveHistory,
+    stockfish,
+    reviewMistakes,
+    reviewAnalyzing,
+  ]);
 
   const characters = trpc.chess.getCharacters.useQuery(undefined, { enabled: isAuthenticated });
   const ranking = trpc.chess.getMyRanking.useQuery(undefined, { enabled: isAuthenticated });
@@ -929,6 +999,7 @@ export default function ChessPage() {
         {/* ═══ MAIN MENU ═══ */}
         {view === "menu" && (
           <motion.div key="menu" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="p-4 sm:p-6 space-y-6">
+            <ChessSessionBanner welcomeLine={welcomeLine} />
             {/* Header */}
             <div className="flex items-center gap-3">
               <Link href="/games" className="p-2 rounded-md bg-secondary/50 hover:bg-secondary"><ArrowLeft size={16} /></Link>
@@ -1520,6 +1591,26 @@ export default function ChessPage() {
                         </button>
                       </div>
                     </div>
+                  )}
+
+                  {/* Post-Game Review — Celebration GM narration on
+                      the player's mistakes (and brilliancies once the
+                      detector ships). */}
+                  {gameStatus !== "active" && (
+                    <>
+                      {reviewAnalyzing && (
+                        <p className="text-xs text-void-text-muted italic">
+                          The Game Master is reviewing your game…
+                        </p>
+                      )}
+                      {reviewMistakes !== null && (
+                        <ChessPostGameReview
+                          seed={reviewSeed}
+                          mistakes={reviewMistakes}
+                          playerSide="white"
+                        />
+                      )}
+                    </>
                   )}
 
                   {/* Move History */}

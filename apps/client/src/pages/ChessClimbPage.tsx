@@ -15,8 +15,22 @@
 import { useAuth } from "@/_core/hooks/useAuth";
 import { trpc } from "@/lib/trpc";
 import { CHESS_CLIMB_TIERS } from "@shared/chessClimbTiers";
+import {
+  climbMidStateFromScore,
+  getClimbMidScene,
+  getClimbPromotionScene,
+} from "@shared/tcg-core/story/chessClimbDialog";
+import { pickDailyWelcomeLine } from "@shared/tcg-core/story/chessSessionDialog";
+import { hashString } from "@shared/tcg-core/story/chessReviewNarration";
 import { getLoginUrl } from "@/const";
 import ClimbRevealPanel from "@/components/ClimbRevealPanel";
+import ClimbCinematicPanel from "@/components/ClimbCinematicPanel";
+import ChessSessionBanner from "@/components/ChessSessionBanner";
+import {
+  readDaysSinceLastVisit,
+  markVisitedNow,
+} from "@/lib/chessLastVisit";
+import { useEffect, useState } from "react";
 import "@/styles/chessMatrix.css";
 
 type TierStateView = {
@@ -38,6 +52,31 @@ export default function ChessClimbPage() {
   const abandonMut = trpc.chessClimb.abandonClimb.useMutation({
     onSuccess: () => stateQ.refetch(),
   });
+
+  // Mid-series + promotion dialog dismissal — both persisted to
+  // localStorage so the panels don't re-fire after dismissal. Mid
+  // is keyed by `${runId}|after_g1` or `${runId}|after_g2`; promo
+  // is keyed by tier rank.
+  const [dismissedMidKey, setDismissedMidKey] = useState<string | null>(() => {
+    try { return localStorage.getItem("chess_climb_mid_seen"); } catch { return null; }
+  });
+  const [dismissedPromoRanks, setDismissedPromoRanks] = useState<Set<number>>(() => {
+    try {
+      const raw = localStorage.getItem("chess_climb_promo_seen");
+      const parsed = raw ? JSON.parse(raw) : [];
+      return new Set(Array.isArray(parsed) ? parsed.filter((n: unknown) => typeof n === "number") : []);
+    } catch { return new Set(); }
+  });
+
+  const [daysSinceLastVisit, setDaysSinceLastVisit] = useState<number>(0);
+  useEffect(() => {
+    setDaysSinceLastVisit(readDaysSinceLastVisit());
+    markVisitedNow();
+  }, []);
+  const welcomeLine = pickDailyWelcomeLine(
+    daysSinceLastVisit,
+    hashString(`climb|${new Date().toISOString().slice(0, 10)}`),
+  );
 
   if (!isAuthenticated) {
     return (
@@ -77,6 +116,64 @@ export default function ChessClimbPage() {
 
   const activeRun = state?.activeRun;
 
+  // Mid-series scene: between games of an ongoing best-of-3.
+  // - Between games 1 and 2: any score (leading/tied/trailing)
+  // - Between games 2 and 3: only when tied 1-1 (otherwise the
+  //   series is already decided)
+  let midSeriesScene = undefined;
+  let midSeriesKey: string | null = null;
+  if (activeRun) {
+    const results = [activeRun.game1Result, activeRun.game2Result, activeRun.game3Result];
+    let playerWins = 0;
+    let opponentWins = 0;
+    for (const r of results) {
+      if (r === "win") playerWins++;
+      else if (r === "loss") opponentWins++;
+    }
+    if (results[0] && !results[1]) {
+      midSeriesKey = `${activeRun.id}|after_g1`;
+      midSeriesScene = getClimbMidScene(
+        activeRun.tierRank,
+        climbMidStateFromScore(playerWins, opponentWins),
+      );
+    } else if (results[1] && !results[2] && playerWins === 1 && opponentWins === 1) {
+      midSeriesKey = `${activeRun.id}|after_g2`;
+      midSeriesScene = getClimbMidScene(activeRun.tierRank, "tied");
+    }
+  }
+  const showMidSeries =
+    midSeriesScene !== undefined &&
+    midSeriesKey !== null &&
+    dismissedMidKey !== midSeriesKey;
+
+  // Promotion scene: fires once per device when a new tier just
+  // became reachable. Newly-unlocked rank = highestClearedRank + 1
+  // (capped at 3; no promotion past Tier 3).
+  const highestClearedRank = state?.unlocks.highestClearedRank ?? -1;
+  const newlyUnlockedRank: number | null =
+    highestClearedRank >= 0 && highestClearedRank < 3
+      ? highestClearedRank + 1
+      : null;
+  const promotionScene =
+    newlyUnlockedRank !== null && !dismissedPromoRanks.has(newlyUnlockedRank)
+      ? getClimbPromotionScene(newlyUnlockedRank)
+      : undefined;
+
+  const handleDismissMid = () => {
+    if (!midSeriesKey) return;
+    try { localStorage.setItem("chess_climb_mid_seen", midSeriesKey); } catch { /* noop */ }
+    setDismissedMidKey(midSeriesKey);
+  };
+  const handleDismissPromo = () => {
+    if (newlyUnlockedRank === null) return;
+    const next = new Set(dismissedPromoRanks);
+    next.add(newlyUnlockedRank);
+    try {
+      localStorage.setItem("chess_climb_promo_seen", JSON.stringify([...next]));
+    } catch { /* noop */ }
+    setDismissedPromoRanks(next);
+  };
+
   return (
     <div
       className="chess-arena-glitch min-h-screen p-6 max-w-4xl mx-auto text-void-text"
@@ -85,6 +182,7 @@ export default function ChessClimbPage() {
           (state?.activeRun?.tierRank ?? 0) >= 2 ? 0.7 : 0.3,
       } as React.CSSProperties}
     >
+      <ChessSessionBanner welcomeLine={welcomeLine} />
       <header className="mb-6">
         <h1 className="text-2xl tracking-wide">The Game Master's Arena — Climb</h1>
         <p className="text-sm text-void-text-muted mt-1 italic">
@@ -92,6 +190,26 @@ export default function ChessClimbPage() {
           Tier 0 is always free play.
         </p>
       </header>
+
+      {showMidSeries && midSeriesScene && (
+        <div className="mb-6">
+          <ClimbCinematicPanel
+            scene={midSeriesScene}
+            onDismiss={handleDismissMid}
+            dismissLabel="Continue to next game"
+          />
+        </div>
+      )}
+
+      {promotionScene && (
+        <div className="mb-6">
+          <ClimbCinematicPanel
+            scene={promotionScene}
+            onDismiss={handleDismissPromo}
+            dismissLabel="Acknowledged"
+          />
+        </div>
+      )}
 
       {activeRun && (
         <section className="mb-8 border border-void-border/60 rounded p-4 bg-void-bg/60">
