@@ -217,11 +217,8 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
           transition={{ delay: 1, duration: 2 }}
           className="absolute bottom-12 left-0 right-0 text-center pointer-events-none"
         >
-          <p className="font-mono text-[9px] sm:text-[11px] tracking-[0.5em] void-text-energy mb-0.5 opacity-70">
+          <p className="font-mono text-[10px] sm:text-xs tracking-[0.5em] void-text-energy mb-2 opacity-70">
             DGRS LABS PRESENTS
-          </p>
-          <p className="font-mono text-[10px] sm:text-xs tracking-[0.5em] void-text-energy mb-2">
-            A PANO PRODUCTION
           </p>
           <h1 className="font-display text-2xl sm:text-4xl font-black tracking-[0.15em] text-white/80">
             THE DISCHORDIAN SAGA
@@ -237,11 +234,8 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
             className="absolute inset-0 flex items-center justify-center z-50 cursor-pointer"
           >
             <div className="text-center">
-              <p className="font-mono text-[9px] tracking-[0.5em] void-text-energy mb-1 opacity-70">
+              <p className="font-mono text-[10px] tracking-[0.5em] void-text-energy mb-6 opacity-70">
                 DGRS LABS PRESENTS
-              </p>
-              <p className="font-mono text-[10px] tracking-[0.5em] void-text-energy mb-6">
-                A PANO PRODUCTION
               </p>
               <h1 className="font-display text-3xl sm:text-5xl font-black tracking-[0.15em] text-white/90 mb-8">
                 THE DISCHORDIAN SAGA
