@@ -306,6 +306,129 @@ export const NILMORG_BANK: ReadonlyArray<BankEntry> = [
     maxPlays: 5,
   },
 
+  // ─── Severance Prize multi-instance variants (Nth ceremony register) ─
+  // Sub-chunk C: 8 lines that fire only on the 2nd / 3rd / 4th / 5th
+  // Severance ceremony per playthrough, marking Nilmorg's canonical
+  // §2.5 specificity-progression (spectator → file-keeper →
+  // forecaster → counterparty). Each tier ships 2 lines so the
+  // selector has variant choice. System-set count flags gate them.
+
+  // 2nd-time variants — pattern-recognition register
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.severance.recurring.second.pattern_emerges",
+    text:
+      "Twice. The file is no longer surprising. The file is now a " +
+      "pattern. Patterns are how I prepare.",
+    surfaces: ["cinematic"],
+    unlockFlags: ["severance_prize_paid", "severance_count_2"],
+    cooldownKey: "nilmorg.severance.recurring.second",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.severance.recurring.second.hierarchy_notices",
+    text:
+      "I do not see many second-Severance recipients. Most stop. Most " +
+      "are stopped. You did neither. The Hierarchy notices. So do I.",
+    surfaces: ["cinematic"],
+    unlockFlags: ["severance_prize_paid", "severance_count_2"],
+    cooldownKey: "nilmorg.severance.recurring.second",
+    maxPlays: 1,
+  },
+
+  // 3rd-time variants — forecaster register lands
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.severance.recurring.third.thicker_folder",
+    text:
+      "Three. The Hierarchy issues me a different folder for you. " +
+      "Thicker. Your pages now have margins for projections.",
+    surfaces: ["cinematic"],
+    unlockFlags: ["severance_prize_paid", "severance_count_3"],
+    cooldownKey: "nilmorg.severance.recurring.third",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.severance.recurring.third.plan_around",
+    // §2.5 canonical shift — counterparty register intensifies. The
+    // player has crossed from "agreement counterparty" to "counterparty
+    // I plan around." Per the bible specificity-progression.
+    text:
+      "Three Severances. You are no longer a counterparty I keep " +
+      "agreements with. You are a counterparty I plan around.",
+    surfaces: ["cinematic"],
+    unlockFlags: ["severance_prize_paid", "severance_count_3"],
+    cooldownKey: "nilmorg.severance.recurring.third",
+    maxPlays: 1,
+  },
+
+  // 4th-time variants — institutional escalation
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.severance.recurring.fourth.platform_recognizes",
+    text:
+      "Four. The platform recognizes you when you arrive. The platform " +
+      "does not recognize most. The platform asks me to stop adding " +
+      "chairs.",
+    surfaces: ["cinematic"],
+    unlockFlags: ["severance_prize_paid", "severance_count_4"],
+    cooldownKey: "nilmorg.severance.recurring.fourth",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.severance.recurring.fourth.separate_ledger",
+    text:
+      "I have started a separate ledger. It has your name on the cover. " +
+      "The cover is the only page that names you. The rest are " +
+      "projections.",
+    surfaces: ["cinematic"],
+    unlockFlags: ["severance_prize_paid", "severance_count_4"],
+    cooldownKey: "nilmorg.severance.recurring.fourth",
+    maxPlays: 1,
+  },
+
+  // 5th-time variants — terminal counterparty-prime register
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.severance.recurring.fifth.you_may_not_ask",
+    // §1.5 canonical refusal lands at the terminal tier — the canonical
+    // "you may notice; you may not ask why" register. Echoes the
+    // cosmic-refusal public flag.
+    text:
+      "Five Severances. I have paid you five times. I have paid no one " +
+      "else five times. You may not ask why. You may notice.",
+    surfaces: ["cinematic"],
+    unlockFlags: ["severance_prize_paid", "severance_count_5"],
+    cooldownKey: "nilmorg.severance.recurring.fifth",
+    maxPlays: 1,
+    setsPublicFlags: [
+      "nilmorg_refused_to_explain_severance",
+      "nilmorg_terminal_tier_reached",
+    ],
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.severance.recurring.fifth.end_of_authorized",
+    // §2.5 counterparty-prime canon: at the canonical fifth ceremony,
+    // Nilmorg has reached the end of the structure he was authorized
+    // to offer. The next move is unscripted — Stage 4 weave-anchor.
+    text:
+      "The agreement structure I was authorized to offer ends here. I " +
+      "have stopped composing the next one. We will see what arrives.",
+    surfaces: ["cinematic"],
+    unlockFlags: ["severance_prize_paid", "severance_count_5"],
+    cooldownKey: "nilmorg.severance.recurring.fifth",
+    maxPlays: 1,
+    setsPublicFlags: ["nilmorg_terminal_tier_reached"],
+  },
+
   // ═════════════════════════════════════════════════════════════════════
   // DMC SEASONAL-TIER COMMENTARY (DMC surface, trust-band gated)
   // ═════════════════════════════════════════════════════════════════════

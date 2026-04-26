@@ -72,6 +72,21 @@ export const CROSS_CHARACTER_REACTIONS: ReadonlyArray<CrossCharacterReaction> = 
       "banks land.",
   },
 
+  // ─── Severance terminal-tier (5th ceremony, canonical end-of-structure) ─
+  {
+    flag: "nilmorg_terminal_tier_reached",
+    setBy: ["nilmorg"],
+    reactsBy: ["future_reader"], // Locke / Hierophant / Oracle Phase 6+
+    canonicalNote:
+      "Per Nilmorg bible §2.5: at the canonical fifth Severance Prize, " +
+      "Nilmorg has reached the end of the agreement structure he was " +
+      "authorized to offer. The flag marks the terminal counterparty-prime " +
+      "tier. Downstream Phase-6+ banks (Locke acknowledging the Hierarchy " +
+      "shift; Hierophant noting a new entry on the wall; Oracle dream " +
+      "subtext) react canonically as the saga's most-load-bearing player " +
+      "achievement.",
+  },
+
   // ─── Seer Inheriting band reach (cross-bibliographic) ───────────────
   {
     flag: "seer_confidant_band_reached",
