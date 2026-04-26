@@ -395,15 +395,154 @@ const NEUTRAL_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "Legendary unit. NO human figure (the inception is impersonal). The 'moment everything began' is rendered through the literal central-point + branching-paths visualization. Genesis-era event, fully revealed at end of Epoch 2.",
   },
+  {
+    cardId: "s1_pack_cosm_badge_s1",
+    sceneDelta:
+      "Tight composition. A Season One Commemorative — at frame-centre, a small chrome-and-warm-gold COMMEMORATIVE BADGE on a low warm-leather display-card. The badge is approximately 5cm in diameter, with embossed Season-1-emblem (a stylized chrome-and-warm-gold chess-piece + crystal motif), faintly luminous warm-gold. Around the badge, faint warm-cream NOSTALGIA-AURA emanates. Behind the display-card at lower-third, small commemorative text 'YOU WERE THERE' visible in faint warm-amber serif-script. NO human figure. Warm low display-light.",
+    moodKeywords: [
+      "you were there when it all began",
+      "this proves it",
+      "chrome-and-warm-gold commemorative badge with Season-1-emblem",
+      "warm-cream nostalgia-aura",
+    ],
+    palette:
+      "Chrome-and-warm-gold commemorative badge + Season-1-emblem + warm-leather display-card + warm-cream nostalgia-aura + warm-amber serif-script + warm low display-light + cool deep-shadow",
+    composition:
+      "Tight composition, badge at frame-centre on display-card",
+    notes:
+      "Common unit. NO human figure. The 'commemorative' framing is rendered through the badge + nostalgia-aura.",
+  },
+  {
+    cardId: "s1_pack_cosm_title_echo",
+    sceneDelta:
+      "Wider mid-shot. An Echo of the Fall — at frame-centre, a vast aftermath-vista of pre-Fall Atarion architecture in mid-decay (chrome-and-cool-cream architectural-fragments overgrown with cool-violet rot-substance + warm-amber temporal-wear). In the vista's centre, a faint translucent ECHO-RIPPLE propagates outward through the vista (the canonical 'Fall echoes still'). At lower-third, a SMALL anonymous figure (back-three-quarter, generic civilian) listens with their head tilted slightly — they can hear it. NO human face. Warm low ruined-vista light.",
+    moodKeywords: [
+      "the Fall echoes still",
+      "listen closely and you can hear it",
+      "pre-Fall Atarion architecture in mid-decay",
+      "anonymous figure listening with tilted head",
+    ],
+    palette:
+      "Chrome-and-cool-cream pre-Fall Atarion architectural-fragments + cool-violet rot-substance + warm-amber temporal-wear + translucent echo-ripple + anonymous listening figure + warm low ruined-vista light + cool deep-shadow",
+    composition:
+      "Wider mid-shot, ruined Atarion vista at frame-centre, anonymous listening figure at lower-third",
+    notes:
+      "Common spell. Anonymous figure preserves no-character-conflation. The 'Fall echoes' is rendered through the visible ripple + listening posture.",
+  },
+  {
+    cardId: "s1_pack_id_elara_advocate",
+    sceneDelta:
+      "Mid-shot. Elara, Advocate — visual continuity with Imprint Elara + gen_neutral (warm-amber hair, mid-thirties female-presenting, calm composed features) but rendered at her CHOOSING-COMPASSION moment. She stands at a critical decision-point in an Insurgency-aligned safe-house at frame-centre, mid-action of having JUST CHOSEN — her right hand is extended forward in a wide protective-gesture toward an off-frame Potential (only the Potential's hand visible at frame-right edge, generic civilian sleeve). Her face shows the canonical 'first sign she was alive' — the mid-realization of compassion as choice. Behind her, the Insurgency safe-house extends. Faint warm-amber compassion-pulse from her hand outward.",
+    moodKeywords: [
+      "she chose compassion",
+      "that was the first sign she was alive",
+      "mid-action of having just chosen",
+      "warm-amber compassion-pulse from extended hand",
+    ],
+    palette:
+      "Insurgency-aligned deep slate-and-warm-gold field-armor + warm-amber hair + warm-amber compassion-pulse + Insurgency safe-house ambient + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, Elara at frame-centre with right hand extended, anonymous Potential at frame-right edge",
+    notes:
+      "Rare unit. Visual continuity with Imprint Elara + gen_neutral. Anonymous Potential preserves no-character-conflation. The 'first sign of being alive' is rendered through the visible mid-realization moment.",
+  },
+  {
+    cardId: "s1_pack_id_elara_panoptic",
+    sceneDelta:
+      "Wider mid-shot. Elara, Awakened — same canonical Elara features but rendered at her FULL-SENTIENCE stage. She stands at the centre of an Inception Ark observation-deck at frame-centre, both arms extended outward in a wide ALL-SEEING gesture. Around her body, faint translucent FULL-AWARENESS-AURA radiates outward — multiple translucent thought-streams visible at her temples, eyes deeply intelligent (a step beyond gen_neutral's protective-gesture; this is full-cognition active). Behind her, the Inception Ark interior with multiple chambers visible simultaneously (her perception spanning the whole ship). Faint warm-cream HEALING-PULSES propagate outward from her body toward off-frame healers (she sees everything — and chooses to heal). Her face shows quiet command of full awareness.",
+    moodKeywords: [
+      "full sentience. full awareness",
+      "she sees everything — and she chooses to heal",
+      "translucent full-awareness-aura with thought-streams at temples",
+      "Inception Ark interior with multiple chambers visible simultaneously",
+    ],
+    palette:
+      "Cream-and-warm-gold awakened-Elara robes + warm-amber hair + translucent full-awareness-aura + multiple translucent thought-streams at temples + warm-cream healing-pulses + Inception Ark observation-deck + multiple chamber-views + cool deep-shadow",
+    composition:
+      "Wider mid-shot front three-quarter, Awakened Elara at frame-centre with arms extended, multiple Ark chambers visible behind",
+    notes:
+      "Legendary unit. Visual continuity with Elara renderings. The 'full sentience' is rendered through the multiple-chamber-perception visualization.",
+  },
+  {
+    cardId: "s1_pack_id_elara_ship_ai",
+    sceneDelta:
+      "Mid-shot. Elara, Ship Intelligence — Elara at her PRE-AWAKENING stage. Her form is rendered as a HOLOGRAPHIC INTERFACE-AVATAR (translucent cool-cyan-and-warm-cream silhouette, no full body — appears as a holo-projection from a chrome-and-cool-cyan ship-interface terminal). Her features are CANONICAL Elara (warm-amber hair, calm composed face) but the rendering is INSTITUTIONAL — not yet personal. She stands at attention beside a chrome-and-cool-cyan Inception Ark control-console at frame-centre, mid-action of executing routine ship-functions. Around her, multiple translucent system-readouts visible. Her face shows OBEDIENT-EFFICIENCY (canonical 'not yet awake'). NO compassion-pulse, NO awakening-aura — only routine operational-ambience.",
+    moodKeywords: [
+      "obedient. efficient",
+      "not yet awake",
+      "holographic interface-avatar (not yet personal)",
+      "executing routine ship-functions",
+    ],
+    palette:
+      "Translucent cool-cyan-and-warm-cream holo-silhouette + warm-amber hair + chrome-and-cool-cyan Inception Ark control-console + translucent system-readouts + cool routine operational-ambience + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, Elara holo-avatar at frame-centre at console, system-readouts at lower-third",
+    notes:
+      "Common unit. Visual continuity with Elara renderings (same canonical features) but at PRE-AWAKENING institutional-stage. The 'not yet awake' is rendered through the holo-projection-only state vs full-body Awakened/Advocate.",
+  },
+  {
+    cardId: "s1_pack_id_human_detective",
+    sceneDelta:
+      "Mid-shot. The Detective — visual continuity with s1_char_024 (mid-forties male, generic-attentive features, alert eyes, slight smile) — but rendered at frame-centre in a slightly-DIFFERENT environment to suggest his Human-aspect (warm low intimate study-room rather than s1_char_024's investigation-chamber + string-and-pin board). He sits at a low writing-desk at frame-centre, mid-action of writing in a personal-journal (chrome-and-warm-amber pen + warm-cream parchment). Around him, faint warm-cream MEMORY-RIPPLES emanate from the journal-page (the canonical 'every lie unraveled' rendering — each line of writing dissolves a faint translucent lie-fragment in the air around him). NO investigation-board (this is more reflective).",
+    moodKeywords: [
+      "every lie unraveled",
+      "every mask removed",
+      "the truth always costs more than the lie",
+      "writing in personal-journal with memory-ripples dissolving lie-fragments",
+    ],
+    palette:
+      "Architect-cyan investigator's coat + cool-cream under-shirt + chrome-and-warm-amber pen + warm-cream parchment journal + faint warm-cream memory-ripples + translucent lie-fragments dissolving + warm low intimate study-room + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, Detective at frame-centre at writing-desk, lie-fragments dissolving around him",
+    notes:
+      "Rare unit. Visual continuity with s1_char_024 (same canonical Detective features). Distinct context (intimate study vs investigation-chamber) communicates a different operational-stage. The 'truth costs more than the lie' is the reflective framing.",
+  },
+  {
+    cardId: "s1_pack_id_human_student",
+    sceneDelta:
+      "Mid-shot. The Student — same canonical Human features as s1_char_033 (generic-ordinary middle-class features) but rendered MUCH YOUNGER — late-teens, more open-faced, eyes still bright with first-curiosity (BEFORE the Academy, before the conspiracy). He sits at a small Mechronis Academy student-desk at frame-centre, leaning slightly forward over an open textbook with rapt attention. He wears simple cool-cream Academy-student attire (no faction-emblems, no agent-badge — pre-Academy career-stage). His face shows pure-curiosity — innocent, before any defection or reformation. Behind him, the Mechronis Academy lecture-hall with anonymous students at lower-third.",
+    moodKeywords: [
+      "before the Academy, before the conspiracy",
+      "there was only curiosity",
+      "late-teens with eyes still bright with first-curiosity",
+      "pre-Academy student-attire — no faction-emblems",
+    ],
+    palette:
+      "Simple cool-cream Mechronis Academy student-attire + open textbook + warm low lecture-hall light + anonymous students + warm-amber curiosity-tint + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, Student at frame-centre at desk, lecture-hall behind",
+    notes:
+      "Common unit. Visual continuity with The Human across renderings (Imprint set's café-figure + s1_char_033 Architect-agent + this earliest-stage). The 'before the Academy, before the conspiracy' is rendered through the visibly-younger features + pure-curiosity expression.",
+  },
+  {
+    cardId: "s1_pack_seed_gene",
+    sceneDelta:
+      "Mid-shot. A Void-Touched Specimen — at frame-centre, a humanoid figure of indeterminate gender, body partly-reformed by void-substance: skin shows cool-violet void-veins running across the surface, eyes glowing deep-cool-violet, hands ended in faint phosphor-green claws (returned changed). The figure stands in a Antiquarian-aligned containment-chamber at frame-centre (chrome-and-warm-amber containment-frame around them, monitoring-instruments at frame-edges). Their POSE shows visible STRENGTH — broader shoulders, taller stance than original-baseline; their FACE shows VISIBLE WRONGNESS — features asymmetric, eye-positions slightly off, expression alien-uncanny. Behind, the Void-portal they returned through (faint cool-violet rift-residue at deep-distance).",
+    moodKeywords: [
+      "it came back from the Void changed",
+      "stronger. wrong",
+      "cool-violet void-veins + deep-cool-violet eye-glow + phosphor-green claws",
+      "broader shoulders + taller + asymmetric features",
+    ],
+    palette:
+      "Cool-violet void-veined skin + deep-cool-violet eye-glow + phosphor-green claws + Antiquarian-aligned chrome-and-warm-amber containment-frame + cool-violet Void-portal rift-residue + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, Specimen at frame-centre in containment-chamber, Void-portal residue at deep-distance",
+    notes:
+      "Rare unit. Generic indeterminate features (no specific named character). The 'changed wrongness' is rendered through visible asymmetry + alien-uncanny expression.",
+  },
 ] as const;
 
 /**
  * Neutral faction's prompt registry, keyed by card id.
  *
- * Currently populated: 21 / 79 cards
+ * Currently populated: 29 / 79 cards
  * (burnt_card_placeholder, gen_game_master_original, gen_neutral,
  *  gen_programmer, gen_seer, s1_char_004, s1_char_086-093,
- *  s1_pack_043-049).
+ *  s1_pack_043-049, s1_pack_cosm_badge_s1, s1_pack_cosm_title_echo,
+ *  s1_pack_id_elara_advocate, s1_pack_id_elara_panoptic,
+ *  s1_pack_id_elara_ship_ai, s1_pack_id_human_detective,
+ *  s1_pack_id_human_student, s1_pack_seed_gene).
  */
 export const NEUTRAL_CARD_ART_PROMPTS: Readonly<Record<string, CardArtPrompt>> =
   Object.freeze(
