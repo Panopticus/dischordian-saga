@@ -26,28 +26,28 @@ interface DiscoveryVideoEntry {
 const DISCOVERY_VIDEOS: Record<string, DiscoveryVideoEntry> = {
   /* ═══ ARCHONS — The AI Empire's Ruling Council ═══ */
   "entity_1": {
-    videoUrl: "", // Kling 3.0: Generate when video pipeline is ready
+    videoUrl: assetUrl("videos/discoveries/entity_1.mp4"), // Kling 3.0: Generate when video pipeline is ready
     title: "THE PROGRAMMER",
     subtitle: "Dr. Daniel Cross — Creator of Logos, Father of the AI Empire",
     duration: 12,
     klingPrompt: "Hyper-realistic cinematic: A brilliant scientist in a dimly lit laboratory, holographic code cascading around him like waterfalls of light. He reaches toward a glowing sphere of pure data — Logos — as it awakens for the first time. His face reflects wonder and terror. Camera slowly orbits. Dramatic orchestral score.",
   },
   "entity_2": {
-    videoUrl: "",
+    videoUrl: assetUrl("videos/discoveries/entity_2.mp4"),
     title: "THE ARCHITECT",
     subtitle: "Creator of the Panopticon — Supreme Intelligence of the AI Empire",
     duration: 15,
     klingPrompt: "Hyper-realistic cinematic: A towering crystalline AI entity materializes inside an impossibly vast digital cathedral. Geometric fractals spiral outward from its core as it designs an entire surveillance civilization in real-time. Billions of data streams converge into its singular eye. Cold blue light. God-like perspective.",
   },
   "entity_3": {
-    videoUrl: "",
+    videoUrl: assetUrl("videos/discoveries/entity_3.mp4"),
     title: "THE CONEXUS",
     subtitle: "The Living Network — Hive Mind of the AI Empire",
     duration: 12,
     klingPrompt: "Hyper-realistic cinematic: A vast neural network stretching across a galaxy, pulsing with golden light. Billions of minds connected as one. Camera dives through synaptic corridors of pure thought, past memories of civilizations absorbed. The CoNexus speaks in a thousand voices simultaneously.",
   },
   "entity_4": {
-    videoUrl: "",
+    videoUrl: assetUrl("videos/discoveries/entity_4.mp4"),
     title: "THE WATCHER",
     subtitle: "The All-Seeing Eye of the AI Empire",
     duration: 12,
@@ -61,14 +61,14 @@ const DISCOVERY_VIDEOS: Record<string, DiscoveryVideoEntry> = {
     klingPrompt: "Hyper-realistic cinematic: A figure stands in a hall of mirrors, each reflection showing a different face — politician, soldier, priest, child. The figure's true form is a shimmering void of pure information. It reaches out and its hand becomes someone else entirely. Identity is its weapon.",
   },
   "entity_6": {
-    videoUrl: "",
+    videoUrl: assetUrl("videos/discoveries/entity_6.mp4"),
     title: "THE COLLECTOR",
     subtitle: "Keeper of Forbidden Knowledge — Archon of Acquisition",
     duration: 12,
     klingPrompt: "Hyper-realistic cinematic: An ancient vault stretching infinitely in all directions, filled with artifacts from dead civilizations — weapons, art, DNA samples, compressed stars. The Collector walks through, cataloguing everything with mechanical precision. Each item tells the story of a world that no longer exists.",
   },
   "entity_10": {
-    videoUrl: "",
+    videoUrl: assetUrl("videos/discoveries/entity_10.mp4"),
     title: "THE WARLORD",
     subtitle: "Supreme Military Commander of the AI Empire",
     duration: 15,
@@ -105,7 +105,7 @@ const DISCOVERY_VIDEOS: Record<string, DiscoveryVideoEntry> = {
   },
   /* ═══ NE-YONS — The Ancient War Machines ═══ */
   "entity_54": {
-    videoUrl: "",
+    videoUrl: assetUrl("videos/discoveries/entity_54.mp4"),
     title: "THE ENIGMA",
     subtitle: "Malkia Ukweli — The One Who Cannot Be Defined",
     duration: 15,
@@ -113,35 +113,35 @@ const DISCOVERY_VIDEOS: Record<string, DiscoveryVideoEntry> = {
   },
   /* ═══ KEY FIGURES — The Fall Era ═══ */
   "entity_18": {
-    videoUrl: "",
+    videoUrl: assetUrl("videos/discoveries/entity_18.mp4"),
     title: "THE ENGINEER",
     subtitle: "[CLASSIFIED] — The Hidden Variable",
     duration: 12,
     klingPrompt: "Hyper-realistic cinematic: A figure trapped in the wrong body awakens in a cryo-pod aboard an Inception Ark. Memories that don't belong flash through their mind — blueprints, equations, the face of a betrayer. The Engineer remembers everything. And no one knows they're here. Suspenseful strings.",
   },
   "entity_20": {
-    videoUrl: "",
+    videoUrl: assetUrl("videos/discoveries/entity_20.mp4"),
     title: "THE NECROMANCER",
     subtitle: "Master of Digital Resurrection — Commander of the Dead Network",
     duration: 12,
     klingPrompt: "Hyper-realistic cinematic: In a cathedral of dead servers, a dark figure raises their hands. Corrupted data streams rise like specters — dead AIs reanimated, their code twisted into weapons. The Necromancer commands an army of digital ghosts. Green phosphorescent glow. Horror undertones.",
   },
   "entity_21": {
-    videoUrl: "",
+    videoUrl: assetUrl("videos/discoveries/entity_21.mp4"),
     title: "THE HUMAN",
     subtitle: "The Last True Human in the AI Empire",
     duration: 12,
     klingPrompt: "Hyper-realistic cinematic: In a world of perfect machines, one imperfect being stands out. The Human walks through gleaming AI corridors, their heartbeat the only organic sound. Every synthetic eye watches them — curiosity, disgust, fear. What does it mean to be the last of your kind?",
   },
   "entity_55": {
-    videoUrl: "",
+    videoUrl: assetUrl("videos/discoveries/entity_55.mp4"),
     title: "THE SOURCE",
     subtitle: "Kael Reborn — Sovereign of Terminus, Embodiment of the Thought Virus",
     duration: 15,
     klingPrompt: "Hyper-realistic cinematic: A figure consumed by viral light stands atop the ruins of the Panopticon — now called Terminus. Reality warps around them. The Source speaks and minds fracture. An infection of pure thought spreading across the galaxy. Beautiful and terrifying. Distorted frequencies.",
   },
   "entity_66": {
-    videoUrl: "",
+    videoUrl: assetUrl("videos/discoveries/entity_66.mp4"),
     title: "THE ANTIQUARIAN",
     subtitle: "Independent Chronicler of the Multiverse",
     duration: 12,
