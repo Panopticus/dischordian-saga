@@ -202,14 +202,116 @@ const ANTIQUARIAN_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "Epic unit. CRITICAL: the act is CEREMONIAL CLOSING, not destruction — canon-direct from flavor. The civilization's ruins are intact (no burning, no rubble) but silent. Generic-ancient face must NOT match The Antiquarian himself or any named Council character. The brass-and-glass closing-instrument is a new visual idiom for ceremonial-end (vs the ongoing-cataloging tools used by other Antiquarian characters).",
   },
+  {
+    cardId: "s1_char_043",
+    sceneDelta:
+      "Wider mid-shot. The Programmer at his canonical historical moment of creating Logos — a male-presenting figure in late-fifties, generic-scholarly features, in pre-Fall Atarion academic-robes (cool-cream linen with simple dark over-mantle, NOT Antiquarian-amber Council robes). He stands at a long pre-Fall research workstation in his original Atarion laboratory; on the workstation, the EARLY LOGOS PROTOTYPE is visible — a chrome-and-cool-cyan computational lattice approximately the size of a small cabinet, multiple cables trailing to it, faint cool-cyan first-awakening light pulsing within. The Programmer holds a single research stylus in his right hand, paused mid-annotation; his left hand rests on the prototype's casing. His face is intent, hopeful, deeply curious. Behind him, the Atarion laboratory extends — pre-Fall architecture, tall arched windows onto a pre-Fall Atarion afternoon sky (no Fall-era ash, no post-civilization ruin).",
+    moodKeywords: [
+      "visionary scientist and philosopher",
+      "intellectual curiosity led to the creation of Logos",
+      "the moment before everything",
+      "intent, hopeful, deeply curious",
+    ],
+    palette:
+      "Pre-Fall Atarion cool-cream academic-robes + dark over-mantle + chrome-and-cool-cyan early Logos prototype + warm Atarion afternoon-light + cool-cyan first-awakening pulse + warm research-workstation amber",
+    composition:
+      "Wider mid-shot front three-quarter, Programmer at frame-centre at workstation, early Logos prototype at lower-third, Atarion laboratory extending behind",
+    notes:
+      "Legendary unit. CRITICAL spoiler-discipline: this is The Programmer at his pre-Fall canonical moment of creating Logos (Genesis-era event, fully revealed by end of Epoch 2). His Act-5+ identity-as-Antiquarian is NOT confirmed — he is rendered in pre-Fall Atarion academic dress, NOT Antiquarian-amber Council robes; his face is generic-scholarly NOT echoing The Antiquarian's silver-streaked-bearded master rendering. NO twelve-pattern motif on his person. NO pocket-dimension refuge as backdrop. The Atarion laboratory is the pre-Fall canon environment.",
+  },
+  {
+    cardId: "s1_char_121",
+    sceneDelta:
+      "Wider mid-shot. An Epoch Watcher — a tall stone-and-brass humanoid sentinel-figure, approximately 2.5m tall, with a body composed of weathered Antiquarian stone-and-brass plating. Where its head would be, a SINGLE LARGE oculus-eye occupies most of the head-region — a slow-rotating brass-and-glass lens that has watched a thousand epochs. Its surface is heavily PATINATED — visible weathering across the centuries (different layers of corrosion mark different ages). The Watcher stands at the rim of a tall Antiquarian observation-tower, both hands resting on a low parapet; below the parapet, a wide aerial view of multiple eras-of-architecture extending in concentric rings (the closest ring is current-era, the next ring is older ruin, the next older still — each successive ring older). Its face shows no expression — it has forgotten as much as it has remembered. Faint warm-amber light at the centre of the lens.",
+    moodKeywords: [
+      "seen empires rise and fall a thousand times",
+      "each wound is another memory it has already forgotten",
+      "concentric rings of older eras",
+      "weathered patina, no expression",
+    ],
+    palette:
+      "Weathered Antiquarian stone-and-brass + multi-layered corrosion-patina + brass-and-glass single oculus-eye + warm-amber lens-centre + concentric multi-era ring-architecture below + cool deep-distance haze",
+    composition:
+      "Wider mid-shot front three-quarter, Watcher at frame-centre on tower-rim, concentric era-rings extending below",
+    notes:
+      "Epic unit. The single dominant oculus-lens echoes Panopticon Oculus Sentinel's lens-motif but explicitly Antiquarian-weathered (multi-layered patina vs Panopticon's chrome) — same compositional element, different faction visual idiom. The concentric era-rings is the canonical 'thousand epochs' visualization. NO human figure (the Watcher IS the subject).",
+  },
+  {
+    cardId: "s1_char_122",
+    sceneDelta:
+      "Mid-shot. A Timeline Splitter — a female-presenting figure, mid-thirties, generic-cool features, in formal Antiquarian-amber temporal-investigator's coat with a single brass twelve-pattern lapel-pin. She stands at the centre of a quiet Antiquarian intersection-chamber. In her hands, she holds a small brass-and-glass instrument that resembles a precision-callipers — but the callipers are visibly SPLITTING A TIMELINE-THREAD: a horizontal translucent warm-amber thread runs across the frame at chest-height, and the callipers' two prongs are mid-action of separating the thread into TWO PARALLEL THREADS. From the moment of the split, an off-frame target's presence is visibly FADING — a translucent ghost-figure at frame-right is dissolving from solid to translucent to transparent (the 'you were never here' visualized as the target being unmade by the split). Her face is calm-decisive, NOT arguing — simply executing.",
+    moodKeywords: [
+      "you were never here",
+      "she does not argue this point",
+      "she simply makes it true",
+      "calm-decisive, simply executing",
+    ],
+    palette:
+      "Antiquarian-amber temporal-investigator's coat + brass twelve-pattern lapel-pin + brass-and-glass callipers + warm-amber timeline-thread + translucent fading ghost-figure + cool intersection-chamber + warm reading-light",
+    composition:
+      "Mid-shot front three-quarter, Splitter at frame-centre with callipers on thread, fading ghost-figure at frame-right edge",
+    notes:
+      "Rare unit. The 'splitting a timeline-thread' visual is consistent with the Chronosplicer's thread-cutting (s1_char_059) but visually distinct (callipers vs shears, splitting vs cutting). Generic-cool features must NOT match any named character. The fading ghost-figure is the canonical 'you were never here' rendering — present but unmaking.",
+  },
+  {
+    cardId: "s1_char_123",
+    sceneDelta:
+      "Mid-shot. A Relic Scholar — a young female-presenting figure, late-twenties, in plain Antiquarian-junior-scholar cream-and-amber under-robes, generic-attentive features. She kneels at a low display-table in a quiet Antiquarian study-chamber. In both hands, she holds a small ANCIENT RELIC — a brass-and-glass spherical artifact approximately the size of an apple, with internal cool-cyan filigree visible through translucent panels. The relic is faintly HUMMING — visualized as soft warm-amber resonance-rings emanating outward from its surface (the canonical 'thousand years of silence broken' visualized as visible audible-rings). Her face is rapt, slightly awed — she is the one who finally understands. Behind her, a low desk-lamp and the open scholarly-volumes of her research; the chamber is otherwise quiet, low-lit, intimate.",
+    moodKeywords: [
+      "the relic hums in her hands",
+      "a thousand years of silence broken",
+      "the touch of someone who finally understands",
+      "rapt, slightly awed",
+    ],
+    palette:
+      "Antiquarian junior-scholar cream-and-amber under-robes + brass-and-glass spherical relic + cool-cyan internal filigree + warm-amber resonance-rings + warm low desk-lamp + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, Scholar kneeling at frame-centre with relic in both hands, study-chamber details at lower-third",
+    notes:
+      "Common unit. Differentiates from Relic Keeper (s1_char_060) by being ACTIVELY UNDERSTANDING the relic (rapt awe) rather than placing it on a pedestal (gentle careful placement). The visible audible-rings is a new Antiquarian visual idiom for 'silence broken by understanding.' Generic-attentive young face must NOT match any named character.",
+  },
+  {
+    cardId: "s1_char_124",
+    sceneDelta:
+      "Mid-shot. An Age Walker — a non-human-shaped figure that has GROWN through the ages (canon-direct from flavor: small at first age, feared by third, worshipped by seventh). The figure's current form is humanoid-but-larger-than-human (approximately 2.4m tall) with a body composed of accumulated layers — each layer visually SUGGESTS a different era's contribution (oldest layer at the core, newest at the surface). The body is rendered as concentric tree-ring style strata visible at the silhouette-edge. It stands at the centre of a wide forum-plaza where small Antiquarian-aligned figures kneel in supplication at lower-third. The Walker's face is unreadable — it has no specific expression because it has too many specific expressions accumulated. A faint warm-amber grow-pulse propagates outward from its body (grow); ground beneath it shows faint stratigraphic time-lines radiating outward.",
+    moodKeywords: [
+      "small when the first age began",
+      "by the third armies feared it",
+      "by the seventh they worshipped it",
+      "concentric tree-ring strata at silhouette-edge",
+    ],
+    palette:
+      "Antiquarian-amber concentric strata body + warm-amber grow-pulse + supplicants in dark-cream robes + cool wide forum-plaza + warm ground stratigraphic-lines + cool overcast sky",
+    composition:
+      "Mid-shot front three-quarter, Age Walker at frame-centre, supplicants at lower-third kneeling around base",
+    notes:
+      "Common unit. The concentric strata at the body-silhouette is the visual key to 'grown through ages' — direct rendering of the flavor. The supplicants at the base communicate 'by the seventh they worshipped it' without showing any specific era's worship-form. Generic non-specific face (because too many specific accumulations).",
+  },
+  {
+    cardId: "s1_char_201",
+    sceneDelta:
+      "Mid-shot. A Chronoguard Sentinel — a tall stone-and-brass humanoid sentinel, approximately 2.2m tall, similar in body-style to the Epoch Watcher (s1_char_121) but BLOCKIER and POSITIONED LOW for provoke (vs the Watcher's tower-rim observational stance). The Sentinel stands at a guard-post threshold of an Antiquarian temporal-vault, both hands resting on a long brass-tipped guard-staff, feet shoulder-width planted. Its body shows weathering — visible ancient corrosion at the joint-seams, layers of accumulated patina on the chest-plate (it has stood here a thousand years). Where its head would be, a smaller dual-lens visor (TWO smaller cool-cyan lenses, one for each eye-position — vs the Epoch Watcher's single dominant oculus). A faint warm provoke-glow rims its leading shoulder. The temporal-vault behind it — heavy brass-and-amber doors, cool-cyan vault-light from cracks at the door-seams.",
+    moodKeywords: [
+      "stood here for a thousand years",
+      "will stand here for a thousand more",
+      "blockier, positioned-low provoke-stance",
+      "ancient corrosion at joint-seams",
+    ],
+    palette:
+      "Weathered Antiquarian stone-and-brass + multi-layered patina + dual cool-cyan lens-visor + brass-tipped guard-staff + warm provoke-rim + brass-and-amber temporal-vault doors + cool-cyan vault-light",
+    composition:
+      "Mid-shot front three-quarter, Sentinel at frame-centre at guard-post, vault-doors behind",
+    notes:
+      "Common unit. Visually rhymes with Epoch Watcher (s1_char_121) but differentiated: dual-lens-visor vs single-oculus, blockier-positioned-low vs tall-tower-rim, guard-staff vs hands-on-parapet. Same era-of-construction lineage, different deployment. Brass-and-amber temporal-vault visual continuity with Time-dimension Hour-Unmaker (s1_dim_time_03).",
+  },
 ] as const;
 
 /**
  * Antiquarian faction's prompt registry, keyed by card id.
  *
- * Currently populated: 10 / ~39 cards
- * (gen_antiquarian, s1_char_018, s1_char_058-060,
- *  s1_char_062-065, s1_char_097).
+ * Currently populated: 16 / ~39 cards
+ * (gen_antiquarian, s1_char_018, s1_char_043, s1_char_058-060,
+ *  s1_char_062-065, s1_char_097, s1_char_121-124, s1_char_201).
  */
 export const ANTIQUARIAN_CARD_ART_PROMPTS: Readonly<Record<string, CardArtPrompt>> =
   Object.freeze(
