@@ -804,12 +804,114 @@ const DREAMER_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "Rare unit. Generic-quiet features must NOT match any named character. The 'first light is the coldest' is rendered as the cool-tinted dawn (not the warm dawn typical of Dreamer-faction default). The visible cool exhale-breath is the visual key to the cold.",
   },
+  {
+    cardId: "s1_reward_eidolon_lux",
+    sceneDelta:
+      "Wider mid-shot. Lux, the Light — a translucent humanoid figure of CONCENTRATED LIGHT at frame-centre, approximately 1.7m tall, body composed entirely of warm-cream brilliance with internal cool-cyan core-glow. The figure's outline is humanoid but the FACE is rendered as PURE WARM LIGHT (no specific features, just brightness). Around Lux, the SETTING is the deepest level of Dreamer-recursion: a vast cool-violet otherspace with multiple translucent SLEEPING-DREAMER-LAYERS visible at differing depths (the Dreamer's nested levels of sleep). Lux is the SINGLE LIGHT in this depth — refusing to extinguish. Faint warm rays extend outward from his body in all directions. NO recognizable face.",
+    moodKeywords: [
+      "in the deepest recursion of the Dreamer's sleep",
+      "a light persisted",
+      "it called itself Lux, and it refused to go out",
+      "humanoid concentrated-light figure with no facial features",
+    ],
+    palette:
+      "Translucent warm-cream brilliance Lux body + internal cool-cyan core-glow + pure warm light face-region + cool-violet otherspace + multiple translucent sleeping-Dreamer-layers + warm radiating rays",
+    composition:
+      "Wider mid-shot front three-quarter, Lux at frame-centre as concentrated light, otherspace recursion-layers behind",
+    notes:
+      "Rare unit. Featureless light-face preserves no-character-conflation (Lux is a personification of persistence, not a specific named character). The recursion-layers communicate 'deepest level of Dreamer's sleep' without specifying any single named layer.",
+  },
+  {
+    cardId: "s1_reward_palimpsest_signal",
+    sceneDelta:
+      "Mid-shot. A Signal Bearer — male-presenting figure in late-thirties, generic-resolute features (steady eyes, set jaw), in plain Dreamer-cream traveler's coat over a warm-leather under-tunic. He stands at frame-centre at the edge of an Architect-faction propaganda-wall (visible at upper-third of frame, the wall covered in many overlapping Architect-cyan posters showing OVERWRITTEN historical claims — multiple layers of paste, the most recent layer the loudest). In his hand, a small SCROLL — the original-text, cool-cream parchment with deep warm script visible. He extends the scroll toward an off-frame recipient. Faint translucent silver-mist memory-ribbons trail from his shoulder (he carries the original). His face is determined.",
+    moodKeywords: [
+      "in a world of overwritten truths",
+      "the Signal Bearer remembers the original text",
+      "Architect-faction propaganda-wall with overlapping overwritten posters",
+      "scroll containing the original-text in his hand",
+    ],
+    palette:
+      "Dreamer-cream traveler's coat + warm-leather under-tunic + Architect-cyan overwritten propaganda-wall + cool-cream parchment original-scroll + warm script + translucent silver-mist memory-ribbons + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, Bearer at frame-centre at propaganda-wall, scroll extended outward",
+    notes:
+      "Rare unit. Generic-resolute features must NOT match any named character. The overwritten propaganda-wall + retained original-scroll is the canonical 'palimpsest' visualization — the original beneath the overwriting.",
+  },
+  {
+    cardId: "s1_reward_vortex_close",
+    sceneDelta:
+      "Wider mid-shot. A Vortex Seal — at frame-centre, a CLOSING dimensional rift in the air, approximately 2m tall and 1.5m wide, mid-action of contracting. The rift's interior shows deep cool-violet otherspace; through the closing seam, a CREATURE'S CLAW is visible (translucent, threatening, mid-action of trying to push through, but being EXPELLED back as the rift closes). The creature is anonymous (only the claw and a hint of teeth visible — no full body). Around the rift, an anonymous Dreamer-aligned figure (back-three-quarter, cream-and-aurora-violet seal-mage robes) extends both hands toward the rift, faint translucent aurora-violet seal-glyphs propagating from her fingertips. The rift is mid-scream — visible distortion-rings emanate from both rift and creature. NO face visible.",
+    moodKeywords: [
+      "the rift screamed as it closed",
+      "the creature on the other side screamed louder",
+      "claw mid-expulsion as rift contracts",
+      "anonymous Dreamer seal-mage with extended hands",
+    ],
+    palette:
+      "Closing dimensional rift + deep cool-violet otherspace interior + translucent threatening claw + Dreamer cream-and-aurora-violet seal-mage robes + translucent aurora-violet seal-glyphs + visible distortion-rings + cool deep-shadow",
+    composition:
+      "Wider mid-shot, rift at frame-centre mid-closing, creature-claw at frame-right edge of rift, seal-mage at frame-left back-three-quarter",
+    notes:
+      "Rare spell. Anonymous seal-mage (back-three-quarter) preserves no-character-conflation. The claw + teeth (no full body) preserves the threat without specifying any named-creature.",
+  },
+  {
+    cardId: "s1_reward_vortex_master",
+    sceneDelta:
+      "Wider mid-shot. A Vortex Walker — female-presenting figure of indeterminate ethnicity, mid-thirties, generic-deliberate features (calm, slightly sad, very practiced), in Dreamer cream-and-aurora-violet vortex-tied robes. Her body is rendered as PARTIALLY-MERGED with a small dimensional vortex at her chest (the canonical 'becomes the vortex' transformation): a translucent aurora-violet vortex-spiral is embedded WITHIN her chest-region, visibly pulsing with otherspace-substance. Her arms are extended outward in a wide opening-gesture — she is now the OPENING ITSELF. Behind her, fifty FAINT TRANSLUCENT SEAL-MARKS hang in the air at varying depths (each a previous closure she made). Now there are no more closures left — only her becoming.",
+    moodKeywords: [
+      "fifty incursions, fifty seals",
+      "now she does not close the vortex — she becomes it",
+      "translucent aurora-violet vortex embedded in chest",
+      "fifty faint translucent seal-marks behind her",
+    ],
+    palette:
+      "Dreamer cream-and-aurora-violet vortex-tied robes + translucent aurora-violet chest-vortex + faint otherspace-substance pulse + extended arms + fifty faint translucent seal-marks behind + cool deep-shadow + warm vortex-glow",
+    composition:
+      "Wider mid-shot front three-quarter, Walker at frame-centre with embedded chest-vortex, seal-marks at varying depths behind",
+    notes:
+      "Epic unit. Generic-deliberate features must NOT match any named character. The 'fifty seal-marks behind' is the canonical visualization of fifty-incursions without requiring fifty distinct closures to be drawn. Embedded chest-vortex is the visual key to 'she becomes it.'",
+  },
+  {
+    cardId: "s1_reward_vote_t1_truth",
+    sceneDelta:
+      "Mid-shot. An Investigator's Lens — male-presenting figure in early-thirties at frame-centre, generic-attentive features (sharp eyes behind glasses, slight forward-lean), in plain Dreamer-cream investigator's coat over warm-leather sleeve-cuffs. In his right hand, a small chrome-and-aurora-violet HAND-LENS — the lens itself is translucent and faintly luminous. He holds the lens up to his eye, examining a small EVIDENCE-FRAGMENT in his left hand (a faint cool-cyan card-fragment, intentionally illegible). Through the lens, the evidence shows clearer, with cool-cyan TRUTH-TRACES visible on its surface (only when seen through the lens). His face shows mid-discovery — the truth is becoming aimable.",
+    moodKeywords: [
+      "truth is a weapon",
+      "the Lens simply makes it easier to aim",
+      "evidence-fragment in left hand, lens to right eye",
+      "cool-cyan truth-traces visible only through lens",
+    ],
+    palette:
+      "Dreamer-cream investigator's coat + warm-leather sleeve-cuffs + chrome-and-aurora-violet hand-lens + faint cool-cyan card-fragment + cool-cyan truth-traces + warm investigation-light + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, Investigator at frame-centre with lens to right eye, evidence-fragment in left hand",
+    notes:
+      "Common unit. Generic-attentive features must NOT match The Detective (s1_char_024 — distinct character). The 'truth visible through the lens' is the canonical investigation-mechanic visualization.",
+  },
+  {
+    cardId: "s1_song_082",
+    sceneDelta:
+      "Wider mid-shot. Top Floor Door — at frame-centre, a tall Dreamer-aurora-violet door at the top of a long curved stairwell. The door is partially OPEN, revealing a translucent warm-cream chamber within. From the chamber, a faint warm-cream RESTORATION-GLOW emerges, descending the stairs as visible light-substance. An anonymous figure (back-three-quarter, generic Dreamer-cream traveler's robes) stands at the top step, mid-action of having JUST OPENED the door, the restoration washing over them. Faint translucent drain-rim wraps the figure (drain keyword visualized as the door's effect — taking from the seeker, restoring to the broken). The stairwell descends into deep warm-shadow below.",
+    moodKeywords: [
+      "behind the last door at the top of the stairwell",
+      "the Dreamer found not answers but restoration",
+      "warm-cream restoration emerging from chamber",
+      "anonymous figure mid-opening, restoration washing over them",
+    ],
+    palette:
+      "Dreamer-aurora-violet door + translucent warm-cream chamber-glow + Dreamer-cream traveler's robes + warm-cream restoration light-substance + translucent drain-rim + curved stairwell + deep warm-shadow descending",
+    composition:
+      "Wider mid-shot back-three-quarter, door at frame-centre upper-third, anonymous figure at top step, stairwell descending below",
+    notes:
+      "Rare spell. Anonymous figure (back-three-quarter) preserves no-character-conflation. The 'not answers but restoration' is rendered as the warm-cream wash from the chamber — visible benefit without specifying any named-truth being received.",
+  },
 ] as const;
 
 /**
  * Dreamer faction's prompt registry, keyed by card id.
  *
- * Currently populated: 45 / 61 cards
+ * Currently populated: 51 / 61 cards
  * (gen_dreamer, s1_char_005, s1_char_014, s1_char_017,
  *  s1_char_023, s1_char_025, s1_char_027, s1_char_029,
  *  s1_char_034, s1_char_036, s1_char_037, s1_char_045,
@@ -822,7 +924,10 @@ const DREAMER_PROMPTS_LIST: readonly CardArtPrompt[] = [
  *  s1_pack_pet_temporal_kitten_1-3,
  *  s1_reward_campaign_finale, s1_reward_campaign_truth,
  *  s1_reward_casino_dice, s1_reward_class_neyon,
- *  s1_reward_class_oracle, s1_reward_cycle_light).
+ *  s1_reward_class_oracle, s1_reward_cycle_light,
+ *  s1_reward_eidolon_lux, s1_reward_palimpsest_signal,
+ *  s1_reward_vortex_close, s1_reward_vortex_master,
+ *  s1_reward_vote_t1_truth, s1_song_082).
  */
 export const DREAMER_CARD_ART_PROMPTS: Readonly<Record<string, CardArtPrompt>> =
   Object.freeze(
