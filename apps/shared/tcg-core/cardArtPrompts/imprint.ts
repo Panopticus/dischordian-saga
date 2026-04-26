@@ -1361,6 +1361,101 @@ const IMPRINT_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "T5 = 'The Human, Twelfth Archon.' End-of-Epoch-2 canon. CRITICAL spoiler-discipline: He is ALONE in this frame. NO Elara (Two Witnesses bond is Acts 6-7), NO chord pillar, NO shared sustained note, NO third figure (no Watcher reveal). The twelve motes are the lore beat (Twelfth Archon, established Epoch 2). His face is visible but kept generic-weathered to preserve player-as-The-Human gameplay-canon. Echoes Detective t5 visual structure on purpose (faction-rhyme); ALSO echoes Antiquarian t5 (twelve orbital things). The Human is the third corner of the foreknowledge-trinity-at-Hall-of-Records.",
   },
+
+  // ─── THE JAILER (Rotation-Shaped — does not hate the prisoners,
+  //     does not hate the Architect; hates the rotation; lives
+  //     longer than everyone he guards and remembers all of them) ───
+  // Source canon: A massive figure at the cell door who does not
+  // move because what is in front of him is not trying to move
+  // either. The Rotation has a schedule; he has a watch; the watch
+  // agrees with the schedule, so far. He never says the prisoners'
+  // names out loud. Mechanical: provoke + forcefield + rebirth.
+  // Faction: architect.
+  {
+    cardId: "s1_imprint_the_jailer_t1",
+    sceneDelta:
+      "Wide composition. A long chrome-and-obsidian Architect prison corridor, fluorescent grey light, a row of identical cell doors on camera-right receding into deep perspective. The Jailer stands in three-quarter facing one of the nearest cell doors — a massive figure in heavy chrome-segmented armor that gives his silhouette the brutalist architectural quality of the prison itself. He does not face the camera. His helmet is full-visor, blank chrome with no visible eye-slit. Both gloved hands rest at his sides. He is not posed, he is just THERE — the canonical 'massive figure at the cell door who does not move because what is in front of him is not trying to move either.' Behind the cell door is silence. Provoke visualized as the geometry of his stillness: nothing past him without going through him, and he is not negotiable.",
+    moodKeywords: [
+      "what is in front of him is not trying to move either",
+      "blank chrome visor",
+      "massive at the door",
+      "fluorescent grey routine",
+    ],
+    palette:
+      "Architect deep crimson + black steel + chrome silver + cool fluorescent grey corridor + a single deep crimson horizon-line at floor and ceiling",
+    composition:
+      "Wide corridor in deep one-point perspective, Jailer at upper-left third in three-quarter facing cell door, doors receding to vanishing point at right",
+    notes:
+      "T1 = the routine state. Helmet must remain CLOSED across all 5 tiers — his face is intentionally unrevealed. Architect-faction visual rigor maintained.",
+  },
+  {
+    cardId: "s1_imprint_the_jailer_t2",
+    sceneDelta:
+      "Mid-shot. The Jailer in front of a wall-mounted Architect duty-board — a chrome rectangle with the day's Rotation schedule displayed in cool red Babylon-script. He has lifted his chrome-gloved left wrist toward his face (where his face would be if his visor opened), checking a wrist-watch built into his armor. The watch's face is rendered in the same red Babylon-script — and the watch agrees with the duty-board, so far. His other hand is flat against the duty-board itself, stabilizing his stance for the check. The corridor behind him stretches into deep perspective filled with identical cell doors. Provoke held; rebirth not yet. The compulsive precision of the watch-check is the lore beat — he has done this exactly the same way for longer than the watch is supposed to last.",
+    moodKeywords: [
+      "the watch agrees with the schedule, so far",
+      "compulsive precision",
+      "the chrome gauntlet at the visor that does not open",
+      "longer than the watch is supposed to last",
+    ],
+    palette:
+      "Architect deep crimson Babylon-script + black steel + chrome + cool fluorescent grey corridor + a single warm amber accent inside the watch-face glow",
+    composition:
+      "Mid-shot front three-quarter, Jailer at frame-centre, duty-board at upper-left, watch-check arm at vertical mid-axis",
+    notes:
+      "T2 = provoke. The duty-board's content must be GENERIC — no specific prisoner names visible, no specific times. The schedule itself is the lore beat, not its content.",
+  },
+  {
+    cardId: "s1_imprint_the_jailer_t3",
+    sceneDelta:
+      "Wider mid-shot. The Jailer is now standing in three-quarter at the cell-door junction of two corridors — a T-intersection. From camera-left an off-frame approach is implied (a vague approach-vibration in the floor's chrome tiles, a subtle compositional pull); from camera-right, the same. The Jailer is centered exactly at the junction, weight settled, helmet visor blank to the camera. Around him, a faint hexagonal forcefield-shimmer EXTENDS from his shoulders through the entire intersection — there is no way past him in a way that matters to anything on the other side of him. Forcefield + provoke visualized as the geometry of his presence: he is at the seam, and the seam holds.",
+    moodKeywords: [
+      "the seam that holds",
+      "hexagonal forcefield-shimmer through the intersection",
+      "no way past in a way that matters",
+      "weight settled at the junction",
+    ],
+    palette:
+      "Architect deep crimson + black steel + chrome + cool cyan forcefield-shimmer at intersection + fluorescent grey corridors",
+    composition:
+      "Wide T-intersection composition, Jailer at exact centre vertical axis, two corridor-vanishings camera-left and camera-right, forcefield-shimmer as faint hexagonal nimbus",
+    notes:
+      "T3 = provoke + forcefield. Hexagonal forcefield language matches Locke t4 + Architect t4 (faction-consistent forcefield visual: hexagonal, cyan, structural). Faction-distinct from Dreamer t4 (curvature) and Elara t4 (resonance-line).",
+  },
+  {
+    cardId: "s1_imprint_the_jailer_t4",
+    sceneDelta:
+      "Mid-shot. The Jailer in three-quarter facing camera, but the corridor BEHIND him is visibly older than the corridors he stood in across T1-T3 — one wall has a faint patina of decades, a fluorescent fixture has gone slightly yellow with age, a chrome-tile is hairline-cracked. The Jailer himself is unchanged. On the floor at his feet, very subtly, a fresh chrome-armor segment has been replaced (we can see the shine-difference at one shoulder pauldron): he has BEEN re-certified after his armor wore through. He is checking his wrist-watch again with the same gesture from T2. Rebirth visualized as the unending of his shift: the shift ends around him and he re-certifies without comment. Faint hexagonal forcefield-shimmer still surrounds him.",
+    moodKeywords: [
+      "the shift ends around him",
+      "the chrome-tile hairline crack",
+      "the new pauldron, same gesture",
+      "re-certifies without comment",
+    ],
+    palette:
+      "Architect deep crimson + black steel + chrome + cool fluorescent grey AGED corridor + a single bright chrome accent on the new pauldron + cyan hexagonal shimmer",
+    composition:
+      "Mid-shot front three-quarter, Jailer at frame-centre, aged-corridor in receding perspective behind, watch-check arm at vertical mid-axis",
+    notes:
+      "T4 = provoke + forcefield + rebirth. The aged-corridor + new-pauldron contrast is the rebirth beat: he persists across the corridor's decay, replacing parts of himself rather than ending the shift. The Jailer's helmet is STILL closed.",
+  },
+  {
+    cardId: "s1_imprint_the_jailer_t5",
+    sceneDelta:
+      "Hero composition. The Jailer stands at the centre of a vast circular Architect prison-rotunda — concentric tiers of cell doors extending upward and outward, the rotunda itself spiraling up to a vault lost in cool grey haze. He is at the exact centre of the rotunda's chrome-tile floor, three-quarter facing the camera. Behind and around him: every cell door visible (hundreds), every cell door silent. He is checking his watch one more time. Around him, a wide hexagonal forcefield-shimmer extends through the entire ring of cells — provoke + forcefield at scale. From his armor, faint amber motes drift slowly upward in a thin column (rebirth at scale: the things he has been re-certified through). The motes form, very subtly when you look closely, the SHAPES of names — but the shapes are unreadable because he has never said them out loud. CRITICAL: the names are formally illegible; we see the shape, not any specific name.",
+    moodKeywords: [
+      "the things he has been re-certified through",
+      "the motes that form unreadable names",
+      "the rotunda of cells, every one silent",
+      "he never says them out loud",
+    ],
+    palette:
+      "Architect deep crimson rotunda + black steel + chrome + cool grey vault haze + warm amber memorial motes ascending + a single saturated red on the watch-face",
+    composition:
+      "Wide circular hero, Jailer at exact centre, concentric cell-tiers receding upward, mote-column ascending at vertical mid-axis above his shoulders",
+    notes:
+      "T5 = 'The Jailer, Rotation-Shaped.' End-of-Epoch-2 canon. CRITICAL: the unreadable-name motes are the visual translation of his canonical 'he never says their names out loud because saying them would count as a second crime on top of the first.' The shapes are deliberately illegible at any zoom level — the viewer perceives that they ARE name-shapes without being able to read any specific name. Helmet visor remains CLOSED through all 5 tiers.",
+  },
 ] as const;
 
 /**
