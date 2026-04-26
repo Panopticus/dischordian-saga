@@ -122,6 +122,226 @@ export const NILMORG_BANK: ReadonlyArray<BankEntry> = [
   },
 
   // ═════════════════════════════════════════════════════════════════════
+  // PRE-RACE HYPE — broadcast register, triplet-crescendo + caps-on-
+  // appetite-noun signature per nilmorg.md §1.4 tells. Fires on the
+  // dmc surface during pre-race countdown; archetype-specific flags
+  // narrow which line plays when which class fields enter the lanes.
+  //
+  // Four archetypes × four hype-states each = 16 lines. Canon:
+  //   Wired Clone  — vat-grown, splice-engineered, knowingly racing
+  //   Splice       — splice-signature elite (kinetic-engineered prep)
+  //   Bone-tier    — early-tier rookie field (low rank, often first race)
+  //   Chrome-tier  — elite-rank racers Nilmorg has files on
+  // ═════════════════════════════════════════════════════════════════════
+
+  // ─── Wired Clone ────────────────────────────────────────────────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.prerace.wired_clone.field_roll_call",
+    text:
+      "The Wired Clone steps to the lane! Splice signature: unique. " +
+      "Splice signature: archived. Splice signature: MINE by lap two. " +
+      "WELCOME, Number Seven. The track is HUNGRY for fresh signal!",
+    surfaces: ["dmc"],
+    unlockFlags: ["dmc_field_has_wired_clone"],
+    cooldownKey: "nilmorg.prerace.wired_clone.roll_call",
+    maxPlays: 4,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.prerace.wired_clone.spotlight",
+    text:
+      "Look at her! Number plates FRESH, neural splice GLOWING, her last " +
+      "memory the start line itself. The clone has no past. The clone " +
+      "has only this race. The clone is BEAUTIFUL!",
+    surfaces: ["dmc"],
+    unlockFlags: ["dmc_field_has_wired_clone"],
+    cooldownKey: "nilmorg.prerace.wired_clone.spotlight",
+    maxPlays: 4,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.prerace.wired_clone.threat_promise",
+    text:
+      "She'll cross the line. She might even win. The signature comes " +
+      "home with Nilmorg regardless. That is the deal. That is the " +
+      "WHOLE DEAL.",
+    surfaces: ["dmc"],
+    unlockFlags: ["dmc_field_has_wired_clone"],
+    cooldownKey: "nilmorg.prerace.wired_clone.threat",
+    maxPlays: 4,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.prerace.wired_clone.aesthetic",
+    text:
+      "Oh, the way she grips the throttle! Corporate calls it splice " +
+      "fidelity. Nilmorg calls it APPETITE. The bone-lane is going to " +
+      "REMEMBER her!",
+    surfaces: ["dmc"],
+    unlockFlags: ["dmc_field_has_wired_clone"],
+    cooldownKey: "nilmorg.prerace.wired_clone.aesthetic",
+    maxPlays: 4,
+  },
+
+  // ─── Splice (kinetic-engineered elite) ──────────────────────────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.prerace.splice.engineered_intro",
+    text:
+      "Engineered for kinetics. Bred for terminal velocity. Built to " +
+      "LEAVE A SIGNATURE the moment she crosses the lane. SPLICE. " +
+      "SPLICE. SPLICE!",
+    surfaces: ["dmc"],
+    unlockFlags: ["dmc_field_has_splice"],
+    cooldownKey: "nilmorg.prerace.splice.engineered_intro",
+    maxPlays: 4,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.prerace.splice.engineering_spec",
+    text:
+      "Kinetic profile: optimal. Resonance frequency: tuned. Survival " +
+      "probability: filed. The numbers are CLEAN. The track is HUNGRIER " +
+      "for clean numbers!",
+    surfaces: ["dmc"],
+    unlockFlags: ["dmc_field_has_splice"],
+    cooldownKey: "nilmorg.prerace.splice.spec",
+    maxPlays: 4,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.prerace.splice.poetry",
+    text:
+      "There is poetry in a splice that does not blink at the start line. " +
+      "That is the whole training program. That is the whole VICTORY!",
+    surfaces: ["dmc"],
+    unlockFlags: ["dmc_field_has_splice"],
+    cooldownKey: "nilmorg.prerace.splice.poetry",
+    maxPlays: 4,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.prerace.splice.no_severance",
+    // Canonical ironic-condolence tell per §1.4: the gesture-then-break.
+    // Do not let Nilmorg explain WHY a Splice has no fragment — that is
+    // the protected refusal per §1.5.
+    text:
+      "The Splice does not get a Severance Prize if it wins. Splices do " +
+      "not have fragments. Nilmorg offers his sincere condolences. JUST " +
+      "KIDDING. NEXT!",
+    surfaces: ["dmc"],
+    unlockFlags: ["dmc_field_has_splice"],
+    cooldownKey: "nilmorg.prerace.splice.no_severance",
+    maxPlays: 2,
+  },
+
+  // ─── Bone-tier (rookie field) ───────────────────────────────────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.prerace.bone_tier.newcomer_call",
+    text:
+      "BONE-TIER! New file. Fresh designation. The clone has never raced " +
+      "before. She THINKS she will survive. So does Nilmorg — for about " +
+      "three laps.",
+    surfaces: ["dmc"],
+    unlockFlags: ["dmc_field_has_bone_tier"],
+    cooldownKey: "nilmorg.prerace.bone_tier.newcomer",
+    maxPlays: 4,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.prerace.bone_tier.encouragement_as_threat",
+    text:
+      "Cheer up, Bone-tier! You are ALREADY in the file! Whatever happens " +
+      "here — survive or otherwise — your designation gets a line. Most " +
+      "clones do not get a line. WELCOME.",
+    surfaces: ["dmc"],
+    unlockFlags: ["dmc_field_has_bone_tier"],
+    cooldownKey: "nilmorg.prerace.bone_tier.encouragement",
+    maxPlays: 4,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.prerace.bone_tier.field_warning",
+    text:
+      "The Bone-tier field is THICK tonight! The track will sort them. " +
+      "The track will sort them BY LAP THREE. The track is NEVER WRONG!",
+    surfaces: ["dmc"],
+    unlockFlags: ["dmc_field_has_bone_tier"],
+    cooldownKey: "nilmorg.prerace.bone_tier.field_warning",
+    maxPlays: 4,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.prerace.bone_tier.aphorism_intrusion",
+    // Canonical Tell #4 — the calm lore aphorism intruding on the
+    // Race Commentary register. ONE per ceremony beat per §1.4; keep it
+    // sparse. The flatness is the threat.
+    text: "Speed in all things. Especially first laps. Bone-tier learns that, or does not.",
+    surfaces: ["dmc"],
+    unlockFlags: ["dmc_field_has_bone_tier"],
+    cooldownKey: "nilmorg.prerace.bone_tier.aphorism",
+    maxPlays: 2,
+  },
+
+  // ─── Chrome-tier (file-keeper / forecaster register) ────────────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.prerace.chrome_tier.recognition",
+    text:
+      "Chrome-tier. Nilmorg knows this driver. Nilmorg has her file. " +
+      "Nilmorg knows the way she enters Turn Three. He will know when " +
+      "she varies it. He always knows. CHROME.",
+    surfaces: ["dmc"],
+    unlockFlags: ["dmc_field_has_chrome_tier"],
+    cooldownKey: "nilmorg.prerace.chrome_tier.recognition",
+    maxPlays: 4,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.prerace.chrome_tier.forecaster",
+    text:
+      "Predicted finish: top three. Confidence: high. Signature: already " +
+      "collected. Tonight Nilmorg watches for a DEVIATION. A deviation " +
+      "is the only thing left WORTH WATCHING.",
+    surfaces: ["dmc"],
+    unlockFlags: ["dmc_field_has_chrome_tier"],
+    cooldownKey: "nilmorg.prerace.chrome_tier.forecaster",
+    maxPlays: 4,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.prerace.chrome_tier.counterparty",
+    text:
+      "Chrome-tier races are not entertainment for Nilmorg. They are " +
+      "AUDITS. Tonight Number Fourteen is being audited. By the track. " +
+      "By the track's APPETITE.",
+    surfaces: ["dmc"],
+    unlockFlags: ["dmc_field_has_chrome_tier"],
+    cooldownKey: "nilmorg.prerace.chrome_tier.counterparty",
+    maxPlays: 4,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.prerace.chrome_tier.cold_respect",
+    // The two-register pivot canon per §1.1 — starts in Race Commentary,
+    // lands on a corporate noun, snaps back. Compresses to a clipped
+    // closer because Chrome-tier is the file-holder bracket.
+    text:
+      "Nilmorg respects Chrome-tier the way he respects a contract. Same " +
+      "TONE. Same precision. Same outcome. Paid, on schedule, no comment.",
+    surfaces: ["dmc"],
+    unlockFlags: ["dmc_field_has_chrome_tier"],
+    cooldownKey: "nilmorg.prerace.chrome_tier.cold_respect",
+    maxPlays: 4,
+  },
+
+  // ═════════════════════════════════════════════════════════════════════
   // CONTRACT-SIGNING (npc_line — institutional precision; NO hidden clauses)
   // ═════════════════════════════════════════════════════════════════════
 
