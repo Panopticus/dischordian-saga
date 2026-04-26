@@ -568,19 +568,124 @@ const THOUGHT_VIRUS_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "Epic unit. NO human figure. Third stage of void-crawler lineage. The 'erases everything it touches' is rendered through the visible fading-trail along the Leviathan's path.",
   },
+  {
+    cardId: "s1_reward_boss_source",
+    sceneDelta:
+      "Mid-shot. A Source Fragment — at frame-centre, a single FLOATING SHARD of brilliant-white core substance with toxic-green outer ring (the canonical Source-substance signature, but FRAGMENT scale). The shard is approximately 30cm tall, hovering at chest-height in a quiet aftermath-room. From within the shard, a faint translucent SIGNAL-PULSE propagates rhythmically (heartbeat made of static — the canonical 'hums inside like a heartbeat'). Around the shard, faint phosphor-green Hierarchy-script faintly drifts — the signal still alive. NO human figure (the shard IS the subject; the Source itself is gone). Background: aftermath-debris of a destroyed Source-throne sanctum.",
+    moodKeywords: [
+      "the Source was destroyed",
+      "the signal was not",
+      "it hums inside the Fragment like a heartbeat made of static",
+      "shard with rhythmic signal-pulse + Hierarchy-script drift",
+    ],
+    palette:
+      "Brilliant-white core substance + toxic-green outer ring (fragment-scale) + faint translucent signal-pulse + phosphor-green Hierarchy-script + aftermath-debris of destroyed sanctum + cool deep-shadow",
+    composition:
+      "Mid-shot, Source Fragment at frame-centre at chest-height, aftermath-debris behind",
+    notes:
+      "Legendary unit. NO human figure. The 'Source destroyed but signal alive' framing is rendered through the persistent shard + ongoing pulse. Visual continuity with all Source renderings (brilliant-white-core + toxic-green ring) at fragment scale.",
+  },
+  {
+    cardId: "s1_reward_circuit_1st",
+    sceneDelta:
+      "Action mid-shot. A Clone Racer — humanoid figure mid-RACE at frame-centre, generic-anonymous features (alert eyes, lean racer build, no specific distinguishing details), in chrome-and-phosphor-green Circuit-racer's skin-suit. He is mid-stride forward (rush keyword). At frame-LEFT (behind him), a faint translucent ghost-figure of HIM AT THE STARTING LINE is visible (cloned-at-start). At frame-RIGHT (ahead, off-frame), a faint translucent recycling-vat visible — where he will end. The Circuit's track extends behind him. Faint warm rush-trails at his heels. NO memory of the previous forty-seven races visible — his face is FIRST-RACE blank. Cool deep-shadow surrounds the track-edges.",
+    moodKeywords: [
+      "they clone him at the starting line and recycle him at the finish",
+      "he has won forty-seven races. he remembers none of them",
+      "ghost-clone at starting line behind, recycling-vat ahead",
+      "FIRST-RACE blank expression",
+    ],
+    palette:
+      "Chrome-and-phosphor-green Circuit-racer's skin-suit + faint translucent ghost-clone at starting line + faint translucent recycling-vat + warm rush-trails + cool Circuit-track + cool deep-shadow",
+    composition:
+      "Action mid-shot side three-quarter, Racer mid-stride at frame-centre, ghost-clone at frame-left, recycling-vat off-frame at frame-right",
+    notes:
+      "Rare unit. Anonymous Racer (generic features) preserves no-character-conflation. The 'no memory of previous races' is rendered through the FIRST-RACE blank expression — every race is his first, in a sense.",
+  },
+  {
+    cardId: "s1_reward_circuit_survive",
+    sceneDelta:
+      "Mid-shot. An Identity Fragment — a small humanoid figure at frame-centre, body composed of TRANSLUCENT FRAGMENT-OF-IDENTITY substance (faint warm-cream luminous outline barely visible). Most of the figure's body is translucent-empty (the Circuit stripped away name, face, memory) but at the figure's CHEST, a single small SOLID warm-amber SPARK is visible (something small and stubborn and alive — the canonical 'something persisted'). The figure stands upright, pose calm-defiant. Faint translucent rebirth-doubled-edge runs along the outline (rebirth keyword). NO face visible (face-region empty translucent). Background: cool aftermath of a Circuit-arena.",
+    moodKeywords: [
+      "the Circuit stripped away everything — name, face, memory",
+      "but something persisted",
+      "something small and stubborn and alive",
+      "translucent body with one solid warm-amber chest-spark",
+    ],
+    palette:
+      "Translucent fragment-of-identity body + faint warm-cream luminous outline + solid warm-amber chest-spark + translucent rebirth-doubled-edge + cool Circuit-arena aftermath + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, Identity Fragment at frame-centre upright, chest-spark luminous",
+    notes:
+      "Rare unit. NO face visible (deliberately empty). The 'something persisted' is rendered through the visible chest-spark amid the translucent body — a single luminous point in otherwise-empty form.",
+  },
+  {
+    cardId: "s1_reward_class_assassin",
+    sceneDelta:
+      "Action mid-shot. A Master Assassin — figure of indeterminate gender at frame-centre, generic-precise features (sharp focused eyes, calm mid-strike expression, hair tightly bound), in dark Insurgency-aligned Master-grade infiltration-leathers (deeper than standard Insurgency-slate, with chrome-and-signal-green Master's-pin at the chest — Master-rank). They are mid-strike — but the strike is rendered as ALREADY-COMPLETED: the blade is in the off-frame target's body (only the off-frame target's chrome-and-cool-cyan armor edge visible at frame-right), the Assassin's posture is PERFECT-COMPOSURE (no extra motion, no follow-through — the kill happened the moment they decided). Faint signal-green stealth-shimmer at body-edge. Faint warm rush-trails at heels. Their face shows zero anticipation, zero exertion.",
+    moodKeywords: [
+      "the kill is decided before the blade is drawn",
+      "Master-rank tier with deeper-than-standard infiltration-leathers",
+      "perfect-composure mid-strike — kill already-completed",
+      "zero anticipation, zero exertion",
+    ],
+    palette:
+      "Dark Insurgency-aligned Master-grade infiltration-leathers + chrome-and-signal-green Master's-pin + signal-green stealth-shimmer + warm rush-trails + anonymous off-frame target's chrome-and-cool-cyan armor edge + cool deep-shadow",
+    composition:
+      "Action mid-shot front three-quarter, Master Assassin at frame-centre in perfect-composure mid-strike, off-frame target at frame-right edge",
+    notes:
+      "Rare unit. CRITICAL: this is class-rank reward Master Assassin (echoes Master Engineer / Oracle / Spy / Soldier pattern), NOT Akai Shi (different specific archetype). Generic-precise features distinct from Akai Shi's Potentials-glyph. Anonymous off-frame target preserves no-character-conflation.",
+  },
+  {
+    cardId: "s1_reward_companion_kael",
+    sceneDelta:
+      "Mid-shot. Kael's Memory — at frame-centre, a small luminous warm-amber MEMORY-FRAGMENT hovering at chest-height in a quiet remembrance-chamber. The fragment shows visible KAEL FROM BEFORE THE INFECTION — but ONLY as a translucent generic-traveler silhouette outline (no facial features, no specific identifying details — the canonical 'someone worth remembering' rendered as generalized memory rather than specific likeness). The fragment is sharp-edged (the canonical 'his memory still cuts' — visible sharp warm-amber edge-outline that looks blade-like). An anonymous figure (only their hand visible at frame-bottom-edge, generic Insurgency-slate sleeve) reaches up toward the fragment. NO Kael literally rendered — only the outline-silhouette of memory.",
+    moodKeywords: [
+      "before the infection, Kael was someone worth remembering",
+      "his memory still cuts",
+      "translucent generic-traveler silhouette outline (no facial features)",
+      "sharp warm-amber edge-outline that looks blade-like",
+    ],
+    palette:
+      "Warm-amber memory-fragment + translucent generic-traveler silhouette outline + sharp warm-amber edge-outline + anonymous reaching hand + warm low remembrance-chamber light + cool deep-shadow",
+    composition:
+      "Mid-shot, memory-fragment at frame-centre at chest-height, anonymous reaching hand at frame-bottom-edge",
+    notes:
+      "Rare unit. CRITICAL: Kael literally rendered ONLY as silhouette-outline (no specific facial features) — preserves spoiler-discipline (the historical Kael's specific face is not confirmed; the contemporary Insurgency Kael's connection NOT confirmed). Generic-traveler outline echoes Patient Zero's Ark-thief-era framing without committing to specific features.",
+  },
+  {
+    cardId: "s1_reward_crew_sacrifice",
+    sceneDelta:
+      "Mid-shot. The Sacrificed — female-presenting figure at frame-centre, generic-resolute features (eyes still half-open in death, calm composed face, hair tied back), her body in a CONSECRATED-DECEASED state — laid in a small ceremonial Insurgency-aligned remembrance-bier at lower-third. Around her, faint translucent silver-mist memory-trails extend outward toward off-frame crew-mates (the canonical 'her crew remembers' rendering — multiple translucent ribbon-trails visible reaching to frame-edges). Her body shows faint warm-cream-and-cool-violet INFECTION-RESIDUE (sacrificed during the Outbreak — the infection took her, but she chose). Faint phosphor-green deathwatch-script propagates outward. Background: a quiet Outbreak-aftermath cell-room.",
+    moodKeywords: [
+      "sacrificed during the Outbreak",
+      "her crew remembers",
+      "translucent silver-mist memory-trails extending to off-frame crew",
+      "warm-cream-and-cool-violet infection-residue (she chose)",
+    ],
+    palette:
+      "Generic-resolute features + remembrance-bier + translucent silver-mist memory-trails + warm-cream-and-cool-violet infection-residue + phosphor-green deathwatch-script + Outbreak-aftermath cell-room + warm low remembrance-light + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, Sacrificed at frame-centre on bier, memory-trails extending to off-frame crew",
+    notes:
+      "Epic unit. Generic-resolute features must NOT match any named character. The 'her crew remembers' is rendered through the off-frame memory-trails. The 'she chose' framing is rendered through the calm-composed face + the consecrated-deceased state.",
+  },
 ] as const;
 
 /**
  * Thought Virus faction's prompt registry, keyed by card id.
  *
- * Currently populated: 31 / 53 cards
+ * Currently populated: 37 / 53 cards
  * (gen_thought_virus, s1_char_032, s1_char_049, s1_char_070,
  *  s1_char_071, s1_char_072, s1_char_073, s1_char_074,
  *  s1_char_075, s1_char_076, s1_char_077, s1_char_113-116,
  *  s1_char_200, s1_pack_022-028,
  *  s1_pack_cosm_armor_void, s1_pack_cosm_board_void,
  *  s1_pack_cosm_tower_skin, s1_pack_id_kael_patient_zero,
- *  s1_pack_id_kael_source, s1_pack_pet_void_crawler_1-3).
+ *  s1_pack_id_kael_source, s1_pack_pet_void_crawler_1-3,
+ *  s1_reward_boss_source, s1_reward_circuit_1st,
+ *  s1_reward_circuit_survive, s1_reward_class_assassin,
+ *  s1_reward_companion_kael, s1_reward_crew_sacrifice).
  */
 export const THOUGHT_VIRUS_CARD_ART_PROMPTS: Readonly<Record<string, CardArtPrompt>> =
   Object.freeze(
