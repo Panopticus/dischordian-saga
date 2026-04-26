@@ -17,6 +17,7 @@
 import { WebSocketServer, WebSocket } from "ws";
 import type { Server } from "http";
 import { checkWsRateLimit, sendRateLimitError, storeDisconnectedSession, recoverSession } from "./wsRateLimit";
+import { recordMatchStart, recordMatchEnd } from "./matchLengthMonitor";
 import { reduce, hashState, type GameState, type Action } from "../shared/tcg-core";
 import {
   buildMatchConfig,
@@ -130,6 +131,7 @@ function tryMatchPlayers() {
   const matchId = generateMatchId();
   p1.matchId = matchId;
   p2.matchId = matchId;
+  recordMatchStart(matchId);
 
   // Initialize the authoritative GameState via the real tcg-core reducer.
   // Seed is derived deterministically from (matchId, playerIds) so
@@ -194,6 +196,11 @@ function handleDisconnect(player: DuelystPlayer) {
 }
 
 function endMatch(match: DuelystMatch, winnerSide: 0 | 1, reason: string) {
+  // #88 Telemetry — record wall-clock duration for the admin
+  // dashboard's match-length p50/p95/p99. Tagged with the engine's
+  // own end reason so admins can spot disconnect / surrender clusters.
+  recordMatchEnd(match.matchId, "duelyst", reason);
+
   const winner = winnerSide === 0 ? match.player1 : match.player2;
   const loser = winnerSide === 0 ? match.player2 : match.player1;
 
