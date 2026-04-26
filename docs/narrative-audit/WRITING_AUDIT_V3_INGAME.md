@@ -209,34 +209,29 @@ shape for the pattern. ✅
 
 #### B.2 — public/boss-context lines that should adopt the pattern
 
+**✅ Applied 2026-04-26.**
+
 **`apps/shared/tcg-core/story/dialogBank_matchlifecycle.ts:232`** —
 match-cast effect line for the Bloodborn cast (BBS).
-Current: *"Viral propagation. I am being merciful."* (5 words)
-Recommended: *"Viral propagation. I am being — ALL WILL BE — merciful.
-This is mercy. The virus disagrees."*
-**Why:** A match-cast effect plays publicly during gameplay; this is a
-high-tension context. The current line is pure-Source with no Kael
-fragment — the virus is talking but Kael is gone. The interruption
-pattern reintroduces Kael as the one offering mercy and the virus as
-the one calling it merciful. ≤25 words. VO impact:
-`vo_source_bbs_cast` re-record needed.
+Was: *"Viral propagation. I am being merciful."*
+Now: *"Viral propagation. I am being — ALL WILL BE — merciful. This is
+mercy. The virus disagrees."*
+The interruption pattern reintroduces Kael as the one offering mercy
+and the virus as the one calling it merciful. VO re-record:
+`vo_source_bbs_cast`.
 
 **`apps/shared/tcg-core/story/dialogBank_cinematics.ts:226`** —
 Chapter 12 corruption-outbreak Source intervention.
-Current: *"Oracle. I have been listening through the floorboards for
-eleven years. Finish this match and then come talk to me. I have an
-offer for you. It is the kindest offer you will ever be asked to refuse."*
-Recommended: *"Oracle. I have been listening through the — ALL WILL BE —
+Was: *"Oracle. I have been listening through the floorboards for eleven
+years. Finish this match and then come talk to me. I have an offer for
+you. It is the kindest offer you will ever be asked to refuse."*
+Now: *"Oracle. I have been listening through the — ALL WILL BE —
 floorboards for eleven years. Finish this match. Then come talk to me.
 I have an offer. It is — CONSUMED — the kindest offer you will ever be
 asked to refuse."*
-**Why:** This is the Source's first public manifestation in the boss
-arc. The current line reads as fully-coherent Source (sounds reasonable
-— which is on-brand) but doesn't show Kael fighting through. Adding two
-interruption beats makes the seduction of the offer feel more uncanny
-and reinforces Elara's immediate next line ("The Source always sounds
-reasonable — that is the tell"). VO impact:
-`vo_source_ch12_outbreak_03` re-record needed.
+Two interruption beats reinforce Elara's immediate next line ("The
+Source always sounds reasonable — that is the tell"). VO re-record:
+`vo_source_ch12_outbreak_03`.
 
 #### B.3 — private/intimate-context lines that should stay lucid
 
@@ -605,7 +600,7 @@ Net of V3:
 | Category | V2 fixes | V3 disposition |
 |---|---|---|
 | A — Architect | 8 fixes | 1 applied (A.1), 1 applied (A.2), 6 obsolete or already shipped. Surface in voice. |
-| B — Source / Kael | 5 fixes | 1 applied (B.1), 2 recommended for application (BBS match-cast, Ch12 corruption outbreak), 3 explicit exemptions (lucid contexts), 1 follow-up (story-chapter wiring) |
+| B — Source / Kael | 5 fixes | **3 applied** (B.1, B.2 BBS match-cast, B.2 Ch12 corruption outbreak), 3 explicit exemptions (lucid contexts), 1 follow-up (story-chapter wiring) |
 | C — Narrator / exposition | 4 fixes | All originals refactored away. Closed. |
 | D — Length compliance | 9 fixes (originals refactored) | Cap enforced for mid-match taunts. Refined rule for FIGHTER_INTROS allowing virus-interruption-pattern exceptions. Soft guard recommended. |
 | E — Voice drift | 7 fixes (originals refactored) | E.1, E.2, E.3 applied. Broader speaker sample in voice. Closed. |

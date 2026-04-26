@@ -223,7 +223,7 @@ export const DIALOG_CH12_CORRUPTION_OUTBREAK: DialogScene = {
     {
       speaker: "the_source",
       mood: "cryptic",
-      text: "Oracle. I have been listening through the floorboards for eleven years. Finish this match and then come talk to me. I have an offer for you. It is the kindest offer you will ever be asked to refuse.",
+      text: "Oracle. I have been listening through the — ALL WILL BE — floorboards for eleven years. Finish this match. Then come talk to me. I have an offer. It is — CONSUMED — the kindest offer you will ever be asked to refuse.",
       audioClipId: "vo_source_ch12_outbreak_03",
     },
     {
