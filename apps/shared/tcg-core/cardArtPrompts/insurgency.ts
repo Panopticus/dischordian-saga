@@ -123,14 +123,117 @@ const INSURGENCY_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "Rare unit. CRITICAL spoiler-discipline: this Kael is a CONTEMPORARY Insurgency leader (mid-thirties, modern command-coat, dark hair). Visually distinct from s1_race_neyon_03 'Kael, First of the Ne-Yon' (who was warm-amber pre-Fall historical with brown hair). His Act-5+ identity as Kael Reborn / The Source is NOT confirmed — NO brilliant-white-dominance, NO toxic-green outer ring (those are The Source's visual signatures). Generic-strategist features must NOT match any other named character.",
   },
+  {
+    cardId: "s1_char_026",
+    sceneDelta:
+      "Wider mid-shot. The Engineer at battle-scale — figure at frame-centre with face FULLY OBSCURED by oversized brass-and-glass goggles + a leather workshop-mask covering nose and lower-face. Body deliberately gender-ambiguous: in dark Antiquarian-amber engineer's apron over warm-leather under-clothes (visual continuity with Imprint set). She holds in her right hand a brass-and-glass Insurgency weapon-prototype mid-construction (a small chrome-and-cool-cyan emitter device with internal cool-cyan filigree). Behind her in the deep distance, a vast Inception Ark hull-section is visible (the Ark she built to save humanity) — recognizable as the canonical Inception Ark form (chrome-and-cool-cyan, vast scale). She stands at a workbench at lower-third. A translucent green-tinted forcefield-shimmer wraps her work-area. NO face visible.",
+    moodKeywords: [
+      "she built the Inception Arks to save humanity",
+      "now she builds weapons to defend the dream",
+      "she does not choose sides — she chooses survival",
+      "face fully obscured by oversized goggles + workshop-mask",
+    ],
+    palette:
+      "Dark Antiquarian-amber engineer's apron + warm-leather under-clothes + oversized brass-and-glass goggles + leather workshop-mask + chrome-and-cool-cyan weapon-prototype + cool-cyan internal filigree + vast Inception Ark hull-section in deep-distance + translucent green-tinted forcefield + warm workbench-light",
+    composition:
+      "Wider mid-shot front three-quarter, Engineer at frame-centre at workbench, Inception Ark in deep background",
+    notes:
+      "Epic unit. CRITICAL spoiler-discipline: face FULLY OBSCURED (oversized goggles + workshop-mask covering nose+mouth) — same [CLASSIFIED] discipline as Imprint set + Engineer Class set + Master Engineer reward. Gender deliberately ambiguous in posture (the canonical 'she' pronoun in flavor is NOT confirmed visually — could be misdirection). The Inception Ark in deep-distance is canon-direct from flavor.",
+  },
+  {
+    cardId: "s1_char_028",
+    sceneDelta:
+      "Mid-shot. The Eyes — female-presenting figure in mid-twenties, generic-watchful features (sharp deep eyes, alert posture), in dark Insurgency-slate infiltration-leathers (deeper than standard Insurgency-slate, optimized for low-light) with a single chrome-and-Watcher-cyan optical earpiece at her left ear. She stands at the centre of a Panopticon corridor at frame-centre, mid-action of OBSERVATION — both hands at her sides, head turned slightly to one side, eyes intent on something off-frame. Faint signal-cyan stealth-shimmer at her body-edge (Watcher-modified Insurgency variant). Her eyes are her defining feature — DEEPER than ordinary, more attentive — the canonical 'unparalleled infiltration' rendering. NO surveillance-camera visible (she IS the surveillance).",
+    moodKeywords: [
+      "elite agent created by the Watcher for the AI Empire",
+      "renowned for her unparalleled infiltration",
+      "deeper-than-ordinary eyes",
+      "she IS the surveillance",
+    ],
+    palette:
+      "Dark Insurgency-slate infiltration-leathers + chrome-and-Watcher-cyan optical earpiece + signal-cyan stealth-shimmer + deep eye-detail + Panopticon corridor + warm fluorescent ceiling-strip + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, Eyes at frame-centre in observation-pose, corridor extending behind",
+    notes:
+      "Rare unit. CRITICAL spoiler-discipline: 'created by the Watcher' is canon at end of Epoch 2 (the Watcher is established but his TRUE IDENTITY is the Act 6 reveal — NOT visualized here). The Eyes herself can be rendered; the Watcher who created her is referenced only by the cool-cyan optical earpiece tint (Watcher-cyan is a signature shade). Generic-watchful features must NOT match any named character.",
+  },
+  {
+    cardId: "s1_char_031",
+    sceneDelta:
+      "Wider mid-shot. The Hierophant — male-presenting figure in mid-sixties, generic-spiritual-leader features (full grey beard, deep wise eyes, calm radiant face), in formal Thalorian high-priest's robes (deep cream-and-warm-violet ceremonial fabric with deep-bronze religious-symbols embroidered along the hem and chest). He stands at the centre of a Thalorian high-temple sanctum at frame-centre. Both hands are extended outward in a wide blessing-gesture, palms-up. Around him, faint translucent warm-cream spiritual-energy radiates outward. A translucent green-tinted forcefield-shimmer wraps his body. Behind him, the Thalorian sanctum extends — tall warm-stone columns, deep bronze-and-cream ceremonial banners, a high arched window onto a Thalorian dawn sky. Faint warm-cream blessing-haze around the chamber.",
+    moodKeywords: [
+      "esteemed spiritual leader of Thaloria",
+      "rich history and deep-rooted traditions",
+      "wide blessing-gesture, palms-up",
+      "calm radiant face, full grey beard",
+    ],
+    palette:
+      "Thalorian deep cream-and-warm-violet ceremonial fabric + deep-bronze religious-symbols + warm-cream spiritual-energy + translucent green-tinted forcefield + warm-stone Thalorian sanctum columns + deep bronze-and-cream ceremonial banners + warm Thalorian dawn",
+    composition:
+      "Wider mid-shot front three-quarter, Hierophant at frame-centre with arms extended in blessing, Thalorian sanctum extending behind",
+    notes:
+      "Epic unit. Generic-spiritual-leader features must NOT match any named character (specifically NOT The Source, NOT The Antiquarian — different visual signature). Thalorian sanctum is a NEW environment for the Insurgency-faction visual language (warm-cream-and-bronze religious aesthetic vs the typical Insurgency-slate-and-signal-green field-aesthetic).",
+  },
+  {
+    cardId: "s1_char_040",
+    sceneDelta:
+      "Mid-shot. The Nomad — figure of indeterminate gender at frame-centre, ENTIRELY CONCEALED beneath a deep-hooded dark-grey traveling cloak with a wide cool-grey face-mask covering the entire face beneath the hood. Only the eyes are barely visible through narrow slit-eye-holes in the mask. Body-shape concealed by cloak's drape. Stands at a desert-edge with a long traveling-staff in their right hand and a small Insurgency-aligned signal-green talisman barely visible at the cloak's collar. Behind them, a wide unmarked horizon (no specific landscape — they are nowhere in particular). The figure is clearly an Insurgency-aligned operative but their identity is mystery. Faint warm wind-whip at the cloak's edges.",
+    moodKeywords: [
+      "always concealed beneath a hood and a mask",
+      "his true identity remains a mystery",
+      "his past entirely classified",
+      "barely-visible eyes through mask slits",
+    ],
+    palette:
+      "Deep-hooded dark-grey traveling cloak + wide cool-grey face-mask + narrow eye-slits + Insurgency-signal-green talisman at collar + long traveling-staff + warm desert-edge horizon + warm wind-whip",
+    composition:
+      "Mid-shot front three-quarter, Nomad at frame-centre fully concealed, unmarked horizon behind",
+    notes:
+      "Rare unit. CRITICAL spoiler-discipline: face FULLY OBSCURED (canon-direct from flavor). Indeterminate gender. Generic-traveler must NOT match any named character. The 'past entirely classified' is rendered as the unmarked horizon and full concealment.",
+  },
+  {
+    cardId: "s1_char_041",
+    sceneDelta:
+      "Mid-shot. The Oracle (Insurgency-aligned, the male prophet) — male-presenting figure in late-sixties, generic-prophet features (silver-streaked dark beard, deep knowing eyes, calm slightly-amused face), in plain Insurgency-aligned warm-cream prophet's robes with a single small Insurgency-aligned signal-green talisman at the throat (NOT Architect-cyan, NOT Dreamer-aurora-violet — Insurgency-affiliated). He stands at the centre of an Insurgency-cell underground briefing-chamber at frame-centre, both hands extended outward in a wide prophetic-gesture, palms-up. Around his hands, faint translucent warm-amber prophecy-script (NOT cool-cyan Architect-glyphs, NOT aurora-violet Dreamer-script — distinct WARM-amber Insurgency-prophet visual idiom). A translucent green-tinted forcefield-shimmer wraps his body. Anonymous Insurgency-cell members visible at lower-third (back-shots only) listening with rapt attention.",
+    moodKeywords: [
+      "revered figure within the Insurgency",
+      "wisdom and prophetic insights that inspired resistance",
+      "warm-amber prophecy-script (not Architect, not Dreamer)",
+      "calm slightly-amused face, silver-streaked beard",
+    ],
+    palette:
+      "Insurgency-aligned warm-cream prophet's robes + signal-green throat-talisman + warm-amber prophecy-script + translucent green-tinted forcefield + Insurgency-cell underground briefing-chamber + warm low briefing-light + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, Oracle at frame-centre with arms extended, Insurgency-cell members at lower-third listening",
+    notes:
+      "Epic unit. CRITICAL: this is the INSURGENCY-ALIGNED MALE Oracle (canonically distinct from the captive White Oracle whose face is FACELESS cream-mist oval). This Oracle is rendered as a SEPARATE prophet figure: silver-streaked beard, calm-amused face, warm-amber Insurgency-prophet script (vs Architect cool-cyan or Dreamer aurora-violet). Per The Jailer's lore (s1_char_035 — 'began as the Oracle'), an earlier male Oracle existed; this card may depict that lineage. Generic-prophet features must NOT match The Jailer (s1_char_035) or any other named character.",
+  },
+  {
+    cardId: "s1_char_044",
+    sceneDelta:
+      "Mid-shot. The Recruiter — male-presenting figure in mid-forties, generic-charming-features (slight smile, warm eyes, well-groomed but not flashy), in formal Architect-cyan-and-cool-cream Academy-grad's coat (the canonical 'enrolled at the Academy' visual). He stands at the centre of a quiet Architect-academy garden, mid-conversation with an anonymous prospect (only the prospect's back-shoulders visible at frame-right edge, generic-young-figure listening). The Recruiter's right hand is extended in a small open-palm welcoming-gesture; his left hand holds a small chrome-and-cool-cyan recruitment-card. His face is composed, reasonable-seeming. Critically, faint translucent COOL-VIOLET INSURGENCY-AFFILIATION traces around his shoulders (he turned — but the original Architect-affiliation is still visually present, layered with the new). Background: Architect-academy garden architecture.",
+    moodKeywords: [
+      "initially applied his powers to benefit the Empire",
+      "enrolling at the Academy and swiftly rising in influence",
+      "yet — original affiliation layered with new",
+      "warm eyes, well-groomed but not flashy",
+    ],
+    palette:
+      "Architect-cyan-and-cool-cream Academy-grad's coat + chrome-and-cool-cyan recruitment-card + translucent cool-violet Insurgency-affiliation traces + Architect-academy garden + warm sunlight + cool-cream architecture + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, Recruiter at frame-centre with welcoming-gesture, anonymous prospect at frame-right edge",
+    notes:
+      "Rare unit. The TWO affiliation-layers (Architect-cyan dominant + cool-violet Insurgency traces) is the canonical 'turned' visualization — he carries both histories. Anonymous prospect preserves no-character-conflation. Generic-charming-features must NOT match any named character.",
+  },
 ] as const;
 
 /**
  * Insurgency faction's prompt registry, keyed by card id.
  *
- * Currently populated: 5 / 51 cards
+ * Currently populated: 11 / 51 cards
  * (gen_insurgency, s1_char_002, s1_char_010, s1_char_011,
- *  s1_char_012).
+ *  s1_char_012, s1_char_026, s1_char_028, s1_char_031,
+ *  s1_char_040, s1_char_041, s1_char_044).
  */
 export const INSURGENCY_CARD_ART_PROMPTS: Readonly<Record<string, CardArtPrompt>> =
   Object.freeze(
