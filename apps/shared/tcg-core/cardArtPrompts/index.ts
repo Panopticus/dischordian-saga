@@ -23,6 +23,7 @@ import { PANOPTICON_CARD_ART_PROMPTS } from "./panopticon";
 import { ANTIQUARIAN_CARD_ART_PROMPTS } from "./antiquarian";
 import { ARCHITECT_CARD_ART_PROMPTS } from "./architect";
 import { DREAMER_CARD_ART_PROMPTS } from "./dreamer";
+import { INSURGENCY_CARD_ART_PROMPTS } from "./insurgency";
 
 /**
  * The full card-art prompt registry.
@@ -46,9 +47,11 @@ import { DREAMER_CARD_ART_PROMPTS } from "./dreamer";
  *   - antiquarian: 39 / 39 cards — COMPLETE
  *   - architect: 63 / 63 cards — COMPLETE
  *   - dreamer: 61 / 61 cards — COMPLETE
+ *   - insurgency: 5 / 51 cards
  *
  * Pending factions:
- *   - insurgency, new_babylon, thought_virus, neutral
+ *   - insurgency (remaining 46)
+ *   - new_babylon, thought_virus, neutral
  *     (per-faction character cards)
  *   - architect, antiquarian, dreamer, insurgency, new_babylon,
  *     thought_virus, neutral, panopticon, allegiance, class, race,
@@ -65,4 +68,5 @@ export const CARD_ART_PROMPTS: CardArtPromptRegistry = Object.freeze({
   ...ANTIQUARIAN_CARD_ART_PROMPTS,
   ...ARCHITECT_CARD_ART_PROMPTS,
   ...DREAMER_CARD_ART_PROMPTS,
+  ...INSURGENCY_CARD_ART_PROMPTS,
 });
