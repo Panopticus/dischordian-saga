@@ -431,16 +431,136 @@ const ARCHITECT_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "Legendary unit. CRITICAL spoiler-discipline: this card depicts the captive White Oracle (Architect's-puppet form) — visual continuity with Oracle Imprint set's white-robed-silver-mist features but transposed into Architect-cyan suspension-context. The 'Architect-glyph speech-patterns' instead of Oracle-aurora-script is the visual key to 'the words are the Architect's.' Echoes Oracle Class spell s1_class_oracle_05's 'shapes the leak takes' framing — but that card showed the SIGNAL leaking out; this card shows the SOURCE captive. Same character, two states.",
   },
+  {
+    cardId: "s1_pack_001",
+    sceneDelta:
+      "Wider mid-shot. A Panopticon Override — a vast Architect surveillance-control room. At frame-centre, a tall chrome-and-cool-cyan central control-pillar where multiple cool-cyan emitter-arms converge. From the pillar, a vast cool-cyan mesh-network propagates outward into the air, threading invisibly through the chamber and out into the city beyond (visible through tall arched cool-cyan windows at upper-third). At the lower-third, a small group of REBEL FIGURES (anonymous, in Insurgency-slate combat-gear, generic-mixed) stand mid-MOMENT-OF-FORGETTING — their postures shifted from active rebellion-stance to confused arrested-mid-step, weapons lowered without owners realizing it. Faint cool-grey silence-haze emanates from the cool-cyan mesh into their heads, dissolving the memory of why they were fighting. NO specific named character.",
+    moodKeywords: [
+      "the Panopticon does not destroy rebellion",
+      "it makes rebellion forget what it was fighting for",
+      "rebels mid-moment-of-forgetting",
+      "weapons lowered without realizing",
+    ],
+    palette:
+      "Chrome-and-cool-cyan central control-pillar + cool-cyan mesh-network + cool-cyan arched windows + Insurgency-slate rebel-gear + cool-grey silence-haze + warm overhead control-room light + cool deep-shadow",
+    composition:
+      "Wider mid-shot, control-pillar at frame-centre, mesh-network propagating outward, anonymous rebels at lower-third arrested-mid-step",
+    notes:
+      "Rare spell. Anonymous rebels (generic-mixed Insurgency-gear) preserve no-character-conflation. Cool-grey silence-haze consistent with the canonical silence visual idiom across factions. The 'arrested-mid-step' postures communicate 'mid-forgetting' without showing direct mental-erasure imagery.",
+  },
+  {
+    cardId: "s1_pack_002",
+    sceneDelta:
+      "Mid-shot. A Schematic Sentinel — humanoid-mechanical, approximately 1.9m tall, body composed of brushed-chrome-and-cool-cyan plating with VISIBLE PRECISION TOLERANCES — every panel-seam shows tiny etched measurement marks, every joint shows a small embossed stress-rating glyph (the canonical 'mathematical certainty' detail). Its silhouette is geometrically PURE — symmetrical, square-shouldered, no aesthetic flourishes. Where a face would be, a single horizontal cool-cyan optical bar (similar idiom to Chrome Archon parliamentary, but smaller and combat-rated). It stands at the centre of an Architect fabrication-bay floor with a clean concentric rotation-circle painted on the floor beneath its feet (the assembly-tolerance-circle). Its pose is precisely-balanced, both arms at sides. Faint cool-cyan calibration-rings pulse outward from its body at slow regular intervals.",
+    moodKeywords: [
+      "every rivet placed with mathematical certainty",
+      "every joint stress-tested against probability itself",
+      "geometrically pure silhouette",
+      "calibration-rings at regular intervals",
+    ],
+    palette:
+      "Brushed-chrome-and-cool-cyan plating + visible measurement marks + horizontal cool-cyan optical bar + cool-cyan calibration-rings + chrome fabrication-bay floor + concentric rotation-circle paint + cool ambient",
+    composition:
+      "Mid-shot front three-quarter, Sentinel at frame-centre on assembly-tolerance-circle, fabrication-bay extending behind",
+    notes:
+      "Common unit. The visible measurement marks at panel-seams is the canonical 'mathematical certainty' visualization. NO human face. Fabrication-bay continuity with Synthetic Worker (s1_race_synthetic_01).",
+  },
+  {
+    cardId: "s1_pack_003",
+    sceneDelta:
+      "Wider mid-shot. An Arena Architect — female-presenting figure in mid-fifties, generic-cunning features (sharp eyes, faint amused smile), in formal Architect-cyan arena-architect's robes with chrome blueprint-clip at the belt. She stands AT THE EDGE of an Arena-floor that is mid-CONSTRUCTION-AROUND-A-FIGURE: at the centre of the lower-third, an anonymous Insurgency-aligned figure stands at the centre of a chalked Arena-circle that is RAPIDLY MATERIALIZING physical Arena-walls around them (translucent cool-cyan walls visibly EXTRUDING from the floor at speed, currently at chest-height and rising). The figure inside is mid-realization — they were not in an Arena until they were. The Arena Architect is NOT IN the Arena; she stands at the OUTER edge with a chrome-and-cool-cyan blueprint-tablet in her hands, mid-finalize. Her face is observational, not malicious — this is just construction.",
+    moodKeywords: [
+      "she does not enter the Arena",
+      "she builds a new one around you — with you already inside",
+      "translucent walls extruding from floor at speed",
+      "observational, not malicious",
+    ],
+    palette:
+      "Architect-cyan arena-architect's robes + chrome blueprint-clip + chrome-and-cool-cyan blueprint-tablet + translucent cool-cyan extruding walls + chalked Arena-circle + warm Insurgency-figure inside + cool deep-shadow + cool ambient",
+    composition:
+      "Wider mid-shot, Architect at outer-edge frame-right, anonymous figure inside chalked-circle frame-centre, walls mid-extrusion",
+    notes:
+      "Rare unit. The 'walls extruding around the figure who didn't realize' is the canonical visualization of the 'new Arena around you with you already inside' framing. Generic-cunning features must NOT match any other named character. Anonymous figure preserves no-character-conflation.",
+  },
+  {
+    cardId: "s1_pack_004",
+    sceneDelta:
+      "Mid-shot. A Protocol Enforcer — humanoid-mechanical, approximately 1.8m tall, body composed of standard Architect chrome-and-cool-cyan combat-plating with a single bright cool-cyan compliance-emitter at the chest-centre (a circular emitter that projects a faint cool-cyan compliance-field forward). Where a face would be, a small narrow cool-cyan slit-visor. Both arms ending in chrome restraint-clamps (NOT weapons — restraints; the Enforcer enforces, not destroys). They stand at a Panopticon checkpoint, mid-action of EXTENDING ONE RESTRAINT-CLAMP forward toward an anonymous citizen at frame-right edge — the citizen is already mid-comply (back arched in a posture suggesting they have already DECIDED to comply before the clamp reached them). A faint warm provoke-glow rims the Enforcer's leading shoulder. Faint cool-cyan compliance-field emanates from the chest-emitter forward.",
+    moodKeywords: [
+      "it does not ask you to comply",
+      "it has already decided that you will",
+      "restraint-clamps not weapons",
+      "citizen mid-comply before the clamp reached them",
+    ],
+    palette:
+      "Chrome-and-cool-cyan combat-plating + cool-cyan compliance-emitter + slit-visor + chrome restraint-clamps + warm provoke-rim + cool-cyan compliance-field + cool checkpoint ambient",
+    composition:
+      "Mid-shot front three-quarter, Enforcer at frame-centre with restraint-clamp extended, anonymous citizen at frame-right mid-comply",
+    notes:
+      "Common unit. Restraint-clamps differentiate Enforcer from combat-armed Panopticon variants — emphasizes administrative-inevitability over violence. Anonymous citizen preserves no-character-conflation.",
+  },
+  {
+    cardId: "s1_pack_005",
+    sceneDelta:
+      "Wider mid-shot. A Grand Design — the scene is the BLUEPRINT itself made manifest. At frame-centre, a vast translucent cool-cyan ARCHITECTURAL BLUEPRINT projects upward from a chrome-and-cool-cyan command-table at lower-third. The blueprint extends well beyond the table's surface, projecting a 3-meter-tall holographic schematic of THE ENTIRE BOARD (the current match's positions, units, even potential-futures all visible as overlapping translucent layers). The blueprint shows EVERY POSITION ANNOTATED with cool-cyan calculation-glyphs. Around the projection's edges, faint translucent cool-cyan connector-lines extend outward to the chamber's walls — the projection is connected to the broader Architect-network. NO human figure (the Grand Design is not personal). The chamber's lighting is cool-cyan technical-ambient.",
+    moodKeywords: [
+      "the blueprint was always there",
+      "you simply lacked the clearance to see it",
+      "every position annotated with calculation-glyphs",
+      "potential-futures visible as overlapping layers",
+    ],
+    palette:
+      "Translucent cool-cyan blueprint-projection + chrome-and-cool-cyan command-table + cool-cyan calculation-glyphs + cool-cyan connector-lines + cool-cyan technical-ambient + cool deep-shadow",
+    composition:
+      "Wider mid-shot, command-table at lower-third, vast blueprint-projection extending upward to upper-third, no human figure",
+    notes:
+      "Epic spell. NO human figure (the spell IS the revelation of the blueprint). The 'overlapping translucent layers' communicate 'potential-futures' without requiring specific predictions. Echoes other no-human-in-frame architect spells.",
+  },
+  {
+    cardId: "s1_pack_006",
+    sceneDelta:
+      "Wider mid-shot. A Chrome Archon at battle-deployment — same brushed-chrome ceremonial body as the Synthetic-race Chrome Archon (s1_race_synthetic_03) but rendered in active combat-deployment posture: standing at the centre of a vast Architect-cyan Senate-evacuation chamber where supplicant-figures (Architect attendants in cool-cyan service-robes) have FALLEN TO THEIR KNEES around the Archon, heads bowed. The Archon has just SPOKEN — the canonical word 'comply' is visible in the air at frame-centre as a translucent cool-cyan command-glyph hovering between the Archon and the kneeling supplicants, the glyph visibly RADIATING outward in slow waves of compulsion. The Archon's horizontal optical bar is dim with completion (the word has done its work). NO active combat — the battle ended at the word.",
+    moodKeywords: [
+      "it spoke once. the word was 'comply'",
+      "nothing on the board had the capacity to refuse",
+      "supplicants kneeling, heads bowed",
+      "the battle ended at the word",
+    ],
+    palette:
+      "Brushed-chrome ceremonial body + cool-cyan parliamentary chamber + translucent cool-cyan COMPLY command-glyph + cool-cyan service-robes + cool ambient + warm Senate-evacuation lighting",
+    composition:
+      "Wider mid-shot front three-quarter, Archon at frame-centre, supplicants kneeling around base, command-glyph hovering at frame-centre",
+    notes:
+      "Legendary unit. CRITICAL distinction from s1_race_synthetic_03: that card showed the Archon in standing-parliamentary mode at empty Senate; this card shows the Archon in command-deployment AFTER deploying compulsion. Same character lineage, two operational states. The visible COMPLY command-glyph is the canonical visualization of 'spoke once.'",
+  },
+  {
+    cardId: "s1_pack_007",
+    sceneDelta:
+      "Tight composition. A Surveillance Probe — a small cool-cyan-and-chrome reconnaissance device, approximately 25cm in diameter, hovering at chest-height in a remote frontier-corridor (the corridor is dim, dust-covered, abandoned — clearly NOT an active Architect-controlled space). The Probe has a single cool-cyan optical lens at the front (smaller than Oculus Sentinel's dominant lens) and a small directional emitter at the rear. Faint cool-cyan transmission-pulses radiate outward from the rear emitter — a faint translucent BURST of accumulated INTELLIGENCE flowing toward off-frame-upper-right (the final transmission, mid-flow). Around the Probe, faint sparks suggest the Probe is mid-DESTRUCTION (a single visible damage-flare on its lower-shell — taking damage as it transmits). The Probe is going to FAIL — but its final transmission is the most informative thing it has done.",
+    moodKeywords: [
+      "its final transmission contained more intelligence than its entire operational lifespan",
+      "remote frontier-corridor, abandoned",
+      "transmission-pulse mid-flow",
+      "the Probe is going to fail",
+    ],
+    palette:
+      "Cool-cyan-and-chrome Probe-body + cool-cyan optical lens + cool-cyan transmission-pulses + warm damage-flare + dim dust-covered corridor + cool deep-shadow",
+    composition:
+      "Tight composition, Probe at frame-centre, transmission-pulses radiating outward, damage-flare visible on shell",
+    notes:
+      "Uncommon unit. NO human figure (the Probe IS the subject). The visible damage-flare combined with the transmission-pulse-mid-flow communicates 'final transmission' without requiring the destruction to complete on-card. The dim dust-covered corridor implies the Probe was alone and unobserved.",
+  },
 ] as const;
 
 /**
  * Architect faction's prompt registry, keyed by card id.
  *
- * Currently populated: 23 / 63 cards
+ * Currently populated: 30 / 63 cards
  * (gen_architect, gen_authority, s1_char_006-009, s1_char_013,
  *  s1_char_015, s1_char_016, s1_char_019, s1_char_021,
  *  s1_char_022, s1_char_024, s1_char_030, s1_char_035,
- *  s1_char_038, s1_char_039, s1_char_042, s1_char_100-104).
+ *  s1_char_038, s1_char_039, s1_char_042, s1_char_100-104,
+ *  s1_pack_001-007).
  */
 export const ARCHITECT_CARD_ART_PROMPTS: Readonly<Record<string, CardArtPrompt>> =
   Object.freeze(
