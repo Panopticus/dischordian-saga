@@ -45,7 +45,9 @@ describe("Stripe webhook event-level idempotency", () => {
       "utf-8",
     );
     expect(src).toMatch(/export function bootstrapWebhookEventsTable/);
-    expect(src).toMatch(/CREATE TABLE IF NOT EXISTS `processed_webhook_events`/);
+    // Source has template-literal escape `\` for MySQL identifier quoting,
+    // so we match the table name without the surrounding escape backticks.
+    expect(src).toMatch(/CREATE TABLE IF NOT EXISTS .*processed_webhook_events/);
   });
 
   it("server _core/index.ts wires the bootstrap into startup", () => {
