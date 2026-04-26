@@ -69,13 +69,66 @@ const DIMENSIONAL_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "Legendary unit. The 'hours as brass-and-glass canisters' is the canonical Antiquarian time-archive visualization — extending the Antiquarian-faction's catalog-of-everything visual language to time itself. Generic-ancient face must NOT match The Antiquarian himself — this is a senior-archivist, not the master. Three keywords (grow + rebirth + forcefield) rendered as three distinct visual elements simultaneously.",
   },
+
+  // ─── SPACE DIMENSION — Neutral, airdrop + celerity + rush ───
+  {
+    cardId: "s1_dim_space_01",
+    sceneDelta:
+      "Mid-shot. A Parallax Walker — a young female-presenting figure, generic-mixed features, mid-arrival on a low rocky plateau. Her body is fully present but the SURROUNDING air immediately around her shows faint translucent ghost-trails of where she WAS — her silhouette doubled and tripled in fading translucent layers extending behind her, but the layers are not motion-trails (she did not walk this distance) — they are SPATIAL DISPLACEMENT. The distance closed itself, not her crossing of it. She wears practical traveling-clothes in cool-cream-and-dark-leather. A faint translucent airdrop-shimmer (cool-cream ripple) wraps her at body-edge — she has just dropped IN. Her face is composed; her boots are dust-free (she did not walk here). Behind her, the rocky plateau shows no footprint trail.",
+    moodKeywords: [
+      "she does not walk to where she needs to be",
+      "the distance agreed to close itself",
+      "ghost-trails are spatial displacement, not motion",
+      "boots dust-free, no footprint trail",
+    ],
+    palette:
+      "Cool-cream-and-dark-leather traveling-clothes + faint translucent ghost-trail layers + cool airdrop-shimmer + warm rocky plateau + cool deep-distance",
+    composition:
+      "Mid-shot front three-quarter, Walker at frame-centre with translucent ghost-trail layers extending behind, plateau ground unmarked",
+    notes:
+      "Uncommon unit. The 'distance agreed to close itself' is rendered as ghost-trail layers (NOT motion-trails) and the dust-free boots / unmarked ground. Generic-mixed-young features must NOT match any named character. Cool-cream-translucent airdrop-shimmer is the canonical airdrop visual idiom.",
+  },
+  {
+    cardId: "s1_dim_space_02",
+    sceneDelta:
+      "Mid-shot. A Folded Distance — a humanoid figure (anonymous, in cool-cream-and-dark-leather practical wear, generic-mixed features) caught at the moment of a SIMULTANEOUS attack from two locations. The figure's body is at frame-centre mid-strike (long sword in mid-arc). At frame-LEFT, a faint translucent SECOND copy of the figure is visible at the same moment of strike, attacking the same target from a different angle. At frame-RIGHT, a faint translucent THIRD copy of the figure is shown in a different posture entirely — APOLOGIZING (one hand raised palm-out, head slightly bowed) — the third place where the apology happens while the attack happens in two. Faint cool airdrop-shimmer rings around all three copies; faint cool celerity after-image trails behind each strike. The implied target is anonymous and at lower-frame-right. NO faces visible on any copy (back-three-quarter or partial-profile only).",
+    moodKeywords: [
+      "the same attack delivered in two places",
+      "while the attacker apologizes in the third",
+      "three copies, no faces",
+      "spatial folding rendered as simultaneous-presence",
+    ],
+    palette:
+      "Cool-cream-and-dark-leather traveling-wear + cool airdrop-shimmer rings + cool celerity after-images + warm anonymous target at lower-right + cool deep-shadow",
+    composition:
+      "Mid-shot, three copies of figure across the frame (centre solid, left translucent, right translucent), implied target at lower-right",
+    notes:
+      "Rare unit. The three simultaneous copies (two attacking, one apologizing) is canon-direct from flavor. Anonymous figures (no faces) preserve no-character-conflation. Airdrop visualized as ring-shimmer around each copy.",
+  },
+  {
+    cardId: "s1_dim_space_03",
+    sceneDelta:
+      "Wider mid-shot. The Cartographer of Elsewhere — a man in his fifties at a desk at a rooftop terrace open to the sky. He sits at the desk, mid-action of WRITING a letter (quill in hand, an open warm-cream parchment in front of him). Above the desk, faint translucent paper-letters drift in MID-AIR as if mid-conversation — letters arriving from all directions. Each arriving letter has on it a small visible MAP-FRAGMENT (a hand-drawn topographical sketch). The sky above the terrace is open dawn-rose at golden-hour. Around him, faint cool airdrop-shimmer + cool celerity after-images on his writing hand + faint cool wind-trails behind his shoulders (flying) + faint warm cream rush-trails at the base of the chair (rush-on-deploy). His face is generic-scholar, attentive, listening to the letters as much as writing them. His desk is plain Antiquarian-amber wood; the warm reading-lamp at lower-right.",
+    moodKeywords: [
+      "he writes letters to places, and the places answer",
+      "the answers are the maps",
+      "letters arriving from all directions with map-fragments",
+      "listening to the letters as much as writing",
+    ],
+    palette:
+      "Antiquarian-amber desk + warm cream parchment + warm dawn-rose sky + cool airdrop-shimmer + cool celerity after-images + warm rush-trails + warm lamp + cool wind-trails",
+    composition:
+      "Wider mid-shot front three-quarter, Cartographer at frame-centre at desk on rooftop terrace, drifting letters above desk",
+    notes:
+      "Legendary unit. The 'letters that answer with maps' is canon-direct from flavor — rendered as the drifting map-fragmented arrival-letters. Four keywords/effects (airdrop + celerity + flying + rush) rendered as four distinct visual elements simultaneously. Generic-scholar face must NOT match any named character.",
+  },
 ] as const;
 
 /**
  * Dimensional faction's prompt registry, keyed by card id.
  *
- * Currently populated: 1 / 4 dimensions (Time).
- * TODO: space, probability, reality.
+ * Currently populated: 2 / 4 dimensions (Time, Space).
+ * TODO: probability, reality.
  */
 export const DIMENSIONAL_CARD_ART_PROMPTS: Readonly<Record<string, CardArtPrompt>> =
   Object.freeze(

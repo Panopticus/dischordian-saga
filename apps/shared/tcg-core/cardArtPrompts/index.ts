@@ -36,10 +36,10 @@ import { DIMENSIONAL_CARD_ART_PROMPTS } from "./dimensional";
  *   - race: 5 / 5 sets — COMPLETE (Human, Demagi, Quarchon,
  *     Synthetic, Ne-Yon)
  *   - elemental: 4 / 4 elements — COMPLETE (Fire, Water, Earth, Air)
- *   - dimensional: 1 / 4 dimensions (Time)
+ *   - dimensional: 2 / 4 dimensions (Time, Space)
  *
  * Pending factions:
- *   - dimensional (remaining 3 dimensions)
+ *   - dimensional (remaining 2 dimensions)
  *   - architect, antiquarian, dreamer, insurgency, new_babylon,
  *     thought_virus, neutral, panopticon, allegiance, class, race,
  *     elemental, dimensional
