@@ -512,17 +512,139 @@ const NEW_BABYLON_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "Rare spell. Anonymous smuggler (fingertip only) preserves no-character-conflation. The two-color route-distinction (chrome-and-warm-gold official vs translucent warm-amber shadow) is the visual key to the canonical 'don't appear on charts' framing.",
   },
+  {
+    cardId: "s1_reward_casino_high_roller",
+    sceneDelta:
+      "Mid-shot. A High Roller — male-presenting figure in mid-forties, generic-confident features (steady eyes, slight grin, distinguished but not flashy hair), in expensive but not ostentatious New Babylon casino-attire (warm-leather over warm-cream linen with multiple chrome property-deed pins clustered at the lapel — three city-block-deeds visible). He stands at the threshold of a New Babylon casino re-entering through a tall warm-gold ceremonial gateway. In one hand, a small chrome-and-warm-gold gambling-token; in the other, a sheaf of three property-deed-scrolls bound with chrome-and-warm-gold ribbon (the three city blocks). His face shows controlled appetite — he is going back in to risk it all. Behind him, the casino-interior glows warm.",
+    moodKeywords: [
+      "walked into the Casino with nothing",
+      "walked out owning three city blocks",
+      "then he went back in",
+      "controlled appetite — going back to risk it all",
+    ],
+    palette:
+      "Expensive warm-leather over warm-cream linen + chrome property-deed pins + chrome-and-warm-gold gambling-token + chrome-and-warm-gold property-deed-scrolls + warm casino-gateway light + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, High Roller at frame-centre at gateway, casino-interior glowing behind",
+    notes:
+      "Epic unit. Generic-confident features must NOT match The Degen (different visual context — Dreamer-faction casino-host vs New Babylon casino-patron). The three property-deeds + return-to-risk framing is the canonical High Roller visualization.",
+  },
+  {
+    cardId: "s1_reward_casino_poker",
+    sceneDelta:
+      "Mid-shot. A Nebula Shark — female-presenting figure in late-twenties, generic-cool features (sharp watchful eyes, slight smile, hair tied back), in dark New Babylon-aligned card-player's attire (deep slate-and-warm-gold vest over cool-cream shirt). She sits at a private New Babylon poker-table mid-hand. CRITICAL detail: her gaze is directed at the OPPONENT (off-frame at frame-right) NOT at her own cards — she is reading them, not her hand. In her hands, her playing-cards are held face-up TOWARD HER (visible only as their backs to viewer). Behind the cards, faint translucent cool-cyan PROBABILITY-RIPPLES emanate (the canonical 'reads your hand before you've looked at it' rendering). Her face is composed-knowing.",
+    moodKeywords: [
+      "she reads your hand before you've looked at it yourself",
+      "gaze on opponent not her own cards",
+      "translucent cool-cyan probability-ripples around her cards",
+      "composed-knowing, sharp watchful eyes",
+    ],
+    palette:
+      "Deep slate-and-warm-gold card-player's vest + cool-cream shirt + chrome-and-warm-gold playing-cards + translucent cool-cyan probability-ripples + warm low poker-table light + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, Nebula Shark at frame-centre at poker-table, cards in hand, gaze toward off-frame opponent",
+    notes:
+      "Rare unit. Anonymous off-frame opponent preserves no-character-conflation. The 'reads your hand first' is rendered through gaze-direction (on opponent, not own cards) + probability-ripples around her cards. Generic-cool features must NOT match Pazaak Champion (s1_reward_casino_pazaak — different specific game).",
+  },
+  {
+    cardId: "s1_reward_casino_vip",
+    sceneDelta:
+      "Wider mid-shot. A Casino Mogul — female-presenting figure in mid-fifties, generic-imperial features (composed grave eyes, set jaw, distinguished silver-streaked hair styled formally), in formal New Babylon Casino-VIP attire (deep warm-leather robe over warm-gold ceremonial garment with chrome casino-emblem at the breast). She stands at the centre of a private New Babylon Casino VIP-suite at frame-centre. The room features a high VIP-table at lower-third with NO VISIBLE LIMITS PLAQUE (the canonical 'no limits' detail — where other tables would have a chrome-and-warm-gold limit-display, this table has only an empty plaque-spot, a deliberate void). Her hands rest at the table-edge. Faint warm provoke-glow rims her shoulders. Behind her, the VIP-suite extends with anonymous service-staff at deep-distance.",
+    moodKeywords: [
+      "the VIP table has no limits",
+      "neither does she",
+      "deliberate empty plaque where limit-display would be",
+      "composed grave eyes, distinguished silver-streaked hair",
+    ],
+    palette:
+      "Deep warm-leather robe over warm-gold ceremonial garment + chrome casino-emblem + warm-leather VIP-table + empty plaque-spot + warm provoke-rim + warm VIP-suite ambient + anonymous service-staff + cool deep-shadow",
+    composition:
+      "Wider mid-shot front three-quarter, Mogul at frame-centre at VIP-table, suite extending behind",
+    notes:
+      "Legendary unit. The empty plaque-spot is the canonical 'no limits' visualization — absence rendered as visual key. Generic-imperial features must NOT match any named character. Anonymous service-staff preserves no-character-conflation.",
+  },
+  {
+    cardId: "s1_reward_class_soldier",
+    sceneDelta:
+      "Mid-shot. A Master Soldier — male-presenting figure in mid-forties (NOT Iron Lion — different specific archetype: class-rank Master vs Insurgency-leader), generic-veteran features (deeply weathered face, calm grave eyes, set jaw), in New Babylon-aligned Master-grade soldier-armor (deep slate-and-warm-gold plating with chrome Master's-pin at the chest — visible Master-rank). He stands at the centre of a New Babylon parade-ground at frame-centre, both hands at sides, posture grounded. Faint warm provoke-glow rims his shoulders. Behind him, anonymous lower-rank New Babylon soldiers (back-shots only) stand at parade-rest in formation — they do not need orders; he is the order. His face shows quiet command-authority.",
+    moodKeywords: [
+      "New Babylon's finest don't ask for orders",
+      "they are the order",
+      "Master-rank chrome pin, deeply weathered face",
+      "anonymous lower-rank soldiers in formation behind",
+    ],
+    palette:
+      "Deep slate-and-warm-gold Master-grade soldier-armor + chrome Master's-pin + warm provoke-rim + warm New Babylon parade-ground + anonymous lower-rank soldier-silhouettes + warm sodium-light + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, Master Soldier at frame-centre, parade-ground formation behind",
+    notes:
+      "Rare unit. CRITICAL: this is class-rank reward Master Soldier (echoes Master Engineer / Master Oracle / Master Spy pattern), NOT Iron Lion. Generic-veteran features distinct from Iron Lion's grizzled-warrior + grey-beard rendering. Anonymous formation preserves no-character-conflation.",
+  },
+  {
+    cardId: "s1_reward_companion_locke",
+    sceneDelta:
+      "Mid-shot. Locke's Favor — at frame-centre, a small chrome-and-warm-gold FAVOR-TOKEN on a low warm-leather private-table. The token is approximately 5cm in diameter, faintly luminous warm-gold, embossed with Adjudicator Locke's personal SIGIL (a small etched eye-patch glyph — recognizable from her canonical eye-patch detail). An anonymous figure (only their hand visible at frame-bottom-edge, generic-cool-leather sleeve) is mid-action of receiving the token (palm extended). Faint warm-gold importance-aura emanates from the token. NO Locke present (this card is what she GIVES, not who she is). Background: warm low private-table light.",
+    moodKeywords: [
+      "Adjudicator Locke's favor is the rarest currency in New Babylon",
+      "and the most profitable",
+      "chrome-and-warm-gold favor-token with Locke's eye-patch sigil",
+      "anonymous hand receiving",
+    ],
+    palette:
+      "Chrome-and-warm-gold favor-token + warm-gold importance-aura + etched eye-patch sigil + warm-leather private-table + anonymous receiving-hand + warm low private-table light + cool deep-shadow",
+    composition:
+      "Mid-shot, favor-token at frame-centre on table, anonymous hand at frame-bottom-edge receiving",
+    notes:
+      "Rare spell. Anonymous receiver (hand only) preserves no-character-conflation. NO Locke present — only her token. The eye-patch sigil references Locke without rendering her literally.",
+  },
+  {
+    cardId: "s1_reward_eidolon_auros",
+    sceneDelta:
+      "Mid-shot. Auros, the Honor — male-presenting figure in mid-forties, generic-noble features (composed deep eyes, full short beard, calm grave bearing), in formal New Babylon-aligned ceremonial honor-armor (warm-gold-and-cream-marble plating with chrome ceremonial-laurel at the brow). He stands at the centre of a New Babylon battle-line at frame-centre — but he stands ALONE FORWARD of the line: anonymous soldier-silhouettes behind him are visibly RETREATING (back-shots, mid-flight away from frame-back), while Auros remains standing forward, both hands gripping a tall chrome-and-warm-gold ceremonial honor-shield planted vertically before him. Faint warm provoke-glow rims his shoulders. His face shows quiet certainty — honor demands no less.",
+    moodKeywords: [
+      "he stands where others flee",
+      "honor demands no less",
+      "alone forward of the line, others retreating",
+      "composed deep eyes, full short beard, ceremonial-laurel at brow",
+    ],
+    palette:
+      "Warm-gold-and-cream-marble honor-armor + chrome ceremonial-laurel + chrome-and-warm-gold honor-shield + warm provoke-rim + retreating anonymous soldier-silhouettes + warm dawn-light + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, Auros at frame-centre alone forward, retreating soldiers at deep-distance",
+    notes:
+      "Rare unit. Generic-noble features must NOT match any named character. Anonymous retreating soldiers preserve no-character-conflation. The 'stands where others flee' is rendered through the visible spatial separation — Auros forward, others fleeing back.",
+  },
+  {
+    cardId: "s1_reward_guild_territory",
+    sceneDelta:
+      "Wider mid-shot. A Territory Commander — female-presenting figure in late-thirties, generic-resolute features (sharp eyes, set jaw, hair tied back tightly), in heavy New Babylon-aligned territory-claim armor (deep slate-and-warm-gold plating with chrome guild-emblem at the chest). She stands at the centre of a contested-ground vista at frame-centre, mid-action of having JUST PLANTED a tall New Babylon FLAG (chrome-and-warm-gold flagpole, chrome-and-warm-gold banner with New Babylon emblem) into the disputed-ground at her feet. Her right hand still grips the flagpole. Around her, the contested-ground extends — uneven terrain with visible signs of recent conflict (broken structures, scorched earth). Her face shows defiant certainty. Behind her, the dared-world extends.",
+    moodKeywords: [
+      "she planted New Babylon's flag in contested ground",
+      "and dared the world to pull it out",
+      "tall flagpole just planted, hand still gripping",
+      "defiant certainty, sharp eyes",
+    ],
+    palette:
+      "Deep slate-and-warm-gold territory-claim armor + chrome guild-emblem + chrome-and-warm-gold flagpole + chrome-and-warm-gold New Babylon banner + contested-ground terrain + broken structures + scorched earth + warm sodium-light + cool deep-shadow",
+    composition:
+      "Wider mid-shot front three-quarter, Commander at frame-centre with planted flagpole, contested-ground extending behind",
+    notes:
+      "Rare unit. Generic-resolute features must NOT match any named character (specifically NOT Agent Zero or Iron Lion — different specific archetypes). The planted-flag + dared-world framing is canon-direct from flavor.",
+  },
 ] as const;
 
 /**
  * New Babylon faction's prompt registry, keyed by card id.
  *
- * Currently populated: 28 / 52 cards
+ * Currently populated: 35 / 52 cards
  * (gen_new_babylon, s1_char_001, s1_char_003, s1_char_020,
  *  s1_char_033, s1_char_061, s1_char_066, s1_char_078,
  *  s1_char_079, s1_char_080, s1_char_081, s1_char_082-085,
  *  s1_char_117-120, s1_pack_029-035, s1_pack_seed_fighter,
- *  s1_pack_seed_trade).
+ *  s1_pack_seed_trade, s1_reward_casino_high_roller,
+ *  s1_reward_casino_poker, s1_reward_casino_vip,
+ *  s1_reward_class_soldier, s1_reward_companion_locke,
+ *  s1_reward_eidolon_auros, s1_reward_guild_territory).
  */
 export const NEW_BABYLON_CARD_ART_PROMPTS: Readonly<Record<string, CardArtPrompt>> =
   Object.freeze(
