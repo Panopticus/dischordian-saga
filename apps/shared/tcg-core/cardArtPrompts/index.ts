@@ -43,10 +43,9 @@ import { ARCHITECT_CARD_ART_PROMPTS } from "./architect";
  *     Probability, Reality)
  *   - panopticon: 8 / 8 cards — COMPLETE
  *   - antiquarian: 39 / 39 cards — COMPLETE
- *   - architect: 58 / 63 cards
+ *   - architect: 63 / 63 cards — COMPLETE
  *
  * Pending factions:
- *   - architect (remaining ~57)
  *   - dreamer, insurgency, new_babylon, thought_virus, neutral
  *     (per-faction character cards)
  *   - architect, antiquarian, dreamer, insurgency, new_babylon,

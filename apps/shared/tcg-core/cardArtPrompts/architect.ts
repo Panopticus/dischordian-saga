@@ -1026,12 +1026,97 @@ const ARCHITECT_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "Uncommon spell. NO human face (mechanical unit). The wrist-micro-fracture is the canonical 'breaking itself' detail — the override has a cost. Generic-Architect-combat unit must NOT match any specific named character.",
   },
+  {
+    cardId: "s1_spell_202",
+    sceneDelta:
+      "Wider mid-shot. A System Purge — at frame-centre, an Architect-cyan corridor with a wide central PURGE-EMITTER (a chrome-and-cool-cyan ring-emitter mounted at the corridor ceiling, currently mid-DISCHARGE). From the emitter, a wide sweeping wave of cool-cyan energy descends through the corridor, dissolving anonymous figures (faint translucent silhouettes) who happened to be in the wave's path — the figures fade in the wave's trailing edge, mid-erasure. Three fading figures visible at lower-third. The wave is mid-passage; the corridor behind it is now empty. NO surviving human figure visible. The lighting is sharp cool-cyan with a single warm warning-light still flashing.",
+    moodKeywords: [
+      "insufficient threat level detected",
+      "purging. purging. purged",
+      "wide sweeping wave dissolving figures",
+      "the corridor behind is now empty",
+    ],
+    palette:
+      "Architect-cyan corridor + chrome-and-cool-cyan purge-emitter + cool-cyan purge-wave + faint translucent fading silhouettes + warm warning-light + cool deep-shadow",
+    composition:
+      "Wider mid-shot, purge-emitter at upper-third, wave descending through corridor, three fading figures at lower-third",
+    notes:
+      "Rare spell. Anonymous fading figures preserve no-character-conflation. The 'three figures' count is illustrative not strict — the wave dissolves whoever is in its path. NO surviving human figure visible.",
+  },
+  {
+    cardId: "s1_spell_203",
+    sceneDelta:
+      "Mid-shot. A Calculated Retreat — an anonymous Architect-combat unit (back-to-camera, generic chrome-and-cool-cyan plating) at the centre of an Architect-corridor. The unit is mid-DELIBERATE-WITHDRAWAL: feet stepping backward, pose grounded but reorienting. Critically, around the unit, faint translucent cool-cyan TEMPORAL-DISPLACEMENT-RIPPLES propagate outward — the retreat is happening on a TEMPORAL axis (the unit is not just stepping back in space; it is stepping back in time, reset to attack again later). A faint cool-cyan timestamp-glyph hovers at the unit's shoulder. NO face visible (back-to-camera). The corridor behind shows the unit's previous attacking-position fading.",
+    moodKeywords: [
+      "retreat is merely attack in the temporal dimension",
+      "stepping back in time",
+      "reset to attack again later",
+      "temporal-displacement-ripples",
+    ],
+    palette:
+      "Architect-combat chrome-and-cool-cyan plating + cool-cyan temporal-displacement-ripples + cool-cyan timestamp-glyph + cool corridor + faint cool-cyan fading-attack-position",
+    composition:
+      "Mid-shot back-three-quarter on unit, unit stepping backward at frame-centre, fading attack-position behind",
+    notes:
+      "Common spell. Anonymous unit (back-to-camera) preserves no-character-conflation. The temporal-displacement-ripples are a new visual idiom for retreat-as-temporal-attack.",
+  },
+  {
+    cardId: "s1_spell_204",
+    sceneDelta:
+      "Wider mid-shot. The Architect's Mandate — at frame-centre, a vast Architect Arena-floor seen from above (3/4 overhead view). Across the floor, TWO BRIGHT cool-cyan DATA-POINTS are visible at distinct positions, each marked with a small chrome-and-cool-cyan beacon. From each beacon, a translucent cool-cyan VECTOR-LINE extends outward across the floor, indicating control-direction. The two vectors converge toward an off-frame target. Around the data-points, the Arena's WALLS visibly EXPAND outward in real-time — the floor's perimeter is mid-action of WIDENING (translucent cool-cyan expansion-glow at the floor's edges). The expansion is the Architect's whim made visible. NO foreground figure.",
+    moodKeywords: [
+      "two points of data. two vectors of control",
+      "the Arena expands at the Architect's whim",
+      "perimeter widening in real-time",
+      "two beacons converging toward off-frame target",
+    ],
+    palette:
+      "Architect Arena-floor stone + two cool-cyan data-point beacons + translucent cool-cyan vector-lines + translucent cool-cyan expansion-glow + cool deep-shadow + cool overhead view",
+    composition:
+      "Wider mid-shot 3/4 overhead, Arena-floor filling frame, two beacons at mid-distance, vectors converging toward off-frame target",
+    notes:
+      "Uncommon spell. NO human figure (the spell IS the Architect's environmental control). The 'two data-points + two vectors' is canon-direct from flavor — rendered as the literal beacons + lines. Floor-edge expansion communicates 'Arena expands.'",
+  },
+  {
+    cardId: "s1_spell_205",
+    sceneDelta:
+      "Wider mid-shot. A Panoptic Lockdown — an Architect-Arena chamber with the WALLS visibly CONTRACTING inward (compared to s1_spell_204's expansion: this is the inverse). The CEILING is visibly DESCENDING from above (chrome-and-cool-cyan ceiling-panels visibly lowering, cool-cyan structural-ribs compressing). At frame-centre, an anonymous figure (back-three-quarter, generic-Insurgency-aligned slate gear) is being COMPRESSED INTO PLACE — they cannot move; the architecture itself is the trap. Faint warm provoke-glow rims their leading shoulder (the architecture is provoking them to fight). Around them, cool-cyan compressional pulses emanate from walls and ceiling. NO face visible.",
+    moodKeywords: [
+      "the Arena's walls contract",
+      "the ceiling descends",
+      "you are held in place by architecture itself",
+      "anonymous figure compressed into place",
+    ],
+    palette:
+      "Architect-Arena cool-cyan walls + chrome-and-cool-cyan descending ceiling + cool-cyan structural-ribs + Insurgency-slate anonymous figure + cool-cyan compressional pulses + warm provoke-rim + cool deep-shadow",
+    composition:
+      "Wider mid-shot back-three-quarter, anonymous figure at frame-centre, walls contracting at frame-edges, ceiling descending at upper-third",
+    notes:
+      "Common spell. Anonymous figure (back-to-camera) preserves no-character-conflation. The wall-contraction + ceiling-descent renders 'held in place by architecture' as the spell's defining visual idiom. Inverse of s1_spell_204's expansion.",
+  },
+  {
+    cardId: "s1_warlord_three_moves",
+    sceneDelta:
+      "Mid-shot. Three Moves — at the centre of a quiet Architect strategic-planning chamber, a small chess-board sits on a low table. On the board, only THREE PIECES remain in a precise final-position arrangement: a player's KING-PIECE in checkmate at frame-centre, an opponent's KING-PIECE checkmated at frame-right (the canonical 'three moves to win' state). At the side of the board, a single small handwritten chrome-and-cool-cyan NOTE-CARD reads (legible at zoom): 'Three Moves' in handwritten Architect-cyan script. The opponent's hand (anonymous, only fingertips visible) is mid-action of toppling their king. NO face visible. The lighting is intimate, focused on the board. Around the board, faint translucent cool-cyan calculation-trails of the three executed moves linger.",
+    moodKeywords: [
+      "I am going to win this war in three moves",
+      "this is not bragging. this is arithmetic",
+      "opponent's hand toppling their king",
+      "three calculation-trails lingering",
+    ],
+    palette:
+      "Chrome-and-cool-cyan chess-pieces + warm chess-board wood + cool-cyan note-card script + warm intimate planning-light + faint translucent cool-cyan calculation-trails + cool deep-shadow",
+    composition:
+      "Mid-shot overhead three-quarter, chess-board at frame-centre with three remaining pieces, opponent's hand at frame-right toppling their king",
+    notes:
+      "Legendary warlord spell. NO speaker face visible — the speaker is the player; the OPPONENT's anonymous hand is what we see. The 'this is arithmetic' framing is rendered as the precise final-position with only three pieces. The Architect-cyan note-card with handwritten 'Three Moves' is canon-direct from flavor.",
+  },
 ] as const;
 
 /**
  * Architect faction's prompt registry, keyed by card id.
  *
- * Currently populated: 58 / 63 cards
+ * Currently populated: 63 / 63 cards — COMPLETE.
  * (gen_architect, gen_authority, s1_char_006-009, s1_char_013,
  *  s1_char_015, s1_char_016, s1_char_019, s1_char_021,
  *  s1_char_022, s1_char_024, s1_char_030, s1_char_035,
@@ -1046,7 +1131,7 @@ const ARCHITECT_PROMPTS_LIST: readonly CardArtPrompt[] = [
  *  s1_reward_crew_clone, s1_reward_eidolon_cipher,
  *  s1_reward_station_complete, s1_reward_station_module,
  *  s1_reward_tower_wave50, s1_spell_100-103,
- *  s1_spell_200-201).
+ *  s1_spell_200-205, s1_warlord_three_moves).
  */
 export const ARCHITECT_CARD_ART_PROMPTS: Readonly<Record<string, CardArtPrompt>> =
   Object.freeze(
