@@ -121,14 +121,117 @@ const NEW_BABYLON_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "Epic unit. CRITICAL: this is The Human at his EARLIER career stage (BEFORE the Imprint set's café-figure rendering — canonically he served for centuries before defecting). Visual continuity with Imprint features (generic-ordinary middle-class) but younger + Architect-agent context. The Mechronis Academy graduate's coat + agent-badge are canon-direct from flavor. NO café-environment (preserves the BEFORE-state); his end-of-Epoch-2 Twelfth Archon status NOT confirmed here.",
   },
+  {
+    cardId: "s1_char_061",
+    sceneDelta:
+      "Wider mid-shot. Riri'Ahlia the Taskmaster — a tall non-human Hierarchy COO at frame-centre, body composed of dense charcoal-and-deep-crimson chitin-substance, six powerful articulated arms extending outward (the canonical six-arms detail), each arm holding a different Blood-Weave tactical-instrument (a chrome-and-deep-crimson commander's-baton, a brass-and-glass dimensional-tracker, a curved deep-crimson tactical-blade, a chrome-and-cool-violet communications-gauntlet, a chrome ledger-tablet, an empty grasping-hand). Her face is a long-jawed deep-charcoal demonic-aristocrat profile with three eye-points arranged vertically (deeper-crimson eye-points). She stands at a multi-dimensional command-table at lower-third (the table itself shows 17 different translucent battlefield-views simultaneously — the 17 dimensions). Faint warm fury-glow rims her shoulders. Behind her, the Hierarchy command-spire receding.",
+    moodKeywords: [
+      "COO of the Hierarchy",
+      "commands the Blood Weave's armies across 17 dimensions simultaneously",
+      "six tireless arms each holding a different tactical-instrument",
+      "long-jawed deep-charcoal demonic-aristocrat profile, three vertical eye-points",
+    ],
+    palette:
+      "Charcoal-and-deep-crimson chitin-substance + six articulated arms + chrome-and-deep-crimson commander's-baton + brass-and-glass dimensional-tracker + curved deep-crimson tactical-blade + chrome-and-cool-violet communications-gauntlet + three deeper-crimson vertical eye-points + warm fury-glow + multi-dimensional command-table + Hierarchy command-spire",
+    composition:
+      "Wider mid-shot front three-quarter, Taskmaster at frame-centre with six arms extended, command-table at lower-third with 17 battlefield-views",
+    notes:
+      "Legendary unit. Hierarchy COO is a unique character (not Demagi-faction footsoldier). Six-arms + 17-dimension command is canon-direct from flavor. Generic-Hierarchy-aristocrat features (long-jawed profile, vertical eye-points) must NOT match Xeth'Raal Demagi Archlord (s1_race_demagi_03 — different specific archetype: Archlord vs COO).",
+  },
+  {
+    cardId: "s1_char_066",
+    sceneDelta:
+      "Mid-shot. Fenra the Moon Tyrant — a tall lupine-Hierarchy figure at frame-centre, female-presenting wolf-aspect with deep-charcoal-and-cool-violet pelt-substance, sharp lupine features (elongated muzzle, pointed ears, alert deep-violet eyes), wearing a fitted Hierarchy operations-coat over the pelt. She stands at a Hierarchy operations-room logistics-table at frame-centre, mid-action of REVIEWING multi-dimensional supply-routes — both lupine-clawed hands extended over a translucent dimensional-map showing 17 separate logistics-arrays. Her face shows lupine focus, slight bared-teeth visible (the canonical 'lupine precision and ferocity'). Faint cool-violet operational-glow at her gauntlets. Behind her, the Hierarchy operations-room with anonymous lupine-Hierarchy operatives (back-shots only) at consoles.",
+    moodKeywords: [
+      "Director of Operations",
+      "coordinates Blood Weave logistics across 17 dimensions",
+      "with lupine precision and ferocity",
+      "deep-charcoal-and-cool-violet pelt with sharp lupine features",
+    ],
+    palette:
+      "Deep-charcoal-and-cool-violet pelt-substance + Hierarchy operations-coat + alert deep-violet lupine eyes + translucent dimensional-map + 17 logistics-arrays + cool-violet operational-glow + Hierarchy operations-room + cool deep-shadow + warm low console-light",
+    composition:
+      "Mid-shot front three-quarter, Fenra at frame-centre at logistics-table, lupine-Hierarchy operatives at lower-third",
+    notes:
+      "Epic unit. Lupine-aspect is a NEW Hierarchy archetype (vs Demagi humanoid + Riri'Ahlia six-armed-aristocrat). The 17-dimension logistics is canon-direct from flavor — visualized via the translucent multi-array map. Generic lupine features must NOT match any other named character.",
+  },
+  {
+    cardId: "s1_char_078",
+    sceneDelta:
+      "Wider mid-shot. Governor Thane — male-presenting figure in mid-fifties, generic-imposing features (composed grave eyes, set jaw, weathered self-made face), in formal New Babylon Governor's robes (deep warm-leather-and-cream-marble ceremonial fabric with chrome-and-warm-gold Governor's-staircase emblem at the chest). He stands at the centre of a vast New Babylon Senate-chamber at frame-centre, both hands gripping the edges of a tall ceremonial Governor's-podium. Behind him, the chamber extends with empty Senator-benches (the staircase he built — he occupies the top alone). Burned-paper fragments visibly drift in the air at lower-third (the canonical 'burned every other way up' — alternative-ascension records destroyed). A translucent green-tinted forcefield-shimmer wraps him; faint warm provoke-glow rims his shoulders.",
+    moodKeywords: [
+      "he did not rise to power",
+      "he built the staircase and burned every other way up",
+      "burned-paper fragments drifting at lower-third",
+      "composed grave eyes, set jaw, weathered self-made face",
+    ],
+    palette:
+      "Deep warm-leather-and-cream-marble Governor's robes + chrome-and-warm-gold staircase-emblem + tall ceremonial Governor's-podium + empty Senator-benches + burned-paper fragments + translucent green-tinted forcefield + warm provoke-rim + warm Senate-chamber sodium-light + cool deep-shadow",
+    composition:
+      "Wider mid-shot front three-quarter, Thane at frame-centre at podium, empty Senator-benches behind, burned-paper drifting at lower-third",
+    notes:
+      "Legendary unit. Generic-imposing features must NOT match any named character. The 'burned every other way up' is the canonical 'self-made tyrant' visualization — empty benches + burning paper. Forcefield + provoke dual-keyword rendering matches Architect-faction visual idioms.",
+  },
+  {
+    cardId: "s1_char_079",
+    sceneDelta:
+      "Mid-shot. A Citadel Guardian — male-presenting figure in mid-thirties, generic-stalwart features (firm jaw, alert eyes, calm composure), in heavy New Babylon citadel-armor (deep slate-and-warm-gold ceremonial plating with cream-marble chest-emblem). He stands at the threshold of a New Babylon citadel gate-tower, both hands gripping a tall ceremonial pike (chrome-and-warm-gold tipped). His pose is grounded, immovable. Faint warm provoke-glow rims his leading shoulder. Behind him, the citadel's tall warm-cream-and-cool-slate walls extend in mid-distance — visibly INTACT, unbroken. The walls have never been breached.",
+    moodKeywords: [
+      "the walls of New Babylon have never been breached",
+      "the guardians intend to keep it that way",
+      "firm jaw, alert eyes, calm composure",
+      "tall warm-cream-and-cool-slate citadel walls visibly intact",
+    ],
+    palette:
+      "Deep slate-and-warm-gold citadel-armor + cream-marble chest-emblem + chrome-and-warm-gold ceremonial pike + warm provoke-rim + warm-cream-and-cool-slate citadel walls + warm sodium gate-light + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, Guardian at frame-centre at gate-tower threshold, citadel walls extending behind",
+    notes:
+      "Common unit. Generic-stalwart features must NOT match any named character. The intact walls are the visual key — 'never breached' rendered as visibly unbroken architecture.",
+  },
+  {
+    cardId: "s1_char_080",
+    sceneDelta:
+      "Action mid-shot. A District Enforcer — female-presenting figure in late-twenties, generic-quick features (focused dark eyes, athletic build), in light New Babylon-aligned tactical-leathers (warm-leather over slate with chrome-and-warm-gold district-badge at the chest). She is mid-stride forward across a New Babylon district-street, leading-foot landed past a fallen anonymous citizen (back-shot only) at lower-third (the swift justice already-delivered). Her right hand carries a chrome-and-warm-gold short-blade. Faint warm rush-trails at her heels (rush keyword). Her face is composed, professional, slightly-tired (justice is the job). Behind her, a busy New Babylon district-corridor with anonymous bystanders averting eyes.",
+    moodKeywords: [
+      "justice in New Babylon is swift",
+      "appeals are slower — by design",
+      "mid-stride past fallen anonymous citizen",
+      "composed professional slightly-tired",
+    ],
+    palette:
+      "Light New Babylon-aligned tactical-leathers + warm-leather over slate + chrome-and-warm-gold district-badge + chrome-and-warm-gold short-blade + warm rush-trails + warm New Babylon district-street + anonymous citizens + warm sodium-light + cool deep-shadow",
+    composition:
+      "Action mid-shot side three-quarter, Enforcer at frame-centre mid-stride, fallen citizen at lower-third, district-corridor behind",
+    notes:
+      "Common unit. Anonymous fallen citizen + bystanders preserve no-character-conflation. The 'swift justice / slow appeals' framing is rendered as the immediate strike + the procedural-aftermath waiting (the bystanders averting eyes communicate the systemic nature).",
+  },
+  {
+    cardId: "s1_char_081",
+    sceneDelta:
+      "Mid-shot. A Tribunal Magistrate — female-presenting figure in mid-forties, generic-judicial features (deeply composed face, calm grave eyes, hair pulled back severely), in formal New Babylon tribunal-robes (deep warm-cream-and-deep-crimson ceremonial fabric with chrome-and-warm-gold scales-of-judgment pendant at the throat). She stands at the centre of a New Babylon tribunal-courtroom at frame-centre, mid-action of DELIVERING A VERDICT — her right hand is mid-motion of striking a chrome-and-warm-gold judgment-gavel against a tall warm-leather sentencing-block. Around her, a translucent green-tinted forcefield-shimmer (forcefield keyword). The chamber's anonymous accused (back-three-quarter, generic-civilian) stands at lower-third in the dock. Her face is unmoved — verdict absolute, sentence irrevocable.",
+    moodKeywords: [
+      "her verdicts are absolute",
+      "her sentences, irrevocable",
+      "mid-strike of chrome-and-warm-gold judgment-gavel",
+      "deeply composed face, hair pulled back severely",
+    ],
+    palette:
+      "Deep warm-cream-and-deep-crimson tribunal-robes + chrome-and-warm-gold scales-of-judgment pendant + chrome-and-warm-gold judgment-gavel + tall warm-leather sentencing-block + translucent green-tinted forcefield + warm tribunal-chamber light + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, Magistrate at frame-centre delivering verdict, anonymous accused at lower-third in dock",
+    notes:
+      "Uncommon unit. Anonymous accused (back-three-quarter) preserves no-character-conflation. Generic-judicial features must NOT match any named character (specifically NOT Adjudicator Locke — different specific archetype: Adjudicator vs Tribunal Magistrate).",
+  },
 ] as const;
 
 /**
  * New Babylon faction's prompt registry, keyed by card id.
  *
- * Currently populated: 5 / 52 cards
+ * Currently populated: 11 / 52 cards
  * (gen_new_babylon, s1_char_001, s1_char_003, s1_char_020,
- *  s1_char_033).
+ *  s1_char_033, s1_char_061, s1_char_066, s1_char_078,
+ *  s1_char_079, s1_char_080, s1_char_081).
  */
 export const NEW_BABYLON_CARD_ART_PROMPTS: Readonly<Record<string, CardArtPrompt>> =
   Object.freeze(
