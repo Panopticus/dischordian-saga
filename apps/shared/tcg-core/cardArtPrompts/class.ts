@@ -373,13 +373,100 @@ const CLASS_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "Legendary unit. CRITICAL spoiler-discipline: the figure is a PROJECTED ECHO OF THE LEAK, NOT The Oracle herself. The faceless cream-oval is the canonical visualization of 'shapes the leak takes' — the signal is rendering a body but not a face. The deep-background suspension-chamber is canon-revealed by end of Epoch 2 (the Insurgency knows where she is). Echoes The Oracle Imprint set's signal-pattern visual language while being explicitly NOT her.",
   },
+
+  // ─── SOLDIER CLASS — formation + provoke + rush (Insurgency-faction) ───
+  {
+    cardId: "s1_class_soldier_01",
+    sceneDelta:
+      "Mid-shot. A Line Recruit standing at parade-rest at the edge of an Insurgency drill-yard at midmorning — late twenties, scarred jaw, generic-soldier features, in standard Insurgency-issue slate-and-gunmetal field-armor with the chest-rig buckled and a long-rifle slung across the back. They hold the standard Insurgency rifle in front of them with both hands at low-ready, weapon clean and freshly-oiled. Their face is composed, unremarkable, ready. Behind them, three more identical Recruits stand at parade-rest in mid-distance — the formation is the point, not any individual. No special gear, no insignia of rank, no glow, no aura — just the geometry of a 3/3 unit doing 3/3 work.",
+    moodKeywords: [
+      "no ability — that is the ability",
+      "three power, three health, two cost",
+      "the geometry of doing the job",
+      "unremarkable, ready",
+    ],
+    palette:
+      "Insurgency slate + gunmetal + signal-green chest-rig accent + dirty-yellow drill-yard ground + warm late-morning sun",
+    composition:
+      "Mid-shot front three-quarter, Recruit at frame-centre, three identical Recruits at lower-third behind",
+    notes:
+      "Unit card. Generic-soldier face must NOT match any named character (no Iron Lion, no Agent Zero, no specific Insurgency commander). The deliberate visual-flatness IS the design — this is a 'no ability is the ability' card and the art reinforces it.",
+  },
+  {
+    cardId: "s1_class_soldier_02",
+    sceneDelta:
+      "Wider mid-shot. A Shieldwall soldier in heavy Insurgency front-line armor — a thicker chest-plate, full helmet with face-grille, an oversized riot-shield held forward in left hand. The soldier stands at the front of an Insurgency formation in mid-stride forward, the shield filling the lower-right quadrant of the frame as a near-solid wall. Behind the Shieldwall (visible past the shield's edge at upper-left) are three or four other Insurgency soldiers in lighter gear — the protected formation. A faint warm provoke-glow rims the shield's leading edge (provoke visualized — enemies must engage this unit before reaching the formation behind). The Shieldwall's face is invisible behind the helmet's face-grille.",
+    moodKeywords: [
+      "stands in front on purpose, every time",
+      "the rest of the formation knows the deal",
+      "shield as a wall",
+      "face hidden behind face-grille",
+    ],
+    palette:
+      "Insurgency heavy slate armor + signal-green helmet stripe + gunmetal shield + warm amber provoke-glow rim + dirty-yellow ground + cool slate background",
+    composition:
+      "Wider mid-shot, Shieldwall at frame-centre with shield filling lower-right quadrant, formation visible past shield-edge at upper-left",
+    notes:
+      "Unit card. Helmet/face-grille keeps the soldier anonymous (any Insurgency front-liner could be this person). Provoke is rendered as the rim-light on the shield — an Insurgency-specific visual idiom established for the Insurgency Allegiance set.",
+  },
+  {
+    cardId: "s1_class_soldier_03",
+    sceneDelta:
+      "Wide-frame action mid-shot. An Insurgency commander mid-rally on a low hill at dawn — they stand back-to-camera at frame-centre, one arm raised in a clenched-fist exhortation, the other holding an open command-baton. Stretching out below them, an Insurgency formation of 8-10 figures (in lower-third) is mid-roar, fists raised in response. The commander wears Insurgency officer-leathers — slate coat with a single signal-green sash. NO face visible (back-to-camera only). The dawn sky behind them is warm dirty-rose with low cool-slate clouds. Two faint warm permanent-buff glows (one for power, one for health) emanate downward from the commander's raised baton toward the formation below — the rally as visible energy.",
+    moodKeywords: [
+      "a rally is the sentence a commander gives to the room they cannot leave",
+      "back-to-camera commander with raised fist",
+      "formation roaring below",
+      "two buff-glows from the baton",
+    ],
+    palette:
+      "Insurgency slate officer-coat + signal-green sash + warm dirty-rose dawn + cool slate clouds + dirty-yellow hill + warm twin buff-glows",
+    composition:
+      "Wide-frame mid-shot, commander back-to-camera at upper-third hilltop, formation at lower-third below",
+    notes:
+      "Spell card. Commander is back-to-camera throughout — preserves anonymity (no specific named commander). The two buff-glows visually communicate the +2/+2 effect on the friendly general. Echoes the rally-imagery already established in Insurgency Allegiance t6 without using the same composition.",
+  },
+  {
+    cardId: "s1_class_soldier_04",
+    sceneDelta:
+      "Mid-shot. An Iron Vanguard soldier mid-stride forward across a fortified Insurgency line at mid-day — heavy slate armored chest-plate, full visored helmet, a long-handled war-pike in both hands held diagonally across the body. They are visibly mid-FORWARD-CHARGE — leading foot already past the trench-line, trailing foot still on the home-side parapet. Behind them, three more Iron Vanguard soldiers are visible in the same forward stride. Faint warm-amber provoke-glow rims their armor's leading edge; faint cool-cream rush-trails leak from the heels of the leading boot (rush-on-deploy visualized as the soldier ALREADY arriving). Their face is invisible behind the visor.",
+    moodKeywords: [
+      "the word is 'forward'",
+      "the same word repeated four times in the same sentence",
+      "mid-stride past the trench-line",
+      "three more Vanguard behind",
+    ],
+    palette:
+      "Insurgency heavy slate + signal-green visor accent + gunmetal pike-shaft + warm amber provoke-glow rim + cool cream rush-trails + dirty-yellow trench ground",
+    composition:
+      "Mid-shot front three-quarter, Vanguard mid-stride forward at frame-centre, trench-line at lower-third, three additional Vanguard at mid-distance",
+    notes:
+      "Unit card. Visor keeps Vanguard anonymous. Provoke + rush dual-keyword rendering: provoke = leading-edge rim-glow (consistent with t2 Shieldwall); rush = heel-trails. This visual continuity reinforces the Insurgency Allegiance / Soldier-class shared keyword vocabulary.",
+  },
+  {
+    cardId: "s1_class_soldier_05",
+    sceneDelta:
+      "Wider mid-shot. The Last Regiment Standing — a single Insurgency soldier in heavily-weathered slate front-line armor stands at the centre of an Insurgency battlefield where the war is supposed to be over. Their armor is scuffed, scorched, patched in a half-dozen places; a tattered Insurgency banner hangs from a broken pike-shaft slung across their back. Around them, the battlefield is empty — no enemies, no allies, just the still-smoking remains of the line they held. The soldier's stance is forward, weapon at low-ready (provoke visualized). Faint warm-amber frenzy-rim flickers along their armor's leading edge (frenzy visualized — the more damage they take the harder they swing). A single faint cream-coloured rebirth-glow at their feet (rebirth visualized — they will get up again). Their face is set, weather-beaten, unsurprised. Above them, a low overcast sky with no sun visible — the time of day is ambiguous, has been for a while.",
+    moodKeywords: [
+      "the regiment that did not know the war was officially over",
+      "by the time anyone told them, the war unofficially was not",
+      "tattered banner on a broken pike",
+      "weather-beaten, unsurprised",
+    ],
+    palette:
+      "Insurgency battered slate armor + scorched signal-green banner + gunmetal weapons + warm amber frenzy-rim + cream rebirth-glow + dirty-yellow scorched ground + cool overcast sky",
+    composition:
+      "Wider mid-shot, Last Regiment soldier at frame-centre on cleared battlefield, broken pike with banner across back, smoking remains in mid-distance",
+    notes:
+      "Legendary unit. The 'war is officially over' framing is canon — this represents an Insurgency holdout regiment from one of the early Epoch-2 archon-war fronts who never received the cease-fire-or-defeat signal. Generic weather-beaten face must NOT match any named character (specifically NOT Iron Lion's countenance). Three keywords visualized as three distinct visual elements (forward stance, frenzy-rim, rebirth-glow underfoot).",
+  },
 ] as const;
 
 /**
  * Class faction's prompt registry, keyed by card id.
  *
- * Currently populated: 4 / 6 sets (Assassin, Engineer, Ne-Yon, Oracle).
- * TODO: soldier, spy.
+ * Currently populated: 5 / 6 sets (Assassin, Engineer, Ne-Yon, Oracle, Soldier).
+ * TODO: spy.
  */
 export const CLASS_CARD_ART_PROMPTS: Readonly<Record<string, CardArtPrompt>> =
   Object.freeze(
