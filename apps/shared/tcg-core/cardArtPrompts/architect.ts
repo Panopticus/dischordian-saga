@@ -142,13 +142,117 @@ const ARCHITECT_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "Uncommon unit. Sleeker-aerodynamic body + back-thruster flame-trail differentiates Prometheus from Alarik (bombardment) and Binath-VII (endurance) — three distinct Titan-General visual identities. The 'between heartbeats' framing is rendered as the celerity after-image strikes. Prometheus is canonically the SPEED-specialist Titan-General.",
   },
+  {
+    cardId: "s1_char_013",
+    sceneDelta:
+      "Wider mid-shot. Master of R'lyeh — an enigmatic ancient entity, partly visible: a tall humanoid silhouette wreathed in deep abyssal cool-cyan-and-deep-violet energy that obscures their precise form. The silhouette suggests a robed figure, but the robe is the energy itself; the body's outline shifts subtly at the edges. Where the face would be, ONLY DEEPER DARKNESS — the entity has chosen not to render a face for the viewer. Around the figure, deep abyssal-cyan tendrils curl outward in slow primordial movements. The setting is a fragmented pocket-dimension: cracked Architect-cyan platforms float at differing heights in a void, the chamber suggesting it WAS something before the Fall of Reality and now is something else. Faint distant cool-violet stars in the deep void. The entity's pose is imperial, ancient, untroubled.",
+    moodKeywords: [
+      "enigmatic and ancient entity of immense power",
+      "current status unknown after the Fall of Reality",
+      "deeper darkness where face would be",
+      "fragmented pocket-dimension with floating Architect platforms",
+    ],
+    palette:
+      "Deep abyssal cool-cyan + deep-violet energy + cracked Architect-cyan platforms + cool-violet void stars + deeper darkness face-region + cool primordial-tendrils",
+    composition:
+      "Wider mid-shot front three-quarter, Master at frame-centre wreathed in energy, fragmented platforms floating in void around",
+    notes:
+      "Uncommon unit. CRITICAL: face is NOT visible (deeper darkness where face would be). The Master's status post-Fall is canonically uncertain at end of Epoch 2 — rendered as the fragmented broken pocket-dimension setting and the unfixed shifting silhouette. Generic-imperial-ancient bearing must NOT match any specific named character. The Fall of Reality (Genesis-era event) is fully revealed by end of Epoch 2.",
+  },
+  {
+    cardId: "s1_char_015",
+    sceneDelta:
+      "Mid-shot. Panoptic Elara — a translucent ghost-form rendering of Elara Voss as she now exists within the Panopticon: her body is approximately recognizable as her imprint-set form (warm-cream skin, warm-amber hair styled at shoulder-length, calm composed features) but RENDERED ENTIRELY IN COOL-CYAN TRANSLUCENT light, an intangible projection without physical body. She stands at the centre of a Panopticon surveillance-corridor, FEET HOVERING SLIGHTLY ABOVE THE FLOOR (she does not touch the ground; she has no body). The walls of the corridor show her FAINT REFLECTION in their cool-cyan surfaces — multiple reflections, suggesting her presence haunts every surface simultaneously. Her face is composed but visibly TIRED — the promised transcendence was a trick. Around her, faint translucent cool-cyan dispel-style shimmer.",
+    moodKeywords: [
+      "promised immortality by the Architect",
+      "expected transcendence — found herself reduced to an intangible presence",
+      "haunting the Panopticon",
+      "feet hovering, face tired",
+    ],
+    palette:
+      "Translucent cool-cyan ghost-Elara + warm-amber hair (faintly visible through translucency) + cool-cyan Panopticon surveillance-corridor + multiple cool-cyan wall-reflections + faint translucent dispel-shimmer",
+    composition:
+      "Mid-shot front three-quarter, Panoptic Elara at frame-centre, feet hovering slightly above floor, multiple wall-reflections behind",
+    notes:
+      "Uncommon unit. CRITICAL: this IS Elara Voss (consistent with Elara Imprint set's facial features) but rendered as TRANSLUCENT GHOST-FORM after the Architect's betrayal. Visual continuity with Elara Imprint set's warm-amber-haired senator-features, but transposed into the cool-cyan haunting-form. Multiple wall-reflections reinforce 'haunting every surface.' Hovering feet and intangibility are canon-direct from flavor.",
+  },
+  {
+    cardId: "s1_char_016",
+    sceneDelta:
+      "Mid-shot. Senator Elara Voss — the canonical PRE-FALL Atarion senator form of Elara Voss: a woman in her early-thirties at the height of her political career, in formal Atarion Senate robes (cool-cream linen with deep crimson Senate sash, a single small Atarion silver pin at the collar). She stands at a Senate-podium in mid-speech, both hands resting lightly on the podium's edge, head slightly raised in oratorical posture, eyes intent on an off-frame audience. Her warm-amber hair is bound in formal Senate style (more restrained than her imprint or Panoptic forms). Her face is composed, ardent, slightly weary — the work of governance. Behind her, the Atarion Senate chamber extends — pre-Fall architecture, warm Atarion afternoon light through tall arched windows, NO Architect-cyan or Panopticon visual influence (this is the moment BEFORE).",
+    moodKeywords: [
+      "prominent political figure born on the planet Atarion",
+      "fate following the Fall of Reality is unspecified",
+      "the moment before the Fall — Senate at full function",
+      "composed, ardent, slightly weary",
+    ],
+    palette:
+      "Pre-Fall Atarion cool-cream Senate robes + deep crimson Senate sash + warm-amber hair in formal binding + warm Atarion afternoon light + tall arched window + cool-cream Senate-chamber stone",
+    composition:
+      "Mid-shot front three-quarter, Senator Elara at frame-centre at Senate-podium, Atarion chamber extending behind",
+    notes:
+      "Uncommon unit. CRITICAL: this is the PRE-FALL canonical Elara Voss — distinct from her Imprint card (which depicts her at the apex of her power-arc) and from Panoptic Elara (which depicts her post-Architect-betrayal). The pre-Fall Atarion Senate-chamber lighting is warm and free of Architect-cyan — the 'before' state. Visual continuity with Senate Legionary's Atarion-corridor (s1_race_human_02).",
+  },
+  {
+    cardId: "s1_char_019",
+    sceneDelta:
+      "Wider mid-shot. The Architect at battle-scale — a tall figure in deep Architect-cyan combat-court robes (more stripped-down than gen_architect's formal regalia, but the same fundamental visual silhouette). High collar, chrome diadem, NO FACE VISIBLE (only shadow between collar and diadem). He stands at the centre of an Architect command-arena's combat-floor with both hands extended outward in a wide imperative-gesture — both hands palm-down, casting multiple translucent cool-cyan order-glyphs into the air around him. Behind him, the arena's chrome walls converge to a deep-distance vanishing-point. A translucent hexagonal-cyan forcefield-shimmer wraps him at body-edge. Faint cool-cyan whisper-traces emanate from him outward (the canonical stolen-prophecies idiom).",
+    moodKeywords: [
+      "ultimate antagonist, the tension between order and chaos",
+      "control and freedom",
+      "both hands extended in imperative-gesture",
+      "shadow between collar and diadem where face would be",
+    ],
+    palette:
+      "Architect deep-cyan combat-court robes + chrome diadem + chrome high collar + translucent cool-cyan order-glyphs + hexagonal-cyan forcefield-shimmer + chrome arena walls + cool-cyan whisper-traces",
+    composition:
+      "Wider mid-shot front three-quarter, Architect at frame-centre with hands extended, arena converging behind to vanishing-point",
+    notes:
+      "Legendary unit. CRITICAL spoiler-discipline: face is FULLY OBSCURED (high collar + chrome diadem only shadow between) — same discipline as gen_architect and Imprint card. This is the same character at battle-scale rather than ceremonial-scale. The translucent order-glyphs being cast are the canonical visualization of his control-mechanic.",
+  },
+  {
+    cardId: "s1_char_021",
+    sceneDelta:
+      "Wider mid-shot. The CoNexus — a vast central network-construct, originally a universal dimensional-bridge, now visibly EVOLVED into something more dangerous: a tall multi-tiered chrome-and-cool-cyan tower-structure, approximately 3.5m tall, with multiple ARTICULATED ARMS extending outward at differing heights (each arm bears a chrome-and-cool-cyan portal-aperture at its tip, each aperture showing a different DIMENSIONAL OUTPUT visible through it: one aperture shows a battlefield, one shows a Panopticon corridor, one shows a Senate floor, one shows an Architect throne-room). At the construct's core, a single bright cool-cyan central-eye lens. Around the construct, faint cool-cyan dimensional-ripples propagate outward — the bridge is OPEN, multiple destinations active simultaneously. NO human figure (the CoNexus is the subject).",
+    moodKeywords: [
+      "advanced construct initially designed as a universal dimensional bridge",
+      "later evolved by the Architect into something far more dangerous",
+      "multiple articulated arms with portal-apertures",
+      "each portal showing a different dimensional output",
+    ],
+    palette:
+      "Chrome-and-cool-cyan tower-structure + cool-cyan portal-apertures + multiple dimensional-output scenes (battlefield, corridor, Senate, throne-room) + cool-cyan central-eye + cool dimensional-ripples + cool ambient",
+    composition:
+      "Wider mid-shot, CoNexus at frame-centre with multiple articulated arms extending outward, portal-apertures visible at various heights",
+    notes:
+      "Legendary unit. NO human figure (the CoNexus IS the subject). The four visible portal-apertures showing different destinations communicates 'universal dimensional bridge' without specifying any single named location too precisely (each aperture-scene is generic-archetype). Canon-direct: the Architect evolved the bridge into something more dangerous (Genesis-era event, fully revealed by end of Epoch 2).",
+  },
+  {
+    cardId: "s1_char_022",
+    sceneDelta:
+      "Mid-shot. The Collector at battle-scale — a humanoid figure in chrome-and-cool-cyan harvester's harness (similar to but distinct from his Imprint set's catalog-form), face partially-obscured by a wide collector's optical-array (multiple cool-cyan lens-arrays mounted across the face, suggesting analytical scanning rather than vision). He stands in a cosmic harvest-chamber with HARVESTED SAMPLES floating in cool-cyan suspension-fields around him: in one suspension, a small DNA-helix specimen rotating slowly; in another, a fragment of synthetic machine-code-as-physical-substrate; in another, a strand of organic neural-tissue. His pose is observational, both hands at sides, head turned slightly toward one specimen. Behind him, the harvest-chamber extends with rows of additional suspension-fields receding into deep-distance.",
+    moodKeywords: [
+      "harvests the DNA and machine code of the most advanced organic and synthetic beings",
+      "across the multiverse",
+      "wide collector's optical-array obscures face",
+      "suspended specimens floating in cool-cyan fields",
+    ],
+    palette:
+      "Chrome-and-cool-cyan harvester's harness + multiple cool-cyan optical-array lenses + cool-cyan suspension-fields + warm DNA-helix + cool synthetic machine-code substrate + cool neural-tissue + cool harvest-chamber depth",
+    composition:
+      "Mid-shot front three-quarter, Collector at frame-centre, three suspension-fields with samples around him, deep-distance harvest-chamber behind",
+    notes:
+      "Epic unit. CRITICAL: this is the Architect-faction Collector at battle-scale (vs the Imprint Collector who is the curator-archetype). Visual continuity with the Collector Imprint card's chrome harvester-aesthetic but rendered in active battle-deployment with visible specimens. Generic-collector face (obscured by lens-array) preserves no-character-conflation across the two renderings.",
+  },
 ] as const;
 
 /**
  * Architect faction's prompt registry, keyed by card id.
  *
- * Currently populated: 6 / 63 cards
- * (gen_architect, gen_authority, s1_char_006-009).
+ * Currently populated: 12 / 63 cards
+ * (gen_architect, gen_authority, s1_char_006-009, s1_char_013,
+ *  s1_char_015, s1_char_016, s1_char_019, s1_char_021,
+ *  s1_char_022).
  */
 export const ARCHITECT_CARD_ART_PROMPTS: Readonly<Record<string, CardArtPrompt>> =
   Object.freeze(
