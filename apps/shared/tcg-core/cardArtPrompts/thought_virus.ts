@@ -772,12 +772,182 @@ const THOUGHT_VIRUS_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "Rare unit. Anonymous fallen infected (back-three-quarter) preserve no-character-conflation. Generic-resolute features must NOT match any named character. The damaged-but-standing armor + ring of fallen is the canonical 'broke them back' visualization.",
   },
+  {
+    cardId: "s1_spell_112",
+    sceneDelta:
+      "Mid-shot. A Viral Cascade — anonymous figure (back-three-quarter, generic civilian) at frame-centre, mid-action of CELLULAR-DISSOLUTION. Their body shows visible CASCADE: from the chest outward, faint translucent toxic-green cellular-dissolution-ripples are propagating through their body in a wave. Each cell mid-stop, the figure is visibly losing structural-integrity from inside-out. Their stance is upright but FAILING (knees beginning to buckle, posture sinking). NO face visible (back-three-quarter). Around the figure, faint cool deep-shadow.",
+    moodKeywords: [
+      "the Source does not kill",
+      "it simply reminds every cell in your body that it was always meant to stop",
+      "cellular-dissolution-ripples propagating from chest outward",
+      "stance failing — knees beginning to buckle",
+    ],
+    palette:
+      "Generic civilian back-three-quarter + faint translucent toxic-green cellular-dissolution-ripples + sinking posture + cool deep-shadow",
+    composition:
+      "Mid-shot back-three-quarter, anonymous figure at frame-centre with cellular-dissolution-ripples propagating",
+    notes:
+      "Uncommon spell. Anonymous figure (back-three-quarter) preserves no-character-conflation. The 'every cell remembers it was meant to stop' is rendered through the cellular-dissolution-cascade visualization.",
+  },
+  {
+    cardId: "s1_spell_113",
+    sceneDelta:
+      "Mid-shot. A Memory Consumption — anonymous figure (back-three-quarter, generic civilian) at frame-centre, body showing VISIBLE MEMORY-LAYERS being consumed in sequence. Around the figure's head, four layered translucent memory-strata are visible — but each is mid-erasure: TOP layer (most recent: name) is already FULLY GONE, only faint outline; SECOND layer (childhood) is half-eaten by visible toxic-green erasure; THIRD layer (fears) is partially-consumed; BOTTOM layer (basic-self) is the only intact-remaining. The toxic-green consumption-tendril visibly works downward through the layers. NO face visible.",
+    moodKeywords: [
+      "it ate his name first, then his childhood",
+      "by the time it reached his fears, there was nothing left to be afraid",
+      "four memory-layers consumed in downward sequence",
+      "toxic-green consumption-tendril working through",
+    ],
+    palette:
+      "Generic civilian back-three-quarter + four layered translucent memory-strata + toxic-green erasure + remaining basic-self layer + cool deep-shadow",
+    composition:
+      "Mid-shot back-three-quarter, anonymous figure at frame-centre, four memory-layers above head with sequential consumption",
+    notes:
+      "Common spell. Anonymous figure (back-three-quarter) preserves no-character-conflation. The 'sequence of consumption' is rendered through the visible layered-memory + downward-progress.",
+  },
+  {
+    cardId: "s1_spell_114",
+    sceneDelta:
+      "Mid-shot. A Neural Overwrite — anonymous Insurgency-aligned soldier at frame-centre (back-three-quarter, generic Insurgency-slate field-armor with signal-green chest-rig). The soldier is mid-action of being-overwritten: their EYES are visibly mid-transition (one eye still alert-Insurgency-aligned, the other already BLACK-VOID with phosphor-green pinprick — the Source's eye). Their MOUTH is open mid-sentence — but the air in front of their mouth shows TWO OVERLAPPING WORD-EMISSIONS: cool-cyan Insurgency-script (their own words, mid-fading) AND phosphor-green Source-script (overlapping, replacing). Faint translucent thank-you-fragment ('FOR THE VESSEL') visible faintly in the Source-script.",
+    moodKeywords: [
+      "the soldier's eyes went blank mid-sentence",
+      "when he spoke again, it was in the Source's voice, thanking them for the vessel",
+      "one eye still alert + other eye black-void with phosphor-green pinprick",
+      "two overlapping word-emissions: Insurgency cyan + Source phosphor-green",
+    ],
+    palette:
+      "Generic Insurgency-slate field-armor + signal-green chest-rig + asymmetric eyes (one alert + one black-void) + phosphor-green pupil-pinprick + cool-cyan Insurgency-script (fading) + phosphor-green Source-script (replacing) + cool deep-shadow",
+    composition:
+      "Mid-shot back-three-quarter on soldier, asymmetric eyes visible, two overlapping word-emissions from mouth",
+    notes:
+      "Rare spell. Anonymous soldier (back-three-quarter) preserves no-character-conflation. The 'mid-overwrite asymmetry' (one eye alert, one consumed) is the canonical visualization of mid-transition.",
+  },
+  {
+    cardId: "s1_spell_115",
+    sceneDelta:
+      "Mid-shot. A Nihilistic Mercy — anonymous figure (back-three-quarter, generic civilian, partially-infected — phosphor-green pinpricks in eye-sockets visible from profile) at frame-centre, mid-action of LAYING DOWN. Their body is mid-collapse, falling backward gently onto a low cool-violet rest-bed (the canonical 'why continue? the body agrees'). From above the figure, a faint translucent SOURCE-WHISPER (chrome-and-toxic-green script-fragment reading 'WHY CONTINUE?') descends. The figure's face shows resigned-relief (no struggle, no resistance — agreement). Faint cool deep-shadow surrounds the rest-bed.",
+    moodKeywords: [
+      "the Source does not prolong agony",
+      "it simply asks: why continue?",
+      "the body, at last, agrees",
+      "figure mid-collapse onto rest-bed with translucent WHY CONTINUE script descending",
+    ],
+    palette:
+      "Generic civilian + phosphor-green eye-pinpricks + cool-violet rest-bed + translucent chrome-and-toxic-green Source-whisper script + resigned-relief face + cool deep-shadow",
+    composition:
+      "Mid-shot side three-quarter, figure mid-collapse onto rest-bed, Source-whisper script descending from above",
+    notes:
+      "Common spell. Anonymous figure preserves no-character-conflation. The 'body agrees' is rendered through the visible resigned-relief + non-resistance.",
+  },
+  {
+    cardId: "s1_spell_218",
+    sceneDelta:
+      "Tight composition. An Infection Vector — at frame-centre, an anonymous figure's NECK-AREA close-up (back-three-quarter, only neck-and-shoulder-back visible). At the back of the neck, a small phosphor-green WHISPER-NEURON is visible — a tiny luminous neural-junction with phosphor-green tendril extending into the spine. From the neuron, faint translucent toxic-green WAVE-LINE travels DOWN the visible spinal-column toward the shoulder-arm-junction (the canonical 'starts as whisper in neurons, by tomorrow the arm won't lift'). NO face visible. Faint warm low light.",
+    moodKeywords: [
+      "it starts as a whisper in the neurons",
+      "by tomorrow, the arm won't lift",
+      "phosphor-green whisper-neuron at back of neck",
+      "translucent toxic-green wave-line traveling down spine",
+    ],
+    palette:
+      "Anonymous neck-and-shoulder-back + phosphor-green whisper-neuron + phosphor-green spine-tendril + translucent toxic-green wave-line + warm low light + cool deep-shadow",
+    composition:
+      "Tight composition, neck-area close-up at frame-centre, wave-line descending spine",
+    notes:
+      "Common spell. Anonymous figure (neck-only, no face) preserves no-character-conflation. The 'whisper in neurons' is rendered through the literal neuron-and-spine pathway.",
+  },
+  {
+    cardId: "s1_spell_219",
+    sceneDelta:
+      "Wider mid-shot. A Plague Wind — at frame-centre, a wide field with anonymous figures (back-three-quarter, generic mixed) standing at varying distances. The wind blows visibly across the frame from frame-left to frame-right — but the wind is rendered as TRANSLUCENT TOXIC-GREEN-AND-COOL-VIOLET particles drifting horizontally. As the particles reach each figure, the figure visibly STILLS (their thoughts ending — the canonical 'end of thought'). At frame-RIGHT (where the wind has already passed), figures stand frozen-mid-action; at frame-LEFT (where the wind is just arriving), figures are still mid-motion. NO single dominant figure. Cool deep-shadow.",
+    moodKeywords: [
+      "the wind carries more than dust",
+      "it carries the end of thought",
+      "translucent toxic-green-and-cool-violet wind-particles",
+      "figures frozen-mid-action where wind has passed",
+    ],
+    palette:
+      "Wide field + anonymous mixed-figures + translucent toxic-green-and-cool-violet wind-particles + frozen-mid-action figures (right) + still-moving figures (left) + cool deep-shadow",
+    composition:
+      "Wider mid-shot, wind crossing frame left-to-right, figures at varying distances showing different stages of stilling",
+    notes:
+      "Uncommon spell. Anonymous figures (back-three-quarter) preserve no-character-conflation. The 'end of thought' is rendered through the visible stilling-progression.",
+  },
+  {
+    cardId: "s1_spell_220",
+    sceneDelta:
+      "Action mid-shot. An Assimilate — at frame-centre, the moment of transition from HOST to NEW-RISING: at frame-LEFT, an anonymous host's COLLAPSED BODY (back-three-quarter, generic civilian, mid-action of falling — knees-down, body slumping forward); at frame-RIGHT, FROM the falling body, a NEW FIGURE is RISING (translucent transitional, partially-formed — the same body's outline but now phosphor-green-and-cool-violet substance, NOT human anymore). Critically, the new figure's FACE retains a faint familiar-outline of the host's features (the canonical 'wearing a familiar face'). The transition is mid-flow. NO clear specific features (the familiar-outline is unfixed).",
+    moodKeywords: [
+      "the host collapses",
+      "something new rises from the remains, wearing a familiar face",
+      "host falling at frame-left + new figure rising at frame-right",
+      "familiar-outline retained but unfixed — not specific features",
+    ],
+    palette:
+      "Anonymous host civilian-clothes (collapsing) + new figure phosphor-green-and-cool-violet substance + familiar-outline faint + cool deep-shadow + warm low transition-light",
+    composition:
+      "Action mid-shot, host collapsing at frame-left, new figure rising at frame-right, transition mid-flow",
+    notes:
+      "Rare spell. Anonymous figures preserve no-character-conflation. The 'familiar face' framing is rendered as a UNFIXED outline-retention — the new figure looks LIKE the host but viewer cannot fix specifics.",
+  },
+  {
+    cardId: "s1_spell_221",
+    sceneDelta:
+      "Mid-shot. Cognitive Decay — anonymous figure (front three-quarter, generic civilian, partly-infected — phosphor-green eye-pinpricks visible, slack-jaw expression) at frame-centre, mid-action of having just LOST A THOUGHT. Above their head, a translucent thought-bubble shows visible CONTENT-FADE: the bubble's interior shows a once-clear thought-image (faintly visible suggestion of a memory or task) being REPLACED by translucent grey-static. The figure's face shows confused-mid-realization that something was important — but the importance is gone, only the absence remains. NO specific identifying features.",
+    moodKeywords: [
+      "what was I going to —",
+      "no. it's gone",
+      "it was important, wasn't it?",
+      "thought-bubble with visible content-fade replaced by grey-static",
+    ],
+    palette:
+      "Generic civilian front three-quarter + phosphor-green eye-pinpricks + slack-jaw expression + translucent thought-bubble + faint memory-image fading + grey-static replacement + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, figure at frame-centre with thought-bubble above head showing fade",
+    notes:
+      "Common spell. Anonymous figure preserves no-character-conflation. The 'cognitive decay' is rendered through the visible thought-fade — content present, then absent.",
+  },
+  {
+    cardId: "s1_spell_222",
+    sceneDelta:
+      "Mid-shot. A Terminal Stage — anonymous figure (back-three-quarter, generic civilian, severely-infected — visible cool-violet rot-veins covering the body, phosphor-green pinpricks in eye-sockets) at frame-centre. Above the figure's head, a faint translucent MEDICAL-CHART hovers showing 'PROGNOSIS: TERMINAL — WRITTEN' in chrome-and-phosphor-green script (the canonical 'prognosis already written'). The chart is dated EARLIER than the SYMPTOM-MANIFESTATION (a small chrome-and-phosphor-green timestamp shows 'PRE-SYMPTOMS — DAY 0' — the writing PRECEDES the symptoms). The figure's body is mid-decay; their stance is half-collapsed.",
+    moodKeywords: [
+      "by the time the symptoms manifest, the prognosis is already written",
+      "translucent medical-chart with PROGNOSIS: TERMINAL pre-dated to DAY 0",
+      "anonymous figure with severe rot-veins, half-collapsed",
+      "writing precedes symptoms",
+    ],
+    palette:
+      "Generic civilian back-three-quarter + cool-violet rot-veins + phosphor-green eye-pinpricks + translucent chrome-and-phosphor-green medical-chart + visible PROGNOSIS: TERMINAL script + chrome-and-phosphor-green timestamp + cool deep-shadow",
+    composition:
+      "Mid-shot back-three-quarter, figure at frame-centre half-collapsed, medical-chart above head",
+    notes:
+      "Rare spell. Anonymous figure (back-three-quarter) preserves no-character-conflation. The 'prognosis already written' is rendered through the dated-earlier timestamp.",
+  },
+  {
+    cardId: "s1_spell_223",
+    sceneDelta:
+      "Wider mid-shot. A Spore Burst — at frame-centre, a single SPORE-CAPSULE has just IMPACTED the ground at lower-third (small chrome-and-phosphor-green capsule mid-burst). From the burst, a vast translucent toxic-green SPORE-CLOUD expands outward across the battlefield, mid-flow. Where the cloud reaches the ground, faint translucent INFECTION-PATCHES begin to BLOOM visibly in real-time — small phosphor-green-and-cool-violet patches forming in patterns suggesting a garden-bed. The 'battlefield is a garden of infection' rendered through the visible bloom-pattern. Anonymous figures at frame-edges (back-three-quarter) flee outward — they are too late.",
+    moodKeywords: [
+      "it lands softly, barely noticed",
+      "by the time you notice, the battlefield is a garden of infection",
+      "spore-capsule mid-burst with cloud expanding",
+      "infection-patches blooming in garden-pattern",
+    ],
+    palette:
+      "Chrome-and-phosphor-green spore-capsule + translucent toxic-green spore-cloud + faint phosphor-green-and-cool-violet infection-patches blooming + anonymous fleeing figures + cool battlefield + cool deep-shadow",
+    composition:
+      "Wider mid-shot, capsule mid-burst at lower-third, cloud expanding outward, anonymous fleeing figures at frame-edges",
+    notes:
+      "Common spell. Anonymous fleeing figures preserve no-character-conflation. The 'garden of infection' is rendered through the literal bloom-pattern of infection-patches.",
+  },
 ] as const;
 
 /**
  * Thought Virus faction's prompt registry, keyed by card id.
  *
- * Currently populated: 43 / 53 cards
+ * Currently populated: 53 / 53 cards — COMPLETE
  * (gen_thought_virus, s1_char_032, s1_char_049, s1_char_070,
  *  s1_char_071, s1_char_072, s1_char_073, s1_char_074,
  *  s1_char_075, s1_char_076, s1_char_077, s1_char_113-116,
@@ -790,7 +960,8 @@ const THOUGHT_VIRUS_PROMPTS_LIST: readonly CardArtPrompt[] = [
  *  s1_reward_companion_kael, s1_reward_crew_sacrifice,
  *  s1_reward_cycle_dark, s1_reward_eidolon_strain,
  *  s1_reward_outbreak_contain, s1_reward_palimpsest_noise,
- *  s1_reward_swarm_champion, s1_reward_swarm_survive).
+ *  s1_reward_swarm_champion, s1_reward_swarm_survive,
+ *  s1_spell_112-115, s1_spell_218-223).
  */
 export const THOUGHT_VIRUS_CARD_ART_PROMPTS: Readonly<Record<string, CardArtPrompt>> =
   Object.freeze(
