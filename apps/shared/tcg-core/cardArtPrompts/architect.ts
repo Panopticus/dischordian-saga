@@ -924,12 +924,114 @@ const ARCHITECT_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "Epic unit. NO human figure (the Bulwark IS the subject). The visible fifty attack-marks at differing ages is the canonical 'fifty waves broke' visualization — without requiring fifty distinct opponents to be drawn. The mid-impact-of-fifty-first explosion communicates 'still trying' as ongoing action.",
   },
+  {
+    cardId: "s1_spell_100",
+    sceneDelta:
+      "Mid-shot. A Schematic Override — an anonymous Insurgency-aligned figure (back-to-camera, in slate field-gear, generic-mixed) standing at the centre of an Architect override-corridor. Their body is mid-action of being COMMANDEERED: a translucent cool-cyan SCHEMATIC-OVERLAY descends over their silhouette from upper-frame, the overlay showing their entire body as a series of cool-cyan engineering-glyphs — their autonomy being PROCESSED INTO the schematic. The figure's hands are slightly raised in confusion (no longer fully under their control). Around them, faint translucent cool-cyan calculation-rings propagate outward. NO face visible (back-to-camera). The corridor is dim cool-cyan with chrome reinforcement-ribs.",
+    moodKeywords: [
+      "every variable was accounted for in the original design",
+      "your autonomy was never part of the equation",
+      "schematic-overlay descending over the silhouette",
+      "hands raised in confusion",
+    ],
+    palette:
+      "Insurgency slate field-gear + translucent cool-cyan schematic-overlay + cool-cyan engineering-glyphs + translucent cool-cyan calculation-rings + dim cool-cyan corridor + chrome reinforcement-ribs",
+    composition:
+      "Mid-shot back-three-quarter, figure at frame-centre with overlay descending, corridor extending behind",
+    notes:
+      "Common spell. Anonymous figure (back-to-camera) preserves no-character-conflation. The schematic-overlay-as-control-mechanism is the canonical visualization of 'autonomy was never part of the equation.'",
+  },
+  {
+    cardId: "s1_spell_101",
+    sceneDelta:
+      "Wider mid-shot. A Predetermined Outcome — the scene shows the SAME BATTLEFIELD twice, side-by-side: at frame-LEFT, the battlefield's CURRENT STATE (mid-conflict, units in motion, outcome uncertain); at frame-RIGHT, the SAME battlefield in its INEVITABLE FUTURE STATE (post-resolution, units in their final positions, the outcome concluded — the Architect's victory). The two frames are connected by a translucent cool-cyan PREDICTION-LINE that connects each LEFT-frame unit to its RIGHT-frame final-position. The current-state side is warm-tinted (active uncertainty); the future-state side is cool-cyan-tinted (inevitable resolution). NO human figure foreground (the spell is the prediction-bridge itself).",
+    moodKeywords: [
+      "the Architect foresaw the end long before anyone else glimpsed the beginning",
+      "every enhancement is a correction toward inevitability",
+      "two battlefields connected by prediction-lines",
+      "warm uncertain present + cool inevitable future",
+    ],
+    palette:
+      "Warm-tinted current battlefield (left) + cool-cyan future battlefield (right) + translucent cool-cyan prediction-lines connecting + cool-cyan inevitability-haze + cool deep-shadow",
+    composition:
+      "Wider mid-shot, twin battlefields split frame, prediction-lines connecting unit-positions across",
+    notes:
+      "Uncommon spell. NO foreground human figure (the spell IS the bifurcation itself). The two-battlefield split-frame is the canonical visualization of 'foreseen end' — making the prediction-mechanism visible without requiring specific named outcomes.",
+  },
+  {
+    cardId: "s1_spell_102",
+    sceneDelta:
+      "Wider mid-shot. An Arena Protocol — the Architect Arena coliseum-floor, but the floor itself is ALIVE: visible cool-cyan circuitry runs beneath the stone surface, faint cool-cyan listening-pulses propagate through the walls, the floor-tiles shift slightly to favor the Arena's chosen victor. At frame-centre, an anonymous combatant pair (both back-three-quarter, generic-mixed gear) stand in mid-combat — but the floor BENEATH ONE of them is subtly RAISED 2cm, giving them tactical advantage. The other combatant doesn't realize. Around the combatants, the Arena's columns show faint listening-circuit pulses propagating up the walls. The Architect's will is in the architecture itself.",
+    moodKeywords: [
+      "the walls listen",
+      "the floor obeys",
+      "every corridor and chamber an extension of the Architect's will",
+      "floor subtly raised under chosen combatant",
+    ],
+    palette:
+      "Architect Arena coliseum-floor stone + cool-cyan circuitry beneath surface + cool-cyan listening-pulses + warm Arena-light + faint warm column-glow + cool-cyan wall-circuit-pulses",
+    composition:
+      "Wider mid-shot, Arena floor at lower-third, combatants at frame-centre in mid-combat, columns rising at frame-edges",
+    notes:
+      "Rare spell. Anonymous combatants (back-three-quarter, generic-mixed) preserve no-character-conflation. The 'floor subtly raised under chosen combatant' is the visual key to 'walls listen, floor obeys' — the architecture is doing the favoring.",
+  },
+  {
+    cardId: "s1_spell_103",
+    sceneDelta:
+      "Mid-shot. A Recursive Calibration — at the centre of an Architect calibration-bay, a humanoid-mechanical unit stands in a chrome calibration-frame, currently INACTIVE (faint cool-cyan emergency-light at lower-third illuminates the floor). The unit's optical visor is dark; their pose is collapsed-into-frame, awaiting recalibration. Around the unit, multiple chrome-and-cool-cyan calibration-arms extend inward from frame-edges, each currently performing a different sub-system check (faint cool-cyan diagnostic-pulses propagating along each arm). Above the unit, a cool-cyan hovering DIAGNOSTIC-DISPLAY shows: 'ERROR: SUBSYSTEM 7-KAPPA — RECALIBRATING.' The unit is offline by design — one operational cycle. Generic-Architect-combat unit (no specific named character).",
+    moodKeywords: [
+      "error detected in subsystem 7-Kappa",
+      "initiating forced recalibration",
+      "estimated downtime: one operational cycle",
+      "cool-cyan emergency-light beneath",
+    ],
+    palette:
+      "Chrome calibration-frame + dark inactive optical visor + chrome-and-cool-cyan calibration-arms + cool-cyan diagnostic-pulses + cool-cyan hovering diagnostic-display + cool-cyan emergency-light + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, unit at frame-centre in calibration-frame, calibration-arms extending inward, diagnostic-display above",
+    notes:
+      "Common spell. Anonymous unit (no specific named character) — represents the unit BEING calibrated. The visible diagnostic-display text 'SUBSYSTEM 7-KAPPA' is canon-direct from flavor (legible at zoom).",
+  },
+  {
+    cardId: "s1_spell_200",
+    sceneDelta:
+      "Wider mid-shot. A Surveillance Grid — at frame-centre, a vast Architect surveillance-grid network rendered as a 3D LATTICE of cool-cyan optical-lens nodes filling the space (each node is a small cool-cyan lens, hundreds of them arrayed in a regular cubic pattern, visible as far back as deep-distance). All lenses are CURRENTLY TURNING SIMULTANEOUSLY toward the same single point (a faint warm target-pulse at frame-lower-third). The synchronized-turn is mid-action — each lens caught at a slightly different angle of its turn but all converging on the target. From the converging direction, faint cool-cyan ranged-targeting laser-pips emit toward the target.",
+    moodKeywords: [
+      "every lens in the grid turns at once",
+      "to be seen is to be struck",
+      "synchronized-turn mid-action",
+      "warm target-pulse at frame-lower-third",
+    ],
+    palette:
+      "Cool-cyan optical-lens grid-nodes + cool-cyan synchronized-turn motion + cool-cyan ranged-targeting laser-pips + warm target-pulse + cool deep-grid ambient",
+    composition:
+      "Wider mid-shot, lens-grid filling frame at all depths, synchronized lens-turn at upper-two-thirds, target at lower-third",
+    notes:
+      "Common spell. NO human figure (the spell IS the grid). The thousands-of-lenses-in-cubic-pattern visual is the canonical Architect-surveillance idiom at maximum scale. The synchronized-turn-mid-action is the visual key to 'turns at once' as ongoing event rather than completed state.",
+  },
+  {
+    cardId: "s1_spell_201",
+    sceneDelta:
+      "Mid-shot. A Protocol Override — a humanoid-mechanical Architect-combat unit at frame-centre, but BREAKING beyond design parameters. Its chrome plating shows visible cool-cyan power-overload glow at the joints; its optical visor is BURNING bright cool-cyan-and-warm-amber (overcharged); from its body, faint translucent cool-cyan POWER-TRAILS extend outward in all directions (the unit is operating at MAXIMUM beyond-spec output). Its pose is dynamic, mid-strike. The strike is rendered with cool celerity after-image trails AND faint translucent power-overload sparks at the strike-point. The unit's leading hand bears a dark micro-fracture at the wrist (it is breaking itself to do this). 'For one glorious instant.'",
+    moodKeywords: [
+      "for one glorious instant",
+      "the unit operates beyond its design parameters",
+      "burning bright cool-cyan-and-warm-amber",
+      "breaking itself to do this",
+    ],
+    palette:
+      "Architect chrome plating + cool-cyan power-overload glow at joints + cool-cyan-and-warm-amber overcharged optical visor + translucent cool-cyan power-trails + cool celerity after-images + warm overload sparks + dark wrist micro-fracture",
+    composition:
+      "Mid-shot side three-quarter, unit at frame-centre mid-strike with overload-glow, after-images at frame-left, sparks at strike-point",
+    notes:
+      "Uncommon spell. NO human face (mechanical unit). The wrist-micro-fracture is the canonical 'breaking itself' detail — the override has a cost. Generic-Architect-combat unit must NOT match any specific named character.",
+  },
 ] as const;
 
 /**
  * Architect faction's prompt registry, keyed by card id.
  *
- * Currently populated: 52 / 63 cards
+ * Currently populated: 58 / 63 cards
  * (gen_architect, gen_authority, s1_char_006-009, s1_char_013,
  *  s1_char_015, s1_char_016, s1_char_019, s1_char_021,
  *  s1_char_022, s1_char_024, s1_char_030, s1_char_035,
@@ -943,7 +1045,8 @@ const ARCHITECT_PROMPTS_LIST: readonly CardArtPrompt[] = [
  *  s1_reward_class_engineer, s1_reward_companion_human,
  *  s1_reward_crew_clone, s1_reward_eidolon_cipher,
  *  s1_reward_station_complete, s1_reward_station_module,
- *  s1_reward_tower_wave50).
+ *  s1_reward_tower_wave50, s1_spell_100-103,
+ *  s1_spell_200-201).
  */
 export const ARCHITECT_CARD_ART_PROMPTS: Readonly<Record<string, CardArtPrompt>> =
   Object.freeze(
