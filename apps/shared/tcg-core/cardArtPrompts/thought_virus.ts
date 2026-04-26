@@ -228,15 +228,101 @@ const THOUGHT_VIRUS_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "Rare unit. Anonymous combatants (back-shots) preserve no-character-conflation. The 'feeds on sanity not carrion' is the canonical visualization — sanity-ribbons rising vs blood-drops falling.",
   },
+  {
+    cardId: "s1_char_113",
+    sceneDelta:
+      "Wider mid-shot. Terminus Sovereign — a vast humanoid Hierarchy-of-the-Damned commander at frame-centre, approximately 3m tall, body composed of charcoal-and-deep-crimson chitin substance with phosphor-green infected-veins running through. Six arms (matching Riri'Ahlia COO archetype but DARKER, more crowned) — but the canonical Sovereign-detail: in front of him at lower-third, SEVEN BOWLS arrayed in a semicircle, each containing a different visible-substance. Bowl 1: faint translucent doubt-mist (cool-grey). Bowl 2: faint translucent fear-substance (cool-violet). Bowls 3-6: progressively darker substances. Bowl 7: deep-empty void (the canonical 'forgotten what it was to be whole'). The Sovereign's leading hand is mid-action of OFFERING a bowl outward to an off-frame initiate. NO face fully visible (deep cool-violet hood obscures features); deep-violet crown of horns visible.",
+    moodKeywords: [
+      "the first bowl is doubt",
+      "the second is fear",
+      "by the seventh, you have forgotten what it was to be whole",
+      "seven bowls arrayed in semicircle, each containing different substance",
+    ],
+    palette:
+      "Charcoal-and-deep-crimson chitin substance + phosphor-green infected-veins + six arms + cool-grey doubt-mist (bowl 1) + cool-violet fear-substance (bowl 2) + progressively darker substances (bowls 3-6) + deep-empty void (bowl 7) + deep cool-violet hood + deep-violet crown of horns + cool deep-shadow",
+    composition:
+      "Wider mid-shot front three-quarter, Sovereign at frame-centre, seven bowls in semicircle at lower-third",
+    notes:
+      "Legendary unit. CRITICAL: Sovereign is a Hierarchy-of-the-Damned commander DISTINCT from Riri'Ahlia COO (same six-arms archetype but DIFFERENT specific role: ceremonial-Sovereign with bowls vs operational-COO with multi-dim command). Visual continuity preserved (charcoal-and-deep-crimson chitin) but distinct: hooded face vs visible profile, bowl-ceremony vs command-table.",
+  },
+  {
+    cardId: "s1_char_114",
+    sceneDelta:
+      "Mid-shot. A Viral Vector — humanoid figure of indeterminate gender at frame-centre, body partially-translucent (the canonical 'do not look too long' visualization — looking at it makes it MORE solid). The figure stands still, arms at sides, but the body's substance is ANOMALOUS: cool-violet outline with shifting phosphor-green internal patterns. Where its face would be, it has TWO MIRRORED VOIDS (the eyes are SEEING the viewer back; the canonical 'reads your attention as an invitation'). Around the figure, the very air visibly THICKENS with infection-substance the longer they are observed (a faint translucent toxic-green attention-haze). Faint warm low warning-light from off-frame.",
+    moodKeywords: [
+      "do not kill it",
+      "do not touch it",
+      "do not look at it too long",
+      "the infection reads your attention as an invitation",
+    ],
+    palette:
+      "Partially-translucent body + cool-violet outline + shifting phosphor-green internal patterns + two mirrored void-eyes + translucent toxic-green attention-haze + warm low warning-light + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, Vector at frame-centre, attention-haze thickening around them",
+    notes:
+      "Rare unit. The mirrored-void-eyes + attention-haze is the canonical 'looking is invitation' visualization. NO specific named features (the entity is alien-monstrous in a deliberately-unsettling way).",
+  },
+  {
+    cardId: "s1_char_115",
+    sceneDelta:
+      "Action mid-shot. A Consumed Host — humanoid figure mid-RUN at frame-centre, generic-anonymous features but visibly HOLLOW (eye-sockets dark void with phosphor-green pinpricks, mouth slightly open with toxic-green saliva-drip, skin showing cool-violet rot-veins). The body is LITERAL HUNGER WEARING HUMAN SHAPE — the figure is sprinting forward toward off-frame prey at frame-right edge, arms extended in clawing-gesture. Their original civilian clothes are tattered, partly-shed. Faint warm rush-trails at the heels (rush keyword). Behind them, an infected city-corridor in mid-distance.",
+    moodKeywords: [
+      "the body runs",
+      "the mind is already gone",
+      "what remains is hunger wearing a human shape",
+      "tattered civilian clothes, hollow eyes, clawing-gesture",
+    ],
+    palette:
+      "Generic anonymous skin + dark void eye-sockets + phosphor-green pinpricks + toxic-green saliva-drip + cool-violet rot-veins + tattered civilian clothes + warm rush-trails + infected city-corridor + cool deep-shadow",
+    composition:
+      "Action mid-shot side three-quarter, Host mid-run at frame-centre, off-frame prey at frame-right edge",
+    notes:
+      "Common unit. Anonymous Host (generic features, hollow) preserves no-character-conflation. The 'hunger wearing human shape' is rendered through the visible degradation + clawing-gesture toward off-frame prey.",
+  },
+  {
+    cardId: "s1_char_116",
+    sceneDelta:
+      "Mid-shot. A Neural Plague Carrier — humanoid figure at frame-centre, generic-anonymous features but with a VISIBLE WIDE SMILE (the canonical 'smiles when soldiers fall' detail). The smile is unsettling — not malicious, but mechanical, a rewiring-effect. Around the figure, anonymous fallen soldiers (back-shots only at lower-third) lie on the ground; the Carrier's smile WIDENS as each falls (joy rewired to dying-screams frequency). Their eyes are the canonical phosphor-green pinpricks in black-void. Faint phosphor-green deathwatch-script propagates outward from the figure (deathwatch keyword); faint cool-violet rot-veins on the skin. Behind them, an infected battlefield.",
+    moodKeywords: [
+      "it smiles when soldiers fall",
+      "not from malice — the Virus has rewired joy to the frequency of dying screams",
+      "wide unsettling mechanical smile",
+      "anonymous fallen soldiers below, smile widening as each falls",
+    ],
+    palette:
+      "Generic anonymous skin + wide mechanical smile + black-void eyes + phosphor-green pupil-pinpricks + cool-violet rot-veins + phosphor-green deathwatch-script + anonymous fallen soldier-silhouettes + infected battlefield + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, Carrier at frame-centre with wide smile, fallen soldiers at lower-third",
+    notes:
+      "Uncommon unit. Anonymous Carrier + anonymous fallen preserve no-character-conflation. The 'rewired joy' is rendered through the visible mechanical-smile + deathwatch-script.",
+  },
+  {
+    cardId: "s1_char_200",
+    sceneDelta:
+      "Action mid-shot. A Cortex Ravager — humanoid-aberrant figure at frame-centre, body composed of cool-violet-and-phosphor-green skull-substance with elongated bone-spurs at the elbows + shoulders. Its head is a vast SKULL with phosphor-green infection-patterns inside the cranial-cavity. It is mid-strike against an anonymous figure at frame-right (back-three-quarter, generic-Insurgency tactical), and from the strike-point, faint translucent SENTENCE-FRAGMENTS visibly EXTRACT (small chrome-and-cool-cyan word-fragments rising from the victim's head and being absorbed into the Ravager's skull-cavity). Each blow erases a sentence from the victim's memory. NO mouth visible (canonical 'does not need to speak'). Faint warm low battlefield-light.",
+    moodKeywords: [
+      "it does not speak",
+      "it does not need to",
+      "every blow is a sentence erased from your memory",
+      "translucent sentence-fragments extracting from victim's head into Ravager's skull-cavity",
+    ],
+    palette:
+      "Cool-violet-and-phosphor-green skull-substance body + elongated bone-spurs + vast skull-head + phosphor-green internal infection-patterns + translucent chrome-and-cool-cyan sentence-fragment word-fragments + anonymous Insurgency-tactical victim + warm low battlefield-light + cool deep-shadow",
+    composition:
+      "Action mid-shot side three-quarter, Ravager at frame-centre mid-strike, anonymous victim at frame-right with sentence-fragments rising",
+    notes:
+      "Uncommon unit. Anonymous victim (back-three-quarter) preserves no-character-conflation. The 'sentence erased per blow' is the canonical visualization — words rising from victim into Ravager's skull-cavity.",
+  },
 ] as const;
 
 /**
  * Thought Virus faction's prompt registry, keyed by card id.
  *
- * Currently populated: 11 / 53 cards
+ * Currently populated: 16 / 53 cards
  * (gen_thought_virus, s1_char_032, s1_char_049, s1_char_070,
  *  s1_char_071, s1_char_072, s1_char_073, s1_char_074,
- *  s1_char_075, s1_char_076, s1_char_077).
+ *  s1_char_075, s1_char_076, s1_char_077, s1_char_113-116,
+ *  s1_char_200).
  */
 export const THOUGHT_VIRUS_CARD_ART_PROMPTS: Readonly<Record<string, CardArtPrompt>> =
   Object.freeze(
