@@ -191,13 +191,100 @@ const ELEMENTAL_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "Legendary unit. CRITICAL: receiving figure is back-to-camera and ANONYMOUS — must NOT match any named character. The 'wave arrives whether or not you asked' framing is canon-direct from flavor and is rendered as the wave already mid-arrival before any visible request from the figure. Three effects (heal + drain + dispel) rendered as three distinct visual elements.",
   },
+
+  // ─── EARTH ELEMENT — provoke + forcefield + endurance ───
+  {
+    cardId: "s1_elem_earth_01",
+    sceneDelta:
+      "Mid-shot. A Rooted Sentinel — a humanoid figure in dark stone-grey clothes, mid-fifties, generic-weathered features, who has been standing in this exact spot SO long that the ground beneath their feet has formed a faint visible OUTLINE around their footprint (the spot has started to belong to them). They stand at the entrance to an Antiquarian-aligned threshold-arch, both feet planted shoulder-width, hands at their sides. Their face is matter-of-fact, slightly bemused. A faint warm provoke-glow rims their leading shoulder (provoke visualized). The ground beneath their feet shows the faint depression-outline; small mosses and lichens have begun to grow at the edges of their boots. Behind them, the threshold-arch is plain stone; ahead of them (off-frame) is what they are guarding.",
+    moodKeywords: [
+      "the first earth element the Engineer catalogued",
+      "standing in one spot so long it started to belong to him",
+      "matter-of-fact, slightly bemused",
+      "moss-and-lichen at boot-edge",
+    ],
+    palette:
+      "Stone-grey clothes + dark dirt ground + warm provoke-rim + faint cool moss-and-lichen accent + warm-amber Antiquarian threshold + cool late-afternoon ambient",
+    composition:
+      "Mid-shot front three-quarter, Sentinel at frame-centre at threshold, faint footprint-depression visible at boots",
+    notes:
+      "Common unit. Antiquarian threshold-arch is the canon visual continuity (the Engineer is Antiquarian-aligned, and he is the one who catalogued this Sentinel). Generic-weathered face must NOT match any named character. The 'spot has started to belong to him' is rendered as the depression-outline + moss-at-boots.",
+  },
+  {
+    cardId: "s1_elem_earth_02",
+    sceneDelta:
+      "Mid-shot. A Slate Golem — a humanoid figure assembled from overlapping flat sheets of dark-grey slate, approximately 2.2 meters tall, broad-shouldered, blocky proportions. Each slate-sheet is visibly distinct, joined at edges with thin dark mortar-lines. The Golem's head is a single thicker slate-block with two small dark eye-niches and a horizontal mouth-line carved into it. They stand on a broken-stone plain, slightly off-balance forward (mid-step). A translucent hexagonal-cyan forcefield-shimmer wraps them at body-edge (forcefield — but DELIBERATELY using a slightly different hue from Architect-faction's cyan; this forcefield is more naturally-green-tinted, communicating 'this is a worldly elemental forcefield, not an Architect engineered one'). A faint warm provoke-glow rims their leading shoulder. Behind them, a horizon of broken stone — the world that had decided it was done being a world.",
+    moodKeywords: [
+      "sheets of grey stone",
+      "a world that had decided it was done being a world",
+      "blocky proportions, mortar-lines",
+      "broken-stone plain to the horizon",
+    ],
+    palette:
+      "Dark-grey slate-sheets + thin dark mortar-lines + translucent green-tinted forcefield-shimmer + warm provoke-rim + broken-stone plain + cool overcast sky",
+    composition:
+      "Mid-shot front three-quarter, Slate Golem at frame-centre, broken-stone horizon behind",
+    notes:
+      "Uncommon unit. The forcefield-hue is deliberately green-tinted (not Architect-cyan) to differentiate Earth-elemental forcefield from Architect-engineered forcefield. The 'world that decided it was done being a world' is rendered as the broken-stone horizon.",
+  },
+  {
+    cardId: "s1_elem_earth_03",
+    sceneDelta:
+      "Wider mid-shot. A Mountain Vow — the scene is a single distant mountain peak filling the upper-half of the frame, snow-capped, dawn-lit at golden-hour. In the lower-third of the frame, a single small humanoid figure (anonymous, back-to-camera, in dark-grey traveling cloak) stands at a low rocky plateau facing the mountain, both palms held flat-up at chest-height in a vow-gesture. Between the figure's palms and the distant mountain, a faint warm-amber heal-glow energy-line connects (the vow being made). The energy-line carries from the mountain DOWN through the figure's palms and outward (to friendly general off-frame). The mountain's silhouette has a SUBTLE matching glow at its peak — most of the mountain has agreed. NO direct human face visible.",
+    moodKeywords: [
+      "a promise made while holding a mountain in mind",
+      "most of the mountain agrees",
+      "warm-amber energy-line between palm and peak",
+      "back-to-camera figure on rocky plateau",
+    ],
+    palette:
+      "Cool snow-cap + warm dawn golden-hour + dark-grey traveling cloak + warm-amber heal-energy-line + cool rocky plateau + cool deep-distance haze",
+    composition:
+      "Wider mid-shot back-three-quarter on figure, mountain filling upper-half of frame, energy-line connecting palms to peak",
+    notes:
+      "Spell card. Anonymous back-to-camera figure (no face) preserves no-character-conflation. The 'most of the mountain agrees' is rendered as the matching subtle glow at the mountain's peak. Heal-glow as warm-amber consistent with other heal cards.",
+  },
+  {
+    cardId: "s1_elem_earth_04",
+    sceneDelta:
+      "Wider mid-shot. A Tectonic Warden — a massive humanoid earth-elemental, approximately 3 meters tall, deeply rooted in the broken-stone ground (lower legs visibly partially MERGED with the bedrock — the figure has stood here so long that body and earth are interpenetrated). Body is dark-grey igneous-stone with deep cracks revealing faint warm-amber molten-veins at deep interior. Their head has a small crown of mineral-formations, eye-niches glowing faintly warm-amber. They stand still, immovable. A translucent green-tinted forcefield-shimmer wraps them; faint warm provoke-glow rims their leading shoulder. Behind them, evidence of geological time: parallel scrapes in nearby rock-faces (glacier-tracks — 'tried before by a glacier'); a smoothed boulder showing a glacier's polish-line. The light suggests millions of years of weather have already happened.",
+    moodKeywords: [
+      "the oldest element on the board",
+      "everything you try has been tried before by a glacier",
+      "lower legs merged with bedrock",
+      "molten veins at deep interior",
+    ],
+    palette:
+      "Dark-grey igneous-stone body + deep warm-amber molten-veins + cool snow-tinged glacier-evidence + green-tinted forcefield + warm provoke-rim + cool deep-distance",
+    composition:
+      "Wider mid-shot front three-quarter, Tectonic Warden at frame-centre rooted in bedrock, glacier-evidence behind",
+    notes:
+      "Epic unit. The glacier-tracks behind are canon-direct from flavor — direct visualization of 'tried before by a glacier.' Lower-legs-merged-with-bedrock is the visual key to 'oldest element on the board.' Molten-amber-veins-at-cracks is the canonical earth-elemental interior visual idiom.",
+  },
+  {
+    cardId: "s1_elem_earth_05",
+    sceneDelta:
+      "Wide-frame mid-shot — VERY wide, almost a landscape. The Sleeping Continent — a vast continent-shape rising from a planetary horizon, but the continent IS the elemental. The continent's silhouette is roughly humanoid when you look long enough — a sleeping figure curled on its side, vast and slow, with mountains as ribs, rivers as veins, forests as fur. The figure is perfectly still, eyes closed. The continent has not yet noticed the match. Around the silhouette, faint translucent green-tinted forcefield-shimmer wraps the continent's outermost outline (forcefield); faint warm-amber molten-veins glow deep within the continent's body (provoke as deep-interior pulse); a slow visible cool-cream grow-pulse propagates outward from the continent's edge, adding new shoreline (grow visualized). In the deep-distance, a small village or two is faintly visible at the foot of the continent's lower 'arm' — for scale, communicating that the Sleeping Continent is geographic in size. The sky above is cool-grey dawn.",
+    moodKeywords: [
+      "has not yet noticed this match",
+      "when he does, it will be because the match is over",
+      "mountains as ribs, rivers as veins, forests as fur",
+      "every turn larger",
+    ],
+    palette:
+      "Vast cool-grey-and-green continent-body + warm-amber molten-veins at deep interior + translucent green-tinted forcefield-rim + cool-cream grow-pulse expanding outward + cool dawn sky + tiny warm village-light at scale",
+    composition:
+      "Wide-frame landscape mid-shot, continent filling 70% of frame on horizon, tiny village at lower-third edge for scale",
+    notes:
+      "Legendary unit. The 'mountains as ribs, rivers as veins, forests as fur' is canon-direct from flavor — rendered as the continent's geographic features mapping to body-features. Three keywords (provoke + forcefield + grow) rendered simultaneously. Tiny scale-village preserves the geographic-size framing without requiring any specific recognizable named-location.",
+  },
 ] as const;
 
 /**
  * Elemental faction's prompt registry, keyed by card id.
  *
- * Currently populated: 2 / 4 elements (Fire, Water).
- * TODO: earth, air.
+ * Currently populated: 3 / 4 elements (Fire, Water, Earth).
+ * TODO: air.
  */
 export const ELEMENTAL_CARD_ART_PROMPTS: Readonly<Record<string, CardArtPrompt>> =
   Object.freeze(
