@@ -18,6 +18,7 @@ import { ALLEGIANCE_CARD_ART_PROMPTS } from "./allegiance";
 import { CLASS_CARD_ART_PROMPTS } from "./class";
 import { RACE_CARD_ART_PROMPTS } from "./race";
 import { ELEMENTAL_CARD_ART_PROMPTS } from "./elemental";
+import { DIMENSIONAL_CARD_ART_PROMPTS } from "./dimensional";
 
 /**
  * The full card-art prompt registry.
@@ -35,9 +36,10 @@ import { ELEMENTAL_CARD_ART_PROMPTS } from "./elemental";
  *   - race: 5 / 5 sets — COMPLETE (Human, Demagi, Quarchon,
  *     Synthetic, Ne-Yon)
  *   - elemental: 4 / 4 elements — COMPLETE (Fire, Water, Earth, Air)
+ *   - dimensional: 1 / 4 dimensions (Time)
  *
  * Pending factions:
- *   - dimensional (tier-up sets)
+ *   - dimensional (remaining 3 dimensions)
  *   - architect, antiquarian, dreamer, insurgency, new_babylon,
  *     thought_virus, neutral, panopticon, allegiance, class, race,
  *     elemental, dimensional
@@ -48,4 +50,5 @@ export const CARD_ART_PROMPTS: CardArtPromptRegistry = Object.freeze({
   ...CLASS_CARD_ART_PROMPTS,
   ...RACE_CARD_ART_PROMPTS,
   ...ELEMENTAL_CARD_ART_PROMPTS,
+  ...DIMENSIONAL_CARD_ART_PROMPTS,
 });
