@@ -111,17 +111,63 @@ describe("roomStateAssets — variant picker", () => {
       expect(url).toContain("medical-bay_donated");
     });
 
-    it("returns the legacy URL for rooms without tier art registered", () => {
-      // Bridge has a tier threshold declared but no tier art entry
-      // yet — the resolver must fall through to the supplied legacy.
-      expect(resolveRoomBackgroundUrl("bridge", {}, LEGACY)).toBe(LEGACY);
+    it("bridge resolves to tier-aware art URLs at each tier", () => {
+      // Tier 0 (no flags)
+      expect(resolveRoomBackgroundUrl("bridge", {}, LEGACY)).toContain(
+        "bridge_t0.webp",
+      );
+      // Tier 1 (clue logged) — Tier 1 art intentionally absent;
+      // resolver falls back DOWN to Tier 0 art.
+      expect(
+        resolveRoomBackgroundUrl(
+          "bridge",
+          { bridge_first_clue_found: true },
+          LEGACY,
+        ),
+      ).toContain("bridge_t0.webp");
+      // Tier 2 (nav puzzle solved)
+      expect(
+        resolveRoomBackgroundUrl(
+          "bridge",
+          { fast_travel_unlocked: true },
+          LEGACY,
+        ),
+      ).toContain("bridge_t2.webp");
+      // Tier 3 (war table online)
+      expect(
+        resolveRoomBackgroundUrl(
+          "bridge",
+          { bridge_war_table_online: true },
+          LEGACY,
+        ),
+      ).toContain("bridge_t3.webp");
+    });
+
+    it("engineering resolves to tier-aware art URLs at each tier", () => {
+      expect(resolveRoomBackgroundUrl("engineering", {}, LEGACY)).toContain(
+        "engineering_t0.webp",
+      );
       expect(
         resolveRoomBackgroundUrl(
           "engineering",
-          { engineering_first_clue_found: true },
+          { engineering_signal_booster_built: true },
           LEGACY,
         ),
-      ).toBe(LEGACY);
+      ).toContain("engineering_t2.webp");
+      expect(
+        resolveRoomBackgroundUrl(
+          "engineering",
+          { engineering_research_bench_online: true },
+          LEGACY,
+        ),
+      ).toContain("engineering_t3.webp");
+    });
+
+    it("returns the legacy URL for rooms without tier art registered", () => {
+      // Medical bay has its own Section F flow; archives / armory / etc.
+      // have no tier art registered and must fall through to legacy.
+      expect(resolveRoomBackgroundUrl("archives", {}, LEGACY)).toBe(LEGACY);
+      expect(resolveRoomBackgroundUrl("armory", {}, LEGACY)).toBe(LEGACY);
     });
 
     it("returns the legacy URL for entirely unknown rooms", () => {

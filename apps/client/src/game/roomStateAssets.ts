@@ -140,24 +140,35 @@ export function resolveRoomStateAsset(
   return urls[stateId] || urls["initial"] || LEGACY_URLS[roomId];
 }
 
-/* ─── TIER-BASED ASSET RESOLUTION (LucasArts spine) ───
- *
+/**
  * Per-room asset URLs indexed by RoomTier (0..3 — see
  * apps/shared/roomTier.ts). Each entry is a partial map: tiers
  * without art declared simply fall back to the next-lower tier
  * (or the room's legacy `imageUrl` at the bottom), so a room
  * can ship Tier 2 art before Tier 3 art exists without breaking.
  *
- * Empty initial state — Tier 2/3 art for the showcase rooms is
- * left to a follow-up content pass. The shape ships now so
- * authors can drop URLs in without any code edits.
+ * Bridge + Engineering ship Tier 0 / 2 / 3 today (the AAA Final
+ * `inception_ark_room_tiers` drop, 2026-04-26 — see
+ * apps/shared/roomTierArtPrompts.ts for the source prompts).
+ * Tier 1 is intentionally omitted: the verb-coin / clue-journal
+ * mid-investigation flow reads as Tier 1 visually, so the
+ * resolver falls back down-tier to Tier 0 art at that beat.
  */
+const ROOM_TIER_ASSET_BASE = assetUrl("art/rooms/ark");
+
 export const ROOM_TIER_ASSET_URLS: Readonly<
   Record<string, Partial<Record<RoomTier, string>>>
 > = {
-  // "medical-bay": { 2: "/art/rooms/tiers/medical-bay_t2.webp", 3: "..." },
-  // "bridge":      { 2: "/art/rooms/tiers/bridge_t2.webp",      3: "..." },
-  // "engineering": { 2: "/art/rooms/tiers/engineering_t2.webp", 3: "..." },
+  bridge: {
+    0: `${ROOM_TIER_ASSET_BASE}/bridge_t0.webp`,
+    2: `${ROOM_TIER_ASSET_BASE}/bridge_t2.webp`,
+    3: `${ROOM_TIER_ASSET_BASE}/bridge_t3.webp`,
+  },
+  engineering: {
+    0: `${ROOM_TIER_ASSET_BASE}/engineering_t0.webp`,
+    2: `${ROOM_TIER_ASSET_BASE}/engineering_t2.webp`,
+    3: `${ROOM_TIER_ASSET_BASE}/engineering_t3.webp`,
+  },
 };
 
 /** Pick the highest-tier asset URL for a room that doesn't exceed

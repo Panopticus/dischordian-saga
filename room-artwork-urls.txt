@@ -41,3 +41,14 @@ guild-sanctum: /art/rooms/room-guild-sanctum.webp
 social-hub: /art/rooms/room-social-hub.webp
 war-room (Deck-6 Combat Ops): /art/rooms/room-war-room.webp
 dreams-workshop-subbasement: /art/rooms/room-dreams-workshop-subbasement.webp
+
+# AAA Final drop — Bridge + Engineering tier renders (2026-04-26, served from public/art/rooms/ark/)
+# Drives the LucasArts 4-tier spine via apps/client/src/game/roomStateAssets.ts ROOM_TIER_ASSET_URLS.
+# Tier 1 is intentionally absent — the verb-coin / clue-journal flow reads as Tier 1 visually,
+# so resolveRoomBackgroundUrl() falls back down-tier to Tier 0 art during the investigation beat.
+bridge:t0: /art/rooms/ark/bridge_t0.webp
+bridge:t2: /art/rooms/ark/bridge_t2.webp
+bridge:t3: /art/rooms/ark/bridge_t3.webp
+engineering:t0: /art/rooms/ark/engineering_t0.webp
+engineering:t2: /art/rooms/ark/engineering_t2.webp
+engineering:t3: /art/rooms/ark/engineering_t3.webp
