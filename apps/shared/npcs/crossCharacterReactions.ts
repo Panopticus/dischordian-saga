@@ -905,6 +905,29 @@ export const CROSS_CHARACTER_REACTIONS: ReadonlyArray<CrossCharacterReaction> = 
       "may build Stage-4-weave Channel 7 content WITHOUT violating " +
       "the canonical silence.",
   },
+  {
+    flag: "meme_relinquished_stolen_oracle_voice",
+    setBy: ["the_meme"],
+    reactsBy: ["the_oracle", "future_reader"],
+    canonicalNote:
+      "Per Meme cascade.acknowledges_oracle_returned (Phase 6d.2 " +
+      "part 5). Canonical post-Ch6-disambiguation Real-register " +
+      "acknowledgment: the Meme canonically releases the canonical " +
+      "White Oracle face. Future Oracle reactive lines may register " +
+      "the canonical-relinquishment.",
+  },
+  {
+    flag: "meme_began_replacement_pivot",
+    setBy: ["the_meme"],
+    reactsBy: ["the_oracle", "future_reader"],
+    canonicalNote:
+      "Per Meme cascade.replacement_pivot (Phase 6d.2 part 5). " +
+      "Canonical 'if I cannot wear him, I canonically become him' " +
+      "canon — canonical earliest foreshadow of the canonical " +
+      "Replacement-register Architect-succession arc per §1.7. " +
+      "Future Architect / Hierophant reactive lines may register " +
+      "the canonical-pivot.",
+  },
 ];
 
 // --- Helpers --------------------------------------------------------------

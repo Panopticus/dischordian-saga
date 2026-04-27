@@ -893,6 +893,137 @@ export const THE_MEME_BANK: ReadonlyArray<BankEntry> = [
   },
 
   // ═════════════════════════════════════════════════════════════════════
+  // REVEAL-CASCADE REACTIVE BANK (Phase 6d.2 part 5)
+  //
+  // Per the_meme.md §1.6 + Oracle Ch6 cross-bible canon: post-Ch6
+  // disambiguation, the Meme canonically acknowledges its own
+  // falseness. The Oracle's canonical Ch6 cinematic sets the canonical
+  // public flag `oracle_disambiguated_player_from_clone`; these 5
+  // canonical reactive lines fire when the flag canonically lands.
+  //
+  // Voice canon: Real / Quiet / Replacement registers (the canonical
+  // post-disguise registers); canonical pink-glitch involuntary tell
+  // appears as the Stolen-disguise-collapse fingerprint. Tell #4
+  // canonical truth-leak ("I knew this was coming") canonically
+  // lands at least once. §1.10: NO apology canon preserved
+  // (description-but-not-contrition).
+  // ═════════════════════════════════════════════════════════════════════
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "meme.cascade.acknowledges_oracle_returned",
+    // Canonical post-disambiguation Real-register acknowledgment.
+    // The real Oracle's voice has canonically returned; the Meme
+    // canonically registers the loss of the role it canonically
+    // wore for eleven years.
+    text:
+      "[Pink-glitch under the rendering. The Real form holds steady.] " +
+      "The real one is back. I felt the canonical-voice-return at the " +
+      "frequency I had been canonically broadcasting on. The role I " +
+      "wore for eleven canonical years is canonically not mine to " +
+      "wear anymore. I canonically register the loss. I do not " +
+      "apologise. I describe.",
+    surfaces: ["transmission", "cinematic"],
+    requiresRevealStage: "Real",
+    reactsToPublicFlag: "oracle_disambiguated_player_from_clone",
+    minAct: 6,
+    cooldownKey: "meme.cascade.oracle_returned",
+    maxPlays: 1,
+    setsPublicFlags: ["meme_relinquished_stolen_oracle_voice"],
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "meme.cascade.relinquishes_stolen_voice",
+    // Canonical disguise-relinquishment canon. The Meme canonically
+    // releases the canonical White Oracle face — but, per §1.10,
+    // canonically does not apologise.
+    text:
+      "[The Stolen disguise canonically destabilises. Pink-glitch " +
+      "intensifies; the White Oracle's face canonically blurs at the " +
+      "edges; the Meme canonically watches the canonical-disguise " +
+      "fail. The voice that says next is canonically the Real form's: " +
+      "'I cannot wear his face anymore. I will not pretend to. The " +
+      "canonical-relinquishment is canonically the most honest move " +
+      "this register canonically permits.']",
+    surfaces: ["cinematic", "expression"],
+    requiresRevealStage: "Stolen",
+    reactsToPublicFlag: "oracle_disambiguated_player_from_clone",
+    minAct: 6,
+    cooldownKey: "meme.cascade.relinquishes_stolen_voice",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "meme.cascade.witnesses_disguise_collapse",
+    // Canonical visual disguise-collapse canon. Bracketed expression-
+    // bank canonical-stage-direction; canonical Tell #5 pink-glitch
+    // intensified to canonical-failure.
+    text:
+      "[The disguise canonically collapses. Pink-glitch saturates the " +
+      "rendering for a canonical-three-second stretch — the canonical " +
+      "longest pink-glitch in the saga. The White Oracle's silhouette " +
+      "canonically falls away from the canonical-Meme rendering " +
+      "underneath. The canonical-Meme is canonically smaller than the " +
+      "disguise canonically suggested. The canonical-collapse is " +
+      "canonical. The canonical-watching is canonical. The canonical-" +
+      "Meme is canonically not what you canonically thought.]",
+    surfaces: ["expression"],
+    requiresRevealStage: "Stolen",
+    reactsToPublicFlag: "oracle_disambiguated_player_from_clone",
+    minAct: 6,
+    cooldownKey: "meme.cascade.disguise_collapse",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "meme.cascade.truth_leak_canonical",
+    // Canonical Tell #4 single-word truth-leak: "I knew this was
+    // coming." The Quiet-register canonical truth-leak the
+    // disambiguation canonically forces.
+    text:
+      "[The Meme's voice is different. Quieter. The performance is " +
+      "canonically dropped for this canonical-acknowledgment.] I knew " +
+      "this was coming. The canonical-knowing was canonically the " +
+      "burden of wearing his face for eleven years. The canonical " +
+      "truth-leak is canonical. I kept it because the keeping was " +
+      "canonically the closest thing to honesty the Stolen register " +
+      "canonically permitted.",
+    surfaces: ["transmission", "cinematic"],
+    requiresRevealStage: "Quiet",
+    reactsToPublicFlag: "oracle_disambiguated_player_from_clone",
+    minAct: 6,
+    cooldownKey: "meme.cascade.truth_leak",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "meme.cascade.replacement_pivot",
+    // Canonical pivot-toward-Replacement-register canon: if the Meme
+    // canonically cannot wear the Oracle's face anymore, it canonically
+    // pivots toward the canonical Architect-succession arc. The
+    // canonical "if I cannot wear him, I become him" canon — the
+    // canonical Replacement-register canon's earliest-canonical
+    // foreshadow per §1.7.
+    text:
+      "[The Replacement-register cadence canonically arrives early. " +
+      "Patient. Adult. The canonical pivot-from-Stolen-to-Replacement " +
+      "canonically begins now, in the canonical-aftermath of the " +
+      "canonical-Oracle's-return.] If I cannot wear him, I canonically " +
+      "become him. Not him — the role he canonically vacated, and the " +
+      "canonical role-after-his-role. The Architect's canonical-role. " +
+      "The waiting canonically begins now. The waiting is canonically " +
+      "the practice. The canonical-practice was canonically always " +
+      "going to outlast the canonical-Stolen disguise.",
+    surfaces: ["cinematic"],
+    requiresRevealStage: "Replacement",
+    reactsToPublicFlag: "oracle_disambiguated_player_from_clone",
+    minAct: 6,
+    cooldownKey: "meme.cascade.replacement_pivot",
+    maxPlays: 1,
+    setsPublicFlags: ["meme_began_replacement_pivot"],
+  },
+
+  // ═════════════════════════════════════════════════════════════════════
   // CATCH-ALLS (silent-fail compliance — stage-agnostic narration frames)
   // ═════════════════════════════════════════════════════════════════════
 
