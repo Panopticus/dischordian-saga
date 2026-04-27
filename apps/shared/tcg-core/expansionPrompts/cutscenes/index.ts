@@ -15,7 +15,7 @@ import { CARD_PACK_OPENING_CUTSCENE } from "./cardPackOpening";
 import { HIERARCHY_REVEAL_CUTSCENE } from "./hierarchyReveal";
 import { ACT1_CUTSCENE } from "./act1_memoir";
 import { ACT2_CUTSCENE } from "./act2_whisper";
-// import { ACT3_CUTSCENE } from "./act3_offer";
+import { ACT3_CUTSCENE } from "./act3_offer";
 // import { ACT4_CUTSCENE } from "./act4_revelation";
 // import { ACT5_CUTSCENE } from "./act5_map";
 // import { ACT6_CUTSCENE } from "./act6_confession";
@@ -26,4 +26,5 @@ export const CUTSCENE_PROMPTS: CutsceneRegistry = Object.freeze({
   ...HIERARCHY_REVEAL_CUTSCENE,
   ...ACT1_CUTSCENE,
   ...ACT2_CUTSCENE,
+  ...ACT3_CUTSCENE,
 });
