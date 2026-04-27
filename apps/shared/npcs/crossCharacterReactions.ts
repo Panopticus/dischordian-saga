@@ -857,6 +857,18 @@ export const CROSS_CHARACTER_REACTIONS: ReadonlyArray<CrossCharacterReaction> = 
       "design layer. Future Oracle / Hierophant reactive lines may " +
       "register the canonical-outcome as canon-fulfilled.",
   },
+  {
+    flag: "meme_mascot_silence_canonically_held",
+    setBy: ["the_meme"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Meme ask_about_mascot (Phase 6d.2 part 1). Canonically " +
+      "preserves the §1.10 + §3.3 silence-shape: the Mascot is the " +
+      "Meme's deepest protected mystery. The bank canonically refuses " +
+      "to name / describe / face the Mascot. Future writers may build " +
+      "Stage-4-weave content around this canonical silence WITHOUT " +
+      "violating it.",
+  },
 ];
 
 // --- Helpers --------------------------------------------------------------
