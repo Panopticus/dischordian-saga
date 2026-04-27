@@ -44,6 +44,8 @@ import {
   advanceCircuitSideQuests,
   getMyCircuitSideQuests,
 } from "../services/circuitSideQuestService";
+import { tryNpcReaction } from "./npc";
+import type { NpcKey } from "@shared/npcs/types";
 
 /**
  * Look up the currently-active Living Universe event ids. Used by the
@@ -374,12 +376,47 @@ export const deadMansCircuitRouter = router({
         });
       }
 
+      // Phase 3 pilot — Nilmorg's canonical race-state reaction.
+      // Surface "dmc" reads Nilmorg's 28-state race commentary +
+      // 2-register voice (broadcast vs. one-on-one) per nilmorg.md
+      // §3.3. Eidolon Echo-mode also fires on dmc surface for the
+      // companion's canonical posture-cycling.
+      const DMC_PILOT_NPCS: ReadonlyArray<NpcKey> = ["nilmorg", "your_eidolon"];
+      const npcRaceCommentary: Array<{
+        npcKey: NpcKey;
+        lineId: string;
+        text: string;
+        voId?: string;
+      }> = [];
+      const raceTargetId = `race_${phase}_pos${input.finishPosition}_${input.cloneSurvived ? "alive" : "dead"}`;
+      for (const npcKey of DMC_PILOT_NPCS) {
+        try {
+          const reaction = await tryNpcReaction({
+            userId: ctx.user.id,
+            npcKey,
+            surface: "dmc",
+            targetId: raceTargetId,
+          });
+          if (reaction) {
+            npcRaceCommentary.push({
+              npcKey,
+              lineId: reaction.line.lineId,
+              text: reaction.line.text,
+              voId: reaction.line.voId,
+            });
+          }
+        } catch (reactionErr) {
+          console.warn(`submitRaceResult npc reaction failed for ${npcKey}`, reactionErr);
+        }
+      }
+
       return {
         cpEarned: cpResult.total,
         cpBreakdown: cpResult,
         isPersonalBest,
         designation,
         phase,
+        npcRaceCommentary,
       };
     }),
 
@@ -827,11 +864,48 @@ export const deadMansCircuitRouter = router({
         console.error("severance_prize_paid ripple failed", rippleErr);
       }
 
+      // Phase 3 pilot — Nilmorg's canonical Severance-Prize ceremony
+      // dialog (the canonical "don't thank me" register per
+      // nilmorg.md §1.4 + Companion §4.2 cross-canon). Companion
+      // also fires a non-verbal expression-beat (glyph + posture)
+      // on first-recognition of Nilmorg as midwife.
+      const SEVERANCE_PILOT_NPCS: ReadonlyArray<NpcKey> = [
+        "nilmorg",
+        "dmc_clone_companion",
+      ];
+      const npcCeremonyLines: Array<{
+        npcKey: NpcKey;
+        lineId: string;
+        text: string;
+        voId?: string;
+      }> = [];
+      for (const npcKey of SEVERANCE_PILOT_NPCS) {
+        try {
+          const reaction = await tryNpcReaction({
+            userId: ctx.user.id,
+            npcKey,
+            surface: "dmc",
+            targetId: `severance_prize_${season.name}`,
+          });
+          if (reaction) {
+            npcCeremonyLines.push({
+              npcKey,
+              lineId: reaction.line.lineId,
+              text: reaction.line.text,
+              voId: reaction.line.voId,
+            });
+          }
+        } catch (reactionErr) {
+          console.warn(`grantSeverancePrize npc reaction failed for ${npcKey}`, reactionErr);
+        }
+      }
+
       return {
         success: true,
         eidolonId,
         nickname,
         seasonName: season.name,
+        npcCeremonyLines,
       };
     }),
 
