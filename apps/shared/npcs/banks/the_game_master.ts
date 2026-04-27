@@ -529,6 +529,260 @@ export const THE_GAME_MASTER_BANK: ReadonlyArray<BankEntry> = [
   },
 
   // ═════════════════════════════════════════════════════════════════════
+  // PRESENCE-BAND BANK (Phase 6d.1 part 3)
+  //
+  // Per the_game_master.md §3 + registry GAME_MASTER_BANDS canon:
+  // the Game Master canonically uses presence-bands (Faint / Loud /
+  // Overwhelming) instead of bond-trust. Bands canonically scale by
+  // chess-frequency: 0-4 games Faint; 5-19 games Loud; 20+ games
+  // Overwhelming.
+  //
+  // Per-band canonical register:
+  //   Faint: "almost-not-here" canon, ambient-only
+  //   Loud: "interrupting" canon, breaks into other NPCs' dialog
+  //   Overwhelming: "displacing" canon, canonically replaces the
+  //     Eidolon's glyph during fights (cross-bible canon per
+  //     eidolon.md §4.x Game Master cross-reference)
+  //
+  // Existing bank ships:
+  //   - presence.loud.you_are_being_watched (Loud)
+  //   - presence.overwhelming.he_is_here (Overwhelming)
+  //
+  // This chunk fills 5 per band (15 total lines).
+  // ═════════════════════════════════════════════════════════════════════
+
+  // ─── Faint (0-4 chess games) — ambient-only canon ─────────────────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "game_master.presence.faint.ambient_corridor",
+    text:
+      "[A faint background hum as you walk the corridor. The Game Master " +
+      "is canonically watching from inside the Matrix. He has not yet " +
+      "noticed you specifically; the watching is canonically ambient. " +
+      "You feel the watching the way you feel a room you have entered " +
+      "before having quite arrived.]",
+    surfaces: ["expression"],
+    requiresTrustBand: "Faint",
+    cooldownKey: "game_master.presence.faint.corridor",
+    maxPlays: 8,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "game_master.presence.faint.chess_metaphor_overheard",
+    text:
+      "[An NPC nearby uses the phrase 'as in chess' in conversation. " +
+      "The phrase canonically does not belong to that NPC's vocabulary. " +
+      "The Matrix has canonically inserted it; the inserting is faint. " +
+      "Neither the NPC nor the speaker registers the insertion.]",
+    surfaces: ["expression"],
+    requiresTrustBand: "Faint",
+    cooldownKey: "game_master.presence.faint.chess_metaphor",
+    maxPlays: 5,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "game_master.presence.faint.paperwork_metaphor",
+    text:
+      "[A document the player canonically opens contains a single " +
+      "phrase that does not belong: 'the file is open.' The phrase is " +
+      "canonically the Game Master's. The document continues without " +
+      "comment. The phrase fades on the next blink.]",
+    surfaces: ["expression"],
+    requiresTrustBand: "Faint",
+    cooldownKey: "game_master.presence.faint.paperwork",
+    maxPlays: 4,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "game_master.presence.faint.tcg_match_ambient",
+    text:
+      "[During a TCG match, the canonical match-music canonically " +
+      "carries a faint underlying chess-metronome. The metronome is " +
+      "canonically the Matrix tracking the moves. You can hear it if " +
+      "you listen for it; you canonically do not have to listen for " +
+      "it; the canonical tracking continues regardless.]",
+    surfaces: ["expression"],
+    requiresTrustBand: "Faint",
+    cooldownKey: "game_master.presence.faint.tcg_ambient",
+    maxPlays: 4,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "game_master.presence.faint.dream_register",
+    text:
+      "[A dream-fragment surfaces. In the dream you are seated at a " +
+      "chess board. The board is canonically empty. The opponent is " +
+      "canonically absent. You make a move anyway. The move is canonical. " +
+      "The Matrix files it. You wake up before the next move.]",
+    surfaces: ["expression"],
+    requiresTrustBand: "Faint",
+    cooldownKey: "game_master.presence.faint.dream",
+    maxPlays: 3,
+  },
+
+  // ─── Loud (5-19 chess games) — interrupting canon ────────────────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "game_master.presence.loud.interrupting_npc_dialog",
+    text:
+      "[An NPC mid-sentence pauses, finishes the sentence, and the last " +
+      "three words are canonically not theirs. The Game Master has " +
+      "canonically interrupted the canonical dialog. The NPC does not " +
+      "register the interruption. The player canonically does. The " +
+      "sentence now reads with a phrasing the NPC could not have chosen.]",
+    surfaces: ["expression", "transmission"],
+    requiresTrustBand: "Loud",
+    cooldownKey: "game_master.presence.loud.interrupt_npc",
+    maxPlays: 4,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "game_master.presence.loud.chess_metaphor_takes_over",
+    text:
+      "[The conversation in the room canonically pivots. The NPC speaking " +
+      "begins describing an unrelated matter, but the unrelated matter " +
+      "canonically resolves into a chess analogy by the third sentence. " +
+      "The pivot is the Game Master's; the NPC is canonically unaware " +
+      "they have been pivoted. The metaphor escalates as the NPC speaks.]",
+    surfaces: ["expression"],
+    requiresTrustBand: "Loud",
+    cooldownKey: "game_master.presence.loud.metaphor_takeover",
+    maxPlays: 3,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "game_master.presence.loud.witnessing_canon",
+    text:
+      "[The Game Master has canonically been watching for some time. " +
+      "He has not commented; he canonically does not need to. The " +
+      "watching is the canon. You are aware of being watched the way " +
+      "an actor mid-monologue is aware of the audience: not directly, " +
+      "but through the canonical pressure of having been seen.]",
+    surfaces: ["expression"],
+    requiresTrustBand: "Loud",
+    cooldownKey: "game_master.presence.loud.witnessing",
+    maxPlays: 4,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "game_master.presence.loud.post_chess_game_aftermath",
+    text:
+      "[The chess game ended; the watching continues. The dead Game " +
+      "Master canonically does not stop watching when the game stops. " +
+      "The game is canonically a single ongoing match interrupted by " +
+      "the canonical-other matters of the saga. Each match resumes the " +
+      "canonical-prior position. The post-game silence is the canonical " +
+      "between-move pause.]",
+    surfaces: ["expression"],
+    requiresTrustBand: "Loud",
+    cooldownKey: "game_master.presence.loud.post_chess",
+    maxPlays: 3,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "game_master.presence.loud.corridor_is_the_presence",
+    text:
+      "[The corridor itself is canonically the Game Master's presence. " +
+      "The architecture canonically belongs to him; the Matrix is the " +
+      "canonical-substrate; the substrate is the corridor; the corridor " +
+      "is the canonical-watching. You walk the watching. You are " +
+      "canonically inside the canonical-presence regardless of which " +
+      "way you canonically face.]",
+    surfaces: ["expression"],
+    requiresTrustBand: "Loud",
+    cooldownKey: "game_master.presence.loud.corridor",
+    maxPlays: 3,
+  },
+
+  // ─── Overwhelming (20+ chess games) — displacing canon ───────────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "game_master.presence.overwhelming.displaces_eidolon_glyph",
+    // Canonical cross-bible canon per eidolon.md §4.x Game Master
+    // cross-reference: at Overwhelming presence the GM canonically
+    // displaces the Eidolon's glyph during fights.
+    text:
+      "[The Eidolon's canonical glyph fades. The Game Master's " +
+      "canonical-displacement renders in its place — a chess-board " +
+      "overlay where the Eidolon's expression-channel canonically " +
+      "would have been. The Eidolon is canonically still present; " +
+      "the soul-substrate canonically still bonds; the canonical-glyph " +
+      "is canonically displaced. The Eidolon-side companion-self " +
+      "canonically registers the displacement with a low canonical-" +
+      "discomfort the player canonically reads as warning.]",
+    surfaces: ["expression", "fight"],
+    requiresTrustBand: "Overwhelming",
+    cooldownKey: "game_master.presence.overwhelming.displaces_eidolon",
+    maxPlays: 2,
+    setsPublicFlags: ["game_master_displaced_eidolon_glyph"],
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "game_master.presence.overwhelming.archon_acknowledges_player",
+    text:
+      "[The Archon-form canonically manifests. The Game Master is " +
+      "canonically here, in the Archon register, acknowledging you " +
+      "directly. The acknowledgment is the canonical-rare event the " +
+      "saga's earlier acts canonically did not permit. You played enough " +
+      "chess; the canonical-permission was canonically earned. He " +
+      "looks at you the way an architect looks at a corridor that has " +
+      "begun to hold its own canonical weight.]",
+    surfaces: ["cinematic", "transmission"],
+    requiresTrustBand: "Overwhelming",
+    requiresRevealStage: "Archon",
+    cooldownKey: "game_master.presence.overwhelming.archon_ack",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "game_master.presence.overwhelming.dead_ai_full_presence",
+    text:
+      "[The dead_AI form canonically manifests. The Matrix's canonical-" +
+      "substrate becomes the room you are canonically standing in. The " +
+      "chess board overlays the floor; the canonical-pieces overlay the " +
+      "objects in the room; the canonical-positions overlay the people. " +
+      "The dead Game Master sits at the center; the center is canonically " +
+      "where you are; the canonical-overlap is canonically permanent.]",
+    surfaces: ["cinematic", "transmission"],
+    requiresTrustBand: "Overwhelming",
+    requiresRevealStage: "dead_AI",
+    cooldownKey: "game_master.presence.overwhelming.dead_ai_full",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "game_master.presence.overwhelming.chess_board_overlay",
+    text:
+      "[The chess board canonically overlays the saga itself. Every " +
+      "interaction the player has canonically registers as a canonical " +
+      "move on the canonical-overlay. The overlay is canonically read- " +
+      "only; you canonically cannot edit it; the Matrix canonically " +
+      "files every move. The filing is the canonical-end-state of the " +
+      "presence-band. There is canonically no further escalation.]",
+    surfaces: ["expression"],
+    requiresTrustBand: "Overwhelming",
+    cooldownKey: "game_master.presence.overwhelming.chess_overlay",
+    maxPlays: 2,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "game_master.presence.overwhelming.predestination_overflow",
+    text:
+      "[The predestination cadence canonically becomes the room. Every " +
+      "moment the player canonically experiences canonically reads as " +
+      "already-played; the Matrix canonically narrates from after; the " +
+      "after is canonically now; the now is canonically after. The " +
+      "Game Master's voice is canonically the tense the room is in.]",
+    surfaces: ["expression"],
+    requiresTrustBand: "Overwhelming",
+    cooldownKey: "game_master.presence.overwhelming.predestination",
+    maxPlays: 1,
+  },
+
+  // ═════════════════════════════════════════════════════════════════════
   // CATCH-ALLS (silent-fail compliance)
   // ═════════════════════════════════════════════════════════════════════
 
@@ -551,5 +805,25 @@ export const THE_GAME_MASTER_BANK: ReadonlyArray<BankEntry> = [
     lineId: "game_master.transmission.catchall",
     text: "[A faint presence. The Game Master is canonically dead in the Matrix of Dreams. He still notices.]",
     surfaces: ["transmission"],
+  },
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "game_master.expression.catchall",
+    // Catch-all for expression surface (introduced in Phase 6d.1
+    // part 3 by presence-band ambient + interrupting + displacing
+    // lines). Silent-fail-safe canonical ambient register.
+    text: "[A faint canonical presence. The watching continues regardless of which way the player canonically faces.]",
+    surfaces: ["expression"],
+  },
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "game_master.fight.catchall",
+    // Catch-all for fight surface (introduced in Phase 6d.1 part 3
+    // by displaces_eidolon_glyph). Silent-fail-safe canonical chess-
+    // overlay register.
+    text: "[The fight registers as a canonical move on the canonical-overlay. The Matrix files it. The dead Game Master notices, does not comment.]",
+    surfaces: ["fight"],
   },
 ];

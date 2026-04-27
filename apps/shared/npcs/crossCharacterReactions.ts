@@ -834,6 +834,18 @@ export const CROSS_CHARACTER_REACTIONS: ReadonlyArray<CrossCharacterReaction> = 
       "recovery work post-original-destruction. Future Oracle reactive " +
       "lines may register the canonical 'Oracle approaches' canon.",
   },
+  {
+    flag: "game_master_displaced_eidolon_glyph",
+    setBy: ["the_game_master"],
+    reactsBy: ["your_eidolon", "future_reader"],
+    canonicalNote:
+      "Per Game Master presence-overwhelming-displaces-eidolon-glyph " +
+      "(Phase 6d.1 part 3). Canonical cross-bible canon per " +
+      "eidolon.md §4.x Game Master cross-reference: at Overwhelming " +
+      "presence the GM canonically displaces the Eidolon's glyph " +
+      "during fights. Eidolon reactive lines may canonically register " +
+      "the displacement as canonical-discomfort.",
+  },
 ];
 
 // --- Helpers --------------------------------------------------------------
