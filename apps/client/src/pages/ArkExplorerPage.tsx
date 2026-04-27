@@ -148,28 +148,65 @@ function getFeatureIcon(action: string | undefined) {
 }
 
 /* ─── ELARA POPUP ─── */
-function ElaraPopup({ text, onClose, voUrl }: { text: string; onClose: () => void; voUrl?: string }) {
+function ElaraPopup({ text, onClose, voUrl }: { text: string | string[]; onClose: () => void; voUrl?: string }) {
+  // Normalise to a beat array so the rest of the render path is uniform.
+  // A plain string is just a single-beat monologue; long room intros
+  // pass an array and we walk through it one beat at a time, keyed off
+  // VO playback when audio is available.
+  const beats = useMemo(() => (Array.isArray(text) ? text : [text]), [text]);
+  const [beatIndex, setBeatIndex] = useState(0);
+  // Reset beat progression whenever the parent swaps in a new dialog.
+  useEffect(() => { setBeatIndex(0); }, [beats]);
+  const isFinalBeat = beatIndex >= beats.length - 1;
+  const currentBeat = beats[Math.min(beatIndex, beats.length - 1)];
+
   const [displayed, setDisplayed] = useState("");
   const [done, setDone] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const [voPlaying, setVoPlaying] = useState(false);
 
-  // Play VO audio when popup opens — significantly louder than BGM
+  // Play VO audio when the popup opens — significantly louder than BGM.
+  // Audio outlives individual beat changes (the file is one continuous
+  // monologue) so this effect is keyed only on `voUrl`, not beatIndex.
   useEffect(() => {
-    if (voUrl) {
-      const audio = new Audio(voUrl);
-      audio.volume = 0.92;
-      audioRef.current = audio;
-      audio.play().then(() => setVoPlaying(true)).catch(() => {/* autoplay blocked */});
-      audio.onended = () => setVoPlaying(false);
-      return () => {
-        audio.pause();
-        audio.onended = null;
-        audioRef.current = null;
-        setVoPlaying(false);
-      };
-    }
+    if (!voUrl) return;
+    const audio = new Audio(voUrl);
+    audio.volume = 0.92;
+    audioRef.current = audio;
+    audio.play().catch(() => {/* autoplay blocked */});
+    return () => {
+      audio.pause();
+      audioRef.current = null;
+    };
   }, [voUrl]);
+
+  // Auto-advance beats based on VO progress. We don't have per-beat
+  // timestamps, so apportion the audio's duration by character-count
+  // weight — longer beats stay on screen longer. When the player has
+  // no audio (or the file is still loading metadata) auto-advance is a
+  // no-op and the player advances manually via the [next] / [dismiss]
+  // affordance below.
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio || beats.length <= 1) return;
+    const totalChars = beats.reduce((sum, b) => sum + b.length, 0) || 1;
+    const cumChars: number[] = [];
+    beats.reduce((acc, b, i) => {
+      const next = acc + b.length;
+      cumChars[i] = next;
+      return next;
+    }, 0);
+    const onTimeUpdate = () => {
+      if (!Number.isFinite(audio.duration) || audio.duration <= 0) return;
+      const charsAt = totalChars * (audio.currentTime / audio.duration);
+      let target = beats.length - 1;
+      for (let i = 0; i < beats.length; i++) {
+        if (charsAt < cumChars[i]) { target = i; break; }
+      }
+      setBeatIndex((prev) => (target > prev ? target : prev));
+    };
+    audio.addEventListener("timeupdate", onTimeUpdate);
+    return () => audio.removeEventListener("timeupdate", onTimeUpdate);
+  }, [beats]);
 
   // Stop VO on close
   const handleClose = () => {
@@ -180,13 +217,30 @@ function ElaraPopup({ text, onClose, voUrl }: { text: string; onClose: () => voi
     onClose();
   };
 
+  // Manual advance (clicking the prompt under the text). On the final
+  // beat it dismisses the popup outright.
+  const handleAdvance = () => {
+    if (isFinalBeat) { handleClose(); return; }
+    setBeatIndex((i) => Math.min(i + 1, beats.length - 1));
+  };
+
+  // Per-beat typewriter. When a VO is driving us, skip the typewriter
+  // and show the full beat instantly so visemes / heard text stay in
+  // sync — the typewriter would otherwise lag the audio by ~20ms/char.
+  // The TTS-less fallback path keeps the typewriter so silent reads
+  // still feel paced.
   useEffect(() => {
     setDisplayed("");
     setDone(false);
+    if (voUrl) {
+      setDisplayed(currentBeat);
+      setDone(true);
+      return;
+    }
     let i = 0;
     const interval = setInterval(() => {
-      if (i < text.length) {
-        setDisplayed(text.slice(0, i + 1));
+      if (i < currentBeat.length) {
+        setDisplayed(currentBeat.slice(0, i + 1));
         i++;
       } else {
         setDone(true);
@@ -194,7 +248,7 @@ function ElaraPopup({ text, onClose, voUrl }: { text: string; onClose: () => voi
       }
     }, 20);
     return () => clearInterval(interval);
-  }, [text]);
+  }, [currentBeat, voUrl]);
 
   return (
     <motion.div
@@ -236,12 +290,21 @@ function ElaraPopup({ text, onClose, voUrl }: { text: string; onClose: () => voi
           </div>
         </div>
         {done && (
-          <button
-            onClick={handleClose}
-            className="mt-2 w-full text-center font-mono text-[10px] text-[var(--neon-cyan)]/50 hover:text-[var(--neon-cyan)] transition-colors"
-          >
-            [dismiss]
-          </button>
+          <div className="mt-2 flex items-center justify-between gap-2">
+            {/* Beat counter only when there's more than one beat — keeps
+                the single-line hotspot dialogs visually unchanged. */}
+            {beats.length > 1 ? (
+              <span className="font-mono text-[9px] text-[var(--neon-cyan)]/30 tracking-wider">
+                {beatIndex + 1} / {beats.length}
+              </span>
+            ) : <span />}
+            <button
+              onClick={handleAdvance}
+              className="font-mono text-[10px] text-[var(--neon-cyan)]/50 hover:text-[var(--neon-cyan)] transition-colors"
+            >
+              {isFinalBeat ? "[dismiss]" : "[next]"}
+            </button>
+          </div>
         )}
       </div>
     </motion.div>
@@ -587,7 +650,11 @@ export default function ArkExplorerPage() {
   const { notify, notifyAchievement } = useNotificationQueue();
   useGameAreaBGM("ark");
   const [, navigate] = useLocation();
-  const [elaraText, setElaraText] = useState<string | null>(null);
+  // ElaraPopup accepts either a single string (legacy default for hotspot
+  // one-liners) or an array of beats (long room intros that pace against
+  // their VO). The popup itself reduces single strings to a one-beat
+  // array internally so the render path is unified.
+  const [elaraText, setElaraText] = useState<string | string[] | null>(null);
   const [elaraVoUrl, setElaraVoUrl] = useState<string | undefined>(undefined);
   const [showOnboardingTutorial, setShowOnboardingTutorial] = useState(false);
   const [activeTransmission, setActiveTransmission] = useState<SecretTransmission | null>(null);

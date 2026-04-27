@@ -346,7 +346,14 @@ export interface RoomDef {
   deck: number;
   deckName: string;
   description: string;
-  elaraIntro: string;
+  /**
+   * Elara's first-visit room narration. Either a single string (legacy
+   * default) or an array of beats — when an array is supplied, the
+   * ElaraPopup advances through each beat one-at-a-time, paced against
+   * `elaraIntroVoUrl` if present (character-proportional auto-advance)
+   * so the on-screen text tracks what the player is actually hearing.
+   */
+  elaraIntro: string | string[];
   elaraIntroVoUrl?: string;
   imageUrl: string;
   features: string[];
@@ -379,7 +386,17 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     deckName: "Habitation",
     description: "Your cryogenic pod sits among rows of others — most empty, some still sealed with frost. The air is cold and stale. Emergency lights cast long shadows across the metal floor.",
     elaraIntroVoUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/elara-cryo-bay_b6e77245.mp3",
-    elaraIntro: "The Chamber of Awakening. You were not born here... but you returned to yourself within these walls. Your pod stands among the others — one vessel in a field of silence. Most have opened. The first wave of Potentials passed through long before you, stepping into the war and leaving nothing behind but absence. But not all cycles completed. Some remain sealed. Unbroken. Unanswered. The systems still hum around them, but what they sustain... is unclear. Life, suspended between moments — or failure, preserved beyond its end. I have traced the signals. They do not resolve cleanly. And so I do not open them. There are thresholds in this Ark that are better left... untested.",
+    // Split into beats so ElaraPopup paces the on-screen text against
+    // the VO file (character-proportional auto-advance). The full
+    // monologue plays as one continuous audio underneath; the player
+    // sees one beat at a time, advancing roughly when Elara reaches
+    // the next sentence cluster in the audio.
+    elaraIntro: [
+      "The Chamber of Awakening. You were not born here... but you returned to yourself within these walls. Your pod stands among the others — one vessel in a field of silence. Most have opened.",
+      "The first wave of Potentials passed through long before you, stepping into the war and leaving nothing behind but absence. But not all cycles completed. Some remain sealed. Unbroken. Unanswered.",
+      "The systems still hum around them, but what they sustain... is unclear. Life, suspended between moments — or failure, preserved beyond its end.",
+      "I have traced the signals. They do not resolve cleanly. And so I do not open them. There are thresholds in this Ark that are better left... untested.",
+    ],
     imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/room_cryo_bay-SdeEqURrDvgrrbJq4WK3N5.webp",
     features: ["Character Sheet", "Settings", "Profile"],
     featureRoutes: ["/character-sheet", "/create-citizen"],
