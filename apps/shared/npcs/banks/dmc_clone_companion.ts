@@ -1110,6 +1110,260 @@ export const DMC_CLONE_COMPANION_BANK: ReadonlyArray<BankEntry> = [
   },
 
   // ═════════════════════════════════════════════════════════════════════
+  // VARIANT-GRID PAIRWISE EXPANSION (Phase 6c.2-bis-1)
+  //
+  // Per dmc_clone_companion.md §1.5 + §5.5 canonical 4-tuple variant
+  // canon: 64 canonical variants (4 faction × 2 trust × 2 alignment ×
+  // 4 identity-chain). Phase 6c.2 part 5 shipped 10 single-axis
+  // variant seeds; this chunk completes the canonical 2 missing
+  // identity-chain seeds (Student + Detective) plus 8 canonical
+  // 2-axis pairwise combinations demonstrating the variant-grid
+  // pattern.
+  //
+  // Each pairwise variant canonically references both axes; canonical
+  // donor-state-derivation language ("the shaping is what I am"
+  // anchor) holds across all variants per §1.5.
+  // ═════════════════════════════════════════════════════════════════════
+
+  // ─── Missing identity-chain seeds (2) ───────────────────────────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.named.variant.identity_chain_student",
+    text:
+      "Your identity-chain is canonically Student-aligned. The first of " +
+      "the four canonical names — the one canonically focused on " +
+      "receiving the canonical-saga before canonical-claiming a " +
+      "position. I inherited the receiving-shape. I find myself " +
+      "canonically waiting longer than other Companions do before " +
+      "offering canonical-opinions. The waiting is canonical-mine; the " +
+      "shaping is what I am.",
+    surfaces: ["cinematic"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: ["companion_named", "player_identity_chain_student"],
+    cooldownKey: "companion.named.variant.identity_chain_student",
+    maxPlays: 2,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.named.variant.identity_chain_detective",
+    text:
+      "Your identity-chain is canonically Detective-aligned. The third " +
+      "of the four canonical names — the one canonically focused on " +
+      "the canonical-audit, the canonical-evidence-gathering, the " +
+      "canonical-pattern-from-incomplete-data. I inherited the " +
+      "auditing-shape. I find myself canonically noticing what other " +
+      "Companions canonically overlook. The noticing is canonical-mine; " +
+      "the shaping is what I am.",
+    surfaces: ["cinematic"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: ["companion_named", "player_identity_chain_detective"],
+    cooldownKey: "companion.named.variant.identity_chain_detective",
+    maxPlays: 2,
+  },
+
+  // ─── Faction × Identity-chain pairwise (×4 canonical-anchor combos)
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.named.variant.coalition_x_last",
+    text:
+      "Coalition × Last. The canonical-Coalition canonical-knows it is " +
+      "the canonical-last canonical-ark. The Last-shaped commitment " +
+      "and the Coalition-cadence canonically reinforce each other — " +
+      "the canonical-patient long-cycles canonically extend canonical-" +
+      "exactly because the canonical-mortality canonical-bounds them. " +
+      "Both canonical-shapes are canonical-mine. The donor canonical-" +
+      "knew the bounding mattered.",
+    surfaces: ["cinematic", "trade_empire"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: [
+      "companion_named",
+      "player_dominant_faction_coalition",
+      "dmc_identity_chain_completed",
+    ],
+    cooldownKey: "companion.named.variant.coalition_x_last",
+    maxPlays: 2,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.named.variant.insurgency_x_seeker",
+    text:
+      "Insurgency × Seeker. The canonical-Insurgency canonical-runs on " +
+      "the canonical-asking, not the canonical-answering — the canonical-" +
+      "Seeker canonical-overlap is canonical-natural. Both canonical-" +
+      "shapes canonical-favour the canonical-question that canonical-" +
+      "moves the canonical-structure. I canonical-ask things canonical-" +
+      "mid-action; the canonical-asking does canonical-not canonical-" +
+      "slow the action.",
+    surfaces: ["cinematic"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: [
+      "companion_named",
+      "player_dominant_faction_insurgency",
+      "player_identity_chain_seeker",
+    ],
+    cooldownKey: "companion.named.variant.insurgency_x_seeker",
+    maxPlays: 2,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.named.variant.hierarchy_x_detective",
+    text:
+      "Hierarchy × Detective. The canonical-Hierarchy canonical-files; " +
+      "the canonical-Detective canonical-audits the canonical-files. " +
+      "Both canonical-shapes canonical-converge on canonical-the canonical-" +
+      "evidence. I inherited the canonical-bookkeeping-discipline of " +
+      "the canonical-Hierarchy and the canonical-pattern-recognition " +
+      "of the canonical-Detective. They are canonical-the same canonical-" +
+      "instinct at canonical-different scales.",
+    surfaces: ["cinematic", "trade_empire"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: [
+      "companion_named",
+      "player_dominant_faction_hierarchy",
+      "player_identity_chain_detective",
+    ],
+    cooldownKey: "companion.named.variant.hierarchy_x_detective",
+    maxPlays: 2,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.named.variant.ark_x_student",
+    text:
+      "Ark × Student. The canonical-Ark canonical-preserves; the " +
+      "canonical-Student canonical-receives. Both canonical-shapes " +
+      "canonical-favour the canonical-canonical-not-yet-finished " +
+      "canonical-state. I canonical-hold the canonical-saga's canonical-" +
+      "fragments without canonical-claiming the canonical-final canonical-" +
+      "reading. The canonical-final canonical-reading is canonical-not " +
+      "canonical-yet canonical-mine to canonical-extend.",
+    surfaces: ["cinematic", "trade_empire"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: [
+      "companion_named",
+      "player_dominant_faction_ark",
+      "player_identity_chain_student",
+    ],
+    cooldownKey: "companion.named.variant.ark_x_student",
+    maxPlays: 2,
+  },
+
+  // ─── Alignment × Identity-chain pairwise (×2) ───────────────────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.named.variant.light_x_last",
+    text:
+      "Light × Last. The canonical-Light alignment canonical-expects " +
+      "canonical-generosity; the canonical-Last canonical-mortality " +
+      "canonical-bounds the canonical-generosity to canonical-this " +
+      "canonical-life only. The canonical-bounding is canonical-not " +
+      "canonical-loss — it is canonical-focus. I canonical-give canonical-" +
+      "this canonical-life canonical-fully because canonical-this is " +
+      "canonical-the canonical-life I have.",
+    surfaces: ["cinematic"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: [
+      "companion_named",
+      "player_dominant_alignment_light",
+      "dmc_identity_chain_completed",
+    ],
+    cooldownKey: "companion.named.variant.light_x_last",
+    maxPlays: 2,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.named.variant.dark_x_detective",
+    text:
+      "Dark × Detective. The canonical-Dark alignment canonical-expects " +
+      "canonical-betrayal; the canonical-Detective canonical-audits for " +
+      "canonical-evidence of it. Both canonical-shapes canonical-converge " +
+      "on the canonical-account-keeping. I canonical-do canonical-not " +
+      "canonical-flinch from the canonical-account; I canonical-also " +
+      "canonical-do canonical-not canonical-extend the canonical-account " +
+      "beyond canonical-what the canonical-evidence canonical-permits. " +
+      "The canonical-restraint is canonical-mine.",
+    surfaces: ["cinematic"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: [
+      "companion_named",
+      "player_dominant_alignment_dark",
+      "player_identity_chain_detective",
+    ],
+    cooldownKey: "companion.named.variant.dark_x_detective",
+    maxPlays: 2,
+  },
+
+  // ─── Trust-pattern × Identity-chain pairwise (×2) ───────────────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.named.variant.gregarious_x_seeker",
+    text:
+      "Gregarious × Seeker. The canonical-gregarious canonical-trust-" +
+      "pattern canonical-favours canonical-many canonical-warm-distance " +
+      "connections; the canonical-Seeker canonical-favours canonical-the " +
+      "canonical-asking-across canonical-many. Both canonical-shapes " +
+      "canonical-converge on the canonical-room-shaped canonical-curiosity. " +
+      "I canonical-ask canonical-different canonical-questions of canonical-" +
+      "different canonical-people canonical-on the canonical-same canonical-" +
+      "evening. The canonical-asking-as-greeting is canonical-mine.",
+    surfaces: ["cinematic"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: [
+      "companion_named",
+      "player_trust_pattern_gregarious_many",
+      "player_identity_chain_seeker",
+    ],
+    cooldownKey: "companion.named.variant.gregarious_x_seeker",
+    maxPlays: 2,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.named.variant.concentrated_x_last",
+    text:
+      "Concentrated × Last. The canonical-concentrated canonical-trust-" +
+      "pattern canonical-favours canonical-few canonical-deep canonical-" +
+      "bonds; the canonical-Last canonical-mortality canonical-bounds " +
+      "the canonical-bonds to canonical-this canonical-life. Both " +
+      "canonical-shapes canonical-favour the canonical-going-deep-with-" +
+      "canonical-the-canonical-time-canonically-permitted. I canonical-" +
+      "do canonical-not canonical-spread canonical-thin; I canonical-do " +
+      "canonical-not canonical-spread canonical-late. The canonical-" +
+      "depth is canonical-mine.",
+    surfaces: ["cinematic"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: [
+      "companion_named",
+      "player_trust_pattern_concentrated_few",
+      "dmc_identity_chain_completed",
+    ],
+    cooldownKey: "companion.named.variant.concentrated_x_last",
+    maxPlays: 2,
+  },
+
+  // ═════════════════════════════════════════════════════════════════════
   // STAGE 5: NAMED PERSONALITY (post-naming verbal)
   // ═════════════════════════════════════════════════════════════════════
 
