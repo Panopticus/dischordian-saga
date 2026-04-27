@@ -33,6 +33,7 @@ import {
   npcAskTopicHistory,
   npcDialogTreeState,
   eidolonBonds,
+  playerProfile as playerProfileTable,
 } from "../../db/schema";
 import { and, desc, eq } from "drizzle-orm";
 import { ripple } from "../services/rippleEngine";
@@ -46,7 +47,16 @@ import {
 import {
   eidolonBondToTrustState,
 } from "../../shared/npcs/adapters/eidolonBondAdapter";
-import type { NpcKey, TrustState } from "../../shared/npcs/types";
+import type {
+  DialogSurface,
+  NpcKey,
+  PlayerAxis,
+  PlayerProfileSnapshot,
+  TrustState,
+} from "../../shared/npcs/types";
+import { selectNpcLine } from "../../shared/npcs/selector";
+import { getBank } from "../../shared/npcs/banks";
+import { magnitudeOf } from "../../shared/playerProfile";
 
 // --- Validation -----------------------------------------------------------
 
@@ -574,5 +584,143 @@ export const npcRouter = router({
         });
       }
       return { ok: true };
+    }),
+
+  // ────────────────────────────────────────────────────────────────
+  // PHASE 3 PILOT — reactToEvent: one-call NPC reaction surface
+  //
+  // Wraps load-context → selector → record → side-effects in a
+  // single round-trip. Game systems (Trade Empire, DMC, fight
+  // engine, ship rooms, TCG) call this from their canonical
+  // pivot moments (mission outcome, contract signed, sector
+  // arrival, route milestone, race finish, room enter, etc.).
+  //
+  // Silent-fail contract: returns { ok: true, line: null } when
+  // no line matches. Callers MUST handle null gracefully.
+  // ────────────────────────────────────────────────────────────────
+
+  reactToEvent: protectedProcedure
+    .input(
+      z.object({
+        npcKey: npcKeySchema,
+        surface: z.string().min(1).max(64),
+        targetId: z.string().min(1).max(256).optional().default(""),
+        act: z.number().int().min(1).max(7).default(1),
+        narrativeFlags: z.array(z.string().min(1).max(256)).optional().default([]),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const userId = ctx.user.id;
+      const npcKey = input.npcKey as NpcKey;
+      const surface = input.surface as DialogSurface;
+      const db = await getDb();
+
+      // 1. Load full selector context.
+      const trustState = await resolveTrustState(userId, npcKey);
+      const publicFlagsSet = await readPublicFlags(userId);
+      const flagsSet = new Set<string>(input.narrativeFlags);
+
+      // Player profile snapshot — read row, compute axis magnitudes.
+      let profileSnap: PlayerProfileSnapshot;
+      if (db) {
+        const profileRows = await db
+          .select()
+          .from(playerProfileTable)
+          .where(eq(playerProfileTable.userId, userId))
+          .limit(1);
+        const row = profileRows[0];
+        const axes: Record<PlayerAxis, ReturnType<typeof magnitudeOf>> = {
+          aggression: magnitudeOf(row?.aggression ?? 0),
+          mercy: magnitudeOf(row?.mercy ?? 0),
+          curiosity: magnitudeOf(row?.curiosity ?? 0),
+          conformity: magnitudeOf(row?.conformity ?? 0),
+          vigilance: magnitudeOf(row?.vigilance ?? 0),
+          vulnerability: magnitudeOf(row?.vulnerability ?? 0),
+          wit: magnitudeOf(row?.wit ?? 0),
+        };
+        profileSnap = { axes };
+      } else {
+        const neutral = magnitudeOf(0);
+        profileSnap = {
+          axes: {
+            aggression: neutral,
+            mercy: neutral,
+            curiosity: neutral,
+            conformity: neutral,
+            vigilance: neutral,
+            vulnerability: neutral,
+            wit: neutral,
+          },
+        };
+      }
+
+      // Per-line history map (cooldownKey + maxPlays enforcement).
+      const lineHistoryMap = new Map<string, number[]>();
+      if (db) {
+        const historyRows = await db
+          .select({ lineId: npcLineHistory.lineId, heardAt: npcLineHistory.heardAt })
+          .from(npcLineHistory)
+          .where(
+            and(eq(npcLineHistory.userId, userId), eq(npcLineHistory.npcKey, npcKey)),
+          );
+        for (const r of historyRows) {
+          const arr = lineHistoryMap.get(r.lineId) ?? [];
+          arr.push(r.heardAt.getTime());
+          lineHistoryMap.set(r.lineId, arr);
+        }
+      }
+
+      // 2. Run the canonical selector.
+      const bank = getBank(npcKey);
+      const result = selectNpcLine(bank, {
+        npcKey,
+        surface,
+        targetId: input.targetId,
+        act: input.act,
+        flags: flagsSet,
+        publicFlags: publicFlagsSet,
+        trustState,
+        playerProfile: profileSnap,
+        lineHistory: lineHistoryMap,
+      });
+
+      if (!result) {
+        return { ok: true, line: null as null };
+      }
+
+      // 3. Apply canonical side-effects.
+      if (db) {
+        await db.insert(npcLineHistory).values({
+          userId,
+          npcKey,
+          lineId: result.line.lineId,
+        });
+      }
+
+      let nextTrust: TrustState = trustState;
+      if (result.line.trustDelta) {
+        nextTrust = await applyTrustDelta(userId, npcKey, result.line.trustDelta);
+      }
+
+      if (result.line.setsPublicFlags?.length) {
+        await Promise.all(
+          result.line.setsPublicFlags.map(f => writePublicFlag(userId, f, npcKey)),
+        );
+      }
+
+      return {
+        ok: true,
+        line: {
+          lineId: result.line.lineId,
+          npcKey: result.line.npcKey,
+          text: result.line.text,
+          voId: result.line.voId,
+          trustDelta: result.line.trustDelta,
+          choices: result.line.choices,
+          nextLineId: result.line.nextLineId,
+        },
+        specificityScore: result.specificityScore,
+        trust: { ...nextTrust, flags: Array.from(nextTrust.flags) },
+      };
     }),
 });
