@@ -387,6 +387,192 @@ const ENTRIES: ExpansionCardRegistry = {
       "docs/built/LORE_BIBLE.md §Hierarchy as infernal corporation",
     ],
   },
+
+  "s2_hierarchy_anl_travel_expense_auditor": {
+    cardId: "s2_hierarchy_anl_travel_expense_auditor",
+    name: "Travel & Expense Auditor",
+    setCode: "S2_HIERARCHY",
+    faction: "new_babylon",
+    rarity: "uncommon",
+    cardType: "unit",
+    flavorText:
+      "The receipt is missing. The receipt is invalid. The receipt is in the wrong currency. The traveler will need to refile. The Auditor has, by Q3, three thousand open expense queries.",
+    sceneDelta:
+      "Mid-shot. A Hierarchy T&E auditor at a Hierarchy expense-review workstation, late-thirties, in a Hierarchy charcoal blouse over a black skirt. Single tall monitor showing a Hierarchy expense-management grid; on the desk a small physical inbox stacked with photocopied paper receipts (some torn, some faded, some clearly illegible). Right hand mid-stamp with a small REJECTED stamp on a printed expense report; left hand holds a magnifying-glass over a faded receipt.",
+    moodKeywords: [
+      "three thousand open expense queries",
+      "REJECTED stamp mid-impact",
+      "faded receipts under magnifier",
+      "the receipt is in the wrong currency",
+    ],
+    palette:
+      "Hierarchy charcoal blouse + black skirt + cool-cyan expense-grid + warm desk-lamp + receipt-paper muted-warm + REJECTED stamp deep-red + magnifier brass accent",
+    composition:
+      "Mid-shot front three-quarter, Auditor at frame-centre seated, monitor at frame-rear, paper-inbox at frame-foreground, magnifier in hand at chest-height",
+    notes:
+      "Uncommon. Pairs with Procurement Clerk (within-tier) and with Mid-Year Adjuster (Manager) — the T&E function is the Hierarchy's smallest-unit financial-discipline IC layer.",
+    archetypeRationale:
+      "Newly-named per plan. T&E auditors are the Hierarchy's pettiest-financial-friction IC layer; the canonical signature is the REJECTED stamp + the illegible-receipt magnifier.",
+    loreCitations: [
+      "docs/built/LORE_BIBLE.md §Hierarchy as infernal corporation",
+      "(intra-set) §s2_hierarchy_anl_procurement_clerk — fiscal-IC pairing",
+    ],
+  },
+
+  "s2_hierarchy_anl_vendor_coordinator": {
+    cardId: "s2_hierarchy_anl_vendor_coordinator",
+    name: "Vendor Coordinator",
+    setCode: "S2_HIERARCHY",
+    faction: "new_babylon",
+    rarity: "uncommon",
+    cardType: "unit",
+    flavorText:
+      "He has scheduled the kickoff. He has chased the SOW. He has reminded the vendor of the SLA. He has filed the change-order. He has, in a quiet moment, started looking for a different role.",
+    sceneDelta:
+      "Mid-shot. A Hierarchy vendor-coordinator analyst at a Hierarchy ops-pod desk, late-twenties, in a Hierarchy navy polo over a charcoal sweater. Two monitors: leftmost shows a Hierarchy email client mid-compose to a vendor; rightmost shows a Hierarchy SOW document with several yellow highlights. His face is tired, faintly resigned. Right hand on mouse mid-click; left hand cradling a Hierarchy mug at chest-height. A small Hierarchy office-stress-ball sits squashed on the desk.",
+    moodKeywords: [
+      "chasing the SOW",
+      "in a quiet moment looking elsewhere",
+      "yellow-highlighted SOW",
+      "office-stress-ball squashed",
+    ],
+    palette:
+      "Hierarchy navy polo + charcoal sweater + cool-cyan dual-monitor + warm desk-lamp + SOW pale-yellow highlights + Hierarchy mug muted-warm + stress-ball pale-blue",
+    composition:
+      "Mid-shot front three-quarter, Coordinator at frame-centre seated, two monitors at frame-rear, mug at chest-foreground, stress-ball at desk-edge",
+    notes:
+      "Uncommon. Pairs with Vendor-Mgmt Wraith (Manager) — the Wraith renews; the Coordinator runs day-to-day.",
+    archetypeRationale:
+      "Newly-named per plan. Vendor coordinators are the Hierarchy's day-to-day external-relations IC layer; the squashed-stress-ball is the canonical signature.",
+    loreCitations: [
+      "docs/built/LORE_BIBLE.md §Hierarchy as infernal corporation",
+      "(intra-set) §s2_hierarchy_mgr_vendor_mgmt_wraith — vendor-stack pairing",
+    ],
+  },
+
+  "s2_hierarchy_anl_project_coordinator": {
+    cardId: "s2_hierarchy_anl_project_coordinator",
+    name: "Project Coordinator",
+    setCode: "S2_HIERARCHY",
+    faction: "new_babylon",
+    rarity: "uncommon",
+    cardType: "unit",
+    flavorText:
+      "Status: GREEN. Risks: NONE IDENTIFIED. Blockers: NONE OUTSTANDING. Notes: project is fully on track. The Coordinator emails this to the executive sponsor at 9:01am every Monday and at no other time.",
+    sceneDelta:
+      "Mid-shot. A Hierarchy project coordinator at a Hierarchy project-management workstation, mid-thirties, in a Hierarchy plum cardigan over a black blouse. Two monitors: leftmost shows a Hierarchy project-status dashboard with multiple cards in GREEN; rightmost shows the project's actual blocker-list (long, with several red flags). Right hand mid-click on a SEND button on a status-update compose-window; left hand holds a small Hierarchy paper schedule-printout. Her face is composed, faintly pained.",
+    moodKeywords: [
+      "Status: GREEN, blockers below",
+      "9:01am Monday email",
+      "fully on track per official record",
+      "composed faintly pained",
+    ],
+    palette:
+      "Hierarchy plum cardigan + black blouse + cool-cyan dual-monitor + GREEN-status accents + red-flag warning accent on second monitor + warm desk-lamp + Hierarchy crest plum-silver lanyard",
+    composition:
+      "Mid-shot front three-quarter, Coordinator at frame-centre seated, two monitors at frame-rear with deliberate visual contrast (left GREEN, right RED-flagged), schedule-printout at chest-foreground",
+    notes:
+      "Uncommon. The two-monitor green-vs-red contrast is the Project Coordinator's canonical signature: the official report and the actual state, side-by-side, both visible to the viewer (and only to the viewer).",
+    archetypeRationale:
+      "Newly-named per plan. Project coordinators are the Hierarchy's status-management IC layer; the canon framing is the dual-truth dashboard.",
+    loreCitations: [
+      "docs/built/LORE_BIBLE.md §Hierarchy as infernal corporation",
+      "(intra-set) §s2_hierarchy_mgr_burndown_imp — status-distortion pairing",
+    ],
+  },
+
+  "s2_hierarchy_anl_risk_modeler": {
+    cardId: "s2_hierarchy_anl_risk_modeler",
+    name: "Risk-Modeling Analyst",
+    setCode: "S2_HIERARCHY",
+    faction: "new_babylon",
+    rarity: "uncommon",
+    cardType: "unit",
+    flavorText:
+      "The model says the risk is 4%. The reality says the risk is 4% per attempt, and there will be many attempts. The model is, the Analyst notes, technically correct.",
+    sceneDelta:
+      "Mid-shot. A meticulous Hierarchy risk-modeling analyst at a wide Hierarchy risk-pod workstation, late-thirties, in a Hierarchy steel-grey blazer over a black turtleneck. Three monitors: leftmost shows a Monte Carlo simulation graph with a long-tail distribution; middle shows a risk-scoring matrix; rightmost shows a Hierarchy probability-table. Right hand mid-click on a parameter-slider; left hand on chin in thought. Face mid-fifties, calm, precise.",
+    moodKeywords: [
+      "the model says 4%",
+      "long-tail distribution",
+      "many attempts will be made",
+      "calm precise modeler",
+    ],
+    palette:
+      "Hierarchy steel-grey blazer + black turtleneck + cool-cyan triple-monitor + warm desk-lamp + Monte-Carlo graph pale-violet long-tail accent + Hierarchy crest plum-silver lanyard",
+    composition:
+      "Mid-shot front-on, Analyst at frame-centre seated, three monitors arc behind him, parameter-slider mid-click at frame-right",
+    notes:
+      "Uncommon. Pairs with Kragvex VP Operational Risk and Iglarath CISO. The long-tail distribution graph is the Risk Modeler's canonical signature — the menace is in the tail.",
+    archetypeRationale:
+      "Newly-named per plan. Risk modelers are the Hierarchy's quantitative-risk IC layer; the long-tail-as-canon framing parallels Iglarath's perimeter-breach inevitability.",
+    loreCitations: [
+      "docs/built/LORE_BIBLE.md §Hierarchy as infernal corporation",
+      "(intra-set) §s2_hierarchy_vp_ops_risk_kragvex — risk-stack pairing",
+    ],
+  },
+
+  "s2_hierarchy_anl_pricing_analyst": {
+    cardId: "s2_hierarchy_anl_pricing_analyst",
+    name: "Pricing Analyst",
+    setCode: "S2_HIERARCHY",
+    faction: "new_babylon",
+    rarity: "uncommon",
+    cardType: "unit",
+    flavorText:
+      "Discount approved. Discount approved. Discount approved. The Analyst has not approved any of these. The Analyst was looped in for visibility. The Analyst is, formally, the approver.",
+    sceneDelta:
+      "Mid-shot. A Hierarchy pricing analyst at a Hierarchy pricing-pod workstation, late-twenties, in a Hierarchy plum blazer over a charcoal blouse. Single wide monitor showing a Hierarchy pricing-approval queue with a long list of discount-requests, all marked APPROVED in green. Right hand mid-tap on the next item in the queue; left hand holds a small Hierarchy pricing-policy binder. Her face is mid-twenties resigned-with-coffee.",
+    moodKeywords: [
+      "approved approved approved",
+      "looped in for visibility",
+      "the analyst is formally the approver",
+      "resigned-with-coffee composure",
+    ],
+    palette:
+      "Hierarchy plum blazer + charcoal blouse + cool-cyan pricing-queue + APPROVED-row green accent + warm desk-lamp + pricing-policy binder forest-green",
+    composition:
+      "Mid-shot front three-quarter, Analyst at frame-centre seated, monitor at frame-right, pricing-policy binder at chest-foreground",
+    notes:
+      "Uncommon. Pairs with Channel-Conflict Goblin (Manager) — the Goblin exploits seams; the Pricing Analyst rubber-stamps the discounts that create them.",
+    archetypeRationale:
+      "Newly-named per plan. Pricing analysts are the Hierarchy's discount-approval IC layer; the looped-in-for-visibility framing is the canon Hierarchy pattern of formal-but-toothless approval gates.",
+    loreCitations: [
+      "docs/built/LORE_BIBLE.md §Hierarchy as infernal corporation",
+      "(intra-set) §s2_hierarchy_mgr_channel_conflict_goblin — pricing-friction pairing",
+    ],
+  },
+
+  "s2_hierarchy_anl_brand_coordinator": {
+    cardId: "s2_hierarchy_anl_brand_coordinator",
+    name: "Brand Coordinator",
+    setCode: "S2_HIERARCHY",
+    faction: "new_babylon",
+    rarity: "uncommon",
+    cardType: "unit",
+    flavorText:
+      "The brand standard is documented. The brand standard is in the wiki. The wiki is two versions out of date. The Coordinator has, again, taken the screenshot of the correct standard and pasted it into the channel. The screenshot will, again, be lost.",
+    sceneDelta:
+      "Mid-shot. A Hierarchy brand-coordinator analyst at a Hierarchy brand-pod desk, late-twenties, in a Hierarchy ivory blouse over a charcoal blazer. Single tall monitor showing a Hierarchy brand-standards document with multiple version-tabs across the top. Right hand mid-click on a Hierarchy chat-channel composer where a screenshot has just been pasted; left hand on a small Hierarchy-branded paper notebook open at chest-height. Her face is friendly, polite-frustrated.",
+    moodKeywords: [
+      "the wiki is two versions out of date",
+      "the screenshot will be lost",
+      "polite-frustrated friendly",
+      "paste screenshot, again",
+    ],
+    palette:
+      "Hierarchy ivory blouse + charcoal blazer + cool-cyan brand-standards monitor + chat-channel pale-blue + warm desk-lamp + Hierarchy-branded notebook ivory accent",
+    composition:
+      "Mid-shot front three-quarter, Coordinator at frame-centre seated, monitor at frame-rear, notebook at chest-foreground",
+    notes:
+      "Uncommon. Pairs with Vex'Drelm CMO operationally — Vex'Drelm acquires brands; the Coordinator polices them. The pasted-screenshot is the canon Brand Coordinator signature.",
+    archetypeRationale:
+      "Newly-named per plan. Brand coordinators are the Hierarchy's brand-stewardship IC layer; the wiki-version-friction is the canonical Hierarchy knowledge-management dysfunction.",
+    loreCitations: [
+      "docs/built/LORE_BIBLE.md §Hierarchy as infernal corporation",
+      "(intra-set) §s2_hierarchy_cmo_vex_drelm — brand-stack pairing",
+    ],
+  },
 };
 
 export const ANALYST_PROMPTS: ExpansionCardRegistry = Object.freeze(ENTRIES);
