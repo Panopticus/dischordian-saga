@@ -205,24 +205,36 @@ describe("ALL_NPC_DIALOG_TREES aggregator", () => {
   });
 
   it("getDialogTreesFor returns empty array for unauthored NPCs (silent-fail)", () => {
-    // Phase 6a.2 sub-chunk F shipped Locke's first-meeting tree; the
-    // rest stay empty until their sub-phase ships per the Phase 6e
-    // sequencing. Updated as banks land.
-    expect(getDialogTreesFor("nilmorg").length).toBe(0);
+    // Phase 6a.2 sub-chunk F shipped Locke; Phase 6e.1a shipped
+    // Nilmorg + Vex + Hierophant; the rest stay empty until their
+    // sub-phase ships per the Phase 6e sequencing. Updated as banks
+    // land.
     expect(getDialogTreesFor("the_seer").length).toBe(0);
-    expect(getDialogTreesFor("vex_solene").length).toBe(0);
     expect(getDialogTreesFor("the_oracle").length).toBe(0);
     expect(getDialogTreesFor("the_degen").length).toBe(0);
     expect(getDialogTreesFor("dmc_clone_companion").length).toBe(0);
     expect(getDialogTreesFor("the_game_master").length).toBe(0);
     expect(getDialogTreesFor("the_meme").length).toBe(0);
-    expect(getDialogTreesFor("wraith_calder").length).toBe(0);
     expect(getDialogTreesFor("your_eidolon").length).toBe(0);
   });
 
   it("Locke (Phase 6a.2 sub-chunk F) ships ≥1 dialog tree via the aggregator", () => {
     expect(
       getDialogTreesFor("adjudicator_locke").length,
+    ).toBeGreaterThanOrEqual(1);
+  });
+
+  it("Nilmorg (Phase 6e.1a) ships ≥1 dialog tree via the aggregator", () => {
+    expect(getDialogTreesFor("nilmorg").length).toBeGreaterThanOrEqual(1);
+  });
+
+  it("Vex Solène (Phase 6e.1a) ships ≥1 dialog tree via the aggregator", () => {
+    expect(getDialogTreesFor("vex_solene").length).toBeGreaterThanOrEqual(1);
+  });
+
+  it("Wraith Calder → Hierophant (Phase 6e.1a) ships ≥1 dialog tree via the aggregator", () => {
+    expect(
+      getDialogTreesFor("wraith_calder").length,
     ).toBeGreaterThanOrEqual(1);
   });
 

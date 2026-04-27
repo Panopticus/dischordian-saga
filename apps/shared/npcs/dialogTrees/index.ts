@@ -13,6 +13,9 @@
 import type { NpcKey } from "../types";
 import type { NpcDialogTree } from "./types";
 import { ADJUDICATOR_LOCKE_FIRST_MEETING } from "./adjudicator_locke/first_meeting";
+import { NILMORG_FIRST_CONTACT } from "./nilmorg/first_meeting";
+import { VEX_SOLENE_FIRST_MEETING } from "./vex_solene/first_meeting";
+import { WRAITH_CALDER_FIRST_MEETING } from "./wraith_calder/first_meeting";
 
 // Per-NPC trees are added here as they ship through Phase 6e.
 // Phase 6 Infrastructure shipped only the scaffolding + the aggregator;
@@ -20,16 +23,16 @@ import { ADJUDICATOR_LOCKE_FIRST_MEETING } from "./adjudicator_locke/first_meeti
 
 const PER_NPC_TREES: ReadonlyArray<NpcDialogTree> = [
   ADJUDICATOR_LOCKE_FIRST_MEETING,           // Phase 6a.2 ✅ (Locke first-meeting)
-  // NILMORG_FIRST_CONTACT,                  // Phase 6a.1 — DMC opening
-  // YOUR_EIDOLON_BOND_RESONANCE,            // Phase 6e — non-verbal
-  // VEX_SOLENE_CODA_INTRO,                  // Phase 6b.2
-  // THE_DEGEN_FIRST_GAME,                   // Phase 6c.1
-  // THE_SEER_MECHRONIS_BENCH,               // Phase 6b.1
-  // THE_ORACLE_DREAM_INTRODUCTION,          // Phase 6b.3
-  // THE_MEME_CH12_FUSION,                   // Phase 6d.2
-  // THE_GAME_MASTER_WITNESS_MODE,           // Phase 6d.1
-  // WRAITH_CALDER_LONG_MOURNING_FIRST_VISIT, // Phase 6d.3
-  // DMC_CLONE_COMPANION_AWAKENING_ARRIVAL,  // Phase 6c.2
+  NILMORG_FIRST_CONTACT,                      // Phase 6e.1a ✅ (DMC opening)
+  VEX_SOLENE_FIRST_MEETING,                   // Phase 6e.1a ✅ (Coda Maestro)
+  WRAITH_CALDER_FIRST_MEETING,                // Phase 6e.1a ✅ (Long Mourning chamber)
+  // YOUR_EIDOLON_BOND_RESONANCE,            // Phase 6e.1c — non-verbal
+  // THE_DEGEN_FIRST_GAME,                   // Phase 6e.1c
+  // THE_SEER_MECHRONIS_BENCH,               // Phase 6e.1b
+  // THE_ORACLE_DREAM_INTRODUCTION,          // Phase 6e.1b
+  // THE_MEME_CH12_FUSION,                   // Phase 6e.1b
+  // THE_GAME_MASTER_WITNESS_MODE,           // Phase 6e.1b
+  // DMC_CLONE_COMPANION_AWAKENING_ARRIVAL,  // Phase 6e.1c
 ];
 
 export const ALL_NPC_DIALOG_TREES: ReadonlyArray<NpcDialogTree> =

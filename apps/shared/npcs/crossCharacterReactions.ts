@@ -1066,6 +1066,52 @@ export const CROSS_CHARACTER_REACTIONS: ReadonlyArray<CrossCharacterReaction> = 
       "resonance' canon. Reserved canonical-once-per-playthrough; " +
       "fires only near canonical perish-condition.",
   },
+
+  // ─── First-meeting tree public flags (Phase 6e.1a)
+
+  {
+    flag: "nilmorg_refused_canonical_thanks_first_contact",
+    setBy: ["nilmorg"],
+    reactsBy: ["dmc_clone_companion", "future_reader"],
+    canonicalNote:
+      "Per Nilmorg first_meeting tree refusal_branch (Phase 6e.1a). " +
+      "Canonical §4.8 'Don't thank me' first-contact refusal. Future " +
+      "Companion reactive lines may register the canonical-refusal " +
+      "as canonical-first-inherited-memory (Companion §4.2 mid-wife " +
+      "canon).",
+  },
+  {
+    flag: "vex_filed_player_as_audit_aware_first_contact",
+    setBy: ["vex_solene"],
+    reactsBy: ["adjudicator_locke", "future_reader"],
+    canonicalNote:
+      "Per Vex first_meeting tree audit_aware_branch (Phase 6e.1a). " +
+      "Canonical Vigilance-axis first-contact filing — player " +
+      "canonically asked about Vex's paperwork. Future Locke reactive " +
+      "lines may register the canonical-cross-broker-audit interest.",
+  },
+  {
+    flag: "hierophant_first_contact_silence_held",
+    setBy: ["wraith_calder"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Hierophant first_meeting tree silence_held_branch (Phase " +
+      "6e.1a). Canonical §1.7 Tell #1 first-look-pause-as-gratitude " +
+      "canon: player canonically held silence well, canonically " +
+      "earned the canonical first-look. Saga-load-bearing trust-band " +
+      "promotion seed.",
+  },
+  {
+    flag: "hierophant_first_contact_get_up_weaponized",
+    setBy: ["wraith_calder"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Hierophant first_meeting tree get_up_mistake_branch (Phase " +
+      "6e.1a). Canonical §3.9 + §1.8 'verb of someone I outgrew' " +
+      "trust-breach canon: player canonically used Wraith Calder's " +
+      "imperative against the Hierophant. Canonical Hostile-band " +
+      "trust-state seed.",
+  },
 ];
 
 // --- Helpers --------------------------------------------------------------
