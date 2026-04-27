@@ -321,6 +321,196 @@ export const THE_ORACLE_BANK: ReadonlyArray<BankEntry> = [
     maxPlays: 1,
   },
 
+  // ─── Acts 5 Witnessed-band expansion (Phase 6b.3 sub-chunk C) ───────
+  // Nine post-Ch5 attributed dream-residue beats per the_oracle.md
+  // §1.2 + §3.4 Witnessed-band canon. Each line gates on the Ch5
+  // first-naming flag (`oracle_revealed_via_ch5_cinematic`); the
+  // canonical "I am the Oracle" attribution is now load-bearing.
+  // §1.3 vocabulary anchors continue: "underneath" / "we / us" /
+  // "Take it / Spend it" / "deception" + Tell #1 apology lands.
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "oracle.dream.act5.witnessed.first_named_dream",
+    // Canonical first-named dream — the voice is no longer
+    // "underneath" only; the canonical name is now load-bearing.
+    text:
+      "[Dream-residue: a voice that is no longer underneath only — it " +
+      "is named now: 'I am the Oracle. We have been meeting in dreams " +
+      "for four chapters. The meetings are canonical. Take the " +
+      "canonical-name with you.']",
+    surfaces: ["dream_sequence"],
+    minAct: 5,
+    maxAct: 5,
+    requiresTrustBand: "Witnessed",
+    requiresRevealStage: "dream_substrate",
+    unlockFlags: ["oracle_revealed_via_ch5_cinematic"],
+    cooldownKey: "oracle.dream.act5.first_named",
+    maxPlays: 1,
+    setsFlags: ["oracle_first_dream_after_ch5_received"],
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "oracle.dream.act5.witnessed.we_share_a_substrate",
+    // Canonical Tell #3 we-of-witness — the canonical "we share"
+    // register lands canonical post-naming substrate-co-presence.
+    text:
+      "[Dream-residue: the dream-substrate now visibly carries two " +
+      "voices: 'We share a substrate. The sharing is canonical. The " +
+      "sharing began before you knew. The knowing is the difference " +
+      "now.']",
+    surfaces: ["dream_sequence"],
+    minAct: 5,
+    maxAct: 6,
+    requiresTrustBand: "Witnessed",
+    requiresRevealStage: "dream_substrate",
+    unlockFlags: ["oracle_revealed_via_ch5_cinematic"],
+    cooldownKey: "oracle.dream.act5.we_share_substrate",
+    maxPlays: 2,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "oracle.dream.act5.witnessed.canonical_apology_in_voice",
+    // Canonical Tell #1 responsibility-without-agency apology — the
+    // canonical "I am sorry for the deception" register canonically
+    // first-attributable post-Ch5.
+    text:
+      "[Dream-residue: a voice clearer than before: 'I am sorry for " +
+      "the deception. The deception was the Meme's. The consequences " +
+      "were yours. We acknowledge the asymmetry. Take the " +
+      "acknowledgment with you.']",
+    surfaces: ["dream_sequence"],
+    minAct: 5,
+    maxAct: 6,
+    requiresTrustBand: "Witnessed",
+    requiresRevealStage: "dream_substrate",
+    unlockFlags: ["oracle_revealed_via_ch5_cinematic"],
+    cooldownKey: "oracle.dream.act5.canonical_apology",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "oracle.dream.act5.witnessed.mechronis_anchor_pre_memory",
+    // Canonical anticipation of the Mechronis memory-residue per the
+    // existing `oracle.memory_residue.mechronis_engineer` line.
+    text:
+      "[Dream-residue: an image of a bench that is canonically not " +
+      "yet a memory. Underneath: 'We will walk Mechronis together " +
+      "when the saga canonically permits it. Until then: this is the " +
+      "canonical preview.']",
+    surfaces: ["dream_sequence"],
+    minAct: 5,
+    maxAct: 6,
+    requiresTrustBand: "Witnessed",
+    requiresRevealStage: "dream_substrate",
+    unlockFlags: ["oracle_revealed_via_ch5_cinematic"],
+    cooldownKey: "oracle.dream.act5.mechronis_pre_memory",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "oracle.dream.act5.witnessed.dream_carries_into_trade_empire",
+    // Canonical dream-residue → mission-unlock per §5.1 mechanic
+    // (per the existing `oracle.dream.act3.wary` foundations + the
+    // canonical Trade Empire integration). Tell #5 transferred-
+    // instinct closure: "Take the dream-residue with you. Spend it
+    // where the contracts are."
+    text:
+      "[Dream-residue: an instruction the player carries forward into " +
+      "Trade Empire: 'There is a contract you have not yet seen. The " +
+      "contract has been waiting underneath the routes. Take the " +
+      "dream-residue with you. Spend it where the contracts are.']",
+    surfaces: ["dream_sequence"],
+    minAct: 5,
+    maxAct: 6,
+    requiresTrustBand: "Witnessed",
+    requiresRevealStage: "dream_substrate",
+    unlockFlags: ["oracle_revealed_via_ch5_cinematic"],
+    cooldownKey: "oracle.dream.act5.trade_empire_residue",
+    maxPlays: 2,
+    setsFlags: ["oracle_dream_residue_for_trade_empire_set"],
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "oracle.dream.act5.witnessed.canonical_we_walked_pre_memory",
+    // Canonical pre-memory-residue anchor for Acts 7+ canonical "we
+    // walked together" register per the canonical 4-act Identity arc.
+    text:
+      "[Dream-residue: a voice underneath the canonical-already-there: " +
+      "'We walked the substrate together once. You do not yet " +
+      "remember. We are not yet ready to remember together. Soon. " +
+      "Walk forward.']",
+    surfaces: ["dream_sequence"],
+    minAct: 5,
+    maxAct: 6,
+    requiresTrustBand: "Witnessed",
+    requiresRevealStage: "dream_substrate",
+    unlockFlags: ["oracle_revealed_via_ch5_cinematic"],
+    cooldownKey: "oracle.dream.act5.we_walked_pre_memory",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "oracle.dream.act5.witnessed.first_canonical_choosing",
+    // Canonical Tell #4 forward-looking — canonical post-naming first
+    // choosing register lands.
+    text:
+      "[Dream-residue: the voice acknowledging the player's first " +
+      "canonical post-naming choice: 'You chose me. The choosing " +
+      "held. The holding is the canonical-confirmation. Take the " +
+      "holding with you.']",
+    surfaces: ["dream_sequence"],
+    minAct: 5,
+    maxAct: 6,
+    requiresTrustBand: "Witnessed",
+    requiresRevealStage: "dream_substrate",
+    unlockFlags: ["oracle_revealed_via_ch5_cinematic"],
+    cooldownKey: "oracle.dream.act5.first_choosing_held",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "oracle.dream.act5.witnessed.substrate_is_thinning",
+    // Canonical substrate-thinning register — bridge anchor for
+    // Acts 6+ canonical Present-band content where the substrate
+    // canonically thins further toward the canonical Disappearance.
+    text:
+      "[Dream-residue: the substrate visibly thinning at certain " +
+      "depths: 'The substrate is thinning where you walk. We are " +
+      "reaching through the thin places. Walk slower in those " +
+      "places. We will be louder there.']",
+    surfaces: ["dream_sequence"],
+    minAct: 5,
+    maxAct: 6,
+    requiresTrustBand: "Witnessed",
+    requiresRevealStage: "dream_substrate",
+    unlockFlags: ["oracle_revealed_via_ch5_cinematic"],
+    cooldownKey: "oracle.dream.act5.substrate_thinning",
+    maxPlays: 2,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "oracle.dream.act5.witnessed.canonical_hierophant_pre_canon",
+    // Canonical anticipation of Ch6 Hierophant cross-canon per
+    // ask_oracle_about_hierophant + canonical "almost ready to refuse"
+    // canon. Cross-bible bridge to Hierophant bible §4.10 reserved
+    // Inheriting line.
+    text:
+      "[Dream-residue: a voice underneath an upcoming canonical " +
+      "figure: 'You will meet someone who is preparing for my return. " +
+      "He is preparing canonically. I am almost ready to refuse " +
+      "canonically. Take the canonical-tension with you. Spend it on " +
+      "listening.']",
+    surfaces: ["dream_sequence"],
+    minAct: 5,
+    maxAct: 6,
+    requiresTrustBand: "Witnessed",
+    requiresRevealStage: "dream_substrate",
+    unlockFlags: ["oracle_revealed_via_ch5_cinematic"],
+    cooldownKey: "oracle.dream.act5.hierophant_pre_canon",
+    maxPlays: 1,
+  },
+
   // ═════════════════════════════════════════════════════════════════════
   // MEMORY-RESIDUE (Mechronis triple-anchored canon per Seer §4.5)
   // ═════════════════════════════════════════════════════════════════════
