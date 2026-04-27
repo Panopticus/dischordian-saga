@@ -444,3 +444,21 @@ export {
   type LegacyDuelystCard,
   type LegacyDuelystPlayer,
 } from "./compat/viewAdapter";
+
+/* ─── Heat (per-run modifiers, #1) ─── */
+export {
+  HEAT_MODIFIERS,
+  MAX_HEAT_LEVEL,
+  MAX_MODIFIER_COST,
+  getModifier,
+  totalHeatCost,
+  validateHeatConfig,
+  modifiersUnlockedAtTier,
+} from "./heat";
+export type {
+  Modifier,
+  ModifierTrigger,
+  ModifierCategory,
+  HeatConfig,
+  HeatValidationResult,
+} from "./heat";
