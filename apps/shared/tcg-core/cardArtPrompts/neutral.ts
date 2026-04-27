@@ -803,26 +803,168 @@ const NEUTRAL_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "Rare spell. Anonymous figure preserves no-character-conflation. The 'one shared lesson' is rendered through the literal ADAPT word.",
   },
+  {
+    cardId: "s1_reward_guild_founder",
+    sceneDelta:
+      "Wider mid-shot. A Guild Founder — female-presenting figure in mid-forties, generic-determined features (composed grave eyes, set jaw, distinguished bearing), in formal Guild-founder attire (warm-leather over warm-cream linen with chrome-and-warm-gold founder's-pin at the breast). She stands at the entrance of a NEW Guild-hall at frame-centre, her right hand resting on the cornerstone (visibly fresh, recently-laid). Behind her at lower-third, the hall extends — newly-built (chrome-and-warm-cream construction, scaffolding still partially visible at frame-edges showing recent completion). Faint warm-gold founder-aura around her. Her face shows quiet pride.",
+    moodKeywords: [
+      "she built something from nothing",
+      "now nothing can tear it down",
+      "hand on freshly-laid cornerstone",
+      "recently-completed Guild-hall behind",
+    ],
+    palette:
+      "Warm-leather over warm-cream linen founder-attire + chrome-and-warm-gold founder's-pin + freshly-laid cornerstone + chrome-and-warm-cream new construction + scaffolding remnants + warm-gold founder-aura + cool deep-shadow",
+    composition:
+      "Wider mid-shot front three-quarter, Founder at frame-centre at cornerstone, newly-built hall behind",
+    notes:
+      "Rare unit. Generic-determined features must NOT match any named character. The 'something from nothing' is rendered through the visible recent-construction context.",
+  },
+  {
+    cardId: "s1_reward_guild_hall",
+    sceneDelta:
+      "Wider mid-shot. Hall's Blessing — at frame-centre, a vast Guild-hall interior with its central INVOCATION-PILLAR active. From the pillar, faint translucent warm-gold BLESSING-WAVES propagate outward across the hall, reaching anonymous Guild-members (back-three-quarter, generic mixed Guild-aligned attire, multiple visible at varying distances). Each member visibly STANDS TALLER as the wave reaches them (the canonical 'the hall stands. so do we'). The hall itself is solid (chrome-and-warm-cream construction, ceremonial banners). NO single dominant figure (the hall IS the source).",
+    moodKeywords: [
+      "the hall stands",
+      "so do we",
+      "translucent warm-gold blessing-waves from invocation-pillar",
+      "anonymous Guild-members standing taller as wave reaches them",
+    ],
+    palette:
+      "Vast Guild-hall interior + chrome-and-warm-cream construction + central invocation-pillar + translucent warm-gold blessing-waves + anonymous Guild-member silhouettes + ceremonial banners + warm hall-light + cool deep-shadow",
+    composition:
+      "Wider mid-shot, invocation-pillar at frame-centre, blessing-waves propagating, anonymous Guild-members at varying distances",
+    notes:
+      "Rare spell. Anonymous Guild-members preserve no-character-conflation. The 'we stand because hall stands' is rendered through the wave-effect on the members.",
+  },
+  {
+    cardId: "s1_reward_guild_officer",
+    sceneDelta:
+      "Mid-shot. A Guild Officer — female-presenting figure in mid-thirties, generic-disciplined features (alert eyes, calm professional bearing, hair tied back), in formal Guild-officer attire (heavy chrome-and-warm-gold ceremonial armor — the canonical 'armor she requisitions'; visibly higher-quality than rank-and-file gear with chrome-and-warm-gold rank-insignia at shoulder). She stands at frame-centre at a Guild-armory checkpoint, mid-action of REVIEWING incoming gear-requisitions. In her right hand, a chrome-and-warm-gold requisition-tablet. Faint warm low armory-light. Her face shows weight-of-rank.",
+    moodKeywords: [
+      "rank carries weight",
+      "so does the armor she requisitions",
+      "heavy chrome-and-warm-gold ceremonial armor (higher-quality than rank-and-file)",
+      "rank-insignia at shoulder, requisition-tablet in hand",
+    ],
+    palette:
+      "Heavy chrome-and-warm-gold ceremonial Guild-officer armor + chrome-and-warm-gold rank-insignia + chrome-and-warm-gold requisition-tablet + warm low Guild-armory light + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, Officer at frame-centre at armory-checkpoint, requisition-tablet in hand",
+    notes:
+      "Common unit. Generic-disciplined features must NOT match any named character. The 'armor she requisitions' is rendered through the visibly-better gear vs rank-and-file.",
+  },
+  {
+    cardId: "s1_reward_pet_evolve",
+    sceneDelta:
+      "Mid-shot. An Evolved Familiar — small creature at frame-centre, body composed of layered translucent SHED-SKIN-LAYERS visible (THREE OLDER skins shed and visible on the ground at lower-third around its current form, the canonical 'shed three times'). The creature's CURRENT FORM (fourth iteration) is no longer recognizable — chrome-and-cool-cyan-and-deep-violet substance, neither familiar nor predictable. Two new alien deeper-cool-cyan eye-points have replaced any prior eyes. Behind the creature, anonymous trainers (back-shots, generic-mixed) recoil — they no longer recognize it. NO human face visible.",
+    moodKeywords: [
+      "it shed its skin three times before the trainers stopped recognizing it",
+      "by the fourth, it stopped recognizing them",
+      "three older shed-skins visible on ground around current form",
+      "alien deeper-cool-cyan eye-points",
+    ],
+    palette:
+      "Chrome-and-cool-cyan-and-deep-violet evolved substance + three layered shed-skins on ground + deeper-cool-cyan eye-points + anonymous recoiling trainers + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, Familiar at frame-centre with shed-skins on ground, anonymous trainers recoiling at lower-third behind",
+    notes:
+      "Rare unit. Anonymous trainers preserve no-character-conflation. The 'no longer recognizing each other' is rendered through the literal shed-skin layers + recoil-pose.",
+  },
+  {
+    cardId: "s1_reward_pet_streak",
+    sceneDelta:
+      "Tight composition. A Battle-Hardened Companion — small creature at frame-centre, approximately 12cm long, with a deceptively-cute appearance (warm-leather-and-warm-cream substance, fluffy-looking, two warm-amber friendly eye-points). It rests CALMLY in an anonymous figure's pocket-pouch (the pouch is at frame-bottom-edge, generic civilian sleeve, only fingertips/pouch visible). Behind the creature (visible past the pouch's opening), faint translucent COMBAT-AURA traces (chrome-and-warm-amber kill-marks scarred into its tiny claws and faintly visible through the fur). The contrast: cute exterior + visible combat-experience underneath. Faint warm rush-trails at the creature's tiny feet (rush keyword).",
+    moodKeywords: [
+      "it fits in your pocket",
+      "it has killed things that don't",
+      "deceptively-cute exterior + visible combat-experience underneath",
+      "kill-marks scarred into tiny claws",
+    ],
+    palette:
+      "Warm-leather-and-warm-cream creature-substance + warm-amber eye-points + anonymous figure's pocket-pouch + chrome-and-warm-amber kill-marks on tiny claws + warm rush-trails + cool deep-shadow",
+    composition:
+      "Tight composition, creature at frame-centre in pocket-pouch, kill-mark traces visible",
+    notes:
+      "Common unit. Anonymous figure (pocket only) preserves no-character-conflation. The 'killed things that don't fit' is rendered through the contrast — cute pocket-creature + lethal-experience marks.",
+  },
+  {
+    cardId: "s1_reward_prestige_t1",
+    sceneDelta:
+      "Mid-shot. A First Ascension — anonymous female-presenting figure (back-three-quarter, generic civilian-becoming-warrior attire), at frame-centre, mid-action of TAKING THE FIRST STEP UPWARD on a low ceremonial staircase (the canonical 'first step is hardest'). In her right hand, she holds a small chrome-and-warm-gold ASCENSION-SHIELD freshly-awarded (newly-luminous warm-gold). Behind her at lower-third, the previous-ground (cool slate ground-level) where she stood; ahead of her at upper-third, the next steps extending upward. Faint warm-gold ascension-aura around the shield. NO face visible.",
+    moodKeywords: [
+      "the first step upward is the hardest",
+      "the shield proves you took it",
+      "ceremonial staircase with first-step-just-taken",
+      "freshly-awarded chrome-and-warm-gold ascension-shield",
+    ],
+    palette:
+      "Anonymous civilian-becoming-warrior attire + chrome-and-warm-gold ascension-shield + warm-gold ascension-aura + cool slate ground-level (left behind) + warm low staircase-light + cool deep-shadow",
+    composition:
+      "Mid-shot back-three-quarter, figure at frame-centre on first step, staircase ascending behind",
+    notes:
+      "Common unit. Anonymous figure (back-three-quarter) preserves no-character-conflation. The 'first step taken' is rendered through the visible mid-step + freshly-awarded shield.",
+  },
+  {
+    cardId: "s1_reward_prestige_t3",
+    sceneDelta:
+      "Mid-shot. A Threefold Reborn — figure of indeterminate gender at frame-centre, body showing visible THREE-FOLD REBIRTH-AURA: faint translucent triple-layered rebirth-doubled-edge runs along the outline (three concentric edges suggesting three rebirths). Their EYES are deeper, more knowing than baseline (the canonical 'eyes open knowing more'). They wear simple Ascension-rank attire (warm-leather over cool-cream linen with three small chrome-and-warm-gold rebirth-marks at the chest — one per rebirth). Their pose is calm-grave. Faint warm-cream knowledge-aura. Behind them, three faint translucent past-self ghosts visible at varying depths (each prior incarnation).",
+    moodKeywords: [
+      "three deaths. three rebirths",
+      "each time, the eyes open knowing more",
+      "triple-layered rebirth-doubled-edge + three rebirth-marks at chest",
+      "three translucent past-self ghosts behind at varying depths",
+    ],
+    palette:
+      "Warm-leather over cool-cream linen Ascension-rank attire + three chrome-and-warm-gold rebirth-marks + triple-layered translucent rebirth-doubled-edge + three past-self ghosts + warm-cream knowledge-aura + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, Threefold Reborn at frame-centre, three past-self ghosts at varying depths behind",
+    notes:
+      "Rare unit. Generic indeterminate features must NOT match any named character. The 'three rebirths' is rendered through the literal three-mark/three-ghost visualization.",
+  },
+  {
+    cardId: "s1_reward_prestige_t5",
+    sceneDelta:
+      "Wider mid-shot. A Quintessence Guardian — male-presenting figure in mid-forties at frame-centre, generic-grave features, in heavy fivefold-ascension Guardian armor (deep slate-and-warm-gold ceremonial armor with FIVE chrome-and-warm-gold rank-stars arrayed across the chest — one per ascension). He stands in a wide protective-stance, both arms extended outward shielding anonymous allies behind him at lower-third (back-three-quarter, generic mixed-faction). From his body, faint warm-gold protective-aura propagates outward enveloping the allies. Faint warm provoke-glow rims his shoulders. Around the figure, faint translucent fivefold-ascension-edge (five concentric rebirth-edges).",
+    moodKeywords: [
+      "five ascensions forged a guardian that draws every blow",
+      "and shields every ally",
+      "FIVE chrome-and-warm-gold rank-stars at chest + fivefold-ascension-edge",
+      "wide protective-stance with arms extended shielding allies",
+    ],
+    palette:
+      "Deep slate-and-warm-gold fivefold-Guardian armor + FIVE chrome-and-warm-gold rank-stars + warm-gold protective-aura + warm provoke-rim + fivefold translucent rebirth-edge + anonymous mixed-faction allies + cool deep-shadow",
+    composition:
+      "Wider mid-shot front three-quarter, Guardian at frame-centre with arms extended, anonymous allies sheltered behind",
+    notes:
+      "Epic unit. Generic-grave features must NOT match any named character. The 'every blow + every ally' is rendered through the visible protective-stance + shielding-aura.",
+  },
+  {
+    cardId: "s1_reward_prestige_t7",
+    sceneDelta:
+      "Wider mid-shot. A Transcended One — figure of indeterminate gender at frame-centre, body BARELY-PHYSICAL — the figure is rendered as TRANSLUCENT with internal light-substance, body-edges shifting subtly (canonical 'beyond mortal understanding'). They wear NO armor, NO clothes — only luminous warm-cream-and-cool-cyan body-substance. Around the figure, SEVEN translucent past-self ghosts arrayed at varying depths (each more substantial than the next, with the most-substantial farthest back, the most-translucent closest forward — a backward progression toward transcendence). Faint warm-cream-and-cool-cyan transcendence-aura. NO face features (deliberately UNREADABLE — beyond mortal).",
+    moodKeywords: [
+      "seven cycles of death and rebirth",
+      "what remains is beyond mortal understanding",
+      "barely-physical translucent body with shifting edges",
+      "seven past-self ghosts in backward progression toward transcendence",
+    ],
+    palette:
+      "Translucent figure with luminous warm-cream-and-cool-cyan body-substance + shifting body-edges + seven layered translucent past-self ghosts + warm-cream-and-cool-cyan transcendence-aura + UNREADABLE face + cool deep-shadow",
+    composition:
+      "Wider mid-shot front three-quarter, Transcended One at frame-centre, seven past-self ghosts arrayed in backward progression",
+    notes:
+      "Legendary unit. CRITICAL: face deliberately UNREADABLE (beyond mortal understanding). The 'seven cycles' is rendered through the literal seven past-self ghosts. Generic indeterminate features must NOT match any named transcendent character.",
+  },
 ] as const;
 
 /**
  * Neutral faction's prompt registry, keyed by card id.
  *
- * Currently populated: 45 / 79 cards
- * (burnt_card_placeholder, gen_game_master_original, gen_neutral,
- *  gen_programmer, gen_seer, s1_char_004, s1_char_086-093,
- *  s1_pack_043-049, s1_pack_cosm_badge_s1, s1_pack_cosm_title_echo,
- *  s1_pack_id_elara_advocate, s1_pack_id_elara_panoptic,
- *  s1_pack_id_elara_ship_ai, s1_pack_id_human_detective,
- *  s1_pack_id_human_student, s1_pack_seed_gene,
- *  s1_reward_bonus_complete, s1_reward_campaign_balanced,
- *  s1_reward_campaign_empathy, s1_reward_casino_jackpot,
- *  s1_reward_casino_slots, s1_reward_challenge_streak,
- *  s1_reward_companion_all, s1_reward_companion_elara,
- *  s1_reward_companion_max, s1_reward_crew_bloodline,
- *  s1_reward_crew_incubator, s1_reward_daily_streak,
- *  s1_reward_draft_perfect, s1_reward_draft_winner,
- *  s1_reward_graduate_deploy, s1_reward_graduate_master).
+ * Currently populated: 54 / 79 cards
+ * (... + s1_reward_guild_founder, s1_reward_guild_hall,
+ *  s1_reward_guild_officer, s1_reward_pet_evolve,
+ *  s1_reward_pet_streak, s1_reward_prestige_t1/t3/t5/t7).
  */
 export const NEUTRAL_CARD_ART_PROMPTS: Readonly<Record<string, CardArtPrompt>> =
   Object.freeze(
