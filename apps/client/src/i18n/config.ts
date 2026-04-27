@@ -17,6 +17,13 @@ import commonEN from "./locales/en/common.json";
 import gameEN from "./locales/en/game.json";
 import uiEN from "./locales/en/ui.json";
 
+// Locale: ES — first non-EN bundle (#144 scaffolding pass).
+// Per-namespace bundles ship as they're authored; the parity test
+// in apps/client/src/i18n/parity.test.ts asserts every key in en/*
+// has a matching entry here so a translator forgetting a namespace
+// surfaces in CI rather than as a runtime fall-through.
+import commonES from "./locales/es/common.json";
+
 // Legacy flat translation file — kept for backward compatibility
 import legacyEN from "./locales/en.json";
 
@@ -33,6 +40,11 @@ i18n.use(initReactI18next).init({
       ui: uiEN,
       // Legacy namespace kept so existing t("key") calls still resolve
       translation: legacyEN,
+    },
+    es: {
+      common: commonES,
+      // game / ui / translation fall back to en via fallbackLng
+      // until those namespaces ship their ES bundles.
     },
   },
 

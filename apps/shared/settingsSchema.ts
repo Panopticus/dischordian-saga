@@ -56,6 +56,16 @@ export const settingsSchema = z.object({
 
   // Privacy
   analyticsEnabled: z.boolean().default(true),
+
+  // Localization (#144) — the player-selected UI locale. Defaults to
+  // "en" so the first boot is always the canonical English copy.
+  // The settings UI persists the choice via settingsSync; the i18n
+  // bootstrap reads this on app start and calls i18n.changeLanguage.
+  // Validated against the same SUPPORTED_LOCALES list i18n/config.ts
+  // ships in `LANGUAGES`, but typed loosely here so a future locale
+  // added to that list doesn't require a schema migration. Unknown
+  // values fall through to "en" at runtime via i18next's fallbackLng.
+  locale: z.string().default("en"),
 });
 
 export type GameSettings = z.infer<typeof settingsSchema>;
