@@ -1212,6 +1212,77 @@ export const CROSS_CHARACTER_REACTIONS: ReadonlyArray<CrossCharacterReaction> = 
       "eidolon.cinematic.bond_resonance.first_touch canon (head-into-" +
       "palm posture). Saga-load-bearing canonical-bond-initialisation.",
   },
+
+  // ─── Phase 6e.2a multi-turn chain completion flags
+
+  {
+    flag: "locke_completed_canonical_contract_negotiation_chain",
+    setBy: ["adjudicator_locke"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Locke chain.contract_negotiation.signing_completion (Phase " +
+      "6e.2a). Canonical 4-line contract-negotiation chain completed: " +
+      "signing-intro → hidden-clause-disclosure → counter-offer → " +
+      "signing-completion. Canonical Mercantile-register chain end-" +
+      "state.",
+  },
+  {
+    flag: "nilmorg_completed_canonical_severance_extraction_chain",
+    setBy: ["nilmorg"],
+    reactsBy: ["dmc_clone_companion", "future_reader"],
+    canonicalNote:
+      "Per Nilmorg chain.severance.delivery (Phase 6e.2a). Canonical " +
+      "5-line Severance-Prize-extraction chain completed: arrival → " +
+      "witness → extraction → containment → delivery. Canonical " +
+      "'Don't thank me' canonical refusal canon canonically lands at " +
+      "delivery. Companion canonically inherits the refusal as " +
+      "canonical-first-memory.",
+  },
+  {
+    flag: "vex_completed_canonical_engineer_zero_reveal_chain",
+    setBy: ["vex_solene"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Vex chain.engineer_zero_reveal.integration (Phase 6e.2a). " +
+      "Canonical 5-line Engineer Zero reveal chain completed: hint " +
+      "→ suspicion → confirmation → asymmetric-knowledge → " +
+      "integration. §1.6 silence-shape preserved across all 5 lines: " +
+      "NEVER 'Engineer' / 'Engineer Zero' / 'Agent Zero' aloud. " +
+      "Saga-load-bearing 4-stage reveal-gate canon traversed.",
+  },
+  {
+    flag: "hierophant_completed_canonical_naming_recovery_chain",
+    setBy: ["wraith_calder"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Hierophant chain.naming_recovery.completion (Phase 6e.2a). " +
+      "Canonical 4-line Long Mourning naming-recovery chain completed: " +
+      "arrival → name-offering → wall-inscription → completion. " +
+      "Canonical 'I will remember' covenant canon canonically lands " +
+      "at completion.",
+  },
+  {
+    flag: "oracle_completed_canonical_dream_interpretation_chain",
+    setBy: ["the_oracle"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Oracle chain.dream_interpretation.mission_unlock_ack (Phase " +
+      "6e.2a). Canonical 3-line dream-sequence interpretation chain " +
+      "completed: dream-residue → instruction-residue → mission-" +
+      "unlock-acknowledgment. Canonical OCB-7 substrate-only canon " +
+      "preserved across all 3 lines.",
+  },
+  {
+    flag: "companion_completed_canonical_post_naming_integration_chain",
+    setBy: ["dmc_clone_companion"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Companion chain.post_naming_integration.first_trust_band_" +
+      "crossing (Phase 6e.2a). Canonical 4-line post-naming integration " +
+      "chain completed: first-named-line → first-mission-ack → first-" +
+      "NPC-intro → first-trust-band-crossing. Canonical Channel-5 " +
+      "named-personality register lands across all 4 lines.",
+  },
 ];
 
 // --- Helpers --------------------------------------------------------------

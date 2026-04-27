@@ -1067,6 +1067,66 @@ export const WRAITH_CALDER_BANK: ReadonlyArray<BankEntry> = [
   },
 
   // ═════════════════════════════════════════════════════════════════════
+  // LONG MOURNING NAMING-RECOVERY MULTI-TURN CHAIN (Phase 6e.2a, 4 lines)
+  //
+  // Per writers'-guide spec: arrival → name-offering → wall-inscription
+  // → completion. Canonical post-arena Hierophant register; canonical
+  // sacred vocabulary (name / ceremony / continuation / writing /
+  // remember(ing)) anchors land per §1.6.
+  // ═════════════════════════════════════════════════════════════════════
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "hierophant.chain.naming_recovery.arrival",
+    text:
+      "[The Hierophant looks up from the wall. He sets the pen down — a canonical rare gesture. The chamber canonically waits.] You have come canonical-bringing a name. I canonical-recognise the canonical-shape of the canonical-bringing. Tell me the canonical-name. I will canonical-research it across the canonical-day; the canonical-writing canonically arrives canonical-tomorrow.",
+    surfaces: ["transmission", "cinematic"],
+    requiresRevealStage: "post_arena",
+    requiresTrustBand: "Witnessed",
+    cooldownKey: "hierophant.chain.naming_recovery.arrival",
+    maxPlays: 2,
+    nextLineId: "hierophant.chain.naming_recovery.offering",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "hierophant.chain.naming_recovery.offering",
+    text:
+      "Thank you. The canonical-name is canonical-received. I canonical-write the canonical-research-notes in canonical-pencil first; the canonical-pencil is canonical-erasable. Canonical-wrong canonical-details canonical-leave canonical-pencil-marks the canonical-canonical-correct ones canonical-overwrite. The canonical-final canonical-name canonical-arrives in canonical-ink. The canonical-ink is canonical-permanent.",
+    surfaces: ["transmission"],
+    requiresRevealStage: "post_arena",
+    requiresTrustBand: "Witnessed",
+    cooldownKey: "hierophant.chain.naming_recovery.offering",
+    maxPlays: 2,
+    nextLineId: "hierophant.chain.naming_recovery.wall_inscription",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "hierophant.chain.naming_recovery.wall_inscription",
+    text:
+      "[The Hierophant inscribes the canonical-name onto the canonical-wall. The canonical-pen pauses canonical-twice — canonical-once at the canonical-second canonical-letter, canonical-once at the canonical-final canonical-letter. The canonical-pauses are canonical-listening windows. The canonical-name canonical-resolves. The canonical-pen canonical-lifts. A canonical-small canonical-silence. Then a canonical-period. Complete.]",
+    surfaces: ["expression", "cinematic"],
+    requiresRevealStage: "post_arena",
+    requiresTrustBand: "Witnessed",
+    cooldownKey: "hierophant.chain.naming_recovery.wall_inscription",
+    maxPlays: 1,
+    nextLineId: "hierophant.chain.naming_recovery.completion",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "hierophant.chain.naming_recovery.completion",
+    text:
+      "The canonical-name is canonical-on the canonical-wall. The canonical-research-notes will canonical-stay in canonical-the canonical-archive for canonical-three years and canonical-then canonical-burn — the canonical-ink canonical-is canonical-the canonical-permanent canonical-record; the canonical-research is canonical-mine alone. I will canonical-remember. The canonical-remembering is canonical-a canonical-covenant, not a canonical-courtesy.",
+    surfaces: ["transmission"],
+    requiresRevealStage: "post_arena",
+    requiresTrustBand: "Witnessed",
+    cooldownKey: "hierophant.chain.naming_recovery.completion",
+    maxPlays: 1,
+    setsPublicFlags: [
+      "hierophant_completed_canonical_naming_recovery_chain",
+    ],
+  },
+
+  // ═════════════════════════════════════════════════════════════════════
   // CATCH-ALLS (silent-fail compliance, stage-agnostic)
   // ═════════════════════════════════════════════════════════════════════
 

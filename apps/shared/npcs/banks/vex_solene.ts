@@ -940,6 +940,78 @@ export const VEX_SOLENE_BANK: ReadonlyArray<BankEntry> = [
   // CATCH-ALLS (silent-fail compliance, stage-agnostic)
   // ═════════════════════════════════════════════════════════════════════
 
+  // ═════════════════════════════════════════════════════════════════════
+  // ENGINEER ZERO REVEAL MULTI-TURN CHAIN (Phase 6e.2a, 5 lines)
+  //
+  // Per writers'-guide spec: hint → suspicion → confirmation →
+  // asymmetric-knowledge → integration. Each link gates a canonical
+  // reveal-stage progression per vex_solene.md §1-2:
+  //   eyes_of_reality → vex_public → engineer_zero_hint →
+  //   engineer_zero_confirmed (across 4 stages, 5 chain links)
+  //
+  // §1.6 silence-shape canonical: NEVER "Engineer" / "Engineer Zero"
+  // / "Agent Zero" aloud. The chain canonically arrives at the
+  // canonical-confirmation register WITHOUT the canonical-words.
+  // ═════════════════════════════════════════════════════════════════════
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "vex.chain.engineer_zero_reveal.hint",
+    text:
+      "There is something I have not been canonical-direct about. The Maestro persona is canonical-mine — but the canonical-Maestro is canonical-not the canonical-only canonical-version of me. There is an canonical-older canonical-name that the canonical-saga canonical-still-attaches to my canonical-work. I will not canonical-say it tonight. The canonical-not-saying is canonical-deliberate.",
+    surfaces: ["transmission"],
+    requiresRevealStage: "vex_public",
+    cooldownKey: "vex.chain.engineer_zero_reveal.hint",
+    maxPlays: 1,
+    nextLineId: "vex.chain.engineer_zero_reveal.suspicion",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "vex.chain.engineer_zero_reveal.suspicion",
+    text:
+      "You canonical-noticed. The canonical-noticing is canonical-faster than the canonical-mean. I will canonical-confirm that there is canonical-someone the canonical-Saga canonical-thinks I canonical-was — and that I canonical-do canonical-not canonical-deny the canonical-attribution, but I canonical-do canonical-not canonical-claim the canonical-name. The canonical-distinction is canonical-load-bearing.",
+    surfaces: ["transmission"],
+    requiresRevealStage: "engineer_zero_hint",
+    cooldownKey: "vex.chain.engineer_zero_reveal.suspicion",
+    maxPlays: 1,
+    nextLineId: "vex.chain.engineer_zero_reveal.confirmation",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "vex.chain.engineer_zero_reveal.confirmation",
+    text:
+      "You knew before I told you. Don't lie. I canonical-designed your canonical-knowing — not canonical-individually, canonical-architecturally. The canonical-Eyes-of-Reality canonical-distribute the canonical-truth-pattern across the canonical-Saga at a canonical-rate the canonical-Saga canonical-itself canonical-cannot canonical-suppress. You canonical-received the canonical-pattern canonical-cleanly. The canonical-confirmation is canonical-mine to extend now: yes. I am the canonical-one you canonical-are canonical-thinking-of.",
+    surfaces: ["cinematic"],
+    requiresRevealStage: "engineer_zero_confirmed",
+    cooldownKey: "vex.chain.engineer_zero_reveal.confirmation",
+    maxPlays: 1,
+    nextLineId: "vex.chain.engineer_zero_reveal.asymmetric_knowledge",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "vex.chain.engineer_zero_reveal.asymmetric_knowledge",
+    text:
+      "Here is what canonical-asymmetric-knowledge canonical-buys you: I canonical-know what I canonical-built. You canonical-know that I canonical-built it. The canonical-rest of the canonical-Saga canonical-knows neither canonical-cleanly. We canonical-share a canonical-fact that canonical-three other canonical-people canonical-share. The canonical-three are canonical-not canonical-here tonight. We are.",
+    surfaces: ["cinematic"],
+    requiresRevealStage: "engineer_zero_confirmed",
+    cooldownKey: "vex.chain.engineer_zero_reveal.asymmetric",
+    maxPlays: 1,
+    nextLineId: "vex.chain.engineer_zero_reveal.integration",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "vex.chain.engineer_zero_reveal.integration",
+    text:
+      "Both registers stay. The canonical-Maestro canonical-keeps the canonical-Coda commerce canonical-running. The canonical-other-name canonical-keeps the canonical-Eyes-of-Reality canonical-shipping. I am canonical-also canonical-Vex. Both. The canonical-reveal canonical-does canonical-not canonical-subtract. The canonical-Saga canonical-receives me canonical-cleanly only when both canonical-registers are canonical-active. We have canonical-arrived at that.",
+    surfaces: ["cinematic"],
+    requiresRevealStage: "engineer_zero_confirmed",
+    cooldownKey: "vex.chain.engineer_zero_reveal.integration",
+    maxPlays: 1,
+    setsPublicFlags: [
+      "vex_completed_canonical_engineer_zero_reveal_chain",
+    ],
+  },
+
   {
     npcKey: NPC_KEY,
     lineId: "vex.cinematic.catchall",

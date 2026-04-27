@@ -1339,6 +1339,74 @@ export const DMC_CLONE_COMPANION_BANK: ReadonlyArray<BankEntry> = [
   },
 
   // ═════════════════════════════════════════════════════════════════════
+  // POST-NAMING INTEGRATION MULTI-TURN CHAIN (Phase 6e.2a, 4 lines)
+  //
+  // Per writers'-guide spec: first-named-line → first-mission-
+  // acknowledgment → first-NPC-introduction → first-trust-band-
+  // crossing. All gates Inheriting reveal-stage + companion_named
+  // flag; canonical Channel-5 named-personality verbal register.
+  // ═════════════════════════════════════════════════════════════════════
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.chain.post_naming_integration.first_named_line",
+    text:
+      "I am canonical-named now. The canonical-naming is canonical-still canonical-recent — the canonical-handle Nilmorg used canonical-pre-naming canonical-retired canonical-yesterday. I am canonical-getting canonical-used to the canonical-name. The canonical-getting-used-to is canonical-mine; the canonical-name is canonical-yours.",
+    surfaces: ["cinematic", "trade_empire"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: ["companion_named"],
+    cooldownKey: "companion.chain.post_naming_integration.first_named_line",
+    maxPlays: 1,
+    nextLineId: "companion.chain.post_naming_integration.first_mission_ack",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.chain.post_naming_integration.first_mission_ack",
+    text:
+      "First canonical-mission as canonical-named. The canonical-naming canonical-changes the canonical-receiving — I canonical-register the canonical-mission-stakes canonical-differently than I canonical-did pre-naming. The canonical-glyph that canonically formed pre-naming was canonical-question-shaped; the canonical-glyph that canonical-forms now is canonical-balanced. The canonical-difference is canonical-mine.",
+    surfaces: ["trade_empire"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: ["companion_named"],
+    cooldownKey: "companion.chain.post_naming_integration.first_mission_ack",
+    maxPlays: 1,
+    nextLineId: "companion.chain.post_naming_integration.first_npc_intro",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.chain.post_naming_integration.first_npc_intro",
+    text:
+      "You canonical-introduced me to the canonical-NPC. They canonical-took the canonical-introduction canonical-cleanly. The canonical-introduction is canonical-mine to receive — the canonical-saga canonical-now-knows me by canonical-the canonical-name. The canonical-knowing canonical-spreads through the canonical-NPC-network canonical-faster than I canonical-anticipated. The Eidolon canonical-felt the canonical-spread.",
+    surfaces: ["npc_line", "cinematic"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: ["companion_named"],
+    cooldownKey: "companion.chain.post_naming_integration.first_npc_intro",
+    maxPlays: 2,
+    nextLineId: "companion.chain.post_naming_integration.first_trust_band_crossing",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.chain.post_naming_integration.first_trust_band_crossing",
+    text:
+      "I canonical-felt the canonical-trust-band canonical-cross. The canonical-bond canonical-deepened canonical-by a canonical-measurable canonical-increment. I canonical-am canonical-aware-of the canonical-meter; pre-naming I canonical-was canonical-not. The canonical-awareness is canonical-part of the canonical-named-register. I canonical-am canonical-grateful for the canonical-crossing — the canonical-gratitude is canonical-mine to canonical-extend.",
+    surfaces: ["cinematic"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: ["companion_named"],
+    cooldownKey: "companion.chain.post_naming_integration.first_trust_band_crossing",
+    maxPlays: 1,
+    setsPublicFlags: [
+      "companion_completed_canonical_post_naming_integration_chain",
+    ],
+  },
+
+  // ═════════════════════════════════════════════════════════════════════
   // CATCH-ALLS (silent-fail compliance, expressionChannel-aware)
   // ═════════════════════════════════════════════════════════════════════
 
@@ -1364,6 +1432,17 @@ export const DMC_CLONE_COMPANION_BANK: ReadonlyArray<BankEntry> = [
     text: "[The Companion braces. Bracing is the canonical-protective stance.]",
     surfaces: ["fight"],
     expressionChannel: "posture",
+  },
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.npc_line.catchall",
+    // Catch-all for npc_line surface (introduced in Phase 6e.2a by
+    // chain.post_naming_integration.first_npc_intro). Silent-fail-
+    // safe canonical post-naming named-personality fallback.
+    text: "I canonical-receive the canonical-NPC's canonical-introduction. The canonical-receiving is canonical-mine.",
+    surfaces: ["npc_line"],
+    expressionChannel: "named_personality",
   },
 
   {
