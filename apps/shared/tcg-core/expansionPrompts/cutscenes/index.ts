@@ -19,7 +19,7 @@ import { ACT3_CUTSCENE } from "./act3_offer";
 import { ACT4_CUTSCENE } from "./act4_revelation";
 import { ACT5_CUTSCENE } from "./act5_map";
 import { ACT6_CUTSCENE } from "./act6_confession";
-// import { ACT7_CUTSCENE } from "./act7_convergence";
+import { ACT7_CUTSCENE } from "./act7_convergence";
 
 export const CUTSCENE_PROMPTS: CutsceneRegistry = Object.freeze({
   ...CARD_PACK_OPENING_CUTSCENE,
@@ -30,4 +30,5 @@ export const CUTSCENE_PROMPTS: CutsceneRegistry = Object.freeze({
   ...ACT4_CUTSCENE,
   ...ACT5_CUTSCENE,
   ...ACT6_CUTSCENE,
+  ...ACT7_CUTSCENE,
 });
