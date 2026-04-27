@@ -17,7 +17,7 @@ import { ACT1_CUTSCENE } from "./act1_memoir";
 import { ACT2_CUTSCENE } from "./act2_whisper";
 import { ACT3_CUTSCENE } from "./act3_offer";
 import { ACT4_CUTSCENE } from "./act4_revelation";
-// import { ACT5_CUTSCENE } from "./act5_map";
+import { ACT5_CUTSCENE } from "./act5_map";
 // import { ACT6_CUTSCENE } from "./act6_confession";
 // import { ACT7_CUTSCENE } from "./act7_convergence";
 
@@ -28,4 +28,5 @@ export const CUTSCENE_PROMPTS: CutsceneRegistry = Object.freeze({
   ...ACT2_CUTSCENE,
   ...ACT3_CUTSCENE,
   ...ACT4_CUTSCENE,
+  ...ACT5_CUTSCENE,
 });
