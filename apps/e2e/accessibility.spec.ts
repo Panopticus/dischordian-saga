@@ -173,3 +173,72 @@ test.describe("Title page keyboard accessibility (public)", () => {
     await expect(privacyLink).toHaveAttribute("href", "/privacy");
   });
 });
+
+/**
+ * Captions toggle — `settings.captions` flips an `html.captions-on`
+ * class via apps/client/src/lib/settingsSync.ts → applySettingsToDOM,
+ * and a CSS rule in apps/client/src/index.css (`html.captions-on
+ * .caption-label`) un-hides any `<span class="caption-label">` from
+ * `display: none` to `display: inline-block`.
+ *
+ * AwakeningPage uses the pattern today
+ * (apps/client/src/pages/AwakeningPage.tsx:292). The infrastructure
+ * was previously untested; this block locks the contract in.
+ */
+test.describe("Captions toggle (public)", () => {
+  test("captions: true seeds html.captions-on", async ({ page }) => {
+    await page.goto("/");
+    await page.evaluate(() => {
+      localStorage.setItem("loredex-settings", JSON.stringify({ captions: true }));
+    });
+    await page.reload();
+    await expect(page.locator("html")).toHaveClass(/captions-on/);
+  });
+
+  test("captions: false (default) does not apply html.captions-on", async ({ page }) => {
+    await page.goto("/");
+    await page.evaluate(() => localStorage.removeItem("loredex-settings"));
+    await page.reload();
+    const className = await page.locator("html").getAttribute("class");
+    expect(className ?? "").not.toMatch(/captions-on/);
+  });
+
+  test("captions: true makes .caption-label elements visible (CSS contract)", async ({ page }) => {
+    // Insert a probe element + assert its computed display when the
+    // class is on. Avoids depending on which page renders the label
+    // in production (AwakeningPage is auth-gated).
+    await page.goto("/");
+    await page.evaluate(() => {
+      localStorage.setItem("loredex-settings", JSON.stringify({ captions: true }));
+    });
+    await page.reload();
+    const display = await page.evaluate(() => {
+      const probe = document.createElement("span");
+      probe.className = "caption-label";
+      probe.textContent = "[ PROBE ]";
+      document.body.appendChild(probe);
+      const computed = window.getComputedStyle(probe).display;
+      probe.remove();
+      return computed;
+    });
+    // index.css: `html.captions-on .caption-label { display: inline-block; }`
+    expect(display).toBe("inline-block");
+  });
+
+  test("captions: false hides .caption-label elements (CSS contract)", async ({ page }) => {
+    await page.goto("/");
+    await page.evaluate(() => localStorage.removeItem("loredex-settings"));
+    await page.reload();
+    const display = await page.evaluate(() => {
+      const probe = document.createElement("span");
+      probe.className = "caption-label";
+      probe.textContent = "[ PROBE ]";
+      document.body.appendChild(probe);
+      const computed = window.getComputedStyle(probe).display;
+      probe.remove();
+      return computed;
+    });
+    // index.css: `.caption-label { display: none; }` (default)
+    expect(display).toBe("none");
+  });
+});
