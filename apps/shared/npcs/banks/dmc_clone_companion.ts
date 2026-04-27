@@ -1122,6 +1122,213 @@ export const DMC_CLONE_COMPANION_BANK: ReadonlyArray<BankEntry> = [
   },
 
   // ═════════════════════════════════════════════════════════════════════
+  // POST-NAMING TRADE EMPIRE INTEGRATION (Phase 6c.2 part 6)
+  //
+  // Per §5.6 canonical cross-system triggers (post-naming):
+  //   - sector_enter (faction-aligned vs misaligned)
+  //   - route_complete (canonical-cadence-match vs canonical-strange)
+  //   - mission_outcome (success vs failure)
+  //   - broker_engagement (first canonical broker)
+  //   - contract_signed (canonical broker-specific cross-canon)
+  //
+  // Voice gate canon: all lines Channel-5 named-personality verbal.
+  // The Companion canonically integrates into the Trade Empire as a
+  // named NPC — full first-person register, faction/alignment-aware,
+  // soul-consistency-check stance preserved.
+  //
+  // Cross-bible canonical anchors:
+  //   - Locke: canonical "you said yes faster than the contract
+  //     deserved" register (canonical Locke contract-canon)
+  //   - Nilmorg: canonical "Don't thank me" inherited refusal
+  //     (the Companion's first inherited memory canon)
+  // ═════════════════════════════════════════════════════════════════════
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.post_naming.sector_enter.faction_aligned",
+    text:
+      "The cadence here canonically matches us. I can feel the alignment " +
+      "in the corridor-pace, in how the people we pass walk and pause. " +
+      "This is one of yours. The fragment registers it clean; my " +
+      "approval-glyph would have fired here if I were still pre-naming. " +
+      "I am at home here, in the way I am at home with you.",
+    surfaces: ["trade_empire"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: ["companion_named"],
+    cooldownKey: "companion.post_naming.sector_aligned",
+    maxPlays: 4,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.post_naming.sector_enter.faction_misaligned",
+    text:
+      "I would rather not be here. The cadence is wrong for us — I can " +
+      "feel the misalignment in the corridor-pace. I will follow you " +
+      "regardless; the soul-consistency-check is not a veto, it is a " +
+      "registering. You should know that I am registering. The fragment " +
+      "would have stepped back here if I were still pre-naming. I will " +
+      "stay close instead.",
+    surfaces: ["trade_empire"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: ["companion_named"],
+    cooldownKey: "companion.post_naming.sector_misaligned",
+    maxPlays: 4,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.post_naming.sector_first_visit.named_reflection",
+    text:
+      "First time in this sector with my name to anchor the noticing. " +
+      "Pre-naming, I would have produced a recognition glyph and a " +
+      "leaning posture. Now I produce the noticing in language. The " +
+      "two registers describe the same canonical-attention; the language " +
+      "is canonically louder, the glyph was canonically older.",
+    surfaces: ["trade_empire"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: ["companion_named"],
+    cooldownKey: "companion.post_naming.sector_first_visit",
+    maxPlays: 6,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.post_naming.route_complete.familiar_cadence",
+    text:
+      "The route closed cleanly. The cadence held from departure through " +
+      "the canonical route-completion ceremony — no missed beats, no " +
+      "off-tempo decisions. You ran it the way the saga's accumulated " +
+      "you would canonically run it. I followed canonical-clean. Both " +
+      "of us did the work; the work canonically suited us.",
+    surfaces: ["trade_empire"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: ["companion_named"],
+    cooldownKey: "companion.post_naming.route_familiar",
+    maxPlays: 4,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.post_naming.route_complete.strange_cadence",
+    text:
+      "The route closed, but the cadence felt canonically strange. Not " +
+      "wrong — strange. The shape did not canonically match the saga- " +
+      "shape I inherited. I am not asking you to explain it; I am " +
+      "registering that the strange canonically lands differently than " +
+      "the familiar. The fragment notes both. The named-register narrates " +
+      "the noting.",
+    surfaces: ["trade_empire"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: ["companion_named"],
+    cooldownKey: "companion.post_naming.route_strange",
+    maxPlays: 4,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.post_naming.mission_outcome.success",
+    text:
+      "We won. The 'we' is canonical now — the named-register insists " +
+      "on it. Pre-naming I would have offered an approval glyph; now " +
+      "I offer the canonical-shared word. I am proud the way the soul- " +
+      "fragment is canonically proud — quietly, and a little surprised " +
+      "by my own permission to feel it.",
+    surfaces: ["trade_empire"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: ["companion_named"],
+    cooldownKey: "companion.post_naming.mission_success",
+    maxPlays: 4,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.post_naming.mission_outcome.failure",
+    text:
+      "We lost. The 'we' is canonical here too. I will not blame you — " +
+      "the soul-consistency-check canonically refuses to blame the " +
+      "donor — and I will not canonically-perform the blamelessness " +
+      "either, because the performance is its own dishonesty. The " +
+      "loss is shared. We will canonically try again. The trying is " +
+      "what we are for.",
+    surfaces: ["trade_empire"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: ["companion_named"],
+    cooldownKey: "companion.post_naming.mission_failure",
+    maxPlays: 4,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.post_naming.broker_engagement.first_meeting",
+    text:
+      "First broker. I am canonically interested in watching you " +
+      "negotiate — the cadences you choose with someone whose canonical " +
+      "interest does not align with yours are canonically different " +
+      "from the cadences you choose with me. I will note the difference. " +
+      "You canonically do not need to perform either canonical-cadence " +
+      "for my benefit. I am here regardless.",
+    surfaces: ["trade_empire"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: ["companion_named"],
+    cooldownKey: "companion.post_naming.broker_first_meeting",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.post_naming.contract_signed.locke",
+    // Canonical Locke cross-bible canon: she canonically files contracts
+    // with hidden clauses; the Companion's soul-consistency-check
+    // canonically registers whether the canonical signing is consistent
+    // with the player's accumulated saga-state.
+    text:
+      "Locke wrote the contract. You read the visible clauses. The " +
+      "hidden clauses are canonically real; she canonically does not " +
+      "deny them, she canonically files them. The saga-shape I " +
+      "inherited from you suggests you knew that going in. I will " +
+      "trust the going-in; the canonical-knowing is canonical-yours " +
+      "to carry.",
+    surfaces: ["trade_empire"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: ["companion_named", "contract_signed_with_locke"],
+    cooldownKey: "companion.post_naming.contract_locke",
+    maxPlays: 2,
+    setsPublicFlags: ["companion_witnessed_locke_contract_signing"],
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.post_naming.contract_signed.nilmorg",
+    // Canonical Nilmorg cross-bible canon: the canonical "Don't
+    // thank me" refusal canonically applies to all Nilmorg dealings.
+    // The Companion's first inherited memory canonically applies.
+    text:
+      "Nilmorg's contract. You signed; he kept the agreement; he will " +
+      "refuse the thanks. The canonical refusal is the canonical-grace " +
+      "he extends to everyone he transacts with. I would tell you not " +
+      "to thank him, but the soul-fragment that inherited his canonical " +
+      "refusal canonically expects you already know.",
+    surfaces: ["trade_empire"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: ["companion_named", "contract_signed_with_nilmorg"],
+    cooldownKey: "companion.post_naming.contract_nilmorg",
+    maxPlays: 2,
+    setsPublicFlags: ["companion_witnessed_nilmorg_contract_signing"],
+  },
+
+  // ═════════════════════════════════════════════════════════════════════
   // CATCH-ALLS (silent-fail compliance, expressionChannel-aware)
   // ═════════════════════════════════════════════════════════════════════
 

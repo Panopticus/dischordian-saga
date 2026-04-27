@@ -762,6 +762,31 @@ export const CROSS_CHARACTER_REACTIONS: ReadonlyArray<CrossCharacterReaction> = 
       "sound-stack into a name. Future Eidolon reactive lines may " +
       "register the canonical two-soul-substrate canon.",
   },
+
+  // ─── Companion post-naming Trade Empire integration flags (Phase 6c.2 part 6)
+
+  {
+    flag: "companion_witnessed_locke_contract_signing",
+    setBy: ["dmc_clone_companion"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Companion §5.6 + Locke cross-bible canon: post-naming " +
+      "Companion canonically witnessed a Locke contract signing. " +
+      "Future Locke reactive lines may register the canonical witness; " +
+      "future Companion lines may reference the canonical hidden-clause " +
+      "trust-stance the player canonically chose.",
+  },
+  {
+    flag: "companion_witnessed_nilmorg_contract_signing",
+    setBy: ["dmc_clone_companion"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Companion §5.6 + Nilmorg cross-bible canon: post-naming " +
+      "Companion canonically witnessed a Nilmorg contract signing. " +
+      "Canonical 'Don't thank him' inherited refusal applies; future " +
+      "Nilmorg reactive lines may register the canonical witness " +
+      "without inviting the thanks he canonically refuses.",
+  },
 ];
 
 // --- Helpers --------------------------------------------------------------
