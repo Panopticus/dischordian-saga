@@ -26,23 +26,62 @@
        not destinations. Adding atmosphere there would visually
        spam the player.
    ═══════════════════════════════════════════════════════ */
-import { memo, useMemo } from "react";
+import { memo, useMemo, type CSSProperties } from "react";
+import type { RoomTier } from "@shared/roomTier";
 
 interface RoomAmbientLifeProps {
   /** Room id from RoomDef (e.g. "cryo-bay", "bridge"). Unknown ids render nothing. */
   roomId: string;
+  /** LucasArts spine tier (apps/shared/roomTier.ts). Drives particle
+   *  count + glow intensity so a Dormant room reads as sparse / failing
+   *  and a Restored room reads as fully alive. Defaults to 0 so callers
+   *  that don't yet pass tier still get the legacy density. */
+  tier?: RoomTier;
 }
 
-function RoomAmbientLifeInner({ roomId }: RoomAmbientLifeProps) {
+/** Particle-count multiplier per tier. The base counts in
+ *  overlayForRoom() are tuned for Tier 2 (Activated, the default
+ *  full-population read), so Tier 0/1 thin out and Tier 3 swells. */
+const TIER_PARTICLE_MULT: Readonly<Record<RoomTier, number>> = {
+  0: 0.4,
+  1: 0.7,
+  2: 1.0,
+  3: 1.25,
+};
+
+/** Glow / opacity multiplier per tier. Applied as a CSS custom
+ *  property the room-ambient keyframes read via `var(--ambient-glow-mult)`.
+ *  Same shape as the particle multiplier so authors only have to
+ *  reason about one curve. */
+const TIER_GLOW_MULT: Readonly<Record<RoomTier, number>> = {
+  0: 0.4,
+  1: 0.7,
+  2: 1.0,
+  3: 1.25,
+};
+
+function RoomAmbientLifeInner({ roomId, tier = 0 }: RoomAmbientLifeProps) {
   // Hand-maintained map of { roomId → overlay renderer }. Keeping this
   // in one place so designers can grep for the room and see exactly
-  // what ambient vocabulary it uses.
-  const renderer = useMemo(() => overlayForRoom(roomId), [roomId]);
+  // what ambient vocabulary it uses. Tier scales the particle count
+  // so Dormant rooms feel sparse and Restored rooms feel inhabited.
+  const renderer = useMemo(
+    () => overlayForRoom(roomId, TIER_PARTICLE_MULT[tier]),
+    [roomId, tier],
+  );
   if (!renderer) return null;
+  // Style passes the glow multiplier as a CSS custom property so the
+  // ark-ambient-* keyframes in index.css can use it without each
+  // overlay branch having to thread it through inline styles.
+  const wrapperStyle: CSSProperties = {
+    // @ts-expect-error — CSS custom property
+    "--ambient-glow-mult": TIER_GLOW_MULT[tier],
+  };
   return (
     <div
       aria-hidden
       className="absolute inset-0 pointer-events-none overflow-hidden z-[1]"
+      style={wrapperStyle}
     >
       {renderer}
     </div>
@@ -68,13 +107,19 @@ function particles(count: number, className: string, seed: number) {
   }));
 }
 
-function overlayForRoom(roomId: string) {
+/** Round particle count by the tier multiplier. Floors at 1 so an
+ *  authored overlay never disappears entirely at Tier 0. */
+function scaleCount(base: number, mult: number): number {
+  return Math.max(1, Math.round(base * mult));
+}
+
+function overlayForRoom(roomId: string, particleMult: number) {
   switch (roomId) {
     case "cryo-bay":
     case "cryo_bay": {
       // Rising cold-blue vapor. Slow, sparse. Pod-glass breathing
       // glow handled separately by LivingBackground.
-      const spans = particles(14, "ark-ambient-cryo-vapor", 0xc1e041);
+      const spans = particles(scaleCount(14, particleMult), "ark-ambient-cryo-vapor", 0xc1e041);
       return (
         <>
           {spans.map((p) => (
@@ -100,7 +145,7 @@ function overlayForRoom(roomId: string) {
     case "bridge-initial": {
       // Fast horizontal star drift + an 8s HUD line-scan sweep.
       // Matches the "looking out the viewport" feel.
-      const stars = particles(18, "ark-ambient-bridge-star", 0xb2ce22);
+      const stars = particles(scaleCount(18, particleMult), "ark-ambient-bridge-star", 0xb2ce22);
       return (
         <>
           {stars.map((p) => (
@@ -123,7 +168,7 @@ function overlayForRoom(roomId: string) {
 
     case "engineering": {
       // Heat haze shimmer + rare orange sparks.
-      const sparks = particles(6, "ark-ambient-engineering-spark", 0x9e7203);
+      const sparks = particles(scaleCount(6, particleMult), "ark-ambient-engineering-spark", 0x9e7203);
       return (
         <>
           <div className="ark-ambient-engineering-haze" />
@@ -157,7 +202,7 @@ function overlayForRoom(roomId: string) {
     case "antiquarian_library":
     case "library": {
       // Dust motes drifting in a simulated light-shaft angle.
-      const dust = particles(22, "ark-ambient-library-dust", 0x7742a5);
+      const dust = particles(scaleCount(22, particleMult), "ark-ambient-library-dust", 0x7742a5);
       return (
         <>
           <div className="ark-ambient-library-shaft" />

@@ -138,10 +138,14 @@ export interface GameState {
   /** F13 — hidden Human light (-100..100). Mirror scalar for the second
    *  companion's noire-to-warmth arc. */
   humanLight: number;
-  /** Section F — Clue Journal entries keyed by Clue.id. Flat list ordered by arrival. */
-  clueJournal: import("@shared/cryoBayMystery").Clue[];
-  /** Section F — inventory items the player has collected in the Cryo Bay mystery scene. */
-  mysteryInventory: import("@shared/cryoBayMystery").CryoMysteryInventoryId[];
+  /** Section F — Clue Journal entries keyed by Clue.id. Flat list ordered by arrival.
+   *  `source` widens beyond the cryo bay so other room mystery modules
+   *  (medical bay, bridge, engineering, …) can log into the same journal. */
+  clueJournal: import("@shared/roomMysteries").Clue[];
+  /** Section F+ — inventory items the player has collected across any
+   *  room mystery scene. Storage is a flat string[] because each room
+   *  module declares its own narrow inventory id union. */
+  mysteryInventory: string[];
   claimedQuestRewards: string[];   // Quest IDs whose rewards have been claimed
   completedGames: string[];       // CoNexus game IDs the player has completed
   loreAchievements: string[];     // Lore achievement IDs earned
@@ -441,8 +445,11 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       // sitting on the left door, `door-cryo` floating off the left
       // edge, and `dna-helix` overlapping the right-wall cabinet.
       { id: "bio-bed", name: "Bio-Bed Scanner", description: "An advanced diagnostic bed with holographic readouts showing your current stats.", x: 40, y: 22, width: 22, height: 55, type: "terminal", action: "/character-sheet", elaraDialog: "The bio-bed can give you a full diagnostic. Your stats, your Dream resonance levels, your cellular integrity. Step on and I'll run a scan." },
-      { id: "dna-helix", name: "DNA Analysis Station", description: "A holographic double helix rotates slowly, mapping genetic markers.", x: 22, y: 28, width: 18, height: 42, type: "examine", elaraDialog: "The DNA analysis station. It maps your genetic markers against known species templates. DeMagi, Quarchon, Ne-Yon... your hybrid signature is fascinating." },
-      { id: "medicine-cabinet", name: "Medicine Cabinet", description: "Vials of glowing liquid. Some are labeled, others are not.", x: 82, y: 32, width: 14, height: 42, type: "examine", elaraDialog: "Medical supplies. Most are standard stim-packs and neural stabilizers. But some of these vials... I don't recognize the compounds. They weren't in the original manifest." },
+      // Medical Bay mystery hotspots — see apps/shared/roomMysteries/medicalBay.ts
+      // for the verb × hotspot matrix. The first Look on either of
+      // these logs a clue and flips `medbay_first_clue_found` (Tier 0 → 1).
+      { id: "dna-helix", name: "DNA Analysis Station", description: "A holographic double helix rotates slowly, mapping genetic markers.", x: 22, y: 28, width: 18, height: 42, type: "examine", action: "room-mystery:medical-bay:dna-helix", elaraDialog: "The DNA analysis station. It maps your genetic markers against known species templates. DeMagi, Quarchon, Ne-Yon... your hybrid signature is fascinating." },
+      { id: "medicine-cabinet", name: "Medicine Cabinet", description: "Vials of glowing liquid. Some are labeled, others are not.", x: 82, y: 32, width: 14, height: 42, type: "examine", action: "room-mystery:medical-bay:medicine-cabinet", elaraDialog: "Medical supplies. Most are standard stim-packs and neural stabilizers. But some of these vials... I don't recognize the compounds. They weren't in the original manifest." },
       { id: "medical-log", name: "Medical Log", description: "A data pad with the last medical officer's notes.", x: 25, y: 68, width: 10, height: 8, type: "item", action: "medical-log-001", elaraDialog: "The last medical officer's log. Dated... I can't read the timestamp. But the entries describe patients with unusual symptoms. Nightmares. Voices. Something about 'the signal.'" },
       { id: "observation-keycard", name: "Observation Keycard", description: "A biometric access card labeled 'OBS-DECK'. Stored in the medical safe.", x: 62, y: 66, width: 10, height: 10, type: "item", action: "observation-keycard", elaraDialog: "The Observation Keycard! It was in the medical safe all along. The previous crew stored sensitive access cards here for security. This will unlock the Observation Deck — the crew used it to monitor deep space anomalies. Take it." },
       { id: "door-cryo", name: "Cryo Bay Door", description: "Return to the Cryo Bay.", x: 6, y: 30, width: 15, height: 45, type: "door", action: "cryo-bay" },
@@ -469,7 +476,12 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       // viewport windows, twin console+chair workstations in foreground.
       { id: "tactical-display", name: "Tactical Display", description: "A massive holographic display showing connections between entities, factions, and events.", x: 37, y: 18, width: 26, height: 50, type: "terminal", action: "/board", elaraDialog: "The Conspiracy Board. Every entity, every faction, every connection we've mapped in the Dischordian Saga. It's a web of alliances, betrayals, and secrets. The more you explore, the more connections you'll uncover." },
       { id: "timeline-projector", name: "Timeline Projector", description: "A holographic projector showing the Ages of the Dischordian Saga.", x: 74, y: 14, width: 18, height: 32, type: "terminal", action: "/saga-timeline", elaraDialog: "The Timeline Projector. It maps the entire history of the Dischordian Saga across the Ages — from the Age of Privacy through the Fall of Reality and beyond. Each era tells a different chapter of the story." },
-      { id: "captains-chair", name: "Captain's Chair", description: "The command chair sits empty. A personal data pad is wedged in the armrest.", x: 74, y: 60, width: 18, height: 24, type: "examine", elaraDialog: "The Captain's chair. Dr. Lyra Vox designed the neural nanobot network that runs every system on this ship. She was the last to sit here before ordering the emergency cryo protocol. Something about her doesn't add up — a neuropsychologist with that level of access to the ship's core systems. Her personal log might still be in the armrest terminal." },
+      // Bridge mystery hotspots — see apps/shared/roomMysteries/bridge.ts.
+      // Look on captains-chair / nav-console examine logs a clue and
+      // flips `bridge_first_clue_found` (Tier 0 → 1). The nav console's
+      // existing nav-calibration interact action runs separately on
+      // `use` and unlocks fast travel.
+      { id: "captains-chair", name: "Captain's Chair", description: "The command chair sits empty. A personal data pad is wedged in the armrest.", x: 74, y: 60, width: 18, height: 24, type: "examine", action: "room-mystery:bridge:captains-chair", elaraDialog: "The Captain's chair. Dr. Lyra Vox designed the neural nanobot network that runs every system on this ship. She was the last to sit here before ordering the emergency cryo protocol. Something about her doesn't add up — a neuropsychologist with that level of access to the ship's core systems. Her personal log might still be in the armrest terminal." },
       { id: "nav-console", name: "Navigation Console", description: "Star charts and route calculations. An alien glyph interface awaits calibration.", x: 8, y: 56, width: 22, height: 26, type: "interact", action: "nav-calibration", elaraDialog: "The navigation console. It controls the Ark's fast-travel system, but the interface uses alien glyph sequences for authentication. Match the symbol pattern to bring the navigation grid online — then you can jump to any room you've already discovered." },
       { id: "quest-board", name: "Mission Board", description: "A holographic board displaying active missions and quest objectives.", x: 70, y: 56, width: 22, height: 26, type: "terminal", action: "/quests", elaraDialog: "The Mission Board. Active operations and quest objectives are tracked here. Complete missions to earn rewards, uncover lore, and advance the story. Some missions are time-sensitive — the Saga doesn't wait for anyone." },
       { id: "guild-console", name: "Guild Registry", description: "A console for managing guild operations and alliances.", x: 10, y: 16, width: 16, height: 30, type: "terminal", action: "/guild", elaraDialog: "The Guild Registry. Form alliances with other Potentials, coordinate operations, and compete for dominance. Guilds that work together can tackle challenges no individual could face alone." },
@@ -591,13 +603,17 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       // and right, central floor strip leading to a back-wall doorway
       // (Forge), and side-edge exits to Observation and Armory.
       { id: "crafting-bench", name: "Crafting Workbench", description: "A workbench with tools for card crafting and fusion experiments.", x: 12, y: 50, width: 22, height: 32, type: "terminal", action: "/research-lab", elaraDialog: "The crafting workbench. Here you can fuse cards together to create more powerful versions. The recipes were developed by the Ark's engineers — combine the right elements and you might create something legendary." },
-      { id: "reactor-core", name: "Reactor Core", description: "The Ark's main power source. It pulses with an otherworldly blue light.", x: 38, y: 18, width: 24, height: 38, type: "examine", elaraDialog: "The reactor core. It runs on a substance the engineers called 'Dream' — a crystallized form of quantum consciousness. It's the same resource that powers your abilities. The core is running at 34% capacity. We're losing power slowly." },
-      { id: "blueprints", name: "Holographic Blueprints", description: "Floating schematics showing card designs and weapon systems.", x: 66, y: 50, width: 22, height: 32, type: "examine", elaraDialog: "Card schematics. The engineers were designing new card types before... before they stopped. Some of these designs are brilliant. Legendary-tier cards that could turn the tide of any battle." },
+      // Engineering mystery hotspots — see apps/shared/roomMysteries/engineering.ts.
+      // First Look on either of these (or the etched-formula easter
+      // egg below) logs a clue and flips `engineering_first_clue_found`
+      // (Tier 0 → 1).
+      { id: "reactor-core", name: "Reactor Core", description: "The Ark's main power source. It pulses with an otherworldly blue light.", x: 38, y: 18, width: 24, height: 38, type: "examine", action: "room-mystery:engineering:reactor-core", elaraDialog: "The reactor core. It runs on a substance the engineers called 'Dream' — a crystallized form of quantum consciousness. It's the same resource that powers your abilities. The core is running at 34% capacity. We're losing power slowly." },
+      { id: "blueprints", name: "Holographic Blueprints", description: "Floating schematics showing card designs and weapon systems.", x: 66, y: 50, width: 22, height: 32, type: "examine", action: "room-mystery:engineering:blueprints", elaraDialog: "Card schematics. The engineers were designing new card types before... before they stopped. Some of these designs are brilliant. Legendary-tier cards that could turn the tide of any battle." },
       { id: "research-station", name: "Research Station", description: "An interactive research terminal with puzzles and experiments.", x: 40, y: 65, width: 20, height: 22, type: "terminal", action: "/research-minigame", elaraDialog: "The Research Station. Solve engineering puzzles and conduct experiments to unlock new card recipes and crafting techniques. The harder the puzzle, the rarer the reward." },
       { id: "door-observation", name: "Observation Deck", description: "Return to the Observation Deck.", x: 1, y: 30, width: 8, height: 50, type: "door", action: "observation-deck" },
       { id: "door-armory", name: "Armory Access", description: "A reinforced door leading to the Armory.", x: 91, y: 30, width: 8, height: 50, type: "door", action: "armory" },
       { id: "door-forge", name: "Forge Workshop", description: "A heavy blast door with heat warnings. The air shimmers.", x: 44, y: 32, width: 12, height: 22, type: "door", action: "forge-workshop" },
-      { id: "egg-eng-formula", name: "Etched Formula", description: "A mathematical formula scratched into the reactor housing.", x: 50, y: 24, width: 4, height: 4, type: "examine", elaraDialog: "Someone etched a formula into the reactor housing. It's a dimensional resonance equation — the kind used to calculate jumps between parallel universes. But there's an extra variable I've never seen: Ψ-null. The null consciousness coefficient. This formula could theoretically open a door to... nowhere. The space between spaces. Where the Source dwells." },
+      { id: "egg-eng-formula", name: "Etched Formula", description: "A mathematical formula scratched into the reactor housing.", x: 50, y: 24, width: 4, height: 4, type: "examine", action: "room-mystery:engineering:egg-eng-formula", elaraDialog: "Someone etched a formula into the reactor housing. It's a dimensional resonance equation — the kind used to calculate jumps between parallel universes. But there's an extra variable I've never seen: Ψ-null. The null consciousness coefficient. This formula could theoretically open a door to... nowhere. The space between spaces. Where the Source dwells." },
       { id: "egg-warlord-residue", name: "Bio-Scanner Anomaly", description: "The bio-scanner flickers with an unidentified neural signature embedded in the bulkhead.", x: 70, y: 76, width: 4, height: 4, type: "item", action: "warlord-residue", elaraDialog: "[SIGNAL DISTORTION] The bio-scanners are detecting... no. That can't be right. There's a neural signature embedded in the bulkhead plating itself. Not organic, not synthetic — something in between. The Warlord's consciousness was so powerful that it left an imprint on the ship's physical structure. Dr. Lyra Vox commanded this vessel while the Warlord used her as a host body. The walls literally remember their master. {playerName}, this ship has a darker history than I initially disclosed. The Warlord didn't just pass through here — this was a command vessel." },
     ],
   },
@@ -1348,11 +1364,9 @@ interface GameContextValue {
   setActiveDeck: (cardIds: string[]) => void;
   // Narrative flags
   setNarrativeFlag: (flag: string, value?: boolean) => void;
-  // Section F — Cryo Bay mystery
-  logClue: (clue: import("@shared/cryoBayMystery").Clue) => void;
-  grantMysteryItem: (
-    itemId: import("@shared/cryoBayMystery").CryoMysteryInventoryId,
-  ) => void;
+  // Section F — Mystery actions (cryo bay + every other room module)
+  logClue: (clue: import("@shared/roomMysteries").Clue) => void;
+  grantMysteryItem: (itemId: string) => void;
   // Quest rewards
   claimQuestReward: (questId: string) => void;
   // Morality meter
@@ -2104,7 +2118,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
 
   /* ─── Section F — Cryo Bay mystery actions ─── */
 
-  const logClue = useCallback((clue: import("@shared/cryoBayMystery").Clue) => {
+  const logClue = useCallback((clue: import("@shared/roomMysteries").Clue) => {
     setState(prev => {
       // Idempotent: re-logging the same clue is a no-op.
       if (prev.clueJournal.some(c => c.id === clue.id)) return prev;
@@ -2122,7 +2136,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const grantMysteryItem = useCallback(
-    (itemId: import("@shared/cryoBayMystery").CryoMysteryInventoryId) => {
+    (itemId: string) => {
       setState(prev => {
         if (prev.mysteryInventory.includes(itemId)) return prev;
         return {
