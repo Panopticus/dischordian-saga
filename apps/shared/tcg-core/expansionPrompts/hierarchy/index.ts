@@ -11,7 +11,7 @@ import type { ExpansionCardRegistry } from "../types";
 import { CSUITE_PROMPTS } from "./csuite";
 import { VP_PROMPTS } from "./vps";
 import { DIRECTOR_PROMPTS } from "./directors";
-// import { MANAGER_PROMPTS } from "./managers";    // pending
+import { MANAGER_PROMPTS } from "./managers";
 // import { ANALYST_PROMPTS } from "./analysts";    // pending
 // import { INTERN_PROMPTS } from "./interns";      // pending
 
@@ -19,4 +19,5 @@ export const HIERARCHY_PROMPTS: ExpansionCardRegistry = Object.freeze({
   ...CSUITE_PROMPTS,
   ...VP_PROMPTS,
   ...DIRECTOR_PROMPTS,
+  ...MANAGER_PROMPTS,
 });
