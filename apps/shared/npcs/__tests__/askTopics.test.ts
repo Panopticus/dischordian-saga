@@ -221,7 +221,6 @@ describe("ALL_NPC_ASK_TOPICS aggregator", () => {
     // Oracle; Phase 6c.1 shipped Degen; Phase 6c.2 shipped Companion;
     // the rest stay empty until their sub-phase ships per the
     // Phase 6 sequencing. Updated as banks land.
-    expect(getAskTopicsFor("the_game_master").length).toBe(0);
     expect(getAskTopicsFor("the_meme").length).toBe(0);
     expect(getAskTopicsFor("wraith_calder").length).toBe(0);
     expect(getAskTopicsFor("your_eidolon").length).toBe(0);
@@ -256,6 +255,12 @@ describe("ALL_NPC_ASK_TOPICS aggregator", () => {
   it("DMC Clone Companion (Phase 6c.2) ships ≥10 topics via the aggregator", () => {
     expect(
       getAskTopicsFor("dmc_clone_companion").length,
+    ).toBeGreaterThanOrEqual(10);
+  });
+
+  it("The Game Master (Phase 6d.1) ships ≥10 topics via the aggregator", () => {
+    expect(
+      getAskTopicsFor("the_game_master").length,
     ).toBeGreaterThanOrEqual(10);
   });
 });

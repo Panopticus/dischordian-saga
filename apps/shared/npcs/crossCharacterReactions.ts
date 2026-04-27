@@ -787,6 +787,32 @@ export const CROSS_CHARACTER_REACTIONS: ReadonlyArray<CrossCharacterReaction> = 
       "Nilmorg reactive lines may register the canonical witness " +
       "without inviting the thanks he canonically refuses.",
   },
+
+  // ─── Game Master ask-topic flags (Phase 6d.1 part 1)
+
+  {
+    flag: "game_master_acknowledged_authority_contract",
+    setBy: ["the_game_master"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Game Master ask_about_authority (Phase 6d.1). Canonically " +
+      "delivers the 5-word epitaph 'They honored the contract. Every " +
+      "clause.' per the_game_master.md §1.8 silence-shape. Future " +
+      "Authority-aligned reactive lines may register the canonical " +
+      "acknowledgment.",
+  },
+  {
+    flag: "game_master_oracle_arena_reverence_disclosed",
+    setBy: ["the_game_master"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Game Master ask_oracle_arena (Phase 6d.1). Canonically " +
+      "discloses the Collectors' Arena was built to recover the Oracle " +
+      "(per §4.13 most-reverent canonical act). Future Oracle reactive " +
+      "lines may register the canonical reverence; future Hierophant " +
+      "reactive lines may register the canonical 'preparing for the " +
+      "Oracle's return' parallel.",
+  },
 ];
 
 // --- Helpers --------------------------------------------------------------
