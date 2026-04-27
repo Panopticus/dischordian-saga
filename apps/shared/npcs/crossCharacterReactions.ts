@@ -1020,6 +1020,41 @@ export const CROSS_CHARACTER_REACTIONS: ReadonlyArray<CrossCharacterReaction> = 
       "permission to canonically witness the Hierophant's eventual " +
       "death. Reserved canonical-once-per-playthrough.",
   },
+  {
+    flag: "eidolon_perish_prelude_witnessed",
+    setBy: ["your_eidolon"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Eidolon bond.inseparable.perish_prelude (Phase 6d.4 part 1). " +
+      "Canonical Inseparable-band perish-prelude register: the canonical " +
+      "Eidolon canonically lays its head against the player's hand " +
+      "for canonical-final-bond-resonance. Reserved canonical-once-" +
+      "per-playthrough; canonical perish-imminent context.",
+  },
+
+  // ─── Companion canonical-event public flags (Phase 6d.4 part 1)
+
+  {
+    flag: "companion_first_word_spoken",
+    setBy: ["dmc_clone_companion"],
+    reactsBy: ["your_eidolon", "future_reader"],
+    canonicalNote:
+      "Per Companion §1.4 first-word canon: the canonical permanent " +
+      "flag set when Channel 4 first-word fires (any context variant). " +
+      "Canonically cross-character readable: Eidolon Echo-mode " +
+      "canonically witnesses the canonical-first-word event.",
+  },
+  {
+    flag: "companion_named",
+    setBy: ["dmc_clone_companion"],
+    reactsBy: ["your_eidolon", "future_reader"],
+    canonicalNote:
+      "Per Companion §1.5 naming-event canon: the canonical permanent " +
+      "flag set when the canonical naming-event fires (Channel 5 " +
+      "unlock). Canonically cross-character readable: Eidolon Echo-" +
+      "mode canonically registers the canonical post-naming kin-" +
+      "recognition.",
+  },
 ];
 
 // --- Helpers --------------------------------------------------------------

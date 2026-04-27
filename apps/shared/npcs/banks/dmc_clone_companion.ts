@@ -635,7 +635,12 @@ export const DMC_CLONE_COMPANION_BANK: ReadonlyArray<BankEntry> = [
     cooldownKey: "companion.first_word.default",
     maxPlays: 1,
     setsFlags: ["companion_first_word_spoken"],
-    setsPublicFlags: ["companion_first_word_was_you"],
+    setsPublicFlags: [
+      "companion_first_word_was_you",
+      // Phase 6d.4: also publish the canonical-permanent generic
+      // first-word flag for cross-character reactions (Eidolon Echo).
+      "companion_first_word_spoken",
+    ],
   },
 
   // ═════════════════════════════════════════════════════════════════════
@@ -778,6 +783,11 @@ export const DMC_CLONE_COMPANION_BANK: ReadonlyArray<BankEntry> = [
     cooldownKey: "companion.naming.player_rename",
     maxPlays: 1,
     setsFlags: ["companion_named", "companion_named_by_player_choice"],
+    setsPublicFlags: [
+      // Phase 6d.4: publish canonical-permanent named flag for
+      // cross-character reactions (Eidolon Echo post-naming triplet).
+      "companion_named",
+    ],
   },
   {
     npcKey: NPC_KEY,
