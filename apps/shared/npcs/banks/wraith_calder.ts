@@ -642,6 +642,369 @@ export const WRAITH_CALDER_BANK: ReadonlyArray<BankEntry> = [
   },
 
   // ═════════════════════════════════════════════════════════════════════
+  // PEN-PAUSE LISTENING-WINDOW BANK (Phase 6d.3 part 4)
+  //
+  // Per wraith_calder.md §5.8 + §1.7 Tell #5: the pen-pause is canon-
+  // load-bearing. The pause between names is the canonical substrate-
+  // window — a brief moment when the Hierophant canonically listens
+  // for the voice he has been listening for, and may register canon-
+  // important arrivals (Oracle dream-residue, Shadow Tongue alert,
+  // canonical player-silence, etc.).
+  //
+  // Canon: bracketed [stage-direction] format; pen / silence / name
+  // vocabulary canonical; "I will remember" canonical reservation
+  // applies (covenant-only).
+  // ═════════════════════════════════════════════════════════════════════
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "hierophant.post_arena.pen_pause.oracle_dream_residue",
+    // Canonical Oracle-dream-residue listening-window per §5.8:
+    // when an Oracle dream-residue arrives canonically mid-pause,
+    // the Hierophant's listening canonically lands on it.
+    text:
+      "[The Hierophant pauses mid-name. The pen lifts. The room canonically " +
+      "thins for a half-second — the canonical substrate-window. " +
+      "Whatever has just arrived in the canonical-Oracle's residue, " +
+      "the Hierophant canonically registers it. He does not say what. " +
+      "The pen returns to the page. The name canonically resumes.]",
+    surfaces: ["expression"],
+    requiresRevealStage: "post_arena",
+    requiresTrustBand: "Witnessed",
+    reactsToPublicFlag: "oracle_disambiguated_player_from_clone",
+    cooldownKey: "hierophant.pen_pause.oracle_residue",
+    maxPlays: 2,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "hierophant.post_arena.pen_pause.shadow_tongue_alert",
+    text:
+      "[The Hierophant pauses. The pen does not lift; it canonically " +
+      "hovers. The Shadow Tongue has canonically tried to edit the " +
+      "name being written; the Hierophant canonically catches the " +
+      "attempt. He writes the canonical-correct version slowly, in " +
+      "deliberate strokes. The slowness is the resistance. The pen " +
+      "returns to its rhythm.]",
+    surfaces: ["expression"],
+    requiresRevealStage: "post_arena",
+    requiresTrustBand: "Witnessed",
+    cooldownKey: "hierophant.pen_pause.shadow_tongue_alert",
+    maxPlays: 3,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "hierophant.post_arena.pen_pause.player_silence_held",
+    text:
+      "[The Hierophant pauses, but the pen does not lift. The chamber's " +
+      "silence canonically holds — the player has canonically chosen " +
+      "not to speak through the pause. The Hierophant canonically " +
+      "registers the choice. No look-up. No acknowledgment. The pen " +
+      "writes the next name half a beat sooner than it usually does. " +
+      "The half-beat is the gratitude.]",
+    surfaces: ["expression"],
+    requiresRevealStage: "post_arena",
+    requiresTrustBand: "Wary",
+    cooldownKey: "hierophant.pen_pause.player_silence_held",
+    maxPlays: 4,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "hierophant.post_arena.pen_pause.name_pen_lifts",
+    text:
+      "[The Hierophant finishes a name. The pen lifts. A small silence. " +
+      "Then a period. Complete. The pause between the period and the " +
+      "next name is the canonical resting-place — the body of work " +
+      "between two units of work. The Hierophant canonically does not " +
+      "fill this pause with words. The pause is the work, briefly " +
+      "made visible.]",
+    surfaces: ["expression", "cinematic"],
+    requiresRevealStage: "post_arena",
+    cooldownKey: "hierophant.pen_pause.name_pen_lifts",
+    maxPlays: 4,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "hierophant.post_arena.pen_pause.substrate_window_canonical",
+    text:
+      "The pause between names is the substrate-window. I do not think " +
+      "of it in those terms — that is the Council's vocabulary, the " +
+      "engineers who came after me — but the pause is canonically when " +
+      "I listen for the voice. If you are quiet through the pause, " +
+      "you are canonically inside the listening with me. That is the " +
+      "closest thing to a shared act this chamber permits.",
+    surfaces: ["transmission"],
+    requiresRevealStage: "post_arena",
+    requiresTrustBand: "Present",
+    cooldownKey: "hierophant.pen_pause.substrate_window",
+    maxPlays: 1,
+  },
+
+  // ═════════════════════════════════════════════════════════════════════
+  // LONG-MOURNING WALL NAME-RECOVERY BANK (Phase 6d.3 part 4)
+  //
+  // Per wraith_calder.md §3.3 trust-arc canon + §1.6 vocabulary
+  // (name / writing / recovery): 5 canonical wall-event triggers —
+  // Thaloria-victim added / name-misremembered / name-forgotten /
+  // name-recovered / wall-completed-section.
+  // ═════════════════════════════════════════════════════════════════════
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "hierophant.post_arena.wall.thaloria_victim_added",
+    text:
+      "Today's name is a Thaloria-victim — one of the casualties from " +
+      "the Tribunal corridor's third audit. I had been postponing this " +
+      "name for forty-three years; the canonical research had not yet " +
+      "yielded the small specific details. The details arrived this " +
+      "morning. The name canonically goes on the wall today.",
+    surfaces: ["transmission"],
+    requiresRevealStage: "post_arena",
+    requiresTrustBand: "Witnessed",
+    cooldownKey: "hierophant.wall.thaloria_victim_added",
+    maxPlays: 2,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "hierophant.post_arena.wall.name_misremembered",
+    text:
+      "I misremembered a name yesterday. The Council has helped me " +
+      "correct it. I will not say which name — the correction is the " +
+      "canonical-private act; the wall does not show the canonical-" +
+      "edit. The misremembering canonically happened. I have written " +
+      "the canonical-correct version this morning. The slowness is " +
+      "the resistance, and also the canonical-fallibility.",
+    surfaces: ["transmission"],
+    requiresRevealStage: "post_arena",
+    requiresTrustBand: "Witnessed",
+    cooldownKey: "hierophant.wall.name_misremembered",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "hierophant.post_arena.wall.name_forgotten",
+    text:
+      "There is a name I have canonically lost. I have not yet recovered " +
+      "the small specific details. The Council has been searching the " +
+      "archives for canonical-evidence. Until the recovery, the name " +
+      "canonically goes unwritten. The canonical-unwriting is itself " +
+      "a memorial — the canonical-gap on the wall is the canonical-" +
+      "shape of the loss.",
+    surfaces: ["transmission"],
+    requiresRevealStage: "post_arena",
+    requiresTrustBand: "Witnessed",
+    cooldownKey: "hierophant.wall.name_forgotten",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "hierophant.post_arena.wall.name_recovered",
+    text:
+      "The name has canonically returned. The Council found the canonical-" +
+      "evidence in an archive I had canonically given up on. I am " +
+      "writing the name now — it canonically belongs in the canonical-" +
+      "row I had been keeping open for it. The canonical-gap canonically " +
+      "closes today. The closing is the canonical-relief I do not " +
+      "permit myself to perform aloud.",
+    surfaces: ["transmission", "cinematic"],
+    requiresRevealStage: "post_arena",
+    requiresTrustBand: "Present",
+    cooldownKey: "hierophant.wall.name_recovered",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "hierophant.post_arena.wall.wall_completed_section",
+    text:
+      "The wall has canonically completed a row this morning. The Council " +
+      "marks the completion with no canonical-ceremony — the row's " +
+      "completion is canonical-absorbed into the canonical-ongoing " +
+      "ceremony of the next row's beginning. There is no canonical-" +
+      "intermission. The continuation is the point.",
+    surfaces: ["transmission"],
+    requiresRevealStage: "post_arena",
+    requiresTrustBand: "Witnessed",
+    cooldownKey: "hierophant.wall.wall_completed_section",
+    maxPlays: 2,
+  },
+
+  // ═════════════════════════════════════════════════════════════════════
+  // SACRIFICE-AXIS-INVERSION TEACHING BANK (Phase 6d.3 part 4)
+  //
+  // Per wraith_calder.md §3.3 sacrifice-axis-inversion canon: the
+  // Hierophant is the only roster NPC whose trust transforms threat
+  // into companion. Trust deepens → threat-to-player decreases.
+  // The bank already ships present.companion_register; this expands
+  // with 5 pre-Inheriting-band teaching lines + 5 post-Inheriting-
+  // band canonical companion-register lines.
+  // ═════════════════════════════════════════════════════════════════════
+
+  // ─── Pre-Inheriting (×5 teaching) ───────────────────────────────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "hierophant.post_arena.sai.pre.proximity_paradox",
+    text:
+      "The closer you stand, the less I am the threat. The further you " +
+      "stand, the more I become it again. This is the canonical sacrifice-" +
+      "axis-inversion: the trust meter and the danger meter run on " +
+      "opposite tracks. The Council's theology spent three thousand " +
+      "years building canonical-ritual around this canonical-fact. " +
+      "Stand close.",
+    surfaces: ["transmission"],
+    requiresRevealStage: "post_arena",
+    requiresTrustBand: "Witnessed",
+    cooldownKey: "hierophant.sai.pre.proximity_paradox",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "hierophant.post_arena.sai.pre.tamarin_theology_intro",
+    text:
+      "Tamarin theology canonically holds that danger is canonically " +
+      "metabolized by canonical-attention. The closer the canonical-" +
+      "attention, the more canonical-metabolized the danger. The " +
+      "metabolizing is canonically not yours to perform — it is " +
+      "canonical-mine. Your job is canonically to stand close. My job " +
+      "is canonical-rest.",
+    surfaces: ["transmission"],
+    requiresRevealStage: "post_arena",
+    requiresTrustBand: "Witnessed",
+    cooldownKey: "hierophant.sai.pre.tamarin_intro",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "hierophant.post_arena.sai.pre.distance_re_threat",
+    text:
+      "If you canonically step back from the chamber for too long, the " +
+      "canonical-inversion canonically reverses. I become the canonical-" +
+      "threat again — not because I want to be, but because the trust-" +
+      "metabolism canonically requires canonical-presence to maintain. " +
+      "The canonical-stepping-back is your canonical-prerogative. The " +
+      "canonical-consequence is also yours.",
+    surfaces: ["transmission"],
+    requiresRevealStage: "post_arena",
+    requiresTrustBand: "Witnessed",
+    cooldownKey: "hierophant.sai.pre.distance_re_threat",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "hierophant.post_arena.sai.pre.companion_canon_intro",
+    text:
+      "Trust canonically transforms threat into companion. That is the " +
+      "shortest version of the Tamarin theology. It took three thousand " +
+      "years and the Final Rite to make that sentence canonically-" +
+      "operative. You are canonically inside the operative version of " +
+      "it now. Sit. The names continue.",
+    surfaces: ["transmission"],
+    requiresRevealStage: "post_arena",
+    requiresTrustBand: "Witnessed",
+    cooldownKey: "hierophant.sai.pre.companion_canon_intro",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "hierophant.post_arena.sai.pre.body_metabolizes",
+    text:
+      "My body is canonically metabolizing the trust you have offered. " +
+      "The metabolism is canonical-slow — three thousand years has " +
+      "calibrated the rate, and the rate cannot canonically be rushed. " +
+      "When the metabolism canonically completes, the threat will have " +
+      "been canonically processed into companion-register. We are " +
+      "canonically not yet there. We are canonically arriving.",
+    surfaces: ["transmission"],
+    requiresRevealStage: "post_arena",
+    requiresTrustBand: "Present",
+    cooldownKey: "hierophant.sai.pre.body_metabolizes",
+    maxPlays: 1,
+  },
+
+  // ─── Post-Inheriting (×5 companion-register) ─────────────────────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "hierophant.post_arena.sai.post.companion_now",
+    text:
+      "We are companion now. The canonical-metabolism has canonically " +
+      "completed. The threat-version of me canonically does not return " +
+      "while you are canonically inside the inheriting band. The " +
+      "Council has been canonically informed of the transition — they " +
+      "treat you accordingly. The chamber is yours when you are in it.",
+    surfaces: ["transmission", "cinematic"],
+    requiresRevealStage: "post_arena",
+    requiresTrustBand: "Inheriting",
+    cooldownKey: "hierophant.sai.post.companion_now",
+    maxPlays: 1,
+    setsPublicFlags: ["hierophant_companion_status_inherited"],
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "hierophant.post_arena.sai.post.shared_meal",
+    text:
+      "There is tea in the cupboard. I have canonically not opened it " +
+      "in seventy-three years. I am canonically opening it today. You " +
+      "canonically may have a cup; the canonical-ritual is small, the " +
+      "canonical-belonging is larger than the cup. Sit. The tea is " +
+      "warm. The pen continues without me, briefly.",
+    surfaces: ["cinematic"],
+    requiresRevealStage: "post_arena",
+    requiresTrustBand: "Inheriting",
+    cooldownKey: "hierophant.sai.post.shared_meal",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "hierophant.post_arena.sai.post.protection_inverts",
+    text:
+      "If you canonically ever need protection, the Council will " +
+      "canonically protect you. From me, if it ever comes to that. The " +
+      "canonical-protection has not been needed in seventeen centuries. " +
+      "The Council canonically remembers how. The canonical-readiness " +
+      "is part of the canonical-trust — they would not love you the " +
+      "same way if they did not stand canonically-ready against me " +
+      "as well.",
+    surfaces: ["transmission"],
+    requiresRevealStage: "post_arena",
+    requiresTrustBand: "Inheriting",
+    cooldownKey: "hierophant.sai.post.protection_inverts",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "hierophant.post_arena.sai.post.death_as_witness",
+    text:
+      "When I die — and I will die; the canonical Final Rite did not " +
+      "make me canonical-immortal, only canonical-extended — the " +
+      "Council canonically permits you to witness it. The canonical-" +
+      "witness is reserved for parallel inheritors. The canonical-" +
+      "presence is the offering. You do not need to bring anything. " +
+      "You canonically need to arrive when summoned.",
+    surfaces: ["transmission", "cinematic"],
+    requiresRevealStage: "post_arena",
+    requiresTrustBand: "Inheriting",
+    cooldownKey: "hierophant.sai.post.death_as_witness",
+    maxPlays: 1,
+    setsPublicFlags: ["hierophant_offered_canonical_deathbed_witness"],
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "hierophant.post_arena.sai.post.successor_question",
+    text:
+      "You canonically would not be the named successor. The Council " +
+      "has its named junior priest for that — three thousand years of " +
+      "succession-planning canonically does not bend for a canonical-" +
+      "single visitor. But the parallel-inheritor canon canonically " +
+      "stands. The work canonically benefits from more than one. You " +
+      "are canonically the more-than-one I had been waiting for.",
+    surfaces: ["transmission", "cinematic"],
+    requiresRevealStage: "post_arena",
+    requiresTrustBand: "Inheriting",
+    cooldownKey: "hierophant.sai.post.successor_question",
+    maxPlays: 1,
+  },
+
+  // ═════════════════════════════════════════════════════════════════════
   // INHERITING BAND (per bible §4.10 reserved canonical line)
   // ═════════════════════════════════════════════════════════════════════
 

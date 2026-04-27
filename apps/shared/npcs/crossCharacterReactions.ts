@@ -999,6 +999,27 @@ export const CROSS_CHARACTER_REACTIONS: ReadonlyArray<CrossCharacterReaction> = 
       "himself than the truth. The canonical 'three times in two " +
       "hundred years, I noticed' canon lands.",
   },
+  {
+    flag: "hierophant_companion_status_inherited",
+    setBy: ["wraith_calder"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Hierophant sai.post.companion_now (Phase 6d.3 part 4). " +
+      "Canonical §3.3 sacrifice-axis-inversion-completion: trust " +
+      "deeper than Inheriting canonically transforms threat into " +
+      "companion permanently. Council canonically informed of the " +
+      "canonical-transition.",
+  },
+  {
+    flag: "hierophant_offered_canonical_deathbed_witness",
+    setBy: ["wraith_calder"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Hierophant sai.post.death_as_witness (Phase 6d.3 part 4). " +
+      "Canonical §3.9 deathbed-witness offer: Inheriting-band canonical " +
+      "permission to canonically witness the Hierophant's eventual " +
+      "death. Reserved canonical-once-per-playthrough.",
+  },
 ];
 
 // --- Helpers --------------------------------------------------------------
