@@ -703,6 +703,113 @@ export const THE_DEGEN_BANK: ReadonlyArray<BankEntry> = [
   },
 
   // ═════════════════════════════════════════════════════════════════════
+  // CHRISTMAS IN JULY SEASONAL CANON (Phase 6c.1 part 4)
+  //
+  // Per christmasInJuly.ts (CHRISTMAS_EVENT_CONFIG): the Degen runs
+  // the casino during the canonical 14-day event (July 1-14).
+  // Subtitle canon: "Gambling, Gifting, and Grace." LCIF charity tie-
+  // in is 10% of all spend; the canonical "Charity Multiplier" prize
+  // doubles LCIF for 100 spends. The Degen's voice during the event
+  // is canonically the showman-as-shared-joke register (§1.5) — the
+  // mask softens because the charity context is sincere even if the
+  // showmanship persists.
+  //
+  // Lines gated on canonical event-active flag: christmas_in_july_active
+  // (set by the event server when within startDate/endDate window).
+  //
+  // Voice rules honored:
+  //   - No "sorry" / soul / salvation / sin / forever (§1.4)
+  //   - No "Mostly takes" leitmotif (deploy-once canon, already used)
+  //   - Self-aware showmanship (Tell #1) lands in the canonical
+  //     "house rules are SUSPENDED tonight" register
+  //   - The canonical "grace" word is allowed (canon subtitle); not
+  //     a religious-vocabulary use because it's the event's own name
+  // ═════════════════════════════════════════════════════════════════════
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "degen.cij.event_open.canonical_greeting",
+    // Canonical event-opening cinematic. The Degen acknowledges the
+    // event's three-word subtitle (Gambling, Gifting, and Grace) as
+    // the canonical structure of the night.
+    text:
+      "Welcome to Christmas in July. The Casino is dressed for the " +
+      "season. The wheel is wound. The charity column is open. Gambling, " +
+      "Gifting, and Grace, in that order. Order a drink. The first one " +
+      "is on the HOUSE.",
+    surfaces: ["cinematic"],
+    unlockFlags: ["christmas_in_july_active"],
+    cooldownKey: "degen.cij.event_open",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "degen.cij.wheel.canonical_invitation",
+    // Canonical wheel-spin invitation. Tell #4 rule-recited-then-broken:
+    // he names the wheel's odds and then invites the spin anyway.
+    text:
+      "The wheel is calibrated to the canonical sixteen prizes. The " +
+      "best one canonically loses to the second-best one in expected " +
+      "value. Spin anyway. The expected value is not the point of the " +
+      "season.",
+    surfaces: ["npc_line"],
+    unlockFlags: ["christmas_in_july_active"],
+    cooldownKey: "degen.cij.wheel_invitation",
+    maxPlays: 2,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "degen.cij.house_rules_suspended.canonical_grace",
+    // Canonical "house rules are suspended tonight" register. The
+    // softening of the mask. Not pacifist canonically — gracious. The
+    // gift-exchange tie-in lands here.
+    text:
+      "House rules are SUSPENDED tonight. Not abolished. Suspended. The " +
+      "difference is that I will resume them in the morning and the " +
+      "morning will pretend tonight didn't happen. Send a gift while " +
+      "the suspension holds. The Casino files gifts under 'kept records' " +
+      "rather than 'wagers.'",
+    surfaces: ["transmission"],
+    unlockFlags: ["christmas_in_july_active"],
+    cooldownKey: "degen.cij.house_rules_suspended",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "degen.cij.milestone.canonical_acknowledgment",
+    // Canonical community-milestone acknowledgment. Fires when the
+    // canonical First Frost (1000) milestone is reached.
+    text:
+      "The community hit First Frost. One thousand spins of charity. " +
+      "I file the number under 'sincere' and that's the index I least " +
+      "expected to need this season.",
+    surfaces: ["npc_line"],
+    unlockFlags: ["christmas_in_july_active", "cij_milestone_first_frost"],
+    cooldownKey: "degen.cij.milestone_first_frost",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "degen.cij.event_close.canonical_farewell",
+    // Canonical event-closing line. Fires on the canonical day-14
+    // window (or when christmas_in_july_active turns off after a
+    // canonical participation history). The §1.7 silence-shape:
+    // he canonically does NOT promise to do this again, because
+    // promises offend his entropy canon.
+    text:
+      "Fourteen days. The wheel is unwound. The charity column is " +
+      "closed. The Casino files the season under 'returned to.' I am " +
+      "not going to promise to do this again. The Seer has already " +
+      "filed my objections to making promises. See you at the next " +
+      "table.",
+    surfaces: ["transmission"],
+    unlockFlags: ["cij_participated_this_year"],
+    excludeFlags: ["christmas_in_july_active"],
+    cooldownKey: "degen.cij.event_close",
+    maxPlays: 1,
+  },
+
+  // ═════════════════════════════════════════════════════════════════════
   // CATCH-ALLS (silent-fail compliance)
   // ═════════════════════════════════════════════════════════════════════
 
