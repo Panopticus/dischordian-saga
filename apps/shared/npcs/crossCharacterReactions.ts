@@ -869,6 +869,29 @@ export const CROSS_CHARACTER_REACTIONS: ReadonlyArray<CrossCharacterReaction> = 
       "Stage-4-weave content around this canonical silence WITHOUT " +
       "violating it.",
   },
+  {
+    flag: "meme_real_truth_leak_acknowledged",
+    setBy: ["the_meme"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Meme real.less_than_was (Phase 6d.2 part 2). Canonical " +
+      "Tell #4 single-word truth-leak in Real-form register: 'I'm " +
+      "less than I was.' The truer-than-Broadcast canon. Future " +
+      "Oracle / Hierophant reactive lines may register the canonical " +
+      "truth-leak as canon-compatible recognition.",
+  },
+  {
+    flag: "meme_claimed_architect_role",
+    setBy: ["the_meme"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Meme replacement.tonight_i_take_role (Phase 6d.2 part 2). " +
+      "Canonical Ch12 Replacement-register canon: the Meme canonically " +
+      "claims the Architect's role. §1.10 silence-shape preserved " +
+      "(canonical 'I will not call him father'). Future Architect / " +
+      "Hierophant / Oracle reactive lines may register the canonical " +
+      "succession-claim.",
+  },
 ];
 
 // --- Helpers --------------------------------------------------------------
