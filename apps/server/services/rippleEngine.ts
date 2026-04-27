@@ -1247,6 +1247,175 @@ on("dream_residue", async (ev) => {
   }
 });
 
+/**
+ * contract_signed (Phase 2.2 → cross-character reactions):
+ * Sets canonical public flags so other NPCs canonically register
+ * the player's commercial-canon — Vex's Maestro narrator persona-shift,
+ * Locke's hidden-clause-revealed trust-stance, Antiquarian audit
+ * recall. Per crossCharacterReactions.ts canonical
+ * `signed_contract_{contractKey}` + `met_broker_{brokerKey}`.
+ */
+on("contract_signed", async (ev) => {
+  const { userId, contractKey, brokerKey, hiddenClausesAcknowledged } =
+    ev as ContractSignedEvent;
+  try {
+    const db = await getDb();
+    if (!db) return;
+    const { npcPublicFlags } = await import("../../db/schema");
+    const flags = [
+      `signed_contract_${contractKey}`,
+      `signed_with_broker_${brokerKey}`,
+    ];
+    if (hiddenClausesAcknowledged) {
+      flags.push(`audited_contract_${contractKey}_on_signing`);
+    }
+    for (const flag of flags) {
+      await db
+        .insert(npcPublicFlags)
+        .values({ userId, flag, setBy: brokerKey })
+        .catch(() => {/* idempotent on uniq violation */});
+    }
+    logger.info("contract_signed → public flags set", {
+      userId,
+      contractKey,
+      brokerKey,
+      flagCount: flags.length,
+    });
+  } catch (err) {
+    logger.warn("contract_signed handler failed", { err });
+  }
+});
+
+/**
+ * broker_engagement (Phase 2.2 → cross-character reactions):
+ * Sets canonical first-meeting flag `met_broker_{brokerKey}` so per-
+ * crossCharacterReactions canonical broker-recognition lines fire.
+ * Idempotent: subsequent engagements are no-ops on the flag (uniq
+ * violation), but the canonical `engagementType` is logged for
+ * future per-engagement-type handlers.
+ */
+on("broker_engagement", async (ev) => {
+  const { userId, brokerKey, npcKey, engagementType } =
+    ev as BrokerEngagementEvent;
+  try {
+    const db = await getDb();
+    if (!db) return;
+    const { npcPublicFlags } = await import("../../db/schema");
+    await db
+      .insert(npcPublicFlags)
+      .values({
+        userId,
+        flag: `met_broker_${brokerKey}`,
+        setBy: npcKey,
+      })
+      .catch(() => {/* idempotent on uniq violation */});
+    logger.info("broker_engagement → public flag set", {
+      userId,
+      brokerKey,
+      npcKey,
+      engagementType,
+    });
+  } catch (err) {
+    logger.warn("broker_engagement handler failed", { err });
+  }
+});
+
+/**
+ * route_milestone (Phase 2.2 → canonical NPC acknowledgment lines):
+ * On canonical-tier-crossings (5 / 10 / 25 / 50), sets canonical
+ * per-tier + per-acknowledger-NPC flags so each canonical
+ * acknowledger's reactive line fires. Per
+ * MILESTONE_TIER_CANON in apps/shared/tradeEmpire/routes.ts:
+ *   tier 5  → broker_independent_freeport
+ *   tier 10 → adjudicator_locke
+ *   tier 25 → the_antiquarian, the_seer
+ *   tier 50 → adjudicator_locke, the_antiquarian,
+ *             broker_independent_freeport
+ */
+on("route_milestone", async (ev) => {
+  const { userId, routeKey, runCount } = ev as RouteMilestoneEvent;
+  try {
+    const db = await getDb();
+    if (!db) return;
+    const { npcPublicFlags } = await import("../../db/schema");
+    const { MILESTONE_TIER_CANON } = await import(
+      "@shared/tradeEmpire/routes"
+    );
+    // The route_milestone event canonically fires per tier-crossing,
+    // so the runCount canonically maps to the tier reached. But to
+    // remain robust to back-fill scenarios (one run crossing several
+    // tiers), the handler scans every canonical tier ≤ runCount.
+    const tiers = (Object.keys(MILESTONE_TIER_CANON)
+      .map(Number)
+      .filter(t => t <= runCount)
+      .sort((a, b) => b - a)) as Array<keyof typeof MILESTONE_TIER_CANON>;
+    if (tiers.length === 0) return;
+    const tier = tiers[0]!; // canonically-highest tier reached this run
+    const canon = MILESTONE_TIER_CANON[tier];
+    if (!canon) return;
+    const flags: Array<{ flag: string; setBy: string }> = [
+      { flag: `route_milestone_tier_${tier}_reached`, setBy: "trade_empire" },
+      {
+        flag: `route_milestone_tier_${tier}_reached_for_${routeKey}`,
+        setBy: "trade_empire",
+      },
+    ];
+    for (const acker of canon.canonicalAcknowledgers) {
+      flags.push({
+        flag: `route_milestone_acknowledged_by_${acker.npcKey}_tier_${tier}`,
+        setBy: acker.npcKey,
+      });
+    }
+    for (const { flag, setBy } of flags) {
+      await db
+        .insert(npcPublicFlags)
+        .values({ userId, flag, setBy })
+        .catch(() => {/* idempotent on uniq violation */});
+    }
+    logger.info("route_milestone → canonical NPC ack flags set", {
+      userId,
+      routeKey,
+      tier,
+      ackCount: canon.canonicalAcknowledgers.length,
+    });
+  } catch (err) {
+    logger.warn("route_milestone handler failed", { err });
+  }
+});
+
+/**
+ * sector_first_entered (Phase 2.2 → arrivalCinematic + Eyes whisper):
+ * Sets canonical `entered_sector_{sectorId}_first_time` flag. The
+ * client's ArrivalCinematicRenderer reads this flag (via
+ * tradeSectorArrivals row) on next sector-page load and presents the
+ * canonical first-visit cinematic + Eyes-narrator whisper from the
+ * sector's `eyesNarrator` field. After the player canonically
+ * acknowledges, the `markArrivalCinematicWatched` endpoint sets
+ * cinematicWatched=true.
+ */
+on("sector_first_entered", async (ev) => {
+  const { userId, sectorId } = ev as SectorFirstEnteredEvent;
+  try {
+    const db = await getDb();
+    if (!db) return;
+    const { npcPublicFlags } = await import("../../db/schema");
+    await db
+      .insert(npcPublicFlags)
+      .values({
+        userId,
+        flag: `entered_sector_${sectorId}_first_time`,
+        setBy: "trade_empire",
+      })
+      .catch(() => {/* idempotent on uniq violation */});
+    logger.info("sector_first_entered → public flag set", {
+      userId,
+      sectorId,
+    });
+  } catch (err) {
+    logger.warn("sector_first_entered handler failed", { err });
+  }
+});
+
 /* ═══════════════════════════════════════════════════════
    SEARCH RATE-LIMIT BUCKETS
 
