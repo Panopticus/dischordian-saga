@@ -170,7 +170,7 @@ interface TitlePageProps {
  */
 function DiegeticBootSequence({ skipAnimation = false }: { skipAnimation?: boolean }) {
   const lines = [
-    "CoNEXUS HANDSHAKE . . .",
+    "CoNEXUS HANDSHAKE",
     "LINK ESTABLISHED",
     "ARK DESIGNATION: 1047",
     "AWAITING OPERATOR",
@@ -406,11 +406,14 @@ export default function TitlePage({ onDismiss }: TitlePageProps = {}) {
     return () => window.removeEventListener("keydown", onKey);
   }, [thresholdPassed, isAuthenticated, hasSave, showResetWall, showPanel, videoPick, onDismiss]);
 
-  /* ─── Auto-intercept: pick a video to spontaneously receive ─── */
+  /* ─── Auto-intercept: pick a video to spontaneously receive.
+       Returning accounts only — first-time visitors get a quiet title
+       so the opening doesn't dogpile a broadcast on top of the
+       handshake + character creation pitch. ─── */
   const interceptPick = useTransmissionIntercept({
     announcements,
     audienceTags,
-    interactionReady: thresholdPassed && handshakeDone && !showResetWall && !videoPick,
+    interactionReady: thresholdPassed && handshakeDone && hasSave && !showResetWall && !videoPick,
   });
 
   // Auto-fire intercept 5s after threshold passes (the "quiet beat"
@@ -654,9 +657,10 @@ export default function TitlePage({ onDismiss }: TitlePageProps = {}) {
           />
         )}
 
-        {/* Broadcast chip — only shown past threshold so it doesn't
-           distract from the cinematic opening beat. */}
-        {thresholdPassed && announcements.length > 0 && (
+        {/* Broadcast chip — returning accounts only, past the threshold
+           beat. First-time visitors get a clean title so the opening
+           focuses on the handshake → new-game CTA. */}
+        {thresholdPassed && hasSave && announcements.length > 0 && (
           <button
             type="button"
             onClick={() => setShowPanel(true)}
@@ -678,17 +682,24 @@ export default function TitlePage({ onDismiss }: TitlePageProps = {}) {
         )}
       </div>
 
-      {/* Ticker */}
-      <BroadcastTicker announcements={announcements} accentColor={theme.palette.accent} />
+      {/* Ticker — returning accounts only. Keeps the first-time title
+          quiet so new players aren't fighting a scrolling banner while
+          they're trying to find the new-game CTA. */}
+      {hasSave && (
+        <BroadcastTicker announcements={announcements} accentColor={theme.palette.accent} />
+      )}
 
-      {/* Broadcast panel */}
-      <BroadcastPanel
-        open={showPanel}
-        announcements={announcements}
-        accentColor={theme.palette.accent}
-        onClose={() => setShowPanel(false)}
-        onPlayVideo={playVideo}
-      />
+      {/* Broadcast panel — only mounted when a returning account opened
+          the chip; without `hasSave` the chip never renders. */}
+      {hasSave && (
+        <BroadcastPanel
+          open={showPanel}
+          announcements={announcements}
+          accentColor={theme.palette.accent}
+          onClose={() => setShowPanel(false)}
+          onPlayVideo={playVideo}
+        />
+      )}
 
       {/* Video transmission player (manual + auto-intercept) */}
       {videoPick && (
