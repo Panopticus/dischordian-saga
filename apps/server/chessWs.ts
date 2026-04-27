@@ -13,6 +13,11 @@ import { randomUUID } from "crypto";
 // Task 6.1 — per-user token bucket for every WS message.
 // Shared with pvpWs + duelystWs via the `wsRateLimit` module.
 import { checkWsRateLimit, sendRateLimitError } from "./wsRateLimit";
+import { recordMatchStart, recordMatchEnd } from "./matchLengthMonitor";
+import {
+  pickMultiplayerEndLine,
+  hashMultiplayerSeed,
+} from "@shared/tcg-core/story/chessMultiplayerArena";
 
 /* ─── ZOD MESSAGE SCHEMAS ─── */
 const ChessClientMessageSchema = z.union([
@@ -79,7 +84,7 @@ type ChessServerMessage =
   | { type: "QUEUE_UPDATE"; position: number; playersInQueue: number }
   | { type: "MATCH_FOUND"; matchId: string; color: "white" | "black"; opponentName: string; opponentElo: number; opponentCharacter: string; timeControl: number }
   | { type: "GAME_STATE"; fen: string; lastMove: { from: string; to: string; san: string } | null; whiteTimeMs: number; blackTimeMs: number; turn: "w" | "b"; moveCount: number; isCheck: boolean }
-  | { type: "GAME_OVER"; winner: "white" | "black" | "draw"; reason: string; eloChange: number; newElo: number }
+  | { type: "GAME_OVER"; winner: "white" | "black" | "draw"; reason: string; eloChange: number; newElo: number; gmCommentary?: string }
   | { type: "DRAW_OFFERED" }
   | { type: "DRAW_DECLINED" }
   | { type: "OPPONENT_DISCONNECTED" }
@@ -202,6 +207,7 @@ async function startMatch(p1: ChessPlayer, p2: ChessPlayer) {
   await chessReady;
 
   const matchId = randomUUID().slice(0, 12);
+  recordMatchStart(matchId);
 
   // Randomly assign colors
   const isP1White = Math.random() < 0.5;
@@ -440,6 +446,11 @@ async function endMatch(match: ActiveChessMatch, winnerId: number | null, reason
   match.status = reason as any;
   match.winnerId = winnerId;
 
+  // #88 Telemetry — record wall-clock duration for the admin
+  // dashboard's chess match-length p50/p95/p99. Tagged with the
+  // engine's end reason (timeout / resign / checkmate / draw).
+  recordMatchEnd(match.matchId, "chess", reason);
+
   if (match.turnTimeout) {
     clearTimeout(match.turnTimeout);
     match.turnTimeout = null;
@@ -452,6 +463,10 @@ async function endMatch(match: ActiveChessMatch, winnerId: number | null, reason
 
   // Notify players
   const winnerColor = winnerId === match.white.userId ? "white" : winnerId === match.black.userId ? "black" : "draw";
+  const gmCommentary = pickMultiplayerEndLine(
+    reason,
+    hashMultiplayerSeed(`end|${match.matchId}|${reason}`),
+  );
 
   send(match.white.ws, {
     type: "GAME_OVER",
@@ -459,6 +474,7 @@ async function endMatch(match: ActiveChessMatch, winnerId: number | null, reason
     reason,
     eloChange: whiteEloChange,
     newElo: match.white.elo + whiteEloChange,
+    gmCommentary,
   });
 
   send(match.black.ws, {
@@ -467,6 +483,7 @@ async function endMatch(match: ActiveChessMatch, winnerId: number | null, reason
     reason,
     eloChange: blackEloChange,
     newElo: match.black.elo + blackEloChange,
+    gmCommentary,
   });
 
   // Notify spectators

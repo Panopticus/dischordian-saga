@@ -1,0 +1,3 @@
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/cards/race/s1_race_quarchon_01.webp
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/cards/race/s1_race_quarchon_03.webp
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/cards/race/s1_race_quarchon_02.webp

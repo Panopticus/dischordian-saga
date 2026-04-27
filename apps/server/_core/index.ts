@@ -15,6 +15,8 @@ import { registerSpriteProxy } from "../spriteProxy";
 import { registerChessMultiplayer } from "../chessMultiplayer";
 import { ENV } from "./env";
 import { performanceMiddleware } from "../performanceMonitor";
+import { sentryErrorHandler, waitForSentry } from "../sentry";
+import { waitForOTel } from "../otel";
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -64,24 +66,53 @@ async function startServer() {
 
       console.log(`[Webhook] Received event: ${event.type} (${event.id})`);
 
-      // Handle checkout completion.
-      //
-      // Task 6.1 — Webhook idempotency.
+      // Event-level idempotency (Task 6.1 + #95 follow-up).
       //
       // Stripe retries webhook delivery on any 5xx response, so the
-      // same `checkout.session.completed` event can arrive multiple
-      // times. Before Task 6.1 this handler unconditionally inserted
-      // a new `store_purchases` row AND called `fulfillPurchase`
-      // each time, which meant a retried webhook could grant the
-      // same items twice. Now the flow is:
+      // same event id can arrive multiple times. We have two layers:
       //
-      //   1. Try to insert the row. A unique index on
-      //      `stripePaymentIntentId` (migration 0035) causes the
-      //      second insert to fail, which we treat as "already
-      //      handled" and return a 200.
-      //   2. Only call `fulfillPurchase` after a successful insert.
-      //   3. Credits / dream purchases don't carry a payment intent
-      //      id so they fall through to a plain insert + fulfill.
+      //   Layer A (this block) — `processed_webhook_events` keyed by
+      //     `event.id`. Closes the gap that the layer-B unique index
+      //     leaves open for credits / dream purchases (which carry
+      //     no payment intent and therefore can't be caught by a
+      //     unique index on `stripePaymentIntentId`).
+      //
+      //   Layer B (further down) — unique index on
+      //     `storePurchases.stripePaymentIntentId` (migration 0035).
+      //     Catches the case where the *same payment intent* arrives
+      //     under a different event id (e.g. stripe re-issues the
+      //     event with a new id; rare but possible).
+      //
+      // Both layers fail closed: any duplicate-key error returns a
+      // 200 immediately and skips fulfillment.
+      try {
+        const { getDb } = await import("../db");
+        const { processedWebhookEvents } = await import("../../db/schema");
+        const db = await getDb();
+        if (db) {
+          await db.insert(processedWebhookEvents).values({
+            eventId: event.id,
+            eventType: event.type,
+            source: "stripe",
+          });
+        }
+        // If db is null (tests / local without MySQL) the layer-A
+        // check is bypassed; layer B still applies in production where
+        // db is always present.
+      } catch (err: unknown) {
+        const msg = err instanceof Error ? err.message : String(err);
+        if (/duplicate|unique/i.test(msg)) {
+          console.log(`[Webhook] Replay of event ${event.id} (${event.type}) — already processed. Skipping.`);
+          return res.json({ received: true, duplicate: true });
+        }
+        throw err;
+      }
+
+      // Handle checkout completion.
+      //
+      // Layer B idempotency — see comment above. The unique index on
+      // `stripePaymentIntentId` is preserved as a defense-in-depth
+      // guard for the cross-event-id same-payment-intent case.
       if (event.type === "checkout.session.completed") {
         const session = event.data.object as any;
         const userId = parseInt(session.metadata?.user_id || session.client_reference_id || "0");
@@ -248,6 +279,28 @@ async function startServer() {
     serveStatic(app);
   }
 
+  // #88 Telemetry — Sentry error capture.
+  //
+  // Mounted AFTER all routes (Express error-handling middleware runs
+  // last in the chain). When SENTRY_DSN is set, every unhandled error
+  // bubbling out of a route handler is reported before the next error
+  // handler renders the response. When the env var is unset (local
+  // dev / tests / CI), the captureException call is a no-op and the
+  // error continues down the middleware chain unchanged.
+  app.use(sentryErrorHandler);
+
+  // Block startup briefly until Sentry's lazy init has resolved so
+  // any error thrown before request-binding (e.g. during the server
+  // bootstrap below) is also captured. Resolves immediately when
+  // SENTRY_DSN is unset.
+  await waitForSentry();
+
+  // Same pattern for OpenTelemetry (#88). Init resolves immediately
+  // when OTEL_ENABLED!=1 or the OTLP endpoint isn't configured. When
+  // it does load, every tRPC handler wrapped in `withSpan` starts
+  // exporting traces from the first request.
+  await waitForOTel();
+
   const preferredPort = parseInt(process.env.PORT || "3000");
   const port = await findAvailablePort(preferredPort);
 
@@ -329,6 +382,26 @@ async function startServer() {
     const { bootstrapCitizenSchema } = await import("../services/citizenSchemaBootstrap");
     bootstrapCitizenSchema().catch(e =>
       console.error("[CitizenSchemaBootstrap] failed:", e),
+    );
+
+    // Ensure processed_webhook_events exists. Migration 0055 is
+    // orphaned from _journal.json; without this table the Stripe
+    // webhook handler's event-level idempotency check fails open
+    // and replays of credit/dream purchases (which carry no payment
+    // intent and therefore aren't caught by the storePurchases
+    // unique index) could double-fulfill.
+    const { bootstrapWebhookEventsTable } = await import("../services/webhookEventsBootstrap");
+    bootstrapWebhookEventsTable().catch(e =>
+      console.error("[WebhookEventsBootstrap] failed:", e),
+    );
+
+    // Ensure game_replays.shareToken exists. Migration 0056 is
+    // orphaned from _journal.json; without this column saveReplay
+    // can't generate share-links and getReplayByToken silently 404s.
+    // The legacy by-id lookup keeps working either way.
+    const { bootstrapReplayShareToken } = await import("../services/replaysBootstrap");
+    bootstrapReplayShareToken().catch(e =>
+      console.error("[ReplaysBootstrap] failed:", e),
     );
   }
 

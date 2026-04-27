@@ -1,0 +1,5 @@
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/cards/element/s1_elem_earth_02.webp
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/cards/element/s1_elem_earth_01.webp
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/cards/element/s1_elem_earth_05.webp
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/cards/element/s1_elem_earth_03.webp
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/cards/element/s1_elem_earth_04.webp

@@ -41,6 +41,15 @@ export interface ParallaxLayer {
 interface ParallaxRoomProps {
   layers: ParallaxLayer[];
   className?: string;
+  /**
+   * How the image fills its container. Default `cover` fills edge-to-edge
+   * but crops whatever doesn't match the container's aspect ratio — so
+   * `%`-coord hotspot overlays drift relative to the visible art on any
+   * viewport whose aspect doesn't match the source image. Pass `contain`
+   * for scenes that need exact hotspot alignment; the trade-off is
+   * letterboxing on aspect-mismatched viewports.
+   */
+  fit?: "cover" | "contain";
 }
 
 /** Maximum pixel offset for the most extreme depth layer. */
@@ -54,6 +63,7 @@ function isReducedMotion(): boolean {
 export default function ParallaxRoom({
   layers,
   className = "",
+  fit = "cover",
 }: ParallaxRoomProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const layerRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -252,7 +262,7 @@ export default function ParallaxRoom({
     inset: `-${MAX_OFFSET}px`,
     willChange: "transform",
     backgroundImage: `url(${layers[index]?.src})`,
-    backgroundSize: "cover",
+    backgroundSize: fit,
     backgroundPosition: "center",
     backgroundRepeat: "no-repeat",
     zIndex: index,

@@ -2150,6 +2150,58 @@ html.reduce-motion .ark-ambient-library-shaft {
 }
 
 /* ═══════════════════════════════════════════════════════
+   ROOM NARRATOR FILTER PRESETS
+
+   Per the Witnessing Narrative Proposal §14.2 and
+   apps/shared/livingArkTouchpoints.ts pickRoomFilter(): a
+   room's background gets a tinted CSS filter when the
+   player crosses bond thresholds. Elara at 80 warms her
+   canonical rooms; The Human at 80 cools his into noir;
+   both at 80 in a shared room flickers between them.
+
+   Applied to the room background wrapper as a class. The
+   filter sits on the wrapper rather than ParallaxRoom
+   itself so the hotspot markers stay full-color.
+   ═══════════════════════════════════════════════════════ */
+
+.ark-room-filter-warm-elara {
+  filter: sepia(18%) saturate(115%) hue-rotate(-8deg) brightness(1.04);
+}
+
+.ark-room-filter-noir-human {
+  filter: grayscale(35%) contrast(118%) brightness(0.92) saturate(80%);
+}
+
+.ark-room-filter-silence-ambient {
+  filter: grayscale(60%) brightness(0.85) saturate(60%);
+}
+
+/* Yin/yang flicker — both bonds at 80 in a shared room.
+   Slow alternation between warm-elara and noir-human so the
+   room visibly flips identity. Motion intensity collapses
+   the swing for users who prefer it muted. */
+.ark-room-filter-yin-yang-flicker {
+  animation: arkRoomYinYangFlicker calc(8s / max(0.4, var(--motion-intensity, 1))) ease-in-out infinite;
+}
+
+@keyframes arkRoomYinYangFlicker {
+  0%, 100% {
+    filter: sepia(18%) saturate(115%) hue-rotate(-8deg) brightness(1.04);
+  }
+  50% {
+    filter: grayscale(35%) contrast(118%) brightness(0.92) saturate(80%);
+  }
+}
+
+html.reduce-motion .ark-room-filter-yin-yang-flicker {
+  /* Settle on the warm preset under reduce-motion. The flicker
+     is the un-toggleable beat; without animation, prefer the
+     warmer tone over a stuck cold cast. */
+  animation: none;
+  filter: sepia(18%) saturate(115%) hue-rotate(-8deg) brightness(1.04);
+}
+
+/* ═══════════════════════════════════════════════════════
    DUELYST HAND CARD — mouse-tilt on hover
    The ParallaxHandCard wrapper sets --card-tilt-x/y from
    the cursor position; this stylesheet rotates the inner
@@ -2167,4 +2219,189 @@ html.reduce-motion .ark-ambient-library-shaft {
 }
 html.reduce-motion .duelyst-hand-card__button {
   transform: none;
+}
+
+/* ═══════════════════════════════════════════════════════
+   QUALITY TIER — CSS gates for low-power devices.
+   applyQualityTierToDOM() adds html.quality-low when the
+   runtime detection fires. Consumers below collapse their
+   per-element particle counts and disable the more
+   expensive keyframe chains.
+   ═══════════════════════════════════════════════════════ */
+html.quality-low .ambient-skybox__nebula {
+  /* Nebula glow is the single most expensive CSS layer on
+     the ambient skybox — 8s scale + blur animation. Drop it
+     on low tier and keep only the static star dust + void. */
+  animation: none !important;
+  opacity: 0 !important;
+}
+html.quality-low .ark-ambient-cryo-vapor:nth-child(n+8),
+html.quality-low .ark-ambient-bridge-star:nth-child(n+10),
+html.quality-low .ark-ambient-library-dust:nth-child(n+12) {
+  /* Thin out per-room particle counts on low tier — keep the
+     ambient vocabulary readable but drop roughly half the
+     span elements. :nth-child(n+8) hides everything from the
+     8th onward. */
+  display: none;
+}
+html.quality-low .living-portrait__glow,
+html.quality-low .living-portrait__particle {
+  animation: none !important;
+}
+html.quality-low .living-portrait__particle {
+  opacity: 0 !important;
+}
+html.quality-low .chess-arena-morality-wash {
+  animation: none !important;
+}
+
+/* ═══════════════════════════════════════════════════════
+   VIEW TRANSITIONS — native route cross-fade
+   Activated on supporting browsers by lib/viewTransitions.ts,
+   which patches history.pushState/replaceState to wrap in
+   document.startViewTransition. Non-supporting browsers fall
+   back to AppShellImmersive's framer AnimatePresence.
+   ═══════════════════════════════════════════════════════ */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 220ms;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+::view-transition-old(root) {
+  animation-name: viewTransitionFadeOut;
+}
+::view-transition-new(root) {
+  animation-name: viewTransitionFadeIn;
+}
+@keyframes viewTransitionFadeOut {
+  to   { opacity: 0; transform: translate3d(0, -4px, 0) scale(0.995); }
+}
+@keyframes viewTransitionFadeIn {
+  from { opacity: 0; transform: translate3d(0, 4px, 0) scale(1.005); }
+}
+html.reduce-motion ::view-transition-old(root),
+html.reduce-motion ::view-transition-new(root) {
+  animation: none;
+}
+
+/* ═══════════════════════════════════════════════════════
+   PAGE TITLE REVEAL — CSS-only clip-path wipe
+
+   Marquee H1s on route-level pages (Bridge, Settings,
+   Marketplace, Leaderboard, Forge, Album hero) get a subtle
+   left-to-right wipe-in when the page mounts. GPU-composited
+   clip-path transition — one line per consumer, zero JS cost,
+   reveal reads as "signal acquired" rather than the old static
+   placement.
+
+   Collapses under html.reduce-motion (title renders fully
+   visible immediately).
+   ═══════════════════════════════════════════════════════ */
+.page-title-reveal {
+  animation: pageTitleReveal
+    calc(500ms / max(0.1, var(--motion-intensity, 1)))
+    cubic-bezier(0.22, 1, 0.36, 1)
+    both;
+  will-change: clip-path, opacity;
+}
+@keyframes pageTitleReveal {
+  from { clip-path: inset(0 100% 0 0); opacity: 0.3; }
+  to   { clip-path: inset(0 0 0 0);    opacity: 1; }
+}
+html.reduce-motion .page-title-reveal {
+  animation: none;
+  clip-path: none;
+  opacity: 1;
+}
+
+/* ═══════════════════════════════════════════════════════
+   ACCESSIBILITY — Colorblind palette presets
+
+   Three mutually-exclusive overrides that remap the five
+   energy/faction tokens (--energy-primary / -accent /
+   -success / -error / -system) to a palette derived from
+   the Okabe-Ito colorblind-safe palette
+   (Bang Wong, Nature Methods 2011).
+
+   Goal: keep all five colors mutually distinguishable under
+   each common CVD type. Default (none of these classes set)
+   leaves the canonical Void Energy palette in place.
+
+   We override the --void-* upstream tokens too so any
+   downstream consumer that reads --void-error directly
+   (rather than the --energy-error alias) also gets the
+   accessible palette.
+
+   These tokens cascade through every faction-colored UI
+   element (buttons, badges, focus rings, card frames,
+   companion portraits) without painting over the rest of
+   the UI's color identity — the canvas, panel chrome, and
+   text colors are untouched.
+   ═══════════════════════════════════════════════════════ */
+
+/* Deuteranopia (M-cone weakness, red-green confusion).
+   Shift the red↔green axis to a blue-yellow + brightness
+   contrast that holds under deutan vision. */
+html.colorblind-deuteranopia,
+html.colorblind-deuteranopia [data-atmosphere] {
+  --void-primary: #56b4e9;       /* sky-blue */
+  --void-secondary: #e69f00;     /* Okabe-Ito orange */
+  --void-accent: #e69f00;
+  --void-success: #009e73;       /* bluish-green */
+  --void-error: #d55e00;         /* vermillion */
+  --void-premium: #f0e442;       /* yellow */
+  --void-system: #cc79a7;        /* reddish-purple */
+
+  --energy-primary: #56b4e9;
+  --energy-secondary: #e69f00;
+  --energy-accent: #e69f00;
+  --energy-success: #009e73;
+  --energy-error: #d55e00;
+  --energy-premium: #f0e442;
+  --energy-system: #cc79a7;
+}
+
+/* Protanopia (L-cone weakness, red appears darker).
+   Same Okabe-Ito basis as deutan but with vermillion held
+   bright and yellow swapped in for the secondary so the
+   error/accent pair stays separable. */
+html.colorblind-protanopia,
+html.colorblind-protanopia [data-atmosphere] {
+  --void-primary: #56b4e9;
+  --void-secondary: #f0e442;
+  --void-accent: #f0e442;
+  --void-success: #009e73;
+  --void-error: #d55e00;
+  --void-premium: #e69f00;
+  --void-system: #cc79a7;
+
+  --energy-primary: #56b4e9;
+  --energy-secondary: #f0e442;
+  --energy-accent: #f0e442;
+  --energy-success: #009e73;
+  --energy-error: #d55e00;
+  --energy-premium: #e69f00;
+  --energy-system: #cc79a7;
+}
+
+/* Tritanopia (S-cone weakness, blue-yellow confusion).
+   Pivot away from cyan/blue primaries; lean on red-green
+   + magenta + bluish-green + brightness contrast. */
+html.colorblind-tritanopia,
+html.colorblind-tritanopia [data-atmosphere] {
+  --void-primary: #d55e00;       /* vermillion replaces cyan */
+  --void-secondary: #cc79a7;     /* reddish-purple */
+  --void-accent: #cc79a7;
+  --void-success: #22c55e;       /* green is fine in tritanopia */
+  --void-error: #ef4444;         /* red is fine in tritanopia */
+  --void-premium: #f0e442;
+  --void-system: #009e73;        /* bluish-green */
+
+  --energy-primary: #d55e00;
+  --energy-secondary: #cc79a7;
+  --energy-accent: #cc79a7;
+  --energy-success: #22c55e;
+  --energy-error: #ef4444;
+  --energy-premium: #f0e442;
+  --energy-system: #009e73;
 }

@@ -15,7 +15,10 @@
  */
 import { useEffect, useState } from "react";
 import type { MindGameCue } from "@shared/tcg-core/story/chessMindGameCues";
-import { assembleCuePrompt } from "@shared/tcg-core/story/chessMindGameCues";
+import {
+  assembleCuePrompt,
+  pickCueReplyVariant,
+} from "@shared/tcg-core/story/chessMindGameCues";
 import type { MindGameArchetype } from "@shared/chessMindGameTriggers";
 
 export interface MindGameOverlayProps {
@@ -37,7 +40,8 @@ export default function MindGameOverlay({
   const [replyArchetype, setReplyArchetype] = useState<MindGameArchetype | null>(null);
   const [replyChoiceId, setReplyChoiceId] = useState<string | null>(null);
 
-  const prompt = assembleCuePrompt(cue, `${cue.trigger}:${matchId}`);
+  const seed = `${cue.trigger}:${matchId}`;
+  const prompt = assembleCuePrompt(cue, seed);
 
   useEffect(() => {
     if (replyArchetype !== null) return;
@@ -104,7 +108,9 @@ export default function MindGameOverlay({
           <div className="text-[10px] uppercase tracking-widest text-void-text-muted mb-1">
             Reply
           </div>
-          <p className="text-sm italic">{cue.replies[replyArchetype]}</p>
+          <p className="text-sm italic">
+            {pickCueReplyVariant(cue, replyArchetype, seed)}
+          </p>
         </div>
       )}
     </aside>

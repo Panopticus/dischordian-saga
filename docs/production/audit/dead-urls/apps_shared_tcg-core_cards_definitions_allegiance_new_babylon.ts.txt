@@ -1,0 +1,6 @@
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/cards/allegiance/s1_alleg_new_babylon_t2.webp
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/cards/allegiance/s1_alleg_new_babylon_t1.webp
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/cards/allegiance/s1_alleg_new_babylon_t4.webp
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/cards/allegiance/s1_alleg_new_babylon_t3.webp
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/cards/allegiance/s1_alleg_new_babylon_t5.webp
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/cards/allegiance/s1_alleg_new_babylon_t6.webp

@@ -1,0 +1,2 @@
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/audio/songs/dischordian_logic.mp3
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/dischordian-logic

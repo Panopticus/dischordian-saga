@@ -1,0 +1,3 @@
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/cards/dimension/s1_dim_time_01.webp
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/cards/dimension/s1_dim_time_03.webp
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/cards/dimension/s1_dim_time_02.webp

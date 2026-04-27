@@ -1,0 +1,6 @@
+# Intermediate scratch files from scan-path-mismatches.sh.
+# Outputs that are kept (path-mismatches.tsv + path-mismatches.summary.txt)
+# are committed; these are just in-flight caches.
+.path-mismatches.alt-results.tsv
+.path-mismatches.candidates.tsv
+.path-mismatches.unique-alts.txt

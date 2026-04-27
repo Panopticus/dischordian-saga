@@ -25,6 +25,13 @@ interface SpriteCharacterProps {
   audio?: HTMLAudioElement | null;
   /** Whether the character is actively speaking (drives sheet selection). */
   isSpeaking?: boolean;
+  /** Per-line opt-in: when true and the character has a `visemeHyper`
+   *  sheet registered, draw phoneme cells from that sheet instead of the
+   *  standard viseme. Used for Shadow Tongue's revelatory beats where the
+   *  jaw hyperextends and a second row of teeth becomes visible on open
+   *  vowels. Silently falls back to the standard sheet if the character
+   *  has no hyper variant. */
+  useHyperVisemes?: boolean;
   className?: string;
 }
 
@@ -67,9 +74,15 @@ export function SpriteCharacter({
   npcId,
   audio,
   isSpeaking = false,
+  useHyperVisemes = false,
   className = "",
 }: SpriteCharacterProps) {
   const sprite = getCharacterSprite(npcId);
+  // Resolve which viseme sheet to draw from this frame. Hyper sheets are
+  // opt-in per line; falls back to the standard sheet when unset or when
+  // the character has no hyper variant.
+  const activeViseme =
+    useHyperVisemes && sprite?.visemeHyper ? sprite.visemeHyper : sprite?.viseme;
   const containerRef = useRef<HTMLDivElement>(null);
   const lipsyncRef = useRef<Lipsync | null>(null);
   const lastConnectedRef = useRef<HTMLAudioElement | null>(null);
@@ -119,30 +132,39 @@ export function SpriteCharacter({
       const s = stateRef.current;
       let dirty = false;
 
-      if (isSpeaking && sprite.viseme) {
-        // Prefer live audio analysis; otherwise fall back to a timed viseme
-        // sequence so the mouth still animates (TTS / no-audio paths).
+      if (isSpeaking && activeViseme) {
+        // Always advance the fake viseme cycle as a baseline so the mouth
+        // visibly moves the entire time the character is speaking — lip
+        // sync via wawa-lipsync is best-effort (CORS, AudioContext state,
+        // iOS Safari quirks) and silently degrades to viseme_sil when it
+        // can't read samples, which would otherwise leave the mouth
+        // frozen at REST.
+        if (now - lastFake > 1000 / FAKE_VISEME_FPS) {
+          lastFake = now;
+          fakeIdx = (fakeIdx + 1) % FAKE_VISEME_SEQUENCE.length;
+          const cell = activeViseme.map[FAKE_VISEME_SEQUENCE[fakeIdx]] ?? 0;
+          if (cell !== s.visemeCell) {
+            s.visemeCell = cell;
+            dirty = true;
+          }
+        }
+        // Lip sync override: when wawa-lipsync is wired up and reports a
+        // real phoneme (anything other than silence), prefer that cell.
         const haveLiveAnalysis =
           audio && lipsyncRef.current && lastConnectedRef.current === audio;
         if (haveLiveAnalysis) {
           try {
             lipsyncRef.current!.processAudio();
             const v = lipsyncRef.current!.viseme as WawaViseme;
-            const cell = sprite.viseme.map[v] ?? 0;
-            if (cell !== s.visemeCell) {
-              s.visemeCell = cell;
-              dirty = true;
+            if (v && v !== "viseme_sil") {
+              const cell = activeViseme.map[v] ?? 0;
+              if (cell !== s.visemeCell) {
+                s.visemeCell = cell;
+                dirty = true;
+              }
             }
           } catch {
-            // ignore — keep current cell
-          }
-        } else if (now - lastFake > 1000 / FAKE_VISEME_FPS) {
-          lastFake = now;
-          fakeIdx = (fakeIdx + 1) % FAKE_VISEME_SEQUENCE.length;
-          const cell = sprite.viseme.map[FAKE_VISEME_SEQUENCE[fakeIdx]] ?? 0;
-          if (cell !== s.visemeCell) {
-            s.visemeCell = cell;
-            dirty = true;
+            // ignore — fake cycle already moved the mouth this frame
           }
         }
       } else if (!isSpeaking && sprite.breathing && !prefersReducedMotion) {
@@ -194,22 +216,28 @@ export function SpriteCharacter({
   // top of the bust. Render the bust as the base and composite the mouth
   // cell at `mouthBox` when speaking. The bust stays visible so the eyes,
   // hair and shoulders aren't cropped away.
-  if (sprite.visemeOverlay && sprite.viseme && sprite.mouthBox) {
+  if (sprite.visemeOverlay && activeViseme && sprite.mouthBox) {
     const box = sprite.mouthBox;
     const bustStyle: CSSProperties = {
       backgroundImage: `url(${sprite.bust})`,
-      backgroundSize: "cover",
-      backgroundPosition: "center top",
+      backgroundSize: sprite.bustSize ?? "cover",
+      backgroundPosition: sprite.bustPosition ?? "center top",
       backgroundRepeat: "no-repeat",
     };
+    // Soft elliptical mask feathers the cell edges into the surrounding bust
+    // so the rectangular cell boundary doesn't read as a hard cutout. Inner
+    // ~35% stays fully opaque (mouth region); fades to transparent by ~85%.
+    const featherMask = "radial-gradient(ellipse at center, black 35%, transparent 85%)";
     const mouthStyle: CSSProperties = {
       position: "absolute",
       left: `${box.x * 100}%`,
       top: `${box.y * 100}%`,
       width: `${box.width * 100}%`,
       height: `${box.height * 100}%`,
-      ...cellStyle(sprite.viseme, s.visemeCell),
-      backgroundSize: `${sprite.viseme.cols * 100}% ${sprite.viseme.rows * 100}%`,
+      ...cellStyle(activeViseme, s.visemeCell),
+      backgroundSize: `${activeViseme.cols * 100}% ${activeViseme.rows * 100}%`,
+      maskImage: featherMask,
+      WebkitMaskImage: featherMask,
       pointerEvents: "none",
     };
     return (
@@ -233,12 +261,17 @@ export function SpriteCharacter({
   let style: CSSProperties;
   if (s.blinking && sprite.blink) {
     style = cellStyle(sprite.blink, 2); // closed-eye cell
-  } else if (isSpeaking && sprite.viseme) {
-    style = cellStyle(sprite.viseme, s.visemeCell);
+  } else if (isSpeaking && activeViseme) {
+    style = cellStyle(activeViseme, s.visemeCell);
   } else if (sprite.breathing && !prefersReducedMotion) {
     style = cellStyle(sprite.breathing, s.breathFrame);
   } else {
-    style = { backgroundImage: `url(${sprite.bust})`, backgroundSize: "cover", backgroundPosition: "center top", backgroundRepeat: "no-repeat" };
+    style = {
+      backgroundImage: `url(${sprite.bust})`,
+      backgroundSize: sprite.bustSize ?? "cover",
+      backgroundPosition: sprite.bustPosition ?? "center top",
+      backgroundRepeat: "no-repeat",
+    };
   }
 
   return (

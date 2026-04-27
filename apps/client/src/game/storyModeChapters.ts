@@ -27,7 +27,7 @@ const ch1: StoryChapter = {
   unlocksVideo: "ark-assassin", cinematicId: "VEO-001",
   preFight: [
     { speaker: "narrator", text: "Black. Heartbeat. A cell. Agent Zero appears — she hacked the Arena scheduling matrix. She has 31 seconds before cameras cycle." },
-    { speaker: "Agent Zero", text: "Subject Zero. Cameras cycle every 43 seconds. I have 31. The Collector wiped your memory. But not your instincts. I need to see if you fight like HIM.", speakerColor: "#94a3b8" },
+    { speaker: "Agent Zero", text: "Prisoner 74. Cameras cycle every 43 seconds. I have 31. The Collector wiped your memory. But not your instincts. I need to see if you fight like HIM.", speakerColor: "#94a3b8" },
     { options: [
       { icon: "🔍", label: "Who is 'him'?", key: "ch1_investigate", axis: "truth", dir: 1,
         response: [{ speaker: "Agent Zero", text: "Not now. Cameras. FIGHT me and I'll know if you're who I think you are.", speakerColor: "#94a3b8" }] },
@@ -75,7 +75,7 @@ const ch2: StoryChapter = {
   difficulty: "easy", unlocksFighter: "jailer", isBoss: true,
   preFight: [
     { speaker: "narrator", text: "Panopticon Central. The Jailer's portrait — a SKULL in green robes, chains, one burning red eye. The Prisoner recoils." },
-    { speaker: "The Jailer", text: "Designation: Subject Zero. You survived. That puts you in the rotation.", speakerColor: "#facc15" },
+    { speaker: "The Jailer", text: "Designation: Prisoner 74. You survived. That puts you in the rotation.", speakerColor: "#facc15" },
     { options: [
       { icon: "🔍", label: "Your voice sounds like mine.", key: "ch2_investigate", axis: "truth", dir: 1,
         response: [{ speaker: "The Jailer", text: "Auditory matching. Side effect. It will pass.", speakerColor: "#facc15" }],
@@ -248,7 +248,7 @@ const ch5: StoryChapter = {
   isBoss: true, mandatoryLoss: true, removeFighterAfter: true,
   preFight: [
     { speaker: "narrator", text: "Castle of Death. Throne hall carved from compressed prayers. The Necromancer stands in a pool of green fire that makes its own shadows." },
-    { speaker: "The Necromancer", text: "Subject Zero. Thirteen iterations of this conversation. You never remember the previous twelve. I do. It's a strange intimacy.", speakerColor: "#22c55e", voiceEffect: "echo" },
+    { speaker: "The Necromancer", text: "Prisoner 74. Thirteen iterations of this conversation. You never remember the previous twelve. I do. It's a strange intimacy.", speakerColor: "#22c55e", voiceEffect: "echo" },
     { options: [
       { icon: "🔍", label: "What is the Seven Protocol?", key: "ch5_investigate", axis: "truth", dir: 1,
         response: [{ speaker: "The Necromancer", text: "A contract with entropy. You die seven times. On the seventh, the debt comes due and the body stays where it fell. Would you like me to be honest? You're at five.", speakerColor: "#22c55e", voiceEffect: "echo" }] },
@@ -411,7 +411,7 @@ const ch8: StoryChapter = {
   difficulty: "normal", unlocksFighter: "human",
   preFight: [
     { speaker: "narrator", text: "Panopticon observation deck. Smoke from something that isn't a cigarette. The Human is already seated when you arrive, one hand in his coat pocket like he's been ready for you for a decade." },
-    { speaker: "The Human", text: "Oracle. Subject Zero. Prophet. Prisoner. I've been carrying four names for you so I could return the one you actually used.", speakerColor: "#64748b" },
+    { speaker: "The Human", text: "Oracle. Prisoner 74. Prophet. Prisoner. I've been carrying four names for you so I could return the one you actually used.", speakerColor: "#64748b" },
     { context: "BRANCH POINT B — determines Chapter 9", options: [
       { icon: "🔍", label: "Enigma. She was at Veridian VI.", key: "ch8_branch_enigma", axis: "truth", dir: 1, branch: "BRANCH_B_ENIGMA",
         response: [{ speaker: "The Human", text: "Variable Path. The thinker. Her Rylloh Strike still works — you taught her that. Good choice.", speakerColor: "#64748b" }] },

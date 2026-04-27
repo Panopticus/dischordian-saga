@@ -384,7 +384,7 @@ export default function SettingsPage() {
           <Settings size={18} className="text-[var(--neon-cyan)]" />
         </div>
         <div className="flex-1 min-w-0">
-          <h1 className="font-display text-lg font-bold tracking-wider text-foreground">SHIP CONFIGURATION</h1>
+          <h1 className="font-display text-lg font-bold tracking-wider text-foreground page-title-reveal">SHIP CONFIGURATION</h1>
           <p className="font-mono text-[10px] text-muted-foreground tracking-wider">System preferences, accessibility, and account</p>
         </div>
         <button
@@ -578,6 +578,21 @@ export default function SettingsPage() {
             enabled={settings.captions}
             onChange={(v) => updateSetting("captions", v)}
             icon={Accessibility}
+          />
+          {/* Colorblind palette presets — remap the five energy/faction
+              tokens to a CVD-safe palette derived from Okabe-Ito. The
+              underlying CSS lives in apps/client/src/index.css under
+              "html.colorblind-*". */}
+          <OptionSelector
+            label="COLORBLIND PALETTE"
+            value={settings.colorblindMode}
+            onChange={(v) => updateSetting("colorblindMode", v)}
+            options={[
+              { value: "off", label: "Off", desc: "Default Void Energy palette", icon: Palette },
+              { value: "deuteranopia", label: "Deuteranopia", desc: "Red-green (M-cone)", icon: Eye },
+              { value: "protanopia", label: "Protanopia", desc: "Red-green (L-cone)", icon: Eye },
+              { value: "tritanopia", label: "Tritanopia", desc: "Blue-yellow (S-cone)", icon: Eye },
+            ]}
           />
           <div>
             <div className="flex items-center gap-2 mb-1.5">

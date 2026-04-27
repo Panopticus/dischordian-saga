@@ -1248,6 +1248,53 @@ on("dream_residue", async (ev) => {
 });
 
 /* ═══════════════════════════════════════════════════════
+   SEARCH RATE-LIMIT BUCKETS
+
+   Tiny in-memory aggregator: when a search endpoint trips its
+   token bucket it emits `search_rate_limited`; we bucket those
+   hits per (userId, hour) so the admin Architect Console can
+   surface enumeration patterns.
+   ═══════════════════════════════════════════════════════ */
+
+export interface SearchRateLimitBucket {
+  userId: number;
+  hourEpoch: number;
+  count: number;
+  lastEndpoint: string;
+}
+
+const SEARCH_RL_RETENTION_MS = 24 * 60 * 60 * 1000;
+const searchRateLimitBuckets = new Map<string, SearchRateLimitBucket>();
+
+function pruneSearchRateLimitBuckets(now: number) {
+  const cutoff = Math.floor((now - SEARCH_RL_RETENTION_MS) / 3_600_000);
+  for (const [key, bucket] of searchRateLimitBuckets) {
+    if (bucket.hourEpoch < cutoff) searchRateLimitBuckets.delete(key);
+  }
+}
+
+on("search_rate_limited", async (ev) => {
+  const userId = ev.userId;
+  const endpoint = typeof ev.endpoint === "string" ? ev.endpoint : "unknown";
+  const now = Date.now();
+  const hourEpoch = Math.floor(now / 3_600_000);
+  const key = `${userId}:${hourEpoch}`;
+  const existing = searchRateLimitBuckets.get(key);
+  if (existing) {
+    existing.count += 1;
+    existing.lastEndpoint = endpoint;
+  } else {
+    searchRateLimitBuckets.set(key, { userId, hourEpoch, count: 1, lastEndpoint: endpoint });
+  }
+  pruneSearchRateLimitBuckets(now);
+});
+
+export function getSearchRateLimitBuckets(): SearchRateLimitBucket[] {
+  pruneSearchRateLimitBuckets(Date.now());
+  return [...searchRateLimitBuckets.values()].sort((a, b) => b.count - a.count);
+}
+
+/* ═══════════════════════════════════════════════════════
    EXPORT — Single public interface
    ═══════════════════════════════════════════════════════ */
 

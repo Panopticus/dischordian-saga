@@ -78,9 +78,16 @@ func _spawn_single(type: String) -> void:
 	var sp = spawn_points[randi() % spawn_points.size()]
 	var scene_path = "res://objects/enemies/" + actual_type + ".tscn"
 	var scene = load(scene_path)
-	if scene == null: return
+	if scene == null:
+		push_warning("WaveManager: failed to load %s" % scene_path)
+		return
 	var enemy = scene.instantiate()
 	enemy.player = player
+	# Wave-based HP scaling: +8% per wave past 1, capped at 3.0× so late
+	# lategame doesn't turn into damage-sponge runs.
+	var hp_mult: float = min(3.0, 1.0 + 0.08 * (GameMode.current_wave - 1))
+	if "max_health" in enemy:
+		enemy.max_health = int(enemy.max_health * hp_mult)
 	enemy.position = sp.global_position
 	enemy.add_to_group("machine_army")
 	enemy.tree_exited.connect(_on_enemy_died)

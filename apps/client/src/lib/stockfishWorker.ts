@@ -258,6 +258,71 @@ export class StockfishEngine {
   }
 
   /**
+   * Evaluate a position and return the top N candidate moves.
+   * Used by the brilliancy detector — when the player's move was
+   * the engine's top choice AND that choice was significantly
+   * better than the second-best, the move is a brilliancy.
+   *
+   * Returns lines sorted by quality (best first). Each line carries
+   * the eval (in centipawns from White's POV) and the UCI move.
+   */
+  async evaluatePositionMultiPv(
+    fen: string,
+    opts: { depth?: number; multiPv?: number; moveTime?: number } = {},
+  ): Promise<ReadonlyArray<{ multipv: number; evalCp: number; mate: number | null; uciMove: string | null }>> {
+    await this.waitReady();
+    const multiPv = opts.multiPv ?? 2;
+    this.send(`setoption name MultiPV value ${multiPv}`);
+
+    return new Promise((resolve) => {
+      this.setPosition(fen);
+      // Track the latest reported eval per multipv index.
+      const latest = new Map<number, { evalCp: number; mate: number | null; uciMove: string | null }>();
+
+      const cleanup = this.onMessage((data) => {
+        if (data.includes("info") && data.includes("multipv")) {
+          const mpvMatch = data.match(/multipv (\d+)/);
+          if (!mpvMatch) return;
+          const mpv = parseInt(mpvMatch[1], 10);
+          let evalCp = 0;
+          let mate: number | null = null;
+          const cpMatch = data.match(/score cp (-?\d+)/);
+          if (cpMatch) evalCp = parseInt(cpMatch[1], 10);
+          const mateMatch = data.match(/score mate (-?\d+)/);
+          if (mateMatch) {
+            mate = parseInt(mateMatch[1], 10);
+            evalCp = mate > 0 ? 10000 : -10000;
+          }
+          // First move of the principal variation is the candidate.
+          const pvMatch = data.match(/ pv (\S+)/);
+          const uciMove = pvMatch?.[1] ?? null;
+          latest.set(mpv, { evalCp, mate, uciMove });
+        }
+        if (data.startsWith("bestmove")) {
+          cleanup();
+          // Reset multipv to 1 for any subsequent default-mode call.
+          this.send("setoption name MultiPV value 1");
+          const lines = [...latest.entries()]
+            .sort((a, b) => a[0] - b[0])
+            .map(([multipv, v]) => ({
+              multipv,
+              evalCp: v.evalCp,
+              mate: v.mate,
+              uciMove: v.uciMove,
+            }));
+          resolve(lines);
+        }
+      });
+
+      const depth = opts.depth ?? 12;
+      const moveTime = opts.moveTime;
+      let goCmd = `go depth ${depth}`;
+      if (moveTime) goCmd += ` movetime ${moveTime}`;
+      this.send(goCmd);
+    });
+  }
+
+  /**
    * Analyze a finished game move-by-move at the given depth.
    * Returns a per-ply eval array. The caller bucket-sorts these
    * into mistake types for the ChessPostGameReview component.
@@ -314,6 +379,99 @@ export class StockfishEngine {
         evalBeforeCp: evalBefore,
         evalAfterCp: evalAfter,
         deltaCp: evalAfter - evalBefore,
+      });
+      evalBefore = evalAfter;
+      opts.onProgress?.(i + 1);
+    }
+
+    return out;
+  }
+
+  /**
+   * Analyze a finished game move-by-move at the given depth, AND
+   * collect the engine's top-2 candidate moves at every position.
+   * The extra information lets the caller flag brilliancies — moves
+   * the player found that matched the engine's top choice when the
+   * top choice was significantly better than the second-best.
+   *
+   * Slower than `postGameAnalyze` (two evaluations per ply instead
+   * of one). Use only when brilliancy detection is wanted.
+   */
+  async postGameAnalyzeWithBrilliancies(
+    startFen: string,
+    moves: readonly string[],
+    opts: { depth?: number; onProgress?: (ply: number) => void } = {},
+  ): Promise<
+    ReadonlyArray<{
+      ply: number;
+      fenBefore: string;
+      fenAfter: string;
+      evalBeforeCp: number;
+      evalAfterCp: number;
+      deltaCp: number;
+      /** UCI move the player actually played (e.g. "e2e4"). */
+      playedUci: string;
+      /** Engine's first-best move at this position (UCI). */
+      bestUci: string | null;
+      /** Engine's first-best eval (centipawns, White POV). */
+      bestEvalCp: number | null;
+      /** Engine's second-best eval (centipawns, White POV). Null
+       *  when the position has no legal alternative or the engine
+       *  did not return a multipv 2 line. */
+      secondBestEvalCp: number | null;
+    }>
+  > {
+    const { Chess } = await import("chess.js");
+    const game = new Chess(startFen);
+    const out: Array<{
+      ply: number;
+      fenBefore: string;
+      fenAfter: string;
+      evalBeforeCp: number;
+      evalAfterCp: number;
+      deltaCp: number;
+      playedUci: string;
+      bestUci: string | null;
+      bestEvalCp: number | null;
+      secondBestEvalCp: number | null;
+    }> = [];
+
+    let { evalCp: evalBefore } = await this.evaluatePosition(game.fen(), {
+      depth: opts.depth ?? 18,
+    });
+
+    for (let i = 0; i < moves.length; i++) {
+      const fenBefore = game.fen();
+      // Multipv-2 evaluation BEFORE the move is played.
+      const lines = await this.evaluatePositionMultiPv(fenBefore, {
+        depth: opts.depth ?? 14,
+        multiPv: 2,
+      });
+      const top = lines.find((l) => l.multipv === 1) ?? null;
+      const second = lines.find((l) => l.multipv === 2) ?? null;
+
+      const legalMove = game.move(moves[i]);
+      if (!legalMove) {
+        throw new Error(
+          `postGameAnalyzeWithBrilliancies: illegal move "${moves[i]}" at ply ${i + 1}`,
+        );
+      }
+      const playedUci = `${legalMove.from}${legalMove.to}${legalMove.promotion ?? ""}`;
+      const fenAfter = game.fen();
+      const { evalCp: evalAfter } = await this.evaluatePosition(fenAfter, {
+        depth: opts.depth ?? 18,
+      });
+      out.push({
+        ply: i + 1,
+        fenBefore,
+        fenAfter,
+        evalBeforeCp: evalBefore,
+        evalAfterCp: evalAfter,
+        deltaCp: evalAfter - evalBefore,
+        playedUci,
+        bestUci: top?.uciMove ?? null,
+        bestEvalCp: top?.evalCp ?? null,
+        secondBestEvalCp: second?.evalCp ?? null,
       });
       evalBefore = evalAfter;
       opts.onProgress?.(i + 1);

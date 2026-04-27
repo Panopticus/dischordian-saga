@@ -11,7 +11,7 @@ import { test, expect } from "@playwright/test";
 test.describe("Skip-to-content link (requires auth)", () => {
   // The SkipToContent component is rendered inside the app shell, which
   // is only visible to authenticated users.
-  test.skip(true, "Requires auth fixtures — SkipToContent is inside AppShell behind AuthGate");
+  test.skip(!process.env.E2E_AUTH_OPEN_ID, "Set E2E_AUTH_OPEN_ID + JWT_SECRET to mint a session storageState (SkipToContent behind AuthGate)");
 
   test("skip-to-content link exists and navigates to #main-content", async ({ page }) => {
     await page.goto("/");
@@ -31,7 +31,7 @@ test.describe("Skip-to-content link (requires auth)", () => {
 });
 
 test.describe("Keyboard focusability (requires auth)", () => {
-  test.skip(true, "Requires auth fixtures — interactive elements are behind AuthGate");
+  test.skip(!process.env.E2E_AUTH_OPEN_ID, "Set E2E_AUTH_OPEN_ID + JWT_SECRET to mint a session storageState (interactive elements behind AuthGate)");
 
   test("all interactive elements in main nav are keyboard focusable", async ({ page }) => {
     await page.goto("/");
@@ -56,7 +56,7 @@ test.describe("Keyboard focusability (requires auth)", () => {
 });
 
 test.describe("ARIA labels on navigation (requires auth)", () => {
-  test.skip(true, "Requires auth fixtures — navigation is behind AuthGate");
+  test.skip(!process.env.E2E_AUTH_OPEN_ID, "Set E2E_AUTH_OPEN_ID + JWT_SECRET to mint a session storageState (navigation behind AuthGate)");
 
   test("main navigation has aria-label", async ({ page }) => {
     await page.goto("/");
@@ -87,6 +87,51 @@ test.describe("Reduced motion preference", () => {
       return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     });
     expect(hasReducedMotion).toBe(true);
+  });
+});
+
+/**
+ * Colorblind palette presets — the SettingsPage exposes a four-way
+ * OptionSelector ("off" / "deuteranopia" / "protanopia" / "tritanopia").
+ * The selector writes through `saveSettings`, which (a) persists to
+ * localStorage under "loredex-settings" and (b) calls applySettingsToDOM
+ * in apps/client/src/lib/settingsSync.ts to toggle a `colorblind-{mode}`
+ * class on `<html>`.
+ *
+ * Apps/client/src/App.tsx also reads localStorage directly on first
+ * mount to apply the class before the settings page renders, so this
+ * test seeds localStorage and reloads the public landing page.
+ *
+ * Each mode is checked in turn, including "off" → no colorblind-* class.
+ */
+test.describe("Colorblind palette presets (public)", () => {
+  for (const mode of ["deuteranopia", "protanopia", "tritanopia"] as const) {
+    test(`${mode} mode applies html.colorblind-${mode}`, async ({ page }) => {
+      await page.goto("/");
+      await page.evaluate((m) => {
+        localStorage.setItem("loredex-settings", JSON.stringify({ colorblindMode: m }));
+      }, mode);
+      await page.reload();
+      // App.tsx applies the class on first mount from localStorage.
+      const html = page.locator("html");
+      await expect(html).toHaveClass(new RegExp(`colorblind-${mode}`));
+      // The other two modes must NOT be present (mutually exclusive).
+      const other = (["deuteranopia", "protanopia", "tritanopia"] as const).filter(
+        (m) => m !== mode,
+      );
+      for (const m of other) {
+        await expect(html).not.toHaveClass(new RegExp(`colorblind-${m}`));
+      }
+    });
+  }
+
+  test("off mode (default) applies no colorblind-* class", async ({ page }) => {
+    await page.goto("/");
+    // Clear any prior setting so we genuinely test the off default.
+    await page.evaluate(() => localStorage.removeItem("loredex-settings"));
+    await page.reload();
+    const className = await page.locator("html").getAttribute("class");
+    expect(className ?? "").not.toMatch(/colorblind-/);
   });
 });
 
@@ -126,5 +171,74 @@ test.describe("Title page keyboard accessibility (public)", () => {
     // Verify they have href attributes (making them natively focusable)
     await expect(termsLink).toHaveAttribute("href", "/terms");
     await expect(privacyLink).toHaveAttribute("href", "/privacy");
+  });
+});
+
+/**
+ * Captions toggle — `settings.captions` flips an `html.captions-on`
+ * class via apps/client/src/lib/settingsSync.ts → applySettingsToDOM,
+ * and a CSS rule in apps/client/src/index.css (`html.captions-on
+ * .caption-label`) un-hides any `<span class="caption-label">` from
+ * `display: none` to `display: inline-block`.
+ *
+ * AwakeningPage uses the pattern today
+ * (apps/client/src/pages/AwakeningPage.tsx:292). The infrastructure
+ * was previously untested; this block locks the contract in.
+ */
+test.describe("Captions toggle (public)", () => {
+  test("captions: true seeds html.captions-on", async ({ page }) => {
+    await page.goto("/");
+    await page.evaluate(() => {
+      localStorage.setItem("loredex-settings", JSON.stringify({ captions: true }));
+    });
+    await page.reload();
+    await expect(page.locator("html")).toHaveClass(/captions-on/);
+  });
+
+  test("captions: false (default) does not apply html.captions-on", async ({ page }) => {
+    await page.goto("/");
+    await page.evaluate(() => localStorage.removeItem("loredex-settings"));
+    await page.reload();
+    const className = await page.locator("html").getAttribute("class");
+    expect(className ?? "").not.toMatch(/captions-on/);
+  });
+
+  test("captions: true makes .caption-label elements visible (CSS contract)", async ({ page }) => {
+    // Insert a probe element + assert its computed display when the
+    // class is on. Avoids depending on which page renders the label
+    // in production (AwakeningPage is auth-gated).
+    await page.goto("/");
+    await page.evaluate(() => {
+      localStorage.setItem("loredex-settings", JSON.stringify({ captions: true }));
+    });
+    await page.reload();
+    const display = await page.evaluate(() => {
+      const probe = document.createElement("span");
+      probe.className = "caption-label";
+      probe.textContent = "[ PROBE ]";
+      document.body.appendChild(probe);
+      const computed = window.getComputedStyle(probe).display;
+      probe.remove();
+      return computed;
+    });
+    // index.css: `html.captions-on .caption-label { display: inline-block; }`
+    expect(display).toBe("inline-block");
+  });
+
+  test("captions: false hides .caption-label elements (CSS contract)", async ({ page }) => {
+    await page.goto("/");
+    await page.evaluate(() => localStorage.removeItem("loredex-settings"));
+    await page.reload();
+    const display = await page.evaluate(() => {
+      const probe = document.createElement("span");
+      probe.className = "caption-label";
+      probe.textContent = "[ PROBE ]";
+      document.body.appendChild(probe);
+      const computed = window.getComputedStyle(probe).display;
+      probe.remove();
+      return computed;
+    });
+    // index.css: `.caption-label { display: none; }` (default)
+    expect(display).toBe("none");
   });
 });

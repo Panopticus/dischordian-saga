@@ -710,6 +710,45 @@ export const storePurchases = mysqlTable("store_purchases", {
 export type StorePurchase = typeof storePurchases.$inferSelect;
 
 /**
+ * Processed Stripe webhook events — event-level idempotency log.
+ *
+ * The unique index on `storePurchases.stripePaymentIntentId` (above)
+ * catches replays for purchases that carry an intent id. Credit and
+ * Dream purchases pay through a flow that produces no payment intent,
+ * so the intent column is NULL and MySQL treats every NULL as
+ * non-conflicting — meaning a replayed webhook for a credit purchase
+ * could double-fulfill before this table existed.
+ *
+ * The Stripe webhook handler inserts a row here keyed by the Stripe
+ * `event.id` *before* doing any fulfillment work. If the insert
+ * fails with a unique-violation, the event is a replay and the
+ * handler returns a 200 immediately, no fulfillment runs. Records
+ * are kept indefinitely so old replays remain blocked even after
+ * the original purchase row has been moved or archived.
+ */
+export const processedWebhookEvents = mysqlTable(
+  "processed_webhook_events",
+  {
+    id: int("id").autoincrement().primaryKey(),
+    /** Stripe `event.id` (e.g. `evt_…`). Unique. */
+    eventId: varchar("eventId", { length: 256 }).notNull(),
+    /** Stripe event type (e.g. `checkout.session.completed`). */
+    eventType: varchar("eventType", { length: 128 }).notNull(),
+    /** Source of the webhook — currently only `stripe`. Future-proof. */
+    source: varchar("source", { length: 32 }).notNull().default("stripe"),
+    processedAt: timestamp("processedAt").defaultNow().notNull(),
+  },
+  (table) => ({
+    uqEventId: uniqueIndex("uq_processed_webhook_events_event_id").on(
+      table.eventId,
+    ),
+    typeIdx: index("idx_processed_webhook_events_type").on(table.eventType),
+  }),
+);
+
+export type ProcessedWebhookEvent = typeof processedWebhookEvents.$inferSelect;
+
+/**
  * Ship upgrades for Trade Empire — purchased or earned.
  */
 export const shipUpgrades = mysqlTable("ship_upgrades", {
@@ -2644,6 +2683,13 @@ export const gameReplays = mysqlTable("game_replays", {
   p1Config: json("p1Config").$type<Record<string, unknown>>(),
   /** Player 2 deck/faction config snapshot (JSON). */
   p2Config: json("p2Config").$type<Record<string, unknown>>(),
+  /** URL-safe random token for unguessable share-links (#6 / #46).
+   *  Populated at saveReplay time via `generateShareToken()`. The
+   *  primary `id` is autoincrement-int and therefore enumerable —
+   *  share URLs use this column instead so a player posting their
+   *  cool match can't have a curious viewer scrape neighbouring
+   *  replays. Added by migration 0056 + replaysBootstrap. */
+  shareToken: varchar("shareToken", { length: 32 }),
   playedAt: timestamp("playedAt").defaultNow().notNull(),
 }, (table) => ({
   gameTypeIdx: index("idx_game_replays_game_type").on(table.gameType),
@@ -4547,6 +4593,22 @@ export const chessClimbUnlocks = mysqlTable("chess_climb_unlocks", {
   lastUpdatedAt: timestamp("lastUpdatedAt").defaultNow().notNull(),
 });
 export type ChessClimbUnlocksRow = typeof chessClimbUnlocks.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
+   CHESS USER STATE — per-user UI breadcrumbs that need to
+   survive across devices. Currently just lastVisitAt for
+   the daily-welcome banner.
+   Migration: 0055_chess_user_state.sql
+   ═══════════════════════════════════════════════════════ */
+
+export const chessUserState = mysqlTable("chess_user_state", {
+  userId: int("userId").primaryKey(),
+  lastVisitAt: timestamp("lastVisitAt"),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  lastVisitIdx: index("idx_chess_user_state_last_visit").on(table.lastVisitAt),
+}));
+export type ChessUserStateRow = typeof chessUserState.$inferSelect;
 
 
 /* ═══════════════════════════════════════════════════════

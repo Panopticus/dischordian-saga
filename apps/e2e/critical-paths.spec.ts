@@ -54,7 +54,7 @@ test.describe("Landing / Title Page (public)", () => {
 
 test.describe("Navigation (requires auth)", () => {
   // Skip: needs authenticated session to get past AuthGate / TitlePage
-  test.skip(true, "Requires auth fixtures — add storageState for Google OAuth session");
+  test.skip(!process.env.E2E_AUTH_OPEN_ID, "Set E2E_AUTH_OPEN_ID + JWT_SECRET to mint a session storageState");
 
   test("sidebar navigation works — click items and verify page changes", async ({ page }) => {
     await page.goto("/");
@@ -71,7 +71,7 @@ test.describe("Navigation (requires auth)", () => {
 });
 
 test.describe("Games page (requires auth)", () => {
-  test.skip(true, "Requires auth fixtures — add storageState for Google OAuth session");
+  test.skip(!process.env.E2E_AUTH_OPEN_ID, "Set E2E_AUTH_OPEN_ID + JWT_SECRET to mint a session storageState");
 
   test("games page loads with game mode cards", async ({ page }) => {
     await page.goto("/board");
@@ -84,7 +84,7 @@ test.describe("Games page (requires auth)", () => {
 });
 
 test.describe("Loredex / Board page (requires auth)", () => {
-  test.skip(true, "Requires auth fixtures — add storageState for Google OAuth session");
+  test.skip(!process.env.E2E_AUTH_OPEN_ID, "Set E2E_AUTH_OPEN_ID + JWT_SECRET to mint a session storageState");
 
   test("board page loads with lore entries", async ({ page }) => {
     await page.goto("/board");
@@ -94,7 +94,7 @@ test.describe("Loredex / Board page (requires auth)", () => {
 });
 
 test.describe("Settings page (requires auth)", () => {
-  test.skip(true, "Requires auth fixtures — add storageState for Google OAuth session");
+  test.skip(!process.env.E2E_AUTH_OPEN_ID, "Set E2E_AUTH_OPEN_ID + JWT_SECRET to mint a session storageState");
 
   test("settings page opens and contains toggle sections", async ({ page }) => {
     await page.goto("/settings");
@@ -123,7 +123,7 @@ test.describe("Settings page (requires auth)", () => {
 });
 
 test.describe("Character sheet page (requires auth)", () => {
-  test.skip(true, "Requires auth fixtures — add storageState for Google OAuth session");
+  test.skip(!process.env.E2E_AUTH_OPEN_ID, "Set E2E_AUTH_OPEN_ID + JWT_SECRET to mint a session storageState");
 
   test("character sheet page loads", async ({ page }) => {
     await page.goto("/character-sheet");
@@ -132,7 +132,7 @@ test.describe("Character sheet page (requires auth)", () => {
 });
 
 test.describe("Marketplace page (requires auth)", () => {
-  test.skip(true, "Requires auth fixtures — add storageState for Google OAuth session");
+  test.skip(!process.env.E2E_AUTH_OPEN_ID, "Set E2E_AUTH_OPEN_ID + JWT_SECRET to mint a session storageState");
 
   test("marketplace page loads with listings or empty state", async ({ page }) => {
     await page.goto("/marketplace");
@@ -144,7 +144,7 @@ test.describe("Marketplace page (requires auth)", () => {
 });
 
 test.describe("Quest tracker (requires auth)", () => {
-  test.skip(true, "Requires auth fixtures — add storageState for Google OAuth session");
+  test.skip(!process.env.E2E_AUTH_OPEN_ID, "Set E2E_AUTH_OPEN_ID + JWT_SECRET to mint a session storageState");
 
   test("quest board page loads", async ({ page }) => {
     await page.goto("/quests");
@@ -172,7 +172,7 @@ test.describe("Mobile viewport", () => {
 });
 
 test.describe("Dark / light theme toggle (requires auth)", () => {
-  test.skip(true, "Requires auth fixtures — add storageState for Google OAuth session");
+  test.skip(!process.env.E2E_AUTH_OPEN_ID, "Set E2E_AUTH_OPEN_ID + JWT_SECRET to mint a session storageState");
 
   test("theme toggle switches data-mode between dark and light", async ({ page }) => {
     await page.goto("/settings");

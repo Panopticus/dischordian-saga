@@ -1,0 +1,3 @@
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/cards/dimension/s1_dim_prob_01.webp
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/cards/dimension/s1_dim_prob_02.webp
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/cards/dimension/s1_dim_prob_03.webp

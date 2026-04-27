@@ -11,8 +11,12 @@ radius = 0.75
 transform = Transform3D(0.9, 0, 0, 0, 0.9, 0, 0, 0, 0.9, 0, 0, 0)
 script = ExtResource("1_scr")
 enemy_name = "CollectorDrone"
+max_health = 120
 attack_damage = 5
 bob_amplitude = 1.0
+attack_pattern = &"strafer"
+strafer_radius = 5.5
+strafer_speed = 1.6
 
 [node name="Model" parent="." instance=ExtResource("1_mdl")]
 

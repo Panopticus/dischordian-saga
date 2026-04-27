@@ -27,6 +27,7 @@ const DREAMER_PHILOSOPHY_LORE =
 
 import LivingBackground from "@/components/LivingBackground";
 import GlitchFx from "@/components/GlitchFx";
+import ScrollParallax from "@/components/ScrollParallax";
 
 import { assetUrl } from "@/lib/assetUrl";
 // ── Codex Entry Types ──
@@ -772,14 +773,25 @@ export default function CodexPage() {
               className={`relative rounded-lg border ${isUnlocked ? rarityColor : "border-border/10 opacity-75 void-glitch void-glitch-lock"} ${rarityBg} overflow-hidden scroll-mt-20`}
               style={!isUnlocked ? ({ ["--glitch-intensity" as string]: "0.8" } as React.CSSProperties) : undefined}
             >
-              {/* Rarity card frame overlay */}
+              {/* Rarity card frame overlay — wrapped in ScrollParallax
+                  so as the player scrolls through the codex, each
+                  entry's frame image drifts subtly at 30% of scroll
+                  speed. Cumulatively the list reads as a 3D archive
+                  rather than a flat scroll; per-entry the effect is
+                  at the threshold of perception so the content stays
+                  readable. */}
               {CODEX_RARITY_FRAMES[entry.rarity] && (
-                <img
-                  src={CODEX_RARITY_FRAMES[entry.rarity]}
-                  alt=""
-                  className="absolute inset-0 w-full h-full object-cover pointer-events-none"
-                  style={{ opacity: isUnlocked ? 0.08 : 0.04, mixBlendMode: "screen" }}
-                />
+                <ScrollParallax
+                  amount={0.3}
+                  className="absolute inset-0 pointer-events-none"
+                >
+                  <img
+                    src={CODEX_RARITY_FRAMES[entry.rarity]}
+                    alt=""
+                    className="w-full h-full object-cover"
+                    style={{ opacity: isUnlocked ? 0.08 : 0.04, mixBlendMode: "screen" }}
+                  />
+                </ScrollParallax>
               )}
               {/* Locked classified overlay */}
               {!isUnlocked && (

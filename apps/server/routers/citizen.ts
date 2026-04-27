@@ -10,6 +10,7 @@ import {
   type StarterSpecies,
 } from "../../shared/starterLoadout";
 import type { ClassKey, ElementKey } from "../../shared/earnedLoadouts";
+import { BASE_LOCKED_SLOTS } from "../../shared/suitEquipSlots";
 
 /* ═══════════════════════════════════════════════════
    Species / Class / Element configuration
@@ -95,6 +96,34 @@ const ALIGNMENT_CONFIG = {
   },
 } as const;
 
+/** Ensure the user has a dream_balance row, swallowing all errors.
+ *
+ *  Used during citizen creation. The select intentionally projects only
+ *  `id` so a missing column on the deployed `dream_balance` table (e.g.
+ *  if the prod schema is one migration behind the application schema)
+ *  doesn't blow up the whole createCharacter mutation after the citizen
+ *  insert has already committed. Likewise the insert is wrapped in
+ *  try/catch — a duplicate-key race with another tab is fine, and any
+ *  other failure is recoverable on next read by getDreamBalance, which
+ *  also lazily inserts. */
+async function ensureDreamBalanceRow(db: NonNullable<Awaited<ReturnType<typeof getDb>>>, userId: number): Promise<void> {
+  try {
+    const existing = await db
+      .select({ id: dreamBalance.id })
+      .from(dreamBalance)
+      .where(eq(dreamBalance.userId, userId))
+      .limit(1);
+    if (existing.length > 0) return;
+    try {
+      await db.insert(dreamBalance).values({ userId });
+    } catch (insertErr) {
+      logger.warn("[citizen.ensureDreamBalanceRow] insert failed (non-fatal):", insertErr);
+    }
+  } catch (selectErr) {
+    logger.warn("[citizen.ensureDreamBalanceRow] select failed (non-fatal):", selectErr);
+  }
+}
+
 /** Calculate derived stats from attributes + species */
 function calculateDerivedStats(
   species: keyof typeof SPECIES_CONFIG,
@@ -172,14 +201,32 @@ export const citizenRouter = router({
       const db = await getDb();
       if (!db) throw new Error("Database unavailable");
 
-      // Check if user already has a primary citizen
+      // Check if user already has a primary citizen.
+      //
+      // IDEMPOTENT — if the citizen already exists, return success rather
+      // than throwing. The Awakening flow's client retries createCharacter
+      // when its first attempt looks like it failed; before this guard,
+      // the retry path would always crash with "You already have a
+      // Citizen" if the previous attempt's citizen INSERT actually
+      // succeeded but a downstream step (e.g. dream_balance init below)
+      // threw. The retry then locked the player out of completing
+      // creation despite a perfectly good citizen row already in place.
       const existing = await db
         .select()
         .from(citizenCharacters)
         .where(and(eq(citizenCharacters.userId, ctx.user.id), eq(citizenCharacters.isPrimary, 1)))
         .limit(1);
       if (existing.length > 0) {
-        throw new Error("You already have a Citizen. Use the character sheet to modify.");
+        // Backfill the dream_balance row in case the prior attempt
+        // failed before creating it. Best-effort; getDreamBalance is
+        // resilient and will lazily create the row on first read too.
+        await ensureDreamBalanceRow(db, ctx.user.id);
+        return {
+          success: true,
+          maxHp: existing[0].maxHp,
+          armor: existing[0].armor,
+          gear: (existing[0].gear ?? {}) as Record<string, unknown>,
+        };
       }
 
       // Validate dot budget: 9 total dots, each attribute 1-5
@@ -245,20 +292,12 @@ export const citizenRouter = router({
         isPrimary: 1,
       });
 
-      // Initialize Dream balance
-      const existingDream = await db
-        .select()
-        .from(dreamBalance)
-        .where(eq(dreamBalance.userId, ctx.user.id))
-        .limit(1);
-      if (existingDream.length === 0) {
-        await db.insert(dreamBalance).values({
-          userId: ctx.user.id,
-          dreamTokens: 0,
-          soulBoundDream: 0,
-          dnaCode: 0,
-        });
-      }
+      // Initialize Dream balance — best-effort. If this fails (column
+      // drift, transient DB error, etc.) the citizen row is already
+      // committed and getDreamBalance will lazily create the row on
+      // first read. Throwing here would surface the citizen as a
+      // creation failure to the client even though it exists.
+      await ensureDreamBalanceRow(db, ctx.user.id);
 
       return { success: true, maxHp, armor, gear: {} as Record<string, unknown> };
     }),
@@ -476,7 +515,15 @@ export const citizenRouter = router({
       return { success: true };
     }),
 
-  /** Update equipped gear (persists slot→itemId mapping) */
+  /** Update equipped gear (persists slot→itemId mapping)
+   *
+   *  Merges the incoming slot updates into the existing gear JSON rather
+   *  than overwriting the whole blob. Critically, the §G.2 base-mask /
+   *  base-suit layers (written at character creation as
+   *  `{ id, baseLocked: true }`) are preserved — unequipping them is
+   *  disallowed (BASE_LOCKED_SLOTS) and re-equipping a different id
+   *  coerces to the same object shape so the lock survives round-trip.
+   *  Without this merge, every equip click wiped the species base body. */
   updateGear: protectedProcedure
     .input(
       z.object({
@@ -494,18 +541,33 @@ export const citizenRouter = router({
         .limit(1);
       if (!chars[0]) throw new Error("No citizen found");
 
-      // Filter out null values for clean storage
-      const cleanGear: Record<string, string> = {};
+      const existingGear = (chars[0].gear as Record<string, unknown> | null) ?? {};
+      const mergedGear: Record<string, unknown> = { ...existingGear };
+
       for (const [slot, itemId] of Object.entries(input.gear)) {
-        if (itemId) cleanGear[slot] = itemId;
+        const isBaseLocked = (BASE_LOCKED_SLOTS as ReadonlySet<string>).has(slot);
+        if (itemId === null) {
+          // Null clears a slot — but base-locked slots stay locked. A client
+          // that sends `null` for `base-mask` is buggy; silently ignore.
+          if (isBaseLocked) continue;
+          delete mergedGear[slot];
+          continue;
+        }
+        if (isBaseLocked) {
+          // Preserve the object shape so the creation flow's baseLocked
+          // flag round-trips through every equip operation.
+          mergedGear[slot] = { id: itemId, baseLocked: true };
+        } else {
+          mergedGear[slot] = itemId;
+        }
       }
 
       await db
         .update(citizenCharacters)
-        .set({ gear: cleanGear })
+        .set({ gear: mergedGear })
         .where(eq(citizenCharacters.id, chars[0].id));
 
-      return { success: true, gear: cleanGear };
+      return { success: true, gear: mergedGear };
     }),
 
   /* ═══════════════════════════════════════════════════

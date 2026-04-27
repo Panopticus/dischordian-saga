@@ -286,17 +286,22 @@ export default function LoreTutorialEngine({ tutorial, onComplete, onDismiss }: 
         className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center"
         style={{ background: "var(--bg-overlay)", backdropFilter: "blur(var(--physics-blur, 12px))" /* void-ignore — 12px is fallback when --physics-blur unset */ }}
       >
-        {/* Skip controls */}
-        <div className="absolute top-4 right-4 flex items-center gap-2 z-10">
+        {/* Skip controls — sits above the LoreDex OS top bar so the player
+            always has a visible exit, even on mobile where iOS chrome eats
+            the top inset. */}
+        <div
+          className="absolute right-4 flex items-center gap-2 z-[110]"
+          style={{ top: "calc(env(safe-area-inset-top, 0px) + 1rem)" }}
+        >
           <button
             onClick={onDismiss}
-            className="px-3 py-1.5 rounded-lg bg-muted/30 hover:bg-muted/50 text-muted-foreground/50 hover:text-muted-foreground transition-colors font-mono text-[10px]" /* void-ignore — fixed 10px micro-text for monospace skip-control affordance */
+            className="px-3 py-1.5 rounded-lg bg-muted/60 hover:bg-muted/80 text-muted-foreground hover:text-foreground transition-colors font-mono text-[10px]" /* void-ignore — fixed 10px micro-text for monospace skip-control affordance */
           >
             SKIP ALL
           </button>
           <button
             onClick={onDismiss}
-            className="p-2 rounded-lg bg-muted/40 hover:bg-muted/60 text-muted-foreground hover:text-foreground transition-colors"
+            className="p-2 rounded-lg bg-muted/70 hover:bg-muted/90 text-foreground transition-colors"
             title="Close"
           >
             <X size={18} />
@@ -309,7 +314,8 @@ export default function LoreTutorialEngine({ tutorial, onComplete, onDismiss }: 
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.9 }}
-            className="text-center px-6"
+            className="text-center px-6 cursor-pointer"
+            onClick={() => { if (introReady) setPhase("dialog"); }}
           >
             <div className="flex items-center justify-center gap-2 mb-4">
               <div className="h-px w-12 bg-gradient-to-r from-transparent to-primary/50" />
@@ -326,6 +332,17 @@ export default function LoreTutorialEngine({ tutorial, onComplete, onDismiss }: 
               {tutorial.totalRewards.cards > 0 && (
                 <span className="flex items-center gap-1"><Layers size={12} className="void-text-system" />{tutorial.totalRewards.cards} Cards</span>
               )}
+            </div>
+            <div className="flex items-center justify-center gap-6 mt-8 font-mono text-[10px] tracking-[0.3em]">
+              <span className={`text-primary/80 transition-opacity ${introReady ? "opacity-100 animate-pulse" : "opacity-30"}`}>
+                TAP TO BEGIN ▶
+              </span>
+              <button
+                onClick={(e) => { e.stopPropagation(); onDismiss(); }}
+                className="text-muted-foreground/70 hover:text-foreground transition-colors"
+              >
+                EXIT ✕
+              </button>
             </div>
           </motion.div>
         )}

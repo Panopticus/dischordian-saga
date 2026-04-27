@@ -109,6 +109,9 @@ temp/
 # Webdev artifacts (checkpoint zips, migrations, etc.)
 .webdev/
 
+# Playwright generated auth fixture (mints from JWT_SECRET + E2E_AUTH_OPEN_ID)
+apps/e2e/.auth/
+
 # AI agent scratch folders
 .manus/
 .claude/*

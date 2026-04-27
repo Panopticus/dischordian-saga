@@ -13,6 +13,7 @@ import {
   chessGames, chessRankings, chessTournaments,
   chessPuzzleProgress, chessTournamentParticipants, chessTournamentPairings,
   chessTutorialProgress,
+  chessUserState,
   memoryResinBank,
   dreamBalance, notifications,
 } from "../../db/schema";
@@ -1965,6 +1966,48 @@ export const chessRouter = router({
         scene: resolveDialog("chess_tut_skip_reconciliation") ?? null,
       };
     }),
+
+  /** Read the timestamp of this user's most recent chess-page
+   *  visit (server-recorded). Returns `null` for first-time
+   *  visitors. Used by the daily-welcome banner to compute
+   *  days-since-last-visit across devices, replacing the
+   *  client-only localStorage breadcrumb. */
+  getLastVisit: protectedProcedure.query(async ({ ctx }) => {
+    // Match the canonical pattern used by every other db call site
+    // in this router (search this file for `(await getDb())!`).
+    const db = (await getDb())!;
+    const [row] = await db
+      .select({ lastVisitAt: chessUserState.lastVisitAt })
+      .from(chessUserState)
+      .where(eq(chessUserState.userId, ctx.user.id))
+      .limit(1);
+    return { lastVisitAt: row?.lastVisitAt ?? null };
+  }),
+
+  /** Stamp this user's lastVisitAt to NOW. Idempotent (safe to
+   *  call on every chess-page mount). Inserts a row on first
+   *  call; updates on subsequent calls. */
+  markVisit: protectedProcedure.mutation(async ({ ctx }) => {
+    const db = (await getDb())!;
+    const now = new Date();
+    const [existing] = await db
+      .select({ userId: chessUserState.userId })
+      .from(chessUserState)
+      .where(eq(chessUserState.userId, ctx.user.id))
+      .limit(1);
+    if (existing) {
+      await db
+        .update(chessUserState)
+        .set({ lastVisitAt: now })
+        .where(eq(chessUserState.userId, ctx.user.id));
+    } else {
+      await db.insert(chessUserState).values({
+        userId: ctx.user.id,
+        lastVisitAt: now,
+      });
+    }
+    return { lastVisitAt: now };
+  }),
 });
 
 /* ─── PUZZLE STATE (DB-backed) ──────────────────────────── */

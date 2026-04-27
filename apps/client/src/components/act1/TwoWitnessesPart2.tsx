@@ -8,11 +8,6 @@
  * is silent. The player picks one of three closing choices
  * (accept / decline / deflect), which writes `act1_closingChoice`.
  *
- * SCAFFOLD ONLY. Runtime wiring is pending VO takes, dialog-UI
- * widget, and animator handoff. This file locks the type
- * surface and the state-machine shape so downstream can start
- * consuming the props.
- *
  * Canonical references:
  *   docs/production/UNIVERSAL_PROMPTING_DOC_PRELUDE_ACT1.md §9
  *   docs/production/act1-asset-build/prompts/voice/section6_antiquarian.csv
@@ -139,21 +134,16 @@ export function buildPlaybackSequence(
 }
 
 /**
- * Scaffold implementation. Does not yet:
- *   - wire actual audio playback (reuse the Prelude LastWordsWitnessing
- *     audio-sync pattern)
- *   - render the Archives backdrop (reuse room-archives.webp via
- *     ResponsiveImage)
- *   - render the three-choice dialog UI (needs ChoicePillarAcceptDeclineDeflect
- *     styled to match ChoicePillarLightDark from PR #40)
- *   - render the Enigma blocking (animator to deliver the
- *     reference sheet per §9.10.3 first)
- *   - render the final "End of Act 1" title card fade
- *
- * All of the above are follow-up implementation tasks. This file
- * locks the public API so downstream systems can start consuming
- * the result shape.
+ * Phase advancement after the shared opening run (l01..l10) has played.
+ * The choice prompt opens once we've reached l10's onended.
  */
+function phaseAfterShared(index: number): Phase {
+  if (index < 3) return "beat2_acknowledge";
+  if (index < 8) return "beat3_framing";
+  if (index < 10) return "beat4_ask";
+  return "ui_choice";
+}
+
 export function TwoWitnessesPart2({
   onComplete,
   autoPlay = true,
@@ -165,23 +155,77 @@ export function TwoWitnessesPart2({
   const [deflectQuestion, setDeflectQuestion] = useState<
     DeflectQuestion | "other" | null
   >(null);
+  const [lineIndex, setLineIndex] = useState(0);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
   const mountedAtRef = useRef(performance.now());
 
-  // Build the full VO sequence once the branch is known.
   const sequence = useMemo(() => {
     if (!choice) return null;
     return buildPlaybackSequence(choice, deflectQuestion ?? undefined);
   }, [choice, deflectQuestion]);
 
-  // Scaffold placeholder. Full implementation wires `sequence`
-  // to an HTMLAudioElement with gapless playback per the
-  // Prelude `LastWordsWitnessing` pattern and advances `phase`
-  // off each line's `onended` event.
+  // Reduced-motion / no-VO path: fast-forward through the cutscene as
+  // soon as the player has picked. Skips audio entirely.
   useEffect(() => {
-    if (!autoPlay) return;
-  }, [autoPlay, sequence]);
+    if (!reducedMotion || !choice) return;
+    setPhase("title_card");
+  }, [reducedMotion, choice]);
 
-  // When we reach `title_card`, fire onComplete and settle.
+  // Cold-open → start the shared opening run as soon as we mount.
+  useEffect(() => {
+    if (phase !== "cold_open") return;
+    if (!autoPlay || reducedMotion) return;
+    setPhase("beat2_acknowledge");
+  }, [phase, autoPlay, reducedMotion]);
+
+  // Drive the gapless playback. We index either SHARED_LINES (before a
+  // choice) or `sequence` (after). Each `ended` advances by one.
+  useEffect(() => {
+    if (reducedMotion) return;
+    if (phase === "ui_choice" || phase === "beat5_deflect_question") return;
+    if (phase === "title_card" || phase === "done" || phase === "cold_open") return;
+
+    const lines = sequence ?? SHARED_LINES;
+    if (lineIndex >= lines.length) return;
+
+    const audio = new Audio(vo(lines[lineIndex]));
+    audio.volume = volume;
+    audioRef.current = audio;
+
+    const handleEnded = () => {
+      // Pre-choice opening run — open the choice UI after l10.
+      if (!sequence) {
+        const next = lineIndex + 1;
+        if (next >= SHARED_LINES.length) {
+          setPhase("ui_choice");
+          return;
+        }
+        setLineIndex(next);
+        setPhase(phaseAfterShared(next));
+        return;
+      }
+      // Post-choice run — walk to the title card on the last line.
+      const next = lineIndex + 1;
+      if (next >= sequence.length) {
+        setPhase("title_card");
+        return;
+      }
+      setLineIndex(next);
+    };
+    audio.addEventListener("ended", handleEnded);
+    audio.play().catch(() => {
+      // Autoplay blocked or asset missing — advance so we don't stall.
+      handleEnded();
+    });
+
+    return () => {
+      audio.removeEventListener("ended", handleEnded);
+      audio.pause();
+      audioRef.current = null;
+    };
+  }, [phase, lineIndex, sequence, volume, reducedMotion]);
+
+  // Title-card → fire onComplete and settle.
   useEffect(() => {
     if (phase !== "title_card" || !choice) return;
     const elapsedS = (performance.now() - mountedAtRef.current) / 1000;
@@ -193,11 +237,32 @@ export function TwoWitnessesPart2({
       witness_enigma_met_part2: true,
     };
     onComplete(result);
-    setPhase("done");
-  }, [phase, choice, deflectQuestion, onComplete]);
+    const settle = window.setTimeout(() => setPhase("done"), reducedMotion ? 0 : 2400);
+    return () => window.clearTimeout(settle);
+  }, [phase, choice, deflectQuestion, onComplete, reducedMotion]);
 
-  // Scaffold render — replace with Archives backdrop, Witness
-  // poses, and the dialog-UI widget.
+  const handleChoice = (c: Act1ClosingChoice) => {
+    setChoice(c);
+    setLineIndex(SHARED_LINES.length); // jump straight to the response line
+    if (c === "accept") setPhase("beat5_response_accept");
+    else if (c === "decline") setPhase("beat5_response_decline");
+    else setPhase("beat5_response_deflect");
+  };
+
+  // The deflect branch needs a follow-up question pick after the l11c
+  // response plays. Detect that boundary and surface the picker.
+  useEffect(() => {
+    if (!sequence || choice !== "deflect") return;
+    if (lineIndex === SHARED_LINES.length + 1 && deflectQuestion === null) {
+      setPhase("beat5_deflect_question");
+    }
+  }, [sequence, choice, lineIndex, deflectQuestion]);
+
+  const handleDeflectQuestion = (q: DeflectQuestion | "other") => {
+    setDeflectQuestion(q);
+    setPhase("beat5_deflect_answer");
+  };
+
   return (
     <div
       data-testid="two-witnesses-part2"
@@ -205,24 +270,60 @@ export function TwoWitnessesPart2({
       data-choice={choice ?? "pending"}
       className="fixed inset-0 bg-black"
     >
-      {/* Future: LivingBackground src={roomArchivesWebp} particles={[...]} */}
-      {/* Future: AntiquarianDialogPlayer lines={sequence} onPhaseChange={setPhase} */}
+      <div
+        aria-hidden
+        className="absolute inset-0 bg-cover bg-center opacity-60"
+        style={{ backgroundImage: `url(${assetUrl("backgrounds/room-archives.webp")})` }}
+      />
       {phase === "ui_choice" && (
-        <div data-testid="closing-choice-prompt">
-          {/* Future: ChoicePillarAcceptDeclineDeflect onPick={...} */}
+        <div
+          data-testid="closing-choice-prompt"
+          className="absolute inset-x-0 bottom-12 flex justify-center gap-4"
+        >
+          {(["accept", "decline", "deflect"] as Act1ClosingChoice[]).map((c) => (
+            <button
+              key={c}
+              type="button"
+              onClick={() => handleChoice(c)}
+              data-testid={`closing-choice-${c}`}
+              className="px-6 py-3 border border-[#d9a66a]/60 text-[#d9a66a] tracking-[0.3em] uppercase text-sm hover:bg-[#d9a66a]/10 transition-colors"
+            >
+              {c}
+            </button>
+          ))}
         </div>
       )}
       {phase === "beat5_deflect_question" && (
-        <div data-testid="deflect-question-picker">
-          {/* Future: 4 buttons + "other" free-text fallback */}
+        <div
+          data-testid="deflect-question-picker"
+          className="absolute inset-x-0 bottom-12 flex flex-col items-center gap-3"
+        >
+          {(
+            [
+              ["who_was_he", "Who was he?"],
+              ["how_long_waiting", "How long have you been waiting?"],
+              ["what_if_no", "What if I say no?"],
+              ["why_me", "Why me?"],
+              ["other", "(Something else)"],
+            ] as [DeflectQuestion | "other", string][]
+          ).map(([q, label]) => (
+            <button
+              key={q}
+              type="button"
+              onClick={() => handleDeflectQuestion(q)}
+              data-testid={`deflect-question-${q}`}
+              className="px-5 py-2 border border-[#d9a66a]/40 text-[#d9a66a] text-sm hover:bg-[#d9a66a]/10 transition-colors"
+            >
+              {label}
+            </button>
+          ))}
         </div>
       )}
       {phase === "title_card" && !reducedMotion && (
         <div
           data-testid="end-of-act1-title-card"
-          className="flex h-full w-full items-center justify-center"
+          className="absolute inset-0 flex items-center justify-center bg-black/80"
         >
-          {/* The one permitted rendered-text line in Act 1's close. */}
           <span className="text-4xl tracking-[0.5em] text-[#d9a66a]">
             END OF ACT 1
           </span>

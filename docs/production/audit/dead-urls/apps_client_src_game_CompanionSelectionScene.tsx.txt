@@ -1,0 +1,6 @@
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/specimens/auros-fragment.png
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/specimens/nyx-fragment.png
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/specimens/sibyl-fragment.png
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/specimens/strain-fragment.png
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/specimens/cog-fragment.png
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/specimens/toxis-fragment.png

@@ -90,7 +90,7 @@ export default function AdminPage() {
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.2 }}
           >
-            {activeTab === "dashboard" && <DashboardTab />}
+            {activeTab === "dashboard" && <DashboardTab onNavigate={setActiveTab} />}
             {activeTab === "users" && <UsersTab />}
             {activeTab === "cards" && <CardsTab />}
             {activeTab === "rewards" && <RewardsTab />}
@@ -105,7 +105,7 @@ export default function AdminPage() {
 }
 
 // ═══ DASHBOARD TAB ═══
-function DashboardTab() {
+function DashboardTab({ onNavigate }: { onNavigate: (tab: Tab) => void }) {
   const { data: stats } = trpc.admin.dashboardStats.useQuery();
 
   const statCards = [
@@ -134,12 +134,12 @@ function DashboardTab() {
       <div className="void-surface p-5">
         <h3 className="font-display text-xs font-bold tracking-[0.2em] text-primary mb-3">QUICK ACTIONS</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-          <Link href="/admin" onClick={() => {}} className="flex items-center gap-2 p-3 rounded-md bg-secondary/30 border border-border/20 hover:border-primary/30 transition-all font-mono text-xs">
+          <button type="button" onClick={() => onNavigate("users")} className="flex items-center gap-2 p-3 rounded-md bg-secondary/30 border border-border/20 hover:border-primary/30 transition-all font-mono text-xs text-left">
             <UserCog size={14} className="text-primary" /> Manage Users
-          </Link>
-          <Link href="/admin" onClick={() => {}} className="flex items-center gap-2 p-3 rounded-md bg-secondary/30 border border-border/20 hover:border-accent/30 transition-all font-mono text-xs">
+          </button>
+          <button type="button" onClick={() => onNavigate("cards")} className="flex items-center gap-2 p-3 rounded-md bg-secondary/30 border border-border/20 hover:border-accent/30 transition-all font-mono text-xs text-left">
             <Layers size={14} className="text-accent" /> Manage Cards
-          </Link>
+          </button>
         </div>
       </div>
     </div>

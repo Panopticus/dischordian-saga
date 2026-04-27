@@ -83,7 +83,7 @@ export default function LeaderboardPage() {
               <Trophy size={20} className="text-primary" />
             </div>
             <div>
-              <h1 className="font-display text-xl font-bold tracking-wider">OPERATIVE RANKINGS</h1>
+              <h1 className="font-display text-xl font-bold tracking-wider page-title-reveal">OPERATIVE RANKINGS</h1>
               <p className="font-mono text-xs text-muted-foreground">
                 {entries?.length ?? 0} POTENTIALS RANKED // LIVE STANDINGS
               </p>

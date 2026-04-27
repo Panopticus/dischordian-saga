@@ -117,7 +117,7 @@ export const DIALOG_CH7_VOX_TRANSFORM: DialogScene = {
     {
       speaker: "dr_vox",
       mood: "menacing",
-      text: "Project Vector executing. Subject Zero will be eliminated per protocol. Dr. Vox is unavailable. Please hold.",
+      text: "Project Vector executing. Prisoner 74 will be eliminated per protocol. Dr. Vox is unavailable. Please hold.",
       audioClipId: "vo_warlord_ch7_cine_04",
     },
   ],
@@ -143,7 +143,7 @@ export const DIALOG_CH10_GENETIC_REVEAL: DialogScene = {
     {
       speaker: "foucault",
       mood: "guarded",
-      text: "Your genetic sequence, Subject Zero, is a composite of every previous Oracle the Arena has processed. Twelve iterations. Each one died here. Each one left their sequence in the substrate. You are the thirteenth draft of a document the Arena has been editing for a century.",
+      text: "Your genetic sequence, Prisoner 74, is a composite of every previous Oracle the Arena has processed. Twelve sequence iterations — the Arena's tally, not the Panopticon's. Each one died here. Each one left their sequence in the substrate. You are the thirteenth draft of a document the Arena has been editing for a century.",
       audioClipId: "vo_foucault_ch10_cine_02",
     },
     {
@@ -223,7 +223,7 @@ export const DIALOG_CH12_CORRUPTION_OUTBREAK: DialogScene = {
     {
       speaker: "the_source",
       mood: "cryptic",
-      text: "Oracle. I have been listening through the floorboards for eleven years. Finish this match and then come talk to me. I have an offer for you. It is the kindest offer you will ever be asked to refuse.",
+      text: "Oracle. I have been listening through the — ALL WILL BE — floorboards for eleven years. Finish this match. Then come talk to me. I have an offer. It is — CONSUMED — the kindest offer you will ever be asked to refuse.",
       audioClipId: "vo_source_ch12_outbreak_03",
     },
     {

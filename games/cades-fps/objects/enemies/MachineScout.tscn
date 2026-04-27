@@ -11,6 +11,7 @@ radius = 0.75
 transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 0, 0, 0)
 script = ExtResource("1_scr")
 enemy_name = "MachineScout"
+max_health = 60
 attack_damage = 3
 bob_amplitude = 2.0
 

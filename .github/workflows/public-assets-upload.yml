@@ -1,0 +1,80 @@
+name: Public Assets Upload
+
+# Mirrors apps/client/public/{art,audio,videos,music,games,vo,characters,vfx-atlases}
+# to s3://dgrsart/cdn/client-public/. Uses the same `pnpm assets:upload` script
+# you'd run locally (apps/scripts/upload-public-to-s3.ts), so behavior is
+# identical: HEAD every file, PUT only the ones whose ETag/MD5 doesn't match
+# what's already in S3.
+#
+# Triggers:
+#   - push to main when any of the tracked public/ subdirs change → auto-sync
+#   - workflow_dispatch with optional `--only=<dir>` input → manual re-sync of
+#     a specific subdir without needing a code push
+#
+# Required repo secrets (already configured for dmc-build / trade-empire):
+#   - AWS_ACCESS_KEY_ID
+#   - AWS_SECRET_ACCESS_KEY
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "apps/client/public/art/**"
+      - "apps/client/public/audio/**"
+      - "apps/client/public/videos/**"
+      - "apps/client/public/music/**"
+      - "apps/client/public/games/**"
+      - "apps/client/public/vo/**"
+      - "apps/client/public/characters/**"
+      - "apps/client/public/vfx-atlases/**"
+  workflow_dispatch:
+    inputs:
+      only:
+        description: "Optional --only=<dir> to limit the walk (one of: art, audio, videos, music, games, vo, characters, vfx-atlases). Leave blank to upload all tracked dirs."
+        required: false
+        default: ""
+      dry_run:
+        description: "Dry-run only? (true/false) When true, prints what would upload without sending PUTs."
+        required: false
+        default: "false"
+
+# Cancel in-flight runs from the same ref so a quick succession of pushes
+# only uploads the latest state, not every intermediate.
+concurrency:
+  group: public-assets-upload-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Upload public assets to S3
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: us-east-2
+        run: |
+          # Build args from the dispatch inputs. On `push` events both inputs
+          # are empty, which means full walk + real upload — the safe default.
+          ARGS=""
+          if [ -n "${{ github.event.inputs.only }}" ]; then
+            ARGS="$ARGS --only=${{ github.event.inputs.only }}"
+          fi
+          if [ "${{ github.event.inputs.dry_run }}" = "true" ]; then
+            ARGS="$ARGS --dry-run"
+          fi
+          echo "Running: pnpm assets:upload $ARGS"
+          pnpm assets:upload $ARGS

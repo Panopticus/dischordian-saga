@@ -28,6 +28,25 @@ import { useStockfish } from "@/hooks/useStockfish";
 import { AI_PRESETS } from "@/lib/stockfishWorker";
 import ChessCinematic from "@/components/ChessCinematic";
 import LivingBackground from "@/components/LivingBackground";
+import ChessSessionBanner from "@/components/ChessSessionBanner";
+import ChessPostGameReview, {
+  type ReviewMistake,
+  type ReviewBrilliancy,
+} from "@/components/ChessPostGameReview";
+import {
+  pickDailyWelcomeLine,
+  pickResignationLine,
+} from "@shared/tcg-core/story/chessSessionDialog";
+import { hashString } from "@shared/tcg-core/story/chessReviewNarration";
+import {
+  classifyDeltas,
+  classifyBrilliancies,
+} from "@/lib/postGameMistakeClassifier";
+import {
+  readDaysSinceLastVisit,
+  markVisitedNow,
+  daysBetween,
+} from "@/lib/chessLastVisit";
 
 import { assetUrl } from "@/lib/assetUrl";
 /* ─── TIER CONFIG ─── */
@@ -83,6 +102,41 @@ export default function ChessPage() {
   const { user, isAuthenticated } = useAuth();
   const { state: gameState } = useGame();
   const [view, setView] = useState<GameView>("menu");
+  // Daily welcome — read days-since-last-visit ONCE on mount, then
+  // immediately stamp now so subsequent visits today are no-ops.
+  const lastVisitQ = trpc.chess.getLastVisit.useQuery(undefined, {
+    enabled: isAuthenticated,
+    refetchOnWindowFocus: false,
+  });
+  const markVisitMut = trpc.chess.markVisit.useMutation();
+  const [daysSinceLastVisit, setDaysSinceLastVisit] = useState<number>(0);
+  useEffect(() => {
+    setDaysSinceLastVisit(readDaysSinceLastVisit());
+    markVisitedNow();
+    if (isAuthenticated) markVisitMut.mutate();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAuthenticated]);
+  useEffect(() => {
+    const serverLast = lastVisitQ.data?.lastVisitAt;
+    if (!serverLast) return;
+    setDaysSinceLastVisit(daysBetween(new Date(serverLast).getTime()));
+  }, [lastVisitQ.data]);
+  const welcomeLine = pickDailyWelcomeLine(
+    daysSinceLastVisit,
+    hashString(`chess|${new Date().toISOString().slice(0, 10)}`),
+  );
+
+  // Post-game review state. Populated when gameStatus transitions
+  // away from "active" — Stockfish walks the move history at depth
+  // 14 and the classifier buckets the resulting eval deltas.
+  const [reviewMistakes, setReviewMistakes] = useState<ReviewMistake[] | null>(null);
+  const [reviewBrilliancies, setReviewBrilliancies] = useState<ReviewBrilliancy[]>([]);
+  const [reviewSeed, setReviewSeed] = useState<number>(0);
+  const [reviewAnalyzing, setReviewAnalyzing] = useState<boolean>(false);
+  const reviewKickedOffForGameRef = useRef<number | null>(null);
+  // GM resignation line — picked when EITHER side resigns. Rendered
+  // above the post-game review in the match-end panel.
+  const [resignationLine, setResignationLine] = useState<string | null>(null);
   const [selectedMode, setSelectedMode] = useState<"casual" | "ranked" | "story" | "game_master" | "multiplayer">("casual");
   const [selectedCharacter, setSelectedCharacter] = useState<string | null>(null);
   const [selectedOpponent, setSelectedOpponent] = useState<string | null>(null);
@@ -137,7 +191,7 @@ export default function ChessPage() {
   const [mpBlackTime, setMpBlackTime] = useState(600000);
   const [mpMoveHistory, setMpMoveHistory] = useState<string[]>([]);
   const [mpLastMove, setMpLastMove] = useState<{ from: string; to: string } | null>(null);
-  const [mpGameOver, setMpGameOver] = useState<{ winner: "white" | "black" | "draw"; reason: string; eloChange: number; newElo: number } | null>(null);
+  const [mpGameOver, setMpGameOver] = useState<{ winner: "white" | "black" | "draw"; reason: string; eloChange: number; newElo: number; gmCommentary?: string } | null>(null);
   const [mpDrawOffered, setMpDrawOffered] = useState(false);
 
   // ── Pawn promotion dialog state ──
@@ -351,6 +405,51 @@ export default function ChessPage() {
 
   // Stockfish engine hook
   const stockfish = useStockfish();
+
+  // Post-game review trigger. Player is always white in this page's
+  // flow (see Audit 3B note below). When gameStatus transitions away
+  // from "active" and we have an activeGameId, kick off Stockfish
+  // analysis once and feed the deltas through the classifier.
+  useEffect(() => {
+    if (gameStatus === "active") {
+      // New game starting — clear any prior review.
+      if (reviewMistakes !== null) setReviewMistakes(null);
+      if (reviewBrilliancies.length > 0) setReviewBrilliancies([]);
+      if (reviewAnalyzing) setReviewAnalyzing(false);
+      if (resignationLine !== null) setResignationLine(null);
+      reviewKickedOffForGameRef.current = null;
+      return;
+    }
+    if (!activeGameId || moveHistory.length === 0) return;
+    if (reviewKickedOffForGameRef.current === activeGameId) return;
+    if (!stockfish.isReady) return;
+    reviewKickedOffForGameRef.current = activeGameId;
+    setReviewAnalyzing(true);
+    const startFen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+    const seed = hashString(`${activeGameId}|${moveHistory.join(" ")}`);
+    setReviewSeed(seed);
+    stockfish
+      .postGameAnalyzeWithBrilliancies(startFen, moveHistory, { depth: 14 })
+      .then((samples) => {
+        setReviewMistakes(classifyDeltas(samples, "white"));
+        setReviewBrilliancies(classifyBrilliancies(samples, "white"));
+      })
+      .catch(() => {
+        // On engine failure, fall through to the zero-state UI.
+        setReviewMistakes([]);
+        setReviewBrilliancies([]);
+      })
+      .finally(() => setReviewAnalyzing(false));
+  }, [
+    gameStatus,
+    activeGameId,
+    moveHistory,
+    stockfish,
+    reviewMistakes,
+    reviewBrilliancies,
+    reviewAnalyzing,
+    resignationLine,
+  ]);
 
   const characters = trpc.chess.getCharacters.useQuery(undefined, { enabled: isAuthenticated });
   const ranking = trpc.chess.getMyRanking.useQuery(undefined, { enabled: isAuthenticated });
@@ -760,6 +859,13 @@ export default function ChessPage() {
       setEloChange(result.eloChange);
       utils.chess.getMyRanking.invalidate();
       utils.chess.getActiveGame.invalidate();
+      // GM resignation narration: classify graceful vs. premature
+      // by the most recent eval (player is always white in this
+      // page's flow, so stockfish.evaluation already reads from the
+      // player's POV in centipawns).
+      const evalCpFromPlayer = stockfish.evaluation ?? 0;
+      const seed = activeGameId * 31 + moveHistory.length;
+      setResignationLine(pickResignationLine(evalCpFromPlayer, seed));
     } catch (e) {
       console.error(e);
     }
@@ -929,6 +1035,7 @@ export default function ChessPage() {
         {/* ═══ MAIN MENU ═══ */}
         {view === "menu" && (
           <motion.div key="menu" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="p-4 sm:p-6 space-y-6">
+            <ChessSessionBanner welcomeLine={welcomeLine} />
             {/* Header */}
             <div className="flex items-center gap-3">
               <Link href="/games" className="p-2 rounded-md bg-secondary/50 hover:bg-secondary"><ArrowLeft size={16} /></Link>
@@ -1522,6 +1629,39 @@ export default function ChessPage() {
                     </div>
                   )}
 
+                  {/* Post-Game Review — Celebration GM narration on
+                      the player's mistakes (and brilliancies once the
+                      detector ships). The resignation line, when set,
+                      slots in above the review as a single italic
+                      callout. */}
+                  {gameStatus !== "active" && (
+                    <>
+                      {resignationLine && (
+                        <section className="p-3 border border-void-text-accent/40 rounded bg-void-bg/40">
+                          <p className="text-[10px] uppercase tracking-widest text-void-text-muted mb-1">
+                            The Game Master, on your resignation
+                          </p>
+                          <p className="text-sm italic text-void-text">
+                            {resignationLine}
+                          </p>
+                        </section>
+                      )}
+                      {reviewAnalyzing && (
+                        <p className="text-xs text-void-text-muted italic">
+                          The Game Master is reviewing your game…
+                        </p>
+                      )}
+                      {reviewMistakes !== null && (
+                        <ChessPostGameReview
+                          seed={reviewSeed}
+                          mistakes={reviewMistakes}
+                          brilliancies={reviewBrilliancies}
+                          playerSide="white"
+                        />
+                      )}
+                    </>
+                  )}
+
                   {/* Move History */}
                   <div
                     className="rounded-lg p-3 backdrop-blur-md border"
@@ -1918,6 +2058,11 @@ export default function ChessPage() {
                       mpGameOver.winner === mpOpponent.color ? "DEFEAT" : "VICTORY"}
                   </p>
                   <p className="font-mono text-xs text-muted-foreground capitalize">{mpGameOver.reason}</p>
+                  {mpGameOver.gmCommentary && (
+                    <p className="text-sm italic text-void-text px-4">
+                      {mpGameOver.gmCommentary}
+                    </p>
+                  )}
                   <div className="flex items-center justify-center gap-4 text-sm">
                     <span className="font-mono text-muted-foreground">
                       ELO: <span className={mpGameOver.eloChange >= 0 ? "void-text-energy" : "void-text-error"}>

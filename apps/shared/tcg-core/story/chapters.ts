@@ -46,7 +46,7 @@ const ch1: StoryEncounter = {
       id: "ch1_intro",
       once: true,
       condition: { kind: "always" },
-      action: { kind: "boss_taunt", text: "Subject Zero. Cameras cycle every 43 seconds. I have 31. FIGHT me." },
+      action: { kind: "boss_taunt", text: "Prisoner 74. Cameras cycle every 43 seconds. I have 31. FIGHT me." },
     },
     {
       id: "ch1_low",
@@ -76,7 +76,7 @@ const ch2: StoryEncounter = {
       id: "ch2_intro",
       once: true,
       condition: { kind: "always" },
-      action: { kind: "boss_taunt", text: "Designation: Subject Zero. You survived. That puts you in the rotation." },
+      action: { kind: "boss_taunt", text: "Designation: Prisoner 74. You survived. That puts you in the rotation." },
     },
     {
       id: "ch2_half",
@@ -209,7 +209,7 @@ const ch5: StoryEncounter = {
       id: "ch5_intro",
       once: true,
       condition: { kind: "always" },
-      action: { kind: "boss_taunt", text: "Death is not an ending, Subject Zero. It is a compile error. I fix those." },
+      action: { kind: "boss_taunt", text: "Death is not an ending, Prisoner 74. It is a compile error. I fix those." },
     },
     {
       id: "ch5_death",

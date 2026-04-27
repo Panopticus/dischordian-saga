@@ -62,6 +62,10 @@ import {
   CHESS_TUTORIAL_GATE_4_5,
   CHESS_TUTORIAL_GATE_4_5_SCENES,
 } from "./chessTutorial_g4_5_princes_game";
+import {
+  CHESS_TUTORIAL_GATE_5_5,
+  CHESS_TUTORIAL_GATE_5_5_SCENES,
+} from "./chessTutorial_g5_5_opera_game";
 import { CHESS_TUTORIAL_SKIP_SCENES } from "./chessTutorial_skip";
 import { CHESS_CORRUPTED_ARENA_SCENES } from "./chessArenaEncounter";
 import { CHESS_CLIMB_SCENES } from "./chessClimbDialog";
@@ -327,6 +331,7 @@ export {
   CHESS_TUTORIAL_GATE_4,
   CHESS_TUTORIAL_GATE_4_5,
   CHESS_TUTORIAL_GATE_5,
+  CHESS_TUTORIAL_GATE_5_5,
   CHESS_TUTORIAL_GATE_6,
   CHESS_TUTORIAL_GATE_7,
 };
@@ -351,7 +356,7 @@ export const CHESS_TUTORIAL_GATES: readonly ChessTutorialGate[] = Object.freeze(
  *  finishes Gate 4 in the linear path). Stored separately so
  *  `currentGate` keeps its monotonic 1..7 semantics. */
 export const CHESS_TUTORIAL_SIDE_GATES: readonly ChessTutorialGate[] =
-  Object.freeze([CHESS_TUTORIAL_GATE_4_5]);
+  Object.freeze([CHESS_TUTORIAL_GATE_4_5, CHESS_TUTORIAL_GATE_5_5]);
 
 /** Lookup helper — return a side gate by its id. */
 export function getChessTutorialSideGate(
@@ -371,6 +376,8 @@ export function isChessSideGateUnlocked(
   switch (sideGateId) {
     case "chess_tut_g4_5":
       return completedLinearGates.includes(4);
+    case "chess_tut_g5_5":
+      return completedLinearGates.includes(5);
     default:
       return false;
   }
@@ -389,6 +396,7 @@ export const CHESS_TUTORIAL_SCENES: readonly DialogScene[] = Object.freeze([
   ...CHESS_TUTORIAL_GATE_6_SCENES,
   ...CHESS_TUTORIAL_GATE_7_SCENES,
   ...CHESS_TUTORIAL_GATE_4_5_SCENES,
+  ...CHESS_TUTORIAL_GATE_5_5_SCENES,
   ...CHESS_TUTORIAL_SKIP_SCENES,
   ...CHESS_CORRUPTED_ARENA_SCENES,
   ...CHESS_CLIMB_SCENES,

@@ -18,6 +18,7 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import KineticText from "@/components/void/KineticText";
+import { hapticFeedback } from "@/lib/haptics";
 
 interface TierInfo {
   name: string;
@@ -78,6 +79,9 @@ export default function CompanionTierCeremony({ level, companionName }: Props) {
     if (currentIdx > lastSeenTierRef.current) {
       lastSeenTierRef.current = currentIdx;
       setActive(tierFor(level));
+      // Vibration punches in sync with the KineticText reveal so
+      // mobile players feel the threshold crossing, not just see it.
+      hapticFeedback("companionTrust");
     }
   }, [level]);
 

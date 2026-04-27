@@ -28,7 +28,7 @@ export const DIALOG_CH10_PRE: DialogScene = {
     {
       speaker: "foucault",
       mood: "menacing",
-      text: "The Panopticon sees all. Every move you have made since Chamber One has been observed, catalogued, and filed under your designation — which, incidentally, is no longer Subject Zero. It was upgraded the moment you killed the Jailer.",
+      text: "The Panopticon sees all. Every move you have made since Chamber One has been observed, catalogued, and filed under your designation — which, incidentally, is no longer Prisoner 74. It was upgraded the moment you killed the Jailer.",
       audioClipId: "vo_foucault_ch10_pre_01",
     },
     {
@@ -80,7 +80,7 @@ export const DIALOG_CH10_LOSS: DialogScene = {
     {
       speaker: "foucault",
       mood: "menacing",
-      text: "The Warden does not fall. You return to the holding chamber. The file remains unopened. Your designation reverts to Subject Zero. You will have another chance — the cameras cycle, after all, and I am patient.",
+      text: "The Warden does not fall. You return to the holding chamber. The file remains unopened. Your designation reverts to Prisoner 74. You will have another chance — the cameras cycle, after all, and I am patient.",
       audioClipId: "vo_foucault_ch10_loss_01",
     },
   ],

@@ -12,8 +12,16 @@ const CINEMATIC_VIDEO = "https://d2xsxph8kpxj0f.cloudfront.net/31041966303208015
 export const SAGA_THEME_URL = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/SagaTheme_0cd5de9a.mp3";
 
 interface OpeningCinematicProps {
-  /** Called when cinematic is done. Receives the Audio element so parent can keep it playing. */
-  onComplete: (themeAudio: HTMLAudioElement | null) => void;
+  /**
+   * Called when cinematic is done. Receives the Audio element so parent
+   * can keep it playing, plus a flag indicating whether the video
+   * actually reached its end naturally (true) or whether we bailed out
+   * via a safety timer / the SKIP button / a load error (false). The
+   * parent uses the flag to decide whether to persist the
+   * `loredex_cinematic_seen` localStorage key — we never want to lock
+   * a player out of the cinematic when they never actually finished it.
+   */
+  onComplete: (themeAudio: HTMLAudioElement | null, reachedEndNaturally: boolean) => void;
 }
 
 export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) {
@@ -61,8 +69,13 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
     }
   }, []);
 
-  /** Start the Saga Theme looping, then fade out the cinematic */
-  const handleComplete = useCallback(() => {
+  /** Hand off a paused Saga Theme audio element, then fade out the cinematic.
+   *  The theme is intentionally NOT started here — the AwakeningVOPlayer
+   *  starts it the moment Elara delivers her first VO line, so the player
+   *  doesn't hear an instrumental bed playing alone over the BLACKOUT
+   *  fade-in (which previously clashed with the cinematic's tail audio
+   *  and felt like two pieces of music fighting). */
+  const handleComplete = useCallback((reachedEndNaturally: boolean) => {
     if (completedRef.current) return;
     completedRef.current = true;
 
@@ -76,60 +89,75 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
       video.pause();
     }
 
-    // Create and start the theme song audio — it will loop
+    // Prepare (don't play) the theme audio. AwakeningVOPlayer starts it
+    // on the first VO trigger and fades it in alongside Elara's line.
     const themeAudio = new Audio(SAGA_THEME_URL);
     themeAudio.loop = true;
     themeAudio.volume = 0;
-    themeAudio.play().catch(() => {});
-
-    // Fade the theme in over ~1.5s
-    let vol = 0;
-    const fadeInInterval = setInterval(() => {
-      vol = Math.min(0.55, vol + 0.03);
-      themeAudio.volume = vol;
-      if (vol >= 0.55) clearInterval(fadeInInterval);
-    }, 50);
+    themeAudio.preload = "auto";
 
     // Visual fade out, then hand off
     setFadeOut(true);
-    setTimeout(() => onComplete(themeAudio), 1500);
+    setTimeout(() => onComplete(themeAudio, reachedEndNaturally), 1500);
   }, [onComplete]);
 
-  // When video ends naturally
+  // When video ends naturally — this is the only path that flags the
+  // cinematic as "seen" in the parent's localStorage.
   const handleVideoEnd = useCallback(() => {
-    handleComplete();
+    handleComplete(true);
   }, [handleComplete]);
 
   // Some browsers (notably iOS Safari with CDN-hosted MP4s) occasionally
   // fail to fire `ended`. Arm a safety timer based on actual duration,
-  // and a hard cap so the cinematic can never hang forever.
+  // and a hard cap so the cinematic can never hang forever. CRITICAL:
+  // only arm when we have a finite, positive duration. Previously the
+  // 5_000ms floor meant a degenerate metadata response (duration=0/NaN
+  // on iOS Safari range requests) cut the cinematic off after 5s — and
+  // then the parent would mark it as "seen", locking the player out
+  // permanently. Now: no metadata, no timer. The 90s absolute fallback
+  // below still protects against true hangs.
   const armEndSafety = useCallback((durationSec: number) => {
     if (endSafetyTimerRef.current) clearTimeout(endSafetyTimerRef.current);
-    const ms = Math.min(120_000, Math.max(5_000, Math.ceil(durationSec * 1000) + 2_000));
-    endSafetyTimerRef.current = setTimeout(() => handleComplete(), ms);
+    if (!Number.isFinite(durationSec) || durationSec <= 0) return;
+    const ms = Math.min(120_000, Math.ceil(durationSec * 1000) + 2_000);
+    endSafetyTimerRef.current = setTimeout(() => handleComplete(false), ms);
   }, [handleComplete]);
 
   const handleLoadedMetadata = useCallback(() => {
     const v = videoRef.current;
     const dur = v && Number.isFinite(v.duration) ? v.duration : 0;
-    armEndSafety(dur > 0 ? dur : 90);
+    // Pass the actual duration through; armEndSafety now no-ops on
+    // non-finite/zero durations and waits for a later durationchange.
+    armEndSafety(dur);
+  }, [armEndSafety]);
+
+  // Some browsers report duration on `durationchange` rather than
+  // `loadedmetadata` (or update it later). Re-arm the safety timer
+  // when a real duration finally arrives.
+  const handleDurationChange = useCallback(() => {
+    const v = videoRef.current;
+    const dur = v && Number.isFinite(v.duration) ? v.duration : 0;
+    armEndSafety(dur);
   }, [armEndSafety]);
 
   // Belt-and-suspenders: if `timeupdate` shows the video has actually run
   // past its reported duration but `ended` never fired, complete anyway.
   // Must NOT trigger early, or the final moments of dialog get cut off.
+  // Treated as a "natural end" — playback genuinely ran out of frames.
   const handleTimeUpdate = useCallback(() => {
     const v = videoRef.current;
     if (!v || !Number.isFinite(v.duration) || v.duration <= 0) return;
     if (v.currentTime >= v.duration) {
-      handleComplete();
+      handleComplete(true);
     }
   }, [handleComplete]);
 
   // Absolute fallback: if no metadata ever arrives, still exit after 90s.
+  // This is NOT a natural end — the player should get another chance
+  // next session, so we pass `false`.
   useEffect(() => {
     const t = setTimeout(() => {
-      if (!endSafetyTimerRef.current) handleComplete();
+      if (!endSafetyTimerRef.current) handleComplete(false);
     }, 90_000);
     return () => clearTimeout(t);
   }, [handleComplete]);
@@ -158,8 +186,8 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
           await video.play();
           setVideoState("playing-muted");
         } catch {
-          // Total failure — skip cinematic
-          handleComplete();
+          // Total failure — skip cinematic. Not a natural end.
+          handleComplete(false);
         }
       }
     } else if (videoState === "playing-muted") {
@@ -191,10 +219,11 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
           preload="auto"
           onEnded={handleVideoEnd}
           onLoadedMetadata={handleLoadedMetadata}
+          onDurationChange={handleDurationChange}
           onTimeUpdate={handleTimeUpdate}
           onError={() => {
             console.error("[Opening Cinematic] Video failed to load, skipping");
-            handleComplete();
+            handleComplete(false);
           }}
         />
 
@@ -219,11 +248,8 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
           transition={{ delay: 1, duration: 2 }}
           className="absolute bottom-12 left-0 right-0 text-center pointer-events-none"
         >
-          <p className="font-mono text-[9px] sm:text-[11px] tracking-[0.5em] void-text-energy mb-0.5 opacity-70">
+          <p className="font-mono text-[10px] sm:text-xs tracking-[0.5em] void-text-energy mb-2 opacity-70">
             DGRS LABS PRESENTS
-          </p>
-          <p className="font-mono text-[10px] sm:text-xs tracking-[0.5em] void-text-energy mb-2">
-            A PANO PRODUCTION
           </p>
           <h1 className="font-display text-2xl sm:text-4xl font-black tracking-[0.15em] text-white/80">
             THE DISCHORDIAN SAGA
@@ -239,11 +265,8 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
             className="absolute inset-0 flex items-center justify-center z-50 cursor-pointer"
           >
             <div className="text-center">
-              <p className="font-mono text-[9px] tracking-[0.5em] void-text-energy mb-1 opacity-70">
+              <p className="font-mono text-[10px] tracking-[0.5em] void-text-energy mb-6 opacity-70">
                 DGRS LABS PRESENTS
-              </p>
-              <p className="font-mono text-[10px] tracking-[0.5em] void-text-energy mb-6">
-                A PANO PRODUCTION
               </p>
               <h1 className="font-display text-3xl sm:text-5xl font-black tracking-[0.15em] text-white/90 mb-8">
                 THE DISCHORDIAN SAGA
@@ -298,7 +321,9 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
               transition={{ duration: 0.3 }}
               onClick={(e) => {
                 e.stopPropagation();
-                handleComplete();
+                // SKIP is an explicit player choice, NOT a natural end.
+                // Don't burn the loredex_cinematic_seen flag for them.
+                handleComplete(false);
               }}
               className="absolute bottom-4 right-4 z-50 px-4 py-2 rounded-md font-mono text-xs tracking-wider transition-all"
               style={{

@@ -1,0 +1,64 @@
+asset_id,name,category,review_gate,resolution,priority,palette,composed_prompt
+civic_doctrine_iron_lion,"Iron Lion Doctrine (Civic)",civic_icon,C,256x256,P1,"flat dark-slate background, military-red accent","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: flat dark-slate background, military-red accent
+
+Roaring lion's head silhouette fused with a clenched iron gauntlet. Crude, defiant heraldic emblem, centred, single bold shape.
+
+Negative: no heraldic shield frame, no banners, no readable text"
+civic_doctrine_nomad,"Nomad Compass (Civic)",civic_icon,C,256x256,P1,"flat dark-slate background, warm amber accent","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: flat dark-slate background, warm amber accent
+
+A compass rose whose north arrow is a single bird's feather, offset from centre. Quiet, evasive heraldic emblem, centred.
+
+Negative: no cardinal letters, no map behind, no readable text"
+civic_doctrine_archon,"Archon Discipline (Civic)",civic_icon,C,256x256,P1,"flat dark-slate background, bone-white and red-black accent","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: flat dark-slate background, bone-white and red-black accent
+
+A perfect bisected triangle with a smaller inverted triangle inside, Architect geometry. Ritual, cold heraldic emblem, centred.
+
+Negative: no weapons, no organic lines, no readable text"
+civic_economy_free_ports,"Free Ports Charter (Civic)",civic_icon,C,256x256,P1,"flat dark-slate background, brass with one cyan port-light at centre","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: flat dark-slate background, brass with one cyan port-light at centre
+
+Three anchors interlocked in a triskele pattern. Merchant-solidarity heraldic emblem, centred, single bold shape.
+
+Negative: no rope, no ship silhouette behind, no readable text"
+civic_economy_authority_tithe,"Authority Tithe (Civic)",civic_icon,C,256x256,P1,"flat dark-slate background, Authority-red and brass accent","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: flat dark-slate background, Authority-red and brass accent
+
+A stylised red hand holding out a single coin; a thin chain runs from the wrist off-frame. Heraldic emblem, centred.
+
+Negative: no face, no crown, no currency symbol on coin, no readable text"
+civic_economy_antiquarian_ledger,"Antiquarian Ledger (Civic)",civic_icon,C,256x256,P1,"flat dark-slate background, brass and vellum, one indigo ink accent","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: flat dark-slate background, brass and vellum, one indigo ink accent
+
+An open ledger whose facing pages show a single inked sigil that extends across both sides, impossible to close. Heraldic emblem, centred.
+
+Negative: no readable text, no quill, no hands"
+civic_order_council,"Council of Voices (Civic)",civic_icon,C,256x256,P1,"flat dark-slate background, indigo with one cold-white highlight on the empty seat","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: flat dark-slate background, indigo with one cold-white highlight on the empty seat
+
+Six small circles arranged around a seventh empty centre (the absent chairperson). Heraldic emblem, centred, single bold shape.
+
+Negative: no chairs drawn, no human silhouettes, no readable text"
+civic_order_panopticon,"Little Panopticon (Civic)",civic_icon,C,256x256,P1,"flat dark-slate background, violet with one red pupil-prick","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: flat dark-slate background, violet with one red pupil-prick
+
+A single lidless eye inside a ring inside a ring inside a ring — recursive concentric surveillance. Heraldic emblem, centred, single bold shape.
+
+Negative: no eyelashes, no face context, no readable text"
+civic_order_remembrance,"Remembrance Order (Civic)",civic_icon,C,256x256,P1,"flat dark-slate background, indigo-black with one warm amber flame","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: flat dark-slate background, indigo-black with one warm amber flame
+
+A small burning candle whose flame is shaped like a written name — the flame itself is the glyph. Heraldic emblem, centred.
+
+Negative: no readable word in the flame, no tears, no hands"

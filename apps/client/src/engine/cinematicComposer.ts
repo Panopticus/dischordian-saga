@@ -34,6 +34,10 @@ export interface CinematicPostFxOptions {
   chromatic?: { amount?: number } | false;
   /** Vignette: corner darkening. */
   vignette?: { strength?: number; softness?: number } | false;
+  /** Film grain + edge chromatic — always-on low-intensity "celluloid" pass
+   *  that runs last. Strength 0 disables; default 0.05 is the shipped
+   *  "every frame has a subtle texture" baseline. */
+  grain?: { strength?: number; edgeChromatic?: number } | false;
 }
 
 export interface CinematicComposer {
@@ -42,6 +46,7 @@ export interface CinematicComposer {
   setBloomStrength: (v: number) => void;
   setChromaticAmount: (v: number) => void;
   setVignetteStrength: (v: number) => void;
+  setGrainStrength: (v: number) => void;
   /** Mirror the renderer's lifecycle. */
   setSize: (w: number, h: number) => void;
   dispose: () => void;
@@ -76,6 +81,78 @@ const chromaticShader = {
       float b = texture2D(tDiffuse, vUv - dir).b;
       float a = texture2D(tDiffuse, vUv).a;
       gl_FragColor = vec4(r, g, b, a);
+    }
+  `,
+};
+
+/* ─── Film grain + edge chromatic pass — custom shader ───
+   Always-on low-intensity "celluloid" treatment that runs as the
+   last post before OutputPass. Two effects in one pass (saves a
+   render target):
+
+   1. Film grain — time-varying white noise modulated into luminance,
+      stronger in shadows (where film actually grains most). Caller
+      controls strength via u_strength.
+
+   2. Edge chromatic boost — adds a tiny radial RGB split that
+      intensifies with distance from center. Different from the
+      narrative-driven chromatic-aberration pass above: that one
+      ramps with virusLoad, this one's always present at a low
+      level to push the whole app toward "lens glass" rather than
+      "browser RGB."
+─── */
+const grainShader = {
+  uniforms: {
+    tDiffuse: { value: null as THREE.Texture | null },
+    u_time: { value: 0 },
+    u_strength: { value: 0.06 },
+    u_edgeChromatic: { value: 0.002 },
+  },
+  vertexShader: /* glsl */ `
+    varying vec2 vUv;
+    void main() {
+      vUv = uv;
+      gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+    }
+  `,
+  fragmentShader: /* glsl */ `
+    uniform sampler2D tDiffuse;
+    uniform float u_time;
+    uniform float u_strength;
+    uniform float u_edgeChromatic;
+    varying vec2 vUv;
+
+    // Classic pseudo-random hash — same one the corruption shader
+    // uses so the grain "family" looks consistent when both are on.
+    float hash(vec2 p) {
+      vec3 p3 = fract(vec3(p.xyx) * 0.1031);
+      p3 += dot(p3, p3.yzx + 33.33);
+      return fract((p3.x + p3.y) * p3.z);
+    }
+
+    void main() {
+      // Radial edge chromatic — offset grows with distance from the
+      // screen center, reads as "physical lens" rather than "flat
+      // screen". Amount is tiny (0.002 default) so the split sits
+      // at the threshold of perception.
+      vec2 centered = vUv - 0.5;
+      float edge = length(centered);
+      vec2 dir = centered * u_edgeChromatic * edge;
+      float r = texture2D(tDiffuse, vUv + dir).r;
+      float g = texture2D(tDiffuse, vUv).g;
+      float b = texture2D(tDiffuse, vUv - dir).b;
+      float a = texture2D(tDiffuse, vUv).a;
+      vec3 color = vec3(r, g, b);
+
+      // Film grain — time-varying white noise, modulated by inverse
+      // luminance so shadows grain harder than highlights (matches
+      // how real film stocks behave).
+      float n = hash(vUv * vec2(800.0, 600.0) + u_time * 60.0) - 0.5;
+      float luma = dot(color, vec3(0.299, 0.587, 0.114));
+      float grainMask = mix(1.0, 0.4, luma);
+      color += vec3(n) * u_strength * grainMask;
+
+      gl_FragColor = vec4(color, a);
     }
   `,
 };
@@ -151,10 +228,24 @@ export function createCinematicComposer(
   vignettePass.uniforms.u_softness.value = vignetteCfg.softness ?? 0.6;
   composer.addPass(vignettePass);
 
-  // 5. Output pass — applies tone mapping + sRGB conversion once
+  // 5. Film grain + edge chromatic — always-on low-intensity
+  //    "celluloid" treatment. Ships at non-zero strength by default
+  //    so the whole app picks up a subtle lens feel without any
+  //    per-route wiring.
+  const grainCfg = options.grain === false ? { strength: 0, edgeChromatic: 0 } : (options.grain ?? {});
+  const grainPass = new ShaderPass(grainShader);
+  grainPass.uniforms.u_strength.value = grainCfg.strength ?? 0.05;
+  grainPass.uniforms.u_edgeChromatic.value = grainCfg.edgeChromatic ?? 0.002;
+  composer.addPass(grainPass);
+
+  // 6. Output pass — applies tone mapping + sRGB conversion once
   // at the end of the chain. Without it the bloom-burned output
   // reads slightly washed out on modern displays.
   composer.addPass(new OutputPass());
+
+  // Clock for driving grain u_time. Allocating once so the per-
+  // frame render() call is zero-allocation.
+  const grainClock = new THREE.Clock();
 
   return {
     composer,
@@ -166,6 +257,9 @@ export function createCinematicComposer(
     },
     setVignetteStrength: (v: number) => {
       vignettePass.uniforms.u_strength.value = Math.max(0, v);
+    },
+    setGrainStrength: (v: number) => {
+      grainPass.uniforms.u_strength.value = Math.max(0, v);
     },
     setSize: (w: number, h: number) => {
       composer.setSize(w, h);
@@ -181,6 +275,10 @@ export function createCinematicComposer(
       }
     },
     render: () => {
+      // Drive grain time so noise reseeds per frame. Without this
+      // the grain pattern is static and reads as a texture overlay
+      // rather than film.
+      grainPass.uniforms.u_time.value = grainClock.getElapsedTime();
       composer.render();
     },
   };

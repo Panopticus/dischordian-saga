@@ -22,6 +22,7 @@ import {
   type EmpireState, type MissionDef, type GalacticFactionId,
   type Act3FactionId, type FactionArcPath, type SectorEventEntry,
 } from "./tradeEmpire";
+import { resolveSectorArtUrl } from "./tradeEmpireArtAssets";
 import {
   EYES_LORE_FRAGMENTS, ACT3_ENDINGS,
 } from "./eyesArc";
@@ -42,9 +43,27 @@ import {
   getTechsByBranch, canResearch, getTechById,
   type TechBranch, type TechTreeState, DEFAULT_TECH_STATE,
 } from "./techTree";
-import { FlaskConical } from "lucide-react";
+import { FlaskConical, Coins, Handshake, Skull, Building2 } from "lucide-react";
 import LivingBackground from "@/components/LivingBackground";
+import CinematicGate from "@/components/CinematicGate";
+import { ACT1_CUTSCENES } from "@/data/preludeAct1Deliverables";
 import { getNPCPortrait } from "@/game/npcPortraits";
+import {
+  CivilizationPanel,
+  MarketPanel,
+  CouncilPanel,
+  WarRoomPanel,
+  ConvergencePanel,
+} from "./TradeEmpireExpansionPanels";
+import {
+  migrateExpansion,
+  createInitialExpansion,
+  determineEra,
+  addDoom,
+  sumCivicModifiers,
+  sanityPenalty,
+  type ExpansionState,
+} from "./tradeEmpireExpansion";
 
 /* ─── TRADE EMPIRE BACKGROUNDS ─── */
 const TRADE_BACKGROUNDS: Record<string, { url: string; accent: string }> = {
@@ -73,22 +92,30 @@ function getTradeBackground(view: View) {
     case "sector_detail":
     case "routes":
     case "event_log":
+    case "convergence":
       return TRADE_BACKGROUNDS.map;
     case "missions":
     case "fleet":
+    case "market_exchange":
+    case "war_room":
       return TRADE_BACKGROUNDS.market;
     case "agents":
     case "research":
+    case "civilization":
       return TRADE_BACKGROUNDS.colony;
     case "diplomacy":
     case "act3":
+    case "council":
       return TRADE_BACKGROUNDS.office;
     default:
       return TRADE_BACKGROUNDS.map;
   }
 }
 
-type View = "map" | "missions" | "agents" | "diplomacy" | "fleet" | "research" | "sector_detail" | "act3" | "routes" | "event_log";
+type View =
+  | "map" | "missions" | "agents" | "diplomacy" | "fleet" | "research"
+  | "sector_detail" | "act3" | "routes" | "event_log"
+  | "civilization" | "market_exchange" | "council" | "war_room" | "convergence";
 
 const MISSION_TYPE_ICONS: Record<string, typeof Globe> = {
   trade: Package, espionage: Eye, diplomacy: Users, combat: Swords,
@@ -251,6 +278,19 @@ export default function TradeEmpirePage() {
       return createInitialEmpire();
     }
   });
+  const [expansion, setExpansion] = useState<ExpansionState>(() => {
+    const saved = localStorage.getItem("trade_empire_expansion");
+    if (!saved) return createInitialExpansion();
+    try {
+      return migrateExpansion(JSON.parse(saved));
+    } catch {
+      return createInitialExpansion();
+    }
+  });
+  const saveExpansion = useCallback((next: ExpansionState) => {
+    setExpansion(next);
+    localStorage.setItem("trade_empire_expansion", JSON.stringify(next));
+  }, []);
   const [selectedSector, setSelectedSector] = useState<string | null>(null);
   const [selectedMission, setSelectedMission] = useState<MissionDef | null>(null);
   // Audit 2H — trade_offered whisper fires when a new mission is
@@ -751,7 +791,9 @@ export default function TradeEmpirePage() {
           ) : null; })()}
           <div>
             <h1 className="font-display text-xl tracking-[0.2em] text-white">GALACTIC COMMAND</h1>
-            <p className="font-mono text-[10px] text-white/30">Ark Collective • Empire Level {empire.empireLevel}</p>
+            <p className="font-mono text-[10px] text-white/30">
+              Ark Collective • L{empire.empireLevel} • {expansion.era.replace(/_/g, " ").toUpperCase()} • Doom {expansion.convergence.doom}/Sanity {expansion.convergence.sanity}
+            </p>
           </div>
         </div>
         <div className="flex items-center gap-3 font-mono text-[10px]">
@@ -775,6 +817,11 @@ export default function TradeEmpirePage() {
           { id: "routes" as View, label: "ROUTES", icon: Route },
           { id: "event_log" as View, label: "EVENT LOG", icon: ScrollText },
           { id: "research" as View, label: "RESEARCH", icon: FlaskConical },
+          { id: "civilization" as View, label: "CIVILIZATION", icon: Building2 },
+          { id: "market_exchange" as View, label: "MARKET", icon: Coins },
+          { id: "council" as View, label: "COUNCIL", icon: Handshake },
+          { id: "war_room" as View, label: "WAR ROOM", icon: Send },
+          { id: "convergence" as View, label: "CONVERGENCE", icon: Skull },
         ].map(tab => {
           const Icon = tab.icon;
           return (
@@ -854,12 +901,24 @@ export default function TradeEmpirePage() {
             {selectedSectorData && selectedSectorFaction && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
                 className="p-4 rounded-xl bg-white/[0.02] border border-white/10">
-                {selectedSectorData.image && (
-                  <div className="relative h-32 -mx-4 -mt-4 mb-3 rounded-t-xl overflow-hidden">
-                    <img src={selectedSectorData.image} alt={selectedSectorData.name} className="w-full h-full object-cover" style={{ filter: "brightness(0.4) saturate(0.8)" }} />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 to-transparent" />
-                  </div>
-                )}
+                {(() => {
+                  const sectorArtUrl = resolveSectorArtUrl(selectedSectorData);
+                  if (!sectorArtUrl) return null;
+                  return (
+                    <div className="relative h-32 -mx-4 -mt-4 mb-3 rounded-t-xl overflow-hidden">
+                      <img
+                        src={sectorArtUrl}
+                        alt={selectedSectorData.name}
+                        className="w-full h-full object-cover"
+                        style={{ filter: "brightness(0.4) saturate(0.8)" }}
+                        onError={(e) => {
+                          (e.currentTarget.parentElement as HTMLElement).style.display = "none";
+                        }}
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 to-transparent" />
+                    </div>
+                  );
+                })()}
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2">
                     <div className="w-4 h-4 rounded-full" style={{ backgroundColor: selectedSectorFaction.color }} />
@@ -1452,7 +1511,83 @@ export default function TradeEmpirePage() {
             })}
           </div>
         )}
+
+        {/* ═══ EXPANSION PANELS ═══ */}
+        {view === "civilization" && (
+          <CivilizationPanel
+            empire={empire}
+            expansion={expansion}
+            saveEmpire={saveEmpire}
+            saveExpansion={saveExpansion}
+          />
+        )}
+        {view === "market_exchange" && (
+          <MarketPanel
+            empire={empire}
+            expansion={expansion}
+            saveEmpire={saveEmpire}
+            saveExpansion={saveExpansion}
+          />
+        )}
+        {view === "council" && (
+          <CouncilPanel
+            empire={empire}
+            expansion={expansion}
+            saveEmpire={saveEmpire}
+            saveExpansion={saveExpansion}
+          />
+        )}
+        {view === "war_room" && (
+          <WarRoomPanel
+            empire={empire}
+            expansion={expansion}
+            saveEmpire={saveEmpire}
+            saveExpansion={saveExpansion}
+          />
+        )}
+        {view === "convergence" && (
+          <ConvergencePanel
+            empire={empire}
+            expansion={expansion}
+            saveEmpire={saveEmpire}
+            saveExpansion={saveExpansion}
+          />
+        )}
       </div>
+
+      {/* Act 1 cutscenes — first-time-entry intros for the Trade Empire's
+          three keystone views. CinematicGate persists its own per-id seen
+          flag in localStorage and renders null after the cutscene has
+          played to its natural end, so simply mounting the gate inside
+          the matching `view ===` branch is enough — repeat visits skip
+          synchronously. SKIP / load-error don't burn the seen flag, so
+          a player who taps SKIP can still see the cutscene next session.
+
+          Mapping (per author-provided cutscene names):
+            • COUNCIL view         ↔ act1-council-revelation
+            • MARKET EXCHANGE view ↔ act1-tavern-arrival (the marketplace)
+            • ACT III view         ↔ act1-arena-challenge */}
+      {view === "council" && (
+        <CinematicGate
+          cinematicId="trade-empire-council-revelation"
+          videoUrl={ACT1_CUTSCENES["act1-council-revelation"].video}
+          onComplete={() => { /* no-op — gate persists its own seen flag */ }}
+        />
+      )}
+      {view === "market_exchange" && (
+        <CinematicGate
+          cinematicId="trade-empire-market-tavern-arrival"
+          videoUrl={ACT1_CUTSCENES["act1-tavern-arrival"].video}
+          onComplete={() => { /* no-op */ }}
+        />
+      )}
+      {view === "act3" && (
+        <CinematicGate
+          cinematicId="trade-empire-act3-arena-challenge"
+          videoUrl={ACT1_CUTSCENES["act1-arena-challenge"].video}
+          onComplete={() => { /* no-op */ }}
+        />
+      )}
 
       {/* Act 3 cinematic overlays */}
       <AnimatePresence>

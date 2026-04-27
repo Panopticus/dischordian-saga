@@ -1,0 +1,3 @@
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/cards/race/s1_race_demagi_01.webp
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/cards/race/s1_race_demagi_02.webp
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/cards/race/s1_race_demagi_03.webp

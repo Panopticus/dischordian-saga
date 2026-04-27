@@ -6,6 +6,7 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Sparkles, Star, ChevronRight, Lock } from "lucide-react";
+import LottiePlayer from "@/components/LottiePlayer";
 
 /* ── Level-specific Elara dialog ── */
 const ELARA_LINES: { minLevel: number; line: string }[] = [
@@ -130,6 +131,18 @@ export default function LevelUpCelebration({ newLevel, onContinue }: LevelUpCele
             transition={{ type: "spring", damping: 12, stiffness: 250, delay: 0.4 }}
           >
             <div className="relative inline-block">
+              {/* Lottie level-up flourish — absolutely-positioned
+                  behind the level number so when the JSON lands the
+                  animation halos the big numeral. Until then,
+                  fallback is null and the existing CSS sparkles +
+                  star are the entire visual, unchanged. */}
+              <LottiePlayer
+                src="/art/lottie/level-up.json"
+                loop={false}
+                className="absolute inset-0 pointer-events-none"
+                style={{ transform: "scale(1.8)" }}
+                fallback={null}
+              />
               <Sparkles
                 size={24}
                 className="absolute -top-4 -right-4 void-text-accent"
@@ -142,7 +155,7 @@ export default function LevelUpCelebration({ newLevel, onContinue }: LevelUpCele
                 LEVEL UP
               </p>
               <div
-                className="font-display text-8xl font-black"
+                className="font-display text-8xl font-black relative"
                 style={{
                   background: "linear-gradient(180deg, var(--energy-premium) 0%, var(--energy-premium) 100%)",
                   WebkitBackgroundClip: "text",

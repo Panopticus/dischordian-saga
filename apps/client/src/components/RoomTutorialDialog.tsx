@@ -69,7 +69,7 @@ interface RoomDialog {
 const ROOM_DIALOGS: RoomDialog[] = [
   {
     roomId: "cryo-bay",
-    openingText: "The Chamber of Awakening. You were not born here... but you returned to yourself within these walls. Your pod stands among the others — one vessel in a field of silence. Most have opened. The first wave of Potentials passed through long before you, stepping into the war and leaving nothing behind but absence. But not all cycles completed. Some remain sealed. Unbroken. Unanswered. The systems still hum around them, but what they sustain... is unclear. Life, suspended between moments — or failure, preserved beyond its end. I have traced the signals. They do not resolve cleanly. And so I do not open them. There are thresholds in this Ark that are better left... untested.",
+    openingText: "The Chamber of Awakening. You were not born here... but you returned to yourself within these walls. Your pod stands among the others — one vessel in a field of silence. Most have opened. The first wave of Potentials passed through long before you, stepping into the war and leaving nothing behind but absence. But not all cycles completed. Some remain sealed. Unbroken. Unanswered. The systems still hum around them, but what they sustain... is unclear. Life, suspended between moments — or failure, preserved beyond its end. I have traced the signals. They do not resolve cleanly. And so I do not open them. There are thresholds in this Ark that are better left... untested.\n\nYou stand on the Habitation Deck — the lowest level of the Inception Ark. Above it lie the Operations Deck — the Medical Bay, the Archives, the Comms Array — and at the crown, the Command Deck. The Bridge waits there. Whatever answers this ship still holds, it holds them at the top.",
     nodes: [
       {
         id: "cryo-q1",
@@ -586,7 +586,7 @@ function OpeningPhase({ text, onContinue }: { text: string; onContinue: () => vo
 
   return (
     <div className="space-y-4">
-      <p className="font-mono text-xs text-muted-foreground/70 leading-relaxed min-h-[3rem]" onClick={skip}>
+      <p className="font-mono text-xs text-muted-foreground/70 leading-relaxed min-h-[3rem] whitespace-pre-line" onClick={skip}>
         {displayed}
         {!done && <span className="inline-block w-1.5 h-4 bg-[var(--neon-cyan)] animate-pulse ml-0.5 align-middle" />}
       </p>

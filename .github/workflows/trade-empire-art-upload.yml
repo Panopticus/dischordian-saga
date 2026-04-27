@@ -1,0 +1,54 @@
+name: Trade Empire Art Upload
+
+# Manually triggered. Pulls the producer-delivered art ZIP from
+# s3://dgrsart/AAA Final/Trade_Empire_Art_Assets.zip, unzips it,
+# and pushes every .webp to the canonical CDN paths the in-game
+# tradeEmpireArtUrl() helper expects.
+#
+# Required repo secrets (already configured for dmc-build.yml):
+#   - AWS_ACCESS_KEY_ID
+#   - AWS_SECRET_ACCESS_KEY
+
+on:
+  workflow_dispatch:
+    inputs:
+      zip_key:
+        description: "S3 key of the ZIP under dgrsart bucket"
+        required: false
+        default: "AAA Final/Trade_Empire_Art_Assets.zip"
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Download producer art ZIP
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: us-east-2
+        run: |
+          mkdir -p /tmp/te-art
+          aws s3 cp "s3://dgrsart/${{ github.event.inputs.zip_key }}" /tmp/te-art/te.zip
+          unzip -q /tmp/te-art/te.zip -d /tmp/te-art
+
+      - name: Upload art to CDN
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: us-east-2
+        # Pass the unzip parent — resolveSrcRoot auto-detects the
+        # producer-layout root regardless of whether the ZIP nests
+        # contents under trade_empire/, a wrapper dir, or at the top.
+        run: pnpm tsx apps/scripts/upload-trade-empire-art.ts --src /tmp/te-art

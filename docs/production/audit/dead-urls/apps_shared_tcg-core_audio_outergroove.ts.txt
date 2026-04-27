@@ -1,0 +1,11 @@
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/audio/outergroove/og_001.mp3
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/audio/outergroove/og_003.mp3
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/audio/outergroove/og_005.mp3
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/audio/outergroove/og_007.mp3
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/audio/outergroove/og_009.mp3
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/audio/outergroove/og_011.mp3
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/audio/outergroove/og_013.mp3
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/audio/outergroove/og_015.mp3
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/audio/outergroove/og_017.mp3
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/audio/outergroove/og_019.mp3
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/audio/outergroove/cover.jpg

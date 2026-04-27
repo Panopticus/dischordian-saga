@@ -53,15 +53,29 @@ export interface CharacterSprite {
   id: string;
   /** Static idle / bust image shown when nothing is animating. */
   bust: string;
+  /** CSS background-size for the bust. Defaults to "cover". Use a custom
+   *  value (e.g. "auto 220%") to zoom in on the face when the bust frames
+   *  too much body for the consumer's circular crop. */
+  bustSize?: string;
+  /** CSS background-position for the bust. Defaults to "center top". Use a
+   *  custom value to shift the visible window when zoomed in. */
+  bustPosition?: string;
   /** Mouth-shape sheet. Required for lip sync. */
   viseme?: SpriteSheet & { map: VisemeMap };
+  /** Optional second viseme sheet for per-line revelatory beats (e.g.
+   *  Shadow Tongue's hyperextended jaw with second-row teeth on open
+   *  vowels). When a caller sets `useHyperVisemes` on `SpriteCharacter`
+   *  and this field is present, the runtime draws from `visemeHyper`
+   *  instead of `viseme`. Must match `viseme`'s cell layout and map. */
+  visemeHyper?: SpriteSheet & { map: VisemeMap };
   /** If true, the viseme sheet is a mouth-only close-up and should be
    *  composited on top of `bust` at `mouthBox`, instead of replacing the
    *  bust entirely. When false/undefined, the viseme sheet is treated as
    *  a full-face grid (legacy NPC behaviour). */
   visemeOverlay?: boolean;
   /** Where to draw the mouth overlay on the bust. Required when
-   *  `visemeOverlay` is true. Values are 0-1 fractions. */
+   *  `visemeOverlay` is true. Values are 0-1 fractions of the rendered
+   *  container (not the bust source). */
   mouthBox?: MouthBox;
   /** Eye triptych: cell 0 open, 1 half, 2 closed. */
   blink?: SpriteSheet;
@@ -113,7 +127,16 @@ const ELARA_VISEME_MAP: VisemeMap = {
 
 /* ─── Helper: build the standard NPC sprite bundle ─── */
 
-function npc(id: string): CharacterSprite {
+/** Optional overrides for `npc()`. Pass `mouthBox` once an NPC's viseme sheet
+ *  has been regenerated as a tight mouth-only crop (matching the current
+ *  bust's identity) so it composites onto the bust instead of replacing it.
+ *  NPCs without a `mouthBox` fall back to the legacy bust-swap path, which
+ *  visually breaks until their viseme is regenerated. */
+interface NpcOverrides {
+  mouthBox?: MouthBox;
+}
+
+function npc(id: string, overrides: NpcOverrides = {}): CharacterSprite {
   return {
     id,
     bust: assetUrl(`characters/${id}/bust.avif`),
@@ -130,6 +153,9 @@ function npc(id: string): CharacterSprite {
       url: assetUrl(`characters/${id}/breathing.avif`),
       cols: 4, rows: 2, frames: 8,
     },
+    ...(overrides.mouthBox
+      ? { visemeOverlay: true, mouthBox: overrides.mouthBox }
+      : {}),
   };
 }
 
@@ -142,15 +168,24 @@ export const CHARACTER_SPRITES: Record<string, CharacterSprite> = {
   elara: {
     id: "elara",
     bust: assetUrl("characters/elara/idle_hologram.avif"),
+    // Bust is 1045x1400 with the face in the upper third (eyes ~18%, chin
+    // ~32%). Cover + center-top frames the entire torso + hologram pad in
+    // the consumer's circular crop, so the face only occupies ~30% of the
+    // frame. Zoom 220% and slide down to centre the face at ~50% of the
+    // circle — the standard "transmission portrait" framing.
+    bustSize: "auto 220%",
+    bustPosition: "center 12%",
     viseme: {
       url: assetUrl("characters/elara/viseme.avif"),
       cols: 4, rows: 4, frames: 16,
       map: ELARA_VISEME_MAP,
     },
     visemeOverlay: true,
-    // Bust is 1045x1400; the mouth sits roughly centred, ~62% down the portrait.
-    // The overlay cell covers nose-to-chin so it blends with the surrounding face.
-    mouthBox: { x: 0.26, y: 0.50, width: 0.48, height: 0.32 },
+    // Viseme cells are 512x512 (square). With the current zoom, the bust's
+    // mouth (lower lip) sits at ~50% of the rendered container height. The
+    // mouthBox is shorter than wide because lips are wider than tall — using
+    // a square overhang dragged neighboring nose/chin pixels into the cell.
+    mouthBox: { x: 0.395, y: 0.42, width: 0.21, height: 0.13 },
   },
 
   /* The Human — protagonist; expression sheet only, no viseme/blink/breathing. */
@@ -159,34 +194,178 @@ export const CHARACTER_SPRITES: Record<string, CharacterSprite> = {
     bust: assetUrl("characters/the_human/front_turnaround.avif"),
   },
 
+  /* Minnie — The Meme's first form (7-year-old girl per art brief §2N).
+     Inline registry entry because she shares the viseme grid layout with
+     standard NPCs but has her own bespoke expression set (neutral,
+     speaking, concerned, knowing, vulnerable). mouthBox sits lower in the
+     frame because the child face fills a larger fraction of the bust and
+     her mouth is below the bust vertical center. */
+  minnie: {
+    id: "minnie",
+    bust: assetUrl("characters/minnie/bust.avif"),
+    viseme: {
+      url: assetUrl("characters/minnie/viseme.avif"),
+      cols: 5, rows: 3, frames: 15,
+      map: NPC_5x3_VISEME_MAP,
+    },
+    visemeOverlay: true,
+    mouthBox: { x: 0.380, y: 0.470, width: 0.140, height: 0.105 },
+    blink: {
+      url: assetUrl("characters/minnie/blink.avif"),
+      cols: 3, rows: 1, frames: 3,
+    },
+    breathing: {
+      url: assetUrl("characters/minnie/breathing.avif"),
+      cols: 4, rows: 2, frames: 8,
+    },
+    expressions: {
+      url: assetUrl("characters/minnie/expressions.avif"),
+      cols: 5, rows: 1, frames: 5,
+      map: { neutral: 0, speaking: 1, concerned: 2, knowing: 3, vulnerable: 4 },
+    },
+  },
+
   /* Main faction NPC speakers — full bundle. */
-  agent_zero:        npc("agent_zero"),
-  adjudicator_locke: npc("adjudicator_locke"),
-  the_antiquarian:   npc("the_antiquarian"),
-  the_source:        npc("the_source"),
-  shadow_tongue:     npc("shadow_tongue"),
-  the_meme:          npc("the_meme"),
+  // Agent Zero's viseme sheet is a 5×3 nose-to-chin mouth crop (cells
+  // ~409×409, 1:1). Box positions each cell's nose-tip and chin onto her
+  // bust's nose-tip (~y=0.36) and chin (~y=0.44). Her face sits slightly
+  // right-of-center because of the asymmetric hood drape + windswept hair.
+  agent_zero:        npc("agent_zero", {
+    mouthBox: { x: 0.461, y: 0.340, width: 0.158, height: 0.118 },
+  }),
+  // Locke's viseme sheet is a 5×3 nose-to-chin mouth crop (cells ~409×409,
+  // 1:1). Box positions each cell's nose-tip and chin onto her bust's
+  // nose-tip (~y=0.42) and chin (~y=0.50). Width keeps px aspect square.
+  adjudicator_locke: npc("adjudicator_locke", {
+    mouthBox: { x: 0.428, y: 0.409, width: 0.143, height: 0.107 },
+  }),
+  // Antiquarian's viseme cells have a thinned mustache per the art brief
+  // (§2A §beard-clearance) so phoneme silhouettes read through. Box is
+  // sized so each cell's nose-tip lands on his bust's nose-tip (~y=0.40)
+  // and the cell's mouth region overlays where his mouth is hidden under
+  // the mustache (~y=0.46). Larger than the others because his cells
+  // include substantial visible beard that blends with the bust's beard.
+  the_antiquarian:   npc("the_antiquarian", {
+    mouthBox: { x: 0.256, y: 0.374, width: 0.287, height: 0.214 },
+  }),
+  // Source is bearded like the Antiquarian; viseme sheet has a thinned
+  // beard to let phoneme silhouettes read. Box lands cell nose (~y=0.12)
+  // on his bust nose (~y=0.32) and cell chin-zone (~y=0.85) on his bust
+  // chin-zone (~y=0.42). Face sits slightly right of frame centre.
+  the_source:        npc("the_source", {
+    mouthBox: { x: 0.458, y: 0.304, width: 0.184, height: 0.137 },
+  }),
+  // Shadow Tongue — corporate-adapted anomaly (§2E). Near-black skin,
+  // violet slit-pupil eyes, subtle face-drift across cells. Standard
+  // mouthBox. The `visemeHyper` slot points at a second sheet used per
+  // VO-line for revelatory beats (hyperextended jaw + second-row teeth
+  // on open vowels) — opt-in via `useHyperVisemes` on SpriteCharacter.
+  // Runtime falls back to the standard sheet if the hyper asset fails
+  // to load, so registering the slot before the asset exists is safe.
+  shadow_tongue:     (() => {
+    const base = npc("shadow_tongue", {
+      mouthBox: { x: 0.400, y: 0.345, width: 0.140, height: 0.105 },
+    });
+    return {
+      ...base,
+      visemeHyper: {
+        url: assetUrl("characters/shadow_tongue/viseme_hyper.avif"),
+        cols: 5, rows: 3, frames: 15,
+        map: NPC_5x3_VISEME_MAP,
+      },
+    };
+  })(),
+  // The Meme is the silver-haired older corporate executive (mechanical
+  // hands at the desk). Bust shows him offset to the right of frame
+  // centre. mouthBox lands cell nose (~y=0.13) on his bust nose-tip
+  // (~y=0.34) and cell chin (~y=0.85) on his chin (~y=0.41).
+  the_meme:          npc("the_meme", {
+    mouthBox: { x: 0.520, y: 0.310, width: 0.140, height: 0.105 },
+  }),
 
   /* Bonus characters present in the bundle. Wired so any future faction
-     NPC code that references these IDs gets a portrait for free. */
-  architect:         npc("architect"),
-  cades:             npc("cades"),
-  collector:         npc("collector"),
-  degen:             npc("degen"),
-  eidola:            npc("eidola"),
-  engineer:          npc("engineer"),
-  enigma:            npc("enigma"),
-  eyes:              npc("eyes"),
-  gamemaster:        npc("gamemaster"),
-  iron_lion:         npc("iron_lion"),
-  kael_recruiter:    npc("kael_recruiter"),
-  matrikala:         npc("matrikala"),
-  necromancer:       npc("necromancer"),
-  nilmorg:           npc("nilmorg"),
-  programmer:        npc("programmer"),
-  seer:              npc("seer"),
-  warlord:           npc("warlord"),
-  watcher:           npc("watcher"),
+     NPC code that references these IDs gets a portrait for free.
+     Each `mouthBox` was hand-measured against its current bust so the
+     mouth-only viseme sheet composites onto the correct face region.
+     Characters without a mouthBox here either (a) don't speak in-game,
+     or (b) have a bust/viseme mismatch awaiting asset reconciliation. */
+  architect:         npc("architect", {
+    // Architect's "viseme" cells are mask-vibration emissive intensities,
+    // not mouth shapes. Box overlays the mask region of the hooded bust.
+    mouthBox: { x: 0.350, y: 0.300, width: 0.280, height: 0.209 },
+  }),
+  // `cades` was never a character — CADES is the in-game FPS-mode
+  // investigation system (see apps/client/src/pages/CADESFPSPage.tsx).
+  // The registry stub + asset directory were created by mistake when the
+  // old art brief listed CADES as Part 2H; that section has since been
+  // retracted. Do not add `cades:` back unless the design genuinely adds
+  // a character by that name.
+  collector:         npc("collector", {
+    mouthBox: { x: 0.430, y: 0.380, width: 0.140, height: 0.105 },
+  }),
+  degen:             npc("degen", {
+    mouthBox: { x: 0.430, y: 0.350, width: 0.140, height: 0.105 },
+  }),
+  // Eidola: corrected bust matches §2K Sorrow-professor canon (silver-streak
+  // hair, silver filigree at temples, sharp blazer + red turtleneck). Standard
+  // small mouthBox; cells are mouth-only crops identity-matched to the bust.
+  eidola:            npc("eidola", {
+    mouthBox: { x: 0.430, y: 0.340, width: 0.140, height: 0.105 },
+  }),
+  // Engineer (Phase 2 / Memoir per §2V/W). Black man with short-trimmed
+  // beard, goggles UP on forehead in the bust (listening variant). His
+  // beard is short enough to not need aggressive thinning. Standard box.
+  engineer:          npc("engineer", {
+    mouthBox: { x: 0.370, y: 0.285, width: 0.140, height: 0.105 },
+  }),
+  enigma:            npc("enigma", {
+    mouthBox: { x: 0.430, y: 0.310, width: 0.140, height: 0.105 },
+  }),
+  eyes:              npc("eyes", {
+    mouthBox: { x: 0.430, y: 0.300, width: 0.140, height: 0.105 },
+  }),
+  // Gamemaster's "viseme" cells are dual-goggle emissive intensities.
+  // Box overlays the cyborg-skull face region of the bust. A second
+  // sheet `viseme_offset.avif` is shipped alongside for asymmetric
+  // L/R goggle-pulse cues — not yet wired in the registry.
+  gamemaster:        npc("gamemaster", {
+    mouthBox: { x: 0.350, y: 0.290, width: 0.290, height: 0.216 },
+  }),
+  // Iron Lion has a full rust-red beard; cells have a thinned mustache
+  // per the beard-clearance rule. Larger box for beard-to-beard blending.
+  iron_lion:         npc("iron_lion", {
+    mouthBox: { x: 0.380, y: 0.320, width: 0.240, height: 0.180 },
+  }),
+  // Kael Phase 1 (recruiter): early-phase goatee thinned for phoneme clarity.
+  kael_recruiter:    npc("kael_recruiter", {
+    mouthBox: { x: 0.400, y: 0.330, width: 0.220, height: 0.164 },
+  }),
+  matrikala:         npc("matrikala", {
+    mouthBox: { x: 0.430, y: 0.330, width: 0.140, height: 0.105 },
+  }),
+  necromancer:       npc("necromancer", {
+    mouthBox: { x: 0.430, y: 0.350, width: 0.140, height: 0.105 },
+  }),
+  nilmorg:           npc("nilmorg", {
+    mouthBox: { x: 0.430, y: 0.330, width: 0.140, height: 0.105 },
+  }),
+  programmer:        npc("programmer", {
+    mouthBox: { x: 0.430, y: 0.330, width: 0.140, height: 0.105 },
+  }),
+  seer:              npc("seer", {
+    mouthBox: { x: 0.430, y: 0.350, width: 0.140, height: 0.105 },
+  }),
+  // Warlord: corrected bust is the armored helm-down canon per §2T. Viseme
+  // cells are visor-shimmer intensity (no mouth). Box is a large overlay
+  // covering the helm region so the shimmer composites on the visor.
+  warlord:           npc("warlord", {
+    mouthBox: { x: 0.290, y: 0.060, width: 0.420, height: 0.314 },
+  }),
+  // Watcher's covid mask covers the lower face. Cells render mask-tension
+  // deformation rather than visible lips. Box overlays the mask region.
+  watcher:           npc("watcher", {
+    mouthBox: { x: 0.420, y: 0.330, width: 0.180, height: 0.134 },
+  }),
 };
 
 /** Resolve a character sprite bundle by NPC id, normalising the id. */

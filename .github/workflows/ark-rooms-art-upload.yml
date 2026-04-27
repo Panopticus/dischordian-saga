@@ -1,0 +1,75 @@
+name: Ark Rooms Art Upload
+
+# Manually triggered. Pulls the AAA Final room renders ZIP from
+# s3://dgrsart/AAA Final/Ark1047_AAA_Assets.zip, converts each PNG
+# to WebP @q85, and uploads them to the canonical CDN path that
+# assetUrl("art/rooms/<slug>.webp") in GameContext.tsx resolves to.
+#
+# Adds the five rooms that were shipping with imageUrl: "" before:
+#   - station-dock
+#   - guild-sanctum
+#   - social-hub
+#   - war-room (deck-6 Combat Ops)
+#   - dreams-workshop-subbasement
+#
+# Required repo secrets (already configured for trade-empire-art-upload):
+#   - AWS_ACCESS_KEY_ID
+#   - AWS_SECRET_ACCESS_KEY
+
+on:
+  workflow_dispatch:
+    inputs:
+      zip_key:
+        description: "S3 key of the room-art ZIP under dgrsart bucket"
+        required: false
+        default: "AAA Final/Ark1047_AAA_Assets.zip"
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Download room art ZIP
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: us-east-2
+        run: |
+          mkdir -p /tmp/room-art
+          aws s3 cp "s3://dgrsart/${{ github.event.inputs.zip_key }}" /tmp/room-art/rooms.zip
+          unzip -q /tmp/room-art/rooms.zip -d /tmp/room-art
+          ls -la /tmp/room-art
+
+      - name: Transcode PNGs to WebP and stage at canonical path
+        run: |
+          mkdir -p apps/client/public/art/rooms
+          # The producer ZIP ships PNGs named <slug>.png; rename to
+          # room-<slug>.webp at q85 to match the convention every other
+          # room in PRELUDE_ROOM_BACKDROPS uses.
+          for png in /tmp/room-art/*.png; do
+            name=$(basename "$png" .png)
+            out="apps/client/public/art/rooms/room-${name}.webp"
+            pnpm dlx sharp-cli -i "$png" -o "$out" -f webp -q 85
+            ls -la "$out"
+          done
+
+      - name: Upload art to CDN
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: us-east-2
+        # Scope to art/ so we don't wait on audio/videos/music/etc.
+        # The script ETag-skips already-up-to-date objects, so this
+        # is safe to re-run.
+        run: pnpm assets:upload --only=art

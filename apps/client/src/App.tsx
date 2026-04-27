@@ -1,4 +1,5 @@
 import { Suspense, lazy, useState, useEffect, useRef, useCallback, type ReactNode, type ComponentType } from "react";
+import { MotionConfig } from "framer-motion";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/NotFound";
@@ -46,6 +47,7 @@ import { DischordiaCycleSync } from "./components/DischordiaCycleSync";
 import { ForgivenessChoicePanel } from "./components/ForgivenessChoicePanel";
 import { Act1ClosingChoicePanel } from "./components/Act1ClosingChoicePanel";
 import { useElaraTTS } from "./hooks/useElaraTTS";
+import { useReduceMotion } from "./hooks/useReduceMotion";
 import { useVoidEngine } from "./engine/useVoidEngine";
 import { useArchetypeDetection } from "./hooks/useArchetypeDetection";
 import { useSortingTrigger } from "./hooks/useSortingTrigger";
@@ -54,6 +56,8 @@ import { useAuth } from "./_core/hooks/useAuth";
 import { useAnalytics } from "./hooks/useAnalytics";
 import { useTutorialOrchestrator } from "./hooks/useTutorialOrchestrator";
 import { syncFromServer, initSync } from "@/lib/settingsSync";
+import { detectQualityTier, applyQualityTierToDOM } from "@/lib/qualityTier";
+import { installViewTransitions } from "@/lib/viewTransitions";
 import { initCrossGameBeats } from "@/lib/crossGameBeats";
 import RecapOverlay, { shouldShowRecap, RECAP_INACTIVITY_DAYS } from "./components/RecapOverlay";
 import { loadingManager, LOADING_TASKS } from "@/lib/loadingProgress";
@@ -142,6 +146,7 @@ const LeaderboardPage = lazy(() => import("./pages/LeaderboardPage"));
 const AwakeningPage = lazy(() => import("./pages/AwakeningPage"));
 const ArkExplorerPage = lazy(() => import("./pages/ArkExplorerPage"));
 const PreludePage = lazy(() => import("./pages/PreludePage"));
+const PreludeAct1GalleryPage = lazy(() => import("./pages/PreludeAct1GalleryPage"));
 const StoryModePage = lazy(() => import("./pages/StoryModePage"));
 const BossBattlePage = lazy(() => import("./pages/BossBattlePage"));
 const CardChallengePage = lazy(() => import("./pages/CardChallengePage"));
@@ -266,6 +271,7 @@ function Router() {
         <Route path="/terminus-swarm">{() => <GameRoute component={TerminusSwarmPage} />}</Route>
         <Route path="/ark" component={ArkExplorerPage} />
         <Route path="/prelude" component={PreludePage} />
+        <Route path="/prelude-act1-gallery" component={PreludeAct1GalleryPage} />
         <Route path="/story">{() => <GameRoute component={StoryModePage} />}</Route>
         <Route path="/ark-legacy" component={InceptionArkPage} />
         <Route path="/crew" component={CrewRosterPage} />
@@ -469,6 +475,17 @@ function GameGate() {
   useEffect(() => {
     if (!settingsSynced.current) {
       settingsSynced.current = true;
+      // Runtime perf-capability detection runs first so every
+      // subsequent consumer (composer mount, nebula glow, room
+      // ambient life) can gate on .quality-low before they
+      // allocate their expensive layers.
+      applyQualityTierToDOM(detectQualityTier());
+      // Progressive upgrade: patches history.pushState so route
+      // changes on supporting browsers run through the View
+      // Transitions API. Framer-motion AnimatePresence inside
+      // AppShellImmersive is the fallback for non-supporting
+      // browsers and reduce-motion.
+      installViewTransitions();
       initSync(trpcUtils);
       syncFromServer().catch(() => {/* silent — local settings are fallback */});
       // Tier 4D — wire the cross-game beats helper to the same tRPC
@@ -620,13 +637,32 @@ function initAccessibilitySettings() {
       root.classList.remove("font-size-small", "font-size-medium", "font-size-large");
       root.classList.add(`font-size-${s.fontSize}`);
     }
+    // Colorblind palette presets — exactly one of the three modes
+    // applies at a time. Always clear before re-applying so toggling
+    // between modes never accumulates classes.
+    root.classList.remove(
+      "colorblind-deuteranopia",
+      "colorblind-protanopia",
+      "colorblind-tritanopia",
+    );
+    if (s.colorblindMode && s.colorblindMode !== "off") {
+      root.classList.add(`colorblind-${s.colorblindMode}`);
+    }
   } catch { /* silent */ }
 }
 initAccessibilitySettings();
 
 function App() {
+  // a11y #116 — bridge the user-facing reduce-motion setting AND the
+  // OS-level prefers-reduced-motion media query into Framer Motion's
+  // global config. CSS-driven animations are already gated by the
+  // `html.reduce-motion *` rules in index.css; this handles the JS
+  // animation surface (motion.div, AnimatePresence, etc.) for the
+  // ~328 framer-motion call sites.
+  const reduceMotion = useReduceMotion();
   return (
     <ErrorBoundary>
+      <MotionConfig reducedMotion={reduceMotion ? "always" : "never"}>
       <ThemeProvider defaultTheme="dark" switchable>
         <GamificationProvider>
           <GameProvider>
@@ -674,6 +710,7 @@ function App() {
           </GameProvider>
         </GamificationProvider>
       </ThemeProvider>
+      </MotionConfig>
     </ErrorBoundary>
   );
 }

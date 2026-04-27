@@ -93,14 +93,18 @@ const PLAYED_VO_IDS = new Set<string>();
  *
  *   - play(url, themeAudio): pauses any prior VO, starts the new one,
  *     and fades the theme from its current volume → THEME_DUCKED.
+ *     If the theme has not been started yet (it's prepared paused by
+ *     OpeningCinematic), play() also kicks it off — so the music bed
+ *     enters the moment Elara begins her first line, not during the
+ *     silent BLACKOUT fade-in that precedes her.
  *   - stop(): pauses the current VO and restores the theme to
  *     THEME_BED_AFTER_VO (a touch below the default 0.55 so Elara's
  *     silences still feel quiet, not foreground).
  *
  * Theme restoration happens on `ended`, `pause`, or component cleanup.
  * ────────────────────────────────────────────────────────────────── */
-const THEME_DUCKED = 0.12;
-const THEME_BED_AFTER_VO = 0.30;
+const THEME_DUCKED = 0.04;
+const THEME_BED_AFTER_VO = 0.20;
 
 const AwakeningVOPlayer = (() => {
   let current: HTMLAudioElement | null = null;
@@ -123,6 +127,14 @@ const AwakeningVOPlayer = (() => {
     }, 50);
   };
 
+  const startThemeIfNeeded = (theme: HTMLAudioElement | null) => {
+    if (!theme) return;
+    if (theme.paused) {
+      theme.volume = 0;
+      theme.play().catch(() => { /* autoplay blocked — VO gesture should cover us */ });
+    }
+  };
+
   const restoreTheme = (theme: HTMLAudioElement | null) => {
     fadeThemeTo(theme, THEME_BED_AFTER_VO, 600);
   };
@@ -134,9 +146,15 @@ const AwakeningVOPlayer = (() => {
         current.onended = null;
         current.pause();
       }
-      const audio = new Audio(url);
+      // crossOrigin MUST be set before src so the browser issues the
+      // CORS preflight on initial load — required for wawa-lipsync's
+      // Web Audio analyser to read samples (otherwise connectAudio
+      // throws and Elara's mouth stalls on the REST cell).
+      const audio = new Audio();
+      audio.crossOrigin = "anonymous";
       audio.preload = "auto";
       audio.volume = 0.95;
+      audio.src = url;
       current = audio;
       currentUrl = url;
       const onDone = () => {
@@ -147,7 +165,10 @@ const AwakeningVOPlayer = (() => {
       audio.addEventListener("pause", () => {
         if (audio.ended || audio.currentTime >= audio.duration) restoreTheme(theme);
       });
-      // Duck the theme bed while this VO plays.
+      // Kick the theme off (if cinematic handed it to us paused) and
+      // duck it under the VO. Fade is from 0 → THEME_DUCKED so the
+      // music bed slides in alongside Elara, never alone.
+      startThemeIfNeeded(theme);
       fadeThemeTo(theme, THEME_DUCKED, 400);
       return audio;
     },
@@ -186,7 +207,12 @@ function ElaraDialogBox({
    * fallback can step in. Not called on timeout; only on explicit failure. */
   onVoPlaybackFailed?: () => void;
 }) {
-  const { displayed, done, skip } = useTypewriter(text, 25);
+  // When VO audio drives this beat, skip the typewriter — visemes start
+  // at t=0 of the audio while a 25ms/char reveal lags the line by ~3s,
+  // creating obvious lip-sync drift. The TTS-fallback path keeps the
+  // typewriter so synthesized speech still feels paced.
+  const typewriterEnabled = !voAudioUrl;
+  const { displayed, done, skip } = useTypewriter(text, 25, typewriterEnabled);
   // Exposed to HolographicElara so wawa-lipsync can drive visemes from
   // the live VO stream. Null whenever we fall through to TTS.
   const [voAudio, setVoAudio] = useState<HTMLAudioElement | null>(null);
@@ -199,9 +225,6 @@ function ElaraDialogBox({
     PLAYED_VO_IDS.add(voAudioUrl);
 
     const audio = AwakeningVOPlayer.play(voAudioUrl, themeAudio ?? null);
-    // Mark as CORS-friendly so the Web Audio API can read samples for
-    // lip sync. Safe on same-origin too; ignored when unsupported.
-    try { audio.crossOrigin = "anonymous"; } catch { /* older browsers */ }
     setVoAudio(audio);
 
     const handleFailure = () => { onVoPlaybackFailed?.(); };
@@ -389,14 +412,14 @@ function AttributeAllocator({
       }}>
         <h3 className="font-display text-sm tracking-[0.2em] text-[var(--neon-cyan)] mb-1">NEURAL CALIBRATION</h3>
         <p className="font-mono text-[11px] text-muted-foreground/60 mb-4">
-          Distribute 9 points across your attributes. Each starts at 1, max 5.
-          <span className="text-[var(--neon-cyan)] ml-1">Remaining: {remaining}</span>
+          Distribute 9 signal channels across your neural lattice. Each begins at minimum resonance, peaks at full sync.
+          <span className="text-[var(--neon-cyan)] ml-1">Unbound channels: {remaining}</span>
         </p>
 
         {[
-          { label: "ATTACK", desc: "Offensive power", val: attack, key: "a" as const },
-          { label: "DEFENSE", desc: "Damage resistance", val: defense, key: "d" as const },
-          { label: "VITALITY", desc: "Health & endurance", val: vitality, key: "v" as const },
+          { label: "ATTACK", desc: "Strike resonance", val: attack, key: "a" as const },
+          { label: "DEFENSE", desc: "Shielding wave", val: defense, key: "d" as const },
+          { label: "VITALITY", desc: "Lifesignal depth", val: vitality, key: "v" as const },
         ].map(attr => (
           <div key={attr.key} className="flex items-center justify-between mb-3">
             <div className="w-24">
@@ -468,17 +491,21 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
     }
   }, [audioInitialized, initAudio, setRoomAmbience]);
 
-  // Warm the browser's HTTP cache for the first VO during BLACKOUT so
-  // the singleton AwakeningVOPlayer's `new Audio(url)` plays with minimal
-  // latency at CRYO_OPEN. We don't retain a reference; the browser cache
-  // is the benefit.
+  // Warm the browser's HTTP cache for EVERY awakening VO line as soon as
+  // the cinematic dismisses and we enter BLACKOUT. The singleton
+  // AwakeningVOPlayer's `new Audio(url)` then resolves out of cache for
+  // each subsequent step, eliminating the multi-second wait that used to
+  // gap each dialog beat. We don't retain references; the browser HTTP
+  // cache is the benefit. crossOrigin="anonymous" matches the Audio
+  // element used at playback so the same cache entry is reused.
   useEffect(() => {
-    if (awakeningStep === "BLACKOUT" && !showCinematic) {
-      const voUrl = STEP_VO_AUDIO.CRYO_OPEN;
-      if (voUrl) {
-        const preload = new Audio(voUrl);
-        preload.preload = "auto";
-      }
+    if (awakeningStep !== "BLACKOUT" || showCinematic) return;
+    for (const voUrl of Object.values(STEP_VO_AUDIO)) {
+      if (!voUrl) continue;
+      const preload = new Audio();
+      preload.crossOrigin = "anonymous";
+      preload.preload = "auto";
+      preload.src = voUrl;
     }
   }, [awakeningStep, showCinematic]);
 
@@ -655,10 +682,17 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
   // (seen on some mobile browsers where the suspended context's resume
   // promise never settles). Without this, showCinematic stayed true and
   // the game never advanced past the faded-out cinematic.
-  const handleCinematicComplete = useCallback((themeAudio: HTMLAudioElement | null) => {
+  const handleCinematicComplete = useCallback((themeAudio: HTMLAudioElement | null, reachedEndNaturally: boolean) => {
     themeAudioRef.current = themeAudio;
     setShowCinematic(false);
-    try { localStorage.setItem("loredex_cinematic_seen", "1"); } catch { /* storage full */ }
+    // Only persist the "seen" flag when the player actually watched the
+    // cinematic to its end. Safety-timer aborts, SKIP, and load errors
+    // all return false so the player gets another shot next session —
+    // otherwise an unlucky iOS Safari range-request quirk could lock
+    // a player out of the opening cinematic permanently.
+    if (reachedEndNaturally) {
+      try { localStorage.setItem("loredex_cinematic_seen", "1"); } catch { /* storage full */ }
+    }
     // Initialize audio context from the cinematic user interaction — fire
     // and forget; never block the UI transition on this.
     if (!audioInitialized) {
@@ -804,7 +838,6 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
               key="cryo"
               text="Don't try to move yet. Your neural pathways are still re-establishing. The cryogenic process is... imperfect. Give yourself a moment."
               onContinue={advanceAwakening}
-              showPortrait={false}
               voAudioUrl={STEP_VO_AUDIO.CRYO_OPEN}
               themeAudio={themeAudioRef.current}
             />
@@ -867,8 +900,8 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
               voAudioUrl={STEP_VO_AUDIO.ALIGNMENT_QUESTION}
               themeAudio={themeAudioRef.current}
               choices={[
-                { label: "Order. Structure. Control.", value: "order", description: "Orderly, disciplined. Light glow aura. +2 Attack bonus on cards." },
-                { label: "Freedom. Chaos. Choice.", value: "chaos", description: "Chaotic, brave. Dark glow aura. +2 Defense bonus on cards." },
+                { label: "Order. Structure. Control.", value: "order", description: "Orderly, disciplined. A pale aura traces your edges. The Architect's calm sharpens you toward the strike." },
+                { label: "Freedom. Chaos. Choice.", value: "chaos", description: "Chaotic, brave. A dark aura coils about you. The Dreamer's static makes you harder to pin down." },
               ]}
               onChoice={(v) => {
                 setCharacterChoice("alignment", v as any);

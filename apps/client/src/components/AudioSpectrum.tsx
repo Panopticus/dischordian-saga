@@ -28,12 +28,23 @@
 import { useEffect, useRef } from "react";
 import { getSharedAnalyser } from "@/hooks/useAudioAmplitude";
 
+/**
+ * Render mode. "bars" (default) → classic log-scale vertical spectrum.
+ * "wave" → time-domain oscilloscope; good for song-hero surfaces where
+ * a clean waveform reads more musically than a bar chart. "radial" →
+ * bars spoke out from center; fills a square/circular container well
+ * (album cover backdrop, companion portrait chamber).
+ */
+export type AudioSpectrumMode = "bars" | "wave" | "radial";
+
 interface AudioSpectrumProps {
-  /** Number of visible bars. Defaults to 64 (log-scale from 256 FFT bins). */
+  /** Number of visible bars/segments. Default 64 for bars, 128 for wave, 48 for radial. */
   bars?: number;
   /** Canvas height in px. Width fills the container. Default 64. */
   height?: number;
-  /** Primary bar color. Accepts any CSS color expression. Defaults to Void cyan. */
+  /** Render mode. Default "bars". */
+  mode?: AudioSpectrumMode;
+  /** Primary bar/line color. Accepts any CSS color expression. Defaults to Void cyan. */
   accentColor?: string;
   /** Secondary accent used at the top of each bar (peak cap). */
   peakColor?: string;
@@ -44,13 +55,17 @@ interface AudioSpectrumProps {
 }
 
 export default function AudioSpectrum({
-  bars = 64,
+  bars,
   height = 64,
+  mode = "bars",
   accentColor = "var(--neon-cyan)",
   peakColor = "rgba(255, 255, 255, 0.85)",
   gradientStrength = 0.6,
   className = "",
 }: AudioSpectrumProps) {
+  // Mode-sensitive default bar counts so each render path gets a
+  // sensible density without the caller having to know.
+  const resolvedBars = bars ?? (mode === "wave" ? 128 : mode === "radial" ? 48 : 64);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const rafRef = useRef<number>(0);
   const peaksRef = useRef<Float32Array | null>(null);
@@ -126,12 +141,12 @@ export default function AudioSpectrum({
       const w = canvas!.width;
       const h = canvas!.height;
       const barGap = Math.max(1, Math.floor(1 * dpr));
-      const barWidth = Math.max(1, Math.floor((w - (bars + 1) * barGap) / bars));
-      const inset = Math.floor((w - (barWidth * bars + barGap * (bars - 1))) / 2);
+      const barWidth = Math.max(1, Math.floor((w - (resolvedBars + 1) * barGap) / resolvedBars));
+      const inset = Math.floor((w - (barWidth * resolvedBars + barGap * (resolvedBars - 1))) / 2);
 
       ctx2d!.clearRect(0, 0, w, h);
 
-      for (let i = 0; i < bars; i++) {
+      for (let i = 0; i < resolvedBars; i++) {
         const v = bandEnergies[i] ?? 0; // 0..1
         if (v <= 0.001) continue;
 
@@ -160,6 +175,65 @@ export default function AudioSpectrum({
           ctx2d!.fillRect(x, peakY, barWidth, Math.max(1, Math.floor(1.5 * dpr)));
         }
       }
+    }
+
+    // Wave mode reads from time-domain data instead of frequency.
+    // Uint8 centered at 128; 0 = -1.0, 255 = +1.0. We stroke a
+    // polyline across the canvas height at screen-mid so peaks
+    // ride above and below the centerline.
+    function drawWave(timeBuf: Uint8Array<ArrayBuffer>) {
+      const w = canvas!.width;
+      const h = canvas!.height;
+      ctx2d!.clearRect(0, 0, w, h);
+      ctx2d!.beginPath();
+      const step = w / timeBuf.length;
+      for (let i = 0; i < timeBuf.length; i++) {
+        const v = (timeBuf[i]! - 128) / 128; // -1..1
+        const y = h / 2 + v * (h / 2) * 0.9;
+        const x = i * step;
+        if (i === 0) ctx2d!.moveTo(x, y);
+        else ctx2d!.lineTo(x, y);
+      }
+      // Soft glow via two-pass stroke: a wide translucent sweep
+      // beneath, then the crisp main line on top.
+      ctx2d!.strokeStyle = mixRgba(resolvedAccent, 0.3);
+      ctx2d!.lineWidth = Math.max(3, Math.floor(4 * dpr));
+      ctx2d!.globalAlpha = 0.35;
+      ctx2d!.stroke();
+      ctx2d!.globalAlpha = 1;
+      ctx2d!.strokeStyle = resolvedAccent;
+      ctx2d!.lineWidth = Math.max(1, Math.floor(1.5 * dpr));
+      ctx2d!.stroke();
+    }
+
+    // Radial mode places band energies as spokes radiating from
+    // the canvas center. Good for square/circular container
+    // backdrops — album hero, companion portrait chamber, title
+    // screen logo ring.
+    function drawRadial(bandEnergies: Float32Array) {
+      const w = canvas!.width;
+      const h = canvas!.height;
+      const cx = w / 2;
+      const cy = h / 2;
+      const innerR = Math.min(w, h) * 0.22;
+      const maxOuterR = Math.min(w, h) * 0.48;
+      ctx2d!.clearRect(0, 0, w, h);
+      for (let i = 0; i < resolvedBars; i++) {
+        const v = bandEnergies[i] ?? 0;
+        if (v <= 0.001) continue;
+        const angle = (i / resolvedBars) * Math.PI * 2 - Math.PI / 2;
+        const cos = Math.cos(angle);
+        const sin = Math.sin(angle);
+        const outer = innerR + (maxOuterR - innerR) * v;
+        ctx2d!.strokeStyle = resolvedAccent;
+        ctx2d!.lineWidth = Math.max(1, Math.floor(2 * dpr));
+        ctx2d!.globalAlpha = 0.5 + v * 0.5;
+        ctx2d!.beginPath();
+        ctx2d!.moveTo(cx + cos * innerR, cy + sin * innerR);
+        ctx2d!.lineTo(cx + cos * outer, cy + sin * outer);
+        ctx2d!.stroke();
+      }
+      ctx2d!.globalAlpha = 1;
     }
 
     function isAudioReactiveEnabled(): boolean {
@@ -201,8 +275,8 @@ export default function AudioSpectrum({
       const binCount = analyser.frequencyBinCount;
       if (!bufRef.current || bufRef.current.length !== binCount) {
         bufRef.current = new Uint8Array(new ArrayBuffer(binCount));
-        bandsRef.current = new Float32Array(bars);
-        peaksRef.current = new Float32Array(bars);
+        bandsRef.current = new Float32Array(resolvedBars);
+        peaksRef.current = new Float32Array(resolvedBars);
       }
       const buf = bufRef.current;
       const bands = bandsRef.current!;
@@ -216,10 +290,20 @@ export default function AudioSpectrum({
         return;
       }
 
+      // Wave mode reads time-domain samples directly and short-
+      // circuits the frequency-band path. Shares buf (Uint8Array)
+      // because Three.js analyser's getByteTimeDomainData fills
+      // the same shape.
+      if (mode === "wave") {
+        analyser.getByteTimeDomainData(buf);
+        drawWave(buf);
+        return;
+      }
+
       analyser.getByteFrequencyData(buf);
 
-      const edges = computeBandEdges(binCount, bars);
-      for (let i = 0; i < bars; i++) {
+      const edges = computeBandEdges(binCount, resolvedBars);
+      for (let i = 0; i < resolvedBars; i++) {
         const start = edges[i]!;
         const end = Math.max(start + 1, edges[i + 1]!);
         let sum = 0;
@@ -234,7 +318,8 @@ export default function AudioSpectrum({
         peaks[i] = Math.max(avg, peaks[i] * decay);
       }
 
-      drawBars(bands, peaks);
+      if (mode === "radial") drawRadial(bands);
+      else drawBars(bands, peaks);
     }
 
     // One-shot paint under reduce-motion — a single snapshot at
@@ -246,10 +331,10 @@ export default function AudioSpectrum({
         const binCount = analyser.frequencyBinCount;
         const buf = new Uint8Array(new ArrayBuffer(binCount));
         analyser.getByteFrequencyData(buf);
-        const bands = new Float32Array(bars);
-        const peaks = new Float32Array(bars);
-        const edges = computeBandEdges(binCount, bars);
-        for (let i = 0; i < bars; i++) {
+        const bands = new Float32Array(resolvedBars);
+        const peaks = new Float32Array(resolvedBars);
+        const edges = computeBandEdges(binCount, resolvedBars);
+        for (let i = 0; i < resolvedBars; i++) {
           const start = edges[i]!;
           const end = Math.max(start + 1, edges[i + 1]!);
           let sum = 0;
@@ -272,7 +357,7 @@ export default function AudioSpectrum({
       window.removeEventListener("resize", resize);
       atmosphereObserver.disconnect();
     };
-  }, [bars, height, accentColor, peakColor, gradientStrength]);
+  }, [resolvedBars, height, mode, accentColor, peakColor, gradientStrength]);
 
   return (
     <div className={`audio-spectrum ${className}`} aria-hidden>

@@ -1,0 +1,5 @@
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/cards/imprint/s1_imprint_iron_lion_t1.webp
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/cards/imprint/s1_imprint_iron_lion_t2.webp
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/cards/imprint/s1_imprint_iron_lion_t3.webp
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/cards/imprint/s1_imprint_iron_lion_t4.webp
+https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/cards/imprint/s1_imprint_iron_lion_t5.webp

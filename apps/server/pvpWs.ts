@@ -11,6 +11,7 @@ import { classifyDeck, getArchetypeAdvantage } from "@shared/cardArchetypes";
 import { canSendEmote, recordEmoteSend, validateEmote, ALL_EMOTES, type EmoteRateState } from "@shared/pvpEmotes";
 import { eq, and } from "drizzle-orm";
 import { trackPvpResult } from "./achievementTracker";
+import { recordMatchStart, recordMatchEnd } from "./matchLengthMonitor";
 import { randomUUID } from "crypto";
 import { checkWsRateLimit, sendRateLimitError, storeDisconnectedSession, recoverSession } from "./wsRateLimit";
 import { logger } from "./logger";
@@ -263,6 +264,7 @@ function tryMatchPlayers() {
 
 async function startMatch(p1: ConnectedPlayer, p2: ConnectedPlayer) {
   const matchId = randomUUID().slice(0, 12);
+  recordMatchStart(matchId);
 
   const state = initPvpBattle(
     matchId,
@@ -358,6 +360,12 @@ async function endMatch(match: ActiveMatch) {
     clearTimeout(match.turnTimeout);
     match.turnTimeout = null;
   }
+
+  // #88 Telemetry — record wall-clock match length for the admin
+  // dashboard. Records BEFORE the early-return on missing winner so
+  // disconnect-driven endings (where state.winner is null) still get
+  // counted in `pvp` p50/p95/p99.
+  recordMatchEnd(match.matchId, "pvp", match.state.winner ? "normal" : "incomplete");
 
   const winnerId = match.state.winner;
   if (!winnerId) return;

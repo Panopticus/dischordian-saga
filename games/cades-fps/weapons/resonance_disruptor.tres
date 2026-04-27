@@ -6,13 +6,14 @@
 
 [resource]
 script = ExtResource("1_scr")
+display_name = "RESONANCE DISRUPTOR"
 model = ExtResource("1_mdl")
 rotation = Vector3(0, 180, 0)
 muzzle_position = Vector3(0.1, -0.4, 1.5)
-cooldown = 0.4
-damage = 25.0
+cooldown = 0.45
+damage = 22.0
 spread = 0.8
 shot_count = 1
-knockback = 20
+knockback = 35
 sound_shoot = "sounds/blaster.ogg"
 crosshair = ExtResource("1_cr")

@@ -13,7 +13,9 @@
  */
 import {
   pickReviewNarration,
+  pickBrilliancyNarration,
   type MistakeType,
+  type BrilliancyType,
 } from "@shared/tcg-core/story/chessReviewNarration";
 
 export interface ReviewMistake {
@@ -28,22 +30,50 @@ export interface ReviewMistake {
   substitutions?: Record<string, string | number>;
 }
 
+export interface ReviewBrilliancy {
+  moveNumber: number;
+  side: "white" | "black";
+  type: BrilliancyType;
+  /** Stockfish eval gain in centipawns — how much the move
+   *  improved the position relative to the next-best move.
+   *  Used for display ordering (best brilliancies first). */
+  centipawnGain: number;
+  substitutions?: Record<string, string | number>;
+}
+
 export interface ChessPostGameReviewProps {
   /** Stable hash of the PGN — used as the narration seed so the
    *  same game reviewed twice produces identical narration. */
   seed: number;
   mistakes: readonly ReviewMistake[];
+  /** Optional brilliancies the analysis pass flagged. Rendered
+   *  above the mistakes section in praise mode. */
+  brilliancies?: readonly ReviewBrilliancy[];
   /** Optional — the player's side in the game. Affects whose
-   *  mistakes are highlighted as the teaching target. */
+   *  moves are highlighted as the teaching target. */
   playerSide?: "white" | "black";
 }
 
 export default function ChessPostGameReview({
   seed,
   mistakes,
+  brilliancies = [],
   playerSide,
 }: ChessPostGameReviewProps) {
-  if (mistakes.length === 0) {
+  const mineMistakes = playerSide
+    ? mistakes.filter((m) => m.side === playerSide)
+    : mistakes;
+  const mineBrilliancies = playerSide
+    ? brilliancies.filter((b) => b.side === playerSide)
+    : brilliancies;
+  const topMistakes = [...mineMistakes]
+    .sort((a, b) => b.centipawnLoss - a.centipawnLoss)
+    .slice(0, 3);
+  const topBrilliancies = [...mineBrilliancies]
+    .sort((a, b) => b.centipawnGain - a.centipawnGain)
+    .slice(0, 2);
+
+  if (topMistakes.length === 0 && topBrilliancies.length === 0) {
     return (
       <section className="p-4 border border-void-text-accent/40 rounded bg-void-bg/40">
         <h3 className="text-void-text-accent">No significant mistakes.</h3>
@@ -55,44 +85,74 @@ export default function ChessPostGameReview({
     );
   }
 
-  const mine = playerSide
-    ? mistakes.filter((m) => m.side === playerSide)
-    : mistakes;
-  const topThree = [...mine]
-    .sort((a, b) => b.centipawnLoss - a.centipawnLoss)
-    .slice(0, 3);
-
   return (
     <section className="p-4 border border-void-border/40 rounded bg-void-bg/40 space-y-4">
       <header>
         <h3 className="text-void-text">Post-game review</h3>
         <p className="text-xs text-void-text-muted italic mt-1">
-          The Celebration Game Master, in voice, on your top three mistakes.
+          The Celebration Game Master, in voice, on the moves that mattered.
         </p>
       </header>
-      {topThree.map((mistake, i) => (
-        <article
-          key={i}
-          className="border-t border-void-border/20 pt-3 first:border-t-0 first:pt-0"
-        >
-          <div className="flex items-baseline justify-between">
-            <span className="text-sm text-void-text-accent">
-              Move {mistake.moveNumber} ({mistake.side})
-            </span>
-            <span className="text-[10px] uppercase tracking-wider text-void-text-muted">
-              {mistake.type.replace(/_/g, " ")} · −{Math.round(mistake.centipawnLoss)}
-              cp
-            </span>
-          </div>
-          <p className="text-sm text-void-text italic mt-2">
-            {pickReviewNarration(
-              mistake.type,
-              seed + mistake.moveNumber,
-              { moveNumber: mistake.moveNumber, ...mistake.substitutions },
-            )}
-          </p>
-        </article>
-      ))}
+      {topBrilliancies.length > 0 && (
+        <div className="space-y-3">
+          <h4 className="text-xs uppercase tracking-widest text-void-text-accent/80">
+            Brilliancies
+          </h4>
+          {topBrilliancies.map((b, i) => (
+            <article
+              key={`b-${i}`}
+              className="border-l-2 border-void-text-accent/60 pl-3"
+            >
+              <div className="flex items-baseline justify-between">
+                <span className="text-sm text-void-text-accent">
+                  Move {b.moveNumber} ({b.side})
+                </span>
+                <span className="text-[10px] uppercase tracking-wider text-void-text-muted">
+                  {b.type.replace(/_/g, " ")} · +{Math.round(b.centipawnGain)}
+                  cp
+                </span>
+              </div>
+              <p className="text-sm text-void-text italic mt-2">
+                {pickBrilliancyNarration(
+                  b.type,
+                  seed + b.moveNumber,
+                  { moveNumber: b.moveNumber, ...b.substitutions },
+                )}
+              </p>
+            </article>
+          ))}
+        </div>
+      )}
+      {topMistakes.length > 0 && (
+        <div className="space-y-3">
+          <h4 className="text-xs uppercase tracking-widest text-void-text-muted">
+            Mistakes
+          </h4>
+          {topMistakes.map((mistake, i) => (
+            <article
+              key={`m-${i}`}
+              className="border-l-2 border-void-border/40 pl-3"
+            >
+              <div className="flex items-baseline justify-between">
+                <span className="text-sm text-void-text-accent">
+                  Move {mistake.moveNumber} ({mistake.side})
+                </span>
+                <span className="text-[10px] uppercase tracking-wider text-void-text-muted">
+                  {mistake.type.replace(/_/g, " ")} · −{Math.round(mistake.centipawnLoss)}
+                  cp
+                </span>
+              </div>
+              <p className="text-sm text-void-text italic mt-2">
+                {pickReviewNarration(
+                  mistake.type,
+                  seed + mistake.moveNumber,
+                  { moveNumber: mistake.moveNumber, ...mistake.substitutions },
+                )}
+              </p>
+            </article>
+          ))}
+        </div>
+      )}
     </section>
   );
 }

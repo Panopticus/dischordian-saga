@@ -33,6 +33,7 @@ var container_offset = Vector3(1.2, -1.1, -2.75)
 var tween: Tween
 
 signal health_updated
+signal weapon_changed(display_name: String)
 
 @onready var camera = $Head/Camera
 @onready var raycast = $Head/Camera/RayCast
@@ -47,7 +48,16 @@ signal health_updated
 
 func _ready():
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-	
+
+	if weapons.is_empty():
+		push_error("Player: 'weapons' array is empty — level forgot to assign a loadout.")
+		return
+
+	# §G.11.1 — suit bonuses modulate player stats at run-start only;
+	# mid-run gear swaps are blocked on the React side, so we latch
+	# multipliers here. Missing keys fall back to 1.0 (no-op).
+	movement_speed *= WebBridge.get_suit_bonus("player_speed_mult", 1.0)
+
 	weapon = weapons[weapon_index] # Weapon must never be nil
 	initiate_change_weapon(weapon_index)
 
@@ -174,18 +184,18 @@ func action_jump():
 func action_shoot():
 	if Input.is_action_pressed("shoot"):
 		if !blaster_cooldown.is_stopped(): return # Cooldown for shooting
-		
+
 		Audio.play(weapon.sound_shoot)
-		
+
 		# Set muzzle flash position, play animation
-		
+
 		muzzle.play("default")
-		
+
 		muzzle.rotation_degrees.z = randf_range(-45, 45)
 		muzzle.scale = Vector3.ONE * randf_range(0.40, 0.75)
 		muzzle.position = container.position - weapon.muzzle_position
-		
-		blaster_cooldown.start(weapon.cooldown)
+
+		blaster_cooldown.start(weapon.cooldown * WebBridge.get_suit_bonus("weapon_cooldown_mult", 1.0))
 		
 		# Shoot the weapon, amount based on shot count
 		
@@ -202,7 +212,7 @@ func action_shoot():
 			# Hitting an enemy
 			
 			if collider.has_method("damage"):
-				collider.damage(weapon.damage)
+				collider.damage(weapon.damage * WebBridge.get_suit_bonus("weapon_damage_mult", 1.0))
 			
 			# Creating an impact animation
 			
@@ -238,7 +248,11 @@ func action_weapon_toggle():
 
 func initiate_change_weapon(index):
 	weapon_index = index
-	
+
+	# Rapid weapon toggles would otherwise stack tweens and race the
+	# change_weapon callback; kill any in-flight tween first.
+	if tween and tween.is_valid():
+		tween.kill()
 	tween = get_tree().create_tween()
 	tween.set_ease(Tween.EASE_OUT_IN)
 	tween.tween_property(container, "position", container_offset - Vector3(0, 1, 0), 0.1)
@@ -268,13 +282,20 @@ func change_weapon():
 		child.layers = 2
 		
 	# Set weapon data
-	
+
 	raycast.target_position = Vector3(0, 0, -1) * weapon.max_distance
 	crosshair.texture = weapon.crosshair
+	weapon_changed.emit(weapon.display_name)
 
 func damage(amount):
-	health -= amount
+	# damage_resist_mult > 1.0 reduces incoming damage; React side sends
+	# 1.0 by default so unconfigured runs behave identically.
+	var resist: float = WebBridge.get_suit_bonus("damage_resist_mult", 1.0)
+	if resist <= 0.0:
+		resist = 1.0
+	health -= int(round(amount / resist))
 	health_updated.emit(health) # Update health on HUD
+	_shake_camera()
 	
 	if health < 0:
 		if GameMode.current_mode == "last_stand":
@@ -295,3 +316,13 @@ func damage(amount):
 static func random_vec2(_min: Vector2, _max: Vector2) -> Vector2:
 	var _sign = -1 if randi() % 2 == 0 else 1
 	return Vector2(randf_range(_min.x, _max.x), randf_range(_min.y, _max.y) * _sign)
+
+# Short twitch on the camera when the player takes damage. Kept tiny
+# so it never fights the player's aim — 2° spread over 150 ms.
+func _shake_camera() -> void:
+	var kick_x: float = randf_range(-0.035, 0.035)
+	var kick_y: float = randf_range(-0.025, 0.025)
+	camera.rotation.x += kick_x
+	camera.rotation.y += kick_y
+	rotation_target.x += kick_x
+	rotation_target.y += kick_y

@@ -1848,8 +1848,14 @@ export const SILENCE_OF_TWO_WITNESSES_SLIDESHOW: SongSlideshowDef = {
  * `narrativeActs.ts`, using the reduced-motion text fallback for every
  * frame until commissioned art lands. Every slideshow's
  * `flagsSetOnComplete` writes the `slideshow_act_N_*_complete` flag the
- * corresponding completion gate requires. Audio stubs point at
- * `/audio/acts/act-N-intro.mp3`.
+ * corresponding completion gate requires.
+ *
+ * As of the Acts 2-7 AAA Final drop (PR #177, 2026-04-23), each act
+ * opener also has a cinematic MP4 (`cin_act{N}_opener.mp4`) and a
+ * music bed (`act-{N}-intro.mp3`) at canonical paths under
+ * `videos/acts/act-{N}/` and `audio/acts/`. The `videoUrl` field
+ * routes the player to the video; the still-frame `frames` remain
+ * as a fallback for when the MP4 is unavailable.
  */
 
 const ACT_OPENER_FRAME_MS = 7_000;
@@ -1857,7 +1863,8 @@ const ACT_OPENER_FRAME_MS = 7_000;
 export const ACT_4_REVELATION_INTRO_SLIDESHOW: SongSlideshowDef = {
   id: "act-4-revelation-intro",
   songId: "act_4_revelation_intro",
-  audioUrl: assetUrl("audio/acts/act-4-revelation-intro.mp3"),
+  audioUrl: assetUrl("audio/acts/act-4-intro.mp3"),
+  videoUrl: assetUrl("videos/acts/act-4/cin_act4_opener.mp4"),
   durationMs: 3 * ACT_OPENER_FRAME_MS,
   title: "Act 4 — The Revelation",
   subtitle: "The Prisoner's memory is a door. You are the one opening it.",
@@ -1898,7 +1905,8 @@ export const ACT_4_REVELATION_INTRO_SLIDESHOW: SongSlideshowDef = {
 export const ACT_4_5_DMC_INTRO_SLIDESHOW: SongSlideshowDef = {
   id: "act-4-5-intro",
   songId: "act_4_5_dmc_intro",
-  audioUrl: assetUrl("audio/acts/act-4-5-dmc-intro.mp3"),
+  audioUrl: assetUrl("audio/acts/act-4_5-intro.mp3"),
+  videoUrl: assetUrl("videos/acts/act-4_5/cin_act4_5_opener.mp4"),
   durationMs: 3 * ACT_OPENER_FRAME_MS,
   title: "Act 4.5 — Dead Man's Circuit",
   subtitle: "Name your wager. The Circuit keeps it whether you win or not.",
@@ -1939,7 +1947,8 @@ export const ACT_4_5_DMC_INTRO_SLIDESHOW: SongSlideshowDef = {
 export const ACT_5_MAP_INTRO_SLIDESHOW: SongSlideshowDef = {
   id: "act-5-map-intro",
   songId: "act_5_map_intro",
-  audioUrl: assetUrl("audio/acts/act-5-map-intro.mp3"),
+  audioUrl: assetUrl("audio/acts/act-5-intro.mp3"),
+  videoUrl: assetUrl("videos/acts/act-5/cin_act5_opener.mp4"),
   durationMs: 3 * ACT_OPENER_FRAME_MS,
   title: "Act 5 — The Reckoning",
   subtitle: "Kael's map is open. Five sectors. Twenty worlds. One last stand.",
@@ -1980,7 +1989,8 @@ export const ACT_5_MAP_INTRO_SLIDESHOW: SongSlideshowDef = {
 export const ACT_6_CONFESSION_INTRO_SLIDESHOW: SongSlideshowDef = {
   id: "act-6-confession-intro",
   songId: "act_6_confession_intro",
-  audioUrl: assetUrl("audio/acts/act-6-confession-intro.mp3"),
+  audioUrl: assetUrl("audio/acts/act-6-intro.mp3"),
+  videoUrl: assetUrl("videos/acts/act-6/cin_act6_opener.mp4"),
   durationMs: 3 * ACT_OPENER_FRAME_MS,
   title: "Act 6 — The Confession",
   subtitle: "Both of them finally spoke. Neither could look at the other.",
@@ -2021,7 +2031,8 @@ export const ACT_6_CONFESSION_INTRO_SLIDESHOW: SongSlideshowDef = {
 export const ACT_7_CONVERGENCE_INTRO_SLIDESHOW: SongSlideshowDef = {
   id: "act-7-convergence-intro",
   songId: "act_7_convergence_intro",
-  audioUrl: assetUrl("audio/acts/act-7-convergence-intro.mp3"),
+  audioUrl: assetUrl("audio/acts/act-7-intro.mp3"),
+  videoUrl: assetUrl("videos/acts/act-7/cin_act7_opener.mp4"),
   durationMs: 3 * ACT_OPENER_FRAME_MS,
   title: "Act 7 — The Convergence",
   subtitle: "For the first and only time, their voices align.",

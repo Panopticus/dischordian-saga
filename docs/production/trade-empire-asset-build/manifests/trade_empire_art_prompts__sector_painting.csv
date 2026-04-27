@@ -1,0 +1,232 @@
+asset_id,name,category,review_gate,resolution,priority,palette,composed_prompt
+sector_trade_nexus,"The Trade Nexus",sector_painting,D,1536x1024,P1,"Authority red, brass, deep city-blue","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: Authority red, brass, deep city-blue
+
+A seething Authority-controlled commercial megastation hanging over a calm planet. Hundreds of docking arms, all of them busy. A single red surveillance eye hovers above every major dock.
+
+Negative: no named characters identifiably shown, no UI overlay, no readable signage, no modern branding, no on-image text"
+sector_new_babylon_core,"New Babylon Core",sector_painting,D,1536x1024,P1,"deep indigo, Authority red, window-gold","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: deep indigo, Authority red, window-gold
+
+An ecumenopolis city-planet at night, viewed from low orbit. Six tiny pinpricks of red crystal light pulse in sync from a central spire (the coffined minds).
+
+Negative: no named characters identifiably shown, no UI overlay, no readable signage, no modern branding, no on-image text"
+sector_new_babylon_lower_tiers,"New Babylon Lower Tiers",sector_painting,D,1536x1024,P1,"soot-black, rust, neon-cyan puddle-reflection","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: soot-black, rust, neon-cyan puddle-reflection
+
+A rain-slicked canyon street in the lowest tier of the city-planet, crowded with industrial smokestacks and refugee housing. A single Authority patrol drone hangs in the rain.
+
+Negative: no named characters identifiably shown, no UI overlay, no readable signage, no modern branding, no on-image text"
+sector_empire_frontier,"Imperial Frontier",sector_painting,D,1536x1024,P1,"bone-white, red-black trim, cold grey sky","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: bone-white, red-black trim, cold grey sky
+
+A half-rebuilt Artificial Empire border outpost, Architect drones mid-assembly around a skeletal city. Bone-white hulls, red-black trim, strict geometry.
+
+Negative: no named characters identifiably shown, no UI overlay, no readable signage, no modern branding, no on-image text"
+sector_forge_worlds,"Forge Worlds",sector_painting,D,1536x1024,P1,"forge-orange, char-black, one thin cold cyan orbital ring","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: forge-orange, char-black, one thin cold cyan orbital ring
+
+A planet whose entire night side glows orange from the heat of never-sleeping forges. A ring of active shipyards girdles the equator.
+
+Negative: no named characters identifiably shown, no UI overlay, no readable signage, no modern branding, no on-image text"
+sector_panopticon_ruins,"Panopticon Ruins",sector_painting,D,1536x1024,P1,"pale grey, rust-stain, one distant cold blue star","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: pale grey, rust-stain, one distant cold blue star
+
+A shattered orbital prison complex adrift in silence; individual cells visible as hollow geometric cubes through broken walls. A single empty cell at frame-centre.
+
+Negative: no named characters identifiably shown, no UI overlay, no readable signage, no modern branding, no on-image text"
+sector_viral_wastes,"Viral Wastes",sector_painting,D,1536x1024,P1,"spore-black, bruise-red, diseased yellow nebula haze","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: spore-black, bruise-red, diseased yellow nebula haze
+
+A dead system whose planets are wrapped in writhing black-red Thought-Virus spore tendrils, growing visibly between worlds.
+
+Negative: no named characters identifiably shown, no UI overlay, no readable signage, no modern branding, no on-image text"
+sector_frontier_worlds,"Frontier Worlds",sector_painting,D,1536x1024,P1,"warm amber grassland, rust-scrap, big cobalt sky","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: warm amber grassland, rust-scrap, big cobalt sky
+
+A rugged independent colony on a yellow-grassland moon, watchtowers built from scavenged Imperial hull-plating, cattle grazing in the foreground.
+
+Negative: no named characters identifiably shown, no UI overlay, no readable signage, no modern branding, no on-image text"
+sector_insurgency_haven,"Insurgency Haven",sector_painting,D,1536x1024,P1,"asteroid grey, warm ember window-light, deep void","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: asteroid grey, warm ember window-light, deep void
+
+A hidden base tucked inside a fractured asteroid, visible only as warm windows in the rock's interior. A single courier skiff departs at silent thrust.
+
+Negative: no named characters identifiably shown, no UI overlay, no readable signage, no modern branding, no on-image text"
+sector_abyssal_sectors,"Abyssal Sectors",sector_painting,D,1536x1024,P1,"oil-black, blood-veinous red, sickly violet rim","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: oil-black, blood-veinous red, sickly violet rim
+
+A Hierarchy-consumed region where reality visibly bleeds — stars smear like oil paint, space has grain, and a red veinous Blood-Weave pulses between planets.
+
+Negative: no named characters identifiably shown, no UI overlay, no readable signage, no modern branding, no on-image text"
+sector_black_hole_gate,"The Antiquarian's Gate",sector_painting,D,1536x1024,P1,"obsidian, brass, vellum cream, one warm amber leaking light","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: obsidian, brass, vellum cream, one warm amber leaking light
+
+A black hole that is not a black hole: the event-horizon disc is a brass ornate door, carved with Antiquarian glyphs, ajar by a finger's width. No accretion disc — just the door.
+
+Negative: no named characters identifiably shown, no UI overlay, no readable signage, no modern branding, no on-image text"
+sector_violetta_approach_lane,"Violetta Approach Lane",sector_painting,D,1536x1024,P1,"dreamer-violet, deep cold blue, one warm amber running-light","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: dreamer-violet, deep cold blue, one warm amber running-light
+
+A corridor of space near the Dreamer's Shield; violet shield-light washes half the frame. Distant silhouette of a civilian convoy paused mid-approach as if waiting for permission.
+
+Negative: no named characters identifiably shown, no UI overlay, no readable signage, no modern branding, no on-image text"
+sector_forward_bastion,"The Forward's Bastion",sector_painting,D,1536x1024,P1,"ivory, cathedral gold, deep blue void","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: ivory, cathedral gold, deep blue void
+
+A Potentials-held fortress-moon bristling with defensive turrets and memorial ribbons draped from the walls. Ivory and gold against a cold starfield.
+
+Negative: no named characters identifiably shown, no UI overlay, no readable signage, no modern branding, no on-image text"
+sector_remembrance_archive,"The Remembrance Archive",sector_painting,D,1536x1024,P1,"brass, vellum, indigo mist, one violet candle in a window","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: brass, vellum, indigo mist, one violet candle in a window
+
+An Antiquarian vault built into a cliff-face on a mist-wet world. Tall brass doors etched with names, a single Antiquarian figure climbing the steps with a ledger.
+
+Negative: no named characters identifiably shown, no UI overlay, no readable signage, no modern branding, no on-image text"
+sector_chronarchive_vault,"Chronarchive Vault",sector_painting,D,1536x1024,P1,"brass, vellum, indigo shadow, one warm amber candle flame","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: brass, vellum, indigo shadow, one warm amber candle flame
+
+An underground Antiquarian archive, shelves of chained ledgers receding into darkness, a great brass chronarch ring rotating slowly overhead. Single candle provides all the light.
+
+Negative: no named characters identifiably shown, no UI overlay, no readable signage, no modern branding, no on-image text"
+sector_ark_debris_field,"Ark Debris Field",sector_painting,D,1536x1024,P2,"ivory, void-black, cathedral-gold, cold-blue nebula backlight","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: ivory, void-black, cathedral-gold, cold-blue nebula backlight
+
+Drifting wreckage field of a thousand shattered Ark-ships — ivory hulls split open like broken cathedrals, memorial ribbons still clinging and fluttering in vacuum. One intact bow, lit from within, pushes slowly through.
+
+Negative: no named characters identifiably shown, no UI overlay, no readable signage, no modern branding, no on-image text"
+sector_terminus_approach,"Terminus Approach",sector_painting,D,1536x1024,P2,"bruise-red, soot-black, sickly yellow haze","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: bruise-red, soot-black, sickly yellow haze
+
+A dead approach-corridor toward Terminus. Black-red Thought-Virus spores thicken as the frame moves right; the far horizon is utterly obscured. A single derelict shows the pattern of what happens to vessels that try.
+
+Negative: no named characters identifiably shown, no UI overlay, no readable signage, no modern branding, no on-image text"
+sector_research_corridor_alpha,"Research Corridor — Shared Lab",sector_painting,D,1536x1024,P2,"lab-white, hologram-cyan, slate-grey, warm amber notepad-light","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: lab-white, hologram-cyan, slate-grey, warm amber notepad-light
+
+A sealed Dischordian-era science hab, neural-lattice locks visible as faint blue filigree on every doorway. Two figures in lab-coats (one human, one Quarchon-humanoid) argue over a central holographic diagram.
+
+Negative: no named characters identifiably shown, no UI overlay, no readable signage, no modern branding, no on-image text"
+sector_research_corridor_beta,"Resonance Institute Annex",sector_painting,D,1536x1024,P2,"deep teal, flame-orange tracer, parchment-cream, cold-grey stone","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: deep teal, flame-orange tracer, parchment-cream, cold-grey stone
+
+A DeMagi resonance lab: tall glass chambers filled with slow-rotating elemental tracers (fire, water tuning visible as coloured waves), walls covered in hand-written protocol corrections in fading ink.
+
+Negative: no named characters identifiably shown, no UI overlay, no readable signage, no modern branding, no on-image text"
+sector_research_corridor_gamma,"Reality Institute Annex",sector_painting,D,1536x1024,P2,"reality-black, warning-red, paper-white, one violet dimensional accent","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: reality-black, warning-red, paper-white, one violet dimensional accent
+
+A Quarchon dimensional-stability lab: a rotating cube-within-cube-within-cube apparatus at centre, thin red warning lines projected on the floor, no windows, no doors visible — only the apparatus.
+
+Negative: no named characters identifiably shown, no UI overlay, no readable signage, no modern branding, no on-image text"
+sector_probability_market_hub,"Probability Market Hub",sector_painting,D,1536x1024,P2,"Authority-red, brass trim, deep cobalt market-screens, one cold-white branch-point glow","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: Authority-red, brass trim, deep cobalt market-screens, one cold-white branch-point glow
+
+A New Babylon trading floor where every price board shows three parallel future values branching sideways like tree rings. Traders stand frozen mid-gesture as if paused between certainties.
+
+Negative: no named characters identifiably shown, no UI overlay, no readable signage, no modern branding, no on-image text"
+sector_syndicate_route_prime,"Syndicate Route Prime",sector_painting,D,1536x1024,P2,"syndicate-crimson, bio-chitin brown, deep void, one Seven-Omicron green pass-light","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: syndicate-crimson, bio-chitin brown, deep void, one Seven-Omicron green pass-light
+
+A hidden warp-lane bristling with Syndicate bio-scanners (organic growth on old Empire pylons), a lone courier skiff threading between them unseen. Off-frame right: the implied border of the Collector's Garden.
+
+Negative: no named characters identifiably shown, no UI overlay, no readable signage, no modern branding, no on-image text"
+sector_command_post_iron,"Iron Lion Command Post",sector_painting,D,1536x1024,P2,"gunmetal, ribbon-gold, dusk-amber lamplight, cold-grey sky","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: gunmetal, ribbon-gold, dusk-amber lamplight, cold-grey sky
+
+A forward-operating command post built into a fortified crag, Iron Lion's sigil painted on the rockface but faded. Two officers (one human, one Quarchon) confer beside a holo-table. Ribbons of the dead hang from the ceiling beams.
+
+Negative: no named characters identifiably shown, no UI overlay, no readable signage, no modern branding, no on-image text"
+sector_intelligence_exchange_nightline,"The Nightline Exchange",sector_painting,D,1536x1024,P2,"bar-amber, shadow-indigo, one cold cyan data-slate glow","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: bar-amber, shadow-indigo, one cold cyan data-slate glow
+
+An unmarked sector painted as a single dim bar interior in the middle of nowhere in space — no signs, no markings — where shadowed figures trade information across small tables. Only the drinks are lit.
+
+Negative: no named characters identifiably shown, no UI overlay, no readable signage, no modern branding, no on-image text"
+sector_atarion_ruins,"Atarion Ruins",sector_painting,D,1536x1024,P2,"bone-dust white, memory-stone teal, slate-grey, one warm amber inscription glow","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: bone-dust white, memory-stone teal, slate-grey, one warm amber inscription glow
+
+Ancient DeMagi memory stones half-buried in pale dust, still humming audibly (visualised as thin concentric rings around each stone). A Quarchon probability inspector is kneeling with a device, looking embarrassed.
+
+Negative: no named characters identifiably shown, no UI overlay, no readable signage, no modern branding, no on-image text"
+sector_tidewater_archive,"Tidewater Archive",sector_painting,D,1536x1024,P2,"sea-green, parchment-cream, deep navy water, one warm amber caught light","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: sea-green, parchment-cream, deep navy water, one warm amber caught light
+
+An underwater DeMagi archive seen through a glass observation dome — shelves of preserved parchment suspended in pale green sea-glow, fish moving between them as slow curators. A frustrated Quarchon inspector taps uselessly on the lock panel.
+
+Negative: no named characters identifiably shown, no UI overlay, no readable signage, no modern branding, no on-image text"
+sector_skyforge_plateau,"Skyforge Plateau",sector_painting,D,1536x1024,P2,"forge-orange, cloud-white, dusk-violet sky, one cold-blue plateau-lamp","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: forge-orange, cloud-white, dusk-violet sky, one cold-blue plateau-lamp
+
+A floating industrial city mid-cloud, enormous thermal vents releasing shimmering air-affinity ribbons that keep the city aloft. DeMagi and Quarchon flags fly from the same mast, side by side and grudging.
+
+Negative: no named characters identifiably shown, no UI overlay, no readable signage, no modern branding, no on-image text"
+sector_ember_memorial,"Ember IV Memorial",sector_painting,D,1536x1024,P2,"ash-grey, memorial-amber, deep charcoal sky, one cold-white Quarchon light","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: ash-grey, memorial-amber, deep charcoal sky, one cold-white Quarchon light
+
+A blackened crater where a world used to be. Forty-six small memorial flames arranged in a ring at its rim, each tended by a single silhouetted figure. Distant Quarchon visitor standing very still at the edge of the ring.
+
+Negative: no named characters identifiably shown, no UI overlay, no readable signage, no modern branding, no on-image text"
+sector_hidden_pureflame_cell,"The Pure Flame's Forge",sector_painting,D,1536x1024,P2,"forge-red, obsidian-black, ember-amber, one cold steel highlight on the hammer","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: forge-red, obsidian-black, ember-amber, one cold steel highlight on the hammer
+
+An underground forge-chamber, red-orange flames reflected on polished obsidian walls, a single masked figure (Arch-Burner Vel) hammering at an anvil. Runic symbols glow hot along the walls.
+
+Negative: no named characters identifiably shown, no UI overlay, no readable signage, no modern branding, no on-image text"
+sector_hidden_firstpattern_cell,"The First Pattern's Lattice",sector_painting,D,1536x1024,P2,"bone-white, lattice-violet, deep-black recess, one red stand-by pinlight","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: bone-white, lattice-violet, deep-black recess, one red stand-by pinlight
+
+A substrate-dwelling Architect cell: geometric crystalline lattices grow across the walls in perfect recursion, echoing the Architect's aesthetic. A dormant white-hulled construct lies in the middle, eyes dark.
+
+Negative: no named characters identifiably shown, no UI overlay, no readable signage, no modern branding, no on-image text"
+sector_new_atarion,"New Atarion",sector_painting,D,1536x1024,P2,"exhaustion-amber, dust-grey, slate-blue sky, one warm council-lamp yellow","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: exhaustion-amber, dust-grey, slate-blue sky, one warm council-lamp yellow
+
+A post-fall human capital city under a weary dawn. Three damaged shipping-platforms visible on the skyline, one still under repair scaffold after eleven years. Streets below are quiet; a single council-tower burns its lamp late.
+
+Negative: no named characters identifiably shown, no UI overlay, no readable signage, no modern branding, no on-image text"
+sector_thaloria,"Thaloria",sector_painting,D,1536x1024,P2,"sage-green, parchment-cream, dawn-peach sky, one violet ink accent on the page","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: sage-green, parchment-cream, dawn-peach sky, one violet ink accent on the page
+
+The storm-planet's sister-world, now almost unnaturally quiet. Vast fields of pale grass, a single modest council hall in the middle-distance, no defensive emplacements anywhere. A Hierophant figure writes at an outdoor desk under an umbrella of cloudless sky.
+
+Negative: no named characters identifiably shown, no UI overlay, no readable signage, no modern branding, no on-image text"
+sector_clone_collective,"The Clone Collective",sector_painting,D,1536x1024,P2,"uniform slate-grey, civilian warm-brown, overcast sky, one accent rose-gold on the turning figure","Dischordian Saga house style. Painterly digital illustration. High-contrast low-saturation palette with one hot accent colour per piece. Bio-mechanical / crystalline / wet-chrome textures where appropriate. Composition readable at thumbnail scale. Subtle eldritch geometry in negative space (rings-within-rings, recursive spirals, impossible angles). No on-image text. Cinematic lighting — volumetric haze, rim light, single key source. Reference: docs/production/COMPLETE_ART_PROMPT_BIBLE.md and ACTS_2_TO_7_PRODUCTION_BIBLE.md.
+
+Palette: uniform slate-grey, civilian warm-brown, overcast sky, one accent rose-gold on the turning figure
+
+A city of identical faces — seventeen thousand, here rendered as a rhythmic crowd of identical silhouettes in civilian clothes, each doing something slightly different (reading, arguing, gardening). The camera catches one turning, singular, toward the viewer.
+
+Negative: no named characters identifiably shown, no UI overlay, no readable signage, no modern branding, no on-image text"
