@@ -202,6 +202,191 @@ const ENTRIES: ExpansionCardRegistry = {
       "(intra-set) §s2_hierarchy_dir_townhall_phantom — comms-stack pairing",
     ],
   },
+
+  "s2_hierarchy_anl_ux_researcher": {
+    cardId: "s2_hierarchy_anl_ux_researcher",
+    name: "UX Researcher Wraith",
+    setCode: "S2_HIERARCHY",
+    faction: "new_babylon",
+    rarity: "uncommon",
+    cardType: "unit",
+    flavorText:
+      "She conducted thirty interviews. The findings did not align with the roadmap. The findings have been re-prioritized for a future cycle. The interviews are, the Wraith confirms gently, still very valuable.",
+    sceneDelta:
+      "Mid-shot. A faintly-translucent Quarchon analyst at a Hierarchy research-pod desk, mid-thirties, in a Hierarchy soft-grey cardigan over a sage-green blouse. Her left hand rests on an open Hierarchy research-binder showing tabbed interview-transcripts; her right hand holds a Hierarchy color-coded sticky-note ready to file. The wall behind her holds a research-affinity board covered in clusters of color-sorted sticky-notes. Her face is patient, slightly resigned.",
+    moodKeywords: [
+      "thirty interviews, re-prioritized",
+      "color-sorted sticky-notes",
+      "translucent patient researcher",
+      "the findings did not align",
+    ],
+    palette:
+      "Hierarchy soft-grey cardigan + sage-green blouse + warm research-pod overhead + sticky-note multi-color rainbow + binder forest-green + research-affinity-board cool-grey background",
+    composition:
+      "Mid-shot front three-quarter, Wraith at frame-centre seated, affinity-board filling frame-rear, binder open at desk-foreground",
+    notes:
+      "Uncommon. Translucency is moderate; sticky-note colors must read as a palette rather than chaos. Pairs with Roadmap Banshee (Manager) — Banshee maintains the dual roadmaps that re-prioritize the Wraith's findings.",
+    archetypeRationale:
+      "Newly-named per plan. UX Research ICs are the Hierarchy's user-empathy layer; the wraith framing emphasizes the institutional-erasure of inconvenient findings.",
+    loreCitations: [
+      "docs/built/LORE_BIBLE.md §Hierarchy as infernal corporation",
+      "(intra-set) §s2_hierarchy_mgr_roadmap_banshee — research-vs-roadmap pairing",
+    ],
+  },
+
+  "s2_hierarchy_anl_data_analyst": {
+    cardId: "s2_hierarchy_anl_data_analyst",
+    name: "Data Analyst (Hierarchy)",
+    setCode: "S2_HIERARCHY",
+    faction: "new_babylon",
+    rarity: "uncommon",
+    cardType: "unit",
+    flavorText:
+      "The query is still running. The query has been running for forty minutes. The Analyst has, in the interim, been promoted, reorganized, given a new dataset, and asked to re-run the query.",
+    sceneDelta:
+      "Mid-shot. A Hierarchy data analyst at a Hierarchy data-pod workstation, late-twenties, in a Hierarchy charcoal hoodie over a black collared shirt, sleeves pushed up. Three monitors: the leftmost shows a SQL editor with a long query in progress, middle shows a slow-spinning loading icon, rightmost shows a data-warehouse schema. Right hand on mouse, left hand resting on chin. His face is patient, slightly bored.",
+    moodKeywords: [
+      "the query is still running",
+      "forty-minute waits as routine",
+      "patient slight boredom",
+      "SQL editor + loading icon + schema",
+    ],
+    palette:
+      "Hierarchy charcoal hoodie + black collared shirt + cool-cyan triple-monitor + warm desk-lamp + loading-icon amber accent + Hierarchy crest plum-silver lanyard",
+    composition:
+      "Mid-shot front-on, Analyst at frame-centre seated, three monitors arc behind him, mouse-hand at frame-right desk-edge",
+    notes:
+      "Uncommon. Pairs with Reporting Specialist (within-tier) and Metrics Oracle (Director) — the Analyst writes the queries the Specialist surfaces and the Oracle reads from.",
+    archetypeRationale:
+      "Newly-named per plan. The Hierarchy's data IC layer needs both report-builders (Reporting Specialist) and query-authors (this Analyst) — the data flows from raw to surfaced through both.",
+    loreCitations: [
+      "docs/built/LORE_BIBLE.md §Hierarchy as infernal corporation",
+      "(intra-set) §s2_hierarchy_anl_reporting_specialist — data-stack pairing",
+    ],
+  },
+
+  "s2_hierarchy_anl_sales_ops": {
+    cardId: "s2_hierarchy_anl_sales_ops",
+    name: "Sales Operations Specialist",
+    setCode: "S2_HIERARCHY",
+    faction: "new_babylon",
+    rarity: "uncommon",
+    cardType: "unit",
+    flavorText:
+      "Quota allocations approved. Territory boundaries drawn. Comp plan finalized. Comp plan revised. Comp plan finalized again. The Specialist has not slept since Q1.",
+    sceneDelta:
+      "Mid-shot. A weary Hierarchy sales-ops analyst at a wide Hierarchy ops-desk, late-twenties, in a Hierarchy slate-blue blazer over a wrinkled white shirt (collar slightly askew). Spread across the desk: three Hierarchy territory maps, a thick comp-plan binder mid-flip, a fresh coffee. His face shows visible fatigue — dark under-eyes, two-day stubble. Right hand mid-flip on the comp-plan binder.",
+    moodKeywords: [
+      "comp plan finalized again",
+      "territory maps spread",
+      "two-day stubble fatigue",
+      "fresh coffee three deep",
+    ],
+    palette:
+      "Hierarchy slate-blue blazer + wrinkled white shirt + warm desk-lamp + territory-map cool-grey + comp-plan binder forest-green + coffee muted-amber",
+    composition:
+      "Mid-shot three-quarter, Specialist at frame-centre seated, territory-maps fanned across desk-foreground, binder mid-flip in hands at chest-height",
+    notes:
+      "Uncommon. The visible fatigue is intentional — sales-ops in the Hierarchy is canonically the most-overworked IC role. Pairs with Kelv'Orth VP Sales operationally.",
+    archetypeRationale:
+      "Newly-named per plan. Sales ops ICs are the Hierarchy's revenue-engine maintenance layer; the fatigue framing matches the canon Hierarchy 'overwork as power source' (Quarterly Earnings synergy).",
+    loreCitations: [
+      "docs/built/LORE_BIBLE.md §Hierarchy as infernal corporation",
+      "(intra-set) §s2_hierarchy_vp_sales_kelv_orth — sales-stack pairing",
+    ],
+  },
+
+  "s2_hierarchy_anl_finance_analyst": {
+    cardId: "s2_hierarchy_anl_finance_analyst",
+    name: "Finance & Strategy Analyst",
+    setCode: "S2_HIERARCHY",
+    faction: "new_babylon",
+    rarity: "uncommon",
+    cardType: "unit",
+    flavorText:
+      "The model is built. The assumptions are documented. The sensitivity is run. The board deck is ready. The board deck has been re-templated. The model is being rebuilt.",
+    sceneDelta:
+      "Mid-shot. A meticulous Hierarchy finance analyst at a tidy Hierarchy finance-pod workstation, late-twenties, in a Hierarchy navy blazer over a crisp white blouse, hair in a low pony. Two monitors: the left shows a Hierarchy financial-model with cells highlighted in cool-cyan; the right shows a board-deck slide with a financial chart. Right hand mid-keystroke; left hand holds a bound assumptions-document open at chest-height.",
+    moodKeywords: [
+      "the model is being rebuilt",
+      "tidy meticulous workstation",
+      "navy blazer crisp blouse",
+      "assumptions documented at chest-height",
+    ],
+    palette:
+      "Hierarchy navy blazer + crisp white blouse + cool-cyan dual-monitor + warm desk-lamp + bound-document forest-green + Hierarchy crest plum-silver lanyard",
+    composition:
+      "Mid-shot front-on, Analyst at frame-centre seated, two monitors at frame-rear, bound-document held at chest-foreground",
+    notes:
+      "Uncommon. Pairs with Xeth'Raal CFO at the executive level and with Quarterly Forecaster (Manager) operationally. The deliberate tidiness is the Finance Analyst signature — opposite end of the visual spectrum from the Sales Ops fatigue.",
+    archetypeRationale:
+      "Newly-named per plan. Finance ICs are the Hierarchy's modeling layer; the tidiness/precision framing reflects the financial-discipline canon (Xeth'Raal's Ledger of Ruin).",
+    loreCitations: [
+      "docs/built/LORE_BIBLE.md §Hierarchy as infernal corporation",
+      "(intra-set) §s2_hierarchy_cfo_xeth_raal — finance-stack pairing",
+    ],
+  },
+
+  "s2_hierarchy_anl_recruiting_coordinator": {
+    cardId: "s2_hierarchy_anl_recruiting_coordinator",
+    name: "Recruiting Coordinator",
+    setCode: "S2_HIERARCHY",
+    faction: "new_babylon",
+    rarity: "uncommon",
+    cardType: "unit",
+    flavorText:
+      "Five rounds. Two panel sessions. One take-home. Three additional culture-fit interviews. The Coordinator schedules each round. The Coordinator has not been able to schedule her own performance review.",
+    sceneDelta:
+      "Mid-shot. A Hierarchy recruiting-coordinator analyst at a Hierarchy people-ops workstation, mid-twenties, in a Hierarchy plum cardigan over a soft-cream blouse. Single tall monitor showing a Hierarchy interview-scheduling grid with overlapping calendar-blocks in cool-cyan. Her right hand on a Hierarchy-branded pen mid-stroke on a small printed candidate-tracker; her left hand mid-tap on the calendar-grid. Her face is friendly, composed, with the slight strained patience of someone who has rescheduled the same panel three times.",
+    moodKeywords: [
+      "five rounds and a take-home",
+      "calendar overlap cool-cyan",
+      "candidate-tracker pen-stroke",
+      "rescheduled the same panel three times",
+    ],
+    palette:
+      "Hierarchy plum cardigan + soft-cream blouse + cool-cyan calendar-grid + warm desk-lamp + Hierarchy-branded pen muted-silver + candidate-tracker pale-grey",
+    composition:
+      "Mid-shot front three-quarter, Coordinator at frame-centre seated, monitor at frame-right, candidate-tracker on desk-foreground",
+    notes:
+      "Uncommon. Pairs with Velm Acrith (Director Onboarding) operationally — the Coordinator hires, Velm onboards. Together they bracket the Hierarchy's hiring-pipeline IC layer.",
+    archetypeRationale:
+      "Newly-named per plan. Recruiting Coordinators are the Hierarchy's hiring-funnel IC layer; the overscheduled-friendly framing is the canonical recruiter signature.",
+    loreCitations: [
+      "docs/built/LORE_BIBLE.md §Hierarchy as infernal corporation",
+      "(intra-set) §s2_hierarchy_dir_onboarding_specialist — hiring-pipeline pairing",
+    ],
+  },
+
+  "s2_hierarchy_anl_office_manager": {
+    cardId: "s2_hierarchy_anl_office_manager",
+    name: "Office Manager Specter",
+    setCode: "S2_HIERARCHY",
+    faction: "new_babylon",
+    rarity: "uncommon",
+    cardType: "unit",
+    flavorText:
+      "The fridge is restocked. The mail is sorted. The badge-printer is online. The all-hands lunch has been ordered (and re-ordered, after the dietary restrictions arrived). The Specter does not need acknowledgment, but she does keep a list.",
+    sceneDelta:
+      "Mid-shot. A faintly-translucent Hierarchy office-manager analyst at the threshold of a Hierarchy main-floor common-area, mid-fifties, in a Hierarchy soft-violet cardigan over a black blouse, reading-glasses on a chain. Holds a small Hierarchy clipboard tucked under one arm; right hand mid-pat to a stack of fresh badge-printer paper on a side-counter. Behind her: a tidy Hierarchy office kitchenette (coffee maker, fruit bowl, recycling sorted). Her face is competent, faintly weary, no smile.",
+    moodKeywords: [
+      "the fridge is restocked",
+      "the badge-printer is online",
+      "she keeps a list",
+      "translucent competent weary",
+    ],
+    palette:
+      "Hierarchy soft-violet cardigan + black blouse + reading-glasses chain pale-silver + warm common-area uplight + cool corridor light through doorway behind + clipboard pale-grey",
+    composition:
+      "Mid-shot three-quarter, Specter at frame-centre at threshold, kitchenette at frame-rear in soft focus, side-counter foreground at frame-right",
+    notes:
+      "Uncommon. Translucency is moderate. The 'she keeps a list' detail is the canonical Office Manager Specter signature — quiet competence with quiet ledger.",
+    archetypeRationale:
+      "Newly-named per plan. Office-manager ICs are the Hierarchy's invisible-infrastructure layer; the specter framing emphasizes that the role is felt only when interrupted.",
+    loreCitations: [
+      "docs/built/LORE_BIBLE.md §Hierarchy as infernal corporation",
+    ],
+  },
 };
 
 export const ANALYST_PROMPTS: ExpansionCardRegistry = Object.freeze(ENTRIES);
