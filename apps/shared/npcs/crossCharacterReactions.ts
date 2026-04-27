@@ -232,6 +232,39 @@ export const CROSS_CHARACTER_REACTIONS: ReadonlyArray<CrossCharacterReaction> = 
       "False Prophet clone from the Oracle's harvested template).",
   },
 
+  // ─── Oracle Liberation canon witnessed (Phase 6b.3 sub-chunk F) ────
+  {
+    flag: "oracle_liberation_canon_witnessed",
+    setBy: ["the_oracle"],
+    reactsBy: ["future_reader"], // Future Enigma + Antiquarian banks
+    canonicalNote:
+      "Per Oracle bible §2.7 + writers'-guide spec: when the player " +
+      "canonically witnesses the canonical Liberation memory — the " +
+      "canonical Enigma + Programmer Panopticon raid + Warden " +
+      "destruction — the canonical Liberation canon canonically lands. " +
+      "The flag opens downstream Phase 6+ NPC reactive registers — " +
+      "particularly the future Enigma bible (the canonical liberator-" +
+      "pair canon) + the Antiquarian / Daniel Cross / Programmer canon " +
+      "(canonical 'I helped the Enigma raid' acknowledgment register).",
+  },
+
+  // ─── Oracle Heart-of-Time canon witnessed (Phase 6b.3 sub-chunk F) ─
+  {
+    flag: "oracle_heart_of_time_canon_witnessed",
+    setBy: ["the_oracle"],
+    reactsBy: ["future_reader"], // Hierophant + Enigma Phase 6+
+    canonicalNote:
+      "Per Oracle bible §2.10 + writers'-guide spec: the canonical " +
+      "Heart-of-Time / Epoch-1 anchor is the saga's clearest single " +
+      "Stage-4-weave-anchor. When the player canonically witnesses the " +
+      "canonical-arrival memory, the canonical Heart-of-Time canon " +
+      "lands. Cross-bible bridges: Hierophant bible §4.10 (the " +
+      "canonical-preparing-for-return canon canonically anchors here); " +
+      "Seer bible §3.8 (canonical Epoch-1 sealing-event reference). " +
+      "Downstream Phase 6+ NPCs gain canonical 'you canonically " +
+      "witnessed the Heart-of-Time' acknowledgment register.",
+  },
+
   // ─── Oracle clone canon disclosed (Phase 6b.3) ─────────────────────
   {
     flag: "oracle_clone_canon_disclosed",

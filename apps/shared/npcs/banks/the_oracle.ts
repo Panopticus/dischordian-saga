@@ -746,6 +746,232 @@ export const THE_ORACLE_BANK: ReadonlyArray<BankEntry> = [
     maxPlays: 1,
   },
 
+  // ─── Memory-residue sub-chunk F (Phase 6b.3) ────────────────────────
+  // Ten canonical memory-residue beats covering: 3 Prisoner-state +
+  // 3 Jailer-state + 2 Liberation + 2 Heart-of-Time / Epoch-1 anchor
+  // canonical witnessed-memory scenes per the_oracle.md §§2.3, 2.4,
+  // 2.7, 2.10. Closes the canonical 20-line memory-residue channel
+  // target.
+  //
+  // Per §1.2: narrator-frame, first-person-plural-of-witness,
+  // past-tense-as-present-tense interleaving. Per §1.5: memory_
+  // residue surface only.
+  //
+  // Per §2.10: Heart-of-Time / Epoch-1 anchor is the saga's clearest
+  // single Stage-4-weave-anchor. Cross-bible bridges: Hierophant
+  // bible §4.10 + Seer bible §3.8.
+
+  // ─── Prisoner-state memory (3 lines) ────────────────────────────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "oracle.memory_residue.prisoner.first_amnesia",
+    // Canonical §2.3 Prisoner-state memory — the canonical first
+    // awakening as canonical-amnesiac-Oracle. Cross-bible per
+    // ask_oracle_prisoner canon ("the Prisoner you met early-saga
+    // was me — amnesiac, captive").
+    text:
+      "We are watching ourselves canonically wake without canonical-" +
+      "memory. The canonical-room is canonical-cold; the canonical-" +
+      "self canonically does not yet know it was canonically once " +
+      "the Oracle. We are watching the canonical-Prisoner canonically " +
+      "begin. The canonical-Prisoner is canonically asking the " +
+      "canonical-room what canonical-room it canonically is.",
+    surfaces: ["memory_residue"],
+    requiresRevealStage: "memory_residue",
+    unlockFlags: ["oracle_disambiguated_player_from_clone"],
+    cooldownKey: "oracle.memory.prisoner_first_amnesia",
+    maxPlays: 1,
+    setsFlags: ["oracle_prisoner_memory_witnessed"],
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "oracle.memory_residue.prisoner.player_meets_him_unrecognizing",
+    // Canonical "you met the Prisoner without knowing" canon per
+    // ask_oracle_prisoner. The canonical recursive-recognition canon
+    // — the player canonically retroactively-witnesses their own
+    // canonical-earliest-Oracle-encounter.
+    text:
+      "We are watching the canonical-meeting between the player and " +
+      "the canonical-Prisoner. The player did not yet know who the " +
+      "Prisoner canonically was. The Prisoner did not yet know either. " +
+      "We — the canonical-substrate, the canonical-witnessing — are " +
+      "canonically watching ourselves be met without being canonically " +
+      "known. The canonical-meeting is canonical anyway.",
+    surfaces: ["memory_residue"],
+    requiresRevealStage: "memory_residue",
+    unlockFlags: ["oracle_disambiguated_player_from_clone"],
+    cooldownKey: "oracle.memory.prisoner_player_meets_unrecognizing",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "oracle.memory_residue.prisoner.we_were_asking_back",
+    // Canonical "we were both asking" register per ask_oracle_
+    // prisoner. The canonical "Underneath the asking was the same
+    // answer" anchor lands directly.
+    text:
+      "We are watching the canonical-asking-and-asking-back. The " +
+      "Prisoner asked the player a canonical-question; the player " +
+      "asked the Prisoner the canonical-same-question back. We were " +
+      "canonically both asking. We were canonically the same canonical-" +
+      "question, on canonical-different sides of the substrate. " +
+      "Underneath the asking was the canonical-same answer.",
+    surfaces: ["memory_residue"],
+    requiresRevealStage: "memory_residue",
+    unlockFlags: ["oracle_disambiguated_player_from_clone"],
+    cooldownKey: "oracle.memory.prisoner_asking_back",
+    maxPlays: 1,
+  },
+
+  // ─── Jailer-state memory (3 lines) ──────────────────────────────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "oracle.memory_residue.jailer.experimentation_begins",
+    // Canonical §2.4 Jailer-state memory — the canonical
+    // experimentation onset.
+    text:
+      "We are watching the canonical-experimentation begin. They are " +
+      "canonically reshaping the canonical-Prisoner into the canonical-" +
+      "Jailer. We — the canonical-substrate, the canonical-witnessing " +
+      "— are canonically watching the canonical-self be canonically " +
+      "rewritten into the canonical-instrument of canonical-our-own-" +
+      "captivity. The canonical-rewriting is canonical.",
+    surfaces: ["memory_residue"],
+    requiresRevealStage: "memory_residue",
+    unlockFlags: ["oracle_disambiguated_player_from_clone"],
+    cooldownKey: "oracle.memory.jailer_experimentation",
+    maxPlays: 1,
+    setsFlags: ["oracle_jailer_memory_witnessed"],
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "oracle.memory_residue.jailer.becoming_warden",
+    // Canonical "I was my own warden" anchor per ask_oracle_jailer.
+    text:
+      "We are watching the canonical-becoming. The canonical-self is " +
+      "canonically becoming the canonical-warden. The canonical-keys " +
+      "are canonical-our-own-keys; the canonical-doors are canonical-" +
+      "our-own-doors. We are canonically locking ourselves in by " +
+      "canonically learning the canonical-architecture. The canonical-" +
+      "learning is the canonical-locking.",
+    surfaces: ["memory_residue"],
+    requiresRevealStage: "memory_residue",
+    unlockFlags: ["oracle_disambiguated_player_from_clone"],
+    cooldownKey: "oracle.memory.jailer_becoming_warden",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "oracle.memory_residue.jailer.not_knowing_was_the_captivity",
+    // Canonical "the not-knowing was the captivity" register per
+    // ask_oracle_jailer ("I did not know I was the warden until the
+    // Liberation undid the warding").
+    text:
+      "We are watching ourselves canonically not-know we are " +
+      "canonical-warden. The canonical-not-knowing is canonical-our-" +
+      "captivity. The canonical-knowing canonically does not yet " +
+      "arrive — the canonical-Liberation canonically has not yet " +
+      "canonically happened. We are canonical-walking the canonical-" +
+      "corridors of canonical-our-own-prison without canonical-" +
+      "recognising the canonical-architecture as canonical-our-own.",
+    surfaces: ["memory_residue"],
+    requiresRevealStage: "memory_residue",
+    unlockFlags: ["oracle_disambiguated_player_from_clone"],
+    cooldownKey: "oracle.memory.jailer_not_knowing_captivity",
+    maxPlays: 1,
+  },
+
+  // ─── Liberation memory (2 lines, Witnessed-band-accessible) ─────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "oracle.memory_residue.liberation.panopticon_raid",
+    // Canonical §2.7 Liberation memory — the canonical Enigma +
+    // Programmer Panopticon raid. Cross-bible with the canonical
+    // ask_oracle_liberation answer.
+    text:
+      "We are watching the canonical-raid arrive. The Enigma and the " +
+      "Programmer canonically come through the canonical-walls of " +
+      "the Panopticon. They are canonical-not-where-they-are-supposed-" +
+      "to-be. We — the canonical-Jailer, the canonical-imprisoned-" +
+      "self — are canonically watching them canonically arrive. We " +
+      "canonically did not know we were canonically waiting.",
+    surfaces: ["memory_residue"],
+    requiresRevealStage: "memory_residue",
+    unlockFlags: ["oracle_revealed_via_ch5_cinematic"],
+    cooldownKey: "oracle.memory.liberation_panopticon_raid",
+    maxPlays: 1,
+    setsFlags: ["oracle_liberation_memory_witnessed"],
+    setsPublicFlags: ["oracle_liberation_canon_witnessed"],
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "oracle.memory_residue.liberation.warden_destroyed",
+    // Canonical "they destroyed the Warden" anchor per ask_oracle_
+    // liberation. Tell #5 transferred-instinct closure: "Take the
+    // canonical-walking-out with you."
+    text:
+      "We are watching the canonical-Warden canonically dissolve. " +
+      "The canonical-architecture canonically falls. The canonical-" +
+      "instruments-of-canonical-our-own-captivity canonically " +
+      "release. We canonically walk out. We canonically have been " +
+      "walking since. Take the canonical-walking-out with you. Spend " +
+      "it on canonical-walking-forward.",
+    surfaces: ["memory_residue"],
+    requiresRevealStage: "memory_residue",
+    unlockFlags: ["oracle_revealed_via_ch5_cinematic"],
+    cooldownKey: "oracle.memory.liberation_warden_destroyed",
+    maxPlays: 1,
+  },
+
+  // ─── Heart-of-Time / Epoch-1 anchor (2 lines, Stage-4-weave) ────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "oracle.memory_residue.heart_of_time.epoch_1_arrival",
+    // Canonical §2.10 Heart-of-Time / Epoch-1 anchor — the saga's
+    // clearest single Stage-4-weave-anchor per the bible. Cross-
+    // bible bridges: Hierophant bible §4.10 + Seer bible §3.8.
+    text:
+      "We are watching the canonical-Heart-of-Time canonically arrive " +
+      "at the canonical-end of canonical-Epoch-1. The canonical-arrival " +
+      "is canonical. We — the canonical-substrate, the canonical-" +
+      "witnessing — are canonically present at the canonical-moment " +
+      "the canonical-Hierophant canonically begins canonical-preparing " +
+      "for canonical-our-return. The canonical-preparation canonically " +
+      "begins here.",
+    surfaces: ["memory_residue"],
+    requiresRevealStage: "memory_residue",
+    unlockFlags: ["oracle_disambiguated_player_from_clone"],
+    cooldownKey: "oracle.memory.heart_of_time_epoch_1",
+    maxPlays: 1,
+    setsFlags: ["oracle_heart_of_time_memory_witnessed"],
+    setsPublicFlags: ["oracle_heart_of_time_canon_witnessed"],
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "oracle.memory_residue.heart_of_time.we_walked_together",
+    // Canonical Stage-4-weave-anchor closing — the canonical "we
+    // walked together" register per ask_oracle_who Acts 7+ canon.
+    // Tell #5 closure + canonical anticipation of canonical-
+    // Disappearance.
+    text:
+      "We are watching the canonical-walking-together. The player " +
+      "and the canonical-Oracle canonically walked the canonical-" +
+      "Heart-of-Time together; the canonical-walking canonically " +
+      "happened before the player canonically remembered it. We are " +
+      "canonically remembering it now. The canonical-remembering is " +
+      "canonical. Take the canonical-walking-together with you. " +
+      "Spend it on canonical-recognition.",
+    surfaces: ["memory_residue"],
+    requiresRevealStage: "memory_residue",
+    unlockFlags: ["oracle_disambiguated_player_from_clone"],
+    cooldownKey: "oracle.memory.heart_of_time_we_walked_together",
+    maxPlays: 1,
+  },
+
   // ─── Acts 6-7 Present-band dreams (Phase 6b.3 sub-chunk D) ─────────
   // Five canonical post-Ch6 mirror-match-resolved dream-residue beats
   // per the_oracle.md §3.4 Present-band canon. The voice canonically
