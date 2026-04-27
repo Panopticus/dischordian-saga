@@ -50,6 +50,54 @@ declare module "@sentry/node" {
   ): void;
 }
 
+declare module "@opentelemetry/sdk-node" {
+  // Loaded via variable-specifier dynamic import in server/otel.ts.
+  // Real package only installs when OTEL_ENABLED=1 in production.
+  export class NodeSDK {
+    constructor(config: Record<string, unknown>);
+    start(): void;
+    shutdown(): Promise<void>;
+  }
+}
+
+declare module "@opentelemetry/api" {
+  export interface Span {
+    setStatus(status: { code: number; message?: string }): void;
+    recordException(error: Error): void;
+    setAttribute(key: string, value: string | number | boolean): void;
+    end(): void;
+  }
+  export interface Tracer {
+    startSpan(
+      name: string,
+      options?: { attributes?: Record<string, string | number | boolean> },
+    ): Span;
+  }
+  export const SpanStatusCode: { OK: number; ERROR: number; UNSET: number };
+  export const trace: {
+    getTracer(name: string): Tracer;
+  };
+}
+
+declare module "@opentelemetry/exporter-trace-otlp-http" {
+  export class OTLPTraceExporter {
+    constructor(options: { url: string });
+  }
+}
+
+declare module "@opentelemetry/resources" {
+  export class Resource {
+    constructor(attributes: Record<string, string>);
+  }
+}
+
+declare module "@opentelemetry/semantic-conventions" {
+  export const SemanticResourceAttributes: {
+    SERVICE_NAME: string;
+    DEPLOYMENT_ENVIRONMENT: string;
+  };
+}
+
 declare module "@aws-sdk/client-s3" {
   // Voice-over generation scripts upload to S3 via a guarded
   // dynamic import. The SDK is a dev-only convenience — the scripts

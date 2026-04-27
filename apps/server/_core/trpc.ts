@@ -2,13 +2,34 @@ import { NOT_ADMIN_ERR_MSG, UNAUTHED_ERR_MSG } from '@shared/const';
 import { initTRPC, TRPCError } from "@trpc/server";
 import superjson from "superjson";
 import type { TrpcContext } from "./context";
+import { withSpan } from "../otel";
 
 const t = initTRPC.context<TrpcContext>().create({
   transformer: superjson,
 });
 
 export const router = t.router;
-export const publicProcedure = t.procedure;
+
+// #88 OpenTelemetry — wrap every tRPC procedure in a span. When OTel
+// isn't initialized (default), `withSpan` is a tail-call to `fn()`
+// with one boolean check overhead, so this is safe to apply
+// universally. When the SDK is loaded, every query/mutation produces
+// a `trpc.<path>` span with `trpc.type` and `trpc.has_user`
+// attributes for correlation with downstream DB / external traces.
+const traceMiddleware = t.middleware(async opts => {
+  const { next, path, type, ctx } = opts;
+  return (await withSpan(
+    `trpc.${path}`,
+    () => next(),
+    {
+      "trpc.path": path,
+      "trpc.type": type,
+      "trpc.has_user": ctx.user != null,
+    },
+  )) as Awaited<ReturnType<typeof next>>;
+});
+
+export const publicProcedure = t.procedure.use(traceMiddleware);
 
 const requireUser = t.middleware(async opts => {
   const { ctx, next } = opts;
@@ -25,9 +46,9 @@ const requireUser = t.middleware(async opts => {
   });
 });
 
-export const protectedProcedure = t.procedure.use(requireUser);
+export const protectedProcedure = t.procedure.use(traceMiddleware).use(requireUser);
 
-export const adminProcedure = t.procedure.use(
+export const adminProcedure = t.procedure.use(traceMiddleware).use(
   t.middleware(async opts => {
     const { ctx, next } = opts;
 
@@ -50,7 +71,7 @@ export const adminProcedure = t.procedure.use(
  * changes, but cannot execute those changes directly — that still
  * requires two admin approvals via the architectConsole flow.
  */
-export const moderatorProcedure = t.procedure.use(
+export const moderatorProcedure = t.procedure.use(traceMiddleware).use(
   t.middleware(async opts => {
     const { ctx, next } = opts;
 
