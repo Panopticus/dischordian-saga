@@ -790,9 +790,13 @@ export default function CharacterSheetPage() {
                   <div className="relative z-10 p-2">
                     {/* §G.9 18-slot BG3 paper doll — species-driven base-mask
                         + base-suit composed under element-tinted gear layers.
-                        Slot pieces with shipped art render the PNG; others
-                        fall through to their placeholder rectangle so the
-                        silhouette of the character is always visible. */}
+                        Starter sentinels (`mask:…` / `suit:…`) route to the
+                        matching Inventor-catalog piece via parseSuitPieceArtId
+                        so the base layers render real shipped art; equipped
+                        suit pieces render directly from `<setId>:<rarity>:<slot>`.
+                        Slots whose PNG hasn't shipped yet still fall through
+                        to the placeholder rectangle so the silhouette of the
+                        character is always visible. */}
                     <div className="relative" style={{ width: 240 }}>
                       {bg3Loadout ? (
                         <PaperDollBG3

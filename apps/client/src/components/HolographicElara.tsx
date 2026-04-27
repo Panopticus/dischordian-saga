@@ -220,10 +220,31 @@ export default function HolographicElara({
                 alt="Elara"
                 className="w-full h-full object-cover"
                 style={{
+                  // Crop biased to the upper face so the eyes/forehead sit
+                  // mid-circle and the lips fall near the bottom edge —
+                  // the source portrait's lower face has visible AI
+                  // generation artifacts that the holographic overlays
+                  // alone don't fully mask.
+                  objectPosition: "center 22%",
                   filter: "brightness(1.1) contrast(1.1) saturate(0.8)",
                 }}
               />
             )}
+
+            {/* Lower-face holographic mask — fades the bottom third of
+                the portrait into the surrounding void so the source
+                portrait's mouth artifacts read as "data degradation"
+                rather than uncanny lip-sync. */}
+            <div
+              aria-hidden
+              className="absolute inset-x-0 bottom-0 pointer-events-none"
+              style={{
+                height: "38%",
+                background:
+                  "linear-gradient(180deg, transparent 0%, color-mix(in oklch, var(--bg-void) 55%, transparent) 55%, color-mix(in oklch, var(--bg-void) 90%, transparent) 100%)",
+                mixBlendMode: "multiply",
+              }}
+            />
 
             {/* Holographic tint overlay */}
             <div
@@ -267,7 +288,10 @@ export default function HolographicElara({
                     src={ELARA_PORTRAIT}
                     alt=""
                     className="w-full h-full object-cover"
-                    style={{ filter: "hue-rotate(120deg) saturate(3)" }}
+                    style={{
+                      objectPosition: "center 22%",
+                      filter: "hue-rotate(120deg) saturate(3)",
+                    }}
                   />
                 </div>
                 <div
@@ -282,7 +306,10 @@ export default function HolographicElara({
                     src={ELARA_PORTRAIT}
                     alt=""
                     className="w-full h-full object-cover"
-                    style={{ filter: "hue-rotate(240deg) saturate(3)" }}
+                    style={{
+                      objectPosition: "center 22%",
+                      filter: "hue-rotate(240deg) saturate(3)",
+                    }}
                   />
                 </div>
               </>

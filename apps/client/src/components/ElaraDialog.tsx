@@ -598,7 +598,7 @@ export default function ElaraDialog({ elaraTTS: _elaraTTS }: { elaraTTS?: any } 
                 {isLoading && (
                   <div className="flex gap-3">
                     <div className="w-8 h-8 rounded-full overflow-hidden border border-[var(--neon-cyan)]/30 flex-shrink-0 mt-1">
-                      <img src={ELARA_CONCERNED} alt="" className="w-full h-full object-cover" />
+                      <img src={ELARA_CONCERNED} alt="" className="w-full h-full object-cover" style={{ objectPosition: "center 22%" }} />
                     </div>
                     <div className="bg-[var(--glass-base)] border border-[var(--glass-border)] rounded-lg px-4 py-3">
                       <div className="flex items-center gap-2 text-[var(--neon-cyan)]/70">

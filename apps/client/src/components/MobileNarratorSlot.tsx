@@ -200,6 +200,7 @@ export function MobileNarratorSlot({ roomId, flags, className }: MobileNarratorS
             src={bust}
             alt={NARRATOR_NAME[narratorId]}
             className={`w-12 h-12 rounded-full object-cover ring-2 ${accent.ring}`}
+            style={{ objectPosition: "center 22%" }}
           />
         )}
         <div className="flex-1 min-w-0">

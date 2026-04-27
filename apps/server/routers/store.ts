@@ -155,13 +155,26 @@ export const storeRouter = router({
     }));
   }),
 
-  /** Get user's Dream balance */
+  /** Get user's Dream balance.
+   *
+   * Reads only the four columns the client actually consumes.
+   * Avoids selecting `difficultyModifier` here so the panel still
+   * loads cleanly during the brief window between server start
+   * and `bootstrapDreamBalanceDifficultyModifier()` finishing on a
+   * fresh deploy (and during the migration-drift period where the
+   * column may not exist yet). The boss-difficulty read uses its
+   * own dedicated lookup path. */
   myDreamBalance: protectedProcedure.query(async ({ ctx }) => {
     const db = await getDb();
     if (!db) return { dreamTokens: 0, soulBoundDream: 0, totalDreamEarned: 0, dnaCode: 0 };
 
     const [balance] = await db
-      .select()
+      .select({
+        dreamTokens: dreamBalance.dreamTokens,
+        soulBoundDream: dreamBalance.soulBoundDream,
+        totalDreamEarned: dreamBalance.totalDreamEarned,
+        dnaCode: dreamBalance.dnaCode,
+      })
       .from(dreamBalance)
       .where(eq(dreamBalance.userId, ctx.user.id))
       .limit(1);
@@ -177,12 +190,7 @@ export const storeRouter = router({
       return { dreamTokens: 10, soulBoundDream: 0, totalDreamEarned: 10, dnaCode: 0 };
     }
 
-    return {
-      dreamTokens: balance.dreamTokens,
-      soulBoundDream: balance.soulBoundDream,
-      totalDreamEarned: balance.totalDreamEarned,
-      dnaCode: balance.dnaCode,
-    };
+    return balance;
   }),
 });
 
