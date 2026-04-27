@@ -10,7 +10,7 @@ Built on the music of [Malkia Ukweli & the Panopticon](https://discord.gg/vGYfAE
 
 - **Loredex OS** — a web app that is simultaneously the interface to the game AND a narrative object inside it (an Ark's ship computer you've just woken up on)
 - **~228K lines** of TypeScript/React across 600+ files
-- **12 playable fighters**, **107 canonical tracks**, **43 companion specimens**, **12 chapters**, **20+ ship rooms**, **30+ NPCs** with BioWare-depth relationship arcs
+- **12 playable fighters**, **107 canonical tracks**, **43 companion specimens**, **12 chapters**, **20+ ship rooms**, **30+ NPCs** — **11 priority-roster characters with full BioWare-depth bibles shipped (Stage 0 complete)**, dialogue-authoring scope of ~7,800 lines underway in Stage 2; broader 30+ roster targeted in Stage 4
 - **Disco Elysium-style inner voices**, **Persona-style social links**, **TFT-style trait synergies** for party composition
 - Rich progression systems — unlock rare species, cards, and content through gameplay and promotional codes
 

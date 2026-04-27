@@ -812,6 +812,21 @@ export const deadMansCircuitRouter = router({
         .set({ severancePrizeClaimed: 1 })
         .where(eq(circuitLeaderboard.id, lb.id));
 
+      // Phase 2 cross-system bridge: emit severance_prize_paid ripple.
+      // Trade Empire's Nilmorg severance broker unlocks contracts on this
+      // event (per nilmorg.md §5.7 deferred broker hook now active).
+      try {
+        await ripple.emit("severance_prize_paid", {
+          userId: ctx.user.id,
+          seasonName: season.name,
+          championUserId: ctx.user.id,
+          companionEidolonId: eidolonId,
+        });
+      } catch (rippleErr) {
+        // Silent-fail: bridge ripple shouldn't block the prize delivery.
+        console.error("severance_prize_paid ripple failed", rippleErr);
+      }
+
       return {
         success: true,
         eidolonId,
