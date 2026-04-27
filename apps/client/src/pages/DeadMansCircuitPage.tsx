@@ -673,6 +673,40 @@ export default function DeadMansCircuitPage() {
           </button>
         </div>
 
+        {/* Race trailer — DMC_CINEMATICS.theRace, the 20s gameplay trailer
+            authored as marketing material. Mirrored in the lobby so the
+            asset has a real player-facing surface and isn't paying CDN
+            storage for nothing. Click to play fullscreen via the same
+            playCinematic overlay used by the sermon. */}
+        <div className={`${voidPanel} overflow-hidden`}>
+          <button
+            type="button"
+            onClick={() => playCinematic(DMC_CINEMATICS.theRace, "THE RACE", () => {})}
+            className="group relative w-full aspect-video block"
+          >
+            <video
+              src={DMC_CINEMATICS.theRace}
+              autoPlay
+              muted
+              loop
+              playsInline
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+            <div className="absolute inset-0" style={{ background: `linear-gradient(to top, ${CIRCUIT_PALETTE.TRENCH_DARK}ee 0%, transparent 60%)` }} />
+            <div className="absolute bottom-0 left-0 right-0 p-3">
+              <p className="font-mono text-[8px] tracking-[0.25em] mb-1" style={{ color: CIRCUIT_PALETTE.NILMORG_ORANGE }}>
+                CIRCUIT // GAMEPLAY TRAILER
+              </p>
+              <p className="font-display text-[13px] sm:text-sm italic leading-snug" style={{ color: CIRCUIT_PALETTE.BONE_WHITE }}>
+                Twenty seconds of the trench at terminal velocity.
+              </p>
+            </div>
+            <div className="absolute top-3 right-3 font-mono text-[9px] px-2 py-1 rounded" style={{ background: "#000a", color: CIRCUIT_PALETTE.NILMORG_ORANGE }}>
+              ▶ WATCH TRAILER
+            </div>
+          </button>
+        </div>
+
         {/* Nilmorg Commentary (dynamic VO lines, corporate-chair loop as portrait) */}
         <div className={`${voidPanel} relative overflow-hidden`}>
           <video

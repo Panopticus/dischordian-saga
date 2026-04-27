@@ -69,15 +69,14 @@ export const PRELUDE_CUTSCENE_VIDEOS: Readonly<Record<string, string>> = {
   beat_j: assetUrl("videos/prelude/prelude-beat-j-finale.mp4"),
 } as const;
 
-/** Alternate take of Beat J — the earlier Archives arrival cut. */
-export const PRELUDE_BEAT_J_ARCHIVES_ARRIVAL = assetUrl(
-  "videos/prelude/prelude-beat-j-archives-arrival-clip.mp4",
-);
-
-/** Alternate earlier take of Beat I (the "archive" clip), kept as b-roll. */
-export const PRELUDE_BEAT_I_ARCHIVE_ALT = assetUrl(
-  "videos/prelude/prelude-beat-i-archive.mp4",
-);
+/* Alternate Beat I/J takes (`prelude-beat-i-archive.mp4`,
+ * `prelude-beat-j-archives-arrival-clip.mp4`) used to be exported here
+ * as `PRELUDE_BEAT_I_ARCHIVE_ALT` / `PRELUDE_BEAT_J_ARCHIVES_ARRIVAL`.
+ * They were never consumed — the canonical takes in
+ * PRELUDE_CUTSCENE_VIDEOS above are what the player actually sees. The
+ * MP4s remain on the CDN; if a future feature wants the alts (e.g. a
+ * director's-cut viewer), re-add the export rather than reaching past
+ * this comment. */
 
 /* ─── PRELUDE — CUTSCENE BOOKEND STILLS ─── */
 
@@ -273,6 +272,18 @@ export const PRELUDE_AMBIENT_BEDS_DELIVERED = {
 
 /* ─── ACT 1 — CUTSCENE VIDEOS ─── */
 
+/**
+ * The three Act 1 cutscenes (tavern / arena / council) belong to a
+ * fantasy-adventure scene system that has not been built yet — the
+ * companion `ACT1_ROOMS`, `ACT1_BATTLEFIELDS`, `ACT1_PORTRAITS`, and
+ * `ACT1_MUSIC` registries below are likewise authored content waiting
+ * for the scene flow to land. All three videos exist on the CDN and
+ * are viewable today via `/prelude-act1-gallery` (the content-review
+ * page). They are intentionally not yet wired to a story trigger;
+ * forcing them into the existing sci-fi `act-1-the-signal` narrative
+ * (`apps/client/src/data/narrativeActs.ts:88`) would mismatch the
+ * fictional setting.
+ */
 export type Act1CutsceneId =
   | "act1-tavern-arrival"
   | "act1-arena-challenge"
