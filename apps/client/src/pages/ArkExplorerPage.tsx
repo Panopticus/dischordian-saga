@@ -9,11 +9,18 @@ import { useState, useCallback, useEffect, useMemo, useRef } from "react";
 import { dialogOpened, dialogClosed } from "@/lib/dialogState";
 import { useGame, ROOM_DEFINITIONS, type HotspotDef, type RoomDef } from "@/contexts/GameContext";
 import { resolveRoomBackgroundUrl } from "@/game/roomStateAssets";
-import { getRoomTier } from "@shared/roomTier";
+import { getRoomTier, type RoomTier } from "@shared/roomTier";
 import { useGamification } from "@/contexts/GamificationContext";
 import { useSound } from "@/contexts/SoundContext";
 import { useAmbientMusic } from "@/contexts/AmbientMusicContext";
-import { generateDailyBrief, type RoomEvent } from "@/game/livingArk";
+import {
+  generateDailyBrief,
+  getCrossRoomAlerts,
+  MUSIC_TRIGGERS,
+  type EventType,
+  type RoomEvent,
+  type RoomId as LivingArkRoomId,
+} from "@/game/livingArk";
 import { processArkEvent, type ArkEventResult } from "@/game/arkEventHandler";
 import { useDailyBrief } from "@/hooks/useDailyBrief";
 import PageMeta from "@/components/PageMeta";
@@ -61,6 +68,7 @@ import {
   toNarratorRoomId,
 } from "@shared/mobileNarrator";
 import { isRoomUnlocked as isPreludeRoomUnlocked } from "@shared/preludeRoomGate";
+import { pickRoomFilter } from "@shared/livingArkTouchpoints";
 import {
   getRoomMysteryModule,
   resolveVerbResponse,
@@ -319,6 +327,27 @@ function RoomScene({
   const roomTier = getRoomTier(room.id, {
     narrativeFlags: gameStateForArt.narrativeFlags,
   });
+  // Witnessing §14.2 narrator filter — Elara/Human bond thresholds
+  // tint the room background. Falls through to "neutral" when neither
+  // bond has crossed 80, in which case no filter class is applied.
+  const narratorRoomId = toNarratorRoomId(room.id);
+  const filterPreset = narratorRoomId
+    ? pickRoomFilter(
+        narratorRoomId,
+        gameStateForArt.elaraTrust ?? 0,
+        gameStateForArt.humanTrust ?? 0,
+      )
+    : "neutral";
+  const filterClassName =
+    filterPreset === "warm_elara"
+      ? "ark-room-filter-warm-elara"
+      : filterPreset === "noir_human"
+        ? "ark-room-filter-noir-human"
+        : filterPreset === "yin_yang_flicker"
+          ? "ark-room-filter-yin-yang-flicker"
+          : filterPreset === "silence_ambient"
+            ? "ark-room-filter-silence-ambient"
+            : "";
   const [showHotspots, setShowHotspots] = useState(() => {
     try {
       const v = localStorage.getItem("loredex-show-hotspots");
@@ -347,7 +376,7 @@ function RoomScene({
       <ParallaxRoom
         key={roomArtUrl}
         layers={[{ src: roomArtUrl, depth: -0.3 }]}
-        className="absolute inset-0"
+        className={`absolute inset-0 ${filterClassName}`.trim()}
       />
 
       {/* Dark overlay for readability */}
@@ -944,6 +973,66 @@ export default function ArkExplorerPage() {
     }
   }, [currentRoom?.id, currentRoomState?.elaraDialogSeen, currentRoomState?.visitCount, audioReady, state.moralityScore]);
 
+  // First-visit music cue. Mirrors the existing
+  // music_heard_<song> flag pattern from RoomDialog beats —
+  // doesn't auto-play audio, just marks the trigger as
+  // armed so other systems (radio mode, codex) can light up
+  // the discography entry. See apps/client/src/game/livingArk.ts
+  // MUSIC_TRIGGERS.
+  useEffect(() => {
+    if (!currentRoom || !currentRoomState) return;
+    if (currentRoomState.visitCount !== 1) return;
+    // mobileNarrator's NarratorRoomId uses underscores (cryo_bay)
+    // while ROOM_DEFINITIONS uses dashes (cryo-bay). MUSIC_TRIGGERS
+    // is keyed off the underscored RoomId from livingArk. Map once.
+    const livingRoomId = toNarratorRoomId(currentRoom.id);
+    if (!livingRoomId) return;
+    const trigger = MUSIC_TRIGGERS.find((t) => t.room === livingRoomId);
+    if (!trigger) return;
+    const flagKey = `music_heard_${trigger.song
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "_")
+      .replace(/^_+|_+$/g, "")}`;
+    if (!state.narrativeFlags[flagKey]) {
+      setNarrativeFlag(flagKey);
+    }
+  }, [currentRoom?.id, currentRoomState?.visitCount, state.narrativeFlags, setNarrativeFlag]);
+
+  // Cross-room ripple — when a showcase room's tier advances, fire
+  // the matching getCrossRoomAlerts() entries as user-facing
+  // notifications so distant rooms feel coupled. Tier→eventType
+  // mapping: 1 = system_anomaly (something stirred), 2 =
+  // signal_fragment (a system came online), 3 = tome_discovered
+  // (a chapter is closed). See apps/client/src/game/livingArk.ts
+  // getCrossRoomAlerts().
+  const previousTiersRef = useRef<Record<string, RoomTier>>({});
+  useEffect(() => {
+    const prev = previousTiersRef.current;
+    const next: Record<string, RoomTier> = {};
+    const tierToEventType: Record<RoomTier, EventType | null> = {
+      0: null,
+      1: "system_anomaly",
+      2: "signal_fragment",
+      3: "tome_discovered",
+    };
+    for (const roomId of ["cryo-bay", "medical-bay", "bridge", "engineering"]) {
+      const tier = getRoomTier(roomId, { narrativeFlags: state.narrativeFlags });
+      next[roomId] = tier;
+      const prevTier = prev[roomId] ?? 0;
+      if (tier > prevTier) {
+        const eventType = tierToEventType[tier];
+        if (!eventType) continue;
+        const livingRoomId = toNarratorRoomId(roomId);
+        if (!livingRoomId) continue;
+        const alerts = getCrossRoomAlerts(eventType, livingRoomId as LivingArkRoomId);
+        for (const alert of alerts) {
+          notify(`cross-room-${alert.alertType}`, alert.title, alert.description);
+        }
+      }
+    }
+    previousTiersRef.current = next;
+  }, [state.narrativeFlags, notify]);
+
   const unlockedRoomIds = useMemo(() => {
     const set = new Set<string>();
     ROOM_DEFINITIONS.forEach(r => {
@@ -1227,6 +1316,10 @@ export default function ArkExplorerPage() {
           }
           if (audioReady) playSFX("dialog_open");
           setElaraText(mystery.narration);
+          // VO is optional — if present, hand it to ElaraPopup; if
+          // absent, clear any prior VO so we don't carry a stale
+          // intro track over the new line.
+          setElaraVoUrl(mystery.vo);
           if (mystery.logsClue) logClue(mystery.logsClue);
           if (mystery.grantsInventory) grantMysteryItem(mystery.grantsInventory);
           if (mystery.setsFlag) setNarrativeFlag(mystery.setsFlag);

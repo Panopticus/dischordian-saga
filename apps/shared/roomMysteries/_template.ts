@@ -41,6 +41,11 @@ export interface Clue {
 export interface VerbResponse {
   /** Text the room narrator (Elara, by default) speaks. */
   narration: string;
+  /** Optional VO audio URL to play alongside the narration. The
+   *  runtime hands it to ElaraPopup which manages its own
+   *  HTMLAudioElement lifecycle. Falls back silently to text-only
+   *  when missing — VO is purely additive. */
+  vo?: string;
   /** Clue to log. Idempotent — re-logging a clue is a no-op. */
   logsClue?: Clue;
   /** Inventory item id to grant. Idempotent. */
