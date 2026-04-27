@@ -9,7 +9,7 @@
  */
 import type { ExpansionCardRegistry } from "../types";
 import { CSUITE_PROMPTS } from "./csuite";
-// import { VP_PROMPTS } from "./vps";              // pending
+import { VP_PROMPTS } from "./vps";
 // import { DIRECTOR_PROMPTS } from "./directors";  // pending
 // import { MANAGER_PROMPTS } from "./managers";    // pending
 // import { ANALYST_PROMPTS } from "./analysts";    // pending
@@ -17,4 +17,5 @@ import { CSUITE_PROMPTS } from "./csuite";
 
 export const HIERARCHY_PROMPTS: ExpansionCardRegistry = Object.freeze({
   ...CSUITE_PROMPTS,
+  ...VP_PROMPTS,
 });
