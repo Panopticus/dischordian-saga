@@ -40,9 +40,58 @@ describe("parseSuitPieceArtId", () => {
     });
   });
 
-  it("rejects starter-layer sentinels (mask:…, suit:…)", () => {
-    expect(parseSuitPieceArtId("mask:human-mask:human")).toBeNull();
-    expect(parseSuitPieceArtId("suit:long-coat-over-cuirass:earth")).toBeNull();
+  it("routes starter mask sentinels to the matching species/foundation set", () => {
+    // Humanity foundation + human motif → Mourner's Coat.
+    expect(parseSuitPieceArtId("mask:human-mask:human")).toEqual({
+      setId: "the-mourners-coat",
+      rarity: "common",
+      slot: "head",
+    });
+    // Machine foundation + human motif → First Chassis (sculpt fallback).
+    expect(parseSuitPieceArtId("mask:machine-head:human")).toEqual({
+      setId: "the-mourners-coat",
+      rarity: "common",
+      slot: "head",
+    });
+    // Species motif takes precedence over sculpt.
+    expect(parseSuitPieceArtId("mask:human-mask:demagi")).toEqual({
+      setId: "arcane-rune-regalia",
+      rarity: "common",
+      slot: "head",
+    });
+    expect(parseSuitPieceArtId("mask:machine-head:quarchon")).toEqual({
+      setId: "clockwork-exoframe",
+      rarity: "common",
+      slot: "head",
+    });
+    expect(parseSuitPieceArtId("mask:human-mask:neyon")).toEqual({
+      setId: "hybrid-vein-panoply",
+      rarity: "common",
+      slot: "head",
+    });
+  });
+
+  it("routes starter suit sentinels to the matching class set's chest piece", () => {
+    expect(parseSuitPieceArtId("suit:long-coat-over-cuirass:earth")).toEqual({
+      setId: "regalia-of-the-seeing-stylus",
+      rarity: "common",
+      slot: "chest",
+    });
+    expect(parseSuitPieceArtId("suit:segmented-workshop-rig:fire")).toEqual({
+      setId: "pressure-loom-harness",
+      rarity: "common",
+      slot: "chest",
+    });
+    expect(parseSuitPieceArtId("suit:plated-harness:water")).toEqual({
+      setId: "bulwark-of-the-eighth-column",
+      rarity: "common",
+      slot: "chest",
+    });
+  });
+
+  it("returns null for starter sentinels with unknown components", () => {
+    expect(parseSuitPieceArtId("mask:bad-sculpt:bad-motif")).toBeNull();
+    expect(parseSuitPieceArtId("suit:bad-cut:fire")).toBeNull();
   });
 
   it("rejects ids with the wrong component count", () => {
