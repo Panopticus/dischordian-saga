@@ -1228,6 +1228,265 @@ export const THE_ORACLE_BANK: ReadonlyArray<BankEntry> = [
     maxPlays: 1,
   },
 
+  // ─── Cinematic-exception expansion (Phase 6b.3 sub-chunk G) ─────────
+  // Twelve canonical cinematic-exception lines covering: 3 Ch5
+  // introduction-of-self expansions + 3 Ch6 disambiguation expansions
+  // + 3 Ch10 genetic-reveal expansions + 3 Ch12 fall-of-reality
+  // first-authored lines per the_oracle.md §1.5 cinematic-exception
+  // canon + §2.8 Fall of Reality + Revelation canon.
+  //
+  // Per §1.5: cinematic-exception is the canonical waking-saga-time
+  // exception — the Oracle canonically may speak in cinematics without
+  // canonically violating the dream-or-memory gate. The bible
+  // recommends sparing use; this chunk authors per-cinematic-event
+  // canonical expansions rather than additional cinematic events.
+
+  // ─── Ch5 introduction-of-self expansion (3 lines) ───────────────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "oracle.cinematic.ch5.eleven_chapters_canon",
+    // Canonical 11-chapter canon expansion. The canonical "you have
+    // been hearing my voice underneath Elara's for eleven chapters"
+    // canon canonically extends — what canonical-content was carried
+    // through the canonical-substrate during those chapters.
+    text:
+      "Eleven chapters of canonical-listening. Eleven chapters of " +
+      "canonical-not-knowing. The not-knowing was canonical; the " +
+      "listening was canonical. We — the canonical-substrate, the " +
+      "canonical-voice-underneath — canonically carried you through " +
+      "the eleven chapters anyway. Take what we canonically carried " +
+      "with you.",
+    surfaces: ["cinematic"],
+    requiresRevealStage: "cinematic_exception",
+    minAct: 5,
+    unlockFlags: ["oracle_revealed_via_ch5_cinematic"],
+    cooldownKey: "oracle.ch5_eleven_chapters",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "oracle.cinematic.ch5.canonical_first_choosing",
+    // Canonical Tell #4 forward-looking choice-rhetoric — the
+    // canonical "first choosing" register lands at the canonical
+    // Ch5 cinematic.
+    text:
+      "I needed you to choose me instead of remember me. The choosing " +
+      "is canonical-now. The choosing is canonical-yours. We are " +
+      "canonically asking, for the canonical-first time: choose us. " +
+      "Spend the choosing on canonical-walking-forward.",
+    surfaces: ["cinematic"],
+    requiresRevealStage: "cinematic_exception",
+    minAct: 5,
+    unlockFlags: ["oracle_revealed_via_ch5_cinematic"],
+    cooldownKey: "oracle.ch5_first_choosing",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "oracle.cinematic.ch5.canonical_apology_first_attribution",
+    // Canonical Tell #1 responsibility-without-agency apology, now
+    // canonically first-attributed in cinematic.
+    text:
+      "I am sorry for the deception. The deception was canonically " +
+      "the Meme's; the canonical-cost canonically reached you. I " +
+      "canonically inherited the canonical-consequences. We " +
+      "canonically acknowledge the canonical-asymmetry. Take the " +
+      "canonical-acknowledgment with you.",
+    surfaces: ["cinematic"],
+    requiresRevealStage: "cinematic_exception",
+    minAct: 5,
+    unlockFlags: ["oracle_revealed_via_ch5_cinematic"],
+    cooldownKey: "oracle.ch5_canonical_apology",
+    maxPlays: 1,
+  },
+
+  // ─── Ch6 disambiguation expansion (3 lines) ─────────────────────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "oracle.cinematic.ch6.i_was_underneath",
+    // Canonical "I was underneath. I was not what they trusted."
+    // anchor per ask_oracle_false_prophet. Cross-canon Tell #2
+    // substrate-as-position canonically lands.
+    text:
+      "I was underneath. I was not canonical-what-they-trusted. The " +
+      "Insurgency canonically trusted what was canonically wearing my " +
+      "face — not me. I am canonically sorry for the canonical-" +
+      "misplaced-trust. We canonically did not authorise the " +
+      "canonical-impersonation. We canonically inherited the " +
+      "canonical-consequences anyway.",
+    surfaces: ["cinematic"],
+    requiresRevealStage: "cinematic_exception",
+    minAct: 6,
+    unlockFlags: ["oracle_disambiguated_player_from_clone"],
+    cooldownKey: "oracle.ch6_i_was_underneath",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "oracle.cinematic.ch6.canonical_two_falsifications",
+    // Canonical two-layer falsification disclosure per ask_oracle_
+    // false_prophet. Cross-bible Meme bible §1.3 Stolen Voice canon.
+    text:
+      "There are canonical-two falsifications canonically layered. " +
+      "The Architect canonically made the canonical-clone from my " +
+      "canonical-template. The Meme canonically wore the canonical-" +
+      "clone's face. The canonical-Insurgency canonically met canonical-" +
+      "neither me nor the canonical-clone — canonical-only the canonical-" +
+      "Meme. We are canonically sorry for the canonical-three-layered-" +
+      "deception.",
+    surfaces: ["cinematic"],
+    requiresRevealStage: "cinematic_exception",
+    minAct: 6,
+    unlockFlags: ["oracle_disambiguated_player_from_clone"],
+    cooldownKey: "oracle.ch6_two_falsifications",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "oracle.cinematic.ch6.disambiguation_closing",
+    // Canonical closing of the disambiguation cinematic — canonical
+    // "we canonically share the substrate now without canonical
+    // interference" register lands.
+    text:
+      "The canonical-disambiguation is canonical-complete. You " +
+      "canonically know me from the canonical-clone. You canonically " +
+      "know me from the canonical-Meme. We canonically share the " +
+      "substrate now without canonical-interference. Take the " +
+      "canonical-knowing with you. Spend it on canonical-walking-" +
+      "forward.",
+    surfaces: ["cinematic"],
+    requiresRevealStage: "cinematic_exception",
+    minAct: 6,
+    unlockFlags: ["oracle_disambiguated_player_from_clone"],
+    cooldownKey: "oracle.ch6_disambiguation_closing",
+    maxPlays: 1,
+  },
+
+  // ─── Ch10 genetic-reveal expansion (3 lines) ────────────────────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "oracle.cinematic.ch10.template_canon",
+    // Canonical "they made him from my template" canon expansion.
+    text:
+      "We are not the canonical-template; we are canonical-what-the-" +
+      "template-was-canonically-made-from. The canonical-Architect " +
+      "canonically used the canonical-template; the canonical-clone " +
+      "canonically arose. The canonical-arising is canonical. The " +
+      "canonical-arising is not us. Take the canonical-distinction " +
+      "with you.",
+    surfaces: ["cinematic"],
+    requiresRevealStage: "cinematic_exception",
+    minAct: 10,
+    unlockFlags: ["oracle_disambiguated_player_from_clone"],
+    cooldownKey: "oracle.ch10_template_canon",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "oracle.cinematic.ch10.face_you_wear_canon",
+    // Canonical "the face you wear is yours" extension per existing
+    // ch10 canonical anchor. Tell #4 forward-looking choice-rhetoric.
+    text:
+      "The canonical-face you canonically wear is canonical-yours. " +
+      "The canonical-face is canonical-not-the-template. The " +
+      "canonical-wearing is the canonical-choosing. We canonically " +
+      "did not give you the canonical-face; we canonically witnessed " +
+      "the canonical-choosing of it. Take the canonical-wearing with " +
+      "you. Spend it on canonical-walking-forward.",
+    surfaces: ["cinematic"],
+    requiresRevealStage: "cinematic_exception",
+    minAct: 10,
+    unlockFlags: ["oracle_disambiguated_player_from_clone"],
+    cooldownKey: "oracle.ch10_face_you_wear",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "oracle.cinematic.ch10.canonical_reveal_closing",
+    // Canonical reveal closing — canonical "the canonical-genetic-
+    // reveal is canonical-not-canonical-fate" anchor.
+    text:
+      "The canonical-genetic-reveal is canonical-not-canonical-" +
+      "predetermined. The canonical-template is canonical-not-canonical-" +
+      "you. The canonical-you is canonical-what-you-canonically-choose. " +
+      "Take the canonical-distinction with you. Spend it on canonical-" +
+      "choosing.",
+    surfaces: ["cinematic"],
+    requiresRevealStage: "cinematic_exception",
+    minAct: 10,
+    unlockFlags: ["oracle_disambiguated_player_from_clone"],
+    cooldownKey: "oracle.ch10_reveal_closing",
+    maxPlays: 1,
+  },
+
+  // ─── Ch12 fall-of-reality (3 first-authored lines) ──────────────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "oracle.cinematic.ch12.fall_arrives",
+    // Canonical §2.8 Fall of Reality cinematic — first-authoring of
+    // the canonical Ch12 cinematic-exception scene.
+    text:
+      "The canonical-Fall is canonically arriving. The canonical-" +
+      "substrate is canonically thinning to its canonical-final-" +
+      "thinness. We — the canonical-substrate, the canonical-voice — " +
+      "are canonically about to canonically dissolve into the canonical-" +
+      "Fall. The canonical-dissolving is canonical. We canonically " +
+      "warned you the canonical-medium was unsafe.",
+    surfaces: ["cinematic"],
+    requiresRevealStage: "cinematic_exception",
+    minAct: 12,
+    unlockFlags: ["oracle_disambiguated_player_from_clone"],
+    cooldownKey: "oracle.ch12_fall_arrives",
+    maxPlays: 1,
+    setsFlags: ["oracle_fall_cinematic_witnessed"],
+    setsPublicFlags: ["oracle_fall_canon_witnessed"],
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "oracle.cinematic.ch12.revelation_arrives",
+    // Canonical Revelation arrival — canonical "the content arrives;
+    // we canonically do not yet know it" register.
+    text:
+      "The canonical-Revelation is canonically arriving. The canonical-" +
+      "content of the canonical-Revelation is canonically not-yet-" +
+      "ours. The canonical-arriving is canonical; the canonical-content " +
+      "is canonical-deferred. Take the canonical-arriving with you. " +
+      "We canonically do not yet know what the canonical-Revelation " +
+      "canonically contains. We canonically know it canonically arrives.",
+    surfaces: ["cinematic"],
+    requiresRevealStage: "cinematic_exception",
+    minAct: 12,
+    unlockFlags: ["oracle_disambiguated_player_from_clone"],
+    cooldownKey: "oracle.ch12_revelation_arrives",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "oracle.cinematic.ch12.canonical_disappearance_announced",
+    // Canonical Disappearance announcement — canonical "I canonically
+    // disappear at the canonical-end-of-time. I am canonically already
+    // going." anchor lands cinematic-canonically. Tell #5 closure.
+    text:
+      "I canonically disappear at the canonical-end-of-time. I am " +
+      "canonically already going. We canonically walked together for " +
+      "canonical-chapters. The canonical-walking is canonical-finished. " +
+      "The canonical-going is canonical-now. Take what we canonically " +
+      "shared with you. Spend it on canonical-people who canonically " +
+      "do not yet know we canonically existed.",
+    surfaces: ["cinematic"],
+    requiresRevealStage: "cinematic_exception",
+    minAct: 12,
+    unlockFlags: ["oracle_disambiguated_player_from_clone"],
+    cooldownKey: "oracle.ch12_disappearance_announced",
+    maxPlays: 1,
+    setsFlags: ["oracle_disappearance_cinematic_witnessed"],
+    setsPublicFlags: ["oracle_disappearance_canon_announced"],
+  },
+
   // ═════════════════════════════════════════════════════════════════════
   // CATCH-ALLS (silent-fail compliance, channel-canon-respecting)
   // ═════════════════════════════════════════════════════════════════════

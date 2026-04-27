@@ -265,6 +265,36 @@ export const CROSS_CHARACTER_REACTIONS: ReadonlyArray<CrossCharacterReaction> = 
       "witnessed the Heart-of-Time' acknowledgment register.",
   },
 
+  // ─── Oracle Fall canon witnessed (Phase 6b.3 sub-chunk G) ──────────
+  {
+    flag: "oracle_fall_canon_witnessed",
+    setBy: ["the_oracle"],
+    reactsBy: ["future_reader"], // Saga-endgame Phase 6+ reactive registers
+    canonicalNote:
+      "Per Oracle bible §2.8 + writers'-guide spec: when the player " +
+      "canonically witnesses the canonical Ch12 Fall-of-Reality " +
+      "cinematic, the canonical Fall canon canonically lands. The " +
+      "flag opens canonical saga-endgame Phase 6+ reactive registers " +
+      "— the canonical-Fall is the saga's canonical-end-of-arc event.",
+  },
+
+  // ─── Oracle Disappearance announced (Phase 6b.3 sub-chunk G) ───────
+  {
+    flag: "oracle_disappearance_canon_announced",
+    setBy: ["the_oracle"],
+    reactsBy: ["future_reader"], // Saga-endgame closure Phase 6+
+    canonicalNote:
+      "Per Oracle bible §2.9 + writers'-guide spec: when the player " +
+      "canonically witnesses the canonical Ch12 Disappearance " +
+      "announcement cinematic — 'I canonically disappear at the " +
+      "canonical-end-of-time. I am canonically already going.' — the " +
+      "canonical Disappearance canon canonically lands cinematic-" +
+      "canonically. The flag opens saga-endgame closure Phase 6+ " +
+      "reactive registers across the priority roster — the canonical-" +
+      "Disappearance canonically affects every NPC's canonical post-" +
+      "saga register.",
+  },
+
   // ─── Oracle clone canon disclosed (Phase 6b.3) ─────────────────────
   {
     flag: "oracle_clone_canon_disclosed",
