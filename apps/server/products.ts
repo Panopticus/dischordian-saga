@@ -2,6 +2,7 @@
  * In-game store products catalog.
  * Defines all purchasable items with Stripe price IDs and in-game effects.
  */
+import type { SetCode } from "../shared/tcg-core/sets/setCode";
 
 export interface StoreProduct {
   key: string;
@@ -19,6 +20,11 @@ export interface StoreProduct {
     dreamTokens?: number;
     soulBoundDream?: number;
     credits?: number;
+    /**
+     * Legacy per-card grant from the `cards` MySQL table (random pull,
+     * keyed by string id of the MySQL row). Used by pre-Memoir SKUs.
+     * For new TCG-set-aware SKUs use `tcgPack` below.
+     */
     cardPacks?: number;
     cardPackRarity?: string;
     shipUpgrade?: { type: string; level: number };
@@ -26,6 +32,36 @@ export interface StoreProduct {
     cargoExpansion?: number;
     fuelCapacity?: number;
     cosmetic?: string;
+    /**
+     * Set-aware booster reward. Each booster runs the canonical
+     * `openPack` algorithm (apps/shared/tcg-core/economy/packs.ts)
+     * against the in-memory `serverCardRegistry` filtered to the
+     * given set code. Granted card ids are the registry's string
+     * ids (e.g. "s1_char_001"), not MySQL row ids.
+     *
+     * Multiplied by checkout `quantity` at fulfillment.
+     */
+    tcgPack?: {
+      setCode: SetCode;
+      /** Number of booster packs (each is `cardsPerBooster` cards). */
+      boosters: number;
+      /** Cards per booster. Default 5 to match STANDARD_PACK. */
+      cardsPerBooster?: number;
+      /**
+       * Min rarity for the guaranteed slot 0 of each booster. When
+       * absent, no minimum (full RARITY_THRESHOLDS table applies).
+       */
+      minRarityFloor?: "rare" | "epic" | "legendary";
+    };
+    /**
+     * Founder-tier perks. Recorded as data here; consumers (cosmetic
+     * UI, title bar, pity-buff lookup, set-completion serial gallery)
+     * read from this catalog + the storePurchases history. Wired
+     * into UI surfaces in Sprint 2 alongside the StorePage.
+     */
+    titleId?: string;
+    pityBuff?: { percent: number; durationDays: number };
+    foundersEdition?: true;
   };
   /** Is this a featured/promoted item */
   featured: boolean;
@@ -33,6 +69,22 @@ export interface StoreProduct {
   sortOrder: number;
   /** Image/icon identifier */
   icon: string;
+  /**
+   * Optional ISO-8601 timestamp the SKU becomes purchasable.
+   * Absent ⇒ available immediately.
+   */
+  availableFrom?: string;
+  /**
+   * Optional ISO-8601 timestamp after which the SKU is no longer
+   * purchasable. Used for the week-1 Founder's Bundle window.
+   */
+  availableUntil?: string;
+  /**
+   * When set, each user can buy this SKU at most this many times
+   * (across all payment methods). Founder's Bundle is 1; everything
+   * else is unlimited (absent = no cap).
+   */
+  maxPerUser?: number;
 }
 
 export const STORE_PRODUCTS: StoreProduct[] = [
@@ -300,6 +352,183 @@ export const STORE_PRODUCTS: StoreProduct[] = [
     featured: true,
     sortOrder: 41,
     icon: "crown",
+  },
+
+  // ═══ S1 MEMOIR — Commercial Launch SKUs ═══
+  // Priced per the Founding Week table in
+  // /root/.claude/plans/do-a-full-an-stateful-quill.md (Commercial
+  // Release & Collector Roadmap §1).
+  {
+    key: "memoir_booster",
+    name: "Memoir Booster",
+    description: "5 cards from Season One: The Memoir. Guaranteed 1 rare or better.",
+    category: "cards",
+    priceUsd: 199, // $1.99
+    priceCredits: 0,
+    priceDream: 50,
+    rewards: {
+      tcgPack: { setCode: "S1_MEMOIR", boosters: 1, cardsPerBooster: 5, minRarityFloor: "rare" },
+    },
+    featured: true,
+    sortOrder: 100,
+    icon: "package",
+  },
+  {
+    key: "memoir_display",
+    name: "Memoir Display",
+    description: "15 Memoir Boosters (75 cards). Best value per booster.",
+    category: "bundle",
+    priceUsd: 2499, // $24.99
+    priceCredits: 0,
+    priceDream: 700,
+    rewards: {
+      tcgPack: { setCode: "S1_MEMOIR", boosters: 15, cardsPerBooster: 5, minRarityFloor: "rare" },
+    },
+    featured: true,
+    sortOrder: 101,
+    icon: "boxes",
+  },
+  {
+    key: "starter_architect_memoir",
+    name: "Architect Starter — Memoir",
+    description: "Architect-faction starter deck + 3 Memoir Boosters + Architect profile frame.",
+    category: "bundle",
+    priceUsd: 999, // $9.99
+    priceCredits: 0,
+    priceDream: 250,
+    rewards: {
+      tcgPack: { setCode: "S1_MEMOIR", boosters: 3, cardsPerBooster: 5, minRarityFloor: "rare" },
+      cosmetic: "frame_starter_architect",
+    },
+    featured: false,
+    sortOrder: 110,
+    icon: "shield",
+  },
+  {
+    key: "starter_insurgency_memoir",
+    name: "Insurgency Starter — Memoir",
+    description: "Insurgency starter deck + 3 Memoir Boosters + Insurgency profile frame.",
+    category: "bundle",
+    priceUsd: 999,
+    priceCredits: 0,
+    priceDream: 250,
+    rewards: {
+      tcgPack: { setCode: "S1_MEMOIR", boosters: 3, cardsPerBooster: 5, minRarityFloor: "rare" },
+      cosmetic: "frame_starter_insurgency",
+    },
+    featured: false,
+    sortOrder: 111,
+    icon: "swords",
+  },
+  {
+    key: "starter_dreamer_memoir",
+    name: "Dreamer Starter — Memoir",
+    description: "Dreamer starter deck + 3 Memoir Boosters + Dreamer profile frame.",
+    category: "bundle",
+    priceUsd: 999,
+    priceCredits: 0,
+    priceDream: 250,
+    rewards: {
+      tcgPack: { setCode: "S1_MEMOIR", boosters: 3, cardsPerBooster: 5, minRarityFloor: "rare" },
+      cosmetic: "frame_starter_dreamer",
+    },
+    featured: false,
+    sortOrder: 112,
+    icon: "moon",
+  },
+  {
+    key: "starter_new_babylon_memoir",
+    name: "New Babylon Starter — Memoir",
+    description: "New Babylon starter deck + 3 Memoir Boosters + Babylon profile frame.",
+    category: "bundle",
+    priceUsd: 999,
+    priceCredits: 0,
+    priceDream: 250,
+    rewards: {
+      tcgPack: { setCode: "S1_MEMOIR", boosters: 3, cardsPerBooster: 5, minRarityFloor: "rare" },
+      cosmetic: "frame_starter_new_babylon",
+    },
+    featured: false,
+    sortOrder: 113,
+    icon: "tower",
+  },
+  {
+    key: "starter_antiquarian_memoir",
+    name: "Antiquarian Starter — Memoir",
+    description: "Antiquarian starter deck + 3 Memoir Boosters + Antiquarian profile frame.",
+    category: "bundle",
+    priceUsd: 999,
+    priceCredits: 0,
+    priceDream: 250,
+    rewards: {
+      tcgPack: { setCode: "S1_MEMOIR", boosters: 3, cardsPerBooster: 5, minRarityFloor: "rare" },
+      cosmetic: "frame_starter_antiquarian",
+    },
+    featured: false,
+    sortOrder: 114,
+    icon: "scroll",
+  },
+  {
+    key: "starter_thought_virus_memoir",
+    name: "Thought Virus Starter — Memoir",
+    description: "Thought Virus starter deck + 3 Memoir Boosters + Thought Virus profile frame.",
+    category: "bundle",
+    priceUsd: 999,
+    priceCredits: 0,
+    priceDream: 250,
+    rewards: {
+      tcgPack: { setCode: "S1_MEMOIR", boosters: 3, cardsPerBooster: 5, minRarityFloor: "rare" },
+      cosmetic: "frame_starter_thought_virus",
+    },
+    featured: false,
+    sortOrder: 115,
+    icon: "biohazard",
+  },
+  {
+    key: "memoir_collector_bundle",
+    name: "Memoir Collector Bundle",
+    description: "All 6 starter decks + 30 Memoir Boosters + animated board skin.",
+    category: "bundle",
+    priceUsd: 6999, // $69.99
+    priceCredits: 0,
+    priceDream: 2200,
+    rewards: {
+      tcgPack: { setCode: "S1_MEMOIR", boosters: 30, cardsPerBooster: 5, minRarityFloor: "rare" },
+      cosmetic: "board_skin_memoir_animated",
+    },
+    featured: true,
+    sortOrder: 120,
+    icon: "crown",
+  },
+  // Founder's Bundle — week-1 only, 1-per-user. Includes everything
+  // in the Collector Bundle plus the irreproducible perks: badge,
+  // animated title, +20% pity buff for 30 days, serialized "Founding
+  // Author" alt-art mythic card. The launch script must set
+  // availableUntil to (launch_ts + 7 days).
+  {
+    key: "memoir_founders_bundle",
+    name: "Memoir Founder's Bundle",
+    description:
+      "Collector Bundle + Founder badge + animated 'Founding Author' title + +20% pity buff (30 days) + serialized 1-of-N alt-art mythic. Week one only.",
+    category: "bundle",
+    priceUsd: 11999, // $119.99
+    priceCredits: 0,
+    priceDream: 4000,
+    rewards: {
+      tcgPack: { setCode: "S1_MEMOIR", boosters: 30, cardsPerBooster: 5, minRarityFloor: "rare" },
+      cosmetic: "badge_founder_2026",
+      titleId: "founding_author_animated",
+      pityBuff: { percent: 20, durationDays: 30 },
+      foundersEdition: true,
+    },
+    featured: true,
+    sortOrder: 99, // Just under sortOrder 100 — right above Memoir Booster
+    icon: "star",
+    // availableUntil set at deploy time to launch_ts + 7d. Stub left
+    // here so the gating code path is exercised by tests; production
+    // overrides via env-driven config in Sprint 2's StorePage prep.
+    availableUntil: "2099-12-31T23:59:59Z",
+    maxPerUser: 1,
   },
 ];
 

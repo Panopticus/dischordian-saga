@@ -22,6 +22,7 @@
 import type { CardRegistry } from "../types/GameState";
 import type { Rarity } from "../types/Card";
 import { createRng, type Rng } from "../engine/rng";
+import { setCodeOf, type SetCode } from "../sets/setCode";
 
 export interface PackType {
   id: string;
@@ -128,6 +129,34 @@ function rollRarity(rng: Rng, minRarity?: Rarity): Rarity {
     if (adjusted <= t.cumulative) return t.rarity;
   }
   return thresholds[thresholds.length - 1].rarity;
+}
+
+/**
+ * Return a CardRegistry view restricted to a single set code. Used by
+ * set-aware pack rewards (e.g. the S1_MEMOIR Memoir Booster) so
+ * `openPack` only pulls from cards belonging to that set.
+ *
+ * The view is read-only — it filters on every call; it does not copy.
+ * `get(id)` and `has(id)` return undefined / false for cards that
+ * exist in the underlying registry but belong to a different set.
+ */
+export function filterRegistryBySet(
+  registry: CardRegistry,
+  setCode: SetCode
+): CardRegistry {
+  const filtered = registry.listAll().filter((d) => setCodeOf(d) === setCode);
+  Object.freeze(filtered);
+  return Object.freeze({
+    get: (id: string) => {
+      const def = registry.get(id);
+      return def && setCodeOf(def) === setCode ? def : undefined;
+    },
+    has: (id: string) => {
+      const def = registry.get(id);
+      return def !== undefined && setCodeOf(def) === setCode;
+    },
+    listAll: () => filtered,
+  });
 }
 
 /**

@@ -1,10 +1,60 @@
 import { z } from "zod";
 import { protectedProcedure, publicProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
-import { STORE_PRODUCTS, getProduct, getProductsByCategory, getFeaturedProducts } from "../products";
+import { STORE_PRODUCTS, getProduct, getProductsByCategory, getFeaturedProducts, type StoreProduct } from "../products";
 import { storePurchases, dreamBalance, shipUpgrades, playerBases, userCards, cards, type StorePurchase } from "../../db/schema";
-import { eq, and, desc, sql } from "drizzle-orm";
+import { eq, and, desc, sql, count } from "drizzle-orm";
 import { ripple } from "../services/rippleEngine";
+import { serverCardRegistry } from "../tcg/matchCore";
+import { openPack, filterRegistryBySet, STANDARD_PACK } from "../../shared/tcg-core/economy/packs";
+
+/**
+ * Throws a Error with a UX-safe message when the SKU's time window
+ * has not opened yet, has closed, or the user has already hit their
+ * `maxPerUser` cap. Called from every purchase-initiation path
+ * (createCheckout, purchaseWithCredits, purchaseWithDream) so the
+ * three flows enforce identical rules.
+ *
+ * `now` is parameterized for testability. Production callers pass
+ * `new Date()`; tests pin it to assert window-open / window-close.
+ */
+export async function assertSkuAvailable(
+  product: StoreProduct,
+  userId: number,
+  quantity: number,
+  now: Date = new Date(),
+): Promise<void> {
+  if (product.availableFrom) {
+    const opens = new Date(product.availableFrom);
+    if (now < opens) {
+      throw new Error(`'${product.name}' is not yet available (opens ${product.availableFrom})`);
+    }
+  }
+  if (product.availableUntil) {
+    const closes = new Date(product.availableUntil);
+    if (now > closes) {
+      throw new Error(`'${product.name}' is no longer available (closed ${product.availableUntil})`);
+    }
+  }
+  if (product.maxPerUser !== undefined) {
+    const db = await getDb();
+    if (!db) return; // dev/test environments without a DB skip the cap
+    const [row] = await db
+      .select({ c: count() })
+      .from(storePurchases)
+      .where(and(
+        eq(storePurchases.userId, userId),
+        eq(storePurchases.productKey, product.key),
+      ));
+    const priorCount = Number(row?.c ?? 0);
+    if (priorCount + quantity > product.maxPerUser) {
+      throw new Error(
+        `'${product.name}' is limited to ${product.maxPerUser} per account` +
+        (priorCount > 0 ? ` (you already own ${priorCount})` : ""),
+      );
+    }
+  }
+}
 
 export const storeRouter = router({
   /** List all products, optionally filtered by category */
@@ -29,6 +79,7 @@ export const storeRouter = router({
       const product = getProduct(input.productKey);
       if (!product) throw new Error("Product not found");
       if (product.priceUsd <= 0) throw new Error("This product cannot be purchased with real money");
+      await assertSkuAvailable(product, ctx.user.id, input.quantity);
 
       const stripeKey = process.env.STRIPE_SECRET_KEY;
       if (!stripeKey) throw new Error("Stripe is not configured");
@@ -79,6 +130,7 @@ export const storeRouter = router({
       const product = getProduct(input.productKey);
       if (!product) throw new Error("Product not found");
       if (product.priceCredits <= 0) throw new Error("This product cannot be purchased with credits");
+      await assertSkuAvailable(product, ctx.user.id, input.quantity);
 
       const totalCost = product.priceCredits * input.quantity;
 
@@ -107,6 +159,7 @@ export const storeRouter = router({
       const product = getProduct(input.productKey);
       if (!product) throw new Error("Product not found");
       if (product.priceDream <= 0) throw new Error("This product cannot be purchased with Dream");
+      await assertSkuAvailable(product, ctx.user.id, input.quantity);
       const totalCost = product.priceDream * input.quantity;
       // Use transaction to ensure atomicity of currency operations
       return await db.transaction(async (tx) => {
@@ -246,6 +299,49 @@ async function fulfillPurchase(userId: number, productKey: string, quantity: num
         dnaCode: 0,
       });
     }
+  }
+
+  // Grant set-aware booster pulls (Memoir SKUs and any future
+  // tcgPack reward). Each booster runs the canonical `openPack`
+  // algorithm against the in-memory `serverCardRegistry` filtered
+  // to the SKU's setCode. Card ids written are the registry's
+  // string ids (e.g. "s1_char_001"), distinct from MySQL row ids
+  // used by the legacy cardPacks path below.
+  if (rewards.tcgPack) {
+    const setRegistry = filterRegistryBySet(serverCardRegistry, rewards.tcgPack.setCode);
+    const totalBoosters = rewards.tcgPack.boosters * quantity;
+    const cardsPerBooster = rewards.tcgPack.cardsPerBooster ?? STANDARD_PACK.cardsPerPack;
+    const packType = { ...STANDARD_PACK, cardsPerPack: cardsPerBooster };
+    for (let i = 0; i < totalBoosters; i++) {
+      const seed = `purchase_${userId}_${productKey}_${Date.now()}_${i}`;
+      // Each booster opens fresh — no pity carryover here, matches
+      // the existing pity semantics where pity lives on the user
+      // wallet, not the SKU. (Pity-buff perk wiring lands in
+      // Sprint 2 alongside the StorePage.)
+      const result = openPack(seed, setRegistry, 0, packType);
+      for (const cardId of result.cardDefIds) {
+        await db.insert(userCards).values({
+          userId,
+          cardId,
+          obtainedVia: `store_${productKey}`,
+        });
+      }
+    }
+  }
+
+  // Grant Founder-tier perks. Recorded as console breadcrumbs for
+  // now — the StorePage / cosmetic UI / pity-buff lookup read from
+  // the canonical source (storePurchases history + this catalog) in
+  // Sprint 2. Keeping the data on the SKU means the truth is already
+  // canonical when those consumers are built.
+  if (rewards.titleId) {
+    console.log(`[fulfill] grant title '${rewards.titleId}' user=${userId} sku=${productKey}`);
+  }
+  if (rewards.pityBuff) {
+    console.log(`[fulfill] grant pity-buff +${rewards.pityBuff.percent}% for ${rewards.pityBuff.durationDays}d user=${userId} sku=${productKey}`);
+  }
+  if (rewards.foundersEdition) {
+    console.log(`[fulfill] grant founders-edition serialized mythic user=${userId} sku=${productKey}`);
   }
 
   // Grant card packs — randomly assign cards
