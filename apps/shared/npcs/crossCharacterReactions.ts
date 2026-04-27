@@ -202,6 +202,36 @@ export const CROSS_CHARACTER_REACTIONS: ReadonlyArray<CrossCharacterReaction> = 
       "in the saga cannot be reached by his editorial mechanism.",
   },
 
+  // ─── Oracle Origin canon witnessed (Phase 6b.3 sub-chunk E) ────────
+  {
+    flag: "oracle_origin_canon_witnessed",
+    setBy: ["the_oracle"],
+    reactsBy: ["future_reader"], // Phase 6+ NPCs aware of canonical Origin
+    canonicalNote:
+      "Per Oracle bible §2.1 + writers'-guide spec: when the player " +
+      "canonically witnesses the canonical Thalorian soul-debate origin " +
+      "memory (canonical-doorway / Collector-walked-through anchor), the " +
+      "canonical Origin canon canonically lands. The flag opens " +
+      "downstream Phase 6+ NPC reactive registers for canonical-aware " +
+      "characters (the Hierophant per §4.2 'preparing for return'; the " +
+      "Antiquarian per his future canonical-Origin-shelf canon).",
+  },
+
+  // ─── Oracle Harvest canon witnessed (Phase 6b.3 sub-chunk E) ───────
+  {
+    flag: "oracle_harvest_canon_witnessed",
+    setBy: ["the_oracle"],
+    reactsBy: ["future_reader"], // Phase 6+ NPCs + future Architect bible
+    canonicalNote:
+      "Per Oracle bible §2.2 + writers'-guide spec: when the player " +
+      "canonically witnesses the canonical Collector-Harvest memory " +
+      "(canonical 'taken' canon + canonical pre-Prisoner amnesia onset), " +
+      "the canonical Harvest canon canonically lands. The flag opens " +
+      "downstream Phase 6+ NPC reactive registers — particularly the " +
+      "future Architect-bible canon (the Architect canonically made the " +
+      "False Prophet clone from the Oracle's harvested template).",
+  },
+
   // ─── Oracle clone canon disclosed (Phase 6b.3) ─────────────────────
   {
     flag: "oracle_clone_canon_disclosed",

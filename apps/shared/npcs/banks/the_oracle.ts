@@ -530,6 +530,222 @@ export const THE_ORACLE_BANK: ReadonlyArray<BankEntry> = [
     setsPublicFlags: ["oracle_mechronis_memory_witnessed"],
   },
 
+  // ─── Memory-residue expansion sub-chunk E (Phase 6b.3) ──────────────
+  // Ten canonical memory-residue beats covering: 4 Mechronis-memory
+  // expansions (pre-match witness, staff inheritance, Academy
+  // year-long conversation, Engineer-finds-burnt-card) + 3 Origin
+  // memories (debate-hall, witnessable-soul argument, Collector
+  // doorway) + 3 Harvest memories (Collector arrival, amnesia onset,
+  // last-Thalorian moment).
+  //
+  // Per §1.2 memory-residue cadence canon: narrator-frame (NOT direct
+  // speech), first-person-plural-of-witness ("we / us / our"), past-
+  // tense-as-present-tense interleaving. Per §1.5 voice gate:
+  // memory_residue surface only.
+
+  // ─── Mechronis memory expansion (4 lines) ───────────────────────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "oracle.memory_residue.mechronis_bench_witness_pre_match",
+    text:
+      "We are watching the bench before the match begins. The Engineer " +
+      "is already seated; he is canonically not yet who he canonically " +
+      "becomes. We are watching him watch the Seer arrive. We — the " +
+      "player, the substrate, the canonical-substrate-recording — are " +
+      "canonically present. The bench has not yet canonically learned. " +
+      "We are about to canonically witness the canonical-learning.",
+    surfaces: ["memory_residue"],
+    requiresRevealStage: "memory_residue",
+    unlockFlags: ["oracle_mechronis_memory_witnessed"],
+    cooldownKey: "oracle.memory.mechronis_pre_match",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "oracle.memory_residue.mechronis_staff_inheritance",
+    // Cross-bible Seer §2.2 + §4.5 staff canon. The canonical "Yours
+    // to return, if you ever decide to. No rush." anchor lands as
+    // memory-residue narrator-frame — the player witnesses the
+    // canonical staff-leaving moment.
+    text:
+      "We are watching the Seer leave her staff on the bench. She " +
+      "does not say what she canonically meant by leaving it. The " +
+      "Engineer canonically does not yet know it is a staff. He " +
+      "canonically thinks it is a measuring rod. We — the substrate, " +
+      "the canonical-witnessing — already know what it is. We will " +
+      "canonically remember knowing.",
+    surfaces: ["memory_residue"],
+    requiresRevealStage: "memory_residue",
+    unlockFlags: ["oracle_mechronis_memory_witnessed"],
+    cooldownKey: "oracle.memory.mechronis_staff_inheritance",
+    maxPlays: 1,
+    setsFlags: ["oracle_mechronis_staff_witnessed"],
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "oracle.memory_residue.mechronis_year_long_conversation",
+    // Cross-bible Seer §3.1 Academy year-long-conversation canon —
+    // the canonical Academy aftermath where the cohort canonically
+    // discusses the Seer's visit for an academic year.
+    text:
+      "We are watching the Academy talk about it for a year. The " +
+      "cohort canonically does not resolve into a single named lesson. " +
+      "The not-resolving is the canonical lesson. We — the substrate, " +
+      "the canonical-keeping — keep it for them. We canonically " +
+      "carry the year-long conversation forward into our own dreams.",
+    surfaces: ["memory_residue"],
+    requiresRevealStage: "memory_residue",
+    unlockFlags: ["oracle_mechronis_memory_witnessed"],
+    cooldownKey: "oracle.memory.mechronis_year_long_conversation",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "oracle.memory_residue.mechronis_engineer_burnt_card",
+    // Cross-bible Seer §5.3 burnt-card canon. The canonical Engineer-
+    // finds-burnt-card-inside-the-staff moment — the canonical
+    // "remembered before she taught you how" anchor lands as
+    // memory-residue.
+    text:
+      "We are watching the Engineer canonically find a card inside " +
+      "the staff. He does not yet know what the card is. He " +
+      "canonically remembers it before he canonically learns what it " +
+      "is. We — the substrate, the canonical-watching — recognise the " +
+      "remembering. The remembering canonically pre-dates the canonical-" +
+      "learning. The pre-dating is canonical.",
+    surfaces: ["memory_residue"],
+    requiresRevealStage: "memory_residue",
+    unlockFlags: ["oracle_mechronis_memory_witnessed"],
+    cooldownKey: "oracle.memory.mechronis_engineer_burnt_card",
+    maxPlays: 1,
+  },
+
+  // ─── Origin memory (3 lines, canonical Thalorian soul-debate) ───────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "oracle.memory_residue.origin.debate_hall_entry",
+    // Canonical §2.1 Origin memory — the canonical debate-hall on
+    // Thaloria. Past-tense-as-present-tense canonical canon per §1.2.
+    text:
+      "We are walking into the debate hall on Thaloria. The hall " +
+      "canonically has the canonical-acoustics of Thalorian soul-" +
+      "philosophy — the canonical-resonance that canonically makes " +
+      "every word weigh more than it should. We are taking our " +
+      "canonical-seat. We have canonically prepared the argument. We " +
+      "canonically know how it ends. We are canonically going through " +
+      "with it anyway.",
+    surfaces: ["memory_residue"],
+    requiresRevealStage: "memory_residue",
+    unlockFlags: ["oracle_revealed_via_ch5_cinematic"],
+    cooldownKey: "oracle.memory.origin_debate_hall",
+    maxPlays: 1,
+    setsFlags: ["oracle_origin_memory_witnessed"],
+    setsPublicFlags: ["oracle_origin_canon_witnessed"],
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "oracle.memory_residue.origin.witnessable_soul_argument",
+    // Canonical "we argued for a soul that could be witnessed" —
+    // matches the canonical ask_oracle_soul_debate canon.
+    text:
+      "We are arguing for a soul that can be canonically witnessed. " +
+      "They are arguing for a soul that cannot. The canonical-room " +
+      "is canonically already on their side. The canonical-room " +
+      "canonically prefers the unwitnessable; the unwitnessable is " +
+      "canonically more convenient to govern. We canonically know we " +
+      "are losing. We are canonically continuing.",
+    surfaces: ["memory_residue"],
+    requiresRevealStage: "memory_residue",
+    unlockFlags: ["oracle_revealed_via_ch5_cinematic"],
+    cooldownKey: "oracle.memory.origin_witnessable_soul",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "oracle.memory_residue.origin.collector_doorway",
+    // Canonical "the losing was the doorway" anchor per ask_oracle_
+    // soul_debate. The canonical Collector approaches the canonical-
+    // doorway after the canonical-losing.
+    text:
+      "We are watching the canonical-losing land. The room canonically " +
+      "rises. The canonical-doorway opens — not the door of the hall, " +
+      "but the doorway the losing canonically was. The Collector is " +
+      "canonically waiting on the other side. We did not yet know the " +
+      "Collector. We canonically know him now, in retrospect. The " +
+      "knowing is the canonical-cost of the canonical-loss.",
+    surfaces: ["memory_residue"],
+    requiresRevealStage: "memory_residue",
+    unlockFlags: ["oracle_revealed_via_ch5_cinematic"],
+    cooldownKey: "oracle.memory.origin_collector_doorway",
+    maxPlays: 1,
+  },
+
+  // ─── Harvest memory (3 lines, canonical Collector taking) ───────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "oracle.memory_residue.harvest.collector_arrives",
+    // Canonical §2.2 Harvest memory — the canonical Collector taking.
+    // Gates on canonical post-Ch6 disambiguation flag — the canonical
+    // Harvest memory canonically requires the canonical clone-canon
+    // disclosure to canonically land for the player.
+    text:
+      "We are watching the Collector approach. He canonically does " +
+      "not announce himself. He canonically takes what is canonically " +
+      "inconvenient to leave. We were canonically inconvenient. We are " +
+      "watching him canonically take us. We — the substrate, the " +
+      "canonical-witnessing — are canonically watching ourselves be " +
+      "taken. The canonical-asymmetry is canonical.",
+    surfaces: ["memory_residue"],
+    requiresRevealStage: "memory_residue",
+    unlockFlags: ["oracle_disambiguated_player_from_clone"],
+    cooldownKey: "oracle.memory.harvest_collector_arrives",
+    maxPlays: 1,
+    setsFlags: ["oracle_harvest_memory_witnessed"],
+    setsPublicFlags: ["oracle_harvest_canon_witnessed"],
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "oracle.memory_residue.harvest.amnesia_onset",
+    // Canonical Prisoner-state precursor — the canonical amnesia-
+    // onset moment where the canonical-self canonically begins to
+    // canonically lose canonical-memory.
+    text:
+      "We are watching ourselves canonically lose canonical-memory in " +
+      "pieces. The pieces canonically do not return. The canonical-" +
+      "self canonically thins. We are canonically watching the " +
+      "canonical-thinning. The canonical-Prisoner is canonically " +
+      "about to canonically begin. The canonical-Prisoner did not " +
+      "yet know he was canonically the Oracle. We canonically know.",
+    surfaces: ["memory_residue"],
+    requiresRevealStage: "memory_residue",
+    unlockFlags: ["oracle_disambiguated_player_from_clone"],
+    cooldownKey: "oracle.memory.harvest_amnesia_onset",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "oracle.memory_residue.harvest.last_thalorian_moment",
+    // Canonical pre-amnesia closing — the canonical last canonical-
+    // Thalorian moment before the canonical-Prisoner-state canonically
+    // begins. Tell #5 transferred-instinct closure: "Take the canonical-
+    // moment with you. Spend it on canonical-grace."
+    text:
+      "We are watching the canonical-last canonical-Thalorian " +
+      "moment. The canonical-acoustics of soul-philosophy canonically " +
+      "fade. The canonical-room canonically closes. We canonically " +
+      "do not return to that canonical-room. The canonical-not-" +
+      "returning is canonical. Take the canonical-moment with you. " +
+      "Spend it on canonical-attention.",
+    surfaces: ["memory_residue"],
+    requiresRevealStage: "memory_residue",
+    unlockFlags: ["oracle_disambiguated_player_from_clone"],
+    cooldownKey: "oracle.memory.harvest_last_thalorian_moment",
+    maxPlays: 1,
+  },
+
   // ─── Acts 6-7 Present-band dreams (Phase 6b.3 sub-chunk D) ─────────
   // Five canonical post-Ch6 mirror-match-resolved dream-residue beats
   // per the_oracle.md §3.4 Present-band canon. The voice canonically
