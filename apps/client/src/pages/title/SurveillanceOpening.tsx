@@ -97,7 +97,7 @@ function buildLines(fp: Fingerprint): ScanLine[] {
     { label: "CHRONOSPHERE", value: fp.timezone },
     { label: "SYSTEM CLOCK", value: fp.clock },
     { label: "ARK DESIGNATION", value: "1047" },
-    { label: "VPN TRACE SIGNATURE", value: "DETECTED — ADJUSTING…" },
+    { label: "VPN TRACE SIGNATURE", value: "DETECTED — ADJUSTED" },
     { label: "FINGERPRINT", value: "LOCKED" },
   ];
 }
@@ -143,10 +143,9 @@ export function SurveillanceOpening({ onComplete, force = false }: SurveillanceO
 
   // Drive the scanning reveal on a jagged cadence — snappy at the top,
   // with just enough late-line drag to land FINGERPRINT as a punch.
-  // The whole sequence wraps in well under half a second so the player
-  // never perceives it as a loading screen. Reduce-motion collapses to a
-  // tick.
-  const CADENCE = [24, 28, 32, 36, 50, 70, 95, 130];
+  // The whole sequence wraps in ~200ms so the player never perceives it
+  // as a loading screen. Reduce-motion collapses to a tick.
+  const CADENCE = [12, 14, 16, 20, 26, 36, 48, 64];
   useEffect(() => {
     if (stage !== "scanning") return;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -395,7 +394,7 @@ function ScanView({ lines, revealed }: { lines: ScanLine[]; revealed: number }) 
           marginBottom: "1rem",
         }}
       >
-        &gt; SCANNING OPERATOR FINGERPRINT . . .
+        &gt; SCANNING OPERATOR FINGERPRINT
       </div>
       <div style={{ display: "flex", flexDirection: "column", gap: "0.55rem" }}>
         {lines.slice(0, revealed).map((line, i) => {
@@ -408,7 +407,7 @@ function ScanView({ lines, revealed }: { lines: ScanLine[]; revealed: number }) 
               key={`${line.label}-${i}`}
               text={line.value}
               mode="decode"
-              speed={14}
+              speed={8}
               showCursor={false}
             />
           );
