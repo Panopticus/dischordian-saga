@@ -2683,6 +2683,13 @@ export const gameReplays = mysqlTable("game_replays", {
   p1Config: json("p1Config").$type<Record<string, unknown>>(),
   /** Player 2 deck/faction config snapshot (JSON). */
   p2Config: json("p2Config").$type<Record<string, unknown>>(),
+  /** URL-safe random token for unguessable share-links (#6 / #46).
+   *  Populated at saveReplay time via `generateShareToken()`. The
+   *  primary `id` is autoincrement-int and therefore enumerable —
+   *  share URLs use this column instead so a player posting their
+   *  cool match can't have a curious viewer scrape neighbouring
+   *  replays. Added by migration 0056 + replaysBootstrap. */
+  shareToken: varchar("shareToken", { length: 32 }),
   playedAt: timestamp("playedAt").defaultNow().notNull(),
 }, (table) => ({
   gameTypeIdx: index("idx_game_replays_game_type").on(table.gameType),

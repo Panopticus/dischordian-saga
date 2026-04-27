@@ -41,6 +41,7 @@ import { getDb } from "../server/db";
 import { bootstrapAnnouncementsTables } from "../server/services/announcementsBootstrap";
 import { bootstrapCitizenSchema } from "../server/services/citizenSchemaBootstrap";
 import { bootstrapWebhookEventsTable } from "../server/services/webhookEventsBootstrap";
+import { bootstrapReplayShareToken } from "../server/services/replaysBootstrap";
 
 interface CheckResult {
   name: string;
@@ -169,11 +170,36 @@ async function main(): Promise<void> {
       detail: e instanceof Error ? e.message : String(e),
     });
   }
+  try {
+    await bootstrapReplayShareToken();
+    checks.push({ name: "bootstrapReplayShareToken() succeeded", ok: true });
+  } catch (e) {
+    checks.push({
+      name: "bootstrapReplayShareToken() succeeded",
+      ok: false,
+      detail: e instanceof Error ? e.message : String(e),
+    });
+  }
 
   // 4. Verify the bootstrap-targeted DDL landed
   for (const tableName of ["announcements", "announcement_views", "processed_webhook_events"]) {
     const ok = await tableExists(db, tableName);
     checks.push({ name: `${tableName} table exists`, ok });
+  }
+  // The replay share-token bootstrap targets a column on game_replays
+  // (which is created by the journal-tracked migration chain). Only
+  // check the column when the table is present so the smoke test
+  // stays robust against journal drift.
+  const replaysTableExists = await tableExists(db, "game_replays");
+  if (replaysTableExists) {
+    const tokenOk = await columnExists(db, "game_replays", "shareToken");
+    checks.push({ name: "game_replays.shareToken column exists", ok: tokenOk });
+  } else {
+    checks.push({
+      name: "game_replays.shareToken column (skipped — table not in fresh DB)",
+      ok: true,
+      detail: "game_replays ships in journal-tracked migrations; bootstrap is no-op without it",
+    });
   }
 
   // citizen_characters itself ships in an orphan migration earlier in the

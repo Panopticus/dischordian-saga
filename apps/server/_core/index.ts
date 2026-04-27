@@ -387,6 +387,15 @@ async function startServer() {
     bootstrapWebhookEventsTable().catch(e =>
       console.error("[WebhookEventsBootstrap] failed:", e),
     );
+
+    // Ensure game_replays.shareToken exists. Migration 0056 is
+    // orphaned from _journal.json; without this column saveReplay
+    // can't generate share-links and getReplayByToken silently 404s.
+    // The legacy by-id lookup keeps working either way.
+    const { bootstrapReplayShareToken } = await import("../services/replaysBootstrap");
+    bootstrapReplayShareToken().catch(e =>
+      console.error("[ReplaysBootstrap] failed:", e),
+    );
   }
 
   // Transmission achievements — upsert the `achievements` table rows
