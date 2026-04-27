@@ -257,6 +257,194 @@ export const DMC_CLONE_COMPANION_BANK: ReadonlyArray<BankEntry> = [
   },
 
   // ═════════════════════════════════════════════════════════════════════
+  // STAGE 2 EXPANSION (Phase 6c.2 part 3): Posture cycle bank
+  //
+  // Per §1.2 four canonical posture states:
+  //   - Waiting (canonical default, "learned" vs Seer's "chosen")
+  //   - Bracing (canonical clearest non-verbal protective canon)
+  //   - Leaning (canonical pre-verbal-curiosity tell)
+  //   - Withdrawn (canonical "stepping back from disapproval")
+  //
+  // Plus the canonical holding vs cycling distinction:
+  //   - Holding = committed thought
+  //   - Cycling = transitional thought (3+ transitions = canonical distress)
+  //
+  // Existing bank ships 2 posture lines (leaning_curious, bracing_combat).
+  // This chunk fills the remaining canonical state × trigger event matrix.
+  // ═════════════════════════════════════════════════════════════════════
+
+  // ─── Waiting posture (canonical default, "learned" patience) ───────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.expression.posture.waiting_default",
+    // Canonical default posture — low-energy attentive stance. Per
+    // §1.2: the canonical "learned" patience (the soul-fragment
+    // canonically inherits the player's accumulated patience-or-
+    // impatience), distinguished from the Seer's canonical "chosen"
+    // waiting per the_seer.md §1.3.
+    text:
+      "[The Companion settles into the canonical waiting posture. Low- " +
+      "energy, attentive, weight evenly distributed. The fragment " +
+      "canonically inherited this patience from the donor; it is " +
+      "canonically learned, not chosen. The posture holds steady — " +
+      "this is canonical committed thought, not transition.]",
+    surfaces: ["expression"],
+    expressionChannel: "posture",
+    requiresTrustBand: "Witnessed",
+    cooldownKey: "companion.posture.waiting_default",
+    maxPlays: 12,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.expression.posture.waiting_during_player_conversation",
+    // Canonical waiting during player's NPC-conversation events. The
+    // soul-consistency-check canonically does NOT interrupt; the
+    // fragment canonically waits for the player to finish.
+    text:
+      "[The Companion holds the waiting posture while the player " +
+      "speaks with the NPC. The fragment canonically does-not-" +
+      "interrupt — the soul-consistency-check is canonically a " +
+      "listener-stance during the player's conversation, not a " +
+      "participant-stance. The posture canonically holds for the " +
+      "duration of the exchange.]",
+    surfaces: ["expression"],
+    expressionChannel: "posture",
+    requiresTrustBand: "Witnessed",
+    cooldownKey: "companion.posture.waiting_player_conversation",
+    maxPlays: 8,
+  },
+
+  // ─── Bracing posture (canonical protective stance) ──────────────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.expression.posture.bracing_hostile_npc_proximity",
+    // Canonical bracing on hostile-NPC-proximity. Per §1.2: the
+    // bracing posture canonically positions between the player and
+    // the threat, even when the canonical-fragment cannot canonically
+    // fight. The clearest non-verbal protective stance canon.
+    text:
+      "[The Companion shifts canonically into the bracing posture as " +
+      "the hostile NPC enters proximity. Weight forward; shoulders " +
+      "set; positioning canonically between the player and the threat. " +
+      "The fragment canonically cannot fight, but the bracing is " +
+      "canonical-protective regardless of capability — the soul-" +
+      "fragment commits the body to the stance.]",
+    surfaces: ["expression", "fight"],
+    expressionChannel: "posture",
+    requiresTrustBand: "Witnessed",
+    cooldownKey: "companion.posture.bracing_hostile_proximity",
+    maxPlays: 6,
+  },
+
+  // ─── Leaning posture (canonical pre-verbal curiosity) ───────────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.expression.posture.leaning_room_lore_item",
+    // Canonical leaning toward room-discover lore items. Per §1.2:
+    // leaning is the canonical pre-verbal-curiosity tell — the
+    // Companion canonically wants to engage but lacks the channels
+    // to do so verbally.
+    text:
+      "[The Companion leans canonically toward the lore artifact. The " +
+      "lean is canonical pre-verbal-curiosity — the fragment wants to " +
+      "engage but lacks the verbal channels to ask. Weight angled " +
+      "forward, head tilted toward the object, shoulders carrying " +
+      "the wanting-to-know without yet the words for it.]",
+    surfaces: ["expression"],
+    expressionChannel: "posture",
+    requiresTrustBand: "Witnessed",
+    cooldownKey: "companion.posture.leaning_lore_item",
+    maxPlays: 8,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.expression.posture.leaning_tcg_match_rewarded_card",
+    // Canonical leaning toward TCG match-win rewarded cards. Per
+    // §1.2: TCG match-win canonically triggers leaning toward the
+    // rewarded card.
+    text:
+      "[The Companion leans canonically toward the rewarded card as " +
+      "it materialises in the player's hand. The lean is canonical " +
+      "trade-equivalent-curiosity — the fragment registers the card " +
+      "as the player's accumulated saga-state and wants the closer " +
+      "view the verbal channels would permit.]",
+    surfaces: ["expression"],
+    expressionChannel: "posture",
+    requiresTrustBand: "Witnessed",
+    cooldownKey: "companion.posture.leaning_tcg_card",
+    maxPlays: 6,
+  },
+
+  // ─── Withdrawn posture (canonical disapproval / discomfort) ─────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.expression.posture.withdrawn_player_disapproval",
+    // Canonical withdrawn posture — fires when player choice is
+    // canonically inconsistent with player's accumulated saga-state.
+    // The soul-consistency-check stance canon. Per §1.2: inverse of
+    // the approval-glyph canon.
+    text:
+      "[The Companion canonically steps back. Half a step, body " +
+      "weight off the front foot, shoulders dropped. The withdrawn " +
+      "posture is canonical-disapproval — the soul-consistency-check " +
+      "registers the choice as canonically inconsistent with the " +
+      "donor-state-record. The fragment does not speak the disapproval; " +
+      "the body's withdrawal is the entire statement.]",
+    surfaces: ["expression"],
+    expressionChannel: "posture",
+    requiresTrustBand: "Witnessed",
+    cooldownKey: "companion.posture.withdrawn_disapproval",
+    maxPlays: 6,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.expression.posture.withdrawn_severance_for_another",
+    // Canonical withdrawn posture for "another player's Severance
+    // Prize" canonical scenes. Per §1.2: the Companion canonically
+    // remembers their own delivery and withdraws.
+    text:
+      "[The Companion canonically withdraws as the other player's " +
+      "Severance ceremony begins. The fragment canonically remembers " +
+      "their own delivery — the seal opening, the body-and-fragment " +
+      "settling, the canonical first glyph forming. The withdrawal " +
+      "is canonical-self-recognition, not canonical-disapproval. The " +
+      "posture holds 12 seconds and slowly returns to waiting.]",
+    surfaces: ["expression"],
+    expressionChannel: "posture",
+    requiresTrustBand: "Witnessed",
+    cooldownKey: "companion.posture.withdrawn_severance_other",
+    maxPlays: 4,
+  },
+
+  // ─── Cycling canon (canonical distress: 3+ transitions) ─────────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.expression.posture.cycling_distress_canon",
+    // Canonical 3+ posture transitions = distress canon per §1.2.
+    // Bible-load-bearing: prolonged cycling is canonically the
+    // Companion's pre-verbal request that the player canonically
+    // change course (Stage 4 weave canonical).
+    text:
+      "[The Companion's posture cycles canonically — leaning, then " +
+      "withdrawn, then waiting, then leaning again. Three transitions " +
+      "in one beat; the fragment cannot canonically settle. The " +
+      "cycling is canonical-distress; per §1.2 bible-load-bearing " +
+      "canon, the prolonged transition is the Companion's pre-verbal " +
+      "request that the player canonically change course.]",
+    surfaces: ["expression"],
+    expressionChannel: "posture",
+    requiresTrustBand: "Present",
+    cooldownKey: "companion.posture.cycling_distress",
+    maxPlays: 3,
+    setsFlags: ["companion_posture_cycling_distress_observed"],
+  },
+
+  // ═════════════════════════════════════════════════════════════════════
   // STAGE 3: SOUND (Present band — half-syllables foreshadow first word)
   // ═════════════════════════════════════════════════════════════════════
 
