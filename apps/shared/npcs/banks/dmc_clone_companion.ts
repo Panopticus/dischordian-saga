@@ -85,6 +85,148 @@ export const DMC_CLONE_COMPANION_BANK: ReadonlyArray<BankEntry> = [
   },
 
   // ═════════════════════════════════════════════════════════════════════
+  // STAGE 1 EXPANSION (Phase 6c.2 part 2): Glyph recognition bank
+  //
+  // Per §1.2 four canonical glyph categories (Recognition / Question /
+  // Approval / Mourning) across the canonical trigger event-set:
+  // severance-prize-delivered, first-Trade-Empire-mission, first-DMC-
+  // race-witnessed, first-TCG-match-witnessed, first-room-visit,
+  // first-NPC-introduction. The existing bank ships:
+  //   - recognition_player (canonical first glyph, 1.8s open triangle)
+  //   - mourning_npc_death (canonical mourning, 9s unraveling)
+  // This chunk adds 6 glyphs filling the canonical category × trigger
+  // matrix.
+  //
+  // Visual signatures per §1.2:
+  //   - Recognition: small geometric mark, 1-2s duration
+  //   - Question: angular asymmetric with one missing edge, 4-6s
+  //   - Approval: closed balanced shape with mirror-symmetry
+  //   - Mourning: unraveling shape, 6-8s
+  //
+  // Three-channel-minimum canon (§1.3 cross-channel layering): post-
+  // Witnessed-band beats canonically express in glyph + posture +
+  // sound combined. These glyph lines are the glyph-channel of those
+  // canonical multi-channel beats.
+  // ═════════════════════════════════════════════════════════════════════
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.expression.glyph.question_unmet_npc",
+    // Canonical question glyph — fires on first encounter with an
+    // unmet roster character. The fragment canonically does not yet
+    // know whether to recognize or withhold.
+    text:
+      "[A glyph forms — angular, asymmetric, one edge canonically " +
+      "missing. The Companion canonically does-not-yet-know how to " +
+      "place this person. The shape persists 5 seconds, then " +
+      "settles into a smaller waiting-mark.]",
+    surfaces: ["expression"],
+    expressionChannel: "glyph",
+    requiresTrustBand: "Wary",
+    cooldownKey: "companion.glyph.question_unmet_npc",
+    maxPlays: 8,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.expression.glyph.question_morally_complex_choice",
+    // Canonical question glyph for player's morally-complex choice
+    // moments. Per §1.2: question glyphs canonically wait for the
+    // question to resolve. The fragment is canonically the player's
+    // soul-consistency-check.
+    text:
+      "[The Companion's glyph forms incomplete — three edges, one " +
+      "deliberately missing where the resolution canonically goes. " +
+      "The fragment canonically waits with the question. The shape " +
+      "holds 6 seconds — the Companion is not asking the player to " +
+      "answer. The Companion is canonically registering that the " +
+      "player has not yet answered themselves.]",
+    surfaces: ["expression"],
+    expressionChannel: "glyph",
+    requiresTrustBand: "Witnessed",
+    cooldownKey: "companion.glyph.question_morally_complex",
+    maxPlays: 5,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.expression.glyph.approval_faction_aligned_choice",
+    // Canonical approval glyph — fires when player makes a choice
+    // canonically consistent with their accumulated saga-state. Per
+    // §1.2: closed balanced shape with mirror-symmetry; the soul-
+    // consistency-check canonically affirms.
+    text:
+      "[A closed glyph forms — balanced, mirror-symmetric, faintly " +
+      "luminous. The Companion canonically recognizes the choice as " +
+      "consistent with the donor-state-record. The shape holds 2 " +
+      "seconds and dissolves cleanly. Approval is canonically brief; " +
+      "the soul-fragment does not linger on agreement.]",
+    surfaces: ["expression"],
+    expressionChannel: "glyph",
+    requiresTrustBand: "Witnessed",
+    cooldownKey: "companion.glyph.approval_faction_aligned",
+    maxPlays: 10,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.expression.glyph.approval_trade_empire_route",
+    // Canonical approval glyph specifically for Trade Empire route-
+    // completion canonical events. Per §1.1 channel-event-mapping:
+    // trade-empire events canonically land in glyphs.
+    text:
+      "[A small balanced glyph appears beside the route-completion " +
+      "indicator. The Companion canonically registers the route as " +
+      "consistent with the player's accumulated trading patterns. " +
+      "1.5 seconds. The glyph dissolves into a faint approval-trace " +
+      "the Companion canonically retains as posture-memory.]",
+    surfaces: ["expression", "trade_empire"],
+    expressionChannel: "glyph",
+    requiresTrustBand: "Witnessed",
+    cooldownKey: "companion.glyph.approval_trade_empire_route",
+    maxPlays: 6,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.expression.glyph.recognition_room_revisit",
+    // Canonical recognition glyph for room-revisit canonical events.
+    // Per §1.2: recognition glyphs canonically appear first-glyph
+    // before any other glyph type the Companion has unlocked.
+    text:
+      "[A brief recognition glyph forms as the Companion enters the " +
+      "room a second time — the same small geometric mark from the " +
+      "first-room-visit, slightly more confident in its outline. The " +
+      "soul-fragment canonically remembers the room. 1.2 seconds. " +
+      "The dissolve is gentler than the first encounter's.]",
+    surfaces: ["expression"],
+    expressionChannel: "glyph",
+    requiresTrustBand: "Wary",
+    cooldownKey: "companion.glyph.recognition_room_revisit",
+    maxPlays: 8,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.expression.glyph.mourning_faction_collapse",
+    // Canonical mourning glyph for faction-collapse / large-scale-
+    // loss events. Per §1.2: mourning glyphs are canonically the
+    // Companion's most expressive pre-verbal channel — the soul-
+    // fragment canonically remembers loss with greater fidelity.
+    // Per §1.3 cross-channel layering: mourning glyph canonically
+    // pairs with mourning-tone (Channel 3) when both channels are
+    // unlocked.
+    text:
+      "[The Companion's mourning glyph unravels canonically — the " +
+      "shape begins whole, fragments across 7 seconds, and settles " +
+      "into a smaller mark the soul-fragment will canonically retain. " +
+      "The fragment canonically registers a loss the player did not " +
+      "have time to register. The smaller mark is canonical-archive: " +
+      "the soul-fragment remembers because the player's accumulated " +
+      "self has not yet finished noticing.]",
+    surfaces: ["expression"],
+    expressionChannel: "glyph",
+    requiresTrustBand: "Witnessed",
+    cooldownKey: "companion.glyph.mourning_faction_collapse",
+    maxPlays: 5,
+  },
+
+  // ═════════════════════════════════════════════════════════════════════
   // STAGE 2: POSTURE (Witnessed band)
   // ═════════════════════════════════════════════════════════════════════
 
@@ -229,6 +371,20 @@ export const DMC_CLONE_COMPANION_BANK: ReadonlyArray<BankEntry> = [
     lineId: "companion.fight.catchall",
     text: "[The Companion braces. Bracing is the canonical-protective stance.]",
     surfaces: ["fight"],
+    expressionChannel: "posture",
+  },
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.trade_empire.catchall",
+    // Catch-all for trade_empire surface (introduced in Phase 6c.2
+    // part 2 by approval_trade_empire_route). Silent-fail-safe
+    // canonical posture-channel fallback.
+    text:
+      "[The Companion follows the route's logic in posture. Posture " +
+      "is the canonical pre-verbal accompaniment to the player's " +
+      "trade-empire decisions.]",
+    surfaces: ["trade_empire"],
     expressionChannel: "posture",
   },
 ];
