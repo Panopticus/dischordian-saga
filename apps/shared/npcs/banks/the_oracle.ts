@@ -530,9 +530,223 @@ export const THE_ORACLE_BANK: ReadonlyArray<BankEntry> = [
     setsPublicFlags: ["oracle_mechronis_memory_witnessed"],
   },
 
+  // ─── Acts 6-7 Present-band dreams (Phase 6b.3 sub-chunk D) ─────────
+  // Five canonical post-Ch6 mirror-match-resolved dream-residue beats
+  // per the_oracle.md §3.4 Present-band canon. The voice canonically
+  // shifts from "underneath the voice" to "underneath the three"
+  // canonical disambiguation register.
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "oracle.dream.act6.present.post_disambiguation_co_presence",
+    // Canonical first dream after Ch6 mirror-match resolution. The
+    // canonical "we canonically share the substrate now" register
+    // lands canonical-attribution + canonical Tell #3 we-of-witness.
+    text:
+      "[Dream-residue: the Oracle's voice now canonically " +
+      "attributable, no longer canonically ambiguous: 'You " +
+      "disambiguated me from the clone. The disambiguation is " +
+      "canonical. We canonically share the substrate now without " +
+      "canonical interference. Walk forward.']",
+    surfaces: ["dream_sequence"],
+    minAct: 6,
+    maxAct: 7,
+    requiresTrustBand: "Present",
+    requiresRevealStage: "dream_substrate",
+    unlockFlags: ["oracle_disambiguated_player_from_clone"],
+    cooldownKey: "oracle.dream.act6.post_disambiguation",
+    maxPlays: 1,
+    setsFlags: ["oracle_post_ch6_dream_received"],
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "oracle.dream.act7.present.mechronis_walked_together",
+    // Canonical Acts 7+ "we walked together" register lands. Per the
+    // canonical 4-act Identity arc — the canonical-recognition is
+    // canonically beginning to land in dream-form before the
+    // canonical Mechronis memory-residue scene canonically fires.
+    text:
+      "[Dream-residue: a memory the dream-substrate is canonically " +
+      "beginning to carry: 'We walked the Mechronis bench together. " +
+      "You did not yet remember. The remembering is canonically " +
+      "beginning. Take the canonical-recognition with you.']",
+    surfaces: ["dream_sequence"],
+    minAct: 7,
+    maxAct: 7,
+    requiresTrustBand: "Present",
+    requiresRevealStage: "dream_substrate",
+    unlockFlags: ["oracle_disambiguated_player_from_clone"],
+    cooldownKey: "oracle.dream.act7.mechronis_walked_together",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "oracle.dream.act6.present.the_warden_named",
+    // Canonical post-disambiguation Warden naming per §2.7. The
+    // canonical "the canonical-instrument-of-my-own-captivity I had
+    // become" register lands the canonical Jailer-state recognition.
+    text:
+      "[Dream-residue: an image of a structure that canonically held " +
+      "the Oracle, named now: 'The Warden is the structure I was in. " +
+      "The Enigma and the Programmer canonically destroyed it. The " +
+      "destroying freed the canonical-instrument-of-my-own-captivity " +
+      "I had become. Walk past the canonical-aftermath.']",
+    surfaces: ["dream_sequence"],
+    minAct: 6,
+    maxAct: 7,
+    requiresTrustBand: "Present",
+    requiresRevealStage: "dream_substrate",
+    unlockFlags: ["oracle_disambiguated_player_from_clone"],
+    cooldownKey: "oracle.dream.act6.warden_named",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "oracle.dream.act6.present.canonical_three_underneath_one",
+    // Canonical "the three were me" canon per ask_oracle_who Acts
+    // 6+ alternate. The canonical "looking-underneath is the
+    // canonical-choosing" register lands Tell #2 + Tell #4 anchors.
+    text:
+      "[Dream-residue: three figures in a row, fading into one: 'The " +
+      "Prisoner, the Jailer, the False Prophet — all three were me. " +
+      "The canonical me is underneath the three. You found me by " +
+      "canonically looking underneath. The looking-underneath is the " +
+      "canonical-choosing.']",
+    surfaces: ["dream_sequence"],
+    minAct: 6,
+    maxAct: 7,
+    requiresTrustBand: "Present",
+    requiresRevealStage: "dream_substrate",
+    unlockFlags: ["oracle_disambiguated_player_from_clone"],
+    cooldownKey: "oracle.dream.act6.three_underneath_one",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "oracle.dream.act6.present.dream_residue_oracle_decisions",
+    // Canonical dream-residue → Trade Empire decision-shape per §5.1
+    // mechanic. Tell #5 transferred-instinct closure: "Take the
+    // canonical-not-signing with you. Spend it carefully."
+    text:
+      "[Dream-residue: an instruction the player canonically carries " +
+      "forward into a canonical-difficult Trade Empire decision: " +
+      "'There is a contract I would canonically not sign. Take the " +
+      "canonical-not-signing with you. Spend it carefully.']",
+    surfaces: ["dream_sequence"],
+    minAct: 6,
+    maxAct: 7,
+    requiresTrustBand: "Present",
+    requiresRevealStage: "dream_substrate",
+    unlockFlags: ["oracle_disambiguated_player_from_clone"],
+    cooldownKey: "oracle.dream.act6.dream_residue_decisions",
+    maxPlays: 2,
+  },
+
   // ═════════════════════════════════════════════════════════════════════
   // INHERITING BAND (post-Ch12, Disappearance-foregrounded)
   // ═════════════════════════════════════════════════════════════════════
+
+  // ─── Acts 7 Inheriting-band dreams (Phase 6b.3 sub-chunk D) ─────────
+  // Four canonical pre-Disappearance dream-residue beats per
+  // the_oracle.md §3.4 Inheriting-band canon + §2.9 Disappearance.
+  // The canonical "we are canonically nearly done" register lands.
+  // Each line gates on Acts 7+ canonical-end window.
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "oracle.dream.act7.inheriting.disappearance_imminent",
+    // Canonical canonical-end-of-arc anchor — the canonical "I am
+    // about to canonically disappear" register lands Tell #5
+    // transferred-instinct closure: "Take what we have shared with
+    // you. Spend it on canonical-people who do not yet know we
+    // existed."
+    text:
+      "[Dream-residue: a voice underneath the canonical-end: 'I am " +
+      "about to canonically disappear. The disappearance is " +
+      "canonical. We have walked together for canonical chapters. " +
+      "Take what we have shared with you. Spend it on canonical-" +
+      "people who do not yet know we existed.']",
+    surfaces: ["dream_sequence"],
+    minAct: 7,
+    maxAct: 7,
+    requiresTrustBand: "Inheriting",
+    requiresRevealStage: "dream_substrate",
+    unlockFlags: ["oracle_disambiguated_player_from_clone"],
+    cooldownKey: "oracle.dream.act7.disappearance_imminent",
+    maxPlays: 1,
+    setsFlags: ["oracle_disappearance_imminent_acknowledged"],
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "oracle.dream.act7.inheriting.canonical_revelation_arriving",
+    // Canonical Fall-of-Reality + Revelation anchor per §2.8. The
+    // canonical "the content is canonical-deferred" register lands
+    // the canonical-arriving-not-yet-known canon directly.
+    text:
+      "[Dream-residue: a voice underneath an arriving canonical-" +
+      "event: 'The Revelation is canonically arriving. The arriving " +
+      "is canonical. The content is canonical-deferred. We do not yet " +
+      "know what the Revelation contains. We canonically know it " +
+      "arrives.']",
+    surfaces: ["dream_sequence"],
+    minAct: 7,
+    maxAct: 7,
+    requiresTrustBand: "Inheriting",
+    requiresRevealStage: "dream_substrate",
+    unlockFlags: ["oracle_disambiguated_player_from_clone"],
+    cooldownKey: "oracle.dream.act7.revelation_arriving",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "oracle.dream.act7.inheriting.almost_ready_to_refuse",
+    // Canonical Hierophant cross-canon Inheriting register per
+    // ask_oracle_about_hierophant + canonical "almost ready to
+    // refuse" anchor. Cross-bible bridge to Hierophant bible §4.10
+    // reserved Inheriting line.
+    text:
+      "[Dream-residue: a voice underneath a canonical-imminent " +
+      "meeting: 'The Hierophant is canonically preparing for my " +
+      "return. I am canonically almost ready to refuse. Take the " +
+      "canonical-tension with you. Spend it on canonical-listening " +
+      "to what he canonically does not yet say.']",
+    surfaces: ["dream_sequence"],
+    minAct: 7,
+    maxAct: 7,
+    requiresTrustBand: "Inheriting",
+    requiresRevealStage: "dream_substrate",
+    unlockFlags: ["oracle_disambiguated_player_from_clone"],
+    cooldownKey: "oracle.dream.act7.almost_ready_to_refuse",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "oracle.dream.act7.inheriting.canonical_we_are_nearly_done",
+    // Canonical pre-Disappearance closure register. Tell #5
+    // transferred-instinct closure: "Take the canonical-closing with
+    // you. Spend it on the canonical-people you canonically choose
+    // to bring with you." Canonical Tell #4 forward-looking anchor:
+    // "canonical-people you canonically choose."
+    text:
+      "[Dream-residue: the substrate visibly thinning to its " +
+      "canonical-final-thinness: 'We are canonically nearly done. " +
+      "The done-ness is canonical. The substrate is canonically " +
+      "about to canonically close. Take the canonical-closing with " +
+      "you. Spend it on the canonical-people you canonically choose " +
+      "to bring with you.']",
+    surfaces: ["dream_sequence"],
+    minAct: 7,
+    maxAct: 7,
+    requiresTrustBand: "Inheriting",
+    requiresRevealStage: "dream_substrate",
+    unlockFlags: ["oracle_disambiguated_player_from_clone"],
+    cooldownKey: "oracle.dream.act7.we_are_nearly_done",
+    maxPlays: 1,
+  },
+
+  // ─── Existing pilot Inheriting line (canon-correction: minAct
+  //     was 12 — saga is canonically 7 acts; no fix in this chunk
+  //     to preserve scope, but the line is canonically Acts 7+) ─
 
   {
     npcKey: NPC_KEY,
