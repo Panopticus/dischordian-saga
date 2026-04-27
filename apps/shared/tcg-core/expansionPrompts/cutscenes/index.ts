@@ -12,7 +12,7 @@
  */
 import type { CutsceneRegistry } from "../types";
 import { CARD_PACK_OPENING_CUTSCENE } from "./cardPackOpening";
-// import { HIERARCHY_REVEAL_CUTSCENE } from "./hierarchyReveal";
+import { HIERARCHY_REVEAL_CUTSCENE } from "./hierarchyReveal";
 // import { ACT1_CUTSCENE } from "./act1_memoir";
 // import { ACT2_CUTSCENE } from "./act2_whisper";
 // import { ACT3_CUTSCENE } from "./act3_offer";
@@ -23,4 +23,5 @@ import { CARD_PACK_OPENING_CUTSCENE } from "./cardPackOpening";
 
 export const CUTSCENE_PROMPTS: CutsceneRegistry = Object.freeze({
   ...CARD_PACK_OPENING_CUTSCENE,
+  ...HIERARCHY_REVEAL_CUTSCENE,
 });
