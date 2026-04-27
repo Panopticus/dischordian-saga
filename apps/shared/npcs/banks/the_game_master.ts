@@ -783,6 +783,106 @@ export const THE_GAME_MASTER_BANK: ReadonlyArray<BankEntry> = [
   },
 
   // ═════════════════════════════════════════════════════════════════════
+  // CHESS-TRIGGER EVENT BANK (Phase 6d.1 part 4)
+  //
+  // Per the plan: canonical chess-game-completion lines × 4 outcomes
+  // (checkmate-win / checkmate-loss / stalemate / player-resignation)
+  // plus 1 canonical first-game greeting. All in dead_AI form per
+  // §1 chess-only-contact canon.
+  // ═════════════════════════════════════════════════════════════════════
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "game_master.chess.first_game_greeting",
+    // Canonical first chess game canonical greeting. Fires on the
+    // canonical first chess game played; sets canonical first-game
+    // flag (engineering uses this for presence-band ladder canon).
+    text:
+      "[The chess board renders for the first time. The dead Game " +
+      "Master is canonically waiting at the canonical-other side. He " +
+      "does not introduce himself — the dead do not speak in chess. " +
+      "He moves a pawn forward two squares. The board is canonical. " +
+      "Your turn.]",
+    surfaces: ["cinematic"],
+    requiresRevealStage: "dead_AI",
+    cooldownKey: "game_master.chess.first_game_greeting",
+    maxPlays: 1,
+    setsFlags: ["game_master_first_chess_game_played"],
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "game_master.chess.checkmate_player_wins",
+    // Canonical "you have checkmated the dead Game Master" canon.
+    // Per §2.3 + Tell #1 ("you were always going to" frame): the
+    // canonical Arena was rigged for player victory at the highest
+    // design layer. The checkmate canonically lands as canon-fulfilled.
+    text:
+      "[Checkmate. The dead Game Master's king-piece falls. He does " +
+      "not lift it; the dead canonically do not handle their own " +
+      "pieces. The Matrix files the result. The result was canonically " +
+      "anticipated; the architecture was canonically engineered for " +
+      "this canonical-outcome at the highest design layer. He does " +
+      "not congratulate you. The dead canonically do not. The next " +
+      "board renders before you have finished registering the win.]",
+    surfaces: ["cinematic", "match"],
+    requiresRevealStage: "dead_AI",
+    cooldownKey: "game_master.chess.checkmate_player_wins",
+    maxPlays: 1,
+    setsPublicFlags: ["game_master_checkmated_by_player"],
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "game_master.chess.checkmate_player_loses",
+    // Canonical "checkmated by the dead Game Master" canon. Predesti-
+    // nation grammar Tell #3.
+    text:
+      "[Checkmate. The dead Game Master's queen-piece canonically " +
+      "completes the position. Your king-piece canonically has no " +
+      "legal move. The canonical-position was canonically arrived at; " +
+      "the arrival was canonically the move-sequence the architecture " +
+      "canonically permitted. He does not gloat; the dead canonically " +
+      "do not. The next board renders. You play.]",
+    surfaces: ["match"],
+    requiresRevealStage: "dead_AI",
+    cooldownKey: "game_master.chess.checkmate_player_loses",
+    maxPlays: 4,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "game_master.chess.stalemate",
+    // Canonical stalemate canon. Per §1.7 Tell #1 "you were always
+    // going to" frame: the stalemate canonically lands as the
+    // canonical-not-loss-not-win position the architecture
+    // canonically permits.
+    text:
+      "[Stalemate. The position has canonically arrived where neither " +
+      "side has a legal move. The dead Game Master files the result " +
+      "in the Matrix. The Matrix has a canonical-category for " +
+      "stalemate — it is canonically rare and canonically valued. " +
+      "The dead do not celebrate; they file. The board resets.]",
+    surfaces: ["match"],
+    requiresRevealStage: "dead_AI",
+    cooldownKey: "game_master.chess.stalemate",
+    maxPlays: 2,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "game_master.chess.player_resigns",
+    // Canonical player-resignation canon. The dead Game Master
+    // canonically registers the resignation as a move.
+    text:
+      "[You resign. The dead Game Master does not move; the resignation " +
+      "is canonically the player's move. The canonical-resignation is " +
+      "canonically a move; the Matrix files it as a move. The dead " +
+      "canonically do not console; the canonical-filing is the entire " +
+      "response. The board resets without comment.]",
+    surfaces: ["match"],
+    requiresRevealStage: "dead_AI",
+    cooldownKey: "game_master.chess.player_resigns",
+    maxPlays: 3,
+  },
+
+  // ═════════════════════════════════════════════════════════════════════
   // CATCH-ALLS (silent-fail compliance)
   // ═════════════════════════════════════════════════════════════════════
 

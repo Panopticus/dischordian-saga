@@ -846,6 +846,17 @@ export const CROSS_CHARACTER_REACTIONS: ReadonlyArray<CrossCharacterReaction> = 
       "during fights. Eidolon reactive lines may canonically register " +
       "the displacement as canonical-discomfort.",
   },
+  {
+    flag: "game_master_checkmated_by_player",
+    setBy: ["the_game_master"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Game Master chess.checkmate_player_wins (Phase 6d.1 part 4). " +
+      "Canonical Arena-rigged-for-victory canon per §2.3: the Collectors' " +
+      "Arena was canonically engineered for player victory at the highest " +
+      "design layer. Future Oracle / Hierophant reactive lines may " +
+      "register the canonical-outcome as canon-fulfilled.",
+  },
 ];
 
 // --- Helpers --------------------------------------------------------------
