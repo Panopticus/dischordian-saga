@@ -13,7 +13,7 @@ import { VP_PROMPTS } from "./vps";
 import { DIRECTOR_PROMPTS } from "./directors";
 import { MANAGER_PROMPTS } from "./managers";
 import { ANALYST_PROMPTS } from "./analysts";
-// import { INTERN_PROMPTS } from "./interns";      // pending
+import { INTERN_PROMPTS } from "./interns";
 
 export const HIERARCHY_PROMPTS: ExpansionCardRegistry = Object.freeze({
   ...CSUITE_PROMPTS,
@@ -21,4 +21,5 @@ export const HIERARCHY_PROMPTS: ExpansionCardRegistry = Object.freeze({
   ...DIRECTOR_PROMPTS,
   ...MANAGER_PROMPTS,
   ...ANALYST_PROMPTS,
+  ...INTERN_PROMPTS,
 });
