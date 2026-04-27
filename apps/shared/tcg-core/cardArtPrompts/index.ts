@@ -53,10 +53,9 @@ import { NEUTRAL_CARD_ART_PROMPTS } from "./neutral";
  *   - insurgency: 51 / 51 cards — COMPLETE
  *   - new_babylon: 52 / 52 cards — COMPLETE
  *   - thought_virus: 53 / 53 cards — COMPLETE
- *   - neutral: 66 / 79 cards
+ *   - neutral: 79 / 79 cards — COMPLETE
  *
- * Pending factions:
- *   - neutral (remaining 73)
+ * ALL FACTIONS COMPLETE.
  *   - architect, antiquarian, dreamer, insurgency, new_babylon,
  *     thought_virus, neutral, panopticon, allegiance, class, race,
  *     elemental, dimensional

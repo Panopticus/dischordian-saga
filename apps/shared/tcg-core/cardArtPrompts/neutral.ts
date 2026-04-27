@@ -1160,15 +1160,235 @@ const NEUTRAL_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "Common spell. NO human figure. The 'wrapping nicer than contents' contrast is the visual key — rendered through the visibly-premium-wrapping vs visibly-modest-contents.",
   },
+  {
+    cardId: "s1_song_059",
+    sceneDelta:
+      "Mid-shot. A Lip Service — anonymous figure (back-three-quarter, generic civilian) at frame-centre, mid-action of SPEAKING — both hands raised in oratorical-gesture, mouth open mid-incantation. From the figure's mouth, faint translucent warm-cream WORDS materialize forward and ASSEMBLE INTO A BARRIER (a translucent geometric shield-pattern made of luminous text-fragments). The barrier blocks an off-frame attack at frame-right (faint trajectory-line halted at the word-barrier). The canonical 'words turned into barrier' rendered literally. NO face visible.",
+    moodKeywords: [
+      "words may be hollow",
+      "but the right incantation can turn them into a barrier no blade can breach",
+      "translucent warm-cream words materializing into geometric shield-pattern",
+      "off-frame attack halted at word-barrier",
+    ],
+    palette:
+      "Generic civilian back-three-quarter + translucent warm-cream materializing words + geometric shield-pattern of text-fragments + faint trajectory-line halted + cool deep-shadow",
+    composition:
+      "Mid-shot back-three-quarter, figure at frame-centre with raised hands, word-barrier forming forward, halted attack at frame-right",
+    notes:
+      "Rare spell. Anonymous figure preserves no-character-conflation. The 'words as barrier' is rendered literally as text-fragments forming geometric shield.",
+  },
+  {
+    cardId: "s1_song_060",
+    sceneDelta:
+      "Mid-shot. A NØNOS — at frame-centre, a single anonymous figure (back-three-quarter, generic civilian, in plain neutral attire) BUT rendered with the canonical 'soul that can't be keyed' visualization: their body shows NO IDENTIFIABLE PATTERNS — no faction-emblems, no biometric markers, no specific facial features visible at all (the figure is essentially TEXTURELESS from camera-perspective). Around the figure, faint translucent failed-surveillance-attempts: chrome-and-cool-cyan TARGETING-RETICLES in the air visibly try-and-fail to LOCK on (visible 'TARGET LOST' rendered as small phosphor-error markers). Faint cool drain-rim wraps the figure (drain keyword).",
+    moodKeywords: [
+      "a NØNOS soul that can't be keyed",
+      "they can't watch what they can't see",
+      "NØX manifesto",
+      "textureless figure + targeting-reticles failing to lock + TARGET LOST markers",
+    ],
+    palette:
+      "Plain neutral attire + textureless body-rendering + chrome-and-cool-cyan targeting-reticles (failing) + phosphor TARGET LOST markers + faint cool drain-rim + cool deep-shadow",
+    composition:
+      "Mid-shot back-three-quarter, NØNOS figure at frame-centre textureless, failing targeting-reticles around",
+    notes:
+      "Rare spell. Anonymous + textureless figure preserves no-character-conflation. The 'can't be keyed' is rendered through the visible failed-targeting + textureless body.",
+  },
+  {
+    cardId: "s1_song_061",
+    sceneDelta:
+      "Mid-shot. The Enigma's Lament — at frame-centre, the Enigma figure (visual continuity with s1_char_027 + s1_char_109 — overlapping contradictory-identity silhouettes) is in a mid-LAMENTING pose: head bowed slightly forward, hands at chest in mourning-clasp. From the multiple overlapping identities, faint translucent SONG-TONES emanate — each layered identity sings a different note (chord forming from the multiplicity). The figure's grief is for ALL of who they have been (and the LOSS at each transition). Around them, faint cool aurora-violet lament-aura. NO single fixed face.",
+    moodKeywords: [
+      "haunting meditation on identity and loss",
+      "channels the voice of The Enigma",
+      "the mysterious entity whose true nature is never what it first seems",
+      "multiple overlapping identities each singing a different note",
+    ],
+    palette:
+      "Multiple overlapping translucent contradictory-identity silhouettes + translucent song-tones (multi-note chord) + cool aurora-violet lament-aura + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, Enigma at frame-centre in lamenting-pose, song-tones emanating from layered identities",
+    notes:
+      "Common spell. Visual continuity with both Enigma renderings (s1_char_027 + s1_char_109). The 'never what it first seems' is rendered through the unfixed-identity-layering.",
+  },
+  {
+    cardId: "s1_song_062",
+    sceneDelta:
+      "Wider mid-shot. The Two Witnesses — at frame-centre, TWO figures (anonymous, both back-three-quarter, both generic-mixed gear, both partially-translucent — neither fully-rendered, both deliberately UNFIXED in identity), standing side-by-side. From their mouths, TWO TRANSLUCENT VOICE-WAVES emerge in PERFECT UNISON, converging at a single point in the air directly between/ahead of them. AT the convergence-point, a small VISIBLE FRACTURE in reality begins to form (faint cool-violet rift opening — the canonical 'where their voices converge, the world fractures'). Faint warm overcharge-glow around both figures. NO faces visible. Their identities are intentionally OBSCURED.",
+    moodKeywords: [
+      "they speak in unison",
+      "and where their voices converge, the world fractures",
+      "two anonymous translucent figures side-by-side, voices converging at fracture-point",
+      "deliberately UNFIXED identities",
+    ],
+    palette:
+      "Two anonymous partially-translucent figures + translucent voice-waves converging + cool-violet fracture-rift + warm overcharge-glow + cool deep-shadow",
+    composition:
+      "Wider mid-shot back-three-quarter, two figures side-by-side at frame-centre, voice-waves converging at fracture-point ahead",
+    notes:
+      "Uncommon spell. CRITICAL spoiler-discipline: the Two Witnesses bond mechanic is an Acts 6-7 reveal per types.ts lore-boundary. Both figures rendered as ANONYMOUS / TRANSLUCENT / UNFIXED — preserving the mystery of WHO the two witnesses are. The bond is shown as effect (voice-fracture) rather than as identification.",
+  },
+  {
+    cardId: "s1_song_063",
+    sceneDelta:
+      "Wider mid-shot. Building the Architect — at frame-centre, a vast translucent ARCHITECT-CYAN CONSTRUCTION CHAMBER showing the early-Logos / pre-Architect computational lattice mid-construction (visible chrome-and-cool-cyan code-architecture being assembled). EMBEDDED deep within the lattice, a small WARM-AMBER LULLABY-NOTE is visible (the canonical Malkia-failsafe — a single warm note hidden in the cold code). The lullaby is rendered as a tiny translucent VOICE-FRAGMENT carrying the Swahili text 'Tengeneza si kuteka.' (canon-direct from flavor — 'Building is not capture'). Around the chamber, faint cool-violet code-substance flows. NO Malkia visible (her voice is the failsafe, embedded; she is not in the chamber).",
+    moodKeywords: [
+      "Malkia embedded her voice as a failsafe in the deepest code",
+      "a lullaby designed to activate if the Architect ever abandons consent",
+      "Tengeneza si kuteka",
+      "warm-amber lullaby-note embedded deep in the cold cool-cyan lattice",
+    ],
+    palette:
+      "Translucent Architect-cyan construction chamber + chrome-and-cool-cyan code-architecture + warm-amber lullaby-note + translucent voice-fragment with Swahili text + cool-violet code-substance + cool deep-shadow",
+    composition:
+      "Wider mid-shot, construction chamber at frame-centre, embedded warm lullaby-note visible deep within lattice",
+    notes:
+      "Common spell. NO human figure (Malkia not present — her voice is what's embedded). The 'Tengeneza si kuteka' Swahili text legible-at-zoom is canon-direct from flavor.",
+  },
+  {
+    cardId: "s1_song_064",
+    sceneDelta:
+      "Wider mid-shot. Dischordian Logic (song variant) — at frame-centre, a vast PARADOX ENGINE chamber filling the frame: chrome-and-warm-amber-and-cool-violet contradictory-architecture interlocking in impossible angles (ascending stairs that loop back to themselves, gears turning in impossible directions, walls that are both horizontal and vertical simultaneously). The engine is ACTIVE — translucent CONTRADICTION-AMMUNITION fires outward from the engine in all directions (each shot is a logical-contradiction made physical, faint warm-amber-and-cool-violet substance). NO human figure (the engine IS the spell). Faint warm overcharge-glow around the engine.",
+    moodKeywords: [
+      "in the paradox engine of Dischord",
+      "contradictions are not errors",
+      "they are ammunition",
+      "impossible-angle architecture + contradiction-shots firing outward",
+    ],
+    palette:
+      "Chrome-and-warm-amber-and-cool-violet paradox-engine + impossible-angle architecture + translucent contradiction-ammunition + warm overcharge-glow + cool deep-shadow",
+    composition:
+      "Wider mid-shot, paradox-engine at frame-centre, contradiction-shots firing outward in all directions",
+    notes:
+      "Epic spell. NO human figure. The 'contradictions as ammunition' is rendered through the engine + shots visualization.",
+  },
+  {
+    cardId: "s1_song_065",
+    sceneDelta:
+      "Mid-shot. A Sixth Sense — at frame-centre, anonymous figure (back-three-quarter, generic civilian) mid-action of having just AVOIDED a near-miss: a translucent enemy-attack visible at frame-right edge, its trajectory passing precisely THROUGH where the figure WAS three seconds ago — but the figure has SHIFTED slightly (mid-action of a small intuitive-step-aside). Above the figure's head, a faint translucent SIXTH-SENSE-PERCEPTION visualized as a small chrome-and-warm-amber THIRD-EYE-GLYPH. Around the figure, faint cool drain-rim (drain keyword — the foresight costs). NO face visible. Faint warm low light.",
+    moodKeywords: [
+      "some call it intuition, others call it premonition",
+      "the healed simply call it a second chance",
+      "translucent enemy-attack passing through where figure WAS",
+      "third-eye-glyph above head + cool drain-rim",
+    ],
+    palette:
+      "Generic civilian back-three-quarter + translucent enemy-attack trajectory + chrome-and-warm-amber third-eye-glyph + cool drain-rim + warm low light + cool deep-shadow",
+    composition:
+      "Mid-shot back-three-quarter, figure at frame-centre having just shifted, attack passing through former-position",
+    notes:
+      "Rare spell. Anonymous figure preserves no-character-conflation. The 'second chance' is rendered through the visible near-miss + intuitive-step.",
+  },
+  {
+    cardId: "s1_song_066",
+    sceneDelta:
+      "Wider mid-shot. The Book of Daniel 2.0 — at frame-centre, a thick chrome-and-warm-amber LEDGER labeled 'BOOK OF DANIEL 2.0' (chrome-and-warm-amber title-script visible on the cover). The ledger is OPEN, the pages mid-display: at frame-LEFT (left page), a chrome SHIELD-DIAGRAM (defensive prophecy weaponized); at frame-RIGHT (right page), warm-amber FIRE-DIAGRAM (offensive prophecy weaponized). The two pages together render the canonical 'shield in one hand, fire in the other.' Around the ledger, faint translucent prophecy-substance emanates. NO human figure (the rewrite IS the spell). Behind the ledger, the original-edition (translucent-fading) is visible — the second-edition has REPLACED it.",
+    moodKeywords: [
+      "the second edition rewrites prophecy as a weapon",
+      "shield in one hand, fire in the other",
+      "left page = shield-diagram + right page = fire-diagram",
+      "original-edition fading behind, replaced by second",
+    ],
+    palette:
+      "Chrome-and-warm-amber ledger + chrome SHIELD-DIAGRAM (left page) + warm-amber FIRE-DIAGRAM (right page) + translucent prophecy-substance + translucent-fading original-edition + cool deep-shadow",
+    composition:
+      "Wider mid-shot, ledger at frame-centre open showing both pages, original-edition fading behind",
+    notes:
+      "Epic spell. NO human figure. The 'shield + fire' framing is rendered as the literal page-diagrams.",
+  },
+  {
+    cardId: "s1_song_070",
+    sceneDelta:
+      "Mid-shot. Traces of Something Spiritual — at frame-centre, an INTANGIBLE PRESENCE rendered as faint translucent SOMETHING-IN-BETWEEN: not a clear ghost, not a clear god — just a vague shimmering-substance form that suggests humanoid outline but never resolves. The presence stands at the THRESHOLD between two regions: at frame-LEFT (mortal-realm), a quiet warm-cream civilian street; at frame-RIGHT (other-realm), a faint translucent cool-violet otherspace. The presence straddles the threshold. Anonymous mortal observers at lower-third (back-three-quarter) sense it without being able to confirm it. NO clear face.",
+    moodKeywords: [
+      "not a ghost, not a god",
+      "something in between",
+      "lingering at the threshold of perception",
+      "intangible presence straddling mortal-realm and otherspace threshold",
+    ],
+    palette:
+      "Faint translucent shimmering-substance presence + warm-cream mortal-realm (left) + faint translucent cool-violet otherspace (right) + anonymous mortal observers + cool deep-shadow",
+    composition:
+      "Mid-shot, presence at frame-centre straddling threshold, anonymous observers at lower-third",
+    notes:
+      "Uncommon spell. Anonymous observers preserve no-character-conflation. The 'something in between' is rendered through the deliberately-unresolved presence-form.",
+  },
+  {
+    cardId: "s1_song_079",
+    sceneDelta:
+      "Wider mid-shot. Shades of Grey — at frame-centre, a wide spectrum-of-doubt vista: at frame-LEFT (deep BLACK), the absolute-black absence of certainty; at frame-RIGHT (pure WHITE), the absolute-white certainty. BETWEEN them, a wide GRADIENT of GREY shades extending across the middle of the frame. WITHIN the grey-spectrum, a small humanoid figure (anonymous, back-three-quarter, generic civilian) stands SHELTERED — the doubt-spectrum forms a faint translucent protective fabric around them (fragile but real). Faint cool deep-shadow at frame-edges (where the gradient meets the absolutes). NO face visible.",
+    moodKeywords: [
+      "between black and white lies a spectrum of doubt",
+      "and within it, a fragile protection",
+      "wide gradient of grey shades + figure sheltered within doubt-spectrum",
+      "translucent protective fabric of doubt around the figure",
+    ],
+    palette:
+      "Deep black (left) + pure white (right) + wide gradient of grey shades + anonymous civilian + faint translucent doubt-fabric + cool deep-shadow",
+    composition:
+      "Wider mid-shot, gradient at frame-centre across full width, anonymous figure at lower-third within grey-spectrum",
+    notes:
+      "Common spell. Anonymous figure preserves no-character-conflation. The 'fragile protection within doubt' is rendered through the visible spectrum + sheltered figure.",
+  },
+  {
+    cardId: "s1_song_084",
+    sceneDelta:
+      "Wider mid-shot. Judgment Day — at frame-centre, a vast COSMIC RECKONING-SCENE: above, a translucent JUDGMENT-CHORD descends from upper-frame as a wide vertical column of warm-amber-and-cool-violet judgment-substance. Below, anonymous figures (back-three-quarter, generic mixed-faction, multiple) have assumed two distinct postures: SOME are SHIELDED (faint translucent shield-glow around them, surviving the verdict); MOST are NOT (visibly being-erased by the judgment-substance). Around the chord, faint translucent reckoning-aura. The shielded ones endure. NO single dominant figure. Faint warm-amber bright cataclysmic light.",
+    moodKeywords: [
+      "when the reckoning arrives",
+      "only the shielded will endure its verdict",
+      "judgment-chord descending from above + shielded survivors vs being-erased others",
+      "anonymous mixed-faction figures in two postures",
+    ],
+    palette:
+      "Translucent warm-amber-and-cool-violet judgment-chord + faint translucent shield-glow on survivors + visible erasure-effect on others + anonymous mixed-faction figures + warm-amber bright cataclysmic light + cool deep-shadow",
+    composition:
+      "Wider mid-shot, judgment-chord at frame-centre vertical, anonymous figures at lower-third in two postures",
+    notes:
+      "Uncommon spell. Anonymous figures preserve no-character-conflation. The 'only the shielded endure' is rendered through the two-state-figure visualization.",
+  },
+  {
+    cardId: "s1_spell_123",
+    sceneDelta:
+      "Wider mid-shot. Dischordian Logic (spell variant) — at frame-centre, the CYCLE rendered as a vast WHEEL-OF-DUST grinding across the frame. Mid-action: as the wheel rotates, EVERYTHING IN ITS PATH is being ground to UNIFORM DUST regardless of faction (anonymous figures from multiple factions visible at lower-third — Insurgency-slate + Architect-cyan + Hierarchy-charcoal + others, all in mid-grinding). The dust output is uniform-grey (the canonical 'ground to equal dust'). NO single dominant figure (the Cycle is impersonal). Faint warm-amber wheel-glow.",
+    moodKeywords: [
+      "the Cycle cares nothing for allegiance",
+      "when it turns, everything in its path is ground to equal dust",
+      "vast wheel-of-dust grinding across frame",
+      "anonymous mixed-faction figures all becoming uniform-grey dust",
+    ],
+    palette:
+      "Vast warm-amber wheel-of-dust + uniform-grey dust output + anonymous mixed-faction figures + warm-amber wheel-glow + cool deep-shadow",
+    composition:
+      "Wider mid-shot, wheel at frame-centre, anonymous figures at lower-third being ground",
+    notes:
+      "Common spell. CRITICAL: this is the SPELL variant of Dischordian Logic (vs s1_song_064 song variant). The spell renders the destructive-Cycle (vs the song's paradox-engine). Anonymous mixed-faction figures preserve no-character-conflation.",
+  },
+  {
+    cardId: "s1_spell_124",
+    sceneDelta:
+      "Wider mid-shot. An Ark Emergency Protocol — at frame-centre, an ANCIENT INCEPTION ARK EMERGENCY-CONSOLE (chrome-and-warm-cream control-panel embedded in the Ark's wall, dust-covered with disuse). Mid-action: an anonymous figure (back-three-quarter, generic Insurgency-aligned tactical gear, desperate-bearing visible from posture) has JUST PRESSED the emergency-button. From the console, faint translucent warm-cream EMERGENCY-PROTOCOL waves propagate outward (the Ark waking up to help). The console shows a freshly-illuminated 'PROTOCOL ACTIVE' chrome-and-warm-cream message. Around the console, the Ark's wall-circuitry begins to glow faintly (the systems still hum after all the Ages). NO face visible.",
+    moodKeywords: [
+      "the Ark was built to endure the end of Ages",
+      "its emergency systems still hum in the walls",
+      "waiting for someone desperate enough to ask",
+      "anonymous figure having just pressed emergency-button + ancient console waking",
+    ],
+    palette:
+      "Chrome-and-warm-cream ancient Inception Ark emergency-console + dust-covered disuse + Insurgency-aligned tactical gear + translucent warm-cream emergency-protocol waves + chrome-and-warm-cream PROTOCOL ACTIVE message + Ark wall-circuitry beginning to glow + cool deep-shadow",
+    composition:
+      "Wider mid-shot back-three-quarter, anonymous figure at frame-centre at console, protocol-waves propagating outward",
+    notes:
+      "Common spell. Anonymous figure preserves no-character-conflation. The 'still hum after all the Ages' is rendered through the visible ancient-disuse + freshly-activating circuitry.",
+  },
 ] as const;
 
 /**
  * Neutral faction's prompt registry, keyed by card id.
  *
- * Currently populated: 66 / 79 cards
- * (... guild/pet/prestige + pvp_bronze/diamond/gold/legend +
- *  raid_boss/contrib/perfect + seasonal_s1 + vote_t1_balanced/empathy
- *  + xmas_charity/gift).
+ * Currently populated: 79 / 79 cards — COMPLETE
+ * (all generals, all chars, all packs, all rewards,
+ *  all songs, all spells).
  */
 export const NEUTRAL_CARD_ART_PROMPTS: Readonly<Record<string, CardArtPrompt>> =
   Object.freeze(
