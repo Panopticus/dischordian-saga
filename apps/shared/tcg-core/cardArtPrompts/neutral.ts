@@ -956,15 +956,219 @@ const NEUTRAL_PROMPTS_LIST: readonly CardArtPrompt[] = [
     notes:
       "Legendary unit. CRITICAL: face deliberately UNREADABLE (beyond mortal understanding). The 'seven cycles' is rendered through the literal seven past-self ghosts. Generic indeterminate features must NOT match any named transcendent character.",
   },
+  {
+    cardId: "s1_reward_pvp_bronze",
+    sceneDelta:
+      "Mid-shot. An Arena Aspirant — female-presenting figure in late-twenties, generic-determined features (sharp focused eyes, set jaw, hair tied back), in BORROWED arena-gear (mismatched warm-leather over scratched chrome chest-plate, visibly NOT her own equipment). She holds a single CHROME-AND-WARM-AMBER BORROWED-BLADE in her right hand (the blade has another-fighter's previous-name-mark visible at the pommel — she did not earn this blade, she inherited or borrowed it). She stands at the entrance to a low-tier arena at frame-centre, face set in refusal-to-lose. Behind her, a chrome-and-warm-amber Bronze-tier ranking-board faintly visible at lower-third.",
+    moodKeywords: [
+      "she entered the arena with nothing but a borrowed blade",
+      "and a refusal to lose",
+      "borrowed-blade with another-fighter's previous-name-mark at pommel",
+      "mismatched warm-leather over scratched chrome (not her own equipment)",
+    ],
+    palette:
+      "Mismatched borrowed warm-leather + scratched chrome chest-plate + chrome-and-warm-amber borrowed-blade + previous-name-mark at pommel + chrome-and-warm-amber Bronze-tier ranking-board + warm low arena-light + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, Aspirant at frame-centre at arena-entrance, ranking-board at lower-third behind",
+    notes:
+      "Common unit. Generic-determined features must NOT match any named character. The 'borrowed blade' is rendered through the visible previous-name-mark (not hers).",
+  },
+  {
+    cardId: "s1_reward_pvp_diamond",
+    sceneDelta:
+      "Mid-shot. An Arena Veteran — same archetypal female-presenting figure but mid-thirties now (visual continuity with Aspirant — same character, advanced career-stage), in WELL-FITTED arena-veteran armor (deep slate-and-warm-gold ceremonial-combat armor with chrome-and-warm-amber Diamond-tier rank-emblem at the chest). She stands at frame-centre in a wide-stance posture, face SHOWS NO FLINCH (the canonical 'reflex burned out at Silver rank') even as faint translucent attack-traces visible at frame-edges (incoming blows about to land). She does not move. Faint warm provoke-glow rims her shoulders.",
+    moodKeywords: [
+      "she doesn't flinch. she hasn't flinched since Silver rank",
+      "the arena burned that reflex out of her",
+      "well-fitted Diamond-tier armor with rank-emblem",
+      "no flinch even with attack-traces approaching",
+    ],
+    palette:
+      "Deep slate-and-warm-gold ceremonial-combat armor + chrome-and-warm-amber Diamond-tier rank-emblem + faint translucent attack-traces + warm provoke-rim + cool arena-aftermath ambient + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, Veteran at frame-centre in wide-stance, attack-traces at frame-edges",
+    notes:
+      "Epic unit. Generic-determined features (visual continuity with Aspirant — same character at advanced rank). The 'no flinch' is rendered through the visible composure despite attack-traces.",
+  },
+  {
+    cardId: "s1_reward_pvp_gold",
+    sceneDelta:
+      "Wider mid-shot. An Arena Champion — same archetypal female-presenting figure (now early-thirties, mid-career-arc), in formal Gold-tier ceremonial arena-attire (chrome-and-warm-gold ceremonial armor with Champion's-laurel at the brow). She stands at the centre of an arena entrance-runway at frame-centre, mid-action of stepping forward — but the canonical 'crowd chants her name BEFORE she draws' is rendered: anonymous CROWD-FIGURES at frame-edges (back-three-quarter, generic mixed-spectator gear) are mid-CHANT, mouths open in unison, fists raised — but her weapon is STILL SHEATHED at her hip. Faint warm-gold champion-aura.",
+    moodKeywords: [
+      "the crowd chants her name before she draws her weapon",
+      "that is what Gold rank buys you",
+      "anonymous crowd mid-chant + her weapon still sheathed",
+      "Champion's-laurel at brow",
+    ],
+    palette:
+      "Chrome-and-warm-gold Gold-tier ceremonial armor + Champion's-laurel + sheathed weapon + warm-gold champion-aura + anonymous crowd-figures + warm arena-runway light + cool deep-shadow",
+    composition:
+      "Wider mid-shot front three-quarter, Champion at frame-centre on runway, anonymous crowd at frame-edges chanting",
+    notes:
+      "Rare unit. Visual continuity with Aspirant + Veteran — same character through three rank-tiers. Anonymous crowd preserves no-character-conflation. The 'before she draws' is rendered through the still-sheathed weapon + already-cheering crowd.",
+  },
+  {
+    cardId: "s1_reward_pvp_legend",
+    sceneDelta:
+      "Wider mid-shot. An Arena Legend — same archetypal female-presenting figure now in mid-thirties at her career-apex, in formal Legend-tier ceremonial-arena attire (deep warm-gold ceremonial armor with chrome-and-warm-gold Legend-emblem dominating the chest). She stands at the centre of a vast arena-floor at frame-centre. Critically: the canonical 'walls lean in to watch' is rendered LITERALLY — the arena's stone-walls are visibly WARPED, leaning slightly inward toward her position (subtle but visible architectural-distortion). Around her, faint warm-gold legend-aura. The crowd is SILENT (the silence of awe rather than the chant of recognition).",
+    moodKeywords: [
+      "when the Legend enters the arena",
+      "even the walls lean in to watch",
+      "warped stone-walls visibly leaning inward toward her position",
+      "silent crowd of awe rather than chanting",
+    ],
+    palette:
+      "Deep warm-gold ceremonial Legend-tier armor + chrome-and-warm-gold Legend-emblem + warped leaning arena-walls + warm-gold legend-aura + silent crowd-silhouettes + warm arena-light + cool deep-shadow",
+    composition:
+      "Wider mid-shot front three-quarter, Legend at frame-centre on arena-floor, walls subtly leaning inward",
+    notes:
+      "Legendary unit. Visual continuity with Aspirant → Veteran → Champion (same character through four tiers). The 'walls lean in' is the canonical visualization of legend-status.",
+  },
+  {
+    cardId: "s1_reward_raid_boss",
+    sceneDelta:
+      "Wider mid-shot. A Raid Champion — male-presenting figure in mid-thirties at frame-centre, generic-fierce features (wide grin showing through blood-spatter on the face, sharp triumphant eyes, hair matted with sweat-and-blood), in heavily-damaged raid-tier armor (deep slate-and-warm-amber tactical with visible deep gashes + chrome ablation marks). He stands in a CRATER on the arena-floor (visible impact-impression in the ground beneath him — where the boss fell). At lower-third, parts of the FALLEN BOSS visible (anonymous mechanical-parts + chrome-and-cool-cyan corpse-fragments — the boss is dead). His grin shows SOME of the blood is not his (canonical 'not all of it was hers' but rendered male per flavor's neutral pronoun). Faint warm low after-battle light.",
+    moodKeywords: [
+      "the boss fell",
+      "the Champion stood in the crater, grinning through the blood",
+      "not all of it was hers",
+      "fallen boss-parts visible at lower-third + crater impression",
+    ],
+    palette:
+      "Deep slate-and-warm-amber heavily-damaged raid-armor + visible gashes + chrome ablation marks + crater impression + anonymous fallen boss mechanical-parts + chrome-and-cool-cyan corpse-fragments + blood-spatter + warm low after-battle light + cool deep-shadow",
+    composition:
+      "Wider mid-shot front three-quarter, Champion at frame-centre in crater, fallen boss-parts at lower-third",
+    notes:
+      "Rare unit. Generic-fierce features must NOT match any named character. Anonymous fallen boss preserves no-character-conflation. The 'not all of it was hers' is canon-direct from flavor (rendered as visible blood-spatter).",
+  },
+  {
+    cardId: "s1_reward_raid_contrib",
+    sceneDelta:
+      "Wider mid-shot. Rally the Warband — at frame-centre, an anonymous warband-singer (back-three-quarter, generic mixed-faction tactical gear) stands forward of a battlefield-line, mid-action of SINGING (head thrown back, mouth open, both hands raised). From their mouth, faint translucent warm-cream SONG-WAVES propagate outward across the warband behind. Anonymous warband-members behind (back-three-quarter, multiple, generic-mixed) are MID-JOINING — some have begun to sing (faint song-waves emerging from their own mouths), some are still silent but mouths beginning to open. The losing-warband is becoming a singing-warband. NO single dominant face.",
+    moodKeywords: [
+      "the warband was losing",
+      "then someone started singing",
+      "then everyone did",
+      "single originator + warband members mid-joining the song",
+    ],
+    palette:
+      "Mixed-faction tactical gear + translucent warm-cream song-waves + multiple anonymous warband-members + cool battlefield + warm dawn-light + cool deep-shadow",
+    composition:
+      "Wider mid-shot back-three-quarter, originator at frame-centre forward, warband behind mid-joining the song",
+    notes:
+      "Rare spell. Anonymous warband (all back-three-quarter) preserves no-character-conflation. The 'then everyone did' is rendered through the visible cascade-of-joining. Echoes Insurgency Rebel Yell (s1_spell_208) but with song-rendering vs cry-rendering.",
+  },
+  {
+    cardId: "s1_reward_raid_perfect",
+    sceneDelta:
+      "Mid-shot. An Unscathed Victor — female-presenting figure in mid-thirties at frame-centre, generic-confident features (calm satisfied face, NO blood, NO wounds, hair perfectly intact). Her armor is PRISTINE — chrome-and-warm-gold Colossus-raid commemorative-armor with NO scratches, NO gashes, NO ablation-marks. She stands in front of a fallen COLOSSUS (vast translucent silhouette of the defeated boss in deep-distance, mostly off-frame upper). A translucent green-tinted forcefield-shimmer wraps her (forcefield keyword — explains the no-wounds state). Her face shows quiet certainty — she did not survive; she WON. Faint warm-gold victor-aura.",
+    moodKeywords: [
+      "they asked how she survived the Colossus raid without a wound",
+      "she said she didn't survive — she won",
+      "pristine armor with NO scratches/gashes/ablation",
+      "translucent forcefield-shimmer wraps her",
+    ],
+    palette:
+      "Pristine chrome-and-warm-gold Colossus-raid commemorative armor + translucent green-tinted forcefield + fallen Colossus silhouette in deep-distance + warm-gold victor-aura + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, Victor at frame-centre, fallen Colossus silhouette at deep-distance behind",
+    notes:
+      "Legendary unit. Generic-confident features must NOT match any named character. The 'didn't survive — won' framing is rendered through the visible NO-DAMAGE state + fallen Colossus.",
+  },
+  {
+    cardId: "s1_reward_seasonal_s1",
+    sceneDelta:
+      "Wider mid-shot. A Season's End — at frame-centre, a vast SEASON-TRANSFORMATION scene: the LEFT half of the frame shows the saga's previous season-vista (warm-cream-and-warm-amber dawn light, recognizable Season-1 environments fading), the RIGHT half shows the SUCCESSOR-stage (cool-violet-and-warm-cream emerging dawn, new environments still partially-formed). Between the halves, a VAST TRANSFORMATION-WAVE propagates downward (translucent silver-mist substance carrying continuity-fragments from old to new). At lower-third, anonymous figures (back-three-quarter, mixed-faction) are visibly REMADE as the wave passes over them (faint warm-cream rebirth-glow on each). NO single dominant figure (the spell is environmental).",
+    moodKeywords: [
+      "the Saga does not end. it transforms",
+      "those who endure the transformation are remade",
+      "left half = old season fading + right half = new season emerging",
+      "translucent silver-mist transformation-wave with anonymous figures remade",
+    ],
+    palette:
+      "Warm-cream-and-warm-amber Season-1 fading-vista (left) + cool-violet-and-warm-cream successor-emerging-vista (right) + translucent silver-mist transformation-wave + anonymous mixed-faction figures + warm-cream rebirth-glow + cool deep-shadow",
+    composition:
+      "Wider mid-shot, transformation-wave at frame-centre splitting frame, anonymous figures being-remade at lower-third",
+    notes:
+      "Epic spell. Anonymous figures preserve no-character-conflation. The 'transforms not ends' is rendered through the visible left-old / right-new split + wave-of-remaking.",
+  },
+  {
+    cardId: "s1_reward_vote_t1_balanced",
+    sceneDelta:
+      "Mid-shot. A Neutral Observer — female-presenting figure in mid-thirties at frame-centre, generic-clever features (knowing slight smile, alert intelligent eyes, hair tied back), in plain neutral-traveler attire (warm-leather over cool-cream linen with NO faction-emblems). She stands at the edge of a public-vote-square at frame-centre, mid-action of OBSERVING from the sidelines. Around her, anonymous figures from BOTH sides of a recent vote (back-three-quarter, two distinct attire-styles representing the two voting-positions) approach her separately — both seeking favor afterward. From her body, faint warm-cream knowing-aura. Her face shows quiet amusement.",
+    moodKeywords: [
+      "she took no side in the vote",
+      "somehow, both sides owed her favors afterward",
+      "both voting-position groups approaching her separately to seek favor",
+      "knowing slight smile, no faction-emblems",
+    ],
+    palette:
+      "Plain neutral-traveler warm-leather over cool-cream linen + anonymous mixed-position figures + warm-cream knowing-aura + warm public-vote-square light + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, Observer at frame-centre at vote-square-edge, both voting-position groups approaching from frame-edges",
+    notes:
+      "Common unit. Generic-clever features must NOT match any named character. The 'both sides owed favors' is rendered through both groups separately approaching.",
+  },
+  {
+    cardId: "s1_reward_vote_t1_empathy",
+    sceneDelta:
+      "Mid-shot. A Field Medic (vote-tier reward variant) — female-presenting figure in late-twenties at frame-centre (DISTINCT from s1_char_088 — different specific Medic, generic-warm features), in neutral medic's-traveler attire (cream-and-warm-gold cross-arm-band over warm-leather field-coat). CRITICAL pose: she carries a CHROME-AND-WARM-GOLD BLADE in her LEFT hand AND a chrome-and-warm-gold SUTURE-KIT in her RIGHT hand (the canonical 'blade in one hand, suture kit in the other'). Both items show visible WEAR-PATTERNS — both see equal use. She stands ready, face composed-pragmatic. Behind her, a small frontier-aid-station at lower-third.",
+    moodKeywords: [
+      "she carries a blade in one hand and a suture kit in the other",
+      "both see equal use",
+      "blade-LEFT + suture-kit-RIGHT, both with visible wear-patterns",
+      "composed-pragmatic, frontier-aid-station behind",
+    ],
+    palette:
+      "Cream-and-warm-gold medic-traveler attire + chrome-and-warm-gold cross-arm-band + warm-leather field-coat + chrome-and-warm-gold blade (left) + chrome-and-warm-gold suture-kit (right) + warm low frontier-aid-station light + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, Medic at frame-centre with blade-left + suture-kit-right",
+    notes:
+      "Common unit. CRITICAL: visually distinct from s1_char_088 Field Medic (different specific characters, both medics). This Medic has BOTH hands occupied (blade + kit); s1_char_088 was kneeling beside wounded.",
+  },
+  {
+    cardId: "s1_reward_xmas_charity",
+    sceneDelta:
+      "Mid-shot. A Charitable Spirit — figure of indeterminate gender at frame-centre, generic-warm features (kind eyes, slight smile, calm bearing), in plain neutral charitable-attire (warm-cream linen with chrome-and-warm-gold charity-emblem at the chest). They stand at a frontier-village square at frame-centre, mid-action of EXTENDING A SMALL GIFT-PARCEL to an anonymous off-frame recipient (only the recipient's hand visible at frame-right edge, generic civilian sleeve). The gift-parcel is wrapped in warm-cream paper with a chrome-and-warm-gold ribbon. Faint warm-cream kindness-aura around the figure. Their face shows generosity-without-purpose. NO faction allegiance visible.",
+    moodKeywords: [
+      "kindness doesn't pick sides",
+      "that's what makes it kind",
+      "small gift-parcel extended to anonymous recipient",
+      "no faction allegiance visible",
+    ],
+    palette:
+      "Warm-cream linen charitable-attire + chrome-and-warm-gold charity-emblem + warm-cream gift-parcel + chrome-and-warm-gold ribbon + warm-cream kindness-aura + warm village-square light + cool deep-shadow",
+    composition:
+      "Mid-shot front three-quarter, Spirit at frame-centre extending gift, anonymous recipient hand at frame-right edge",
+    notes:
+      "Common unit. Anonymous recipient (hand only) preserves no-character-conflation. The 'doesn't pick sides' is rendered through the no-faction-emblem attire.",
+  },
+  {
+    cardId: "s1_reward_xmas_gift",
+    sceneDelta:
+      "Tight composition. A Holiday Surprise — at frame-centre, a SMALL GIFT-BOX on a low warm-leather surface, wrapped in DECORATIVE PAPER (chrome-and-warm-gold festive-pattern wrapping with a chrome-and-warm-amber ribbon-bow on top). The wrapping is visibly NICE (premium paper, careful wrapping). Beside the gift-box, the LID is partially-lifted revealing the modest CONTENTS within (generic small charm or token, plainer than the wrapping). The canonical 'wrapping nicer than contents but it's the thought that counts' rendering. NO human figure (only the gift). Warm low table-light; cool deep-shadow.",
+    moodKeywords: [
+      "a small gift, freely given",
+      "the wrapping paper was nicer than the contents",
+      "but it's the thought that counts",
+      "wrapping visibly nicer than the modest contents revealed beneath partially-lifted lid",
+    ],
+    palette:
+      "Chrome-and-warm-gold festive-pattern wrapping + chrome-and-warm-amber ribbon-bow + warm-leather surface + modest contents (plainer) + warm low table-light + cool deep-shadow",
+    composition:
+      "Tight composition, gift-box at frame-centre on table, lid partially-lifted revealing contents",
+    notes:
+      "Common spell. NO human figure. The 'wrapping nicer than contents' contrast is the visual key — rendered through the visibly-premium-wrapping vs visibly-modest-contents.",
+  },
 ] as const;
 
 /**
  * Neutral faction's prompt registry, keyed by card id.
  *
- * Currently populated: 54 / 79 cards
- * (... + s1_reward_guild_founder, s1_reward_guild_hall,
- *  s1_reward_guild_officer, s1_reward_pet_evolve,
- *  s1_reward_pet_streak, s1_reward_prestige_t1/t3/t5/t7).
+ * Currently populated: 66 / 79 cards
+ * (... guild/pet/prestige + pvp_bronze/diamond/gold/legend +
+ *  raid_boss/contrib/perfect + seasonal_s1 + vote_t1_balanced/empathy
+ *  + xmas_charity/gift).
  */
 export const NEUTRAL_CARD_ART_PROMPTS: Readonly<Record<string, CardArtPrompt>> =
   Object.freeze(
