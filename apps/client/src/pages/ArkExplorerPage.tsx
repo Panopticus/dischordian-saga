@@ -291,7 +291,7 @@ function RoomScene({
   }, []);
 
   return (
-    <div className="relative w-full aspect-[16/9] sm:aspect-[21/9] rounded-lg overflow-hidden group">
+    <div className="relative w-full aspect-[16/9] rounded-lg overflow-hidden group">
       {/* Room background image with parallax depth effect. For the
           Section F murder-mystery rooms, roomArtUrl swaps between the
           initial/investigating/victim-identified/case-open-later
@@ -1261,8 +1261,22 @@ export default function ArkExplorerPage() {
                 venues (forge, libraries, vaults, etc.) return null
                 from toNarratorRoomId and suppress the slot.
                 §1.4 — beat flags force the scripted reveal narrator
-                on first visit to each Prelude room. */}
-            {witnessingNarratorRoomId && (
+                on first visit to each Prelude room.
+
+                First-arrival gate (cryo-bay only): the §13 cryo-bay
+                Elara line ("All but one pod is empty…") and its
+                paired Human line ("She can. She just won't.") both
+                reference The Human, who hasn't been narratively
+                introduced on first awakening. We suppress the slot
+                until the player has examined at least one mystery
+                hotspot — `cryo_mystery_first_clue_found` is flipped
+                by `resolveVerbResponse(look, …).setsFlag` and is the
+                same gate the Med Bay door uses. Other rooms keep
+                their unconditional slot since by the time the player
+                reaches them the prologue framing is already done. */}
+            {witnessingNarratorRoomId &&
+              (witnessingNarratorRoomId !== "cryo_bay" ||
+                !!state.narrativeFlags?.cryo_mystery_first_clue_found) && (
               <MobileNarratorSlot
                 roomId={witnessingNarratorRoomId}
                 flags={witnessingBeatFlags}

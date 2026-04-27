@@ -403,6 +403,17 @@ async function startServer() {
     bootstrapReplayShareToken().catch(e =>
       console.error("[ReplaysBootstrap] failed:", e),
     );
+
+    // Ensure dream_balance.difficultyModifier exists. Migration 0057
+    // is orphaned from _journal.json; without this column every read
+    // of dream_balance (including myDreamBalance and the encounter
+    // builder's boss-difficulty hook) fails with "Unknown column".
+    const { bootstrapDreamBalanceDifficultyModifier } = await import(
+      "../services/dreamBalanceBootstrap"
+    );
+    bootstrapDreamBalanceDifficultyModifier().catch(e =>
+      console.error("[DreamBalanceBootstrap] failed:", e),
+    );
   }
 
   // Transmission achievements — upsert the `achievements` table rows

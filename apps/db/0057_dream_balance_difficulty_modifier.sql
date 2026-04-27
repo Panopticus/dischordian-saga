@@ -1,0 +1,29 @@
+-- Migration 0057 — dream_balance.difficultyModifier
+--
+-- Adds the hidden Game-Master difficulty scalar column that
+-- apps/shared/tcg-core/story/encounter.ts reads at match init
+-- (translated into small boss-side startingBonuses for irreversible
+-- cost-paying decisions like the Med Bay DNA donation).
+--
+-- The column is referenced by the schema in apps/db/schema.ts and
+-- is included in `select()` queries against `dream_balance` (e.g.
+-- `myDreamBalance` in apps/server/routers/store.ts). Without this
+-- column, every read of the table fails with
+--   Unknown column 'dream_balance.difficultyModifier'
+-- and the Bridge / store / character-sheet panels error-toast on
+-- load.
+--
+-- This migration is hand-written and orphaned from `_journal.json`
+-- following the existing pattern for new migrations under the journal-
+-- drift situation (see apps/db/README.md §"Known journal drift"); the
+-- matching startup bootstrap is `bootstrapDreamBalanceDifficultyModifier()`
+-- in apps/server/services/dreamBalanceBootstrap.ts. The bootstrap also
+-- runs the same DDL idempotently on every startup so a fresh DB or a
+-- DB where this migration was applied manually both end up consistent.
+--
+-- Idempotent: the bootstrap variant uses an information_schema check
+-- before ALTER. This file uses the simplest form for hand-application;
+-- prefer the bootstrap path in production.
+
+ALTER TABLE `dream_balance`
+  ADD COLUMN `difficultyModifier` INT NOT NULL DEFAULT 0 AFTER `totalDreamEarned`;

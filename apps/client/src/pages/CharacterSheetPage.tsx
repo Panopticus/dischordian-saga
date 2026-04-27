@@ -26,7 +26,7 @@ import { useGame } from "@/contexts/GameContext";
 import { useGamification } from "@/contexts/GamificationContext";
 import { Link as WLink } from "wouter";
 import PaperDollRenderer from "@/components/PaperDollRenderer";
-import PaperDollBG3 from "@/components/PaperDollBG3";
+import PaperDollBG3, { isDressupV2Enabled } from "@/components/PaperDollBG3";
 import type { Loadout } from "@/game/paperDoll/compositePaperDoll";
 import {
   resolveStarterLoadout,
@@ -792,9 +792,17 @@ export default function CharacterSheetPage() {
                         + base-suit composed under element-tinted gear layers.
                         Slot pieces with shipped art render the PNG; others
                         fall through to their placeholder rectangle so the
-                        silhouette of the character is always visible. */}
+                        silhouette of the character is always visible.
+
+                        Gated behind the DRESSUP_V2 flag because the starter
+                        base-mask / base-suit / opening-class armor PNGs
+                        haven't shipped yet — without the flag the BG3
+                        renderer would show only colored placeholder rects
+                        for every slot. The legacy SVG renderer always
+                        draws species-themed base armor and is the better
+                        default until the suit catalog lands. */}
                     <div className="relative" style={{ width: 240 }}>
-                      {bg3Loadout ? (
+                      {bg3Loadout && isDressupV2Enabled() ? (
                         <PaperDollBG3
                           loadout={bg3Loadout}
                           elementTint={bg3ElementTint}
