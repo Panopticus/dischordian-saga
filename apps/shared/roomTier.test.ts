@@ -71,4 +71,12 @@ describe("roomTier", () => {
       }),
     ).toBe(2);
   });
+
+  it("bridge tier 2 lifts when the existing nav-calibration flag fires", () => {
+    expect(
+      getRoomTier("bridge", {
+        narrativeFlags: { fast_travel_unlocked: true },
+      }),
+    ).toBe(2);
+  });
 });

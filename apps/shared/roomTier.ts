@@ -49,7 +49,9 @@ export const ROOM_TIER_THRESHOLDS: Readonly<Record<string, RoomTierThresholds>> 
   },
   "bridge": {
     tier1: "bridge_first_clue_found",
-    tier2: "bridge_nav_calibrated",
+    // Tier 2 piggybacks on the existing nav-calibration puzzle —
+    // the nav console flips `fast_travel_unlocked` on success.
+    tier2: "fast_travel_unlocked",
     tier3: "bridge_war_table_online",
   },
   "engineering": {

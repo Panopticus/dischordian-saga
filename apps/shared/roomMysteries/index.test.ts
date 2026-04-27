@@ -7,9 +7,11 @@ import {
 } from "./index";
 
 describe("roomMysteries registry", () => {
-  it("registers cryo-bay and medical-bay", () => {
+  it("registers cryo-bay, medical-bay, bridge, and engineering", () => {
     expect(getRoomMysteryModule("cryo-bay")).not.toBeNull();
     expect(getRoomMysteryModule("medical-bay")).not.toBeNull();
+    expect(getRoomMysteryModule("bridge")).not.toBeNull();
+    expect(getRoomMysteryModule("engineering")).not.toBeNull();
   });
 
   it("returns null for unknown room ids", () => {
@@ -39,5 +41,19 @@ describe("roomMysteries registry", () => {
   it("returns null for unauthored (verb, hotspot) pairs", () => {
     const mod = getRoomMysteryModule("medical-bay")!;
     expect(resolveVerbResponse(mod, "talk", "medicine-cabinet")).toBeNull();
+  });
+
+  it("dispatches a Look on bridge's captains-chair through the registry", () => {
+    const mod = getRoomMysteryModule("bridge")!;
+    const r = resolveVerbResponse(mod, "look", "captains-chair");
+    expect(r).not.toBeNull();
+    expect(r!.setsFlag).toBe("bridge_first_clue_found");
+  });
+
+  it("dispatches a Look on engineering's reactor-core through the registry", () => {
+    const mod = getRoomMysteryModule("engineering")!;
+    const r = resolveVerbResponse(mod, "look", "reactor-core");
+    expect(r).not.toBeNull();
+    expect(r!.setsFlag).toBe("engineering_first_clue_found");
   });
 });

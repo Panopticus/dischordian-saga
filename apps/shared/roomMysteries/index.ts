@@ -17,6 +17,8 @@ import {
   type CryoMysteryHotspotId,
 } from "../cryoBayMystery";
 import type { RoomMysteryModule } from "./_template";
+import { BRIDGE_MYSTERY } from "./bridge";
+import { ENGINEERING_MYSTERY } from "./engineering";
 import { MEDICAL_BAY_MYSTERY } from "./medicalBay";
 
 /** Cryo Bay adapter — wraps the legacy responses table in the
@@ -30,6 +32,8 @@ const CRYO_BAY_MYSTERY: RoomMysteryModule<CryoMysteryHotspotId> = {
 export const ROOM_MYSTERY_REGISTRY: Readonly<Record<string, RoomMysteryModule>> = {
   "cryo-bay": CRYO_BAY_MYSTERY as RoomMysteryModule,
   "medical-bay": MEDICAL_BAY_MYSTERY as RoomMysteryModule,
+  "bridge": BRIDGE_MYSTERY as RoomMysteryModule,
+  "engineering": ENGINEERING_MYSTERY as RoomMysteryModule,
 };
 
 /** Get the module for a room id, or null if no mystery is authored. */
