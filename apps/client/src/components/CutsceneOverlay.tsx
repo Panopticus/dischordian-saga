@@ -5,6 +5,7 @@ import { KineticText } from "@/components/void";
 import { VOID } from "@/engine/voidPresets";
 import type { NarrativeEffect } from "@/engine/voidNarrative";
 import { useElaraVO } from "@/hooks/useElaraVO";
+import { useKeymap } from "@/hooks/useKeymap";
 
 // ═══════════════════════════════════════════════════════
 // CUTSCENE DATA TYPES
@@ -151,6 +152,7 @@ export default function CutsceneOverlay({ cutscene, onComplete, onClose }: Cutsc
   const currentLine = cutscene.lines[currentLineIndex];
   const isLastLine = currentLineIndex >= cutscene.lines.length - 1;
   const { speak: speakElara, stop: stopElara } = useElaraVO();
+  const keymap = useKeymap();
 
   // Play Elara VO when an ELARA line is displayed.
   // Derives a VO ID from cutscene.id + line index (e.g. "cq_elara_trust_0").
@@ -217,18 +219,29 @@ export default function CutsceneOverlay({ cutscene, onComplete, onClose }: Cutsc
     setCurrentLineIndex(prev => prev + 1);
   }, [showTitle, isTyping, isLastLine, currentLine, onComplete]);
 
-  // Keyboard support
+  // Keyboard support — routes through the user's keymap so
+  // skipCutscene / confirm / cancel can be remapped from Settings.
+  // Escape stays as an always-on cancel fallback (handled inside the
+  // hook) so a cleared keymap can never strand a player in a cutscene.
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
-      if (e.key === " " || e.key === "Enter") {
+      // skipCutscene + confirm both advance — players who hold the
+      // confirm key to spam-advance dialog should keep working.
+      if (
+        keymap.matchesAction("skipCutscene", e) ||
+        keymap.matchesAction("confirm", e)
+      ) {
         e.preventDefault();
         advanceLine();
+        return;
       }
-      if (e.key === "Escape") onClose();
+      if (keymap.matchesAction("cancel", e)) {
+        onClose();
+      }
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
-  }, [advanceLine, onClose]);
+  }, [advanceLine, onClose, keymap]);
 
   const getMoodColor = (mood?: string) => {
     switch (mood) {

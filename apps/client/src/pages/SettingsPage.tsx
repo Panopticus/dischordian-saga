@@ -190,6 +190,121 @@ function OptionSelector<T extends string>({ label, options, value, onChange }: {
 }
 
 /* ═══════════════════════════════════════════════════════
+   KEYMAP EDITOR — Per-action key-capture remap UI
+
+   Renders one row per logical action. Clicking "Remap" captures the
+   next keydown's `event.code` and writes it back via onChange. The
+   `Reset` button restores the action's default. Escape during a
+   capture cancels without writing.
+
+   The hook on the consumer side (apps/client/src/hooks/useKeymap.ts)
+   keeps `Escape` as an always-on cancel fallback even if the user
+   binds something else to `cancel`, so this UI can't strand a
+   player by accident.
+   ═══════════════════════════════════════════════════════ */
+const KEYMAP_ACTION_LABELS: Record<string, string> = {
+  cancel: "Cancel / dismiss",
+  confirm: "Confirm / advance",
+  skipCutscene: "Skip cutscene",
+  openSettings: "Open settings",
+  openCodex: "Open codex",
+  toggleCompanionChat: "Toggle companion chat",
+};
+
+type KeymapShape = GameSettings["keymap"];
+
+function KeymapEditor({
+  value,
+  onChange,
+}: {
+  value: KeymapShape;
+  onChange: (next: KeymapShape) => void;
+}) {
+  const [capturingAction, setCapturingAction] = useState<keyof KeymapShape | null>(null);
+
+  // Capture the next keydown when an action is in capture mode. Escape
+  // cancels without writing so the user always has a way out.
+  useEffect(() => {
+    if (!capturingAction) return;
+    const handler = (e: KeyboardEvent) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (e.code === "Escape") {
+        setCapturingAction(null);
+        return;
+      }
+      onChange({ ...value, [capturingAction]: e.code });
+      setCapturingAction(null);
+    };
+    window.addEventListener("keydown", handler, true);
+    return () => window.removeEventListener("keydown", handler, true);
+  }, [capturingAction, value, onChange]);
+
+  const resetAction = useCallback(
+    (action: keyof KeymapShape) => {
+      // Restore this action to its schema default. Keymap fields are
+      // strict (Zod inference forbids deletion), so reset = re-write
+      // with the canonical default value rather than `delete`.
+      onChange({ ...value, [action]: SHARED_DEFAULTS.keymap[action] });
+    },
+    [value, onChange],
+  );
+
+  return (
+    <div>
+      <p className="font-mono text-[10px] text-muted-foreground/60 tracking-wider mb-2">
+        KEYBOARD REMAP
+      </p>
+      <div className="flex flex-col gap-1.5">
+        {(Object.entries(value) as Array<[keyof KeymapShape, string]>).map(([action, code]) => {
+          const isCapturing = capturingAction === action;
+          const label = KEYMAP_ACTION_LABELS[action] ?? action;
+          return (
+            <div
+              key={action}
+              className="flex items-center gap-2 py-1.5 px-2 rounded-md border border-border/40 hover:border-border/70 transition-colors"
+            >
+              <span className="flex-1 font-mono text-[10px] text-muted-foreground/80">
+                {label}
+              </span>
+              <span
+                className={`font-mono text-[10px] px-2 py-0.5 rounded border ${
+                  isCapturing
+                    ? "border-[var(--neon-cyan)]/50 bg-[var(--neon-cyan)]/10 text-[var(--neon-cyan)] animate-pulse"
+                    : "border-border/40 text-muted-foreground/60"
+                }`}
+                aria-live={isCapturing ? "polite" : undefined}
+              >
+                {isCapturing ? "PRESS A KEY…" : code}
+              </span>
+              <button
+                onClick={() =>
+                  setCapturingAction(isCapturing ? null : action)
+                }
+                className="font-mono text-[9px] tracking-wider px-2 py-1 rounded border border-border/40 hover:border-[var(--neon-cyan)]/50 hover:text-[var(--neon-cyan)] transition-colors"
+              >
+                {isCapturing ? "CANCEL" : "REMAP"}
+              </button>
+              <button
+                onClick={() => resetAction(action)}
+                aria-label={`Reset ${label} to default`}
+                className="text-muted-foreground/40 hover:text-[var(--neon-cyan)] transition-colors"
+                title="Reset to default"
+              >
+                <RotateCcw size={12} />
+              </button>
+            </div>
+          );
+        })}
+      </div>
+      <p className="font-mono text-[9px] text-muted-foreground/40 mt-2">
+        Escape always cancels modals, even if reassigned.
+      </p>
+    </div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════
    PROMO CODE SECTION
    ═══════════════════════════════════════════════════════ */
 function PromoCodeSection({ isAuthenticated }: { isAuthenticated: boolean }) {
@@ -593,6 +708,15 @@ export default function SettingsPage() {
               { value: "protanopia", label: "Protanopia", desc: "Red-green (L-cone)", icon: Eye },
               { value: "tritanopia", label: "Tritanopia", desc: "Blue-yellow (S-cone)", icon: Eye },
             ]}
+          />
+          {/* Keyboard remap — per-action key capture. The keymap is
+              consumed via apps/client/src/hooks/useKeymap.ts. Escape
+              stays as an always-on cancel fallback inside the hook
+              regardless of the user's `cancel` binding, so a player
+              can never strand themselves by clearing the map. */}
+          <KeymapEditor
+            value={settings.keymap}
+            onChange={(next) => updateSetting("keymap", next)}
           />
           <div>
             <div className="flex items-center gap-2 mb-1.5">

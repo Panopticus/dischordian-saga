@@ -76,6 +76,15 @@ function applySettingsToDOM(settings: GameSettings): void {
   if (settings.colorblindMode && settings.colorblindMode !== "off") {
     root.classList.add(`colorblind-${settings.colorblindMode}`);
   }
+
+  // In-tab settings notification. The native `storage` event only
+  // fires across tabs, not within the same tab — so without this,
+  // hooks that subscribe to settings changes (e.g. useKeymap) miss
+  // updates from the SettingsPage they're rendered alongside.
+  // Consumers add `window.addEventListener("loredex-settings-changed", …)`.
+  if (typeof window !== "undefined") {
+    window.dispatchEvent(new CustomEvent("loredex-settings-changed"));
+  }
 }
 
 // ─── Debounced Server Sync ───
