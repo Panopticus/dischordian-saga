@@ -478,18 +478,31 @@ function RoomScene({
 
           if (isCollected) return null;
 
+          // Smaller hotspots sit on top of larger ones. Several rooms
+          // (notably the cryo-bay dead-pod cluster) have detail
+          // hotspots that fall entirely inside a wide-area parent
+          // hotspot — without an explicit z-index, hover/click can
+          // flicker between them. We score each hotspot by area in
+          // % squared so a small detail (e.g. 5×5 = 25) always sits
+          // above a 16×54 = 864 wrapper.
+          const area = hotspot.width * hotspot.height;
+          // Map area into a z range above z-10 (the layer baseline).
+          // Smaller hotspot → higher z. Cap so we never collide with
+          // higher overlay layers (verb-coin, modals, etc.).
+          const hotspotZ = Math.max(11, Math.min(40, 50 - Math.round(area / 30)));
           return (
             <motion.div
               key={hotspot.id}
               initial={{ opacity: 0, scale: 0 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0 }}
-              className="absolute cursor-pointer z-10"
+              className="absolute cursor-pointer"
               style={{
                 left: `${hotspot.x}%`,
                 top: `${hotspot.y}%`,
                 width: `${hotspot.width}%`,
                 height: `${hotspot.height}%`,
+                zIndex: hotspotZ,
               }}
               onMouseEnter={() => setHoveredHotspot(hotspot.id)}
               onMouseLeave={() => setHoveredHotspot(null)}

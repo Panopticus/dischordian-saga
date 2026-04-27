@@ -13,6 +13,7 @@ import {
 import AwakeningJournalEntry from "./AwakeningJournalEntry";
 import MilestoneJournalEntries from "./MilestoneJournalEntries";
 import { motion, AnimatePresence } from "framer-motion";
+import { getAllAuthoredClues } from "@shared/roomMysteries";
 
 /* ─── CLUE DATA DEFINITIONS ─── */
 
@@ -411,48 +412,81 @@ export default function ClueJournal({ onClose }: ClueJournalProps) {
   const [activeTab, setActiveTab] = useState<"log" | "clues" | "puzzles">(state.characterCreated ? "log" : "clues");
   const [expandedPuzzle, setExpandedPuzzle] = useState<string | null>(null);
   const [expandedClue, setExpandedClue] = useState<string | null>(null);
-  const [filterType, setFilterType] = useState<ClueType | "all">("all");
+  // Source filter swaps in for the legacy clue-type filter — every
+  // logged clue carries `source` (room id) but no longer carries a
+  // ClueType chip, so filtering by room is the meaningful axis.
+  const [filterSource, setFilterSource] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState("");
 
-  // Collected clues are tracked via itemsCollected in GameContext
-  const collectedClueIds = useMemo(
-    () => state.itemsCollected.filter(id => CLUES.some(c => c.id === id)),
+  // Real logged clues come out of the room-mystery dispatcher and live
+  // in state.clueJournal. The legacy CLUES array below is a parallel
+  // lore reference that gameplay never populates — kept around for the
+  // Puzzles tab's clue-by-id lookups, but not the source of truth for
+  // what the player has actually seen.
+  const loggedClues = state.clueJournal;
+  const loggedClueIds = useMemo(
+    () => new Set(loggedClues.map(c => c.id)),
+    [loggedClues],
+  );
+
+  // The `collectedClueSet` is what the Puzzles tab still uses to mark
+  // legacy CLUES rows as discovered. Since gameplay doesn't write
+  // `crystal_*` IDs into itemsCollected, this resolves to empty in
+  // normal play — but we keep the lookup so the puzzle tab stays
+  // backward-compatible with any code path that does write them.
+  const collectedClueSet = useMemo(
+    () => new Set(state.itemsCollected.filter(id => CLUES.some(c => c.id === id))),
     [state.itemsCollected]
   );
-  const collectedClueSet = useMemo(() => new Set(collectedClueIds), [collectedClueIds]);
 
-  // Solved puzzles tracked via narrativeFlags
+  // Solved puzzles tracked via narrativeFlags (legacy lookup).
   const solvedPuzzleIds = useMemo(
     () => PUZZLES.filter(p => state.narrativeFlags[`puzzle_${p.id}_solved`]).map(p => p.id),
     [state.narrativeFlags]
   );
 
-  // Only the player's discovered clues are searchable / filterable. Locked
-  // entries appear as a single anonymous "sealed" stack at the bottom so
-  // the journal still hints that more is out there without leaking what.
-  const discoveredClues = useMemo(
-    () => CLUES.filter(c => collectedClueSet.has(c.id)),
-    [collectedClueSet]
-  );
+  // Total authored clues across every room mystery module — the
+  // denominator the player sees in "N / total" must match the actual
+  // gameplay count, not the size of the legacy CLUES array.
+  const totalClues = useMemo(() => getAllAuthoredClues().length, []);
+
+  // Sources actually present in the journal so the filter dropdown
+  // doesn't list rooms the player hasn't logged anything in yet.
+  const knownSources = useMemo(() => {
+    const seen = new Set<string>();
+    for (const c of loggedClues) seen.add(c.source);
+    return Array.from(seen);
+  }, [loggedClues]);
+
   const filteredClues = useMemo(() => {
-    let clues = discoveredClues;
-    if (filterType !== "all") clues = clues.filter(c => c.type === filterType);
+    let clues = [...loggedClues].sort(
+      (a, b) => a.source.localeCompare(b.source) || a.order - b.order,
+    );
+    if (filterSource !== "all") clues = clues.filter(c => c.source === filterSource);
     if (searchQuery) {
       const q = searchQuery.toLowerCase();
       clues = clues.filter(c =>
         c.title.toLowerCase().includes(q) ||
-        c.description.toLowerCase().includes(q) ||
-        c.roomId.toLowerCase().includes(q)
+        c.body.toLowerCase().includes(q) ||
+        c.source.toLowerCase().includes(q)
       );
     }
     return clues;
-  }, [discoveredClues, filterType, searchQuery]);
-  const sealedCount = CLUES.length - discoveredClues.length;
+  }, [loggedClues, filterSource, searchQuery]);
+  const collectedCount = loggedClues.length;
+  const sealedCount = Math.max(0, totalClues - collectedCount);
 
-  const totalClues = CLUES.length;
   const totalPuzzles = PUZZLES.length;
-  const collectedCount = collectedClueIds.length;
   const solvedCount = solvedPuzzleIds.length;
+  // Both the legacy itemsCollected-derived ids and the live logged
+  // clue ids count as "discovered" for the Puzzles tab so a future
+  // puzzle whose required clues happen to match real logged ids
+  // shows progress automatically.
+  const discoveredAnyId = useMemo(() => {
+    const merged = new Set<string>(collectedClueSet);
+    for (const id of loggedClueIds) merged.add(id);
+    return merged;
+  }, [collectedClueSet, loggedClueIds]);
 
   return (
     <div className="h-full flex flex-col bg-background/95 overflow-hidden">
@@ -541,30 +575,30 @@ export default function ClueJournal({ onClose }: ClueJournalProps) {
                     className="w-full pl-8 pr-3 py-1.5 rounded-md bg-secondary/50 border border-border/30 font-mono text-xs text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary/50"
                   />
                 </div>
-                <div className="relative">
-                  <select
-                    value={filterType}
-                    onChange={e => setFilterType(e.target.value as ClueType | "all")}
-                    className="appearance-none pl-7 pr-6 py-1.5 rounded-md bg-secondary/50 border border-border/30 font-mono text-xs text-foreground focus:outline-none focus:border-primary/50 cursor-pointer"
-                  >
-                    <option value="all">All</option>
-                    <option value="data_crystal">Crystals</option>
-                    <option value="elara_hint">Elara</option>
-                    <option value="environmental">Environ.</option>
-                    <option value="cross_room">Cross-Room</option>
-                    <option value="achievement_linked">Achieve.</option>
-                  </select>
-                  <Filter size={12} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" />
-                </div>
+                {knownSources.length > 1 && (
+                  <div className="relative">
+                    <select
+                      value={filterSource}
+                      onChange={e => setFilterSource(e.target.value)}
+                      className="appearance-none pl-7 pr-6 py-1.5 rounded-md bg-secondary/50 border border-border/30 font-mono text-xs text-foreground focus:outline-none focus:border-primary/50 cursor-pointer"
+                    >
+                      <option value="all">All rooms</option>
+                      {knownSources.map(src => (
+                        <option key={src} value={src}>
+                          {src.replace(/-/g, " ").replace(/\b\w/g, c => c.toUpperCase())}
+                        </option>
+                      ))}
+                    </select>
+                    <Filter size={12} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" />
+                  </div>
+                )}
               </div>
 
-              {/* Discovered clue list — only entries the player has actually
-                  found. Click a card to expand the full description. */}
+              {/* Logged clues — the live journal of what the player has
+                  actually seen and recorded via verb-coin Look. Click a
+                  card to expand the full body text. */}
               {filteredClues.map(clue => {
-                const meta = CLUE_TYPE_META[clue.type];
-                const Icon = meta.icon;
                 const expanded = expandedClue === clue.id;
-
                 return (
                   <motion.div
                     key={clue.id}
@@ -576,8 +610,8 @@ export default function ClueJournal({ onClose }: ClueJournalProps) {
                       onClick={() => setExpandedClue(expanded ? null : clue.id)}
                       className="w-full text-left p-3 flex items-start gap-2.5"
                     >
-                      <div className={`p-1.5 rounded-md ${meta.bgColor} shrink-0 mt-0.5`}>
-                        <Icon size={14} className={meta.color} />
+                      <div className="p-1.5 rounded-md bg-primary/10 shrink-0 mt-0.5">
+                        <Diamond size={14} className="text-primary" />
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1">
@@ -588,18 +622,12 @@ export default function ClueJournal({ onClose }: ClueJournalProps) {
                         </div>
                         {!expanded && (
                           <p className="font-mono text-[10px] text-muted-foreground leading-relaxed line-clamp-2">
-                            {clue.description}
+                            {clue.body}
                           </p>
                         )}
                         <div className="flex items-center gap-3 mt-1.5">
-                          <span className={`font-mono text-[9px] ${meta.color} tracking-wider`}>
-                            {meta.label.toUpperCase()}
-                          </span>
-                          <span className="font-mono text-[9px] text-muted-foreground/50">
-                            {clue.roomId.replace(/-/g, " ").toUpperCase()}
-                          </span>
-                          <span className="font-mono text-[9px] text-accent">
-                            +{clue.dreamReward} DREAM
+                          <span className="font-mono text-[9px] text-muted-foreground/60 tracking-wider">
+                            {clue.source.replace(/-/g, " ").toUpperCase()}
                           </span>
                         </div>
                       </div>
@@ -621,7 +649,7 @@ export default function ClueJournal({ onClose }: ClueJournalProps) {
                         >
                           <div className="px-3 pb-3 border-t border-primary/10 pt-2">
                             <p className="font-mono text-[10px] text-foreground/90 leading-relaxed whitespace-pre-line">
-                              {clue.description}
+                              {clue.body}
                             </p>
                           </div>
                         </motion.div>
@@ -635,8 +663,8 @@ export default function ClueJournal({ onClose }: ClueJournalProps) {
                 <div className="text-center py-8">
                   <Diamond size={24} className="mx-auto text-muted-foreground/30 mb-2" />
                   <p className="font-mono text-xs text-muted-foreground/50">
-                    {discoveredClues.length === 0
-                      ? "No clues logged yet. Investigate the ship to fill this journal."
+                    {loggedClues.length === 0
+                      ? "No clues logged yet. Look at things on the ship and the journal will fill itself in."
                       : "No clues match your search."}
                   </p>
                 </div>
@@ -644,7 +672,7 @@ export default function ClueJournal({ onClose }: ClueJournalProps) {
 
               {/* Sealed entries footer — hints that more is out there
                   without leaking type, location, or content. */}
-              {sealedCount > 0 && !searchQuery && filterType === "all" && (
+              {sealedCount > 0 && !searchQuery && filterSource === "all" && (
                 <div className="rounded-lg border border-dashed border-border/30 bg-card/20 p-3 flex items-center gap-2.5">
                   <div className="p-1.5 rounded-md bg-secondary/40 shrink-0">
                     <Lock size={14} className="text-muted-foreground/50" />
@@ -670,8 +698,8 @@ export default function ClueJournal({ onClose }: ClueJournalProps) {
             >
               {PUZZLES.map(puzzle => {
                 const solved = solvedPuzzleIds.includes(puzzle.id);
-                const progress = getPuzzleProgress(puzzle.id, collectedClueIds);
-                const solvable = isPuzzleSolvable(puzzle.id, collectedClueIds);
+                const progress = getPuzzleProgress(puzzle.id, Array.from(discoveredAnyId));
+                const solvable = isPuzzleSolvable(puzzle.id, Array.from(discoveredAnyId));
                 const expanded = expandedPuzzle === puzzle.id;
                 const diffMeta = DIFFICULTY_META[puzzle.difficulty];
                 const clues = getCluesForPuzzle(puzzle.id);
@@ -770,7 +798,7 @@ export default function ClueJournal({ onClose }: ClueJournalProps) {
                                 <div>
                                   <p className="font-mono text-[9px] text-muted-foreground/60 mb-1.5 tracking-wider">REQUIRED CLUES:</p>
                                   {clues.map(clue => {
-                                    const found = collectedClueSet.has(clue.id);
+                                    const found = discoveredAnyId.has(clue.id);
                                     const cMeta = CLUE_TYPE_META[clue.type];
                                     return (
                                       <div key={clue.id} className="flex items-center gap-2 py-0.5">
