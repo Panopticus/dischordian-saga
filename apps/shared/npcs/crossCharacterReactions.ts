@@ -650,6 +650,25 @@ export const CROSS_CHARACTER_REACTIONS: ReadonlyArray<CrossCharacterReaction> = 
       "future inter-Ne-Yon recognition (Seer canon implies Ne-Yon-mutual-" +
       "awareness).",
   },
+  {
+    flag: "degen_disclosed_seer_kinship",
+    setBy: ["the_degen"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Degen ask_about_seer (Phase 6c.1). Discloses canonical Ne-Yon-" +
+      "kin status with the Seer (prophecy-domain) — sister-domain canon. " +
+      "Future Seer reactive lines may acknowledge the disclosure.",
+  },
+  {
+    flag: "degen_disclosed_jericho_recruitment",
+    setBy: ["the_degen"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Degen ask_about_jericho (Phase 6c.1). Discloses canonical " +
+      "Heart-of-Time placement-broker fee for Jericho Jones — silence-" +
+      "shape preserved (mission canonically undisclosed). Future Companion " +
+      "reactive lines may register the parallel.",
+  },
 ];
 
 // --- Helpers --------------------------------------------------------------
