@@ -7,6 +7,12 @@ import superjson from "superjson";
 import App from "./App";
 import { getLoginUrl } from "./const";
 import { reportError } from "@/stores/errorToastStore";
+// #88 Telemetry — Sentry side-effect init.
+// apps/client/src/lib/sentry.ts runs Sentry.init at module top-level
+// when VITE_SENTRY_DSN is set; importing for side-effect here makes
+// sure the SDK is configured before App renders. No-op when the env
+// var is unset (the module skips init silently).
+import "./lib/sentry";
 import "./i18n"; // Initialize i18n before app renders
 import "./index.css";
 

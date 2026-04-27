@@ -8,6 +8,16 @@ import type { DuelystGameState, BoardUnit } from "./types";
 import { FACTION_COLORS } from "./types";
 import { posKey, findUnit, BOARD_W, BOARD_H } from "./engine";
 import type { Texture } from "pixi.js";
+import { getMotionIntensity } from "../../engine/motionIntensity";
+
+/** True when ambient motion should be suppressed entirely.
+ *  motionIntensity already collapses to 0 under both the in-app
+ *  `reduce-motion` class and the OS prefers-reduced-motion media
+ *  query (see apps/client/src/engine/motionIntensity.ts), so a
+ *  single read here covers both signals. */
+function reduceMotion(): boolean {
+  return getMotionIntensity() === 0;
+}
 
 const TILE_W = 80;
 const TILE_H = 80;
@@ -287,6 +297,15 @@ export class BoardRenderer {
     toY: number,
     durationMs: number,
   ): void {
+    // a11y #116 — under reduce-motion, snap directly to the final
+    // position. Card moves are the most-frequently-triggered
+    // animation in the game; tweening them through hundreds of
+    // moves per session is a real motion-sickness hazard.
+    if (reduceMotion()) {
+      container.x = toX;
+      container.y = toY;
+      return;
+    }
     const fromX = container.x;
     const fromY = container.y;
     const start = performance.now();
@@ -377,6 +396,9 @@ export class BoardRenderer {
 
   /** Board shake effect */
   private shakeBoard(intensity: number, durationFrames: number): void {
+    // a11y #116 — screen shake is a textbook motion-sickness trigger;
+    // skip entirely under reduce-motion.
+    if (reduceMotion()) return;
     const stage = this.app.stage;
     const originalX = stage.x, originalY = stage.y;
     let frame = 0;

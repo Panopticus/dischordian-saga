@@ -69,15 +69,14 @@ export const PRELUDE_CUTSCENE_VIDEOS: Readonly<Record<string, string>> = {
   beat_j: assetUrl("videos/prelude/prelude-beat-j-finale.mp4"),
 } as const;
 
-/** Alternate take of Beat J — the earlier Archives arrival cut. */
-export const PRELUDE_BEAT_J_ARCHIVES_ARRIVAL = assetUrl(
-  "videos/prelude/prelude-beat-j-archives-arrival-clip.mp4",
-);
-
-/** Alternate earlier take of Beat I (the "archive" clip), kept as b-roll. */
-export const PRELUDE_BEAT_I_ARCHIVE_ALT = assetUrl(
-  "videos/prelude/prelude-beat-i-archive.mp4",
-);
+/* Alternate Beat I/J takes (`prelude-beat-i-archive.mp4`,
+ * `prelude-beat-j-archives-arrival-clip.mp4`) used to be exported here
+ * as `PRELUDE_BEAT_I_ARCHIVE_ALT` / `PRELUDE_BEAT_J_ARCHIVES_ARRIVAL`.
+ * They were never consumed — the canonical takes in
+ * PRELUDE_CUTSCENE_VIDEOS above are what the player actually sees. The
+ * MP4s remain on the CDN; if a future feature wants the alts (e.g. a
+ * director's-cut viewer), re-add the export rather than reaching past
+ * this comment. */
 
 /* ─── PRELUDE — CUTSCENE BOOKEND STILLS ─── */
 
@@ -273,6 +272,22 @@ export const PRELUDE_AMBIENT_BEDS_DELIVERED = {
 
 /* ─── ACT 1 — CUTSCENE VIDEOS ─── */
 
+/**
+ * The three Act 1 cutscenes are the Trade Empire keystone-view
+ * intros. They auto-play the first time the player opens each view
+ * (`TradeEmpirePage.tsx`) and persist a per-cinematic seen flag via
+ * `<CinematicGate>`:
+ *
+ *   • act1-council-revelation → COUNCIL view
+ *   • act1-tavern-arrival     → MARKET EXCHANGE view (the marketplace)
+ *   • act1-arena-challenge    → ACT III view
+ *
+ * The companion registries below (`ACT1_ROOMS`, `ACT1_BATTLEFIELDS`,
+ * `ACT1_PORTRAITS`, `ACT1_MUSIC`) are likewise authored content;
+ * `ACT1_ROOMS` / `ACT1_BATTLEFIELDS` are not yet wired to a render
+ * site. Both also remain viewable from `/prelude-act1-gallery` for
+ * content review.
+ */
 export type Act1CutsceneId =
   | "act1-tavern-arrival"
   | "act1-arena-challenge"

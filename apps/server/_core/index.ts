@@ -15,6 +15,8 @@ import { registerSpriteProxy } from "../spriteProxy";
 import { registerChessMultiplayer } from "../chessMultiplayer";
 import { ENV } from "./env";
 import { performanceMiddleware } from "../performanceMonitor";
+import { sentryErrorHandler, waitForSentry } from "../sentry";
+import { waitForOTel } from "../otel";
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -277,6 +279,28 @@ async function startServer() {
     serveStatic(app);
   }
 
+  // #88 Telemetry — Sentry error capture.
+  //
+  // Mounted AFTER all routes (Express error-handling middleware runs
+  // last in the chain). When SENTRY_DSN is set, every unhandled error
+  // bubbling out of a route handler is reported before the next error
+  // handler renders the response. When the env var is unset (local
+  // dev / tests / CI), the captureException call is a no-op and the
+  // error continues down the middleware chain unchanged.
+  app.use(sentryErrorHandler);
+
+  // Block startup briefly until Sentry's lazy init has resolved so
+  // any error thrown before request-binding (e.g. during the server
+  // bootstrap below) is also captured. Resolves immediately when
+  // SENTRY_DSN is unset.
+  await waitForSentry();
+
+  // Same pattern for OpenTelemetry (#88). Init resolves immediately
+  // when OTEL_ENABLED!=1 or the OTLP endpoint isn't configured. When
+  // it does load, every tRPC handler wrapped in `withSpan` starts
+  // exporting traces from the first request.
+  await waitForOTel();
+
   const preferredPort = parseInt(process.env.PORT || "3000");
   const port = await findAvailablePort(preferredPort);
 
@@ -369,6 +393,15 @@ async function startServer() {
     const { bootstrapWebhookEventsTable } = await import("../services/webhookEventsBootstrap");
     bootstrapWebhookEventsTable().catch(e =>
       console.error("[WebhookEventsBootstrap] failed:", e),
+    );
+
+    // Ensure game_replays.shareToken exists. Migration 0056 is
+    // orphaned from _journal.json; without this column saveReplay
+    // can't generate share-links and getReplayByToken silently 404s.
+    // The legacy by-id lookup keeps working either way.
+    const { bootstrapReplayShareToken } = await import("../services/replaysBootstrap");
+    bootstrapReplayShareToken().catch(e =>
+      console.error("[ReplaysBootstrap] failed:", e),
     );
   }
 

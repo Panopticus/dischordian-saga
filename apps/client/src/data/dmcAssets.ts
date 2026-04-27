@@ -55,12 +55,22 @@ export const DMC_MUSIC_META: Record<keyof typeof DMC_MUSIC, { title: string; bpm
 
 /* ─── CINEMATICS (MP4) ─── */
 
+/**
+ * The original V1 set (cloneAwakening, signalLost, severancePrize) was
+ * superseded by the Seedance 20 4K shots in 2026-04-10 and is no longer
+ * exported — the V2 keys below are wired into every play site. The MP4s
+ * still exist on the CDN as historical reference; if a future feature
+ * needs them, re-add the export rather than reaching past this comment.
+ *
+ * `raceTracking` is intentionally retained without a play site: the
+ * production brief reserves it for a "lobby secondary background /
+ * marketing loop" rotation that hasn't been built. Wire it as a second
+ * hero loop or a track-preview tile when that feature lands; until
+ * then DMC_CINEMATIC_META below documents the intended slot.
+ */
 export const DMC_CINEMATICS = {
   circuitOpens:    assetUrl("videos/dmc/dmc_cin_circuit-opens.mp4"),
-  cloneAwakening:  assetUrl("videos/dmc/dmc_cin_clone-awakening.mp4"),
   theRace:         assetUrl("videos/dmc/dmc_cin_the-race.mp4"),
-  signalLost:      assetUrl("videos/dmc/dmc_cin_signal-lost.mp4"),
-  severancePrize:  assetUrl("videos/dmc/dmc_cin_severance-prize.mp4"),
   nilmorgSpeaks:   assetUrl("videos/dmc/dmc_cin_nilmorg-speaks.mp4"),
 
   // V2 — Seedance 20 4K shots (2026-04-10)
@@ -75,15 +85,12 @@ export const DMC_CINEMATICS = {
 
 export const DMC_CINEMATIC_META: Record<keyof typeof DMC_CINEMATICS, { title: string; duration: string; usage: string }> = {
   circuitOpens:    { title: "The Circuit Opens",   duration: "15s", usage: "Season announcement" },
-  cloneAwakening:  { title: "Clone Awakening",     duration: "10s", usage: "Pre-race intro" },
-  theRace:         { title: "The Race",            duration: "20s", usage: "Gameplay trailer" },
-  signalLost:      { title: "Signal Lost",         duration: "8s",  usage: "Death sequence" },
-  severancePrize:  { title: "The Severance Prize", duration: "12s", usage: "Season winner" },
+  theRace:         { title: "The Race",            duration: "20s", usage: "Gameplay trailer — lobby WATCH TRAILER tile" },
   nilmorgSpeaks:   { title: "Nilmorg Speaks",      duration: "15s", usage: "Character introduction" },
 
   cloneAwakeningV2: { title: "Clone Awakening (Seedance 4K)",  duration: "10s", usage: "Pre-race cinematic — overlays when player clicks ENTER THE TRENCH" },
   raceGameplay:     { title: "Race Gameplay POV (Seedance 4K)", duration: "20s", usage: "Hero video — lobby background loop" },
-  raceTracking:     { title: "Race Tracking Shot (Seedance 4K)", duration: "15s", usage: "Lobby secondary background / marketing loop" },
+  raceTracking:     { title: "Race Tracking Shot (Seedance 4K)", duration: "15s", usage: "Lobby secondary background / marketing loop — NOT YET WIRED, asset retained for future second-loop or track-preview slot" },
   severancePodium:  { title: "Severance Prize Podium (Seedance 4K)", duration: "12s", usage: "Victory overlay — plays on 1st place finish" },
   signalLostV2:     { title: "Signal Lost (Seedance 4K)",       duration: "8s",  usage: "Death overlay — plays when clone fails to survive" },
   nilmorgLipSync:   { title: "Nilmorg Sermon (Lip Sync)",       duration: "12s", usage: "'The universe runs on power...' velocity-and-vanity sermon — hero panel on lobby" },
@@ -106,7 +113,7 @@ export const DMC_KEYFRAMES = {
 export const DMC_ASSET_MANIFEST = {
   environments:  { count: 7,  format: "1920×1080 JPG", dir: assetUrl("art/dmc/environments/") },
   music:         { count: 6,  format: "MP3",           dir: assetUrl("music/dmc/") },
-  cinematics:    { count: 6,  format: "MP4",           dir: assetUrl("videos/dmc/") },
+  cinematics:    { count: 10, format: "MP4",           dir: assetUrl("videos/dmc/") },
   keyframes:     { count: 12, format: "PNG",           dir: assetUrl("art/dmc/keyframes/") },
-  total: 31,
+  total: 35,
 } as const;

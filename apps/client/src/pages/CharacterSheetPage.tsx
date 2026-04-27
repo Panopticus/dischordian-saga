@@ -140,6 +140,21 @@ const CLEARANCE_TITLES: Record<number, { order: string; chaos: string }> = {
   4: { order: "CLEARANCE: ASCENDANT", chaos: "CLEARANCE: TRANSCENDENT" },
 };
 
+/* The DB `gear` column stores entries in two shapes — the creation flow
+ * writes `{ id, baseLocked: true }` for base-mask/base-suit, while
+ * updateGear writes flat `"<id>"` strings. Reading either shape returns
+ * the underlying id, or null when the slot is genuinely empty. Without
+ * this coercion, the object shape leaks into JSX children and triggers
+ * Minified React error #31. */
+function readGearId(val: unknown): string | null {
+  if (typeof val === "string" && val.length > 0) return val;
+  if (val && typeof val === "object" && "id" in (val as object)) {
+    const id = (val as { id?: unknown }).id;
+    return typeof id === "string" && id.length > 0 ? id : null;
+  }
+  return null;
+}
+
 /* ═══════════════════════════════════════════════════
    BIOSCAN READOUT — Horizontal bar diagnostic for each stat
    ═══════════════════════════════════════════════════ */
@@ -362,19 +377,25 @@ export default function CharacterSheetPage() {
   const [localGearOverride, setLocalGearOverride] = useState<Record<string, string | null> | null>(null);
   const dbGear = (character.data?.gear || {}) as Record<string, string>;
   const gear = localGearOverride ?? dbGear;
+  // `gear` may carry `{ id, baseLocked }` objects for base slots written by
+  // the creation flow; readGearId collapses both shapes to a string id (or
+  // null) so the paper doll never receives an object as a child.
   const paperDollEquipped = useMemo<Record<EquipSlot, string | null>>(() => {
     return {
-      weapon: gear.weapon || null,
-      armor: gear.armor || null,
-      helm: gear.helm || null,
-      secondary: gear.secondary || null,
-      accessory: gear.accessory || null,
-      consumable: gear.consumable || null,
+      weapon: readGearId(gear.weapon),
+      armor: readGearId(gear.armor),
+      helm: readGearId(gear.helm),
+      secondary: readGearId(gear.secondary),
+      accessory: readGearId(gear.accessory),
+      consumable: readGearId(gear.consumable),
     };
   }, [gear]);
   const playerInventory = useMemo(() => {
     const owned = new Set<string>();
-    for (const id of Object.values(gear)) { if (id) owned.add(id); }
+    for (const raw of Object.values(gear)) {
+      const id = readGearId(raw);
+      if (id) owned.add(id);
+    }
     const charClass = character.data?.characterClass;
     if (charClass) {
       EQUIPMENT_DB.filter(e => e.source === "starting" && (!e.requiredClass || e.requiredClass === charClass))
@@ -397,14 +418,6 @@ export default function CharacterSheetPage() {
     if (!char) return null;
 
     const gearObj = (char.gear || {}) as Record<string, unknown>;
-    const readGearId = (val: unknown): string | null => {
-      if (typeof val === "string" && val.length > 0) return val;
-      if (val && typeof val === "object" && "id" in (val as object)) {
-        const id = (val as { id?: unknown }).id;
-        return typeof id === "string" && id.length > 0 ? id : null;
-      }
-      return null;
-    };
 
     const foundation = ((char.foundation as FoundationKey | null | undefined)
       ?? "humanity") as FoundationKey;
