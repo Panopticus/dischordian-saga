@@ -41,7 +41,7 @@ import { getDb } from "../server/db";
 import { bootstrapAnnouncementsTables } from "../server/services/announcementsBootstrap";
 import { bootstrapCitizenSchema } from "../server/services/citizenSchemaBootstrap";
 import { bootstrapWebhookEventsTable } from "../server/services/webhookEventsBootstrap";
-import { bootstrapReplayShareToken } from "../server/services/replaysBootstrap";
+import { bootstrapReplayShareToken, bootstrapReplayMatchId } from "../server/services/replaysBootstrap";
 
 interface CheckResult {
   name: string;
@@ -180,6 +180,16 @@ async function main(): Promise<void> {
       detail: e instanceof Error ? e.message : String(e),
     });
   }
+  try {
+    await bootstrapReplayMatchId();
+    checks.push({ name: "bootstrapReplayMatchId() succeeded", ok: true });
+  } catch (e) {
+    checks.push({
+      name: "bootstrapReplayMatchId() succeeded",
+      ok: false,
+      detail: e instanceof Error ? e.message : String(e),
+    });
+  }
 
   // 4. Verify the bootstrap-targeted DDL landed
   for (const tableName of ["announcements", "announcement_views", "processed_webhook_events"]) {
@@ -194,6 +204,8 @@ async function main(): Promise<void> {
   if (replaysTableExists) {
     const tokenOk = await columnExists(db, "game_replays", "shareToken");
     checks.push({ name: "game_replays.shareToken column exists", ok: tokenOk });
+    const matchIdOk = await columnExists(db, "game_replays", "matchId");
+    checks.push({ name: "game_replays.matchId column exists", ok: matchIdOk });
   } else {
     checks.push({
       name: "game_replays.shareToken column (skipped — table not in fresh DB)",

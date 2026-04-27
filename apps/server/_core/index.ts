@@ -399,9 +399,21 @@ async function startServer() {
     // orphaned from _journal.json; without this column saveReplay
     // can't generate share-links and getReplayByToken silently 404s.
     // The legacy by-id lookup keeps working either way.
-    const { bootstrapReplayShareToken } = await import("../services/replaysBootstrap");
+    const { bootstrapReplayShareToken, bootstrapReplayMatchId } = await import(
+      "../services/replaysBootstrap"
+    );
     bootstrapReplayShareToken().catch(e =>
       console.error("[ReplaysBootstrap] failed:", e),
+    );
+    // Ensure game_replays.matchId exists (migration 0057). Required by
+    // the verification job (#92) — the engine mints card-instance ids
+    // via `makeCardInstance(matchId, counter, …)`, so a reconstructed
+    // GameState rebuilt from a different matchId hashes differently
+    // even when every action replays identically. Failure surface:
+    // verifyReplay returns {ok:false, reason:"matchId not stored"} for
+    // legacy rows; saveReplay / getReplay are unaffected.
+    bootstrapReplayMatchId().catch(e =>
+      console.error("[ReplaysBootstrap matchId] failed:", e),
     );
   }
 

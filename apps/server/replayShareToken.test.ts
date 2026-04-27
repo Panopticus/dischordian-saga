@@ -131,7 +131,12 @@ describe("Replay share-token — schema + bootstrap + router wiring", () => {
     const src = read("apps/server/services/replaysBootstrap.ts");
     expect(src).toMatch(/export function bootstrapReplayShareToken/);
     expect(src).toMatch(/information_schema\.columns/);
-    expect(src).toMatch(/column_name\s*=\s*'shareToken'/);
+    // Refactored to share the column-existence check across the
+    // shareToken + matchId bootstraps (#92 follow-up). The probe SQL
+    // is now templated; check for the column-name interpolation +
+    // the shareToken bootstrap binding to it.
+    expect(src).toMatch(/column_name\s*=\s*'\$\{opts\.column\}'/);
+    expect(src).toMatch(/column:\s*["']shareToken["']/);
     // Source uses template-literal escaped backticks (\`shareToken\`)
     // for MySQL identifier quoting — match without anchoring the
     // surrounding backtick chars.

@@ -2690,6 +2690,14 @@ export const gameReplays = mysqlTable("game_replays", {
    *  cool match can't have a curious viewer scrape neighbouring
    *  replays. Added by migration 0056 + replaysBootstrap. */
   shareToken: varchar("shareToken", { length: 32 }),
+  /** Originating server matchId (#92). Required by the verification
+   *  job — the tcg-core engine mints card-instance ids via
+   *  `makeCardInstance(matchId, counter, …)`, so a GameState
+   *  reconstructed under a different matchId hashes differently from
+   *  the stored finalStateHash even when every action replays
+   *  identically. Nullable for backwards compatibility with rows
+   *  written before migration 0057. */
+  matchId: varchar("matchId", { length: 64 }),
   playedAt: timestamp("playedAt").defaultNow().notNull(),
 }, (table) => ({
   gameTypeIdx: index("idx_game_replays_game_type").on(table.gameType),
