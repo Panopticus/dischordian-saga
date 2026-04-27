@@ -669,6 +669,28 @@ export const CROSS_CHARACTER_REACTIONS: ReadonlyArray<CrossCharacterReaction> = 
       "shape preserved (mission canonically undisclosed). Future Companion " +
       "reactive lines may register the parallel.",
   },
+  {
+    flag: "companion_disclosed_donor_is_player",
+    setBy: ["dmc_clone_companion"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Companion ask_donor (Phase 6c.2). Canonically discloses the " +
+      "donor-canon (per dmc_clone_companion.md §1 stance #2): the donor " +
+      "is the player's own Potential. Saga-load-bearing recognition; " +
+      "future Hierophant / Eidolon / Nilmorg reactive lines may " +
+      "acknowledge the canonical disclosure.",
+  },
+  {
+    flag: "companion_acknowledged_nilmorg_midwifery",
+    setBy: ["dmc_clone_companion"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Companion ask_about_nilmorg (Phase 6c.2). Canonically " +
+      "acknowledges Nilmorg as the mid-wife (per §4.2). The 'Don't " +
+      "thank me' canonical refusal is the Companion's first inherited " +
+      "memory; future Nilmorg reactive lines may register the canonical " +
+      "acknowledgment without inviting the thanks he canonically refuses.",
+  },
 ];
 
 // --- Helpers --------------------------------------------------------------
