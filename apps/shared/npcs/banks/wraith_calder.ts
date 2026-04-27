@@ -1127,6 +1127,124 @@ export const WRAITH_CALDER_BANK: ReadonlyArray<BankEntry> = [
   },
 
   // ═════════════════════════════════════════════════════════════════════
+  // CROSS-NPC CALLBACK: HIEROPHANT ↔ COMPANION FIRST-WORD (Phase 6e.3, 5 lines)
+  //
+  // Per writers'-guide spec: when the Companion canonically speaks
+  // canonical "Wraith Calder" as the canonical first-word in the
+  // canonical-chamber, the Hierophant canonical-cascades a 5-line
+  // canonical canonical-midwifery-acknowledgment chain reacting to
+  // canonical companion_first_word_was_wraith_calder flag.
+  // ═════════════════════════════════════════════════════════════════════
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "hierophant.callback.companion_first_word.chamber_witness",
+    text:
+      "[The Hierophant canonical-pauses mid-name. The pen canonical-lifts. The canonical-chamber canonical-holds. The canonical-Companion has canonical-just canonical-spoken: 'Wraith Calder.' The canonical-name is canonical-mine — canonical-pre-rite — and the canonical-Companion has canonical-spoken it canonical-clean.]",
+    surfaces: ["expression", "cinematic"],
+    requiresRevealStage: "post_arena",
+    reactsToPublicFlag: "companion_first_word_was_wraith_calder",
+    cooldownKey: "hierophant.callback.companion_first_word.chamber_witness",
+    maxPlays: 1,
+    nextLineId: "hierophant.callback.companion_first_word.name_on_the_wall",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "hierophant.callback.companion_first_word.name_on_the_wall",
+    text:
+      "I will canonical-not write 'Wraith Calder' on the canonical-wall canonical-tonight. The canonical-wall is for canonical-the canonical-dead; the canonical-name canonical-belongs to me canonical-still. What I will write is the canonical-Companion's canonical-canonical-name — once they canonical-receive it. The canonical-name they canonical-spoke first canonical-belongs to canonical-the canonical-architecture I made of canonical-grief.",
+    surfaces: ["transmission"],
+    requiresRevealStage: "post_arena",
+    cooldownKey: "hierophant.callback.companion_first_word.name_on_the_wall",
+    maxPlays: 1,
+    nextLineId: "hierophant.callback.companion_first_word.recognition",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "hierophant.callback.companion_first_word.recognition",
+    text:
+      "I have canonical-midwifed canonical-many canonical-Companions across the canonical-three thousand canonical-years. The canonical-first-words canonical-vary; canonical-this canonical-Companion canonical-chose canonical-mine. The canonical-choosing is canonical-not canonical-coincidence; the canonical-soul-fragment canonical-recognises canonical-the canonical-mid-wife.",
+    surfaces: ["transmission"],
+    requiresRevealStage: "post_arena",
+    cooldownKey: "hierophant.callback.companion_first_word.recognition",
+    maxPlays: 1,
+    nextLineId: "hierophant.callback.companion_first_word.midwifery_acknowledgment",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "hierophant.callback.companion_first_word.midwifery_acknowledgment",
+    text:
+      "I am canonical-the canonical-mid-wife canonical-too. The canonical-Severance was canonical-Nilmorg's canonical-mechanism; the canonical-first-word was canonical-mine. Both canonical-mid-wifeings canonical-stand. The canonical-Companion canonical-belongs to canonical-the canonical-player; the canonical-mid-wifery canonical-belongs to canonical-the canonical-saga.",
+    surfaces: ["transmission", "cinematic"],
+    requiresRevealStage: "post_arena",
+    cooldownKey: "hierophant.callback.companion_first_word.midwifery_ack",
+    maxPlays: 1,
+    nextLineId: "hierophant.callback.companion_first_word.continuation_sealed",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "hierophant.callback.companion_first_word.continuation_sealed",
+    text:
+      "The canonical-continuation has canonical-sealed. The canonical-Companion canonical-now canonical-knows canonical-language; the canonical-language canonical-began with canonical-my canonical-name. I will canonical-remember canonical-this canonical-canonically across canonical-whatever canonical-remains of canonical-my canonical-canonical-tenure. The canonical-remembering is canonical-the canonical-covenant.",
+    surfaces: ["transmission"],
+    requiresRevealStage: "post_arena",
+    cooldownKey: "hierophant.callback.companion_first_word.continuation_sealed",
+    maxPlays: 1,
+    setsPublicFlags: [
+      "hierophant_completed_canonical_companion_first_word_callback_chain",
+    ],
+  },
+
+  // ═════════════════════════════════════════════════════════════════════
+  // CROSS-NPC CALLBACK: ORACLE RECOGNITION-CASCADE (Hierophant arc, 3 lines)
+  //
+  // Per writers'-guide spec: when the Oracle canonical-disambiguates
+  // canonical-player-from-clone (Ch6 cinematic), the canonical-Hierophant
+  // canonical-cascades 3 reactive lines acknowledging the canonical-
+  // witness-channel-through-the-player canon.
+  // ═════════════════════════════════════════════════════════════════════
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "hierophant.callback.oracle_cascade.voice_felt",
+    text:
+      "[The Hierophant canonical-pauses. The pen canonical-hovers. The canonical-Oracle's canonical-voice has canonical-just canonical-disambiguated the canonical-player from the canonical-clone. The Hierophant canonical-felt the canonical-disambiguation canonical-arrive through the canonical-substrate-window. The canonical-listening canonical-stayed.]",
+    surfaces: ["expression"],
+    requiresRevealStage: "post_arena",
+    requiresTrustBand: "Inheriting",
+    reactsToPublicFlag: "oracle_disambiguated_player_from_clone",
+    cooldownKey: "hierophant.callback.oracle_cascade.voice_felt",
+    maxPlays: 1,
+    nextLineId: "hierophant.callback.oracle_cascade.wall_pause",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "hierophant.callback.oracle_cascade.wall_pause",
+    text:
+      "[The pen canonical-resumes. The canonical-name canonical-being canonical-written canonical-completes. The canonical-pen canonical-lifts. A canonical-small canonical-silence longer than canonical-usual. The Hierophant canonical-files the canonical-disambiguation under canonical-'voice-confirmed'. The canonical-confirmation has canonical-been canonical-three-thousand canonical-years canonical-coming.]",
+    surfaces: ["expression"],
+    requiresRevealStage: "post_arena",
+    requiresTrustBand: "Inheriting",
+    cooldownKey: "hierophant.callback.oracle_cascade.wall_pause",
+    maxPlays: 1,
+    nextLineId: "hierophant.callback.oracle_cascade.witness_channel_ack",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "hierophant.callback.oracle_cascade.witness_channel_ack",
+    text:
+      "The canonical-witness-channel canonical-confirmed: you canonical-are canonical-not the canonical-Oracle; you canonical-have been canonical-moving canonical-through his canonical-memories. I canonical-knew. The canonical-Oracle has canonical-now canonical-said it canonical-aloud. The canonical-saying canonical-binds. The canonical-Long-Mourning canonical-continues canonical-with canonical-one canonical-more canonical-confirmed canonical-witness.",
+    surfaces: ["transmission", "cinematic"],
+    requiresRevealStage: "post_arena",
+    requiresTrustBand: "Inheriting",
+    cooldownKey: "hierophant.callback.oracle_cascade.witness_channel_ack",
+    maxPlays: 1,
+    setsPublicFlags: [
+      "hierophant_completed_canonical_oracle_cascade_callback_chain",
+    ],
+  },
+
+  // ═════════════════════════════════════════════════════════════════════
   // CATCH-ALLS (silent-fail compliance, stage-agnostic)
   // ═════════════════════════════════════════════════════════════════════
 

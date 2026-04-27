@@ -1080,6 +1080,27 @@ export const THE_MEME_BANK: ReadonlyArray<BankEntry> = [
   },
 
   // ═════════════════════════════════════════════════════════════════════
+  // CROSS-NPC CALLBACK SETTER: MEME ↔ SEER FALSIFICATION (Phase 6e.3)
+  //
+  // The Meme canonically attempts to falsify a Seer transmission;
+  // the canonical-attempt fails per §4.4 cannot-be-falsified canon.
+  // This single Meme line canonical-sets the canonical trigger flag;
+  // the Seer's bank canonical-cascades 4 reactive lines.
+  // ═════════════════════════════════════════════════════════════════════
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "meme.callback.seer_falsification.attempt",
+    text:
+      "[The Meme canonical-attempts to canonical-falsify a canonical-Seer transmission. The canonical-attempt is canonical-deliberate, canonical-targeted, canonical-mine. The canonical-attempt canonical-fails. I canonical-acknowledge the canonical-failure for the canonical-record.] The canonical-Seer canonical-cannot be canonical-falsified by me. I canonical-knew. I canonical-tried anyway. The canonical-trying is canonical-mine; the canonical-failing is canonical-canonical.",
+    surfaces: ["transmission"],
+    requiresRevealStage: "Real",
+    cooldownKey: "meme.callback.seer_falsification.attempt",
+    maxPlays: 1,
+    setsPublicFlags: ["meme_attempted_seer_falsification"],
+  },
+
+  // ═════════════════════════════════════════════════════════════════════
   // CATCH-ALLS (silent-fail compliance — stage-agnostic narration frames)
   // ═════════════════════════════════════════════════════════════════════
 

@@ -1339,6 +1339,92 @@ export const CROSS_CHARACTER_REACTIONS: ReadonlyArray<CrossCharacterReaction> = 
       "glyph-pulse → posture-shift → sound-resonance → silence-settle. " +
       "Canonical 4-channel cascade for canonical-bond-deepening event.",
   },
+
+  // ─── Phase 6e.3 cross-NPC callback chain completion + setter flags
+
+  {
+    flag: "vex_completed_canonical_touche_arc_callback_chain",
+    setBy: ["vex_solene"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Vex callback.touche_arc.broken_trust_response (Phase 6e.3). " +
+      "Canonical 5-line Touché-arc reactive callback chain completed: " +
+      "notice → silent-withdrawal → forgiveness-quickly → forgiveness-" +
+      "active → broken-trust-response. Reacts to canonical Locke flag.",
+  },
+  {
+    flag: "companion_completed_canonical_nilmorg_delivery_callback_chain",
+    setBy: ["dmc_clone_companion"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Companion callback.nilmorg_delivery.integration (Phase 6e.3). " +
+      "Canonical 5-line Nilmorg-delivery reactive callback chain " +
+      "completed. Reacts to canonical Nilmorg severance-extraction-" +
+      "chain completion flag.",
+  },
+  {
+    flag: "hierophant_completed_canonical_companion_first_word_callback_chain",
+    setBy: ["wraith_calder"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Hierophant callback.companion_first_word.continuation_sealed " +
+      "(Phase 6e.3). Canonical 5-line Companion-first-word reactive " +
+      "callback chain completed. Reacts to canonical companion_first_" +
+      "word_was_wraith_calder flag.",
+  },
+  {
+    flag: "meme_attempted_seer_falsification",
+    setBy: ["the_meme"],
+    reactsBy: ["the_seer", "future_reader"],
+    canonicalNote:
+      "Per Meme callback.seer_falsification.attempt (Phase 6e.3). " +
+      "Canonical Meme falsification-attempt setter; the canonical-" +
+      "attempt canonically fails per §4.4 cannot-be-falsified canon. " +
+      "Triggers canonical Seer 4-line reactive callback chain.",
+  },
+  {
+    flag: "seer_completed_canonical_meme_falsification_callback_chain",
+    setBy: ["the_seer"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Seer callback.meme_falsification.recordings_predate_reach " +
+      "(Phase 6e.3). Canonical 4-line Meme-falsification reactive " +
+      "callback chain completed. Demonstrates canonical pre-recordings-" +
+      "predate-Meme-reach canon.",
+  },
+  {
+    flag: "hierophant_completed_canonical_oracle_cascade_callback_chain",
+    setBy: ["wraith_calder"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Hierophant callback.oracle_cascade.witness_channel_ack " +
+      "(Phase 6e.3). Canonical 3-line Oracle-disambiguation reactive " +
+      "callback chain completed (Hierophant arc of the canonical " +
+      "Oracle recognition-cascade). Reacts to canonical oracle_" +
+      "disambiguated_player_from_clone flag.",
+  },
+  {
+    flag: "companion_completed_canonical_oracle_cascade_callback_chain",
+    setBy: ["dmc_clone_companion"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Companion callback.oracle_cascade.kin_recognition (Phase " +
+      "6e.3). Canonical 3-line Oracle-disambiguation reactive " +
+      "callback chain completed (Companion arc of the canonical " +
+      "Oracle recognition-cascade). Non-verbal canonical 3-channel " +
+      "cascade (glyph → posture → sound).",
+  },
+  {
+    flag: "seer_completed_canonical_oracle_cascade_callback_chain",
+    setBy: ["the_seer"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Seer callback.oracle_cascade.recording_completes (Phase " +
+      "6e.3). Canonical 4-line Oracle-disambiguation reactive callback " +
+      "chain completed (Seer arc of the canonical Oracle recognition-" +
+      "cascade). Demonstrates canonical pre-recording predicted the " +
+      "canonical Ch6 disambiguation.",
+  },
 ];
 
 // --- Helpers --------------------------------------------------------------

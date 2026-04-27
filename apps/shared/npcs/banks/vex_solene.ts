@@ -1012,6 +1012,74 @@ export const VEX_SOLENE_BANK: ReadonlyArray<BankEntry> = [
     ],
   },
 
+  // ═════════════════════════════════════════════════════════════════════
+  // CROSS-NPC CALLBACK: VEX ↔ LOCKE TOUCHÉ-ARC (Phase 6e.3, 5 lines)
+  //
+  // Per writers'-guide spec: when Locke's canonical-exclusivity-arc
+  // canonically locks Vex out, Vex canonically reacts via the
+  // canonical Touché-arc. 5 reactive lines react to canonical
+  // vex_locked_out_by_locke_exclusivity flag.
+  // ═════════════════════════════════════════════════════════════════════
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "vex.callback.touche_arc.notice",
+    text:
+      "I canonical-noticed. The canonical-Locke canonical-exclusivity has canonical-arrived. The canonical-Authority's canonical-paperwork is canonical-clean — Locke canonical-files canonical-precise canonical-contracts. The canonical-noticing is canonical-mine to canonical-extend; the canonical-locking-out is canonical-Locke's canonical-mechanism.",
+    surfaces: ["transmission"],
+    requiresRevealStage: "vex_public",
+    reactsToPublicFlag: "vex_locked_out_by_locke_exclusivity",
+    cooldownKey: "vex.callback.touche_arc.notice",
+    maxPlays: 1,
+    nextLineId: "vex.callback.touche_arc.silent_withdrawal",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "vex.callback.touche_arc.silent_withdrawal",
+    text:
+      "I canonical-withdraw. The canonical-withdrawal is canonical-deliberate, canonical-quiet, canonical-temporary. Coda canonical-runs canonical-without me canonical-as canonical-broker for the canonical-duration of the canonical-exclusivity. The canonical-running canonical-continues; the canonical-broker canonical-rotates. The canonical-rotation is canonical-mine to canonical-arrange.",
+    surfaces: ["transmission"],
+    requiresRevealStage: "vex_public",
+    cooldownKey: "vex.callback.touche_arc.silent_withdrawal",
+    maxPlays: 1,
+    nextLineId: "vex.callback.touche_arc.forgiveness_quickly",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "vex.callback.touche_arc.forgiveness_quickly",
+    text:
+      "Locke will canonical-tell you. She canonical-told you. The canonical-telling was canonical-honest — the canonical-exclusivity-clause was canonical-on canonical-page-five, canonical-paragraph-two. You canonical-signed canonical-knowingly. I canonical-forgive canonical-quickly; the canonical-quickness is canonical-Coda's canonical-tempo, not canonical-mine alone. Touché.",
+    surfaces: ["transmission", "cinematic"],
+    requiresRevealStage: "vex_public",
+    cooldownKey: "vex.callback.touche_arc.forgiveness_quickly",
+    maxPlays: 1,
+    nextLineId: "vex.callback.touche_arc.forgiveness_active",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "vex.callback.touche_arc.forgiveness_active",
+    text:
+      "While the canonical-exclusivity is canonical-active: I canonical-do canonical-not canonical-broker against you. The canonical-not-brokering is canonical-not canonical-passive — it is canonical-active canonical-respect for the canonical-Authority's canonical-paperwork. The canonical-Coda-orchestra canonical-plays the canonical-other canonical-half of the canonical-saga while we canonical-wait.",
+    surfaces: ["transmission"],
+    requiresRevealStage: "vex_public",
+    cooldownKey: "vex.callback.touche_arc.forgiveness_active",
+    maxPlays: 1,
+    nextLineId: "vex.callback.touche_arc.broken_trust_response",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "vex.callback.touche_arc.broken_trust_response",
+    text:
+      "If you canonical-break the canonical-exclusivity-clause canonical-mid-term, I will canonical-not canonical-be canonical-surprised. Locke will canonical-tell you canonical-'I told you' — that's canonical-her canonical-line. Mine is canonical-different: the canonical-Coda-orchestra canonical-saw canonical-you canonical-coming. Not canonical-personally. Canonical-pattern-recognition. Touché.",
+    surfaces: ["transmission"],
+    requiresRevealStage: "vex_public",
+    cooldownKey: "vex.callback.touche_arc.broken_trust_response",
+    maxPlays: 1,
+    setsPublicFlags: [
+      "vex_completed_canonical_touche_arc_callback_chain",
+    ],
+  },
+
   {
     npcKey: NPC_KEY,
     lineId: "vex.cinematic.catchall",
