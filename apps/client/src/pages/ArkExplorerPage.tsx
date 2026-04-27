@@ -8,11 +8,19 @@ import { useGameAreaBGM } from "@/contexts/GameAudioContext";
 import { useState, useCallback, useEffect, useMemo, useRef } from "react";
 import { dialogOpened, dialogClosed } from "@/lib/dialogState";
 import { useGame, ROOM_DEFINITIONS, type HotspotDef, type RoomDef } from "@/contexts/GameContext";
-import { resolveRoomStateAsset } from "@/game/roomStateAssets";
+import { resolveRoomBackgroundUrl } from "@/game/roomStateAssets";
+import { getRoomTier, type RoomTier } from "@shared/roomTier";
 import { useGamification } from "@/contexts/GamificationContext";
 import { useSound } from "@/contexts/SoundContext";
 import { useAmbientMusic } from "@/contexts/AmbientMusicContext";
-import { generateDailyBrief, type RoomEvent } from "@/game/livingArk";
+import {
+  generateDailyBrief,
+  getCrossRoomAlerts,
+  MUSIC_TRIGGERS,
+  type EventType,
+  type RoomEvent,
+  type RoomId as LivingArkRoomId,
+} from "@/game/livingArk";
 import { processArkEvent, type ArkEventResult } from "@/game/arkEventHandler";
 import { useDailyBrief } from "@/hooks/useDailyBrief";
 import PageMeta from "@/components/PageMeta";
@@ -60,10 +68,14 @@ import {
   toNarratorRoomId,
 } from "@shared/mobileNarrator";
 import { isRoomUnlocked as isPreludeRoomUnlocked } from "@shared/preludeRoomGate";
+import { pickRoomFilter } from "@shared/livingArkTouchpoints";
 import {
+  getRoomMysteryModule,
   resolveVerbResponse,
-  type CryoMysteryHotspotId,
-} from "@shared/cryoBayMystery";
+  VERB_LIST,
+  type Verb,
+} from "@shared/roomMysteries";
+import VerbCoin from "@/components/VerbCoin";
 import LoreTutorialEngine from "@/components/LoreTutorialEngine";
 import NarrativeTrigger from "@/components/NarrativeTrigger";
 import InlineShipMap from "@/components/InlineShipMap";
@@ -124,6 +136,39 @@ function getHotspotColor(type: HotspotDef["type"]) {
   }
 }
 
+/* ─── MYSTERY ACTION PARSE ─── */
+/** Parse a `room-mystery:<roomId>:<id>` or legacy `cryo-mystery:<id>`
+ *  hotspot action into its parts. Returns null when the action isn't a
+ *  mystery dispatch — non-mystery hotspots use their existing branch. */
+function parseMysteryAction(
+  action: string | undefined,
+): { roomId: string; hotspotId: string } | null {
+  if (!action) return null;
+  if (action.startsWith("cryo-mystery:")) {
+    return { roomId: "cryo-bay", hotspotId: action.slice("cryo-mystery:".length) };
+  }
+  if (action.startsWith("room-mystery:")) {
+    const rest = action.slice("room-mystery:".length);
+    const sep = rest.indexOf(":");
+    if (sep === -1) return null;
+    return { roomId: rest.slice(0, sep), hotspotId: rest.slice(sep + 1) };
+  }
+  return null;
+}
+
+/** Verbs the room mystery module actually authors for this hotspot.
+ *  Empty array = the hotspot isn't a mystery hotspot (or its module
+ *  isn't registered) — verb coin shouldn't render. */
+function availableVerbsFor(action: string | undefined): readonly Verb[] {
+  const parsed = parseMysteryAction(action);
+  if (!parsed) return [];
+  const mod = getRoomMysteryModule(parsed.roomId);
+  if (!mod) return [];
+  return VERB_LIST.filter((v) =>
+    Boolean(resolveVerbResponse(mod, v, parsed.hotspotId)),
+  );
+}
+
 /* ─── FEATURE ROUTE ICON MAP ─── */
 function getFeatureIcon(action: string | undefined) {
   if (!action) return null;
@@ -148,28 +193,65 @@ function getFeatureIcon(action: string | undefined) {
 }
 
 /* ─── ELARA POPUP ─── */
-function ElaraPopup({ text, onClose, voUrl }: { text: string; onClose: () => void; voUrl?: string }) {
+function ElaraPopup({ text, onClose, voUrl }: { text: string | string[]; onClose: () => void; voUrl?: string }) {
+  // Normalise to a beat array so the rest of the render path is uniform.
+  // A plain string is just a single-beat monologue; long room intros
+  // pass an array and we walk through it one beat at a time, keyed off
+  // VO playback when audio is available.
+  const beats = useMemo(() => (Array.isArray(text) ? text : [text]), [text]);
+  const [beatIndex, setBeatIndex] = useState(0);
+  // Reset beat progression whenever the parent swaps in a new dialog.
+  useEffect(() => { setBeatIndex(0); }, [beats]);
+  const isFinalBeat = beatIndex >= beats.length - 1;
+  const currentBeat = beats[Math.min(beatIndex, beats.length - 1)];
+
   const [displayed, setDisplayed] = useState("");
   const [done, setDone] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const [voPlaying, setVoPlaying] = useState(false);
 
-  // Play VO audio when popup opens — significantly louder than BGM
+  // Play VO audio when the popup opens — significantly louder than BGM.
+  // Audio outlives individual beat changes (the file is one continuous
+  // monologue) so this effect is keyed only on `voUrl`, not beatIndex.
   useEffect(() => {
-    if (voUrl) {
-      const audio = new Audio(voUrl);
-      audio.volume = 0.92;
-      audioRef.current = audio;
-      audio.play().then(() => setVoPlaying(true)).catch(() => {/* autoplay blocked */});
-      audio.onended = () => setVoPlaying(false);
-      return () => {
-        audio.pause();
-        audio.onended = null;
-        audioRef.current = null;
-        setVoPlaying(false);
-      };
-    }
+    if (!voUrl) return;
+    const audio = new Audio(voUrl);
+    audio.volume = 0.92;
+    audioRef.current = audio;
+    audio.play().catch(() => {/* autoplay blocked */});
+    return () => {
+      audio.pause();
+      audioRef.current = null;
+    };
   }, [voUrl]);
+
+  // Auto-advance beats based on VO progress. We don't have per-beat
+  // timestamps, so apportion the audio's duration by character-count
+  // weight — longer beats stay on screen longer. When the player has
+  // no audio (or the file is still loading metadata) auto-advance is a
+  // no-op and the player advances manually via the [next] / [dismiss]
+  // affordance below.
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio || beats.length <= 1) return;
+    const totalChars = beats.reduce((sum, b) => sum + b.length, 0) || 1;
+    const cumChars: number[] = [];
+    beats.reduce((acc, b, i) => {
+      const next = acc + b.length;
+      cumChars[i] = next;
+      return next;
+    }, 0);
+    const onTimeUpdate = () => {
+      if (!Number.isFinite(audio.duration) || audio.duration <= 0) return;
+      const charsAt = totalChars * (audio.currentTime / audio.duration);
+      let target = beats.length - 1;
+      for (let i = 0; i < beats.length; i++) {
+        if (charsAt < cumChars[i]) { target = i; break; }
+      }
+      setBeatIndex((prev) => (target > prev ? target : prev));
+    };
+    audio.addEventListener("timeupdate", onTimeUpdate);
+    return () => audio.removeEventListener("timeupdate", onTimeUpdate);
+  }, [beats]);
 
   // Stop VO on close
   const handleClose = () => {
@@ -180,13 +262,30 @@ function ElaraPopup({ text, onClose, voUrl }: { text: string; onClose: () => voi
     onClose();
   };
 
+  // Manual advance (clicking the prompt under the text). On the final
+  // beat it dismisses the popup outright.
+  const handleAdvance = () => {
+    if (isFinalBeat) { handleClose(); return; }
+    setBeatIndex((i) => Math.min(i + 1, beats.length - 1));
+  };
+
+  // Per-beat typewriter. When a VO is driving us, skip the typewriter
+  // and show the full beat instantly so visemes / heard text stay in
+  // sync — the typewriter would otherwise lag the audio by ~20ms/char.
+  // The TTS-less fallback path keeps the typewriter so silent reads
+  // still feel paced.
   useEffect(() => {
     setDisplayed("");
     setDone(false);
+    if (voUrl) {
+      setDisplayed(currentBeat);
+      setDone(true);
+      return;
+    }
     let i = 0;
     const interval = setInterval(() => {
-      if (i < text.length) {
-        setDisplayed(text.slice(0, i + 1));
+      if (i < currentBeat.length) {
+        setDisplayed(currentBeat.slice(0, i + 1));
         i++;
       } else {
         setDone(true);
@@ -194,7 +293,7 @@ function ElaraPopup({ text, onClose, voUrl }: { text: string; onClose: () => voi
       }
     }, 20);
     return () => clearInterval(interval);
-  }, [text]);
+  }, [currentBeat, voUrl]);
 
   return (
     <motion.div
@@ -236,12 +335,21 @@ function ElaraPopup({ text, onClose, voUrl }: { text: string; onClose: () => voi
           </div>
         </div>
         {done && (
-          <button
-            onClick={handleClose}
-            className="mt-2 w-full text-center font-mono text-[10px] text-[var(--neon-cyan)]/50 hover:text-[var(--neon-cyan)] transition-colors"
-          >
-            [dismiss]
-          </button>
+          <div className="mt-2 flex items-center justify-between gap-2">
+            {/* Beat counter only when there's more than one beat — keeps
+                the single-line hotspot dialogs visually unchanged. */}
+            {beats.length > 1 ? (
+              <span className="font-mono text-[9px] text-[var(--neon-cyan)]/30 tracking-wider">
+                {beatIndex + 1} / {beats.length}
+              </span>
+            ) : <span />}
+            <button
+              onClick={handleAdvance}
+              className="font-mono text-[10px] text-[var(--neon-cyan)]/50 hover:text-[var(--neon-cyan)] transition-colors"
+            >
+              {isFinalBeat ? "[dismiss]" : "[next]"}
+            </button>
+          </div>
         )}
       </div>
     </motion.div>
@@ -258,7 +366,9 @@ function RoomScene({
   roomsWithEvents = new Set<string>(),
 }: {
   room: RoomDef;
-  onHotspotClick: (hotspot: HotspotDef) => void;
+  /** Default verb is `look`. The verb-coin overlay calls this with
+   *  a non-look verb to invoke a specific (verb, hotspot) response. */
+  onHotspotClick: (hotspot: HotspotDef, verb?: Verb) => void;
   itemsCollected: string[];
   fastTravelUnlocked?: boolean;
   commsRelayComplete?: boolean;
@@ -266,11 +376,41 @@ function RoomScene({
 }) {
   const [hoveredHotspot, setHoveredHotspot] = useState<string | null>(null);
   const { state: gameStateForArt } = useGame();
-  // State-aware room backdrop for Section F mystery rooms. Falls through
-  // to the room definition's legacy imageUrl for every other room.
-  const roomArtUrl = (room.id === "cryo-bay" || room.id === "medical-bay")
-    ? resolveRoomStateAsset(room.id as "cryo-bay" | "medical-bay", gameStateForArt.narrativeFlags)
-    : room.imageUrl;
+  // Tier-aware room backdrop. The Section-F flag-based variants for
+  // cryo / medical bay still win, then any tier-indexed art for the
+  // current room tier, then the room's legacy imageUrl. See
+  // apps/client/src/game/roomStateAssets.ts ROOM_TIER_ASSET_URLS for
+  // the registry — empty by default so all rooms keep their existing
+  // backdrop until tier art lands.
+  const roomArtUrl = resolveRoomBackgroundUrl(
+    room.id,
+    gameStateForArt.narrativeFlags,
+    room.imageUrl,
+  );
+  const roomTier = getRoomTier(room.id, {
+    narrativeFlags: gameStateForArt.narrativeFlags,
+  });
+  // Witnessing §14.2 narrator filter — Elara/Human bond thresholds
+  // tint the room background. Falls through to "neutral" when neither
+  // bond has crossed 80, in which case no filter class is applied.
+  const narratorRoomId = toNarratorRoomId(room.id);
+  const filterPreset = narratorRoomId
+    ? pickRoomFilter(
+        narratorRoomId,
+        gameStateForArt.elaraTrust ?? 0,
+        gameStateForArt.humanTrust ?? 0,
+      )
+    : "neutral";
+  const filterClassName =
+    filterPreset === "warm_elara"
+      ? "ark-room-filter-warm-elara"
+      : filterPreset === "noir_human"
+        ? "ark-room-filter-noir-human"
+        : filterPreset === "yin_yang_flicker"
+          ? "ark-room-filter-yin-yang-flicker"
+          : filterPreset === "silence_ambient"
+            ? "ark-room-filter-silence-ambient"
+            : "";
   const [showHotspots, setShowHotspots] = useState(() => {
     try {
       const v = localStorage.getItem("loredex-show-hotspots");
@@ -304,7 +444,7 @@ function RoomScene({
       <ParallaxRoom
         key={roomArtUrl}
         layers={[{ src: roomArtUrl, depth: -0.3 }]}
-        className="absolute inset-0"
+        className={`absolute inset-0 ${filterClassName}`.trim()}
         fit="contain"
       />
 
@@ -322,7 +462,7 @@ function RoomScene({
           IV drip, antiquarian library dust motes). Unknown rooms
           render nothing so the default "image + scanlines" experience
           is preserved. */}
-      <RoomAmbientLife roomId={room.id} />
+      <RoomAmbientLife roomId={room.id} tier={roomTier} />
 
       {/* Markers toggle moved to Settings page */}
 
@@ -538,6 +678,21 @@ function RoomScene({
                   </motion.div>
                 )}
               </AnimatePresence>
+
+              {/* Verb-coin overlay — only renders for hotspots with an
+                  authored room-mystery action. Hover-triggered, sits
+                  above the hotspot so it doesn't fight the tooltip
+                  below. Click-through stops at the coin so picking a
+                  verb doesn't also fire the default Look click. */}
+              <AnimatePresence>
+                {isHovered && (
+                  <VerbCoin
+                    visible
+                    availableVerbs={availableVerbsFor(hotspot.action)}
+                    onVerb={(verb) => onHotspotClick(hotspot, verb)}
+                  />
+                )}
+              </AnimatePresence>
             </motion.div>
           );
         })}
@@ -587,7 +742,11 @@ export default function ArkExplorerPage() {
   const { notify, notifyAchievement } = useNotificationQueue();
   useGameAreaBGM("ark");
   const [, navigate] = useLocation();
-  const [elaraText, setElaraText] = useState<string | null>(null);
+  // ElaraPopup accepts either a single string (legacy default for hotspot
+  // one-liners) or an array of beats (long room intros that pace against
+  // their VO). The popup itself reduces single strings to a one-beat
+  // array internally so the render path is unified.
+  const [elaraText, setElaraText] = useState<string | string[] | null>(null);
   const [elaraVoUrl, setElaraVoUrl] = useState<string | undefined>(undefined);
   const [showOnboardingTutorial, setShowOnboardingTutorial] = useState(false);
   const [activeTransmission, setActiveTransmission] = useState<SecretTransmission | null>(null);
@@ -887,6 +1046,66 @@ export default function ArkExplorerPage() {
     }
   }, [currentRoom?.id, currentRoomState?.elaraDialogSeen, currentRoomState?.visitCount, audioReady, state.moralityScore]);
 
+  // First-visit music cue. Mirrors the existing
+  // music_heard_<song> flag pattern from RoomDialog beats —
+  // doesn't auto-play audio, just marks the trigger as
+  // armed so other systems (radio mode, codex) can light up
+  // the discography entry. See apps/client/src/game/livingArk.ts
+  // MUSIC_TRIGGERS.
+  useEffect(() => {
+    if (!currentRoom || !currentRoomState) return;
+    if (currentRoomState.visitCount !== 1) return;
+    // mobileNarrator's NarratorRoomId uses underscores (cryo_bay)
+    // while ROOM_DEFINITIONS uses dashes (cryo-bay). MUSIC_TRIGGERS
+    // is keyed off the underscored RoomId from livingArk. Map once.
+    const livingRoomId = toNarratorRoomId(currentRoom.id);
+    if (!livingRoomId) return;
+    const trigger = MUSIC_TRIGGERS.find((t) => t.room === livingRoomId);
+    if (!trigger) return;
+    const flagKey = `music_heard_${trigger.song
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "_")
+      .replace(/^_+|_+$/g, "")}`;
+    if (!state.narrativeFlags[flagKey]) {
+      setNarrativeFlag(flagKey);
+    }
+  }, [currentRoom?.id, currentRoomState?.visitCount, state.narrativeFlags, setNarrativeFlag]);
+
+  // Cross-room ripple — when a showcase room's tier advances, fire
+  // the matching getCrossRoomAlerts() entries as user-facing
+  // notifications so distant rooms feel coupled. Tier→eventType
+  // mapping: 1 = system_anomaly (something stirred), 2 =
+  // signal_fragment (a system came online), 3 = tome_discovered
+  // (a chapter is closed). See apps/client/src/game/livingArk.ts
+  // getCrossRoomAlerts().
+  const previousTiersRef = useRef<Record<string, RoomTier>>({});
+  useEffect(() => {
+    const prev = previousTiersRef.current;
+    const next: Record<string, RoomTier> = {};
+    const tierToEventType: Record<RoomTier, EventType | null> = {
+      0: null,
+      1: "system_anomaly",
+      2: "signal_fragment",
+      3: "tome_discovered",
+    };
+    for (const roomId of ["cryo-bay", "medical-bay", "bridge", "engineering"]) {
+      const tier = getRoomTier(roomId, { narrativeFlags: state.narrativeFlags });
+      next[roomId] = tier;
+      const prevTier = prev[roomId] ?? 0;
+      if (tier > prevTier) {
+        const eventType = tierToEventType[tier];
+        if (!eventType) continue;
+        const livingRoomId = toNarratorRoomId(roomId);
+        if (!livingRoomId) continue;
+        const alerts = getCrossRoomAlerts(eventType, livingRoomId as LivingArkRoomId);
+        for (const alert of alerts) {
+          notify(`cross-room-${alert.alertType}`, alert.title, alert.description);
+        }
+      }
+    }
+    previousTiersRef.current = next;
+  }, [state.narrativeFlags, notify]);
+
   const unlockedRoomIds = useMemo(() => {
     const set = new Set<string>();
     ROOM_DEFINITIONS.forEach(r => {
@@ -976,9 +1195,11 @@ export default function ArkExplorerPage() {
     const isNew = !state.rooms[targetRoomId]?.visited;
     const fromRoom = state.currentRoomId || "cryo-bay";
     if (audioReady) playSFX("room_enter");
-    const toRoomImage = (targetRoomId === "cryo-bay" || targetRoomId === "medical-bay")
-      ? resolveRoomStateAsset(targetRoomId, state.narrativeFlags)
-      : targetDef.imageUrl;
+    const toRoomImage = resolveRoomBackgroundUrl(
+      targetRoomId,
+      state.narrativeFlags,
+      targetDef.imageUrl,
+    );
     setTransition({
       fromRoom,
       toRoom: targetRoomId,
@@ -1043,7 +1264,7 @@ export default function ArkExplorerPage() {
     navigateWithTransition(roomId);
   }, [navigateWithTransition, audioReady, playSFX, getRoomDef]);
 
-  const handleHotspotClick = useCallback((hotspot: HotspotDef) => {
+  const handleHotspotClick = useCallback((hotspot: HotspotDef, verb: Verb = "look") => {
     if (audioReady) playSFX("button_click");
 
     switch (hotspot.type) {
@@ -1135,32 +1356,53 @@ export default function ArkExplorerPage() {
           }
           break;
         }
-        // Section F — Cryo Bay mystery hotspots. `cryo-mystery:<id>` is
-        // resolved against the verb × hotspot matrix in
-        // apps/shared/cryoBayMystery.ts. Default verb is Look (the
-        // verb-coin UI lands with the PointAndClickScene follow-up).
-        if (hotspot.action?.startsWith("cryo-mystery:")) {
-          const hotspotId = hotspot.action.slice("cryo-mystery:".length);
-          const mystery = resolveVerbResponse(
-            "look",
-            hotspotId as CryoMysteryHotspotId,
-          );
+        // Room mystery dispatch (Section F+). Two action prefixes:
+        //   `cryo-mystery:<id>`            — legacy, cryo bay only
+        //   `room-mystery:<roomId>:<id>`   — generic, any room module
+        // Both resolve against apps/shared/roomMysteries (registry +
+        // verb × hotspot matrices). Default verb is Look — the
+        // verb-coin UI ships in PointAndClickScene as a follow-up.
+        if (
+          hotspot.action?.startsWith("cryo-mystery:") ||
+          hotspot.action?.startsWith("room-mystery:")
+        ) {
+          let roomId: string;
+          let hotspotId: string;
+          if (hotspot.action.startsWith("cryo-mystery:")) {
+            roomId = "cryo-bay";
+            hotspotId = hotspot.action.slice("cryo-mystery:".length);
+          } else {
+            const rest = hotspot.action.slice("room-mystery:".length);
+            const sep = rest.indexOf(":");
+            roomId = sep === -1 ? "" : rest.slice(0, sep);
+            hotspotId = sep === -1 ? "" : rest.slice(sep + 1);
+          }
+          const mod = getRoomMysteryModule(roomId);
+          const mystery = mod ? resolveVerbResponse(mod, verb, hotspotId) : null;
           if (!mystery) {
+            // Verb-coin disables verbs without authored responses, so
+            // a missing reaction here is most plausibly a player who
+            // clicked the hotspot directly (Look default) on a hotspot
+            // that didn't author Look. Same fallback either way.
             setElaraText("Nothing reveals itself here.");
             break;
           }
           if (audioReady) playSFX("dialog_open");
           setElaraText(mystery.narration);
+          // VO is optional — if present, hand it to ElaraPopup; if
+          // absent, clear any prior VO so we don't carry a stale
+          // intro track over the new line.
+          setElaraVoUrl(mystery.vo);
           if (mystery.logsClue) logClue(mystery.logsClue);
           if (mystery.grantsInventory) grantMysteryItem(mystery.grantsInventory);
           if (mystery.setsFlag) setNarrativeFlag(mystery.setsFlag);
-          if (mystery.unlocksExit === "medical-bay") {
-            // The unlockRequirement change on medical-bay handles the
-            // actual room gating; nudge the player with a notification.
+          if (mystery.unlocksExit) {
+            const exitDef = getRoomDef(mystery.unlocksExit);
+            const exitName = exitDef?.name?.toUpperCase() ?? mystery.unlocksExit.toUpperCase();
             notify(
               "room-unlock",
-              "MEDICAL BAY UNSEALED",
-              "The bulkhead has accepted your case file. The Med Bay is open.",
+              `${exitName} UNSEALED`,
+              "The bulkhead has accepted your case file. A new area is open.",
             );
           }
           break;

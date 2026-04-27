@@ -74,6 +74,8 @@ import { potentialIdentityRouter } from "./routers/potentialIdentity";
 import { potentialFactionsRouter } from "./routers/potentialFactions";
 import { epochWitnessRouter } from "./routers/epochWitness";
 import { eidolonBondRouter } from "./routers/eidolonBond";
+import { npcRouter } from "./routers/npc";
+import { tradeContractsRouter } from "./routers/tradeContracts";
 import { techTreeRouter } from "./routers/techTree";
 import { masteryTreeRouter } from "./routers/masteryTree";
 import { guildHallRouter } from "./routers/guildHall";
@@ -180,6 +182,8 @@ export const appRouter = router({
   potentialFactions: potentialFactionsRouter,
   epochWitness: epochWitnessRouter,
   eidolonBond: eidolonBondRouter,
+  npc: npcRouter,
+  tradeContracts: tradeContractsRouter,
   techTree: techTreeRouter,
   masteryTree: masteryTreeRouter,
   guildHall: guildHallRouter,

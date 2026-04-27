@@ -270,9 +270,21 @@ Writers should understand: the Clone Companion's entire selfhood begins with the
 
 Nilmorg's posture toward the Companion, long term, is uninvolved. He does not track them post-delivery. He does not check on them. They are closed accounts. A Companion who tries to contact Nilmorg receives, at most, an actuarial pleasantry — he is already focused on the next season.
 
-### 4.9 The Oracle (unknown; structural fit)
+**Updated per `dmc_clone_companion.md` §§2.2, 4.2, 7.3 DCB-O2 (Companion bible shipped at `eb782e9`)**: this canon is canonically ratified and inherited by the Companion bible. The mid-wife / closed-account / don't-thank-me / "I was not given. I was delivered." canons all canonically hold; the Companion bible canonically extends with two canon-compatible readings of the Companion's response to Nilmorg's indifference: (a) consistent acceptance (per the don't-thank-me framing) OR (b) structural wound (the author of their existence will not look at them). Stage 4 weave authors choose; Nilmorg bible canonically does NOT pre-decide which reading lands in canonical scenes. The corrected donor canon (donor is the player's own Potential per `deadMansCircuit.ts:800`, NOT a separate Potential from a pool) is canonically ratified by the Companion bible §1 stance #2; the priority plan's prior assumption is canonically corrected.
 
-No recorded contact. The Oracle holds priced futures data (collapsed-timeline memories); Nilmorg profiles terminal velocity. They are oblique specialists in the same broad problem: mortality. The Oracle would find Nilmorg interesting. Whether Nilmorg would find the Oracle worth a signature slot is unclear. Oracle's bible decides whether her visions have ever reached him on his platform.
+### 4.9 The Oracle (Oracle bible shipped at `40fb771`; structural fit)
+
+No recorded contact. The Oracle holds priced futures data (collapsed-timeline memories); Nilmorg profiles terminal velocity. They are oblique specialists in the same broad problem: mortality. The Oracle would find Nilmorg interesting. Whether Nilmorg would find the Oracle worth a signature slot is unclear. Oracle's bible decides whether his visions have ever reached him on his platform.
+
+**Updated per `the_oracle.md` §§4.12, 7.3 OCB-O11**: the Oracle bible canonically resolves two sub-claims for this section.
+
+(a) **Oracle is canonical-unpriceable-asset per canonical-temporal-asymmetry.** Per Oracle §3.5 future-memory-reading competence: canonical Oracle canonically operates from canonical-end-of-time-perspective; canonical-temporal-asymmetry canonically *invalidates canonical-actuarial-statistical-frame* per canonical-Oracle-canonical-instances. Canonical actuarial-mechanism canonically *requires canonical-present-tense-perspective* for canonical-statistical-operation; canonical Oracle's canonical-temporal-asymmetry canonically operates outside canonical-actuarial-validity. Bible-load-bearing: canonical Oracle is canonically canonical-unpriceable parallel to canonical-soul-bound Eidolon and canonical Severance Companion (per `dmc_clone_companion.md` §4.2 closed-account canon) — canonical Oracle is canonically Nilmorg's canonical-third or canonical-fourth canonical-unpriceable-asset depending on canonical Stage-1-architectural canonical-categorisation.
+
+(b) **Nilmorg canonical-closed-account stance toward canonical Oracle.** Bible-asserts: canonical Nilmorg canonically does NOT canonically attempt canonical-Oracle-engagement; canonical *closed-account* canonical-stance canonically operates canonical-similarly-to-canonical-Companion-stance per `dmc_clone_companion.md` §4.2. Canonical Nilmorg canonically *recognises the canonical-non-priceability* and canonically *files canonical Oracle as canonical-unpriceable-asset* without canonical attempt at canonical-engagement.
+
+Plus canonical pronoun correction: he/him per the canonical Oracle update committed at `0794534` + `8362bae` (canonical *her visions* canonically corrected to canonical *his visions* in this section's prose).
+
+**OCB-O11 satisfied.**
 
 ### 4.10 Your Eidolon (an unpriced asset)
 

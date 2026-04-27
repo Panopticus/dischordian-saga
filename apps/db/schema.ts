@@ -2690,6 +2690,14 @@ export const gameReplays = mysqlTable("game_replays", {
    *  cool match can't have a curious viewer scrape neighbouring
    *  replays. Added by migration 0056 + replaysBootstrap. */
   shareToken: varchar("shareToken", { length: 32 }),
+  /** Originating server matchId (#92). Required by the verification
+   *  job — the tcg-core engine mints card-instance ids via
+   *  `makeCardInstance(matchId, counter, …)`, so a GameState
+   *  reconstructed under a different matchId hashes differently from
+   *  the stored finalStateHash even when every action replays
+   *  identically. Nullable for backwards compatibility with rows
+   *  written before migration 0057. */
+  matchId: varchar("matchId", { length: 64 }),
   playedAt: timestamp("playedAt").defaultNow().notNull(),
 }, (table) => ({
   gameTypeIdx: index("idx_game_replays_game_type").on(table.gameType),
@@ -4662,3 +4670,212 @@ export const memoryEnergyBalance = mysqlTable("memory_energy_balance", {
   userIdIdx: index("idx_memory_energy_balance_user_id").on(table.userId),
 }));
 export type MemoryEnergyBalanceRow = typeof memoryEnergyBalance.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
+   NPC SUBSTRATE — Stage 1 unified NPC infrastructure
+   See apps/shared/npcs/types.ts and apps/shared/npcs/registry.ts
+   for the canonical types + per-NPC metadata.
+   ═══════════════════════════════════════════════════════ */
+
+/**
+ * Per-NPC trust state for NPCs without a bespoke relationship store.
+ * Locke uses lockeRelationship (via adapter); Eidolon uses eidolonBonds
+ * (via adapter); Elara/Human use companionStats (via adapter).
+ * Other priority-roster NPCs read/write here directly.
+ */
+export const npcTrust = mysqlTable("npc_trust", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /** NpcKey from apps/shared/npcs/types.ts. */
+  npcKey: varchar("npcKey", { length: 64 }).notNull(),
+  /** Numeric trust 0-100 (band resolved at read-time via registry). */
+  trust: int("trust").notNull().default(0),
+  /** Current reveal-stage for staged NPCs (Vex, Hierophant, Meme, Companion, Oracle, Game Master). */
+  revealStage: varchar("revealStage", { length: 64 }),
+  /** Per-NPC narrative flags (Set<string> serialized as JSON array). */
+  flags: json("flags").$type<string[]>().default([]),
+  /** Last interaction timestamp; drives anti-spam windows. */
+  lastInteractionAt: timestamp("lastInteractionAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  userIdIdx: index("idx_npc_trust_user_id").on(table.userId),
+  userNpcUniq: uniqueIndex("uniq_npc_trust_user_npc").on(table.userId, table.npcKey),
+}));
+export type NpcTrustRow = typeof npcTrust.$inferSelect;
+
+/**
+ * Per-line history; drives cooldownKey + maxPlays enforcement.
+ * One row per (user, line) play event. Selector reads aggregate to filter
+ * out lines exceeding their cooldown / max-play budget.
+ */
+export const npcLineHistory = mysqlTable("npc_line_history", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  npcKey: varchar("npcKey", { length: 64 }).notNull(),
+  /** NpcLine.lineId. */
+  lineId: varchar("lineId", { length: 256 }).notNull(),
+  heardAt: timestamp("heardAt").defaultNow().notNull(),
+}, (table) => ({
+  userIdIdx: index("idx_npc_line_history_user_id").on(table.userId),
+  userNpcLineIdx: index("idx_npc_line_history_user_npc_line").on(
+    table.userId,
+    table.npcKey,
+    table.lineId,
+  ),
+}));
+export type NpcLineHistoryRow = typeof npcLineHistory.$inferSelect;
+
+/**
+ * Cross-NPC public flags — the "visible action" canon.
+ * When player canonically does something one NPC reacts to, the action
+ * gets a public flag (e.g., "betrayed_locke_in_act_4"). Other NPCs
+ * read these via reactsToPublicFlag in their NpcLine bank.
+ *
+ * This is how the saga remembers player choices across systems
+ * (Trade Empire ↔ TCG ↔ DMC ↔ Hierophant chamber ↔ Oracle dreams).
+ */
+export const npcPublicFlags = mysqlTable("npc_public_flags", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /** Canonical public-flag string (writer-coordinated; see crossCharacterReactions.ts). */
+  flag: varchar("flag", { length: 256 }).notNull(),
+  setAt: timestamp("setAt").defaultNow().notNull(),
+  /** Optional NpcKey of the NPC whose action set this flag. */
+  setBy: varchar("setBy", { length: 64 }),
+}, (table) => ({
+  userIdIdx: index("idx_npc_public_flags_user_id").on(table.userId),
+  userFlagUniq: uniqueIndex("uniq_npc_public_flags_user_flag").on(
+    table.userId,
+    table.flag,
+  ),
+}));
+export type NpcPublicFlagRow = typeof npcPublicFlags.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
+   TRADE EMPIRE PHASE 2 — Brokers + multi-stage Contracts
+   See apps/shared/tradeEmpire/{brokers,contracts,
+   contractTemplates}.ts for canonical types + templates.
+   ═══════════════════════════════════════════════════════ */
+
+/**
+ * Per-user broker engagement state. Tracks first-meeting flags,
+ * cumulative engagement count, lock-out status (e.g., Vex locked out
+ * by Locke exclusivity per Touché canon).
+ */
+export const tradeBrokerEngagement = mysqlTable("trade_broker_engagement", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  brokerKey: varchar("brokerKey", { length: 64 }).notNull(),
+  /** Total engagements (mission_offered + mission_accepted + mission_declined). */
+  engagementCount: int("engagementCount").notNull().default(0),
+  /** First-meeting timestamp; null if never met. */
+  firstMetAt: timestamp("firstMetAt"),
+  /** Lock-out status: broker declines to engage if locked. */
+  isLockedOut: boolean("isLockedOut").notNull().default(false),
+  /** Optional reason for lock-out (e.g., "vex_locked_out_by_locke_exclusivity"). */
+  lockedOutReason: varchar("lockedOutReason", { length: 256 }),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  userIdIdx: index("idx_trade_broker_engagement_user_id").on(table.userId),
+  userBrokerUniq: uniqueIndex("uniq_trade_broker_engagement_user_broker").on(
+    table.userId,
+    table.brokerKey,
+  ),
+}));
+export type TradeBrokerEngagementRow = typeof tradeBrokerEngagement.$inferSelect;
+
+/**
+ * Per-user runtime contract instance. References a template (ContractDef
+ * by contractKey) and tracks per-stage status, hidden-clause disclosures,
+ * and final outcome.
+ */
+export const tradeContracts = mysqlTable("trade_contracts", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /** Canonical template key (apps/shared/tradeEmpire/contractTemplates/). */
+  contractKey: varchar("contractKey", { length: 128 }).notNull(),
+  /** Owning broker (denormalized for query convenience). */
+  brokerKey: varchar("brokerKey", { length: 64 }).notNull(),
+  /** Contract status: signed → active → succeeded / failed / cancelled. */
+  status: mysqlEnum("status", [
+    "signed",
+    "active",
+    "succeeded",
+    "failed",
+    "cancelled",
+  ]).notNull().default("signed"),
+  /** Player audited the fine-print on signing? Drives hidden-clause disclosure UI. */
+  auditedOnSigning: boolean("auditedOnSigning").notNull().default(false),
+  /** Per-stage status, JSON: { [stageId]: ContractStageStatus }. */
+  stageStatus: json("stageStatus").$type<Record<string, string>>().default({}),
+  /** Disclosed hidden clauses, JSON: list of clause ids. */
+  disclosedClauses: json("disclosedClauses").$type<string[]>().default([]),
+  signedAt: timestamp("signedAt").defaultNow().notNull(),
+  resolvedAt: timestamp("resolvedAt"),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  userIdIdx: index("idx_trade_contracts_user_id").on(table.userId),
+  userStatusIdx: index("idx_trade_contracts_user_status").on(table.userId, table.status),
+  contractKeyIdx: index("idx_trade_contracts_contract_key").on(table.contractKey),
+}));
+export type TradeContractRow = typeof tradeContracts.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
+   PHASE 6 INFRASTRUCTURE — Per-NPC ask-topics + dialog tree state
+   See apps/shared/npcs/askTopics.ts (AskTopic registry) +
+   apps/shared/npcs/dialogTrees/ (per-NPC trees) +
+   apps/shared/npcs/conversationRunner.ts (state machine).
+   ═══════════════════════════════════════════════════════ */
+
+/**
+ * Per-user ask-topic history. Drives the canonical "you've already
+ * asked this; here's the re-entry response" pattern + cooldowns. One
+ * row per (user, topic) ask-event so the resolver can count repeats
+ * if a topic ever wants per-ask escalation.
+ */
+export const npcAskTopicHistory = mysqlTable("npc_ask_topic_history", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /** NpcKey from apps/shared/npcs/types.ts. */
+  npcKey: varchar("npcKey", { length: 64 }).notNull(),
+  /** AskTopic.id from apps/shared/npcs/askTopics.ts. */
+  topicId: varchar("topicId", { length: 256 }).notNull(),
+  askedAt: timestamp("askedAt").defaultNow().notNull(),
+}, (table) => ({
+  userIdIdx: index("idx_npc_ask_topic_history_user_id").on(table.userId),
+  userTopicIdx: index("idx_npc_ask_topic_history_user_topic").on(
+    table.userId,
+    table.npcKey,
+    table.topicId,
+  ),
+}));
+export type NpcAskTopicHistoryRow = typeof npcAskTopicHistory.$inferSelect;
+
+/**
+ * Per-user dialog-tree state. Supports tree-resume across sessions:
+ * if a player closes a multi-turn conversation mid-walk, the next
+ * session can resume at the same node. One row per (user, tree)
+ * with last-known node + completion timestamp.
+ */
+export const npcDialogTreeState = mysqlTable("npc_dialog_tree_state", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /** NpcKey from apps/shared/npcs/types.ts. */
+  npcKey: varchar("npcKey", { length: 64 }).notNull(),
+  /** NpcDialogTree.id from apps/shared/npcs/dialogTrees/. */
+  treeId: varchar("treeId", { length: 256 }).notNull(),
+  /** Current node id within the tree; null when conversation ended. */
+  currentNodeId: varchar("currentNodeId", { length: 256 }),
+  /** Set when the tree reaches a terminal node. */
+  completedAt: timestamp("completedAt"),
+  startedAt: timestamp("startedAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  userIdIdx: index("idx_npc_dialog_tree_state_user_id").on(table.userId),
+  userNpcTreeUniq: uniqueIndex("uniq_npc_dialog_tree_state_user_npc_tree").on(
+    table.userId,
+    table.npcKey,
+    table.treeId,
+  ),
+}));
+export type NpcDialogTreeStateRow = typeof npcDialogTreeState.$inferSelect;

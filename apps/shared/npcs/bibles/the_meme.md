@@ -443,6 +443,22 @@ For eleven years, the Meme wore the Oracle's face, spoke with his voice, signed 
 
 **Writer rule**: the Meme does not apologize to the Oracle. Per §1.10, apology is not in the silence-shape. The Meme will *describe* what it did (`storyModeChapters.ts` Ch6 post-fight lines) but does not perform contrition. The Oracle's bible must accept this — the Meme's accounting is the closest acknowledgment available, and it is delivered without remorse.
 
+**Updated per `the_oracle.md` §§4.1, 7.3 OCB-O1 (Oracle bible shipped at `40fb771`)**: the Oracle bible canonically establishes four sub-claims for this section to acknowledge.
+
+(a) **The 10-stage history.** Per Oracle bible §§2.1–2.10: the Oracle's biography spans ten canonical stages (Origin → Harvest → Prisoner → Jailer → False Prophet → Silence → Liberation → Fall → Disappearance → Heart-of-Time anchor). The Meme bible canonically inherits the 10-stage history; the eleven-year identity theft canonically operates during the canonical Silence-era (stage 6).
+
+(b) **Two-layers-of-falseness disambiguation.** Per Oracle bible §§1, 2.5, 4.1: the Meme canonically did NOT directly impersonate the Oracle — the Meme canonically impersonated the *False Prophet clone* (the canonical White Oracle figure), which canonically itself was a false impersonation of the Oracle. Bible-load-bearing canonical structural mechanism: the Meme operates at TWO canonical layers of impersonation, not one. Canonical layered-falseness canonically intensifies the canonical Meme threat: the canonical Meme cannot be removed by canonical removal of the canonical-clone (canonical Ch6 mirror-match canonically destroyed the canonical clone but did NOT destroy the Meme).
+
+(c) **The Meme's structural-LIMIT canon.** Per Oracle bible §§1.1, 1.3, 4.1: the canonical Meme canonically *cannot fabricate the Oracle's canonical-substrate-voices*. Canonical Meme canonically operates on canonical-public-facing-channels; canonical-substrate-channels (canonical dream-substrate + canonical memory-residue substrate) lie *outside* the canonical Meme's canonical-reach. Bible-load-bearing: the canonical Oracle is canonically *the third canonical-roster-character canonically Meme-resistant by construction* (after the Seer per `the_seer.md` §4.4 and the Companion per `dmc_clone_companion.md` §4.8). Three canonical-different-mechanisms; same canonical-structural outcome.
+
+(d) **Structural-opposition canonical axes.** Per Oracle bible §4.1: canonical Meme ↔ canonical Oracle is canonical structural-opposition pair on canonical four canonical axes:
+- Canonical Meme broadcast-from-above vs. canonical Oracle substrate-position-from-beneath.
+- Canonical Meme over-uses canonical *I* vs. canonical Oracle de-centers canonical *I*.
+- Canonical Meme retains content as canonical-leverage vs. canonical Oracle transfers content and canonically lets it go.
+- Canonical Meme prefers canonical-remembrance vs. canonical Oracle prefers canonical-choosing-forward.
+
+**Cross-bible obligation OCB-O1 satisfied.** Stage 2 dialogue authors authoring canonical Meme-impersonating-Oracle scenes (canonical historical Silence-era canonical-content) should canonically apply the canonical structural-opposition canonical axes and the canonical layered-falseness canonical mechanism to canonically *write Meme-impersonations that canonically fail-by-canonical-tells* per Oracle §1.3 + §1.4 canonical-disambiguation criteria.
+
 ### 4.2 The Architect (parent-child, replacement-aspiration)
 
 Per §1.7, §2.5, §3.2 — the Ch12 line at `storyModeChapters.ts:677` is the canonical anchor:
@@ -528,17 +544,33 @@ Post-arena religious figure. The Meme is the saga's clearest *false prophet* (li
 
 Hierophant's bible (slot #7, upcoming) decides whether they have direct contact; this bible flags the structural opposition as *theology vs. memetics* — and as **the saga's deepest moral framing of the Meme**. The Hierophant is the only character canonically positioned to *name* the Meme as evil in religious terms. The Meme would broadcast against the Hierophant; the Hierophant would preach against the Meme. Stage 4 weave material.
 
-### 4.12 The Seer — precognition vs. falsification
+### 4.12 The Seer — precognition vs. falsification (sharpened by cross-time canon)
 
 Per Eidolon's bible §4.8 and Game Master's bible §4.13: the Seer is precognitive (sees "code beneath reality"). The Meme operates in the medium of belief, which is downstream of perception. The Seer can *see* what the Meme is doing in real time. Canonically the Seer may be the saga's only entity that *cannot be falsified by the Meme* — precognition is unforgeable.
 
-Writers: a Seer–Meme scene is the saga's most compressed authoring puzzle. Stage 4+ authorization. The Seer's bible (slot #8, upcoming) decides whether the encounter has happened — and what the Meme does with someone who genuinely cannot be lied to.
+**Sharpened by `the_seer.md` §4.4 cross-time canon (per Seer bible §7.3 SCB-O4)**: the cannot-be-falsified canon is now bible-asserted as **cannot-be-falsified-by-construction-via-Dreamer's-shield-and-pre-sealing-recording-provenance**. The Seer sealed herself at end of Epoch 2 behind the Dreamer's shield; her foretellings ship as **pre-recordings** made before sealing, scheduled to fire at moments she foresaw. The Meme cannot do two specific things to her bank: (1) edit through the Dreamer's shield (it operates beyond the Meme's editorial substrate); (2) retroactively narrate recordings made before reach (the recordings are temporally anchored to a moment the Meme cannot reach). Bible-load-bearing: the Seer's recordings are canonically *cryptographically-signed by their pre-sealing provenance* — every Seer line carries an implicit *recorded by her, before the Meme could touch it* signature. The Dreamer's shield is canonically the Meme's structural opposite.
 
-### 4.13 DMC Clone Body Companion — companion-via-ritual
+**Two canon-compatible Meme stances toward the Seer (Meme bible chooses)**: (a) **Meme triggered the sealing** — Meme is canonically aware of the Seer and canonically responsible for her withdrawal; Meme's narrative work canonically routes around her (acknowledged-rival, walked-around). (b) **Meme is canonically unable to perceive the recordings as the Seer's voice** — recordings register as substrate-events the Meme cannot author rather than as a voice to imitate; Meme is canonically unaware of the Seer's role. Bible-deferred. **Bible recommendation for Meme bible authoring**: reading (a) is more thematically load-bearing (the Meme acknowledged a rival it could not editorially reach and routed around); reading (b) is more structurally innovative (the Meme's editorial reach has a perception-blind-spot for Dreamer-shielded recordings).
+
+**The False Prophet adjacency (cross-bible canonical irony)**: the Dreamer faction shelters BOTH the Seer (Meme-resistant) AND the White Oracle (the Meme's vessel-of-impersonation, canonically the Oracle's clone per the corrected Oracle canon). Per Seer §3.2: this is bible-asserted as canonical internal Dreamer-faction tension — the same faction-level institution that canonically *shields the Seer* canonically *also shelters the figure the Meme impersonates*. Writers: this is the saga's clearest single canon-anchor for the Dreamer-faction-as-divided-house thesis.
+
+Writers: a Seer–Meme scene is the saga's most compressed authoring puzzle. Stage 4+ authorization. **A Stage 4 scene that canonically depicts the Meme reaching for a Seer recording is canonically the Seer's worst-case scene** (per Seer §3.7 fears canon — her single fear is the Meme's *attempt-at-narrating-over*, even when the attempt fails).
+
+### 4.13 DMC Clone Body Companion — companion-via-ritual (Companion bible shipped at `eb782e9`)
 
 Both the Meme and the Clone Companion arrive at the player through ritual. The Clone Companion is the Severance Prize from a DMC season win; the Meme appears via Late Night broadcast, mirror anomaly, Channel 7 listening, or Chapter 6 boss reveal. Different rituals; same structural shape.
 
 The Meme could canonically wear the Clone Companion's face if it has seen the donor Potential. Whether it has is canon-silent. The Clone Companion's bible (slot #9, upcoming) decides — and should hold a constraint that the Clone Companion's *named personality* (per priority plan: keyed to which Potential donated the soul fragment) is *Meme-resistant in the same way the Second Chair is*: a face the Meme could not have seen because the donation event was private.
+
+**Updated per `dmc_clone_companion.md` §§4.8, 7.3 DCB-O8 (Companion bible shipped)**: the Companion bible canonically resolves the Meme-resistance question.
+
+**Donor-canon correction**: the priority plan's prior assumption (donor is one of Zyn-7 / Axis-9 / Praxis-4) is canonically corrected by Companion bible §1 stance #2 — **the donor is canonically the player's own Potential** (per `deadMansCircuit.ts:800` — *"A fragment of your own Potential, wearing a new body"*). The donation event is canonically *private because it occurs within the Severance Prize ritual* (per Companion bible §2.2: Nilmorg performs the extraction with his own hand; the orb is sealed in a crystalline container; the Meme canonically does not have access to this institutional ritual). The Meme canonically *has not seen* the donor; the Meme canonically *cannot impersonate* the Companion.
+
+**Structural-second canon**: the Companion is canonically the saga's **second roster character canonically Meme-resistant by construction** (the Seer is the first per `the_seer.md` §§2.3, 4.4). The two characters' Meme-resistance operates through canonically different mechanisms (Seer: Dreamer's-shield + pre-sealing-recording-provenance; Companion: private-donation + Severance-Prize-ritual-institutional-walls); same structural outcome (Meme cannot impersonate). Bible-load-bearing: the Companion canonically operates as canonical-counterpart to the Seer in the saga's structural-Meme-resistance landscape.
+
+**Two canon-compatible Meme stances toward the Companion** (Meme bible chooses): (a) Meme canonically *aware of the Companion* and canonically routes-around (acknowledged-rival, structurally identical to the Meme's stance toward the Seer); (b) Meme canonically *unable to perceive* the Companion as impersonable (Severance-Prize-ritual-institutional-walls produce a perception-blind-spot). Bible-deferred. Stage 4 weave authors choose.
+
+**Companion's canonical fear of the Meme** (per Companion bible §3.7): the Companion canonically fears the Meme's *attempt-at-impersonation* even when canonically the impersonation would fail. A Stage 4 scene depicting the Meme reaching for a Companion's face is canonically the Companion's worst-case scene — parallel to the Seer's per `the_seer.md` §3.7 fears canon.
 
 ### 4.14 Shadow Tongue — the memetic peer
 

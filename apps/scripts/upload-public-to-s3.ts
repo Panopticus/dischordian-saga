@@ -117,6 +117,13 @@ async function uploadOne(
       Body: body,
       ContentType: CONTENT_TYPES[ext] ?? "application/octet-stream",
       CacheControl: "public, max-age=31536000, immutable",
+      // Force SSE-S3 (AES256) — without this, the bucket's default
+      // encryption applies. If that default is ever flipped to a
+      // customer-managed KMS key, anonymous browser GETs will 403
+      // because they can't kms:Decrypt the response stream. Pinning
+      // SSE-S3 keeps the cdn/client-public/* prefix readable through
+      // the existing PublicReadCDN bucket policy.
+      ServerSideEncryption: "AES256",
     }),
   );
   return "uploaded";

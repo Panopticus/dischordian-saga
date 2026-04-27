@@ -46,6 +46,7 @@ export type DialogSpeaker =
   | "locke"
   | "antiquarian"
   | "the_oracle"
+  | "the_seer"
   | string;
 
 /** Mood tag — same palette as tutorial steps, extended slightly

@@ -1,4 +1,4 @@
--- Migration 0057 — dream_balance.difficultyModifier
+-- Migration 0058 — dream_balance.difficultyModifier
 --
 -- Adds the hidden Game-Master difficulty scalar column that
 -- apps/shared/tcg-core/story/encounter.ts reads at match init

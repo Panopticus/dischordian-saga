@@ -10,11 +10,12 @@
  * into a replay viewer.
  */
 import { z } from "zod";
-import { router, protectedProcedure, publicProcedure } from "../_core/trpc";
+import { router, protectedProcedure, publicProcedure, adminProcedure } from "../_core/trpc";
 import { getDb } from "../db";
 import { gameReplays } from "../../db/schema";
 import { eq, desc, or } from "drizzle-orm";
 import { generateShareToken, isValidShareToken } from "../services/replayTokens";
+import { verifyReplay } from "../services/replayVerification";
 
 export const replaySystemRouter = router({
   /** Save a replay. Generates an unguessable shareToken so the
@@ -116,5 +117,42 @@ export const replaySystemRouter = router({
         .where(eq(gameReplays.gameType, input.gameType))
         .orderBy(desc(gameReplays.playedAt))
         .limit(input.limit);
+    }),
+
+  /** ADMIN: Re-execute the persisted action log through the
+   *  deterministic reducer and assert the recomputed final-state
+   *  hash matches the stored one (#92). Used to catch engine
+   *  divergence between rules versions, stored-replay tampering,
+   *  and to sanity-check engine changes against historical replays
+   *  before deploying. Returns a structured `VerifyReplayResult`
+   *  with explicit reason codes so the admin UI can distinguish
+   *  "row too old to verify" (missing-matchId/hash/config) from
+   *  "real divergence" (hash-mismatch / replay-error). */
+  verifyReplay: adminProcedure
+    .input(z.object({ replayId: z.number() }))
+    .query(async ({ input }) => {
+      const db = await getDb();
+      if (!db) throw new Error("DB unavailable");
+      const [row] = await db
+        .select()
+        .from(gameReplays)
+        .where(eq(gameReplays.id, input.replayId))
+        .limit(1);
+      if (!row) {
+        return {
+          ok: false as const,
+          reason: "missing-config" as const,
+          detail: `replay ${input.replayId} not found`,
+        };
+      }
+      return verifyReplay({
+        matchId: row.matchId,
+        moveData: row.moveData,
+        finalStateHash: row.finalStateHash,
+        p1Config: row.p1Config,
+        p2Config: row.p2Config,
+        player1Id: row.player1Id,
+        player2Id: row.player2Id,
+      });
     }),
 });

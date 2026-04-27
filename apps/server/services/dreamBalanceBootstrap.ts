@@ -1,10 +1,10 @@
 /* ═══════════════════════════════════════════════════════
    DREAM_BALANCE.DIFFICULTYMODIFIER COLUMN BOOTSTRAP
 
-   Migration 0057 (apps/db/0057_dream_balance_difficulty_modifier.sql)
+   Migration 0058 (apps/db/0058_dream_balance_difficulty_modifier.sql)
    adds a `difficultyModifier INT NOT NULL DEFAULT 0` column to
    `dream_balance` for the hidden Game-Master difficulty scalar
-   read by apps/shared/tcg-core/story/encounter.ts. Like 0054-0056,
+   read by apps/shared/tcg-core/story/encounter.ts. Like 0054-0057,
    this migration is orphaned from `_journal.json` under the journal-
    drift situation in apps/db/README.md, so `drizzle-kit migrate`
    skips it on Railway deploys.

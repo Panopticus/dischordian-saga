@@ -1,0 +1,60 @@
+{
+  "nav": {
+    "home": "Puente",
+    "games": "Juegos",
+    "quests": "Misiones",
+    "inventory": "Bodega",
+    "settings": "Sistemas",
+    "character": "Identidad",
+    "loredex": "Loredex",
+    "marketplace": "Bazar",
+    "guild": "Sala del Gremio",
+    "social": "Comunicaciones"
+  },
+  "actions": {
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar",
+    "back": "Atrás",
+    "next": "Siguiente",
+    "close": "Cerrar",
+    "search": "Buscar",
+    "filter": "Filtrar",
+    "sort": "Ordenar",
+    "refresh": "Actualizar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "submit": "Enviar",
+    "skip": "Omitir"
+  },
+  "status": {
+    "loading": "Inicializando sistemas...",
+    "error": "Señal interrumpida. Inténtalo de nuevo.",
+    "empty": "No se detectaron datos.",
+    "offline": "Conexión con el Arca perdida.",
+    "saving": "Codificando en bancos de memoria...",
+    "success": "Operación completada."
+  },
+  "auth": {
+    "login": "Autenticar",
+    "logout": "Desconectar",
+    "welcome": "Bienvenido a bordo, {{name}}",
+    "sessionExpired": "Autenticación caducada. Vuelve a conectar."
+  },
+  "rarity": {
+    "common": "Común",
+    "uncommon": "Poco común",
+    "rare": "Raro",
+    "epic": "Épico",
+    "legendary": "Legendario",
+    "mythic": "Mítico",
+    "neyon": "Ne-Yon"
+  },
+  "time": {
+    "justNow": "Justo ahora",
+    "minutesAgo": "Hace {{count}} min",
+    "hoursAgo": "Hace {{count}} h",
+    "daysAgo": "Hace {{count}} d",
+    "never": "Nunca"
+  }
+}
