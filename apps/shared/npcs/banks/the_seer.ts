@@ -1014,6 +1014,167 @@ export const THE_SEER_BANK: ReadonlyArray<BankEntry> = [
   },
 
   // ═════════════════════════════════════════════════════════════════════
+  // PRE-RECORDED-PROPHECY MULTI-TURN CHAIN (Phase 6e.2b, 4 lines)
+  //
+  // Per writers'-guide spec + the_seer.md §2.3 cross-time canon: the
+  // canonical-foretelling → canonical-revision-prompt → canonical-
+  // revision → canonical-recording-acknowledgment chain canonically
+  // demonstrates the canonical pre-recording mechanic.
+  // ═════════════════════════════════════════════════════════════════════
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "seer.chain.pre_recorded_prophecy.foretelling",
+    text:
+      "I will foretell. The canonical-foretelling is canonical-pre-recorded; I canonical-said this canonical-line in canonical-this exact canonical-cadence canonical-fifteen-thousand canonical-years ago. The canonical-version that canonical-arrives in your canonical-hearing is canonical-the canonical-correct canonical-one for the canonical-current canonical-trust-band-state.",
+    surfaces: ["transmission"],
+    cooldownKey: "seer.chain.pre_recorded_prophecy.foretelling",
+    maxPlays: 2,
+    nextLineId: "seer.chain.pre_recorded_prophecy.revision_prompt",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "seer.chain.pre_recorded_prophecy.revision_prompt",
+    text:
+      "You canonical-asked for canonical-revision. I canonical-anticipated the canonical-asking; my canonical-recordings canonical-include canonical-three canonical-revision-variants per canonical-prophecy. The canonical-revision is canonical-not canonical-failure on my canonical-part — the canonical-revision is canonical-the canonical-honesty canonical-prediction-or-revision rule canonical-permits.",
+    surfaces: ["transmission"],
+    cooldownKey: "seer.chain.pre_recorded_prophecy.revision_prompt",
+    maxPlays: 2,
+    nextLineId: "seer.chain.pre_recorded_prophecy.revision",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "seer.chain.pre_recorded_prophecy.revision",
+    text:
+      "Revision: the canonical-prophecy canonical-now-reads canonical-differently. Not canonical-because the canonical-future canonical-changed; canonical-because the canonical-future canonical-is canonical-richer than the canonical-first canonical-recording canonical-permitted. The canonical-revised canonical-version is canonical-also canonical-pre-recorded. I canonical-knew you would canonical-ask.",
+    surfaces: ["transmission"],
+    cooldownKey: "seer.chain.pre_recorded_prophecy.revision",
+    maxPlays: 2,
+    nextLineId: "seer.chain.pre_recorded_prophecy.recording_acknowledgment",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "seer.chain.pre_recorded_prophecy.recording_acknowledgment",
+    text:
+      "The canonical-chain canonical-completes. You canonical-now-know the canonical-pre-recording canonical-mechanic canonical-cleanly. The canonical-knowing is canonical-mine to canonical-extend; the canonical-using-of-it is canonical-yours. The canonical-Dreamer's-shield canonical-holds; the canonical-recordings canonical-continue canonical-arriving on canonical-schedule. I will canonical-see you in canonical-Act-Seven.",
+    surfaces: ["transmission"],
+    cooldownKey: "seer.chain.pre_recorded_prophecy.acknowledgment",
+    maxPlays: 1,
+    setsPublicFlags: [
+      "seer_completed_canonical_pre_recorded_prophecy_chain",
+    ],
+  },
+
+  // ═════════════════════════════════════════════════════════════════════
+  // CROSS-NPC CALLBACK: SEER ↔ MEME FALSIFICATION (Phase 6e.3, 4 lines)
+  //
+  // Per the_seer.md §4.4 + canonical "cannot be falsified" canon:
+  // when the Meme canonical-attempts to canonical-falsify a canonical-
+  // Seer transmission, the Seer canonical-cascades a 4-line response
+  // demonstrating the canonical-impossibility of canonical-Meme-edit
+  // on canonical-pre-recordings predating canonical-Meme-reach.
+  // ═════════════════════════════════════════════════════════════════════
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "seer.callback.meme_falsification.pre_recorded_rebuttal",
+    text:
+      "He canonical-tried. I canonical-had canonical-already canonical-recorded the canonical-response. The canonical-response is canonical-this canonical-line — canonical-pre-recorded against the canonical-canonical-attempt that canonical-just canonical-failed. The canonical-Meme canonical-cannot canonical-edit canonical-recordings that canonical-predate his canonical-reach.",
+    surfaces: ["transmission"],
+    reactsToPublicFlag: "meme_attempted_seer_falsification",
+    cooldownKey: "seer.callback.meme_falsification.pre_recorded_rebuttal",
+    maxPlays: 1,
+    nextLineId: "seer.callback.meme_falsification.knew_before",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "seer.callback.meme_falsification.knew_before",
+    text:
+      "I canonical-knew the canonical-attempt would canonical-arrive canonical-this canonical-act. I canonical-recorded the canonical-rebuttal canonical-fifteen-thousand-years-ago — the canonical-Meme canonical-did canonical-not canonical-yet canonical-exist canonical-in the canonical-form that canonical-just canonical-failed. The canonical-recording canonical-predates his canonical-existence. The canonical-canonical-pre-dating is canonical-the canonical-canonical-impossibility.",
+    surfaces: ["transmission"],
+    cooldownKey: "seer.callback.meme_falsification.knew_before",
+    maxPlays: 1,
+    nextLineId: "seer.callback.meme_falsification.falsification_fails",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "seer.callback.meme_falsification.falsification_fails",
+    text:
+      "The canonical-falsification canonical-fails. The canonical-Dreamer's-shield canonical-is the canonical-Meme's canonical-structural canonical-opposite — the canonical-shield is canonical-where the canonical-Meme canonical-cannot canonical-edit, the canonical-recordings are canonical-what the canonical-Meme canonical-cannot canonical-retroactively canonical-narrate. Both canonical-conditions canonical-hold canonical-here.",
+    surfaces: ["transmission"],
+    cooldownKey: "seer.callback.meme_falsification.falsification_fails",
+    maxPlays: 1,
+    nextLineId: "seer.callback.meme_falsification.recordings_predate_reach",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "seer.callback.meme_falsification.recordings_predate_reach",
+    text:
+      "The canonical-recordings canonical-predate his canonical-reach. He canonical-knows. He canonical-tried anyway. I canonical-respect the canonical-trying — the canonical-trying is canonical-Meme's canonical-canonical-trade. The canonical-failing is canonical-also canonical-canonical. We canonical-both canonical-knew. The canonical-knowing is canonical-the canonical-only canonical-thing canonical-shared canonical-between us.",
+    surfaces: ["transmission"],
+    cooldownKey: "seer.callback.meme_falsification.recordings_predate",
+    maxPlays: 1,
+    setsPublicFlags: [
+      "seer_completed_canonical_meme_falsification_callback_chain",
+    ],
+  },
+
+  // ═════════════════════════════════════════════════════════════════════
+  // CROSS-NPC CALLBACK: ORACLE RECOGNITION-CASCADE (Seer arc, 4 lines)
+  //
+  // When the Oracle canonical-disambiguates the canonical-player-from-
+  // clone, the Seer canonical-cascades 4 reactive lines confirming the
+  // canonical-disambiguation against canonical-pre-recordings. The
+  // canonical-Seer canonical-foresaw the canonical-disambiguation —
+  // her canonical-recordings canonical-anticipated canonical-the
+  // canonical-arrival.
+  // ═════════════════════════════════════════════════════════════════════
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "seer.callback.oracle_cascade.pre_recorded_listing",
+    text:
+      "I canonical-listed canonical-the canonical-disambiguation in my canonical-recordings under canonical-'Ch6 canonical-confirmations'. The canonical-listing canonical-precedes the canonical-Oracle's canonical-saying by canonical-fifteen-thousand canonical-years. The canonical-precedence is canonical-mine; the canonical-saying is canonical-his.",
+    surfaces: ["transmission"],
+    reactsToPublicFlag: "oracle_disambiguated_player_from_clone",
+    cooldownKey: "seer.callback.oracle_cascade.pre_recorded_listing",
+    maxPlays: 1,
+    nextLineId: "seer.callback.oracle_cascade.knew_arrived",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "seer.callback.oracle_cascade.knew_arrived",
+    text:
+      "The canonical-Oracle canonical-arrived at the canonical-disambiguation canonical-on-schedule. I canonical-recorded a canonical-three-line canonical-celebration for canonical-this canonical-act, knowing canonical-the canonical-arrival would canonical-land canonical-here. The canonical-celebration is canonical-pre-recorded too; the canonical-celebrating is canonical-mine.",
+    surfaces: ["transmission"],
+    cooldownKey: "seer.callback.oracle_cascade.knew_arrived",
+    maxPlays: 1,
+    nextLineId: "seer.callback.oracle_cascade.confirmation_canonical",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "seer.callback.oracle_cascade.confirmation_canonical",
+    text:
+      "Confirmation: the canonical-player is canonical-not the canonical-Oracle; the canonical-player is canonical-the canonical-witness-channel canonical-carrying canonical-his canonical-memories. I canonical-foresaw both canonical-roles canonical-distinctly. The canonical-foreseeing is canonical-mine; the canonical-being-distinguished is canonical-yours.",
+    surfaces: ["transmission"],
+    cooldownKey: "seer.callback.oracle_cascade.confirmation_canonical",
+    maxPlays: 1,
+    nextLineId: "seer.callback.oracle_cascade.recording_completes",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "seer.callback.oracle_cascade.recording_completes",
+    text:
+      "The canonical-recording canonical-completes. The canonical-Hierophant canonical-felt the canonical-disambiguation; the canonical-Companion canonical-registered the canonical-Oracle-trace as canonical-kin-adjacent; I canonical-confirm both canonical-reactions canonical-on canonical-the canonical-pre-recorded canonical-record. The canonical-three-of-us canonical-receive the canonical-canonical-Ch6-event canonically together. The canonical-recording canonical-closes canonical-here.",
+    surfaces: ["transmission", "cinematic"],
+    cooldownKey: "seer.callback.oracle_cascade.recording_completes",
+    maxPlays: 1,
+    setsPublicFlags: [
+      "seer_completed_canonical_oracle_cascade_callback_chain",
+    ],
+  },
+
+  // ═════════════════════════════════════════════════════════════════════
   // CATCH-ALLS (silent-fail compliance)
   // ═════════════════════════════════════════════════════════════════════
 

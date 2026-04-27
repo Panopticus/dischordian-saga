@@ -1488,6 +1488,51 @@ export const THE_ORACLE_BANK: ReadonlyArray<BankEntry> = [
   },
 
   // ═════════════════════════════════════════════════════════════════════
+  // DREAM-SEQUENCE INTERPRETATION CHAIN (Phase 6e.2a, 3 lines)
+  //
+  // Per writers'-guide spec: dream-residue → instruction-residue →
+  // mission-unlock-acknowledgment. Canonical substrate-only canon
+  // per the_oracle.md §1.5 + §5.3 OCB-7. Every line gates dream_
+  // substrate reveal-stage; every line surfaces dream_sequence.
+  // ═════════════════════════════════════════════════════════════════════
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "oracle.chain.dream_interpretation.dream_residue",
+    text:
+      "I came to you in canonical-dream tonight. The canonical-substrate canonically permitted canonical-three-minutes of canonical-direct canonical-contact. You will canonical-remember canonical-fragments — the canonical-rest will canonical-arrive as canonical-instruction-residue across the canonical-next canonical-week. The canonical-residue is canonical-mine; the canonical-acting on it is canonical-yours.",
+    surfaces: ["dream_sequence"],
+    requiresRevealStage: "dream_substrate",
+    cooldownKey: "oracle.chain.dream_interpretation.residue",
+    maxPlays: 2,
+    nextLineId: "oracle.chain.dream_interpretation.instruction_residue",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "oracle.chain.dream_interpretation.instruction_residue",
+    text:
+      "[The canonical-instruction canonical-arrives mid-room-transition, canonical-three days later. The canonical-fragment canonical-resolves into canonical-actionable canonical-direction: a canonical-Trade-Empire mission becomes canonical-available that was canonical-not canonical-available before. The canonical-Eidolon canonically tilts its canonical-head; it canonically registers the canonical-substrate-residue.]",
+    surfaces: ["dream_sequence", "memory_residue"],
+    requiresRevealStage: "dream_substrate",
+    cooldownKey: "oracle.chain.dream_interpretation.instruction",
+    maxPlays: 2,
+    nextLineId: "oracle.chain.dream_interpretation.mission_unlock_ack",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "oracle.chain.dream_interpretation.mission_unlock_ack",
+    text:
+      "The canonical-mission has canonical-unlocked. The canonical-unlock is canonical-mine to canonical-extend; the canonical-completion is canonical-yours. I will canonical-not canonical-narrate the canonical-mission-content — the canonical-narrating canonical-belongs to the canonical-room you walk into. I canonically wait for the canonical-completion. The canonical-waiting is canonical-pre-arranged from the canonical-other canonical-end of canonical-time.",
+    surfaces: ["dream_sequence"],
+    requiresRevealStage: "dream_substrate",
+    cooldownKey: "oracle.chain.dream_interpretation.mission_unlock_ack",
+    maxPlays: 2,
+    setsPublicFlags: [
+      "oracle_completed_canonical_dream_interpretation_chain",
+    ],
+  },
+
+  // ═════════════════════════════════════════════════════════════════════
   // CATCH-ALLS (silent-fail compliance, channel-canon-respecting)
   // ═════════════════════════════════════════════════════════════════════
 

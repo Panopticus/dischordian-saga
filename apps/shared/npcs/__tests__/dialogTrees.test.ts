@@ -204,26 +204,80 @@ describe("ALL_NPC_DIALOG_TREES aggregator", () => {
     expect(Array.isArray(ALL_NPC_DIALOG_TREES)).toBe(true);
   });
 
-  it("getDialogTreesFor returns empty array for unauthored NPCs (silent-fail)", () => {
-    // Phase 6a.2 sub-chunk F shipped Locke's first-meeting tree; the
-    // rest stay empty until their sub-phase ships per the Phase 6e
-    // sequencing. Updated as banks land.
-    expect(getDialogTreesFor("nilmorg").length).toBe(0);
-    expect(getDialogTreesFor("the_seer").length).toBe(0);
-    expect(getDialogTreesFor("vex_solene").length).toBe(0);
-    expect(getDialogTreesFor("the_oracle").length).toBe(0);
-    expect(getDialogTreesFor("the_degen").length).toBe(0);
-    expect(getDialogTreesFor("dmc_clone_companion").length).toBe(0);
-    expect(getDialogTreesFor("the_game_master").length).toBe(0);
-    expect(getDialogTreesFor("the_meme").length).toBe(0);
-    expect(getDialogTreesFor("wraith_calder").length).toBe(0);
-    expect(getDialogTreesFor("your_eidolon").length).toBe(0);
+  it("All 11 priority-roster NPCs ship ≥1 dialog tree (Phase 6e.1 complete)", () => {
+    // Phase 6a.2 sub-chunk F shipped Locke; Phase 6e.1a shipped
+    // Nilmorg + Vex + Hierophant; Phase 6e.1b shipped Seer + Oracle
+    // + Game Master + Meme; Phase 6e.1c shipped Degen + Companion
+    // + Eidolon. All 11 priority-roster NPCs canonically ship a
+    // first-meeting tree.
+    const priorityRoster = [
+      "adjudicator_locke",
+      "nilmorg",
+      "vex_solene",
+      "wraith_calder",
+      "the_seer",
+      "the_oracle",
+      "the_game_master",
+      "the_meme",
+      "the_degen",
+      "dmc_clone_companion",
+      "your_eidolon",
+    ] as const;
+    for (const npcKey of priorityRoster) {
+      expect(getDialogTreesFor(npcKey).length, npcKey).toBeGreaterThanOrEqual(1);
+    }
   });
 
   it("Locke (Phase 6a.2 sub-chunk F) ships ≥1 dialog tree via the aggregator", () => {
     expect(
       getDialogTreesFor("adjudicator_locke").length,
     ).toBeGreaterThanOrEqual(1);
+  });
+
+  it("Nilmorg (Phase 6e.1a) ships ≥1 dialog tree via the aggregator", () => {
+    expect(getDialogTreesFor("nilmorg").length).toBeGreaterThanOrEqual(1);
+  });
+
+  it("Vex Solène (Phase 6e.1a) ships ≥1 dialog tree via the aggregator", () => {
+    expect(getDialogTreesFor("vex_solene").length).toBeGreaterThanOrEqual(1);
+  });
+
+  it("Wraith Calder → Hierophant (Phase 6e.1a) ships ≥1 dialog tree via the aggregator", () => {
+    expect(
+      getDialogTreesFor("wraith_calder").length,
+    ).toBeGreaterThanOrEqual(1);
+  });
+
+  it("The Seer (Phase 6e.1b) ships ≥1 dialog tree via the aggregator", () => {
+    expect(getDialogTreesFor("the_seer").length).toBeGreaterThanOrEqual(1);
+  });
+
+  it("The Oracle (Phase 6e.1b) ships ≥1 dialog tree via the aggregator", () => {
+    expect(getDialogTreesFor("the_oracle").length).toBeGreaterThanOrEqual(1);
+  });
+
+  it("The Game Master (Phase 6e.1b) ships ≥1 dialog tree via the aggregator", () => {
+    expect(
+      getDialogTreesFor("the_game_master").length,
+    ).toBeGreaterThanOrEqual(1);
+  });
+
+  it("The Meme (Phase 6e.1b) ships ≥1 dialog tree via the aggregator", () => {
+    expect(getDialogTreesFor("the_meme").length).toBeGreaterThanOrEqual(1);
+  });
+
+  it("The Degen (Phase 6e.1c) ships ≥1 dialog tree via the aggregator", () => {
+    expect(getDialogTreesFor("the_degen").length).toBeGreaterThanOrEqual(1);
+  });
+
+  it("DMC Clone Companion (Phase 6e.1c) ships ≥1 dialog tree via the aggregator", () => {
+    expect(
+      getDialogTreesFor("dmc_clone_companion").length,
+    ).toBeGreaterThanOrEqual(1);
+  });
+
+  it("Your Eidolon (Phase 6e.1c) ships ≥1 dialog tree via the aggregator", () => {
+    expect(getDialogTreesFor("your_eidolon").length).toBeGreaterThanOrEqual(1);
   });
 
   it("getDialogTree returns undefined for unknown (npcKey, treeId)", () => {

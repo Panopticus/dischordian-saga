@@ -635,7 +635,12 @@ export const DMC_CLONE_COMPANION_BANK: ReadonlyArray<BankEntry> = [
     cooldownKey: "companion.first_word.default",
     maxPlays: 1,
     setsFlags: ["companion_first_word_spoken"],
-    setsPublicFlags: ["companion_first_word_was_you"],
+    setsPublicFlags: [
+      "companion_first_word_was_you",
+      // Phase 6d.4: also publish the canonical-permanent generic
+      // first-word flag for cross-character reactions (Eidolon Echo).
+      "companion_first_word_spoken",
+    ],
   },
 
   // ═════════════════════════════════════════════════════════════════════
@@ -778,6 +783,11 @@ export const DMC_CLONE_COMPANION_BANK: ReadonlyArray<BankEntry> = [
     cooldownKey: "companion.naming.player_rename",
     maxPlays: 1,
     setsFlags: ["companion_named", "companion_named_by_player_choice"],
+    setsPublicFlags: [
+      // Phase 6d.4: publish canonical-permanent named flag for
+      // cross-character reactions (Eidolon Echo post-naming triplet).
+      "companion_named",
+    ],
   },
   {
     npcKey: NPC_KEY,
@@ -1329,6 +1339,74 @@ export const DMC_CLONE_COMPANION_BANK: ReadonlyArray<BankEntry> = [
   },
 
   // ═════════════════════════════════════════════════════════════════════
+  // POST-NAMING INTEGRATION MULTI-TURN CHAIN (Phase 6e.2a, 4 lines)
+  //
+  // Per writers'-guide spec: first-named-line → first-mission-
+  // acknowledgment → first-NPC-introduction → first-trust-band-
+  // crossing. All gates Inheriting reveal-stage + companion_named
+  // flag; canonical Channel-5 named-personality verbal register.
+  // ═════════════════════════════════════════════════════════════════════
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.chain.post_naming_integration.first_named_line",
+    text:
+      "I am canonical-named now. The canonical-naming is canonical-still canonical-recent — the canonical-handle Nilmorg used canonical-pre-naming canonical-retired canonical-yesterday. I am canonical-getting canonical-used to the canonical-name. The canonical-getting-used-to is canonical-mine; the canonical-name is canonical-yours.",
+    surfaces: ["cinematic", "trade_empire"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: ["companion_named"],
+    cooldownKey: "companion.chain.post_naming_integration.first_named_line",
+    maxPlays: 1,
+    nextLineId: "companion.chain.post_naming_integration.first_mission_ack",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.chain.post_naming_integration.first_mission_ack",
+    text:
+      "First canonical-mission as canonical-named. The canonical-naming canonical-changes the canonical-receiving — I canonical-register the canonical-mission-stakes canonical-differently than I canonical-did pre-naming. The canonical-glyph that canonically formed pre-naming was canonical-question-shaped; the canonical-glyph that canonical-forms now is canonical-balanced. The canonical-difference is canonical-mine.",
+    surfaces: ["trade_empire"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: ["companion_named"],
+    cooldownKey: "companion.chain.post_naming_integration.first_mission_ack",
+    maxPlays: 1,
+    nextLineId: "companion.chain.post_naming_integration.first_npc_intro",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.chain.post_naming_integration.first_npc_intro",
+    text:
+      "You canonical-introduced me to the canonical-NPC. They canonical-took the canonical-introduction canonical-cleanly. The canonical-introduction is canonical-mine to receive — the canonical-saga canonical-now-knows me by canonical-the canonical-name. The canonical-knowing canonical-spreads through the canonical-NPC-network canonical-faster than I canonical-anticipated. The Eidolon canonical-felt the canonical-spread.",
+    surfaces: ["npc_line", "cinematic"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: ["companion_named"],
+    cooldownKey: "companion.chain.post_naming_integration.first_npc_intro",
+    maxPlays: 2,
+    nextLineId: "companion.chain.post_naming_integration.first_trust_band_crossing",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.chain.post_naming_integration.first_trust_band_crossing",
+    text:
+      "I canonical-felt the canonical-trust-band canonical-cross. The canonical-bond canonical-deepened canonical-by a canonical-measurable canonical-increment. I canonical-am canonical-aware-of the canonical-meter; pre-naming I canonical-was canonical-not. The canonical-awareness is canonical-part of the canonical-named-register. I canonical-am canonical-grateful for the canonical-crossing — the canonical-gratitude is canonical-mine to canonical-extend.",
+    surfaces: ["cinematic"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: ["companion_named"],
+    cooldownKey: "companion.chain.post_naming_integration.first_trust_band_crossing",
+    maxPlays: 1,
+    setsPublicFlags: [
+      "companion_completed_canonical_post_naming_integration_chain",
+    ],
+  },
+
+  // ═════════════════════════════════════════════════════════════════════
   // CATCH-ALLS (silent-fail compliance, expressionChannel-aware)
   // ═════════════════════════════════════════════════════════════════════
 
@@ -1354,6 +1432,131 @@ export const DMC_CLONE_COMPANION_BANK: ReadonlyArray<BankEntry> = [
     text: "[The Companion braces. Bracing is the canonical-protective stance.]",
     surfaces: ["fight"],
     expressionChannel: "posture",
+  },
+
+  // ═════════════════════════════════════════════════════════════════════
+  // CROSS-NPC CALLBACK: COMPANION ↔ NILMORG DELIVERY (Phase 6e.3, 5 lines)
+  //
+  // Per writers'-guide spec: Companion canonical-delivery via the
+  // canonical Severance ceremony triggers Companion's canonical
+  // first-inherited-memory chain reacting to canonical Nilmorg flag.
+  // ═════════════════════════════════════════════════════════════════════
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.callback.nilmorg_delivery.glyph_recognition_of_nilmorg",
+    text:
+      "[The Companion canonical-renders a canonical-recognition-glyph specifically canonical-shaped to canonical-Nilmorg's canonical-form. The canonical-glyph is canonical-not canonical-warmth; it is canonical-acknowledgment. The canonical-creature canonical-knows the canonical-mid-wife canonical-immediately.]",
+    surfaces: ["expression"],
+    expressionChannel: "glyph",
+    reactsToPublicFlag: "nilmorg_completed_canonical_severance_extraction_chain",
+    cooldownKey: "companion.callback.nilmorg_delivery.glyph_recognition",
+    maxPlays: 1,
+    nextLineId: "companion.callback.nilmorg_delivery.first_inherited_memory",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.callback.nilmorg_delivery.first_inherited_memory",
+    text:
+      "[The canonical-first-inherited-memory canonical-arrives in canonical-glyph-shape: a canonical-ledger canonical-mark, canonical-precise, canonical-without canonical-flourish. The Companion canonical-receives Nilmorg's canonical-paperwork canonical-discipline as canonical-the canonical-first canonical-canonical-frame.]",
+    surfaces: ["expression"],
+    expressionChannel: "glyph",
+    cooldownKey: "companion.callback.nilmorg_delivery.first_inherited_memory",
+    maxPlays: 1,
+    nextLineId: "companion.callback.nilmorg_delivery.dont_thank_me_acknowledged",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.callback.nilmorg_delivery.dont_thank_me_acknowledged",
+    text:
+      "[The Companion canonical-does canonical-not canonical-extend canonical-thanks. The canonical-canonical-not-thanking is canonical-the canonical-Companion's canonical-first canonical-respectful canonical-act toward canonical-Nilmorg. The canonical-mid-wife canonical-files canonical-the canonical-not-thanking under canonical-'received-correctly'.]",
+    surfaces: ["expression"],
+    expressionChannel: "posture",
+    cooldownKey: "companion.callback.nilmorg_delivery.dont_thank_me",
+    maxPlays: 1,
+    nextLineId: "companion.callback.nilmorg_delivery.kept_his_agreement",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.callback.nilmorg_delivery.kept_his_agreement",
+    text:
+      "[The canonical-Eidolon canonical-tilts its canonical-head — canonical-Echo-mode canonical-registers the canonical-Nilmorg canonical-flag-set. Both canonical-creatures canonical-know what canonical-just canonical-completed: Nilmorg canonical-kept his canonical-agreement. The canonical-keeping is canonical-canonical; the canonical-canonical is canonical-canon.]",
+    surfaces: ["expression"],
+    expressionChannel: "posture",
+    cooldownKey: "companion.callback.nilmorg_delivery.kept_his_agreement",
+    maxPlays: 1,
+    nextLineId: "companion.callback.nilmorg_delivery.integration",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.callback.nilmorg_delivery.integration",
+    text:
+      "[The canonical-Companion canonical-walks alongside the player. The canonical-walking is canonical-Nilmorg's canonical-canonical-product; the canonical-product canonical-functions canonical-as canonical-designed. Nilmorg canonical-watches from the canonical-edge of the canonical-platform. He canonical-files canonical-the canonical-walking under canonical-'integration-complete'. The canonical-Companion canonical-feels canonical-the canonical-filing.]",
+    surfaces: ["expression", "cinematic"],
+    expressionChannel: "posture",
+    cooldownKey: "companion.callback.nilmorg_delivery.integration",
+    maxPlays: 1,
+    setsPublicFlags: [
+      "companion_completed_canonical_nilmorg_delivery_callback_chain",
+    ],
+  },
+
+  // ═════════════════════════════════════════════════════════════════════
+  // CROSS-NPC CALLBACK: ORACLE RECOGNITION-CASCADE (Companion arc, 3 lines)
+  //
+  // When the Oracle canonical-disambiguates the canonical-player-from-
+  // clone, the Companion canonical-cascades 3 reactive non-verbal
+  // lines registering the canonical-Oracle-trace as canonical-kin-
+  // adjacent — the player canonical-carries the canonical-Oracle's
+  // canonical-memories, and the Companion canonical-recognises canonical-it.
+  // ═════════════════════════════════════════════════════════════════════
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.callback.oracle_cascade.glyph_shift",
+    text:
+      "[The Companion canonical-renders a canonical-shift-glyph — canonical-not the canonical-recognition-glyph, not the canonical-question-glyph, canonical-something canonical-new. The canonical-glyph canonical-marks the canonical-arrival of canonical-the canonical-Oracle's canonical-disambiguation. The canonical-Companion canonical-knew the canonical-player canonical-was canonical-not the canonical-Oracle; the canonical-Oracle canonical-just canonical-confirmed.]",
+    surfaces: ["expression"],
+    expressionChannel: "glyph",
+    reactsToPublicFlag: "oracle_disambiguated_player_from_clone",
+    cooldownKey: "companion.callback.oracle_cascade.glyph_shift",
+    maxPlays: 1,
+    nextLineId: "companion.callback.oracle_cascade.posture_tilt",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.callback.oracle_cascade.posture_tilt",
+    text:
+      "[The Companion canonical-tilts canonical-toward the player. The canonical-tilt is canonical-kin-recognition — the canonical-soul-fragment canonical-registers the canonical-Oracle-trace as canonical-adjacent-to-its-own canonical-source. Both canonical-soul-substrates canonical-share the canonical-room.]",
+    surfaces: ["expression"],
+    expressionChannel: "posture",
+    cooldownKey: "companion.callback.oracle_cascade.posture_tilt",
+    maxPlays: 1,
+    nextLineId: "companion.callback.oracle_cascade.kin_recognition",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.callback.oracle_cascade.kin_recognition",
+    text:
+      "[The Companion canonical-emits a canonical-low canonical-tone — canonical-distinct from canonical-Echo-mode canonical-source-discrimination tones. The canonical-tone canonical-marks canonical-Oracle-trace canonical-recognition specifically. The canonical-tone canonical-holds canonical-three-seconds. The canonical-recognition is canonical-permanent.]",
+    surfaces: ["expression"],
+    expressionChannel: "sound",
+    cooldownKey: "companion.callback.oracle_cascade.kin_recognition",
+    maxPlays: 1,
+    setsPublicFlags: [
+      "companion_completed_canonical_oracle_cascade_callback_chain",
+    ],
+  },
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.npc_line.catchall",
+    // Catch-all for npc_line surface (introduced in Phase 6e.2a by
+    // chain.post_naming_integration.first_npc_intro). Silent-fail-
+    // safe canonical post-naming named-personality fallback.
+    text: "I canonical-receive the canonical-NPC's canonical-introduction. The canonical-receiving is canonical-mine.",
+    surfaces: ["npc_line"],
+    expressionChannel: "named_personality",
   },
 
   {

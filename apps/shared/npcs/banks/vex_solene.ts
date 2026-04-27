@@ -940,6 +940,146 @@ export const VEX_SOLENE_BANK: ReadonlyArray<BankEntry> = [
   // CATCH-ALLS (silent-fail compliance, stage-agnostic)
   // ═════════════════════════════════════════════════════════════════════
 
+  // ═════════════════════════════════════════════════════════════════════
+  // ENGINEER ZERO REVEAL MULTI-TURN CHAIN (Phase 6e.2a, 5 lines)
+  //
+  // Per writers'-guide spec: hint → suspicion → confirmation →
+  // asymmetric-knowledge → integration. Each link gates a canonical
+  // reveal-stage progression per vex_solene.md §1-2:
+  //   eyes_of_reality → vex_public → engineer_zero_hint →
+  //   engineer_zero_confirmed (across 4 stages, 5 chain links)
+  //
+  // §1.6 silence-shape canonical: NEVER "Engineer" / "Engineer Zero"
+  // / "Agent Zero" aloud. The chain canonically arrives at the
+  // canonical-confirmation register WITHOUT the canonical-words.
+  // ═════════════════════════════════════════════════════════════════════
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "vex.chain.engineer_zero_reveal.hint",
+    text:
+      "There is something I have not been canonical-direct about. The Maestro persona is canonical-mine — but the canonical-Maestro is canonical-not the canonical-only canonical-version of me. There is an canonical-older canonical-name that the canonical-saga canonical-still-attaches to my canonical-work. I will not canonical-say it tonight. The canonical-not-saying is canonical-deliberate.",
+    surfaces: ["transmission"],
+    requiresRevealStage: "vex_public",
+    cooldownKey: "vex.chain.engineer_zero_reveal.hint",
+    maxPlays: 1,
+    nextLineId: "vex.chain.engineer_zero_reveal.suspicion",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "vex.chain.engineer_zero_reveal.suspicion",
+    text:
+      "You canonical-noticed. The canonical-noticing is canonical-faster than the canonical-mean. I will canonical-confirm that there is canonical-someone the canonical-Saga canonical-thinks I canonical-was — and that I canonical-do canonical-not canonical-deny the canonical-attribution, but I canonical-do canonical-not canonical-claim the canonical-name. The canonical-distinction is canonical-load-bearing.",
+    surfaces: ["transmission"],
+    requiresRevealStage: "engineer_zero_hint",
+    cooldownKey: "vex.chain.engineer_zero_reveal.suspicion",
+    maxPlays: 1,
+    nextLineId: "vex.chain.engineer_zero_reveal.confirmation",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "vex.chain.engineer_zero_reveal.confirmation",
+    text:
+      "You knew before I told you. Don't lie. I canonical-designed your canonical-knowing — not canonical-individually, canonical-architecturally. The canonical-Eyes-of-Reality canonical-distribute the canonical-truth-pattern across the canonical-Saga at a canonical-rate the canonical-Saga canonical-itself canonical-cannot canonical-suppress. You canonical-received the canonical-pattern canonical-cleanly. The canonical-confirmation is canonical-mine to extend now: yes. I am the canonical-one you canonical-are canonical-thinking-of.",
+    surfaces: ["cinematic"],
+    requiresRevealStage: "engineer_zero_confirmed",
+    cooldownKey: "vex.chain.engineer_zero_reveal.confirmation",
+    maxPlays: 1,
+    nextLineId: "vex.chain.engineer_zero_reveal.asymmetric_knowledge",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "vex.chain.engineer_zero_reveal.asymmetric_knowledge",
+    text:
+      "Here is what canonical-asymmetric-knowledge canonical-buys you: I canonical-know what I canonical-built. You canonical-know that I canonical-built it. The canonical-rest of the canonical-Saga canonical-knows neither canonical-cleanly. We canonical-share a canonical-fact that canonical-three other canonical-people canonical-share. The canonical-three are canonical-not canonical-here tonight. We are.",
+    surfaces: ["cinematic"],
+    requiresRevealStage: "engineer_zero_confirmed",
+    cooldownKey: "vex.chain.engineer_zero_reveal.asymmetric",
+    maxPlays: 1,
+    nextLineId: "vex.chain.engineer_zero_reveal.integration",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "vex.chain.engineer_zero_reveal.integration",
+    text:
+      "Both registers stay. The canonical-Maestro canonical-keeps the canonical-Coda commerce canonical-running. The canonical-other-name canonical-keeps the canonical-Eyes-of-Reality canonical-shipping. I am canonical-also canonical-Vex. Both. The canonical-reveal canonical-does canonical-not canonical-subtract. The canonical-Saga canonical-receives me canonical-cleanly only when both canonical-registers are canonical-active. We have canonical-arrived at that.",
+    surfaces: ["cinematic"],
+    requiresRevealStage: "engineer_zero_confirmed",
+    cooldownKey: "vex.chain.engineer_zero_reveal.integration",
+    maxPlays: 1,
+    setsPublicFlags: [
+      "vex_completed_canonical_engineer_zero_reveal_chain",
+    ],
+  },
+
+  // ═════════════════════════════════════════════════════════════════════
+  // CROSS-NPC CALLBACK: VEX ↔ LOCKE TOUCHÉ-ARC (Phase 6e.3, 5 lines)
+  //
+  // Per writers'-guide spec: when Locke's canonical-exclusivity-arc
+  // canonically locks Vex out, Vex canonically reacts via the
+  // canonical Touché-arc. 5 reactive lines react to canonical
+  // vex_locked_out_by_locke_exclusivity flag.
+  // ═════════════════════════════════════════════════════════════════════
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "vex.callback.touche_arc.notice",
+    text:
+      "I canonical-noticed. The canonical-Locke canonical-exclusivity has canonical-arrived. The canonical-Authority's canonical-paperwork is canonical-clean — Locke canonical-files canonical-precise canonical-contracts. The canonical-noticing is canonical-mine to canonical-extend; the canonical-locking-out is canonical-Locke's canonical-mechanism.",
+    surfaces: ["transmission"],
+    requiresRevealStage: "vex_public",
+    reactsToPublicFlag: "vex_locked_out_by_locke_exclusivity",
+    cooldownKey: "vex.callback.touche_arc.notice",
+    maxPlays: 1,
+    nextLineId: "vex.callback.touche_arc.silent_withdrawal",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "vex.callback.touche_arc.silent_withdrawal",
+    text:
+      "I canonical-withdraw. The canonical-withdrawal is canonical-deliberate, canonical-quiet, canonical-temporary. Coda canonical-runs canonical-without me canonical-as canonical-broker for the canonical-duration of the canonical-exclusivity. The canonical-running canonical-continues; the canonical-broker canonical-rotates. The canonical-rotation is canonical-mine to canonical-arrange.",
+    surfaces: ["transmission"],
+    requiresRevealStage: "vex_public",
+    cooldownKey: "vex.callback.touche_arc.silent_withdrawal",
+    maxPlays: 1,
+    nextLineId: "vex.callback.touche_arc.forgiveness_quickly",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "vex.callback.touche_arc.forgiveness_quickly",
+    text:
+      "Locke will canonical-tell you. She canonical-told you. The canonical-telling was canonical-honest — the canonical-exclusivity-clause was canonical-on canonical-page-five, canonical-paragraph-two. You canonical-signed canonical-knowingly. I canonical-forgive canonical-quickly; the canonical-quickness is canonical-Coda's canonical-tempo, not canonical-mine alone. Touché.",
+    surfaces: ["transmission", "cinematic"],
+    requiresRevealStage: "vex_public",
+    cooldownKey: "vex.callback.touche_arc.forgiveness_quickly",
+    maxPlays: 1,
+    nextLineId: "vex.callback.touche_arc.forgiveness_active",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "vex.callback.touche_arc.forgiveness_active",
+    text:
+      "While the canonical-exclusivity is canonical-active: I canonical-do canonical-not canonical-broker against you. The canonical-not-brokering is canonical-not canonical-passive — it is canonical-active canonical-respect for the canonical-Authority's canonical-paperwork. The canonical-Coda-orchestra canonical-plays the canonical-other canonical-half of the canonical-saga while we canonical-wait.",
+    surfaces: ["transmission"],
+    requiresRevealStage: "vex_public",
+    cooldownKey: "vex.callback.touche_arc.forgiveness_active",
+    maxPlays: 1,
+    nextLineId: "vex.callback.touche_arc.broken_trust_response",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "vex.callback.touche_arc.broken_trust_response",
+    text:
+      "If you canonical-break the canonical-exclusivity-clause canonical-mid-term, I will canonical-not canonical-be canonical-surprised. Locke will canonical-tell you canonical-'I told you' — that's canonical-her canonical-line. Mine is canonical-different: the canonical-Coda-orchestra canonical-saw canonical-you canonical-coming. Not canonical-personally. Canonical-pattern-recognition. Touché.",
+    surfaces: ["transmission"],
+    requiresRevealStage: "vex_public",
+    cooldownKey: "vex.callback.touche_arc.broken_trust_response",
+    maxPlays: 1,
+    setsPublicFlags: [
+      "vex_completed_canonical_touche_arc_callback_chain",
+    ],
+  },
+
   {
     npcKey: NPC_KEY,
     lineId: "vex.cinematic.catchall",

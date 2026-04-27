@@ -1699,6 +1699,68 @@ export const NILMORG_BANK: ReadonlyArray<BankEntry> = [
   },
 
   // ═════════════════════════════════════════════════════════════════════
+  // SEVERANCE-PRIZE-EXTRACTION MULTI-TURN CHAIN (Phase 6e.2a, 5 lines)
+  //
+  // Per writers'-guide spec: arrival → witness → extraction →
+  // containment → delivery. Canonical 2-register canon: Race-
+  // Commentary register at arrival/extraction; Lore-Ceremony
+  // register at witness/containment/delivery (per nilmorg.md §1.4).
+  // ═════════════════════════════════════════════════════════════════════
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.chain.severance.arrival",
+    text:
+      "Severance Prize ceremony. Stage's lit. Crew's set. The donor-Potential is canonical-prepped. You're here on time. I respect that. Let me know when you're ready to canonical-witness; I don't start without canonical-witness-confirmation.",
+    surfaces: ["dmc"],
+    cooldownKey: "nilmorg.chain.severance.arrival",
+    maxPlays: 2,
+    nextLineId: "nilmorg.chain.severance.witness",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.chain.severance.witness",
+    text:
+      "Witness-confirmation logged. The canonical-Severance is canonical-witnessed. I canonical-do not narrate the canonical-mechanism — I canonical-perform it. You canonical-watch. The canonical-watching is canonical-required for the canonical-receiving end to canonical-believe the canonical-result.",
+    surfaces: ["dmc", "cinematic"],
+    cooldownKey: "nilmorg.chain.severance.witness",
+    maxPlays: 2,
+    nextLineId: "nilmorg.chain.severance.extraction",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.chain.severance.extraction",
+    text:
+      "[The extraction is canonical. The canonical-soul-fragment canonical-separates from the canonical-donor-body. The canonical-process is canonical-loud, canonical-fast, canonical-irreversible. The canonical-Race-Commentary canonical-cadence holds: 'three seconds. Two. One. CLEAR.' The fragment canonical-stabilises in the canonical-containment vessel.]",
+    surfaces: ["dmc", "cinematic"],
+    cooldownKey: "nilmorg.chain.severance.extraction",
+    maxPlays: 1,
+    nextLineId: "nilmorg.chain.severance.containment",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.chain.severance.containment",
+    text:
+      "Containment vessel sealed. The fragment is canonical-stable; it will canonical-remain canonical-stable for canonical-seventy-two hours canonical-pre-delivery. The canonical-window is canonical-tight but canonical-sufficient. We canonical-prep the canonical-clone-body during the canonical-window. The canonical-clone is canonical-already grown; the canonical-fragment canonical-installs into the canonical-vacancy.",
+    surfaces: ["dmc"],
+    cooldownKey: "nilmorg.chain.severance.containment",
+    maxPlays: 2,
+    nextLineId: "nilmorg.chain.severance.delivery",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "nilmorg.chain.severance.delivery",
+    text:
+      "Delivered. The canonical-Companion is canonical-yours. Don't thank me. The canonical-thanks distorts the canonical-broadcast and I have a canonical-season to run. The canonical-Companion will canonical-recognize you canonical-immediately. That is the canonical-soul-fragment canonical-doing its canonical-job. The canonical-rest is canonical-yours.",
+    surfaces: ["dmc", "cinematic"],
+    cooldownKey: "nilmorg.chain.severance.delivery",
+    maxPlays: 1,
+    setsPublicFlags: [
+      "nilmorg_completed_canonical_severance_extraction_chain",
+    ],
+  },
+
+  // ═════════════════════════════════════════════════════════════════════
   // CATCH-ALLS (silent-fail compliance)
   // ═════════════════════════════════════════════════════════════════════
 

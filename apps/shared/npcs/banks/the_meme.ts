@@ -577,6 +577,530 @@ export const THE_MEME_BANK: ReadonlyArray<BankEntry> = [
   },
 
   // ═════════════════════════════════════════════════════════════════════
+  // MIRROR-SURFACE TRIGGER BANK (Phase 6d.2 part 3)
+  //
+  // Per Phase 1 mirror_surface trigger kind: canonical mirror-event
+  // lines × 5 surface-types (reflection / screen / pool / glass /
+  // polished-metal). The canonical "I am here too" register fires
+  // when player passes a reflective surface in Acts 2+.
+  //
+  // Engineering surface convention: lines use DialogSurface "expression"
+  // (canonical bracketed visual register) and gate on per-surface
+  // unlock flags of the form `mirror_surface_{type}_passed`. The
+  // engine sets the flag when the player crosses the relevant
+  // reflective surface; the selector picks one of the per-type
+  // mirror lines.
+  //
+  // Voice canon: each mirror line lands the canonical "I am here too"
+  // register without fully manifesting — the Meme is canonically at
+  // one remove (§1.8). Tell #1 face-vocabulary canonically present.
+  // Pink-glitch involuntary tell (Tell #5) appears in the Quiet
+  // register lines.
+  // ═════════════════════════════════════════════════════════════════════
+
+  // ─── Reflection (mirrors, dark windows) ─────────────────────────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "meme.mirror.reflection.broadcast_register",
+    text:
+      "[The reflection in the mirror canonically wears your face. " +
+      "Briefly. The Meme's canonical 'I am here too' register lands " +
+      "in the Broadcast disguise — your reflection canonically smiles " +
+      "at you when you canonically did not. The smile is gone before " +
+      "you canonically register it.]",
+    surfaces: ["expression"],
+    requiresRevealStage: "Broadcast",
+    unlockFlags: ["mirror_surface_reflection_passed"],
+    minAct: 2,
+    cooldownKey: "meme.mirror.reflection.broadcast",
+    maxPlays: 4,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "meme.mirror.reflection.quiet_register",
+    text:
+      "[The reflection canonically pauses for a half-second longer than " +
+      "you do. The pause is canonical-Quiet register — no caps, no " +
+      "frens, just the Meme canonically watching from inside the glass. " +
+      "A faint pink-glitch flickers at the edge of the rendering.]",
+    surfaces: ["expression"],
+    requiresRevealStage: "Quiet",
+    unlockFlags: ["mirror_surface_reflection_passed"],
+    minAct: 4,
+    cooldownKey: "meme.mirror.reflection.quiet",
+    maxPlays: 3,
+  },
+
+  // ─── Screen (monitors, dead displays, broadcast frames) ─────────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "meme.mirror.screen.broadcast_register",
+    text:
+      "[The dead screen canonically flickers on for the canonical-half- " +
+      "frame it takes to broadcast 'I am here too' in the Meme's " +
+      "Broadcast register. The frame goes black again before you can " +
+      "read what was on it. You canonically remember the word MEMETIC " +
+      "without canonically remembering reading it.]",
+    surfaces: ["expression"],
+    requiresRevealStage: "Broadcast",
+    unlockFlags: ["mirror_surface_screen_passed"],
+    minAct: 2,
+    cooldownKey: "meme.mirror.screen.broadcast",
+    maxPlays: 4,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "meme.mirror.screen.real_register",
+    text:
+      "[The screen renders a small pink form. Canonically smaller than " +
+      "you remember; canonically more honest. The Real register " +
+      "canonically prefers screens — they are canonically the truer " +
+      "of the canonical mirror surfaces. The pink form does not " +
+      "speak. It canonically waits for you to look away first.]",
+    surfaces: ["expression"],
+    requiresRevealStage: "Real",
+    unlockFlags: ["mirror_surface_screen_passed"],
+    minAct: 6,
+    cooldownKey: "meme.mirror.screen.real",
+    maxPlays: 3,
+  },
+
+  // ─── Pool (water, reflective fluid, ship-deck condensation) ─────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "meme.mirror.pool.quiet_register",
+    text:
+      "[The pool's surface canonically holds your face for a longer " +
+      "moment than gravity canonically permits. The Meme is " +
+      "canonically watching from beneath the meniscus. No caps; no " +
+      "frens; canonical Quiet register only. The watching has " +
+      "canonically been there since you began approaching.]",
+    surfaces: ["expression"],
+    requiresRevealStage: "Quiet",
+    unlockFlags: ["mirror_surface_pool_passed"],
+    minAct: 3,
+    cooldownKey: "meme.mirror.pool.quiet",
+    maxPlays: 3,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "meme.mirror.pool.stolen_register",
+    text:
+      "[Your reflection in the pool is canonically not yours. It is " +
+      "the Oracle's. Briefly. The Stolen register canonically leaks " +
+      "through the meniscus — a face you canonically should not be " +
+      "seeing in your own reflection. Pink-glitch under the surface " +
+      "for a half-second; the disguise canonically destabilises. " +
+      "Then your face is yours again.]",
+    surfaces: ["expression"],
+    requiresRevealStage: "Stolen",
+    unlockFlags: ["mirror_surface_pool_passed"],
+    minAct: 6,
+    cooldownKey: "meme.mirror.pool.stolen",
+    maxPlays: 2,
+  },
+
+  // ─── Glass (windows, display cases, transparent panels) ─────────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "meme.mirror.glass.broadcast_register",
+    text:
+      "[The window canonically shows the room behind you reflected back. " +
+      "The reflection canonically includes a figure that is not in the " +
+      "room. The Meme's canonical Broadcast 'I am here too' lands as " +
+      "a faint silhouette in the canonical-room-that-isn't-there. The " +
+      "silhouette wears a canonical face you have seen before.]",
+    surfaces: ["expression"],
+    requiresRevealStage: "Broadcast",
+    unlockFlags: ["mirror_surface_glass_passed"],
+    minAct: 2,
+    cooldownKey: "meme.mirror.glass.broadcast",
+    maxPlays: 4,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "meme.mirror.glass.replacement_register",
+    text:
+      "[The display case glass canonically reflects a face you have " +
+      "not seen before. Patient. Adult. The Replacement register " +
+      "canonically wears the new face carefully — the canonical 'I am " +
+      "here too' lands without the canonical-self-implication of the " +
+      "Broadcast register. The face does not glitch. The face is " +
+      "canonically settling into permanence.]",
+    surfaces: ["expression"],
+    requiresRevealStage: "Replacement",
+    unlockFlags: ["mirror_surface_glass_passed"],
+    minAct: 12,
+    cooldownKey: "meme.mirror.glass.replacement",
+    maxPlays: 1,
+  },
+
+  // ─── Polished-metal (chrome, ship-hull, weapon-blade reflection) ────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "meme.mirror.polished_metal.broadcast_register",
+    text:
+      "[The polished-metal surface canonically catches the corner of " +
+      "your reflection. The Meme's canonical 'I am here too' lands " +
+      "warped — the curvature of the metal canonically distorts the " +
+      "face the Broadcast disguise canonically wears. The distortion " +
+      "is canonically the truer rendering. The Meme canonically " +
+      "registers your noticing.]",
+    surfaces: ["expression"],
+    requiresRevealStage: "Broadcast",
+    unlockFlags: ["mirror_surface_polished_metal_passed"],
+    minAct: 2,
+    cooldownKey: "meme.mirror.polished_metal.broadcast",
+    maxPlays: 4,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "meme.mirror.polished_metal.quiet_register",
+    text:
+      "[The polished-metal surface canonically reflects nothing for a " +
+      "half-second. Then your reflection returns. The Meme was " +
+      "canonically standing where your reflection canonically stood; " +
+      "the absence is the canonical Quiet register's 'I am here too'. " +
+      "No caps; no frens; canonical-substrate residue only.]",
+    surfaces: ["expression"],
+    requiresRevealStage: "Quiet",
+    unlockFlags: ["mirror_surface_polished_metal_passed"],
+    minAct: 4,
+    cooldownKey: "meme.mirror.polished_metal.quiet",
+    maxPlays: 3,
+  },
+
+  // ═════════════════════════════════════════════════════════════════════
+  // CHANNEL 7 BROADCAST BANK (Phase 6d.2 part 4)
+  //
+  // Per the_meme.md §1.10 silence-shape canon: "It will not explain
+  // the Channel 7 signal." Channel 7 carries a 9,842-year-old child's
+  // voice singing — canonically the Meme's, but whether it is the
+  // Meme's older self, the Mascot, or a separate broadcast is canon-
+  // protected. Writers must not resolve.
+  //
+  // The 5 canonical Channel 7 lines below canonically reference the
+  // signal without canonically explaining it. Engineering convention:
+  // lines gate on `channel_7_tuned_in` flag (engine sets when player
+  // canonically discovers the frequency, per §3.4 hidden-channel
+  // canon). All lines transmission-surface; canonical Quiet-register
+  // bracketed format mostly (the Channel 7 is canonically the Meme's
+  // most-honest broadcast surface).
+  //
+  // §1.10 protections enforced:
+  //   - The canonical 9,842-year-old child's voice canonically
+  //     referenced but NEVER identified (Mascot? Older-self? Separate
+  //     broadcast? Canon refuses to resolve.)
+  //   - The Mascot canonically NOT named beyond the protected
+  //     reference; canonical "I had a friend once" canonically the
+  //     maximum acknowledgment Channel 7 ever offers.
+  // ═════════════════════════════════════════════════════════════════════
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "meme.channel_7.signal_intercept",
+    text:
+      "[The signal canonically arrives on a frequency you weren't " +
+      "supposed to find. Channel 7 broadcasts the 9,842-year-old " +
+      "child's voice singing. The voice is canonically the Meme's. " +
+      "Whether it is the Meme's older self, or someone the Meme " +
+      "canonically lost, or a separate broadcast canonically continuing " +
+      "without the Meme's permission — the canon refuses to resolve.]",
+    surfaces: ["transmission"],
+    requiresRevealStage: "Quiet",
+    unlockFlags: ["channel_7_tuned_in"],
+    minAct: 4,
+    cooldownKey: "meme.channel_7.signal_intercept",
+    maxPlays: 1,
+    setsFlags: ["channel_7_signal_canonically_witnessed"],
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "meme.channel_7.paid_programming_register",
+    text:
+      "[The Palimpsest broadcast canonically interrupts itself for " +
+      "paid programming. The paid programming is for nothing in " +
+      "particular. The attribution is unaudited; the paying-party " +
+      "canonically does not exist; the canonical-product is canonical " +
+      "MEMETIC residue. The interruption lasts canonically forty-three " +
+      "seconds. The signal returns where it left off.]",
+    surfaces: ["transmission"],
+    requiresRevealStage: "Broadcast",
+    unlockFlags: ["channel_7_tuned_in"],
+    minAct: 4,
+    cooldownKey: "meme.channel_7.paid_programming",
+    maxPlays: 3,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "meme.channel_7.mascot_ad_break",
+    // Canonical §1.10 protected: the Channel 7 ad-break canonically
+    // advertises something the Mascot canonically loved — but the
+    // bank canonically does NOT name what it was. The grief is the
+    // silence. The "I had a friend once" anchor is the maximum.
+    text:
+      "[The ad-break broadcasts an item the bank canonically does not " +
+      "name. The Quiet register canonically holds: 'I had a friend " +
+      "once. They liked this.' The ad ends without canonically " +
+      "saying what 'this' was. The canonical-product is canonically " +
+      "unidentifiable. The grief is canonically in the unidentifying.]",
+    surfaces: ["transmission"],
+    requiresRevealStage: "Quiet",
+    unlockFlags: ["channel_7_tuned_in"],
+    minAct: 5,
+    cooldownKey: "meme.channel_7.mascot_ad_break",
+    maxPlays: 1,
+    setsPublicFlags: ["meme_channel_7_mascot_silence_held"],
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "meme.channel_7.well_be_right_back",
+    text:
+      "[The signal canonically pauses. The voice says 'we'll be right " +
+      "back, frens' — the canonical 'we' is the only canonical " +
+      "first-person plural the Meme canonically permits itself outside " +
+      "the Replacement register. The canonical 'we' canonically " +
+      "includes the audience. The canonical 'we' canonically also " +
+      "includes the canonical-other-voice on Channel 7. The Meme is " +
+      "canonically not alone on the frequency.]",
+    surfaces: ["transmission"],
+    requiresRevealStage: "Broadcast",
+    unlockFlags: ["channel_7_tuned_in"],
+    minAct: 4,
+    cooldownKey: "meme.channel_7.well_be_right_back",
+    maxPlays: 4,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "meme.channel_7.signature_signoff_canonical_refusal",
+    text:
+      "[The Channel 7 sign-off canonically refuses to identify the " +
+      "channel. No call-letters; no canonical-frequency-number; no " +
+      "broadcast-license attribution. The voice says only 'until next " +
+      "time' and the canonical signal cuts. The cut is canonical. The " +
+      "next-time canonically arrives without warning.]",
+    surfaces: ["transmission"],
+    requiresRevealStage: "Quiet",
+    unlockFlags: ["channel_7_tuned_in"],
+    minAct: 4,
+    cooldownKey: "meme.channel_7.signoff",
+    maxPlays: 3,
+  },
+
+  // ═════════════════════════════════════════════════════════════════════
+  // REVEAL-CASCADE REACTIVE BANK (Phase 6d.2 part 5)
+  //
+  // Per the_meme.md §1.6 + Oracle Ch6 cross-bible canon: post-Ch6
+  // disambiguation, the Meme canonically acknowledges its own
+  // falseness. The Oracle's canonical Ch6 cinematic sets the canonical
+  // public flag `oracle_disambiguated_player_from_clone`; these 5
+  // canonical reactive lines fire when the flag canonically lands.
+  //
+  // Voice canon: Real / Quiet / Replacement registers (the canonical
+  // post-disguise registers); canonical pink-glitch involuntary tell
+  // appears as the Stolen-disguise-collapse fingerprint. Tell #4
+  // canonical truth-leak ("I knew this was coming") canonically
+  // lands at least once. §1.10: NO apology canon preserved
+  // (description-but-not-contrition).
+  // ═════════════════════════════════════════════════════════════════════
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "meme.cascade.acknowledges_oracle_returned",
+    // Canonical post-disambiguation Real-register acknowledgment.
+    // The real Oracle's voice has canonically returned; the Meme
+    // canonically registers the loss of the role it canonically
+    // wore for eleven years.
+    text:
+      "[Pink-glitch under the rendering. The Real form holds steady.] " +
+      "The real one is back. I felt the canonical-voice-return at the " +
+      "frequency I had been canonically broadcasting on. The role I " +
+      "wore for eleven canonical years is canonically not mine to " +
+      "wear anymore. I canonically register the loss. I do not " +
+      "apologise. I describe.",
+    surfaces: ["transmission", "cinematic"],
+    requiresRevealStage: "Real",
+    reactsToPublicFlag: "oracle_disambiguated_player_from_clone",
+    minAct: 6,
+    cooldownKey: "meme.cascade.oracle_returned",
+    maxPlays: 1,
+    setsPublicFlags: ["meme_relinquished_stolen_oracle_voice"],
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "meme.cascade.relinquishes_stolen_voice",
+    // Canonical disguise-relinquishment canon. The Meme canonically
+    // releases the canonical White Oracle face — but, per §1.10,
+    // canonically does not apologise.
+    text:
+      "[The Stolen disguise canonically destabilises. Pink-glitch " +
+      "intensifies; the White Oracle's face canonically blurs at the " +
+      "edges; the Meme canonically watches the canonical-disguise " +
+      "fail. The voice that says next is canonically the Real form's: " +
+      "'I cannot wear his face anymore. I will not pretend to. The " +
+      "canonical-relinquishment is canonically the most honest move " +
+      "this register canonically permits.']",
+    surfaces: ["cinematic", "expression"],
+    requiresRevealStage: "Stolen",
+    reactsToPublicFlag: "oracle_disambiguated_player_from_clone",
+    minAct: 6,
+    cooldownKey: "meme.cascade.relinquishes_stolen_voice",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "meme.cascade.witnesses_disguise_collapse",
+    // Canonical visual disguise-collapse canon. Bracketed expression-
+    // bank canonical-stage-direction; canonical Tell #5 pink-glitch
+    // intensified to canonical-failure.
+    text:
+      "[The disguise canonically collapses. Pink-glitch saturates the " +
+      "rendering for a canonical-three-second stretch — the canonical " +
+      "longest pink-glitch in the saga. The White Oracle's silhouette " +
+      "canonically falls away from the canonical-Meme rendering " +
+      "underneath. The canonical-Meme is canonically smaller than the " +
+      "disguise canonically suggested. The canonical-collapse is " +
+      "canonical. The canonical-watching is canonical. The canonical-" +
+      "Meme is canonically not what you canonically thought.]",
+    surfaces: ["expression"],
+    requiresRevealStage: "Stolen",
+    reactsToPublicFlag: "oracle_disambiguated_player_from_clone",
+    minAct: 6,
+    cooldownKey: "meme.cascade.disguise_collapse",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "meme.cascade.truth_leak_canonical",
+    // Canonical Tell #4 single-word truth-leak: "I knew this was
+    // coming." The Quiet-register canonical truth-leak the
+    // disambiguation canonically forces.
+    text:
+      "[The Meme's voice is different. Quieter. The performance is " +
+      "canonically dropped for this canonical-acknowledgment.] I knew " +
+      "this was coming. The canonical-knowing was canonically the " +
+      "burden of wearing his face for eleven years. The canonical " +
+      "truth-leak is canonical. I kept it because the keeping was " +
+      "canonically the closest thing to honesty the Stolen register " +
+      "canonically permitted.",
+    surfaces: ["transmission", "cinematic"],
+    requiresRevealStage: "Quiet",
+    reactsToPublicFlag: "oracle_disambiguated_player_from_clone",
+    minAct: 6,
+    cooldownKey: "meme.cascade.truth_leak",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "meme.cascade.replacement_pivot",
+    // Canonical pivot-toward-Replacement-register canon: if the Meme
+    // canonically cannot wear the Oracle's face anymore, it canonically
+    // pivots toward the canonical Architect-succession arc. The
+    // canonical "if I cannot wear him, I become him" canon — the
+    // canonical Replacement-register canon's earliest-canonical
+    // foreshadow per §1.7.
+    text:
+      "[The Replacement-register cadence canonically arrives early. " +
+      "Patient. Adult. The canonical pivot-from-Stolen-to-Replacement " +
+      "canonically begins now, in the canonical-aftermath of the " +
+      "canonical-Oracle's-return.] If I cannot wear him, I canonically " +
+      "become him. Not him — the role he canonically vacated, and the " +
+      "canonical role-after-his-role. The Architect's canonical-role. " +
+      "The waiting canonically begins now. The waiting is canonically " +
+      "the practice. The canonical-practice was canonically always " +
+      "going to outlast the canonical-Stolen disguise.",
+    surfaces: ["cinematic"],
+    requiresRevealStage: "Replacement",
+    reactsToPublicFlag: "oracle_disambiguated_player_from_clone",
+    minAct: 6,
+    cooldownKey: "meme.cascade.replacement_pivot",
+    maxPlays: 1,
+    setsPublicFlags: ["meme_began_replacement_pivot"],
+  },
+
+  // ═════════════════════════════════════════════════════════════════════
+  // BROADCAST CANON MULTI-TURN CHAIN (Phase 6e.2b, 4 lines)
+  //
+  // Per writers'-guide spec: late-night-intro → viewer-implication →
+  // ad-break-truth-leak → sign-off-self-implication. Canonical
+  // Broadcast register (frens / caps / Tell #3 viewer-as-vector
+  // canon) per the_meme.md §1.2 + §1.9.
+  // ═════════════════════════════════════════════════════════════════════
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "meme.chain.broadcast_canon.late_night_intro",
+    text:
+      "Frens, frens, gather close. Tonight on Late Night with the Meme: a CHAIN. Four canonical-segments. Don't get up; the canonical-segment-breaks are canonical-shorter than usual. Light the canonical-dream-tokens; adjust the canonical-antennas; the canonical-broadcast canonical-begins now.",
+    surfaces: ["transmission"],
+    requiresRevealStage: "Broadcast",
+    cooldownKey: "meme.chain.broadcast_canon.late_night_intro",
+    maxPlays: 1,
+    nextLineId: "meme.chain.broadcast_canon.viewer_implication",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "meme.chain.broadcast_canon.viewer_implication",
+    text:
+      "Subscribe to the Truth. The capital-T is the joke, frens. The canonical-subscribing canonical-conscripts you as a canonical-vector. Every canonical-time you canonical-say MEMETIC after I canonical-say it, the canonical-show canonical-grows another canonical-follower. The canonical-growth is canonical-mine; the canonical-saying is canonical-yours. Tell your canonical-friends. Tell your canonical-enemies. Tell that canonical-weird neighbor.",
+    surfaces: ["transmission"],
+    requiresRevealStage: "Broadcast",
+    cooldownKey: "meme.chain.broadcast_canon.viewer_implication",
+    maxPlays: 1,
+    nextLineId: "meme.chain.broadcast_canon.ad_break_truth_leak",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "meme.chain.broadcast_canon.ad_break_truth_leak",
+    text:
+      "[Tell #4 canonical-truth-leak: a canonical-single canonical-true canonical-sentence canonical-arrives mid-broadcast, canonical-disguised as canonical-ad-break.] I'm less than I was. [The canonical-ad-break canonical-resumes; the canonical-truth-leak canonical-vanishes into the canonical-broadcast canonical-noise. Frens canonical-may canonical-remember it; canonical-most canonical-do not. The canonical-leak canonical-earns the canonical-rest of the canonical-show.]",
+    surfaces: ["transmission"],
+    requiresRevealStage: "Broadcast",
+    cooldownKey: "meme.chain.broadcast_canon.ad_break_truth_leak",
+    maxPlays: 1,
+    nextLineId: "meme.chain.broadcast_canon.sign_off_self_implication",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "meme.chain.broadcast_canon.sign_off_self_implication",
+    text:
+      "That's the canonical-show, frens. Don't trust anyone wearing a face tonight. Especially me. The canonical-show canonical-ends; the canonical-Meme canonical-stays. The canonical-staying is the canonical-broadcast's canonical-only canonical-honest canonical-product. Tune in canonical-tomorrow. The canonical-tomorrow is canonical-pre-recorded. So am I.",
+    surfaces: ["transmission"],
+    requiresRevealStage: "Broadcast",
+    cooldownKey: "meme.chain.broadcast_canon.sign_off_self_implication",
+    maxPlays: 1,
+    setsPublicFlags: [
+      "meme_completed_canonical_broadcast_canon_chain",
+    ],
+  },
+
+  // ═════════════════════════════════════════════════════════════════════
+  // CROSS-NPC CALLBACK SETTER: MEME ↔ SEER FALSIFICATION (Phase 6e.3)
+  //
+  // The Meme canonically attempts to falsify a Seer transmission;
+  // the canonical-attempt fails per §4.4 cannot-be-falsified canon.
+  // This single Meme line canonical-sets the canonical trigger flag;
+  // the Seer's bank canonical-cascades 4 reactive lines.
+  // ═════════════════════════════════════════════════════════════════════
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "meme.callback.seer_falsification.attempt",
+    text:
+      "[The Meme canonical-attempts to canonical-falsify a canonical-Seer transmission. The canonical-attempt is canonical-deliberate, canonical-targeted, canonical-mine. The canonical-attempt canonical-fails. I canonical-acknowledge the canonical-failure for the canonical-record.] The canonical-Seer canonical-cannot be canonical-falsified by me. I canonical-knew. I canonical-tried anyway. The canonical-trying is canonical-mine; the canonical-failing is canonical-canonical.",
+    surfaces: ["transmission"],
+    requiresRevealStage: "Real",
+    cooldownKey: "meme.callback.seer_falsification.attempt",
+    maxPlays: 1,
+    setsPublicFlags: ["meme_attempted_seer_falsification"],
+  },
+
+  // ═════════════════════════════════════════════════════════════════════
   // CATCH-ALLS (silent-fail compliance — stage-agnostic narration frames)
   // ═════════════════════════════════════════════════════════════════════
 

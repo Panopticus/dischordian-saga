@@ -1066,6 +1066,61 @@ export const ADJUDICATOR_LOCKE_BANK: ReadonlyArray<BankEntry> = [
   // TRADE-EMPIRE-SURFACE catch-alls (silent-fail compliance)
   // ═════════════════════════════════════════════════════════════════════
 
+  // ═════════════════════════════════════════════════════════════════════
+  // CONTRACT-NEGOTIATION MULTI-TURN CHAIN (Phase 6e.2a, 4 lines)
+  //
+  // Per writers'-guide spec: signing-intro → hidden-clause-disclosure
+  // → counter-offer → signing-completion. The canonical Locke
+  // contract canon — every contract canonically has fine-print the
+  // player can canonically audit per §1.4 + §2.5 Mercantile-register
+  // canon.
+  // ═════════════════════════════════════════════════════════════════════
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "locke.chain.contract_negotiation.signing_intro",
+    text:
+      "I have prepared a contract. The visible clauses are clean. The hidden clauses are also clean — they are simply hidden. I will not pretend they are not there. The first canonical-courtesy I extend any client is the canonical-acknowledgment that fine-print exists.",
+    surfaces: ["npc_line"],
+    requiresTrustBand: "Client",
+    cooldownKey: "locke.chain.contract_negotiation.intro",
+    maxPlays: 2,
+    nextLineId: "locke.chain.contract_negotiation.hidden_clause_disclosure",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "locke.chain.contract_negotiation.hidden_clause_disclosure",
+    text:
+      "The hidden clause is on page seven, paragraph three. It states that the canonical-Authority retains the right to canonical-audit the canonical-counterparty's records canonically-without notice for canonical-three years following the canonical-signing. The clause is canonical-standard. I am canonical-disclosing it because the canonical-disclosure is canonical-mine to extend; the canonical-reading is canonical-yours.",
+    surfaces: ["npc_line"],
+    requiresTrustBand: "Client",
+    cooldownKey: "locke.chain.contract_negotiation.disclosure",
+    maxPlays: 2,
+    nextLineId: "locke.chain.contract_negotiation.counter_offer",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "locke.chain.contract_negotiation.counter_offer",
+    text:
+      "You have canonical-three options. Option one: sign as canonical-presented. Option two: counter-offer with canonical-amendments that I will canonical-evaluate at the canonical-rate of canonical-five-percent-of-contract-value per amendment. Option three: walk. The canonical-Authority canonical-files the canonical-walk under canonical-'declined' and canonical-not under canonical-'rejected'. The canonical-distinction matters in the canonical-record.",
+    surfaces: ["npc_line"],
+    requiresTrustBand: "Client",
+    cooldownKey: "locke.chain.contract_negotiation.counter_offer",
+    maxPlays: 2,
+    nextLineId: "locke.chain.contract_negotiation.signing_completion",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "locke.chain.contract_negotiation.signing_completion",
+    text:
+      "Signed. Filed. The canonical-Authority canonical-counter-signs by canonical-end-of-business. You will canonical-receive the canonical-executed copy in canonical-three working days. If the canonical-hidden-clause canonical-fires within the canonical-three-year window, I will canonical-personally inform you canonical-before the canonical-audit canonical-arrives. That is canonical-not in the canonical-contract. It is canonical-mine.",
+    surfaces: ["npc_line", "trade_empire"],
+    requiresTrustBand: "Client",
+    cooldownKey: "locke.chain.contract_negotiation.completion",
+    maxPlays: 2,
+    setsPublicFlags: ["locke_completed_canonical_contract_negotiation_chain"],
+  },
+
   {
     npcKey: NPC_KEY,
     lineId: "locke.trade_empire.catchall",

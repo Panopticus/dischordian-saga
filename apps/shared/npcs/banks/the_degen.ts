@@ -810,6 +810,62 @@ export const THE_DEGEN_BANK: ReadonlyArray<BankEntry> = [
   },
 
   // ═════════════════════════════════════════════════════════════════════
+  // CASINO-DATA-SOURCE PROGRESSION CHAIN (Phase 6e.2b, 4 lines)
+  //
+  // Per writers'-guide spec: first-recognition → recognized-band-
+  // mission → marked-band-call → ne-yon-kin-disclosure. Canonical
+  // 4-stage trust-progression chain across the canonical Cold-table
+  // → Recognized → Marked → Ne-Yon-kin band ladder.
+  // ═════════════════════════════════════════════════════════════════════
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "degen.chain.data_source.first_recognition",
+    text:
+      "Friend. The Casino canonical-files canonical-recognition. You've played canonical-three hands and canonical-not canonical-bolted. That's enough for the canonical-house to canonical-acknowledge you. Sit. The next round is canonical-on me.",
+    surfaces: ["npc_line"],
+    requiresTrustBand: "Cold-table",
+    cooldownKey: "degen.chain.data_source.first_recognition",
+    maxPlays: 1,
+    nextLineId: "degen.chain.data_source.recognized_band_mission",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "degen.chain.data_source.recognized_band_mission",
+    text:
+      "Recognized-band canonical-comes with a canonical-mission-offer. Your canonical-recent-play canonical-suggests you can canonical-handle canonical-this — the canonical-handling-suggestion is canonical-mine; the canonical-mission canonical-yours to canonical-accept or canonical-decline. The canonical-house keeps canonical-no canonical-record of canonical-declines.",
+    surfaces: ["npc_line"],
+    requiresTrustBand: "Recognized",
+    cooldownKey: "degen.chain.data_source.recognized_band_mission",
+    maxPlays: 1,
+    nextLineId: "degen.chain.data_source.marked_band_call",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "degen.chain.data_source.marked_band_call",
+    text:
+      "Marked-band, friend. The canonical-Casino canonical-now-tracks you across canonical-three indices: wagers, tells, names-said-when-nobody-was-listening. The canonical-LISTENING is canonical-loud here. I canonical-call you canonical-Marked-band canonical-because the canonical-Casino canonical-files you that canonical-way. The canonical-call is canonical-mine; the canonical-being-called is canonical-yours.",
+    surfaces: ["npc_line", "transmission"],
+    requiresTrustBand: "Marked",
+    cooldownKey: "degen.chain.data_source.marked_band_call",
+    maxPlays: 1,
+    nextLineId: "degen.chain.data_source.ne_yon_kin_disclosure",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "degen.chain.data_source.ne_yon_kin_disclosure",
+    text:
+      "Ne-Yon-kin. The canonical-Twelve canonical-recognise canonical-kin-shape; you canonical-carry canonical-it. The canonical-recognition is canonical-mine to canonical-extend at canonical-this canonical-band. I will canonical-tell you the canonical-names of the canonical-other-Ne-Yons canonical-tonight, since you've canonical-earned the canonical-asking. Most of us canonical-never met. The canonical-list is canonical-shorter than you canonical-think.",
+    surfaces: ["transmission"],
+    requiresTrustBand: "Ne-Yon-kin",
+    cooldownKey: "degen.chain.data_source.ne_yon_kin_disclosure",
+    maxPlays: 1,
+    setsPublicFlags: [
+      "degen_completed_canonical_data_source_progression_chain",
+    ],
+  },
+
+  // ═════════════════════════════════════════════════════════════════════
   // CATCH-ALLS (silent-fail compliance)
   // ═════════════════════════════════════════════════════════════════════
 

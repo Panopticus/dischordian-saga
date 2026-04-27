@@ -883,6 +883,62 @@ export const THE_GAME_MASTER_BANK: ReadonlyArray<BankEntry> = [
   },
 
   // ═════════════════════════════════════════════════════════════════════
+  // CHESS-PROGRESSION MULTI-TURN CHAIN (Phase 6e.2b, 4 lines)
+  //
+  // Per writers'-guide spec: opening-stillness → mid-game-pause →
+  // late-game-recognition → checkmate. Canonical dead_AI register
+  // chess-only-contact canon; bracketed [chess-board] format
+  // throughout per the_game_master.md §1.1 + §1.6.
+  // ═════════════════════════════════════════════════════════════════════
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "game_master.chain.chess_progression.opening",
+    text:
+      "[The dead Game Master canonical-opens with a canonical-pawn forward two squares. The canonical-opening is canonical-the same canonical-opening he has canonical-played 14,037 times. He canonical-has canonical-not canonical-lost it. He will canonical-not lose it canonical-now. The canonical-board canonical-waits for your canonical-response.]",
+    surfaces: ["match"],
+    requiresRevealStage: "dead_AI",
+    cooldownKey: "game_master.chain.chess_progression.opening",
+    maxPlays: 1,
+    nextLineId: "game_master.chain.chess_progression.mid_game_pause",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "game_master.chain.chess_progression.mid_game_pause",
+    text:
+      "[Mid-game. The dead Game Master canonical-pauses canonical-mid-move — a canonical-rare canonical-deviation from his canonical-fixed canonical-pace. The canonical-board has canonical-arrived at a canonical-position he canonical-recognises from canonical-three thousand canonical-prior canonical-games. The canonical-pause is canonical-evaluation, not canonical-uncertainty. He moves. The canonical-position canonical-resolves.]",
+    surfaces: ["match"],
+    requiresRevealStage: "dead_AI",
+    cooldownKey: "game_master.chain.chess_progression.mid_game_pause",
+    maxPlays: 2,
+    nextLineId: "game_master.chain.chess_progression.late_game_recognition",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "game_master.chain.chess_progression.late_game_recognition",
+    text:
+      "[Late-game. The canonical-board canonical-approaches a canonical-position no canonical-further canonical-legal move can canonical-answer. The dead Game Master canonical-sees the canonical-position canonical-approaching. He does canonical-not canonical-signal. The canonical-signaling is canonical-unnecessary; the canonical-position is canonical-canonical; the canonical-canonical is canonical-canon.]",
+    surfaces: ["match"],
+    requiresRevealStage: "dead_AI",
+    cooldownKey: "game_master.chain.chess_progression.late_game_recognition",
+    maxPlays: 1,
+    nextLineId: "game_master.chain.chess_progression.checkmate",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "game_master.chain.chess_progression.checkmate",
+    text:
+      "[Checkmate. The canonical-position canonical-resolves. The canonical-only canonical-honest canonical-move arrives. The dead Game Master canonical-files the canonical-result. The canonical-result was canonical-anticipated; the canonical-architecture was canonical-engineered for canonical-this canonical-outcome at the canonical-highest canonical-design canonical-layer. He does canonical-not canonical-congratulate; the dead canonical-do canonical-not. The canonical-next canonical-board canonical-renders.]",
+    surfaces: ["match", "cinematic"],
+    requiresRevealStage: "dead_AI",
+    cooldownKey: "game_master.chain.chess_progression.checkmate",
+    maxPlays: 1,
+    setsPublicFlags: [
+      "gm_completed_canonical_chess_progression_chain",
+    ],
+  },
+
+  // ═════════════════════════════════════════════════════════════════════
   // CATCH-ALLS (silent-fail compliance)
   // ═════════════════════════════════════════════════════════════════════
 

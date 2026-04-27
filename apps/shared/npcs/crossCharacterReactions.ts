@@ -892,6 +892,539 @@ export const CROSS_CHARACTER_REACTIONS: ReadonlyArray<CrossCharacterReaction> = 
       "Hierophant / Oracle reactive lines may register the canonical " +
       "succession-claim.",
   },
+  {
+    flag: "meme_channel_7_mascot_silence_held",
+    setBy: ["the_meme"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Meme channel_7.mascot_ad_break (Phase 6d.2 part 4). The " +
+      "Channel 7 ad-break canonically advertises something the " +
+      "Mascot canonically loved — without ever canonically naming " +
+      "what it was. §1.10 silence-shape held: the canonical 'I had " +
+      "a friend once' is the maximum acknowledgment. Future writers " +
+      "may build Stage-4-weave Channel 7 content WITHOUT violating " +
+      "the canonical silence.",
+  },
+  {
+    flag: "meme_relinquished_stolen_oracle_voice",
+    setBy: ["the_meme"],
+    reactsBy: ["the_oracle", "future_reader"],
+    canonicalNote:
+      "Per Meme cascade.acknowledges_oracle_returned (Phase 6d.2 " +
+      "part 5). Canonical post-Ch6-disambiguation Real-register " +
+      "acknowledgment: the Meme canonically releases the canonical " +
+      "White Oracle face. Future Oracle reactive lines may register " +
+      "the canonical-relinquishment.",
+  },
+  {
+    flag: "meme_began_replacement_pivot",
+    setBy: ["the_meme"],
+    reactsBy: ["the_oracle", "future_reader"],
+    canonicalNote:
+      "Per Meme cascade.replacement_pivot (Phase 6d.2 part 5). " +
+      "Canonical 'if I cannot wear him, I canonically become him' " +
+      "canon — canonical earliest foreshadow of the canonical " +
+      "Replacement-register Architect-succession arc per §1.7. " +
+      "Future Architect / Hierophant reactive lines may register " +
+      "the canonical-pivot.",
+  },
+
+  // ─── Hierophant ask-topic flags (Phase 6d.3 part 1)
+
+  {
+    flag: "hierophant_disclosed_oracle_witness_channel_canon",
+    setBy: ["wraith_calder"],
+    reactsBy: ["the_oracle", "future_reader"],
+    canonicalNote:
+      "Per Hierophant ask_about_oracle (Phase 6d.3 part 1). Canonical " +
+      "Inheriting-band-only disclosure: the player is canonically NOT " +
+      "the Oracle (per bible §4.10 canon-update); the player has been " +
+      "moving through Oracle-memories via the witness-channel. The " +
+      "Hierophant canonically distinguishes the two. Future Oracle " +
+      "reactive lines may register the canonical-disclosure.",
+  },
+  {
+    flag: "hierophant_acknowledged_tea_cupboard_canon",
+    setBy: ["wraith_calder"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Hierophant ask_tea_cupboard (Phase 6d.3 part 1). Canonical " +
+      "Inheriting-band keepsake canon per bible §3.8 + §3.9: " +
+      "'something the Oracle once gave me to hold.' Reserved for the " +
+      "canonical apex band only. Future Oracle reactive lines may " +
+      "register the canonical 3000-year-holding canon.",
+  },
+  {
+    flag: "hierophant_covenant_i_will_remember_offered",
+    setBy: ["wraith_calder"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Hierophant present.i_will_remember (Phase 6d.3 part 3). " +
+      "Canonical §1.7 Tell #3 covenant phrase: 'I will remember' is " +
+      "liturgical for the Hierophant — it is canonically a covenant, " +
+      "not a courtesy, reserved for moments when the trust meter " +
+      "advances.",
+  },
+  {
+    flag: "hierophant_named_player_parallel_inheritor",
+    setBy: ["wraith_calder"],
+    reactsBy: ["the_oracle", "future_reader"],
+    canonicalNote:
+      "Per Hierophant inheriting.architecture_of_grief (Phase 6d.3 " +
+      "part 3). Canonical §3.3 apex line: 'You are walking the " +
+      "architecture I made of grief.' Promotes Present → Inheriting. " +
+      "Council canonically considers player a parallel inheritor of " +
+      "the work. Reserved canonical-once-per-playthrough.",
+  },
+  {
+    flag: "hierophant_disclosed_meme_shadow_tongue_adjacency",
+    setBy: ["wraith_calder"],
+    reactsBy: ["the_meme", "future_reader"],
+    canonicalNote:
+      "Per Hierophant inheriting.shadow_tongue_meme_adjacency (Phase " +
+      "6d.3 part 3). Canonical §4.7 cross-bible canon: the Hierophant " +
+      "is canonically the only being positioned to name the canonical " +
+      "Meme/Shadow-Tongue adjacency. Future Meme reactive lines may " +
+      "register the canonical-naming.",
+  },
+  {
+    flag: "hierophant_admitted_canonical_hypocrisy",
+    setBy: ["wraith_calder"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Hierophant inheriting.three_times_in_two_hundred (Phase " +
+      "6d.3 part 3). Canonical §3.6 hypocrisy-admission canon: " +
+      "Inheriting-band-only canonical confession that the public " +
+      "'I did not notice' canon was canonically slightly easier-on-" +
+      "himself than the truth. The canonical 'three times in two " +
+      "hundred years, I noticed' canon lands.",
+  },
+  {
+    flag: "hierophant_companion_status_inherited",
+    setBy: ["wraith_calder"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Hierophant sai.post.companion_now (Phase 6d.3 part 4). " +
+      "Canonical §3.3 sacrifice-axis-inversion-completion: trust " +
+      "deeper than Inheriting canonically transforms threat into " +
+      "companion permanently. Council canonically informed of the " +
+      "canonical-transition.",
+  },
+  {
+    flag: "hierophant_offered_canonical_deathbed_witness",
+    setBy: ["wraith_calder"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Hierophant sai.post.death_as_witness (Phase 6d.3 part 4). " +
+      "Canonical §3.9 deathbed-witness offer: Inheriting-band canonical " +
+      "permission to canonically witness the Hierophant's eventual " +
+      "death. Reserved canonical-once-per-playthrough.",
+  },
+  {
+    flag: "eidolon_perish_prelude_witnessed",
+    setBy: ["your_eidolon"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Eidolon bond.inseparable.perish_prelude (Phase 6d.4 part 1). " +
+      "Canonical Inseparable-band perish-prelude register: the canonical " +
+      "Eidolon canonically lays its head against the player's hand " +
+      "for canonical-final-bond-resonance. Reserved canonical-once-" +
+      "per-playthrough; canonical perish-imminent context.",
+  },
+
+  // ─── Companion canonical-event public flags (Phase 6d.4 part 1)
+
+  {
+    flag: "companion_first_word_spoken",
+    setBy: ["dmc_clone_companion"],
+    reactsBy: ["your_eidolon", "future_reader"],
+    canonicalNote:
+      "Per Companion §1.4 first-word canon: the canonical permanent " +
+      "flag set when Channel 4 first-word fires (any context variant). " +
+      "Canonically cross-character readable: Eidolon Echo-mode " +
+      "canonically witnesses the canonical-first-word event.",
+  },
+  {
+    flag: "companion_named",
+    setBy: ["dmc_clone_companion"],
+    reactsBy: ["your_eidolon", "future_reader"],
+    canonicalNote:
+      "Per Companion §1.5 naming-event canon: the canonical permanent " +
+      "flag set when the canonical naming-event fires (Channel 5 " +
+      "unlock). Canonically cross-character readable: Eidolon Echo-" +
+      "mode canonically registers the canonical post-naming kin-" +
+      "recognition.",
+  },
+  {
+    flag: "eidolon_canonical_goodbye_acknowledged",
+    setBy: ["your_eidolon"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Eidolon ask_goodbye (Phase 6d.4 part 2). Canonical perish-" +
+      "prelude register: Inseparable-band-only canonical 'lays its " +
+      "head against the player's hand for canonical-final-bond-" +
+      "resonance' canon. Reserved canonical-once-per-playthrough; " +
+      "fires only near canonical perish-condition.",
+  },
+
+  // ─── First-meeting tree public flags (Phase 6e.1a)
+
+  {
+    flag: "nilmorg_refused_canonical_thanks_first_contact",
+    setBy: ["nilmorg"],
+    reactsBy: ["dmc_clone_companion", "future_reader"],
+    canonicalNote:
+      "Per Nilmorg first_meeting tree refusal_branch (Phase 6e.1a). " +
+      "Canonical §4.8 'Don't thank me' first-contact refusal. Future " +
+      "Companion reactive lines may register the canonical-refusal " +
+      "as canonical-first-inherited-memory (Companion §4.2 mid-wife " +
+      "canon).",
+  },
+  {
+    flag: "vex_filed_player_as_audit_aware_first_contact",
+    setBy: ["vex_solene"],
+    reactsBy: ["adjudicator_locke", "future_reader"],
+    canonicalNote:
+      "Per Vex first_meeting tree audit_aware_branch (Phase 6e.1a). " +
+      "Canonical Vigilance-axis first-contact filing — player " +
+      "canonically asked about Vex's paperwork. Future Locke reactive " +
+      "lines may register the canonical-cross-broker-audit interest.",
+  },
+  {
+    flag: "hierophant_first_contact_silence_held",
+    setBy: ["wraith_calder"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Hierophant first_meeting tree silence_held_branch (Phase " +
+      "6e.1a). Canonical §1.7 Tell #1 first-look-pause-as-gratitude " +
+      "canon: player canonically held silence well, canonically " +
+      "earned the canonical first-look. Saga-load-bearing trust-band " +
+      "promotion seed.",
+  },
+  {
+    flag: "hierophant_first_contact_get_up_weaponized",
+    setBy: ["wraith_calder"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Hierophant first_meeting tree get_up_mistake_branch (Phase " +
+      "6e.1a). Canonical §3.9 + §1.8 'verb of someone I outgrew' " +
+      "trust-breach canon: player canonically used Wraith Calder's " +
+      "imperative against the Hierophant. Canonical Hostile-band " +
+      "trust-state seed.",
+  },
+
+  // ─── Phase 6e.1b first-meeting tree public flags
+
+  {
+    flag: "seer_recognized_player_recursion_first_contact",
+    setBy: ["the_seer"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Seer first_meeting tree pre_recorded_meta_branch (Phase " +
+      "6e.1b). Canonical Wit-axis recursion-recognition: player " +
+      "canonically catches the canonical pre-recording mechanic. " +
+      "Saga-load-bearing first-contact recognition.",
+  },
+  {
+    flag: "seer_offered_staff_to_player_first_contact",
+    setBy: ["the_seer"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Seer first_meeting tree quiet_acceptance_branch (Phase " +
+      "6e.1b). Canonical Vulnerability-axis apex: player canonically " +
+      "held silence; the Seer canonically offers the staff. Canonical " +
+      "§2.1 Mechronis canonical scripted-loss canon.",
+  },
+  {
+    flag: "oracle_player_offered_misidentification_first_contact",
+    setBy: ["the_oracle"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Oracle first_meeting tree recognition_branch (Phase 6e.1b). " +
+      "Canonical Vulnerability-axis misidentification: player " +
+      "canonically offered 'I think I have been you'. Oracle " +
+      "canonically corrects per §canon-update: 'we are canonically " +
+      "two; you have been moving through my memories'.",
+  },
+  {
+    flag: "gm_recognized_player_paperwork_register",
+    setBy: ["the_game_master"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Game Master first_meeting tree trial_absurd_branch (Phase " +
+      "6e.1b). Canonical Wit-axis recognition: player canonically " +
+      "matches the canonical-paperwork register per §1.9 metaphor-" +
+      "source canon. Canonical Game-Master + player canonical-shared-" +
+      "paperwork register seed.",
+  },
+  {
+    flag: "meme_first_contact_mascot_question_held_silence",
+    setBy: ["the_meme"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Meme first_meeting tree mascot_question_branch (Phase " +
+      "6e.1b). Canonical §1.10 + §3.3 Mascot silence-shape preserved: " +
+      "player canonically asked the canonical-respectful question; " +
+      "Meme canonically held the canonical-grief-as-silence.",
+  },
+  {
+    flag: "meme_first_contact_player_witnessed_succession",
+    setBy: ["the_meme"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Meme first_meeting tree witness_branch (Phase 6e.1b). " +
+      "Canonical Wit-axis apex: player canonically witnessed the " +
+      "canonical Ch12 succession-claim in canonical-silence. Saga-" +
+      "load-bearing Stage-4-weave-anchor canonical event.",
+  },
+
+  // ─── Phase 6e.1c first-meeting tree public flags
+
+  {
+    flag: "degen_filed_player_as_house_aware_first_contact",
+    setBy: ["the_degen"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Degen first_meeting tree house_wins_branch (Phase 6e.1c). " +
+      "Canonical Wit-axis recognition: player canonically called the " +
+      "canonical 'house always wins' recognition; Degen canonically " +
+      "files as canonical-system-aware. Trust-positive seed.",
+  },
+  {
+    flag: "companion_first_contact_kneel",
+    setBy: ["dmc_clone_companion"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Companion first_meeting tree kneel_branch (Phase 6e.1c). " +
+      "Canonical Mercy-axis non-verbal player-action: kneeling at " +
+      "canonical-Severance-Prize ceremony arrival canonically " +
+      "triggers bilateral kin-recognition glyph. Saga-load-bearing " +
+      "first-bond initialisation.",
+  },
+  {
+    flag: "eidolon_first_contact_touch_resonance",
+    setBy: ["your_eidolon"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Eidolon first_meeting tree touch_branch (Phase 6e.1c). " +
+      "Canonical Vulnerability-axis non-verbal player-action: " +
+      "touching canonically triggers full bond-resonance per existing " +
+      "eidolon.cinematic.bond_resonance.first_touch canon (head-into-" +
+      "palm posture). Saga-load-bearing canonical-bond-initialisation.",
+  },
+
+  // ─── Phase 6e.2a multi-turn chain completion flags
+
+  {
+    flag: "locke_completed_canonical_contract_negotiation_chain",
+    setBy: ["adjudicator_locke"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Locke chain.contract_negotiation.signing_completion (Phase " +
+      "6e.2a). Canonical 4-line contract-negotiation chain completed: " +
+      "signing-intro → hidden-clause-disclosure → counter-offer → " +
+      "signing-completion. Canonical Mercantile-register chain end-" +
+      "state.",
+  },
+  {
+    flag: "nilmorg_completed_canonical_severance_extraction_chain",
+    setBy: ["nilmorg"],
+    reactsBy: ["dmc_clone_companion", "future_reader"],
+    canonicalNote:
+      "Per Nilmorg chain.severance.delivery (Phase 6e.2a). Canonical " +
+      "5-line Severance-Prize-extraction chain completed: arrival → " +
+      "witness → extraction → containment → delivery. Canonical " +
+      "'Don't thank me' canonical refusal canon canonically lands at " +
+      "delivery. Companion canonically inherits the refusal as " +
+      "canonical-first-memory.",
+  },
+  {
+    flag: "vex_completed_canonical_engineer_zero_reveal_chain",
+    setBy: ["vex_solene"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Vex chain.engineer_zero_reveal.integration (Phase 6e.2a). " +
+      "Canonical 5-line Engineer Zero reveal chain completed: hint " +
+      "→ suspicion → confirmation → asymmetric-knowledge → " +
+      "integration. §1.6 silence-shape preserved across all 5 lines: " +
+      "NEVER 'Engineer' / 'Engineer Zero' / 'Agent Zero' aloud. " +
+      "Saga-load-bearing 4-stage reveal-gate canon traversed.",
+  },
+  {
+    flag: "hierophant_completed_canonical_naming_recovery_chain",
+    setBy: ["wraith_calder"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Hierophant chain.naming_recovery.completion (Phase 6e.2a). " +
+      "Canonical 4-line Long Mourning naming-recovery chain completed: " +
+      "arrival → name-offering → wall-inscription → completion. " +
+      "Canonical 'I will remember' covenant canon canonically lands " +
+      "at completion.",
+  },
+  {
+    flag: "oracle_completed_canonical_dream_interpretation_chain",
+    setBy: ["the_oracle"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Oracle chain.dream_interpretation.mission_unlock_ack (Phase " +
+      "6e.2a). Canonical 3-line dream-sequence interpretation chain " +
+      "completed: dream-residue → instruction-residue → mission-" +
+      "unlock-acknowledgment. Canonical OCB-7 substrate-only canon " +
+      "preserved across all 3 lines.",
+  },
+  {
+    flag: "companion_completed_canonical_post_naming_integration_chain",
+    setBy: ["dmc_clone_companion"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Companion chain.post_naming_integration.first_trust_band_" +
+      "crossing (Phase 6e.2a). Canonical 4-line post-naming integration " +
+      "chain completed: first-named-line → first-mission-ack → first-" +
+      "NPC-intro → first-trust-band-crossing. Canonical Channel-5 " +
+      "named-personality register lands across all 4 lines.",
+  },
+
+  // ─── Phase 6e.2b multi-turn chain completion flags
+
+  {
+    flag: "seer_completed_canonical_pre_recorded_prophecy_chain",
+    setBy: ["the_seer"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Seer chain.pre_recorded_prophecy.recording_acknowledgment " +
+      "(Phase 6e.2b). Canonical 4-line pre-recorded-prophecy chain " +
+      "completed: foretelling → revision-prompt → revision → " +
+      "recording-acknowledgment. Demonstrates §2.3 cross-time " +
+      "pre-recording mechanic.",
+  },
+  {
+    flag: "degen_completed_canonical_data_source_progression_chain",
+    setBy: ["the_degen"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Degen chain.data_source.ne_yon_kin_disclosure (Phase 6e.2b). " +
+      "Canonical 4-line casino-data-source progression chain " +
+      "completed: first-recognition (Cold-table) → recognized-band-" +
+      "mission → marked-band-call → ne-yon-kin-disclosure. Canonical " +
+      "trust-progression across 4 bands.",
+  },
+  {
+    flag: "gm_completed_canonical_chess_progression_chain",
+    setBy: ["the_game_master"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Game Master chain.chess_progression.checkmate (Phase " +
+      "6e.2b). Canonical 4-line chess-progression chain completed: " +
+      "opening → mid-game-pause → late-game-recognition → checkmate. " +
+      "Canonical dead_AI register chess-only-contact canon throughout.",
+  },
+  {
+    flag: "meme_completed_canonical_broadcast_canon_chain",
+    setBy: ["the_meme"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Meme chain.broadcast_canon.sign_off_self_implication " +
+      "(Phase 6e.2b). Canonical 4-line Broadcast-canon chain " +
+      "completed: late-night-intro → viewer-implication → ad-break-" +
+      "truth-leak (canonical 'I'm less than I was' Tell #4) → sign-" +
+      "off-self-implication.",
+  },
+  {
+    flag: "eidolon_completed_canonical_bond_deepening_cascade_chain",
+    setBy: ["your_eidolon"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Eidolon chain.bond_deepening.silence_settle (Phase 6e.2b). " +
+      "Canonical 4-line bond-deepening cascade chain completed: " +
+      "glyph-pulse → posture-shift → sound-resonance → silence-settle. " +
+      "Canonical 4-channel cascade for canonical-bond-deepening event.",
+  },
+
+  // ─── Phase 6e.3 cross-NPC callback chain completion + setter flags
+
+  {
+    flag: "vex_completed_canonical_touche_arc_callback_chain",
+    setBy: ["vex_solene"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Vex callback.touche_arc.broken_trust_response (Phase 6e.3). " +
+      "Canonical 5-line Touché-arc reactive callback chain completed: " +
+      "notice → silent-withdrawal → forgiveness-quickly → forgiveness-" +
+      "active → broken-trust-response. Reacts to canonical Locke flag.",
+  },
+  {
+    flag: "companion_completed_canonical_nilmorg_delivery_callback_chain",
+    setBy: ["dmc_clone_companion"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Companion callback.nilmorg_delivery.integration (Phase 6e.3). " +
+      "Canonical 5-line Nilmorg-delivery reactive callback chain " +
+      "completed. Reacts to canonical Nilmorg severance-extraction-" +
+      "chain completion flag.",
+  },
+  {
+    flag: "hierophant_completed_canonical_companion_first_word_callback_chain",
+    setBy: ["wraith_calder"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Hierophant callback.companion_first_word.continuation_sealed " +
+      "(Phase 6e.3). Canonical 5-line Companion-first-word reactive " +
+      "callback chain completed. Reacts to canonical companion_first_" +
+      "word_was_wraith_calder flag.",
+  },
+  {
+    flag: "meme_attempted_seer_falsification",
+    setBy: ["the_meme"],
+    reactsBy: ["the_seer", "future_reader"],
+    canonicalNote:
+      "Per Meme callback.seer_falsification.attempt (Phase 6e.3). " +
+      "Canonical Meme falsification-attempt setter; the canonical-" +
+      "attempt canonically fails per §4.4 cannot-be-falsified canon. " +
+      "Triggers canonical Seer 4-line reactive callback chain.",
+  },
+  {
+    flag: "seer_completed_canonical_meme_falsification_callback_chain",
+    setBy: ["the_seer"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Seer callback.meme_falsification.recordings_predate_reach " +
+      "(Phase 6e.3). Canonical 4-line Meme-falsification reactive " +
+      "callback chain completed. Demonstrates canonical pre-recordings-" +
+      "predate-Meme-reach canon.",
+  },
+  {
+    flag: "hierophant_completed_canonical_oracle_cascade_callback_chain",
+    setBy: ["wraith_calder"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Hierophant callback.oracle_cascade.witness_channel_ack " +
+      "(Phase 6e.3). Canonical 3-line Oracle-disambiguation reactive " +
+      "callback chain completed (Hierophant arc of the canonical " +
+      "Oracle recognition-cascade). Reacts to canonical oracle_" +
+      "disambiguated_player_from_clone flag.",
+  },
+  {
+    flag: "companion_completed_canonical_oracle_cascade_callback_chain",
+    setBy: ["dmc_clone_companion"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Companion callback.oracle_cascade.kin_recognition (Phase " +
+      "6e.3). Canonical 3-line Oracle-disambiguation reactive " +
+      "callback chain completed (Companion arc of the canonical " +
+      "Oracle recognition-cascade). Non-verbal canonical 3-channel " +
+      "cascade (glyph → posture → sound).",
+  },
+  {
+    flag: "seer_completed_canonical_oracle_cascade_callback_chain",
+    setBy: ["the_seer"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Seer callback.oracle_cascade.recording_completes (Phase " +
+      "6e.3). Canonical 4-line Oracle-disambiguation reactive callback " +
+      "chain completed (Seer arc of the canonical Oracle recognition-" +
+      "cascade). Demonstrates canonical pre-recording predicted the " +
+      "canonical Ch6 disambiguation.",
+  },
 ];
 
 // --- Helpers --------------------------------------------------------------
