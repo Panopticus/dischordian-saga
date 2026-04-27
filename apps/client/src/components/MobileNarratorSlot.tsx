@@ -106,8 +106,14 @@ export function MobileNarratorSlot({ roomId, flags, className }: MobileNarratorS
     const bond = slot.narratorId === "elara" ? elaraBond : humanBond;
     // Pass the active beat flags through so beat-tagged lines
     // (e.g. the §2.7 Archives opener) can override the normal
-    // tier-weighted selection.
-    return pickNarratorLine(roomId, slot.narratorId, bond, flags);
+    // tier-weighted selection. F8 — cap tier at "P" until the
+    // player has actually met the Human; otherwise H/V/D lines
+    // that reference "both of you" / the Warlord / etc. fire on
+    // first cryo-bay entry purely off Elara's starting bond.
+    const firstHumanRevealed = Boolean(
+      game.state.narrativeFlags?.first_human_revealed,
+    );
+    return pickNarratorLine(roomId, slot.narratorId, bond, flags, firstHumanRevealed);
   }, [slot, roomId, elaraBond, humanBond, flags, game.state.narrativeFlags]);
 
   const handleDismiss = useCallback(

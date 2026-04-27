@@ -256,7 +256,7 @@ export interface GameState {
   elaraKnowsAboutHuman: boolean;                     // Has Elara discovered The Human's signal?
   elaraDiscoveryPath: "told" | "discovered" | "betrayed" | null; // How Elara found out
   humanTrustLevel: number;                           // 0-100, how much The Human trusts the player
-  elaraTrustLevel: number;                           // 0-100, how much Elara trusts the player (starts at 80)
+  elaraTrustLevel: number;                           // 0-100, how much Elara trusts the player (starts at 10 — bond is earned)
   // Army management (AC Brotherhood-style)
   armyUnits: ArmyUnit[];                             // All recruited units
   armyDeployments: ArmyDeployment[];                 // Active deployments
@@ -1266,7 +1266,7 @@ const DEFAULT_GAME_STATE: GameState = {
   elaraKnowsAboutHuman: false,
   elaraDiscoveryPath: null,
   humanTrustLevel: 0,
-  elaraTrustLevel: 80,
+  elaraTrustLevel: 10,
   // Army management
   armyUnits: [],
   armyDeployments: [],

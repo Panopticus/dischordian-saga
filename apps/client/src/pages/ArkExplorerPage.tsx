@@ -295,11 +295,17 @@ function RoomScene({
       {/* Room background image with parallax depth effect. For the
           Section F murder-mystery rooms, roomArtUrl swaps between the
           initial/investigating/victim-identified/case-open-later
-          variants based on the player's narrative flags. */}
+          variants based on the player's narrative flags.
+
+          fit="contain" so hotspot %-coords (authored against the full
+          source image) line up with the visible art at every viewport.
+          With cover, anything outside the container's aspect ratio got
+          cropped and the hotspots drifted off the artwork they label. */}
       <ParallaxRoom
         key={roomArtUrl}
         layers={[{ src: roomArtUrl, depth: -0.3 }]}
         className="absolute inset-0"
+        fit="contain"
       />
 
       {/* Dark overlay for readability */}
