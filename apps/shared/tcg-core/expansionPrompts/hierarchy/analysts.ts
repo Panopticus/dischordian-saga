@@ -573,6 +573,192 @@ const ENTRIES: ExpansionCardRegistry = {
       "(intra-set) §s2_hierarchy_cmo_vex_drelm — brand-stack pairing",
     ],
   },
+
+  "s2_hierarchy_anl_marketing_analyst": {
+    cardId: "s2_hierarchy_anl_marketing_analyst",
+    name: "Marketing Analyst",
+    setCode: "S2_HIERARCHY",
+    faction: "new_babylon",
+    rarity: "uncommon",
+    cardType: "unit",
+    flavorText:
+      "The campaign drove engagement. Engagement is up. Conversion is — being measured. Awareness is — being reviewed. The campaign was, by every leading indicator, a success.",
+    sceneDelta:
+      "Mid-shot. A Hierarchy marketing analyst at a Hierarchy marketing-pod desk, late-twenties, in a Hierarchy plum blazer over a soft-cream blouse. Two monitors: leftmost shows a Hierarchy campaign-performance dashboard with several upward-trending lines in cool-cyan; rightmost shows a Hierarchy survey-results view with a multi-page open response section. Right hand mid-keystroke; left hand holds a Hierarchy printed campaign-brief. Her face is bright, mid-presentation-prep.",
+    moodKeywords: [
+      "engagement up, conversion being measured",
+      "leading-indicator success",
+      "campaign brief mid-printed",
+      "bright presentation-prep",
+    ],
+    palette:
+      "Hierarchy plum blazer + soft-cream blouse + cool-cyan dual-monitor + warm desk-lamp + campaign-brief paper-warm + Hierarchy crest plum-silver lanyard",
+    composition:
+      "Mid-shot front three-quarter, Analyst at frame-centre seated, two monitors at frame-rear, campaign-brief at chest-foreground",
+    notes:
+      "Uncommon. Pairs with Demand-Gen Phantom (Manager) at the data-supply level. The leading-indicator framing is the Marketing Analyst signature — confidence in proxies that resist measurement.",
+    archetypeRationale:
+      "Newly-named per plan. Marketing analysts are the Hierarchy's campaign-attribution IC layer; pairs with the broader marketing-stack (Vex'Drelm/Demand-Gen Phantom/Brand Coordinator).",
+    loreCitations: [
+      "docs/built/LORE_BIBLE.md §Hierarchy as infernal corporation",
+      "(intra-set) §s2_hierarchy_mgr_demand_gen_phantom — measurement-friction pairing",
+    ],
+  },
+
+  "s2_hierarchy_anl_ir_coordinator": {
+    cardId: "s2_hierarchy_anl_ir_coordinator",
+    name: "Investor-Relations Coordinator",
+    setCode: "S2_HIERARCHY",
+    faction: "new_babylon",
+    rarity: "uncommon",
+    cardType: "unit",
+    flavorText:
+      "She drafts the earnings narrative. The narrative emphasizes momentum. Momentum is, the Coordinator notes carefully, a measurement-independent property. The auditor will, again, accept this framing.",
+    sceneDelta:
+      "Mid-shot. A composed Hierarchy IR coordinator at a tidy Hierarchy IR-pod workstation, late-twenties, in a Hierarchy navy suit-jacket over a crisp white blouse, hair in a low pony. Single tall monitor showing a Hierarchy earnings-narrative draft with multiple track-changes in the margin. Right hand on a fountain pen mid-stroke on a printed copy of the same narrative; left hand rests palm-down on a closed Hierarchy investor-deck folio. The Hierarchy crest pendant at her throat catches warm desk-light.",
+    moodKeywords: [
+      "narrative emphasizes momentum",
+      "measurement-independent property",
+      "auditor will accept this framing",
+      "track-changes in the margin",
+    ],
+    palette:
+      "Hierarchy navy suit-jacket + crisp white blouse + cool-cyan narrative-draft monitor + warm desk-lamp + investor-deck folio forest-green + Hierarchy crest pendant pale-silver",
+    composition:
+      "Mid-shot front three-quarter, Coordinator at frame-centre seated, monitor at frame-right, investor-deck folio on desk-foreground",
+    notes:
+      "Uncommon. Pairs with Xeth'Raal CFO and Quarterly Forecaster (Manager) — IR is downstream of the Forecaster's projections and Xeth'Raal's ledger.",
+    archetypeRationale:
+      "Newly-named per plan. IR coordinators are the Hierarchy's external-narrative IC layer; the measurement-independent-momentum framing is the canonical IR signature.",
+    loreCitations: [
+      "docs/built/LORE_BIBLE.md §Hierarchy as infernal corporation",
+      "(intra-set) §s2_hierarchy_cfo_xeth_raal — IR-stack pairing",
+    ],
+  },
+
+  "s2_hierarchy_anl_tax_compliance": {
+    cardId: "s2_hierarchy_anl_tax_compliance",
+    name: "Tax-Compliance Specialist",
+    setCode: "S2_HIERARCHY",
+    faction: "new_babylon",
+    rarity: "uncommon",
+    cardType: "unit",
+    flavorText:
+      "Seventeen jurisdictions. Three transfer-pricing structures. Two reciprocal-treaty exemptions. The position is defensible. The Specialist will defend it. The Specialist has, in fact, already begun.",
+    sceneDelta:
+      "Mid-shot. A meticulous Hierarchy tax-compliance specialist at a Hierarchy tax-pod desk, mid-forties, in a Hierarchy charcoal blazer over a Hierarchy plum blouse, half-moon glasses on a chain. Three folders open in a fan, each labeled with a different invented Hierarchy-jurisdiction code. Right hand mid-stroke with a fine pen on a tax-position memo; left hand holds a small Hierarchy treaty-reference book open at chest-height. Two empty Hierarchy tea-mugs visible on a side-counter (not yet cleared).",
+    moodKeywords: [
+      "seventeen jurisdictions",
+      "transfer-pricing structures",
+      "the position is defensible",
+      "two empty mugs uncleared",
+    ],
+    palette:
+      "Hierarchy charcoal blazer + plum blouse + warm desk-lamp + jurisdiction-folder cream-and-amber + treaty-book pale-grey + half-moon glasses chain pale-silver",
+    composition:
+      "Mid-shot three-quarter, Specialist at frame-centre seated, folder-fan at desk-foreground, treaty-book held at chest-height",
+    notes:
+      "Uncommon. Pairs with Mid-Year Adjuster (Manager) and Xeth'Raal CFO. The two uncleared mugs are the canonical Tax Specialist signature — the work is too constant to break for cleanup.",
+    archetypeRationale:
+      "Newly-named per plan. Tax compliance ICs are the Hierarchy's regulatory-defense IC layer; the seventeen-jurisdiction framing parallels Riri's seventeen-dimension command and Iglarath's seventeen-dimension perimeter.",
+    loreCitations: [
+      "docs/built/LORE_BIBLE.md §Hierarchy as infernal corporation",
+      "(intra-set) §s2_hierarchy_cfo_xeth_raal — fiscal-IC pairing",
+    ],
+  },
+
+  "s2_hierarchy_anl_internal_mobility": {
+    cardId: "s2_hierarchy_anl_internal_mobility",
+    name: "Internal-Mobility Analyst",
+    setCode: "S2_HIERARCHY",
+    faction: "new_babylon",
+    rarity: "uncommon",
+    cardType: "unit",
+    flavorText:
+      "Posted internally first. Two qualified internal candidates declined to apply. External search initiated. External hire selected. The Hierarchy's internal-mobility commitment, the Analyst notes, has been honored in full.",
+    sceneDelta:
+      "Mid-shot. A composed Hierarchy mobility analyst at a Hierarchy people-ops desk, mid-thirties, in a Hierarchy soft-grey cardigan over a deep-violet blouse. Single tall monitor showing a Hierarchy internal-jobs-board with two roles flagged INTERNAL FIRST — both already showing 0 internal applicants and an external posting going live tomorrow. Right hand mid-click on the schedule-external-posting button; left hand on a small Hierarchy mobility-policy printout. Her face is mid-thirties professional-resigned.",
+    moodKeywords: [
+      "posted internally first",
+      "internal commitment honored in full",
+      "external posting going live tomorrow",
+      "professional-resigned composure",
+    ],
+    palette:
+      "Hierarchy soft-grey cardigan + deep-violet blouse + cool-cyan jobs-board monitor + INTERNAL FIRST flag amber accent + warm desk-lamp + mobility-policy printout pale-cream",
+    composition:
+      "Mid-shot front three-quarter, Analyst at frame-centre seated, monitor at frame-right, mobility-policy printout at chest-foreground",
+    notes:
+      "Uncommon. Pairs with Recruiting Coordinator (within-tier) and Mor'Vethic CHRO. The 'INTERNAL FIRST' flag with zero applicants is the Mobility Analyst's canonical signature.",
+    archetypeRationale:
+      "Newly-named per plan. Internal-mobility analysts are the Hierarchy's compliance-with-policy IC layer; the canonical pattern is policy-honored-in-form-only.",
+    loreCitations: [
+      "docs/built/LORE_BIBLE.md §Hierarchy as infernal corporation",
+      "(intra-set) §s2_hierarchy_chro_mor_vethic — people-ops pairing",
+    ],
+  },
+
+  "s2_hierarchy_anl_knowledge_management": {
+    cardId: "s2_hierarchy_anl_knowledge_management",
+    name: "Knowledge Management Specialist",
+    setCode: "S2_HIERARCHY",
+    faction: "new_babylon",
+    rarity: "uncommon",
+    cardType: "unit",
+    flavorText:
+      "Documented. Categorized. Tagged. Indexed. The article has, in the time it took to publish, been made obsolete by a process change posted in a different channel. The Specialist will, of course, update.",
+    sceneDelta:
+      "Mid-shot. A Hierarchy knowledge-management specialist at a Hierarchy KM-pod desk, late-thirties, in a Hierarchy navy cardigan over a charcoal blouse, fingerless leather gloves with the pattern of a small Hierarchy crest stitched into them. Two monitors: leftmost shows a Hierarchy wiki-article being edited; rightmost shows a Hierarchy chat-channel with a process-change announcement that contradicts the article. Right hand mid-edit on the wiki-article; left hand on a small Hierarchy index-card box.",
+    moodKeywords: [
+      "obsolete by the time of publish",
+      "fingerless gloves, crest-stitched",
+      "wiki-article edited mid-redundant",
+      "index-card box at the desk-edge",
+    ],
+    palette:
+      "Hierarchy navy cardigan + charcoal blouse + cool-cyan dual-monitor + warm desk-lamp + index-card box muted-cream + Hierarchy crest fingerless-glove accent",
+    composition:
+      "Mid-shot front three-quarter, Specialist at frame-centre seated, two monitors at frame-rear, index-card box at desk-foreground",
+    notes:
+      "Uncommon. Pairs with Brand Coordinator (within-tier). The contradicting-channel-vs-wiki framing is the canonical KM Specialist signature.",
+    archetypeRationale:
+      "Newly-named per plan. KM specialists are the Hierarchy's documentation IC layer; the canonical pattern is documentation-perpetually-trailing-reality.",
+    loreCitations: [
+      "docs/built/LORE_BIBLE.md §Hierarchy as infernal corporation",
+      "(intra-set) §s2_hierarchy_anl_brand_coordinator — knowledge-friction pairing",
+    ],
+  },
+
+  "s2_hierarchy_anl_training_content_designer": {
+    cardId: "s2_hierarchy_anl_training_content_designer",
+    name: "Training Content Designer",
+    setCode: "S2_HIERARCHY",
+    faction: "new_babylon",
+    rarity: "uncommon",
+    cardType: "unit",
+    flavorText:
+      "Module 47. Module 48. Module 49. The series will continue. The series will, the Designer notes, never conclude. Conclusions are not the goal. Modules are.",
+    sceneDelta:
+      "Mid-shot. A patient Hierarchy training-content designer at a Hierarchy content-pod desk, mid-thirties, in a Hierarchy soft-cream cardigan over a black t-shirt. Single tall monitor showing a Hierarchy training-module authoring interface with module structure cards visible (a sequence of small numbered tiles: 47, 48, 49 — and a faint future-greyed pipeline of 50+). Right hand mid-drag on a module tile; left hand holds a Hierarchy content-style-guide. Her face is calm, focused.",
+    moodKeywords: [
+      "Module 47, 48, 49",
+      "modules are the goal, not conclusions",
+      "module-tile drag mid-action",
+      "calm focused designer",
+    ],
+    palette:
+      "Hierarchy soft-cream cardigan + black t-shirt + cool-cyan authoring-interface + warm desk-lamp + content-style-guide forest-green + numbered-tile cool-cyan",
+    composition:
+      "Mid-shot front three-quarter, Designer at frame-centre seated, monitor at frame-right showing the module-pipeline, style-guide at chest-foreground",
+    notes:
+      "Uncommon. Pairs with Compliance Inquisitor (Director) — the Inquisitor delivers the modules; the Designer authors them. Module 47 is the canonical Hierarchy training in-joke (referenced on the Compliance Inquisitor card too).",
+    archetypeRationale:
+      "Newly-named per plan. Training content designers are the Hierarchy's compliance-content IC layer; pairs with the Compliance Inquisitor's delivery to complete the training-stack.",
+    loreCitations: [
+      "docs/built/LORE_BIBLE.md §Hierarchy as infernal corporation",
+      "(intra-set) §s2_hierarchy_dir_compliance_inquisitor — training-stack pairing",
+    ],
+  },
 };
 
 export const ANALYST_PROMPTS: ExpansionCardRegistry = Object.freeze(ENTRIES);
