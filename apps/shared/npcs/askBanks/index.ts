@@ -22,6 +22,7 @@ import { DMC_CLONE_COMPANION_ASK_TOPICS } from "./dmc_clone_companion";
 import { THE_GAME_MASTER_ASK_TOPICS } from "./the_game_master";
 import { THE_MEME_ASK_TOPICS } from "./the_meme";
 import { WRAITH_CALDER_ASK_TOPICS } from "./wraith_calder";
+import { YOUR_EIDOLON_ASK_TOPICS } from "./your_eidolon";
 
 // Per-NPC banks are added here as they ship through Phase 6a-6e.
 // Phase 6 Infrastructure ships only the aggregator + types + resolver;
@@ -38,7 +39,7 @@ const PER_NPC_BANKS: ReadonlyArray<ReadonlyArray<AskTopic>> = [
   THE_GAME_MASTER_ASK_TOPICS,         // Phase 6d.1 ✅
   THE_MEME_ASK_TOPICS,                // Phase 6d.2 part 1 ✅
   WRAITH_CALDER_ASK_TOPICS,           // Phase 6d.3 part 1 ✅
-  // YOUR_EIDOLON_ASK_TOPICS,         // Phase 6d.4 (expression-prompts)
+  YOUR_EIDOLON_ASK_TOPICS,            // Phase 6d.4 part 2 ✅ (non-verbal expression-prompts)
 ];
 
 export const ALL_NPC_ASK_TOPICS: ReadonlyArray<AskTopic> =

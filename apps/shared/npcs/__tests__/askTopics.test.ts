@@ -221,7 +221,6 @@ describe("ALL_NPC_ASK_TOPICS aggregator", () => {
     // Oracle; Phase 6c.1 shipped Degen; Phase 6c.2 shipped Companion;
     // the rest stay empty until their sub-phase ships per the
     // Phase 6 sequencing. Updated as banks land.
-    expect(getAskTopicsFor("your_eidolon").length).toBe(0);
   });
 
   it("Nilmorg (Phase 6a.1) ships ≥10 topics via the aggregator", () => {
@@ -270,5 +269,11 @@ describe("ALL_NPC_ASK_TOPICS aggregator", () => {
     expect(
       getAskTopicsFor("wraith_calder").length,
     ).toBeGreaterThanOrEqual(10);
+  });
+
+  it("Your Eidolon (Phase 6d.4 part 2) ships ≥6 expression-prompts via the aggregator", () => {
+    expect(
+      getAskTopicsFor("your_eidolon").length,
+    ).toBeGreaterThanOrEqual(6);
   });
 });

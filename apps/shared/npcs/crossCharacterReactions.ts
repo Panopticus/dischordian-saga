@@ -1055,6 +1055,17 @@ export const CROSS_CHARACTER_REACTIONS: ReadonlyArray<CrossCharacterReaction> = 
       "mode canonically registers the canonical post-naming kin-" +
       "recognition.",
   },
+  {
+    flag: "eidolon_canonical_goodbye_acknowledged",
+    setBy: ["your_eidolon"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Eidolon ask_goodbye (Phase 6d.4 part 2). Canonical perish-" +
+      "prelude register: Inseparable-band-only canonical 'lays its " +
+      "head against the player's hand for canonical-final-bond-" +
+      "resonance' canon. Reserved canonical-once-per-playthrough; " +
+      "fires only near canonical perish-condition.",
+  },
 ];
 
 // --- Helpers --------------------------------------------------------------
