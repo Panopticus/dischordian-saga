@@ -892,6 +892,19 @@ export const CROSS_CHARACTER_REACTIONS: ReadonlyArray<CrossCharacterReaction> = 
       "Hierophant / Oracle reactive lines may register the canonical " +
       "succession-claim.",
   },
+  {
+    flag: "meme_channel_7_mascot_silence_held",
+    setBy: ["the_meme"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Meme channel_7.mascot_ad_break (Phase 6d.2 part 4). The " +
+      "Channel 7 ad-break canonically advertises something the " +
+      "Mascot canonically loved — without ever canonically naming " +
+      "what it was. §1.10 silence-shape held: the canonical 'I had " +
+      "a friend once' is the maximum acknowledgment. Future writers " +
+      "may build Stage-4-weave Channel 7 content WITHOUT violating " +
+      "the canonical silence.",
+  },
 ];
 
 // --- Helpers --------------------------------------------------------------

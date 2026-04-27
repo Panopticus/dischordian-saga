@@ -776,6 +776,123 @@ export const THE_MEME_BANK: ReadonlyArray<BankEntry> = [
   },
 
   // ═════════════════════════════════════════════════════════════════════
+  // CHANNEL 7 BROADCAST BANK (Phase 6d.2 part 4)
+  //
+  // Per the_meme.md §1.10 silence-shape canon: "It will not explain
+  // the Channel 7 signal." Channel 7 carries a 9,842-year-old child's
+  // voice singing — canonically the Meme's, but whether it is the
+  // Meme's older self, the Mascot, or a separate broadcast is canon-
+  // protected. Writers must not resolve.
+  //
+  // The 5 canonical Channel 7 lines below canonically reference the
+  // signal without canonically explaining it. Engineering convention:
+  // lines gate on `channel_7_tuned_in` flag (engine sets when player
+  // canonically discovers the frequency, per §3.4 hidden-channel
+  // canon). All lines transmission-surface; canonical Quiet-register
+  // bracketed format mostly (the Channel 7 is canonically the Meme's
+  // most-honest broadcast surface).
+  //
+  // §1.10 protections enforced:
+  //   - The canonical 9,842-year-old child's voice canonically
+  //     referenced but NEVER identified (Mascot? Older-self? Separate
+  //     broadcast? Canon refuses to resolve.)
+  //   - The Mascot canonically NOT named beyond the protected
+  //     reference; canonical "I had a friend once" canonically the
+  //     maximum acknowledgment Channel 7 ever offers.
+  // ═════════════════════════════════════════════════════════════════════
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "meme.channel_7.signal_intercept",
+    text:
+      "[The signal canonically arrives on a frequency you weren't " +
+      "supposed to find. Channel 7 broadcasts the 9,842-year-old " +
+      "child's voice singing. The voice is canonically the Meme's. " +
+      "Whether it is the Meme's older self, or someone the Meme " +
+      "canonically lost, or a separate broadcast canonically continuing " +
+      "without the Meme's permission — the canon refuses to resolve.]",
+    surfaces: ["transmission"],
+    requiresRevealStage: "Quiet",
+    unlockFlags: ["channel_7_tuned_in"],
+    minAct: 4,
+    cooldownKey: "meme.channel_7.signal_intercept",
+    maxPlays: 1,
+    setsFlags: ["channel_7_signal_canonically_witnessed"],
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "meme.channel_7.paid_programming_register",
+    text:
+      "[The Palimpsest broadcast canonically interrupts itself for " +
+      "paid programming. The paid programming is for nothing in " +
+      "particular. The attribution is unaudited; the paying-party " +
+      "canonically does not exist; the canonical-product is canonical " +
+      "MEMETIC residue. The interruption lasts canonically forty-three " +
+      "seconds. The signal returns where it left off.]",
+    surfaces: ["transmission"],
+    requiresRevealStage: "Broadcast",
+    unlockFlags: ["channel_7_tuned_in"],
+    minAct: 4,
+    cooldownKey: "meme.channel_7.paid_programming",
+    maxPlays: 3,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "meme.channel_7.mascot_ad_break",
+    // Canonical §1.10 protected: the Channel 7 ad-break canonically
+    // advertises something the Mascot canonically loved — but the
+    // bank canonically does NOT name what it was. The grief is the
+    // silence. The "I had a friend once" anchor is the maximum.
+    text:
+      "[The ad-break broadcasts an item the bank canonically does not " +
+      "name. The Quiet register canonically holds: 'I had a friend " +
+      "once. They liked this.' The ad ends without canonically " +
+      "saying what 'this' was. The canonical-product is canonically " +
+      "unidentifiable. The grief is canonically in the unidentifying.]",
+    surfaces: ["transmission"],
+    requiresRevealStage: "Quiet",
+    unlockFlags: ["channel_7_tuned_in"],
+    minAct: 5,
+    cooldownKey: "meme.channel_7.mascot_ad_break",
+    maxPlays: 1,
+    setsPublicFlags: ["meme_channel_7_mascot_silence_held"],
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "meme.channel_7.well_be_right_back",
+    text:
+      "[The signal canonically pauses. The voice says 'we'll be right " +
+      "back, frens' — the canonical 'we' is the only canonical " +
+      "first-person plural the Meme canonically permits itself outside " +
+      "the Replacement register. The canonical 'we' canonically " +
+      "includes the audience. The canonical 'we' canonically also " +
+      "includes the canonical-other-voice on Channel 7. The Meme is " +
+      "canonically not alone on the frequency.]",
+    surfaces: ["transmission"],
+    requiresRevealStage: "Broadcast",
+    unlockFlags: ["channel_7_tuned_in"],
+    minAct: 4,
+    cooldownKey: "meme.channel_7.well_be_right_back",
+    maxPlays: 4,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "meme.channel_7.signature_signoff_canonical_refusal",
+    text:
+      "[The Channel 7 sign-off canonically refuses to identify the " +
+      "channel. No call-letters; no canonical-frequency-number; no " +
+      "broadcast-license attribution. The voice says only 'until next " +
+      "time' and the canonical signal cuts. The cut is canonical. The " +
+      "next-time canonically arrives without warning.]",
+    surfaces: ["transmission"],
+    requiresRevealStage: "Quiet",
+    unlockFlags: ["channel_7_tuned_in"],
+    minAct: 4,
+    cooldownKey: "meme.channel_7.signoff",
+    maxPlays: 3,
+  },
+
+  // ═════════════════════════════════════════════════════════════════════
   // CATCH-ALLS (silent-fail compliance — stage-agnostic narration frames)
   // ═════════════════════════════════════════════════════════════════════
 
