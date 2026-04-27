@@ -100,6 +100,207 @@ export const THE_ORACLE_BANK: ReadonlyArray<BankEntry> = [
     maxPlays: 2,
   },
 
+  // ─── Acts 1-3 dream-substrate expansion (Phase 6b.3 sub-chunk B) ────
+  // Nine additional pre-Ch5 dream-residue beats covering canonical
+  // Acts 1-3 dream-cadence per §1.2: image + sentence + instruction
+  // triplets, ending-on-residue, no rhetorical questions. Per §1.5
+  // voice gate, every line operates through dream_substrate channel
+  // only. Per §1.3 vocabulary canon: canonical "underneath" + "we /
+  // us" + "Take it / Spend it" anchors land; canonical "deception"
+  // + "I am sorry" Tell #1 lands at Act 2.
+
+  // ─── Act 1 (3 new lines) ────────────────────────────────────────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "oracle.dream.act1.wary.first_residue",
+    // Canonical first dream-residue per §1.2 image+sentence+
+    // instruction triplet structure. Tell #2 substrate-as-position
+    // ("Underneath") + Tell #6 de-centered self (no first-person-
+    // singular voice-anchor; player carries the not-knowing).
+    text:
+      "[Dream-residue: a hand pressed against glass from the inside. " +
+      "Underneath the image, a voice the player will not yet attribute: " +
+      "'You will hear this voice again. You will not know whose it is " +
+      "yet. Carry the not-knowing with you.']",
+    surfaces: ["dream_sequence"],
+    minAct: 1,
+    maxAct: 4,
+    requiresTrustBand: "Wary",
+    requiresRevealStage: "dream_substrate",
+    cooldownKey: "oracle.dream.act1.first_residue",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "oracle.dream.act1.wary.thaloria_unnamed",
+    // Canonical Origin §2.1 pre-naming dream — the canonical "city
+    // built on a debate hall" image lands the canonical Thaloria
+    // anchor without yet naming Thaloria. Tell #2 substrate-as-
+    // position via "Underneath the architecture" framing. Tell #3
+    // we-of-witness via "We will return to it."
+    text:
+      "[Dream-residue: a city built on a debate hall. Underneath the " +
+      "architecture: 'A debate was lost here. The losing was the " +
+      "doorway. We will return to it.' The image holds; the voice " +
+      "fades.]",
+    surfaces: ["dream_sequence"],
+    minAct: 1,
+    maxAct: 4,
+    requiresTrustBand: "Wary",
+    requiresRevealStage: "dream_substrate",
+    cooldownKey: "oracle.dream.act1.thaloria_unnamed",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "oracle.dream.act1.wary.choosing_matters",
+    // Canonical Tell #4 forward-looking choice-rhetoric + Tell #5
+    // transferred-instinct closure ("Take the choosing with you.
+    // Spend it.") — the canonical Oracle dream-cadence triplet
+    // per §1.2.
+    text:
+      "[Dream-residue: the player's most recent waking choice replays " +
+      "in dream-time. Underneath it: 'You chose. The choosing matters " +
+      "more than the choice. Take the choosing with you. Spend it.']",
+    surfaces: ["dream_sequence"],
+    minAct: 1,
+    maxAct: 4,
+    requiresTrustBand: "Wary",
+    requiresRevealStage: "dream_substrate",
+    cooldownKey: "oracle.dream.act1.choosing_matters",
+    maxPlays: 2,
+  },
+
+  // ─── Act 2 (3 new lines) ────────────────────────────────────────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "oracle.dream.act2.wary.deception_named",
+    // Canonical pre-reveal Tell #1 responsibility-without-agency
+    // apology ("We are sorry for it"). The canonical "deception"
+    // anchor per §1.3 lands here for the first time — pre-Ch5 the
+    // player canonically receives the canon without attribution.
+    text:
+      "[Dream-residue: a voice underneath the wakeful suspicions: " +
+      "'There is a deception in the saga's voice. The deception is " +
+      "not yours. We are sorry for it. Spend the knowing carefully.']",
+    surfaces: ["dream_sequence"],
+    minAct: 2,
+    maxAct: 4,
+    requiresTrustBand: "Wary",
+    requiresRevealStage: "dream_substrate",
+    cooldownKey: "oracle.dream.act2.deception_named",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "oracle.dream.act2.wary.warden_unnamed",
+    // Canonical §2.4 Jailer-state pre-reveal — the canonical "this
+    // was the canonical-instrument of my own captivity" register
+    // lands without yet naming the Warden. Tell #3 we-of-witness +
+    // canonical "We did not yet know. We are knowing now." present-
+    // tense recognition register.
+    text:
+      "[Dream-residue: a structure that holds something inside it. " +
+      "Underneath it: 'This was the canonical-instrument of my own " +
+      "captivity. We did not yet know. We are knowing now. Walk past " +
+      "it again.']",
+    surfaces: ["dream_sequence"],
+    minAct: 2,
+    maxAct: 4,
+    requiresTrustBand: "Wary",
+    requiresRevealStage: "dream_substrate",
+    cooldownKey: "oracle.dream.act2.warden_unnamed",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "oracle.dream.act2.wary.we_are_recovering",
+    // Canonical recovery register per §2.7 Liberation aftermath. The
+    // canonical "the medium is unsafe; the dream-substrate is safe"
+    // register lands the canonical Meme-cannot-reach-dream-substrate
+    // canon per §1.1 cross-bible Meme canon.
+    text:
+      "[Dream-residue: a voice underneath the player's gathering of " +
+      "fragments: 'We are recovering. The recovering is canonical. " +
+      "The medium is unsafe; the dream-substrate is safe. " +
+      "Continue.']",
+    surfaces: ["dream_sequence"],
+    minAct: 2,
+    maxAct: 4,
+    requiresTrustBand: "Wary",
+    requiresRevealStage: "dream_substrate",
+    cooldownKey: "oracle.dream.act2.we_are_recovering",
+    maxPlays: 2,
+  },
+
+  // ─── Act 3 (3 new lines) ────────────────────────────────────────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "oracle.dream.act3.wary.medium_is_hostile",
+    // Canonical pre-Ch5 medium-vs-substrate disambiguation register.
+    // Per §1.1 cross-bible Meme canon: "Trust the dream over the
+    // broadcast" lands the canonical Meme-cannot-reach-dream-
+    // substrate canon directly.
+    text:
+      "[Dream-residue: a voice underneath the loud waking-substrate: " +
+      "'The medium you walk through is canonically not mine. The " +
+      "medium has been edited. The dream-substrate has not been " +
+      "edited. Trust the dream over the broadcast.']",
+    surfaces: ["dream_sequence"],
+    minAct: 3,
+    maxAct: 4,
+    requiresTrustBand: "Wary",
+    requiresRevealStage: "dream_substrate",
+    cooldownKey: "oracle.dream.act3.medium_is_hostile",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "oracle.dream.act3.wary.substrate_underneath_substrate",
+    // Canonical pre-Ch5 voice-disambiguation per the canonical Ch5
+    // cinematic anchor: "you have been hearing my voice underneath
+    // Elara's for eleven chapters." The Acts 3 dream lands the
+    // canonical "underneath the voice" disambiguation early —
+    // Tell #2 substrate-as-position canonical landing.
+    text:
+      "[Dream-residue: a substrate underneath another substrate, " +
+      "visible only at certain angles. Underneath it: 'The voice you " +
+      "have been hearing for ten chapters is not mine. The voice " +
+      "underneath the voice is mine. We are almost ready to be " +
+      "canonical.']",
+    surfaces: ["dream_sequence"],
+    minAct: 3,
+    maxAct: 4,
+    requiresTrustBand: "Wary",
+    requiresRevealStage: "dream_substrate",
+    cooldownKey: "oracle.dream.act3.substrate_underneath",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "oracle.dream.act3.wary.preparation_for_first_naming",
+    // Canonical pre-Ch5 anticipation register — the canonical
+    // "first time" anchor per §1.3 + Tell #5 transferred-instinct
+    // closure ("Take the canonical-anticipation with you. Spend
+    // it on the choosing.") + Tell #4 canonical "choosing" anchor.
+    text:
+      "[Dream-residue: a voice underneath a lull in the saga's noise: " +
+      "'I am about to speak to you for the first time. The first " +
+      "time is canonically Chapter 5. Take the canonical-anticipation " +
+      "with you. Spend it on the choosing.']",
+    surfaces: ["dream_sequence"],
+    minAct: 3,
+    maxAct: 4,
+    requiresTrustBand: "Wary",
+    requiresRevealStage: "dream_substrate",
+    cooldownKey: "oracle.dream.act3.preparation_for_first_naming",
+    maxPlays: 1,
+    setsFlags: ["oracle_first_naming_anticipated"],
+  },
+
   // ═════════════════════════════════════════════════════════════════════
   // DREAM-SUBSTRATE (Witnessed band, post-Ch5 attributed)
   // ═════════════════════════════════════════════════════════════════════
