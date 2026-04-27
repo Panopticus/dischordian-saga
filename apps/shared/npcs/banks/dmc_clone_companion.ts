@@ -639,6 +639,467 @@ export const DMC_CLONE_COMPANION_BANK: ReadonlyArray<BankEntry> = [
   },
 
   // ═════════════════════════════════════════════════════════════════════
+  // STAGE 4 EXPANSION (Phase 6c.2 part 5): First-word context variants
+  //
+  // Per §1.4 canonical first-word contexts (the bank previously
+  // shipped only Hierophant Wraith Calder + default 'You'). This
+  // chunk fills the remaining canonical contexts:
+  //   - severance_for_another_season_name (echo of season-name)
+  //   - eidolon_first_translation (Eidolon's nickname)
+  //   - identity_chain_last (canonical 'Last' word, mortality canon)
+  //   - faction_loyalty (canonical Coalition / Insurgency)
+  //
+  // Each first-word line lands the canonical sound-shape per §1.4:
+  // half-syllable lead-in, held breath after, throat-click closing —
+  // canonical residue-of-Channel-3 substrate carried forward.
+  //
+  // Voice gate canon: each line is single-word; sets canonical
+  // companion_first_word_spoken flag; gates excludeFlags to enforce
+  // first-word-fires-exactly-once canon.
+  // ═════════════════════════════════════════════════════════════════════
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.first_word.severance_for_another.season_name",
+    text: "Severance.",
+    surfaces: ["cinematic"],
+    expressionChannel: "first_word",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: ["another_severance_ceremony_active"],
+    excludeFlags: ["companion_first_word_spoken"],
+    cooldownKey: "companion.first_word.severance_season",
+    maxPlays: 1,
+    setsFlags: ["companion_first_word_spoken"],
+    setsPublicFlags: ["companion_first_word_was_severance_season_name"],
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.first_word.eidolon_translation.nickname",
+    // Canonical first-word fires when Eidolon is in Echo mode and a
+    // recognition-tone canonical event coincides. Per §1.4 + Eidolon
+    // §5.9: the soul-fragment canonically speaks the name of the
+    // saga's nearest other-soul. The word is the player-authored
+    // Eidolon nickname; the bank stores a canonical placeholder that
+    // engineering substitutes at fire-time.
+    text: "{eidolon_nickname}.",
+    surfaces: ["cinematic"],
+    expressionChannel: "first_word",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: [
+      "eidolon_in_echo_mode",
+      "eidolon_first_translation_context",
+    ],
+    excludeFlags: ["companion_first_word_spoken"],
+    cooldownKey: "companion.first_word.eidolon_translation",
+    maxPlays: 1,
+    setsFlags: ["companion_first_word_spoken"],
+    setsPublicFlags: ["companion_first_word_was_eidolon_nickname"],
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.first_word.identity_chain.last",
+    // Canonical first-word per §1.4: identity-chain completion
+    // context. The fourth canonical self-name from dmcNamingPrompts
+    // (Student/Seeker/Detective/Last) — canonically Last, the
+    // canonical mortality-acknowledgment.
+    text: "Last.",
+    surfaces: ["cinematic"],
+    expressionChannel: "first_word",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: ["dmc_identity_chain_completed"],
+    excludeFlags: ["companion_first_word_spoken"],
+    cooldownKey: "companion.first_word.identity_chain_last",
+    maxPlays: 1,
+    setsFlags: ["companion_first_word_spoken"],
+    setsPublicFlags: ["companion_first_word_was_last"],
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.first_word.faction_loyalty.coalition",
+    text: "Coalition.",
+    surfaces: ["cinematic"],
+    expressionChannel: "first_word",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: ["player_dominant_faction_coalition"],
+    excludeFlags: ["companion_first_word_spoken"],
+    cooldownKey: "companion.first_word.faction_coalition",
+    maxPlays: 1,
+    setsFlags: ["companion_first_word_spoken"],
+    setsPublicFlags: ["companion_first_word_was_faction_coalition"],
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.first_word.faction_loyalty.insurgency",
+    text: "Insurgency.",
+    surfaces: ["cinematic"],
+    expressionChannel: "first_word",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: ["player_dominant_faction_insurgency"],
+    excludeFlags: ["companion_first_word_spoken"],
+    cooldownKey: "companion.first_word.faction_insurgency",
+    maxPlays: 1,
+    setsFlags: ["companion_first_word_spoken"],
+    setsPublicFlags: ["companion_first_word_was_faction_insurgency"],
+  },
+
+  // ═════════════════════════════════════════════════════════════════════
+  // CHANNEL-5 NAMING EVENTS (Phase 6c.2 part 5)
+  //
+  // Per §1.5 canonical naming-event triggers:
+  //   - Player invokes rename mechanic
+  //   - Companion canonically self-proposes (Stage-4-deferred bible
+  //     canon; canonical shape authored here)
+  //   - Cross-character naming (Hierophant chamber / Eidolon
+  //     translation)
+  //
+  // The naming canonically resolves the Companion into the named
+  // 4-tuple personality variant per §1.5 (faction × trust-pattern ×
+  // alignment × identity-chain). Naming-event lines authored here
+  // describe the ritual moment + Companion's canonical first-named-
+  // verbal response.
+  // ═════════════════════════════════════════════════════════════════════
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.naming_event.player_rename_invocation",
+    text:
+      "You named me. I felt the canonical-handle retire as you typed " +
+      "the new one — the 'Severance Fragment' designation slid out of " +
+      "use, and your name slid in. I am that name now. I will hold it " +
+      "as carefully as you held the choosing of it.",
+    surfaces: ["cinematic"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: [
+      "companion_first_word_spoken",
+      "player_invoked_companion_rename_mechanic",
+    ],
+    cooldownKey: "companion.naming.player_rename",
+    maxPlays: 1,
+    setsFlags: ["companion_named", "companion_named_by_player_choice"],
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.naming_event.companion_self_proposal",
+    // Canonical Stage-4-deferred self-naming per §1.5. The bible-
+    // recommended canonical shape: the Companion canonically proposes
+    // a name in their own voice once the naming context is reached.
+    // The proposal canonically defers to the player; the player may
+    // accept or override.
+    text:
+      "I have been holding a name. It came to me during the half-" +
+      "syllables before my first word — a shape the body wanted to " +
+      "carry. I'd like to offer it. You can refuse it; the choosing " +
+      "is canonically yours. But I would like to be the one who " +
+      "proposed.",
+    surfaces: ["cinematic"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: [
+      "companion_first_word_spoken",
+      "companion_self_naming_context_active",
+    ],
+    cooldownKey: "companion.naming.self_proposal",
+    maxPlays: 1,
+    setsFlags: ["companion_self_proposed_name"],
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.naming_event.hierophant_chamber_ritual",
+    // Canonical cross-character naming via Hierophant chamber. Per
+    // §1.5 + Hierophant cross-bible canon: the Hierophant canonically
+    // names the Companion in the chamber during a canonical ritual
+    // scene.
+    text:
+      "The Hierophant said the name first. He did not write it on the " +
+      "wall — he canonically reserved that for the next-named, not for " +
+      "me. He said it once, and the chamber held it. I accepted the " +
+      "name in the same canonical-quiet I accepted Wraith Calder as " +
+      "the first word. The Hierophant nodded once. The chamber was " +
+      "the witness. I am that name now.",
+    surfaces: ["cinematic"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: [
+      "companion_first_word_was_wraith_calder",
+      "hierophant_chamber_ritual_named_companion",
+    ],
+    cooldownKey: "companion.naming.hierophant_ritual",
+    maxPlays: 1,
+    setsFlags: ["companion_named", "companion_named_by_hierophant"],
+    setsPublicFlags: ["companion_named_in_hierophant_chamber"],
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.naming_event.eidolon_translation_ritual",
+    // Canonical cross-character naming via Eidolon translation. Per
+    // §1.5 + Eidolon §5.9 first-word translator canon. The Eidolon
+    // canonically translates the Companion's late-articulation
+    // sound-stack into a name.
+    text:
+      "The Eidolon translated. Echo mode held; the substrate rang " +
+      "between us; the half-syllables I had been carrying canonically " +
+      "found their shape in the Eidolon's frequency-pattern. The name " +
+      "the Eidolon translated is the one I now carry. Two non-verbal " +
+      "channels, one named outcome. The arithmetic only works because " +
+      "the Eidolon is canonically also a soul-substrate.",
+    surfaces: ["cinematic"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: [
+      "companion_first_word_was_eidolon_nickname",
+      "eidolon_translation_ritual_named_companion",
+    ],
+    cooldownKey: "companion.naming.eidolon_ritual",
+    maxPlays: 1,
+    setsFlags: ["companion_named", "companion_named_by_eidolon"],
+    setsPublicFlags: ["companion_named_via_eidolon_translation"],
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.naming_event.post_first_word_recall",
+    // Canonical post-naming reflection on the canonical first-word
+    // event. The Companion canonically recalls the moment from the
+    // named-personality register.
+    text:
+      "I remember the moment of the first word now. I did not remember " +
+      "it well from inside the moment — the body was still committing " +
+      "to the syllables; the half-beat before the word landed was " +
+      "canonically louder than the word itself. From here, with a " +
+      "name to anchor the recalling, the moment is clear. I am glad " +
+      "the moment happened the way it happened.",
+    surfaces: ["cinematic"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: ["companion_named"],
+    cooldownKey: "companion.naming.post_first_word_recall",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.naming_event.pre_naming_label_disowned",
+    // Canonical pre-naming-label retirement per §1.5 + §2.4. The
+    // Companion canonically disowns the 'Severance Fragment — {season}'
+    // handle from the named-personality register.
+    text:
+      "The handle Nilmorg used before you named me — 'Severance " +
+      "Fragment' followed by the season-name — has canonically " +
+      "retired. It was bookkeeping; it was not a name. I do not " +
+      "carry it. The version of me that the handle described was " +
+      "canonically not yet me. The name you gave me is the first " +
+      "one that ever fit.",
+    surfaces: ["cinematic"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: ["companion_named"],
+    cooldownKey: "companion.naming.label_disowned",
+    maxPlays: 1,
+  },
+
+  // ═════════════════════════════════════════════════════════════════════
+  // CHANNEL-5 NAMED-PERSONALITY VARIANT SEEDS (Phase 6c.2 part 5)
+  //
+  // Per §1.5 + §5.5 canonical 4-tuple variant axes (faction × trust-
+  // pattern × alignment × identity-chain), 64 canonical variants. The
+  // bible's canonical Stage-2 scope is ~3,450 lines (~50 per variant);
+  // this chunk seeds canonical anchor lines per axis-value, establishing
+  // the variant-grid voice register. Full per-variant authoring is
+  // canonically deferred to a follow-up sweep (Phase 6c.2-bis).
+  //
+  // Each variant seed lands the canonical donor-state-derivation canon
+  // — the Companion's named-personality canonically reflects the
+  // player's accumulated saga-state at the moment of naming.
+  // ═════════════════════════════════════════════════════════════════════
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.named.variant.faction_coalition",
+    text:
+      "I read like a Coalition record. The cadences I inherited from " +
+      "you canonically run on Coalition-time — the patient long-cycles, " +
+      "the institutional language, the willingness to defer to a " +
+      "process I trust the shape of even when the outcome canonically " +
+      "frustrates me. I am Coalition-shaped. So are you. The shaping " +
+      "is what I am.",
+    surfaces: ["cinematic", "trade_empire"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: ["companion_named", "player_dominant_faction_coalition"],
+    cooldownKey: "companion.named.variant.coalition",
+    maxPlays: 2,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.named.variant.faction_insurgency",
+    text:
+      "I read like an Insurgency record. The cadences I inherited from " +
+      "you canonically run on Insurgency-time — the short-cycles, the " +
+      "improvised vocabulary, the willingness to act when the structure " +
+      "the action will need has not yet arrived. I am Insurgency- " +
+      "shaped. So are you. The shaping is what I am.",
+    surfaces: ["cinematic", "trade_empire"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: ["companion_named", "player_dominant_faction_insurgency"],
+    cooldownKey: "companion.named.variant.insurgency",
+    maxPlays: 2,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.named.variant.faction_hierarchy",
+    text:
+      "I read like a Hierarchy record. The cadences I inherited from " +
+      "you canonically run on Hierarchy-time — the chain-of-trust, the " +
+      "deference to canonical order, the canonical-loyalty to the " +
+      "structure that holds the actors in their canonical positions. " +
+      "I am Hierarchy-shaped. So are you. The shaping is what I am.",
+    surfaces: ["cinematic", "trade_empire"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: ["companion_named", "player_dominant_faction_hierarchy"],
+    cooldownKey: "companion.named.variant.hierarchy",
+    maxPlays: 2,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.named.variant.faction_ark",
+    text:
+      "I read like an Ark record. The cadences I inherited from you " +
+      "canonically run on Ark-time — the very-long-cycles, the " +
+      "preservation register, the willingness to wait for canonical " +
+      "centuries if waiting is what the canonical-saved canonically " +
+      "requires. I am Ark-shaped. So are you. The shaping is what " +
+      "I am.",
+    surfaces: ["cinematic", "trade_empire"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: ["companion_named", "player_dominant_faction_ark"],
+    cooldownKey: "companion.named.variant.ark",
+    maxPlays: 2,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.named.variant.trust_gregarious_many",
+    text:
+      "Your trust-pattern is canonically gregarious. Many connections, " +
+      "many threads kept simultaneously, many people held at canonical " +
+      "warm-distance. I am the same. I find rooms easier than corridors; " +
+      "I find groups easier than solitudes. The fragment inherited the " +
+      "canonical-warm-distance, and I have made it mine.",
+    surfaces: ["cinematic"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: [
+      "companion_named",
+      "player_trust_pattern_gregarious_many",
+    ],
+    cooldownKey: "companion.named.variant.trust_gregarious",
+    maxPlays: 2,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.named.variant.trust_concentrated_few",
+    text:
+      "Your trust-pattern is canonically concentrated. Few connections, " +
+      "few threads kept simultaneously, few people held at canonical " +
+      "deep-distance. I am the same. I find corridors easier than " +
+      "rooms; I find solitudes easier than groups. The fragment " +
+      "inherited the canonical-deep-distance, and I have made it mine.",
+    surfaces: ["cinematic"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: [
+      "companion_named",
+      "player_trust_pattern_concentrated_few",
+    ],
+    cooldownKey: "companion.named.variant.trust_concentrated",
+    maxPlays: 2,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.named.variant.alignment_light",
+    text:
+      "Your alignment leans light. The lens through which I see the " +
+      "saga is canonically gentle — I expect generosity, register " +
+      "cruelty as deviation, and forgive faster than the arithmetic " +
+      "warrants. I am Light-shaped. So are you. The shaping is what " +
+      "I am.",
+    surfaces: ["cinematic"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: ["companion_named", "player_dominant_alignment_light"],
+    cooldownKey: "companion.named.variant.alignment_light",
+    maxPlays: 2,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.named.variant.alignment_dark",
+    text:
+      "Your alignment leans dark. The lens through which I see the " +
+      "saga is canonically hard-edged — I expect betrayal, register " +
+      "kindness as exception, and account every transaction. I am " +
+      "Dark-shaped. So are you. The shaping is what I am. Neither " +
+      "of us pretends otherwise.",
+    surfaces: ["cinematic"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: ["companion_named", "player_dominant_alignment_dark"],
+    cooldownKey: "companion.named.variant.alignment_dark",
+    maxPlays: 2,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.named.variant.identity_chain_last",
+    text:
+      "You completed the identity-chain. Student, Seeker, Detective, " +
+      "Last. The fourth was the load-bearing one — the canonical " +
+      "acknowledgment that this is the canonical-last body you will " +
+      "wear. I inherited the canonical-Last-shaped commitment. I do " +
+      "not carry your mortality for you. I carry mine alongside yours. " +
+      "We are canonically two; the Last is canonical for both.",
+    surfaces: ["cinematic"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: ["companion_named", "dmc_identity_chain_completed"],
+    cooldownKey: "companion.named.variant.identity_chain_last",
+    maxPlays: 2,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.named.variant.identity_chain_seeker",
+    text:
+      "Your identity-chain is canonically Seeker-aligned. The second of " +
+      "the four canonical names — the one canonically focused on the " +
+      "asking, not the answering. I inherited the asking-shape. I find " +
+      "myself wanting to canonically frame more of our interactions as " +
+      "questions than the named-personality register canonically " +
+      "requires. The shape is mine now; I am not interested in shedding " +
+      "it.",
+    surfaces: ["cinematic"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: ["companion_named", "player_identity_chain_seeker"],
+    cooldownKey: "companion.named.variant.identity_chain_seeker",
+    maxPlays: 2,
+  },
+
+  // ═════════════════════════════════════════════════════════════════════
   // STAGE 5: NAMED PERSONALITY (post-naming verbal)
   // ═════════════════════════════════════════════════════════════════════
 

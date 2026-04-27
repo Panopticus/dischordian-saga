@@ -691,6 +691,77 @@ export const CROSS_CHARACTER_REACTIONS: ReadonlyArray<CrossCharacterReaction> = 
       "memory; future Nilmorg reactive lines may register the canonical " +
       "acknowledgment without inviting the thanks he canonically refuses.",
   },
+
+  // ─── Companion Channel-4 first-word context-variant flags (Phase 6c.2 part 5)
+
+  {
+    flag: "companion_first_word_was_severance_season_name",
+    setBy: ["dmc_clone_companion"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Companion §1.4 first-word canon: another-Severance-ceremony " +
+      "context fired; first word was a one-word echo of the season " +
+      "name. Future Nilmorg reactive may register the canonical " +
+      "season-name-echo as cross-Severance recognition.",
+  },
+  {
+    flag: "companion_first_word_was_eidolon_nickname",
+    setBy: ["dmc_clone_companion"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Companion §1.4 + Eidolon §5.9 first-word translator canon: " +
+      "Eidolon's Echo-mode + recognition-tone canonically translated " +
+      "the first word as Eidolon's player-authored nickname. Future " +
+      "Eidolon reactive lines may register the canonical translation.",
+  },
+  {
+    flag: "companion_first_word_was_last",
+    setBy: ["dmc_clone_companion"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Companion §1.4 first-word canon: identity-chain-completion " +
+      "context fired; first word was 'Last' — canonical mortality " +
+      "acknowledgment per dmcNamingPrompts.ts. Saga-load-bearing " +
+      "acknowledgment of player's chosen final-body canon.",
+  },
+  {
+    flag: "companion_first_word_was_faction_coalition",
+    setBy: ["dmc_clone_companion"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Companion §1.4 default-fallback first-word canon: faction-" +
+      "loyalty word 'Coalition' fired. Future Coalition-aligned NPC " +
+      "reactive lines may register the canonical faction-recognition.",
+  },
+  {
+    flag: "companion_first_word_was_faction_insurgency",
+    setBy: ["dmc_clone_companion"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Companion §1.4 default-fallback first-word canon: faction-" +
+      "loyalty word 'Insurgency' fired. Future Insurgency-aligned NPC " +
+      "reactive lines may register the canonical faction-recognition.",
+  },
+  {
+    flag: "companion_named_in_hierophant_chamber",
+    setBy: ["dmc_clone_companion"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Companion §1.5 cross-character naming canon: Hierophant " +
+      "named the Companion in the chamber following the canonical " +
+      "Wraith Calder first-word. Future Hierophant reactive lines may " +
+      "register the canonical second-naming as cross-bible canon.",
+  },
+  {
+    flag: "companion_named_via_eidolon_translation",
+    setBy: ["dmc_clone_companion"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Companion §1.5 + Eidolon §5.9 cross-character naming canon: " +
+      "Eidolon's Echo-mode translated the canonical late-articulation " +
+      "sound-stack into a name. Future Eidolon reactive lines may " +
+      "register the canonical two-soul-substrate canon.",
+  },
 ];
 
 // --- Helpers --------------------------------------------------------------
