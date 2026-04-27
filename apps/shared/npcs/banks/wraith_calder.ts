@@ -73,6 +73,238 @@ export const WRAITH_CALDER_BANK: ReadonlyArray<BankEntry> = [
   },
 
   // ═════════════════════════════════════════════════════════════════════
+  // PRE-ARENA EXPANSION (Phase 6d.3 part 2)
+  //
+  // Per the_wraith_calder.md §§1.2-1.4 + §2.1-2.2 voice canon:
+  //   - Periods-as-punches (short sentences)
+  //   - Em-dashes for the gap (NOT parentheses or commas)
+  //   - Selective caps for contradicted nouns (CALL me / GAPS / STOLE)
+  //   - Spite-as-fuel
+  //   - "Bodies" not "lives"; death-as-noun
+  //   - Three architects canon (Necromancer / Warden / Dr. Vox)
+  //   - "Inside" canonical anchor
+  //
+  // ─── Ghost's Gambit match-flow (×5 turn-states) ────────────────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "wraith.pre_arena.ch3b.match.opening_register",
+    text:
+      "Sit. The deck is cold. The Arena has been waiting for you since I " +
+      "started counting. Eighth body. Eighth deck. Same problem. Don't " +
+      "expect me to mentor you mid-match — that's what the seven previous " +
+      "bodies were for.",
+    surfaces: ["match"],
+    requiresRevealStage: "pre_arena",
+    cooldownKey: "wraith.ch3b.match.opening",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "wraith.pre_arena.ch3b.match.mid_game_first_blood",
+    text:
+      "First blood. Note the move you made — the Arena is keeping score " +
+      "of you now. The score is not the point. The data is. Zero will " +
+      "want to know what you opened with. So will I, when this body " +
+      "stops working.",
+    surfaces: ["match"],
+    requiresRevealStage: "pre_arena",
+    cooldownKey: "wraith.ch3b.match.mid_game",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "wraith.pre_arena.ch3b.match.late_game_escalation",
+    text:
+      "Late game. This is canonical-death-eight territory. The body knows " +
+      "it — I can feel the Necromancer's nanobots pulling toward the " +
+      "next reset. Break the formation carefully. The system is INSIDE " +
+      "us now; don't let it pick the move for you.",
+    surfaces: ["match"],
+    requiresRevealStage: "pre_arena",
+    cooldownKey: "wraith.ch3b.match.late_game",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "wraith.pre_arena.ch3b.match.player_dominant",
+    text:
+      "You're winning faster than I expected. Don't get smug — speed is a " +
+      "tell. The Arena reads tells. Come back ugly next time if you want " +
+      "to learn faster.",
+    surfaces: ["match"],
+    requiresRevealStage: "pre_arena",
+    cooldownKey: "wraith.ch3b.match.player_dominant",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "wraith.pre_arena.ch3b.match.player_struggling",
+    text:
+      "You're hesitating. That gets you killed in the Arena — gets " +
+      "everyone killed. Pick a move. Wrong move is better than no move. " +
+      "I'll tell you afterward whether it was wrong.",
+    surfaces: ["match"],
+    requiresRevealStage: "pre_arena",
+    cooldownKey: "wraith.ch3b.match.player_struggling",
+    maxPlays: 1,
+  },
+
+  // ─── Seven deaths × 4 trust-band registers (pre-arena ladder) ──────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "wraith.pre_arena.seven_deaths.hostile_register",
+    text:
+      "You don't want my history. Not yet. The number is seven. The " +
+      "rest is mine. Get out of my way or get used as the eighth.",
+    surfaces: ["transmission", "match"],
+    requiresRevealStage: "pre_arena",
+    requiresTrustBand: "Hostile",
+    cooldownKey: "wraith.pre_arena.seven_deaths.hostile",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "wraith.pre_arena.seven_deaths.wary_register",
+    text:
+      "Seven bodies. The first three I lost to the Necromancer's design " +
+      "without knowing what was happening. The next four I lost knowing. " +
+      "Knowing didn't help. The system is inside us now. That's the " +
+      "lesson — and you've earned hearing it.",
+    surfaces: ["transmission"],
+    requiresRevealStage: "pre_arena",
+    requiresTrustBand: "Wary",
+    cooldownKey: "wraith.pre_arena.seven_deaths.wary",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "wraith.pre_arena.seven_deaths.witnessed_register",
+    text:
+      "I'll tell you the deaths in order, since you've kept showing up. " +
+      "Body one — Mol'Garath's labyrinth, the wrong room. Body two — Vox's " +
+      "first nanobot prototype, friendly fire. Body three — the Warden's " +
+      "audit, deliberate. Body four through seven were the Insurgency. " +
+      "Each one solid. None of them mine.",
+    surfaces: ["transmission"],
+    requiresRevealStage: "pre_arena",
+    requiresTrustBand: "Witnessed",
+    cooldownKey: "wraith.pre_arena.seven_deaths.witnessed",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "wraith.pre_arena.seven_deaths.present_register",
+    text:
+      "Eighth death is the one I've been carrying since you walked into " +
+      "this match. I'd ask you to deliver it cleanly — not as a courtesy " +
+      "to me, as data for whoever inherits the protocol after I'm done. " +
+      "Don't mourn me if I drop. I'll be back. The real question is " +
+      "whether YOU will come back when it's your turn.",
+    surfaces: ["transmission", "match"],
+    requiresRevealStage: "pre_arena",
+    requiresTrustBand: "Present",
+    cooldownKey: "wraith.pre_arena.seven_deaths.present",
+    maxPlays: 1,
+  },
+
+  // ─── Wolf-pack lore (×3, per loreAchievements.ts 410-414) ──────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "wraith.pre_arena.wolf.seven_days",
+    text:
+      "I ran with the Wolf for seven days. One day per body I'd already " +
+      "lost — the symmetry wasn't an accident; the Wolf reads symmetry " +
+      "the way I read decks. Seven days. He didn't talk much. Neither " +
+      "did I. The pack learned my pace; I learned theirs. That was the " +
+      "whole transaction.",
+    surfaces: ["transmission"],
+    requiresRevealStage: "pre_arena",
+    requiresTrustBand: "Witnessed",
+    cooldownKey: "wraith.pre_arena.wolf.seven_days",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "wraith.pre_arena.wolf.what_it_taught",
+    text:
+      "The Wolf taught me that a pack can keep pace with a body that " +
+      "keeps dying — if the pack is patient about the GAPS. The Pack " +
+      "didn't mourn me when I dropped on day four. They waited. They " +
+      "knew I'd be back. Patience earned, not granted. That's the " +
+      "lesson the rite later turned into something larger.",
+    surfaces: ["transmission"],
+    requiresRevealStage: "pre_arena",
+    requiresTrustBand: "Witnessed",
+    cooldownKey: "wraith.pre_arena.wolf.taught",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "wraith.pre_arena.wolf.spite_origin",
+    text:
+      "The Wolf is also why I have spite. Pack-spite — the kind that " +
+      "burns slow. Watching a pack-mate die wrong, by something the " +
+      "pack didn't choose, leaves a residue. I have eight bodies of " +
+      "that residue. Spite, mostly. And the faces of pack-mates who " +
+      "expected me to stay dead.",
+    surfaces: ["transmission"],
+    requiresRevealStage: "pre_arena",
+    requiresTrustBand: "Present",
+    cooldownKey: "wraith.pre_arena.wolf.spite_origin",
+    maxPlays: 1,
+  },
+
+  // ─── Pre-arena cross-references (×3) ───────────────────────────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "wraith.pre_arena.cross.vex_as_coda_runner",
+    text:
+      "Coda runs quiet. The runner is fast. I won't say her name — she " +
+      "hasn't said it to me yet, and I don't claim names that haven't " +
+      "been offered. She moves through Coda the way I moved through the " +
+      "Insurgency. Different deck. Same instinct.",
+    surfaces: ["transmission"],
+    requiresRevealStage: "pre_arena",
+    requiresTrustBand: "Wary",
+    cooldownKey: "wraith.pre_arena.cross.vex",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "wraith.pre_arena.cross.locke_as_authority_fixed_point",
+    text:
+      "Adjudicator Locke. The Authority's fixed point in the saga's " +
+      "moving parts. We've never met directly. I respect the work — she " +
+      "writes contracts the way I lose bodies. Specifically. Each one " +
+      "intended. We're on opposite sides of a system that is INSIDE us " +
+      "both.",
+    surfaces: ["transmission"],
+    requiresRevealStage: "pre_arena",
+    requiresTrustBand: "Witnessed",
+    cooldownKey: "wraith.pre_arena.cross.locke",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "wraith.pre_arena.cross.seer_as_prophecy_domain",
+    text:
+      "The Seer. Prophecy-domain. She's been watching since before the " +
+      "Necromancer wrote the Protocol. She'll see me die at least once " +
+      "more — she sees the count in advance. I asked her once what she " +
+      "saw for the Arena. She said: more bodies. That was the entire " +
+      "exchange.",
+    surfaces: ["transmission"],
+    requiresRevealStage: "pre_arena",
+    requiresTrustBand: "Witnessed",
+    cooldownKey: "wraith.pre_arena.cross.seer",
+    maxPlays: 1,
+  },
+
+  // ═════════════════════════════════════════════════════════════════════
   // POST-ARENA (Hierophant — Tamarin liturgy + Long Mourning chamber)
   // ═════════════════════════════════════════════════════════════════════
 
