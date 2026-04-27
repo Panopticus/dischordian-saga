@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import {
   ROOM_STATE_ASSET_URLS,
+  resolveRoomBackgroundUrl,
   resolveRoomStateAsset,
   resolveRoomStateId,
 } from "./roomStateAssets";
@@ -87,5 +88,50 @@ describe("roomStateAssets — variant picker", () => {
     expect(
       resolveRoomStateAsset("medical-bay", { donated_dna_sample: true }),
     ).toContain("medical-bay_donated");
+  });
+
+  describe("resolveRoomBackgroundUrl — tier-aware entry point", () => {
+    const LEGACY = "https://example.cdn/legacy-room.webp";
+
+    it("delegates to the Section F flag-based resolver for cryo-bay", () => {
+      const url = resolveRoomBackgroundUrl(
+        "cryo-bay",
+        { cryo_mystery_first_clue_found: true },
+        LEGACY,
+      );
+      expect(url).toContain("cryo-bay_investigating");
+    });
+
+    it("delegates to the Section F flag-based resolver for medical-bay", () => {
+      const url = resolveRoomBackgroundUrl(
+        "medical-bay",
+        { donated_dna_sample: true },
+        LEGACY,
+      );
+      expect(url).toContain("medical-bay_donated");
+    });
+
+    it("returns the legacy URL for rooms without tier art registered", () => {
+      // Bridge has a tier threshold declared but no tier art entry
+      // yet — the resolver must fall through to the supplied legacy.
+      expect(resolveRoomBackgroundUrl("bridge", {}, LEGACY)).toBe(LEGACY);
+      expect(
+        resolveRoomBackgroundUrl(
+          "engineering",
+          { engineering_first_clue_found: true },
+          LEGACY,
+        ),
+      ).toBe(LEGACY);
+    });
+
+    it("returns the legacy URL for entirely unknown rooms", () => {
+      expect(resolveRoomBackgroundUrl("not-a-room", {}, LEGACY)).toBe(LEGACY);
+    });
+
+    it("never returns null or undefined", () => {
+      const url = resolveRoomBackgroundUrl("bridge", {}, LEGACY);
+      expect(url).toBeTruthy();
+      expect(typeof url).toBe("string");
+    });
   });
 });

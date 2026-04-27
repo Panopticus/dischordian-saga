@@ -8,7 +8,8 @@ import { useGameAreaBGM } from "@/contexts/GameAudioContext";
 import { useState, useCallback, useEffect, useMemo, useRef } from "react";
 import { dialogOpened, dialogClosed } from "@/lib/dialogState";
 import { useGame, ROOM_DEFINITIONS, type HotspotDef, type RoomDef } from "@/contexts/GameContext";
-import { resolveRoomStateAsset } from "@/game/roomStateAssets";
+import { resolveRoomBackgroundUrl } from "@/game/roomStateAssets";
+import { getRoomTier } from "@shared/roomTier";
 import { useGamification } from "@/contexts/GamificationContext";
 import { useSound } from "@/contexts/SoundContext";
 import { useAmbientMusic } from "@/contexts/AmbientMusicContext";
@@ -63,7 +64,10 @@ import { isRoomUnlocked as isPreludeRoomUnlocked } from "@shared/preludeRoomGate
 import {
   getRoomMysteryModule,
   resolveVerbResponse,
+  VERB_LIST,
+  type Verb,
 } from "@shared/roomMysteries";
+import VerbCoin from "@/components/VerbCoin";
 import LoreTutorialEngine from "@/components/LoreTutorialEngine";
 import NarrativeTrigger from "@/components/NarrativeTrigger";
 import InlineShipMap from "@/components/InlineShipMap";
@@ -122,6 +126,39 @@ function getHotspotColor(type: HotspotDef["type"]) {
         text: "var(--energy-success)",
       };
   }
+}
+
+/* ─── MYSTERY ACTION PARSE ─── */
+/** Parse a `room-mystery:<roomId>:<id>` or legacy `cryo-mystery:<id>`
+ *  hotspot action into its parts. Returns null when the action isn't a
+ *  mystery dispatch — non-mystery hotspots use their existing branch. */
+function parseMysteryAction(
+  action: string | undefined,
+): { roomId: string; hotspotId: string } | null {
+  if (!action) return null;
+  if (action.startsWith("cryo-mystery:")) {
+    return { roomId: "cryo-bay", hotspotId: action.slice("cryo-mystery:".length) };
+  }
+  if (action.startsWith("room-mystery:")) {
+    const rest = action.slice("room-mystery:".length);
+    const sep = rest.indexOf(":");
+    if (sep === -1) return null;
+    return { roomId: rest.slice(0, sep), hotspotId: rest.slice(sep + 1) };
+  }
+  return null;
+}
+
+/** Verbs the room mystery module actually authors for this hotspot.
+ *  Empty array = the hotspot isn't a mystery hotspot (or its module
+ *  isn't registered) — verb coin shouldn't render. */
+function availableVerbsFor(action: string | undefined): readonly Verb[] {
+  const parsed = parseMysteryAction(action);
+  if (!parsed) return [];
+  const mod = getRoomMysteryModule(parsed.roomId);
+  if (!mod) return [];
+  return VERB_LIST.filter((v) =>
+    Boolean(resolveVerbResponse(mod, v, parsed.hotspotId)),
+  );
 }
 
 /* ─── FEATURE ROUTE ICON MAP ─── */
@@ -258,7 +295,9 @@ function RoomScene({
   roomsWithEvents = new Set<string>(),
 }: {
   room: RoomDef;
-  onHotspotClick: (hotspot: HotspotDef) => void;
+  /** Default verb is `look`. The verb-coin overlay calls this with
+   *  a non-look verb to invoke a specific (verb, hotspot) response. */
+  onHotspotClick: (hotspot: HotspotDef, verb?: Verb) => void;
   itemsCollected: string[];
   fastTravelUnlocked?: boolean;
   commsRelayComplete?: boolean;
@@ -266,11 +305,20 @@ function RoomScene({
 }) {
   const [hoveredHotspot, setHoveredHotspot] = useState<string | null>(null);
   const { state: gameStateForArt } = useGame();
-  // State-aware room backdrop for Section F mystery rooms. Falls through
-  // to the room definition's legacy imageUrl for every other room.
-  const roomArtUrl = (room.id === "cryo-bay" || room.id === "medical-bay")
-    ? resolveRoomStateAsset(room.id as "cryo-bay" | "medical-bay", gameStateForArt.narrativeFlags)
-    : room.imageUrl;
+  // Tier-aware room backdrop. The Section-F flag-based variants for
+  // cryo / medical bay still win, then any tier-indexed art for the
+  // current room tier, then the room's legacy imageUrl. See
+  // apps/client/src/game/roomStateAssets.ts ROOM_TIER_ASSET_URLS for
+  // the registry — empty by default so all rooms keep their existing
+  // backdrop until tier art lands.
+  const roomArtUrl = resolveRoomBackgroundUrl(
+    room.id,
+    gameStateForArt.narrativeFlags,
+    room.imageUrl,
+  );
+  const roomTier = getRoomTier(room.id, {
+    narrativeFlags: gameStateForArt.narrativeFlags,
+  });
   const [showHotspots, setShowHotspots] = useState(() => {
     try {
       const v = localStorage.getItem("loredex-show-hotspots");
@@ -316,7 +364,7 @@ function RoomScene({
           IV drip, antiquarian library dust motes). Unknown rooms
           render nothing so the default "image + scanlines" experience
           is preserved. */}
-      <RoomAmbientLife roomId={room.id} />
+      <RoomAmbientLife roomId={room.id} tier={roomTier} />
 
       {/* Markers toggle moved to Settings page */}
 
@@ -530,6 +578,21 @@ function RoomScene({
                       </p>
                     </div>
                   </motion.div>
+                )}
+              </AnimatePresence>
+
+              {/* Verb-coin overlay — only renders for hotspots with an
+                  authored room-mystery action. Hover-triggered, sits
+                  above the hotspot so it doesn't fight the tooltip
+                  below. Click-through stops at the coin so picking a
+                  verb doesn't also fire the default Look click. */}
+              <AnimatePresence>
+                {isHovered && (
+                  <VerbCoin
+                    visible
+                    availableVerbs={availableVerbsFor(hotspot.action)}
+                    onVerb={(verb) => onHotspotClick(hotspot, verb)}
+                  />
                 )}
               </AnimatePresence>
             </motion.div>
@@ -970,9 +1033,11 @@ export default function ArkExplorerPage() {
     const isNew = !state.rooms[targetRoomId]?.visited;
     const fromRoom = state.currentRoomId || "cryo-bay";
     if (audioReady) playSFX("room_enter");
-    const toRoomImage = (targetRoomId === "cryo-bay" || targetRoomId === "medical-bay")
-      ? resolveRoomStateAsset(targetRoomId, state.narrativeFlags)
-      : targetDef.imageUrl;
+    const toRoomImage = resolveRoomBackgroundUrl(
+      targetRoomId,
+      state.narrativeFlags,
+      targetDef.imageUrl,
+    );
     setTransition({
       fromRoom,
       toRoom: targetRoomId,
@@ -1037,7 +1102,7 @@ export default function ArkExplorerPage() {
     navigateWithTransition(roomId);
   }, [navigateWithTransition, audioReady, playSFX, getRoomDef]);
 
-  const handleHotspotClick = useCallback((hotspot: HotspotDef) => {
+  const handleHotspotClick = useCallback((hotspot: HotspotDef, verb: Verb = "look") => {
     if (audioReady) playSFX("button_click");
 
     switch (hotspot.type) {
@@ -1151,8 +1216,12 @@ export default function ArkExplorerPage() {
             hotspotId = sep === -1 ? "" : rest.slice(sep + 1);
           }
           const mod = getRoomMysteryModule(roomId);
-          const mystery = mod ? resolveVerbResponse(mod, "look", hotspotId) : null;
+          const mystery = mod ? resolveVerbResponse(mod, verb, hotspotId) : null;
           if (!mystery) {
+            // Verb-coin disables verbs without authored responses, so
+            // a missing reaction here is most plausibly a player who
+            // clicked the hotspot directly (Look default) on a hotspot
+            // that didn't author Look. Same fallback either way.
             setElaraText("Nothing reveals itself here.");
             break;
           }

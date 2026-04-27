@@ -1,4 +1,5 @@
 import { assetUrl } from "@/lib/assetUrl";
+import { getRoomTier, type RoomTier } from "@shared/roomTier";
 /* ═══════════════════════════════════════════════════════
    ROOM STATE ASSETS — runtime variant picker
 
@@ -13,6 +14,15 @@ import { assetUrl } from "@/lib/assetUrl";
    the resolver falls back down the priority chain to
    `:initial` and finally to the legacy cryo/med-bay art so
    the flow never renders with a broken image.
+
+   Tier-based extension (LucasArts spine, apps/shared/roomTier.ts):
+   `resolveRoomBackgroundUrl()` is the canonical entry point for
+   the room renderer. For the two Section-F rooms it keeps the
+   legacy flag-based behavior; for every other room it picks the
+   tier-indexed asset out of ROOM_TIER_ASSET_URLS and falls back
+   to the room's legacy `imageUrl` when no tier art is registered.
+   This lets new rooms ship the spine without art day-one and
+   light up automatically when art lands.
    ═══════════════════════════════════════════════════════ */
 
 export type RoomStateRoomId = "cryo-bay" | "medical-bay";
@@ -128,4 +138,58 @@ export function resolveRoomStateAsset(
   const stateId = resolveRoomStateId(roomId as "cryo-bay", flags);
   const urls = ROOM_STATE_ASSET_URLS[roomId] as Record<string, string | null>;
   return urls[stateId] || urls["initial"] || LEGACY_URLS[roomId];
+}
+
+/* ─── TIER-BASED ASSET RESOLUTION (LucasArts spine) ───
+ *
+ * Per-room asset URLs indexed by RoomTier (0..3 — see
+ * apps/shared/roomTier.ts). Each entry is a partial map: tiers
+ * without art declared simply fall back to the next-lower tier
+ * (or the room's legacy `imageUrl` at the bottom), so a room
+ * can ship Tier 2 art before Tier 3 art exists without breaking.
+ *
+ * Empty initial state — Tier 2/3 art for the showcase rooms is
+ * left to a follow-up content pass. The shape ships now so
+ * authors can drop URLs in without any code edits.
+ */
+export const ROOM_TIER_ASSET_URLS: Readonly<
+  Record<string, Partial<Record<RoomTier, string>>>
+> = {
+  // "medical-bay": { 2: "/art/rooms/tiers/medical-bay_t2.webp", 3: "..." },
+  // "bridge":      { 2: "/art/rooms/tiers/bridge_t2.webp",      3: "..." },
+  // "engineering": { 2: "/art/rooms/tiers/engineering_t2.webp", 3: "..." },
+};
+
+/** Pick the highest-tier asset URL for a room that doesn't exceed
+ *  the player's current tier. Returns null when no tier art is
+ *  registered — caller falls back to the room's legacy imageUrl. */
+function pickTierAsset(roomId: string, tier: RoomTier): string | null {
+  const table = ROOM_TIER_ASSET_URLS[roomId];
+  if (!table) return null;
+  for (let t = tier; t >= 0; t--) {
+    const url = table[t as RoomTier];
+    if (url) return url;
+  }
+  return null;
+}
+
+/**
+ * Canonical entry point for the room renderer. Resolves a room's
+ * background to:
+ *   - the Section F flag-based variant (cryo / medical bay), OR
+ *   - the highest tier-art entry ≤ current tier, OR
+ *   - the supplied `legacyImageUrl` fallback.
+ *
+ * Never returns null — callers can render the URL directly.
+ */
+export function resolveRoomBackgroundUrl(
+  roomId: string,
+  flags: NarrativeFlags | null | undefined,
+  legacyImageUrl: string,
+): string {
+  if (roomId === "cryo-bay" || roomId === "medical-bay") {
+    return resolveRoomStateAsset(roomId, flags);
+  }
+  const tier = getRoomTier(roomId, { narrativeFlags: flags ?? {} });
+  return pickTierAsset(roomId, tier) ?? legacyImageUrl;
 }
