@@ -19,6 +19,10 @@ import type {
   CoverIdentityBlownEvent,
   GeneralsDilemmaResolvedEvent,
   OracleFuturePurchasedEvent,
+  ContractSignedEvent,
+  BrokerEngagementEvent,
+  RouteMilestoneEvent,
+  SectorFirstEnteredEvent,
 } from "../services/rippleEngine";
 import {
   CLASS_SECTOR_ACCESS,
@@ -26,6 +30,20 @@ import {
   SPY_COVER_IDENTITIES,
 } from "@shared/classTradeAccess";
 import type { CharClass } from "@shared/characterCreationImpact";
+import {
+  tradeContracts,
+  tradeBrokerEngagement,
+  tradeRoutes,
+  tradeRouteMilestones,
+  tradeSectorArrivals,
+} from "../../db/schema";
+import { getContractTemplate } from "@shared/tradeEmpire/contractTemplates/index";
+import {
+  makeRouteKey,
+  milestoneTiersCrossedBy,
+  type RouteMilestoneTier,
+} from "@shared/tradeEmpire/routes";
+import type { CargoCategory } from "@shared/tradeEmpire/cargo";
 
 /** Max trade cycles ahead an Oracle can buy a futures contract. */
 const PROBABILITY_FUTURES_WINDOW = 3;
@@ -499,5 +517,368 @@ export const tradeEmpireRouter = router({
         resolution: input.resolution,
       } as GeneralsDilemmaResolvedEvent);
       return { success: true, resolution: input.resolution };
+    }),
+
+  // ═══════════════════════════════════════════════════════════════════
+  // PHASE 2.2 — Contract + route + sector-arrival endpoints
+  // ═══════════════════════════════════════════════════════════════════
+
+  /**
+   * Sign a contract template. Inserts a tradeContracts row, increments
+   * the corresponding tradeBrokerEngagement, and emits both
+   * contract_signed + broker_engagement ripples.
+   *
+   * Idempotent per (user, contractKey, status='signed' or 'active'):
+   * if a player tries to re-sign an active contract, the existing row
+   * is returned without duplicate insertion.
+   */
+  signContract: protectedProcedure
+    .input(z.object({
+      contractKey: z.string(),
+      auditedOnSigning: z.boolean().optional().default(false),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      const template = getContractTemplate(input.contractKey);
+      if (!template) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: `Unknown contract template: ${input.contractKey}`,
+        });
+      }
+      const db = await getDb();
+      if (!db) dbUnavailable();
+
+      // Idempotency: existing active contract?
+      const existing = await db
+        .select()
+        .from(tradeContracts)
+        .where(and(
+          eq(tradeContracts.userId, ctx.user.id),
+          eq(tradeContracts.contractKey, input.contractKey),
+        ))
+        .limit(1);
+      if (existing.length > 0 && existing[0]) {
+        const status = existing[0].status;
+        if (status === "signed" || status === "active") {
+          return {
+            success: true,
+            contractId: existing[0].id,
+            alreadySigned: true,
+          };
+        }
+      }
+
+      // Insert new contract row.
+      const insertResult = await db.insert(tradeContracts).values({
+        userId: ctx.user.id,
+        contractKey: input.contractKey,
+        brokerKey: template.brokerKey,
+        status: "signed",
+        auditedOnSigning: input.auditedOnSigning,
+        stageStatus: {},
+        disclosedClauses: [],
+      });
+
+      // Increment broker engagement.
+      const engagementRow = await db
+        .select()
+        .from(tradeBrokerEngagement)
+        .where(and(
+          eq(tradeBrokerEngagement.userId, ctx.user.id),
+          eq(tradeBrokerEngagement.brokerKey, template.brokerKey),
+        ))
+        .limit(1);
+      if (engagementRow.length > 0 && engagementRow[0]) {
+        await db
+          .update(tradeBrokerEngagement)
+          .set({
+            engagementCount: (engagementRow[0].engagementCount ?? 0) + 1,
+          })
+          .where(eq(tradeBrokerEngagement.id, engagementRow[0].id));
+      } else {
+        await db.insert(tradeBrokerEngagement).values({
+          userId: ctx.user.id,
+          brokerKey: template.brokerKey,
+          engagementCount: 1,
+          firstMetAt: new Date(),
+        });
+      }
+
+      // Ripple: contract_signed.
+      try {
+        await ripple.emit("contract_signed", {
+          userId: ctx.user.id,
+          contractKey: input.contractKey,
+          brokerKey: template.brokerKey,
+          hiddenClausesAcknowledged: input.auditedOnSigning,
+        } as ContractSignedEvent);
+      } catch (rippleErr) {
+        console.warn("contract_signed ripple failed", rippleErr);
+      }
+
+      // Ripple: broker_engagement (mission_accepted = canonical for signing).
+      try {
+        await ripple.emit("broker_engagement", {
+          userId: ctx.user.id,
+          brokerKey: template.brokerKey,
+          npcKey: template.brokerKey, // canonical broker→npc mapping
+          engagementType: "mission_accepted",
+        } as BrokerEngagementEvent);
+      } catch (rippleErr) {
+        console.warn("broker_engagement ripple failed", rippleErr);
+      }
+
+      // Drizzle MySQL insert returns ResultSetHeader-shape; insertId on result[0]
+      const insertId = (insertResult as unknown as Array<{ insertId?: number }>)[0]?.insertId;
+      return {
+        success: true,
+        contractId: insertId ?? null,
+        alreadySigned: false,
+      };
+    }),
+
+  /**
+   * Mark a contract stage as completed. Updates stageStatus JSON;
+   * if all stages succeed, sets contract status → 'succeeded'.
+   */
+  completeContractStage: protectedProcedure
+    .input(z.object({
+      contractKey: z.string(),
+      stageId: z.string(),
+      result: z.enum(["succeeded", "failed"]),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      const template = getContractTemplate(input.contractKey);
+      if (!template) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: `Unknown contract template: ${input.contractKey}`,
+        });
+      }
+      const db = await getDb();
+      if (!db) dbUnavailable();
+
+      const rows = await db
+        .select()
+        .from(tradeContracts)
+        .where(and(
+          eq(tradeContracts.userId, ctx.user.id),
+          eq(tradeContracts.contractKey, input.contractKey),
+        ))
+        .limit(1);
+      const row = rows[0];
+      if (!row) {
+        return { success: false, error: "Contract not signed" };
+      }
+      if (row.status !== "signed" && row.status !== "active") {
+        return { success: false, error: `Contract is ${row.status}, not active` };
+      }
+
+      // Validate stage exists in template.
+      const stage = template.stages.find(s => s.stageId === input.stageId);
+      if (!stage) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: `Unknown stage: ${input.stageId}`,
+        });
+      }
+
+      const stageStatus = (row.stageStatus as Record<string, string>) ?? {};
+      stageStatus[input.stageId] = input.result;
+
+      // Determine contract status.
+      const allStageIds = template.stages.map(s => s.stageId);
+      const allSucceeded = allStageIds.every(id => stageStatus[id] === "succeeded");
+      const anyFailed = allStageIds.some(id => stageStatus[id] === "failed");
+      const newStatus =
+        anyFailed ? "failed" :
+        allSucceeded ? "succeeded" :
+        "active";
+
+      await db
+        .update(tradeContracts)
+        .set({
+          status: newStatus,
+          stageStatus,
+          resolvedAt: (newStatus === "succeeded" || newStatus === "failed")
+            ? new Date()
+            : null,
+        })
+        .where(eq(tradeContracts.id, row.id));
+
+      return {
+        success: true,
+        contractStatus: newStatus,
+        completedStages: allStageIds.filter(id => stageStatus[id] === "succeeded").length,
+        totalStages: allStageIds.length,
+      };
+    }),
+
+  /**
+   * Mark a sector as first-entered. Inserts a tradeSectorArrivals row
+   * (idempotent per uniq index) and emits sector_first_entered ripple
+   * exactly once per (user, sector). Handler in rippleEngine triggers
+   * the canonical arrivalCinematic + Eyes-narrator whisper.
+   */
+  sectorFirstEntered: protectedProcedure
+    .input(z.object({ sectorId: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) dbUnavailable();
+
+      // Idempotency check via uniq index.
+      const existing = await db
+        .select()
+        .from(tradeSectorArrivals)
+        .where(and(
+          eq(tradeSectorArrivals.userId, ctx.user.id),
+          eq(tradeSectorArrivals.sectorId, input.sectorId),
+        ))
+        .limit(1);
+      if (existing.length > 0) {
+        return {
+          success: true,
+          firstVisit: false,
+          firstEnteredAt: existing[0]?.firstEnteredAt ?? new Date(),
+        };
+      }
+
+      await db.insert(tradeSectorArrivals).values({
+        userId: ctx.user.id,
+        sectorId: input.sectorId,
+        cinematicWatched: false,
+      });
+
+      try {
+        await ripple.emit("sector_first_entered", {
+          userId: ctx.user.id,
+          sectorId: input.sectorId,
+        } as SectorFirstEnteredEvent);
+      } catch (rippleErr) {
+        console.warn("sector_first_entered ripple failed", rippleErr);
+      }
+
+      return {
+        success: true,
+        firstVisit: true,
+        firstEnteredAt: new Date(),
+      };
+    }),
+
+  /**
+   * Mark a sector-arrival cinematic as watched. Toggles
+   * tradeSectorArrivals.cinematicWatched true.
+   */
+  markArrivalCinematicWatched: protectedProcedure
+    .input(z.object({ sectorId: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) dbUnavailable();
+      await db
+        .update(tradeSectorArrivals)
+        .set({ cinematicWatched: true })
+        .where(and(
+          eq(tradeSectorArrivals.userId, ctx.user.id),
+          eq(tradeSectorArrivals.sectorId, input.sectorId),
+        ));
+      return { success: true };
+    }),
+
+  /**
+   * Record a completed route run. Increments tradeRoutes.runCount; on
+   * canonical milestone-tier crossings (5 / 10 / 25 / 50) inserts
+   * tradeRouteMilestones rows + emits route_milestone ripple per tier
+   * crossed.
+   *
+   * Typically called by the client after a `dispatchMission → completeMission`
+   * sequence where the player chose to log the run as part of a
+   * recurring route. The mission outcome itself is logged via
+   * `completeMission`; this endpoint is the canonical-route-tracker
+   * extension.
+   */
+  recordRouteRun: protectedProcedure
+    .input(z.object({
+      fromSectorId: z.string(),
+      toSectorId: z.string(),
+      cargoCategory: z.string().optional(),
+      factionsTouched: z.array(z.string()).optional(),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) dbUnavailable();
+
+      const routeKey = makeRouteKey(
+        input.fromSectorId,
+        input.toSectorId,
+        input.cargoCategory as CargoCategory | undefined,
+      );
+
+      const existing = await db
+        .select()
+        .from(tradeRoutes)
+        .where(and(
+          eq(tradeRoutes.userId, ctx.user.id),
+          eq(tradeRoutes.routeKey, routeKey),
+        ))
+        .limit(1);
+
+      const priorRunCount = existing[0]?.runCount ?? 0;
+      const newRunCount = priorRunCount + 1;
+      const tiersCrossed = milestoneTiersCrossedBy(
+        priorRunCount,
+        newRunCount,
+      );
+      const newMilestoneTier = tiersCrossed.length > 0
+        ? tiersCrossed[tiersCrossed.length - 1]!
+        : (existing[0]?.milestoneTier ?? 0);
+
+      if (existing[0]) {
+        await db
+          .update(tradeRoutes)
+          .set({
+            runCount: newRunCount,
+            milestoneTier: newMilestoneTier,
+          })
+          .where(eq(tradeRoutes.id, existing[0].id));
+      } else {
+        await db.insert(tradeRoutes).values({
+          userId: ctx.user.id,
+          routeKey,
+          fromSectorId: input.fromSectorId,
+          toSectorId: input.toSectorId,
+          cargoCategory: input.cargoCategory ?? null,
+          runCount: newRunCount,
+          milestoneTier: newMilestoneTier,
+        });
+      }
+
+      // Append-only milestone log + ripple per crossed tier.
+      const factionsTouched = input.factionsTouched ?? [];
+      for (const tier of tiersCrossed) {
+        await db.insert(tradeRouteMilestones).values({
+          userId: ctx.user.id,
+          routeKey,
+          milestoneTier: tier,
+          runCountAtAchievement: newRunCount,
+        }).catch(() => {/* idempotent on uniq violation */});
+
+        try {
+          await ripple.emit("route_milestone", {
+            userId: ctx.user.id,
+            routeKey,
+            runCount: newRunCount,
+            factionsTouched,
+          } as RouteMilestoneEvent);
+        } catch (rippleErr) {
+          console.warn("route_milestone ripple failed", rippleErr);
+        }
+      }
+
+      return {
+        success: true,
+        runCount: newRunCount,
+        currentMilestoneTier: newMilestoneTier as RouteMilestoneTier | 0,
+        tiersCrossedThisRun: tiersCrossed,
+      };
     }),
 });
