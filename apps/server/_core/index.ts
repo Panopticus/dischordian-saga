@@ -395,6 +395,15 @@ async function startServer() {
       console.error("[WebhookEventsBootstrap] failed:", e),
     );
 
+    // Ensure pvp_ratings exists (#7). Migration 0058 is orphaned
+    // from _journal.json; without this table the pvpRanking router
+    // throws on every read/write. Failure surface is "MMR badge +
+    // leaderboard unavailable"; rest of the game is unaffected.
+    const { bootstrapPvpRatingsTable } = await import("../services/pvpRatingsBootstrap");
+    bootstrapPvpRatingsTable().catch(e =>
+      console.error("[PvpRatingsBootstrap] failed:", e),
+    );
+
     // Ensure game_replays.shareToken exists. Migration 0056 is
     // orphaned from _journal.json; without this column saveReplay
     // can't generate share-links and getReplayByToken silently 404s.
