@@ -157,6 +157,11 @@ const CardChallengePage = lazy(() => import("./pages/CardChallengePage"));
 const ConexusPortalPage = lazy(() => import("./pages/ConexusPortalPage"));
 const AchievementsGalleryPage = lazy(() => import("./pages/AchievementsGalleryPage"));
 const AdminPage = lazy(() => import("./pages/AdminPage"));
+// #148 — telemetry visualization for the metrics already captured by
+// Sentry / OpenTelemetry / performanceMonitor / matchLengthMonitor.
+// Admin-gated client-side as a fast-fail; the underlying tRPC queries
+// are admin-gated server-side.
+const AdminHealthPage = lazy(() => import("./pages/AdminHealthPage"));
 const ArchitectConsolePage = lazy(() => import("./pages/ArchitectConsolePage"));
 const HierarchyPage = lazy(() => import("./pages/HierarchyPage"));
 const DemonPackPage = lazy(() => import("./pages/DemonPackPage"));
@@ -337,6 +342,7 @@ function Router() {
         <Route path="/conexus-portal" component={ConexusPortalPage} />
         <Route path="/achievements" component={AchievementsGalleryPage} />
         <Route path="/admin" component={AdminPage} />
+        <Route path="/admin/health" component={AdminHealthPage} />
         <Route path="/architect-console" component={ArchitectConsolePage} />
         <Route path="/hierarchy" component={HierarchyPage} />
         <Route path="/demon-packs">{() => <Suspense fallback={<CardGridSkeleton />}><DemonPackPage /></Suspense>}</Route>
