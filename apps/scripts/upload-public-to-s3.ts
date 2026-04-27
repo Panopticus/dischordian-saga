@@ -117,12 +117,6 @@ async function uploadOne(
       Body: body,
       ContentType: CONTENT_TYPES[ext] ?? "application/octet-stream",
       CacheControl: "public, max-age=31536000, immutable",
-      // Match the public-read ACL the working assets in this bucket
-      // already carry. Without it, freshly uploaded objects respond
-      // 403 to anonymous GETs even though the surrounding prefix is
-      // otherwise reachable. Failing-loud is preferable to shipping
-      // unreachable art.
-      ACL: "public-read",
     }),
   );
   return "uploaded";
