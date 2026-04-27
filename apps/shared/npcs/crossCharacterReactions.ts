@@ -813,6 +813,27 @@ export const CROSS_CHARACTER_REACTIONS: ReadonlyArray<CrossCharacterReaction> = 
       "reactive lines may register the canonical 'preparing for the " +
       "Oracle's return' parallel.",
   },
+  {
+    flag: "game_master_cult_revealed_to_player",
+    setBy: ["the_game_master"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Game Master cult_introduction_redacted (Phase 6d.1 part 2). " +
+      "Canonically discloses the Game Masters cult to the player via " +
+      "the canonical strikethrough redaction signature per §1.5. " +
+      "Future Oracle reactive lines may register the canonical " +
+      "Matrix-of-Dreams maintenance canon.",
+  },
+  {
+    flag: "game_master_cult_oracle_recovery_canon_disclosed",
+    setBy: ["the_game_master"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Game Master cult_oracle_recovery_progresses (Phase 6d.1 " +
+      "part 2). Canonically discloses the cult continues the Oracle " +
+      "recovery work post-original-destruction. Future Oracle reactive " +
+      "lines may register the canonical 'Oracle approaches' canon.",
+  },
 ];
 
 // --- Helpers --------------------------------------------------------------
