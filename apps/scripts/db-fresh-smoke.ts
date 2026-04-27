@@ -42,6 +42,7 @@ import { bootstrapAnnouncementsTables } from "../server/services/announcementsBo
 import { bootstrapCitizenSchema } from "../server/services/citizenSchemaBootstrap";
 import { bootstrapWebhookEventsTable } from "../server/services/webhookEventsBootstrap";
 import { bootstrapReplayShareToken, bootstrapReplayMatchId } from "../server/services/replaysBootstrap";
+import { bootstrapPvpRatingsTable } from "../server/services/pvpRatingsBootstrap";
 
 interface CheckResult {
   name: string;
@@ -190,9 +191,19 @@ async function main(): Promise<void> {
       detail: e instanceof Error ? e.message : String(e),
     });
   }
+  try {
+    await bootstrapPvpRatingsTable();
+    checks.push({ name: "bootstrapPvpRatingsTable() succeeded", ok: true });
+  } catch (e) {
+    checks.push({
+      name: "bootstrapPvpRatingsTable() succeeded",
+      ok: false,
+      detail: e instanceof Error ? e.message : String(e),
+    });
+  }
 
   // 4. Verify the bootstrap-targeted DDL landed
-  for (const tableName of ["announcements", "announcement_views", "processed_webhook_events"]) {
+  for (const tableName of ["announcements", "announcement_views", "processed_webhook_events", "pvp_ratings"]) {
     const ok = await tableExists(db, tableName);
     checks.push({ name: `${tableName} table exists`, ok });
   }

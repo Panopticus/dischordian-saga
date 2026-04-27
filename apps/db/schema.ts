@@ -2706,6 +2706,39 @@ export const gameReplays = mysqlTable("game_replays", {
 }));
 export type GameReplayRow = typeof gameReplays.$inferSelect;
 
+/* ─── PVP RATINGS (#7) ─── */
+/** Persistent MMR + seasonal rank per (user, game type).
+ *  - `mmr` is hidden ELO that drives matchmaking across seasons.
+ *  - `seasonRank` is the visible cosmetic rank for the current season.
+ *  - `peakMmr` is the highest MMR the player has ever held — a
+ *    persistent badge that informs reward tiers.
+ *  See migration 0058 + apps/server/services/pvpRatingsBootstrap.ts. */
+export const pvpRatings = mysqlTable("pvp_ratings", {
+  id: int("id").primaryKey().autoincrement(),
+  userId: int("userId").notNull(),
+  gameType: varchar("gameType", { length: 50 }).notNull(),
+  mmr: int("mmr").notNull().default(1200),
+  seasonId: int("seasonId").notNull().default(1),
+  seasonRank: int("seasonRank").notNull().default(0),
+  seasonWins: int("seasonWins").notNull().default(0),
+  seasonLosses: int("seasonLosses").notNull().default(0),
+  peakMmr: int("peakMmr").notNull().default(1200),
+  lastMatchAt: timestamp("lastMatchAt"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  uqUserGame: uniqueIndex("uq_pvp_ratings_user_game").on(
+    table.userId,
+    table.gameType,
+  ),
+  leaderboardIdx: index("idx_pvp_ratings_leaderboard").on(
+    table.gameType,
+    table.mmr,
+  ),
+  userIdx: index("idx_pvp_ratings_user").on(table.userId),
+}));
+export type PvpRatingRow = typeof pvpRatings.$inferSelect;
+
 /* ─── PERSONAL QUARTERS ─── */
 export const playerQuarters = mysqlTable("player_quarters", {
   id: int("id").primaryKey().autoincrement(),
