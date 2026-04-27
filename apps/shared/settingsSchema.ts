@@ -35,6 +35,45 @@ export const settingsSchema = z.object({
   // Lower = faster reveal; 0 = instant (good for speed-readers).
   typewriterSpeed: z.number().min(0).max(80).default(25),
 
+  // Keyboard remap — logical-action → KeyboardEvent.code mapping. Each
+  // entry is independently editable from the Settings UI (Accessibility
+  // section). Consumers read the live map via apps/client/src/hooks/
+  // useKeymap.ts which subscribes to localStorage updates.
+  //
+  // Defaults reflect the keys the codebase currently hardcodes — adding
+  // remap support is purely additive: components that haven't been
+  // migrated to useKeymap continue to react to the original key.
+  keymap: z
+    .object({
+      // Cancel / dismiss — modal close, dialog dismiss, escape from
+      // overlays. Consumers should also accept `Escape` as an
+      // always-on fallback so players who clear their keymap aren't
+      // stranded.
+      cancel: z.string().default("Escape"),
+      // Confirm / advance — primary "next" action in cutscenes,
+      // dialog wheels, etc.
+      confirm: z.string().default("Enter"),
+      // Skip current cutscene / typewriter / VO line.
+      skipCutscene: z.string().default("Space"),
+      // Open / close the settings panel.
+      openSettings: z.string().default("KeyS"),
+      // Open / close the codex panel.
+      openCodex: z.string().default("KeyC"),
+      // Toggle the companion chat panel.
+      toggleCompanionChat: z.string().default("KeyT"),
+    })
+    // The inner fields each carry their own .default(); this outer
+    // default just covers the case where the entire keymap key is
+    // absent from a saved settings blob (older saves, partial imports).
+    .default({
+      cancel: "Escape",
+      confirm: "Enter",
+      skipCutscene: "Space",
+      openSettings: "KeyS",
+      openCodex: "KeyC",
+      toggleCompanionChat: "KeyT",
+    }),
+
   // Display
   fontSize: z.enum(["small", "medium", "large"]).default("medium"),
   theme: z.enum(["dark", "light"]).default("dark"),
