@@ -175,6 +175,18 @@ export interface GameState {
    * but not write. See docs/production/act1/seer-prophecy-mechanic.md.
    */
   seerProphecy?: SeerProphecyState;
+  /**
+   * Heat modifier ids active for this match (#1 from the AAA review
+   * roadmap). Always present (defaulted to []) so the canonical hash
+   * is stable — a Heat-0 match and a Heat-5 match with the same
+   * actions must hash differently because they're functionally
+   * different runs. Validated by createMatchState against
+   * `HEAT_MODIFIERS`; the field is otherwise immutable for the life
+   * of the match (no in-game heat changes; the player locks in their
+   * selection at match start). See engine/init.ts +
+   * apps/shared/tcg-core/heat/registry.ts.
+   */
+  heatModifiers: readonly string[];
 }
 
 /**

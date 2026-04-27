@@ -44,6 +44,7 @@ import type { CardInstance, Faction, Buff } from "../types/Card";
 import type { EntityId, PlayerId, Side } from "../types/Ids";
 import { createRng, rngShuffle } from "./rng";
 import { RULES_VERSION } from "./version";
+import { validateHeatConfig } from "../heat/registry";
 
 /** Optional match-start bonuses applied before the first action.
  *  Engine-agnostic: callers translate any upstream buff source
@@ -137,6 +138,19 @@ export interface CreateMatchOptionsExtras {
    * engine/seerProphecy.ts.
    */
   prophecyMode?: import("../types/SeerProphecy").ProphecyModeConfig;
+  /**
+   * Optional Heat modifier ids (#1 from the AAA review roadmap —
+   * Hades-style per-run modifiers). Validated against
+   * `HEAT_MODIFIERS` at match init; an unknown / duplicate / over-cap
+   * id throws so a misconfigured caller fails loudly rather than
+   * silently dropping mutators. The validated id list is persisted
+   * to `GameState.heatModifiers` so the canonical state hash differs
+   * across heat configs (a Heat-5 replay must not hash-collide with
+   * the same actions on Heat-0). Phase-2A (this commit) ships the
+   * plumbing only; per-modifier reducer effects land per-modifier in
+   * follow-ups. See `apps/shared/tcg-core/heat/registry.ts`.
+   */
+  heatModifiers?: readonly string[];
 }
 
 export interface CreateMatchOptions extends CreateMatchOptionsExtras {
@@ -341,7 +355,29 @@ export function createMatchState(opts: CreateMatchOptions): GameState {
     seerProphecy: opts.prophecyMode
       ? { pending: null, playsPerformed: 0 }
       : undefined,
+    heatModifiers: validateHeatModifiersAtInit(opts.heatModifiers),
   };
+}
+
+/** Validate the caller-supplied heat modifier ids against the
+ *  registry. Throws on misconfiguration so a bad caller (typo'd id,
+ *  duplicate, over-cap stack) fails loudly at match init rather than
+ *  silently dropping mutators or surfacing as a desync later.
+ *
+ *  Default to an empty list so callers that don't care about heat
+ *  (story encounters, tutorial gates, AI-vs-AI smoke tests) get the
+ *  Heat-0 hash unchanged. */
+function validateHeatModifiersAtInit(
+  ids: readonly string[] | undefined,
+): readonly string[] {
+  if (!ids || ids.length === 0) return [];
+  const result = validateHeatConfig(ids);
+  if (!result.ok) {
+    throw new Error(
+      `[createMatchState] invalid heat modifiers (${result.reason}): ${result.detail}`,
+    );
+  }
+  return result.config.modifierIds;
 }
 
 /**

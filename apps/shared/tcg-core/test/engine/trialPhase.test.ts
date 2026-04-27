@@ -202,6 +202,7 @@ function withTrial(trial: TrialState): GameState {
     actionSeq: 0,
     nextEntityCounter: 1,
     trial,
+    heatModifiers: [],
   };
 }
 

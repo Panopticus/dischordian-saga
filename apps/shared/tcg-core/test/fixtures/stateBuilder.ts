@@ -112,6 +112,7 @@ export function buildBareState(opts: BuildStateOptions = {}): GameState {
     triggerQueue: [],
     actionSeq: 0,
     nextEntityCounter: 1000,
+    heatModifiers: [],
   };
 }
 

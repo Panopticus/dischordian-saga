@@ -37,6 +37,8 @@ interface DuelystPlayer {
   userName: string;
   faction: string;
   deckCardIds: string[];
+  /** Heat modifier ids the player locked in (#1). [] = Heat-0 run. */
+  heatModifiers: readonly string[];
   elo: number;
   matchId: string | null;
 }
@@ -57,7 +59,17 @@ interface DuelystMatch {
 }
 
 type ClientMessage =
-  | { type: "JOIN_QUEUE"; userId: number; userName: string; faction: string; deckCardIds: string[] }
+  | {
+      type: "JOIN_QUEUE";
+      userId: number;
+      userName: string;
+      faction: string;
+      deckCardIds: string[];
+      /** Heat modifier ids the player locked in for this run (#1).
+       *  Optional + ignored when absent so legacy clients still match.
+       *  Both players' heat sets are unioned at queue-pair time below. */
+      heatModifiers?: string[];
+    }
   | { type: "LEAVE_QUEUE" }
   | { type: "GAME_ACTION"; action: unknown }
   | { type: "SURRENDER" }
@@ -86,6 +98,26 @@ function send(ws: WebSocket, msg: ServerMessage) {
   if (ws.readyState === WebSocket.OPEN) {
     ws.send(JSON.stringify(msg));
   }
+}
+
+/** Union the two queue lock-ins into the single per-match modifier
+ *  set. Currently a simple "either-side-on" union with duplicates
+ *  dropped — both players see every active modifier. Phase-3 will
+ *  add a UI "negotiate down to common subset" path; until then both
+ *  players get the harder run, which is the conservative default. */
+export function mergeHeatModifiers(
+  p1: readonly string[],
+  p2: readonly string[],
+): readonly string[] {
+  const seen = new Set<string>();
+  const merged: string[] = [];
+  for (const id of [...p1, ...p2]) {
+    if (!seen.has(id)) {
+      seen.add(id);
+      merged.push(id);
+    }
+  }
+  return merged;
 }
 
 function generateMatchId(): string {
@@ -137,11 +169,29 @@ function tryMatchPlayers() {
   // Initialize the authoritative GameState via the real tcg-core reducer.
   // Seed is derived deterministically from (matchId, playerIds) so
   // replays stored under the same matchId reproduce perfectly.
-  const gameState = createServerMatchState({
-    matchId,
-    p1: p1Config.config!,
-    p2: p2Config.config!,
-  });
+  //
+  // Heat modifiers (#1): the queue pair's lock-ins are unioned (with
+  // duplicates dropped) and validated at createMatchState. A typo'd
+  // or over-cap stack throws, which we catch + return both players to
+  // queue with an error so a misconfigured client can't strand the
+  // pair in a half-built match.
+  const heatModifiers = mergeHeatModifiers(p1.heatModifiers, p2.heatModifiers);
+  let gameState;
+  try {
+    gameState = createServerMatchState({
+      matchId,
+      p1: p1Config.config!,
+      p2: p2Config.config!,
+      heatModifiers,
+    });
+  } catch (e) {
+    const msg = e instanceof Error ? e.message : String(e);
+    send(p1.ws, { type: "ERROR", message: `heat config invalid: ${msg}` });
+    send(p2.ws, { type: "ERROR", message: `heat config invalid: ${msg}` });
+    p1.matchId = null;
+    p2.matchId = null;
+    return;
+  }
 
   const match: DuelystMatch = {
     matchId,
@@ -275,6 +325,7 @@ export function setupDuelystWebSocket(server: Server) {
           player = {
             ws, userId: msg.userId, userName: msg.userName,
             faction: msg.faction, deckCardIds: msg.deckCardIds,
+            heatModifiers: Array.isArray(msg.heatModifiers) ? msg.heatModifiers : [],
             elo: 1200, matchId: null,
           };
           playerConnections.set(msg.userId, player);
