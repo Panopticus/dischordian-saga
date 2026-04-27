@@ -189,6 +189,18 @@ export interface CardDefinition {
    * `isReservedCard(def)` / `filterReservedFromPool(defs)`.
    */
   reserved?: true;
+  /**
+   * Optional: which release/expansion this card belongs to. Authors
+   * may leave this absent — the registry loader (cards/loader.ts)
+   * backfills it from the id prefix at startup ("s1_*" → "S1_MEMOIR",
+   * "s2_*" → "S2_HIERARCHY", "act{1..7}_*" → "ACT_EXCLUSIVES").
+   *
+   * The Format.allowedSets gate (formats/standard.ts + validateDeck)
+   * uses this field to keep S2 cards out of the S1-only standard
+   * format until the rotation ships. See sets/setCode.ts for the
+   * full type union and derivation rules.
+   */
+  setCode?: import("../sets/setCode").SetCode;
 }
 
 /** Forward-declared. Full shape lives in types/Trigger.ts. */

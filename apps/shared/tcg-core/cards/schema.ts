@@ -741,6 +741,12 @@ export const cardDefinitionSchema = z
     /** Optional: marks a card as reserved-from-pools (see Card.ts
      *  `reserved` doc). Only `true` is meaningful; absence ≡ false. */
     reserved: z.literal(true).optional(),
+    /** Optional: release/expansion code. Authors may omit — the
+     *  registry loader backfills from id prefix. See
+     *  apps/shared/tcg-core/sets/setCode.ts for the type union and
+     *  the derivation rules. The Format.allowedSets gate keys off
+     *  this field (formats/standard.ts + validateDeck.ts). */
+    setCode: z.enum(["S1_MEMOIR", "S2_HIERARCHY", "ACT_EXCLUSIVES"]).optional(),
   })
   .strict()
   .superRefine((card, ctx) => {

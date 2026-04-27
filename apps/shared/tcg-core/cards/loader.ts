@@ -23,6 +23,7 @@ import type { CardDefinition, CardRegistry } from "../index";
 import { RULES_VERSION, isReplayCompatible } from "../engine/version";
 import { cardDefinitionSchema } from "./schema";
 import { resolveTrialCategories } from "../balance/resolveTrialCategories";
+import { deriveSetCode } from "../sets/setCode";
 
 export class CardRegistryLoadError extends Error {
   constructor(
@@ -105,6 +106,15 @@ export function buildCardRegistry(
     const resolvedCats = resolveTrialCategories(parsed);
     if (resolvedCats.length > 0 && (!parsed.trial_categories || parsed.trial_categories.length === 0)) {
       parsed = { ...parsed, trial_categories: resolvedCats };
+    }
+    // Backfill `setCode` from the id prefix when the author omitted
+    // it. The 609 cards shipped in PR #227 carry no explicit setCode
+    // — they all derive to "S1_MEMOIR" via the rules in
+    // sets/setCode.ts. New `s2_*` and `act{1..7}_*` cards inherit
+    // their set automatically; authors may still set the field
+    // explicitly when they need to override the prefix-based default.
+    if (parsed.setCode === undefined) {
+      parsed = { ...parsed, setCode: deriveSetCode(parsed.id) };
     }
     byId.set(parsed.id, parsed);
   }

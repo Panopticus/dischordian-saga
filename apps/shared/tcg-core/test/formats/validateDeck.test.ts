@@ -345,4 +345,133 @@ describe("validateDeck", () => {
     // No class_mismatch issue should appear
     expect(result.issues.find((i) => i.code === "class_mismatch")).toBeUndefined();
   });
+
+  describe("set legality (Format.allowedSets)", () => {
+    /** Build a small registry where two cards live in different sets. */
+    function buildMixedSetRegistry(): CardRegistry {
+      const defs: CardDefinition[] = [
+        {
+          id: "gen_test" as any,
+          name: "Test General",
+          faction: "architect",
+          cardType: "general",
+          rarity: "legendary",
+          cost: 0,
+          baseStats: { power: 2, health: 25 },
+          keywords: [],
+          abilities: [],
+          art: "test://art",
+          flavorText: "",
+          rulesVersion: "1.0.0",
+        },
+        // Loader will derive setCode = S1_MEMOIR from id prefix.
+        {
+          id: "s1_card_alpha" as any,
+          name: "Memoir Card",
+          faction: "architect",
+          cardType: "unit",
+          rarity: "common",
+          cost: 1,
+          baseStats: { power: 1, health: 1 },
+          keywords: [],
+          abilities: [],
+          art: "test://art",
+          flavorText: "",
+          rulesVersion: "1.0.0",
+        },
+        // Loader derives setCode = S2_HIERARCHY from prefix.
+        {
+          id: "s2_card_beta" as any,
+          name: "Hierarchy Card",
+          faction: "architect",
+          cardType: "unit",
+          rarity: "common",
+          cost: 1,
+          baseStats: { power: 1, health: 1 },
+          keywords: [],
+          abilities: [],
+          art: "test://art",
+          flavorText: "",
+          rulesVersion: "1.0.0",
+        },
+      ];
+      return buildCardRegistry(defs);
+    }
+
+    const memoirOnlyFormat: Format = {
+      id: "memoir_only",
+      name: "Memoir Only",
+      deckSize: 4,
+      copyLimit: 3,
+      factionLock: "strict",
+      allowedSets: ["S1_MEMOIR"],
+      banlist: [],
+    };
+
+    const memoirAndHierarchyFormat: Format = {
+      id: "memoir_plus",
+      name: "Memoir + Hierarchy",
+      deckSize: 4,
+      copyLimit: 3,
+      factionLock: "strict",
+      allowedSets: ["S1_MEMOIR", "S2_HIERARCHY"],
+      banlist: [],
+    };
+
+    it("rejects S2 cards in a Memoir-only format", () => {
+      const reg = buildMixedSetRegistry();
+      const result = validateDeck(
+        {
+          generalDefId: "gen_test",
+          cardDefIds: ["s1_card_alpha", "s2_card_beta", "s1_card_alpha"],
+        },
+        memoirOnlyFormat,
+        reg
+      );
+      expect(result.valid).toBe(false);
+      const setIssue = result.issues.find((i) => i.code === "set_not_legal");
+      expect(setIssue).toBeDefined();
+      expect(setIssue?.cardId).toBe("s2_card_beta");
+    });
+
+    it("accepts S2 cards in the expanded format", () => {
+      const reg = buildMixedSetRegistry();
+      const result = validateDeck(
+        {
+          generalDefId: "gen_test",
+          cardDefIds: ["s1_card_alpha", "s2_card_beta", "s1_card_alpha"],
+        },
+        memoirAndHierarchyFormat,
+        reg
+      );
+      expect(result.issues.find((i) => i.code === "set_not_legal")).toBeUndefined();
+    });
+
+    it("skips the set check when allowedSets is empty", () => {
+      const reg = buildMixedSetRegistry();
+      const allSetsFormat: Format = { ...memoirOnlyFormat, allowedSets: [] };
+      const result = validateDeck(
+        {
+          generalDefId: "gen_test",
+          cardDefIds: ["s1_card_alpha", "s2_card_beta", "s1_card_alpha"],
+        },
+        allSetsFormat,
+        reg
+      );
+      expect(result.issues.find((i) => i.code === "set_not_legal")).toBeUndefined();
+    });
+  });
+
+  it("loads the production registry with all 609 cards in S1_MEMOIR", () => {
+    // Smoke test: every card in the shipping registry must resolve
+    // to the base set after the loader's setCode backfill. If a
+    // future expansion ships, this assertion needs to relax — but
+    // until then it guards against accidental prefix typos that
+    // would silently move cards into S2 / ACT_EXCLUSIVES.
+    const off: string[] = [];
+    for (const def of registry.listAll()) {
+      if (def.setCode !== "S1_MEMOIR") off.push(`${def.id} → ${def.setCode}`);
+    }
+    expect(off, off.length > 0 ? `cards not in S1_MEMOIR: ${off.slice(0, 5).join(", ")}` : "").toEqual([]);
+  });
 });

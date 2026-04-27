@@ -22,6 +22,7 @@
  */
 import type { CardRegistry } from "../types/GameState";
 import type { Format } from "./standard";
+import { setCodeOf } from "../sets/setCode";
 
 export interface DeckInput {
   generalDefId: string;
@@ -45,7 +46,8 @@ export interface ValidationIssue {
     | "faction_mismatch"
     | "unknown_card"
     | "banned_card"
-    | "class_mismatch";
+    | "class_mismatch"
+    | "set_not_legal";
   message: string;
   cardId?: string;
 }
@@ -160,6 +162,40 @@ export function validateDeck(
         issues.push({
           code: "class_mismatch",
           message: `'${id}' requires the ${def.characterClass} class, but deck owner is ${deck.ownerClass}`,
+          cardId: id,
+        });
+      }
+    }
+  }
+
+  // 8. Allowed-set check. Each card's resolved `setCode` (loader-
+  //    backfilled from id prefix in cards/loader.ts, or authored
+  //    explicitly on the card def) must appear in the format's
+  //    allowedSets list. An empty allowedSets list means "all sets
+  //    allowed", matching the Format JSDoc.
+  if (format.allowedSets.length > 0) {
+    const allowed = new Set<string>(format.allowedSets);
+    // The general also needs to be in an allowed set, so future
+    // expansion-locked generals (e.g. S2 mythic generals) cannot
+    // be used in S1-only formats.
+    if (generalDef) {
+      const gSet = setCodeOf(generalDef);
+      if (!allowed.has(gSet)) {
+        issues.push({
+          code: "set_not_legal",
+          message: `general '${generalDef.id}' is from set '${gSet}', not legal in ${format.id} (allowed: ${format.allowedSets.join(", ")})`,
+          cardId: generalDef.id,
+        });
+      }
+    }
+    for (const id of deck.cardDefIds) {
+      const def = registry.get(id);
+      if (!def) continue; // caught by check 5
+      const cSet = setCodeOf(def);
+      if (!allowed.has(cSet)) {
+        issues.push({
+          code: "set_not_legal",
+          message: `'${id}' is from set '${cSet}', not legal in ${format.id} (allowed: ${format.allowedSets.join(", ")})`,
           cardId: id,
         });
       }
