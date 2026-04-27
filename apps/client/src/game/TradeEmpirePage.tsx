@@ -45,6 +45,8 @@ import {
 } from "./techTree";
 import { FlaskConical, Coins, Handshake, Skull, Building2 } from "lucide-react";
 import LivingBackground from "@/components/LivingBackground";
+import CinematicGate from "@/components/CinematicGate";
+import { ACT1_CUTSCENES } from "@/data/preludeAct1Deliverables";
 import { getNPCPortrait } from "@/game/npcPortraits";
 import {
   CivilizationPanel,
@@ -1552,6 +1554,40 @@ export default function TradeEmpirePage() {
           />
         )}
       </div>
+
+      {/* Act 1 cutscenes — first-time-entry intros for the Trade Empire's
+          three keystone views. CinematicGate persists its own per-id seen
+          flag in localStorage and renders null after the cutscene has
+          played to its natural end, so simply mounting the gate inside
+          the matching `view ===` branch is enough — repeat visits skip
+          synchronously. SKIP / load-error don't burn the seen flag, so
+          a player who taps SKIP can still see the cutscene next session.
+
+          Mapping (per author-provided cutscene names):
+            • COUNCIL view         ↔ act1-council-revelation
+            • MARKET EXCHANGE view ↔ act1-tavern-arrival (the marketplace)
+            • ACT III view         ↔ act1-arena-challenge */}
+      {view === "council" && (
+        <CinematicGate
+          cinematicId="trade-empire-council-revelation"
+          videoUrl={ACT1_CUTSCENES["act1-council-revelation"].video}
+          onComplete={() => { /* no-op — gate persists its own seen flag */ }}
+        />
+      )}
+      {view === "market_exchange" && (
+        <CinematicGate
+          cinematicId="trade-empire-market-tavern-arrival"
+          videoUrl={ACT1_CUTSCENES["act1-tavern-arrival"].video}
+          onComplete={() => { /* no-op */ }}
+        />
+      )}
+      {view === "act3" && (
+        <CinematicGate
+          cinematicId="trade-empire-act3-arena-challenge"
+          videoUrl={ACT1_CUTSCENES["act1-arena-challenge"].video}
+          onComplete={() => { /* no-op */ }}
+        />
+      )}
 
       {/* Act 3 cinematic overlays */}
       <AnimatePresence>
