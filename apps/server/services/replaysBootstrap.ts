@@ -25,59 +25,101 @@ import { sql } from "drizzle-orm";
 import { getDb } from "../db";
 import { logger } from "../logger";
 
-const COLUMN_PROBE_SQL = `
-SELECT COUNT(*) AS present
-FROM information_schema.columns
-WHERE table_schema = DATABASE()
-  AND table_name = 'game_replays'
-  AND column_name = 'shareToken'
-`;
-
 const ADD_COLUMN_SQL = `
 ALTER TABLE \`game_replays\`
   ADD COLUMN \`shareToken\` VARCHAR(32) NULL,
   ADD UNIQUE KEY \`uq_game_replays_share_token\` (\`shareToken\`)
 `;
 
-let bootstrapPromise: Promise<void> | null = null;
-
-export function bootstrapReplayShareToken(): Promise<void> {
-  if (!bootstrapPromise) {
-    bootstrapPromise = run();
-  }
-  return bootstrapPromise;
-}
-
-async function run(): Promise<void> {
+/** Generic column-existence probe + ALTER pair. Used by both
+ *  bootstraps below since the only difference between them is the
+ *  column name + ALTER body. */
+async function ensureColumn(opts: {
+  column: string;
+  addColumnSql: string;
+  successMessage: string;
+  alreadyMessage: string;
+  failureMessage: string;
+}): Promise<void> {
   const db = await getDb();
   if (!db) return;
 
+  const probeSql = `
+SELECT COUNT(*) AS present
+FROM information_schema.columns
+WHERE table_schema = DATABASE()
+  AND table_name = 'game_replays'
+  AND column_name = '${opts.column}'
+`;
+
   try {
-    const probe = (await db.execute(sql.raw(COLUMN_PROBE_SQL))) as unknown as
+    const probe = (await db.execute(sql.raw(probeSql))) as unknown as
       | [Array<{ present: number | bigint }>, unknown]
       | { rows: Array<{ present: number | bigint }> };
-    // mysql2 returns [rows, fields]; some drivers return { rows }.
-    // Either shape works — we just want the first row's `present`.
     const rows: Array<{ present: number | bigint }> = Array.isArray(probe)
       ? probe[0]
       : probe.rows;
     const present = Number(rows[0]?.present ?? 0);
     if (present > 0) {
-      logger.info("[ReplaysBootstrap] shareToken column already present");
+      logger.info(opts.alreadyMessage);
       return;
     }
 
-    await db.execute(sql.raw(ADD_COLUMN_SQL));
-    logger.info("[ReplaysBootstrap] shareToken column added");
+    await db.execute(sql.raw(opts.addColumnSql));
+    logger.info(opts.successMessage);
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err);
-    // If the bootstrap fails, share-link lookups via `getReplayByToken`
-    // silently 404. The legacy `getReplay(replayId)` path keeps working,
-    // so the regression surface is "share-link feature degrades to
-    // by-id-only" — a warn (not an error) keeps the process up.
-    logger.warn(
-      "[ReplaysBootstrap] shareToken column ensure failed — share-link lookup may be unavailable: " +
-        msg,
-    );
+    logger.warn(`${opts.failureMessage}: ${msg}`);
   }
+}
+
+let shareTokenBootstrapPromise: Promise<void> | null = null;
+
+export function bootstrapReplayShareToken(): Promise<void> {
+  if (!shareTokenBootstrapPromise) {
+    shareTokenBootstrapPromise = ensureColumn({
+      column: "shareToken",
+      addColumnSql: ADD_COLUMN_SQL,
+      successMessage: "[ReplaysBootstrap] shareToken column added",
+      alreadyMessage: "[ReplaysBootstrap] shareToken column already present",
+      // Failure surface: share-link lookups via `getReplayByToken`
+      // silently 404. The legacy `getReplay(replayId)` path keeps
+      // working, so the regression downgrades to by-id-only.
+      failureMessage:
+        "[ReplaysBootstrap] shareToken column ensure failed — share-link lookup may be unavailable",
+    });
+  }
+  return shareTokenBootstrapPromise;
+}
+
+const ADD_MATCH_ID_SQL = `
+ALTER TABLE \`game_replays\`
+  ADD COLUMN \`matchId\` VARCHAR(64) NULL,
+  ADD INDEX \`idx_game_replays_match_id\` (\`matchId\`)
+`;
+
+let matchIdBootstrapPromise: Promise<void> | null = null;
+
+/** Migration 0057 — adds `matchId VARCHAR(64) NULL` to `game_replays`.
+ *  Required by the verification job (#92) so it can deterministically
+ *  reconstruct the initial GameState; the engine mints card-instance
+ *  ids via `makeCardInstance(matchId, counter, …)`, so hashState over
+ *  a GameState rebuilt from a different matchId will diverge from the
+ *  stored finalStateHash even when every action replays identically. */
+export function bootstrapReplayMatchId(): Promise<void> {
+  if (!matchIdBootstrapPromise) {
+    matchIdBootstrapPromise = ensureColumn({
+      column: "matchId",
+      addColumnSql: ADD_MATCH_ID_SQL,
+      successMessage: "[ReplaysBootstrap] matchId column added",
+      alreadyMessage: "[ReplaysBootstrap] matchId column already present",
+      // Failure surface: rows persisted before this column lands have
+      // matchId=null, and `verifyReplay` returns
+      // {ok:false, reason:"matchId not stored"} for those. Legacy
+      // saveReplay / getReplay paths are unaffected.
+      failureMessage:
+        "[ReplaysBootstrap] matchId column ensure failed — replay verification may be unavailable",
+    });
+  }
+  return matchIdBootstrapPromise;
 }
