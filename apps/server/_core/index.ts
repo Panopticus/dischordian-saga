@@ -16,6 +16,7 @@ import { registerChessMultiplayer } from "../chessMultiplayer";
 import { ENV } from "./env";
 import { performanceMiddleware } from "../performanceMonitor";
 import { sentryErrorHandler, waitForSentry } from "../sentry";
+import { waitForOTel } from "../otel";
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -293,6 +294,12 @@ async function startServer() {
   // bootstrap below) is also captured. Resolves immediately when
   // SENTRY_DSN is unset.
   await waitForSentry();
+
+  // Same pattern for OpenTelemetry (#88). Init resolves immediately
+  // when OTEL_ENABLED!=1 or the OTLP endpoint isn't configured. When
+  // it does load, every tRPC handler wrapped in `withSpan` starts
+  // exporting traces from the first request.
+  await waitForOTel();
 
   const preferredPort = parseInt(process.env.PORT || "3000");
   const port = await findAvailablePort(preferredPort);

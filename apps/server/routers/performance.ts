@@ -8,6 +8,7 @@ import {
   getActiveConnections,
 } from "../performanceMonitor";
 import { sentryInitialized } from "../sentry";
+import { otelInitialized } from "../otel";
 import { getMatchLengthReport } from "../matchLengthMonitor";
 
 /** Weighted error-rate rollup. Per-route stats already carry an
@@ -73,6 +74,7 @@ export const performanceRouter = router({
       dbQueriesTotal: report.db.totalQueries,
       dbSlowQueriesTotal: report.db.slowQueries,
       sentryInitialized: sentryInitialized,
+      otelInitialized: otelInitialized(),
     };
   }),
 
