@@ -928,6 +928,32 @@ export const CROSS_CHARACTER_REACTIONS: ReadonlyArray<CrossCharacterReaction> = 
       "Future Architect / Hierophant reactive lines may register " +
       "the canonical-pivot.",
   },
+
+  // ─── Hierophant ask-topic flags (Phase 6d.3 part 1)
+
+  {
+    flag: "hierophant_disclosed_oracle_witness_channel_canon",
+    setBy: ["wraith_calder"],
+    reactsBy: ["the_oracle", "future_reader"],
+    canonicalNote:
+      "Per Hierophant ask_about_oracle (Phase 6d.3 part 1). Canonical " +
+      "Inheriting-band-only disclosure: the player is canonically NOT " +
+      "the Oracle (per bible §4.10 canon-update); the player has been " +
+      "moving through Oracle-memories via the witness-channel. The " +
+      "Hierophant canonically distinguishes the two. Future Oracle " +
+      "reactive lines may register the canonical-disclosure.",
+  },
+  {
+    flag: "hierophant_acknowledged_tea_cupboard_canon",
+    setBy: ["wraith_calder"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Hierophant ask_tea_cupboard (Phase 6d.3 part 1). Canonical " +
+      "Inheriting-band keepsake canon per bible §3.8 + §3.9: " +
+      "'something the Oracle once gave me to hold.' Reserved for the " +
+      "canonical apex band only. Future Oracle reactive lines may " +
+      "register the canonical 3000-year-holding canon.",
+  },
 ];
 
 // --- Helpers --------------------------------------------------------------
