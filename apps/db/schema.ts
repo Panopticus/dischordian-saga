@@ -4812,6 +4812,113 @@ export const tradeContracts = mysqlTable("trade_contracts", {
 }));
 export type TradeContractRow = typeof tradeContracts.$inferSelect;
 
+/**
+ * Per-user trade route tracker — Phase 2.1b. Routes are canonical-
+ * keyed by (fromSectorId, toSectorId, cargoCategory?) per
+ * makeRouteKey() in apps/shared/tradeEmpire/routes.ts. The
+ * runCount drives canonical-route-completion ceremonies at the
+ * canonical 5 / 10 / 25 / 50 milestone tiers. milestoneTier
+ * tracks the canonical-current canonical-tier reached so the
+ * engine canonically fires route_milestone ripples only at
+ * canonical-tier-crossings.
+ */
+export const tradeRoutes = mysqlTable("trade_routes", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /**
+   * Canonical-stable route key derived from
+   * (fromSectorId, toSectorId, cargoCategory?) per
+   * makeRouteKey() in apps/shared/tradeEmpire/routes.ts.
+   */
+  routeKey: varchar("routeKey", { length: 256 }).notNull(),
+  /** Canonical-origin sector id. */
+  fromSectorId: varchar("fromSectorId", { length: 128 }).notNull(),
+  /** Canonical-destination sector id. */
+  toSectorId: varchar("toSectorId", { length: 128 }).notNull(),
+  /**
+   * Optional canonical-cargo-category constraint. Null = canonical-
+   * cargo-flexible route (counts runs regardless of cargo).
+   */
+  cargoCategory: varchar("cargoCategory", { length: 64 }),
+  /** Total canonical-completed runs for this canonical-route. */
+  runCount: int("runCount").notNull().default(0),
+  /**
+   * Canonical-current canonical-milestone-tier reached: 0 (none),
+   * 5, 10, 25, 50. Engine canonically fires route_milestone ripple
+   * only at canonical-tier-crossings.
+   */
+  milestoneTier: int("milestoneTier").notNull().default(0),
+  firstRunAt: timestamp("firstRunAt").defaultNow().notNull(),
+  lastRunAt: timestamp("lastRunAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  userIdIdx: index("idx_trade_routes_user_id").on(table.userId),
+  userRouteUniq: uniqueIndex("uniq_trade_routes_user_route").on(
+    table.userId,
+    table.routeKey,
+  ),
+  userRunCountIdx: index("idx_trade_routes_user_run_count").on(
+    table.userId,
+    table.runCount,
+  ),
+}));
+export type TradeRouteRow = typeof tradeRoutes.$inferSelect;
+
+/**
+ * Append-only canonical-milestone log — Phase 2.1b. Records
+ * canonical-tier-crossings (5 / 10 / 25 / 50). Drives canonical-
+ * route-completion ceremonies (NPC acknowledgment lines per faction:
+ * Independent trader / Locke calculation / Antiquarian shelf-
+ * categorisation per Seer §4.6 *Programmer's shelf* canon).
+ */
+export const tradeRouteMilestones = mysqlTable("trade_route_milestones", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  routeKey: varchar("routeKey", { length: 256 }).notNull(),
+  /** Canonical-milestone-tier reached: 5 | 10 | 25 | 50. */
+  milestoneTier: int("milestoneTier").notNull(),
+  /** Run count at the moment of canonical-tier-crossing. */
+  runCountAtAchievement: int("runCountAtAchievement").notNull(),
+  achievedAt: timestamp("achievedAt").defaultNow().notNull(),
+}, (table) => ({
+  userIdIdx: index("idx_trade_route_milestones_user_id").on(table.userId),
+  userTierIdx: index("idx_trade_route_milestones_user_tier").on(
+    table.userId,
+    table.milestoneTier,
+  ),
+  userRouteTierUniq: uniqueIndex(
+    "uniq_trade_route_milestones_user_route_tier",
+  ).on(table.userId, table.routeKey, table.milestoneTier),
+}));
+export type TradeRouteMilestoneRow =
+  typeof tradeRouteMilestones.$inferSelect;
+
+/**
+ * Per-user sector-arrival tracker — Phase 2.1b. Records canonical-
+ * first-visit per sector so the engine canonically fires
+ * sector_first_entered ripple exactly once per sector per user
+ * (drives canonical arrivalCinematic + Eyes-narrator-whisper
+ * canonical first-visit experience).
+ */
+export const tradeSectorArrivals = mysqlTable("trade_sector_arrivals", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  sectorId: varchar("sectorId", { length: 128 }).notNull(),
+  firstEnteredAt: timestamp("firstEnteredAt").defaultNow().notNull(),
+  /**
+   * Canonical-arrival-cinematic watched? Set true on canonical-
+   * cinematic-completion (skip + watched both count).
+   */
+  cinematicWatched: boolean("cinematicWatched").notNull().default(false),
+}, (table) => ({
+  userIdIdx: index("idx_trade_sector_arrivals_user_id").on(table.userId),
+  userSectorUniq: uniqueIndex("uniq_trade_sector_arrivals_user_sector").on(
+    table.userId,
+    table.sectorId,
+  ),
+}));
+export type TradeSectorArrivalRow =
+  typeof tradeSectorArrivals.$inferSelect;
+
 /* ═══════════════════════════════════════════════════════
    PHASE 6 INFRASTRUCTURE — Per-NPC ask-topics + dialog tree state
    See apps/shared/npcs/askTopics.ts (AskTopic registry) +
