@@ -206,15 +206,11 @@ describe("ALL_NPC_DIALOG_TREES aggregator", () => {
 
   it("getDialogTreesFor returns empty array for unauthored NPCs (silent-fail)", () => {
     // Phase 6a.2 sub-chunk F shipped Locke; Phase 6e.1a shipped
-    // Nilmorg + Vex + Hierophant; the rest stay empty until their
-    // sub-phase ships per the Phase 6e sequencing. Updated as banks
-    // land.
-    expect(getDialogTreesFor("the_seer").length).toBe(0);
-    expect(getDialogTreesFor("the_oracle").length).toBe(0);
+    // Nilmorg + Vex + Hierophant; Phase 6e.1b shipped Seer + Oracle
+    // + Game Master + Meme; the rest stay empty until their sub-
+    // phase ships per the Phase 6e sequencing. Updated as banks land.
     expect(getDialogTreesFor("the_degen").length).toBe(0);
     expect(getDialogTreesFor("dmc_clone_companion").length).toBe(0);
-    expect(getDialogTreesFor("the_game_master").length).toBe(0);
-    expect(getDialogTreesFor("the_meme").length).toBe(0);
     expect(getDialogTreesFor("your_eidolon").length).toBe(0);
   });
 
@@ -236,6 +232,24 @@ describe("ALL_NPC_DIALOG_TREES aggregator", () => {
     expect(
       getDialogTreesFor("wraith_calder").length,
     ).toBeGreaterThanOrEqual(1);
+  });
+
+  it("The Seer (Phase 6e.1b) ships ≥1 dialog tree via the aggregator", () => {
+    expect(getDialogTreesFor("the_seer").length).toBeGreaterThanOrEqual(1);
+  });
+
+  it("The Oracle (Phase 6e.1b) ships ≥1 dialog tree via the aggregator", () => {
+    expect(getDialogTreesFor("the_oracle").length).toBeGreaterThanOrEqual(1);
+  });
+
+  it("The Game Master (Phase 6e.1b) ships ≥1 dialog tree via the aggregator", () => {
+    expect(
+      getDialogTreesFor("the_game_master").length,
+    ).toBeGreaterThanOrEqual(1);
+  });
+
+  it("The Meme (Phase 6e.1b) ships ≥1 dialog tree via the aggregator", () => {
+    expect(getDialogTreesFor("the_meme").length).toBeGreaterThanOrEqual(1);
   });
 
   it("getDialogTree returns undefined for unknown (npcKey, treeId)", () => {

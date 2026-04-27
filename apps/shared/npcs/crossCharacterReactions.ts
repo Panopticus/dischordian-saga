@@ -1112,6 +1112,71 @@ export const CROSS_CHARACTER_REACTIONS: ReadonlyArray<CrossCharacterReaction> = 
       "imperative against the Hierophant. Canonical Hostile-band " +
       "trust-state seed.",
   },
+
+  // ─── Phase 6e.1b first-meeting tree public flags
+
+  {
+    flag: "seer_recognized_player_recursion_first_contact",
+    setBy: ["the_seer"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Seer first_meeting tree pre_recorded_meta_branch (Phase " +
+      "6e.1b). Canonical Wit-axis recursion-recognition: player " +
+      "canonically catches the canonical pre-recording mechanic. " +
+      "Saga-load-bearing first-contact recognition.",
+  },
+  {
+    flag: "seer_offered_staff_to_player_first_contact",
+    setBy: ["the_seer"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Seer first_meeting tree quiet_acceptance_branch (Phase " +
+      "6e.1b). Canonical Vulnerability-axis apex: player canonically " +
+      "held silence; the Seer canonically offers the staff. Canonical " +
+      "§2.1 Mechronis canonical scripted-loss canon.",
+  },
+  {
+    flag: "oracle_player_offered_misidentification_first_contact",
+    setBy: ["the_oracle"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Oracle first_meeting tree recognition_branch (Phase 6e.1b). " +
+      "Canonical Vulnerability-axis misidentification: player " +
+      "canonically offered 'I think I have been you'. Oracle " +
+      "canonically corrects per §canon-update: 'we are canonically " +
+      "two; you have been moving through my memories'.",
+  },
+  {
+    flag: "gm_recognized_player_paperwork_register",
+    setBy: ["the_game_master"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Game Master first_meeting tree trial_absurd_branch (Phase " +
+      "6e.1b). Canonical Wit-axis recognition: player canonically " +
+      "matches the canonical-paperwork register per §1.9 metaphor-" +
+      "source canon. Canonical Game-Master + player canonical-shared-" +
+      "paperwork register seed.",
+  },
+  {
+    flag: "meme_first_contact_mascot_question_held_silence",
+    setBy: ["the_meme"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Meme first_meeting tree mascot_question_branch (Phase " +
+      "6e.1b). Canonical §1.10 + §3.3 Mascot silence-shape preserved: " +
+      "player canonically asked the canonical-respectful question; " +
+      "Meme canonically held the canonical-grief-as-silence.",
+  },
+  {
+    flag: "meme_first_contact_player_witnessed_succession",
+    setBy: ["the_meme"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Meme first_meeting tree witness_branch (Phase 6e.1b). " +
+      "Canonical Wit-axis apex: player canonically witnessed the " +
+      "canonical Ch12 succession-claim in canonical-silence. Saga-" +
+      "load-bearing Stage-4-weave-anchor canonical event.",
+  },
 ];
 
 // --- Helpers --------------------------------------------------------------
