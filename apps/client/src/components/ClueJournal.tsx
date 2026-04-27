@@ -410,6 +410,7 @@ export default function ClueJournal({ onClose }: ClueJournalProps) {
   const { state } = useGame();
   const [activeTab, setActiveTab] = useState<"log" | "clues" | "puzzles">(state.characterCreated ? "log" : "clues");
   const [expandedPuzzle, setExpandedPuzzle] = useState<string | null>(null);
+  const [expandedClue, setExpandedClue] = useState<string | null>(null);
   const [filterType, setFilterType] = useState<ClueType | "all">("all");
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -418,6 +419,7 @@ export default function ClueJournal({ onClose }: ClueJournalProps) {
     () => state.itemsCollected.filter(id => CLUES.some(c => c.id === id)),
     [state.itemsCollected]
   );
+  const collectedClueSet = useMemo(() => new Set(collectedClueIds), [collectedClueIds]);
 
   // Solved puzzles tracked via narrativeFlags
   const solvedPuzzleIds = useMemo(
@@ -425,9 +427,15 @@ export default function ClueJournal({ onClose }: ClueJournalProps) {
     [state.narrativeFlags]
   );
 
-  // Filter and search clues
+  // Only the player's discovered clues are searchable / filterable. Locked
+  // entries appear as a single anonymous "sealed" stack at the bottom so
+  // the journal still hints that more is out there without leaking what.
+  const discoveredClues = useMemo(
+    () => CLUES.filter(c => collectedClueSet.has(c.id)),
+    [collectedClueSet]
+  );
   const filteredClues = useMemo(() => {
-    let clues = CLUES;
+    let clues = discoveredClues;
     if (filterType !== "all") clues = clues.filter(c => c.type === filterType);
     if (searchQuery) {
       const q = searchQuery.toLowerCase();
@@ -438,7 +446,8 @@ export default function ClueJournal({ onClose }: ClueJournalProps) {
       );
     }
     return clues;
-  }, [filterType, searchQuery]);
+  }, [discoveredClues, filterType, searchQuery]);
+  const sealedCount = CLUES.length - discoveredClues.length;
 
   const totalClues = CLUES.length;
   const totalPuzzles = PUZZLES.length;
@@ -549,38 +558,39 @@ export default function ClueJournal({ onClose }: ClueJournalProps) {
                 </div>
               </div>
 
-              {/* Clue list */}
+              {/* Discovered clue list — only entries the player has actually
+                  found. Click a card to expand the full description. */}
               {filteredClues.map(clue => {
-                const collected = collectedClueIds.includes(clue.id);
                 const meta = CLUE_TYPE_META[clue.type];
                 const Icon = meta.icon;
+                const expanded = expandedClue === clue.id;
 
                 return (
                   <motion.div
                     key={clue.id}
                     layout
-                    className={`rounded-lg border p-3 transition-all ${
-                      collected
-                        ? "border-primary/30 bg-primary/5"
-                        : "border-border/20 bg-card/30 opacity-60"
-                    }`}
+                    className="rounded-lg border border-primary/30 bg-primary/5 transition-all"
                   >
-                    <div className="flex items-start gap-2.5">
+                    <button
+                      type="button"
+                      onClick={() => setExpandedClue(expanded ? null : clue.id)}
+                      className="w-full text-left p-3 flex items-start gap-2.5"
+                    >
                       <div className={`p-1.5 rounded-md ${meta.bgColor} shrink-0 mt-0.5`}>
                         <Icon size={14} className={meta.color} />
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1">
                           <span className="font-mono text-xs font-semibold truncate">
-                            {collected ? clue.title : "???"}
+                            {clue.title}
                           </span>
-                          {collected && (
-                            <Sparkles size={10} className="text-primary shrink-0" />
-                          )}
+                          <Sparkles size={10} className="text-primary shrink-0" />
                         </div>
-                        <p className="font-mono text-[10px] text-muted-foreground leading-relaxed">
-                          {collected ? clue.description : clue.encryptedHint}
-                        </p>
+                        {!expanded && (
+                          <p className="font-mono text-[10px] text-muted-foreground leading-relaxed line-clamp-2">
+                            {clue.description}
+                          </p>
+                        )}
                         <div className="flex items-center gap-3 mt-1.5">
                           <span className={`font-mono text-[9px] ${meta.color} tracking-wider`}>
                             {meta.label.toUpperCase()}
@@ -588,21 +598,35 @@ export default function ClueJournal({ onClose }: ClueJournalProps) {
                           <span className="font-mono text-[9px] text-muted-foreground/50">
                             {clue.roomId.replace(/-/g, " ").toUpperCase()}
                           </span>
-                          {collected && (
-                            <span className="font-mono text-[9px] text-accent">
-                              +{clue.dreamReward} DREAM
-                            </span>
-                          )}
+                          <span className="font-mono text-[9px] text-accent">
+                            +{clue.dreamReward} DREAM
+                          </span>
                         </div>
                       </div>
-                      <div className="shrink-0">
-                        {collected ? (
-                          <Unlock size={14} className="text-primary" />
+                      <div className="shrink-0 mt-0.5">
+                        {expanded ? (
+                          <ChevronDown size={14} className="text-primary" />
                         ) : (
-                          <Lock size={14} className="text-muted-foreground/30" />
+                          <ChevronRight size={14} className="text-primary" />
                         )}
                       </div>
-                    </div>
+                    </button>
+                    <AnimatePresence>
+                      {expanded && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          className="overflow-hidden"
+                        >
+                          <div className="px-3 pb-3 border-t border-primary/10 pt-2">
+                            <p className="font-mono text-[10px] text-foreground/90 leading-relaxed whitespace-pre-line">
+                              {clue.description}
+                            </p>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </motion.div>
                 );
               })}
@@ -610,7 +634,29 @@ export default function ClueJournal({ onClose }: ClueJournalProps) {
               {filteredClues.length === 0 && (
                 <div className="text-center py-8">
                   <Diamond size={24} className="mx-auto text-muted-foreground/30 mb-2" />
-                  <p className="font-mono text-xs text-muted-foreground/50">No clues match your search</p>
+                  <p className="font-mono text-xs text-muted-foreground/50">
+                    {discoveredClues.length === 0
+                      ? "No clues logged yet. Investigate the ship to fill this journal."
+                      : "No clues match your search."}
+                  </p>
+                </div>
+              )}
+
+              {/* Sealed entries footer — hints that more is out there
+                  without leaking type, location, or content. */}
+              {sealedCount > 0 && !searchQuery && filterType === "all" && (
+                <div className="rounded-lg border border-dashed border-border/30 bg-card/20 p-3 flex items-center gap-2.5">
+                  <div className="p-1.5 rounded-md bg-secondary/40 shrink-0">
+                    <Lock size={14} className="text-muted-foreground/50" />
+                  </div>
+                  <div className="flex-1">
+                    <p className="font-mono text-xs text-muted-foreground/70">
+                      {sealedCount} entr{sealedCount === 1 ? "y" : "ies"} still sealed
+                    </p>
+                    <p className="font-mono text-[10px] text-muted-foreground/50 mt-0.5">
+                      Logged when you discover them.
+                    </p>
+                  </div>
                 </div>
               )}
             </motion.div>
@@ -629,6 +675,10 @@ export default function ClueJournal({ onClose }: ClueJournalProps) {
                 const expanded = expandedPuzzle === puzzle.id;
                 const diffMeta = DIFFICULTY_META[puzzle.difficulty];
                 const clues = getCluesForPuzzle(puzzle.id);
+                // Only reveal puzzle details once the player has at least
+                // one related clue logged (or has already solved it). Until
+                // then the puzzle is just a name + difficulty + lock.
+                const detailsRevealed = solved || progress.found > 0;
 
                 return (
                   <motion.div
@@ -656,12 +706,14 @@ export default function ClueJournal({ onClose }: ClueJournalProps) {
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2">
-                            <span className="font-mono text-xs font-semibold truncate">{puzzle.name}</span>
+                            <span className="font-mono text-xs font-semibold truncate">
+                              {detailsRevealed ? puzzle.name : "Sealed System"}
+                            </span>
                             <span className={`font-mono text-[9px] ${diffMeta.color} tracking-wider`}>
                               {diffMeta.label}
                             </span>
                           </div>
-                          {!solved && (
+                          {!solved && detailsRevealed && (
                             <div className="flex items-center gap-2 mt-1">
                               <div className="flex-1 h-1 rounded-full bg-secondary/50 overflow-hidden">
                                 <div
@@ -673,6 +725,11 @@ export default function ClueJournal({ onClose }: ClueJournalProps) {
                                 {progress.found}/{progress.total}
                               </span>
                             </div>
+                          )}
+                          {!solved && !detailsRevealed && (
+                            <span className="font-mono text-[10px] text-muted-foreground/50">
+                              No leads yet — no clues logged.
+                            </span>
                           )}
                           {solved && (
                             <span className="font-mono text-[10px] text-accent">SOLVED — +{puzzle.dreamReward} DREAM</span>
@@ -695,40 +752,64 @@ export default function ClueJournal({ onClose }: ClueJournalProps) {
                           className="overflow-hidden"
                         >
                           <div className="px-3 pb-3 space-y-2 border-t border-border/10 pt-2">
-                            <p className="font-mono text-[10px] text-muted-foreground leading-relaxed">
-                              {puzzle.description}
-                            </p>
-                            <div className="bg-secondary/30 rounded-md p-2">
-                              <p className="font-mono text-[9px] text-primary/70 italic leading-relaxed">
-                                "{puzzle.loreConnection}"
-                              </p>
-                            </div>
-                            <div>
-                              <p className="font-mono text-[9px] text-muted-foreground/60 mb-1.5 tracking-wider">REQUIRED CLUES:</p>
-                              {clues.map(clue => {
-                                const found = collectedClueIds.includes(clue.id);
-                                const cMeta = CLUE_TYPE_META[clue.type];
-                                return (
-                                  <div key={clue.id} className="flex items-center gap-2 py-0.5">
-                                    {found ? (
-                                      <Sparkles size={10} className="text-primary shrink-0" />
-                                    ) : (
-                                      <Lock size={10} className="text-muted-foreground/30 shrink-0" />
-                                    )}
-                                    <span className={`font-mono text-[10px] ${found ? "text-foreground" : "text-muted-foreground/40"}`}>
-                                      {found ? clue.title : "???"}
-                                    </span>
-                                    <span className={`font-mono text-[8px] ${cMeta.color}`}>
-                                      {cMeta.label}
-                                    </span>
+                            {detailsRevealed ? (
+                              <>
+                                <p className="font-mono text-[10px] text-muted-foreground leading-relaxed">
+                                  {puzzle.description}
+                                </p>
+                                {/* Lore quote and reward leak the resolution
+                                    of the puzzle, so they only show once the
+                                    puzzle is actually solvable / solved. */}
+                                {(solved || solvable) && (
+                                  <div className="bg-secondary/30 rounded-md p-2">
+                                    <p className="font-mono text-[9px] text-primary/70 italic leading-relaxed">
+                                      "{puzzle.loreConnection}"
+                                    </p>
                                   </div>
-                                );
-                              })}
-                            </div>
-                            {!solved && (
-                              <div className="pt-1">
-                                <p className="font-mono text-[9px] text-accent/70">
-                                  REWARD: {puzzle.reward}
+                                )}
+                                <div>
+                                  <p className="font-mono text-[9px] text-muted-foreground/60 mb-1.5 tracking-wider">REQUIRED CLUES:</p>
+                                  {clues.map(clue => {
+                                    const found = collectedClueSet.has(clue.id);
+                                    const cMeta = CLUE_TYPE_META[clue.type];
+                                    return (
+                                      <div key={clue.id} className="flex items-center gap-2 py-0.5">
+                                        {found ? (
+                                          <Sparkles size={10} className="text-primary shrink-0" />
+                                        ) : (
+                                          <Lock size={10} className="text-muted-foreground/30 shrink-0" />
+                                        )}
+                                        <span className={`font-mono text-[10px] ${found ? "text-foreground" : "text-muted-foreground/40"}`}>
+                                          {found ? clue.title : "Sealed entry"}
+                                        </span>
+                                        {/* Type chip would tip off whether
+                                            the missing clue is a Data Crystal,
+                                            an Elara hint, etc. — only show
+                                            for found clues. */}
+                                        {found && (
+                                          <span className={`font-mono text-[8px] ${cMeta.color}`}>
+                                            {cMeta.label}
+                                          </span>
+                                        )}
+                                      </div>
+                                    );
+                                  })}
+                                </div>
+                                {(solved || solvable) && (
+                                  <div className="pt-1">
+                                    <p className="font-mono text-[9px] text-accent/70">
+                                      REWARD: {puzzle.reward}
+                                    </p>
+                                  </div>
+                                )}
+                              </>
+                            ) : (
+                              <div className="space-y-1.5">
+                                <p className="font-mono text-[10px] text-muted-foreground/70 leading-relaxed">
+                                  No leads logged for this system yet. Investigate the ship and the journal will fill itself in.
+                                </p>
+                                <p className="font-mono text-[9px] text-muted-foreground/40">
+                                  {clues.length} clue{clues.length === 1 ? "" : "s"} required.
                                 </p>
                               </div>
                             )}
