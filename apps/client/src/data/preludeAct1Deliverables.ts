@@ -273,16 +273,20 @@ export const PRELUDE_AMBIENT_BEDS_DELIVERED = {
 /* ─── ACT 1 — CUTSCENE VIDEOS ─── */
 
 /**
- * The three Act 1 cutscenes (tavern / arena / council) belong to a
- * fantasy-adventure scene system that has not been built yet — the
- * companion `ACT1_ROOMS`, `ACT1_BATTLEFIELDS`, `ACT1_PORTRAITS`, and
- * `ACT1_MUSIC` registries below are likewise authored content waiting
- * for the scene flow to land. All three videos exist on the CDN and
- * are viewable today via `/prelude-act1-gallery` (the content-review
- * page). They are intentionally not yet wired to a story trigger;
- * forcing them into the existing sci-fi `act-1-the-signal` narrative
- * (`apps/client/src/data/narrativeActs.ts:88`) would mismatch the
- * fictional setting.
+ * The three Act 1 cutscenes are the Trade Empire keystone-view
+ * intros. They auto-play the first time the player opens each view
+ * (`TradeEmpirePage.tsx`) and persist a per-cinematic seen flag via
+ * `<CinematicGate>`:
+ *
+ *   • act1-council-revelation → COUNCIL view
+ *   • act1-tavern-arrival     → MARKET EXCHANGE view (the marketplace)
+ *   • act1-arena-challenge    → ACT III view
+ *
+ * The companion registries below (`ACT1_ROOMS`, `ACT1_BATTLEFIELDS`,
+ * `ACT1_PORTRAITS`, `ACT1_MUSIC`) are likewise authored content;
+ * `ACT1_ROOMS` / `ACT1_BATTLEFIELDS` are not yet wired to a render
+ * site. Both also remain viewable from `/prelude-act1-gallery` for
+ * content review.
  */
 export type Act1CutsceneId =
   | "act1-tavern-arrival"

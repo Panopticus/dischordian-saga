@@ -22,9 +22,13 @@
      - Each clip is SHORT (6–10 s), designed to loop
        seamlessly under variable VO length.
 
-   videoUrl stays `null` until the Kling renders land on the
-   CloudFront bucket. The runtime overlay falls back to the
-   state-aware still image until then.
+   All ten beat clips have landed in
+   s3://dgrsart/cdn/client-public/videos/awakening/{STEP_ID}.mp4
+   and are wired below via videoFor(...). AwakeningPage's background
+   layer (apps/client/src/pages/AwakeningPage.tsx:744–766) now plays
+   each per-step loop instead of falling back to the still render.
+   To replace a clip, drop the new MP4 into
+   apps/client/public/videos/awakening/ and run pnpm assets:upload.
    ═══════════════════════════════════════════════════════ */
 
 export type AwakeningStepId =
@@ -79,6 +83,18 @@ const AWAKENING_NEGATIVE_BASE =
   "in frame, HUD elements, UI, rendered text, subtitles, watermark, " +
   "logo, modern clothing, modern phone, real-world branding";
 
+/**
+ * CDN base for the awakening cinematic deliveries. Mirrors
+ * apps/client/src/lib/assetUrl.ts; duplicated here because shared/
+ * cannot import from client/. The bucket is public-read for these
+ * paths via the standard cdn/client-public/ prefix.
+ */
+const AWAKENING_CDN_BASE =
+  "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public";
+
+const videoFor = (step: AwakeningStepId): string =>
+  `${AWAKENING_CDN_BASE}/videos/awakening/${step}.mp4`;
+
 export const AWAKENING_CINEMATIC_PROMPTS: Readonly<
   Record<AwakeningStepId, AwakeningCinematicPrompt>
 > = {
@@ -93,7 +109,7 @@ export const AWAKENING_CINEMATIC_PROMPTS: Readonly<
     negativePrompt:
       AWAKENING_NEGATIVE_BASE +
       ", any human figure inside the pod, any face behind the glass",
-    videoUrl: null,
+    videoUrl: videoFor("CRYO_OPEN"),
   },
 
   ELARA_INTRO: {
@@ -107,7 +123,7 @@ export const AWAKENING_CINEMATIC_PROMPTS: Readonly<
     negativePrompt:
       AWAKENING_NEGATIVE_BASE +
       ", fully solid human Elara, realistic skin, any second figure in frame",
-    videoUrl: null,
+    videoUrl: videoFor("ELARA_INTRO"),
   },
 
   SPECIES_QUESTION: {
@@ -121,7 +137,7 @@ export const AWAKENING_CINEMATIC_PROMPTS: Readonly<
     negativePrompt:
       AWAKENING_NEGATIVE_BASE +
       ", human body near the console, lab technician visible",
-    videoUrl: null,
+    videoUrl: videoFor("SPECIES_QUESTION"),
   },
 
   CLASS_QUESTION: {
@@ -135,7 +151,7 @@ export const AWAKENING_CINEMATIC_PROMPTS: Readonly<
     negativePrompt:
       AWAKENING_NEGATIVE_BASE +
       ", a hand reaching into frame from camera-right, any chosen class figure",
-    videoUrl: null,
+    videoUrl: videoFor("CLASS_QUESTION"),
   },
 
   ALIGNMENT_QUESTION: {
@@ -149,7 +165,7 @@ export const AWAKENING_CINEMATIC_PROMPTS: Readonly<
     negativePrompt:
       AWAKENING_NEGATIVE_BASE +
       ", any figure taking sides, explicit good/evil iconography, real-world religious imagery",
-    videoUrl: null,
+    videoUrl: videoFor("ALIGNMENT_QUESTION"),
   },
 
   ELEMENT_QUESTION_DEMAGI: {
@@ -163,7 +179,7 @@ export const AWAKENING_CINEMATIC_PROMPTS: Readonly<
     negativePrompt:
       AWAKENING_NEGATIVE_BASE +
       ", figure kneeling inside the ring, hand hovering over a sigil",
-    videoUrl: null,
+    videoUrl: videoFor("ELEMENT_QUESTION_DEMAGI"),
   },
 
   ELEMENT_QUESTION_QUARCHON: {
@@ -177,7 +193,7 @@ export const AWAKENING_CINEMATIC_PROMPTS: Readonly<
     negativePrompt:
       AWAKENING_NEGATIVE_BASE +
       ", humanoid robot in frame, obvious sci-fi cliché android",
-    videoUrl: null,
+    videoUrl: videoFor("ELEMENT_QUESTION_QUARCHON"),
   },
 
   NAME_INPUT: {
@@ -191,7 +207,7 @@ export const AWAKENING_CINEMATIC_PROMPTS: Readonly<
     negativePrompt:
       AWAKENING_NEGATIVE_BASE +
       ", any fingers interacting with the tag, a person's profile behind the tag",
-    videoUrl: null,
+    videoUrl: videoFor("NAME_INPUT"),
   },
 
   ATTRIBUTES: {
@@ -205,7 +221,7 @@ export const AWAKENING_CINEMATIC_PROMPTS: Readonly<
     negativePrompt:
       AWAKENING_NEGATIVE_BASE +
       ", figure standing between the pillars, arms extended cruciform",
-    videoUrl: null,
+    videoUrl: videoFor("ATTRIBUTES"),
   },
 
   FIRST_STEPS: {
@@ -219,7 +235,7 @@ export const AWAKENING_CINEMATIC_PROMPTS: Readonly<
     negativePrompt:
       AWAKENING_NEGATIVE_BASE +
       ", player walking down the corridor, footprints on the floor, companion silhouette",
-    videoUrl: null,
+    videoUrl: videoFor("FIRST_STEPS"),
   },
 };
 

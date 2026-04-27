@@ -228,6 +228,42 @@ export const tradeEmpireRouter = router({
       // Cross-system: feed Dead Man's Circuit "Kinetic Acquisition" side quest
       await ripple.emit("trade_run_complete", { userId: ctx.user.id, missionId: mission.id });
 
+      // Phase 2 — mission_outcome ripple. Per priority plan §Stage 1+
+      // Phase 2 ripple emissions: previously silent at completeMission;
+      // now fires for faction commentary, companion morale, pressure-
+      // service shifts, Oracle dream-residue mission-unlock check.
+      try {
+        await ripple.emit("mission_outcome", {
+          userId: ctx.user.id,
+          missionId: mission.id,
+          result: "success",
+        });
+      } catch (rippleErr) {
+        console.warn("mission_outcome ripple failed", rippleErr);
+      }
+
+      // Phase 2 — faction_align ripple. Fires when sector.reputation
+      // crossed a threshold (0-line) on this mission completion.
+      // Handlers: NPC confrontation check, Locke deferred-threat
+      // logging, Vex standing-shift tracking.
+      try {
+        const newRep = sector.reputation;
+        const prevRep = newRep - 10; // we just added +10 above
+        const crossedThreshold =
+          prevRep <= 0 && newRep > 0 ? "positive" :
+          prevRep >= 0 && newRep < 0 ? "negative" :
+          undefined;
+        await ripple.emit("faction_align", {
+          userId: ctx.user.id,
+          factionId: mission.sectorId,
+          delta: 10,
+          newReputation: newRep,
+          crossedThreshold,
+        });
+      } catch (rippleErr) {
+        console.warn("faction_align ripple failed", rippleErr);
+      }
+
       // Phase F6 — every trade empire mission completion grants 2
       // imprint fragments to The Antiquarian, who is the canonical
       // catalog-keeper of trade routes / endings in Dischordia.

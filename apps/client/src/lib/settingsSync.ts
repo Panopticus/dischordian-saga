@@ -76,6 +76,32 @@ function applySettingsToDOM(settings: GameSettings): void {
   if (settings.colorblindMode && settings.colorblindMode !== "off") {
     root.classList.add(`colorblind-${settings.colorblindMode}`);
   }
+
+  // Locale (#144). Async swap via i18next; we don't await because
+  // applySettingsToDOM is called from the synchronous save path —
+  // the next render reads the updated language. Falls through to
+  // EN via fallbackLng when the requested locale isn't loaded.
+  // Also reflects on <html lang> so the browser's intrinsic
+  // hyphenation / spell-check / screen-reader voice picks the
+  // matching language.
+  if (settings.locale) {
+    root.lang = settings.locale;
+    void changeI18nLanguage(settings.locale);
+  }
+}
+
+let cachedI18n: { changeLanguage: (lng: string) => Promise<unknown> } | null =
+  null;
+
+async function changeI18nLanguage(locale: string): Promise<void> {
+  // Lazy-load so the i18n bundle isn't pulled into the
+  // settingsSync chunk just for this call site. Cached after the
+  // first hit so the per-toggle cost is one promise resolution.
+  if (!cachedI18n) {
+    const mod = await import("@/i18n/config");
+    cachedI18n = mod.default;
+  }
+  await cachedI18n.changeLanguage(locale);
 }
 
 // ─── Debounced Server Sync ───

@@ -19,6 +19,7 @@ import type { Server } from "http";
 import { checkWsRateLimit, sendRateLimitError, storeDisconnectedSession, recoverSession } from "./wsRateLimit";
 import { recordMatchStart, recordMatchEnd } from "./matchLengthMonitor";
 import { reduce, hashState, type GameState, type Action } from "../shared/tcg-core";
+import { persistFinishedMatch } from "./services/replayPersistence";
 import {
   buildMatchConfig,
   createServerMatchState,
@@ -36,6 +37,8 @@ interface DuelystPlayer {
   userName: string;
   faction: string;
   deckCardIds: string[];
+  /** Heat modifier ids the player locked in (#1). [] = Heat-0 run. */
+  heatModifiers: readonly string[];
   elo: number;
   matchId: string | null;
 }
@@ -56,7 +59,17 @@ interface DuelystMatch {
 }
 
 type ClientMessage =
-  | { type: "JOIN_QUEUE"; userId: number; userName: string; faction: string; deckCardIds: string[] }
+  | {
+      type: "JOIN_QUEUE";
+      userId: number;
+      userName: string;
+      faction: string;
+      deckCardIds: string[];
+      /** Heat modifier ids the player locked in for this run (#1).
+       *  Optional + ignored when absent so legacy clients still match.
+       *  Both players' heat sets are unioned at queue-pair time below. */
+      heatModifiers?: string[];
+    }
   | { type: "LEAVE_QUEUE" }
   | { type: "GAME_ACTION"; action: unknown }
   | { type: "SURRENDER" }
@@ -85,6 +98,26 @@ function send(ws: WebSocket, msg: ServerMessage) {
   if (ws.readyState === WebSocket.OPEN) {
     ws.send(JSON.stringify(msg));
   }
+}
+
+/** Union the two queue lock-ins into the single per-match modifier
+ *  set. Currently a simple "either-side-on" union with duplicates
+ *  dropped — both players see every active modifier. Phase-3 will
+ *  add a UI "negotiate down to common subset" path; until then both
+ *  players get the harder run, which is the conservative default. */
+export function mergeHeatModifiers(
+  p1: readonly string[],
+  p2: readonly string[],
+): readonly string[] {
+  const seen = new Set<string>();
+  const merged: string[] = [];
+  for (const id of [...p1, ...p2]) {
+    if (!seen.has(id)) {
+      seen.add(id);
+      merged.push(id);
+    }
+  }
+  return merged;
 }
 
 function generateMatchId(): string {
@@ -136,11 +169,29 @@ function tryMatchPlayers() {
   // Initialize the authoritative GameState via the real tcg-core reducer.
   // Seed is derived deterministically from (matchId, playerIds) so
   // replays stored under the same matchId reproduce perfectly.
-  const gameState = createServerMatchState({
-    matchId,
-    p1: p1Config.config!,
-    p2: p2Config.config!,
-  });
+  //
+  // Heat modifiers (#1): the queue pair's lock-ins are unioned (with
+  // duplicates dropped) and validated at createMatchState. A typo'd
+  // or over-cap stack throws, which we catch + return both players to
+  // queue with an error so a misconfigured client can't strand the
+  // pair in a half-built match.
+  const heatModifiers = mergeHeatModifiers(p1.heatModifiers, p2.heatModifiers);
+  let gameState;
+  try {
+    gameState = createServerMatchState({
+      matchId,
+      p1: p1Config.config!,
+      p2: p2Config.config!,
+      heatModifiers,
+    });
+  } catch (e) {
+    const msg = e instanceof Error ? e.message : String(e);
+    send(p1.ws, { type: "ERROR", message: `heat config invalid: ${msg}` });
+    send(p2.ws, { type: "ERROR", message: `heat config invalid: ${msg}` });
+    p1.matchId = null;
+    p2.matchId = null;
+    return;
+  }
 
   const match: DuelystMatch = {
     matchId,
@@ -207,22 +258,25 @@ function endMatch(match: DuelystMatch, winnerSide: 0 | 1, reason: string) {
   send(winner.ws, { type: "MATCH_RESULT", result: "win", eloChange: 15 });
   send(loser.ws, { type: "MATCH_RESULT", result: "loss", eloChange: -10 });
 
-  // Persist replay data for future replay() reconstruction.
-  // The action log + seed + rulesVersion + final state hash are
-  // enough to deterministically reproduce the entire match.
-  try {
-    const finalHash = hashState(match.gameState);
-    console.log(
-      `[Duelyst] Replay data: matchId=${match.matchId} seed=${match.gameState.seed} ` +
-      `rulesVersion=${match.gameState.rulesVersion} actions=${match.actionLog.length} ` +
-      `finalHash=${finalHash}`
-    );
-    // [DEFERRED] DB write to cardGameMatches (seed, rulesVersion,
-    // actionLog, finalStateHash) lands when the tRPC match-creation
-    // flow persists the initial row (matches are in-memory only today).
-  } catch (e) {
-    console.error(`[Duelyst] Failed to compute replay data:`, e);
-  }
+  // Persist replay data so the deterministic reducer can reproduce
+  // the entire match from a /replay/<shareToken> URL (#6 / #46).
+  // The action log + seed + rulesVersion + final-state hash are
+  // enough to reconstruct every board state. Fire-and-forget — a DB
+  // failure must not block the WS post-match flow (we already sent
+  // MATCH_RESULT to both clients above). The persistence helper
+  // logs success/failure on its own.
+  void persistFinishedMatch({
+    gameType: "duelyst",
+    startedAt: match.startedAt,
+    player1: { userId: match.player1.userId, userName: match.player1.userName },
+    player2: { userId: match.player2.userId, userName: match.player2.userName },
+    winnerSide,
+    gameState: match.gameState,
+    actionLog: match.actionLog,
+    p1Config: { faction: match.player1.faction, deckCardIds: match.player1.deckCardIds },
+    p2Config: { faction: match.player2.faction, deckCardIds: match.player2.deckCardIds },
+    tags: [reason],
+  });
 
   if (match.turnTimeout) clearTimeout(match.turnTimeout);
   activeMatches.delete(match.matchId);
@@ -271,6 +325,7 @@ export function setupDuelystWebSocket(server: Server) {
           player = {
             ws, userId: msg.userId, userName: msg.userName,
             faction: msg.faction, deckCardIds: msg.deckCardIds,
+            heatModifiers: Array.isArray(msg.heatModifiers) ? msg.heatModifiers : [],
             elo: 1200, matchId: null,
           };
           playerConnections.set(msg.userId, player);

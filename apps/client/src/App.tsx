@@ -88,6 +88,10 @@ const FightPage = lazy(() => import("./pages/FightPage"));
 const EssenceHarvestPage = lazy(() => import("./pages/EssenceHarvestPage"));
 const ConsolePage = lazy(() => import("./pages/ConsolePage"));
 const CardBrowserPage = lazy(() => import("./pages/CardBrowserPage"));
+// #6 / #46 — replay share-link landing page. Public route; viewer
+// resolves the unguessable shareToken via getReplayByToken and runs
+// the persisted action log through the deterministic reducer.
+const ReplayViewerPage = lazy(() => import("./pages/ReplayViewerPage"));
 const TerminusSwarmPage = lazy(() => import("./game/terminus-swarm/TerminusSwarmPage"));
 // The legacy CardGamePage (3-lane "Dischordian Struggle") was removed
 // in favor of the Duelyst-style tcg-core pipeline. /cards/play now
@@ -153,6 +157,11 @@ const CardChallengePage = lazy(() => import("./pages/CardChallengePage"));
 const ConexusPortalPage = lazy(() => import("./pages/ConexusPortalPage"));
 const AchievementsGalleryPage = lazy(() => import("./pages/AchievementsGalleryPage"));
 const AdminPage = lazy(() => import("./pages/AdminPage"));
+// #148 — telemetry visualization for the metrics already captured by
+// Sentry / OpenTelemetry / performanceMonitor / matchLengthMonitor.
+// Admin-gated client-side as a fast-fail; the underlying tRPC queries
+// are admin-gated server-side.
+const AdminHealthPage = lazy(() => import("./pages/AdminHealthPage"));
 const ArchitectConsolePage = lazy(() => import("./pages/ArchitectConsolePage"));
 const HierarchyPage = lazy(() => import("./pages/HierarchyPage"));
 const DemonPackPage = lazy(() => import("./pages/DemonPackPage"));
@@ -254,6 +263,10 @@ function Router() {
     <Suspense fallback={<PageLoader />}>
       <Switch>
         <Route path="/" component={Home} />
+        {/* #6 / #46 — replay share-link landing. Public, no AuthGate
+            so a non-logged-in viewer following a share-link lands
+            on a real, scrubable replay rather than a login wall. */}
+        <Route path="/replay/:token" component={ReplayViewerPage} />
         <Route path="/board" component={BoardPage} />
         <Route path="/entity/:id" component={EntityPage} />
         <Route path="/song/:id" component={SongPage} />
@@ -329,6 +342,7 @@ function Router() {
         <Route path="/conexus-portal" component={ConexusPortalPage} />
         <Route path="/achievements" component={AchievementsGalleryPage} />
         <Route path="/admin" component={AdminPage} />
+        <Route path="/admin/health" component={AdminHealthPage} />
         <Route path="/architect-console" component={ArchitectConsolePage} />
         <Route path="/hierarchy" component={HierarchyPage} />
         <Route path="/demon-packs">{() => <Suspense fallback={<CardGridSkeleton />}><DemonPackPage /></Suspense>}</Route>

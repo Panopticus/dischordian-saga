@@ -185,6 +185,11 @@ export interface CreateMatchArgs {
   matchId: string;
   p1: MatchConfig;
   p2: MatchConfig;
+  /** Heat modifier ids for this match (#1). Forwarded to
+   *  createMatchState which validates against HEAT_MODIFIERS and
+   *  throws on misconfiguration. Optional — undefined / [] both
+   *  yield a Heat-0 match with the canonical empty modifier list. */
+  heatModifiers?: readonly string[];
 }
 
 export function createServerMatchState(args: CreateMatchArgs): GameState {
@@ -195,6 +200,7 @@ export function createServerMatchState(args: CreateMatchArgs): GameState {
     p1: args.p1,
     p2: args.p2,
     registry: serverCardRegistry,
+    heatModifiers: args.heatModifiers,
   });
 }
 

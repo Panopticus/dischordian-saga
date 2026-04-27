@@ -196,6 +196,94 @@ export interface OracleFuturePurchasedEvent extends RippleEvent {
   projectedPrice: number;
 }
 
+/* ─── NPC SUBSTRATE EVENTS (Stage 1+ Phase 2) ─── */
+
+/**
+ * Mission outcome — emitted by tradeEmpire.ts:completeMission. Handlers:
+ * faction-NPC commentary, companion morale, pressure-service shifts,
+ * Oracle dream-residue mission-unlock check.
+ */
+export interface MissionOutcomeEvent extends RippleEvent {
+  missionId: string;
+  result: "success" | "failure" | "partial";
+  factionEffects?: Record<string, number>;
+  brokerKey?: string;
+}
+
+/**
+ * Contract signed — emitted when player accepts a multi-stage contract
+ * (new entity type per Phase 2). Handlers: Locke hidden-clause-reveal
+ * trigger, Vex Maestro narrator persona-shift.
+ */
+export interface ContractSignedEvent extends RippleEvent {
+  contractKey: string;
+  brokerKey: string;
+  hiddenClausesAcknowledged: boolean;
+}
+
+/**
+ * Faction alignment shift — emitted on faction-reputation crossings.
+ * Handlers: NPC confrontation check, Locke deferred-threat logging,
+ * Vex standing-shift tracking.
+ */
+export interface FactionAlignEvent extends RippleEvent {
+  factionId: string;
+  delta: number;
+  newReputation: number;
+  crossedThreshold?: "positive" | "negative" | "neutral";
+}
+
+/**
+ * Broker engagement — emitted when player engages a broker NPC. Handlers:
+ * per-broker dialog trigger, broker availability tracking.
+ */
+export interface BrokerEngagementEvent extends RippleEvent {
+  brokerKey: string;
+  npcKey: string;
+  engagementType: "first_contact" | "mission_offered" | "mission_accepted" | "mission_declined";
+}
+
+/**
+ * Route completion milestone — emitted at 5/10/25/50 runs of the same
+ * custom route. Handlers: NPC acknowledgment lines, faction loyalty
+ * resource bonus.
+ */
+export interface RouteMilestoneEvent extends RippleEvent {
+  routeKey: string;
+  runCount: number;
+  factionsTouched: ReadonlyArray<string>;
+}
+
+/**
+ * Sector first-entered — emitted on first visit to a Trade Empire sector.
+ * Handlers: arrivalCinematic trigger, Eyes narrator whisper, faction-NPC
+ * greeting line.
+ */
+export interface SectorFirstEnteredEvent extends RippleEvent {
+  sectorId: string;
+}
+
+/**
+ * Dream residue — emitted by Oracle dream-sequence resolution. Carries
+ * (act, dream-id, instruction-residue) for Trade Empire mission-unlock
+ * (per OCB-7 ticket).
+ */
+export interface DreamResidueEvent extends RippleEvent {
+  act: number;
+  dreamId: string;
+  instructionResidue?: string;
+}
+
+/**
+ * Severance Prize paid — bridge event from DMC to Trade Empire. When DMC
+ * season-end fires, broker_nilmorg_severance opens contracts.
+ */
+export interface SeverancePrizePaidEvent extends RippleEvent {
+  seasonName: string;
+  championUserId: number;
+  companionEidolonId: string;
+}
+
 /* ─── HANDLER TYPE ─── */
 type RippleHandler = (event: RippleEvent) => Promise<void>;
 
@@ -1089,6 +1177,74 @@ on("questline_chapter_completed", async (ev) => {
 on("cover_identity_blown", async (ev) => {
   const { userId } = ev as CoverIdentityBlownEvent;
   await pressureService.recordAction(userId, "questline_spy_blown_cover");
+});
+
+/* ═══════════════════════════════════════════════════════
+   PHASE 2 NPC SUBSTRATE HANDLERS
+   ═══════════════════════════════════════════════════════ */
+
+/**
+ * severance_prize_paid (DMC → Trade Empire bridge):
+ * When a DMC season-end fires, open Nilmorg's severance broker
+ * engagement record (or unlock its lock-out if previously locked).
+ * Per nilmorg.md §5.7 deferred broker hook now active.
+ */
+on("severance_prize_paid", async (ev) => {
+  const { userId } = ev as { userId: number };
+  try {
+    const db = await getDb();
+    if (!db) return;
+    // Lazy import to avoid circular deps.
+    const { tradeBrokerEngagement } = await import("../../db/schema");
+    const existing = await db
+      .select({ id: tradeBrokerEngagement.id })
+      .from(tradeBrokerEngagement)
+      .where(
+        and(
+          eq(tradeBrokerEngagement.userId, userId),
+          eq(tradeBrokerEngagement.brokerKey, "broker_nilmorg_severance"),
+        ),
+      )
+      .limit(1);
+    if (existing.length > 0 && existing[0]?.id) {
+      await db
+        .update(tradeBrokerEngagement)
+        .set({ isLockedOut: false, lockedOutReason: null })
+        .where(eq(tradeBrokerEngagement.id, existing[0].id));
+    } else {
+      await db.insert(tradeBrokerEngagement).values({
+        userId,
+        brokerKey: "broker_nilmorg_severance",
+        firstMetAt: new Date(),
+      });
+    }
+    logger.info("severance_prize_paid → broker_nilmorg_severance unlocked", { userId });
+  } catch (err) {
+    logger.warn("severance_prize_paid handler failed", { err });
+  }
+});
+
+/**
+ * dream_residue (Oracle → Trade Empire bridge per OCB-7):
+ * Set a per-user mission-unlock flag keyed by (act, dreamId). The Trade
+ * Empire UI checks this flag to surface canonically-unlocked missions
+ * per the_oracle.md §5.3.
+ */
+on("dream_residue", async (ev) => {
+  const { userId, act, dreamId } = ev as { userId: number; act: number; dreamId: string };
+  try {
+    const db = await getDb();
+    if (!db) return;
+    const { npcPublicFlags } = await import("../../db/schema");
+    const flag = `dmc_oracle_residue_unlock_${act}_${dreamId}`;
+    await db
+      .insert(npcPublicFlags)
+      .values({ userId, flag, setBy: "the_oracle" })
+      .catch(() => {/* idempotent on unique violation */});
+    logger.info("dream_residue → public flag set", { userId, flag });
+  } catch (err) {
+    logger.warn("dream_residue handler failed", { err });
+  }
 });
 
 /* ═══════════════════════════════════════════════════════

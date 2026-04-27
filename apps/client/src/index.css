@@ -2150,6 +2150,58 @@ html.reduce-motion .ark-ambient-library-shaft {
 }
 
 /* ═══════════════════════════════════════════════════════
+   ROOM NARRATOR FILTER PRESETS
+
+   Per the Witnessing Narrative Proposal §14.2 and
+   apps/shared/livingArkTouchpoints.ts pickRoomFilter(): a
+   room's background gets a tinted CSS filter when the
+   player crosses bond thresholds. Elara at 80 warms her
+   canonical rooms; The Human at 80 cools his into noir;
+   both at 80 in a shared room flickers between them.
+
+   Applied to the room background wrapper as a class. The
+   filter sits on the wrapper rather than ParallaxRoom
+   itself so the hotspot markers stay full-color.
+   ═══════════════════════════════════════════════════════ */
+
+.ark-room-filter-warm-elara {
+  filter: sepia(18%) saturate(115%) hue-rotate(-8deg) brightness(1.04);
+}
+
+.ark-room-filter-noir-human {
+  filter: grayscale(35%) contrast(118%) brightness(0.92) saturate(80%);
+}
+
+.ark-room-filter-silence-ambient {
+  filter: grayscale(60%) brightness(0.85) saturate(60%);
+}
+
+/* Yin/yang flicker — both bonds at 80 in a shared room.
+   Slow alternation between warm-elara and noir-human so the
+   room visibly flips identity. Motion intensity collapses
+   the swing for users who prefer it muted. */
+.ark-room-filter-yin-yang-flicker {
+  animation: arkRoomYinYangFlicker calc(8s / max(0.4, var(--motion-intensity, 1))) ease-in-out infinite;
+}
+
+@keyframes arkRoomYinYangFlicker {
+  0%, 100% {
+    filter: sepia(18%) saturate(115%) hue-rotate(-8deg) brightness(1.04);
+  }
+  50% {
+    filter: grayscale(35%) contrast(118%) brightness(0.92) saturate(80%);
+  }
+}
+
+html.reduce-motion .ark-room-filter-yin-yang-flicker {
+  /* Settle on the warm preset under reduce-motion. The flicker
+     is the un-toggleable beat; without animation, prefer the
+     warmer tone over a stuck cold cast. */
+  animation: none;
+  filter: sepia(18%) saturate(115%) hue-rotate(-8deg) brightness(1.04);
+}
+
+/* ═══════════════════════════════════════════════════════
    DUELYST HAND CARD — mouse-tilt on hover
    The ParallaxHandCard wrapper sets --card-tilt-x/y from
    the cursor position; this stylesheet rotates the inner

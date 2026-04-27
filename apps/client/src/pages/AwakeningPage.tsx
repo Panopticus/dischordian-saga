@@ -195,12 +195,7 @@ function ElaraDialogBox({
   themeAudio,
   onVoPlaybackFailed,
 }: {
-  /** Either a single line, or an array of beats. When an array is given
-   *  the box advances locally between beats on each click, then calls
-   *  onContinue once the final beat has been acknowledged. The VO audio
-   *  (if any) plays continuously underneath — text beats are visual
-   *  pacing, not audio segmentation. */
-  text: string | string[];
+  text: string;
   onContinue?: () => void;
   showPortrait?: boolean;
   choices?: { label: string; value: string; description?: string }[];
@@ -212,27 +207,12 @@ function ElaraDialogBox({
    * fallback can step in. Not called on timeout; only on explicit failure. */
   onVoPlaybackFailed?: () => void;
 }) {
-  const beats = useMemo(() => (Array.isArray(text) ? text : [text]), [text]);
-  const [beatIndex, setBeatIndex] = useState(0);
-  // Reset beat progression when the parent swaps to a new step (text
-  // identity changes). Without this, advancing past step N would carry
-  // a stale beatIndex into step N+1.
-  useEffect(() => { setBeatIndex(0); }, [beats]);
-  const currentText = beats[Math.min(beatIndex, beats.length - 1)];
-  const isFinalBeat = beatIndex >= beats.length - 1;
   // When VO audio drives this beat, skip the typewriter — visemes start
   // at t=0 of the audio while a 25ms/char reveal lags the line by ~3s,
   // creating obvious lip-sync drift. The TTS-fallback path keeps the
   // typewriter so synthesized speech still feels paced.
   const typewriterEnabled = !voAudioUrl;
-  const { displayed, done, skip } = useTypewriter(currentText, 25, typewriterEnabled);
-  const handleContinueClick = useCallback(() => {
-    if (!isFinalBeat) {
-      setBeatIndex((i) => i + 1);
-      return;
-    }
-    onContinue?.();
-  }, [isFinalBeat, onContinue]);
+  const { displayed, done, skip } = useTypewriter(text, 25, typewriterEnabled);
   // Exposed to HolographicElara so wawa-lipsync can drive visemes from
   // the live VO stream. Null whenever we fall through to TTS.
   const [voAudio, setVoAudio] = useState<HTMLAudioElement | null>(null);
@@ -330,11 +310,9 @@ function ElaraDialogBox({
             {!done && <span className="inline-block w-2 h-4 bg-[var(--neon-cyan)] ml-1 animate-pulse" />}
           </p>
 
-          {/* Continue or choices. Choices only appear on the final beat;
-              earlier beats always show a continue button so the player
-              can pace through the monologue before committing. */}
+          {/* Continue or choices */}
           <div className="mt-4 relative z-10">
-            {done && choices && onChoice && isFinalBeat ? (
+            {done && choices && onChoice ? (
               <div className="space-y-2">
                 {choices.map((choice, i) => (
                   <motion.button
@@ -367,9 +345,9 @@ function ElaraDialogBox({
                   </motion.button>
                 ))}
               </div>
-            ) : done && (onContinue || !isFinalBeat) ? (
+            ) : done && onContinue ? (
               <button
-                onClick={handleContinueClick}
+                onClick={onContinue}
                 className="font-mono text-xs text-[var(--neon-cyan)]/60 hover:text-[var(--neon-cyan)] transition-colors flex items-center gap-1"
               >
                 <span className="animate-pulse">&gt;</span> Click to continue...
@@ -869,12 +847,7 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
           {awakeningStep === "ELARA_INTRO" && (
             <ElaraDialogBox
               key="intro"
-              text={[
-                "I am Elara, the ship's intelligence. You've been in cryogenic suspension for... I can't determine how long. My chronometers are damaged.",
-                "You are aboard Inception Ark Vessel 1047. You are a Potential.",
-                "The others — the first wave — they're gone. I don't know where.",
-                "All inter-Ark communications have been severed across every known universe. We are alone.",
-              ]}
+              text="I am Elara, the ship's intelligence. You've been in cryogenic suspension for... I can't determine how long. My chronometers are damaged. You are aboard Inception Ark Vessel 1047. You are a Potential. The others — the first wave — they're gone. I don't know where. All inter-Ark communications have been severed across every known universe. We are alone."
               onContinue={() => setAwakeningStep("SPECIES_QUESTION")}
               voAudioUrl={STEP_VO_AUDIO.ELARA_INTRO}
               themeAudio={themeAudioRef.current}
@@ -884,11 +857,7 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
           {awakeningStep === "SPECIES_QUESTION" && (
             <ElaraDialogBox
               key="species"
-              text={[
-                "Your neural patterns are unusual. I'm running a deep scan...",
-                "Your cellular structure doesn't match standard human baselines. I'm detecting traces of something else.",
-                "What do you remember about your origin?",
-              ]}
+              text="Your neural patterns are unusual. I'm running a deep scan... Your cellular structure doesn't match standard human baselines. I'm detecting traces of something else. What do you remember about your origin?"
               voAudioUrl={STEP_VO_AUDIO.SPECIES_QUESTION}
               themeAudio={themeAudioRef.current}
               choices={[
@@ -906,10 +875,7 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
           {awakeningStep === "CLASS_QUESTION" && (
             <ElaraDialogBox
               key="class"
-              text={[
-                "Interesting. Your skill matrices are partially intact — the cryogenic process preserved some of your training.",
-                "I can see fragments of specialized knowledge. What comes naturally to you?",
-              ]}
+              text="Interesting. Your skill matrices are partially intact — the cryogenic process preserved some of your training. I can see fragments of specialized knowledge. What comes naturally to you?"
               voAudioUrl={STEP_VO_AUDIO.CLASS_QUESTION}
               themeAudio={themeAudioRef.current}
               choices={[
@@ -930,12 +896,7 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
           {awakeningStep === "ALIGNMENT_QUESTION" && (
             <ElaraDialogBox
               key="alignment"
-              text={[
-                "There's a fundamental question every Potential must answer.",
-                "The Architect built the Panopticon to impose order — surveillance, control, a perfect machine.",
-                "The Dreamer believed in the chaos of free will — unpredictable, dangerous, alive.",
-                "The war between them tore reality apart. Where do you stand?",
-              ]}
+              text="There's a fundamental question every Potential must answer. The Architect built the Panopticon to impose order — surveillance, control, a perfect machine. The Dreamer believed in the chaos of free will — unpredictable, dangerous, alive. The war between them tore reality apart. Where do you stand?"
               voAudioUrl={STEP_VO_AUDIO.ALIGNMENT_QUESTION}
               themeAudio={themeAudioRef.current}
               choices={[
@@ -954,15 +915,8 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
             <ElaraDialogBox
               key="element"
               text={characterChoices.species === "demagi"
-                ? [
-                    "Your DeMagi blood carries the arcane.",
-                    "Elemental forces are woven into your very DNA — a gift from modifications older than any civilization I have on record.",
-                    "Which element burns brightest in you?",
-                  ]
-                : [
-                    "Your Quarchon nature gives you dominion over one dimension of reality.",
-                    "Which dimension calls to you?",
-                  ]
+                ? "Your DeMagi blood carries the arcane. Elemental forces are woven into your very DNA — a gift from modifications older than any civilization I have on record. Which element burns brightest in you?"
+                : "Your Quarchon nature gives you dominion over one dimension of reality. Which dimension calls to you?"
               }
               voAudioUrl={
                 characterChoices.species === "demagi" ? STEP_VO_AUDIO.ELEMENT_QUESTION_DEMAGI
@@ -1049,11 +1003,7 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
             >
               <div className="mb-4">
               <ElaraDialogBox
-                text={[
-                  `Good. ${characterChoices.name}, I need to calibrate your neural interface.`,
-                  "This will determine your combat capabilities.",
-                  "Distribute your attribute points carefully — they define who you are.",
-                ]}
+                text={`Good. ${characterChoices.name}, I need to calibrate your neural interface. This will determine your combat capabilities. Distribute your attribute points carefully — they define who you are.`}
                 showPortrait={true}
                 voAudioUrl={STEP_VO_AUDIO.ATTRIBUTES}
                 themeAudio={themeAudioRef.current}
@@ -1077,12 +1027,7 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
           {awakeningStep === "FIRST_STEPS" && (
             <div key="first-steps" className="w-full max-w-2xl mx-auto flex flex-col items-center gap-3">
               <ElaraDialogBox
-                text={[
-                  `Welcome aboard, ${characterChoices.name}. Your Citizen profile has been created.`,
-                  `You are ${characterChoices.species === "demagi" ? "a DeMagi" : "a Quarchon"} ${characterChoices.characterClass}, aligned with ${characterChoices.alignment}.`,
-                  "Your quarters are through that door — the Cryo Bay. The rest of the ship... I'll need your help to restore power to the other decks.",
-                  "There's so much I need to show you. And so much I need to warn you about.",
-                ]}
+                text={`Welcome aboard, ${characterChoices.name}. Your Citizen profile has been created. You are ${characterChoices.species === "demagi" ? "a DeMagi" : "a Quarchon"} ${characterChoices.characterClass}, aligned with ${characterChoices.alignment}. Your quarters are through that door — the Cryo Bay. The rest of the ship... I'll need your help to restore power to the other decks. There's so much I need to show you. And so much I need to warn you about.`}
                 onContinue={creationInFlight ? undefined : handleCompleteCreation}
                 voAudioUrl={STEP_VO_AUDIO.FIRST_STEPS}
                 themeAudio={themeAudioRef.current}
