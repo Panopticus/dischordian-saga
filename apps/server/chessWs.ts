@@ -13,6 +13,7 @@ import { randomUUID } from "crypto";
 // Task 6.1 — per-user token bucket for every WS message.
 // Shared with pvpWs + duelystWs via the `wsRateLimit` module.
 import { checkWsRateLimit, sendRateLimitError } from "./wsRateLimit";
+import { recordMatchStart, recordMatchEnd } from "./matchLengthMonitor";
 import {
   pickMultiplayerEndLine,
   hashMultiplayerSeed,
@@ -206,6 +207,7 @@ async function startMatch(p1: ChessPlayer, p2: ChessPlayer) {
   await chessReady;
 
   const matchId = randomUUID().slice(0, 12);
+  recordMatchStart(matchId);
 
   // Randomly assign colors
   const isP1White = Math.random() < 0.5;
@@ -443,6 +445,11 @@ async function handleMove(
 async function endMatch(match: ActiveChessMatch, winnerId: number | null, reason: string) {
   match.status = reason as any;
   match.winnerId = winnerId;
+
+  // #88 Telemetry — record wall-clock duration for the admin
+  // dashboard's chess match-length p50/p95/p99. Tagged with the
+  // engine's end reason (timeout / resign / checkmate / draw).
+  recordMatchEnd(match.matchId, "chess", reason);
 
   if (match.turnTimeout) {
     clearTimeout(match.turnTimeout);

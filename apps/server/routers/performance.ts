@@ -8,6 +8,7 @@ import {
   getActiveConnections,
 } from "../performanceMonitor";
 import { sentryInitialized } from "../sentry";
+import { getMatchLengthReport } from "../matchLengthMonitor";
 
 /** Weighted error-rate rollup. Per-route stats already carry an
  *  errorRate (% of that route's requests). This helper rolls them
@@ -29,6 +30,17 @@ function weightedErrorRate(
 }
 
 export const performanceRouter = router({
+  // ═══ ADMIN: Match-length p50/p95/p99 per game type ═══
+  // Aggregated wall-clock duration of completed matches, broken
+  // out by game type (pvp / duelyst / chess) plus a combined "all"
+  // rollup. Recorded by recordMatchStart/recordMatchEnd in
+  // apps/server/{pvpWs,duelystWs,chessWs}.ts.
+  // Samples reset on server restart (in-process buffer, MAX 1000 per
+  // type). Long-term retention will need a separate metrics store.
+  matchLength: adminProcedure.query(() => {
+    return getMatchLengthReport();
+  }),
+
   // ═══ ADMIN: Full server performance report ═══
   serverReport: adminProcedure.query(() => {
     return getPerformanceReport();
