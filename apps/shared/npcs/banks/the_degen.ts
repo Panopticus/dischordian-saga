@@ -515,6 +515,194 @@ export const THE_DEGEN_BANK: ReadonlyArray<BankEntry> = [
   },
 
   // ═════════════════════════════════════════════════════════════════════
+  // CASINO DATA-SOURCE MISSION-RECOMMENDATION BANK (Phase 6c.1 part 3)
+  //
+  // Per the_degen.md §5.8 casino data-source canon: after N games
+  // played at a given game-archetype, the Casino canonically offers
+  // missions calibrated to the player's recent play. The lines below
+  // cover the canonical 4 thresholds × 5 game-archetypes matrix:
+  //
+  //   Thresholds: 5 / 25 / 100 / 500 games (canonical Marked /
+  //               Citation-holder / Ne-Yon-kin candidacy ladder)
+  //   Game-archetypes: nebula_poker / entropy_dice / quantum_roulette
+  //                    / pazaak_21 / void_blackjack_tournament
+  //
+  // Each line lands the canonical "your-recent-play-suggests-you-can-
+  // handle-this" register at a different threshold + archetype.
+  // The existing degen.casino.data_source_offer covers the generic
+  // Recognized-band first-recommendation; these specialize.
+  //
+  // Flag convention: casino_played_{count}_{game} for per-game
+  // counts; casino_played_total_{count} for cross-game volume.
+  // ═════════════════════════════════════════════════════════════════════
+
+  // ─── nebula_poker (canonical Architect-rivalry game, per ask_most_lost)
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "degen.casino.nebula_poker.5_first_impression",
+    text:
+      "Five hands of Nebula Poker. The Casino notices. The Casino does " +
+      "not yet have an opinion. Play five more and we'll talk about a " +
+      "contract that suits you.",
+    surfaces: ["npc_line"],
+    unlockFlags: ["casino_played_5_nebula_poker"],
+    cooldownKey: "degen.casino.nebula_poker.5",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "degen.casino.nebula_poker.25_architect_recognition",
+    // Canonical reference back to ask_degen_most_ever_lost (Architect
+    // Nebula Poker confession). The §1.6 "I file you twice" Tell #5
+    // self-archive register lands.
+    text:
+      "Twenty-five hands of Nebula Poker. The last person who played " +
+      "this much at this table was the Architect, and we both know how " +
+      "that ended. I have a contract that wants the kind of patience " +
+      "you're showing at the felt.",
+    surfaces: ["npc_line"],
+    unlockFlags: ["casino_played_25_nebula_poker"],
+    cooldownKey: "degen.casino.nebula_poker.25",
+    maxPlays: 1,
+  },
+
+  // ─── entropy_dice (canonical Ne-Yon-aleatory-favorite — dice canon) ──
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "degen.casino.entropy_dice.25_aleatory_unlock",
+    text:
+      "Twenty-five rolls of Entropy Dice. You're letting the room decide " +
+      "for you and you haven't flinched. That's an aleatory posture. The " +
+      "Casino has three contracts that want exactly that kind of nerve.",
+    surfaces: ["npc_line"],
+    unlockFlags: ["casino_played_25_entropy_dice"],
+    requiresTrustBand: "Recognized",
+    cooldownKey: "degen.casino.entropy_dice.25",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "degen.casino.entropy_dice.100_citation_candidate",
+    text:
+      "One hundred rolls. The Casino files you under 'reads the dice as " +
+      "voice rather than as outcome.' That's a small file with two other " +
+      "names in it. I will not tell you the other two. The contract on " +
+      "this index pays in standing rather than coin.",
+    surfaces: ["npc_line"],
+    unlockFlags: ["casino_played_100_entropy_dice"],
+    requiresTrustBand: "Marked",
+    cooldownKey: "degen.casino.entropy_dice.100",
+    maxPlays: 1,
+  },
+
+  // ─── quantum_roulette (canonical chaos-game) ──────────────────────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "degen.casino.quantum_roulette.100_chaos_register",
+    text:
+      "One hundred spins of Quantum Roulette. You're picking the same " +
+      "numbers on the same nights, which is statistically indistinguishable " +
+      "from chaos. I respect the bit. The contract that fits you is " +
+      "scheduled around the spins.",
+    surfaces: ["npc_line"],
+    unlockFlags: ["casino_played_100_quantum_roulette"],
+    requiresTrustBand: "Marked",
+    cooldownKey: "degen.casino.quantum_roulette.100",
+    maxPlays: 1,
+  },
+
+  // ─── pazaak_21 (canonical strategy-game — Tell #1 self-aware mock) ───
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "degen.casino.pazaak_21.25_strategy_mock",
+    // Tell #1 self-aware showmanship: he canonically calls his own
+    // doctrine into the register and refuses to take it seriously
+    // when the player plays a strategy-heavy game.
+    text:
+      "Twenty-five hands of Pazaak. You're the most strategic person in " +
+      "the room and I have, on the record, called strategy a coward's " +
+      "habit. I am being canonically inconsistent. The contract that " +
+      "wants you takes the inconsistency as the deposit.",
+    surfaces: ["npc_line"],
+    unlockFlags: ["casino_played_25_pazaak_21"],
+    requiresTrustBand: "Recognized",
+    cooldownKey: "degen.casino.pazaak_21.25",
+    maxPlays: 1,
+  },
+
+  // ─── void_blackjack_tournament (canonical high-stakes recurring) ─────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "degen.casino.void_blackjack.100_high_stakes",
+    text:
+      "One hundred Void Blackjack tournament hands. You have outlasted " +
+      "two seasons of regulars. The Casino runs three contracts that " +
+      "want a tournament-mind and a mortal lifespan. Pick the one that " +
+      "sounds least flattering.",
+    surfaces: ["npc_line"],
+    unlockFlags: ["casino_played_100_void_blackjack_tournament"],
+    requiresTrustBand: "Marked",
+    cooldownKey: "degen.casino.void_blackjack.100",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "degen.casino.void_blackjack.500_kin_candidate",
+    text:
+      "Five hundred Void Blackjack hands. The Seer told me to expect " +
+      "you. I asked her how she knew; she pre-recorded the asking. The " +
+      "contract this unlocks is one I would not offer a mortal. You're " +
+      "no longer entirely one of those.",
+    surfaces: ["transmission"],
+    unlockFlags: ["casino_played_500_void_blackjack_tournament"],
+    requiresTrustBand: "Citation-holder",
+    cooldownKey: "degen.casino.void_blackjack.500",
+    maxPlays: 1,
+  },
+
+  // ─── Cross-game total volume (canonical "whale" recognition) ─────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "degen.casino.total.100_volume_recognition",
+    text:
+      "One hundred games across the floor. The Casino reads volume as " +
+      "intent. The intent looks deliberate. The contracts I'd surface " +
+      "for you now are the kind that don't get printed on the menu.",
+    surfaces: ["npc_line"],
+    unlockFlags: ["casino_played_total_100"],
+    requiresTrustBand: "Recognized",
+    cooldownKey: "degen.casino.total.100",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "degen.casino.total.500_whale_canon",
+    // Canonical "whale" = highest VIP threshold per casinoGames.ts
+    // VIP_THRESHOLDS canon. The Casino's "Ne-Yon's Chosen" title is
+    // canonically awarded at this volume. The line lands the canonical
+    // Citation-holder-band recognition without naming the title aloud
+    // (Tell #5 archive register: he files the achievement, doesn't
+    // announce it).
+    text:
+      "Five hundred games. The Casino has a name for what you are now. " +
+      "I am not going to say it at the table. The Seer would consider " +
+      "the saying premature; the Seer is, on this point, correct. The " +
+      "contract that opens at five hundred is a different kind of " +
+      "TABLE.",
+    surfaces: ["transmission"],
+    unlockFlags: ["casino_played_total_500"],
+    requiresTrustBand: "Citation-holder",
+    cooldownKey: "degen.casino.total.500",
+    maxPlays: 1,
+  },
+
+  // ═════════════════════════════════════════════════════════════════════
   // CATCH-ALLS (silent-fail compliance)
   // ═════════════════════════════════════════════════════════════════════
 
