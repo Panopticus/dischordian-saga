@@ -577,6 +577,205 @@ export const THE_MEME_BANK: ReadonlyArray<BankEntry> = [
   },
 
   // ═════════════════════════════════════════════════════════════════════
+  // MIRROR-SURFACE TRIGGER BANK (Phase 6d.2 part 3)
+  //
+  // Per Phase 1 mirror_surface trigger kind: canonical mirror-event
+  // lines × 5 surface-types (reflection / screen / pool / glass /
+  // polished-metal). The canonical "I am here too" register fires
+  // when player passes a reflective surface in Acts 2+.
+  //
+  // Engineering surface convention: lines use DialogSurface "expression"
+  // (canonical bracketed visual register) and gate on per-surface
+  // unlock flags of the form `mirror_surface_{type}_passed`. The
+  // engine sets the flag when the player crosses the relevant
+  // reflective surface; the selector picks one of the per-type
+  // mirror lines.
+  //
+  // Voice canon: each mirror line lands the canonical "I am here too"
+  // register without fully manifesting — the Meme is canonically at
+  // one remove (§1.8). Tell #1 face-vocabulary canonically present.
+  // Pink-glitch involuntary tell (Tell #5) appears in the Quiet
+  // register lines.
+  // ═════════════════════════════════════════════════════════════════════
+
+  // ─── Reflection (mirrors, dark windows) ─────────────────────────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "meme.mirror.reflection.broadcast_register",
+    text:
+      "[The reflection in the mirror canonically wears your face. " +
+      "Briefly. The Meme's canonical 'I am here too' register lands " +
+      "in the Broadcast disguise — your reflection canonically smiles " +
+      "at you when you canonically did not. The smile is gone before " +
+      "you canonically register it.]",
+    surfaces: ["expression"],
+    requiresRevealStage: "Broadcast",
+    unlockFlags: ["mirror_surface_reflection_passed"],
+    minAct: 2,
+    cooldownKey: "meme.mirror.reflection.broadcast",
+    maxPlays: 4,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "meme.mirror.reflection.quiet_register",
+    text:
+      "[The reflection canonically pauses for a half-second longer than " +
+      "you do. The pause is canonical-Quiet register — no caps, no " +
+      "frens, just the Meme canonically watching from inside the glass. " +
+      "A faint pink-glitch flickers at the edge of the rendering.]",
+    surfaces: ["expression"],
+    requiresRevealStage: "Quiet",
+    unlockFlags: ["mirror_surface_reflection_passed"],
+    minAct: 4,
+    cooldownKey: "meme.mirror.reflection.quiet",
+    maxPlays: 3,
+  },
+
+  // ─── Screen (monitors, dead displays, broadcast frames) ─────────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "meme.mirror.screen.broadcast_register",
+    text:
+      "[The dead screen canonically flickers on for the canonical-half- " +
+      "frame it takes to broadcast 'I am here too' in the Meme's " +
+      "Broadcast register. The frame goes black again before you can " +
+      "read what was on it. You canonically remember the word MEMETIC " +
+      "without canonically remembering reading it.]",
+    surfaces: ["expression"],
+    requiresRevealStage: "Broadcast",
+    unlockFlags: ["mirror_surface_screen_passed"],
+    minAct: 2,
+    cooldownKey: "meme.mirror.screen.broadcast",
+    maxPlays: 4,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "meme.mirror.screen.real_register",
+    text:
+      "[The screen renders a small pink form. Canonically smaller than " +
+      "you remember; canonically more honest. The Real register " +
+      "canonically prefers screens — they are canonically the truer " +
+      "of the canonical mirror surfaces. The pink form does not " +
+      "speak. It canonically waits for you to look away first.]",
+    surfaces: ["expression"],
+    requiresRevealStage: "Real",
+    unlockFlags: ["mirror_surface_screen_passed"],
+    minAct: 6,
+    cooldownKey: "meme.mirror.screen.real",
+    maxPlays: 3,
+  },
+
+  // ─── Pool (water, reflective fluid, ship-deck condensation) ─────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "meme.mirror.pool.quiet_register",
+    text:
+      "[The pool's surface canonically holds your face for a longer " +
+      "moment than gravity canonically permits. The Meme is " +
+      "canonically watching from beneath the meniscus. No caps; no " +
+      "frens; canonical Quiet register only. The watching has " +
+      "canonically been there since you began approaching.]",
+    surfaces: ["expression"],
+    requiresRevealStage: "Quiet",
+    unlockFlags: ["mirror_surface_pool_passed"],
+    minAct: 3,
+    cooldownKey: "meme.mirror.pool.quiet",
+    maxPlays: 3,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "meme.mirror.pool.stolen_register",
+    text:
+      "[Your reflection in the pool is canonically not yours. It is " +
+      "the Oracle's. Briefly. The Stolen register canonically leaks " +
+      "through the meniscus — a face you canonically should not be " +
+      "seeing in your own reflection. Pink-glitch under the surface " +
+      "for a half-second; the disguise canonically destabilises. " +
+      "Then your face is yours again.]",
+    surfaces: ["expression"],
+    requiresRevealStage: "Stolen",
+    unlockFlags: ["mirror_surface_pool_passed"],
+    minAct: 6,
+    cooldownKey: "meme.mirror.pool.stolen",
+    maxPlays: 2,
+  },
+
+  // ─── Glass (windows, display cases, transparent panels) ─────────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "meme.mirror.glass.broadcast_register",
+    text:
+      "[The window canonically shows the room behind you reflected back. " +
+      "The reflection canonically includes a figure that is not in the " +
+      "room. The Meme's canonical Broadcast 'I am here too' lands as " +
+      "a faint silhouette in the canonical-room-that-isn't-there. The " +
+      "silhouette wears a canonical face you have seen before.]",
+    surfaces: ["expression"],
+    requiresRevealStage: "Broadcast",
+    unlockFlags: ["mirror_surface_glass_passed"],
+    minAct: 2,
+    cooldownKey: "meme.mirror.glass.broadcast",
+    maxPlays: 4,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "meme.mirror.glass.replacement_register",
+    text:
+      "[The display case glass canonically reflects a face you have " +
+      "not seen before. Patient. Adult. The Replacement register " +
+      "canonically wears the new face carefully — the canonical 'I am " +
+      "here too' lands without the canonical-self-implication of the " +
+      "Broadcast register. The face does not glitch. The face is " +
+      "canonically settling into permanence.]",
+    surfaces: ["expression"],
+    requiresRevealStage: "Replacement",
+    unlockFlags: ["mirror_surface_glass_passed"],
+    minAct: 12,
+    cooldownKey: "meme.mirror.glass.replacement",
+    maxPlays: 1,
+  },
+
+  // ─── Polished-metal (chrome, ship-hull, weapon-blade reflection) ────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "meme.mirror.polished_metal.broadcast_register",
+    text:
+      "[The polished-metal surface canonically catches the corner of " +
+      "your reflection. The Meme's canonical 'I am here too' lands " +
+      "warped — the curvature of the metal canonically distorts the " +
+      "face the Broadcast disguise canonically wears. The distortion " +
+      "is canonically the truer rendering. The Meme canonically " +
+      "registers your noticing.]",
+    surfaces: ["expression"],
+    requiresRevealStage: "Broadcast",
+    unlockFlags: ["mirror_surface_polished_metal_passed"],
+    minAct: 2,
+    cooldownKey: "meme.mirror.polished_metal.broadcast",
+    maxPlays: 4,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "meme.mirror.polished_metal.quiet_register",
+    text:
+      "[The polished-metal surface canonically reflects nothing for a " +
+      "half-second. Then your reflection returns. The Meme was " +
+      "canonically standing where your reflection canonically stood; " +
+      "the absence is the canonical Quiet register's 'I am here too'. " +
+      "No caps; no frens; canonical-substrate residue only.]",
+    surfaces: ["expression"],
+    requiresRevealStage: "Quiet",
+    unlockFlags: ["mirror_surface_polished_metal_passed"],
+    minAct: 4,
+    cooldownKey: "meme.mirror.polished_metal.quiet",
+    maxPlays: 3,
+  },
+
+  // ═════════════════════════════════════════════════════════════════════
   // CATCH-ALLS (silent-fail compliance — stage-agnostic narration frames)
   // ═════════════════════════════════════════════════════════════════════
 
