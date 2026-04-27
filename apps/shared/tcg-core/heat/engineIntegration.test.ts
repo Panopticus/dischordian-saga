@@ -33,7 +33,7 @@ import {
   buildCardRegistry,
 } from "@shared/tcg-core";
 
-const TEST_REGISTRY = buildCardRegistry([], { allowEmpty: true });
+const TEST_REGISTRY = buildCardRegistry([]);
 
 // Minimal MatchConfig pair — buildMatchConfig requires non-empty
 // deckCardIds even under skipValidation, so use single placeholder
