@@ -1142,7 +1142,12 @@ export default function CharacterSheetPage() {
                     </div>
                   )}
                 </div>
-                {nextLevel && (
+                {/* Only preview the next prestige tier's title, reward,
+                    and lore once the player is actually eligible to take
+                    it — otherwise we're spoiling clearances they haven't
+                    earned yet. Pre-eligibility, the level cap nudge above
+                    ("Reach level 25 to unlock…") carries the load. */}
+                {nextLevel && canP && (
                   <div className="border void-border rounded-lg p-3 void-bg-sunk/[0.03]">
                     <p className="font-mono text-[9px] void-text-accent mb-1">NEXT: {nextLevel.titlePrefix} ({nextLevel.stars}★)</p>
                     <p className="font-mono text-[8px] text-white/30">{nextLevel.reward.description}</p>

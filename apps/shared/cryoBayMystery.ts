@@ -255,7 +255,7 @@ interface CombineRule {
   result: CombineResult;
 }
 
-const COMBINE_RULES: readonly CombineRule[] = [
+export const CRYO_MYSTERY_COMBINES: readonly CombineRule[] = [
   {
     a: "torn-id-tag",
     b: "data-slate-fragment",
@@ -282,7 +282,7 @@ export function combineInventory(
   a: CryoMysteryInventoryId,
   b: CryoMysteryInventoryId,
 ): CombineResult | null {
-  for (const rule of COMBINE_RULES) {
+  for (const rule of CRYO_MYSTERY_COMBINES) {
     if (
       (rule.a === a && rule.b === b) ||
       (rule.a === b && rule.b === a)

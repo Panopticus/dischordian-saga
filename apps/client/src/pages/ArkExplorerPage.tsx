@@ -478,18 +478,31 @@ function RoomScene({
 
           if (isCollected) return null;
 
+          // Smaller hotspots sit on top of larger ones. Several rooms
+          // (notably the cryo-bay dead-pod cluster) have detail
+          // hotspots that fall entirely inside a wide-area parent
+          // hotspot — without an explicit z-index, hover/click can
+          // flicker between them. We score each hotspot by area in
+          // % squared so a small detail (e.g. 5×5 = 25) always sits
+          // above a 16×54 = 864 wrapper.
+          const area = hotspot.width * hotspot.height;
+          // Map area into a z range above z-10 (the layer baseline).
+          // Smaller hotspot → higher z. Cap so we never collide with
+          // higher overlay layers (verb-coin, modals, etc.).
+          const hotspotZ = Math.max(11, Math.min(40, 50 - Math.round(area / 30)));
           return (
             <motion.div
               key={hotspot.id}
               initial={{ opacity: 0, scale: 0 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0 }}
-              className="absolute cursor-pointer z-10"
+              className="absolute cursor-pointer"
               style={{
                 left: `${hotspot.x}%`,
                 top: `${hotspot.y}%`,
                 width: `${hotspot.width}%`,
                 height: `${hotspot.height}%`,
+                zIndex: hotspotZ,
               }}
               onMouseEnter={() => setHoveredHotspot(hotspot.id)}
               onMouseLeave={() => setHoveredHotspot(null)}
@@ -1281,12 +1294,44 @@ export default function ArkExplorerPage() {
         } else {
           const def = getRoomDef(targetRoomId);
           const req = def?.unlockRequirement;
-          let reason = "This area is locked.";
-          if (req?.type === "rooms_unlocked") reason = `Unlock ${req.value} rooms to access this area.`;
-          if (req?.type === "items_collected") reason = `Collect ${req.value} items to access this area.`;
+          // Two strings on purpose: a short HUD line for the toast and a
+          // longer in-fiction beat Elara speaks. We avoid "locked"/"unlock
+          // X rooms" phrasing here — the Ark seals doors for reasons, and
+          // those reasons should sound like ship behaviour, not a level
+          // gate.
+          let toastReason = "The door won't open.";
+          let elaraReason = "The door won't open. Whatever the Ark is waiting for, we haven't given it yet.";
+
+          if (req?.type === "narrative_event" && req.value === "cryo_mystery_first_clue_found") {
+            // Med Bay quarantine — the cryo-bay incident triggered an
+            // automatic seal. The Ark won't lift it until the case file
+            // has at least one logged observation.
+            toastReason = "Medical Bay is in quarantine lockdown.";
+            elaraReason =
+              "Medical refused the request. The Ark sealed it the moment something went wrong in cryo, and she won't lift the quarantine until the incident has at least one logged observation in the case file. Look at the pod, the panel, the chart — anything you actually see counts.";
+          } else if (req?.type === "narrative_event") {
+            toastReason = "The Ark hasn't cleared this section yet.";
+            elaraReason =
+              "The Ark hasn't cleared this section yet. Something earlier in the ship has to change before she'll route us through here.";
+          } else if (req?.type === "rooms_unlocked") {
+            toastReason = "Section access still restricted.";
+            elaraReason = `The Ark is staging access deck by deck. We need ${req.value} sections cleared before this one's on the route.`;
+          } else if (req?.type === "items_collected") {
+            toastReason = "Inventory threshold not met.";
+            elaraReason = `This section is keyed to a recovery threshold — ${req.value} items pulled from the ship before she'll open it.`;
+          } else if (req?.type === "specific_item") {
+            toastReason = "Credential or key required.";
+            elaraReason =
+              "There's a credential check on this door. The Ark wants something specific in your hand before she'll open it. We haven't found it yet.";
+          } else if (req?.type === "chain_complete") {
+            toastReason = "Storyline gate.";
+            elaraReason =
+              "This door is keyed to an arc we haven't finished. The Ark is patient about that kind of thing — finish what we started, and she opens.";
+          }
+
           if (audioReady) playSFX("door_locked");
-          notify("error", "ACCESS DENIED", reason);
-          setElaraText(`That door is locked. ${reason} Keep exploring — you'll find a way.`);
+          notify("error", "ACCESS DENIED", toastReason);
+          setElaraText(elaraReason);
         }
         break;
       }
