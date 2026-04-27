@@ -1177,6 +1177,41 @@ export const CROSS_CHARACTER_REACTIONS: ReadonlyArray<CrossCharacterReaction> = 
       "canonical Ch12 succession-claim in canonical-silence. Saga-" +
       "load-bearing Stage-4-weave-anchor canonical event.",
   },
+
+  // ─── Phase 6e.1c first-meeting tree public flags
+
+  {
+    flag: "degen_filed_player_as_house_aware_first_contact",
+    setBy: ["the_degen"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Degen first_meeting tree house_wins_branch (Phase 6e.1c). " +
+      "Canonical Wit-axis recognition: player canonically called the " +
+      "canonical 'house always wins' recognition; Degen canonically " +
+      "files as canonical-system-aware. Trust-positive seed.",
+  },
+  {
+    flag: "companion_first_contact_kneel",
+    setBy: ["dmc_clone_companion"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Companion first_meeting tree kneel_branch (Phase 6e.1c). " +
+      "Canonical Mercy-axis non-verbal player-action: kneeling at " +
+      "canonical-Severance-Prize ceremony arrival canonically " +
+      "triggers bilateral kin-recognition glyph. Saga-load-bearing " +
+      "first-bond initialisation.",
+  },
+  {
+    flag: "eidolon_first_contact_touch_resonance",
+    setBy: ["your_eidolon"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Eidolon first_meeting tree touch_branch (Phase 6e.1c). " +
+      "Canonical Vulnerability-axis non-verbal player-action: " +
+      "touching canonically triggers full bond-resonance per existing " +
+      "eidolon.cinematic.bond_resonance.first_touch canon (head-into-" +
+      "palm posture). Saga-load-bearing canonical-bond-initialisation.",
+  },
 ];
 
 // --- Helpers --------------------------------------------------------------

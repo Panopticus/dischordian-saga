@@ -20,6 +20,9 @@ import { THE_SEER_FIRST_MEETING } from "./the_seer/first_meeting";
 import { THE_ORACLE_FIRST_MEETING } from "./the_oracle/first_meeting";
 import { THE_GAME_MASTER_FIRST_MEETING } from "./the_game_master/first_meeting";
 import { THE_MEME_FIRST_MEETING } from "./the_meme/first_meeting";
+import { THE_DEGEN_FIRST_GAME } from "./the_degen/first_meeting";
+import { DMC_CLONE_COMPANION_AWAKENING_ARRIVAL } from "./dmc_clone_companion/first_meeting";
+import { YOUR_EIDOLON_BOND_RESONANCE } from "./your_eidolon/first_meeting";
 
 // Per-NPC trees are added here as they ship through Phase 6e.
 // Phase 6 Infrastructure shipped only the scaffolding + the aggregator;
@@ -34,9 +37,9 @@ const PER_NPC_TREES: ReadonlyArray<NpcDialogTree> = [
   THE_ORACLE_FIRST_MEETING,                   // Phase 6e.1b ✅ (Ch5 dream-sequence)
   THE_GAME_MASTER_FIRST_MEETING,              // Phase 6e.1b ✅ (witness-mode)
   THE_MEME_FIRST_MEETING,                     // Phase 6e.1b ✅ (Ch12 fusion-reveal)
-  // YOUR_EIDOLON_BOND_RESONANCE,            // Phase 6e.1c — non-verbal
-  // THE_DEGEN_FIRST_GAME,                   // Phase 6e.1c
-  // DMC_CLONE_COMPANION_AWAKENING_ARRIVAL,  // Phase 6e.1c
+  THE_DEGEN_FIRST_GAME,                       // Phase 6e.1c ✅ (Casino first-game)
+  DMC_CLONE_COMPANION_AWAKENING_ARRIVAL,      // Phase 6e.1c ✅ (Severance Prize arrival)
+  YOUR_EIDOLON_BOND_RESONANCE,                // Phase 6e.1c ✅ (Bond Resonance)
 ];
 
 export const ALL_NPC_DIALOG_TREES: ReadonlyArray<NpcDialogTree> =
