@@ -27,6 +27,26 @@ export interface CutsceneData {
   theme: "elara" | "human" | "neutral";
 }
 
+/** Map a `CutsceneLine.effect` to a player-facing sound-cue caption.
+ *  Effects pair a visual with an audio cue in the canon (a `glitch`
+ *  line plays a static crackle, `pulse` plays a soft hum), so the
+ *  text caption is what hard-of-hearing players see in place of the
+ *  audio. Exported for the wiring test in CutsceneOverlay.test.ts. */
+export function effectCaption(effect: NonNullable<CutsceneLine["effect"]>): string {
+  switch (effect) {
+    case "shake":
+      return "[ IMPACT ]";
+    case "flash":
+      return "[ FLASH ]";
+    case "fadeToBlack":
+      return "[ FADE TO BLACK ]";
+    case "glitch":
+      return "[ STATIC INTERFERENCE ]";
+    case "pulse":
+      return "[ SOFT EMPHASIS ]";
+  }
+}
+
 // ═══════════════════════════════════════════════════════
 // COMPANION QUEST CUTSCENES
 // ═══════════════════════════════════════════════════════
@@ -389,6 +409,18 @@ export default function CutsceneOverlay({ cutscene, onComplete, onClose }: Cutsc
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
+            // Dialog box is a screen-reader live region so each
+            // advancing line is announced. polite (not assertive) so
+            // it queues behind any active announcement rather than
+            // interrupting it; atomic so the speaker label and text
+            // are read together. The accompanying caption-label spans
+            // below render extra cues (effect / sound / mood) that
+            // un-hide via `html.captions-on` for hearing-accessibility
+            // (see apps/client/src/index.css → .caption-label).
+            role="region"
+            aria-live="polite"
+            aria-atomic="true"
+            aria-label="Cutscene dialog"
             className={`absolute bottom-8 left-4 right-4 sm:left-12 sm:right-12 lg:left-24 lg:right-24 z-10`}
           >
             {/* Progress bar */}
@@ -421,6 +453,21 @@ export default function CutsceneOverlay({ cutscene, onComplete, onClose }: Cutsc
                 {currentLine.mood && currentLine.mood !== "neutral" && (
                   <span className="font-mono text-[9px] text-white/20 tracking-wider">
                     [{currentLine.mood.toUpperCase()}]
+                  </span>
+                )}
+                {/* Sound-cue captions for the deaf / hard-of-hearing.
+                    Hidden by default; un-hides via `html.captions-on`
+                    when the player toggles captions in Settings.
+                    Effects are visual+audio in the canon (a `glitch`
+                    line is paired with a static crackle in the VO
+                    track), so describing them here closes the loop
+                    for users who can't hear the underlying SFX. */}
+                {currentLine.effect && (
+                  <span
+                    className="caption-label font-mono text-[10px] tracking-wider px-2 py-0.5 rounded border border-white/20 bg-white/5 text-white/70"
+                    aria-label={`Sound effect: ${effectCaption(currentLine.effect)}`}
+                  >
+                    {effectCaption(currentLine.effect)}
                   </span>
                 )}
               </div>
