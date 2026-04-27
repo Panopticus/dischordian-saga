@@ -954,6 +954,51 @@ export const CROSS_CHARACTER_REACTIONS: ReadonlyArray<CrossCharacterReaction> = 
       "canonical apex band only. Future Oracle reactive lines may " +
       "register the canonical 3000-year-holding canon.",
   },
+  {
+    flag: "hierophant_covenant_i_will_remember_offered",
+    setBy: ["wraith_calder"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Hierophant present.i_will_remember (Phase 6d.3 part 3). " +
+      "Canonical §1.7 Tell #3 covenant phrase: 'I will remember' is " +
+      "liturgical for the Hierophant — it is canonically a covenant, " +
+      "not a courtesy, reserved for moments when the trust meter " +
+      "advances.",
+  },
+  {
+    flag: "hierophant_named_player_parallel_inheritor",
+    setBy: ["wraith_calder"],
+    reactsBy: ["the_oracle", "future_reader"],
+    canonicalNote:
+      "Per Hierophant inheriting.architecture_of_grief (Phase 6d.3 " +
+      "part 3). Canonical §3.3 apex line: 'You are walking the " +
+      "architecture I made of grief.' Promotes Present → Inheriting. " +
+      "Council canonically considers player a parallel inheritor of " +
+      "the work. Reserved canonical-once-per-playthrough.",
+  },
+  {
+    flag: "hierophant_disclosed_meme_shadow_tongue_adjacency",
+    setBy: ["wraith_calder"],
+    reactsBy: ["the_meme", "future_reader"],
+    canonicalNote:
+      "Per Hierophant inheriting.shadow_tongue_meme_adjacency (Phase " +
+      "6d.3 part 3). Canonical §4.7 cross-bible canon: the Hierophant " +
+      "is canonically the only being positioned to name the canonical " +
+      "Meme/Shadow-Tongue adjacency. Future Meme reactive lines may " +
+      "register the canonical-naming.",
+  },
+  {
+    flag: "hierophant_admitted_canonical_hypocrisy",
+    setBy: ["wraith_calder"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Hierophant inheriting.three_times_in_two_hundred (Phase " +
+      "6d.3 part 3). Canonical §3.6 hypocrisy-admission canon: " +
+      "Inheriting-band-only canonical confession that the public " +
+      "'I did not notice' canon was canonically slightly easier-on-" +
+      "himself than the truth. The canonical 'three times in two " +
+      "hundred years, I noticed' canon lands.",
+  },
 ];
 
 // --- Helpers --------------------------------------------------------------

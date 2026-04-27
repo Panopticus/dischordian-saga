@@ -341,6 +341,286 @@ export const WRAITH_CALDER_BANK: ReadonlyArray<BankEntry> = [
   },
 
   // ═════════════════════════════════════════════════════════════════════
+  // POST-ARENA EXPANSION — 5-band chamber bank (Phase 6d.3 part 3)
+  //
+  // Per wraith_calder.md §§1.5-1.7 + §3.3 trust-band model:
+  //   - Periodic build to quiet apex
+  //   - Corrective addendum (assertion → confession → quieter
+  //     qualification)
+  //   - Sacred vocabulary (name / ceremony / continuation / witness /
+  //     remember / slowly)
+  //   - "Sit" canonical invitation; first-look pause stage-direction
+  //   - "I will remember" canonical covenant phrase
+  //   - NO caps, NO exclamations, NO rhetorical questions
+  //
+  // 3 lines per band × 5 bands (Hostile / Wary / Witnessed / Present /
+  // Inheriting). Combined with prior shipped lines, this fills the
+  // canonical 5-band ladder.
+  // ═════════════════════════════════════════════════════════════════════
+
+  // ─── Hostile band (×3) ──────────────────────────────────────────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "hierophant.post_arena.hostile.weaponized_get_up",
+    // Canonical §3.9 trust-breach canon: when the player canonically
+    // weaponizes Wraith Calder's "get up" imperative against the
+    // Hierophant, the canonical Hostile-band response lands.
+    text:
+      "You are using the verb of someone I outgrew. The pre-rite voice " +
+      "that issued 'get up' belonged to a body I no longer occupy. The " +
+      "borrowing is canonically not yours to make. Sit. Or leave. The " +
+      "chamber has space for both, and no patience for the third option.",
+    surfaces: ["transmission"],
+    requiresRevealStage: "post_arena",
+    requiresTrustBand: "Hostile",
+    cooldownKey: "hierophant.hostile.weaponized_get_up",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "hierophant.post_arena.hostile.silence_canonical",
+    text:
+      "[The Hierophant does not look up. The pen continues. A name is " +
+      "written; a small silence; another name. The silence is canonical " +
+      "Hostile-band — the chamber has not refused you, but it is also " +
+      "not extending invitation. The work continues without you in it.]",
+    surfaces: ["expression"],
+    requiresRevealStage: "post_arena",
+    requiresTrustBand: "Hostile",
+    cooldownKey: "hierophant.hostile.silence",
+    maxPlays: 3,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "hierophant.post_arena.hostile.council_will_note",
+    text:
+      "The Council has been informed of your arrival. They will not act " +
+      "until I ask them to. I have not asked. I do not yet know whether " +
+      "I will. The canonical pause is what protects you from the " +
+      "Council; the pause is also canonical-revocable.",
+    surfaces: ["transmission"],
+    requiresRevealStage: "post_arena",
+    requiresTrustBand: "Hostile",
+    cooldownKey: "hierophant.hostile.council",
+    maxPlays: 1,
+  },
+
+  // ─── Wary band (×3) ─────────────────────────────────────────────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "hierophant.post_arena.wary.first_look_pause",
+    // Canonical §1.7 Tell #1: the first-look pause stage-direction.
+    // The head canonically moves only when the player has said
+    // something the Hierophant did not expect.
+    text:
+      "[The Hierophant does not look up when you enter. The pen " +
+      "continues. After several minutes — and the canonical right kind " +
+      "of silence on your part — he looks up for the first time. The " +
+      "look-up is canonically gratitude, not recognition. He has " +
+      "noticed that you knew not to interrupt.]",
+    surfaces: ["expression", "cinematic"],
+    requiresRevealStage: "post_arena",
+    requiresTrustBand: "Wary",
+    cooldownKey: "hierophant.wary.first_look",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "hierophant.post_arena.wary.three_synonyms",
+    text:
+      "Witness, presence, remembering. Three near-synonyms I do not " +
+      "flatten. Witness is what others canonically do for me; presence " +
+      "is what you have offered by sitting in this chamber without " +
+      "demand; remembering is the verb whose adequacy this entire " +
+      "questline interrogates. I have not yet answered the question. " +
+      "I have written for three thousand years.",
+    surfaces: ["transmission"],
+    requiresRevealStage: "post_arena",
+    requiresTrustBand: "Wary",
+    cooldownKey: "hierophant.wary.three_synonyms",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "hierophant.post_arena.wary.shadow_tongue_intro",
+    text:
+      "There is a corruption mechanism canonically older than my " +
+      "vocabulary for naming it. The Council calls it the Shadow Tongue. " +
+      "It edits faiths from within — small changes, word by word, " +
+      "doctrine by doctrine — until the religion the priest leads is " +
+      "not the religion the priest started with. I will tell you more " +
+      "if you stay long enough to canonically need to know.",
+    surfaces: ["transmission"],
+    requiresRevealStage: "post_arena",
+    requiresTrustBand: "Wary",
+    cooldownKey: "hierophant.wary.shadow_tongue",
+    maxPlays: 1,
+  },
+
+  // ─── Witnessed band (×3 new) ────────────────────────────────────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "hierophant.post_arena.witnessed.first_name_research",
+    text:
+      "Today's name required a day of research. I knew the canonical " +
+      "shape of the person — that they had walked the Tribunal corridor " +
+      "and survived it twice — but the small specific details that make " +
+      "a name a person rather than a listing took the morning to recover. " +
+      "I write slowly. The Shadow Tongue edits quickly. The slowness is " +
+      "the resistance.",
+    surfaces: ["transmission"],
+    requiresRevealStage: "post_arena",
+    requiresTrustBand: "Witnessed",
+    cooldownKey: "hierophant.witnessed.research",
+    maxPlays: 2,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "hierophant.post_arena.witnessed.shadow_tongue_horror",
+    text:
+      "The Shadow Tongue arrived two centuries before the Severance. It " +
+      "did not announce itself. It edited our faith from within — small " +
+      "changes, word by word, doctrine by doctrine, until the religion " +
+      "I led was not the religion I had started with. I did not notice. " +
+      "That is the horror. Not that it happened — that I did not notice.",
+    surfaces: ["transmission", "cinematic"],
+    requiresRevealStage: "post_arena",
+    requiresTrustBand: "Witnessed",
+    cooldownKey: "hierophant.witnessed.shadow_tongue_horror",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "hierophant.post_arena.witnessed.then_sit",
+    // Canonical §1.6 + §1.8 only-imperative canon: "Then sit." The
+    // canonical scarcity-of-imperatives canon holds — this is the
+    // single canonical Hierophant imperative.
+    text:
+      "Then sit. The chair to your right has held heavier silences than " +
+      "this one. And when I have finished today's name, I will tell you " +
+      "what the Shadow Tongue does to a faith.",
+    surfaces: ["cinematic"],
+    requiresRevealStage: "post_arena",
+    requiresTrustBand: "Witnessed",
+    cooldownKey: "hierophant.witnessed.then_sit",
+    maxPlays: 1,
+  },
+
+  // ─── Present band (×3 new) ──────────────────────────────────────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "hierophant.post_arena.present.i_will_remember",
+    // Canonical §1.7 Tell #3: "I will remember" — covenant phrase.
+    // Reserved for moments when the trust meter canonically advances.
+    text:
+      "You offered presence without demand. Presence without demand is " +
+      "the rarest thing anyone offers me. I will remember that. The " +
+      "canonical covenant is that the remembering is not a courtesy; " +
+      "the remembering is part of the work.",
+    surfaces: ["transmission", "cinematic"],
+    requiresRevealStage: "post_arena",
+    requiresTrustBand: "Present",
+    cooldownKey: "hierophant.present.i_will_remember",
+    maxPlays: 1,
+    setsPublicFlags: ["hierophant_covenant_i_will_remember_offered"],
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "hierophant.post_arena.present.cooperative_council",
+    text:
+      "The Council waits outside. They have agreed to honor my judgment " +
+      "about every visitor to the chamber. They will inherit my judgment " +
+      "of you posthumously and canonically treat you accordingly. That " +
+      "is more weight than I have placed on a single visitor in three " +
+      "centuries. Sit. The names continue.",
+    surfaces: ["transmission"],
+    requiresRevealStage: "post_arena",
+    requiresTrustBand: "Present",
+    cooldownKey: "hierophant.present.council",
+    maxPlays: 1,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "hierophant.post_arena.present.three_thousand_year_pause",
+    text:
+      "I am not trying to finish. The ceremony has no end while I live. " +
+      "I am trying to understand whether the act of writing a name is " +
+      "the same as remembering a person. I have been writing for three " +
+      "thousand years. I have not yet answered the question. But I " +
+      "believe the writing is closer to remembering than not writing.",
+    surfaces: ["transmission"],
+    requiresRevealStage: "post_arena",
+    requiresTrustBand: "Present",
+    cooldownKey: "hierophant.present.three_thousand_year_pause",
+    maxPlays: 1,
+  },
+
+  // ─── Inheriting band (×3 new — apex canon) ──────────────────────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "hierophant.post_arena.inheriting.architecture_of_grief",
+    // Canonical §3.3 apex line: "You are walking the architecture I
+    // made of grief." Promotes Present → Inheriting. Reserved
+    // canonical-once-per-playthrough.
+    text:
+      "You are walking the architecture I made of grief. I had hoped " +
+      "someone would, eventually. The Council canonically considers " +
+      "you a parallel inheritor of the work — not a successor, the " +
+      "Council has its named junior priest for that, but a parallel. " +
+      "The work canonically does not require a single inheritor. It " +
+      "canonically benefits from more than one.",
+    surfaces: ["transmission", "cinematic"],
+    requiresRevealStage: "post_arena",
+    requiresTrustBand: "Inheriting",
+    cooldownKey: "hierophant.inheriting.architecture_of_grief",
+    maxPlays: 1,
+    setsPublicFlags: ["hierophant_named_player_parallel_inheritor"],
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "hierophant.post_arena.inheriting.shadow_tongue_meme_adjacency",
+    text:
+      "The Meme and the Shadow Tongue are adjacent technologies of " +
+      "corruption. The Shadow Tongue edits the substrate; the Meme " +
+      "rewrites the attribution. They are not the same; they are " +
+      "canonically the same family. I am the only being in this saga " +
+      "canonically positioned to name the adjacency. I name it now, " +
+      "for you, because you have earned the depth.",
+    surfaces: ["transmission"],
+    requiresRevealStage: "post_arena",
+    requiresTrustBand: "Inheriting",
+    cooldownKey: "hierophant.inheriting.shadow_tongue_meme_adjacency",
+    maxPlays: 1,
+    setsPublicFlags: ["hierophant_disclosed_meme_shadow_tongue_adjacency"],
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "hierophant.post_arena.inheriting.three_times_in_two_hundred",
+    // Canonical §3.6 hypocrisy admission canon: reserved for the
+    // Inheriting-band-only moment where the Hierophant canonically
+    // admits the public-record claim ("I did not notice") was
+    // canonically slightly easier-on-himself than the truth.
+    text:
+      "I will tell you something I have not told the Council. I noticed. " +
+      "Three times in two hundred years, I noticed. I did not act. That " +
+      "is the horror. The 'not noticing' is what I tell the room. The " +
+      "acting-on-noticing is what I owe. I have been writing names ever " +
+      "since to canonically pay down the debt. I do not know whether " +
+      "the writing is the right currency.",
+    surfaces: ["transmission", "cinematic"],
+    requiresRevealStage: "post_arena",
+    requiresTrustBand: "Inheriting",
+    cooldownKey: "hierophant.inheriting.three_times_in_two_hundred",
+    maxPlays: 1,
+    setsPublicFlags: ["hierophant_admitted_canonical_hypocrisy"],
+  },
+
+  // ═════════════════════════════════════════════════════════════════════
   // SACRIFICE-AXIS-INVERSION (Hierophant high-trust = companion canon)
   // ═════════════════════════════════════════════════════════════════════
 
@@ -453,5 +733,16 @@ export const WRAITH_CALDER_BANK: ReadonlyArray<BankEntry> = [
     lineId: "wraith.trade_empire.catchall",
     text: "Quiet work. The Council prefers it.",
     surfaces: ["trade_empire"],
+  },
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "wraith.expression.catchall",
+    // Catch-all for expression surface (introduced in Phase 6d.3
+    // part 3 by post-arena bracketed pen-pause / first-look-pause
+    // stage-direction lines). Silent-fail-safe canonical pen-pause
+    // ambient register.
+    text: "[The pen continues. A name is written; a small silence; another name. The chamber is canonical.]",
+    surfaces: ["expression"],
   },
 ];
