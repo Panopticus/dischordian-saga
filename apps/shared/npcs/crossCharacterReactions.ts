@@ -1283,6 +1283,62 @@ export const CROSS_CHARACTER_REACTIONS: ReadonlyArray<CrossCharacterReaction> = 
       "NPC-intro → first-trust-band-crossing. Canonical Channel-5 " +
       "named-personality register lands across all 4 lines.",
   },
+
+  // ─── Phase 6e.2b multi-turn chain completion flags
+
+  {
+    flag: "seer_completed_canonical_pre_recorded_prophecy_chain",
+    setBy: ["the_seer"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Seer chain.pre_recorded_prophecy.recording_acknowledgment " +
+      "(Phase 6e.2b). Canonical 4-line pre-recorded-prophecy chain " +
+      "completed: foretelling → revision-prompt → revision → " +
+      "recording-acknowledgment. Demonstrates §2.3 cross-time " +
+      "pre-recording mechanic.",
+  },
+  {
+    flag: "degen_completed_canonical_data_source_progression_chain",
+    setBy: ["the_degen"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Degen chain.data_source.ne_yon_kin_disclosure (Phase 6e.2b). " +
+      "Canonical 4-line casino-data-source progression chain " +
+      "completed: first-recognition (Cold-table) → recognized-band-" +
+      "mission → marked-band-call → ne-yon-kin-disclosure. Canonical " +
+      "trust-progression across 4 bands.",
+  },
+  {
+    flag: "gm_completed_canonical_chess_progression_chain",
+    setBy: ["the_game_master"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Game Master chain.chess_progression.checkmate (Phase " +
+      "6e.2b). Canonical 4-line chess-progression chain completed: " +
+      "opening → mid-game-pause → late-game-recognition → checkmate. " +
+      "Canonical dead_AI register chess-only-contact canon throughout.",
+  },
+  {
+    flag: "meme_completed_canonical_broadcast_canon_chain",
+    setBy: ["the_meme"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Meme chain.broadcast_canon.sign_off_self_implication " +
+      "(Phase 6e.2b). Canonical 4-line Broadcast-canon chain " +
+      "completed: late-night-intro → viewer-implication → ad-break-" +
+      "truth-leak (canonical 'I'm less than I was' Tell #4) → sign-" +
+      "off-self-implication.",
+  },
+  {
+    flag: "eidolon_completed_canonical_bond_deepening_cascade_chain",
+    setBy: ["your_eidolon"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Eidolon chain.bond_deepening.silence_settle (Phase 6e.2b). " +
+      "Canonical 4-line bond-deepening cascade chain completed: " +
+      "glyph-pulse → posture-shift → sound-resonance → silence-settle. " +
+      "Canonical 4-channel cascade for canonical-bond-deepening event.",
+  },
 ];
 
 // --- Helpers --------------------------------------------------------------

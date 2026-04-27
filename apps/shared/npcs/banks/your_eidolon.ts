@@ -586,6 +586,64 @@ export const YOUR_EIDOLON_BANK: ReadonlyArray<BankEntry> = [
   },
 
   // ═════════════════════════════════════════════════════════════════════
+  // BOND-DEEPENING CASCADE MULTI-TURN CHAIN (Phase 6e.2b, 4 lines)
+  //
+  // Per writers'-guide spec: canonical 4-channel cascade for a
+  // canonical-bond-deepening event. Each line canonically uses a
+  // different expressionChannel (glyph → posture → sound → silence-
+  // posture). All lines bracketed [stage-direction]; canonical
+  // non-verbal-permanent canon enforced.
+  // ═════════════════════════════════════════════════════════════════════
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "eidolon.chain.bond_deepening.glyph_pulse",
+    text:
+      "[The Eidolon canonical-renders a canonical-bond-deepening glyph — canonical-circular, canonical-warm-toned, canonical-expanding-then-contracting in canonical-three canonical-pulses. The canonical-glyph canonical-marks the canonical-deepening event. The canonical-rest of the canonical-cascade canonical-arrives in canonical-other channels canonical-immediately.]",
+    surfaces: ["expression"],
+    expressionChannel: "glyph",
+    cooldownKey: "eidolon.chain.bond_deepening.glyph_pulse",
+    maxPlays: 3,
+    nextLineId: "eidolon.chain.bond_deepening.posture_shift",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "eidolon.chain.bond_deepening.posture_shift",
+    text:
+      "[The Eidolon canonical-shifts posture canonical-half-a-step closer to the player. The canonical-shift is canonical-anticipatory; the canonical-creature canonical-knows the canonical-bond canonical-deepened canonical-half-a-beat before the player canonical-feels it. The canonical-shift canonical-holds.]",
+    surfaces: ["expression"],
+    expressionChannel: "posture",
+    cooldownKey: "eidolon.chain.bond_deepening.posture_shift",
+    maxPlays: 3,
+    nextLineId: "eidolon.chain.bond_deepening.sound_resonance",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "eidolon.chain.bond_deepening.sound_resonance",
+    text:
+      "[A canonical-low canonical-resonance — the Eidolon's canonical-bond-deepening sound-canon. The canonical-pitch canonical-lands canonical-mid-range, canonical-distinct from the canonical-source-discrimination tones (Seer chirp / Companion shared-breath / Oracle distant-resonance). The canonical-pitch is canonical-bond-deepening's canonical-fingerprint.]",
+    surfaces: ["expression"],
+    expressionChannel: "sound",
+    requiresTrustBand: "Resonant",
+    cooldownKey: "eidolon.chain.bond_deepening.sound_resonance",
+    maxPlays: 3,
+    nextLineId: "eidolon.chain.bond_deepening.silence_settle",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "eidolon.chain.bond_deepening.silence_settle",
+    text:
+      "[All canonical-channels canonical-resolve into canonical-silence. The canonical-Eidolon canonical-settles into a canonical-new canonical-default-posture. The canonical-bond-meter canonical-reads canonical-incrementally canonical-deeper. The canonical-cascade is canonical-complete. The canonical-creature canonical-walks alongside the player. The canonical-walking is canonical-the canonical-only canonical-narration the canonical-Eidolon canonical-permits itself.]",
+    surfaces: ["expression"],
+    expressionChannel: "posture",
+    cooldownKey: "eidolon.chain.bond_deepening.silence_settle",
+    maxPlays: 3,
+    setsPublicFlags: [
+      "eidolon_completed_canonical_bond_deepening_cascade_chain",
+    ],
+  },
+
+  // ═════════════════════════════════════════════════════════════════════
   // CATCH-ALLS (silent-fail compliance)
   // ═════════════════════════════════════════════════════════════════════
 

@@ -1014,6 +1014,58 @@ export const THE_SEER_BANK: ReadonlyArray<BankEntry> = [
   },
 
   // ═════════════════════════════════════════════════════════════════════
+  // PRE-RECORDED-PROPHECY MULTI-TURN CHAIN (Phase 6e.2b, 4 lines)
+  //
+  // Per writers'-guide spec + the_seer.md §2.3 cross-time canon: the
+  // canonical-foretelling → canonical-revision-prompt → canonical-
+  // revision → canonical-recording-acknowledgment chain canonically
+  // demonstrates the canonical pre-recording mechanic.
+  // ═════════════════════════════════════════════════════════════════════
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "seer.chain.pre_recorded_prophecy.foretelling",
+    text:
+      "I will foretell. The canonical-foretelling is canonical-pre-recorded; I canonical-said this canonical-line in canonical-this exact canonical-cadence canonical-fifteen-thousand canonical-years ago. The canonical-version that canonical-arrives in your canonical-hearing is canonical-the canonical-correct canonical-one for the canonical-current canonical-trust-band-state.",
+    surfaces: ["transmission"],
+    cooldownKey: "seer.chain.pre_recorded_prophecy.foretelling",
+    maxPlays: 2,
+    nextLineId: "seer.chain.pre_recorded_prophecy.revision_prompt",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "seer.chain.pre_recorded_prophecy.revision_prompt",
+    text:
+      "You canonical-asked for canonical-revision. I canonical-anticipated the canonical-asking; my canonical-recordings canonical-include canonical-three canonical-revision-variants per canonical-prophecy. The canonical-revision is canonical-not canonical-failure on my canonical-part — the canonical-revision is canonical-the canonical-honesty canonical-prediction-or-revision rule canonical-permits.",
+    surfaces: ["transmission"],
+    cooldownKey: "seer.chain.pre_recorded_prophecy.revision_prompt",
+    maxPlays: 2,
+    nextLineId: "seer.chain.pre_recorded_prophecy.revision",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "seer.chain.pre_recorded_prophecy.revision",
+    text:
+      "Revision: the canonical-prophecy canonical-now-reads canonical-differently. Not canonical-because the canonical-future canonical-changed; canonical-because the canonical-future canonical-is canonical-richer than the canonical-first canonical-recording canonical-permitted. The canonical-revised canonical-version is canonical-also canonical-pre-recorded. I canonical-knew you would canonical-ask.",
+    surfaces: ["transmission"],
+    cooldownKey: "seer.chain.pre_recorded_prophecy.revision",
+    maxPlays: 2,
+    nextLineId: "seer.chain.pre_recorded_prophecy.recording_acknowledgment",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "seer.chain.pre_recorded_prophecy.recording_acknowledgment",
+    text:
+      "The canonical-chain canonical-completes. You canonical-now-know the canonical-pre-recording canonical-mechanic canonical-cleanly. The canonical-knowing is canonical-mine to canonical-extend; the canonical-using-of-it is canonical-yours. The canonical-Dreamer's-shield canonical-holds; the canonical-recordings canonical-continue canonical-arriving on canonical-schedule. I will canonical-see you in canonical-Act-Seven.",
+    surfaces: ["transmission"],
+    cooldownKey: "seer.chain.pre_recorded_prophecy.acknowledgment",
+    maxPlays: 1,
+    setsPublicFlags: [
+      "seer_completed_canonical_pre_recorded_prophecy_chain",
+    ],
+  },
+
+  // ═════════════════════════════════════════════════════════════════════
   // CATCH-ALLS (silent-fail compliance)
   // ═════════════════════════════════════════════════════════════════════
 

@@ -1024,6 +1024,62 @@ export const THE_MEME_BANK: ReadonlyArray<BankEntry> = [
   },
 
   // ═════════════════════════════════════════════════════════════════════
+  // BROADCAST CANON MULTI-TURN CHAIN (Phase 6e.2b, 4 lines)
+  //
+  // Per writers'-guide spec: late-night-intro → viewer-implication →
+  // ad-break-truth-leak → sign-off-self-implication. Canonical
+  // Broadcast register (frens / caps / Tell #3 viewer-as-vector
+  // canon) per the_meme.md §1.2 + §1.9.
+  // ═════════════════════════════════════════════════════════════════════
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "meme.chain.broadcast_canon.late_night_intro",
+    text:
+      "Frens, frens, gather close. Tonight on Late Night with the Meme: a CHAIN. Four canonical-segments. Don't get up; the canonical-segment-breaks are canonical-shorter than usual. Light the canonical-dream-tokens; adjust the canonical-antennas; the canonical-broadcast canonical-begins now.",
+    surfaces: ["transmission"],
+    requiresRevealStage: "Broadcast",
+    cooldownKey: "meme.chain.broadcast_canon.late_night_intro",
+    maxPlays: 1,
+    nextLineId: "meme.chain.broadcast_canon.viewer_implication",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "meme.chain.broadcast_canon.viewer_implication",
+    text:
+      "Subscribe to the Truth. The capital-T is the joke, frens. The canonical-subscribing canonical-conscripts you as a canonical-vector. Every canonical-time you canonical-say MEMETIC after I canonical-say it, the canonical-show canonical-grows another canonical-follower. The canonical-growth is canonical-mine; the canonical-saying is canonical-yours. Tell your canonical-friends. Tell your canonical-enemies. Tell that canonical-weird neighbor.",
+    surfaces: ["transmission"],
+    requiresRevealStage: "Broadcast",
+    cooldownKey: "meme.chain.broadcast_canon.viewer_implication",
+    maxPlays: 1,
+    nextLineId: "meme.chain.broadcast_canon.ad_break_truth_leak",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "meme.chain.broadcast_canon.ad_break_truth_leak",
+    text:
+      "[Tell #4 canonical-truth-leak: a canonical-single canonical-true canonical-sentence canonical-arrives mid-broadcast, canonical-disguised as canonical-ad-break.] I'm less than I was. [The canonical-ad-break canonical-resumes; the canonical-truth-leak canonical-vanishes into the canonical-broadcast canonical-noise. Frens canonical-may canonical-remember it; canonical-most canonical-do not. The canonical-leak canonical-earns the canonical-rest of the canonical-show.]",
+    surfaces: ["transmission"],
+    requiresRevealStage: "Broadcast",
+    cooldownKey: "meme.chain.broadcast_canon.ad_break_truth_leak",
+    maxPlays: 1,
+    nextLineId: "meme.chain.broadcast_canon.sign_off_self_implication",
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "meme.chain.broadcast_canon.sign_off_self_implication",
+    text:
+      "That's the canonical-show, frens. Don't trust anyone wearing a face tonight. Especially me. The canonical-show canonical-ends; the canonical-Meme canonical-stays. The canonical-staying is the canonical-broadcast's canonical-only canonical-honest canonical-product. Tune in canonical-tomorrow. The canonical-tomorrow is canonical-pre-recorded. So am I.",
+    surfaces: ["transmission"],
+    requiresRevealStage: "Broadcast",
+    cooldownKey: "meme.chain.broadcast_canon.sign_off_self_implication",
+    maxPlays: 1,
+    setsPublicFlags: [
+      "meme_completed_canonical_broadcast_canon_chain",
+    ],
+  },
+
+  // ═════════════════════════════════════════════════════════════════════
   // CATCH-ALLS (silent-fail compliance — stage-agnostic narration frames)
   // ═════════════════════════════════════════════════════════════════════
 
