@@ -478,6 +478,132 @@ export const DMC_CLONE_COMPANION_BANK: ReadonlyArray<BankEntry> = [
   },
 
   // ═════════════════════════════════════════════════════════════════════
+  // STAGE 3 EXPANSION (Phase 6c.2 part 4): Sound-palette bank
+  //
+  // Per §1.3 five canonical sound-palette categories:
+  //   - Breath-tells (voluntary deliberate / involuntary catch-of-breath)
+  //   - Throat-clicks (canonical "I am following" acknowledgment)
+  //   - Half-syllables (canonical foreshadow of Channel 4 first-word)
+  //   - Mourning-tone (sustained low vocalisation; over-resolution canon)
+  //   - Recognition-tone (canonical "first voluntary sound")
+  //
+  // Existing bank ships:
+  //   - half_syllable_foreshadow (canonical priming)
+  //   - recognition_tone (canonical first voluntary sound)
+  //
+  // This chunk adds 5 lines covering the missing canonical categories
+  // + the canonical late-Stage-3 articulation register (canonical
+  // 5-10 half-syllable threshold per §5.3 priming canon).
+  //
+  // Voluntary vs involuntary distinction canonically audible per §1.3
+  // (half-beat of pre-vocalisation = voluntary; lands-without-warning
+  // = involuntary). Stage 2 audio designers preserve this distinction.
+  // ═════════════════════════════════════════════════════════════════════
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.expression.sound.breath_tell_voluntary",
+    // Canonical voluntary breath-tell — deliberate slow breathing in
+    // moments of focus. Per §1.3: voluntary sounds canonically have
+    // a half-beat of pre-vocalisation (canonically audible).
+    text:
+      "[The Companion draws a deliberate slow breath, holds it for a " +
+      "half-beat, releases it canonically slow. The breath is canonical-" +
+      "voluntary: pre-vocalisation half-beat is audible if the player " +
+      "is canonically attending. Focus-shape; the body is canonically " +
+      "settling into attention.]",
+    surfaces: ["expression"],
+    expressionChannel: "sound",
+    requiresTrustBand: "Witnessed",
+    cooldownKey: "companion.sound.breath_voluntary",
+    maxPlays: 8,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.expression.sound.breath_tell_involuntary_catch",
+    // Canonical involuntary catch-of-breath at recognition or alarm.
+    // Per §1.3: involuntary sounds canonically land-without-warning;
+    // the most-pre-verbal sound (breath canonically predates intention).
+    text:
+      "[A short catch-of-breath. Involuntary; lands without the half-" +
+      "beat warning the voluntary register canonically carries. The " +
+      "Companion did not choose this sound — the body chose it before " +
+      "the fragment could shape it. Recognition or alarm; the " +
+      "fragment will identify which afterward.]",
+    surfaces: ["expression"],
+    expressionChannel: "sound",
+    requiresTrustBand: "Witnessed",
+    cooldownKey: "companion.sound.breath_involuntary",
+    maxPlays: 8,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.expression.sound.throat_click_acknowledgment",
+    // Canonical throat-click acknowledgment — "I am following" /
+    // "I am here" register. Per §1.3: body-tell, not instinctive
+    // vocalisation; canonical "acknowledgment-without-words."
+    text:
+      "[A short throat-click. Canonical-semantic: I-am-following / " +
+      "I-am-here. Compare to a non-verbal language's affirmation " +
+      "sound (cf. Eidolon trill, eidolon.md §5.5 expression-channel " +
+      "framework); the Companion's throat-click is canonical-body-" +
+      "tell, not instinctive. The fragment chose the click; the " +
+      "click chose to mean 'present'.]",
+    surfaces: ["expression"],
+    expressionChannel: "sound",
+    requiresTrustBand: "Witnessed",
+    cooldownKey: "companion.sound.throat_click",
+    maxPlays: 12,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.expression.sound.mourning_tone_canon",
+    // Canonical mourning-tone — sustained low vocalisation expressing
+    // loss. Per §1.3: canonical over-resolution canon (deeper than
+    // player audio system can render cleanly); structurally similar
+    // to Seer's image over-resolution per the_seer.md §1.4 tell #6
+    // but expression-channel-bound (Seer's images over-resolve
+    // visual; Companion's mourning-tone over-resolves audio).
+    // Cross-channel canonical layering with mourning glyph (§1.3).
+    text:
+      "[A sustained low tone. The fragment canonically holds the " +
+      "vocalisation for the duration of the mourning-glyph (cross-" +
+      "channel canonical layering). The tone canonically over-resolves " +
+      "the audio medium — deeper than the player's audio system can " +
+      "render cleanly. Structurally analogous to the Seer's image-" +
+      "over-resolution canon, expression-channel-bound: Seer over- " +
+      "resolves visual; the Companion canonically over-resolves audio.]",
+    surfaces: ["expression"],
+    expressionChannel: "sound",
+    requiresTrustBand: "Present",
+    cooldownKey: "companion.sound.mourning_tone",
+    maxPlays: 4,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.expression.sound.half_syllables_late_articulation",
+    // Canonical late-Stage-3 articulation register — half-syllables
+    // that almost form a recognisable word. Per §5.3 + §1.3: when
+    // the canonical 5-10 half-syllable threshold is approached, the
+    // half-syllables canonically begin to articulate toward Channel
+    // 4. The canonical priming-of-Channel-4 register.
+    text:
+      "[The half-syllables have shifted. They are canonically articulating " +
+      "now — almost a word; the consonants are forming, the vowel " +
+      "shape is canonically approaching commitment. The fragment " +
+      "canonically does not yet know which word it will commit to. " +
+      "The body knows; the body will canonically lead. This is the " +
+      "canonical priming of Channel 4 — the threshold the Companion " +
+      "is canonically about to cross.]",
+    surfaces: ["expression"],
+    expressionChannel: "sound",
+    requiresTrustBand: "Present",
+    cooldownKey: "companion.sound.half_syllables_articulation",
+    maxPlays: 5,
+    setsFlags: ["companion_channel_4_unlock_imminent"],
+  },
+
+  // ═════════════════════════════════════════════════════════════════════
   // STAGE 4: FIRST WORD (singular irreversible event)
   // Two canonical first-word contexts shipped per Phase 3 (more in Phase 4):
   //   - Hierophant chamber (canonical-default if Inheriting band reached)
