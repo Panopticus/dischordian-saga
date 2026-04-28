@@ -38,13 +38,20 @@ export interface Puzzle {
 /* ─── PUZZLE DEFINITIONS ─── */
 export const ROOM_PUZZLES: Record<string, Puzzle> = {
   "bridge": {
+    // The bridge access door has been physically tampered with — the
+    // auth handshake was severed from the inside, and Elara cannot
+    // talk it open. The reset code is recoverable from the dead
+    // Potential's data-slate fragment, scanned at the Med Bay's
+    // autopsy console. This replaces the prior `power_relay` puzzle
+    // (1047 binary) which played as an arbitrary minigame disconnected
+    // from the murder mystery.
     id: "puzzle-bridge",
     roomId: "bridge",
-    type: "power_relay",
-    title: "BRIDGE POWER RELAY",
-    description: "The bridge power grid is offline. Activate the correct relay sequence to restore main power. Toggle the switches to match the ship's emergency frequency pattern.",
-    elaraHint: "The emergency frequency follows a binary pattern based on the Ark's designation number — 1047. In binary, that's 10000010111. Toggle the relays to match.",
-    relayPattern: [true, false, false, false, false, false, true, false, true, true, true], // 1047 in binary = 10000010111
+    type: "keycard",
+    title: "BRIDGE ACCESS — DEAD-LOCKED",
+    description: "The door's authentication handshake has been physically severed. Someone cut the line from the inside before they died. The reset code lives on the data-slate fragment recovered from the dead pod — the Med Bay's autopsy console can read it.",
+    elaraHint: "Take the data-slate fragment to the bio-bed in the Medical Bay. The autopsy console can pull the bridge reset code from the dead Potential's manifest entry.",
+    requiredItem: "bridge-reset-code",
   },
   "archives": {
     id: "puzzle-archives",
