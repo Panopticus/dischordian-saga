@@ -8,6 +8,8 @@ import { logger } from "../logger";
 import { grantCardReward } from "../services/cardRewardService";
 import { awardFragments } from "../services/imprintService";
 import { CHAPTER_TO_IMPRINT_NPCS } from "@shared/tcg-core";
+import { tryNpcReaction } from "./npc";
+import type { NpcKey } from "@shared/npcs/types";
 
 /* ═══════════════════════════════════════════════════════
    STORY MODE ROUTER — Campaign persistence (WS6)
@@ -305,6 +307,81 @@ export const storyModeRouter = router({
         }
       }
 
+      // Phase 3 wave-5 — canonical match-surface + transmission-surface
+      // NPC reactions at chapter completion. Match-surface NPCs (Vex
+      // Ch6, Hierophant Ch3b pre-arena, Game Master, Degen Ch9b, Seer
+      // Mechronis) react if their canonical chapter context matches;
+      // selector silent-fails per chapter via canonical-bank gating.
+      // Seer transmission fires at canonical narrative-pivot moments
+      // (chapter completions, act transitions) per moralityTrustActVariants.
+      //
+      // targetId encodes canonical (chapterId, branch, stars) so the
+      // canonical-bank-line picker can canonically route.
+      const MATCH_SURFACE_NPCS: ReadonlyArray<NpcKey> = [
+        "vex_solene",
+        "wraith_calder",
+        "the_game_master",
+        "the_degen",
+        "the_seer",
+      ];
+      const branchTag = input.branchChoice
+        ? `${input.branchChoice.key}_${input.branchChoice.value}`
+        : "default";
+      const matchTargetId = `chapter_${input.chapterId}_${branchTag}_stars${newStars}`;
+      const npcMatchReactions: Array<{
+        npcKey: NpcKey;
+        lineId: string;
+        text: string;
+        voId?: string;
+      }> = [];
+      for (const npcKey of MATCH_SURFACE_NPCS) {
+        try {
+          const reaction = await tryNpcReaction({
+            userId: ctx.user.id,
+            npcKey,
+            surface: "match",
+            targetId: matchTargetId,
+          });
+          if (reaction) {
+            npcMatchReactions.push({
+              npcKey,
+              lineId: reaction.line.lineId,
+              text: reaction.line.text,
+              voId: reaction.line.voId,
+            });
+          }
+        } catch (reactionErr) {
+          logger.warn(`completeChapter npc match reaction failed for ${npcKey}`, reactionErr);
+        }
+      }
+
+      // Seer transmission — canonically lands at chapter-completion
+      // narrative pivots. Per the_seer.md §2.3 cross-time pre-recording
+      // canon, every Seer transmission is canonically a recording she
+      // foresaw before sealing herself behind the Dreamer's shield.
+      let seerTransmission: {
+        lineId: string;
+        text: string;
+        voId?: string;
+      } | null = null;
+      try {
+        const reaction = await tryNpcReaction({
+          userId: ctx.user.id,
+          npcKey: "the_seer" as NpcKey,
+          surface: "transmission",
+          targetId: matchTargetId,
+        });
+        if (reaction) {
+          seerTransmission = {
+            lineId: reaction.line.lineId,
+            text: reaction.line.text,
+            voId: reaction.line.voId,
+          };
+        }
+      } catch (reactionErr) {
+        logger.warn("completeChapter seer transmission failed", reactionErr);
+      }
+
       return {
         ok: true,
         stars: newStars,
@@ -312,6 +389,8 @@ export const storyModeRouter = router({
         nextChaptersUnlocked: isFirstCompletion ? nextChapters : [],
         cardReward,
         imprintGrants,
+        npcMatchReactions,
+        seerTransmission,
       };
     }),
 
