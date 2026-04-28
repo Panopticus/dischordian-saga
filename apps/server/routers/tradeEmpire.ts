@@ -657,6 +657,31 @@ export const tradeEmpireRouter = router({
         console.warn("signContract npc reaction failed", reactionErr);
       }
 
+      // Phase 3 wave-2 — Vex's canonical Maestro-narrator commentary
+      // on canonical contract-signing. Per vex_solene.md §5.10,
+      // Maestro is the default Trade Empire narrator from Act 3 §7
+      // onward; reveal-stage gating in the canonical bank ensures
+      // pre-reveal players canonically see Maestro register, post-
+      // reveal players canonically see Engineer-Zero direct register.
+      let vexNarration: { lineId: string; text: string; voId?: string } | null = null;
+      try {
+        const reaction = await tryNpcReaction({
+          userId: ctx.user.id,
+          npcKey: "vex_solene" as NpcKey,
+          surface: "trade_empire",
+          targetId: input.contractKey,
+        });
+        if (reaction) {
+          vexNarration = {
+            lineId: reaction.line.lineId,
+            text: reaction.line.text,
+            voId: reaction.line.voId,
+          };
+        }
+      } catch (reactionErr) {
+        console.warn("signContract vex narration failed", reactionErr);
+      }
+
       // Drizzle MySQL insert returns ResultSetHeader-shape; insertId on result[0]
       const insertId = (insertResult as unknown as Array<{ insertId?: number }>)[0]?.insertId;
       return {
@@ -664,6 +689,7 @@ export const tradeEmpireRouter = router({
         contractId: insertId ?? null,
         alreadySigned: false,
         npcReaction,
+        vexNarration,
       };
     }),
 
@@ -788,14 +814,16 @@ export const tradeEmpireRouter = router({
         console.warn("sector_first_entered ripple failed", rippleErr);
       }
 
-      // Phase 3 pilot — canonical NPC first-visit greetings.
-      // Pilot wave (Locke + Nilmorg + Eidolon) reacts on the
-      // "trade_empire" surface; selector silently returns null
-      // if the NPC's bank has no canonical line for this sector.
+      // Phase 3 pilot + wave-2 — canonical NPC first-visit greetings.
+      // Pilot wave (Locke + Nilmorg + Eidolon) + wave-2 (Vex Maestro
+      // narrator per vex_solene.md §5.10) react on the "trade_empire"
+      // surface; selector silently returns null if the NPC's bank
+      // has no canonical line for this sector.
       const PILOT_NPCS: ReadonlyArray<NpcKey> = [
         "adjudicator_locke",
         "nilmorg",
         "your_eidolon",
+        "vex_solene",
       ];
       const npcGreetings: Array<{
         npcKey: NpcKey;

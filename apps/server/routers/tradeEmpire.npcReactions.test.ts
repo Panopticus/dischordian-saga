@@ -48,11 +48,27 @@ describe("tradeEmpire.signContract — broker NPC reaction", () => {
   });
 });
 
-describe("tradeEmpire.sectorFirstEntered — pilot NPC greetings", () => {
-  it("iterates the canonical pilot NPCs (Locke + Nilmorg + Eidolon)", () => {
+describe("tradeEmpire.signContract — Vex Maestro narrator (wave-2)", () => {
+  it("calls tryNpcReaction with vex_solene on trade_empire surface", () => {
+    expect(src).toContain('npcKey: "vex_solene" as NpcKey');
+    expect(src).toMatch(/vex_solene[\s\S]{0,200}surface: "trade_empire"/);
+  });
+
+  it("returns canonical vexNarration in the signing response", () => {
+    expect(src).toMatch(/signContract[\s\S]*?vexNarration,/);
+  });
+
+  it("silent-fails on Vex narration error", () => {
+    expect(src).toContain('console.warn("signContract vex narration failed"');
+  });
+});
+
+describe("tradeEmpire.sectorFirstEntered — pilot + wave-2 NPC greetings", () => {
+  it("iterates pilot NPCs (Locke + Nilmorg + Eidolon) + wave-2 (Vex)", () => {
     expect(src).toContain('"adjudicator_locke"');
     expect(src).toContain('"nilmorg"');
     expect(src).toContain('"your_eidolon"');
+    expect(src).toContain('"vex_solene"');
     expect(src).toContain("PILOT_NPCS");
   });
 
