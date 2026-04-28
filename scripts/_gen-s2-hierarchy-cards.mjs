@@ -7,7 +7,7 @@
      - analysts.ts        (24 uncommon · 3-cost · 3/3 base)
      - interns.ts         (16 common · 1-2 cost · 2/2 or 1/3 base)
      - act_exclusives.ts  (28 epic/legendary · unlockCondition act_completion)
-     - special_editions.ts (10 legendary · unlockCondition secret/battle_pass/etc.)
+     - special_editions.ts (10 epic · unlockCondition secret/battle_pass/etc.)
 
    c_suite.ts and vps.ts are hand-authored separately (richest lore).
 
@@ -179,94 +179,65 @@ function actName(slug) {
 
 /* ─── Slug-driven keyword + ability picker ─── */
 
+/* Highest-priority match wins. Ordered so narrower archetypes
+ * (auditor, decimator) take precedence over broader synonyms
+ * (synergy, predator). */
+const KEYWORD_RULES = [
+  [/wraith|phantom|specter|ghost|ghoul/, "ephemeral"],
+  [/imp|demon|goblin/,                   "fury"],
+  [/auditor|reviewer|compliance|inquisitor/, "dispel"],
+  [/decimator|flayer|unmaker/,           "blast"],
+  [/predator|vampire|synergy/,           "drain"],
+  [/oracle|metrics|banshee/,             "ranged"],
+  [/maw|vendor|stakeholder/,             "provoke"],
+  [/velocity|burndown/,                  "rush"],
+];
+
 function pickKeyword(slug) {
-  if (/wraith|phantom|specter|ghost|ghoul/.test(slug)) return "ephemeral";
-  if (/imp|demon|goblin/.test(slug)) return "fury";
-  if (/predator|vampire/.test(slug)) return "drain";
-  if (/auditor|reviewer|compliance|inquisitor/.test(slug)) return "dispel";
-  if (/decimator|flayer|unmaker/.test(slug)) return "blast";
-  if (/runner|drone|clerk|coordinator/.test(slug)) return null;
-  if (/oracle|metrics/.test(slug)) return "ranged";
-  if (/synergy/.test(slug)) return "drain";
-  if (/banshee/.test(slug)) return "ranged";
-  if (/maw/.test(slug)) return "provoke";
-  if (/vendor|stakeholder/.test(slug)) return "provoke";
-  if (/velocity|burndown/.test(slug)) return "rush";
+  for (const [pattern, kw] of KEYWORD_RULES) if (pattern.test(slug)) return kw;
   return null;
 }
 
-/**
- * Per-rarity ability template. Returns either an ability object literal
- * (as TS source string) or null for vanilla statlines.
- */
-function pickAbility(slug, rarity) {
-  const id = slug.replace(/^s2_hierarchy_(?:dir|mgr|anl|intn)_/, "").slice(0, 28) + "_signature";
-  const prefix = "      // AUTO-DRAFT — slug-derived ability template";
-
-  if (/auditor|inquisitor|reviewer/.test(slug)) {
-    return `    {
-${prefix}
-      id: "${id}" as CardDefinition["abilities"][number]["id"],
-      trigger: { kind: "on_deploy" },
-      effect: { op: "silence", to: { kind: "trigger_source" } },
-    },`;
-  }
-  if (/decimator|flayer|unmaker/.test(slug)) {
-    return `    {
-${prefix}
-      id: "${id}" as CardDefinition["abilities"][number]["id"],
-      trigger: { kind: "on_deploy" },
-      effect: {
+/* Slug-pattern → ability-template-string. First matching rule wins.
+ * Rules order matters when patterns overlap (e.g. `predator|vampire`
+ * subsumes `vampire`-only). */
+const ABILITY_RULES = [
+  [/auditor|inquisitor|reviewer/, () => `      effect: { op: "silence", to: { kind: "trigger_source" } },`,
+    `      trigger: { kind: "on_deploy" },`],
+  [/decimator|flayer|unmaker/, (rarity) => `      effect: {
         op: "deal_damage",
         amount: { kind: "const", value: ${rarity === "epic" ? 2 : 1} },
         to: { kind: "enemy_general" },
-      },
-    },`;
-  }
-  if (/oracle|metrics|forecaster|modeler/.test(slug)) {
-    return `    {
-${prefix}
-      id: "${id}" as CardDefinition["abilities"][number]["id"],
-      trigger: { kind: "on_deploy" },
-      effect: { op: "draw", amount: { kind: "const", value: 1 }, who: "self" },
-    },`;
-  }
-  if (/maw|backlog|gen_phantom|demand|estimation/.test(slug)) {
-    return `    {
-${prefix}
-      id: "${id}" as CardDefinition["abilities"][number]["id"],
-      trigger: { kind: "on_deploy" },
-      effect: { op: "discard", amount: { kind: "const", value: 1 }, from: "opponent", mode: "random" },
-    },`;
-  }
-  if (/predator|vampire|synergy/.test(slug)) {
-    return `    {
-${prefix}
-      id: "${id}" as CardDefinition["abilities"][number]["id"],
-      trigger: { kind: "on_damage_dealt", by: "self" },
-      effect: { op: "heal", amount: { kind: "const", value: 1 }, to: { kind: "self" } },
-    },`;
-  }
-  if (/q4|midyear|reorg|pivot/.test(slug)) {
-    return `    {
-${prefix}
-      id: "${id}" as CardDefinition["abilities"][number]["id"],
-      trigger: { kind: "on_turn_end", owner: "self" },
-      effect: {
+      },`,
+    `      trigger: { kind: "on_deploy" },`],
+  [/oracle|metrics|forecaster|modeler/, () => `      effect: { op: "draw", amount: { kind: "const", value: 1 }, who: "self" },`,
+    `      trigger: { kind: "on_deploy" },`],
+  [/maw|backlog|gen_phantom|demand|estimation/, () => `      effect: { op: "discard", amount: { kind: "const", value: 1 }, from: "opponent", mode: "random" },`,
+    `      trigger: { kind: "on_deploy" },`],
+  [/predator|vampire|synergy/, () => `      effect: { op: "heal", amount: { kind: "const", value: 1 }, to: { kind: "self" } },`,
+    `      trigger: { kind: "on_damage_dealt", by: "self" },`],
+  [/q4|midyear|reorg|pivot/, () => `      effect: {
         op: "buff",
         stats: { power: 1, health: 0 },
         duration: { kind: "permanent" },
         to: { kind: "self" },
-      },
-    },`;
-  }
-  if (/rif/.test(slug)) {
-    return `    {
-${prefix} (Reduction-in-Force flavor: trigger when an ally dies, draw a card.)
+      },`,
+    `      trigger: { kind: "on_turn_end", owner: "self" },`],
+  [/rif/, () => `      effect: { op: "draw", amount: { kind: "const", value: 1 }, who: "self" },`,
+    `      trigger: { kind: "on_any_unit_dies", filter: { faction: [F] } },`],
+];
+
+function pickAbility(slug, rarity) {
+  const id = slug.replace(/^s2_hierarchy_(?:dir|mgr|anl|intn)_/, "").slice(0, 28) + "_signature";
+  for (const [pattern, effectFn, trigger] of ABILITY_RULES) {
+    if (pattern.test(slug)) {
+      return `    {
+      // AUTO-DRAFT
       id: "${id}" as CardDefinition["abilities"][number]["id"],
-      trigger: { kind: "on_any_unit_dies", filter: { faction: ["hierarchy_of_damned"] } },
-      effect: { op: "draw", amount: { kind: "const", value: 1 }, who: "self" },
+${trigger}
+${effectFn(rarity)}
     },`;
+    }
   }
   return null; // vanilla
 }
@@ -325,16 +296,9 @@ function defaultFlavor(slug) {
 /* ─── File assembly ─── */
 
 const HEADER_PREAMBLE = `import type { CardDefinition } from "../../../index";
-import { hierarchyOfDamnedArtUrl } from "../../../../expansionArt/hierarchyOfDamned";
+import { art, HIERARCHY_FACTION as F } from "./_art";
 
 const RULES = "1.0.0";
-const F = "hierarchy_of_damned" as const;
-
-function art(id: string): string {
-  const url = hierarchyOfDamnedArtUrl(id);
-  if (!url) throw new Error(\`hierarchyOfDamnedArtUrl missing for \${id}\`);
-  return url;
-}
 `;
 
 function emitFile(filename, header, slugs, rarity, opts = {}) {
@@ -428,7 +392,7 @@ emitFile(
   }),
 );
 
-/* Special editions (10 legendary, unlockCondition varies) */
+/* Special editions (10 epic, unlockCondition varies) */
 function secretActNum(slug) {
   const m = /^secret_act(\d)_/.exec(slug);
   return m ? Number(m[1]) : 7;
@@ -436,7 +400,7 @@ function secretActNum(slug) {
 emitFile(
   "special_editions.ts",
   `/**
- * S2 — Hierarchy of the Damned · Special Editions (10 legendary).
+ * S2 — Hierarchy of the Damned · Special Editions (10 epic).
  * AUTO-GENERATED by scripts/_gen-s2-hierarchy-cards.mjs.
  *
  * Seven secrets (one per act) + three "author" prestige cards. Each

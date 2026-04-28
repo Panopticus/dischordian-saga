@@ -8,16 +8,9 @@
  * progression state.
  */
 import type { CardDefinition } from "../../../index";
-import { hierarchyOfDamnedArtUrl } from "../../../../expansionArt/hierarchyOfDamned";
+import { art, HIERARCHY_FACTION as F } from "./_art";
 
 const RULES = "1.0.0";
-const F = "hierarchy_of_damned" as const;
-
-function art(id: string): string {
-  const url = hierarchyOfDamnedArtUrl(id);
-  if (!url) throw new Error(`hierarchyOfDamnedArtUrl missing for ${id}`);
-  return url;
-}
 
 export const ax_act1_first_witness: CardDefinition = {
   id: "act1_first_witness" as CardDefinition["id"],
@@ -264,7 +257,7 @@ export const ax_act4_oracle_half_mask: CardDefinition = {
   keywords: ["ranged"],
   abilities: [
     {
-      // AUTO-DRAFT — slug-derived ability template
+      // AUTO-DRAFT
       id: "act4_oracle_half_mask_signature" as CardDefinition["abilities"][number]["id"],
       trigger: { kind: "on_deploy" },
       effect: { op: "draw", amount: { kind: "const", value: 1 }, who: "self" },
