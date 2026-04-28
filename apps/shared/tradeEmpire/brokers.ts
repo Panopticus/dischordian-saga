@@ -160,7 +160,9 @@ export const BROKER_REGISTRY: Readonly<Record<BrokerKey, BrokerDef>> = {
     },
     offersMissions: [],
     offersContracts: [
-      // Phase 3 authoring scope; contracts not yet templated.
+      "degen.gambling_retainer",
+      "degen.pattern_bet",
+      "degen.casino_debt",
     ],
     refusalShape: "professional_distance",
     firstMeetingFlag: "broker_degen_first_meeting",
@@ -183,7 +185,13 @@ export const BROKER_REGISTRY: Readonly<Record<BrokerKey, BrokerDef>> = {
     },
     offersMissions: ["antiquarian_invitation"],
     offersContracts: [
-      // Phase 3 authoring scope; contracts not yet templated.
+      "antiquarian.provenance_run",
+      "antiquarian.archive_recovery",
+      "antiquarian.attribution_audit",
+      // Oracle futures sub-family — class-locked at router via purchaseFutures.
+      "antiquarian.futures_call",
+      "antiquarian.futures_put",
+      "antiquarian.futures_spread",
     ],
     refusalShape: "ceremony_required",
     firstMeetingFlag: "broker_antiquarian_first_meeting",
@@ -207,7 +215,9 @@ export const BROKER_REGISTRY: Readonly<Record<BrokerKey, BrokerDef>> = {
     },
     offersMissions: ["salvage_debris", "contact_free_ports"],
     offersContracts: [
-      // Phase 3 authoring scope; contracts not yet templated.
+      "independent.bulk_haul",
+      "independent.split_share",
+      "independent.rare_mineral_run",
     ],
     metadata: {
       note: "Faction-neutral barter; minimal personality; no hidden clauses",
@@ -227,7 +237,9 @@ export const BROKER_REGISTRY: Readonly<Record<BrokerKey, BrokerDef>> = {
     },
     offersMissions: [],
     offersContracts: [
-      // Phase 3 authoring scope; contracts not yet templated.
+      "thaloria.name_recovery",
+      "thaloria.archive_retrieval",
+      "thaloria.diplomatic_facilitation",
     ],
     refusalShape: "ceremony_required",
     firstMeetingFlag: "broker_thaloria_first_meeting",

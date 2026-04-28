@@ -98,6 +98,8 @@ const PHASE_2_PROCEDURES = [
   "tradeEmpire.sectorFirstEntered",
   "tradeEmpire.markArrivalCinematicWatched",
   "tradeEmpire.recordRouteRun",
+  // Phase 3 — Oracle futures resolver:
+  "tradeEmpire.getOracleFutures",
 ];
 
 describe("tradeEmpire router wiring", () => {
@@ -258,5 +260,90 @@ describe("tradeEmpire dispatchMission happy path", () => {
       reward: {},
     });
     expect(result).toEqual({ success: false, error: "Mission already dispatched" });
+  });
+});
+
+describe("tradeEmpire Oracle futures (Phase 3)", () => {
+  beforeEach(() => {
+    mockSelectResult = [];
+  });
+
+  it("purchaseFutures (Oracle) returns settlesAt strictly in the future", async () => {
+    // First select hit returns the Oracle character sheet; subsequent
+    // reads (gameData) hit the same uniform mock — fine for this path
+    // because purchaseFutures only reads characterSheets before writing.
+    mockSelectResult = [{ characterClass: "oracle" }];
+    const { appRouter } = await import("./routers");
+    const caller = appRouter.createCaller(createAuthContext(3001));
+
+    const before = Date.now();
+    const result = await caller.tradeEmpire.purchaseFutures({
+      sectorId: "probability_market_hub",
+      commodity: "credits",
+      cyclesAhead: 1,
+      strikePrice: 100,
+      projectedPrice: 130,
+      position: "call",
+      contractKey: "antiquarian.futures_call",
+    });
+
+    expect(result.success).toBe(true);
+    expect(result.contractKey).toBe("antiquarian.futures_call");
+    expect(result.position).toBe("call");
+    // 1 cycle = 24h; settlesAt should be ~24h in the future.
+    const settles = new Date(result.settlesAt!).getTime();
+    expect(settles).toBeGreaterThan(before + 23 * 60 * 60 * 1000);
+    expect(settles).toBeLessThan(before + 25 * 60 * 60 * 1000);
+  }, 30_000);
+
+  it("purchaseFutures rejects an unknown contract key", async () => {
+    mockSelectResult = [{ characterClass: "oracle" }];
+    const { appRouter } = await import("./routers");
+    const caller = appRouter.createCaller(createAuthContext(3002));
+    await expect(
+      caller.tradeEmpire.purchaseFutures({
+        sectorId: "probability_market_hub",
+        commodity: "credits",
+        cyclesAhead: 1,
+        strikePrice: 100,
+        projectedPrice: 130,
+        position: "call",
+        contractKey: "antiquarian.futures_unicorn",
+      }),
+    ).rejects.toThrow(/Unknown or non-futures contract template/);
+  });
+
+  it("purchaseFutures rejects a non-futures contract key", async () => {
+    mockSelectResult = [{ characterClass: "oracle" }];
+    const { appRouter } = await import("./routers");
+    const caller = appRouter.createCaller(createAuthContext(3003));
+    await expect(
+      caller.tradeEmpire.purchaseFutures({
+        sectorId: "probability_market_hub",
+        commodity: "credits",
+        cyclesAhead: 1,
+        strikePrice: 100,
+        projectedPrice: 130,
+        position: "call",
+        contractKey: "antiquarian.provenance_run",
+      }),
+    ).rejects.toThrow(/Unknown or non-futures contract template/);
+  });
+
+  it("getOracleFutures returns { open: [], settled: [] } shape for Oracles with no positions", async () => {
+    mockSelectResult = [{ characterClass: "oracle" }];
+    const { appRouter } = await import("./routers");
+    const caller = appRouter.createCaller(createAuthContext(3004));
+    const result = await caller.tradeEmpire.getOracleFutures();
+    expect(result).toEqual({ open: [], settled: [] });
+  });
+
+  it("getOracleFutures rejects non-Oracle callers", async () => {
+    mockSelectResult = [{ characterClass: "engineer" }];
+    const { appRouter } = await import("./routers");
+    const caller = appRouter.createCaller(createAuthContext(3005));
+    await expect(caller.tradeEmpire.getOracleFutures()).rejects.toThrow(
+      /Only Oracles/,
+    );
   });
 });
