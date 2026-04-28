@@ -482,6 +482,16 @@ import { THE_ENIGMA_IMPRINT_SET } from "./definitions/imprint/the_enigma";
 import { FOUCAULT_IMPRINT_SET } from "./definitions/imprint/foucault";
 import { THE_DREAMER_IMPRINT_SET } from "./definitions/imprint/the_dreamer";
 
+/* ─── S2 — Hierarchy of the Damned expansion (Phase D1) ─── */
+import { S2_HIERARCHY_C_SUITE } from "./definitions/s2_hierarchy/c_suite";
+import { S2_HIERARCHY_VPS } from "./definitions/s2_hierarchy/vps";
+import { S2_HIERARCHY_DIRECTORS } from "./definitions/s2_hierarchy/directors";
+import { S2_HIERARCHY_MANAGERS } from "./definitions/s2_hierarchy/managers";
+import { S2_HIERARCHY_ANALYSTS } from "./definitions/s2_hierarchy/analysts";
+import { S2_HIERARCHY_INTERNS } from "./definitions/s2_hierarchy/interns";
+import { S2_HIERARCHY_ACT_EXCLUSIVES } from "./definitions/s2_hierarchy/act_exclusives";
+import { S2_HIERARCHY_SPECIAL_EDITIONS } from "./definitions/s2_hierarchy/special_editions";
+
 export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   gen_antiquarian,
   s1_char_018_the_antiquarian,
@@ -941,4 +951,13 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   ...NEW_BABYLON_ALLEGIANCE_CARDS,
   ...ANTIQUARIAN_ALLEGIANCE_CARDS,
   ...THOUGHT_VIRUS_ALLEGIANCE_CARDS,
+  /* S2 expansion — Hierarchy of the Damned (124 cards) */
+  ...S2_HIERARCHY_C_SUITE,
+  ...S2_HIERARCHY_VPS,
+  ...S2_HIERARCHY_DIRECTORS,
+  ...S2_HIERARCHY_MANAGERS,
+  ...S2_HIERARCHY_ANALYSTS,
+  ...S2_HIERARCHY_INTERNS,
+  ...S2_HIERARCHY_ACT_EXCLUSIVES,
+  ...S2_HIERARCHY_SPECIAL_EDITIONS,
 ]);

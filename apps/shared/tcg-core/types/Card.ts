@@ -20,7 +20,8 @@ export type Faction =
   | "new_babylon"
   | "antiquarian"
   | "thought_virus"
-  | "neutral";
+  | "neutral"
+  | "hierarchy_of_damned";
 
 export type CardType = "general" | "unit" | "spell" | "artifact" | "structure";
 
@@ -189,7 +190,39 @@ export interface CardDefinition {
    * `isReservedCard(def)` / `filterReservedFromPool(defs)`.
    */
   reserved?: true;
+  /**
+   * Optional: gates the card behind a story / progression milestone.
+   * Cards with an unlockCondition are loaded into the registry, but
+   * the deck-builder, pack-opening, and reward-grant surfaces filter
+   * them out unless the gate is satisfied for the active player.
+   *
+   * Used by the S2 Hierarchy of the Damned expansion drop:
+   *   - act_completion: 28 act-exclusive cards (`act1_*`..`act7_*`)
+   *     unlock when the player completes the gating act.
+   *   - secret: 7 cards that surface only via Acts 4–7 secret
+   *     reveal paths (one per act, plus a final-convergence chord).
+   *   - battle_pass: 1 card (`special_the_author_bp50`) for the
+   *     S2 battle-pass tier 50 reward.
+   *   - founding_author: 1 prestige card.
+   *   - authors_edition: 1 special-edition card.
+   *
+   * The `apps/shared/tcg-core/rewards/expansionUnlockService.ts`
+   * module is the dispatcher for this field.
+   */
+  unlockCondition?: CardUnlockCondition;
 }
+
+/**
+ * Discriminated union of unlock gates. Each variant is consumed by
+ * `expansionUnlockService.ts` to answer "is this card unlocked for
+ * the active player?" against persisted player progression state.
+ */
+export type CardUnlockCondition =
+  | { kind: "act_completion"; act: 1 | 2 | 3 | 4 | 5 | 6 | 7 }
+  | { kind: "secret"; act: 1 | 2 | 3 | 4 | 5 | 6 | 7 }
+  | { kind: "battle_pass"; tier: number }
+  | { kind: "founding_author" }
+  | { kind: "authors_edition"; season: "s2" };
 
 /** Forward-declared. Full shape lives in types/Trigger.ts. */
 export interface Ability {
