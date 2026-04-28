@@ -9,7 +9,7 @@
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 import { router, protectedProcedure } from "../_core/trpc";
-import { getDb } from "../db";
+import { getDbWithRetry } from "../db";
 import { characterSheets, userProgress, dreamBalance } from "../../db/schema";
 import { eq, and } from "drizzle-orm";
 import { ripple } from "../services/rippleEngine";
@@ -107,7 +107,7 @@ const DEFAULT_STATE: TradeEmpireState = {
 };
 
 async function getEmpireState(userId: number): Promise<TradeEmpireState> {
-  const db = await getDb();
+  const db = await getDbWithRetry();
   if (!db) dbUnavailable();
   const row = await db.select().from(userProgress)
     .where(and(eq(userProgress.userId, userId), eq(userProgress.franchiseId, "dischordian-saga")))
@@ -168,7 +168,7 @@ export async function settleOracleFuture(
   position: TradeOracleFutureRow,
 ): Promise<void> {
   if (position.status !== "open") return;
-  const db = await getDb();
+  const db = await getDbWithRetry();
   if (!db) dbUnavailable();
 
   // Spot price uses the strike as the base reference. Win/loss is the
@@ -235,7 +235,7 @@ export async function settleOracleFuture(
  * read-paths that should reflect settled state.
  */
 export async function settleExpiredOracleFutures(userId: number): Promise<void> {
-  const db = await getDb();
+  const db = await getDbWithRetry();
   if (!db) dbUnavailable();
   const now = new Date();
   const open = await db
@@ -259,7 +259,7 @@ export async function settleExpiredOracleFutures(userId: number): Promise<void> 
 }
 
 async function saveEmpireState(userId: number, state: TradeEmpireState) {
-  const db = await getDb();
+  const db = await getDbWithRetry();
   if (!db) dbUnavailable();
   const row = await db.select().from(userProgress)
     .where(and(eq(userProgress.userId, userId), eq(userProgress.franchiseId, "dischordian-saga")))
@@ -353,7 +353,7 @@ export const tradeEmpireRouter = router({
 
       // Grant rewards
       const r = mission.reward;
-      const db = await getDb();
+      const db = await getDbWithRetry();
   if (!db) dbUnavailable();
 
       // Dream
@@ -485,7 +485,7 @@ export const tradeEmpireRouter = router({
 
   /** Returns the caller's class + the sectors they are allowed to enter. */
   getMyClassAccess: protectedProcedure.query(async ({ ctx }) => {
-    const db = await getDb();
+    const db = await getDbWithRetry();
     if (!db) dbUnavailable();
     const [sheet] = await db
       .select()
@@ -505,7 +505,7 @@ export const tradeEmpireRouter = router({
   unlockClassSector: protectedProcedure
     .input(z.object({ sectorId: z.string() }))
     .mutation(async ({ ctx, input }) => {
-      const db = await getDb();
+      const db = await getDbWithRetry();
       if (!db) dbUnavailable();
       const [sheet] = await db
         .select()
@@ -556,7 +556,7 @@ export const tradeEmpireRouter = router({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      const db = await getDb();
+      const db = await getDbWithRetry();
       if (!db) dbUnavailable();
       const [sheet] = await db
         .select()
@@ -643,7 +643,7 @@ export const tradeEmpireRouter = router({
    * Lazily settles any whose settlesAt has elapsed before returning.
    */
   getOracleFutures: protectedProcedure.query(async ({ ctx }) => {
-    const db = await getDb();
+    const db = await getDbWithRetry();
     if (!db) dbUnavailable();
     const [sheet] = await db
       .select()
@@ -678,7 +678,7 @@ export const tradeEmpireRouter = router({
       }),
     )
     .mutation(async ({ ctx, input }) => {
-      const db = await getDb();
+      const db = await getDbWithRetry();
       if (!db) dbUnavailable();
       const [sheet] = await db
         .select()
@@ -750,7 +750,7 @@ export const tradeEmpireRouter = router({
   resolveGeneralsDilemma: protectedProcedure
     .input(z.object({ resolution: z.enum(["expose", "protect"]) }))
     .mutation(async ({ ctx, input }) => {
-      const db = await getDb();
+      const db = await getDbWithRetry();
       if (!db) dbUnavailable();
       const [sheet] = await db
         .select()
@@ -796,7 +796,7 @@ export const tradeEmpireRouter = router({
           message: `Unknown contract template: ${input.contractKey}`,
         });
       }
-      const db = await getDb();
+      const db = await getDbWithRetry();
       if (!db) dbUnavailable();
 
       // Idempotency: existing active contract?
@@ -906,7 +906,7 @@ export const tradeEmpireRouter = router({
           message: `Unknown contract template: ${input.contractKey}`,
         });
       }
-      const db = await getDb();
+      const db = await getDbWithRetry();
       if (!db) dbUnavailable();
 
       const rows = await db
@@ -974,7 +974,7 @@ export const tradeEmpireRouter = router({
   sectorFirstEntered: protectedProcedure
     .input(z.object({ sectorId: z.string() }))
     .mutation(async ({ ctx, input }) => {
-      const db = await getDb();
+      const db = await getDbWithRetry();
       if (!db) dbUnavailable();
 
       // Idempotency check via uniq index.
@@ -1023,7 +1023,7 @@ export const tradeEmpireRouter = router({
   markArrivalCinematicWatched: protectedProcedure
     .input(z.object({ sectorId: z.string() }))
     .mutation(async ({ ctx, input }) => {
-      const db = await getDb();
+      const db = await getDbWithRetry();
       if (!db) dbUnavailable();
       await db
         .update(tradeSectorArrivals)
@@ -1055,7 +1055,7 @@ export const tradeEmpireRouter = router({
       factionsTouched: z.array(z.string()).optional(),
     }))
     .mutation(async ({ ctx, input }) => {
-      const db = await getDb();
+      const db = await getDbWithRetry();
       if (!db) dbUnavailable();
 
       const routeKey = makeRouteKey(
