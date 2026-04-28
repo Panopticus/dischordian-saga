@@ -65,7 +65,7 @@ const VOICE: Record<TradeEmpireSpeaker, string> = {
   the_antiquarian: "yAKlvHIsuj4SvnKQ6Mk4",
   locke: "8XiBWqS5ffaH5naIFHPI",
   orin_fell: "TODO_ORIN_VOICE",
-  the_architect: "TODO_ARCHITECT_VOICE",
+  the_architect: "PmtzUaeg5rMejCZzRqOZ",
   mol_garath: "TODO_MOLGARATH_VOICE",
 };
 
