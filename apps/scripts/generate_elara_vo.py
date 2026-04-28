@@ -91,11 +91,21 @@ def main():
     print(f"  Bucket: {BUCKET}/{S3_PREFIX}")
     print(f"═══════════════════════════════════════\n")
 
-    manifest = {}
+    # IDEMPOTENT_PATCH
+    manifest_path = os.path.join(os.path.dirname(__file__), "..", "shared", "elaraVoManifest.json")
+    try:
+        with open(manifest_path) as _mf:
+            manifest = json.load(_mf)
+    except (FileNotFoundError, json.JSONDecodeError):
+        manifest = {}
+    initial_count = len(manifest)
     errors = []
 
     for i, line in enumerate(lines):
         s3_key = f"{line['context']}/{line['id']}.mp3"
+        if line["id"] in manifest:
+            print(f"[{i+1}/{len(lines)}] {line['id']} (already in manifest, skipping)")
+            continue
         try:
             sys.stdout.write(f"[{i+1}/{len(lines)}] {line['id']} ({line['emotion']})... ")
             sys.stdout.flush()
@@ -103,6 +113,8 @@ def main():
             audio = generate_speech(line["text"], line["emotion"])
             url = upload_to_s3(audio, s3_key)
             manifest[line["id"]] = url
+            with open(manifest_path, "w") as _mf:
+                json.dump(manifest, _mf, indent=2)
             print(f"✓ {len(audio)//1024}KB")
 
             time.sleep(0.15)  # Rate limit

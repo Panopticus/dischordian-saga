@@ -67,15 +67,27 @@ def main():
         lines = json.load(f)
     print(f"=== {'ANTIQUARIAN'} VO GENERATOR ===\n  {len(lines)} lines | Voice: {VOICE_ID}\n")
     if not ELEVENLABS_KEY: print("ERROR: export ELEVENLABS_API_KEY=your_key"); sys.exit(1)
-    manifest = {}
+    # IDEMPOTENT_PATCH
+    manifest_path = os.path.join(os.path.dirname(__file__), "..", "shared", "antiquarianVoManifest.json")
+    try:
+        with open(manifest_path) as _mf:
+            manifest = json.load(_mf)
+    except (FileNotFoundError, json.JSONDecodeError):
+        manifest = {}
+    initial_count = len(manifest)
     for i, line in enumerate(lines):
         s3_key = f"{line['context']}/{line['id']}.mp3"
+        if line["id"] in manifest:
+            print(f"[{i+1}/{len(lines)}] {line['id']} (already in manifest, skipping)")
+            continue
         try:
             sys.stdout.write(f"[{i+1}/{len(lines)}] {line['id']} ({line['emotion']})... ")
             sys.stdout.flush()
             audio = generate_speech(line["text"], line["emotion"])
             url = upload_to_s3(audio, s3_key)
             manifest[line["id"]] = url
+            with open(manifest_path, "w") as _mf:
+                json.dump(manifest, _mf, indent=2)
             print(f"ok {len(audio)//1024}KB")
             time.sleep(0.2)
         except Exception as e:
