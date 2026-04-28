@@ -1663,12 +1663,14 @@ export default function ArkExplorerPage() {
               if (human.logsClue) logClue(human.logsClue);
               if (human.setsFlag) setNarrativeFlag(human.setsFlag);
             },
-            // Cost-bearing fork: opposing deltas mirror the bond80
-            // pattern so leaning into one companion costs the other.
+            // The fork is in-fiction — the player chooses who they
+            // believe, and the consequence shows up later in tone, not
+            // in a number on screen. Leans relational, not punitive;
+            // one option lets them refuse the choice entirely.
             followUpResponses: [
               {
                 id: `ask-human:stay-elara:${roomId}:${hotspotId}:t${clickCount}`,
-                label: "Stay with Elara's read.",
+                label: "She lived through it. I'll take her read.",
                 closesDialog: true,
                 onPick: () => {
                   adjustElaraTrust(1);
@@ -1677,7 +1679,7 @@ export default function ArkExplorerPage() {
               },
               {
                 id: `ask-human:trust-detective:${roomId}:${hotspotId}:t${clickCount}`,
-                label: "Trust the Detective.",
+                label: "He watched it happen. I'll take his.",
                 closesDialog: true,
                 onPick: () => {
                   adjustElaraTrust(-1);
@@ -1686,7 +1688,7 @@ export default function ArkExplorerPage() {
               },
               {
                 id: `ask-human:both:${roomId}:${hotspotId}:t${clickCount}`,
-                label: "Both can be true.",
+                label: "I want both of you. Keep talking.",
                 closesDialog: true,
               },
             ],
