@@ -58,6 +58,10 @@ import { getRoomTransmissions, getElaraVariant, type SecretTransmission } from "
 import AlienSymbolPuzzle from "@/components/AlienSymbolPuzzle";
 import FastTravelPanel from "@/components/FastTravelPanel";
 import ItemDetailModal from "@/components/ItemDetailModal";
+import ElaraConversationPopup from "@/components/ElaraConversationPopup";
+import CompanionPresenceBadge from "@/components/CompanionPresenceBadge";
+import { useElaraVO } from "@/hooks/useElaraVO";
+import { useHumanVO } from "@/hooks/useHumanVO";
 import DnaDeviceOfferDialog from "@/components/DnaDeviceOfferDialog";
 import ParallaxRoom from "@/components/ParallaxRoom";
 import { MobileNarratorSlot } from "@/components/MobileNarratorSlot";
@@ -360,6 +364,7 @@ function ElaraPopup({ text, onClose, voUrl }: { text: string | string[]; onClose
 function RoomScene({
   room,
   onHotspotClick,
+  onHotspotHoverWhisper,
   itemsCollected,
   collectedHotspots = [],
   fastTravelUnlocked = false,
@@ -370,6 +375,11 @@ function RoomScene({
   /** Default verb is `look`. The verb-coin overlay calls this with
    *  a non-look verb to invoke a specific (verb, hotspot) response. */
   onHotspotClick: (hotspot: HotspotDef, verb?: Verb) => void;
+  /** Section 9 — fired (after a local 600ms debounce) when the
+   *  player's pointer dwells on a hotspot that authors an
+   *  `elaraHoverVoId`. The parent applies the global 12s throttle +
+   *  once-per-session dedup before actually speaking. */
+  onHotspotHoverWhisper?: (hotspot: HotspotDef) => void;
   itemsCollected: string[];
   /** Hotspot ids that have been one-shot collected and should no
    *  longer render in the scene (data-slate after `use`, locket after
@@ -380,6 +390,9 @@ function RoomScene({
   roomsWithEvents?: Set<string>;
 }) {
   const [hoveredHotspot, setHoveredHotspot] = useState<string | null>(null);
+  // Per-hotspot debounce timer for hover whispers. Cleared on
+  // mouse-leave so a quick sweep across hotspots never fires.
+  const hoverTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { state: gameStateForArt } = useGame();
   // Tier-aware room backdrop. The Section-F flag-based variants for
   // cryo / medical bay still win, then any tier-indexed art for the
@@ -521,8 +534,25 @@ function RoomScene({
                 height: `${hotspot.height}%`,
                 zIndex: hotspotZ,
               }}
-              onMouseEnter={() => setHoveredHotspot(hotspot.id)}
-              onMouseLeave={() => setHoveredHotspot(null)}
+              onMouseEnter={() => {
+                setHoveredHotspot(hotspot.id);
+                // Section 9 — debounce the hover whisper so accidental
+                // sweeps across the room don't trigger it. The parent
+                // applies the global throttle + per-session dedup.
+                if (hotspot.elaraHoverVoId && onHotspotHoverWhisper) {
+                  if (hoverTimerRef.current) clearTimeout(hoverTimerRef.current);
+                  hoverTimerRef.current = setTimeout(() => {
+                    onHotspotHoverWhisper(hotspot);
+                  }, 600);
+                }
+              }}
+              onMouseLeave={() => {
+                setHoveredHotspot(null);
+                if (hoverTimerRef.current) {
+                  clearTimeout(hoverTimerRef.current);
+                  hoverTimerRef.current = null;
+                }
+              }}
               onClick={() => onHotspotClick(hotspot)}
             >
               {/* Clickable area highlight */}
@@ -814,6 +844,80 @@ export default function ArkExplorerPage() {
   // array internally so the render path is unified.
   const [elaraText, setElaraText] = useState<string | string[] | null>(null);
   const [elaraVoUrl, setElaraVoUrl] = useState<string | undefined>(undefined);
+  // Section 9 — manifest id for the current narration. Drives Elara's
+  // voice through useElaraVO inside the conversation popup; takes
+  // priority over the legacy CDN voUrl when set.
+  const [elaraVoId, setElaraVoId] = useState<string | undefined>(undefined);
+  // Section 9 — player response choices surfaced once Elara finishes
+  // her line. When empty/null, the popup falls through to the default
+  // 3-button strip (Acknowledged / Tell me more / [stay silent]).
+  const [elaraResponses, setElaraResponses] = useState<
+    import("@/components/ElaraConversationPopup").ConversationChoice[] | undefined
+  >(undefined);
+
+  /**
+   * Single entry point for every Elara narration that fires from the
+   * Ark explorer. Replaces direct setElaraText() calls so the runtime
+   * also wires up the manifest VO id + response strip in one shot.
+   */
+  const narrateElara = useCallback((opts: {
+    text: string | string[];
+    voId?: string;
+    voUrl?: string;
+    responses?: import("@/components/ElaraConversationPopup").ConversationChoice[];
+  }) => {
+    setElaraText(opts.text);
+    setElaraVoId(opts.voId);
+    // When voId is present, prefer the manifest path — clear voUrl so
+    // the popup doesn't double-play. When voId is missing the legacy
+    // CDN URL still gets through.
+    setElaraVoUrl(opts.voId ? undefined : opts.voUrl);
+    setElaraResponses(opts.responses);
+  }, []);
+
+  // Section 9 — single hook instance per speaker, lifted to the page
+  // so both the conversation popup and the companion-presence badge
+  // observe the same playback state. Each useNpcVO holds its own
+  // `audio` element + `speaking` flag; sharing the instance keeps
+  // them in lockstep without a context.
+  const elaraVo = useElaraVO();
+  const humanVo = useHumanVO();
+  const elaraSpeakingNow = elaraVo.speaking;
+  const humanSpeakingNow = humanVo.speaking;
+
+  // Section 9 — hover-whisper throttle + dedup. RoomScene applies a
+  // 600ms debounce per hotspot before calling this; we additionally
+  // gate on:
+  //   • a 12s global throttle so even fast players can't spam Elara
+  //   • a per-hotspot Set so each whisper plays at most once per session
+  //   • a no-op when the popup is already showing (silence wins)
+  const lastWhisperAtRef = useRef<number>(0);
+  const playedWhispersRef = useRef<Set<string>>(new Set());
+  const firstHoverFiredRef = useRef<boolean>(false);
+  const onHotspotHoverWhisper = useCallback((hotspot: HotspotDef) => {
+    // Section 9 — first-hover meta-line. The first time any player
+    // dwells on any hotspot in any session AND the framing flag is
+    // unset, fire the one-shot framing line that establishes Elara
+    // as the narrator. Suppresses the per-hotspot whisper this same
+    // hover so the two don't overlap.
+    if (!firstHoverFiredRef.current && !state.narrativeFlags?.tutorial_elara_narrates_explained) {
+      firstHoverFiredRef.current = true;
+      setNarrativeFlag("tutorial_elara_narrates_explained");
+      narrateElara({
+        text: "Don't worry about reading the labels yourself — I'll narrate. Point at what catches your eye and we'll talk it through.",
+        voId: "elara.framing.first-hover",
+      });
+      return;
+    }
+    if (!hotspot.elaraHoverVoId) return;
+    if (elaraText) return; // popup is live; don't talk over the line
+    if (playedWhispersRef.current.has(hotspot.id)) return;
+    const now = performance.now();
+    if (now - lastWhisperAtRef.current < 12_000) return;
+    lastWhisperAtRef.current = now;
+    playedWhispersRef.current.add(hotspot.id);
+    elaraVo.speak(hotspot.elaraHoverVoId);
+  }, [elaraText, elaraVo, state.narrativeFlags?.tutorial_elara_narrates_explained, setNarrativeFlag, narrateElara]);
   const [showOnboardingTutorial, setShowOnboardingTutorial] = useState(false);
   const [activeTransmission, setActiveTransmission] = useState<SecretTransmission | null>(null);
   const { discoverTransmission, isTransmissionDiscovered } = useGame();
@@ -1111,6 +1215,29 @@ export default function ArkExplorerPage() {
       if (audioReady) playSFX("dialog_open");
     }
   }, [currentRoom?.id, currentRoomState?.elaraDialogSeen, currentRoomState?.visitCount, audioReady, state.moralityScore]);
+
+  // Section 9 — cryo-bay re-entry beat. The first time the player
+  // walks back into the cryo bay AFTER the bridge dead-lock has been
+  // resolved (i.e. the autopsy console has handed over the reset
+  // code), fire a one-shot Elara line acknowledging the new lens
+  // they're seeing the room through. Gated on a dedicated flag so it
+  // only fires once across the save.
+  useEffect(() => {
+    if (!currentRoom || currentRoom.id !== "cryo-bay") return;
+    if (!state.narrativeFlags?.bridge_dead_lock_resolved) return;
+    if (state.narrativeFlags?.cryo_bay_post_autopsy_reentry_seen) return;
+    setNarrativeFlag("cryo_bay_post_autopsy_reentry_seen");
+    narrateElara({
+      text: "Same room. Different room. We're looking at it through what we know now — go on, look harder.",
+      voId: "elara.cryo-bay.post-autopsy-reentry",
+    });
+  }, [
+    currentRoom?.id,
+    state.narrativeFlags?.bridge_dead_lock_resolved,
+    state.narrativeFlags?.cryo_bay_post_autopsy_reentry_seen,
+    setNarrativeFlag,
+    narrateElara,
+  ]);
 
   // First-visit music cue. Mirrors the existing
   // music_heard_<song> flag pattern from RoomDialog beats —
@@ -1486,11 +1613,23 @@ export default function ArkExplorerPage() {
             break;
           }
           if (audioReady) playSFX("dialog_open");
-          setElaraText(mystery.narration);
-          // VO is optional — if present, hand it to ElaraPopup; if
-          // absent, clear any prior VO so we don't carry a stale
-          // intro track over the new line.
-          setElaraVoUrl(mystery.vo);
+          // Section 9 — route through narrateElara so the popup also
+          // picks up the manifest VO id and the response strip. The
+          // legacy `vo` URL field is honoured as a fallback for any
+          // mystery beat that hasn't migrated to a manifest id yet.
+          narrateElara({
+            text: mystery.narration,
+            voId: mystery.voId,
+            voUrl: mystery.voId ? undefined : mystery.vo,
+            responses: mystery.responses?.map((r) => ({
+              id: r.id,
+              label: r.label,
+              elaraFollowUpVoId: r.elaraFollowUpVoId,
+              elaraFollowUpText: r.elaraFollowUpText,
+              closesDialog: r.closesDialog,
+              onPick: r.logsClue ? (() => logClue(r.logsClue!)) : undefined,
+            })),
+          });
           if (mystery.logsClue) logClue(mystery.logsClue);
           if (mystery.grantsInventory) {
             grantMysteryItem(mystery.grantsInventory);
@@ -1556,7 +1695,22 @@ export default function ArkExplorerPage() {
         }
         if (hotspot.elaraDialog) {
           if (audioReady) playSFX("dialog_open");
-          setElaraText(hotspot.elaraDialog);
+          // Section 9 — route through narrateElara so the popup picks
+          // up the optional VO manifest id + response strip authored
+          // on the hotspot. Hotspots that don't author either still
+          // get the default 3-button strip and silent text.
+          narrateElara({
+            text: hotspot.elaraDialog,
+            voId: hotspot.elaraDialogVoId,
+            responses: hotspot.responses?.map((r) => ({
+              id: r.id,
+              label: r.label,
+              elaraFollowUpVoId: r.elaraFollowUpVoId,
+              elaraFollowUpText: r.elaraFollowUpText,
+              closesDialog: r.closesDialog,
+              onPick: r.logsClue ? (() => logClue(r.logsClue!)) : undefined,
+            })),
+          });
         }
         break;
       }
@@ -1636,6 +1790,7 @@ export default function ArkExplorerPage() {
             <RoomScene
               room={currentRoom}
               onHotspotClick={handleHotspotClick}
+              onHotspotHoverWhisper={onHotspotHoverWhisper}
               itemsCollected={state.itemsCollected}
               collectedHotspots={state.rooms[currentRoom.id]?.collectedHotspots ?? []}
               fastTravelUnlocked={fastTravelUnlocked}
@@ -1839,17 +1994,42 @@ export default function ArkExplorerPage() {
         }}
       />
 
-      {/* Elara dialog popup */}
+      {/* Section 9 — Conversation popup. The new component preserves
+          ElaraPopup's visual layout but adds:
+            • response-strip after Elara's line ends
+            • viseme-synced HolographicElara when audio is live
+            • avatar swap to "YOU" while the human's reply plays
+          When `responses` is empty/undefined the popup falls through to
+          the default 3-button strip (Acknowledged / Tell me more / silent). */}
       <AnimatePresence>
         {elaraText && (
-          <ElaraPopup text={elaraText} voUrl={elaraVoUrl} onClose={() => {
-            window.dispatchEvent(new CustomEvent("elara-dialog", { detail: { active: false } }));
-            setElaraText(null);
-            setElaraVoUrl(undefined);
-            if (audioReady) playSFX("dialog_close");
-          }} />
+          <ElaraConversationPopup
+            text={elaraText}
+            voId={elaraVoId}
+            voUrl={elaraVoUrl}
+            responses={elaraResponses}
+            elaraVo={elaraVo}
+            humanVo={humanVo}
+            onClose={() => {
+              window.dispatchEvent(new CustomEvent("elara-dialog", { detail: { active: false } }));
+              setElaraText(null);
+              setElaraVoUrl(undefined);
+              setElaraVoId(undefined);
+              setElaraResponses(undefined);
+              if (audioReady) playSFX("dialog_close");
+            }}
+          />
         )}
       </AnimatePresence>
+
+      {/* Section 9 — Persistent companion-presence pip in the room.
+          Pulses solid-cyan when Elara is speaking, solid-violet when
+          the human is replying. Tells the player whose voice is live. */}
+      <CompanionPresenceBadge
+        elaraSpeaking={elaraSpeakingNow}
+        humanSpeaking={humanSpeakingNow}
+        placement="top-right"
+      />
 
       {/* Puzzle modal */}
       <AnimatePresence>
