@@ -509,13 +509,16 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
     }
   }, [awakeningStep, showCinematic]);
 
-  // Blackout → fade in (only runs AFTER cinematic is dismissed)
+  // Blackout → fade in (only runs AFTER cinematic is dismissed).
+  // Tightened from 6s to 2.5s so the player isn't staring at a
+  // fading-up empty room before Elara's first line. Cinematic ends
+  // → ~2.5s ramp → first dialog appears.
   useEffect(() => {
     if (awakeningStep === "BLACKOUT" && !showCinematic) {
-      const t1 = setTimeout(() => setScreenOpacity(0.3), 1500);
-      const t2 = setTimeout(() => setScreenOpacity(0.6), 3000);
-      const t3 = setTimeout(() => { setScreenOpacity(1); setHeartbeat(false); }, 4500);
-      const t4 = setTimeout(() => advanceAwakening(), 6000);
+      const t1 = setTimeout(() => setScreenOpacity(0.3), 600);
+      const t2 = setTimeout(() => setScreenOpacity(0.6), 1200);
+      const t3 = setTimeout(() => { setScreenOpacity(1); setHeartbeat(false); }, 1800);
+      const t4 = setTimeout(() => advanceAwakening(), 2500);
       return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); clearTimeout(t4); };
     }
   }, [awakeningStep, advanceAwakening, showCinematic]);
@@ -756,28 +759,59 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
           awakening step (Bioware-style video backdrop), falling back to
           the state-aware Section F still render if no video URL has
           been wired yet. Third-person only: the cinematics never show
-          the player character. */}
+          the player character.
+
+          The clips are short and looping rapidly drew attention to the
+          loop seam, so we slow playback to 0.6× and add a long Ken-Burns
+          drift. We also brightened the backdrop (0.65× vs 0.4×) and
+          softened the gradient — the dialog box has its own panel
+          background, so the backdrop can carry more of the frame. Each
+          step's video cross-fades into the next instead of hard-cutting. */}
       {(() => {
         const cine = getAwakeningCinematic(awakeningStep, characterChoices.species || undefined);
         const fallback = resolveRoomStateAsset("cryo-bay", state.narrativeFlags);
         return (
-          <div className="absolute inset-0 transition-opacity duration-[3000ms]" style={{ opacity: screenOpacity * 0.4 }}>
-            {cine?.videoUrl ? (
-              <video
-                key={cine.videoUrl}
-                src={cine.videoUrl}
-                poster={fallback}
-                className="w-full h-full object-cover"
-                autoPlay
-                loop
-                muted
-                playsInline
-                preload="auto"
-              />
-            ) : (
-              <img src={fallback} alt="" className="w-full h-full object-cover" />
-            )}
-            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-black/40" />
+          <div className="absolute inset-0 transition-opacity duration-[3000ms] overflow-hidden" style={{ opacity: screenOpacity * 0.65 }}>
+            <AnimatePresence mode="wait">
+              {cine?.videoUrl ? (
+                <motion.video
+                  key={cine.videoUrl}
+                  src={cine.videoUrl}
+                  poster={fallback}
+                  className="w-full h-full object-cover absolute inset-0"
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  preload="auto"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 1.2, ease: "easeInOut" }}
+                  style={{ animation: "awakeningKenBurns 30s ease-in-out infinite alternate" }}
+                  ref={(v) => { if (v) v.playbackRate = 0.6; }}
+                />
+              ) : (
+                <motion.img
+                  key={fallback}
+                  src={fallback}
+                  alt=""
+                  className="w-full h-full object-cover absolute inset-0"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 1.2, ease: "easeInOut" }}
+                  style={{ animation: "awakeningKenBurns 30s ease-in-out infinite alternate" }}
+                />
+              )}
+            </AnimatePresence>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-black/15" />
+            <style>{`
+              @keyframes awakeningKenBurns {
+                0% { transform: scale(1.04) translate(-1%, -0.5%); }
+                100% { transform: scale(1.08) translate(1%, 0.5%); }
+              }
+            `}</style>
           </div>
         );
       })()}
@@ -879,11 +913,11 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
               voAudioUrl={STEP_VO_AUDIO.CLASS_QUESTION}
               themeAudio={themeAudioRef.current}
               choices={[
-                { label: "I can see the code behind reality...", value: "engineer", description: "Engineer — Master builders. Start with Diamond Pick Axes." },
-                { label: "I sense things before they happen...", value: "oracle", description: "Oracle (Prophet) — Seers of fate. Start with crossbow and potions." },
-                { label: "I move through shadows unseen...", value: "assassin", description: "Assassin (Virus) — Silent killers. Start with poison blade." },
-                { label: "I was built for war...", value: "soldier", description: "Soldier (Warrior) — Frontline fighters. Start with plasma sword." },
-                { label: "I observe. I learn. I adapt...", value: "spy", description: "Spy — Intelligence operatives. Stealth and deception." },
+                { label: "I see the seams of the world...", value: "engineer", description: "Engineer — Every system has a flaw, and your hands know how to find it. You build, repair, and rewrite the rules of the things around you." },
+                { label: "Patterns arrange themselves before me...", value: "oracle", description: "Oracle — Possibility shows its hand a heartbeat early. You read futures other people refuse to look at, and you trust them more than is safe." },
+                { label: "Quiet has always come naturally...", value: "assassin", description: "Assassin — You have ended things that needed ending. The work leaves no signature; the silence afterward is yours to keep." },
+                { label: "Discipline is a kind of memory...", value: "soldier", description: "Soldier — Your body remembers what your mind has forgotten: stance, breath, distance. You hold the line because no one taught you to step back." },
+                { label: "I have lived in the spaces between truths...", value: "spy", description: "Spy — You wear other people's certainties like coats. Trust is a tool. So is the absence of it." },
               ]}
               onChoice={(v) => {
                 setCharacterChoice("characterClass", v as any);

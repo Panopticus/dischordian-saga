@@ -971,5 +971,118 @@
     "context": "scripted_dialog_tree",
     "emotion": "vulnerable",
     "file": "shared/dialogTrees/elaraAct1.ts"
-  }
+  },
+  {
+    "id": "character_sheet_intro_1",
+    "text": "Neural scan complete. Your biometric profile has been compiled, Operative.",
+    "context": "character_sheet_intro",
+    "emotion": "reassuring",
+    "file": "client/src/pages/CharacterSheetPage.tsx"
+  },
+  {
+    "id": "character_sheet_intro_2",
+    "text": "This is your dossier — everything we know about what you are. Your species markers, your class aptitudes, your elemental affinity. I'll surface the rest as you need it.",
+    "context": "character_sheet_intro",
+    "emotion": "warm",
+    "file": "client/src/pages/CharacterSheetPage.tsx"
+  },
+  {
+    "id": "character_sheet_intro_3",
+    "text": "I've cross-referenced your readings against the Ark's historical database. You are not a small signal. The Prophecy may have been right about you.",
+    "context": "character_sheet_intro",
+    "emotion": "analytical",
+    "file": "client/src/pages/CharacterSheetPage.tsx"
+  },
+  {
+    "id": "character_sheet_intro_4",
+    "text": "Sit with this. Let it be true for a moment. The deck plates outside this room remember things you don't, and you'll need to remember some of them back.",
+    "context": "character_sheet_intro",
+    "emotion": "reassuring",
+    "file": "client/src/pages/CharacterSheetPage.tsx"
+  },
+  {
+    "id": "character_sheet_intro_5",
+    "text": "When you're ready — the Cryo Bay door is open. Walk through. I'll stay with you.",
+    "context": "character_sheet_intro",
+    "emotion": "warm",
+    "file": "client/src/pages/CharacterSheetPage.tsx"
+  },
+  {
+    "id": "cryo_bay_first_visit_murder_setup",
+    "text": "Before you ask — yes. The pod next to yours is sealed, and the body inside is dead. The chronometer says they died about ninety seconds before you woke. That isn't standard cryo failure. Something happened in this room. I want your eyes on it before we leave.",
+    "context": "room_intro",
+    "emotion": "warning",
+    "file": "client/src/contexts/GameContext.tsx"
+  },
+  {
+    "id": "bridge_dead_lock_first_attempt",
+    "text": "The door's authentication handshake has been physically severed. I can't talk it open from my side — someone wanted us to stay below decks. We need a reset code, and I think the Med Bay's autopsy console can pull one off the slate from your neighbor's pod.",
+    "context": "scene_blocker",
+    "emotion": "warning",
+    "file": "shared/roomMysteries/bridge.ts"
+  },
+  {
+    "id": "tutorial_dream_explained",
+    "text": "Dream isn't only currency. It's substrate. Spend it on yourself and the substrate adapts to you — the channels that are listening get louder. I'll show you which ones are yours.",
+    "context": "in_world_tutorial",
+    "emotion": "warm",
+    "file": "client/src/pages/CharacterSheetPage.tsx"
+  },
+
+  { "id": "elara.cryo.dead-pod.look", "text": "The pod's status indicator is cold-blue instead of the warm-gold of the others. The glass is frosted over on the inside. Something — someone — is in there. You can't see a face. Just a shape.", "context": "hotspot_narration", "emotion": "warning", "file": "shared/cryoBayMystery.ts" },
+  { "id": "elara.cryo.dead-pod.look.who", "text": "I don't know yet. The manifest line for that pod is wiped — and that's not a corruption pattern, that's a delete. Someone reached into my records.", "context": "follow_up", "emotion": "analytical", "file": "shared/cryoBayMystery.ts" },
+  { "id": "elara.cryo.dead-pod.look.suspect", "text": "That's the assumption I'm working with. Don't say it out loud past this room.", "context": "follow_up", "emotion": "warning", "file": "shared/cryoBayMystery.ts" },
+  { "id": "elara.cryo.dead-pod.use", "text": "The pod is sealed. You try the emergency release; the panel next to it is cracked and unresponsive. You are not opening this from out here.", "context": "hotspot_narration", "emotion": "analytical", "file": "shared/cryoBayMystery.ts" },
+  { "id": "elara.cryo.dead-pod.talk", "text": "There is no one to talk to inside the pod. You knock twice anyway. Nothing answers. You did not expect it would.", "context": "hotspot_narration", "emotion": "vulnerable", "file": "shared/cryoBayMystery.ts" },
+
+  { "id": "elara.cryo.cracked-panel.look", "text": "The pod's control panel is split along a hairline seam. A slow lavender arc crawls between the halves. The fracture runs through the emergency-release relay specifically. This was not an accident — someone reached in with a tool.", "context": "hotspot_narration", "emotion": "warning", "file": "shared/cryoBayMystery.ts" },
+  { "id": "elara.cryo.cracked-panel.look.tool", "text": "Something with a precision arc-cutter — engineering grade. Not a weapon. Whoever did this had time, and they had access to the toolkit on Deck 3.", "context": "follow_up", "emotion": "analytical", "file": "shared/cryoBayMystery.ts" },
+  { "id": "elara.cryo.cracked-panel.use", "text": "You try to hotwire the relay around the cut. It arcs once and dies. You'd need a proper fabricator. The bulkhead door at the far end is not going to open from here.", "context": "hotspot_narration", "emotion": "analytical", "file": "shared/cryoBayMystery.ts" },
+
+  { "id": "elara.cryo.medical-chart.look", "text": "A printed medical chart is magnet-clipped to the pod's exterior. Pre-wake biometrics. The name-line is redacted with a single neat pen stroke — not a system redaction, a human one. The blood chemistry panel is intact.", "context": "hotspot_narration", "emotion": "analytical", "file": "shared/cryoBayMystery.ts" },
+  { "id": "elara.cryo.medical-chart.look.markers", "text": "Trace iron-bond signatures that don't sit cleanly in the DeMagi or Quarchon ranges. Either we have a Ne-Yon hybrid in this pod or something the database didn't expect.", "context": "follow_up", "emotion": "analytical", "file": "shared/cryoBayMystery.ts" },
+  { "id": "elara.cryo.medical-chart.use", "text": "You lift the chart off its magnet. The adhesive backing is still tacky — it was placed here recently. You put it back so whoever left it won't know you looked.", "context": "hotspot_narration", "emotion": "warning", "file": "shared/cryoBayMystery.ts" },
+
+  { "id": "elara.cryo.personal-effect.look", "text": "A small object has fallen under the pod housing. A tarnished silver locket, hinge stiff. The photograph inside is too scratched to read — but someone carried this through the Fall of Realities and into a cryo-sleep specifically so it would survive with them.", "context": "hotspot_narration", "emotion": "vulnerable", "file": "shared/cryoBayMystery.ts" },
+  { "id": "elara.cryo.personal-effect.look.who", "text": "I can't tell you yet. The photograph is too damaged to image-match. But the metalwork is hand-finished — that's a personal piece, not standard issue.", "context": "follow_up", "emotion": "analytical", "file": "shared/cryoBayMystery.ts" },
+
+  { "id": "elara.cryo.data-slate.look", "text": "Wedged under the pod housing is the edge of a data-slate. It's broken, but you can see the fracture-light of a live screen still reading beneath the cracks. This was meant to be missed.", "context": "hotspot_narration", "emotion": "warning", "file": "shared/cryoBayMystery.ts" },
+  { "id": "elara.cryo.data-slate.look.hidden", "text": "Because someone wanted the next person who walked in here to miss it. They didn't expect that person to be you.", "context": "follow_up", "emotion": "warning", "file": "shared/cryoBayMystery.ts" },
+  { "id": "elara.cryo.data-slate.use", "text": "You pocket the data-slate. Its screen survives the move. It is now yours.", "context": "hotspot_narration", "emotion": "reassuring", "file": "shared/cryoBayMystery.ts" },
+  { "id": "elara.cryo.data-slate.use.next", "text": "The bio-bed in the Medical Bay has an autopsy console. It can read external slates. Take it there.", "context": "follow_up", "emotion": "reassuring", "file": "shared/cryoBayMystery.ts" },
+
+  { "id": "elara.cryo.frosted-glass.look", "text": "The dead pod's glass is frosted from the inside. You wipe a small oval clear with your sleeve. Cord dangling from the occupant's collar. ID tag cord, cleanly cut — the tag itself is not on them. Someone wanted them nameless.", "context": "hotspot_narration", "emotion": "warning", "file": "shared/cryoBayMystery.ts" },
+  { "id": "elara.cryo.frosted-glass.look.cord", "text": "It means a blade, calmly applied. Not a struggle. Whoever did this had time, and they had the body's cooperation — or its inability to refuse.", "context": "follow_up", "emotion": "warning", "file": "shared/cryoBayMystery.ts" },
+
+  { "id": "elara.cryo.med-bay-door.look", "text": "Reinforced bulkhead. Red-lit seal. 'Medical Bay' stencil, paint worn. You'll need a reason for the door to think you should pass through it.", "context": "hotspot_narration", "emotion": "analytical", "file": "shared/cryoBayMystery.ts" },
+  { "id": "elara.cryo.med-bay-door.use", "text": "The door is sealed. The status console demands a reason. It will accept a clue logged in the case file as a reason.", "context": "hotspot_narration", "emotion": "analytical", "file": "shared/cryoBayMystery.ts" },
+
+  { "id": "room.cryo-bay.hotspot.cryo-pod.elara", "text": "That's your pod. Serial number AK-74-0074. You were in deep cryogenic suspension for... the chronometer is corrupted. Could be decades. Could be centuries.", "context": "hotspot_narration", "emotion": "analytical", "file": "client/src/contexts/GameContext.tsx" },
+  { "id": "elara.cryo-bay.cryo-pod.how-long", "text": "Long enough that the chronometer's drift exceeds my repair budget. I won't lie to you with a number — but the dust on the floor isn't a year's worth.", "context": "follow_up", "emotion": "vulnerable", "file": "client/src/contexts/GameContext.tsx" },
+  { "id": "room.cryo-bay.hotspot.sealed-pods.elara", "text": "Those pods are still sealed. Their status indicators went dark when the main power failed. I... I don't want to speculate about what's inside them. Not yet.", "context": "hotspot_narration", "emotion": "vulnerable", "file": "client/src/contexts/GameContext.tsx" },
+  { "id": "elara.cryo-bay.sealed-pods.speculate", "text": "Three possibilities. They're occupied and alive — unlikely, given the power loss. They're occupied and dead — possible. They were never occupied, and someone made it look like they were. I weight the third highest. I don't like why.", "context": "follow_up", "emotion": "warning", "file": "client/src/contexts/GameContext.tsx" },
+  { "id": "room.cryo-bay.hotspot.cryo-terminal.elara", "text": "This terminal has your biometric data — your species markers, class aptitudes, everything we determined during your awakening. You can review your Citizen profile here.", "context": "hotspot_narration", "emotion": "warm", "file": "client/src/contexts/GameContext.tsx" },
+  { "id": "room.cryo-bay.hotspot.data-crystal.elara", "text": "A data crystal! These were used by the first wave to store personal logs. This one might contain information about what happened after they woke up.", "context": "hotspot_narration", "emotion": "curious", "file": "client/src/contexts/GameContext.tsx" },
+  { "id": "room.cryo-bay.hotspot.egg-cryo-scratch.elara", "text": "Wait... those scratch marks. They form a symbol — the mark of the Antiquarian. But that's impossible. The Antiquarian is a myth, a figure from the deepest layers of the prophecy. Who carved this here, and when? This predates our launch.", "context": "hotspot_narration", "emotion": "warning", "file": "client/src/contexts/GameContext.tsx" },
+  { "id": "elara.cryo-bay.egg-cryo-scratch.who", "text": "A name old enough that I shouldn't be saying it. Move on. We'll come back to this when the room isn't listening.", "context": "follow_up", "emotion": "warning", "file": "client/src/contexts/GameContext.tsx" },
+
+  { "id": "room.medical-bay.hotspot.bio-bed.elara", "text": "The bio-bed can give you a full diagnostic. Your stats, your Dream resonance levels, your cellular integrity. Step on and I'll run a scan.", "context": "hotspot_narration", "emotion": "warm", "file": "client/src/contexts/GameContext.tsx" },
+  { "id": "room.medical-bay.hotspot.autopsy-console.elara", "text": "The autopsy console can read external data-slates. If you have the fragment from the dead pod, slot it in.", "context": "hotspot_narration", "emotion": "analytical", "file": "client/src/contexts/GameContext.tsx" },
+  { "id": "elara.medical-bay.autopsy-console.what", "text": "If the slate's intact enough — a name. A timestamp of death. And whatever the dead Potential was trying to send before they didn't make it.", "context": "follow_up", "emotion": "analytical", "file": "client/src/contexts/GameContext.tsx" },
+  { "id": "room.medical-bay.hotspot.dna-helix.elara", "text": "The DNA analysis station. It maps your genetic markers against known species templates. DeMagi, Quarchon, Ne-Yon... your hybrid signature is fascinating.", "context": "hotspot_narration", "emotion": "curious", "file": "client/src/contexts/GameContext.tsx" },
+  { "id": "room.medical-bay.hotspot.medicine-cabinet.elara", "text": "Medical supplies. Most are standard stim-packs and neural stabilizers. But some of these vials... I don't recognize the compounds. They weren't in the original manifest.", "context": "hotspot_narration", "emotion": "warning", "file": "client/src/contexts/GameContext.tsx" },
+  { "id": "room.medical-bay.hotspot.medical-log.elara", "text": "The last medical officer's log. Dated... I can't read the timestamp. But the entries describe patients with unusual symptoms. Nightmares. Voices. Something about 'the signal.'", "context": "hotspot_narration", "emotion": "warning", "file": "client/src/contexts/GameContext.tsx" },
+  { "id": "room.medical-bay.hotspot.observation-keycard.elara", "text": "The Observation Keycard! It was in the medical safe all along. The previous crew stored sensitive access cards here for security. This will unlock the Observation Deck — the crew used it to monitor deep space anomalies. Take it.", "context": "hotspot_narration", "emotion": "reassuring", "file": "client/src/contexts/GameContext.tsx" },
+
+  { "id": "room.bridge.hotspot.tactical-display.elara", "text": "The Conspiracy Board. Every entity, every faction, every connection we've mapped in the Dischordian Saga. It's a web of alliances, betrayals, and secrets. The more you explore, the more connections you'll uncover.", "context": "hotspot_narration", "emotion": "analytical", "file": "client/src/contexts/GameContext.tsx" },
+  { "id": "room.bridge.hotspot.timeline-projector.elara", "text": "The Timeline Projector. It maps the entire history of the Dischordian Saga across the Ages — from the Age of Privacy through the Fall of Reality and beyond. Each era tells a different chapter of the story.", "context": "hotspot_narration", "emotion": "warm", "file": "client/src/contexts/GameContext.tsx" },
+  { "id": "room.bridge.hotspot.captains-chair.elara", "text": "The Captain's chair. Dr. Lyra Vox designed the neural nanobot network that runs every system on this ship. She was the last to sit here before ordering the emergency cryo protocol. Something about her doesn't add up — a neuropsychologist with that level of access to the ship's core systems. Her personal log might still be in the armrest terminal.", "context": "hotspot_narration", "emotion": "warning", "file": "client/src/contexts/GameContext.tsx" },
+  { "id": "elara.bridge.captains-chair.who", "text": "Designation: Chief Neuropsychologist. Access pattern: command-tier. The trail you'll follow ends in her quarters — when we get there. Walk carefully.", "context": "follow_up", "emotion": "warning", "file": "client/src/contexts/GameContext.tsx" },
+  { "id": "room.bridge.hotspot.nav-console.elara", "text": "The navigation console. It controls the Ark's fast-travel system, but the interface uses alien glyph sequences for authentication. Match the symbol pattern to bring the navigation grid online — then you can jump to any room you've already discovered.", "context": "hotspot_narration", "emotion": "analytical", "file": "client/src/contexts/GameContext.tsx" },
+  { "id": "room.bridge.hotspot.quest-board.elara", "text": "The Mission Board. Active operations and quest objectives are tracked here. Complete missions to earn rewards, uncover lore, and advance the story. Some missions are time-sensitive — the Saga doesn't wait for anyone.", "context": "hotspot_narration", "emotion": "warm", "file": "client/src/contexts/GameContext.tsx" },
+  { "id": "room.bridge.hotspot.guild-console.elara", "text": "The Guild Registry. Form alliances with other Potentials, coordinate operations, and compete for dominance. Guilds that work together can tackle challenges no individual could face alone.", "context": "hotspot_narration", "emotion": "warm", "file": "client/src/contexts/GameContext.tsx" },
+  { "id": "room.bridge.hotspot.diplomacy-table.elara", "text": "The Diplomacy Table. Negotiate with factions, forge alliances, or declare rivalries. Every diplomatic decision shifts the balance of power across the Saga. Choose your allies carefully.", "context": "hotspot_narration", "emotion": "analytical", "file": "client/src/contexts/GameContext.tsx" },
+
+  { "id": "elara.framing.first-hover", "text": "Don't worry about reading the labels yourself — I'll narrate. Point at what catches your eye and we'll talk it through.", "context": "in_world_tutorial", "emotion": "warm", "file": "client/src/pages/ArkExplorerPage.tsx" },
+  { "id": "elara.cryo-bay.post-autopsy-reentry", "text": "Same room. Different room. We're looking at it through what we know now — go on, look harder.", "context": "room_intro", "emotion": "analytical", "file": "client/src/pages/ArkExplorerPage.tsx" }
 ]

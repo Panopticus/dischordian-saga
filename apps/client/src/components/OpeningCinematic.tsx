@@ -84,11 +84,6 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
       endSafetyTimerRef.current = null;
     }
 
-    const video = videoRef.current;
-    if (video) {
-      video.pause();
-    }
-
     // Prepare (don't play) the theme audio. AwakeningVOPlayer starts it
     // on the first VO trigger and fades it in alongside Elara's line.
     const themeAudio = new Audio(SAGA_THEME_URL);
@@ -96,9 +91,17 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
     themeAudio.volume = 0;
     themeAudio.preload = "auto";
 
-    // Visual fade out, then hand off
+    // Visual fade out FIRST. Pausing the video before the fade was
+    // amputating the last second of Elara's tail dialogue — we now let
+    // the audio carry through the fade and stop the element only after
+    // the overlay is fully transparent. 0.8s fade is plenty once the
+    // pause is no longer racing the audio.
     setFadeOut(true);
-    setTimeout(() => onComplete(themeAudio, reachedEndNaturally), 1500);
+    setTimeout(() => {
+      const video = videoRef.current;
+      if (video) video.pause();
+      onComplete(themeAudio, reachedEndNaturally);
+    }, 800);
   }, [onComplete]);
 
   // When video ends naturally — this is the only path that flags the
@@ -142,12 +145,17 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
 
   // Belt-and-suspenders: if `timeupdate` shows the video has actually run
   // past its reported duration but `ended` never fired, complete anyway.
-  // Must NOT trigger early, or the final moments of dialog get cut off.
-  // Treated as a "natural end" — playback genuinely ran out of frames.
+  // Must NOT trigger early, or the final moments of dialog get cut off:
+  // require `currentTime` to overshoot `duration` by 0.25s AND for the
+  // browser to still consider the video "playing" (not seeking, not
+  // paused). On well-behaved browsers `ended` fires first and this never
+  // triggers; this only catches the iOS Safari case where `ended` is
+  // genuinely missed.
   const handleTimeUpdate = useCallback(() => {
     const v = videoRef.current;
     if (!v || !Number.isFinite(v.duration) || v.duration <= 0) return;
-    if (v.currentTime >= v.duration) {
+    if (v.paused) return;
+    if (v.currentTime >= v.duration + 0.25) {
       handleComplete(true);
     }
   }, [handleComplete]);

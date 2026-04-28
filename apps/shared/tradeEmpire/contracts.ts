@@ -87,7 +87,33 @@ export type ContractClauseEffect =
   | { kind: "set_public_flag"; flag: string }
   | { kind: "faction_reputation_delta"; factionId: string; delta: number }
   | { kind: "reward_modifier"; modifier: number /* multiplier, 1.0 = no change */ }
-  | { kind: "lock_out_broker"; brokerKey: BrokerKey };
+  | { kind: "lock_out_broker"; brokerKey: BrokerKey }
+  // Phase 3 broker effects ---------------------------------------------------
+  /**
+   * Antiquarian canon: contracts canonically reference other contracts /
+   * sectors / NPC engagement records. Signing exposes the citation but
+   * the player must canonically seek the referenced source.
+   */
+  | { kind: "cross_reference"; referencedContractKey: string; mustBeSigned: boolean }
+  /**
+   * Degen canon: aleatory mid-stage. On stage completion, the engine rolls
+   * a uniform multiplier in [multiplierMin, multiplierMax] and applies it
+   * to the named stage's credit reward. Aleatory mid-stage / deterministic
+   * close per broker bible.
+   */
+  | { kind: "aleatory_roll"; stageId: string; multiplierMin: number; multiplierMax: number }
+  /**
+   * Independent canon: faction-neutral barter. Final reward is multiplied
+   * by a per-stage volatility roll keyed off the basisSectorId's recent
+   * extraction volume. No drama; pure economics.
+   */
+  | { kind: "market_volatility"; basisSectorId: string; multiplierMin: number; multiplierMax: number }
+  /**
+   * Thaloria canon: ceremony-aware. Contract canonically fails (or yields a
+   * trust penalty rather than a reward) if any required mission was
+   * completed combat-positive. Hierophant trust rule per broker bible.
+   */
+  | { kind: "ceremonial_audit"; failsOnCombatPositive: true; trustPenalty: number };
 
 // --- Reward shape ---------------------------------------------------------
 

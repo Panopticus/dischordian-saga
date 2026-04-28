@@ -2690,6 +2690,14 @@ export const gameReplays = mysqlTable("game_replays", {
    *  cool match can't have a curious viewer scrape neighbouring
    *  replays. Added by migration 0056 + replaysBootstrap. */
   shareToken: varchar("shareToken", { length: 32 }),
+  /** Originating server matchId (#92). Required by the verification
+   *  job — the tcg-core engine mints card-instance ids via
+   *  `makeCardInstance(matchId, counter, …)`, so a GameState
+   *  reconstructed under a different matchId hashes differently from
+   *  the stored finalStateHash even when every action replays
+   *  identically. Nullable for backwards compatibility with rows
+   *  written before migration 0057. */
+  matchId: varchar("matchId", { length: 64 }),
   playedAt: timestamp("playedAt").defaultNow().notNull(),
 }, (table) => ({
   gameTypeIdx: index("idx_game_replays_game_type").on(table.gameType),
@@ -2697,6 +2705,39 @@ export const gameReplays = mysqlTable("game_replays", {
   featuredIdx: index("idx_game_replays_featured").on(table.featured),
 }));
 export type GameReplayRow = typeof gameReplays.$inferSelect;
+
+/* ─── PVP RATINGS (#7) ─── */
+/** Persistent MMR + seasonal rank per (user, game type).
+ *  - `mmr` is hidden ELO that drives matchmaking across seasons.
+ *  - `seasonRank` is the visible cosmetic rank for the current season.
+ *  - `peakMmr` is the highest MMR the player has ever held — a
+ *    persistent badge that informs reward tiers.
+ *  See migration 0058 + apps/server/services/pvpRatingsBootstrap.ts. */
+export const pvpRatings = mysqlTable("pvp_ratings", {
+  id: int("id").primaryKey().autoincrement(),
+  userId: int("userId").notNull(),
+  gameType: varchar("gameType", { length: 50 }).notNull(),
+  mmr: int("mmr").notNull().default(1200),
+  seasonId: int("seasonId").notNull().default(1),
+  seasonRank: int("seasonRank").notNull().default(0),
+  seasonWins: int("seasonWins").notNull().default(0),
+  seasonLosses: int("seasonLosses").notNull().default(0),
+  peakMmr: int("peakMmr").notNull().default(1200),
+  lastMatchAt: timestamp("lastMatchAt"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  uqUserGame: uniqueIndex("uq_pvp_ratings_user_game").on(
+    table.userId,
+    table.gameType,
+  ),
+  leaderboardIdx: index("idx_pvp_ratings_leaderboard").on(
+    table.gameType,
+    table.mmr,
+  ),
+  userIdx: index("idx_pvp_ratings_user").on(table.userId),
+}));
+export type PvpRatingRow = typeof pvpRatings.$inferSelect;
 
 /* ─── PERSONAL QUARTERS ─── */
 export const playerQuarters = mysqlTable("player_quarters", {
@@ -4918,6 +4959,184 @@ export const tradeSectorArrivals = mysqlTable("trade_sector_arrivals", {
 }));
 export type TradeSectorArrivalRow =
   typeof tradeSectorArrivals.$inferSelect;
+
+/**
+ * Oracle futures positions — Phase 3 Antiquarian sub-family. Real-world
+ * cycle clock: settlesAt = signedAt + cyclesAhead * ORACLE_FUTURES_CYCLE_HOURS
+ * (router constant, default 24h). Settlement is lazy-on-read via the
+ * router's getOracleFutures procedure, which iterates a user's open
+ * futures and calls settleOracleFuture for any whose settlesAt has
+ * elapsed. Spot price is derived from the user's recent trade-empire
+ * activity in the basis sector during the holding window.
+ */
+export const tradeOracleFutures = mysqlTable("trade_oracle_futures", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /** FK to tradeContracts.id — the parent contract instance. */
+  contractId: int("contractId").notNull(),
+  commodity: mysqlEnum("commodity", [
+    "credits",
+    "materials",
+    "influence",
+    "intelligence",
+  ]).notNull(),
+  sectorId: varchar("sectorId", { length: 128 }).notNull(),
+  position: mysqlEnum("position", ["call", "put", "spread"]).notNull(),
+  strikePrice: int("strikePrice").notNull(),
+  projectedPrice: int("projectedPrice").notNull(),
+  cyclesAhead: int("cyclesAhead").notNull(),
+  signedAt: timestamp("signedAt").defaultNow().notNull(),
+  /** Computed = signedAt + cyclesAhead * ORACLE_FUTURES_CYCLE_HOURS hrs. */
+  settlesAt: timestamp("settlesAt").notNull(),
+  /** Spot price at settlement — null until settled. */
+  settlementPrice: int("settlementPrice"),
+  /** Payout in credits — positive on win, negative on loss; null until settled. */
+  payout: int("payout"),
+  status: mysqlEnum("status", ["open", "settled", "cancelled"])
+    .notNull()
+    .default("open"),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  userIdIdx: index("idx_trade_oracle_futures_user_id").on(table.userId),
+  userStatusIdx: index("idx_trade_oracle_futures_user_status").on(
+    table.userId,
+    table.status,
+  ),
+  settlesAtIdx: index("idx_trade_oracle_futures_settles_at").on(table.settlesAt),
+}));
+export type TradeOracleFutureRow = typeof tradeOracleFutures.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
+   TRADE EMPIRE — Normalized state tables (Phase 4).
+   Replaces userProgress.gameData.tradeEmpire JSON blob. Read paths
+   compose state from these six tables; legacy blob is backfilled by
+   apps/scripts/backfill-trade-empire-blob.ts and then ignored.
+   ═══════════════════════════════════════════════════════ */
+
+/** Active mission queue. Capped at 3 concurrent per user (router rule). */
+export const tradeActiveMissions = mysqlTable("trade_active_missions", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /** Canonical mission id (e.g., "vox_corridor", "salvage_debris"). */
+  missionId: varchar("missionId", { length: 128 }).notNull(),
+  name: varchar("name", { length: 256 }).notNull(),
+  sectorId: varchar("sectorId", { length: 128 }).notNull(),
+  /** ms-since-epoch when mission was dispatched (kept as bigint to match
+   *  the JSON blob's number semantics). */
+  dispatchedAt: bigint("dispatchedAt", { mode: "number" }).notNull(),
+  /** ms duration after which the mission is canonically completable. */
+  durationMs: bigint("durationMs", { mode: "number" }).notNull(),
+  /** Reward shape (dream / salvage / influence / voidCrystals / xp /
+   *  material / materialAmount). */
+  reward: json("reward").$type<Record<string, unknown>>().notNull().default({}),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => ({
+  userIdIdx: index("idx_trade_active_missions_user_id").on(table.userId),
+  userMissionUniq: uniqueIndex("uniq_trade_active_missions_user_mission").on(
+    table.userId,
+    table.missionId,
+  ),
+}));
+export type TradeActiveMissionRow = typeof tradeActiveMissions.$inferSelect;
+
+/**
+ * Append-only completion log. One row per completeMission call.
+ * Aggregates (totalMissionsCompleted, totalDreamEarned, totalInfluenceEarned)
+ * are kept in tradeEmpireUserAggregates for hot-read performance.
+ */
+export const tradeCompletedMissions = mysqlTable("trade_completed_missions", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  missionId: varchar("missionId", { length: 128 }).notNull(),
+  sectorId: varchar("sectorId", { length: 128 }).notNull(),
+  dreamEarned: int("dreamEarned").notNull().default(0),
+  influenceEarned: int("influenceEarned").notNull().default(0),
+  completedAt: timestamp("completedAt").defaultNow().notNull(),
+}, (table) => ({
+  userIdIdx: index("idx_trade_completed_missions_user_id").on(table.userId),
+  userSectorIdx: index("idx_trade_completed_missions_user_sector").on(
+    table.userId,
+    table.sectorId,
+  ),
+}));
+export type TradeCompletedMissionRow = typeof tradeCompletedMissions.$inferSelect;
+
+/** Per-(user, sector) reputation + control level. */
+export const tradeSectorReputation = mysqlTable("trade_sector_reputation", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  sectorId: varchar("sectorId", { length: 128 }).notNull(),
+  controlLevel: int("controlLevel").notNull().default(0),
+  reputation: int("reputation").notNull().default(0),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  userIdIdx: index("idx_trade_sector_reputation_user_id").on(table.userId),
+  userSectorUniq: uniqueIndex("uniq_trade_sector_reputation_user_sector").on(
+    table.userId,
+    table.sectorId,
+  ),
+}));
+export type TradeSectorReputationRow = typeof tradeSectorReputation.$inferSelect;
+
+/** Spy active cover identities. Only one canonically active per user. */
+export const tradeActiveCovers = mysqlTable("trade_active_covers", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  coverId: varchar("coverId", { length: 128 }).notNull(),
+  targetFactionId: varchar("targetFactionId", { length: 128 }).notNull(),
+  expiresAt: bigint("expiresAt", { mode: "number" }).notNull(),
+  /** false = active, true = canonically blown / expired / cleared. */
+  cleared: boolean("cleared").notNull().default(false),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => ({
+  userIdIdx: index("idx_trade_active_covers_user_id").on(table.userId),
+  userActiveIdx: index("idx_trade_active_covers_user_active").on(
+    table.userId,
+    table.cleared,
+  ),
+}));
+export type TradeActiveCoverRow = typeof tradeActiveCovers.$inferSelect;
+
+/**
+ * Class-sector unlocks (e.g., Spy unlocks intelligence_exchange_nightline).
+ * Replaces the "unlocked:<sectorId>" string-marker hack that the legacy
+ * blob stored inside completedMissionIds.
+ */
+export const tradeClassSectorUnlocks = mysqlTable("trade_class_sector_unlocks", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  sectorId: varchar("sectorId", { length: 128 }).notNull(),
+  unlockedAt: timestamp("unlockedAt").defaultNow().notNull(),
+}, (table) => ({
+  userIdIdx: index("idx_trade_class_sector_unlocks_user_id").on(table.userId),
+  userSectorUniq: uniqueIndex("uniq_trade_class_sector_unlocks_user_sector").on(
+    table.userId,
+    table.sectorId,
+  ),
+}));
+export type TradeClassSectorUnlockRow =
+  typeof tradeClassSectorUnlocks.$inferSelect;
+
+/**
+ * Per-user running aggregates for hot reads. Updated transactionally
+ * with completion writes; invariant: counters here equal SUM/COUNT
+ * over the corresponding append-only tables. Backfilled from the
+ * legacy blob's totals.
+ */
+export const tradeEmpireUserAggregates = mysqlTable(
+  "trade_empire_user_aggregates",
+  {
+    userId: int("userId").primaryKey(),
+    totalMissionsCompleted: int("totalMissionsCompleted")
+      .notNull()
+      .default(0),
+    totalDreamEarned: int("totalDreamEarned").notNull().default(0),
+    totalInfluenceEarned: int("totalInfluenceEarned").notNull().default(0),
+    updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+  },
+);
+export type TradeEmpireUserAggregateRow =
+  typeof tradeEmpireUserAggregates.$inferSelect;
 
 /* ═══════════════════════════════════════════════════════
    PHASE 6 INFRASTRUCTURE — Per-NPC ask-topics + dialog tree state

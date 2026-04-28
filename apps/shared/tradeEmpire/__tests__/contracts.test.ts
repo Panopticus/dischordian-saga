@@ -13,6 +13,10 @@ import {
   allContractKeys,
   LOCKE_CONTRACTS,
   NILMORG_CONTRACTS,
+  DEGEN_CONTRACTS,
+  ANTIQUARIAN_CONTRACTS,
+  INDEPENDENT_CONTRACTS,
+  THALORIA_CONTRACTS,
 } from "../contractTemplates";
 import {
   validateContractDef,
@@ -22,9 +26,14 @@ import {
 import { BROKER_REGISTRY, isKnownBrokerKey } from "../brokers";
 
 describe("Contract template registry", () => {
-  it("exports all Locke + Nilmorg contracts via aggregator", () => {
+  it("exports every per-broker family via aggregator", () => {
     expect(ALL_CONTRACT_TEMPLATES.length).toBe(
-      LOCKE_CONTRACTS.length + NILMORG_CONTRACTS.length,
+      LOCKE_CONTRACTS.length +
+        NILMORG_CONTRACTS.length +
+        DEGEN_CONTRACTS.length +
+        ANTIQUARIAN_CONTRACTS.length +
+        INDEPENDENT_CONTRACTS.length +
+        THALORIA_CONTRACTS.length,
     );
   });
 
@@ -134,6 +143,128 @@ describe("Nilmorg contracts — institutional canon", () => {
   it("SEVERANCE_PRIZE_BODY_CONTRACT requires Act 5 minimum", () => {
     const c = getContractTemplate("severance.prize_body_contract")!;
     expect(c.minAct).toBe(5);
+  });
+});
+
+describe("Degen contracts — aleatory canon", () => {
+  it("every Degen contract has at least one aleatory_roll clause", () => {
+    for (const c of DEGEN_CONTRACTS) {
+      const hasRoll = (c.hiddenClauses ?? []).some(
+        (cl) => cl.effect.kind === "aleatory_roll",
+      );
+      expect(hasRoll, c.contractKey).toBe(true);
+    }
+  });
+
+  it("Degen contracts have NO cross_reference clauses (style canon)", () => {
+    for (const c of DEGEN_CONTRACTS) {
+      const hasXref = (c.hiddenClauses ?? []).some(
+        (cl) => cl.effect.kind === "cross_reference",
+      );
+      expect(hasXref, c.contractKey).toBe(false);
+    }
+  });
+
+  it("aleatory_roll multiplier ranges are valid", () => {
+    for (const c of DEGEN_CONTRACTS) {
+      for (const cl of c.hiddenClauses ?? []) {
+        if (cl.effect.kind === "aleatory_roll") {
+          expect(cl.effect.multiplierMin).toBeGreaterThan(0);
+          expect(cl.effect.multiplierMax).toBeGreaterThan(cl.effect.multiplierMin);
+        }
+      }
+    }
+  });
+});
+
+describe("Antiquarian contracts — bibliographic canon", () => {
+  it("Antiquarian archive contracts use only cross_reference clauses (no traps)", () => {
+    const archiveContracts = ANTIQUARIAN_CONTRACTS.filter(
+      (c) => c.metadata?.tier === "archive" || c.metadata?.tier === "forensic",
+    );
+    expect(archiveContracts.length).toBeGreaterThan(0);
+    for (const c of archiveContracts) {
+      for (const cl of c.hiddenClauses ?? []) {
+        expect(cl.effect.kind, `${c.contractKey}/${cl.clauseId}`).toBe(
+          "cross_reference",
+        );
+      }
+    }
+  });
+
+  it("every cross_reference points to a real registered contract", () => {
+    const allKeys = new Set(allContractKeys());
+    for (const c of ANTIQUARIAN_CONTRACTS) {
+      for (const cl of c.hiddenClauses ?? []) {
+        if (cl.effect.kind === "cross_reference") {
+          expect(
+            allKeys.has(cl.effect.referencedContractKey),
+            `${c.contractKey} references unknown ${cl.effect.referencedContractKey}`,
+          ).toBe(true);
+        }
+      }
+    }
+  });
+
+  it("Oracle futures sub-family is class-locked metadata", () => {
+    const futures = ANTIQUARIAN_CONTRACTS.filter(
+      (c) => c.metadata?.tier === "oracle_futures",
+    );
+    expect(futures.length).toBe(3);
+    for (const c of futures) {
+      expect(c.metadata?.classLock).toBe("oracle");
+      expect(c.firstSigningFlag).toBe("oracle_antiquarian_met");
+    }
+  });
+
+  it("Oracle futures expose call / put / spread positions exactly once each", () => {
+    const futures = ANTIQUARIAN_CONTRACTS.filter(
+      (c) => c.metadata?.tier === "oracle_futures",
+    );
+    const positions = futures.map((c) => c.metadata?.position).sort();
+    expect(positions).toEqual(["call", "put", "spread"]);
+  });
+});
+
+describe("Independent contracts — barter canon", () => {
+  it("Independent contracts have ZERO hidden clauses (style canon)", () => {
+    for (const c of INDEPENDENT_CONTRACTS) {
+      expect(c.hiddenClauses ?? [], c.contractKey).toEqual([]);
+    }
+  });
+
+  it("Independent contracts declare a volatilityRange in metadata", () => {
+    for (const c of INDEPENDENT_CONTRACTS) {
+      expect(c.metadata?.volatilityRange, c.contractKey).toBeDefined();
+    }
+  });
+});
+
+describe("Thaloria contracts — ceremony-aware canon", () => {
+  it("every Thaloria contract gates on post_arena revealStage", () => {
+    for (const c of THALORIA_CONTRACTS) {
+      expect(c.requiresRevealStage, c.contractKey).toBe("post_arena");
+    }
+  });
+
+  it("every Thaloria contract has exactly one ceremonial_audit clause", () => {
+    for (const c of THALORIA_CONTRACTS) {
+      const ceremonial = (c.hiddenClauses ?? []).filter(
+        (cl) => cl.effect.kind === "ceremonial_audit",
+      );
+      expect(ceremonial.length, c.contractKey).toBe(1);
+    }
+  });
+
+  it("ceremonial_audit clauses fail on combat-positive completion", () => {
+    for (const c of THALORIA_CONTRACTS) {
+      for (const cl of c.hiddenClauses ?? []) {
+        if (cl.effect.kind === "ceremonial_audit") {
+          expect(cl.effect.failsOnCombatPositive).toBe(true);
+          expect(cl.effect.trustPenalty).toBeGreaterThan(0);
+        }
+      }
+    }
   });
 });
 

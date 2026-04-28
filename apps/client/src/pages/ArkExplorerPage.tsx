@@ -58,6 +58,10 @@ import { getRoomTransmissions, getElaraVariant, type SecretTransmission } from "
 import AlienSymbolPuzzle from "@/components/AlienSymbolPuzzle";
 import FastTravelPanel from "@/components/FastTravelPanel";
 import ItemDetailModal from "@/components/ItemDetailModal";
+import ElaraConversationPopup from "@/components/ElaraConversationPopup";
+import CompanionPresenceBadge from "@/components/CompanionPresenceBadge";
+import { useElaraVO } from "@/hooks/useElaraVO";
+import { useHumanVO } from "@/hooks/useHumanVO";
 import DnaDeviceOfferDialog from "@/components/DnaDeviceOfferDialog";
 import ParallaxRoom from "@/components/ParallaxRoom";
 import { MobileNarratorSlot } from "@/components/MobileNarratorSlot";
@@ -360,7 +364,9 @@ function ElaraPopup({ text, onClose, voUrl }: { text: string | string[]; onClose
 function RoomScene({
   room,
   onHotspotClick,
+  onHotspotHoverWhisper,
   itemsCollected,
+  collectedHotspots = [],
   fastTravelUnlocked = false,
   commsRelayComplete = false,
   roomsWithEvents = new Set<string>(),
@@ -369,12 +375,24 @@ function RoomScene({
   /** Default verb is `look`. The verb-coin overlay calls this with
    *  a non-look verb to invoke a specific (verb, hotspot) response. */
   onHotspotClick: (hotspot: HotspotDef, verb?: Verb) => void;
+  /** Section 9 — fired (after a local 600ms debounce) when the
+   *  player's pointer dwells on a hotspot that authors an
+   *  `elaraHoverVoId`. The parent applies the global 12s throttle +
+   *  once-per-session dedup before actually speaking. */
+  onHotspotHoverWhisper?: (hotspot: HotspotDef) => void;
   itemsCollected: string[];
+  /** Hotspot ids that have been one-shot collected and should no
+   *  longer render in the scene (data-slate after `use`, locket after
+   *  `look`, etc.). */
+  collectedHotspots?: string[];
   fastTravelUnlocked?: boolean;
   commsRelayComplete?: boolean;
   roomsWithEvents?: Set<string>;
 }) {
   const [hoveredHotspot, setHoveredHotspot] = useState<string | null>(null);
+  // Per-hotspot debounce timer for hover whispers. Cleared on
+  // mouse-leave so a quick sweep across hotspots never fires.
+  const hoverTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { state: gameStateForArt } = useGame();
   // Tier-aware room backdrop. The Section-F flag-based variants for
   // cryo / medical bay still win, then any tier-indexed art for the
@@ -418,6 +436,14 @@ function RoomScene({
     } catch { return true; }
   });
 
+  // ?debug-hotspots=1 — overlay every hotspot's bounding box with its id
+  // label so we can re-anchor against the room art in one pass instead of
+  // by binary search. No production cost; renders only when the flag is
+  // set in the URL on the current navigation.
+  const debugHotspots =
+    typeof window !== "undefined" &&
+    /[?&]debug-hotspots=1\b/.test(window.location.search);
+
   // Listen for settings page toggle
   useEffect(() => {
     const handler = (e: Event) => {
@@ -431,7 +457,7 @@ function RoomScene({
   }, []);
 
   return (
-    <div className="relative w-full aspect-[16/9] sm:aspect-[21/9] rounded-lg overflow-hidden group">
+    <div className="relative w-full aspect-[16/9] rounded-lg overflow-hidden group">
       {/* Room background image with parallax depth effect. For the
           Section F murder-mystery rooms, roomArtUrl swaps between the
           initial/investigating/victim-identified/case-open-later
@@ -475,24 +501,58 @@ function RoomScene({
           const isCollected = hotspot.type === "item" && hotspot.action && itemsCollected.includes(hotspot.action);
           const isHovered = hoveredHotspot === hotspot.id;
           const isEasterEgg = hotspot.id.startsWith("egg-");
+          // One-shot pickup hotspots (data-slate use, locket pickup) are
+          // tracked by id in collectedHotspots so they don't reappear
+          // when the player re-enters the room.
+          const isOneShotConsumed = collectedHotspots.includes(hotspot.id);
 
-          if (isCollected) return null;
+          if (isCollected || isOneShotConsumed) return null;
 
+          // Smaller hotspots sit on top of larger ones. Several rooms
+          // (notably the cryo-bay dead-pod cluster) have detail
+          // hotspots that fall entirely inside a wide-area parent
+          // hotspot — without an explicit z-index, hover/click can
+          // flicker between them. We score each hotspot by area in
+          // % squared so a small detail (e.g. 5×5 = 25) always sits
+          // above a 16×54 = 864 wrapper.
+          const area = hotspot.width * hotspot.height;
+          // Map area into a z range above z-10 (the layer baseline).
+          // Smaller hotspot → higher z. Cap so we never collide with
+          // higher overlay layers (verb-coin, modals, etc.).
+          const hotspotZ = Math.max(11, Math.min(40, 50 - Math.round(area / 30)));
           return (
             <motion.div
               key={hotspot.id}
               initial={{ opacity: 0, scale: 0 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0 }}
-              className="absolute cursor-pointer z-10"
+              className="absolute cursor-pointer"
               style={{
                 left: `${hotspot.x}%`,
                 top: `${hotspot.y}%`,
                 width: `${hotspot.width}%`,
                 height: `${hotspot.height}%`,
+                zIndex: hotspotZ,
               }}
-              onMouseEnter={() => setHoveredHotspot(hotspot.id)}
-              onMouseLeave={() => setHoveredHotspot(null)}
+              onMouseEnter={() => {
+                setHoveredHotspot(hotspot.id);
+                // Section 9 — debounce the hover whisper so accidental
+                // sweeps across the room don't trigger it. The parent
+                // applies the global throttle + per-session dedup.
+                if (hotspot.elaraHoverVoId && onHotspotHoverWhisper) {
+                  if (hoverTimerRef.current) clearTimeout(hoverTimerRef.current);
+                  hoverTimerRef.current = setTimeout(() => {
+                    onHotspotHoverWhisper(hotspot);
+                  }, 600);
+                }
+              }}
+              onMouseLeave={() => {
+                setHoveredHotspot(null);
+                if (hoverTimerRef.current) {
+                  clearTimeout(hoverTimerRef.current);
+                  hoverTimerRef.current = null;
+                }
+              }}
               onClick={() => onHotspotClick(hotspot)}
             >
               {/* Clickable area highlight */}
@@ -698,6 +758,41 @@ function RoomScene({
         })}
       </AnimatePresence>
 
+      {/* ?debug-hotspots=1 overlay — bounding box + id label per hotspot
+          so we can re-anchor coordinates against the room art without
+          guess-and-check. */}
+      {debugHotspots && room.hotspots.map((h) => (
+        <div
+          key={`debug-${h.id}`}
+          aria-hidden
+          className="absolute pointer-events-none"
+          style={{
+            left: `${h.x}%`,
+            top: `${h.y}%`,
+            width: `${h.width}%`,
+            height: `${h.height}%`,
+            border: "1px dashed magenta",
+            background: "color-mix(in oklch, magenta 8%, transparent)",
+            zIndex: 60,
+          }}
+        >
+          <span
+            className="font-mono text-[9px]"
+            style={{
+              position: "absolute",
+              top: -14,
+              left: 0,
+              padding: "0 4px",
+              background: "rgba(0,0,0,0.7)",
+              color: "magenta",
+              whiteSpace: "nowrap",
+            }}
+          >
+            {h.id} ({h.x},{h.y},{h.width}×{h.height})
+          </span>
+        </div>
+      ))}
+
       {/* Room name overlay */}
       <div className="absolute bottom-3 left-3 z-10">
         <div className="flex items-center gap-2">
@@ -736,6 +831,7 @@ export default function ArkExplorerPage() {
     adjustNpcTrust, discoverNpc, adjustHumanTrust, adjustElaraTrust,
     incrementNpcConversation, revealNpcSecret, setNpcCallback,
     logClue, grantMysteryItem,
+    markHotspotCollected,
   } = useGame();
   const { discoverEntry } = useGamification();
   const { setRoomAmbience, playSFX, initAudio, audioReady } = useSound();
@@ -748,6 +844,80 @@ export default function ArkExplorerPage() {
   // array internally so the render path is unified.
   const [elaraText, setElaraText] = useState<string | string[] | null>(null);
   const [elaraVoUrl, setElaraVoUrl] = useState<string | undefined>(undefined);
+  // Section 9 — manifest id for the current narration. Drives Elara's
+  // voice through useElaraVO inside the conversation popup; takes
+  // priority over the legacy CDN voUrl when set.
+  const [elaraVoId, setElaraVoId] = useState<string | undefined>(undefined);
+  // Section 9 — player response choices surfaced once Elara finishes
+  // her line. When empty/null, the popup falls through to the default
+  // 3-button strip (Acknowledged / Tell me more / [stay silent]).
+  const [elaraResponses, setElaraResponses] = useState<
+    import("@/components/ElaraConversationPopup").ConversationChoice[] | undefined
+  >(undefined);
+
+  /**
+   * Single entry point for every Elara narration that fires from the
+   * Ark explorer. Replaces direct setElaraText() calls so the runtime
+   * also wires up the manifest VO id + response strip in one shot.
+   */
+  const narrateElara = useCallback((opts: {
+    text: string | string[];
+    voId?: string;
+    voUrl?: string;
+    responses?: import("@/components/ElaraConversationPopup").ConversationChoice[];
+  }) => {
+    setElaraText(opts.text);
+    setElaraVoId(opts.voId);
+    // When voId is present, prefer the manifest path — clear voUrl so
+    // the popup doesn't double-play. When voId is missing the legacy
+    // CDN URL still gets through.
+    setElaraVoUrl(opts.voId ? undefined : opts.voUrl);
+    setElaraResponses(opts.responses);
+  }, []);
+
+  // Section 9 — single hook instance per speaker, lifted to the page
+  // so both the conversation popup and the companion-presence badge
+  // observe the same playback state. Each useNpcVO holds its own
+  // `audio` element + `speaking` flag; sharing the instance keeps
+  // them in lockstep without a context.
+  const elaraVo = useElaraVO();
+  const humanVo = useHumanVO();
+  const elaraSpeakingNow = elaraVo.speaking;
+  const humanSpeakingNow = humanVo.speaking;
+
+  // Section 9 — hover-whisper throttle + dedup. RoomScene applies a
+  // 600ms debounce per hotspot before calling this; we additionally
+  // gate on:
+  //   • a 12s global throttle so even fast players can't spam Elara
+  //   • a per-hotspot Set so each whisper plays at most once per session
+  //   • a no-op when the popup is already showing (silence wins)
+  const lastWhisperAtRef = useRef<number>(0);
+  const playedWhispersRef = useRef<Set<string>>(new Set());
+  const firstHoverFiredRef = useRef<boolean>(false);
+  const onHotspotHoverWhisper = useCallback((hotspot: HotspotDef) => {
+    // Section 9 — first-hover meta-line. The first time any player
+    // dwells on any hotspot in any session AND the framing flag is
+    // unset, fire the one-shot framing line that establishes Elara
+    // as the narrator. Suppresses the per-hotspot whisper this same
+    // hover so the two don't overlap.
+    if (!firstHoverFiredRef.current && !state.narrativeFlags?.tutorial_elara_narrates_explained) {
+      firstHoverFiredRef.current = true;
+      setNarrativeFlag("tutorial_elara_narrates_explained");
+      narrateElara({
+        text: "Don't worry about reading the labels yourself — I'll narrate. Point at what catches your eye and we'll talk it through.",
+        voId: "elara.framing.first-hover",
+      });
+      return;
+    }
+    if (!hotspot.elaraHoverVoId) return;
+    if (elaraText) return; // popup is live; don't talk over the line
+    if (playedWhispersRef.current.has(hotspot.id)) return;
+    const now = performance.now();
+    if (now - lastWhisperAtRef.current < 12_000) return;
+    lastWhisperAtRef.current = now;
+    playedWhispersRef.current.add(hotspot.id);
+    elaraVo.speak(hotspot.elaraHoverVoId);
+  }, [elaraText, elaraVo, state.narrativeFlags?.tutorial_elara_narrates_explained, setNarrativeFlag, narrateElara]);
   const [showOnboardingTutorial, setShowOnboardingTutorial] = useState(false);
   const [activeTransmission, setActiveTransmission] = useState<SecretTransmission | null>(null);
   const { discoverTransmission, isTransmissionDiscovered } = useGame();
@@ -1046,6 +1216,29 @@ export default function ArkExplorerPage() {
     }
   }, [currentRoom?.id, currentRoomState?.elaraDialogSeen, currentRoomState?.visitCount, audioReady, state.moralityScore]);
 
+  // Section 9 — cryo-bay re-entry beat. The first time the player
+  // walks back into the cryo bay AFTER the bridge dead-lock has been
+  // resolved (i.e. the autopsy console has handed over the reset
+  // code), fire a one-shot Elara line acknowledging the new lens
+  // they're seeing the room through. Gated on a dedicated flag so it
+  // only fires once across the save.
+  useEffect(() => {
+    if (!currentRoom || currentRoom.id !== "cryo-bay") return;
+    if (!state.narrativeFlags?.bridge_dead_lock_resolved) return;
+    if (state.narrativeFlags?.cryo_bay_post_autopsy_reentry_seen) return;
+    setNarrativeFlag("cryo_bay_post_autopsy_reentry_seen");
+    narrateElara({
+      text: "Same room. Different room. We're looking at it through what we know now — go on, look harder.",
+      voId: "elara.cryo-bay.post-autopsy-reentry",
+    });
+  }, [
+    currentRoom?.id,
+    state.narrativeFlags?.bridge_dead_lock_resolved,
+    state.narrativeFlags?.cryo_bay_post_autopsy_reentry_seen,
+    setNarrativeFlag,
+    narrateElara,
+  ]);
+
   // First-visit music cue. Mirrors the existing
   // music_heard_<song> flag pattern from RoomDialog beats —
   // doesn't auto-play audio, just marks the trigger as
@@ -1281,12 +1474,44 @@ export default function ArkExplorerPage() {
         } else {
           const def = getRoomDef(targetRoomId);
           const req = def?.unlockRequirement;
-          let reason = "This area is locked.";
-          if (req?.type === "rooms_unlocked") reason = `Unlock ${req.value} rooms to access this area.`;
-          if (req?.type === "items_collected") reason = `Collect ${req.value} items to access this area.`;
+          // Two strings on purpose: a short HUD line for the toast and a
+          // longer in-fiction beat Elara speaks. We avoid "locked"/"unlock
+          // X rooms" phrasing here — the Ark seals doors for reasons, and
+          // those reasons should sound like ship behaviour, not a level
+          // gate.
+          let toastReason = "The door won't open.";
+          let elaraReason = "The door won't open. Whatever the Ark is waiting for, we haven't given it yet.";
+
+          if (req?.type === "narrative_event" && req.value === "cryo_mystery_first_clue_found") {
+            // Med Bay quarantine — the cryo-bay incident triggered an
+            // automatic seal. The Ark won't lift it until the case file
+            // has at least one logged observation.
+            toastReason = "Medical Bay is in quarantine lockdown.";
+            elaraReason =
+              "Medical refused the request. The Ark sealed it the moment something went wrong in cryo, and she won't lift the quarantine until the incident has at least one logged observation in the case file. Look at the pod, the panel, the chart — anything you actually see counts.";
+          } else if (req?.type === "narrative_event") {
+            toastReason = "The Ark hasn't cleared this section yet.";
+            elaraReason =
+              "The Ark hasn't cleared this section yet. Something earlier in the ship has to change before she'll route us through here.";
+          } else if (req?.type === "rooms_unlocked") {
+            toastReason = "Section access still restricted.";
+            elaraReason = `The Ark is staging access deck by deck. We need ${req.value} sections cleared before this one's on the route.`;
+          } else if (req?.type === "items_collected") {
+            toastReason = "Inventory threshold not met.";
+            elaraReason = `This section is keyed to a recovery threshold — ${req.value} items pulled from the ship before she'll open it.`;
+          } else if (req?.type === "specific_item") {
+            toastReason = "Credential or key required.";
+            elaraReason =
+              "There's a credential check on this door. The Ark wants something specific in your hand before she'll open it. We haven't found it yet.";
+          } else if (req?.type === "chain_complete") {
+            toastReason = "Storyline gate.";
+            elaraReason =
+              "This door is keyed to an arc we haven't finished. The Ark is patient about that kind of thing — finish what we started, and she opens.";
+          }
+
           if (audioReady) playSFX("door_locked");
-          notify("error", "ACCESS DENIED", reason);
-          setElaraText(`That door is locked. ${reason} Keep exploring — you'll find a way.`);
+          notify("error", "ACCESS DENIED", toastReason);
+          setElaraText(elaraReason);
         }
         break;
       }
@@ -1388,14 +1613,38 @@ export default function ArkExplorerPage() {
             break;
           }
           if (audioReady) playSFX("dialog_open");
-          setElaraText(mystery.narration);
-          // VO is optional — if present, hand it to ElaraPopup; if
-          // absent, clear any prior VO so we don't carry a stale
-          // intro track over the new line.
-          setElaraVoUrl(mystery.vo);
+          // Section 9 — route through narrateElara so the popup also
+          // picks up the manifest VO id and the response strip. The
+          // legacy `vo` URL field is honoured as a fallback for any
+          // mystery beat that hasn't migrated to a manifest id yet.
+          narrateElara({
+            text: mystery.narration,
+            voId: mystery.voId,
+            voUrl: mystery.voId ? undefined : mystery.vo,
+            responses: mystery.responses?.map((r) => ({
+              id: r.id,
+              label: r.label,
+              elaraFollowUpVoId: r.elaraFollowUpVoId,
+              elaraFollowUpText: r.elaraFollowUpText,
+              closesDialog: r.closesDialog,
+              onPick: r.logsClue ? (() => logClue(r.logsClue!)) : undefined,
+            })),
+          });
           if (mystery.logsClue) logClue(mystery.logsClue);
-          if (mystery.grantsInventory) grantMysteryItem(mystery.grantsInventory);
+          if (mystery.grantsInventory) {
+            grantMysteryItem(mystery.grantsInventory);
+            // Auto-open the inspect modal for pickups so the player
+            // sees the item's lore/analysis the moment they pocket it,
+            // rather than only when they later open the inventory.
+            setSelectedItem(mystery.grantsInventory);
+          }
           if (mystery.setsFlag) setNarrativeFlag(mystery.setsFlag);
+          if (mystery.consumesHotspot) {
+            // One-shot pickup — remove the hotspot from the scene so
+            // the data-slate / locket don't keep glowing after they're
+            // in the player's pocket.
+            markHotspotCollected(roomId, hotspotId);
+          }
           if (mystery.unlocksExit) {
             const exitDef = getRoomDef(mystery.unlocksExit);
             const exitName = exitDef?.name?.toUpperCase() ?? mystery.unlocksExit.toUpperCase();
@@ -1411,14 +1660,62 @@ export default function ArkExplorerPage() {
           if (audioReady) playSFX("terminal_access");
           break;
         }
+        // Section 8 — Murder-mystery clue turn-in. The bio-bed autopsy
+        // console reads the data-slate fragment recovered from the
+        // dead pod, returning the Bridge reset code that the door is
+        // missing. Without the slate it's an empty queue — the player
+        // is sent back to the cryo bay to keep investigating.
+        if (hotspot.action === "bio-bed-autopsy-console") {
+          if (audioReady) playSFX("terminal_access");
+          const hasSlate = state.mysteryInventory.includes("data-slate-fragment");
+          if (!hasSlate) {
+            setElaraText(
+              "There's nothing for me to read here yet. The slate from the pod next to yours might give us something to work with — go back to the cryo bay and look beneath the dark pod.",
+            );
+            break;
+          }
+          if (state.itemsCollected.includes("bridge-reset-code")) {
+            setElaraText(
+              "We already pulled the reset code off the slate. The Bridge will accept it once — let's go.",
+            );
+            break;
+          }
+          setElaraText(
+            "Slate accepted. Manifest match: Potential AK-74-0073. Time of death — ninety seconds before your revival. Last write to the slate was a panic broadcast: the Bridge reset code. They tried to send it before the door's auth handshake was severed. They didn't make it. We will. Code locked into your operative ledger.",
+          );
+          collectItem("bridge-reset-code");
+          setSelectedItem("bridge-reset-code");
+          setNarrativeFlag("bridge_dead_lock_resolved");
+          notify(
+            "room-unlock",
+            "BRIDGE RESET CODE RECOVERED",
+            "Return to the Bridge Access door — it will accept the code once.",
+          );
+          break;
+        }
         if (hotspot.elaraDialog) {
           if (audioReady) playSFX("dialog_open");
-          setElaraText(hotspot.elaraDialog);
+          // Section 9 — route through narrateElara so the popup picks
+          // up the optional VO manifest id + response strip authored
+          // on the hotspot. Hotspots that don't author either still
+          // get the default 3-button strip and silent text.
+          narrateElara({
+            text: hotspot.elaraDialog,
+            voId: hotspot.elaraDialogVoId,
+            responses: hotspot.responses?.map((r) => ({
+              id: r.id,
+              label: r.label,
+              elaraFollowUpVoId: r.elaraFollowUpVoId,
+              elaraFollowUpText: r.elaraFollowUpText,
+              closesDialog: r.closesDialog,
+              onPick: r.logsClue ? (() => logClue(r.logsClue!)) : undefined,
+            })),
+          });
         }
         break;
       }
     }
-  }, [isRoomUnlocked, canUnlockRoom, navigateWithTransition, collectItem, navigate, state.itemsCollected, discoverEntry, getRoomDef, audioReady, playSFX, roomNeedsPuzzle, fastTravelUnlocked]);
+  }, [isRoomUnlocked, canUnlockRoom, navigateWithTransition, collectItem, navigate, state.itemsCollected, state.mysteryInventory, discoverEntry, getRoomDef, audioReady, playSFX, roomNeedsPuzzle, fastTravelUnlocked, markHotspotCollected, setNarrativeFlag, notify]);
 
   const handleRoomSelect = useCallback((roomId: string) => {
     if (roomNeedsPuzzle(roomId)) {
@@ -1493,7 +1790,9 @@ export default function ArkExplorerPage() {
             <RoomScene
               room={currentRoom}
               onHotspotClick={handleHotspotClick}
+              onHotspotHoverWhisper={onHotspotHoverWhisper}
               itemsCollected={state.itemsCollected}
+              collectedHotspots={state.rooms[currentRoom.id]?.collectedHotspots ?? []}
               fastTravelUnlocked={fastTravelUnlocked}
               commsRelayComplete={!!state.narrativeFlags["comms_relay_first_claim"]}
               roomsWithEvents={roomsWithEvents}
@@ -1503,8 +1802,22 @@ export default function ArkExplorerPage() {
                 venues (forge, libraries, vaults, etc.) return null
                 from toNarratorRoomId and suppress the slot.
                 §1.4 — beat flags force the scripted reveal narrator
-                on first visit to each Prelude room. */}
-            {witnessingNarratorRoomId && (
+                on first visit to each Prelude room.
+
+                First-arrival gate (cryo-bay only): the §13 cryo-bay
+                Elara line ("All but one pod is empty…") and its
+                paired Human line ("She can. She just won't.") both
+                reference The Human, who hasn't been narratively
+                introduced on first awakening. We suppress the slot
+                until the player has examined at least one mystery
+                hotspot — `cryo_mystery_first_clue_found` is flipped
+                by `resolveVerbResponse(look, …).setsFlag` and is the
+                same gate the Med Bay door uses. Other rooms keep
+                their unconditional slot since by the time the player
+                reaches them the prologue framing is already done. */}
+            {witnessingNarratorRoomId &&
+              (witnessingNarratorRoomId !== "cryo_bay" ||
+                !!state.narrativeFlags?.cryo_mystery_first_clue_found) && (
               <MobileNarratorSlot
                 roomId={witnessingNarratorRoomId}
                 flags={witnessingBeatFlags}
@@ -1681,17 +1994,42 @@ export default function ArkExplorerPage() {
         }}
       />
 
-      {/* Elara dialog popup */}
+      {/* Section 9 — Conversation popup. The new component preserves
+          ElaraPopup's visual layout but adds:
+            • response-strip after Elara's line ends
+            • viseme-synced HolographicElara when audio is live
+            • avatar swap to "YOU" while the human's reply plays
+          When `responses` is empty/undefined the popup falls through to
+          the default 3-button strip (Acknowledged / Tell me more / silent). */}
       <AnimatePresence>
         {elaraText && (
-          <ElaraPopup text={elaraText} voUrl={elaraVoUrl} onClose={() => {
-            window.dispatchEvent(new CustomEvent("elara-dialog", { detail: { active: false } }));
-            setElaraText(null);
-            setElaraVoUrl(undefined);
-            if (audioReady) playSFX("dialog_close");
-          }} />
+          <ElaraConversationPopup
+            text={elaraText}
+            voId={elaraVoId}
+            voUrl={elaraVoUrl}
+            responses={elaraResponses}
+            elaraVo={elaraVo}
+            humanVo={humanVo}
+            onClose={() => {
+              window.dispatchEvent(new CustomEvent("elara-dialog", { detail: { active: false } }));
+              setElaraText(null);
+              setElaraVoUrl(undefined);
+              setElaraVoId(undefined);
+              setElaraResponses(undefined);
+              if (audioReady) playSFX("dialog_close");
+            }}
+          />
         )}
       </AnimatePresence>
+
+      {/* Section 9 — Persistent companion-presence pip in the room.
+          Pulses solid-cyan when Elara is speaking, solid-violet when
+          the human is replying. Tells the player whose voice is live. */}
+      <CompanionPresenceBadge
+        elaraSpeaking={elaraSpeakingNow}
+        humanSpeaking={humanSpeakingNow}
+        placement="top-right"
+      />
 
       {/* Puzzle modal */}
       <AnimatePresence>

@@ -135,6 +135,15 @@ const ITEM_DATABASE: Record<string, ItemMeta> = {
     relatedEntities: ["The Enigma", "The Panopticon", "Intelligence HQ"],
     loreExcerpt: "THE MASTER CIPHER KEY — ENIGMA-CLASS DEVICE\n\nCAPABILITY: Universal decryption\nLIMITATIONS: None known\nCREATOR: The Enigma\n\nATTACHED NOTE:\n\n\"If you're reading this, you found my hiding spot. Congratulations. You're either very clever or very lucky. Probably both — the universe tends to favor those who are.\n\nThis key can decrypt anything. Any message. Any code. Any secret in any reality across the entire Saga. I built it because I believe information should be free. The Panopticon hoards knowledge like dragons hoard gold. I liberate it.\n\nBut I'm leaving it here with a warning:\n\nThe truth will set you free. But first, it will make you very, very angry.\n\nSome secrets are kept not to protect the powerful, but to protect the innocent. When you decrypt the wrong message at the wrong time, people get hurt. I learned that the hard way.\n\nUse it wisely, Spy. Not everything that CAN be known SHOULD be known.\n\nBut then again... that's exactly what they want you to think.\"\n\n— The Enigma\n   Who Knew Too Much\n   And Told It Anyway",
   },
+  "bridge-reset-code": {
+    name: "Bridge Reset Code",
+    description: "An eleven-digit reset code lifted from the dead Potential's data-slate manifest. Restores the Bridge Access door's authentication handshake.",
+    elaraAnalysis: "I extracted the reset sequence from the manifest entry. Whoever severed the door knew exactly which line to cut — they did this from inside the cryo bay, after they were already supposed to be dead. The Bridge will accept this code. Once. Use it well, Operative.",
+    category: "key",
+    dangerLevel: "medium",
+    relatedEntities: ["Bridge", "Cryo Bay", "Dead Potential"],
+    loreExcerpt: "BRIDGE-RESET // RECOVERED FROM SLATE FRAGMENT\n\nManifest match: POTENTIAL #AK-74-0073 (sealed pod, cryo bay 51)\nDeath time recorded: T-90s prior to your revival\nReset sequence: [REDACTED — held in your operative ledger]\n\nMed Bay autopsy console attestation:\n\n\"The slate's last write was a panic write. Whoever held it tried to broadcast the reset code to the door — and the door had already been cut from the line. The code never reached anyone.\n\nIt is reaching you now. They wanted you to find this.\"\n\n— Bio-bed forensic transcript, autosigned",
+  },
   "observation-keycard": {
     name: "Observation Keycard",
     description: "A biometric access card labeled 'OBS-DECK'. It was stored in the Medical Bay's secure safe, accessible only to senior medical staff.",

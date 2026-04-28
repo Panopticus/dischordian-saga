@@ -69,6 +69,11 @@ export interface RoomState {
   visitCount: number;
   itemsFound: string[];
   elaraDialogSeen: boolean;
+  /** Hotspot ids removed from the scene after a one-shot pickup
+   *  (data-slate use, locket pickup). Renderer skips them. Persisted
+   *  per-room so a player who pockets the slate and walks back doesn't
+   *  see it again. */
+  collectedHotspots?: string[];
 }
 
 /* ─── ARMY MANAGEMENT TYPES ─── */
@@ -367,6 +372,30 @@ export interface RoomDef {
   hotspots: HotspotDef[];
 }
 
+/** A response button the player can use to reply to an Elara narration.
+ *  Section 9 (two-way inspection dialog): when an Elara line resolves,
+ *  the popup surfaces 2-3 of these. The default 3-button strip
+ *  (acknowledge / tell-me-more / silent) covers any beat without
+ *  authored responses — see ElaraConversationPopup for the runtime. */
+export interface ElaraResponseChoice {
+  /** Stable, e.g. "human.cryo.dead-pod.acknowledge". Used both as the
+   *  voice-line manifest key and as a click identifier. */
+  id: string;
+  /** Short button text (≤ 6 words). */
+  label: string;
+  /** Optional Elara follow-up line played after the human responds. */
+  elaraFollowUpVoId?: string;
+  /** Inline follow-up text when no VO has been generated yet. Falls
+   *  back to the line VO when the manifest entry exists. */
+  elaraFollowUpText?: string;
+  /** Optional codex/lore entry logged on this branch. */
+  logsClue?: import("@shared/roomMysteries").Clue;
+  /** When true, the response closes the dialog instead of waiting on
+   *  an Elara follow-up. The default-strip "Acknowledged" and
+   *  "[stay silent]" both close. */
+  closesDialog?: boolean;
+}
+
 export interface HotspotDef {
   id: string;
   name: string;
@@ -378,6 +407,16 @@ export interface HotspotDef {
   type: "terminal" | "item" | "door" | "examine" | "interact";
   action?: string; // route to navigate or item to collect
   elaraDialog?: string;
+  /** Stable manifest id for Elara's hotspot narration. When set, the
+   *  runtime calls useElaraVO().speak(elaraDialogVoId) so the popup
+   *  carries her actual voice instead of typewriter-only. */
+  elaraDialogVoId?: string;
+  /** Stable manifest id for a short Elara whisper played on hover.
+   *  Throttled and debounced — see RoomScene's onMouseEnter handler. */
+  elaraHoverVoId?: string;
+  /** Player response choices surfaced after Elara's narration ends.
+   *  Empty/undefined falls through to the default 3-button strip. */
+  responses?: ElaraResponseChoice[];
   icon?: string;
   requiresItem?: string;
 }
@@ -396,6 +435,7 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     // sees one beat at a time, advancing roughly when Elara reaches
     // the next sentence cluster in the audio.
     elaraIntro: [
+      "Before you ask — yes. The pod next to yours is sealed, and the body inside is dead. The chronometer says they died about ninety seconds before you woke. That isn't standard cryo failure. Something happened in this room. I want your eyes on it before we leave.",
       "The Chamber of Awakening. You were not born here... but you returned to yourself within these walls. Your pod stands among the others — one vessel in a field of silence. Most have opened.",
       "The first wave of Potentials passed through long before you, stepping into the war and leaving nothing behind but absence. But not all cycles completed. Some remain sealed. Unbroken. Unanswered.",
       "The systems still hum around them, but what they sustain... is unclear. Life, suspended between moments — or failure, preserved beyond its end.",
@@ -407,34 +447,88 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     unlockRequirement: { type: "start" },
     connections: ["medical-bay", "bridge"],
     hotspots: [
-      // Realigned 2026-04-25 to match the AAA Final cryo-bay render —
-      // a symmetrical corridor with sealed-pod rows on both side walls,
-      // the player's tilted/open pod centred mid-frame with cryo gas
-      // spilling onto the floor, and a back doorway leading to the
-      // Bridge stairs. The previous coords were calibrated for the
-      // legacy single-pod render and put the door markers on top of
-      // sealed pods. See /tmp/cryo_new_hotspots.png in the dev session
-      // for the visual overlay verification.
-      { id: "cryo-pod", name: "Your Cryo Pod", description: "The pod you woke up in. Frost still clings to the glass. A data readout shows your vitals — somehow you survived.", x: 47, y: 18, width: 22, height: 60, type: "examine", elaraDialog: "That's your pod. Serial number AK-74-0074. You were in deep cryogenic suspension for... the chronometer is corrupted. Could be decades. Could be centuries." },
-      { id: "sealed-pods", name: "Sealed Pods", description: "Several pods remain sealed, their status indicators dark. Are they occupied?", x: 6, y: 28, width: 28, height: 35, type: "examine", elaraDialog: "Those pods are still sealed. Their status indicators went dark when the main power failed. I... I don't want to speculate about what's inside them. Not yet." },
-      { id: "cryo-terminal", name: "Cryo Terminal", description: "A terminal displaying your character data and vital statistics.", x: 5, y: 62, width: 14, height: 22, type: "terminal", action: "/character-sheet", elaraDialog: "This terminal has your biometric data — your species markers, class aptitudes, everything we determined during your awakening. You can review your Citizen profile here." },
-      { id: "door-medical", name: "Medical Bay Door", description: "A reinforced door leading to the Medical Bay. Green status light.", x: 80, y: 65, width: 18, height: 32, type: "door", action: "medical-bay" },
-      { id: "door-bridge", name: "Bridge Access", description: "A corridor leading up to Deck 2 — the Command deck.", x: 43, y: 22, width: 14, height: 26, type: "door", action: "bridge" },
-      { id: "data-crystal", name: "Data Crystal", description: "A glowing crystal wedged under a pod. It contains encrypted data.", x: 38, y: 80, width: 7, height: 8, type: "item", action: "data-crystal-alpha", elaraDialog: "A data crystal! These were used by the first wave to store personal logs. This one might contain information about what happened after they woke up." },
-      { id: "egg-cryo-scratch", name: "Scratched Symbol", description: "Barely visible scratch marks on the wall behind a pod.", x: 87, y: 36, width: 3, height: 5, type: "examine", elaraDialog: "Wait... those scratch marks. They form a symbol — the mark of the Antiquarian. But that's impossible. The Antiquarian is a myth, a figure from the deepest layers of the prophecy. Who carved this here, and when? This predates our launch." },
+      // Realigned 2026-04-27 against the AAA Final cryo-bay render
+      // (room_cryo_bay-SdeEqURrDvgrrbJq4WK3N5.webp). Visible landmarks,
+      // left-to-right, foreground-to-back:
+      //   • cracked arcade-style cryo terminal kiosks — far left
+      //     foreground (the screen with the purple electric arcs)
+      //   • the player's pod — tilted/open, mid-frame, cryo gas
+      //     spilling onto the floor
+      //   • the sealed "dead pod" with a dark figure visible through
+      //     frosted glass — directly to the right of the player's pod
+      //   • back-centre archway/corridor — Bridge Access stairs up
+      //   • right-wall row of standing capsules — the sealed pods
+      //   • framed bulkhead on the far-right wall — Medical Bay door
+      //   • locket + cut ID-tag dropped on the floor — bottom-left
+      //     foreground, in the cryo-gas trail
+      //   • sunken cryo-tub at the bottom-right foreground (decorative)
+      //
+      // The §F mystery cluster now anchors on the visible "dead pod"
+      // beside the player rather than overlapping the right-wall row.
+      { id: "cryo-pod", name: "Your Cryo Pod", description: "The pod you woke up in. Frost still clings to the glass. A data readout shows your vitals — somehow you survived.", x: 24, y: 36, width: 22, height: 56, type: "examine", elaraDialog: "That's your pod. Serial number AK-74-0074. You were in deep cryogenic suspension for... the chronometer is corrupted. Could be decades. Could be centuries.",
+        elaraDialogVoId: "room.cryo-bay.hotspot.cryo-pod.elara",
+        responses: [
+          { id: "human.cryo-bay.cryo-pod.acknowledge", label: "Acknowledged.", closesDialog: true },
+          {
+            id: "human.cryo-bay.cryo-pod.how-long",
+            label: "How long, Elara?",
+            elaraFollowUpVoId: "elara.cryo-bay.cryo-pod.how-long",
+            elaraFollowUpText: "Long enough that the chronometer's drift exceeds my repair budget. I won't lie to you with a number — but the dust on the floor isn't a year's worth.",
+          },
+          { id: "human.cryo-bay.cryo-pod.silent", label: "[stay silent]", closesDialog: true },
+        ],
+      },
+      { id: "sealed-pods", name: "Sealed Pods", description: "Several pods remain sealed, their status indicators dark. Are they occupied?", x: 67, y: 28, width: 18, height: 50, type: "examine", elaraDialog: "Those pods are still sealed. Their status indicators went dark when the main power failed. I... I don't want to speculate about what's inside them. Not yet.",
+        elaraDialogVoId: "room.cryo-bay.hotspot.sealed-pods.elara",
+        responses: [
+          { id: "human.cryo-bay.sealed-pods.acknowledge", label: "Then we don't open them.", closesDialog: true },
+          {
+            id: "human.cryo-bay.sealed-pods.speculate",
+            label: "Speculate anyway.",
+            elaraFollowUpVoId: "elara.cryo-bay.sealed-pods.speculate",
+            elaraFollowUpText: "Three possibilities. They're occupied and alive — unlikely, given the power loss. They're occupied and dead — possible. They were never occupied, and someone made it look like they were. I weight the third highest. I don't like why.",
+          },
+        ],
+      },
+      { id: "cryo-terminal", name: "Cryo Terminal", description: "A terminal displaying your character data and vital statistics.", x: 3, y: 60, width: 16, height: 26, type: "terminal", action: "/character-sheet", elaraDialog: "This terminal has your biometric data — your species markers, class aptitudes, everything we determined during your awakening. You can review your Citizen profile here.",
+        elaraDialogVoId: "room.cryo-bay.hotspot.cryo-terminal.elara",
+      },
+      { id: "door-medical", name: "Medical Bay Door", description: "A reinforced door leading to the Medical Bay. Green status light.", x: 87, y: 46, width: 12, height: 38, type: "door", action: "medical-bay" },
+      // Re-anchored 2026-04-28 against live cryo-bay render. The door
+      // sits at the back-centre archway, much lower than the original
+      // y=20. Verify with /ark?debug-hotspots=1 if the room art changes.
+      { id: "door-bridge", name: "Bridge Access", description: "A corridor leading up to Deck 2 — the Command deck.", x: 42, y: 38, width: 16, height: 38, type: "door", action: "bridge" },
+      { id: "data-crystal", name: "Data Crystal", description: "A glowing crystal wedged under a pod. It contains encrypted data.", x: 41, y: 89, width: 6, height: 6, type: "item", action: "data-crystal-alpha", elaraDialog: "A data crystal! These were used by the first wave to store personal logs. This one might contain information about what happened after they woke up.",
+        elaraDialogVoId: "room.cryo-bay.hotspot.data-crystal.elara",
+      },
+      { id: "egg-cryo-scratch", name: "Scratched Symbol", description: "Barely visible scratch marks on the wall behind a pod.", x: 84, y: 30, width: 3, height: 4, type: "examine", elaraDialog: "Wait... those scratch marks. They form a symbol — the mark of the Antiquarian. But that's impossible. The Antiquarian is a myth, a figure from the deepest layers of the prophecy. Who carved this here, and when? This predates our launch.",
+        elaraDialogVoId: "room.cryo-bay.hotspot.egg-cryo-scratch.elara",
+        responses: [
+          { id: "human.cryo-bay.egg-cryo-scratch.acknowledge", label: "We saw nothing.", closesDialog: true },
+          {
+            id: "human.cryo-bay.egg-cryo-scratch.who",
+            label: "Who's the Antiquarian?",
+            elaraFollowUpVoId: "elara.cryo-bay.egg-cryo-scratch.who",
+            elaraFollowUpText: "A name old enough that I shouldn't be saying it. Move on. We'll come back to this when the room isn't listening.",
+          },
+        ],
+      },
       // Section F — Cryo Bay mystery hotspots. Each fires through the
       // cryo-mystery hotspot-handler branch in ArkExplorerPage which
-      // resolves the Look response via resolveVerbResponse(). The
-      // mystery cluster anchors on a single dark pod on the right wall
-      // (distinct from the player's pod and the rest of the sealed
-      // row) so the chart / glass / cracked-panel / fallen items read
-      // as one investigation scene.
-      { id: "dead-pod", name: "Dark Cryo Pod", description: "A pod whose status indicator is cold-blue instead of warm-gold. Something is in there.", x: 72, y: 30, width: 13, height: 28, type: "interact", action: "cryo-mystery:dead-pod" },
-      { id: "cracked-panel", name: "Cracked Control Panel", description: "The dark pod's control panel is split along a hairline seam. Sabotage?", x: 72, y: 58, width: 13, height: 6, type: "interact", action: "cryo-mystery:cracked-panel" },
-      { id: "medical-chart", name: "Medical Chart", description: "A printed medical chart magnet-clipped to the dark pod.", x: 78, y: 38, width: 4, height: 6, type: "interact", action: "cryo-mystery:medical-chart" },
-      { id: "frosted-glass", name: "Frosted Pod Glass", description: "Wipe the frost — see who's inside.", x: 73, y: 33, width: 7, height: 10, type: "interact", action: "cryo-mystery:frosted-glass" },
-      { id: "personal-effect", name: "Fallen Locket", description: "Something small has fallen under the pod housing.", x: 76, y: 64, width: 4, height: 4, type: "interact", action: "cryo-mystery:personal-effect" },
-      { id: "data-slate", name: "Hidden Data Slate", description: "The edge of a data-slate peeks out from under the pod.", x: 68, y: 66, width: 5, height: 3, type: "interact", action: "cryo-mystery:data-slate" },
+      // resolves the Look response via resolveVerbResponse(). All six
+      // anchor on the single sealed "dead pod" immediately to the right
+      // of the player's tilted pod, except `personal-effect` which is
+      // the locket on the foreground floor and `data-slate` which is
+      // wedged under the dead pod's base.
+      { id: "dead-pod", name: "Dark Cryo Pod", description: "A pod whose status indicator is cold-blue instead of warm-gold. Something is in there.", x: 49, y: 38, width: 16, height: 54, type: "interact", action: "cryo-mystery:dead-pod" },
+      { id: "frosted-glass", name: "Frosted Pod Glass", description: "Wipe the frost — see who's inside.", x: 51, y: 41, width: 12, height: 18, type: "interact", action: "cryo-mystery:frosted-glass" },
+      // Re-anchored 2026-04-28: the visible chart in the live render is
+      // on the LEFT face of the dead-pod cluster, not the right side
+      // where x=62 placed it. Verify with /ark?debug-hotspots=1.
+      { id: "medical-chart", name: "Medical Chart", description: "A printed medical chart magnet-clipped to the dark pod.", x: 56, y: 44, width: 5, height: 8, type: "interact", action: "cryo-mystery:medical-chart" },
+      { id: "cracked-panel", name: "Cracked Control Panel", description: "The dark pod's control panel is split along a hairline seam. Sabotage?", x: 50, y: 76, width: 14, height: 8, type: "interact", action: "cryo-mystery:cracked-panel" },
+      { id: "data-slate", name: "Hidden Data Slate", description: "The edge of a data-slate peeks out from under the pod.", x: 53, y: 88, width: 7, height: 5, type: "interact", action: "cryo-mystery:data-slate" },
+      { id: "personal-effect", name: "Fallen Locket", description: "Something small has fallen on the floor — a tarnished locket and a cut ID-tag cord.", x: 30, y: 90, width: 10, height: 7, type: "interact", action: "cryo-mystery:personal-effect" },
     ],
   },
   {
@@ -461,14 +555,41 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       // on the right wall. Previous coords had `medicine-cabinet`
       // sitting on the left door, `door-cryo` floating off the left
       // edge, and `dna-helix` overlapping the right-wall cabinet.
-      { id: "bio-bed", name: "Bio-Bed Scanner", description: "An advanced diagnostic bed with holographic readouts showing your current stats.", x: 40, y: 22, width: 22, height: 55, type: "terminal", action: "/character-sheet", elaraDialog: "The bio-bed can give you a full diagnostic. Your stats, your Dream resonance levels, your cellular integrity. Step on and I'll run a scan." },
+      { id: "bio-bed", name: "Bio-Bed Scanner", description: "An advanced diagnostic bed with holographic readouts showing your current stats.", x: 40, y: 22, width: 22, height: 55, type: "terminal", action: "/character-sheet", elaraDialog: "The bio-bed can give you a full diagnostic. Your stats, your Dream resonance levels, your cellular integrity. Step on and I'll run a scan.",
+        elaraDialogVoId: "room.medical-bay.hotspot.bio-bed.elara",
+      },
+      // Section 8 — Murder mystery turn-in. Reads the data-slate
+      // fragment recovered from the dead pod and recovers the
+      // bridge-reset-code. Without the slate the console reports an
+      // empty queue. The action `bio-bed-autopsy-console` is handled
+      // in ArkExplorerPage's hotspot branch.
+      { id: "autopsy-console", name: "Bio-Bed Autopsy Console", description: "A small subsystem of the bio-bed dedicated to forensic readouts. Slot for an external data-slate.", x: 35, y: 60, width: 8, height: 14, type: "interact", action: "bio-bed-autopsy-console", elaraDialog: "The autopsy console can read external data-slates. If you have the fragment from the dead pod, slot it in.",
+        elaraDialogVoId: "room.medical-bay.hotspot.autopsy-console.elara",
+        responses: [
+          { id: "human.medical-bay.autopsy-console.acknowledge", label: "Got it.", closesDialog: true },
+          {
+            id: "human.medical-bay.autopsy-console.what",
+            label: "What's it going to tell us?",
+            elaraFollowUpVoId: "elara.medical-bay.autopsy-console.what",
+            elaraFollowUpText: "If the slate's intact enough — a name. A timestamp of death. And whatever the dead Potential was trying to send before they didn't make it.",
+          },
+        ],
+      },
       // Medical Bay mystery hotspots — see apps/shared/roomMysteries/medicalBay.ts
       // for the verb × hotspot matrix. The first Look on either of
       // these logs a clue and flips `medbay_first_clue_found` (Tier 0 → 1).
-      { id: "dna-helix", name: "DNA Analysis Station", description: "A holographic double helix rotates slowly, mapping genetic markers.", x: 22, y: 28, width: 18, height: 42, type: "examine", action: "room-mystery:medical-bay:dna-helix", elaraDialog: "The DNA analysis station. It maps your genetic markers against known species templates. DeMagi, Quarchon, Ne-Yon... your hybrid signature is fascinating." },
-      { id: "medicine-cabinet", name: "Medicine Cabinet", description: "Vials of glowing liquid. Some are labeled, others are not.", x: 82, y: 32, width: 14, height: 42, type: "examine", action: "room-mystery:medical-bay:medicine-cabinet", elaraDialog: "Medical supplies. Most are standard stim-packs and neural stabilizers. But some of these vials... I don't recognize the compounds. They weren't in the original manifest." },
-      { id: "medical-log", name: "Medical Log", description: "A data pad with the last medical officer's notes.", x: 25, y: 68, width: 10, height: 8, type: "item", action: "medical-log-001", elaraDialog: "The last medical officer's log. Dated... I can't read the timestamp. But the entries describe patients with unusual symptoms. Nightmares. Voices. Something about 'the signal.'" },
-      { id: "observation-keycard", name: "Observation Keycard", description: "A biometric access card labeled 'OBS-DECK'. Stored in the medical safe.", x: 62, y: 66, width: 10, height: 10, type: "item", action: "observation-keycard", elaraDialog: "The Observation Keycard! It was in the medical safe all along. The previous crew stored sensitive access cards here for security. This will unlock the Observation Deck — the crew used it to monitor deep space anomalies. Take it." },
+      { id: "dna-helix", name: "DNA Analysis Station", description: "A holographic double helix rotates slowly, mapping genetic markers.", x: 22, y: 28, width: 18, height: 42, type: "examine", action: "room-mystery:medical-bay:dna-helix", elaraDialog: "The DNA analysis station. It maps your genetic markers against known species templates. DeMagi, Quarchon, Ne-Yon... your hybrid signature is fascinating.",
+        elaraDialogVoId: "room.medical-bay.hotspot.dna-helix.elara",
+      },
+      { id: "medicine-cabinet", name: "Medicine Cabinet", description: "Vials of glowing liquid. Some are labeled, others are not.", x: 82, y: 32, width: 14, height: 42, type: "examine", action: "room-mystery:medical-bay:medicine-cabinet", elaraDialog: "Medical supplies. Most are standard stim-packs and neural stabilizers. But some of these vials... I don't recognize the compounds. They weren't in the original manifest.",
+        elaraDialogVoId: "room.medical-bay.hotspot.medicine-cabinet.elara",
+      },
+      { id: "medical-log", name: "Medical Log", description: "A data pad with the last medical officer's notes.", x: 25, y: 68, width: 10, height: 8, type: "item", action: "medical-log-001", elaraDialog: "The last medical officer's log. Dated... I can't read the timestamp. But the entries describe patients with unusual symptoms. Nightmares. Voices. Something about 'the signal.'",
+        elaraDialogVoId: "room.medical-bay.hotspot.medical-log.elara",
+      },
+      { id: "observation-keycard", name: "Observation Keycard", description: "A biometric access card labeled 'OBS-DECK'. Stored in the medical safe.", x: 62, y: 66, width: 10, height: 10, type: "item", action: "observation-keycard", elaraDialog: "The Observation Keycard! It was in the medical safe all along. The previous crew stored sensitive access cards here for security. This will unlock the Observation Deck — the crew used it to monitor deep space anomalies. Take it.",
+        elaraDialogVoId: "room.medical-bay.hotspot.observation-keycard.elara",
+      },
       { id: "door-cryo", name: "Cryo Bay Door", description: "Return to the Cryo Bay.", x: 6, y: 30, width: 15, height: 45, type: "door", action: "cryo-bay" },
       { id: "egg-med-vial", name: "Unlabeled Vial", description: "A tiny vial of shimmering black liquid hidden behind the cabinet.", x: 85, y: 62, width: 3, height: 4, type: "item", action: "void-essence-sample", elaraDialog: "That vial... the liquid inside is moving on its own. The molecular structure doesn't match anything in my database. It's not from any known universe. The label has been torn off, but there's a serial number: VE-001. 'VE' — Void Essence? This shouldn't exist on this ship." },
       { id: "egg-vox-neural-bridge", name: "Unkempt Neural Device", description: "A hidden device behind the bio-bed's maintenance panel. Cables still warm. A humming needle-port waits for a DNA sample.", x: 46, y: 72, width: 5, height: 5, type: "interact", action: "dna-device-offer", elaraDialog: "[STATIC BURST] It's humming at a frequency your teeth can feel. A neural-bridge apparatus — military grade, built by Dr. Lyra Vox to move consciousness between a body and the Ark itself. It wants a sample. You don't know what it will give you back." },
@@ -491,18 +612,41 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       // Realigned 2026-04-25 for the AAA Final bridge render — central
       // wheel/portal back-wall display (the Conspiracy Board), flanking
       // viewport windows, twin console+chair workstations in foreground.
-      { id: "tactical-display", name: "Tactical Display", description: "A massive holographic display showing connections between entities, factions, and events.", x: 37, y: 18, width: 26, height: 50, type: "terminal", action: "/board", elaraDialog: "The Conspiracy Board. Every entity, every faction, every connection we've mapped in the Dischordian Saga. It's a web of alliances, betrayals, and secrets. The more you explore, the more connections you'll uncover." },
-      { id: "timeline-projector", name: "Timeline Projector", description: "A holographic projector showing the Ages of the Dischordian Saga.", x: 74, y: 14, width: 18, height: 32, type: "terminal", action: "/saga-timeline", elaraDialog: "The Timeline Projector. It maps the entire history of the Dischordian Saga across the Ages — from the Age of Privacy through the Fall of Reality and beyond. Each era tells a different chapter of the story." },
+      { id: "tactical-display", name: "Tactical Display", description: "A massive holographic display showing connections between entities, factions, and events.", x: 37, y: 18, width: 26, height: 50, type: "terminal", action: "/board", elaraDialog: "The Conspiracy Board. Every entity, every faction, every connection we've mapped in the Dischordian Saga. It's a web of alliances, betrayals, and secrets. The more you explore, the more connections you'll uncover.",
+        elaraDialogVoId: "room.bridge.hotspot.tactical-display.elara",
+      },
+      { id: "timeline-projector", name: "Timeline Projector", description: "A holographic projector showing the Ages of the Dischordian Saga.", x: 74, y: 14, width: 18, height: 32, type: "terminal", action: "/saga-timeline", elaraDialog: "The Timeline Projector. It maps the entire history of the Dischordian Saga across the Ages — from the Age of Privacy through the Fall of Reality and beyond. Each era tells a different chapter of the story.",
+        elaraDialogVoId: "room.bridge.hotspot.timeline-projector.elara",
+      },
       // Bridge mystery hotspots — see apps/shared/roomMysteries/bridge.ts.
       // Look on captains-chair / nav-console examine logs a clue and
       // flips `bridge_first_clue_found` (Tier 0 → 1). The nav console's
       // existing nav-calibration interact action runs separately on
       // `use` and unlocks fast travel.
-      { id: "captains-chair", name: "Captain's Chair", description: "The command chair sits empty. A personal data pad is wedged in the armrest.", x: 74, y: 60, width: 18, height: 24, type: "examine", action: "room-mystery:bridge:captains-chair", elaraDialog: "The Captain's chair. Dr. Lyra Vox designed the neural nanobot network that runs every system on this ship. She was the last to sit here before ordering the emergency cryo protocol. Something about her doesn't add up — a neuropsychologist with that level of access to the ship's core systems. Her personal log might still be in the armrest terminal." },
-      { id: "nav-console", name: "Navigation Console", description: "Star charts and route calculations. An alien glyph interface awaits calibration.", x: 8, y: 56, width: 22, height: 26, type: "interact", action: "nav-calibration", elaraDialog: "The navigation console. It controls the Ark's fast-travel system, but the interface uses alien glyph sequences for authentication. Match the symbol pattern to bring the navigation grid online — then you can jump to any room you've already discovered." },
-      { id: "quest-board", name: "Mission Board", description: "A holographic board displaying active missions and quest objectives.", x: 70, y: 56, width: 22, height: 26, type: "terminal", action: "/quests", elaraDialog: "The Mission Board. Active operations and quest objectives are tracked here. Complete missions to earn rewards, uncover lore, and advance the story. Some missions are time-sensitive — the Saga doesn't wait for anyone." },
-      { id: "guild-console", name: "Guild Registry", description: "A console for managing guild operations and alliances.", x: 10, y: 16, width: 16, height: 30, type: "terminal", action: "/guild", elaraDialog: "The Guild Registry. Form alliances with other Potentials, coordinate operations, and compete for dominance. Guilds that work together can tackle challenges no individual could face alone." },
-      { id: "diplomacy-table", name: "Diplomacy Table", description: "A round table with holographic faction representatives.", x: 40, y: 76, width: 22, height: 18, type: "terminal", action: "/diplomacy", elaraDialog: "The Diplomacy Table. Negotiate with factions, forge alliances, or declare rivalries. Every diplomatic decision shifts the balance of power across the Saga. Choose your allies carefully." },
+      { id: "captains-chair", name: "Captain's Chair", description: "The command chair sits empty. A personal data pad is wedged in the armrest.", x: 74, y: 60, width: 18, height: 24, type: "examine", action: "room-mystery:bridge:captains-chair", elaraDialog: "The Captain's chair. Dr. Lyra Vox designed the neural nanobot network that runs every system on this ship. She was the last to sit here before ordering the emergency cryo protocol. Something about her doesn't add up — a neuropsychologist with that level of access to the ship's core systems. Her personal log might still be in the armrest terminal.",
+        elaraDialogVoId: "room.bridge.hotspot.captains-chair.elara",
+        responses: [
+          { id: "human.bridge.captains-chair.acknowledge", label: "Noted.", closesDialog: true },
+          {
+            id: "human.bridge.captains-chair.who",
+            label: "Who is Dr. Vox?",
+            elaraFollowUpVoId: "elara.bridge.captains-chair.who",
+            elaraFollowUpText: "Designation: Chief Neuropsychologist. Access pattern: command-tier. The trail you'll follow ends in her quarters — when we get there. Walk carefully.",
+          },
+        ],
+      },
+      { id: "nav-console", name: "Navigation Console", description: "Star charts and route calculations. An alien glyph interface awaits calibration.", x: 8, y: 56, width: 22, height: 26, type: "interact", action: "nav-calibration", elaraDialog: "The navigation console. It controls the Ark's fast-travel system, but the interface uses alien glyph sequences for authentication. Match the symbol pattern to bring the navigation grid online — then you can jump to any room you've already discovered.",
+        elaraDialogVoId: "room.bridge.hotspot.nav-console.elara",
+      },
+      { id: "quest-board", name: "Mission Board", description: "A holographic board displaying active missions and quest objectives.", x: 70, y: 56, width: 22, height: 26, type: "terminal", action: "/quests", elaraDialog: "The Mission Board. Active operations and quest objectives are tracked here. Complete missions to earn rewards, uncover lore, and advance the story. Some missions are time-sensitive — the Saga doesn't wait for anyone.",
+        elaraDialogVoId: "room.bridge.hotspot.quest-board.elara",
+      },
+      { id: "guild-console", name: "Guild Registry", description: "A console for managing guild operations and alliances.", x: 10, y: 16, width: 16, height: 30, type: "terminal", action: "/guild", elaraDialog: "The Guild Registry. Form alliances with other Potentials, coordinate operations, and compete for dominance. Guilds that work together can tackle challenges no individual could face alone.",
+        elaraDialogVoId: "room.bridge.hotspot.guild-console.elara",
+      },
+      { id: "diplomacy-table", name: "Diplomacy Table", description: "A round table with holographic faction representatives.", x: 40, y: 76, width: 22, height: 18, type: "terminal", action: "/diplomacy", elaraDialog: "The Diplomacy Table. Negotiate with factions, forge alliances, or declare rivalries. Every diplomatic decision shifts the balance of power across the Saga. Choose your allies carefully.",
+        elaraDialogVoId: "room.bridge.hotspot.diplomacy-table.elara",
+      },
       { id: "war-map-display", name: "War Map", description: "A strategic overlay showing faction territories and conflict zones.", x: 60, y: 86, width: 16, height: 12, type: "terminal", action: "/war-map", elaraDialog: "The War Map. Faction territories, conflict zones, and strategic objectives are all tracked here. When faction wars erupt, this is where commanders plan their campaigns." },
       { id: "door-archives", name: "Archives Access", description: "A secured door leading to the Archives.", x: 88, y: 60, width: 10, height: 36, type: "door", action: "archives" },
       { id: "door-cryo", name: "Cryo Bay Stairs", description: "Stairs leading down to Deck 1.", x: 2, y: 60, width: 10, height: 36, type: "door", action: "cryo-bay" },
@@ -1365,6 +1509,8 @@ interface GameContextValue {
   enterRoom: (roomId: string) => void;
   collectItem: (itemId: string) => void;
   markElaraDialogSeen: (roomId: string) => void;
+  /** Remove a hotspot from the scene after a one-shot pickup. */
+  markHotspotCollected: (roomId: string, hotspotId: string) => void;
   // Utility
   isRoomUnlocked: (roomId: string) => boolean;
   canUnlockRoom: (roomId: string) => boolean;
@@ -2022,6 +2168,22 @@ export function GameProvider({ children }: { children: ReactNode }) {
         [roomId]: { ...prev.rooms[roomId], elaraDialogSeen: true },
       },
     }));
+  }, []);
+
+  const markHotspotCollected = useCallback((roomId: string, hotspotId: string) => {
+    setState(prev => {
+      const room = prev.rooms[roomId];
+      if (!room) return prev;
+      const existing = room.collectedHotspots ?? [];
+      if (existing.includes(hotspotId)) return prev;
+      return {
+        ...prev,
+        rooms: {
+          ...prev.rooms,
+          [roomId]: { ...room, collectedHotspots: [...existing, hotspotId] },
+        },
+      };
+    });
   }, []);
 
   const getRoomDef = useCallback((roomId: string) => {
@@ -3360,6 +3522,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
       enterRoom,
       collectItem,
       markElaraDialogSeen,
+      markHotspotCollected,
       isRoomUnlocked,
       canUnlockRoom,
       getRoomDef,

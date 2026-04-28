@@ -60,6 +60,7 @@ import { towerDefenseRouter } from "./routers/towerDefense";
 import { prestigeQuestRouter } from "./routers/prestigeQuests";
 import { seasonalEventsRouter } from "./routers/seasonalEvents";
 import { replaySystemRouter } from "./routers/replaySystem";
+import { pvpRankingRouter } from "./routers/pvpRanking";
 import { personalQuartersRouter } from "./routers/personalQuarters";
 import { friendlyChallengesRouter } from "./routers/friendlyChallenges";
 import { coopRaidsRouter } from "./routers/coopRaids";
@@ -168,6 +169,7 @@ export const appRouter = router({
   prestigeQuest: prestigeQuestRouter,
   seasonalEvents: seasonalEventsRouter,
   replay: replaySystemRouter,
+  pvpRanking: pvpRankingRouter,
   personalQuarters: personalQuartersRouter,
   friendlyChallenge: friendlyChallengesRouter,
   coopRaid: coopRaidsRouter,

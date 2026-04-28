@@ -143,12 +143,14 @@ export default function HolographicElara({
           className={`relative inline-flex items-center justify-center ${className}`}
           style={{ width: dims.container, height: dims.container }}
         >
-          {/* Outer glow ring */}
+          {/* Outer glow ring. Idle shimmer is now 1.4s (was 3s) so the
+              avatar reads as live-monitoring during silent waits — there
+              is always something pulsing on screen. */}
           <div
             className="absolute inset-0 rounded-full"
             style={{
               background: `radial-gradient(circle, color-mix(in oklch, var(--energy-primary) ${speaking ? 25 : 10}%, transparent) 0%, transparent 70%)`,
-              animation: speaking ? "holoPulse 1s ease-in-out infinite" : "holoPulse 3s ease-in-out infinite",
+              animation: speaking ? "holoPulse 1s ease-in-out infinite" : "holoPulse 1.4s ease-in-out infinite",
             }}
           />
 
@@ -220,10 +222,31 @@ export default function HolographicElara({
                 alt="Elara"
                 className="w-full h-full object-cover"
                 style={{
+                  // Crop biased to the upper face so the eyes/forehead sit
+                  // mid-circle and the lips fall near the bottom edge —
+                  // the source portrait's lower face has visible AI
+                  // generation artifacts that the holographic overlays
+                  // alone don't fully mask.
+                  objectPosition: "center 22%",
                   filter: "brightness(1.1) contrast(1.1) saturate(0.8)",
                 }}
               />
             )}
+
+            {/* Lower-face holographic mask — fades the bottom third of
+                the portrait into the surrounding void so the source
+                portrait's mouth artifacts read as "data degradation"
+                rather than uncanny lip-sync. */}
+            <div
+              aria-hidden
+              className="absolute inset-x-0 bottom-0 pointer-events-none"
+              style={{
+                height: "38%",
+                background:
+                  "linear-gradient(180deg, transparent 0%, color-mix(in oklch, var(--bg-void) 55%, transparent) 55%, color-mix(in oklch, var(--bg-void) 90%, transparent) 100%)",
+                mixBlendMode: "multiply",
+              }}
+            />
 
             {/* Holographic tint overlay */}
             <div
@@ -267,7 +290,10 @@ export default function HolographicElara({
                     src={ELARA_PORTRAIT}
                     alt=""
                     className="w-full h-full object-cover"
-                    style={{ filter: "hue-rotate(120deg) saturate(3)" }}
+                    style={{
+                      objectPosition: "center 22%",
+                      filter: "hue-rotate(120deg) saturate(3)",
+                    }}
                   />
                 </div>
                 <div
@@ -282,24 +308,20 @@ export default function HolographicElara({
                     src={ELARA_PORTRAIT}
                     alt=""
                     className="w-full h-full object-cover"
-                    style={{ filter: "hue-rotate(240deg) saturate(3)" }}
+                    style={{
+                      objectPosition: "center 22%",
+                      filter: "hue-rotate(240deg) saturate(3)",
+                    }}
                   />
                 </div>
               </>
             )}
 
-            {/* Speaking indicator - mouth glow */}
-            {speaking && (
-              <div
-                className="absolute bottom-[20%] left-[30%] right-[30%] rounded-full"
-                style={{
-                  height: 4,
-                  background: "color-mix(in oklch, var(--energy-primary) 60%, transparent)",
-                  filter: "blur(3px)",
-                  animation: "holoSpeak 0.15s ease-in-out infinite alternate",
-                }}
-              />
-            )}
+            {/* Speaking indicator removed: the SpriteCharacter viseme
+                overlay below already animates the mouth. The old cyan
+                glow pill at bottom-20% was hardcoded to the un-zoomed
+                portrait's mouth position and floated as a second, off-
+                center mouth on top of the actual one. */}
           </div>
 
           {/* Particle canvas overlay */}
@@ -311,7 +333,9 @@ export default function HolographicElara({
             style={{ opacity: 0.6 }}
           />
 
-          {/* Data readout ring */}
+          {/* Data readout ring + sweep cursor. The sweep is a short arc
+              that orbits the ring at 4s/rev, giving the handshake a
+              "monitoring" cadence even when Elara is silent. */}
           <svg
             className="absolute inset-0 pointer-events-none"
             width={dims.container}
@@ -328,12 +352,28 @@ export default function HolographicElara({
               strokeDasharray="4 8"
               style={{ animation: "holoRotate 15s linear infinite" }}
             />
+            {/* Sweep cursor — 36° arc, orbits the readout ring */}
+            <g style={{ animation: "holoSweep 4s linear infinite", transformOrigin: `${dims.container / 2}px ${dims.container / 2}px` }}>
+              <circle
+                cx={dims.container / 2}
+                cy={dims.container / 2}
+                r={dims.image / 2 + 8}
+                fill="none"
+                stroke="color-mix(in oklch, var(--energy-primary) 70%, transparent)"
+                strokeWidth="1.2"
+                strokeDasharray={`${(dims.image / 2 + 8) * 0.55} ${(dims.image / 2 + 8) * 6}`}
+                strokeLinecap="round"
+              />
+            </g>
             {/* Data ticks */}
             {Array.from({ length: 12 }).map((_, i) => {
               const angle = (i * 30 * Math.PI) / 180;
               const r = dims.image / 2 + 8;
               const cx = dims.container / 2;
               const cy = dims.container / 2;
+              // Stagger a subtle pulse across three ticks per cycle so
+              // the ring has constant micro-motion.
+              const pulseDelay = (i % 3) * 0.5;
               return (
                 <line
                   key={i}
@@ -343,18 +383,26 @@ export default function HolographicElara({
                   y2={cy + (r + 2) * Math.sin(angle)}
                   stroke="color-mix(in oklch, var(--energy-primary) 30%, transparent)"
                   strokeWidth="0.5"
+                  style={{ animation: `holoTickPulse 1.5s ease-in-out ${pulseDelay}s infinite` }}
                 />
               );
             })}
           </svg>
 
-          {/* Status label */}
+          {/* Status label. Even in STANDBY, an animated ellipsis runs so
+              the handshake never reads as frozen. The trailing dots are
+              their own elements so they can fade in sequence. */}
           <div
             className="absolute -bottom-2 left-1/2 -translate-x-1/2 whitespace-nowrap"
           >
-            <div className="px-2 py-0.5 rounded-full bg-background/80 border border-[color-mix(in oklch, var(--energy-primary) 30%, transparent)]">
+            <div className="px-2 py-0.5 rounded-full bg-background/80 border border-[color-mix(in oklch, var(--energy-primary) 30%, transparent)] flex items-center gap-1">
               <span className="font-mono text-[8px] tracking-[0.3em]" style={{ color: "color-mix(in oklch, var(--energy-primary) 80%, transparent)" }}>
-                {speaking ? "◉ TRANSMITTING" : "◎ STANDBY"}
+                {speaking ? "◉ TRANSMITTING" : "◎ MONITORING"}
+              </span>
+              <span aria-hidden className="font-mono text-[8px] tracking-[0.1em]" style={{ color: "color-mix(in oklch, var(--energy-primary) 80%, transparent)" }}>
+                <span style={{ animation: "holoEllipsis 1.4s steps(1, end) infinite", animationDelay: "0s" }}>·</span>
+                <span style={{ animation: "holoEllipsis 1.4s steps(1, end) infinite", animationDelay: "0.4s" }}>·</span>
+                <span style={{ animation: "holoEllipsis 1.4s steps(1, end) infinite", animationDelay: "0.8s" }}>·</span>
               </span>
             </div>
           </div>
@@ -380,6 +428,18 @@ export default function HolographicElara({
             @keyframes holoSpeak {
               0% { height: 2px; opacity: 0.4; }
               100% { height: 6px; opacity: 0.8; }
+            }
+            @keyframes holoSweep {
+              from { transform: rotate(0deg); }
+              to { transform: rotate(360deg); }
+            }
+            @keyframes holoTickPulse {
+              0%, 100% { opacity: 0.4; }
+              50% { opacity: 1; }
+            }
+            @keyframes holoEllipsis {
+              0%, 33% { opacity: 0.2; }
+              34%, 100% { opacity: 0.9; }
             }
           `}</style>
         </motion.div>

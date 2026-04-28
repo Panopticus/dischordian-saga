@@ -13,19 +13,24 @@
    ═══════════════════════════════════════════════════════ */
 
 import {
+  CRYO_MYSTERY_COMBINES,
   CRYO_MYSTERY_RESPONSES,
   type CryoMysteryHotspotId,
 } from "../cryoBayMystery";
-import type { RoomMysteryModule } from "./_template";
+import type { CombineRule, RoomMysteryModule } from "./_template";
 import { BRIDGE_MYSTERY } from "./bridge";
 import { ENGINEERING_MYSTERY } from "./engineering";
 import { MEDICAL_BAY_MYSTERY } from "./medicalBay";
 
 /** Cryo Bay adapter — wraps the legacy responses table in the
- *  generic module shape so the registry can dispatch to it. */
+ *  generic module shape so the registry can dispatch to it. The
+ *  combine rules are surfaced too so getAllAuthoredClues() finds
+ *  the victim-identified clue (logged when torn-id + data-slate
+ *  are combined). */
 const CRYO_BAY_MYSTERY: RoomMysteryModule<CryoMysteryHotspotId> = {
   roomId: "cryo-bay",
   responses: CRYO_MYSTERY_RESPONSES,
+  combines: CRYO_MYSTERY_COMBINES as readonly CombineRule[],
 };
 
 /** roomId → module. Add new room modules here as they ship. */
@@ -39,6 +44,34 @@ export const ROOM_MYSTERY_REGISTRY: Readonly<Record<string, RoomMysteryModule>> 
 /** Get the module for a room id, or null if no mystery is authored. */
 export function getRoomMysteryModule(roomId: string): RoomMysteryModule | null {
   return ROOM_MYSTERY_REGISTRY[roomId] ?? null;
+}
+
+/** Walk every authored response and combine across the registry and
+ *  collect the deduplicated set of Clue objects. The Clue Journal UI
+ *  uses this to compute "logged / total" without hardcoding a number
+ *  that drifts when a new room mystery is shipped. */
+export function getAllAuthoredClues(): import("./_template").Clue[] {
+  const seen = new Set<string>();
+  const out: import("./_template").Clue[] = [];
+  for (const mod of Object.values(ROOM_MYSTERY_REGISTRY)) {
+    for (const verbs of Object.values(mod.responses)) {
+      for (const resp of Object.values(verbs ?? {})) {
+        const c = resp?.logsClue;
+        if (c && !seen.has(c.id)) {
+          seen.add(c.id);
+          out.push(c);
+        }
+      }
+    }
+    for (const rule of mod.combines ?? []) {
+      const c = rule.result.logsClue;
+      if (c && !seen.has(c.id)) {
+        seen.add(c.id);
+        out.push(c);
+      }
+    }
+  }
+  return out;
 }
 
 export type { RoomMysteryModule } from "./_template";

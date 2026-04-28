@@ -19,6 +19,7 @@ import type { Server } from "http";
 import { checkWsRateLimit, sendRateLimitError, storeDisconnectedSession, recoverSession } from "./wsRateLimit";
 import { recordMatchStart, recordMatchEnd } from "./matchLengthMonitor";
 import { reduce, hashState, type GameState, type Action } from "../shared/tcg-core";
+import { persistFinishedMatch } from "./services/replayPersistence";
 import {
   buildMatchConfig,
   createServerMatchState,
@@ -207,22 +208,25 @@ function endMatch(match: DuelystMatch, winnerSide: 0 | 1, reason: string) {
   send(winner.ws, { type: "MATCH_RESULT", result: "win", eloChange: 15 });
   send(loser.ws, { type: "MATCH_RESULT", result: "loss", eloChange: -10 });
 
-  // Persist replay data for future replay() reconstruction.
-  // The action log + seed + rulesVersion + final state hash are
-  // enough to deterministically reproduce the entire match.
-  try {
-    const finalHash = hashState(match.gameState);
-    console.log(
-      `[Duelyst] Replay data: matchId=${match.matchId} seed=${match.gameState.seed} ` +
-      `rulesVersion=${match.gameState.rulesVersion} actions=${match.actionLog.length} ` +
-      `finalHash=${finalHash}`
-    );
-    // [DEFERRED] DB write to cardGameMatches (seed, rulesVersion,
-    // actionLog, finalStateHash) lands when the tRPC match-creation
-    // flow persists the initial row (matches are in-memory only today).
-  } catch (e) {
-    console.error(`[Duelyst] Failed to compute replay data:`, e);
-  }
+  // Persist replay data so the deterministic reducer can reproduce
+  // the entire match from a /replay/<shareToken> URL (#6 / #46).
+  // The action log + seed + rulesVersion + final-state hash are
+  // enough to reconstruct every board state. Fire-and-forget — a DB
+  // failure must not block the WS post-match flow (we already sent
+  // MATCH_RESULT to both clients above). The persistence helper
+  // logs success/failure on its own.
+  void persistFinishedMatch({
+    gameType: "duelyst",
+    startedAt: match.startedAt,
+    player1: { userId: match.player1.userId, userName: match.player1.userName },
+    player2: { userId: match.player2.userId, userName: match.player2.userName },
+    winnerSide,
+    gameState: match.gameState,
+    actionLog: match.actionLog,
+    p1Config: { faction: match.player1.faction, deckCardIds: match.player1.deckCardIds },
+    p2Config: { faction: match.player2.faction, deckCardIds: match.player2.deckCardIds },
+    tags: [reason],
+  });
 
   if (match.turnTimeout) clearTimeout(match.turnTimeout);
   activeMatches.delete(match.matchId);
