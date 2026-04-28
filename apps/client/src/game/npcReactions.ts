@@ -49,13 +49,44 @@ export interface NpcReactionInput {
 }
 
 /**
+ * Inputs for one-call canonical reactToEvent. The server loads
+ * full selector context (trust + flags + profile + history),
+ * picks the canonical line, applies side effects, returns it.
+ */
+export interface NpcReactToEventInput {
+  npcKey: NpcKey;
+  surface: DialogSurface;
+  /** Surface-specific target (room id / contract key / sector id / etc.). */
+  targetId?: string;
+  /** Current saga act 1-7. Default 1. */
+  act?: number;
+  /** Player narrative flag set (client-side state). */
+  narrativeFlags?: ReadonlyArray<string>;
+}
+
+export interface NpcReactToEventResult {
+  ok: true;
+  line: {
+    lineId: string;
+    npcKey: NpcKey;
+    text: string;
+    voId?: string;
+    trustDelta?: number;
+    nextLineId?: string;
+    expressionChannel?: string;
+  } | null;
+}
+
+/**
  * React-hook variant. Use inside React components; returns a stable
  * `emit(input)` callback. Server call goes through trpc.npc.recordLinePlayed.
  */
 export function useNpcReactions(): {
   emit: (input: NpcReactionInput) => Promise<void>;
+  reactToEvent: (input: NpcReactToEventInput) => Promise<NpcReactToEventResult["line"]>;
 } {
   const recordMutation = trpc.npc.recordLinePlayed.useMutation();
+  const reactMutation = trpc.npc.reactToEvent.useMutation();
   return {
     emit: async (input) => {
       try {
@@ -77,6 +108,23 @@ export function useNpcReactions(): {
       // per surface). Currently unused server-side; tracked here for
       // future expansion.
       void input.surface;
+    },
+    reactToEvent: async (input) => {
+      try {
+        const result = await reactMutation.mutateAsync({
+          npcKey: input.npcKey,
+          surface: input.surface,
+          targetId: input.targetId,
+          act: input.act,
+          narrativeFlags: input.narrativeFlags ? [...input.narrativeFlags] : undefined,
+        });
+        return result.line ?? null;
+      } catch (err) {
+        if (typeof console !== "undefined" && console.debug) {
+          console.debug("npcReactions.reactToEvent silently failed", err);
+        }
+        return null;
+      }
     },
   };
 }

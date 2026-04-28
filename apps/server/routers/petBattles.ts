@@ -23,6 +23,7 @@ import { buildOpponent, ARENA_OPPONENT_POOLS } from "@shared/petArenaOpponents";
 import { petDeath } from "../services/petDeath";
 import { logger } from "../logger";
 import { grantCardReward } from "../services/cardRewardService";
+import { tryNpcReaction } from "./npc";
 
 export const petBattlesRouter = router({
   /** Get player's full pet roster */
@@ -269,6 +270,35 @@ export const petBattlesRouter = router({
         }
       }
 
+      // Phase 3 pilot — Eidolon canonical fight expression-beat
+      // (perfect-victory / loss / injury). Surface "fight" reads
+      // canonical battle-state register per eidolon.md §1.5
+      // (Channel 5 sound + posture). Silent-fail if no canonical
+      // beat matches.
+      let eidolonExpression: {
+        lineId: string;
+        text: string;
+        voId?: string;
+      } | null = null;
+      const battleTargetId = `battle_${input.won ? "won" : "lost"}_${input.perfectVictory ? "perfect" : "normal"}_${input.arenaTier}`;
+      try {
+        const reaction = await tryNpcReaction({
+          userId: ctx.user.id,
+          npcKey: "your_eidolon",
+          surface: "fight",
+          targetId: battleTargetId,
+        });
+        if (reaction) {
+          eidolonExpression = {
+            lineId: reaction.line.lineId,
+            text: reaction.line.text,
+            voId: reaction.line.voId,
+          };
+        }
+      } catch (reactionErr) {
+        logger.warn("petBattles.submitBattleResult npc reaction failed", reactionErr);
+      }
+
       return {
         success: true,
         rewards: { bondGain, skillPoints: skillGain, dream: dreamReward, xp: totalXp, injury },
@@ -287,6 +317,7 @@ export const petBattlesRouter = router({
           preMultXp,
         } : null,
         evolution: evoResult.evolved ? { newStage: evoResult.newStage } : null,
+        eidolonExpression,
       };
     }),
 

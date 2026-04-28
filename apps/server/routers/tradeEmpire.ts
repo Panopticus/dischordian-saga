@@ -54,9 +54,13 @@ import { getContractTemplate } from "@shared/tradeEmpire/contractTemplates/index
 import {
   makeRouteKey,
   milestoneTiersCrossedBy,
+  MILESTONE_TIER_CANON,
   type RouteMilestoneTier,
 } from "@shared/tradeEmpire/routes";
 import type { CargoCategory } from "@shared/tradeEmpire/cargo";
+import { tryNpcReaction } from "./npc";
+import { BROKER_REGISTRY } from "@shared/tradeEmpire/brokers";
+import type { NpcKey } from "@shared/npcs/types";
 
 /** Max trade cycles ahead an Oracle can buy a futures contract. */
 const PROBABILITY_FUTURES_WINDOW = 3;
@@ -1203,12 +1207,64 @@ export const tradeEmpireRouter = router({
         console.warn("broker_engagement ripple failed", rippleErr);
       }
 
+      // Phase 3 pilot — canonical broker NPC reaction at signing.
+      // Surface "trade_empire" reads the broker's signing-line bank
+      // (Locke: 5x5 personality grid; Nilmorg: institutional register).
+      // Silent-fail: if no line matches the canonical context, the
+      // signing flow continues uninterrupted.
+      let npcReaction: { lineId: string; text: string; voId?: string } | null = null;
+      try {
+        const brokerDef = BROKER_REGISTRY[template.brokerKey];
+        const reaction = await tryNpcReaction({
+          userId: ctx.user.id,
+          npcKey: brokerDef.npcKey as NpcKey,
+          surface: "trade_empire",
+          targetId: input.contractKey,
+        });
+        if (reaction) {
+          npcReaction = {
+            lineId: reaction.line.lineId,
+            text: reaction.line.text,
+            voId: reaction.line.voId,
+          };
+        }
+      } catch (reactionErr) {
+        console.warn("signContract npc reaction failed", reactionErr);
+      }
+
+      // Phase 3 wave-2 — Vex's canonical Maestro-narrator commentary
+      // on canonical contract-signing. Per vex_solene.md §5.10,
+      // Maestro is the default Trade Empire narrator from Act 3 §7
+      // onward; reveal-stage gating in the canonical bank ensures
+      // pre-reveal players canonically see Maestro register, post-
+      // reveal players canonically see Engineer-Zero direct register.
+      let vexNarration: { lineId: string; text: string; voId?: string } | null = null;
+      try {
+        const reaction = await tryNpcReaction({
+          userId: ctx.user.id,
+          npcKey: "vex_solene" as NpcKey,
+          surface: "trade_empire",
+          targetId: input.contractKey,
+        });
+        if (reaction) {
+          vexNarration = {
+            lineId: reaction.line.lineId,
+            text: reaction.line.text,
+            voId: reaction.line.voId,
+          };
+        }
+      } catch (reactionErr) {
+        console.warn("signContract vex narration failed", reactionErr);
+      }
+
       // Drizzle MySQL insert returns ResultSetHeader-shape; insertId on result[0]
       const insertId = (insertResult as unknown as Array<{ insertId?: number }>)[0]?.insertId;
       return {
         success: true,
         contractId: insertId ?? null,
         alreadySigned: false,
+        npcReaction,
+        vexNarration,
       };
     }),
 
@@ -1333,10 +1389,53 @@ export const tradeEmpireRouter = router({
         console.warn("sector_first_entered ripple failed", rippleErr);
       }
 
+      // Phase 3 pilot + wave-2 + wave-3 — canonical NPC first-visit greetings.
+      // Pilot wave (Locke + Nilmorg + Eidolon) + wave-2 (Vex Maestro
+      // narrator per vex_solene.md §5.10) + wave-3 (Hierophant on
+      // canonical Thaloria-aligned sectors per wraith_calder.md §5.7
+      // quiet-missions canon) react on the "trade_empire" surface;
+      // selector silently returns null if the NPC's bank has no
+      // canonical line for this sector — Hierophant canonically only
+      // fires on Thaloria-aligned sectors per his bank's gating.
+      const PILOT_NPCS: ReadonlyArray<NpcKey> = [
+        "adjudicator_locke",
+        "nilmorg",
+        "your_eidolon",
+        "vex_solene",
+        "wraith_calder",
+      ];
+      const npcGreetings: Array<{
+        npcKey: NpcKey;
+        lineId: string;
+        text: string;
+        voId?: string;
+      }> = [];
+      for (const npcKey of PILOT_NPCS) {
+        try {
+          const reaction = await tryNpcReaction({
+            userId: ctx.user.id,
+            npcKey,
+            surface: "trade_empire",
+            targetId: input.sectorId,
+          });
+          if (reaction) {
+            npcGreetings.push({
+              npcKey,
+              lineId: reaction.line.lineId,
+              text: reaction.line.text,
+              voId: reaction.line.voId,
+            });
+          }
+        } catch (reactionErr) {
+          console.warn(`sectorFirstEntered npc reaction failed for ${npcKey}`, reactionErr);
+        }
+      }
+
       return {
         success: true,
         firstVisit: true,
         firstEnteredAt: new Date(),
+        npcGreetings,
       };
     }),
 
@@ -1429,6 +1528,13 @@ export const tradeEmpireRouter = router({
 
       // Append-only milestone log + ripple per crossed tier.
       const factionsTouched = input.factionsTouched ?? [];
+      const npcAcknowledgments: Array<{
+        npcKey: NpcKey;
+        tier: number;
+        lineId: string;
+        text: string;
+        voId?: string;
+      }> = [];
       for (const tier of tiersCrossed) {
         await db.insert(tradeRouteMilestones).values({
           userId: ctx.user.id,
@@ -1447,6 +1553,35 @@ export const tradeEmpireRouter = router({
         } catch (rippleErr) {
           console.warn("route_milestone ripple failed", rippleErr);
         }
+
+        // Phase 3 pilot — canonical per-tier NPC acknowledgments.
+        // MILESTONE_TIER_CANON declares which NPCs canonically react
+        // at each tier (5 / 10 / 25 / 50). Run the canonical selector
+        // for each acknowledger; silent-fail if no line matches.
+        const canon = MILESTONE_TIER_CANON[tier];
+        if (canon) {
+          for (const acker of canon.canonicalAcknowledgers) {
+            try {
+              const reaction = await tryNpcReaction({
+                userId: ctx.user.id,
+                npcKey: acker.npcKey as NpcKey,
+                surface: "trade_empire",
+                targetId: routeKey,
+              });
+              if (reaction) {
+                npcAcknowledgments.push({
+                  npcKey: acker.npcKey as NpcKey,
+                  tier,
+                  lineId: reaction.line.lineId,
+                  text: reaction.line.text,
+                  voId: reaction.line.voId,
+                });
+              }
+            } catch (reactionErr) {
+              console.warn(`route_milestone npc reaction failed for ${acker.npcKey}`, reactionErr);
+            }
+          }
+        }
       }
 
       return {
@@ -1454,6 +1589,7 @@ export const tradeEmpireRouter = router({
         runCount: newRunCount,
         currentMilestoneTier: newMilestoneTier as RouteMilestoneTier | 0,
         tiersCrossedThisRun: tiersCrossed,
+        npcAcknowledgments,
       };
     }),
 });

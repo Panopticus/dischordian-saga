@@ -25,6 +25,44 @@ import {
   getImprintNpc,
 } from "@shared/tcg-core";
 import { awardFragments } from "../services/imprintService";
+import { tryNpcReaction } from "./npc";
+import type { NpcKey } from "@shared/npcs/types";
+
+/**
+ * Phase 3 wave-4 — Game Master canonical chess match-state reaction.
+ * Per the_game_master.md: GM operates on canonical "match" surface
+ * with canonical-presence-bands (faint/loud/overwhelming) gated by
+ * canonical-chess-game-count + canonical-identity-stratification
+ * (Archon / Cult / dead_AI). Selector silent-fails per game-state.
+ *
+ * targetId encodes canonical canonical-game-state (won/lost/drawn/
+ * resigned + canonical-checkmate vs. canonical-timeout vs. canonical-
+ * resignation) so the canonical-bank-line picker can canonically
+ * route per canonical-state.
+ */
+async function tryGameMasterChessReaction(
+  userId: number,
+  outcome: "won" | "lost" | "drawn" | "resigned",
+  endStatus: string,
+): Promise<{ lineId: string; text: string; voId?: string } | null> {
+  try {
+    const reaction = await tryNpcReaction({
+      userId,
+      npcKey: "the_game_master" as NpcKey,
+      surface: "match",
+      targetId: `chess_${outcome}_${endStatus}`,
+    });
+    if (!reaction) return null;
+    return {
+      lineId: reaction.line.lineId,
+      text: reaction.line.text,
+      voId: reaction.line.voId,
+    };
+  } catch (reactionErr) {
+    console.warn("chess game-master reaction failed", reactionErr);
+    return null;
+  }
+}
 
 /** Chess opponent characters whose ids match an imprint NPC slug
  *  exactly. The Phase F5 hook awards 1 fragment per match for the
@@ -732,11 +770,22 @@ export const chessRouter = router({
       // Process game end
       let rewards = null;
       let eloChange = 0;
+      let gameMasterReaction: Awaited<ReturnType<typeof tryGameMasterChessReaction>> = null;
       if (status !== "active") {
         const result = await processGameEnd(db, ctx.user.id, game[0], status, winnerId);
         rewards = result.rewards;
         eloChange = result.eloChange;
         await ripple.emit("chess_result", { userId: ctx.user.id, won: winnerId === ctx.user.id, moveCount });
+        const outcome =
+          winnerId === ctx.user.id ? "won" :
+          winnerId === -1 ? "drawn" :
+          status === "resigned" ? "resigned" :
+          "lost";
+        gameMasterReaction = await tryGameMasterChessReaction(
+          ctx.user.id,
+          outcome,
+          status,
+        );
       }
 
       return {
@@ -749,6 +798,7 @@ export const chessRouter = router({
         isCheck: chess.isCheck(),
         rewards,
         eloChange,
+        gameMasterReaction,
       };
     }),
 
@@ -814,11 +864,22 @@ export const chessRouter = router({
       // Process game end
       let rewards = null;
       let eloChange = 0;
+      let gameMasterReaction: Awaited<ReturnType<typeof tryGameMasterChessReaction>> = null;
       if (status !== "active") {
         const result = await processGameEnd(db, ctx.user.id, game[0], status, winnerId);
         rewards = result.rewards;
         eloChange = result.eloChange;
         await ripple.emit("chess_result", { userId: ctx.user.id, won: winnerId === ctx.user.id, moveCount });
+        const outcome =
+          winnerId === ctx.user.id ? "won" :
+          winnerId === -1 ? "drawn" :
+          status === "resigned" ? "resigned" :
+          "lost";
+        gameMasterReaction = await tryGameMasterChessReaction(
+          ctx.user.id,
+          outcome,
+          status,
+        );
       }
 
       return {
@@ -830,6 +891,7 @@ export const chessRouter = router({
         isCheck: chess.isCheck(),
         rewards,
         eloChange,
+        gameMasterReaction,
       };
     }),
 
@@ -849,7 +911,12 @@ export const chessRouter = router({
 
       const result = await processGameEnd(db, ctx.user.id, game[0], "resigned", null);
       await ripple.emit("chess_result", { userId: ctx.user.id, won: false });
-      return { success: true, eloChange: result.eloChange };
+      const gameMasterReaction = await tryGameMasterChessReaction(
+        ctx.user.id,
+        "resigned",
+        "resigned",
+      );
+      return { success: true, eloChange: result.eloChange, gameMasterReaction };
     }),
 
   /** Get game history */
