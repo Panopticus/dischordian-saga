@@ -69,6 +69,11 @@ export interface RoomState {
   visitCount: number;
   itemsFound: string[];
   elaraDialogSeen: boolean;
+  /** Hotspot ids removed from the scene after a one-shot pickup
+   *  (data-slate use, locket pickup). Renderer skips them. Persisted
+   *  per-room so a player who pockets the slate and walks back doesn't
+   *  see it again. */
+  collectedHotspots?: string[];
 }
 
 /* ─── ARMY MANAGEMENT TYPES ─── */
@@ -429,7 +434,10 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "sealed-pods", name: "Sealed Pods", description: "Several pods remain sealed, their status indicators dark. Are they occupied?", x: 67, y: 28, width: 18, height: 50, type: "examine", elaraDialog: "Those pods are still sealed. Their status indicators went dark when the main power failed. I... I don't want to speculate about what's inside them. Not yet." },
       { id: "cryo-terminal", name: "Cryo Terminal", description: "A terminal displaying your character data and vital statistics.", x: 3, y: 60, width: 16, height: 26, type: "terminal", action: "/character-sheet", elaraDialog: "This terminal has your biometric data — your species markers, class aptitudes, everything we determined during your awakening. You can review your Citizen profile here." },
       { id: "door-medical", name: "Medical Bay Door", description: "A reinforced door leading to the Medical Bay. Green status light.", x: 87, y: 46, width: 12, height: 38, type: "door", action: "medical-bay" },
-      { id: "door-bridge", name: "Bridge Access", description: "A corridor leading up to Deck 2 — the Command deck.", x: 44, y: 20, width: 13, height: 28, type: "door", action: "bridge" },
+      // Re-anchored 2026-04-28 against live cryo-bay render. The door
+      // sits at the back-centre archway, much lower than the original
+      // y=20. Verify with /ark?debug-hotspots=1 if the room art changes.
+      { id: "door-bridge", name: "Bridge Access", description: "A corridor leading up to Deck 2 — the Command deck.", x: 42, y: 38, width: 16, height: 38, type: "door", action: "bridge" },
       { id: "data-crystal", name: "Data Crystal", description: "A glowing crystal wedged under a pod. It contains encrypted data.", x: 41, y: 89, width: 6, height: 6, type: "item", action: "data-crystal-alpha", elaraDialog: "A data crystal! These were used by the first wave to store personal logs. This one might contain information about what happened after they woke up." },
       { id: "egg-cryo-scratch", name: "Scratched Symbol", description: "Barely visible scratch marks on the wall behind a pod.", x: 84, y: 30, width: 3, height: 4, type: "examine", elaraDialog: "Wait... those scratch marks. They form a symbol — the mark of the Antiquarian. But that's impossible. The Antiquarian is a myth, a figure from the deepest layers of the prophecy. Who carved this here, and when? This predates our launch." },
       // Section F — Cryo Bay mystery hotspots. Each fires through the
@@ -441,7 +449,10 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       // wedged under the dead pod's base.
       { id: "dead-pod", name: "Dark Cryo Pod", description: "A pod whose status indicator is cold-blue instead of warm-gold. Something is in there.", x: 49, y: 38, width: 16, height: 54, type: "interact", action: "cryo-mystery:dead-pod" },
       { id: "frosted-glass", name: "Frosted Pod Glass", description: "Wipe the frost — see who's inside.", x: 51, y: 41, width: 12, height: 18, type: "interact", action: "cryo-mystery:frosted-glass" },
-      { id: "medical-chart", name: "Medical Chart", description: "A printed medical chart magnet-clipped to the dark pod.", x: 62, y: 50, width: 5, height: 8, type: "interact", action: "cryo-mystery:medical-chart" },
+      // Re-anchored 2026-04-28: the visible chart in the live render is
+      // on the LEFT face of the dead-pod cluster, not the right side
+      // where x=62 placed it. Verify with /ark?debug-hotspots=1.
+      { id: "medical-chart", name: "Medical Chart", description: "A printed medical chart magnet-clipped to the dark pod.", x: 56, y: 44, width: 5, height: 8, type: "interact", action: "cryo-mystery:medical-chart" },
       { id: "cracked-panel", name: "Cracked Control Panel", description: "The dark pod's control panel is split along a hairline seam. Sabotage?", x: 50, y: 76, width: 14, height: 8, type: "interact", action: "cryo-mystery:cracked-panel" },
       { id: "data-slate", name: "Hidden Data Slate", description: "The edge of a data-slate peeks out from under the pod.", x: 53, y: 88, width: 7, height: 5, type: "interact", action: "cryo-mystery:data-slate" },
       { id: "personal-effect", name: "Fallen Locket", description: "Something small has fallen on the floor — a tarnished locket and a cut ID-tag cord.", x: 30, y: 90, width: 10, height: 7, type: "interact", action: "cryo-mystery:personal-effect" },
@@ -1375,6 +1386,8 @@ interface GameContextValue {
   enterRoom: (roomId: string) => void;
   collectItem: (itemId: string) => void;
   markElaraDialogSeen: (roomId: string) => void;
+  /** Remove a hotspot from the scene after a one-shot pickup. */
+  markHotspotCollected: (roomId: string, hotspotId: string) => void;
   // Utility
   isRoomUnlocked: (roomId: string) => boolean;
   canUnlockRoom: (roomId: string) => boolean;
@@ -2032,6 +2045,22 @@ export function GameProvider({ children }: { children: ReactNode }) {
         [roomId]: { ...prev.rooms[roomId], elaraDialogSeen: true },
       },
     }));
+  }, []);
+
+  const markHotspotCollected = useCallback((roomId: string, hotspotId: string) => {
+    setState(prev => {
+      const room = prev.rooms[roomId];
+      if (!room) return prev;
+      const existing = room.collectedHotspots ?? [];
+      if (existing.includes(hotspotId)) return prev;
+      return {
+        ...prev,
+        rooms: {
+          ...prev.rooms,
+          [roomId]: { ...room, collectedHotspots: [...existing, hotspotId] },
+        },
+      };
+    });
   }, []);
 
   const getRoomDef = useCallback((roomId: string) => {
@@ -3370,6 +3399,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
       enterRoom,
       collectItem,
       markElaraDialogSeen,
+      markHotspotCollected,
       isRoomUnlocked,
       canUnlockRoom,
       getRoomDef,

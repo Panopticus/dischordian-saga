@@ -54,6 +54,13 @@ const prefersReducedMotion =
     ? matchMedia("(prefers-reduced-motion: reduce)").matches
     : false;
 
+/** When `?debug-mouthbox=1` is in the URL, render a thin outline of the
+ *  active sprite's mouthBox so we can visually align viseme overlays
+ *  against the rendered bust without binary-search-by-eye. */
+const debugMouthBox =
+  typeof window !== "undefined" &&
+  /[?&]debug-mouthbox=1\b/.test(window.location.search);
+
 /** Compute background-* CSS for showing one cell of a sheet inside the
  *  container. The container's aspect ratio MUST match the cell aspect
  *  for the cell to fill it without stretching. */
@@ -249,6 +256,22 @@ export function SpriteCharacter({
         style={bustStyle}
       >
         {isSpeaking && <div style={mouthStyle} />}
+        {debugMouthBox && (
+          <div
+            aria-hidden
+            style={{
+              position: "absolute",
+              left: `${box.x * 100}%`,
+              top: `${box.y * 100}%`,
+              width: `${box.width * 100}%`,
+              height: `${box.height * 100}%`,
+              border: "1px dashed magenta",
+              boxShadow: "0 0 0 1px rgba(0,0,0,0.4) inset",
+              pointerEvents: "none",
+              zIndex: 5,
+            }}
+          />
+        )}
       </div>
     );
   }

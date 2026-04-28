@@ -5,6 +5,7 @@ import { Link } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSearch } from "wouter";
 import HolographicElara from "@/components/HolographicElara";
+import { useElaraVO } from "@/hooks/useElaraVO";
 import { useState, useMemo, useEffect, useCallback } from "react";
 import {
   ChevronLeft, Shield, Swords, Heart, Zap, User,
@@ -74,11 +75,11 @@ const SPECIES_LORE: Record<string, { title: string; tagline: string }> = {
 };
 
 const CLASS_LORE: Record<string, { title: string; tagline: string }> = {
-  engineer: { title: "Engineer", tagline: "Reality hackers. They see the code behind the world." },
-  oracle: { title: "Oracle", tagline: "Seers of fate. The future whispers to them." },
-  assassin: { title: "Assassin", tagline: "Silent executors. Death is their art form." },
-  soldier: { title: "Soldier", tagline: "Frontline warriors. Built for war." },
-  spy: { title: "Spy", tagline: "Intelligence operatives. Trust no one." },
+  engineer: { title: "Engineer", tagline: "You read the seams of the world. Every system answers, if you ask correctly." },
+  oracle: { title: "Oracle", tagline: "Possibility arranges itself in front of you a heartbeat early." },
+  assassin: { title: "Assassin", tagline: "Quiet has always come naturally. You leave no signature." },
+  soldier: { title: "Soldier", tagline: "Your body remembers stance, breath, distance — even what your mind doesn't." },
+  spy: { title: "Spy", tagline: "You have lived in the spaces between truths. Trust is a tool." },
 };
 
 /* ═══════════════════════════════════════════════════
@@ -87,27 +88,27 @@ const CLASS_LORE: Record<string, { title: string; tagline: string }> = {
 
 const KINETIC_QUOTES = [
   "",
-  "Combat reflexes still recalibrating from cryo. The neural pathways are there — they need reactivation.",
-  "Baseline combat response. Functional. The cryo process preserved your fundamentals.",
-  "Above-average kinetic output. Your body remembers fighting even if your mind doesn't.",
-  "93rd percentile neural-to-muscle response. The Game Master would have flagged you.",
-  "I've cross-referenced every Potential in the database. Your combat reflexes are unprecedented.",
+  "Your body is still relearning itself. The instincts are present, just out of focus — give them a few hours.",
+  "You move like someone who's been here before. Whatever your mind has lost, your spine remembers.",
+  "There's a fighter in your tendons. You don't have to think about closing distance — you just close it.",
+  "I have seen one-in-ten-thousand reactions like yours. They tend to belong to people who survived their own wars.",
+  "You move the way the old recordings move. Whatever you were before this pod, you were dangerous.",
 ];
 const INTEGRITY_QUOTES = [
   "",
-  "Structural readings are concerning. The cryo process degraded your defensive matrix.",
-  "Standard defensive architecture. Your body absorbs kinetic force within normal parameters.",
-  "Enhanced structural integrity. Your species physiology provides natural reinforcement.",
-  "Kinetic absorption capacity approaching theoretical limits for organic matter.",
-  "Your defensive matrix exceeds anything in the Ark's historical database. The Dreamer would be impressed.",
+  "You feel thinner than you should. The cryo took something — you'll get it back, but not all at once.",
+  "You hold your weight well. Whatever happens next won't crack you on the first hit.",
+  "Your bones know how to hold a line. You can stand somewhere, and you can stay there.",
+  "You're built to take what's coming, even before you know what's coming. That's a rare frame to live in.",
+  "I don't know what made you, but it made you to last. You'll outlive most things on this ship.",
 ];
 const RESONANCE_QUOTES = [
   "",
-  "Core resonance is weak. Your connection to the Dream substrate is tenuous.",
-  "Stable resonance. The Matrix of Dreams recognizes your signal.",
-  "Strong resonance. The Dreamer's frequency harmonizes with your bio-signature.",
-  "Exceptional core resonance. You're pulling energy from the Dream substrate without trying.",
-  "Your resonance signature matches readings I've only seen in pre-Fall records. This shouldn't be possible.",
+  "You hum on a thin signal. The Dream is there, just at the edge of your hearing.",
+  "You and the Dream are talking. It's a conversation, not a shout — that's what most people get.",
+  "You don't reach for the Dream. It comes to you. That's not common.",
+  "The Dream doesn't visit you, you live alongside it. I have only ever read this in stories.",
+  "You're tuned to a frequency that should not be available to anyone alive. I am writing this down carefully.",
 ];
 
 /* ═══════════════════════════════════════════════════
@@ -313,13 +314,20 @@ export default function CharacterSheetPage() {
   const [narrativeStep, setNarrativeStep] = useState(0);
   const [narrativeText, setNarrativeText] = useState("");
   const [isTyping, setIsTyping] = useState(false);
+  // Plays the per-step VO line if `character_sheet_intro_N` exists in
+  // the manifest. Falls through silently if the line hasn't been
+  // generated yet — typewriter remains the source of truth in that
+  // case. The exposed `audio` element drives the SpriteCharacter
+  // viseme overlay so Elara's mouth syncs to her actual voice instead
+  // of a fake cycle.
+  const { speak: speakElaraIntro, audio: elaraIntroAudio, speaking: elaraIntroSpeaking } = useElaraVO();
 
   const ELARA_INTRO_LINES = useMemo(() => [
     "Neural scan complete. Your biometric profile has been compiled, Operative.",
-    "This is your dossier — everything we know about what you are. Your species markers, class aptitudes, elemental affinity... it's all here.",
-    "I've cross-referenced your readings with the Ark's historical database. Your potential is... significant. The Prophecy may have been right about you.",
-    "Study your capabilities carefully. The Ark holds many secrets, and you'll need every advantage to survive what's coming.",
-    "When you're ready, the Cryo Bay door leads to the rest of the ship. I'll be with you every step of the way.",
+    "This is your dossier — everything we know about what you are. Your species markers, your class aptitudes, your elemental affinity. I'll surface the rest as you need it.",
+    "I've cross-referenced your readings against the Ark's historical database. You are not a small signal. The Prophecy may have been right about you.",
+    "Sit with this. Let it be true for a moment. The deck plates outside this room remember things you don't, and you'll need to remember some of them back.",
+    "When you're ready — the Cryo Bay door is open. Walk through. I'll stay with you.",
   ], []);
 
   // Trigger narrative intro on first visit from Awakening
@@ -332,6 +340,14 @@ export default function CharacterSheetPage() {
       }
     }
   }, [fromAwakening, character.data]);
+
+  // Fire VO for the current line whenever the step advances. The hook
+  // is idempotent against missing manifest entries, so this is safe to
+  // call even before VO has been generated for these line ids.
+  useEffect(() => {
+    if (!showNarrativeIntro || narrativeStep >= ELARA_INTRO_LINES.length) return;
+    speakElaraIntro(`character_sheet_intro_${narrativeStep + 1}`);
+  }, [showNarrativeIntro, narrativeStep, speakElaraIntro]);
 
   // Typewriter effect for Elara dialog
   useEffect(() => {
@@ -658,11 +674,15 @@ export default function CharacterSheetPage() {
                 transition={{ delay: 0.3, duration: 0.6 }}
                 className="mb-8"
               >
-                {/* Hold "speaking" through the whole line read, not just the
-                    typewriter pass. The intro overlay has no VO audio, so
-                    without this the mouth stops moving the moment the line
-                    finishes typing — long before the player has advanced. */}
-                <HolographicElara size="lg" isSpeaking={showNarrativeIntro && narrativeStep < ELARA_INTRO_LINES.length} />
+                {/* Hold "speaking" through the whole line read. When VO
+                    audio is attached we ALSO pass it to HolographicElara
+                    so wawa-lipsync can drive visemes from the actual
+                    waveform instead of the fake-cycle fallback. */}
+                <HolographicElara
+                  size="lg"
+                  isSpeaking={(showNarrativeIntro && narrativeStep < ELARA_INTRO_LINES.length) || elaraIntroSpeaking}
+                  audio={elaraIntroAudio}
+                />
               </motion.div>
               <motion.div
                 initial={{ opacity: 0 }}

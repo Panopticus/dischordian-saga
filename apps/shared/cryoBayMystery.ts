@@ -77,6 +77,10 @@ export interface VerbResponse {
   setsFlag?: string;
   /** Door / exit to unlock (runtime maps this to the room system). */
   unlocksExit?: "medical-bay";
+  /** When true, the hotspot is removed from the scene after this verb
+   *  fires. Used for one-shot pickups (data-slate `use`, locket pickup)
+   *  so they don't stay clickable after the player has pocketed them. */
+  consumesHotspot?: boolean;
 }
 
 /* ─── Inventory catalog ─── */
@@ -185,6 +189,7 @@ export const CRYO_MYSTERY_RESPONSES: Readonly<
       narration:
         "A small object has fallen under the pod housing. A tarnished silver locket, hinge stiff. The photograph inside is too scratched to read — but someone carried this through the Fall of Realities and into a cryo-sleep specifically so it would survive with them.",
       grantsInventory: "silver-locket",
+      consumesHotspot: true,
     },
   },
   "data-slate": {
@@ -206,6 +211,7 @@ export const CRYO_MYSTERY_RESPONSES: Readonly<
       narration:
         "You pocket the data-slate. Its screen survives the move. It is now yours.",
       grantsInventory: "data-slate-fragment",
+      consumesHotspot: true,
     },
   },
   "frosted-glass": {

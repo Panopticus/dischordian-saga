@@ -361,6 +361,7 @@ function RoomScene({
   room,
   onHotspotClick,
   itemsCollected,
+  collectedHotspots = [],
   fastTravelUnlocked = false,
   commsRelayComplete = false,
   roomsWithEvents = new Set<string>(),
@@ -370,6 +371,10 @@ function RoomScene({
    *  a non-look verb to invoke a specific (verb, hotspot) response. */
   onHotspotClick: (hotspot: HotspotDef, verb?: Verb) => void;
   itemsCollected: string[];
+  /** Hotspot ids that have been one-shot collected and should no
+   *  longer render in the scene (data-slate after `use`, locket after
+   *  `look`, etc.). */
+  collectedHotspots?: string[];
   fastTravelUnlocked?: boolean;
   commsRelayComplete?: boolean;
   roomsWithEvents?: Set<string>;
@@ -417,6 +422,14 @@ function RoomScene({
       return v === null ? true : v === "true";
     } catch { return true; }
   });
+
+  // ?debug-hotspots=1 — overlay every hotspot's bounding box with its id
+  // label so we can re-anchor against the room art in one pass instead of
+  // by binary search. No production cost; renders only when the flag is
+  // set in the URL on the current navigation.
+  const debugHotspots =
+    typeof window !== "undefined" &&
+    /[?&]debug-hotspots=1\b/.test(window.location.search);
 
   // Listen for settings page toggle
   useEffect(() => {
@@ -475,8 +488,12 @@ function RoomScene({
           const isCollected = hotspot.type === "item" && hotspot.action && itemsCollected.includes(hotspot.action);
           const isHovered = hoveredHotspot === hotspot.id;
           const isEasterEgg = hotspot.id.startsWith("egg-");
+          // One-shot pickup hotspots (data-slate use, locket pickup) are
+          // tracked by id in collectedHotspots so they don't reappear
+          // when the player re-enters the room.
+          const isOneShotConsumed = collectedHotspots.includes(hotspot.id);
 
-          if (isCollected) return null;
+          if (isCollected || isOneShotConsumed) return null;
 
           // Smaller hotspots sit on top of larger ones. Several rooms
           // (notably the cryo-bay dead-pod cluster) have detail
@@ -711,6 +728,41 @@ function RoomScene({
         })}
       </AnimatePresence>
 
+      {/* ?debug-hotspots=1 overlay — bounding box + id label per hotspot
+          so we can re-anchor coordinates against the room art without
+          guess-and-check. */}
+      {debugHotspots && room.hotspots.map((h) => (
+        <div
+          key={`debug-${h.id}`}
+          aria-hidden
+          className="absolute pointer-events-none"
+          style={{
+            left: `${h.x}%`,
+            top: `${h.y}%`,
+            width: `${h.width}%`,
+            height: `${h.height}%`,
+            border: "1px dashed magenta",
+            background: "color-mix(in oklch, magenta 8%, transparent)",
+            zIndex: 60,
+          }}
+        >
+          <span
+            className="font-mono text-[9px]"
+            style={{
+              position: "absolute",
+              top: -14,
+              left: 0,
+              padding: "0 4px",
+              background: "rgba(0,0,0,0.7)",
+              color: "magenta",
+              whiteSpace: "nowrap",
+            }}
+          >
+            {h.id} ({h.x},{h.y},{h.width}×{h.height})
+          </span>
+        </div>
+      ))}
+
       {/* Room name overlay */}
       <div className="absolute bottom-3 left-3 z-10">
         <div className="flex items-center gap-2">
@@ -749,6 +801,7 @@ export default function ArkExplorerPage() {
     adjustNpcTrust, discoverNpc, adjustHumanTrust, adjustElaraTrust,
     incrementNpcConversation, revealNpcSecret, setNpcCallback,
     logClue, grantMysteryItem,
+    markHotspotCollected,
   } = useGame();
   const { discoverEntry } = useGamification();
   const { setRoomAmbience, playSFX, initAudio, audioReady } = useSound();
@@ -1439,8 +1492,20 @@ export default function ArkExplorerPage() {
           // intro track over the new line.
           setElaraVoUrl(mystery.vo);
           if (mystery.logsClue) logClue(mystery.logsClue);
-          if (mystery.grantsInventory) grantMysteryItem(mystery.grantsInventory);
+          if (mystery.grantsInventory) {
+            grantMysteryItem(mystery.grantsInventory);
+            // Auto-open the inspect modal for pickups so the player
+            // sees the item's lore/analysis the moment they pocket it,
+            // rather than only when they later open the inventory.
+            setSelectedItem(mystery.grantsInventory);
+          }
           if (mystery.setsFlag) setNarrativeFlag(mystery.setsFlag);
+          if (mystery.consumesHotspot) {
+            // One-shot pickup — remove the hotspot from the scene so
+            // the data-slate / locket don't keep glowing after they're
+            // in the player's pocket.
+            markHotspotCollected(roomId, hotspotId);
+          }
           if (mystery.unlocksExit) {
             const exitDef = getRoomDef(mystery.unlocksExit);
             const exitName = exitDef?.name?.toUpperCase() ?? mystery.unlocksExit.toUpperCase();
@@ -1463,7 +1528,7 @@ export default function ArkExplorerPage() {
         break;
       }
     }
-  }, [isRoomUnlocked, canUnlockRoom, navigateWithTransition, collectItem, navigate, state.itemsCollected, discoverEntry, getRoomDef, audioReady, playSFX, roomNeedsPuzzle, fastTravelUnlocked]);
+  }, [isRoomUnlocked, canUnlockRoom, navigateWithTransition, collectItem, navigate, state.itemsCollected, discoverEntry, getRoomDef, audioReady, playSFX, roomNeedsPuzzle, fastTravelUnlocked, markHotspotCollected]);
 
   const handleRoomSelect = useCallback((roomId: string) => {
     if (roomNeedsPuzzle(roomId)) {
@@ -1539,6 +1604,7 @@ export default function ArkExplorerPage() {
               room={currentRoom}
               onHotspotClick={handleHotspotClick}
               itemsCollected={state.itemsCollected}
+              collectedHotspots={state.rooms[currentRoom.id]?.collectedHotspots ?? []}
               fastTravelUnlocked={fastTravelUnlocked}
               commsRelayComplete={!!state.narrativeFlags["comms_relay_first_claim"]}
               roomsWithEvents={roomsWithEvents}
