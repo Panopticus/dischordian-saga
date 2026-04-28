@@ -38,6 +38,8 @@
     "vo:act7": "tsx apps/scripts/generate-act-vo.ts --act 7",
     "vo:spine": "pnpm vo:act2 && pnpm vo:act3 && pnpm vo:act4 && pnpm vo:act5 && pnpm vo:act6 && pnpm vo:act7",
     "vo:te-sync": "tsx apps/scripts/sync-te-vo-lines.ts",
+    "vo:run-all": "bash scripts/run-all-vo.sh",
+    "vo:audit": "node scripts/_vo-audit.mjs",
     "art:generate-csv": "tsx apps/scripts/generate-act1-art-csv.ts",
     "art:trade-empire": "tsx apps/scripts/generate-trade-empire-art-csv.ts",
     "art:trade-empire:upload": "tsx apps/scripts/upload-trade-empire-art.ts",
