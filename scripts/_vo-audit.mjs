@@ -114,9 +114,17 @@ function listCsvIds(globPath) {
     return ids;
   } catch { return []; }
 }
-for (const [csvGlob, manifest, generator, label] of [
-  [`${ROOT}/docs/production/prelude-asset-build/prompts/voice/section_*.csv`, null, "pnpm vo:prelude", "prelude (csv)"],
-  [`${ROOT}/docs/production/vo-batches/act1-opponent-dialog__*.csv`,           null, "pnpm vo:act1",    "act1-opponent (csv)"],
+// Prelude + Act 1 lines fold into per-speaker manifests (elara/human/
+// antiquarian/prince). Cross-resolve here so the audit doesn't
+// false-positive an EMPTY surface when those manifests already cover them.
+const PER_SPEAKER_MANIFESTS = ["elara", "human", "antiquarian", "prince"];
+const allSpeakerKeys = new Set();
+for (const sp of PER_SPEAKER_MANIFESTS) {
+  for (const id of loadManifest(sp)) allSpeakerKeys.add(id);
+}
+for (const [csvGlob, generator, label] of [
+  [`${ROOT}/docs/production/prelude-asset-build/prompts/voice/section_*.csv`, "pnpm vo:prelude", "prelude (csv)"],
+  [`${ROOT}/docs/production/vo-batches/act1-opponent-dialog__*.csv`,           "pnpm vo:act1",    "act1-opponent (csv)"],
 ]) {
   const ids = listCsvIds(csvGlob);
   surfaces.push({
@@ -125,8 +133,8 @@ for (const [csvGlob, manifest, generator, label] of [
     generator,
     idempotent: true,
     expected: new Set(ids),
-    actual: new Set(),  // prelude/act1 lines are folded into elara/human/antiquarian/prince manifests
-    manifest: "(folds into per-speaker manifests)",
+    actual: allSpeakerKeys,
+    manifest: "(folds into elara/human/antiquarian/prince)",
   });
 }
 
@@ -163,8 +171,7 @@ console.log(`TOTAL missing across all surfaces: ${totalMissing}`);
 console.log("\nNotes:");
 console.log("  - All generators (TS + Python) are now idempotent: existing manifest entries are preserved and");
 console.log("    skipped on re-run. Safe to invoke any generator multiple times.");
-console.log("  - Prelude + Act 1 CSV lines fold into per-speaker manifests (elara/human/antiquarian/prince).");
-console.log("    The 'in-manifest' column shows 0 here because we don't cross-resolve speaker assignment;");
-console.log("    actual coverage is verified separately and is currently 100%.");
+console.log("  - Prelude + Act 1 CSV lines are checked against the merged elara/human/antiquarian/prince");
+console.log("    manifests (they fold there, not into a single 'prelude/act1' file).");
 console.log("  - Run order: vo:te-sync first (merges TE lines into act3), then vo:act2..7, then vo:companion,");
 console.log("    then vo:first-contact, vo:story-mode, chess-climb, then any remaining python char generators.");

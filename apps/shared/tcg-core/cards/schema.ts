@@ -32,6 +32,7 @@ export const factionSchema = z.enum([
   "thought_virus",
   "panopticon",
   "neutral",
+  "hierarchy_of_damned",
 ]);
 
 export const cardTypeSchema = z.enum([
@@ -687,6 +688,56 @@ export const abilitySchema = z
   })
   .strict();
 
+/**
+ * Discriminated union of card unlock gates. Mirrors the
+ * CardUnlockCondition type in ../types/Card.ts. See
+ * apps/shared/tcg-core/rewards/expansionUnlockService.ts for the
+ * dispatcher that consumes these.
+ */
+export const cardUnlockConditionSchema = z.discriminatedUnion("kind", [
+  z
+    .object({
+      kind: z.literal("act_completion"),
+      act: z.union([
+        z.literal(1),
+        z.literal(2),
+        z.literal(3),
+        z.literal(4),
+        z.literal(5),
+        z.literal(6),
+        z.literal(7),
+      ]),
+    })
+    .strict(),
+  z
+    .object({
+      kind: z.literal("secret"),
+      act: z.union([
+        z.literal(1),
+        z.literal(2),
+        z.literal(3),
+        z.literal(4),
+        z.literal(5),
+        z.literal(6),
+        z.literal(7),
+      ]),
+    })
+    .strict(),
+  z
+    .object({
+      kind: z.literal("battle_pass"),
+      tier: z.number().int().min(1).max(100),
+    })
+    .strict(),
+  z.object({ kind: z.literal("founding_author") }).strict(),
+  z
+    .object({
+      kind: z.literal("authors_edition"),
+      season: z.literal("s2"),
+    })
+    .strict(),
+]);
+
 /* ─── Top-level card definition ─── */
 
 export const cardDefinitionSchema = z
@@ -741,6 +792,9 @@ export const cardDefinitionSchema = z
     /** Optional: marks a card as reserved-from-pools (see Card.ts
      *  `reserved` doc). Only `true` is meaningful; absence ≡ false. */
     reserved: z.literal(true).optional(),
+    /** Optional: gates the card behind a story / progression milestone.
+     *  See Card.ts `unlockCondition` doc + expansionUnlockService.ts. */
+    unlockCondition: cardUnlockConditionSchema.optional(),
   })
   .strict()
   .superRefine((card, ctx) => {
