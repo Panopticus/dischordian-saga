@@ -5007,6 +5007,138 @@ export const tradeOracleFutures = mysqlTable("trade_oracle_futures", {
 export type TradeOracleFutureRow = typeof tradeOracleFutures.$inferSelect;
 
 /* ═══════════════════════════════════════════════════════
+   TRADE EMPIRE — Normalized state tables (Phase 4).
+   Replaces userProgress.gameData.tradeEmpire JSON blob. Read paths
+   compose state from these six tables; legacy blob is backfilled by
+   apps/scripts/backfill-trade-empire-blob.ts and then ignored.
+   ═══════════════════════════════════════════════════════ */
+
+/** Active mission queue. Capped at 3 concurrent per user (router rule). */
+export const tradeActiveMissions = mysqlTable("trade_active_missions", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /** Canonical mission id (e.g., "vox_corridor", "salvage_debris"). */
+  missionId: varchar("missionId", { length: 128 }).notNull(),
+  name: varchar("name", { length: 256 }).notNull(),
+  sectorId: varchar("sectorId", { length: 128 }).notNull(),
+  /** ms-since-epoch when mission was dispatched (kept as bigint to match
+   *  the JSON blob's number semantics). */
+  dispatchedAt: bigint("dispatchedAt", { mode: "number" }).notNull(),
+  /** ms duration after which the mission is canonically completable. */
+  durationMs: bigint("durationMs", { mode: "number" }).notNull(),
+  /** Reward shape (dream / salvage / influence / voidCrystals / xp /
+   *  material / materialAmount). */
+  reward: json("reward").$type<Record<string, unknown>>().notNull().default({}),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => ({
+  userIdIdx: index("idx_trade_active_missions_user_id").on(table.userId),
+  userMissionUniq: uniqueIndex("uniq_trade_active_missions_user_mission").on(
+    table.userId,
+    table.missionId,
+  ),
+}));
+export type TradeActiveMissionRow = typeof tradeActiveMissions.$inferSelect;
+
+/**
+ * Append-only completion log. One row per completeMission call.
+ * Aggregates (totalMissionsCompleted, totalDreamEarned, totalInfluenceEarned)
+ * are kept in tradeEmpireUserAggregates for hot-read performance.
+ */
+export const tradeCompletedMissions = mysqlTable("trade_completed_missions", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  missionId: varchar("missionId", { length: 128 }).notNull(),
+  sectorId: varchar("sectorId", { length: 128 }).notNull(),
+  dreamEarned: int("dreamEarned").notNull().default(0),
+  influenceEarned: int("influenceEarned").notNull().default(0),
+  completedAt: timestamp("completedAt").defaultNow().notNull(),
+}, (table) => ({
+  userIdIdx: index("idx_trade_completed_missions_user_id").on(table.userId),
+  userSectorIdx: index("idx_trade_completed_missions_user_sector").on(
+    table.userId,
+    table.sectorId,
+  ),
+}));
+export type TradeCompletedMissionRow = typeof tradeCompletedMissions.$inferSelect;
+
+/** Per-(user, sector) reputation + control level. */
+export const tradeSectorReputation = mysqlTable("trade_sector_reputation", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  sectorId: varchar("sectorId", { length: 128 }).notNull(),
+  controlLevel: int("controlLevel").notNull().default(0),
+  reputation: int("reputation").notNull().default(0),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  userIdIdx: index("idx_trade_sector_reputation_user_id").on(table.userId),
+  userSectorUniq: uniqueIndex("uniq_trade_sector_reputation_user_sector").on(
+    table.userId,
+    table.sectorId,
+  ),
+}));
+export type TradeSectorReputationRow = typeof tradeSectorReputation.$inferSelect;
+
+/** Spy active cover identities. Only one canonically active per user. */
+export const tradeActiveCovers = mysqlTable("trade_active_covers", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  coverId: varchar("coverId", { length: 128 }).notNull(),
+  targetFactionId: varchar("targetFactionId", { length: 128 }).notNull(),
+  expiresAt: bigint("expiresAt", { mode: "number" }).notNull(),
+  /** false = active, true = canonically blown / expired / cleared. */
+  cleared: boolean("cleared").notNull().default(false),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => ({
+  userIdIdx: index("idx_trade_active_covers_user_id").on(table.userId),
+  userActiveIdx: index("idx_trade_active_covers_user_active").on(
+    table.userId,
+    table.cleared,
+  ),
+}));
+export type TradeActiveCoverRow = typeof tradeActiveCovers.$inferSelect;
+
+/**
+ * Class-sector unlocks (e.g., Spy unlocks intelligence_exchange_nightline).
+ * Replaces the "unlocked:<sectorId>" string-marker hack that the legacy
+ * blob stored inside completedMissionIds.
+ */
+export const tradeClassSectorUnlocks = mysqlTable("trade_class_sector_unlocks", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  sectorId: varchar("sectorId", { length: 128 }).notNull(),
+  unlockedAt: timestamp("unlockedAt").defaultNow().notNull(),
+}, (table) => ({
+  userIdIdx: index("idx_trade_class_sector_unlocks_user_id").on(table.userId),
+  userSectorUniq: uniqueIndex("uniq_trade_class_sector_unlocks_user_sector").on(
+    table.userId,
+    table.sectorId,
+  ),
+}));
+export type TradeClassSectorUnlockRow =
+  typeof tradeClassSectorUnlocks.$inferSelect;
+
+/**
+ * Per-user running aggregates for hot reads. Updated transactionally
+ * with completion writes; invariant: counters here equal SUM/COUNT
+ * over the corresponding append-only tables. Backfilled from the
+ * legacy blob's totals.
+ */
+export const tradeEmpireUserAggregates = mysqlTable(
+  "trade_empire_user_aggregates",
+  {
+    userId: int("userId").primaryKey(),
+    totalMissionsCompleted: int("totalMissionsCompleted")
+      .notNull()
+      .default(0),
+    totalDreamEarned: int("totalDreamEarned").notNull().default(0),
+    totalInfluenceEarned: int("totalInfluenceEarned").notNull().default(0),
+    updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+  },
+);
+export type TradeEmpireUserAggregateRow =
+  typeof tradeEmpireUserAggregates.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
    PHASE 6 INFRASTRUCTURE — Per-NPC ask-topics + dialog tree state
    See apps/shared/npcs/askTopics.ts (AskTopic registry) +
    apps/shared/npcs/dialogTrees/ (per-NPC trees) +
