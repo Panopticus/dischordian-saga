@@ -1521,6 +1521,39 @@ export default function ArkExplorerPage() {
           if (audioReady) playSFX("terminal_access");
           break;
         }
+        // Section 8 — Murder-mystery clue turn-in. The bio-bed autopsy
+        // console reads the data-slate fragment recovered from the
+        // dead pod, returning the Bridge reset code that the door is
+        // missing. Without the slate it's an empty queue — the player
+        // is sent back to the cryo bay to keep investigating.
+        if (hotspot.action === "bio-bed-autopsy-console") {
+          if (audioReady) playSFX("terminal_access");
+          const hasSlate = state.mysteryInventory.includes("data-slate-fragment");
+          if (!hasSlate) {
+            setElaraText(
+              "There's nothing for me to read here yet. The slate from the pod next to yours might give us something to work with — go back to the cryo bay and look beneath the dark pod.",
+            );
+            break;
+          }
+          if (state.itemsCollected.includes("bridge-reset-code")) {
+            setElaraText(
+              "We already pulled the reset code off the slate. The Bridge will accept it once — let's go.",
+            );
+            break;
+          }
+          setElaraText(
+            "Slate accepted. Manifest match: Potential AK-74-0073. Time of death — ninety seconds before your revival. Last write to the slate was a panic broadcast: the Bridge reset code. They tried to send it before the door's auth handshake was severed. They didn't make it. We will. Code locked into your operative ledger.",
+          );
+          collectItem("bridge-reset-code");
+          setSelectedItem("bridge-reset-code");
+          setNarrativeFlag("bridge_dead_lock_resolved");
+          notify(
+            "room-unlock",
+            "BRIDGE RESET CODE RECOVERED",
+            "Return to the Bridge Access door — it will accept the code once.",
+          );
+          break;
+        }
         if (hotspot.elaraDialog) {
           if (audioReady) playSFX("dialog_open");
           setElaraText(hotspot.elaraDialog);
@@ -1528,7 +1561,7 @@ export default function ArkExplorerPage() {
         break;
       }
     }
-  }, [isRoomUnlocked, canUnlockRoom, navigateWithTransition, collectItem, navigate, state.itemsCollected, discoverEntry, getRoomDef, audioReady, playSFX, roomNeedsPuzzle, fastTravelUnlocked, markHotspotCollected]);
+  }, [isRoomUnlocked, canUnlockRoom, navigateWithTransition, collectItem, navigate, state.itemsCollected, state.mysteryInventory, discoverEntry, getRoomDef, audioReady, playSFX, roomNeedsPuzzle, fastTravelUnlocked, markHotspotCollected, setNarrativeFlag, notify]);
 
   const handleRoomSelect = useCallback((roomId: string) => {
     if (roomNeedsPuzzle(roomId)) {

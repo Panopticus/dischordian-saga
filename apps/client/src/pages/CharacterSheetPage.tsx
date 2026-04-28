@@ -304,7 +304,7 @@ export default function CharacterSheetPage() {
   // performPrestige was previously invoked here behind a window.confirm();
   // the §15 ceremony now lives at /prestige-cycle, which imports it via
   // useGame() directly. Leaving the action un-destructured here.
-  const { state: gameState, startInternalizingThought, completeInternalizingThought } = useGame();
+  const { state: gameState, startInternalizingThought, completeInternalizingThought, setNarrativeFlag } = useGame();
   const gam = useGamification();
 
   // ═══ NARRATIVE INTRO (from Awakening) ═══
@@ -340,6 +340,30 @@ export default function CharacterSheetPage() {
       }
     }
   }, [fromAwakening, character.data]);
+
+  // Section 8 — In-world Dream tutorial. Once the player has earned
+  // any Dream AND the murder mystery is in motion (cryo clue logged),
+  // unlock the bioscan upgrade buttons by flipping
+  // `tutorial_dream_explained`. This is the minimum-viable wire-up
+  // for the gating introduced in §6/7; the full conversation flow
+  // (Elara line + dialog choices) lands in Section 9.
+  useEffect(() => {
+    if (!character.data) return;
+    if (gameState.narrativeFlags?.tutorial_dream_explained) return;
+    const hasDream = (dreamBalance.data?.dreamTokens ?? 0) > 0
+      || (dreamBalance.data?.soulBoundDream ?? 0) > 0;
+    const mysteryStarted = !!gameState.narrativeFlags?.cryo_mystery_first_clue_found;
+    if (hasDream && mysteryStarted) {
+      setNarrativeFlag("tutorial_dream_explained");
+    }
+  }, [
+    character.data,
+    dreamBalance.data?.dreamTokens,
+    dreamBalance.data?.soulBoundDream,
+    gameState.narrativeFlags?.cryo_mystery_first_clue_found,
+    gameState.narrativeFlags?.tutorial_dream_explained,
+    setNarrativeFlag,
+  ]);
 
   // Fire VO for the current line whenever the step advances. The hook
   // is idempotent against missing manifest entries, so this is safe to
@@ -766,6 +790,32 @@ export default function CharacterSheetPage() {
 
       <div className="relative z-10 max-w-5xl mx-auto px-3 sm:px-4 py-6 sm:py-8">
 
+        {/* ═══ PROCEED TO ARK — hoisted for first-time players so the
+            most important next action is the easiest one to find. The
+            duplicate CTA at the bottom of the page remains as a fallback
+            for players who scroll first. ═══ */}
+        {fromAwakening && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.15 }}
+            className="mb-6"
+          >
+            <Link
+              href="/ark"
+              className="w-full py-4 rounded-lg border void-border-success void-bg-success transition-all flex items-center justify-center gap-3 group"
+              style={{ boxShadow: "0 0 30px color-mix(in oklch, var(--energy-primary) 12%, transparent)" }}
+            >
+              <Sparkles size={16} className="void-text-energy group-hover:animate-pulse" />
+              <span className="font-display text-sm font-bold tracking-[0.2em] void-text-energy">PROCEED TO THE ARK</span>
+              <span className="font-mono text-[9px] void-text-energy">— Begin exploring the ship</span>
+            </Link>
+            <p className="text-center font-mono text-[9px] text-muted-foreground/40 mt-2 tracking-wider">
+              Elara will surface the rest of your dossier as you discover it
+            </p>
+          </motion.div>
+        )}
+
         {/* ═══════════════════════════════════════════════════
             SECTION 1: IDENTITY SCAN — Portrait + Chronicle Card
            ═══════════════════════════════════════════════════ */}
@@ -976,6 +1026,11 @@ export default function CharacterSheetPage() {
           className="mb-6"
         >
           <SectionHeader icon={Activity} label="VITAL SIGNS" subtitle="Real-time bioscan diagnostics" color="void-text-energy" />
+          {/* Dream-spend upgrade buttons are hidden until Elara has
+              actually explained Dream as substrate (in-world tutorial,
+              flag `tutorial_dream_explained`). Until then the bars are
+              read-only — the player sees who they are, not what they
+              can buy. */}
           <div className="grid gap-3">
             <BioscanReadout
               value={char.attrAttack}
@@ -984,7 +1039,7 @@ export default function CharacterSheetPage() {
               color="red"
               icon={Crosshair}
               quote={KINETIC_QUOTES[Math.min(char.attrAttack, 5)] || KINETIC_QUOTES[1]}
-              canUpgrade={char.attrAttack < 5 && !!dream}
+              canUpgrade={!!gameState.narrativeFlags?.tutorial_dream_explained && char.attrAttack < 5 && !!dream}
               onUpgrade={() => levelUpAttr.mutate({ attribute: "attack" })}
               upgradeCost={`${char.attrAttack * 10}D ${char.attrAttack * 3}SB`}
               isPending={levelUpAttr.isPending}
@@ -996,7 +1051,7 @@ export default function CharacterSheetPage() {
               color="cyan"
               icon={Shield}
               quote={INTEGRITY_QUOTES[Math.min(char.attrDefense, 5)] || INTEGRITY_QUOTES[1]}
-              canUpgrade={char.attrDefense < 5 && !!dream}
+              canUpgrade={!!gameState.narrativeFlags?.tutorial_dream_explained && char.attrDefense < 5 && !!dream}
               onUpgrade={() => levelUpAttr.mutate({ attribute: "defense" })}
               upgradeCost={`${char.attrDefense * 10}D ${char.attrDefense * 3}SB`}
               isPending={levelUpAttr.isPending}
@@ -1008,7 +1063,7 @@ export default function CharacterSheetPage() {
               color="amber"
               icon={Heart}
               quote={RESONANCE_QUOTES[Math.min(char.attrVitality, 5)] || RESONANCE_QUOTES[1]}
-              canUpgrade={char.attrVitality < 5 && !!dream}
+              canUpgrade={!!gameState.narrativeFlags?.tutorial_dream_explained && char.attrVitality < 5 && !!dream}
               onUpgrade={() => levelUpAttr.mutate({ attribute: "vitality" })}
               upgradeCost={`${char.attrVitality * 10}D ${char.attrVitality * 3}SB`}
               isPending={levelUpAttr.isPending}
@@ -1358,27 +1413,33 @@ export default function CharacterSheetPage() {
 
         {/* ═══════════════════════════════════════════════════
             SECTION 8: GAME MASTER WARNING
+            Gated behind `combat_first_damage_taken` — the warning lands
+            after the player has actually felt the cost of being watched.
+            On the post-Awakening landing it would be a spoiler salvo
+            before the player has a frame for any of these terms.
            ═══════════════════════════════════════════════════ */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5, duration: 1.5 }}
-          className="mb-6 mt-8"
-        >
-          <div className="rounded-lg border void-border-error void-bg-error/[0.02] p-4">
-            <div className="flex items-start gap-3">
-              <AlertTriangle size={14} className="void-text-error mt-0.5 flex-shrink-0" />
-              <div>
-                <p className="font-mono text-[9px] void-text-error tracking-[0.2em] mb-1.5">
-                  GAME MASTER PROTOCOL: ACTIVE // STATUS: SELF-EXECUTING
-                </p>
-                <p className="font-mono text-[8px] text-muted-foreground/25 leading-relaxed">
-                  The Game Master is dead. The Game continues. Your Neural Imprint is being recorded. Everything you do in this simulation is observed by systems that no longer answer to their creator. Proceed accordingly.
-                </p>
+        {gameState.narrativeFlags?.combat_first_damage_taken && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5, duration: 1.5 }}
+            className="mb-6 mt-8"
+          >
+            <div className="rounded-lg border void-border-error void-bg-error/[0.02] p-4">
+              <div className="flex items-start gap-3">
+                <AlertTriangle size={14} className="void-text-error mt-0.5 flex-shrink-0" />
+                <div>
+                  <p className="font-mono text-[9px] void-text-error tracking-[0.2em] mb-1.5">
+                    GAME MASTER PROTOCOL: ACTIVE // STATUS: SELF-EXECUTING
+                  </p>
+                  <p className="font-mono text-[8px] text-muted-foreground/25 leading-relaxed">
+                    The Game Master is dead. The Game continues. Your Neural Imprint is being recorded. Everything you do in this simulation is observed by systems that no longer answer to their creator. Proceed accordingly.
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
-        </motion.div>
+          </motion.div>
+        )}
 
         {/* ═══ PROCEED TO ARK (post-Awakening) ═══ */}
         {fromAwakening && (

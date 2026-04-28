@@ -401,6 +401,7 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     // sees one beat at a time, advancing roughly when Elara reaches
     // the next sentence cluster in the audio.
     elaraIntro: [
+      "Before you ask — yes. The pod next to yours is sealed, and the body inside is dead. The chronometer says they died about ninety seconds before you woke. That isn't standard cryo failure. Something happened in this room. I want your eyes on it before we leave.",
       "The Chamber of Awakening. You were not born here... but you returned to yourself within these walls. Your pod stands among the others — one vessel in a field of silence. Most have opened.",
       "The first wave of Potentials passed through long before you, stepping into the war and leaving nothing behind but absence. But not all cycles completed. Some remain sealed. Unbroken. Unanswered.",
       "The systems still hum around them, but what they sustain... is unclear. Life, suspended between moments — or failure, preserved beyond its end.",
@@ -483,6 +484,12 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       // sitting on the left door, `door-cryo` floating off the left
       // edge, and `dna-helix` overlapping the right-wall cabinet.
       { id: "bio-bed", name: "Bio-Bed Scanner", description: "An advanced diagnostic bed with holographic readouts showing your current stats.", x: 40, y: 22, width: 22, height: 55, type: "terminal", action: "/character-sheet", elaraDialog: "The bio-bed can give you a full diagnostic. Your stats, your Dream resonance levels, your cellular integrity. Step on and I'll run a scan." },
+      // Section 8 — Murder mystery turn-in. Reads the data-slate
+      // fragment recovered from the dead pod and recovers the
+      // bridge-reset-code. Without the slate the console reports an
+      // empty queue. The action `bio-bed-autopsy-console` is handled
+      // in ArkExplorerPage's hotspot branch.
+      { id: "autopsy-console", name: "Bio-Bed Autopsy Console", description: "A small subsystem of the bio-bed dedicated to forensic readouts. Slot for an external data-slate.", x: 35, y: 60, width: 8, height: 14, type: "interact", action: "bio-bed-autopsy-console", elaraDialog: "The autopsy console can read external data-slates. If you have the fragment from the dead pod, slot it in." },
       // Medical Bay mystery hotspots — see apps/shared/roomMysteries/medicalBay.ts
       // for the verb × hotspot matrix. The first Look on either of
       // these logs a clue and flips `medbay_first_clue_found` (Tier 0 → 1).
