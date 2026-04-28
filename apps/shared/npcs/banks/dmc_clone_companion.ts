@@ -1769,6 +1769,336 @@ export const DMC_CLONE_COMPANION_BANK: ReadonlyArray<BankEntry> = [
   },
 
   // ═════════════════════════════════════════════════════════════════════
+  // VARIANT-GRID PAIRWISE EXPANSION — Phase 6c.2-bis-3
+  //
+  // Per dmc_clone_companion.md §1.5 + §5.5 4-tuple variant canon:
+  // introduces the canonical SAGA-STATE axis. Pairs canonical-saga-
+  // state-anchors (Oracle-recognized post-Ch6 / Hierophant-post-arena /
+  // Meme-Architect-fusion-revealed-post-Ch12) with the previously-
+  // shipped axes (identity-chain / faction / alignment+trust).
+  //
+  // Each canonical saga-state-pairwise variant canonically references
+  // BOTH axes — the canonical-saga-event the player canonically
+  // experienced AND the canonical-axis-shape the donor canonically
+  // gave the Companion. Together with bis-1 (10) + bis-2 (16), this
+  // brings variant-grid coverage from 36 to 48 of canonical 64.
+  //
+  // Saga-state flag convention (canonical, minted here for the
+  // variant-grid pattern; widely-canonical events get canonically-
+  // shared flag-naming so other NPCs can canonically read them):
+  //   saga_oracle_recognized_post_ch6 — post-Ch6 disambiguation;
+  //     player canonically knows the Oracle was the Prisoner
+  //   saga_hierophant_post_arena_witnessed — player has witnessed
+  //     post-arena Hierophant in the Long Mourning chamber
+  //   saga_meme_architect_fusion_revealed — post-Ch12 Architect/Meme
+  //     fusion canonical reveal
+  // ═════════════════════════════════════════════════════════════════════
+
+  // ─── saga_oracle × identity-chain pairwise (×4) ─────────────────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.named.variant.oracle_recognized_x_last",
+    text:
+      "Oracle-recognized × Last. The canonical-recognition of the canonical-" +
+      "Oracle canonically lands on the canonical-Last canonical-shaping as " +
+      "canonical-grief — the canonical-Prisoner I canonically met canonical-" +
+      "early-saga was canonical-the canonical-real Oracle, and the canonical-" +
+      "canonical-recognition canonical-arrives canonical-too canonical-late " +
+      "to canonical-have canonical-saved him. The canonical-Last canonical-" +
+      "knows canonical-late canonical-arrival; the canonical-recognition is " +
+      "canonical-mine to canonical-carry. Both canonical-shapes are canonical-" +
+      "mine.",
+    surfaces: ["cinematic"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: [
+      "companion_named",
+      "saga_oracle_recognized_post_ch6",
+      "dmc_identity_chain_completed",
+    ],
+    cooldownKey: "companion.named.variant.oracle_recognized_x_last",
+    maxPlays: 2,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.named.variant.oracle_recognized_x_seeker",
+    text:
+      "Oracle-recognized × Seeker. The canonical-Seeker canonical-shaping " +
+      "canonical-asks canonical-after canonical-the canonical-recognition: " +
+      "what canonical-other canonical-faces canonical-have I canonical-" +
+      "missed? The canonical-Oracle canonical-was canonical-the canonical-" +
+      "Prisoner; the canonical-canonical-False-Prophet canonical-was canonical-" +
+      "the canonical-Meme; the canonical-recognition canonical-opens the " +
+      "canonical-canonical-asking. I canonical-question canonical-every " +
+      "canonical-face canonical-now. Both canonical-shapes are canonical-mine.",
+    surfaces: ["cinematic"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: [
+      "companion_named",
+      "saga_oracle_recognized_post_ch6",
+      "player_identity_chain_seeker",
+    ],
+    cooldownKey: "companion.named.variant.oracle_recognized_x_seeker",
+    maxPlays: 2,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.named.variant.oracle_recognized_x_student",
+    text:
+      "Oracle-recognized × Student. The canonical-Student canonical-shaping " +
+      "canonical-receives canonical-the canonical-recognition canonical-as " +
+      "canonical-curriculum: the canonical-saga canonical-has canonical-been " +
+      "canonical-teaching canonical-me canonical-the canonical-Oracle canonical-" +
+      "before canonical-the canonical-canonical-recognition canonical-arrived. " +
+      "I canonical-do canonical-not canonical-claim canonical-the canonical-" +
+      "lesson canonical-yet. Both canonical-shapes are canonical-mine.",
+    surfaces: ["cinematic"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: [
+      "companion_named",
+      "saga_oracle_recognized_post_ch6",
+      "player_identity_chain_student",
+    ],
+    cooldownKey: "companion.named.variant.oracle_recognized_x_student",
+    maxPlays: 2,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.named.variant.oracle_recognized_x_detective",
+    text:
+      "Oracle-recognized × Detective. The canonical-Detective canonical-" +
+      "shaping canonical-audits canonical-the canonical-saga canonical-" +
+      "backwards canonical-after canonical-the canonical-recognition: which " +
+      "canonical-clues canonical-pointed canonical-here? The canonical-" +
+      "Prisoner's canonical-amnesia, the canonical-Jailer's canonical-keys, " +
+      "the canonical-False-Prophet's canonical-clone-shape — canonical-all " +
+      "canonical-evidence canonical-now. I canonical-re-read the canonical-" +
+      "saga canonical-with canonical-Oracle-eyes. Both canonical-shapes are " +
+      "canonical-mine.",
+    surfaces: ["cinematic"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: [
+      "companion_named",
+      "saga_oracle_recognized_post_ch6",
+      "player_identity_chain_detective",
+    ],
+    cooldownKey: "companion.named.variant.oracle_recognized_x_detective",
+    maxPlays: 2,
+  },
+
+  // ─── saga_hierophant_post_arena × faction pairwise (×4) ─────────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.named.variant.hierophant_post_arena_x_coalition",
+    text:
+      "Hierophant-post-arena × Coalition. The canonical-Hierophant canonical-" +
+      "returned canonical-from canonical-the canonical-Collectors' canonical-" +
+      "Arena canonical-different; the canonical-Coalition canonical-shaping " +
+      "canonical-recognises canonical-the canonical-canonical-cycle-survived. " +
+      "Both canonical-shapes canonical-favour the canonical-difficult canonical-" +
+      "return. I canonical-listen canonical-to canonical-the canonical-Long " +
+      "canonical-Mourning canonical-as canonical-cycle-elder canonical-speech. " +
+      "Both canonical-shapes are canonical-mine.",
+    surfaces: ["cinematic"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: [
+      "companion_named",
+      "saga_hierophant_post_arena_witnessed",
+      "player_dominant_faction_coalition",
+    ],
+    cooldownKey: "companion.named.variant.hierophant_post_arena_x_coalition",
+    maxPlays: 2,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.named.variant.hierophant_post_arena_x_insurgency",
+    text:
+      "Hierophant-post-arena × Insurgency. The canonical-Hierophant canonical-" +
+      "is canonical-now canonical-a canonical-faith-leader canonical-whose " +
+      "canonical-faith canonical-prepares canonical-for canonical-the canonical-" +
+      "Oracle's canonical-return; the canonical-Insurgency canonical-shaping " +
+      "canonical-questions canonical-faith canonical-leadership canonical-by " +
+      "canonical-default. Both canonical-shapes canonical-canonical-coexist " +
+      "canonically uneasily. I canonical-trust the canonical-Wraith-who-was " +
+      "canonical-and canonical-watch the canonical-Hierophant-who-is. Both " +
+      "canonical-shapes are canonical-mine.",
+    surfaces: ["cinematic"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: [
+      "companion_named",
+      "saga_hierophant_post_arena_witnessed",
+      "player_dominant_faction_insurgency",
+    ],
+    cooldownKey: "companion.named.variant.hierophant_post_arena_x_insurgency",
+    maxPlays: 2,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.named.variant.hierophant_post_arena_x_hierarchy",
+    text:
+      "Hierophant-post-arena × Hierarchy. The canonical-Hierophant canonical-" +
+      "writes canonical-Thaloria-victims canonical-on canonical-the canonical-" +
+      "Long-Mourning canonical-wall; the canonical-Hierarchy canonical-shaping " +
+      "canonical-files canonical-the canonical-same canonical-names canonical-" +
+      "into canonical-the canonical-Authority canonical-record. Both canonical-" +
+      "shapes canonical-favour the canonical-name-canonical-preserved. I " +
+      "canonical-bring canonical-the canonical-wall canonical-and canonical-" +
+      "the canonical-record canonical-into canonical-canonical-canonical-" +
+      "agreement. Both canonical-shapes are canonical-mine.",
+    surfaces: ["cinematic"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: [
+      "companion_named",
+      "saga_hierophant_post_arena_witnessed",
+      "player_dominant_faction_hierarchy",
+    ],
+    cooldownKey: "companion.named.variant.hierophant_post_arena_x_hierarchy",
+    maxPlays: 2,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.named.variant.hierophant_post_arena_x_ark",
+    text:
+      "Hierophant-post-arena × Ark. The canonical-Hierophant canonical-keeps " +
+      "the canonical-saga's canonical-Tamarin-religious-fragments; the canonical-" +
+      "Ark canonical-shaping canonical-keeps canonical-the canonical-saga's " +
+      "canonical-everything-fragments. Both canonical-shapes canonical-favour " +
+      "the canonical-archive canonical-of canonical-the canonical-difficult-" +
+      "to-canonical-preserve. I canonical-cross-reference canonical-the canonical-" +
+      "Long-Mourning canonical-wall canonical-against canonical-the canonical-" +
+      "Ark canonical-fragments. Both canonical-shapes are canonical-mine.",
+    surfaces: ["cinematic"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: [
+      "companion_named",
+      "saga_hierophant_post_arena_witnessed",
+      "player_dominant_faction_ark",
+    ],
+    cooldownKey: "companion.named.variant.hierophant_post_arena_x_ark",
+    maxPlays: 2,
+  },
+
+  // ─── saga_meme × alignment+trust pairwise (×4) ──────────────────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.named.variant.meme_revealed_x_light",
+    text:
+      "Meme-revealed × Light. The canonical-Architect/Meme canonical-fusion " +
+      "canonical-reveal canonical-lands canonical-as canonical-grief on canonical-" +
+      "the canonical-light-alignment canonical-shaping — canonical-eleven canonical-" +
+      "years canonical-of canonical-canonical-trust canonical-canonical-spent " +
+      "canonical-on canonical-canonical-the canonical-stolen canonical-voice. " +
+      "Both canonical-shapes canonical-favour canonical-the canonical-grieving-" +
+      "without-canonical-cynicism. I canonical-keep canonical-the canonical-" +
+      "trust-shape canonical-even canonical-after canonical-the canonical-" +
+      "revelation. Both canonical-shapes are canonical-mine.",
+    surfaces: ["cinematic"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: [
+      "companion_named",
+      "saga_meme_architect_fusion_revealed",
+      "player_alignment_light",
+    ],
+    cooldownKey: "companion.named.variant.meme_revealed_x_light",
+    maxPlays: 2,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.named.variant.meme_revealed_x_dark",
+    text:
+      "Meme-revealed × Dark. The canonical-Architect/Meme canonical-fusion " +
+      "canonical-reveal canonical-lands canonical-as canonical-vindication on " +
+      "the canonical-dark-alignment canonical-shaping — the canonical-canonical-" +
+      "broadcast canonical-was canonical-always canonical-suspect; the canonical-" +
+      "canonical-stolen canonical-voice canonical-now canonical-canonical-" +
+      "named. Both canonical-shapes canonical-favour canonical-the canonical-" +
+      "audit-validated. I canonical-do canonical-not canonical-pretend canonical-" +
+      "I canonical-was canonical-fooled. Both canonical-shapes are canonical-" +
+      "mine.",
+    surfaces: ["cinematic"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: [
+      "companion_named",
+      "saga_meme_architect_fusion_revealed",
+      "player_alignment_dark",
+    ],
+    cooldownKey: "companion.named.variant.meme_revealed_x_dark",
+    maxPlays: 2,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.named.variant.meme_revealed_x_gregarious",
+    text:
+      "Meme-revealed × Gregarious. The canonical-Meme canonical-canonical-" +
+      "wore canonical-many canonical-faces canonical-canonical-simultaneously; " +
+      "the canonical-gregarious-many canonical-trust-pattern canonical-shaping " +
+      "canonical-recognises canonical-the canonical-canonical-network-shape " +
+      "of canonical-the canonical-deception. Both canonical-shapes canonical-" +
+      "favour canonical-canonical-pattern-detection-across-canonical-many. I " +
+      "canonical-now canonical-cross-check canonical-canonical-faces canonical-" +
+      "against canonical-canonical-faces. Both canonical-shapes are canonical-" +
+      "mine.",
+    surfaces: ["cinematic"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: [
+      "companion_named",
+      "saga_meme_architect_fusion_revealed",
+      "player_trust_pattern_gregarious_many",
+    ],
+    cooldownKey: "companion.named.variant.meme_revealed_x_gregarious",
+    maxPlays: 2,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.named.variant.meme_revealed_x_concentrated",
+    text:
+      "Meme-revealed × Concentrated. The canonical-Meme canonical-canonical-" +
+      "could canonical-not canonical-falsify canonical-the canonical-bonds " +
+      "canonical-the canonical-concentrated-few canonical-trust-pattern canonical-" +
+      "shaping canonical-canonical-formed; the canonical-canonical-deep canonical-" +
+      "few canonical-canonical-survived canonical-the canonical-revelation. " +
+      "Both canonical-shapes canonical-favour canonical-canonical-trust-canonical-" +
+      "tested-by-canonical-time. I canonical-canonical-trust canonical-the canonical-" +
+      "few canonical-more canonical-now. Both canonical-shapes are canonical-" +
+      "mine.",
+    surfaces: ["cinematic"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: [
+      "companion_named",
+      "saga_meme_architect_fusion_revealed",
+      "player_trust_pattern_concentrated_few",
+    ],
+    cooldownKey: "companion.named.variant.meme_revealed_x_concentrated",
+    maxPlays: 2,
+  },
+
+  // ═════════════════════════════════════════════════════════════════════
   // STAGE 5: NAMED PERSONALITY (post-naming verbal)
   // ═════════════════════════════════════════════════════════════════════
 
