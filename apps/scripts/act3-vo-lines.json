@@ -242,7 +242,7 @@
   {
     "id": "te-wonder-complete-ark_cathedral",
     "speaker": "the_antiquarian",
-    "voiceId": "TODO_ANTIQUARIAN_VOICE",
+    "voiceId": "yAKlvHIsuj4SvnKQ6Mk4",
     "text": "Filed: The Ark Cathedral. A ship that was a tomb is now a shrine. The Potentials sleep with the lights on. They sleep. The lights are on. Both, for the first time. Cross-reference: Elara, sleep diaries, year zero.",
     "context": "act3_te_wonder_complete_ark_cathedral",
     "section": "§B · Wonder completion",
@@ -252,7 +252,7 @@
   {
     "id": "te-wonder-complete-red_crystal_spire",
     "speaker": "the_antiquarian",
-    "voiceId": "TODO_ANTIQUARIAN_VOICE",
+    "voiceId": "yAKlvHIsuj4SvnKQ6Mk4",
     "text": "Filed: The Red Crystal Spire. The Authority's voice is now in your walls. Faintly. The Authority knows this. The Authority is pleased. I have made a note of the pleasure. The pleasure is a clause.",
     "context": "act3_te_wonder_complete_red_crystal_spire",
     "section": "§B · Wonder completion",
@@ -262,7 +262,7 @@
   {
     "id": "te-wonder-complete-forge_monolith",
     "speaker": "the_antiquarian",
-    "voiceId": "TODO_ANTIQUARIAN_VOICE",
+    "voiceId": "yAKlvHIsuj4SvnKQ6Mk4",
     "text": "Filed: The Forge Monolith. The Architect's furnaces have been adopted, not stolen. The drones do not appear to mind. Drones rarely do. I will revisit this entry when the second-order effects clarify.",
     "context": "act3_te_wonder_complete_forge_monolith",
     "section": "§B · Wonder completion",
@@ -272,7 +272,7 @@
   {
     "id": "te-wonder-complete-remembrance_garden",
     "speaker": "the_antiquarian",
-    "voiceId": "TODO_ANTIQUARIAN_VOICE",
+    "voiceId": "yAKlvHIsuj4SvnKQ6Mk4",
     "text": "Filed: The Remembrance Garden. Orin Fell planted the first name himself. He did not write it down. I will not write it down either. Some entries are honored by their absence from my ledger.",
     "context": "act3_te_wonder_complete_remembrance_garden",
     "section": "§B · Wonder completion",
@@ -282,7 +282,7 @@
   {
     "id": "te-wonder-complete-chronarch_lens",
     "speaker": "the_antiquarian",
-    "voiceId": "TODO_ANTIQUARIAN_VOICE",
+    "voiceId": "yAKlvHIsuj4SvnKQ6Mk4",
     "text": "Filed: The Chronarch Lens. You have rented an aperture from my Refuge. You will see one cycle ahead. Everyone who looks through it stops being young in the ordinary way. You did not ask the price. The price is on the receipt.",
     "context": "act3_te_wonder_complete_chronarch_lens",
     "section": "§B · Wonder completion",
@@ -292,7 +292,7 @@
   {
     "id": "te-wonder-complete-hell_gate_sigil",
     "speaker": "the_antiquarian",
-    "voiceId": "TODO_ANTIQUARIAN_VOICE",
+    "voiceId": "yAKlvHIsuj4SvnKQ6Mk4",
     "text": "Filed: The Hell Gate Sigil. The Shadow Tongue's contract, signed in your favour. I have copies. Three of them. They are not identical. The discrepancies are the contract. I will not explain further.",
     "context": "act3_te_wonder_complete_hell_gate_sigil",
     "section": "§B · Wonder completion",
@@ -302,7 +302,7 @@
   {
     "id": "te-wonder-complete-immune_choir",
     "speaker": "the_antiquarian",
-    "voiceId": "TODO_ANTIQUARIAN_VOICE",
+    "voiceId": "yAKlvHIsuj4SvnKQ6Mk4",
     "text": "Filed: The Immune Choir. Doctor Vox's journal, finished, sung. The infected minds are returned to themselves slightly more often than the mathematics permit. I have not yet decided which side of the equation that error is on.",
     "context": "act3_te_wonder_complete_immune_choir",
     "section": "§B · Wonder completion",
@@ -312,7 +312,7 @@
   {
     "id": "te-wonder-complete-dreamers_answer",
     "speaker": "the_antiquarian",
-    "voiceId": "TODO_ANTIQUARIAN_VOICE",
+    "voiceId": "yAKlvHIsuj4SvnKQ6Mk4",
     "text": "Filed: The Dreamer's Answer. The barrier thinned. Something replied. The reply is in the form of a question. The question is not in the form of words. I have left the page blank, with a pen beside it. You will know what to write, or you will know that you do not.",
     "context": "act3_te_wonder_complete_dreamers_answer",
     "section": "§B · Wonder completion",
@@ -322,7 +322,7 @@
   {
     "id": "te-civic-adopt-doctrine_iron_lion",
     "speaker": "orin_fell",
-    "voiceId": "TODO_ORIN_VOICE",
+    "voiceId": "dvtaCoh6EHrKdbUysbQa",
     "text": "Iron Lion's manual. Annotated by the crew that watched him die. We fight like we have nothing left. We don't. We have a name to keep. That's all the leverage I need.",
     "context": "act3_te_civic_adopt_doctrine_iron_lion",
     "section": "§C · Civic adoption · doctrine",
@@ -332,7 +332,7 @@
   {
     "id": "te-civic-adopt-doctrine_nomad",
     "speaker": "orin_fell",
-    "voiceId": "TODO_ORIN_VOICE",
+    "voiceId": "dvtaCoh6EHrKdbUysbQa",
     "text": "Nomad Compass. Never where the shot lands. Zero's playbook. I don't love it — but I love losing fewer people. Adopted.",
     "context": "act3_te_civic_adopt_doctrine_nomad",
     "section": "§C · Civic adoption · doctrine",
@@ -342,7 +342,7 @@
   {
     "id": "te-civic-adopt-doctrine_archon",
     "speaker": "orin_fell",
-    "voiceId": "TODO_ORIN_VOICE",
+    "voiceId": "dvtaCoh6EHrKdbUysbQa",
     "text": "Archon Discipline. The Architect's war-machine, politely rented. The Human disapproves. He's right to. We're doing it anyway. Walk it carefully.",
     "context": "act3_te_civic_adopt_doctrine_archon",
     "section": "§C · Civic adoption · doctrine",
@@ -352,7 +352,7 @@
   {
     "id": "te-civic-adopt-economy_free_ports",
     "speaker": "locke",
-    "voiceId": "TODO_LOCKE_VOICE",
+    "voiceId": "8XiBWqS5ffaH5naIFHPI",
     "text": "Free Ports Charter. Every dockworker a shareholder. Loud. Lucrative. The Authority will note the disorder and the volume. The volume will mostly drown out the note.",
     "context": "act3_te_civic_adopt_economy_free_ports",
     "section": "§C · Civic adoption · economy",
@@ -362,7 +362,7 @@
   {
     "id": "te-civic-adopt-economy_authority_tithe",
     "speaker": "locke",
-    "voiceId": "TODO_LOCKE_VOICE",
+    "voiceId": "8XiBWqS5ffaH5naIFHPI",
     "text": "Authority Tithe. Ten percent. The lanes never close. I do not negotiate against my own preferred outcome. You did the right thing. You will continue to do it.",
     "context": "act3_te_civic_adopt_economy_authority_tithe",
     "section": "§C · Civic adoption · economy",
@@ -372,7 +372,7 @@
   {
     "id": "te-civic-adopt-economy_antiquarian_ledger",
     "speaker": "locke",
-    "voiceId": "TODO_LOCKE_VOICE",
+    "voiceId": "8XiBWqS5ffaH5naIFHPI",
     "text": "Antiquarian Ledger. Bookkeeping outside time. I do not love being audited by something that already knows the answer. But I respect the methodology. Your accounts are now beyond my reach. Congratulations.",
     "context": "act3_te_civic_adopt_economy_antiquarian_ledger",
     "section": "§C · Civic adoption · economy",
@@ -482,7 +482,7 @@
   {
     "id": "te-conference-collapsed",
     "speaker": "locke",
-    "voiceId": "TODO_LOCKE_VOICE",
+    "voiceId": "8XiBWqS5ffaH5naIFHPI",
     "text": "Conference collapsed. Note for the file: the second signatory walked at the third clause. The third clause was theirs. Mark me down as unsurprised. Reconvene when their position has cost them more than ours.",
     "context": "act3_te_conference_collapsed",
     "section": "§F · Peace conference",
