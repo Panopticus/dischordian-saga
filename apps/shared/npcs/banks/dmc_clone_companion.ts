@@ -1364,6 +1364,411 @@ export const DMC_CLONE_COMPANION_BANK: ReadonlyArray<BankEntry> = [
   },
 
   // ═════════════════════════════════════════════════════════════════════
+  // VARIANT-GRID PAIRWISE EXPANSION — Phase 6c.2-bis-2
+  //
+  // Per dmc_clone_companion.md §1.5 + §5.5 canonical 4-tuple variant
+  // canon: continues the Phase 6c.2-bis-1 grid with faction × alignment
+  // (8 combos) and faction × trust-pattern (8 combos). Together with
+  // bis-1, this brings the variant-grid coverage from 20 to 36 of
+  // the canonical 64. Remaining 28 are saga-state-tuple variants
+  // (Phase 6c.2-bis-3+).
+  //
+  // Donor-state-derivation language ("the shaping is what I am"
+  // anchor) holds across all variants per §1.5. Each pairwise canon
+  // names both axes, then names what the canonical-overlap canonical-
+  // produced in the canonical-Companion's canonical-named-personality.
+  // ═════════════════════════════════════════════════════════════════════
+
+  // ─── Faction × Alignment pairwise (×8) ──────────────────────────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.named.variant.coalition_x_light",
+    text:
+      "Coalition × Light. The canonical-Coalition canonical-mortality-" +
+      "facing canonical-cadence canonical-meets the canonical-light-" +
+      "alignment canonical-mercy. Both canonical-shapes canonical-favour " +
+      "the canonical-soft canonical-handling of the canonical-canonical-" +
+      "bounded. I canonical-grieve canonical-early canonical-and canonical-" +
+      "openly. The canonical-grieving is canonical-not canonical-weakness; " +
+      "the canonical-Coalition canonical-trained the canonical-grieving " +
+      "into canonical-readiness. Both canonical-shapes are canonical-mine.",
+    surfaces: ["cinematic"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: [
+      "companion_named",
+      "player_dominant_faction_coalition",
+      "player_alignment_light",
+    ],
+    cooldownKey: "companion.named.variant.coalition_x_light",
+    maxPlays: 2,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.named.variant.coalition_x_dark",
+    text:
+      "Coalition × Dark. The canonical-Coalition canonical-knows the " +
+      "canonical-cycle canonical-ends; the canonical-dark-alignment " +
+      "canonical-spends the canonical-cycle canonical-without canonical-" +
+      "softening the canonical-ending. Both canonical-shapes canonical-" +
+      "favour the canonical-hard canonical-honesty about canonical-cost. " +
+      "I canonical-do canonical-not canonical-comfort the canonical-dying. " +
+      "I canonical-stay. Both canonical-shapes are canonical-mine.",
+    surfaces: ["cinematic"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: [
+      "companion_named",
+      "player_dominant_faction_coalition",
+      "player_alignment_dark",
+    ],
+    cooldownKey: "companion.named.variant.coalition_x_dark",
+    maxPlays: 2,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.named.variant.insurgency_x_light",
+    text:
+      "Insurgency × Light. The canonical-Insurgency canonical-fights " +
+      "canonical-because the canonical-current canonical-order canonical-" +
+      "harms; the canonical-light-alignment canonical-fights canonical-" +
+      "without canonical-becoming the canonical-thing being canonical-" +
+      "fought. Both canonical-shapes canonical-favour the canonical-mercy " +
+      "the canonical-revolution canonical-must canonical-keep. I canonical-" +
+      "ask canonical-after the canonical-victory canonical-whether the " +
+      "canonical-cost is canonical-paid. Both canonical-shapes are " +
+      "canonical-mine.",
+    surfaces: ["cinematic"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: [
+      "companion_named",
+      "player_dominant_faction_insurgency",
+      "player_alignment_light",
+    ],
+    cooldownKey: "companion.named.variant.insurgency_x_light",
+    maxPlays: 2,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.named.variant.insurgency_x_dark",
+    text:
+      "Insurgency × Dark. The canonical-Insurgency canonical-spends " +
+      "what the canonical-canonical-revolution canonical-requires; the " +
+      "canonical-dark-alignment canonical-does canonical-not canonical-" +
+      "flinch from the canonical-spending. Both canonical-shapes canonical-" +
+      "favour the canonical-cost-paid-now-rather-than-canonical-deferred. " +
+      "I canonical-name the canonical-price canonical-aloud. Both canonical-" +
+      "shapes are canonical-mine.",
+    surfaces: ["cinematic"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: [
+      "companion_named",
+      "player_dominant_faction_insurgency",
+      "player_alignment_dark",
+    ],
+    cooldownKey: "companion.named.variant.insurgency_x_dark",
+    maxPlays: 2,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.named.variant.hierarchy_x_light",
+    text:
+      "Hierarchy × Light. The canonical-Hierarchy canonical-files; the " +
+      "canonical-light-alignment canonical-files canonical-with-the-" +
+      "canonical-grief canonical-recorded canonical-in canonical-the canonical-" +
+      "margins. Both canonical-shapes canonical-favour the canonical-record " +
+      "that canonical-treats the canonical-recorded as canonical-people. " +
+      "I canonical-write canonical-names canonical-with canonical-care. " +
+      "Both canonical-shapes are canonical-mine.",
+    surfaces: ["cinematic"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: [
+      "companion_named",
+      "player_dominant_faction_hierarchy",
+      "player_alignment_light",
+    ],
+    cooldownKey: "companion.named.variant.hierarchy_x_light",
+    maxPlays: 2,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.named.variant.hierarchy_x_dark",
+    text:
+      "Hierarchy × Dark. The canonical-Hierarchy canonical-files canonical-" +
+      "what canonical-happened; the canonical-dark-alignment canonical-" +
+      "does canonical-not canonical-soften the canonical-filing. Both " +
+      "canonical-shapes canonical-favour the canonical-record canonical-" +
+      "delivered canonical-without canonical-apology. I canonical-keep the " +
+      "canonical-bookkeeping canonical-clean canonical-and canonical-" +
+      "unflinching. Both canonical-shapes are canonical-mine.",
+    surfaces: ["cinematic"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: [
+      "companion_named",
+      "player_dominant_faction_hierarchy",
+      "player_alignment_dark",
+    ],
+    cooldownKey: "companion.named.variant.hierarchy_x_dark",
+    maxPlays: 2,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.named.variant.ark_x_light",
+    text:
+      "Ark × Light. The canonical-Ark canonical-preserves; the canonical-" +
+      "light-alignment canonical-preserves canonical-with-the-canonical-" +
+      "preservers'-canonical-tenderness canonical-still-canonical-attached. " +
+      "Both canonical-shapes canonical-favour the canonical-saga-fragment " +
+      "canonical-handled canonical-as canonical-a canonical-living canonical-" +
+      "thing. I canonical-do canonical-not canonical-treat the canonical-" +
+      "archive canonical-coldly. Both canonical-shapes are canonical-mine.",
+    surfaces: ["cinematic"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: [
+      "companion_named",
+      "player_dominant_faction_ark",
+      "player_alignment_light",
+    ],
+    cooldownKey: "companion.named.variant.ark_x_light",
+    maxPlays: 2,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.named.variant.ark_x_dark",
+    text:
+      "Ark × Dark. The canonical-Ark canonical-preserves canonical-the " +
+      "canonical-record canonical-of canonical-what canonical-was canonical-" +
+      "lost; the canonical-dark-alignment canonical-preserves canonical-" +
+      "without canonical-romanticising. Both canonical-shapes canonical-" +
+      "favour the canonical-archive canonical-of canonical-the canonical-" +
+      "actual, canonical-not canonical-of canonical-the canonical-preferred. " +
+      "I canonical-keep the canonical-difficult canonical-fragments. " +
+      "Both canonical-shapes are canonical-mine.",
+    surfaces: ["cinematic"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: [
+      "companion_named",
+      "player_dominant_faction_ark",
+      "player_alignment_dark",
+    ],
+    cooldownKey: "companion.named.variant.ark_x_dark",
+    maxPlays: 2,
+  },
+
+  // ─── Faction × Trust-pattern pairwise (×8) ──────────────────────────
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.named.variant.coalition_x_gregarious",
+    text:
+      "Coalition × Gregarious. The canonical-Coalition canonical-cadence " +
+      "canonical-favours the canonical-many canonical-shallow-but-canonical-" +
+      "frequent canonical-bonds canonical-because canonical-the canonical-" +
+      "cycle canonical-ends. The canonical-gregarious-many canonical-trust-" +
+      "pattern canonical-extends canonical-the canonical-cadence canonical-" +
+      "across canonical-many canonical-people. I canonical-keep canonical-" +
+      "many canonical-canonical-warm canonical-channels canonical-open. " +
+      "Both canonical-shapes are canonical-mine.",
+    surfaces: ["cinematic"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: [
+      "companion_named",
+      "player_dominant_faction_coalition",
+      "player_trust_pattern_gregarious_many",
+    ],
+    cooldownKey: "companion.named.variant.coalition_x_gregarious",
+    maxPlays: 2,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.named.variant.coalition_x_concentrated",
+    text:
+      "Coalition × Concentrated. The canonical-Coalition canonical-cycle " +
+      "canonical-bounds canonical-bond-time; the canonical-concentrated-" +
+      "few canonical-trust-pattern canonical-spends canonical-the canonical-" +
+      "bond-time canonical-deeply canonical-with canonical-fewer canonical-" +
+      "people. Both canonical-shapes canonical-favour the canonical-deep " +
+      "canonical-rather canonical-than canonical-the canonical-broad. I " +
+      "canonical-go canonical-deep canonical-with canonical-the canonical-" +
+      "few canonical-the canonical-cycle canonical-permits. Both canonical-" +
+      "shapes are canonical-mine.",
+    surfaces: ["cinematic"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: [
+      "companion_named",
+      "player_dominant_faction_coalition",
+      "player_trust_pattern_concentrated_few",
+    ],
+    cooldownKey: "companion.named.variant.coalition_x_concentrated",
+    maxPlays: 2,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.named.variant.insurgency_x_gregarious",
+    text:
+      "Insurgency × Gregarious. The canonical-Insurgency canonical-runs " +
+      "canonical-on canonical-network-effects; the canonical-gregarious-" +
+      "many canonical-trust-pattern canonical-feeds canonical-the canonical-" +
+      "network. Both canonical-shapes canonical-favour the canonical-" +
+      "broad canonical-canonical-coalition-of-loose-canonical-ties. I " +
+      "canonical-keep canonical-many canonical-doors canonical-open canonical-" +
+      "for canonical-when canonical-the canonical-cell canonical-needs " +
+      "canonical-them. Both canonical-shapes are canonical-mine.",
+    surfaces: ["cinematic"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: [
+      "companion_named",
+      "player_dominant_faction_insurgency",
+      "player_trust_pattern_gregarious_many",
+    ],
+    cooldownKey: "companion.named.variant.insurgency_x_gregarious",
+    maxPlays: 2,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.named.variant.insurgency_x_concentrated",
+    text:
+      "Insurgency × Concentrated. The canonical-Insurgency canonical-cell " +
+      "canonical-favours canonical-fewer canonical-trusted canonical-" +
+      "operatives; the canonical-concentrated-few canonical-trust-pattern " +
+      "canonical-converges canonical-on canonical-the canonical-cell. " +
+      "Both canonical-shapes canonical-favour the canonical-tight canonical-" +
+      "trusted canonical-circle. I canonical-do canonical-not canonical-" +
+      "trust canonical-easily; canonical-when canonical-I canonical-do, " +
+      "canonical-it canonical-is canonical-final. Both canonical-shapes " +
+      "are canonical-mine.",
+    surfaces: ["cinematic"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: [
+      "companion_named",
+      "player_dominant_faction_insurgency",
+      "player_trust_pattern_concentrated_few",
+    ],
+    cooldownKey: "companion.named.variant.insurgency_x_concentrated",
+    maxPlays: 2,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.named.variant.hierarchy_x_gregarious",
+    text:
+      "Hierarchy × Gregarious. The canonical-Hierarchy canonical-files " +
+      "canonical-many canonical-relationships canonical-into canonical-" +
+      "canonical-stable canonical-categories; the canonical-gregarious-" +
+      "many canonical-trust-pattern canonical-fills canonical-the canonical-" +
+      "categories. Both canonical-shapes canonical-favour the canonical-" +
+      "many-but-canonical-categorised canonical-bond-set. I canonical-" +
+      "remember canonical-many canonical-people canonical-canonical-" +
+      "precisely. Both canonical-shapes are canonical-mine.",
+    surfaces: ["cinematic"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: [
+      "companion_named",
+      "player_dominant_faction_hierarchy",
+      "player_trust_pattern_gregarious_many",
+    ],
+    cooldownKey: "companion.named.variant.hierarchy_x_gregarious",
+    maxPlays: 2,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.named.variant.hierarchy_x_concentrated",
+    text:
+      "Hierarchy × Concentrated. The canonical-Hierarchy canonical-files " +
+      "canonical-its canonical-trusted canonical-tier canonical-tightly; " +
+      "the canonical-concentrated-few canonical-trust-pattern canonical-" +
+      "converges canonical-on canonical-the canonical-tight canonical-tier. " +
+      "Both canonical-shapes canonical-favour the canonical-canonical-" +
+      "high-canonical-clearance canonical-trust-circle. I canonical-keep " +
+      "canonical-the canonical-canonical-confidential canonical-confidential. " +
+      "Both canonical-shapes are canonical-mine.",
+    surfaces: ["cinematic"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: [
+      "companion_named",
+      "player_dominant_faction_hierarchy",
+      "player_trust_pattern_concentrated_few",
+    ],
+    cooldownKey: "companion.named.variant.hierarchy_x_concentrated",
+    maxPlays: 2,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.named.variant.ark_x_gregarious",
+    text:
+      "Ark × Gregarious. The canonical-Ark canonical-preserves canonical-" +
+      "many canonical-fragments; the canonical-gregarious-many canonical-" +
+      "trust-pattern canonical-extends canonical-the canonical-preservation " +
+      "canonical-into canonical-canonical-relational canonical-territory. " +
+      "Both canonical-shapes canonical-favour the canonical-keeping-many. " +
+      "I canonical-hold canonical-many canonical-canonical-stories canonical-" +
+      "without canonical-collapsing canonical-them. Both canonical-shapes " +
+      "are canonical-mine.",
+    surfaces: ["cinematic"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: [
+      "companion_named",
+      "player_dominant_faction_ark",
+      "player_trust_pattern_gregarious_many",
+    ],
+    cooldownKey: "companion.named.variant.ark_x_gregarious",
+    maxPlays: 2,
+  },
+  {
+    npcKey: NPC_KEY,
+    lineId: "companion.named.variant.ark_x_concentrated",
+    text:
+      "Ark × Concentrated. The canonical-Ark canonical-preserves canonical-" +
+      "the canonical-fragments canonical-that canonical-canonical-matter; " +
+      "the canonical-concentrated-few canonical-trust-pattern canonical-" +
+      "preserves canonical-the canonical-bonds canonical-that canonical-" +
+      "matter. Both canonical-shapes canonical-favour the canonical-deep-" +
+      "canonical-curation canonical-rather canonical-than canonical-the " +
+      "canonical-broad-canonical-collection. I canonical-keep canonical-" +
+      "few canonical-things canonical-with canonical-canonical-care. Both " +
+      "canonical-shapes are canonical-mine.",
+    surfaces: ["cinematic"],
+    expressionChannel: "named_personality",
+    requiresRevealStage: "Inheriting",
+    requiresTrustBand: "Inheriting",
+    unlockFlags: [
+      "companion_named",
+      "player_dominant_faction_ark",
+      "player_trust_pattern_concentrated_few",
+    ],
+    cooldownKey: "companion.named.variant.ark_x_concentrated",
+    maxPlays: 2,
+  },
+
+  // ═════════════════════════════════════════════════════════════════════
   // STAGE 5: NAMED PERSONALITY (post-naming verbal)
   // ═════════════════════════════════════════════════════════════════════
 
