@@ -20,13 +20,34 @@ import { describe, expect, it, vi, beforeEach } from "vitest";
 let mockSelectResult: unknown[] = [];
 
 vi.mock("./db", () => {
+  // Thenable select builder — supports the chain shapes used by the
+  // router: select().from().where(), .where().limit(), .where().orderBy(),
+  // .where().orderBy().limit(). All terminal awaits resolve to the
+  // shared mockSelectResult so individual tests can set the canned
+  // response per scenario.
   const builder: Record<string, unknown> = {
     select: () => builder,
     from: () => builder,
     where: () => builder,
+    orderBy: () => builder,
     limit: () => Promise.resolve(mockSelectResult),
     then: (onFulfilled: (v: unknown[]) => unknown) =>
       Promise.resolve(mockSelectResult).then(onFulfilled),
+  };
+  // Insert chain — supports both `await insert().values()` and
+  // `await insert().values().onDuplicateKeyUpdate()` and
+  // `insert().values().catch(...)` (used by recordRouteRun for
+  // idempotent milestone inserts). The values() return is a
+  // custom thenable carrying then/catch + onDuplicateKeyUpdate.
+  const insertResultLike = [{ insertId: 1 }];
+  const valuesReturn = {
+    onDuplicateKeyUpdate: vi.fn().mockResolvedValue(insertResultLike),
+    then: (
+      onFulfilled: (v: unknown[]) => unknown,
+      onRejected?: (reason: unknown) => unknown,
+    ) => Promise.resolve(insertResultLike).then(onFulfilled, onRejected),
+    catch: (onRejected: (reason: unknown) => unknown) =>
+      Promise.resolve(insertResultLike).catch(onRejected),
   };
   const fakeDb = {
     select: () => builder,
@@ -36,7 +57,10 @@ vi.mock("./db", () => {
       }),
     }),
     insert: () => ({
-      values: vi.fn().mockResolvedValue([{ insertId: 1 }]),
+      values: () => valuesReturn,
+    }),
+    delete: () => ({
+      where: vi.fn().mockResolvedValue(undefined),
     }),
   };
   return {
@@ -173,7 +197,7 @@ describe("tradeEmpire class-gate denials", () => {
 
 describe("tradeEmpire dispatchMission happy path", () => {
   beforeEach(() => {
-    mockSelectResult = [{ gameData: {} }];
+    mockSelectResult = []; // fresh user — no rows in tradeActiveMissions
   });
 
   it("succeeds against a fresh user and returns endsAt in the future", async () => {
@@ -195,27 +219,21 @@ describe("tradeEmpire dispatchMission happy path", () => {
 
   it("rejects when the user already has 3 active missions", async () => {
     const now = Date.now();
-    const filled = (id: string) => ({
+    const activeRow = (missionId: string, id: number) => ({
       id,
-      name: id,
+      userId: 2002,
+      missionId,
+      name: missionId,
       sectorId: "s",
       dispatchedAt: now,
       durationMs: 60_000,
       reward: {},
+      createdAt: new Date(),
     });
     mockSelectResult = [
-      {
-        gameData: {
-          tradeEmpire: {
-            activeMissions: [filled("m1"), filled("m2"), filled("m3")],
-            completedMissionIds: [],
-            totalMissionsCompleted: 0,
-            totalDreamEarned: 0,
-            totalInfluenceEarned: 0,
-            sectors: {},
-          },
-        },
-      },
+      activeRow("m1", 1),
+      activeRow("m2", 2),
+      activeRow("m3", 3),
     ];
 
     const { appRouter } = await import("./routers");
@@ -233,25 +251,15 @@ describe("tradeEmpire dispatchMission happy path", () => {
   it("rejects duplicate mission IDs", async () => {
     mockSelectResult = [
       {
-        gameData: {
-          tradeEmpire: {
-            activeMissions: [
-              {
-                id: "dup",
-                name: "Duplicate",
-                sectorId: "s",
-                dispatchedAt: Date.now(),
-                durationMs: 60_000,
-                reward: {},
-              },
-            ],
-            completedMissionIds: [],
-            totalMissionsCompleted: 0,
-            totalDreamEarned: 0,
-            totalInfluenceEarned: 0,
-            sectors: {},
-          },
-        },
+        id: 1,
+        userId: 2003,
+        missionId: "dup",
+        name: "Duplicate",
+        sectorId: "s",
+        dispatchedAt: Date.now(),
+        durationMs: 60_000,
+        reward: {},
+        createdAt: new Date(),
       },
     ];
 
