@@ -58,11 +58,13 @@ describe("tradeEmpireVoLines catalog", () => {
     }
   });
 
-  it("speakers with TODO voiceIds are flagged for --skip-todo", () => {
+  it("no speakers carry TODO voiceIds — all five placeholders are filled", () => {
     const todo = TRADE_EMPIRE_VO_LINES.filter((l) => l.voiceId.startsWith("TODO_"));
-    // Antiquarian (8 wonders), Locke (3 economy + 1 conf), Orin (3 doctrine):
-    // 15 lines hit speakers without registered ElevenLabs voices yet.
-    expect(todo.length).toBe(15);
+    // Was 15 (antiquarian + locke + orin) before the voice-id fill in
+    // PR #263; now 0. the_architect and mol_garath were declared in the
+    // VOICE map for forward compatibility but no current TE lines reference
+    // them. Re-tighten this guard to 0 so any future drift surfaces.
+    expect(todo.length).toBe(0);
   });
 });
 
