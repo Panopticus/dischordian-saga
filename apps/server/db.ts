@@ -31,6 +31,55 @@ export async function getDb(): Promise<DrizzleDb | null> {
   return _db;
 }
 
+const DB_RETRY_DEFAULT_ATTEMPTS = 4;
+const DB_RETRY_BASE_DELAY_MS = 100;
+
+/**
+ * Wraps getDb() with bounded retry + exponential backoff for transient
+ * pool-creation failures. Useful for routers that cannot tolerate a
+ * brief DB unavailability at server start.
+ *
+ * Behaviour:
+ *   - DATABASE_URL unset → returns getDb() once (null), no retry
+ *   - DATABASE_URL set, db available → returns immediately on attempt 1
+ *   - DATABASE_URL set, db null/throws → retries up to maxAttempts with
+ *     delays of baseDelayMs * 2^(n-1)
+ *   - All attempts exhausted → returns null (callers throw via their own
+ *     "DB unavailable" helper)
+ *
+ * In production once the pool is initialised the cached `_db` returns
+ * immediately on every call, so the retry only ever fires on the
+ * cold-start window. resolveDb is injectable for unit testing.
+ */
+export async function getDbWithRetry(
+  maxAttempts: number = DB_RETRY_DEFAULT_ATTEMPTS,
+  baseDelayMs: number = DB_RETRY_BASE_DELAY_MS,
+  resolveDb: () => Promise<DrizzleDb | null> = getDb,
+): Promise<DrizzleDb | null> {
+  // No DATABASE_URL means local-tooling mode; retrying would just stall
+  // tests and CLI tools.
+  if (!process.env.DATABASE_URL) {
+    return resolveDb();
+  }
+  let lastErr: unknown;
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    try {
+      const db = await resolveDb();
+      if (db) return db;
+    } catch (err) {
+      lastErr = err;
+    }
+    if (attempt < maxAttempts) {
+      const delayMs = baseDelayMs * Math.pow(2, attempt - 1);
+      await new Promise<void>((resolve) => setTimeout(resolve, delayMs));
+    }
+  }
+  if (lastErr) {
+    console.warn("[Database] All retry attempts exhausted:", lastErr);
+  }
+  return null;
+}
+
 export async function upsertUser(user: InsertUser): Promise<void> {
   if (!user.openId) {
     throw new Error("User openId is required for upsert");

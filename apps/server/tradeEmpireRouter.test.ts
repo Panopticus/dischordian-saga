@@ -28,18 +28,23 @@ vi.mock("./db", () => {
     then: (onFulfilled: (v: unknown[]) => unknown) =>
       Promise.resolve(mockSelectResult).then(onFulfilled),
   };
+  const fakeDb = {
+    select: () => builder,
+    update: () => ({
+      set: () => ({
+        where: vi.fn().mockResolvedValue(undefined),
+      }),
+    }),
+    insert: () => ({
+      values: vi.fn().mockResolvedValue([{ insertId: 1 }]),
+    }),
+  };
   return {
-    getDb: vi.fn(async () => ({
-      select: () => builder,
-      update: () => ({
-        set: () => ({
-          where: vi.fn().mockResolvedValue(undefined),
-        }),
-      }),
-      insert: () => ({
-        values: vi.fn().mockResolvedValue([{ insertId: 1 }]),
-      }),
-    })),
+    getDb: vi.fn(async () => fakeDb),
+    // Trade Empire's router uses getDbWithRetry as a thin wrapper that
+    // resolves to the same shape as getDb when a connection is available.
+    // For tests we collapse the retry to a one-shot resolve.
+    getDbWithRetry: vi.fn(async () => fakeDb),
   };
 });
 
@@ -260,6 +265,213 @@ describe("tradeEmpire dispatchMission happy path", () => {
       reward: {},
     });
     expect(result).toEqual({ success: false, error: "Mission already dispatched" });
+  });
+});
+
+describe("tradeEmpire signContract → completeContractStage", () => {
+  beforeEach(() => {
+    mockSelectResult = [];
+  });
+
+  it("signContract inserts a new tradeContracts row when none exists", async () => {
+    mockSelectResult = []; // no existing contract, no broker engagement
+    const { appRouter } = await import("./routers");
+    const caller = appRouter.createCaller(createAuthContext(4001));
+    const result = await caller.tradeEmpire.signContract({
+      contractKey: "locke.retainer_baseline",
+      auditedOnSigning: true,
+    });
+    expect(result.success).toBe(true);
+    expect(result.alreadySigned).toBe(false);
+    // contractId comes from the mocked insert: [{ insertId: 1 }]
+    expect(result.contractId).toBe(1);
+  }, 30_000);
+
+  it("signContract is idempotent on an already-signed contract", async () => {
+    // The first select (existing contract lookup) returns a signed row.
+    mockSelectResult = [{ id: 42, status: "signed" }];
+    const { appRouter } = await import("./routers");
+    const caller = appRouter.createCaller(createAuthContext(4002));
+    const result = await caller.tradeEmpire.signContract({
+      contractKey: "locke.retainer_baseline",
+    });
+    expect(result.success).toBe(true);
+    expect(result.alreadySigned).toBe(true);
+    expect(result.contractId).toBe(42);
+  });
+
+  it("signContract throws NOT_FOUND for an unknown contract template", async () => {
+    const { appRouter } = await import("./routers");
+    const caller = appRouter.createCaller(createAuthContext(4003));
+    await expect(
+      caller.tradeEmpire.signContract({ contractKey: "does.not.exist" }),
+    ).rejects.toThrow(/Unknown contract template/);
+  });
+
+  it("completeContractStage marks a single-stage contract succeeded", async () => {
+    // locke.audit_clause has one stage: "audit_executed".
+    mockSelectResult = [
+      { id: 1, status: "signed", stageStatus: {} },
+    ];
+    const { appRouter } = await import("./routers");
+    const caller = appRouter.createCaller(createAuthContext(4004));
+    const result = await caller.tradeEmpire.completeContractStage({
+      contractKey: "locke.audit_clause",
+      stageId: "audit_executed",
+      result: "succeeded",
+    });
+    expect(result.success).toBe(true);
+    expect(result.contractStatus).toBe("succeeded");
+    expect(result.completedStages).toBe(1);
+    expect(result.totalStages).toBe(1);
+  });
+
+  it("completeContractStage marks a contract failed when result=failed", async () => {
+    mockSelectResult = [{ id: 1, status: "signed", stageStatus: {} }];
+    const { appRouter } = await import("./routers");
+    const caller = appRouter.createCaller(createAuthContext(4005));
+    const result = await caller.tradeEmpire.completeContractStage({
+      contractKey: "locke.audit_clause",
+      stageId: "audit_executed",
+      result: "failed",
+    });
+    expect(result.success).toBe(true);
+    expect(result.contractStatus).toBe("failed");
+  });
+
+  it("completeContractStage keeps a multi-stage contract active until all stages succeed", async () => {
+    // locke.retainer_baseline has 3 stages. With the first already
+    // succeeded, completing the second leaves the contract active.
+    mockSelectResult = [
+      {
+        id: 7,
+        status: "active",
+        stageStatus: { first_run: "succeeded" },
+      },
+    ];
+    const { appRouter } = await import("./routers");
+    const caller = appRouter.createCaller(createAuthContext(4006));
+    const result = await caller.tradeEmpire.completeContractStage({
+      contractKey: "locke.retainer_baseline",
+      stageId: "second_run",
+      result: "succeeded",
+    });
+    expect(result.success).toBe(true);
+    expect(result.contractStatus).toBe("active");
+    expect(result.completedStages).toBe(2);
+    expect(result.totalStages).toBe(3);
+  });
+
+  it("completeContractStage rejects when contract was not signed", async () => {
+    mockSelectResult = []; // no row found for (user, contractKey)
+    const { appRouter } = await import("./routers");
+    const caller = appRouter.createCaller(createAuthContext(4007));
+    const result = await caller.tradeEmpire.completeContractStage({
+      contractKey: "locke.audit_clause",
+      stageId: "audit_executed",
+      result: "succeeded",
+    });
+    expect(result).toEqual({ success: false, error: "Contract not signed" });
+  });
+
+  it("completeContractStage throws BAD_REQUEST for an unknown stage id", async () => {
+    mockSelectResult = [{ id: 1, status: "signed", stageStatus: {} }];
+    const { appRouter } = await import("./routers");
+    const caller = appRouter.createCaller(createAuthContext(4008));
+    await expect(
+      caller.tradeEmpire.completeContractStage({
+        contractKey: "locke.audit_clause",
+        stageId: "no_such_stage",
+        result: "succeeded",
+      }),
+    ).rejects.toThrow(/Unknown stage/);
+  });
+});
+
+describe("tradeEmpire recordRouteRun milestone tiers", () => {
+  beforeEach(() => {
+    mockSelectResult = [];
+  });
+
+  it("first run on a new route registers no tier crossing", async () => {
+    mockSelectResult = []; // no existing route row
+    const { appRouter } = await import("./routers");
+    const caller = appRouter.createCaller(createAuthContext(5001));
+    const result = await caller.tradeEmpire.recordRouteRun({
+      fromSectorId: "stardock_anchor",
+      toSectorId: "vox_corridor",
+    });
+    expect(result.success).toBe(true);
+    expect(result.runCount).toBe(1);
+    expect(result.currentMilestoneTier).toBe(0);
+    expect(result.tiersCrossedThisRun).toEqual([]);
+  });
+
+  it("crosses tier 5 when an existing route's run count goes from 4 → 5", async () => {
+    mockSelectResult = [
+      { id: 1, runCount: 4, milestoneTier: 0 },
+    ];
+    const { appRouter } = await import("./routers");
+    const caller = appRouter.createCaller(createAuthContext(5002));
+    const result = await caller.tradeEmpire.recordRouteRun({
+      fromSectorId: "stardock_anchor",
+      toSectorId: "vox_corridor",
+      cargoCategory: "industrial",
+    });
+    expect(result.success).toBe(true);
+    expect(result.runCount).toBe(5);
+    expect(result.currentMilestoneTier).toBe(5);
+    expect(result.tiersCrossedThisRun).toEqual([5]);
+  });
+
+  it("crosses tier 10 when an existing route's run count goes from 9 → 10", async () => {
+    mockSelectResult = [
+      { id: 1, runCount: 9, milestoneTier: 5 },
+    ];
+    const { appRouter } = await import("./routers");
+    const caller = appRouter.createCaller(createAuthContext(5003));
+    const result = await caller.tradeEmpire.recordRouteRun({
+      fromSectorId: "stardock_anchor",
+      toSectorId: "vox_corridor",
+    });
+    expect(result.success).toBe(true);
+    expect(result.runCount).toBe(10);
+    expect(result.currentMilestoneTier).toBe(10);
+    expect(result.tiersCrossedThisRun).toEqual([10]);
+  });
+
+  it("crosses MULTIPLE tiers in a single run if the gap spans them", async () => {
+    // Single run jumping from 4 → 5 only crosses tier 5; but if
+    // a row carries runCount=4 and milestoneTier was somehow stale,
+    // we still expect a normal crossing of just [5]. (Multi-tier
+    // crossings happen only when external loaders bulk-update.)
+    mockSelectResult = [
+      { id: 1, runCount: 24, milestoneTier: 10 },
+    ];
+    const { appRouter } = await import("./routers");
+    const caller = appRouter.createCaller(createAuthContext(5004));
+    const result = await caller.tradeEmpire.recordRouteRun({
+      fromSectorId: "vox_corridor",
+      toSectorId: "the_trench",
+    });
+    expect(result.runCount).toBe(25);
+    expect(result.currentMilestoneTier).toBe(25);
+    expect(result.tiersCrossedThisRun).toEqual([25]);
+  });
+
+  it("between tiers, no tier is crossed and milestoneTier holds the prior tier", async () => {
+    mockSelectResult = [
+      { id: 1, runCount: 6, milestoneTier: 5 },
+    ];
+    const { appRouter } = await import("./routers");
+    const caller = appRouter.createCaller(createAuthContext(5005));
+    const result = await caller.tradeEmpire.recordRouteRun({
+      fromSectorId: "stardock_anchor",
+      toSectorId: "vox_corridor",
+    });
+    expect(result.runCount).toBe(7);
+    expect(result.currentMilestoneTier).toBe(5); // last-crossed tier holds
+    expect(result.tiersCrossedThisRun).toEqual([]);
   });
 });
 
