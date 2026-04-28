@@ -814,16 +814,20 @@ export const tradeEmpireRouter = router({
         console.warn("sector_first_entered ripple failed", rippleErr);
       }
 
-      // Phase 3 pilot + wave-2 — canonical NPC first-visit greetings.
+      // Phase 3 pilot + wave-2 + wave-3 — canonical NPC first-visit greetings.
       // Pilot wave (Locke + Nilmorg + Eidolon) + wave-2 (Vex Maestro
-      // narrator per vex_solene.md §5.10) react on the "trade_empire"
-      // surface; selector silently returns null if the NPC's bank
-      // has no canonical line for this sector.
+      // narrator per vex_solene.md §5.10) + wave-3 (Hierophant on
+      // canonical Thaloria-aligned sectors per wraith_calder.md §5.7
+      // quiet-missions canon) react on the "trade_empire" surface;
+      // selector silently returns null if the NPC's bank has no
+      // canonical line for this sector — Hierophant canonically only
+      // fires on Thaloria-aligned sectors per his bank's gating.
       const PILOT_NPCS: ReadonlyArray<NpcKey> = [
         "adjudicator_locke",
         "nilmorg",
         "your_eidolon",
         "vex_solene",
+        "wraith_calder",
       ];
       const npcGreetings: Array<{
         npcKey: NpcKey;

@@ -63,12 +63,13 @@ describe("tradeEmpire.signContract — Vex Maestro narrator (wave-2)", () => {
   });
 });
 
-describe("tradeEmpire.sectorFirstEntered — pilot + wave-2 NPC greetings", () => {
-  it("iterates pilot NPCs (Locke + Nilmorg + Eidolon) + wave-2 (Vex)", () => {
+describe("tradeEmpire.sectorFirstEntered — pilot + wave-2 + wave-3 NPC greetings", () => {
+  it("iterates pilot NPCs (Locke + Nilmorg + Eidolon) + wave-2 (Vex) + wave-3 (Hierophant)", () => {
     expect(src).toContain('"adjudicator_locke"');
     expect(src).toContain('"nilmorg"');
     expect(src).toContain('"your_eidolon"');
     expect(src).toContain('"vex_solene"');
+    expect(src).toContain('"wraith_calder"');
     expect(src).toContain("PILOT_NPCS");
   });
 
