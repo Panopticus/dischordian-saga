@@ -36,6 +36,26 @@ export interface Clue {
   order: number;
 }
 
+/** Section 9 — A response button the player can use to reply to an
+ *  Elara mystery narration. Mirrors GameContext.ElaraResponseChoice
+ *  but kept here so the room-mystery modules don't import the client
+ *  context. The runtime adapts between the two shapes. */
+export interface MysteryResponseChoice {
+  /** Stable manifest key, e.g. "human.cryo.dead-pod.look.acknowledge". */
+  id: string;
+  /** Short button text (≤ 6 words). */
+  label: string;
+  /** Optional Elara follow-up VO id played after the human responds. */
+  elaraFollowUpVoId?: string;
+  /** Inline follow-up text used when the manifest entry hasn't been
+   *  generated yet. Falls back to VO when both are present. */
+  elaraFollowUpText?: string;
+  /** Optional codex/lore entry logged on this branch. */
+  logsClue?: Clue;
+  /** When true, dismiss the popup instead of waiting on a follow-up. */
+  closesDialog?: boolean;
+}
+
 /** Result of a (verb, hotspot) pair. All fields are optional —
  *  `narration` is the only thing the runtime always uses. */
 export interface VerbResponse {
@@ -46,6 +66,15 @@ export interface VerbResponse {
    *  HTMLAudioElement lifecycle. Falls back silently to text-only
    *  when missing — VO is purely additive. */
   vo?: string;
+  /** Section 9 — stable manifest id for this verb response's audio.
+   *  When set, the runtime calls useElaraVO().speak(voId) so the
+   *  popup carries Elara's actual voice. Preferred over the legacy
+   *  `vo` URL field, which stays as a one-off CDN escape hatch. */
+  voId?: string;
+  /** Section 9 — player response choices surfaced after the
+   *  narration ends. Empty/undefined falls through to the default
+   *  3-button strip in ElaraConversationPopup. */
+  responses?: MysteryResponseChoice[];
   /** Clue to log. Idempotent — re-logging a clue is a no-op. */
   logsClue?: Clue;
   /** Inventory item id to grant. Idempotent. */
@@ -55,6 +84,10 @@ export interface VerbResponse {
   /** Door / exit to unlock. Runtime maps the value to the room
    *  graph; the resolver doesn't need to know which rooms exist. */
   unlocksExit?: string;
+  /** When true, the hotspot is removed from the scene after this verb
+   *  fires. Used for one-shot pickups (data-slate `use`, locket pickup)
+   *  so they don't stay clickable after the player has pocketed them. */
+  consumesHotspot?: boolean;
 }
 
 /** Result of a `use <a> on <b>` inventory combine. */
