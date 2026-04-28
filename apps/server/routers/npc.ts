@@ -626,6 +626,134 @@ export const npcRouter = router({
         trust: { ...result.trust, flags: Array.from(result.trust.flags) },
       };
     }),
+
+  // ────────────────────────────────────────────────────────────────
+  // PHASE 4 — multilayered architecture endpoints
+  //
+  // - getSocialLinkRank(npcKey) — canonical Persona-style rank
+  //   1-5 for the NPC, computed from canonical context (trust
+  //   band + flags + interactions + act). Drives canonical-rank-
+  //   gated scenes (rank-3 first-trust-band crossing scene,
+  //   rank-5 confidant scene per socialLinkRanks.ts).
+  // - getInnerVoice() — canonical autonomous-mode inner voice for
+  //   the current beat (Disco-Elysium-style 7-axis skill voice).
+  //   Returns null if no canonical voice is active for the player's
+  //   profile this beat.
+  // ────────────────────────────────────────────────────────────────
+
+  getSocialLinkRank: protectedProcedure
+    .input(
+      z.object({
+        npcKey: npcKeySchema,
+        act: z.number().int().min(1).max(7).default(1),
+        narrativeFlags: z.array(z.string().min(1).max(256)).optional().default([]),
+        interactions: z.number().int().min(0).default(0),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const userId = ctx.user.id;
+      const npcKey = input.npcKey as NpcKey;
+      const profile = NPC_REGISTRY[npcKey];
+      const trustState = await resolveTrustState(userId, npcKey);
+      const publicFlagsSet = await readPublicFlags(userId);
+      const flagsSet = new Set<string>(input.narrativeFlags);
+      const trustBand = trustState.band;
+      const trustBandIndex = profile.trustBands.findIndex(
+        b => b.band === trustBand,
+      );
+      const { ladderFor, currentSocialLinkRank, rankDef } = await import(
+        "@shared/socialLinkRanks"
+      );
+      const ladder = ladderFor(npcKey);
+      if (!ladder) {
+        return {
+          npcKey,
+          currentRank: 0,
+          maxRank: 0,
+          activeRank: null,
+          ladderLabel: null,
+        };
+      }
+      const currentRank = currentSocialLinkRank(npcKey, {
+        currentRank: 0,
+        publicFlags: publicFlagsSet,
+        flags: flagsSet,
+        trustBand,
+        trustBandIndex: trustBandIndex >= 0 ? trustBandIndex : undefined,
+        bandOrdinalOf: (band) =>
+          profile.trustBands.findIndex(b => b.band === band),
+        interactions: input.interactions,
+        act: input.act,
+      });
+      const def = currentRank > 0 ? rankDef(npcKey, currentRank as 1 | 2 | 3 | 4 | 5) : undefined;
+      return {
+        npcKey,
+        currentRank,
+        maxRank: ladder.ranks.length,
+        ladderLabel: ladder.ladderLabel,
+        activeRank: def
+          ? {
+              rank: def.rank,
+              label: def.label,
+              loreBlurb: def.loreBlurb,
+              setsFlag: def.setsFlag,
+              unlocksThoughtId: def.unlocksThoughtId ?? null,
+            }
+          : null,
+      };
+    }),
+
+  getInnerVoice: protectedProcedure
+    .input(
+      z.object({
+        recentlySpoken: z.array(z.string().min(1).max(64)).optional().default([]),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const userId = ctx.user.id;
+      const db = await getDb();
+      let axes: Record<string, ReturnType<typeof magnitudeOfFn>>;
+      const { magnitudeOf: magnitudeOfFn } = await import("@shared/playerProfile");
+      if (db) {
+        const rows = await db
+          .select()
+          .from(playerProfileTable)
+          .where(eq(playerProfileTable.userId, userId))
+          .limit(1);
+        const row = rows[0];
+        axes = {
+          aggression: magnitudeOfFn(row?.aggression ?? 0),
+          mercy: magnitudeOfFn(row?.mercy ?? 0),
+          curiosity: magnitudeOfFn(row?.curiosity ?? 0),
+          conformity: magnitudeOfFn(row?.conformity ?? 0),
+          vigilance: magnitudeOfFn(row?.vigilance ?? 0),
+          vulnerability: magnitudeOfFn(row?.vulnerability ?? 0),
+          wit: magnitudeOfFn(row?.wit ?? 0),
+        };
+      } else {
+        const neutral = magnitudeOfFn(0);
+        axes = {
+          aggression: neutral, mercy: neutral, curiosity: neutral,
+          conformity: neutral, vigilance: neutral, vulnerability: neutral,
+          wit: neutral,
+        };
+      }
+      const { pickInnerVoice } = await import("@shared/innerVoiceSkills");
+      const voice = pickInnerVoice({
+        axes: axes as Parameters<typeof pickInnerVoice>[0]["axes"],
+        recentlySpoken: new Set(input.recentlySpoken) as Parameters<typeof pickInnerVoice>[0]["recentlySpoken"],
+      });
+      if (!voice) return { voice: null };
+      return {
+        voice: {
+          axis: voice.axis,
+          label: voice.label,
+          cadence: voice.cadence,
+          activeMagnitudes: voice.activeMagnitudes,
+          canonicalNote: voice.canonicalNote,
+        },
+      };
+    }),
 });
 
 // ────────────────────────────────────────────────────────────────
@@ -652,6 +780,7 @@ export interface TryNpcReactionResult {
     trustDelta?: number;
     choices?: ReadonlyArray<unknown>;
     nextLineId?: string;
+    expressionChannel?: string;
   };
   specificityScore: number;
   trust: TrustState;
@@ -768,6 +897,7 @@ export async function tryNpcReaction(
       trustDelta: result.line.trustDelta,
       choices: result.line.choices,
       nextLineId: result.line.nextLineId,
+      expressionChannel: result.line.expressionChannel,
     },
     specificityScore: result.specificityScore,
     trust: nextTrust,

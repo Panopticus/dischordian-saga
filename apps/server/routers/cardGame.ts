@@ -8,6 +8,63 @@ import { fetchCitizenData, fetchPotentialNftData, resolveCardGameBonuses } from 
 import { trackAiResult, trackCollectionSize } from "../achievementTracker";
 import { ripple } from "../services/rippleEngine";
 import { getConsequences } from "../services/universeConsequences";
+import { tryNpcReaction } from "./npc";
+import type { NpcKey } from "@shared/npcs/types";
+
+/**
+ * Phase 3 finish — fight-surface NPC reactions on TCG match end.
+ * Per priority-roster bibles, several NPCs canonically react on the
+ * canonical fight surface: Hierophant pre-arena (Ch3b match), Vex
+ * (Ch6 match), Game Master (presence-band), Eidolon (Echo-mode),
+ * Companion (post-naming witness). Selector silent-fails per match.
+ */
+const FIGHT_PILOT_NPCS: ReadonlyArray<NpcKey> = [
+  "wraith_calder",
+  "vex_solene",
+  "the_game_master",
+  "your_eidolon",
+  "dmc_clone_companion",
+];
+
+async function tryFightReactions(
+  userId: number,
+  matchId: number,
+  won: boolean,
+): Promise<Array<{
+  npcKey: NpcKey;
+  lineId: string;
+  text: string;
+  voId?: string;
+}>> {
+  const targetId = `tcg_${won ? "won" : "lost"}_match${matchId}`;
+  const reactions: Array<{
+    npcKey: NpcKey;
+    lineId: string;
+    text: string;
+    voId?: string;
+  }> = [];
+  for (const npcKey of FIGHT_PILOT_NPCS) {
+    try {
+      const reaction = await tryNpcReaction({
+        userId,
+        npcKey,
+        surface: "fight",
+        targetId,
+      });
+      if (reaction) {
+        reactions.push({
+          npcKey,
+          lineId: reaction.line.lineId,
+          text: reaction.line.text,
+          voId: reaction.line.voId,
+        });
+      }
+    } catch (err) {
+      logger.warn(`cardGame fight reaction failed for ${npcKey}`, err);
+    }
+  }
+  return reactions;
+}
 import { validateDbDeckComposition } from "../../shared/validateDbDeckComposition";
 
 // ═══════════════════════════════════════════════════════
@@ -1323,10 +1380,16 @@ export const cardGameRouter = router({
         .where(eq(cardGameMatches.id, input.matchId));
 
       // Achievement auto-tracking for AI matches
+      let fightReactions: Awaited<ReturnType<typeof tryFightReactions>> = [];
       if (matchStatus === "completed") {
         trackAiResult(ctx.user.id, winnerId === ctx.user.id)
           .catch(e => logger.error("[CardGame] Achievement tracking error:", e));
         await ripple.emit("card_battle_result", { userId: ctx.user.id, won: winnerId === ctx.user.id });
+        fightReactions = await tryFightReactions(
+          ctx.user.id,
+          input.matchId,
+          winnerId === ctx.user.id,
+        );
       }
 
       return {
@@ -1334,6 +1397,7 @@ export const cardGameRouter = router({
         gameState: state,
         logEntry,
         matchStatus,
+        fightReactions,
       };
     }),
 
@@ -1417,13 +1481,19 @@ export const cardGameRouter = router({
         .where(eq(cardGameMatches.id, input.matchId));
 
       // Achievement auto-tracking for AI matches
+      let fightReactions: Awaited<ReturnType<typeof tryFightReactions>> = [];
       if (matchStatus === "completed") {
         trackAiResult(ctx.user.id, winnerId === ctx.user.id)
           .catch(e => logger.error("[CardGame] Achievement tracking error:", e));
         await ripple.emit("card_battle_result", { userId: ctx.user.id, won: winnerId === ctx.user.id });
+        fightReactions = await tryFightReactions(
+          ctx.user.id,
+          input.matchId,
+          winnerId === ctx.user.id,
+        );
       }
 
-      return { success: true, gameState: state, logEntry, matchStatus };
+      return { success: true, gameState: state, logEntry, matchStatus, fightReactions };
     }),
 
   // End turn
@@ -1486,13 +1556,19 @@ export const cardGameRouter = router({
         .where(eq(cardGameMatches.id, input.matchId));
 
       // Achievement auto-tracking for AI matches
+      let fightReactions: Awaited<ReturnType<typeof tryFightReactions>> = [];
       if (matchStatus === "completed") {
         trackAiResult(ctx.user.id, winnerId === ctx.user.id)
           .catch(e => logger.error("[CardGame] Achievement tracking error:", e));
         await ripple.emit("card_battle_result", { userId: ctx.user.id, won: winnerId === ctx.user.id });
+        fightReactions = await tryFightReactions(
+          ctx.user.id,
+          input.matchId,
+          winnerId === ctx.user.id,
+        );
       }
 
-      return { success: true, gameState: state, matchStatus };
+      return { success: true, gameState: state, matchStatus, fightReactions };
     }),
 
   // Get active match
