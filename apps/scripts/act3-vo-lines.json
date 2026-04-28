@@ -322,7 +322,7 @@
   {
     "id": "te-civic-adopt-doctrine_iron_lion",
     "speaker": "orin_fell",
-    "voiceId": "TODO_ORIN_VOICE",
+    "voiceId": "dvtaCoh6EHrKdbUysbQa",
     "text": "Iron Lion's manual. Annotated by the crew that watched him die. We fight like we have nothing left. We don't. We have a name to keep. That's all the leverage I need.",
     "context": "act3_te_civic_adopt_doctrine_iron_lion",
     "section": "§C · Civic adoption · doctrine",
@@ -332,7 +332,7 @@
   {
     "id": "te-civic-adopt-doctrine_nomad",
     "speaker": "orin_fell",
-    "voiceId": "TODO_ORIN_VOICE",
+    "voiceId": "dvtaCoh6EHrKdbUysbQa",
     "text": "Nomad Compass. Never where the shot lands. Zero's playbook. I don't love it — but I love losing fewer people. Adopted.",
     "context": "act3_te_civic_adopt_doctrine_nomad",
     "section": "§C · Civic adoption · doctrine",
@@ -342,7 +342,7 @@
   {
     "id": "te-civic-adopt-doctrine_archon",
     "speaker": "orin_fell",
-    "voiceId": "TODO_ORIN_VOICE",
+    "voiceId": "dvtaCoh6EHrKdbUysbQa",
     "text": "Archon Discipline. The Architect's war-machine, politely rented. The Human disapproves. He's right to. We're doing it anyway. Walk it carefully.",
     "context": "act3_te_civic_adopt_doctrine_archon",
     "section": "§C · Civic adoption · doctrine",

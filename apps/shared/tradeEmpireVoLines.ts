@@ -64,9 +64,9 @@ const VOICE: Record<TradeEmpireSpeaker, string> = {
   the_source: "4tTGaP2vBgPN3iYrFoxa", // Kael prisoner voice
   the_antiquarian: "yAKlvHIsuj4SvnKQ6Mk4",
   locke: "8XiBWqS5ffaH5naIFHPI",
-  orin_fell: "TODO_ORIN_VOICE",
+  orin_fell: "dvtaCoh6EHrKdbUysbQa",
   the_architect: "PmtzUaeg5rMejCZzRqOZ",
-  mol_garath: "TODO_MOLGARATH_VOICE",
+  mol_garath: "tUwU6bLyi5PjdqwDes3C",
 };
 
 const OUTPUT_DIR = "audio/act3" as const;
