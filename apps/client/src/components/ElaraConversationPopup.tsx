@@ -44,12 +44,33 @@ export interface ConversationChoice {
    *  generated yet. The popup will fall back to the VO id-derived
    *  manifest entry when both are present. */
   elaraFollowUpText?: string;
+  /** Detective (the Human companion) follow-up VO id. When set, the
+   *  popup plays the Detective's reply through `humanVO.speak` and
+   *  shows it in the "DETECTIVE" speaker slot. Used for the "Ask the
+   *  Human." branch where the Detective speaks rather than echo the
+   *  player's framing. */
+  detectiveFollowUpVoId?: string;
+  /** Inline text for the Detective's follow-up. Falls back to
+   *  typewriter-only when no VO has been recorded yet. */
+  detectiveFollowUpText?: string;
+  /** When true, skip the "YOU" echo step and go directly into the
+   *  next companion phase (Detective if `detectiveFollowUp*` is set,
+   *  else Elara follow-up). Used by the "Ask the Human." choice so
+   *  the dialog feels like the player gestured rather than spoke. */
+  skipPlayerEcho?: boolean;
+  /** Recursive branching — when set, after the leading follow-up
+   *  finishes the popup re-enters `awaitingPlayerChoice` with these
+   *  choices instead of closing. Powers BioWare-style multi-step
+   *  branches and the "Stay with Elara's read." / "Trust the
+   *  Detective." cost-bearing fork. */
+  followUpResponses?: ConversationChoice[];
   /** When true, dismiss after the human's reply instead of waiting
    *  on a follow-up. Default-strip "Acknowledged" and "[stay silent]"
    *  set this true. */
   closesDialog?: boolean;
   /** Side-effect callback fired when the player picks this choice
-   *  (e.g. log a clue, set a flag). Runs before the human VO. */
+   *  (e.g. log a clue, set a flag, apply a stability/light delta).
+   *  Runs before any audio. */
   onPick?: () => void;
 }
 
@@ -93,6 +114,7 @@ type Phase =
   | "elaraSpeaking"
   | "awaitingPlayerChoice"
   | "humanSpeaking"
+  | "detectiveSpeaking"
   | "elaraFollowUp"
   | "closed";
 
@@ -119,6 +141,11 @@ export function ElaraConversationPopup({
   const [phase, setPhase] = useState<Phase>("elaraSpeaking");
   const [pickedChoice, setPickedChoice] = useState<ConversationChoice | null>(null);
   const [followUpText, setFollowUpText] = useState<string>("");
+  /** When the player drills into a recursive branch, the active
+   *  response strip is this list instead of the top-level `responses`
+   *  prop. Reset to `null` whenever a fresh top-level conversation
+   *  begins (i.e. on `voId`/`voUrl`/`text` change). */
+  const [activeResponses, setActiveResponses] = useState<ConversationChoice[] | null>(null);
 
   /* ─── Audio ───
      The hooks are owned by the parent (the Ark page) so the
@@ -134,6 +161,7 @@ export function ElaraConversationPopup({
     setPhase("elaraSpeaking");
     setPickedChoice(null);
     setFollowUpText("");
+    setActiveResponses(null);
     if (voId) {
       elaraVO.speak(voId);
       return;
@@ -237,37 +265,74 @@ export function ElaraConversationPopup({
     humanVO.speak(pickedChoice.id);
   }, [phase, pickedChoice]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // When the human reply ends → either close (dialog ends) or move
-  // into Elara follow-up.
+  /** Decide the next phase after a companion line ends. The Detective
+   *  takes priority over Elara so an "Ask the Human." choice lands him
+   *  in the dialog before any rebuttal. Recursive `followUpResponses`
+   *  re-enter the choice strip; a bare `closesDialog` falls through. */
+  const advanceFromChoice = (choice: ConversationChoice | null, justSpoke: "human" | "detective" | "elara") => {
+    if (!choice) { setPhase("closed"); return; }
+    // Detective branch — only fires once per choice (after the player echo).
+    if (justSpoke === "human" && (choice.detectiveFollowUpVoId || choice.detectiveFollowUpText)) {
+      setFollowUpText(choice.detectiveFollowUpText ?? "");
+      setPhase("detectiveSpeaking");
+      return;
+    }
+    // Elara follow-up branch — fires after either the player echo or the
+    // Detective's line, whichever came first.
+    if ((justSpoke === "human" || justSpoke === "detective") &&
+        (choice.elaraFollowUpVoId || choice.elaraFollowUpText)) {
+      setFollowUpText(choice.elaraFollowUpText ?? "");
+      setPhase("elaraFollowUp");
+      return;
+    }
+    // Recursive branching — re-enter the choice strip with the new set.
+    if (choice.followUpResponses && choice.followUpResponses.length > 0) {
+      setActiveResponses(choice.followUpResponses);
+      setPickedChoice(null);
+      setPhase("awaitingPlayerChoice");
+      return;
+    }
+    setPhase("closed");
+  };
+
+  // When the human reply ends → either close, branch into the
+  // Detective, or move into Elara follow-up.
   useEffect(() => {
     if (phase !== "humanSpeaking") return;
     const a = humanVO.audio;
     const advance = () => {
       if (!pickedChoice) { setPhase("closed"); return; }
       if (pickedChoice.closesDialog) { setPhase("closed"); return; }
-      // Either the follow-up VO id or the inline fallback text — at
-      // least one must be set or we just close.
-      if (pickedChoice.elaraFollowUpVoId) {
-        setFollowUpText(pickedChoice.elaraFollowUpText ?? "");
-        setPhase("elaraFollowUp");
-        return;
-      }
-      if (pickedChoice.elaraFollowUpText) {
-        setFollowUpText(pickedChoice.elaraFollowUpText);
-        setPhase("elaraFollowUp");
-        return;
-      }
-      setPhase("closed");
+      advanceFromChoice(pickedChoice, "human");
     };
     if (!a) {
-      // Manifest miss → no human audio fired. Advance immediately
-      // after a short beat so the avatar swap is visible.
       const t = setTimeout(advance, 350);
       return () => clearTimeout(t);
     }
     a.addEventListener("ended", advance);
     return () => a.removeEventListener("ended", advance);
-  }, [phase, humanVO.audio, pickedChoice]);
+  }, [phase, humanVO.audio, pickedChoice]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Drive the Detective's line. The Detective uses the same humanVO
+  // hook (humanVoManifest.json gains detective-namespaced ids when VO
+  // ships); the popup just labels the slot differently.
+  useEffect(() => {
+    if (phase !== "detectiveSpeaking") return;
+    if (!pickedChoice?.detectiveFollowUpVoId) return;
+    humanVO.speak(pickedChoice.detectiveFollowUpVoId);
+  }, [phase, pickedChoice]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    if (phase !== "detectiveSpeaking") return;
+    const a = humanVO.audio;
+    const advance = () => advanceFromChoice(pickedChoice, "detective");
+    if (!a) {
+      const t = setTimeout(advance, 2500);
+      return () => clearTimeout(t);
+    }
+    a.addEventListener("ended", advance);
+    return () => a.removeEventListener("ended", advance);
+  }, [phase, humanVO.audio, pickedChoice]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Drive the Elara follow-up.
   useEffect(() => {
@@ -279,15 +344,14 @@ export function ElaraConversationPopup({
   useEffect(() => {
     if (phase !== "elaraFollowUp") return;
     const a = elaraVO.audio;
+    const advance = () => advanceFromChoice(pickedChoice, "elara");
     if (!a) {
-      // No follow-up audio (text-only mode) → close after a short read.
-      const t = setTimeout(() => setPhase("closed"), 2500);
+      const t = setTimeout(advance, 2500);
       return () => clearTimeout(t);
     }
-    const onEnded = () => setPhase("closed");
-    a.addEventListener("ended", onEnded);
-    return () => a.removeEventListener("ended", onEnded);
-  }, [phase, elaraVO.audio]);
+    a.addEventListener("ended", advance);
+    return () => a.removeEventListener("ended", advance);
+  }, [phase, elaraVO.audio, pickedChoice]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Close the popup once we hit the "closed" phase.
   useEffect(() => {
@@ -309,6 +373,30 @@ export function ElaraConversationPopup({
     if (phase !== "awaitingPlayerChoice") return;
     choice.onPick?.();
     setPickedChoice(choice);
+    // Skip the "YOU" echo when the choice is a gesture (e.g. "Ask the
+    // Human.") rather than a spoken framing. Routes straight into the
+    // Detective if his line is authored, then falls through to the
+    // Elara/follow-up/close cascade.
+    if (choice.skipPlayerEcho) {
+      if (choice.detectiveFollowUpVoId || choice.detectiveFollowUpText) {
+        setFollowUpText(choice.detectiveFollowUpText ?? "");
+        setPhase("detectiveSpeaking");
+        return;
+      }
+      if (choice.elaraFollowUpVoId || choice.elaraFollowUpText) {
+        setFollowUpText(choice.elaraFollowUpText ?? "");
+        setPhase("elaraFollowUp");
+        return;
+      }
+      if (choice.followUpResponses && choice.followUpResponses.length > 0) {
+        setActiveResponses(choice.followUpResponses);
+        setPickedChoice(null);
+        // Stay in awaitingPlayerChoice — just swap the strip.
+        return;
+      }
+      setPhase("closed");
+      return;
+    }
     setPhase("humanSpeaking");
   };
 
@@ -330,13 +418,16 @@ export function ElaraConversationPopup({
   };
 
   const effectiveResponses = useMemo<ConversationChoice[]>(() => {
+    // Recursive branch active → use that strip instead of the top-level prop.
+    if (activeResponses && activeResponses.length > 0) return activeResponses;
     if (responses && responses.length > 0) return responses;
     return DEFAULT_RESPONSES();
-  }, [responses]);
+  }, [responses, activeResponses]);
 
-  const speakingNow = phase === "elaraSpeaking" || phase === "elaraFollowUp";
+  const speakingNow =
+    phase === "elaraSpeaking" || phase === "elaraFollowUp" || phase === "detectiveSpeaking";
   const liveAudio =
-    phase === "humanSpeaking" ? humanVO.audio :
+    phase === "humanSpeaking" || phase === "detectiveSpeaking" ? humanVO.audio :
     phase === "elaraFollowUp" || phase === "elaraSpeaking" ? elaraVO.audio :
     null;
 
@@ -403,6 +494,15 @@ export function ElaraConversationPopup({
               <>
                 <p className="font-mono text-[9px] text-[var(--neon-cyan)] tracking-[0.2em] mb-1">ELARA</p>
                 <p className="font-mono text-xs text-foreground/90 leading-relaxed">
+                  {followUpText || "..."}
+                </p>
+              </>
+            )}
+
+            {phase === "detectiveSpeaking" && (
+              <>
+                <p className="font-mono text-[9px] text-[var(--energy-warning,_#d97706)] tracking-[0.2em] mb-1">THE&nbsp;HUMAN</p>
+                <p className="font-mono text-xs text-foreground/90 leading-relaxed italic">
                   {followUpText || "..."}
                 </p>
               </>

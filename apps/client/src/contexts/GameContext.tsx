@@ -137,6 +137,11 @@ export interface GameState {
   totalRoomsUnlocked: number;
   totalItemsFound: number;
   narrativeFlags: Record<string, boolean>;
+  /** Per-hotspot click counter, keyed `<roomId>:<hotspotId>`. Lets
+   *  Sierra/LucasArts-style click escalation serve a deeper Elara line
+   *  on each successive look. Reset on room entry so a hotspot's tier
+   *  ladder restarts when the player comes back. */
+  hotspotClickCount: Record<string, number>;
   /** F13 — hidden Elara stability (-100..100). Gates CompanionLine variants
    *  and nudges the character's speech band per character bible. */
   elaraStability: number;
@@ -1354,6 +1359,7 @@ const DEFAULT_GAME_STATE: GameState = {
   totalRoomsUnlocked: 0,
   totalItemsFound: 0,
   narrativeFlags: {},
+  hotspotClickCount: {},
   // F13 — initial band values per character bible: lucid (slightly positive) +
   // shadow (meaningfully negative). Both reach ±100.
   elaraStability: 10,
@@ -1527,6 +1533,10 @@ interface GameContextValue {
   setActiveDeck: (cardIds: string[]) => void;
   // Narrative flags
   setNarrativeFlag: (flag: string, value?: boolean) => void;
+  /** Sierra-style hotspot click escalation. Increments the count for
+   *  `<roomId>:<hotspotId>` and returns the new value (1 on first
+   *  click, 2 on second, …). Reset on room entry. */
+  bumpHotspotClick: (roomId: string, hotspotId: string) => number;
   // Section F — Mystery actions (cryo bay + every other room module)
   logClue: (clue: import("@shared/roomMysteries").Clue) => void;
   grantMysteryItem: (itemId: string) => void;
@@ -2127,15 +2137,47 @@ export function GameProvider({ children }: { children: ReactNode }) {
         newFlags["cargo_bay_pressurized"] = true;
       }
 
+      // Reset per-hotspot click counters for the room being entered.
+      // Click escalation is a per-visit affordance: returning to a room
+      // re-arms the tier ladder so Elara starts fresh on Tier 1. The
+      // ref used by bumpHotspotClick is kept in sync via useEffect, but
+      // the next click could fire before that effect runs, so the page
+      // adapter should treat the freshly-entered room as count=1.
+      const nextClicks: Record<string, number> = {};
+      for (const [k, v] of Object.entries(prev.hotspotClickCount)) {
+        if (!k.startsWith(`${roomId}:`)) nextClicks[k] = v;
+      }
+
       return {
         ...prev,
         currentRoomId: roomId,
         rooms: newRooms,
         totalRoomsUnlocked: totalUnlocked,
         narrativeFlags: newFlags,
+        hotspotClickCount: nextClicks,
         phase: allRoomsUnlocked ? "FULL_ACCESS" : (prev.phase === "QUARTERS_UNLOCKED" || prev.phase === "EXPLORING") ? "EXPLORING" : prev.phase,
       };
     });
+  }, []);
+
+  /** Bump the click counter for a hotspot in a room. Returns the new
+   *  count synchronously so callers can pick a tier on the very same
+   *  click that increments. We back the read with a ref so back-to-back
+   *  bumps inside the same render commit (and StrictMode's double-invoke
+   *  of state updaters) don't reissue the same count. */
+  const hotspotClickRef = useRef<Record<string, number>>(state.hotspotClickCount);
+  useEffect(() => {
+    hotspotClickRef.current = state.hotspotClickCount;
+  }, [state.hotspotClickCount]);
+  const bumpHotspotClick = useCallback((roomId: string, hotspotId: string): number => {
+    const key = `${roomId}:${hotspotId}`;
+    const next = (hotspotClickRef.current[key] ?? 0) + 1;
+    hotspotClickRef.current = { ...hotspotClickRef.current, [key]: next };
+    setState(prev => ({
+      ...prev,
+      hotspotClickCount: { ...prev.hotspotClickCount, [key]: next },
+    }));
+    return next;
   }, []);
 
   const collectItem = useCallback((itemId: string) => {
@@ -3535,6 +3577,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
       collectCard,
       setActiveDeck,
       setNarrativeFlag,
+      bumpHotspotClick,
       logClue,
       grantMysteryItem,
       claimQuestReward,
