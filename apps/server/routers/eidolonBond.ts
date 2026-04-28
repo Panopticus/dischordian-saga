@@ -14,6 +14,7 @@ import { companionDeath } from "../services/companionDeath";
 import { ripple } from "../services/rippleEngine";
 import { logger } from "../logger";
 import { grantCardReward } from "../services/cardRewardService";
+import { tryNpcReaction } from "./npc";
 
 export const eidolonBondRouter = router({
   /* ─── GET MY BOND (protected) ─── */
@@ -114,6 +115,35 @@ export const eidolonBondRouter = router({
         }
       }
 
+      // Phase 3 pilot — Eidolon's canonical non-verbal expression
+      // beat at the canonical bond-interaction moment. Surface
+      // "expression" reads the canonical 5-channel framework
+      // (glyph + posture + sound) per eidolon.md §1.5. Selector
+      // silent-fails if the canonical action+bond-band has no
+      // matching beat.
+      let eidolonExpression: {
+        lineId: string;
+        text: string;
+        voId?: string;
+      } | null = null;
+      try {
+        const reaction = await tryNpcReaction({
+          userId: ctx.user.id,
+          npcKey: "your_eidolon",
+          surface: "expression",
+          targetId: `interact_${input.action}`,
+        });
+        if (reaction) {
+          eidolonExpression = {
+            lineId: reaction.line.lineId,
+            text: reaction.line.text,
+            voId: reaction.line.voId,
+          };
+        }
+      } catch (reactionErr) {
+        logger.warn("eidolonBond.interact npc reaction failed", reactionErr);
+      }
+
       return {
         success: true,
         action: input.action,
@@ -122,6 +152,7 @@ export const eidolonBondRouter = router({
         evolutionXpGained: evoXp,
         evolved: evoResult.evolved,
         newStage: evoResult.newStage,
+        eidolonExpression,
       };
     }),
 

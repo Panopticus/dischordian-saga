@@ -33,6 +33,7 @@ import {
   npcAskTopicHistory,
   npcDialogTreeState,
   eidolonBonds,
+  playerProfile as playerProfileTable,
 } from "../../db/schema";
 import { and, desc, eq } from "drizzle-orm";
 import { ripple } from "../services/rippleEngine";
@@ -46,7 +47,16 @@ import {
 import {
   eidolonBondToTrustState,
 } from "../../shared/npcs/adapters/eidolonBondAdapter";
-import type { NpcKey, TrustState } from "../../shared/npcs/types";
+import type {
+  DialogSurface,
+  NpcKey,
+  PlayerAxis,
+  PlayerProfileSnapshot,
+  TrustState,
+} from "../../shared/npcs/types";
+import { selectNpcLine } from "../../shared/npcs/selector";
+import { getBank } from "../../shared/npcs/banks";
+import { magnitudeOf } from "../../shared/playerProfile";
 
 // --- Validation -----------------------------------------------------------
 
@@ -575,4 +585,321 @@ export const npcRouter = router({
       }
       return { ok: true };
     }),
+
+  // ────────────────────────────────────────────────────────────────
+  // PHASE 3 PILOT — reactToEvent: one-call NPC reaction surface
+  //
+  // Wraps load-context → selector → record → side-effects in a
+  // single round-trip. Game systems (Trade Empire, DMC, fight
+  // engine, ship rooms, TCG) call this from their canonical
+  // pivot moments (mission outcome, contract signed, sector
+  // arrival, route milestone, race finish, room enter, etc.).
+  //
+  // Silent-fail contract: returns { ok: true, line: null } when
+  // no line matches. Callers MUST handle null gracefully.
+  // ────────────────────────────────────────────────────────────────
+
+  reactToEvent: protectedProcedure
+    .input(
+      z.object({
+        npcKey: npcKeySchema,
+        surface: z.string().min(1).max(64),
+        targetId: z.string().min(1).max(256).optional().default(""),
+        act: z.number().int().min(1).max(7).default(1),
+        narrativeFlags: z.array(z.string().min(1).max(256)).optional().default([]),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const result = await tryNpcReaction({
+        userId: ctx.user.id,
+        npcKey: input.npcKey as NpcKey,
+        surface: input.surface as DialogSurface,
+        targetId: input.targetId,
+        act: input.act,
+        narrativeFlags: input.narrativeFlags,
+      });
+      if (!result) return { ok: true, line: null as null };
+      return {
+        ok: true,
+        line: result.line,
+        specificityScore: result.specificityScore,
+        trust: { ...result.trust, flags: Array.from(result.trust.flags) },
+      };
+    }),
+
+  // ────────────────────────────────────────────────────────────────
+  // PHASE 4 — multilayered architecture endpoints
+  //
+  // - getSocialLinkRank(npcKey) — canonical Persona-style rank
+  //   1-5 for the NPC, computed from canonical context (trust
+  //   band + flags + interactions + act). Drives canonical-rank-
+  //   gated scenes (rank-3 first-trust-band crossing scene,
+  //   rank-5 confidant scene per socialLinkRanks.ts).
+  // - getInnerVoice() — canonical autonomous-mode inner voice for
+  //   the current beat (Disco-Elysium-style 7-axis skill voice).
+  //   Returns null if no canonical voice is active for the player's
+  //   profile this beat.
+  // ────────────────────────────────────────────────────────────────
+
+  getSocialLinkRank: protectedProcedure
+    .input(
+      z.object({
+        npcKey: npcKeySchema,
+        act: z.number().int().min(1).max(7).default(1),
+        narrativeFlags: z.array(z.string().min(1).max(256)).optional().default([]),
+        interactions: z.number().int().min(0).default(0),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const userId = ctx.user.id;
+      const npcKey = input.npcKey as NpcKey;
+      const profile = NPC_REGISTRY[npcKey];
+      const trustState = await resolveTrustState(userId, npcKey);
+      const publicFlagsSet = await readPublicFlags(userId);
+      const flagsSet = new Set<string>(input.narrativeFlags);
+      const trustBand = trustState.band;
+      const trustBandIndex = profile.trustBands.findIndex(
+        b => b.band === trustBand,
+      );
+      const { ladderFor, currentSocialLinkRank, rankDef } = await import(
+        "@shared/socialLinkRanks"
+      );
+      const ladder = ladderFor(npcKey);
+      if (!ladder) {
+        return {
+          npcKey,
+          currentRank: 0,
+          maxRank: 0,
+          activeRank: null,
+          ladderLabel: null,
+        };
+      }
+      const currentRank = currentSocialLinkRank(npcKey, {
+        currentRank: 0,
+        publicFlags: publicFlagsSet,
+        flags: flagsSet,
+        trustBand,
+        trustBandIndex: trustBandIndex >= 0 ? trustBandIndex : undefined,
+        bandOrdinalOf: (band) =>
+          profile.trustBands.findIndex(b => b.band === band),
+        interactions: input.interactions,
+        act: input.act,
+      });
+      const def = currentRank > 0 ? rankDef(npcKey, currentRank as 1 | 2 | 3 | 4 | 5) : undefined;
+      return {
+        npcKey,
+        currentRank,
+        maxRank: ladder.ranks.length,
+        ladderLabel: ladder.ladderLabel,
+        activeRank: def
+          ? {
+              rank: def.rank,
+              label: def.label,
+              loreBlurb: def.loreBlurb,
+              setsFlag: def.setsFlag,
+              unlocksThoughtId: def.unlocksThoughtId ?? null,
+            }
+          : null,
+      };
+    }),
+
+  getInnerVoice: protectedProcedure
+    .input(
+      z.object({
+        recentlySpoken: z.array(z.string().min(1).max(64)).optional().default([]),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const userId = ctx.user.id;
+      const db = await getDb();
+      let axes: Record<string, ReturnType<typeof magnitudeOfFn>>;
+      const { magnitudeOf: magnitudeOfFn } = await import("@shared/playerProfile");
+      if (db) {
+        const rows = await db
+          .select()
+          .from(playerProfileTable)
+          .where(eq(playerProfileTable.userId, userId))
+          .limit(1);
+        const row = rows[0];
+        axes = {
+          aggression: magnitudeOfFn(row?.aggression ?? 0),
+          mercy: magnitudeOfFn(row?.mercy ?? 0),
+          curiosity: magnitudeOfFn(row?.curiosity ?? 0),
+          conformity: magnitudeOfFn(row?.conformity ?? 0),
+          vigilance: magnitudeOfFn(row?.vigilance ?? 0),
+          vulnerability: magnitudeOfFn(row?.vulnerability ?? 0),
+          wit: magnitudeOfFn(row?.wit ?? 0),
+        };
+      } else {
+        const neutral = magnitudeOfFn(0);
+        axes = {
+          aggression: neutral, mercy: neutral, curiosity: neutral,
+          conformity: neutral, vigilance: neutral, vulnerability: neutral,
+          wit: neutral,
+        };
+      }
+      const { pickInnerVoice } = await import("@shared/innerVoiceSkills");
+      const voice = pickInnerVoice({
+        axes: axes as Parameters<typeof pickInnerVoice>[0]["axes"],
+        recentlySpoken: new Set(input.recentlySpoken) as Parameters<typeof pickInnerVoice>[0]["recentlySpoken"],
+      });
+      if (!voice) return { voice: null };
+      return {
+        voice: {
+          axis: voice.axis,
+          label: voice.label,
+          cadence: voice.cadence,
+          activeMagnitudes: voice.activeMagnitudes,
+          canonicalNote: voice.canonicalNote,
+        },
+      };
+    }),
 });
+
+// ────────────────────────────────────────────────────────────────
+// Server-side helper: callable from any router (Trade Empire,
+// DMC, fight engine, ship rooms, TCG) for canonical NPC reactions
+// without going through tRPC. Same logic as reactToEvent endpoint.
+// ────────────────────────────────────────────────────────────────
+
+export interface TryNpcReactionInput {
+  userId: number;
+  npcKey: NpcKey;
+  surface: DialogSurface;
+  targetId?: string;
+  act?: number;
+  narrativeFlags?: ReadonlyArray<string>;
+}
+
+export interface TryNpcReactionResult {
+  line: {
+    lineId: string;
+    npcKey: NpcKey;
+    text: string;
+    voId?: string;
+    trustDelta?: number;
+    choices?: ReadonlyArray<unknown>;
+    nextLineId?: string;
+    expressionChannel?: string;
+  };
+  specificityScore: number;
+  trust: TrustState;
+}
+
+/**
+ * Run the canonical NPC reaction pipeline server-side. Returns the
+ * selected line + canonical state, or null on silent-fail.
+ *
+ * Callers from other routers should swallow exceptions from this
+ * helper (the substrate is non-load-bearing for game-loop progression).
+ */
+export async function tryNpcReaction(
+  input: TryNpcReactionInput,
+): Promise<TryNpcReactionResult | null> {
+  const { userId, npcKey, surface } = input;
+  const targetId = input.targetId ?? "";
+  const act = input.act ?? 1;
+  const narrativeFlags = input.narrativeFlags ?? [];
+  const db = await getDb();
+
+  const trustState = await resolveTrustState(userId, npcKey);
+  const publicFlagsSet = await readPublicFlags(userId);
+  const flagsSet = new Set<string>(narrativeFlags);
+
+  let profileSnap: PlayerProfileSnapshot;
+  if (db) {
+    const profileRows = await db
+      .select()
+      .from(playerProfileTable)
+      .where(eq(playerProfileTable.userId, userId))
+      .limit(1);
+    const row = profileRows[0];
+    const axes: Record<PlayerAxis, ReturnType<typeof magnitudeOf>> = {
+      aggression: magnitudeOf(row?.aggression ?? 0),
+      mercy: magnitudeOf(row?.mercy ?? 0),
+      curiosity: magnitudeOf(row?.curiosity ?? 0),
+      conformity: magnitudeOf(row?.conformity ?? 0),
+      vigilance: magnitudeOf(row?.vigilance ?? 0),
+      vulnerability: magnitudeOf(row?.vulnerability ?? 0),
+      wit: magnitudeOf(row?.wit ?? 0),
+    };
+    profileSnap = { axes };
+  } else {
+    const neutral = magnitudeOf(0);
+    profileSnap = {
+      axes: {
+        aggression: neutral,
+        mercy: neutral,
+        curiosity: neutral,
+        conformity: neutral,
+        vigilance: neutral,
+        vulnerability: neutral,
+        wit: neutral,
+      },
+    };
+  }
+
+  const lineHistoryMap = new Map<string, number[]>();
+  if (db) {
+    const historyRows = await db
+      .select({ lineId: npcLineHistory.lineId, heardAt: npcLineHistory.heardAt })
+      .from(npcLineHistory)
+      .where(
+        and(eq(npcLineHistory.userId, userId), eq(npcLineHistory.npcKey, npcKey)),
+      );
+    for (const r of historyRows) {
+      const arr = lineHistoryMap.get(r.lineId) ?? [];
+      arr.push(r.heardAt.getTime());
+      lineHistoryMap.set(r.lineId, arr);
+    }
+  }
+
+  const bank = getBank(npcKey);
+  const result = selectNpcLine(bank, {
+    npcKey,
+    surface,
+    targetId,
+    act,
+    flags: flagsSet,
+    publicFlags: publicFlagsSet,
+    trustState,
+    playerProfile: profileSnap,
+    lineHistory: lineHistoryMap,
+  });
+
+  if (!result) return null;
+
+  if (db) {
+    await db.insert(npcLineHistory).values({
+      userId,
+      npcKey,
+      lineId: result.line.lineId,
+    });
+  }
+
+  let nextTrust: TrustState = trustState;
+  if (result.line.trustDelta) {
+    nextTrust = await applyTrustDelta(userId, npcKey, result.line.trustDelta);
+  }
+
+  if (result.line.setsPublicFlags?.length) {
+    await Promise.all(
+      result.line.setsPublicFlags.map(f => writePublicFlag(userId, f, npcKey)),
+    );
+  }
+
+  return {
+    line: {
+      lineId: result.line.lineId,
+      npcKey: result.line.npcKey,
+      text: result.line.text,
+      voId: result.line.voId,
+      trustDelta: result.line.trustDelta,
+      choices: result.line.choices,
+      nextLineId: result.line.nextLineId,
+      expressionChannel: result.line.expressionChannel,
+    },
+    specificityScore: result.specificityScore,
+    trust: nextTrust,
+  };
+}

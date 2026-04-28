@@ -20,6 +20,9 @@ import {
 } from "lucide-react";
 import { useGame, ROOM_DEFINITIONS, type RoomDef } from "@/contexts/GameContext";
 import { useSound } from "@/contexts/SoundContext";
+import { useNpcReactions } from "@/game/npcReactions";
+import { NpcExpressionRenderer } from "@/components/NpcExpressionRenderer";
+import type { NpcKey, NpcLine, ExpressionChannel } from "@shared/npcs/types";
 
 /* ─── ROOM ICON MAP ─── */
 const ROOM_ICONS: Record<string, React.ComponentType<any>> = {
@@ -351,10 +354,28 @@ function RoomNode({
 }
 
 /* ─── MAIN SHIP SCHEMATIC MAP ─── */
+/**
+ * Phase 3 finish — canonical room-surface NPC reactions.
+ * Each canonical-room-enter canonically asks the canonical
+ * priority-roster room-active NPCs (Hierophant chamber,
+ * Eidolon companion presence, Companion post-naming) for a
+ * canonical room-bound line. Selector silent-fails per room
+ * via canonical-bank gating.
+ */
+const ROOM_PILOT_NPCS: ReadonlyArray<NpcKey> = [
+  "wraith_calder",
+  "your_eidolon",
+  "dmc_clone_companion",
+  "adjudicator_locke",
+  "vex_solene",
+];
+
 export default function ShipSchematicMap() {
   const { state, enterRoom, canUnlockRoom, isRoomUnlocked, getRoomDef } = useGame();
   const [, navigate] = useLocation();
   const { playSFX, audioReady } = useSound();
+  const { reactToEvent } = useNpcReactions();
+  const [pendingExpression, setPendingExpression] = useState<NpcLine | null>(null);
 
   // Track newly unlocked rooms for glow animation + SFX
   const prevRoomsRef = useRef<Record<string, boolean>>({});
@@ -405,17 +426,50 @@ export default function ShipSchematicMap() {
     return groups;
   }, [state.rooms]);
 
+  // Phase 3 finish — fire canonical room-surface NPC reactions on
+  // room enter. Silent-fail per NPC via selector. The first NPC
+  // that returns a line is canonically rendered via the canonical
+  // NpcExpressionRenderer component so the line displays in its
+  // native expressionChannel (verbal / glyph / posture / sound /
+  // first_word / named_personality) per Phase 4 multilayered canon.
+  const fireRoomReactions = useCallback(async (roomId: string) => {
+    for (const npcKey of ROOM_PILOT_NPCS) {
+      try {
+        const line = await reactToEvent({
+          npcKey,
+          surface: "room",
+          targetId: roomId,
+        });
+        if (line) {
+          // Build a canonical-minimal NpcLine so the renderer can
+          // canonical-route per expressionChannel.
+          const minimalLine: NpcLine = {
+            lineId: line.lineId,
+            npcKey: line.npcKey as NpcKey,
+            text: line.text,
+            voId: line.voId,
+            expressionChannel: (line.expressionChannel as ExpressionChannel | undefined) ?? "verbal",
+          };
+          setPendingExpression(minimalLine);
+          return;
+        }
+      } catch {/* silent-fail — never block room navigation */}
+    }
+  }, [reactToEvent]);
+
   const handleTravel = useCallback((roomId: string) => {
     enterRoom(roomId);
+    void fireRoomReactions(roomId);
     navigate("/ark");
-  }, [enterRoom, navigate]);
+  }, [enterRoom, fireRoomReactions, navigate]);
 
   const handleEnter = useCallback((roomId: string) => {
     if (canUnlockRoom(roomId)) {
       enterRoom(roomId);
+      void fireRoomReactions(roomId);
       navigate("/ark");
     }
-  }, [canUnlockRoom, enterRoom, navigate]);
+  }, [canUnlockRoom, enterRoom, fireRoomReactions, navigate]);
 
   // Stats
   const totalDiscovered = Object.values(state.rooms).filter(r => r.unlocked).length;
@@ -591,6 +645,17 @@ export default function ShipSchematicMap() {
       </div>
 
       {/* No legend — the ship teaches you */}
+
+      {/* Phase 4 multilayered render — canonical NpcExpressionRenderer
+          surfaces room-surface NPC reactions via the canonical
+          expressionChannel router (verbal / glyph / posture / sound /
+          first_word / named_personality). */}
+      {pendingExpression && (
+        <NpcExpressionRenderer
+          line={pendingExpression}
+          onComplete={() => setPendingExpression(null)}
+        />
+      )}
     </div>
   );
 }
