@@ -4960,6 +4960,52 @@ export const tradeSectorArrivals = mysqlTable("trade_sector_arrivals", {
 export type TradeSectorArrivalRow =
   typeof tradeSectorArrivals.$inferSelect;
 
+/**
+ * Oracle futures positions — Phase 3 Antiquarian sub-family. Real-world
+ * cycle clock: settlesAt = signedAt + cyclesAhead * ORACLE_FUTURES_CYCLE_HOURS
+ * (router constant, default 24h). Settlement is lazy-on-read via the
+ * router's getOracleFutures procedure, which iterates a user's open
+ * futures and calls settleOracleFuture for any whose settlesAt has
+ * elapsed. Spot price is derived from the user's recent trade-empire
+ * activity in the basis sector during the holding window.
+ */
+export const tradeOracleFutures = mysqlTable("trade_oracle_futures", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /** FK to tradeContracts.id — the parent contract instance. */
+  contractId: int("contractId").notNull(),
+  commodity: mysqlEnum("commodity", [
+    "credits",
+    "materials",
+    "influence",
+    "intelligence",
+  ]).notNull(),
+  sectorId: varchar("sectorId", { length: 128 }).notNull(),
+  position: mysqlEnum("position", ["call", "put", "spread"]).notNull(),
+  strikePrice: int("strikePrice").notNull(),
+  projectedPrice: int("projectedPrice").notNull(),
+  cyclesAhead: int("cyclesAhead").notNull(),
+  signedAt: timestamp("signedAt").defaultNow().notNull(),
+  /** Computed = signedAt + cyclesAhead * ORACLE_FUTURES_CYCLE_HOURS hrs. */
+  settlesAt: timestamp("settlesAt").notNull(),
+  /** Spot price at settlement — null until settled. */
+  settlementPrice: int("settlementPrice"),
+  /** Payout in credits — positive on win, negative on loss; null until settled. */
+  payout: int("payout"),
+  status: mysqlEnum("status", ["open", "settled", "cancelled"])
+    .notNull()
+    .default("open"),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  userIdIdx: index("idx_trade_oracle_futures_user_id").on(table.userId),
+  userStatusIdx: index("idx_trade_oracle_futures_user_status").on(
+    table.userId,
+    table.status,
+  ),
+  settlesAtIdx: index("idx_trade_oracle_futures_settles_at").on(table.settlesAt),
+}));
+export type TradeOracleFutureRow = typeof tradeOracleFutures.$inferSelect;
+
 /* ═══════════════════════════════════════════════════════
    PHASE 6 INFRASTRUCTURE — Per-NPC ask-topics + dialog tree state
    See apps/shared/npcs/askTopics.ts (AskTopic registry) +

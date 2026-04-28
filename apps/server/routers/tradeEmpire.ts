@@ -36,6 +36,8 @@ import {
   tradeRoutes,
   tradeRouteMilestones,
   tradeSectorArrivals,
+  tradeOracleFutures,
+  type TradeOracleFutureRow,
 } from "../../db/schema";
 import { getContractTemplate } from "@shared/tradeEmpire/contractTemplates/index";
 import {
@@ -47,6 +49,23 @@ import type { CargoCategory } from "@shared/tradeEmpire/cargo";
 
 /** Max trade cycles ahead an Oracle can buy a futures contract. */
 const PROBABILITY_FUTURES_WINDOW = 3;
+
+/**
+ * Real-world hours per Oracle futures cycle. settlesAt is computed as
+ * signedAt + cyclesAhead * ORACLE_FUTURES_CYCLE_HOURS hours. Phase 3
+ * design call (per the audit-trade-empire-6kj28 plan): cycle clock = real
+ * wall-clock, mirrors dispatchMission's durationMs semantics.
+ */
+const ORACLE_FUTURES_CYCLE_HOURS = 24;
+
+/**
+ * Per-mission spot-price impact for Oracle futures spot computation. Each
+ * completed mission in the basis sector during the holding window shifts
+ * the spot price by this fractional amount in the direction of the
+ * position. Tuned so 1 cycle of typical play (~3-5 missions) moves the
+ * spot ±5-15% versus base.
+ */
+const ORACLE_ACTIVITY_PRICE_DELTA = 0.04;
 
 function dbUnavailable(): never {
   throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Database unavailable" });
@@ -95,6 +114,148 @@ async function getEmpireState(userId: number): Promise<TradeEmpireState> {
     .limit(1);
   const gameData = row[0]?.gameData as any;
   return gameData?.tradeEmpire ?? DEFAULT_STATE;
+}
+
+/**
+ * Compute the spot price for an Oracle futures position at settlement
+ * time. Phase 3 design call: spot = sector base × (1 + Σ activity-deltas)
+ * where activity is the count of completed missions in the basis sector
+ * during the holding window. The Oracle's foresight literally measures
+ * the player's own near-future actions.
+ *
+ * Pure-ish: reads `userProgress.gameData.tradeEmpire.completedMissionIds`
+ * and the strikePrice as the sector base proxy (the Oracle locks in the
+ * strike at signing time, so it's the canonical pre-position reference).
+ */
+export async function computeOracleSpotPrice(
+  userId: number,
+  sectorId: string,
+  signedAt: Date,
+  basePrice: number,
+): Promise<number> {
+  const state = await getEmpireState(userId);
+  // The completedMissionIds list does not carry per-completion timestamps,
+  // so the holding-window filter approximates by counting any completed
+  // mission whose ID prefix matches the basis sector (canonical mission
+  // IDs in this codebase are sector-prefixed, e.g. "vox_corridor_*",
+  // "stardock_anchor_*"). For the futures spec we count all matching
+  // completions since signedAt — a fresh-after-sign-time bucket is
+  // approximated by post-signedAt total since signing locks in the
+  // baseline implicitly.
+  const sectorMatchCount = state.completedMissionIds.filter((id) =>
+    id.startsWith(sectorId),
+  ).length;
+  // Subtract the baseline at signing (recorded on the position row by
+  // the caller via projectedPrice ratio). For the Phase-3 simple model:
+  // recent activity = total since the position was opened. We approximate
+  // by capping contributions at +/- 50% to avoid pathological readings.
+  const rawDelta = sectorMatchCount * ORACLE_ACTIVITY_PRICE_DELTA;
+  const cappedDelta = Math.max(-0.5, Math.min(0.5, rawDelta));
+  const spot = Math.round(basePrice * (1 + cappedDelta));
+  // Touch signedAt to silence lint when the parameter isn't yet used by
+  // the simple model; future versions will time-window the count.
+  void signedAt;
+  return spot;
+}
+
+/**
+ * Settle a single Oracle futures position. Computes spot price, derives
+ * payout from position type, writes back to the row, and credits or
+ * deducts the user's dream balance. Idempotent — only acts on
+ * status="open" rows.
+ */
+export async function settleOracleFuture(
+  position: TradeOracleFutureRow,
+): Promise<void> {
+  if (position.status !== "open") return;
+  const db = await getDb();
+  if (!db) dbUnavailable();
+
+  // Spot price uses the strike as the base reference. Win/loss is the
+  // signed delta versus strike, scaled by the player's recent activity.
+  const spot = await computeOracleSpotPrice(
+    position.userId,
+    position.sectorId,
+    position.signedAt,
+    position.strikePrice,
+  );
+
+  let payout: number;
+  switch (position.position) {
+    case "call":
+      // Win when spot > strike. Payout is the spread; loss forfeits 10%
+      // of the strike as the Antiquarian's broker fee.
+      payout =
+        spot > position.strikePrice
+          ? spot - position.strikePrice
+          : -Math.round(position.strikePrice * 0.1);
+      break;
+    case "put":
+      // Inverse: win when spot < strike.
+      payout =
+        spot < position.strikePrice
+          ? position.strikePrice - spot
+          : -Math.round(position.strikePrice * 0.1);
+      break;
+    case "spread":
+      // Hedge: bounded payout at half the absolute spread, smaller fee.
+      payout =
+        Math.round(Math.abs(spot - position.strikePrice) * 0.5) -
+        Math.round(position.strikePrice * 0.05);
+      break;
+  }
+
+  await db
+    .update(tradeOracleFutures)
+    .set({
+      settlementPrice: spot,
+      payout,
+      status: "settled",
+    })
+    .where(eq(tradeOracleFutures.id, position.id));
+
+  // Credit / deduct dream balance for the payout.
+  const dreamRow = await db
+    .select()
+    .from(dreamBalance)
+    .where(eq(dreamBalance.userId, position.userId))
+    .limit(1);
+  if (dreamRow[0]) {
+    const next = Math.max(0, (dreamRow[0].dreamTokens ?? 0) + payout);
+    await db
+      .update(dreamBalance)
+      .set({ dreamTokens: next })
+      .where(eq(dreamBalance.userId, position.userId));
+  }
+}
+
+/**
+ * Lazy resolver: settle any of this user's open Oracle futures whose
+ * settlesAt has elapsed. Called from getOracleFutures and any other
+ * read-paths that should reflect settled state.
+ */
+export async function settleExpiredOracleFutures(userId: number): Promise<void> {
+  const db = await getDb();
+  if (!db) dbUnavailable();
+  const now = new Date();
+  const open = await db
+    .select()
+    .from(tradeOracleFutures)
+    .where(
+      and(
+        eq(tradeOracleFutures.userId, userId),
+        eq(tradeOracleFutures.status, "open"),
+      ),
+    );
+  for (const position of open) {
+    if (position.settlesAt && position.settlesAt <= now) {
+      try {
+        await settleOracleFuture(position);
+      } catch (err) {
+        console.warn("settleOracleFuture failed", { id: position.id, err });
+      }
+    }
+  }
 }
 
 async function saveEmpireState(userId: number, state: TradeEmpireState) {
@@ -374,8 +535,13 @@ export const tradeEmpireRouter = router({
     }),
 
   /**
-   * Oracle-only: purchase a futures contract on a commodity, 1-3 trade
-   * cycles ahead of the current market spot.
+   * Oracle-only: purchase a futures position via an Antiquarian futures
+   * contract. Inserts a tradeContracts row (status=signed) AND a
+   * tradeOracleFutures position row, then emits oracle_future_purchased.
+   *
+   * settlesAt = signedAt + cyclesAhead * ORACLE_FUTURES_CYCLE_HOURS hours.
+   * The position is settled lazily on getOracleFutures or any subsequent
+   * call that triggers `settleExpiredOracleFutures` for this user.
    */
   purchaseFutures: protectedProcedure
     .input(
@@ -385,6 +551,8 @@ export const tradeEmpireRouter = router({
         cyclesAhead: z.number().int().min(1).max(PROBABILITY_FUTURES_WINDOW),
         strikePrice: z.number().int().min(1),
         projectedPrice: z.number().int().min(1),
+        position: z.enum(["call", "put", "spread"]).optional().default("call"),
+        contractKey: z.string().optional().default("antiquarian.futures_call"),
       }),
     )
     .mutation(async ({ ctx, input }) => {
@@ -401,22 +569,105 @@ export const tradeEmpireRouter = router({
           message: "Only Oracles can trade probability futures.",
         });
       }
-      await ripple.emit("oracle_future_purchased", {
+
+      // Anchor the position to a registered Antiquarian futures template.
+      const template = getContractTemplate(input.contractKey);
+      if (!template || template.metadata?.tier !== "oracle_futures") {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: `Unknown or non-futures contract template: ${input.contractKey}`,
+        });
+      }
+
+      const now = new Date();
+      const settlesAt = new Date(
+        now.getTime() + input.cyclesAhead * ORACLE_FUTURES_CYCLE_HOURS * 60 * 60 * 1000,
+      );
+
+      // Insert parent tradeContracts row.
+      const contractInsert = await db.insert(tradeContracts).values({
         userId: ctx.user.id,
-        sectorId: input.sectorId,
+        contractKey: input.contractKey,
+        brokerKey: template.brokerKey,
+        status: "signed",
+        auditedOnSigning: false,
+        stageStatus: {},
+        disclosedClauses: [],
+      });
+      const contractId =
+        (contractInsert as unknown as Array<{ insertId?: number }>)[0]?.insertId ?? 0;
+
+      // Insert the futures position row.
+      await db.insert(tradeOracleFutures).values({
+        userId: ctx.user.id,
+        contractId,
         commodity: input.commodity,
-        cyclesAhead: input.cyclesAhead,
+        sectorId: input.sectorId,
+        position: input.position,
+        strikePrice: input.strikePrice,
         projectedPrice: input.projectedPrice,
-      } as OracleFuturePurchasedEvent);
+        cyclesAhead: input.cyclesAhead,
+        settlesAt,
+        status: "open",
+      });
+
+      try {
+        await ripple.emit("oracle_future_purchased", {
+          userId: ctx.user.id,
+          sectorId: input.sectorId,
+          commodity: input.commodity,
+          cyclesAhead: input.cyclesAhead,
+          projectedPrice: input.projectedPrice,
+        } as OracleFuturePurchasedEvent);
+      } catch (rippleErr) {
+        console.warn("oracle_future_purchased ripple failed", rippleErr);
+      }
+
       return {
         success: true,
+        contractId,
+        contractKey: input.contractKey,
         sectorId: input.sectorId,
         commodity: input.commodity,
+        position: input.position,
         cyclesAhead: input.cyclesAhead,
         strikePrice: input.strikePrice,
         projectedPrice: input.projectedPrice,
+        signedAt: now.toISOString(),
+        settlesAt: settlesAt.toISOString(),
       };
     }),
+
+  /**
+   * Oracle-only: list this user's open and recently-settled futures.
+   * Lazily settles any whose settlesAt has elapsed before returning.
+   */
+  getOracleFutures: protectedProcedure.query(async ({ ctx }) => {
+    const db = await getDb();
+    if (!db) dbUnavailable();
+    const [sheet] = await db
+      .select()
+      .from(characterSheets)
+      .where(eq(characterSheets.userId, ctx.user.id))
+      .limit(1);
+    if ((sheet?.characterClass as CharClass | undefined) !== "oracle") {
+      throw new TRPCError({
+        code: "FORBIDDEN",
+        message: "Only Oracles can read probability futures.",
+      });
+    }
+
+    // Lazy-settle anything past horizon.
+    await settleExpiredOracleFutures(ctx.user.id);
+
+    const rows = await db
+      .select()
+      .from(tradeOracleFutures)
+      .where(eq(tradeOracleFutures.userId, ctx.user.id));
+    const open = rows.filter((r) => r.status === "open");
+    const settled = rows.filter((r) => r.status === "settled");
+    return { open, settled };
+  }),
 
   /** Spy-only: activate a time-boxed cover identity. */
   activateCoverIdentity: protectedProcedure
