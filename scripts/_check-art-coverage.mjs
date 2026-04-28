@@ -22,6 +22,10 @@ import {
   DISCHORDIA_BASE_SET_ART,
   DISCHORDIA_BASE_SET_TIER_GRIDS,
 } from "../apps/shared/expansionArt/dischordiaBaseSet.ts";
+import {
+  CINEMATICS,
+  VFX_CLIPS,
+} from "../apps/shared/expansionArt/cinematicsManifest.ts";
 
 const BUCKET = "dgrsart";
 const REGION = "us-east-2";
@@ -55,6 +59,16 @@ for (const e of DISCHORDIA_BASE_SET_ART) {
 }
 for (const e of DISCHORDIA_BASE_SET_TIER_GRIDS) {
   jobs.push({ label: "base-set-grids", key: `${KEY_PREFIX}${e.relPath}`, id: e.assetId });
+}
+for (const c of CINEMATICS) {
+  jobs.push({ label: "cinematics-mp4", key: `${KEY_PREFIX}${c.videoRelPath}`, id: c.id });
+  for (const kf of c.keyframeRelPaths) {
+    jobs.push({ label: "cinematics-keyframes", key: `${KEY_PREFIX}${kf}`, id: kf });
+  }
+}
+for (const v of VFX_CLIPS) {
+  jobs.push({ label: "vfx-mp4", key: `${KEY_PREFIX}${v.videoRelPath}`, id: v.id });
+  jobs.push({ label: "vfx-keyframes", key: `${KEY_PREFIX}${v.keyframeRelPath}`, id: v.id });
 }
 
 console.log(`Planned ${jobs.length} HEAD checks.`);
