@@ -192,7 +192,7 @@ export const LOGIN_MEME_FIRST_EVER_SHOTS: readonly KlingOmniShot[] = [
     klingMotion:
       "Hand reaches down, comes up with the vinyl. He places it with deliberate care. The needle drops in slow motion. The monitors behind him SNAP in unison to the album cover on the needle-drop beat.",
     sfxNotes:
-      "Record sleeve slip; needle-drop crackle; one isolated snare hit at the moment the needle touches groove — then silence held. Absolutely no music — the record is silent. The silence is the SFX.",
+      "Record sleeve slip; needle-drop crackle; one isolated snare hit at the moment the needle touches groove — then silence held. The record plays no sound; it is utterly silent. The silence itself is the SFX.",
     dialog:
       "\"So we're going to do this quietly. When I can… I will send you one song at a time. Every track is a clue. Every lyric is a memory. Every silence is a warning.\"",
     endKeyframeMatchesNextStart: true,
@@ -248,7 +248,7 @@ export const LOGIN_MEME_FIRST_EVER_SHOTS: readonly KlingOmniShot[] = [
     klingMotion:
       "Hold on The Enigma. Lower-third lingers, then fades on the whisper. Final 3 seconds: she is utterly still, breathing in. Last frame: pixel-identical match to T01 slideshow's frame[0].",
     sfxNotes:
-      "Silence held for 12 seconds. The whispered final line is the only audio. NO music in the prompt. The real T01 audio is layered by the client at the moment this shot ends.",
+      "Silence held for 12 seconds. The whispered final line is the only audio. The Kling prompt itself contains no musical bed of any kind — the real T01 audio is layered by the client at the moment this shot ends.",
     dialog:
       "[whispered, voice-only — The Meme is no longer on screen] \"They hate that.\"",
     endKeyframeMatchesNextStart: true,
