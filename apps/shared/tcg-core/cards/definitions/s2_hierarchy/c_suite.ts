@@ -21,15 +21,9 @@
  * Trigger.ts + Targeting.ts).
  */
 import type { CardDefinition } from "../../../index";
-import { hierarchyOfDamnedArtUrl } from "../../../../expansionArt/hierarchyOfDamned";
+import { art, HIERARCHY_FACTION as F } from "./_art";
 
 const RULES = "1.0.0";
-
-function art(assetId: string): string {
-  const url = hierarchyOfDamnedArtUrl(assetId);
-  if (!url) throw new Error(`hierarchyOfDamnedArtUrl missing for ${assetId}`);
-  return url;
-}
 
 /* ═══════════════════════════════════════════════════════
    CEO — Mol'Garath the Unmaker  (general · 0 cost · 4/25)
@@ -41,7 +35,7 @@ function art(assetId: string): string {
 export const ceo_mol_garath: CardDefinition = {
   id: "s2_hierarchy_ceo_mol_garath" as CardDefinition["id"],
   name: "Mol'Garath the Unmaker",
-  faction: "hierarchy_of_damned",
+  faction: F,
   cardType: "general",
   rarity: "legendary",
   cost: 0,
@@ -54,7 +48,7 @@ export const ceo_mol_garath: CardDefinition = {
       id: "molgarath_unmake_growth" as CardDefinition["abilities"][number]["id"],
       trigger: {
         kind: "on_any_unit_dies",
-        filter: { faction: ["hierarchy_of_damned"] },
+        filter: { faction: [F] },
       },
       effect: {
         op: "buff",
@@ -82,7 +76,7 @@ export const ceo_mol_garath: CardDefinition = {
 export const cfo_xeth_raal: CardDefinition = {
   id: "s2_hierarchy_cfo_xeth_raal" as CardDefinition["id"],
   name: "Xeth'Raal the Debt Collector",
-  faction: "hierarchy_of_damned",
+  faction: F,
   cardType: "unit",
   rarity: "legendary",
   cost: 8,
@@ -118,7 +112,7 @@ export const cfo_xeth_raal: CardDefinition = {
 export const coo_ririahlia: CardDefinition = {
   id: "s2_hierarchy_coo_ririahlia" as CardDefinition["id"],
   name: "Riri'Ahlia, Hierarchy COO",
-  faction: "hierarchy_of_damned",
+  faction: F,
   cardType: "unit",
   rarity: "legendary",
   cost: 8,
@@ -132,7 +126,7 @@ export const coo_ririahlia: CardDefinition = {
         op: "foreach",
         over: {
           kind: "all",
-          filter: { controller: "self", faction: ["hierarchy_of_damned"], except: "self" },
+          filter: { controller: "self", faction: [F], except: "self" },
         },
         do: {
           op: "grant_keyword",
@@ -159,7 +153,7 @@ export const coo_ririahlia: CardDefinition = {
 export const cto_skarn_iterate: CardDefinition = {
   id: "s2_hierarchy_cto_skarn_iterate" as CardDefinition["id"],
   name: "Skarn-Iterate, CTO",
-  faction: "hierarchy_of_damned",
+  faction: F,
   cardType: "unit",
   rarity: "legendary",
   cost: 8,
@@ -192,7 +186,7 @@ export const cto_skarn_iterate: CardDefinition = {
 export const cmo_vex_drelm: CardDefinition = {
   id: "s2_hierarchy_cmo_vex_drelm" as CardDefinition["id"],
   name: "Vex'Drelm, CMO",
-  faction: "hierarchy_of_damned",
+  faction: F,
   cardType: "unit",
   rarity: "legendary",
   cost: 8,
@@ -231,7 +225,7 @@ export const cmo_vex_drelm: CardDefinition = {
 export const chro_mor_vethic: CardDefinition = {
   id: "s2_hierarchy_chro_mor_vethic" as CardDefinition["id"],
   name: "Mor-Vethic, CHRO",
-  faction: "hierarchy_of_damned",
+  faction: F,
   cardType: "unit",
   rarity: "legendary",
   cost: 8,
@@ -242,7 +236,7 @@ export const chro_mor_vethic: CardDefinition = {
       id: "mor_vethic_replacement_hire" as CardDefinition["abilities"][number]["id"],
       trigger: {
         kind: "on_any_unit_dies",
-        filter: { faction: ["hierarchy_of_damned"] },
+        filter: { faction: [F] },
       },
       effect: {
         op: "draw",
@@ -269,7 +263,7 @@ export const chro_mor_vethic: CardDefinition = {
 export const ciso_iglarath: CardDefinition = {
   id: "s2_hierarchy_ciso_iglarath" as CardDefinition["id"],
   name: "Iglarath, CISO",
-  faction: "hierarchy_of_damned",
+  faction: F,
   cardType: "unit",
   rarity: "legendary",
   cost: 8,
@@ -283,7 +277,7 @@ export const ciso_iglarath: CardDefinition = {
         op: "foreach",
         over: {
           kind: "all",
-          filter: { controller: "self", faction: ["hierarchy_of_damned"], except: "self" },
+          filter: { controller: "self", faction: [F], except: "self" },
         },
         do: {
           op: "grant_keyword",

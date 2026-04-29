@@ -9,16 +9,9 @@
  * Faction: hierarchy_of_damned. Art: hierarchyOfDamnedArtUrl().
  */
 import type { CardDefinition } from "../../../index";
-import { hierarchyOfDamnedArtUrl } from "../../../../expansionArt/hierarchyOfDamned";
+import { art, HIERARCHY_FACTION as F } from "./_art";
 
 const RULES = "1.0.0";
-const F = "hierarchy_of_damned" as const;
-
-function art(id: string): string {
-  const url = hierarchyOfDamnedArtUrl(id);
-  if (!url) throw new Error(`hierarchyOfDamnedArtUrl missing for ${id}`);
-  return url;
-}
 
 /* Drask Vornal — Conqueror VP. Rush + on-deploy buff. */
 export const vp_drask_vornal: CardDefinition = {

@@ -7,16 +7,9 @@
  * per-slug overrides if you need them sticky).
  */
 import type { CardDefinition } from "../../../index";
-import { hierarchyOfDamnedArtUrl } from "../../../../expansionArt/hierarchyOfDamned";
+import { art, HIERARCHY_FACTION as F } from "./_art";
 
 const RULES = "1.0.0";
-const F = "hierarchy_of_damned" as const;
-
-function art(id: string): string {
-  const url = hierarchyOfDamnedArtUrl(id);
-  if (!url) throw new Error(`hierarchyOfDamnedArtUrl missing for ${id}`);
-  return url;
-}
 
 export const dir_bottom_line_decimator: CardDefinition = {
   id: "s2_hierarchy_dir_bottom_line_decimator" as CardDefinition["id"],
@@ -29,7 +22,7 @@ export const dir_bottom_line_decimator: CardDefinition = {
   keywords: ["blast"],
   abilities: [
     {
-      // AUTO-DRAFT — slug-derived ability template
+      // AUTO-DRAFT
       id: "bottom_line_decimator_signature" as CardDefinition["abilities"][number]["id"],
       trigger: { kind: "on_deploy" },
       effect: {
@@ -57,7 +50,7 @@ export const dir_compliance_inquisitor: CardDefinition = {
   keywords: ["dispel"],
   abilities: [
     {
-      // AUTO-DRAFT — slug-derived ability template
+      // AUTO-DRAFT
       id: "compliance_inquisitor_signature" as CardDefinition["abilities"][number]["id"],
       trigger: { kind: "on_deploy" },
       effect: { op: "silence", to: { kind: "trigger_source" } },
@@ -81,7 +74,7 @@ export const dir_cross_functional_predator: CardDefinition = {
   keywords: ["drain"],
   abilities: [
     {
-      // AUTO-DRAFT — slug-derived ability template
+      // AUTO-DRAFT
       id: "cross_functional_predator_signature" as CardDefinition["abilities"][number]["id"],
       trigger: { kind: "on_damage_dealt", by: "self" },
       effect: { op: "heal", amount: { kind: "const", value: 1 }, to: { kind: "self" } },
@@ -139,7 +132,7 @@ export const dir_metrics_oracle: CardDefinition = {
   keywords: ["ranged"],
   abilities: [
     {
-      // AUTO-DRAFT — slug-derived ability template
+      // AUTO-DRAFT
       id: "metrics_oracle_signature" as CardDefinition["abilities"][number]["id"],
       trigger: { kind: "on_deploy" },
       effect: { op: "draw", amount: { kind: "const", value: 1 }, who: "self" },
@@ -180,7 +173,7 @@ export const dir_pivot_demon: CardDefinition = {
   keywords: ["fury"],
   abilities: [
     {
-      // AUTO-DRAFT — slug-derived ability template
+      // AUTO-DRAFT
       id: "pivot_demon_signature" as CardDefinition["abilities"][number]["id"],
       trigger: { kind: "on_turn_end", owner: "self" },
       effect: {
@@ -209,7 +202,7 @@ export const dir_q4_ritualist: CardDefinition = {
   keywords: [],
   abilities: [
     {
-      // AUTO-DRAFT — slug-derived ability template
+      // AUTO-DRAFT
       id: "q4_ritualist_signature" as CardDefinition["abilities"][number]["id"],
       trigger: { kind: "on_turn_end", owner: "self" },
       effect: {
@@ -238,9 +231,9 @@ export const dir_rif_custodian: CardDefinition = {
   keywords: [],
   abilities: [
     {
-      // AUTO-DRAFT — slug-derived ability template (Reduction-in-Force flavor: trigger when an ally dies, draw a card.)
+      // AUTO-DRAFT
       id: "rif_custodian_signature" as CardDefinition["abilities"][number]["id"],
-      trigger: { kind: "on_any_unit_dies", filter: { faction: ["hierarchy_of_damned"] } },
+      trigger: { kind: "on_any_unit_dies", filter: { faction: [F] } },
       effect: { op: "draw", amount: { kind: "const", value: 1 }, who: "self" },
     },
   ],
@@ -262,7 +255,7 @@ export const dir_synergy_vampire: CardDefinition = {
   keywords: ["drain"],
   abilities: [
     {
-      // AUTO-DRAFT — slug-derived ability template
+      // AUTO-DRAFT
       id: "synergy_vampire_signature" as CardDefinition["abilities"][number]["id"],
       trigger: { kind: "on_damage_dealt", by: "self" },
       effect: { op: "heal", amount: { kind: "const", value: 1 }, to: { kind: "self" } },
