@@ -27,6 +27,7 @@ import {
   type CompositedLayer,
 } from "@/game/paperDoll/compositePaperDoll";
 import { parseSuitPieceArtId, suitArtUrl } from "@/game/paperDoll/suitArt";
+import { bodyArtUrl, type BodySpecies } from "@/game/paperDoll/bodyArt";
 import ResponsiveImage from "@/components/ResponsiveImage";
 import type { SuitEquipSlot } from "@shared/suitEquipSlots";
 
@@ -36,6 +37,16 @@ interface Props {
   elementTint?: string;
   /** Canvas-width override (base is 1024 to match the art spec). */
   width?: number;
+  /** Species silhouette PNG to render at the bottom of the z-stack (under
+   *  every gear layer, above the aura). Omit to skip the body layer — the
+   *  Suit Gallery passes nothing because it previews catalog sets, not
+   *  characters. */
+  bodySpecies?: BodySpecies;
+  /** Show coloured slot rectangles when a piece's PNG hasn't shipped yet.
+   *  ON in the Suit Gallery (so art QA can see what's missing); OFF for
+   *  player-facing surfaces — the chronicle card should never leak slot
+   *  labels like "weapon-primary" into the visual. */
+  showPlaceholders?: boolean;
 }
 
 /** Canvas dimensions baked in §G.8. */
@@ -71,7 +82,13 @@ const SLOT_RECTS: Record<SuitEquipSlot, {
   "weapon-primary": { x: 660, y: 820, w: 120, h: 300, fill: "#c79eff" },
 };
 
-export default function PaperDollBG3({ loadout, elementTint, width = 512 }: Props) {
+export default function PaperDollBG3({
+  loadout,
+  elementTint,
+  width = 512,
+  bodySpecies,
+  showPlaceholders = false,
+}: Props) {
   if (!hasRequiredBaseLayers(loadout)) {
     return (
       <div className="font-mono text-xs text-muted-foreground/60 p-4 rounded border border-red-500/40">
@@ -96,13 +113,56 @@ export default function PaperDollBG3({ loadout, elementTint, width = 512 }: Prop
         background: "transparent",
       }}
     >
+      {/* Bottom-most layer: per-species silhouette so the gear sits on a
+          body instead of floating in space. Sits below every gear layer
+          (z=2) but above the aura (z=0) so the aura still glows from
+          behind the figure. */}
+      {bodySpecies ? <BodyLayer species={bodySpecies} /> : null}
       {layers.map((layer) => (
         <PieceLayer
           key={`${layer.slot}:${layer.layerZ}`}
           layer={layer}
           elementTint={elementTint}
+          showPlaceholder={showPlaceholders}
         />
       ))}
+    </div>
+  );
+}
+
+interface BodyLayerProps {
+  species: BodySpecies;
+}
+
+/** Per-species body silhouette. Renders the shipped PNG when present;
+ *  on 404 it renders nothing — the gear layers above will still draw,
+ *  just without a body underneath. We intentionally do not surface a
+ *  coloured rectangle here: a labelled "body" placeholder on a
+ *  player-facing card looks worse than no body at all. */
+function BodyLayer({ species }: BodyLayerProps) {
+  const [failed, setFailed] = useState(false);
+  if (failed) return null;
+  return (
+    <div
+      style={{
+        position: "absolute",
+        inset: 0,
+        zIndex: 2,
+        pointerEvents: "none",
+      }}
+    >
+      <ResponsiveImage
+        src={bodyArtUrl(species)}
+        alt={`${species} body silhouette`}
+        onError={() => setFailed(true)}
+        style={{
+          position: "absolute",
+          inset: 0,
+          width: "100%",
+          height: "100%",
+          objectFit: "contain",
+        }}
+      />
     </div>
   );
 }
@@ -110,18 +170,25 @@ export default function PaperDollBG3({ loadout, elementTint, width = 512 }: Prop
 interface PieceLayerProps {
   layer: CompositedLayer;
   elementTint?: string;
+  /** When true, fall through to a coloured placeholder rectangle if the
+   *  art doesn't load — useful in the Suit Gallery for QA. When false
+   *  (default for player-facing surfaces), render nothing so missing
+   *  pieces simply don't appear instead of leaking slot labels. */
+  showPlaceholder: boolean;
 }
 
 /**
  * One composited slot. Tries the suit PNG first; on 404 or
- * non-suit artIds falls back to the slot-specific placeholder rect.
+ * non-suit artIds either falls back to a slot-specific placeholder
+ * rectangle (gallery / QA) or renders nothing (player surfaces).
  */
-function PieceLayer({ layer, elementTint }: PieceLayerProps) {
+function PieceLayer({ layer, elementTint, showPlaceholder }: PieceLayerProps) {
   const parsed = parseSuitPieceArtId(layer.artId);
   const [imgFailed, setImgFailed] = useState(false);
   const shouldRenderImage = parsed !== null && !imgFailed;
 
   if (!shouldRenderImage) {
+    if (!showPlaceholder) return null;
     return (
       <PlaceholderRect
         slot={layer.slot}
@@ -183,6 +250,9 @@ function PlaceholderRect({ slot, layerZ, tint }: PlaceholderRectProps) {
   const fill = tint ?? rect.fill;
   // Position in the 1024×1536 grid as percentages so the
   // placeholder scales with the canvas container.
+  // Coloured rectangle only — slot labels are kept on the data attribute
+  // for QA tooling, not rendered as text. A "weapon-primary" caption on
+  // the chronicle card is worse than the missing PNG it stands in for.
   return (
     <div
       data-slot={slot}
@@ -196,17 +266,9 @@ function PlaceholderRect({ slot, layerZ, tint }: PlaceholderRectProps) {
         border: "1px solid rgba(0,0,0,0.4)",
         opacity: 0.9,
         zIndex: layerZ,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        fontFamily: "monospace",
-        fontSize: 12,
-        color: "rgba(255,255,255,0.7)",
         pointerEvents: "none",
       }}
-    >
-      {slot}
-    </div>
+    />
   );
 }
 

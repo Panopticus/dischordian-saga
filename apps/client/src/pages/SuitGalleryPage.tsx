@@ -138,7 +138,12 @@ export default function SuitGalleryPage() {
             className="rounded-lg p-4 border border-border/30 w-full max-w-md"
             style={{ background: "radial-gradient(ellipse at center, #0f0f1a 0%, #000 80%)" }}
           >
-            <PaperDollBG3 loadout={loadout} elementTint={tint} width={448} />
+            <PaperDollBG3
+              loadout={loadout}
+              elementTint={tint}
+              width={448}
+              showPlaceholders
+            />
           </div>
           <div className="mt-4 w-full max-w-md void-surface p-4">
             <p className="font-display text-sm font-bold tracking-wider mb-1">

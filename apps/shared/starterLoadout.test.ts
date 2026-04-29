@@ -55,27 +55,47 @@ describe("resolveStarterLoadout", () => {
     }
     expect(count).toBe(320);
 
-    // Masks vary by (foundation, species) — 2 × 4 = 8 distinct.
-    expect(masks.size).toBe(8);
+    // Masks vary by (class, species) — 5 × 4 = 20 distinct. Foundation
+    // is intentionally not encoded in the mask id (no per-foundation
+    // mask art pipeline today; the renderer routes via class-cut).
+    expect(masks.size).toBe(20);
     // Suits vary by (class, element) — 5 × 8 = 40 distinct.
     expect(suits.size).toBe(40);
   });
 
-  it("bakes foundation into the mask sculpt name", () => {
-    const humanityMask = resolveStarterLoadout({
+  it("bakes the class cut into the mask id so it shares an identity with the suit", () => {
+    const oracle = resolveStarterLoadout({
+      species: "demagi",
+      characterClass: "oracle",
+      element: "fire",
+      foundation: "humanity",
+    });
+    const soldier = resolveStarterLoadout({
+      species: "demagi",
+      characterClass: "soldier",
+      element: "fire",
+      foundation: "humanity",
+    });
+    expect(oracle.baseMaskId).toContain("long-coat-over-cuirass");
+    expect(oracle.baseSuitId).toContain("long-coat-over-cuirass");
+    expect(soldier.baseMaskId).toContain("plated-harness");
+    expect(soldier.baseSuitId).toContain("plated-harness");
+  });
+
+  it("ignores foundation when emitting the mask id (visual cohesion > foundation distinction)", () => {
+    const humanity = resolveStarterLoadout({
       species: "demagi",
       characterClass: "oracle",
       element: "fire",
       foundation: "humanity",
     }).baseMaskId;
-    const machineMask = resolveStarterLoadout({
+    const machine = resolveStarterLoadout({
       species: "demagi",
       characterClass: "oracle",
       element: "fire",
       foundation: "machine",
     }).baseMaskId;
-    expect(humanityMask).toContain("human-mask");
-    expect(machineMask).toContain("machine-head");
+    expect(humanity).toBe(machine);
   });
 
   it("bakes class cut + element into the suit id", () => {
@@ -113,20 +133,21 @@ describe("resolveStarterLoadout", () => {
     expect(a).toEqual(b);
   });
 
-  it("each (species, foundation) pair produces a unique mask id", () => {
+  it("each (class, species) pair produces a unique mask id", () => {
     const seen = new Set<string>();
-    for (const species of STARTER_SPECIES_LIST) {
-      for (const foundation of STARTER_FOUNDATION_LIST) {
+    for (const characterClass of STARTER_CLASS_LIST) {
+      for (const species of STARTER_SPECIES_LIST) {
         const { baseMaskId } = resolveStarterLoadout({
           species,
-          characterClass: "engineer",
+          characterClass,
           element: "earth",
-          foundation,
+          foundation: "humanity",
         });
         expect(seen.has(baseMaskId)).toBe(false);
         seen.add(baseMaskId);
       }
     }
-    expect(seen.size).toBe(8);
+    // 5 classes × 4 species motifs = 20 distinct masks.
+    expect(seen.size).toBe(20);
   });
 });
