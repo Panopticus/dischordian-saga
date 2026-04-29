@@ -19,6 +19,7 @@ import {
 } from "../cryoBayMystery";
 import type { CombineRule, RoomMysteryModule } from "./_template";
 import { ARCHIVES_MYSTERY } from "./archives";
+import { ARMORY_MYSTERY } from "./armory";
 import { BRIDGE_MYSTERY } from "./bridge";
 import { CARGO_HOLD_MYSTERY } from "./cargoHold";
 import { COMMS_ARRAY_MYSTERY } from "./commsArray";
@@ -45,6 +46,7 @@ export const ROOM_MYSTERY_REGISTRY: Readonly<Record<string, RoomMysteryModule>> 
   "archives": ARCHIVES_MYSTERY as RoomMysteryModule,
   "comms-array": COMMS_ARRAY_MYSTERY as RoomMysteryModule,
   "cargo-hold": CARGO_HOLD_MYSTERY as RoomMysteryModule,
+  "armory": ARMORY_MYSTERY as RoomMysteryModule,
 };
 
 /** Get the module for a room id, or null if no mystery is authored. */

@@ -837,6 +837,7 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "door-engineering", name: "Engineering Bay", description: "Return to Engineering.", x: 44, y: 28, width: 12, height: 22, type: "door", action: "engineering" },
       { id: "door-cargo", name: "Cargo Hold", description: "Stairs leading down to the Cargo Hold.", x: 42, y: 86, width: 16, height: 12, type: "door", action: "cargo-hold" },
       { id: "egg-armory-dogtag", name: "Fallen Dog Tag", description: "A military dog tag wedged between floor plates.", x: 34, y: 80, width: 3, height: 4, type: "item", action: "agent-zero-dogtag", elaraDialog: "A dog tag. Name: CLASSIFIED. Rank: Assassin, First Class. Unit: Insurgency Special Operations. Callsign: 'Agent Zero.' But wait — the biometric data on the tag doesn't match Agent Zero's profile. It matches... the Engineer. The mind swap. The Engineer is walking around in Agent Zero's body, hiding among the Potentials. On THIS ship." },
+      { id: "motivational-poster", name: "Motivational Poster", description: "A faded poster showing a sunset with the text 'HANG IN THERE!' Signed in the corner: Iron Lion.", x: 88, y: 14, width: 5, height: 6, type: "examine", action: "room-mystery:armory:motivational-poster", elaraDialog: "Iron Lion's poster. He printed thousands of these. Most of them are gone. This one isn't. There is a cat in the bottom corner that I did not, until today, register." },
     ],
   },
   {
