@@ -1,0 +1,13 @@
+{
+  "CRYO_OPEN": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Elara%20Voices/awakening/CRYO_OPEN.mp3",
+  "ELARA_INTRO": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Elara%20Voices/awakening/ELARA_INTRO.mp3",
+  "SPECIES_QUESTION": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Elara%20Voices/awakening/SPECIES_QUESTION.mp3",
+  "CLASS_QUESTION": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Elara%20Voices/awakening/CLASS_QUESTION.mp3",
+  "ALIGNMENT_QUESTION": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Elara%20Voices/awakening/ALIGNMENT_QUESTION.mp3",
+  "ELEMENT_QUESTION": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Elara%20Voices/awakening/ELEMENT_QUESTION.mp3",
+  "NAME_INPUT": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Elara%20Voices/awakening/NAME_INPUT.mp3",
+  "ATTRIBUTES": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Elara%20Voices/awakening/ATTRIBUTES.mp3",
+  "FIRST_STEPS": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Elara%20Voices/awakening/FIRST_STEPS.mp3",
+  "ELEMENT_QUESTION_DEMAGI": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Elara%20Voices/awakening/ELEMENT_QUESTION.mp3",
+  "ELEMENT_QUESTION_QUARCHON": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Elara%20Voices/awakening/ELEMENT_QUESTION.mp3"
+}
