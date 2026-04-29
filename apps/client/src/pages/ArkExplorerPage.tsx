@@ -78,6 +78,7 @@ import {
   resolveVerbResponse,
   resolveTierResponse,
   resolveBandedNarration,
+  resolveBandedVoId,
   resolveHumanReaction,
   VERB_LIST,
   type Verb,
@@ -1697,10 +1698,19 @@ export default function ArkExplorerPage() {
           // picks up the manifest VO id and the response strip. The
           // legacy `vo` URL field is honoured as a fallback for any
           // mystery beat that hasn't migrated to a manifest id yet.
+          // Banded narrations carry one base voId in the source of
+          // truth; the manifest stores three audio files keyed by
+          // band suffix. Resolve to the band-specific id here so the
+          // playback matches the displayed text.
+          const elaraVoIdResolved = resolveBandedVoId(
+            mystery.voId,
+            mystery.narration,
+            stabilityBand(state.elaraStability),
+          );
           narrateElara({
             text: elaraTextResolved,
-            voId: mystery.voId,
-            voUrl: mystery.voId ? undefined : mystery.vo,
+            voId: elaraVoIdResolved,
+            voUrl: elaraVoIdResolved ? undefined : mystery.vo,
             responses: [...askHuman, ...baseResponses],
           });
           if (mystery.logsClue) logClue(mystery.logsClue);
