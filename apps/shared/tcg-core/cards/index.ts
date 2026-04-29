@@ -492,6 +492,9 @@ import { S2_HIERARCHY_INTERNS } from "./definitions/s2_hierarchy/interns";
 import { S2_HIERARCHY_ACT_EXCLUSIVES } from "./definitions/s2_hierarchy/act_exclusives";
 import { S2_HIERARCHY_SPECIAL_EDITIONS } from "./definitions/s2_hierarchy/special_editions";
 
+/* ─── Pack 2 base-set net-new (Phase D2) ─── */
+import { ALL_S1_PACK2_CARDS } from "./definitions/s1_pack2";
+
 export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   gen_antiquarian,
   s1_char_018_the_antiquarian,
@@ -960,4 +963,6 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   ...S2_HIERARCHY_INTERNS,
   ...S2_HIERARCHY_ACT_EXCLUSIVES,
   ...S2_HIERARCHY_SPECIAL_EDITIONS,
+  /* Pack 2 base-set net-new (530 cards across 13 categories) */
+  ...ALL_S1_PACK2_CARDS,
 ]);
