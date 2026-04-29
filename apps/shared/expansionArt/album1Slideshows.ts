@@ -17,6 +17,7 @@
    ═══════════════════════════════════════════════════════ */
 
 import { assetUrl } from "../../client/src/lib/assetUrl";
+import { makeAssetManifest } from "./_assetManifest";
 
 export type Album1TrackId =
   | "T01"
@@ -758,17 +759,21 @@ export const ALBUM1_TRACKS: readonly Album1TrackDef[] = [
   },
 ];
 
-const TRACK_BY_ID = new Map(ALBUM1_TRACKS.map((t) => [t.id, t] as const));
+/* Tracks expose a frame-array per entry rather than a single path,
+   so the manifest helper's urlOf can't be reused as-is. We still take
+   the byId map + byField filter from it; the per-frame resolver
+   stays bespoke (it's a frame-N array index, not a field lookup). */
+const ALBUM1_MANIFEST = makeAssetManifest(ALBUM1_TRACKS, "id", "title");
 
 /** Resolve a track's title-card URL (the first frame). */
 export function album1TitleUrl(id: Album1TrackId): string | undefined {
-  const t = TRACK_BY_ID.get(id);
+  const t = ALBUM1_MANIFEST.byId.get(id);
   return t ? assetUrl(t.frameRelPaths[0]) : undefined;
 }
 
 /** Resolve a track's frame-N URL (1-indexed; 1 = title card). */
 export function album1FrameUrl(id: Album1TrackId, frame: number): string | undefined {
-  const t = TRACK_BY_ID.get(id);
+  const t = ALBUM1_MANIFEST.byId.get(id);
   if (!t) return undefined;
   const path = t.frameRelPaths[frame - 1];
   return path ? assetUrl(path) : undefined;
@@ -776,13 +781,13 @@ export function album1FrameUrl(id: Album1TrackId, frame: number): string | undef
 
 /** All resolved URLs for a track in producer beat-order. */
 export function album1FrameUrls(id: Album1TrackId): readonly string[] {
-  const t = TRACK_BY_ID.get(id);
+  const t = ALBUM1_MANIFEST.byId.get(id);
   return t ? t.frameRelPaths.map((p) => assetUrl(p)) : [];
 }
 
 /** Tracks that belong to a given act (1..5). */
 export function album1TracksByAct(act: 1 | 2 | 3 | 4 | 5): readonly Album1TrackDef[] {
-  return ALBUM1_TRACKS.filter((t) => t.act === act);
+  return ALBUM1_MANIFEST.byField("act", act);
 }
 
 export const ALBUM1_TRACK_TOTAL = 29;

@@ -10,7 +10,7 @@
    124 cards across 8 rarity buckets.
    ═══════════════════════════════════════════════════════ */
 
-import { assetUrl } from "../../client/src/lib/assetUrl";
+import { makeAssetManifest } from "./_assetManifest";
 
 export type HierarchyOfDamnedRarity =
   | "mythic"
@@ -180,24 +180,18 @@ export const HIERARCHY_OF_DAMNED_ART: readonly HierarchyOfDamnedArtEntry[] = [
   { assetId: "s2_hierarchy_vp_varkul", rarity: "legendary", relPath: "art/expansions/hierarchy-of-damned/vps/s2_hierarchy_vp_varkul.webp" },
 ];
 
-const BY_ID = new Map(HIERARCHY_OF_DAMNED_ART.map((e) => [e.assetId, e] as const));
+const MANIFEST = makeAssetManifest(HIERARCHY_OF_DAMNED_ART, "assetId", "relPath");
 
 /** Resolve a Hierarchy of the Damned art assetId → CDN URL.
  *  Returns undefined if the id isn't in the manifest. */
-export function hierarchyOfDamnedArtUrl(
-  assetId: string | undefined,
-): string | undefined {
-  if (!assetId) return undefined;
-  const e = BY_ID.get(assetId);
-  return e ? assetUrl(e.relPath) : undefined;
-}
+export const hierarchyOfDamnedArtUrl = MANIFEST.urlOf;
 
-/** Every assetId for a given rarity bucket, alphabetically. */
+/** Every assetId for a given rarity bucket. */
 export function hierarchyOfDamnedByRarity(
   rarity: HierarchyOfDamnedRarity,
 ): readonly HierarchyOfDamnedArtEntry[] {
-  return HIERARCHY_OF_DAMNED_ART.filter((e) => e.rarity === rarity);
+  return MANIFEST.byField("rarity", rarity);
 }
 
 /** Total card count, exposed for tests + dashboards. */
-export const HIERARCHY_OF_DAMNED_TOTAL = HIERARCHY_OF_DAMNED_ART.length;
+export const HIERARCHY_OF_DAMNED_TOTAL = MANIFEST.total;

@@ -23,6 +23,7 @@
    ═══════════════════════════════════════════════════════ */
 
 import { assetUrl } from "../../client/src/lib/assetUrl";
+import { makeAssetManifest } from "./_assetManifest";
 
 /* ─── Cinematics ─── */
 
@@ -162,13 +163,10 @@ export const CINEMATICS: readonly CinematicDef[] = [
   },
 ];
 
-const CINEMATIC_BY_ID = new Map(CINEMATICS.map((c) => [c.id, c] as const));
+const CINEMATICS_MANIFEST = makeAssetManifest(CINEMATICS, "id", "videoRelPath");
 
 /** Resolve a cinematic's mp4 URL. */
-export function cinematicVideoUrl(id: CinematicId): string | undefined {
-  const c = CINEMATIC_BY_ID.get(id);
-  return c ? assetUrl(c.videoRelPath) : undefined;
-}
+export const cinematicVideoUrl = CINEMATICS_MANIFEST.urlOf;
 
 /** Resolve a cinematic's beat-N keyframe URL (1-indexed). Returns
  *  undefined if the cinematic has fewer beats. */
@@ -176,7 +174,7 @@ export function cinematicKeyframeUrl(
   id: CinematicId,
   beat: number,
 ): string | undefined {
-  const c = CINEMATIC_BY_ID.get(id);
+  const c = CINEMATICS_MANIFEST.byId.get(id);
   if (!c) return undefined;
   const path = c.keyframeRelPaths[beat - 1];
   return path ? assetUrl(path) : undefined;
@@ -325,26 +323,21 @@ export const VFX_CLIPS: readonly VfxDef[] = [
   },
 ];
 
-const VFX_BY_ID = new Map(VFX_CLIPS.map((v) => [v.id, v] as const));
+const VFX_VIDEO_MANIFEST = makeAssetManifest(VFX_CLIPS, "id", "videoRelPath");
+const VFX_KEYFRAME_MANIFEST = makeAssetManifest(VFX_CLIPS, "id", "keyframeRelPath");
 
 /** Resolve a VFX clip's mp4 URL by slug. */
-export function vfxVideoUrl(id: string): string | undefined {
-  const v = VFX_BY_ID.get(id);
-  return v ? assetUrl(v.videoRelPath) : undefined;
-}
+export const vfxVideoUrl = VFX_VIDEO_MANIFEST.urlOf;
 
 /** Resolve a VFX clip's keyframe URL by slug. */
-export function vfxKeyframeUrl(id: string): string | undefined {
-  const v = VFX_BY_ID.get(id);
-  return v ? assetUrl(v.keyframeRelPath) : undefined;
-}
+export const vfxKeyframeUrl = VFX_KEYFRAME_MANIFEST.urlOf;
 
 /** Every VFX clip in a single category. */
 export function vfxByCategory(category: VfxCategory): readonly VfxDef[] {
-  return VFX_CLIPS.filter((v) => v.category === category);
+  return VFX_VIDEO_MANIFEST.byField("category", category);
 }
 
 /* ─── Totals (exposed for tests + dashboards) ─── */
 
-export const CINEMATICS_TOTAL = CINEMATICS.length;
-export const VFX_TOTAL = VFX_CLIPS.length;
+export const CINEMATICS_TOTAL = CINEMATICS_MANIFEST.total;
+export const VFX_TOTAL = VFX_VIDEO_MANIFEST.total;
