@@ -256,6 +256,37 @@ export function resolveHumanBandedNarration(
   return narration[band];
 }
 
+/** Synthesize the band-specific manifest id for a banded narration.
+ *  When narration is a plain string (band-agnostic) the voId is used
+ *  unchanged. When narration is banded, the runtime resolves the audio
+ *  for each band variant by appending `.${band}` to the base voId —
+ *  e.g. base `elara.cryo.dead-pod.look.t1` becomes
+ *  `elara.cryo.dead-pod.look.t1.lucid` for the lucid-band recording.
+ *
+ *  Returns `undefined` when no base voId was authored (text-only line).
+ *  The VO generator and the runtime use this so a single base voId in
+ *  the source of truth maps to three audio files in the manifest. */
+export function resolveBandedVoId(
+  baseVoId: string | undefined,
+  narration: ElaraNarration,
+  band: "fragmented" | "lucid" | "luminous",
+): string | undefined {
+  if (!baseVoId) return undefined;
+  if (typeof narration === "string") return baseVoId;
+  return `${baseVoId}.${band}`;
+}
+
+/** Mirror of resolveBandedVoId for the Detective's HumanReaction. */
+export function resolveBandedHumanVoId(
+  baseVoId: string | undefined,
+  narration: HumanNarration,
+  band: "shadow" | "balanced" | "warm",
+): string | undefined {
+  if (!baseVoId) return undefined;
+  if (typeof narration === "string") return baseVoId;
+  return `${baseVoId}.${band}`;
+}
+
 /** Convenience: resolve a HumanReaction down to a flat playback
  *  payload (text + voId) for the player-facing strip. Returns null
  *  when the response has no humanReaction authored. */
@@ -266,7 +297,7 @@ export function resolveHumanReaction(
   if (!response.humanReaction) return null;
   return {
     text: resolveHumanBandedNarration(response.humanReaction.narration, band),
-    voId: response.humanReaction.voId,
+    voId: resolveBandedHumanVoId(response.humanReaction.voId, response.humanReaction.narration, band),
     logsClue: response.humanReaction.logsClue,
     setsFlag: response.humanReaction.setsFlag,
   };
