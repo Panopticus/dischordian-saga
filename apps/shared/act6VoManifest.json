@@ -1,1 +1,17 @@
-{}
+{
+  "elara-confession-01": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Act%206%20Voices%2Felara-confession-01.mp3",
+  "elara-confession-02": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Act%206%20Voices%2Felara-confession-02.mp3",
+  "elara-confession-03": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Act%206%20Voices%2Felara-confession-03.mp3",
+  "elara-confession-04": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Act%206%20Voices%2Felara-confession-04.mp3",
+  "elara-confession-05": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Act%206%20Voices%2Felara-confession-05.mp3",
+  "human-confession-01": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Act%206%20Voices%2Fhuman-confession-01.mp3",
+  "human-confession-02": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Act%206%20Voices%2Fhuman-confession-02.mp3",
+  "human-confession-03": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Act%206%20Voices%2Fhuman-confession-03.mp3",
+  "human-confession-04": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Act%206%20Voices%2Fhuman-confession-04.mp3",
+  "human-confession-05": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Act%206%20Voices%2Fhuman-confession-05.mp3",
+  "stance-empathy": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Act%206%20Voices%2Fstance-empathy.mp3",
+  "stance-challenge": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Act%206%20Voices%2Fstance-challenge.mp3",
+  "stance-refusal": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Act%206%20Voices%2Fstance-refusal.mp3",
+  "stance-reluctant-ally": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Act%206%20Voices%2Fstance-reluctant-ally.mp3",
+  "silence-stance-meta": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Act%206%20Voices%2Fsilence-stance-meta.mp3"
+}

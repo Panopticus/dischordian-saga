@@ -1,1 +1,10 @@
-{}
+{
+  "prisoner-the_cell": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Act%204%20Voices%2Fprisoner-the_cell.mp3",
+  "prisoner-the_extraction": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Act%204%20Voices%2Fprisoner-the_extraction.mp3",
+  "prisoner-the_warlord": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Act%204%20Voices%2Fprisoner-the_warlord.mp3",
+  "prisoner-the_white_oracle": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Act%204%20Voices%2Fprisoner-the_white_oracle.mp3",
+  "extraction-the_cell": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Act%204%20Voices%2Fextraction-the_cell.mp3",
+  "extraction-the_extraction": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Act%204%20Voices%2Fextraction-the_extraction.mp3",
+  "extraction-the_warlord": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Act%204%20Voices%2Fextraction-the_warlord.mp3",
+  "extraction-the_white_oracle": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Act%204%20Voices%2Fextraction-the_white_oracle.mp3"
+}

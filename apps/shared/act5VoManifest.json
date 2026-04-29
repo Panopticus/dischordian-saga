@@ -1,1 +1,26 @@
-{}
+{
+  "cades-m1-brief": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Act%205%20Voices%2Fcades-m1-brief.mp3",
+  "cades-m1-mid": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Act%205%20Voices%2Fcades-m1-mid.mp3",
+  "cades-m1-debrief": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Act%205%20Voices%2Fcades-m1-debrief.mp3",
+  "cades-m2-brief": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Act%205%20Voices%2Fcades-m2-brief.mp3",
+  "cades-m2-mid": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Act%205%20Voices%2Fcades-m2-mid.mp3",
+  "cades-m2-debrief": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Act%205%20Voices%2Fcades-m2-debrief.mp3",
+  "cades-m3-brief": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Act%205%20Voices%2Fcades-m3-brief.mp3",
+  "cades-m3-mid": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Act%205%20Voices%2Fcades-m3-mid.mp3",
+  "cades-m3-debrief": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Act%205%20Voices%2Fcades-m3-debrief.mp3",
+  "cades-m4-brief": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Act%205%20Voices%2Fcades-m4-brief.mp3",
+  "cades-m4-mid": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Act%205%20Voices%2Fcades-m4-mid.mp3",
+  "cades-m4-debrief": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Act%205%20Voices%2Fcades-m4-debrief.mp3",
+  "cades-m5-brief": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Act%205%20Voices%2Fcades-m5-brief.mp3",
+  "cades-m5-mid": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Act%205%20Voices%2Fcades-m5-mid.mp3",
+  "cades-m5-debrief": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Act%205%20Voices%2Fcades-m5-debrief.mp3",
+  "cades-m6-brief": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Act%205%20Voices%2Fcades-m6-brief.mp3",
+  "cades-m6-mid": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Act%205%20Voices%2Fcades-m6-mid.mp3",
+  "cades-m6-debrief": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Act%205%20Voices%2Fcades-m6-debrief.mp3",
+  "cades-m7-brief": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Act%205%20Voices%2Fcades-m7-brief.mp3",
+  "cades-m7-mid": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Act%205%20Voices%2Fcades-m7-mid.mp3",
+  "cades-m7-debrief": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Act%205%20Voices%2Fcades-m7-debrief.mp3",
+  "bridge-of-kael-1": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Act%205%20Voices%2Fbridge-of-kael-1.mp3",
+  "bridge-of-kael-2": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Act%205%20Voices%2Fbridge-of-kael-2.mp3",
+  "bridge-of-kael-3": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Act%205%20Voices%2Fbridge-of-kael-3.mp3"
+}

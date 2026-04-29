@@ -1,1 +1,15 @@
-{}
+{
+  "visible-war-win": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Act%207%20Voices%2Fvisible-war-win.mp3",
+  "watcher-shadow-resolve": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Act%207%20Voices%2Fwatcher-shadow-resolve.mp3",
+  "patient-zero-close": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Act%207%20Voices%2Fpatient-zero-close.mp3",
+  "convergence-landing-elara": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Act%207%20Voices%2Fconvergence-landing-elara.mp3",
+  "convergence-landing-human": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Act%207%20Voices%2Fconvergence-landing-human.mp3",
+  "convergence-landing-dual": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Act%207%20Voices%2Fconvergence-landing-dual.mp3",
+  "arc-closes": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Act%207%20Voices%2Farc-closes.mp3",
+  "final-stance-humanity": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Act%207%20Voices%2Ffinal-stance-humanity.mp3",
+  "final-stance-machine": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Act%207%20Voices%2Ffinal-stance-machine.mp3",
+  "final-stance-balance": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Act%207%20Voices%2Ffinal-stance-balance.mp3",
+  "final-stance-command": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Act%207%20Voices%2Ffinal-stance-command.mp3",
+  "prestige-ceremony-open": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Act%207%20Voices%2Fprestige-ceremony-open.mp3",
+  "prestige-ceremony-close": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Act%207%20Voices%2Fprestige-ceremony-close.mp3"
+}
