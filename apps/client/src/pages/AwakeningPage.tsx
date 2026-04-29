@@ -67,16 +67,16 @@ function useTypewriter(text: string, speed = 30, enabled = true) {
 /* ─── ELARA DIALOG BOX ─── */
 /** CDN VO audio URLs keyed by step — when present, plays instead of browser TTS */
 const STEP_VO_AUDIO: Partial<Record<string, string>> = {
-  CRYO_OPEN: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/elara_vo_cryo_open_342b1153.mp3",
-  ELARA_INTRO: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/awakening_02_c293c1e2.mp3",
-  SPECIES_QUESTION: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/awakening_04_c9547bed.mp3",
-  CLASS_QUESTION: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/awakening_06_a496049b.mp3",
-  ALIGNMENT_QUESTION: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/awakening_07_e6fe06ac.mp3",
-  ELEMENT_QUESTION_DEMAGI: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/awakening_08_50b7edb1.mp3",
-  ELEMENT_QUESTION_QUARCHON: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/awakening_09_eb34b7d1.mp3",
-  NAME_INPUT: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/awakening_11_b7436001.mp3",
-  ATTRIBUTES: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/awakening_12_ced1dfea.mp3",
-  FIRST_STEPS: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/awakening_13_2075d6bd.mp3",
+  CRYO_OPEN: "https://dgrsvoices.s3.us-east-2.amazonaws.com/Elara%20Voices/awakening/CRYO_OPEN.mp3",
+  ELARA_INTRO: "https://dgrsvoices.s3.us-east-2.amazonaws.com/Elara%20Voices/awakening/ELARA_INTRO.mp3",
+  SPECIES_QUESTION: "https://dgrsvoices.s3.us-east-2.amazonaws.com/Elara%20Voices/awakening/SPECIES_QUESTION.mp3",
+  CLASS_QUESTION: "https://dgrsvoices.s3.us-east-2.amazonaws.com/Elara%20Voices/awakening/CLASS_QUESTION.mp3",
+  ALIGNMENT_QUESTION: "https://dgrsvoices.s3.us-east-2.amazonaws.com/Elara%20Voices/awakening/ALIGNMENT_QUESTION.mp3",
+  ELEMENT_QUESTION_DEMAGI: "https://dgrsvoices.s3.us-east-2.amazonaws.com/Elara%20Voices/awakening/ELEMENT_QUESTION.mp3",
+  ELEMENT_QUESTION_QUARCHON: "https://dgrsvoices.s3.us-east-2.amazonaws.com/Elara%20Voices/awakening/ELEMENT_QUESTION.mp3",
+  NAME_INPUT: "https://dgrsvoices.s3.us-east-2.amazonaws.com/Elara%20Voices/awakening/NAME_INPUT.mp3",
+  ATTRIBUTES: "https://dgrsvoices.s3.us-east-2.amazonaws.com/Elara%20Voices/awakening/ATTRIBUTES.mp3",
+  FIRST_STEPS: "https://dgrsvoices.s3.us-east-2.amazonaws.com/Elara%20Voices/awakening/FIRST_STEPS.mp3",
 };
 
 // F3 — module-level dedupe. StrictMode can double-invoke mount effects in
