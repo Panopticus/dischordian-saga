@@ -41,6 +41,9 @@ import { useNarrativeEvents } from "@/hooks/useNarrativeEvents";
 import { usePetQuestEventBridge } from "@/game/petQuestHooks";
 import { useNarrativeIntegration } from "@/hooks/useNarrativeIntegration";
 import { useIncomingTransmissions } from "@/hooks/useIncomingTransmissions";
+import { useLoginAlbumTransmission } from "@/hooks/useLoginAlbumTransmission";
+import LoginMemeBroadcast from "@/components/LoginMemeBroadcast";
+import LoginMemeMiniCard from "@/components/LoginMemeMiniCard";
 import VoiceWhisper from "@/components/VoiceWhisper";
 import EngineerRecordingDiscoveryModal from "@/components/EngineerRecordingDiscoveryModal";
 
@@ -96,6 +99,10 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
   // "TRANSMISSION INCOMING" toast — fires when a new Meme broadcast
   // unlocks. Mounted once globally so it works on every route.
   useIncomingTransmissions();
+
+  // On-login Dischordian Logic transmission. Pops the CRT broadcast
+  // modal with the next undelivered track from T01-T09.
+  const loginMeme = useLoginAlbumTransmission();
 
   // TransmissionDeck unlocks when Observation Deck OR Comms Array is discovered
   const hasMediaAccess = !!(gameState.rooms["observation-deck"]?.unlocked || gameState.rooms["comms-array"]?.unlocked);
@@ -336,6 +343,29 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
         newItems={0}
         onMorePress={() => setShowTransmissions((v) => !v)}
       />
+
+      {/* ═══ LOGIN MEME BROADCAST ═══ */}
+      {loginMeme.transmission &&
+        (loginMeme.phase === "first-words" ||
+          loginMeme.phase === "intro" ||
+          loginMeme.phase === "playing" ||
+          loginMeme.phase === "outro") && (
+          <LoginMemeBroadcast
+            transmission={loginMeme.transmission}
+            phase={loginMeme.phase}
+            onAccept={loginMeme.accept}
+            onDismiss={loginMeme.dismiss}
+            onMinimize={loginMeme.minimize}
+            onPhaseChange={loginMeme.setPhase}
+          />
+        )}
+      {loginMeme.transmission && loginMeme.phase === "minimized" && (
+        <LoginMemeMiniCard
+          transmission={loginMeme.transmission}
+          onExpand={loginMeme.expand}
+          onClose={loginMeme.dismiss}
+        />
+      )}
 
       {/* ═══ CRT OVERLAY ═══ */}
       <div className="crt-overlay" />
