@@ -18,6 +18,7 @@ import {
   type CryoMysteryHotspotId,
 } from "../cryoBayMystery";
 import type { CombineRule, RoomMysteryModule } from "./_template";
+import { ARCHIVES_MYSTERY } from "./archives";
 import { BRIDGE_MYSTERY } from "./bridge";
 import { ENGINEERING_MYSTERY } from "./engineering";
 import { MEDICAL_BAY_MYSTERY } from "./medicalBay";
@@ -39,6 +40,7 @@ export const ROOM_MYSTERY_REGISTRY: Readonly<Record<string, RoomMysteryModule>> 
   "medical-bay": MEDICAL_BAY_MYSTERY as RoomMysteryModule,
   "bridge": BRIDGE_MYSTERY as RoomMysteryModule,
   "engineering": ENGINEERING_MYSTERY as RoomMysteryModule,
+  "archives": ARCHIVES_MYSTERY as RoomMysteryModule,
 };
 
 /** Get the module for a room id, or null if no mystery is authored. */
