@@ -34,36 +34,23 @@ export interface StarterLoadout {
   baseSuitId: string;
 }
 
-/* ─── Mask resolution ─── */
+/* ─── Class-cut roster ─── */
 
 /**
- * Mask sculpt comes from foundation; motif comes from species.
- * Asset id format: `mask:<sculpt>:<motif>`.
+ * Class cut → Inventor-catalog set id. Used for both the suit sentinel
+ * and the mask sentinel so the paper doll reads as one cohesive identity
+ * instead of stitching a species mask onto an unrelated class suit.
+ *
+ *   oracle   → long-coat-over-cuirass / regalia-of-the-seeing-stylus
+ *   engineer → segmented-workshop-rig / pressure-loom-harness
+ *   assassin → ribbed-chitin-weave    / black-crepe-weave
+ *   soldier  → plated-harness         / bulwark-of-the-eighth-column
+ *   spy      → tailored-underskin     / low-profile-tailoring
+ *
+ * Exported so the client paper-doll resolver can route starter sentinels
+ * through the same table — a parity test is kept on this single source.
  */
-function resolveBaseMaskId(
-  foundation: FoundationKey,
-  species: StarterSpecies,
-): string {
-  const sculpt = foundation === "humanity" ? "human-mask" : "machine-head";
-  // Humans carrying the Human foundation get the human motif; others
-  // get their species motif. This keeps a machine-foundation Ne-Yon
-  // readable as Ne-Yon (hybrid-vein etching on the chrome skull).
-  return `mask:${sculpt}:${species}`;
-}
-
-/* ─── Suit resolution ─── */
-
-/**
- * Suit cut comes from class; palette+glow comes from element.
- * Asset id format: `suit:<class-cut>:<element>`.
- * The class-cut mapping matches plan §G.2:
- *   oracle   → long-coat-over-cuirass
- *   engineer → segmented-workshop-rig
- *   assassin → ribbed-chitin-weave
- *   soldier  → plated-harness
- *   spy      → tailored-underskin
- */
-const CLASS_CUTS: Record<ClassKey, string> = {
+export const CLASS_CUTS: Record<ClassKey, string> = {
   oracle: "long-coat-over-cuirass",
   engineer: "segmented-workshop-rig",
   assassin: "ribbed-chitin-weave",
@@ -71,6 +58,41 @@ const CLASS_CUTS: Record<ClassKey, string> = {
   spy: "tailored-underskin",
 };
 
+/** Class-cut → catalog set id. Companion to CLASS_CUTS — given a cut id
+ *  (the middle segment of a `mask:<cut>:<motif>` or `suit:<cut>:<element>`
+ *  sentinel), returns the Inventor set whose head/chest/arms/legs PNGs
+ *  the renderer should fetch. */
+export const CLASS_CUT_TO_SET_ID: Record<string, string> = {
+  "long-coat-over-cuirass": "regalia-of-the-seeing-stylus",
+  "segmented-workshop-rig": "pressure-loom-harness",
+  "ribbed-chitin-weave": "black-crepe-weave",
+  "plated-harness": "bulwark-of-the-eighth-column",
+  "tailored-underskin": "low-profile-tailoring",
+};
+
+/* ─── Mask resolution ─── */
+
+/**
+ * Mask cut comes from class (so it shares an identity with the suit);
+ * motif comes from species (engraving, paint, glyph overlay).
+ * Asset id format: `mask:<class-cut>:<motif>`. Foundation is preserved
+ * on the StarterLoadout caller's options but no longer baked into the
+ * artId — there is no per-foundation mask art pipeline today, and the
+ * renderer routes strictly through class-cut → class set.
+ */
+function resolveBaseMaskId(
+  characterClass: ClassKey,
+  species: StarterSpecies,
+): string {
+  return `mask:${CLASS_CUTS[characterClass]}:${species}`;
+}
+
+/* ─── Suit resolution ─── */
+
+/**
+ * Suit cut comes from class; palette+glow comes from element.
+ * Asset id format: `suit:<class-cut>:<element>`.
+ */
 function resolveBaseSuitId(
   characterClass: ClassKey,
   element: ElementKey,
@@ -89,9 +111,17 @@ export function resolveStarterLoadout(opts: {
   foundation: FoundationKey;
 }): StarterLoadout {
   return {
-    baseMaskId: resolveBaseMaskId(opts.foundation, opts.species),
+    baseMaskId: resolveBaseMaskId(opts.characterClass, opts.species),
     baseSuitId: resolveBaseSuitId(opts.characterClass, opts.element),
   };
+}
+
+/** Inventor-catalog set id keyed off the starter's class cut. The
+ *  paper-doll loadout builder uses this to populate the full base-set
+ *  slot list (head, chest, arms, gloves, legs, belt, feet) from one
+ *  cohesive set instead of two unrelated identities. */
+export function classSetId(characterClass: ClassKey): string {
+  return CLASS_CUT_TO_SET_ID[CLASS_CUTS[characterClass]];
 }
 
 /* ─── Enumerator helpers (used by the snapshot test) ─── */

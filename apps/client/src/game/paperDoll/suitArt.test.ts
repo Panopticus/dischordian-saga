@@ -40,20 +40,39 @@ describe("parseSuitPieceArtId", () => {
     });
   });
 
-  it("routes starter mask sentinels to the matching species/foundation set", () => {
-    // Humanity foundation + human motif → Mourner's Coat.
+  it("routes new starter mask sentinels through the class set so mask + suit share an identity", () => {
+    // `mask:<class-cut>:<motif>` resolves to the class set's head slot,
+    // matching what `suit:<class-cut>:<element>` resolves to for chest.
+    expect(parseSuitPieceArtId("mask:long-coat-over-cuirass:demagi")).toEqual({
+      setId: "regalia-of-the-seeing-stylus",
+      rarity: "common",
+      slot: "head",
+    });
+    expect(parseSuitPieceArtId("mask:plated-harness:human")).toEqual({
+      setId: "bulwark-of-the-eighth-column",
+      rarity: "common",
+      slot: "head",
+    });
+    expect(parseSuitPieceArtId("mask:tailored-underskin:neyon")).toEqual({
+      setId: "low-profile-tailoring",
+      rarity: "common",
+      slot: "head",
+    });
+  });
+
+  it("falls back to legacy species/foundation routing for pre-rewrite mask sentinels", () => {
+    // Saves predating the cohesive rewrite still parse so existing
+    // characters don't visually break.
     expect(parseSuitPieceArtId("mask:human-mask:human")).toEqual({
       setId: "the-mourners-coat",
       rarity: "common",
       slot: "head",
     });
-    // Machine foundation + human motif → First Chassis (sculpt fallback).
     expect(parseSuitPieceArtId("mask:machine-head:human")).toEqual({
       setId: "the-mourners-coat",
       rarity: "common",
       slot: "head",
     });
-    // Species motif takes precedence over sculpt.
     expect(parseSuitPieceArtId("mask:human-mask:demagi")).toEqual({
       setId: "arcane-rune-regalia",
       rarity: "common",
@@ -61,11 +80,6 @@ describe("parseSuitPieceArtId", () => {
     });
     expect(parseSuitPieceArtId("mask:machine-head:quarchon")).toEqual({
       setId: "clockwork-exoframe",
-      rarity: "common",
-      slot: "head",
-    });
-    expect(parseSuitPieceArtId("mask:human-mask:neyon")).toEqual({
-      setId: "hybrid-vein-panoply",
       rarity: "common",
       slot: "head",
     });

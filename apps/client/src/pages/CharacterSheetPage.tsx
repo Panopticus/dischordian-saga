@@ -31,9 +31,11 @@ import PaperDollBG3 from "@/components/PaperDollBG3";
 import type { Loadout } from "@/game/paperDoll/compositePaperDoll";
 import {
   resolveStarterLoadout,
+  classSetId,
   type FoundationKey,
   type StarterSpecies,
 } from "@shared/starterLoadout";
+import { pieceId } from "@shared/suitSets";
 import type { ClassKey, ElementKey } from "@shared/earnedLoadouts";
 import { ELEMENT_PALETTES } from "@shared/suitArtPrompts";
 import EquipmentPanel from "@/components/EquipmentPanel";
@@ -478,9 +480,24 @@ export default function CharacterSheetPage() {
       "base-suit": { slot: "base-suit", artId: baseSuitId },
     };
 
+    // Pre-fill the visible base outfit from the class's catalog set so the
+    // chronicle card reads as a complete kit (head / chest / shoulders /
+    // arms / gloves / belt / legs / feet) on a body — not a single hood
+    // floating in space. Slots whose PNGs haven't shipped yet silently
+    // drop out (PaperDollBG3 renders nothing on image error). Each slot
+    // is overridable: equipped or DB-written gear at the same slot wins.
+    const baseSet = classSetId(char.characterClass as ClassKey);
+    const BASE_OUTFIT_SLOTS = [
+      "head", "chest", "shoulders", "arms", "gloves", "belt", "legs", "feet",
+    ] as const;
+    for (const slot of BASE_OUTFIT_SLOTS) {
+      pieces[slot] = { slot, artId: pieceId(baseSet, "common", slot) };
+    }
+
     // Map legacy 6-slot equipment into their §G.1 counterparts so existing
-    // drops light up a slot on the BG3 doll. Items without suit-set art fall
-    // through to the placeholder rectangle for that slot.
+    // drops light up a slot on the BG3 doll, overriding the base-set
+    // pre-fill above. Items without suit-set art still draw nothing
+    // (placeholders are off on the chronicle card).
     const LEGACY_TO_SUIT: Record<string, string> = {
       helm: "head",
       armor: "chest",
@@ -494,18 +511,33 @@ export default function CharacterSheetPage() {
     }
 
     // Also honour suit-slot keys directly written to gear (forward-compat).
+    // Already-populated base-outfit slots are overwritten if the player
+    // explicitly equipped a different piece for that slot.
     const SUIT_SLOTS = [
       "head", "face", "neck", "shoulders", "back", "chest", "arms", "gloves",
       "belt", "legs", "feet", "ring-1", "ring-2", "weapon-primary",
       "weapon-offhand", "aura",
     ] as const;
     for (const slot of SUIT_SLOTS) {
-      if (pieces[slot]) continue;
       const id = readGearId(gearObj[slot]);
       if (id) pieces[slot] = { slot, artId: id };
     }
 
     return { pieces } as unknown as Loadout;
+  }, [character.data]);
+
+  // Species silhouette to layer at the bottom of the BG3 z-stack so the
+  // outfit pieces sit on a body. Mirrors the same `human` collapse the
+  // mask motif uses for the humanity foundation so the body shape stays
+  // consistent with the mask identity.
+  const bg3BodySpecies = useMemo<StarterSpecies | undefined>(() => {
+    const char = character.data;
+    if (!char) return undefined;
+    const foundation = ((char.foundation as FoundationKey | null | undefined)
+      ?? "humanity") as FoundationKey;
+    return foundation === "humanity"
+      ? "human"
+      : (char.species as StarterSpecies);
   }, [character.data]);
 
   // Element tint for BG3 — pull the anchor hex out of the palette descriptor.
@@ -657,7 +689,13 @@ export default function CharacterSheetPage() {
 
   const classLevelCostXp = char.classLevel * 100;
   const classLevelCostDream = char.classLevel * 5;
-  const gearEntries = Object.entries(gear).filter(([, v]) => v != null) as [string, string][];
+  // Unwrap the `{ id, baseLocked }` object shape (creation-flow base-mask /
+  // base-suit entries) to plain ids so the augmentations list never receives
+  // an object as a JSX child — that's the source of Minified React error #31
+  // when this section renders on mobile.
+  const gearEntries = Object.entries(gear)
+    .map(([slot, raw]) => [slot, readGearId(raw)] as const)
+    .filter((entry): entry is readonly [string, string] => entry[1] !== null);
   const xpPercent = Math.min((char.xp % 200) / 200 * 100, 100);
 
   // Chronicle card bio
@@ -873,6 +911,7 @@ export default function CharacterSheetPage() {
                           loadout={bg3Loadout}
                           elementTint={bg3ElementTint}
                           width={240}
+                          bodySpecies={bg3BodySpecies}
                         />
                       ) : (
                         <PaperDollRenderer

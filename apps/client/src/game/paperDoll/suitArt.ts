@@ -27,6 +27,7 @@
    ═══════════════════════════════════════════════════════ */
 
 import type { Rarity, SuitSlot } from "@shared/suitArtPrompts";
+import { CLASS_CUT_TO_SET_ID } from "@shared/starterLoadout";
 
 import { assetUrl } from "@/lib/assetUrl";
 /** Canonical art URL for a suit piece PNG. */
@@ -42,37 +43,33 @@ export interface ParsedPieceArtId {
 
 /* ─── Starter-sentinel → Inventor-catalog mapping ─── */
 
-/** Mask motif (species) → species/foundation set in the Inventor roster. */
-const MASK_MOTIF_TO_SET_ID: Record<string, string> = {
+/**
+ * Legacy mapping for `mask:<sculpt>:<motif>` sentinels written to the
+ * DB before the cohesive class-set rewrite. Kept as a fallback so
+ * existing saves don't visually break — new starters all flow through
+ * the class-cut table imported from @shared/starterLoadout.
+ */
+const LEGACY_MASK_MOTIF_TO_SET_ID: Record<string, string> = {
   demagi: "arcane-rune-regalia",
   quarchon: "clockwork-exoframe",
   neyon: "hybrid-vein-panoply",
   human: "the-mourners-coat",
 };
-
-/** Mask sculpt → fallback set when motif is absent (machine-foundation default). */
-const MASK_SCULPT_TO_SET_ID: Record<string, string> = {
+const LEGACY_MASK_SCULPT_TO_SET_ID: Record<string, string> = {
   "human-mask": "the-mourners-coat",
   "machine-head": "the-first-chassis",
-};
-
-/** Class cut → class set in the Inventor roster. */
-const CLASS_CUT_TO_SET_ID: Record<string, string> = {
-  "long-coat-over-cuirass": "regalia-of-the-seeing-stylus", // oracle
-  "segmented-workshop-rig": "pressure-loom-harness",        // engineer
-  "ribbed-chitin-weave": "black-crepe-weave",               // assassin
-  "plated-harness": "bulwark-of-the-eighth-column",         // soldier
-  "tailored-underskin": "low-profile-tailoring",            // spy
 };
 
 /**
  * Parse an artId shaped `<setId>:<rarity>:<slot>` (emitted by
  * `pieceId()` in apps/shared/suitSets.ts) back into its components.
  *
- * Also accepts the starter sentinels `mask:<sculpt>:<motif>` and
+ * Also accepts the starter sentinels `mask:<class-cut>:<motif>` and
  * `suit:<class-cut>:<element>` (emitted by `resolveStarterLoadout()`)
- * and routes them to the matching Inventor-catalog piece at common
- * rarity. Returns null only for genuinely unrecognised ids.
+ * and routes both to the SAME class set so the mask and suit pieces
+ * read as one identity. Older `mask:<sculpt>:<motif>` saves fall back
+ * to the legacy species/foundation tables. Returns null only for
+ * genuinely unrecognised ids.
  */
 export function parseSuitPieceArtId(artId: string): ParsedPieceArtId | null {
   const parts = artId.split(":");
@@ -80,14 +77,18 @@ export function parseSuitPieceArtId(artId: string): ParsedPieceArtId | null {
   const [first, second, third] = parts;
   if (!first || !second || !third) return null;
 
-  // Starter mask sentinel: `mask:<sculpt>:<motif>`. The motif keys to
-  // the species/foundation set; falls back to the sculpt-derived
-  // foundation set when the motif isn't recognised (e.g. older saves).
+  // Starter mask sentinel — preferred path: `mask:<class-cut>:<motif>`,
+  // routed to the class set's head slot so it shares an identity with
+  // the suit. Legacy path: `mask:<sculpt>:<motif>` from saves predating
+  // the cohesive rewrite, routed via species motif → foundation set.
   if (first === "mask") {
-    const setId =
-      MASK_MOTIF_TO_SET_ID[third] ?? MASK_SCULPT_TO_SET_ID[second];
-    if (!setId) return null;
-    return { setId, rarity: "common", slot: "head" };
+    const cohesive = CLASS_CUT_TO_SET_ID[second];
+    if (cohesive) return { setId: cohesive, rarity: "common", slot: "head" };
+    const legacy =
+      LEGACY_MASK_MOTIF_TO_SET_ID[third] ??
+      LEGACY_MASK_SCULPT_TO_SET_ID[second];
+    if (!legacy) return null;
+    return { setId: legacy, rarity: "common", slot: "head" };
   }
 
   // Starter suit sentinel: `suit:<class-cut>:<element>`. The class
