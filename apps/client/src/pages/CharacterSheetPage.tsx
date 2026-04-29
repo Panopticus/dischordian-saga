@@ -657,7 +657,13 @@ export default function CharacterSheetPage() {
 
   const classLevelCostXp = char.classLevel * 100;
   const classLevelCostDream = char.classLevel * 5;
-  const gearEntries = Object.entries(gear).filter(([, v]) => v != null) as [string, string][];
+  // Unwrap the `{ id, baseLocked }` object shape (creation-flow base-mask /
+  // base-suit entries) to plain ids so the augmentations list never receives
+  // an object as a JSX child — that's the source of Minified React error #31
+  // when this section renders on mobile.
+  const gearEntries = Object.entries(gear)
+    .map(([slot, raw]) => [slot, readGearId(raw)] as const)
+    .filter((entry): entry is readonly [string, string] => entry[1] !== null);
   const xpPercent = Math.min((char.xp % 200) / 200 * 100, 100);
 
   // Chronicle card bio
