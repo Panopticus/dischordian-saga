@@ -861,6 +861,16 @@ export default function ArkExplorerPage() {
     import("@/components/ElaraConversationPopup").ConversationChoice[] | undefined
   >(undefined);
 
+  // Section 9 — single hook instance per speaker, lifted to the page
+  // so both the conversation popup and the companion-presence badge
+  // observe the same playback state. Each useNpcVO holds its own
+  // `audio` element + `speaking` flag; sharing the instance keeps
+  // them in lockstep without a context.
+  const elaraVo = useElaraVO();
+  const humanVo = useHumanVO();
+  const elaraSpeakingNow = elaraVo.speaking;
+  const humanSpeakingNow = humanVo.speaking;
+
   /**
    * Single entry point for every Elara narration that fires from the
    * Ark explorer. Replaces direct setElaraText() calls so the runtime
@@ -872,6 +882,13 @@ export default function ArkExplorerPage() {
     voUrl?: string;
     responses?: import("@/components/ElaraConversationPopup").ConversationChoice[];
   }) => {
+    // Cut any in-flight or queued VO from a previous narration before
+    // we hand the popup a new line. Without this, speak() in the hooks
+    // sees `speaking === true`, queues the new lineId behind the old
+    // one, and the player hears the previous VO finish over the new
+    // popup's text.
+    elaraVo.stop();
+    humanVo.stop();
     setElaraText(opts.text);
     setElaraVoId(opts.voId);
     // When voId is present, prefer the manifest path — clear voUrl so
@@ -879,17 +896,7 @@ export default function ArkExplorerPage() {
     // CDN URL still gets through.
     setElaraVoUrl(opts.voId ? undefined : opts.voUrl);
     setElaraResponses(opts.responses);
-  }, []);
-
-  // Section 9 — single hook instance per speaker, lifted to the page
-  // so both the conversation popup and the companion-presence badge
-  // observe the same playback state. Each useNpcVO holds its own
-  // `audio` element + `speaking` flag; sharing the instance keeps
-  // them in lockstep without a context.
-  const elaraVo = useElaraVO();
-  const humanVo = useHumanVO();
-  const elaraSpeakingNow = elaraVo.speaking;
-  const humanSpeakingNow = humanVo.speaking;
+  }, [elaraVo, humanVo]);
 
   // Section 9 — hover-whisper throttle + dedup. RoomScene applies a
   // 600ms debounce per hotspot before calling this; we additionally
