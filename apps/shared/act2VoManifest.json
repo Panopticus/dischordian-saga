@@ -1,7 +1,7 @@
 {
-  "human_commentary_1": "/vo/act2/human_commentary_1.mp3",
-  "human_commentary_2": "/vo/act2/human_commentary_2.mp3",
-  "elara_recognition": "/vo/act2/elara_recognition.mp3",
+  "human_commentary_1": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Act%202%20Voices%2Fhuman_commentary_1.mp3",
+  "human_commentary_2": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Act%202%20Voices%2Fhuman_commentary_2.mp3",
+  "elara_recognition": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Act%202%20Voices%2Felara_recognition.mp3",
   "bench-first-power-on": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Act%202%20Voices%2Fbench-first-power-on.mp3",
   "bench-elara-ambient": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Act%202%20Voices%2Fbench-elara-ambient.mp3",
   "bench-human-ambient": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Act%202%20Voices%2Fbench-human-ambient.mp3",
