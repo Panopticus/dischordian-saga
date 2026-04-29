@@ -26,6 +26,7 @@ import {
   CINEMATICS,
   VFX_CLIPS,
 } from "../apps/shared/expansionArt/cinematicsManifest.ts";
+import { ALBUM1_TRACKS } from "../apps/shared/expansionArt/album1Slideshows.ts";
 
 const BUCKET = "dgrsart";
 const REGION = "us-east-2";
@@ -69,6 +70,11 @@ for (const c of CINEMATICS) {
 for (const v of VFX_CLIPS) {
   jobs.push({ label: "vfx-mp4", key: `${KEY_PREFIX}${v.videoRelPath}`, id: v.id });
   jobs.push({ label: "vfx-keyframes", key: `${KEY_PREFIX}${v.keyframeRelPath}`, id: v.id });
+}
+for (const t of ALBUM1_TRACKS) {
+  for (const rel of t.frameRelPaths) {
+    jobs.push({ label: "album1-slideshows", key: `${KEY_PREFIX}${rel}`, id: `${t.id}/${rel.split("/").pop()}` });
+  }
 }
 
 console.log(`Planned ${jobs.length} HEAD checks.`);
