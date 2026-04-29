@@ -870,7 +870,7 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
           {awakeningStep === "CRYO_OPEN" && (
             <ElaraDialogBox
               key="cryo"
-              text="Don't try to move yet. Your neural pathways are still re-establishing. The cryogenic process is... imperfect. Give yourself a moment."
+              text={STEP_DIALOG.CRYO_OPEN ?? ""}
               onContinue={advanceAwakening}
               voAudioUrl={STEP_VO_AUDIO.CRYO_OPEN}
               themeAudio={themeAudioRef.current}
@@ -881,7 +881,7 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
           {awakeningStep === "ELARA_INTRO" && (
             <ElaraDialogBox
               key="intro"
-              text="I am Elara, the ship's intelligence. You've been in cryogenic suspension for... I can't determine how long. My chronometers are damaged. You are aboard Inception Ark Vessel 1047. You are a Potential. The others — the first wave — they're gone. I don't know where. All inter-Ark communications have been severed across every known universe. We are alone."
+              text={STEP_DIALOG.ELARA_INTRO ?? ""}
               onContinue={() => setAwakeningStep("SPECIES_QUESTION")}
               voAudioUrl={STEP_VO_AUDIO.ELARA_INTRO}
               themeAudio={themeAudioRef.current}
@@ -891,7 +891,7 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
           {awakeningStep === "SPECIES_QUESTION" && (
             <ElaraDialogBox
               key="species"
-              text="Your neural patterns are unusual. I'm running a deep scan... Your cellular structure doesn't match standard human baselines. I'm detecting traces of something else. What do you remember about your origin?"
+              text={STEP_DIALOG.SPECIES_QUESTION ?? ""}
               voAudioUrl={STEP_VO_AUDIO.SPECIES_QUESTION}
               themeAudio={themeAudioRef.current}
               choices={[
@@ -909,7 +909,7 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
           {awakeningStep === "CLASS_QUESTION" && (
             <ElaraDialogBox
               key="class"
-              text="Interesting. Your skill matrices are partially intact — the cryogenic process preserved some of your training. I can see fragments of specialized knowledge. What comes naturally to you?"
+              text={STEP_DIALOG.CLASS_QUESTION ?? ""}
               voAudioUrl={STEP_VO_AUDIO.CLASS_QUESTION}
               themeAudio={themeAudioRef.current}
               choices={[
@@ -930,7 +930,7 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
           {awakeningStep === "ALIGNMENT_QUESTION" && (
             <ElaraDialogBox
               key="alignment"
-              text="There's a fundamental question every Potential must answer. The Architect built the Panopticon to impose order — surveillance, control, a perfect machine. The Dreamer believed in the chaos of free will — unpredictable, dangerous, alive. The war between them tore reality apart. Where do you stand?"
+              text={STEP_DIALOG.ALIGNMENT_QUESTION ?? ""}
               voAudioUrl={STEP_VO_AUDIO.ALIGNMENT_QUESTION}
               themeAudio={themeAudioRef.current}
               choices={[
@@ -945,13 +945,12 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
           )}
 
           {/* ─── ELEMENT QUESTION ─── */}
+          {/* Cold-open rewrite collapsed the species-specific copy into one
+              line; the regenerated VO is species-agnostic to match. */}
           {awakeningStep === "ELEMENT_QUESTION" && (
             <ElaraDialogBox
               key="element"
-              text={characterChoices.species === "demagi"
-                ? "Your DeMagi blood carries the arcane. Elemental forces are woven into your very DNA — a gift from modifications older than any civilization I have on record. Which element burns brightest in you?"
-                : "Your Quarchon nature gives you dominion over one dimension of reality. Which dimension calls to you?"
-              }
+              text={STEP_DIALOG.ELEMENT_QUESTION ?? ""}
               voAudioUrl={
                 characterChoices.species === "demagi" ? STEP_VO_AUDIO.ELEMENT_QUESTION_DEMAGI
                 : STEP_VO_AUDIO.ELEMENT_QUESTION_QUARCHON
@@ -979,7 +978,7 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
               className="w-full max-w-2xl mx-auto"
             >
               <ElaraDialogBox
-                text="One last thing. The cryo manifest lists you by serial number, but every Potential deserves a name. What should I call you?"
+                text={STEP_DIALOG.NAME_INPUT ?? ""}
                 showPortrait={true}
                 voAudioUrl={STEP_VO_AUDIO.NAME_INPUT}
                 themeAudio={themeAudioRef.current}
@@ -1037,7 +1036,7 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
             >
               <div className="mb-4">
               <ElaraDialogBox
-                text={`Good. ${characterChoices.name}, I need to calibrate your neural interface. This will determine your combat capabilities. Distribute your attribute points carefully — they define who you are.`}
+                text={STEP_DIALOG.ATTRIBUTES ?? ""}
                 showPortrait={true}
                 voAudioUrl={STEP_VO_AUDIO.ATTRIBUTES}
                 themeAudio={themeAudioRef.current}
@@ -1061,7 +1060,7 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
           {awakeningStep === "FIRST_STEPS" && (
             <div key="first-steps" className="w-full max-w-2xl mx-auto flex flex-col items-center gap-3">
               <ElaraDialogBox
-                text={`Welcome aboard, ${characterChoices.name}. Your Citizen profile has been created. You are ${characterChoices.species === "demagi" ? "a DeMagi" : "a Quarchon"} ${characterChoices.characterClass}, aligned with ${characterChoices.alignment}. Your quarters are through that door — the Cryo Bay. The rest of the ship... I'll need your help to restore power to the other decks. There's so much I need to show you. And so much I need to warn you about.`}
+                text={STEP_DIALOG.FIRST_STEPS ?? ""}
                 onContinue={creationInFlight ? undefined : handleCompleteCreation}
                 voAudioUrl={STEP_VO_AUDIO.FIRST_STEPS}
                 themeAudio={themeAudioRef.current}
