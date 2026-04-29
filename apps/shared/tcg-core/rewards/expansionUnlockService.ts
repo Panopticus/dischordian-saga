@@ -131,3 +131,54 @@ export function makePlayerExpansionState(
     hasAuthorsEditionS2: partial.hasAuthorsEditionS2 ?? false,
   };
 }
+
+/**
+ * Per-player entitlements that aren't part of the in-game flag stream
+ * (those live in store / battle-pass progress / founder-edition rosters,
+ * not the narrative flag bag). Optional — pass an empty object for
+ * unauth players or when flags-only resolution is sufficient.
+ */
+export interface PlayerEntitlements {
+  battlePassTier?: number;
+  hasFoundingAuthor?: boolean;
+  hasAuthorsEditionS2?: boolean;
+}
+
+/**
+ * Adapter: derive a `PlayerExpansionState` from the canonical
+ * narrative `flags` record + an optional entitlements bag.
+ *
+ * Acts: a player has "completed" act N when `flags.act_N_complete` is
+ * truthy. This matches the convention enforced by
+ * `apps/shared/act{2..7}CompletionGate.ts`, which is the single
+ * server-side write path for those flags.
+ *
+ * Secret-reveals: act N's secret-reveal path is "triggered" when
+ * `flags.secret_act_N_revealed` is truthy. Forward-looking — these
+ * flags are written by the (still-to-build) Acts 4-7 secret-reveal
+ * hooks; the unlock service is forwards-compatible.
+ *
+ * Pass-through fields (battlePassTier, hasFoundingAuthor,
+ * hasAuthorsEditionS2) come from `entitlements`, which the server
+ * sources from store + battle-pass + founder-roster tables.
+ *
+ * Pure / synchronous / no I/O. Safe to call from React render paths.
+ */
+export function derivePlayerExpansionStateFromFlags(
+  flags: Readonly<Record<string, unknown>>,
+  entitlements: PlayerEntitlements = {},
+): PlayerExpansionState {
+  const completedActs: Array<1 | 2 | 3 | 4 | 5 | 6 | 7> = [];
+  const secretActsRevealed: Array<1 | 2 | 3 | 4 | 5 | 6 | 7> = [];
+  for (const n of [1, 2, 3, 4, 5, 6, 7] as const) {
+    if (flags[`act_${n}_complete`]) completedActs.push(n);
+    if (flags[`secret_act_${n}_revealed`]) secretActsRevealed.push(n);
+  }
+  return {
+    completedActs: new Set(completedActs),
+    secretActsRevealed: new Set(secretActsRevealed),
+    battlePassTier: entitlements.battlePassTier ?? 0,
+    hasFoundingAuthor: entitlements.hasFoundingAuthor ?? false,
+    hasAuthorsEditionS2: entitlements.hasAuthorsEditionS2 ?? false,
+  };
+}
