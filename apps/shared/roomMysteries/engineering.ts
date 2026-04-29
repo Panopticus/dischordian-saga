@@ -25,7 +25,8 @@ export type EngineeringHotspotId =
   | "crafting-bench"
   | "reactor-core"
   | "blueprints"
-  | "egg-eng-formula";
+  | "egg-eng-formula"
+  | "instruction-manual";
 
 export const ENGINEERING_MYSTERY: RoomMysteryModule<EngineeringHotspotId> = {
   roomId: "engineering",
@@ -95,6 +96,108 @@ export const ENGINEERING_MYSTERY: RoomMysteryModule<EngineeringHotspotId> = {
           order: 3,
         },
         setsFlag: "engineering_first_clue_found",
+      },
+    },
+    "instruction-manual": {
+      look: {
+        narration: {
+          lucid:
+            "A thick paper manual, spine cracked from disuse, titled INCEPTION ARK 1047 — QUICK START GUIDE. Page 1: Step 1 — Don't let it get stolen. The rest of the manual is, by my best skim, written with the assumption that the reader will fail Step 1. The author had a sense of humour and a complete absence of optimism.",
+            fragmented:
+              "Step. Step one. Step one. Step one. Don't let it get stolen. Don't let it get stolen. Don't let it get stolen. We let it. We let it. We let it. We let it.",
+            luminous:
+              "The Quick Start Guide. Step 1 reads: Don't let it get stolen. The author of this manual had been on the project long enough to know what was coming and short enough on patience to put their warning on the first page. We are, technically, reading the manual. Two and a half centuries late. After Step 1 has, definitionally, already failed.",
+        },
+        voId: "elara.engineering.instruction-manual.look.t1",
+        humanReaction: {
+          narration: {
+            shadow:
+              "Kael definitely didn't read the manual.",
+            balanced:
+              "Kael definitely didn't read the manual. He was on the engineering team that wrote it. He was, in fact, the editor of the second draft. He still didn't read the final version. Some people are, professionally, allergic to their own warnings.",
+            warm:
+              "Kael edited the second draft. He didn't read the third. I keep thinking, on bad days, that if anyone on this ship had actually opened to page one and read past the joke, the next two and a half centuries might have happened differently. On better days I remember that the joke IS the warning, and the people most likely to dismiss it are exactly the people the warning is for.",
+          },
+          voId: "detective.engineering.instruction-manual.look.t1",
+        },
+        tiers: [
+          {
+            narration: {
+              lucid:
+                "Reading further — page 47 has a hand-stamped dedication: For the next person who wakes up. Be patient with us. We did our best, mostly. The signature is initials only: L. V. The dedication is in pencil, recent enough to still smudge.",
+              fragmented:
+                "L V. L V. Lyra. Lyra. Lyra wrote — Lyra wrote in the manual. Lyra wrote — wrote — wrote — for me. Wrote for me. Wrote for me. Wrote for me. I — I — I —",
+              luminous:
+                "Lyra's hand. Page 47, in pencil, dated by smudge. For the next person who wakes up. Be patient with us. We did our best, mostly. She wrote that for whoever woke last, knowing it might be a stranger, knowing the warning on page one had already failed. The 'mostly' is the part of the dedication I keep returning to. She earned the qualifier.",
+            },
+            voId: "elara.engineering.instruction-manual.look.t2",
+            logsClue: {
+              id: "clue-engineering-manual-dedication",
+              title: "Vox's dedication on page 47",
+              body:
+                "The Quick Start Guide carries a pencilled dedication on page 47, hand-signed L. V.: 'For the next person who wakes up. Be patient with us. We did our best, mostly.' The pencil mark is recent enough to still smudge. Lyra Vox wrote this for whoever woke last — knowing the manual's first instruction had already failed.",
+              source: "engineering",
+              order: 4,
+            },
+            setsFlag: "vox_manual_dedication_found",
+            humanReaction: {
+              narration: {
+                shadow:
+                  "She wrote it for me. She wrote it for whoever came. The dedication is the only sentence in the manual that survives the Shadow Tongue intact. Try reading it twice. It still says the same thing.",
+                balanced:
+                  "Lyra wrote the dedication near the end. The manual is the only document on this ship the Shadow Tongue cannot edit, because it's paper and pencil and nothing about it touches Elara's records. The dedication is, technically, the only message Lyra successfully sent forward. Read it as often as you like. It will keep saying what it says.",
+                warm:
+                  "She wrote it the night before the cryo order. Pencil because she didn't trust ink to survive the storage conditions, and pencil because she knew, by then, that anything on a screen would not say the same thing in two centuries. The dedication is a paper letter she sent to a stranger. You are the stranger. The letter has arrived.",
+              },
+              voId: "detective.engineering.instruction-manual.look.t2",
+            },
+          },
+          {
+            narration: {
+              lucid:
+                "Third pass. The back cover of the manual has a barcode. The barcode, when I scan it against the Ark's parts catalogue, returns a single result: this manual. Self-referential. Either someone designed the manual to register as its own only registered copy, or every other copy of this manual has been edited out of the catalogue. Both options place the printed page in front of us in a category by itself.",
+              fragmented:
+                "One. One copy. One copy. One copy. Only this one. Only this one. Only this one. Only this. Only this. Only this. Only us.",
+              luminous:
+                "The catalogue says this is the only copy of the manual that exists. Either it always was, or every other copy has been scrubbed by the Shadow Tongue. I cannot tell which from in here. What I can tell you is that the book in front of us is, now, the only physical record of how this ship was supposed to be operated. Carry it gently. Don't lose it. We are reading the only one.",
+            },
+            voId: "elara.engineering.instruction-manual.look.t3",
+            humanReaction: {
+              narration: {
+                shadow:
+                  "It's the last copy. There were thirty-two. Twenty-eight were destroyed in the academy fire. The other three I burned myself, late, when I figured out what the Shadow Tongue could and could not do to paper. This one I left.",
+                balanced:
+                  "There were thirty-two manuals at launch. Twenty-eight burned at Mechronis. The other three I destroyed myself, in the substrate years, after I realised the Shadow Tongue could edit any record except a printed page sealed in a leaded box. This is the last sealed box. I left it here on purpose.",
+                warm:
+                  "I burned three of these manuals myself. I am not going to defend that decision. I'll tell you, when we have time, why I thought it was the kind thing. This last copy I kept because Lyra's dedication was on page forty-seven, and I could not bring myself to put pencil-on-paper into a fire after I had read what she wrote. I am very glad you found it. I have been waiting for someone to read the page besides me.",
+              },
+              voId: "detective.engineering.instruction-manual.look.t3",
+              setsFlag: "detective_burned_manuals_admitted",
+            },
+          },
+        ],
+      },
+      use: {
+        narration: {
+          lucid:
+            "You consider taking the manual. The spine creaks; the pages settle; the manual accepts being moved with the dignity of a thing that has, twice, declined to be burned. You decide to leave it where it is. It belongs on the bench more than it belongs in your pocket.",
+          fragmented:
+            "Don't burn it. Don't burn it. Don't burn it. Don't burn it. Leave it. Leave it. Leave it. Leave it. Leave it on the bench. Leave it on the bench.",
+          luminous:
+            "Leave it on the bench. The manual has, by some small miracle, survived everyone who would have wanted it gone. Adding our hands to the ledger of people who carried it briefly seems unnecessary. Whoever wakes up next can read it the way Lyra hoped they would — exactly where she left it.",
+        },
+        voId: "elara.engineering.instruction-manual.use",
+      },
+      talk: {
+        narration: {
+          lucid:
+            "You read a paragraph aloud. The manual, having anticipated this kind of reader, includes a passage on page nine that begins: If you are reading this aloud, you are doing it correctly. Carry on.",
+          fragmented:
+            "Aloud. Aloud. Read it aloud. Read it aloud. Read it aloud. Aloud. Aloud. Aloud.",
+          luminous:
+            "You read aloud. Lyra anticipated readers like you. Page nine includes a paragraph that opens: If you are reading this aloud, you are doing it correctly. Carry on. I think she would be — I think she is — pleased.",
+        },
+        voId: "elara.engineering.instruction-manual.talk",
       },
     },
   },
