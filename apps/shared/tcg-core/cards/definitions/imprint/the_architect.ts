@@ -24,7 +24,7 @@ export const the_architect_t1: CardDefinition = {
   baseStats: { power: 2, health: 4 },
   keywords: [],
   abilities: [],
-  art: assetUrl("art/cards/imprint/s1_imprint_the_architect_t1.webp"),
+  art: assetUrl("art/cards/imprint/architect_t1.webp"),
   flavorText:
     "A tall silhouette in a perfectly symmetric coat. You cannot see the face. The face is not the point.",
   rulesVersion: "1.0.0",
@@ -45,7 +45,7 @@ export const the_architect_t2: CardDefinition = {
   baseStats: { power: 3, health: 6 },
   keywords: ["provoke"],
   abilities: [],
-  art: assetUrl("art/cards/imprint/s1_imprint_the_architect_t2.webp"),
+  art: assetUrl("art/cards/imprint/architect_t2.webp"),
   flavorText:
     "Provoke. He does not fight for attention. He redirects it, and it moves the way a satellite moves when a planet asks it to.",
   rulesVersion: "1.0.0",
@@ -66,7 +66,7 @@ export const the_architect_t3: CardDefinition = {
   baseStats: { power: 4, health: 6 },
   keywords: ["provoke", "grow"],
   abilities: [],
-  art: assetUrl("art/cards/imprint/s1_imprint_the_architect_t3.webp"),
+  art: assetUrl("art/cards/imprint/architect_t3.webp"),
   flavorText:
     "Provoke. Grow. The Architect gets larger on turns you were hoping he would be getting smaller.",
   rulesVersion: "1.0.0",
@@ -87,7 +87,7 @@ export const the_architect_t4: CardDefinition = {
   baseStats: { power: 5, health: 8 },
   keywords: ["provoke", "grow", "forcefield"],
   abilities: [],
-  art: assetUrl("art/cards/imprint/s1_imprint_the_architect_t4.webp"),
+  art: assetUrl("art/cards/imprint/architect_t4.webp"),
   flavorText:
     "Provoke. Grow. Forcefield. The Architect's physical presence is a rendering of a decision already made about whether he will be harmed today.",
   rulesVersion: "1.0.0",
@@ -119,7 +119,7 @@ export const the_architect_t5: CardDefinition = {
       },
     },
   ],
-  art: assetUrl("art/cards/imprint/s1_imprint_the_architect_t5.webp"),
+  art: assetUrl("art/cards/imprint/architect_t5.webp"),
   flavorText:
     "Provoke. Grow. Forcefield. On deploy, silence the enemy general. The Architect is not a villain because he is angry with you. He is the terrain you are trying to build on, and the terrain was here first, and it has opinions about what counts as a foundation.",
   rulesVersion: "1.0.0",

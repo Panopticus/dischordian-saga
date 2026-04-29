@@ -20,7 +20,7 @@ export const the_necromancer_t1: CardDefinition = {
   baseStats: { power: 2, health: 3 },
   keywords: [],
   abilities: [],
-  art: assetUrl("art/cards/imprint/s1_imprint_the_necromancer_t1.webp"),
+  art: assetUrl("art/cards/imprint/necromancer_t1.webp"),
   flavorText:
     "A figure walking away from the viewer across a field of soft grey ash. He is not a skeleton. He is a person whose face is hidden because if you saw it you would recognize him.",
   rulesVersion: "1.0.0",
@@ -38,7 +38,7 @@ export const the_necromancer_t2: CardDefinition = {
   baseStats: { power: 3, health: 3 },
   keywords: ["deathwatch"],
   abilities: [],
-  art: assetUrl("art/cards/imprint/s1_imprint_the_necromancer_t2.webp"),
+  art: assetUrl("art/cards/imprint/necromancer_t2.webp"),
   flavorText:
     "Deathwatch. Every dying unit is a paragraph in a letter he has been writing to himself for longer than you have been alive.",
   rulesVersion: "1.0.0",
@@ -56,7 +56,7 @@ export const the_necromancer_t3: CardDefinition = {
   baseStats: { power: 4, health: 4 },
   keywords: ["deathwatch", "rebirth"],
   abilities: [],
-  art: assetUrl("art/cards/imprint/s1_imprint_the_necromancer_t3.webp"),
+  art: assetUrl("art/cards/imprint/necromancer_t3.webp"),
   flavorText:
     "Deathwatch. Rebirth. The Necromancer dies twice. The second time is the unmaking, not the death. He gets to choose.",
   rulesVersion: "1.0.0",
@@ -84,7 +84,7 @@ export const the_necromancer_t4: CardDefinition = {
       },
     },
   ],
-  art: assetUrl("art/cards/imprint/s1_imprint_the_necromancer_t4.webp"),
+  art: assetUrl("art/cards/imprint/necromancer_t4.webp"),
   flavorText:
     "Deathwatch. Rebirth. Heals for 2 when he deals damage. Every strike leaves a flower of bone-white light behind where the target used to stand.",
   rulesVersion: "1.0.0",
@@ -102,7 +102,7 @@ export const the_necromancer_t5: CardDefinition = {
   baseStats: { power: 6, health: 7 },
   keywords: ["deathwatch", "rebirth", "drain"],
   abilities: [],
-  art: assetUrl("art/cards/imprint/s1_imprint_the_necromancer_t5.webp"),
+  art: assetUrl("art/cards/imprint/necromancer_t5.webp"),
   flavorText:
     "Deathwatch. Rebirth. Drain. He unmakes his friends now, because the alternative is leaving them in the hands of people who would not know how to do it kindly. This card is the longest conversation he has been able to have about it.",
   rulesVersion: "1.0.0",

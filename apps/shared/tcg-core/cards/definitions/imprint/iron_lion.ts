@@ -23,7 +23,7 @@ export const iron_lion_t1: CardDefinition = {
   baseStats: { power: 3, health: 2 },
   keywords: [],
   abilities: [],
-  art: assetUrl("art/cards/imprint/s1_imprint_iron_lion_t1.webp"),
+  art: assetUrl("art/cards/imprint/iron_lion_t1.webp"),
   flavorText:
     "A roar at the edge of the perimeter. Whatever is coming, it has already committed to the charge.",
   rulesVersion: "1.0.0",
@@ -44,7 +44,7 @@ export const iron_lion_t2: CardDefinition = {
   baseStats: { power: 3, health: 4 },
   keywords: ["provoke"],
   abilities: [],
-  art: assetUrl("art/cards/imprint/s1_imprint_iron_lion_t2.webp"),
+  art: assetUrl("art/cards/imprint/iron_lion_t2.webp"),
   flavorText:
     "Provoke. You stand between your people and the approaching thing whether or not the thing is approaching your people.",
   rulesVersion: "1.0.0",
@@ -76,7 +76,7 @@ export const iron_lion_t3: CardDefinition = {
       },
     },
   ],
-  art: assetUrl("art/cards/imprint/s1_imprint_iron_lion_t3.webp"),
+  art: assetUrl("art/cards/imprint/iron_lion_t3.webp"),
   flavorText:
     "Provoke. Rush. The Iron Lion does not believe in pacing. He believes in arrival.",
   rulesVersion: "1.0.0",
@@ -119,7 +119,7 @@ export const iron_lion_t4: CardDefinition = {
       },
     },
   ],
-  art: assetUrl("art/cards/imprint/s1_imprint_iron_lion_t4.webp"),
+  art: assetUrl("art/cards/imprint/iron_lion_t4.webp"),
   flavorText:
     "Provoke. Rush. +2 power this turn on deploy. When he shows up, the people next to him remember why they signed up.",
   rulesVersion: "1.0.0",
@@ -164,7 +164,7 @@ export const iron_lion_t5: CardDefinition = {
       },
     },
   ],
-  art: assetUrl("art/cards/imprint/s1_imprint_iron_lion_t5.webp"),
+  art: assetUrl("art/cards/imprint/iron_lion_t5.webp"),
   flavorText:
     "Provoke. Frenzy. Rush. +3 power this turn on deploy. The Insurgency was a rumor before the Iron Lion showed up. After he showed up it was the shape of a fist, and the fist was already moving.",
   rulesVersion: "1.0.0",
