@@ -15,7 +15,7 @@
    review composites (kept under <category>/_grids/ in the CDN).
    ═══════════════════════════════════════════════════════ */
 
-import { assetUrl } from "../../client/src/lib/assetUrl";
+import { makeAssetManifest } from "./_assetManifest";
 
 export type DischordiaBaseSetCategory =
   | "allegiance"
@@ -701,24 +701,18 @@ export const DISCHORDIA_BASE_SET_TIER_GRIDS: readonly DischordiaBaseSetArtEntry[
   { assetId: "source_tier_grid", category: "imprint", relPath: "art/cards/imprint/_grids/source_tier_grid.webp" },
 ];
 
-const BY_ID = new Map(DISCHORDIA_BASE_SET_ART.map((e) => [e.assetId, e] as const));
+const MANIFEST = makeAssetManifest(DISCHORDIA_BASE_SET_ART, "assetId", "relPath");
 
 /** Resolve a Dischordia base-set art assetId → CDN URL.
  *  Returns undefined if the id isn't in the manifest. */
-export function dischordiaBaseSetArtUrl(
-  assetId: string | undefined,
-): string | undefined {
-  if (!assetId) return undefined;
-  const e = BY_ID.get(assetId);
-  return e ? assetUrl(e.relPath) : undefined;
-}
+export const dischordiaBaseSetArtUrl = MANIFEST.urlOf;
 
-/** Every assetId for a given category, alphabetically. */
+/** Every assetId for a given category. */
 export function dischordiaBaseSetByCategory(
   category: DischordiaBaseSetCategory,
 ): readonly DischordiaBaseSetArtEntry[] {
-  return DISCHORDIA_BASE_SET_ART.filter((e) => e.category === category);
+  return MANIFEST.byField("category", category);
 }
 
 /** Total per-card image count, exposed for tests + dashboards. */
-export const DISCHORDIA_BASE_SET_TOTAL = DISCHORDIA_BASE_SET_ART.length;
+export const DISCHORDIA_BASE_SET_TOTAL = MANIFEST.total;

@@ -76,7 +76,7 @@ const hodTs = `/* ════════════════════�
    ${hodEntries.length} cards across ${Object.keys(HOD_MAP).length} rarity buckets.
    ═══════════════════════════════════════════════════════ */
 
-import { assetUrl } from "../../client/src/lib/assetUrl";
+import { makeAssetManifest } from "./_assetManifest";
 
 export type HierarchyOfDamnedRarity =
 ${[...new Set(Object.values(HOD_RARITY))].map((r) => `  | "${r}"`).join("\n")};
@@ -112,27 +112,21 @@ ${hodEntries
   .join("\n")}
 ];
 
-const BY_ID = new Map(HIERARCHY_OF_DAMNED_ART.map((e) => [e.assetId, e] as const));
+const MANIFEST = makeAssetManifest(HIERARCHY_OF_DAMNED_ART, "assetId", "relPath");
 
 /** Resolve a Hierarchy of the Damned art assetId → CDN URL.
  *  Returns undefined if the id isn't in the manifest. */
-export function hierarchyOfDamnedArtUrl(
-  assetId: string | undefined,
-): string | undefined {
-  if (!assetId) return undefined;
-  const e = BY_ID.get(assetId);
-  return e ? assetUrl(e.relPath) : undefined;
-}
+export const hierarchyOfDamnedArtUrl = MANIFEST.urlOf;
 
-/** Every assetId for a given rarity bucket, alphabetically. */
+/** Every assetId for a given rarity bucket. */
 export function hierarchyOfDamnedByRarity(
   rarity: HierarchyOfDamnedRarity,
 ): readonly HierarchyOfDamnedArtEntry[] {
-  return HIERARCHY_OF_DAMNED_ART.filter((e) => e.rarity === rarity);
+  return MANIFEST.byField("rarity", rarity);
 }
 
 /** Total card count, exposed for tests + dashboards. */
-export const HIERARCHY_OF_DAMNED_TOTAL = HIERARCHY_OF_DAMNED_ART.length;
+export const HIERARCHY_OF_DAMNED_TOTAL = MANIFEST.total;
 `;
 
 writeFileSync(join(OUT_DIR, "hierarchyOfDamned.ts"), hodTs);
@@ -181,7 +175,7 @@ const baseTs = `/* ════════════════════�
    review composites (kept under <category>/_grids/ in the CDN).
    ═══════════════════════════════════════════════════════ */
 
-import { assetUrl } from "../../client/src/lib/assetUrl";
+import { makeAssetManifest } from "./_assetManifest";
 
 export type DischordiaBaseSetCategory =
 ${baseCategories.map((c) => `  | "${c}"`).join("\n")};
@@ -219,27 +213,21 @@ ${baseGrids
   .join("\n")}
 ];
 
-const BY_ID = new Map(DISCHORDIA_BASE_SET_ART.map((e) => [e.assetId, e] as const));
+const MANIFEST = makeAssetManifest(DISCHORDIA_BASE_SET_ART, "assetId", "relPath");
 
 /** Resolve a Dischordia base-set art assetId → CDN URL.
  *  Returns undefined if the id isn't in the manifest. */
-export function dischordiaBaseSetArtUrl(
-  assetId: string | undefined,
-): string | undefined {
-  if (!assetId) return undefined;
-  const e = BY_ID.get(assetId);
-  return e ? assetUrl(e.relPath) : undefined;
-}
+export const dischordiaBaseSetArtUrl = MANIFEST.urlOf;
 
-/** Every assetId for a given category, alphabetically. */
+/** Every assetId for a given category. */
 export function dischordiaBaseSetByCategory(
   category: DischordiaBaseSetCategory,
 ): readonly DischordiaBaseSetArtEntry[] {
-  return DISCHORDIA_BASE_SET_ART.filter((e) => e.category === category);
+  return MANIFEST.byField("category", category);
 }
 
 /** Total per-card image count, exposed for tests + dashboards. */
-export const DISCHORDIA_BASE_SET_TOTAL = DISCHORDIA_BASE_SET_ART.length;
+export const DISCHORDIA_BASE_SET_TOTAL = MANIFEST.total;
 `;
 
 writeFileSync(join(OUT_DIR, "dischordiaBaseSet.ts"), baseTs);
