@@ -28,8 +28,101 @@ export type EngineeringHotspotId =
   | "egg-eng-formula"
   | "instruction-manual";
 
-export const ENGINEERING_MYSTERY: RoomMysteryModule<EngineeringHotspotId> = {
+/** Inventory ids the engineering bench can fold into composite items.
+ *  Migrated from the legacy ADVENTURE_FEATURES.INVENTORY_COMBINATIONS
+ *  table — every combine reaction now lives here, in Elara's voice. */
+export type EngineeringInventoryId =
+  | "decoder_ring"
+  | "cipher_key"
+  | "master_decoder"
+  | "drained_power_cell"
+  | "energy_shard"
+  | "charged_power_cell"
+  | "basic_medkit"
+  | "neural_stim"
+  | "enhanced_medkit"
+  | "antenna_fragment"
+  | "amplifier_circuit"
+  | "signal_booster"
+  | "thought_virus_sample"
+  | "antibody_culture"
+  | "viral_antidote"
+  | "antiquarian_shard"
+  | "void_crystal"
+  | "temporal_lens";
+
+export const ENGINEERING_MYSTERY: RoomMysteryModule<EngineeringHotspotId, EngineeringInventoryId> = {
   roomId: "engineering",
+  combines: [
+    {
+      a: "decoder_ring",
+      b: "cipher_key",
+      result: {
+        narration:
+          "The decoder ring slots into the cipher key without resistance — they were machined to fit, decades apart, by people who never met. Together they cut through standard Ark encryption the way a familiar voice cuts through a crowded room. Master Decoder. Pocket it.",
+        producesInventory: "master_decoder",
+        setsFlag: "engineering_master_decoder_built",
+      },
+    },
+    {
+      a: "drained_power_cell",
+      b: "energy_shard",
+      result: {
+        narration:
+          "The shard fits into the cell like it was always meant to, which I suspect it was. The cell warms in your hand. Charged Power Cell. This is enough to wake systems that have been dark since before either of us was born — including, possibly, things we should leave dark.",
+        producesInventory: "charged_power_cell",
+        setsFlag: "engineering_power_cell_charged",
+      },
+    },
+    {
+      a: "basic_medkit",
+      b: "neural_stim",
+      result: {
+        narration:
+          "You fold the neural stimulant into the medkit's autoinjector. The seal hisses. Enhanced Medical Kit. This could revive someone whose cryo-cycle went badly. I want to flag, gently, that 'someone whose cryo-cycle went badly' describes more than one person on this ship.",
+        producesInventory: "enhanced_medkit",
+        setsFlag: "engineering_enhanced_medkit_built",
+      },
+    },
+    {
+      a: "antenna_fragment",
+      b: "amplifier_circuit",
+      result: {
+        narration:
+          "Fragment, circuit, solder. The bench accepts the work without comment. Signal Booster. We can take this to the Comms Array and lock onto whatever the dish has been listening to. Be careful whose voice you make louder. I am — by name and inclination — including my own in that warning.",
+        producesInventory: "signal_booster",
+        setsFlag: "engineering_signal_booster_built",
+      },
+    },
+    {
+      a: "thought_virus_sample",
+      b: "antibody_culture",
+      result: {
+        narration:
+          "The culture takes the sample without panicking — which is, by the way, a remarkable property for an antibody to have. Viral Antidote. Kael would call this cruelty. I am calling it medicine. Both of us are correct, and the disagreement is the point.",
+        producesInventory: "viral_antidote",
+        setsFlag: "engineering_viral_antidote_built",
+        logsClue: {
+          id: "clue-engineering-antidote-built",
+          title: "An antidote to the Thought Virus",
+          body:
+            "The bench combines a Thought Virus sample with an antibody culture into a working antidote. The disagreement about whether the result is cruelty or medicine is, in itself, part of the case file — Kael would frame it one way; Elara frames it another; both are correct.",
+          source: "engineering",
+          order: 5,
+        },
+      },
+    },
+    {
+      a: "antiquarian_shard",
+      b: "void_crystal",
+      result: {
+        narration:
+          "The shard and the crystal align without instruction. Looking through them, the bench in front of you is — momentarily — a different bench, in a different year, with different fingerprints on the soldering iron. Temporal Viewing Lens. The Antiquarian would, if we showed him this, become uncharacteristically still.",
+        producesInventory: "temporal_lens",
+        setsFlag: "engineering_temporal_lens_built",
+      },
+    },
+  ],
   responses: {
     "reactor-core": {
       look: {
