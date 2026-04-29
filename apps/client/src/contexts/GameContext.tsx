@@ -867,6 +867,7 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "door-armory", name: "Armory Stairs", description: "Stairs leading up to the Armory.", x: 1, y: 35, width: 6, height: 40, type: "door", action: "armory" },
       { id: "door-captains", name: "Captain's Quarters", description: "A restricted access corridor to the Captain's Quarters.", x: 93, y: 35, width: 6, height: 40, type: "door", action: "captains-quarters" },
       { id: "egg-cargo-manifest", name: "Torn Manifest Page", description: "A torn page from the original cargo manifest, hidden under a crate.", x: 48, y: 84, width: 4, height: 5, type: "item", action: "classified-manifest-page", elaraDialog: "A torn manifest page. Most of it is redacted, but one entry is legible: 'Container 7-Omega: BIOLOGICAL — Clone Template, Oracle-class. STATUS: Active. HANDLER: The Collector.' A clone template of the Oracle... on our ship. The False Prophet was made from an Oracle clone. Is there another one here? Is it awake?" },
+      { id: "rubber-chicken", name: "Rubber Chicken", description: "A rubber chicken with a pulley in the middle. Why is this on a spaceship?", x: 22, y: 80, width: 4, height: 5, type: "examine", action: "room-mystery:cargo-hold:rubber-chicken", elaraDialog: "It's a rubber chicken with a pulley in the middle. I have no tactical assessment. I've failed you as an AI. Also — it has been here longer than any human I have ever known. Take that how you want." },
     ],
   },
   {
