@@ -18,6 +18,10 @@ import { useRef, useState, useCallback, useEffect } from "react";
 let manifest: Record<string, string> | null = null;
 let manifestLoading = false;
 let manifestLoaded = false;
+/** Callbacks from speak() invocations that arrived before the dynamic
+ *  import resolved. Drained on load so the very first VO of a session
+ *  isn't lost to the cold-load race. */
+const pendingSpeak: Array<() => void> = [];
 
 async function loadManifest() {
   if (manifestLoaded || manifestLoading) return;
@@ -31,19 +35,37 @@ async function loadManifest() {
     manifestLoaded = true;
   }
   manifestLoading = false;
+  const drain = pendingSpeak.splice(0);
+  for (const cb of drain) cb();
 }
 
 export function useElaraVO() {
   const [audio, setAudio] = useState<HTMLAudioElement | null>(null);
   const [speaking, setSpeaking] = useState(false);
   const queueRef = useRef<string[]>([]);
+  // Mirror `speaking` into a ref so `speak` keeps a stable identity
+  // across renders. Callers that include the hook in effect deps
+  // otherwise risk capturing a stale `speak` closure where `speaking`
+  // disagrees with reality.
+  const speakingRef = useRef(false);
+  useEffect(() => { speakingRef.current = speaking; }, [speaking]);
 
   useEffect(() => { loadManifest(); }, []);
 
   const speak = useCallback((lineId: string) => {
-    if (!manifest || !manifest[lineId]) return;
+    // Manifest still loading — queue and replay once the import
+    // resolves. Without this, the first speak() of a session is a
+    // silent no-op.
+    if (!manifestLoaded) {
+      pendingSpeak.push(() => speak(lineId));
+      return;
+    }
+    if (!manifest || !manifest[lineId]) {
+      console.warn(`[useElaraVO] missing manifest entry for "${lineId}"`);
+      return;
+    }
 
-    if (speaking) {
+    if (speakingRef.current) {
       queueRef.current.push(lineId);
       return;
     }
@@ -54,16 +76,26 @@ export function useElaraVO() {
     a.volume = 0.8;
     setAudio(a);
 
-    a.onplay = () => setSpeaking(true);
+    a.onplay = () => {
+      speakingRef.current = true;
+      setSpeaking(true);
+    };
     a.onended = () => {
+      speakingRef.current = false;
       setSpeaking(false);
       const next = queueRef.current.shift();
       if (next) speak(next);
     };
-    a.onerror = () => setSpeaking(false);
+    a.onerror = () => {
+      speakingRef.current = false;
+      setSpeaking(false);
+    };
 
-    a.play().catch(() => setSpeaking(false));
-  }, [speaking]);
+    a.play().catch(() => {
+      speakingRef.current = false;
+      setSpeaking(false);
+    });
+  }, []);
 
   const stop = useCallback(() => {
     if (audio) {
@@ -71,6 +103,7 @@ export function useElaraVO() {
       setAudio(null);
     }
     queueRef.current = [];
+    speakingRef.current = false;
     setSpeaking(false);
   }, [audio]);
 
