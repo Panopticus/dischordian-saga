@@ -137,3 +137,7 @@ apps/client/public/music/
 apps/client/public/games/
 apps/client/public/vfx-atlases/
 __pycache__/
+
+.env
+.env.*
+!.env.example
