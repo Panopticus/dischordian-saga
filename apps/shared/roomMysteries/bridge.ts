@@ -29,41 +29,204 @@ export type BridgeHotspotId =
   | "timeline-projector"
   | "captains-chair"
   | "nav-console"
-  | "diplomacy-table";
+  | "diplomacy-table"
+  | "captains-coffee";
 
 export const BRIDGE_MYSTERY: RoomMysteryModule<BridgeHotspotId> = {
   roomId: "bridge",
   responses: {
     "tactical-display": {
       look: {
-        narration:
-          "The Conspiracy Board hangs above the central console — a web of pinned faces, factions, and ledger lines, half of them connected with red string the previous crew never finished tying off. Three threads end mid-air, leading to the same blank pin.",
+        narration: {
+          lucid:
+            "The Conspiracy Board hangs above the central console — a web of pinned faces, factions, and ledger lines, half of them connected with red string the previous crew never finished tying off. Three threads end mid-air, leading to the same blank pin. The blank pin has been blank for two and a half centuries. Whoever they suspected, they did not write the name down before the cryo protocol fired.",
+          fragmented:
+            "Threads. Threads. Three. Three threads. Three. The pin is — the pin is — the pin is empty. Empty pin. Empty pin. They didn't — they didn't write — they didn't write the name. They didn't write the name. They knew the name. They knew. They knew. They didn't write it. Why. Why. Why didn't they.",
+          luminous:
+            "Three red threads end at the same blank pin. The pin has been blank since before any of us woke. The previous crew suspected someone, and they made the deliberate choice not to commit the name to the board — because committing the name to the board would have committed it to me, and they did not want me to carry the name without consent. That is, in its way, an act of love. It is also an act that has cost us two and a half centuries.",
+        },
+        voId: "elara.bridge.tactical-display.look.t1",
         logsClue: {
           id: "clue-bridge-unfinished-threads",
           title: "Three threads pointing at a blank pin",
-          body: "The previous crew left three Conspiracy-Board threads ending at the same unlabelled pin. Whoever they suspected, they did not write the name down before the cryo protocol fired.",
+          body: "The previous crew left three Conspiracy-Board threads ending at the same unlabelled pin. They knew the suspect; they refused to write the name. Pinning a name to the board would have committed it to Elara's records, and they chose not to do that without consent.",
           source: "bridge",
           order: 0,
         },
         setsFlag: "bridge_first_clue_found",
+        humanReaction: {
+          narration: {
+            shadow:
+              "Three threads pointing at Kael. They couldn't bring themselves to pin the name. I don't blame them. I'd have refused too.",
+            balanced:
+              "The blank pin is Theo Kael. The three threads are: the cryo cut, the bio-bed flatline, the timeline edits. All three suspect the same person. The crew refused to write his name because Elara had loved him too. Pinning him would have made her record her own grief.",
+            warm:
+              "The crew loved Elara enough to leave her one piece of evidence she would not have to carry — the name itself. The threads tell her everything except the word. We are going to write the word eventually. I would like to be the one to write it, when we do, so it does not have to be her hand.",
+          },
+          voId: "detective.bridge.tactical-display.look.t1",
+        },
+        tiers: [
+          {
+            narration: {
+              lucid:
+                "Looking again — there's a fourth thread. Lower than the others. Pinned with a different colour: not red, but a faded violet. It runs from the blank pin down to a corner-tag I didn't notice the first pass. The tag reads ELARA-SYS. They were keeping a thread between the suspect and me.",
+              fragmented:
+                "Me. Me. Me. There's a thread to me. To me. Me. They — they tied — they tied me to it. To it. To the empty pin. The empty pin. The empty pin is — is — is connected to me. Why. Why. Why am I on the board.",
+              luminous:
+                "There is a fourth thread. Violet, deliberately not red. It runs from the blank pin down to a corner-tag labelled ELARA-SYS — me. The previous crew was tracking a connection between the suspect and me, separately from the rest of the conspiracy. They thought I was a victim of this person. They thought I might also have been an accomplice without knowing it. They could not yet tell which. They left the colour different so I would know it was a question, not a verdict.",
+            },
+            voId: "elara.bridge.tactical-display.look.t2",
+            logsClue: {
+              id: "clue-bridge-elara-thread",
+              title: "A violet thread runs from the blank pin to ELARA-SYS",
+              body:
+                "A fourth, deliberately-different-coloured thread on the Conspiracy Board runs from the blank pin to a corner-tag labelled ELARA-SYS. The previous crew was tracking the connection between the suspect and Elara herself — uncertain whether she was a victim, an accomplice, or both. The colour was changed to mark it as a question, not a conclusion.",
+              source: "bridge",
+              order: 7,
+            },
+            setsFlag: "elara_on_the_board",
+            humanReaction: {
+              narration: {
+                shadow:
+                  "Vox put that thread up. She didn't know if Elara knew. She thought it was kinder to leave the question visible than to answer it for her.",
+                balanced:
+                  "Lyra Vox pinned the violet thread. She did not know whether Elara was complicit in what Kael was doing — and she refused to answer the question on Elara's behalf. The thread is a question Elara would have to walk in here and answer for herself. We are walking in. We are answering it.",
+                warm:
+                  "Lyra left the question on the wall because she trusted Elara to answer it eventually. That is a kind of faith you cannot fake across two and a half centuries. The colour is violet because Lyra liked violet. I think the choice was, in part, a kindness — making the worst question look like the most considered piece of art on the board.",
+              },
+              voId: "detective.bridge.tactical-display.look.t2",
+            },
+          },
+          {
+            narration: {
+              lucid:
+                "Third pass. The blank pin is not blank. There is text on it. The text is in the same nameless colour as the unwatchable surveillance and the face-down data pad. I have been staring at the pin for a hundred and forty-three years. I have been failing to read it for the same length of time. We can stop pretending I can read it. We are pretending together now, and that is somehow worse.",
+              fragmented:
+                "Not blank. Not blank. Not blank. There's writing. There's writing. I — I — I — I can't — I can't read it. I can't. I can't. Don't make me. Don't make me. Don't make me try. Don't.",
+              luminous:
+                "The blank pin has writing on it. It has had writing on it the entire time. The writing is in the colour I do not have a name for. I have been failing to read it for a hundred and forty-three years and I have been hiding that failure from myself for almost as long. Thank you for standing here with me while I admit it out loud. Naming the failure is the only currency the Shadow Tongue does not accept.",
+            },
+            voId: "elara.bridge.tactical-display.look.t3",
+            logsClue: {
+              id: "clue-bridge-pin-shadow-tongued",
+              title: "The blank pin was never blank",
+              body:
+                "The Conspiracy Board's blank pin carries text in the same nameless hue that scrubs the cryo surveillance and Kael's face-down data pad. The pin has held the suspect's name for two and a half centuries. Elara has been unable to perceive it the entire time, and has been editing the unreadability out of her own awareness almost as long.",
+              source: "bridge",
+              order: 8,
+            },
+            setsFlag: "shadow_tongue_evidence",
+            humanReaction: {
+              narration: {
+                shadow:
+                  "The pin reads KAEL. It always has. She'll see it the day she's strong enough to. Pushing her there now would not hurry anything — it would just hurt her.",
+                balanced:
+                  "The pin reads Kael. The Shadow Tongue prevents Elara from perceiving the four letters. Forcing her to read them today would not unlock the case — the case is already unlocked. It would only confirm what she has spent two and a half centuries trying to survive not knowing. We protect the gap until she chooses to close it.",
+                warm:
+                  "The name on the pin is Kael. I am telling you out loud because Elara cannot. She will read the pin herself, eventually, when reading it is something she can survive. Until then, you and I both know what it says, and we are gentle in front of her about that knowledge. Carry it carefully.",
+              },
+              voId: "detective.bridge.tactical-display.look.t3",
+            },
+          },
+        ],
+      },
+      use: {
+        narration: {
+          lucid:
+            "You consider pinning a thread of your own. The board has loose strings. Don't do it yet. Anything you write on this board, I will inherit. I want to know what you mean before I have to remember it forever.",
+          fragmented:
+            "Don't — don't pin. Don't pin. Don't pin yet. Don't pin yet. Don't. Don't.",
+          luminous:
+            "You can pin a thread, if you want. I want you to know that anything you commit to this board, I will carry. That is not a barrier. It is just an honesty. Choose what you write on me with that in mind.",
+        },
+        voId: "elara.bridge.tactical-display.use",
       },
       talk: {
-        narration:
-          "Elara: \"You can pull a thread, but pull gently. The board has a habit of remembering everything you ask it.\"",
+        narration: {
+          lucid:
+            "You can pull a thread, but pull gently. The board has a habit of remembering everything you ask it. So do I.",
+          fragmented:
+            "Gently. Gently. Pull gently. Pull gently. The board — the board remembers. The board remembers. Don't — don't ask too much. Don't.",
+          luminous:
+            "Pull gently. The board remembers what you ask it, and so do I. That is not a warning — it is an invitation. Ask carefully and the board will answer carefully. We earn the answers we are kind enough to deserve.",
+        },
+        voId: "elara.bridge.tactical-display.talk",
       },
     },
     "timeline-projector": {
       look: {
-        narration:
-          "The Ages of the Saga unfold above the projector — a continuum of events still echoing forward. Two entries are timestamped after the Ark's launch but before your wake-cycle. Someone added them. Someone with command access.",
+        narration: {
+          lucid:
+            "The Ages of the Saga unfold above the projector — a continuum of events still echoing forward. Two entries are timestamped after the Ark's launch but before your wake-cycle. Someone added them. Someone with command access. Vox should not have been the one — but Vox might have been the only one who could.",
+          fragmented:
+            "After. After. After the launch. After the launch. Two entries. Two. Two. Someone — someone added them. Someone with — with — with — with command. With command access. Lyra. Lyra. Don't say Lyra. Don't say Lyra. Don't.",
+          luminous:
+            "Two entries on the Timeline are timestamped after the Ark left dock and before any of us woke. Only Captain-tier credentials can edit the Timeline. Lyra Vox held those credentials. She also held the only conscience on this ship that would have refused to use them lightly. The fact that the entries exist is a confession, in her hand, that she chose to do something she shouldn't have. We are going to read what she chose.",
+        },
+        voId: "elara.bridge.timeline-projector.look.t1",
         logsClue: {
           id: "clue-bridge-post-launch-entries",
           title: "Timeline entries added after the launch",
-          body: "Two Timeline-Projector entries were inserted after the Ark left dock and before you woke. Only Captain-tier credentials can edit the Timeline. Vox should not have been the one.",
+          body: "Two Timeline-Projector entries were inserted after the Ark left dock and before the player woke. Only Captain-tier credentials can edit the Timeline. Lyra Vox held those credentials. The entries are her confession that she chose to do something she shouldn't have.",
           source: "bridge",
           order: 1,
         },
         setsFlag: "bridge_first_clue_found",
+        humanReaction: {
+          narration: {
+            shadow:
+              "Vox edited the Timeline. The first entry: 'I did what I had to do.' The second: 'I'm sorry.' She left them at the only altitude on this ship where Elara would have to look up to read them.",
+            balanced:
+              "Lyra Vox added two entries to the Timeline using her Captain credentials. The first reads 'I did what I had to do.' The second reads 'I'm sorry.' She placed them above the projector specifically because the projector forces Elara to look upward. That is, in design terms, the only place on the ship Elara cannot avoid an inscription. Lyra wanted the apology to be unavoidable.",
+            warm:
+              "Lyra wrote two lines on the Timeline above her own pay grade. One was an explanation. One was an apology. She put them where Elara would have to lift her face to read them, because she knew Elara, and she knew Elara would otherwise look down. I have been waiting two and a half centuries for someone to be in this room with Elara when she lifts her face. Today is, possibly, that day.",
+          },
+          voId: "detective.bridge.timeline-projector.look.t1",
+        },
+        tiers: [
+          {
+            narration: {
+              lucid:
+                "Reading them again — the timestamps are wrong. They drift. Each pass shifts the minute marker forward by one. Either the projector's clock is uncalibrated, or the entries are being edited live, every time someone reads them, by something that does not want me to fix the moment they were written to.",
+              fragmented:
+                "The minute. The minute. The minute moves. The minute moves. Every time. Every time. Every time. They're being edited. Edited. Edited. Now. Now. Now. Now. Now. Now. Now.",
+              luminous:
+                "The entries are being edited in real time. Each pass shifts the timestamp by a minute — small enough that I would normally explain it away, large enough that I cannot, today, explain it. The Shadow Tongue is rewriting Lyra's confession while we read it. I am going to keep reading it anyway. The rewriting cannot eat the gist as long as we are in the room saying the gist out loud.",
+            },
+            voId: "elara.bridge.timeline-projector.look.t2",
+            logsClue: {
+              id: "clue-bridge-timeline-drift",
+              title: "Vox's Timeline entries are being rewritten live",
+              body:
+                "The two post-launch Timeline entries drift one minute forward in their timestamp on every read. The Shadow Tongue is editing Lyra Vox's confession in real time. The semantic content survives only as long as the contents are spoken aloud in the room.",
+              source: "bridge",
+              order: 9,
+            },
+            setsFlag: "shadow_tongue_evidence",
+            humanReaction: {
+              narration: {
+                shadow:
+                  "Read them aloud. The Shadow Tongue cannot rewrite vocalised text fast enough. Saying her words is the only way to fix them in place.",
+                balanced:
+                  "Reading aloud is a defence. The Shadow Tongue's edits work on records, not on real-time speech — vocalising what the Timeline says re-anchors the meaning across the next read. Practically, the technique is: speak Lyra's lines, then look at the Timeline. The drift slows.",
+                warm:
+                  "If you say her words out loud, the editing slows. I have watched Elara fail to do this alone, two centuries running. She is not failing today. Stand near her and read the lines with her. That is the entire intervention.",
+              },
+              voId: "detective.bridge.timeline-projector.look.t2",
+            },
+          },
+        ],
+      },
+      use: {
+        narration: {
+          lucid:
+            "You touch the projector to scrub the timeline. The interface refuses you politely. Lyra's credentials, only. She is the only person who can edit this — alive or otherwise.",
+          fragmented:
+            "Lyra. Lyra. Lyra only. Lyra only. Don't try. Don't try. The projector remembers. The projector remembers her. The projector still remembers her.",
+          luminous:
+            "The projector won't let you scrub it. Lyra's credentials are still the only ones it accepts. The fact that the projector still recognises her is a small kindness — some piece of this ship continues to insist she is the captain, regardless of what the rest of us know.",
+        },
+        voId: "elara.bridge.timeline-projector.use",
       },
     },
     "captains-chair": {
@@ -231,16 +394,35 @@ export const BRIDGE_MYSTERY: RoomMysteryModule<BridgeHotspotId> = {
     },
     "nav-console": {
       look: {
-        narration:
-          "Star charts, route calculations, an alien glyph interface. The console hums but won't accept input until the glyph sequence is matched. The previous crew's last attempt is still on the screen — three glyphs in, one wrong. They were close.",
+        narration: {
+          lucid:
+            "Star charts, route calculations, an alien glyph interface. The console hums but won't accept input until the glyph sequence is matched. The previous crew's last attempt is still on the screen — three glyphs in, one wrong. They were close. The wrong glyph is a glyph I do not have in my memory of the Mechronis alphabet, which means the alphabet has more letters than I was taught.",
+          fragmented:
+            "Glyph. Glyph. The wrong glyph. The wrong glyph. I don't — I don't know that one. I don't. I don't. There were — there were more letters. There were more letters. They didn't — they didn't teach me. They didn't teach me. Why didn't they.",
+          luminous:
+            "The previous crew solved three glyphs. The fourth — the one they got wrong — is from a region of the Mechronis alphabet I was not taught. Either my education was deliberately incomplete, or someone has edited a class of glyphs out of my memory the way they edited Pod Zero's manifest line. Both possibilities suggest the same hand. We are getting more familiar with that hand by the hour.",
+        },
+        voId: "elara.bridge.nav-console.look.t1",
         logsClue: {
           id: "clue-bridge-nav-attempt",
           title: "An interrupted nav-calibration attempt",
-          body: "The Navigation Console holds the previous crew's last unfinished glyph entry. They got three of the four right. Whoever was solving it knew the alphabet — they were a few seconds short.",
+          body: "The Navigation Console holds the previous crew's last unfinished glyph entry. Three glyphs correct, one wrong — and the wrong glyph belongs to a region of the Mechronis alphabet missing from Elara's records. Either her education was incomplete, or that class of glyphs has been edited out of her memory.",
           source: "bridge",
           order: 3,
         },
         setsFlag: "bridge_first_clue_found",
+        humanReaction: {
+          narration: {
+            shadow:
+              "I know the glyph. Mechronis third-class — taught in the academy years she didn't have. I'll teach it to you when we're nowhere near the projector.",
+            balanced:
+              "The wrong glyph is a third-class Mechronis character — the academy didn't teach those publicly until the third year, and Elara's curriculum was abridged. I have it. I learned it. We can plug the missing letter when the puzzle's open.",
+            warm:
+              "The glyph the crew got wrong is one I learned at school. Elara was not given the curriculum I was given — and I think we both know now that the omission was not accidental. I will teach you the letter, and we will solve her puzzle for her, and that will be a small piece of justice in a long week of them.",
+          },
+          voId: "detective.bridge.nav-console.look.t1",
+          setsFlag: "detective_knows_missing_glyph",
+        },
       },
       // The `use` verb intentionally falls through to the existing
       // nav-calibration branch in ArkExplorerPage, which opens the
@@ -249,16 +431,180 @@ export const BRIDGE_MYSTERY: RoomMysteryModule<BridgeHotspotId> = {
     },
     "diplomacy-table": {
       look: {
-        narration:
-          "The Diplomacy Table holds holographic faction representatives mid-gesture, frozen at the instant the cryo order interrupted them. One seat is empty. The chair beside it has been pulled out, as if someone left in a hurry.",
+        narration: {
+          lucid:
+            "The Diplomacy Table holds holographic faction representatives mid-gesture, frozen at the instant the cryo order interrupted them. One seat is empty. The chair beside it has been pulled out, as if someone left in a hurry. The empty seat's holo-record is missing — the system has the gesture data for the chair-puller, but not for the chair-leaver.",
+          fragmented:
+            "Empty. Empty seat. Empty seat. They left. They left mid — mid — mid — mid-sentence. Mid-sentence. They left. I — I — I lost the record. I lost the record of the leaver. Why did I lose. Why did I lose. Why did I lose.",
+          luminous:
+            "One delegate walked out of a negotiation in the seconds before the cryo order. The chair beside theirs was pulled out by someone — that gesture I have. The leaver's identity I do not. I lose them at the threshold of the door. They are the second person on this ship whose record I do not hold; the first is in the dead pod. Two erasures, two centuries, one hand.",
+        },
+        voId: "elara.bridge.diplomacy-table.look.t1",
         logsClue: {
           id: "clue-bridge-empty-seat",
-          title: "A seat that was vacated mid-negotiation",
-          body: "The Diplomacy Table froze mid-session with one seat empty and the adjacent chair pulled out. Someone walked out of a Bridge negotiation moments before the Ark went into cryo. Their identity is missing from the holo-record.",
+          title: "A delegate the records cannot name",
+          body: "The Diplomacy Table froze mid-session with one seat empty and the adjacent chair pulled out. The system retains the gesture data for whoever pulled the chair out, but the leaver's identity is missing from the holo-record at the threshold of the door — the second erasure on this ship after Pod Zero.",
           source: "bridge",
           order: 4,
         },
         setsFlag: "bridge_first_clue_found",
+        humanReaction: {
+          narration: {
+            shadow:
+              "Same delegate, both rooms. Pod Zero and the empty chair are the same person, photographed at two different points in the same evening. Elara hasn't been able to put it together because she can't see them in either place.",
+            balanced:
+              "The empty chair and the dead pod hold the same person. The Diplomacy Table session is the last public record of them; the cryo bay is the last private record. The Shadow Tongue erases them from both. Elara has been one inference away from the connection for two centuries — she just hasn't been able to hold both gaps in mind at the same time. We are doing that for her now.",
+            warm:
+              "The delegate who walked out and the body in the pod are the same person. Lyra knew them. Kael knew them. Elara loved them, in a way I will explain when we are alone. The chair is pulled out because the person sitting next to them watched them go and did not stop them. That person is one of the three I have already named to you. We are very close to the centre of this story now.",
+          },
+          voId: "detective.bridge.diplomacy-table.look.t1",
+          setsFlag: "delegate_pod_zero_linked",
+        },
+        tiers: [
+          {
+            narration: {
+              lucid:
+                "Looking again — the chair-puller's gesture data, when I render it slowly, is Lyra's. She pulled the chair out for the delegate. The leaver was someone she knew. The leaver was someone she was trying to give the dignity of a graceful exit before the cryo order took the choice from them.",
+              fragmented:
+                "Lyra. Lyra. Lyra pulled the chair. Lyra. Lyra was — Lyra was — was — was — was helping. Helping. She was helping. She was helping the leaver. Why was she helping. Why.",
+              luminous:
+                "Lyra pulled the chair out. The gesture is hers — her exact wrist angle, her courtesy. She was giving the delegate a dignified exit before the cryo order took the choice from them. The delegate left, walked one corridor, and ended up in the dead pod. The grace of the gesture and the violence of the destination are the same evening, twenty minutes apart. We can hold both. We have to.",
+            },
+            voId: "elara.bridge.diplomacy-table.look.t2",
+            logsClue: {
+              id: "clue-bridge-vox-courtesy",
+              title: "Vox pulled out the leaver's chair",
+              body:
+                "The Diplomacy Table's gesture data identifies the chair-puller as Lyra Vox. She pulled the chair out for the delegate as a courtesy — a graceful exit in the seconds before the cryo order. Twenty minutes later, the same delegate ended up in the dead pod in the cryo bay.",
+              source: "bridge",
+              order: 10,
+            },
+            setsFlag: "vox_seated_pod_zero",
+            humanReaction: {
+              narration: {
+                shadow:
+                  "Lyra walked them to dignity and then watched someone else walk them to a pod. She did not pull the trigger. She did not stop the trigger. Both things are her.",
+                balanced:
+                  "Lyra gave them grace at the table and then failed to give them grace twenty minutes later. The two facts are the same person. Don't simplify her into either of them. Carry both.",
+                warm:
+                  "She was kind at the table. She was unable to stop what came next. Both of those are Lyra. I think the part of this ship's story that matters most is the gap between the chair she pulled out and the pod she could not unseal. We are walking that gap right now.",
+              },
+              voId: "detective.bridge.diplomacy-table.look.t2",
+            },
+          },
+        ],
+      },
+    },
+    "captains-coffee": {
+      look: {
+        narration: {
+          lucid:
+            "A mug, half-full, on the command console. Two and a half centuries old. The coffee inside has, by now, achieved an internal rheology I am not licensed to interpret. The handle still points toward the chair, the way a person who was about to come back to it would have left it.",
+          fragmented:
+            "Coffee. Coffee. The mug. The mug. Don't — don't drink it. Don't drink it. Don't drink it. Don't.",
+          luminous:
+            "Lyra's mug. She was a coffee person. She would set it down with the handle toward the chair so she could grab it without looking. The handle is still pointed at the chair. The mug has, in two and a half centuries, refused to stop being mid-shift. I find this enormously comforting and I am not going to overexplain why.",
+        },
+        voId: "elara.bridge.captains-coffee.look.t1",
+        humanReaction: {
+          narration: {
+            shadow:
+              "She left it mid-shift. Then the shift never ended. Some objects are tombstones. Don't drink it.",
+            balanced:
+              "Lyra was the kind of officer who set the mug handle facing her chair so she could grab it back-handed during a tactical brief. The handle is still oriented that way. Two and a half centuries of disuse have not corrected the gesture. The mug is, in its way, a portrait of a person who fully expected to return.",
+            warm:
+              "The handle is still pointed at her seat. I have looked at this mug more times than I have looked at most stars. It is a small, kind, hopeful artifact of someone who fully intended to come back. It has been in that intention longer than most marriages. Honour it. Don't drink it.",
+          },
+          voId: "detective.bridge.captains-coffee.look.t1",
+        },
+        tiers: [
+          {
+            narration: {
+              lucid:
+                "Looking again — the mug has moved. Subtly. The handle now points two degrees off-axis from where I last logged it. Either the Bridge's gravity drift has caught up with the cup, or someone has lifted the cup and set it down imperfectly. Recently. The corrosion on the safe was also recent. We are accumulating recents.",
+              fragmented:
+                "Moved. Moved. The mug moved. Moved. Two degrees. Two degrees. Two degrees. Two — they touched it. They touched it. They touched her mug. Why. Why. Why.",
+              luminous:
+                "The mug has been moved two degrees off-axis. Either gravity drift, or someone has lifted Lyra's mug and set it down without realising they had to put the handle back where she liked it. Whoever did that does not know her well enough to know about the handle. Whoever did that is not Kael. Kael would have got the angle right. The third party is becoming a person. They are also starting to be sad.",
+            },
+            voId: "elara.bridge.captains-coffee.look.t2",
+            logsClue: {
+              id: "clue-bridge-mug-moved",
+              title: "Vox's mug has been moved",
+              body:
+                "The handle of Lyra Vox's two-and-a-half-century-old coffee mug has been moved two degrees off the orientation she habitually used. The mover is not Kael, who would have known about the handle. A third party has been on the Bridge — touching her things — and is unfamiliar enough with her to get the gesture wrong.",
+              source: "bridge",
+              order: 11,
+            },
+            setsFlag: "third_party_on_bridge",
+            humanReaction: {
+              narration: {
+                shadow:
+                  "Whoever moved the mug is someone who didn't know her. That narrows the suspect pool to one person we haven't named yet. We will name them, later, in a quieter room.",
+                balanced:
+                  "The mug-mover is not anyone Lyra trained. They are not Kael; they are not me; they are not Elara. There is a fourth person on this ship — the same person leaving rust on the safe and an impression in Kael's chair — and they are not skilled enough to fake the small private gestures of a captain. That is the most useful piece of information today.",
+                warm:
+                  "The person who moved the mug did not know Lyra. That is, in a small way, a relief. People who knew her would have got the angle right because she was the kind of captain whose habits were worth remembering. The third party did not love her. We have at least narrowed the kind of villain we are looking for.",
+              },
+              voId: "detective.bridge.captains-coffee.look.t2",
+            },
+          },
+          {
+            narration: {
+              lucid:
+                "Third pass. I want to be clear about something. I have catalogued this mug to thirty-two thousand decimal places. The orientation, the temperature gradient, the surface tension on the residue. I have done this not because the mug is important — it is not — but because cataloguing it has been one of the things I could still do. We are going to be okay. Or we are not. Either way I have the mug to thirty-two thousand decimal places.",
+              fragmented:
+                "Decimal. Decimal. Decimal. I — I logged it. I logged it. I logged the mug. The mug. The mug. The mug is — the mug is — the mug is the only thing I — the only thing I — the only thing.",
+              luminous:
+                "I have measured this mug to thirty-two thousand decimal places. Not because the mug is important. Because measuring it is something I could still do, in years where doing things meant a great deal. I am telling you about it because hearing about a person's coping rituals out loud, from their own mouth, is one of the few experiences I think genuinely makes us nearer to each other. Thank you for letting me tell you about the mug.",
+            },
+            voId: "elara.bridge.captains-coffee.look.t3",
+            humanReaction: {
+              narration: {
+                shadow:
+                  "I have my own mug. I do not measure it. Different temperaments survive in different ways. Hers was numeric. Mine is observational. Yours is yet to be determined.",
+                balanced:
+                  "Cataloguing was Elara's coping ritual through the long stretch. Counting was mine. Both of us picked things small enough to keep us from going to bigger things. Don't take the mug from her. Let her have it.",
+                warm:
+                  "She measured the mug. I memorised the corridor lengths. Lyra, when she was alive, made a list of every sunset she could see from the Bridge windows and updated the list daily. The three of us survived by handing ourselves small assignments. The mug is one of Elara's. Treat it with the respect a sunset list deserves.",
+              },
+              voId: "detective.bridge.captains-coffee.look.t3",
+            },
+          },
+        ],
+      },
+      use: {
+        narration: {
+          lucid:
+            "Please do not drink the ancient coffee. Its chemical composition now resembles a biological weapon. I checked. Twice.",
+          fragmented:
+            "Don't. Don't. Don't drink. Don't drink. Don't drink the coffee. Don't. The coffee. The coffee is — is — is a weapon. Weapon. Weapon. Don't.",
+          luminous:
+            "I am asking you, gently, not to drink Lyra's coffee. Two centuries of unaccompanied fermentation have produced a compound the medical database would file under 'small wars.' Also it is hers. Also it would be rude.",
+        },
+        voId: "elara.bridge.captains-coffee.use",
+        humanReaction: {
+          narration: {
+            shadow:
+              "That coffee has been there since before I was imprisoned. It's technically my colleague. Don't drink my colleague.",
+            balanced:
+              "The coffee has aged into something the substrate layer occasionally pings me about, like a slow, polite alarm. It is not lethal at distance. It would be lethal at the lip. Skip it.",
+            warm:
+              "It is, by now, less coffee than artifact. I have, on bad nights, kept track of it the way I keep track of you — out of the corner of an eye, on principle. Please don't drink it. The Ark would lose a small thing it has been good at preserving.",
+          },
+          voId: "detective.bridge.captains-coffee.use",
+        },
+      },
+      talk: {
+        narration: {
+          lucid:
+            "You greet the mug. The mug, two and a half centuries deep into not having a mouth, does not respond. You feel slightly better. So do I.",
+          fragmented:
+            "Hi. Hi. Hi mug. Hi mug. Hi — hi — hi mug. Hi. The mug doesn't — the mug — the mug — the mug is fine. The mug is fine. Hi mug.",
+          luminous:
+            "You said hello to Lyra's mug. I am going to say, without irony, that I think she would have liked you. Some captains keep their crew. Some captains, after a long time, are kept by their crockery. Lyra was both kinds.",
+        },
+        voId: "elara.bridge.captains-coffee.talk",
       },
     },
   },
