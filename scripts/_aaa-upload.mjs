@@ -10,24 +10,18 @@
    local md5. Cache-Control: public, max-age=31536000, immutable.
    Requires AWS_ACCESS_KEY_ID + AWS_SECRET_ACCESS_KEY in env.
 
+   Uses scripts/_lib/s3.mjs for the upload pipeline.
+
    Flags:
      --dry-run   plan only, no PUTs
      --only=trade_empire | expansion_cards   restrict scope
 */
-import { readdir, readFile, stat } from "node:fs/promises";
-import { createHash } from "node:crypto";
+import { readdir, stat } from "node:fs/promises";
 import { join } from "node:path";
-import {
-  HeadObjectCommand,
-  PutObjectCommand,
-  S3Client,
-} from "@aws-sdk/client-s3";
+import { makeS3Client, uploadJobsConcurrent, S3_DEFAULTS } from "./_lib/s3.mjs";
 
 const SRC = "/tmp/aaa_assets/extracted";
-const BUCKET = "dgrsart";
-const REGION = "us-east-2";
 const PREFIX = "cdn/client-public";
-const CACHE = "public, max-age=31536000, immutable";
 const CONCURRENCY = 12;
 
 /* Producer subdir → canonical CDN segment for Trade Empire art. */
@@ -81,6 +75,7 @@ async function planFor(rootName, subdirMap, cdnRoot) {
       out.push({
         abs,
         key: `${PREFIX}/${cdnRoot}/${target}/${f}`,
+        contentType: "image/webp",
         size: s.size,
       });
     }
@@ -88,80 +83,30 @@ async function planFor(rootName, subdirMap, cdnRoot) {
   return out;
 }
 
-async function shouldSkip(client, key, body) {
-  try {
-    const head = await client.send(
-      new HeadObjectCommand({ Bucket: BUCKET, Key: key }),
-    );
-    const localEtag = `"${createHash("md5").update(body).digest("hex")}"`;
-    return head.ETag === localEtag;
-  } catch {
-    return false;
-  }
+if (!DRY_RUN && (!process.env.AWS_ACCESS_KEY_ID || !process.env.AWS_SECRET_ACCESS_KEY)) {
+  throw new Error("AWS_ACCESS_KEY_ID / AWS_SECRET_ACCESS_KEY required in env");
 }
 
-async function uploadOne(client, job) {
-  const body = await readFile(job.abs);
-  if (await shouldSkip(client, job.key, body)) return "skipped";
-  if (DRY_RUN) {
-    console.log(`[dry] ${job.key} (${(job.size / 1024).toFixed(1)} KB)`);
-    return "dryrun";
-  }
-  await client.send(
-    new PutObjectCommand({
-      Bucket: BUCKET,
-      Key: job.key,
-      Body: body,
-      ContentType: "image/webp",
-      CacheControl: CACHE,
-    }),
-  );
-  console.log(`✓ ${job.key} (${(job.size / 1024).toFixed(1)} KB)`);
-  return "uploaded";
+const jobs = [];
+if (!ONLY || ONLY === "trade_empire") {
+  jobs.push(...(await planFor("trade_empire", TE_MAP, "art/trade-empire")));
 }
-
-async function main() {
-  if (!process.env.AWS_ACCESS_KEY_ID || !process.env.AWS_SECRET_ACCESS_KEY) {
-    throw new Error("AWS_ACCESS_KEY_ID / AWS_SECRET_ACCESS_KEY required in env");
-  }
-  const client = new S3Client({ region: REGION });
-
-  const jobs = [];
-  if (!ONLY || ONLY === "trade_empire") {
-    jobs.push(...(await planFor("trade_empire", TE_MAP, "art/trade-empire")));
-  }
-  if (!ONLY || ONLY === "expansion_cards") {
-    jobs.push(
-      ...(await planFor(
-        "expansion_cards",
-        HOD_MAP,
-        "art/expansions/hierarchy-of-damned",
-      )),
-    );
-  }
-  console.log(`Planned ${jobs.length} uploads. dryRun=${DRY_RUN}`);
-
-  let cursor = 0, uploaded = 0, skipped = 0, dry = 0, failed = 0;
-  await Promise.all(
-    Array.from({ length: CONCURRENCY }, async () => {
-      while (cursor < jobs.length) {
-        const idx = cursor++;
-        try {
-          const r = await uploadOne(client, jobs[idx]);
-          if (r === "uploaded") uploaded++;
-          else if (r === "skipped") skipped++;
-          else dry++;
-        } catch (err) {
-          failed++;
-          console.error(`FAIL ${jobs[idx].key}: ${err.message}`);
-        }
-      }
-    }),
+if (!ONLY || ONLY === "expansion_cards") {
+  jobs.push(
+    ...(await planFor("expansion_cards", HOD_MAP, "art/expansions/hierarchy-of-damned")),
   );
-  console.log(
-    `Done. uploaded=${uploaded} skipped=${skipped} dry=${dry} failed=${failed}`,
-  );
-  if (failed > 0) process.exit(1);
 }
+console.log(`Planned ${jobs.length} uploads. dryRun=${DRY_RUN}`);
 
-main().catch((e) => { console.error(e); process.exit(1); });
+const result = await uploadJobsConcurrent({
+  client: makeS3Client(),
+  bucket: S3_DEFAULTS.bucket,
+  jobs: jobs.map(({ abs, key, contentType }) => ({ abs, key, contentType })),
+  concurrency: CONCURRENCY,
+  dryRun: DRY_RUN,
+});
+console.log(
+  `Done. uploaded=${result.ok} skipped=${result.skipped} ` +
+  `dry=${result.dry} failed=${result.fail}`,
+);
+if (result.fail > 0) process.exit(1);

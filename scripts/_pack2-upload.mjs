@@ -15,24 +15,16 @@
 
    Idempotent (S3 ETag compare). Cache-Control: public,
    max-age=31536000, immutable. Requires AWS_ACCESS_KEY_ID +
-   AWS_SECRET_ACCESS_KEY in env.
+   AWS_SECRET_ACCESS_KEY in env. Uses scripts/_lib/s3.mjs.
 
    Flags: --dry-run     plan only, no PUTs
 */
-import { readdir, readFile, stat } from "node:fs/promises";
-import { createHash } from "node:crypto";
+import { readdir, stat } from "node:fs/promises";
 import { join } from "node:path";
-import {
-  HeadObjectCommand,
-  PutObjectCommand,
-  S3Client,
-} from "@aws-sdk/client-s3";
+import { makeS3Client, uploadJobsConcurrent, S3_DEFAULTS } from "./_lib/s3.mjs";
 
 const SRC = "/tmp/aaa_assets/pack2";
-const BUCKET = "dgrsart";
-const REGION = "us-east-2";
 const PREFIX = "cdn/client-public/art/cards";
-const CACHE = "public, max-age=31536000, immutable";
 const CONCURRENCY = 16;
 
 const CATEGORY_MAP = {
@@ -64,42 +56,10 @@ function destKey(producerDir, filename) {
   return `${PREFIX}/${segment}/${filename}`;
 }
 
-async function shouldSkip(client, key, body) {
-  try {
-    const head = await client.send(
-      new HeadObjectCommand({ Bucket: BUCKET, Key: key }),
-    );
-    const localEtag = `"${createHash("md5").update(body).digest("hex")}"`;
-    return head.ETag === localEtag;
-  } catch {
-    return false;
-  }
-}
-
-async function uploadOne(client, job) {
-  const body = await readFile(job.abs);
-  if (await shouldSkip(client, job.key, body)) return "skipped";
-  if (DRY_RUN) {
-    console.log(`[dry] ${job.key} (${(job.size / 1024).toFixed(1)} KB)`);
-    return "dryrun";
-  }
-  await client.send(
-    new PutObjectCommand({
-      Bucket: BUCKET,
-      Key: job.key,
-      Body: body,
-      ContentType: "image/webp",
-      CacheControl: CACHE,
-    }),
-  );
-  return "uploaded";
-}
-
-if (!process.env.AWS_ACCESS_KEY_ID || !process.env.AWS_SECRET_ACCESS_KEY) {
+if (!DRY_RUN && (!process.env.AWS_ACCESS_KEY_ID || !process.env.AWS_SECRET_ACCESS_KEY)) {
   console.error("AWS_ACCESS_KEY_ID / AWS_SECRET_ACCESS_KEY required");
   process.exit(2);
 }
-const client = new S3Client({ region: REGION });
 
 const jobs = [];
 for (const ent of await readdir(SRC, { withFileTypes: true })) {
@@ -115,33 +75,29 @@ for (const ent of await readdir(SRC, { withFileTypes: true })) {
     const s = await stat(abs);
     const key = destKey(ent.name, f);
     if (!key) continue;
-    jobs.push({ abs, key, size: s.size });
+    jobs.push({ abs, key, contentType: "image/webp", size: s.size });
   }
 }
 console.log(`Planned ${jobs.length} uploads. dryRun=${DRY_RUN}`);
 
-let cursor = 0, uploaded = 0, skipped = 0, dry = 0, failed = 0;
 const started = Date.now();
-await Promise.all(
-  Array.from({ length: CONCURRENCY }, async () => {
-    while (cursor < jobs.length) {
-      const idx = cursor++;
-      try {
-        const r = await uploadOne(client, jobs[idx]);
-        if (r === "uploaded") uploaded++;
-        else if (r === "skipped") skipped++;
-        else dry++;
-        const total = uploaded + skipped + dry + failed;
-        if (total % 50 === 0 || total === jobs.length) {
-          const elapsed = ((Date.now() - started) / 1000).toFixed(1);
-          console.log(`  ${total}/${jobs.length} (up=${uploaded} skip=${skipped} dry=${dry} fail=${failed}) — ${elapsed}s`);
-        }
-      } catch (err) {
-        failed++;
-        console.error(`FAIL ${jobs[idx].key}: ${err.message}`);
-      }
+const result = await uploadJobsConcurrent({
+  client: makeS3Client(),
+  bucket: S3_DEFAULTS.bucket,
+  jobs: jobs.map(({ abs, key, contentType }) => ({ abs, key, contentType })),
+  concurrency: CONCURRENCY,
+  dryRun: DRY_RUN,
+  onProgress: (n, total, counts) => {
+    if (n % 50 === 0 || n === total) {
+      const elapsed = ((Date.now() - started) / 1000).toFixed(1);
+      console.log(
+        `  ${n}/${total} (up=${counts.ok} skip=${counts.skipped} dry=${counts.dry} fail=${counts.fail}) — ${elapsed}s`,
+      );
     }
-  }),
+  },
+});
+console.log(
+  `Done. uploaded=${result.ok} skipped=${result.skipped} ` +
+  `dry=${result.dry} failed=${result.fail}`,
 );
-console.log(`Done. uploaded=${uploaded} skipped=${skipped} dry=${dry} failed=${failed}`);
-process.exit(failed > 0 ? 1 : 0);
+process.exit(result.fail > 0 ? 1 : 0);
