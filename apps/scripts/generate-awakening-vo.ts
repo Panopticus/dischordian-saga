@@ -36,8 +36,10 @@ import { fileURLToPath } from "node:url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const ELEVENLABS_KEY = process.env.ELEVENLABS_API_KEY || "";
-const VOICE_ID = process.env.ELEVENLABS_VOICE_ID || "xMyNDrPFEtQN8iZtT7l2";
+const ELEVENLABS_KEY = sanitizeCredential("ELEVENLABS_API_KEY", process.env.ELEVENLABS_API_KEY);
+const VOICE_ID = sanitizeCredential("ELEVENLABS_VOICE_ID", process.env.ELEVENLABS_VOICE_ID) || "xMyNDrPFEtQN8iZtT7l2";
+const AWS_ACCESS_KEY_ID = sanitizeCredential("AWS_ACCESS_KEY_ID", process.env.AWS_ACCESS_KEY_ID);
+const AWS_SECRET_ACCESS_KEY = sanitizeCredential("AWS_SECRET_ACCESS_KEY", process.env.AWS_SECRET_ACCESS_KEY);
 const BUCKET = process.env.S3_BUCKET || "dgrsvoices";
 const REGION = process.env.AWS_REGION || "us-east-2";
 const S3_PREFIX = "Elara Voices/awakening";
@@ -46,9 +48,33 @@ if (!ELEVENLABS_KEY) {
   console.error("ERROR: ELEVENLABS_API_KEY is required.");
   process.exit(1);
 }
-if (!process.env.AWS_ACCESS_KEY_ID || !process.env.AWS_SECRET_ACCESS_KEY) {
+if (!AWS_ACCESS_KEY_ID || !AWS_SECRET_ACCESS_KEY) {
   console.error("ERROR: AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY are required.");
   process.exit(1);
+}
+
+/**
+ * Strip paste-junk from credential env vars before they reach an HTTP
+ * header. fetch() rejects header values containing non-Latin-1 bytes
+ * with "Cannot convert argument to a ByteString", which is the failure
+ * mode when a secret is copied out of a doc that smuggled in U+2028
+ * (LINE SEPARATOR), U+2029 (PARAGRAPH SEPARATOR), or a CR/LF.
+ *
+ * Removes ASCII control bytes (\x00–\x1F, \x7F) plus U+2028/U+2029,
+ * trims surrounding whitespace, and warns once per dirty var so the
+ * operator knows their shell profile leaked something invisible.
+ */
+function sanitizeCredential(name: string, raw: string | undefined): string {
+  if (!raw) return "";
+  // eslint-disable-next-line no-control-regex
+  const cleaned = raw.replace(/[\u0000-\u001F\u007F\u2028\u2029]/g, "").trim();
+  if (cleaned !== raw) {
+    console.warn(
+      `[sanitize] ${name} contained ${raw.length - cleaned.length} hidden ` +
+      `character(s) (control bytes or U+2028/U+2029); stripped before use.`,
+    );
+  }
+  return cleaned;
 }
 
 // ─── EMOTION → ELEVENLABS VOICE SETTINGS ───
@@ -216,8 +242,8 @@ async function uploadToS3(buffer: Buffer, key: string): Promise<string> {
   const s3 = new S3Client({
     region: REGION,
     credentials: {
-      accessKeyId: process.env.AWS_ACCESS_KEY_ID || "",
-      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || "",
+      accessKeyId: AWS_ACCESS_KEY_ID,
+      secretAccessKey: AWS_SECRET_ACCESS_KEY,
     },
   });
   const fullKey = `${S3_PREFIX}/${key}`;
