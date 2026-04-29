@@ -17,6 +17,12 @@
 import type { SongSlideshowDef } from "./songSlideshow";
 
 import { assetUrl } from "../client/src/lib/assetUrl";
+import {
+  ALBUM1_TRACKS,
+  album1FrameUrl,
+  type Album1TrackDef,
+  type Album1TrackId,
+} from "./expansionArt/album1Slideshows";
 /* ─── LAST WORDS (§5.4) ─── */
 
 /**
@@ -260,6 +266,141 @@ export const LAST_WORDS_SLIDESHOW: SongSlideshowDef = {
       "The recording always held two voices. You are the first in centuries to hear both.",
   },
 };
+
+/* ─── ALBUM 1 · DISCHORDIAN LOGIC — T01..T09 (producer drop, 2026-04-29) ─── */
+
+/**
+ * Audio durations measured from the producer's WAV→MP3 192kbps re-
+ * encodes. Frames are distributed evenly across the duration; the
+ * artist can hand-tune individual frame timings per-track later
+ * without changing the producer source files.
+ *
+ * MP3s live at cdn/client-public/audio/album1/T<NN>.mp3 — see the
+ * album1Slideshows manifest for the per-track frame inventory.
+ */
+const ALBUM1_AUDIO_DURATIONS_MS: Partial<Record<Album1TrackId, number>> = {
+  T01: 220_104,
+  T02: 175_512,
+  T03: 232_440,
+  T04: 205_200,
+  T05: 202_992,
+  T06: 189_480,
+  T07: 313_344,
+  T08: 212_424,
+  T09: 193_440,
+};
+
+const ALBUM1_TRANSITIONS = ["fade", "dissolve"] as const;
+
+function album1IdSlug(title: string): string {
+  return title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+}
+
+/**
+ * Build a SongSlideshowDef for an album1 track. Pulls frame URLs
+ * from the album1Slideshows manifest, audio URL from the
+ * cdn/client-public/audio/album1/T<NN>.mp3 convention, and
+ * distributes frame durations evenly across the audio.
+ */
+function album1Slideshow(
+  trackId: Album1TrackId,
+  opts: {
+    priority?: "P0" | "P1" | "P2";
+    subtitle?: string;
+    flagsSetOnComplete?: string[];
+    unlockLoredexEntry?: string;
+    lightEnergyReward?: number;
+  } = {},
+): SongSlideshowDef {
+  const track: Album1TrackDef | undefined = ALBUM1_TRACKS.find(
+    (t) => t.id === trackId,
+  );
+  if (!track) throw new Error(`album1Slideshow: ${trackId} not in manifest`);
+  const durationMs = ALBUM1_AUDIO_DURATIONS_MS[trackId];
+  if (durationMs === undefined) {
+    throw new Error(
+      `album1Slideshow: ${trackId} has no audio duration wired (see ALBUM1_AUDIO_DURATIONS_MS)`,
+    );
+  }
+  // Producer convention: T<NN>_00_title.webp is the pre-slideshow
+  // title card. Treat it as the reduced-motion hero (mirroring the
+  // Last Words pattern) and play the numbered beats T<NN>_01.. as
+  // the slideshow itself.
+  const titleUrl = album1FrameUrl(trackId, 1);
+  if (!titleUrl) throw new Error(`album1Slideshow: ${trackId} title card missing`);
+  const beatCount = track.frameRelPaths.length - 1;
+  const frameMs = durationMs / beatCount;
+  const id = `album1-${trackId.toLowerCase()}-${album1IdSlug(track.title)}`;
+  // Test invariant in songSlideshow.test.ts: every slideshow declares
+  // a `slideshow_<id-with-underscores>_complete` flag in flagsSetOnComplete.
+  const completionFlag = `slideshow_${id.replace(/-/g, "_")}_complete`;
+  const flagsSetOnComplete = [
+    completionFlag,
+    ...(opts.flagsSetOnComplete ?? []),
+  ];
+  return {
+    id,
+    songId: `album1_${trackId.toLowerCase()}`,
+    audioUrl: assetUrl(`audio/album1/${trackId}.mp3`),
+    durationMs,
+    title: track.title,
+    subtitle: opts.subtitle,
+    credits: `Album 1 · Age of Dischordian Logic — ${trackId}`,
+    priority: opts.priority ?? "P1",
+    flagsSetOnComplete,
+    unlockLoredexEntry: opts.unlockLoredexEntry,
+    lightEnergyReward: opts.lightEnergyReward,
+    frames: Array.from({ length: beatCount }, (_, i) => {
+      const start = Math.round(i * frameMs);
+      const end = Math.round((i + 1) * frameMs);
+      // Beats are 1-indexed past the title card → producer index = i + 2.
+      const url = album1FrameUrl(trackId, i + 2);
+      if (!url) throw new Error(`album1Slideshow: missing beat ${i + 2} for ${trackId}`);
+      return {
+        startMs: start,
+        endMs: end,
+        imageUrl: url,
+        transition: i === 0 ? "fade" : ALBUM1_TRANSITIONS[i % 2],
+        kenBurns: {
+          startScale: 1.0,
+          endScale: 1.06,
+          startPan: [0, 0] as [number, number],
+          endPan: [i % 2 === 0 ? 0.04 : -0.04, 0.02] as [number, number],
+        },
+        narratorReactionId: null,
+      };
+    }),
+    reducedMotionFallback: {
+      heroImageUrl: titleUrl,
+      prose: `Track ${trackId} from "Age of Dischordian Logic" — "${track.title}". ${beatCount} cinematic widescreen beats over ${(durationMs / 60_000).toFixed(1)} minutes of cel-shaded painterly anime, plus a title card hero.`,
+      closingLine: "Album 1 · Age of Dischordian Logic.",
+    },
+  };
+}
+
+export const ALBUM1_T01_SLIDESHOW = album1Slideshow("T01");
+export const ALBUM1_T02_SLIDESHOW = album1Slideshow("T02");
+export const ALBUM1_T03_SLIDESHOW = album1Slideshow("T03");
+export const ALBUM1_T04_SLIDESHOW = album1Slideshow("T04");
+export const ALBUM1_T05_SLIDESHOW = album1Slideshow("T05");
+export const ALBUM1_T06_SLIDESHOW = album1Slideshow("T06");
+export const ALBUM1_T07_SLIDESHOW = album1Slideshow("T07");
+export const ALBUM1_T08_SLIDESHOW = album1Slideshow("T08");
+export const ALBUM1_T09_SLIDESHOW = album1Slideshow("T09");
+
+/** First-9-tracks bundle. Spread into SONG_SLIDESHOWS below; downstream
+ *  consumers can also iterate this directly to render an album view. */
+export const ALBUM1_FIRST_NINE_SLIDESHOWS: readonly SongSlideshowDef[] = [
+  ALBUM1_T01_SLIDESHOW,
+  ALBUM1_T02_SLIDESHOW,
+  ALBUM1_T03_SLIDESHOW,
+  ALBUM1_T04_SLIDESHOW,
+  ALBUM1_T05_SLIDESHOW,
+  ALBUM1_T06_SLIDESHOW,
+  ALBUM1_T07_SLIDESHOW,
+  ALBUM1_T08_SLIDESHOW,
+  ALBUM1_T09_SLIDESHOW,
+];
 
 /* ─── WELCOME TO CELEBRATION (§4.3 Cycle A finale, §12 C2) ─── */
 
@@ -2072,6 +2213,16 @@ export const ACT_7_CONVERGENCE_INTRO_SLIDESHOW: SongSlideshowDef = {
 
 export const SONG_SLIDESHOWS: Record<string, SongSlideshowDef> = {
   [LAST_WORDS_SLIDESHOW.id]: LAST_WORDS_SLIDESHOW,
+  /* Album 1 · Dischordian Logic — T01..T09 (producer drop) */
+  [ALBUM1_T01_SLIDESHOW.id]: ALBUM1_T01_SLIDESHOW,
+  [ALBUM1_T02_SLIDESHOW.id]: ALBUM1_T02_SLIDESHOW,
+  [ALBUM1_T03_SLIDESHOW.id]: ALBUM1_T03_SLIDESHOW,
+  [ALBUM1_T04_SLIDESHOW.id]: ALBUM1_T04_SLIDESHOW,
+  [ALBUM1_T05_SLIDESHOW.id]: ALBUM1_T05_SLIDESHOW,
+  [ALBUM1_T06_SLIDESHOW.id]: ALBUM1_T06_SLIDESHOW,
+  [ALBUM1_T07_SLIDESHOW.id]: ALBUM1_T07_SLIDESHOW,
+  [ALBUM1_T08_SLIDESHOW.id]: ALBUM1_T08_SLIDESHOW,
+  [ALBUM1_T09_SLIDESHOW.id]: ALBUM1_T09_SLIDESHOW,
   [WELCOME_TO_CELEBRATION_SLIDESHOW.id]: WELCOME_TO_CELEBRATION_SLIDESHOW,
   [TO_BE_THE_HUMAN_SLIDESHOW.id]: TO_BE_THE_HUMAN_SLIDESHOW,
   [HACKING_REALITY_SLIDESHOW.id]: HACKING_REALITY_SLIDESHOW,
