@@ -21,6 +21,7 @@ import type { CombineRule, RoomMysteryModule } from "./_template";
 import { ARCHIVES_MYSTERY } from "./archives";
 import { ARMORY_MYSTERY } from "./armory";
 import { BRIDGE_MYSTERY } from "./bridge";
+import { CAPTAINS_QUARTERS_MYSTERY } from "./captainsQuarters";
 import { CARGO_HOLD_MYSTERY } from "./cargoHold";
 import { COMMS_ARRAY_MYSTERY } from "./commsArray";
 import { ENGINEERING_MYSTERY } from "./engineering";
@@ -47,6 +48,7 @@ export const ROOM_MYSTERY_REGISTRY: Readonly<Record<string, RoomMysteryModule>> 
   "comms-array": COMMS_ARRAY_MYSTERY as RoomMysteryModule,
   "cargo-hold": CARGO_HOLD_MYSTERY as RoomMysteryModule,
   "armory": ARMORY_MYSTERY as RoomMysteryModule,
+  "captains-quarters": CAPTAINS_QUARTERS_MYSTERY as RoomMysteryModule,
 };
 
 /** Get the module for a room id, or null if no mystery is authored. */
