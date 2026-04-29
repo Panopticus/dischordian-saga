@@ -91,6 +91,8 @@ export {
   resolveTierResponse,
   resolveBandedNarration,
   resolveHumanBandedNarration,
+  resolveBandedVoId,
+  resolveBandedHumanVoId,
   resolveHumanReaction,
   type Verb,
   type VerbResponse,
