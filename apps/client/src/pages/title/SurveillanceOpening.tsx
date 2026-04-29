@@ -130,7 +130,7 @@ export function SurveillanceOpening({ onComplete, force = false }: SurveillanceO
     setTimeout(() => {
       setStage("done");
       onComplete();
-    }, 80);
+    }, 40);
   }, [onComplete]);
 
   // If we were already-seen on mount, hand control back immediately.
@@ -143,19 +143,19 @@ export function SurveillanceOpening({ onComplete, force = false }: SurveillanceO
 
   // Drive the scanning reveal on a jagged cadence — snappy at the top,
   // with just enough late-line drag to land FINGERPRINT as a punch.
-  // The whole sequence wraps in ~200ms so the player never perceives it
+  // The whole sequence wraps in ~120ms so the player never perceives it
   // as a loading screen. Reduce-motion collapses to a tick.
-  const CADENCE = [12, 14, 16, 20, 26, 36, 48, 64];
+  const CADENCE = [6, 7, 8, 10, 13, 18, 24, 32];
   useEffect(() => {
     if (stage !== "scanning") return;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduce) {
       setRevealed(lines.length);
-      const t = setTimeout(finish, 80);
+      const t = setTimeout(finish, 40);
       return () => clearTimeout(t);
     }
     if (revealed >= lines.length) {
-      const t = setTimeout(finish, 80);
+      const t = setTimeout(finish, 40);
       return () => clearTimeout(t);
     }
     const delay = CADENCE[Math.min(revealed, CADENCE.length - 1)];
@@ -243,7 +243,7 @@ export function SurveillanceOpening({ onComplete, force = false }: SurveillanceO
             pointerEvents: "none",
             background: "rgba(255,255,255,0.18)",
             mixBlendMode: "difference",
-            animation: "surv-flash 250ms steps(3) forwards",
+            animation: "surv-flash 150ms steps(3) forwards",
           }}
         />
       )}
@@ -407,7 +407,7 @@ function ScanView({ lines, revealed }: { lines: ScanLine[]; revealed: number }) 
               key={`${line.label}-${i}`}
               text={line.value}
               mode="decode"
-              speed={8}
+              speed={4}
               showCursor={false}
             />
           );
