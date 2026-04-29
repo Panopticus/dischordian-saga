@@ -3,6 +3,7 @@ import { describe, it, expect } from "vitest";
 import type { CardDefinition } from "../types/Card";
 import {
   NULL_PLAYER_EXPANSION_STATE,
+  derivePlayerExpansionStateFromFlags,
   evaluateUnlockCondition,
   filterLockedCards,
   filterUnlockedCards,
@@ -155,5 +156,66 @@ describe("expansionUnlockService — registry integration (S2 Hierarchy of the D
       (c) => c.unlockCondition?.kind === "act_completion" && isCardUnlocked(c, state),
     );
     expect(unlocked.length).toBe(4);
+  });
+});
+
+describe("expansionUnlockService — derivePlayerExpansionStateFromFlags", () => {
+  it("an empty flag bag → no completions, no secrets, default entitlements", () => {
+    const state = derivePlayerExpansionStateFromFlags({});
+    expect(state.completedActs.size).toBe(0);
+    expect(state.secretActsRevealed.size).toBe(0);
+    expect(state.battlePassTier).toBe(0);
+    expect(state.hasFoundingAuthor).toBe(false);
+    expect(state.hasAuthorsEditionS2).toBe(false);
+  });
+
+  it("act_N_complete flags map 1:1 to completedActs", () => {
+    const state = derivePlayerExpansionStateFromFlags({
+      act_1_complete: true,
+      act_2_complete: true,
+      act_3_complete: true,
+      act_5_complete: true,
+    });
+    expect([...state.completedActs].sort()).toEqual([1, 2, 3, 5]);
+  });
+
+  it("falsy values for act_N_complete don't add the act", () => {
+    const state = derivePlayerExpansionStateFromFlags({
+      act_1_complete: true,
+      act_2_complete: false,
+      act_3_complete: 0,
+      act_4_complete: null,
+      act_5_complete: undefined,
+    });
+    expect([...state.completedActs]).toEqual([1]);
+  });
+
+  it("secret_act_N_revealed flags map 1:1 to secretActsRevealed", () => {
+    const state = derivePlayerExpansionStateFromFlags({
+      secret_act_1_revealed: true,
+      secret_act_4_revealed: true,
+      secret_act_7_revealed: true,
+    });
+    expect([...state.secretActsRevealed].sort()).toEqual([1, 4, 7]);
+  });
+
+  it("ignores unrelated flags (no false positives on act_2_started, etc.)", () => {
+    const state = derivePlayerExpansionStateFromFlags({
+      act_2_started: true, // started, not complete — must be ignored
+      act_3_starting: true,
+      crafting_mastered: true,
+    });
+    expect(state.completedActs.size).toBe(0);
+  });
+
+  it("entitlements pass through verbatim with sensible defaults", () => {
+    const state = derivePlayerExpansionStateFromFlags(
+      { act_1_complete: true },
+      { battlePassTier: 50, hasFoundingAuthor: true, hasAuthorsEditionS2: true },
+    );
+    expect(state.battlePassTier).toBe(50);
+    expect(state.hasFoundingAuthor).toBe(true);
+    expect(state.hasAuthorsEditionS2).toBe(true);
+    expect([...state.completedActs]).toEqual([1]);
   });
 });
