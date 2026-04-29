@@ -76,9 +76,13 @@ import { pickRoomFilter } from "@shared/livingArkTouchpoints";
 import {
   getRoomMysteryModule,
   resolveVerbResponse,
+  resolveTierResponse,
+  resolveBandedNarration,
+  resolveHumanReaction,
   VERB_LIST,
   type Verb,
 } from "@shared/roomMysteries";
+import { stabilityBand, lightBand } from "@shared/companion";
 import VerbCoin from "@/components/VerbCoin";
 import LoreTutorialEngine from "@/components/LoreTutorialEngine";
 import NarrativeTrigger from "@/components/NarrativeTrigger";
@@ -832,6 +836,7 @@ export default function ArkExplorerPage() {
     incrementNpcConversation, revealNpcSecret, setNpcCallback,
     logClue, grantMysteryItem,
     markHotspotCollected,
+    bumpHotspotClick,
   } = useGame();
   const { discoverEntry } = useGamification();
   const { setRoomAmbience, playSFX, initAudio, audioReady } = useSound();
@@ -1603,7 +1608,14 @@ export default function ArkExplorerPage() {
             hotspotId = sep === -1 ? "" : rest.slice(sep + 1);
           }
           const mod = getRoomMysteryModule(roomId);
-          const mystery = mod ? resolveVerbResponse(mod, verb, hotspotId) : null;
+          // Sierra-style escalation: each click on the same hotspot
+          // serves a deeper tier. Bump first so the count we resolve
+          // against is the post-bump value (1 on first click → base
+          // response; 2 → tiers[0]; …).
+          const clickCount = mod ? bumpHotspotClick(roomId, hotspotId) : 1;
+          const mystery = mod
+            ? resolveTierResponse(mod, verb, hotspotId, clickCount)
+            : null;
           if (!mystery) {
             // Verb-coin disables verbs without authored responses, so
             // a missing reaction here is most plausibly a player who
@@ -1613,22 +1625,83 @@ export default function ArkExplorerPage() {
             break;
           }
           if (audioReady) playSFX("dialog_open");
+          // Resolve Elara's banded narration against her live stability.
+          // Plain-string narrations (surface beats, red herrings) fall
+          // through unchanged.
+          const elaraTextResolved = resolveBandedNarration(
+            mystery.narration,
+            stabilityBand(state.elaraStability),
+          );
+
+          // Detective duet — once the Prelude has set
+          // `first_human_revealed`, hotspots that authored a
+          // `humanReaction` get an "Ask the Human." choice prepended
+          // to the response strip. Picking it skips the YOU echo,
+          // routes the Detective's banded line through the popup's
+          // detectiveSpeaking phase, and exposes a cost-bearing fork
+          // that pushes Elara's stability and the Human's light in
+          // opposing directions to dramatize the choice.
+          const humanRevealed = !!state.narrativeFlags["first_human_revealed"];
+          const human = humanRevealed
+            ? resolveHumanReaction(mystery, lightBand(state.humanLight))
+            : null;
+          const baseResponses = mystery.responses?.map((r) => ({
+            id: r.id,
+            label: r.label,
+            elaraFollowUpVoId: r.elaraFollowUpVoId,
+            elaraFollowUpText: r.elaraFollowUpText,
+            closesDialog: r.closesDialog,
+            onPick: r.logsClue ? (() => logClue(r.logsClue!)) : undefined,
+          })) ?? [];
+          const askHuman = human ? [{
+            id: `ask-human:${roomId}:${hotspotId}:${verb}:t${clickCount}`,
+            label: "Ask the Human.",
+            skipPlayerEcho: true,
+            detectiveFollowUpVoId: human.voId,
+            detectiveFollowUpText: human.text,
+            onPick: () => {
+              if (human.logsClue) logClue(human.logsClue);
+              if (human.setsFlag) setNarrativeFlag(human.setsFlag);
+            },
+            // The fork is in-fiction — the player chooses who they
+            // believe, and the consequence shows up later in tone, not
+            // in a number on screen. Leans relational, not punitive;
+            // one option lets them refuse the choice entirely.
+            followUpResponses: [
+              {
+                id: `ask-human:stay-elara:${roomId}:${hotspotId}:t${clickCount}`,
+                label: "She lived through it. I'll take her read.",
+                closesDialog: true,
+                onPick: () => {
+                  adjustElaraTrust(1);
+                  adjustHumanTrust(-1);
+                },
+              },
+              {
+                id: `ask-human:trust-detective:${roomId}:${hotspotId}:t${clickCount}`,
+                label: "He watched it happen. I'll take his.",
+                closesDialog: true,
+                onPick: () => {
+                  adjustElaraTrust(-1);
+                  adjustHumanTrust(1);
+                },
+              },
+              {
+                id: `ask-human:both:${roomId}:${hotspotId}:t${clickCount}`,
+                label: "I want both of you. Keep talking.",
+                closesDialog: true,
+              },
+            ],
+          }] : [];
           // Section 9 — route through narrateElara so the popup also
           // picks up the manifest VO id and the response strip. The
           // legacy `vo` URL field is honoured as a fallback for any
           // mystery beat that hasn't migrated to a manifest id yet.
           narrateElara({
-            text: mystery.narration,
+            text: elaraTextResolved,
             voId: mystery.voId,
             voUrl: mystery.voId ? undefined : mystery.vo,
-            responses: mystery.responses?.map((r) => ({
-              id: r.id,
-              label: r.label,
-              elaraFollowUpVoId: r.elaraFollowUpVoId,
-              elaraFollowUpText: r.elaraFollowUpText,
-              closesDialog: r.closesDialog,
-              onPick: r.logsClue ? (() => logClue(r.logsClue!)) : undefined,
-            })),
+            responses: [...askHuman, ...baseResponses],
           });
           if (mystery.logsClue) logClue(mystery.logsClue);
           if (mystery.grantsInventory) {

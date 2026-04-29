@@ -137,6 +137,11 @@ export interface GameState {
   totalRoomsUnlocked: number;
   totalItemsFound: number;
   narrativeFlags: Record<string, boolean>;
+  /** Per-hotspot click counter, keyed `<roomId>:<hotspotId>`. Lets
+   *  Sierra/LucasArts-style click escalation serve a deeper Elara line
+   *  on each successive look. Reset on room entry so a hotspot's tier
+   *  ladder restarts when the player comes back. */
+  hotspotClickCount: Record<string, number>;
   /** F13 — hidden Elara stability (-100..100). Gates CompanionLine variants
    *  and nudges the character's speech band per character bible. */
   elaraStability: number;
@@ -677,10 +682,10 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       // podium pedestals arranged around the platform.
       { id: "search-terminal", name: "Search Terminal", description: "A powerful database terminal that can search across all known entities.", x: 42, y: 38, width: 16, height: 30, type: "terminal", action: "/search", elaraDialog: "The main search terminal. Type any name, alias, or keyword and it will scan our entire database. Characters, locations, factions, songs — everything is indexed and cross-referenced." },
       { id: "codex-shelf", name: "The Codex", description: "Ancient tomes and data crystals containing deep lore.", x: 65, y: 22, width: 22, height: 38, type: "terminal", action: "/codex", elaraDialog: "The Codex. These are the deeper lore entries — the histories, the prophecies, the classified files. Some entries are locked until you discover enough connections to piece them together." },
-      { id: "data-banks", name: "Data Banks", description: "Rows of humming data storage units containing centuries of records.", x: 13, y: 22, width: 22, height: 38, type: "examine", elaraDialog: "Petabytes of data. Ship logs, personnel records, scientific research, intercepted transmissions. Most of it is corrupted or encrypted. I'm still trying to recover what I can." },
+      { id: "data-banks", name: "Data Banks", description: "Rows of humming data storage units containing centuries of records.", x: 13, y: 22, width: 22, height: 38, type: "examine", action: "room-mystery:archives:data-banks", elaraDialog: "Petabytes of data. Ship logs, personnel records, scientific research, intercepted transmissions. Most of it is corrupted or encrypted. I'm still trying to recover what I can." },
       { id: "archive-crystal", name: "Encoded Crystal", description: "A crystal pulsing with amber light, partially decoded.", x: 55, y: 70, width: 7, height: 8, type: "item", action: "archive-crystal-beta", elaraDialog: "Another data crystal. This one has partial decryption — it seems to contain information about the Panopticon's surveillance network. The Architect's eyes were everywhere." },
       { id: "door-bridge", name: "Bridge Door", description: "Return to the Command Bridge.", x: 54, y: 38, width: 10, height: 30, type: "door", action: "bridge" },
-      { id: "egg-archive-tome", name: "Unmarked Tome", description: "A book with no title, bound in material that feels warm to the touch.", x: 85, y: 70, width: 4, height: 6, type: "examine", elaraDialog: "This book... it's not in any catalog. The binding material is organic — it's warm, like skin. The pages contain a prophecy written in a language I can't translate, but one word repeats: 'Dischord.' And at the very end, a drawing of seven seals. The Book of Revelation speaks of seven seals. Silence in Heaven follows the opening of the seventh." },
+      { id: "egg-archive-tome", name: "Unmarked Tome", description: "A book with no title, bound in material that feels warm to the touch.", x: 85, y: 70, width: 4, height: 6, type: "examine", action: "room-mystery:archives:egg-archive-tome", elaraDialog: "This book... it's not in any catalog. The binding material is organic — it's warm, like skin. The pages contain a prophecy written in a language I can't translate, but one word repeats: 'Dischord.' And at the very end, a drawing of seven seals. The Book of Revelation speaks of seven seals. Silence in Heaven follows the opening of the seventh." },
     ],
   },
   {
@@ -705,13 +710,13 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       // the static + pirate-frequency hotspots.
       { id: "broadcast-screen", name: "Broadcast Screen", description: "A large screen playing recorded episodes of the Dischordian Saga.", x: 26, y: 22, width: 22, height: 28, type: "terminal", action: "/watch", elaraDialog: "The broadcast system. It plays the recorded history of the Dischordian Saga in episodic format. Each epoch covers a different era — from the Age of Privacy through the Fall of Reality. Watch carefully. There are clues hidden in every episode." },
       { id: "late-night-tv", name: "Pirate Frequency TV", description: "A battered CRT television set tuned to a frequency that shouldn't exist. The signal comes and goes. Sometimes a handsome devil speaks directly to you.", x: 62, y: 8, width: 14, height: 18, type: "terminal", action: "/transmissions", elaraDialog: "This... this isn't supposed to be here. It's tuned to a frequency outside the Ark's normal broadcast spectrum. The signal ID reads 'MEME-PRIME.' Whoever is broadcasting has been recording the entire Dischordian Saga — and narrating it with alarming personal knowledge. The episodes unlock as you progress. It calls itself 'Late Night with the Meme.' I don't trust it. But I can't stop watching either." },
-      { id: "radio-console", name: "Radio Console", description: "A radio tuner picking up fragments of music from across the multiverse.", x: 52, y: 22, width: 18, height: 28, type: "examine", elaraDialog: "The radio picks up fragments of music transmissions. Songs from Malkia Ukweli and the Panopticon — they seem to broadcast across dimensional barriers. Each song tells part of the story." },
-      { id: "static-screen", name: "Static Screen", description: "A screen showing nothing but static. Occasionally, shapes seem to form in the noise.", x: 12, y: 30, width: 8, height: 18, type: "examine", elaraDialog: "That screen has been showing static since I can remember. But sometimes... sometimes I think I see patterns in it. Faces. Words. It's probably just signal degradation. Probably." },
+      { id: "radio-console", name: "Radio Console", description: "A radio tuner picking up fragments of music from across the multiverse.", x: 52, y: 22, width: 18, height: 28, type: "examine", action: "room-mystery:comms-array:radio-console", elaraDialog: "The radio picks up fragments of music transmissions. Songs from Malkia Ukweli and the Panopticon — they seem to broadcast across dimensional barriers. Each song tells part of the story." },
+      { id: "static-screen", name: "Static Screen", description: "A screen showing nothing but static. Occasionally, shapes seem to form in the noise.", x: 12, y: 30, width: 8, height: 18, type: "examine", action: "room-mystery:comms-array:static-screen", elaraDialog: "That screen has been showing static since I can remember. But sometimes... sometimes I think I see patterns in it. Faces. Words. It's probably just signal degradation. Probably." },
       { id: "training-console", name: "Training Console", description: "An interactive tutorial system explaining the lore and mechanics of the Dischordian Saga.", x: 36, y: 60, width: 28, height: 28, type: "terminal", action: "/lore-tutorials", elaraDialog: "The Training Console. It contains interactive tutorials covering the lore, factions, game mechanics, and history of the Dischordian Saga. Essential reading for new Potentials. Even veterans might learn something new." },
       { id: "door-bridge", name: "Bridge Corridor", description: "Return to the Command Bridge.", x: 1, y: 30, width: 8, height: 50, type: "door", action: "bridge" },
       { id: "door-observation", name: "Observation Deck", description: "A passage to the Observation Deck.", x: 91, y: 30, width: 8, height: 50, type: "door", action: "observation-deck" },
       { id: "comms-relay", name: "Communication Relay", description: "A powerful relay antenna capable of scanning for neural signatures across the fleet. Used to scan for Potential signatures across the fleet.", x: 78, y: 12, width: 12, height: 18, type: "interact", action: "comms-relay-import", elaraDialog: "The Communication Relay. I've been trying to re-establish contact with the other vessels — the ones that carried the first wave of Potentials into the void. I can scan for dormant neural signatures across the fleet. Perhaps we can identify other Potentials who survived the journey." },
-      { id: "egg-comms-signal", name: "Anomalous Frequency", description: "A barely audible signal on a frequency that shouldn't exist.", x: 82, y: 50, width: 3, height: 4, type: "examine", elaraDialog: "That frequency... it's not on any standard band. The signal is repeating a pattern: three short, three long, three short. An SOS. But the origin coordinates point to a location that doesn't exist in normal space. Someone — or something — is calling for help from between dimensions. The signal is tagged with an identifier: 'MEME-PRIME.'" },
+      { id: "egg-comms-signal", name: "Anomalous Frequency", description: "A barely audible signal on a frequency that shouldn't exist.", x: 82, y: 50, width: 3, height: 4, type: "examine", action: "room-mystery:comms-array:egg-comms-signal", elaraDialog: "That frequency... it's not on any standard band. The signal is repeating a pattern: three short, three long, three short. An SOS. But the origin coordinates point to a location that doesn't exist in normal space. Someone — or something — is calling for help from between dimensions. The signal is tagged with an identifier: 'MEME-PRIME.'" },
     ],
   },
   {
@@ -775,6 +780,7 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "door-armory", name: "Armory Access", description: "A reinforced door leading to the Armory.", x: 91, y: 30, width: 8, height: 50, type: "door", action: "armory" },
       { id: "door-forge", name: "Forge Workshop", description: "A heavy blast door with heat warnings. The air shimmers.", x: 44, y: 32, width: 12, height: 22, type: "door", action: "forge-workshop" },
       { id: "egg-eng-formula", name: "Etched Formula", description: "A mathematical formula scratched into the reactor housing.", x: 50, y: 24, width: 4, height: 4, type: "examine", action: "room-mystery:engineering:egg-eng-formula", elaraDialog: "Someone etched a formula into the reactor housing. It's a dimensional resonance equation — the kind used to calculate jumps between parallel universes. But there's an extra variable I've never seen: Ψ-null. The null consciousness coefficient. This formula could theoretically open a door to... nowhere. The space between spaces. Where the Source dwells." },
+      { id: "instruction-manual", name: "Ark Instruction Manual", description: "A thick paper manual on the workbench. Cracked spine, hand-stamped dedications.", x: 28, y: 70, width: 5, height: 6, type: "examine", action: "room-mystery:engineering:instruction-manual", elaraDialog: "INCEPTION ARK 1047 — QUICK START GUIDE. Page 1: Step 1, Don't let it get stolen. The author had a sense of humour and a complete absence of optimism." },
       { id: "egg-warlord-residue", name: "Bio-Scanner Anomaly", description: "The bio-scanner flickers with an unidentified neural signature embedded in the bulkhead.", x: 70, y: 76, width: 4, height: 4, type: "item", action: "warlord-residue", elaraDialog: "[SIGNAL DISTORTION] The bio-scanners are detecting... no. That can't be right. There's a neural signature embedded in the bulkhead plating itself. Not organic, not synthetic — something in between. The Warlord's consciousness was so powerful that it left an imprint on the ship's physical structure. Dr. Lyra Vox commanded this vessel while the Warlord used her as a host body. The walls literally remember their master. {playerName}, this ship has a darker history than I initially disclosed. The Warlord didn't just pass through here — this was a command vessel." },
     ],
   },
@@ -832,6 +838,7 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "door-engineering", name: "Engineering Bay", description: "Return to Engineering.", x: 44, y: 28, width: 12, height: 22, type: "door", action: "engineering" },
       { id: "door-cargo", name: "Cargo Hold", description: "Stairs leading down to the Cargo Hold.", x: 42, y: 86, width: 16, height: 12, type: "door", action: "cargo-hold" },
       { id: "egg-armory-dogtag", name: "Fallen Dog Tag", description: "A military dog tag wedged between floor plates.", x: 34, y: 80, width: 3, height: 4, type: "item", action: "agent-zero-dogtag", elaraDialog: "A dog tag. Name: CLASSIFIED. Rank: Assassin, First Class. Unit: Insurgency Special Operations. Callsign: 'Agent Zero.' But wait — the biometric data on the tag doesn't match Agent Zero's profile. It matches... the Engineer. The mind swap. The Engineer is walking around in Agent Zero's body, hiding among the Potentials. On THIS ship." },
+      { id: "motivational-poster", name: "Motivational Poster", description: "A faded poster showing a sunset with the text 'HANG IN THERE!' Signed in the corner: Iron Lion.", x: 88, y: 14, width: 5, height: 6, type: "examine", action: "room-mystery:armory:motivational-poster", elaraDialog: "Iron Lion's poster. He printed thousands of these. Most of them are gone. This one isn't. There is a cat in the bottom corner that I did not, until today, register." },
     ],
   },
   {
@@ -862,6 +869,7 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "door-armory", name: "Armory Stairs", description: "Stairs leading up to the Armory.", x: 1, y: 35, width: 6, height: 40, type: "door", action: "armory" },
       { id: "door-captains", name: "Captain's Quarters", description: "A restricted access corridor to the Captain's Quarters.", x: 93, y: 35, width: 6, height: 40, type: "door", action: "captains-quarters" },
       { id: "egg-cargo-manifest", name: "Torn Manifest Page", description: "A torn page from the original cargo manifest, hidden under a crate.", x: 48, y: 84, width: 4, height: 5, type: "item", action: "classified-manifest-page", elaraDialog: "A torn manifest page. Most of it is redacted, but one entry is legible: 'Container 7-Omega: BIOLOGICAL — Clone Template, Oracle-class. STATUS: Active. HANDLER: The Collector.' A clone template of the Oracle... on our ship. The False Prophet was made from an Oracle clone. Is there another one here? Is it awake?" },
+      { id: "rubber-chicken", name: "Rubber Chicken", description: "A rubber chicken with a pulley in the middle. Why is this on a spaceship?", x: 22, y: 80, width: 4, height: 5, type: "examine", action: "room-mystery:cargo-hold:rubber-chicken", elaraDialog: "It's a rubber chicken with a pulley in the middle. I have no tactical assessment. I've failed you as an AI. Also — it has been here longer than any human I have ever known. Take that how you want." },
     ],
   },
   {
@@ -894,6 +902,7 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "door-library", name: "Hidden Passage", description: "A shimmering doorway that wasn't there before. It pulses with purple light.", x: 78, y: 4, width: 12, height: 12, type: "door", action: "antiquarian-library" },
       { id: "egg-captain-mirror", name: "Cracked Mirror", description: "A mirror in the corner, cracked in a spider-web pattern. Your reflection looks... wrong.", x: 8, y: 18, width: 4, height: 5, type: "examine", elaraDialog: "That mirror... look at your reflection. Do you see it? For a fraction of a second, your reflection moved differently than you did. It smiled when you didn't. The White Oracle — the face-changing guardian — was said to inhabit reflective surfaces. Some believe the Meme left the Oracle for dead and assumed his place — the shapeshifter hiding in plain sight. The universe believes the Meme was destroyed, but is it watching us through every mirror on this ship? How long has it been watching?" },
       { id: "egg-kael-escape-hatch", name: "Forced Access Panel", description: "A maintenance panel that's been pried open with brute force. Tool marks scar the metal.", x: 76, y: 84, width: 4, height: 5, type: "item", action: "kael-escape-route", elaraDialog: "These tool marks... they're not from standard maintenance equipment. Someone forced this panel open in a hurry. The scratches are deep — desperate. Behind it is an emergency access tunnel that connects directly to the shuttle bay. This is how Kael escaped. The Recruiter turned insurgent turned prisoner. He broke out of the Panopticon, fought his way to this ship, and used this exact tunnel to reach the bridge and override the launch sequence. But look — there's no damage to the security systems. The locks were already disengaged. Dr. Lyra Vox — the Warlord — opened the doors for him. Kael's great escape was a guided tour." },
+      { id: "cat-photo", name: "Photo of a Cat", description: "A framed photo of a cat wearing tiny goggles. Label reads: 'Mr. Whiskers — Chief Science Officer.'", x: 8, y: 26, width: 4, height: 5, type: "examine", action: "room-mystery:captains-quarters:cat-photo", elaraDialog: "Mr. Whiskers. Chief Science Officer. Lyra hand-lettered the label. The cat is not looking at the camera; the cat is looking at her, who was behind it. I have been looking at this photograph for two hundred and thirty years." },
       { id: "egg-vox-personal-log", name: "Dr. Vox's Personal Terminal", description: "A hidden terminal behind the bookshelf, still powered. The screen shows encrypted files.", x: 60, y: 56, width: 4, height: 4, type: "item", action: "vox-personal-log", elaraDialog: "Dr. Lyra Vox's personal terminal. Let me try to decrypt... 'Day 1,247. The Warlord's voice grows louder. I can no longer distinguish my thoughts from its commands. The Thought Virus is complete — the Warden and I have created something that will reshape consciousness itself. But I am losing myself. Today I looked in the mirror and saw the Warlord looking back. Tomorrow I will order the Recruiter's transfer to this vessel. He is already infected — Project Vector saw to that. He is Patient Zero, and he doesn't know it. When Kael steals this ship, the virus will walk aboard with him. Every system he touches will be contaminated from day one. The Source will be born from the ashes of the Recruiter's rage. And the Warlord will have won without ever raising a weapon.' She knew. She knew everything." },
     ],
   },
@@ -1354,6 +1363,7 @@ const DEFAULT_GAME_STATE: GameState = {
   totalRoomsUnlocked: 0,
   totalItemsFound: 0,
   narrativeFlags: {},
+  hotspotClickCount: {},
   // F13 — initial band values per character bible: lucid (slightly positive) +
   // shadow (meaningfully negative). Both reach ±100.
   elaraStability: 10,
@@ -1527,6 +1537,10 @@ interface GameContextValue {
   setActiveDeck: (cardIds: string[]) => void;
   // Narrative flags
   setNarrativeFlag: (flag: string, value?: boolean) => void;
+  /** Sierra-style hotspot click escalation. Increments the count for
+   *  `<roomId>:<hotspotId>` and returns the new value (1 on first
+   *  click, 2 on second, …). Reset on room entry. */
+  bumpHotspotClick: (roomId: string, hotspotId: string) => number;
   // Section F — Mystery actions (cryo bay + every other room module)
   logClue: (clue: import("@shared/roomMysteries").Clue) => void;
   grantMysteryItem: (itemId: string) => void;
@@ -2127,15 +2141,47 @@ export function GameProvider({ children }: { children: ReactNode }) {
         newFlags["cargo_bay_pressurized"] = true;
       }
 
+      // Reset per-hotspot click counters for the room being entered.
+      // Click escalation is a per-visit affordance: returning to a room
+      // re-arms the tier ladder so Elara starts fresh on Tier 1. The
+      // ref used by bumpHotspotClick is kept in sync via useEffect, but
+      // the next click could fire before that effect runs, so the page
+      // adapter should treat the freshly-entered room as count=1.
+      const nextClicks: Record<string, number> = {};
+      for (const [k, v] of Object.entries(prev.hotspotClickCount)) {
+        if (!k.startsWith(`${roomId}:`)) nextClicks[k] = v;
+      }
+
       return {
         ...prev,
         currentRoomId: roomId,
         rooms: newRooms,
         totalRoomsUnlocked: totalUnlocked,
         narrativeFlags: newFlags,
+        hotspotClickCount: nextClicks,
         phase: allRoomsUnlocked ? "FULL_ACCESS" : (prev.phase === "QUARTERS_UNLOCKED" || prev.phase === "EXPLORING") ? "EXPLORING" : prev.phase,
       };
     });
+  }, []);
+
+  /** Bump the click counter for a hotspot in a room. Returns the new
+   *  count synchronously so callers can pick a tier on the very same
+   *  click that increments. We back the read with a ref so back-to-back
+   *  bumps inside the same render commit (and StrictMode's double-invoke
+   *  of state updaters) don't reissue the same count. */
+  const hotspotClickRef = useRef<Record<string, number>>(state.hotspotClickCount);
+  useEffect(() => {
+    hotspotClickRef.current = state.hotspotClickCount;
+  }, [state.hotspotClickCount]);
+  const bumpHotspotClick = useCallback((roomId: string, hotspotId: string): number => {
+    const key = `${roomId}:${hotspotId}`;
+    const next = (hotspotClickRef.current[key] ?? 0) + 1;
+    hotspotClickRef.current = { ...hotspotClickRef.current, [key]: next };
+    setState(prev => ({
+      ...prev,
+      hotspotClickCount: { ...prev.hotspotClickCount, [key]: next },
+    }));
+    return next;
   }, []);
 
   const collectItem = useCallback((itemId: string) => {
@@ -3535,6 +3581,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
       collectCard,
       setActiveDeck,
       setNarrativeFlag,
+      bumpHotspotClick,
       logClue,
       grantMysteryItem,
       claimQuestReward,

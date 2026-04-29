@@ -23,6 +23,28 @@ export type Verb = "look" | "use" | "talk";
 
 export const VERB_LIST: readonly Verb[] = ["look", "use", "talk"] as const;
 
+/** Elara's hidden-stability bands (mirrors companion.ts ElaraStabilityBand).
+ *  A line authored as a triplet picks a variant from this set based on
+ *  the player's live stability scalar at click time. */
+export interface ElaraBandedText {
+  fragmented: string;
+  lucid: string;
+  luminous: string;
+}
+
+/** The Human's hidden-light bands (mirrors companion.ts HumanLightBand). */
+export interface HumanBandedText {
+  shadow: string;
+  balanced: string;
+  warm: string;
+}
+
+/** Narration may be a single string (band-agnostic — used for surface
+ *  descriptions, red-herring asides) or a triplet of band variants for
+ *  beats that carry narrative weight. */
+export type ElaraNarration = string | ElaraBandedText;
+export type HumanNarration = string | HumanBandedText;
+
 /** A logged investigation finding. The `source` field is each
  *  room's id (or another semantic group) so the Clue Journal UI
  *  can group entries by where they were found. */
@@ -56,11 +78,33 @@ export interface MysteryResponseChoice {
   closesDialog?: boolean;
 }
 
+/** The Detective's counter-read on a hotspot. Only surfaced once
+ *  `first_human_revealed` has been set in the Prelude. The runtime
+ *  exposes an "Ask the Human." choice on the response strip whenever
+ *  this is present and the gate flag is true; picking it routes
+ *  through `humanVo.speak(voId)` and the popup's `humanSpeaking`
+ *  phase. Triplet `narration` is selected by the live `humanLight`
+ *  band (shadow/balanced/warm). */
+export interface HumanReaction {
+  /** First-person Detective line, optionally banded. */
+  narration: HumanNarration;
+  /** Manifest VO id for the line (humanVoManifest.json). When
+   *  omitted the popup falls back to typewriter-only. */
+  voId?: string;
+  /** Optional clue logged when the player asks the Human. */
+  logsClue?: Clue;
+  /** Optional flag to set when the Human speaks (e.g. an
+   *  "I told you something I shouldn't have" memory marker). */
+  setsFlag?: string;
+}
+
 /** Result of a (verb, hotspot) pair. All fields are optional —
  *  `narration` is the only thing the runtime always uses. */
 export interface VerbResponse {
-  /** Text the room narrator (Elara, by default) speaks. */
-  narration: string;
+  /** Text the room narrator (Elara, by default) speaks. May be a
+   *  single string for surface beats or a triplet keyed by her
+   *  hidden-stability band for weight-bearing reveals. */
+  narration: ElaraNarration;
   /** Optional VO audio URL to play alongside the narration. The
    *  runtime hands it to ElaraPopup which manages its own
    *  HTMLAudioElement lifecycle. Falls back silently to text-only
@@ -88,6 +132,21 @@ export interface VerbResponse {
    *  fires. Used for one-shot pickups (data-slate `use`, locket pickup)
    *  so they don't stay clickable after the player has pocketed them. */
   consumesHotspot?: boolean;
+  /** Sierra/LucasArts/Kings-Quest "click again, learn a little more"
+   *  escalation. Click N on this hotspot since last room entry serves
+   *  `tiers[N-1]` (1-indexed: tier 1 = base, tier 2 = tiers[0], …).
+   *  When the player runs past the end the runtime serves the last
+   *  tier — author a tier-N "you keep coming back to this" Hitchhiker
+   *  beat there to make the loop feel intentional. Each tier is a
+   *  full VerbResponse so it can carry its own clues, flags, choices,
+   *  and Human reaction. */
+  tiers?: readonly VerbResponse[];
+  /** The Detective's counter-read. Surfaced as an "Ask the Human."
+   *  choice once `first_human_revealed` is set. Author this on
+   *  hotspots where he holds context Elara doesn't (Pod 0, Vox,
+   *  Kael, Shadow Tongue, Terminus singer, the red herrings he
+   *  already half-narrates). */
+  humanReaction?: HumanReaction;
 }
 
 /** Result of a `use <a> on <b>` inventory combine. */
@@ -153,4 +212,62 @@ export function combineInventory<IID extends string>(
     }
   }
   return null;
+}
+
+/** Resolve the click-tier variant of a verb response. `clickCount` is
+ *  1-indexed: the first click on a hotspot is 1 → returns the base
+ *  response; the second is 2 → returns `tiers[0]`; the (N+1)-th click
+ *  past the last tier loops on the final tier so the "fourth time"
+ *  Hitchhiker beat plays as a sticky terminal layer.
+ *
+ *  Returns null when the (verb, hotspot) pair is unauthored — the
+ *  runtime should fall back to a generic line in that case. */
+export function resolveTierResponse<HID extends string>(
+  module: RoomMysteryModule<HID>,
+  verb: Verb,
+  hotspot: HID,
+  clickCount: number,
+): VerbResponse | null {
+  const base = resolveVerbResponse(module, verb, hotspot);
+  if (!base) return null;
+  if (clickCount <= 1 || !base.tiers || base.tiers.length === 0) return base;
+  const idx = Math.min(clickCount - 2, base.tiers.length - 1);
+  return base.tiers[idx];
+}
+
+/** Pick the band variant of an ElaraNarration. Plain strings
+ *  fall through unchanged so authors can leave surface lines
+ *  band-agnostic. */
+export function resolveBandedNarration(
+  narration: ElaraNarration,
+  band: "fragmented" | "lucid" | "luminous",
+): string {
+  if (typeof narration === "string") return narration;
+  return narration[band];
+}
+
+/** Pick the band variant of a Human reaction's narration. Mirrors
+ *  resolveBandedNarration for the Detective's hidden-light bands. */
+export function resolveHumanBandedNarration(
+  narration: HumanNarration,
+  band: "shadow" | "balanced" | "warm",
+): string {
+  if (typeof narration === "string") return narration;
+  return narration[band];
+}
+
+/** Convenience: resolve a HumanReaction down to a flat playback
+ *  payload (text + voId) for the player-facing strip. Returns null
+ *  when the response has no humanReaction authored. */
+export function resolveHumanReaction(
+  response: VerbResponse,
+  band: "shadow" | "balanced" | "warm",
+): { text: string; voId?: string; logsClue?: Clue; setsFlag?: string } | null {
+  if (!response.humanReaction) return null;
+  return {
+    text: resolveHumanBandedNarration(response.humanReaction.narration, band),
+    voId: response.humanReaction.voId,
+    logsClue: response.humanReaction.logsClue,
+    setsFlag: response.humanReaction.setsFlag,
+  };
 }

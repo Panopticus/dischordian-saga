@@ -18,7 +18,12 @@ import {
   type CryoMysteryHotspotId,
 } from "../cryoBayMystery";
 import type { CombineRule, RoomMysteryModule } from "./_template";
+import { ARCHIVES_MYSTERY } from "./archives";
+import { ARMORY_MYSTERY } from "./armory";
 import { BRIDGE_MYSTERY } from "./bridge";
+import { CAPTAINS_QUARTERS_MYSTERY } from "./captainsQuarters";
+import { CARGO_HOLD_MYSTERY } from "./cargoHold";
+import { COMMS_ARRAY_MYSTERY } from "./commsArray";
 import { ENGINEERING_MYSTERY } from "./engineering";
 import { MEDICAL_BAY_MYSTERY } from "./medicalBay";
 
@@ -39,6 +44,11 @@ export const ROOM_MYSTERY_REGISTRY: Readonly<Record<string, RoomMysteryModule>> 
   "medical-bay": MEDICAL_BAY_MYSTERY as RoomMysteryModule,
   "bridge": BRIDGE_MYSTERY as RoomMysteryModule,
   "engineering": ENGINEERING_MYSTERY as RoomMysteryModule,
+  "archives": ARCHIVES_MYSTERY as RoomMysteryModule,
+  "comms-array": COMMS_ARRAY_MYSTERY as RoomMysteryModule,
+  "cargo-hold": CARGO_HOLD_MYSTERY as RoomMysteryModule,
+  "armory": ARMORY_MYSTERY as RoomMysteryModule,
+  "captains-quarters": CAPTAINS_QUARTERS_MYSTERY as RoomMysteryModule,
 };
 
 /** Get the module for a room id, or null if no mystery is authored. */
@@ -78,10 +88,19 @@ export type { RoomMysteryModule } from "./_template";
 export {
   resolveVerbResponse,
   combineInventory,
+  resolveTierResponse,
+  resolveBandedNarration,
+  resolveHumanBandedNarration,
+  resolveHumanReaction,
   type Verb,
   type VerbResponse,
   type Clue,
   type CombineResult,
   type CombineRule,
+  type HumanReaction,
+  type ElaraBandedText,
+  type HumanBandedText,
+  type ElaraNarration,
+  type HumanNarration,
   VERB_LIST,
 } from "./_template";

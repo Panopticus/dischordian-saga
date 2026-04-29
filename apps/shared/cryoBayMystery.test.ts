@@ -31,7 +31,12 @@ describe("cryoBayMystery", () => {
     for (const id of CRYO_MYSTERY_HOTSPOT_IDS) {
       const r = resolveVerbResponse("look", id);
       expect(r).not.toBeNull();
-      expect(r!.narration.length).toBeGreaterThan(20);
+      // Narration may be a banded triplet now; sample any band so the
+      // length check stays meaningful.
+      const text = typeof r!.narration === "string"
+        ? r!.narration
+        : r!.narration.lucid;
+      expect(text.length).toBeGreaterThan(20);
     }
   });
 
