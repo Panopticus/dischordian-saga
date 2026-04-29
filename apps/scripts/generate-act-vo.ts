@@ -286,7 +286,7 @@ async function generateSpeech(line: VoLine): Promise<Buffer> {
         Accept: "audio/mpeg",
       },
       body: JSON.stringify({
-        text: settings.text_prefix + line.text,
+        text: line.text,
         model_id: "eleven_multilingual_v2",
         voice_settings: {
           stability: settings.stability,

@@ -83,7 +83,10 @@ console.log(`Loaded ${ALL_LINES.length} story mode lines`);
 // ─── ELEVENLABS TTS ───
 async function generateSpeech(text: string, voiceId: string, emotion: string): Promise<Buffer> {
   const settings = EMOTION_SETTINGS[emotion] || EMOTION_SETTINGS.serious;
-  const fullText = (settings.text_prefix || "") + text;
+  // Direction is conveyed via voice_settings (stability/style/etc.); the
+  // ElevenLabs Multilingual v2 model does not interpret asterisk-bracketed
+  // prose as direction — it speaks it literally — so the prefix is ignored.
+  const fullText = text;
 
   const response = await fetch(
     `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`,

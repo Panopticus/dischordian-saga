@@ -103,7 +103,7 @@ const PLAYED_VO_IDS = new Set<string>();
  *
  * Theme restoration happens on `ended`, `pause`, or component cleanup.
  * ────────────────────────────────────────────────────────────────── */
-const THEME_DUCKED = 0.04;
+const THEME_DUCKED = 0.012;
 const THEME_BED_AFTER_VO = 0.20;
 
 const AwakeningVOPlayer = (() => {
