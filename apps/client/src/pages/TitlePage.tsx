@@ -29,6 +29,8 @@ import { BroadcastPanel } from "./title/BroadcastPanel";
 import { BroadcastTicker } from "./title/BroadcastTicker";
 import { ResetWall } from "./title/ResetWall";
 import { SurveillanceOpening } from "./title/SurveillanceOpening";
+import DischordiaOpeningCinematic from "@/components/DischordiaOpeningCinematic";
+import { hasSeenOpening } from "@/lib/dischordiaOpeningSeen";
 import { TitleStateNoSave } from "./title/TitleStateNoSave";
 import { TitleStateReturning } from "./title/TitleStateReturning";
 import { TitleStateUnauth } from "./title/TitleStateUnauth";
@@ -277,6 +279,10 @@ export default function TitlePage({ onDismiss }: TitlePageProps = {}) {
     try { return localStorage.getItem("dischordia_handshake_seen") === "1"; }
     catch { return true; }
   });
+  // The Dischordia opening cinematic plays once per device, AFTER the
+  // handshake completes. Read synchronously so first paint never
+  // flashes the title behind the video.
+  const [openingDone, setOpeningDone] = useState<boolean>(() => hasSeenOpening());
 
   /* ─── Solo the Enigma's Lament on the title screen.
        The SagaThemeBGM provider auto-starts a shuffled saga theme on
@@ -729,6 +735,16 @@ export default function TitlePage({ onDismiss }: TitlePageProps = {}) {
           set; subsequent visits render the title flow directly. */}
       {!handshakeDone && (
         <SurveillanceOpening onComplete={() => setHandshakeDone(true)} />
+      )}
+
+      {/* Dischordia opening cinematic — first-visit-only, plays AFTER the
+          handshake. The Meme's hijacked broadcast (3:09). On dismissal
+          the title flow continues and The Enigma's Lament (already auto-
+          playing as ambient under this overlay) becomes audible. The
+          player can replay the cinematic from the INBOX tab in the
+          Transmission Deck. */}
+      {handshakeDone && !openingDone && (
+        <DischordiaOpeningCinematic onComplete={() => setOpeningDone(true)} />
       )}
     </div>
   );
