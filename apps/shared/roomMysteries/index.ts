@@ -32,12 +32,14 @@ import { ELEMENTAL_NEXUS_MYSTERY } from "./elementalNexus";
 import { ENGINEERING_MYSTERY } from "./engineering";
 import { ENGINEERING_CORE_MYSTERY } from "./engineeringCore";
 import { FORGE_WORKSHOP_MYSTERY } from "./forgeWorkshop";
+import { GUILD_SANCTUM_MYSTERY } from "./guildSanctum";
 import { MEDICAL_BAY_MYSTERY } from "./medicalBay";
 import { OBSERVATION_DECK_MYSTERY } from "./observationDeck";
 import { ORACLE_SANCTUM_MYSTERY } from "./oracleSanctum";
 import { ORDER_TRIBUNAL_MYSTERY } from "./orderTribunal";
 import { QUANTUM_LAB_MYSTERY } from "./quantumLab";
 import { SHADOW_VAULT_MYSTERY } from "./shadowVault";
+import { SOCIAL_HUB_MYSTERY } from "./socialHub";
 import { STATION_DOCK_MYSTERY } from "./stationDock";
 import { SYNTHESIS_CHAMBER_MYSTERY } from "./synthesisChamber";
 import { WAR_ROOM_MYSTERY } from "./warRoom";
@@ -79,6 +81,8 @@ export const ROOM_MYSTERY_REGISTRY: Readonly<Record<string, RoomMysteryModule>> 
   "elemental-nexus": ELEMENTAL_NEXUS_MYSTERY as RoomMysteryModule,
   "quantum-lab": QUANTUM_LAB_MYSTERY as RoomMysteryModule,
   "synthesis-chamber": SYNTHESIS_CHAMBER_MYSTERY as RoomMysteryModule,
+  "guild-sanctum": GUILD_SANCTUM_MYSTERY as RoomMysteryModule,
+  "social-hub": SOCIAL_HUB_MYSTERY as RoomMysteryModule,
 };
 
 /** Get the module for a room id, or null if no mystery is authored. */
