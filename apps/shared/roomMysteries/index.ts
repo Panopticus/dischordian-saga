@@ -18,6 +18,7 @@ import {
   type CryoMysteryHotspotId,
 } from "../cryoBayMystery";
 import type { CombineRule, RoomMysteryModule } from "./_template";
+import { ANTIQUARIAN_LIBRARY_MYSTERY } from "./antiquarianLibrary";
 import { ARCHIVES_MYSTERY } from "./archives";
 import { ARMORY_MYSTERY } from "./armory";
 import { BRIDGE_MYSTERY } from "./bridge";
@@ -26,6 +27,8 @@ import { CARGO_HOLD_MYSTERY } from "./cargoHold";
 import { CIPHER_DEN_MYSTERY } from "./cipherDen";
 import { COMMS_ARRAY_MYSTERY } from "./commsArray";
 import { ENGINEERING_MYSTERY } from "./engineering";
+import { ENGINEERING_CORE_MYSTERY } from "./engineeringCore";
+import { FORGE_WORKSHOP_MYSTERY } from "./forgeWorkshop";
 import { MEDICAL_BAY_MYSTERY } from "./medicalBay";
 import { OBSERVATION_DECK_MYSTERY } from "./observationDeck";
 import { SHADOW_VAULT_MYSTERY } from "./shadowVault";
@@ -59,6 +62,9 @@ export const ROOM_MYSTERY_REGISTRY: Readonly<Record<string, RoomMysteryModule>> 
   "observation-deck": OBSERVATION_DECK_MYSTERY as RoomMysteryModule,
   "war-room": WAR_ROOM_MYSTERY as RoomMysteryModule,
   "station-dock": STATION_DOCK_MYSTERY as RoomMysteryModule,
+  "forge-workshop": FORGE_WORKSHOP_MYSTERY as RoomMysteryModule,
+  "antiquarian-library": ANTIQUARIAN_LIBRARY_MYSTERY as RoomMysteryModule,
+  "engineering-core": ENGINEERING_CORE_MYSTERY as RoomMysteryModule,
 };
 
 /** Get the module for a room id, or null if no mystery is authored. */
