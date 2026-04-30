@@ -402,6 +402,17 @@ export const ALBUM1_FIRST_NINE_SLIDESHOWS: readonly SongSlideshowDef[] = [
   ALBUM1_T09_SLIDESHOW,
 ];
 
+/** Look up an Album 1 slideshow by trackId (T01..T09). Falls back to
+ *  T01 if the trackId isn't recognized — defensive only; the queue
+ *  guarantees only authored ids reach this helper. */
+export function getAlbum1Slideshow(trackId: string): SongSlideshowDef {
+  const songId = `album1_${trackId.toLowerCase()}`;
+  return (
+    ALBUM1_FIRST_NINE_SLIDESHOWS.find((s) => s.songId === songId) ??
+    ALBUM1_T01_SLIDESHOW
+  );
+}
+
 /* ─── WELCOME TO CELEBRATION (§4.3 Cycle A finale, §12 C2) ─── */
 
 /**

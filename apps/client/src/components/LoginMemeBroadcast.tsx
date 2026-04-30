@@ -29,6 +29,8 @@ import {
   LOGIN_MEME_FIRST_EVER_SHOTS,
   SHOT_DURATION_MS,
 } from "@shared/expansionArt/loginMemeSequence";
+import { getAlbum1Slideshow } from "@shared/songSlideshows";
+import SlideshowFrames from "@/components/SlideshowFrames";
 import { driveEmbedUrl } from "@shared/transmissions";
 import type {
   LoginMemePhase,
@@ -172,17 +174,39 @@ export default function LoginMemeBroadcast({
             />
             <AnimatePresence mode="wait">
               {phase === "playing" && isAlbum ? (
-                <NowPlayingCard
-                  key="album-playing"
-                  title={transmission.title}
-                  trackId={transmission.trackId}
-                  currentTime={player.currentTime}
-                  duration={
-                    player.duration > 0
-                      ? player.duration
-                      : transmission.durationMs / 1000
-                  }
-                />
+                <motion.div
+                  key="album-playing-slideshow"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="relative w-full h-full"
+                >
+                  <SlideshowFrames
+                    frames={getAlbum1Slideshow(transmission.trackId).frames}
+                    currentTimeMs={player.currentTime * 1000}
+                    containerMode="embedded"
+                    brightness={0.7}
+                  />
+                  {/* Compact title strip — top of the slideshow,
+                      doesn't fight the frame imagery. */}
+                  <div className="absolute top-2 left-2 z-10 pointer-events-none">
+                    <div className="font-mono text-[9px] uppercase tracking-[0.3em] text-emerald-400/70">
+                      ▸ T{transmission.trackId.slice(1)}
+                    </div>
+                    <div className="font-mono text-xs uppercase tracking-widest text-emerald-200">
+                      {transmission.title}
+                    </div>
+                  </div>
+                  {/* Scrub readout — bottom-right corner */}
+                  <div className="absolute bottom-2 right-2 z-10 font-mono text-[10px] text-emerald-500/70 pointer-events-none">
+                    {formatTime(player.currentTime)} /{" "}
+                    {formatTime(
+                      player.duration > 0
+                        ? player.duration
+                        : transmission.durationMs / 1000,
+                    )}
+                  </div>
+                </motion.div>
               ) : phase === "playing" && !isAlbum ? (
                 <TvPlayer
                   key="tv-playing"
@@ -266,41 +290,6 @@ function chyronText(phase: LoginMemePhase): string {
     default:
       return "";
   }
-}
-
-interface NowPlayingProps {
-  title: string;
-  trackId: string;
-  currentTime: number;
-  duration: number;
-}
-
-function NowPlayingCard({ title, trackId, currentTime, duration }: NowPlayingProps) {
-  const pct = duration > 0 ? Math.min(100, (currentTime / duration) * 100) : 0;
-  return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.95 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.95 }}
-      className="text-center text-emerald-100 max-w-2xl"
-    >
-      <div className="font-mono text-xs uppercase tracking-[0.3em] text-emerald-500/60 mb-3">
-        Dischordian Logic · Track {trackId.slice(1)}
-      </div>
-      <h2 className="font-serif text-3xl md:text-4xl mb-8 text-emerald-50">{title}</h2>
-      <div className="h-1.5 bg-emerald-950 rounded-full overflow-hidden mb-2">
-        <motion.div
-          className="h-full bg-emerald-400 shadow-[0_0_12px_rgba(52,211,153,0.6)]"
-          animate={{ width: `${pct}%` }}
-          transition={{ duration: 0.4 }}
-        />
-      </div>
-      <div className="font-mono text-xs text-emerald-500/70 flex justify-between">
-        <span>{formatTime(currentTime)}</span>
-        <span>{formatTime(duration)}</span>
-      </div>
-    </motion.div>
-  );
 }
 
 interface TvPlayerProps {
