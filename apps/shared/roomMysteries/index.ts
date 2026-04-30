@@ -26,11 +26,14 @@ import { CAPTAINS_QUARTERS_MYSTERY } from "./captainsQuarters";
 import { CARGO_HOLD_MYSTERY } from "./cargoHold";
 import { CIPHER_DEN_MYSTERY } from "./cipherDen";
 import { COMMS_ARRAY_MYSTERY } from "./commsArray";
+import { DREAMS_WORKSHOP_MYSTERY } from "./dreamsWorkshop";
 import { ENGINEERING_MYSTERY } from "./engineering";
 import { ENGINEERING_CORE_MYSTERY } from "./engineeringCore";
 import { FORGE_WORKSHOP_MYSTERY } from "./forgeWorkshop";
 import { MEDICAL_BAY_MYSTERY } from "./medicalBay";
 import { OBSERVATION_DECK_MYSTERY } from "./observationDeck";
+import { ORACLE_SANCTUM_MYSTERY } from "./oracleSanctum";
+import { ORDER_TRIBUNAL_MYSTERY } from "./orderTribunal";
 import { SHADOW_VAULT_MYSTERY } from "./shadowVault";
 import { STATION_DOCK_MYSTERY } from "./stationDock";
 import { WAR_ROOM_MYSTERY } from "./warRoom";
@@ -65,6 +68,9 @@ export const ROOM_MYSTERY_REGISTRY: Readonly<Record<string, RoomMysteryModule>> 
   "forge-workshop": FORGE_WORKSHOP_MYSTERY as RoomMysteryModule,
   "antiquarian-library": ANTIQUARIAN_LIBRARY_MYSTERY as RoomMysteryModule,
   "engineering-core": ENGINEERING_CORE_MYSTERY as RoomMysteryModule,
+  "oracle-sanctum": ORACLE_SANCTUM_MYSTERY as RoomMysteryModule,
+  "order-tribunal": ORDER_TRIBUNAL_MYSTERY as RoomMysteryModule,
+  "dreams-workshop-subbasement": DREAMS_WORKSHOP_MYSTERY as RoomMysteryModule,
 };
 
 /** Get the module for a room id, or null if no mystery is authored. */
