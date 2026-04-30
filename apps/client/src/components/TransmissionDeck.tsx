@@ -15,10 +15,16 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   Radio, Tv, Music, Disc3, Play, ChevronUp, ChevronDown, X,
   ExternalLink, Zap, Eye, Skull, Clock, BookOpen, AlertTriangle,
-  Signal, MessageCircle, Star,
+  Signal, MessageCircle, Star, Inbox, CheckCircle2, RotateCcw,
 } from "lucide-react";
+import { trpc } from "@/lib/trpc";
+import { useAuth } from "@/_core/hooks/useAuth";
+import { usePlayerContext } from "@/hooks/usePlayerContext";
+import { usePlayer } from "@/contexts/PlayerContext";
+import type { LoredexEntry } from "@/contexts/LoredexContext";
+import { clearOpeningSeen } from "@/lib/dischordiaOpeningSeen";
 
-type TabMode = "saga" | "music" | "feed";
+type TabMode = "saga" | "music" | "feed" | "inbox";
 
 /* ─── EPOCH DATA ─── */
 const EPOCHS = [
@@ -72,6 +78,7 @@ const TRANSMISSIONS: Transmission[] = [
 
 /* ─── TAB CONFIG ─── */
 const TABS: { id: TabMode; label: string; icon: typeof Tv; color: string }[] = [
+  { id: "inbox", label: "INBOX", icon: Inbox, color: "var(--energy-primary)" },
   { id: "saga", label: "WITNESSING", icon: Tv, color: "#FF3C40" },
   { id: "music", label: "TRANSMISSIONS", icon: Music, color: "var(--energy-primary)" },
   { id: "feed", label: "INTERCEPTED", icon: Signal, color: "var(--energy-premium)" },
@@ -85,7 +92,7 @@ interface TransmissionDeckProps {
 }
 
 export default function TransmissionDeck({ isOpen, onClose }: TransmissionDeckProps) {
-  const [tab, setTab] = useState<TabMode>("feed");
+  const [tab, setTab] = useState<TabMode>("inbox");
   const [activeEpoch, setActiveEpoch] = useState<string | null>(null);
   const [expandedAlbum, setExpandedAlbum] = useState<string | null>(null);
   const currentTab = TABS.find(t => t.id === tab)!;
@@ -155,6 +162,7 @@ export default function TransmissionDeck({ isOpen, onClose }: TransmissionDeckPr
 
           {/* Content */}
           <div className="overflow-y-auto px-4 pb-8" style={{ maxHeight: "calc(92vh - 120px)" }}>
+            {tab === "inbox" && <InboxTab />}
             {tab === "saga" && <SagaTab activeEpoch={activeEpoch} setActiveEpoch={setActiveEpoch} />}
             {tab === "music" && <MusicTab expandedAlbum={expandedAlbum} setExpandedAlbum={setExpandedAlbum} />}
             {tab === "feed" && <FeedTab />}
@@ -399,5 +407,214 @@ export function TransmissionMiniBar({ onClick }: { onClick: () => void }) {
       </span>
       <ChevronUp size={12} className="text-white/15" />
     </motion.button>
+  );
+}
+
+/* ─── INBOX TAB ───
+   Lists pending + skipped + watched login transmissions (Dischordian
+   Logic T01-T09 → unlocked TV episodes), pulled from the unified
+   server queue. Watching from inbox grants the same completion point
+   as the on-login modal flow. */
+function InboxTab() {
+  const { isAuthenticated } = useAuth();
+  const playerCtx = usePlayerContext();
+  const player = usePlayer();
+  const acceptAlbum = trpc.transmissions.acceptAlbumTransmission.useMutation();
+  const recordWatched = trpc.transmissions.recordWatched.useMutation();
+  const utils = trpc.useUtils();
+  const inboxQuery = trpc.transmissions.getLoginTransmissionInbox.useQuery(
+    { playerContext: playerCtx },
+    { enabled: isAuthenticated, staleTime: 15_000 },
+  );
+
+  const data = inboxQuery.data;
+  const pending = data?.pending ?? [];
+  const skipped = data?.skipped ?? [];
+  const watched = data?.watched ?? [];
+
+  const playAlbum = (row: { trackId: string | null; title: string; audioUrl: string | null }) => {
+    if (!row.trackId || !row.audioUrl) return;
+    const synth: LoredexEntry = {
+      id: `album1_${row.trackId.toLowerCase()}`,
+      type: "song",
+      name: row.title,
+      audio_url: row.audioUrl,
+      album: "Dischordian Logic",
+    };
+    player.playSong(synth);
+    // Mark accepted (not yet completed). Completion landing inside the
+    // global PlayerContext will be picked up by useLoginAlbumTransmission's
+    // existing watcher whenever it next mounts; for inbox-driven plays
+    // we record completion here when the song actually ends.
+    acceptAlbum.mutate({
+      trackId: row.trackId as "T01" | "T02" | "T03" | "T04" | "T05" | "T06" | "T07" | "T08" | "T09",
+      completed: false,
+    });
+  };
+
+  const recordTvWatched = (row: {
+    kind: string;
+    id: string;
+    reward: { xp: number; dream: number; achievement?: string };
+    relatedLoredexEntries?: string[];
+  }) => {
+    const transmissionId = row.id.startsWith("tv:") ? row.id.slice(3) : row.id;
+    recordWatched.mutate(
+      {
+        transmissionId,
+        xp: row.reward.xp,
+        dream: row.reward.dream,
+        achievement: row.reward.achievement,
+        loredexEntries: row.relatedLoredexEntries ?? [],
+      },
+      { onSuccess: () => utils.transmissions.getLoginTransmissionInbox.invalidate() },
+    );
+  };
+
+  const replayOpening = () => {
+    clearOpeningSeen();
+    window.location.assign("/");
+  };
+
+  if (!isAuthenticated) {
+    return (
+      <div className="px-4 py-12 text-center font-mono text-xs text-white/30">
+        ▸ Sign in to receive your queued transmissions.
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-4 pb-8">
+      <p className="font-mono text-[9px] text-white/20 tracking-wider mb-1 px-1">
+        ▸ INBOX // {pending.length} PENDING · {watched.length} WATCHED
+      </p>
+
+      <button
+        onClick={replayOpening}
+        className="w-full flex items-center gap-3 px-3 py-2 border border-white/10 hover:border-emerald-500/40 hover:bg-emerald-900/10 rounded text-left transition-colors"
+      >
+        <RotateCcw size={14} className="text-emerald-400/80" />
+        <div className="flex-1">
+          <div className="font-mono text-xs uppercase tracking-widest text-emerald-200">
+            Replay Opening Cinematic
+          </div>
+          <div className="font-mono text-[10px] text-white/30 mt-0.5">
+            The Meme's first transmission · 3:09
+          </div>
+        </div>
+      </button>
+
+      {pending.length > 0 && (
+        <section className="space-y-1.5">
+          <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-emerald-300/60 px-1">
+            ▸ Pending
+          </div>
+          {pending.map((row) => (
+            <InboxRow
+              key={row.id}
+              row={row}
+              status="pending"
+              onWatch={() => (row.kind === "album" ? playAlbum(row) : recordTvWatched(row))}
+            />
+          ))}
+        </section>
+      )}
+
+      {skipped.length > 0 && (
+        <section className="space-y-1.5">
+          <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-amber-400/50 px-1">
+            ▸ Skipped · Watch later
+          </div>
+          {skipped.map((row) => (
+            <InboxRow
+              key={row.id}
+              row={row}
+              status="skipped"
+              onWatch={() => (row.kind === "album" ? playAlbum(row) : recordTvWatched(row))}
+            />
+          ))}
+        </section>
+      )}
+
+      {watched.length > 0 && (
+        <section className="space-y-1.5">
+          <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-white/30 px-1">
+            ▸ Watched · {watched.length}
+          </div>
+          {watched.map((row) => (
+            <InboxRow key={row.id} row={row} status="watched" onWatch={() => {}} />
+          ))}
+        </section>
+      )}
+
+      {pending.length === 0 && skipped.length === 0 && watched.length === 0 && (
+        <div className="px-4 py-12 text-center font-mono text-xs text-white/30">
+          ▸ No transmissions waiting. The Meme's frequency is quiet.
+        </div>
+      )}
+    </div>
+  );
+}
+
+interface InboxRowData {
+  kind: "album" | "tv";
+  id: string;
+  trackId: string | null;
+  title: string;
+  audioUrl: string | null;
+  videoUrl: string | null;
+  driveFileId: string | null;
+  durationMs: number;
+  lengthSeconds: number;
+  reward: { xp: number; dream: number; achievement?: string };
+}
+
+function InboxRow({
+  row,
+  status,
+  onWatch,
+}: {
+  row: InboxRowData;
+  status: "pending" | "skipped" | "watched";
+  onWatch: () => void;
+}) {
+  const minutes = Math.floor(row.lengthSeconds / 60);
+  const seconds = row.lengthSeconds % 60;
+  const length = `${minutes}:${seconds.toString().padStart(2, "0")}`;
+  const Icon = row.kind === "album" ? Disc3 : Tv;
+  const label = row.kind === "album" ? `T${(row.trackId ?? "").slice(1)}` : "EPISODE";
+  return (
+    <div
+      className={`flex items-center gap-3 px-3 py-2 border rounded ${
+        status === "pending"
+          ? "border-emerald-500/30 bg-emerald-900/10"
+          : status === "skipped"
+            ? "border-amber-400/20 bg-amber-900/5"
+            : "border-white/10 bg-black/40"
+      }`}
+    >
+      <Icon size={14} className={status === "watched" ? "text-white/30" : "text-emerald-300"} />
+      <div className="flex-1 min-w-0">
+        <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-white/40">
+          {label} · {length}
+        </div>
+        <div className="font-serif text-sm text-emerald-50 truncate">{row.title}</div>
+      </div>
+      {status === "watched" ? (
+        <CheckCircle2 size={14} className="text-emerald-500/70" />
+      ) : (
+        <button
+          onClick={onWatch}
+          className="flex items-center gap-1 px-3 py-1 bg-emerald-700 hover:bg-emerald-600 text-black font-mono uppercase tracking-widest text-[10px] rounded"
+        >
+          <Play size={10} />
+          Watch
+        </button>
+      )}
+      <div className="font-mono text-[9px] text-white/30 hidden sm:block">
+        +{row.reward.xp} XP · +{row.reward.dream} 𝔇
+      </div>
+    </div>
   );
 }

@@ -796,37 +796,112 @@ export const transmissionsRouter = router({
     }),
 
   /**
-   * Returns the player's INBOX projection: pending (next-up + skipped),
-   * watched (history with grant timestamps), and pendingCount for the
-   * launcher badge. The client should call this to render the INBOX
-   * tab in the Transmission Deck.
+   * Returns the player's INBOX projection with rendered per-item
+   * metadata (title, length, audio/video url, etc.) so the UI can
+   * render rich rows without a second round-trip per item.
+   *
+   * Pending = unwatched AND not skipped.
+   * Skipped = closed-with-skip; player chose "watch later".
+   * Watched = grant-confirmed history with timestamps.
    */
   getLoginTransmissionInbox: protectedProcedure
     .input(z.object({ playerContext: PlayerContextInputSchema }))
     .query(async ({ ctx, input }) => {
       const db = await getDb();
-      if (!db) {
-        return {
-          pending: [] as LoginTransmissionItem[],
-          watched: [] as LoginTransmissionItem[],
-          skipped: [] as LoginTransmissionItem[],
-          pendingCount: 0,
-        };
-      }
+      const empty = {
+        pending: [] as InboxRow[],
+        watched: [] as InboxRow[],
+        skipped: [] as InboxRow[],
+        pendingCount: 0,
+      };
+      if (!db) return empty;
+
       const cursor = await loadAlbumCursor(db, ctx.user.id);
       const watchedTv = await loadWatchedSet(db, ctx.user.id);
       const watchedAlbum = await loadAlbumWatchedSet(cursor);
       const watched = new Set([...watchedTv, ...watchedAlbum]);
       const skipped = await loadSkippedSet(db, ctx.user.id);
 
-      return buildInbox(
+      const inbox = buildInbox(
         cursor,
         input.playerContext as TransmissionPlayerContext,
         watched,
         skipped,
       );
+
+      const renderItem = (item: LoginTransmissionItem): InboxRow | null => {
+        if (item.kind === "album") {
+          const meta = describeAlbumItem(item.trackId);
+          if (!meta) return null;
+          return {
+            kind: "album",
+            id: `album:${item.trackId}`,
+            trackId: item.trackId,
+            title: meta.title,
+            audioUrl: meta.audioUrl,
+            durationMs: meta.durationMs,
+            intro: meta.intro,
+            outro: meta.outro,
+            firstEverIntroId: meta.firstEverIntroId,
+            videoUrl: null,
+            driveFileId: null,
+            lengthSeconds: Math.round(meta.durationMs / 1000),
+            reward: ALBUM_COMPLETION_REWARD,
+          };
+        }
+        const transmission = findTvTransmission(item.transmissionId);
+        if (!transmission) return null;
+        const tv = describeTvItem(transmission);
+        return {
+          kind: "tv",
+          id: `tv:${tv.transmissionId}`,
+          trackId: null,
+          title: tv.title,
+          audioUrl: null,
+          durationMs: tv.lengthSeconds * 1000,
+          intro: tv.intro,
+          outro: tv.outro,
+          firstEverIntroId: null,
+          videoUrl: tv.videoUrl,
+          driveFileId: tv.driveFileId,
+          lengthSeconds: tv.lengthSeconds,
+          reward: tv.reward,
+          synopsis: tv.synopsis,
+          relatedLoredexEntries: tv.relatedLoredexEntries,
+        };
+      };
+
+      const renderList = (items: LoginTransmissionItem[]): InboxRow[] =>
+        items
+          .map(renderItem)
+          .filter((r): r is InboxRow => r !== null);
+
+      return {
+        pending: renderList(inbox.pending),
+        watched: renderList(inbox.watched),
+        skipped: renderList(inbox.skipped),
+        pendingCount: inbox.pendingCount,
+      };
     }),
 });
+
+interface InboxRow {
+  kind: "album" | "tv";
+  id: string;
+  trackId: string | null;
+  title: string;
+  audioUrl: string | null;
+  videoUrl: string | null;
+  driveFileId: string | null;
+  durationMs: number;
+  lengthSeconds: number;
+  intro: string;
+  outro: string;
+  firstEverIntroId: "login_first_ever" | null;
+  reward: { xp: number; dream: number; achievement?: string };
+  synopsis?: string;
+  relatedLoredexEntries?: string[];
+}
 
 // Re-export for tests.
 export const _ALBUM_TRANSMISSION_INTERNALS = {
