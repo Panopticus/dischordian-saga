@@ -42,6 +42,8 @@ import { usePetQuestEventBridge } from "@/game/petQuestHooks";
 import { useNarrativeIntegration } from "@/hooks/useNarrativeIntegration";
 import { useIncomingTransmissions } from "@/hooks/useIncomingTransmissions";
 import { useLoginAlbumTransmission } from "@/hooks/useLoginAlbumTransmission";
+import { usePlayerContext } from "@/hooks/usePlayerContext";
+import { useAuth } from "@/_core/hooks/useAuth";
 import LoginMemeBroadcast from "@/components/LoginMemeBroadcast";
 import LoginMemeMiniCard from "@/components/LoginMemeMiniCard";
 import VoiceWhisper from "@/components/VoiceWhisper";
@@ -115,6 +117,17 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
 
   // Unread signals (NPC discoveries)
   const npcSignals = Object.values(gameState.npcDiscovered || {}).filter(Boolean).length;
+  // Combined COMMS-deck pending: NPC signals + login transmissions
+  // sitting in the inbox (skipped, muted, or simply unread). The
+  // inbox query is gated on auth + the player context that drives it.
+  const loginCtxForBadge = usePlayerContext();
+  const { isAuthenticated: hasAuthForBadge } = useAuth();
+  const inboxBadgeQuery = trpc.transmissions.getLoginTransmissionInbox.useQuery(
+    { playerContext: loginCtxForBadge },
+    { enabled: hasAuthForBadge, staleTime: 30_000 },
+  );
+  const loginInboxPending = inboxBadgeQuery.data?.pendingCount ?? 0;
+  const commsPending = npcSignals + loginInboxPending;
 
   // Determine if we're in a fully immersive context
   const isImmersive = IMMERSIVE_ROUTES.some(r => location.startsWith(r));
@@ -264,7 +277,7 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
               const Icon = item.icon;
               const active = item.id === "comms" ? showTransmissions : (location === item.path || location.startsWith(item.path + "/"));
               const badge = item.id === "map" ? discoveredRooms :
-                           item.id === "comms" ? npcSignals :
+                           item.id === "comms" ? commsPending :
                            0;
 
               // COMMS button opens TransmissionDeck overlay (if media discovered)
