@@ -57,7 +57,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_reward_crew_bloodline.webp"),
   flavorText:
     "The bloodline runs deeper than code. Each generation carries the weight of those before it.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive", "narrative"] as const,
   verdict_delta: 2,
 };

@@ -47,7 +47,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_reward_eidolon_cipher.webp"),
   flavorText:
     "Cipher does not think. Cipher computes. The distinction matters only to those who lose to it.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["narrative"] as const,
   verdict_delta: 2,
 };

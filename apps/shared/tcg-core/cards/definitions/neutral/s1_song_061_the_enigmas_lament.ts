@@ -64,7 +64,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_song_061.webp"),
   flavorText:
     "A haunting meditation on identity and loss, this song channels the voice of The Enigma, the mysterious entity whose true nature is never what it first seems.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["evidence", "narrative"] as const,
   verdict_delta: 1,
 };

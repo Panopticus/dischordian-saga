@@ -27,7 +27,7 @@ export const pack2_element_abyssal_form: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/element/abyssal_form.webp"),
   flavorText: "Older than any throne. Heeds no banner.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -44,7 +44,7 @@ export const pack2_element_blaze_lancer: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/element/blaze_lancer.webp"),
   flavorText: "Older than any throne. Heeds no banner.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["reactive"] as const,
   verdict_delta: 0,
 };
@@ -61,7 +61,7 @@ export const pack2_element_breath_before_language: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/element/breath_before_language.webp"),
   flavorText: "Older than any throne. Heeds no banner.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -78,7 +78,7 @@ export const pack2_element_breeze_whisper: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/element/breeze_whisper.webp"),
   flavorText: "Older than any throne. Heeds no banner.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -95,7 +95,7 @@ export const pack2_element_conflagration: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/element/conflagration.webp"),
   flavorText: "Older than any throne. Heeds no banner.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -112,7 +112,7 @@ export const pack2_element_cyclone_herald: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/element/cyclone_herald.webp"),
   flavorText: "Older than any throne. Heeds no banner.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["reactive"] as const,
   verdict_delta: 0,
 };
@@ -129,7 +129,7 @@ export const pack2_element_dissolving_wave: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/element/dissolving_wave.webp"),
   flavorText: "Older than any throne. Heeds no banner.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -146,7 +146,7 @@ export const pack2_element_ember_scout: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/element/ember_scout.webp"),
   flavorText: "Older than any throne. Heeds no banner.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -163,7 +163,7 @@ export const pack2_element_gale_chorus: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/element/gale_chorus.webp"),
   flavorText: "Older than any throne. Heeds no banner.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -180,7 +180,7 @@ export const pack2_element_mercy_current: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/element/mercy_current.webp"),
   flavorText: "Older than any throne. Heeds no banner.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -197,7 +197,7 @@ export const pack2_element_mountain_vow: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/element/mountain_vow.webp"),
   flavorText: "Older than any throne. Heeds no banner.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -214,7 +214,7 @@ export const pack2_element_ocean_that_forgives: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/element/ocean_that_forgives.webp"),
   flavorText: "Older than any throne. Heeds no banner.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -231,7 +231,7 @@ export const pack2_element_rooted_sentinel: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/element/rooted_sentinel.webp"),
   flavorText: "Older than any throne. Heeds no banner.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -248,7 +248,7 @@ export const pack2_element_skyrider: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/element/skyrider.webp"),
   flavorText: "Older than any throne. Heeds no banner.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["reactive"] as const,
   verdict_delta: 0,
 };
@@ -265,7 +265,7 @@ export const pack2_element_slate_golem: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/element/slate_golem.webp"),
   flavorText: "Older than any throne. Heeds no banner.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -282,7 +282,7 @@ export const pack2_element_sleeping_continent: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/element/sleeping_continent.webp"),
   flavorText: "Older than any throne. Heeds no banner.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -299,7 +299,7 @@ export const pack2_element_spark_fragment: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/element/spark_fragment.webp"),
   flavorText: "Older than any throne. Heeds no banner.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -316,7 +316,7 @@ export const pack2_element_tectonic_warden: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/element/tectonic_warden.webp"),
   flavorText: "Older than any throne. Heeds no banner.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -333,7 +333,7 @@ export const pack2_element_the_first_flame: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/element/the_first_flame.webp"),
   flavorText: "Older than any throne. Heeds no banner.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -350,7 +350,7 @@ export const pack2_element_tide_keeper: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/element/tide_keeper.webp"),
   flavorText: "Older than any throne. Heeds no banner.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };

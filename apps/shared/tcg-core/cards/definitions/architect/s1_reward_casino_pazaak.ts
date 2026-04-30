@@ -45,7 +45,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_reward_casino_pazaak.webp"),
   flavorText:
     "Twenty-one wins. Zero tells. Pure calculation.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["narrative"] as const,
   verdict_delta: 2,
 };

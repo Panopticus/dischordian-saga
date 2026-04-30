@@ -33,7 +33,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_char_063.webp"),
   flavorText:
     "She has died a hundred times and learned nothing from any of them.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 1,
 };

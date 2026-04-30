@@ -129,7 +129,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_char_027.webp"),
   flavorText:
     "They played a crucial role in destroying the Warden alongside the White Oracle before the Fall of Reality .",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive", "evidence", "narrative", "reactive"] as const,
   verdict_delta: 2,
 };

@@ -34,7 +34,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_char_060.webp"),
   flavorText:
     "The relics protect themselves. She merely gives them someone to protect.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive", "evidence"] as const,
   verdict_delta: 1,
 };

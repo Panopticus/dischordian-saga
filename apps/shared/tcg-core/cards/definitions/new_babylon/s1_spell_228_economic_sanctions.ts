@@ -36,7 +36,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_spell_228.webp"),
   flavorText:
     "When New Babylon cuts the purse strings, even gods go hungry.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 1,
 };

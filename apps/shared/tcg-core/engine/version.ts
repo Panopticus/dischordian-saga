@@ -18,7 +18,7 @@
  * (state, action) pair is at least a MINOR bump. Adding a new card
  * definition is NOT a rules bump (cards are data, not rules).
  */
-export const RULES_VERSION = "1.0.0" as const;
+export const RULES_VERSION = "1.1.0" as const;
 
 export type RulesVersion = typeof RULES_VERSION;
 

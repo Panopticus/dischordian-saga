@@ -27,7 +27,7 @@ export const pack2_insurgency_agent_zero_general: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/agent_zero_general.webp"),
   flavorText: "Of the insurgency.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -44,7 +44,7 @@ export const pack2_insurgency_agent_zero_legendary: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/agent_zero_legendary.webp"),
   flavorText: "Of the insurgency.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 0,
 };
@@ -61,7 +61,7 @@ export const pack2_insurgency_agent_zero_reborn: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/agent_zero_reborn.webp"),
   flavorText: "Of the insurgency.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -78,7 +78,7 @@ export const pack2_insurgency_ambush_protocol: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/ambush_protocol.webp"),
   flavorText: "Of the insurgency.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -95,7 +95,7 @@ export const pack2_insurgency_covert_operative: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/covert_operative.webp"),
   flavorText: "Of the insurgency.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -112,7 +112,7 @@ export const pack2_insurgency_dead_frequency_jam: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/dead_frequency_jam.webp"),
   flavorText: "Of the insurgency.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -129,7 +129,7 @@ export const pack2_insurgency_dead_signal_burst: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/dead_signal_burst.webp"),
   flavorText: "Of the insurgency.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -146,7 +146,7 @@ export const pack2_insurgency_echo_the_resonance: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/echo_the_resonance.webp"),
   flavorText: "Of the insurgency.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -163,7 +163,7 @@ export const pack2_insurgency_encrypted_broadcast: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/encrypted_broadcast.webp"),
   flavorText: "Of the insurgency.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -180,7 +180,7 @@ export const pack2_insurgency_flicker_fiend: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/flicker_fiend.webp"),
   flavorText: "Of the insurgency.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -197,7 +197,7 @@ export const pack2_insurgency_fresh_recruit: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/fresh_recruit.webp"),
   flavorText: "Of the insurgency.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -214,7 +214,7 @@ export const pack2_insurgency_fungal_colossus: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/fungal_colossus.webp"),
   flavorText: "Of the insurgency.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -231,7 +231,7 @@ export const pack2_insurgency_guerrilla_cell: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/guerrilla_cell.webp"),
   flavorText: "Of the insurgency.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -248,7 +248,7 @@ export const pack2_insurgency_guerrilla_strike: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/guerrilla_strike.webp"),
   flavorText: "Of the insurgency.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -265,7 +265,7 @@ export const pack2_insurgency_i_love_war: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/i_love_war.webp"),
   flavorText: "Of the insurgency.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -282,7 +282,7 @@ export const pack2_insurgency_inferno_djinn: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/inferno_djinn.webp"),
   flavorText: "Of the insurgency.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -299,7 +299,7 @@ export const pack2_insurgency_insurgent_commander: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/insurgent_commander.webp"),
   flavorText: "Of the insurgency.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -316,7 +316,7 @@ export const pack2_insurgency_intel_leak: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/intel_leak.webp"),
   flavorText: "Of the insurgency.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -333,7 +333,7 @@ export const pack2_insurgency_iron_lion_general: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/iron_lion_general.webp"),
   flavorText: "Of the insurgency.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -350,7 +350,7 @@ export const pack2_insurgency_iron_lion_legendary: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/iron_lion_legendary.webp"),
   flavorText: "Of the insurgency.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 0,
 };
@@ -367,7 +367,7 @@ export const pack2_insurgency_jericho_jones: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/jericho_jones.webp"),
   flavorText: "Of the insurgency.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -384,7 +384,7 @@ export const pack2_insurgency_kael: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/kael.webp"),
   flavorText: "Of the insurgency.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 0,
 };
@@ -401,7 +401,7 @@ export const pack2_insurgency_kael_the_recruiter: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/kael_the_recruiter.webp"),
   flavorText: "Of the insurgency.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 0,
 };
@@ -418,7 +418,7 @@ export const pack2_insurgency_liberation_protocol: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/liberation_protocol.webp"),
   flavorText: "Of the insurgency.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -435,7 +435,7 @@ export const pack2_insurgency_master_spy: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/master_spy.webp"),
   flavorText: "Of the insurgency.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -452,7 +452,7 @@ export const pack2_insurgency_mission_briefing: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/mission_briefing.webp"),
   flavorText: "Of the insurgency.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -469,7 +469,7 @@ export const pack2_insurgency_mycelial_bloom: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/mycelial_bloom.webp"),
   flavorText: "Of the insurgency.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -486,7 +486,7 @@ export const pack2_insurgency_rebel_arsenal: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/rebel_arsenal.webp"),
   flavorText: "Of the insurgency.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -503,7 +503,7 @@ export const pack2_insurgency_rebel_yell: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/rebel_yell.webp"),
   flavorText: "Of the insurgency.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -520,7 +520,7 @@ export const pack2_insurgency_rebels_conviction: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/rebels_conviction.webp"),
   flavorText: "Of the insurgency.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -537,7 +537,7 @@ export const pack2_insurgency_saboteur: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/saboteur.webp"),
   flavorText: "Of the insurgency.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -554,7 +554,7 @@ export const pack2_insurgency_safe_house: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/safe_house.webp"),
   flavorText: "Of the insurgency.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -571,7 +571,7 @@ export const pack2_insurgency_scorched_earth: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/scorched_earth.webp"),
   flavorText: "Of the insurgency.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -588,7 +588,7 @@ export const pack2_insurgency_signal_booster: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/signal_booster.webp"),
   flavorText: "Of the insurgency.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -605,7 +605,7 @@ export const pack2_insurgency_signal_intercept: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/signal_intercept.webp"),
   flavorText: "Of the insurgency.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -622,7 +622,7 @@ export const pack2_insurgency_signal_operative: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/signal_operative.webp"),
   flavorText: "Of the insurgency.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -639,7 +639,7 @@ export const pack2_insurgency_signal_repeater: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/signal_repeater.webp"),
   flavorText: "Of the insurgency.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -656,7 +656,7 @@ export const pack2_insurgency_smugglers_cache: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/smugglers_cache.webp"),
   flavorText: "Of the insurgency.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -673,7 +673,7 @@ export const pack2_insurgency_spark_imp: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/spark_imp.webp"),
   flavorText: "Of the insurgency.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -690,7 +690,7 @@ export const pack2_insurgency_spore_seedling: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/spore_seedling.webp"),
   flavorText: "Of the insurgency.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -707,7 +707,7 @@ export const pack2_insurgency_supply_drop: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/supply_drop.webp"),
   flavorText: "Of the insurgency.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -724,7 +724,7 @@ export const pack2_insurgency_the_engineer_insurgency: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/the_engineer_insurgency.webp"),
   flavorText: "Of the insurgency.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -741,7 +741,7 @@ export const pack2_insurgency_the_eyes: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/the_eyes.webp"),
   flavorText: "Of the insurgency.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -758,7 +758,7 @@ export const pack2_insurgency_the_hierophant: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/the_hierophant.webp"),
   flavorText: "Of the insurgency.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -775,7 +775,7 @@ export const pack2_insurgency_the_nomad: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/the_nomad.webp"),
   flavorText: "Of the insurgency.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -792,7 +792,7 @@ export const pack2_insurgency_the_oracle_insurgency: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/the_oracle_insurgency.webp"),
   flavorText: "Of the insurgency.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -809,7 +809,7 @@ export const pack2_insurgency_the_recruiter: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/the_recruiter.webp"),
   flavorText: "Of the insurgency.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -826,7 +826,7 @@ export const pack2_insurgency_the_shadow_tongue: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/the_shadow_tongue.webp"),
   flavorText: "Of the insurgency.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -843,7 +843,7 @@ export const pack2_insurgency_void_flame_runner: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/void_flame_runner.webp"),
   flavorText: "Of the insurgency.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -860,7 +860,7 @@ export const pack2_insurgency_wraith_calder: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/wraith_calder.webp"),
   flavorText: "Of the insurgency.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["narrative"] as const,
   verdict_delta: 0,
 };
@@ -877,7 +877,7 @@ export const pack2_insurgency_zeros_parting_gift: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/zeros_parting_gift.webp"),
   flavorText: "Of the insurgency.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };

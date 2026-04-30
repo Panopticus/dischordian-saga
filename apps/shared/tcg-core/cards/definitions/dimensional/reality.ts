@@ -22,7 +22,7 @@ export const reality_01: CardDefinition = {
   art: assetUrl("art/cards/dimension/s1_dim_reality_01.webp"),
   flavorText:
     "Dispel. She was in the room when it happened. Her testimony removes the parts of the story that depend on nobody having been in the room.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["evidence", "offensive"] as const,
   verdict_delta: 1,
 };
@@ -45,7 +45,7 @@ export const reality_02: CardDefinition = {
   art: assetUrl("art/cards/dimension/s1_dim_reality_02.webp"),
   flavorText:
     "Silence the enemy general. A Consensus Weaver does not argue with your version of events. She lets nine other people agree with hers until yours stops being one.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["narrative", "offensive"] as const,
   verdict_delta: 2,
 };
@@ -69,7 +69,7 @@ export const reality_03: CardDefinition = {
   art: assetUrl("art/cards/dimension/s1_dim_reality_03.webp"),
   flavorText:
     "Provoke. Dispel. Forcefield. On deploy, silence the enemy general. The Thing That Is Actually Happening is always happening, and nothing in the match will convince it otherwise, which is the definition of reality the Architect was using when he wrote the first draft.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive", "narrative"] as const,
   verdict_delta: 2,
 };

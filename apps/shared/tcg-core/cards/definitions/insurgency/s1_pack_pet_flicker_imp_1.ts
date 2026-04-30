@@ -37,7 +37,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_pack_pet_flicker_imp_1.webp"),
   flavorText:
     "It exists for exactly one brilliant, violent second.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 1,
 };

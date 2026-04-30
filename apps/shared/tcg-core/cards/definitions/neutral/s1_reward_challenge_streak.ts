@@ -59,7 +59,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_reward_challenge_streak.webp"),
   flavorText:
     "They fought ten times. After the tenth, they shook hands. Both were harder to kill for it.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive", "narrative"] as const,
   verdict_delta: 2,
 };

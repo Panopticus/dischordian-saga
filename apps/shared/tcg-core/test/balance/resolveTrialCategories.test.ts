@@ -55,7 +55,7 @@ describe("resolveTrialCategories — production registry coverage", () => {
       abilities: [] as const,
       art: "stub",
       flavorText: "a",
-      rulesVersion: "1.0.0",
+      rulesVersion: "1.1.0",
     };
     expect(() =>
       buildCardRegistry([blank], { strictTrialCategoryCoverage: true }),
@@ -75,7 +75,7 @@ describe("resolveTrialCategories — production registry coverage", () => {
       abilities: [] as const,
       art: "stub",
       flavorText: "a",
-      rulesVersion: "1.0.0",
+      rulesVersion: "1.1.0",
     };
     expect(() => buildCardRegistry([blank])).not.toThrow();
   });

@@ -38,5 +38,5 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/gen_programmer.webp"),
   flavorText:
     "I have done the arithmetic, and the arithmetic is very bad.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
 };

@@ -48,7 +48,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_char_035.webp"),
   flavorText:
     "He began as the Oracle, a revered figure who journeyed to Thaloria and bested the Collector in a philosophical debate, c...",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 1,
 };

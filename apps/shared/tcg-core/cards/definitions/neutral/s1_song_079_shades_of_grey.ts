@@ -50,7 +50,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_song_079.webp"),
   flavorText:
     "Between black and white lies a spectrum of doubt — and within it, a fragile protection.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["evidence", "narrative"] as const,
   verdict_delta: 1,
 };

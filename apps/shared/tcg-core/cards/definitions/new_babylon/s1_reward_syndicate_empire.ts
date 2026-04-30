@@ -45,7 +45,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_reward_syndicate_empire.webp"),
   flavorText:
     "The fifth world fell without a shot. Its governor took one look at the Overlord's fleet and signed the treaty.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["narrative"] as const,
   verdict_delta: 2,
 };

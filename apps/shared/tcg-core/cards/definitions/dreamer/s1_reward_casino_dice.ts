@@ -52,7 +52,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_reward_casino_dice.webp"),
   flavorText:
     "Chaos doesn't choose sides. It just chooses.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 1,
 };

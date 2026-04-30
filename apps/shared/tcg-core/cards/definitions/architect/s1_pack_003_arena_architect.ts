@@ -41,7 +41,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_pack_003.webp"),
   flavorText:
     "She does not enter the Arena. She builds a new one around you — with you already inside.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive", "narrative"] as const,
   verdict_delta: 2,
 };

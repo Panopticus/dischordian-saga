@@ -66,7 +66,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_reward_prestige_t7.webp"),
   flavorText:
     "Seven cycles of death and rebirth. What remains is beyond mortal understanding.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["narrative"] as const,
   verdict_delta: 2,
 };

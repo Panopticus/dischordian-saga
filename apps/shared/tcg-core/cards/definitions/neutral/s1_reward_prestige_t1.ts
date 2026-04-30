@@ -46,7 +46,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_reward_prestige_t1.webp"),
   flavorText:
     "The first step upward is the hardest. The shield proves you took it.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["evidence"] as const,
   verdict_delta: 1,
 };

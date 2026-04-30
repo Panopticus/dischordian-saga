@@ -81,7 +81,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_char_040.webp"),
   flavorText:
     "Always concealed beneath a hood and a mask, his true identity remains a mystery, with his past entirely classified. The ...",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["evidence", "reactive"] as const,
   verdict_delta: 1,
 };

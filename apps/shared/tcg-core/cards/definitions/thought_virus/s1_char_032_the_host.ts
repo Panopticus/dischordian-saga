@@ -94,7 +94,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_char_032.webp"),
   flavorText:
     "Once a Potential, forged from the Architect\u2019s legacy of preserved DNA and machine code, this being once carried the spar...",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["evidence", "offensive"] as const,
   verdict_delta: 1,
 };

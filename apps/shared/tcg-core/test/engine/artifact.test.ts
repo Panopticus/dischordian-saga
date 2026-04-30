@@ -41,7 +41,7 @@ const ARTIFACT_DEF: CardDefinition = {
   abilities: [],
   art: "test_artifact.png",
   flavorText: "A test artifact.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   artifactDurability: 3,
 };
 
@@ -56,7 +56,7 @@ const ARTIFACT_DEF_2: CardDefinition = {
   abilities: [],
   art: "test_artifact.png",
   flavorText: "A test artifact.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   artifactDurability: 2,
 };
 

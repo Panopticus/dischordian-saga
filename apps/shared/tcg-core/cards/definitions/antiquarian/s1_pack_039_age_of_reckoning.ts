@@ -68,7 +68,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_pack_039.webp"),
   flavorText:
     "The old age crumbles. The new age mends what it can. The cycle continues.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive", "offensive"] as const,
   verdict_delta: 1,
 };

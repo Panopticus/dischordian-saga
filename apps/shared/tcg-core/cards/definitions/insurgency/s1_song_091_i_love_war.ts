@@ -53,7 +53,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_song_091.webp"),
   flavorText:
     "The Warlord wore Vox's skin like a weapon. Agent Zero never saw the nanobots coming — war IS love to the Warlord, and this was an act of intimate conquest.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["narrative", "offensive"] as const,
   verdict_delta: 2,
 };

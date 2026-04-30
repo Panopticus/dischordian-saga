@@ -113,7 +113,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_char_014.webp"),
   flavorText:
     "Their essence is drawn from a dual heritage \u2014 Harvested DNA and Machine Code \u2014 meticulously preserved to ensure that, when the time came, they would awaken.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["evidence", "reactive"] as const,
   verdict_delta: 1,
 };

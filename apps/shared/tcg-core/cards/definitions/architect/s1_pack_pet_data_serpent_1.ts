@@ -48,7 +48,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_pack_pet_data_serpent_1.webp"),
   flavorText:
     "Born from corrupted packet headers and the dreams of dead servers.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 1,
 };

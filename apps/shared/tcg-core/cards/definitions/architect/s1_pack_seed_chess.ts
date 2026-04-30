@@ -66,7 +66,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_pack_seed_chess.webp"),
   flavorText:
     "Every game is a test. Every test has a purpose only the Game Master understands.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["narrative"] as const,
   verdict_delta: 2,
 };

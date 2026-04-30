@@ -95,7 +95,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_char_026.webp"),
   flavorText:
     "She built the Inception Arks to save humanity. Now she builds weapons to defend the dream. The Engineer does not choose sides \u2014 she chooses survival.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive", "evidence", "narrative", "reactive"] as const,
   verdict_delta: 2,
 };

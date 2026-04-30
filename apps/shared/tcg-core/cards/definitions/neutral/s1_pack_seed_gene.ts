@@ -59,7 +59,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_pack_seed_gene.webp"),
   flavorText:
     "It came back from the Void changed. Stronger. Wrong.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["evidence"] as const,
   verdict_delta: 1,
 };

@@ -54,7 +54,7 @@ describe("card loader — valid inputs", () => {
       abilities: [],
       art: "test://art",
       flavorText: "",
-      rulesVersion: "1.0.0",
+      rulesVersion: "1.1.0",
     };
     const reg = buildCardRegistry([minimal]);
     expect(reg.has("test_minimal_unit")).toBe(true);
@@ -82,7 +82,7 @@ describe("card loader — valid inputs", () => {
       ],
       art: "test://art",
       flavorText: "",
-      rulesVersion: "1.0.0",
+      rulesVersion: "1.1.0",
     };
     const reg = buildCardRegistry([spell]);
     expect(reg.has("test_minimal_spell")).toBe(true);
@@ -102,7 +102,7 @@ describe("card loader — schema failure paths", () => {
       abilities: [],
       art: "x",
       flavorText: "",
-      rulesVersion: "1.0.0",
+      rulesVersion: "1.1.0",
     };
     expect(() => buildCardRegistry([bad])).toThrowError(CardRegistryLoadError);
   });
@@ -120,7 +120,7 @@ describe("card loader — schema failure paths", () => {
       abilities: [],
       art: "x",
       flavorText: "",
-      rulesVersion: "1.0.0",
+      rulesVersion: "1.1.0",
     };
     expect(() => buildCardRegistry([bad])).toThrow();
   });
@@ -138,7 +138,7 @@ describe("card loader — schema failure paths", () => {
       abilities: [],
       art: "x",
       flavorText: "",
-      rulesVersion: "1.0.0",
+      rulesVersion: "1.1.0",
     };
     expect(() => buildCardRegistry([card, card])).toThrowError(
       /duplicate card id/
@@ -169,7 +169,7 @@ describe("card loader — schema failure paths", () => {
       ],
       art: "x",
       flavorText: "",
-      rulesVersion: "1.0.0",
+      rulesVersion: "1.1.0",
     };
     expect(() => buildCardRegistry([card])).toThrowError(/duplicate ability id/);
   });
@@ -187,7 +187,7 @@ describe("card loader — schema failure paths", () => {
       abilities: [],
       art: "x",
       flavorText: "",
-      rulesVersion: "1.0.0",
+      rulesVersion: "1.1.0",
     };
     expect(() => buildCardRegistry([bad])).toThrow();
   });
@@ -206,7 +206,7 @@ describe("card loader — schema failure paths", () => {
       abilities: [],
       art: "x",
       flavorText: "",
-      rulesVersion: "1.0.0",
+      rulesVersion: "1.1.0",
     };
     expect(() => buildCardRegistry([bad])).toThrow();
   });
@@ -283,7 +283,7 @@ describe("card loader — effect tree recursion", () => {
       ],
       art: "x",
       flavorText: "",
-      rulesVersion: "1.0.0",
+      rulesVersion: "1.1.0",
     };
     expect(() => cardDefinitionSchema.parse(card)).not.toThrow();
   });

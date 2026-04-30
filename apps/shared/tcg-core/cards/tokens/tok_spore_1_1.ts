@@ -34,7 +34,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/tok_spore_1_1.webp"),
   flavorText:
     "It feeds on endings. Every death is a season of plenty.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["reactive"] as const,
   verdict_delta: 1,
 };

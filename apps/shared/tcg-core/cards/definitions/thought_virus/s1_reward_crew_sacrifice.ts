@@ -46,7 +46,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_reward_crew_sacrifice.webp"),
   flavorText:
     "Sacrificed during the Outbreak. Her crew remembers.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["narrative", "reactive"] as const,
   verdict_delta: 2,
 };

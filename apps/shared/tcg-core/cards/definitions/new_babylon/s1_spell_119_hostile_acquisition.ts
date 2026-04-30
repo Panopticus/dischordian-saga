@@ -54,7 +54,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_spell_119.webp"),
   flavorText:
     "Locke didn't conquer New Babylon with armies. He bought it — one signature, one soul, one leveraged asset at a time.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 1,
 };

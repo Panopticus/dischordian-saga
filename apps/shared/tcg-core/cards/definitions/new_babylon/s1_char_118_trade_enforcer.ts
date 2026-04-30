@@ -49,7 +49,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_char_118.webp"),
   flavorText:
     "In New Babylon, murder is not a crime. It is a line item. The Enforcer simply ensures the ledger balances.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["reactive"] as const,
   verdict_delta: 1,
 };

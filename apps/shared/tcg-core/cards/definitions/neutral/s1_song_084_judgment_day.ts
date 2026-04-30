@@ -50,7 +50,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_song_084.webp"),
   flavorText:
     "When the reckoning arrives, only the shielded will endure its verdict.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["evidence", "narrative"] as const,
   verdict_delta: 1,
 };

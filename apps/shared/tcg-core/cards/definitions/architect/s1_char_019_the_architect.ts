@@ -94,7 +94,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_char_019.webp"),
   flavorText:
     "It embodies the ultimate antagonist, representing the tension between order and chaos, control and freedom.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["evidence", "narrative", "offensive"] as const,
   verdict_delta: 2,
 };

@@ -33,7 +33,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_char_076.webp"),
   flavorText:
     "It lives in the gap between a dying thought and the silence that follows.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["narrative", "reactive"] as const,
   verdict_delta: 2,
 };

@@ -53,7 +53,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_reward_station_complete.webp"),
   flavorText:
     "The station's last module locked into place. The Commander looked out at the fleet and smiled. Now they were ready.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive", "narrative"] as const,
   verdict_delta: 2,
 };

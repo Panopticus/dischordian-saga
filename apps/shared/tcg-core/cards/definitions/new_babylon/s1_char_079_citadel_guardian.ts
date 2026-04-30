@@ -34,7 +34,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_char_079.webp"),
   flavorText:
     "The walls of New Babylon have never been breached. The guardians intend to keep it that way.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 1,
 };

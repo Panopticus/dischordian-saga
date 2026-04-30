@@ -67,7 +67,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_reward_companion_zero.webp"),
   flavorText:
     "Agent Zero always left something behind — a frequency, a signal, a reason to keep fighting.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 1,
 };

@@ -53,7 +53,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_pack_011.webp"),
   flavorText:
     "He does not give orders. He gives permission. And the Insurgency has been waiting a long time to hear it.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 1,
 };

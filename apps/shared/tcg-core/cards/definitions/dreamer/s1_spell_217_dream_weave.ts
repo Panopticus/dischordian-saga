@@ -40,7 +40,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_spell_217.webp"),
   flavorText:
     "She dreamed of an army. When she woke, they were already marching.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive", "narrative"] as const,
   verdict_delta: 2,
 };

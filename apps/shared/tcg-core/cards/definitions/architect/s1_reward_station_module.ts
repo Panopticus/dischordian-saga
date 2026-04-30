@@ -52,7 +52,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_reward_station_module.webp"),
   flavorText:
     "Ten modules. Ten upgrades. The unit that walked in was adequate. The one that walked out was exceptional.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive", "narrative"] as const,
   verdict_delta: 2,
 };

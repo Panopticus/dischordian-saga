@@ -42,7 +42,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_pack_021.webp"),
   flavorText:
     "It lived for the span of a single thought. But what a thought it was.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["narrative", "offensive", "reactive"] as const,
   verdict_delta: 1,
 };

@@ -55,7 +55,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_char_102.webp"),
   flavorText:
     "Your rotation has arrived. There is no deferral. There is no appeal. Step into the Arena.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 1,
 };

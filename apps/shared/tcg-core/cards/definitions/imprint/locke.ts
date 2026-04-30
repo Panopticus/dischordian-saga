@@ -16,7 +16,7 @@ export const locke_t1: CardDefinition = {
   keywords: [], abilities: [],
   art: assetUrl("art/cards/imprint/locke_t1.webp"),
   flavorText: "A tired figure in a jurist's coat at a desk that has been tidy longer than you have been alive.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive", "narrative"] as const,
   verdict_delta: 1,
 };
@@ -29,7 +29,7 @@ export const locke_t2: CardDefinition = {
   keywords: ["provoke"], abilities: [],
   art: assetUrl("art/cards/imprint/locke_t2.webp"),
   flavorText: "Provoke. He stands between the harm and the people who did not ask for the harm. He is on the clock, the whole clock, every clock.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 1,
 };
@@ -49,7 +49,7 @@ export const locke_t3: CardDefinition = {
   ],
   art: assetUrl("art/cards/imprint/locke_t3.webp"),
   flavorText: "Provoke. On deploy, heal your general for 3. The room is healthier for having him in it, but he is not healthier for being in the room.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 1,
 };
@@ -69,7 +69,7 @@ export const locke_t4: CardDefinition = {
   ],
   art: assetUrl("art/cards/imprint/locke_t4.webp"),
   flavorText: "Provoke. Forcefield. On deploy, heal your general for 4. The gavel has been quiet for a long time. This is the turn it comes down once.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive", "narrative"] as const,
   verdict_delta: 2,
 };
@@ -95,7 +95,7 @@ export const locke_t5: CardDefinition = {
   art: assetUrl("art/cards/imprint/locke_t5.webp"),
   flavorText:
     "Provoke. Forcefield. On deploy, heal your general for 6 and silence the enemy general. Locke rules by consent, which is the hardest way, which is why there are so few of him.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive", "narrative"] as const,
   verdict_delta: 2,
 };

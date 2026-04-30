@@ -39,5 +39,5 @@ export const cardDef: CardDefinition = {
   abilities: [],
   art: assetUrl("art/cards/gen_authority.webp"),
   flavorText: "What do you say to the charges?",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
 };

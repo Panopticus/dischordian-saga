@@ -48,7 +48,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_pack_012.webp"),
   flavorText:
     "The crates were unmarked. The weapons inside were not.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 1,
 };

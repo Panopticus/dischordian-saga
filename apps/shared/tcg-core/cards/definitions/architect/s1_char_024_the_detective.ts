@@ -80,7 +80,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_char_024.webp"),
   flavorText:
     "A. The one known as the Detective began his journey as a curious and determined Seeker in the mysterious Project Celebration.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["evidence", "narrative"] as const,
   verdict_delta: 2,
 };

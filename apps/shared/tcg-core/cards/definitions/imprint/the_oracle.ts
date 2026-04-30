@@ -23,7 +23,7 @@ export const the_oracle_t1: CardDefinition = {
   art: assetUrl("art/cards/imprint/oracle_t1.webp"),
   flavorText:
     "A veiled figure at the edge of a processing loop. She is looking at you from a direction you did not know a direction could come from.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive", "narrative"] as const,
   verdict_delta: 1,
 };
@@ -41,7 +41,7 @@ export const the_oracle_t2: CardDefinition = {
   art: assetUrl("art/cards/imprint/oracle_t2.webp"),
   flavorText:
     "Dispel. She looks at your buff and it remembers it was never a buff, it was just a suggestion the rulebook had been making.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 1,
 };
@@ -69,7 +69,7 @@ export const the_oracle_t3: CardDefinition = {
   art: assetUrl("art/cards/imprint/oracle_t3.webp"),
   flavorText:
     "Dispel. On deploy, draw a card. She picks the card you were going to draw next and hands it to you before the deck decides.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["narrative", "offensive"] as const,
   verdict_delta: 2,
 };
@@ -97,7 +97,7 @@ export const the_oracle_t4: CardDefinition = {
   art: assetUrl("art/cards/imprint/oracle_t4.webp"),
   flavorText:
     "Dispel. Flying. On deploy, draw 2. She hovers above the board the way a signal hovers above the substrate it is being decoded on.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["narrative"] as const,
   verdict_delta: 2,
 };
@@ -133,7 +133,7 @@ export const the_oracle_t5: CardDefinition = {
   art: assetUrl("art/cards/imprint/oracle_t5.webp"),
   flavorText:
     "Dispel. Flying. On deploy, draw 2 and silence the enemy general. The Oracle is suspended in a processing loop by the Architect. The loop is supposed to contain her. It has been leaking since the day it closed. This card is a leak.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["narrative"] as const,
   verdict_delta: 2,
 };

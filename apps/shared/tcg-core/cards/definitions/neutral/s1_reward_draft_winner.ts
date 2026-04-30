@@ -57,7 +57,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_reward_draft_winner.webp"),
   flavorText:
     "She builds winning decks from other people's leftovers.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["narrative", "offensive"] as const,
   verdict_delta: 2,
 };

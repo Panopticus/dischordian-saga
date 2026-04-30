@@ -69,7 +69,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_pack_014.webp"),
   flavorText:
     "They buried the signal. They burned the frequency. They erased the name. None of it mattered.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["narrative", "offensive"] as const,
   verdict_delta: 2,
 };

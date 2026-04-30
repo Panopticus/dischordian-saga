@@ -27,7 +27,7 @@ export const pack2_class_akai_shi_first_apprentice: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/class/akai_shi_first_apprentice.webp"),
   flavorText: "A class signature. The school speaks through every blade.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 0,
 };
@@ -44,7 +44,7 @@ export const pack2_class_auspex: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/class/auspex.webp"),
   flavorText: "A class signature. The school speaks through every blade.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -61,7 +61,7 @@ export const pack2_class_burn_the_handler: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/class/burn_the_handler.webp"),
   flavorText: "A class signature. The school speaks through every blade.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -78,7 +78,7 @@ export const pack2_class_cover_name: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/class/cover_name.webp"),
   flavorText: "A class signature. The school speaks through every blade.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -95,7 +95,7 @@ export const pack2_class_dead_drop: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/class/dead_drop.webp"),
   flavorText: "A class signature. The school speaks through every blade.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -112,7 +112,7 @@ export const pack2_class_dual_discipline: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/class/dual_discipline.webp"),
   flavorText: "A class signature. The school speaks through every blade.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -129,7 +129,7 @@ export const pack2_class_engineers_apprentice: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/class/engineers_apprentice.webp"),
   flavorText: "A class signature. The school speaks through every blade.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -146,7 +146,7 @@ export const pack2_class_execute_protocol: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/class/execute_protocol.webp"),
   flavorText: "A class signature. The school speaks through every blade.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -163,7 +163,7 @@ export const pack2_class_field_modification: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/class/field_modification.webp"),
   flavorText: "A class signature. The school speaks through every blade.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -180,7 +180,7 @@ export const pack2_class_five_schools_avatar: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/class/five_schools_avatar.webp"),
   flavorText: "A class signature. The school speaks through every blade.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -197,7 +197,7 @@ export const pack2_class_glass_blade_initiate: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/class/glass_blade_initiate.webp"),
   flavorText: "A class signature. The school speaks through every blade.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 0,
 };
@@ -214,7 +214,7 @@ export const pack2_class_hybrid_initiate: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/class/hybrid_initiate.webp"),
   flavorText: "A class signature. The school speaks through every blade.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -231,7 +231,7 @@ export const pack2_class_iron_vanguard: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/class/iron_vanguard.webp"),
   flavorText: "A class signature. The school speaks through every blade.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -248,7 +248,7 @@ export const pack2_class_kinetic_containment_sink: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/class/kinetic_containment_sink.webp"),
   flavorText: "A class signature. The school speaks through every blade.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -265,7 +265,7 @@ export const pack2_class_last_regiment_standing: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/class/last_regiment_standing.webp"),
   flavorText: "A class signature. The school speaks through every blade.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -282,7 +282,7 @@ export const pack2_class_line_recruit: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/class/line_recruit.webp"),
   flavorText: "A class signature. The school speaks through every blade.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -299,7 +299,7 @@ export const pack2_class_oracles_unbroken_signal: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/class/oracles_unbroken_signal.webp"),
   flavorText: "A class signature. The school speaks through every blade.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -316,7 +316,7 @@ export const pack2_class_prescient_glyph: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/class/prescient_glyph.webp"),
   flavorText: "A class signature. The school speaks through every blade.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -333,7 +333,7 @@ export const pack2_class_prototype_blueprint: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/class/prototype_blueprint.webp"),
   flavorText: "A class signature. The school speaks through every blade.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -350,7 +350,7 @@ export const pack2_class_rally_the_line: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/class/rally_the_line.webp"),
   flavorText: "A class signature. The school speaks through every blade.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -367,7 +367,7 @@ export const pack2_class_reader_of_tomorrows: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/class/reader_of_tomorrows.webp"),
   flavorText: "A class signature. The school speaks through every blade.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -384,7 +384,7 @@ export const pack2_class_second_sight: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/class/second_sight.webp"),
   flavorText: "A class signature. The school speaks through every blade.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -401,7 +401,7 @@ export const pack2_class_shieldwall: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/class/shieldwall.webp"),
   flavorText: "A class signature. The school speaks through every blade.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -418,7 +418,7 @@ export const pack2_class_signal_ghost: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/class/signal_ghost.webp"),
   flavorText: "A class signature. The school speaks through every blade.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["narrative"] as const,
   verdict_delta: 0,
 };
@@ -435,7 +435,7 @@ export const pack2_class_silent_step: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/class/silent_step.webp"),
   flavorText: "A class signature. The school speaks through every blade.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -452,7 +452,7 @@ export const pack2_class_syncretic_adept: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/class/syncretic_adept.webp"),
   flavorText: "A class signature. The school speaks through every blade.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -469,7 +469,7 @@ export const pack2_class_three_schools_master: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/class/three_schools_master.webp"),
   flavorText: "A class signature. The school speaks through every blade.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -486,7 +486,7 @@ export const pack2_class_twelfth_archon_apprentice: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/class/twelfth_archon_apprentice.webp"),
   flavorText: "A class signature. The school speaks through every blade.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -503,7 +503,7 @@ export const pack2_class_witness_remover: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/class/witness_remover.webp"),
   flavorText: "A class signature. The school speaks through every blade.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -520,7 +520,7 @@ export const pack2_class_workshop_drone: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/class/workshop_drone.webp"),
   flavorText: "A class signature. The school speaks through every blade.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };

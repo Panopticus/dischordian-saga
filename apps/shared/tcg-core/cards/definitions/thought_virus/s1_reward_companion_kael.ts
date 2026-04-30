@@ -56,7 +56,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_reward_companion_kael.webp"),
   flavorText:
     "Before the infection, Kael was someone worth remembering. His memory still cuts.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 1,
 };

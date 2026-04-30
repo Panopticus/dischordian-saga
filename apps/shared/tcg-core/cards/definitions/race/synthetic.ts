@@ -29,7 +29,7 @@ export const synth_01: CardDefinition = {
   art: assetUrl("art/cards/race/s1_race_synthetic_01.webp"),
   flavorText:
     "On deploy, draw 1. A Synthetic Worker was designed by the Architect the week he needed a worker and forgot to ask whether anybody else needed something.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["narrative"] as const,
   verdict_delta: 1,
 };
@@ -47,7 +47,7 @@ export const synth_02: CardDefinition = {
   art: assetUrl("art/cards/race/s1_race_synthetic_02.webp"),
   flavorText:
     "Provoke. Forcefield. The Watchtower is a synthetic whose job is to stand in one place and be a very reliable shape the enemy has to go through. It writes a detailed log afterward.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 1,
 };
@@ -65,7 +65,7 @@ export const synth_03: CardDefinition = {
   art: assetUrl("art/cards/race/s1_race_synthetic_03.webp"),
   flavorText:
     "Provoke. Forcefield. Deathwatch. Chrome Archons are the Architect's synthetic parliamentarians. They do not eat, they do not sleep, and they do not forget the motion anyone voted for on the last eighteen years of Wednesdays.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive", "narrative"] as const,
   verdict_delta: 2,
 };

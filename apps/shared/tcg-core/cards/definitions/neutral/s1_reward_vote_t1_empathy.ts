@@ -44,7 +44,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_reward_vote_t1_empathy.webp"),
   flavorText:
     "She carries a blade in one hand and a suture kit in the other. Both see equal use.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 1,
 };

@@ -93,7 +93,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_char_002.webp"),
   flavorText:
     "Renowned for her exceptional combat abilities, strategic acumen, and mastery of espionage, she played pivotal roles in some of the Insurgency's most decisive strikes.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["evidence", "narrative"] as const,
   verdict_delta: 2,
 };

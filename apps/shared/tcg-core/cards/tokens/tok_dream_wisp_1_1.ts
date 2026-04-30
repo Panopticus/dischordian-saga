@@ -22,7 +22,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/tok_dream_wisp_1_1.webp"),
   flavorText:
     "Born between thoughts, gone before the next.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 1,
 };

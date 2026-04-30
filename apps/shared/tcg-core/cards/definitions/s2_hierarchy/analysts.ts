@@ -5,7 +5,7 @@
 import type { CardDefinition } from "../../../index";
 import { art, HIERARCHY_FACTION as F } from "./_art";
 
-const RULES = "1.0.0";
+const RULES = "1.1.0";
 
 export const anl_brand_coordinator: CardDefinition = {
   id: "s2_hierarchy_anl_brand_coordinator" as CardDefinition["id"],

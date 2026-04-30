@@ -53,7 +53,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/gen_thought_virus.webp"),
   flavorText:
     "He stole Ark 1047 already contaminated. The virus consumed him memory-by-memory. Now he IS the infection.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 1,
 };

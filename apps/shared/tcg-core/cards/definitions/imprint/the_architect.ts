@@ -27,7 +27,7 @@ export const the_architect_t1: CardDefinition = {
   art: assetUrl("art/cards/imprint/architect_t1.webp"),
   flavorText:
     "A tall silhouette in a perfectly symmetric coat. You cannot see the face. The face is not the point.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive", "narrative"] as const,
   verdict_delta: 1,
 };
@@ -48,7 +48,7 @@ export const the_architect_t2: CardDefinition = {
   art: assetUrl("art/cards/imprint/architect_t2.webp"),
   flavorText:
     "Provoke. He does not fight for attention. He redirects it, and it moves the way a satellite moves when a planet asks it to.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 1,
 };
@@ -69,7 +69,7 @@ export const the_architect_t3: CardDefinition = {
   art: assetUrl("art/cards/imprint/architect_t3.webp"),
   flavorText:
     "Provoke. Grow. The Architect gets larger on turns you were hoping he would be getting smaller.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 1,
 };
@@ -90,7 +90,7 @@ export const the_architect_t4: CardDefinition = {
   art: assetUrl("art/cards/imprint/architect_t4.webp"),
   flavorText:
     "Provoke. Grow. Forcefield. The Architect's physical presence is a rendering of a decision already made about whether he will be harmed today.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive", "narrative"] as const,
   verdict_delta: 2,
 };
@@ -122,7 +122,7 @@ export const the_architect_t5: CardDefinition = {
   art: assetUrl("art/cards/imprint/architect_t5.webp"),
   flavorText:
     "Provoke. Grow. Forcefield. On deploy, silence the enemy general. The Architect is not a villain because he is angry with you. He is the terrain you are trying to build on, and the terrain was here first, and it has opinions about what counts as a foundation.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive", "narrative"] as const,
   verdict_delta: 2,
 };

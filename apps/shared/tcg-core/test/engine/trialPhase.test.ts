@@ -54,7 +54,7 @@ function stubCard(opts: {
     abilities: [],
     art: "/test.webp",
     flavorText: "",
-    rulesVersion: "1.0.0",
+    rulesVersion: "1.1.0",
     trial_categories: opts.trial_categories,
   };
 }
@@ -185,7 +185,7 @@ function withTrial(trial: TrialState): GameState {
   // Build a minimal state shape sufficient for resolveTrialOutcome.
   return {
     matchId: "verdict",
-    rulesVersion: "1.0.0",
+    rulesVersion: "1.1.0",
     rngState: "",
     seed: "",
     board: {},

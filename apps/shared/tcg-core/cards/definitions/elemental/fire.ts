@@ -34,7 +34,7 @@ export const fire_01: CardDefinition = {
   art: assetUrl("art/cards/element/s1_elem_fire_01.webp"),
   flavorText:
     "Rush on deploy. 3/1. An ember scout is a single candle on a long empty road. It does not last. It gets the door open.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["narrative", "offensive"] as const,
   verdict_delta: 1,
 };
@@ -61,7 +61,7 @@ export const fire_02: CardDefinition = {
   art: assetUrl("art/cards/element/s1_elem_fire_02.webp"),
   flavorText:
     "Deal 3 damage to the enemy general. A spark is a decision that stops being one the moment you let go of it.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 1,
 };
@@ -79,7 +79,7 @@ export const fire_03: CardDefinition = {
   art: assetUrl("art/cards/element/s1_elem_fire_03.webp"),
   flavorText:
     "Celerity. 5/2. A blaze lancer strikes twice because the first strike has already used up half of her.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 1,
 };
@@ -106,7 +106,7 @@ export const fire_04: CardDefinition = {
   art: assetUrl("art/cards/element/s1_elem_fire_04.webp"),
   flavorText:
     "Deal 6 damage to the enemy general. A conflagration is a fire that has stopped waiting for fuel and is now metabolizing context.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["narrative", "offensive"] as const,
   verdict_delta: 2,
 };
@@ -124,7 +124,7 @@ export const fire_05: CardDefinition = {
   art: assetUrl("art/cards/element/s1_elem_fire_05.webp"),
   flavorText:
     "Rush. Celerity. Frenzy. 8/4. The First Flame has been burning since before there were hands to warm by it, and it is very tired of not being used.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["narrative", "offensive"] as const,
   verdict_delta: 2,
 };

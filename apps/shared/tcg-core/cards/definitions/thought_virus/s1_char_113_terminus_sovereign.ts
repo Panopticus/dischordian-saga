@@ -58,7 +58,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_char_113.webp"),
   flavorText:
     "The first bowl is doubt. The second is fear. By the seventh, you have forgotten what it was to be whole.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["narrative", "offensive"] as const,
   verdict_delta: 2,
 };

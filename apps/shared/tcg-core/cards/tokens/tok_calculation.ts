@@ -24,7 +24,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/tok_calculation.webp"),
   flavorText:
     "A sliver of the Arena's schematic given form. It computes, therefore it is.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 1,
 };

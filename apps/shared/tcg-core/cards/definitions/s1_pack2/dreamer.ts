@@ -27,7 +27,7 @@ export const pack2_dreamer_arcane_monarch: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/arcane_monarch.webp"),
   flavorText: "Of the dreamer.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -44,7 +44,7 @@ export const pack2_dreamer_astral_warden: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/astral_warden.webp"),
   flavorText: "Of the dreamer.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -61,7 +61,7 @@ export const pack2_dreamer_awakened_neyon: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/awakened_neyon.webp"),
   flavorText: "Of the dreamer.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -78,7 +78,7 @@ export const pack2_dreamer_chrono_kitten: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/chrono_kitten.webp"),
   flavorText: "Of the dreamer.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -95,7 +95,7 @@ export const pack2_dreamer_dawn_ascendant: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/dawn_ascendant.webp"),
   flavorText: "Of the dreamer.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -112,7 +112,7 @@ export const pack2_dreamer_destiny: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/destiny.webp"),
   flavorText: "Of the dreamer.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -129,7 +129,7 @@ export const pack2_dreamer_dream_sentinel: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/dream_sentinel.webp"),
   flavorText: "Of the dreamer.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -146,7 +146,7 @@ export const pack2_dreamer_dream_walk: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/dream_walk.webp"),
   flavorText: "Of the dreamer.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -163,7 +163,7 @@ export const pack2_dreamer_dream_weave: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/dream_weave.webp"),
   flavorText: "Of the dreamer.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -180,7 +180,7 @@ export const pack2_dreamer_echoes_of_the_fall: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/echoes_of_the_fall.webp"),
   flavorText: "Of the dreamer.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -197,7 +197,7 @@ export const pack2_dreamer_entropy_roll: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/entropy_roll.webp"),
   flavorText: "Of the dreamer.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -214,7 +214,7 @@ export const pack2_dreamer_epoch_panther: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/epoch_panther.webp"),
   flavorText: "Of the dreamer.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -231,7 +231,7 @@ export const pack2_dreamer_fates_edge: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/fates_edge.webp"),
   flavorText: "Of the dreamer.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -248,7 +248,7 @@ export const pack2_dreamer_fox_kit: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/fox_kit.webp"),
   flavorText: "Of the dreamer.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -265,7 +265,7 @@ export const pack2_dreamer_glyph_larva: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/glyph_larva.webp"),
   flavorText: "Of the dreamer.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -282,7 +282,7 @@ export const pack2_dreamer_golden_prophecy_shard: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/golden_prophecy_shard.webp"),
   flavorText: "Of the dreamer.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -299,7 +299,7 @@ export const pack2_dreamer_holographic_apex_fox: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/holographic_apex_fox.webp"),
   flavorText: "Of the dreamer.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -316,7 +316,7 @@ export const pack2_dreamer_investigators_lens: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/investigators_lens.webp"),
   flavorText: "Of the dreamer.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -333,7 +333,7 @@ export const pack2_dreamer_lucid_clarity: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/lucid_clarity.webp"),
   flavorText: "Of the dreamer.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -350,7 +350,7 @@ export const pack2_dreamer_lux_the_light: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/lux_the_light.webp"),
   flavorText: "Of the dreamer.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -367,7 +367,7 @@ export const pack2_dreamer_master_oracle: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/master_oracle.webp"),
   flavorText: "Of the dreamer.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -384,7 +384,7 @@ export const pack2_dreamer_minds_eye: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/minds_eye.webp"),
   flavorText: "Of the dreamer.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -401,7 +401,7 @@ export const pack2_dreamer_nythera: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/nythera.webp"),
   flavorText: "Of the dreamer.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -418,7 +418,7 @@ export const pack2_dreamer_oracles_blessing: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/oracles_blessing.webp"),
   flavorText: "Of the dreamer.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -435,7 +435,7 @@ export const pack2_dreamer_oracles_memory_fragment: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/oracles_memory_fragment.webp"),
   flavorText: "Of the dreamer.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -452,7 +452,7 @@ export const pack2_dreamer_oracles_wrath: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/oracles_wrath.webp"),
   flavorText: "Of the dreamer.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -469,7 +469,7 @@ export const pack2_dreamer_precognition: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/precognition.webp"),
   flavorText: "Of the dreamer.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -486,7 +486,7 @@ export const pack2_dreamer_probability_storm: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/probability_storm.webp"),
   flavorText: "Of the dreamer.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -503,7 +503,7 @@ export const pack2_dreamer_probability_surge: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/probability_surge.webp"),
   flavorText: "Of the dreamer.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -520,7 +520,7 @@ export const pack2_dreamer_prophecy_incarnate: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/prophecy_incarnate.webp"),
   flavorText: "Of the dreamer.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -537,7 +537,7 @@ export const pack2_dreamer_prophecy_keeper: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/prophecy_keeper.webp"),
   flavorText: "Of the dreamer.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -554,7 +554,7 @@ export const pack2_dreamer_prophetic_collapse: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/prophetic_collapse.webp"),
   flavorText: "Of the dreamer.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -571,7 +571,7 @@ export const pack2_dreamer_reality_anchor: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/reality_anchor.webp"),
   flavorText: "Of the dreamer.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -588,7 +588,7 @@ export const pack2_dreamer_reality_fracture: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/reality_fracture.webp"),
   flavorText: "Of the dreamer.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -605,7 +605,7 @@ export const pack2_dreamer_resurrection_protocol: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/resurrection_protocol.webp"),
   flavorText: "Of the dreamer.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -622,7 +622,7 @@ export const pack2_dreamer_sigil_moth: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/sigil_moth.webp"),
   flavorText: "Of the dreamer.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -639,7 +639,7 @@ export const pack2_dreamer_signal_bearer: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/signal_bearer.webp"),
   flavorText: "Of the dreamer.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -656,7 +656,7 @@ export const pack2_dreamer_spectral_fox: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/spectral_fox.webp"),
   flavorText: "Of the dreamer.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -673,7 +673,7 @@ export const pack2_dreamer_starlight_familiar: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/starlight_familiar.webp"),
   flavorText: "Of the dreamer.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -690,7 +690,7 @@ export const pack2_dreamer_temporal_cat: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/temporal_cat.webp"),
   flavorText: "Of the dreamer.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -707,7 +707,7 @@ export const pack2_dreamer_the_advocate: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/the_advocate.webp"),
   flavorText: "Of the dreamer.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -724,7 +724,7 @@ export const pack2_dreamer_the_ascended_oracle: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/the_ascended_oracle.webp"),
   flavorText: "Of the dreamer.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -741,7 +741,7 @@ export const pack2_dreamer_the_degen: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/the_degen.webp"),
   flavorText: "Of the dreamer.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -758,7 +758,7 @@ export const pack2_dreamer_the_dreamer_general: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/the_dreamer_general.webp"),
   flavorText: "Of the dreamer.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -775,7 +775,7 @@ export const pack2_dreamer_the_dreamer_legendary: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/the_dreamer_legendary.webp"),
   flavorText: "Of the dreamer.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 0,
 };
@@ -792,7 +792,7 @@ export const pack2_dreamer_the_enigma_epic: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/the_enigma_epic.webp"),
   flavorText: "Of the dreamer.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -809,7 +809,7 @@ export const pack2_dreamer_the_enigma_legendary: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/the_enigma_legendary.webp"),
   flavorText: "Of the dreamer.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 0,
 };
@@ -826,7 +826,7 @@ export const pack2_dreamer_the_forgotten: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/the_forgotten.webp"),
   flavorText: "Of the dreamer.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -843,7 +843,7 @@ export const pack2_dreamer_the_inventor: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/the_inventor.webp"),
   flavorText: "Of the dreamer.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -860,7 +860,7 @@ export const pack2_dreamer_the_judge: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/the_judge.webp"),
   flavorText: "Of the dreamer.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -877,7 +877,7 @@ export const pack2_dreamer_the_knowledge: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/the_knowledge.webp"),
   flavorText: "Of the dreamer.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -894,7 +894,7 @@ export const pack2_dreamer_the_oracle_dreamer: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/the_oracle_dreamer.webp"),
   flavorText: "Of the dreamer.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -911,7 +911,7 @@ export const pack2_dreamer_the_oracle_prophet: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/the_oracle_prophet.webp"),
   flavorText: "Of the dreamer.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -928,7 +928,7 @@ export const pack2_dreamer_the_prisoner: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/the_prisoner.webp"),
   flavorText: "Of the dreamer.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -945,7 +945,7 @@ export const pack2_dreamer_the_resurrectionist: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/the_resurrectionist.webp"),
   flavorText: "Of the dreamer.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -962,7 +962,7 @@ export const pack2_dreamer_the_seer: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/the_seer.webp"),
   flavorText: "Of the dreamer.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -979,7 +979,7 @@ export const pack2_dreamer_top_floor_door: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/top_floor_door.webp"),
   flavorText: "Of the dreamer.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -996,7 +996,7 @@ export const pack2_dreamer_vision_cascade: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/vision_cascade.webp"),
   flavorText: "Of the dreamer.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -1013,7 +1013,7 @@ export const pack2_dreamer_vision_walker: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/vision_walker.webp"),
   flavorText: "Of the dreamer.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -1030,7 +1030,7 @@ export const pack2_dreamer_vision_weaver: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/vision_weaver.webp"),
   flavorText: "Of the dreamer.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -1047,7 +1047,7 @@ export const pack2_dreamer_vortex_seal: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/vortex_seal.webp"),
   flavorText: "Of the dreamer.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -1064,7 +1064,7 @@ export const pack2_dreamer_vortex_walker: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/vortex_walker.webp"),
   flavorText: "Of the dreamer.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };

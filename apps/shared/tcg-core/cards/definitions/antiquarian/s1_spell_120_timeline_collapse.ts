@@ -44,7 +44,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_spell_120.webp"),
   flavorText:
     "The Antiquarian closed the book of this Age. Its pages unraveled like ash, and the board stood empty — waiting to be written again.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["narrative", "offensive"] as const,
   verdict_delta: 2,
 };

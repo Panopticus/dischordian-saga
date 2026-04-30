@@ -72,7 +72,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_char_009.webp"),
   flavorText:
     "He stole fire once — now he steals the moment between heartbeats, striking where no eye can follow.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["evidence", "reactive"] as const,
   verdict_delta: 1,
 };

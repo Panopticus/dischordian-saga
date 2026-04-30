@@ -45,7 +45,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_reward_pet_evolve.webp"),
   flavorText:
     "It shed its skin three times before the trainers stopped recognizing it. By the fourth, it stopped recognizing them.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive", "narrative"] as const,
   verdict_delta: 2,
 };

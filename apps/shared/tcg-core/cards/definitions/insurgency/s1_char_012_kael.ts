@@ -107,7 +107,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_char_012.webp"),
   flavorText:
     "A prominent leader within the Insurgency, celebrated for his strategic genius and alliances with figures like Agent Zero and The Iron Lion.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["evidence", "reactive"] as const,
   verdict_delta: 1,
 };

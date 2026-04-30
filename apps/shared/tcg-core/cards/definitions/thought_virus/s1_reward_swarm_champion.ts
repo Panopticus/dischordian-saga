@@ -51,7 +51,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_reward_swarm_champion.webp"),
   flavorText:
     "Fifty waves. Then silence. The Protocol does not distinguish between the infected and the merely unlucky.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["narrative", "offensive"] as const,
   verdict_delta: 2,
 };

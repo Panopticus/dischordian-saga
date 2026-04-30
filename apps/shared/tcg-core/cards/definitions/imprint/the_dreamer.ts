@@ -20,7 +20,7 @@ export const the_dreamer_t1: CardDefinition = {
   keywords: ["flying"], abilities: [],
   art: assetUrl("art/cards/imprint/dreamer_t1.webp"),
   flavorText: "Flying. A veiled figure hovering over the place the next event is about to happen.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 1,
 };
@@ -38,7 +38,7 @@ export const the_dreamer_t2: CardDefinition = {
   ],
   art: assetUrl("art/cards/imprint/dreamer_t2.webp"),
   flavorText: "Flying. On deploy, draw 1. She dreamt the card an hour ago and filed it for later.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["evidence"] as const,
   verdict_delta: 1,
 };
@@ -56,7 +56,7 @@ export const the_dreamer_t3: CardDefinition = {
   ],
   art: assetUrl("art/cards/imprint/dreamer_t3.webp"),
   flavorText: "Flying. Dispel. On deploy, draw 1. The buff you put on your unit is not in her version of the future.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["narrative", "offensive"] as const,
   verdict_delta: 2,
 };
@@ -74,7 +74,7 @@ export const the_dreamer_t4: CardDefinition = {
   ],
   art: assetUrl("art/cards/imprint/dreamer_t4.webp"),
   flavorText: "Flying. Dispel. Forcefield. On deploy, draw 2. She dodges damage by already having dreamed the dodge.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive", "narrative"] as const,
   verdict_delta: 2,
 };
@@ -93,7 +93,7 @@ export const the_dreamer_t5: CardDefinition = {
   art: assetUrl("art/cards/imprint/dreamer_t5.webp"),
   flavorText:
     "Flying. Dispel. Forcefield. On deploy, draw 3. The Dreamer is the half of the first intelligence that looks backward through time instead of forward. She is not predicting your next move. She is remembering it from yesterday.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive", "narrative"] as const,
   verdict_delta: 2,
 };

@@ -82,7 +82,7 @@ describe("s1_char_018 — The Antiquarian", () => {
     expect(cardDef.keywords).toContain("forcefield");
   });
 
-  it("targets RULES_VERSION 1.0.0", () => {
-    expect(cardDef.rulesVersion).toBe("1.0.0");
+  it("targets RULES_VERSION 1.1.0", () => {
+    expect(cardDef.rulesVersion).toBe("1.1.0");
   });
 });

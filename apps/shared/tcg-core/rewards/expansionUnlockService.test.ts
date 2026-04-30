@@ -12,7 +12,7 @@ import {
 } from "./expansionUnlockService";
 import { ALL_CARD_DEFINITIONS } from "../cards";
 
-const RULES = "1.0.0";
+const RULES = "1.1.0";
 
 const stub = (
   id: string,

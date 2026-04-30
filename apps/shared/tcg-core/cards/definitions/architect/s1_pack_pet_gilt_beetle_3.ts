@@ -50,7 +50,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_pack_pet_gilt_beetle_3.webp"),
   flavorText:
     "It was built to outlast civilizations. So far, it has.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive", "narrative"] as const,
   verdict_delta: 2,
 };

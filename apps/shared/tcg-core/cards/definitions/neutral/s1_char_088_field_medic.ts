@@ -33,7 +33,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_char_088.webp"),
   flavorText:
     "She does not ask which side you fight for. Only where it hurts.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 1,
   // §5.7 divergence: a medic healing the defendant mid-trial reads

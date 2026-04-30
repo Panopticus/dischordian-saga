@@ -95,7 +95,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_char_037.webp"),
   flavorText:
     "By maintaining an equilibrium of enlightenment and ignorance, the Knowledge ensures the Ne-Yons remain indispensable to ...",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive", "evidence", "reactive"] as const,
   verdict_delta: 1,
 };

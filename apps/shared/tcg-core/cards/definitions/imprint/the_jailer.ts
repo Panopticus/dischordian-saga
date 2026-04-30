@@ -16,7 +16,7 @@ export const jailer_t1: CardDefinition = {
   keywords: ["provoke"], abilities: [],
   art: assetUrl("art/cards/imprint/jailer_t1.webp"),
   flavorText: "Provoke. A massive figure at the cell door. He does not move, because what is in front of him is not trying to move either.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 1,
 };
@@ -29,7 +29,7 @@ export const jailer_t2: CardDefinition = {
   keywords: ["provoke"], abilities: [],
   art: assetUrl("art/cards/imprint/jailer_t2.webp"),
   flavorText: "Provoke. The Rotation has a schedule. He has a watch. The watch agrees with the schedule, so far.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 1,
 };
@@ -42,7 +42,7 @@ export const jailer_t3: CardDefinition = {
   keywords: ["provoke", "forcefield"], abilities: [],
   art: assetUrl("art/cards/imprint/jailer_t3.webp"),
   flavorText: "Provoke. Forcefield. You cannot get past him in a way that matters to anything on the other side of him.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 1,
 };
@@ -55,7 +55,7 @@ export const jailer_t4: CardDefinition = {
   keywords: ["provoke", "forcefield", "rebirth"], abilities: [],
   art: assetUrl("art/cards/imprint/jailer_t4.webp"),
   flavorText: "Provoke. Forcefield. Rebirth. The Jailer does not end his shift. The shift ends around him and he re-certifies without comment.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive", "narrative"] as const,
   verdict_delta: 2,
 };
@@ -69,7 +69,7 @@ export const jailer_t5: CardDefinition = {
   art: assetUrl("art/cards/imprint/jailer_t5.webp"),
   flavorText:
     "Provoke. Forcefield. Rebirth. The Jailer does not hate the prisoners and he does not hate the Architect. He hates the rotation. He lives longer than everyone he guards and he remembers all of them. He never says their names out loud because saying them out loud would count as a second crime on top of the first.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive", "narrative"] as const,
   verdict_delta: 2,
 };

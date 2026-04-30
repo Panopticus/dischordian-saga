@@ -94,7 +94,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_char_030.webp"),
   flavorText:
     "A. The Game Master was the tenth Archon created by the Architect in Year 550 A.A., manifesting either as a man with dark...",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive", "evidence", "reactive"] as const,
   verdict_delta: 1,
 };

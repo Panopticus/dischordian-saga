@@ -5,7 +5,7 @@
 import type { CardDefinition } from "../../../index";
 import { art, HIERARCHY_FACTION as F } from "./_art";
 
-const RULES = "1.0.0";
+const RULES = "1.1.0";
 
 export const intn_calendar_sync_imp: CardDefinition = {
   id: "s2_hierarchy_intn_calendar_sync_imp" as CardDefinition["id"],
