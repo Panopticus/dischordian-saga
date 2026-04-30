@@ -184,6 +184,173 @@ function pickTierAsset(roomId: string, tier: RoomTier): string | null {
   return null;
 }
 
+/* ─── VIDEO OVERLAYS — Veo 3.1 ─────────────────────────
+ *
+ * Videos are OVERLAYS, not replacements: the still always renders
+ * underneath as a guaranteed fallback. The renderer plays the
+ * video on top of the still when one is registered for the
+ * current (room, state) and falls back gracefully (mute the
+ * overlay) when assets are missing on disk or when the user has
+ * "reduced motion" / "data saver" preferences set.
+ *
+ * Asset paths mirror the entries in apps/shared/roomMediaPrompts.ts.
+ * Two video formats coexist:
+ *   - .webm — preferred for ambient loops (smaller, alpha-friendly,
+ *     supports seamless loop points).
+ *   - .mp4  — used for one-shot cinematics that fire on a flag
+ *     transition (Veo 3.1's native output, no transcode required).
+ *
+ * Adding a new entry here is the only client-side change needed
+ * after the asset team renders a video listed in roomMediaPrompts.ts
+ * — the runtime picks it up automatically.
+ */
+const ROOM_VIDEO_OVERLAY_BASE = assetUrl("art/rooms/videos");
+
+/** Loop kind drives playback semantics:
+ *   - `loop` — seamless loop, played continuously while the player
+ *     is in the room and the trigger condition holds.
+ *   - `one-shot` — plays once on flag transition, then the still
+ *     resumes (the renderer pins to last frame for a beat). */
+export type VideoOverlayKind = "loop" | "one-shot";
+
+export interface VideoOverlay {
+  /** CDN URL of the rendered video file (.webm or .mp4). */
+  url: string;
+  kind: VideoOverlayKind;
+  /** Plain-English condition that gates this overlay. The runtime
+   *  evaluates equivalent narrativeFlag predicates; this string is
+   *  documentation for the renderer/QA only. */
+  condition: string;
+}
+
+/**
+ * Per-room overlays keyed by stateId. Multiple overlays may be
+ * registered for the same room; the runtime picks the first whose
+ * condition is satisfied. Order is high-priority → low: ST loops
+ * sit above bond-resonance loops, etc.
+ *
+ * Empty record = the room has no video overlays today. The
+ * resolver returns null and the caller renders the still alone.
+ */
+export const ROOM_VIDEO_OVERLAY_URLS: Readonly<
+  Record<string, readonly { stateId: string; overlay: VideoOverlay }[]>
+> = {
+  archives: [
+    {
+      stateId: "glyph-rewriting-loop",
+      overlay: {
+        url: `${ROOM_VIDEO_OVERLAY_BASE}/archives_glyph_rewriting_loop.webm`,
+        kind: "loop",
+        condition: "narrativeFlags.shadow_tongue_corruption_seen === true",
+      },
+    },
+    {
+      stateId: "text-corruption-loop",
+      overlay: {
+        url: `${ROOM_VIDEO_OVERLAY_BASE}/shadow_tongue_text_corruption_loop.webm`,
+        kind: "loop",
+        condition: "shadowTongueState.activeEdits.length > 0",
+      },
+    },
+  ],
+  bridge: [
+    {
+      stateId: "fast-travel-unlocked",
+      overlay: {
+        url: `${ROOM_VIDEO_OVERLAY_BASE}/bridge_fast_travel_unlocked.mp4`,
+        kind: "one-shot",
+        condition: "narrativeFlags.fast_travel_unlocked transitions false→true",
+      },
+    },
+  ],
+  "comms-array": [
+    {
+      stateId: "signal-discovery",
+      overlay: {
+        url: `${ROOM_VIDEO_OVERLAY_BASE}/comms_array_signal_discovery.mp4`,
+        kind: "one-shot",
+        condition:
+          "narrativeFlags.shadow_tongue_voice_heard transitions false→true",
+      },
+    },
+  ],
+  "cryo-bay": [
+    {
+      stateId: "awakening",
+      overlay: {
+        url: `${ROOM_VIDEO_OVERLAY_BASE}/cryo_bay_awakening.mp4`,
+        kind: "one-shot",
+        condition: "Plays on game-start before any flag is set",
+      },
+    },
+  ],
+  engineering: [
+    {
+      stateId: "schematic-edit-reveal",
+      overlay: {
+        url: `${ROOM_VIDEO_OVERLAY_BASE}/engineering_schematic_edit_reveal.mp4`,
+        kind: "one-shot",
+        condition:
+          "First look of the schematic-pad hotspot. narrativeFlags.shadow_tongue_engineering_edits_seen transitions false→true",
+      },
+    },
+  ],
+  "observation-deck": [
+    {
+      stateId: "bond-resonance-pulse",
+      overlay: {
+        url: `${ROOM_VIDEO_OVERLAY_BASE}/observation_deck_bond_resonance_pulse.webm`,
+        kind: "loop",
+        condition: "narrativeFlags.first_bond_resonance === true",
+      },
+    },
+  ],
+  "shadow-vault": [
+    {
+      stateId: "meeting",
+      overlay: {
+        url: `${ROOM_VIDEO_OVERLAY_BASE}/shadow_vault_meeting.mp4`,
+        kind: "one-shot",
+        condition:
+          "Player enters shadow-vault for the first time AND narrativeFlags.shadow_tongue_face_to_face is being set",
+      },
+    },
+  ],
+};
+
+/** Resolver helper used by the room renderer. Returns the highest-
+ *  priority overlay registered for the room whose condition is
+ *  satisfied by the current narrative flag set, or null when none
+ *  match. Order in ROOM_VIDEO_OVERLAY_URLS is the priority order.
+ *
+ *  Today the resolver is a flag-name match — the entries' `condition`
+ *  strings are documentation only. A future refactor will encode
+ *  the predicates as functions; for now the renderer uses simple
+ *  flag-name lookups against this catalog. */
+export function resolveRoomVideoOverlay(
+  roomId: string,
+  flags: NarrativeFlags | null | undefined,
+): VideoOverlay | null {
+  const entries = ROOM_VIDEO_OVERLAY_URLS[roomId];
+  if (!entries || entries.length === 0) return null;
+  const f = flags || {};
+  // Flag-name match: each entry's condition mentions one or more
+  // narrativeFlag.<flag> tokens; we resolve by extracting them.
+  // Order is priority, so the first matching entry wins.
+  for (const { overlay } of entries) {
+    const flagMatch = overlay.condition.match(/narrativeFlags\.(\w+)/g);
+    if (!flagMatch) continue; // condition references something the
+    // simple resolver doesn't model (e.g. activeEdits.length) —
+    // skip in this pass; renderer will refine when activeEdits is wired.
+    const ok = flagMatch.every((token) => {
+      const flag = token.replace("narrativeFlags.", "");
+      return Boolean(f[flag]);
+    });
+    if (ok) return overlay;
+  }
+  return null;
+}
+
 /**
  * Canonical entry point for the room renderer. Resolves a room's
  * background to:

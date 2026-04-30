@@ -1,9 +1,11 @@
 import { describe, it, expect } from "vitest";
 import {
   ROOM_STATE_ASSET_URLS,
+  ROOM_VIDEO_OVERLAY_URLS,
   resolveRoomBackgroundUrl,
   resolveRoomStateAsset,
   resolveRoomStateId,
+  resolveRoomVideoOverlay,
 } from "./roomStateAssets";
 
 describe("roomStateAssets — variant picker", () => {
@@ -178,6 +180,108 @@ describe("roomStateAssets — variant picker", () => {
       const url = resolveRoomBackgroundUrl("bridge", {}, LEGACY);
       expect(url).toBeTruthy();
       expect(typeof url).toBe("string");
+    });
+  });
+
+  describe("video overlays — Veo 3.1", () => {
+    it("registers overlays for the high-narrative rooms from roomMediaPrompts.ts", () => {
+      expect(Object.keys(ROOM_VIDEO_OVERLAY_URLS)).toEqual(
+        expect.arrayContaining([
+          "archives",
+          "bridge",
+          "comms-array",
+          "cryo-bay",
+          "engineering",
+          "observation-deck",
+          "shadow-vault",
+        ]),
+      );
+    });
+
+    it("every overlay URL ends with .webm or .mp4", () => {
+      for (const entries of Object.values(ROOM_VIDEO_OVERLAY_URLS)) {
+        for (const { overlay } of entries) {
+          const ok =
+            overlay.url.endsWith(".webm") || overlay.url.endsWith(".mp4");
+          expect(ok, `bad overlay url: ${overlay.url}`).toBe(true);
+        }
+      }
+    });
+
+    it("loops use .webm; one-shots use .mp4", () => {
+      for (const entries of Object.values(ROOM_VIDEO_OVERLAY_URLS)) {
+        for (const { overlay } of entries) {
+          if (overlay.kind === "loop") {
+            expect(
+              overlay.url.endsWith(".webm"),
+              `loops should be .webm: ${overlay.url}`,
+            ).toBe(true);
+          } else {
+            expect(
+              overlay.url.endsWith(".mp4"),
+              `one-shots should be .mp4: ${overlay.url}`,
+            ).toBe(true);
+          }
+        }
+      }
+    });
+
+    it("returns null for an unregistered room", () => {
+      expect(resolveRoomVideoOverlay("not-a-room", {})).toBeNull();
+    });
+
+    it("returns null when no flags match for a registered room", () => {
+      expect(resolveRoomVideoOverlay("archives", {})).toBeNull();
+    });
+
+    it("matches archives glyph-rewriting-loop on shadow_tongue_corruption_seen", () => {
+      const overlay = resolveRoomVideoOverlay("archives", {
+        shadow_tongue_corruption_seen: true,
+      });
+      expect(overlay).not.toBeNull();
+      expect(overlay!.kind).toBe("loop");
+      expect(overlay!.url).toContain("archives_glyph_rewriting_loop.webm");
+    });
+
+    it("matches bridge fast-travel-unlocked one-shot", () => {
+      const overlay = resolveRoomVideoOverlay("bridge", {
+        fast_travel_unlocked: true,
+      });
+      expect(overlay).not.toBeNull();
+      expect(overlay!.kind).toBe("one-shot");
+      expect(overlay!.url).toContain("bridge_fast_travel_unlocked.mp4");
+    });
+
+    it("matches comms-array signal-discovery on shadow_tongue_voice_heard", () => {
+      const overlay = resolveRoomVideoOverlay("comms-array", {
+        shadow_tongue_voice_heard: true,
+      });
+      expect(overlay).not.toBeNull();
+      expect(overlay!.url).toContain("comms_array_signal_discovery.mp4");
+    });
+
+    it("matches engineering schematic-edit-reveal", () => {
+      const overlay = resolveRoomVideoOverlay("engineering", {
+        shadow_tongue_engineering_edits_seen: true,
+      });
+      expect(overlay).not.toBeNull();
+      expect(overlay!.url).toContain("engineering_schematic_edit_reveal.mp4");
+    });
+
+    it("matches observation-deck bond-resonance-pulse loop", () => {
+      const overlay = resolveRoomVideoOverlay("observation-deck", {
+        first_bond_resonance: true,
+      });
+      expect(overlay).not.toBeNull();
+      expect(overlay!.kind).toBe("loop");
+    });
+
+    it("matches shadow-vault meeting on shadow_tongue_face_to_face", () => {
+      const overlay = resolveRoomVideoOverlay("shadow-vault", {
+        shadow_tongue_face_to_face: true,
+      });
+      expect(overlay).not.toBeNull();
+      expect(overlay!.url).toContain("shadow_vault_meeting.mp4");
     });
   });
 });
