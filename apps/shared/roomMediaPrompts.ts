@@ -736,10 +736,13 @@ const SPECIES_EXCLUSIVE_PROMPTS: readonly RoomMediaPrompt[] = [
 ];
 
 /* ─── VIDEO PROMPTS — Veo 3.1 (8 entries) ───
-   Ambient loops use .webm with seamless cut points; one-shot
-   cinematics use .mp4. All entries are no-audio (engine drives
-   audio separately). The runtime treats videos as overlays —
-   the corresponding still always renders as a fallback. */
+   All Veo 3.1 outputs ship as .mp4 (the model's native format).
+   The `kind` field distinguishes seamless ambient loops from
+   one-shot cinematics — the renderer reads kind, not extension,
+   to decide playback semantics. All entries are no-audio (engine
+   drives audio separately). The runtime treats videos as
+   overlays — the corresponding still always renders as a
+   fallback. */
 
 const VIDEO_PROMPTS: readonly RoomMediaPrompt[] = [
   {
@@ -751,7 +754,7 @@ const VIDEO_PROMPTS: readonly RoomMediaPrompt[] = [
     label: "Shadow Tongue — text corruption ambient loop (cross-room)",
     condition:
       "shadowTongueState.activeEdits.length > 0. Used as ambient overlay anywhere there is at least one active edit.",
-    outputPath: "art/rooms/videos/shadow_tongue_text_corruption_loop.webm",
+    outputPath: "art/rooms/videos/shadow_tongue_text_corruption_loop.mp4",
     resolution: RES_VIDEO_LOOP_8S,
     priority: "P0",
     dependencies: DEPS_VIDEO_ST,
@@ -774,7 +777,7 @@ const VIDEO_PROMPTS: readonly RoomMediaPrompt[] = [
     label: "Archives — ambient glyph-rewriting loop",
     condition:
       "Player is in archives AND narrativeFlags.shadow_tongue_corruption_seen === true.",
-    outputPath: "art/rooms/videos/archives_glyph_rewriting_loop.webm",
+    outputPath: "art/rooms/videos/archives_glyph_rewriting_loop.mp4",
     resolution: RES_VIDEO_LOOP_10S,
     priority: "P0",
     dependencies: DEPS_VIDEO_ST,
@@ -888,7 +891,7 @@ const VIDEO_PROMPTS: readonly RoomMediaPrompt[] = [
     label: "Observation Deck — bond resonance ambient pulse loop",
     condition:
       "Player is in observation-deck AND narrativeFlags.first_bond_resonance === true.",
-    outputPath: "art/rooms/videos/observation_deck_bond_resonance_pulse.webm",
+    outputPath: "art/rooms/videos/observation_deck_bond_resonance_pulse.mp4",
     resolution: RES_VIDEO_LOOP_10S,
     priority: "P1",
     dependencies: DEPS_VIDEO_ANCHOR,

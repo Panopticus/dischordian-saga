@@ -194,11 +194,11 @@ function pickTierAsset(roomId: string, tier: RoomTier): string | null {
  * "reduced motion" / "data saver" preferences set.
  *
  * Asset paths mirror the entries in apps/shared/roomMediaPrompts.ts.
- * Two video formats coexist:
- *   - .webm — preferred for ambient loops (smaller, alpha-friendly,
- *     supports seamless loop points).
- *   - .mp4  — used for one-shot cinematics that fire on a flag
- *     transition (Veo 3.1's native output, no transcode required).
+ * All videos ship as .mp4 (Veo 3.1's native output — the asset
+ * team forwards the model's mp4 verbatim rather than transcoding
+ * loops to .webm, since loops here have no alpha channel and the
+ * codec savings are marginal). The renderer reads `kind` to
+ * decide playback semantics, not the file extension.
  *
  * Adding a new entry here is the only client-side change needed
  * after the asset team renders a video listed in roomMediaPrompts.ts
@@ -214,7 +214,7 @@ const ROOM_VIDEO_OVERLAY_BASE = assetUrl("art/rooms/videos");
 export type VideoOverlayKind = "loop" | "one-shot";
 
 export interface VideoOverlay {
-  /** CDN URL of the rendered video file (.webm or .mp4). */
+  /** CDN URL of the rendered video file (.mp4). */
   url: string;
   kind: VideoOverlayKind;
   /** Plain-English condition that gates this overlay. The runtime
@@ -239,7 +239,7 @@ export const ROOM_VIDEO_OVERLAY_URLS: Readonly<
     {
       stateId: "glyph-rewriting-loop",
       overlay: {
-        url: `${ROOM_VIDEO_OVERLAY_BASE}/archives_glyph_rewriting_loop.webm`,
+        url: `${ROOM_VIDEO_OVERLAY_BASE}/archives_glyph_rewriting_loop.mp4`,
         kind: "loop",
         condition: "narrativeFlags.shadow_tongue_corruption_seen === true",
       },
@@ -247,7 +247,7 @@ export const ROOM_VIDEO_OVERLAY_URLS: Readonly<
     {
       stateId: "text-corruption-loop",
       overlay: {
-        url: `${ROOM_VIDEO_OVERLAY_BASE}/shadow_tongue_text_corruption_loop.webm`,
+        url: `${ROOM_VIDEO_OVERLAY_BASE}/shadow_tongue_text_corruption_loop.mp4`,
         kind: "loop",
         condition: "shadowTongueState.activeEdits.length > 0",
       },
@@ -299,7 +299,7 @@ export const ROOM_VIDEO_OVERLAY_URLS: Readonly<
     {
       stateId: "bond-resonance-pulse",
       overlay: {
-        url: `${ROOM_VIDEO_OVERLAY_BASE}/observation_deck_bond_resonance_pulse.webm`,
+        url: `${ROOM_VIDEO_OVERLAY_BASE}/observation_deck_bond_resonance_pulse.mp4`,
         kind: "loop",
         condition: "narrativeFlags.first_bond_resonance === true",
       },

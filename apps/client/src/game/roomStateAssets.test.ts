@@ -208,22 +208,24 @@ describe("roomStateAssets — variant picker", () => {
       }
     });
 
-    it("loops use .webm; one-shots use .mp4", () => {
+    it("every overlay (loop or one-shot) ships as .mp4 — Veo 3.1 native output", () => {
+      // The 2026-04-30 asset drop forwards Veo's mp4 verbatim for
+      // both loops and one-shots; the runtime reads `kind`, not
+      // extension, to decide playback semantics.
       for (const entries of Object.values(ROOM_VIDEO_OVERLAY_URLS)) {
         for (const { overlay } of entries) {
-          if (overlay.kind === "loop") {
-            expect(
-              overlay.url.endsWith(".webm"),
-              `loops should be .webm: ${overlay.url}`,
-            ).toBe(true);
-          } else {
-            expect(
-              overlay.url.endsWith(".mp4"),
-              `one-shots should be .mp4: ${overlay.url}`,
-            ).toBe(true);
-          }
+          expect(
+            overlay.url.endsWith(".mp4"),
+            `overlay should be .mp4: ${overlay.url}`,
+          ).toBe(true);
         }
       }
+    });
+
+    it("archives glyph-rewriting-loop is registered as a loop", () => {
+      const entries = ROOM_VIDEO_OVERLAY_URLS.archives;
+      const glyph = entries?.find((e) => e.stateId === "glyph-rewriting-loop");
+      expect(glyph?.overlay.kind).toBe("loop");
     });
 
     it("returns null for an unregistered room", () => {
@@ -240,7 +242,7 @@ describe("roomStateAssets — variant picker", () => {
       });
       expect(overlay).not.toBeNull();
       expect(overlay!.kind).toBe("loop");
-      expect(overlay!.url).toContain("archives_glyph_rewriting_loop.webm");
+      expect(overlay!.url).toContain("archives_glyph_rewriting_loop.mp4");
     });
 
     it("matches bridge fast-travel-unlocked one-shot", () => {
