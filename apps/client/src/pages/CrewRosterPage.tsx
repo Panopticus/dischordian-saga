@@ -40,6 +40,8 @@ import {
 } from "@/game/crewGenetics";
 import { cloneFromTemplate, buildPendingOffspring, realizeOffspring } from "@/game/crewBirth";
 import type { CrewState } from "@shared/crewPersistence";
+import { useLyraVoxWitnesses } from "@/hooks/useLyraVoxWitnesses";
+import { LyraVoxWitnessModal } from "@/components/crew/LyraVoxWitnessModal";
 
 // Lazy-load heavy sub-views
 const CrewRosterView = lazy(() => import("@/components/crew/CrewRosterView"));
@@ -173,6 +175,17 @@ export default function CrewRosterPage() {
   }, [crewState]);
 
   const cs = (crewState as CrewState | undefined) ?? null;
+
+  // Lyra Vox bloodline-witness hook — emits modals when a bloodline
+  // crosses a canonical milestone (dynasty/centenary/founder-passed/
+  // drift/high-fitness). Server-side dedup means already-filed
+  // witnesses don't refire across visits or strict-mode mounts.
+  const lyraDepthUnlocked = !!gameState.narrativeFlags.lyra_vox_depth_1;
+  const {
+    current: currentWitness,
+    dismiss: dismissWitness,
+  } = useLyraVoxWitnesses(cs);
+
   const activeMemberCount = cs?.roster.members.filter(m => m.status === "active").length ?? 0;
   const incubatingCount = cs?.incubator.pods.filter(p => p.status === "gestating").length ?? 0;
   const readyCount = cs?.incubator.pods.filter(p => p.status === "ready").length ?? 0;
@@ -506,6 +519,12 @@ export default function CrewRosterPage() {
           </Suspense>
         )}
       </AnimatePresence>
+
+      <LyraVoxWitnessModal
+        report={currentWitness}
+        depthUnlocked={lyraDepthUnlocked}
+        onDismiss={dismissWitness}
+      />
     </div>
   );
 }

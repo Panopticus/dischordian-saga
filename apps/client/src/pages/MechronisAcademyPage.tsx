@@ -38,6 +38,8 @@ import {
   getDetention, getExtraCredit,
   type DetentionOffer, type ExtraCreditOffer,
 } from "@shared/mechronisDetentions";
+import { useEngineerJournal } from "@/hooks/useEngineerJournal";
+import { EngineerJournalModal } from "@/components/mechronis/EngineerJournalModal";
 import SongSlideshow from "@/components/SongSlideshow";
 import { useAmbientAudio } from "@/hooks/useAmbientAudio";
 import {
@@ -152,6 +154,17 @@ export default function MechronisAcademyPage() {
   /** Non-null when a detention/extra-credit follow-up is consumed (so it doesn't re-appear). */
   const [followupResolved, setFollowupResolved] = useState<string | null>(null);
 
+  // Engineer's-journal hook — fired below in handleChoice when a
+  // Distinction grade is earned. Recovers one journal page per
+  // Distinction; chapter completion (every 3 pages) unlocks a
+  // signature technique. Server-side dedup so re-grades won't
+  // re-recover already-recovered pages.
+  const {
+    current: currentJournalEvent,
+    dismiss: dismissJournalEvent,
+    onDistinction: recoverJournalPage,
+  } = useEngineerJournal();
+
   // Semester-finale gate: the House Cup reveal + slideshow fire once the
   // transcript crosses SEMESTER_LENGTH_LESSONS. Local-session gates so the
   // player can dismiss and replay the closing cinematic later.
@@ -211,10 +224,18 @@ export default function MechronisAcademyPage() {
       transcriptNote: outcome.transcriptNote,
       skillXpDelta: outcome.skillXpDelta,
     });
+
+    // Distinction earns one Engineer's-journal page (the shadow
+    // curriculum the Architect-programmed Vent is too programmed to
+    // notice). Server dedupes so re-grades won't double-award.
+    if (outcome.grade === "distinction") {
+      recoverJournalPage();
+    }
   }, [
     dominantGuild, skills, lesson, dayIndex,
     addCorruption, setInnerVoiceSkill,
     addAcademyTranscriptEntry, adjustProfessorApproval, adjustHousePoints,
+    recoverJournalPage,
   ]);
 
   // No guild yet — can't attend Academy
@@ -922,6 +943,12 @@ export default function MechronisAcademyPage() {
           );
         })()}
       </div>
+
+      <EngineerJournalModal
+        page={currentJournalEvent?.page ?? null}
+        chapterUnlocked={currentJournalEvent?.chapterUnlocked ?? null}
+        onDismiss={dismissJournalEvent}
+      />
     </div>
   );
 }
