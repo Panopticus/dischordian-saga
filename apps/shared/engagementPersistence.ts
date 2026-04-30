@@ -26,6 +26,7 @@ import type {
 } from "./vexSoleneCommissions";
 import type { InterventionDay } from "./gameMastersTrialIntervention";
 import type { CurriculumProgress } from "./engineerShadowCurriculum";
+import type { LedgerPayoutKind } from "./lockeConfidentialLedger";
 
 /* ─── PER-APPRENTICE GAME MASTERS STATE ─── */
 
@@ -53,6 +54,29 @@ export interface CommissionReceipt {
   directive: OperationalDirective;
 }
 
+/* ─── PENDING PAYOUTS (Locke's cross-system accumulators) ─── */
+
+/**
+ * Each Locke ledger contract that pays out in a non-trade currency
+ * (crew XP, army recruitment, celebration bond, mechronis approval,
+ * trade reputation) credits the relevant kind here. The receiving
+ * subsystem reads + decrements the accumulator at its convenience.
+ *
+ * Server-authoritative durable storage means a player can sign a
+ * contract on Page A and claim the payout later from Page B — the
+ * payout doesn't depend on the page where it was earned still
+ * being mounted.
+ */
+export type PendingPayouts = Record<LedgerPayoutKind, number>;
+
+export const ZERO_PAYOUTS: PendingPayouts = {
+  crew_xp: 0,
+  army_recruitment: 0,
+  celebration_bond: 0,
+  mechronis_approval: 0,
+  trade_reputation: 0,
+};
+
 /* ─── ROOT STATE ─── */
 
 export interface EngagementState {
@@ -77,6 +101,9 @@ export interface EngagementState {
 
   /* Trade Empire × Adjudicator Locke */
   lockeCompletedEntryIds: string[];
+  /** Cross-system payouts Locke has credited but the player has
+   *  not yet claimed into the receiving subsystem. */
+  lockePendingPayouts: PendingPayouts;
 }
 
 export const ENGAGEMENT_STATE_VERSION = 1;
@@ -94,6 +121,7 @@ export function createDefaultEngagementState(): EngagementState {
       equippedChapter: null,
     },
     lockeCompletedEntryIds: [],
+    lockePendingPayouts: { ...ZERO_PAYOUTS },
   };
 }
 
@@ -125,8 +153,44 @@ export function ensureEngagementState(raw: unknown): EngagementState {
     lockeCompletedEntryIds: Array.isArray(incoming.lockeCompletedEntryIds)
       ? incoming.lockeCompletedEntryIds
       : [],
+    lockePendingPayouts: ensurePendingPayouts(incoming.lockePendingPayouts),
     version: ENGAGEMENT_STATE_VERSION,
   };
+}
+
+/** Defensive parse of the payout accumulator. Missing kinds default
+ *  to zero; non-numeric values are coerced to zero. */
+export function ensurePendingPayouts(raw: unknown): PendingPayouts {
+  const out: PendingPayouts = { ...ZERO_PAYOUTS };
+  if (!raw || typeof raw !== "object") return out;
+  const incoming = raw as Partial<Record<LedgerPayoutKind, unknown>>;
+  for (const k of Object.keys(out) as LedgerPayoutKind[]) {
+    const v = incoming[k];
+    if (typeof v === "number" && Number.isFinite(v) && v >= 0) {
+      out[k] = Math.floor(v);
+    }
+  }
+  return out;
+}
+
+/** Add a payout amount to the accumulator; returns a new object. */
+export function creditPayout(
+  current: PendingPayouts,
+  kind: LedgerPayoutKind,
+  amount: number,
+): PendingPayouts {
+  if (amount <= 0) return current;
+  return { ...current, [kind]: current[kind] + amount };
+}
+
+/** Decrement the accumulator by an amount (clamped at 0); returns a new object. */
+export function debitPayout(
+  current: PendingPayouts,
+  kind: LedgerPayoutKind,
+  amount: number,
+): PendingPayouts {
+  if (amount <= 0) return current;
+  return { ...current, [kind]: Math.max(0, current[kind] - amount) };
 }
 
 /* ─── PER-APPRENTICE HELPER ─── */

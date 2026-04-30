@@ -188,22 +188,50 @@ export function getLedgerEntry(id: string): LedgerEntry | undefined {
 
 /* ─── ELIGIBILITY ─── */
 
-/** Trust-band names for Locke (per registry: Stranger / Counterparty / Partner). */
-export type LockeTrustBand = "Stranger" | "Counterparty" | "Partner";
+/**
+ * Locke trust bands, per the canonical registry
+ * (apps/shared/npcs/registry.ts LOCKE_BANDS): five bands at
+ * thresholds 0/20/40/60/80. Players climb the ladder via Locke
+ * trust deltas; each tier of contract requires a different band.
+ */
+export type LockeTrustBand =
+  | "Prospect"     // 0-19
+  | "Client"       // 20-39
+  | "Partner"      // 40-59
+  | "Insider"      // 60-79
+  | "Adjudicated"; // 80-100
 
-/** Map a tier to the minimum trust band it requires. */
+/** Map a tier to the minimum trust band it requires. Tier 1 is
+ *  client-tier work; tier 2 needs the Partner relationship; tier 3
+ *  is the Insider tier where Locke shares cross-network access. */
 export function tierToRequiredBand(tier: 1 | 2 | 3): LockeTrustBand {
-  if (tier === 1) return "Counterparty";
-  return "Partner";
+  if (tier === 1) return "Client";
+  if (tier === 2) return "Partner";
+  return "Insider";
 }
 
-/** True if `held` band satisfies the `required` band on the ladder. */
+/** True if `held` band satisfies the `required` band on the canonical ladder. */
 export function bandSatisfies(
   held: LockeTrustBand,
   required: LockeTrustBand,
 ): boolean {
-  const order: LockeTrustBand[] = ["Stranger", "Counterparty", "Partner"];
+  const order: LockeTrustBand[] = [
+    "Prospect", "Client", "Partner", "Insider", "Adjudicated",
+  ];
   return order.indexOf(held) >= order.indexOf(required);
+}
+
+/**
+ * Resolve a numeric Locke trust value (0-100) to its canonical band.
+ * Mirrors the LOCKE_BANDS thresholds in registry.ts so the engagement
+ * router can map directly without importing the whole NPC registry.
+ */
+export function lockeTrustToBand(trust: number): LockeTrustBand {
+  if (trust >= 80) return "Adjudicated";
+  if (trust >= 60) return "Insider";
+  if (trust >= 40) return "Partner";
+  if (trust >= 20) return "Client";
+  return "Prospect";
 }
 
 export interface LedgerEligibilityInput {

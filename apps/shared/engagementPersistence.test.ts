@@ -1,8 +1,12 @@
 import { describe, it, expect } from "vitest";
 import {
   ENGAGEMENT_STATE_VERSION,
+  ZERO_PAYOUTS,
   createDefaultEngagementState,
+  creditPayout,
+  debitPayout,
   ensureEngagementState,
+  ensurePendingPayouts,
   getApprenticeState,
   upsertApprenticeState,
 } from "./engagementPersistence";
@@ -19,6 +23,66 @@ describe("engagementPersistence — defaults", () => {
     expect(s.engineerJournal.chaptersCompleted).toEqual([]);
     expect(s.engineerJournal.equippedChapter).toBeNull();
     expect(s.lockeCompletedEntryIds).toEqual([]);
+    expect(s.lockePendingPayouts).toEqual(ZERO_PAYOUTS);
+  });
+});
+
+describe("engagementPersistence — pending payouts", () => {
+  it("ensurePendingPayouts returns zeros for nullish input", () => {
+    expect(ensurePendingPayouts(null)).toEqual(ZERO_PAYOUTS);
+    expect(ensurePendingPayouts(undefined)).toEqual(ZERO_PAYOUTS);
+    expect(ensurePendingPayouts("nope")).toEqual(ZERO_PAYOUTS);
+  });
+
+  it("ensurePendingPayouts preserves valid kinds and zeros invalid ones", () => {
+    const out = ensurePendingPayouts({
+      crew_xp: 75,
+      mechronis_approval: 12,
+      trade_reputation: -5,             // negative → 0
+      celebration_bond: NaN,            // non-finite → 0
+      army_recruitment: "wrong" as never, // non-numeric → 0
+    });
+    expect(out.crew_xp).toBe(75);
+    expect(out.mechronis_approval).toBe(12);
+    expect(out.trade_reputation).toBe(0);
+    expect(out.celebration_bond).toBe(0);
+    expect(out.army_recruitment).toBe(0);
+  });
+
+  it("ensurePendingPayouts floors fractional inputs", () => {
+    const out = ensurePendingPayouts({ crew_xp: 7.9 });
+    expect(out.crew_xp).toBe(7);
+  });
+
+  it("creditPayout adds to the kind's accumulator", () => {
+    const next = creditPayout(ZERO_PAYOUTS, "mechronis_approval", 12);
+    expect(next.mechronis_approval).toBe(12);
+    expect(next.crew_xp).toBe(0);
+  });
+
+  it("creditPayout is a no-op for non-positive amounts", () => {
+    expect(creditPayout(ZERO_PAYOUTS, "crew_xp", 0)).toBe(ZERO_PAYOUTS);
+    expect(creditPayout(ZERO_PAYOUTS, "crew_xp", -5)).toBe(ZERO_PAYOUTS);
+  });
+
+  it("debitPayout subtracts and clamps at zero", () => {
+    const after = debitPayout({ ...ZERO_PAYOUTS, crew_xp: 30 }, "crew_xp", 12);
+    expect(after.crew_xp).toBe(18);
+    const overshoot = debitPayout({ ...ZERO_PAYOUTS, crew_xp: 5 }, "crew_xp", 999);
+    expect(overshoot.crew_xp).toBe(0);
+  });
+
+  it("debitPayout is a no-op for non-positive amounts", () => {
+    const start = { ...ZERO_PAYOUTS, crew_xp: 30 };
+    expect(debitPayout(start, "crew_xp", 0)).toBe(start);
+    expect(debitPayout(start, "crew_xp", -1)).toBe(start);
+  });
+
+  it("creditPayout / debitPayout do not mutate the input", () => {
+    const start = { ...ZERO_PAYOUTS, crew_xp: 10 };
+    creditPayout(start, "crew_xp", 5);
+    debitPayout(start, "crew_xp", 3);
+    expect(start.crew_xp).toBe(10);
   });
 });
 
@@ -45,6 +109,16 @@ describe("engagementPersistence — ensureEngagementState", () => {
     });
     expect(out.bloodlineWitnesses).toEqual([]);
     expect(out.lockeCompletedEntryIds).toEqual(["locke.ledger.crew_charter"]);
+    expect(out.lockePendingPayouts).toEqual(ZERO_PAYOUTS);
+  });
+
+  it("preserves a populated payout accumulator on round-trip", () => {
+    const out = ensureEngagementState({
+      lockePendingPayouts: { mechronis_approval: 12, crew_xp: 75 },
+    });
+    expect(out.lockePendingPayouts.mechronis_approval).toBe(12);
+    expect(out.lockePendingPayouts.crew_xp).toBe(75);
+    expect(out.lockePendingPayouts.celebration_bond).toBe(0);
   });
 
   it("rejects mistyped fields and replaces them with defaults", () => {

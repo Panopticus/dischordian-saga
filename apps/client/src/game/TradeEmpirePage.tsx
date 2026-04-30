@@ -45,6 +45,10 @@ import {
 } from "./techTree";
 import { FlaskConical, Coins, Handshake, Skull, Building2, FileSignature } from "lucide-react";
 import { LockeConfidentialLedgerPanel } from "@/components/tradeEmpire/LockeConfidentialLedgerPanel";
+import { getDominantGuild } from "@/game/archonTrainingVoices";
+import { getProfessorByArchon } from "@shared/mechronisProfessors";
+import type { LedgerPayoutKind } from "@shared/lockeConfidentialLedger";
+import type { SkillId } from "@/game/innerVoices";
 import LivingBackground from "@/components/LivingBackground";
 import CinematicGate from "@/components/CinematicGate";
 import { ACT1_CUTSCENES } from "@/data/preludeAct1Deliverables";
@@ -267,7 +271,14 @@ function RoutesPanel({
 }
 
 export default function TradeEmpirePage() {
-  const { state: gameState, setNarrativeFlag } = useGame();
+  const {
+    state: gameState,
+    setNarrativeFlag,
+    completeRecruitmentMission,
+    setApprentice,
+    adjustNpcTrust,
+    adjustProfessorApproval,
+  } = useGame();
   const vo = useActVO("3");
   const playerName = gameState.characterChoices?.name || "Captain";
   const [view, setView] = useState<View>("map");
@@ -1557,20 +1568,90 @@ export default function TradeEmpirePage() {
           />
         )}
 
-        {/* Locke's Confidential Ledger — cross-system payouts.
-            Phase 1 wire-up uses empire.influence as a stand-in for
-            per-broker reputation; the trade-empire subsystem will
-            ship dedicated Locke reputation later. The payout
-            callback is intentionally a no-op for now — the next
-            step is routing each kind into its receiving subsystem
-            (crew_xp → crew router, etc.). */}
-        {view === "ledger" && (
-          <div className="max-w-2xl mx-auto">
-            <LockeConfidentialLedgerPanel
-              reputation={empire.influence}
-            />
-          </div>
-        )}
+        {/* Locke's Confidential Ledger — cross-system payouts. The
+            server reads Locke's trust from npc_trust to gate
+            availability and accumulates pending payouts; the page
+            wires the apply-side via onClaim, routing each kind into
+            its receiving subsystem via GameContext callbacks. */}
+        {view === "ledger" && (() => {
+          // Resolve the player's current dominant-guild professor —
+          // mechronis_approval routes here. Falls back to disabled.
+          const skills = (gameState.innerVoiceSkills ?? {}) as Record<SkillId, number>;
+          const dominantGuild = getDominantGuild(skills);
+          const targetProfessor = dominantGuild
+            ? getProfessorByArchon(dominantGuild.mentor.archonNumber) ?? null
+            : null;
+          const apprentice = (gameState as { apprentice?: { id: string; bond: number } | null })
+            .apprentice ?? null;
+
+          const disabledKinds = new Set<LedgerPayoutKind>();
+          // celebration_bond needs an active apprentice in training.
+          if (!apprentice) disabledKinds.add("celebration_bond");
+          // mechronis_approval needs a professor target.
+          if (!targetProfessor) disabledKinds.add("mechronis_approval");
+          // crew_xp has no client-side credit endpoint yet (the crew
+          // system tracks per-bloodline generations + traits, not a
+          // flat XP pool); leave it as a Locke-account credit until
+          // a crew XP endpoint ships.
+          disabledKinds.add("crew_xp");
+
+          const disabledReasons: Partial<Record<LedgerPayoutKind, string>> = {
+            celebration_bond: apprentice ? undefined : "No apprentice currently in training.",
+            mechronis_approval: targetProfessor ? undefined : "Develop your inner voices to assign a Professor first.",
+            crew_xp: "Crew XP redemption ships in a follow-up. The credit is held on your account.",
+          };
+
+          return (
+            <div className="max-w-2xl mx-auto">
+              <LockeConfidentialLedgerPanel
+                onClaim={(kind, amount) => {
+                  switch (kind) {
+                    case "army_recruitment": {
+                      // Synthesize a unique mission id so the
+                      // idempotent counter advances by exactly `amount`.
+                      for (let i = 0; i < amount; i++) {
+                        completeRecruitmentMission(
+                          `locke_commission_${Date.now()}_${i}`,
+                        );
+                      }
+                      return;
+                    }
+                    case "celebration_bond": {
+                      if (!apprentice) return;
+                      const newBond = Math.max(0, Math.min(100, apprentice.bond + amount));
+                      // The apprentice object carries other fields
+                      // we don't want to overwrite; spread it.
+                      const full = (gameState as { apprentice?: object | null }).apprentice;
+                      if (full && typeof full === "object") {
+                        setApprentice({ ...full, bond: newBond });
+                      }
+                      return;
+                    }
+                    case "mechronis_approval": {
+                      if (!targetProfessor) return;
+                      adjustProfessorApproval(targetProfessor.id, amount);
+                      return;
+                    }
+                    case "trade_reputation": {
+                      // Locke's network is the receiver — bump
+                      // Locke's own trust as the canonical
+                      // "trade_reputation" handle. Other broker
+                      // reputations are not affected.
+                      adjustNpcTrust("adjudicator_locke", amount);
+                      return;
+                    }
+                    case "crew_xp":
+                      // No-op (disabled above); kept for switch
+                      // exhaustiveness.
+                      return;
+                  }
+                }}
+                disabledKinds={disabledKinds}
+                disabledReasons={disabledReasons}
+              />
+            </div>
+          );
+        })()}
       </div>
 
       {/* Act 1 cutscenes — first-time-entry intros for the Trade Empire's

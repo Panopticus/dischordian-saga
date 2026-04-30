@@ -2,18 +2,16 @@
    LockeConfidentialLedgerPanel
 
    Renders Adjudicator Locke's Confidential Ledger inside the
-   Trade Empire surface. Shows:
+   Trade Empire surface. Locke's trust band is read
+   server-side from the canonical npc_trust table — no
+   client-side stand-in.
 
-     • The player's current Locke band + reputation
-     • Available contracts (signable now): pitch + collapsible
-       fine print + cost + cross-system payout + SIGN button
-     • Locked contracts (visible but greyed): why they're
-       locked (band, reputation, prerequisite)
-     • Completed contracts (collapsed by default)
-
-   On a successful sign, Locke's transaction-close line surfaces
-   in a small inline result banner. The cross-system payout is
-   handed back via the hook for the caller to route.
+   Three sections:
+     • Pending Payouts — cross-system credits Locke has issued
+       and the player can claim into the receiving subsystem.
+     • Available — contracts signable now (pitch + collapsible
+       fine print + cost + payout + SIGN).
+     • Locked / Completed — visible for context.
 
    Voice surface only — apps/shared/lockeConfidentialLedger.ts
    owns the pitches, fine print, and close lines.
@@ -21,27 +19,34 @@
 
 import * as React from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FileSignature, ChevronDown, Check, Lock as LockIcon } from "lucide-react";
-import {
-  useLockeLedger,
-  deriveLockeBand,
-  type SignResult,
-} from "@/hooks/useLockeLedger";
-import type { LedgerEntry, LedgerPayout } from "@shared/lockeConfidentialLedger";
+import { FileSignature, ChevronDown, Check, Lock as LockIcon, Coins } from "lucide-react";
+import { useLockeLedger, type SignResult } from "@/hooks/useLockeLedger";
+import type { LedgerEntry, LedgerPayoutKind } from "@shared/lockeConfidentialLedger";
+import type { PendingPayouts } from "@shared/engagementPersistence";
 
 export interface LockeConfidentialLedgerPanelProps {
-  /** Numeric reputation reading the panel uses to derive Locke's band.
-   *  In the Phase-1 wire-up the caller passes a stand-in (eg empire
-   *  influence); the trade-empire subsystem will ship per-broker
-   *  reputation later. */
-  reputation: number;
-  /** Optional callback invoked when a contract signs successfully —
-   *  caller routes the cross-system payout to the receiving subsystem.
-   *  No-op by default; the panel still surfaces Locke's close line. */
-  onPayout?: (payout: LedgerPayout) => void;
+  /**
+   * Apply a claimed payout to the receiving subsystem. Called
+   * before the server-side accumulator is debited; if the panel
+   * doesn't supply an onClaim, or onClaim throws, no debit
+   * happens. Implementations should be idempotent.
+   */
+  onClaim?: (kind: LedgerPayoutKind, amount: number) => void | Promise<void>;
+  /**
+   * Kinds the page cannot currently apply (eg celebration_bond
+   * when there is no active apprentice). The panel disables the
+   * CLAIM button + shows an explanatory hint for these kinds.
+   */
+  disabledKinds?: ReadonlySet<LedgerPayoutKind>;
+  /**
+   * Reason text the panel surfaces when a claim is disabled. Keyed
+   * by kind. Pages that don't supply a reason fall through to a
+   * generic "no eligible target" message.
+   */
+  disabledReasons?: Partial<Record<LedgerPayoutKind, string>>;
 }
 
-const PAYOUT_LABEL: Record<LedgerPayout["kind"], string> = {
+const PAYOUT_LABEL: Record<LedgerPayoutKind, string> = {
   crew_xp:               "Crew XP",
   army_recruitment:      "Army Recruitment",
   celebration_bond:      "Celebration Bond",
@@ -50,7 +55,7 @@ const PAYOUT_LABEL: Record<LedgerPayout["kind"], string> = {
 };
 
 const REASON_LABEL: Record<string, string> = {
-  trust_band_too_low:        "Locke does not yet treat you as a counterparty.",
+  trust_band_too_low:        "Locke does not yet treat you at this tier.",
   insufficient_reputation:   "Reputation insufficient.",
   prerequisite_not_completed: "An earlier contract is required first.",
   already_completed:         "This contract is already on file.",
@@ -58,23 +63,13 @@ const REASON_LABEL: Record<string, string> = {
 };
 
 export function LockeConfidentialLedgerPanel({
-  reputation,
-  onPayout,
+  onClaim,
+  disabledKinds,
+  disabledReasons,
 }: LockeConfidentialLedgerPanelProps) {
-  const band = deriveLockeBand(reputation);
-  const ledger = useLockeLedger({ band, reputation });
+  const ledger = useLockeLedger();
   const [expandedFinePrint, setExpandedFinePrint] = React.useState<Set<string>>(new Set());
   const [showCompleted, setShowCompleted] = React.useState(false);
-
-  // Notify parent when a successful sign produces a payout.
-  React.useEffect(() => {
-    if (ledger.current?.result.success && ledger.current.result.payout && onPayout) {
-      onPayout(ledger.current.result.payout);
-    }
-    // We only want to fire this for new payouts; current is a fresh
-    // object identity each push.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ledger.current]);
 
   const toggleFinePrint = (id: string) => {
     setExpandedFinePrint(prev => {
@@ -92,6 +87,20 @@ export function LockeConfidentialLedgerPanel({
   );
   const completedEntries = ledger.catalog.filter(e => completedIds.has(e.id));
 
+  const handleClaim = async (kind: LedgerPayoutKind) => {
+    const amount = ledger.pendingPayouts[kind];
+    if (amount <= 0) return;
+    if (disabledKinds?.has(kind)) return;
+    if (!onClaim) return;
+    // Page applies first; if it throws we don't debit the server.
+    try {
+      await onClaim(kind, amount);
+    } catch {
+      return;
+    }
+    await ledger.claim(kind, amount);
+  };
+
   return (
     <div className="space-y-4">
       {/* Header — Locke metadata */}
@@ -102,9 +111,9 @@ export function LockeConfidentialLedgerPanel({
             CONFIDENTIAL LEDGER
           </h3>
           <span className="ml-auto font-mono text-[10px] opacity-60 tracking-[0.15em]">
-            BAND: <span className="text-primary">{band.toUpperCase()}</span>
+            BAND: <span className="text-primary">{ledger.band.toUpperCase()}</span>
             <span className="opacity-50 mx-1.5">·</span>
-            REP: <span className="text-primary">{reputation}</span>
+            TRUST: <span className="text-primary">{ledger.trust}</span>
           </span>
         </div>
         <p className="text-xs leading-relaxed opacity-80">
@@ -112,6 +121,15 @@ export function LockeConfidentialLedgerPanel({
           trade. The fine print is mine; you may audit on signing.
         </p>
       </div>
+
+      {/* Pending payouts — cross-system credits awaiting claim */}
+      <PendingPayoutsCard
+        payouts={ledger.pendingPayouts}
+        onClaim={handleClaim}
+        claiming={ledger.claiming}
+        disabledKinds={disabledKinds}
+        disabledReasons={disabledReasons}
+      />
 
       {/* Result banner — appears after any sign attempt */}
       <AnimatePresence>
@@ -223,6 +241,68 @@ export function LockeConfidentialLedgerPanel({
   );
 }
 
+function PendingPayoutsCard({
+  payouts,
+  onClaim,
+  claiming,
+  disabledKinds,
+  disabledReasons,
+}: {
+  payouts: PendingPayouts;
+  onClaim: (kind: LedgerPayoutKind) => void;
+  claiming: boolean;
+  disabledKinds?: ReadonlySet<LedgerPayoutKind>;
+  disabledReasons?: Partial<Record<LedgerPayoutKind, string>>;
+}) {
+  const entries = (Object.keys(payouts) as LedgerPayoutKind[])
+    .filter(k => payouts[k] > 0)
+    .map(k => ({ kind: k, amount: payouts[k] }));
+
+  if (entries.length === 0) return null;
+
+  return (
+    <div className="rounded-md border border-primary/30 bg-primary/5 p-3">
+      <div className="flex items-center gap-1.5 mb-2">
+        <Coins size={12} className="text-primary" />
+        <span className="font-mono text-[10px] text-primary tracking-[0.2em]">
+          PENDING PAYOUTS
+        </span>
+      </div>
+      <div className="space-y-1.5">
+        {entries.map(({ kind, amount }) => {
+          const disabled = disabledKinds?.has(kind) ?? false;
+          const reason = disabled
+            ? (disabledReasons?.[kind] ?? "No eligible target right now.")
+            : null;
+          return (
+            <div
+              key={kind}
+              className="flex items-center justify-between gap-2 rounded border border-border/30 bg-background/30 px-2 py-1.5"
+            >
+              <div className="flex-1 min-w-0">
+                <div className="font-display text-xs font-bold">
+                  {PAYOUT_LABEL[kind]}
+                </div>
+                <div className="font-mono text-[10px] opacity-60 truncate">
+                  {disabled ? reason : `${amount} owing`}
+                </div>
+              </div>
+              <button
+                onClick={() => onClaim(kind)}
+                disabled={claiming || disabled}
+                title={disabled ? reason ?? "Disabled" : undefined}
+                className="px-2 py-1 rounded bg-primary/10 border border-primary/40 text-primary text-[10px] font-mono hover:bg-primary/20 transition-all tracking-wide disabled:opacity-40 disabled:cursor-not-allowed"
+              >
+                {disabled ? "PENDING" : "CLAIM"}
+              </button>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 function ContractCard({
   entry,
   status,
@@ -285,7 +365,7 @@ function ContractCard({
 
       <div className="flex items-center justify-between text-[10px] font-mono mb-2">
         <span className="opacity-60">
-          COST: <span className="text-primary">{entry.reputationCost} REP</span>
+          COST: <span className="text-primary">{entry.reputationCost} TRUST</span>
         </span>
         <span className="opacity-60">
           PAYS: <span className="text-primary">{entry.payout.amount} {PAYOUT_LABEL[entry.payout.kind]}</span>

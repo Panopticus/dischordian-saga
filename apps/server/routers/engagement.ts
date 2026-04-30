@@ -29,11 +29,15 @@ import { eq, and } from "drizzle-orm";
 import {
   ENGAGEMENT_STATE_VERSION,
   createDefaultEngagementState,
+  creditPayout,
+  debitPayout,
   ensureEngagementState,
+  ensurePendingPayouts,
   getApprenticeState,
   upsertApprenticeState,
   type EngagementState,
 } from "../../shared/engagementPersistence";
+import { npcTrust } from "../../db/schema";
 
 import {
   scanBloodlineForWitnesses,
@@ -64,6 +68,8 @@ import {
   checkLedgerEligibility,
   executeLedgerEntry,
   getLedgerEntry,
+  lockeTrustToBand,
+  type LedgerPayoutKind,
   type LockeTrustBand,
 } from "../../shared/lockeConfidentialLedger";
 
@@ -116,8 +122,38 @@ async function saveState(userId: number, state: EngagementState): Promise<void> 
 
 /* ─── input schemas (named for reuse) ─── */
 
-const interventionDaySchema = z.union([z.literal(7), z.literal(14), z.literal(21), z.literal(28)]);
-const trustBandSchema = z.union([z.literal("Stranger"), z.literal("Counterparty"), z.literal("Partner")]);
+const payoutKindSchema = z.union([
+  z.literal("crew_xp"),
+  z.literal("army_recruitment"),
+  z.literal("celebration_bond"),
+  z.literal("mechronis_approval"),
+  z.literal("trade_reputation"),
+]);
+
+/* ─── locke trust resolution ─── */
+
+/**
+ * Read Locke's trust score from the npc_trust table and resolve
+ * the current band. Falls back to (0, "Prospect") when there's no
+ * row — Locke starts every player at zero trust per registry.ts.
+ *
+ * Centralised here so the engagement router doesn't need band /
+ * reputation passed in from the client; trust is server-authoritative
+ * via the existing npc_trust table.
+ */
+async function resolveLockeBand(
+  userId: number,
+): Promise<{ trust: number; band: LockeTrustBand }> {
+  const db = await getDb();
+  if (!db) return { trust: 0, band: "Prospect" };
+  const rows = await db
+    .select({ trust: npcTrust.trust })
+    .from(npcTrust)
+    .where(and(eq(npcTrust.userId, userId), eq(npcTrust.npcKey, "adjudicator_locke")))
+    .limit(1);
+  const trust = rows[0]?.trust ?? 0;
+  return { trust, band: lockeTrustToBand(trust) };
+}
 
 /* ─── ROUTER ─── */
 
@@ -404,80 +440,126 @@ export const engagementRouter = router({
     /** Static catalog of every contract the ledger ever offers. */
     catalog: protectedProcedure.query(async () => allLedgerEntries()),
 
-    /** Per-user state — which entries the player has signed. */
+    /**
+     * Per-user state — which entries the player has signed, the
+     * current pending-payout accumulator (cross-system credits Locke
+     * has issued but the player has not yet claimed), and Locke's
+     * current band + trust read straight from the npc_trust table.
+     */
     state: protectedProcedure.query(async ({ ctx }) => {
       const state = await loadState(ctx.user.id);
-      return { completedEntryIds: state.lockeCompletedEntryIds };
+      const { trust, band } = await resolveLockeBand(ctx.user.id);
+      return {
+        completedEntryIds: state.lockeCompletedEntryIds,
+        pendingPayouts: ensurePendingPayouts(state.lockePendingPayouts),
+        trust,
+        band,
+      };
     }),
 
     /**
-     * Pre-flight: which contracts are signable right now given the
-     * caller's current Locke band + reputation? Caller passes both
-     * because Locke trust + reputation live in the trade-empire
-     * subsystem; the engagement router doesn't reach into trade
-     * state to read them.
+     * Pre-flight: which contracts are signable right now? Server
+     * resolves Locke's band + trust from the npc_trust table, so
+     * the client doesn't need to pass anything.
      */
-    checkAvailability: protectedProcedure
-      .input(z.object({
-        band: trustBandSchema,
-        reputation: z.number().int().nonnegative(),
-      }))
-      .query(async ({ ctx, input }) => {
-        const state = await loadState(ctx.user.id);
-        const eligible = allLedgerEntries().filter(e =>
-          checkLedgerEligibility(e, {
-            band: input.band as LockeTrustBand,
-            reputation: input.reputation,
-            completedEntryIds: state.lockeCompletedEntryIds,
-          }).eligible
-        );
-        return eligible;
-      }),
+    checkAvailability: protectedProcedure.query(async ({ ctx }) => {
+      const state = await loadState(ctx.user.id);
+      const { trust, band } = await resolveLockeBand(ctx.user.id);
+      const eligible = allLedgerEntries().filter(e =>
+        checkLedgerEligibility(e, {
+          band,
+          reputation: trust,
+          completedEntryIds: state.lockeCompletedEntryIds,
+        }).eligible
+      );
+      return eligible;
+    }),
 
     /**
-     * Sign and execute a confidential-ledger contract. The router
-     * validates eligibility, debits Locke reputation conceptually
-     * (caller is responsible for applying the cost to the
-     * trade-empire reputation table on its side), persists the
-     * completion, and returns the cross-system payout for the
-     * client to route to the receiving subsystem.
+     * Sign and execute a confidential-ledger contract. Server reads
+     * Locke trust from npc_trust to gate eligibility, persists the
+     * completion, and **credits the cross-system payout into the
+     * pendingPayouts accumulator** (rather than returning it for the
+     * client to route in real time). The receiving subsystem claims
+     * via lockeLedger.claim later.
      */
     sign: protectedProcedure
-      .input(z.object({
-        entryId: z.string(),
-        band: trustBandSchema,
-        reputation: z.number().int().nonnegative(),
-      }))
+      .input(z.object({ entryId: z.string() }))
       .mutation(async ({ ctx, input }) => {
         const state = await loadState(ctx.user.id);
         const entry = getLedgerEntry(input.entryId);
         if (!entry) {
           return { success: false as const, reason: "unknown_entry" as const };
         }
+        const { trust, band } = await resolveLockeBand(ctx.user.id);
         const eligibility = checkLedgerEligibility(entry, {
-          band: input.band as LockeTrustBand,
-          reputation: input.reputation,
+          band,
+          reputation: trust,
           completedEntryIds: state.lockeCompletedEntryIds,
         });
         if (!eligibility.eligible) {
           return { success: false as const, reason: eligibility.reason };
         }
         const result = executeLedgerEntry(entry, {
-          band: input.band as LockeTrustBand,
-          reputation: input.reputation,
+          band,
+          reputation: trust,
           completedEntryIds: state.lockeCompletedEntryIds,
         });
         const persisted: EngagementState = {
           ...state,
           lockeCompletedEntryIds: result.completedEntryIdsAfter,
+          lockePendingPayouts: creditPayout(
+            ensurePendingPayouts(state.lockePendingPayouts),
+            result.payout.kind,
+            result.payout.amount,
+          ),
         };
         await saveState(ctx.user.id, persisted);
         return {
           success: true as const,
           payout: result.payout,
-          reputationAfter: result.reputationAfter,
           closeLine: result.closeLine,
         };
+      }),
+
+    /**
+     * Decrement the pending-payout accumulator for `kind` by `amount`.
+     * The receiving subsystem calls this after it has applied the
+     * credit on its side (eg the celebration router has bumped a
+     * professor's approval; the client has bumped the apprentice's
+     * bond). Caller-driven so partial claims work — a player who
+     * has 30 mechronis_approval pending can claim 12 immediately to
+     * tip a single professor and bank the rest.
+     *
+     * Idempotent within the bounds of monotonic decrement: claim 12,
+     * claim 12, claim 12 leaves 0 (clamped at zero) regardless of
+     * order, but the same call twice does subtract twice. Callers
+     * should treat the response as the canonical post-claim balance
+     * and stop applying once it returns 0 for that kind.
+     */
+    claim: protectedProcedure
+      .input(z.object({
+        kind: payoutKindSchema,
+        amount: z.number().int().positive(),
+      }))
+      .mutation(async ({ ctx, input }) => {
+        const state = await loadState(ctx.user.id);
+        const before = ensurePendingPayouts(state.lockePendingPayouts);
+        const available = before[input.kind as LedgerPayoutKind];
+        const claimed = Math.min(available, input.amount);
+        if (claimed <= 0) {
+          return {
+            claimed: 0,
+            balance: before,
+          };
+        }
+        const after = debitPayout(before, input.kind as LedgerPayoutKind, claimed);
+        const persisted: EngagementState = {
+          ...state,
+          lockePendingPayouts: after,
+        };
+        await saveState(ctx.user.id, persisted);
+        return { claimed, balance: after };
       }),
   }),
 });

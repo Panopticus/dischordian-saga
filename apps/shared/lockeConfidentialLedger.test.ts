@@ -6,12 +6,13 @@ import {
   checkLedgerEligibility,
   executeLedgerEntry,
   getLedgerEntry,
+  lockeTrustToBand,
   tierToRequiredBand,
   type LedgerEligibilityInput,
 } from "./lockeConfidentialLedger";
 
 const RICH_PARTNER: LedgerEligibilityInput = {
-  band: "Partner",
+  band: "Insider",
   reputation: 1000,
   completedEntryIds: [],
 };
@@ -52,25 +53,48 @@ describe("lockeConfidentialLedger — catalog", () => {
 });
 
 describe("lockeConfidentialLedger — band ladder", () => {
-  it("Counterparty satisfies Counterparty; Partner satisfies both", () => {
-    expect(bandSatisfies("Counterparty", "Counterparty")).toBe(true);
-    expect(bandSatisfies("Partner", "Counterparty")).toBe(true);
+  it("Client satisfies Client; Partner satisfies both", () => {
+    expect(bandSatisfies("Client", "Client")).toBe(true);
+    expect(bandSatisfies("Partner", "Client")).toBe(true);
     expect(bandSatisfies("Partner", "Partner")).toBe(true);
   });
 
-  it("Stranger satisfies nothing above Stranger", () => {
-    expect(bandSatisfies("Stranger", "Counterparty")).toBe(false);
-    expect(bandSatisfies("Stranger", "Partner")).toBe(false);
+  it("Prospect satisfies nothing above Prospect", () => {
+    expect(bandSatisfies("Prospect", "Client")).toBe(false);
+    expect(bandSatisfies("Prospect", "Partner")).toBe(false);
+    expect(bandSatisfies("Prospect", "Insider")).toBe(false);
   });
 
-  it("Counterparty does not satisfy Partner", () => {
-    expect(bandSatisfies("Counterparty", "Partner")).toBe(false);
+  it("Client does not satisfy Partner or Insider", () => {
+    expect(bandSatisfies("Client", "Partner")).toBe(false);
+    expect(bandSatisfies("Client", "Insider")).toBe(false);
   });
 
-  it("tier 1 is Counterparty, tiers 2-3 are Partner", () => {
-    expect(tierToRequiredBand(1)).toBe("Counterparty");
+  it("Adjudicated satisfies every tier below it", () => {
+    expect(bandSatisfies("Adjudicated", "Client")).toBe(true);
+    expect(bandSatisfies("Adjudicated", "Partner")).toBe(true);
+    expect(bandSatisfies("Adjudicated", "Insider")).toBe(true);
+  });
+
+  it("tier ladder: Client (1) → Partner (2) → Insider (3)", () => {
+    expect(tierToRequiredBand(1)).toBe("Client");
     expect(tierToRequiredBand(2)).toBe("Partner");
-    expect(tierToRequiredBand(3)).toBe("Partner");
+    expect(tierToRequiredBand(3)).toBe("Insider");
+  });
+});
+
+describe("lockeConfidentialLedger — lockeTrustToBand", () => {
+  it("maps numeric trust to canonical bands at the registry thresholds", () => {
+    expect(lockeTrustToBand(0)).toBe("Prospect");
+    expect(lockeTrustToBand(19)).toBe("Prospect");
+    expect(lockeTrustToBand(20)).toBe("Client");
+    expect(lockeTrustToBand(39)).toBe("Client");
+    expect(lockeTrustToBand(40)).toBe("Partner");
+    expect(lockeTrustToBand(59)).toBe("Partner");
+    expect(lockeTrustToBand(60)).toBe("Insider");
+    expect(lockeTrustToBand(79)).toBe("Insider");
+    expect(lockeTrustToBand(80)).toBe("Adjudicated");
+    expect(lockeTrustToBand(100)).toBe("Adjudicated");
   });
 });
 
@@ -82,8 +106,8 @@ describe("lockeConfidentialLedger — eligibility", () => {
     expect(checkLedgerEligibility(tier1, RICH_PARTNER).eligible).toBe(true);
   });
 
-  it("rejects a Stranger on a Counterparty contract", () => {
-    const r = checkLedgerEligibility(tier1, { ...RICH_PARTNER, band: "Stranger" });
+  it("rejects a Prospect on a Client contract", () => {
+    const r = checkLedgerEligibility(tier1, { ...RICH_PARTNER, band: "Prospect" });
     expect(r).toEqual({ eligible: false, reason: "trust_band_too_low" });
   });
 
@@ -116,24 +140,24 @@ describe("lockeConfidentialLedger — eligibility", () => {
 
 describe("lockeConfidentialLedger — availableLedgerEntries", () => {
   it("lists exactly the eligible contracts for the player's state", () => {
-    const newPlayer: LedgerEligibilityInput = {
-      band: "Counterparty",
+    const newClient: LedgerEligibilityInput = {
+      band: "Client",
       reputation: 500,
       completedEntryIds: [],
     };
-    const available = availableLedgerEntries(newPlayer);
-    // All tier 1s should be in; no tier 2 or 3.
+    const available = availableLedgerEntries(newClient);
+    // Tier 1 is in; tier 2 (Partner) and tier 3 (Insider) are not.
     expect(available.every(e => e.tier === 1)).toBe(true);
     expect(available.length).toBeGreaterThan(0);
   });
 
   it("expands as trust + completion grow", () => {
-    const partnerWithProgress: LedgerEligibilityInput = {
-      band: "Partner",
+    const insiderWithProgress: LedgerEligibilityInput = {
+      band: "Insider",
       reputation: 500,
       completedEntryIds: ["locke.ledger.crew_charter"],
     };
-    const available = availableLedgerEntries(partnerWithProgress);
+    const available = availableLedgerEntries(insiderWithProgress);
     // crew_charter is now done (excluded), but cross-reference (which
     // depends on it) should be in.
     expect(available.find(e => e.id === "locke.ledger.crew_charter")).toBeUndefined();
