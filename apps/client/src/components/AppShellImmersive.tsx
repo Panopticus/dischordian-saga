@@ -28,6 +28,7 @@ import {
 } from "lucide-react";
 import ShaderOverlay from "@/components/ShaderOverlay";
 import AmbientSkybox from "@/components/AmbientSkybox";
+import { VoidAmbientParticles } from "@/engine/VoidAmbientParticles";
 import { trpc } from "@/lib/trpc";
 import { PhotoMode } from "@/components/PhotoMode";
 import CrewAmbientTicker from "@/components/crew/CrewAmbientTicker";
@@ -164,6 +165,14 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
           that own their own backdrop (Ark, Fight, Terminus) suppress
           this via isImmersive. ═══ */}
       {showSkybox && <AmbientSkybox />}
+
+      {/* ═══ VOID AMBIENT PARTICLES — Canvas 2D atmosphere layer
+          driven by the active VoidTheme.particleEffect. Reads
+          data-particles on <html> (set in voidEngine.applyThemeToDOM)
+          and paints fireflies / embers / sparks / data / leaves /
+          static. Suppressed on immersive routes that own their
+          own backdrop, same as the skybox. ═══ */}
+      {showSkybox && <VoidAmbientParticles />}
 
       {/* Legacy cockpit tint — kept for the immersive routes so the
           Ark-control-room still reads while Ark/Fight/Terminus paint

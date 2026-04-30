@@ -440,6 +440,10 @@ function applyThemeToDOM_inner(theme: VoidTheme, html: HTMLElement): void {
   html.setAttribute("data-atmosphere", theme.id);
   html.setAttribute("data-physics", physics);
   html.setAttribute("data-mode", mode);
+  // Particle effect string read by VoidAmbientParticles. Kept on
+  // the DOM (not in React state) so the canvas layer can subscribe
+  // via MutationObserver and survive route changes without remount.
+  html.setAttribute("data-particles", theme.particleEffect);
   try {
     localStorage.setItem("ve-atmosphere", theme.id);
     localStorage.setItem("ve-physics", physics);

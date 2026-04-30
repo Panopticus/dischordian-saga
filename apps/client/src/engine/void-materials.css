@@ -72,6 +72,60 @@
 }
 
 /* ═══════════════════════════════════════════════════════
+   REGISTERED PROPERTIES (continuous physics interpolation)
+
+   `data-physics` swaps the values below in lockstep when the
+   active material changes (glass → flat → retro). By default
+   browsers don't transition CSS custom properties unless they're
+   registered with @property. Declaring the physics scalars as
+   typed registered properties lets the values lerp smoothly
+   between presets — so blur fades, border thickens, and corners
+   round/sharpen instead of snapping. Non-numeric tokens like
+   --ve-border-style remain step transitions because keywords
+   can't interpolate.
+
+   Retro physics opts out via --ve-physics-transition: 0ms below,
+   so CRT swaps stay instant (the snap is part of the aesthetic).
+   prefers-reduced-motion also forces 0ms.
+   ═══════════════════════════════════════════════════════ */
+
+@property --ve-blur {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 0px;
+}
+@property --ve-border-width {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 1px;
+}
+@property --ve-radius-sm {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 6px;
+}
+@property --ve-radius-md {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 10px;
+}
+@property --ve-radius-lg {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 16px;
+}
+@property --ve-radius-xl {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 24px;
+}
+@property --ve-density {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 1;
+}
+
+/* ═══════════════════════════════════════════════════════
    BASE MATERIAL TOKENS
    Overridden per physics type below.
    ═══════════════════════════════════════════════════════ */
@@ -89,6 +143,12 @@
   --ve-shadow-sunk: inset 0 1px 3px rgba(0,0,0,0.2);
   --ve-shadow-float: 0 1px 3px rgba(0,0,0,0.12), 0 6px 20px -4px rgba(0,0,0,0.2);
   --ve-shadow-lift: 0 8px 30px rgba(0,0,0,0.3);
+
+  /* Continuous physics-interpolation duration. Tokens registered
+     above lerp over this window when [data-physics] flips. Retro
+     and reduced-motion override to 0ms below. */
+  --ve-physics-transition: 400ms;
+  --ve-physics-ease: cubic-bezier(0.4, 0, 0.2, 1);
 
   /* Density system — 4px harmonic scale x multiplier */
   --ve-density: 1;
@@ -138,6 +198,18 @@
   --ve-color-system: var(--energy-system, var(--void-system, #a078ff));
 }
 
+
+/* ═══════════════════════════════════════════════════════
+   PHYSICS TOKEN INTERPOLATION
+   The actual `html { transition: ... }` declaration lives at
+   the bottom of this file alongside the density transition so
+   the two policies stay collocated. Retro physics opts out via
+   --ve-physics-transition: 0ms; reduced-motion does the same.
+   ═══════════════════════════════════════════════════════ */
+
+@media (prefers-reduced-motion: reduce) {
+  html { --ve-physics-transition: 0ms; }
+}
 
 /* ═══════════════════════════════════════════════════════
    GLASS PHYSICS
@@ -322,6 +394,8 @@
   --ve-shadow-sunk: inset 2px 2px 0 rgba(0,0,0,0.5);
   --ve-shadow-float: none;
   --ve-shadow-lift: 2px 2px 0 rgba(0,0,0,0.8);
+  /* CRT swaps are part of the retro aesthetic — snap, don't lerp. */
+  --ve-physics-transition: 0ms;
 }
 
 /* RETRO OVERRIDE: Force all border-radius to 0 globally */
@@ -499,14 +573,32 @@
 
 /* ═══════════════════════════════════════════════════════
    DENSITY SCALING
+
+   --ve-density flows through (a) the inline --space-* tokens
+   defined at :root above, (b) the Tailwind --spacing-* theme
+   tokens in index.css (so gap-md / p-lg / m-xl all scale),
+   and (c) --ve-text-scale on the html font-size. Registered
+   via @property above so density changes transition smoothly
+   instead of snapping at the next paint.
    ═══════════════════════════════════════════════════════ */
 
-[data-density="compact"] { --ve-density: 0.75; --ve-text-scale: 0.92; }
-[data-density="standard"] { --ve-density: 1; --ve-text-scale: 1; }
+[data-density="compact"]  { --ve-density: 0.75; --ve-text-scale: 0.92; }
+[data-density="standard"] { --ve-density: 1;    --ve-text-scale: 1;    }
 [data-density="spacious"] { --ve-density: 1.25; --ve-text-scale: 1.08; }
 
 /* Apply text scale to body */
-html { font-size: calc(16px * var(--ve-text-scale, 1)); }
+html {
+  font-size: calc(16px * var(--ve-text-scale, 1));
+  transition:
+    --ve-blur          var(--ve-physics-transition, 400ms) var(--ve-physics-ease, ease),
+    --ve-border-width  var(--ve-physics-transition, 400ms) var(--ve-physics-ease, ease),
+    --ve-radius-sm     var(--ve-physics-transition, 400ms) var(--ve-physics-ease, ease),
+    --ve-radius-md     var(--ve-physics-transition, 400ms) var(--ve-physics-ease, ease),
+    --ve-radius-lg     var(--ve-physics-transition, 400ms) var(--ve-physics-ease, ease),
+    --ve-radius-xl     var(--ve-physics-transition, 400ms) var(--ve-physics-ease, ease),
+    --ve-density       240ms var(--ve-physics-ease, ease),
+    font-size          240ms var(--ve-physics-ease, ease);
+}
 
 /* Minimum touch targets at all densities */
 [data-density] button,
