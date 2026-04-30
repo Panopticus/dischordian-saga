@@ -18,6 +18,14 @@ import {
   type CryoMysteryHotspotId,
 } from "../cryoBayMystery";
 import type { CombineRule, RoomMysteryModule } from "./_template";
+import {
+  BLOOD_ARCHIVE_MYSTERY,
+  DIMENSIONAL_OBSERVATORY_MYSTERY,
+  ELEMENTAL_FORGE_MYSTERY,
+  HYBRID_SANCTUM_MYSTERY,
+  PROBABILITY_CHAMBER_MYSTERY,
+  THE_BETWEEN_MYSTERY,
+} from "./_speciesExclusive";
 import { ANTIQUARIAN_LIBRARY_MYSTERY } from "./antiquarianLibrary";
 import { ARCHIVES_MYSTERY } from "./archives";
 import { ARMORY_MYSTERY } from "./armory";
@@ -83,6 +91,14 @@ export const ROOM_MYSTERY_REGISTRY: Readonly<Record<string, RoomMysteryModule>> 
   "synthesis-chamber": SYNTHESIS_CHAMBER_MYSTERY as RoomMysteryModule,
   "guild-sanctum": GUILD_SANCTUM_MYSTERY as RoomMysteryModule,
   "social-hub": SOCIAL_HUB_MYSTERY as RoomMysteryModule,
+  // Species-exclusive bonus rooms — gated by canAccessRoom() in
+  // apps/shared/characterCreationImpact.ts. Cosmetic flags only.
+  the_elemental_forge: ELEMENTAL_FORGE_MYSTERY as RoomMysteryModule,
+  blood_archive: BLOOD_ARCHIVE_MYSTERY as RoomMysteryModule,
+  probability_chamber: PROBABILITY_CHAMBER_MYSTERY as RoomMysteryModule,
+  dimensional_observatory: DIMENSIONAL_OBSERVATORY_MYSTERY as RoomMysteryModule,
+  hybrid_sanctum: HYBRID_SANCTUM_MYSTERY as RoomMysteryModule,
+  the_between: THE_BETWEEN_MYSTERY as RoomMysteryModule,
 };
 
 /** Get the module for a room id, or null if no mystery is authored. */
