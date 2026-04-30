@@ -18,14 +18,39 @@ import {
   type CryoMysteryHotspotId,
 } from "../cryoBayMystery";
 import type { CombineRule, RoomMysteryModule } from "./_template";
+import {
+  BLOOD_ARCHIVE_MYSTERY,
+  DIMENSIONAL_OBSERVATORY_MYSTERY,
+  ELEMENTAL_FORGE_MYSTERY,
+  HYBRID_SANCTUM_MYSTERY,
+  PROBABILITY_CHAMBER_MYSTERY,
+  THE_BETWEEN_MYSTERY,
+} from "./_speciesExclusive";
+import { ANTIQUARIAN_LIBRARY_MYSTERY } from "./antiquarianLibrary";
 import { ARCHIVES_MYSTERY } from "./archives";
 import { ARMORY_MYSTERY } from "./armory";
 import { BRIDGE_MYSTERY } from "./bridge";
 import { CAPTAINS_QUARTERS_MYSTERY } from "./captainsQuarters";
 import { CARGO_HOLD_MYSTERY } from "./cargoHold";
+import { CHAOS_FORGE_MYSTERY } from "./chaosForge";
+import { CIPHER_DEN_MYSTERY } from "./cipherDen";
 import { COMMS_ARRAY_MYSTERY } from "./commsArray";
+import { DREAMS_WORKSHOP_MYSTERY } from "./dreamsWorkshop";
+import { ELEMENTAL_NEXUS_MYSTERY } from "./elementalNexus";
 import { ENGINEERING_MYSTERY } from "./engineering";
+import { ENGINEERING_CORE_MYSTERY } from "./engineeringCore";
+import { FORGE_WORKSHOP_MYSTERY } from "./forgeWorkshop";
+import { GUILD_SANCTUM_MYSTERY } from "./guildSanctum";
 import { MEDICAL_BAY_MYSTERY } from "./medicalBay";
+import { OBSERVATION_DECK_MYSTERY } from "./observationDeck";
+import { ORACLE_SANCTUM_MYSTERY } from "./oracleSanctum";
+import { ORDER_TRIBUNAL_MYSTERY } from "./orderTribunal";
+import { QUANTUM_LAB_MYSTERY } from "./quantumLab";
+import { SHADOW_VAULT_MYSTERY } from "./shadowVault";
+import { SOCIAL_HUB_MYSTERY } from "./socialHub";
+import { STATION_DOCK_MYSTERY } from "./stationDock";
+import { SYNTHESIS_CHAMBER_MYSTERY } from "./synthesisChamber";
+import { WAR_ROOM_MYSTERY } from "./warRoom";
 
 /** Cryo Bay adapter — wraps the legacy responses table in the
  *  generic module shape so the registry can dispatch to it. The
@@ -49,6 +74,31 @@ export const ROOM_MYSTERY_REGISTRY: Readonly<Record<string, RoomMysteryModule>> 
   "cargo-hold": CARGO_HOLD_MYSTERY as RoomMysteryModule,
   "armory": ARMORY_MYSTERY as RoomMysteryModule,
   "captains-quarters": CAPTAINS_QUARTERS_MYSTERY as RoomMysteryModule,
+  "shadow-vault": SHADOW_VAULT_MYSTERY as RoomMysteryModule,
+  "cipher-den": CIPHER_DEN_MYSTERY as RoomMysteryModule,
+  "observation-deck": OBSERVATION_DECK_MYSTERY as RoomMysteryModule,
+  "war-room": WAR_ROOM_MYSTERY as RoomMysteryModule,
+  "station-dock": STATION_DOCK_MYSTERY as RoomMysteryModule,
+  "forge-workshop": FORGE_WORKSHOP_MYSTERY as RoomMysteryModule,
+  "antiquarian-library": ANTIQUARIAN_LIBRARY_MYSTERY as RoomMysteryModule,
+  "engineering-core": ENGINEERING_CORE_MYSTERY as RoomMysteryModule,
+  "oracle-sanctum": ORACLE_SANCTUM_MYSTERY as RoomMysteryModule,
+  "order-tribunal": ORDER_TRIBUNAL_MYSTERY as RoomMysteryModule,
+  "dreams-workshop-subbasement": DREAMS_WORKSHOP_MYSTERY as RoomMysteryModule,
+  "chaos-forge": CHAOS_FORGE_MYSTERY as RoomMysteryModule,
+  "elemental-nexus": ELEMENTAL_NEXUS_MYSTERY as RoomMysteryModule,
+  "quantum-lab": QUANTUM_LAB_MYSTERY as RoomMysteryModule,
+  "synthesis-chamber": SYNTHESIS_CHAMBER_MYSTERY as RoomMysteryModule,
+  "guild-sanctum": GUILD_SANCTUM_MYSTERY as RoomMysteryModule,
+  "social-hub": SOCIAL_HUB_MYSTERY as RoomMysteryModule,
+  // Species-exclusive bonus rooms — gated by canAccessRoom() in
+  // apps/shared/characterCreationImpact.ts. Cosmetic flags only.
+  the_elemental_forge: ELEMENTAL_FORGE_MYSTERY as RoomMysteryModule,
+  blood_archive: BLOOD_ARCHIVE_MYSTERY as RoomMysteryModule,
+  probability_chamber: PROBABILITY_CHAMBER_MYSTERY as RoomMysteryModule,
+  dimensional_observatory: DIMENSIONAL_OBSERVATORY_MYSTERY as RoomMysteryModule,
+  hybrid_sanctum: HYBRID_SANCTUM_MYSTERY as RoomMysteryModule,
+  the_between: THE_BETWEEN_MYSTERY as RoomMysteryModule,
 };
 
 /** Get the module for a room id, or null if no mystery is authored. */
