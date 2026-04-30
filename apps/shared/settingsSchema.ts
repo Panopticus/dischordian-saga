@@ -45,6 +45,13 @@ export const settingsSchema = z.object({
   musicVolume: z.number().min(0).max(1).default(0.6),
   sfxVolume: z.number().min(0).max(1).default(0.8),
   ambientEnabled: z.boolean().default(true),
+  // When true, the on-login Dischordian Logic transmission does NOT
+  // pop the CRT modal. Instead, the next undelivered transmission is
+  // silently routed to the player's INBOX tab in the Transmission Deck
+  // where they can watch it on demand. The fictional Meme is hijacking
+  // a frequency, so this is the player's volume control on his pirate
+  // signal — not a daily-login dismissal. Default off; players opt in.
+  muteLoginTransmissions: z.boolean().default(false),
 
   // Game
   skipTutorials: z.boolean().default(false),
