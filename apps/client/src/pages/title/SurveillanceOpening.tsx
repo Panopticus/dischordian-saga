@@ -33,6 +33,10 @@ interface SurveillanceOpeningProps {
   /** Force-show even if previously dismissed. Wired to a future
    *  Architect's Console toggle; defaults off in production. */
   force?: boolean;
+  /** Drop the root radial-gradient background so the handshake can
+   *  overlay another full-screen surface (e.g. the opening cinematic
+   *  video) running behind it. Defaults to false (solid bg). */
+  transparent?: boolean;
 }
 
 interface Fingerprint {
@@ -102,7 +106,11 @@ function buildLines(fp: Fingerprint): ScanLine[] {
   ];
 }
 
-export function SurveillanceOpening({ onComplete, force = false }: SurveillanceOpeningProps) {
+export function SurveillanceOpening({
+  onComplete,
+  force = false,
+  transparent = false,
+}: SurveillanceOpeningProps) {
   const [stage, setStage] = useState<Stage>(() => {
     if (force) return "gate";
     try {
@@ -174,10 +182,16 @@ export function SurveillanceOpening({ onComplete, force = false }: SurveillanceO
         inset: 0,
         zIndex: 10000,
         // Near-black with a faint cyan vignette so the readouts feel
-        // isolated "inside a screen". Snap-shut tints red.
-        background: snapping
-          ? "radial-gradient(circle at 50% 50%, #2a0004 0%, #0a0004 70%)"
-          : "radial-gradient(circle at 50% 50%, #061018 0%, #02000A 70%)",
+        // isolated "inside a screen". Snap-shut tints red. In
+        // transparent mode (overlaying a video) we render no bg so
+        // the surface beneath (the cinematic) shows through.
+        background: transparent
+          ? snapping
+            ? "rgba(42, 0, 4, 0.45)"
+            : "transparent"
+          : snapping
+            ? "radial-gradient(circle at 50% 50%, #2a0004 0%, #0a0004 70%)"
+            : "radial-gradient(circle at 50% 50%, #061018 0%, #02000A 70%)",
         color: "#33E2E6",
         fontFamily: "'JetBrains Mono', 'Fira Code', monospace",
         display: "flex",
