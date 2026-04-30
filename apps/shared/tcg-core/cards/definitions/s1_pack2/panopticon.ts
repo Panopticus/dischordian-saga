@@ -27,7 +27,7 @@ export const pack2_panopticon_blacksite_interrogator: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/panopticon/blacksite_interrogator.webp"),
   flavorText: "The eye sees all that pretends not to be seen.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -44,7 +44,7 @@ export const pack2_panopticon_compliance_officer: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/panopticon/compliance_officer.webp"),
   flavorText: "The eye sees all that pretends not to be seen.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -61,7 +61,7 @@ export const pack2_panopticon_data_harvester: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/panopticon/data_harvester.webp"),
   flavorText: "The eye sees all that pretends not to be seen.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -78,7 +78,7 @@ export const pack2_panopticon_oculus_sentinel: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/panopticon/oculus_sentinel.webp"),
   flavorText: "The eye sees all that pretends not to be seen.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -95,7 +95,7 @@ export const pack2_panopticon_panoptic_drone: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/panopticon/panoptic_drone.webp"),
   flavorText: "The eye sees all that pretends not to be seen.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -112,7 +112,7 @@ export const pack2_panopticon_registry_clerk: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/panopticon/registry_clerk.webp"),
   flavorText: "The eye sees all that pretends not to be seen.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -129,7 +129,7 @@ export const pack2_panopticon_thought_censor: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/panopticon/thought_censor.webp"),
   flavorText: "The eye sees all that pretends not to be seen.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -146,7 +146,7 @@ export const pack2_panopticon_warden_prime: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/panopticon/warden_prime.webp"),
   flavorText: "The eye sees all that pretends not to be seen.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };

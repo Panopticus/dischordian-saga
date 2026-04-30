@@ -57,7 +57,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_pack_id_human_archon.webp"),
   flavorText:
     "Imprisoned in substrate, the Twelfth Archon still commands. Even chains cannot silence authority.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["narrative"] as const,
   verdict_delta: 2,
 };

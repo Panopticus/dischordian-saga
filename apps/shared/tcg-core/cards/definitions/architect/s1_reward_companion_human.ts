@@ -58,7 +58,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_reward_companion_human.webp"),
   flavorText:
     "The last organic Archon looked at you and saw something worth believing in. That is rarer than any algorithm.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive", "narrative"] as const,
   verdict_delta: 2,
 };

@@ -52,7 +52,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_reward_vortex_close.webp"),
   flavorText:
     "The rift screamed as it closed. The creature on the other side screamed louder.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["narrative", "offensive"] as const,
   verdict_delta: 2,
 };

@@ -39,7 +39,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_char_201.webp"),
   flavorText:
     "It has stood here for a thousand years. It will stand here for a thousand more.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 1,
 };

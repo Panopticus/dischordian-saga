@@ -33,7 +33,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_char_072.webp"),
   flavorText:
     "It does not spread through contact. It spreads through comprehension.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["reactive"] as const,
   verdict_delta: 1,
 };

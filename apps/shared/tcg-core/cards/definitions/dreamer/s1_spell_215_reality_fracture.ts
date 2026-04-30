@@ -59,7 +59,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_spell_215.webp"),
   flavorText:
     "The crack runs through everything. On one side, nightmare. On the other, a gentle dawn.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive", "offensive"] as const,
   verdict_delta: 1,
 };

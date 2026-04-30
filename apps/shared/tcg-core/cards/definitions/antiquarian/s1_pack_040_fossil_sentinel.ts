@@ -44,7 +44,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_pack_040.webp"),
   flavorText:
     "It was buried for a thousand ages. Each one made it stronger. Now it remembers why it was buried.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 1,
 };

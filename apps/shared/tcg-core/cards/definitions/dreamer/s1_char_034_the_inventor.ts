@@ -94,7 +94,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_char_034.webp"),
   flavorText:
     "Driven by the Dreamer's visions, the Inventor crafts tools and innovations that can empower or undermine any faction, de...",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive", "evidence", "reactive"] as const,
   verdict_delta: 1,
 };

@@ -52,7 +52,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_reward_pvp_legend.webp"),
   flavorText:
     "When the Legend enters the arena, even the walls lean in to watch.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["narrative"] as const,
   verdict_delta: 2,
 };

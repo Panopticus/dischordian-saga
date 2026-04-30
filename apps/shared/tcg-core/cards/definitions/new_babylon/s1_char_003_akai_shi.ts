@@ -82,7 +82,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_char_003.webp"),
   flavorText:
     "A. Akai Shi was a revered member of the Potentials, a group of beings who emerged to restore balance in the universe after the Fall of Reality.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["evidence", "narrative"] as const,
   verdict_delta: 2,
 };

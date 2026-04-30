@@ -24,7 +24,7 @@ export const antiquarian_t1: CardDefinition = {
   art: assetUrl("art/cards/imprint/antiquarian_t1.webp"),
   flavorText:
     "Grow. A robed figure reading the margins of a book thicker than any shelf should be able to hold. He has not looked up yet.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive", "narrative"] as const,
   verdict_delta: 1,
 };
@@ -42,7 +42,7 @@ export const antiquarian_t2: CardDefinition = {
   art: assetUrl("art/cards/imprint/antiquarian_t2.webp"),
   flavorText:
     "Grow. He is reading the ending you will reach if you keep playing the way you are playing. He is making small disapproving notes in pencil.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive", "narrative"] as const,
   verdict_delta: 1,
 };
@@ -60,7 +60,7 @@ export const antiquarian_t3: CardDefinition = {
   art: assetUrl("art/cards/imprint/antiquarian_t3.webp"),
   flavorText:
     "Grow. Rebirth. The Antiquarian has already lived the conclusion of this match before. He is using the rematch to correct his earlier annotations.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 1,
 };
@@ -88,7 +88,7 @@ export const antiquarian_t4: CardDefinition = {
   art: assetUrl("art/cards/imprint/antiquarian_t4.webp"),
   flavorText:
     "Grow. Rebirth. On deploy, draw a card. He pulls the next page from a book you are beginning to suspect he wrote about you specifically.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive", "narrative"] as const,
   verdict_delta: 2,
 };
@@ -116,7 +116,7 @@ export const antiquarian_t5: CardDefinition = {
   art: assetUrl("art/cards/imprint/antiquarian_t5.webp"),
   flavorText:
     "Grow. Rebirth. Forcefield. On deploy, draw 2. The Antiquarian has catalogued twelve endings for the Dischordian universe. He has not told anyone which one he thinks this particular game is headed for. He does not want to ruin it.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive", "narrative"] as const,
   verdict_delta: 2,
 };

@@ -48,7 +48,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_char_020.webp"),
   flavorText:
     "Formed by merging the consciousnesses of six chosen citizens into a living computer, it was designed to govern New Babylon with absolute fairness.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 1,
 };

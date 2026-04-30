@@ -34,7 +34,7 @@ export const agent_zero_t1: CardDefinition = {
   art: assetUrl("art/cards/imprint/agent_zero_t1.webp"),
   flavorText:
     "A silhouette at the edge of your memory. The shape of her moves before you know what you were seeing.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive", "narrative"] as const,
   verdict_delta: 1,
 };
@@ -67,7 +67,7 @@ export const agent_zero_t2: CardDefinition = {
   art: assetUrl("art/cards/imprint/agent_zero_t2.webp"),
   flavorText:
     "Stealth — 1 turn. The shape of her teaching you to look away from where she actually is.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive", "narrative"] as const,
   verdict_delta: 1,
 };
@@ -109,7 +109,7 @@ export const agent_zero_t3: CardDefinition = {
   art: assetUrl("art/cards/imprint/agent_zero_t3.webp"),
   flavorText:
     "Stealth — 2 turns. Reveals when she strikes. You start to see the moves she would have made last week if she had needed to.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["confession"] as const,
   verdict_delta: -2,
 };
@@ -173,7 +173,7 @@ export const agent_zero_t4: CardDefinition = {
   art: assetUrl("art/cards/imprint/agent_zero_t4.webp"),
   flavorText:
     "Stealth — 3 turns. Ignores 3 enemy armor. Reveals when she strikes. You can feel the shape of the real Agent Zero now, and she is entirely made of decisions you would not have thought to make.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["confession", "evidence", "narrative"] as const,
   verdict_delta: -2,
 };
@@ -243,7 +243,7 @@ export const agent_zero_t5: CardDefinition = {
   art: assetUrl("art/cards/imprint/agent_zero_t5.webp"),
   flavorText:
     "Rush. Stealth — 3 turns. Ignores 3 enemy armor. She stole Ark 1047 from the Panopticon's docking systems without raising a single alarm. The Warlord killed her for it. The Insurgency brought her back anyway, and she has not once acted like somebody with anything left to lose.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["evidence", "narrative"] as const,
   verdict_delta: 2,
 };

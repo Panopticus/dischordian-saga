@@ -57,7 +57,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_pack_pet_glyph_moth_2.webp"),
   flavorText:
     "Its wings are prayers. Its dust is a blessing.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive", "narrative", "offensive", "reactive"] as const,
   verdict_delta: 2,
 };

@@ -39,7 +39,7 @@ export const spy_01: CardDefinition = {
   art: assetUrl("art/cards/class/s1_class_spy_01.webp"),
   flavorText:
     "Stealth — 1 turn. The first spies the Insurgency ran weren't trained; they were chosen because the cameras had stopped noticing them years before anyone asked.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive", "narrative"] as const,
   verdict_delta: 1,
 };
@@ -67,7 +67,7 @@ export const spy_02: CardDefinition = {
   art: assetUrl("art/cards/class/s1_class_spy_02.webp"),
   flavorText:
     "Draw 2 cards. A dead drop is an address nobody agreed on. The message is always already there when you arrive.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["narrative"] as const,
   verdict_delta: 1,
 };
@@ -97,7 +97,7 @@ export const spy_03: CardDefinition = {
   art: assetUrl("art/cards/class/s1_class_spy_03.webp"),
   flavorText:
     "Backstab. Stealth — 2 turns. The cover name is not a lie. It is a separate person you built and then walked into like a coat.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["narrative", "offensive"] as const,
   verdict_delta: 2,
 };
@@ -124,7 +124,7 @@ export const spy_04: CardDefinition = {
   art: assetUrl("art/cards/class/s1_class_spy_04.webp"),
   flavorText:
     "Silence the enemy general. Every operative eventually has to kill the person who recruited them, usually to protect the secret of having been recruited at all.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["narrative"] as const,
   verdict_delta: 2,
 };
@@ -163,7 +163,7 @@ export const spy_05: CardDefinition = {
   art: assetUrl("art/cards/class/s1_class_spy_05.webp"),
   flavorText:
     "Backstab. Stealth — 3 turns. On deploy, draw 2. The Human trained only a handful of apprentices and none of them know each other. They will not meet in the sequel. That's the point.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["narrative"] as const,
   verdict_delta: 2,
 };

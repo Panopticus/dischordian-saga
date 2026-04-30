@@ -41,7 +41,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_pack_033.webp"),
   flavorText:
     "He does not knock. He does not ask. He simply subtracts.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 1,
 };

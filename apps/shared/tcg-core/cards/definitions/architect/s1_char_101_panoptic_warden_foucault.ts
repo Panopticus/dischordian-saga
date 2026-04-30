@@ -47,7 +47,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_char_101.webp"),
   flavorText:
     "His chrome jaw clicks with each question. The answers are already known — the interrogation is merely ceremony.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["reactive"] as const,
   verdict_delta: 1,
 };

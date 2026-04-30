@@ -42,7 +42,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_spell_235.webp"),
   flavorText:
     "Before the first word was spoken, there was the silence. The Antiquarian remembers it well.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["narrative", "offensive"] as const,
   verdict_delta: 2,
 };

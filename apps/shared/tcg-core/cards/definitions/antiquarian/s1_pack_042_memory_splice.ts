@@ -49,7 +49,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_pack_042.webp"),
   flavorText:
     "She reached into yesterday and pulled out a moment before the wound. The body remembered.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 1,
 };

@@ -38,7 +38,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_pack_pet_glyph_moth_1.webp"),
   flavorText:
     "It clings to the underside of reality, waiting to become something worth noticing.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 1,
 };

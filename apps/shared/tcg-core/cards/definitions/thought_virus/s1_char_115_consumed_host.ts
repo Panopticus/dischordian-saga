@@ -59,7 +59,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_char_115.webp"),
   flavorText:
     "The body runs. The mind is already gone. What remains is hunger wearing a human shape.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 1,
 };

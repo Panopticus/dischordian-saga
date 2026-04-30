@@ -54,7 +54,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_reward_vote_t1_defiance.webp"),
   flavorText:
     "Agent Zero's last frequency still carries. The Booster makes sure everyone hears it.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 1,
 };

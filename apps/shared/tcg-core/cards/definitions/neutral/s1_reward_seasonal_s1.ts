@@ -51,7 +51,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_reward_seasonal_s1.webp"),
   flavorText:
     "The Saga does not end. It transforms. And those who endure the transformation are remade.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["narrative"] as const,
   verdict_delta: 2,
 };

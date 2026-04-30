@@ -115,7 +115,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_char_029.webp"),
   flavorText:
     "Connections Appearances No connected characters. No appearances in stories.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["evidence", "reactive"] as const,
   verdict_delta: 1,
 };

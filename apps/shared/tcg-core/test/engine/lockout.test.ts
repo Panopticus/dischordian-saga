@@ -68,7 +68,7 @@ function stubDef(opts: {
     abilities: opts.abilities ?? [],
     art: "/test.webp",
     flavorText: opts.flavorText ?? "",
-    rulesVersion: "1.0.0",
+    rulesVersion: "1.1.0",
   };
 }
 

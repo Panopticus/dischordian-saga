@@ -51,7 +51,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_char_120.webp"),
   flavorText:
     "The crystal remembers every blow it absorbs. The guard does not need to.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 1,
 };

@@ -45,7 +45,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_reward_vote_t1_balanced.webp"),
   flavorText:
     "She took no side in the vote. Somehow, both sides owed her favors afterward.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["narrative"] as const,
   verdict_delta: 1,
 };

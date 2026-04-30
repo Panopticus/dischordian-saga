@@ -51,7 +51,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_reward_raid_contrib.webp"),
   flavorText:
     "The warband was losing. Then someone started singing. Then everyone did.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive", "narrative"] as const,
   verdict_delta: 2,
 };

@@ -27,7 +27,7 @@ export const pack2_dimension_bayes_adept: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dimension/bayes_adept.webp"),
   flavorText: "A choice the universe forgot it had to make.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -44,7 +44,7 @@ export const pack2_dimension_cartographer_of_elsewhere: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dimension/cartographer_of_elsewhere.webp"),
   flavorText: "A choice the universe forgot it had to make.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -61,7 +61,7 @@ export const pack2_dimension_consensus_weaver: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dimension/consensus_weaver.webp"),
   flavorText: "A choice the universe forgot it had to make.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -78,7 +78,7 @@ export const pack2_dimension_folded_distance: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dimension/folded_distance.webp"),
   flavorText: "A choice the universe forgot it had to make.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -95,7 +95,7 @@ export const pack2_dimension_ground_truth_witness: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dimension/ground_truth_witness.webp"),
   flavorText: "A choice the universe forgot it had to make.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -112,7 +112,7 @@ export const pack2_dimension_hour_unmaker: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dimension/hour_unmaker.webp"),
   flavorText: "A choice the universe forgot it had to make.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -129,7 +129,7 @@ export const pack2_dimension_loop_walker: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dimension/loop_walker.webp"),
   flavorText: "A choice the universe forgot it had to make.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -146,7 +146,7 @@ export const pack2_dimension_moment_keeper: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dimension/moment_keeper.webp"),
   flavorText: "A choice the universe forgot it had to make.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -163,7 +163,7 @@ export const pack2_dimension_outcome_gambler: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dimension/outcome_gambler.webp"),
   flavorText: "A choice the universe forgot it had to make.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -180,7 +180,7 @@ export const pack2_dimension_parallax_walker: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dimension/parallax_walker.webp"),
   flavorText: "A choice the universe forgot it had to make.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -197,7 +197,7 @@ export const pack2_dimension_sum_over_histories: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dimension/sum_over_histories.webp"),
   flavorText: "A choice the universe forgot it had to make.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -214,7 +214,7 @@ export const pack2_dimension_thing_actually_happening: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dimension/thing_actually_happening.webp"),
   flavorText: "A choice the universe forgot it had to make.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };

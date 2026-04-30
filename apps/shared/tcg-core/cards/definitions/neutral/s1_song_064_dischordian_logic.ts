@@ -43,7 +43,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_song_064.webp"),
   flavorText:
     "In the paradox engine of Dischord, contradictions are not errors — they are ammunition.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["narrative", "offensive"] as const,
   verdict_delta: 2,
 };

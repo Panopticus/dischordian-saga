@@ -44,7 +44,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_spell_103.webp"),
   flavorText:
     "Error detected in subsystem 7-Kappa. Initiating forced recalibration. Estimated downtime: one operational cycle.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 1,
 };

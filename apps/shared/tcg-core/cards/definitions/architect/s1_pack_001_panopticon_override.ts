@@ -47,7 +47,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_pack_001.webp"),
   flavorText:
     "The Panopticon does not destroy rebellion. It simply makes rebellion forget what it was fighting for.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["narrative", "offensive"] as const,
   verdict_delta: 2,
 };

@@ -46,7 +46,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_reward_eidolon_strain.webp"),
   flavorText:
     "It was a plague once. Now it grieves for every life it took. The grief makes it stronger — and that is its final cruelty.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["reactive"] as const,
   verdict_delta: 1,
 };

@@ -53,7 +53,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_reward_casino_high_roller.webp"),
   flavorText:
     "He walked into the Casino with nothing and walked out owning three city blocks. Then he went back in.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["narrative", "offensive"] as const,
   verdict_delta: 2,
 };

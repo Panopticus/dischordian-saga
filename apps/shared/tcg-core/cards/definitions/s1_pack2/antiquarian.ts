@@ -27,7 +27,7 @@ export const pack2_antiquarian_age_ender: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/age_ender.webp"),
   flavorText: "Of the antiquarian.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -44,7 +44,7 @@ export const pack2_antiquarian_age_of_reckoning: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/age_of_reckoning.webp"),
   flavorText: "Of the antiquarian.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -61,7 +61,7 @@ export const pack2_antiquarian_age_of_silence: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/age_of_silence.webp"),
   flavorText: "Of the antiquarian.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -78,7 +78,7 @@ export const pack2_antiquarian_age_walker: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/age_walker.webp"),
   flavorText: "Of the antiquarian.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -95,7 +95,7 @@ export const pack2_antiquarian_antiquarians_referendum: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/antiquarians_referendum.webp"),
   flavorText: "Of the antiquarian.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -112,7 +112,7 @@ export const pack2_antiquarian_archaeological_dig: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/archaeological_dig.webp"),
   flavorText: "Of the antiquarian.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -129,7 +129,7 @@ export const pack2_antiquarian_chrono_anchor: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/chrono_anchor.webp"),
   flavorText: "Of the antiquarian.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -146,7 +146,7 @@ export const pack2_antiquarian_chrono_blade: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/chrono_blade.webp"),
   flavorText: "Of the antiquarian.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 0,
 };
@@ -163,7 +163,7 @@ export const pack2_antiquarian_chronoguard_sentinel: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/chronoguard_sentinel.webp"),
   flavorText: "Of the antiquarian.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -180,7 +180,7 @@ export const pack2_antiquarian_chronosplicer: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/chronosplicer.webp"),
   flavorText: "Of the antiquarian.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -197,7 +197,7 @@ export const pack2_antiquarian_complete_archive: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/complete_archive.webp"),
   flavorText: "Of the antiquarian.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -214,7 +214,7 @@ export const pack2_antiquarian_epoch_rewind: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/epoch_rewind.webp"),
   flavorText: "Of the antiquarian.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -231,7 +231,7 @@ export const pack2_antiquarian_epoch_walker: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/epoch_walker.webp"),
   flavorText: "Of the antiquarian.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -248,7 +248,7 @@ export const pack2_antiquarian_epoch_watcher: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/epoch_watcher.webp"),
   flavorText: "Of the antiquarian.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -265,7 +265,7 @@ export const pack2_antiquarian_era_guardian: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/era_guardian.webp"),
   flavorText: "Of the antiquarian.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -282,7 +282,7 @@ export const pack2_antiquarian_era_shift: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/era_shift.webp"),
   flavorText: "Of the antiquarian.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -299,7 +299,7 @@ export const pack2_antiquarian_fossil_record: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/fossil_record.webp"),
   flavorText: "Of the antiquarian.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -316,7 +316,7 @@ export const pack2_antiquarian_fossil_sentinel: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/fossil_sentinel.webp"),
   flavorText: "Of the antiquarian.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -333,7 +333,7 @@ export const pack2_antiquarian_hourglass_golem: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/hourglass_golem.webp"),
   flavorText: "Of the antiquarian.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -350,7 +350,7 @@ export const pack2_antiquarian_knowledge_keeper: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/knowledge_keeper.webp"),
   flavorText: "Of the antiquarian.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -367,7 +367,7 @@ export const pack2_antiquarian_memory_splice: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/memory_splice.webp"),
   flavorText: "Of the antiquarian.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -384,7 +384,7 @@ export const pack2_antiquarian_memory_thief: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/memory_thief.webp"),
   flavorText: "Of the antiquarian.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -401,7 +401,7 @@ export const pack2_antiquarian_paradox_acolyte: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/paradox_acolyte.webp"),
   flavorText: "Of the antiquarian.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -418,7 +418,7 @@ export const pack2_antiquarian_preservation_field: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/preservation_field.webp"),
   flavorText: "Of the antiquarian.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -435,7 +435,7 @@ export const pack2_antiquarian_questmaster: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/questmaster.webp"),
   flavorText: "Of the antiquarian.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -452,7 +452,7 @@ export const pack2_antiquarian_relic_keeper: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/relic_keeper.webp"),
   flavorText: "Of the antiquarian.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -469,7 +469,7 @@ export const pack2_antiquarian_relic_scholar: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/relic_scholar.webp"),
   flavorText: "Of the antiquarian.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -486,7 +486,7 @@ export const pack2_antiquarian_stoic_guardian: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/stoic_guardian.webp"),
   flavorText: "Of the antiquarian.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -503,7 +503,7 @@ export const pack2_antiquarian_temporal_archivist: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/temporal_archivist.webp"),
   flavorText: "Of the antiquarian.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -520,7 +520,7 @@ export const pack2_antiquarian_temporal_collapse: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/temporal_collapse.webp"),
   flavorText: "Of the antiquarian.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -537,7 +537,7 @@ export const pack2_antiquarian_temporal_fracture: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/temporal_fracture.webp"),
   flavorText: "Of the antiquarian.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -554,7 +554,7 @@ export const pack2_antiquarian_the_antiquarian_general: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/the_antiquarian_general.webp"),
   flavorText: "Of the antiquarian.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -571,7 +571,7 @@ export const pack2_antiquarian_the_antiquarian_legendary: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/the_antiquarian_legendary.webp"),
   flavorText: "Of the antiquarian.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 0,
 };
@@ -588,7 +588,7 @@ export const pack2_antiquarian_the_archivist_supreme: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/the_archivist_supreme.webp"),
   flavorText: "Of the antiquarian.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -605,7 +605,7 @@ export const pack2_antiquarian_the_programmer: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/the_programmer.webp"),
   flavorText: "Of the antiquarian.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -622,7 +622,7 @@ export const pack2_antiquarian_time_capsule: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/time_capsule.webp"),
   flavorText: "Of the antiquarian.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -639,7 +639,7 @@ export const pack2_antiquarian_timeline_collapse: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/timeline_collapse.webp"),
   flavorText: "Of the antiquarian.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -656,7 +656,7 @@ export const pack2_antiquarian_timeline_splitter: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/timeline_splitter.webp"),
   flavorText: "Of the antiquarian.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };
@@ -673,7 +673,7 @@ export const pack2_antiquarian_vaccine_protocol: CardDefinition = {
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/vaccine_protocol.webp"),
   flavorText: "Of the antiquarian.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
 };

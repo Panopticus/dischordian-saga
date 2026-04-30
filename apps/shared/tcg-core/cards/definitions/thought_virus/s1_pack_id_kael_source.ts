@@ -54,7 +54,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_pack_id_kael_source.webp"),
   flavorText:
     "There is no Kael anymore. There is only the signal.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["narrative", "offensive"] as const,
   verdict_delta: 2,
 };

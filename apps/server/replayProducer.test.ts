@@ -54,7 +54,7 @@ function stubSnapshot(
     player1: { userId: 1, userName: "Alice" },
     player2: { userId: 2, userName: "Bob" },
     winnerSide: 0,
-    gameState: stubGameState("seed-abc", "1.0.0"),
+    gameState: stubGameState("seed-abc", "1.1.0"),
     actionLog: [],
     ...overrides,
   };

@@ -30,7 +30,7 @@ export const neyon_race_01: CardDefinition = {
   art: assetUrl("art/cards/race/s1_race_neyon_01.webp"),
   flavorText:
     "On deploy, draw 1. A Ne-Yon adept has the same brain the first humans had, and they have learned to use eleven percent of it, which is eleven percent more than the other races believe is possible.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["narrative"] as const,
   verdict_delta: 1,
 };
@@ -48,7 +48,7 @@ export const neyon_race_02: CardDefinition = {
   art: assetUrl("art/cards/race/s1_race_neyon_02.webp"),
   flavorText:
     "Flying. Ne-Yon Bondwalkers can ride any pet species that has agreed to ride them back. The negotiation is the first thing they teach at the academy, and the academy is sometimes a bird.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["narrative", "offensive"] as const,
   verdict_delta: 2,
 };
@@ -72,7 +72,7 @@ export const neyon_race_03: CardDefinition = {
   art: assetUrl("art/cards/race/s1_race_neyon_03.webp"),
   flavorText:
     "Flying. Rush. On deploy, draw 2. Kael was the first human the Dischordian cosmology let through the gate that became Ne-Yon, and every Ne-Yon you meet after this match will be wearing her smile somewhere on their own face without knowing why.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["narrative", "offensive"] as const,
   verdict_delta: 2,
 };

@@ -45,7 +45,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_spell_121.webp"),
   flavorText:
     "The wound was real. The scar was earned. But the Antiquarian remembers a version of you that never bled, and that version is more useful now.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 1,
 };

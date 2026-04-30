@@ -43,7 +43,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_song_060.webp"),
   flavorText:
     "A N0NOS soul that can't be keyed. They can't watch what they can't see. — NØX manifesto",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive", "narrative"] as const,
   verdict_delta: 2,
 };

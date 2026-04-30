@@ -55,7 +55,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_pack_seed_governance.webp"),
   flavorText:
     "The vote is called. The Archive opens. Democracy remembers what tyrants forget.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive", "evidence"] as const,
   verdict_delta: 1,
 };

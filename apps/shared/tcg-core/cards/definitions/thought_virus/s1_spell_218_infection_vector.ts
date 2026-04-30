@@ -44,7 +44,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_spell_218.webp"),
   flavorText:
     "It starts as a whisper in the neurons. By tomorrow, the arm won't lift.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 1,
 };

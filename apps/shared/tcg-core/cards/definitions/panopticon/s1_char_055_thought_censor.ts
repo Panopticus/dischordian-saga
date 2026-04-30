@@ -39,7 +39,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_char_055.webp"),
   flavorText:
     "She does not burn books. She burns the desire to read them.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 1,
 };

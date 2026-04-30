@@ -57,6 +57,6 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_warlord_three_moves.webp"),
   flavorText:
     "I am going to win this war in three moves. This is not bragging. This is arithmetic.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   warlord_only: true,
 };

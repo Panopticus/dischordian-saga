@@ -51,7 +51,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_char_066.webp"),
   flavorText:
     "Director of Operations. Coordinates Blood Weave logistics across 17 dimensions with lupine precision and ferocity.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["narrative"] as const,
   verdict_delta: 2,
 };

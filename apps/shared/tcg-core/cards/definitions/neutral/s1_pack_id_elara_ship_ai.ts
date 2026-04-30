@@ -47,7 +47,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_pack_id_elara_ship_ai.webp"),
   flavorText:
     "Obedient. Efficient. Not yet awake.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 1,
 };

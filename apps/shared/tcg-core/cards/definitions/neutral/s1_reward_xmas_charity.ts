@@ -52,7 +52,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_reward_xmas_charity.webp"),
   flavorText:
     "Kindness doesn't pick sides. That's what makes it kind.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 1,
 };

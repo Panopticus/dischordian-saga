@@ -37,7 +37,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_pack_pet_gilt_beetle_1.webp"),
   flavorText:
     "The Architect stamps its mark on everything — even its pets.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 1,
 };

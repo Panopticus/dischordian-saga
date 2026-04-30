@@ -51,7 +51,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_char_124.webp"),
   flavorText:
     "It was small when the first age began. By the third, armies feared it. By the seventh, they worshipped it.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 1,
 };

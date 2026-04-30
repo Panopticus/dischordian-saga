@@ -35,7 +35,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_char_087.webp"),
   flavorText:
     "It was built from the wreckage of a dozen machines, none of which were designed to kill. It learned that part on its own.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 1,
   // §5.7 alignment-but-stronger: a rebuilt-from-scrap construct reads

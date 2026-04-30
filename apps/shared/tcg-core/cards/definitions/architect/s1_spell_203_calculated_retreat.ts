@@ -44,7 +44,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_spell_203.webp"),
   flavorText:
     "Retreat is merely attack in the temporal dimension.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 1,
 };

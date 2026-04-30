@@ -115,7 +115,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_char_038.webp"),
   flavorText:
     "A. The Meme was the fifth Archon created by the Architect in Year 298 A.A., designed to manipulate human thought and culture. Believed destroyed by the White Oracle \u2014 though the broadcasts never stopped...",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["evidence", "narrative", "reactive"] as const,
   verdict_delta: 2,
 };

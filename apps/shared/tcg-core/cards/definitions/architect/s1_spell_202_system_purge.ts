@@ -42,7 +42,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_spell_202.webp"),
   flavorText:
     "Insufficient threat level detected. Purging. Purging. Purged.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 1,
 };

@@ -72,7 +72,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_char_008.webp"),
   flavorText:
     "Seven iterations of war forged a general who no longer flinches — his skin remembers every blade that ever failed to fell him.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive", "evidence", "reactive"] as const,
   verdict_delta: 1,
 };

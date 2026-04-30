@@ -56,7 +56,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_char_100.webp"),
   flavorText:
     "The Architect's hand reaches through the Collector. What was your name? It does not matter — you never had one.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["narrative"] as const,
   verdict_delta: 2,
 };

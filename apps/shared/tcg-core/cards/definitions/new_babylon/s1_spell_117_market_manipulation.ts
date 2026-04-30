@@ -37,7 +37,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_spell_117.webp"),
   flavorText:
     "The market obeyed Locke's whisper before it heard the shout. By the time the correction came, fortunes had already changed hands.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["narrative"] as const,
   verdict_delta: 1,
 };

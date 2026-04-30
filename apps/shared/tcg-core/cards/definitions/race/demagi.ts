@@ -22,7 +22,7 @@ export const demagi_01: CardDefinition = {
   art: assetUrl("art/cards/race/s1_race_demagi_01.webp"),
   flavorText:
     "Drain. A Demagi footsoldier gets paid in whatever feeling the engagement generates. The payroll is always on time.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 1,
 };
@@ -40,7 +40,7 @@ export const demagi_02: CardDefinition = {
   art: assetUrl("art/cards/race/s1_race_demagi_02.webp"),
   flavorText:
     "Drain. Deathwatch. Corpse-Readers are the Hierarchy's forensic accountants. Every death on the board is a line item on a ledger only she knows how to audit.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive", "narrative", "reactive"] as const,
   verdict_delta: 2,
 };
@@ -58,7 +58,7 @@ export const demagi_03: CardDefinition = {
   art: assetUrl("art/cards/race/s1_race_demagi_03.webp"),
   flavorText:
     "Drain. Deathwatch. Provoke. Xeth'Raal is the Demagi archlord who arranged the Game Master's death by sending Agent Zero his strategic playbook. He has kept a copy of the playbook ever since, for sentimental reasons.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive", "narrative"] as const,
   verdict_delta: 2,
 };

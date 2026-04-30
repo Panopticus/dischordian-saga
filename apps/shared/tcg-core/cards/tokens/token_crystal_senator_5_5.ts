@@ -24,7 +24,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/token_crystal_senator_5_5.webp"),
   flavorText:
     "In New Babylon, power is not metaphorical. It crystallizes. It votes. It kills.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive", "narrative"] as const,
   verdict_delta: 1,
 };

@@ -30,7 +30,7 @@ function stubCard(opts: {
     abilities: [],
     art: "/t.webp",
     flavorText: "",
-    rulesVersion: "1.0.0",
+    rulesVersion: "1.1.0",
     trial_categories: opts.categories,
   };
 }

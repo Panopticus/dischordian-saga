@@ -39,7 +39,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_char_203.webp"),
   flavorText:
     "She stepped out of the dream carrying a shield of starlight and a secret meant only for you.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 1,
 };

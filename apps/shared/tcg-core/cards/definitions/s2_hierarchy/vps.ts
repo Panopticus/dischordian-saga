@@ -11,7 +11,7 @@
 import type { CardDefinition } from "../../../index";
 import { art, HIERARCHY_FACTION as F } from "./_art";
 
-const RULES = "1.0.0";
+const RULES = "1.1.0";
 
 /* Drask Vornal — Conqueror VP. Rush + on-deploy buff. */
 export const vp_drask_vornal: CardDefinition = {

@@ -38,7 +38,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_pack_015.webp"),
   flavorText:
     "She did not see the future. She reached into the probability field and pulled out the one she wanted.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["narrative"] as const,
   verdict_delta: 1,
 };

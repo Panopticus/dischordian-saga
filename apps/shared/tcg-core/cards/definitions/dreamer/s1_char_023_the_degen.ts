@@ -92,7 +92,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_char_023.webp"),
   flavorText:
     "Ne-Yon #8. The casino host pours your drink with hands that have shuffled the fates of civilizations. Through entropy and corruption, the Degen creates conditions in which the Ne-Yons can flourish.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["evidence", "offensive"] as const,
   verdict_delta: 1,
 };

@@ -44,7 +44,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_spell_229.webp"),
   flavorText:
     "Everything must go. Including the soldiers.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["narrative"] as const,
   verdict_delta: 1,
 };

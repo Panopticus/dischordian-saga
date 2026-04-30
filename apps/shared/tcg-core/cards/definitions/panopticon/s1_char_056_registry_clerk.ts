@@ -42,7 +42,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_char_056.webp"),
   flavorText:
     "Every citizen has a file. Every file has a purpose. Every purpose serves the Spire.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["evidence"] as const,
   verdict_delta: 1,
 };

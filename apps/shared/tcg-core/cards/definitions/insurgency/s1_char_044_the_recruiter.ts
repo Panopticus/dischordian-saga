@@ -46,7 +46,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_char_044.webp"),
   flavorText:
     "Initially, he applied his powers to benefit the Empire, enrolling at the Academy and swiftly rising in influence. Yet, w...",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive", "narrative"] as const,
   verdict_delta: 2,
 };

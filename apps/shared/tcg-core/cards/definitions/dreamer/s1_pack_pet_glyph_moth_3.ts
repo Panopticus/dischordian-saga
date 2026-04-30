@@ -56,7 +56,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_pack_pet_glyph_moth_3.webp"),
   flavorText:
     "When it spreads its wings, the battlefield remembers how to fight.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["narrative"] as const,
   verdict_delta: 2,
 };

@@ -48,7 +48,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_pack_028.webp"),
   flavorText:
     "It drifted across the battlefield like a sigh. Warriors dropped their blades without knowing why.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 1,
 };

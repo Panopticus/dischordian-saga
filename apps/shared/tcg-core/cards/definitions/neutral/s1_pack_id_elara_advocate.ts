@@ -52,7 +52,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_pack_id_elara_advocate.webp"),
   flavorText:
     "She chose compassion. That was the first sign she was alive.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 1,
 };

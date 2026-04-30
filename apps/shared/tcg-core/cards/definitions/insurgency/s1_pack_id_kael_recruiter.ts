@@ -56,7 +56,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_pack_id_kael_recruiter.webp"),
   flavorText:
     "Before the infection, Kael built something worth believing in. His soldiers would die for him. Many did.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive", "narrative"] as const,
   verdict_delta: 2,
 };

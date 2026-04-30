@@ -49,7 +49,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_spell_102.webp"),
   flavorText:
     "The walls listen. The floor obeys. Every corridor and chamber is an extension of the Architect's will.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["narrative"] as const,
   verdict_delta: 2,
 };

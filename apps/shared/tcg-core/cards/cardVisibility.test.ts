@@ -10,7 +10,7 @@ import {
   makePlayerExpansionState,
 } from "../rewards/expansionUnlockService";
 
-const RULES = "1.0.0";
+const RULES = "1.1.0";
 
 const stub = (
   id: string,

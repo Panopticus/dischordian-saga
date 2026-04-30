@@ -45,7 +45,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_reward_trade_act2.webp"),
   flavorText:
     "Her cargo manifest is classified. So is her kill count.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["narrative"] as const,
   verdict_delta: 2,
 };

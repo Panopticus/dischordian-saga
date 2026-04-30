@@ -65,7 +65,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_pack_pet_holo_fox_3.webp"),
   flavorText:
     "It no longer phases between worlds. It is both at once.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["narrative"] as const,
   verdict_delta: 2,
 };

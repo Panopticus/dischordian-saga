@@ -46,7 +46,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_pack_id_oracle_prisoner.webp"),
   flavorText:
     "Memory erased. Identity stripped. Only the shield remains.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["evidence"] as const,
   verdict_delta: 1,
 };

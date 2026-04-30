@@ -54,7 +54,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_pack_cosm_ship_theme.webp"),
   flavorText:
     "A piece of the Ark, corrupted beyond recognition. It still remembers how to erase.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["narrative", "offensive"] as const,
   verdict_delta: 2,
 };

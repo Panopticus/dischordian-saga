@@ -59,7 +59,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_char_114.webp"),
   flavorText:
     "Do not kill it. Do not touch it. Do not look at it too long. The infection reads your attention as an invitation.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["narrative", "offensive", "reactive"] as const,
   verdict_delta: 2,
 };

@@ -56,7 +56,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_spell_207.webp"),
   flavorText:
     "They never see us coming. That is the point.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["offensive", "reactive"] as const,
   verdict_delta: 1,
 };

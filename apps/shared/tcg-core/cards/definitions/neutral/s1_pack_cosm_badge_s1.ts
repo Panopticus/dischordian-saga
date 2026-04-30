@@ -46,7 +46,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_pack_cosm_badge_s1.webp"),
   flavorText:
     "You were there when it all began. This proves it.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["narrative"] as const,
   verdict_delta: 1,
 };

@@ -54,7 +54,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_spell_220.webp"),
   flavorText:
     "The host collapses. Something new rises from the remains, wearing a familiar face.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 1,
 };

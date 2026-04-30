@@ -45,7 +45,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_spell_110.webp"),
   flavorText:
     "She dreamed of standing elsewhere, and the Arena obliged. Reality is only stubborn for those who lack imagination.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["narrative"] as const,
   verdict_delta: 1,
 };

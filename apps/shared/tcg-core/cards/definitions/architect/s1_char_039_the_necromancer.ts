@@ -75,7 +75,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_char_039.webp"),
   flavorText:
     "A. The Necromancer was the tenth Archon created by the Architect in Year 600 A.A., a dark elven magician with white s...",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["evidence", "narrative"] as const,
   verdict_delta: 2,
 };

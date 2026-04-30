@@ -42,7 +42,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_spell_100.webp"),
   flavorText:
     "Every variable was accounted for in the original design. Your autonomy was never part of the equation.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 1,
 };

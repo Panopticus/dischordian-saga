@@ -40,7 +40,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_pack_002.webp"),
   flavorText:
     "Every rivet placed with mathematical certainty. Every joint stress-tested against probability itself.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 1,
 };

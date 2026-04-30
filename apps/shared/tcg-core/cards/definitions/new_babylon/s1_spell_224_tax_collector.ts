@@ -43,7 +43,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_spell_224.webp"),
   flavorText:
     "Payment is due. The currency is flexible. The deadline is not.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 1,
 };
