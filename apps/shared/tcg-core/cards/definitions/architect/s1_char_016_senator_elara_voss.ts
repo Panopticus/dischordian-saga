@@ -80,7 +80,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_char_016.webp"),
   flavorText:
     "A.; fate following the Fall of Reality is unspecified Senator Elara Voss was a prominent political figure born on the planet Atarion.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["evidence", "reactive"] as const,
   verdict_delta: 1,
 };

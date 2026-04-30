@@ -48,7 +48,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_spell_109.webp"),
   flavorText:
     "A thousand futures bloom in the Oracle's mind. She plucks the brightest and lets the rest wither.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["narrative", "offensive"] as const,
   verdict_delta: 1,
 };

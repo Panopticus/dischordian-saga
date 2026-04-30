@@ -55,7 +55,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_pack_pet_holo_fox_1.webp"),
   flavorText:
     "It blinked into existence smelling of ozone and starlight.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 1,
 };

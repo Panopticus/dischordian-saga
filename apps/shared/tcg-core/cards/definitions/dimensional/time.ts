@@ -21,7 +21,7 @@ export const time_01: CardDefinition = {
   art: assetUrl("art/cards/dimension/s1_dim_time_01.webp"),
   flavorText:
     "Grow. The Moment Keeper takes the moment the opponent was not using and files it. She gets larger the longer anybody forgets she is there.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["evidence"] as const,
   verdict_delta: 1,
 };
@@ -39,7 +39,7 @@ export const time_02: CardDefinition = {
   art: assetUrl("art/cards/dimension/s1_dim_time_02.webp"),
   flavorText:
     "Grow. Rebirth. The Loop Walker dies and walks out of the same door he walked in, which is the one over there that you are looking at right now.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 1,
 };
@@ -57,7 +57,7 @@ export const time_03: CardDefinition = {
   art: assetUrl("art/cards/dimension/s1_dim_time_03.webp"),
   flavorText:
     "Grow. Rebirth. Forcefield. The Hour-Unmaker has a list of hours that nobody has yet agreed to spend, and he is spending them on the match you are playing. The match is taking longer on his side than yours.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive", "narrative"] as const,
   verdict_delta: 2,
 };

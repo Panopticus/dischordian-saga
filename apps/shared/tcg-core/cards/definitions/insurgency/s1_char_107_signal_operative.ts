@@ -48,7 +48,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_char_107.webp"),
   flavorText:
     "Kill the messenger. The message was sent three seconds before you arrived.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["narrative", "reactive"] as const,
   verdict_delta: 1,
 };

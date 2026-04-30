@@ -22,7 +22,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/tok_infected_2_2.webp"),
   flavorText:
     "What was once a person is now a vessel. The Virus wears their face but not their name.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive", "offensive"] as const,
   verdict_delta: 1,
 };

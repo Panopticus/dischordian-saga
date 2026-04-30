@@ -32,7 +32,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_pack_004.webp"),
   flavorText:
     "It does not ask you to comply. It has already decided that you will.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 1,
 };

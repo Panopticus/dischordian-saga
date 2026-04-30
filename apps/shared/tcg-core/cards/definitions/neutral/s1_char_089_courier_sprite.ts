@@ -34,7 +34,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_char_089.webp"),
   flavorText:
     "It carries messages no one else dares to deliver — and pays for it with its brief, bright life.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 1,
 };

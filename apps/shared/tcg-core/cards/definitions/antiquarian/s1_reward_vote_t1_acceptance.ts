@@ -46,7 +46,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_reward_vote_t1_acceptance.webp"),
   flavorText:
     "It survived the collapse of the Third Age. Your attack will not be what breaks it.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive", "evidence"] as const,
   verdict_delta: 1,
 };

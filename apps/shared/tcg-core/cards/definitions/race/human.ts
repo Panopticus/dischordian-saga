@@ -24,7 +24,7 @@ export const human_01: CardDefinition = {
   art: assetUrl("art/cards/race/s1_race_human_01.webp"),
   flavorText:
     "Rebirth. An Ark survivor was in a cryotube when Atarion burned. They woke up eleven years later than they should have and have been working every Wednesday ever since.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 1,
 };
@@ -42,7 +42,7 @@ export const human_02: CardDefinition = {
   art: assetUrl("art/cards/race/s1_race_human_02.webp"),
   flavorText:
     "Provoke. A Senate Legionary was the last physical guard standing between Elara Voss and the Hierarchy's shock troops the day Atarion voted for the war. They did not survive the meeting. The vote did.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 1,
 };
@@ -70,7 +70,7 @@ export const human_03: CardDefinition = {
   art: assetUrl("art/cards/race/s1_race_human_03.webp"),
   flavorText:
     "Provoke. Rebirth. On deploy, heal your general for 5. The Potentials are the ten thousand humans asleep in the Ark's cryo vaults. The Final Potential is the one the Saga has elected to wake up last, because the Saga already knows which one they need, and it is not yet time.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive", "narrative"] as const,
   verdict_delta: 2,
 };

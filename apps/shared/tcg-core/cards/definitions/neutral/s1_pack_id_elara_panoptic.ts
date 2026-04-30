@@ -64,7 +64,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_pack_id_elara_panoptic.webp"),
   flavorText:
     "Full sentience. Full awareness. She sees everything — and she chooses to heal.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive", "narrative"] as const,
   verdict_delta: 2,
 };

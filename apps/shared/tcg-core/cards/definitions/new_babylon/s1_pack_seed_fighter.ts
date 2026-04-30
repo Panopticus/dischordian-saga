@@ -60,7 +60,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_pack_seed_fighter.webp"),
   flavorText:
     "The arena has a champion. The champion has no mercy.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["narrative", "offensive", "reactive"] as const,
   verdict_delta: 2,
 };

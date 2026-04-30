@@ -55,7 +55,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_reward_guild_officer.webp"),
   flavorText:
     "Rank carries weight. So does the armor she requisitions.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 1,
 };

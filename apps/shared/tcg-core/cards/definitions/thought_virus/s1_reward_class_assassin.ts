@@ -65,7 +65,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_reward_class_assassin.webp"),
   flavorText:
     "The kill is decided before the blade is drawn.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 1,
 };

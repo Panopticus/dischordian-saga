@@ -58,7 +58,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_char_109.webp"),
   flavorText:
     "She does not break the rules of probability. She is the exception that proves there are no rules.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["narrative"] as const,
   verdict_delta: 2,
 };

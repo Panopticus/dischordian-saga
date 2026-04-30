@@ -43,7 +43,7 @@ function buildTestRegistry(): CardRegistry {
       abilities: [],
       art: "test://art",
       flavorText: "",
-      rulesVersion: "1.0.0",
+      rulesVersion: "1.1.0",
     },
     {
       id: "card_a" as any,
@@ -57,7 +57,7 @@ function buildTestRegistry(): CardRegistry {
       abilities: [],
       art: "test://art",
       flavorText: "",
-      rulesVersion: "1.0.0",
+      rulesVersion: "1.1.0",
     },
     {
       id: "card_n" as any,
@@ -70,7 +70,7 @@ function buildTestRegistry(): CardRegistry {
       abilities: [],
       art: "test://art",
       flavorText: "",
-      rulesVersion: "1.0.0",
+      rulesVersion: "1.1.0",
     },
     {
       id: "card_enemy" as any,
@@ -84,7 +84,7 @@ function buildTestRegistry(): CardRegistry {
       abilities: [],
       art: "test://art",
       flavorText: "",
-      rulesVersion: "1.0.0",
+      rulesVersion: "1.1.0",
     },
     {
       id: "card_spy_only" as any,
@@ -98,7 +98,7 @@ function buildTestRegistry(): CardRegistry {
       abilities: [],
       art: "test://art",
       flavorText: "",
-      rulesVersion: "1.0.0",
+      rulesVersion: "1.1.0",
       characterClass: "spy",
     },
   ];

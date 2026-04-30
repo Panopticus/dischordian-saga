@@ -79,7 +79,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_char_022.webp"),
   flavorText:
     "Tasked by the Architect, the Collector harvests the DNA and machine code of the most advanced organic and synthetic beings across the multiverse.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive", "evidence", "narrative"] as const,
   verdict_delta: 2,
 };

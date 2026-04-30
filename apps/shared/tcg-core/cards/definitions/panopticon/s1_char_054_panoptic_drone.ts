@@ -33,7 +33,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_char_054.webp"),
   flavorText:
     "A speck against the grey sky — but it sees everything beneath it.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["narrative", "offensive", "reactive"] as const,
   verdict_delta: 1,
 };

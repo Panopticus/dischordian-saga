@@ -42,7 +42,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_char_090.webp"),
   flavorText:
     "Loyalty is expensive. Disloyalty, more so.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 1,
   // §5.7 divergence: retaining a hired blade is publicly a confession

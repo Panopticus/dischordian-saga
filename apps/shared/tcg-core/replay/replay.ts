@@ -14,7 +14,7 @@
  *   const result = replayMatch({
  *     matchId: "m1",
  *     seed: "deadbeef",
- *     rulesVersion: "1.0.0",
+ *     rulesVersion: "1.1.0",
  *     actions,
  *     p1Config, p2Config,
  *     registry,

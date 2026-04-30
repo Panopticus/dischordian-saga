@@ -58,7 +58,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_char_111.webp"),
   flavorText:
     "To the untrained eye, she vanishes. To the Dreamer's eye, she simply takes a different path — one that was always there.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive", "offensive"] as const,
   verdict_delta: 1,
 };

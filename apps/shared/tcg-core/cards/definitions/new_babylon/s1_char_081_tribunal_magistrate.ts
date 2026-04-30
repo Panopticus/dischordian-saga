@@ -40,7 +40,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_char_081.webp"),
   flavorText:
     "Her verdicts are absolute. Her sentences, irrevocable.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive", "evidence"] as const,
   verdict_delta: 1,
 };

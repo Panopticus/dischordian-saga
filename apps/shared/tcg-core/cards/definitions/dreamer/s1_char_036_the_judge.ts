@@ -46,7 +46,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_char_036.webp"),
   flavorText:
     "Deciding the fate of individuals, civilizations, and ideologies, the Judge is guided solely by their perception of balan...",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 1,
 };

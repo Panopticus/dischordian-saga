@@ -30,7 +30,7 @@ export const arch_alleg_t1: CardDefinition = {
   art: assetUrl("art/cards/allegiance/s1_alleg_architect_t1.webp"),
   flavorText:
     "Unlocked by playing 10 Architect matches. The first thing the Architect gives you is a uniform. The uniform is not the point.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive", "narrative"] as const,
   verdict_delta: 1,
 };
@@ -48,7 +48,7 @@ export const arch_alleg_t2: CardDefinition = {
   art: assetUrl("art/cards/allegiance/s1_alleg_architect_t2.webp"),
   flavorText:
     "Unlocked by playing 25 Architect matches. Provoke. Loyal servants stand in the doorway the Architect is watching, even when the Architect is not currently watching.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 1,
 };
@@ -66,7 +66,7 @@ export const arch_alleg_t3: CardDefinition = {
   art: assetUrl("art/cards/allegiance/s1_alleg_architect_t3.webp"),
   flavorText:
     "Unlocked by playing 50 Architect matches. Provoke. Grow. A veteran has seen what a predetermined design looks like from the inside and has decided, on balance, that the inside is warmer.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 1,
 };
@@ -84,7 +84,7 @@ export const arch_alleg_t4: CardDefinition = {
   art: assetUrl("art/cards/allegiance/s1_alleg_architect_t4.webp"),
   flavorText:
     "Unlocked by winning 10 Architect matches. Provoke. Grow. Forcefield. A victorious veteran has been to the far side of every match in this deck and came back with the Architect's quiet approval, which is a thing you only notice you have after you've earned it.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 1,
 };
@@ -102,7 +102,7 @@ export const arch_alleg_t5: CardDefinition = {
   art: assetUrl("art/cards/allegiance/s1_alleg_architect_t5.webp"),
   flavorText:
     "Unlocked by winning 50 Architect matches. Provoke. Grow. Forcefield. The Elite has been personally cc'd on memos the rank and file will never see, and none of the memos tell them what is going to happen next, and all of them tell them that it has already been decided.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive", "evidence", "narrative"] as const,
   verdict_delta: 2,
 };
@@ -126,7 +126,7 @@ export const arch_alleg_t6: CardDefinition = {
   art: assetUrl("art/cards/allegiance/s1_alleg_architect_t6.webp"),
   flavorText:
     "Unlocked by winning 100 Architect matches. Provoke. Grow. Forcefield. On deploy, silence the enemy general. The Architect Champion is not a character. They are the position. The name on the employee badge changes; the badge is the same badge, and the badge is the card.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive", "narrative"] as const,
   verdict_delta: 2,
 };

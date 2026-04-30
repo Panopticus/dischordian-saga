@@ -9,7 +9,7 @@
 import type { CardDefinition } from "../../../index";
 import { art, HIERARCHY_FACTION as F } from "./_art";
 
-const RULES = "1.0.0";
+const RULES = "1.1.0";
 
 export const se_act1_memoirist_is_memoir: CardDefinition = {
   id: "secret_act1_memoirist_is_memoir" as CardDefinition["id"],

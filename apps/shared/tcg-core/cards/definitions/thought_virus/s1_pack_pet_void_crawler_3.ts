@@ -57,7 +57,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_pack_pet_void_crawler_3.webp"),
   flavorText:
     "It crawled out of nothing and brought nothing with it — nothing that erases everything it touches.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["narrative", "offensive"] as const,
   verdict_delta: 2,
 };

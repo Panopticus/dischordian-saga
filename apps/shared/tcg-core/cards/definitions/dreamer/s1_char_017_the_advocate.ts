@@ -59,7 +59,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_char_017.webp"),
   flavorText:
     "Establishing the Empire of Shadows, she wielded the Blood Weave to reshape reality, battling the Hierarchy of the Damned.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive", "evidence"] as const,
   verdict_delta: 1,
 };

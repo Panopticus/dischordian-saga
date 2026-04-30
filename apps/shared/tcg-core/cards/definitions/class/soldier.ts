@@ -26,7 +26,7 @@ export const soldier_01: CardDefinition = {
   art: assetUrl("art/cards/class/s1_class_soldier_01.webp"),
   flavorText:
     "Three power, three health, two cost. There is no ability on the card. That is the ability.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 1,
 };
@@ -45,7 +45,7 @@ export const soldier_02: CardDefinition = {
   art: assetUrl("art/cards/class/s1_class_soldier_02.webp"),
   flavorText:
     "Provoke. The soldier stands in front of the rest of the formation on purpose, every time, and expects the rest of the formation to know this is the deal.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 1,
 };
@@ -74,7 +74,7 @@ export const soldier_03: CardDefinition = {
   art: assetUrl("art/cards/class/s1_class_soldier_03.webp"),
   flavorText:
     "Your general gains +2/+2 permanently. A rally is the sentence a commander gives to the room they cannot leave.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["evidence"] as const,
   verdict_delta: 1,
 };
@@ -104,7 +104,7 @@ export const soldier_04: CardDefinition = {
   art: assetUrl("art/cards/class/s1_class_soldier_04.webp"),
   flavorText:
     "Provoke. Rush on deploy. The Iron Vanguard's formation doctrine is a single word repeated four times in the same sentence. The word is 'forward.'",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive", "evidence", "narrative"] as const,
   verdict_delta: 2,
 };
@@ -123,7 +123,7 @@ export const soldier_05: CardDefinition = {
   art: assetUrl("art/cards/class/s1_class_soldier_05.webp"),
   flavorText:
     "Provoke. Frenzy. Rebirth. The last regiment standing is the one that did not know the war was officially over, and by the time anyone told them, the war unofficially was not.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive", "narrative"] as const,
   verdict_delta: 2,
 };

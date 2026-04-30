@@ -80,7 +80,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_char_013.webp"),
   flavorText:
     "A. Era; current status unknown after the Fall of Reality The Master of R\u2019lyeh is an enigmatic and ancient entity of immense power.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["evidence", "reactive"] as const,
   verdict_delta: 1,
 };

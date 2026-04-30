@@ -66,7 +66,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_pack_008.webp"),
   flavorText:
     "The frequency was supposed to be extinct. It came back screaming.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 1,
 };

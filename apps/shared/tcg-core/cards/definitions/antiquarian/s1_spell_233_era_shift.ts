@@ -55,7 +55,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_spell_233.webp"),
   flavorText:
     "One moment you stand in the present. The next, you are buried in an age that forgot your name.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 1,
 };

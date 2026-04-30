@@ -66,7 +66,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_pack_cosm_trail_fire.webp"),
   flavorText:
     "She leaves fire in her wake. The Void taught her that.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 1,
 };

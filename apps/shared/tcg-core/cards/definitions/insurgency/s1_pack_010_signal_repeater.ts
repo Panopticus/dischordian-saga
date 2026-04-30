@@ -40,7 +40,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_pack_010.webp"),
   flavorText:
     "Destroy the tower. The broadcast has already been copied to a thousand receivers.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["confession"] as const,
   verdict_delta: -2,
 };

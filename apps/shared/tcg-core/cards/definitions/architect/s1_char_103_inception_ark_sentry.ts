@@ -55,7 +55,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_char_103.webp"),
   flavorText:
     "The Ark remembers every wavelength that has ever approached its hull. The sentries ensure none approach twice.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 1,
 };

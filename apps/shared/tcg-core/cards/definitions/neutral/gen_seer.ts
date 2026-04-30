@@ -41,5 +41,5 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/gen_seer.webp"),
   flavorText:
     "I will not raise my staff today. I want to see whether the bench has learned yet.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
 };

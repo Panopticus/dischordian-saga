@@ -42,7 +42,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/gen_architect.webp"),
   flavorText:
     "Every corridor is yours. Every cage key is in your teeth. Every prophecy I stole is whispered back in the order I took them.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 1,
 };

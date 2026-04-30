@@ -92,7 +92,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_char_006.webp"),
   flavorText:
     "A brilliant scientist and a key figure within the AI Empire, renowned for her groundbreaking work in neural interface technology.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["evidence", "reactive"] as const,
   verdict_delta: 1,
 };

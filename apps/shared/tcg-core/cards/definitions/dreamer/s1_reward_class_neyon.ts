@@ -56,7 +56,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_reward_class_neyon.webp"),
   flavorText:
     "The Ne-Yon dreamed of a warrior who mastered every discipline. Then it opened its eyes, and the warrior was standing there.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["narrative"] as const,
   verdict_delta: 2,
 };

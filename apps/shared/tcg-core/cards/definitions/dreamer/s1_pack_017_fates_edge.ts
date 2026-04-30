@@ -61,7 +61,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_pack_017.webp"),
   flavorText:
     "She saw the blade that would end her. She chose the timeline where it froze mid-swing.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["evidence"] as const,
   verdict_delta: 1,
 };

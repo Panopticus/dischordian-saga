@@ -62,7 +62,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_char_105.webp"),
   flavorText:
     "He does not ask his soldiers to hold the line. He stands in front of it.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["narrative", "offensive"] as const,
   verdict_delta: 2,
 };

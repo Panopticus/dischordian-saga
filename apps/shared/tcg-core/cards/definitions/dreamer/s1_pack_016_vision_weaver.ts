@@ -40,7 +40,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_pack_016.webp"),
   flavorText:
     "She weaves futures like thread — each dawn, a new strand appears in her hands.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["narrative"] as const,
   verdict_delta: 1,
 };

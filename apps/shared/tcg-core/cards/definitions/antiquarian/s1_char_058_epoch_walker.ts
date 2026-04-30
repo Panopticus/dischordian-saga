@@ -40,7 +40,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_char_058.webp"),
   flavorText:
     "He has already lived through the end of every age. Each death is merely a bookmark in a story he has read before.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive", "narrative", "offensive"] as const,
   verdict_delta: 2,
 };

@@ -58,7 +58,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_pack_048.webp"),
   flavorText:
     "She had one last thing to give. She gave it to everyone.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive", "narrative"] as const,
   verdict_delta: 2,
 };

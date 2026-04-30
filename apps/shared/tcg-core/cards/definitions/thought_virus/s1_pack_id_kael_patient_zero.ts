@@ -46,7 +46,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_pack_id_kael_patient_zero.webp"),
   flavorText:
     "The infection spreads through grief. Every death feeds the signal.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["narrative", "offensive", "reactive"] as const,
   verdict_delta: 2,
 };

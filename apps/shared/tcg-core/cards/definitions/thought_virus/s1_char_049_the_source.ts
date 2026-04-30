@@ -63,7 +63,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_char_049.webp"),
   flavorText:
     "Yet, through the twisted schemes of Project Vector, Kael\u2019s fate was reshaped into something monstrous and eternal. Infec...",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["narrative"] as const,
   verdict_delta: 2,
 };

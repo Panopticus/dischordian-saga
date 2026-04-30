@@ -34,7 +34,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_char_052.webp"),
   flavorText:
     "Obedience is not requested. It is extracted.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 1,
 };

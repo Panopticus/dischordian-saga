@@ -23,7 +23,7 @@ export const the_necromancer_t1: CardDefinition = {
   art: assetUrl("art/cards/imprint/necromancer_t1.webp"),
   flavorText:
     "A figure walking away from the viewer across a field of soft grey ash. He is not a skeleton. He is a person whose face is hidden because if you saw it you would recognize him.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive", "narrative"] as const,
   verdict_delta: 1,
 };
@@ -41,7 +41,7 @@ export const the_necromancer_t2: CardDefinition = {
   art: assetUrl("art/cards/imprint/necromancer_t2.webp"),
   flavorText:
     "Deathwatch. Every dying unit is a paragraph in a letter he has been writing to himself for longer than you have been alive.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["reactive"] as const,
   verdict_delta: 1,
 };
@@ -59,7 +59,7 @@ export const the_necromancer_t3: CardDefinition = {
   art: assetUrl("art/cards/imprint/necromancer_t3.webp"),
   flavorText:
     "Deathwatch. Rebirth. The Necromancer dies twice. The second time is the unmaking, not the death. He gets to choose.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 1,
 };
@@ -87,7 +87,7 @@ export const the_necromancer_t4: CardDefinition = {
   art: assetUrl("art/cards/imprint/necromancer_t4.webp"),
   flavorText:
     "Deathwatch. Rebirth. Heals for 2 when he deals damage. Every strike leaves a flower of bone-white light behind where the target used to stand.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive", "narrative"] as const,
   verdict_delta: 2,
 };
@@ -105,7 +105,7 @@ export const the_necromancer_t5: CardDefinition = {
   art: assetUrl("art/cards/imprint/necromancer_t5.webp"),
   flavorText:
     "Deathwatch. Rebirth. Drain. He unmakes his friends now, because the alternative is leaving them in the hands of people who would not know how to do it kindly. This card is the longest conversation he has been able to have about it.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive", "narrative"] as const,
   verdict_delta: 2,
 };

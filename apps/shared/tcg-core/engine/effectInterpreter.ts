@@ -30,8 +30,8 @@
  *    - with_target
  *    - if (uses the condition evaluator)
  *
- * Everything else (deal_damage, heal, summon, etc.) throws
- * UnsupportedOpError until a card in the authoring queue needs it.
+ * Remaining unimplemented ops (`push`, `choose_one`) throw
+ * UnsupportedOpError until a card in the authoring queue needs them.
  */
 import type { Draft } from "immer";
 import type { GameState } from "../types/GameState";
@@ -566,10 +566,71 @@ export function interpret(
       return;
     }
 
-    case "teleport":
+    case "repeat": {
+      // Evaluate `times` once at the start; iterations don't re-resolve.
+      // For `count_of`, this matches "+1/+1 per ally on deploy" semantics
+      // (Governor Thane, Bloodline Inheritor, Ironclad Veteran) — the
+      // counted set is the snapshot at trigger time, not after the buff
+      // pulses change anything.
+      const times = evaluateAmount(effect.times, ctx, draft);
+      for (let i = 0; i < times; i++) {
+        interpret(effect.do, ctx, draft, reduceCtx);
+      }
+      return;
+    }
+
+    case "teleport": {
+      const ids = resolveTargetRef(effect.target, ctx, draft);
+      for (const id of ids) {
+        const entity = findBoardEntity(draft, id);
+        if (!entity) continue;
+        const sel = effect.to;
+        let row: number;
+        let col: number;
+        if (sel.kind === "specific") {
+          row = sel.row;
+          col = sel.col;
+        } else if (sel.kind === "random_empty") {
+          // The teleporting entity occupies its current tile, so the
+          // empty-tile scan naturally excludes it.
+          const empty: Array<{ row: number; col: number }> = [];
+          for (let r = 0; r < 5; r++) {
+            for (let c = 0; c < 9; c++) {
+              if (!draft.board[`${r},${c}`]) empty.push({ row: r, col: c });
+            }
+          }
+          if (empty.length === 0) continue;
+          const pick = empty[Math.floor(reduceCtx.rng.next() * empty.length)];
+          row = pick.row;
+          col = pick.col;
+        } else {
+          // origin_offset for teleport is relative to the entity being
+          // teleported (not the spell source) — that is the only mental
+          // model in which "offset" makes sense for a destination.
+          row = entity.row + sel.dRow;
+          col = entity.col + sel.dCol;
+        }
+        if (row < 0 || row >= 5 || col < 0 || col >= 9) continue;
+        const oldKey = `${entity.row},${entity.col}`;
+        const newKey = `${row},${col}`;
+        if (newKey === oldKey) continue; // already there — no-op
+        if (draft.board[newKey]) continue; // occupied
+        delete draft.board[oldKey];
+        entity.row = row;
+        entity.col = col;
+        draft.board[newKey] = entity;
+        reduceCtx.events.push({
+          type: "teleported",
+          entityId: id,
+          toRow: row,
+          toCol: col,
+        });
+      }
+      return;
+    }
+
     case "push":
     case "choose_one":
-    case "repeat":
       throw new UnsupportedOpError(
         `effect op '${(effect as { op: string }).op}' not yet implemented`
       );

@@ -75,7 +75,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_char_046.webp"),
   flavorText:
     "Unbound by allegiance, the Seer identifies opportunities and dangers, providing foresight that often shifts the balance ...",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive", "evidence"] as const,
   verdict_delta: 1,
 };

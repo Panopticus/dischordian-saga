@@ -59,7 +59,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_pack_025.webp"),
   flavorText:
     "The wave does not discriminate. It consumes friend and foe alike. But the Virus always feeds on what remains.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive", "narrative", "offensive"] as const,
   verdict_delta: 2,
 };

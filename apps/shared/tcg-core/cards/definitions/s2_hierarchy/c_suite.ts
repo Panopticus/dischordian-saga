@@ -23,7 +23,7 @@
 import type { CardDefinition } from "../../../index";
 import { art, HIERARCHY_FACTION as F } from "./_art";
 
-const RULES = "1.0.0";
+const RULES = "1.1.0";
 
 /* ═══════════════════════════════════════════════════════
    CEO — Mol'Garath the Unmaker  (general · 0 cost · 4/25)

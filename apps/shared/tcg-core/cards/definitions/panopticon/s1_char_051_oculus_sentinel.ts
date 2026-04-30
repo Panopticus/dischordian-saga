@@ -41,7 +41,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_char_051.webp"),
   flavorText:
     "Its glass eye never blinks. Its memory never falters. It was built to watch — and to remember.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 1,
 };

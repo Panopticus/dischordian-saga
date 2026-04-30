@@ -44,7 +44,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_spell_101.webp"),
   flavorText:
     "The Architect foresaw the end long before anyone else glimpsed the beginning. Every enhancement is a correction toward inevitability.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 1,
 };

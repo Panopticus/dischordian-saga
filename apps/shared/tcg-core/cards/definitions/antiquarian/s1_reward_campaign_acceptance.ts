@@ -49,7 +49,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_reward_campaign_acceptance.webp"),
   flavorText:
     "The Antiquarian taught that time destroys all things. The Guardian simply asked: 'And what survives?'",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 1,
 };

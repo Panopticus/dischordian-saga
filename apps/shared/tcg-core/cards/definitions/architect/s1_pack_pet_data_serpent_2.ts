@@ -47,7 +47,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_pack_pet_data_serpent_2.webp"),
   flavorText:
     "Each byte it consumes becomes a secret it can sell.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["narrative", "reactive"] as const,
   verdict_delta: 2,
 };

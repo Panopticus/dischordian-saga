@@ -32,7 +32,7 @@ export const water_01: CardDefinition = {
   art: assetUrl("art/cards/element/s1_elem_water_01.webp"),
   flavorText:
     "On deploy, heal your general for 2. A tide keeper knows which wave is going to be the one that matters and stands one wave back from it.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 1,
 };
@@ -55,7 +55,7 @@ export const water_02: CardDefinition = {
   art: assetUrl("art/cards/element/s1_elem_water_02.webp"),
   flavorText:
     "Silence the enemy general. Water that has been taught to ask questions eventually becomes a solvent.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 1,
 };
@@ -82,7 +82,7 @@ export const water_03: CardDefinition = {
   art: assetUrl("art/cards/element/s1_elem_water_03.webp"),
   flavorText:
     "Heal your general for 6. The mercy current is the part of a river that decides not to take anything with it on purpose.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 1,
 };
@@ -100,7 +100,7 @@ export const water_04: CardDefinition = {
   art: assetUrl("art/cards/element/s1_elem_water_04.webp"),
   flavorText:
     "Drain. Dispel. The Abyssal Form has lived at the bottom of a sea that existed for four days in the second week of the Fall and was remembered by nobody.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["narrative"] as const,
   verdict_delta: 2,
 };
@@ -128,7 +128,7 @@ export const water_05: CardDefinition = {
   art: assetUrl("art/cards/element/s1_elem_water_05.webp"),
   flavorText:
     "Drain. Dispel. On deploy, heal your general for 8. The Ocean That Forgives is a body of water big enough that the thing you are ashamed of will be smaller than a wave in it, and the wave will arrive whether or not you asked it to.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive", "narrative"] as const,
   verdict_delta: 2,
 };

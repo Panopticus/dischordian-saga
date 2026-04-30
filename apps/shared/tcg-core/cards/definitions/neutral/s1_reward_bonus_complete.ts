@@ -64,7 +64,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_reward_bonus_complete.webp"),
   flavorText:
     "Twenty-five objectives. Twenty-five clean executions. The operative does not celebrate — she checks the next briefing.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive", "narrative"] as const,
   verdict_delta: 2,
 };

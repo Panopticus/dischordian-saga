@@ -44,7 +44,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_spell_123.webp"),
   flavorText:
     "The Cycle cares nothing for allegiance. When it turns, everything in its path is ground to equal dust.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 1,
   // §5.7 divergence: invoking Dischordian Logic mid-trial reads

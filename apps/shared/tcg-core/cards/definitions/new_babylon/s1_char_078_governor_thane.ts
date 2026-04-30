@@ -38,7 +38,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_char_078.webp"),
   flavorText:
     "He did not rise to power. He built the staircase and burned every other way up.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["defensive", "narrative"] as const,
   verdict_delta: 2,
 };

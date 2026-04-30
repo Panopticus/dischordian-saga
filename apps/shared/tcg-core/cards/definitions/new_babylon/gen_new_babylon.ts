@@ -53,7 +53,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/gen_new_babylon.webp"),
   flavorText:
     "Lost an eye in a deal that went wrong. Won't say which deal. Won't say which eye.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 1,
 };

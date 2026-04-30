@@ -60,7 +60,7 @@ export const cardDef: CardDefinition = {
   art: assetUrl("art/cards/s1_char_117.webp"),
   flavorText:
     "The vote was unanimous. It always is, when the dissenters have already been recycled.",
-  rulesVersion: "1.0.0",
+  rulesVersion: "1.1.0",
   trial_categories: ["narrative"] as const,
   verdict_delta: 2,
 };
