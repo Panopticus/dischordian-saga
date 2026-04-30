@@ -26,7 +26,8 @@ export type EngineeringHotspotId =
   | "reactor-core"
   | "blueprints"
   | "egg-eng-formula"
-  | "instruction-manual";
+  | "instruction-manual"
+  | "schematic-pad";
 
 /** Inventory ids the engineering bench can fold into composite items.
  *  Migrated from the legacy ADVENTURE_FEATURES.INVENTORY_COMBINATIONS
@@ -49,7 +50,13 @@ export type EngineeringInventoryId =
   | "viral_antidote"
   | "antiquarian_shard"
   | "void_crystal"
-  | "temporal_lens";
+  | "temporal_lens"
+  | "original-schematic-rubbing"
+  | "restored-schematic"
+  // Cross-room: granted by archives, consumed by the engineering
+  // schematic uncorruption combine. Listed here so the EngineeringInventoryId
+  // type covers the combine's `b` slot.
+  | "corrupted-fragment";
 
 export const ENGINEERING_MYSTERY: RoomMysteryModule<EngineeringHotspotId, EngineeringInventoryId> = {
   roomId: "engineering",
@@ -62,6 +69,26 @@ export const ENGINEERING_MYSTERY: RoomMysteryModule<EngineeringHotspotId, Engine
           "The decoder ring slots into the cipher key without resistance — they were machined to fit, decades apart, by people who never met. Together they cut through standard Ark encryption the way a familiar voice cuts through a crowded room. Master Decoder. Pocket it.",
         producesInventory: "master_decoder",
         setsFlag: "engineering_master_decoder_built",
+      },
+    },
+    {
+      a: "original-schematic-rubbing",
+      b: "corrupted-fragment",
+      result: {
+        narration:
+          "You overlay the rubbing onto the corrupted fragment. The graphite of the original picks the indigo overlayer off the corrupted one — the editor's redirection peels away in a single sheet, leaving you holding the warm-gold blueprint as it was drafted. Restored Schematic. The reactor's indigo plume on the back wall thins as you look at it.",
+        producesInventory: "restored-schematic",
+        consumesItems: true,
+        setsFlag: "engineering_schematic_restored",
+        clearsActiveEdit: "engineering_reactor",
+        logsClue: {
+          id: "clue-engineering-schematic-restored",
+          title: "Reactor schematic restored from indigo overlay",
+          body:
+            "You combined an original-schematic-rubbing from the engineering schematic-pad with a corrupted-fragment from the Archives. The graphite of the original lifted the indigo overlayer off the edited blueprint, restoring the reactor's intended coolant routing. The reactor's indigo plume thinned visibly. The Editor lost a piece of his manuscript.",
+          source: "engineering",
+          order: 10,
+        },
       },
     },
     {
@@ -291,6 +318,52 @@ export const ENGINEERING_MYSTERY: RoomMysteryModule<EngineeringHotspotId, Engine
             "You read aloud. Lyra anticipated readers like you. Page nine includes a paragraph that opens: If you are reading this aloud, you are doing it correctly. Carry on. I think she would be — I think she is — pleased.",
         },
         voId: "elara.engineering.instruction-manual.talk",
+      },
+    },
+    "schematic-pad": {
+      look: {
+        narration: {
+          lucid:
+            "The blueprint pad on the workbench is unrolled to a coolant schematic of the reactor. The lines are double-registered — the warm-gold original is intact underneath, but an indigo overlayer has redrawn three connection points. The redirected lines shunt coolant away from the secondary loop. If the reactor were running on this version of the schematic, it would, slowly, cook itself.",
+          fragmented:
+            "Cook. Cook. Cook itself. Cook itself. He's — he's editing the reactor. He's editing the reactor. He's — he's editing the reactor. Why. Why. Why is he editing the reactor.",
+          luminous:
+            "The schematic has been edited. Three connection points on the secondary coolant loop are redirected. The reactor is still running on the original — Lyra's crew built the physical hardware before the editor reached the documentation — but anyone reading the schematic to repair the reactor would now follow the indigo overlay and break it. He is not breaking the reactor. He is breaking the next person who tries to fix the reactor. That is a longer game than I had given him credit for.",
+        },
+        voId: "elara.engineering.schematic-pad.look",
+        grantsInventory: "original-schematic-rubbing",
+        recordsActiveEdit: { artifact: "reactor", type: "rewrite" },
+        setsFlag: "shadow_tongue_engineering_edits_seen",
+        logsClue: {
+          id: "clue-engineering-schematic-edited",
+          title: "Reactor schematic redirected by the editor",
+          body:
+            "The engineering blueprint pad shows a reactor coolant schematic in two registers — the warm-gold original intact, the indigo overlayer redirecting three connection points on the secondary loop. The hardware itself was built before the edit and runs correctly. Anyone repairing the reactor from the documentation would follow the indigo overlay and break it. An original-schematic-rubbing is now in your inventory.",
+          source: "engineering",
+          order: 9,
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "He's playing for the next century. The hardware is fine; the documentation is poisoned. Nobody dies on this watch. People die on the watch of whoever opens this binder in eighty years.",
+            balanced:
+              "The edit is patient. The reactor will run, with the original hardware, until someone needs to repair it from the schematic — and then the repair will fail. The editor is not after us. He is after the people who come after us. We have time to fix this. We do not have to fix it on the same shift we found it.",
+            warm:
+              "He is writing for a reader who will live a hundred years from now and will trust the document because the document is the only thing that survives. That is the deepest tier of his cruelty, and it is the one that makes him beatable — because every original we preserve is a reader, a hundred years from now, who he does not get to lie to. The rubbing in your hand is one such reader, saved.",
+          },
+          voId: "detective.engineering.schematic-pad.look",
+        },
+      },
+      use: {
+        narration: {
+          lucid:
+            "You take a graphite rubbing of the warm-gold underlayer. The indigo overlay smudges; the original survives. Pocket the rubbing. Combine it with a corrupted-fragment to dissolve the editor's redirection.",
+          fragmented:
+            "The original. The original. The original survives. The original survives.",
+          luminous:
+            "You have an original-schematic-rubbing. The next reader of the reactor binder, a hundred years from now, has just been spared a death. That is the kind of thing this case is going to be measured in. Not victories — vacancies in a future obituary list.",
+        },
+        voId: "elara.engineering.schematic-pad.use",
       },
     },
   },

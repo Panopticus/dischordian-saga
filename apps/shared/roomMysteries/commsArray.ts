@@ -23,9 +23,15 @@ import type { RoomMysteryModule } from "./_template";
 export type CommsArrayHotspotId =
   | "radio-console"
   | "static-screen"
-  | "egg-comms-signal";
+  | "egg-comms-signal"
+  | "voice-in-the-static";
 
-export const COMMS_ARRAY_MYSTERY: RoomMysteryModule<CommsArrayHotspotId> = {
+export type CommsArrayInventoryId = "static-fragment-recording";
+
+export const COMMS_ARRAY_MYSTERY: RoomMysteryModule<
+  CommsArrayHotspotId,
+  CommsArrayInventoryId
+> = {
   roomId: "comms-array",
   responses: {
     "radio-console": {
@@ -180,6 +186,41 @@ export const COMMS_ARRAY_MYSTERY: RoomMysteryModule<CommsArrayHotspotId> = {
               "MEME-PRIME is, I think, going to be a friend to us, eventually. He hides behind a name nobody can pronounce with a straight face because he has, over the centuries, learned that sincerity is a thing you have to earn the right to. We will earn it. The SOS is patient.",
           },
           voId: "detective.comms-array.egg-signal.look",
+        },
+      },
+    },
+    "voice-in-the-static": {
+      look: {
+        narration: {
+          lucid:
+            "The static on the central monitor has begun to organise itself. Not into a picture — into a voice. There is no audio output; the voice is purely visual, vertical bands of indigo arranging themselves into the silhouette of a person speaking, then dissolving, then re-forming. The cadence is recognisable: the same cadence the Conspiracy Board annotations were written in. He is here too.",
+          fragmented:
+            "He's here. He's here. He's in the static. He's in the static. He's in the static. He's in the room. He's everywhere I — everywhere I — everywhere I look for him.",
+          luminous:
+            "The editor is in the static. He is broadcasting on the same frequencies the Singer uses, but he is not singing — he is speaking. I cannot hear his voice, but I can read the shape of his mouth. He is saying the same word over and over in a cadence that matches the marginalia we found on the Bridge. He has not yet, to my knowledge, addressed us directly. I think he is waiting for us to address him.",
+        },
+        voId: "elara.comms-array.voice-in-the-static.look",
+        grantsInventory: "static-fragment-recording",
+        recordsActiveEdit: { artifact: "static-monitor", type: "rewrite" },
+        setsFlag: "shadow_tongue_voice_heard",
+        logsClue: {
+          id: "clue-comms-voice-in-static",
+          title: "The editor speaks in the static",
+          body:
+            "The Comms Array's central monitor renders the editor's voice as visual static — indigo bands organising into the silhouette of a person speaking, then dissolving. He uses the cadence that matches the Bridge marginalia. A static-fragment-recording is now in your inventory.",
+          source: "comms-array",
+          order: 4,
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "He's been waiting two and a half centuries to be addressed by name. We can give him that. Once. From a position we control. Not from this room.",
+            balanced:
+              "The editor is operating on the same frequency channel the Singer uses. That is a coincidence in the same way a name on two ledgers is a coincidence — it is not. He and the Singer have been in the same band for a long time. The static-fragment-recording you carry is, technically, his voice in pre-broadcast form. We can play it back later, in the cipher den, where the room's discipline forces us to translate before we listen.",
+            warm:
+              "Don't speak to the static. He has waited a long time for the conversation, and he will wait a little longer. The recording in your hand is enough. We carry it to a room where we have the right tools to read it — and there, with Elara, we choose what to say first. The choice matters.",
+          },
+          voId: "detective.comms-array.voice-in-the-static.look",
         },
       },
     },

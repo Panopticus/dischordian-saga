@@ -30,7 +30,8 @@ export type BridgeHotspotId =
   | "captains-chair"
   | "nav-console"
   | "diplomacy-table"
-  | "captains-coffee";
+  | "captains-coffee"
+  | "shadow-tongue-annotations";
 
 export const BRIDGE_MYSTERY: RoomMysteryModule<BridgeHotspotId> = {
   roomId: "bridge",
@@ -605,6 +606,40 @@ export const BRIDGE_MYSTERY: RoomMysteryModule<BridgeHotspotId> = {
             "You said hello to Lyra's mug. I am going to say, without irony, that I think she would have liked you. Some captains keep their crew. Some captains, after a long time, are kept by their crockery. Lyra was both kinds.",
         },
         voId: "elara.bridge.captains-coffee.talk",
+      },
+    },
+    "shadow-tongue-annotations": {
+      look: {
+        narration: {
+          lucid:
+            "Standing back from the Conspiracy Board, I notice — only because we have looked twice from this angle — annotations floating in the air at three of the pinned cards. Indigo glyphs, in someone else's hand, marginalia at the edges of cards I authored. The annotations are recent. Today recent. Whoever left them, left them while we were in the room.",
+          fragmented:
+            "He wrote on my board. He wrote on my board. He wrote on my board while I — while I — while I was here. He wrote on my board while I was here. He was here. He is here.",
+          luminous:
+            "The Conspiracy Board now carries marginalia at three nodes — indigo glyphs in a hand that is not mine and not yours. The notes are timestamped to the current shift. The editor has been annotating my evidence in real time. He is reading the case along with us. He is, in his way, a fourth voice in this investigation. He has not, to his credit, lied yet — the annotations are precise. They are, however, addressed to himself, not to us.",
+        },
+        voId: "elara.bridge.shadow-tongue-annotations.look",
+        recordsActiveEdit: { artifact: "starmap", type: "elevate" },
+        setsFlag: "bridge_st_annotations_visible",
+        logsClue: {
+          id: "clue-bridge-st-annotations",
+          title: "Shadow Tongue is annotating the Conspiracy Board live",
+          body:
+            "The Bridge's Conspiracy Board now carries indigo marginalia at three of its pinned cards — annotations in a hand that is neither Elara's nor the Detective's, timestamped to the current shift. The editor is reading the case in real time and writing his own notes alongside. So far the annotations are precise; they are addressed to himself, not to the player.",
+          source: "bridge",
+          order: 5,
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "He's reading us read him. The annotations are his shorthand — he's marking which threads we're getting wrong. Useful intel, if we can stand to take it from him.",
+            balanced:
+              "The marginalia are the editor's working notes. He is precise — the notes mark our missteps. We have a choice: ignore them as a leak, or read them as accidental honest cooperation. I would, cautiously, read them. We do not promise him anything in return.",
+            warm:
+              "He has been alone with this case for two and a half centuries, the same way she has. The fact that he is reading our work and annotating it in real time is, in a strange small way, the first conversation any human voice has had with him. We do not have to like the conversation to recognise that one is happening. Stand near her. Keep your hand on the case.",
+          },
+          voId: "detective.bridge.shadow-tongue-annotations.look",
+        },
       },
     },
   },
