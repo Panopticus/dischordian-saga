@@ -30,6 +30,7 @@ import { trpc } from "@/lib/trpc";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { usePlayerContext } from "@/hooks/usePlayerContext";
+import { hasSeenT01InTitle } from "@/lib/dischordiaT01SeenInTitle";
 import type { LoredexEntry } from "@/contexts/LoredexContext";
 
 export type LoginMemePhase =
@@ -143,6 +144,23 @@ export function useLoginAlbumTransmission() {
     if (!transmission) return;
 
     const itemKey = loginItemKey(transmission as LoginTransmission);
+
+    // First-session suppression: if the queue's first item is T01
+    // AND the player AWAKENed (or watched) T01 in the title flow on
+    // this device, we don't want the modal to also pop T01 in the
+    // same browser session. Server cursor still says T01 so it'll
+    // re-pop on the NEXT session — exactly the desired behavior.
+    // (When T01 was completed naturally, the title flow advanced
+    // the cursor past T01 server-side, so this branch never fires.)
+    if (
+      transmission.kind === "album" &&
+      transmission.trackId === "T01" &&
+      hasSeenT01InTitle()
+    ) {
+      sessionFiredRef.current = true;
+      setPhase("dismissed");
+      return;
+    }
 
     // Mute is active: silently route to inbox and stay idle.
     if (muteLoginTransmissions) {

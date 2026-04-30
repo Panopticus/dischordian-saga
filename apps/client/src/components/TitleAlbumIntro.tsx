@@ -23,6 +23,8 @@ import SlideshowFrames from "@/components/SlideshowFrames";
 import { ALBUM1_T01_SLIDESHOW } from "@shared/songSlideshows";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { markT01SeenInTitle } from "@/lib/dischordiaT01SeenInTitle";
+import { useAuth } from "@/_core/hooks/useAuth";
+import { trpc } from "@/lib/trpc";
 import type { LoredexEntry } from "@/contexts/LoredexContext";
 
 interface Props {
@@ -48,9 +50,12 @@ export default function TitleAlbumIntro({
   isGameReady = true,
 }: Props) {
   const player = usePlayer();
+  const { isAuthenticated } = useAuth();
+  const acceptAlbumMutation = trpc.transmissions.acceptAlbumTransmission.useMutation();
   const [phase, setPhase] = useState<"playing" | "ending">("playing");
   const [needsTap, setNeedsTap] = useState(false);
   const completedRef = useRef(false);
+  const cursorNotifiedRef = useRef(false);
 
   // Kick off audio playback synchronously on mount. PlayerContext.playSong
   // calls audio.play() under the hood — autoplay-policy may reject this
@@ -86,6 +91,14 @@ export default function TitleAlbumIntro({
       if (completedRef.current) return;
       completedRef.current = true;
       markT01SeenInTitle();
+      // Notify the server cursor exactly once: completed=true advances
+      // past T01 and grants the reward; completed=false marks
+      // firstEverDelivered so the cinematic doesn't replay on refresh
+      // but the cursor stays at T01 for next session's modal pop.
+      if (isAuthenticated && !cursorNotifiedRef.current) {
+        cursorNotifiedRef.current = true;
+        acceptAlbumMutation.mutate({ trackId: "T01", completed });
+      }
       // Stop the song if we're bailing early so the title boot
       // doesn't get a song fading underneath it.
       if (!completed) {
@@ -99,7 +112,7 @@ export default function TitleAlbumIntro({
       // Brief fade-out before unmounting.
       setTimeout(() => onComplete(completed), 400);
     },
-    [onComplete, player],
+    [onComplete, player, isAuthenticated, acceptAlbumMutation],
   );
 
   // Watch the audio engine for completion. Using a tolerance of 0.5s
