@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import GalacticMap from "./GalacticMap";
 import { useGame } from "@/contexts/GameContext";
+import { trpc } from "@/lib/trpc";
 import { dispatchVoiceWhisper } from "@/components/VoiceWhisper";
 import { useActVO } from "@/hooks/useActVO";
 import { getEquipmentGameBonuses } from "./equipmentState";
@@ -1573,85 +1574,15 @@ export default function TradeEmpirePage() {
             availability and accumulates pending payouts; the page
             wires the apply-side via onClaim, routing each kind into
             its receiving subsystem via GameContext callbacks. */}
-        {view === "ledger" && (() => {
-          // Resolve the player's current dominant-guild professor —
-          // mechronis_approval routes here. Falls back to disabled.
-          const skills = (gameState.innerVoiceSkills ?? {}) as Record<SkillId, number>;
-          const dominantGuild = getDominantGuild(skills);
-          const targetProfessor = dominantGuild
-            ? getProfessorByArchon(dominantGuild.mentor.archonNumber) ?? null
-            : null;
-          const apprentice = (gameState as { apprentice?: { id: string; bond: number } | null })
-            .apprentice ?? null;
-
-          const disabledKinds = new Set<LedgerPayoutKind>();
-          // celebration_bond needs an active apprentice in training.
-          if (!apprentice) disabledKinds.add("celebration_bond");
-          // mechronis_approval needs a professor target.
-          if (!targetProfessor) disabledKinds.add("mechronis_approval");
-          // crew_xp has no client-side credit endpoint yet (the crew
-          // system tracks per-bloodline generations + traits, not a
-          // flat XP pool); leave it as a Locke-account credit until
-          // a crew XP endpoint ships.
-          disabledKinds.add("crew_xp");
-
-          const disabledReasons: Partial<Record<LedgerPayoutKind, string>> = {
-            celebration_bond: apprentice ? undefined : "No apprentice currently in training.",
-            mechronis_approval: targetProfessor ? undefined : "Develop your inner voices to assign a Professor first.",
-            crew_xp: "Crew XP redemption ships in a follow-up. The credit is held on your account.",
-          };
-
-          return (
-            <div className="max-w-2xl mx-auto">
-              <LockeConfidentialLedgerPanel
-                onClaim={(kind, amount) => {
-                  switch (kind) {
-                    case "army_recruitment": {
-                      // Synthesize a unique mission id so the
-                      // idempotent counter advances by exactly `amount`.
-                      for (let i = 0; i < amount; i++) {
-                        completeRecruitmentMission(
-                          `locke_commission_${Date.now()}_${i}`,
-                        );
-                      }
-                      return;
-                    }
-                    case "celebration_bond": {
-                      if (!apprentice) return;
-                      const newBond = Math.max(0, Math.min(100, apprentice.bond + amount));
-                      // The apprentice object carries other fields
-                      // we don't want to overwrite; spread it.
-                      const full = (gameState as { apprentice?: object | null }).apprentice;
-                      if (full && typeof full === "object") {
-                        setApprentice({ ...full, bond: newBond });
-                      }
-                      return;
-                    }
-                    case "mechronis_approval": {
-                      if (!targetProfessor) return;
-                      adjustProfessorApproval(targetProfessor.id, amount);
-                      return;
-                    }
-                    case "trade_reputation": {
-                      // Locke's network is the receiver — bump
-                      // Locke's own trust as the canonical
-                      // "trade_reputation" handle. Other broker
-                      // reputations are not affected.
-                      adjustNpcTrust("adjudicator_locke", amount);
-                      return;
-                    }
-                    case "crew_xp":
-                      // No-op (disabled above); kept for switch
-                      // exhaustiveness.
-                      return;
-                  }
-                }}
-                disabledKinds={disabledKinds}
-                disabledReasons={disabledReasons}
-              />
-            </div>
-          );
-        })()}
+        {view === "ledger" && (
+          <LedgerView
+            gameState={gameState}
+            completeRecruitmentMission={completeRecruitmentMission}
+            setApprentice={setApprentice}
+            adjustNpcTrust={adjustNpcTrust}
+            adjustProfessorApproval={adjustProfessorApproval}
+          />
+        )}
       </div>
 
       {/* Act 1 cutscenes — first-time-entry intros for the Trade Empire's
@@ -1845,6 +1776,115 @@ export default function TradeEmpirePage() {
           </motion.div>
         )}
       </AnimatePresence>
+    </div>
+  );
+}
+
+/* ─── LEDGER VIEW ────────────────────────────────────────────────────────
+   Sub-component scoped to the LEDGER tab. Owns the cross-system
+   payout dispatch — wires Locke's onClaim into the receiving
+   subsystems via GameContext callbacks (army recruitment counter,
+   apprentice bond, professor approval, broker trust) and into the
+   crew router's creditXp mutation for crew_xp.
+
+   Read-side: pulls crew state lazily so the crew query only fires
+   when the player opens the LEDGER tab. */
+function LedgerView({
+  gameState,
+  completeRecruitmentMission,
+  setApprentice,
+  adjustNpcTrust,
+  adjustProfessorApproval,
+}: {
+  gameState: ReturnType<typeof useGame>["state"];
+  completeRecruitmentMission: ReturnType<typeof useGame>["completeRecruitmentMission"];
+  setApprentice: ReturnType<typeof useGame>["setApprentice"];
+  adjustNpcTrust: ReturnType<typeof useGame>["adjustNpcTrust"];
+  adjustProfessorApproval: ReturnType<typeof useGame>["adjustProfessorApproval"];
+}) {
+  // Resolve the player's current dominant-guild professor —
+  // mechronis_approval routes here. Falls back to disabled.
+  const skills = (gameState.innerVoiceSkills ?? {}) as Record<SkillId, number>;
+  const dominantGuild = getDominantGuild(skills);
+  const targetProfessor = dominantGuild
+    ? getProfessorByArchon(dominantGuild.mentor.archonNumber) ?? null
+    : null;
+  const apprentice =
+    (gameState as { apprentice?: { id: string; bond: number } | null }).apprentice ?? null;
+
+  // Lazy crew read — only fires when the LEDGER tab mounts. The query
+  // also gates whether crew_xp is claimable: no active crew → disabled.
+  const crewQuery = trpc.crew.getState.useQuery();
+  const activeCrewCount = (crewQuery.data?.roster.members ?? []).filter(
+    m => m.status === "active",
+  ).length;
+  const creditCrewXp = trpc.crew.creditXp.useMutation();
+
+  const disabledKinds = new Set<LedgerPayoutKind>();
+  if (!apprentice) disabledKinds.add("celebration_bond");
+  if (!targetProfessor) disabledKinds.add("mechronis_approval");
+  if (activeCrewCount === 0) disabledKinds.add("crew_xp");
+
+  const disabledReasons: Partial<Record<LedgerPayoutKind, string>> = {
+    celebration_bond: apprentice
+      ? undefined
+      : "No apprentice currently in training.",
+    mechronis_approval: targetProfessor
+      ? undefined
+      : "Develop your inner voices to assign a Professor first.",
+    crew_xp: activeCrewCount > 0
+      ? undefined
+      : "No active crew on the roster yet.",
+  };
+
+  return (
+    <div className="max-w-2xl mx-auto">
+      <LockeConfidentialLedgerPanel
+        onClaim={async (kind, amount) => {
+          switch (kind) {
+            case "army_recruitment": {
+              // Synthesize unique mission ids so the idempotent
+              // counter advances by exactly `amount`.
+              for (let i = 0; i < amount; i++) {
+                completeRecruitmentMission(
+                  `locke_commission_${Date.now()}_${i}`,
+                );
+              }
+              return;
+            }
+            case "celebration_bond": {
+              if (!apprentice) return;
+              const newBond = Math.max(0, Math.min(100, apprentice.bond + amount));
+              const full = (gameState as { apprentice?: object | null }).apprentice;
+              if (full && typeof full === "object") {
+                setApprentice({ ...full, bond: newBond });
+              }
+              return;
+            }
+            case "mechronis_approval": {
+              if (!targetProfessor) return;
+              adjustProfessorApproval(targetProfessor.id, amount);
+              return;
+            }
+            case "trade_reputation": {
+              // Locke's network is the receiver — bump Locke's own
+              // trust as the canonical "trade_reputation" handle.
+              adjustNpcTrust("adjudicator_locke", amount);
+              return;
+            }
+            case "crew_xp": {
+              if (activeCrewCount === 0) return;
+              await creditCrewXp.mutateAsync({ amount });
+              // Refresh the crew snapshot so the UI reflects the
+              // bumped stats on next read.
+              await crewQuery.refetch();
+              return;
+            }
+          }
+        }}
+        disabledKinds={disabledKinds}
+        disabledReasons={disabledReasons}
+      />
     </div>
   );
 }
