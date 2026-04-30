@@ -117,5 +117,4 @@ apps/client/src/pages/SpaceStationPage.tsx
 apps/client/src/pages/StoryModePage.tsx
 apps/client/src/pages/SyndicateWorldPage.tsx
 apps/client/src/pages/SystemsLibraryPage.tsx
-apps/client/src/pages/WitnessingHubPage.tsx
 apps/client/src/services/engagementTracker.ts

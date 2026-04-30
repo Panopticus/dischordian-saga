@@ -787,8 +787,8 @@ function RoomScene({
               position: "absolute",
               top: -14,
               left: 0,
-              padding: "0 4px",
-              background: "rgba(0,0,0,0.7)",
+              padding: "0 4px", // void-ignore — ?debug-hotspots=1 dev overlay only
+              background: "rgba(0,0,0,0.7)", // void-ignore — ?debug-hotspots=1 dev overlay only
               color: "magenta",
               whiteSpace: "nowrap",
             }}

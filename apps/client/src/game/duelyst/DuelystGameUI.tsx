@@ -1906,7 +1906,7 @@ function ParallaxHandCard({ children }: { children: React.ReactNode }) {
       onMouseLeave={onMouseLeave}
       className="duelyst-hand-card shrink-0"
       style={{
-        perspective: "800px",
+        perspective: "800px", // void-ignore — CSS 3D viewing-distance primitive, not a sizing token
         // Default "rest" values so the card sits flat when unhovered.
         ["--card-tilt-x" as string]: "0",
         ["--card-tilt-y" as string]: "0",

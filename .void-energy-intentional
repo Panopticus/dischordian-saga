@@ -16,3 +16,5 @@ apps/client/src/components/prelude/PreludeTutorCard.tsx
 apps/client/src/components/RememberThisToast.tsx
 # Faction-identity colors (game-rule signal) live in types.ts FACTION_COLORS.
 apps/client/src/game/duelyst/types.ts
+# Per-act narrative-signal accents (indigo=Act2, purple=Act3, cyan=Act4, amber=Act5/6, stone=Act7/transmedia):
+apps/client/src/pages/WitnessingHubPage.tsx
