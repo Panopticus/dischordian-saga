@@ -15,7 +15,7 @@
    Video transmission player (manual + auto-intercept).
    The Reset Wall is launched from State C.
    ═══════════════════════════════════════════════════════ */
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 
 import { useAuth } from "@/_core/hooks/useAuth";
@@ -41,7 +41,6 @@ import type { AnnouncementAudience, AnnouncementRow } from "./title/types";
 import { useTransmissionIntercept } from "./title/useTransmissionIntercept";
 
 import { assetUrl } from "@/lib/assetUrl";
-const OPENING_MUSIC_SRC = assetUrl("audio/music/main-menu/the-enigmas-lament.mp3");
 const THRESHOLD_MS = 1500;
 
 /**
@@ -295,48 +294,17 @@ export default function TitlePage({ onDismiss }: TitlePageProps = {}) {
   // inside it). Triggers the T01 album intro stage.
   const [cinematicEnded, setCinematicEnded] = useState(false);
 
-  /* ─── Solo the Enigma's Lament on the title screen.
-       The SagaThemeBGM provider auto-starts a shuffled saga theme on
-       the user's first interaction; on the title that bleeds under
-       the Lament. Suppress while mounted, restore on unmount. ─── */
+  /* ─── Suppress SagaThemeBGM on the title screen.
+       The provider auto-starts a shuffled saga theme on first
+       interaction; on the title we want silence until the user
+       clears the surveillance gate (then the cinematic owns audio,
+       then TitleAlbumIntro owns audio). Suppress while mounted. ─── */
   const sagaBGM = useSagaThemeBGM();
   useEffect(() => {
     sagaBGM.suppress();
     return () => sagaBGM.unsuppress();
   }, [sagaBGM]);
 
-  /* ─── Open music (preserved from existing PR) ─── */
-  const audioRef = useRef<HTMLAudioElement | null>(null);
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio) return;
-    audio.volume = 0.35;
-    let started = false;
-    const tryStart = () => {
-      if (started) return;
-      const p = audio.play();
-      if (p && typeof p.then === "function") {
-        p.then(() => { started = true; }).catch(() => { /* retry next gesture */ });
-      } else {
-        started = true;
-      }
-    };
-    tryStart();
-    const onGesture = () => {
-      tryStart();
-      if (started) {
-        window.removeEventListener("pointerdown", onGesture);
-        window.removeEventListener("keydown", onGesture);
-      }
-    };
-    window.addEventListener("pointerdown", onGesture);
-    window.addEventListener("keydown", onGesture);
-    return () => {
-      window.removeEventListener("pointerdown", onGesture);
-      window.removeEventListener("keydown", onGesture);
-      audio.pause();
-    };
-  }, []);
 
   // Skip the boot-sequence typewriter for players who've been here
   // before. The first time through, we want the full 3s of ceremony;
@@ -490,14 +458,6 @@ export default function TitlePage({ onDismiss }: TitlePageProps = {}) {
         zIndex: 9999,
       }}
     >
-      <audio
-        ref={audioRef}
-        src={OPENING_MUSIC_SRC}
-        loop
-        preload="auto"
-        autoPlay
-      />
-
       {/* F12 hero video — Ark drift loop. When the file is missing the
           <video> just shows its poster (the legacy keyart), so this
           block degrades gracefully. Muted + playsInline + loop satisfies
@@ -738,14 +698,14 @@ export default function TitlePage({ onDismiss }: TitlePageProps = {}) {
         />
       )}
 
-      {/* Dischordia opening cinematic — first-visit-only, plays
-          CONCURRENTLY with the surveillance handshake (which renders
-          as a transparent overlay on top). The cinematic's video is
-          muted; The Enigma's Lament audio is owned by the TitleAlbumIntro
-          stage that follows so the slideshow stays in lock-step.
-          Player can replay this from INBOX tab in the Transmission
-          Deck. */}
-      {!openingDone && !cinematicEnded && (
+      {/* Dischordia opening cinematic — first-visit-only. Mounts ONLY
+          after the surveillance handshake completes so the meme
+          transmission's audio is the only sound the player hears
+          during the broadcast. When the video ends naturally, the
+          T01 album intro stage takes over (Enigma's Lament slideshow
+          + song). Player can replay this from INBOX tab in the
+          Transmission Deck. */}
+      {handshakeDone && !openingDone && !cinematicEnded && (
         <DischordiaOpeningCinematic
           isGameReady={thresholdPassed && !auth.loading}
           onCinematicEnded={() => setCinematicEnded(true)}
