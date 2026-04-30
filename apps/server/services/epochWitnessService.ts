@@ -7,6 +7,14 @@ import { ripple } from "./rippleEngine";
 import { AGE_OF_PRIVACY_VOTES, AGE_OF_PROPHECY_VOTES } from "@shared/epochWitnessVotes";
 import { AGE_OF_INSURGENCY_VOTES, AGE_OF_REVELATION_VOTES, FALL_OF_REALITY_VOTES } from "@shared/epochWitnessVotesLate";
 import type { NexusPointVote } from "@shared/epochWitnessVotes";
+import {
+  type ActiveEdit,
+  type ActiveEdits,
+  clearEdit as clearEditPure,
+  parseActiveEdits,
+  recordEdit as recordEditPure,
+  serializeActiveEdits,
+} from "@shared/shadowTongueEdits";
 
 const ALL_VOTES: NexusPointVote[] = [
   ...AGE_OF_PRIVACY_VOTES, ...AGE_OF_PROPHECY_VOTES,
@@ -71,6 +79,88 @@ export const epochWitnessService = {
     if (!db) return 0;
     await db.update(shadowTongueState).set({ powerLevel: sql`LEAST(100, GREATEST(0, ${shadowTongueState.powerLevel} + ${delta}))`, lastUpdated: new Date() }).where(eq(shadowTongueState.id, 1));
     return this.getShadowTonguePower();
+  },
+
+  /** Full Shadow Tongue state read — power, activeEdits map, grandEditActive,
+   *  lastUpdated. Powers the CorruptibleBio crossout overlay and the
+   *  uncorruption-bench combine UI. Returns safe defaults when the DB row
+   *  is missing (e.g. fresh install, in-memory test). */
+  async getShadowTongueState(): Promise<{
+    power: number;
+    activeEdits: ActiveEdits;
+    grandEditActive: boolean;
+    lastUpdated: Date | null;
+  }> {
+    const db = await getDb();
+    if (!db) {
+      return { power: 0, activeEdits: {}, grandEditActive: false, lastUpdated: null };
+    }
+    const [state] = await db.select().from(shadowTongueState).where(eq(shadowTongueState.id, 1)).limit(1);
+    if (!state) {
+      return { power: 0, activeEdits: {}, grandEditActive: false, lastUpdated: null };
+    }
+    return {
+      power: state.powerLevel,
+      activeEdits: parseActiveEdits(state.activeEdits),
+      grandEditActive: state.grandEditActive === 1,
+      lastUpdated: state.lastUpdated,
+    };
+  },
+
+  /** Apply a new Shadow Tongue edit to a room artifact. The pure helper
+   *  in apps/shared/shadowTongueEdits.ts handles the merge semantics
+   *  (preserves prior createdAt on re-edit, replaces previously-cleared
+   *  entries cleanly). Read-modify-write — concurrent writers may race,
+   *  but mutation frequency is player-paced (low). The userId scopes the
+   *  outgoing ripple event; the underlying state is global. */
+  async recordActiveEdit(userId: number, edit: ActiveEdit): Promise<ActiveEdits> {
+    const db = await getDb();
+    if (!db) return {};
+    const [state] = await db.select().from(shadowTongueState).where(eq(shadowTongueState.id, 1)).limit(1);
+    const current = parseActiveEdits(state?.activeEdits);
+    const next = recordEditPure(current, edit);
+    if (state) {
+      await db.update(shadowTongueState)
+        .set({ activeEdits: serializeActiveEdits(next), lastUpdated: new Date() })
+        .where(eq(shadowTongueState.id, 1));
+    } else {
+      await db.insert(shadowTongueState).values({
+        id: 1,
+        powerLevel: 0,
+        activeEdits: serializeActiveEdits(next),
+        grandEditActive: 0,
+      });
+    }
+    try {
+      await ripple.emit("shadow_tongue_edit_recorded", { userId, editId: edit.id, room: edit.room });
+    } catch (err) {
+      logger.error("[shadowTongue] ripple failed on recordActiveEdit", err);
+    }
+    return next;
+  },
+
+  /** Clear an active edit at the given engine tick. Idempotent — clearing
+   *  an already-cleared edit is a no-op (first clear wins). Clearing an
+   *  unknown id is a no-op. The pure helper enforces both. The userId
+   *  scopes the outgoing ripple event; the underlying state is global. */
+  async clearActiveEdit(userId: number, id: string, tickAt: number): Promise<ActiveEdits> {
+    const db = await getDb();
+    if (!db) return {};
+    const [state] = await db.select().from(shadowTongueState).where(eq(shadowTongueState.id, 1)).limit(1);
+    const current = parseActiveEdits(state?.activeEdits);
+    const next = clearEditPure(current, id, tickAt);
+    if (next === current) return current;
+    if (state) {
+      await db.update(shadowTongueState)
+        .set({ activeEdits: serializeActiveEdits(next), lastUpdated: new Date() })
+        .where(eq(shadowTongueState.id, 1));
+    }
+    try {
+      await ripple.emit("shadow_tongue_edit_cleared", { userId, editId: id });
+    } catch (err) {
+      logger.error("[shadowTongue] ripple failed on clearActiveEdit", err);
+    }
+    return next;
   },
 
   getVoteDefinition(voteId: string): NexusPointVote | undefined {
