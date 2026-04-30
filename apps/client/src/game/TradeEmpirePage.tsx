@@ -43,7 +43,8 @@ import {
   getTechsByBranch, canResearch, getTechById,
   type TechBranch, type TechTreeState, DEFAULT_TECH_STATE,
 } from "./techTree";
-import { FlaskConical, Coins, Handshake, Skull, Building2 } from "lucide-react";
+import { FlaskConical, Coins, Handshake, Skull, Building2, FileSignature } from "lucide-react";
+import { LockeConfidentialLedgerPanel } from "@/components/tradeEmpire/LockeConfidentialLedgerPanel";
 import LivingBackground from "@/components/LivingBackground";
 import CinematicGate from "@/components/CinematicGate";
 import { ACT1_CUTSCENES } from "@/data/preludeAct1Deliverables";
@@ -115,7 +116,8 @@ function getTradeBackground(view: View) {
 type View =
   | "map" | "missions" | "agents" | "diplomacy" | "fleet" | "research"
   | "sector_detail" | "act3" | "routes" | "event_log"
-  | "civilization" | "market_exchange" | "council" | "war_room" | "convergence";
+  | "civilization" | "market_exchange" | "council" | "war_room" | "convergence"
+  | "ledger";
 
 const MISSION_TYPE_ICONS: Record<string, typeof Globe> = {
   trade: Package, espionage: Eye, diplomacy: Users, combat: Swords,
@@ -822,6 +824,7 @@ export default function TradeEmpirePage() {
           { id: "council" as View, label: "COUNCIL", icon: Handshake },
           { id: "war_room" as View, label: "WAR ROOM", icon: Send },
           { id: "convergence" as View, label: "CONVERGENCE", icon: Skull },
+          { id: "ledger" as View, label: "LEDGER", icon: FileSignature },
         ].map(tab => {
           const Icon = tab.icon;
           return (
@@ -1552,6 +1555,21 @@ export default function TradeEmpirePage() {
             saveEmpire={saveEmpire}
             saveExpansion={saveExpansion}
           />
+        )}
+
+        {/* Locke's Confidential Ledger — cross-system payouts.
+            Phase 1 wire-up uses empire.influence as a stand-in for
+            per-broker reputation; the trade-empire subsystem will
+            ship dedicated Locke reputation later. The payout
+            callback is intentionally a no-op for now — the next
+            step is routing each kind into its receiving subsystem
+            (crew_xp → crew router, etc.). */}
+        {view === "ledger" && (
+          <div className="max-w-2xl mx-auto">
+            <LockeConfidentialLedgerPanel
+              reputation={empire.influence}
+            />
+          </div>
         )}
       </div>
 
