@@ -23,6 +23,8 @@ import {
   Lock, Crosshair, Send, RotateCcw,
 } from "lucide-react";
 import type { ArmyUnit, ArmyDeployment, ArmyUnitType, SectorControl } from "@/contexts/GameContext";
+import { useVexCommissions } from "@/hooks/useVexCommissions";
+import { VexCommissionModal } from "@/components/army/VexCommissionModal";
 
 /* ═══ CONSTANTS ═══ */
 const UNIT_TYPE_ICONS: Record<string, typeof Shield> = {
@@ -574,6 +576,14 @@ export default function ArmyManagementPage() {
   const elaraReportMessages: TransmissionMessage[] = missionReport ? [{ speaker: "elara", text: missionReport.elara }] : [];
   const humanReportMessages: TransmissionMessage[] = missionReport ? [{ speaker: "human", text: missionReport.human, corruptionLevel: 30 }] : [];
 
+  // Vex Solène commission hook — emits modals at milestone counts
+  // (1, 5, 10, 15, 20). Server-side dedup means a strict-mode double
+  // mount or a re-visit won't refire commissions the player already
+  // saw (engagement.vexCommissions.recordMissionCount tracks
+  // vexLastMissionCount on the user's gameData).
+  const { current: currentCommission, dismiss: dismissCommission } =
+    useVexCommissions(completedMissions.length);
+
   return (
     <div className="min-h-screen grid-bg animate-fade-in">
       {/* Header */}
@@ -920,6 +930,11 @@ export default function ArmyManagementPage() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      <VexCommissionModal
+        commission={currentCommission}
+        onDismiss={dismissCommission}
+      />
     </div>
   );
 }
