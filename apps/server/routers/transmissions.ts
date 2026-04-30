@@ -35,11 +35,30 @@ import {
 import { getTrackMeme } from "@shared/dischordianLogicTrackMemes";
 import { ALBUM1_FIRST_NINE_SLIDESHOWS } from "@shared/songSlideshows";
 import { ALBUM1_TRACKS, type Album1TrackId } from "@shared/expansionArt/album1Slideshows";
+import {
+  buildInbox,
+  loginItemId,
+  pickNextLoginItem,
+  type LoginTransmissionItem,
+} from "@shared/loginTransmissionQueue";
+import {
+  ALL_TRANSMISSIONS,
+  transmissionId as makeTransmissionId,
+  type PlayerContext as TransmissionPlayerContext,
+  type Transmission,
+} from "@shared/transmissions";
 
 const TRANSMISSION_CONTENT_TYPE = "transmission";
 const TRANSMISSION_NOTIFIED_TYPE = "transmission-notified";
 const ALBUM_CURSOR_TYPE = "album-transmission-cursor";
 const ALBUM_CURSOR_ID = "dischordian-logic";
+const LOGIN_SKIPPED_TYPE = "login-transmission-skipped";
+
+/** Per-album-track completion grant — the user's "completion point".
+ *  TV transmissions carry their own per-episode rewards in the
+ *  Transmission.reward field; album tracks did not, so they earn
+ *  this baseline grant. */
+const ALBUM_COMPLETION_REWARD = { xp: 50, dream: 5 } as const;
 
 const Album1TrackIdSchema = z.enum(["T01", "T02", "T03", "T04", "T05", "T06", "T07", "T08", "T09"]);
 
@@ -93,6 +112,124 @@ async function persistAlbumCursor(
       metadata: cursor,
     });
   }
+}
+
+/** Zod schema for the runtime PlayerContext the client sends with
+ *  `getNextLoginTransmission` / `getLoginTransmissionInbox`. The
+ *  client already builds this for the existing transmission-unlock
+ *  evaluator (`usePlayerContext`), so we accept it as input rather
+ *  than re-derive it server-side. */
+const PlayerContextInputSchema = z.object({
+  level: z.number().int().min(0).max(1000),
+  awakeningStep: z.string().optional(),
+  completedChapters: z.array(z.string()).max(256),
+  elaraTrust: z.number().min(0).max(100),
+  humanTrust: z.number().min(0).max(100),
+  npcTrust: z.record(z.string(), z.number()).default({}),
+  moralityScore: z.number(),
+  narrativeFlags: z.record(z.string(), z.boolean()).default({}),
+  roomsVisited: z.array(z.string()).max(256),
+  hasApprenticeGraduate: z.boolean(),
+});
+
+const LoginTransmissionItemInputSchema = z.discriminatedUnion("kind", [
+  z.object({
+    kind: z.literal("album"),
+    trackId: z.enum(["T01", "T02", "T03", "T04", "T05", "T06", "T07", "T08", "T09"]),
+  }),
+  z.object({
+    kind: z.literal("tv"),
+    transmissionId: z.string().min(1).max(128),
+  }),
+]);
+
+async function loadWatchedSet(
+  db: DrizzleDb,
+  userId: number,
+): Promise<Set<string>> {
+  // Watched = any contentParticipation row of contentType="transmission"
+  // with completed=1, mapped to the corresponding loginItemId form.
+  const rows = await db
+    .select({ contentId: contentParticipation.contentId })
+    .from(contentParticipation)
+    .where(
+      and(
+        eq(contentParticipation.userId, userId),
+        eq(contentParticipation.contentType, TRANSMISSION_CONTENT_TYPE),
+        eq(contentParticipation.completed, 1),
+      ),
+    );
+  const set = new Set<string>();
+  for (const r of rows) {
+    set.add(`tv:${r.contentId}`);
+  }
+  return set;
+}
+
+async function loadSkippedSet(
+  db: DrizzleDb,
+  userId: number,
+): Promise<Set<string>> {
+  const rows = await db
+    .select({ contentId: contentParticipation.contentId })
+    .from(contentParticipation)
+    .where(
+      and(
+        eq(contentParticipation.userId, userId),
+        eq(contentParticipation.contentType, LOGIN_SKIPPED_TYPE),
+      ),
+    );
+  return new Set(rows.map((r) => r.contentId));
+}
+
+async function loadAlbumWatchedSet(
+  cursor: AlbumTransmissionCursor,
+): Promise<Set<string>> {
+  // Watched album tracks are anything with index < cursor.nextTrackIndex.
+  const set = new Set<string>();
+  for (let i = 0; i < cursor.nextTrackIndex; i++) {
+    const trackId = ALBUM_TRANSMISSION_TRACK_ORDER[i];
+    if (trackId) set.add(`album:${trackId}`);
+  }
+  return set;
+}
+
+function describeAlbumItem(trackId: Album1TrackId) {
+  const playback = describeAlbumTrack(trackId);
+  const meme = getTrackMeme(trackId);
+  if (!playback || !meme) return null;
+  return {
+    kind: "album" as const,
+    trackId,
+    title: playback.title,
+    audioUrl: playback.audioUrl,
+    durationMs: playback.durationMs,
+    intro: meme.intro,
+    outro: meme.outro,
+    firstEverIntroId: meme.firstEverIntroId ?? null,
+  };
+}
+
+function describeTvItem(transmission: Transmission) {
+  return {
+    kind: "tv" as const,
+    transmissionId: makeTransmissionId(transmission),
+    title: transmission.title,
+    videoUrl: transmission.videoUrl,
+    driveFileId: transmission.driveFileId,
+    lengthSeconds: transmission.lengthSeconds,
+    epoch: transmission.epoch,
+    episodeNumber: transmission.episodeNumber,
+    intro: transmission.memeIntro,
+    outro: transmission.memeOutro,
+    synopsis: transmission.synopsis,
+    reward: transmission.reward,
+    relatedLoredexEntries: transmission.relatedLoredexEntries ?? [],
+  };
+}
+
+function findTvTransmission(transmissionId: string): Transmission | null {
+  return ALL_TRANSMISSIONS.find((t) => makeTransmissionId(t) === transmissionId) ?? null;
 }
 
 function describeAlbumTrack(trackId: Album1TrackId) {
@@ -494,7 +631,200 @@ export const transmissionsRouter = router({
         return { advanced: false as const, cursor: before };
       }
       await persistAlbumCursor(db, ctx.user.id, after);
-      return { advanced: true as const, cursor: after };
+
+      // Completion grant — the user's "completion point". Idempotent
+      // via the same contentParticipation row pattern as recordWatched:
+      // this row marks the album track as fully watched + rewarded.
+      try {
+        const albumWatchedId = `album:${input.trackId}`;
+        const existing = await db
+          .select()
+          .from(contentParticipation)
+          .where(
+            and(
+              eq(contentParticipation.userId, ctx.user.id),
+              eq(contentParticipation.contentType, TRANSMISSION_CONTENT_TYPE),
+              eq(contentParticipation.contentId, albumWatchedId),
+            ),
+          )
+          .limit(1);
+        const alreadyRewarded =
+          existing.length > 0 &&
+          existing[0].completed === 1 &&
+          existing[0].rewardsClaimed === 1;
+        if (!alreadyRewarded) {
+          await grantDream(db, ctx.user.id, ALBUM_COMPLETION_REWARD.dream);
+          await grantCitizenXp(db, ctx.user.id, ALBUM_COMPLETION_REWARD.xp);
+          if (existing.length > 0) {
+            await db
+              .update(contentParticipation)
+              .set({
+                completed: 1,
+                progress: 100,
+                rewardsClaimed: 1,
+                metadata: { ...ALBUM_COMPLETION_REWARD, trackId: input.trackId },
+              })
+              .where(eq(contentParticipation.id, existing[0].id));
+          } else {
+            await db.insert(contentParticipation).values({
+              userId: ctx.user.id,
+              contentType: TRANSMISSION_CONTENT_TYPE,
+              contentId: albumWatchedId,
+              completed: 1,
+              progress: 100,
+              rewardsClaimed: 1,
+              metadata: { ...ALBUM_COMPLETION_REWARD, trackId: input.trackId },
+            });
+          }
+        }
+        // Also clear any prior skip row so the inbox no longer surfaces
+        // it under "skipped" — the player did finish it.
+        await db
+          .delete(contentParticipation)
+          .where(
+            and(
+              eq(contentParticipation.userId, ctx.user.id),
+              eq(contentParticipation.contentType, LOGIN_SKIPPED_TYPE),
+              eq(contentParticipation.contentId, albumWatchedId),
+            ),
+          );
+      } catch (err) {
+        logger.error("[transmissions.acceptAlbumTransmission] Reward grant failed:", err);
+      }
+
+      return {
+        advanced: true as const,
+        cursor: after,
+        rewarded: ALBUM_COMPLETION_REWARD,
+      };
+    }),
+
+  /**
+   * Unified next-up query: returns the next undelivered login
+   * transmission, branching on `kind`. Album tracks come first
+   * (T01..T09), then TV transmissions in broadcastOrder filtered
+   * by `isUnlocked`. Skipped items are skipped (kept in inbox).
+   * Returns null when the queue is exhausted or the DB is down.
+   */
+  getNextLoginTransmission: protectedProcedure
+    .input(z.object({ playerContext: PlayerContextInputSchema }))
+    .query(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) return null;
+
+      const cursor = await loadAlbumCursor(db, ctx.user.id);
+      const watchedTv = await loadWatchedSet(db, ctx.user.id);
+      const watchedAlbum = await loadAlbumWatchedSet(cursor);
+      const watched = new Set([...watchedTv, ...watchedAlbum]);
+      const skipped = await loadSkippedSet(db, ctx.user.id);
+
+      const next = pickNextLoginItem(
+        cursor,
+        input.playerContext as TransmissionPlayerContext,
+        watched,
+        skipped,
+      );
+      if (next === null) return null;
+
+      if (next.kind === "album") {
+        const item = describeAlbumItem(next.trackId);
+        if (!item) return null;
+        return {
+          ...item,
+          firstEver: !cursor.firstEverDelivered,
+        };
+      }
+      const transmission = findTvTransmission(next.transmissionId);
+      if (!transmission) return null;
+      return describeTvItem(transmission);
+    }),
+
+  /**
+   * Mark a login transmission as skipped — closes the modal but
+   * keeps the entry in the player's INBOX for later viewing.
+   * Idempotent: re-skipping is a no-op. Watching the entry later
+   * via `recordWatched` or `acceptAlbumTransmission` removes the
+   * skip row.
+   */
+  skipLoginTransmission: protectedProcedure
+    .input(z.object({ item: LoginTransmissionItemInputSchema }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) return { skipped: false as const };
+
+      const id = loginItemId(input.item);
+      const existing = await db
+        .select()
+        .from(contentParticipation)
+        .where(
+          and(
+            eq(contentParticipation.userId, ctx.user.id),
+            eq(contentParticipation.contentType, LOGIN_SKIPPED_TYPE),
+            eq(contentParticipation.contentId, id),
+          ),
+        )
+        .limit(1);
+      if (existing.length > 0) {
+        return { skipped: true as const, alreadySkipped: true as const };
+      }
+
+      // For T01: also flip firstEverDelivered so the cinematic doesn't
+      // re-pop. The track itself stays in the inbox as a skip.
+      if (input.item.kind === "album" && input.item.trackId === "T01") {
+        const cursor = await loadAlbumCursor(db, ctx.user.id);
+        if (!cursor.firstEverDelivered) {
+          await persistAlbumCursor(db, ctx.user.id, {
+            ...cursor,
+            firstEverDelivered: true,
+          });
+        }
+      }
+
+      await db.insert(contentParticipation).values({
+        userId: ctx.user.id,
+        contentType: LOGIN_SKIPPED_TYPE,
+        contentId: id,
+        completed: 0,
+        progress: 0,
+        rewardsClaimed: 0,
+        metadata: {
+          skippedAt: Date.now(),
+          kind: input.item.kind,
+        },
+      });
+      return { skipped: true as const };
+    }),
+
+  /**
+   * Returns the player's INBOX projection: pending (next-up + skipped),
+   * watched (history with grant timestamps), and pendingCount for the
+   * launcher badge. The client should call this to render the INBOX
+   * tab in the Transmission Deck.
+   */
+  getLoginTransmissionInbox: protectedProcedure
+    .input(z.object({ playerContext: PlayerContextInputSchema }))
+    .query(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) {
+        return {
+          pending: [] as LoginTransmissionItem[],
+          watched: [] as LoginTransmissionItem[],
+          skipped: [] as LoginTransmissionItem[],
+          pendingCount: 0,
+        };
+      }
+      const cursor = await loadAlbumCursor(db, ctx.user.id);
+      const watchedTv = await loadWatchedSet(db, ctx.user.id);
+      const watchedAlbum = await loadAlbumWatchedSet(cursor);
+      const watched = new Set([...watchedTv, ...watchedAlbum]);
+      const skipped = await loadSkippedSet(db, ctx.user.id);
+
+      return buildInbox(
+        cursor,
+        input.playerContext as TransmissionPlayerContext,
+        watched,
+        skipped,
+      );
     }),
 });
 
