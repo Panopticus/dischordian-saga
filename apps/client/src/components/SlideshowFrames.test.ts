@@ -3,9 +3,9 @@ import { findActiveFrameIndex } from "./SlideshowFrames";
 import type { SlideshowFrame } from "@shared/songSlideshow";
 
 const FRAMES: readonly SlideshowFrame[] = [
-  { startMs: 0, endMs: 5_000, imageUrl: "f0.png", transition: "cut" },
-  { startMs: 5_000, endMs: 12_000, imageUrl: "f1.png", transition: "cut" },
-  { startMs: 12_000, endMs: 20_000, imageUrl: "f2.png", transition: "cut" },
+  { startMs: 0, endMs: 5_000, imageUrl: "f0.png", transition: "hardcut" },
+  { startMs: 5_000, endMs: 12_000, imageUrl: "f1.png", transition: "hardcut" },
+  { startMs: 12_000, endMs: 20_000, imageUrl: "f2.png", transition: "hardcut" },
 ];
 
 describe("findActiveFrameIndex", () => {
