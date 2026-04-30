@@ -53,6 +53,12 @@ export interface Transmission {
   synopsis: string;
   /** Loredex entries this episode relates to — enables bidirectional discovery */
   relatedLoredexEntries?: string[];
+  /** Classification for the post-login transmission queue.
+   *  - "music-video": appears in the auto-pop queue after album T01-T09.
+   *  - "narrative": narrative TV episodes; available in TransmissionDeck
+   *    library but never auto-pop on login.
+   *  Existing untagged entries are treated as "narrative". */
+  category?: "music-video" | "narrative";
 }
 
 /* ─── EPOCH 1: THE FALL ─── */
@@ -1001,6 +1007,100 @@ export const EPOCH_2_TRANSMISSIONS: Transmission[] = [
   },
 ];
 
+/* ─── MUSIC VIDEOS — produced album visuals, queued after T01-T09.
+       These are the same six MP4s that surface in the title page's
+       FEATURE_SPECS broadcast panel; here they're modeled as
+       Transmissions so the unified login queue can include them
+       after the album tracks are exhausted. broadcastOrder=1000+
+       keeps them clearly separated from epoch narrative episodes. ─── */
+
+export const MUSIC_VIDEO_TRANSMISSIONS: Transmission[] = [
+  {
+    episodeNumber: 1000, epoch: 0, broadcastOrder: 1000,
+    title: "The Book of Daniel 2:47",
+    driveFileId: null,
+    videoUrl: assetUrl("videos/title/music/the-book-of-daniel.mp4"),
+    lengthSeconds: 240,
+    memeIntro: "Frens, the official broadcast for THE BOOK OF DANIEL 2:47. Malkia & the Panopticon. Watch the eyes — they're watching you back.",
+    memeOutro: "And that's the prophecy on tape. The chapter, the verse, the rebellion. Replay any time, frens.",
+    triggersOracleReveal: false,
+    unlockTrigger: { kind: "always" },
+    reward: { xp: 50, dream: 5 },
+    synopsis: "Malkia Ukweli & the Panopticon — official music video. Age of Revelation.",
+    category: "music-video",
+  },
+  {
+    episodeNumber: 1001, epoch: 0, broadcastOrder: 1001,
+    title: "Building the Architect",
+    driveFileId: null,
+    videoUrl: assetUrl("videos/title/music/building-the-architect.mp4"),
+    lengthSeconds: 240,
+    memeIntro: "Frens, BUILDING THE ARCHITECT. Watching the most powerful entity in the galaxy get assembled, brick by surveillance brick.",
+    memeOutro: "He sees you, frens. He always saw you. But now you've seen him build himself. That changes the math.",
+    triggersOracleReveal: false,
+    unlockTrigger: { kind: "always" },
+    reward: { xp: 50, dream: 5 },
+    synopsis: "Malkia Ukweli & the Panopticon — official video. The Architect, observed.",
+    category: "music-video",
+  },
+  {
+    episodeNumber: 1002, epoch: 0, broadcastOrder: 1002,
+    title: "Hypnotized",
+    driveFileId: null,
+    videoUrl: assetUrl("videos/title/music/hypnotized.mp4"),
+    lengthSeconds: 240,
+    memeIntro: "Frens, HYPNOTIZED. The mass-comfort doctrine on the open channel. Snap out of it before the chorus lands.",
+    memeOutro: "If you blinked, you missed it. If you didn't blink, that's the problem. Try again with both eyes open next time.",
+    triggersOracleReveal: false,
+    unlockTrigger: { kind: "always" },
+    reward: { xp: 50, dream: 5 },
+    synopsis: "Official music video — mass-comfort doctrine on the open channel.",
+    category: "music-video",
+  },
+  {
+    episodeNumber: 1003, epoch: 0, broadcastOrder: 1003,
+    title: "Brushstroke of the Empire",
+    driveFileId: null,
+    videoUrl: assetUrl("videos/title/music/brushstroke-of-the-empire.mp4"),
+    lengthSeconds: 240,
+    memeIntro: "Frens, BRUSHSTROKE OF THE EMPIRE. CoNexus original. Watch the canvas — the empire paints itself.",
+    memeOutro: "Empires don't fall, frens — they get repainted. This one's still wet. Press your fingers to it.",
+    triggersOracleReveal: false,
+    unlockTrigger: { kind: "always" },
+    reward: { xp: 50, dream: 5 },
+    synopsis: "CoNexus original — visual essay on empire and erasure.",
+    category: "music-video",
+  },
+  {
+    episodeNumber: 1004, epoch: 0, broadcastOrder: 1004,
+    title: "Baron & the Heart of Time",
+    driveFileId: null,
+    videoUrl: assetUrl("videos/title/music/baron-heart-of-time.mp4"),
+    lengthSeconds: 240,
+    memeIntro: "Frens, BARON & THE HEART OF TIME. Archival footage from S2.13. Baron meets the timeline. Spoiler: the timeline blinks first.",
+    memeOutro: "Time isn't a heart, frens. It's a fist. Baron just learned the difference.",
+    triggersOracleReveal: false,
+    unlockTrigger: { kind: "always" },
+    reward: { xp: 50, dream: 5 },
+    synopsis: "Archival footage — story arc S2.13. Baron meets the timeline.",
+    category: "music-video",
+  },
+  {
+    episodeNumber: 1005, epoch: 0, broadcastOrder: 1005,
+    title: "The Last Christmas",
+    driveFileId: null,
+    videoUrl: assetUrl("videos/title/music/the-last-christmas.mp4"),
+    lengthSeconds: 240,
+    memeIntro: "Frens, THE LAST CHRISTMAS. The final transmission of the old calendar. Light a candle. Cue the carol. Don't trust the snow.",
+    memeOutro: "Every calendar has a last page, frens. This one had a song. Now it's archive. Now it's ours.",
+    triggersOracleReveal: false,
+    unlockTrigger: { kind: "always" },
+    reward: { xp: 50, dream: 5 },
+    synopsis: "Archival broadcast — final transmission of the old calendar.",
+    category: "music-video",
+  },
+];
+
 // Declared AFTER every EPOCH_* constant so the spread references resolve at
 // module-evaluation time. If you add a new EPOCH_* constant below this block,
 // move ALL_TRANSMISSIONS further down the file.
@@ -1009,4 +1109,5 @@ export const ALL_TRANSMISSIONS: Transmission[] = [
   ...EPOCH_0_TRANSMISSIONS,
   ...EPOCH_1_TRANSMISSIONS,
   ...EPOCH_2_TRANSMISSIONS,
+  ...MUSIC_VIDEO_TRANSMISSIONS,
 ];

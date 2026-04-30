@@ -197,3 +197,55 @@ describe("Queue stability", () => {
     expect(new Set(ids).size).toBe(ids.length);
   });
 });
+
+describe("Music-video category filter", () => {
+  it("queue's TV section excludes narrative transmissions even when unlocked", async () => {
+    // Spend the album cursor first so the TV section comes through.
+    let cursor = INITIAL_CURSOR;
+    for (const trackId of [
+      "T01", "T02", "T03", "T04", "T05", "T06", "T07", "T08", "T09",
+    ] as const) {
+      cursor = advanceCursor(cursor, trackId);
+    }
+    const { ALL_TRANSMISSIONS, transmissionId } = await import("./transmissions");
+    const queue = buildLoginQueue(cursor, MID_GAME_CTX);
+    const tvIds = new Set(
+      queue
+        .filter((q): q is Extract<LoginTransmissionItem, { kind: "tv" }> => q.kind === "tv")
+        .map((q) => q.transmissionId),
+    );
+    for (const t of ALL_TRANSMISSIONS) {
+      const id = transmissionId(t);
+      if (t.category !== "music-video") {
+        // Narrative entries (default category) must NEVER be in the
+        // login queue, even if they're unlocked.
+        expect(tvIds.has(id)).toBe(false);
+      }
+    }
+  });
+
+  it("includes every music-video transmission with always-unlock in the queue", async () => {
+    const queue = buildLoginQueue(INITIAL_CURSOR, MID_GAME_CTX);
+    const tvIds = new Set(
+      queue
+        .filter((q): q is Extract<LoginTransmissionItem, { kind: "tv" }> => q.kind === "tv")
+        .map((q) => q.transmissionId),
+    );
+    const { MUSIC_VIDEO_TRANSMISSIONS, transmissionId } = await import("./transmissions");
+    for (const t of MUSIC_VIDEO_TRANSMISSIONS) {
+      if (t.unlockTrigger.kind === "always") {
+        expect(tvIds.has(transmissionId(t))).toBe(true);
+      }
+    }
+  });
+
+  it("places music videos after the 9 album tracks in delivery order", () => {
+    const queue = buildLoginQueue(INITIAL_CURSOR, MID_GAME_CTX);
+    const firstNine = queue.slice(0, 9);
+    expect(firstNine.every((q) => q.kind === "album")).toBe(true);
+    const tail = queue.slice(9);
+    if (tail.length > 0) {
+      expect(tail[0].kind).toBe("tv");
+    }
+  });
+});
