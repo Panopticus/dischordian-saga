@@ -27,7 +27,10 @@ import { CIPHER_DEN_MYSTERY } from "./cipherDen";
 import { COMMS_ARRAY_MYSTERY } from "./commsArray";
 import { ENGINEERING_MYSTERY } from "./engineering";
 import { MEDICAL_BAY_MYSTERY } from "./medicalBay";
+import { OBSERVATION_DECK_MYSTERY } from "./observationDeck";
 import { SHADOW_VAULT_MYSTERY } from "./shadowVault";
+import { STATION_DOCK_MYSTERY } from "./stationDock";
+import { WAR_ROOM_MYSTERY } from "./warRoom";
 
 /** Cryo Bay adapter — wraps the legacy responses table in the
  *  generic module shape so the registry can dispatch to it. The
@@ -53,6 +56,9 @@ export const ROOM_MYSTERY_REGISTRY: Readonly<Record<string, RoomMysteryModule>> 
   "captains-quarters": CAPTAINS_QUARTERS_MYSTERY as RoomMysteryModule,
   "shadow-vault": SHADOW_VAULT_MYSTERY as RoomMysteryModule,
   "cipher-den": CIPHER_DEN_MYSTERY as RoomMysteryModule,
+  "observation-deck": OBSERVATION_DECK_MYSTERY as RoomMysteryModule,
+  "war-room": WAR_ROOM_MYSTERY as RoomMysteryModule,
+  "station-dock": STATION_DOCK_MYSTERY as RoomMysteryModule,
 };
 
 /** Get the module for a room id, or null if no mystery is authored. */
