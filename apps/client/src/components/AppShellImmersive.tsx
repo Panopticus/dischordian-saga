@@ -354,9 +354,12 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
             transmission={loginMeme.transmission}
             phase={loginMeme.phase}
             onAccept={loginMeme.accept}
+            onSkip={loginMeme.skip}
+            onMuteFuture={loginMeme.muteFuture}
             onDismiss={loginMeme.dismiss}
             onMinimize={loginMeme.minimize}
             onPhaseChange={loginMeme.setPhase}
+            onTvCompleted={loginMeme.reportTvCompleted}
           />
         )}
       {loginMeme.transmission && loginMeme.phase === "minimized" && (

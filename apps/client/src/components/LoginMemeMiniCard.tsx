@@ -9,16 +9,19 @@
 import { motion } from "framer-motion";
 import { Maximize2, Pause, Play, X } from "lucide-react";
 import { usePlayer } from "@/contexts/PlayerContext";
-import type { LoginAlbumTransmission } from "@/hooks/useLoginAlbumTransmission";
+import type { LoginTransmission } from "@/hooks/useLoginAlbumTransmission";
 
 interface Props {
-  transmission: LoginAlbumTransmission;
+  transmission: LoginTransmission;
   onExpand: () => void;
   onClose: () => void;
 }
 
 export default function LoginMemeMiniCard({ transmission, onExpand, onClose }: Props) {
   const player = usePlayer();
+  // Mini-card only surfaces for album-track playback — TV transmissions
+  // play inline in the modal; minimize is disabled for them.
+  if (transmission.kind !== "album") return null;
   const isOurSong =
     player.currentSong?.id === `album1_${transmission.trackId.toLowerCase()}`;
 

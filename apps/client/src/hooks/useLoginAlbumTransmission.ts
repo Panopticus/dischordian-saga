@@ -1,15 +1,27 @@
 /* ═══════════════════════════════════════════════════════
    useLoginAlbumTransmission — on-login Meme broadcast hook
 
-   On first authenticated mount, queries the server for the
-   next undelivered Dischordian Logic track and pops a CRT
-   modal ("LoginMemeBroadcast"). Drives the phase machine
-   for first-words → intro → playing → outro → done, and
-   persists per-session dismissal to sessionStorage so a
-   refresh doesn't re-pop within the same browser session.
+   On first authenticated mount, queries the unified login
+   transmission queue (Dischordian Logic T01..T09 → TV
+   transmissions in broadcastOrder) and pops the CRT modal.
 
-   Audio is delegated to the global PlayerContext so the
-   song survives route changes and the minimized mini-card.
+   Three actions on the modal:
+     - WATCH (accept): plays the audio/video. Completion fires
+       the reward grant.
+     - SKIP: closes the modal but keeps the entry in the player's
+       INBOX tab so they can watch it later. Persists across
+       browser sessions, unlike Close (per-session-only).
+     - MUTE FUTURE: writes settings.muteLoginTransmissions=true
+       so future transmissions auto-route to the inbox without
+       popping. Also skips the current entry.
+
+   When muteLoginTransmissions is true, the hook silently skips
+   any newly-popped transmission so it lands in the inbox
+   instead of opening the modal.
+
+   Audio/video is delegated to the global PlayerContext (album
+   tracks) or rendered inline by LoginMemeBroadcast (TV
+   transmissions with iframe/video).
 
    Mounted exactly once in AppShellImmersive.
    ═══════════════════════════════════════════════════════ */
@@ -17,6 +29,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { trpc } from "@/lib/trpc";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { usePlayer } from "@/contexts/PlayerContext";
+import { usePlayerContext } from "@/hooks/usePlayerContext";
 import type { LoredexEntry } from "@/contexts/LoredexContext";
 
 export type LoginMemePhase =
@@ -29,7 +42,9 @@ export type LoginMemePhase =
   | "minimized"
   | "dismissed";
 
+/** Album-track variant of the queue payload. */
 export interface LoginAlbumTransmission {
+  kind: "album";
   trackId: string;
   title: string;
   audioUrl: string;
@@ -40,17 +55,40 @@ export interface LoginAlbumTransmission {
   firstEverIntroId: "login_first_ever" | null;
 }
 
-function dismissKey(userId: string | number | undefined, trackId: string) {
-  return `loginMemeDismissed:${userId ?? "anon"}:${trackId}`;
+/** TV-episode variant of the queue payload. */
+export interface LoginTvTransmission {
+  kind: "tv";
+  transmissionId: string;
+  title: string;
+  videoUrl: string | null;
+  driveFileId: string | null;
+  lengthSeconds: number;
+  epoch: number;
+  episodeNumber: number;
+  intro: string;
+  outro: string;
+  synopsis: string;
+  reward: { xp: number; dream: number; achievement?: string };
+  relatedLoredexEntries: string[];
+}
+
+export type LoginTransmission = LoginAlbumTransmission | LoginTvTransmission;
+
+function loginItemKey(t: LoginTransmission): string {
+  return t.kind === "album" ? `album:${t.trackId}` : `tv:${t.transmissionId}`;
+}
+
+function dismissKey(userId: string | number | undefined, itemKey: string) {
+  return `loginMemeDismissed:${userId ?? "anon"}:${itemKey}`;
 }
 
 function isDismissedThisSession(
   userId: string | number | undefined,
-  trackId: string,
+  itemKey: string,
 ): boolean {
   if (typeof window === "undefined") return false;
   try {
-    return window.sessionStorage.getItem(dismissKey(userId, trackId)) === "1";
+    return window.sessionStorage.getItem(dismissKey(userId, itemKey)) === "1";
   } catch {
     return false;
   }
@@ -58,81 +96,148 @@ function isDismissedThisSession(
 
 function markDismissedThisSession(
   userId: string | number | undefined,
-  trackId: string,
+  itemKey: string,
 ): void {
   if (typeof window === "undefined") return;
   try {
-    window.sessionStorage.setItem(dismissKey(userId, trackId), "1");
+    window.sessionStorage.setItem(dismissKey(userId, itemKey), "1");
   } catch {
     /* sessionStorage may be unavailable in private mode */
   }
 }
 
+type Album1TrackId = "T01" | "T02" | "T03" | "T04" | "T05" | "T06" | "T07" | "T08" | "T09";
+
 export function useLoginAlbumTransmission() {
   const { isAuthenticated, user } = useAuth();
   const player = usePlayer();
-  const acceptMutation = trpc.transmissions.acceptAlbumTransmission.useMutation();
-  const queryEnabled = isAuthenticated;
+  const playerCtx = usePlayerContext();
+  const acceptAlbumMutation = trpc.transmissions.acceptAlbumTransmission.useMutation();
+  const skipMutation = trpc.transmissions.skipLoginTransmission.useMutation();
+  const recordWatchedMutation = trpc.transmissions.recordWatched.useMutation();
+  const saveSettingsMutation = trpc.settings.saveSettings.useMutation();
 
-  const { data: transmission } = trpc.transmissions.getNextAlbumTransmission.useQuery(
-    undefined,
+  const settingsQuery = trpc.settings.getSettings.useQuery(undefined, {
+    enabled: isAuthenticated,
+    staleTime: 60_000,
+  });
+  const muteLoginTransmissions = settingsQuery.data?.muteLoginTransmissions ?? false;
+
+  const queryEnabled = isAuthenticated && settingsQuery.data !== undefined;
+
+  const { data: transmission } = trpc.transmissions.getNextLoginTransmission.useQuery(
+    { playerContext: playerCtx },
     { enabled: queryEnabled, staleTime: 60_000 },
   );
 
   const [phase, setPhase] = useState<LoginMemePhase>("idle");
-  // Has the popup already opened in this React lifetime? Prevents
-  // state churn from re-popping after the player dismisses it.
   const sessionFiredRef = useRef(false);
   const acknowledgedAcceptRef = useRef(false);
+  const completionFiredRef = useRef(false);
 
-  // Initial open: as soon as we get a non-null transmission and we
-  // haven't already dismissed it in this session, advance from idle.
+  // Initial open OR auto-skip when muted. As soon as we have a
+  // transmission and have read the mute setting, decide.
   useEffect(() => {
     if (sessionFiredRef.current) return;
     if (!queryEnabled) return;
     if (!transmission) return;
-    if (isDismissedThisSession(user?.id, transmission.trackId)) {
+
+    const itemKey = loginItemKey(transmission as LoginTransmission);
+
+    // Mute is active: silently route to inbox and stay idle.
+    if (muteLoginTransmissions) {
+      sessionFiredRef.current = true;
+      skipMutation.mutate({
+        item:
+          transmission.kind === "album"
+            ? { kind: "album", trackId: transmission.trackId as Album1TrackId }
+            : { kind: "tv", transmissionId: transmission.transmissionId },
+      });
+      setPhase("dismissed");
+      return;
+    }
+
+    if (isDismissedThisSession(user?.id, itemKey)) {
       sessionFiredRef.current = true;
       setPhase("dismissed");
       return;
     }
     sessionFiredRef.current = true;
-    setPhase(transmission.firstEver ? "first-words" : "intro");
-  }, [queryEnabled, transmission, user?.id]);
+    if (transmission.kind === "album") {
+      setPhase(transmission.firstEver ? "first-words" : "intro");
+    } else {
+      // TV transmissions skip the album's first-words/intro phases —
+      // they have their own intro/outro carried by the modal.
+      setPhase("intro");
+    }
+  }, [
+    queryEnabled,
+    transmission,
+    user?.id,
+    muteLoginTransmissions,
+    skipMutation,
+  ]);
 
   const accept = useCallback(() => {
     if (!transmission) return;
     if (acknowledgedAcceptRef.current) return;
     acknowledgedAcceptRef.current = true;
 
-    // CRITICAL: playSong must be called synchronously inside the
-    // user-gesture handler. Don't await any async work first or the
-    // browser autoplay policy will block the audio. The tRPC mutation
-    // is fire-and-forget.
-    const synth: LoredexEntry = {
-      id: `album1_${transmission.trackId.toLowerCase()}`,
-      type: "song",
-      name: transmission.title,
-      audio_url: transmission.audioUrl,
-      album: "Dischordian Logic",
-    };
-    player.playSong(synth);
-    setPhase("playing");
+    if (transmission.kind === "album") {
+      // CRITICAL: playSong synchronously inside the user-gesture
+      // handler. Browser autoplay policies otherwise block audio.
+      const synth: LoredexEntry = {
+        id: `album1_${transmission.trackId.toLowerCase()}`,
+        type: "song",
+        name: transmission.title,
+        audio_url: transmission.audioUrl,
+        album: "Dischordian Logic",
+      };
+      player.playSong(synth);
+      setPhase("playing");
 
-    // Notify server we accepted (completed=false until song actually
-    // ends; the audio.ended path below sends completed=true).
-    if (isAuthenticated) {
-      acceptMutation.mutate({
-        trackId: transmission.trackId as
-          | "T01" | "T02" | "T03" | "T04" | "T05" | "T06" | "T07" | "T08" | "T09",
-        completed: false,
-      });
+      if (isAuthenticated) {
+        acceptAlbumMutation.mutate({
+          trackId: transmission.trackId as Album1TrackId,
+          completed: false,
+        });
+      }
+    } else {
+      // TV transmission: the modal renders the <video>/<iframe>
+      // inline; no global PlayerContext takeover. We just flip phase
+      // and the modal handles playback + completion notification.
+      setPhase("playing");
     }
-  }, [transmission, player, acceptMutation, isAuthenticated]);
+  }, [transmission, player, acceptAlbumMutation, isAuthenticated]);
+
+  const skip = useCallback(() => {
+    if (!transmission) return;
+    skipMutation.mutate({
+      item:
+        transmission.kind === "album"
+          ? { kind: "album", trackId: transmission.trackId as Album1TrackId }
+          : { kind: "tv", transmissionId: transmission.transmissionId },
+    });
+    markDismissedThisSession(user?.id, loginItemKey(transmission as LoginTransmission));
+    setPhase("dismissed");
+  }, [transmission, skipMutation, user?.id]);
+
+  const muteFuture = useCallback(() => {
+    if (!transmission) return;
+    saveSettingsMutation.mutate({ muteLoginTransmissions: true });
+    skipMutation.mutate({
+      item:
+        transmission.kind === "album"
+          ? { kind: "album", trackId: transmission.trackId as Album1TrackId }
+          : { kind: "tv", transmissionId: transmission.transmissionId },
+    });
+    markDismissedThisSession(user?.id, loginItemKey(transmission as LoginTransmission));
+    setPhase("dismissed");
+  }, [transmission, saveSettingsMutation, skipMutation, user?.id]);
 
   const dismiss = useCallback(() => {
     if (!transmission) return;
-    markDismissedThisSession(user?.id, transmission.trackId);
+    markDismissedThisSession(user?.id, loginItemKey(transmission as LoginTransmission));
     setPhase("dismissed");
   }, [transmission, user?.id]);
 
@@ -145,13 +250,10 @@ export function useLoginAlbumTransmission() {
     setPhase("playing");
   }, [player.currentSong]);
 
-  // Watch the audio engine for completion. When the current song
-  // matches our transmission and currentTime crosses the duration
-  // threshold (or `ended` is reached, signaled by isPlaying flipping
-  // false at duration), fire the completion mutation and advance to
-  // outro.
+  // Album completion watcher — only relevant for album tracks; TV
+  // transmissions complete via the modal's own video onEnded handler.
   useEffect(() => {
-    if (!transmission) return;
+    if (!transmission || transmission.kind !== "album") return;
     if (phase !== "playing" && phase !== "minimized") return;
     if (player.currentSong?.id !== `album1_${transmission.trackId.toLowerCase()}`) {
       return;
@@ -161,11 +263,12 @@ export function useLoginAlbumTransmission() {
       player.currentTime > 0 &&
       player.currentTime >= player.duration - 1.5;
     if (!finished) return;
+    if (completionFiredRef.current) return;
+    completionFiredRef.current = true;
 
     if (isAuthenticated) {
-      acceptMutation.mutate({
-        trackId: transmission.trackId as
-          | "T01" | "T02" | "T03" | "T04" | "T05" | "T06" | "T07" | "T08" | "T09",
+      acceptAlbumMutation.mutate({
+        trackId: transmission.trackId as Album1TrackId,
         completed: true,
       });
     }
@@ -177,19 +280,49 @@ export function useLoginAlbumTransmission() {
     player.currentTime,
     player.duration,
     isAuthenticated,
-    acceptMutation,
+    acceptAlbumMutation,
   ]);
+
+  /** TV completion handler — wired from the modal's <video onEnded>. */
+  const reportTvCompleted = useCallback(() => {
+    if (!transmission || transmission.kind !== "tv") return;
+    if (completionFiredRef.current) return;
+    completionFiredRef.current = true;
+    if (isAuthenticated) {
+      recordWatchedMutation.mutate({
+        transmissionId: transmission.transmissionId,
+        xp: transmission.reward.xp,
+        dream: transmission.reward.dream,
+        achievement: transmission.reward.achievement,
+        loredexEntries: transmission.relatedLoredexEntries,
+      });
+    }
+    setPhase((p) => (p === "minimized" ? "done" : "outro"));
+  }, [transmission, isAuthenticated, recordWatchedMutation]);
 
   return useMemo(
     () => ({
-      transmission: transmission ?? null,
+      transmission: (transmission ?? null) as LoginTransmission | null,
       phase,
       accept,
+      skip,
+      muteFuture,
       dismiss,
       minimize,
       expand,
       setPhase,
+      reportTvCompleted,
     }),
-    [transmission, phase, accept, dismiss, minimize, expand],
+    [
+      transmission,
+      phase,
+      accept,
+      skip,
+      muteFuture,
+      dismiss,
+      minimize,
+      expand,
+      reportTvCompleted,
+    ],
   );
 }
