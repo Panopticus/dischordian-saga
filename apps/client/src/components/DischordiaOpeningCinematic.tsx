@@ -1,17 +1,17 @@
 /* ═══════════════════════════════════════════════════════
    DISCHORDIA OPENING CINEMATIC — first-visit MP4 + AWAKEN gate
 
-   Plays ONCE per device, after the SurveillanceOpening
-   handshake and before the title boot sequence. The 3:09
-   MP4 is The Meme's hijacked broadcast — Track 01 of
-   Dischordian Logic visualized — and hands off pixel-
-   identical to the title screen, which continues playing
-   The Enigma's Lament as ambient audio under the auth
-   buttons. The auth buttons effectively serve as the
-   "Start Game" surface the user spec referenced.
+   Plays ONCE per device. Mounted by TitlePage ONLY after the
+   SurveillanceOpening handshake completes — the user's
+   CONFIRM OPERATOR / LOOK AWAY click satisfies the browser's
+   autoplay-with-sound gesture requirement, so the meme
+   transmission's own audio plays unmuted and is the only
+   sound the player hears for the duration of the broadcast.
+
+   When the video ends naturally, TitleAlbumIntro takes over
+   with the T01 ("The Enigma's Lament") slideshow + song.
 
    Pattern mirrored from apps/client/src/components/OpeningCinematic.tsx:
-     - "BEGIN" splash satisfies the browser autoplay gesture
      - Skip ("AWAKEN") fades in after 2 seconds
      - Safety timer ensures completion if `ended` never fires
      - reachedEndNaturally flag passed to onComplete so a
@@ -72,17 +72,18 @@ export default function DischordiaOpeningCinematic({
     return () => clearTimeout(t);
   }, []);
 
-  // The video starts muted, which sidesteps the browser autoplay
-  // gesture requirement entirely. Once metadata loads we kick off
-  // playback so the cinematic plays UNDER the surveillance handshake
-  // overlay running on top — both visible at once.
+  // The component only mounts AFTER the user clicks CONFIRM OPERATOR
+  // or LOOK AWAY on the surveillance handshake, so we have a fresh
+  // user gesture and can play unmuted (the meme transmission's audio
+  // is the only thing the player hears during the broadcast). Once
+  // metadata loads we kick off playback.
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
     let cancelled = false;
     const startPlayback = () => {
       if (cancelled || completedRef.current) return;
-      video.muted = true;
+      video.muted = false;
       video.play().then(
         () => {
           if (cancelled) return;
@@ -152,13 +153,13 @@ export default function DischordiaOpeningCinematic({
     [onComplete, fireCinematicEnded],
   );
 
-  // Tap-to-begin fallback for environments where even muted autoplay
-  // is blocked (some iframes, private modes). The user's click
-  // satisfies the gesture requirement for the rest of the session.
+  // Tap-to-begin fallback for environments where even gesture-backed
+  // autoplay is blocked (some iframes, private modes). The user's
+  // explicit click here re-arms the gesture for the session.
   const handleTapToBegin = useCallback(async () => {
     const video = videoRef.current;
     if (!video) return;
-    video.muted = true;
+    video.muted = false;
     try {
       await video.play();
       setPhase("playing");
