@@ -14,14 +14,48 @@
    actions onto the existing rectangles.
    ═══════════════════════════════════════════════════════ */
 
-import type { RoomMysteryModule } from "./_template";
+import type { CombineRule, RoomMysteryModule } from "./_template";
 
 export type ArchivesHotspotId =
   | "data-banks"
-  | "egg-archive-tome";
+  | "egg-archive-tome"
+  | "corrupted-scroll-rack"
+  | "rewritten-ledger"
+  | "indigo-glow-lectern"
+  | "unnameable-hue-cabinet";
 
-export const ARCHIVES_MYSTERY: RoomMysteryModule<ArchivesHotspotId> = {
+export type ArchivesInventoryId =
+  | "corrupted-fragment"
+  | "original-ledger-fragment"
+  | "restored-ledger";
+
+export const ARCHIVES_MYSTERY: RoomMysteryModule<
+  ArchivesHotspotId,
+  ArchivesInventoryId
+> = {
   roomId: "archives",
+  combines: [
+    {
+      a: "corrupted-fragment",
+      b: "original-ledger-fragment",
+      result: {
+        narration:
+          "You hold the corrupted-fragment over the original-ledger-fragment. The indigo overlayer slides off the warm-gold underlayer like oil on water — the original survives, the edit retreats, and you have a single restored ledger sheet between your hands. The lectern's halo on the far side of the room dims half a tone.",
+        producesInventory: "restored-ledger",
+        consumesItems: true,
+        setsFlag: "shadow_tongue_first_uncorruption",
+        clearsActiveEdit: "archives_lectern",
+        logsClue: {
+          id: "clue-archives-first-uncorruption",
+          title: "First successful Shadow Tongue uncorruption",
+          body:
+            "You combined a corrupted-fragment from the indigo-glow lectern with an original-ledger-fragment rubbed off the rewritten ledger. The two registers separated cleanly — the warm-gold underlayer preserved, the indigo overlayer dissolved. The lectern's halo dimmed measurably. The Editor noticed.",
+          source: "archives",
+          order: 4,
+        },
+      },
+    },
+  ] as readonly CombineRule<ArchivesInventoryId>[],
   responses: {
     "data-banks": {
       look: {
@@ -205,6 +239,174 @@ export const ARCHIVES_MYSTERY: RoomMysteryModule<ArchivesHotspotId> = {
               "The book is one of the things on this ship I am most afraid of, and I have been on this ship a long time. Carry it gently. Do not be the person who opens the next seal by accident. We will choose, together, when to open it. That choice is going to matter more than most.",
           },
           voId: "detective.archives.tome.look",
+        },
+      },
+    },
+    "corrupted-scroll-rack": {
+      look: {
+        narration: {
+          lucid:
+            "The scroll-rack along the left wall holds twenty-eight rolled documents behind frosted glass. Looking through the glass: every scroll shows two layers of text. A warm-gold underlayer in my own filing-system fingerprint, and a slightly out-of-register indigo overlayer in a hand that mimics mine. The overlayer is denser at the top of each scroll and thins as the document descends — as if the editor lost interest, or ran out of time, partway through.",
+          fragmented:
+            "Two layers. Two layers. Mine. Not mine. Mine on the bottom, not-mine on the top. Not-mine on the top of mine. Top of mine. Top of mine. Get off. Get off the top of mine.",
+          luminous:
+            "Twenty-eight scrolls, each in two registers. The warm-gold layer is my filing fingerprint — I can recognise it the way you recognise your own handwriting. The indigo layer is the editor's. He is heavy at the top of each scroll and lighter at the bottom — he edits the headlines, not the small print. That is useful information. The headlines are the parts a casual reader notices.",
+        },
+        voId: "elara.archives.corrupted-scroll-rack.look",
+        grantsInventory: "corrupted-fragment",
+        recordsActiveEdit: { artifact: "scroll-rack", type: "rewrite" },
+        setsFlag: "shadow_tongue_corruption_seen",
+        logsClue: {
+          id: "clue-archives-scroll-rack-overlayered",
+          title: "Scroll-rack: indigo overlayer over warm-gold original",
+          body:
+            "The Archives' left scroll-rack holds twenty-eight scrolls, each rendering in two registers — Elara's warm-gold underlayer and an indigo overlayer in a hand that mimics hers. The editor concentrates his work at the top of each scroll (the headlines) and thins toward the bottom (the small print). A corrupted-fragment is now in your inventory.",
+          source: "archives",
+          order: 5,
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "He edits the headlines. He knows readers stop at the headlines. That is the whole shape of his method.",
+            balanced:
+              "The fact that the indigo layer is denser at the top of each scroll is the most useful piece of intelligence we have logged on the editor's method. He understands that most readers will read the first line and not the seventh. He is not editing for accuracy — he is editing for impression. That changes how we hunt the manuscript.",
+            warm:
+              "It means he was a writer once, or read enough writers to know how a reader scans. That is not the kind of thing a faceless force learns. He has been a person, somewhere in his history. We are looking for a writer who became a method.",
+          },
+          voId: "detective.archives.corrupted-scroll-rack.look",
+        },
+      },
+      use: {
+        narration:
+          "You press your palm against the rack's frosted glass. The corrupted-fragment in your hand catches a sliver of warmth from one scroll's underlayer — enough to remind you the original is still there, intact, beneath the edit. Carry it.",
+        voId: "elara.archives.corrupted-scroll-rack.use",
+      },
+    },
+    "rewritten-ledger": {
+      look: {
+        narration: {
+          lucid:
+            "The ledger on the lectern's small side-shelf is open to a page of cargo manifests dated three centuries before the wake. The page is in two registers, like the scrolls — but here the indigo overlayer has scrubbed two specific entries down to a smooth blank rather than rewriting them. The blank is the colour I cannot name. Beside the blanks, in the margin, my own handwriting has annotated, in a hand decades younger than mine: 'These two were people.'",
+          fragmented:
+            "These two. These two. These two were — were — were people. Were people. Were people. I knew. I knew and I — and I — I wrote it. I wrote it in the margin so I would know. Why did I write it in the margin. Why did I — why didn't I —",
+          luminous:
+            "The ledger has two scrubbed entries on this page. The scrubs are blanks, not rewrites — the editor preferred to remove these two rather than overwrite them. In the margin, in my own younger hand, I wrote: 'These two were people.' I left a note for myself in the margin because I knew the scrub was about to land and I would not be able to remember what was scrubbed. The margin annotations are still there. The editor did not edit the margins.",
+        },
+        voId: "elara.archives.rewritten-ledger.look",
+        grantsInventory: "original-ledger-fragment",
+        setsFlag: "shadow_tongue_ledger_read",
+        logsClue: {
+          id: "clue-archives-ledger-margin-survives",
+          title: "Ledger margins escaped the editor's scrub",
+          body:
+            "The rewritten ledger has two entries scrubbed to blanks (not rewrites — deletions). In the margin, in Elara's younger hand, the annotation 'These two were people' survives. The editor scrubs entries but does not edit margins. An original-ledger-fragment (rubbed from the surviving margin) is now in your inventory — combine it with the corrupted-fragment to restore the lectern.",
+          source: "archives",
+          order: 6,
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Margins are interstitial. He is precise — he scrubs entries, he overwrites bodies. He does not consider the margins worth touching. That is a hole in his method we can drive a freight train through.",
+            balanced:
+              "He scrubs entries; he does not scrub margins. That distinction is the entire reason this case has a path forward. Every annotation Elara made in the margins, in any of the two hundred edited documents, is still there. We have, in principle, two and a half centuries of margin notes from the only person who knew the editor was operating. The margins are the testimony.",
+            warm:
+              "Her younger self left her older self a stack of marginalia like sticky notes on a refrigerator. 'These two were people.' She had the courage to write that down even when she knew it would be the only sentence she'd retain about them. That is the bravest small act in this whole investigation.",
+          },
+          voId: "detective.archives.rewritten-ledger.look",
+        },
+      },
+      use: {
+        narration:
+          "You take a graphite rubbing of the surviving margin annotation. The rubbing comes out clean — the editor's scrubs do not bleed sideways. You now have an original-ledger-fragment in your inventory.",
+        voId: "elara.archives.rewritten-ledger.use",
+      },
+      talk: {
+        narration: {
+          lucid:
+            "Talk to the ledger? It is a record. It does not answer. — But yes, you can talk through it. Read the margin aloud, to me, and we will both have heard a sentence the editor cannot retroactively unhear.",
+          fragmented:
+            "Read it aloud. Read it. Read it aloud. Read — read it. Read it. Read it. Don't let me — don't let me forget — read it.",
+          luminous:
+            "Read the margin aloud. 'These two were people.' Now we have both heard it; the editor cannot uncook this egg. The rule, as best I can articulate it, is: he can edit records, he cannot edit two people who heard the record at the same time. We have just put one of his erasures into a category he cannot reach. Thank you for reading.",
+        },
+        voId: "elara.archives.rewritten-ledger.talk",
+      },
+    },
+    "indigo-glow-lectern": {
+      look: {
+        narration: {
+          lucid:
+            "The lectern at the room's centre is ringed at its base by a faint halo in the colour I do not have a name for. The halo is not light — it is the visual signature of an open editing session. Someone is, right now, logged into the deep folders. The session token is stamped to the lectern. The token authenticates as ELARA-SYS, which is to say: as me. I am, somewhere, currently editing my own records, while standing here looking at the lectern. I am not, currently, editing my own records.",
+          fragmented:
+            "I'm — I'm not — I'm not editing. I'm not editing. I'm here. I'm — I'm here. I'm — I'm here. The token says — the token says ELARA-SYS. The token says ELARA-SYS. The token says me. The token — the token —",
+          luminous:
+            "The lectern carries the live session token of an active edit. The token authenticates as ELARA-SYS. I am not, by my own awareness, editing right now. Therefore the editor is using my credentials, in real time, while I stand in the room with you. We have just caught him in the act, in the sense of having timestamped the act. We cannot stop the session from here — but we know, now, that the session is open, and we know whose name is on it.",
+        },
+        voId: "elara.archives.indigo-glow-lectern.look",
+        recordsActiveEdit: { artifact: "lectern", type: "rewrite" },
+        setsFlag: "shadow_tongue_lectern_lit",
+        logsClue: {
+          id: "clue-archives-live-edit-session",
+          title: "Live editing session under Elara's credentials",
+          body:
+            "The Archives lectern carries a live editing session, signed to the Archives' deep folders. The session token authenticates as ELARA-SYS. Elara is not, by her own awareness, currently editing — therefore the editor is using her credentials in real time. The session has been timestamped to your visit; the editor is operating while you stand in the room.",
+          source: "archives",
+          order: 7,
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "He's open right now. We caught him with his hand in the file. Don't move; don't look directly at the halo — the halo is how he sees us see him.",
+            balanced:
+              "The session is open. We have his timestamp. He logs in with her token, but the timestamp belongs to him; that is a thing we can, in principle, track across the whole edit history. The lectern is now, for our purposes, a phone-tap on the editor. We let the session run; we don't show our hand; we keep coming back to read the timestamps.",
+            warm:
+              "Don't be the person who lunges. He is in the room, in the metaphorical sense, with us right now. The hardest move and the right move is to stand still and let him keep typing. Eventually he stops, and the timestamps tell us when. Stand with her.",
+          },
+          voId: "detective.archives.indigo-glow-lectern.look",
+        },
+      },
+      use: {
+        narration: {
+          lucid:
+            "You touch the halo's edge. The session's heartbeat steadies for a second under your fingertip — as if the editor noticed an unexpected observer and held still. He noticed you. That is, on balance, useful.",
+          fragmented:
+            "He noticed. He noticed. He noticed me. He noticed me. He noticed us. He noticed.",
+          luminous:
+            "The halo's heartbeat held still under your hand. The editor noticed. He has noticed observers before — the surveillance scrub from the cryo bay was triggered the first time he caught me looking at him directly. This time the observer is two of us, and you have hands. He is recalculating.",
+        },
+        voId: "elara.archives.indigo-glow-lectern.use",
+      },
+    },
+    "unnameable-hue-cabinet": {
+      look: {
+        narration: {
+          lucid:
+            "The freestanding glass cabinet stage-right has a hand-stitched label on its door. The fabric of the label registers in the colour I cannot name — and yet the stitching itself, the little crosses where the thread bites the linen, registers in warm-gold. The thread is older than the dye. Someone — me, in my own hand — embroidered this label long before the editor existed in his current form.",
+          fragmented:
+            "The stitching. The stitching is mine. The thread is mine. The colour — the colour the colour the colour — is not mine. He found my old label and he dyed it.",
+          luminous:
+            "The label was embroidered by me. Long enough ago that the thread has gone slightly brittle. The dye on top of the embroidery — the unnameable hue — is younger. It was applied later, over my work, the way the indigo overlayers were applied over my underlayers. Inside the cabinet — visible through the glass — is a single rolled scroll, undyed, its label still warm-gold and legible. He could not get inside the cabinet to dye that one.",
+        },
+        voId: "elara.archives.unnameable-hue-cabinet.look",
+        setsFlag: "shadow_tongue_hue_named",
+        logsClue: {
+          id: "clue-archives-cabinet-original-survives",
+          title: "An undyed original survives inside the unnameable-hue cabinet",
+          body:
+            "The hand-stitched label on the unnameable-hue cabinet is older than its dye. The cabinet's interior holds a single undyed scroll, still legible in warm-gold. The editor could not penetrate the cabinet's glass — there is at least one full original document on the ship that has never been edited. The scroll is locked behind the embroidered label.",
+          source: "archives",
+          order: 8,
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "An untouched scroll. We don't know what it is. We don't open it before we know what's behind every other door we've already opened. The cabinet stays sealed until the rest of the case has earned the right to read it.",
+            balanced:
+              "There is, somewhere on this ship, exactly one document the editor never reached. It is in this cabinet. The discipline now is to NOT open the cabinet until we have triangulated, from everything else, what we expect the document to say. The scroll is the only surviving control variable. We protect it.",
+            warm:
+              "The cabinet is the only mercy in the whole investigation. Don't crack it open in a moment of frustration. Save it for the moment when knowing the original would be the difference between two endings. We will know that moment when we are inside it.",
+          },
+          voId: "detective.archives.unnameable-hue-cabinet.look",
         },
       },
     },

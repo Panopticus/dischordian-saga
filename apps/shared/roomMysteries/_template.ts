@@ -21,6 +21,29 @@
  *  the on-screen UI. Matches the cryo-bay pilot. */
 export type Verb = "look" | "use" | "talk";
 
+/** Re-export so room-mystery authors can declare ST edits without
+ *  reaching past the module boundary. */
+export type EditType = import("../shadowTongueEdits").EditType;
+
+/** Author-side declaration that interacting with this verb-response
+ *  records a Shadow Tongue edit on a room artifact. The runtime
+ *  hooks this to `recordActiveEdit` on the epochWitness tRPC router
+ *  (apps/server/routers/epochWitness.ts) so the global
+ *  shadowTongueState.activeEdits column gets the entry.
+ *
+ *  Surfaced here (in the VerbResponse layer) so the data tells the
+ *  story — a writer reading archives.ts sees which Look response
+ *  records the lectern edit, and the runtime fires it without the
+ *  writer touching tRPC. */
+export interface RecordsActiveEdit {
+  /** Artifact slug within the room — `lectern`, `reactor-schematic`,
+   *  `starmap`, etc. The runtime composes `<roomId>_<artifact>` to
+   *  form the canonical edit id. */
+  artifact: string;
+  /** What kind of edit. See apps/shared/shadowTongueEdits.ts. */
+  type: EditType;
+}
+
 export const VERB_LIST: readonly Verb[] = ["look", "use", "talk"] as const;
 
 /** Elara's hidden-stability bands (mirrors companion.ts ElaraStabilityBand).
@@ -147,6 +170,12 @@ export interface VerbResponse {
    *  Kael, Shadow Tongue, Terminus singer, the red herrings he
    *  already half-narrates). */
   humanReaction?: HumanReaction;
+  /** When set, firing this verb response records a Shadow Tongue
+   *  edit on a room artifact. The runtime calls
+   *  epochWitness.recordActiveEdit({ id: <roomId>_<artifact>, ... })
+   *  the first time this fires; subsequent fires are deduped by the
+   *  pure helper's "preserve prior createdAt on re-edit" semantics. */
+  recordsActiveEdit?: RecordsActiveEdit;
 }
 
 /** Result of a `use <a> on <b>` inventory combine. */
@@ -160,6 +189,11 @@ export interface CombineResult {
   /** When true (default) the source items are removed from the
    *  inventory after the combine. */
   consumesItems?: boolean;
+  /** When set, firing this combine clears a Shadow Tongue active
+   *  edit. The runtime calls epochWitness.clearActiveEdit({ id })
+   *  on success — idempotent at the service layer (first clear
+   *  wins, unknown id no-ops). */
+  clearsActiveEdit?: string;
 }
 
 /** A single combine rule. Order of `a` / `b` doesn't matter at
