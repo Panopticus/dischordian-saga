@@ -24,9 +24,11 @@ import { ARMORY_MYSTERY } from "./armory";
 import { BRIDGE_MYSTERY } from "./bridge";
 import { CAPTAINS_QUARTERS_MYSTERY } from "./captainsQuarters";
 import { CARGO_HOLD_MYSTERY } from "./cargoHold";
+import { CHAOS_FORGE_MYSTERY } from "./chaosForge";
 import { CIPHER_DEN_MYSTERY } from "./cipherDen";
 import { COMMS_ARRAY_MYSTERY } from "./commsArray";
 import { DREAMS_WORKSHOP_MYSTERY } from "./dreamsWorkshop";
+import { ELEMENTAL_NEXUS_MYSTERY } from "./elementalNexus";
 import { ENGINEERING_MYSTERY } from "./engineering";
 import { ENGINEERING_CORE_MYSTERY } from "./engineeringCore";
 import { FORGE_WORKSHOP_MYSTERY } from "./forgeWorkshop";
@@ -34,8 +36,10 @@ import { MEDICAL_BAY_MYSTERY } from "./medicalBay";
 import { OBSERVATION_DECK_MYSTERY } from "./observationDeck";
 import { ORACLE_SANCTUM_MYSTERY } from "./oracleSanctum";
 import { ORDER_TRIBUNAL_MYSTERY } from "./orderTribunal";
+import { QUANTUM_LAB_MYSTERY } from "./quantumLab";
 import { SHADOW_VAULT_MYSTERY } from "./shadowVault";
 import { STATION_DOCK_MYSTERY } from "./stationDock";
+import { SYNTHESIS_CHAMBER_MYSTERY } from "./synthesisChamber";
 import { WAR_ROOM_MYSTERY } from "./warRoom";
 
 /** Cryo Bay adapter — wraps the legacy responses table in the
@@ -71,6 +75,10 @@ export const ROOM_MYSTERY_REGISTRY: Readonly<Record<string, RoomMysteryModule>> 
   "oracle-sanctum": ORACLE_SANCTUM_MYSTERY as RoomMysteryModule,
   "order-tribunal": ORDER_TRIBUNAL_MYSTERY as RoomMysteryModule,
   "dreams-workshop-subbasement": DREAMS_WORKSHOP_MYSTERY as RoomMysteryModule,
+  "chaos-forge": CHAOS_FORGE_MYSTERY as RoomMysteryModule,
+  "elemental-nexus": ELEMENTAL_NEXUS_MYSTERY as RoomMysteryModule,
+  "quantum-lab": QUANTUM_LAB_MYSTERY as RoomMysteryModule,
+  "synthesis-chamber": SYNTHESIS_CHAMBER_MYSTERY as RoomMysteryModule,
 };
 
 /** Get the module for a room id, or null if no mystery is authored. */
