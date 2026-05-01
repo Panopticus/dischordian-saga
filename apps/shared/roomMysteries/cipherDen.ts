@@ -61,6 +61,19 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
           source: "cipher-den",
           order: 0,
         },
+        // Mystery Engine binding — when Wraith Calder arc is the
+        // active case, the rosetta-pad surfaces the bounty file's
+        // redaction-layer analysis. Lore match is precise: the pad
+        // has three column-layers (editor's indigo / Elara's gold /
+        // Vox's third hand) and the bounty file has three temporal
+        // redaction layers (hirer's name / mid-century unknown /
+        // target's true identity). The translation surface IS the
+        // redaction surface.
+        mysteryBinding: {
+          mysteryId: "mystery.wraith_calder",
+          episodeId: "wraith.e1",
+          cluesFound: ["wraith.e1.redaction_layer"],
+        },
         humanReaction: {
           narration: {
             shadow:
