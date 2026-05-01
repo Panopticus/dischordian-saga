@@ -29,7 +29,7 @@ import { BroadcastPanel } from "./title/BroadcastPanel";
 import { BroadcastTicker } from "./title/BroadcastTicker";
 import { ResetWall } from "./title/ResetWall";
 import { SurveillanceOpening } from "./title/SurveillanceOpening";
-import DischordiaOpeningCinematic from "@/components/DischordiaOpeningCinematic";
+import DischordiaOpeningCinematic, { DISCHORDIA_OPENING_VIDEO_URL } from "@/components/DischordiaOpeningCinematic";
 import TitleAlbumIntro from "@/components/TitleAlbumIntro";
 import { hasSeenOpening } from "@/lib/dischordiaOpeningSeen";
 import { TitleStateNoSave } from "./title/TitleStateNoSave";
@@ -293,17 +293,30 @@ export default function TitlePage({ onDismiss }: TitlePageProps = {}) {
   // The cinematic's video has reached its end (or AWAKEN fired from
   // inside it). Triggers the T01 album intro stage.
   const [cinematicEnded, setCinematicEnded] = useState(false);
+  // Flips on CONFIRM OPERATOR so the cinematic mounts CONCURRENTLY with
+  // the surveillance scan animation — the operator never sees a wait
+  // beat between picking and the meme transmission starting. The
+  // LOOK AWAY path skips this and arms the cinematic via handshakeDone
+  // after the punitive flash completes. Returning visitors with the
+  // handshake-seen flag set bypass everything.
+  const [confirmedEarly, setConfirmedEarly] = useState(false);
+  const cinematicArmed = confirmedEarly || handshakeDone;
 
   /* ─── Suppress SagaThemeBGM on the title screen.
        The provider auto-starts a shuffled saga theme on first
        interaction; on the title we want silence until the user
        clears the surveillance gate (then the cinematic owns audio,
-       then TitleAlbumIntro owns audio). Suppress while mounted. ─── */
+       then TitleAlbumIntro owns audio). Suppress while mounted.
+       Mount-only deps — the BGM context value isn't reference-stable,
+       so a [sagaBGM] dep would re-run every render and the cleanup's
+       unsuppress() would race against suppress() and bleed playback
+       under the cinematic / slideshow. ─── */
   const sagaBGM = useSagaThemeBGM();
   useEffect(() => {
     sagaBGM.suppress();
     return () => sagaBGM.unsuppress();
-  }, [sagaBGM]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
 
   // Skip the boot-sequence typewriter for players who've been here
@@ -562,7 +575,13 @@ export default function TitlePage({ onDismiss }: TitlePageProps = {}) {
         }}
       />
 
-      {/* Logo + state body */}
+      {/* Logo + state body. Suppressed entirely while the surveillance
+          handshake is up — the SurveillanceOpening overlay renders
+          transparent so without this gate the wordmark, boot lines,
+          and unauth body all bleed through behind the "Hold still…"
+          text. Once the handshake snaps shut (Confirm path) or the
+          shame flash completes (Look Away path), the chrome reveals. */}
+      {handshakeDone && (
       <div style={{ position: "relative", zIndex: 3, textAlign: "center", padding: "2rem", maxWidth: "min(900px, 94vw)", marginLeft: "auto", marginRight: "auto" }}>
         {/* Wordmark. The legacy raster logo read THE DISCHORDIAN SAGA;
             we render the new name as type so it can theme-tint, audio-
@@ -657,11 +676,14 @@ export default function TitlePage({ onDismiss }: TitlePageProps = {}) {
           </button>
         )}
       </div>
+      )}
 
       {/* Ticker — returning accounts only. Keeps the first-time title
           quiet so new players aren't fighting a scrolling banner while
-          they're trying to find the new-game CTA. */}
-      {hasSave && (
+          they're trying to find the new-game CTA. Also gated on the
+          handshake so first paint on a fresh device doesn't flash the
+          ticker behind the surveillance overlay. */}
+      {hasSave && handshakeDone && (
         <BroadcastTicker announcements={announcements} accentColor={theme.palette.accent} />
       )}
 
@@ -698,14 +720,43 @@ export default function TitlePage({ onDismiss }: TitlePageProps = {}) {
         />
       )}
 
-      {/* Dischordia opening cinematic — first-visit-only. Mounts ONLY
-          after the surveillance handshake completes so the meme
-          transmission's audio is the only sound the player hears
-          during the broadcast. When the video ends naturally, the
-          T01 album intro stage takes over (Enigma's Lament slideshow
-          + song). Player can replay this from INBOX tab in the
-          Transmission Deck. */}
-      {handshakeDone && !openingDone && !cinematicEnded && (
+      {/* Hidden preload sink for the meme cinematic. Mounted from the
+          first paint of the title page so the browser starts buffering
+          the 3:09 mp4 the moment the user lands — by the time they
+          clear the surveillance gate the bytes are already warm in
+          cache. Without this, the actual <video> in the cinematic
+          component doesn't even exist until handshakeDone flips, which
+          is why playback used to start choppy. preload="auto" + a same-
+          origin S3 URL is enough; the cinematic's <video> reuses the
+          HTTP cache. Unmounts once the opening is fully done. */}
+      {!openingDone && (
+        <video
+          key="dischordia-cinematic-preload"
+          src={DISCHORDIA_OPENING_VIDEO_URL}
+          preload="auto"
+          muted
+          playsInline
+          aria-hidden
+          tabIndex={-1}
+          style={{
+            position: "absolute",
+            width: 1,
+            height: 1,
+            opacity: 0,
+            pointerEvents: "none",
+            zIndex: -1,
+          }}
+        />
+      )}
+
+      {/* Dischordia opening cinematic — first-visit-only. Now armed by
+          `cinematicArmed`, which flips on Confirm Operator (concurrent
+          with the surveillance scan animation) OR when the surveillance
+          fully completes (Look Away path, after the punitive flash).
+          The scanning sequence renders ON TOP of the playing video for
+          the Confirm path so the operator never sees a wait beat.
+          Player can replay this from INBOX tab in the Transmission Deck. */}
+      {cinematicArmed && !openingDone && !cinematicEnded && (
         <DischordiaOpeningCinematic
           isGameReady={thresholdPassed && !auth.loading}
           onCinematicEnded={() => setCinematicEnded(true)}
@@ -721,11 +772,17 @@ export default function TitlePage({ onDismiss }: TitlePageProps = {}) {
           TRANSPARENT overlay on top of the cinematic (z-10000 vs
           cinematic's z-9999) so the player sees both at once and
           the app doesn't feel like it's hanging while the scan
-          animation runs. Once complete, the localStorage flag is
-          set; subsequent visits render the title flow directly. */}
+          animation runs. onConfirm fires the moment the operator
+          picks Confirm Operator — that arms the cinematic immediately
+          so playback begins UNDER the scan readout. Look Away takes a
+          punitive shame beat first (handled inside the surveillance);
+          onComplete only fires after that beat resolves. Once complete,
+          the localStorage flag is set; subsequent visits render the
+          title flow directly. */}
       {!handshakeDone && (
         <SurveillanceOpening
           transparent
+          onConfirm={() => setConfirmedEarly(true)}
           onComplete={() => setHandshakeDone(true)}
         />
       )}

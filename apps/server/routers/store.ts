@@ -2,7 +2,13 @@ import { z } from "zod";
 import { protectedProcedure, publicProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import { STORE_PRODUCTS, getProduct, getProductsByCategory, getFeaturedProducts } from "../products";
-import { storePurchases, dreamBalance, shipUpgrades, playerBases, userCards, cards, type StorePurchase } from "../../db/schema";
+import { storePurchases, dreamBalance, shipUpgrades, playerBases, userCards, cards, purchaseGrants, type StorePurchase } from "../../db/schema";
+import type { DrizzleDb } from "../db";
+
+/** Either a top-level drizzle handle or a transactional one — the
+ *  operation methods we need (select/insert/update) are common to
+ *  both, so consumers don't care which they receive. */
+type TxOrDb = DrizzleDb | Parameters<Parameters<DrizzleDb["transaction"]>[0]>[0];
 import { eq, and, desc, sql } from "drizzle-orm";
 import { ripple } from "../services/rippleEngine";
 
@@ -82,16 +88,31 @@ export const storeRouter = router({
 
       const totalCost = product.priceCredits * input.quantity;
 
-      await db.insert(storePurchases).values({
-        userId: ctx.user.id,
-        productKey: input.productKey,
-        paymentMethod: "credits",
-        quantity: input.quantity,
-        amount: totalCost,
-        fulfilled: 1,
+      // Atomic: deduct/track + fulfilment + ledger row all in one
+      // transaction. If anything in fulfilment throws, the
+      // storePurchases insert rolls back too.
+      const fulfillmentId = synthesiseFulfillmentId(
+        "credits",
+        ctx.user.id,
+        input.productKey,
+      );
+      await db.transaction(async (tx) => {
+        await tx.insert(storePurchases).values({
+          userId: ctx.user.id,
+          productKey: input.productKey,
+          paymentMethod: "credits",
+          quantity: input.quantity,
+          amount: totalCost,
+          fulfilled: 1,
+        });
+        await fulfillPurchase(
+          ctx.user.id,
+          input.productKey,
+          input.quantity,
+          fulfillmentId,
+          tx,
+        );
       });
-
-      await fulfillPurchase(ctx.user.id, input.productKey, input.quantity);
 
       await ripple.emit("store_purchase", { userId: ctx.user.id, amount: totalCost });
 
@@ -130,7 +151,18 @@ export const storeRouter = router({
           amount: totalCost,
           fulfilled: 1,
         });
-        await fulfillPurchase(ctx.user.id, input.productKey, input.quantity);
+        const fulfillmentId = synthesiseFulfillmentId(
+          "dream",
+          ctx.user.id,
+          input.productKey,
+        );
+        await fulfillPurchase(
+          ctx.user.id,
+          input.productKey,
+          input.quantity,
+          fulfillmentId,
+          tx,
+        );
 
         await ripple.emit("store_purchase", { userId: ctx.user.id, amount: totalCost });
 
@@ -194,26 +226,101 @@ export const storeRouter = router({
   }),
 });
 
-/** Fulfill a purchase by granting the rewards to the user */
-async function fulfillPurchase(userId: number, productKey: string, quantity: number) {
+/**
+ * Synthesise a stable fulfilment id for non-Stripe flows. The format
+ * is deliberately opaque — only uniqueness and stability matter, and
+ * the prefix tells refund tooling at a glance which flow originated
+ * the grant.
+ */
+export function synthesiseFulfillmentId(
+  source: "credits" | "dream" | "manual",
+  userId: number,
+  productKey: string,
+): string {
+  return `${source}:${userId}:${productKey}:${Date.now()}`;
+}
+
+/**
+ * Fulfil a purchase by granting the rewards to the user, atomically.
+ *
+ * Three contracts that distinguish this from the previous version:
+ *
+ *   1. Atomic. Every grant write happens inside a single transaction.
+ *      Either the user gets all their rewards, or they get none — and
+ *      the ledger row that records the fulfilment is part of the same
+ *      transaction, so the ledger never lies.
+ *
+ *   2. Idempotent. The unique key on `purchase_grants.fulfillmentId`
+ *      means a webhook retry that re-enters this function with the
+ *      same id is a no-op: the pre-flight SELECT finds an existing
+ *      row and returns. No double-grant under retry.
+ *
+ *   3. Composable. Callers that already own a transaction (e.g. the
+ *      Dream-token purchase path that needs to deduct balance + grant
+ *      rewards atomically) pass `tx`. Callers without one (the Stripe
+ *      webhook) omit it and we open our own.
+ *
+ * Returns `{ alreadyFulfilled: true }` on idempotent retry. The
+ * caller's UI / log should surface that as a benign skip, not an
+ * error.
+ */
+async function fulfillPurchase(
+  userId: number,
+  productKey: string,
+  quantity: number,
+  fulfillmentId: string,
+  tx?: TxOrDb,
+): Promise<{ alreadyFulfilled: boolean }> {
+  if (tx) {
+    return doFulfill(tx, userId, productKey, quantity, fulfillmentId);
+  }
   const db = await getDb();
-  if (!db) return;
+  if (!db) return { alreadyFulfilled: false };
+  // No caller-provided transaction — open our own. drizzle's
+  // `db.transaction` returns whatever the inner callback returns,
+  // so the `alreadyFulfilled` signal flows out unchanged.
+  return db.transaction((innerTx) =>
+    doFulfill(innerTx, userId, productKey, quantity, fulfillmentId),
+  );
+}
+
+async function doFulfill(
+  tx: TxOrDb,
+  userId: number,
+  productKey: string,
+  quantity: number,
+  fulfillmentId: string,
+): Promise<{ alreadyFulfilled: boolean }> {
   const product = getProduct(productKey);
-  if (!product) return;
+  if (!product) return { alreadyFulfilled: false };
+
+  // Idempotency pre-flight. Any prior ledger row with this id means
+  // the grant batch ran to completion (the row only commits with the
+  // grants); skip without re-granting.
+  const existingLedger = await tx
+    .select({ id: purchaseGrants.id })
+    .from(purchaseGrants)
+    .where(eq(purchaseGrants.fulfillmentId, fulfillmentId))
+    .limit(1);
+  if (existingLedger.length > 0) {
+    return { alreadyFulfilled: true };
+  }
 
   const rewards = product.rewards;
+  const summary: Record<string, number | string> = {};
 
   // Grant Dream tokens
   if (rewards.dreamTokens) {
     const amount = rewards.dreamTokens * quantity;
-    const [existing] = await db
+    summary.dreamTokens = amount;
+    const [existing] = await tx
       .select()
       .from(dreamBalance)
       .where(eq(dreamBalance.userId, userId))
       .limit(1);
 
     if (existing) {
-      await db
+      await tx
         .update(dreamBalance)
         .set({
           dreamTokens: sql`${dreamBalance.dreamTokens} + ${amount}`,
@@ -221,7 +328,7 @@ async function fulfillPurchase(userId: number, productKey: string, quantity: num
         })
         .where(eq(dreamBalance.userId, userId));
     } else {
-      await db.insert(dreamBalance).values({
+      await tx.insert(dreamBalance).values({
         userId,
         dreamTokens: amount,
         soulBoundDream: 0,
@@ -234,19 +341,20 @@ async function fulfillPurchase(userId: number, productKey: string, quantity: num
   // Grant Soul Bound Dream
   if (rewards.soulBoundDream) {
     const amount = rewards.soulBoundDream * quantity;
-    const [existing] = await db
+    summary.soulBoundDream = amount;
+    const [existing] = await tx
       .select()
       .from(dreamBalance)
       .where(eq(dreamBalance.userId, userId))
       .limit(1);
 
     if (existing) {
-      await db
+      await tx
         .update(dreamBalance)
         .set({ soulBoundDream: sql`${dreamBalance.soulBoundDream} + ${amount}` })
         .where(eq(dreamBalance.userId, userId));
     } else {
-      await db.insert(dreamBalance).values({
+      await tx.insert(dreamBalance).values({
         userId,
         dreamTokens: 0,
         soulBoundDream: amount,
@@ -259,11 +367,12 @@ async function fulfillPurchase(userId: number, productKey: string, quantity: num
   // Grant card packs — randomly assign cards
   if (rewards.cardPacks) {
     const packSize = rewards.cardPacks * quantity;
+    summary.cardPackSize = packSize;
     const minRarity = rewards.cardPackRarity || "common";
     const rarityOrder = ["common", "uncommon", "rare", "epic", "legendary", "mythic"];
     const minIdx = rarityOrder.indexOf(minRarity);
 
-    const availableCards = await db
+    const availableCards = await tx
       .select({ id: cards.id, rarity: cards.rarity })
       .from(cards)
       .limit(500);
@@ -278,7 +387,7 @@ async function fulfillPurchase(userId: number, productKey: string, quantity: num
         const pool = i === 0 && guaranteedCards.length > 0 ? guaranteedCards : availableCards;
         const randomCard = pool[Math.floor(Math.random() * pool.length)];
 
-        await db.insert(userCards).values({
+        await tx.insert(userCards).values({
           userId,
           cardId: randomCard.id.toString(),
           obtainedVia: "store_purchase",
@@ -289,19 +398,20 @@ async function fulfillPurchase(userId: number, productKey: string, quantity: num
 
   // Grant ship upgrades
   if (rewards.shipUpgrade) {
-    const [existing] = await db
+    summary.shipUpgrade = `${rewards.shipUpgrade.type}:${rewards.shipUpgrade.level}`;
+    const [existing] = await tx
       .select()
       .from(shipUpgrades)
       .where(and(eq(shipUpgrades.userId, userId), eq(shipUpgrades.upgradeType, rewards.shipUpgrade.type)))
       .limit(1);
 
     if (existing) {
-      await db
+      await tx
         .update(shipUpgrades)
         .set({ level: Math.max(existing.level, rewards.shipUpgrade.level) })
         .where(eq(shipUpgrades.id, existing.id));
     } else {
-      await db.insert(shipUpgrades).values({
+      await tx.insert(shipUpgrades).values({
         userId,
         upgradeType: rewards.shipUpgrade.type,
         level: rewards.shipUpgrade.level,
@@ -312,7 +422,8 @@ async function fulfillPurchase(userId: number, productKey: string, quantity: num
 
   // Grant base upgrades
   if (rewards.baseUpgrade) {
-    const [base] = await db
+    summary.baseUpgrade = rewards.baseUpgrade.type;
+    const [base] = await tx
       .select()
       .from(playerBases)
       .where(eq(playerBases.userId, userId))
@@ -320,12 +431,12 @@ async function fulfillPurchase(userId: number, productKey: string, quantity: num
 
     if (base) {
       if (rewards.baseUpgrade.type === "storage") {
-        await db
+        await tx
           .update(playerBases)
           .set({ storageCapacity: sql`${playerBases.storageCapacity} + 200` })
           .where(eq(playerBases.id, base.id));
       } else if (rewards.baseUpgrade.type === "defense") {
-        await db
+        await tx
           .update(playerBases)
           .set({ defenseRating: sql`${playerBases.defenseRating} + 25` })
           .where(eq(playerBases.id, base.id));
@@ -335,33 +446,49 @@ async function fulfillPurchase(userId: number, productKey: string, quantity: num
 
   // Grant cargo expansion
   if (rewards.cargoExpansion) {
-    const [existing] = await db
+    summary.cargoExpansion = 1;
+    const [existing] = await tx
       .select()
       .from(shipUpgrades)
       .where(and(eq(shipUpgrades.userId, userId), eq(shipUpgrades.upgradeType, "cargo")))
       .limit(1);
 
     if (existing) {
-      await db.update(shipUpgrades).set({ level: existing.level + 1 }).where(eq(shipUpgrades.id, existing.id));
+      await tx.update(shipUpgrades).set({ level: existing.level + 1 }).where(eq(shipUpgrades.id, existing.id));
     } else {
-      await db.insert(shipUpgrades).values({ userId, upgradeType: "cargo", level: 2, obtainedVia: "purchase" });
+      await tx.insert(shipUpgrades).values({ userId, upgradeType: "cargo", level: 2, obtainedVia: "purchase" });
     }
   }
 
   // Grant fuel capacity
   if (rewards.fuelCapacity) {
-    const [existing] = await db
+    summary.fuelCapacity = 1;
+    const [existing] = await tx
       .select()
       .from(shipUpgrades)
       .where(and(eq(shipUpgrades.userId, userId), eq(shipUpgrades.upgradeType, "engine")))
       .limit(1);
 
     if (existing) {
-      await db.update(shipUpgrades).set({ level: existing.level + 1 }).where(eq(shipUpgrades.id, existing.id));
+      await tx.update(shipUpgrades).set({ level: existing.level + 1 }).where(eq(shipUpgrades.id, existing.id));
     } else {
-      await db.insert(shipUpgrades).values({ userId, upgradeType: "engine", level: 2, obtainedVia: "purchase" });
+      await tx.insert(shipUpgrades).values({ userId, upgradeType: "engine", level: 2, obtainedVia: "purchase" });
     }
   }
+
+  // Ledger write — last so the row only exists if every grant above
+  // succeeded. The unique key on fulfillmentId means a concurrent
+  // retry that lost the race throws here and the whole transaction
+  // rolls back, which is exactly what we want.
+  await tx.insert(purchaseGrants).values({
+    fulfillmentId,
+    userId,
+    productKey,
+    quantity,
+    rewardSummary: summary,
+  });
+
+  return { alreadyFulfilled: false };
 }
 
 /** Export fulfillPurchase for webhook use */

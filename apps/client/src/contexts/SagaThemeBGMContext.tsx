@@ -160,6 +160,9 @@ export function SagaThemeBGMProvider({ children }: { children: ReactNode }) {
   const playTheme = useCallback((idx: number) => {
     const audio = audioRef.current;
     if (!audio) return;
+    // A host page (e.g. TitlePage) may have suppressed BGM; honor
+    // that even if a racing unsuppress/auto-start path called us.
+    if (suppressedRef.current) return;
 
     const theme = SAGA_THEMES[idx % SAGA_THEMES.length];
     audio.src = theme.url;
@@ -215,17 +218,20 @@ export function SagaThemeBGMProvider({ children }: { children: ReactNode }) {
     };
   }, [enabled, playTheme]);
 
-  // Suppress/unsuppress for fight game or other game audio
+  // Suppress/unsuppress for fight game or other game audio. Check the
+  // audio element directly — React's isPlaying lags audio.play() by a
+  // microtask, so a suppress() that arrives between play() and the
+  // resolved promise would miss the fade-out and leak audio.
   const suppress = useCallback(() => {
     suppressedRef.current = true;
     const audio = audioRef.current;
-    if (audio && isPlaying) {
+    if (audio && !audio.paused) {
       fadeOut(() => {
         audio.pause();
         setIsPlaying(false);
       });
     }
-  }, [isPlaying, fadeOut]);
+  }, [fadeOut]);
 
   const unsuppress = useCallback(() => {
     suppressedRef.current = false;
@@ -234,6 +240,12 @@ export function SagaThemeBGMProvider({ children }: { children: ReactNode }) {
     if (!pausedByPlayerRef.current) {
       if (audio.src && audio.src !== "") {
         audio.play().then(() => {
+          // A suppress() may have raced in while play() was pending —
+          // honor it instead of fading in over the top.
+          if (suppressedRef.current) {
+            audio.pause();
+            return;
+          }
           setIsPlaying(true);
           fadeIn(actualVolume);
         }).catch(() => {});

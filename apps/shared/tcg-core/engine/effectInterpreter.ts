@@ -30,14 +30,18 @@
  *    - with_target
  *    - if (uses the condition evaluator)
  *
- * Remaining unimplemented ops (`push`, `choose_one`) throw
- * UnsupportedOpError until a card in the authoring queue needs them.
+ * All EffectOp variants in types/Effect.ts have a concrete branch here.
+ * UnsupportedOpError is reserved for future ops added to the schema before
+ * the interpreter catches up, and is surfaced via the trigger-queue runner
+ * as a logged event in production / re-thrown in tests.
  */
 import type { Draft } from "immer";
 import type { GameState } from "../types/GameState";
 import type { Effect, Duration } from "../types/Effect";
 import type { ReduceCtx } from "./reducer";
 import type { ExecCtx } from "./execCtx";
+import type { EntityId, CardDefId } from "../types/Ids";
+import type { Buff, Keyword } from "../types/Card";
 import { withIt } from "./execCtx";
 import { resolveTargetRef, resolveTargetSelector, findBoardEntity } from "./targeting";
 import { evaluateCondition } from "./conditions";
@@ -393,19 +397,19 @@ export function interpret(
       const entityId = `e_${draft.matchId}_${counter}`;
       const tokenDef = reduceCtx.registry.get(effect.tokenId);
       const tokenCard = {
-        entityId: entityId as any,
-        defId: effect.tokenId as any,
+        entityId: entityId as EntityId,
+        defId: effect.tokenId as CardDefId,
         owner: side,
         currentPower: tokenDef?.baseStats?.power ?? 1,
         currentHealth: tokenDef?.baseStats?.health ?? 1,
         maxHealth: tokenDef?.baseStats?.health ?? 1,
         counters: {} as Record<string, number>,
-        activeKeywords: tokenDef?.keywords ? [...tokenDef.keywords] : [] as any[],
-        buffs: [] as any[],
+        activeKeywords: (tokenDef?.keywords ? [...tokenDef.keywords] : []) as Keyword[],
+        buffs: [] as Buff[],
         flags: {} as Record<string, boolean>,
       };
       draft.board[k] = {
-        entityId: entityId as any,
+        entityId: entityId as EntityId,
         card: tokenCard,
         row,
         col,
@@ -629,11 +633,71 @@ export function interpret(
       return;
     }
 
-    case "push":
-    case "choose_one":
-      throw new UnsupportedOpError(
-        `effect op '${(effect as { op: string }).op}' not yet implemented`
-      );
+    case "choose_one": {
+      // Player picks a branch; the chosen index rides on ExecCtx, plumbed
+      // from the Action via reducer.ts/playCard.ts. Out-of-range or absent
+      // index falls back to option 0 — this is the AI / scripted path and
+      // also keeps replays from imploding when a malformed action lands.
+      if (effect.options.length === 0) return;
+      const raw = ctx.chooseIndex ?? 0;
+      const idx =
+        Number.isInteger(raw) && raw >= 0 && raw < effect.options.length
+          ? raw
+          : 0;
+      // Clear chooseIndex on the way down: nested choose_ones are not yet
+      // expressible in card data, but if they ever are, each layer should
+      // carry its own choice via Action plumbing rather than inheriting.
+      const innerCtx: ExecCtx = { ...ctx, chooseIndex: undefined };
+      interpret(effect.options[idx].effect, innerCtx, draft, reduceCtx);
+      return;
+    }
+
+    case "push": {
+      // Resolve once per target. Direction is recomputed per-target so a
+      // selector hitting multiple units produces sensible motion (e.g.
+      // away_from_source pushes each unit on its own bearing).
+      if (effect.distance <= 0) return;
+      const ids = resolveTargetRef(effect.target, ctx, draft);
+      for (const id of ids) {
+        const entity = findBoardEntity(draft, id);
+        if (!entity) continue;
+        if (entity.isGeneral) continue; // generals don't displace
+
+        const step = pushStep(effect.direction, entity, ctx, draft);
+        if (step.dRow === 0 && step.dCol === 0) continue;
+
+        let row = entity.row;
+        let col = entity.col;
+        let moved = 0;
+        for (let i = 0; i < effect.distance; i++) {
+          const nextRow = row + step.dRow;
+          const nextCol = col + step.dCol;
+          if (nextRow < 0 || nextRow >= 5 || nextCol < 0 || nextCol >= 9) break;
+          if (draft.board[`${nextRow},${nextCol}`]) break;
+          row = nextRow;
+          col = nextCol;
+          moved += 1;
+        }
+
+        if (moved === 0) continue;
+
+        const oldKey = `${entity.row},${entity.col}`;
+        const newKey = `${row},${col}`;
+        delete draft.board[oldKey];
+        entity.row = row;
+        entity.col = col;
+        draft.board[newKey] = entity;
+
+        reduceCtx.events.push({
+          type: "pushed",
+          entityId: id,
+          toRow: row,
+          toCol: col,
+          distance: moved,
+        });
+      }
+      return;
+    }
 
     default: {
       // Exhaustiveness: the compiler should reject any missed case above.
@@ -669,6 +733,54 @@ function expiresAtTurnFor(duration: Duration, currentTurn: number): number {
       return -1;
     }
   }
+}
+
+/**
+ * Reduce a DirectionRef to a unit step on the 5×9 grid. Pushes are
+ * single-axis: when both components of the resolved vector are non-zero we
+ * pick the larger absolute axis (ties go to the column axis, since the
+ * board is wider than it is tall and horizontal pressure is the common
+ * design idiom). A zero vector — pushing a unit toward itself, or a source
+ * occupying the same tile — collapses to a no-op.
+ */
+function pushStep(
+  direction: import("../types/Effect").DirectionRef,
+  target: { row: number; col: number },
+  ctx: ExecCtx,
+  draft: Draft<GameState>
+): { dRow: number; dCol: number } {
+  let dRow = 0;
+  let dCol = 0;
+  if (direction.kind === "specific") {
+    dRow = direction.dRow;
+    dCol = direction.dCol;
+  } else if (direction.kind === "away_from_source") {
+    if (!ctx.sourceEntityId) return { dRow: 0, dCol: 0 };
+    const source = findBoardEntity(draft, ctx.sourceEntityId);
+    if (!source) return { dRow: 0, dCol: 0 };
+    dRow = target.row - source.row;
+    dCol = target.col - source.col;
+  } else {
+    // toward_friendly_general: friendly is the target's controller's general.
+    const targetEntity = (() => {
+      for (const e of Object.values(draft.board)) {
+        if (e.row === target.row && e.col === target.col) return e;
+      }
+      return undefined;
+    })();
+    const ownerSide = targetEntity?.card.owner ?? ctx.actorSide;
+    const generalId = draft.players[ownerSide].generalEntityId;
+    const general = findBoardEntity(draft, generalId);
+    if (!general) return { dRow: 0, dCol: 0 };
+    dRow = general.row - target.row;
+    dCol = general.col - target.col;
+  }
+  if (dRow === 0 && dCol === 0) return { dRow: 0, dCol: 0 };
+  // Single-axis projection.
+  if (Math.abs(dCol) >= Math.abs(dRow)) {
+    return { dRow: 0, dCol: Math.sign(dCol) };
+  }
+  return { dRow: Math.sign(dRow), dCol: 0 };
 }
 
 export class UnsupportedOpError extends Error {

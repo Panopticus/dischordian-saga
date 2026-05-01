@@ -25,6 +25,8 @@ const NODE_GLOBALS = {
   URL: "readonly",
   URLSearchParams: "readonly",
   fetch: "readonly",
+  AbortController: "readonly",
+  AbortSignal: "readonly",
   TextEncoder: "readonly",
   TextDecoder: "readonly",
 };

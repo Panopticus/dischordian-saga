@@ -1801,6 +1801,101 @@ export const guildChat = mysqlTable("guild_chat", {
 export type GuildChatMessage = typeof guildChat.$inferSelect;
 
 /**
+ * Chat moderation — player-submitted reports against chat messages
+ * across any chat surface (currently guild_chat; extensible to
+ * spectator chat / DMs via the sourceType column). One row per
+ * reporter+message; the unique key blocks pile-on while still
+ * allowing different players to file independent reports against
+ * the same message (which is itself useful evidence).
+ *
+ * `messageSnapshot` is captured at report time so a moderator's
+ * queue still has the offending content even if the source row is
+ * later deleted (cascade-on-leave-guild for example). Status uses
+ * a small enum rather than free-form so admin queries don't have
+ * to defensively unparse.
+ */
+export const chatReports = mysqlTable("chat_reports", {
+  id: int("id").autoincrement().primaryKey(),
+  reporterUserId: int("reporterUserId").notNull(),
+  reportedUserId: int("reportedUserId").notNull(),
+  sourceType: mysqlEnum("sourceType", ["guild_chat"]).notNull().default("guild_chat"),
+  sourceMessageId: int("sourceMessageId").notNull(),
+  messageSnapshot: text("messageSnapshot").notNull(),
+  reason: mysqlEnum("reason", [
+    "harassment",
+    "hate_speech",
+    "spam",
+    "doxxing",
+    "other",
+  ]).notNull(),
+  notes: varchar("notes", { length: 500 }),
+  status: mysqlEnum("status", [
+    "open",
+    "reviewed",
+    "dismissed",
+    "actioned",
+  ]).notNull().default("open"),
+  /** Pipe-joined filter-flag string (e.g. "masked|caps") captured
+   *  at report time. Empty if the message had no automated flags
+   *  — a legitimate signal that the reporter saw something the
+   *  filter missed. */
+  filterFlagsAtReport: varchar("filterFlagsAtReport", { length: 128 }).notNull().default(""),
+  reviewedBy: int("reviewedBy"),
+  reviewedAt: timestamp("reviewedAt"),
+  reviewerNotes: varchar("reviewerNotes", { length: 500 }),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => ({
+  uniqReporterMessage: uniqueIndex("uq_chat_reports_reporter_msg").on(
+    table.reporterUserId,
+    table.sourceType,
+    table.sourceMessageId,
+  ),
+  idxStatus: index("idx_chat_reports_status").on(table.status),
+  idxReportedUser: index("idx_chat_reports_reported_user").on(table.reportedUserId),
+}));
+export type ChatReport = typeof chatReports.$inferSelect;
+
+/**
+ * Purchase grants — append-only ledger of fulfilled purchases.
+ *
+ * One row per fulfillment, written inside the same transaction as
+ * the actual reward grants (dream-token credits, card-pack inserts,
+ * ship-upgrade rows, etc). The unique key on `fulfillmentId` means:
+ *
+ *   - The ledger row CAN'T exist without the grants, because they're
+ *     in the same atomic transaction.
+ *   - The grants CAN'T be duplicated by a webhook retry, because the
+ *     caller checks for an existing ledger row before executing the
+ *     transaction body.
+ *
+ * Together these close the audit-flagged "user is charged but
+ * inventory is partial / duplicated" failure mode.
+ *
+ * `fulfillmentId` is the Stripe payment-intent id for paid flows, or
+ * a synthesised stable string for free / Dream-token / credits flows
+ * (`{kind}:{userId}:{productKey}:{Date.now()}`). The format is opaque
+ * to the consumer; only uniqueness and stability matter.
+ *
+ * `rewardSummary` is a small JSON snapshot of what was granted —
+ * purely audit candy, never read by the runtime. Useful for refund
+ * tooling and customer-support replay.
+ */
+export const purchaseGrants = mysqlTable("purchase_grants", {
+  id: int("id").autoincrement().primaryKey(),
+  fulfillmentId: varchar("fulfillmentId", { length: 256 }).notNull(),
+  userId: int("userId").notNull(),
+  productKey: varchar("productKey", { length: 128 }).notNull(),
+  quantity: int("quantity").notNull(),
+  rewardSummary: json("rewardSummary").$type<Record<string, number | string>>(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => ({
+  uniqFulfillment: uniqueIndex("uq_purchase_grants_fulfillment").on(table.fulfillmentId),
+  idxUserId: index("idx_purchase_grants_user").on(table.userId),
+  idxProductKey: index("idx_purchase_grants_product").on(table.productKey),
+}));
+export type PurchaseGrant = typeof purchaseGrants.$inferSelect;
+
+/**
  * Guild invites — pending invitations.
  */
 export const guildInvites = mysqlTable("guild_invites", {

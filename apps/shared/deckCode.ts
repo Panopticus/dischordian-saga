@@ -23,12 +23,23 @@ export const DECK_CODE_PREFIX = "DS1.";
 
 const MAX_CARDS = 200; // hard cap to prevent abuse on import
 
+/**
+ * btoa/atob have been on globalThis since Node 16; in browsers they've
+ * always been there. Narrow the lookup to the typed Web API rather
+ * than the previous `(globalThis as any).btoa` cast.
+ */
+type GlobalWithBase64 = {
+  btoa?: (input: string) => string;
+  atob?: (input: string) => string;
+};
+
 function toBase64Url(input: string): string {
   const b64 =
     typeof Buffer !== "undefined"
       ? Buffer.from(input, "utf-8").toString("base64")
-      : // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        (globalThis as any).btoa(unescape(encodeURIComponent(input)));
+      : (globalThis as GlobalWithBase64).btoa?.(
+          unescape(encodeURIComponent(input)),
+        ) ?? "";
   return b64.replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
 }
 
@@ -38,8 +49,9 @@ function fromBase64Url(input: string): string {
   if (typeof Buffer !== "undefined") {
     return Buffer.from(padded, "base64").toString("utf-8");
   }
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return decodeURIComponent(escape((globalThis as any).atob(padded)));
+  return decodeURIComponent(
+    escape((globalThis as GlobalWithBase64).atob?.(padded) ?? ""),
+  );
 }
 
 /**

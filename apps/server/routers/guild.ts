@@ -8,6 +8,7 @@ import { TRPCError } from "@trpc/server";
 import { ripple } from "../services/rippleEngine";
 import { checkFeatureFlag } from "../middleware/featureFlag";
 import { warEventCutscene } from "@shared/expansionArt/guildCutsceneVoMap";
+import { filterMessage } from "../../shared/moderation/profanityFilter";
 
 /* ─── F.2.5 donation milestones ─── */
 /* Cumulative-Dream thresholds at which a player's donation crosses
@@ -408,15 +409,31 @@ export const guildRouter = router({
         .where(eq(guildMembers.userId, ctx.user.id)).limit(1);
       if (!membership[0]) throw new TRPCError({ code: "FORBIDDEN", message: "Not in a Syndicate" });
 
+      // Moderation gate. The filter is the first line of defence —
+      // hard-block slurs, mask mild profanity, surface evidence so
+      // moderators have something to work with. Filter outcome rides
+      // through to the persisted message: blocked → 403; flagged →
+      // sanitized text is stored, raw is dropped.
+      const verdict = filterMessage(input.message);
+      if (verdict.blocked) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "Your message was blocked by chat moderation.",
+        });
+      }
+
       await db.insert(guildChat).values({
         guildId: membership[0].guildId,
         userId: ctx.user.id,
         userName: ctx.user.name || "Unknown",
-        message: input.message,
+        message: verdict.sanitized,
         messageType: "chat",
       });
 
-      return { success: true };
+      return {
+        success: true,
+        flags: verdict.flags,
+      };
     }),
 
   /* ─── Invite a player ─── */

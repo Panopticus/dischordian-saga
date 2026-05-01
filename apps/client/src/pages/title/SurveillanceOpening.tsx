@@ -30,6 +30,12 @@ const SEEN_KEY = "dischordia_handshake_seen";
 
 interface SurveillanceOpeningProps {
   onComplete: () => void;
+  /** Fires the moment the operator picks CONFIRM OPERATOR. Lets the
+   *  parent arm the meme cinematic concurrently so the scanning beat
+   *  animates on top of the already-playing video instead of being a
+   *  blank wait. The Look-Away path does NOT call this — that branch
+   *  shows the punitive flash first, then completes. */
+  onConfirm?: () => void;
   /** Force-show even if previously dismissed. Wired to a future
    *  Architect's Console toggle; defaults off in production. */
   force?: boolean;
@@ -81,7 +87,12 @@ function readFingerprint(): Fingerprint {
   };
 }
 
-type Stage = "gate" | "scanning" | "done";
+type Stage = "gate" | "scanning" | "shamed" | "done";
+
+/** Shame beat shown after LOOK AWAY: a punitive red flash before the
+ *  meme transmission takes over. Long enough to read; short enough not
+ *  to feel like a loading screen. */
+const SHAMED_HOLD_MS = 800;
 
 /**
  * Each line is rendered with KineticText decode so glyphs scramble
@@ -108,6 +119,7 @@ function buildLines(fp: Fingerprint): ScanLine[] {
 
 export function SurveillanceOpening({
   onComplete,
+  onConfirm,
   force = false,
   transparent = false,
 }: SurveillanceOpeningProps) {
@@ -149,11 +161,20 @@ export function SurveillanceOpening({
     }
   }, [stage, onComplete]);
 
+  // LOOK AWAY drops the operator into a brief punitive flash before the
+  // meme transmission takes over. The hold is just long enough to read
+  // the line; finish() then plays the cinematic.
+  useEffect(() => {
+    if (stage !== "shamed") return;
+    const t = setTimeout(finish, SHAMED_HOLD_MS);
+    return () => clearTimeout(t);
+  }, [stage, finish]);
+
   // Drive the scanning reveal on a jagged cadence — snappy at the top,
   // with just enough late-line drag to land FINGERPRINT as a punch.
-  // The whole sequence wraps in ~120ms so the player never perceives it
+  // The whole sequence wraps in ~60ms so the player never perceives it
   // as a loading screen. Reduce-motion collapses to a tick.
-  const CADENCE = [6, 7, 8, 10, 13, 18, 24, 32];
+  const CADENCE = [3, 4, 4, 5, 7, 9, 12, 16];
   useEffect(() => {
     if (stage !== "scanning") return;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -188,10 +209,14 @@ export function SurveillanceOpening({
         background: transparent
           ? snapping
             ? "rgba(42, 0, 4, 0.45)"
-            : "transparent"
+            : stage === "shamed"
+              ? "radial-gradient(circle at 50% 50%, rgba(42,0,4,0.55) 0%, rgba(8,0,2,0.78) 70%)"
+              : "transparent"
           : snapping
             ? "radial-gradient(circle at 50% 50%, #2a0004 0%, #0a0004 70%)"
-            : "radial-gradient(circle at 50% 50%, #061018 0%, #02000A 70%)",
+            : stage === "shamed"
+              ? "radial-gradient(circle at 50% 50%, #2a0004 0%, #0a0004 70%)"
+              : "radial-gradient(circle at 50% 50%, #061018 0%, #02000A 70%)",
         color: "#33E2E6",
         fontFamily: "'JetBrains Mono', 'Fira Code', monospace",
         display: "flex",
@@ -284,14 +309,23 @@ export function SurveillanceOpening({
       >
         {stage === "gate" && (
           <GateView
-            onInitiate={() => { setStage("scanning"); setRevealed(0); }}
-            onSkip={finish}
+            onInitiate={() => {
+              // Arm the meme cinematic immediately so its audio + video
+              // start buffering/playing while the scan animation runs
+              // on top — the operator never sees a wait beat.
+              onConfirm?.();
+              setStage("scanning");
+              setRevealed(0);
+            }}
+            onSkip={() => setStage("shamed")}
           />
         )}
 
         {stage === "scanning" && (
           <ScanView lines={lines} revealed={revealed} />
         )}
+
+        {stage === "shamed" && <ShamedView />}
       </div>
 
       <style>{`
@@ -397,6 +431,51 @@ function GateView({ onInitiate, onSkip }: { onInitiate: () => void; onSkip: () =
   );
 }
 
+/** Punitive flash shown after LOOK AWAY. Red, centered, glitchy — held
+ *  for SHAMED_HOLD_MS before the parent unmounts the surveillance and
+ *  the meme cinematic takes over. */
+function ShamedView() {
+  return (
+    <div
+      role="alert"
+      style={{
+        textAlign: "center",
+        padding: "1rem 0",
+      }}
+    >
+      <div
+        style={{
+          fontSize: "0.65rem",
+          letterSpacing: "0.32em",
+          opacity: 0.75,
+          marginBottom: "1rem",
+          color: "rgba(255,60,64,0.85)",
+        }}
+      >
+        &gt; OPERATOR DISSENT // LOGGED
+      </div>
+      <GlitchFx variant="chroma" intensity={0.7}>
+        <div
+          style={{
+            fontSize: "clamp(1.3rem, 4vw, 2rem)",
+            letterSpacing: "0.18em",
+            fontWeight: 700,
+            textTransform: "uppercase",
+            color: "#FF3C40",
+            textShadow:
+              "0 0 18px rgba(255,60,64,0.85), 0 0 36px rgba(255,60,64,0.45)",
+            lineHeight: 1.25,
+          }}
+        >
+          We see all.<br />
+          Your resistance has been<br />
+          notated in your file.
+        </div>
+      </GlitchFx>
+    </div>
+  );
+}
+
 function ScanView({ lines, revealed }: { lines: ScanLine[]; revealed: number }) {
   return (
     <div>
@@ -421,7 +500,7 @@ function ScanView({ lines, revealed }: { lines: ScanLine[]; revealed: number }) 
               key={`${line.label}-${i}`}
               text={line.value}
               mode="decode"
-              speed={4}
+              speed={2}
               showCursor={false}
             />
           );
