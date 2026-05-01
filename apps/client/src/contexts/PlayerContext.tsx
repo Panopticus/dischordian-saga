@@ -49,6 +49,11 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       audio.src = song.audio_url;
       audio.play().catch((e) => {
         console.warn("[Player] Autoplay blocked:", e);
+        // The play event never fired, so the play/pause listeners
+        // wouldn't have corrected isPlaying. Reset it ourselves so
+        // callers (TitleAlbumIntro's tap-to-begin fallback, mini-card
+        // labels, BGM ducking) reflect the real audio state.
+        setIsPlaying(false);
       });
     } else {
       audio.pause();
@@ -105,6 +110,11 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     audio.addEventListener("error", (e) => {
       console.warn("[Player] Audio error:", (e as any)?.target?.error?.message || "unknown");
     });
+    // Keep React's isPlaying in lockstep with the underlying media so
+    // listeners (tap-to-begin fallback in the title intro, BGM ducking)
+    // never see a stale "playing" while the audio is actually paused.
+    audio.addEventListener("play", () => setIsPlaying(true));
+    audio.addEventListener("pause", () => setIsPlaying(false));
 
     audioRef.current = audio;
 

@@ -72,19 +72,29 @@ export default function TitleAlbumIntro({
       }
     };
     tryPlay();
-    // After ~500ms, if isPlaying is still false, surface the tap-to-
-    // begin overlay so the player can satisfy the gesture requirement.
-    const t = setTimeout(() => {
-      if (cancelled) return;
-      if (!player.isPlaying) setNeedsTap(true);
-    }, 500);
     return () => {
       cancelled = true;
-      clearTimeout(t);
     };
     // playSong identity is stable enough; we run this once on mount.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // If the audio engine settles into a non-playing state (autoplay
+  // blocked, network failure, or the player was paused elsewhere) and
+  // currentTime is still at zero, surface the tap-to-begin overlay so
+  // the player can re-arm the gesture. We only flip TO needsTap; once
+  // playback starts we hide the overlay via the same effect.
+  useEffect(() => {
+    if (completedRef.current) return;
+    const isOurSong = player.currentSong?.id === T01_SYNTH_LOREDEX_ENTRY.id;
+    if (!isOurSong) return;
+    if (player.isPlaying) {
+      if (needsTap) setNeedsTap(false);
+      return;
+    }
+    if (player.currentTime > 0) return;
+    if (!needsTap) setNeedsTap(true);
+  }, [player.isPlaying, player.currentSong?.id, player.currentTime, needsTap]);
 
   const finish = useCallback(
     (completed: boolean) => {
@@ -216,7 +226,9 @@ export default function TitleAlbumIntro({
 
           {/* AWAKEN — always present; gated on isGameReady. Bottom
               right matches the cinematic's button placement so the
-              player's eye never has to relocate. */}
+              player's eye never has to relocate. Sits above the
+              tap-to-begin overlay (z-40 vs z-30) so a blocked autoplay
+              never traps the player behind a backdrop. */}
           <motion.button
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
@@ -226,8 +238,8 @@ export default function TitleAlbumIntro({
             aria-disabled={!isGameReady}
             className={
               isGameReady
-                ? "absolute bottom-6 right-6 z-30 px-5 py-2 border border-emerald-500/60 bg-black/60 hover:bg-emerald-900/40 text-emerald-200 font-mono text-xs uppercase tracking-[0.3em] rounded backdrop-blur-sm shadow-[0_0_18px_rgba(16,185,129,0.4)]"
-                : "absolute bottom-6 right-6 z-30 px-5 py-2 border border-emerald-900/60 bg-black/60 text-emerald-500/40 font-mono text-xs uppercase tracking-[0.3em] rounded backdrop-blur-sm cursor-not-allowed"
+                ? "absolute bottom-6 right-6 z-40 px-5 py-2 border border-emerald-500/60 bg-black/60 hover:bg-emerald-900/40 text-emerald-200 font-mono text-xs uppercase tracking-[0.3em] rounded backdrop-blur-sm shadow-[0_0_18px_rgba(16,185,129,0.4)]"
+                : "absolute bottom-6 right-6 z-40 px-5 py-2 border border-emerald-900/60 bg-black/60 text-emerald-500/40 font-mono text-xs uppercase tracking-[0.3em] rounded backdrop-blur-sm cursor-not-allowed"
             }
           >
             {isGameReady ? "AWAKEN ▸" : "Stand by…"}
