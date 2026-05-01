@@ -157,6 +157,21 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
           source: "cipher-den",
           order: 2,
         },
+        // Mystery Engine binding — when Wraith Calder arc is the
+        // active case, the dictionary-of-edits surfaces both halves
+        // of the Information Twins interrogation transcript. Lore
+        // match: the dictionary holds vocabulary as method, and
+        // the Word/Silence pair speak in alternating-sentence
+        // discipline — a vocabulary-by-omission method that mirrors
+        // the editor's substitution patterns in form.
+        mysteryBinding: {
+          mysteryId: "mystery.wraith_calder",
+          episodeId: "wraith.e3",
+          cluesFound: [
+            "wraith.e3.silence_transcript",
+            "wraith.e3.word_transcript",
+          ],
+        },
         humanReaction: {
           narration: {
             shadow:
