@@ -55,6 +55,7 @@ const VERB_ICONS: Record<Verb, typeof Eye> = {
   look: Eye,
   use: Hand,
   talk: MessageSquare,
+  interrogate: Eye,
 };
 
 export default function PointAndClickScene({

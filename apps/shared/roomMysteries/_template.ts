@@ -16,10 +16,20 @@
    structurally identical to the new modules.
    ═══════════════════════════════════════════════════════ */
 
-/** SCUMM-style verb set. Three verbs is the minimum that produces
- *  a real point-and-click feel without a verb-coin that overwhelms
- *  the on-screen UI. Matches the cryo-bay pilot. */
-export type Verb = "look" | "use" | "talk";
+/** SCUMM-style verb set. Look / Use / Talk are the canonical
+ *  SCUMM trio — three verbs is the minimum that produces a real
+ *  point-and-click feel without a verb-coin that overwhelms the
+ *  on-screen UI. Matches the cryo-bay pilot.
+ *
+ *  `interrogate` is the Mystery Engine's fourth verb (see
+ *  docs/design/STREAMED_PRISM_MYSTERY_ENGINE.md §10). It's NOT
+ *  shown on the SCUMM coin — the coin's `VERB_ORDER` keeps the
+ *  3-verb visual contract. The fourth verb is invoked through
+ *  the interrogation dialog surface and stored as a separate
+ *  authoring slot on a hotspot's response table so a writer
+ *  can pre-author per-tone NPC answers without polluting the
+ *  click loop. */
+export type Verb = "look" | "use" | "talk" | "interrogate";
 
 /** Re-export so room-mystery authors can declare ST edits without
  *  reaching past the module boundary. */
@@ -176,6 +186,37 @@ export interface VerbResponse {
    *  the first time this fires; subsequent fires are deduped by the
    *  pure helper's "preserve prior createdAt on re-edit" semantics. */
   recordsActiveEdit?: RecordsActiveEdit;
+  /** Mystery Engine binding (additive — see
+   *  docs/design/STREAMED_PRISM_MYSTERY_ENGINE.md §10). When set,
+   *  firing this response is treated as case-relevant:
+   *
+   *    - the runtime credits the named clue to the active mystery's
+   *      `mysteryEvidence` row (via mysteryService.recordEvidence)
+   *    - the lens-active player sees the lens-overlay narration
+   *      when `lensFiltering` is true
+   *
+   *  Authors can leave this off entirely on non-mystery hotspots —
+   *  the runtime treats absence as "not part of any case." */
+  mysteryBinding?: MysteryBinding;
+}
+
+/** A response's optional binding to a Mystery Engine episode. The
+ *  runtime resolves the active mystery from `playerMysteryProgress`
+ *  and credits the clue when the player's case matches `mysteryId`. */
+export interface MysteryBinding {
+  /** Branded mystery id (see apps/shared/mysteryTypes.ts). Stored
+   *  as a plain string here so this module doesn't pull on the
+   *  branded-id types — the runtime narrows on use. */
+  mysteryId: string;
+  /** Branded episode id, same convention. */
+  episodeId: string;
+  /** Branded clue id this response credits. */
+  cluesFound: readonly string[];
+  /** When true, the runtime swaps `narration` for the active
+   *  lens's overlay variant (see LensDefinition in mysteryTypes).
+   *  Off by default — most clue-find narration is band-banded
+   *  but lens-agnostic. */
+  lensFiltering?: boolean;
 }
 
 /** Result of a `use <a> on <b>` inventory combine. */

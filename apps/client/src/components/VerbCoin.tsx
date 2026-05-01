@@ -16,7 +16,7 @@
 
    ═══════════════════════════════════════════════════════ */
 
-import { Eye, Hand, MessageSquare } from "lucide-react";
+import { Eye, Hand, MessageSquare, ScanSearch } from "lucide-react";
 import { motion } from "framer-motion";
 import type { Verb } from "@shared/roomMysteries";
 
@@ -30,19 +30,26 @@ interface VerbCoinProps {
   onVerb: (verb: Verb) => void;
 }
 
-const VERB_ORDER: readonly Verb[] = ["look", "use", "talk"];
+/** Verbs the SCUMM coin renders. `interrogate` is a Mystery
+ *  Engine verb (see _template.ts) that's invoked through the
+ *  interrogation dialog surface — not the click coin — so it's
+ *  intentionally absent here even though VERB_ICONS / VERB_LABELS
+ *  cover it for exhaustive Verb-record typing. */
+const VERB_ORDER: readonly ("look" | "use" | "talk")[] = ["look", "use", "talk"];
 
-const VERB_ICONS = {
+const VERB_ICONS: Record<Verb, typeof Eye> = {
   look: Eye,
   use: Hand,
   talk: MessageSquare,
-} as const;
+  interrogate: ScanSearch,
+};
 
-const VERB_LABELS = {
+const VERB_LABELS: Record<Verb, string> = {
   look: "Look",
   use: "Use",
   talk: "Talk",
-} as const;
+  interrogate: "Interrogate",
+};
 
 export default function VerbCoin({
   visible,
