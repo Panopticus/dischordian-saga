@@ -24,6 +24,7 @@ import {
   userTitles,
   guildMembers,
   guilds,
+  apprenticeTrialCompletions,
 } from "../../db/schema";
 import {
   computeNewlyUnlocked,
@@ -162,6 +163,14 @@ export async function buildTitleSnapshot(
     }
   }
 
+  // Apprentice Trial completions
+  const apprenticeRows = await db
+    .select()
+    .from(apprenticeTrialCompletions)
+    .where(eq(apprenticeTrialCompletions.userId, userId));
+  const apprenticeTrialsAttended = apprenticeRows.length;
+  const apprenticeTrialsGraduated = apprenticeRows.filter((r) => r.graduated === 1).length;
+
   // Guild context
   const memberRows = await db
     .select()
@@ -197,6 +206,8 @@ export async function buildTitleSnapshot(
     alignmentScores,
     level,
     guildHallTier,
+    apprenticeTrialsAttended,
+    apprenticeTrialsGraduated,
   });
 }
 

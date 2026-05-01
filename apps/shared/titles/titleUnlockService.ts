@@ -108,6 +108,11 @@ export function evaluateTitleUnlock(
     case "guild_hall_tier":
       return state.guildHallTier >= cond.tier;
 
+    case "apprentice_trial_attended":
+      return state.apprenticeTrialsAttended >= cond.count;
+    case "apprentice_trial_graduated":
+      return state.apprenticeTrialsGraduated >= cond.count;
+
     case "level_reached":
       return state.level >= cond.level;
     case "prestige_reached":
@@ -196,6 +201,10 @@ export function progressFraction(
     }
     case "guild_skirmish_won":
       return clamp01(state.guildSkirmishWins / cond.count);
+    case "apprentice_trial_attended":
+      return clamp01(state.apprenticeTrialsAttended / cond.count);
+    case "apprentice_trial_graduated":
+      return clamp01(state.apprenticeTrialsGraduated / cond.count);
     case "guild_hall_tier":
       return clamp01(state.guildHallTier / cond.tier);
     case "loredex_alignment_threshold":
@@ -277,6 +286,8 @@ export function makeTitleProgressSnapshot(
     guildWarTerritoriesHeld: Iterable<string>;
     guildSkirmishWins: number;
     guildHallTier: number;
+    apprenticeTrialsAttended: number;
+    apprenticeTrialsGraduated: number;
   }>,
 ): TitleProgressSnapshot {
   return {
@@ -304,6 +315,8 @@ export function makeTitleProgressSnapshot(
     guildWarTerritoriesHeld: new Set(partial.guildWarTerritoriesHeld ?? []),
     guildSkirmishWins: partial.guildSkirmishWins ?? 0,
     guildHallTier: partial.guildHallTier ?? 0,
+    apprenticeTrialsAttended: partial.apprenticeTrialsAttended ?? 0,
+    apprenticeTrialsGraduated: partial.apprenticeTrialsGraduated ?? 0,
   };
 }
 

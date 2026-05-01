@@ -5807,3 +5807,47 @@ export const guildWarSkirmishMatches = mysqlTable("guild_war_skirmish_matches", 
   skirmishIdIdx: index("idx_guild_war_skirmish_matches_skirmish").on(table.skirmishId),
 }));
 export type GuildWarSkirmishMatch = typeof guildWarSkirmishMatches.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
+   APPRENTICE TRIAL COHORT COMPLETIONS
+   Server-side record of every cohort a player has completed.
+   Cohort simulation itself stays client-side (apps/shared/pvpCohorts.ts);
+   this table records "I survived cohort N" for title grants.
+   ═══════════════════════════════════════════════════════ */
+export const apprenticeTrialCompletions = mysqlTable("apprentice_trial_completions", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  cohortNumber: int("cohortNumber").notNull(),
+  apprenticeName: varchar("apprenticeName", { length: 96 }).notNull(),
+  archetype: varchar("archetype", { length: 32 }).notNull(),
+  /** True iff this player was the cohort's sole graduate. */
+  graduated: int("graduated").notNull().default(0),
+  /** Day the apprentice fell (or 28 if survived to graduation). */
+  daySurvived: int("daySurvived").notNull(),
+  cohortSize: int("cohortSize").notNull(),
+  recordedAt: timestamp("recordedAt").defaultNow().notNull(),
+}, (table) => ({
+  userIdIdx: index("idx_apprentice_trial_user_id").on(table.userId),
+  userCohortUniq: uniqueIndex("uniq_apprentice_trial_user_cohort").on(
+    table.userId,
+    table.cohortNumber,
+  ),
+}));
+export type ApprenticeTrialCompletion = typeof apprenticeTrialCompletions.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
+   COMPETITIVE RATINGS BACKFILL MARKER
+   One-shot record that the migration from pvpLeaderboard +
+   chessRankings → competitive_ratings has run. Prevents
+   double-execution at boot.
+   ═══════════════════════════════════════════════════════ */
+export const competitiveRatingsBackfill = mysqlTable("competitive_ratings_backfill", {
+  id: int("id").autoincrement().primaryKey(),
+  /** Always "v1" for the initial backfill. Future migrations
+   *  add additional version rows. */
+  version: varchar("version", { length: 32 }).notNull().unique(),
+  cardMirrored: int("cardMirrored").notNull().default(0),
+  chessMirrored: int("chessMirrored").notNull().default(0),
+  ranAt: timestamp("ranAt").defaultNow().notNull(),
+});
+export type CompetitiveRatingsBackfillRow = typeof competitiveRatingsBackfill.$inferSelect;

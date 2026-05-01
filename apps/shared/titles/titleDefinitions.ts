@@ -855,6 +855,48 @@ export const TITLE_DEFINITIONS: readonly TitleDef[] = [
     },
   },
 
+  /* ─── APPRENTICE TRIAL / CELEBRATION ────────────────────── */
+  // Anchors to entity_9 (Project Celebration) + entity_17 (The Game Master).
+  {
+    titleKey: "celebrant_t1",
+    rootKey: "celebrant",
+    tier: 1,
+    name: "Apprentice Aboard",
+    description: "Sent your first Apprentice into the Celebration Trial.",
+    rarity: "common",
+    category: "coop",
+    loredexEntityId: "entity_9",
+    iconKey: "Sparkles",
+    condition: { kind: "apprentice_trial_attended", count: 1 },
+  },
+  {
+    titleKey: "celebrant_t2",
+    rootKey: "celebrant",
+    tier: 2,
+    name: "Survivor of the Palimpsest",
+    description: "Completed 5 Apprentice Trial cohorts.",
+    flavorText: "The Game Master watches. The Game Master remembers.",
+    rarity: "epic",
+    category: "coop",
+    loredexEntityId: "entity_17",
+    iconKey: "BookOpen",
+    condition: { kind: "apprentice_trial_attended", count: 5 },
+  },
+  {
+    titleKey: "celebrant_t3",
+    rootKey: "celebrant",
+    tier: 3,
+    name: "The Sole Graduate",
+    description: "Graduated 3 Apprentice Trial cohorts as the lone survivor.",
+    flavorText: "Forty-three names read aloud. One name remains.",
+    rarity: "legendary",
+    category: "coop",
+    loredexEntityId: "entity_17",
+    iconKey: "Crown",
+    hidden: true,
+    condition: { kind: "apprentice_trial_graduated", count: 3 },
+  },
+
   /* ─── COSMETIC PURCHASE (migrated from cosmeticShop.ts) ──── */
   {
     titleKey: "title_legend",

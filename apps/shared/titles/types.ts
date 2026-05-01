@@ -66,6 +66,9 @@ export type TitleUnlockCondition =
   | { kind: "guild_war_won"; territoryKey?: string }
   | { kind: "guild_skirmish_won"; count: number }
   | { kind: "guild_hall_tier"; tier: number }
+  // Apprentice Trial
+  | { kind: "apprentice_trial_graduated"; count: number }
+  | { kind: "apprentice_trial_attended"; count: number }
   // Generic gates
   | { kind: "level_reached"; level: number }
   | { kind: "prestige_reached"; prestigeKey: string; level: number }
@@ -160,6 +163,10 @@ export interface TitleProgressSnapshot {
   readonly guildWarTerritoriesHeld: ReadonlySet<string>;
   readonly guildSkirmishWins: number;
   readonly guildHallTier: number;
+  /** Apprentice Trial cohorts attended (any outcome). */
+  readonly apprenticeTrialsAttended: number;
+  /** Apprentice Trial cohorts graduated (sole survivor). */
+  readonly apprenticeTrialsGraduated: number;
 }
 
 /** Empty snapshot — useful for tests + unauth flows. */
@@ -188,6 +195,8 @@ export const NULL_TITLE_PROGRESS_SNAPSHOT: TitleProgressSnapshot = Object.freeze
   guildWarTerritoriesHeld: new Set<string>(),
   guildSkirmishWins: 0,
   guildHallTier: 0,
+  apprenticeTrialsAttended: 0,
+  apprenticeTrialsGraduated: 0,
 });
 
 /**
@@ -211,6 +220,7 @@ export type TitleEvent =
   | { kind: "guild_skirmish_won"; userId: number }
   | { kind: "guild_hall_tier_reached"; userId: number; tier: number }
   | { kind: "level_changed"; userId: number; level: number }
-  | { kind: "entitlement_granted"; userId: number; entitlementKey: string };
+  | { kind: "entitlement_granted"; userId: number; entitlementKey: string }
+  | { kind: "apprentice_trial_completed"; userId: number; cohortNumber: number; graduated: boolean; daySurvived: number };
 
 export type TitleEventKind = TitleEvent["kind"];

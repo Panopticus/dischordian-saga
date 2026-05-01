@@ -372,6 +372,12 @@ async function startServer() {
     // Run once on startup so the first expiry doesn't wait an hour
     runUniverseTick().catch(e => console.error("[LivingUniverse] initial tick error:", e));
 
+    // Tier 2A — one-shot competitive ratings backfill from legacy
+    // per-gameType tables. Idempotent via marker row; subsequent
+    // boots are no-ops. Doesn't block startup; fires async.
+    const { runCompetitiveRatingsBackfillOnce } = await import("../services/competitiveRatingsBackfillService");
+    runCompetitiveRatingsBackfillOnce().catch(e => console.error("[Competitive] Backfill error:", e));
+
     // Tier 4 — Guild quest reset tick. Resets daily / weekly / seasonal
     // quest progress rows that crossed their respective anchor.
     // Idempotent on the resetAt comparison so frequent ticks are safe.

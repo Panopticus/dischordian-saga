@@ -225,6 +225,36 @@ describe("describeRootProgression", () => {
   });
 });
 
+describe("apprentice trial conditions", () => {
+  it("apprentice_trial_attended fires at the threshold", () => {
+    const state = makeTitleProgressSnapshot({ apprenticeTrialsAttended: 5 });
+    expect(evaluateTitleUnlock({ kind: "apprentice_trial_attended", count: 5 }, state)).toBe(true);
+    expect(evaluateTitleUnlock({ kind: "apprentice_trial_attended", count: 6 }, state)).toBe(false);
+  });
+
+  it("apprentice_trial_graduated requires graduation count, not attendance", () => {
+    const attended = makeTitleProgressSnapshot({ apprenticeTrialsAttended: 10, apprenticeTrialsGraduated: 0 });
+    expect(evaluateTitleUnlock({ kind: "apprentice_trial_graduated", count: 1 }, attended)).toBe(false);
+    const graduated = makeTitleProgressSnapshot({ apprenticeTrialsGraduated: 3 });
+    expect(evaluateTitleUnlock({ kind: "apprentice_trial_graduated", count: 3 }, graduated)).toBe(true);
+  });
+
+  it("celebrant_t1 lights up after one cohort attended", () => {
+    const state = makeTitleProgressSnapshot({ apprenticeTrialsAttended: 1 });
+    const def = getTitleDef("celebrant_t1")!;
+    expect(isTitleUnlocked(def, state)).toBe(true);
+  });
+
+  it("celebrant_t3 (hidden) requires 3 graduations, not 3 attendances", () => {
+    const def = getTitleDef("celebrant_t3")!;
+    expect(def.hidden).toBe(true);
+    const attended = makeTitleProgressSnapshot({ apprenticeTrialsAttended: 10, apprenticeTrialsGraduated: 2 });
+    expect(isTitleUnlocked(def, attended)).toBe(false);
+    const graduated = makeTitleProgressSnapshot({ apprenticeTrialsAttended: 3, apprenticeTrialsGraduated: 3 });
+    expect(isTitleUnlocked(def, graduated)).toBe(true);
+  });
+});
+
 describe("registry integrity", () => {
   it("every titleKey is unique", () => {
     const seen = new Set<string>();
