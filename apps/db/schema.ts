@@ -3653,6 +3653,42 @@ export const npcTrustScalars = mysqlTable("npc_trust_scalars", {
 export type NpcTrustScalarRow = typeof npcTrustScalars.$inferSelect;
 export type InsertNpcTrustScalar = typeof npcTrustScalars.$inferInsert;
 
+/**
+ * Mystery seeds — the persistent record of every MysterySeed
+ * the engine has ever produced (vote closures, anniversaries,
+ * pattern triggers). The cron writes a row here on every
+ * successful close; the server-startup bootstrap reads them
+ * back and re-compiles each seed via mysteryTemplates.compileMysterySeed
+ * so the in-memory dynamic registry survives deploys.
+ *
+ * Compilation is deterministic (same seed → same MysteryDefinition
+ * by template contract), so re-hydration is idempotent.
+ *
+ * The unique index on `seedId` makes the cron's insert safe to
+ * retry — a second pass over the same closed vote is a no-op.
+ */
+export const mysterySeeds = mysqlTable("mystery_seeds", {
+  id: int("id").autoincrement().primaryKey(),
+  /** Canonical seed.seedId — e.g. "epoch_vote_closure.ap_v1.a". */
+  seedId: varchar("seedId", { length: 200 }).notNull(),
+  /** MysterySeedSource enum value as a plain string. */
+  source: varchar("source", { length: 40 }).notNull(),
+  /** Template id used to compile this seed at runtime. */
+  templateId: varchar("templateId", { length: 100 }).notNull(),
+  /** Template-specific payload — schema is the template's contract. */
+  payload: json("payload").$type<Record<string, unknown>>().notNull(),
+  /** Branded MysteryId — populated when compile succeeded.
+   *  Null when the template rejected the payload. */
+  compiledMysteryId: varchar("compiledMysteryId", { length: 100 }),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  uniqSeedId: uniqueIndex("uniq_mystery_seeds_seedId").on(table.seedId),
+}));
+
+export type MysterySeedRow = typeof mysterySeeds.$inferSelect;
+export type InsertMysterySeed = typeof mysterySeeds.$inferInsert;
+
 /* ═══════════════════════════════════════════════════════
    DISCHORDIA CYCLE — Witnessing Narrative Proposal §3
    Community-wide Light/Dark meter. A single row per server

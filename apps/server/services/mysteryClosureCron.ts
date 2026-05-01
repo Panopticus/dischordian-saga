@@ -26,7 +26,7 @@
    ═══════════════════════════════════════════════════════ */
 
 import { and, eq, lte } from "drizzle-orm";
-import { epochVoteTallies } from "../../db/schema";
+import { epochVoteTallies, mysterySeeds } from "../../db/schema";
 import { getDb } from "../db";
 import { logger } from "../logger";
 import {
@@ -34,7 +34,31 @@ import {
   compileMysterySeed,
   seedFromVoteClosure,
 } from "@shared/mysteryTemplates";
+import type { MysterySeed } from "@shared/mysteryTypes";
 import { registerCompiledMystery } from "./mysteryRegistry";
+
+/** Persist a seed to the mystery_seeds table. Idempotent on
+ *  seedId via the unique index — a duplicate insert is silently
+ *  absorbed so cron retries don't crash. */
+async function persistSeed(
+  seed: MysterySeed,
+  compiledMysteryId: string | null,
+): Promise<void> {
+  const db = await getDb();
+  if (!db) return;
+  try {
+    await db.insert(mysterySeeds).values({
+      seedId: seed.seedId,
+      source: seed.source,
+      templateId: seed.templateId,
+      payload: seed.payload as Record<string, unknown>,
+      compiledMysteryId,
+    });
+  } catch {
+    // Duplicate seedId — already persisted on a prior pass.
+    // Idempotent: no-op.
+  }
+}
 
 /* ─── PURE: WINNING-OPTION SELECTION ─── */
 
@@ -121,6 +145,7 @@ export async function runMysteryClosure(): Promise<MysteryClosureResult> {
 
         if (definition) {
           registerCompiledMystery(definition);
+          await persistSeed(seed, definition.id as string);
           result.compiled += 1;
           logger.info(
             `[MysteryClosureCron] compiled mystery '${definition.id}' from vote '${tally.voteId}' (winning option: ${winningOption}); ${definition.episodes.length} episode(s)`,
@@ -188,6 +213,7 @@ export async function closeVoteNow(voteId: string): Promise<{
       return { closed: true, compiled: false, winningOption, mysteryId: null };
     }
     registerCompiledMystery(definition);
+    await persistSeed(seed, definition.id as string);
     logger.info(
       `[MysteryClosureCron:closeVoteNow] compiled '${definition.id}' from vote '${voteId}' (winning option: ${winningOption})`,
     );

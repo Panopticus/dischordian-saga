@@ -356,6 +356,17 @@ async function startServer() {
     // without waiting for the first hour.
     tickCircuitSeasons().catch(e => console.error("[Circuit] initial tick error:", e));
 
+    // Mystery Engine — hydrate the in-memory dynamic registry
+    // from persisted mystery_seeds rows. Runs once on startup
+    // before the closure cron, so any vote-spawned mysteries
+    // compiled in prior server lifetimes are immediately
+    // openable. Idempotent (compile is deterministic) so a
+    // half-completed boot is safe to retry.
+    const { bootstrapMysteryRegistry } = await import("../services/mysteryRegistryBootstrap");
+    bootstrapMysteryRegistry().catch(e =>
+      console.error("[MysteryRegistryBootstrap] failed:", e),
+    );
+
     // Mystery Engine closure tick — picks expired epoch_vote_tallies
     // (expiresAt <= now AND isClosed = 0), writes the winning option,
     // and compiles a MysterySeed → MysteryDefinition for downstream
