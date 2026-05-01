@@ -356,6 +356,19 @@ async function startServer() {
     // without waiting for the first hour.
     tickCircuitSeasons().catch(e => console.error("[Circuit] initial tick error:", e));
 
+    // Mystery Engine closure tick — picks expired epoch_vote_tallies
+    // (expiresAt <= now AND isClosed = 0), writes the winning option,
+    // and compiles a MysterySeed → MysteryDefinition for downstream
+    // case opening. See apps/server/services/mysteryClosureCron.ts +
+    // docs/design/STREAMED_PRISM_MYSTERY_ENGINE.md §10. Hourly is
+    // sufficient — vote durations are 72h / 7d / 30d so an hour of
+    // post-expiry latency is invisible to players.
+    const { runMysteryClosure } = await import("../services/mysteryClosureCron");
+    setInterval(() => {
+      runMysteryClosure().catch(e => console.error("[MysteryClosure] tick error:", e));
+    }, ONE_HOUR_MS);
+    runMysteryClosure().catch(e => console.error("[MysteryClosure] initial tick error:", e));
+
     // Witnessing §3 — load the community Dischordia Cycle meter
     // from MySQL into the in-memory cache on startup. If the DB
     // has no row yet (fresh install), seeds defaults. Falls back
