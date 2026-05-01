@@ -30,7 +30,8 @@ import { BroadcastTicker } from "./title/BroadcastTicker";
 import { ResetWall } from "./title/ResetWall";
 import { SurveillanceOpening } from "./title/SurveillanceOpening";
 import DischordiaOpeningCinematic, { DISCHORDIA_OPENING_VIDEO_URL } from "@/components/DischordiaOpeningCinematic";
-import TitleAlbumIntro from "@/components/TitleAlbumIntro";
+import TitleAlbumIntro, { TITLE_T01_LOREDEX_ENTRY } from "@/components/TitleAlbumIntro";
+import { usePlayer } from "@/contexts/PlayerContext";
 import { hasSeenOpening } from "@/lib/dischordiaOpeningSeen";
 import { TitleStateNoSave } from "./title/TitleStateNoSave";
 import { TitleStateReturning } from "./title/TitleStateReturning";
@@ -229,6 +230,7 @@ function DiegeticBootSequence({ skipAnimation = false }: { skipAnimation?: boole
 export default function TitlePage({ onDismiss }: TitlePageProps = {}) {
   const auth = useAuth();
   const { state } = useGame();
+  const player = usePlayer();
   const isAuthenticated = auth.isAuthenticated;
   const hasSave = state.characterCreated && state.phase !== "FIRST_VISIT";
 
@@ -760,10 +762,28 @@ export default function TitlePage({ onDismiss }: TitlePageProps = {}) {
         <DischordiaOpeningCinematic
           isGameReady={thresholdPassed && !auth.loading}
           onCinematicEnded={() => setCinematicEnded(true)}
+          onSongShouldStart={() => {
+            // Pre-roll The Enigma's Lament ~10s before the meme video
+            // ends so the song is already playing when the slideshow
+            // takes over. The video element is mid-playback here so
+            // we're inside its transient user activation; audio.play()
+            // is allowed. TitleAlbumIntro detects T01 is already the
+            // current song on mount and skips its own playSong call so
+            // currentTime + slideshow alignment are preserved.
+            player.playSong(TITLE_T01_LOREDEX_ENTRY);
+          }}
           onComplete={(reachedEndNaturally) => {
             // If the user AWAKENed before the cinematic ended, skip
             // the T01 stage entirely — they want into the game NOW.
-            if (!reachedEndNaturally) setOpeningDone(true);
+            // Pause the player in case the song was already pre-rolled
+            // (AWAKEN inside the last 10s of the broadcast) so it
+            // doesn't bleed under the title screen.
+            if (!reachedEndNaturally) {
+              setOpeningDone(true);
+              if (player.currentSong?.id === TITLE_T01_LOREDEX_ENTRY.id) {
+                player.pause();
+              }
+            }
           }}
         />
       )}

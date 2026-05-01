@@ -45,6 +45,13 @@ const T01_SYNTH_LOREDEX_ENTRY: LoredexEntry = {
   album: "Dischordian Logic",
 };
 
+/** Exported so the cinematic stage can pre-roll The Enigma's Lament a
+ *  few seconds before the meme video ends — by the time TitleAlbumIntro
+ *  mounts, the song is already playing and the slideshow picks up at
+ *  the corresponding currentTime. TitleAlbumIntro detects this case and
+ *  skips its own playSong call. */
+export const TITLE_T01_LOREDEX_ENTRY = T01_SYNTH_LOREDEX_ENTRY;
+
 export default function TitleAlbumIntro({
   onComplete,
   isGameReady = true,
@@ -61,8 +68,17 @@ export default function TitleAlbumIntro({
   // calls audio.play() under the hood — autoplay-policy may reject this
   // since it's a programmatic transition (not a fresh user gesture). If
   // it does, we fall back to a tap-to-begin button.
+  //
+  // If the parent (TitlePage) already pre-rolled T01 in the cinematic's
+  // last 10 seconds, the song is mid-playback and currentTime is non-
+  // zero — calling playSong again would reset the song and the slide-
+  // show to frame 0, breaking the seamless handoff. Detect that and
+  // skip; the slideshow already syncs to player.currentTime.
   useEffect(() => {
     let cancelled = false;
+    const alreadyPlayingT01 =
+      player.currentSong?.id === T01_SYNTH_LOREDEX_ENTRY.id;
+    if (alreadyPlayingT01) return;
     const tryPlay = () => {
       if (cancelled) return;
       try {
