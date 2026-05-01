@@ -34,6 +34,13 @@ export const DISCHORDIA_OPENING_VIDEO_URL = assetUrl(
  *  duration + 2 so a stuck `ended` event doesn't trap the player. */
 const VIDEO_DURATION_S = 190;
 
+/** When the meme video has this many seconds (or less) remaining, fire
+ *  `onSongShouldStart` so the parent can pre-roll The Enigma's Lament.
+ *  Picked to overlap the closing beats of the broadcast with the song's
+ *  intro so the handoff to the slideshow lands with audio already
+ *  playing — no autoplay-block risk on the cut, no second of silence. */
+const SONG_PREROLL_LEAD_S = 10;
+
 interface Props {
   /** Fires when the cinematic dismisses for any reason — natural end,
    *  AWAKEN click, or the safety timer expiring. The flag lets the
@@ -45,6 +52,11 @@ interface Props {
    *  the 400ms fade-out. The parent uses this to start the T01
    *  audio + slideshow handoff while the cinematic is still fading. */
   onCinematicEnded?: () => void;
+  /** Fires once, ~10 seconds before the meme video ends, so the parent
+   *  can pre-roll The Enigma's Lament. By the time the slideshow takes
+   *  over the song is already playing and currentTime is non-zero —
+   *  TitleAlbumIntro detects that and skips its own playSong call. */
+  onSongShouldStart?: () => void;
   /** Drives the AWAKEN button's enabled state. When false, AWAKEN
    *  renders with a "Stand by…" sub-label and is non-interactive.
    *  When true, AWAKEN gets its glow + becomes clickable. Defaults
@@ -55,15 +67,26 @@ interface Props {
 export default function DischordiaOpeningCinematic({
   onComplete,
   onCinematicEnded,
+  onSongShouldStart,
   isGameReady = true,
 }: Props) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const completedRef = useRef(false);
   const safetyTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const songCueFiredRef = useRef(false);
   const [phase, setPhase] = useState<
     "loading" | "ready" | "playing" | "needs-tap" | "ending"
   >("loading");
   const [showAwaken, setShowAwaken] = useState(false);
+
+  // One-shot: fire the song pre-roll cue as soon as we're inside the
+  // last `SONG_PREROLL_LEAD_S` seconds of the broadcast. Idempotent —
+  // multiple timeupdate ticks after the threshold all no-op.
+  const fireSongCue = useCallback(() => {
+    if (songCueFiredRef.current) return;
+    songCueFiredRef.current = true;
+    onSongShouldStart?.();
+  }, [onSongShouldStart]);
 
   // AWAKEN button fades in after 2 seconds, regardless of playback state,
   // so a hung video never traps the player.
@@ -110,6 +133,20 @@ export default function DischordiaOpeningCinematic({
     const onError = () => {
       if (!cancelled) setPhase("needs-tap");
     };
+    // Pre-roll the T01 song once we're inside the last `SONG_PREROLL_LEAD_S`
+    // of the broadcast. Falling back to the producer-supplied
+    // VIDEO_DURATION_S if the metadata-derived duration isn't finite
+    // (live streams, partial buffers) keeps the cue tractable.
+    const onTimeUpdate = () => {
+      if (songCueFiredRef.current) return;
+      const total =
+        Number.isFinite(video.duration) && video.duration > 0
+          ? video.duration
+          : VIDEO_DURATION_S;
+      if (total - video.currentTime <= SONG_PREROLL_LEAD_S) {
+        fireSongCue();
+      }
+    };
     if (video.readyState >= 1) {
       // Metadata already buffered (cached load) — start immediately.
       startPlayback();
@@ -117,10 +154,12 @@ export default function DischordiaOpeningCinematic({
       video.addEventListener("loadedmetadata", onLoaded);
     }
     video.addEventListener("error", onError);
+    video.addEventListener("timeupdate", onTimeUpdate);
     return () => {
       cancelled = true;
       video.removeEventListener("loadedmetadata", onLoaded);
       video.removeEventListener("error", onError);
+      video.removeEventListener("timeupdate", onTimeUpdate);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
