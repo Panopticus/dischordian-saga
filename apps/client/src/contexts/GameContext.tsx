@@ -659,6 +659,11 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "captains-master-key", name: "Captain's Master Key", description: "A heavy magnetic key hidden in a compartment beneath the captain's armrest.", x: 78, y: 74, width: 4, height: 5, type: "item", action: "captains-master-key", elaraDialog: "The Captain's Master Key! It was hidden in a compartment beneath the armrest — exactly where a commander would keep their most important tool. This key opens the Captain's Quarters, the most restricted area on the ship. Whatever secrets Dr. Lyra Vox was hiding, they're behind that door." },
       { id: "egg-bridge-log", name: "Hidden Data Chip", description: "A micro data chip wedged into the captain's armrest.", x: 80, y: 70, width: 3, height: 4, type: "item", action: "captains-final-log", elaraDialog: "A hidden data chip! Someone concealed this in the armrest before the ship was stolen. Let me decrypt it... 'If you're reading this, the mind swap was successful. I am not who you think I am. The Engineer lives. Find the yellow coats.' The Engineer... hiding among the Potentials? And those yellow coats — that's the Warlord's signature. This changes everything." },
       { id: "egg-infected-starmap", name: "Corrupted Star Chart", description: "A star chart with routes that weren't in the original navigation database. The coordinates pulse with a sickly amber glow.", x: 18, y: 22, width: 5, height: 5, type: "item", action: "infected-starmap", elaraDialog: "[SIGNAL CORRUPTION] These coordinates... they weren't programmed by the crew. The Warlord, through Dr. Vox, uploaded a secondary route map into the navigation core. The routes connect every Inception Ark in the fleet — a delivery network. When Kael stole this ship, the Warlord let him go — because Kael was already Patient Zero, infected through Project Vector. The Thought Virus was in HIM. Every Ark this ship contacted, every port it docked at, every signal it broadcast — the virus spread from Kael's infected body through the ship's systems into every network it touched. Kael thought he was escaping. He was being deployed. The Recruiter became the delivery mechanism for the very weapon he was fighting against." },
+      // Shadow Tongue annotations — visible only after shadow_tongue_evidence
+      // flag set AND room tier >= 2. The runtime gate handles visibility;
+      // this rectangle covers the floating indigo marginalia at three
+      // tactical-display nodes per the bridge:annotations-visible art.
+      { id: "shadow-tongue-annotations", name: "Indigo Marginalia", description: "Faint indigo annotations float at three of the Conspiracy Board's nodes — marginalia in someone else's hand, timestamped to your current shift.", x: 35, y: 12, width: 30, height: 10, type: "interact", action: "room-mystery:bridge:shadow-tongue-annotations" },
     ],
   },
   {
@@ -686,6 +691,20 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "archive-crystal", name: "Encoded Crystal", description: "A crystal pulsing with amber light, partially decoded.", x: 55, y: 70, width: 7, height: 8, type: "item", action: "archive-crystal-beta", elaraDialog: "Another data crystal. This one has partial decryption — it seems to contain information about the Panopticon's surveillance network. The Architect's eyes were everywhere." },
       { id: "door-bridge", name: "Bridge Door", description: "Return to the Command Bridge.", x: 54, y: 38, width: 10, height: 30, type: "door", action: "bridge" },
       { id: "egg-archive-tome", name: "Unmarked Tome", description: "A book with no title, bound in material that feels warm to the touch.", x: 85, y: 70, width: 4, height: 6, type: "examine", action: "room-mystery:archives:egg-archive-tome", elaraDialog: "This book... it's not in any catalog. The binding material is organic — it's warm, like skin. The pages contain a prophecy written in a language I can't translate, but one word repeats: 'Dischord.' And at the very end, a drawing of seven seals. The Book of Revelation speaks of seven seals. Silence in Heaven follows the opening of the seventh." },
+      // ─── Shadow Tongue hotspots (2026-04-30 AAA Final drop) ───
+      // Authored against `archives:corrupted` art (apps/shared/roomMediaPrompts.ts).
+      // Layout per the prompt body:
+      //   • left-wall scroll rack: x≈4-12, y≈25-65
+      //   • lectern centre-foreground with indigo halo
+      //   • rewritten ledger on the lectern's small side-shelf
+      //   • freestanding glass cabinet stage-right with hand-stitched label
+      // Verify with /ark?debug-hotspots=1 if rectangles drift against the
+      // delivered render. Rectangles intentionally avoid overlap with the
+      // existing data-banks (left-back x:13, y:22) and codex-shelf (right-back).
+      { id: "corrupted-scroll-rack", name: "Corrupted Scroll Rack", description: "Twenty-eight scrolls behind frosted glass, each in two registers — warm-gold underlayer and a slightly out-of-register indigo overlayer.", x: 4, y: 64, width: 9, height: 22, type: "interact", action: "room-mystery:archives:corrupted-scroll-rack" },
+      { id: "rewritten-ledger", name: "Rewritten Ledger", description: "An open ledger on the lectern's side-shelf — two entries scrubbed to blanks, one margin annotation surviving in your own younger hand.", x: 32, y: 68, width: 8, height: 10, type: "interact", action: "room-mystery:archives:rewritten-ledger" },
+      { id: "indigo-glow-lectern", name: "Indigo-Glow Lectern", description: "The lectern's stone base is ringed in a faint halo in the colour you cannot name. Someone is logged in right now.", x: 42, y: 60, width: 16, height: 30, type: "interact", action: "room-mystery:archives:indigo-glow-lectern" },
+      { id: "unnameable-hue-cabinet", name: "Unnameable-Hue Cabinet", description: "A freestanding glass cabinet stage-right with a hand-stitched label dyed in an unnameable hue. One scroll inside is undyed and untouched.", x: 88, y: 30, width: 10, height: 38, type: "interact", action: "room-mystery:archives:unnameable-hue-cabinet" },
     ],
   },
   {
@@ -717,6 +736,11 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "door-observation", name: "Observation Deck", description: "A passage to the Observation Deck.", x: 91, y: 30, width: 8, height: 50, type: "door", action: "observation-deck" },
       { id: "comms-relay", name: "Communication Relay", description: "A powerful relay antenna capable of scanning for neural signatures across the fleet. Used to scan for Potential signatures across the fleet.", x: 78, y: 12, width: 12, height: 18, type: "interact", action: "comms-relay-import", elaraDialog: "The Communication Relay. I've been trying to re-establish contact with the other vessels — the ones that carried the first wave of Potentials into the void. I can scan for dormant neural signatures across the fleet. Perhaps we can identify other Potentials who survived the journey." },
       { id: "egg-comms-signal", name: "Anomalous Frequency", description: "A barely audible signal on a frequency that shouldn't exist.", x: 82, y: 50, width: 3, height: 4, type: "examine", action: "room-mystery:comms-array:egg-comms-signal", elaraDialog: "That frequency... it's not on any standard band. The signal is repeating a pattern: three short, three long, three short. An SOS. But the origin coordinates point to a location that doesn't exist in normal space. Someone — or something — is calling for help from between dimensions. The signal is tagged with an identifier: 'MEME-PRIME.'" },
+      // Voice in the static — overlays the existing static-screen at
+      // tighter rectangle so a tier-3 click can target the silhouette
+      // forming inside it. The hotspot lives on the same screen but
+      // higher z-order; clicks on the inner rectangle hit this first.
+      { id: "voice-in-the-static", name: "Voice in the Static", description: "The static on the central monitor has begun to organise itself — vertical bands of indigo arranging into the silhouette of a person speaking, then dissolving.", x: 13, y: 32, width: 6, height: 14, type: "interact", action: "room-mystery:comms-array:voice-in-the-static" },
     ],
   },
   {
@@ -782,6 +806,12 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "egg-eng-formula", name: "Etched Formula", description: "A mathematical formula scratched into the reactor housing.", x: 50, y: 24, width: 4, height: 4, type: "examine", action: "room-mystery:engineering:egg-eng-formula", elaraDialog: "Someone etched a formula into the reactor housing. It's a dimensional resonance equation — the kind used to calculate jumps between parallel universes. But there's an extra variable I've never seen: Ψ-null. The null consciousness coefficient. This formula could theoretically open a door to... nowhere. The space between spaces. Where the Source dwells." },
       { id: "instruction-manual", name: "Ark Instruction Manual", description: "A thick paper manual on the workbench. Cracked spine, hand-stamped dedications.", x: 28, y: 70, width: 5, height: 6, type: "examine", action: "room-mystery:engineering:instruction-manual", elaraDialog: "INCEPTION ARK 1047 — QUICK START GUIDE. Page 1: Step 1, Don't let it get stolen. The author had a sense of humour and a complete absence of optimism." },
       { id: "egg-warlord-residue", name: "Bio-Scanner Anomaly", description: "The bio-scanner flickers with an unidentified neural signature embedded in the bulkhead.", x: 70, y: 76, width: 4, height: 4, type: "item", action: "warlord-residue", elaraDialog: "[SIGNAL DISTORTION] The bio-scanners are detecting... no. That can't be right. There's a neural signature embedded in the bulkhead plating itself. Not organic, not synthetic — something in between. The Warlord's consciousness was so powerful that it left an imprint on the ship's physical structure. Dr. Lyra Vox commanded this vessel while the Warlord used her as a host body. The walls literally remember their master. {playerName}, this ship has a darker history than I initially disclosed. The Warlord didn't just pass through here — this was a command vessel." },
+      // Schematic pad — small rectangle on the workbench surface for
+      // the indigo-overlayered reactor blueprint per the
+      // engineering:edited-schematics art. Sits adjacent to the
+      // crafting-bench but is its own clickable so the ST beat doesn't
+      // collide with the /research-lab dispatch.
+      { id: "schematic-pad", name: "Reactor Schematic Pad", description: "An unrolled blueprint on the workbench. The lines are double-registered — warm-gold underneath, indigo on top, with three connection points subtly redirected.", x: 16, y: 78, width: 14, height: 10, type: "interact", action: "room-mystery:engineering:schematic-pad" },
     ],
   },
   {
@@ -1009,6 +1039,16 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "infiltration-table", name: "Infiltration Table", description: "A holographic table showing routes, blind spots, and vulnerabilities.", x: 36, y: 64, width: 28, height: 22, type: "examine", elaraDialog: "The infiltration map. It shows every security system, every patrol route, every blind spot in every major installation across the Saga. The Panopticon, the Terminus Hive, the Quarchon Quantum Citadel — all mapped in perfect detail. Agent Zero spent lifetimes gathering this intelligence. Now it's yours." },
       { id: "door-armory", name: "Return to Armory", description: "The concealed passage back to the main Armory.", x: 38, y: 88, width: 24, height: 12, type: "door", action: "armory" },
       { id: "egg-shadow-contract", name: "Final Contract", description: "A sealed dossier marked with a skull emblem.", x: 88, y: 32, width: 5, height: 6, type: "item", action: "shadow-contract", elaraDialog: "Agent Zero's final contract. Never completed. The target... is the Architect himself. Someone hired Zero to kill the creator of the Inception Ark. The contract was never fulfilled because Zero discovered the truth — killing the Architect would unravel every reality simultaneously. So Zero sealed the contract here as a warning: some targets must never be eliminated." },
+      // ─── Shadow Tongue mystery hotspots (2026-04-30 AAA Final drop) ───
+      // These coexist with the legacy assassin-arsenal hotspots above.
+      // Authored against the new shadow-vault:cell-sealed art per
+      // apps/shared/roomMediaPrompts.ts: dense indigo cell-cylinder
+      // centre-frame, manuscript-pile stage-left pedestal, warden-terminal
+      // stage-right brass console, three-position lever foreground centre.
+      { id: "sealed-cell-glass", name: "Sealed Cell Glass", description: "A tall reinforced-glass cylinder full of the unnameable indigo hue, dense as water. A figure resolves only when you look at it through someone else's eyes.", x: 38, y: 24, width: 24, height: 50, type: "interact", action: "room-mystery:shadow-vault:sealed-cell-glass" },
+      { id: "manuscript-pile", name: "Manuscript Pile", description: "Stage-left pedestal stacked carelessly with leather folios — a fair copy of the editor's whole novel, kept in plain sight.", x: 8, y: 56, width: 14, height: 22, type: "interact", action: "room-mystery:shadow-vault:manuscript-pile" },
+      { id: "warden-terminal", name: "Warden Terminal", description: "A stage-right brass console with a single phosphor-lavender readout — the editor's live active-edit count.", x: 78, y: 50, width: 14, height: 24, type: "interact", action: "room-mystery:shadow-vault:warden-terminal" },
+      { id: "release-or-seal-lever", name: "Release-or-Seal Lever", description: "A long brass lever in the foreground. Three positions: SEAL, NEUTRAL, RELEASE. Currently neutral.", x: 42, y: 80, width: 16, height: 8, type: "interact", action: "room-mystery:shadow-vault:release-or-seal-lever" },
     ],
   },
   {
@@ -1062,6 +1102,18 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "conspiracy-boards", name: "Conspiracy Boards", description: "String boards connecting photos, documents, and evidence across the entire Saga.", x: 0, y: 28, width: 24, height: 40, type: "examine", elaraDialog: "The conspiracy boards. Every thread connects to every other thread. The Architect's true identity. The Oracle's hidden agenda. The Collector's real purpose. The Enigma mapped it all. Some of these connections are terrifying — they suggest that certain events in the Saga weren't accidents. They were orchestrated by someone operating above even the Architect's awareness." },
       { id: "door-comms", name: "Return to Comms Array", description: "The hidden panel back to the main Communications Array.", x: 38, y: 88, width: 24, height: 12, type: "door", action: "comms-array" },
       { id: "egg-cipher-key", name: "Master Cipher Key", description: "A small device that can decrypt any message in the Saga.", x: 50, y: 56, width: 6, height: 8, type: "item", action: "cipher-key", elaraDialog: "The Master Cipher Key. The Enigma's ultimate tool. It can decrypt any message, crack any code, bypass any encryption in the entire Dischordian Saga. With this, there are no more secrets. The Enigma left it here with a note: 'The truth will set you free. But first, it will make you very, very angry.' Use it wisely, Spy." },
+      // ─── Shadow Tongue uncorruption hub (2026-04-30 AAA Final drop) ───
+      // These coexist with the legacy spy-intel hotspots above. Authored
+      // against the new cipher-den:initial art per
+      // apps/shared/roomMediaPrompts.ts: long oak-and-brass desk centre
+      // with rosetta-pad codex on a stand, encrypted-correspondence
+      // wall-rack of cubbyholes, dictionary-of-edits free-standing
+      // lectern stage-left, uncorruption-bench worktop with magnifier
+      // stage-right.
+      { id: "rosetta-pad", name: "Rosetta Pad", description: "A thick brass-bound codex on a reading-stand at the centre of the desk. Three columns: indigo glyphs, Elara's warm-gold, and a third hand in old black ink — Lyra Vox's translation key.", x: 40, y: 56, width: 18, height: 22, type: "interact", action: "room-mystery:cipher-den:rosetta-pad" },
+      { id: "encrypted-correspondence", name: "Encrypted Correspondence", description: "Cubbyholes along the back wall stuffed with rolled letters — Lyra and Wraith's cipher exchange in the last six months of her command.", x: 4, y: 8, width: 18, height: 50, type: "interact", action: "room-mystery:cipher-den:encrypted-correspondence" },
+      { id: "dictionary-of-edits", name: "Dictionary of Edits", description: "A freestanding lectern stage-left with a perpetually-open book. Pages turn themselves at one every fifteen seconds — the editor's vocabulary catalogued.", x: 28, y: 24, width: 10, height: 30, type: "interact", action: "room-mystery:cipher-den:dictionary-of-edits" },
+      { id: "uncorruption-bench", name: "Uncorruption Bench", description: "A worktop stage-right with a brass-rimmed magnifier on a swing-arm. Combine corrupted-fragments here with their originals — the lens does the work.", x: 70, y: 60, width: 22, height: 22, type: "interact", action: "room-mystery:cipher-den:uncorruption-bench" },
     ],
   },
   /* ═══ ALIGNMENT-UNLOCKED HIDDEN ROOMS ═══ */
