@@ -9,6 +9,7 @@ import { getDb } from "./db";
 import { pvpMatches, pvpLeaderboard, pvpSeasons, pvpSeasonRecords } from "../db/schema";
 import { classifyDeck, getArchetypeAdvantage } from "@shared/cardArchetypes";
 import { canSendEmote, recordEmoteSend, validateEmote, ALL_EMOTES, type EmoteRateState } from "@shared/pvpEmotes";
+import { filterMessage } from "@shared/moderation/profanityFilter";
 import { eq, and } from "drizzle-orm";
 import { trackPvpResult } from "./achievementTracker";
 import { recordMatchStart, recordMatchEnd } from "./matchLengthMonitor";
@@ -430,7 +431,7 @@ async function endMatch(match: ActiveMatch) {
             losses: won ? row.losses : row.losses + 1,
             winStreak: newStreak,
             bestStreak: Math.max(row.bestStreak, newStreak),
-            rankTier: newTier as any,
+            rankTier: newTier,
             lastMatchAt: new Date(),
           }).where(eq(pvpLeaderboard.userId, player.userId));
 
@@ -470,7 +471,7 @@ async function endMatch(match: ActiveMatch) {
             const finalElo = Math.max(rows[0].elo, elo);
             await db.update(pvpLeaderboard).set({
               elo: finalElo,
-              rankTier: getRankTier(finalElo) as any,
+              rankTier: getRankTier(finalElo),
             }).where(eq(pvpLeaderboard.userId, player.userId));
 
             send(player.ws, {
@@ -526,7 +527,7 @@ async function updateSeasonRecords(db: NonNullable<Awaited<ReturnType<typeof get
       await db.update(pvpSeasonRecords).set({
         peakElo: newPeakElo,
         finalElo: newElo,
-        peakTier: getRankTier(newPeakElo) as any,
+        peakTier: getRankTier(newPeakElo),
         seasonWins: won ? record.seasonWins + 1 : record.seasonWins,
         seasonLosses: won ? record.seasonLosses : record.seasonLosses + 1,
         bestStreak: Math.max(record.bestStreak, newStreak),
@@ -537,7 +538,7 @@ async function updateSeasonRecords(db: NonNullable<Awaited<ReturnType<typeof get
         seasonId,
         peakElo: newElo,
         finalElo: newElo,
-        peakTier: getRankTier(newElo) as any,
+        peakTier: getRankTier(newElo),
         seasonWins: won ? 1 : 0,
         seasonLosses: won ? 0 : 1,
         bestStreak: won ? 1 : 0,
@@ -879,10 +880,26 @@ export function setupPvpWebSocket(server: Server) {
             .slice(0, 200);
           if (cleanedText.length === 0) return;
 
+          // Moderation filter — same shared `filterMessage` that
+          // gates guild chat. Block list short-circuits the broadcast
+          // entirely; mask/caps/spam normalisations flow through to
+          // the broadcast text. The rate-limit history was already
+          // recorded above, so a blocked attempt still counts toward
+          // the burst budget — intentional, otherwise a player could
+          // probe slurs at unlimited rate.
+          const verdict = filterMessage(cleanedText);
+          if (verdict.blocked) {
+            send(ws, {
+              type: "ERROR",
+              message: "Your message was blocked by chat moderation.",
+            });
+            return;
+          }
+
           const chatMsg: ServerMessage = {
             type: "SPECTATOR_CHAT",
             spectatorName: spectatorNames.get(ws) ?? "Spectator",
-            text: cleanedText,
+            text: verdict.sanitized,
             timestamp: now,
           };
           // Broadcast to all spectators of the same match (sender included

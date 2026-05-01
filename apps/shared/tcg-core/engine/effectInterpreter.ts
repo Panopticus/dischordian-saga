@@ -40,6 +40,8 @@ import type { GameState } from "../types/GameState";
 import type { Effect, Duration } from "../types/Effect";
 import type { ReduceCtx } from "./reducer";
 import type { ExecCtx } from "./execCtx";
+import type { EntityId, CardDefId } from "../types/Ids";
+import type { Buff, Keyword } from "../types/Card";
 import { withIt } from "./execCtx";
 import { resolveTargetRef, resolveTargetSelector, findBoardEntity } from "./targeting";
 import { evaluateCondition } from "./conditions";
@@ -395,19 +397,19 @@ export function interpret(
       const entityId = `e_${draft.matchId}_${counter}`;
       const tokenDef = reduceCtx.registry.get(effect.tokenId);
       const tokenCard = {
-        entityId: entityId as any,
-        defId: effect.tokenId as any,
+        entityId: entityId as EntityId,
+        defId: effect.tokenId as CardDefId,
         owner: side,
         currentPower: tokenDef?.baseStats?.power ?? 1,
         currentHealth: tokenDef?.baseStats?.health ?? 1,
         maxHealth: tokenDef?.baseStats?.health ?? 1,
         counters: {} as Record<string, number>,
-        activeKeywords: tokenDef?.keywords ? [...tokenDef.keywords] : [] as any[],
-        buffs: [] as any[],
+        activeKeywords: (tokenDef?.keywords ? [...tokenDef.keywords] : []) as Keyword[],
+        buffs: [] as Buff[],
         flags: {} as Record<string, boolean>,
       };
       draft.board[k] = {
-        entityId: entityId as any,
+        entityId: entityId as EntityId,
         card: tokenCard,
         row,
         col,

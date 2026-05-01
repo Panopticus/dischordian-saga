@@ -114,11 +114,24 @@ async function startServer() {
       // `stripePaymentIntentId` is preserved as a defense-in-depth
       // guard for the cross-event-id same-payment-intent case.
       if (event.type === "checkout.session.completed") {
-        const session = event.data.object as any;
-        const userId = parseInt(session.metadata?.user_id || session.client_reference_id || "0");
+        // Narrow the discriminated-union event payload by checking
+        // event.type — at this point TS knows event.data.object is a
+        // Stripe.Checkout.Session, no `as any` needed. Pull only the
+        // fields we use rather than relying on a wide cast.
+        const session = event.data.object;
+        const userId = parseInt(
+          session.metadata?.user_id ||
+            (typeof session.client_reference_id === "string"
+              ? session.client_reference_id
+              : "") ||
+            "0",
+        );
         const productKey = session.metadata?.product_key || "";
         const quantity = parseInt(session.metadata?.quantity || "1");
-        const stripePaymentIntentId: string | null = session.payment_intent ?? null;
+        const stripePaymentIntentId: string | null =
+          typeof session.payment_intent === "string"
+            ? session.payment_intent
+            : (session.payment_intent?.id ?? null);
 
         if (userId && productKey) {
           const { fulfillPurchase } = await import("../routers/store");
@@ -162,8 +175,24 @@ async function startServer() {
               throw err;
             }
 
-            await fulfillPurchase(userId, productKey, quantity);
-            console.log(`[Webhook] Fulfilled purchase: user=${userId} product=${productKey} qty=${quantity} intent=${stripePaymentIntentId ?? "-"}`);
+            // Use the Stripe payment intent id as the fulfilment
+            // ledger key so a webhook retry on the same intent is a
+            // no-op via the unique-key idempotency check inside
+            // fulfillPurchase. For the rare (and pre-Migration-0035)
+            // case where the intent id is missing, synthesise one
+            // from the session id so we still get an audit row.
+            const fulfillmentLedgerId =
+              stripePaymentIntentId ?? `stripe-session:${session.id}`;
+            const fulfilResult = await fulfillPurchase(
+              userId,
+              productKey,
+              quantity,
+              fulfillmentLedgerId,
+            );
+            console.log(
+              `[Webhook] Fulfilled purchase: user=${userId} product=${productKey} qty=${quantity} intent=${stripePaymentIntentId ?? "-"}` +
+                (fulfilResult.alreadyFulfilled ? " (idempotent skip)" : ""),
+            );
           }
         }
       }
@@ -382,6 +411,16 @@ async function startServer() {
     const { bootstrapChatReportsTable } = await import("../services/chatReportsBootstrap");
     bootstrapChatReportsTable().catch(e =>
       console.error("[ChatReportsBootstrap] failed:", e),
+    );
+
+    // purchase_grants ledger — atomic-fulfilment idempotency guard.
+    // Without it, the unique-key check that prevents duplicate
+    // webhook fulfilment falls back to per-row 404s and the user
+    // can be double-granted on retry. New table; bootstrap until
+    // the next journal reconciliation.
+    const { bootstrapPurchaseGrantsTable } = await import("../services/purchaseGrantsBootstrap");
+    bootstrapPurchaseGrantsTable().catch(e =>
+      console.error("[PurchaseGrantsBootstrap] failed:", e),
     );
 
     // Ensure citizen_characters.foundation exists. Migration 0054 is

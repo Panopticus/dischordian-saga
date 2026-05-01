@@ -1856,6 +1856,46 @@ export const chatReports = mysqlTable("chat_reports", {
 export type ChatReport = typeof chatReports.$inferSelect;
 
 /**
+ * Purchase grants — append-only ledger of fulfilled purchases.
+ *
+ * One row per fulfillment, written inside the same transaction as
+ * the actual reward grants (dream-token credits, card-pack inserts,
+ * ship-upgrade rows, etc). The unique key on `fulfillmentId` means:
+ *
+ *   - The ledger row CAN'T exist without the grants, because they're
+ *     in the same atomic transaction.
+ *   - The grants CAN'T be duplicated by a webhook retry, because the
+ *     caller checks for an existing ledger row before executing the
+ *     transaction body.
+ *
+ * Together these close the audit-flagged "user is charged but
+ * inventory is partial / duplicated" failure mode.
+ *
+ * `fulfillmentId` is the Stripe payment-intent id for paid flows, or
+ * a synthesised stable string for free / Dream-token / credits flows
+ * (`{kind}:{userId}:{productKey}:{Date.now()}`). The format is opaque
+ * to the consumer; only uniqueness and stability matter.
+ *
+ * `rewardSummary` is a small JSON snapshot of what was granted —
+ * purely audit candy, never read by the runtime. Useful for refund
+ * tooling and customer-support replay.
+ */
+export const purchaseGrants = mysqlTable("purchase_grants", {
+  id: int("id").autoincrement().primaryKey(),
+  fulfillmentId: varchar("fulfillmentId", { length: 256 }).notNull(),
+  userId: int("userId").notNull(),
+  productKey: varchar("productKey", { length: 128 }).notNull(),
+  quantity: int("quantity").notNull(),
+  rewardSummary: json("rewardSummary").$type<Record<string, number | string>>(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => ({
+  uniqFulfillment: uniqueIndex("uq_purchase_grants_fulfillment").on(table.fulfillmentId),
+  idxUserId: index("idx_purchase_grants_user").on(table.userId),
+  idxProductKey: index("idx_purchase_grants_product").on(table.productKey),
+}));
+export type PurchaseGrant = typeof purchaseGrants.$inferSelect;
+
+/**
  * Guild invites — pending invitations.
  */
 export const guildInvites = mysqlTable("guild_invites", {
