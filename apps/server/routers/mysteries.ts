@@ -312,4 +312,16 @@ export const mysteriesRouter = router({
       );
       return { ok: true as const };
     }),
+
+  /**
+   * List every NPC trust scalar this player has accumulated.
+   * Drives the Trust Scalars panel on /cases — the player can
+   * see, across all arcs they've touched, where each NPC reads
+   * them today (0-100 scalar) and which arc finalized the
+   * scalar (if any). Stable scalars (`finalizedFromArc` set)
+   * persist across years per docs §14c.8.
+   */
+  getMyTrustScalars: protectedProcedure.query(async ({ ctx }) => {
+    return mysteryService.listMyTrustScalars(ctx.user.id);
+  }),
 });

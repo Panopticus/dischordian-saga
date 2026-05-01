@@ -23,6 +23,7 @@ import { SagaConspiracyBoard } from "@/components/SagaConspiracyBoard";
 import { DeductionPanel } from "@/components/DeductionPanel";
 import { ChoicePanel } from "@/components/ChoicePanel";
 import { CaseRecap } from "@/components/CaseRecap";
+import { TrustScalars } from "@/components/TrustScalars";
 
 export default function CasesPage() {
   const { isAuthenticated } = useAuth();
@@ -84,6 +85,11 @@ export default function CasesPage() {
               No case open. Choose an investigation below.
             </p>
           )}
+        </section>
+
+        {/* Trust scalars — hidden when the player has no scalars yet */}
+        <section className="mb-6">
+          <TrustScalars />
         </section>
 
         {/* Available cases */}

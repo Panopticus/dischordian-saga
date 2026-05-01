@@ -415,6 +415,24 @@ export const mysteryService = {
   },
 
   /**
+   * List every NPC trust scalar a player has accumulated. The
+   * client renders these as chips on the Cases page so the player
+   * can see how each arc's NPC reads them — across active and
+   * already-finalised arcs.
+   *
+   * Returns an empty array when the DB is unavailable; never
+   * throws.
+   */
+  async listMyTrustScalars(
+    userId: number,
+  ): Promise<(typeof npcTrustScalars.$inferSelect)[]> {
+    const db = await getDb();
+    if (!db) return [];
+    return db.select().from(npcTrustScalars)
+      .where(eq(npcTrustScalars.userId, userId));
+  },
+
+  /**
    * Assemble the recap payload for a case — every clue, deduction,
    * and choice the player has made, in chronological order. Drives
    * `CaseRecap.tsx`'s Telltale-style cold-open + the late-joiner
