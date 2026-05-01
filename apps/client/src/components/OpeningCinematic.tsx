@@ -1,15 +1,19 @@
 /* ═══════════════════════════════════════════════════════
-   OPENING CINEMATIC — Fullscreen video + Saga Theme
+   OPENING CINEMATIC — Fullscreen video + Dischordian Logic
    Video plays first (no music). When video ends (or is skipped),
-   the Saga Theme begins looping as background music for the
-   entire Awakening sequence. The audio element is passed back
-   to the parent via onComplete so it persists beyond this component.
+   "Dischordian Logic" (Album 1, T02) begins looping as the music
+   bed for the entire Awakening sequence — distinct from "The
+   Enigma's Lament" (T01) that played on the title, so the player
+   doesn't perceive the same song restarting. The audio element
+   is passed back to the parent via onComplete so it persists
+   beyond this component.
    ═══════════════════════════════════════════════════════ */
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { assetUrl } from "@/lib/assetUrl";
 
 const CINEMATIC_VIDEO = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/opening_cinematic_9b899561.mp4";
-export const SAGA_THEME_URL = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/SagaTheme_0cd5de9a.mp3";
+export const AWAKENING_BED_URL = assetUrl("audio/album1/T02.mp3");
 
 interface OpeningCinematicProps {
   /**
@@ -69,12 +73,13 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
     }
   }, []);
 
-  /** Hand off a paused Saga Theme audio element, then fade out the cinematic.
-   *  The theme is intentionally NOT started here — the AwakeningVOPlayer
-   *  starts it the moment Elara delivers her first VO line, so the player
-   *  doesn't hear an instrumental bed playing alone over the BLACKOUT
-   *  fade-in (which previously clashed with the cinematic's tail audio
-   *  and felt like two pieces of music fighting). */
+  /** Hand off a paused Dischordian Logic audio element, then fade out
+   *  the cinematic. The bed is intentionally NOT started here — the
+   *  AwakeningVOPlayer starts it the moment Elara delivers her first
+   *  VO line, so the player doesn't hear an instrumental bed playing
+   *  alone over the BLACKOUT fade-in (which previously clashed with
+   *  the cinematic's tail audio and felt like two pieces of music
+   *  fighting). */
   const handleComplete = useCallback((reachedEndNaturally: boolean) => {
     if (completedRef.current) return;
     completedRef.current = true;
@@ -84,9 +89,9 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
       endSafetyTimerRef.current = null;
     }
 
-    // Prepare (don't play) the theme audio. AwakeningVOPlayer starts it
+    // Prepare (don't play) the bed audio. AwakeningVOPlayer starts it
     // on the first VO trigger and fades it in alongside Elara's line.
-    const themeAudio = new Audio(SAGA_THEME_URL);
+    const themeAudio = new Audio(AWAKENING_BED_URL);
     themeAudio.loop = true;
     themeAudio.volume = 0;
     themeAudio.preload = "auto";

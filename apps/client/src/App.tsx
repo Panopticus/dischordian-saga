@@ -43,6 +43,8 @@ import EasterEggs from "./components/EasterEggs";
 import UniverseAtmosphere from "./components/UniverseAtmosphere";
 import SoundControls from "./components/SoundControls";
 import { SlideshowPlayerRoot } from "./components/SlideshowPlayerRoot";
+import DreamerVisionPlayer from "./components/DreamerVisionPlayer";
+import InstallPromptBanner from "./components/InstallPromptBanner";
 import { DischordiaCycleSync } from "./components/DischordiaCycleSync";
 import { ForgivenessChoicePanel } from "./components/ForgivenessChoicePanel";
 import { Act1ClosingChoicePanel } from "./components/Act1ClosingChoicePanel";
@@ -108,6 +110,7 @@ const Act4MatchPage = lazy(() => import("./pages/Act4MatchPage"));
 const Act4PrisonerStoryPage = lazy(() => import("./pages/Act4PrisonerStoryPage"));
 const Act1C4TrialPage = lazy(() => import("./pages/Act1C4TrialPage"));
 const DevVariantsPage = lazy(() => import("./pages/DevVariantsPage"));
+const DevGuildCutscenesPage = lazy(() => import("./pages/DevGuildCutscenesPage"));
 const CrossGameThreadsPage = lazy(() => import("./pages/CrossGameThreadsPage"));
 const Act2InterludePage = lazy(() => import("./pages/Act2InterludePage"));
 const EngineersBenchPage = lazy(() => import("./pages/EngineersBenchPage"));
@@ -164,6 +167,7 @@ const AdminPage = lazy(() => import("./pages/AdminPage"));
 // are admin-gated server-side.
 const AdminHealthPage = lazy(() => import("./pages/AdminHealthPage"));
 const ArchitectConsolePage = lazy(() => import("./pages/ArchitectConsolePage"));
+const ArchitectDossierPage = lazy(() => import("./pages/ArchitectDossierPage"));
 const HierarchyPage = lazy(() => import("./pages/HierarchyPage"));
 const DemonPackPage = lazy(() => import("./pages/DemonPackPage"));
 const FightLeaderboardPage = lazy(() => import("./pages/FightLeaderboardPage"));
@@ -300,6 +304,7 @@ function Router() {
         <Route path="/act4-prisoner" component={Act4PrisonerStoryPage} />
         <Route path="/act1-c4-trial" component={Act1C4TrialPage} />
         <Route path="/dev/variants" component={DevVariantsPage} />
+        <Route path="/dev/guild-cutscenes" component={DevGuildCutscenesPage} />
         <Route path="/cross-game-threads" component={CrossGameThreadsPage} />
         <Route path="/act2-interlude" component={Act2InterludePage} />
         <Route path="/engineers-bench" component={EngineersBenchPage} />
@@ -346,6 +351,7 @@ function Router() {
         <Route path="/admin" component={AdminPage} />
         <Route path="/admin/health" component={AdminHealthPage} />
         <Route path="/architect-console" component={ArchitectConsolePage} />
+        <Route path="/architect/dossier" component={ArchitectDossierPage} />
         <Route path="/hierarchy" component={HierarchyPage} />
         <Route path="/demon-packs">{() => <Suspense fallback={<CardGridSkeleton />}><DemonPackPage /></Suspense>}</Route>
         <Route path="/fight-leaderboard" component={FightLeaderboardPage} />
@@ -701,6 +707,20 @@ function App() {
                         playSlideshow(id). Must be above AuthGate so
                         the overlay covers the whole app surface. */}
                     <SlideshowPlayerRoot />
+                    {/* D2 — Dreamer-vision orchestrator. Polls the
+                        silent counter at session start and queues
+                        the next pending vision via playSlideshow(...)
+                        if a Discordian threshold has been crossed.
+                        Silent on the no-vision path — no UI footprint
+                        unless a cutscene actually fires. */}
+                    <DreamerVisionPlayer />
+                    {/* M4 — PWA install prompt. Bottom-bound banner
+                        that surfaces standalone-mode install on
+                        Android (beforeinstallprompt) + iOS Safari
+                        (Add to Home Screen instructions). Dismissable.
+                        Hidden if already installed; cooldown of 14
+                        days after dismissal. */}
+                    <InstallPromptBanner />
                     {/* Witnessing §1.5 — the Bond-80 Forgive/Refuse
                         three-option wheel. Mounts only when the
                         forgiveness_choice_unlocked flag is set (by

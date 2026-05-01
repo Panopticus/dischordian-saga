@@ -54,19 +54,22 @@
      (CHEAT-SHEET.md + rules/tokens-reference.md). 4px base
      unit × density scaling. Exposed here as --spacing-*
      so Tailwind v4 generates gap-xs, p-md, m-lg, etc.
-     utilities automatically. Law 5 (Spacing Gravity)
-     floors documented in
-     docs/design/VOID_ENERGY_ADOPTION_ROADMAP.md.
+     utilities automatically. Multiplied by --ve-density
+     so the Settings density control (compact/standard/
+     spacious) actually flows through every Tailwind
+     spacing utility — not just the inline --space-*
+     consumers. Law 5 (Spacing Gravity) floors documented
+     in docs/design/VOID_ENERGY_ADOPTION_ROADMAP.md.
      ──────────────────────────────────────────────── */
-  --spacing-xs: 0.5rem;    /* 8px  — tight couplings only */
-  --spacing-sm: 1rem;      /* 16px — sunk-dense exception */
-  --spacing-md: 1.5rem;    /* 24px — sunk surfaces, form field groups */
-  --spacing-lg: 2rem;      /* 32px — floating-surface floor */
-  --spacing-xl: 3rem;      /* 48px — content-block gap inside sections */
-  --spacing-2xl: 4rem;     /* 64px — section gap in page wrappers */
-  --spacing-3xl: 6rem;     /* 96px */
-  --spacing-4xl: 8rem;     /* 128px */
-  --spacing-5xl: 10rem;    /* 160px */
+  --spacing-xs: calc(0.5rem * var(--ve-density, 1));    /* 8px  × density — tight couplings only */
+  --spacing-sm: calc(1rem * var(--ve-density, 1));      /* 16px × density — sunk-dense exception */
+  --spacing-md: calc(1.5rem * var(--ve-density, 1));    /* 24px × density — sunk surfaces, form field groups */
+  --spacing-lg: calc(2rem * var(--ve-density, 1));      /* 32px × density — floating-surface floor */
+  --spacing-xl: calc(3rem * var(--ve-density, 1));      /* 48px × density — content-block gap inside sections */
+  --spacing-2xl: calc(4rem * var(--ve-density, 1));     /* 64px × density — section gap in page wrappers */
+  --spacing-3xl: calc(6rem * var(--ve-density, 1));     /* 96px × density */
+  --spacing-4xl: calc(8rem * var(--ve-density, 1));     /* 128px × density */
+  --spacing-5xl: calc(10rem * var(--ve-density, 1));    /* 160px × density */
 
   /* ─── SIZE UTILITIES — RESCUE FROM SPACING COLLISION ───
      Tailwind v4 resolves `max-w-<name>`, `w-<name>`, `min-w-<name>`,
@@ -2404,4 +2407,15 @@ html.colorblind-tritanopia [data-atmosphere] {
   --energy-error: #ef4444;
   --energy-premium: #f0e442;
   --energy-system: #009e73;
+}
+
+/* ─── Mobile UX baseline (M9 — see plan/continue-your-qr-assessment-mighty-valley.md) ─── */
+/* Removes the default blue tap-flash iOS Safari paints over every
+ * touched element. Tooltips / hover affordances + Tailwind active:
+ * classes already provide the affordance signal we want; the system
+ * tap-highlight just stacks on top and looks like a UI bug. Setting
+ * the entire tree to transparent is safe because every interactive
+ * element in the app already has its own focus / active styling. */
+* {
+  -webkit-tap-highlight-color: transparent;
 }

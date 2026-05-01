@@ -215,4 +215,135 @@ export const analyticsRouter = router({
   searchRateLimitBuckets: adminProcedure.query(async () => {
     return getSearchRateLimitBuckets();
   }),
+
+  // ═══ CARD-BALANCE QUERIES — derived from match_completed events ═══
+
+  /**
+   * Winrate-by-general within a game type and date range. Aggregates
+   * server-emitted `match_completed` events (see services/pvpRatingsService).
+   * A general with fewer than 10 plays is filtered out so noisy early-season
+   * rows don't dominate the tier list.
+   */
+  winrateByGeneral: adminProcedure
+    .input(
+      z.object({
+        gameType: z.string().min(1).max(64),
+        startDate: z.string().optional(),
+        endDate: z.string().optional(),
+        minPlays: z.number().int().min(1).max(1000).default(10),
+      }),
+    )
+    .query(async ({ input }) => {
+      const db = await getDb();
+      if (!db) return [];
+
+      const conditions = [eq(analyticsEvents.event, "match_completed")];
+      conditions.push(
+        sql`JSON_EXTRACT(${analyticsEvents.properties}, '$.gameType') = ${input.gameType}`,
+      );
+      conditions.push(
+        sql`JSON_EXTRACT(${analyticsEvents.properties}, '$.selfGeneralId') IS NOT NULL`,
+      );
+      if (input.startDate) {
+        conditions.push(gte(analyticsEvents.createdAt, new Date(input.startDate)));
+      }
+      if (input.endDate) {
+        conditions.push(lte(analyticsEvents.createdAt, new Date(input.endDate)));
+      }
+
+      const rows = await db
+        .select({
+          generalId: sql<string>`JSON_UNQUOTE(JSON_EXTRACT(${analyticsEvents.properties}, '$.selfGeneralId'))`.as(
+            "generalId",
+          ),
+          plays: sql<number>`COUNT(*)`.as("plays"),
+          wins: sql<number>`SUM(CASE WHEN JSON_UNQUOTE(JSON_EXTRACT(${analyticsEvents.properties}, '$.result')) = 'win' THEN 1 ELSE 0 END)`.as(
+            "wins",
+          ),
+        })
+        .from(analyticsEvents)
+        .where(and(...conditions))
+        .groupBy(
+          sql`JSON_UNQUOTE(JSON_EXTRACT(${analyticsEvents.properties}, '$.selfGeneralId'))`,
+        )
+        .having(sql`COUNT(*) >= ${input.minPlays}`)
+        .orderBy(desc(sql`COUNT(*)`));
+
+      return rows.map((r) => {
+        const plays = Number(r.plays);
+        const wins = Number(r.wins);
+        return {
+          generalId: r.generalId,
+          plays,
+          wins,
+          losses: plays - wins,
+          winrate: plays > 0 ? wins / plays : 0,
+        };
+      });
+    }),
+
+  /**
+   * Most-played generals in a game type and date range. Distinct from
+   * winrateByGeneral: no minimum-plays gate, no winrate column — the
+   * intent is "what are people picking right now," not "is this general
+   * over/underpowered." Useful for surfacing meta-share dominance even
+   * when winrates haven't diverged yet.
+   */
+  topPlayedGenerals: adminProcedure
+    .input(
+      z.object({
+        gameType: z.string().min(1).max(64),
+        startDate: z.string().optional(),
+        endDate: z.string().optional(),
+        limit: z.number().int().min(1).max(100).default(20),
+      }),
+    )
+    .query(async ({ input }) => {
+      const db = await getDb();
+      if (!db) return [];
+
+      const conditions = [eq(analyticsEvents.event, "match_completed")];
+      conditions.push(
+        sql`JSON_EXTRACT(${analyticsEvents.properties}, '$.gameType') = ${input.gameType}`,
+      );
+      conditions.push(
+        sql`JSON_EXTRACT(${analyticsEvents.properties}, '$.selfGeneralId') IS NOT NULL`,
+      );
+      if (input.startDate) {
+        conditions.push(gte(analyticsEvents.createdAt, new Date(input.startDate)));
+      }
+      if (input.endDate) {
+        conditions.push(lte(analyticsEvents.createdAt, new Date(input.endDate)));
+      }
+
+      const [totalRow] = await db
+        .select({ total: count() })
+        .from(analyticsEvents)
+        .where(and(...conditions));
+      const total = Number(totalRow?.total ?? 0);
+
+      const rows = await db
+        .select({
+          generalId: sql<string>`JSON_UNQUOTE(JSON_EXTRACT(${analyticsEvents.properties}, '$.selfGeneralId'))`.as(
+            "generalId",
+          ),
+          plays: sql<number>`COUNT(*)`.as("plays"),
+        })
+        .from(analyticsEvents)
+        .where(and(...conditions))
+        .groupBy(
+          sql`JSON_UNQUOTE(JSON_EXTRACT(${analyticsEvents.properties}, '$.selfGeneralId'))`,
+        )
+        .orderBy(desc(sql`COUNT(*)`))
+        .limit(input.limit);
+
+      return rows.map((r) => {
+        const plays = Number(r.plays);
+        return {
+          generalId: r.generalId,
+          plays,
+          metaShare: total > 0 ? plays / total : 0,
+        };
+      });
+    }),
 });

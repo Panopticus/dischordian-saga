@@ -7,6 +7,37 @@ import { eq, and, desc, sql, like, ne } from "drizzle-orm";
 import { TRPCError } from "@trpc/server";
 import { ripple } from "../services/rippleEngine";
 import { checkFeatureFlag } from "../middleware/featureFlag";
+import { warEventCutscene } from "@shared/expansionArt/guildCutsceneVoMap";
+import { filterMessage } from "../../shared/moderation/profanityFilter";
+import { incrementContractProgress } from "../services/guildContractProgress";
+
+/* ─── F.2.5 donation milestones ─── */
+/* Cumulative-Dream thresholds at which a player's donation crosses
+ * a "milestone" and the cs_donation_milestone cinematic fires.
+ * Powers-of-five-ish curve so milestones land roughly weekly for
+ * an active contributor and roughly monthly for a casual one.
+ *
+ * Exported so the unit test in guild.donationMilestone.test.ts can
+ * exercise the boundary-crossing logic without the tRPC mutation. */
+export const DONATION_MILESTONES_DREAM: readonly number[] = [
+  100, 500, 1000, 5000, 10000, 25000, 50000, 100000,
+];
+
+/** Returns the highest milestone the running cumulative crossed
+ *  on this contribution, or null if no milestone was crossed.
+ *  A 0→1500 donation fires only the 1000 mark (the highest of
+ *  three crossed thresholds), not three separate cinematics. */
+export function crossedDonationMilestone(
+  prevTotal: number,
+  delta: number,
+): number | null {
+  const newTotal = prevTotal + delta;
+  let crossed: number | null = null;
+  for (const m of DONATION_MILESTONES_DREAM) {
+    if (prevTotal < m && newTotal >= m) crossed = m;
+  }
+  return crossed;
+}
 
 /* ═══ GUILD EMBLEMS ═══ */
 const GUILD_EMBLEMS = [
@@ -281,6 +312,15 @@ export const guildRouter = router({
         .where(eq(guildMembers.userId, ctx.user.id)).limit(1);
       if (!membership[0]) throw new TRPCError({ code: "NOT_FOUND", message: "You are not in a Syndicate" });
 
+      // F.2.5 milestone detection — read previous cumulative donatedDream
+      // before we write so we can decide whether this donation pushes
+      // the player across a Bible-canonical threshold.
+      const prevDonatedDream = membership[0].donatedDream ?? 0;
+      const milestoneCrossed =
+        input.currency === "dream"
+          ? crossedDonationMilestone(prevDonatedDream, input.amount)
+          : null;
+
       // Update guild treasury
       if (input.currency === "dream") {
         await db.update(guilds)
@@ -339,7 +379,20 @@ export const guildRouter = router({
       const { awardCivilXp } = await import("../civilSkillHelper");
       awardCivilXp(ctx.user.id, "guild_donation").catch(e => logger.error("[Guild] Civil XP award failed:", e));
 
-      return { success: true, xpGain };
+      // F.2 weekly contract — Dream donations advance the
+      // wc_architects_approval contract (1,000 Dream cumulative).
+      // Credits donations don't (the contract is Dream-keyed per
+      // the bible's F.2.5 spec).
+      if (input.currency === "dream") {
+        void incrementContractProgress(ctx.user.id, "guild_donation", input.amount);
+      }
+
+      return {
+        success: true,
+        xpGain,
+        milestoneCrossed,
+        cutscene: milestoneCrossed != null ? warEventCutscene("donation_milestone") : undefined,
+      };
     }),
 
   /* ─── Guild chat — get messages ─── */
@@ -370,15 +423,31 @@ export const guildRouter = router({
         .where(eq(guildMembers.userId, ctx.user.id)).limit(1);
       if (!membership[0]) throw new TRPCError({ code: "FORBIDDEN", message: "Not in a Syndicate" });
 
+      // Moderation gate. The filter is the first line of defence —
+      // hard-block slurs, mask mild profanity, surface evidence so
+      // moderators have something to work with. Filter outcome rides
+      // through to the persisted message: blocked → 403; flagged →
+      // sanitized text is stored, raw is dropped.
+      const verdict = filterMessage(input.message);
+      if (verdict.blocked) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "Your message was blocked by chat moderation.",
+        });
+      }
+
       await db.insert(guildChat).values({
         guildId: membership[0].guildId,
         userId: ctx.user.id,
         userName: ctx.user.name || "Unknown",
-        message: input.message,
+        message: verdict.sanitized,
         messageType: "chat",
       });
 
-      return { success: true };
+      return {
+        success: true,
+        flags: verdict.flags,
+      };
     }),
 
   /* ─── Invite a player ─── */

@@ -15,7 +15,7 @@
    Video transmission player (manual + auto-intercept).
    The Reset Wall is launched from State C.
    ═══════════════════════════════════════════════════════ */
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 
 import { useAuth } from "@/_core/hooks/useAuth";
@@ -29,7 +29,8 @@ import { BroadcastPanel } from "./title/BroadcastPanel";
 import { BroadcastTicker } from "./title/BroadcastTicker";
 import { ResetWall } from "./title/ResetWall";
 import { SurveillanceOpening } from "./title/SurveillanceOpening";
-import DischordiaOpeningCinematic from "@/components/DischordiaOpeningCinematic";
+import DischordiaOpeningCinematic, { DISCHORDIA_OPENING_VIDEO_URL } from "@/components/DischordiaOpeningCinematic";
+import TitleAlbumIntro from "@/components/TitleAlbumIntro";
 import { hasSeenOpening } from "@/lib/dischordiaOpeningSeen";
 import { TitleStateNoSave } from "./title/TitleStateNoSave";
 import { TitleStateReturning } from "./title/TitleStateReturning";
@@ -40,7 +41,6 @@ import type { AnnouncementAudience, AnnouncementRow } from "./title/types";
 import { useTransmissionIntercept } from "./title/useTransmissionIntercept";
 
 import { assetUrl } from "@/lib/assetUrl";
-const OPENING_MUSIC_SRC = assetUrl("audio/music/main-menu/the-enigmas-lament.mp3");
 const THRESHOLD_MS = 1500;
 
 /**
@@ -89,7 +89,10 @@ const FEATURE_SPECS: FeatureSpec[] = [
     body: "Malkia Ukweli & the Panopticon — official music video. Age of Revelation.",
     filename: "the-book-of-daniel.mp4",
     publishedAt: "2025-01-01T00:00:00Z",
-    trigger: true,
+    // No `trigger: true` — the title page no longer auto-pops a music
+    // video. The 6 entries in this list are a manual catalog only;
+    // post-login transmissions are now the single source of auto-pop
+    // behavior. See useLoginAlbumTransmission for the new flow.
   },
   {
     slug: "building-the-architect",
@@ -279,53 +282,42 @@ export default function TitlePage({ onDismiss }: TitlePageProps = {}) {
     try { return localStorage.getItem("dischordia_handshake_seen") === "1"; }
     catch { return true; }
   });
-  // The Dischordia opening cinematic plays once per device, AFTER the
-  // handshake completes. Read synchronously so first paint never
-  // flashes the title behind the video.
+  // The Dischordia opening cinematic plays once per device. Now mounts
+  // CONCURRENTLY with the handshake (handshake renders as a transparent
+  // overlay on top of the cinematic so the player isn't staring at a
+  // stalled scan animation while the video buffers). `openingDone`
+  // only flips after the T01 album intro stage also completes — the
+  // sequence is: cinematic → T01 audio + slideshow → reveal title.
+  // Read synchronously so first paint never flashes the title behind.
   const [openingDone, setOpeningDone] = useState<boolean>(() => hasSeenOpening());
+  // The cinematic's video has reached its end (or AWAKEN fired from
+  // inside it). Triggers the T01 album intro stage.
+  const [cinematicEnded, setCinematicEnded] = useState(false);
+  // Flips on CONFIRM OPERATOR so the cinematic mounts CONCURRENTLY with
+  // the surveillance scan animation — the operator never sees a wait
+  // beat between picking and the meme transmission starting. The
+  // LOOK AWAY path skips this and arms the cinematic via handshakeDone
+  // after the punitive flash completes. Returning visitors with the
+  // handshake-seen flag set bypass everything.
+  const [confirmedEarly, setConfirmedEarly] = useState(false);
+  const cinematicArmed = confirmedEarly || handshakeDone;
 
-  /* ─── Solo the Enigma's Lament on the title screen.
-       The SagaThemeBGM provider auto-starts a shuffled saga theme on
-       the user's first interaction; on the title that bleeds under
-       the Lament. Suppress while mounted, restore on unmount. ─── */
+  /* ─── Suppress SagaThemeBGM on the title screen.
+       The provider auto-starts a shuffled saga theme on first
+       interaction; on the title we want silence until the user
+       clears the surveillance gate (then the cinematic owns audio,
+       then TitleAlbumIntro owns audio). Suppress while mounted.
+       Mount-only deps — the BGM context value isn't reference-stable,
+       so a [sagaBGM] dep would re-run every render and the cleanup's
+       unsuppress() would race against suppress() and bleed playback
+       under the cinematic / slideshow. ─── */
   const sagaBGM = useSagaThemeBGM();
   useEffect(() => {
     sagaBGM.suppress();
     return () => sagaBGM.unsuppress();
-  }, [sagaBGM]);
-
-  /* ─── Open music (preserved from existing PR) ─── */
-  const audioRef = useRef<HTMLAudioElement | null>(null);
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio) return;
-    audio.volume = 0.35;
-    let started = false;
-    const tryStart = () => {
-      if (started) return;
-      const p = audio.play();
-      if (p && typeof p.then === "function") {
-        p.then(() => { started = true; }).catch(() => { /* retry next gesture */ });
-      } else {
-        started = true;
-      }
-    };
-    tryStart();
-    const onGesture = () => {
-      tryStart();
-      if (started) {
-        window.removeEventListener("pointerdown", onGesture);
-        window.removeEventListener("keydown", onGesture);
-      }
-    };
-    window.addEventListener("pointerdown", onGesture);
-    window.addEventListener("keydown", onGesture);
-    return () => {
-      window.removeEventListener("pointerdown", onGesture);
-      window.removeEventListener("keydown", onGesture);
-      audio.pause();
-    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
 
   // Skip the boot-sequence typewriter for players who've been here
   // before. The first time through, we want the full 3s of ceremony;
@@ -422,14 +414,13 @@ export default function TitlePage({ onDismiss }: TitlePageProps = {}) {
     interactionReady: thresholdPassed && handshakeDone && hasSave && !showResetWall && !videoPick,
   });
 
-  // Auto-fire intercept 5s after threshold passes (the "quiet beat"
-  // before the teaser appears).
-  useEffect(() => {
-    if (!interceptPick) return;
-    if (videoPick) return;
-    const t = setTimeout(() => setVideoPick(interceptPick), 5000);
-    return () => clearTimeout(t);
-  }, [interceptPick, videoPick]);
+  // Auto-intercept of a music video on the title page is disabled —
+  // the title experience is now the cinematic + T01 album intro, and
+  // post-login transmissions are the single source of auto-pop. The
+  // 6 FEATURE_SPECS entries remain available via the broadcast panel
+  // for manual playback. The `interceptPick` hook stays mounted but
+  // its return value is no longer scheduled into videoPick.
+  void interceptPick;
 
   const markViewedMutation = trpc.announcements.markViewed.useMutation();
   const markDismissedMutation = trpc.announcements.markDismissed.useMutation();
@@ -480,14 +471,6 @@ export default function TitlePage({ onDismiss }: TitlePageProps = {}) {
         zIndex: 9999,
       }}
     >
-      <audio
-        ref={audioRef}
-        src={OPENING_MUSIC_SRC}
-        loop
-        preload="auto"
-        autoPlay
-      />
-
       {/* F12 hero video — Ark drift loop. When the file is missing the
           <video> just shows its poster (the legacy keyart), so this
           block degrades gracefully. Muted + playsInline + loop satisfies
@@ -592,7 +575,13 @@ export default function TitlePage({ onDismiss }: TitlePageProps = {}) {
         }}
       />
 
-      {/* Logo + state body */}
+      {/* Logo + state body. Suppressed entirely while the surveillance
+          handshake is up — the SurveillanceOpening overlay renders
+          transparent so without this gate the wordmark, boot lines,
+          and unauth body all bleed through behind the "Hold still…"
+          text. Once the handshake snaps shut (Confirm path) or the
+          shame flash completes (Look Away path), the chrome reveals. */}
+      {handshakeDone && (
       <div style={{ position: "relative", zIndex: 3, textAlign: "center", padding: "2rem", maxWidth: "min(900px, 94vw)", marginLeft: "auto", marginRight: "auto" }}>
         {/* Wordmark. The legacy raster logo read THE DISCHORDIAN SAGA;
             we render the new name as type so it can theme-tint, audio-
@@ -687,11 +676,14 @@ export default function TitlePage({ onDismiss }: TitlePageProps = {}) {
           </button>
         )}
       </div>
+      )}
 
       {/* Ticker — returning accounts only. Keeps the first-time title
           quiet so new players aren't fighting a scrolling banner while
-          they're trying to find the new-game CTA. */}
-      {hasSave && (
+          they're trying to find the new-game CTA. Also gated on the
+          handshake so first paint on a fresh device doesn't flash the
+          ticker behind the surveillance overlay. */}
+      {hasSave && handshakeDone && (
         <BroadcastTicker announcements={announcements} accentColor={theme.palette.accent} />
       )}
 
@@ -728,23 +720,82 @@ export default function TitlePage({ onDismiss }: TitlePageProps = {}) {
         />
       )}
 
-      {/* Surveillance handshake — first-visit-only. Mounted last so its
-          z-index 10000 frame sits above every other title overlay,
-          including the broadcast panel and any auto-intercepted video.
-          Once the user finishes (or skips) the local-storage flag is
-          set; subsequent visits render the title flow directly. */}
-      {!handshakeDone && (
-        <SurveillanceOpening onComplete={() => setHandshakeDone(true)} />
+      {/* Hidden preload sink for the meme cinematic. Mounted from the
+          first paint of the title page so the browser starts buffering
+          the 3:09 mp4 the moment the user lands — by the time they
+          clear the surveillance gate the bytes are already warm in
+          cache. Without this, the actual <video> in the cinematic
+          component doesn't even exist until handshakeDone flips, which
+          is why playback used to start choppy. preload="auto" + a same-
+          origin S3 URL is enough; the cinematic's <video> reuses the
+          HTTP cache. Unmounts once the opening is fully done. */}
+      {!openingDone && (
+        <video
+          key="dischordia-cinematic-preload"
+          src={DISCHORDIA_OPENING_VIDEO_URL}
+          preload="auto"
+          muted
+          playsInline
+          aria-hidden
+          tabIndex={-1}
+          style={{
+            position: "absolute",
+            width: 1,
+            height: 1,
+            opacity: 0,
+            pointerEvents: "none",
+            zIndex: -1,
+          }}
+        />
       )}
 
-      {/* Dischordia opening cinematic — first-visit-only, plays AFTER the
-          handshake. The Meme's hijacked broadcast (3:09). On dismissal
-          the title flow continues and The Enigma's Lament (already auto-
-          playing as ambient under this overlay) becomes audible. The
-          player can replay the cinematic from the INBOX tab in the
-          Transmission Deck. */}
-      {handshakeDone && !openingDone && (
-        <DischordiaOpeningCinematic onComplete={() => setOpeningDone(true)} />
+      {/* Dischordia opening cinematic — first-visit-only. Now armed by
+          `cinematicArmed`, which flips on Confirm Operator (concurrent
+          with the surveillance scan animation) OR when the surveillance
+          fully completes (Look Away path, after the punitive flash).
+          The scanning sequence renders ON TOP of the playing video for
+          the Confirm path so the operator never sees a wait beat.
+          Player can replay this from INBOX tab in the Transmission Deck. */}
+      {cinematicArmed && !openingDone && !cinematicEnded && (
+        <DischordiaOpeningCinematic
+          isGameReady={thresholdPassed && !auth.loading}
+          onCinematicEnded={() => setCinematicEnded(true)}
+          onComplete={(reachedEndNaturally) => {
+            // If the user AWAKENed before the cinematic ended, skip
+            // the T01 stage entirely — they want into the game NOW.
+            if (!reachedEndNaturally) setOpeningDone(true);
+          }}
+        />
+      )}
+
+      {/* Surveillance handshake — first-visit-only. Renders as a
+          TRANSPARENT overlay on top of the cinematic (z-10000 vs
+          cinematic's z-9999) so the player sees both at once and
+          the app doesn't feel like it's hanging while the scan
+          animation runs. onConfirm fires the moment the operator
+          picks Confirm Operator — that arms the cinematic immediately
+          so playback begins UNDER the scan readout. Look Away takes a
+          punitive shame beat first (handled inside the surveillance);
+          onComplete only fires after that beat resolves. Once complete,
+          the localStorage flag is set; subsequent visits render the
+          title flow directly. */}
+      {!handshakeDone && (
+        <SurveillanceOpening
+          transparent
+          onConfirm={() => setConfirmedEarly(true)}
+          onComplete={() => setHandshakeDone(true)}
+        />
+      )}
+
+      {/* T01 album intro stage — fades in over the cinematic's 400ms
+          fade-out. Owns The Enigma's Lament audio + slideshow until
+          the song ends naturally (advance cursor to T02) or AWAKEN
+          fires (cursor stays at T01 for next session's modal). */}
+      {!openingDone && cinematicEnded && (
+        <TitleAlbumIntro
+          isGameReady={thresholdPassed && !auth.loading}
+          onComplete={() => setOpeningDone(true)}
+        />
       )}
     </div>
   );

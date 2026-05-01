@@ -419,7 +419,22 @@ export function calculateEloChange(winnerElo: number, loserElo: number): { winne
   return { winnerChange, loserChange };
 }
 
-export function getRankTier(elo: number): string {
+/**
+ * Rank tier names. The literal-union return type (rather than `string`)
+ * means callers writing into the `rankTier` / `peakTier` mysqlEnum
+ * columns no longer need an `as any` to placate the enum-narrow column
+ * type. Keep this list in sync with the schema enum in apps/db/schema.ts.
+ */
+export type RankTier =
+  | "bronze"
+  | "silver"
+  | "gold"
+  | "platinum"
+  | "diamond"
+  | "master"
+  | "grandmaster";
+
+export function getRankTier(elo: number): RankTier {
   if (elo >= 2200) return "grandmaster";
   if (elo >= 2000) return "master";
   if (elo >= 1800) return "diamond";

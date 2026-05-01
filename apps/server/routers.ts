@@ -42,6 +42,7 @@ import { vortexIncursionRouter } from "./routers/vortexIncursion";
 import { marketAchievementsRouter } from "./routers/marketAchievements";
 import { notificationRouter } from "./routers/notificationRouter";
 import { guildRouter } from "./routers/guild";
+import { chatRouter } from "./routers/chat";
 import { battlePassRouter } from "./routers/battlePass";
 import { inventoryRouter } from "./routers/inventory";
 import { guildWarsRouter } from "./routers/guildWars";
@@ -80,6 +81,7 @@ import { tradeContractsRouter } from "./routers/tradeContracts";
 import { techTreeRouter } from "./routers/techTree";
 import { masteryTreeRouter } from "./routers/masteryTree";
 import { guildHallRouter } from "./routers/guildHall";
+import { guildContractsRouter } from "./routers/guildContracts";
 import { tradeEmpireRouter } from "./routers/tradeEmpire";
 import { petBattlesRouter } from "./routers/petBattles";
 import { seedDataRouter } from "./routers/seedData";
@@ -113,6 +115,10 @@ import { arkThemesRouter } from "./routers/arkThemes";
 import { announcementsRouter } from "./routers/announcements";
 import { playerResetRouter } from "./routers/playerReset";
 import { mysteriesRouter } from "./routers/mysteries";
+import { engagementRouter } from "./routers/engagement";
+import { dreamerVisionsRouter } from "./routers/dreamerVisions";
+import { dreamerAwarenessRouter } from "./routers/dreamerAwareness";
+import { architectDossierRouter } from "./routers/architectDossier";
 
 export const appRouter = router({
   collection: collectionRouter,
@@ -152,6 +158,7 @@ export const appRouter = router({
   marketAchievements: marketAchievementsRouter,
   notifications: notificationRouter,
   guild: guildRouter,
+  chat: chatRouter,
   battlePass: battlePassRouter,
   inventory: inventoryRouter,
   guildWars: guildWarsRouter,
@@ -190,6 +197,7 @@ export const appRouter = router({
   techTree: techTreeRouter,
   masteryTree: masteryTreeRouter,
   guildHall: guildHallRouter,
+  guildContracts: guildContractsRouter,
   tradeEmpire: tradeEmpireRouter,
   petBattles: petBattlesRouter,
   seedData: seedDataRouter,
@@ -218,6 +226,10 @@ export const appRouter = router({
   imprints: imprintsRouter,
   factions: factionsRouter,
   celebration: celebrationRouter,
+  engagement: engagementRouter,
+  dreamerVisions: dreamerVisionsRouter,
+  dreamerAwareness: dreamerAwarenessRouter,
+  architectDossier: architectDossierRouter,
   crossGameThreads: crossGameThreadsRouter,
   arkThemes: arkThemesRouter,
   announcements: announcementsRouter,

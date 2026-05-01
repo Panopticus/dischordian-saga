@@ -35,6 +35,9 @@ import {
 } from "lucide-react";
 import { ScreenReaderOnly, announce } from "@/components/a11y";
 import { motion, AnimatePresence } from "framer-motion";
+import { GuildCutsceneQueue } from "@/components/GuildCutsceneQueue";
+import { cinematicForCardPlayed } from "@shared/expansionArt/professorSignatureCards";
+import type { CutsceneTrigger as GuildCutsceneTrigger } from "@shared/expansionArt/guildCutsceneVoMap";
 import KineticText from "@/components/void/KineticText";
 import { WarlordCountdownIndicator } from "@/components/match/WarlordCountdownIndicator";
 import { CardLockOverlay } from "@/components/match/CardLockOverlay";
@@ -229,6 +232,14 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
   const publicWitnessBalanceCapturedRef = useRef(false);
   // Audit 3B — card-battle quest progression. FightPage already
   // fires fight-flavor quests; DuelystGameUI was the card-battle gap.
+  // Dreamer-awareness silent counter (D1). When the Seer-Prophecy
+  // "defeated" outcome lands — the only path that surfaces the
+  // Burnt Card — fire the BURNT_CARD_WITNESSED tag (+5 weight, the
+  // rare-discovery rate) via this mutation. Idempotent at the
+  // service layer; the `useEffect` below calls it.
+  const reportBurntCardWitnessed =
+    trpc.dreamerAwareness.reportBurntCardWitnessed.useMutation();
+
   // PR — quest-complete toast: when the server reports `completed:
   // true` on an updateProgress resolution, surface it so the player
   // knows their card-battle win just finished a daily/weekly.
@@ -305,6 +316,14 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
   const [trialTranscriptEntries, setTrialTranscriptEntries] = useState<TrialTranscriptEntry[]>([]);
   const trialEntrySeqRef = useRef(0);
   const prevTrialPresentRef = useRef(false);
+
+  // F.4 — Mechronis Professor signature-spell cinematics. Each
+  // card_played event runs through cinematicForCardPlayed; matches
+  // queue here and play in sequence via <GuildCutsceneQueue>. The
+  // queue clears in onComplete so the duel UI is reachable again.
+  const [signatureCinematicQueue, setSignatureCinematicQueue] = useState<
+    readonly GuildCutsceneTrigger[]
+  >([]);
 
   // §5.8.1 Light/Dark alignment pillar. Mounted when
   // gameState.trial.outcome transitions from undefined to set (the
@@ -425,6 +444,18 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
       }
       if (newEntries.length > 0) {
         setTrialTranscriptEntries((prev) => [...prev, ...newEntries]);
+      }
+      // F.4 — every card_played event runs through the signature-card
+      // registry; matches enqueue a Mechronis Professor cinematic that
+      // overlays the duel until the player skips or it completes.
+      const newSignatureTriggers: GuildCutsceneTrigger[] = [];
+      for (const ev of result.events) {
+        if (ev.type !== "card_played") continue;
+        const trigger = cinematicForCardPlayed(ev.cardDefId);
+        if (trigger) newSignatureTriggers.push(trigger);
+      }
+      if (newSignatureTriggers.length > 0) {
+        setSignatureCinematicQueue((prev) => [...prev, ...newSignatureTriggers]);
       }
     },
     [gameState],
@@ -788,10 +819,20 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
     });
     if (outcome) {
       setNarrativeFlag(SEER_OUTCOME_FLAGS[outcome], true);
+      // Dreamer-awareness silent counter (D1). The "defeated"
+      // outcome is the only path that surfaces the Burnt Card —
+      // the canon-hidden winnable path. Reach it once and the
+      // Dreamer's network notices. Idempotent at the service
+      // layer (BURNT_CARD_WITNESSED fires AT MOST ONCE per user)
+      // so retries are inert. Fire-and-forget; trigger failures
+      // are silent.
+      if (outcome === "defeated") {
+        reportBurntCardWitnessed.mutate(undefined as never);
+      }
     }
     setNarrativeFlag(SEER_STAFF_WITNESSED_FLAG, true);
     setNarrativeFlag(ACT1_CYCLE_B_COMPLETE_FLAG, true);
-  }, [gameState, setNarrativeFlag]);
+  }, [gameState, setNarrativeFlag, reportBurntCardWitnessed]);
 
   // §4.9 match-start screen-reader announcement (spec §6.3). Fires
   // exactly once per playthrough when seerProphecy first appears on
@@ -1857,6 +1898,26 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
             </div>
           )}
           {hoveredCard.flavorText && <p className="text-[9px] text-white/30 italic mt-2 border-t border-white/10 pt-2">{hoveredCard.flavorText}</p>}
+        </div>
+      )}
+
+      {/* F.4 — Mechronis Professor signature-spell cinematics. The
+          queue overlays the duel until the player skips or the queue
+          empties; pointer-events are NOT disabled so the player can
+          still tab away if they really want to. */}
+      {signatureCinematicQueue.length > 0 && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Signature ability cinematic"
+          className="fixed inset-0 z-[60] flex items-center justify-center bg-black/85 p-4"
+        >
+          <div className="w-full max-w-4xl">
+            <GuildCutsceneQueue
+              triggers={signatureCinematicQueue}
+              onComplete={() => setSignatureCinematicQueue([])}
+            />
+          </div>
         </div>
       )}
     </div>

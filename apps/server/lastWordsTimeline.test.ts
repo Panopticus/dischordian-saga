@@ -36,9 +36,13 @@ function publicUrlToRepoPath(url: string): string {
 }
 
 /** The five media dirs are gitignored (served from S3). Skip disk checks
- *  when they're not locally present (CI), keep them for local dev. */
+ *  when they're not locally present (CI), keep them for local dev. We
+ *  pin the predicate to the specific tease mp3 the assertion below
+ *  cares about, so partial staging of unrelated audio files (e.g. the
+ *  Prelude ambient WAVs from `pnpm assets:stage`) doesn't trip us into
+ *  asserting against a file that wasn't supposed to be local. */
 const LOCAL_MEDIA_PRESENT = fs.existsSync(
-  path.resolve(REPO_ROOT, "apps/client/public/audio"),
+  path.resolve(REPO_ROOT, publicUrlToRepoPath(LAST_WORDS_SONG_URL)),
 );
 
 describe("Last Words tease timeline — structural", () => {

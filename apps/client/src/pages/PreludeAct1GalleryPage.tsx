@@ -377,7 +377,7 @@ export default function PreludeAct1GalleryPage() {
   return (
     <div
       style={{
-        minHeight: "100vh",
+        minHeight: "100dvh",
         padding: "40px 32px 80px",
         color: "var(--fg-primary)",
         background: "var(--bg-void)",

@@ -1,17 +1,17 @@
 /* ═══════════════════════════════════════════════════════
    DISCHORDIA OPENING CINEMATIC — first-visit MP4 + AWAKEN gate
 
-   Plays ONCE per device, after the SurveillanceOpening
-   handshake and before the title boot sequence. The 3:09
-   MP4 is The Meme's hijacked broadcast — Track 01 of
-   Dischordian Logic visualized — and hands off pixel-
-   identical to the title screen, which continues playing
-   The Enigma's Lament as ambient audio under the auth
-   buttons. The auth buttons effectively serve as the
-   "Start Game" surface the user spec referenced.
+   Plays ONCE per device. Mounted by TitlePage ONLY after the
+   SurveillanceOpening handshake completes — the user's
+   CONFIRM OPERATOR / LOOK AWAY click satisfies the browser's
+   autoplay-with-sound gesture requirement, so the meme
+   transmission's own audio plays unmuted and is the only
+   sound the player hears for the duration of the broadcast.
+
+   When the video ends naturally, TitleAlbumIntro takes over
+   with the T01 ("The Enigma's Lament") slideshow + song.
 
    Pattern mirrored from apps/client/src/components/OpeningCinematic.tsx:
-     - "BEGIN" splash satisfies the browser autoplay gesture
      - Skip ("AWAKEN") fades in after 2 seconds
      - Safety timer ensures completion if `ended` never fires
      - reachedEndNaturally flag passed to onComplete so a
@@ -40,9 +40,23 @@ interface Props {
    *  parent decide whether to mark the device-flag (we mark it on
    *  every dismissal — players can replay from INBOX). */
   onComplete: (reachedEndNaturally: boolean) => void;
+  /** Fires when the cinematic's video ends naturally OR the safety
+   *  timer trips — distinct from `onComplete` which only fires after
+   *  the 400ms fade-out. The parent uses this to start the T01
+   *  audio + slideshow handoff while the cinematic is still fading. */
+  onCinematicEnded?: () => void;
+  /** Drives the AWAKEN button's enabled state. When false, AWAKEN
+   *  renders with a "Stand by…" sub-label and is non-interactive.
+   *  When true, AWAKEN gets its glow + becomes clickable. Defaults
+   *  to true so existing call sites work unchanged. */
+  isGameReady?: boolean;
 }
 
-export default function DischordiaOpeningCinematic({ onComplete }: Props) {
+export default function DischordiaOpeningCinematic({
+  onComplete,
+  onCinematicEnded,
+  isGameReady = true,
+}: Props) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const completedRef = useRef(false);
   const safetyTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -58,21 +72,65 @@ export default function DischordiaOpeningCinematic({ onComplete }: Props) {
     return () => clearTimeout(t);
   }, []);
 
-  // Once the video element is mounted with metadata loaded, surface the
-  // "BEGIN" splash. The user's click satisfies the browser autoplay
-  // policy for the rest of the session.
+  // The component only mounts AFTER the user clicks CONFIRM OPERATOR
+  // or LOOK AWAY on the surveillance handshake, so we have a fresh
+  // user gesture and can play unmuted (the meme transmission's audio
+  // is the only thing the player hears during the broadcast). Once
+  // metadata loads we kick off playback.
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
-    const onLoaded = () => setPhase("ready");
-    const onError = () => setPhase("needs-tap");
-    video.addEventListener("loadedmetadata", onLoaded);
+    let cancelled = false;
+    const startPlayback = () => {
+      if (cancelled || completedRef.current) return;
+      video.muted = false;
+      video.play().then(
+        () => {
+          if (cancelled) return;
+          setPhase("playing");
+          // Safety timer: video.duration + 2s. If `ended` never
+          // fires we bail out gracefully — and signal cinematic-
+          // ended so the album intro stage still gets its handoff.
+          if (!safetyTimerRef.current) {
+            safetyTimerRef.current = setTimeout(() => {
+              fireCinematicEnded();
+              finish(false);
+            }, (VIDEO_DURATION_S + 2) * 1000);
+          }
+        },
+        () => {
+          if (cancelled) return;
+          // Even muted autoplay can fail in iframes / private modes.
+          // Fall back to a tap-to-begin overlay.
+          setPhase("needs-tap");
+        },
+      );
+    };
+    const onLoaded = () => startPlayback();
+    const onError = () => {
+      if (!cancelled) setPhase("needs-tap");
+    };
+    if (video.readyState >= 1) {
+      // Metadata already buffered (cached load) — start immediately.
+      startPlayback();
+    } else {
+      video.addEventListener("loadedmetadata", onLoaded);
+    }
     video.addEventListener("error", onError);
     return () => {
+      cancelled = true;
       video.removeEventListener("loadedmetadata", onLoaded);
       video.removeEventListener("error", onError);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const cinematicEndedRef = useRef(false);
+  const fireCinematicEnded = useCallback(() => {
+    if (cinematicEndedRef.current) return;
+    cinematicEndedRef.current = true;
+    onCinematicEnded?.();
+  }, [onCinematicEnded]);
 
   const finish = useCallback(
     (reachedEndNaturally: boolean) => {
@@ -82,39 +140,39 @@ export default function DischordiaOpeningCinematic({ onComplete }: Props) {
         clearTimeout(safetyTimerRef.current);
         safetyTimerRef.current = null;
       }
+      // The cinematic-ended signal fires here too if it hasn't
+      // already (covers the AWAKEN-mid-playback case so the title
+      // album intro can take over without waiting for the 400ms
+      // fade-out).
+      fireCinematicEnded();
       markOpeningSeen();
       setPhase("ending");
       // Brief fade-out before unmounting.
       setTimeout(() => onComplete(reachedEndNaturally), 400);
     },
-    [onComplete],
+    [onComplete, fireCinematicEnded],
   );
 
-  const handleBegin = useCallback(async () => {
+  // Tap-to-begin fallback for environments where even gesture-backed
+  // autoplay is blocked (some iframes, private modes). The user's
+  // explicit click here re-arms the gesture for the session.
+  const handleTapToBegin = useCallback(async () => {
     const video = videoRef.current;
     if (!video) return;
     video.muted = false;
     try {
       await video.play();
       setPhase("playing");
-    } catch {
-      // Unmuted blocked — fall back to muted, which always succeeds in
-      // modern browsers as long as the click came from a user gesture.
-      video.muted = true;
-      try {
-        await video.play();
-        setPhase("playing");
-      } catch {
-        setPhase("needs-tap");
+      if (!safetyTimerRef.current) {
+        safetyTimerRef.current = setTimeout(() => {
+          fireCinematicEnded();
+          finish(false);
+        }, (VIDEO_DURATION_S + 2) * 1000);
       }
+    } catch {
+      setPhase("needs-tap");
     }
-    // Safety timer: video.duration + 2s. If `ended` never fires we
-    // bail out gracefully.
-    safetyTimerRef.current = setTimeout(
-      () => finish(false),
-      (VIDEO_DURATION_S + 2) * 1000,
-    );
-  }, [finish]);
+  }, [finish, fireCinematicEnded]);
 
   return (
     <AnimatePresence>
@@ -147,10 +205,13 @@ export default function DischordiaOpeningCinematic({ onComplete }: Props) {
             }}
           />
 
-          {/* TRANSMISSION INCOMING overlay — fades in on splash, fades
-              out 4s after playback begins. */}
+          {/* TRANSMISSION INCOMING overlay — visible while buffering
+              and as a tap-to-begin fallback if muted autoplay is
+              blocked. Fades out the moment the video starts playing
+              so it doesn't fight the surveillance handshake overlay
+              running on top. */}
           <AnimatePresence>
-            {(phase === "loading" || phase === "ready" || phase === "needs-tap") && (
+            {(phase === "loading" || phase === "needs-tap") && (
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -172,31 +233,40 @@ export default function DischordiaOpeningCinematic({ onComplete }: Props) {
                     Buffering transmission…
                   </div>
                 )}
-                {(phase === "ready" || phase === "needs-tap") && (
+                {phase === "needs-tap" && (
                   <button
-                    onClick={handleBegin}
+                    onClick={handleTapToBegin}
                     className="mt-6 px-10 py-3 bg-emerald-700 hover:bg-emerald-600 text-black font-mono uppercase tracking-widest text-sm rounded shadow-[0_0_36px_rgba(16,185,129,0.6)]"
                   >
-                    ▸ Accept Transmission
+                    ▸ Tap to begin
                   </button>
                 )}
               </motion.div>
             )}
           </AnimatePresence>
 
-          {/* AWAKEN — in-world skip button. Visible from 2s onward, in
-              every phase, so a stuck or unwanted video never traps. */}
+          {/* AWAKEN — in-world skip button. Visible from 2s onward,
+              in every phase, so a stuck or unwanted video never traps.
+              Disabled (with "Stand by…" sub-label) until the rest of
+              the app reports it's ready (auth resolved, threshold
+              passed). When ready, glows + becomes clickable. */}
           <AnimatePresence>
             {showAwaken && (
               <motion.button
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0 }}
-                onClick={() => finish(false)}
+                onClick={() => isGameReady && finish(false)}
+                disabled={!isGameReady}
                 aria-label="Skip the opening transmission"
-                className="absolute bottom-6 right-6 px-5 py-2 border border-emerald-500/60 bg-black/60 hover:bg-emerald-900/40 text-emerald-200 font-mono text-xs uppercase tracking-[0.3em] rounded backdrop-blur-sm"
+                aria-disabled={!isGameReady}
+                className={
+                  isGameReady
+                    ? "absolute bottom-6 right-6 px-5 py-2 border border-emerald-500/60 bg-black/60 hover:bg-emerald-900/40 text-emerald-200 font-mono text-xs uppercase tracking-[0.3em] rounded backdrop-blur-sm shadow-[0_0_18px_rgba(16,185,129,0.4)]"
+                    : "absolute bottom-6 right-6 px-5 py-2 border border-emerald-900/60 bg-black/60 text-emerald-500/40 font-mono text-xs uppercase tracking-[0.3em] rounded backdrop-blur-sm cursor-not-allowed"
+                }
               >
-                AWAKEN ▸
+                {isGameReady ? "AWAKEN ▸" : "Stand by…"}
               </motion.button>
             )}
           </AnimatePresence>

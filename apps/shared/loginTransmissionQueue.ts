@@ -40,12 +40,17 @@ export function loginItemId(item: LoginTransmissionItem): LoginTransmissionItemI
     : `tv:${item.transmissionId}`;
 }
 
-/** All TV transmissions the player has unlocked, sorted by
- *  broadcastOrder. Stable ordering is critical so the cursor
- *  feels deterministic. */
+/** All TV transmissions the player has unlocked AND that are
+ *  flagged as music videos, sorted by broadcastOrder. Stable
+ *  ordering is critical so the cursor feels deterministic.
+ *
+ *  Narrative TV episodes (the 30+ epoch episodes) stay out of
+ *  the auto-pop queue — they're available in the TransmissionDeck
+ *  library but never auto-pop on login. This keeps the queue
+ *  focused on the curated music-video catalog after T01-T09. */
 function unlockedTvTransmissions(ctx: PlayerContext): Transmission[] {
   return [...ALL_TRANSMISSIONS]
-    .filter((t) => isUnlocked(t, ctx))
+    .filter((t) => t.category === "music-video" && isUnlocked(t, ctx))
     .sort((a, b) => a.broadcastOrder - b.broadcastOrder);
 }
 

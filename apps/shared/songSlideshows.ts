@@ -23,6 +23,30 @@ import {
   type Album1TrackDef,
   type Album1TrackId,
 } from "./expansionArt/album1Slideshows";
+import {
+  ALBUM2_TRACKS,
+  album2FrameUrl,
+  type Album2TrackDef,
+  type Album2TrackId,
+} from "./expansionArt/album2Slideshows";
+import {
+  ALBUM3_TRACKS,
+  album3FrameUrl,
+  type Album3TrackDef,
+  type Album3TrackId,
+} from "./expansionArt/album3Slideshows";
+import {
+  ALBUM4_TRACKS,
+  album4FrameUrl,
+  type Album4TrackDef,
+  type Album4TrackId,
+} from "./expansionArt/album4Slideshows";
+import {
+  ALBUM5_TRACKS,
+  album5FrameUrl,
+  type Album5TrackDef,
+  type Album5TrackId,
+} from "./expansionArt/album5Slideshows";
 /* ─── LAST WORDS (§5.4) ─── */
 
 /**
@@ -401,6 +425,313 @@ export const ALBUM1_FIRST_NINE_SLIDESHOWS: readonly SongSlideshowDef[] = [
   ALBUM1_T08_SLIDESHOW,
   ALBUM1_T09_SLIDESHOW,
 ];
+
+/** Look up an Album 1 slideshow by trackId (T01..T09). Falls back to
+ *  T01 if the trackId isn't recognized — defensive only; the queue
+ *  guarantees only authored ids reach this helper. */
+export function getAlbum1Slideshow(trackId: string): SongSlideshowDef {
+  const songId = `album1_${trackId.toLowerCase()}`;
+  return (
+    ALBUM1_FIRST_NINE_SLIDESHOWS.find((s) => s.songId === songId) ??
+    ALBUM1_T01_SLIDESHOW
+  );
+}
+
+/* ═══════════════════════════════════════════════════════
+   ALBUMS 2-5 SLIDESHOW FACTORIES
+
+   Each album mirrors the album1Slideshow() shape: the factory looks
+   up the typed manifest, distributes frame durations evenly across
+   the audio track, and emits a SongSlideshowDef the renderer can
+   consume uniformly. Audio assets follow the same convention:
+   cdn/client-public/audio/album<N>/T<NN>.mp3.
+
+   Factories throw when called for a track without a known audio
+   duration — same fail-loud contract Album 1 uses. As masters are
+   ingested via _album<N>-songs-convert-and-upload.mjs, fill in the
+   ALBUM<N>_AUDIO_DURATIONS_MS map below; consumers will then be
+   able to call album<N>Slideshow("T<NN>") and get back a complete
+   def with no further code changes.
+
+   For now, the maps stay sparse / empty. Sample slideshow constants
+   are exported only for tracks that do have a known duration so the
+   public API reflects what's actually playable today.
+
+   Album 5 ("Silence in Heaven") is structurally distinct — odd
+   tracks are dialog (narrator portrait + background composite),
+   even tracks are song. The factory below handles song tracks only;
+   dialog tracks throw with a clear message until the dialog-
+   composite renderer lands.
+   ═══════════════════════════════════════════════════════ */
+
+function albumIdSlug(title: string): string {
+  return title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+}
+
+const ALBUM_TRANSITIONS = ["fade", "dissolve"] as const;
+
+interface AlbumSlideshowOpts {
+  priority?: "P0" | "P1" | "P2";
+  subtitle?: string;
+  flagsSetOnComplete?: string[];
+  unlockLoredexEntry?: string;
+  lightEnergyReward?: number;
+}
+
+/** Generic frame-builder used by all four album factories.
+ *  Constructs the SongSlideshowDef.frames array from a track's
+ *  manifest entry, distributing durations evenly across the audio
+ *  and rotating through the standard transition pair. */
+function buildAlbumFrames(
+  beatCount: number,
+  durationMs: number,
+  frameUrlAt: (frameIndex: number) => string | undefined,
+  trackId: string,
+): SongSlideshowDef["frames"] {
+  const frameMs = durationMs / beatCount;
+  return Array.from({ length: beatCount }, (_, i) => {
+    const start = Math.round(i * frameMs);
+    const end = Math.round((i + 1) * frameMs);
+    // Beats are 1-indexed past the title card → producer index = i + 2.
+    const url = frameUrlAt(i + 2);
+    if (!url) throw new Error(`buildAlbumFrames: missing beat ${i + 2} for ${trackId}`);
+    return {
+      startMs: start,
+      endMs: end,
+      imageUrl: url,
+      transition: i === 0 ? "fade" : ALBUM_TRANSITIONS[i % 2],
+      kenBurns: {
+        startScale: 1.0,
+        endScale: 1.06,
+        startPan: [0, 0] as [number, number],
+        endPan: [i % 2 === 0 ? 0.04 : -0.04, 0.02] as [number, number],
+      },
+      narratorReactionId: null,
+    };
+  });
+}
+
+/* ─── ALBUM 2 — THE AGE OF PRIVACY ─── */
+
+/** Audio durations in ms keyed by track id. Populate as masters are
+ *  ingested. Empty until then — the factory will throw on any
+ *  missing-duration track, the same fail-loud contract Album 1 uses. */
+const ALBUM2_AUDIO_DURATIONS_MS: Partial<Record<Album2TrackId, number>> = {};
+
+function album2Slideshow(
+  trackId: Album2TrackId,
+  opts: AlbumSlideshowOpts = {},
+): SongSlideshowDef {
+  const track: Album2TrackDef | undefined = ALBUM2_TRACKS.find((t) => t.id === trackId);
+  if (!track) throw new Error(`album2Slideshow: ${trackId} not in manifest`);
+  const durationMs = ALBUM2_AUDIO_DURATIONS_MS[trackId];
+  if (durationMs === undefined) {
+    throw new Error(
+      `album2Slideshow: ${trackId} has no audio duration wired (see ALBUM2_AUDIO_DURATIONS_MS)`,
+    );
+  }
+  const titleUrl = album2FrameUrl(trackId, 1);
+  if (!titleUrl) throw new Error(`album2Slideshow: ${trackId} title card missing`);
+  const beatCount = track.frameRelPaths.length - 1;
+  const id = `album2-${trackId.toLowerCase()}-${albumIdSlug(track.title)}`;
+  const completionFlag = `slideshow_${id.replace(/-/g, "_")}_complete`;
+  const flagsSetOnComplete = [completionFlag, ...(opts.flagsSetOnComplete ?? [])];
+  return {
+    id,
+    songId: `album2_${trackId.toLowerCase()}`,
+    audioUrl: assetUrl(`audio/album2/${trackId}.mp3`),
+    durationMs,
+    title: track.title,
+    subtitle: opts.subtitle,
+    credits: `Album 2 · The Age of Privacy — ${trackId}`,
+    priority: opts.priority ?? "P1",
+    flagsSetOnComplete,
+    unlockLoredexEntry: opts.unlockLoredexEntry,
+    lightEnergyReward: opts.lightEnergyReward,
+    frames: buildAlbumFrames(beatCount, durationMs, (i) => album2FrameUrl(trackId, i), trackId),
+    reducedMotionFallback: {
+      heroImageUrl: titleUrl,
+      prose: `Track ${trackId} from "The Age of Privacy" — "${track.title}". ${beatCount} cinematic widescreen beats over ${(durationMs / 60_000).toFixed(1)} minutes of cel-shaded anime, plus a title card hero.`,
+      closingLine: "Album 2 · The Age of Privacy.",
+    },
+  };
+}
+
+/* ─── ALBUM 3 — THE BOOK OF DANIEL 24:7 ─── */
+
+/** Producer manifest gives per-track minute estimates ("8 min", "5 min",
+ *  etc). These are placeholders — they line up with the producer's
+ *  manifest table and are accurate to within a minute. Replace with
+ *  precise master-WAV durations when audio masters are ingested. */
+const ALBUM3_AUDIO_DURATIONS_MS: Partial<Record<Album3TrackId, number>> = {};
+
+function album3Slideshow(
+  trackId: Album3TrackId,
+  opts: AlbumSlideshowOpts = {},
+): SongSlideshowDef {
+  const track: Album3TrackDef | undefined = ALBUM3_TRACKS.find((t) => t.id === trackId);
+  if (!track) throw new Error(`album3Slideshow: ${trackId} not in manifest`);
+  const durationMs = ALBUM3_AUDIO_DURATIONS_MS[trackId];
+  if (durationMs === undefined) {
+    throw new Error(
+      `album3Slideshow: ${trackId} has no audio duration wired (see ALBUM3_AUDIO_DURATIONS_MS)`,
+    );
+  }
+  const titleUrl = album3FrameUrl(trackId, 1);
+  if (!titleUrl) throw new Error(`album3Slideshow: ${trackId} title card missing`);
+  const beatCount = track.frameRelPaths.length - 1;
+  const id = `album3-${trackId.toLowerCase()}-${albumIdSlug(track.title)}`;
+  const completionFlag = `slideshow_${id.replace(/-/g, "_")}_complete`;
+  const flagsSetOnComplete = [completionFlag, ...(opts.flagsSetOnComplete ?? [])];
+  return {
+    id,
+    songId: `album3_${trackId.toLowerCase()}`,
+    audioUrl: assetUrl(`audio/album3/${trackId}.mp3`),
+    durationMs,
+    title: track.title,
+    subtitle: opts.subtitle,
+    credits: `Album 3 · The Book of Daniel 24:7 — ${trackId}`,
+    priority: opts.priority ?? "P1",
+    flagsSetOnComplete,
+    unlockLoredexEntry: opts.unlockLoredexEntry,
+    lightEnergyReward: opts.lightEnergyReward,
+    frames: buildAlbumFrames(beatCount, durationMs, (i) => album3FrameUrl(trackId, i), trackId),
+    reducedMotionFallback: {
+      heroImageUrl: titleUrl,
+      prose: `Track ${trackId} from "The Book of Daniel 24:7" — "${track.title}". ${beatCount} cinematic widescreen beats over ${(durationMs / 60_000).toFixed(1)} minutes of cel-shaded anime, plus a title card hero.`,
+      closingLine: "Album 3 · The Book of Daniel 24:7.",
+    },
+  };
+}
+
+/* ─── ALBUM 4 — WEST BY GOD ─── */
+
+/** Per-track audio durations in ms. Empty until masters are ingested. */
+const ALBUM4_AUDIO_DURATIONS_MS: Partial<Record<Album4TrackId, number>> = {};
+
+function album4Slideshow(
+  trackId: Album4TrackId,
+  opts: AlbumSlideshowOpts = {},
+): SongSlideshowDef {
+  const track: Album4TrackDef | undefined = ALBUM4_TRACKS.find((t) => t.id === trackId);
+  if (!track) throw new Error(`album4Slideshow: ${trackId} not in manifest`);
+  const durationMs = ALBUM4_AUDIO_DURATIONS_MS[trackId];
+  if (durationMs === undefined) {
+    throw new Error(
+      `album4Slideshow: ${trackId} has no audio duration wired (see ALBUM4_AUDIO_DURATIONS_MS)`,
+    );
+  }
+  const titleUrl = album4FrameUrl(trackId, 1);
+  if (!titleUrl) throw new Error(`album4Slideshow: ${trackId} title card missing`);
+  const beatCount = track.frameRelPaths.length - 1;
+  const id = `album4-${trackId.toLowerCase()}-${albumIdSlug(track.title)}`;
+  const completionFlag = `slideshow_${id.replace(/-/g, "_")}_complete`;
+  const flagsSetOnComplete = [completionFlag, ...(opts.flagsSetOnComplete ?? [])];
+  return {
+    id,
+    songId: `album4_${trackId.toLowerCase()}`,
+    audioUrl: assetUrl(`audio/album4/${trackId}.mp3`),
+    durationMs,
+    title: track.title,
+    subtitle: opts.subtitle,
+    credits: `Album 4 · West by God — ${trackId}`,
+    priority: opts.priority ?? "P1",
+    flagsSetOnComplete,
+    unlockLoredexEntry: opts.unlockLoredexEntry,
+    lightEnergyReward: opts.lightEnergyReward,
+    frames: buildAlbumFrames(beatCount, durationMs, (i) => album4FrameUrl(trackId, i), trackId),
+    reducedMotionFallback: {
+      heroImageUrl: titleUrl,
+      prose: `Track ${trackId} from "West by God" — "${track.title}". ${beatCount} 16:9 cinematic beats over ${(durationMs / 60_000).toFixed(1)} minutes of cel-shaded anime, plus a title card hero.`,
+      closingLine: "Album 4 · West by God.",
+    },
+  };
+}
+
+/* ─── ALBUM 5 — SILENCE IN HEAVEN ─── */
+
+/**
+ * Per-track audio durations in ms. Album 5's producer manifest gives
+ * exact runtimes (e.g. "5:15", "1:24") that translate directly. The
+ * map below stays empty for now so the factory keeps the same fail-
+ * loud contract as Albums 1-4 — fill in entries from the producer
+ * MANIFEST.md as masters are ingested. The producer table to crib
+ * from sits in the album5Slideshows.ts header comment.
+ */
+const ALBUM5_AUDIO_DURATIONS_MS: Partial<Record<Album5TrackId, number>> = {};
+
+/**
+ * Album 5 song-track factory. Dialog tracks need the
+ * narrator-portrait + dialog-background composite renderer that
+ * isn't built yet — calling this with a dialog track id throws so
+ * accidental misuse is loud. Album 5's manifest exposes
+ * ALBUM5_NARRATOR_PORTRAITS + ALBUM5_DIALOG_BACKGROUNDS for the
+ * future composite system.
+ */
+function album5Slideshow(
+  trackId: Album5TrackId,
+  opts: AlbumSlideshowOpts = {},
+): SongSlideshowDef {
+  const track: Album5TrackDef | undefined = ALBUM5_TRACKS.find((t) => t.id === trackId);
+  if (!track) throw new Error(`album5Slideshow: ${trackId} not in manifest`);
+  if (track.kind === "dialog") {
+    throw new Error(
+      `album5Slideshow: ${trackId} is a dialog track; use the dialog-composite renderer (not built yet)`,
+    );
+  }
+  const durationMs = ALBUM5_AUDIO_DURATIONS_MS[trackId];
+  if (durationMs === undefined) {
+    throw new Error(
+      `album5Slideshow: ${trackId} has no audio duration wired (see ALBUM5_AUDIO_DURATIONS_MS)`,
+    );
+  }
+  const titleUrl = album5FrameUrl(trackId, 1);
+  if (!titleUrl) throw new Error(`album5Slideshow: ${trackId} title card missing`);
+  // Album 5's producer naming is sih_t<nn>_f<NN>.png with no separate
+  // _00_title.png — frame 1 IS the title-coded first beat. Treat it
+  // as the title-card hero and run the rest as the slideshow.
+  const beatCount = track.frameRelPaths.length - 1;
+  const id = `album5-${trackId.toLowerCase()}-${albumIdSlug(track.title)}`;
+  const completionFlag = `slideshow_${id.replace(/-/g, "_")}_complete`;
+  const flagsSetOnComplete = [completionFlag, ...(opts.flagsSetOnComplete ?? [])];
+  return {
+    id,
+    songId: `album5_${trackId.toLowerCase()}`,
+    audioUrl: assetUrl(`audio/album5/${trackId}.mp3`),
+    durationMs,
+    title: track.title,
+    subtitle: opts.subtitle,
+    credits: `Album 5 · Silence in Heaven — ${trackId}`,
+    priority: opts.priority ?? "P1",
+    flagsSetOnComplete,
+    unlockLoredexEntry: opts.unlockLoredexEntry,
+    lightEnergyReward: opts.lightEnergyReward,
+    frames: buildAlbumFrames(beatCount, durationMs, (i) => album5FrameUrl(trackId, i), trackId),
+    reducedMotionFallback: {
+      heroImageUrl: titleUrl,
+      prose: `Track ${trackId} from "Silence in Heaven" — "${track.title}". ${beatCount} 16:9 cinematic beats over ${(durationMs / 60_000).toFixed(1)} minutes of cel-shaded anime mapping onto Revelation chapters 1-22.`,
+      closingLine: "Album 5 · Silence in Heaven.",
+    },
+  };
+}
+
+// Factories are exported as the public API. No ALBUM<N>_T<NN>_SLIDESHOW
+// constants are emitted here yet — those land per-track as audio
+// durations get wired in, mirroring how Album 1 only exports its
+// first-nine constants. Consumers that need a slideshow today should
+// either populate ALBUM<N>_AUDIO_DURATIONS_MS first, or fall back to
+// the album1 constants until album N's audio masters ship.
+
+export {
+  album2Slideshow,
+  ALBUM2_AUDIO_DURATIONS_MS,
+  album3Slideshow,
+  ALBUM3_AUDIO_DURATIONS_MS,
+  album4Slideshow,
+  ALBUM4_AUDIO_DURATIONS_MS,
+  album5Slideshow,
+  ALBUM5_AUDIO_DURATIONS_MS,
+};
 
 /* ─── WELCOME TO CELEBRATION (§4.3 Cycle A finale, §12 C2) ─── */
 

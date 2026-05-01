@@ -56,6 +56,11 @@ import {
 } from "@/data/celebrationSlideshow";
 
 import { assetUrl } from "@/lib/assetUrl";
+import { useGameMastersIntervention } from "@/hooks/useGameMastersIntervention";
+import {
+  GameMastersInterventionModal,
+  GameMastersInvocationPrompt,
+} from "@/components/celebration/GameMastersInterventionModal";
 const STAGE_LABELS: Record<string, string> = {
   recruited: "Recruited",
   training: "In Celebration Trial",
@@ -236,6 +241,19 @@ export default function ApprenticePage() {
     });
   };
 
+  // Game Masters intervention hook — Celebration trial recourse via
+  // the cult-maintained Matrix of Dreams. Per-apprentice; the cult
+  // does not impose itself — eligibility surfaces a CTA the player
+  // chooses to invoke. Voice routes through the speaker assignment
+  // (Left on days 7/21, Right on 14, both+cult on 28).
+  const gmIntervention = useGameMastersIntervention({
+    apprenticeId: currentApprentice?.id ?? "",
+    trialDay: currentApprentice?.trialDay ?? 0,
+    bond: currentApprentice?.bond ?? 0,
+    missedDays: currentApprentice?.missedDays ?? 0,
+    enabled: !!currentApprentice && currentApprentice.stage === "training",
+  });
+
   const todayDecision = useMemo(
     () =>
       currentApprentice && currentApprentice.stage === "training"
@@ -308,6 +326,18 @@ export default function ApprenticePage() {
             {/* Training → daily decision (or pending battle) */}
             {currentApprentice.stage === "training" && !pendingBattle && todayDecision && (
               <div className="mt-4">
+                {/* Game Masters sanctuary — surfaces only on canonical
+                    days (7/14/21/28) when the apprentice has a missed
+                    day to forgive AND the player can pay the 1-bond
+                    cost. The cult does not impose. */}
+                {gmIntervention.eligible && (
+                  <GameMastersInvocationPrompt
+                    trialDay={currentApprentice.trialDay}
+                    onInvoke={gmIntervention.invoke}
+                    invoking={gmIntervention.invoking}
+                  />
+                )}
+
                 <DailyDecisionCard
                   decision={todayDecision}
                   day={currentApprentice.trialDay}
@@ -516,6 +546,11 @@ export default function ApprenticePage() {
           </div>
         )}
       </div>
+
+      <GameMastersInterventionModal
+        event={gmIntervention.current}
+        onDismiss={gmIntervention.dismiss}
+      />
     </div>
   );
 }

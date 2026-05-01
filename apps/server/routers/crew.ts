@@ -48,6 +48,7 @@ import {
 } from "../../shared/crewMissions";
 import { CREW_BALANCE } from "../../shared/crewBalance";
 import { applyTick as sharedApplyTick } from "../../shared/crewTick";
+import { distributeCrewXp } from "../../shared/crewXpCredit";
 import { syncCrewStateToTables } from "./crewTableSync";
 
 const FRANCHISE = "dischordian-saga";
@@ -503,6 +504,35 @@ export const crewRouter = router({
       };
       await saveState(ctx.user.id, next);
       return { success: true };
+    }),
+
+  /* ─── Generic crew XP credit ───────────────────────────────────────────
+     A flat-amount XP grant. Distributes the points across active crew
+     as small bumps to their genetic stats — see apps/shared/crewXpCredit.ts
+     for the round-robin algorithm. Triggered by external systems that
+     reward "the crew" rather than a specific member, such as Adjudicator
+     Locke's Confidential Ledger Crew Charter contract.
+
+     Returns the actual applied amount (≤ requested; clamped by per-stat
+     caps) and a per-member breakdown the caller can surface in UI. If
+     the player has no active crew, returns applied: 0 and the engagement
+     router treats the credit as held on Locke's account ledger. */
+  creditXp: protectedProcedure
+    .input(z.object({ amount: z.number().int().positive() }))
+    .mutation(async ({ ctx, input }) => {
+      const state = applyTick(await loadState(ctx.user.id));
+      const result = distributeCrewXp(state, input.amount);
+      if (result.applied === 0) {
+        return { applied: 0, perMember: [] as { memberId: string; applied: number }[] };
+      }
+      await saveState(ctx.user.id, result.state);
+      return {
+        applied: result.applied,
+        perMember: result.perMember.map(p => ({
+          memberId: p.memberId,
+          applied: p.applied,
+        })),
+      };
     }),
 
   /* ─── DMC bridge: mark a crew member as sent to Dead Man's Circuit ─── */

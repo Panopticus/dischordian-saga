@@ -341,28 +341,63 @@ export const MUSIC_TRIGGERS: MusicTrigger[] = [
 ];
 
 export interface TomePlacement { tomeId: string; roomId: RoomId; method: "exploration" | "trust" | "quest" | "game" | "npc_gift"; trustReq?: { npc: string; min: number }; flagReq?: string; cardReward?: string; }
+
+// Every CoNexus game has exactly one TomePlacement. The placement decides
+// where the Antiquarian's tome physically appears on the Ark (and how the
+// player earns the right to open it). IDs MUST match ConexusGame.id in
+// apps/client/src/data/conexusGames.ts — drift here silently breaks the
+// "Antiquarian's Library" discoverability check.
 export const TOME_PLACEMENTS: TomePlacement[] = [
-  { tomeId: "welcome-to-celebration", roomId: "cryo_bay", method: "exploration", cardReward: "the-architect" },
-  { tomeId: "the-necromancers-lair", roomId: "medical_bay", method: "exploration", cardReward: "the-necromancer" },
-  { tomeId: "mechronis-academy", roomId: "bridge", method: "exploration", cardReward: "the-human" },
-  { tomeId: "the-detective", roomId: "archives", method: "exploration", cardReward: "the-detective" },
-  { tomeId: "kaels-revenge", roomId: "comms_array", method: "exploration", cardReward: "kael" },
-  { tomeId: "the-enigmas-lament", roomId: "observation_deck", method: "exploration", cardReward: "the-enigma" },
-  { tomeId: "agent-zero-foundation", roomId: "armory", method: "exploration", cardReward: "agent-zero" },
-  { tomeId: "the-engineer-foundation", roomId: "engineering", method: "exploration", cardReward: "the-engineer" },
-  { tomeId: "the-politicians-reign", roomId: "trade_hub", method: "exploration", cardReward: "the-politician" },
-  { tomeId: "iron-lion-foundation", roomId: "cargo_bay", method: "exploration", cardReward: "iron-lion" },
-  { tomeId: "the-ninth-blood-and-shadows", roomId: "trophy_room", method: "exploration", cardReward: "the-shadow-tongue" },
-  { tomeId: "building-the-architect", roomId: "captains_quarters", method: "exploration", cardReward: "the-programmer" },
-  { tomeId: "eyes-of-the-watcher", roomId: "bridge", method: "trust", trustReq: { npc: "elara", min: 40 }, cardReward: "the-eyes" },
-  { tomeId: "the-oracle", roomId: "archives", method: "trust", trustReq: { npc: "the_antiquarian", min: 30 }, cardReward: "the-oracle" },
-  { tomeId: "dischordian-logic", roomId: "comms_array", method: "trust", trustReq: { npc: "the_human", min: 50 }, cardReward: "the-dreamer" },
-  { tomeId: "terminus-swarm", roomId: "armory", method: "game", flagReq: "terminus_wave_10", cardReward: "the-source" },
-  { tomeId: "the-host", roomId: "medical_bay", method: "quest", flagReq: "quarantine_5", cardReward: "the-host" },
-  { tomeId: "rise-of-the-neyons", roomId: "observation_deck", method: "trust", trustReq: { npc: "elara", min: 60 }, cardReward: "the-dreamer" },
-  { tomeId: "the-brotherhood-ocularum", roomId: "armory", method: "npc_gift", trustReq: { npc: "agent_zero", min: 40 }, cardReward: "iron-lion" },
-  { tomeId: "sanctuary-lost", roomId: "trade_hub", method: "npc_gift", trustReq: { npc: "adjudicator_locke", min: 40 }, cardReward: "the-authority" },
-  { tomeId: "planet-of-the-wolf", roomId: "engineering", method: "trust", trustReq: { npc: "shadow_tongue", min: 30 }, cardReward: "the-wolf" },
-  { tomeId: "the-blood-weave-gates-of-hell", roomId: "trophy_room", method: "quest", flagReq: "hierarchy_discovered", cardReward: "the-advocate" },
-  { tomeId: "awaken-the-clone", roomId: "medical_bay", method: "trust", trustReq: { npc: "the_source", min: 40 }, cardReward: "the-white-oracle" },
+  // ─── The Foundation (origin stories of the Archons) ──────────────────
+  { tomeId: "rise-of-the-neyons",       roomId: "observation_deck", method: "trust",       trustReq: { npc: "elara", min: 60 },               cardReward: "the-dreamer" },
+  { tomeId: "iron-lion-foundation",     roomId: "cargo_bay",        method: "exploration",                                                    cardReward: "iron-lion" },
+  { tomeId: "agent-zero-foundation",    roomId: "armory",           method: "exploration",                                                    cardReward: "agent-zero" },
+  { tomeId: "eyes-of-the-watcher",      roomId: "bridge",           method: "trust",       trustReq: { npc: "elara", min: 40 },               cardReward: "the-eyes" },
+  { tomeId: "the-engineer-foundation",  roomId: "engineering",      method: "exploration",                                                    cardReward: "the-engineer" },
+  { tomeId: "the-oracle-foundation",    roomId: "archives",         method: "trust",       trustReq: { npc: "antiquarian", min: 30 },         cardReward: "the-oracle" },
+
+  // ─── The Age of Privacy (surveillance, secret societies) ─────────────
+  { tomeId: "brotherhood-ocularum",     roomId: "armory",           method: "npc_gift",    trustReq: { npc: "agent_zero", min: 40 },          cardReward: "iron-lion" },
+  { tomeId: "building-the-architect",   roomId: "captains_quarters",method: "exploration",                                                    cardReward: "the-programmer" },
+  { tomeId: "the-experiment",           roomId: "medical_bay",      method: "quest",       flagReq: "diagnostic_complete",                    cardReward: "the-warden" },
+  { tomeId: "the-deployment",           roomId: "comms_array",      method: "quest",       flagReq: "signal_comms_array",                     cardReward: "the-authority" },
+
+  // ─── Haven: Sundown Bazaar (New Babylon, Season 2) ───────────────────
+  { tomeId: "civil-war-sundown",        roomId: "trade_hub",        method: "quest",       flagReq: "trade_opportunity_available",            cardReward: "the-collector" },
+  { tomeId: "eternal-night",            roomId: "observation_deck", method: "quest",       flagReq: "stargazing_complete",                    cardReward: "akai-shi" },
+  { tomeId: "sunbreak-protocol",        roomId: "engineering",      method: "trust",       trustReq: { npc: "shadow_tongue", min: 50 },       cardReward: "the-inventor" },
+  { tomeId: "circuit-of-ashes",         roomId: "comms_array",      method: "trust",       trustReq: { npc: "the_human", min: 30 },           cardReward: "the-meme" },
+  { tomeId: "veil-of-blood",            roomId: "medical_bay",      method: "quest",       flagReq: "quarantine_5",                           cardReward: "varkul-the-blood-lord" },
+  { tomeId: "grave-secrets",            roomId: "archives",         method: "quest",       flagReq: "anomaly_archives",                       cardReward: "the-detective" },
+  { tomeId: "echoes-of-the-tenebrous",  roomId: "engineering",      method: "trust",       trustReq: { npc: "shadow_tongue", min: 30 },       cardReward: "the-shadow-tongue" },
+
+  // ─── Fall of Reality (Prequel — main saga's beating heart) ───────────
+  { tomeId: "baron-heart-of-time",      roomId: "trophy_room",      method: "trust",       trustReq: { npc: "antiquarian", min: 60 },         cardReward: "the-collector" },
+  { tomeId: "necromancers-lair",        roomId: "medical_bay",      method: "exploration",                                                    cardReward: "the-necromancer" },
+  { tomeId: "welcome-to-celebration",   roomId: "cryo_bay",         method: "exploration",                                                    cardReward: "the-architect" },
+  { tomeId: "mechronis-academy",        roomId: "bridge",           method: "exploration",                                                    cardReward: "the-human" },
+  { tomeId: "enigmas-lament",           roomId: "observation_deck", method: "exploration",                                                    cardReward: "the-enigma" },
+  { tomeId: "dischordian-logic",        roomId: "comms_array",      method: "trust",       trustReq: { npc: "the_human", min: 50 },           cardReward: "the-dreamer" },
+  { tomeId: "politicians-reign",        roomId: "trade_hub",        method: "exploration",                                                    cardReward: "the-politician" },
+  { tomeId: "the-detective",            roomId: "archives",         method: "exploration",                                                    cardReward: "the-detective" },
+  { tomeId: "myths-dreams-workshop",    roomId: "captains_quarters",method: "trust",       trustReq: { npc: "antiquarian", min: 40 },         cardReward: "the-dreamer" },
+  { tomeId: "sanctuary-lost",           roomId: "trade_hub",        method: "npc_gift",    trustReq: { npc: "locke", min: 40 },               cardReward: "the-authority" },
+  { tomeId: "blood-weave-gates-of-hell",roomId: "trophy_room",      method: "quest",       flagReq: "hierarchy_discovered",                   cardReward: "the-advocate" },
+  { tomeId: "kaels-revenge",            roomId: "comms_array",      method: "exploration",                                                    cardReward: "kael" },
+
+  // ─── Age of Potentials (post-Fall, the Ark crew's present) ───────────
+  { tomeId: "awaken-the-clone",         roomId: "medical_bay",      method: "trust",       trustReq: { npc: "source", min: 40 },              cardReward: "the-white-oracle" },
+  { tomeId: "brushstroke-of-the-empire",roomId: "captains_quarters",method: "quest",       flagReq: "act_5_started",                          cardReward: "the-dreamer" },
+  { tomeId: "civil-war-samsara-rising", roomId: "armory",           method: "quest",       flagReq: "terminus_wave_10",                       cardReward: "samsara" },
+  { tomeId: "seeds-of-inception",       roomId: "cryo_bay",         method: "quest",       flagReq: "first_crew_member_born",                 cardReward: "the-architect" },
+  { tomeId: "terminus-swarm",           roomId: "armory",           method: "game",        flagReq: "terminus_wave_10",                       cardReward: "the-source" },
+  { tomeId: "the-host",                 roomId: "medical_bay",      method: "quest",       flagReq: "quarantine_5",                           cardReward: "the-host" },
+  { tomeId: "planet-of-the-wolf",       roomId: "engineering",      method: "trust",       trustReq: { npc: "shadow_tongue", min: 30 },       cardReward: "the-wolf" },
+
+  // ─── Visions (multiverse standalones — gated by deepest progression) ─
+  { tomeId: "npc-uprising",             roomId: "trophy_room",      method: "quest",       flagReq: "act_6_started",                          cardReward: "the-meme" },
+  { tomeId: "yakuza-the-prince",        roomId: "trade_hub",        method: "quest",       flagReq: "act_5_started",                          cardReward: "jericho-jones" },
+  { tomeId: "whispers-of-madness",      roomId: "observation_deck", method: "trust",       trustReq: { npc: "antiquarian", min: 70 },         cardReward: "the-silence" },
+  { tomeId: "nightmare-of-oz",          roomId: "captains_quarters",method: "trust",       trustReq: { npc: "antiquarian", min: 50 },         cardReward: "the-forgotten" },
+  { tomeId: "the-ninth-blood-shadows",  roomId: "trophy_room",      method: "exploration",                                                    cardReward: "the-shadow-tongue" },
 ];

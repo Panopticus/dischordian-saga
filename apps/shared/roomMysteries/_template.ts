@@ -54,6 +54,29 @@ export interface RecordsActiveEdit {
   type: EditType;
 }
 
+/** Re-export so room-mystery authors can declare ST edits without
+ *  reaching past the module boundary. */
+export type EditType = import("../shadowTongueEdits").EditType;
+
+/** Author-side declaration that interacting with this verb-response
+ *  records a Shadow Tongue edit on a room artifact. The runtime
+ *  hooks this to `recordActiveEdit` on the epochWitness tRPC router
+ *  (apps/server/routers/epochWitness.ts) so the global
+ *  shadowTongueState.activeEdits column gets the entry.
+ *
+ *  Surfaced here (in the VerbResponse layer) so the data tells the
+ *  story — a writer reading archives.ts sees which Look response
+ *  records the lectern edit, and the runtime fires it without the
+ *  writer touching tRPC. */
+export interface RecordsActiveEdit {
+  /** Artifact slug within the room — `lectern`, `reactor-schematic`,
+   *  `starmap`, etc. The runtime composes `<roomId>_<artifact>` to
+   *  form the canonical edit id. */
+  artifact: string;
+  /** What kind of edit. See apps/shared/shadowTongueEdits.ts. */
+  type: EditType;
+}
+
 export const VERB_LIST: readonly Verb[] = ["look", "use", "talk"] as const;
 
 /** Elara's hidden-stability bands (mirrors companion.ts ElaraStabilityBand).

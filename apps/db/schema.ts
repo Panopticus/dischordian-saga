@@ -1801,6 +1801,101 @@ export const guildChat = mysqlTable("guild_chat", {
 export type GuildChatMessage = typeof guildChat.$inferSelect;
 
 /**
+ * Chat moderation — player-submitted reports against chat messages
+ * across any chat surface (currently guild_chat; extensible to
+ * spectator chat / DMs via the sourceType column). One row per
+ * reporter+message; the unique key blocks pile-on while still
+ * allowing different players to file independent reports against
+ * the same message (which is itself useful evidence).
+ *
+ * `messageSnapshot` is captured at report time so a moderator's
+ * queue still has the offending content even if the source row is
+ * later deleted (cascade-on-leave-guild for example). Status uses
+ * a small enum rather than free-form so admin queries don't have
+ * to defensively unparse.
+ */
+export const chatReports = mysqlTable("chat_reports", {
+  id: int("id").autoincrement().primaryKey(),
+  reporterUserId: int("reporterUserId").notNull(),
+  reportedUserId: int("reportedUserId").notNull(),
+  sourceType: mysqlEnum("sourceType", ["guild_chat"]).notNull().default("guild_chat"),
+  sourceMessageId: int("sourceMessageId").notNull(),
+  messageSnapshot: text("messageSnapshot").notNull(),
+  reason: mysqlEnum("reason", [
+    "harassment",
+    "hate_speech",
+    "spam",
+    "doxxing",
+    "other",
+  ]).notNull(),
+  notes: varchar("notes", { length: 500 }),
+  status: mysqlEnum("status", [
+    "open",
+    "reviewed",
+    "dismissed",
+    "actioned",
+  ]).notNull().default("open"),
+  /** Pipe-joined filter-flag string (e.g. "masked|caps") captured
+   *  at report time. Empty if the message had no automated flags
+   *  — a legitimate signal that the reporter saw something the
+   *  filter missed. */
+  filterFlagsAtReport: varchar("filterFlagsAtReport", { length: 128 }).notNull().default(""),
+  reviewedBy: int("reviewedBy"),
+  reviewedAt: timestamp("reviewedAt"),
+  reviewerNotes: varchar("reviewerNotes", { length: 500 }),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => ({
+  uniqReporterMessage: uniqueIndex("uq_chat_reports_reporter_msg").on(
+    table.reporterUserId,
+    table.sourceType,
+    table.sourceMessageId,
+  ),
+  idxStatus: index("idx_chat_reports_status").on(table.status),
+  idxReportedUser: index("idx_chat_reports_reported_user").on(table.reportedUserId),
+}));
+export type ChatReport = typeof chatReports.$inferSelect;
+
+/**
+ * Purchase grants — append-only ledger of fulfilled purchases.
+ *
+ * One row per fulfillment, written inside the same transaction as
+ * the actual reward grants (dream-token credits, card-pack inserts,
+ * ship-upgrade rows, etc). The unique key on `fulfillmentId` means:
+ *
+ *   - The ledger row CAN'T exist without the grants, because they're
+ *     in the same atomic transaction.
+ *   - The grants CAN'T be duplicated by a webhook retry, because the
+ *     caller checks for an existing ledger row before executing the
+ *     transaction body.
+ *
+ * Together these close the audit-flagged "user is charged but
+ * inventory is partial / duplicated" failure mode.
+ *
+ * `fulfillmentId` is the Stripe payment-intent id for paid flows, or
+ * a synthesised stable string for free / Dream-token / credits flows
+ * (`{kind}:{userId}:{productKey}:{Date.now()}`). The format is opaque
+ * to the consumer; only uniqueness and stability matter.
+ *
+ * `rewardSummary` is a small JSON snapshot of what was granted —
+ * purely audit candy, never read by the runtime. Useful for refund
+ * tooling and customer-support replay.
+ */
+export const purchaseGrants = mysqlTable("purchase_grants", {
+  id: int("id").autoincrement().primaryKey(),
+  fulfillmentId: varchar("fulfillmentId", { length: 256 }).notNull(),
+  userId: int("userId").notNull(),
+  productKey: varchar("productKey", { length: 128 }).notNull(),
+  quantity: int("quantity").notNull(),
+  rewardSummary: json("rewardSummary").$type<Record<string, number | string>>(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => ({
+  uniqFulfillment: uniqueIndex("uq_purchase_grants_fulfillment").on(table.fulfillmentId),
+  idxUserId: index("idx_purchase_grants_user").on(table.userId),
+  idxProductKey: index("idx_purchase_grants_product").on(table.productKey),
+}));
+export type PurchaseGrant = typeof purchaseGrants.$inferSelect;
+
+/**
  * Guild invites — pending invitations.
  */
 export const guildInvites = mysqlTable("guild_invites", {
@@ -1853,6 +1948,34 @@ export const guildWarContributions = mysqlTable("guild_war_contributions", {
   userIdIdx: index("idx_guild_war_contributions_user_id").on(table.userId),
 }));
 export type GuildWarContribution = typeof guildWarContributions.$inferSelect;
+
+/**
+ * Per-player progress on the 8 weekly guild contracts (F.2.1 / F.2.2
+ * cinematic surface). One row per (userId, weekId, contractId) — the
+ * weekId is the ISO 8601 week ("2026-W18") so progress resets cleanly
+ * at the Sunday→Monday UTC boundary without a destructive write. The
+ * uniq index makes incrementProgress an upsert candidate.
+ *
+ * progressCount counts source-events of the contract's matching type;
+ * once it crosses the template's targetCount, completeContract validates
+ * + sets completedAt and fires cs_contract_complete.
+ */
+export const guildContractProgress = mysqlTable("guild_contract_progress", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  weekId: varchar("weekId", { length: 16 }).notNull(),
+  contractId: varchar("contractId", { length: 64 }).notNull(),
+  progressCount: int("progressCount").notNull().default(0),
+  completedAt: timestamp("completedAt"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull().onUpdateNow(),
+}, (table) => ({
+  uniqUserWeekContract: uniqueIndex("uniq_guild_contract_user_week_contract").on(
+    table.userId, table.weekId, table.contractId,
+  ),
+  userWeekIdx: index("idx_guild_contract_user_week").on(table.userId, table.weekId),
+}));
+export type GuildContractProgress = typeof guildContractProgress.$inferSelect;
 
 /** Marketplace tax pool — accumulates taxes for guild wars and season prizes */
 export const marketTaxPool = mysqlTable("market_tax_pool", {
@@ -5426,3 +5549,40 @@ export const npcDialogTreeState = mysqlTable("npc_dialog_tree_state", {
   ),
 }));
 export type NpcDialogTreeStateRow = typeof npcDialogTreeState.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
+   DREAMER AWARENESS — silent-counter substrate for the dual-
+   faction recruitment system (D1 in
+   /root/.claude/plans/continue-your-qr-assessment-mighty-valley.md).
+
+   The Dreamer recruits covertly: specific player actions that
+   his agents notice raise the awareness counter. The counter
+   has no UI — players who notice they're being watched figure
+   it out from the coded vision cutscenes that fire at the four
+   Discordian thresholds {3, 7, 13, 23}.
+
+   Each tag fires at most once per user (the tagsFired pipe-joined
+   string is the dedupe set). Re-firing the same tag is a no-op,
+   so callers don't have to guard against double-trigger races.
+
+   Bootstrap: apps/server/services/dreamerAwarenessBootstrap.ts.
+   Tag catalog: apps/shared/dreamerAwarenessTags.ts.
+   Service: apps/server/services/dreamerAwareness.ts.
+   ═══════════════════════════════════════════════════════ */
+export const dreamerAwareness = mysqlTable("dreamer_awareness", {
+  userId: int("userId").primaryKey(),
+  /** Monotonic count. Sum of weights of every distinct tag fired. */
+  awarenessCount: int("awarenessCount").notNull().default(0),
+  /** Pipe-joined tag-id list. Used as the "tag has fired" dedupe set
+   *  so re-tagging is idempotent (cheap O(N) substring check at
+   *  service-call time; N is bounded by the catalog size in
+   *  apps/shared/dreamerAwarenessTags.ts). */
+  tagsFired: varchar("tagsFired", { length: 1024 }).notNull().default(""),
+  /** JSON array of vision ids the player has been delivered. The
+   *  vision system writes here on completion; Set semantics enforced
+   *  in the service. */
+  visionsReceived: json("visionsReceived").$type<string[]>(),
+  lastTagAt: timestamp("lastTagAt"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+export type DreamerAwarenessRow = typeof dreamerAwareness.$inferSelect;

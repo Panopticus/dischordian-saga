@@ -64,7 +64,7 @@ export default function LandscapeEnforcer({ children, forceRotate = false, messa
       <div
         className="fixed inset-0 z-[9999]"
         style={{
-          width: "100vh",
+          width: "100dvh",
           height: "100vw",
           transform: "rotate(90deg) translateY(-100%)",
           transformOrigin: "top left",
