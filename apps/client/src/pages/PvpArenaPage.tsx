@@ -78,6 +78,7 @@ export default function PvpArenaPage() {
   const [mySide, setMySide] = useState<"player1" | "player2">("player1");
   const [opponentName, setOpponentName] = useState("");
   const [opponentElo, setOpponentElo] = useState(0);
+  const [opponentUserId, setOpponentUserId] = useState<number | null>(null);
   const [queuePosition, setQueuePosition] = useState(0);
   const [playersInQueue, setPlayersInQueue] = useState(0);
   const [queueTime, setQueueTime] = useState(0);
@@ -130,6 +131,11 @@ export default function PvpArenaPage() {
   const allTraitBonuses = trpc.citizen.getAllTraitBonuses.useQuery(undefined, { enabled: isAuthenticated, retry: false, refetchOnWindowFocus: false });
   const pvpBonuses = allTraitBonuses.data?.pvp;
   const myLoadout = trpc.titles.getMyLoadout.useQuery(undefined, { enabled: isAuthenticated });
+  const opponentTitleQuery = trpc.titles.resolveEquippedTitles.useQuery(
+    { userIds: opponentUserId != null ? [opponentUserId] : [] },
+    { enabled: opponentUserId != null },
+  );
+  const opponentTitle = opponentUserId != null ? opponentTitleQuery.data?.[opponentUserId] ?? null : null;
 
   const claimRewards = trpc.pvp.claimSeasonRewards.useMutation({
     onSuccess: () => { mySeasonRecord.refetch(); },
@@ -237,6 +243,7 @@ export default function PvpArenaPage() {
           setMySide(msg.yourSide);
           setOpponentName(msg.opponentName);
           setOpponentElo(msg.opponentElo);
+          setOpponentUserId((msg as { opponentUserId?: number }).opponentUserId ?? null);
           if (audioReady) playSFX("turn_start");
           setTurnBannerText("MATCH FOUND!");
           setShowTurnBanner(true);
@@ -1126,6 +1133,11 @@ export default function PvpArenaPage() {
               <div className="text-center">
                 <p className="font-mono text-[10px] text-muted-foreground">OPPONENT</p>
                 <p className="font-mono text-sm">{opponentName}</p>
+                {opponentTitle && (
+                  <div className="mt-1">
+                    <TitlePill titleKey={opponentTitle.titleKey} size="xs" />
+                  </div>
+                )}
               </div>
               {myLoadout.data?.equippedTitleKey && (
                 <div className="text-center">

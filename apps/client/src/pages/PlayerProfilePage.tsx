@@ -5,6 +5,7 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import { generateStarterDeck } from "@/components/StarterDeckViewer";
 import { ROOM_EASTER_EGGS, getBonusCards } from "@/components/EasterEggs";
 import { ROOM_PUZZLES } from "@/components/PuzzleSystem";
+import { TitlePill } from "@/components/TitlePill";
 import { Link } from "wouter";
 import { motion } from "framer-motion";
 import {
@@ -151,6 +152,7 @@ export default function PlayerProfilePage() {
   const saveProgress = trpc.gameState.save.useMutation();
   const { data: serverData } = trpc.gameState.load.useQuery(undefined, { enabled: isAuthenticated });
   const { data: contentStats } = trpc.contentReward.stats.useQuery(undefined, { enabled: isAuthenticated });
+  const { data: myLoadout } = trpc.titles.getMyLoadout.useQuery(undefined, { enabled: isAuthenticated });
 
   // Compute all stats
   const stats = useMemo(() => {
@@ -283,6 +285,11 @@ export default function PlayerProfilePage() {
               <h2 className="font-display text-xl font-bold text-foreground">
                 {charInfo.name || "UNNAMED POTENTIAL"}
               </h2>
+              {myLoadout?.equippedTitleKey && (
+                <div className="mt-1">
+                  <TitlePill titleKey={myLoadout.equippedTitleKey} size="sm" />
+                </div>
+              )}
               <div className="flex flex-wrap gap-x-4 gap-y-1 mt-1">
                 <span className="font-mono text-xs text-primary">{speciesLabel}</span>
                 <span className="font-mono text-xs text-accent">{classLabel}</span>

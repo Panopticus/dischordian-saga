@@ -175,6 +175,7 @@ const PvpArenaPage = lazy(() => import("./pages/PvpArenaPage"));
 const TitlesPage = lazy(() => import("./pages/TitlesPage"));
 const ConspiracyBoardsPage = lazy(() => import("./pages/ConspiracyBoardsPage"));
 const GuildExpansionPage = lazy(() => import("./pages/GuildExpansionPage"));
+const Tier5PvpHubPage = lazy(() => import("./pages/Tier5PvpHubPage"));
 const DraftTournamentPage = lazy(() => import("./pages/DraftTournamentPage"));
 const CardTradingPage = lazy(() => import("./pages/CardTradingPage"));
 const CardAchievementsPage = lazy(() => import("./pages/CardAchievementsPage"));
@@ -362,6 +363,7 @@ function Router() {
         <Route path="/titles">{() => <Suspense fallback={null}><TitlesPage /></Suspense>}</Route>
         <Route path="/conspiracy">{() => <Suspense fallback={null}><ConspiracyBoardsPage /></Suspense>}</Route>
         <Route path="/guild-hall">{() => <Suspense fallback={null}><GuildExpansionPage /></Suspense>}</Route>
+        <Route path="/pvp-variants">{() => <Suspense fallback={null}><Tier5PvpHubPage /></Suspense>}</Route>
         <Route path="/draft">{() => <GameRoute component={DraftTournamentPage} />}</Route>
         <Route path="/trading" component={CardTradingPage} />
         <Route path="/card-achievements" component={CardAchievementsPage} />

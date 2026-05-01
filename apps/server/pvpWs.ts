@@ -114,7 +114,7 @@ type ClientMessage =
 type ServerMessage =
   | { type: "QUEUE_JOINED"; position: number }
   | { type: "QUEUE_UPDATE"; position: number; playersInQueue: number }
-  | { type: "MATCH_FOUND"; matchId: string; opponentName: string; opponentElo: number; yourSide: "player1" | "player2" }
+  | { type: "MATCH_FOUND"; matchId: string; opponentName: string; opponentUserId: number; opponentElo: number; yourSide: "player1" | "player2" }
   | { type: "GAME_STATE"; state: PvpBattleState }
   | { type: "ACTION_RESULT"; success: boolean; error?: string }
   | { type: "GAME_OVER"; winnerId: number; eloChange: number; newElo: number }
@@ -316,8 +316,8 @@ async function startMatch(p1: ConnectedPlayer, p2: ConnectedPlayer) {
   }
 
   // Notify players
-  send(p1.ws, { type: "MATCH_FOUND", matchId, opponentName: p2.userName, opponentElo: p2.elo, yourSide: "player1" });
-  send(p2.ws, { type: "MATCH_FOUND", matchId, opponentName: p1.userName, opponentElo: p1.elo, yourSide: "player2" });
+  send(p1.ws, { type: "MATCH_FOUND", matchId, opponentName: p2.userName, opponentUserId: p2.userId, opponentElo: p2.elo, yourSide: "player1" });
+  send(p2.ws, { type: "MATCH_FOUND", matchId, opponentName: p1.userName, opponentUserId: p1.userId, opponentElo: p1.elo, yourSide: "player2" });
 
   // Send initial game state
   send(p1.ws, { type: "GAME_STATE", state: getPlayerView(state, p1.userId) });

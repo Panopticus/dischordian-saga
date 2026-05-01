@@ -21,6 +21,7 @@ import {
   type Cohort,
 } from "@shared/pvpCohorts";
 import { getRarityTier, type Apprentice } from "@shared/apprentices";
+import { trpc } from "@/lib/trpc";
 
 const STORAGE_KEY = "dischordian:cohort";
 
@@ -42,6 +43,13 @@ export default function CohortPage() {
   const { state } = useGame();
   const apprentice = state.apprentice as Apprentice | null;
   const [cohort, setCohort] = useState<Cohort | null>(() => loadCohort());
+  const [reportedCohorts, setReportedCohorts] = useState<Set<number>>(() => {
+    try {
+      const raw = localStorage.getItem("dischordian:cohort_reported");
+      return new Set(raw ? JSON.parse(raw) : []);
+    } catch { return new Set(); }
+  });
+  const recordCompletion = trpc.apprenticeTrial.recordCompletion.useMutation();
 
   // Initialize cohort if apprentice is training and none exists
   useEffect(() => {
@@ -51,6 +59,34 @@ export default function CohortPage() {
       saveCohort(fresh);
     }
   }, [cohort, apprentice]);
+
+  // Tier 7: when a cohort concludes, post the completion to the
+  // server so apprentice-trial titles can grant. Idempotent client-
+  // side via reportedCohorts set; server is also idempotent on
+  // (userId, cohortNumber).
+  useEffect(() => {
+    if (!cohort || !apprentice) return;
+    if (cohort.status !== "concluded") return;
+    if (reportedCohorts.has(cohort.number)) return;
+    const playerMember = cohort.members.find((m) => m.isPlayer);
+    if (!playerMember) return;
+    const graduated = !!cohort.winner?.isPlayer;
+    const daySurvived = playerMember.alive ? 28 : (playerMember.dayFallen ?? 0);
+    recordCompletion.mutate({
+      cohortNumber: cohort.number,
+      apprenticeName: playerMember.apprenticeName,
+      archetype: playerMember.archetype,
+      graduated,
+      daySurvived,
+      cohortSize: cohort.members.length,
+    });
+    const next = new Set(reportedCohorts);
+    next.add(cohort.number);
+    setReportedCohorts(next);
+    try {
+      localStorage.setItem("dischordian:cohort_reported", JSON.stringify([...next]));
+    } catch { /* ignore */ }
+  }, [cohort?.status, cohort?.number]);
 
   // Sync cohort's currentDay with apprentice's trialDay
   useEffect(() => {

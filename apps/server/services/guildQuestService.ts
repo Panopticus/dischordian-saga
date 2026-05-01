@@ -15,6 +15,7 @@ import {
   guildQuestProgress,
   guildMembers,
   guilds,
+  pvpSeasons,
 } from "../../db/schema";
 import {
   GUILD_QUESTS,
@@ -194,7 +195,7 @@ export async function resetGuildQuestsForScope(
 ): Promise<number> {
   const db = await getDb();
   if (!db) return 0;
-  const anchor = anchorForScope(scope);
+  const anchor = await anchorForScope(scope);
   // Wipe progress + clear completedAt for every row matching scope's
   // quest keys whose resetAt is before the current window's anchor.
   const scopeKeys = GUILD_QUESTS.filter((q) => q.scope === scope).map((q) => q.questKey);
@@ -222,8 +223,15 @@ export async function resetGuildQuestsForScope(
   return scopeKeys.length;
 }
 
-/** Compute the anchor timestamp for a scope's current window. */
-function anchorForScope(scope: "daily" | "weekly" | "seasonal"): Date {
+/** Compute the anchor timestamp for a scope's current window.
+ *
+ * For seasonal scope, prefers the active pvp_seasons.startsAt when
+ * one exists; falls back to a 4-month synthetic anchor when no
+ * season row is active.
+ *
+ * Async because seasonal needs a DB read; daily / weekly stay pure.
+ */
+async function anchorForScope(scope: "daily" | "weekly" | "seasonal"): Promise<Date> {
   const now = new Date();
   if (scope === "daily") {
     return new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
@@ -236,8 +244,21 @@ function anchorForScope(scope: "daily" | "weekly" | "seasonal"): Date {
       now.getUTCDate() - (dayOfWeek - 1),
     ));
   }
-  // Seasonal — anchor to month boundaries (4-month seasons). Tier 5
-  // can refine this once pvpSeason boundaries are exposed.
+  // Seasonal — prefer the active pvpSeason's startsAt.
+  const db = await getDb();
+  if (db) {
+    try {
+      const rows = await db
+        .select()
+        .from(pvpSeasons)
+        .where(eq(pvpSeasons.isActive, 1))
+        .limit(1);
+      if (rows[0]?.startsAt) return new Date(rows[0].startsAt);
+    } catch {
+      /* fall through to synthetic anchor */
+    }
+  }
+  // Fallback: 4-month synthetic anchor.
   const seasonMonth = Math.floor(now.getUTCMonth() / 4) * 4;
   return new Date(Date.UTC(now.getUTCFullYear(), seasonMonth, 1));
 }
