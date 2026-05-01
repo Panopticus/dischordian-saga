@@ -108,6 +108,17 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
           source: "cipher-den",
           order: 1,
         },
+        // Mystery Engine binding — when Wraith Calder arc is the
+        // active case, the encrypted-correspondence cubbyholes
+        // also surface the Word and the Silence ledger entry.
+        // Lore match: this hotspot IS canonically Wraith's
+        // encrypted ledger with Vox; the Information Twins'
+        // ledger sits as a sibling page in the same archive.
+        mysteryBinding: {
+          mysteryId: "mystery.wraith_calder",
+          episodeId: "wraith.e2",
+          cluesFound: ["wraith.e2.fair_trade_ledger"],
+        },
         humanReaction: {
           narration: {
             shadow:

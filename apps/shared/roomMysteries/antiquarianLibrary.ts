@@ -70,6 +70,17 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           source: "antiquarian-library",
           order: 1,
         },
+        // Mystery Engine binding — when Wraith Calder arc is the
+        // active case, the locked vault surfaces the New Babylon
+        // customs manifest #4471. Lore match: the vault opens
+        // only to memory-witnessed records, and the manifest
+        // (sender unspecified, recipient "commons") is exactly
+        // the kind of record that resists the editor's reach.
+        mysteryBinding: {
+          mysteryId: "mystery.wraith_calder",
+          episodeId: "wraith.e2",
+          cluesFound: ["wraith.e2.cargo_manifest"],
+        },
       },
     },
     "antiquarian-bust": {
@@ -90,6 +101,21 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
             "The Antiquarian Library's bust depicts the Antiquarian at the moment of transition from listener to writer — eyebrows raised, mouth half-open. The library is, by the bust's testimony, his autobiography in architecture.",
           source: "antiquarian-library",
           order: 2,
+        },
+        // Mystery Engine binding — when Wraith Calder arc is the
+        // active case, the bust surfaces the marginalia clue.
+        // Lore match: the bust depicts the Antiquarian at the
+        // moment "a person stops being a listener and becomes a
+        // writer" — and the marginalia is a margin note in
+        // Wraith's pre-rite hand on a journal entry the
+        // Antiquarian wrote centuries after Wraith's "death."
+        // The Antiquarian listened, the Antiquarian wrote, and
+        // a different writer left a different signature in the
+        // margin. Two writers in one act of writing.
+        mysteryBinding: {
+          mysteryId: "mystery.wraith_calder",
+          episodeId: "wraith.e2",
+          cluesFound: ["wraith.e2.antiquarian_marginalia"],
         },
       },
     },
