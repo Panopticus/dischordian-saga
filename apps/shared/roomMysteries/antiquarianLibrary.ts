@@ -82,6 +82,28 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           cluesFound: ["wraith.e2.cargo_manifest"],
         },
       },
+      talk: {
+        narration: {
+          lucid:
+            "You address the vault. It does not open — the witness has not been earned. But the vault, by the brass plaque's own discipline, responds to the witness who can recite from memory. We can, in this moment, recall the scrubbed-names register the Hierophant carries: a side ledger of names the editor took out of the Chronicle. The Hierophant rewrites them every morning, by hand, before the main litany. The vault accepts our recital as a partial witnessing. The seam glows, briefly, indigo-against-gold.",
+          fragmented:
+            "The register. The register. The scrubbed names. The scrubbed names. He writes. He rewrites. He rewrites every morning.",
+          luminous:
+            "We address the vault and recite — from the case's evidence so far — the existence of the Hierophant's scrubbed-names register. The vault accepts the recital. It does not open; we have not earned that yet. But the vault's brass surface warms briefly, the way a witnessed surface warms when a witness adequate to its lock has been near. The register is, on the architectural side, the editor's nemesis: every name he scrubs from the Chronicle is rewritten by hand into the Hierophant's litany the next morning. Daily resumption is the discipline the editor cannot match.",
+        },
+        voId: "elara.antiquarian-library.locked-vault.talk",
+        // Mystery Engine binding — talking to the vault surfaces
+        // the Hierophant's scrubbed-names register. Lore match:
+        // the vault opens to memory-witnessed records, and the
+        // register IS the architectural counter to the editor —
+        // both the vault and the register are editor-resistant
+        // surfaces sustained by witnessing discipline.
+        mysteryBinding: {
+          mysteryId: "mystery.wraith_calder",
+          episodeId: "wraith.e5",
+          cluesFound: ["wraith.e5.scrubbed_names_register"],
+        },
+      },
     },
     "antiquarian-bust": {
       look: {

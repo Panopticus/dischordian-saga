@@ -49,6 +49,28 @@ export const ORACLE_SANCTUM_MYSTERY: RoomMysteryModule<OracleSanctumHotspotId> =
           cluesFound: ["wraith.e4.sanctuary_log"],
         },
       },
+      talk: {
+        narration: {
+          lucid:
+            "You address the pool. It does not answer in words — but the water's surface produces, briefly, a single image: a brass-edged card held up by a hand you recognise as the Hierophant's. The card reads 'I write these names in expectation of a reader. The reader is the Oracle. The Oracle is not yet present. The Oracle will return.' The card is signed Wraith Calder. The image fades. The pool is still.",
+          fragmented:
+            "The card. The card. The reader. The reader. The Oracle. The Oracle will return. The Oracle will return.",
+          luminous:
+            "The pool surfaces the Hierophant's invocation card. He raises it before each morning's inscription — a wordless request for a reader who is awaited but will not be summoned. The card is, on the legal side of the canon, a witnessing document: it names the Oracle as the awaited recipient of the litany without making any move to compel her presence. He waits. He does not coerce the wait. The pool, on this morning, has chosen to show us this.",
+        },
+        voId: "elara.oracle-sanctum.oracle-pool.talk",
+        // Mystery Engine binding — talking to the pool surfaces
+        // the Hierophant's Oracle-invocation card. Lore match: the
+        // pool is an aperture for what the witness brings; the
+        // player carries the question of the rite's purpose, and
+        // the pool answers by showing the invocation card — the
+        // canonical Oracle-is-awaited assertion.
+        mysteryBinding: {
+          mysteryId: "mystery.wraith_calder",
+          episodeId: "wraith.e5",
+          cluesFound: ["wraith.e5.oracle_invocation"],
+        },
+      },
     },
     "prophecy-tablet": {
       look: {
@@ -79,6 +101,27 @@ export const ORACLE_SANCTUM_MYSTERY: RoomMysteryModule<OracleSanctumHotspotId> =
           mysteryId: "mystery.wraith_calder",
           episodeId: "wraith.e1",
           cluesFound: ["wraith.e1.hierophant_ceremony"],
+        },
+      },
+      talk: {
+        narration: {
+          lucid:
+            "You face the prophecy-tablet. It does not respond — it never has. But the tablet is the surface on which the litany is written every morning. If you stand near it long enough, you can feel the rhythm of the work the Hierophant does at dawn: a stylus, a name, a pause, a stylus, a name. We are watching, in a way the room permits, the daily litany take shape.",
+          fragmented:
+            "Stylus. Name. Pause. Stylus. Name. Stylus. Name. Stylus. Name. The litany. The litany. The litany.",
+          luminous:
+            "We address the tablet. The room — without speaking — surfaces in our awareness the chronological span of the litany. 347,000 names. The earliest are from the end of Epoch 1. The latest are from yesterday. The same hand has written every entry. The pen is a stylus; the ink is, by the room's slow disclosure, the Hierophant's own blood thinned with phosphor-lavender Thalorian sap. He is, even now, somewhere in the Sanctuary, working.",
+        },
+        voId: "elara.oracle-sanctum.prophecy-tablet.talk",
+        // Mystery Engine binding — talking to the prophecy-tablet
+        // surfaces the 347,000-name daily litany clue. Lore match:
+        // the tablet's writing-and-erasure pattern across thousands
+        // of readings IS the daily litany; talking surfaces the
+        // chronological span and the ink-as-blood detail.
+        mysteryBinding: {
+          mysteryId: "mystery.wraith_calder",
+          episodeId: "wraith.e5",
+          cluesFound: ["wraith.e5.daily_litany"],
         },
       },
     },
@@ -113,6 +156,28 @@ export const ORACLE_SANCTUM_MYSTERY: RoomMysteryModule<OracleSanctumHotspotId> =
           mysteryId: "mystery.wraith_calder",
           episodeId: "wraith.e4",
           cluesFound: ["wraith.e4.thalorian_vessel"],
+        },
+      },
+      talk: {
+        narration: {
+          lucid:
+            "You address the brazier. The smoke parts briefly, organising into a shape: a hand offering a stylus. The hand is the Hierophant's, the offer is wordless, and the gesture holds for as long as you watch. Whoever attends his ceremony on the right morning is offered, in turn, the chance to inscribe one name. The brazier is, in this moment, showing us that the offer is real. We have not yet attended.",
+          fragmented:
+            "The stylus. The stylus. The hand. The hand. The hand. He offers. He offers. He offers.",
+          luminous:
+            "The brazier surfaces the stylus offer. On the morning a witness attends the Hierophant's ceremony, he pauses mid-litany and extends the stylus. The choice is whose name to inscribe; the offer is wordless; the trust is — as the bible's pre-rite trust bands persist into post-rite trust — the same trust we have been earning, in this case, for the entire arc. He has been waiting for a witness willing to share one morning of the work. We will, when we are ready, attend.",
+        },
+        voId: "elara.oracle-sanctum.incense-brazier.talk",
+        // Mystery Engine binding — talking to the brazier surfaces
+        // the Hierophant's stylus offer. Lore match: the brazier
+        // shapes its smoke into the offer-image; the offer is the
+        // arc's resolution invitation, and the smoke (which falls
+        // into the pool, which is the witness-aperture) is the
+        // ritual surface where the offer becomes legible.
+        mysteryBinding: {
+          mysteryId: "mystery.wraith_calder",
+          episodeId: "wraith.e5",
+          cluesFound: ["wraith.e5.stylus_offer"],
         },
       },
     },
