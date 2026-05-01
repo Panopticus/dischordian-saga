@@ -462,7 +462,7 @@
   {
     "id": "greenshaw_quarantine_001",
     "speaker": "greenshaw",
-    "voiceId": "TODO_greenshaw_voice_id",
+    "voiceId": "3mIhiq6tiA6my4Lrlmo6",
     "manifest": "greenshaw",
     "text": "Held. You will not move.",
     "context": "F.4.8 light cs_sig_8 — Warden Greenshaw casts Quarantine (Locks, Umbra House)",
@@ -472,7 +472,7 @@
   {
     "id": "greenshaw_virus_001",
     "speaker": "greenshaw",
-    "voiceId": "TODO_greenshaw_voice_id",
+    "voiceId": "3mIhiq6tiA6my4Lrlmo6",
     "manifest": "greenshaw",
     "text": "Held. And contagious.",
     "context": "F.4.8 dark cs_sig_8 — Thought Virus corruption variant, retrograde organ in bed",
@@ -482,7 +482,7 @@
   {
     "id": "vex_rewrite_001",
     "speaker": "vex",
-    "voiceId": "TODO_vex_voice_id",
+    "voiceId": "VqLes8TiojDcyMsPA12c",
     "manifest": "vex",
     "text": "House rules. For this turn.",
     "context": "F.4.9 light cs_sig_9 — Professor Vex casts Rule Rewrite (Grey Gamers, Liminal House)",
@@ -492,7 +492,7 @@
   {
     "id": "vex_houserules_001",
     "speaker": "vex",
-    "voiceId": "TODO_vex_voice_id",
+    "voiceId": "VqLes8TiojDcyMsPA12c",
     "manifest": "vex",
     "text": "House rules. From now on. Forever.",
     "context": "F.4.9 dark cs_sig_9 — House Rules corruption variant, tape-warble bed",
@@ -502,7 +502,7 @@
   {
     "id": "vasara_breath_001",
     "speaker": "vasara",
-    "voiceId": "TODO_vasara_voice_id",
+    "voiceId": "tMUaUz43q44M8j1AYkq0",
     "manifest": "vasara",
     "text": "Again. Not finished.",
     "context": "F.4.10 light cs_sig_10 — Dr. Vasara casts Second Breath (Living, Ironflight House)",
@@ -512,7 +512,7 @@
   {
     "id": "vasara_borrowed_001",
     "speaker": "vasara",
-    "voiceId": "TODO_vasara_voice_id",
+    "voiceId": "tMUaUz43q44M8j1AYkq0",
     "manifest": "vasara",
     "text": "Again. At their cost.",
     "context": "F.4.10 dark cs_sig_10 — Borrowed Time corruption variant, parallel detuned cello in bed",
@@ -602,7 +602,7 @@
   {
     "id": "vex_oracle_001",
     "speaker": "vex",
-    "voiceId": "TODO_vex_voice_id",
+    "voiceId": "VqLes8TiojDcyMsPA12c",
     "manifest": "vex",
     "text": "The pool sees what is. Drink carefully.",
     "context": "F.5.3.a cs_signature_room_unlock_oracle_pool — Oracle Pool first reveal",
