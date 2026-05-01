@@ -2,38 +2,132 @@
 /* Emit the apps/shared/expansionArt/album5Slideshows.ts manifest from
    /tmp/album5/upload-inventory.json. Re-runnable on producer redrop.
 
-   Mirrors scripts/_gen-album1-manifest.mjs and _gen-album2-manifest.mjs —
-   same shape, but Album 5 ("West by God") is an album-movie at a
-   different resolution (2752×1536) with a 3-act movie structure
-   rather than the 5-act split that Albums 1 and 2 use. Per-track
-   titles + act buckets per the producer's MANIFEST.md (April 2026
-   drop). */
+   Album 5 — "Silence in Heaven" — has a richer schema than the other
+   albums:
+     - 37 tracks (alternating dialog/song; odd = dialog, even = song)
+     - 552 track frames + 20 narrator portraits + 18 dialog backgrounds
+     - Maps directly onto Book of Revelation chapters 1-22
+     - Two narrators: The Antiquarian (10 expressions) + The Storyteller
+       (10 expressions)
+     - Lowercase frame naming convention (sih_t01_f01.png; no
+       _00_title.png suffix like Albums 1/2/3/4 use)
+
+   Note on numbering: the producer drop's filename is
+   `SilenceInHeaven_Album6_Complete.zip`, but the canonical album
+   ordering per the saga is Album 5 — the producer label was a
+   working number that didn't survive the final ordering. We keep
+   the producer's literal zip filename in the source-attribution
+   comment but use the canonical "Album 5" everywhere else.
+
+   The manifest models the song/dialog discriminator + the narrator and
+   background catalogs as auxiliary exports. Track-level frameRelPaths
+   stays compatible with the slideshow renderer that consumes the other
+   albums. */
 import { readFile, writeFile } from "node:fs/promises";
 
 const TRACK_TITLES = {
-  T01: "We Are Not Okay",
-  T02: "Medicated",
-  T03: "Hypnotized",
-  T04: "It Ain't Illegal (...Yet)",
-  T05: "Monuments",
-  T06: "Damned for Sure",
-  T07: "It Ain't Been the Same (Born Under a Bad Sign)",
-  T08: "On the Road",
-  T09: "The Death of Music",
-  T10: "Yes I Do (Dream)",
+  T01: "In the Beginning was the Word",
+  T02: "New Babylon Goddamn",
+  T03: "A Spark That Cannot Be Silenced",
+  T04: "Letters to the Remnant",
+  T05: "A Conspiracy of Hope",
+  T06: "Turn Back",
+  T07: "The Door That Was Shut",
+  T08: "Worthy",
+  T09: "Not a Lion but a Lamb",
+  T10: "Behold...",
+  T11: "And the World Adjusted",
+  T12: "Plead the Fifth",
+  T13: "How Long",
+  T14: "The Two Witnesses",
+  T15: "And the Empire Celebrated",
+  T16: "The Trumpets",
+  T17: "A Third of the World",
+  T18: "They Would Not Repent",
+  T19: "The Lie that Looks Like the Truth",
+  T20: "False Prophet",
+  T21: "Here is Wisdom",
+  T22: "Sixth Sense",
+  T23: "Breath Between Judgments",
+  T24: "Silence in Heaven",
+  T25: "The Resurrection Glitch",
+  T26: "The Mark",
+  T27: "The Sorting of Souls",
+  T28: "The Harvest",
+  T29: "The Final Measure",
+  T30: "It is Done",
+  T31: "The Lament of Kings and Merchants",
+  T32: "The Fall of New Babylon",
+  T33: "Heaven Stands Open",
+  T34: "Faithful and True",
+  T35: "Make All Things New",
+  T36: "The Final Truth",
+  T37: "The Story is Yours Now",
 };
 
-// Three-act movie structure derived from the producer manifest's
-// thematic groupings:
-//   Act I (Setup):           T01-T03 — Awakening, medicated, first contact
-//   Act II (Confrontation):  T04-T07 — Hacking → monuments → backstory
-//   Act III (Resolution):    T08-T10 — Road → BABEL → epilogue
-// Encoded as 1 | 2 | 3; the manifest interface keeps the same 1..5
-// type so consumers can union-merge with Album 1 / 2 act fields.
-const TRACK_ACT = {
-  T01: 1, T02: 1, T03: 1,
-  T04: 2, T05: 2, T06: 2, T07: 2,
-  T08: 3, T09: 3, T10: 3,
+// 3-act structure mapped onto Revelation:
+//   ACT I  (The Throne Room): T01-T10  (Rev 1-8)
+//   ACT II (The War):         T11-T24  (Rev 8-14)
+//   ACT III(The Harvest):     T25-T37  (Rev 15-22)
+const TRACK_ACT = {};
+for (let n = 1; n <= 37; n++) {
+  const id = `T${String(n).padStart(2, "0")}`;
+  TRACK_ACT[id] = n <= 10 ? 1 : n <= 24 ? 2 : 3;
+}
+
+// Odd tracks are dialog, even are song — confirmed by the producer
+// manifest's per-track type column. Hand-overrides in case the rule
+// breaks for any future drop:
+const TRACK_KIND = {};
+for (let n = 1; n <= 37; n++) {
+  const id = `T${String(n).padStart(2, "0")}`;
+  TRACK_KIND[id] = n % 2 === 1 ? "dialog" : "song";
+}
+
+const NARRATOR_PORTRAITS = {
+  // The Antiquarian — old Programmer; Chronicle book; gold embroidery.
+  sih_antiq_archive: { narrator: "antiquarian", expression: "archive" },
+  sih_antiq_argue:   { narrator: "antiquarian", expression: "argue" },
+  sih_antiq_awe:     { narrator: "antiquarian", expression: "awe" },
+  sih_antiq_concede: { narrator: "antiquarian", expression: "concede" },
+  sih_antiq_dread:   { narrator: "antiquarian", expression: "dread" },
+  sih_antiq_grief:   { narrator: "antiquarian", expression: "grief" },
+  sih_antiq_neutral: { narrator: "antiquarian", expression: "neutral" },
+  sih_antiq_peace:   { narrator: "antiquarian", expression: "peace" },
+  sih_antiq_warn:    { narrator: "antiquarian", expression: "warn" },
+  sih_antiq_wry:     { narrator: "antiquarian", expression: "wry" },
+  // The Storyteller — old Black woman, multicolor duster, gold cross.
+  sih_story_broken:    { narrator: "storyteller", expression: "broken" },
+  sih_story_challenge: { narrator: "storyteller", expression: "challenge" },
+  sih_story_defiant:   { narrator: "storyteller", expression: "defiant" },
+  sih_story_fire:      { narrator: "storyteller", expression: "fire" },
+  sih_story_grief:     { narrator: "storyteller", expression: "grief" },
+  sih_story_joy:       { narrator: "storyteller", expression: "joy" },
+  sih_story_knowing:   { narrator: "storyteller", expression: "knowing" },
+  sih_story_tender:    { narrator: "storyteller", expression: "tender" },
+  sih_story_triumph:   { narrator: "storyteller", expression: "triumph" },
+  sih_story_witness:   { narrator: "storyteller", expression: "witness" },
+};
+
+const DIALOG_BACKGROUNDS = {
+  sih_bg_agora:             "Public debate space, holographic screens",
+  sih_bg_altar:             "Golden altar, incense rising",
+  sih_bg_antechamber:       "Waiting room before the throne",
+  sih_bg_bowls:             "Plague ships, toxic harbor",
+  sih_bg_empty:             "Empty stage, final curtain",
+  sih_bg_gate:              "Pearl gate, new city entrance",
+  sih_bg_harvest:           "Golden wheat field, sickle moon",
+  sih_bg_newearth:          "Renewed earth, river of life",
+  sih_bg_resurrection:      "Digital resurrection chamber",
+  sih_bg_sanctuary:         "Hidden resistance church, candlelight",
+  sih_bg_seals:             "Seal-breaking chamber, scroll fragments",
+  sih_bg_shore:             "Crystal sea shore, aftermath",
+  sih_bg_silence:           "The half-hour silence, empty cosmos",
+  sih_bg_street:            "New Babylon street level, neon",
+  sih_bg_throne:            "Cosmic throne room, emerald rainbow",
+  sih_bg_trumpet_broadcast: "Broadcast tower, trumpet frequency",
+  sih_bg_void:              "Pre-creation void, swirling dark matter",
+  sih_bg_wisdom:            "Library of forbidden knowledge",
 };
 
 const inv = JSON.parse(await readFile("/tmp/album5/upload-inventory.json", "utf8"));
@@ -47,73 +141,100 @@ for (const e of inv) {
   byTrack.get(trackId).push(e.rel.split("/")[1]);
 }
 
-// Numeric beat-order sort: title card first, then numbered frames.
+// Frame sort: producer files are `sih_t<nn>_f<NN>.png`. Numeric sort
+// on the f<NN> part yields beat-correct ordering.
 function frameSortKey(name) {
-  const titleMatch = /_(\d+)_title\.png$/.exec(name);
-  if (titleMatch) return [0, parseInt(titleMatch[1], 10)];
-  const numMatch = /_(\d+)\.png$/.exec(name);
-  if (numMatch) return [1, parseInt(numMatch[1], 10)];
-  return [2, 0];
+  const m = /_f(\d+)\.png$/.exec(name);
+  return m ? parseInt(m[1], 10) : 9999;
 }
 for (const list of byTrack.values()) {
-  list.sort((a, b) => {
-    const ka = frameSortKey(a);
-    const kb = frameSortKey(b);
-    return ka[0] - kb[0] || ka[1] - kb[1];
-  });
+  list.sort((a, b) => frameSortKey(a) - frameSortKey(b));
 }
 
 const tracks = [...byTrack.keys()].sort();
 
 const lines = [];
 lines.push("/* ═══════════════════════════════════════════════════════");
-lines.push("   ALBUM 5 — WEST BY GOD · SLIDESHOW MANIFEST");
+lines.push("   ALBUM 5 — SILENCE IN HEAVEN · SLIDESHOW MANIFEST");
 lines.push("");
 lines.push("   Source: producer drop");
-lines.push("   s3://dgrsart/Album Slide Show/WestByGod_Album5_Complete.zip");
-lines.push("   (2026-04-29). 10 tracks · 200 frames · 2752×1536 16:9");
-lines.push("   cinematic widescreen — Cowboy Bebop × Cyberpunk Edgerunners");
-lines.push("   × Afro Samurai. Era bridge: Age of Privacy → Age of");
-lines.push("   Revelation (~17,020-17,030 A.A.). Album-movie format —");
-lines.push("   a single continuous narrative across 10 chapters rather");
-lines.push("   than the 5-act split Albums 1 and 2 use.");
+lines.push("   s3://dgrsart/Album Slide Show/SilenceInHeaven_Album6_Complete.zip");
+lines.push("   (2026-04-29). 37 tracks · 552 track frames · 20 narrator");
+lines.push("   portraits · 18 dialog backgrounds · 2752×1536 16:9 cinematic");
+lines.push("   widescreen, cel-shaded anime — Afro Samurai × Cowboy Bebop ×");
+lines.push("   Satoshi Kon. Era: Age of Revelation.");
+lines.push("");
+lines.push("   Note on numbering: the producer-side filename calls this");
+lines.push("   \"Album 6\" (SilenceInHeaven_Album6_Complete.zip), but the");
+lines.push("   canonical ordering per the saga is Album 5 — the producer");
+lines.push("   label was a working number that didn't survive the final");
+lines.push("   ordering. We keep the producer's literal zip filename in");
+lines.push("   the attribution comment but use Album 5 everywhere else.");
+lines.push("");
+lines.push("   Scripture mapping: Book of Revelation chapters 1-22.");
+lines.push("");
+lines.push("   The album is structured as alternating dialog and song tracks:");
+lines.push("   odd-numbered tracks are dialog (narrated scenes with portrait +");
+lines.push("   background composite); even-numbered tracks are song (frame");
+lines.push("   slideshows similar to Albums 1/2/3/4). The slideshow renderer");
+lines.push("   can consume `frameRelPaths` uniformly for both kinds; consumers");
+lines.push("   that want the dialog composite system can read `kind` and pull");
+lines.push("   `ALBUM5_NARRATOR_PORTRAITS` + `ALBUM5_DIALOG_BACKGROUNDS`.");
+lines.push("");
+lines.push("   3-act structure:");
+lines.push("     Act I  (The Throne Room):  T01-T10  Rev 1-8");
+lines.push("     Act II (The War):          T11-T24  Rev 8-14");
+lines.push("     Act III(The Harvest):      T25-T37  Rev 15-22");
+lines.push("");
+lines.push("   Two narrators (10 expressions each):");
+lines.push("     The Antiquarian — old Programmer; Chronicle book.");
+lines.push("     The Storyteller — old Black woman, gold cross, mic stand.");
 lines.push("");
 lines.push("   PNG → WebP @ q85 on upload. Files served from:");
 lines.push("     cdn/client-public/art/slideshows/album5/T<NN>/<file>.webp");
-lines.push("");
-lines.push("   Layout mirrors the producer zip 1:1. Per-track titles +");
-lines.push("   3-act movie buckets per the producer's MANIFEST.md and");
-lines.push("   MASTER_BIBLE_NOTES.md.");
-lines.push("");
-lines.push("   Hidden-lore reveals visualised in the frames (per the");
-lines.push("   producer's MASTER_BIBLE_NOTES.md — surface as Loredex");
-lines.push("   unlock-condition gates, NOT as overt UI text):");
-lines.push("     - The Programmer (Daniel Cross) IS the Antiquarian");
-lines.push("       across time.");
-lines.push("     - Malkia Ukweli IS The Enigma — the artist-as-character.");
-lines.push("     - The Ark is a plague ship — Thought Virus in life");
-lines.push("       support and water.");
-lines.push("     - The number 47 is the Warlord's signature, planted");
-lines.push("       throughout the album.");
-lines.push("     - The Meme is hiding as the White Oracle after the Fall.");
-lines.push("     - The Engineer was mind-swapped into Agent Zero's body.");
-lines.push("     - The player lives in the ship Kael stole — Inception");
-lines.push("       Ark 1047.");
-lines.push("     - Player designation is Prisoner 74 (not Subject Zero).");
+lines.push("     cdn/client-public/art/slideshows/album5/narrators/<file>.webp");
+lines.push("     cdn/client-public/art/slideshows/album5/bg/<file>.webp");
 lines.push("");
 lines.push("   Lore-direct anchors for the Dreamer-recruitment plan");
 lines.push("   (/root/.claude/plans/continue-your-qr-assessment-mighty-valley.md):");
-lines.push("     - T03 Hypnotized — first contact between The Programmer");
-lines.push("       and The Enigma; canonical Dreamer-side relay imagery.");
-lines.push("     - T07 Born Under a Bad Sign — the Programmer's");
-lines.push("       Appalachian backstory + confession; resonance with the");
-lines.push("       \"who the Architect chose vs who the Dreamer chose\"");
-lines.push("       fork.");
-lines.push("     - T09 The Death of Music — BABEL tower assault,");
-lines.push("       broadcast override; perfect frame source for vision");
-lines.push("       threshold ≥13 (Hidden Hand) given the substrate motif.");
-lines.push("     - T10 Yes I Do (Dream) — epilogue foreshadowing the");
-lines.push("       Antiquarian; the natural climactic vision (≥23).");
+lines.push("     - The Antiquarian narrates this album. Album 4's bible");
+lines.push("       confirms Antiquarian = old Programmer (Daniel Cross).");
+lines.push("       The Antiquarian portraits here are the canonical");
+lines.push("       Architect-side narrator face when used in vision");
+lines.push("       cutscenes (B1 in the plan).");
+lines.push("     - T14 \"The Two Witnesses\"  — direct match for the");
+lines.push("       \"Architect / Dreamer dual recruitment\" frame. Either");
+lines.push("       Programmer + Enigma OR Architect + Dreamer can read.");
+lines.push("       Strong vision-≥13 candidate.");
+lines.push("     - T19 \"The Lie that Looks Like the Truth\" — surveillance");
+lines.push("       / Meme / false-prophet motif. Vision-≥7 candidate.");
+lines.push("     - T24 \"Silence in Heaven\" — title track. Half-hour");
+lines.push("       silence. The Dreamer's signature is silence; this");
+lines.push("       track is the album's name and the Dreamer's anthem.");
+lines.push("       Strong vision-≥23 candidate.");
+lines.push("     - T36 \"The Final Truth\" + T37 \"The Story is Yours Now\"");
+lines.push("       — finale + epilogue. Producer's easter-egg list");
+lines.push("       includes \"The Third Chair\" (T36 F15) inviting the");
+lines.push("       audience to continue the story — a literal");
+lines.push("       fourth-wall recruitment moment.");
+lines.push("");
+lines.push("   Producer-flagged easter eggs (surface as Loredex unlocks");
+lines.push("   via discoveryFlags or first-discoverer registry):");
+lines.push("     - T36 final: Soft Pink Goggles (only color shift in");
+lines.push("       the entire album).");
+lines.push("     - T34 F11: The Necromancer's Choice — only Archon who");
+lines.push("       chose rebellion.");
+lines.push("     - T36 F15: The Third Chair — fourth-wall invitation.");
+lines.push("     - T36 F17: The Golden Spark — first-and-last eternal");
+lines.push("       light, emotional capstone.");
+lines.push("     - T26: The Transparent Remnant — those who DECLINED");
+lines.push("       become invisible to the empire.");
+lines.push("     - T30: The Source's Bowl-Ships — \"the man the empire");
+lines.push("       made, now the empire receives its own creation.\"");
+lines.push("     - T34 F19: Real Sky — first time people see actual");
+lines.push("       stars, dome gone forever.");
+lines.push("     - T36 F12: The Chronicle Passes — left on a coffee shop");
+lines.push("       table for the next reader.");
 lines.push("");
 lines.push("   Generator: scripts/_gen-album5-manifest.mjs (re-run after");
 lines.push("   any producer redrop).");
@@ -125,15 +246,25 @@ lines.push("");
 lines.push("export type Album5TrackId =");
 lines.push(tracks.map((t) => `  | "${t}"`).join("\n") + ";");
 lines.push("");
+lines.push("/** Track kind: alternating per the producer's structure. */");
+lines.push("export type Album5TrackKind = \"song\" | \"dialog\";");
+lines.push("");
+lines.push("/** Narrator identity for dialog-track portraits. */");
+lines.push("export type Album5NarratorId = \"antiquarian\" | \"storyteller\";");
+lines.push("");
 lines.push("export interface Album5TrackDef {");
 lines.push("  id: Album5TrackId;");
 lines.push("  title: string;");
-lines.push("  /** 1..3, mapping the producer manifest's three-act movie");
-lines.push("   *  structure. Type stays compatible with Album 1 / 2's");
-lines.push("   *  1..5 act union so consumers can merge across albums. */");
+lines.push("  /** 1..3, mapping the Revelation-arc act split. Type stays");
+lines.push("   *  compatible with the other album manifests' 1..5 union. */");
 lines.push("  act: 1 | 2 | 3 | 4 | 5;");
-lines.push("  /** Frame relPaths in producer order — title card first,");
-lines.push("   *  then numbered beats. Album 5 has no alt-take siblings. */");
+lines.push("  /** Track type. Dialog tracks expect a narrator portrait +");
+lines.push("   *  background composite at runtime; song tracks are pure");
+lines.push("   *  slideshow. */");
+lines.push("  kind: Album5TrackKind;");
+lines.push("  /** Frame relPaths in producer order. Numbered f01..f<N>;");
+lines.push("   *  Album 5's producer naming is `sih_t<nn>_f<NN>.png` rather");
+lines.push("   *  than the `T<NN>_<NN>.png` Albums 1/2/3/4 use. */");
 lines.push("  frameRelPaths: readonly string[];");
 lines.push("}");
 lines.push("");
@@ -144,6 +275,7 @@ for (const t of tracks) {
   lines.push(`    id: "${t}",`);
   lines.push(`    title: ${JSON.stringify(TRACK_TITLES[t] ?? t)},`);
   lines.push(`    act: ${TRACK_ACT[t]},`);
+  lines.push(`    kind: ${JSON.stringify(TRACK_KIND[t])},`);
   lines.push("    frameRelPaths: [");
   for (const f of frames) {
     const webp = f.replace(/\.png$/u, ".webp");
@@ -154,19 +286,61 @@ for (const t of tracks) {
 }
 lines.push("];");
 lines.push("");
-lines.push("/* Tracks expose a frame-array per entry rather than a single path,");
-lines.push("   so the manifest helper's urlOf can't be reused as-is. We still take");
-lines.push("   the byId map + byField filter from it; the per-frame resolver");
-lines.push("   stays bespoke (it's a frame-N array index, not a field lookup). */");
-lines.push("const ALBUM5_MANIFEST = makeAssetManifest(ALBUM5_TRACKS, \"id\", \"title\");");
+lines.push("/* ─── Narrator portrait catalog (10 Antiquarian + 10 Storyteller) ─── */");
 lines.push("");
-lines.push("/** Resolve a track's title-card URL (the first frame). */");
+lines.push("export type Album5PortraitId =");
+const portraitIds = Object.keys(NARRATOR_PORTRAITS).sort();
+lines.push(portraitIds.map((p) => `  | "${p}"`).join("\n") + ";");
+lines.push("");
+lines.push("export interface Album5Portrait {");
+lines.push("  id: Album5PortraitId;");
+lines.push("  narrator: Album5NarratorId;");
+lines.push("  expression: string;");
+lines.push("  relPath: string;");
+lines.push("}");
+lines.push("");
+lines.push("export const ALBUM5_NARRATOR_PORTRAITS: readonly Album5Portrait[] = [");
+for (const p of portraitIds) {
+  const meta = NARRATOR_PORTRAITS[p];
+  lines.push(`  { id: "${p}", narrator: "${meta.narrator}", expression: ${JSON.stringify(meta.expression)}, relPath: "art/slideshows/album5/narrators/${p}.webp" },`);
+}
+lines.push("];");
+lines.push("");
+lines.push("/* ─── Dialog background catalog (18 environments) ─── */");
+lines.push("");
+lines.push("export type Album5BackgroundId =");
+const bgIds = Object.keys(DIALOG_BACKGROUNDS).sort();
+lines.push(bgIds.map((b) => `  | "${b}"`).join("\n") + ";");
+lines.push("");
+lines.push("export interface Album5Background {");
+lines.push("  id: Album5BackgroundId;");
+lines.push("  description: string;");
+lines.push("  relPath: string;");
+lines.push("}");
+lines.push("");
+lines.push("export const ALBUM5_DIALOG_BACKGROUNDS: readonly Album5Background[] = [");
+for (const b of bgIds) {
+  lines.push(`  { id: "${b}", description: ${JSON.stringify(DIALOG_BACKGROUNDS[b])}, relPath: "art/slideshows/album5/bg/${b}.webp" },`);
+}
+lines.push("];");
+lines.push("");
+lines.push("/* ─── Lookup helpers (parity with Album 1/2/3/4) ─── */");
+lines.push("");
+lines.push("const ALBUM5_MANIFEST = makeAssetManifest(ALBUM5_TRACKS, \"id\", \"title\");");
+lines.push("const ALBUM5_PORTRAITS_BY_ID = new Map<Album5PortraitId, Album5Portrait>(");
+lines.push("  ALBUM5_NARRATOR_PORTRAITS.map((p) => [p.id, p]),");
+lines.push(");");
+lines.push("const ALBUM5_BACKGROUNDS_BY_ID = new Map<Album5BackgroundId, Album5Background>(");
+lines.push("  ALBUM5_DIALOG_BACKGROUNDS.map((b) => [b.id, b]),");
+lines.push(");");
+lines.push("");
+lines.push("/** Resolve a track's first-frame URL. */");
 lines.push("export function album5TitleUrl(id: Album5TrackId): string | undefined {");
 lines.push("  const t = ALBUM5_MANIFEST.byId.get(id);");
 lines.push("  return t ? assetUrl(t.frameRelPaths[0]) : undefined;");
 lines.push("}");
 lines.push("");
-lines.push("/** Resolve a track's frame-N URL (1-indexed; 1 = title card). */");
+lines.push("/** Resolve a track's frame-N URL (1-indexed). */");
 lines.push("export function album5FrameUrl(id: Album5TrackId, frame: number): string | undefined {");
 lines.push("  const t = ALBUM5_MANIFEST.byId.get(id);");
 lines.push("  if (!t) return undefined;");
@@ -180,18 +354,36 @@ lines.push("  const t = ALBUM5_MANIFEST.byId.get(id);");
 lines.push("  return t ? t.frameRelPaths.map((p) => assetUrl(p)) : [];");
 lines.push("}");
 lines.push("");
-lines.push("/** Tracks that belong to a given movie-act (1..3 for Album 5;");
-lines.push("   the type accepts 1..5 to stay compatible with Album 1/2). */");
+lines.push("/** Tracks by act. */");
 lines.push("export function album5TracksByAct(act: 1 | 2 | 3 | 4 | 5): readonly Album5TrackDef[] {");
 lines.push("  return ALBUM5_MANIFEST.byField(\"act\", act);");
 lines.push("}");
 lines.push("");
+lines.push("/** Tracks by song/dialog kind. */");
+lines.push("export function album5TracksByKind(kind: Album5TrackKind): readonly Album5TrackDef[] {");
+lines.push("  return ALBUM5_TRACKS.filter((t) => t.kind === kind);");
+lines.push("}");
+lines.push("");
+lines.push("/** Resolve a narrator portrait URL by id. */");
+lines.push("export function album5PortraitUrl(id: Album5PortraitId): string | undefined {");
+lines.push("  const p = ALBUM5_PORTRAITS_BY_ID.get(id);");
+lines.push("  return p ? assetUrl(p.relPath) : undefined;");
+lines.push("}");
+lines.push("");
+lines.push("/** Resolve a dialog background URL by id. */");
+lines.push("export function album5BackgroundUrl(id: Album5BackgroundId): string | undefined {");
+lines.push("  const b = ALBUM5_BACKGROUNDS_BY_ID.get(id);");
+lines.push("  return b ? assetUrl(b.relPath) : undefined;");
+lines.push("}");
+lines.push("");
 lines.push(`export const ALBUM5_TRACK_TOTAL = ${tracks.length};`);
 lines.push(`export const ALBUM5_FRAME_TOTAL = ${inv.length};`);
+lines.push(`export const ALBUM5_PORTRAIT_TOTAL = ${portraitIds.length};`);
+lines.push(`export const ALBUM5_BACKGROUND_TOTAL = ${bgIds.length};`);
 lines.push("");
 
 await writeFile(
   "/home/user/dischordian-saga/apps/shared/expansionArt/album5Slideshows.ts",
   lines.join("\n"),
 );
-console.log(`Wrote apps/shared/expansionArt/album5Slideshows.ts: ${tracks.length} tracks, ${inv.length} frames.`);
+console.log(`Wrote apps/shared/expansionArt/album5Slideshows.ts: ${tracks.length} tracks, ${inv.length} frames, ${portraitIds.length} portraits, ${bgIds.length} backgrounds.`);
