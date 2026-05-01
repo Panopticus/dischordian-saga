@@ -72,7 +72,11 @@ export class BoardRenderer {
       height: BOARD_H * (TILE_H + TILE_GAP) + BOARD_PAD * 2,
       backgroundAlpha: 0,
       antialias: true,
-      resolution: window.devicePixelRatio || 1,
+      // Cap at 2 to avoid GPU thrashing on retina iPad Pro (~5K
+      // effective pixels uncapped). Mirrors the cap Three.js already
+      // uses in ParallaxDepthBackground / ShaderOverlay. Visual
+      // difference vs. uncapped is imperceptible on the card board.
+      resolution: Math.min(window.devicePixelRatio || 1, 2),
       autoDensity: true,
     });
     this.app.stage.addChild(this.boardContainer);

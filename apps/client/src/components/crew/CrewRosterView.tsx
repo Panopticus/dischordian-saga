@@ -172,7 +172,7 @@ export default function CrewRosterView({ state, onAssignRole }: Props) {
       </div>
 
       {/* Selected detail */}
-      <div className="bg-card/30 border border-border/30 rounded p-4 sticky top-24 self-start max-h-[calc(100vh-8rem)] overflow-y-auto">
+      <div className="bg-card/30 border border-border/30 rounded p-4 sticky top-24 self-start max-h-[calc(100dvh-8rem)] overflow-y-auto">
         {selected ? (
           <>
             <div className="mb-3 flex items-start gap-3">

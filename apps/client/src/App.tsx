@@ -43,6 +43,7 @@ import EasterEggs from "./components/EasterEggs";
 import UniverseAtmosphere from "./components/UniverseAtmosphere";
 import SoundControls from "./components/SoundControls";
 import { SlideshowPlayerRoot } from "./components/SlideshowPlayerRoot";
+import InstallPromptBanner from "./components/InstallPromptBanner";
 import { DischordiaCycleSync } from "./components/DischordiaCycleSync";
 import { ForgivenessChoicePanel } from "./components/ForgivenessChoicePanel";
 import { Act1ClosingChoicePanel } from "./components/Act1ClosingChoicePanel";
@@ -701,6 +702,13 @@ function App() {
                         playSlideshow(id). Must be above AuthGate so
                         the overlay covers the whole app surface. */}
                     <SlideshowPlayerRoot />
+                    {/* M4 — PWA install prompt. Bottom-bound banner
+                        that surfaces standalone-mode install on
+                        Android (beforeinstallprompt) + iOS Safari
+                        (Add to Home Screen instructions). Dismissable.
+                        Hidden if already installed; cooldown of 14
+                        days after dismissal. */}
+                    <InstallPromptBanner />
                     {/* Witnessing §1.5 — the Bond-80 Forgive/Refuse
                         three-option wheel. Mounts only when the
                         forgiveness_choice_unlocked flag is set (by

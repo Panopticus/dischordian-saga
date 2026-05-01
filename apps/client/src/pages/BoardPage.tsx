@@ -690,7 +690,7 @@ export default function BoardPage() {
   }, [selectedNode]);
 
   return (
-    <div className="h-[calc(100vh-3.5rem)] flex flex-col">
+    <div className="h-[calc(100dvh-3.5rem)] flex flex-col">
       {/* ═══ TOOLBAR ═══ */}
       <div className="flex items-center justify-between px-3 sm:px-4 py-2.5 border-b border-[var(--glass-border)]"
            style={{ background: "linear-gradient(180deg, var(--glass-base) 0%, var(--bg-overlay) 100%)" }}>
