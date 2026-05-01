@@ -92,7 +92,7 @@ type Stage = "gate" | "scanning" | "shamed" | "done";
 /** Shame beat shown after LOOK AWAY: a punitive red flash before the
  *  meme transmission takes over. Long enough to read; short enough not
  *  to feel like a loading screen. */
-const SHAMED_HOLD_MS = 1800;
+const SHAMED_HOLD_MS = 800;
 
 /**
  * Each line is rendered with KineticText decode so glyphs scramble
@@ -172,9 +172,9 @@ export function SurveillanceOpening({
 
   // Drive the scanning reveal on a jagged cadence — snappy at the top,
   // with just enough late-line drag to land FINGERPRINT as a punch.
-  // The whole sequence wraps in ~120ms so the player never perceives it
+  // The whole sequence wraps in ~60ms so the player never perceives it
   // as a loading screen. Reduce-motion collapses to a tick.
-  const CADENCE = [6, 7, 8, 10, 13, 18, 24, 32];
+  const CADENCE = [3, 4, 4, 5, 7, 9, 12, 16];
   useEffect(() => {
     if (stage !== "scanning") return;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -500,7 +500,7 @@ function ScanView({ lines, revealed }: { lines: ScanLine[]; revealed: number }) 
               key={`${line.label}-${i}`}
               text={line.value}
               mode="decode"
-              speed={4}
+              speed={2}
               showCursor={false}
             />
           );
