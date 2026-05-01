@@ -1801,6 +1801,61 @@ export const guildChat = mysqlTable("guild_chat", {
 export type GuildChatMessage = typeof guildChat.$inferSelect;
 
 /**
+ * Chat moderation — player-submitted reports against chat messages
+ * across any chat surface (currently guild_chat; extensible to
+ * spectator chat / DMs via the sourceType column). One row per
+ * reporter+message; the unique key blocks pile-on while still
+ * allowing different players to file independent reports against
+ * the same message (which is itself useful evidence).
+ *
+ * `messageSnapshot` is captured at report time so a moderator's
+ * queue still has the offending content even if the source row is
+ * later deleted (cascade-on-leave-guild for example). Status uses
+ * a small enum rather than free-form so admin queries don't have
+ * to defensively unparse.
+ */
+export const chatReports = mysqlTable("chat_reports", {
+  id: int("id").autoincrement().primaryKey(),
+  reporterUserId: int("reporterUserId").notNull(),
+  reportedUserId: int("reportedUserId").notNull(),
+  sourceType: mysqlEnum("sourceType", ["guild_chat"]).notNull().default("guild_chat"),
+  sourceMessageId: int("sourceMessageId").notNull(),
+  messageSnapshot: text("messageSnapshot").notNull(),
+  reason: mysqlEnum("reason", [
+    "harassment",
+    "hate_speech",
+    "spam",
+    "doxxing",
+    "other",
+  ]).notNull(),
+  notes: varchar("notes", { length: 500 }),
+  status: mysqlEnum("status", [
+    "open",
+    "reviewed",
+    "dismissed",
+    "actioned",
+  ]).notNull().default("open"),
+  /** Pipe-joined filter-flag string (e.g. "masked|caps") captured
+   *  at report time. Empty if the message had no automated flags
+   *  — a legitimate signal that the reporter saw something the
+   *  filter missed. */
+  filterFlagsAtReport: varchar("filterFlagsAtReport", { length: 128 }).notNull().default(""),
+  reviewedBy: int("reviewedBy"),
+  reviewedAt: timestamp("reviewedAt"),
+  reviewerNotes: varchar("reviewerNotes", { length: 500 }),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => ({
+  uniqReporterMessage: uniqueIndex("uq_chat_reports_reporter_msg").on(
+    table.reporterUserId,
+    table.sourceType,
+    table.sourceMessageId,
+  ),
+  idxStatus: index("idx_chat_reports_status").on(table.status),
+  idxReportedUser: index("idx_chat_reports_reported_user").on(table.reportedUserId),
+}));
+export type ChatReport = typeof chatReports.$inferSelect;
+
+/**
  * Guild invites — pending invitations.
  */
 export const guildInvites = mysqlTable("guild_invites", {

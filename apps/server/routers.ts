@@ -42,6 +42,7 @@ import { vortexIncursionRouter } from "./routers/vortexIncursion";
 import { marketAchievementsRouter } from "./routers/marketAchievements";
 import { notificationRouter } from "./routers/notificationRouter";
 import { guildRouter } from "./routers/guild";
+import { chatRouter } from "./routers/chat";
 import { battlePassRouter } from "./routers/battlePass";
 import { inventoryRouter } from "./routers/inventory";
 import { guildWarsRouter } from "./routers/guildWars";
@@ -152,6 +153,7 @@ export const appRouter = router({
   marketAchievements: marketAchievementsRouter,
   notifications: notificationRouter,
   guild: guildRouter,
+  chat: chatRouter,
   battlePass: battlePassRouter,
   inventory: inventoryRouter,
   guildWars: guildWarsRouter,

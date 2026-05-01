@@ -375,6 +375,15 @@ async function startServer() {
       console.error("[AnnouncementsBootstrap] failed:", e),
     );
 
+    // chat_reports table is new on the moderation branch; no
+    // drizzle migration ships with it yet, so bootstrap on startup
+    // until the next journal reconciliation. Without this, fresh-DB
+    // deploys 404 the moderator queue endpoints.
+    const { bootstrapChatReportsTable } = await import("../services/chatReportsBootstrap");
+    bootstrapChatReportsTable().catch(e =>
+      console.error("[ChatReportsBootstrap] failed:", e),
+    );
+
     // Ensure citizen_characters.foundation exists. Migration 0054 is
     // orphaned from _journal.json; without this column every SELECT
     // against citizen_characters fails ("Unknown column 'foundation'")
