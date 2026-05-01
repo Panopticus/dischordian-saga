@@ -20,6 +20,12 @@ import {
   tierUpCutscene,
   warEventCutscene,
 } from "../guildCutsceneVoMap";
+import {
+  PROFESSOR_SIGNATURE_CARDS,
+  PROFESSOR_SIGNATURE_CARD_TOTAL,
+  cinematicForCardPlayed,
+  getProfessorSignatureEntry,
+} from "../professorSignatureCards";
 
 const CDN_PREFIX = "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/";
 
@@ -203,6 +209,36 @@ describe("cutscene-trigger helpers", () => {
   it("signatureCutsceneFor returns null for non-Professor casters", () => {
     expect(signatureCutsceneFor("agent_zero", false)).toBeNull();
     expect(signatureCutsceneFor("warlord", true)).toBeNull();
+  });
+
+  it("cinematicForCardPlayed returns the correct trigger for the seeded entry", () => {
+    const trigger = cinematicForCardPlayed("s1_pack2_thought_virus_quarantine_field");
+    expect(trigger).toEqual({
+      csId: "cs_sig_8_dark",
+      voLineId: "greenshaw_virus_001",
+    });
+    // Round-trip via the registry entry too.
+    const entry = getProfessorSignatureEntry("s1_pack2_thought_virus_quarantine_field");
+    expect(entry).toEqual({
+      cardDefId: "s1_pack2_thought_virus_quarantine_field",
+      professorId: "greenshaw",
+      isCorrupted: true,
+    });
+  });
+
+  it("cinematicForCardPlayed returns null for unregistered cards", () => {
+    expect(cinematicForCardPlayed("s1_char_001_some_unit")).toBeNull();
+    expect(cinematicForCardPlayed("")).toBeNull();
+  });
+
+  it("PROFESSOR_SIGNATURE_CARDS entries all resolve through cinematicForCardPlayed", () => {
+    expect(PROFESSOR_SIGNATURE_CARDS.length).toBe(PROFESSOR_SIGNATURE_CARD_TOTAL);
+    for (const entry of PROFESSOR_SIGNATURE_CARDS) {
+      const trigger = cinematicForCardPlayed(entry.cardDefId);
+      expect(trigger).not.toBeNull();
+      expect(trigger?.csId.startsWith("cs_sig_")).toBe(true);
+      expect(trigger?.csId.endsWith(entry.isCorrupted ? "_dark" : "_light")).toBe(true);
+    }
   });
 
   it("warEventCutscene resolves each canonical war/contract event to a paired cs_id", () => {
