@@ -1,0 +1,622 @@
+[
+  {
+    "id": "elara_guild_welcome_001",
+    "speaker": "elara",
+    "voiceId": "xMyNDrPFEtQN8iZtT7l2",
+    "manifest": "elara",
+    "text": "You're in. The hall remembers your name now — even if it can't say it back.",
+    "context": "F.1.1 cs_guild_join — first-ever guild join, lands t=4.0s as banners unfurl",
+    "section": "F.1 Onboarding",
+    "emotion": "warm_half_smile_conspiratorial"
+  },
+  {
+    "id": "elara_first_words_001",
+    "speaker": "elara",
+    "voiceId": "xMyNDrPFEtQN8iZtT7l2",
+    "manifest": "elara",
+    "text": "First words. The walls are listening — they always do.",
+    "context": "F.1.2 cs_guild_first_message — caster's first guild chat ever, lands t=2.4s mid-spiral",
+    "section": "F.1 Onboarding",
+    "emotion": "hushed_reverent_dry_warmth"
+  },
+  {
+    "id": "elara_friend_accept_001",
+    "speaker": "elara",
+    "voiceId": "xMyNDrPFEtQN8iZtT7l2",
+    "manifest": "elara",
+    "text": "Two wills, one seam. The Loredex remembers.",
+    "context": "F.1.3 cs_friend_accept — friendship sealed, lands t=1.0s before contact click",
+    "section": "F.1 Onboarding",
+    "emotion": "warm_ceremonial"
+  },
+  {
+    "id": "architect_sorting_pre_001",
+    "speaker": "architect",
+    "voiceId": "TODO_architect_voice_id",
+    "manifest": "architect",
+    "text": "The Lectern is listening. So are the twelve. Step forward.",
+    "context": "F.1.4.a cs_sorting_ceremony_arrival_pre — Crownless Lectern ceremony begins, lands t=1.5s",
+    "section": "F.1 Onboarding",
+    "emotion": "cool_administrative"
+  },
+  {
+    "id": "gm_contracts_weekly_001",
+    "speaker": "gamemaster",
+    "voiceId": "TODO_gamemaster_voice_id",
+    "manifest": "gamemaster",
+    "text": "Eight tasks. One week. The Architect grades on a curve — but only if you all pass.",
+    "context": "F.2.1 cs_contract_unlock — Monday tarot-fan flip of 8 contract cards, lands t=1.4s",
+    "section": "F.2 Daily/Weekly",
+    "emotion": "dry_schoolmasterly_with_warmth"
+  },
+  {
+    "id": "gm_contract_complete_001",
+    "speaker": "gamemaster",
+    "voiceId": "TODO_gamemaster_voice_id",
+    "manifest": "gamemaster",
+    "text": "Sealed. The Architect's quill remembers your name.",
+    "context": "F.2.2 cs_contract_complete — wax seal on diploma, lands t=2.4s synced to emblem stamp",
+    "section": "F.2 Daily/Weekly",
+    "emotion": "warm_pride_dry_administrative"
+  },
+  {
+    "id": "architect_house_cup_reset_001",
+    "speaker": "architect",
+    "voiceId": "TODO_architect_voice_id",
+    "manifest": "architect",
+    "text": "A new week, students. The Cup is empty. Earn it.",
+    "context": "F.2.3 cs_house_cup_weekly_reset — Mechronis dome four-banner unfurl, lands t=2.4s",
+    "section": "F.2 Daily/Weekly",
+    "emotion": "cool_with_amusement_beat"
+  },
+  {
+    "id": "chorus_emote_001",
+    "speaker": "chorus",
+    "voiceId": "TODO_chorus_voice_id",
+    "manifest": "chorus",
+    "text": "Sync to me.",
+    "context": "F.2.4.a cs_emote_archon_1 — tooltip-only emote sticker, never auto-plays",
+    "section": "F.2.4 Archon Emotes",
+    "emotion": "tooltip_short"
+  },
+  {
+    "id": "watcher_emote_001",
+    "speaker": "watcher",
+    "voiceId": "TODO_watcher_voice_id",
+    "manifest": "watcher",
+    "text": "Seen.",
+    "context": "F.2.4.b cs_emote_archon_2 — tooltip-only, dry single word",
+    "section": "F.2.4 Archon Emotes",
+    "emotion": "tooltip_short"
+  },
+  {
+    "id": "collector_emote_001",
+    "speaker": "collector",
+    "voiceId": "TODO_collector_voice_id",
+    "manifest": "collector",
+    "text": "Catalogued.",
+    "context": "F.2.4.c cs_emote_archon_3 — tooltip-only, dusty satisfaction",
+    "section": "F.2.4 Archon Emotes",
+    "emotion": "tooltip_dusty_satisfaction"
+  },
+  {
+    "id": "between_emote_001",
+    "speaker": "between",
+    "voiceId": "TODO_between_voice_id",
+    "manifest": "between",
+    "text": "Elsewhere.",
+    "context": "F.2.4.d cs_emote_archon_4 — tooltip-only, breath-half-spoken with reverb tail",
+    "section": "F.2.4 Archon Emotes",
+    "emotion": "tooltip_breath_reverb"
+  },
+  {
+    "id": "meme_emote_001",
+    "speaker": "meme",
+    "voiceId": "TODO_meme_voice_id",
+    "manifest": "meme",
+    "text": "Feel that.",
+    "context": "F.2.4.e cs_emote_archon_5 — tooltip-only, half-whispered conspiratorial",
+    "section": "F.2.4 Archon Emotes",
+    "emotion": "tooltip_half_whisper"
+  },
+  {
+    "id": "warlord_emote_001",
+    "speaker": "warlord",
+    "voiceId": "TODO_warlord_voice_id",
+    "manifest": "warlord",
+    "text": "Counted.",
+    "context": "F.2.4.f cs_emote_archon_6 — tooltip-only, parade-ground crisp",
+    "section": "F.2.4 Archon Emotes",
+    "emotion": "tooltip_parade_crisp"
+  },
+  {
+    "id": "politician_emote_001",
+    "speaker": "politician",
+    "voiceId": "TODO_politician_voice_id",
+    "manifest": "politician",
+    "text": "Agreed.",
+    "context": "F.2.4.g cs_emote_archon_7 — tooltip-only, warm conspiratorial",
+    "section": "F.2.4 Archon Emotes",
+    "emotion": "tooltip_warm_conspiratorial"
+  },
+  {
+    "id": "warden_emote_001",
+    "speaker": "warden",
+    "voiceId": "TODO_warden_voice_id",
+    "manifest": "warden",
+    "text": "Contained.",
+    "context": "F.2.4.h cs_emote_archon_8 — tooltip-only, professional security-officer tone",
+    "section": "F.2.4 Archon Emotes",
+    "emotion": "tooltip_security_officer"
+  },
+  {
+    "id": "gm_emote_001",
+    "speaker": "gamemaster",
+    "voiceId": "TODO_gamemaster_voice_id",
+    "manifest": "gamemaster",
+    "text": "Rewritten.",
+    "context": "F.2.4.i cs_emote_archon_9 — tooltip-only, dry administrative authority",
+    "section": "F.2.4 Archon Emotes",
+    "emotion": "tooltip_dry_authority"
+  },
+  {
+    "id": "necromancer_emote_001",
+    "speaker": "necromancer",
+    "voiceId": "TODO_necromancer_voice_id",
+    "manifest": "necromancer",
+    "text": "Again.",
+    "context": "F.2.4.j cs_emote_archon_10 — tooltip-only, weary determination with gravel",
+    "section": "F.2.4 Archon Emotes",
+    "emotion": "tooltip_weary_gravel"
+  },
+  {
+    "id": "engineer_emote_001",
+    "speaker": "engineer",
+    "voiceId": "TODO_engineer_voice_id",
+    "manifest": "engineer",
+    "text": "Fixed.",
+    "context": "F.2.4.k cs_emote_archon_11 — tooltip-only, workshop-floor satisfaction",
+    "section": "F.2.4 Archon Emotes",
+    "emotion": "tooltip_workshop_satisfaction"
+  },
+  {
+    "id": "human_emote_001",
+    "speaker": "human",
+    "voiceId": "oGbGJdgofRR8z0MxwI8L",
+    "manifest": "human",
+    "text": "There.",
+    "context": "F.2.4.l cs_emote_archon_12 — tooltip-only, librarian satisfaction breathy",
+    "section": "F.2.4 Archon Emotes",
+    "emotion": "tooltip_librarian_breathy"
+  },
+  {
+    "id": "elara_donation_milestone_001",
+    "speaker": "elara",
+    "voiceId": "xMyNDrPFEtQN8iZtT7l2",
+    "manifest": "elara",
+    "text": "The vault remembers. Your name is in it now.",
+    "context": "F.2.5 cs_donation_milestone — coin-into-vault impact, lands t=1.6s synced to impact",
+    "section": "F.2 Daily/Weekly",
+    "emotion": "warm_pride_dry_administrative"
+  },
+  {
+    "id": "warlord_war_declared_001",
+    "speaker": "warlord",
+    "voiceId": "TODO_warlord_voice_id",
+    "manifest": "warlord",
+    "text": "War declared. Count their angles before you count their numbers.",
+    "context": "F.3.1 cs_war_declared — twin banner-slam on war-room table, lands t=1.4s",
+    "section": "F.3 Combat & Wars",
+    "emotion": "parade_ground_crisp"
+  },
+  {
+    "id": "warlord_first_blood_001",
+    "speaker": "warlord",
+    "voiceId": "TODO_warlord_voice_id",
+    "manifest": "warlord",
+    "text": "First mark on the map. Hold it.",
+    "context": "F.3.2 cs_war_first_blood — first-contributor emblem ignites on territory, lands t=1.4s",
+    "section": "F.3 Combat & Wars",
+    "emotion": "crisp_pride_beat"
+  },
+  {
+    "id": "warlord_mvp_crowned_001",
+    "speaker": "warlord",
+    "voiceId": "TODO_warlord_voice_id",
+    "manifest": "warlord",
+    "text": "{playerName}, MVP. Your name is in the wind now.",
+    "context": "F.3.3 cs_war_mvp_crowned — runtime SSML name slot, lands t=2.8s after laurel settle",
+    "section": "F.3 Combat & Wars",
+    "emotion": "crisp_pride"
+  },
+  {
+    "id": "warlord_war_victory_001",
+    "speaker": "warlord",
+    "voiceId": "TODO_warlord_voice_id",
+    "manifest": "warlord",
+    "text": "Victory. The territory is yours. Hold what you have taken.",
+    "context": "F.3.4 cs_war_victory — money shot, lands t=2.6s after territory bloom; optional bonus clause via SSML",
+    "section": "F.3 Combat & Wars",
+    "emotion": "parade_ground_three_pride_beats"
+  },
+  {
+    "id": "warlord_war_defeat_001",
+    "speaker": "warlord",
+    "voiceId": "TODO_warlord_voice_id",
+    "manifest": "warlord",
+    "text": "We lost the field. We did not lose the fight. Stand. Again.",
+    "context": "F.3.5 cs_war_defeat — quieter delivery, two natural pauses, lands t=1.0s spans banner ripple",
+    "section": "F.3 Combat & Wars",
+    "emotion": "quieter_paced_with_pauses"
+  },
+  {
+    "id": "warlord_placement_lock_001",
+    "speaker": "warlord",
+    "voiceId": "TODO_warlord_voice_id",
+    "manifest": "warlord",
+    "text": "Placement locked. Hold the line.",
+    "context": "F.3.6 cs_alliance_war_placement_lock — 19-glyph lockdown, lands t=2.6s",
+    "section": "F.3 Combat & Wars",
+    "emotion": "parade_ground_crisp"
+  },
+  {
+    "id": "architect_thought_virus_001",
+    "speaker": "architect",
+    "voiceId": "TODO_architect_voice_id",
+    "manifest": "architect",
+    "text": "The thought returned.",
+    "context": "F.3.7 cs_thought_virus_reinfection — node corruption, lands t=2.0s mid-aura-ripple",
+    "section": "F.3 Combat & Wars",
+    "emotion": "cool_no_warmth"
+  },
+  {
+    "id": "architect_epoch_privacy_001",
+    "speaker": "architect",
+    "voiceId": "TODO_architect_voice_id",
+    "manifest": "architect",
+    "text": "The Age of Privacy returns. What you do not show, no one will know. What you do show, everyone will.",
+    "context": "F.3.8.a cs_epoch_change_privacy — Mechronis oculus indigo sky transition",
+    "section": "F.3.8 Epochs",
+    "emotion": "cool_administrative"
+  },
+  {
+    "id": "architect_epoch_prophecy_001",
+    "speaker": "architect",
+    "voiceId": "TODO_architect_voice_id",
+    "manifest": "architect",
+    "text": "The Age of Prophecy returns. The wheels turn. Read the spokes.",
+    "context": "F.3.8.b cs_epoch_change_prophecy — celestial wheels visible in oculus",
+    "section": "F.3.8 Epochs",
+    "emotion": "cool_administrative"
+  },
+  {
+    "id": "architect_epoch_insurgency_001",
+    "speaker": "architect",
+    "voiceId": "TODO_architect_voice_id",
+    "manifest": "architect",
+    "text": "The Age of Insurgency returns. The line breaks. Choose your side.",
+    "context": "F.3.8.c cs_epoch_change_insurgency — torn-flag green/red dual-color sky",
+    "section": "F.3.8 Epochs",
+    "emotion": "cool_administrative"
+  },
+  {
+    "id": "architect_epoch_revelation_001",
+    "speaker": "architect",
+    "voiceId": "TODO_architect_voice_id",
+    "manifest": "architect",
+    "text": "The Age of Revelation returns. What was hidden is now seen. Including you.",
+    "context": "F.3.8.d cs_epoch_change_revelation — crimson with central truth-aperture",
+    "section": "F.3.8 Epochs",
+    "emotion": "cool_administrative"
+  },
+  {
+    "id": "architect_epoch_fall_001",
+    "speaker": "architect",
+    "voiceId": "TODO_architect_voice_id",
+    "manifest": "architect",
+    "text": "Fall of Reality. The Thought Virus walks. Cleared ground will not stay cleared.",
+    "context": "F.3.8.e cs_epoch_change_fall — chaotic red-black with VHS glitches",
+    "section": "F.3.8 Epochs",
+    "emotion": "cool_administrative"
+  },
+  {
+    "id": "kanevas_harmonize_001",
+    "speaker": "kanevas",
+    "voiceId": "TODO_kanevas_voice_id",
+    "manifest": "kanevas",
+    "text": "Sync to me. We move as one.",
+    "context": "F.4.1 light cs_sig_1 — Headmaster Kanevas casts Harmonize (Chorus, Resonance House)",
+    "section": "F.4 Signature Abilities (light)",
+    "emotion": "headmaster_warm_authority"
+  },
+  {
+    "id": "kanevas_dissonance_001",
+    "speaker": "kanevas",
+    "voiceId": "TODO_kanevas_voice_id",
+    "manifest": "kanevas",
+    "text": "Sync to me. They will move as I choose.",
+    "context": "F.4.1 dark cs_sig_1 — Dissonance corruption variant, pitch-shifted +50 cents in post",
+    "section": "F.4 Signature Abilities (dark)",
+    "emotion": "corrupted_authority"
+  },
+  {
+    "id": "aoki_unseen_001",
+    "speaker": "aoki",
+    "voiceId": "TODO_aoki_voice_id",
+    "manifest": "aoki",
+    "text": "Walk where they cannot watch.",
+    "context": "F.4.2 light cs_sig_2 — Professor Aoki casts Unseen Passage (Eyes, Umbra House)",
+    "section": "F.4 Signature Abilities (light)",
+    "emotion": "professor_quiet_focus"
+  },
+  {
+    "id": "aoki_private_001",
+    "speaker": "aoki",
+    "voiceId": "TODO_aoki_voice_id",
+    "manifest": "aoki",
+    "text": "Their secrets are mine now.",
+    "context": "F.4.2 dark cs_sig_2 — Private Confession corruption variant",
+    "section": "F.4 Signature Abilities (dark)",
+    "emotion": "corrupted_quiet"
+  },
+  {
+    "id": "halverez_soulread_001",
+    "speaker": "halverez",
+    "voiceId": "TODO_halverez_voice_id",
+    "manifest": "halverez",
+    "text": "Show me what you treasure.",
+    "context": "F.4.3 light cs_sig_3 — Curator Halverez casts Soul-Read (Archive, Umbra House)",
+    "section": "F.4 Signature Abilities (light)",
+    "emotion": "curator_archival_patient"
+  },
+  {
+    "id": "halverez_soultake_001",
+    "speaker": "halverez",
+    "voiceId": "TODO_halverez_voice_id",
+    "manifest": "halverez",
+    "text": "It is mine now. Always was.",
+    "context": "F.4.3 dark cs_sig_3 — Soul-Take corruption variant, retrograde harpsichord in bed",
+    "section": "F.4 Signature Abilities (dark)",
+    "emotion": "corrupted_archival"
+  },
+  {
+    "id": "orphic_phasestep_001",
+    "speaker": "orphic",
+    "voiceId": "TODO_orphic_voice_id",
+    "manifest": "orphic",
+    "text": "Through. Out the other side.",
+    "context": "F.4.4 light cs_sig_4 — Professor Orphic casts Phase-Step (Between, Liminal House)",
+    "section": "F.4 Signature Abilities (light)",
+    "emotion": "professor_dimensional_calm"
+  },
+  {
+    "id": "orphic_drift_001",
+    "speaker": "orphic",
+    "voiceId": "TODO_orphic_voice_id",
+    "manifest": "orphic",
+    "text": "Through... mostly.",
+    "context": "F.4.4 dark cs_sig_4 — Dimensional Drift corruption variant, slight uncertainty pause",
+    "section": "F.4 Signature Abilities (dark)",
+    "emotion": "corrupted_uncertainty"
+  },
+  {
+    "id": "mireille_viral_001",
+    "speaker": "mireille",
+    "voiceId": "TODO_mireille_voice_id",
+    "manifest": "mireille",
+    "text": "Believe me. Just for a moment.",
+    "context": "F.4.5 light cs_sig_5 — Professor Mireille casts Viral Word (Influencers, Resonance House)",
+    "section": "F.4 Signature Abilities (light)",
+    "emotion": "professor_persuasive_warm"
+  },
+  {
+    "id": "mireille_carry_001",
+    "speaker": "mireille",
+    "voiceId": "TODO_mireille_voice_id",
+    "manifest": "mireille",
+    "text": "Believe me. Tell everyone.",
+    "context": "F.4.5 dark cs_sig_5 — Thought Carry corruption variant, modal shift Lydian to Dorian in bed",
+    "section": "F.4 Signature Abilities (dark)",
+    "emotion": "corrupted_persuasive"
+  },
+  {
+    "id": "kasra_parade_001",
+    "speaker": "kasra",
+    "voiceId": "TODO_kasra_voice_id",
+    "manifest": "kasra",
+    "text": "Parade order. To me. Now.",
+    "context": "F.4.6 light cs_sig_6 — General Kasra casts Parade Order (Yellow Coats, Ironflight House)",
+    "section": "F.4 Signature Abilities (light)",
+    "emotion": "general_command_crisp"
+  },
+  {
+    "id": "kasra_casualties_001",
+    "speaker": "kasra",
+    "voiceId": "TODO_kasra_voice_id",
+    "manifest": "kasra",
+    "text": "Some losses are acceptable. These.",
+    "context": "F.4.6 dark cs_sig_6 — Acceptable Casualties corruption variant",
+    "section": "F.4 Signature Abilities (dark)",
+    "emotion": "corrupted_command"
+  },
+  {
+    "id": "vellis_contract_001",
+    "speaker": "vellis",
+    "voiceId": "TODO_vellis_voice_id",
+    "manifest": "vellis",
+    "text": "Agreed. For five turns of the wheel.",
+    "context": "F.4.7 light cs_sig_7 — Senator Vellis casts Verbal Contract (Congress, Resonance House)",
+    "section": "F.4 Signature Abilities (light)",
+    "emotion": "senator_diplomatic"
+  },
+  {
+    "id": "vellis_blood_001",
+    "speaker": "vellis",
+    "voiceId": "TODO_vellis_voice_id",
+    "manifest": "vellis",
+    "text": "Agreed. For all turns. Mine.",
+    "context": "F.4.7 dark cs_sig_7 — Blood Oath corruption variant, low pulsing cello drone in bed",
+    "section": "F.4 Signature Abilities (dark)",
+    "emotion": "corrupted_diplomatic"
+  },
+  {
+    "id": "greenshaw_quarantine_001",
+    "speaker": "greenshaw",
+    "voiceId": "TODO_greenshaw_voice_id",
+    "manifest": "greenshaw",
+    "text": "Held. You will not move.",
+    "context": "F.4.8 light cs_sig_8 — Warden Greenshaw casts Quarantine (Locks, Umbra House)",
+    "section": "F.4 Signature Abilities (light)",
+    "emotion": "warden_authoritative"
+  },
+  {
+    "id": "greenshaw_virus_001",
+    "speaker": "greenshaw",
+    "voiceId": "TODO_greenshaw_voice_id",
+    "manifest": "greenshaw",
+    "text": "Held. And contagious.",
+    "context": "F.4.8 dark cs_sig_8 — Thought Virus corruption variant, retrograde organ in bed",
+    "section": "F.4 Signature Abilities (dark)",
+    "emotion": "corrupted_authoritative"
+  },
+  {
+    "id": "vex_rewrite_001",
+    "speaker": "vex",
+    "voiceId": "TODO_vex_voice_id",
+    "manifest": "vex",
+    "text": "House rules. For this turn.",
+    "context": "F.4.9 light cs_sig_9 — Professor Vex casts Rule Rewrite (Grey Gamers, Liminal House)",
+    "section": "F.4 Signature Abilities (light)",
+    "emotion": "professor_rule_authority"
+  },
+  {
+    "id": "vex_houserules_001",
+    "speaker": "vex",
+    "voiceId": "TODO_vex_voice_id",
+    "manifest": "vex",
+    "text": "House rules. From now on. Forever.",
+    "context": "F.4.9 dark cs_sig_9 — House Rules corruption variant, tape-warble bed",
+    "section": "F.4 Signature Abilities (dark)",
+    "emotion": "corrupted_rule_authority"
+  },
+  {
+    "id": "vasara_breath_001",
+    "speaker": "vasara",
+    "voiceId": "TODO_vasara_voice_id",
+    "manifest": "vasara",
+    "text": "Again. Not finished.",
+    "context": "F.4.10 light cs_sig_10 — Dr. Vasara casts Second Breath (Living, Ironflight House)",
+    "section": "F.4 Signature Abilities (light)",
+    "emotion": "doctor_calm_resolve"
+  },
+  {
+    "id": "vasara_borrowed_001",
+    "speaker": "vasara",
+    "voiceId": "TODO_vasara_voice_id",
+    "manifest": "vasara",
+    "text": "Again. At their cost.",
+    "context": "F.4.10 dark cs_sig_10 — Borrowed Time corruption variant, parallel detuned cello in bed",
+    "section": "F.4 Signature Abilities (dark)",
+    "emotion": "corrupted_resolve"
+  },
+  {
+    "id": "vent_repair_001",
+    "speaker": "vent",
+    "voiceId": "TODO_vent_voice_id",
+    "manifest": "vent",
+    "text": "Fixed. Stronger than before.",
+    "context": "F.4.11 light cs_sig_11 — Artificer Vent casts Field Repair (Forge, Ironflight House)",
+    "section": "F.4 Signature Abilities (light)",
+    "emotion": "artificer_workshop_pride"
+  },
+  {
+    "id": "vent_salvage_001",
+    "speaker": "vent",
+    "voiceId": "TODO_vent_voice_id",
+    "manifest": "vent",
+    "text": "Salvaged. Their loss, your gain.",
+    "context": "F.4.11 dark cs_sig_11 — Salvage Rights corruption variant, fading-out cello note in bed",
+    "section": "F.4 Signature Abilities (dark)",
+    "emotion": "corrupted_workshop"
+  },
+  {
+    "id": "proctor_sight_001",
+    "speaker": "proctor",
+    "voiceId": "TODO_proctor_voice_id",
+    "manifest": "proctor",
+    "text": "There. The next answer.",
+    "context": "F.4.12 light cs_sig_12 — The Proctor casts Investigator's Sight (Architect's Study, Liminal House)",
+    "section": "F.4 Signature Abilities (light)",
+    "emotion": "proctor_quiet_revelation"
+  },
+  {
+    "id": "proctor_eye_001",
+    "speaker": "proctor",
+    "voiceId": "TODO_proctor_voice_id",
+    "manifest": "proctor",
+    "text": "There. And there. And there. All of it. Yours.",
+    "context": "F.4.12 dark cs_sig_12 — Architect's Eye corruption variant, four-paced reveal",
+    "section": "F.4 Signature Abilities (dark)",
+    "emotion": "corrupted_revelation"
+  },
+  {
+    "id": "elara_tier_2_001",
+    "speaker": "elara",
+    "voiceId": "xMyNDrPFEtQN8iZtT7l2",
+    "manifest": "elara",
+    "text": "Outpost no more. The hall has weight now.",
+    "context": "F.5.1.a cs_hall_tier_up — Outpost to Barracks transition",
+    "section": "F.5 Hall & Decoration",
+    "emotion": "warm_pride"
+  },
+  {
+    "id": "elara_tier_3_001",
+    "speaker": "elara",
+    "voiceId": "xMyNDrPFEtQN8iZtT7l2",
+    "manifest": "elara",
+    "text": "Fortress. Strong walls. Better songs.",
+    "context": "F.5.1.b cs_hall_tier_up — Barracks to Fortress transition",
+    "section": "F.5 Hall & Decoration",
+    "emotion": "warm_pride"
+  },
+  {
+    "id": "elara_tier_4_001",
+    "speaker": "elara",
+    "voiceId": "xMyNDrPFEtQN8iZtT7l2",
+    "manifest": "elara",
+    "text": "Citadel. The world looks up at you now.",
+    "context": "F.5.1.c cs_hall_tier_up — Fortress to Citadel transition",
+    "section": "F.5 Hall & Decoration",
+    "emotion": "warm_pride"
+  },
+  {
+    "id": "elara_tier_5_001",
+    "speaker": "elara",
+    "voiceId": "xMyNDrPFEtQN8iZtT7l2",
+    "manifest": "elara",
+    "text": "Sanctum. You have reached the place where the Architect's gaze rests warmest.",
+    "context": "F.5.1.d cs_hall_tier_up — Citadel to Sanctum transition",
+    "section": "F.5 Hall & Decoration",
+    "emotion": "warm_reverent_pride"
+  },
+  {
+    "id": "vex_oracle_001",
+    "speaker": "vex",
+    "voiceId": "TODO_vex_voice_id",
+    "manifest": "vex",
+    "text": "The pool sees what is. Drink carefully.",
+    "context": "F.5.3.a cs_signature_room_unlock_oracle_pool — Oracle Pool first reveal",
+    "section": "F.5 Hall & Decoration",
+    "emotion": "professor_warning_warm"
+  },
+  {
+    "id": "architect_portal_001",
+    "speaker": "architect",
+    "voiceId": "TODO_architect_voice_id",
+    "manifest": "architect",
+    "text": "Twelve voices unlock the door. The chamber is yours. Use it well.",
+    "context": "F.5.3.b cs_signature_room_unlock_portal_chamber — Portal Chamber first reveal",
+    "section": "F.5 Hall & Decoration",
+    "emotion": "cool_administrative"
+  }
+]
