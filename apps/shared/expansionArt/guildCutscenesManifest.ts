@@ -104,7 +104,11 @@ const stillPath = (cat: GuildCutsceneCategory, file: string) =>
 const videoPath = (cat: GuildCutsceneCategory, file: string) =>
   `videos/guild-cutscenes/${cat}/${file}`;
 
-/* ─── F.1 Onboarding (4 cutscenes) ─── */
+/* ─── F.1 Onboarding (5 cutscenes) ─── */
+/* The producer ships sorting_ceremony as 4 stills (pre + post arrival)
+ * and 1 unified video. The lines-file references the pre-arrival
+ * phase under cs_sorting_ceremony_arrival_pre, so we expose the two
+ * arrival phases as separate registry entries that share the video. */
 const F1_ONBOARDING: readonly GuildCutsceneDef[] = [
   {
     id: "cs_guild_join",
@@ -134,12 +138,19 @@ const F1_ONBOARDING: readonly GuildCutsceneDef[] = [
     ],
   },
   {
-    id: "cs_sorting_ceremony",
+    id: "cs_sorting_ceremony_arrival_pre",
     category: "f1_onboarding",
     videoRelPath: videoPath("f1_onboarding", "cs_sorting_ceremony.mp4"),
     stillRelPaths: [
       stillPath("f1_onboarding", "cs_sorting_ceremony_pre_start.png"),
       stillPath("f1_onboarding", "cs_sorting_ceremony_pre_end.png"),
+    ],
+  },
+  {
+    id: "cs_sorting_ceremony_arrival_post",
+    category: "f1_onboarding",
+    videoRelPath: videoPath("f1_onboarding", "cs_sorting_ceremony.mp4"),
+    stillRelPaths: [
       stillPath("f1_onboarding", "cs_sorting_ceremony_post_start.png"),
       stillPath("f1_onboarding", "cs_sorting_ceremony_post_end.png"),
     ],
@@ -175,29 +186,36 @@ const F2_EMOTES: readonly GuildCutsceneDef[] = EMOTE_ARCHONS.map(({ n, archonId 
 /* ─── F.3 Combat & War (12 cutscenes; 8 unique videos) ─── */
 /* The five epoch cutscenes share cs_epoch_change.mp4 — the bundle ships
  * one video for the whole epoch transition and per-epoch start/end stills
- * for chyron / overlay use. */
+ * for chyron / overlay use. Registry ids match the lines-file context
+ * naming (cs_war_mvp_crowned, cs_alliance_war_placement_lock, etc.); the
+ * underlying bundle filenames are shorter and the path strings encode
+ * that divergence. */
 const F3_EPOCHS = ["privacy", "prophecy", "insurgency", "revelation", "fall"] as const;
-const F3_COMBAT_NON_EPOCH = [
-  "cs_war_declared",
-  "cs_war_first_blood",
-  "cs_war_mvp",
-  "cs_war_victory",
-  "cs_war_defeat",
-  "cs_placement_lock",
-  "cs_thought_virus",
-] as const;
+interface F3Entry {
+  registryId: string;
+  bundleSlug: string;
+}
+const F3_COMBAT_NON_EPOCH: readonly F3Entry[] = [
+  { registryId: "cs_war_declared", bundleSlug: "cs_war_declared" },
+  { registryId: "cs_war_first_blood", bundleSlug: "cs_war_first_blood" },
+  { registryId: "cs_war_mvp_crowned", bundleSlug: "cs_war_mvp" },
+  { registryId: "cs_war_victory", bundleSlug: "cs_war_victory" },
+  { registryId: "cs_war_defeat", bundleSlug: "cs_war_defeat" },
+  { registryId: "cs_alliance_war_placement_lock", bundleSlug: "cs_placement_lock" },
+  { registryId: "cs_thought_virus_reinfection", bundleSlug: "cs_thought_virus" },
+];
 const F3_COMBAT: readonly GuildCutsceneDef[] = [
-  ...F3_COMBAT_NON_EPOCH.map((id) => ({
-    id,
+  ...F3_COMBAT_NON_EPOCH.map(({ registryId, bundleSlug }) => ({
+    id: registryId,
     category: "f3_combat" as const,
-    videoRelPath: videoPath("f3_combat", `${id}.mp4`),
+    videoRelPath: videoPath("f3_combat", `${bundleSlug}.mp4`),
     stillRelPaths: [
-      stillPath("f3_combat", `${id}_start.png`),
-      stillPath("f3_combat", `${id}_end.png`),
+      stillPath("f3_combat", `${bundleSlug}_start.png`),
+      stillPath("f3_combat", `${bundleSlug}_end.png`),
     ],
   })),
   ...F3_EPOCHS.map((epoch) => ({
-    id: `cs_epoch_${epoch}`,
+    id: `cs_epoch_change_${epoch}`,
     category: "f3_combat" as const,
     videoRelPath: videoPath("f3_combat", "cs_epoch_change.mp4"),
     stillRelPaths: [
@@ -224,23 +242,30 @@ const F4_ABILITIES: readonly GuildCutsceneDef[] = SIG_PROFESSORS.flatMap(
 );
 
 /* ─── F.5 Guild Hall (7 cutscenes) ─── */
-const F5_GUILD_HALL: readonly GuildCutsceneDef[] = (
-  [
-    "cs_guild_tier_up",
-    "cs_oracle_room_unlock",
-    "cs_room_unlock",
-    "cs_training_grounds",
-    "cs_trophy_case",
-    "cs_war_room_unlock",
-    "cs_guild_decor",
-  ] as const
-).map((id) => ({
-  id,
+/* Registry ids align with the lines-file context naming
+ * (cs_hall_tier_up, cs_signature_room_unlock_oracle_pool); bundle
+ * slugs are shorter. */
+const F5_GUILD_HALL: readonly GuildCutsceneDef[] = [
+  { registryId: "cs_hall_tier_up", bundleSlug: "cs_guild_tier_up" },
+  { registryId: "cs_signature_room_unlock_oracle_pool", bundleSlug: "cs_oracle_room_unlock" },
+  { registryId: "cs_room_unlock", bundleSlug: "cs_room_unlock" },
+  { registryId: "cs_training_grounds", bundleSlug: "cs_training_grounds" },
+  { registryId: "cs_trophy_case", bundleSlug: "cs_trophy_case" },
+  { registryId: "cs_war_room_unlock", bundleSlug: "cs_war_room_unlock" },
+  { registryId: "cs_guild_decor", bundleSlug: "cs_guild_decor" },
+  /* Portal Chamber room-unlock has its own VO line
+   * (architect_portal_001) but no dedicated bundle drop yet — fall
+   * back to the generic cs_room_unlock visuals so the VO ↔ cinematic
+   * pairing stays complete. Swap the slug to a dedicated drop when
+   * the producer ships portal-chamber-specific stills/videos. */
+  { registryId: "cs_signature_room_unlock_portal_chamber", bundleSlug: "cs_room_unlock" },
+].map(({ registryId, bundleSlug }) => ({
+  id: registryId,
   category: "f5_guild_hall" as const,
-  videoRelPath: videoPath("f5_guild_hall", `${id}.mp4`),
+  videoRelPath: videoPath("f5_guild_hall", `${bundleSlug}.mp4`),
   stillRelPaths: [
-    stillPath("f5_guild_hall", `${id}_start.png`),
-    stillPath("f5_guild_hall", `${id}_end.png`),
+    stillPath("f5_guild_hall", `${bundleSlug}_start.png`),
+    stillPath("f5_guild_hall", `${bundleSlug}_end.png`),
   ],
 }));
 

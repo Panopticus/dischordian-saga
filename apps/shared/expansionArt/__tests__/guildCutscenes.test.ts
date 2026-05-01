@@ -1,0 +1,149 @@
+import { describe, it, expect } from "vitest";
+
+import {
+  GUILD_CUTSCENES,
+  GUILD_CUTSCENE_TOTAL,
+  guildCutsceneById,
+  guildCutsceneStillUrls,
+  guildCutsceneVideoUrl,
+  guildCutscenesByCategory,
+  guildCutscenesByProfessor,
+} from "../guildCutscenesManifest";
+import {
+  GUILD_CUTSCENE_VO_PAIRS,
+  getCsVoLines,
+  getVoLine,
+  getVoLineCsId,
+  isResolvableCsId,
+} from "../guildCutsceneVoMap";
+
+const CDN_PREFIX = "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/";
+
+describe("guildCutscenesManifest — visual asset registry", () => {
+  it("ships 65 cutscene defs across the 6 producer categories", () => {
+    expect(GUILD_CUTSCENE_TOTAL).toBe(65);
+    expect(GUILD_CUTSCENES.length).toBe(65);
+    const counts = {
+      f1_onboarding: guildCutscenesByCategory("f1_onboarding").length,
+      f2_daily: guildCutscenesByCategory("f2_daily").length,
+      f2_emotes: guildCutscenesByCategory("f2_emotes").length,
+      f3_combat: guildCutscenesByCategory("f3_combat").length,
+      f4_abilities: guildCutscenesByCategory("f4_abilities").length,
+      f5_guild_hall: guildCutscenesByCategory("f5_guild_hall").length,
+    };
+    expect(counts).toEqual({
+      f1_onboarding: 5, // join, first_message, friend_accept, sorting pre + post
+      f2_daily: 4,
+      f2_emotes: 12,
+      f3_combat: 12, // 7 non-epoch + 5 epoch
+      f4_abilities: 24, // 12 sigs × light/dark
+      f5_guild_hall: 8, // 7 from bundle + 1 portal_chamber fallback
+    });
+  });
+
+  it("every entry has at least one still and a stable CDN url", () => {
+    for (const def of GUILD_CUTSCENES) {
+      expect(def.stillRelPaths.length).toBeGreaterThan(0);
+      const urls = guildCutsceneStillUrls(def.id);
+      expect(urls.length).toBe(def.stillRelPaths.length);
+      for (const u of urls) {
+        expect(u.startsWith(CDN_PREFIX)).toBe(true);
+        expect(u.includes("/guild-cutscenes/")).toBe(true);
+      }
+    }
+  });
+
+  it("video is present on every cutscene except videoless F.2.4 emotes", () => {
+    for (const def of GUILD_CUTSCENES) {
+      const url = guildCutsceneVideoUrl(def.id);
+      if (def.category === "f2_emotes") {
+        expect(url).toBeUndefined();
+        expect(def.videoRelPath).toBeUndefined();
+      } else {
+        expect(url).toBeDefined();
+        expect(url!.startsWith(CDN_PREFIX)).toBe(true);
+      }
+    }
+  });
+
+  it("ids are unique", () => {
+    const ids = new Set(GUILD_CUTSCENES.map((d) => d.id));
+    expect(ids.size).toBe(GUILD_CUTSCENES.length);
+  });
+
+  it("F.4 abilities expose both light + dark variants for all 12 Professors", () => {
+    const professors = [
+      "kanevas", "aoki", "halverez", "orphic", "mireille", "kasra",
+      "vellis", "greenshaw", "vex", "vasara", "vent", "proctor",
+    ];
+    for (const p of professors) {
+      const cuts = guildCutscenesByProfessor(p);
+      expect(cuts.length).toBe(2);
+      expect(cuts.map((c) => c.variant).sort()).toEqual(["dark", "light"]);
+    }
+  });
+
+  it("F.2.4 emotes expose the producer-original sticker variant", () => {
+    for (const def of guildCutscenesByCategory("f2_emotes")) {
+      expect(def.originalStillRelPath).toBeDefined();
+      expect(def.archonId).toBeTruthy();
+    }
+  });
+});
+
+describe("guildCutsceneVoMap — VO ↔ cutscene pairing", () => {
+  it("pairs all 62 lines from guild-cutscene-vo-lines.json", () => {
+    expect(GUILD_CUTSCENE_VO_PAIRS.length).toBe(62);
+  });
+
+  it("every pair resolves to a real entry in GUILD_CUTSCENES", () => {
+    const unresolved = GUILD_CUTSCENE_VO_PAIRS.filter(
+      (p) => !isResolvableCsId(p.csId),
+    );
+    expect(unresolved).toEqual([]);
+  });
+
+  it("F.4 line ids carry their light/dark variant in the resolved csId", () => {
+    const kanevasLight = getVoLine("kanevas_harmonize_001");
+    expect(kanevasLight?.csId).toBe("cs_sig_1_light");
+    expect(kanevasLight?.variant).toBe("light");
+
+    const kanevasDark = getVoLine("kanevas_dissonance_001");
+    expect(kanevasDark?.csId).toBe("cs_sig_1_dark");
+    expect(kanevasDark?.variant).toBe("dark");
+  });
+
+  it("cs_hall_tier_up fans out to 4 elara tier lines (2..5)", () => {
+    const lines = getCsVoLines("cs_hall_tier_up");
+    expect(lines.map((l) => l.id).sort()).toEqual([
+      "elara_tier_2_001",
+      "elara_tier_3_001",
+      "elara_tier_4_001",
+      "elara_tier_5_001",
+    ]);
+  });
+
+  it("non-F.4 lines have no variant", () => {
+    const warDeclared = getVoLine("warlord_war_declared_001");
+    expect(warDeclared?.variant).toBeUndefined();
+    expect(warDeclared?.csId).toBe("cs_war_declared");
+  });
+
+  it("getVoLineCsId is the inverse of getCsVoLines", () => {
+    for (const pair of GUILD_CUTSCENE_VO_PAIRS) {
+      expect(getVoLineCsId(pair.id)).toBe(pair.csId);
+      const lines = getCsVoLines(pair.csId);
+      expect(lines.map((l) => l.id)).toContain(pair.id);
+    }
+  });
+
+  it("speaker keys cover the 26 unique guild-cutscene voices", () => {
+    const speakers = new Set(GUILD_CUTSCENE_VO_PAIRS.map((p) => p.speaker));
+    expect(speakers.size).toBe(26);
+    // Spot-check the four newly-introduced archetype-emote speakers
+    // and the three Mechronis Professors most likely to be missed.
+    for (const k of ["chorus", "between", "warden", "politician", "kanevas", "vellis", "proctor"]) {
+      expect(speakers.has(k)).toBe(true);
+    }
+  });
+});
