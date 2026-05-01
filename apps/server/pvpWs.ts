@@ -13,6 +13,7 @@ import { filterMessage } from "@shared/moderation/profanityFilter";
 import { eq, and } from "drizzle-orm";
 import { trackPvpResult } from "./achievementTracker";
 import { awardEligibleTitles, rankTierIndex } from "./services/titleService";
+import { mirrorRating } from "./services/competitiveRatingsService";
 import { recordMatchStart, recordMatchEnd } from "./matchLengthMonitor";
 import { randomUUID } from "crypto";
 import { checkWsRateLimit, sendRateLimitError, storeDisconnectedSession, recoverSession } from "./wsRateLimit";
@@ -440,6 +441,18 @@ async function endMatch(match: ActiveMatch) {
           const totalWins = won ? row.wins + 1 : row.wins;
           trackPvpResult(player.userId, won, newStreak, newTier, totalWins)
             .catch(e => console.error("[PvP] Achievement tracking error:", e));
+
+          // Mirror into unified competitive ratings (Tier 2A).
+          mirrorRating({
+            userId: player.userId,
+            gameType: "card_1v1",
+            currentElo: newElo,
+            peakElo: Math.max(row.elo, newElo),
+            result: won ? { win: true } : { loss: true },
+            rankTier: newTier,
+            winStreak: newStreak,
+            bestStreak: Math.max(row.bestStreak, newStreak),
+          }).catch(e => console.error("[PvP] Rating mirror error:", e));
 
           // Title grant evaluation — every match-end, win or loss.
           // Idempotent; safely skips already-earned titles.

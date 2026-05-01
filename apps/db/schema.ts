@@ -5374,3 +5374,46 @@ export const userCosmeticLoadout = mysqlTable("user_cosmetic_loadout", {
 
 export type UserCosmeticLoadout = typeof userCosmeticLoadout.$inferSelect;
 export type InsertUserCosmeticLoadout = typeof userCosmeticLoadout.$inferInsert;
+
+/* ═══════════════════════════════════════════════════════
+   TIER 2A — UNIFIED COMPETITIVE RATINGS
+   One rating row per (userId, gameType). Generalises the
+   chess-specific and card-specific ELO tables into a single
+   surface that downstream readers (titles, profile feed,
+   leaderboards) consume by gameType key. Existing pvpLeaderboard
+   and chessRankings tables remain authoritative for write paths
+   during migration; competitiveRatings is mirrored on every
+   match end and read by the unified competitive router.
+   ═══════════════════════════════════════════════════════ */
+
+export const competitiveRatings = mysqlTable("competitive_ratings", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /** GameTypeKey from apps/shared/titles/types.ts. */
+  gameType: varchar("gameType", { length: 32 }).notNull(),
+  currentElo: int("currentElo").notNull().default(1200),
+  peakElo: int("peakElo").notNull().default(1200),
+  wins: int("wins").notNull().default(0),
+  losses: int("losses").notNull().default(0),
+  draws: int("draws").notNull().default(0),
+  winStreak: int("winStreak").notNull().default(0),
+  bestStreak: int("bestStreak").notNull().default(0),
+  /** RankTier from apps/shared/pvpBattle.ts (mirrored as varchar so we
+   *  don't couple the enum across rating types). */
+  rankTier: varchar("rankTier", { length: 32 }).notNull().default("bronze"),
+  placementMatchesPlayed: int("placementMatchesPlayed").notNull().default(0),
+  lastMatchAt: timestamp("lastMatchAt"),
+  lastDecayAt: timestamp("lastDecayAt"),
+  seasonNumber: int("seasonNumber").notNull().default(1),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  userIdIdx: index("idx_competitive_ratings_user_id").on(table.userId),
+  gameTypeIdx: index("idx_competitive_ratings_game_type").on(table.gameType),
+  userGameTypeUniq: uniqueIndex("uniq_competitive_ratings_user_game_type").on(
+    table.userId,
+    table.gameType,
+  ),
+}));
+
+export type CompetitiveRating = typeof competitiveRatings.$inferSelect;
+export type InsertCompetitiveRating = typeof competitiveRatings.$inferInsert;

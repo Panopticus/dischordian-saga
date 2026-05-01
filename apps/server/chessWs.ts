@@ -14,6 +14,7 @@ import { randomUUID } from "crypto";
 // Shared with pvpWs + duelystWs via the `wsRateLimit` module.
 import { checkWsRateLimit, sendRateLimitError } from "./wsRateLimit";
 import { awardEligibleTitles, rankTierIndex } from "./services/titleService";
+import { mirrorRating } from "./services/competitiveRatingsService";
 import { recordMatchStart, recordMatchEnd } from "./matchLengthMonitor";
 import {
   pickMultiplayerEndLine,
@@ -546,6 +547,22 @@ async function endMatch(match: ActiveChessMatch, winnerId: number | null, reason
               };
           awardEligibleTitles(player.userId, titleEvt)
             .catch(e => console.error("[ChessPvP] Title grant error:", e));
+
+          // Mirror into unified competitive ratings (Tier 2A).
+          mirrorRating({
+            userId: player.userId,
+            gameType: "chess",
+            currentElo: newElo,
+            peakElo: Math.max(r[0].peakElo, newElo),
+            result: winnerId === null
+              ? { draw: true }
+              : won
+                ? { win: true }
+                : { loss: true },
+            rankTier: getTier(newElo),
+            winStreak: won ? r[0].winStreak + 1 : 0,
+            bestStreak: Math.max(r[0].bestWinStreak, won ? r[0].winStreak + 1 : 0),
+          }).catch(e => console.error("[ChessPvP] Rating mirror error:", e));
         }
       }
     }

@@ -17,6 +17,7 @@ import { getDb } from "../db";
 import {
   pvpLeaderboard,
   chessRankings,
+  competitiveRatings,
   raidContributions,
   bossMastery,
   userProgress,
@@ -62,30 +63,48 @@ export async function buildTitleSnapshot(
   const bestSeasonTierByGameType = new Map<GameTypeKey, number>();
   let totalWins = 0;
 
-  // Card 1v1
-  const lbRows = await db
+  // Unified competitive ratings (Tier 2A) — read every gameType from
+  // a single table. Falls back to legacy per-gameType tables when a
+  // user hasn't been mirrored yet (pre-backfill).
+  const ratingRows = await db
     .select()
-    .from(pvpLeaderboard)
-    .where(eq(pvpLeaderboard.userId, userId))
-    .limit(1);
-  if (lbRows[0]) {
-    const r = lbRows[0];
-    rankTiers.set("card_1v1", RANK_TIER_INDEX[r.rankTier] ?? 0);
-    winsByGameType.set("card_1v1", r.wins ?? 0);
+    .from(competitiveRatings)
+    .where(eq(competitiveRatings.userId, userId));
+  for (const r of ratingRows) {
+    const key = r.gameType as GameTypeKey;
+    rankTiers.set(key, RANK_TIER_INDEX[r.rankTier] ?? 0);
+    winsByGameType.set(key, r.wins ?? 0);
     totalWins += r.wins ?? 0;
   }
 
-  // Chess
-  const chessRows = await db
-    .select()
-    .from(chessRankings)
-    .where(eq(chessRankings.userId, userId))
-    .limit(1);
-  if (chessRows[0]) {
-    const r = chessRows[0];
-    rankTiers.set("chess", RANK_TIER_INDEX[r.tier] ?? 0);
-    winsByGameType.set("chess", r.wins ?? 0);
-    totalWins += r.wins ?? 0;
+  // Legacy fallback: pvpLeaderboard for card_1v1 (read if no mirror row).
+  if (!rankTiers.has("card_1v1")) {
+    const lbRows = await db
+      .select()
+      .from(pvpLeaderboard)
+      .where(eq(pvpLeaderboard.userId, userId))
+      .limit(1);
+    if (lbRows[0]) {
+      const r = lbRows[0];
+      rankTiers.set("card_1v1", RANK_TIER_INDEX[r.rankTier] ?? 0);
+      winsByGameType.set("card_1v1", r.wins ?? 0);
+      totalWins += r.wins ?? 0;
+    }
+  }
+
+  // Legacy fallback: chessRankings.
+  if (!rankTiers.has("chess")) {
+    const chessRows = await db
+      .select()
+      .from(chessRankings)
+      .where(eq(chessRankings.userId, userId))
+      .limit(1);
+    if (chessRows[0]) {
+      const r = chessRows[0];
+      rankTiers.set("chess", RANK_TIER_INDEX[r.tier] ?? 0);
+      winsByGameType.set("chess", r.wins ?? 0);
+      totalWins += r.wins ?? 0;
+    }
   }
 
   // Co-op raids — boss mastery rollup
