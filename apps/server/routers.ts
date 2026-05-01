@@ -28,6 +28,7 @@ import { essenceHarvestRouter } from "./routers/essenceHarvest";
 import { pvpRouter } from "./routers/pvp";
 import { titlesRouter } from "./routers/titles";
 import { competitiveRouter } from "./routers/competitive";
+import { conspiracyRouter } from "./routers/conspiracy";
 import { draftRouter } from "./routers/draft";
 import { tradingRouter } from "./routers/trading";
 import { cardAchievementsRouter } from "./routers/cardAchievements";
@@ -141,6 +142,7 @@ export const appRouter = router({
   pvp: pvpRouter,
   titles: titlesRouter,
   competitive: competitiveRouter,
+  conspiracy: conspiracyRouter,
   draft: draftRouter,
   trading: tradingRouter,
   cardAchievements: cardAchievementsRouter,

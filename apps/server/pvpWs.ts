@@ -14,6 +14,7 @@ import { eq, and } from "drizzle-orm";
 import { trackPvpResult } from "./achievementTracker";
 import { awardEligibleTitles, rankTierIndex } from "./services/titleService";
 import { mirrorRating } from "./services/competitiveRatingsService";
+import { processClueDropEvent } from "./services/conspiracyService";
 import { recordMatchStart, recordMatchEnd } from "./matchLengthMonitor";
 import { randomUUID } from "crypto";
 import { checkWsRateLimit, sendRateLimitError, storeDisconnectedSession, recoverSession } from "./wsRateLimit";
@@ -453,6 +454,10 @@ async function endMatch(match: ActiveMatch) {
             winStreak: newStreak,
             bestStreak: Math.max(row.bestStreak, newStreak),
           }).catch(e => console.error("[PvP] Rating mirror error:", e));
+
+          // Tier 2B: roll a clue drop into Conspiracy Boards.
+          processClueDropEvent(player.userId, won ? "pvp_card_win" : "pvp_card_loss")
+            .catch(e => console.error("[PvP] Clue drop error:", e));
 
           // Title grant evaluation — every match-end, win or loss.
           // Idempotent; safely skips already-earned titles.

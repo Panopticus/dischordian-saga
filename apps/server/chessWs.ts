@@ -15,6 +15,7 @@ import { randomUUID } from "crypto";
 import { checkWsRateLimit, sendRateLimitError } from "./wsRateLimit";
 import { awardEligibleTitles, rankTierIndex } from "./services/titleService";
 import { mirrorRating } from "./services/competitiveRatingsService";
+import { processClueDropEvent } from "./services/conspiracyService";
 import { recordMatchStart, recordMatchEnd } from "./matchLengthMonitor";
 import {
   pickMultiplayerEndLine,
@@ -563,6 +564,10 @@ async function endMatch(match: ActiveChessMatch, winnerId: number | null, reason
             winStreak: won ? r[0].winStreak + 1 : 0,
             bestStreak: Math.max(r[0].bestWinStreak, won ? r[0].winStreak + 1 : 0),
           }).catch(e => console.error("[ChessPvP] Rating mirror error:", e));
+
+          // Tier 2B: roll a clue drop into Conspiracy Boards.
+          processClueDropEvent(player.userId, won ? "pvp_chess_win" : "pvp_chess_loss")
+            .catch(e => console.error("[ChessPvP] Clue drop error:", e));
         }
       }
     }

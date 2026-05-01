@@ -5417,3 +5417,115 @@ export const competitiveRatings = mysqlTable("competitive_ratings", {
 
 export type CompetitiveRating = typeof competitiveRatings.$inferSelect;
 export type InsertCompetitiveRating = typeof competitiveRatings.$inferInsert;
+
+/* ═══════════════════════════════════════════════════════
+   TIER 2B — WITNESSING DISCOVERY RACE
+   Conspiracy boards (mystery puzzles), per-player + per-guild
+   clue progress, server-wide reveal events. First-discoverer
+   guilds trigger faction-wide bonuses + tier-3 lore titles.
+   ═══════════════════════════════════════════════════════ */
+
+/**
+ * Persistent record of every globally-significant discovery event.
+ * Written exactly once per eventKey when a user (or guild) is first
+ * to satisfy the discovery condition. Subsequent solvers are NOT
+ * recorded here — they produce normal `userClueProgress` rows.
+ */
+export const discoveryEvents = mysqlTable("discovery_events", {
+  id: int("id").autoincrement().primaryKey(),
+  /** Stable key, e.g. "kael_fragment_F4", "secret_act_3_revealed",
+   *  "conspiracy_thought_virus_solved". */
+  eventKey: varchar("eventKey", { length: 96 }).notNull().unique(),
+  firstDiscovererUserId: int("firstDiscovererUserId").notNull(),
+  firstDiscovererGuildId: int("firstDiscovererGuildId"),
+  discoveredAt: timestamp("discoveredAt").defaultNow().notNull(),
+  /** When this event triggered a server-wide reveal (i.e. flipped
+   *  unlock state for every player). NULL = not yet promoted. */
+  serverWideRevealedAt: timestamp("serverWideRevealedAt"),
+  /** Faction whose pressureService bumped on this discovery. */
+  factionAlignment: varchar("factionAlignment", { length: 32 }),
+}, (table) => ({
+  eventKeyIdx: index("idx_discovery_events_event_key").on(table.eventKey),
+  firstUserIdx: index("idx_discovery_events_first_user").on(table.firstDiscovererUserId),
+}));
+
+export type DiscoveryEvent = typeof discoveryEvents.$inferSelect;
+export type InsertDiscoveryEvent = typeof discoveryEvents.$inferInsert;
+
+/**
+ * Conspiracy board definitions — mystery puzzles assembled from
+ * clue tokens. Backed by lore (Project Celebration / Thought Virus
+ * / Kael's Revenge / Watcher Infiltration / Recruiter Defection).
+ *
+ * Definitions are seeded from
+ * apps/shared/conspiracyBoards/definitions.ts at app start.
+ */
+export const conspiracyBoards = mysqlTable("conspiracy_boards", {
+  id: int("id").autoincrement().primaryKey(),
+  boardKey: varchar("boardKey", { length: 64 }).notNull().unique(),
+  name: varchar("name", { length: 128 }).notNull(),
+  description: text("description"),
+  /** Number of distinct clue keys required to solve. */
+  cluesRequired: int("cluesRequired").notNull(),
+  /** JSON array of clue keys this board accepts. */
+  acceptedClues: json("acceptedClues").$type<string[]>().notNull(),
+  factionAlignment: varchar("factionAlignment", { length: 32 }),
+  /** When promoted to live, server-wide rules apply. */
+  active: int("active").notNull().default(1),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type ConspiracyBoard = typeof conspiracyBoards.$inferSelect;
+export type InsertConspiracyBoard = typeof conspiracyBoards.$inferInsert;
+
+/**
+ * Per-player clue progress. One row per (userId, boardKey).
+ * `cluesGathered` is a JSON array of clue keys the user has earned.
+ */
+export const userClueProgress = mysqlTable("user_clue_progress", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  boardKey: varchar("boardKey", { length: 64 }).notNull(),
+  cluesGathered: json("cluesGathered").$type<string[]>().notNull().default([]),
+  solvedAt: timestamp("solvedAt"),
+  /** Was this user the first-discoverer (rank=1)? Forwarded from
+   *  the discoveryEvents row at solve time. */
+  isFirstDiscoverer: int("isFirstDiscoverer").notNull().default(0),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  userIdIdx: index("idx_user_clue_progress_user_id").on(table.userId),
+  userBoardUniq: uniqueIndex("uniq_user_clue_progress_user_board").on(
+    table.userId,
+    table.boardKey,
+  ),
+}));
+
+export type UserClueProgress = typeof userClueProgress.$inferSelect;
+export type InsertUserClueProgress = typeof userClueProgress.$inferInsert;
+
+/**
+ * Per-guild aggregated clue progress. Members' clue contributions
+ * roll up to the guild row; the first guild to assemble all clues
+ * triggers the server-wide reveal.
+ */
+export const guildClueProgress = mysqlTable("guild_clue_progress", {
+  id: int("id").autoincrement().primaryKey(),
+  guildId: int("guildId").notNull(),
+  boardKey: varchar("boardKey", { length: 64 }).notNull(),
+  /** Aggregated unique clues contributed by any member. */
+  cluesGathered: json("cluesGathered").$type<string[]>().notNull().default([]),
+  /** Per-member contribution counts: { [userId]: count }. */
+  contributors: json("contributors").$type<Record<string, number>>().notNull().default({}),
+  solvedAt: timestamp("solvedAt"),
+  isFirstDiscoverer: int("isFirstDiscoverer").notNull().default(0),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  guildIdIdx: index("idx_guild_clue_progress_guild_id").on(table.guildId),
+  guildBoardUniq: uniqueIndex("uniq_guild_clue_progress_guild_board").on(
+    table.guildId,
+    table.boardKey,
+  ),
+}));
+
+export type GuildClueProgress = typeof guildClueProgress.$inferSelect;
+export type InsertGuildClueProgress = typeof guildClueProgress.$inferInsert;

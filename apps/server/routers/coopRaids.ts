@@ -20,6 +20,7 @@ import { ripple } from "../services/rippleEngine";
 import { checkFeatureFlag } from "../middleware/featureFlag";
 import { getConsequences } from "../services/universeConsequences";
 import { awardEligibleTitles } from "../services/titleService";
+import { processClueDropEvent } from "../services/conspiracyService";
 import { createHash } from "crypto";
 
 export const coopRaidsRouter = router({
@@ -175,6 +176,10 @@ export const coopRaidsRouter = router({
             contribution: c.contributionScore,
             partyHash,
           }).catch(e => console.error("[CoopRaids] Title grant error:", e));
+
+          // Tier 2B: every contributor rolls a clue drop on raid clear.
+          processClueDropEvent(c.userId, "coop_raid_clear")
+            .catch(e => console.error("[CoopRaids] Clue drop error:", e));
         }
       }
 
