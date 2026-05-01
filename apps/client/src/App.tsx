@@ -108,6 +108,7 @@ const Act4MatchPage = lazy(() => import("./pages/Act4MatchPage"));
 const Act4PrisonerStoryPage = lazy(() => import("./pages/Act4PrisonerStoryPage"));
 const Act1C4TrialPage = lazy(() => import("./pages/Act1C4TrialPage"));
 const DevVariantsPage = lazy(() => import("./pages/DevVariantsPage"));
+const DevGuildCutscenesPage = lazy(() => import("./pages/DevGuildCutscenesPage"));
 const CrossGameThreadsPage = lazy(() => import("./pages/CrossGameThreadsPage"));
 const Act2InterludePage = lazy(() => import("./pages/Act2InterludePage"));
 const EngineersBenchPage = lazy(() => import("./pages/EngineersBenchPage"));
@@ -299,6 +300,7 @@ function Router() {
         <Route path="/act4-prisoner" component={Act4PrisonerStoryPage} />
         <Route path="/act1-c4-trial" component={Act1C4TrialPage} />
         <Route path="/dev/variants" component={DevVariantsPage} />
+        <Route path="/dev/guild-cutscenes" component={DevGuildCutscenesPage} />
         <Route path="/cross-game-threads" component={CrossGameThreadsPage} />
         <Route path="/act2-interlude" component={Act2InterludePage} />
         <Route path="/engineers-bench" component={EngineersBenchPage} />
