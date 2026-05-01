@@ -28,7 +28,7 @@
  * The manifest set mirrors `_check-art-coverage.mjs` so the two scripts
  * agree on the universe of URLs in scope.
  */
-import { existsSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { readdir, stat } from "node:fs/promises";
 import { basename, extname, join } from "node:path";
 
@@ -99,6 +99,47 @@ for (const t of ALBUM1_TRACKS) {
       id: `${t.id}/${basename(rel)}`,
       relPath: rel,
     });
+  }
+}
+
+// preludeAct1Deliverables.ts uses the @/lib/assetUrl vite-alias import,
+// which makes runtime importing here painful. Grep-extract the path
+// literals instead — the file is a hand-curated catalog of string
+// constants, regex extraction is stable. We pull `pair("X")` (which
+// emits both X.png and X.webp under the hood) and `assetUrl("X")`.
+const DELIVERABLES_PATH = join(
+  REPO_ROOT,
+  "apps",
+  "client",
+  "src",
+  "data",
+  "preludeAct1Deliverables.ts",
+);
+if (existsSync(DELIVERABLES_PATH)) {
+  const src = readFileSync(DELIVERABLES_PATH, "utf-8");
+  const seen = new Set();
+  // pair("X") → X.png + X.webp. Whitespace tolerance handles the
+  // prettier-formatted multi-line `pair(\n  "...",\n)` shape.
+  for (const m of src.matchAll(/pair\(\s*"([^"]+\.png)"/g)) {
+    const png = m[1];
+    const webp = png.replace(/\.png$/u, ".webp");
+    if (!seen.has(png)) {
+      seen.add(png);
+      jobs.push({ source: "prelude-act1-deliverables", id: png, relPath: png });
+    }
+    if (!seen.has(webp)) {
+      seen.add(webp);
+      jobs.push({ source: "prelude-act1-deliverables", id: webp, relPath: webp });
+    }
+  }
+  // assetUrl("X") → X (covers MP4 / MP3 / WAV / etc.). Whitespace
+  // tolerance for prettier-formatted multi-line invocations.
+  for (const m of src.matchAll(/assetUrl\(\s*"([^"]+)"/g)) {
+    const rel = m[1];
+    if (!seen.has(rel)) {
+      seen.add(rel);
+      jobs.push({ source: "prelude-act1-deliverables", id: rel, relPath: rel });
+    }
   }
 }
 
