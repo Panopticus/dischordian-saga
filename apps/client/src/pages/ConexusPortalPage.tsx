@@ -17,6 +17,12 @@ import {
   type ConexusGame, type Age
 } from "@/data/conexusGames";
 import { LORE_ACHIEVEMENTS, getAchievementByGameId, type LoreAchievement } from "@/data/loreAchievements";
+import {
+  ANTIQUARIAN_ASSIGNMENTS,
+  assignmentCompletionFlag,
+  getActiveAssignments,
+  getAntiquarianTrust,
+} from "@/data/antiquarianAssignments";
 import { TOME_PLACEMENTS } from "@/game/livingArk";
 import { useLoredex } from "@/contexts/LoredexContext";
 import { useGame } from "@/contexts/GameContext";
@@ -36,30 +42,51 @@ export default function ConexusPortalPage() {
   const [showAchievementModal, setShowAchievementModal] = useState<LoreAchievement | null>(null);
   const [tomeGame, setTomeGame] = useState<ConexusGame | null>(null);
   const { getEntry } = useLoredex();
-  const { state, completeGame, earnLoreAchievement, isGameCompleted } = useGame();
+  const { state, completeGame, earnLoreAchievement, isGameCompleted, setNarrativeFlag, adjustNpcTrust } = useGame();
   const { recordAndReward } = useContentReward();
 
-  // Check which tomes the player has discovered (from Living Ark room events)
+  // Antiquarian's prescriptions for the current act + trust tier.
+  const activeAssignments = useMemo(
+    () => getActiveAssignments({
+      narrativeAct: state.narrativeAct ?? 0,
+      antiquarianTrust: getAntiquarianTrust(state.npcTrust),
+      narrativeFlags: state.narrativeFlags ?? {},
+      completedGames: state.completedGames,
+    }),
+    [state.narrativeAct, state.npcTrust, state.narrativeFlags, state.completedGames],
+  );
+
+  // Check which tomes the player has discovered (from Living Ark room events).
+  // Trust thresholds read state.npcTrust[npcId] for non-elara NPCs (elara has
+  // her own top-level field). Exploration uses room visitCount; quest / game /
+  // npc_gift use a single narrativeFlag (npc_gift also requires trust).
   const discoveredTomes = useMemo(() => {
     const discovered = new Set<string>();
+    const readTrust = (npc: string): number => {
+      if (npc === "elara") return (state as any).elaraTrust ?? 10;
+      if (npc === "the_human") return (state as any).humanTrust ?? 0;
+      return state.npcTrust?.[npc] ?? 0;
+    };
     for (const placement of TOME_PLACEMENTS) {
-      // Exploration tomes: discovered if room has been visited
       if (placement.method === "exploration") {
         const roomKey = placement.roomId.replace(/_/g, "-");
         if (state.rooms?.[roomKey]?.visitCount > 0) discovered.add(placement.tomeId);
+        continue;
       }
-      // Trust-gated: check trust level
       if (placement.method === "trust" && placement.trustReq) {
-        const trust = placement.trustReq.npc === "elara" ? ((state as any).elaraTrust ?? 10) : 0;
-        if (trust >= placement.trustReq.min) discovered.add(placement.tomeId);
+        if (readTrust(placement.trustReq.npc) >= placement.trustReq.min) discovered.add(placement.tomeId);
+        continue;
       }
-      // Quest/game gated: check narrative flags
+      if (placement.method === "npc_gift" && placement.trustReq) {
+        if (readTrust(placement.trustReq.npc) >= placement.trustReq.min) discovered.add(placement.tomeId);
+        continue;
+      }
       if ((placement.method === "quest" || placement.method === "game") && placement.flagReq) {
         if (state.narrativeFlags?.[placement.flagReq]) discovered.add(placement.tomeId);
       }
     }
     return discovered;
-  }, [state.rooms, (state as any).elaraTrust, state.narrativeFlags]);
+  }, [state.rooms, (state as any).elaraTrust, state.npcTrust, state.narrativeFlags]);
 
   // Check if a game is discoverable (has a tome placement and is discovered)
   const isGameDiscovered = (gameId: string): boolean => {
@@ -84,6 +111,33 @@ export default function ConexusPortalPage() {
     completeGame(game.id);
     // Record content participation for card rewards
     recordAndReward("conexus_game", game.id, true, { title: game.title, age: game.age });
+
+    // CoNexus → main saga feedback loop. The flag pattern matches the
+    // existing `lockedUntil: "<gameId>_conexus_complete"` gates declared
+    // in apps/shared/epochWitnessVotes.ts and the `conexusLoreViewed`
+    // relevance boost in apps/shared/epochZeroTriggers.ts. Setting them
+    // here is what makes a closed Tome echo into the Witness votes,
+    // Epoch Zero discovery weights, and Antiquarian dialogue callbacks.
+    setNarrativeFlag(`${game.id}_conexus_complete`, true);
+    setNarrativeFlag("conexusLoreViewed", true);
+    // Antiquarian dialogue keys off this verb (see ANTIQUARIAN_CALLBACKS
+    // "read_tome" in apps/client/src/game/antiquarianRelationship.ts).
+    setNarrativeFlag("completed_conexus_story", true);
+    // Witnessing other endings is exactly what builds Antiquarian trust.
+    adjustNpcTrust("antiquarian", 3);
+
+    // If this game was an active Antiquarian Prescription, close it out
+    // and hand the player his postscript so the assignment feels diegetic.
+    const assignment = ANTIQUARIAN_ASSIGNMENTS.find((a) => a.gameId === game.id);
+    if (assignment && !state.narrativeFlags?.[assignmentCompletionFlag(assignment.id)]) {
+      setNarrativeFlag(assignmentCompletionFlag(assignment.id), true);
+      adjustNpcTrust("antiquarian", 2);
+      toast(assignment.postscript, {
+        duration: 9000,
+        description: "— The Antiquarian",
+      });
+    }
+
     // Also earn the lore achievement
     const ach = getAchievementByGameId(game.id);
     if (ach && !state.loreAchievements.includes(ach.id)) {
@@ -297,6 +351,48 @@ export default function ConexusPortalPage() {
         ) : (
           /* ═══ LIBRARY VIEW ═══ */
           <>
+            {/* Antiquarian's Prescriptions — act/trust-aware tome assignments */}
+            {activeAssignments.length > 0 && (
+              <motion.div
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="void-surface void-border p-4 space-y-3"
+              >
+                <div className="flex items-center gap-2">
+                  <Scroll size={14} className="void-text-accent" />
+                  <span className="font-mono text-[10px] void-text-accent tracking-[0.3em]">
+                    THE ANTIQUARIAN HAS LAID OUT {activeAssignments.length} TOME{activeAssignments.length === 1 ? "" : "S"} FOR YOU
+                  </span>
+                </div>
+                {activeAssignments.map((assignment) => {
+                  const game = CONEXUS_GAMES.find(g => g.id === assignment.gameId);
+                  if (!game) return null;
+                  return (
+                    <div key={assignment.id} className="rounded-lg border void-border void-bg-sunk p-3">
+                      <p className="text-sm text-muted-foreground leading-relaxed italic mb-2">
+                        "{assignment.prescription}"
+                      </p>
+                      <div className="flex items-center justify-between gap-2 flex-wrap">
+                        <div className="flex items-center gap-2 text-[10px] font-mono text-muted-foreground/60">
+                          <BookOpen size={11} className="void-text-accent" />
+                          <span className="void-text-accent">{game.title}</span>
+                          <span>·</span>
+                          <span>{game.estimatedTime}</span>
+                        </div>
+                        <button
+                          onClick={() => setTomeGame(game)}
+                          className="flex items-center gap-1.5 px-3 py-1.5 rounded-md void-bg-system border void-border-system void-text-system text-[10px] font-mono tracking-wider transition-all"
+                        >
+                          ACCEPT TOME
+                          <ChevronRight size={11} />
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </motion.div>
+            )}
+
             {/* Lore Intro */}
             <motion.div
               initial={{ opacity: 0, y: 15 }}
