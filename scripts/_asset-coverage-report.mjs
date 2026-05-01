@@ -28,21 +28,11 @@
  * The manifest set mirrors `_check-art-coverage.mjs` so the two scripts
  * agree on the universe of URLs in scope.
  */
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync } from "node:fs";
 import { readdir, stat } from "node:fs/promises";
 import { basename, extname, join } from "node:path";
 
-import { TRADE_EMPIRE_ART_PROMPTS } from "../apps/shared/tradeEmpireArtPrompts.ts";
-import { HIERARCHY_OF_DAMNED_ART } from "../apps/shared/expansionArt/hierarchyOfDamned.ts";
-import {
-  DISCHORDIA_BASE_SET_ART,
-  DISCHORDIA_BASE_SET_TIER_GRIDS,
-} from "../apps/shared/expansionArt/dischordiaBaseSet.ts";
-import {
-  CINEMATICS,
-  VFX_CLIPS,
-} from "../apps/shared/expansionArt/cinematicsManifest.ts";
-import { ALBUM1_TRACKS } from "../apps/shared/expansionArt/album1Slideshows.ts";
+import { collectAllJobs } from "./_lib/manifestJobs.mjs";
 
 const REPO_ROOT = process.cwd();
 const PUBLIC_ROOT = join(REPO_ROOT, "apps", "client", "public");
@@ -51,97 +41,7 @@ const SOURCE_DIRS = [
   join(REPO_ROOT, "docs", "art-originals"),
 ];
 
-const TE_CATEGORY_DIR = {
-  wonder: "wonders",
-  era_banner: "eras",
-  encounter_key_art: "encounters",
-  doctrine_banner: "doctrines",
-  fleet_silhouette: "fleet",
-  pirate_portrait: "fleet",
-  civic_icon: "civics",
-  sector_painting: "sectors",
-};
-
-/** @typedef {{ source: string, id: string, relPath: string }} Job */
-/** @type {Job[]} */
-const jobs = [];
-
-for (const p of TRADE_EMPIRE_ART_PROMPTS) {
-  jobs.push({
-    source: "trade-empire",
-    id: p.assetId,
-    relPath: `art/trade-empire/${TE_CATEGORY_DIR[p.category]}/${p.assetId}.webp`,
-  });
-}
-for (const e of HIERARCHY_OF_DAMNED_ART) {
-  jobs.push({ source: "hierarchy-of-damned", id: e.assetId, relPath: e.relPath });
-}
-for (const e of DISCHORDIA_BASE_SET_ART) {
-  jobs.push({ source: "base-set", id: e.assetId, relPath: e.relPath });
-}
-for (const e of DISCHORDIA_BASE_SET_TIER_GRIDS) {
-  jobs.push({ source: "base-set-grids", id: e.assetId, relPath: e.relPath });
-}
-for (const c of CINEMATICS) {
-  jobs.push({ source: "cinematics-mp4", id: c.id, relPath: c.videoRelPath });
-  for (const kf of c.keyframeRelPaths) {
-    jobs.push({ source: "cinematics-keyframes", id: kf, relPath: kf });
-  }
-}
-for (const v of VFX_CLIPS) {
-  jobs.push({ source: "vfx-mp4", id: v.id, relPath: v.videoRelPath });
-  jobs.push({ source: "vfx-keyframes", id: v.id, relPath: v.keyframeRelPath });
-}
-for (const t of ALBUM1_TRACKS) {
-  for (const rel of t.frameRelPaths) {
-    jobs.push({
-      source: "album1-slideshows",
-      id: `${t.id}/${basename(rel)}`,
-      relPath: rel,
-    });
-  }
-}
-
-// preludeAct1Deliverables.ts uses the @/lib/assetUrl vite-alias import,
-// which makes runtime importing here painful. Grep-extract the path
-// literals instead — the file is a hand-curated catalog of string
-// constants, regex extraction is stable. We pull `pair("X")` (which
-// emits both X.png and X.webp under the hood) and `assetUrl("X")`.
-const DELIVERABLES_PATH = join(
-  REPO_ROOT,
-  "apps",
-  "client",
-  "src",
-  "data",
-  "preludeAct1Deliverables.ts",
-);
-if (existsSync(DELIVERABLES_PATH)) {
-  const src = readFileSync(DELIVERABLES_PATH, "utf-8");
-  const seen = new Set();
-  // pair("X") → X.png + X.webp. Whitespace tolerance handles the
-  // prettier-formatted multi-line `pair(\n  "...",\n)` shape.
-  for (const m of src.matchAll(/pair\(\s*"([^"]+\.png)"/g)) {
-    const png = m[1];
-    const webp = png.replace(/\.png$/u, ".webp");
-    if (!seen.has(png)) {
-      seen.add(png);
-      jobs.push({ source: "prelude-act1-deliverables", id: png, relPath: png });
-    }
-    if (!seen.has(webp)) {
-      seen.add(webp);
-      jobs.push({ source: "prelude-act1-deliverables", id: webp, relPath: webp });
-    }
-  }
-  // assetUrl("X") → X (covers MP4 / MP3 / WAV / etc.). Whitespace
-  // tolerance for prettier-formatted multi-line invocations.
-  for (const m of src.matchAll(/assetUrl\(\s*"([^"]+)"/g)) {
-    const rel = m[1];
-    if (!seen.has(rel)) {
-      seen.add(rel);
-      jobs.push({ source: "prelude-act1-deliverables", id: rel, relPath: rel });
-    }
-  }
-}
+const jobs = collectAllJobs(REPO_ROOT);
 
 // ─── Index source-side basenames for fast NEEDS_CONVERT lookup ───
 //

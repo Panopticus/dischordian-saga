@@ -52,6 +52,7 @@
     "assets:upload:dry": "tsx apps/scripts/upload-public-to-s3.ts --dry-run",
     "assets:upload": "tsx apps/scripts/upload-public-to-s3.ts",
     "assets:coverage": "tsx scripts/_asset-coverage-report.mjs",
+    "assets:liveness": "tsx scripts/_check-cdn-liveness.mjs",
     "assets:stage:dry": "tsx scripts/_stage-from-intermediate.mjs --dry-run",
     "assets:stage": "tsx scripts/_stage-from-intermediate.mjs",
     "assets:rewrite:dry": "tsx apps/scripts/rewrite-asset-refs.ts",
