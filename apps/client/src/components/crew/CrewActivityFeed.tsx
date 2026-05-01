@@ -125,7 +125,7 @@ export default function CrewActivityFeed({ state }: Props) {
 
   return (
     <>
-      <div className="space-y-1 max-h-[calc(100vh-16rem)] overflow-y-auto">
+      <div className="space-y-1 max-h-[calc(100dvh-16rem)] overflow-y-auto">
         {sorted.map((entry: SerializedFeedEntry) => {
           const Icon = SEVERITY_ICON[entry.severity] ?? Info;
           const hasDetail = !!(entry.actionable && entry.foreshadows && FORESHADOW_DETAILS[entry.foreshadows]);

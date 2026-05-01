@@ -1949,6 +1949,34 @@ export const guildWarContributions = mysqlTable("guild_war_contributions", {
 }));
 export type GuildWarContribution = typeof guildWarContributions.$inferSelect;
 
+/**
+ * Per-player progress on the 8 weekly guild contracts (F.2.1 / F.2.2
+ * cinematic surface). One row per (userId, weekId, contractId) — the
+ * weekId is the ISO 8601 week ("2026-W18") so progress resets cleanly
+ * at the Sunday→Monday UTC boundary without a destructive write. The
+ * uniq index makes incrementProgress an upsert candidate.
+ *
+ * progressCount counts source-events of the contract's matching type;
+ * once it crosses the template's targetCount, completeContract validates
+ * + sets completedAt and fires cs_contract_complete.
+ */
+export const guildContractProgress = mysqlTable("guild_contract_progress", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  weekId: varchar("weekId", { length: 16 }).notNull(),
+  contractId: varchar("contractId", { length: 64 }).notNull(),
+  progressCount: int("progressCount").notNull().default(0),
+  completedAt: timestamp("completedAt"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull().onUpdateNow(),
+}, (table) => ({
+  uniqUserWeekContract: uniqueIndex("uniq_guild_contract_user_week_contract").on(
+    table.userId, table.weekId, table.contractId,
+  ),
+  userWeekIdx: index("idx_guild_contract_user_week").on(table.userId, table.weekId),
+}));
+export type GuildContractProgress = typeof guildContractProgress.$inferSelect;
+
 /** Marketplace tax pool — accumulates taxes for guild wars and season prizes */
 export const marketTaxPool = mysqlTable("market_tax_pool", {
   id: int("id").autoincrement().primaryKey(),
@@ -5851,3 +5879,40 @@ export const competitiveRatingsBackfill = mysqlTable("competitive_ratings_backfi
   ranAt: timestamp("ranAt").defaultNow().notNull(),
 });
 export type CompetitiveRatingsBackfillRow = typeof competitiveRatingsBackfill.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
+   DREAMER AWARENESS — silent-counter substrate for the dual-
+   faction recruitment system (D1 in
+   /root/.claude/plans/continue-your-qr-assessment-mighty-valley.md).
+
+   The Dreamer recruits covertly: specific player actions that
+   his agents notice raise the awareness counter. The counter
+   has no UI — players who notice they're being watched figure
+   it out from the coded vision cutscenes that fire at the four
+   Discordian thresholds {3, 7, 13, 23}.
+
+   Each tag fires at most once per user (the tagsFired pipe-joined
+   string is the dedupe set). Re-firing the same tag is a no-op,
+   so callers don't have to guard against double-trigger races.
+
+   Bootstrap: apps/server/services/dreamerAwarenessBootstrap.ts.
+   Tag catalog: apps/shared/dreamerAwarenessTags.ts.
+   Service: apps/server/services/dreamerAwareness.ts.
+   ═══════════════════════════════════════════════════════ */
+export const dreamerAwareness = mysqlTable("dreamer_awareness", {
+  userId: int("userId").primaryKey(),
+  /** Monotonic count. Sum of weights of every distinct tag fired. */
+  awarenessCount: int("awarenessCount").notNull().default(0),
+  /** Pipe-joined tag-id list. Used as the "tag has fired" dedupe set
+   *  so re-tagging is idempotent (cheap O(N) substring check at
+   *  service-call time; N is bounded by the catalog size in
+   *  apps/shared/dreamerAwarenessTags.ts). */
+  tagsFired: varchar("tagsFired", { length: 1024 }).notNull().default(""),
+  /** JSON array of vision ids the player has been delivered. The
+   *  vision system writes here on completion; Set semantics enforced
+   *  in the service. */
+  visionsReceived: json("visionsReceived").$type<string[]>(),
+  lastTagAt: timestamp("lastTagAt"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+export type DreamerAwarenessRow = typeof dreamerAwareness.$inferSelect;

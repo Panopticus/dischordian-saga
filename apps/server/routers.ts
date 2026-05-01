@@ -87,6 +87,7 @@ import { tradeContractsRouter } from "./routers/tradeContracts";
 import { techTreeRouter } from "./routers/techTree";
 import { masteryTreeRouter } from "./routers/masteryTree";
 import { guildHallRouter } from "./routers/guildHall";
+import { guildContractsRouter } from "./routers/guildContracts";
 import { tradeEmpireRouter } from "./routers/tradeEmpire";
 import { petBattlesRouter } from "./routers/petBattles";
 import { seedDataRouter } from "./routers/seedData";
@@ -120,6 +121,9 @@ import { arkThemesRouter } from "./routers/arkThemes";
 import { announcementsRouter } from "./routers/announcements";
 import { playerResetRouter } from "./routers/playerReset";
 import { engagementRouter } from "./routers/engagement";
+import { dreamerVisionsRouter } from "./routers/dreamerVisions";
+import { dreamerAwarenessRouter } from "./routers/dreamerAwareness";
+import { architectDossierRouter } from "./routers/architectDossier";
 
 export const appRouter = router({
   collection: collectionRouter,
@@ -204,6 +208,7 @@ export const appRouter = router({
   techTree: techTreeRouter,
   masteryTree: masteryTreeRouter,
   guildHall: guildHallRouter,
+  guildContracts: guildContractsRouter,
   tradeEmpire: tradeEmpireRouter,
   petBattles: petBattlesRouter,
   seedData: seedDataRouter,
@@ -232,6 +237,9 @@ export const appRouter = router({
   factions: factionsRouter,
   celebration: celebrationRouter,
   engagement: engagementRouter,
+  dreamerVisions: dreamerVisionsRouter,
+  dreamerAwareness: dreamerAwarenessRouter,
+  architectDossier: architectDossierRouter,
   crossGameThreads: crossGameThreadsRouter,
   arkThemes: arkThemesRouter,
   announcements: announcementsRouter,

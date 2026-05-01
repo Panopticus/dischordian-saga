@@ -10,6 +10,11 @@ import { router, protectedProcedure } from "../_core/trpc";
 import { getDb } from "../db";
 import { guilds, guildMembers } from "../../db/schema";
 import { eq, and } from "drizzle-orm";
+import {
+  type CutsceneTrigger,
+  roomUnlockCutscene,
+  tierUpCutscene,
+} from "@shared/expansionArt/guildCutsceneVoMap";
 
 function dbUnavailable(): never {
   throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Database unavailable" });
@@ -96,10 +101,11 @@ export const guildHallRouter = router({
 
     // Auto-unlock rooms for new tier
     const hallData = (guild as any).hallData as HallData ?? DEFAULT_HALL;
-    const newRooms = Object.entries(ROOM_TIER)
-      .filter(([_, tier]) => tier <= nextTier)
+    const previouslyUnlocked = new Set(hallData.unlockedRooms);
+    const newlyUnlockedRooms = Object.entries(ROOM_TIER)
+      .filter(([roomId, tier]) => tier <= nextTier && !previouslyUnlocked.has(roomId))
       .map(([roomId]) => roomId);
-    hallData.unlockedRooms = [...new Set([...hallData.unlockedRooms, ...newRooms])];
+    hallData.unlockedRooms = [...new Set([...hallData.unlockedRooms, ...newlyUnlockedRooms])];
 
     await db.update(guilds)
       .set({
@@ -109,7 +115,23 @@ export const guildHallRouter = router({
       } as any)
       .where(eq(guilds.id, guild.id));
 
-    return { success: true, newTier: nextTier, unlockedRooms: hallData.unlockedRooms };
+    // Build the cutscene queue for the client. The tier-up always
+    // plays first; per-room signature unlocks (oracle_pool,
+    // portal_chamber) chain after it. Generic rooms also queue a
+    // cs_room_unlock cinematic each. Caller plays them in order.
+    const cutscenes: CutsceneTrigger[] = [tierUpCutscene(nextTier as 2 | 3 | 4 | 5)];
+    for (const roomId of newlyUnlockedRooms) {
+      const trigger = roomUnlockCutscene(roomId);
+      if (trigger) cutscenes.push(trigger);
+    }
+
+    return {
+      success: true,
+      newTier: nextTier,
+      unlockedRooms: hallData.unlockedRooms,
+      newlyUnlockedRooms,
+      cutscenes,
+    };
   }),
 
   placeDecoration: protectedProcedure

@@ -88,4 +88,38 @@ export const MANUAL_TRIAL_CATEGORIES: Readonly<
   // your move" theme).
   s1_spell_106: ["narrative", "offensive"],
   s1_spell_207: ["offensive", "reactive"],
+
+  // ---- Mechronis Professor signature spells (s2_professors) ----
+  // 12 Professors × light + dark = 24 spells. Light variants are
+  // sanctioned casts → narrative (the spell IS the Professor's
+  // authoritative beat) + reactive (responds to game state). Dark
+  // variants are the corruption arc → narrative + offensive (twisted
+  // intent, harms others). The proposer can't categorise these
+  // because abilities are intentionally empty (auto-draft pending
+  // a design balance pass); when abilities land, the proposer will
+  // pick them up automatically and these overrides become redundant.
+  s2_professors_aoki_private_confession: ["narrative", "offensive"],
+  s2_professors_aoki_unseen_passage: ["narrative", "reactive"],
+  s2_professors_greenshaw_quarantine: ["narrative", "reactive"],
+  s2_professors_greenshaw_thought_virus: ["narrative", "offensive"],
+  s2_professors_halverez_soul_read: ["narrative", "reactive"],
+  s2_professors_halverez_soul_take: ["narrative", "offensive"],
+  s2_professors_kanevas_dissonance: ["narrative", "offensive"],
+  s2_professors_kanevas_harmonize: ["narrative", "reactive"],
+  s2_professors_kasra_acceptable_casualties: ["narrative", "offensive"],
+  s2_professors_kasra_parade_order: ["narrative", "reactive"],
+  s2_professors_mireille_thought_carry: ["narrative", "offensive"],
+  s2_professors_mireille_viral_word: ["narrative", "reactive"],
+  s2_professors_orphic_dimensional_drift: ["narrative", "offensive"],
+  s2_professors_orphic_phase_step: ["narrative", "reactive"],
+  s2_professors_proctor_architect_s_eye: ["narrative", "offensive"],
+  s2_professors_proctor_investigator_s_sight: ["narrative", "reactive"],
+  s2_professors_vasara_borrowed_time: ["narrative", "offensive"],
+  s2_professors_vasara_second_breath: ["narrative", "reactive"],
+  s2_professors_vellis_blood_oath: ["narrative", "offensive"],
+  s2_professors_vellis_verbal_contract: ["narrative", "reactive"],
+  s2_professors_vent_field_repair: ["narrative", "reactive"],
+  s2_professors_vent_salvage_rights: ["narrative", "offensive"],
+  s2_professors_vex_house_rules: ["narrative", "offensive"],
+  s2_professors_vex_rule_rewrite: ["narrative", "reactive"],
 };

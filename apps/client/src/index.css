@@ -2408,3 +2408,14 @@ html.colorblind-tritanopia [data-atmosphere] {
   --energy-premium: #f0e442;
   --energy-system: #009e73;
 }
+
+/* ─── Mobile UX baseline (M9 — see plan/continue-your-qr-assessment-mighty-valley.md) ─── */
+/* Removes the default blue tap-flash iOS Safari paints over every
+ * touched element. Tooltips / hover affordances + Tailwind active:
+ * classes already provide the affordance signal we want; the system
+ * tap-highlight just stacks on top and looks like a UI bug. Setting
+ * the entire tree to transparent is safe because every interactive
+ * element in the app already has its own focus / active styling. */
+* {
+  -webkit-tap-highlight-color: transparent;
+}

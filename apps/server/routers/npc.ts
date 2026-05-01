@@ -38,6 +38,7 @@ import {
 import { and, desc, eq } from "drizzle-orm";
 import { ripple } from "../services/rippleEngine";
 import { logger } from "../logger";
+import { maybeTagAskRepeated } from "../services/dreamerAwarenessTriggers";
 import {
   NPC_REGISTRY,
   resolveTrustBand,
@@ -490,6 +491,14 @@ export const npcRouter = router({
         userId: ctx.user.id,
         npcKey: input.npcKey as NpcKey,
         topicId: input.topicId,
+      });
+      // Dreamer-awareness silent-counter trigger. If this topicId is
+      // a substrate / dream / oracle keyword AND this user has now
+      // asked across ≥3 such topics, fire the corresponding tag. The
+      // helper is no-op-safe and idempotent per (user, tag id) so
+      // repeat asks past threshold don't compound.
+      maybeTagAskRepeated(ctx.user.id, input.topicId).catch((e) => {
+        logger.warn(`[dreamerAwareness] askRepeated trigger failed: ${e instanceof Error ? e.message : String(e)}`);
       });
       return { ok: true };
     }),

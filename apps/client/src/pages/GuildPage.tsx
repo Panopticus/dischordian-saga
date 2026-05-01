@@ -10,6 +10,8 @@ import {
 } from "lucide-react";
 import { getLoginUrl } from "@/const";
 import { EmptyGuildHall } from "@/components/EmptyStates";
+import { GuildCutsceneQueue } from "@/components/GuildCutsceneQueue";
+import type { CutsceneTrigger } from "@shared/expansionArt/guildCutsceneVoMap";
 
 import LivingBackground from "@/components/LivingBackground";
 
@@ -677,7 +679,7 @@ function GuildChat() {
   const reversed = [...(messages || [])].reverse();
 
   return (
-    <div className="flex flex-col" style={{ height: "calc(100vh - 280px)" }}>
+    <div className="flex flex-col" style={{ height: "calc(100dvh - 280px)" }}>
       <h3 className="font-display text-xs font-bold tracking-[0.2em] text-muted-foreground flex items-center gap-2 mb-3">
         <MessageSquare size={13} className="text-primary" /> SYNDICATE COMMS
       </h3>
@@ -750,7 +752,23 @@ function GuildChat() {
 function GuildTreasury({ guild }: { guild: any }) {
   const [amount, setAmount] = useState("");
   const [currency, setCurrency] = useState<"dream" | "credits">("dream");
-  const donateMut = trpc.guild.donate.useMutation();
+  // F.2 / F.5 cinematic queue. Both donate-milestone and hall-tier-up
+  // mutations return cutscene triggers; we collect them into one
+  // ephemeral queue so back-to-back actions chain visually instead of
+  // racing two overlays.
+  const [cinematicQueue, setCinematicQueue] = useState<readonly CutsceneTrigger[]>([]);
+  const donateMut = trpc.guild.donate.useMutation({
+    onSuccess: (data) => {
+      if (data?.cutscene) setCinematicQueue((q) => [...q, data.cutscene!]);
+    },
+  });
+  const upgradeTierMut = trpc.guildHall.upgradeTier.useMutation({
+    onSuccess: (data) => {
+      if (data?.success && data.cutscenes?.length) {
+        setCinematicQueue((q) => [...q, ...data.cutscenes]);
+      }
+    },
+  });
 
   return (
     <div className="space-y-6">
@@ -817,12 +835,116 @@ function GuildTreasury({ guild }: { guild: any }) {
         {donateMut.data?.xpGain && (
           <p className="font-mono text-xs void-text-energy text-center">+{donateMut.data.xpGain} Guild XP earned!</p>
         )}
+        {donateMut.data?.milestoneCrossed != null && (
+          <p className="font-mono text-xs void-text-system text-center">
+            Milestone reached — {donateMut.data.milestoneCrossed.toLocaleString()} Dream cumulative!
+          </p>
+        )}
       </div>
+
+      <GuildHallUpgradePanel
+        guild={guild}
+        upgradeTierMut={upgradeTierMut}
+      />
+
+      {cinematicQueue.length > 0 && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Guild cinematic"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 p-4"
+        >
+          <div className="w-full max-w-4xl">
+            <GuildCutsceneQueue
+              triggers={cinematicQueue}
+              onComplete={() => setCinematicQueue([])}
+            />
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function GuildHallUpgradePanel({
+  guild,
+  upgradeTierMut,
+}: {
+  guild: any;
+  upgradeTierMut: ReturnType<typeof trpc.guildHall.upgradeTier.useMutation>;
+}) {
+  const { data: hallState } = trpc.guildHall.getHallState.useQuery();
+  const currentTier = hallState?.hallTier ?? 1;
+  const TIER_COSTS = [0, 0, 500, 2000, 5000, 15000] as const;
+  const nextTier = currentTier + 1;
+  const cost = nextTier <= 5 ? TIER_COSTS[nextTier] : null;
+  const canAfford = cost != null && (guild.treasuryDream ?? 0) >= cost;
+  const lastError =
+    upgradeTierMut.data && !upgradeTierMut.data.success
+      ? upgradeTierMut.data.error
+      : null;
+
+  return (
+    <div className="p-4 rounded-lg bg-card/30 border border-border/20 space-y-3">
+      <h4 className="font-display text-xs font-bold tracking-[0.2em] text-muted-foreground">
+        HALL TIER · {currentTier} / 5
+      </h4>
+      {cost == null ? (
+        <p className="font-mono text-xs text-muted-foreground">
+          Sanctum reached — the Architect's gaze rests warmest here.
+        </p>
+      ) : (
+        <>
+          <p className="font-mono text-xs text-muted-foreground">
+            Upgrade to tier {nextTier} · {cost.toLocaleString()} Dream from
+            treasury · unlocks new room slots.
+          </p>
+          <button
+            type="button"
+            onClick={() => upgradeTierMut.mutate()}
+            disabled={!canAfford || upgradeTierMut.isPending}
+            className="w-full py-2 rounded-md bg-primary/10 border border-primary/40 text-primary font-mono text-xs font-bold tracking-wider hover:bg-primary/20 transition-all disabled:opacity-50"
+          >
+            {upgradeTierMut.isPending ? (
+              <Loader2 size={14} className="animate-spin mx-auto" />
+            ) : canAfford ? (
+              `UPGRADE TO TIER ${nextTier}`
+            ) : (
+              `NEEDS ${cost.toLocaleString()} DREAM`
+            )}
+          </button>
+          {lastError && (
+            <p className="font-mono text-xs void-text-error text-center">{lastError}</p>
+          )}
+          {upgradeTierMut.data?.success && upgradeTierMut.data.newTier && (
+            <p className="font-mono text-xs void-text-energy text-center">
+              Tier {upgradeTierMut.data.newTier} achieved
+              {upgradeTierMut.data.newlyUnlockedRooms?.length
+                ? ` · ${upgradeTierMut.data.newlyUnlockedRooms.length} new room(s) unlocked`
+                : ""}
+              !
+            </p>
+          )}
+        </>
+      )}
     </div>
   );
 }
 
 /* ═══ GUILD TERRITORY MAP — Visual territory control display ═══ */
+/* F.3 client-wiring follow-up:
+ * The guildWars router returns CutsceneTrigger payloads from
+ * createWar (cs_war_declared), contribute (cs_war_first_blood —
+ * conditional), registerGuild (cs_alliance_war_placement_lock), and
+ * resolveWar ([cs_war_mvp_crowned?, cs_war_victory, cs_thought_virus_
+ * reinfection?]). When admin / war-room UI lands that calls those
+ * mutations, drop the same cinematicQueue + <GuildCutsceneQueue>
+ * pattern used by GuildTreasury (above) into the calling
+ * component's onSuccess handler. The contribute mutation is
+ * server-triggered from game-event sources (fight_win, pvp_win, …)
+ * so its cinematic needs an async-notification surface (e.g., a
+ * pending-cinematic queue read on guild-page mount); not in scope
+ * for this commit. */
 function GuildTerritoryMap() {
   const { data, isLoading } = trpc.guildWars.getTerritoryMap.useQuery();
   const [selectedTerritory, setSelectedTerritory] = useState<number | null>(null);

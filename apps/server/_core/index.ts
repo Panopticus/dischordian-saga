@@ -438,6 +438,18 @@ async function startServer() {
       console.error("[PurchaseGrantsBootstrap] failed:", e),
     );
 
+    // dreamer_awareness silent-counter substrate. New table on the
+    // dual-faction-recruitment branch; no drizzle migration ships
+    // with it yet. Without this, fresh-DB deploys would lose the
+    // dreamer-aware tagging path entirely (tag fires would silently
+    // drop in the service's no-DB safe branch).
+    const { bootstrapDreamerAwarenessTable } = await import(
+      "../services/dreamerAwarenessBootstrap"
+    );
+    bootstrapDreamerAwarenessTable().catch((e) =>
+      console.error("[DreamerAwarenessBootstrap] failed:", e),
+    );
+
     // Ensure citizen_characters.foundation exists. Migration 0054 is
     // orphaned from _journal.json; without this column every SELECT
     // against citizen_characters fails ("Unknown column 'foundation'")
