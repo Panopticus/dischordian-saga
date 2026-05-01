@@ -16,6 +16,7 @@ import {
 import { fetchCitizenData, fetchPotentialNftData, resolveGuildWarBonuses } from "../traitResolver";
 import { getConsequences } from "../services/universeConsequences";
 import { pressureService } from "../services/pressureService";
+import { warEventCutscene } from "@shared/expansionArt/guildCutsceneVoMap";
 
 /** Territory names tied to Dischordian Saga lore */
 const TERRITORIES = [
@@ -157,6 +158,12 @@ export const guildWarsRouter = router({
 
       if (points <= 0) return { success: false, message: "No points earned" };
 
+      // F.3.2 first-blood detection — read the war row before we
+      // mutate it. If both factions are still at 0, this is the
+      // first contribution of the war and we fire the cs_war_first_blood
+      // cinematic alongside the normal point-award response.
+      const wasFirstBlood = war[0].scoreA === 0 && war[0].scoreB === 0;
+
       // Record contribution
       await db.insert(guildWarContributions).values({
         warId: input.warId,
@@ -180,7 +187,13 @@ export const guildWarsRouter = router({
       const { awardCivilXp } = await import("../civilSkillHelper");
       awardCivilXp(ctx.user.id, "guild_war_contribute").catch(e => logger.error("[GuildWars] Civil XP award failed:", e));
 
-      return { success: true, points, faction: guildFaction, traitMultiplier: warTb.warPointMultiplier };
+      return {
+        success: true,
+        points,
+        faction: guildFaction,
+        traitMultiplier: warTb.warPointMultiplier,
+        cutscene: wasFirstBlood ? warEventCutscene("war_first_blood") : undefined,
+      };
     }),
 
   /** Get player's contribution summary for a war */
@@ -330,7 +343,13 @@ export const guildWarsRouter = router({
         status: "active",
       });
 
-      return { success: true, warId: Number(result[0].insertId) };
+      return {
+        success: true,
+        warId: Number(result[0].insertId),
+        // F.3.1 cinematic — clients render <GuildCutscenePlayer csId
+        // voLineId /> from this trigger when the war banner mounts.
+        cutscene: warEventCutscene("war_declared"),
+      };
     }),
 
   /** Resolve an ended war — distribute prizes to winning faction's guilds */
@@ -353,8 +372,35 @@ export const guildWarsRouter = router({
         .set({ status: "ended" })
         .where(eq(guildWars.id, input.warId));
 
+      // F.3.3 MVP detection — top contributor across the war,
+      // computed once here and re-used for both the cinematic
+      // trigger and the playerName SSML slot in the VO line.
+      const mvpRows = await db
+        .select({
+          userId: guildWarContributions.userId,
+          totalPoints: sql<number>`SUM(${guildWarContributions.points})`,
+        })
+        .from(guildWarContributions)
+        .where(eq(guildWarContributions.warId, input.warId))
+        .groupBy(guildWarContributions.userId)
+        .orderBy(desc(sql`SUM(${guildWarContributions.points})`))
+        .limit(1);
+      const mvpUserId = mvpRows[0]?.userId ?? null;
+      const mvpPoints = Number(mvpRows[0]?.totalPoints ?? 0);
+
       if (!winnerFaction || war[0].prizePoolDream <= 0) {
-        return { success: true, winner: winnerFaction || "draw", distributed: 0 };
+        return {
+          success: true,
+          winner: winnerFaction || "draw",
+          distributed: 0,
+          mvpUserId,
+          mvpPoints,
+          // F.3.3 still fires on draws — there's still a top contributor
+          // to crown — but war_victory does not.
+          cutscenes: mvpUserId
+            ? [warEventCutscene("war_mvp_crowned")]
+            : [],
+        };
       }
 
       // Get winning faction guilds that contributed
@@ -448,12 +494,28 @@ export const guildWarsRouter = router({
           }).catch(e => logger.error("[GuildWars] Notification send failed:", e));
         }
       }
+      // Build the cinematic queue — MVP coronation chains in front
+      // of the global war_victory so the player who placed first sees
+      // their name spoken before the celebratory beat.
+      const cutscenes = [
+        ...(mvpUserId ? [warEventCutscene("war_mvp_crowned")] : []),
+        warEventCutscene("war_victory"),
+      ];
+
       return {
         success: true,
         winner: winnerFaction,
         distributed: war[0].prizePoolDream,
         factionShiftPoints,
         factionShiftMessage: `Your guild's victory shifted the ${winnerFaction} faction balance by +${factionShiftPoints}`,
+        mvpUserId,
+        mvpPoints,
+        // F.3.4 / F.3.5 cinematic — the resolver doesn't know
+        // whether the *caller* is on the winning or losing side, so
+        // it returns the global victory cutscene; the client decides
+        // whether to render this or swap to cs_war_defeat by checking
+        // the caller's guild membership against winnerFaction.
+        cutscenes,
       };
     }),
 
@@ -512,7 +574,13 @@ export const guildWarsRouter = router({
         messageType: "system",
       });
 
-      return { success: true, entryFee, newPrizePool: war.prizePoolDream + entryFee };
+      return {
+        success: true,
+        entryFee,
+        newPrizePool: war.prizePoolDream + entryFee,
+        // F.3.6 — every guild registration is a placement-lock event.
+        cutscene: warEventCutscene("alliance_war_placement_lock"),
+      };
     }),
 
   /** Get the war leaderboard — top contributing guilds across all wars */

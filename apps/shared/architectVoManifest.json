@@ -1,1 +1,11 @@
-{}
+{
+  "architect_sorting_pre_001": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Guild%20Cutscene%20Voices%2Farchitect_sorting_pre_001.mp3",
+  "architect_house_cup_reset_001": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Guild%20Cutscene%20Voices%2Farchitect_house_cup_reset_001.mp3",
+  "architect_thought_virus_001": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Guild%20Cutscene%20Voices%2Farchitect_thought_virus_001.mp3",
+  "architect_epoch_privacy_001": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Guild%20Cutscene%20Voices%2Farchitect_epoch_privacy_001.mp3",
+  "architect_epoch_prophecy_001": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Guild%20Cutscene%20Voices%2Farchitect_epoch_prophecy_001.mp3",
+  "architect_epoch_insurgency_001": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Guild%20Cutscene%20Voices%2Farchitect_epoch_insurgency_001.mp3",
+  "architect_epoch_revelation_001": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Guild%20Cutscene%20Voices%2Farchitect_epoch_revelation_001.mp3",
+  "architect_epoch_fall_001": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Guild%20Cutscene%20Voices%2Farchitect_epoch_fall_001.mp3",
+  "architect_portal_001": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Guild%20Cutscene%20Voices%2Farchitect_portal_001.mp3"
+}
