@@ -21,6 +21,7 @@ import { trpc } from "@/lib/trpc";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { SagaConspiracyBoard } from "@/components/SagaConspiracyBoard";
 import { DeductionPanel } from "@/components/DeductionPanel";
+import { ChoicePanel } from "@/components/ChoicePanel";
 
 export default function CasesPage() {
   const { isAuthenticated } = useAuth();
@@ -202,10 +203,14 @@ export default function CasesPage() {
           )}
         </section>
 
-        {/* Deduction panel — visible only when a case is open */}
+        {/* Deduction + choice panels — visible only when a case is open */}
         {activeCase.data?.progress && activeCase.data?.currentEpisode && (
-          <section className="mb-6">
+          <section className="mb-6 space-y-4">
             <DeductionPanel
+              mysteryId={activeCase.data.progress.mysteryId}
+              episodeId={activeCase.data.progress.currentEpisodeId}
+            />
+            <ChoicePanel
               mysteryId={activeCase.data.progress.mysteryId}
               episodeId={activeCase.data.progress.currentEpisodeId}
             />
