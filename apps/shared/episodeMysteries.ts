@@ -110,10 +110,7 @@ const wraithE1: EpisodeDefinition = {
       narrationId: "wraith.e1.n.he_remembers_himself",
       narrationProse:
         "The bounty hunter who walked toward the wall when others ran is the same hand that signs the daily-names ceremony. Not a successor. Not a tribute. The same hand. The Hierophant of Thaloria in Exile is Wraith Calder, continuous across the centuries that should have ended him. He has been writing his own name into the litany of the dead every morning for as long as a person can.",
-      // unlocksEpisode is intentionally absent until Wraith E2 is
-      // authored. When E2 lands, set this back to "wraith.e2" — the
-      // episodeMysteries.test.ts integrity probe enforces that
-      // every authored unlocksEpisode references an existing episode.
+      unlocksEpisode: "wraith.e2" as EpisodeId,
     },
     {
       id: "wraith.e1.d.false_lead_demon_pact" as DeductionId,
@@ -156,6 +153,120 @@ const wraithE1: EpisodeDefinition = {
       "the_host",
       "crystalline_city",
       "epoch_one_wall",
+    ],
+    dropAt: "episode_close",
+  },
+};
+
+/* ─── WRAITH CALDER ARC — E2 ─── */
+/* E2: "The Stolen Protocols"
+   Wraith continued where his first body ended — but in a New
+   Babylon centuries later, he stole the resurrection protocols
+   from the Syndicate of Death and democratised what had been a
+   privileged-only technology. This episode investigates the
+   theft. The case interrogates Substrate-N (the Engineering
+   Core's synthesis substrate, where the Syndicate's encryption
+   layered onto open-source pre-imperial bio-research), the
+   Antiquarian's marginalia on the protocol's distribution, and
+   a recovered Information-Twins ledger entry. */
+
+const wraithE2: EpisodeDefinition = {
+  id: "wraith.e2" as EpisodeId,
+  arcId: ARC_WRAITH_CALDER,
+  ordinal: 2,
+  title: "The Stolen Protocols",
+  summary:
+    "Wraith Calder stole the resurrection protocols from the Syndicate of Death and democratised them. The act is canon. The mechanism is not. Investigate where the protocols were stored, how they were extracted, and what the Syndicate gave up to make the theft possible.",
+  clues: [
+    {
+      id: "wraith.e2.substrate_n_residue" as ClueId,
+      title: "Substrate-N Encryption Residue",
+      body: "Engineering Core's synthesis substrate carries an encryption fingerprint that matches no known imperial cipher. The pattern degrades exactly the way the Syndicate's signature degrades — three-layer rolling key, designed to read like noise to anyone not holding the prior layer.",
+      foundIn: "engineering-core",
+    },
+    {
+      id: "wraith.e2.antiquarian_marginalia" as ClueId,
+      title: "Antiquarian's Marginalia on the Protocol Distribution",
+      body: "In the Antiquarian's Journal entry ep2-04, a margin note in a different hand: 'distributed without invoice. the technology travels alone now.' The note's hand matches Wraith Calder's pre-rite signature — but the journal entry is dated centuries after his death.",
+      foundIn: "antiquarian-library",
+    },
+    {
+      id: "wraith.e2.fair_trade_ledger" as ClueId,
+      title: "The Word and the Silence — Ledger Page 7",
+      body: "A page of the Information Twins' ledger surfaces in the Cipher Den. One entry: 'memory-imprint received against 7-Omega clearance records (returned).' The handwriting alternates by sentence — the Word's broad strokes, the Silence's precise loops. The Syndicate trades fairly. The fair trade was the leak.",
+      foundIn: "cipher-den",
+    },
+    {
+      id: "wraith.e2.cargo_manifest" as ClueId,
+      title: "New Babylon Customs Manifest #4471",
+      body: "Customs records from New Babylon, year 12 of the Reascendance: a single crate, sender unspecified, recipient marked 'commons.' Contents: 'philosophical instruments, 1 case.' The crate's recorded mass matches a Syndicate cold-storage cassette — three resurrection-protocol payloads exactly.",
+      foundIn: "antiquarian-library",
+    },
+  ],
+  deductions: [
+    {
+      id: "wraith.e2.d.substrate_meets_marginalia" as DeductionId,
+      clueA: "wraith.e2.substrate_n_residue" as ClueId,
+      clueB: "wraith.e2.antiquarian_marginalia" as ClueId,
+      result: "partial",
+      narrationId: "wraith.e2.n.he_was_here_again",
+      narrationProse:
+        "The Engineering Core's substrate carries the Syndicate's fingerprint, and a man who should have died at the wall is leaving margin notes in journals dated centuries after his obituary. The protocols moved through this ship — at least once, by his hand. We don't yet know if it was his only move. But it was a move.",
+    },
+    {
+      id: "wraith.e2.d.fair_trade_was_the_theft" as DeductionId,
+      clueA: "wraith.e2.fair_trade_ledger" as ClueId,
+      clueB: "wraith.e2.cargo_manifest" as ClueId,
+      result: "correct",
+      narrationId: "wraith.e2.n.he_paid_for_it",
+      narrationProse:
+        "He didn't steal the protocols — not in the sense the word usually carries. He bought them. The Syndicate of Death trades fairly; that is the only law their cartel obeys. He paid in a memory imprint and 7-Omega clearance records returned, and they gave him three resurrection-protocol payloads in a crate addressed to 'commons.' He democratised their product by spending the only currency they recognise. The Syndicate did not lose the deal. They lost the monopoly.",
+      // unlocksEpisode is intentionally absent until Wraith E3 is
+      // authored (per docs/design §7.1, E3 is "The Six Immortal
+      // Twins" — the Information Twins interrogation). The
+      // registry probe enforces unlocksEpisode → existing-episode.
+    },
+    {
+      id: "wraith.e2.d.false_lead_burglary" as DeductionId,
+      clueA: "wraith.e2.substrate_n_residue" as ClueId,
+      clueB: "wraith.e2.cargo_manifest" as ClueId,
+      result: "false_lead_named",
+      narrationId: "wraith.e2.n.not_a_burglary",
+      narrationProse:
+        "Reading the substrate residue and the customs manifest as a break-in is the obvious move and the wrong one. There is no broken seal in the substrate; there is a counter-key. There is no smuggler's manifest; there is a customs entry filed openly under 'commons.' The narrative the Hierarchy pushed for centuries — that Wraith Calder was a burglar — is the narrative he chose because it was beneath their notice. He preferred their contempt to their attention. We give him neither.",
+    },
+  ],
+  choices: [
+    {
+      id: "wraith.e2.c.publish_the_proof" as ChoiceId,
+      label: "Publish the proof — the protocols were paid for, not stolen.",
+      weight: "transparent",
+    },
+    {
+      id: "wraith.e2.c.protect_the_myth" as ChoiceId,
+      label: "Let the burglary myth stand — it serves the Insurgency.",
+      weight: "tactical",
+    },
+    {
+      id: "wraith.e2.c.return_the_imprint" as ChoiceId,
+      label: "Find what memory imprint he traded — return it if you can.",
+      weight: "restorative",
+    },
+  ],
+  contentBundle: {
+    songId: "album1.t23", /* "Wake Up" — Dischordian Logic Act 3 */
+    slideshowId: "album1.t23",
+    loredexUnlocks: [
+      "concept_resurrection_protocols",
+      "entity_syndicate_of_death",
+      "event_protocol_theft",
+      "concept_substrate_n",
+    ],
+    conspiracyDiscoveries: [
+      "syndicate_of_death",
+      "resurrection_protocols",
+      "fair_trade_ledger",
+      "substrate_n",
     ],
     dropAt: "episode_close",
   },
@@ -218,7 +329,7 @@ const WRAITH_CALDER_MYSTERY: MysteryDefinition = {
   title: "The Eighth Death and the Names",
   summary:
     "Wraith Calder's transformation from bounty hunter into Hierophant of Thaloria in Exile, told via the artifacts and witnesses he left across the centuries. The Syndicate of Death is the season antagonist; the resurrection protocols are the season MacGuffin.",
-  episodes: [wraithE1],
+  episodes: [wraithE1, wraithE2],
   suspects: wraithSuspects,
   lenses: wraithLenses,
 };
