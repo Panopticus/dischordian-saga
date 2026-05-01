@@ -5670,3 +5670,140 @@ export const guildStashLog = mysqlTable("guild_stash_log", {
 }));
 
 export type GuildStashLogRow = typeof guildStashLog.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
+   TIER 5 — PVP VARIANTS FOR OTHER GAME MODES
+   Circuit Rival Run, Trade Sector Control, Trade Oracle Duels,
+   CADES Async PvP, TD Live Siege, Guild Skirmishes.
+   ═══════════════════════════════════════════════════════ */
+
+/* ─── 5A. Dead Man's Circuit Rival Race ─── */
+export const circuitPvpMatches = mysqlTable("circuit_pvp_matches", {
+  id: int("id").autoincrement().primaryKey(),
+  matchId: varchar("matchId", { length: 64 }).notNull().unique(),
+  player1Id: int("player1Id").notNull(),
+  player2Id: int("player2Id").notNull(),
+  trackSeed: varchar("trackSeed", { length: 64 }).notNull(),
+  player1Score: int("player1Score"),
+  player2Score: int("player2Score"),
+  winnerId: int("winnerId"),
+  /** Type: "single_race" | "survival_wars_3" */
+  format: varchar("format", { length: 32 }).notNull().default("single_race"),
+  status: mysqlEnum("status", ["queued", "active", "completed", "abandoned"]).notNull().default("queued"),
+  startedAt: timestamp("startedAt").defaultNow().notNull(),
+  endedAt: timestamp("endedAt"),
+});
+export type CircuitPvpMatch = typeof circuitPvpMatches.$inferSelect;
+
+/* ─── 5B. Trade Empire — Sector Control ─── */
+export const tradeSectorControl = mysqlTable("trade_sector_control", {
+  id: int("id").autoincrement().primaryKey(),
+  sectorId: varchar("sectorId", { length: 64 }).notNull(),
+  /** Current "Sector Lord" — null between control windows. */
+  lordUserId: int("lordUserId"),
+  /** Anchor for the weekly window. */
+  weekStart: timestamp("weekStart").notNull(),
+  /** JSON: { [userId]: contributionScore } */
+  contributionScores: json("contributionScores").$type<Record<string, number>>().notNull().default({}),
+  active: int("active").notNull().default(1),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  sectorIdIdx: index("idx_trade_sector_control_sector_id").on(table.sectorId),
+  sectorWeekUniq: uniqueIndex("uniq_trade_sector_control_sector_week").on(
+    table.sectorId,
+    table.weekStart,
+  ),
+}));
+export type TradeSectorControl = typeof tradeSectorControl.$inferSelect;
+
+/* ─── 5B. Trade Empire — Oracle Futures Duels ─── */
+export const tradeOracleDuels = mysqlTable("trade_oracle_duels", {
+  id: int("id").autoincrement().primaryKey(),
+  duelId: varchar("duelId", { length: 64 }).notNull().unique(),
+  callerUserId: int("callerUserId").notNull(),
+  putUserId: int("putUserId").notNull(),
+  sectorId: varchar("sectorId", { length: 64 }).notNull(),
+  strikePrice: int("strikePrice").notNull(),
+  /** Spot price at settlement. */
+  settlementPrice: int("settlementPrice"),
+  winnerId: int("winnerId"),
+  status: mysqlEnum("status", ["open", "settled", "abandoned"]).notNull().default("open"),
+  openedAt: timestamp("openedAt").defaultNow().notNull(),
+  settlesAt: timestamp("settlesAt").notNull(),
+  settledAt: timestamp("settledAt"),
+});
+export type TradeOracleDuel = typeof tradeOracleDuels.$inferSelect;
+
+/* ─── 5C. CADES FPS Async PvP ─── */
+export const cadesPvpMatches = mysqlTable("cades_pvp_matches", {
+  id: int("id").autoincrement().primaryKey(),
+  matchId: varchar("matchId", { length: 64 }).notNull().unique(),
+  player1Id: int("player1Id").notNull(),
+  player2Id: int("player2Id"),
+  scenarioSeed: varchar("scenarioSeed", { length: 64 }).notNull(),
+  scenarioMode: varchar("scenarioMode", { length: 32 }).notNull().default("last_stand"),
+  player1Score: int("player1Score"),
+  player2Score: int("player2Score"),
+  winnerId: int("winnerId"),
+  status: mysqlEnum("status", ["pending", "p1_done", "p2_done", "completed", "abandoned"]).notNull().default("pending"),
+  startedAt: timestamp("startedAt").defaultNow().notNull(),
+  endedAt: timestamp("endedAt"),
+});
+export type CadesPvpMatch = typeof cadesPvpMatches.$inferSelect;
+
+/* ─── 5D. Tower Defense Live Siege ─── */
+export const tdLiveSieges = mysqlTable("td_live_sieges", {
+  id: int("id").autoincrement().primaryKey(),
+  siegeId: varchar("siegeId", { length: 64 }).notNull().unique(),
+  attackerUserId: int("attackerUserId").notNull(),
+  defenderUserId: int("defenderUserId").notNull(),
+  /** Wave snapshot when raid concluded. */
+  waveCount: int("waveCount").notNull().default(0),
+  /** 0–3 stars. */
+  starsAwarded: int("starsAwarded").notNull().default(0),
+  defenseHeld: int("defenseHeld").notNull().default(0),
+  trophyDelta: int("trophyDelta").notNull().default(0),
+  status: mysqlEnum("status", ["active", "completed", "abandoned"]).notNull().default("active"),
+  startedAt: timestamp("startedAt").defaultNow().notNull(),
+  endedAt: timestamp("endedAt"),
+});
+export type TdLiveSiege = typeof tdLiveSieges.$inferSelect;
+
+/* ─── 5E. Guild Skirmishes (mode-mix bracket) ─── */
+export const guildWarSkirmishes = mysqlTable("guild_war_skirmishes", {
+  id: int("id").autoincrement().primaryKey(),
+  skirmishId: varchar("skirmishId", { length: 64 }).notNull().unique(),
+  guildAId: int("guildAId").notNull(),
+  guildBId: int("guildBId").notNull(),
+  /** JSON: { card_duel?: matchId, chess?: gameId, td_live?: siegeId, cades?: matchId } */
+  mode_match_ids: json("modeMatchIds").$type<Record<string, string>>().notNull().default({}),
+  /** JSON: { [gameType]: "guild_a" | "guild_b" | "tied" | "pending" } */
+  modeOutcomes: json("modeOutcomes").$type<Record<string, string>>().notNull().default({}),
+  /** Final winner once enough modes resolve. */
+  winnerGuildId: int("winnerGuildId"),
+  status: mysqlEnum("status", ["proposed", "accepted", "active", "completed", "abandoned"]).notNull().default("proposed"),
+  declaredAt: timestamp("declaredAt").defaultNow().notNull(),
+  acceptedAt: timestamp("acceptedAt"),
+  completedAt: timestamp("completedAt"),
+}, (table) => ({
+  guildsIdx: index("idx_guild_war_skirmishes_guilds").on(table.guildAId, table.guildBId),
+}));
+export type GuildWarSkirmish = typeof guildWarSkirmishes.$inferSelect;
+
+/** Per-mode skirmish match record. */
+export const guildWarSkirmishMatches = mysqlTable("guild_war_skirmish_matches", {
+  id: int("id").autoincrement().primaryKey(),
+  skirmishId: varchar("skirmishId", { length: 64 }).notNull(),
+  /** Mode: "card_duel" | "chess" | "td_live" | "cades" */
+  mode: varchar("mode", { length: 32 }).notNull(),
+  guildAPlayerId: int("guildAPlayerId").notNull(),
+  guildBPlayerId: int("guildBPlayerId").notNull(),
+  /** Underlying match id in the per-mode table. */
+  underlyingMatchId: varchar("underlyingMatchId", { length: 64 }),
+  /** Outcome: "guild_a" | "guild_b" | "tied" | "pending" */
+  outcome: varchar("outcome", { length: 16 }).notNull().default("pending"),
+  recordedAt: timestamp("recordedAt").defaultNow().notNull(),
+}, (table) => ({
+  skirmishIdIdx: index("idx_guild_war_skirmish_matches_skirmish").on(table.skirmishId),
+}));
+export type GuildWarSkirmishMatch = typeof guildWarSkirmishMatches.$inferSelect;
