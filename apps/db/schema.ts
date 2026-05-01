@@ -5529,3 +5529,144 @@ export const guildClueProgress = mysqlTable("guild_clue_progress", {
 
 export type GuildClueProgress = typeof guildClueProgress.$inferSelect;
 export type InsertGuildClueProgress = typeof guildClueProgress.$inferInsert;
+
+/* ═══════════════════════════════════════════════════════
+   TIER 4 — GUILD EXPANSION (Perks, Quests, Banners, Stash)
+   Builds on the existing guilds / guildMembers / guildHall
+   tables. Banners/mottoes are added to the guilds row in a
+   followup migration via the cosmetic loadout shape.
+   ═══════════════════════════════════════════════════════ */
+
+/**
+ * Guild perk definitions — passive bonuses that apply to every
+ * member of a guild that has unlocked the perk. Definitions are
+ * seeded from apps/shared/guildPerks/perkDefinitions.ts.
+ */
+export const guildPerks = mysqlTable("guild_perks", {
+  id: int("id").autoincrement().primaryKey(),
+  perkKey: varchar("perkKey", { length: 64 }).notNull().unique(),
+  name: varchar("name", { length: 128 }).notNull(),
+  description: text("description"),
+  /** Bonus shape: "dream_pct", "credits_pct", "card_draw", "xp_pct",
+   *  "craft_pct", "rare_drop_pct", "pvp_dmg_taken_pct",
+   *  "clue_drop_rate_pct", "placement_xp_pct", etc. */
+  bonusType: varchar("bonusType", { length: 32 }).notNull(),
+  /** Magnitude (interpretation depends on bonusType — % for *_pct,
+   *  flat for card_draw, etc.). */
+  magnitude: int("magnitude").notNull(),
+  requiredHallTier: int("requiredHallTier").notNull().default(1),
+  requiredXp: int("requiredXp").notNull().default(0),
+  /** Optional faction restriction. */
+  factionAlignment: varchar("factionAlignment", { length: 32 }),
+  iconKey: varchar("iconKey", { length: 32 }).notNull().default("Sparkles"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type GuildPerk = typeof guildPerks.$inferSelect;
+
+/** Junction: which perks a guild has unlocked. */
+export const guildUnlockedPerks = mysqlTable("guild_unlocked_perks", {
+  id: int("id").autoincrement().primaryKey(),
+  guildId: int("guildId").notNull(),
+  perkKey: varchar("perkKey", { length: 64 }).notNull(),
+  unlockedAt: timestamp("unlockedAt").defaultNow().notNull(),
+}, (table) => ({
+  guildIdIdx: index("idx_guild_unlocked_perks_guild_id").on(table.guildId),
+  guildPerkUniq: uniqueIndex("uniq_guild_unlocked_perks_guild_perk").on(
+    table.guildId,
+    table.perkKey,
+  ),
+}));
+
+export type GuildUnlockedPerk = typeof guildUnlockedPerks.$inferSelect;
+
+/** Guild quest definitions — daily / weekly / seasonal objectives. */
+export const guildQuestDefinitions = mysqlTable("guild_quest_definitions", {
+  id: int("id").autoincrement().primaryKey(),
+  questKey: varchar("questKey", { length: 64 }).notNull().unique(),
+  scope: mysqlEnum("scope", ["daily", "weekly", "seasonal"]).notNull(),
+  name: varchar("name", { length: 128 }).notNull(),
+  description: text("description"),
+  /** Discriminated-union condition: { kind, threshold, ... } */
+  condition: json("condition").$type<Record<string, unknown>>().notNull(),
+  /** Reward bag: { guildXp, treasuryDream, bannerKey?, titleKey? } */
+  rewards: json("rewards").$type<Record<string, unknown>>().notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type GuildQuestDefinition = typeof guildQuestDefinitions.$inferSelect;
+
+/** Per-guild quest progress. Reset by cron on the appropriate cadence. */
+export const guildQuestProgress = mysqlTable("guild_quest_progress", {
+  id: int("id").autoincrement().primaryKey(),
+  guildId: int("guildId").notNull(),
+  questKey: varchar("questKey", { length: 64 }).notNull(),
+  progress: int("progress").notNull().default(0),
+  target: int("target").notNull(),
+  completedAt: timestamp("completedAt"),
+  rewardClaimed: int("rewardClaimed").notNull().default(0),
+  /** When this row was last reset (the cron's anchor). */
+  resetAt: timestamp("resetAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  guildIdIdx: index("idx_guild_quest_progress_guild_id").on(table.guildId),
+  guildQuestUniq: uniqueIndex("uniq_guild_quest_progress_guild_quest").on(
+    table.guildId,
+    table.questKey,
+  ),
+}));
+
+export type GuildQuestProgressRow = typeof guildQuestProgress.$inferSelect;
+
+/** Per-guild cosmetic loadout: banner, motto, emblem.
+ *  Separate from `guilds` so we don't have to migrate the existing
+ *  large table. */
+export const guildCosmetics = mysqlTable("guild_cosmetics", {
+  id: int("id").autoincrement().primaryKey(),
+  guildId: int("guildId").notNull().unique(),
+  bannerKey: varchar("bannerKey", { length: 64 }),
+  mottoText: varchar("mottoText", { length: 80 }),
+  emblemKey: varchar("emblemKey", { length: 64 }),
+  /** JSON array of unlocked banner keys (catalog of available cosmetics). */
+  unlockedBanners: json("unlockedBanners").$type<string[]>().notNull().default([]),
+  unlockedEmblems: json("unlockedEmblems").$type<string[]>().notNull().default([]),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type GuildCosmetics = typeof guildCosmetics.$inferSelect;
+
+/** Guild stash — shared inventory. */
+export const guildStash = mysqlTable("guild_stash", {
+  id: int("id").autoincrement().primaryKey(),
+  guildId: int("guildId").notNull(),
+  slotKey: varchar("slotKey", { length: 64 }).notNull(),
+  itemType: varchar("itemType", { length: 32 }).notNull(),
+  itemKey: varchar("itemKey", { length: 96 }).notNull(),
+  quantity: int("quantity").notNull().default(1),
+  depositorUserId: int("depositorUserId").notNull(),
+  depositedAt: timestamp("depositedAt").defaultNow().notNull(),
+}, (table) => ({
+  guildIdIdx: index("idx_guild_stash_guild_id").on(table.guildId),
+  guildSlotUniq: uniqueIndex("uniq_guild_stash_guild_slot").on(
+    table.guildId,
+    table.slotKey,
+  ),
+}));
+
+export type GuildStashRow = typeof guildStash.$inferSelect;
+
+/** Guild stash audit log — every deposit / withdraw. */
+export const guildStashLog = mysqlTable("guild_stash_log", {
+  id: int("id").autoincrement().primaryKey(),
+  guildId: int("guildId").notNull(),
+  userId: int("userId").notNull(),
+  action: mysqlEnum("action", ["deposit", "withdraw"]).notNull(),
+  itemType: varchar("itemType", { length: 32 }).notNull(),
+  itemKey: varchar("itemKey", { length: 96 }).notNull(),
+  quantity: int("quantity").notNull(),
+  at: timestamp("at").defaultNow().notNull(),
+}, (table) => ({
+  guildIdIdx: index("idx_guild_stash_log_guild_id").on(table.guildId),
+}));
+
+export type GuildStashLogRow = typeof guildStashLog.$inferSelect;

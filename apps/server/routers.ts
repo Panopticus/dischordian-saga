@@ -29,6 +29,7 @@ import { pvpRouter } from "./routers/pvp";
 import { titlesRouter } from "./routers/titles";
 import { competitiveRouter } from "./routers/competitive";
 import { conspiracyRouter } from "./routers/conspiracy";
+import { guildExpansionRouter } from "./routers/guildExpansion";
 import { draftRouter } from "./routers/draft";
 import { tradingRouter } from "./routers/trading";
 import { cardAchievementsRouter } from "./routers/cardAchievements";
@@ -143,6 +144,7 @@ export const appRouter = router({
   titles: titlesRouter,
   competitive: competitiveRouter,
   conspiracy: conspiracyRouter,
+  guildExpansion: guildExpansionRouter,
   draft: draftRouter,
   trading: tradingRouter,
   cardAchievements: cardAchievementsRouter,
