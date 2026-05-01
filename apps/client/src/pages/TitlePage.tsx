@@ -306,12 +306,17 @@ export default function TitlePage({ onDismiss }: TitlePageProps = {}) {
        The provider auto-starts a shuffled saga theme on first
        interaction; on the title we want silence until the user
        clears the surveillance gate (then the cinematic owns audio,
-       then TitleAlbumIntro owns audio). Suppress while mounted. ─── */
+       then TitleAlbumIntro owns audio). Suppress while mounted.
+       Mount-only deps — the BGM context value isn't reference-stable,
+       so a [sagaBGM] dep would re-run every render and the cleanup's
+       unsuppress() would race against suppress() and bleed playback
+       under the cinematic / slideshow. ─── */
   const sagaBGM = useSagaThemeBGM();
   useEffect(() => {
     sagaBGM.suppress();
     return () => sagaBGM.unsuppress();
-  }, [sagaBGM]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
 
   // Skip the boot-sequence typewriter for players who've been here
