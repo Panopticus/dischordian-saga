@@ -679,7 +679,7 @@ function GuildChat() {
   const reversed = [...(messages || [])].reverse();
 
   return (
-    <div className="flex flex-col" style={{ height: "calc(100vh - 280px)" }}>
+    <div className="flex flex-col" style={{ height: "calc(100dvh - 280px)" }}>
       <h3 className="font-display text-xs font-bold tracking-[0.2em] text-muted-foreground flex items-center gap-2 mb-3">
         <MessageSquare size={13} className="text-primary" /> SYNDICATE COMMS
       </h3>

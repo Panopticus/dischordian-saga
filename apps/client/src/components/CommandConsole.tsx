@@ -537,10 +537,10 @@ export default function CommandConsole({ children, elaraTTS }: { children: React
         </Link>
       </header>
 
-      <div className="flex pt-12 relative z-10" style={{ minHeight: "calc(100vh - 3rem)" }}>
+      <div className="flex pt-12 relative z-10" style={{ minHeight: "calc(100dvh - 3rem)" }}>
         {/* ═══ SIDEBAR — SHIP SYSTEMS PANEL ═══ */}
         <aside
-          className={`fixed lg:sticky top-12 left-0 z-40 h-[calc(100vh-3rem)] w-64 overflow-y-auto transition-transform duration-300 ${
+          className={`fixed lg:sticky top-12 left-0 z-40 h-[calc(100dvh-3rem)] w-64 overflow-y-auto transition-transform duration-300 ${
             sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
           }`}
           style={{
