@@ -147,7 +147,7 @@ export function DeductionPanel({ mysteryId, episodeId }: DeductionPanelProps) {
         </p>
       )}
 
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-3 mb-3">
         <button
           type="button"
           disabled={!canSubmit}
@@ -180,6 +180,19 @@ export function DeductionPanel({ mysteryId, episodeId }: DeductionPanelProps) {
           </p>
         )}
       </div>
+
+      {submit.data?.narrationProse && (
+        <blockquote
+          className="font-mono text-[11px] leading-relaxed italic px-4 py-3 rounded-md border-l-2"
+          style={{
+            background: "rgba(255, 255, 255, 0.02)",
+            borderLeftColor: RESULT_COLORS[submit.data.result]?.fg ?? "rgba(226, 232, 240, 0.4)",
+            color: "rgba(226, 232, 240, 0.85)",
+          }}
+        >
+          {submit.data.narrationProse}
+        </blockquote>
+      )}
     </div>
   );
 }

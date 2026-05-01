@@ -102,6 +102,12 @@ export interface DeductionGraphEdge {
   result: DeductionResult;
   /** Narration manifest key for the runtime's reveal beat. */
   narrationId: string;
+  /** Authored reveal prose — Elara's voice, 1-3 sentences,
+   *  played beneath the result label when the player commits
+   *  this deduction. Optional: when absent the runtime falls
+   *  back to the result label only (backwards-compatible with
+   *  edges authored before this field landed). */
+  narrationProse?: string;
   /** When set, this deduction unlocks the named episode (used
    *  to gate critical-path advancement). */
   unlocksEpisode?: EpisodeId;

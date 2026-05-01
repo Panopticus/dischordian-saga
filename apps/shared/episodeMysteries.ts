@@ -99,6 +99,8 @@ const wraithE1: EpisodeDefinition = {
       clueB: "wraith.e1.redaction_layer" as ClueId,
       result: "partial",
       narrationId: "wraith.e1.n.bounty_was_edited",
+      narrationProse:
+        "The bounty file was edited. We knew that. What we didn't know is that the editing happened on a schedule — three centuries, three redactions, each by a different hand. Whoever has been keeping this file alive has also been keeping it from being readable. That is a long argument with the truth.",
     },
     {
       id: "wraith.e1.d.witness_signature" as DeductionId,
@@ -106,6 +108,8 @@ const wraithE1: EpisodeDefinition = {
       clueB: "wraith.e1.hierophant_ceremony" as ClueId,
       result: "correct",
       narrationId: "wraith.e1.n.he_remembers_himself",
+      narrationProse:
+        "The bounty hunter who walked toward the wall when others ran is the same hand that signs the daily-names ceremony. Not a successor. Not a tribute. The same hand. The Hierophant of Thaloria in Exile is Wraith Calder, continuous across the centuries that should have ended him. He has been writing his own name into the litany of the dead every morning for as long as a person can.",
       // unlocksEpisode is intentionally absent until Wraith E2 is
       // authored. When E2 lands, set this back to "wraith.e2" — the
       // episodeMysteries.test.ts integrity probe enforces that
@@ -117,6 +121,8 @@ const wraithE1: EpisodeDefinition = {
       clueB: "wraith.e1.hierophant_ceremony" as ClueId,
       result: "false_lead_named",
       narrationId: "wraith.e1.n.not_a_demon_pact",
+      narrationProse:
+        "It would be tidy to read this as a demon pact — three redactions, an immortal bounty hunter, a daily ritual to keep the bargain in force. The Hierarchy's CFO would frame it that way. He would also be wrong. The redactions and the ceremony are not in the same key. One is corruption; the other is counter-corruption. Reading them as one transaction collapses the case in the wrong direction.",
     },
   ],
   choices: [

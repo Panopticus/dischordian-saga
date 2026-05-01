@@ -98,6 +98,39 @@ describe("gradeDeduction — 3-clue matching", () => {
   });
 });
 
+describe("gradeDeduction — narrationProse propagation", () => {
+  it("returns the authored prose when an edge has narrationProse", () => {
+    const e = makeEpisode([
+      {
+        id: "d1" as DeductionId, clueA: A, clueB: B, result: "correct",
+        narrationId: "n.ab",
+        narrationProse: "The bounty file was edited. We knew that.",
+      },
+    ]);
+    const r = gradeDeduction(e, A, B);
+    expect(r.narrationProse).toBe("The bounty file was edited. We knew that.");
+  });
+
+  it("omits narrationProse when the edge doesn't author it", () => {
+    const e = makeEpisode([
+      { id: "d1" as DeductionId, clueA: A, clueB: B, result: "correct", narrationId: "n.ab" },
+    ]);
+    expect(gradeDeduction(e, A, B).narrationProse).toBeUndefined();
+  });
+
+  it("nonsense fallback never carries narrationProse", () => {
+    const e = makeEpisode([
+      {
+        id: "d1" as DeductionId, clueA: A, clueB: B, result: "correct",
+        narrationId: "n.ab",
+        narrationProse: "authored prose",
+      },
+    ]);
+    // No matching edge for (C, D) — fallback "nonsense"
+    expect(gradeDeduction(e, C, D).narrationProse).toBeUndefined();
+  });
+});
+
 describe("gradeDeduction — episode-unlock", () => {
   it("propagates unlocksEpisode when authored on the matching edge", () => {
     const e = makeEpisode([

@@ -66,7 +66,12 @@ export function gradeDeduction(
   clueAId: ClueId,
   clueBId: ClueId,
   clueCId?: ClueId,
-): { result: DeductionResult; narrationId: string; unlocksEpisode?: EpisodeId } {
+): {
+  result: DeductionResult;
+  narrationId: string;
+  narrationProse?: string;
+  unlocksEpisode?: EpisodeId;
+} {
   for (const edge of episode.deductions) {
     const matchesAB =
       (edge.clueA === clueAId && edge.clueB === clueBId) ||
@@ -79,6 +84,7 @@ export function gradeDeduction(
     return {
       result: edge.result,
       narrationId: edge.narrationId,
+      narrationProse: edge.narrationProse,
       unlocksEpisode: edge.unlocksEpisode,
     };
   }
@@ -217,6 +223,7 @@ export const mysteryService = {
   }): Promise<{
     result: DeductionResult;
     narrationId: string;
+    narrationProse?: string;
     advancedTo: EpisodeId | null;
   }> {
     const episode = getEpisodeDefinition(args.mysteryId, args.episodeId);
@@ -254,6 +261,7 @@ export const mysteryService = {
     return {
       result: graded.result,
       narrationId: graded.narrationId,
+      narrationProse: graded.narrationProse,
       advancedTo: graded.unlocksEpisode ?? null,
     };
   },
