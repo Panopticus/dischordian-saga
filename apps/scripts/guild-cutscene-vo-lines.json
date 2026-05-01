@@ -542,7 +542,7 @@
   {
     "id": "proctor_sight_001",
     "speaker": "proctor",
-    "voiceId": "TODO_proctor_voice_id",
+    "voiceId": "shAF0MxiNVhtM9JDjzKa",
     "manifest": "proctor",
     "text": "There. The next answer.",
     "context": "F.4.12 light cs_sig_12 — The Proctor casts Investigator's Sight (Architect's Study, Liminal House)",
@@ -552,7 +552,7 @@
   {
     "id": "proctor_eye_001",
     "speaker": "proctor",
-    "voiceId": "TODO_proctor_voice_id",
+    "voiceId": "shAF0MxiNVhtM9JDjzKa",
     "manifest": "proctor",
     "text": "There. And there. And there. All of it. Yours.",
     "context": "F.4.12 dark cs_sig_12 — Architect's Eye corruption variant, four-paced reveal",
