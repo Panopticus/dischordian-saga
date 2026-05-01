@@ -28,6 +28,7 @@ import {
   rankTierForMmr,
   type SeasonRankTier,
 } from "../../shared/pvpElo";
+import { recordServerEvent } from "./serverAnalytics";
 
 export interface PvpRating {
   userId: number;
@@ -115,6 +116,20 @@ export interface ApplyMatchResultInput {
   winnerId: number;
   loserId: number;
   gameType: string;
+  /**
+   * Optional match-level metadata persisted as a `match_completed`
+   * analytics event for each participant. Omitting any field just
+   * leaves it off the event payload — admin balance queries treat
+   * missing properties as "unknown" rather than "null". Producers
+   * (duelystWs.endMatch) should fill in what they know.
+   */
+  metadata?: {
+    winnerGeneralId?: string;
+    loserGeneralId?: string;
+    durationMs?: number;
+    turnCount?: number;
+    mode?: string;
+  };
 }
 
 export interface ApplyMatchResultOutput {
@@ -189,6 +204,37 @@ export async function applyMatchResult(
         eq(pvpRatings.gameType, input.gameType),
       ),
     );
+
+  // Server-authoritative match telemetry. Two rows — one per
+  // player — so admin balance queries can group by selfGeneralId
+  // without unpacking opponent state. Emitted after the rating
+  // writes so the persisted MMR/tier values are accurate. Errors
+  // are swallowed by recordServerEvent.
+  const meta = input.metadata ?? {};
+  const baseProps = {
+    gameType: input.gameType,
+    ...(meta.mode !== undefined ? { mode: meta.mode } : {}),
+    ...(meta.durationMs !== undefined ? { durationMs: meta.durationMs } : {}),
+    ...(meta.turnCount !== undefined ? { turnCount: meta.turnCount } : {}),
+  };
+  await recordServerEvent(input.winnerId, "match_completed", {
+    ...baseProps,
+    result: "win",
+    mmrBefore: winner.mmr,
+    mmrAfter: outcome.winnerNewMmr,
+    mmrDelta: outcome.winnerDelta,
+    ...(meta.winnerGeneralId ? { selfGeneralId: meta.winnerGeneralId } : {}),
+    ...(meta.loserGeneralId ? { opponentGeneralId: meta.loserGeneralId } : {}),
+  });
+  await recordServerEvent(input.loserId, "match_completed", {
+    ...baseProps,
+    result: "loss",
+    mmrBefore: loser.mmr,
+    mmrAfter: outcome.loserNewMmr,
+    mmrDelta: outcome.loserDelta,
+    ...(meta.loserGeneralId ? { selfGeneralId: meta.loserGeneralId } : {}),
+    ...(meta.winnerGeneralId ? { opponentGeneralId: meta.winnerGeneralId } : {}),
+  });
 
   return {
     winner: {

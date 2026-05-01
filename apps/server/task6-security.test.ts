@@ -116,8 +116,11 @@ describe("Task 6.1 — store_purchases unique index + webhook idempotency", () =
   });
 
   it("webhook still runs fulfillPurchase on the success path", () => {
-    // Ensure we didn't accidentally drop fulfillment
-    expect(serverSrc).toContain("await fulfillPurchase(userId, productKey, quantity)");
+    // Ensure we didn't accidentally drop fulfillment. We match on the
+    // call-shape rather than a literal argument list because the
+    // ledger refactor added a fulfillmentId argument; future ledger /
+    // metadata changes shouldn't bounce this guard.
+    expect(serverSrc).toMatch(/await\s+fulfillPurchase\s*\(\s*userId\s*,\s*productKey\s*,\s*quantity\s*,/);
   });
 });
 
