@@ -879,6 +879,12 @@ export default function ArkExplorerPage() {
   // is harmless. Per docs/design/STREAMED_PRISM_MYSTERY_ENGINE.md
   // §10 + the MysteryBinding shape in roomMysteries/_template.ts.
   const recordMysteryEvidence = trpc.mysteries.recordEvidence.useMutation();
+  // Mystery Engine — opens the Wraith Calder case on first
+  // antiquarian-library visit. Fired once per player; gated by
+  // the `wraith_case_auto_opened` narrative flag. Server-side
+  // openCase is idempotent (existing case rows are returned
+  // unchanged), so a duplicate fire is a server no-op.
+  const openMysteryCase = trpc.mysteries.openCase.useMutation();
 
   /**
    * Single entry point for every Elara narration that fires from the
@@ -1285,6 +1291,22 @@ export default function ArkExplorerPage() {
       setNarrativeFlag(flagKey);
     }
   }, [currentRoom?.id, currentRoomState?.visitCount, state.narrativeFlags, setNarrativeFlag]);
+
+  // Mystery Engine — auto-open the Wraith Calder case the first
+  // time a player enters the antiquarian library. The library is
+  // the lore-natural unlock surface for the arc (the Antiquarian's
+  // ep1-15 margin note about "the one who walked toward the wall
+  // when others ran"). Gated by a one-shot narrative flag; server-
+  // side openCase is idempotent so a duplicate fire is harmless.
+  useEffect(() => {
+    if (currentRoom?.id !== "antiquarian-library") return;
+    if (state.narrativeFlags["wraith_case_auto_opened"]) return;
+    setNarrativeFlag("wraith_case_auto_opened");
+    openMysteryCase.mutate({
+      mysteryId: "mystery.wraith_calder",
+      lensId: "lens.neutral",
+    });
+  }, [currentRoom?.id, state.narrativeFlags, setNarrativeFlag, openMysteryCase]);
 
   // Cross-room ripple — when a showcase room's tier advances, fire
   // the matching getCrossRoomAlerts() entries as user-facing
