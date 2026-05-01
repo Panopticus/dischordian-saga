@@ -322,7 +322,7 @@
   {
     "id": "kanevas_harmonize_001",
     "speaker": "kanevas",
-    "voiceId": "TODO_kanevas_voice_id",
+    "voiceId": "6E9LhzysAiUZsORxoEZu",
     "manifest": "kanevas",
     "text": "Sync to me. We move as one.",
     "context": "F.4.1 light cs_sig_1 — Headmaster Kanevas casts Harmonize (Chorus, Resonance House)",
@@ -332,7 +332,7 @@
   {
     "id": "kanevas_dissonance_001",
     "speaker": "kanevas",
-    "voiceId": "TODO_kanevas_voice_id",
+    "voiceId": "6E9LhzysAiUZsORxoEZu",
     "manifest": "kanevas",
     "text": "Sync to me. They will move as I choose.",
     "context": "F.4.1 dark cs_sig_1 — Dissonance corruption variant, pitch-shifted +50 cents in post",
@@ -342,7 +342,7 @@
   {
     "id": "aoki_unseen_001",
     "speaker": "aoki",
-    "voiceId": "TODO_aoki_voice_id",
+    "voiceId": "MbdzdO8povpUYf1tSRZF",
     "manifest": "aoki",
     "text": "Walk where they cannot watch.",
     "context": "F.4.2 light cs_sig_2 — Professor Aoki casts Unseen Passage (Eyes, Umbra House)",
@@ -352,7 +352,7 @@
   {
     "id": "aoki_private_001",
     "speaker": "aoki",
-    "voiceId": "TODO_aoki_voice_id",
+    "voiceId": "MbdzdO8povpUYf1tSRZF",
     "manifest": "aoki",
     "text": "Their secrets are mine now.",
     "context": "F.4.2 dark cs_sig_2 — Private Confession corruption variant",
@@ -362,7 +362,7 @@
   {
     "id": "halverez_soulread_001",
     "speaker": "halverez",
-    "voiceId": "TODO_halverez_voice_id",
+    "voiceId": "g2fMR6g1e1gOpe3DXsfI",
     "manifest": "halverez",
     "text": "Show me what you treasure.",
     "context": "F.4.3 light cs_sig_3 — Curator Halverez casts Soul-Read (Archive, Umbra House)",
@@ -372,7 +372,7 @@
   {
     "id": "halverez_soultake_001",
     "speaker": "halverez",
-    "voiceId": "TODO_halverez_voice_id",
+    "voiceId": "g2fMR6g1e1gOpe3DXsfI",
     "manifest": "halverez",
     "text": "It is mine now. Always was.",
     "context": "F.4.3 dark cs_sig_3 — Soul-Take corruption variant, retrograde harpsichord in bed",
@@ -382,7 +382,7 @@
   {
     "id": "orphic_phasestep_001",
     "speaker": "orphic",
-    "voiceId": "TODO_orphic_voice_id",
+    "voiceId": "RAEHM0o1RaaIkErkNJgZ",
     "manifest": "orphic",
     "text": "Through. Out the other side.",
     "context": "F.4.4 light cs_sig_4 — Professor Orphic casts Phase-Step (Between, Liminal House)",
@@ -392,7 +392,7 @@
   {
     "id": "orphic_drift_001",
     "speaker": "orphic",
-    "voiceId": "TODO_orphic_voice_id",
+    "voiceId": "RAEHM0o1RaaIkErkNJgZ",
     "manifest": "orphic",
     "text": "Through... mostly.",
     "context": "F.4.4 dark cs_sig_4 — Dimensional Drift corruption variant, slight uncertainty pause",
@@ -402,7 +402,7 @@
   {
     "id": "mireille_viral_001",
     "speaker": "mireille",
-    "voiceId": "TODO_mireille_voice_id",
+    "voiceId": "CmvHU4o36T9EVodsL7Wo",
     "manifest": "mireille",
     "text": "Believe me. Just for a moment.",
     "context": "F.4.5 light cs_sig_5 — Professor Mireille casts Viral Word (Influencers, Resonance House)",
@@ -412,7 +412,7 @@
   {
     "id": "mireille_carry_001",
     "speaker": "mireille",
-    "voiceId": "TODO_mireille_voice_id",
+    "voiceId": "CmvHU4o36T9EVodsL7Wo",
     "manifest": "mireille",
     "text": "Believe me. Tell everyone.",
     "context": "F.4.5 dark cs_sig_5 — Thought Carry corruption variant, modal shift Lydian to Dorian in bed",
@@ -422,7 +422,7 @@
   {
     "id": "kasra_parade_001",
     "speaker": "kasra",
-    "voiceId": "TODO_kasra_voice_id",
+    "voiceId": "Qc7osUeDVomVdwIz1bvb",
     "manifest": "kasra",
     "text": "Parade order. To me. Now.",
     "context": "F.4.6 light cs_sig_6 — General Kasra casts Parade Order (Yellow Coats, Ironflight House)",
@@ -432,7 +432,7 @@
   {
     "id": "kasra_casualties_001",
     "speaker": "kasra",
-    "voiceId": "TODO_kasra_voice_id",
+    "voiceId": "Qc7osUeDVomVdwIz1bvb",
     "manifest": "kasra",
     "text": "Some losses are acceptable. These.",
     "context": "F.4.6 dark cs_sig_6 — Acceptable Casualties corruption variant",
