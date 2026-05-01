@@ -36,6 +36,18 @@ export const ORACLE_SANCTUM_MYSTERY: RoomMysteryModule<OracleSanctumHotspotId> =
           source: "oracle-sanctum",
           order: 0,
         },
+        // Mystery Engine binding — when Wraith Calder arc is the
+        // active case, the pool surfaces the Sanctuary's Final-
+        // Rite logbook entry 8. Lore match: the pool is "an
+        // aperture, not a mirror — what surfaces is whatever the
+        // witness brings with them." The player is carrying the
+        // question of the rite's continuity; the pool reflects
+        // back the logbook with the two same-hand signatures.
+        mysteryBinding: {
+          mysteryId: "mystery.wraith_calder",
+          episodeId: "wraith.e4",
+          cluesFound: ["wraith.e4.sanctuary_log"],
+        },
       },
     },
     "prophecy-tablet": {
@@ -88,6 +100,19 @@ export const ORACLE_SANCTUM_MYSTERY: RoomMysteryModule<OracleSanctumHotspotId> =
             "The Oracle Sanctum's incense-brazier produces phosphor-lavender smoke that sinks into the oracle pool rather than rising. The brazier is the pool's fuel. The longer the brazier is kept lit, the more receptive the pool becomes.",
           source: "oracle-sanctum",
           order: 2,
+        },
+        // Mystery Engine binding — when Wraith Calder arc is the
+        // active case, the brazier surfaces the Thalorian vessel
+        // provenance chain. Lore match: the brazier is the
+        // Thalorian-ritual surface (phosphor-lavender smoke; sigil
+        // chain), and the provenance chain is the ritual paperwork
+        // that twelve elders signed across decades. The vessel and
+        // the brazier share a Thalorian discipline of slow, witnessed
+        // preparation.
+        mysteryBinding: {
+          mysteryId: "mystery.wraith_calder",
+          episodeId: "wraith.e4",
+          cluesFound: ["wraith.e4.thalorian_vessel"],
         },
       },
     },

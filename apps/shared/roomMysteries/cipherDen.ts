@@ -208,6 +208,18 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
         },
         voId: "elara.cipher-den.uncorruption-bench.use",
         setsFlag: "uncorruption_bench_used",
+        // Mystery Engine binding — when Wraith Calder arc is the
+        // active case, using the uncorruption-bench plays back
+        // Wraith's pre-rite last recording. Lore match: the bench
+        // is "the case's working surface" where the magnifier
+        // resolves seams, and the audio fragment was "recovered
+        // from the Cipher Den" per the clue's authored body —
+        // recovered IS uncorruption work, on a different medium.
+        mysteryBinding: {
+          mysteryId: "mystery.wraith_calder",
+          episodeId: "wraith.e4",
+          cluesFound: ["wraith.e4.bounty_hunter_remembers"],
+        },
       },
     },
   },

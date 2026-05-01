@@ -118,6 +118,28 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           cluesFound: ["wraith.e2.antiquarian_marginalia"],
         },
       },
+      talk: {
+        narration: {
+          lucid:
+            "The bust does not speak. It is, however, the room's only Antiquarian-shaped surface — the closest the player can come to addressing him directly. Whatever you ask, the room answers in the only voice it has: by surfacing the relevant journal entry from the wall-shelves behind you. The library is, in the Antiquarian's discipline, his answering-machine.",
+          fragmented:
+            "Ask. Ask. Ask. Ask. The library answers. The library answers. The library answers.",
+          luminous:
+            "You address the bust. The library, in response, lifts a single bound volume off the wall-shelves and opens it on the reading-stand — entry ep4-01, the Hierophant's first sermon. The Antiquarian indexes by witness, and the witness you brought is this case. He has, on the wall, the journal entry the case was about to ask for.",
+        },
+        voId: "elara.antiquarian-library.antiquarian-bust.talk",
+        // Mystery Engine binding — when Wraith Calder arc is the
+        // active case, talking to the bust surfaces the Hierophant's
+        // first sermon (Antiquarian Journal ep4-01). Lore match: the
+        // bust is the room's only Antiquarian-shaped addressable
+        // surface, and the Antiquarian's discipline is to surface
+        // the journal entry the witness's question is already about.
+        mysteryBinding: {
+          mysteryId: "mystery.wraith_calder",
+          episodeId: "wraith.e4",
+          cluesFound: ["wraith.e4.hierophant_remembers"],
+        },
+      },
     },
   },
 };
