@@ -159,6 +159,7 @@ const BossBattlePage = lazy(() => import("./pages/BossBattlePage"));
 const CardChallengePage = lazy(() => import("./pages/CardChallengePage"));
 const ConexusPortalPage = lazy(() => import("./pages/ConexusPortalPage"));
 const AchievementsGalleryPage = lazy(() => import("./pages/AchievementsGalleryPage"));
+const CasesPage = lazy(() => import("./pages/CasesPage"));
 const AdminPage = lazy(() => import("./pages/AdminPage"));
 // #148 — telemetry visualization for the metrics already captured by
 // Sentry / OpenTelemetry / performanceMonitor / matchLengthMonitor.
@@ -346,6 +347,7 @@ function Router() {
         <Route path="/card-challenge">{() => <GameRoute component={CardChallengePage} />}</Route>
         <Route path="/conexus-portal" component={ConexusPortalPage} />
         <Route path="/achievements" component={AchievementsGalleryPage} />
+        <Route path="/cases" component={CasesPage} />
         <Route path="/admin" component={AdminPage} />
         <Route path="/admin/health" component={AdminHealthPage} />
         <Route path="/architect-console" component={ArchitectConsolePage} />

@@ -61,6 +61,19 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
           source: "cipher-den",
           order: 0,
         },
+        // Mystery Engine binding — when Wraith Calder arc is the
+        // active case, the rosetta-pad surfaces the bounty file's
+        // redaction-layer analysis. Lore match is precise: the pad
+        // has three column-layers (editor's indigo / Elara's gold /
+        // Vox's third hand) and the bounty file has three temporal
+        // redaction layers (hirer's name / mid-century unknown /
+        // target's true identity). The translation surface IS the
+        // redaction surface.
+        mysteryBinding: {
+          mysteryId: "mystery.wraith_calder",
+          episodeId: "wraith.e1",
+          cluesFound: ["wraith.e1.redaction_layer"],
+        },
         humanReaction: {
           narration: {
             shadow:
@@ -71,6 +84,30 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
               "She nearly had him. She was, when she died, the one person on this ship who might have caught him in time. The key in your hand is the work she did not get to finish. We finish it for her.",
           },
           voId: "detective.cipher-den.rosetta-pad.look",
+        },
+      },
+      talk: {
+        narration: {
+          lucid:
+            "You speak to the rosetta-pad. The codex's third column — the Vox-hand black-ink translation key — flickers briefly with phosphor-lavender, the same colour the oracle-pool's brazier-smoke uses. A recorded voice plays from the codex itself, soft enough that you have to lean in: 'If I cross the line, the person who knows me best will be the only one quick enough to do it cleanly.' The voice is Akai Shi's. The recording is dated four minutes before the Battle of Thaloria's threshold.",
+          fragmented:
+            "Four minutes. Four minutes. The recording. The recording. Akai Shi. Akai Shi. She knew. She knew. She knew.",
+          luminous:
+            "The rosetta-pad surfaces, by way of voice rather than ink, Akai Shi's pre-threshold consent recording. Four minutes before the Thought Virus took her motor function, she made a recording: she knew Jericho would be the one quick enough to do it cleanly, and she asked specifically that he not be told the consent was on file. She wanted him to be able to live afterward. The codex carries both the ciphered text and, on a different layer, the spoken record. Lyra Vox indexed by witness and by voice.",
+        },
+        voId: "elara.cipher-den.rosetta-pad.talk",
+        // Mystery Engine binding — talking to the rosetta-pad
+        // surfaces Akai Shi's pre-threshold consent recording.
+        // Lore match: the codex's three-layer translation
+        // discipline (editor's indigo / Elara's gold / Vox's
+        // black ink) extends to spoken-record carriage in the
+        // same archive. The recording is "recovered from the
+        // Cipher Den" per the clue body — recovered IS rosetta-
+        // pad work, on the audio layer.
+        mysteryBinding: {
+          mysteryId: "mystery.jericho_jones",
+          episodeId: "jericho.e2",
+          cluesFound: ["jericho.e2.akai_shi_recording"],
         },
       },
     },
@@ -94,6 +131,17 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
             "The Cipher Den holds an exchange of encrypted letters between Lyra Vox and Wraith Calder ('W'). The cipher resolves cleanly with the rosetta-key. The last six months of correspondence show Vox was preparing to confront the editor and Wraith was warning her not to do it alone. A vox-letter-decoded is now in your inventory.",
           source: "cipher-den",
           order: 1,
+        },
+        // Mystery Engine binding — when Wraith Calder arc is the
+        // active case, the encrypted-correspondence cubbyholes
+        // also surface the Word and the Silence ledger entry.
+        // Lore match: this hotspot IS canonically Wraith's
+        // encrypted ledger with Vox; the Information Twins'
+        // ledger sits as a sibling page in the same archive.
+        mysteryBinding: {
+          mysteryId: "mystery.wraith_calder",
+          episodeId: "wraith.e2",
+          cluesFound: ["wraith.e2.fair_trade_ledger"],
         },
         humanReaction: {
           narration: {
@@ -133,6 +181,21 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
           source: "cipher-den",
           order: 2,
         },
+        // Mystery Engine binding — when Wraith Calder arc is the
+        // active case, the dictionary-of-edits surfaces both halves
+        // of the Information Twins interrogation transcript. Lore
+        // match: the dictionary holds vocabulary as method, and
+        // the Word/Silence pair speak in alternating-sentence
+        // discipline — a vocabulary-by-omission method that mirrors
+        // the editor's substitution patterns in form.
+        mysteryBinding: {
+          mysteryId: "mystery.wraith_calder",
+          episodeId: "wraith.e3",
+          cluesFound: [
+            "wraith.e3.silence_transcript",
+            "wraith.e3.word_transcript",
+          ],
+        },
         humanReaction: {
           narration: {
             shadow:
@@ -169,6 +232,18 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
         },
         voId: "elara.cipher-den.uncorruption-bench.use",
         setsFlag: "uncorruption_bench_used",
+        // Mystery Engine binding — when Wraith Calder arc is the
+        // active case, using the uncorruption-bench plays back
+        // Wraith's pre-rite last recording. Lore match: the bench
+        // is "the case's working surface" where the magnifier
+        // resolves seams, and the audio fragment was "recovered
+        // from the Cipher Den" per the clue's authored body —
+        // recovered IS uncorruption work, on a different medium.
+        mysteryBinding: {
+          mysteryId: "mystery.wraith_calder",
+          episodeId: "wraith.e4",
+          cluesFound: ["wraith.e4.bounty_hunter_remembers"],
+        },
       },
     },
   },

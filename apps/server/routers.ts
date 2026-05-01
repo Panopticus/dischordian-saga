@@ -114,6 +114,7 @@ import { crossGameThreadsRouter } from "./routers/crossGameThreads";
 import { arkThemesRouter } from "./routers/arkThemes";
 import { announcementsRouter } from "./routers/announcements";
 import { playerResetRouter } from "./routers/playerReset";
+import { mysteriesRouter } from "./routers/mysteries";
 import { engagementRouter } from "./routers/engagement";
 import { dreamerVisionsRouter } from "./routers/dreamerVisions";
 import { dreamerAwarenessRouter } from "./routers/dreamerAwareness";
@@ -210,6 +211,7 @@ export const appRouter = router({
   performance: performanceRouter,
   deadMansCircuit: deadMansCircuitRouter,
   livingUniverse: livingUniverseRouter,
+  mysteries: mysteriesRouter,
   palimpsest: palimpsestRouter,
   thoughtVirus: thoughtVirusRouter,
   casino: casinoRouter,

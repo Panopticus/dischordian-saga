@@ -36,6 +36,18 @@ export const ENGINEERING_CORE_MYSTERY: RoomMysteryModule<EngineeringCoreHotspotI
           source: "engineering-core",
           order: 0,
         },
+        // Mystery Engine binding — when Wraith Calder arc is the
+        // active case, the reactor-coil surfaces the Substrate-N
+        // encryption residue clue. Lore match: this hotspot is
+        // canonically about "the documentation, not the hardware"
+        // — and the Syndicate's three-layer rolling-key signature
+        // lives in the synthesis substrate's documentation/cipher
+        // layer, not in the physical reactor.
+        mysteryBinding: {
+          mysteryId: "mystery.wraith_calder",
+          episodeId: "wraith.e2",
+          cluesFound: ["wraith.e2.substrate_n_residue"],
+        },
       },
     },
     "coolant-pipe": {

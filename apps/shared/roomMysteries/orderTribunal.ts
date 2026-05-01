@@ -32,6 +32,18 @@ export const ORDER_TRIBUNAL_MYSTERY: RoomMysteryModule<OrderTribunalHotspotId> =
           source: "order-tribunal",
           order: 0,
         },
+        // Mystery Engine binding — when Wraith Calder arc is the
+        // active case, the judges-bench surfaces the
+        // currently-active Syndicate pairs ledger. Lore match: the
+        // bench catalogues active dockets, and the three living
+        // Syndicate pairs (Feet / Voices / Witnesses) are open
+        // enforcement targets — listed in the same column as every
+        // pending verdict the Order has ever pronounced.
+        mysteryBinding: {
+          mysteryId: "mystery.wraith_calder",
+          episodeId: "wraith.e3",
+          cluesFound: ["wraith.e3.living_pairs_ledger"],
+        },
       },
     },
     "evidence-locker": {
@@ -52,6 +64,17 @@ export const ORDER_TRIBUNAL_MYSTERY: RoomMysteryModule<OrderTribunalHotspotId> =
             "The Order Tribunal's evidence-locker holds three red-wax-sealed open cases. The newest seal dates to the week of Lyra Vox's death — a case she brought against the Editor, though the records do not name him. The case was procedurally opened and never closed; the prosecutor (Lyra) died and the principal witness (Wraith Calder) departed within 72 hours.",
           source: "order-tribunal",
           order: 1,
+        },
+        // Mystery Engine binding — when Wraith Calder arc is the
+        // active case, the evidence-locker surfaces the Order
+        // Tribunal Confirmed-Kill list #C-7. Lore match is exact:
+        // the evidence-locker holds the open case where Wraith was
+        // the principal witness; the kill list is a sibling exhibit
+        // in the same red-wax-sealed compartment.
+        mysteryBinding: {
+          mysteryId: "mystery.wraith_calder",
+          episodeId: "wraith.e3",
+          cluesFound: ["wraith.e3.tribunal_kill_list"],
         },
       },
     },

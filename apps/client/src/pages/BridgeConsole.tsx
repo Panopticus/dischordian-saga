@@ -18,7 +18,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   Radio, Eye, Shield, ChevronRight, Zap, AlertTriangle,
   Clock, BookOpen, Music, Skull, Heart, Swords, Package,
-  Ship, Compass, Star, MessageCircle,
+  Ship, Compass, Star, MessageCircle, FolderOpen,
 } from "lucide-react";
 import { useGame, ROOM_DEFINITIONS } from "@/contexts/GameContext";
 import { useGamification } from "@/contexts/GamificationContext";
@@ -380,6 +380,27 @@ export default function BridgeConsole() {
           </div>
         </div>
       )}
+
+      {/* ═══ CASE FILES — Mystery Engine entry point ═══ */}
+      <div className="px-4 mb-5">
+        <Link href="/cases">
+          <div className="p-3 void-surface hover:bg-white/[0.04] cursor-pointer group flex items-center gap-3">
+            <div className="w-8 h-8 rounded-md flex items-center justify-center shrink-0"
+              style={{ background: "color-mix(in oklch, var(--energy-accent) 12%, transparent)", border: "1px solid color-mix(in oklch, var(--energy-accent) 30%, transparent)" }}>
+              <FolderOpen size={16} style={{ color: "var(--energy-accent)" }} />
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="font-mono text-xs text-white/80 font-bold group-hover:text-white transition-colors">
+                CASE FILES
+              </p>
+              <p className="font-mono text-[9px] text-white/30 mt-0.5">
+                Investigations across the saga.
+              </p>
+            </div>
+            <ChevronRight size={14} className="text-white/30 group-hover:text-white/60 transition-colors" />
+          </div>
+        </Link>
+      </div>
 
       {/* ═══ EXPLORE PROMPT (if early in game) ═══ */}
       {discoveredRooms < 3 && (

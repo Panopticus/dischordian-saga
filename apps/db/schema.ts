@@ -3540,6 +3540,10 @@ export const epochVoteTallies = mysqlTable("epoch_vote_tallies", {
   isClosed: int("isClosed").notNull().default(0),
   closedAt: timestamp("closedAt"),
   winningOption: varchar("winningOption", { length: 10 }),
+  /** When the vote should auto-close. Read by mysteryClosureCron
+   *  (see docs/design/STREAMED_PRISM_MYSTERY_ENGINE.md §10).
+   *  Null means "no scheduled expiry — close manually." */
+  expiresAt: timestamp("expiresAt"),
 });
 
 export type EpochVoteTally = typeof epochVoteTallies.$inferSelect;
@@ -3582,6 +3586,231 @@ export const mandelaEffects = mysqlTable("mandela_effects", {
 }));
 
 export type MandelaEffect = typeof mandelaEffects.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
+   MYSTERY ENGINE — Streamed Prism episodic detective layer
+
+   Six tables hold per-player progress through the Mystery
+   Engine's NPC arcs (Wraith, Jericho, Seer, Vex, Game Master,
+   Degen) plus vote-spawned and anniversary mysteries. The
+   authored side lives in apps/shared/episodeMysteries.ts;
+   the orchestration layer is apps/server/services/mysteryService.ts.
+
+   See docs/design/STREAMED_PRISM_MYSTERY_ENGINE.md §10 for the
+   architectural placement and §11 for the verification probes.
+   ═══════════════════════════════════════════════════════ */
+
+/**
+ * Per-player progress through one mystery. The (userId, mysteryId)
+ * pair is unique — a player has at most one progress row per
+ * authored mystery; re-opening the case re-uses the row.
+ */
+export const playerMysteryProgress = mysqlTable("player_mystery_progress", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /** Branded MysteryId (see apps/shared/mysteryTypes.ts). */
+  mysteryId: varchar("mysteryId", { length: 100 }).notNull(),
+  /** Branded EpisodeId — current episode in display order. */
+  currentEpisodeId: varchar("currentEpisodeId", { length: 100 }).notNull(),
+  openedAt: timestamp("openedAt").defaultNow().notNull(),
+  lastActedAt: timestamp("lastActedAt").defaultNow().onUpdateNow().notNull(),
+  /** Branded LensId — the player's chosen faction/class/race lens. */
+  lensId: varchar("lensId", { length: 50 }).notNull(),
+  /** True when the player joined mid-arc; service renders a
+   *  recap before the next room beat is shown. */
+  recapNeeded: int("recapNeeded").notNull().default(0),
+}, (table) => ({
+  uniqUserMystery: uniqueIndex("uniq_pmp_user_mystery").on(table.userId, table.mysteryId),
+  idxLastActed: index("idx_pmp_last_acted").on(table.lastActedAt),
+}));
+
+export type PlayerMysteryProgressRow = typeof playerMysteryProgress.$inferSelect;
+export type InsertPlayerMysteryProgress = typeof playerMysteryProgress.$inferInsert;
+
+/**
+ * Evidence — a clue the player has found, with metadata for the
+ * journal display and interrogation cross-reference. Idempotent:
+ * the (userId, mysteryId, clueId) triple is unique so re-finding
+ * a clue is a no-op.
+ */
+export const mysteryEvidence = mysqlTable("mystery_evidence", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  mysteryId: varchar("mysteryId", { length: 100 }).notNull(),
+  /** Branded ClueId. */
+  clueId: varchar("clueId", { length: 100 }).notNull(),
+  foundAt: timestamp("foundAt").defaultNow().notNull(),
+  /** Room id where the clue was found, or "recap" / "interrogation"
+   *  for non-room sources. */
+  foundInRoom: varchar("foundInRoom", { length: 64 }).notNull(),
+  /** Verb that fired the clue-find ("look" / "use" / "talk" /
+   *  "interrogate" / "recap"). */
+  foundViaVerb: varchar("foundViaVerb", { length: 24 }).notNull(),
+  /** NPC ids the player has presented this clue to during
+   *  interrogation. JSON array; empty = unpresented. */
+  presentedToNpcs: json("presentedToNpcs").$type<string[]>().notNull().default([]),
+  /** Free-form player notes on this clue. Null until the player
+   *  authors a journal entry. */
+  notes: text("notes"),
+}, (table) => ({
+  uniqUserMysteryClue: uniqueIndex("uniq_evidence_user_mystery_clue").on(table.userId, table.mysteryId, table.clueId),
+  idxUserMystery: index("idx_evidence_user_mystery").on(table.userId, table.mysteryId),
+}));
+
+export type MysteryEvidenceRow = typeof mysteryEvidence.$inferSelect;
+export type InsertMysteryEvidence = typeof mysteryEvidence.$inferInsert;
+
+/**
+ * Each submitted deduction. Append-only — the player's full
+ * deduction history feeds the season-roll-up grading and the
+ * recap surface. The (userId, mysteryId, episodeId, clueAId,
+ * clueBId, clueCId) tuple is unique-ish but we leave it open
+ * so the player can re-attempt the same pair (engine grades
+ * on first-correct).
+ */
+export const mysteryDeductions = mysqlTable("mystery_deductions", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  mysteryId: varchar("mysteryId", { length: 100 }).notNull(),
+  episodeId: varchar("episodeId", { length: 100 }).notNull(),
+  clueAId: varchar("clueAId", { length: 100 }).notNull(),
+  clueBId: varchar("clueBId", { length: 100 }).notNull(),
+  /** Optional third clue for 3-clue deductions. */
+  clueCId: varchar("clueCId", { length: 100 }),
+  /** "correct" / "partial" / "false_lead_named" / "nonsense". */
+  result: varchar("result", { length: 24 }).notNull(),
+  /** Manifest key for the authored reveal narration. */
+  narrationId: varchar("narrationId", { length: 200 }).notNull(),
+  submittedAt: timestamp("submittedAt").defaultNow().notNull(),
+}, (table) => ({
+  idxUserMysteryEpisode: index("idx_deductions_user_mystery_episode").on(table.userId, table.mysteryId, table.episodeId),
+}));
+
+export type MysteryDeductionRow = typeof mysteryDeductions.$inferSelect;
+export type InsertMysteryDeduction = typeof mysteryDeductions.$inferInsert;
+
+/**
+ * Choices the player made at episode close. Choice carry-forward
+ * surfaces in `CaseRecap.tsx` ("X will remember that"). The
+ * willRememberFlag is the NPC id whose memory the choice marked.
+ */
+export const playerMysteryChoices = mysqlTable("player_mystery_choices", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  mysteryId: varchar("mysteryId", { length: 100 }).notNull(),
+  episodeId: varchar("episodeId", { length: 100 }).notNull(),
+  /** Branded ChoiceId. */
+  choiceId: varchar("choiceId", { length: 100 }).notNull(),
+  /** Free-form weight tag aggregated by the season-roll-up
+   *  ("ruthless" / "patient" / "trusting" / "skeptical" / etc.). */
+  weight: varchar("weight", { length: 50 }).notNull(),
+  /** NPC id whose memory the choice marked. Empty string when
+   *  the choice didn't bind to an NPC. */
+  willRememberFlag: varchar("willRememberFlag", { length: 100 }).notNull().default(""),
+  recordedAt: timestamp("recordedAt").defaultNow().notNull(),
+}, (table) => ({
+  uniqUserMysteryEpisode: uniqueIndex("uniq_choice_user_mystery_episode").on(table.userId, table.mysteryId, table.episodeId),
+}));
+
+export type PlayerMysteryChoiceRow = typeof playerMysteryChoices.$inferSelect;
+export type InsertPlayerMysteryChoice = typeof playerMysteryChoices.$inferInsert;
+
+/**
+ * Interrogation log — every (npc, question, tone) tuple the
+ * player presses, with the trust delta that was applied. Drives
+ * the L.A. Noire Truth/Doubt/Lie audit and the per-NPC trust
+ * scalar finalization at arc close.
+ */
+export const mysteryInterrogationLog = mysqlTable("mystery_interrogation_log", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  mysteryId: varchar("mysteryId", { length: 100 }).notNull(),
+  episodeId: varchar("episodeId", { length: 100 }).notNull(),
+  npcId: varchar("npcId", { length: 100 }).notNull(),
+  /** Authored question id (per-NPC, per-episode authoring). */
+  questionId: varchar("questionId", { length: 200 }).notNull(),
+  /** "press" / "accept" / "challenge" — see ToneId in
+   *  apps/shared/mysteryTypes.ts. */
+  toneId: varchar("toneId", { length: 24 }).notNull(),
+  /** Trust delta that was applied at the moment the question
+   *  fired; durable so retroactive scalar adjustments don't
+   *  rewrite history. */
+  trustDeltaApplied: int("trustDeltaApplied").notNull().default(0),
+  askedAt: timestamp("askedAt").defaultNow().notNull(),
+}, (table) => ({
+  idxUserNpc: index("idx_interrogation_user_npc").on(table.userId, table.npcId),
+  idxUserMysteryEpisode: index("idx_interrogation_user_mystery_episode").on(table.userId, table.mysteryId, table.episodeId),
+}));
+
+export type MysteryInterrogationLogRow = typeof mysteryInterrogationLog.$inferSelect;
+export type InsertMysteryInterrogationLog = typeof mysteryInterrogationLog.$inferInsert;
+
+/**
+ * Per-player NPC trust scalars. Finalized by an arc close;
+ * read by every NPC's dialog renderer to pick banded VO. The
+ * (userId, npcId) pair is unique — one canonical scalar per
+ * (player, NPC).
+ *
+ * This covers the gap noted in §7: the 5 NPCs without a per-
+ * player trust scalar today (Wraith / Seer / Vex / Game Master /
+ * Degen) get scalars seeded by their arc episodes; finalizedFromArc
+ * stores which arc closed it.
+ */
+export const npcTrustScalars = mysqlTable("npc_trust_scalars", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  npcId: varchar("npcId", { length: 100 }).notNull(),
+  /** 0-100, with 50 as the neutral midpoint. */
+  scalar: int("scalar").notNull().default(50),
+  /** Most recent mystery whose result moved the scalar. Null
+   *  while the scalar is at its initial midpoint. */
+  lastUpdatedFromMysteryId: varchar("lastUpdatedFromMysteryId", { length: 100 }),
+  /** Branded ArcId — which arc finalized this scalar. Null
+   *  until the arc closes. */
+  finalizedFromArc: varchar("finalizedFromArc", { length: 100 }),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  uniqUserNpc: uniqueIndex("uniq_trust_user_npc").on(table.userId, table.npcId),
+}));
+
+export type NpcTrustScalarRow = typeof npcTrustScalars.$inferSelect;
+export type InsertNpcTrustScalar = typeof npcTrustScalars.$inferInsert;
+
+/**
+ * Mystery seeds — the persistent record of every MysterySeed
+ * the engine has ever produced (vote closures, anniversaries,
+ * pattern triggers). The cron writes a row here on every
+ * successful close; the server-startup bootstrap reads them
+ * back and re-compiles each seed via mysteryTemplates.compileMysterySeed
+ * so the in-memory dynamic registry survives deploys.
+ *
+ * Compilation is deterministic (same seed → same MysteryDefinition
+ * by template contract), so re-hydration is idempotent.
+ *
+ * The unique index on `seedId` makes the cron's insert safe to
+ * retry — a second pass over the same closed vote is a no-op.
+ */
+export const mysterySeeds = mysqlTable("mystery_seeds", {
+  id: int("id").autoincrement().primaryKey(),
+  /** Canonical seed.seedId — e.g. "epoch_vote_closure.ap_v1.a". */
+  seedId: varchar("seedId", { length: 200 }).notNull(),
+  /** MysterySeedSource enum value as a plain string. */
+  source: varchar("source", { length: 40 }).notNull(),
+  /** Template id used to compile this seed at runtime. */
+  templateId: varchar("templateId", { length: 100 }).notNull(),
+  /** Template-specific payload — schema is the template's contract. */
+  payload: json("payload").$type<Record<string, unknown>>().notNull(),
+  /** Branded MysteryId — populated when compile succeeded.
+   *  Null when the template rejected the payload. */
+  compiledMysteryId: varchar("compiledMysteryId", { length: 100 }),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  uniqSeedId: uniqueIndex("uniq_mystery_seeds_seedId").on(table.seedId),
+}));
+
+export type MysterySeedRow = typeof mysterySeeds.$inferSelect;
+export type InsertMysterySeed = typeof mysterySeeds.$inferInsert;
 
 /* ═══════════════════════════════════════════════════════
    DISCHORDIA CYCLE — Witnessing Narrative Proposal §3

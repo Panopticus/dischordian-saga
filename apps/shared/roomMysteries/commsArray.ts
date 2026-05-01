@@ -143,6 +143,17 @@ export const COMMS_ARRAY_MYSTERY: RoomMysteryModule<
           order: 2,
         },
         setsFlag: "shadow_tongue_evidence",
+        // Mystery Engine binding — when Wraith Calder arc is the
+        // active case, looking at the static-screen also surfaces
+        // the original bounty file from the Comms Array's deepest
+        // archive. Lore match: the screen is canonically where
+        // scrubbed information resurfaces, and Wraith's bounty
+        // contract was redacted three times across the centuries.
+        mysteryBinding: {
+          mysteryId: "mystery.wraith_calder",
+          episodeId: "wraith.e1",
+          cluesFound: ["wraith.e1.bounty_file"],
+        },
         humanReaction: {
           narration: {
             shadow:
