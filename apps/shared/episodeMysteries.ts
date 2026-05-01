@@ -221,10 +221,7 @@ const wraithE2: EpisodeDefinition = {
       narrationId: "wraith.e2.n.he_paid_for_it",
       narrationProse:
         "He didn't steal the protocols — not in the sense the word usually carries. He bought them. The Syndicate of Death trades fairly; that is the only law their cartel obeys. He paid in a memory imprint and 7-Omega clearance records returned, and they gave him three resurrection-protocol payloads in a crate addressed to 'commons.' He democratised their product by spending the only currency they recognise. The Syndicate did not lose the deal. They lost the monopoly.",
-      // unlocksEpisode is intentionally absent until Wraith E3 is
-      // authored (per docs/design §7.1, E3 is "The Six Immortal
-      // Twins" — the Information Twins interrogation). The
-      // registry probe enforces unlocksEpisode → existing-episode.
+      unlocksEpisode: "wraith.e3" as EpisodeId,
     },
     {
       id: "wraith.e2.d.false_lead_burglary" as DeductionId,
@@ -267,6 +264,123 @@ const wraithE2: EpisodeDefinition = {
       "resurrection_protocols",
       "fair_trade_ledger",
       "substrate_n",
+    ],
+    dropAt: "episode_close",
+  },
+};
+
+/* ─── WRAITH CALDER ARC — E3 ─── */
+/* E3: "The Six Immortal Twins"
+   Wraith hunted six immortal twins of the Syndicate of Death.
+   The investigation now forks: which twins did he kill, which
+   are still active, and which spoke to him before he chose his
+   targets. The Word and the Silence (the Information Twins,
+   Syndicate's archive-brokers) are interrogable here — they
+   speak in alternating sentences so smoothly it sounds like
+   one voice. L.A. Noire Truth/Doubt/Lie set piece: the player
+   reads the seam between their two voices.
+
+   Choice at episode close: trade the Information Twins a
+   memory imprint for 7-Omega clearance records (the same trade
+   Wraith made in E2), or refuse the fair trade. */
+
+const wraithE3: EpisodeDefinition = {
+  id: "wraith.e3" as EpisodeId,
+  arcId: ARC_WRAITH_CALDER,
+  ordinal: 3,
+  title: "The Six Immortal Twins",
+  summary:
+    "The Syndicate of Death is not one cartel — it is six pairs of twins, each pair an organism, each organism immortal by trade rather than by gift. Wraith hunted them. Investigate which pairs he killed, which still operate, and what he said to The Word and the Silence before he made his moves.",
+  clues: [
+    {
+      id: "wraith.e3.tribunal_kill_list" as ClueId,
+      title: "Order Tribunal Kill List #C-7",
+      body: "Three rows on the Order Tribunal's Confirmed-Kill list bear Wraith Calder's signature: 'pair 1 (Hands), pair 3 (Mouths), pair 5 (Eyes).' The list is sorted by the order of the kills, not by twin-pair number. Pair 5 was killed first, then pair 1, then pair 3.",
+      foundIn: "order-tribunal",
+    },
+    {
+      id: "wraith.e3.silence_transcript" as ClueId,
+      title: "The Silence — Interrogation Transcript",
+      body: "The Silence answers questions in even sentences only. Their odd sentences are blank. Wraith spoke to them once, on the night before his first kill: 'I am going to take three of you. You will pick which three.' The Silence's transcript shows only the response: an even sentence reading 'we will tell you when you ask correctly.'",
+      foundIn: "cipher-den",
+    },
+    {
+      id: "wraith.e3.word_transcript" as ClueId,
+      title: "The Word — Interrogation Transcript",
+      body: "The Word answers questions in odd sentences only. The same night, a different transcript: 'I am going to take three of you. You will pick which three.' The Word's reply: 'one of us is already dead. you have already begun.' The kill that began the campaign was, on the timeline, six minutes after this conversation ended.",
+      foundIn: "cipher-den",
+    },
+    {
+      id: "wraith.e3.living_pairs_ledger" as ClueId,
+      title: "Currently-Active Syndicate Pairs",
+      body: "The Antiquarian's Journal entry ep3-09 lists three Syndicate pairs still operating: pair 2 (Feet), pair 4 (Voices), pair 6 (Witnesses). Pair 6 — The Witnesses — are the Information Twins. The Word and the Silence are the same pair the player just interrogated.",
+      foundIn: "antiquarian-library",
+    },
+  ],
+  deductions: [
+    {
+      id: "wraith.e3.d.alternating_voices" as DeductionId,
+      clueA: "wraith.e3.silence_transcript" as ClueId,
+      clueB: "wraith.e3.word_transcript" as ClueId,
+      result: "correct",
+      narrationId: "wraith.e3.n.one_organism_two_voices",
+      narrationProse:
+        "Read together, the two transcripts are a single conversation. The Silence's even sentences and The Word's odd sentences interleave — 'one of us is already dead. we will tell you when you ask correctly. you have already begun.' They were warning him and selecting his targets at the same time. The Information Twins are not two informants. They are one organism that speaks in two voices, and they answered Wraith's question by telling him which of their siblings had failed the cartel's standards. He killed the three they marked.",
+      // unlocksEpisode is intentionally absent until Wraith E4 is
+      // authored (per docs/design §7.1, E4 is "The Eighth Death"
+      // — the Sanctuary's Final Rite). The registry probe enforces
+      // unlocksEpisode → existing-episode.
+    },
+    {
+      id: "wraith.e3.d.kill_order_pattern" as DeductionId,
+      clueA: "wraith.e3.tribunal_kill_list" as ClueId,
+      clueB: "wraith.e3.living_pairs_ledger" as ClueId,
+      result: "partial",
+      narrationId: "wraith.e3.n.he_left_three_alive",
+      narrationProse:
+        "He killed pair 5 (Eyes), pair 1 (Hands), pair 3 (Mouths). He left pair 2 (Feet), pair 4 (Voices), pair 6 (Witnesses) alive. The pattern is procedural: he removed the cartel's ability to see, to grasp, to speak — but he left the cartel's ability to walk, to be heard, and to bear witness. The campaign was not a slaughter. It was an editorial intervention. He shortened the Syndicate's reach without ending its existence. The three living pairs run the cartel today.",
+    },
+    {
+      id: "wraith.e3.d.false_lead_double_agent" as DeductionId,
+      clueA: "wraith.e3.tribunal_kill_list" as ClueId,
+      clueB: "wraith.e3.word_transcript" as ClueId,
+      result: "false_lead_named",
+      narrationId: "wraith.e3.n.not_a_double_agent",
+      narrationProse:
+        "Reading The Word's 'one of us is already dead' as evidence of a double agent inside the Syndicate is the obvious move and the wrong one. The dead one was a former Witness who had already been removed by their own pair — a self-edit, not a mole. The Word was reporting cartel hygiene, not betraying it. Wraith was not extracting intel. He was confirming names already on a list the Witnesses had given themselves.",
+    },
+  ],
+  choices: [
+    {
+      id: "wraith.e3.c.trade_imprint" as ChoiceId,
+      label: "Trade the Information Twins a memory imprint for 7-Omega clearance records.",
+      weight: "transactional",
+    },
+    {
+      id: "wraith.e3.c.refuse_trade" as ChoiceId,
+      label: "Refuse the fair trade — leave the Syndicate's archive intact.",
+      weight: "principled",
+    },
+    {
+      id: "wraith.e3.c.warn_living_pairs" as ChoiceId,
+      label: "Warn the three surviving pairs that they are next on someone's list.",
+      weight: "protective",
+    },
+  ],
+  contentBundle: {
+    songId: "album1.t19", /* "The Syndicated" — Dischordian Logic Act 3, direct title hit */
+    slideshowId: "album1.t19",
+    loredexUnlocks: [
+      "entity_word_silence",
+      "concept_six_immortal_twins",
+      "event_fair_trade",
+      "concept_information_twins",
+    ],
+    conspiracyDiscoveries: [
+      "the_word",
+      "the_silence",
+      "six_pairs",
+      "kill_list_c7",
     ],
     dropAt: "episode_close",
   },
@@ -329,7 +443,7 @@ const WRAITH_CALDER_MYSTERY: MysteryDefinition = {
   title: "The Eighth Death and the Names",
   summary:
     "Wraith Calder's transformation from bounty hunter into Hierophant of Thaloria in Exile, told via the artifacts and witnesses he left across the centuries. The Syndicate of Death is the season antagonist; the resurrection protocols are the season MacGuffin.",
-  episodes: [wraithE1, wraithE2],
+  episodes: [wraithE1, wraithE2, wraithE3],
   suspects: wraithSuspects,
   lenses: wraithLenses,
 };
