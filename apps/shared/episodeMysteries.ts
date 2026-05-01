@@ -443,6 +443,7 @@ const wraithE4: EpisodeDefinition = {
       narrationId: "wraith.e4.n.he_walked_in",
       narrationProse:
         "Wraith Calder consented. The pre-rite recording is unambiguous — he names the rite, accepts it, releases the body, asks the successor not to mourn. The Thalorian vessel was prepared for sixty-eight years; the consent chain is signed by twelve elders; the rite was offered, not imposed. The Sanctuary did not take him. He walked in. The Eighth Death was a passage. Whoever reads the rite as coercion is reading a story the Hierarchy preferred.",
+      unlocksEpisode: "wraith.e5" as EpisodeId,
     },
     {
       id: "wraith.e4.d.continuity_seam" as DeductionId,
@@ -494,6 +495,128 @@ const wraithE4: EpisodeDefinition = {
       "thalorian_vessel",
       "hierophant_succession",
       "sanctuary_witnesses",
+    ],
+    dropAt: "episode_close",
+  },
+};
+
+/* ─── WRAITH CALDER ARC — E5 (final episode) ─── */
+/* E5: "The Herald's Vigil"
+   The arc's epilogue. The Hierophant's daily-names ceremony is
+   the case's resolution mechanic: 347,000 names, inscribed one
+   by one, every morning, for as long as a person can. The
+   player participates in one ceremony and chooses a name to
+   inscribe. The Oracle is invoked but does not appear — the
+   substrate-only canon (per apps/shared/npcs/bibles/the_oracle.md:604)
+   forbids any waking-time manifestation outside dream / memory /
+   cinematic-exception channels.
+
+   This episode finalises the per-player Wraith trust scalar
+   (mysteryService.finalizeTrustScalar). The choice at episode
+   close cross-arcs to Jericho — the player can inscribe Akai
+   Shi's name (only meaningful if the Jericho arc has been
+   touched), an obscure victim Shadow Tongue scrubbed, or a name
+   only the player carries. The cliffhanger pays off in Y1 M12
+   per docs/design §9 calendar. */
+
+const wraithE5: EpisodeDefinition = {
+  id: "wraith.e5" as EpisodeId,
+  arcId: ARC_WRAITH_CALDER,
+  ordinal: 5,
+  title: "The Herald's Vigil",
+  summary:
+    "The Hierophant writes 347,000 names every morning. The case's resolution is a ceremony, not a verdict. Stand in the Sanctuary's antechamber while he works, and choose — when he hands you the stylus — which name you inscribe with him. The Oracle is invoked. The Oracle does not appear.",
+  clues: [
+    {
+      id: "wraith.e5.daily_litany" as ClueId,
+      title: "The 347,000-Name Litany",
+      body: "The litany is a continuous scroll, refreshed every morning. Names are written in chronological order of death; the earliest entries are from the end of Epoch 1, the latest from yesterday. The Hierophant writes in the same hand on every page across centuries. The pen is a stylus. The ink is, by spectroscopy, the Hierophant's own blood thinned with phosphor-lavender Thalorian sap.",
+      foundIn: "oracle-sanctum",
+    },
+    {
+      id: "wraith.e5.scrubbed_names_register" as ClueId,
+      title: "The Shadow-Tongue-Scrubbed Names Register",
+      body: "A side ledger held in the Hierophant's robes: names the editor has scrubbed from the Chronicle. The Hierophant rewrites them every morning, by hand, before the main litany. The register's existence is the load-bearing counter-edit. Names that were edited away are restored daily; the editor cannot keep up with a daily-resumption discipline.",
+      foundIn: "antiquarian-library",
+    },
+    {
+      id: "wraith.e5.oracle_invocation" as ClueId,
+      title: "The Oracle's Invocation Card",
+      body: "Card stock, brass-edged. The Hierophant raises it before the inscription begins. 'I write these names in expectation of a reader. The reader is the Oracle. The Oracle is not yet present. The Oracle will return.' The card is signed Wraith Calder. The Hierophant is the Oracle's herald. The Oracle is awaited, not interrogated.",
+      foundIn: "oracle-sanctum",
+    },
+    {
+      id: "wraith.e5.stylus_offer" as ClueId,
+      title: "The Stylus the Hierophant Offers You",
+      body: "On the morning the player attends, the Hierophant pauses mid-litany and offers the stylus. The offer is wordless. The choice is whose name to inscribe. The litany has space. The ink has weight. The Hierophant has been waiting — the bible's pre-rite trust bands persist into post-rite trust — for a witness willing to share one morning of the work.",
+      foundIn: "oracle-sanctum",
+    },
+  ],
+  deductions: [
+    {
+      id: "wraith.e5.d.daily_resumption_is_the_method" as DeductionId,
+      clueA: "wraith.e5.daily_litany" as ClueId,
+      clueB: "wraith.e5.scrubbed_names_register" as ClueId,
+      result: "correct",
+      narrationId: "wraith.e5.n.daily_is_the_discipline",
+      narrationProse:
+        "The Hierophant's discipline is daily resumption. He does not catch the editor in the act; he undoes the editor's work by writing the scrubbed names back into the litany every morning. The editor needs sustained absence to make a name forgotten. The Hierophant gives him no day off. The 347,000 names are not a mausoleum — they are an active counter-edit, sustained by the only mechanism the editor cannot match: a person willing to do the work every single morning, by hand, in his own blood, for as long as a person can.",
+    },
+    {
+      id: "wraith.e5.d.herald_awaits_no_summons" as DeductionId,
+      clueA: "wraith.e5.oracle_invocation" as ClueId,
+      clueB: "wraith.e5.stylus_offer" as ClueId,
+      result: "partial",
+      narrationId: "wraith.e5.n.he_does_not_summon",
+      narrationProse:
+        "The Hierophant invokes the Oracle but does not summon. He raises the card; he names the awaited reader; he does not call. He has, on the evidence, never tried to make the Oracle appear — that work is, in the canon's own grammar, not his to do. He prepares the litany, he keeps the scrubbed-names register current, and he offers the stylus to whoever happens to attend that morning. The Oracle, if she returns, will return through dream-substrate, memory-residue, or cinematic-exception. He waits. He does not coerce the wait.",
+    },
+    {
+      id: "wraith.e5.d.false_lead_oracle_summoning" as DeductionId,
+      clueA: "wraith.e5.daily_litany" as ClueId,
+      clueB: "wraith.e5.oracle_invocation" as ClueId,
+      result: "false_lead_named",
+      narrationId: "wraith.e5.n.not_a_summoning_ritual",
+      narrationProse:
+        "Reading the daily litany and the invocation card together as a summoning ritual is the obvious move and the wrong one. The litany has 347,000 names. A summoning ritual has one. The litany resumes daily. A summoning ritual fires once. The invocation card names a reader who is awaited; a summoning ritual names a target who is to be brought. The Hierophant's discipline is to wait without coercing the wait. Reading him as a summoner collapses the case in the wrong direction — and is, on the canonical reading, the same mistake the Hierarchy made for two and a half centuries.",
+    },
+  ],
+  choices: [
+    {
+      id: "wraith.e5.c.inscribe_akai_shi" as ChoiceId,
+      label: "Inscribe Akai Shi's name — the killing was prophesied; the name belongs in the litany.",
+      weight: "cross_arc_jericho",
+    },
+    {
+      id: "wraith.e5.c.inscribe_a_scrubbed_victim" as ChoiceId,
+      label: "Inscribe an obscure victim the Shadow Tongue scrubbed from the Chronicle.",
+      weight: "restorative",
+    },
+    {
+      id: "wraith.e5.c.inscribe_a_carried_name" as ChoiceId,
+      label: "Inscribe a name only you carry — a private witness from this case.",
+      weight: "private",
+    },
+    {
+      id: "wraith.e5.c.decline_the_stylus" as ChoiceId,
+      label: "Decline the stylus — the work belongs to the Hierophant; you are the witness, not the writer.",
+      weight: "witnessing",
+    },
+  ],
+  contentBundle: {
+    songId: "sih.silence_in_heaven", /* "Silence in Heaven" title track — the vigil/ceremony tonal match per §14b.3 */
+    slideshowId: "sih.silence_in_heaven",
+    loredexUnlocks: [
+      "entity_hierophant_wraith",
+      "concept_347000_names",
+      "concept_oracle_awaited",
+      "concept_daily_resumption_discipline",
+    ],
+    conspiracyDiscoveries: [
+      "hierophant_litany",
+      "scrubbed_names_register",
+      "oracle_invocation",
+      "stylus_offer",
     ],
     dropAt: "episode_close",
   },
@@ -556,7 +679,7 @@ const WRAITH_CALDER_MYSTERY: MysteryDefinition = {
   title: "The Eighth Death and the Names",
   summary:
     "Wraith Calder's transformation from bounty hunter into Hierophant of Thaloria in Exile, told via the artifacts and witnesses he left across the centuries. The Syndicate of Death is the season antagonist; the resurrection protocols are the season MacGuffin.",
-  episodes: [wraithE1, wraithE2, wraithE3, wraithE4],
+  episodes: [wraithE1, wraithE2, wraithE3, wraithE4, wraithE5],
   suspects: wraithSuspects,
   lenses: wraithLenses,
 };
