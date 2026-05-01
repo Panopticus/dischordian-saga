@@ -5551,6 +5551,565 @@ export const npcDialogTreeState = mysqlTable("npc_dialog_tree_state", {
 export type NpcDialogTreeStateRow = typeof npcDialogTreeState.$inferSelect;
 
 /* ═══════════════════════════════════════════════════════
+   TIER 1 — LORE-TIERED TITLE SYSTEM
+   SWTOR-styled multi-tier progressions rooted in LOREDEX entities.
+   Granted by events from PvP, narrative, co-op, guild, mystery surfaces.
+   ═══════════════════════════════════════════════════════ */
+
+/**
+ * Title definitions — declarative registry seeded from
+ * apps/shared/titles/titleDefinitions.ts at app start.
+ */
+export const titleDefinitions = mysqlTable("title_definitions", {
+  id: int("id").autoincrement().primaryKey(),
+  titleKey: varchar("titleKey", { length: 96 }).notNull().unique(),
+  rootKey: varchar("rootKey", { length: 64 }).notNull(),
+  tier: int("tier").notNull().default(1),
+  name: varchar("name", { length: 128 }).notNull(),
+  description: text("description"),
+  flavorText: text("flavorText"),
+  rarity: mysqlEnum("rarity", ["common", "rare", "epic", "legendary", "mythic"]).default("rare").notNull(),
+  category: mysqlEnum("category", [
+    "pvp_rank",
+    "narrative",
+    "mystery",
+    "coop",
+    "faction_guild",
+    "cross_game",
+    "cosmetic_purchase",
+    "seasonal",
+  ]).notNull(),
+  loredexEntityId: varchar("loredexEntityId", { length: 64 }),
+  iconKey: varchar("iconKey", { length: 32 }).notNull().default("Award"),
+  /** Discriminated-union TitleUnlockCondition serialized as JSON. */
+  condition: json("condition").$type<Record<string, unknown>>().notNull(),
+  hidden: int("hidden").notNull().default(0),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => ({
+  rootIdx: index("idx_title_definitions_root").on(table.rootKey),
+  categoryIdx: index("idx_title_definitions_category").on(table.category),
+}));
+
+export type TitleDefinition = typeof titleDefinitions.$inferSelect;
+export type InsertTitleDefinition = typeof titleDefinitions.$inferInsert;
+
+/**
+ * User-earned titles — junction table.
+ * `discoveryRank` records position for first-to-witness titles
+ * (1 = first discoverer, 2 = second, etc.).
+ */
+export const userTitles = mysqlTable("user_titles", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  titleKey: varchar("titleKey", { length: 96 }).notNull(),
+  earnedAt: timestamp("earnedAt").defaultNow().notNull(),
+  seasonNumber: int("seasonNumber"),
+  discoveryRank: int("discoveryRank"),
+}, (table) => ({
+  userIdIdx: index("idx_user_titles_user_id").on(table.userId),
+  userTitleUniq: uniqueIndex("uniq_user_titles_user_title").on(
+    table.userId,
+    table.titleKey,
+  ),
+}));
+
+export type UserTitle = typeof userTitles.$inferSelect;
+export type InsertUserTitle = typeof userTitles.$inferInsert;
+
+/**
+ * Equipped cosmetic loadout — supersedes the legacy free-text
+ * `userProgress.title` field. Title, badge, frame in one place.
+ */
+export const userCosmeticLoadout = mysqlTable("user_cosmetic_loadout", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().unique(),
+  equippedTitleKey: varchar("equippedTitleKey", { length: 96 }),
+  equippedBadgeKey: varchar("equippedBadgeKey", { length: 96 }),
+  equippedFrameKey: varchar("equippedFrameKey", { length: 96 }),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type UserCosmeticLoadout = typeof userCosmeticLoadout.$inferSelect;
+export type InsertUserCosmeticLoadout = typeof userCosmeticLoadout.$inferInsert;
+
+/* ═══════════════════════════════════════════════════════
+   TIER 2A — UNIFIED COMPETITIVE RATINGS
+   One rating row per (userId, gameType). Generalises the
+   chess-specific and card-specific ELO tables into a single
+   surface that downstream readers (titles, profile feed,
+   leaderboards) consume by gameType key. Existing pvpLeaderboard
+   and chessRankings tables remain authoritative for write paths
+   during migration; competitiveRatings is mirrored on every
+   match end and read by the unified competitive router.
+   ═══════════════════════════════════════════════════════ */
+
+export const competitiveRatings = mysqlTable("competitive_ratings", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /** GameTypeKey from apps/shared/titles/types.ts. */
+  gameType: varchar("gameType", { length: 32 }).notNull(),
+  currentElo: int("currentElo").notNull().default(1200),
+  peakElo: int("peakElo").notNull().default(1200),
+  wins: int("wins").notNull().default(0),
+  losses: int("losses").notNull().default(0),
+  draws: int("draws").notNull().default(0),
+  winStreak: int("winStreak").notNull().default(0),
+  bestStreak: int("bestStreak").notNull().default(0),
+  /** RankTier from apps/shared/pvpBattle.ts (mirrored as varchar so we
+   *  don't couple the enum across rating types). */
+  rankTier: varchar("rankTier", { length: 32 }).notNull().default("bronze"),
+  placementMatchesPlayed: int("placementMatchesPlayed").notNull().default(0),
+  lastMatchAt: timestamp("lastMatchAt"),
+  lastDecayAt: timestamp("lastDecayAt"),
+  seasonNumber: int("seasonNumber").notNull().default(1),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  userIdIdx: index("idx_competitive_ratings_user_id").on(table.userId),
+  gameTypeIdx: index("idx_competitive_ratings_game_type").on(table.gameType),
+  userGameTypeUniq: uniqueIndex("uniq_competitive_ratings_user_game_type").on(
+    table.userId,
+    table.gameType,
+  ),
+}));
+
+export type CompetitiveRating = typeof competitiveRatings.$inferSelect;
+export type InsertCompetitiveRating = typeof competitiveRatings.$inferInsert;
+
+/* ═══════════════════════════════════════════════════════
+   TIER 2B — WITNESSING DISCOVERY RACE
+   Conspiracy boards (mystery puzzles), per-player + per-guild
+   clue progress, server-wide reveal events. First-discoverer
+   guilds trigger faction-wide bonuses + tier-3 lore titles.
+   ═══════════════════════════════════════════════════════ */
+
+/**
+ * Persistent record of every globally-significant discovery event.
+ * Written exactly once per eventKey when a user (or guild) is first
+ * to satisfy the discovery condition. Subsequent solvers are NOT
+ * recorded here — they produce normal `userClueProgress` rows.
+ */
+export const discoveryEvents = mysqlTable("discovery_events", {
+  id: int("id").autoincrement().primaryKey(),
+  /** Stable key, e.g. "kael_fragment_F4", "secret_act_3_revealed",
+   *  "conspiracy_thought_virus_solved". */
+  eventKey: varchar("eventKey", { length: 96 }).notNull().unique(),
+  firstDiscovererUserId: int("firstDiscovererUserId").notNull(),
+  firstDiscovererGuildId: int("firstDiscovererGuildId"),
+  discoveredAt: timestamp("discoveredAt").defaultNow().notNull(),
+  /** When this event triggered a server-wide reveal (i.e. flipped
+   *  unlock state for every player). NULL = not yet promoted. */
+  serverWideRevealedAt: timestamp("serverWideRevealedAt"),
+  /** Faction whose pressureService bumped on this discovery. */
+  factionAlignment: varchar("factionAlignment", { length: 32 }),
+}, (table) => ({
+  eventKeyIdx: index("idx_discovery_events_event_key").on(table.eventKey),
+  firstUserIdx: index("idx_discovery_events_first_user").on(table.firstDiscovererUserId),
+}));
+
+export type DiscoveryEvent = typeof discoveryEvents.$inferSelect;
+export type InsertDiscoveryEvent = typeof discoveryEvents.$inferInsert;
+
+/**
+ * Conspiracy board definitions — mystery puzzles assembled from
+ * clue tokens. Backed by lore (Project Celebration / Thought Virus
+ * / Kael's Revenge / Watcher Infiltration / Recruiter Defection).
+ *
+ * Definitions are seeded from
+ * apps/shared/conspiracyBoards/definitions.ts at app start.
+ */
+export const conspiracyBoards = mysqlTable("conspiracy_boards", {
+  id: int("id").autoincrement().primaryKey(),
+  boardKey: varchar("boardKey", { length: 64 }).notNull().unique(),
+  name: varchar("name", { length: 128 }).notNull(),
+  description: text("description"),
+  /** Number of distinct clue keys required to solve. */
+  cluesRequired: int("cluesRequired").notNull(),
+  /** JSON array of clue keys this board accepts. */
+  acceptedClues: json("acceptedClues").$type<string[]>().notNull(),
+  factionAlignment: varchar("factionAlignment", { length: 32 }),
+  /** When promoted to live, server-wide rules apply. */
+  active: int("active").notNull().default(1),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type ConspiracyBoard = typeof conspiracyBoards.$inferSelect;
+export type InsertConspiracyBoard = typeof conspiracyBoards.$inferInsert;
+
+/**
+ * Per-player clue progress. One row per (userId, boardKey).
+ * `cluesGathered` is a JSON array of clue keys the user has earned.
+ */
+export const userClueProgress = mysqlTable("user_clue_progress", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  boardKey: varchar("boardKey", { length: 64 }).notNull(),
+  cluesGathered: json("cluesGathered").$type<string[]>().notNull().default([]),
+  solvedAt: timestamp("solvedAt"),
+  /** Was this user the first-discoverer (rank=1)? Forwarded from
+   *  the discoveryEvents row at solve time. */
+  isFirstDiscoverer: int("isFirstDiscoverer").notNull().default(0),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  userIdIdx: index("idx_user_clue_progress_user_id").on(table.userId),
+  userBoardUniq: uniqueIndex("uniq_user_clue_progress_user_board").on(
+    table.userId,
+    table.boardKey,
+  ),
+}));
+
+export type UserClueProgress = typeof userClueProgress.$inferSelect;
+export type InsertUserClueProgress = typeof userClueProgress.$inferInsert;
+
+/**
+ * Per-guild aggregated clue progress. Members' clue contributions
+ * roll up to the guild row; the first guild to assemble all clues
+ * triggers the server-wide reveal.
+ */
+export const guildClueProgress = mysqlTable("guild_clue_progress", {
+  id: int("id").autoincrement().primaryKey(),
+  guildId: int("guildId").notNull(),
+  boardKey: varchar("boardKey", { length: 64 }).notNull(),
+  /** Aggregated unique clues contributed by any member. */
+  cluesGathered: json("cluesGathered").$type<string[]>().notNull().default([]),
+  /** Per-member contribution counts: { [userId]: count }. */
+  contributors: json("contributors").$type<Record<string, number>>().notNull().default({}),
+  solvedAt: timestamp("solvedAt"),
+  isFirstDiscoverer: int("isFirstDiscoverer").notNull().default(0),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  guildIdIdx: index("idx_guild_clue_progress_guild_id").on(table.guildId),
+  guildBoardUniq: uniqueIndex("uniq_guild_clue_progress_guild_board").on(
+    table.guildId,
+    table.boardKey,
+  ),
+}));
+
+export type GuildClueProgress = typeof guildClueProgress.$inferSelect;
+export type InsertGuildClueProgress = typeof guildClueProgress.$inferInsert;
+
+/* ═══════════════════════════════════════════════════════
+   TIER 4 — GUILD EXPANSION (Perks, Quests, Banners, Stash)
+   Builds on the existing guilds / guildMembers / guildHall
+   tables. Banners/mottoes are added to the guilds row in a
+   followup migration via the cosmetic loadout shape.
+   ═══════════════════════════════════════════════════════ */
+
+/**
+ * Guild perk definitions — passive bonuses that apply to every
+ * member of a guild that has unlocked the perk. Definitions are
+ * seeded from apps/shared/guildPerks/perkDefinitions.ts.
+ */
+export const guildPerks = mysqlTable("guild_perks", {
+  id: int("id").autoincrement().primaryKey(),
+  perkKey: varchar("perkKey", { length: 64 }).notNull().unique(),
+  name: varchar("name", { length: 128 }).notNull(),
+  description: text("description"),
+  /** Bonus shape: "dream_pct", "credits_pct", "card_draw", "xp_pct",
+   *  "craft_pct", "rare_drop_pct", "pvp_dmg_taken_pct",
+   *  "clue_drop_rate_pct", "placement_xp_pct", etc. */
+  bonusType: varchar("bonusType", { length: 32 }).notNull(),
+  /** Magnitude (interpretation depends on bonusType — % for *_pct,
+   *  flat for card_draw, etc.). */
+  magnitude: int("magnitude").notNull(),
+  requiredHallTier: int("requiredHallTier").notNull().default(1),
+  requiredXp: int("requiredXp").notNull().default(0),
+  /** Optional faction restriction. */
+  factionAlignment: varchar("factionAlignment", { length: 32 }),
+  iconKey: varchar("iconKey", { length: 32 }).notNull().default("Sparkles"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type GuildPerk = typeof guildPerks.$inferSelect;
+
+/** Junction: which perks a guild has unlocked. */
+export const guildUnlockedPerks = mysqlTable("guild_unlocked_perks", {
+  id: int("id").autoincrement().primaryKey(),
+  guildId: int("guildId").notNull(),
+  perkKey: varchar("perkKey", { length: 64 }).notNull(),
+  unlockedAt: timestamp("unlockedAt").defaultNow().notNull(),
+}, (table) => ({
+  guildIdIdx: index("idx_guild_unlocked_perks_guild_id").on(table.guildId),
+  guildPerkUniq: uniqueIndex("uniq_guild_unlocked_perks_guild_perk").on(
+    table.guildId,
+    table.perkKey,
+  ),
+}));
+
+export type GuildUnlockedPerk = typeof guildUnlockedPerks.$inferSelect;
+
+/** Guild quest definitions — daily / weekly / seasonal objectives. */
+export const guildQuestDefinitions = mysqlTable("guild_quest_definitions", {
+  id: int("id").autoincrement().primaryKey(),
+  questKey: varchar("questKey", { length: 64 }).notNull().unique(),
+  scope: mysqlEnum("scope", ["daily", "weekly", "seasonal"]).notNull(),
+  name: varchar("name", { length: 128 }).notNull(),
+  description: text("description"),
+  /** Discriminated-union condition: { kind, threshold, ... } */
+  condition: json("condition").$type<Record<string, unknown>>().notNull(),
+  /** Reward bag: { guildXp, treasuryDream, bannerKey?, titleKey? } */
+  rewards: json("rewards").$type<Record<string, unknown>>().notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type GuildQuestDefinition = typeof guildQuestDefinitions.$inferSelect;
+
+/** Per-guild quest progress. Reset by cron on the appropriate cadence. */
+export const guildQuestProgress = mysqlTable("guild_quest_progress", {
+  id: int("id").autoincrement().primaryKey(),
+  guildId: int("guildId").notNull(),
+  questKey: varchar("questKey", { length: 64 }).notNull(),
+  progress: int("progress").notNull().default(0),
+  target: int("target").notNull(),
+  completedAt: timestamp("completedAt"),
+  rewardClaimed: int("rewardClaimed").notNull().default(0),
+  /** When this row was last reset (the cron's anchor). */
+  resetAt: timestamp("resetAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  guildIdIdx: index("idx_guild_quest_progress_guild_id").on(table.guildId),
+  guildQuestUniq: uniqueIndex("uniq_guild_quest_progress_guild_quest").on(
+    table.guildId,
+    table.questKey,
+  ),
+}));
+
+export type GuildQuestProgressRow = typeof guildQuestProgress.$inferSelect;
+
+/** Per-guild cosmetic loadout: banner, motto, emblem.
+ *  Separate from `guilds` so we don't have to migrate the existing
+ *  large table. */
+export const guildCosmetics = mysqlTable("guild_cosmetics", {
+  id: int("id").autoincrement().primaryKey(),
+  guildId: int("guildId").notNull().unique(),
+  bannerKey: varchar("bannerKey", { length: 64 }),
+  mottoText: varchar("mottoText", { length: 80 }),
+  emblemKey: varchar("emblemKey", { length: 64 }),
+  /** JSON array of unlocked banner keys (catalog of available cosmetics). */
+  unlockedBanners: json("unlockedBanners").$type<string[]>().notNull().default([]),
+  unlockedEmblems: json("unlockedEmblems").$type<string[]>().notNull().default([]),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type GuildCosmetics = typeof guildCosmetics.$inferSelect;
+
+/** Guild stash — shared inventory. */
+export const guildStash = mysqlTable("guild_stash", {
+  id: int("id").autoincrement().primaryKey(),
+  guildId: int("guildId").notNull(),
+  slotKey: varchar("slotKey", { length: 64 }).notNull(),
+  itemType: varchar("itemType", { length: 32 }).notNull(),
+  itemKey: varchar("itemKey", { length: 96 }).notNull(),
+  quantity: int("quantity").notNull().default(1),
+  depositorUserId: int("depositorUserId").notNull(),
+  depositedAt: timestamp("depositedAt").defaultNow().notNull(),
+}, (table) => ({
+  guildIdIdx: index("idx_guild_stash_guild_id").on(table.guildId),
+  guildSlotUniq: uniqueIndex("uniq_guild_stash_guild_slot").on(
+    table.guildId,
+    table.slotKey,
+  ),
+}));
+
+export type GuildStashRow = typeof guildStash.$inferSelect;
+
+/** Guild stash audit log — every deposit / withdraw. */
+export const guildStashLog = mysqlTable("guild_stash_log", {
+  id: int("id").autoincrement().primaryKey(),
+  guildId: int("guildId").notNull(),
+  userId: int("userId").notNull(),
+  action: mysqlEnum("action", ["deposit", "withdraw"]).notNull(),
+  itemType: varchar("itemType", { length: 32 }).notNull(),
+  itemKey: varchar("itemKey", { length: 96 }).notNull(),
+  quantity: int("quantity").notNull(),
+  at: timestamp("at").defaultNow().notNull(),
+}, (table) => ({
+  guildIdIdx: index("idx_guild_stash_log_guild_id").on(table.guildId),
+}));
+
+export type GuildStashLogRow = typeof guildStashLog.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
+   TIER 5 — PVP VARIANTS FOR OTHER GAME MODES
+   Circuit Rival Run, Trade Sector Control, Trade Oracle Duels,
+   CADES Async PvP, TD Live Siege, Guild Skirmishes.
+   ═══════════════════════════════════════════════════════ */
+
+/* ─── 5A. Dead Man's Circuit Rival Race ─── */
+export const circuitPvpMatches = mysqlTable("circuit_pvp_matches", {
+  id: int("id").autoincrement().primaryKey(),
+  matchId: varchar("matchId", { length: 64 }).notNull().unique(),
+  player1Id: int("player1Id").notNull(),
+  player2Id: int("player2Id").notNull(),
+  trackSeed: varchar("trackSeed", { length: 64 }).notNull(),
+  player1Score: int("player1Score"),
+  player2Score: int("player2Score"),
+  winnerId: int("winnerId"),
+  /** Type: "single_race" | "survival_wars_3" */
+  format: varchar("format", { length: 32 }).notNull().default("single_race"),
+  status: mysqlEnum("status", ["queued", "active", "completed", "abandoned"]).notNull().default("queued"),
+  startedAt: timestamp("startedAt").defaultNow().notNull(),
+  endedAt: timestamp("endedAt"),
+});
+export type CircuitPvpMatch = typeof circuitPvpMatches.$inferSelect;
+
+/* ─── 5B. Trade Empire — Sector Control ─── */
+export const tradeSectorControl = mysqlTable("trade_sector_control", {
+  id: int("id").autoincrement().primaryKey(),
+  sectorId: varchar("sectorId", { length: 64 }).notNull(),
+  /** Current "Sector Lord" — null between control windows. */
+  lordUserId: int("lordUserId"),
+  /** Anchor for the weekly window. */
+  weekStart: timestamp("weekStart").notNull(),
+  /** JSON: { [userId]: contributionScore } */
+  contributionScores: json("contributionScores").$type<Record<string, number>>().notNull().default({}),
+  active: int("active").notNull().default(1),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  sectorIdIdx: index("idx_trade_sector_control_sector_id").on(table.sectorId),
+  sectorWeekUniq: uniqueIndex("uniq_trade_sector_control_sector_week").on(
+    table.sectorId,
+    table.weekStart,
+  ),
+}));
+export type TradeSectorControl = typeof tradeSectorControl.$inferSelect;
+
+/* ─── 5B. Trade Empire — Oracle Futures Duels ─── */
+export const tradeOracleDuels = mysqlTable("trade_oracle_duels", {
+  id: int("id").autoincrement().primaryKey(),
+  duelId: varchar("duelId", { length: 64 }).notNull().unique(),
+  callerUserId: int("callerUserId").notNull(),
+  putUserId: int("putUserId").notNull(),
+  sectorId: varchar("sectorId", { length: 64 }).notNull(),
+  strikePrice: int("strikePrice").notNull(),
+  /** Spot price at settlement. */
+  settlementPrice: int("settlementPrice"),
+  winnerId: int("winnerId"),
+  status: mysqlEnum("status", ["open", "settled", "abandoned"]).notNull().default("open"),
+  openedAt: timestamp("openedAt").defaultNow().notNull(),
+  settlesAt: timestamp("settlesAt").notNull(),
+  settledAt: timestamp("settledAt"),
+});
+export type TradeOracleDuel = typeof tradeOracleDuels.$inferSelect;
+
+/* ─── 5C. CADES FPS Async PvP ─── */
+export const cadesPvpMatches = mysqlTable("cades_pvp_matches", {
+  id: int("id").autoincrement().primaryKey(),
+  matchId: varchar("matchId", { length: 64 }).notNull().unique(),
+  player1Id: int("player1Id").notNull(),
+  player2Id: int("player2Id"),
+  scenarioSeed: varchar("scenarioSeed", { length: 64 }).notNull(),
+  scenarioMode: varchar("scenarioMode", { length: 32 }).notNull().default("last_stand"),
+  player1Score: int("player1Score"),
+  player2Score: int("player2Score"),
+  winnerId: int("winnerId"),
+  status: mysqlEnum("status", ["pending", "p1_done", "p2_done", "completed", "abandoned"]).notNull().default("pending"),
+  startedAt: timestamp("startedAt").defaultNow().notNull(),
+  endedAt: timestamp("endedAt"),
+});
+export type CadesPvpMatch = typeof cadesPvpMatches.$inferSelect;
+
+/* ─── 5D. Tower Defense Live Siege ─── */
+export const tdLiveSieges = mysqlTable("td_live_sieges", {
+  id: int("id").autoincrement().primaryKey(),
+  siegeId: varchar("siegeId", { length: 64 }).notNull().unique(),
+  attackerUserId: int("attackerUserId").notNull(),
+  defenderUserId: int("defenderUserId").notNull(),
+  /** Wave snapshot when raid concluded. */
+  waveCount: int("waveCount").notNull().default(0),
+  /** 0–3 stars. */
+  starsAwarded: int("starsAwarded").notNull().default(0),
+  defenseHeld: int("defenseHeld").notNull().default(0),
+  trophyDelta: int("trophyDelta").notNull().default(0),
+  status: mysqlEnum("status", ["active", "completed", "abandoned"]).notNull().default("active"),
+  startedAt: timestamp("startedAt").defaultNow().notNull(),
+  endedAt: timestamp("endedAt"),
+});
+export type TdLiveSiege = typeof tdLiveSieges.$inferSelect;
+
+/* ─── 5E. Guild Skirmishes (mode-mix bracket) ─── */
+export const guildWarSkirmishes = mysqlTable("guild_war_skirmishes", {
+  id: int("id").autoincrement().primaryKey(),
+  skirmishId: varchar("skirmishId", { length: 64 }).notNull().unique(),
+  guildAId: int("guildAId").notNull(),
+  guildBId: int("guildBId").notNull(),
+  /** JSON: { card_duel?: matchId, chess?: gameId, td_live?: siegeId, cades?: matchId } */
+  mode_match_ids: json("modeMatchIds").$type<Record<string, string>>().notNull().default({}),
+  /** JSON: { [gameType]: "guild_a" | "guild_b" | "tied" | "pending" } */
+  modeOutcomes: json("modeOutcomes").$type<Record<string, string>>().notNull().default({}),
+  /** Final winner once enough modes resolve. */
+  winnerGuildId: int("winnerGuildId"),
+  status: mysqlEnum("status", ["proposed", "accepted", "active", "completed", "abandoned"]).notNull().default("proposed"),
+  declaredAt: timestamp("declaredAt").defaultNow().notNull(),
+  acceptedAt: timestamp("acceptedAt"),
+  completedAt: timestamp("completedAt"),
+}, (table) => ({
+  guildsIdx: index("idx_guild_war_skirmishes_guilds").on(table.guildAId, table.guildBId),
+}));
+export type GuildWarSkirmish = typeof guildWarSkirmishes.$inferSelect;
+
+/** Per-mode skirmish match record. */
+export const guildWarSkirmishMatches = mysqlTable("guild_war_skirmish_matches", {
+  id: int("id").autoincrement().primaryKey(),
+  skirmishId: varchar("skirmishId", { length: 64 }).notNull(),
+  /** Mode: "card_duel" | "chess" | "td_live" | "cades" */
+  mode: varchar("mode", { length: 32 }).notNull(),
+  guildAPlayerId: int("guildAPlayerId").notNull(),
+  guildBPlayerId: int("guildBPlayerId").notNull(),
+  /** Underlying match id in the per-mode table. */
+  underlyingMatchId: varchar("underlyingMatchId", { length: 64 }),
+  /** Outcome: "guild_a" | "guild_b" | "tied" | "pending" */
+  outcome: varchar("outcome", { length: 16 }).notNull().default("pending"),
+  recordedAt: timestamp("recordedAt").defaultNow().notNull(),
+}, (table) => ({
+  skirmishIdIdx: index("idx_guild_war_skirmish_matches_skirmish").on(table.skirmishId),
+}));
+export type GuildWarSkirmishMatch = typeof guildWarSkirmishMatches.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
+   APPRENTICE TRIAL COHORT COMPLETIONS
+   Server-side record of every cohort a player has completed.
+   Cohort simulation itself stays client-side (apps/shared/pvpCohorts.ts);
+   this table records "I survived cohort N" for title grants.
+   ═══════════════════════════════════════════════════════ */
+export const apprenticeTrialCompletions = mysqlTable("apprentice_trial_completions", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  cohortNumber: int("cohortNumber").notNull(),
+  apprenticeName: varchar("apprenticeName", { length: 96 }).notNull(),
+  archetype: varchar("archetype", { length: 32 }).notNull(),
+  /** True iff this player was the cohort's sole graduate. */
+  graduated: int("graduated").notNull().default(0),
+  /** Day the apprentice fell (or 28 if survived to graduation). */
+  daySurvived: int("daySurvived").notNull(),
+  cohortSize: int("cohortSize").notNull(),
+  recordedAt: timestamp("recordedAt").defaultNow().notNull(),
+}, (table) => ({
+  userIdIdx: index("idx_apprentice_trial_user_id").on(table.userId),
+  userCohortUniq: uniqueIndex("uniq_apprentice_trial_user_cohort").on(
+    table.userId,
+    table.cohortNumber,
+  ),
+}));
+export type ApprenticeTrialCompletion = typeof apprenticeTrialCompletions.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
+   COMPETITIVE RATINGS BACKFILL MARKER
+   One-shot record that the migration from pvpLeaderboard +
+   chessRankings → competitive_ratings has run. Prevents
+   double-execution at boot.
+   ═══════════════════════════════════════════════════════ */
+export const competitiveRatingsBackfill = mysqlTable("competitive_ratings_backfill", {
+  id: int("id").autoincrement().primaryKey(),
+  /** Always "v1" for the initial backfill. Future migrations
+   *  add additional version rows. */
+  version: varchar("version", { length: 32 }).notNull().unique(),
+  cardMirrored: int("cardMirrored").notNull().default(0),
+  chessMirrored: int("chessMirrored").notNull().default(0),
+  ranAt: timestamp("ranAt").defaultNow().notNull(),
+});
+export type CompetitiveRatingsBackfillRow = typeof competitiveRatingsBackfill.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
    DREAMER AWARENESS — silent-counter substrate for the dual-
    faction recruitment system (D1 in
    /root/.claude/plans/continue-your-qr-assessment-mighty-valley.md).

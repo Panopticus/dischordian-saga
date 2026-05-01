@@ -26,6 +26,12 @@ import { transmissionsRouter } from "./routers/transmissions";
 import { fightLeaderboardRouter } from "./routers/fightLeaderboard";
 import { essenceHarvestRouter } from "./routers/essenceHarvest";
 import { pvpRouter } from "./routers/pvp";
+import { titlesRouter } from "./routers/titles";
+import { competitiveRouter } from "./routers/competitive";
+import { conspiracyRouter } from "./routers/conspiracy";
+import { guildExpansionRouter } from "./routers/guildExpansion";
+import { tier5PvpRouter } from "./routers/tier5Pvp";
+import { apprenticeTrialRouter } from "./routers/apprenticeTrial";
 import { draftRouter } from "./routers/draft";
 import { tradingRouter } from "./routers/trading";
 import { cardAchievementsRouter } from "./routers/cardAchievements";
@@ -142,6 +148,12 @@ export const appRouter = router({
   fightLeaderboard: fightLeaderboardRouter,
   essenceHarvest: essenceHarvestRouter,
   pvp: pvpRouter,
+  titles: titlesRouter,
+  competitive: competitiveRouter,
+  conspiracy: conspiracyRouter,
+  guildExpansion: guildExpansionRouter,
+  tier5Pvp: tier5PvpRouter,
+  apprenticeTrial: apprenticeTrialRouter,
   draft: draftRouter,
   trading: tradingRouter,
   cardAchievements: cardAchievementsRouter,

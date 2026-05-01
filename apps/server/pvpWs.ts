@@ -12,6 +12,10 @@ import { canSendEmote, recordEmoteSend, validateEmote, ALL_EMOTES, type EmoteRat
 import { filterMessage } from "@shared/moderation/profanityFilter";
 import { eq, and } from "drizzle-orm";
 import { trackPvpResult } from "./achievementTracker";
+import { awardEligibleTitles, rankTierIndex } from "./services/titleService";
+import { mirrorRating } from "./services/competitiveRatingsService";
+import { processClueDropEvent } from "./services/conspiracyService";
+import { recordQuestEvent } from "./services/guildQuestService";
 import { recordMatchStart, recordMatchEnd } from "./matchLengthMonitor";
 import { randomUUID } from "crypto";
 import { checkWsRateLimit, sendRateLimitError, storeDisconnectedSession, recoverSession } from "./wsRateLimit";
@@ -439,6 +443,54 @@ async function endMatch(match: ActiveMatch) {
           const totalWins = won ? row.wins + 1 : row.wins;
           trackPvpResult(player.userId, won, newStreak, newTier, totalWins)
             .catch(e => console.error("[PvP] Achievement tracking error:", e));
+
+          // Mirror into unified competitive ratings (Tier 2A).
+          mirrorRating({
+            userId: player.userId,
+            gameType: "card_1v1",
+            currentElo: newElo,
+            peakElo: Math.max(row.elo, newElo),
+            result: won ? { win: true } : { loss: true },
+            rankTier: newTier,
+            winStreak: newStreak,
+            bestStreak: Math.max(row.bestStreak, newStreak),
+          }).catch(e => console.error("[PvP] Rating mirror error:", e));
+
+          // Tier 2B: roll a clue drop into Conspiracy Boards.
+          processClueDropEvent(player.userId, won ? "pvp_card_win" : "pvp_card_loss")
+            .catch(e => console.error("[PvP] Clue drop error:", e));
+
+          // Tier 4: increment guild quest progress.
+          recordQuestEvent({ kind: "any_pvp_match", userId: player.userId })
+            .catch(e => console.error("[PvP] Quest progress error:", e));
+          recordQuestEvent({ kind: "pvp_card_played", userId: player.userId })
+            .catch(() => {});
+          if (won) {
+            recordQuestEvent({ kind: "pvp_card_won", userId: player.userId, gameType: "card_1v1" })
+              .catch(() => {});
+          }
+          // Tier-reach event (for "Forge a Champion").
+          const tierIdx = rankTierIndex(newTier);
+          recordQuestEvent({ kind: "member_reached_tier", userId: player.userId, gameType: "card_1v1", tier: tierIdx })
+            .catch(() => {});
+
+          // Title grant evaluation — every match-end, win or loss.
+          // Idempotent; safely skips already-earned titles.
+          const titleEvt = won
+            ? {
+                kind: "pvp_match_won" as const,
+                userId: player.userId,
+                gameType: "card_1v1" as const,
+                newTier: rankTierIndex(newTier),
+                totalWins,
+              }
+            : {
+                kind: "pvp_match_lost" as const,
+                userId: player.userId,
+                gameType: "card_1v1" as const,
+              };
+          awardEligibleTitles(player.userId, titleEvt)
+            .catch(e => console.error("[PvP] Title grant error:", e));
         }
       }
 

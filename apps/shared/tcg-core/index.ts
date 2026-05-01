@@ -98,6 +98,35 @@ export {
   otherSide,
 } from "./types/Ids";
 
+/* ─── Tier 3 foundation: N-player team types ───
+ * Additive — exists alongside Side for forwards compatibility.
+ * 1v1 callers may continue to use Side; 2v2/co-op/FFA callers
+ * use MatchPlayerSlot + Team. See types/Teams.ts. */
+export type {
+  MatchPlayerSlot,
+  TeamId,
+  Team,
+  TurnOrder,
+  MatchShape,
+} from "./types/Teams";
+export {
+  TeamId as createTeamId,
+  TURN_ORDER_1V1,
+  TURN_ORDER_2V2_ALTERNATING,
+  TURN_ORDER_FFA_4,
+  TURN_ORDER_COOP_2V1,
+  sideToSlot,
+  slotToSide,
+  teamForSlot,
+  alliedSlots,
+  enemySlots,
+  nextSlotInOrder,
+  teams1v1,
+  teams2v2,
+  teamsCoop2v1,
+  teamsFfa4,
+} from "./types/Teams";
+
 /* ─── Engine ─── */
 export {
   reduce,

@@ -9,7 +9,7 @@ import { router, protectedProcedure } from "../_core/trpc";
 import { getDb } from "../db";
 import {
   cosmeticPurchases, citizenCharacters, prestigeProgress,
-  bossMastery, dreamBalance,
+  bossMastery, dreamBalance, userTitles,
 } from "../../db/schema";
 import { eq, and, desc } from "drizzle-orm";
 import {
@@ -117,6 +117,18 @@ export const cosmeticShopRouter = router({
         itemKey: input.itemKey,
         price: item.price,
       });
+
+      // Mirror into userTitles so cosmetic-shop title purchases show up
+      // in the unified title catalog and can be equipped via the titles
+      // router. The titleKey matches the cosmetic key 1:1 for migrated items.
+      if (item.type === "title") {
+        const { sql } = await import("drizzle-orm");
+        await db
+          .insert(userTitles)
+          .values({ userId: ctx.user.id, titleKey: input.itemKey })
+          .onDuplicateKeyUpdate({ set: { earnedAt: sql`earned_at` } })
+          .catch(() => {/* idempotent — duplicate is fine */});
+      }
 
       await ripple.emit("store_purchase", { userId: ctx.user.id, amount: item.price });
 

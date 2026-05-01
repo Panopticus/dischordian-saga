@@ -172,6 +172,9 @@ const HierarchyPage = lazy(() => import("./pages/HierarchyPage"));
 const DemonPackPage = lazy(() => import("./pages/DemonPackPage"));
 const FightLeaderboardPage = lazy(() => import("./pages/FightLeaderboardPage"));
 const PvpArenaPage = lazy(() => import("./pages/PvpArenaPage"));
+const TitlesPage = lazy(() => import("./pages/TitlesPage"));
+const ConspiracyBoardsPage = lazy(() => import("./pages/ConspiracyBoardsPage"));
+const GuildExpansionPage = lazy(() => import("./pages/GuildExpansionPage"));
 const DraftTournamentPage = lazy(() => import("./pages/DraftTournamentPage"));
 const CardTradingPage = lazy(() => import("./pages/CardTradingPage"));
 const CardAchievementsPage = lazy(() => import("./pages/CardAchievementsPage"));
@@ -356,6 +359,9 @@ function Router() {
         <Route path="/demon-packs">{() => <Suspense fallback={<CardGridSkeleton />}><DemonPackPage /></Suspense>}</Route>
         <Route path="/fight-leaderboard" component={FightLeaderboardPage} />
         <Route path="/pvp">{() => <GameRoute component={PvpArenaPage} />}</Route>
+        <Route path="/titles">{() => <Suspense fallback={null}><TitlesPage /></Suspense>}</Route>
+        <Route path="/conspiracy">{() => <Suspense fallback={null}><ConspiracyBoardsPage /></Suspense>}</Route>
+        <Route path="/guild-hall">{() => <Suspense fallback={null}><GuildExpansionPage /></Suspense>}</Route>
         <Route path="/draft">{() => <GameRoute component={DraftTournamentPage} />}</Route>
         <Route path="/trading" component={CardTradingPage} />
         <Route path="/card-achievements" component={CardAchievementsPage} />

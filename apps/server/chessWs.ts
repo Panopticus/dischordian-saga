@@ -13,6 +13,10 @@ import { randomUUID } from "crypto";
 // Task 6.1 — per-user token bucket for every WS message.
 // Shared with pvpWs + duelystWs via the `wsRateLimit` module.
 import { checkWsRateLimit, sendRateLimitError } from "./wsRateLimit";
+import { awardEligibleTitles, rankTierIndex } from "./services/titleService";
+import { mirrorRating } from "./services/competitiveRatingsService";
+import { processClueDropEvent } from "./services/conspiracyService";
+import { recordQuestEvent } from "./services/guildQuestService";
 import { recordMatchStart, recordMatchEnd } from "./matchLengthMonitor";
 import { maybeTagDeclineWinningDraw } from "./services/dreamerAwarenessTriggers";
 import {
@@ -529,6 +533,55 @@ async function endMatch(match: ActiveChessMatch, winnerId: number | null, reason
             winStreak: won ? r[0].winStreak + 1 : 0,
             bestWinStreak: Math.max(r[0].bestWinStreak, won ? r[0].winStreak + 1 : 0),
           }).where(eq(chessRankings.userId, player.userId));
+
+          // Title grant evaluation — every match-end, win or loss.
+          const titleEvt = won
+            ? {
+                kind: "pvp_match_won" as const,
+                userId: player.userId,
+                gameType: "chess" as const,
+                newTier: rankTierIndex(getTier(newElo)),
+                totalWins: r[0].wins + (won ? 1 : 0),
+              }
+            : {
+                kind: "pvp_match_lost" as const,
+                userId: player.userId,
+                gameType: "chess" as const,
+              };
+          awardEligibleTitles(player.userId, titleEvt)
+            .catch(e => console.error("[ChessPvP] Title grant error:", e));
+
+          // Mirror into unified competitive ratings (Tier 2A).
+          mirrorRating({
+            userId: player.userId,
+            gameType: "chess",
+            currentElo: newElo,
+            peakElo: Math.max(r[0].peakElo, newElo),
+            result: winnerId === null
+              ? { draw: true }
+              : won
+                ? { win: true }
+                : { loss: true },
+            rankTier: getTier(newElo),
+            winStreak: won ? r[0].winStreak + 1 : 0,
+            bestStreak: Math.max(r[0].bestWinStreak, won ? r[0].winStreak + 1 : 0),
+          }).catch(e => console.error("[ChessPvP] Rating mirror error:", e));
+
+          // Tier 2B: roll a clue drop into Conspiracy Boards.
+          processClueDropEvent(player.userId, won ? "pvp_chess_win" : "pvp_chess_loss")
+            .catch(e => console.error("[ChessPvP] Clue drop error:", e));
+
+          // Tier 4: increment guild quest progress.
+          recordQuestEvent({ kind: "any_pvp_match", userId: player.userId }).catch(() => {});
+          if (won) {
+            recordQuestEvent({ kind: "chess_won", userId: player.userId }).catch(() => {});
+          }
+          recordQuestEvent({
+            kind: "member_reached_tier",
+            userId: player.userId,
+            gameType: "chess",
+            tier: rankTierIndex(getTier(newElo)),
+          }).catch(() => {});
         }
       }
     }

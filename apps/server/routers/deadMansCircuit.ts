@@ -234,6 +234,16 @@ export const deadMansCircuitRouter = router({
 
       const designation = input.cloneDesignation ?? generateCloneDesignation();
 
+      // Tier 4 + Tier 1 + Tier 2B: hooks fire on every race result.
+      // Best-effort; failures don't block race recording.
+      try {
+        const { recordQuestEvent } = await import("../services/guildQuestService");
+        const { processClueDropEvent } = await import("../services/conspiracyService");
+        recordQuestEvent({ kind: "circuit_race_completed", userId: ctx.user.id }).catch(() => {});
+        // Lower-rate solo clue drop (treat as a generic narrative milestone).
+        processClueDropEvent(ctx.user.id, "narrative_milestone").catch(() => {});
+      } catch {/* hooks are best-effort */}
+
       // Store race result
       await db.insert(circuitRaceResults).values({
         userId: ctx.user.id,
