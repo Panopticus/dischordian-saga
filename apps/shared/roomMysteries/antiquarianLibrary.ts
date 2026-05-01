@@ -36,6 +36,19 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           source: "antiquarian-library",
           order: 0,
         },
+        // Mystery Engine binding — when Wraith Calder arc is the
+        // active case, looking at the card catalog also surfaces
+        // the Antiquarian's ep1-15 margin note about a bounty
+        // hunter who walked toward the wall when others ran.
+        // The runtime fires mysteries.recordEvidence in addition
+        // to the existing room-mystery clue (additive). Per
+        // docs/design/STREAMED_PRISM_MYSTERY_ENGINE.md §10 +
+        // mysteryBinding shape in roomMysteries/_template.ts.
+        mysteryBinding: {
+          mysteryId: "mystery.wraith_calder",
+          episodeId: "wraith.e1",
+          cluesFound: ["wraith.e1.witness_journal"],
+        },
       },
     },
     "locked-vault": {
