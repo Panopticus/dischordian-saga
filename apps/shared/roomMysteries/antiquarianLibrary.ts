@@ -72,6 +72,29 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           cluesFound: ["jericho.e1.iron_lion_callsign_history"],
         },
       },
+      use: {
+        narration: {
+          lucid:
+            "You pull a specific drawer — the one indexed under THALORIA / battle-close logs. The drawer slides open and surfaces a folded sheaf bound in red ribbon. The Thaloria Archon's battle-close log: 'a successful intervention against Thought Virus propagation, conducted by an unnamed Insurgency operative under the doctrine of last-mile mercy.' The unnamed-operative redaction is in the Archon's own hand, surrounded by named operatives in the same paragraph.",
+          fragmented:
+            "Unnamed. Unnamed. Unnamed. The Archon. The Archon. The Archon. She redacted him. She redacted him.",
+          luminous:
+            "We pull the Thaloria battle-close drawer and surface the Archon's log. Jericho is named in the surrounding paragraphs as 'an unnamed Insurgency operative.' The redaction is in the Archon's own hand. She named everyone else; she stopped at his line. The redaction is, on the human side, an act of protection: the Archon understood the cost of having this act readable to the wrong audience for the next twenty years of Jericho's life. She bought him quiet by signing the log carelessly enough to make his name disappear from it.",
+        },
+        voId: "elara.antiquarian-library.card-catalog.use",
+        // Mystery Engine binding — using the catalog (pulling a
+        // specific drawer) surfaces the Thaloria Archon's
+        // battle-close log with Jericho's redacted name. Lore
+        // match: the catalog indexes by witness, and the witness
+        // who redacted Jericho's line was the Archon herself —
+        // the redaction is preserved in the archive precisely
+        // because it was an act of witness-discretion.
+        mysteryBinding: {
+          mysteryId: "mystery.jericho_jones",
+          episodeId: "jericho.e2",
+          cluesFound: ["jericho.e2.thaloria_archon_log"],
+        },
+      },
     },
     "locked-vault": {
       look: {

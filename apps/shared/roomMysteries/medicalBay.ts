@@ -326,6 +326,19 @@ export const MEDICAL_BAY_MYSTERY: RoomMysteryModule<MedicalBayHotspotId> = {
           voId: "detective.medbay.medical-log.look.t1",
           setsFlag: "terminus_signal_acknowledged",
         },
+        // Mystery Engine binding — when Jericho Jones arc is the
+        // active case, the medical-log surfaces the Battlefield
+        // Medic witness account of the Akai Shi killing. Lore
+        // match: both records are medical officers' field logs
+        // documenting acts the official record could not name —
+        // the Terminus signal patients and the Akai Shi mercy
+        // share the discipline of a medic who wrote down what
+        // happened anyway.
+        mysteryBinding: {
+          mysteryId: "mystery.jericho_jones",
+          episodeId: "jericho.e2",
+          cluesFound: ["jericho.e2.medic_witness"],
+        },
         tiers: [
           {
             narration: {

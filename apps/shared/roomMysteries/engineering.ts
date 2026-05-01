@@ -210,6 +210,18 @@ export const ENGINEERING_MYSTERY: RoomMysteryModule<EngineeringHotspotId, Engine
           order: 2,
         },
         setsFlag: "engineering_first_clue_found",
+        // Mystery Engine binding — when Jericho Jones arc is the
+        // active case, the abandoned crafting bench surfaces the
+        // Degen's witness page from the Battle of Thaloria. Lore
+        // match: both are records of jobs that demanded full
+        // attention and were filed before any second-guessing
+        // could occur — the engineer who walked away mid-fusion
+        // and the Degen who reserved judgment within the hour.
+        mysteryBinding: {
+          mysteryId: "mystery.jericho_jones",
+          episodeId: "jericho.e2",
+          cluesFound: ["jericho.e2.degen_witness"],
+        },
       },
       // The `use` verb falls through to the existing /research-lab
       // route action so the player can still reach the live crafting

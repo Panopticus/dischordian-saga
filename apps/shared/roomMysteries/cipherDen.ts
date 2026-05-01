@@ -86,6 +86,30 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
           voId: "detective.cipher-den.rosetta-pad.look",
         },
       },
+      talk: {
+        narration: {
+          lucid:
+            "You speak to the rosetta-pad. The codex's third column — the Vox-hand black-ink translation key — flickers briefly with phosphor-lavender, the same colour the oracle-pool's brazier-smoke uses. A recorded voice plays from the codex itself, soft enough that you have to lean in: 'If I cross the line, the person who knows me best will be the only one quick enough to do it cleanly.' The voice is Akai Shi's. The recording is dated four minutes before the Battle of Thaloria's threshold.",
+          fragmented:
+            "Four minutes. Four minutes. The recording. The recording. Akai Shi. Akai Shi. She knew. She knew. She knew.",
+          luminous:
+            "The rosetta-pad surfaces, by way of voice rather than ink, Akai Shi's pre-threshold consent recording. Four minutes before the Thought Virus took her motor function, she made a recording: she knew Jericho would be the one quick enough to do it cleanly, and she asked specifically that he not be told the consent was on file. She wanted him to be able to live afterward. The codex carries both the ciphered text and, on a different layer, the spoken record. Lyra Vox indexed by witness and by voice.",
+        },
+        voId: "elara.cipher-den.rosetta-pad.talk",
+        // Mystery Engine binding — talking to the rosetta-pad
+        // surfaces Akai Shi's pre-threshold consent recording.
+        // Lore match: the codex's three-layer translation
+        // discipline (editor's indigo / Elara's gold / Vox's
+        // black ink) extends to spoken-record carriage in the
+        // same archive. The recording is "recovered from the
+        // Cipher Den" per the clue body — recovered IS rosetta-
+        // pad work, on the audio layer.
+        mysteryBinding: {
+          mysteryId: "mystery.jericho_jones",
+          episodeId: "jericho.e2",
+          cluesFound: ["jericho.e2.akai_shi_recording"],
+        },
+      },
     },
     "encrypted-correspondence": {
       look: {
