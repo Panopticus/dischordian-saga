@@ -9,6 +9,7 @@ import { ripple } from "../services/rippleEngine";
 import { checkFeatureFlag } from "../middleware/featureFlag";
 import { warEventCutscene } from "@shared/expansionArt/guildCutsceneVoMap";
 import { filterMessage } from "../../shared/moderation/profanityFilter";
+import { incrementContractProgress } from "../services/guildContractProgress";
 
 /* ─── F.2.5 donation milestones ─── */
 /* Cumulative-Dream thresholds at which a player's donation crosses
@@ -377,6 +378,14 @@ export const guildRouter = router({
       // Award civil skill XP for guild donation (negotiation + diplomacy)
       const { awardCivilXp } = await import("../civilSkillHelper");
       awardCivilXp(ctx.user.id, "guild_donation").catch(e => logger.error("[Guild] Civil XP award failed:", e));
+
+      // F.2 weekly contract — Dream donations advance the
+      // wc_architects_approval contract (1,000 Dream cumulative).
+      // Credits donations don't (the contract is Dream-keyed per
+      // the bible's F.2.5 spec).
+      if (input.currency === "dream") {
+        void incrementContractProgress(ctx.user.id, "guild_donation", input.amount);
+      }
 
       return {
         success: true,

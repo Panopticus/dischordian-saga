@@ -31,6 +31,14 @@ import {
   type CutsceneTrigger,
   warEventCutscene,
 } from "../../shared/expansionArt/guildCutsceneVoMap";
+import {
+  WEEKLY_CONTRACTS,
+  getContractTemplate,
+} from "../../shared/guildContracts";
+import {
+  getContractProgress,
+  tryCompleteContract,
+} from "../services/guildContractProgress";
 
 /* ─── ISO-week helpers (pure, unit-tested) ─── */
 
@@ -60,6 +68,23 @@ export function currentWeekId(now: Date = new Date()): string {
 
 export const guildContractsRouter = router({
   /**
+   * Returns the 8 weekly contract templates the player's guild can
+   * pursue this week, with the calling player's progress per
+   * contract. Templates are global (same 8 for every guild every
+   * week for now); a follow-up content pass can rotate them
+   * deterministically per ISO week + guild seed without changing
+   * this signature.
+   */
+  listAvailable: protectedProcedure.query(async ({ ctx }) => {
+    const progress = await getContractProgress(ctx.user.id);
+    return {
+      weekId: currentWeekId(),
+      contracts: WEEKLY_CONTRACTS,
+      progress,
+    };
+  }),
+
+  /**
    * F.2.1 — fired Monday tarot-flip when 8 contracts auto-unlock.
    *
    * Contract: client passes the last weekId it acknowledged. If that
@@ -81,18 +106,47 @@ export const guildContractsRouter = router({
     }),
 
   /**
-   * F.2.2 — fired when a contract completes. Stub: the client
-   * names which contractId completed; the router echoes the trigger.
-   * Real validation (was the contract actually met?) lands when the
-   * content-config side of F.2 ships.
+   * F.2.2 — fires when a contract completes. Validates that the
+   * contractId is one of the canonical 8 templates AND that the
+   * player's running progress actually meets the target. Idempotent:
+   * a second call after completedAt is set returns
+   * `{ success: true, alreadyCompleted: true }` with no extra
+   * cinematic so the player doesn't see the same beat twice from a
+   * fat-fingered double-click.
    */
   completeContract: protectedProcedure
     .input(z.object({ contractId: z.string().min(1) }))
-    .mutation(async ({ input }) => {
-      void input.contractId;
+    .mutation(async ({ ctx, input }) => {
+      const template = getContractTemplate(input.contractId);
+      if (!template) {
+        return { success: false, error: "Unknown contract id" } as const;
+      }
+      const result = await tryCompleteContract(ctx.user.id, input.contractId);
+      if (!result.ok) {
+        return {
+          success: false as const,
+          error:
+            result.reason === "below_target"
+              ? `Progress ${result.progressCount}/${result.targetCount} — not yet complete`
+              : result.reason === "db_unavailable"
+                ? "Database unavailable"
+                : "Unknown contract id",
+          progressCount: result.progressCount,
+          targetCount: result.targetCount,
+        };
+      }
       return {
-        success: true,
-        cutscene: warEventCutscene("contract_complete"),
+        success: true as const,
+        contractId: template.id,
+        title: template.title,
+        rewards: template.rewards,
+        progressCount: result.progressCount,
+        targetCount: result.targetCount,
+        alreadyCompleted: result.alreadyCompleted,
+        // No cinematic on a double-claim — the player already saw it.
+        cutscene: result.alreadyCompleted
+          ? null
+          : warEventCutscene("contract_complete"),
       };
     }),
 
