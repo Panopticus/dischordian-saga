@@ -50,6 +50,28 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           cluesFound: ["wraith.e1.witness_journal"],
         },
       },
+      talk: {
+        narration: {
+          lucid:
+            "You address the catalog. The Antiquarian's index, predictably, does not respond — but the room responds to the witness's question by surfacing the relevant card. A drawer along the third row slides open on its own. The card inside is dated by witness, not by entry: 'IRON LION (callsign) — see ep5-12.' The card's reverse lists the previous wearer's death-coordinates: VERIDIAN VI, 17,026 A.A.",
+          fragmented:
+            "Iron Lion. Iron Lion. Iron Lion. Veridian VI. Veridian VI. The callsign. The callsign. The callsign waits.",
+          luminous:
+            "We address the catalog. A third-row drawer slides itself open and surfaces a card titled 'IRON LION (callsign) — see ep5-12.' The reverse: Veridian VI, 17,026 A.A. — the date the previous wearer died holding off Binath VII to buy Agent Zero time. The catalog indexes by witness, and the witness who first read this card was Lyra Vox. The callsign has been vacant ever since. The Antiquarian has been waiting for someone to ask about it.",
+        },
+        voId: "elara.antiquarian-library.card-catalog.talk",
+        // Mystery Engine binding — talking to the catalog surfaces
+        // the Iron Lion callsign inheritance chain. Lore match:
+        // the catalog's witness-indexed organisation IS the
+        // callsign's archive, and the previous wearer's death-
+        // coordinates (Veridian VI) appear on the reverse of the
+        // card the room surfaces in response to the question.
+        mysteryBinding: {
+          mysteryId: "mystery.jericho_jones",
+          episodeId: "jericho.e1",
+          cluesFound: ["jericho.e1.iron_lion_callsign_history"],
+        },
+      },
     },
     "locked-vault": {
       look: {
@@ -160,6 +182,28 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           mysteryId: "mystery.wraith_calder",
           episodeId: "wraith.e4",
           cluesFound: ["wraith.e4.hierophant_remembers"],
+        },
+      },
+      use: {
+        narration: {
+          lucid:
+            "You touch the bust's brow. The bronze warms briefly under your hand — a witness-acknowledged surface — and the wall-shelves behind you respond by lifting a different volume than the talk-verb pulls. This one is bound in red leather. Its spine reads BATTLE-AFTERMATH LOGS · THALORIA. The Antiquarian indexes by witness; you are now witness to a record someone else witnessed first.",
+          fragmented:
+            "Battle. Battle. Battle. Thaloria. Thaloria. Akai Shi. Akai Shi. Akai Shi. He killed her. He killed her. He killed her.",
+          luminous:
+            "We touch the bust. The room surfaces, in a red-leather binding, the Battle-Aftermath Logs from Thaloria. The volume opens itself to the page recording Jericho's killing of Akai Shi. The Degen's signature is at the bottom of the witness page — within the hour, as the trainee manifest's witnesses-of-the-act protocol requires. The Degen recruited Jericho seventy-two hours later. The recruitment was, on this evidence, a hiring decision made by someone who had just watched Jericho do the hardest thing a soldier can do correctly.",
+        },
+        voId: "elara.antiquarian-library.antiquarian-bust.use",
+        // Mystery Engine binding — touching the bust surfaces the
+        // Akai Shi battle-aftermath logs. Lore match: the
+        // Antiquarian indexes by witness; the bust as a witnessing-
+        // surface accepts the player's touch and surfaces a record
+        // someone else witnessed first (the Degen, signing the
+        // witness page within the hour of the killing).
+        mysteryBinding: {
+          mysteryId: "mystery.jericho_jones",
+          episodeId: "jericho.e1",
+          cluesFound: ["jericho.e1.akai_shi_aftermath"],
         },
       },
     },

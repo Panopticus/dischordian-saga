@@ -181,6 +181,17 @@ export const ENGINEERING_MYSTERY: RoomMysteryModule<EngineeringHotspotId, Engine
           order: 1,
         },
         setsFlag: "engineering_first_clue_found",
+        // Mystery Engine binding — when Jericho Jones arc is the
+        // active case, the blueprints rack also surfaces the
+        // Degen's ledger entry. Lore match: both are unfinished /
+        // unsigned dangerous designs filed with the ship's
+        // engineering archive — and the Degen's "fee deferred"
+        // line is, in his ledger, the unsigned third schematic.
+        mysteryBinding: {
+          mysteryId: "mystery.jericho_jones",
+          episodeId: "jericho.e1",
+          cluesFound: ["jericho.e1.degens_ledger"],
+        },
       },
       talk: {
         narration:
@@ -239,6 +250,19 @@ export const ENGINEERING_MYSTERY: RoomMysteryModule<EngineeringHotspotId, Engine
               "Kael edited the second draft. He didn't read the third. I keep thinking, on bad days, that if anyone on this ship had actually opened to page one and read past the joke, the next two and a half centuries might have happened differently. On better days I remember that the joke IS the warning, and the people most likely to dismiss it are exactly the people the warning is for.",
           },
           voId: "detective.engineering.instruction-manual.look.t1",
+        },
+        // Mystery Engine binding — when Jericho Jones arc is the
+        // active case, the instruction-manual surfaces the Heart of
+        // Time trainee manifest. Lore match: both are training
+        // documents archived in the engineering bay; the manual's
+        // "two and a half centuries late" framing pairs cleanly
+        // with the manifest's record of training Jericho is doing
+        // right now (a training the Degen wrote into a deferred-
+        // fee ledger he doesn't otherwise use).
+        mysteryBinding: {
+          mysteryId: "mystery.jericho_jones",
+          episodeId: "jericho.e1",
+          cluesFound: ["jericho.e1.heart_of_time_manifest"],
         },
         tiers: [
           {
