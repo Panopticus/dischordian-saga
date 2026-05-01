@@ -17,6 +17,7 @@ import { fetchCitizenData, fetchPotentialNftData, resolveGuildWarBonuses } from 
 import { getConsequences } from "../services/universeConsequences";
 import { pressureService } from "../services/pressureService";
 import { warEventCutscene } from "@shared/expansionArt/guildCutsceneVoMap";
+import { incrementContractProgress } from "../services/guildContractProgress";
 
 /** Territory names tied to Dischordian Saga lore */
 const TERRITORIES = [
@@ -186,6 +187,19 @@ export const guildWarsRouter = router({
       // Award civil skill XP (tactics + endurance)
       const { awardCivilXp } = await import("../civilSkillHelper");
       awardCivilXp(ctx.user.id, "guild_war_contribute").catch(e => logger.error("[GuildWars] Civil XP award failed:", e));
+
+      // F.2 weekly contracts — every contribute event also increments
+      // any matching weekly contract (fight_win → wc_mess_hall_roster,
+      // pvp_win → wc_arena_day, etc.). Fire-and-forget; the helper
+      // logs + swallows any DB write failure so the war contribution
+      // response shape stays stable.
+      // trade_volume passes the credit volume rather than 1; for the
+      // weekly contract counter we want the same units as the
+      // contract's targetCount (5,000 credits cumulative), so pass
+      // rawValue when the source is trade_volume and 1 otherwise.
+      const contractDelta =
+        input.source === "trade_volume" ? input.rawValue ?? 0 : 1;
+      void incrementContractProgress(ctx.user.id, input.source, contractDelta);
 
       return {
         success: true,

@@ -1949,6 +1949,34 @@ export const guildWarContributions = mysqlTable("guild_war_contributions", {
 }));
 export type GuildWarContribution = typeof guildWarContributions.$inferSelect;
 
+/**
+ * Per-player progress on the 8 weekly guild contracts (F.2.1 / F.2.2
+ * cinematic surface). One row per (userId, weekId, contractId) — the
+ * weekId is the ISO 8601 week ("2026-W18") so progress resets cleanly
+ * at the Sunday→Monday UTC boundary without a destructive write. The
+ * uniq index makes incrementProgress an upsert candidate.
+ *
+ * progressCount counts source-events of the contract's matching type;
+ * once it crosses the template's targetCount, completeContract validates
+ * + sets completedAt and fires cs_contract_complete.
+ */
+export const guildContractProgress = mysqlTable("guild_contract_progress", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  weekId: varchar("weekId", { length: 16 }).notNull(),
+  contractId: varchar("contractId", { length: 64 }).notNull(),
+  progressCount: int("progressCount").notNull().default(0),
+  completedAt: timestamp("completedAt"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull().onUpdateNow(),
+}, (table) => ({
+  uniqUserWeekContract: uniqueIndex("uniq_guild_contract_user_week_contract").on(
+    table.userId, table.weekId, table.contractId,
+  ),
+  userWeekIdx: index("idx_guild_contract_user_week").on(table.userId, table.weekId),
+}));
+export type GuildContractProgress = typeof guildContractProgress.$inferSelect;
+
 /** Marketplace tax pool — accumulates taxes for guild wars and season prizes */
 export const marketTaxPool = mysqlTable("market_tax_pool", {
   id: int("id").autoincrement().primaryKey(),
