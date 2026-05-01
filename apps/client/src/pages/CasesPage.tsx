@@ -22,6 +22,7 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import { SagaConspiracyBoard } from "@/components/SagaConspiracyBoard";
 import { DeductionPanel } from "@/components/DeductionPanel";
 import { ChoicePanel } from "@/components/ChoicePanel";
+import { CaseRecap } from "@/components/CaseRecap";
 
 export default function CasesPage() {
   const { isAuthenticated } = useAuth();
@@ -203,9 +204,10 @@ export default function CasesPage() {
           )}
         </section>
 
-        {/* Deduction + choice panels — visible only when a case is open */}
+        {/* Deduction + choice panels + recap — visible only when a case is open */}
         {activeCase.data?.progress && activeCase.data?.currentEpisode && (
           <section className="mb-6 space-y-4">
+            <CaseRecap mysteryId={activeCase.data.progress.mysteryId} />
             <DeductionPanel
               mysteryId={activeCase.data.progress.mysteryId}
               episodeId={activeCase.data.progress.currentEpisodeId}
