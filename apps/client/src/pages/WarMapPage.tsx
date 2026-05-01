@@ -191,7 +191,7 @@ export default function WarMapPage() {
       {/* ═══ FACTION WAR EVENT ═══ */}
       <FactionWarEventBanner />
 
-      <div className="flex flex-col lg:flex-row" style={{ height: "calc(100vh - 140px)" }}>
+      <div className="flex flex-col lg:flex-row" style={{ height: "calc(100dvh - 140px)" }}>
         {/* ═══ MAP ═══ */}
         <div className="flex-1 relative overflow-hidden bg-background">
           <svg

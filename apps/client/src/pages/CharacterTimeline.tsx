@@ -343,7 +343,7 @@ export default function CharacterTimeline() {
   };
 
   return (
-    <div className="h-[calc(100vh-3.5rem)] flex flex-col relative overflow-hidden">
+    <div className="h-[calc(100dvh-3.5rem)] flex flex-col relative overflow-hidden">
       {/* ─── Top Controls ─── */}
       <div className="shrink-0 flex items-center gap-2 px-3 py-2 border-b border-border/30 bg-background/90 backdrop-blur-sm z-20 flex-wrap">
         <button onClick={() => setShowTimeline(!showTimeline)}

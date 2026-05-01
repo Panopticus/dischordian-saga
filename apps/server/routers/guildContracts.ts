@@ -90,6 +90,9 @@ export const guildContractsRouter = router({
    * Contract: client passes the last weekId it acknowledged. If that
    * weekId is older than the current week, fire the cinematic and
    * echo back the new weekId so the client can persist it.
+   *
+   * Design follow-up: wire this to a real content-config of weekly
+   * contracts (8 per ISO week, deterministic per guild seed).
    */
   acknowledgeWeeklyUnlock: protectedProcedure
     .input(z.object({ lastSeenWeekId: z.string().nullable() }))

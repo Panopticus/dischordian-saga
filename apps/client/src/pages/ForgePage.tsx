@@ -398,7 +398,7 @@ export default function ForgePage() {
             <h3 className="font-mono text-[9px] tracking-[0.2em] text-muted-foreground/50 mb-2">
               RECIPES ({filteredRecipes.length})
             </h3>
-            <div className="space-y-1.5 max-h-[calc(100vh-200px)] overflow-y-auto pr-1">
+            <div className="space-y-1.5 max-h-[calc(100dvh-200px)] overflow-y-auto pr-1">
               {filteredRecipes.length === 0 ? (
                 <EmptyForge className="my-8" />
               ) : (
