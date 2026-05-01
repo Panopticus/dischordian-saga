@@ -522,7 +522,7 @@
   {
     "id": "vent_repair_001",
     "speaker": "vent",
-    "voiceId": "TODO_vent_voice_id",
+    "voiceId": "OlQH8beUuLp8URoWmpvD",
     "manifest": "vent",
     "text": "Fixed. Stronger than before.",
     "context": "F.4.11 light cs_sig_11 — Artificer Vent casts Field Repair (Forge, Ironflight House)",
@@ -532,7 +532,7 @@
   {
     "id": "vent_salvage_001",
     "speaker": "vent",
-    "voiceId": "TODO_vent_voice_id",
+    "voiceId": "OlQH8beUuLp8URoWmpvD",
     "manifest": "vent",
     "text": "Salvaged. Their loss, your gain.",
     "context": "F.4.11 dark cs_sig_11 — Salvage Rights corruption variant, fading-out cello note in bed",
