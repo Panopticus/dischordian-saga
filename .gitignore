@@ -141,3 +141,4 @@ __pycache__/
 .env
 .env.*
 !.env.example
+asset-coverage-report.json

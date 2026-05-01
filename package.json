@@ -51,6 +51,7 @@
     "lions-art:generate-md": "tsx apps/scripts/generate-lions-club-art-bible.ts",
     "assets:upload:dry": "tsx apps/scripts/upload-public-to-s3.ts --dry-run",
     "assets:upload": "tsx apps/scripts/upload-public-to-s3.ts",
+    "assets:coverage": "tsx scripts/_asset-coverage-report.mjs",
     "assets:rewrite:dry": "tsx apps/scripts/rewrite-asset-refs.ts",
     "assets:rewrite:apply": "tsx apps/scripts/rewrite-asset-refs.ts --apply",
     "assets:rewrite:apply-jsx": "tsx apps/scripts/rewrite-asset-refs.ts --apply-jsx",
