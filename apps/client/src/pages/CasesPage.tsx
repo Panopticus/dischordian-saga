@@ -20,6 +20,7 @@ import { Link } from "wouter";
 import { trpc } from "@/lib/trpc";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { SagaConspiracyBoard } from "@/components/SagaConspiracyBoard";
+import { DeductionPanel } from "@/components/DeductionPanel";
 
 export default function CasesPage() {
   const { isAuthenticated } = useAuth();
@@ -137,6 +138,16 @@ export default function CasesPage() {
             )}
           </div>
         </section>
+
+        {/* Deduction panel — visible only when a case is open */}
+        {activeCase.data?.progress && activeCase.data?.currentEpisode && (
+          <section className="mb-6">
+            <DeductionPanel
+              mysteryId={activeCase.data.progress.mysteryId}
+              episodeId={activeCase.data.progress.currentEpisodeId}
+            />
+          </section>
+        )}
 
         {/* Conspiracy board */}
         <section>
