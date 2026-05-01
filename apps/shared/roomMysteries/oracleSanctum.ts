@@ -57,6 +57,17 @@ export const ORACLE_SANCTUM_MYSTERY: RoomMysteryModule<OracleSanctumHotspotId> =
           source: "oracle-sanctum",
           order: 1,
         },
+        // Mystery Engine binding — when Wraith Calder arc is the
+        // active case, looking at the prophecy-tablet surfaces
+        // the Hierophant's daily-names ceremony entry. Lore match:
+        // the tablet is "brass-worn from thousands of readings"
+        // and the ceremony has been signed "every day for centuries.
+        // The hand has not changed."
+        mysteryBinding: {
+          mysteryId: "mystery.wraith_calder",
+          episodeId: "wraith.e1",
+          cluesFound: ["wraith.e1.hierophant_ceremony"],
+        },
       },
     },
     "incense-brazier": {
