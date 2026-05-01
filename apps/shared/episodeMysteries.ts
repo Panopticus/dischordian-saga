@@ -326,10 +326,7 @@ const wraithE3: EpisodeDefinition = {
       narrationId: "wraith.e3.n.one_organism_two_voices",
       narrationProse:
         "Read together, the two transcripts are a single conversation. The Silence's even sentences and The Word's odd sentences interleave — 'one of us is already dead. we will tell you when you ask correctly. you have already begun.' They were warning him and selecting his targets at the same time. The Information Twins are not two informants. They are one organism that speaks in two voices, and they answered Wraith's question by telling him which of their siblings had failed the cartel's standards. He killed the three they marked.",
-      // unlocksEpisode is intentionally absent until Wraith E4 is
-      // authored (per docs/design §7.1, E4 is "The Eighth Death"
-      // — the Sanctuary's Final Rite). The registry probe enforces
-      // unlocksEpisode → existing-episode.
+      unlocksEpisode: "wraith.e4" as EpisodeId,
     },
     {
       id: "wraith.e3.d.kill_order_pattern" as DeductionId,
@@ -381,6 +378,122 @@ const wraithE3: EpisodeDefinition = {
       "the_silence",
       "six_pairs",
       "kill_list_c7",
+    ],
+    dropAt: "episode_close",
+  },
+};
+
+/* ─── WRAITH CALDER ARC — E4 ─── */
+/* E4: "The Eighth Death"
+   The Sanctuary's Final Rite consumed Wraith's eighth body and
+   re-seated his consciousness in a Thalorian vessel — the
+   Hierophant. The "load-bearing canon assertion" per
+   apps/shared/npcs/bibles/wraith_calder.md:210.
+
+   The episode investigates: was the rite consent or coercion?
+   Was the Hierophant's body chosen for him, or did he choose it?
+   The Disco-Elysium internal-voice argument structure (per
+   docs/design §7.1) — Wraith remembers as one thing; the
+   Hierophant remembers as another. The player reads the seam.
+
+   Choice at episode close: accept the rite's continuity narrative
+   (one consciousness across the body-swap), insist the bounty
+   hunter died in it (a successor wears his name), or refuse to
+   resolve the question (the seam stays open as canon). */
+
+const wraithE4: EpisodeDefinition = {
+  id: "wraith.e4" as EpisodeId,
+  arcId: ARC_WRAITH_CALDER,
+  ordinal: 4,
+  title: "The Eighth Death",
+  summary:
+    "The Sanctuary's Final Rite ended one body and seated the Hierophant. Wraith Calder remembers the rite as a release; the Hierophant remembers the rite as a coronation. Both memories are first-person. The case interrogates the seam: was the Eighth Death a death, or a passage? And if it was a passage, was it consented to?",
+  clues: [
+    {
+      id: "wraith.e4.sanctuary_log" as ClueId,
+      title: "Sanctuary Final-Rite Log, Entry 8",
+      body: "The Sanctuary's witnesses-of-the-rite logbook records the eighth rite under a single line: 'consciousness re-seated. former vessel released to substrate. successor authenticated.' The handwriting is the Hierophant's. The pre-rite signature on the same page is Wraith Calder's, made hours before. The two signatures are in the same hand — but only the Hierophant's signature is steady.",
+      foundIn: "oracle-sanctum",
+    },
+    {
+      id: "wraith.e4.bounty_hunter_remembers" as ClueId,
+      title: "Wraith Calder's Pre-Rite Last Recording",
+      body: "An audio fragment recovered from the Cipher Den, time-stamped four hours before the rite. Wraith's voice, calm: 'I am tired in a way that bodies were not built to be. The Sanctuary has offered the rite. I will accept it. Whoever hears this — whoever is left in the room afterward — will not be me. I am leaving the bounty hunter behind. The next thing that wears my name will be a different person, and I am asking the next thing not to mourn the one before it.'",
+      foundIn: "cipher-den",
+    },
+    {
+      id: "wraith.e4.hierophant_remembers" as ClueId,
+      title: "The Hierophant's First Sermon",
+      body: "Recovered from the Antiquarian's Journal, ep4-01. The Hierophant's first sermon, delivered the morning after the rite: 'I have walked toward the wall before. I have been cold before. I have been the bounty hunter and I am still the bounty hunter — the Sanctuary did not take that from me, the Sanctuary asked me to put down the rifle and pick up the names. I am the same person who held the wall in epoch one. I have only changed my work.'",
+      foundIn: "antiquarian-library",
+    },
+    {
+      id: "wraith.e4.thalorian_vessel" as ClueId,
+      title: "The Thalorian Vessel — Provenance Chain",
+      body: "The body the Hierophant wears was cultivated in a Thalorian sanctuary nursery for sixty-eight years. Its provenance chain is signed by twelve Thalorian elders, each attesting to the vessel's consent. The earliest signature is dated four years before Wraith Calder accepted the rite. The Sanctuary knew which vessel was waiting before they knew which consciousness would be offered to it.",
+      foundIn: "oracle-sanctum",
+    },
+  ],
+  deductions: [
+    {
+      id: "wraith.e4.d.consent_was_authentic" as DeductionId,
+      clueA: "wraith.e4.bounty_hunter_remembers" as ClueId,
+      clueB: "wraith.e4.thalorian_vessel" as ClueId,
+      result: "correct",
+      narrationId: "wraith.e4.n.he_walked_in",
+      narrationProse:
+        "Wraith Calder consented. The pre-rite recording is unambiguous — he names the rite, accepts it, releases the body, asks the successor not to mourn. The Thalorian vessel was prepared for sixty-eight years; the consent chain is signed by twelve elders; the rite was offered, not imposed. The Sanctuary did not take him. He walked in. The Eighth Death was a passage. Whoever reads the rite as coercion is reading a story the Hierarchy preferred.",
+    },
+    {
+      id: "wraith.e4.d.continuity_seam" as DeductionId,
+      clueA: "wraith.e4.sanctuary_log" as ClueId,
+      clueB: "wraith.e4.hierophant_remembers" as ClueId,
+      result: "partial",
+      narrationId: "wraith.e4.n.same_hand_steadier_signature",
+      narrationProse:
+        "The two signatures are in the same hand. That is the rite's claim — continuity across the body-swap. But only the Hierophant's signature is steady. The bounty hunter's hand was tired four hours before the rite; the Hierophant's hand the morning after is rested. We can read this as the rite working (a tired hand, freshened by passage) or as a successor practising the prior hand (a copyist's competence, not a continuity). The Hierophant's first sermon claims continuity in the first person. The pre-rite recording claims discontinuity in the first person. Both speakers are credible. The seam stays open.",
+    },
+    {
+      id: "wraith.e4.d.false_lead_body_theft" as DeductionId,
+      clueA: "wraith.e4.thalorian_vessel" as ClueId,
+      clueB: "wraith.e4.sanctuary_log" as ClueId,
+      result: "false_lead_named",
+      narrationId: "wraith.e4.n.not_a_body_theft",
+      narrationProse:
+        "Reading the prepared Thalorian vessel and the Sanctuary's terse logbook entry as a body-theft is the obvious move and the wrong one. A theft does not require a sixty-eight-year-old consent chain signed by twelve elders. A theft does not pre-author the successor signature in the very logbook that records the loss. The Sanctuary's discipline is to do everything in writing, in advance, with witnesses. They prepared a vessel because Wraith Calder told them — years before the rite — that he would eventually be tired enough to offer himself to one.",
+    },
+  ],
+  choices: [
+    {
+      id: "wraith.e4.c.accept_continuity" as ChoiceId,
+      label: "Accept the Hierophant's continuity narrative — the same person, different work.",
+      weight: "continuist",
+    },
+    {
+      id: "wraith.e4.c.honour_the_dead" as ChoiceId,
+      label: "Insist the bounty hunter died — the Hierophant is a successor wearing his name.",
+      weight: "discontinuist",
+    },
+    {
+      id: "wraith.e4.c.preserve_the_seam" as ChoiceId,
+      label: "Refuse to resolve the question — the seam is canon.",
+      weight: "agnostic",
+    },
+  ],
+  contentBundle: {
+    songId: "album1.t28", /* "Last Words" — Dischordian Logic Act 5 finale */
+    slideshowId: "album1.t28",
+    loredexUnlocks: [
+      "concept_final_rite",
+      "entity_thalorian_vessel",
+      "event_eighth_death",
+      "concept_consciousness_continuity",
+    ],
+    conspiracyDiscoveries: [
+      "final_rite",
+      "thalorian_vessel",
+      "hierophant_succession",
+      "sanctuary_witnesses",
     ],
     dropAt: "episode_close",
   },
@@ -443,7 +556,7 @@ const WRAITH_CALDER_MYSTERY: MysteryDefinition = {
   title: "The Eighth Death and the Names",
   summary:
     "Wraith Calder's transformation from bounty hunter into Hierophant of Thaloria in Exile, told via the artifacts and witnesses he left across the centuries. The Syndicate of Death is the season antagonist; the resurrection protocols are the season MacGuffin.",
-  episodes: [wraithE1, wraithE2, wraithE3],
+  episodes: [wraithE1, wraithE2, wraithE3, wraithE4],
   suspects: wraithSuspects,
   lenses: wraithLenses,
 };
