@@ -13,11 +13,8 @@
 import { z } from "zod";
 import { protectedProcedure, router } from "../_core/trpc";
 import { gradeDeduction, mysteryService } from "../services/mysteryService";
-import {
-  getEpisodeDefinition,
-  getMysteryDefinition,
-  MYSTERY_DEFINITIONS,
-} from "@shared/episodeMysteries";
+import { lookupEpisode, lookupMystery } from "../services/mysteryRegistry";
+import { MYSTERY_DEFINITIONS } from "@shared/episodeMysteries";
 import type {
   ArcId,
   ChoiceId,
@@ -64,9 +61,9 @@ export const mysteriesRouter = router({
   getActiveCase: protectedProcedure.query(async ({ ctx }) => {
     const progress = await mysteryService.getActiveCase(ctx.user.id);
     if (!progress) return null;
-    const mystery = getMysteryDefinition(progress.mysteryId as MysteryId);
+    const mystery = lookupMystery(progress.mysteryId as MysteryId);
     if (!mystery) return { progress, mystery: null, currentEpisode: null };
-    const currentEpisode = getEpisodeDefinition(
+    const currentEpisode = lookupEpisode(
       progress.mysteryId as MysteryId,
       progress.currentEpisodeId as EpisodeId,
     );
@@ -101,7 +98,7 @@ export const mysteriesRouter = router({
       episodeId: episodeIdSchema,
     }))
     .query(async ({ input }) => {
-      const episode = getEpisodeDefinition(
+      const episode = lookupEpisode(
         input.mysteryId as MysteryId,
         input.episodeId as EpisodeId,
       );
@@ -116,7 +113,7 @@ export const mysteriesRouter = router({
   getEvidenceBoard: protectedProcedure
     .input(z.object({ mysteryId: mysteryIdSchema }))
     .query(async ({ ctx, input }) => {
-      const mystery = getMysteryDefinition(input.mysteryId as MysteryId);
+      const mystery = lookupMystery(input.mysteryId as MysteryId);
       const evidence = await mysteryService.listEvidence(
         ctx.user.id,
         input.mysteryId as MysteryId,
@@ -192,7 +189,7 @@ export const mysteriesRouter = router({
       clueCId: clueIdSchema.optional(),
     }))
     .query(async ({ input }) => {
-      const episode = getEpisodeDefinition(
+      const episode = lookupEpisode(
         input.mysteryId as MysteryId,
         input.episodeId as EpisodeId,
       );

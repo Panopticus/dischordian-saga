@@ -34,6 +34,7 @@ import {
   compileMysterySeed,
   seedFromVoteClosure,
 } from "@shared/mysteryTemplates";
+import { registerCompiledMystery } from "./mysteryRegistry";
 
 /* ─── PURE: WINNING-OPTION SELECTION ─── */
 
@@ -119,6 +120,7 @@ export async function runMysteryClosure(): Promise<MysteryClosureResult> {
         const definition = compileMysterySeed(seed);
 
         if (definition) {
+          registerCompiledMystery(definition);
           result.compiled += 1;
           logger.info(
             `[MysteryClosureCron] compiled mystery '${definition.id}' from vote '${tally.voteId}' (winning option: ${winningOption}); ${definition.episodes.length} episode(s)`,
@@ -185,6 +187,7 @@ export async function closeVoteNow(voteId: string): Promise<{
     if (!definition) {
       return { closed: true, compiled: false, winningOption, mysteryId: null };
     }
+    registerCompiledMystery(definition);
     logger.info(
       `[MysteryClosureCron:closeVoteNow] compiled '${definition.id}' from vote '${voteId}' (winning option: ${winningOption})`,
     );

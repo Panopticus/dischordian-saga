@@ -32,10 +32,7 @@ import {
 } from "../../db/schema";
 import { getDb } from "../db";
 import { logger } from "../logger";
-import {
-  getEpisodeDefinition,
-  getMysteryDefinition,
-} from "@shared/episodeMysteries";
+import { lookupEpisode, lookupMystery } from "./mysteryRegistry";
 import type {
   ArcId,
   ChoiceId,
@@ -110,7 +107,7 @@ export const mysteryService = {
     mysteryId: MysteryId,
     lensId: LensId,
   ): Promise<typeof playerMysteryProgress.$inferSelect | null> {
-    const definition = getMysteryDefinition(mysteryId);
+    const definition = lookupMystery(mysteryId);
     if (!definition) {
       logger.warn(`[MysteryService] openCase: unknown mystery ${mysteryId} for user ${userId}`);
       return null;
@@ -226,7 +223,7 @@ export const mysteryService = {
     narrationProse?: string;
     advancedTo: EpisodeId | null;
   }> {
-    const episode = getEpisodeDefinition(args.mysteryId, args.episodeId);
+    const episode = lookupEpisode(args.mysteryId, args.episodeId);
     if (!episode) {
       return { result: "nonsense", narrationId: "mystery.fallback.unknown_episode", advancedTo: null };
     }
@@ -412,7 +409,7 @@ export const mysteryService = {
     deductions: (typeof mysteryDeductions.$inferSelect)[];
     choices: (typeof playerMysteryChoices.$inferSelect)[];
   }> {
-    const mystery = getMysteryDefinition(mysteryId);
+    const mystery = lookupMystery(mysteryId);
     const db = await getDb();
     if (!db) return { mystery, evidence: [], deductions: [], choices: [] };
 
