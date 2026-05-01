@@ -31,6 +31,10 @@ import {
   type CutsceneTrigger,
   warEventCutscene,
 } from "../../shared/expansionArt/guildCutsceneVoMap";
+import {
+  WEEKLY_CONTRACTS,
+  getContractTemplate,
+} from "../../shared/guildContracts";
 
 /* ─── ISO-week helpers (pure, unit-tested) ─── */
 
@@ -60,14 +64,25 @@ export function currentWeekId(now: Date = new Date()): string {
 
 export const guildContractsRouter = router({
   /**
+   * Returns the 8 weekly contract templates the player's guild can
+   * pursue this week. Templates are global (same 8 for every guild
+   * every week for now); a follow-up content pass can rotate them
+   * deterministically per ISO week + guild seed without changing
+   * this signature.
+   */
+  listAvailable: protectedProcedure.query(() => {
+    return {
+      weekId: currentWeekId(),
+      contracts: WEEKLY_CONTRACTS,
+    };
+  }),
+
+  /**
    * F.2.1 — fired Monday tarot-flip when 8 contracts auto-unlock.
    *
    * Contract: client passes the last weekId it acknowledged. If that
    * weekId is older than the current week, fire the cinematic and
    * echo back the new weekId so the client can persist it.
-   *
-   * Design TODO: wire this to a real content-config of weekly
-   * contracts (8 per ISO week, deterministic per guild seed).
    */
   acknowledgeWeeklyUnlock: protectedProcedure
     .input(z.object({ lastSeenWeekId: z.string().nullable() }))
@@ -81,17 +96,25 @@ export const guildContractsRouter = router({
     }),
 
   /**
-   * F.2.2 — fired when a contract completes. Stub: the client
-   * names which contractId completed; the router echoes the trigger.
-   * Real validation (was the contract actually met?) lands when the
-   * content-config side of F.2 ships.
+   * F.2.2 — fires when a contract completes. Validates that the
+   * contractId is one of the canonical 8 templates; rejects unknown
+   * ids so the cinematic can't be spoofed by a hand-crafted client.
+   * Real progress validation (was the player's running source-counter
+   * actually >= targetCount?) lands when the per-player tracker
+   * surface ships.
    */
   completeContract: protectedProcedure
     .input(z.object({ contractId: z.string().min(1) }))
     .mutation(async ({ input }) => {
-      void input.contractId;
+      const template = getContractTemplate(input.contractId);
+      if (!template) {
+        return { success: false, error: "Unknown contract id" };
+      }
       return {
         success: true,
+        contractId: template.id,
+        title: template.title,
+        rewards: template.rewards,
         cutscene: warEventCutscene("contract_complete"),
       };
     }),
