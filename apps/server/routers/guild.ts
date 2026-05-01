@@ -14,14 +14,19 @@ import { filterMessage } from "../../shared/moderation/profanityFilter";
 /* Cumulative-Dream thresholds at which a player's donation crosses
  * a "milestone" and the cs_donation_milestone cinematic fires.
  * Powers-of-five-ish curve so milestones land roughly weekly for
- * an active contributor and roughly monthly for a casual one. */
-const DONATION_MILESTONES_DREAM: readonly number[] = [
+ * an active contributor and roughly monthly for a casual one.
+ *
+ * Exported so the unit test in guild.donationMilestone.test.ts can
+ * exercise the boundary-crossing logic without the tRPC mutation. */
+export const DONATION_MILESTONES_DREAM: readonly number[] = [
   100, 500, 1000, 5000, 10000, 25000, 50000, 100000,
 ];
 
 /** Returns the highest milestone the running cumulative crossed
- *  on this contribution, or null if no milestone was crossed. */
-function crossedDonationMilestone(
+ *  on this contribution, or null if no milestone was crossed.
+ *  A 0→1500 donation fires only the 1000 mark (the highest of
+ *  three crossed thresholds), not three separate cinematics. */
+export function crossedDonationMilestone(
   prevTotal: number,
   delta: number,
 ): number | null {

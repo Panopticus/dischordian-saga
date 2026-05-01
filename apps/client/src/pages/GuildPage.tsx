@@ -932,6 +932,19 @@ function GuildHallUpgradePanel({
 }
 
 /* ═══ GUILD TERRITORY MAP — Visual territory control display ═══ */
+/* F.3 client-wiring follow-up:
+ * The guildWars router returns CutsceneTrigger payloads from
+ * createWar (cs_war_declared), contribute (cs_war_first_blood —
+ * conditional), registerGuild (cs_alliance_war_placement_lock), and
+ * resolveWar ([cs_war_mvp_crowned?, cs_war_victory, cs_thought_virus_
+ * reinfection?]). When admin / war-room UI lands that calls those
+ * mutations, drop the same cinematicQueue + <GuildCutsceneQueue>
+ * pattern used by GuildTreasury (above) into the calling
+ * component's onSuccess handler. The contribute mutation is
+ * server-triggered from game-event sources (fight_win, pvp_win, …)
+ * so its cinematic needs an async-notification surface (e.g., a
+ * pending-cinematic queue read on guild-page mount); not in scope
+ * for this commit. */
 function GuildTerritoryMap() {
   const { data, isLoading } = trpc.guildWars.getTerritoryMap.useQuery();
   const [selectedTerritory, setSelectedTerritory] = useState<number | null>(null);

@@ -494,12 +494,25 @@ export const guildWarsRouter = router({
           }).catch(e => logger.error("[GuildWars] Notification send failed:", e));
         }
       }
+      // F.3.7 — thought-virus reinfection. The Living Universe
+      // event "terminus_advance" is the bible-canonical signal that
+      // viral contamination is spreading through the system; if
+      // it's active when a war resolves, the corruption-arc
+      // cinematic plays alongside the victory beat. Cheap check
+      // because getConsequences caches.
+      const universe = await getConsequences();
+      const reinfectionActive = universe.activeEventIds.includes(
+        "terminus_advance",
+      );
+
       // Build the cinematic queue — MVP coronation chains in front
       // of the global war_victory so the player who placed first sees
-      // their name spoken before the celebratory beat.
+      // their name spoken before the celebratory beat. Reinfection
+      // chains last so it plays as an aftermath / coda.
       const cutscenes = [
         ...(mvpUserId ? [warEventCutscene("war_mvp_crowned")] : []),
         warEventCutscene("war_victory"),
+        ...(reinfectionActive ? [warEventCutscene("thought_virus_reinfection")] : []),
       ];
 
       return {
