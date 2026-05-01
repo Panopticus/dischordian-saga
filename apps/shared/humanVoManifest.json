@@ -458,5 +458,6 @@
   "human.medical-bay.autopsy-console.acknowledge": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Human+Voices/inspection_response/human.medical-bay.autopsy-console.acknowledge.mp3",
   "human.medical-bay.autopsy-console.what": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Human+Voices/inspection_response/human.medical-bay.autopsy-console.what.mp3",
   "human.bridge.captains-chair.acknowledge": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Human+Voices/inspection_response/human.bridge.captains-chair.acknowledge.mp3",
-  "human.bridge.captains-chair.who": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Human+Voices/inspection_response/human.bridge.captains-chair.who.mp3"
+  "human.bridge.captains-chair.who": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Human+Voices/inspection_response/human.bridge.captains-chair.who.mp3",
+  "human_emote_001": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Guild%20Cutscene%20Voices%2Fhuman_emote_001.mp3"
 }

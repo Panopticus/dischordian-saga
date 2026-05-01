@@ -719,5 +719,13 @@
   "room.bridge.hotspot.guild-console.elara": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Elara+Voices/hotspot_narration/room.bridge.hotspot.guild-console.elara.mp3",
   "room.bridge.hotspot.diplomacy-table.elara": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Elara+Voices/hotspot_narration/room.bridge.hotspot.diplomacy-table.elara.mp3",
   "elara.framing.first-hover": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Elara+Voices/in_world_tutorial/elara.framing.first-hover.mp3",
-  "elara.cryo-bay.post-autopsy-reentry": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Elara+Voices/room_intro/elara.cryo-bay.post-autopsy-reentry.mp3"
+  "elara.cryo-bay.post-autopsy-reentry": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Elara+Voices/room_intro/elara.cryo-bay.post-autopsy-reentry.mp3",
+  "elara_guild_welcome_001": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Guild%20Cutscene%20Voices%2Felara_guild_welcome_001.mp3",
+  "elara_first_words_001": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Guild%20Cutscene%20Voices%2Felara_first_words_001.mp3",
+  "elara_friend_accept_001": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Guild%20Cutscene%20Voices%2Felara_friend_accept_001.mp3",
+  "elara_donation_milestone_001": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Guild%20Cutscene%20Voices%2Felara_donation_milestone_001.mp3",
+  "elara_tier_2_001": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Guild%20Cutscene%20Voices%2Felara_tier_2_001.mp3",
+  "elara_tier_3_001": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Guild%20Cutscene%20Voices%2Felara_tier_3_001.mp3",
+  "elara_tier_4_001": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Guild%20Cutscene%20Voices%2Felara_tier_4_001.mp3",
+  "elara_tier_5_001": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Guild%20Cutscene%20Voices%2Felara_tier_5_001.mp3"
 }

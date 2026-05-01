@@ -39,5 +39,8 @@
   "vo_gm_climb_promotion_t2_01": "https://dgrsvoices.s3.us-east-2.amazonaws.com/GameMaster%20Voices%2Fclimb%2Fvo_gm_climb_promotion_t2_01.mp3",
   "vo_gm_climb_promotion_t2_02": "https://dgrsvoices.s3.us-east-2.amazonaws.com/GameMaster%20Voices%2Fclimb%2Fvo_gm_climb_promotion_t2_02.mp3",
   "vo_gm_climb_promotion_t3_01": "https://dgrsvoices.s3.us-east-2.amazonaws.com/GameMaster%20Voices%2Fclimb%2Fvo_gm_climb_promotion_t3_01.mp3",
-  "vo_gm_climb_promotion_t3_02": "https://dgrsvoices.s3.us-east-2.amazonaws.com/GameMaster%20Voices%2Fclimb%2Fvo_gm_climb_promotion_t3_02.mp3"
+  "vo_gm_climb_promotion_t3_02": "https://dgrsvoices.s3.us-east-2.amazonaws.com/GameMaster%20Voices%2Fclimb%2Fvo_gm_climb_promotion_t3_02.mp3",
+  "gm_contracts_weekly_001": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Guild%20Cutscene%20Voices%2Fgm_contracts_weekly_001.mp3",
+  "gm_contract_complete_001": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Guild%20Cutscene%20Voices%2Fgm_contract_complete_001.mp3",
+  "gm_emote_001": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Guild%20Cutscene%20Voices%2Fgm_emote_001.mp3"
 }
