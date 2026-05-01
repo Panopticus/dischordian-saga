@@ -218,15 +218,20 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
         },
         voId: "elara.antiquarian-library.antiquarian-bust.use",
         // Mystery Engine binding — touching the bust surfaces the
-        // Akai Shi battle-aftermath logs. Lore match: the
-        // Antiquarian indexes by witness; the bust as a witnessing-
-        // surface accepts the player's touch and surfaces a record
-        // someone else witnessed first (the Degen, signing the
-        // witness page within the hour of the killing).
+        // Akai Shi battle-aftermath logs (Jericho E1) AND the
+        // pre-Fall Lionism imprint-protocol doctrine (Jericho E3).
+        // Lore match: the Antiquarian indexes by witness; both
+        // records are journal entries the bust surfaces in
+        // response to a touched-surface query, and both bind to
+        // the same arc (mysteryId), so the runtime credits both
+        // clues to the player's Jericho case in one fire.
         mysteryBinding: {
           mysteryId: "mystery.jericho_jones",
           episodeId: "jericho.e1",
-          cluesFound: ["jericho.e1.akai_shi_aftermath"],
+          cluesFound: [
+            "jericho.e1.akai_shi_aftermath",
+            "jericho.e3.lionism_imprint_protocol",
+          ],
         },
       },
     },

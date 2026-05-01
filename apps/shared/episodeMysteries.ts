@@ -1091,6 +1091,174 @@ const JERICHO_JONES_MYSTERY: MysteryDefinition = {
   lenses: jerichoLenses,
 };
 
+/* ─── THE SEER ARC — E1 ─── */
+/* E1: "The Unread Tape"
+   First contact with the Seer's prophecy archive. Per
+   docs/design/STREAMED_PRISM_MYSTERY_ENGINE.md §7.3: cold
+   hook is a single tape in her catalogue marked DO-NOT-PLAY
+   — the only one she ever flagged. Investigate why she chose
+   to record-and-suppress instead of declining to record. */
+
+const seerE1: EpisodeDefinition = {
+  id: "seer.e1" as EpisodeId,
+  arcId: ARC_THE_SEER,
+  ordinal: 1,
+  title: "The Unread Tape",
+  summary:
+    "The Seer's archive contains 4,712 prophecy recordings. One is sealed with a paper band marked DO-NOT-PLAY in her own hand — the only such mark in the entire collection. Investigate why she chose to record-and-suppress rather than decline to record. The prophet who wraps her own work in a warning is making two statements.",
+  clues: [
+    {
+      id: "seer.e1.do_not_play_band" as ClueId,
+      title: "Tape #DEC-7710 — DO-NOT-PLAY Band",
+      body: "A magnetic-tape reel in the Seer's archive, paper band wrapped around the spool with the words DO-NOT-PLAY stamped in her own hand. The catalogue card carries a date but no description. The tape is the only one of 4,712 to bear the mark. The band has been replaced multiple times — the tape has been re-wrapped, suggesting someone else has read the warning and chosen to honour it.",
+      foundIn: "antiquarian-library",
+    },
+    {
+      id: "seer.e1.recording_session_log" as ClueId,
+      title: "Recording Session Log — DEC-7710",
+      body: "The Seer's recording-session log notes session DEC-7710 as 'unsolicited.' She did not record on a scheduled prophecy slot; she sat down at the recorder of her own choosing on a day no consultation was booked. The log's marginalia: 'I did not want to know what I was about to say. I recorded so that, when the witness arrives, the witness has the option I did not.' The handwriting is steady.",
+      foundIn: "oracle-sanctum",
+    },
+    {
+      id: "seer.e1.intended_audience_card" as ClueId,
+      title: "Intended-Audience Card",
+      body: "Pinned to the catalogue card behind the tape: a small index card identifying the intended audience. 'Whoever inherits the Hierophant's litany after the Hierophant himself.' Wraith Calder is the Hierophant. The intended audience is — by the card's grammar — Wraith's successor. Wraith has no successor. Yet.",
+      foundIn: "oracle-sanctum",
+    },
+    {
+      id: "seer.e1.vox_consultation_note" as ClueId,
+      title: "Lyra Vox — Consultation Note on DEC-7710",
+      body: "A consultation note from Lyra Vox, dated three years after DEC-7710 was sealed: 'Asked the Seer if I should play it. She said no — but more carefully: not yet, and not by you. I do not know who is meant to play this. The Seer says I will not be the one to find out. I trust her on this. The tape stays sealed.' The cipher is the rosetta-key cipher.",
+      foundIn: "cipher-den",
+    },
+  ],
+  deductions: [
+    {
+      id: "seer.e1.d.tape_for_a_future_reader" as DeductionId,
+      clueA: "seer.e1.recording_session_log" as ClueId,
+      clueB: "seer.e1.intended_audience_card" as ClueId,
+      result: "correct",
+      narrationId: "seer.e1.n.recorded_for_a_witness_not_yet_arrived",
+      narrationProse:
+        "She recorded the tape for a witness who had not yet arrived. The session log and the audience card together say the same thing in two voices: the Seer chose to record what she did not want to know, on a day she had not scheduled, addressed to a person who does not yet exist. She wrapped it in a warning so that the wrong reader — anyone who is not the witness — would have the option of leaving it sealed. The DO-NOT-PLAY band is not a refusal of the prophecy. It is a discipline of patience. The tape's audience is whoever inherits the Hierophant's litany after Wraith himself.",
+    },
+    {
+      id: "seer.e1.d.vox_honoured_the_seal" as DeductionId,
+      clueA: "seer.e1.do_not_play_band" as ClueId,
+      clueB: "seer.e1.vox_consultation_note" as ClueId,
+      result: "partial",
+      narrationId: "seer.e1.n.others_have_read_and_kept_silent",
+      narrationProse:
+        "The band has been replaced multiple times — readers have honoured the seal across centuries. Vox's consultation note is the earliest such reader's record we have, and it ends in the trust gesture the Seer asks of every subsequent reader: I will not be the one to find out, and I will not pretend that not-knowing is harder than I'm willing to bear. The Seer's archive is, on this evidence, not closed by force. It is closed by an unbroken line of readers willing to wait.",
+    },
+    {
+      id: "seer.e1.d.false_lead_self_censorship" as DeductionId,
+      clueA: "seer.e1.do_not_play_band" as ClueId,
+      clueB: "seer.e1.recording_session_log" as ClueId,
+      result: "false_lead_named",
+      narrationId: "seer.e1.n.not_self_censorship",
+      narrationProse:
+        "Reading the band and the unsolicited session together as evidence of the Seer second-guessing herself is the obvious move and the wrong one. A self-censoring prophet declines to record. The Seer recorded; she only sealed. The discipline is the inverse of self-censorship — she trusted the prophecy enough to commit it to tape, and she trusted the future enough to leave the prophecy waiting for the only person it was for. We are reading her caution as doubt. She was reading it as fidelity.",
+    },
+  ],
+  choices: [
+    {
+      id: "seer.e1.c.honour_the_seal" as ChoiceId,
+      label: "Honour the seal — the tape is not for you, and patience is the discipline.",
+      weight: "patient",
+    },
+    {
+      id: "seer.e1.c.bring_to_wraith" as ChoiceId,
+      label: "Bring the tape to the Hierophant — let Wraith name his successor.",
+      weight: "cross_arc_wraith",
+    },
+    {
+      id: "seer.e1.c.copy_and_listen" as ChoiceId,
+      label: "Make a copy and listen privately — the tape was recorded; someone is meant to play it.",
+      weight: "transgressive",
+    },
+  ],
+  contentBundle: {
+    songId: "bod.unread_prophecy", /* Book of Daniel 2:47 — prophecy recordings */
+    slideshowId: "bod.unread_prophecy",
+    loredexUnlocks: [
+      "entity_the_seer",
+      "concept_unread_prophecy",
+      "concept_seer_archive",
+      "concept_recorded_warning",
+    ],
+    conspiracyDiscoveries: [
+      "the_seer",
+      "do_not_play_tape",
+      "seer_archive",
+      "audience_card",
+    ],
+    dropAt: "episode_close",
+  },
+};
+
+/* ─── THE SEER ARC ─── */
+
+const seerSuspects: ReadonlyArray<{
+  id: SuspectId;
+  name: string;
+  type: string;
+  relations: ReadonlyArray<{ to: SuspectId; relation: string }>;
+}> = [
+  {
+    id: "suspect.the_seer" as SuspectId,
+    name: "The Seer",
+    type: "character",
+    relations: [
+      { to: "suspect.do_not_play_tape" as SuspectId, relation: "recorded" },
+      { to: "suspect.intended_audience" as SuspectId, relation: "addressed-to" },
+    ],
+  },
+  {
+    id: "suspect.do_not_play_tape" as SuspectId,
+    name: "Tape #DEC-7710",
+    type: "artifact",
+    relations: [
+      { to: "suspect.intended_audience" as SuspectId, relation: "addressed-to" },
+    ],
+  },
+  {
+    id: "suspect.intended_audience" as SuspectId,
+    name: "The Hierophant's Successor",
+    type: "concept",
+    relations: [
+      { to: "suspect.wraith_calder_cross_arc" as SuspectId, relation: "succeeds" },
+    ],
+  },
+  {
+    id: "suspect.wraith_calder_cross_arc" as SuspectId,
+    name: "Wraith Calder (cross-arc)",
+    type: "character",
+    relations: [],
+  },
+];
+
+const seerLenses = [
+  { id: LENS_INSURGENCY, name: "Insurgency", category: "faction" },
+  { id: LENS_HIERARCHY,  name: "Hierarchy",  category: "faction" },
+  { id: LENS_THALORIA,   name: "Thaloria",   category: "faction" },
+  { id: LENS_QUARCHON,   name: "Quarchon",   category: "faction" },
+  { id: LENS_DREAMER,    name: "Dreamer",    category: "faction" },
+  { id: LENS_NEUTRAL,    name: "Neutral",    category: "faction" },
+] as const;
+
+const THE_SEER_MYSTERY: MysteryDefinition = {
+  id: "mystery.the_seer" as MysteryId,
+  arcId: ARC_THE_SEER,
+  title: "Pre-Recorded Contradictions",
+  summary:
+    "The Seer's archive holds 4,712 prophecy recordings — and at least one DO-NOT-PLAY tape addressed to a witness who has not yet arrived. Investigate the discipline of recording-and-suppressing across centuries of patient readers, and what the tape might be waiting for. Cross-arcs with Wraith Calder (the Hierophant's successor) and Vex Solène (the recording engineer).",
+  npcId: "the_seer",
+  episodes: [seerE1],
+  suspects: seerSuspects,
+  lenses: seerLenses,
+};
+
 /* ─── REGISTRY ─── */
 
 /** Every authored mystery in the saga. The runtime reads against
@@ -1099,6 +1267,7 @@ const JERICHO_JONES_MYSTERY: MysteryDefinition = {
 export const MYSTERY_DEFINITIONS: ReadonlyArray<MysteryDefinition> = [
   WRAITH_CALDER_MYSTERY,
   JERICHO_JONES_MYSTERY,
+  THE_SEER_MYSTERY,
 ];
 
 /** Find a mystery by id. Returns null when not authored — the

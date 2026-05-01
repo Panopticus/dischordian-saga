@@ -36,6 +36,19 @@ export const DREAMS_WORKSHOP_MYSTERY: RoomMysteryModule<DreamsWorkshopHotspotId>
           source: "dreams-workshop-subbasement",
           order: 0,
         },
+        // Mystery Engine binding — when Jericho Jones arc is the
+        // active case, the dream-loom surfaces capture #J-0411:
+        // Jericho's recurring dream of the Bridge of Kael. Lore
+        // match is exact: the loom catches imprints from whoever
+        // was last in the workshop, and Jericho's dreams of a
+        // bridge he has never visited are exactly the kind of
+        // unconscious composite the loom is canonically designed
+        // to weave.
+        mysteryBinding: {
+          mysteryId: "mystery.jericho_jones",
+          episodeId: "jericho.e3",
+          cluesFound: ["jericho.e3.dream_loom_capture"],
+        },
       },
     },
     "fragment-rack": {

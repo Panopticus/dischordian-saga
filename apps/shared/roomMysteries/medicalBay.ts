@@ -64,6 +64,18 @@ export const MEDICAL_BAY_MYSTERY: RoomMysteryModule<MedicalBayHotspotId> = {
           },
           voId: "detective.medbay.bio-bed.look.t1",
         },
+        // Mystery Engine binding — when Jericho Jones arc is the
+        // active case, the bio-bed surfaces the sparring-bay grip-
+        // anomaly footage. Lore match: the bed is canonically a
+        // motor-pattern recording surface (vitals + neural-readout
+        // history); the Iron Lion imprint announces itself first
+        // through Jericho's involuntary grip-switch — exactly the
+        // kind of motor anomaly the bed's holo-display catalogues.
+        mysteryBinding: {
+          mysteryId: "mystery.jericho_jones",
+          episodeId: "jericho.e3",
+          cluesFound: ["jericho.e3.iron_lion_grip_anomaly"],
+        },
         tiers: [
           {
             narration: {

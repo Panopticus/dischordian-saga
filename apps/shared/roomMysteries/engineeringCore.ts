@@ -69,6 +69,19 @@ export const ENGINEERING_CORE_MYSTERY: RoomMysteryModule<EngineeringCoreHotspotI
           source: "engineering-core",
           order: 1,
         },
+        // Mystery Engine binding — when Jericho Jones arc is the
+        // active case, the coolant-pipe array surfaces the
+        // Substrate-N cross-reference clue. Lore match: the
+        // secondary loop is the substrate-flow surface where
+        // residue-signatures concentrate; spectral analysis of
+        // the coolant compares Iron Lion imprint carrier signals
+        // against Wraith's protocol-theft residue at three of
+        // eleven measurable parameters.
+        mysteryBinding: {
+          mysteryId: "mystery.jericho_jones",
+          episodeId: "jericho.e3",
+          cluesFound: ["jericho.e3.substrate_n_overlap"],
+        },
       },
     },
     "core-terminal": {
