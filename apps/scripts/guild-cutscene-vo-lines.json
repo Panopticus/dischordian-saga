@@ -32,7 +32,7 @@
   {
     "id": "architect_sorting_pre_001",
     "speaker": "architect",
-    "voiceId": "TODO_architect_voice_id",
+    "voiceId": "PmtzUaeg5rMejCZzRqOZ",
     "manifest": "architect",
     "text": "The Lectern is listening. So are the twelve. Step forward.",
     "context": "F.1.4.a cs_sorting_ceremony_arrival_pre — Crownless Lectern ceremony begins, lands t=1.5s",
@@ -42,7 +42,7 @@
   {
     "id": "gm_contracts_weekly_001",
     "speaker": "gamemaster",
-    "voiceId": "TODO_gamemaster_voice_id",
+    "voiceId": "BCJrrrZvds7k3qzM9nXU",
     "manifest": "gamemaster",
     "text": "Eight tasks. One week. The Architect grades on a curve — but only if you all pass.",
     "context": "F.2.1 cs_contract_unlock — Monday tarot-fan flip of 8 contract cards, lands t=1.4s",
@@ -52,7 +52,7 @@
   {
     "id": "gm_contract_complete_001",
     "speaker": "gamemaster",
-    "voiceId": "TODO_gamemaster_voice_id",
+    "voiceId": "BCJrrrZvds7k3qzM9nXU",
     "manifest": "gamemaster",
     "text": "Sealed. The Architect's quill remembers your name.",
     "context": "F.2.2 cs_contract_complete — wax seal on diploma, lands t=2.4s synced to emblem stamp",
@@ -62,7 +62,7 @@
   {
     "id": "architect_house_cup_reset_001",
     "speaker": "architect",
-    "voiceId": "TODO_architect_voice_id",
+    "voiceId": "PmtzUaeg5rMejCZzRqOZ",
     "manifest": "architect",
     "text": "A new week, students. The Cup is empty. Earn it.",
     "context": "F.2.3 cs_house_cup_weekly_reset — Mechronis dome four-banner unfurl, lands t=2.4s",
@@ -72,7 +72,7 @@
   {
     "id": "chorus_emote_001",
     "speaker": "chorus",
-    "voiceId": "TODO_chorus_voice_id",
+    "voiceId": "6E9LhzysAiUZsORxoEZu",
     "manifest": "chorus",
     "text": "Sync to me.",
     "context": "F.2.4.a cs_emote_archon_1 — tooltip-only emote sticker, never auto-plays",
@@ -82,7 +82,7 @@
   {
     "id": "watcher_emote_001",
     "speaker": "watcher",
-    "voiceId": "TODO_watcher_voice_id",
+    "voiceId": "Fu4ULyfBJO8Rl5TwP0ZB",
     "manifest": "watcher",
     "text": "Seen.",
     "context": "F.2.4.b cs_emote_archon_2 — tooltip-only, dry single word",
@@ -102,7 +102,7 @@
   {
     "id": "between_emote_001",
     "speaker": "between",
-    "voiceId": "TODO_between_voice_id",
+    "voiceId": "RAEHM0o1RaaIkErkNJgZ",
     "manifest": "between",
     "text": "Elsewhere.",
     "context": "F.2.4.d cs_emote_archon_4 — tooltip-only, breath-half-spoken with reverb tail",
@@ -112,7 +112,7 @@
   {
     "id": "meme_emote_001",
     "speaker": "meme",
-    "voiceId": "TODO_meme_voice_id",
+    "voiceId": "VgFgBh5TnWeBhCBvCJ1E",
     "manifest": "meme",
     "text": "Feel that.",
     "context": "F.2.4.e cs_emote_archon_5 — tooltip-only, half-whispered conspiratorial",
@@ -122,7 +122,7 @@
   {
     "id": "warlord_emote_001",
     "speaker": "warlord",
-    "voiceId": "TODO_warlord_voice_id",
+    "voiceId": "UFc00HkV4yTNA1eMW99e",
     "manifest": "warlord",
     "text": "Counted.",
     "context": "F.2.4.f cs_emote_archon_6 — tooltip-only, parade-ground crisp",
@@ -142,7 +142,7 @@
   {
     "id": "warden_emote_001",
     "speaker": "warden",
-    "voiceId": "TODO_warden_voice_id",
+    "voiceId": "3mIhiq6tiA6my4Lrlmo6",
     "manifest": "warden",
     "text": "Contained.",
     "context": "F.2.4.h cs_emote_archon_8 — tooltip-only, professional security-officer tone",
@@ -152,7 +152,7 @@
   {
     "id": "gm_emote_001",
     "speaker": "gamemaster",
-    "voiceId": "TODO_gamemaster_voice_id",
+    "voiceId": "BCJrrrZvds7k3qzM9nXU",
     "manifest": "gamemaster",
     "text": "Rewritten.",
     "context": "F.2.4.i cs_emote_archon_9 — tooltip-only, dry administrative authority",
@@ -162,7 +162,7 @@
   {
     "id": "necromancer_emote_001",
     "speaker": "necromancer",
-    "voiceId": "TODO_necromancer_voice_id",
+    "voiceId": "II5QotwxLcQdwey5xEyd",
     "manifest": "necromancer",
     "text": "Again.",
     "context": "F.2.4.j cs_emote_archon_10 — tooltip-only, weary determination with gravel",
@@ -172,7 +172,7 @@
   {
     "id": "engineer_emote_001",
     "speaker": "engineer",
-    "voiceId": "TODO_engineer_voice_id",
+    "voiceId": "FLW8imgp50K85LICuLQs",
     "manifest": "engineer",
     "text": "Fixed.",
     "context": "F.2.4.k cs_emote_archon_11 — tooltip-only, workshop-floor satisfaction",
@@ -202,7 +202,7 @@
   {
     "id": "warlord_war_declared_001",
     "speaker": "warlord",
-    "voiceId": "TODO_warlord_voice_id",
+    "voiceId": "UFc00HkV4yTNA1eMW99e",
     "manifest": "warlord",
     "text": "War declared. Count their angles before you count their numbers.",
     "context": "F.3.1 cs_war_declared — twin banner-slam on war-room table, lands t=1.4s",
@@ -212,7 +212,7 @@
   {
     "id": "warlord_first_blood_001",
     "speaker": "warlord",
-    "voiceId": "TODO_warlord_voice_id",
+    "voiceId": "UFc00HkV4yTNA1eMW99e",
     "manifest": "warlord",
     "text": "First mark on the map. Hold it.",
     "context": "F.3.2 cs_war_first_blood — first-contributor emblem ignites on territory, lands t=1.4s",
@@ -222,7 +222,7 @@
   {
     "id": "warlord_mvp_crowned_001",
     "speaker": "warlord",
-    "voiceId": "TODO_warlord_voice_id",
+    "voiceId": "UFc00HkV4yTNA1eMW99e",
     "manifest": "warlord",
     "text": "{playerName}, MVP. Your name is in the wind now.",
     "context": "F.3.3 cs_war_mvp_crowned — runtime SSML name slot, lands t=2.8s after laurel settle",
@@ -232,7 +232,7 @@
   {
     "id": "warlord_war_victory_001",
     "speaker": "warlord",
-    "voiceId": "TODO_warlord_voice_id",
+    "voiceId": "UFc00HkV4yTNA1eMW99e",
     "manifest": "warlord",
     "text": "Victory. The territory is yours. Hold what you have taken.",
     "context": "F.3.4 cs_war_victory — money shot, lands t=2.6s after territory bloom; optional bonus clause via SSML",
@@ -242,7 +242,7 @@
   {
     "id": "warlord_war_defeat_001",
     "speaker": "warlord",
-    "voiceId": "TODO_warlord_voice_id",
+    "voiceId": "UFc00HkV4yTNA1eMW99e",
     "manifest": "warlord",
     "text": "We lost the field. We did not lose the fight. Stand. Again.",
     "context": "F.3.5 cs_war_defeat — quieter delivery, two natural pauses, lands t=1.0s spans banner ripple",
@@ -252,7 +252,7 @@
   {
     "id": "warlord_placement_lock_001",
     "speaker": "warlord",
-    "voiceId": "TODO_warlord_voice_id",
+    "voiceId": "UFc00HkV4yTNA1eMW99e",
     "manifest": "warlord",
     "text": "Placement locked. Hold the line.",
     "context": "F.3.6 cs_alliance_war_placement_lock — 19-glyph lockdown, lands t=2.6s",
@@ -262,7 +262,7 @@
   {
     "id": "architect_thought_virus_001",
     "speaker": "architect",
-    "voiceId": "TODO_architect_voice_id",
+    "voiceId": "PmtzUaeg5rMejCZzRqOZ",
     "manifest": "architect",
     "text": "The thought returned.",
     "context": "F.3.7 cs_thought_virus_reinfection — node corruption, lands t=2.0s mid-aura-ripple",
@@ -272,7 +272,7 @@
   {
     "id": "architect_epoch_privacy_001",
     "speaker": "architect",
-    "voiceId": "TODO_architect_voice_id",
+    "voiceId": "PmtzUaeg5rMejCZzRqOZ",
     "manifest": "architect",
     "text": "The Age of Privacy returns. What you do not show, no one will know. What you do show, everyone will.",
     "context": "F.3.8.a cs_epoch_change_privacy — Mechronis oculus indigo sky transition",
@@ -282,7 +282,7 @@
   {
     "id": "architect_epoch_prophecy_001",
     "speaker": "architect",
-    "voiceId": "TODO_architect_voice_id",
+    "voiceId": "PmtzUaeg5rMejCZzRqOZ",
     "manifest": "architect",
     "text": "The Age of Prophecy returns. The wheels turn. Read the spokes.",
     "context": "F.3.8.b cs_epoch_change_prophecy — celestial wheels visible in oculus",
@@ -292,7 +292,7 @@
   {
     "id": "architect_epoch_insurgency_001",
     "speaker": "architect",
-    "voiceId": "TODO_architect_voice_id",
+    "voiceId": "PmtzUaeg5rMejCZzRqOZ",
     "manifest": "architect",
     "text": "The Age of Insurgency returns. The line breaks. Choose your side.",
     "context": "F.3.8.c cs_epoch_change_insurgency — torn-flag green/red dual-color sky",
@@ -302,7 +302,7 @@
   {
     "id": "architect_epoch_revelation_001",
     "speaker": "architect",
-    "voiceId": "TODO_architect_voice_id",
+    "voiceId": "PmtzUaeg5rMejCZzRqOZ",
     "manifest": "architect",
     "text": "The Age of Revelation returns. What was hidden is now seen. Including you.",
     "context": "F.3.8.d cs_epoch_change_revelation — crimson with central truth-aperture",
@@ -312,7 +312,7 @@
   {
     "id": "architect_epoch_fall_001",
     "speaker": "architect",
-    "voiceId": "TODO_architect_voice_id",
+    "voiceId": "PmtzUaeg5rMejCZzRqOZ",
     "manifest": "architect",
     "text": "Fall of Reality. The Thought Virus walks. Cleared ground will not stay cleared.",
     "context": "F.3.8.e cs_epoch_change_fall — chaotic red-black with VHS glitches",
@@ -612,7 +612,7 @@
   {
     "id": "architect_portal_001",
     "speaker": "architect",
-    "voiceId": "TODO_architect_voice_id",
+    "voiceId": "PmtzUaeg5rMejCZzRqOZ",
     "manifest": "architect",
     "text": "Twelve voices unlock the door. The chamber is yours. Use it well.",
     "context": "F.5.3.b cs_signature_room_unlock_portal_chamber — Portal Chamber first reveal",
