@@ -854,11 +854,7 @@ const jerichoE2: EpisodeDefinition = {
       narrationId: "jericho.e2.n.she_consented_in_advance",
       narrationProse:
         "Akai Shi consented in advance. Four minutes before the threshold, she recorded the consent on her personal recorder and asked specifically that Jericho not be told it was on file — because she knew he would do the act correctly without permission, and she wanted him to be able to live afterward. The medic confirms Jericho's hand was steady and unhurried; the threshold was crossed; the killing was mercy under triage doctrine. Jericho did not commit murder. He kept a promise he didn't know he was keeping.",
-      // unlocksEpisode is intentionally absent until Jericho E3
-      // is authored (per docs/design §7.2, E3 is "The Imprint
-      // Surfaces" — the pre-Fall Iron Lion's consciousness
-      // bleeding through). The registry probe enforces
-      // unlocksEpisode → existing-episode.
+      unlocksEpisode: "jericho.e3" as EpisodeId,
     },
     {
       id: "jericho.e2.d.degen_reservation" as DeductionId,
@@ -915,6 +911,118 @@ const jerichoE2: EpisodeDefinition = {
       "battle_of_thaloria",
       "degen_reservation",
       "thaloria_archon_redaction",
+    ],
+    dropAt: "episode_close",
+  },
+};
+
+/* ─── JERICHO JONES ARC — E3 ─── */
+/* E3: "The Imprint Surfaces"
+   The pre-Fall Iron Lion's consciousness-imprint bleeds
+   through into Jericho's training. Per docs/design/STREAMED_PRISM_MYSTERY_ENGINE.md
+   §7.2: "investigation in dreamsWorkshop.ts — the dream-loom
+   catches imprints. Cross-link to Wraith arc (resurrection-
+   protocol territory: is the imprint a stowaway from the same
+   tech?)."
+
+   The episode's cross-arc question is whether the Iron Lion
+   imprint and Wraith Calder's resurrection-protocol theft
+   share a substrate — i.e., whether Jericho is being
+   reconstituted by the same technology Wraith democratised. */
+
+const jerichoE3: EpisodeDefinition = {
+  id: "jericho.e3" as EpisodeId,
+  arcId: ARC_JERICHO_JONES,
+  ordinal: 3,
+  title: "The Imprint Surfaces",
+  summary:
+    "The pre-Fall Iron Lion's consciousness-imprint is bleeding into Jericho's training. He dreams in a hand that isn't his; he holds the rifle a way the previous Iron Lion held it. Investigate whether the imprint is a Lionism feature, a Hierarchy bug, or — cross-arc — a passenger from the same resurrection-protocol substrate Wraith Calder democratised.",
+  clues: [
+    {
+      id: "jericho.e3.dream_loom_capture" as ClueId,
+      title: "Dream-Loom Capture #J-0411",
+      body: "The Dreams Workshop loom captured a recurring dream from Jericho — the same scene played fourteen nights in a row. A bridge in a valley. A machine army approaching from the south. The dreamer holds his ground for three hours, forty-seven minutes. Jericho has never been to the Bridge of Kael. The pre-Fall Iron Lion held that bridge for exactly that duration before his death.",
+      foundIn: "dreams-workshop",
+    },
+    {
+      id: "jericho.e3.lionism_imprint_protocol" as ClueId,
+      title: "Lionism Imprint Protocol — Pre-Fall Doctrine",
+      body: "The Insurgency's pre-Fall Lionism doctrine documented imprint-resonance as a feature: a successor Lion would receive a partial consciousness-residue from the prior wearer of the callsign. The doctrine notes the residue as 'a gift, not a possession' — the new Lion is meant to read the imprint as advice, not as instruction. The doctrine was never tested in practice. Jericho is the first.",
+      foundIn: "antiquarian-library",
+    },
+    {
+      id: "jericho.e3.substrate_n_overlap" as ClueId,
+      title: "Substrate-N Cross-Reference (Wraith Cross-Arc)",
+      body: "A spectral analysis of the Iron Lion imprint's carrier-signature matches — at three of the eleven measurable parameters — the Substrate-N encryption residue Wraith Calder left in the resurrection-protocol theft. The match is partial. The protocols and the imprint share a substrate; whether the imprint is a Wraith-side passenger or an independent Lionism mechanism is the case's open question.",
+      foundIn: "engineering-core",
+    },
+    {
+      id: "jericho.e3.iron_lion_grip_anomaly" as ClueId,
+      title: "Sparring-Bay Recording — Grip Anomaly",
+      body: "Sparring footage from the Heart of Time shows Jericho switching mid-form to a rifle-grip he was never trained on — a wider Lion-callsign hand-position used by the pre-Fall holder. Jericho is unconscious of the switch. The Degen, watching, marks the moment in his ledger: 'imprint live.' The note is dated three weeks into Jericho's training, two weeks before the dreams started.",
+      foundIn: "engineering",
+    },
+  ],
+  deductions: [
+    {
+      id: "jericho.e3.d.imprint_is_doctrinal" as DeductionId,
+      clueA: "jericho.e3.dream_loom_capture" as ClueId,
+      clueB: "jericho.e3.lionism_imprint_protocol" as ClueId,
+      result: "correct",
+      narrationId: "jericho.e3.n.the_imprint_is_a_gift",
+      narrationProse:
+        "The imprint is doctrinal. The pre-Fall Lionism documented imprint-resonance as a successor's inheritance — a gift, not a possession; advice, not instruction. The dreams of the Bridge of Kael are the prior Iron Lion offering Jericho his three-hour, forty-seven-minute lesson in holding ground. Jericho is the first successor in whom this doctrine is being tested in practice. The imprint is, in the canon's own grammar, the callsign's voluntary inheritance of attention.",
+    },
+    {
+      id: "jericho.e3.d.cross_arc_substrate" as DeductionId,
+      clueA: "jericho.e3.substrate_n_overlap" as ClueId,
+      clueB: "jericho.e3.iron_lion_grip_anomaly" as ClueId,
+      result: "partial",
+      narrationId: "jericho.e3.n.three_of_eleven",
+      narrationProse:
+        "Three of eleven parameters match. The Iron Lion imprint and the Substrate-N encryption residue share a partial substrate — enough to confirm a shared technological floor, not enough to claim the imprint is Wraith-side. The Degen's 'imprint live' ledger note timestamps the rifle-grip switch precisely; whatever the imprint is, it activated through an interaction, not a consent recording. We have an open question, not a closed case. The cross-arc reading deepens; it does not yet resolve.",
+    },
+    {
+      id: "jericho.e3.d.false_lead_hierarchy_bug" as DeductionId,
+      clueA: "jericho.e3.dream_loom_capture" as ClueId,
+      clueB: "jericho.e3.substrate_n_overlap" as ClueId,
+      result: "false_lead_named",
+      narrationId: "jericho.e3.n.not_a_hierarchy_bug",
+      narrationProse:
+        "Reading the recurring dream and the Substrate-N match together as evidence of a Hierarchy bug — a malicious imprint inserted to compromise the new Iron Lion — is the obvious move and the wrong one. The Hierarchy's contractors do not write doctrines that frame their work as 'a gift, not a possession'; that is Lionism's vocabulary, not theirs. And the Substrate-N match is partial in a way a Hierarchy implant would not be — a Hierarchy implant is exact or it isn't. The imprint is doctrinal. The substrate overlap is a coincidence of physics, not authorship.",
+    },
+  ],
+  choices: [
+    {
+      id: "jericho.e3.c.tell_jericho" as ChoiceId,
+      label: "Tell Jericho the imprint is doctrinal — let him work with it consciously.",
+      weight: "transparent",
+    },
+    {
+      id: "jericho.e3.c.let_him_discover" as ChoiceId,
+      label: "Let him discover the imprint himself — the doctrine says it's advice, not instruction.",
+      weight: "lionist",
+    },
+    {
+      id: "jericho.e3.c.cross_arc_consult_wraith" as ChoiceId,
+      label: "Bring the Substrate-N match to Wraith Calder's attention — the cross-arc thread merits a Hierophant's reading.",
+      weight: "cross_arc_wraith",
+    },
+  ],
+  contentBundle: {
+    songId: "album1.t12", /* "I Am The Eyes That Watch" — Dischordian Logic Act 2; observation/presence */
+    slideshowId: "album1.t12",
+    loredexUnlocks: [
+      "concept_iron_lion_imprint",
+      "entity_pre_fall_iron_lion",
+      "concept_dream_loom_catches",
+      "concept_imprint_resonance",
+    ],
+    conspiracyDiscoveries: [
+      "iron_lion_imprint",
+      "pre_fall_iron_lion",
+      "lionism_imprint_doctrine",
+      "substrate_n_overlap",
     ],
     dropAt: "episode_close",
   },
@@ -978,7 +1086,7 @@ const JERICHO_JONES_MYSTERY: MysteryDefinition = {
   summary:
     "Jericho Jones is being trained as the new Iron Lion under the Degen's mediation on the Heart of Time, and the pre-Fall Iron Lion's consciousness-imprint is awakening in him while he trains. Investigate why the Degen — who never gives anything away — is giving Jericho the most expensive item in his catalogue.",
   npcId: "jericho_jones",
-  episodes: [jerichoE1, jerichoE2],
+  episodes: [jerichoE1, jerichoE2, jerichoE3],
   suspects: jerichoSuspects,
   lenses: jerichoLenses,
 };
