@@ -19,6 +19,8 @@ import {
 import { ripple } from "../services/rippleEngine";
 import { checkFeatureFlag } from "../middleware/featureFlag";
 import { getConsequences } from "../services/universeConsequences";
+import { awardEligibleTitles } from "../services/titleService";
+import { createHash } from "crypto";
 
 export const coopRaidsRouter = router({
   /** Get active raids */
@@ -153,6 +155,27 @@ export const coopRaidsRouter = router({
 
       if (newHp === 0) {
         await ripple.emit("raid_boss_defeated", { userId: ctx.user.id, bossKey: raid.bossKey });
+
+        // Title grant for every contributor on the kill — looks up the
+        // contribution roster and grants any newly-eligible titles.
+        const contributors = await db
+          .select()
+          .from(raidContributions)
+          .where(eq(raidContributions.raidId, input.raidId));
+        const partyHash = createHash("sha1")
+          .update([...contributors.map(c => c.userId)].sort((a, b) => a - b).join(":"))
+          .digest("hex")
+          .slice(0, 16);
+        for (const c of contributors) {
+          awardEligibleTitles(c.userId, {
+            kind: "coop_raid_cleared",
+            userId: c.userId,
+            bossKey: raid.bossKey,
+            role: c.role,
+            contribution: c.contributionScore,
+            partyHash,
+          }).catch(e => console.error("[CoopRaids] Title grant error:", e));
+        }
       }
 
       return {

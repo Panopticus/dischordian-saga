@@ -12,6 +12,7 @@ import { canSendEmote, recordEmoteSend, validateEmote, ALL_EMOTES, type EmoteRat
 import { filterMessage } from "@shared/moderation/profanityFilter";
 import { eq, and } from "drizzle-orm";
 import { trackPvpResult } from "./achievementTracker";
+import { awardEligibleTitles, rankTierIndex } from "./services/titleService";
 import { recordMatchStart, recordMatchEnd } from "./matchLengthMonitor";
 import { randomUUID } from "crypto";
 import { checkWsRateLimit, sendRateLimitError, storeDisconnectedSession, recoverSession } from "./wsRateLimit";
@@ -439,6 +440,24 @@ async function endMatch(match: ActiveMatch) {
           const totalWins = won ? row.wins + 1 : row.wins;
           trackPvpResult(player.userId, won, newStreak, newTier, totalWins)
             .catch(e => console.error("[PvP] Achievement tracking error:", e));
+
+          // Title grant evaluation — every match-end, win or loss.
+          // Idempotent; safely skips already-earned titles.
+          const titleEvt = won
+            ? {
+                kind: "pvp_match_won" as const,
+                userId: player.userId,
+                gameType: "card_1v1" as const,
+                newTier: rankTierIndex(newTier),
+                totalWins,
+              }
+            : {
+                kind: "pvp_match_lost" as const,
+                userId: player.userId,
+                gameType: "card_1v1" as const,
+              };
+          awardEligibleTitles(player.userId, titleEvt)
+            .catch(e => console.error("[PvP] Title grant error:", e));
         }
       }
 

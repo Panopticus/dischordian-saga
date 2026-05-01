@@ -5292,3 +5292,85 @@ export const npcDialogTreeState = mysqlTable("npc_dialog_tree_state", {
   ),
 }));
 export type NpcDialogTreeStateRow = typeof npcDialogTreeState.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
+   TIER 1 — LORE-TIERED TITLE SYSTEM
+   SWTOR-styled multi-tier progressions rooted in LOREDEX entities.
+   Granted by events from PvP, narrative, co-op, guild, mystery surfaces.
+   ═══════════════════════════════════════════════════════ */
+
+/**
+ * Title definitions — declarative registry seeded from
+ * apps/shared/titles/titleDefinitions.ts at app start.
+ */
+export const titleDefinitions = mysqlTable("title_definitions", {
+  id: int("id").autoincrement().primaryKey(),
+  titleKey: varchar("titleKey", { length: 96 }).notNull().unique(),
+  rootKey: varchar("rootKey", { length: 64 }).notNull(),
+  tier: int("tier").notNull().default(1),
+  name: varchar("name", { length: 128 }).notNull(),
+  description: text("description"),
+  flavorText: text("flavorText"),
+  rarity: mysqlEnum("rarity", ["common", "rare", "epic", "legendary", "mythic"]).default("rare").notNull(),
+  category: mysqlEnum("category", [
+    "pvp_rank",
+    "narrative",
+    "mystery",
+    "coop",
+    "faction_guild",
+    "cross_game",
+    "cosmetic_purchase",
+    "seasonal",
+  ]).notNull(),
+  loredexEntityId: varchar("loredexEntityId", { length: 64 }),
+  iconKey: varchar("iconKey", { length: 32 }).notNull().default("Award"),
+  /** Discriminated-union TitleUnlockCondition serialized as JSON. */
+  condition: json("condition").$type<Record<string, unknown>>().notNull(),
+  hidden: int("hidden").notNull().default(0),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => ({
+  rootIdx: index("idx_title_definitions_root").on(table.rootKey),
+  categoryIdx: index("idx_title_definitions_category").on(table.category),
+}));
+
+export type TitleDefinition = typeof titleDefinitions.$inferSelect;
+export type InsertTitleDefinition = typeof titleDefinitions.$inferInsert;
+
+/**
+ * User-earned titles — junction table.
+ * `discoveryRank` records position for first-to-witness titles
+ * (1 = first discoverer, 2 = second, etc.).
+ */
+export const userTitles = mysqlTable("user_titles", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  titleKey: varchar("titleKey", { length: 96 }).notNull(),
+  earnedAt: timestamp("earnedAt").defaultNow().notNull(),
+  seasonNumber: int("seasonNumber"),
+  discoveryRank: int("discoveryRank"),
+}, (table) => ({
+  userIdIdx: index("idx_user_titles_user_id").on(table.userId),
+  userTitleUniq: uniqueIndex("uniq_user_titles_user_title").on(
+    table.userId,
+    table.titleKey,
+  ),
+}));
+
+export type UserTitle = typeof userTitles.$inferSelect;
+export type InsertUserTitle = typeof userTitles.$inferInsert;
+
+/**
+ * Equipped cosmetic loadout — supersedes the legacy free-text
+ * `userProgress.title` field. Title, badge, frame in one place.
+ */
+export const userCosmeticLoadout = mysqlTable("user_cosmetic_loadout", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().unique(),
+  equippedTitleKey: varchar("equippedTitleKey", { length: 96 }),
+  equippedBadgeKey: varchar("equippedBadgeKey", { length: 96 }),
+  equippedFrameKey: varchar("equippedFrameKey", { length: 96 }),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type UserCosmeticLoadout = typeof userCosmeticLoadout.$inferSelect;
+export type InsertUserCosmeticLoadout = typeof userCosmeticLoadout.$inferInsert;

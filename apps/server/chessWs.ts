@@ -13,6 +13,7 @@ import { randomUUID } from "crypto";
 // Task 6.1 — per-user token bucket for every WS message.
 // Shared with pvpWs + duelystWs via the `wsRateLimit` module.
 import { checkWsRateLimit, sendRateLimitError } from "./wsRateLimit";
+import { awardEligibleTitles, rankTierIndex } from "./services/titleService";
 import { recordMatchStart, recordMatchEnd } from "./matchLengthMonitor";
 import {
   pickMultiplayerEndLine,
@@ -528,6 +529,23 @@ async function endMatch(match: ActiveChessMatch, winnerId: number | null, reason
             winStreak: won ? r[0].winStreak + 1 : 0,
             bestWinStreak: Math.max(r[0].bestWinStreak, won ? r[0].winStreak + 1 : 0),
           }).where(eq(chessRankings.userId, player.userId));
+
+          // Title grant evaluation — every match-end, win or loss.
+          const titleEvt = won
+            ? {
+                kind: "pvp_match_won" as const,
+                userId: player.userId,
+                gameType: "chess" as const,
+                newTier: rankTierIndex(getTier(newElo)),
+                totalWins: r[0].wins + (won ? 1 : 0),
+              }
+            : {
+                kind: "pvp_match_lost" as const,
+                userId: player.userId,
+                gameType: "chess" as const,
+              };
+          awardEligibleTitles(player.userId, titleEvt)
+            .catch(e => console.error("[ChessPvP] Title grant error:", e));
         }
       }
     }

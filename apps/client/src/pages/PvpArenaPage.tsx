@@ -27,6 +27,7 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "wouter";
 import { EmptyMatchHistory } from "@/components/EmptyStates";
+import { TitlePill } from "@/components/TitlePill";
 
 /* ─── RANK CONFIG ─── */
 const RANK_CONFIG: Record<string, { color: string; bg: string; border: string; label: string; icon: string; glow?: string }> = {
@@ -128,6 +129,7 @@ export default function PvpArenaPage() {
   const activeMatches = trpc.pvp.getActiveMatches.useQuery(undefined, { refetchInterval: phase === "lobby" && lobbyTab === "spectate" ? 5000 : false });
   const allTraitBonuses = trpc.citizen.getAllTraitBonuses.useQuery(undefined, { enabled: isAuthenticated, retry: false, refetchOnWindowFocus: false });
   const pvpBonuses = allTraitBonuses.data?.pvp;
+  const myLoadout = trpc.titles.getMyLoadout.useQuery(undefined, { enabled: isAuthenticated });
 
   const claimRewards = trpc.pvp.claimSeasonRewards.useMutation({
     onSuccess: () => { mySeasonRecord.refetch(); },
@@ -554,6 +556,11 @@ export default function PvpArenaPage() {
             {myStats.data && (
               <div className={`border rounded-lg p-4 ${rankCfg.border} ${rankCfg.bg} ${rankCfg.glow || ""}`}>
                 <div className="text-center">
+                  {myLoadout.data?.equippedTitleKey && (
+                    <div className="mb-1">
+                      <TitlePill titleKey={myLoadout.data.equippedTitleKey} size="xs" />
+                    </div>
+                  )}
                   <span className="text-2xl">{rankCfg.icon}</span>
                   <p className={`font-display text-sm font-bold tracking-wider ${rankCfg.color}`}>{rankCfg.label}</p>
                   <p className="font-mono text-lg font-bold text-foreground">{myElo}</p>
@@ -1120,6 +1127,14 @@ export default function PvpArenaPage() {
                 <p className="font-mono text-[10px] text-muted-foreground">OPPONENT</p>
                 <p className="font-mono text-sm">{opponentName}</p>
               </div>
+              {myLoadout.data?.equippedTitleKey && (
+                <div className="text-center">
+                  <p className="font-mono text-[10px] text-muted-foreground">YOUR TITLE</p>
+                  <div className="mt-1">
+                    <TitlePill titleKey={myLoadout.data.equippedTitleKey} size="sm" />
+                  </div>
+                </div>
+              )}
             </div>
 
             <div className="border border-border/30 rounded-lg bg-secondary/30 p-4">

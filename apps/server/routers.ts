@@ -26,6 +26,7 @@ import { transmissionsRouter } from "./routers/transmissions";
 import { fightLeaderboardRouter } from "./routers/fightLeaderboard";
 import { essenceHarvestRouter } from "./routers/essenceHarvest";
 import { pvpRouter } from "./routers/pvp";
+import { titlesRouter } from "./routers/titles";
 import { draftRouter } from "./routers/draft";
 import { tradingRouter } from "./routers/trading";
 import { cardAchievementsRouter } from "./routers/cardAchievements";
@@ -137,6 +138,7 @@ export const appRouter = router({
   fightLeaderboard: fightLeaderboardRouter,
   essenceHarvest: essenceHarvestRouter,
   pvp: pvpRouter,
+  titles: titlesRouter,
   draft: draftRouter,
   trading: tradingRouter,
   cardAchievements: cardAchievementsRouter,
