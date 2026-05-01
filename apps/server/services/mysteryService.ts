@@ -303,6 +303,23 @@ export const mysteryService = {
           eq(playerMysteryChoices.episodeId, args.episodeId as string),
         ));
     }
+
+    // Auto-finalize the per-player NPC trust scalar when the
+    // player commits a choice on the final episode of an arc
+    // that anchors on a single NPC. Vote-spawned and anniversary
+    // mysteries leave npcId unset — their trust scalars are
+    // independent of any single NPC and are not finalized here.
+    const mystery = lookupMystery(args.mysteryId);
+    if (mystery && mystery.npcId && mystery.episodes.length > 0) {
+      const finalEpisode = mystery.episodes[mystery.episodes.length - 1];
+      if (finalEpisode.id === args.episodeId) {
+        await mysteryService.finalizeTrustScalar(
+          args.userId,
+          mystery.npcId,
+          mystery.arcId,
+        );
+      }
+    }
   },
 
   /**

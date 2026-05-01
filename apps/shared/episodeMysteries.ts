@@ -679,6 +679,7 @@ const WRAITH_CALDER_MYSTERY: MysteryDefinition = {
   title: "The Eighth Death and the Names",
   summary:
     "Wraith Calder's transformation from bounty hunter into Hierophant of Thaloria in Exile, told via the artifacts and witnesses he left across the centuries. The Syndicate of Death is the season antagonist; the resurrection protocols are the season MacGuffin.",
+  npcId: "wraith_calder",
   episodes: [wraithE1, wraithE2, wraithE3, wraithE4, wraithE5],
   suspects: wraithSuspects,
   lenses: wraithLenses,

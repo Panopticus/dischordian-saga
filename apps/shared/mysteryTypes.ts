@@ -228,6 +228,12 @@ export interface MysteryDefinition {
   title: string;
   /** Author summary — drives the case-file home view. */
   summary: string;
+  /** NPC this arc finalises a trust scalar for. When set, the
+   *  service auto-fires `finalizeTrustScalar(userId, npcId, arcId)`
+   *  the first time the player commits a choice on the final
+   *  episode. Vote-spawned and anniversary mysteries leave this
+   *  unset — they don't anchor on a single NPC. */
+  npcId?: string;
   /** Source of the seed that produced this mystery. NPC arcs
    *  are typically `npc_arc`; vote-spawned mysteries carry the
    *  vote outcome on `seed.payload`. */
