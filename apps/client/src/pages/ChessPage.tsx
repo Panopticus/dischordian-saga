@@ -20,6 +20,7 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "wouter";
 import { showBonusToast } from "@/components/BonusToast";
+import { TitlePill } from "@/components/TitlePill";
 import { customPieces } from "@/components/ChessPieces";
 import { getArenaForOpponent, ARENA_THEMES, type ArenaTheme } from "@/lib/chessAssets";
 import { useGame } from "@/contexts/GameContext";
@@ -97,6 +98,18 @@ const AI_TIER_INFO: Record<string, { label: string; color: string; description: 
 };
 
 type GameView = "menu" | "character_select" | "cinematic" | "playing" | "multiplayer_lobby" | "multiplayer_playing" | "ladder" | "history" | "story_select";
+
+/** Resolves an opponent's equipped title for inline display. Quietly
+ *  renders nothing when the opponent has no title or no userId. */
+function ChessOpponentTitle({ userId }: { userId?: number | null }) {
+  const q = trpc.titles.resolveEquippedTitles.useQuery(
+    { userIds: userId ? [userId] : [] },
+    { enabled: !!userId },
+  );
+  const resolved = userId ? q.data?.[userId] : null;
+  if (!resolved) return null;
+  return <TitlePill titleKey={resolved.titleKey} size="xs" />;
+}
 
 export default function ChessPage() {
   const { user, isAuthenticated } = useAuth();
@@ -182,7 +195,7 @@ export default function ChessPage() {
   const [mpQueuePos, setMpQueuePos] = useState<number>(0);
   const [mpPlayersInQueue, setMpPlayersInQueue] = useState<number>(0);
   const [mpOpponent, setMpOpponent] = useState<{
-    matchId: string; color: "white" | "black"; opponentName: string; opponentElo: number; opponentCharacter: string; timeControl: number;
+    matchId: string; color: "white" | "black"; opponentName: string; opponentUserId?: number; opponentElo: number; opponentCharacter: string; timeControl: number;
   } | null>(null);
   const [mpSearchElapsed, setMpSearchElapsed] = useState(0);
   const [mpFen, setMpFen] = useState("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
@@ -1947,7 +1960,10 @@ export default function ChessPage() {
                 <div className="rounded-lg border void-border-success void-bg-success p-4 max-w-xs mx-auto space-y-2">
                   <div className="flex items-center justify-between">
                     <span className="font-mono text-xs text-muted-foreground">Opponent</span>
-                    <span className="font-display text-sm font-bold void-text-energy">{mpOpponent.opponentName}</span>
+                    <div className="flex items-center gap-2">
+                      <span className="font-display text-sm font-bold void-text-energy">{mpOpponent.opponentName}</span>
+                      <ChessOpponentTitle userId={mpOpponent.opponentUserId} />
+                    </div>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="font-mono text-xs text-muted-foreground">ELO</span>

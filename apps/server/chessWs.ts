@@ -87,7 +87,7 @@ type ChessClientMessage =
 type ChessServerMessage =
   | { type: "QUEUE_JOINED"; position: number }
   | { type: "QUEUE_UPDATE"; position: number; playersInQueue: number }
-  | { type: "MATCH_FOUND"; matchId: string; color: "white" | "black"; opponentName: string; opponentElo: number; opponentCharacter: string; timeControl: number }
+  | { type: "MATCH_FOUND"; matchId: string; color: "white" | "black"; opponentName: string; opponentUserId: number; opponentElo: number; opponentCharacter: string; timeControl: number }
   | { type: "GAME_STATE"; fen: string; lastMove: { from: string; to: string; san: string } | null; whiteTimeMs: number; blackTimeMs: number; turn: "w" | "b"; moveCount: number; isCheck: boolean }
   | { type: "GAME_OVER"; winner: "white" | "black" | "draw"; reason: string; eloChange: number; newElo: number; gmCommentary?: string }
   | { type: "DRAW_OFFERED" }
@@ -275,6 +275,7 @@ async function startMatch(p1: ChessPlayer, p2: ChessPlayer) {
     matchId,
     color: "white",
     opponentName: black.userName,
+    opponentUserId: black.userId,
     opponentElo: black.elo,
     opponentCharacter: black.characterId,
     timeControl: DEFAULT_TIME_CONTROL,
@@ -285,6 +286,7 @@ async function startMatch(p1: ChessPlayer, p2: ChessPlayer) {
     matchId,
     color: "black",
     opponentName: white.userName,
+    opponentUserId: white.userId,
     opponentElo: white.elo,
     opponentCharacter: white.characterId,
     timeControl: DEFAULT_TIME_CONTROL,

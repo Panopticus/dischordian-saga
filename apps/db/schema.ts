@@ -6110,6 +6110,35 @@ export const competitiveRatingsBackfill = mysqlTable("competitive_ratings_backfi
 export type CompetitiveRatingsBackfillRow = typeof competitiveRatingsBackfill.$inferSelect;
 
 /* ═══════════════════════════════════════════════════════
+   PVP MODERATION REPORTS
+   Player-submitted reports for guild mottoes / banners / titles
+   that violate community guidelines. Moderator dashboards consume
+   these via the pvpModeration router.
+   ═══════════════════════════════════════════════════════ */
+export const pvpModerationReports = mysqlTable("pvp_moderation_reports", {
+  id: int("id").autoincrement().primaryKey(),
+  reporterId: int("reporterId").notNull(),
+  /** "motto" | "banner" | "title" | "guild_name" */
+  targetKind: varchar("targetKind", { length: 32 }).notNull(),
+  /** id of the offending record (guildId for motto/banner, userId for title). */
+  targetId: int("targetId").notNull(),
+  /** Snapshot of the offending text for audit (mottoes can be edited). */
+  contentSnapshot: text("contentSnapshot"),
+  reason: varchar("reason", { length: 64 }).notNull(),
+  /** Free-text. Up to 500 chars. */
+  details: text("details"),
+  status: mysqlEnum("status", ["open", "resolved_action", "resolved_no_action", "duplicate"]).notNull().default("open"),
+  resolvedByUserId: int("resolvedByUserId"),
+  resolvedAt: timestamp("resolvedAt"),
+  resolutionNotes: text("resolutionNotes"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => ({
+  statusIdx: index("idx_pvp_moderation_reports_status").on(table.status),
+  targetIdx: index("idx_pvp_moderation_reports_target").on(table.targetKind, table.targetId),
+}));
+export type PvpModerationReport = typeof pvpModerationReports.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
    DREAMER AWARENESS — silent-counter substrate for the dual-
    faction recruitment system (D1 in
    /root/.claude/plans/continue-your-qr-assessment-mighty-valley.md).

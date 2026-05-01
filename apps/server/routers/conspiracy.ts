@@ -11,10 +11,15 @@ import {
   guildMembers,
   guilds,
   users,
+  dreamBalance,
 } from "../../db/schema";
-import { eq, and, desc, inArray } from "drizzle-orm";
+import { eq, and, desc, inArray, ne, sql } from "drizzle-orm";
+import { TRPCError } from "@trpc/server";
 import { CONSPIRACY_BOARDS, getConspiracyBoard } from "@shared/conspiracyBoards/definitions";
 import { attemptSolveForUser } from "../services/conspiracyService";
+
+/** Cost in Dream tokens to peek at a rival guild's progress on a board. */
+const ORACLE_POOL_PEEK_COST = 50;
 
 export const conspiracyRouter = router({
   /** Public catalog of every conspiracy board (definitions only). */
@@ -92,6 +97,91 @@ export const conspiracyRouter = router({
     .input(z.object({ boardKey: z.string().min(1).max(64) }))
     .mutation(async ({ ctx, input }) => {
       return attemptSolveForUser(ctx.user.id, input.boardKey);
+    }),
+
+  /**
+   * Oracle Pool peek — pay Dream tokens to see rival guilds' progress
+   * on a Conspiracy Board. Tier 4 hall feature; lore-flavored as the
+   * Oracle's water-scrying. One peek per call, charged each time.
+   */
+  oraclePoolPeek: protectedProcedure
+    .input(z.object({ boardKey: z.string().min(1).max(64) }))
+    .mutation(async ({ ctx, input }) => {
+      const def = getConspiracyBoard(input.boardKey);
+      if (!def) throw new TRPCError({ code: "NOT_FOUND", message: "Unknown board" });
+      const db = await getDb();
+      if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
+
+      // Find the caller's guild + verify hall tier (Oracle Pool unlocks at hall T4).
+      const memberRows = await db
+        .select({ guildId: guildMembers.guildId })
+        .from(guildMembers)
+        .where(eq(guildMembers.userId, ctx.user.id))
+        .limit(1);
+      const callerGuildId = memberRows[0]?.guildId;
+      if (!callerGuildId) {
+        throw new TRPCError({ code: "FORBIDDEN", message: "Not in a guild" });
+      }
+      const callerGuild = await db
+        .select()
+        .from(guilds)
+        .where(eq(guilds.id, callerGuildId))
+        .limit(1);
+      if ((callerGuild[0]?.level ?? 0) < 4) {
+        throw new TRPCError({ code: "FORBIDDEN", message: "Hall tier 4+ required for Oracle Pool" });
+      }
+
+      // Charge Dream tokens.
+      const balRow = await db
+        .select()
+        .from(dreamBalance)
+        .where(eq(dreamBalance.userId, ctx.user.id))
+        .limit(1);
+      if (!balRow[0] || (balRow[0].dreamTokens ?? 0) < ORACLE_POOL_PEEK_COST) {
+        throw new TRPCError({ code: "BAD_REQUEST", message: "Insufficient Dream tokens" });
+      }
+      await db
+        .update(dreamBalance)
+        .set({ dreamTokens: sql`dream_tokens - ${ORACLE_POOL_PEEK_COST}` })
+        .where(eq(dreamBalance.userId, ctx.user.id));
+
+      // Read every other guild's progress on this board.
+      const rivalRows = await db
+        .select()
+        .from(guildClueProgress)
+        .where(
+          and(
+            eq(guildClueProgress.boardKey, input.boardKey),
+            ne(guildClueProgress.guildId, callerGuildId),
+          ),
+        );
+      if (rivalRows.length === 0) {
+        return { cost: ORACLE_POOL_PEEK_COST, rivals: [] };
+      }
+      const rivalGuildIds = rivalRows.map((r) => r.guildId);
+      const rivalGuildRows = await db
+        .select({ id: guilds.id, name: guilds.name, tag: guilds.tag, level: guilds.level })
+        .from(guilds)
+        .where(inArray(guilds.id, rivalGuildIds));
+      const guildById = new Map(rivalGuildRows.map((g) => [g.id, g]));
+
+      const rivals = rivalRows
+        .map((r) => {
+          const gathered = r.cluesGathered ?? [];
+          return {
+            guildId: r.guildId,
+            guildName: guildById.get(r.guildId)?.name ?? "Unknown",
+            guildTag: guildById.get(r.guildId)?.tag ?? "???",
+            cluesGathered: gathered.length,
+            cluesRequired: def.cluesRequired,
+            progress: Math.min(1, gathered.length / def.cluesRequired),
+            solvedAt: r.solvedAt,
+          };
+        })
+        .sort((a, b) => b.progress - a.progress)
+        .slice(0, 10);
+
+      return { cost: ORACLE_POOL_PEEK_COST, rivals };
     }),
 
   /**

@@ -12,11 +12,11 @@
    doesn't have to know whether a case came from authoring or
    from a vote outcome. This module is that single lookup.
 
-   Persistence note (TODO): the dynamic registry is in-memory
-   today. A server restart loses every compiled definition that
-   wasn't also persisted as a seed. The follow-up slice adds a
-   `mystery_seeds` table + startup re-hydration so vote-spawned
-   mysteries survive deploys.
+   Persistence note: the dynamic registry is in-memory today. A
+   server restart loses every compiled definition that wasn't also
+   persisted as a seed. The follow-up slice adds a `mystery_seeds`
+   table + startup re-hydration so vote-spawned mysteries survive
+   deploys.
    ═══════════════════════════════════════════════════════ */
 
 import {

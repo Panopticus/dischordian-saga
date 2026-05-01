@@ -127,6 +127,15 @@ export {
   teamsFfa4,
 } from "./types/Teams";
 
+/* Team-aware targeting selectors (Tier 3 next slice). */
+export type { TeamTargetSelectorKind } from "./types/TeamTargeting";
+export {
+  resolveTeamSelector,
+  isAllyOf,
+  isEnemyOf,
+  filterByController,
+} from "./types/TeamTargeting";
+
 /* ─── Engine ─── */
 export {
   reduce,

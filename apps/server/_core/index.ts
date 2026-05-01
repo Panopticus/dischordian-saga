@@ -378,6 +378,11 @@ async function startServer() {
     const { runCompetitiveRatingsBackfillOnce } = await import("../services/competitiveRatingsBackfillService");
     runCompetitiveRatingsBackfillOnce().catch(e => console.error("[Competitive] Backfill error:", e));
 
+    // Tier 1 — one-shot legacy userProgress.title → userCosmeticLoadout
+    // backfill so existing equipped titles survive the migration.
+    const { runLegacyTitleBackfillOnce } = await import("../services/legacyTitleBackfillService");
+    runLegacyTitleBackfillOnce().catch(e => console.error("[LegacyTitle] Backfill error:", e));
+
     // Tier 4 — Guild quest reset tick. Resets daily / weekly / seasonal
     // quest progress rows that crossed their respective anchor.
     // Idempotent on the resetAt comparison so frequent ticks are safe.
