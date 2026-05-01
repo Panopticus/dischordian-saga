@@ -685,6 +685,179 @@ const WRAITH_CALDER_MYSTERY: MysteryDefinition = {
   lenses: wraithLenses,
 };
 
+/* ─── JERICHO JONES ARC — E1 ─── */
+/* E1: "The Recruit"
+   First contact with Jericho. Per docs/design/STREAMED_PRISM_MYSTERY_ENGINE.md
+   §7.2: cold hook is the Degen's ledger — a single "Iron Lion
+   training" line with no fee. A gift, which is the one thing
+   the Degen doesn't do.
+
+   Sets up the arc's central question: why is the Degen
+   training an Insurgency Lion on a casino timeline? The
+   answer arrives in E5 — for now, this episode catalogues the
+   anomaly. */
+
+const jerichoE1: EpisodeDefinition = {
+  id: "jericho.e1" as EpisodeId,
+  arcId: ARC_JERICHO_JONES,
+  ordinal: 1,
+  title: "The Recruit",
+  summary:
+    "Jericho Jones is being trained as the new Iron Lion under the Degen's mediation on the Heart of Time. The training has no invoice. Investigate why a casino broker who never gives anything away is giving Jericho the most expensive item in his catalogue.",
+  clues: [
+    {
+      id: "jericho.e1.degens_ledger" as ClueId,
+      title: "The Degen's Ledger Entry — Iron Lion Training",
+      body: "A single line in the Degen's running ledger: 'Iron Lion training — Jericho Jones — fee deferred.' No deferral period. No collateral. No interest schedule. The Degen has never written 'fee deferred' in any other entry across the ledger's 412 pages. The line is in his own hand.",
+      foundIn: "casino",
+    },
+    {
+      id: "jericho.e1.heart_of_time_manifest" as ClueId,
+      title: "Heart of Time — Trainee Manifest",
+      body: "The Heart of Time's trainee log lists Jericho Jones as having logged sixty-eight hours of Iron Lion-discipline work over the last month — combat forms, doctrinal reading, witness procedure. The log notes a sparring partner: the Degen himself. The Degen does not spar. Has not, by reputation, sparred since Veridian VI.",
+      foundIn: "engineering",
+    },
+    {
+      id: "jericho.e1.iron_lion_callsign_history" as ClueId,
+      title: "The Iron Lion Callsign — Inheritance Chain",
+      body: "The Iron Lion is a callsign, not a name. The pre-Fall holder destroyed Warlord Prime and died at Veridian VI buying Agent Zero time against Binath VII. Since the Fall, the callsign has been vacant. Jericho would be its second wearer. The Antiquarian's Journal entry ep5-12 notes that the callsign carries a Lionism imprint — a consciousness-residue from the prior holder.",
+      foundIn: "antiquarian-library",
+    },
+    {
+      id: "jericho.e1.akai_shi_aftermath" as ClueId,
+      title: "Akai Shi — Battle of Thaloria, Aftermath Logs",
+      body: "Battle-aftermath logs from Thaloria document Jericho killing Akai Shi to stop the Thought Virus from spreading further. Akai Shi was someone Jericho trusted; the killing was, on the legal side, a mercy under contested doctrine. The Degen was witness to the act and signed the witness page within the hour. He recruited Jericho seventy-two hours later.",
+      foundIn: "antiquarian-library",
+    },
+  ],
+  deductions: [
+    {
+      id: "jericho.e1.d.fee_deferred_is_a_gift" as DeductionId,
+      clueA: "jericho.e1.degens_ledger" as ClueId,
+      clueB: "jericho.e1.heart_of_time_manifest" as ClueId,
+      result: "correct",
+      narrationId: "jericho.e1.n.the_degen_does_not_give",
+      narrationProse:
+        "The Degen does not give. He brokers, he defers, he extends credit at terms that cost more than a fee would have, but he does not give. Yet the ledger says 'fee deferred' with no deferral period — a marker for a debt the Degen has no intention of collecting in the usual currency. And he is sparring with Jericho personally, which he does not do. The Degen is paying the cost of the training himself, in his own hours, against an asset he intends to call in elsewhere. Jericho is being trained for a job the Degen has already taken a contract on.",
+    },
+    {
+      id: "jericho.e1.d.callsign_meets_aftermath" as DeductionId,
+      clueA: "jericho.e1.iron_lion_callsign_history" as ClueId,
+      clueB: "jericho.e1.akai_shi_aftermath" as ClueId,
+      result: "partial",
+      narrationId: "jericho.e1.n.the_imprint_recognises",
+      narrationProse:
+        "The Iron Lion callsign carries a Lionism imprint from the pre-Fall holder. The Degen witnessed Jericho's killing of Akai Shi — a mercy killing under contested doctrine, signed by the Degen within the hour. The Degen recruited Jericho seventy-two hours later. The pattern says: the Degen tested Jericho against the imprint's compatibility and the test passed. We do not yet know whether Jericho's grief is a feature or a bug in that compatibility. We will find out.",
+    },
+    {
+      id: "jericho.e1.d.false_lead_lionism_recruitment" as DeductionId,
+      clueA: "jericho.e1.akai_shi_aftermath" as ClueId,
+      clueB: "jericho.e1.degens_ledger" as ClueId,
+      result: "false_lead_named",
+      narrationId: "jericho.e1.n.not_a_standard_lionism_recruitment",
+      narrationProse:
+        "Reading the Akai Shi killing and the deferred-fee entry as a standard Lionism recruitment is the obvious move and the wrong one. Lionism recruits on character, not on a single act. The Degen is not a Lionism recruiter — he is a placement broker, and he places Lions at premium rates. Whatever job he is positioning Jericho for is not a Lionism job. The Lions are being routed through him to a destination that is not in Lionism's catalogue.",
+    },
+  ],
+  choices: [
+    {
+      id: "jericho.e1.c.ask_jericho_directly" as ChoiceId,
+      label: "Ask Jericho directly about the Degen's interest in him.",
+      weight: "direct",
+    },
+    {
+      id: "jericho.e1.c.ask_the_degen" as ChoiceId,
+      label: "Ask the Degen about Jericho.",
+      weight: "broker_facing",
+    },
+    {
+      id: "jericho.e1.c.watch_in_silence" as ChoiceId,
+      label: "Watch the training without intervening — let the contract reveal itself.",
+      weight: "patient",
+    },
+  ],
+  contentBundle: {
+    songId: "album1.t10", /* "Inner Circle" — Dischordian Logic Act 1 */
+    slideshowId: "album1.t10",
+    loredexUnlocks: [
+      "entity_jericho_jones",
+      "concept_iron_lion_callsign",
+      "entity_degen",
+      "concept_heart_of_time",
+    ],
+    conspiracyDiscoveries: [
+      "jericho_jones",
+      "iron_lion_callsign",
+      "degen_ledger",
+      "akai_shi_aftermath",
+    ],
+    dropAt: "episode_close",
+  },
+};
+
+/* ─── JERICHO JONES ARC ─── */
+
+const jerichoSuspects: ReadonlyArray<{
+  id: SuspectId;
+  name: string;
+  type: string;
+  relations: ReadonlyArray<{ to: SuspectId; relation: string }>;
+}> = [
+  {
+    id: "suspect.jericho_jones" as SuspectId,
+    name: "Jericho Jones",
+    type: "character",
+    relations: [
+      { to: "suspect.iron_lion_callsign" as SuspectId, relation: "succession" },
+      { to: "suspect.degen" as SuspectId, relation: "trained-by" },
+      { to: "suspect.akai_shi" as SuspectId, relation: "killed" },
+    ],
+  },
+  {
+    id: "suspect.iron_lion_callsign" as SuspectId,
+    name: "The Iron Lion Callsign",
+    type: "concept",
+    relations: [
+      { to: "suspect.akai_shi" as SuspectId, relation: "imprint-resonance" },
+    ],
+  },
+  {
+    id: "suspect.degen" as SuspectId,
+    name: "The Degen",
+    type: "character",
+    relations: [
+      { to: "suspect.jericho_jones" as SuspectId, relation: "placement-broker-for" },
+    ],
+  },
+  {
+    id: "suspect.akai_shi" as SuspectId,
+    name: "Akai Shi",
+    type: "character",
+    relations: [],
+  },
+];
+
+const jerichoLenses = [
+  { id: LENS_INSURGENCY, name: "Insurgency", category: "faction" },
+  { id: LENS_HIERARCHY,  name: "Hierarchy",  category: "faction" },
+  { id: LENS_THALORIA,   name: "Thaloria",   category: "faction" },
+  { id: LENS_QUARCHON,   name: "Quarchon",   category: "faction" },
+  { id: LENS_DREAMER,    name: "Dreamer",    category: "faction" },
+  { id: LENS_NEUTRAL,    name: "Neutral",    category: "faction" },
+] as const;
+
+const JERICHO_JONES_MYSTERY: MysteryDefinition = {
+  id: "mystery.jericho_jones" as MysteryId,
+  arcId: ARC_JERICHO_JONES,
+  title: "The Iron Lion Imprint",
+  summary:
+    "Jericho Jones is being trained as the new Iron Lion under the Degen's mediation on the Heart of Time, and the pre-Fall Iron Lion's consciousness-imprint is awakening in him while he trains. Investigate why the Degen — who never gives anything away — is giving Jericho the most expensive item in his catalogue.",
+  npcId: "jericho_jones",
+  episodes: [jerichoE1],
+  suspects: jerichoSuspects,
+  lenses: jerichoLenses,
+};
+
 /* ─── REGISTRY ─── */
 
 /** Every authored mystery in the saga. The runtime reads against
@@ -692,6 +865,7 @@ const WRAITH_CALDER_MYSTERY: MysteryDefinition = {
  *  episodeMysteries.test.ts validity probe — see §10). */
 export const MYSTERY_DEFINITIONS: ReadonlyArray<MysteryDefinition> = [
   WRAITH_CALDER_MYSTERY,
+  JERICHO_JONES_MYSTERY,
 ];
 
 /** Find a mystery by id. Returns null when not authored — the
