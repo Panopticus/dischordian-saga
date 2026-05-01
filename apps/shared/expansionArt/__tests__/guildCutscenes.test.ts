@@ -211,16 +211,18 @@ describe("cutscene-trigger helpers", () => {
     expect(signatureCutsceneFor("warlord", true)).toBeNull();
   });
 
-  it("cinematicForCardPlayed returns the correct trigger for the seeded entry", () => {
-    const trigger = cinematicForCardPlayed("s1_pack2_thought_virus_quarantine_field");
-    expect(trigger).toEqual({
+  it("cinematicForCardPlayed returns the right trigger for both Greenshaw variants", () => {
+    expect(cinematicForCardPlayed("s2_professors_greenshaw_quarantine")).toEqual({
+      csId: "cs_sig_8_light",
+      voLineId: "greenshaw_quarantine_001",
+    });
+    expect(cinematicForCardPlayed("s2_professors_greenshaw_thought_virus")).toEqual({
       csId: "cs_sig_8_dark",
       voLineId: "greenshaw_virus_001",
     });
-    // Round-trip via the registry entry too.
-    const entry = getProfessorSignatureEntry("s1_pack2_thought_virus_quarantine_field");
+    const entry = getProfessorSignatureEntry("s2_professors_greenshaw_thought_virus");
     expect(entry).toEqual({
-      cardDefId: "s1_pack2_thought_virus_quarantine_field",
+      cardDefId: "s2_professors_greenshaw_thought_virus",
       professorId: "greenshaw",
       isCorrupted: true,
     });
@@ -229,15 +231,27 @@ describe("cutscene-trigger helpers", () => {
   it("cinematicForCardPlayed returns null for unregistered cards", () => {
     expect(cinematicForCardPlayed("s1_char_001_some_unit")).toBeNull();
     expect(cinematicForCardPlayed("")).toBeNull();
+    // The old s1_pack2 thought-virus unit is no longer wired — the
+    // proper s2_professors signature spell took its place.
+    expect(cinematicForCardPlayed("s1_pack2_thought_virus_quarantine_field")).toBeNull();
   });
 
-  it("PROFESSOR_SIGNATURE_CARDS entries all resolve through cinematicForCardPlayed", () => {
+  it("PROFESSOR_SIGNATURE_CARDS covers all 12 Professors × light + dark = 24 entries", () => {
+    expect(PROFESSOR_SIGNATURE_CARDS.length).toBe(24);
     expect(PROFESSOR_SIGNATURE_CARDS.length).toBe(PROFESSOR_SIGNATURE_CARD_TOTAL);
+    const byProfessor = new Map<string, Set<boolean>>();
     for (const entry of PROFESSOR_SIGNATURE_CARDS) {
       const trigger = cinematicForCardPlayed(entry.cardDefId);
       expect(trigger).not.toBeNull();
       expect(trigger?.csId.startsWith("cs_sig_")).toBe(true);
       expect(trigger?.csId.endsWith(entry.isCorrupted ? "_dark" : "_light")).toBe(true);
+      const variants = byProfessor.get(entry.professorId) ?? new Set<boolean>();
+      variants.add(entry.isCorrupted);
+      byProfessor.set(entry.professorId, variants);
+    }
+    expect(byProfessor.size).toBe(12);
+    for (const [, variants] of byProfessor) {
+      expect(variants.size).toBe(2); // both light + dark covered
     }
   });
 

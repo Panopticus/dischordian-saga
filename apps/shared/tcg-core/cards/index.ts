@@ -495,6 +495,9 @@ import { S2_HIERARCHY_SPECIAL_EDITIONS } from "./definitions/s2_hierarchy/specia
 /* ─── Pack 2 base-set net-new (Phase D2) ─── */
 import { ALL_S1_PACK2_CARDS } from "./definitions/s1_pack2";
 
+/* ─── Mechronis Professor signature spells (12 × light/dark = 24) ─── */
+import { S2_PROFESSOR_SIGNATURE_CARDS } from "./definitions/s2_professors";
+
 export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   gen_antiquarian,
   s1_char_018_the_antiquarian,
@@ -965,4 +968,6 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   ...S2_HIERARCHY_SPECIAL_EDITIONS,
   /* Pack 2 base-set net-new (530 cards across 13 categories) */
   ...ALL_S1_PACK2_CARDS,
+  /* Mechronis Professor signature spells (24 cards) */
+  ...S2_PROFESSOR_SIGNATURE_CARDS,
 ]);
