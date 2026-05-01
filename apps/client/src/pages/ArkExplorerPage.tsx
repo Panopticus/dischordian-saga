@@ -90,6 +90,7 @@ import NarrativeTrigger from "@/components/NarrativeTrigger";
 import InlineShipMap from "@/components/InlineShipMap";
 import { getTutorialById, type TutorialReward } from "@/data/loreTutorials";
 import { crossfadeToRoom } from "@/lib/ambientSounds";
+import { trpc } from "@/lib/trpc";
 
 const ELARA_PORTRAIT = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/elara_portrait_speaking-J3GJUrfnNKzSBrxY2PfWrL.webp";
 
@@ -870,6 +871,14 @@ export default function ArkExplorerPage() {
   const humanVo = useHumanVO();
   const elaraSpeakingNow = elaraVo.speaking;
   const humanSpeakingNow = humanVo.speaking;
+
+  // Mystery Engine — credits a verb response's `mysteryBinding`
+  // clue ids to the active case via mysteries.recordEvidence.
+  // Idempotent on the server (per-(user, mystery, clue) unique
+  // index absorbs duplicates), so firing without an active case
+  // is harmless. Per docs/design/STREAMED_PRISM_MYSTERY_ENGINE.md
+  // §10 + the MysteryBinding shape in roomMysteries/_template.ts.
+  const recordMysteryEvidence = trpc.mysteries.recordEvidence.useMutation();
 
   /**
    * Single entry point for every Elara narration that fires from the
@@ -1729,6 +1738,21 @@ export default function ArkExplorerPage() {
             setSelectedItem(mystery.grantsInventory);
           }
           if (mystery.setsFlag) setNarrativeFlag(mystery.setsFlag);
+          if (mystery.mysteryBinding) {
+            // Credit the bound clue ids to the player's active
+            // mystery case. Fire-and-forget — the server's per-
+            // (user, mystery, clue) unique index makes this
+            // idempotent, so a duplicate click on the same hotspot
+            // is a no-op on the DB.
+            for (const clueId of mystery.mysteryBinding.cluesFound) {
+              recordMysteryEvidence.mutate({
+                mysteryId: mystery.mysteryBinding.mysteryId,
+                clueId,
+                foundInRoom: roomId,
+                foundViaVerb: verb,
+              });
+            }
+          }
           if (mystery.consumesHotspot) {
             // One-shot pickup — remove the hotspot from the scene so
             // the data-slate / locket don't keep glowing after they're
