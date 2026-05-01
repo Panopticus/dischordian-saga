@@ -137,3 +137,113 @@ export function getVoLine(voLineId: string): GuildCutsceneVoPair | undefined {
 export function isResolvableCsId(csId: string): boolean {
   return Boolean(guildCutsceneById(csId));
 }
+
+/* ═══════════════════════════════════════════════════════
+   Cutscene-trigger helpers — each wraps the cs_id + voLineId
+   shape that <GuildCutscenePlayer> consumes. Server routers
+   and engine event-emitters can drop these into their return
+   payloads so the client triggers the right cutscene without
+   re-deriving the id from event metadata.
+   ═══════════════════════════════════════════════════════ */
+
+/** A pair of (csId, voLineId) that the client can render
+ *  directly via `<GuildCutscenePlayer csId voLineId />`. */
+export interface CutsceneTrigger {
+  csId: string;
+  /** Specific paired VO line. Omitted when the cutscene has 0 or 1
+   *  paired lines and no disambiguation is needed. */
+  voLineId?: string;
+}
+
+/** F.5.1 hall-tier-up trigger. `newTier` is the tier the guild just
+ *  reached (2..5; tier 1 → tier 2 plays elara_tier_2_001, etc.). */
+export function tierUpCutscene(newTier: 2 | 3 | 4 | 5): CutsceneTrigger {
+  return {
+    csId: "cs_hall_tier_up",
+    voLineId: `elara_tier_${newTier}_001`,
+  };
+}
+
+/** F.5.3 signature-room-unlock trigger. Recognises the two
+ *  bible-canonical signature rooms; falls back to the generic
+ *  cs_room_unlock for non-signature rooms. Returns null if the
+ *  room id is unknown — caller decides whether to no-op or treat
+ *  that as a programming error. */
+export function roomUnlockCutscene(roomId: string): CutsceneTrigger | null {
+  switch (roomId) {
+    case "oracle_pool":
+      return {
+        csId: "cs_signature_room_unlock_oracle_pool",
+        voLineId: "vex_oracle_001",
+      };
+    case "portal_chamber":
+      return {
+        csId: "cs_signature_room_unlock_portal_chamber",
+        voLineId: "architect_portal_001",
+      };
+    case "main_hall":
+    case "mess_hall":
+    case "war_room":
+    case "training_ground":
+    case "armory_vault":
+    case "research_wing":
+    case "trophy_gallery":
+    case "guild_vault":
+    case "guild_shop":
+    case "diplomatic_chamber":
+      return { csId: "cs_room_unlock" };
+    default:
+      return null;
+  }
+}
+
+/** F.4 signature-ability cast trigger. `professorId` matches the
+ *  speaker key in guild-cutscene-vo-lines.json (kanevas | aoki | … |
+ *  proctor); `isCorrupted` selects the dark variant. Returns null
+ *  for any non-Professor caster (the engine fires a normal cast
+ *  effect with no cinematic). */
+const PROFESSOR_TO_SIG_N: Record<string, number> = {
+  kanevas: 1, aoki: 2, halverez: 3, orphic: 4, mireille: 5, kasra: 6,
+  vellis: 7, greenshaw: 8, vex: 9, vasara: 10, vent: 11, proctor: 12,
+};
+
+export function signatureCutsceneFor(
+  professorId: string,
+  isCorrupted: boolean,
+): CutsceneTrigger | null {
+  const n = PROFESSOR_TO_SIG_N[professorId];
+  if (!n) return null;
+  const variant = isCorrupted ? "dark" : "light";
+  // The voLineId is always the first (and only) paired line for
+  // cs_sig_N_<variant>. Look it up so a future re-author of the
+  // lines file doesn't desync this helper.
+  const csId = `cs_sig_${n}_${variant}`;
+  const lines = getCsVoLines(csId);
+  return { csId, voLineId: lines[0]?.id };
+}
+
+/** F.2 / F.3 narrative-event trigger. `eventType` is one of the
+ *  bible-canonical event names emitted by the guildWars router. */
+export type GuildWarEventType =
+  | "contract_unlock"
+  | "contract_complete"
+  | "house_cup_weekly_reset"
+  | "donation_milestone"
+  | "war_declared"
+  | "war_first_blood"
+  | "war_mvp_crowned"
+  | "war_victory"
+  | "war_defeat"
+  | "alliance_war_placement_lock"
+  | "thought_virus_reinfection"
+  | "epoch_change_privacy"
+  | "epoch_change_prophecy"
+  | "epoch_change_insurgency"
+  | "epoch_change_revelation"
+  | "epoch_change_fall";
+
+export function warEventCutscene(eventType: GuildWarEventType): CutsceneTrigger {
+  const csId = `cs_${eventType}`;
+  const lines = getCsVoLines(csId);
+  return { csId, voLineId: lines[0]?.id };
+}

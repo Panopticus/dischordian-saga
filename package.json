@@ -54,6 +54,7 @@
     "assets:upload": "tsx apps/scripts/upload-public-to-s3.ts",
     "assets:upload-guild-cutscenes:dry": "tsx apps/scripts/upload-guild-cutscenes.ts --dry-run",
     "assets:upload-guild-cutscenes": "tsx apps/scripts/upload-guild-cutscenes.ts",
+    "vo:qa-guild-cutscenes": "tsx apps/scripts/qa-guild-cutscene-vo.ts",
     "assets:rewrite:dry": "tsx apps/scripts/rewrite-asset-refs.ts",
     "assets:rewrite:apply": "tsx apps/scripts/rewrite-asset-refs.ts --apply",
     "assets:rewrite:apply-jsx": "tsx apps/scripts/rewrite-asset-refs.ts --apply-jsx",

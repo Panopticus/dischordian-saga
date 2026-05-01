@@ -15,6 +15,10 @@ import {
   getVoLine,
   getVoLineCsId,
   isResolvableCsId,
+  roomUnlockCutscene,
+  signatureCutsceneFor,
+  tierUpCutscene,
+  warEventCutscene,
 } from "../guildCutsceneVoMap";
 
 const CDN_PREFIX = "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/";
@@ -144,6 +148,79 @@ describe("guildCutsceneVoMap — VO ↔ cutscene pairing", () => {
     // and the three Mechronis Professors most likely to be missed.
     for (const k of ["chorus", "between", "warden", "politician", "kanevas", "vellis", "proctor"]) {
       expect(speakers.has(k)).toBe(true);
+    }
+  });
+});
+
+describe("cutscene-trigger helpers", () => {
+  it("tierUpCutscene maps tiers 2..5 to the right elara line", () => {
+    expect(tierUpCutscene(2)).toEqual({
+      csId: "cs_hall_tier_up",
+      voLineId: "elara_tier_2_001",
+    });
+    expect(tierUpCutscene(5).voLineId).toBe("elara_tier_5_001");
+    // Every returned voLineId resolves back to a real pair.
+    for (const tier of [2, 3, 4, 5] as const) {
+      const t = tierUpCutscene(tier);
+      expect(getVoLine(t.voLineId!)).toBeDefined();
+    }
+  });
+
+  it("roomUnlockCutscene returns the signature ids for special rooms", () => {
+    expect(roomUnlockCutscene("oracle_pool")).toEqual({
+      csId: "cs_signature_room_unlock_oracle_pool",
+      voLineId: "vex_oracle_001",
+    });
+    expect(roomUnlockCutscene("portal_chamber")).toEqual({
+      csId: "cs_signature_room_unlock_portal_chamber",
+      voLineId: "architect_portal_001",
+    });
+  });
+
+  it("roomUnlockCutscene falls back to generic for non-signature rooms", () => {
+    expect(roomUnlockCutscene("war_room")).toEqual({ csId: "cs_room_unlock" });
+    expect(roomUnlockCutscene("training_ground")).toEqual({ csId: "cs_room_unlock" });
+    expect(roomUnlockCutscene("trophy_gallery")).toEqual({ csId: "cs_room_unlock" });
+  });
+
+  it("roomUnlockCutscene returns null for unknown rooms", () => {
+    expect(roomUnlockCutscene("not_a_room")).toBeNull();
+  });
+
+  it("signatureCutsceneFor maps each Professor to their light + dark cs_sig_N", () => {
+    expect(signatureCutsceneFor("kanevas", false)).toEqual({
+      csId: "cs_sig_1_light",
+      voLineId: "kanevas_harmonize_001",
+    });
+    expect(signatureCutsceneFor("kanevas", true)).toEqual({
+      csId: "cs_sig_1_dark",
+      voLineId: "kanevas_dissonance_001",
+    });
+    expect(signatureCutsceneFor("proctor", false)?.csId).toBe("cs_sig_12_light");
+    expect(signatureCutsceneFor("proctor", true)?.csId).toBe("cs_sig_12_dark");
+  });
+
+  it("signatureCutsceneFor returns null for non-Professor casters", () => {
+    expect(signatureCutsceneFor("agent_zero", false)).toBeNull();
+    expect(signatureCutsceneFor("warlord", true)).toBeNull();
+  });
+
+  it("warEventCutscene resolves each canonical war/contract event to a paired cs_id", () => {
+    expect(warEventCutscene("war_declared").csId).toBe("cs_war_declared");
+    expect(warEventCutscene("war_victory").csId).toBe("cs_war_victory");
+    expect(warEventCutscene("contract_unlock").csId).toBe("cs_contract_unlock");
+    expect(warEventCutscene("epoch_change_revelation").csId).toBe("cs_epoch_change_revelation");
+    // Every returned csId resolves to a real registry entry.
+    const events = [
+      "contract_unlock", "contract_complete", "house_cup_weekly_reset",
+      "donation_milestone", "war_declared", "war_first_blood", "war_mvp_crowned",
+      "war_victory", "war_defeat", "alliance_war_placement_lock",
+      "thought_virus_reinfection", "epoch_change_privacy", "epoch_change_prophecy",
+      "epoch_change_insurgency", "epoch_change_revelation", "epoch_change_fall",
+    ] as const;
+    for (const e of events) {
+      const t = warEventCutscene(e);
+      expect(isResolvableCsId(t.csId)).toBe(true);
     }
   });
 });

@@ -16,6 +16,7 @@ import {
 import { fetchCitizenData, fetchPotentialNftData, resolveGuildWarBonuses } from "../traitResolver";
 import { getConsequences } from "../services/universeConsequences";
 import { pressureService } from "../services/pressureService";
+import { warEventCutscene } from "@shared/expansionArt/guildCutsceneVoMap";
 
 /** Territory names tied to Dischordian Saga lore */
 const TERRITORIES = [
@@ -330,7 +331,13 @@ export const guildWarsRouter = router({
         status: "active",
       });
 
-      return { success: true, warId: Number(result[0].insertId) };
+      return {
+        success: true,
+        warId: Number(result[0].insertId),
+        // F.3.1 cinematic — clients render <GuildCutscenePlayer csId
+        // voLineId /> from this trigger when the war banner mounts.
+        cutscene: warEventCutscene("war_declared"),
+      };
     }),
 
   /** Resolve an ended war — distribute prizes to winning faction's guilds */
@@ -454,6 +461,12 @@ export const guildWarsRouter = router({
         distributed: war[0].prizePoolDream,
         factionShiftPoints,
         factionShiftMessage: `Your guild's victory shifted the ${winnerFaction} faction balance by +${factionShiftPoints}`,
+        // F.3.4 / F.3.5 cinematic — the resolver doesn't know
+        // whether the *caller* is on the winning or losing side, so
+        // it returns the global victory cutscene; the client decides
+        // whether to render this or swap to cs_war_defeat by checking
+        // the caller's guild membership against winnerFaction.
+        cutscene: warEventCutscene("war_victory"),
       };
     }),
 
