@@ -106,7 +106,10 @@ const wraithE1: EpisodeDefinition = {
       clueB: "wraith.e1.hierophant_ceremony" as ClueId,
       result: "correct",
       narrationId: "wraith.e1.n.he_remembers_himself",
-      unlocksEpisode: "wraith.e2" as EpisodeId,
+      // unlocksEpisode is intentionally absent until Wraith E2 is
+      // authored. When E2 lands, set this back to "wraith.e2" — the
+      // episodeMysteries.test.ts integrity probe enforces that
+      // every authored unlocksEpisode references an existing episode.
     },
     {
       id: "wraith.e1.d.false_lead_demon_pact" as DeductionId,
