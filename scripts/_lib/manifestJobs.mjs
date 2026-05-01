@@ -24,6 +24,14 @@ import {
   VFX_CLIPS,
 } from "../../apps/shared/expansionArt/cinematicsManifest.ts";
 import { ALBUM1_TRACKS } from "../../apps/shared/expansionArt/album1Slideshows.ts";
+import { ALBUM2_TRACKS } from "../../apps/shared/expansionArt/album2Slideshows.ts";
+import { ALBUM3_TRACKS } from "../../apps/shared/expansionArt/album3Slideshows.ts";
+import { ALBUM4_TRACKS } from "../../apps/shared/expansionArt/album4Slideshows.ts";
+import {
+  ALBUM5_TRACKS,
+  ALBUM5_NARRATOR_PORTRAITS,
+  ALBUM5_DIALOG_BACKGROUNDS,
+} from "../../apps/shared/expansionArt/album5Slideshows.ts";
 
 const TE_CATEGORY_DIR = {
   wonder: "wonders",
@@ -80,6 +88,59 @@ export function collectAllJobs(repoRoot) {
         relPath: rel,
       });
     }
+  }
+  for (const t of ALBUM2_TRACKS) {
+    for (const rel of t.frameRelPaths) {
+      jobs.push({
+        source: "album2-slideshows",
+        id: `${t.id}/${basename(rel)}`,
+        relPath: rel,
+      });
+    }
+  }
+  for (const t of ALBUM3_TRACKS) {
+    for (const rel of t.frameRelPaths) {
+      jobs.push({
+        source: "album3-slideshows",
+        id: `${t.id}/${basename(rel)}`,
+        relPath: rel,
+      });
+    }
+  }
+  for (const t of ALBUM4_TRACKS) {
+    for (const rel of t.frameRelPaths) {
+      jobs.push({
+        source: "album4-slideshows",
+        id: `${t.id}/${basename(rel)}`,
+        relPath: rel,
+      });
+    }
+  }
+  for (const t of ALBUM5_TRACKS) {
+    for (const rel of t.frameRelPaths) {
+      jobs.push({
+        source: "album5-slideshows",
+        id: `${t.id}/${basename(rel)}`,
+        relPath: rel,
+      });
+    }
+  }
+  // Album 5's two auxiliary asset catalogs — narrator portraits and
+  // dialog backgrounds — also need anonymous-HEAD coverage so the
+  // dialog composite system can verify its full asset set is live.
+  for (const p of ALBUM5_NARRATOR_PORTRAITS) {
+    jobs.push({
+      source: "album5-narrators",
+      id: p.id,
+      relPath: p.relPath,
+    });
+  }
+  for (const b of ALBUM5_DIALOG_BACKGROUNDS) {
+    jobs.push({
+      source: "album5-backgrounds",
+      id: b.id,
+      relPath: b.relPath,
+    });
   }
 
   // preludeAct1Deliverables.ts uses the @/lib/assetUrl vite-alias import,
