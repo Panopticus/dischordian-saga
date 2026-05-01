@@ -232,6 +232,14 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
   const publicWitnessBalanceCapturedRef = useRef(false);
   // Audit 3B — card-battle quest progression. FightPage already
   // fires fight-flavor quests; DuelystGameUI was the card-battle gap.
+  // Dreamer-awareness silent counter (D1). When the Seer-Prophecy
+  // "defeated" outcome lands — the only path that surfaces the
+  // Burnt Card — fire the BURNT_CARD_WITNESSED tag (+5 weight, the
+  // rare-discovery rate) via this mutation. Idempotent at the
+  // service layer; the `useEffect` below calls it.
+  const reportBurntCardWitnessed =
+    trpc.dreamerAwareness.reportBurntCardWitnessed.useMutation();
+
   // PR — quest-complete toast: when the server reports `completed:
   // true` on an updateProgress resolution, surface it so the player
   // knows their card-battle win just finished a daily/weekly.
@@ -811,10 +819,20 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
     });
     if (outcome) {
       setNarrativeFlag(SEER_OUTCOME_FLAGS[outcome], true);
+      // Dreamer-awareness silent counter (D1). The "defeated"
+      // outcome is the only path that surfaces the Burnt Card —
+      // the canon-hidden winnable path. Reach it once and the
+      // Dreamer's network notices. Idempotent at the service
+      // layer (BURNT_CARD_WITNESSED fires AT MOST ONCE per user)
+      // so retries are inert. Fire-and-forget; trigger failures
+      // are silent.
+      if (outcome === "defeated") {
+        reportBurntCardWitnessed.mutate(undefined as never);
+      }
     }
     setNarrativeFlag(SEER_STAFF_WITNESSED_FLAG, true);
     setNarrativeFlag(ACT1_CYCLE_B_COMPLETE_FLAG, true);
-  }, [gameState, setNarrativeFlag]);
+  }, [gameState, setNarrativeFlag, reportBurntCardWitnessed]);
 
   // §4.9 match-start screen-reader announcement (spec §6.3). Fires
   // exactly once per playthrough when seerProphecy first appears on
