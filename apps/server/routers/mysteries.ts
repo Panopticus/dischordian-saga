@@ -13,7 +13,11 @@
 import { z } from "zod";
 import { protectedProcedure, router } from "../_core/trpc";
 import { gradeDeduction, mysteryService } from "../services/mysteryService";
-import { lookupEpisode, lookupMystery } from "../services/mysteryRegistry";
+import {
+  listDynamicMysteries,
+  lookupEpisode,
+  lookupMystery,
+} from "../services/mysteryRegistry";
 import { MYSTERY_DEFINITIONS } from "@shared/episodeMysteries";
 import type {
   ArcId,
@@ -50,6 +54,25 @@ export const mysteriesRouter = router({
       title: m.title,
       summary: m.summary,
       episodeCount: m.episodes.length,
+    }));
+  }),
+
+  /**
+   * Community-spawned investigations — vote-closure mysteries
+   * compiled by the cron and registered in the dynamic registry.
+   * Distinct from `listAvailable` (authored arcs) so the UI can
+   * render community cases visually distinct from the canonical
+   * NPC arcs. Lives in memory; survives restarts via the
+   * mysterySeeds bootstrap (per docs §10).
+   */
+  listCommunityCases: protectedProcedure.query(async () => {
+    return listDynamicMysteries().map((m) => ({
+      id: m.id,
+      arcId: m.arcId,
+      title: m.title,
+      summary: m.summary,
+      episodeCount: m.episodes.length,
+      seedSource: m.seed?.source ?? null,
     }));
   }),
 

@@ -3,6 +3,7 @@ import { afterEach, describe, expect, it } from "vitest";
 import {
   clearDynamicMysteryRegistry,
   dynamicMysteryCount,
+  listDynamicMysteries,
   lookupEpisode,
   lookupMystery,
   registerCompiledMystery,
@@ -97,6 +98,31 @@ describe("mysteryRegistry — count + clear", () => {
     registerCompiledMystery(def);
     registerCompiledMystery(def);
     expect(dynamicMysteryCount()).toBe(1);
+  });
+});
+
+describe("mysteryRegistry — listDynamicMysteries", () => {
+  it("returns an empty array when no dynamic mysteries are registered", () => {
+    expect(listDynamicMysteries()).toEqual([]);
+  });
+
+  it("returns each registered dynamic mystery in insertion order", () => {
+    const seedA = seedFromVoteClosure("ap_v1", "a", TEMPLATE_VOTE_RESOLUTION_SHORT);
+    const seedB = seedFromVoteClosure("ap_v2", "b", TEMPLATE_VOTE_RESOLUTION_SHORT);
+    const defA = compileMysterySeed(seedA)!;
+    const defB = compileMysterySeed(seedB)!;
+    registerCompiledMystery(defA);
+    registerCompiledMystery(defB);
+
+    const list = listDynamicMysteries();
+    expect(list.length).toBe(2);
+    expect(list[0].id).toBe(defA.id);
+    expect(list[1].id).toBe(defB.id);
+  });
+
+  it("does NOT include static authored mysteries", () => {
+    const list = listDynamicMysteries();
+    expect(list.find((m) => m.id === ("mystery.wraith_calder" as MysteryId))).toBeUndefined();
   });
 });
 

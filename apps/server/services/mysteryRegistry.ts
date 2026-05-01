@@ -48,6 +48,14 @@ export function dynamicMysteryCount(): number {
   return dynamicMysteries.size;
 }
 
+/** Snapshot of every compiled-from-seed mystery currently in
+ *  the dynamic registry, in insertion order. The router exposes
+ *  this through `listCommunityCases` so the player can see
+ *  community-spawned investigations distinct from authored arcs. */
+export function listDynamicMysteries(): ReadonlyArray<MysteryDefinition> {
+  return Array.from(dynamicMysteries.values());
+}
+
 /** Composite mystery lookup. Checks the static authored registry
  *  first (so authored arcs are stable), then falls back to the
  *  dynamic registry. Returns null when neither has the id.

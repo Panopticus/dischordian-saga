@@ -15,7 +15,7 @@
         (CADES + Wraith Calder ship today)
    ═══════════════════════════════════════════════════════ */
 
-import { ChevronLeft, Folder, FolderOpen } from "lucide-react";
+import { ChevronLeft, Folder, FolderOpen, Users } from "lucide-react";
 import { Link } from "wouter";
 import { trpc } from "@/lib/trpc";
 import { useAuth } from "@/_core/hooks/useAuth";
@@ -30,6 +30,9 @@ export default function CasesPage() {
     enabled: isAuthenticated,
   });
   const available = trpc.mysteries.listAvailable.useQuery(undefined, {
+    enabled: isAuthenticated,
+  });
+  const community = trpc.mysteries.listCommunityCases.useQuery(undefined, {
     enabled: isAuthenticated,
   });
   const openCase = trpc.mysteries.openCase.useMutation({
@@ -137,6 +140,66 @@ export default function CasesPage() {
               </p>
             )}
           </div>
+        </section>
+
+        {/* Community-spawned investigations — vote closures */}
+        <section className="mb-6">
+          <p className="font-mono text-[9px] tracking-[0.3em] mb-3 flex items-center gap-2" style={{ color: "var(--energy-accent)" }}>
+            <Users size={11} />
+            COMMUNITY INVESTIGATIONS
+          </p>
+          {community.data && community.data.length > 0 ? (
+            <div className="space-y-2">
+              {community.data.map((m) => {
+                const isActive = activeCase.data?.progress?.mysteryId === m.id;
+                return (
+                  <div
+                    key={m.id}
+                    className="flex items-start gap-3 p-3 rounded-lg border"
+                    style={{
+                      background: isActive ? "color-mix(in oklch, var(--energy-accent) 6%, transparent)" : "rgba(255, 255, 255, 0.02)",
+                      borderColor: isActive ? "color-mix(in oklch, var(--energy-accent) 50%, transparent)" : "rgba(255, 255, 255, 0.08)",
+                    }}
+                  >
+                    <Users size={14} className="mt-0.5 shrink-0" style={{ color: "var(--energy-accent)" }} />
+                    <div className="flex-1 min-w-0">
+                      <p className="font-mono text-[11px] font-bold" style={{ color: isActive ? "var(--energy-accent)" : "#e2e8f0" }}>
+                        {m.title}
+                      </p>
+                      <p className="font-mono text-[10px] leading-relaxed mt-1" style={{ color: "rgba(226, 232, 240, 0.55)" }}>
+                        {m.summary}
+                      </p>
+                      <p className="font-mono text-[9px] mt-2" style={{ color: "rgba(226, 232, 240, 0.4)" }}>
+                        {m.episodeCount} episode{m.episodeCount === 1 ? "" : "s"}
+                        {m.seedSource && ` · spawned by ${m.seedSource.replace(/_/g, " ")}`}
+                      </p>
+                    </div>
+                    {!isActive && (
+                      <button
+                        type="button"
+                        disabled={openCase.isPending}
+                        onClick={() => openCase.mutate({ mysteryId: m.id, lensId: "lens.neutral" })}
+                        className="font-mono text-[10px] tracking-widest px-3 py-1.5 rounded-md transition-colors"
+                        style={{
+                          background: "color-mix(in oklch, var(--energy-accent) 18%, transparent)",
+                          border: "1px solid color-mix(in oklch, var(--energy-accent) 50%, transparent)",
+                          color: "var(--energy-accent)",
+                          cursor: openCase.isPending ? "wait" : "pointer",
+                          opacity: openCase.isPending ? 0.6 : 1,
+                        }}
+                      >
+                        OPEN
+                      </button>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <p className="font-mono text-[10px] italic" style={{ color: "rgba(226, 232, 240, 0.4)" }}>
+              No community-spawned cases yet. Vote closures generate investigations across the saga.
+            </p>
+          )}
         </section>
 
         {/* Deduction panel — visible only when a case is open */}
