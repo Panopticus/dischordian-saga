@@ -21,6 +21,7 @@ import {
 } from "@shared/conspiracyBoards/definitions";
 import { rollClueDrop, type DropSource } from "@shared/conspiracyBoards/clueDrops";
 import { awardEligibleTitles } from "./titleService";
+import { recordQuestEvent } from "./guildQuestService";
 import { logger } from "../logger";
 
 /**
@@ -53,6 +54,11 @@ export async function dropClueFromEvent(
     if (guildId) {
       await addClueToGuild(guildId, userId, board.boardKey, clueKey);
     }
+  }
+  // Tier 4: clue collection counts toward "Whispers in the Vault".
+  if (advanced.length > 0) {
+    recordQuestEvent({ kind: "conspiracy_clue_collected", userId, clueKey })
+      .catch(() => {});
   }
   return { clueKey, boardsAdvanced: advanced };
 }
@@ -264,6 +270,9 @@ export async function attemptSolveForUser(
   }).catch((e) =>
     logger.warn("conspiracy_title_grant_failed", "conspiracyService", { userId, boardKey, error: String(e) }),
   );
+
+  // Tier 4: guild quest progression for "Solve the Cipher".
+  recordQuestEvent({ kind: "conspiracy_board_solved", userId, boardKey }).catch(() => {});
 
   return { solved: true, isFirstDiscoverer, serverWideRevealed };
 }

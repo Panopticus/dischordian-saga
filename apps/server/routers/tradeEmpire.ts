@@ -19,6 +19,9 @@ import { characterSheets, userProgress, dreamBalance } from "../../db/schema";
 import { eq, and, desc } from "drizzle-orm";
 import { ripple } from "../services/rippleEngine";
 import { awardFragments } from "../services/imprintService";
+import { recordQuestEvent } from "../services/guildQuestService";
+import { processClueDropEvent } from "../services/conspiracyService";
+import { awardEligibleTitles } from "../services/titleService";
 import type {
   CoverIdentityActivatedEvent,
   CoverIdentityBlownEvent,
@@ -723,6 +726,12 @@ export const tradeEmpireRouter = router({
 
       // Cross-system: feed Dead Man's Circuit "Kinetic Acquisition" side quest
       await ripple.emit("trade_run_complete", { userId: ctx.user.id, missionId: mission.id });
+
+      // Tier 4 quest progression + Tier 1 title nudge.
+      recordQuestEvent({ kind: "trade_mission_completed", userId: ctx.user.id }).catch(() => {});
+      // Tier 2B narrative-milestone clue drop on mission complete (lower rate).
+      processClueDropEvent(ctx.user.id, "narrative_milestone").catch(() => {});
+      awardEligibleTitles(ctx.user.id).catch(() => {});
 
       // Phase 2 — mission_outcome ripple. Per priority plan §Stage 1+
       // Phase 2 ripple emissions: previously silent at completeMission;

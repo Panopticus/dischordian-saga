@@ -603,6 +603,42 @@ export const towerDefenseRouter = router({
 
       await ripple.emit("defense_wave_complete", { userId: ctx.user.id, wave: stars });
 
+      // Tier 4 quest progression + Tier 1 title hooks + Tier 2B clue drops.
+      const { recordQuestEvent } = await import("../services/guildQuestService");
+      const { awardEligibleTitles } = await import("../services/titleService");
+      const { mirrorRating } = await import("../services/competitiveRatingsService");
+      if (stars >= 1) {
+        recordQuestEvent({ kind: "td_raid_won", userId: ctx.user.id }).catch(() => {});
+      }
+      // Defender survival (logged when their base holds against this raid).
+      if (defenderOwnerId && stars === 0) {
+        recordQuestEvent({ kind: "td_defense_held", userId: defenderOwnerId }).catch(() => {});
+      }
+      awardEligibleTitles(ctx.user.id, stars >= 1
+        ? { kind: "pvp_match_won", userId: ctx.user.id, gameType: "td_raid", newTier: 0, totalWins: 1 }
+        : { kind: "pvp_match_lost", userId: ctx.user.id, gameType: "td_raid" }
+      ).catch(() => {});
+      // Mirror raid trophies into competitive_ratings (gameType=td_raid).
+      try {
+        const tt = await db.select().from(raidTrophies).where(eq(raidTrophies.userId, ctx.user.id)).limit(1);
+        const trophies = tt[0]?.trophies ?? 0;
+        const elo = 1000 + Math.min(trophies, 2000);
+        const tier =
+          elo >= 2200 ? "grandmaster" :
+          elo >= 2000 ? "master" :
+          elo >= 1800 ? "diamond" :
+          elo >= 1600 ? "platinum" :
+          elo >= 1400 ? "gold" :
+          elo >= 1200 ? "silver" : "bronze";
+        mirrorRating({
+          userId: ctx.user.id,
+          gameType: "td_raid",
+          currentElo: elo,
+          rankTier: tier,
+          result: stars >= 1 ? { win: true } : { loss: true },
+        }).catch(() => {});
+      } catch {/* mirror is best-effort */}
+
       // Log the raid
       await db.insert(raidLogs).values({
         attackerId: ctx.user.id,

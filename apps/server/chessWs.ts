@@ -16,6 +16,7 @@ import { checkWsRateLimit, sendRateLimitError } from "./wsRateLimit";
 import { awardEligibleTitles, rankTierIndex } from "./services/titleService";
 import { mirrorRating } from "./services/competitiveRatingsService";
 import { processClueDropEvent } from "./services/conspiracyService";
+import { recordQuestEvent } from "./services/guildQuestService";
 import { recordMatchStart, recordMatchEnd } from "./matchLengthMonitor";
 import {
   pickMultiplayerEndLine,
@@ -568,6 +569,18 @@ async function endMatch(match: ActiveChessMatch, winnerId: number | null, reason
           // Tier 2B: roll a clue drop into Conspiracy Boards.
           processClueDropEvent(player.userId, won ? "pvp_chess_win" : "pvp_chess_loss")
             .catch(e => console.error("[ChessPvP] Clue drop error:", e));
+
+          // Tier 4: increment guild quest progress.
+          recordQuestEvent({ kind: "any_pvp_match", userId: player.userId }).catch(() => {});
+          if (won) {
+            recordQuestEvent({ kind: "chess_won", userId: player.userId }).catch(() => {});
+          }
+          recordQuestEvent({
+            kind: "member_reached_tier",
+            userId: player.userId,
+            gameType: "chess",
+            tier: rankTierIndex(getTier(newElo)),
+          }).catch(() => {});
         }
       }
     }

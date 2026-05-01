@@ -372,6 +372,15 @@ async function startServer() {
     // Run once on startup so the first expiry doesn't wait an hour
     runUniverseTick().catch(e => console.error("[LivingUniverse] initial tick error:", e));
 
+    // Tier 4 — Guild quest reset tick. Resets daily / weekly / seasonal
+    // quest progress rows that crossed their respective anchor.
+    // Idempotent on the resetAt comparison so frequent ticks are safe.
+    const { runQuestResetTick } = await import("../services/guildQuestService");
+    setInterval(() => {
+      runQuestResetTick().catch(e => console.error("[GuildQuests] tick error:", e));
+    }, ONE_HOUR_MS);
+    runQuestResetTick().catch(e => console.error("[GuildQuests] initial tick error:", e));
+
     // Dead Man's Circuit season tick — opens the in-window season,
     // advances the phase column as the 28-day window progresses, and
     // closes any season whose end date has passed. Safe to no-op

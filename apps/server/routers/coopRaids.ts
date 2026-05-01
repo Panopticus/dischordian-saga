@@ -21,6 +21,7 @@ import { checkFeatureFlag } from "../middleware/featureFlag";
 import { getConsequences } from "../services/universeConsequences";
 import { awardEligibleTitles } from "../services/titleService";
 import { processClueDropEvent } from "../services/conspiracyService";
+import { recordQuestEvent } from "../services/guildQuestService";
 import { createHash } from "crypto";
 
 export const coopRaidsRouter = router({
@@ -180,6 +181,10 @@ export const coopRaidsRouter = router({
           // Tier 2B: every contributor rolls a clue drop on raid clear.
           processClueDropEvent(c.userId, "coop_raid_clear")
             .catch(e => console.error("[CoopRaids] Clue drop error:", e));
+
+          // Tier 4: guild quest progression.
+          recordQuestEvent({ kind: "raid_cleared", userId: c.userId, bossKey: raid.bossKey })
+            .catch(() => {});
         }
       }
 
