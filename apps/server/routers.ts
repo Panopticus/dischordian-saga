@@ -115,6 +115,8 @@ import { arkThemesRouter } from "./routers/arkThemes";
 import { announcementsRouter } from "./routers/announcements";
 import { playerResetRouter } from "./routers/playerReset";
 import { engagementRouter } from "./routers/engagement";
+import { dreamerVisionsRouter } from "./routers/dreamerVisions";
+import { architectDossierRouter } from "./routers/architectDossier";
 
 export const appRouter = router({
   collection: collectionRouter,
@@ -222,6 +224,8 @@ export const appRouter = router({
   factions: factionsRouter,
   celebration: celebrationRouter,
   engagement: engagementRouter,
+  dreamerVisions: dreamerVisionsRouter,
+  architectDossier: architectDossierRouter,
   crossGameThreads: crossGameThreadsRouter,
   arkThemes: arkThemesRouter,
   announcements: announcementsRouter,

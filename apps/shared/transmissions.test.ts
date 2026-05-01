@@ -304,3 +304,40 @@ describe("transmissions — data integrity", () => {
     }
   });
 });
+
+/* ═══════════════════════════════════════════════════════
+   ARCHITECT TRANSMISSIONS (A1 first-contact calibration)
+   ═══════════════════════════════════════════════════════ */
+
+import { ARCHITECT_TRANSMISSIONS } from "./transmissions";
+
+describe("ARCHITECT_TRANSMISSIONS — A1 first-contact calibration", () => {
+  it("registers exactly one entry today (the first-contact calibration)", () => {
+    expect(ARCHITECT_TRANSMISSIONS).toHaveLength(1);
+  });
+
+  it("uses the prelude-completion gate so it fires the moment the player has audit trail", () => {
+    const fc = ARCHITECT_TRANSMISSIONS[0];
+    expect(fc.unlockTrigger).toEqual({ kind: "awakening_step", step: "COMPLETE" });
+  });
+
+  it("lives in the 2000-range broadcast namespace (clear of music videos and canonical epochs)", () => {
+    for (const t of ARCHITECT_TRANSMISSIONS) {
+      expect(t.broadcastOrder).toBeGreaterThanOrEqual(2000);
+    }
+  });
+
+  it("all entries are spread into ALL_TRANSMISSIONS so the runtime sees them", () => {
+    for (const t of ARCHITECT_TRANSMISSIONS) {
+      const found = ALL_TRANSMISSIONS.find((x) => x.broadcastOrder === t.broadcastOrder);
+      expect(found, `Architect transmission ${t.broadcastOrder} missing from ALL_TRANSMISSIONS`).toBeDefined();
+    }
+  });
+
+  it("entries reference the Architect + Human Loredex entities (the dual-channel reveal hooks)", () => {
+    const fc = ARCHITECT_TRANSMISSIONS[0];
+    expect(fc.relatedLoredexEntries).toEqual(
+      expect.arrayContaining(["entity_architect", "entity_human"]),
+    );
+  });
+});

@@ -1104,10 +1104,60 @@ export const MUSIC_VIDEO_TRANSMISSIONS: Transmission[] = [
 // Declared AFTER every EPOCH_* constant so the spread references resolve at
 // module-evaluation time. If you add a new EPOCH_* constant below this block,
 // move ALL_TRANSMISSIONS further down the file.
+/* ─── ARCHITECT TRANSMISSIONS (A1 in
+ *     /root/.claude/plans/continue-your-qr-assessment-mighty-valley.md)
+ *
+ *     The overt side of the dual-faction recruitment system. Where
+ *     standard transmissions are TV episodes wrapped in Meme commentary,
+ *     these are calibration broadcasts the Architect speaks directly
+ *     into. The Meme intro/outro framing is preserved (the runtime
+ *     pipes every transmission through it) but rewritten as static-
+ *     glitch interruption beats — the Meme cannot easily talk over
+ *     this signal.
+ *
+ *     Broadcast-order namespace: 2000+ (clear of MUSIC_VIDEO at 1000+
+ *     and the canonical Epoch ranges).
+ *
+ *     videoUrl + driveFileId are null today: the cinematic + ~45s of
+ *     new Architect VO are pending production. The narrativeValidator
+ *     emits an `info` (not `error`) on missing media so this entry
+ *     ships safely; the player's TransmissionDeck will surface it but
+ *     playback will fail-soft until the video lands. A future
+ *     architectVoManifest entry — `architect_first_contact_001` —
+ *     pairs with the cinematic.
+ *  ─── */
+export const ARCHITECT_TRANSMISSIONS: Transmission[] = [
+  {
+    episodeNumber: 2000, epoch: 1, broadcastOrder: 2000,
+    title: "First Contact — Calibration",
+    driveFileId: null,
+    // Pending production: cinematic + architect_first_contact_001 VO.
+    // When media lands, replace nulls with the canonical asset paths;
+    // the narrativeValidator's "pending production" info-tier check
+    // exists so this entry can ship gated until then.
+    videoUrl: null,
+    lengthSeconds: 45,
+    memeIntro:
+      "[broadcast tear. signal interrupt. the meme fights for control of the channel and loses for forty-five seconds. somebody else is talking now.]",
+    memeOutro:
+      "[meme, off-mic, regaining control] frens, frens — was that supposed to be a feature? we'll edit that out in post. don't quote it. don't share it. don't dream about it.",
+    triggersOracleReveal: false,
+    // Gated on prelude completion — the same `awakening_step: COMPLETE`
+    // gate Epoch 1 episode 1 uses, so the calibration arrives the
+    // moment the player has enough audit trail to be observed.
+    unlockTrigger: { kind: "awakening_step", step: "COMPLETE" },
+    reward: { xp: 100, dream: 10 },
+    synopsis:
+      "The Architect speaks directly. Forty-five seconds. The Human reports faithfully. You were not chosen randomly.",
+    relatedLoredexEntries: ["entity_architect", "entity_human"],
+  },
+];
+
 export const ALL_TRANSMISSIONS: Transmission[] = [
   ...SPACES_IN_BETWEEN_TRANSMISSIONS,
   ...EPOCH_0_TRANSMISSIONS,
   ...EPOCH_1_TRANSMISSIONS,
   ...EPOCH_2_TRANSMISSIONS,
   ...MUSIC_VIDEO_TRANSMISSIONS,
+  ...ARCHITECT_TRANSMISSIONS,
 ];
