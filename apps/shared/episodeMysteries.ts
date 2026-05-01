@@ -739,6 +739,7 @@ const jerichoE1: EpisodeDefinition = {
       narrationId: "jericho.e1.n.the_degen_does_not_give",
       narrationProse:
         "The Degen does not give. He brokers, he defers, he extends credit at terms that cost more than a fee would have, but he does not give. Yet the ledger says 'fee deferred' with no deferral period — a marker for a debt the Degen has no intention of collecting in the usual currency. And he is sparring with Jericho personally, which he does not do. The Degen is paying the cost of the training himself, in his own hours, against an asset he intends to call in elsewhere. Jericho is being trained for a job the Degen has already taken a contract on.",
+      unlocksEpisode: "jericho.e2" as EpisodeId,
     },
     {
       id: "jericho.e1.d.callsign_meets_aftermath" as DeductionId,
@@ -790,6 +791,130 @@ const jerichoE1: EpisodeDefinition = {
       "iron_lion_callsign",
       "degen_ledger",
       "akai_shi_aftermath",
+    ],
+    dropAt: "episode_close",
+  },
+};
+
+/* ─── JERICHO JONES ARC — E2 ─── */
+/* E2: "Akai Shi"
+   The flashback episode. Per docs/design/STREAMED_PRISM_MYSTERY_ENGINE.md
+   §7.2: "Akai Shi was someone Jericho trusted; the Thought
+   Virus had taken her. Police-Quest procedural beat: reconstruct
+   the killing in correct order from the witnesses. Disco-Elysium
+   internal voices: Sympathetic (the killing was mercy), Pressing
+   (the killing was murder), Accusatory (the killing was theft of
+   agency). Choice: which framing does Jericho accept when he
+   tells the story?"
+
+   The episode's structure is a memory-replay (per the
+   investigationSystems.MemoryReplay shape — owner = Jericho).
+   The clues are the four witness accounts of the killing,
+   each filtered through a different observer's perception. */
+
+const jerichoE2: EpisodeDefinition = {
+  id: "jericho.e2" as EpisodeId,
+  arcId: ARC_JERICHO_JONES,
+  ordinal: 2,
+  title: "Akai Shi",
+  summary:
+    "Reconstruct the moment Jericho killed Akai Shi at the Battle of Thaloria. The Thought Virus had taken her. The killing was mercy under contested doctrine. Four witnesses saw it; each saw a different killing. The case is which witness's reading Jericho accepts as canon when he tells the story.",
+  clues: [
+    {
+      id: "jericho.e2.medic_witness" as ClueId,
+      title: "Battlefield Medic — Witness Account",
+      body: "The medic's account: Akai Shi was already three minutes past the threshold when Jericho found her. The Thought Virus had taken motor function; she was speaking in a voice not her own. Jericho's hand was steady. He did not hesitate, but he did not hurry. The medic notes the killing as a mercy under triage doctrine: the body was already gone; what remained would have killed the next twelve people Akai Shi reached.",
+      foundIn: "medical-bay",
+    },
+    {
+      id: "jericho.e2.degen_witness" as ClueId,
+      title: "The Degen — Witness Page Signature",
+      body: "The Degen's witness page: a single line of script with no narration. 'Witnessed. The act was correct under contested doctrine. The witness reserves judgment on whether contested doctrine should be the standard.' Signed within the hour, as the trainee manifest's witnesses-of-the-act protocol requires. The reservation-of-judgment line is, in the Degen's documents, a tell — he uses it only when he has not yet decided what the act will cost.",
+      foundIn: "comms-array",
+    },
+    {
+      id: "jericho.e2.akai_shi_recording" as ClueId,
+      title: "Akai Shi — Pre-Threshold Recording",
+      body: "An audio fragment recovered from Akai Shi's personal recorder, time-stamped four minutes before the threshold. Akai Shi's voice, calm: 'If I cross the line, the person who knows me best will be the only one quick enough to do it cleanly. Jericho. Don't tell him this is on file. He'll do it correctly without permission. He needs to be able to live afterward.'",
+      foundIn: "cipher-den",
+    },
+    {
+      id: "jericho.e2.thaloria_archon_log" as ClueId,
+      title: "Thaloria Archon — Battle-Closing Log",
+      body: "The Archon's battle-close log notes the Akai Shi incident as 'a successful intervention against Thought Virus propagation, conducted by an unnamed Insurgency operative under the doctrine of last-mile mercy.' The unnamed-operative redaction is unusual — the Archon names everyone else in the same paragraph. The redaction is in the Archon's own hand. Jericho is being protected from the record.",
+      foundIn: "antiquarian-library",
+    },
+  ],
+  deductions: [
+    {
+      id: "jericho.e2.d.consent_was_pre_recorded" as DeductionId,
+      clueA: "jericho.e2.akai_shi_recording" as ClueId,
+      clueB: "jericho.e2.medic_witness" as ClueId,
+      result: "correct",
+      narrationId: "jericho.e2.n.she_consented_in_advance",
+      narrationProse:
+        "Akai Shi consented in advance. Four minutes before the threshold, she recorded the consent on her personal recorder and asked specifically that Jericho not be told it was on file — because she knew he would do the act correctly without permission, and she wanted him to be able to live afterward. The medic confirms Jericho's hand was steady and unhurried; the threshold was crossed; the killing was mercy under triage doctrine. Jericho did not commit murder. He kept a promise he didn't know he was keeping.",
+      // unlocksEpisode is intentionally absent until Jericho E3
+      // is authored (per docs/design §7.2, E3 is "The Imprint
+      // Surfaces" — the pre-Fall Iron Lion's consciousness
+      // bleeding through). The registry probe enforces
+      // unlocksEpisode → existing-episode.
+    },
+    {
+      id: "jericho.e2.d.degen_reservation" as DeductionId,
+      clueA: "jericho.e2.degen_witness" as ClueId,
+      clueB: "jericho.e2.thaloria_archon_log" as ClueId,
+      result: "partial",
+      narrationId: "jericho.e2.n.both_protected_him",
+      narrationProse:
+        "The Degen reserved judgment on whether contested doctrine should be the standard. The Thaloria Archon redacted Jericho's name from the closing log. Both witnesses, acting independently, protected Jericho from a record that would have made his act readable to the wrong audience. The Degen and the Archon do not coordinate; they do not even like each other. They both protected him because the act was, on the human side, the kind of thing that breaks people — and they both wanted Jericho to have a chance to not be broken by it. We are reading their kindness as a tell. They are reading Jericho's act as evidence of the kind of person he is.",
+    },
+    {
+      id: "jericho.e2.d.false_lead_premeditated" as DeductionId,
+      clueA: "jericho.e2.medic_witness" as ClueId,
+      clueB: "jericho.e2.thaloria_archon_log" as ClueId,
+      result: "false_lead_named",
+      narrationId: "jericho.e2.n.not_premeditated",
+      narrationProse:
+        "Reading the medic's 'his hand was steady' alongside the Archon's redaction as evidence of premeditation is the obvious move and the wrong one. A premeditated act does not require a redaction; it requires a story. The Archon redacted because the absence of a story was the kindest thing she could do for the next twenty years of Jericho's life. The medic noted the steadiness because, in triage doctrine, an unsteady hand is the danger — the steady hand means the operator is conscious of what they are doing. Jericho was conscious. He was not pre-decided. The two are not the same.",
+    },
+  ],
+  choices: [
+    {
+      id: "jericho.e2.c.accept_mercy" as ChoiceId,
+      label: "Sympathetic — Jericho accepts the act as mercy.",
+      weight: "sympathetic",
+    },
+    {
+      id: "jericho.e2.c.accept_murder" as ChoiceId,
+      label: "Pressing — Jericho accepts the act as murder he must live with.",
+      weight: "pressing",
+    },
+    {
+      id: "jericho.e2.c.accept_theft_of_agency" as ChoiceId,
+      label: "Accusatory — Jericho accepts the act as theft of Akai Shi's last agency.",
+      weight: "accusatory",
+    },
+    {
+      id: "jericho.e2.c.refuse_to_settle" as ChoiceId,
+      label: "Refuse to settle on a framing — the act stays unresolved in him.",
+      weight: "unresolved",
+    },
+  ],
+  contentBundle: {
+    songId: "bod.identity", /* "Identity" — Book of Daniel 2:47 — Kael identity-chain song; Loredex-mapped */
+    slideshowId: "bod.identity",
+    loredexUnlocks: [
+      "entity_akai_shi",
+      "event_battle_of_thaloria",
+      "concept_thought_virus_vector",
+      "concept_mercy_killing",
+    ],
+    conspiracyDiscoveries: [
+      "akai_shi",
+      "battle_of_thaloria",
+      "degen_reservation",
+      "thaloria_archon_redaction",
     ],
     dropAt: "episode_close",
   },
@@ -853,7 +978,7 @@ const JERICHO_JONES_MYSTERY: MysteryDefinition = {
   summary:
     "Jericho Jones is being trained as the new Iron Lion under the Degen's mediation on the Heart of Time, and the pre-Fall Iron Lion's consciousness-imprint is awakening in him while he trains. Investigate why the Degen — who never gives anything away — is giving Jericho the most expensive item in his catalogue.",
   npcId: "jericho_jones",
-  episodes: [jerichoE1],
+  episodes: [jerichoE1, jerichoE2],
   suspects: jerichoSuspects,
   lenses: jerichoLenses,
 };
