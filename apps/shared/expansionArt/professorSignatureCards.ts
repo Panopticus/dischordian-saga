@@ -25,12 +25,12 @@
    `cinematicForCardPlayed(cardDefId)` and, if a trigger comes
    back, mounts <GuildCutscenePlayer>.
 
-   The seed entry (s1_pack2_thought_virus_quarantine_field) is
-   the only currently-authored card whose name aligns with a
-   Professor's signature ability (Greenshaw / Quarantine —
-   dark variant since "thought_virus" is the corrupted form).
-   The other 23 entries (12 Professors × light + dark) get
-   filled in as the content team authors the matching cards.
+   24 entries (12 Professors × light + dark) cover the full
+   signature-ability roster. The card defs themselves live at
+   apps/shared/tcg-core/cards/definitions/s2_professors/index.ts
+   (synthesised from a small seed table); naming convention
+   `s2_professors_<professor>_<ability>` lets the registry stay
+   data-driven and refactor-safe.
    ═══════════════════════════════════════════════════════ */
 
 import {
@@ -51,28 +51,34 @@ interface ProfessorCardEntry {
   isCorrupted: boolean;
 }
 
-/** Authoring contract:
- *  - Add one entry per card-def id that should fire a Professor's
- *    F.4 signature-ability cinematic.
- *  - Each Professor has up to 2 paired cards (one light, one dark);
- *    duplicates per (professorId, isCorrupted) are tolerated — a
- *    given Professor can have multiple cards that all fire the
- *    same cinematic (e.g., a basic and a promo printing). */
-export const PROFESSOR_SIGNATURE_CARDS: readonly ProfessorCardEntry[] = [
-  // Greenshaw — Quarantine (dark variant: Thought Virus)
-  {
-    cardDefId: "s1_pack2_thought_virus_quarantine_field",
-    professorId: "greenshaw",
-    isCorrupted: true,
-  },
-  // ─── TODO: content team appends entries below as the ───
-  // ─── 12-Professor signature ability cards are authored ───
-  //
-  // Pattern for each:
-  //   { cardDefId: "<def-id-from-cards/definitions/.../*.ts>",
-  //     professorId: "kanevas" | ... | "proctor",
-  //     isCorrupted: false /* or true for dark variant */ }
+/** Card-id fragments per Professor — the canonical 12-Professor table
+ *  driving both the synthesised card defs in
+ *  apps/shared/tcg-core/cards/definitions/s2_professors/index.ts and
+ *  the 24 registry entries below. Touch one place to author both. */
+const SIG_ID_FRAGMENTS: readonly { professorId: ProfessorId; light: string; dark: string }[] = [
+  { professorId: "kanevas", light: "harmonize", dark: "dissonance" },
+  { professorId: "aoki", light: "unseen_passage", dark: "private_confession" },
+  { professorId: "halverez", light: "soul_read", dark: "soul_take" },
+  { professorId: "orphic", light: "phase_step", dark: "dimensional_drift" },
+  { professorId: "mireille", light: "viral_word", dark: "thought_carry" },
+  { professorId: "kasra", light: "parade_order", dark: "acceptable_casualties" },
+  { professorId: "vellis", light: "verbal_contract", dark: "blood_oath" },
+  { professorId: "greenshaw", light: "quarantine", dark: "thought_virus" },
+  { professorId: "vex", light: "rule_rewrite", dark: "house_rules" },
+  { professorId: "vasara", light: "second_breath", dark: "borrowed_time" },
+  { professorId: "vent", light: "field_repair", dark: "salvage_rights" },
+  { professorId: "proctor", light: "investigator_s_sight", dark: "architect_s_eye" },
 ];
+
+/** All 24 Professor signature spell card-ids paired with their
+ *  cinematic metadata. Every entry round-trips through
+ *  cinematicForCardPlayed → signatureCutsceneFor → cs_sig_N_<variant>
+ *  (covered by the test suite). */
+export const PROFESSOR_SIGNATURE_CARDS: readonly ProfessorCardEntry[] =
+  SIG_ID_FRAGMENTS.flatMap(({ professorId, light, dark }) => [
+    { cardDefId: `s2_professors_${professorId}_${light}`, professorId, isCorrupted: false },
+    { cardDefId: `s2_professors_${professorId}_${dark}`, professorId, isCorrupted: true },
+  ]);
 
 const BY_CARD_DEF_ID = new Map<string, ProfessorCardEntry>(
   PROFESSOR_SIGNATURE_CARDS.map((e) => [e.cardDefId, e]),
