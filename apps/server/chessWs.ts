@@ -14,6 +14,7 @@ import { randomUUID } from "crypto";
 // Shared with pvpWs + duelystWs via the `wsRateLimit` module.
 import { checkWsRateLimit, sendRateLimitError } from "./wsRateLimit";
 import { recordMatchStart, recordMatchEnd } from "./matchLengthMonitor";
+import { maybeTagDeclineWinningDraw } from "./services/dreamerAwarenessTriggers";
 import {
   pickMultiplayerEndLine,
   hashMultiplayerSeed,
@@ -693,6 +694,20 @@ export function setupChessPvpWebSocket(server: Server) {
             if (!match) break;
             const opponent = player.userId === match.white.userId ? match.black : match.white;
             send(opponent.ws, { type: "DRAW_DECLINED" });
+            // Dreamer-awareness silent counter (D1). If the declining
+            // player is materially ahead at this position, this is a
+            // textbook "refusing comfort" signal — the kind of agent
+            // the Dreamer's network notices. Helper is idempotent per
+            // (user, tag id) so repeat declines don't compound.
+            const decliningSide: "white" | "black" =
+              player.userId === match.white.userId ? "white" : "black";
+            maybeTagDeclineWinningDraw(
+              player.userId,
+              match.fen,
+              decliningSide,
+            ).catch(() => {
+              // Trigger failures are silent — gameplay continues.
+            });
             break;
           }
 

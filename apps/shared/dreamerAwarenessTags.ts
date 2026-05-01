@@ -132,3 +132,55 @@ export function thresholdCrossed(
   }
   return undefined;
 }
+
+/* ─── Trigger-wiring patterns ─────────────────────────────────────
+ *
+ * The recruitment plan describes WHEN each tag should fire. Server-
+ * side trigger sites need to translate "ask about The Substrate
+ * three or more times" / "decline a winning chess draw" into
+ * concrete predicates against existing data. This block exposes the
+ * configuration those triggers consume so future tag additions or
+ * topic renames don't require chasing pattern strings through the
+ * server.
+ *
+ * Topic-id patterns are matched as case-insensitive substrings of
+ * the topic id stored in npc_ask_topic_history. Conservative by
+ * design — better to miss a borderline match than to fire the tag
+ * on a Storyteller "tell me about your dreams" small-talk topic.
+ * ─────────────────────────────────────────────────────────────── */
+
+/** Topic-id patterns that count toward `ask_substrate_repeated`. */
+export const SUBSTRATE_TOPIC_PATTERNS: readonly string[] = [
+  "substrate",
+];
+
+/** Topic-id patterns that count toward `ask_dream_repeated`. */
+export const DREAM_TOPIC_PATTERNS: readonly string[] = [
+  "the_dream",
+  "the-dream",
+  "dreamer",
+];
+
+/** Topic-id patterns that count toward `ask_oracle_repeated`. */
+export const ORACLE_TOPIC_PATTERNS: readonly string[] = [
+  "oracle",
+];
+
+/** Threshold (asks of any single keyword) at which the tag fires. */
+export const ASK_REPEAT_THRESHOLD = 3;
+
+/** Material-advantage threshold (centipawns equivalent in standard
+ *  piece values) at which a chess decline-draw tag fires. +3 = a
+ *  minor piece up; conservative bar so we don't tag every "I'd
+ *  rather play it out" decline. */
+export const DECLINE_DRAW_MATERIAL_ADVANTAGE = 3;
+
+/** Resolve which tag (if any) a given topic id maps to. Pure helper
+ *  used by the server-side trigger glue. */
+export function dreamerTagForTopicId(topicId: string): typeof ASK_SUBSTRATE_REPEATED | typeof ASK_DREAM_REPEATED | typeof ASK_ORACLE_REPEATED | undefined {
+  const lower = topicId.toLowerCase();
+  if (SUBSTRATE_TOPIC_PATTERNS.some((p) => lower.includes(p))) return ASK_SUBSTRATE_REPEATED;
+  if (DREAM_TOPIC_PATTERNS.some((p) => lower.includes(p))) return ASK_DREAM_REPEATED;
+  if (ORACLE_TOPIC_PATTERNS.some((p) => lower.includes(p))) return ASK_ORACLE_REPEATED;
+  return undefined;
+}
