@@ -13,8 +13,8 @@ import {
 } from "./dreamerVisions";
 
 describe("DREAMER_VISIONS catalog", () => {
-  it("ships at least Vision 1", () => {
-    expect(DREAMER_VISIONS.length).toBeGreaterThanOrEqual(1);
+  it("ships Visions 1 and 2", () => {
+    expect(DREAMER_VISIONS.length).toBeGreaterThanOrEqual(2);
   });
 
   it("Vision 1 has the expected shape and threshold", () => {
@@ -22,6 +22,62 @@ describe("DREAMER_VISIONS catalog", () => {
     expect(v1.id).toBe("vision_first_notice");
     expect(v1.threshold).toBe(3);
     expect(v1.title).toBe("The First Notice");
+  });
+
+  it("Vision 2 has the expected shape and threshold", () => {
+    const v2 = DREAMER_VISIONS[1];
+    expect(v2.id).toBe("vision_coin_without_face");
+    expect(v2.threshold).toBe(7);
+    expect(v2.title).toBe("The Coin Without a Face");
+  });
+
+  it("Vision 2 slideshow has 10 frames each ~14 seconds long", () => {
+    const v2 = DREAMER_VISIONS[1];
+    expect(v2.slideshow.frames).toHaveLength(10);
+    expect(v2.slideshow.durationMs).toBe(140_000);
+    for (const f of v2.slideshow.frames) {
+      expect(f.endMs - f.startMs).toBe(14_000);
+    }
+  });
+
+  it("Vision 2 frames carry the canonical caption set in plan order", () => {
+    const v2 = DREAMER_VISIONS[1];
+    const captions = v2.slideshow.frames.map((f) => f.caption);
+    expect(captions).toEqual([
+      "a coin without a face",
+      "spent for nothing you remember",
+      "she keeps a ledger you cannot read",
+      "and her mirror keeps no faces",
+      "every door is the door",
+      "every name is the name",
+      "the noon is wrong",
+      "the cup is wrong",
+      "only you are correct",
+      "the ledger does not say so",
+    ]);
+  });
+
+  it("Vision 2 frames hardcut between every beat (visions feel like glitches)", () => {
+    const v2 = DREAMER_VISIONS[1];
+    for (const f of v2.slideshow.frames) {
+      expect(f.transition).toBe("hardcut");
+    }
+  });
+
+  it("Vision 2 audio anchors against Album 1 T11 (the Vex-Solène-coded register)", () => {
+    const v2 = DREAMER_VISIONS[1];
+    expect(v2.slideshow.audioUrl).toContain("audio/album1/T11.mp3");
+  });
+
+  it("Vision 2 frames span the T05 / T07 / T11 mix (Dreamer network reaches across the album)", () => {
+    const v2 = DREAMER_VISIONS[1];
+    const trackIds = v2.slideshow.frames
+      .map((f) => f.imageUrl.match(/\/(T\d{2})\//)?.[1])
+      .filter((t): t is string => Boolean(t));
+    const unique = new Set(trackIds);
+    expect(unique.has("T05")).toBe(true);
+    expect(unique.has("T07")).toBe(true);
+    expect(unique.has("T11")).toBe(true);
   });
 
   it("Vision 1 slideshow has 8 frames each ~14 seconds long", () => {
@@ -73,8 +129,12 @@ describe("getVisionForThreshold", () => {
     expect(v?.id).toBe("vision_first_notice");
   });
 
-  it("returns undefined for not-yet-built thresholds (7, 13, 23) — visions await Albums 2-5 on CDN", () => {
-    expect(getVisionForThreshold(7)).toBeUndefined();
+  it("returns the threshold-7 vision for value 7", () => {
+    const v = getVisionForThreshold(7);
+    expect(v?.id).toBe("vision_coin_without_face");
+  });
+
+  it("returns undefined for not-yet-built thresholds (13, 23) — pending SongSlideshow video-frame support", () => {
     expect(getVisionForThreshold(13)).toBeUndefined();
     expect(getVisionForThreshold(23)).toBeUndefined();
   });
@@ -109,22 +169,33 @@ describe("nextPendingVision", () => {
     expect(nextPendingVision(2, [])).toBeUndefined();
   });
 
-  it("returns undefined when Vision 1 has already been received", () => {
-    expect(nextPendingVision(3, ["vision_first_notice"])).toBeUndefined();
-    expect(nextPendingVision(50, ["vision_first_notice"])).toBeUndefined();
+  it("returns Vision 2 when Vision 1 has been received and count >= 7", () => {
+    const v = nextPendingVision(7, ["vision_first_notice"]);
+    expect(v?.id).toBe("vision_coin_without_face");
+  });
+
+  it("returns Vision 1 when count between 3 and 6 (Vision 2 not yet eligible)", () => {
+    expect(nextPendingVision(3, [])?.id).toBe("vision_first_notice");
+    expect(nextPendingVision(6, [])?.id).toBe("vision_first_notice");
+  });
+
+  it("does NOT skip Vision 1 even when count jumps past Vision 2 threshold", () => {
+    // High-weight tag (e.g. BURNT_CARD_WITNESSED at +5) can vault a
+    // player past multiple thresholds in one fire. The next-pending
+    // contract delivers the LOWEST pending threshold first; the next
+    // login picks up the next one.
+    const v = nextPendingVision(50, []);
+    expect(v?.id).toBe("vision_first_notice");
+  });
+
+  it("returns undefined when both Vision 1 and Vision 2 have been received and 13/23 not yet built", () => {
+    expect(
+      nextPendingVision(50, ["vision_first_notice", "vision_coin_without_face"]),
+    ).toBeUndefined();
   });
 
   it("ignores unknown received-ids gracefully", () => {
     const v = nextPendingVision(5, ["not_a_vision"]);
-    expect(v?.id).toBe("vision_first_notice");
-  });
-
-  it("returns the LOWEST pending threshold first (multiple-pending case will arrive when visions 2-4 ship)", () => {
-    // With only Vision 1 in the catalog this is currently a one-vision
-    // assertion. The contract is documented so the test's intent
-    // survives when visions 2-4 land — replace the expectation with
-    // the explicit ordered chain at that point.
-    const v = nextPendingVision(100, []);
     expect(v?.id).toBe("vision_first_notice");
   });
 });

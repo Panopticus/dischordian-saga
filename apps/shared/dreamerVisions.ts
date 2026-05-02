@@ -49,34 +49,34 @@ const VISION_1_FRAME_MS = 14_000;
 const VISION_1_FRAME_COUNT = 8;
 const VISION_1_RUNTIME_MS = VISION_1_FRAME_MS * VISION_1_FRAME_COUNT; // 112s
 
-/** Build the URL for a producer-numbered T03 frame. The Album 1
- *  manifest stores frames as `T03_00_title.webp`, `T03_01.webp`,
- *  `T03_02.webp`... where the first is a title card. The plan-side
+/** Build the URL for a producer-numbered Album-1 frame. The manifest
+ *  stores frames as `T<NN>_00_title.webp`, `T<NN>_01.webp`,
+ *  `T<NN>_02.webp`... where the first is a title card. The plan-side
  *  frame numbers (`T03_07`, etc.) refer to the producer-numbered
  *  files directly, NOT to the album1FrameUrl 1-indexed scheme. So
  *  this helper translates plan-numbered to manifest path. */
-function t03FrameUrl(producerIndex: number): string {
-  const t03 = ALBUM1_TRACKS.find((t) => t.id === "T03");
-  if (!t03) {
-    throw new Error("dreamerVisions: Album 1 T03 not in manifest");
+function album1FrameUrl(trackId: string, producerIndex: number): string {
+  const track = ALBUM1_TRACKS.find((t) => t.id === trackId);
+  if (!track) {
+    throw new Error(`dreamerVisions: Album 1 ${trackId} not in manifest`);
   }
-  // Producer files are T03_00_title.webp + T03_01.webp..T03_NN.webp.
+  // Producer files are T<NN>_00_title.webp + T<NN>_01..T<NN>_NN.webp.
   // Match by suffix to be tolerant of zero-padding changes.
-  const suffix = `T03_${String(producerIndex).padStart(2, "0")}.webp`;
-  const path = t03.frameRelPaths.find((p) => p.endsWith(suffix));
+  const suffix = `${trackId}_${String(producerIndex).padStart(2, "0")}.webp`;
+  const path = track.frameRelPaths.find((p) => p.endsWith(suffix));
   if (!path) {
-    throw new Error(`dreamerVisions: T03 producer frame ${producerIndex} missing`);
+    throw new Error(`dreamerVisions: ${trackId} producer frame ${producerIndex} missing`);
   }
   return assetUrl(path);
 }
 
-/** Title-card URL for the reduced-motion fallback. */
-function t03TitleUrl(): string {
-  const t03 = ALBUM1_TRACKS.find((t) => t.id === "T03");
-  if (!t03) {
-    throw new Error("dreamerVisions: Album 1 T03 not in manifest");
+/** Title-card URL for a given Album-1 track (reduced-motion fallback). */
+function album1TitleUrl(trackId: string): string {
+  const track = ALBUM1_TRACKS.find((t) => t.id === trackId);
+  if (!track) {
+    throw new Error(`dreamerVisions: Album 1 ${trackId} not in manifest`);
   }
-  return assetUrl(t03.frameRelPaths[0]);
+  return assetUrl(track.frameRelPaths[0]);
 }
 
 /** Vision 1 cutscene script — see Part 1.5 of the recruitment plan
@@ -97,6 +97,9 @@ const VISION_1_FRAMES: ReadonlyArray<{
   { producerIndex: 9,  caption: "the window was always lit" },
   { producerIndex: 1,  caption: "you have been seen" },
 ];
+
+const t03FrameUrl = (i: number) => album1FrameUrl("T03", i);
+const t03TitleUrl = () => album1TitleUrl("T03");
 
 function buildVision1Slideshow(): SongSlideshowDef {
   return {
@@ -145,36 +148,117 @@ const VISION_1: DreamerVision = {
   slideshow: VISION_1_SLIDESHOW,
 };
 
-/* ─── Visions 2-4 (stubs) ─────────────────────────────────────────
+/* ─── Vision 2 — "The Coin Without a Face" (threshold 7) ─── */
+
+const VISION_2_FRAME_MS = 14_000;
+const VISION_2_FRAME_COUNT = 10;
+const VISION_2_RUNTIME_MS = VISION_2_FRAME_MS * VISION_2_FRAME_COUNT; // 140s
+
+/** Vision 2 cutscene script — see Part 1.5 of the recruitment plan
+ *  for caption authoring rationale. The frame mix (T07 + T11 + T05)
+ *  is intentional: the Dreamer's network reaches across the album.
+ *  Players who've reached Vex Solène (post-Act-1) will recognise her
+ *  aristocratic-riddle voice in this caption set — the first hint
+ *  that one of the three Keys is the natural interpreter.
  *
- * Each follows the Vision 1 build pattern but anchors against frames
- * from Albums 2-5, which are typed in the manifests but not yet
- * uploaded to the CDN as of this PR. The plan
+ *  Frame note: the plan calls for T11/frame_17 on the closing beat,
+ *  but T11 only ships with frames 00-15 (16 total). Substituting
+ *  T11/frame_15 — the last available image, intended as the album-
+ *  cover-equivalent closer — preserves the "noblewoman facing the
+ *  viewer, eyes lowered" intent. The plan explicitly anticipates
+ *  this kind of substitution under "frame mappings need
+ *  verification." */
+const VISION_2_FRAMES: ReadonlyArray<{
+  trackId: "T05" | "T07" | "T11";
+  producerIndex: number;
+  caption: string;
+}> = [
+  { trackId: "T07", producerIndex: 4,  caption: "a coin without a face" },
+  { trackId: "T07", producerIndex: 8,  caption: "spent for nothing you remember" },
+  { trackId: "T11", producerIndex: 2,  caption: "she keeps a ledger you cannot read" },
+  { trackId: "T11", producerIndex: 6,  caption: "and her mirror keeps no faces" },
+  { trackId: "T05", producerIndex: 9,  caption: "every door is the door" },
+  { trackId: "T05", producerIndex: 3,  caption: "every name is the name" },
+  { trackId: "T07", producerIndex: 12, caption: "the noon is wrong" },
+  { trackId: "T11", producerIndex: 14, caption: "the cup is wrong" },
+  { trackId: "T07", producerIndex: 15, caption: "only you are correct" },
+  { trackId: "T11", producerIndex: 15, caption: "the ledger does not say so" },
+];
+
+function buildVision2Slideshow(): SongSlideshowDef {
+  return {
+    id: "vision_coin_without_face",
+    songId: "dreamer_vision_2",
+    // T11 ("The Empire Reborn") carries the Vex-Solène-coded
+    // aristocratic register the captions lean on. Falls back to T07
+    // ("To Be The Human") on audio failure via the standard
+    // SongSlideshow audio-error path.
+    audioUrl: assetUrl("audio/album1/T11.mp3"),
+    durationMs: VISION_2_RUNTIME_MS,
+    title: "The Coin Without a Face",
+    subtitle: undefined,
+    credits: undefined,
+    priority: "P0",
+    frames: VISION_2_FRAMES.map((f, i) => {
+      const startMs = i * VISION_2_FRAME_MS;
+      const endMs = startMs + VISION_2_FRAME_MS;
+      return {
+        startMs,
+        endMs,
+        imageUrl: album1FrameUrl(f.trackId, f.producerIndex),
+        transition: "hardcut" as const,
+        caption: f.caption,
+      };
+    }),
+    flagsSetOnComplete: [],
+    reducedMotionFallback: {
+      heroImageUrl: album1TitleUrl("T11"),
+      prose:
+        "a coin without a face, spent for nothing you remember. she keeps a ledger you cannot read, and her mirror keeps no faces. only you are correct.",
+      closingLine: "(no signature)",
+    },
+  };
+}
+
+const VISION_2_SLIDESHOW = buildVision2Slideshow();
+
+const VISION_2: DreamerVision = {
+  id: "vision_coin_without_face",
+  threshold: 7,
+  title: "The Coin Without a Face",
+  slideshow: VISION_2_SLIDESHOW,
+};
+
+/* ─── Visions 3-4 (stubs) ─────────────────────────────────────────
+ *
+ * Each follows the Vision 1/2 build pattern but the renderer needs
+ * extension before they ship — both interleave Veo 3.1 video flashes
+ * with the slideshow frames. The plan
  * (/root/.claude/plans/continue-your-qr-assessment-mighty-valley.md
- * §Part 1.5) specifies the frame mappings. Once Albums 2-5 frames
- * land, replace these `null`-returning entries with concrete
- * DreamerVision objects.
- *
- *   Vision 2 — "The Coin Without a Face"  (threshold 7)
- *     Album 1 T11 / T07 / T05 mix per plan — 10 frames × 14s
+ * §Part 1.5) specifies the frame mappings.
  *
  *   Vision 3 — "The Hidden Hand"           (threshold 13)
  *     Album 1 T18 / T15 / T20 mix + one Veo flash — 12 frames + 1
  *
  *   Vision 4 — "The Dreamer Sees You"      (threshold 23)
  *     Album 1 T23 + two Veo flashes — 6 frames + 2
+ *
+ * Blocked on: SongSlideshow.tsx renderer extension to accept mixed
+ *   image-or-video frames (`frames: Array<{ kind: "image" | "video";
+ *   ... }>`). When that lands, add Vision 3 + 4 here with the same
+ *   build pattern.
  * ─────────────────────────────────────────────────────────────── */
 
 /** Lookup: threshold → vision (or undefined if not yet built). */
 const VISIONS_BY_THRESHOLD = new Map<VisionThreshold, DreamerVision>([
   [3, VISION_1],
-  // [7, VISION_2],   // pending Albums 2-5 CDN upload
-  // [13, VISION_3],
+  [7, VISION_2],
+  // [13, VISION_3],  // pending SongSlideshow video-frame support
   // [23, VISION_4],
 ]);
 
 /** All built visions, in threshold order. */
-export const DREAMER_VISIONS: readonly DreamerVision[] = [VISION_1];
+export const DREAMER_VISIONS: readonly DreamerVision[] = [VISION_1, VISION_2];
 
 /**
  * Resolve a vision by its threshold value. Returns undefined when the
