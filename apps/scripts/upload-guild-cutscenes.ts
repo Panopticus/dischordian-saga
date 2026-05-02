@@ -14,6 +14,7 @@
  *   pnpm tsx apps/scripts/upload-guild-cutscenes.ts --bundle=/tmp/guild_cs_extract
  *   pnpm tsx apps/scripts/upload-guild-cutscenes.ts --bundle=/tmp/guild_cs_extract --dry-run
  *   pnpm tsx apps/scripts/upload-guild-cutscenes.ts --bundle=/tmp/guild_cs_extract --only=f4_abilities
+ *   pnpm tsx apps/scripts/upload-guild-cutscenes.ts --bundle=/tmp/guild_cs_extract --concurrency=2
  *
  * The bundle directory must contain:
  *   <bundle>/stills/<category>/*.png
@@ -23,6 +24,13 @@
  * Requires AWS_ACCESS_KEY_ID / AWS_SECRET_ACCESS_KEY in env with
  * s3:PutObject + s3:HeadObject on the dgrsart bucket. Same idempotent
  * ETag-compare pattern as upload-public-to-s3.ts.
+ *
+ * Resilience: each PUT is wrapped in a 3-attempt retry-with-backoff
+ * (2s/4s/8s) on transient errors (RequestTimeout, ECONNRESET, etc.).
+ * Default concurrency is 4 — residential uplinks saturate around
+ * there and start hitting S3's idle-byte timer. Crank it up
+ * (--concurrency=16) on fast pipes; drop it (--concurrency=2) if
+ * even 4 timeouts.
  */
 
 import { HeadObjectCommand, PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
@@ -33,7 +41,15 @@ import { extname, join, relative } from "node:path";
 const BUCKET = "dgrsart";
 const REGION = "us-east-2";
 const PREFIX = "cdn/client-public";
-const CONCURRENCY = 16;
+/** Default S3 PUT concurrency. Tuned conservative — residential
+ *  uplinks saturate around 4 parallel multi-MB PUTs and start
+ *  hitting S3's idle-byte timer ("Your socket connection to the
+ *  server was not read from or written to within the timeout
+ *  period."). Override with --concurrency=N for fast pipes. */
+const DEFAULT_CONCURRENCY = 4;
+/** Per-file retry attempts on transient errors (RequestTimeout,
+ *  ECONNRESET, etc.). Retries use exponential backoff: 2s, 4s, 8s. */
+const PER_FILE_RETRIES = 3;
 
 const CATEGORIES = [
   "f1_onboarding",
@@ -50,10 +66,32 @@ const CONTENT_TYPES: Record<string, string> = {
   ".mp4": "video/mp4",
 };
 
+/** Errors AWS marks as transient — worth retrying. Anything else
+ *  (NoSuchBucket, AccessDenied) fails fast. */
+const TRANSIENT_ERROR_NAMES = new Set([
+  "RequestTimeout",
+  "TimeoutError",
+  "NetworkingError",
+  "EPIPE",
+  "ECONNRESET",
+]);
+
+function isTransientError(err: unknown): boolean {
+  const e = err as { name?: string; code?: string; Code?: string };
+  return (
+    TRANSIENT_ERROR_NAMES.has(e?.name ?? "") ||
+    TRANSIENT_ERROR_NAMES.has(e?.code ?? "") ||
+    TRANSIENT_ERROR_NAMES.has(e?.Code ?? "")
+  );
+}
+
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
 interface Args {
   bundle: string;
   dryRun: boolean;
   only: Category | null;
+  concurrency: number;
 }
 
 function parseArgs(argv: string[]): Args {
@@ -70,7 +108,11 @@ function parseArgs(argv: string[]): Args {
   if (only && !CATEGORIES.includes(only)) {
     throw new Error(`--only must be one of: ${CATEGORIES.join(", ")}`);
   }
-  return { bundle, dryRun, only };
+  const concArg = argv.find((a) => a.startsWith("--concurrency="));
+  const concurrency = concArg
+    ? Math.max(1, Math.min(32, Number(concArg.slice("--concurrency=".length)) || DEFAULT_CONCURRENCY))
+    : DEFAULT_CONCURRENCY;
+  return { bundle, dryRun, only, concurrency };
 }
 
 async function* walk(dir: string): AsyncGenerator<string> {
@@ -135,17 +177,39 @@ async function uploadOne(
 
   const ext = extname(localPath).toLowerCase();
   const body = await readFile(localPath);
-  await client.send(
-    new PutObjectCommand({
-      Bucket: BUCKET,
-      Key: key,
-      Body: body,
-      ContentType: CONTENT_TYPES[ext] ?? "application/octet-stream",
-      CacheControl: "public, max-age=31536000, immutable",
-      ServerSideEncryption: "AES256",
-    }),
-  );
-  return "uploaded";
+
+  // Retry loop with exponential backoff. Residential connections
+  // hit S3 RequestTimeout intermittently when many parallel multi-MB
+  // PUTs saturate the uplink; transient-error retry closes the gap
+  // without forcing the operator to re-run the whole script.
+  let lastErr: unknown = null;
+  for (let attempt = 0; attempt <= PER_FILE_RETRIES; attempt++) {
+    if (attempt > 0) {
+      const backoffMs = 2_000 * Math.pow(2, attempt - 1);
+      // Re-check ETag before each retry — another worker (or a
+      // previous attempt that timed out at the read-response side)
+      // may have actually written the object successfully.
+      if (await objectMatches(client, key, hash, size)) return "skipped";
+      await sleep(backoffMs);
+    }
+    try {
+      await client.send(
+        new PutObjectCommand({
+          Bucket: BUCKET,
+          Key: key,
+          Body: body,
+          ContentType: CONTENT_TYPES[ext] ?? "application/octet-stream",
+          CacheControl: "public, max-age=31536000, immutable",
+          ServerSideEncryption: "AES256",
+        }),
+      );
+      return "uploaded";
+    } catch (err) {
+      lastErr = err;
+      if (!isTransientError(err)) throw err;
+    }
+  }
+  throw lastErr;
 }
 
 async function main() {
@@ -194,7 +258,8 @@ async function main() {
 
   console.log(
     `${args.dryRun ? "[dry-run] " : ""}found ${files.length} files under ${args.bundle}` +
-      (args.only ? ` (only=${args.only})` : ""),
+      (args.only ? ` (only=${args.only})` : "") +
+      ` · concurrency=${args.concurrency} · retries=${PER_FILE_RETRIES}`,
   );
 
   let uploaded = 0;
@@ -204,7 +269,7 @@ async function main() {
 
   const queue = [...files];
   const workers: Promise<void>[] = [];
-  for (let i = 0; i < CONCURRENCY; i++) {
+  for (let i = 0; i < args.concurrency; i++) {
     workers.push(
       (async () => {
         while (queue.length) {
