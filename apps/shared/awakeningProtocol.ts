@@ -158,6 +158,14 @@ export interface OutbreakMoralityChoice {
   description: string;
   choiceA: { label: string; moralityDelta: number; flag: string; description: string };
   choiceB: { label: string; moralityDelta: number; flag: string; description: string };
+  /**
+   * Optional third option — typically the "delay / observe / refuse to
+   * commit" stance. Smaller moralityDelta than A/B; sets its own flag so
+   * the universe remembers the player chose to wait. Adding the third
+   * option here makes the prelude branch a tri-state instead of a
+   * binary, with downstream variants reading whichever flag is set.
+   */
+  choiceC?: { label: string; moralityDelta: number; flag: string; description: string };
 }
 
 export const OUTBREAK_MORALITY_CHOICES: OutbreakMoralityChoice[] = [
@@ -169,6 +177,7 @@ export const OUTBREAK_MORALITY_CHOICES: OutbreakMoralityChoice[] = [
     description: "How to protect your companion from the Thought Virus strain",
     choiceA: { label: "Organic Mutation", moralityDelta: 2, flag: "companion_augmentation_mutation", description: "Expose to controlled viral doses. Natural adaptation. The Dreamer's approach." },
     choiceB: { label: "Cybernetic Filter", moralityDelta: -2, flag: "companion_augmentation_cybernetics", description: "Install neural-cybernetic resistance filter. Precise. The Architect's approach." },
+    choiceC: { label: "Wait — Observe", moralityDelta: 0, flag: "companion_augmentation_observed", description: "Hold the augmentation. Watch the strain's behavior in the next room before committing. The Antiquarian's approach." },
   },
   {
     id: "infected_clone",
@@ -178,6 +187,7 @@ export const OUTBREAK_MORALITY_CHOICES: OutbreakMoralityChoice[] = [
     description: "A crew member's cloning cycle is 40% complete and infected",
     choiceA: { label: "Purge", moralityDelta: 2, flag: "crew_engineer_purged", description: "The clone was never conscious. Purging is merciful and safe." },
     choiceB: { label: "Save", moralityDelta: -2, flag: "crew_engineer_saved", description: "Continue cloning. The crew member might survive. Might be compromised." },
+    choiceC: { label: "Quarantine — Hold", moralityDelta: 0, flag: "crew_engineer_quarantined", description: "Pause the cycle in stasis. No purge, no completion. Decide later, with more information." },
   },
   {
     id: "distress_signal",
@@ -187,6 +197,7 @@ export const OUTBREAK_MORALITY_CHOICES: OutbreakMoralityChoice[] = [
     description: "The virus's broadcast contains a real distress signal from other Arks",
     choiceA: { label: "Respond", moralityDelta: 3, flag: "crew_comms_rescued", description: "Answer the call. Open a channel the virus could exploit. Someone needs help." },
     choiceB: { label: "Silence", moralityDelta: -1, flag: "radio_silence", description: "Maintain radio silence. Protect the Ark. Leave others without help." },
+    choiceC: { label: "Trace — Passive", moralityDelta: 1, flag: "signal_traced", description: "Don't open a channel. Log the source coordinates for later. Listen, do not answer." },
   },
 ];
 
@@ -255,10 +266,13 @@ export const OUTBREAK_FLAGS = {
   outbreak_completed: "outbreak_completed",
   companion_augmentation_mutation: "companion_augmentation_mutation",
   companion_augmentation_cybernetics: "companion_augmentation_cybernetics",
+  companion_augmentation_observed: "companion_augmentation_observed",
   crew_engineer_saved: "crew_engineer_saved",
   crew_engineer_purged: "crew_engineer_purged",
+  crew_engineer_quarantined: "crew_engineer_quarantined",
   crew_comms_rescued: "crew_comms_rescued",
   radio_silence: "radio_silence",
+  signal_traced: "signal_traced",
   tutorial_mode_full: "tutorial_mode_full",
   tutorial_mode_minimal: "tutorial_mode_minimal",
   first_pet_battle_completed: "first_pet_battle_completed",
@@ -272,7 +286,7 @@ export interface OutbreakState {
   phase: OutbreakPhase;
   componentsCollected: string[];
   crewCloned: string[];
-  moralityChoicesMade: Record<string, "a" | "b">;
+  moralityChoicesMade: Record<string, "a" | "b" | "c">;
   cinematicsPlayed: string[];
   tutorialMode: "full" | "minimal";
   startedAt: string | null;
@@ -320,9 +334,10 @@ export function getOutbreakMoralityTotal(state: OutbreakState): number {
   let total = 0;
   for (const [choiceId, choice] of Object.entries(state.moralityChoicesMade)) {
     const def = OUTBREAK_MORALITY_CHOICES.find(c => c.id === choiceId);
-    if (def) {
-      total += choice === "a" ? def.choiceA.moralityDelta : def.choiceB.moralityDelta;
-    }
+    if (!def) continue;
+    if (choice === "a") total += def.choiceA.moralityDelta;
+    else if (choice === "b") total += def.choiceB.moralityDelta;
+    else if (choice === "c" && def.choiceC) total += def.choiceC.moralityDelta;
   }
   return total;
 }

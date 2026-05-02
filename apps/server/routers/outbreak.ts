@@ -163,7 +163,7 @@ export const outbreakRouter = router({
   makeChoice: protectedProcedure
     .input(z.object({
       choiceId: z.string(),
-      choice: z.enum(["a", "b"]),
+      choice: z.enum(["a", "b", "c"]),
     }))
     .mutation(async ({ ctx, input }) => {
       const db = await getDb();
@@ -172,6 +172,10 @@ export const outbreakRouter = router({
       const choiceDef = OUTBREAK_MORALITY_CHOICES.find(c => c.id === input.choiceId);
       if (!choiceDef) throw new Error("Unknown choice");
 
+      if (input.choice === "c" && !choiceDef.choiceC) {
+        throw new Error(`Choice "${input.choiceId}" does not offer option C`);
+      }
+
       const { state, progressId } = await getOutbreakState(db, ctx.user.id);
       if (state.moralityChoicesMade[input.choiceId]) {
         return { success: true, alreadyChosen: true };
@@ -179,7 +183,12 @@ export const outbreakRouter = router({
 
       state.moralityChoicesMade[input.choiceId] = input.choice;
 
-      const chosen = input.choice === "a" ? choiceDef.choiceA : choiceDef.choiceB;
+      const chosen =
+        input.choice === "a"
+          ? choiceDef.choiceA
+          : input.choice === "b"
+            ? choiceDef.choiceB
+            : choiceDef.choiceC!;
 
       // Set narrative flag
       const gd = await getGameData(db, ctx.user.id);

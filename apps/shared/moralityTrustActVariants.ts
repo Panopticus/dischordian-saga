@@ -3260,4 +3260,114 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
     act: 6,
     requiredFlags: ["act6_suspicious_chosen"],
   },
+
+  // ── PRELUDE FLAG ECHOES — Act 1+ downstream variants ──
+  // Each of the nine Prelude morality flags (3 choices × A/B/C) now
+  // surfaces in at least one Act 1+ NPC line, so the Prelude choices
+  // actually move the universe. Enforced by preludeFlagContract.test.ts.
+
+  // companion_augmentation echoes
+  {
+    id: "npc_line_dreamer_aug_mutation",
+    surface: "npc_line",
+    targetId: "the_dreamer",
+    text:
+      "Your companion's substrate signature shifted toward biological self-regulation when you picked the mutation. I noticed at the augmentation table; I am noticing again now. The Dreamer's faction does not commend out loud. We commend by accepting your call without a counter-proposal. You may consider this an embrace.",
+    morality: "any",
+    trust: "any",
+    act: 1,
+    requiredFlags: ["companion_augmentation_mutation"],
+  },
+  {
+    id: "npc_line_architect_aug_cybernetics",
+    surface: "npc_line",
+    targetId: "the_architect",
+    text:
+      "Your companion's audit log is clean. Cybernetic filter, spec-compliant, installation timestamp within tolerance. The Architect's quartermasters have flagged your account as audit-friendly; you will see a small but consistent discount on Act 3 supply runs because of it. The Architect does not say thank you. The discount is the thank-you.",
+    morality: "any",
+    trust: "any",
+    act: 1,
+    requiredFlags: ["companion_augmentation_cybernetics"],
+  },
+  {
+    id: "npc_line_antiquarian_aug_observed",
+    surface: "npc_line",
+    targetId: "the_antiquarian",
+    text:
+      "I have opened a chapter for waiters. Most witnesses commit at the augmentation table because the corridor pressures them; you held the corridor. The chapter is short so far. I will keep writing as you continue to choose. The chapter title is 'Holding.' I am not making that up. The book has chosen the title, not me.",
+    morality: "any",
+    trust: "any",
+    act: 1,
+    requiredFlags: ["companion_augmentation_observed"],
+  },
+
+  // infected_clone echoes
+  {
+    id: "npc_line_engineer_clone_purged",
+    surface: "npc_line",
+    targetId: "the_engineer",
+    text:
+      "I read your purge call when I came on shift. Clean math, defensible, not cold. The Engineer faction reads purge calls in two columns — the defensible and the cruel — and you are in the defensible column. We will speak with you slightly more cautiously than we would have otherwise. That is the cost. It is not estrangement.",
+    morality: "any",
+    trust: "any",
+    act: 1,
+    requiredFlags: ["crew_engineer_purged"],
+  },
+  {
+    id: "npc_line_engineer_clone_saved",
+    surface: "npc_line",
+    targetId: "the_engineer",
+    text:
+      "The crew member you saved came online with the Outbreak Survivor trait. Slightly resistant, slightly less trusted by the rest of the deck. I am the rest of the deck and I am extending the trust now, in writing. I would have made your call. I have, in fact, made it. The other Engineers will warm slower. Be patient with them.",
+    morality: "any",
+    trust: "any",
+    act: 1,
+    requiredFlags: ["crew_engineer_saved"],
+  },
+  {
+    id: "npc_line_engineer_clone_quarantined",
+    surface: "npc_line",
+    targetId: "the_engineer",
+    text:
+      "Your stasis pod is in my workshop. The cycle is held at forty percent; the readings are clean and stable. I will not finish the choice for you — that is bad practice and worse manners. When you decide, the cycle resumes from forty. The pod has been waiting nineteen hours. It will wait nineteen years. Take the time you need.",
+    morality: "any",
+    trust: "any",
+    act: 1,
+    requiredFlags: ["crew_engineer_quarantined"],
+  },
+
+  // distress_signal echoes
+  {
+    id: "transmission_comms_signal_responded",
+    surface: "transmission",
+    targetId: "post_outbreak_comms_followup",
+    text:
+      "[CHANNEL OPEN] This is Comms Officer Vell, on duty since the Cryo Bay. The signal you answered carried a real survivor — fragment of Ark 1051, twelve souls remaining. They have logged a contact request for next month. They asked for your name. I gave them your callsign. They sent gratitude back in a format I have never seen before. I am keeping it. End transmission.",
+    morality: "any",
+    trust: "any",
+    act: 1,
+    requiredFlags: ["crew_comms_rescued"],
+  },
+  {
+    id: "transmission_comms_signal_silenced",
+    surface: "transmission",
+    targetId: "post_outbreak_comms_followup",
+    text:
+      "[ARCHIVAL ENTRY — UNADDRESSED] Distress signal #4471, source Ark 1051, twelve souls. Channel never opened. Source unanswered. I am logging this for future reference. The substrate keeps unanswered signals for as long as the original sender remains alive. Eight years from now, an unattributed message will arrive on a different frequency, asking why no one answered. You will not have a clean answer. I am writing this now so that the question, when it comes, finds you prepared.",
+    morality: "any",
+    trust: "any",
+    act: 1,
+    requiredFlags: ["radio_silence"],
+  },
+  {
+    id: "npc_line_antiquarian_signal_traced",
+    surface: "npc_line",
+    targetId: "the_antiquarian",
+    text:
+      "The coordinates you traced are now in my star chart under the label 'Acknowledged, Deferred.' I have a chapter for trace-and-wait too; it is a less popular chapter than 'Holding' but it has its own readers. The survivor is still alive. The signal is dormant, not dead. When you finally answer — and most who trace eventually do — the chapter completes. I look forward to writing the close.",
+    morality: "any",
+    trust: "any",
+    act: 1,
+    requiredFlags: ["signal_traced"],
+  },
 ];

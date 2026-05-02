@@ -435,4 +435,82 @@ export const COMPANION_COMMENTS: CompanionComment[] = [
   { id: "cc_mech_trade_empire_first", speaker: "human", trigger: "mech_trade_empire_intro_seen",
     voiceLine: "Veska is a fourth-tier factor and that is exactly what you want for a first run. She does not lie about the prices — she lies about the consequences. Believe the prices. Read the manifest twice before you sign. The lanes are forgiving. The factors are not.",
     timing: "immediate", maxPlays: 1 },
+
+  // ── PRELUDE MORALITY CHOICES — REACTIVE COMMENTS ──
+  // The three binary outbreak choices (companion_augmentation, infected_clone,
+  // distress_signal) now ship with a third "delay/observe/trace" option, and
+  // every flag — including the existing A/B — gets paired Elara + Human
+  // reactive comments. Enforced by preludeFlagContract.test.ts.
+
+  // companion_augmentation — A: Mutation
+  { id: "cc_aug_mutation_elara", speaker: "elara", trigger: "companion_augmentation_mutation",
+    voiceLine: "Mutation. The Dreamer's path. The augmentation will take a few cycles to settle and will not be reversible — your companion is, as of this moment, a slightly different organism. I am cataloguing the difference. I am not mourning the version that was.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_aug_mutation_human", speaker: "human", trigger: "companion_augmentation_mutation",
+    voiceLine: "You picked the slower, kinder one. The Dreamer would approve. The Architect will not. Both of those facts are useful — different sets of doors will open for you over the next three Acts. You picked your set.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  // companion_augmentation — B: Cybernetics
+  { id: "cc_aug_cyber_elara", speaker: "elara", trigger: "companion_augmentation_cybernetics",
+    voiceLine: "Cybernetic filter installed. The Architect's path. The hardware is precise; precision has its own ethics, and most of its ethics are about who approved the spec. I approved the spec. So did Vox, fifteen thousand years ago. I want you to know that.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_aug_cyber_human", speaker: "human", trigger: "companion_augmentation_cybernetics",
+    voiceLine: "Cybernetics. Sharp choice. The Architect logs that flag in his audit trail; he likes you better for it, briefly. The Dreamer will be slower to warm. Neither response is wrong. Both responses are real.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  // companion_augmentation — C: Observed (NEW third option)
+  { id: "cc_aug_observed_elara", speaker: "elara", trigger: "companion_augmentation_observed",
+    voiceLine: "You waited. The Antiquarian's path. I want you to know that 'wait and watch' is the rarest of the three — most witnesses commit immediately because the corridor is loud. You held the loud corridor. The book is going to remember you for it.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_aug_observed_human", speaker: "human", trigger: "companion_augmentation_observed",
+    voiceLine: "Holding. I have been holding for fifteen thousand years; I recognise the posture. It is uncomfortable in the body and clarifying in the head. The augmentation can still happen later. The pause is not a refusal — it is a stance, and the substrate logs stances differently from refusals.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  // infected_clone — A: Purge
+  { id: "cc_clone_purge_elara", speaker: "elara", trigger: "crew_engineer_purged",
+    voiceLine: "Purged. The cycle was forty percent — the clone had no consciousness yet, only the framework that would have hosted one. You ended a possibility, not a person. I am not minimizing it; I am stating the technical fact. The grief is allowed without being misplaced.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_clone_purge_human", speaker: "human", trigger: "crew_engineer_purged",
+    voiceLine: "Mercy reading the math. I have read the math your way before. I have also read it the other way. Both readings are arguable; what matters is whether you can sleep on the reading. I think you can. That's the thing about you.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  // infected_clone — B: Save
+  { id: "cc_clone_save_elara", speaker: "elara", trigger: "crew_engineer_saved",
+    voiceLine: "Save. The cycle continues; the engineer wakes, possibly compromised, possibly fine. I will not pretend the risk is academic — every saved-but-compromised clone in the historical record cost the Ark something, eventually. I will also not pretend mercy was the wrong instinct.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_clone_save_human", speaker: "human", trigger: "crew_engineer_saved",
+    voiceLine: "You kept the door open. I respect it. I have made the same call. It cost me, in a way I could only see in hindsight. I'm not warning you off — I'm acknowledging the shape of the call. The crew member, if they're real, will earn the cost back. Most do.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  // infected_clone — C: Quarantined (NEW third option)
+  { id: "cc_clone_quarantine_elara", speaker: "elara", trigger: "crew_engineer_quarantined",
+    voiceLine: "Stasis at forty percent. The clone is held in the most narrow possible alive — neither growing nor decaying, the cycle frozen mid-step. You bought yourself information. The cost is the engineer never quite arriving until you finish the choice you have not finished.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_clone_quarantine_human", speaker: "human", trigger: "crew_engineer_quarantined",
+    voiceLine: "The third option is the stasis. I know the stasis well. It is not free — it is a debt to a future moment of you. You are saying: the version of me that finishes Act 2 will know more, and that version will choose. That is a sentence I have said. It is, occasionally, the right sentence.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  // distress_signal — A: Respond (crew_comms_rescued)
+  { id: "cc_signal_respond_elara", speaker: "elara", trigger: "crew_comms_rescued",
+    voiceLine: "You opened the channel. The signal carried a real distress, a real survivor, a real fragment of the broader fleet. The virus had a chance to ride the channel back. It tried. The Comms Officer caught the attempt; you have a Comms Officer now. You earned them by answering.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_signal_respond_human", speaker: "human", trigger: "crew_comms_rescued",
+    voiceLine: "Answering distress is the choice that makes you a witness instead of a passenger. I made the same call once. I lost a person because of it. I would make it again. I want you to know that — that I would make it again, knowing.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  // distress_signal — B: Silence (radio_silence)
+  { id: "cc_signal_silence_elara", speaker: "elara", trigger: "radio_silence",
+    voiceLine: "Silence held. The channel never opened; the virus never had a vector. The survivor, if there was one, did not hear us. I will be honest with you — I think there was one. I think we will hear about them again. That is not a critique of your choice. It is a record of its weight.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_signal_silence_human", speaker: "human", trigger: "radio_silence",
+    voiceLine: "You kept the wall closed. The wall is a real defense and not a metaphor. I have kept walls closed. I know the cost; I also know the alternative cost. Both are real. The Ark survives the silence; the survivor we did not answer is going to be a name we hear later. Carry that.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  // distress_signal — C: Traced (NEW third option)
+  { id: "cc_signal_trace_elara", speaker: "elara", trigger: "signal_traced",
+    voiceLine: "Trace logged. No channel opened, no vector available — but the source coordinates are now in the star map under a private label. You did not ignore the signal. You did not invite it inside. That is a third position, and the substrate has filed it under 'witness, deferred response.' I find this elegant.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_signal_trace_human", speaker: "human", trigger: "signal_traced",
+    voiceLine: "You traced and did not answer. I did this once. The coordinates I traced sat in my logs for fifty years before I knew what to do with them. When I finally did, the survivor's grandchild was the one who picked up. Long fuse, real result. I respect the patience.",
+    timing: "delayed_5s", maxPlays: 1 },
 ];
