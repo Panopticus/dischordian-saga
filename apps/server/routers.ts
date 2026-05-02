@@ -34,6 +34,8 @@ import { tier5PvpRouter } from "./routers/tier5Pvp";
 import { apprenticeTrialRouter } from "./routers/apprenticeTrial";
 import { pvpModerationRouter } from "./routers/pvpModeration";
 import { pvpTelemetryRouter } from "./routers/pvpTelemetry";
+import { partyRouter } from "./routers/party";
+import { coopCardRouter } from "./routers/coopCard";
 import { draftRouter } from "./routers/draft";
 import { tradingRouter } from "./routers/trading";
 import { cardAchievementsRouter } from "./routers/cardAchievements";
@@ -158,6 +160,8 @@ export const appRouter = router({
   apprenticeTrial: apprenticeTrialRouter,
   pvpModeration: pvpModerationRouter,
   pvpTelemetry: pvpTelemetryRouter,
+  party: partyRouter,
+  coopCard: coopCardRouter,
   draft: draftRouter,
   trading: tradingRouter,
   cardAchievements: cardAchievementsRouter,

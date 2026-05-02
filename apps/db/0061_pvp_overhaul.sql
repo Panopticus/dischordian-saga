@@ -369,3 +369,62 @@ SET @sql := IF(
 );
 PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
 
+
+-- T12: Party system
+CREATE TABLE IF NOT EXISTS `parties` (
+  `id` int AUTO_INCREMENT PRIMARY KEY,
+  `partyId` varchar(64) NOT NULL UNIQUE,
+  `leaderUserId` int NOT NULL,
+  `mode` enum('card_2v2','card_coop','card_ffa','open') NOT NULL DEFAULT 'open',
+  `openToJoin` int NOT NULL DEFAULT 0,
+  `status` enum('forming','queued','in_match','disbanded') NOT NULL DEFAULT 'forming',
+  `matchId` varchar(64),
+  `createdAt` timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
+  `updatedAt` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL,
+  INDEX `idx_parties_leader` (`leaderUserId`),
+  INDEX `idx_parties_status` (`status`)
+);
+
+CREATE TABLE IF NOT EXISTS `party_members` (
+  `id` int AUTO_INCREMENT PRIMARY KEY,
+  `partyId` varchar(64) NOT NULL,
+  `userId` int NOT NULL,
+  `role` enum('leader','member') NOT NULL DEFAULT 'member',
+  `slot` int NOT NULL,
+  `joinedAt` timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
+  INDEX `idx_party_members_party` (`partyId`),
+  INDEX `idx_party_members_user` (`userId`),
+  UNIQUE INDEX `uniq_party_members_user_party` (`partyId`, `userId`),
+  UNIQUE INDEX `uniq_party_members_user_single` (`userId`)
+);
+
+CREATE TABLE IF NOT EXISTS `party_invites` (
+  `id` int AUTO_INCREMENT PRIMARY KEY,
+  `partyId` varchar(64) NOT NULL,
+  `invitedUserId` int NOT NULL,
+  `invitedByUserId` int NOT NULL,
+  `status` enum('pending','accepted','declined','expired') NOT NULL DEFAULT 'pending',
+  `expiresAt` timestamp NOT NULL,
+  `createdAt` timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
+  `respondedAt` timestamp,
+  INDEX `idx_party_invites_invited_user` (`invitedUserId`),
+  INDEX `idx_party_invites_party` (`partyId`),
+  UNIQUE INDEX `uniq_party_invites_pending` (`partyId`, `invitedUserId`)
+);
+
+-- T12: Co-op card encounter sessions
+CREATE TABLE IF NOT EXISTS `coop_card_sessions` (
+  `id` int AUTO_INCREMENT PRIMARY KEY,
+  `sessionId` varchar(64) NOT NULL UNIQUE,
+  `partyId` varchar(64) NOT NULL,
+  `encounterKey` varchar(64) NOT NULL,
+  `difficulty` enum('normal','heroic','mythic') NOT NULL DEFAULT 'normal',
+  `partyMemberIds` json NOT NULL,
+  `underlyingMatchId` varchar(64),
+  `outcome` enum('pending','victory','defeat','abandoned') NOT NULL DEFAULT 'pending',
+  `phasesFired` json NOT NULL,
+  `startedAt` timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
+  `endedAt` timestamp,
+  INDEX `idx_coop_card_sessions_party` (`partyId`),
+  INDEX `idx_coop_card_sessions_encounter` (`encounterKey`)
+);
