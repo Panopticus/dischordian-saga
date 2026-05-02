@@ -305,10 +305,14 @@ export default function DischordiaOpeningCinematic({
                 disabled={!isGameReady}
                 aria-label="Skip the opening transmission"
                 aria-disabled={!isGameReady}
+                style={{
+                  bottom: "max(1.5rem, env(safe-area-inset-bottom, 0px))",
+                  right: "max(1.5rem, env(safe-area-inset-right, 0px))",
+                }}
                 className={
                   isGameReady
-                    ? "absolute bottom-6 right-6 px-5 py-2 border border-emerald-500/60 bg-black/60 hover:bg-emerald-900/40 text-emerald-200 font-mono text-xs uppercase tracking-[0.3em] rounded backdrop-blur-sm shadow-[0_0_18px_rgba(16,185,129,0.4)]"
-                    : "absolute bottom-6 right-6 px-5 py-2 border border-emerald-900/60 bg-black/60 text-emerald-500/40 font-mono text-xs uppercase tracking-[0.3em] rounded backdrop-blur-sm cursor-not-allowed"
+                    ? "absolute px-5 py-3 border border-emerald-500/60 bg-black/80 hover:bg-emerald-900/40 text-emerald-200 font-mono text-xs uppercase tracking-[0.3em] rounded backdrop-blur-sm shadow-[0_0_18px_rgba(16,185,129,0.4)]"
+                    : "absolute px-5 py-3 border border-emerald-900/60 bg-black/80 text-emerald-500/40 font-mono text-xs uppercase tracking-[0.3em] rounded backdrop-blur-sm cursor-not-allowed"
                 }
               >
                 {isGameReady ? "AWAKEN ▸" : "Stand by…"}
