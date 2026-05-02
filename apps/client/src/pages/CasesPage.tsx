@@ -31,7 +31,9 @@ import {
   THE_SEER_LINES,
   VEX_SOLENE_LINES,
   GAME_MASTER_LINES,
+  THE_DEGEN_LINES,
 } from "@/components/TrustVoiceLine";
+import { CrossArcThreads } from "@/components/CrossArcThreads";
 
 export default function CasesPage() {
   const { isAuthenticated } = useAuth();
@@ -123,6 +125,16 @@ export default function CasesPage() {
             speakerLabel="The Game Master, from the unedited fragment"
             lines={GAME_MASTER_LINES}
           />
+          <TrustVoiceLine
+            npcId="the_degen"
+            speakerLabel="The Degen, Trustee"
+            lines={THE_DEGEN_LINES}
+          />
+        </section>
+
+        {/* Cross-arc threads — saga weave readout */}
+        <section className="mb-6">
+          <CrossArcThreads />
         </section>
 
         {/* Available cases */}

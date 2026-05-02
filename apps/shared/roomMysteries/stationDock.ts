@@ -61,6 +61,20 @@ export const STATION_DOCK_MYSTERY: RoomMysteryModule<StationDockHotspotId> = {
           source: "station-dock",
           order: 1,
         },
+        // Mystery Engine binding — when Game Master arc is the
+        // active case, the manifest console surfaces Xeth'Raal's
+        // Goggles acquisition paperwork. Lore match: the manifest
+        // is canonically a transit-of-cargo record, and the
+        // Hierarchy CFO filed his custodial-collection paperwork
+        // through this dock within the hour of the Game Master's
+        // destruction. Same console, same discipline of not
+        // logging the contents — only this time the logging gap
+        // is deliberate on the Hierarchy's side, not Lyra's.
+        mysteryBinding: {
+          mysteryId: "mystery.game_master",
+          episodeId: "game_master.e1",
+          cluesFound: ["game_master.e1.xethraal_acquisition_paperwork"],
+        },
       },
     },
     "cargo-lift": {

@@ -1615,6 +1615,178 @@ const GAME_MASTER_MYSTERY: MysteryDefinition = {
   lenses: gameMasterLenses,
 };
 
+/* ─── THE DEGEN ARC — E1 ─── */
+/* E1: "The Casino Debt"
+   Per docs/design/STREAMED_PRISM_MYSTERY_ENGINE.md §7 — the
+   Degen's hook is "Ne-Yon casino debt to a Hierarchy demon."
+   The Degen brokers favours under terms that look transactional;
+   the Ne-Yon casino is the room where his terms got authored,
+   and the Hierarchy demon who owns the chair the Degen's debt
+   was rolled across is the case's hidden lender of record.
+
+   E1 investigates the original debt: not the active brokerage
+   the Degen runs today, but the trade that made the brokerage
+   possible. */
+
+const degenE1: EpisodeDefinition = {
+  id: "degen.e1" as EpisodeId,
+  arcId: ARC_THE_DEGEN,
+  ordinal: 1,
+  title: "The Casino Debt",
+  summary:
+    "The Degen brokers favours from the Heart of Time at terms that look transactional. The terms were authored in one night at the Ne-Yon casino, against a Hierarchy demon's chair. Investigate what the Degen put on the table that night — and what he walked out with that the Hierarchy is still holding the receipt for.",
+  clues: [
+    {
+      id: "degen.e1.ne_yon_chip_balance" as ClueId,
+      title: "Ne-Yon Casino Chip Balance",
+      body: "The Ne-Yon casino's ledger records a single high-stakes chair the Degen sat at exactly once, on a date he refers to in his own ledgers as 'the night the brokerage opened.' His ending balance: zero chips, zero debt. The chair's house cut: nothing. A demon presided. The presiding demon's chair — by Hierarchy custom — keeps a copy of every contract played across it. The Degen left the casino with a contract he didn't pay for, and the demon kept the receipt.",
+      foundIn: "casino",
+    },
+    {
+      id: "degen.e1.hierarchy_demon_signature" as ClueId,
+      title: "Hierarchy Demon's Signature on the Receipt",
+      body: "The Hierarchy of the Damned's archive carries a single contract from that night, sealed in red wax and signed by the demon Mol'Vereth — Hierarchy junior partner, casino-circuit specialist. The contract names the Degen as a trustee, not a debtor. A trustee holds the asset; the asset is not theirs to spend. Mol'Vereth's signature is impeccable. The contract has been in force for centuries.",
+      foundIn: "trade-hub",
+    },
+    {
+      id: "degen.e1.degens_first_brokerage_record" as ClueId,
+      title: "The Degen's First Brokerage Record",
+      body: "The Degen's own ledgers begin the morning after Ne-Yon. The first entry — written in his hand, in a tone the rest of the ledger never repeats — reads 'I am, from this morning forward, the asset's broker. The asset is not mine. I am paid in the brokerage; the principal stays with the table.' Every subsequent entry across centuries is in his standard ledger tone. The first entry is the only one that admits the brokerage was inherited, not earned.",
+      foundIn: "engineering",
+    },
+    {
+      id: "degen.e1.mol_vereth_visiting_card" as ClueId,
+      title: "Mol'Vereth's Visiting Card",
+      body: "A small ivory card pressed into the spine of the Degen's ledger, dated last year. Mol'Vereth's seal. The card reads, in measured Hierarchy script: 'The trusteeship is in good standing. The arrangement permits all current activity. We will know when the asset is to be returned. So will you.' The Degen has been paying the brokerage cost for centuries. The principal is still on the table at Ne-Yon, in Mol'Vereth's chair, waiting.",
+      foundIn: "captains-quarters",
+    },
+  ],
+  deductions: [
+    {
+      id: "degen.e1.d.trustee_not_debtor" as DeductionId,
+      clueA: "degen.e1.hierarchy_demon_signature" as ClueId,
+      clueB: "degen.e1.degens_first_brokerage_record" as ClueId,
+      result: "correct",
+      narrationId: "degen.e1.n.he_is_a_trustee",
+      narrationProse:
+        "The Degen is a trustee, not a debtor. Mol'Vereth's contract names the relationship correctly: the asset is not the Degen's to spend, and he has been paid in the brokerage rather than collecting on the principal. His own ledger's first entry — the only one that breaks his standard tone — admits the brokerage was inherited, not earned. Whatever he won at Ne-Yon, he won the right to manage someone else's stake. The Hierarchy is the someone else. We have been reading him for centuries as a free agent operating on credit; he has been operating on someone else's standing balance.",
+    },
+    {
+      id: "degen.e1.d.principal_still_on_table" as DeductionId,
+      clueA: "degen.e1.ne_yon_chip_balance" as ClueId,
+      clueB: "degen.e1.mol_vereth_visiting_card" as ClueId,
+      result: "partial",
+      narrationId: "degen.e1.n.the_principal_waits",
+      narrationProse:
+        "The principal is still on the table at Ne-Yon — sealed in Mol'Vereth's chair, by Hierarchy custom, until the day the contract permits its return. Mol'Vereth's visiting card is, on the legal side, a courtesy update: trusteeship is in good standing, the arrangement permits all current activity, the demon will know when the asset is to be returned. We do not yet know what the asset IS. We know only that the Degen has spent centuries paying the brokerage cost while it sits, untouched, in the room where it was won. The case's open question is the asset's identity.",
+    },
+    {
+      id: "degen.e1.d.false_lead_addiction" as DeductionId,
+      clueA: "degen.e1.ne_yon_chip_balance" as ClueId,
+      clueB: "degen.e1.degens_first_brokerage_record" as ClueId,
+      result: "false_lead_named",
+      narrationId: "degen.e1.n.not_an_addiction",
+      narrationProse:
+        "Reading the Degen's name and the Ne-Yon chair as evidence of a gambling addiction is the obvious move and the wrong one. He has sat at the Ne-Yon table exactly once. His ending balance was zero — not a debt that grew, not a streak he chased. The casino is not the case. The casino is the courtroom. He went there once, signed one trusteeship contract, and never returned. The brokerage he runs from the Heart of Time is not a continuation of the gambling; it is the trustee's daily work on the asset he was made guardian of in a single night.",
+    },
+  ],
+  choices: [
+    {
+      id: "degen.e1.c.ask_about_the_asset" as ChoiceId,
+      label: "Ask the Degen what the asset is — he may be ready to name it.",
+      weight: "direct",
+    },
+    {
+      id: "degen.e1.c.consult_mol_vereth" as ChoiceId,
+      label: "Consult Mol'Vereth — the demon's terms are public if you ask correctly.",
+      weight: "hierarchy_facing",
+    },
+    {
+      id: "degen.e1.c.observe_the_brokerage" as ChoiceId,
+      label: "Watch the brokerage from the outside — let the principal's outline appear by the work it commissions.",
+      weight: "patient",
+    },
+  ],
+  contentBundle: {
+    songId: "album1.t14", /* "Control The Story" — Dischordian Logic Act 2 */
+    slideshowId: "album1.t14",
+    loredexUnlocks: [
+      "entity_the_degen",
+      "entity_mol_vereth",
+      "concept_ne_yon_casino",
+      "concept_hierarchy_trusteeship",
+    ],
+    conspiracyDiscoveries: [
+      "the_degen",
+      "mol_vereth",
+      "ne_yon_table",
+      "trusteeship_contract",
+    ],
+    dropAt: "episode_close",
+  },
+};
+
+/* ─── THE DEGEN ARC ─── */
+
+const degenSuspects: ReadonlyArray<{
+  id: SuspectId;
+  name: string;
+  type: string;
+  relations: ReadonlyArray<{ to: SuspectId; relation: string }>;
+}> = [
+  {
+    id: "suspect.the_degen" as SuspectId,
+    name: "The Degen",
+    type: "character",
+    relations: [
+      { to: "suspect.mol_vereth" as SuspectId, relation: "trustee-of" },
+      { to: "suspect.ne_yon_table" as SuspectId, relation: "won-trusteeship-at" },
+      { to: "suspect.unnamed_asset" as SuspectId, relation: "manages" },
+    ],
+  },
+  {
+    id: "suspect.mol_vereth" as SuspectId,
+    name: "Mol'Vereth (Hierarchy)",
+    type: "character",
+    relations: [
+      { to: "suspect.unnamed_asset" as SuspectId, relation: "lender-of-record" },
+    ],
+  },
+  {
+    id: "suspect.ne_yon_table" as SuspectId,
+    name: "Mol'Vereth's Chair (Ne-Yon)",
+    type: "location",
+    relations: [],
+  },
+  {
+    id: "suspect.unnamed_asset" as SuspectId,
+    name: "The Principal (unnamed)",
+    type: "concept",
+    relations: [],
+  },
+];
+
+const degenLenses = [
+  { id: LENS_INSURGENCY, name: "Insurgency", category: "faction" },
+  { id: LENS_HIERARCHY,  name: "Hierarchy",  category: "faction" },
+  { id: LENS_THALORIA,   name: "Thaloria",   category: "faction" },
+  { id: LENS_QUARCHON,   name: "Quarchon",   category: "faction" },
+  { id: LENS_DREAMER,    name: "Dreamer",    category: "faction" },
+  { id: LENS_NEUTRAL,    name: "Neutral",    category: "faction" },
+] as const;
+
+const THE_DEGEN_MYSTERY: MysteryDefinition = {
+  id: "mystery.the_degen" as MysteryId,
+  arcId: ARC_THE_DEGEN,
+  title: "The Trusteeship",
+  summary:
+    "The Degen brokers favours under terms that look transactional. They were authored in one night at the Ne-Yon casino, against a Hierarchy demon's chair. Investigate what the Degen put on the table that night — and what he walked out with that the Hierarchy is still holding the receipt for.",
+  npcId: "the_degen",
+  episodes: [degenE1],
+  suspects: degenSuspects,
+  lenses: degenLenses,
+};
+
 /* ─── REGISTRY ─── */
 
 /** Every authored mystery in the saga. The runtime reads against
@@ -1626,6 +1798,7 @@ export const MYSTERY_DEFINITIONS: ReadonlyArray<MysteryDefinition> = [
   THE_SEER_MYSTERY,
   VEX_SOLENE_MYSTERY,
   GAME_MASTER_MYSTERY,
+  THE_DEGEN_MYSTERY,
 ];
 
 /** Find a mystery by id. Returns null when not authored — the

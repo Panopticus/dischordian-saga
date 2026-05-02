@@ -314,6 +314,20 @@ export const ARCHIVES_MYSTERY: RoomMysteryModule<
           },
           voId: "detective.archives.rewritten-ledger.look",
         },
+        // Mystery Engine binding — when Game Master arc is the
+        // active case, the rewritten-ledger surfaces the cult's
+        // 47th-edition curated log alongside the editor's scrubs.
+        // Lore match is precise: this hotspot is canonically
+        // about edits-by-omission and surviving margins, and the
+        // Game Masters' editorial sanctification works the same
+        // way — they soften without rewriting, scrub without
+        // overwriting, and leave the cult's grief legible in the
+        // gaps.
+        mysteryBinding: {
+          mysteryId: "mystery.game_master",
+          episodeId: "game_master.e1",
+          cluesFound: ["game_master.e1.cult_curated_log"],
+        },
       },
       use: {
         narration:
