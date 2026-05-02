@@ -199,6 +199,28 @@ export const COMMS_ARRAY_MYSTERY: RoomMysteryModule<
           voId: "detective.comms-array.egg-signal.look",
         },
       },
+      use: {
+        narration: {
+          lucid:
+            "You tune the array deeper into the egg-channel. The SOS thins; underneath it, a roster surfaces. The Seer's archive credit list, decade by decade — 4,711 of 4,712 tapes credited Engineer Zero, alias Vex Solène. The 4,712th, dated DEC-7710, is credited to a Warlord-fragment cover identity that resolves on cross-reference to the same engineer. Same hands; different name on the credit line.",
+          fragmented:
+            "Engineer Zero. Engineer Zero. Engineer Zero. Vex. Vex. Vex Solène. Warlord fragment. Warlord fragment. Warlord fragment.",
+          luminous:
+            "Tuning the egg-channel surfaces the roster the Insurgency tried to keep clean: every Seer-archive recording credited to Engineer Zero — Vex Solène — except DEC-7710, which is credited to a Warlord-fragment alias that resolves to the same engineer. The credit-list anomaly is the case's first surface; the Insurgency has been broadcasting the alias's existence on a thin frequency, hoping someone careful enough to listen would care enough to read it as a request for help rather than a gap in the record.",
+        },
+        voId: "elara.comms-array.egg-signal.use",
+        // Mystery Engine binding — using the egg-comms-signal
+        // surfaces the Engineer Zero credit-list anomaly. Lore
+        // match: the egg-channel is the comms-array's discipline
+        // for surfacing records the official archive declines to
+        // index publicly; Vex's alias on DEC-7710 is exactly that
+        // kind of record.
+        mysteryBinding: {
+          mysteryId: "mystery.vex_solene",
+          episodeId: "vex.e1",
+          cluesFound: ["vex.e1.engineer_zero_credit_list"],
+        },
+      },
     },
     "voice-in-the-static": {
       look: {

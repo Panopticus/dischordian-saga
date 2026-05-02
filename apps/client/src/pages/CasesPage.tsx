@@ -24,7 +24,14 @@ import { DeductionPanel } from "@/components/DeductionPanel";
 import { ChoicePanel } from "@/components/ChoicePanel";
 import { CaseRecap } from "@/components/CaseRecap";
 import { TrustScalars } from "@/components/TrustScalars";
-import { TrustVoiceLine, WRAITH_CALDER_LINES } from "@/components/TrustVoiceLine";
+import {
+  TrustVoiceLine,
+  WRAITH_CALDER_LINES,
+  JERICHO_JONES_LINES,
+  THE_SEER_LINES,
+  VEX_SOLENE_LINES,
+  GAME_MASTER_LINES,
+} from "@/components/TrustVoiceLine";
 
 export default function CasesPage() {
   const { isAuthenticated } = useAuth();
@@ -95,6 +102,26 @@ export default function CasesPage() {
             npcId="wraith_calder"
             speakerLabel="Wraith Calder, Hierophant"
             lines={WRAITH_CALDER_LINES}
+          />
+          <TrustVoiceLine
+            npcId="jericho_jones"
+            speakerLabel="Jericho Jones, Iron Lion in training"
+            lines={JERICHO_JONES_LINES}
+          />
+          <TrustVoiceLine
+            npcId="the_seer"
+            speakerLabel="The Seer"
+            lines={THE_SEER_LINES}
+          />
+          <TrustVoiceLine
+            npcId="vex_solene"
+            speakerLabel="Vex Solène, Engineer"
+            lines={VEX_SOLENE_LINES}
+          />
+          <TrustVoiceLine
+            npcId="game_master"
+            speakerLabel="The Game Master, from the unedited fragment"
+            lines={GAME_MASTER_LINES}
           />
         </section>
 

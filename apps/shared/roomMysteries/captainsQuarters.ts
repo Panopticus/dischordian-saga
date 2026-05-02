@@ -114,13 +114,25 @@ export const CAPTAINS_QUARTERS_MYSTERY: RoomMysteryModule<CaptainsQuartersHotspo
       use: {
         narration: {
           lucid:
-            "You straighten the frame. The hook accepts the adjustment with the tired, slightly grateful click of a fixture that has been straightened many times by many hands. Mostly the same hand, lately.",
+            "You straighten the frame. The hook accepts the adjustment with the tired, slightly grateful click of a fixture that has been straightened many times by many hands. Mostly the same hand, lately. As the frame settles, a folded sheet slips from behind the photograph onto the desk: a private note in Vex Solène's hand, dated the night DEC-7710 was sealed. She had put her journal page where Lyra would find it eventually, and Lyra had hidden it where no editor would think to look — behind a cat.",
           fragmented:
-            "Don't — don't take it. Don't take the cat. Don't take the cat. Leave it. Leave the cat. Leave the cat. Leave the cat.",
+            "Don't — don't take it. Don't take the cat. Don't take the cat. Leave it. Leave the cat. Leave the cat. Leave the cat. The note. The note. The note slipped out.",
           luminous:
-            "You straightened the frame. Thank you. Now whoever cleans it next will know we were here. That is, in this room, the closest thing we have to leaving a note.",
+            "Straightening the frame dislodges a folded sheet that has been pressed behind the photograph since the night DEC-7710 was sealed. Vex's hand. Her private note: 'I asked them to take my name off it. The recording was the Seer's; I was only the engineer. But the engineering was a confession, and I cannot live with the confession being public the day it was made. I asked the witness to wait. Whoever finds this — the Insurgency will own that I asked for the alias. I want the saga to know I did not hide.' Lyra hid the note behind the cat because no editor would think to look there. Two centuries of cleaning streaks have left the page intact.",
         },
         voId: "elara.captains-quarters.cat-photo.use",
+        // Mystery Engine binding — when Vex Solène arc is the
+        // active case, straightening the cat-photo dislodges
+        // Vex's private note. Lore match: Lyra hid the note
+        // behind the photograph as the editor-resistant surface
+        // it canonically is — the cat's frame is dust-tended
+        // weekly by Kael, and no editor would think to look
+        // behind a cat for a recording engineer's confession.
+        mysteryBinding: {
+          mysteryId: "mystery.vex_solene",
+          episodeId: "vex.e1",
+          cluesFound: ["vex.e1.vex_self_note"],
+        },
       },
       talk: {
         narration: {
