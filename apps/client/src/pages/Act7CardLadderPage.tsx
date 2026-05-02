@@ -215,6 +215,17 @@ export default function Act7CardLadderPage() {
     (flag: (typeof FINAL_STANCES)[number]["flag"]) => {
       setNarrativeFlag(flag, true);
       setNarrativeFlag("act7_stance_chosen", true);
+      // Branching-pass aliases — fire the canonical fork-flag name alongside
+      // the surface-specific stance flag so companionComments / askTopics /
+      // moralityTrustActVariants entries that gate on act7_*_chosen resolve
+      // correctly. See actBranchingContract.test.ts.
+      const ALIASES: Record<(typeof FINAL_STANCES)[number]["flag"], string> = {
+        act7_s1_humanity_path: "act7_humanity_chosen",
+        act7_s1_machine_path: "act7_command_chosen",
+        act7_s1_balance: "act7_pattern_chosen",
+        act7_s1_soldier_command: "act7_bridge_chosen",
+      };
+      setNarrativeFlag(ALIASES[flag], true);
       fireCompanionComment(flag);
       const stanceLineId: Record<
         (typeof FINAL_STANCES)[number]["flag"],

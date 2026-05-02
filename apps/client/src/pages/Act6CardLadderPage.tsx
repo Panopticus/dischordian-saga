@@ -210,6 +210,17 @@ export default function Act6CardLadderPage() {
       // each have to know the four specific stance-flag names. The gate
       // itself still reads ACT_6_CONFESSION_STANCE_FLAGS (the four above).
       setNarrativeFlag("act6_stance_chosen", true);
+      // Branching-pass aliases — fire the canonical fork-flag name alongside
+      // the surface-specific stance flag so companionComments / askTopics /
+      // moralityTrustActVariants entries that gate on act6_*_chosen resolve
+      // correctly. See actBranchingContract.test.ts.
+      const ALIASES: Record<(typeof CONFESSION_STANCES)[number]["flag"], string> = {
+        act6_confession_close_empathy: "act6_compassion_chosen",
+        act6_confession_close_challenge: "act6_suspicious_chosen",
+        act6_confession_close_refusal: "act6_refuse_secrecy_chosen",
+        act6_confession_close_reluctant_ally: "act6_ally_chosen",
+      };
+      setNarrativeFlag(ALIASES[flag], true);
       fireCompanionComment(flag);
       const stanceLineId: Record<
         (typeof CONFESSION_STANCES)[number]["flag"],
