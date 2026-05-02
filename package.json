@@ -27,6 +27,7 @@
     "vo:act1": "bash apps/scripts/run-act1-opponent-vo.sh",
     "vo:companion": "bash apps/scripts/run-companion-vo.sh",
     "vo:awakening": "tsx apps/scripts/generate-awakening-vo.ts",
+    "vo:engineer-logs": "tsx apps/scripts/generate-engineer-logs-vo.ts",
     "vo:room-mystery": "tsx apps/scripts/generate-room-mystery-vo.ts",
     "vo:first-contact": "tsx apps/scripts/generate-first-contact-vo.ts",
     "vo:all": "bash apps/scripts/run-prelude-vo.sh && bash apps/scripts/run-act1-opponent-vo.sh && bash apps/scripts/run-companion-vo.sh",
