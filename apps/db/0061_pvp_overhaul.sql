@@ -428,3 +428,24 @@ CREATE TABLE IF NOT EXISTS `coop_card_sessions` (
   INDEX `idx_coop_card_sessions_party` (`partyId`),
   INDEX `idx_coop_card_sessions_encounter` (`encounterKey`)
 );
+
+-- T13: per-member deck + ready columns on party_members.
+SET @col_exists := (
+  SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS
+  WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'party_members'
+    AND COLUMN_NAME = 'selectedDeckId'
+);
+SET @sql := IF(@col_exists = 0,
+  'ALTER TABLE `party_members` ADD COLUMN `selectedDeckId` int NULL AFTER `slot`',
+  'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+
+SET @col_exists := (
+  SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS
+  WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'party_members'
+    AND COLUMN_NAME = 'ready'
+);
+SET @sql := IF(@col_exists = 0,
+  'ALTER TABLE `party_members` ADD COLUMN `ready` int NOT NULL DEFAULT 0 AFTER `selectedDeckId`',
+  'SELECT 1');
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;

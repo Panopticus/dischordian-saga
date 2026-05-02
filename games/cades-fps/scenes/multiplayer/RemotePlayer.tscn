@@ -1,0 +1,52 @@
+[gd_scene load_steps=4 format=3 uid="uid://b8mp1remote0001"]
+
+[ext_resource type="Script" path="res://scripts/multiplayer/RemotePlayer.gd" id="1_remote_script"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_remote"]
+radius = 0.3
+height = 1.0
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_remote"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 2
+properties/2/path = NodePath(".:velocity_sync")
+properties/2/spawn = true
+properties/2/replication_mode = 2
+properties/3/path = NodePath(".:aim_pitch")
+properties/3/spawn = true
+properties/3/replication_mode = 2
+properties/4/path = NodePath(".:aim_yaw")
+properties/4/spawn = true
+properties/4/replication_mode = 2
+properties/5/path = NodePath(".:hp")
+properties/5/spawn = true
+properties/5/replication_mode = 1
+properties/6/path = NodePath(".:max_hp")
+properties/6/spawn = true
+properties/6/replication_mode = 0
+properties/7/path = NodePath(".:current_weapon")
+properties/7/spawn = true
+properties/7/replication_mode = 1
+
+[node name="RemotePlayer" type="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+script = ExtResource("1_remote_script")
+
+[node name="Collider" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, 0)
+shape = SubResource("CapsuleShape3D_remote")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_remote")
+public_visibility = true
+
+[node name="HpLabel" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
+billboard = 1
+text = "100"
+font_size = 32
+outline_size = 8

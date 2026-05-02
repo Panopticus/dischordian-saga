@@ -265,6 +265,8 @@ export const partyRouter = router({
         name: nameById.get(m.userId) ?? "Unknown",
         role: m.role,
         slot: m.slot,
+        selectedDeckId: m.selectedDeckId,
+        ready: m.ready === 1,
         joinedAt: m.joinedAt,
       })),
     };
@@ -304,7 +306,34 @@ export const partyRouter = router({
     return { ok: true, disbanded: false };
   }),
 
-  /** Mark party as queued for matchmaking. The PvP WS picks it up. */
+  /** T13: set the calling member's selected deck + ready flag.
+   *  Available while party.status === "forming". */
+  setMyDeck: protectedProcedure
+    .input(z.object({ deckId: z.number().int().nullable(), ready: z.boolean() }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
+      const ctxg = await getMyParty(ctx.user.id);
+      if (!ctxg) throw new TRPCError({ code: "FORBIDDEN", message: "Not in a party" });
+      if (ctxg.party.status !== "forming") {
+        throw new TRPCError({ code: "BAD_REQUEST", message: "Party not in forming state" });
+      }
+      // Marking ready without a deck is invalid for non-open modes.
+      if (input.ready && ctxg.party.mode !== "open" && input.deckId == null) {
+        throw new TRPCError({ code: "BAD_REQUEST", message: "Pick a deck before marking ready" });
+      }
+      await db
+        .update(partyMembers)
+        .set({ selectedDeckId: input.deckId, ready: input.ready ? 1 : 0 })
+        .where(eq(partyMembers.id, ctxg.myMembership.id));
+      return { ok: true };
+    }),
+
+  /** Mark party as queued for matchmaking. The PvP WS picks it up.
+   *  T13: now requires every member to be ready with a deck (for
+   *  non-open modes). Solo card_2v2 / card_coop / card_ffa parties
+   *  with a single member also still require their leader to be
+   *  ready (so duo-queue + solo-queue share the same gate). */
   queueParty: protectedProcedure.mutation(async ({ ctx }) => {
     const db = await getDb();
     if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
@@ -321,13 +350,21 @@ export const partyRouter = router({
     }
     // Verify capacity matches mode.
     const memberRows = await db
-      .select({ id: partyMembers.id })
+      .select()
       .from(partyMembers)
       .where(eq(partyMembers.partyId, ctxg.party.partyId));
     if (memberRows.length !== maxMembersForMode(ctxg.party.mode)) {
       throw new TRPCError({
         code: "BAD_REQUEST",
         message: `Party needs ${maxMembersForMode(ctxg.party.mode)} members for ${ctxg.party.mode}`,
+      });
+    }
+    // T13: every non-leader member must be ready with a deck.
+    const notReady = memberRows.filter((m) => m.ready !== 1 || m.selectedDeckId == null);
+    if (notReady.length > 0) {
+      throw new TRPCError({
+        code: "BAD_REQUEST",
+        message: `Waiting on ${notReady.length} member(s) to confirm their deck`,
       });
     }
     await db

@@ -348,6 +348,15 @@ async function startServer() {
   const { setupCadesSignalingWebSocket } = await import("../cadesSignalingWs");
   setupCadesSignalingWebSocket(server);
 
+  // T13 — Co-op match runner poller. Watches coop_card_sessions for
+  // pending rows and registers per-session runner state. The pvpWs
+  // layer reads the runner table when a party member connects with
+  // `?coop=<sessionId>` to spawn the underlying 1v1 match instance.
+  if (process.env.NODE_ENV !== "test") {
+    const { startCoopRunnerPoller } = await import("../coopMatchRunner");
+    startCoopRunnerPoller();
+  }
+
   // Terminus Swarm PvP raids
   const { setupTerminusPvpWebSocket } = await import("../terminusWs");
   setupTerminusPvpWebSocket(server);

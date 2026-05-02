@@ -28,6 +28,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "wouter";
 import { EmptyMatchHistory } from "@/components/EmptyStates";
 import { TitlePill } from "@/components/TitlePill";
+import { TeamStagingPanel } from "@/components/match/TeamStagingPanel";
 
 /* ─── RANK CONFIG ─── */
 const RANK_CONFIG: Record<string, { color: string; bg: string; border: string; label: string; icon: string; glow?: string }> = {
@@ -64,7 +65,7 @@ function getEloProgress(elo: number): { tier: string; progress: number; nextTier
 }
 
 type Phase = "lobby" | "deck_select" | "queue" | "battle" | "result" | "spectate";
-type LobbyTab = "overview" | "season" | "spectate" | "history";
+type LobbyTab = "overview" | "team" | "season" | "spectate" | "history";
 
 export default function PvpArenaPage() {
   const { user, isAuthenticated } = useAuth();
@@ -641,6 +642,7 @@ export default function PvpArenaPage() {
           <div className="flex items-center gap-1 border-b border-border/20 pb-0">
             {([
               { key: "overview" as LobbyTab, label: "OVERVIEW", icon: Trophy },
+              { key: "team" as LobbyTab, label: "TEAM", icon: Users },
               { key: "season" as LobbyTab, label: "SEASON", icon: CalendarDays },
               { key: "spectate" as LobbyTab, label: "SPECTATE", icon: Eye },
               { key: "history" as LobbyTab, label: "HISTORY", icon: Clock },
@@ -795,6 +797,13 @@ export default function PvpArenaPage() {
                   </div>
                 </div>
               )}
+            </div>
+          )}
+
+          {/* ─── TEAM TAB (T13: 2v2 / co-op staging) ─── */}
+          {lobbyTab === "team" && (
+            <div className="max-w-3xl">
+              <TeamStagingPanel />
             </div>
           )}
 

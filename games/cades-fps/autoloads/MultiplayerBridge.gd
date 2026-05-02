@@ -48,6 +48,9 @@ signal peer_disconnected(peer_id: int)
 signal multiplayer_ready(is_host: bool, my_peer_id: int)
 ## Fired on signaling errors (bad SDP, ICE failure, peer abandoned).
 signal handshake_failed(reason: String)
+## Game-traffic message received from the peer. Payload is whatever
+## the peer pushed into the data channel (string for v1).
+signal data_received(payload: Variant)
 
 const HOST_PEER_ID := 1
 const REMOTE_PEER_ID := 2
@@ -197,14 +200,65 @@ func _finalize_connection() -> void:
 	_handshake_complete = true
 	if _handshake_timer:
 		_handshake_timer.stop()
-	# JS side has a working RTCPeerConnection at window._mpPc;
-	# Godot's WebRTCPeerConnection can adopt it via the Web export
-	# adapter (when present). For now this is a placeholder — the
-	# native MultiplayerAPI surface stays unset and the game scene
-	# falls back to the existing async path.
-	# Future patches will wire up WebRTCMultiplayerPeer here.
+	# T13: install a JS-side hook that pushes inbound data-channel
+	# messages into window._mpInbox. We poll-drain it from
+	# _drain_inbound_data below. The peer connection itself is owned
+	# by useCadesSignaling and exposed at window._mpPc /
+	# window._mpDataChannel.
+	if is_web:
+		JavaScriptBridge.eval("""
+			(function(){
+				if (!window._mpInbox) window._mpInbox = [];
+				if (window._mpDataChannel && !window._mpDataChannel._mpHooked) {
+					window._mpDataChannel._mpHooked = true;
+					var orig = window._mpDataChannel.onmessage;
+					window._mpDataChannel.onmessage = function(ev) {
+						window._mpInbox.push(typeof ev.data === 'string' ? ev.data : '');
+						if (orig) orig(ev);
+					};
+				}
+			})();
+		""")
+		# Drain inbound data on a fast timer so the gameplay loop
+		# sees peer messages within one frame.
+		var rx_timer := Timer.new()
+		rx_timer.wait_time = 1.0 / 30.0  # 30 Hz drain
+		rx_timer.timeout.connect(_drain_inbound_data)
+		add_child(rx_timer)
+		rx_timer.start()
 	emit_signal("multiplayer_ready", is_host, my_peer_id)
 	emit_signal("peer_connected", REMOTE_PEER_ID if is_host else HOST_PEER_ID)
+
+func _drain_inbound_data() -> void:
+	if not is_web:
+		return
+	var raw = JavaScriptBridge.eval("(function(){var q=window._mpInbox||[];window._mpInbox=[];return JSON.stringify(q);})()")
+	if raw == null or raw == "[]":
+		return
+	var json := JSON.new()
+	if json.parse(String(raw)) != OK:
+		return
+	var msgs = json.get_data()
+	if not (msgs is Array):
+		return
+	for m in msgs:
+		emit_signal("data_received", m)
+
+## Send game-traffic data over the peer-to-peer data channel. Wraps
+## window._mpDataChannel.send via the React host (so the React
+## relay isn't a hop in the hot path).
+func send_to_peer(payload: String) -> void:
+	if not is_web:
+		return
+	if not _handshake_complete:
+		push_warning("[MultiplayerBridge] send_to_peer before handshake — dropping")
+		return
+	# Escape and route through React-side helper that calls
+	# window._mpDataChannel.send.
+	var escaped = JSON.stringify(payload)
+	JavaScriptBridge.eval(
+		"(function(){if(window._mpDataChannel && window._mpDataChannel.readyState==='open'){window._mpDataChannel.send(" + escaped + ");}})()"
+	)
 
 func _arm_handshake_timer() -> void:
 	if _handshake_timer == null:
