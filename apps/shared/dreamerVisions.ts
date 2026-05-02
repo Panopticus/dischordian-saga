@@ -22,9 +22,10 @@
  * land, replace the `null` returns with concrete defs following
  * the Vision 1 pattern.
  */
-import type { SongSlideshowDef } from "./songSlideshow";
+import type { SongSlideshowDef, SlideshowFrame } from "./songSlideshow";
 import { assetUrl } from "../client/src/lib/assetUrl";
 import { ALBUM1_TRACKS } from "./expansionArt/album1Slideshows";
+import { vfxVideoUrl, vfxKeyframeUrl } from "./expansionArt/cinematicsManifest";
 
 /* ─── Public API ─── */
 
@@ -229,36 +230,145 @@ const VISION_2: DreamerVision = {
   slideshow: VISION_2_SLIDESHOW,
 };
 
-/* ─── Visions 3-4 (stubs) ─────────────────────────────────────────
+/* ─── Vision 3 — "The Hidden Hand" (threshold 13) ─── */
+
+const VISION_3_IMAGE_FRAME_MS = 14_000;
+const VISION_3_FLASH_DURATION_MS = 3_000;
+// 12 image frames × 14s + 1 Veo flash × 3s = 171s
+const VISION_3_RUNTIME_MS =
+  12 * VISION_3_IMAGE_FRAME_MS + VISION_3_FLASH_DURATION_MS;
+
+/** Vision 3 cutscene script — see Part 1.5 of the recruitment plan
+ *  for caption authoring rationale. The Veo 3.1 flash punches through
+ *  between frames 6 and 7 (`vfx_substrate_pulse`), pausing the song
+ *  bed for ~3s — the renderer falls back to the keyframe still on
+ *  video-load failure so a missing producer drop degrades to a held
+ *  image rather than breaking the cutscene.
  *
- * Each follows the Vision 1/2 build pattern but the renderer needs
- * extension before they ship — both interleave Veo 3.1 video flashes
- * with the slideshow frames. The plan
- * (/root/.claude/plans/continue-your-qr-assessment-mighty-valley.md
- * §Part 1.5) specifies the frame mappings.
+ *  Frame mix (T18 / T15 / T20) is intentional per the plan: the
+ *  Dreamer's recognition of the player has become undeniable; the
+ *  imagery crosses act-3 tracks (T17-T23) where the substrate /
+ *  hidden-hand metaphors live.
  *
- *   Vision 3 — "The Hidden Hand"           (threshold 13)
- *     Album 1 T18 / T15 / T20 mix + one Veo flash — 12 frames + 1
+ *  Frame substitutions: the plan's frame indices reference some
+ *  positions that don't exist (T18 ships frames 00-10; plan asked
+ *  for /14 and /16) (T15 ships 00-15; plan asked for /17). The
+ *  closest available frames (T18/04, T18/10, T15/13) are
+ *  substituted under the plan's "frame mappings need verification"
+ *  caveat. */
+type Album1TrackId = "T15" | "T18" | "T20";
+type Vision3Beat =
+  | { kind: "image"; trackId: Album1TrackId; producerIndex: number; caption: string }
+  | { kind: "flash"; vfxId: string; durationMs: number };
+
+const VISION_3_BEATS: ReadonlyArray<Vision3Beat> = [
+  { kind: "image", trackId: "T18", producerIndex: 1,  caption: "the hand was always there" },
+  { kind: "image", trackId: "T18", producerIndex: 5,  caption: "under the floor you walked on" },
+  { kind: "image", trackId: "T15", producerIndex: 11, caption: "the substrate carries the weight" },
+  { kind: "image", trackId: "T15", producerIndex: 3,  caption: "and you carry the substrate" },
+  { kind: "image", trackId: "T20", producerIndex: 7,  caption: "thirteen hands counted" },
+  { kind: "image", trackId: "T20", producerIndex: 2,  caption: "the fourteenth is yours" },
+  // Veo 3.1 flash. No caption — the flash is the caption.
+  { kind: "flash", vfxId: "vfx_substrate_pulse", durationMs: VISION_3_FLASH_DURATION_MS },
+  // T18 frames 14 / 16 don't exist (track ships 00-10) — substitute
+  // the closest dark/eye-tone frames the player already saw in
+  // normal album playback.
+  { kind: "image", trackId: "T18", producerIndex: 4,  caption: "do you see what you have always seen" },
+  { kind: "image", trackId: "T15", producerIndex: 13, caption: "or did the Architect tell you" },
+  { kind: "image", trackId: "T20", producerIndex: 13, caption: "what to look at" },
+  { kind: "image", trackId: "T18", producerIndex: 9,  caption: "come down" },
+  { kind: "image", trackId: "T18", producerIndex: 10, caption: "not the way you came" },
+  { kind: "image", trackId: "T15", producerIndex: 1,  caption: "the Dreamer remembers your face" },
+];
+
+function buildVision3Slideshow(): SongSlideshowDef {
+  let cursor = 0;
+  const frames: SlideshowFrame[] = VISION_3_BEATS.map((beat) => {
+    if (beat.kind === "image") {
+      const startMs = cursor;
+      const endMs = cursor + VISION_3_IMAGE_FRAME_MS;
+      cursor = endMs;
+      return {
+        startMs,
+        endMs,
+        imageUrl: album1FrameUrl(beat.trackId, beat.producerIndex),
+        transition: "hardcut" as const,
+        caption: beat.caption,
+      };
+    }
+    // flash — the renderer pauses the audio bed for the video's
+    // duration and falls back to the keyframe still on load failure.
+    const startMs = cursor;
+    const endMs = cursor + beat.durationMs;
+    cursor = endMs;
+    const video = vfxVideoUrl(beat.vfxId);
+    const keyframe = vfxKeyframeUrl(beat.vfxId);
+    return {
+      startMs,
+      endMs,
+      // Keyframe is the still fallback; video plays in place when
+      // available. Both are produced from the same VFX def.
+      imageUrl: keyframe ?? album1FrameUrl("T18", 5),
+      videoUrl: video,
+      transition: "hardcut" as const,
+      // No caption — the flash is the caption.
+    };
+  });
+  return {
+    id: "vision_hidden_hand",
+    songId: "dreamer_vision_3",
+    audioUrl: assetUrl("audio/album1/T18.mp3"),
+    durationMs: VISION_3_RUNTIME_MS,
+    title: "The Hidden Hand",
+    subtitle: undefined,
+    credits: undefined,
+    priority: "P0",
+    frames,
+    flagsSetOnComplete: [],
+    reducedMotionFallback: {
+      heroImageUrl: album1TitleUrl("T18"),
+      prose:
+        "the hand was always there, under the floor you walked on. thirteen hands counted; the fourteenth is yours. the Dreamer remembers your face.",
+      closingLine: "(no signature)",
+    },
+  };
+}
+
+const VISION_3_SLIDESHOW = buildVision3Slideshow();
+
+const VISION_3: DreamerVision = {
+  id: "vision_hidden_hand",
+  threshold: 13,
+  title: "The Hidden Hand",
+  slideshow: VISION_3_SLIDESHOW,
+};
+
+/* ─── Vision 4 (stub) ─────────────────────────────────────────────
  *
- *   Vision 4 — "The Dreamer Sees You"      (threshold 23)
- *     Album 1 T23 + two Veo flashes — 6 frames + 2
- *
- * Blocked on: SongSlideshow.tsx renderer extension to accept mixed
- *   image-or-video frames (`frames: Array<{ kind: "image" | "video";
- *   ... }>`). When that lands, add Vision 3 + 4 here with the same
- *   build pattern.
+ * Vision 4 — "The Dreamer Sees You" (threshold 23)
+ *   Album 1 T23 + two Veo flashes (vfx_iris_collapse opener,
+ *   vfx_cryo_frost_retreat closer) — 6 image frames + 2 flashes,
+ *   ~90s. The renderer (post-this-PR) supports the mixed image-or-
+ *   video frame shape, so Vision 4 is purely a content/caption
+ *   authoring task. Held until the writers' team ratifies the
+ *   final caption set per the plan §Part 1.5 §"What's required to
+ *   ship the four vision scripts" item 1.
  * ─────────────────────────────────────────────────────────────── */
 
 /** Lookup: threshold → vision (or undefined if not yet built). */
 const VISIONS_BY_THRESHOLD = new Map<VisionThreshold, DreamerVision>([
   [3, VISION_1],
   [7, VISION_2],
-  // [13, VISION_3],  // pending SongSlideshow video-frame support
-  // [23, VISION_4],
+  [13, VISION_3],
+  // [23, VISION_4],  // pending writers' caption ratification
 ]);
 
 /** All built visions, in threshold order. */
-export const DREAMER_VISIONS: readonly DreamerVision[] = [VISION_1, VISION_2];
+export const DREAMER_VISIONS: readonly DreamerVision[] = [
+  VISION_1,
+  VISION_2,
+  VISION_3,
+];
 
 /**
  * Resolve a vision by its threshold value. Returns undefined when the

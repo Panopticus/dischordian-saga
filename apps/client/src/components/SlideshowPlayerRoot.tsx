@@ -125,6 +125,12 @@ export function SlideshowPlayerRoot() {
     () =>
       slideshowDef?.frames.map((f) => ({
         imageSrc: f.imageUrl,
+        // D2 Vision 3 + 4 — pass through the per-frame video URL when
+        // the def declares one. SongSlideshow renders <video> in
+        // place of <img> for those frames and pauses the audio bed
+        // while the flash plays. Image stays as the fallback when
+        // the video fails to load.
+        videoSrc: f.videoUrl,
         durationMs: Math.max(1000, f.endMs - f.startMs),
         lyric: f.dialogOverlay,
       })) ?? [],

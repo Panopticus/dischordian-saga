@@ -83,9 +83,9 @@ describe("Cinematics manifest", () => {
 });
 
 describe("VFX manifest", () => {
-  it("ships exactly 18 VFX clips (per producer drop)", () => {
-    expect(VFX_TOTAL).toBe(18);
-    expect(VFX_CLIPS).toHaveLength(18);
+  it("ships 21 VFX clips (18 producer drop + 3 dreamer-vision flashes)", () => {
+    expect(VFX_TOTAL).toBe(21);
+    expect(VFX_CLIPS).toHaveLength(21);
   });
 
   it("has unique VFX ids", () => {
@@ -93,12 +93,17 @@ describe("VFX manifest", () => {
     expect(new Set(ids).size).toBe(ids.length);
   });
 
-  it("category counts match the producer drop", () => {
+  it("category counts match the producer drop + dreamer-vision additions", () => {
     const expected: Record<VfxCategory, number> = {
       act_spells: 5,
       card_flips: 7,
       cosmetic_ceremonies: 3,
       hierarchy_mechanics: 3,
+      // D2 Vision 3 + 4 Veo flashes (substrate_pulse, iris_collapse,
+      // cryo_frost_retreat) — renderer falls back to keyframe still
+      // on video-load failure so a missing producer MP4 degrades to
+      // a held image rather than breaking the cutscene.
+      dreamer_visions: 3,
     };
     for (const [cat, count] of Object.entries(expected)) {
       expect(vfxByCategory(cat as VfxCategory)).toHaveLength(count);

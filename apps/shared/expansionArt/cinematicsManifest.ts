@@ -194,7 +194,8 @@ export type VfxCategory =
   | "act_spells"
   | "card_flips"
   | "cosmetic_ceremonies"
-  | "hierarchy_mechanics";
+  | "hierarchy_mechanics"
+  | "dreamer_visions";
 
 export interface VfxDef {
   /** Producer slug — matches uploaded mp4 filename without extension. */
@@ -320,6 +321,30 @@ export const VFX_CLIPS: readonly VfxDef[] = [
     category: "hierarchy_mechanics",
     videoRelPath: "videos/vfx/hierarchy_mechanics/vfx_stock_buyback.mp4",
     keyframeRelPath: "art/vfx/hierarchy_mechanics/kf_stock_buyback.webp",
+  },
+  // dreamer_visions (3) — mid-slideshow Veo flashes per the dual-
+  // faction recruitment plan §Part 1.5. Video assets ship from the
+  // producer drop; the renderer (SongSlideshow.tsx) falls back to
+  // the keyframe still image on video-load failure, so a missing
+  // MP4 degrades gracefully to a held image rather than breaking
+  // the cutscene.
+  {
+    id: "vfx_substrate_pulse",
+    category: "dreamer_visions",
+    videoRelPath: "videos/vfx/dreamer_visions/vfx_substrate_pulse.mp4",
+    keyframeRelPath: "art/vfx/dreamer_visions/kf_substrate_pulse.webp",
+  },
+  {
+    id: "vfx_iris_collapse",
+    category: "dreamer_visions",
+    videoRelPath: "videos/vfx/dreamer_visions/vfx_iris_collapse.mp4",
+    keyframeRelPath: "art/vfx/dreamer_visions/kf_iris_collapse.webp",
+  },
+  {
+    id: "vfx_cryo_frost_retreat",
+    category: "dreamer_visions",
+    videoRelPath: "videos/vfx/dreamer_visions/vfx_cryo_frost_retreat.mp4",
+    keyframeRelPath: "art/vfx/dreamer_visions/kf_cryo_frost_retreat.webp",
   },
 ];
 

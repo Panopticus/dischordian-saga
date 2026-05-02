@@ -97,7 +97,18 @@ export interface TheaterModeConfig {
 export interface SlideshowFrame {
   startMs: number;
   endMs: number;
+  /** Always required as the fallback when a video frame fails to load. */
   imageUrl: string;
+  /**
+   * Optional video override for this frame. When set, the renderer
+   * plays the MP4 in place of the still image for the frame's duration
+   * and pauses the background audio while it does (so the song
+   * "stretches over" the flash silently per the recruitment plan
+   * §Part 1.5). On video-load failure or unsupported codec, the
+   * renderer falls back to `imageUrl`. Used by D2 Vision 3 + 4
+   * mid-slideshow Veo flashes.
+   */
+  videoUrl?: string;
   kenBurns?: KenBurnsSpec;
   transition: SlideshowTransition;
   /** Optional caption rendered in the frame corner. */
