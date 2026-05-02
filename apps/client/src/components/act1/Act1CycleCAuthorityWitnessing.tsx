@@ -90,7 +90,12 @@ export function Act1CycleCAuthorityWitnessing({
       setPick(alignment);
       if (wasSkip) setSkipped(true);
       const descriptor = ALIGNMENT_CHOICES.find((c) => c.id === alignment)!;
-      setLightDarkAlignment(alignment);
+      // The global LightDarkAlignment axis is binary by design; the new
+      // "balanced" third option fires its narrative flag and emits a
+      // witness-arc record but does not move the global axis.
+      if (alignment === "light" || alignment === "dark") {
+        setLightDarkAlignment(alignment);
+      }
       setNarrativeFlag(descriptor.flag, true);
       setNarrativeFlag("act_1_cycle_c_complete", true);
       // Tier 4D: Last Words performance is the canonical split point

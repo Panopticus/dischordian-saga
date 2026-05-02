@@ -25,12 +25,17 @@ import { COMPANION_ASK_TOPICS } from "./companionAskTopics";
 import { VARIANT_REGISTRY } from "./moralityTrustActVariants";
 
 const ACT_FORK_FLAGS: Readonly<Record<number, readonly string[]>> = {
-  1: ["act1_cycle_c_alignment_light", "act1_cycle_c_alignment_dark"],
+  1: [
+    "act1_cycle_c_alignment_light",
+    "act1_cycle_c_alignment_dark",
+    "act1_cycle_c_alignment_balanced",
+  ],
   2: [
     "act2_oracle_deflect_chosen",
     "act2_spy_misdirect_chosen",
     "act2_lied",
     "act2_partial_reveal",
+    "act2_full_truth",
   ],
   3: [
     "act3_path_transparent_chosen",
@@ -51,6 +56,7 @@ const ACT_FORK_FLAGS: Readonly<Record<number, readonly string[]>> = {
     "act6_practical_chosen",
     "act6_refuse_secrecy_chosen",
     "act6_suspicious_chosen",
+    "act6_partial_disclosure_chosen",
   ],
   7: ["act7_bridge_chosen", "act7_command_chosen", "act7_humanity_chosen", "act7_pattern_chosen"],
 };
@@ -124,9 +130,9 @@ describe("Act branching contract — every fork flag has reactive + ask + varian
     }
   });
 
-  it("totals: 7 acts, 27 fork flags covered", () => {
+  it("totals: 7 acts, 30 fork flags covered", () => {
     expect(Object.keys(ACT_FORK_FLAGS).map(Number).sort()).toEqual([1, 2, 3, 4, 5, 6, 7]);
-    expect(ALL_FORK_FLAGS.length).toBe(27);
+    expect(ALL_FORK_FLAGS.length).toBe(30);
   });
 
   // Ghost-flag detector: a fork flag is "ghost" if no production code path

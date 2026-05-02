@@ -36,6 +36,7 @@ export const ACT_6_CONFESSION_STANCE_FLAGS = [
   "act6_confession_close_challenge",
   "act6_confession_close_refusal",
   "act6_confession_close_reluctant_ally",
+  "act6_confession_close_partial",
 ] as const;
 export type Act6ConfessionStanceFlag =
   (typeof ACT_6_CONFESSION_STANCE_FLAGS)[number];

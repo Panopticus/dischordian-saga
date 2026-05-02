@@ -65,7 +65,8 @@ const CONFESSION_STANCES: ReadonlyArray<{
     | "act6_confession_close_empathy"
     | "act6_confession_close_challenge"
     | "act6_confession_close_refusal"
-    | "act6_confession_close_reluctant_ally";
+    | "act6_confession_close_reluctant_ally"
+    | "act6_confession_close_partial";
   label: string;
   body: string;
 }> = [
@@ -88,6 +89,11 @@ const CONFESSION_STANCES: ReadonlyArray<{
     flag: "act6_confession_close_reluctant_ally",
     label: "Pick up the shift beside them.",
     body: "There is more war coming. The confession is a door, not a finish line. You agree — without warmth, without distance — to keep walking.",
+  },
+  {
+    flag: "act6_confession_close_partial",
+    label: "Acknowledge what was said. Hold what wasn't.",
+    body: "You name back to them only the part you heard clearly. The part you suspect they meant but didn't say — you let it sit. Not every line in a confession is yours to complete. The room can carry what's between you without naming it.",
   },
 ];
 
@@ -219,6 +225,7 @@ export default function Act6CardLadderPage() {
         act6_confession_close_challenge: "act6_suspicious_chosen",
         act6_confession_close_refusal: "act6_refuse_secrecy_chosen",
         act6_confession_close_reluctant_ally: "act6_ally_chosen",
+        act6_confession_close_partial: "act6_partial_disclosure_chosen",
       };
       setNarrativeFlag(ALIASES[flag], true);
       fireCompanionComment(flag);
@@ -230,6 +237,7 @@ export default function Act6CardLadderPage() {
         act6_confession_close_challenge: "stance-challenge",
         act6_confession_close_refusal: "stance-refusal",
         act6_confession_close_reluctant_ally: "stance-reluctant-ally",
+        act6_confession_close_partial: "stance-partial",
       };
       vo.speak(stanceLineId[flag]);
       setView("ladder");

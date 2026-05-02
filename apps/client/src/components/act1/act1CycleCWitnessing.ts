@@ -95,7 +95,7 @@ export function alignmentGateOpen(currentTime: number): boolean {
   return currentTime >= ALIGNMENT_GATE_OPEN_S;
 }
 
-export type LastWordsAlignment = "light" | "dark";
+export type LastWordsAlignment = "light" | "dark" | "balanced";
 
 export interface LastWordsChoiceDescriptor {
   id: LastWordsAlignment;
@@ -119,5 +119,12 @@ export const ALIGNMENT_CHOICES: readonly LastWordsChoiceDescriptor[] = [
     blurb:
       "The Authority stood trial. The verdict is silence. Malkia sings the final refrain alone. You do not join.",
     flag: "act1_cycle_c_alignment_dark",
+  },
+  {
+    id: "balanced",
+    label: "Witness",
+    blurb:
+      "The Authority stood trial. You do not pass verdict — you log it. The letter goes into the archive without being read aloud. The Engineer's voice gets rest; the chair stays empty; the song neither rises nor refuses. The witness is the verdict.",
+    flag: "act1_cycle_c_alignment_balanced",
   },
 ];
