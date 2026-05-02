@@ -119,6 +119,7 @@ const DevGuildCutscenesPage = lazy(() => import("./pages/DevGuildCutscenesPage")
 const CrossGameThreadsPage = lazy(() => import("./pages/CrossGameThreadsPage"));
 const DreamerFragmentsPage = lazy(() => import("./pages/DreamerFragmentsPage"));
 const DreamerDossierPage = lazy(() => import("./pages/DreamerDossierPage"));
+const LoredexGraphPage = lazy(() => import("./pages/LoredexGraphPage"));
 const Act2InterludePage = lazy(() => import("./pages/Act2InterludePage"));
 const EngineersBenchPage = lazy(() => import("./pages/EngineersBenchPage"));
 const GameMastersArenaAct2Page = lazy(() => import("./pages/GameMastersArenaAct2Page"));
@@ -339,6 +340,10 @@ function Router() {
             Server-side gated; the page renders a 404 shell until the
             player has received Vision 3. */}
         <Route path="/loredex/dreamer-fragments" component={DreamerFragmentsPage} />
+        {/* C3 — Loredex relationship graph viewer (focus + 1-hop).
+            Reads ?focus=entity_id from the query string; defaults to
+            the focus entity declared in LoredexGraphPage. */}
+        <Route path="/loredex/graph" component={LoredexGraphPage} />
         <Route path="/act2-interlude" component={Act2InterludePage} />
         <Route path="/engineers-bench" component={EngineersBenchPage} />
         <Route path="/game-masters-arena" component={GameMastersArenaAct2Page} />
