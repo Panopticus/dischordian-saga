@@ -71,6 +71,28 @@ export const ORACLE_SANCTUM_MYSTERY: RoomMysteryModule<OracleSanctumHotspotId> =
           cluesFound: ["wraith.e5.oracle_invocation"],
         },
       },
+      use: {
+        narration: {
+          lucid:
+            "You sink your fingertips into the pool's surface. The water does not part; it accepts the contact. From below the brass rim, a small index card rises into the surface tension and floats face-up: 'INTENDED AUDIENCE — Whoever inherits the Hierophant's litany after the Hierophant himself.' The card was pinned to a tape-archive catalogue card centuries ago; the pool has carried it forward into our reach.",
+          fragmented:
+            "After the Hierophant himself. After the Hierophant himself. After. After. After.",
+          luminous:
+            "The pool surfaces the Seer's intended-audience card. By its grammar, the card names Wraith Calder's successor — a person who does not yet exist, since Wraith has been the Hierophant for centuries and shows no sign of being succeeded. The card is not a prediction. It is a reservation: the Seer recorded for a reader the saga has not yet produced, and the pool has carried that reservation through every witness who reached into it without finding it. We are the first reader to whom the card has surfaced. That changes nothing about who the audience IS — but it tells us when the saga thinks the question has become legible.",
+        },
+        voId: "elara.oracle-sanctum.oracle-pool.use",
+        // Mystery Engine binding — using the oracle-pool surfaces
+        // the Seer's intended-audience card. Lore match: the pool
+        // is "an aperture for what the witness brings." The
+        // player carries the question of the Seer's tape; the
+        // pool answers by surfacing the card that names the
+        // tape's intended reader.
+        mysteryBinding: {
+          mysteryId: "mystery.the_seer",
+          episodeId: "seer.e1",
+          cluesFound: ["seer.e1.intended_audience_card"],
+        },
+      },
     },
     "prophecy-tablet": {
       look: {
@@ -122,6 +144,29 @@ export const ORACLE_SANCTUM_MYSTERY: RoomMysteryModule<OracleSanctumHotspotId> =
           mysteryId: "mystery.wraith_calder",
           episodeId: "wraith.e5",
           cluesFound: ["wraith.e5.daily_litany"],
+        },
+      },
+      use: {
+        narration: {
+          lucid:
+            "You press your hand to the tablet's brass-pedestal'd slate. The slate warms under the touch and surfaces, in faint phosphor-lavender script, a single recording-session log: DEC-7710 · UNSOLICITED · the Seer recorded against no booking. The marginalia, in her own hand: 'I did not want to know what I was about to say. I recorded so that, when the witness arrives, the witness has the option I did not.' The script holds for ten seconds, then fades. The tablet has surfaced what we asked.",
+          fragmented:
+            "DEC-7710. DEC-7710. Unsolicited. Unsolicited. She did not want to know. She did not want to know.",
+          luminous:
+            "The tablet surfaces the Seer's recording-session log. Session DEC-7710 was unsolicited — she sat at the recorder of her own choosing on a day no consultation was booked. The marginalia is a moral commitment in retrospect: she did not want to know what she was about to say, but she trusted the prophecy enough to commit it to tape, and she trusted the future enough to leave the option to a witness she had not yet met. The tablet has held this log among its many readings; it surfaces now because we are reading the case the Seer prepared for.",
+        },
+        voId: "elara.oracle-sanctum.prophecy-tablet.use",
+        // Mystery Engine binding — using the prophecy-tablet
+        // surfaces the Seer's recording-session log for DEC-7710.
+        // Lore match: the tablet writes-and-erases under the
+        // pool's influence and surfaces records on demand; the
+        // session log is one such record, and the prophet's note
+        // — "I recorded so that the witness has the option I did
+        // not" — is what the tablet is for.
+        mysteryBinding: {
+          mysteryId: "mystery.the_seer",
+          episodeId: "seer.e1",
+          cluesFound: ["seer.e1.recording_session_log"],
         },
       },
     },

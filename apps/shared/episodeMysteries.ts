@@ -1259,6 +1259,180 @@ const THE_SEER_MYSTERY: MysteryDefinition = {
   lenses: seerLenses,
 };
 
+/* ─── VEX SOLÈNE ARC — E1 ─── */
+/* E1: "The Engineer Zero Swap"
+   Per docs/design/STREAMED_PRISM_MYSTERY_ENGINE.md §7 — Vex's
+   hook is "Engineer-Zero/Warlord-fragment swap residue." First
+   contact with Vex centres on the swap itself: a record-keeper
+   who is publicly Vex Solène was, at one point in her career,
+   privately recording sessions for the Engineer Zero programme
+   under a Warlord-fragment alias. Investigate the swap residue
+   that makes the alias detectable across recordings she filed
+   herself.
+
+   This arc cross-arcs to The Seer (recording engineer of
+   record) and Wraith (the Hierophant whose protocols the
+   programme leaned on). */
+
+const vexE1: EpisodeDefinition = {
+  id: "vex.e1" as EpisodeId,
+  arcId: ARC_VEX_SOLENE,
+  ordinal: 1,
+  title: "The Engineer Zero Swap",
+  summary:
+    "Vex Solène's recording credits include 4,711 of the Seer's 4,712 archive tapes. The 4,712th — the DO-NOT-PLAY tape — was filed under a Warlord-fragment alias, but the engineering signature on the master is the same hand. Investigate why the only tape Vex didn't sign her name to is also the only tape with a paper band warning on it.",
+  clues: [
+    {
+      id: "vex.e1.engineer_zero_credit_list" as ClueId,
+      title: "Engineer Zero Master Credit List",
+      body: "The Seer's archive credits Engineer Zero — Vex Solène — on every recording session except DEC-7710. The 4,712th tape is credited to an alias that resolves, on cross-reference with Insurgency rosters, to a Warlord-fragment cover identity assigned by the Insurgency to operatives doing work the official record could not name. Whoever recorded DEC-7710 was Vex working under a name she did not choose for herself.",
+      foundIn: "comms-array",
+    },
+    {
+      id: "vex.e1.equipment_signature" as ClueId,
+      title: "Engineering-Signature Match — DEC-7710 Master",
+      body: "Spectral analysis of the DEC-7710 master reel's equipment-signature (mic preamp drift, head-alignment fingerprint, the quiet 60-cycle hum of the Seer's recording booth) matches Vex's signature across 4,710 of the other 4,711 tapes she signed her own name to. The match is exact at every measurable parameter. Same room, same equipment, same hands. Different name on the credit line.",
+      foundIn: "engineering",
+    },
+    {
+      id: "vex.e1.warlord_fragment_dossier" as ClueId,
+      title: "Warlord-Fragment Cover-Identity Dossier",
+      body: "The Insurgency's Warlord-fragment alias programme assigned cover identities to operatives whose work would have been uncomfortable for either the Insurgency or its enemies to attribute publicly. Vex's assigned alias was issued for one session and retired the same day. The dossier's reason-for-issue line reads 'recording engineer requested anonymity for the duration of one prophecy session.' The request was Vex's. The Insurgency granted it because the Seer asked them to.",
+      foundIn: "war-room",
+    },
+    {
+      id: "vex.e1.vex_self_note" as ClueId,
+      title: "Vex's Personal Note on DEC-7710",
+      body: "A private note in Vex's working journal, dated the night DEC-7710 was sealed: 'I asked them to take my name off it. The recording was the Seer's; I was only the engineer. But the engineering was a confession, and I cannot live with the confession being public the day it was made. I asked the witness to wait. Whoever finds this — the Insurgency will own that I asked for the alias. I want the saga to know I did not hide.' The handwriting is steady.",
+      foundIn: "captains-quarters",
+    },
+  ],
+  deductions: [
+    {
+      id: "vex.e1.d.swap_was_consensual" as DeductionId,
+      clueA: "vex.e1.engineer_zero_credit_list" as ClueId,
+      clueB: "vex.e1.vex_self_note" as ClueId,
+      result: "correct",
+      narrationId: "vex.e1.n.she_asked_for_the_alias",
+      narrationProse:
+        "Vex asked for the alias. The credit-list anomaly is not evidence of a cover-up imposed on her — it is evidence of a request she made and the Insurgency honoured. Her own note records the reason: the engineering was a confession, and she could not live with the confession being public the day it was made. She asked the witness to wait. The Warlord-fragment alias is the saga's record of a recording engineer asking the saga to delay its own attribution. It worked. The saga waited.",
+    },
+    {
+      id: "vex.e1.d.same_hands_same_room" as DeductionId,
+      clueA: "vex.e1.equipment_signature" as ClueId,
+      clueB: "vex.e1.warlord_fragment_dossier" as ClueId,
+      result: "partial",
+      narrationId: "vex.e1.n.same_room_one_request",
+      narrationProse:
+        "The equipment-signature analysis confirms what the credit list hides — same room, same equipment, same hands. The Insurgency dossier confirms the alias was issued for one session and retired the same day, on Vex's request, granted because the Seer asked them to grant it. We have the mechanism and the consent; we do not yet have the content. The recording is still sealed. We have only confirmed that the engineer who made the seal had her own reasons for it, and that the saga's record-keepers helped her keep them.",
+    },
+    {
+      id: "vex.e1.d.false_lead_two_engineers" as DeductionId,
+      clueA: "vex.e1.engineer_zero_credit_list" as ClueId,
+      clueB: "vex.e1.equipment_signature" as ClueId,
+      result: "false_lead_named",
+      narrationId: "vex.e1.n.not_two_engineers",
+      narrationProse:
+        "Reading the credit anomaly and the signature match together as 'two engineers worked DEC-7710' is the obvious move and the wrong one. Two engineers do not produce a single equipment-signature exact at every measurable parameter; that is one engineer using one rig in one room. The alias is the case. The signature is the seam. Reading them as two people collapses the case in the wrong direction — and is, on the canonical reading, the framing the Insurgency's enemies preferred when they tried to attribute the recording to a Warlord-fragment operative who never existed.",
+    },
+  ],
+  choices: [
+    {
+      id: "vex.e1.c.attribute_publicly" as ChoiceId,
+      label: "Restore Vex's name to the credit line — the saga has waited long enough.",
+      weight: "restorative",
+    },
+    {
+      id: "vex.e1.c.preserve_the_alias" as ChoiceId,
+      label: "Preserve the alias — Vex chose this; the saga's job is to honour her terms.",
+      weight: "patient",
+    },
+    {
+      id: "vex.e1.c.cross_arc_consult_seer" as ChoiceId,
+      label: "Bring this to the Seer — she granted the request, she may know whether the wait is over.",
+      weight: "cross_arc_seer",
+    },
+  ],
+  contentBundle: {
+    songId: "album1.t04", /* "The Authority" — Dischordian Logic Act 1 */
+    slideshowId: "album1.t04",
+    loredexUnlocks: [
+      "entity_vex_solene",
+      "concept_engineer_zero",
+      "concept_warlord_fragment_alias",
+      "event_dec_7710_recording",
+    ],
+    conspiracyDiscoveries: [
+      "vex_solene",
+      "engineer_zero",
+      "warlord_fragment_alias",
+      "dec_7710_session",
+    ],
+    dropAt: "episode_close",
+  },
+};
+
+/* ─── VEX SOLÈNE ARC ─── */
+
+const vexSuspects: ReadonlyArray<{
+  id: SuspectId;
+  name: string;
+  type: string;
+  relations: ReadonlyArray<{ to: SuspectId; relation: string }>;
+}> = [
+  {
+    id: "suspect.vex_solene" as SuspectId,
+    name: "Vex Solène",
+    type: "character",
+    relations: [
+      { to: "suspect.engineer_zero" as SuspectId, relation: "is-also" },
+      { to: "suspect.warlord_alias" as SuspectId, relation: "requested" },
+      { to: "suspect.dec_7710" as SuspectId, relation: "engineered" },
+    ],
+  },
+  {
+    id: "suspect.engineer_zero" as SuspectId,
+    name: "Engineer Zero (cover identity)",
+    type: "concept",
+    relations: [],
+  },
+  {
+    id: "suspect.warlord_alias" as SuspectId,
+    name: "Warlord-Fragment Alias",
+    type: "concept",
+    relations: [
+      { to: "suspect.dec_7710" as SuspectId, relation: "credited-on" },
+    ],
+  },
+  {
+    id: "suspect.dec_7710" as SuspectId,
+    name: "DEC-7710 Master Reel",
+    type: "artifact",
+    relations: [],
+  },
+];
+
+const vexLenses = [
+  { id: LENS_INSURGENCY, name: "Insurgency", category: "faction" },
+  { id: LENS_HIERARCHY,  name: "Hierarchy",  category: "faction" },
+  { id: LENS_THALORIA,   name: "Thaloria",   category: "faction" },
+  { id: LENS_QUARCHON,   name: "Quarchon",   category: "faction" },
+  { id: LENS_DREAMER,    name: "Dreamer",    category: "faction" },
+  { id: LENS_NEUTRAL,    name: "Neutral",    category: "faction" },
+] as const;
+
+const VEX_SOLENE_MYSTERY: MysteryDefinition = {
+  id: "mystery.vex_solene" as MysteryId,
+  arcId: ARC_VEX_SOLENE,
+  title: "Engineer Zero / Warlord Fragment",
+  summary:
+    "Vex Solène's recording credits cover 4,711 of the Seer's 4,712 archive tapes. The DO-NOT-PLAY tape was filed under a Warlord-fragment alias — engineered by the same hands, signed under a different name. Investigate the swap, the Insurgency's role in honouring it, and what Vex was protecting.",
+  npcId: "vex_solene",
+  episodes: [vexE1],
+  suspects: vexSuspects,
+  lenses: vexLenses,
+};
+
 /* ─── REGISTRY ─── */
 
 /** Every authored mystery in the saga. The runtime reads against
@@ -1268,6 +1442,7 @@ export const MYSTERY_DEFINITIONS: ReadonlyArray<MysteryDefinition> = [
   WRAITH_CALDER_MYSTERY,
   JERICHO_JONES_MYSTERY,
   THE_SEER_MYSTERY,
+  VEX_SOLENE_MYSTERY,
 ];
 
 /** Find a mystery by id. Returns null when not authored — the
