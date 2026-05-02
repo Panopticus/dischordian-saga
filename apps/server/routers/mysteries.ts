@@ -54,6 +54,10 @@ export const mysteriesRouter = router({
       title: m.title,
       summary: m.summary,
       episodeCount: m.episodes.length,
+      /** Episode ids in display order — the client computes
+       *  "X of Y episodes" by finding the index of the player's
+       *  currentEpisodeId in this array. */
+      episodeIds: m.episodes.map((e) => e.id as string),
     }));
   }),
 
@@ -323,5 +327,16 @@ export const mysteriesRouter = router({
    */
   getMyTrustScalars: protectedProcedure.query(async ({ ctx }) => {
     return mysteryService.listMyTrustScalars(ctx.user.id);
+  }),
+
+  /**
+   * List every per-(user, mystery) progress row for the calling
+   * player. Drives per-arc progress badges on the available-
+   * investigations list — combine with the authored episode
+   * count to render "X of Y episodes" for each arc the player
+   * has touched.
+   */
+  getMyProgress: protectedProcedure.query(async ({ ctx }) => {
+    return mysteryService.listMyProgress(ctx.user.id);
   }),
 });

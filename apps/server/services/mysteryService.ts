@@ -145,6 +145,20 @@ export const mysteryService = {
   },
 
   /**
+   * List every progress row for one player. Each row records
+   * which mystery is open + which episode is current. Drives
+   * per-arc progress badges on the Cases page's available-
+   * investigations list — combine with the authored episode
+   * count to compute "X of Y episodes" for each arc.
+   */
+  async listMyProgress(userId: number): Promise<(typeof playerMysteryProgress.$inferSelect)[]> {
+    const db = await getDb();
+    if (!db) return [];
+    return db.select().from(playerMysteryProgress)
+      .where(eq(playerMysteryProgress.userId, userId));
+  },
+
+  /**
    * Fetch the player's currently-active case — defined as the
    * most recently acted-on `playerMysteryProgress` row.
    */

@@ -402,6 +402,20 @@ export const ENGINEERING_MYSTERY: RoomMysteryModule<EngineeringHotspotId, Engine
           },
           voId: "detective.engineering.schematic-pad.look",
         },
+        // Mystery Engine binding — when the Degen arc is the
+        // active case, the schematic-pad surfaces the Degen's
+        // first brokerage-record entry from his own ledger. Lore
+        // match: the pad already documents two registers (warm-
+        // gold original / indigo overlay), and the Degen's
+        // ledger has the same shape — every standard entry runs
+        // in his broker-tone, but the first morning's entry
+        // (written in a tone the rest of the ledger never
+        // repeats) is the warm-gold original underneath.
+        mysteryBinding: {
+          mysteryId: "mystery.the_degen",
+          episodeId: "degen.e1",
+          cluesFound: ["degen.e1.degens_first_brokerage_record"],
+        },
       },
       use: {
         narration: {
@@ -413,6 +427,21 @@ export const ENGINEERING_MYSTERY: RoomMysteryModule<EngineeringHotspotId, Engine
             "You have an original-schematic-rubbing. The next reader of the reactor binder, a hundred years from now, has just been spared a death. That is the kind of thing this case is going to be measured in. Not victories — vacancies in a future obituary list.",
         },
         voId: "elara.engineering.schematic-pad.use",
+        // Mystery Engine binding — when the Degen arc is the
+        // active case, taking the schematic rubbing also dislodges
+        // a small ivory card pressed into the schematic-pad's
+        // binding: Mol'Vereth's visiting card. Lore match: the
+        // pad's binding is the same physical fold that held the
+        // Degen's first-brokerage entry (bound to schematic-
+        // pad:look in this slice); Mol'Vereth files trustee-
+        // status updates by pressing the card into the binding
+        // where the trustee will eventually find it during routine
+        // ledger work.
+        mysteryBinding: {
+          mysteryId: "mystery.the_degen",
+          episodeId: "degen.e1",
+          cluesFound: ["degen.e1.mol_vereth_visiting_card"],
+        },
       },
     },
   },

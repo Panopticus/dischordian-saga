@@ -45,6 +45,29 @@ export const ORDER_TRIBUNAL_MYSTERY: RoomMysteryModule<OrderTribunalHotspotId> =
           cluesFound: ["wraith.e3.living_pairs_ledger"],
         },
       },
+      use: {
+        narration: {
+          lucid:
+            "You press both palms to the bench's worn middle seat. The wood warms briefly under the touch — three centuries of judgments registering one more witness — and the bench's underside surfaces a sealed contract you had not noticed: red wax, demon's mark, signed by Mol'Vereth, Hierarchy junior partner. The contract names the Degen as a trustee, not a debtor. The bench has been carrying the contract underneath it since the day the verdict was rendered.",
+          fragmented:
+            "Mol'Vereth. Mol'Vereth. Junior partner. Junior partner. Trustee. Trustee. Not a debtor. Not a debtor.",
+          luminous:
+            "The judges-bench has been holding Mol'Vereth's contract underneath the chief adjudicator's seat since the Order rendered its verdict on the trusteeship. The contract is sealed in red wax with the demon's signature. It names the Degen as trustee, not debtor. The Order ratified the arrangement; Mol'Vereth's contract has been in force ever since. The bench is the wood that bears the verdict, and the verdict — for the Degen — is that he is not, by Hierarchy law, a free agent. He is managing someone else's stake.",
+        },
+        voId: "elara.order-tribunal.judges-bench.use",
+        // Mystery Engine binding — when the Degen arc is the
+        // active case, pressing the bench surfaces Mol'Vereth's
+        // sealed contract from the trusteeship verdict. Lore
+        // match: the bench is canonically pre-Ark and "every
+        // verdict had to be heavier than the wood" — the Order
+        // ratified the trusteeship at this bench, and the wood
+        // has carried the contract underneath it ever since.
+        mysteryBinding: {
+          mysteryId: "mystery.the_degen",
+          episodeId: "degen.e1",
+          cluesFound: ["degen.e1.hierarchy_demon_signature"],
+        },
+      },
     },
     "evidence-locker": {
       look: {
