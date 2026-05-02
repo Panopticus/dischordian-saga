@@ -45,6 +45,7 @@ import SoundControls from "./components/SoundControls";
 import { SlideshowPlayerRoot } from "./components/SlideshowPlayerRoot";
 import DreamerVisionPlayer from "./components/DreamerVisionPlayer";
 import InstallPromptBanner from "./components/InstallPromptBanner";
+import ImmersiveModeManager from "./components/ImmersiveModeManager";
 import { DischordiaCycleSync } from "./components/DischordiaCycleSync";
 import { useTitleEarnedToasts } from "./hooks/useTitleEarnedToasts";
 import { ForgivenessChoicePanel } from "./components/ForgivenessChoicePanel";
@@ -713,6 +714,13 @@ function App() {
                   <SagaThemeBGMProvider>
                   <TooltipProvider>
                     <Toaster position="bottom-left" />
+                    {/* Immersive mode — arms a one-shot listener so the
+                        first user gesture in the session enters browser
+                        fullscreen + locks landscape (mobile). Settings-
+                        gated; defaults on for the widescreen art
+                        direction. Players can disable it under
+                        Settings → Appearance → Immersive Mode. */}
+                    <ImmersiveModeManager />
                     {/* Witnessing §3 — hydrate the community
                         Light/Dark meter from the server on mount
                         and install fire-and-forget write-through

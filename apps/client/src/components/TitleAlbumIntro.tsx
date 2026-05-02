@@ -70,15 +70,20 @@ export default function TitleAlbumIntro({
   // it does, we fall back to a tap-to-begin button.
   //
   // If the parent (TitlePage) already pre-rolled T01 in the cinematic's
-  // last 10 seconds, the song is mid-playback and currentTime is non-
-  // zero — calling playSong again would reset the song and the slide-
-  // show to frame 0, breaking the seamless handoff. Detect that and
-  // skip; the slideshow already syncs to player.currentTime.
+  // last 10 seconds AND playback actually took, the song is mid-flight
+  // and currentTime is non-zero — calling playSong again would reset
+  // both song and slideshow to frame 0, breaking the seamless handoff.
+  // Detect that and skip; the slideshow already syncs to currentTime.
+  // Critically: only skip when we have evidence playback succeeded
+  // (isPlaying or currentTime > 0). If the pre-roll set currentSong
+  // but the play() promise rejected (autoplay block), we MUST retry
+  // here — otherwise the slideshow renders silently.
   useEffect(() => {
     let cancelled = false;
-    const alreadyPlayingT01 =
-      player.currentSong?.id === T01_SYNTH_LOREDEX_ENTRY.id;
-    if (alreadyPlayingT01) return;
+    const preRollTook =
+      player.currentSong?.id === T01_SYNTH_LOREDEX_ENTRY.id &&
+      (player.isPlaying || player.currentTime > 0);
+    if (preRollTook) return;
     const tryPlay = () => {
       if (cancelled) return;
       try {

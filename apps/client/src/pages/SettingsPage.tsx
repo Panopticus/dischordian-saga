@@ -31,7 +31,7 @@ import {
   Type, Zap, ChevronDown, ChevronUp, User, LogOut, LogIn,
   Download, Cloud, CloudOff, Shield, Eye, EyeOff, Sparkles,
   Gauge, HelpCircle, SkipForward, MessageCircle, ExternalLink, Users,
-  Gift, Ticket, Search
+  Gift, Ticket, Search, Maximize
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -419,6 +419,24 @@ export default function SettingsPage() {
               { value: "dark", label: "Dark", desc: "Deep space", icon: Moon },
               { value: "light", label: "Light", desc: "Bright mode", icon: Sun },
             ]}
+          />
+
+          {/* Immersive Mode — fullscreen + landscape lock. The
+              widescreen art is designed for this; players who prefer a
+              windowed view can toggle off. Disabling at runtime exits
+              fullscreen immediately so the change is visible without
+              requiring another click. */}
+          <Toggle
+            label="Immersive Mode"
+            description="Fullscreen on desktop · landscape lock on mobile. The art direction is built for widescreen — turn off for a windowed view."
+            enabled={settings.immersiveMode}
+            onChange={(v) => {
+              updateSetting("immersiveMode", v);
+              if (!v && document.fullscreenElement) {
+                document.exitFullscreen?.().catch(() => {});
+              }
+            }}
+            icon={Maximize}
           />
 
           {/* Font Size */}
