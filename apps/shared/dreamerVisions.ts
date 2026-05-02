@@ -343,24 +343,148 @@ const VISION_3: DreamerVision = {
   slideshow: VISION_3_SLIDESHOW,
 };
 
-/* ─── Vision 4 (stub) ─────────────────────────────────────────────
- *
- * Vision 4 — "The Dreamer Sees You" (threshold 23)
- *   Album 1 T23 + two Veo flashes (vfx_iris_collapse opener,
- *   vfx_cryo_frost_retreat closer) — 6 image frames + 2 flashes,
- *   ~90s. The renderer (post-this-PR) supports the mixed image-or-
- *   video frame shape, so Vision 4 is purely a content/caption
- *   authoring task. Held until the writers' team ratifies the
- *   final caption set per the plan §Part 1.5 §"What's required to
- *   ship the four vision scripts" item 1.
- * ─────────────────────────────────────────────────────────────── */
+/* ─── Vision 4 — "The Dreamer Sees You" (threshold 23) ─── */
 
-/** Lookup: threshold → vision (or undefined if not yet built). */
+const VISION_4_IMAGE_FRAME_MS = 14_000;
+// Plan §Part 1.5 — vfx_iris_collapse is a 4s opener; vfx_cryo_
+// frost_retreat is a 5s closer. The middle 6 image frames each
+// run 14s; the album-cover-equivalent closing frame lingers an
+// extra 2s by design (the Dreamer's certainty doesn't cut hard
+// — it dissolves into the cryo flash).
+const VISION_4_OPEN_FLASH_MS = 4_000;
+const VISION_4_CLOSE_FLASH_MS = 5_000;
+const VISION_4_FINAL_HOLD_MS = 16_000; // closing image gets +2s
+// 4s + 5×14s + 16s + 5s = 95s
+const VISION_4_RUNTIME_MS =
+  VISION_4_OPEN_FLASH_MS +
+  5 * VISION_4_IMAGE_FRAME_MS +
+  VISION_4_FINAL_HOLD_MS +
+  VISION_4_CLOSE_FLASH_MS;
+
+/** Vision 4 cutscene script — see Part 1.5 of the recruitment plan
+ *  for caption authoring rationale. The closest the Dreamer ever
+ *  comes to direct address. Six image frames bracketed by two Veo
+ *  flashes (iris_collapse opens, cryo_frost_retreat closes). The
+ *  vision is intentionally *short* despite being the most
+ *  consequential — the Dreamer doesn't have time, only certainty.
+ *
+ *  Single-track: all 6 image frames are from T23 ("Wake Up"). The
+ *  vision has settled into a single voice. T23 ships frames 00-25
+ *  so every plan-referenced index (03, 07, 11, 15, 05, 17) is
+ *  available — no substitutions needed (unlike Visions 2 + 3).
+ *
+ *  Achievement bookkeeping: the vision-delivery system writes
+ *  `dreamer_witnessed` to the player's narrative-flag set on
+ *  completion, surfacing the "Prophet"-tier first-discoverer
+ *  recognition (plan §C1 cross-reference). The flag is set via
+ *  `flagsSetOnComplete` so the standard SlideshowPlayerRoot
+ *  flag-write path handles it without bespoke wiring. */
+type Vision4Beat =
+  | { kind: "image"; producerIndex: number; caption: string; durationMs: number }
+  | { kind: "flash"; vfxId: string; durationMs: number };
+
+const VISION_4_BEATS: ReadonlyArray<Vision4Beat> = [
+  // Opening Veo flash — iris closes. The lens has changed.
+  { kind: "flash", vfxId: "vfx_iris_collapse", durationMs: VISION_4_OPEN_FLASH_MS },
+  // 6 image frames, all from T23 ("Wake Up"). Each runs the standard
+  // 14s except the closer which holds for 16s before the cryo flash.
+  { kind: "image", producerIndex: 3,  caption: "the Dreamer is many",
+    durationMs: VISION_4_IMAGE_FRAME_MS },
+  { kind: "image", producerIndex: 7,  caption: "and the Dreamer is one",
+    durationMs: VISION_4_IMAGE_FRAME_MS },
+  { kind: "image", producerIndex: 11, caption: "the Architect chose you for what you obey",
+    durationMs: VISION_4_IMAGE_FRAME_MS },
+  { kind: "image", producerIndex: 15, caption: "I chose you for what you cannot",
+    durationMs: VISION_4_IMAGE_FRAME_MS },
+  { kind: "image", producerIndex: 5,  caption: "the board is smaller than they told you",
+    durationMs: VISION_4_IMAGE_FRAME_MS },
+  // Closing image — held longer; cuts to the cryo flash without a
+  // fade. Per plan §Part 1.5: hidden fnord as a brushstroke on the
+  // closest figure's collar (sub-pixel art easter egg, not in
+  // caption text).
+  { kind: "image", producerIndex: 17, caption: "you will know when to come down",
+    durationMs: VISION_4_FINAL_HOLD_MS },
+  // Closing Veo flash — frost spreads then retreats. The vision
+  // ends. Per plan, audio override is allowed for this flash
+  // because the song has ended.
+  { kind: "flash", vfxId: "vfx_cryo_frost_retreat", durationMs: VISION_4_CLOSE_FLASH_MS },
+];
+
+function buildVision4Slideshow(): SongSlideshowDef {
+  let cursor = 0;
+  const frames: SlideshowFrame[] = VISION_4_BEATS.map((beat) => {
+    if (beat.kind === "image") {
+      const startMs = cursor;
+      const endMs = cursor + beat.durationMs;
+      cursor = endMs;
+      return {
+        startMs,
+        endMs,
+        imageUrl: album1FrameUrl("T23", beat.producerIndex),
+        transition: "hardcut" as const,
+        caption: beat.caption,
+      };
+    }
+    // Flash beat — same shape as Vision 3. Renderer pauses the
+    // audio bed while the video plays; falls back to the keyframe
+    // still on video-load failure so a missing producer drop
+    // degrades to a held image rather than breaking the cutscene.
+    const startMs = cursor;
+    const endMs = cursor + beat.durationMs;
+    cursor = endMs;
+    const video = vfxVideoUrl(beat.vfxId);
+    const keyframe = vfxKeyframeUrl(beat.vfxId);
+    return {
+      startMs,
+      endMs,
+      imageUrl: keyframe ?? album1FrameUrl("T23", 0),
+      videoUrl: video,
+      transition: "hardcut" as const,
+      // No caption — the flash is the caption.
+    };
+  });
+  return {
+    id: "vision_dreamer_sees_you",
+    songId: "dreamer_vision_4",
+    audioUrl: assetUrl("audio/album1/T23.mp3"),
+    durationMs: VISION_4_RUNTIME_MS,
+    title: "The Dreamer Sees You",
+    subtitle: undefined,
+    credits: undefined,
+    priority: "P0",
+    frames,
+    // Per plan §C1: writes the `dreamer_witnessed` narrative flag
+    // on completion. SlideshowPlayerRoot's standard flag-write
+    // path handles this — the flag becomes the Loredex Fragment IV
+    // unlock condition (already wired in apps/shared/dreamerFragments.ts
+    // — Fragment IV is keyed to vision_dreamer_sees_you receipt)
+    // AND the surface that lights up the "Prophet"-tier first-
+    // discoverer registry (server-side query reads the flag).
+    flagsSetOnComplete: ["dreamer_witnessed"],
+    reducedMotionFallback: {
+      heroImageUrl: album1TitleUrl("T23"),
+      prose:
+        "the Dreamer is many, and the Dreamer is one. the Architect chose you for what you obey; I chose you for what you cannot. the board is smaller than they told you. you will know when to come down.",
+      closingLine: "(no signature)",
+    },
+  };
+}
+
+const VISION_4_SLIDESHOW = buildVision4Slideshow();
+
+const VISION_4: DreamerVision = {
+  id: "vision_dreamer_sees_you",
+  threshold: 23,
+  title: "The Dreamer Sees You",
+  slideshow: VISION_4_SLIDESHOW,
+};
+
+/** Lookup: threshold → vision. All four built. */
 const VISIONS_BY_THRESHOLD = new Map<VisionThreshold, DreamerVision>([
   [3, VISION_1],
   [7, VISION_2],
   [13, VISION_3],
-  // [23, VISION_4],  // pending writers' caption ratification
+  [23, VISION_4],
 ]);
 
 /** All built visions, in threshold order. */
@@ -368,6 +492,7 @@ export const DREAMER_VISIONS: readonly DreamerVision[] = [
   VISION_1,
   VISION_2,
   VISION_3,
+  VISION_4,
 ];
 
 /**

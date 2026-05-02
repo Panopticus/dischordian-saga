@@ -13,8 +13,8 @@ import {
 } from "./dreamerVisions";
 
 describe("DREAMER_VISIONS catalog", () => {
-  it("ships Visions 1, 2, and 3", () => {
-    expect(DREAMER_VISIONS.length).toBeGreaterThanOrEqual(3);
+  it("ships Visions 1, 2, 3, and 4", () => {
+    expect(DREAMER_VISIONS.length).toBeGreaterThanOrEqual(4);
   });
 
   it("Vision 1 has the expected shape and threshold", () => {
@@ -229,8 +229,8 @@ describe("getVisionForThreshold", () => {
     expect(v?.id).toBe("vision_hidden_hand");
   });
 
-  it("returns undefined for not-yet-built thresholds (23) — pending writers' caption ratification", () => {
-    expect(getVisionForThreshold(23)).toBeUndefined();
+  it("returns the threshold-23 vision for value 23 (Vision 4 ratified per round-3 user 'do all')", () => {
+    expect(getVisionForThreshold(23)?.id).toBe("vision_dreamer_sees_you");
   });
 
   it("returns undefined for non-Discordian thresholds", () => {
@@ -290,12 +290,22 @@ describe("nextPendingVision", () => {
     expect(v?.id).toBe("vision_hidden_hand");
   });
 
-  it("returns undefined when Visions 1, 2, 3 received and 23 not yet built", () => {
+  it("returns Vision 4 when 1 + 2 + 3 have been received and count >= 23", () => {
+    const v = nextPendingVision(23, [
+      "vision_first_notice",
+      "vision_coin_without_face",
+      "vision_hidden_hand",
+    ]);
+    expect(v?.id).toBe("vision_dreamer_sees_you");
+  });
+
+  it("returns undefined when all four visions have been received", () => {
     expect(
       nextPendingVision(50, [
         "vision_first_notice",
         "vision_coin_without_face",
         "vision_hidden_hand",
+        "vision_dreamer_sees_you",
       ]),
     ).toBeUndefined();
   });
@@ -305,3 +315,116 @@ describe("nextPendingVision", () => {
     expect(v?.id).toBe("vision_first_notice");
   });
 });
+
+describe("Vision 4 — 'The Dreamer Sees You' (threshold 23)", () => {
+  const v4 = DREAMER_VISIONS.find((v) => v.id === "vision_dreamer_sees_you")!;
+
+  it("is registered in the catalog at threshold 23", () => {
+    expect(v4).toBeDefined();
+    expect(v4.threshold).toBe(23);
+    expect(v4.title).toBe("The Dreamer Sees You");
+  });
+
+  it("anchors against Album 1 T23 audio bed", () => {
+    expect(v4.slideshow.audioUrl).toContain("audio/album1/T23.mp3");
+  });
+
+  it("ships 8 frames total — 6 image + 2 Veo flashes", () => {
+    expect(v4.slideshow.frames).toHaveLength(8);
+  });
+
+  it("opens with a Veo flash (first frame has videoUrl)", () => {
+    const first = v4.slideshow.frames[0];
+    expect(first.videoUrl).toBeDefined();
+    expect(first.videoUrl).toMatch(/vfx_iris_collapse/);
+  });
+
+  it("closes with a Veo flash (last frame has videoUrl)", () => {
+    const last = v4.slideshow.frames[v4.slideshow.frames.length - 1];
+    expect(last.videoUrl).toBeDefined();
+    expect(last.videoUrl).toMatch(/vfx_cryo_frost_retreat/);
+  });
+
+  it("has exactly 2 video flashes (opener + closer)", () => {
+    const videoFrames = v4.slideshow.frames.filter((f) => f.videoUrl);
+    expect(videoFrames).toHaveLength(2);
+  });
+
+  it("opening flash is 4 seconds; closing flash is 5 seconds (per plan §Part 1.5)", () => {
+    const opener = v4.slideshow.frames[0];
+    const closer = v4.slideshow.frames[v4.slideshow.frames.length - 1];
+    expect(opener.endMs - opener.startMs).toBe(4_000);
+    expect(closer.endMs - closer.startMs).toBe(5_000);
+  });
+
+  it("the 6 image frames carry the canonical caption set in plan order", () => {
+    const captions = v4.slideshow.frames
+      .filter((f) => !f.videoUrl)
+      .map((f) => f.caption);
+    expect(captions).toEqual([
+      "the Dreamer is many",
+      "and the Dreamer is one",
+      "the Architect chose you for what you obey",
+      "I chose you for what you cannot",
+      "the board is smaller than they told you",
+      "you will know when to come down",
+    ]);
+  });
+
+  it("all image frames are sourced from T23 (single-track — vision has settled into one voice)", () => {
+    const imageFrames = v4.slideshow.frames.filter((f) => !f.videoUrl);
+    for (const f of imageFrames) {
+      expect(f.imageUrl).toMatch(/\/T23\//);
+    }
+  });
+
+  it("the closing image-frame holds longer than 14s (plan: 'closing image lingers')", () => {
+    const imageFrames = v4.slideshow.frames.filter((f) => !f.videoUrl);
+    const closingImage = imageFrames[imageFrames.length - 1];
+    expect(closingImage.endMs - closingImage.startMs).toBeGreaterThan(14_000);
+  });
+
+  it("frames hardcut between every beat (visions feel like glitches, not stories)", () => {
+    for (const f of v4.slideshow.frames) {
+      expect(f.transition).toBe("hardcut");
+    }
+  });
+
+  it("flash frames retain an imageUrl fallback (renderer falls back on video-load failure)", () => {
+    const opener = v4.slideshow.frames[0];
+    const closer = v4.slideshow.frames[v4.slideshow.frames.length - 1];
+    expect(opener.imageUrl).toBeTruthy();
+    expect(closer.imageUrl).toBeTruthy();
+  });
+
+  it("writes dreamer_witnessed flag on completion (Loredex Fragment IV unlock + Prophet-tier discovery)", () => {
+    expect(v4.slideshow.flagsSetOnComplete).toContain("dreamer_witnessed");
+  });
+
+  it("total runtime is intentionally short (~95s) — 'the Dreamer doesn't have time, only certainty'", () => {
+    // Per plan §Part 1.5: Vision 4 runtime is the SHORTEST despite
+    // being the most consequential.
+    expect(v4.slideshow.durationMs).toBeLessThan(VISION_3_DURATION_FOR_CONTRAST);
+    expect(v4.slideshow.durationMs).toBeGreaterThan(85_000);
+    expect(v4.slideshow.durationMs).toBeLessThan(110_000);
+  });
+
+  it("reduced-motion fallback prose contains the canonical Vision 4 anchor lines", () => {
+    const prose = v4.slideshow.reducedMotionFallback.prose;
+    expect(prose).toContain("Dreamer is many");
+    expect(prose).toContain("Dreamer is one");
+    expect(prose).toContain("come down");
+  });
+
+  it("threshold-23 lookup returns Vision 4", () => {
+    expect(getVisionForThreshold(23)?.id).toBe("vision_dreamer_sees_you");
+  });
+
+  it("by-id lookup returns Vision 4", () => {
+    expect(getVisionById("vision_dreamer_sees_you")?.threshold).toBe(23);
+  });
+});
+
+// Vision 3 ships with 12 image frames (14s each) + 1 flash (3s) = 171s.
+// Used as the comparator for the "Vision 4 is shorter" invariant.
+const VISION_3_DURATION_FOR_CONTRAST = 171_000;
