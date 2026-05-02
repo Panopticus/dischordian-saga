@@ -27,6 +27,22 @@ import GlitchFx from "@/components/GlitchFx";
 import KineticText from "@/components/void/KineticText";
 
 const SEEN_KEY = "dischordia_handshake_seen";
+/** Vote #0 — the player's surveillance-gate answer, persisted
+ *  pre-authentication. Synced to the server on first authenticated
+ *  session by the governance hub via `architectConsole.recordVoteZero`.
+ *  Storage shape: `"confirmed"` | `"looked_away"`. */
+export const VOTE_ZERO_KEY = "dischordia_vote_zero";
+
+/** Write the Vote #0 answer to localStorage. Tolerant of storage
+ *  errors (e.g. private browsing) — the gate still completes, we
+ *  just lose the deferred sync. */
+function persistVoteZero(answer: "confirmed" | "looked_away"): void {
+  try {
+    localStorage.setItem(VOTE_ZERO_KEY, answer);
+  } catch {
+    /* storage blocked — accept the loss */
+  }
+}
 
 interface SurveillanceOpeningProps {
   onComplete: () => void;
@@ -323,6 +339,10 @@ export function SurveillanceOpening({
               // Safari) before the React re-render. Order matters —
               // anything async-y after this can break the activation.
               onArm?.();
+              // Persist the player's Vote #0 answer to localStorage so
+              // the governance hub can sync it on the first
+              // authenticated session.
+              persistVoteZero("confirmed");
               // Arm the meme cinematic immediately so its audio + video
               // start buffering/playing while the scan animation runs
               // on top — the operator never sees a wait beat.
@@ -335,6 +355,7 @@ export function SurveillanceOpening({
               // the same media here so the punitive shame beat doesn't
               // burn the activation window.
               onArm?.();
+              persistVoteZero("looked_away");
               setStage("shamed");
             }}
           />

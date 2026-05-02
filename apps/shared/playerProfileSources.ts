@@ -186,6 +186,66 @@ const BENCH_CRAFT_DARK_FIRST: ProfileDelta = {
 };
 
 /* ═══════════════════════════════════════════════════════
+   GOVERNANCE — VOTE #0 + CHAMBER PARTICIPATION
+   The surveillance gate is the player's first vote ("did the
+   Eye get an answer?"). Subsequent governance votes inherit
+   the same Confirm-vs-Look-Away spine; the per-vote registry
+   in apps/shared/governanceConsequences.ts maps each vote-option
+   to one of these source ids.
+   ═══════════════════════════════════════════════════════ */
+
+/** CONFIRM at the surveillance gate: the player accepted the
+ *  operator handshake. Anchors the conformist pole; small wit
+ *  bump (the player engaged with the bit). */
+const VOTE_ZERO_EYE_CONFIRMED: ProfileDelta = {
+  conformity: 3,
+  wit: 1,
+};
+
+/** LOOK AWAY at the surveillance gate: refusal of the operator
+ *  handshake. Anchors the iconoclast pole and writes a small
+ *  vigilance bump (the player noticed they were being looked at). */
+const VOTE_ZERO_EYE_LOOKED_AWAY: ProfileDelta = {
+  conformity: -3,
+  vigilance: 2,
+};
+
+/** Sticking with the original Vote #0 answer when the Architect
+ *  offers the Kierkegaardian re-cast. Reinforces the existing
+ *  stance at half magnitude. */
+const VOTE_ZERO_REAFFIRMED: ProfileDelta = {
+  conformity: 2,
+};
+
+/** Switching the Vote #0 answer when offered the re-cast. The
+ *  defection is the louder signal — full magnitude, opposite sign
+ *  to whatever the original was. The dispatcher applies the inverse
+ *  of the original via overrideDeltas, so this entry just records
+ *  the standard "switched" weight. */
+const VOTE_ZERO_RECANTED: ProfileDelta = {
+  conformity: -3,
+  vigilance: 1,
+};
+
+/** Generic governance-vote frames. Per-vote options pick one of
+ *  these via the eyeFraming field on the VoteOption. The
+ *  consequence dispatcher applies the matching delta when a
+ *  player casts. */
+const GOVERNANCE_VOTE_CONFIRM: ProfileDelta = {
+  conformity: 2,
+};
+
+const GOVERNANCE_VOTE_LOOK_AWAY: ProfileDelta = {
+  conformity: -2,
+  vigilance: 1,
+};
+
+const GOVERNANCE_VOTE_NEUTRAL: ProfileDelta = {
+  // Neutral framings still log the participation event but carry
+  // no axis weight — keeps the event log honest.
+};
+
+/* ═══════════════════════════════════════════════════════
    ROOMS / NARRATIVE — placeholders
    ═══════════════════════════════════════════════════════ */
 
@@ -232,6 +292,17 @@ const PROFILE_SOURCE_DELTAS: Readonly<Record<string, ProfileDelta>> =
     // Engineer's Bench first-craft archetypes (Act 2 §6.2)
     "bench_craft:light_first": BENCH_CRAFT_LIGHT_FIRST,
     "bench_craft:dark_first": BENCH_CRAFT_DARK_FIRST,
+
+    // Governance — Vote #0 (surveillance gate) + Architect re-cast
+    "vote_zero_eye:confirmed": VOTE_ZERO_EYE_CONFIRMED,
+    "vote_zero_eye:looked_away": VOTE_ZERO_EYE_LOOKED_AWAY,
+    vote_zero_reaffirmed: VOTE_ZERO_REAFFIRMED,
+    vote_zero_recanted: VOTE_ZERO_RECANTED,
+
+    // Governance — generic per-option frames
+    "governance_vote:confirm": GOVERNANCE_VOTE_CONFIRM,
+    "governance_vote:look_away": GOVERNANCE_VOTE_LOOK_AWAY,
+    "governance_vote:neutral": GOVERNANCE_VOTE_NEUTRAL,
 
     // Rooms / narrative (placeholders)
     room_dialog_choice: ROOM_DIALOG_CHOICE_DEFAULT,

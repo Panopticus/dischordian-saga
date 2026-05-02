@@ -43,11 +43,28 @@ import {
   loreJournalEntries,
   userAchievements,
   prestigeProgress,
+  playerProfile,
+  playerProfileEvents,
 } from "../../db/schema";
 import { eq, sql, desc, and, lte, gte, or, isNull, type SQL } from "drizzle-orm";
 import { pressureService } from "../services/pressureService";
 import { ripple } from "../services/rippleEngine";
 import { invalidateFeatureFlagCache } from "../middleware/featureFlag";
+import {
+  applyDelta as applyProfileDelta,
+  emptyProfile,
+  type PlayerProfile,
+  type ProfileDelta,
+} from "@shared/playerProfile";
+import { getStandardDelta } from "@shared/playerProfileSources";
+import {
+  CONSEQUENCES_VERSION,
+  VOTE_ZERO_ID,
+  VOTE_ZERO_OPTION_CONFIRM,
+  VOTE_ZERO_OPTION_LOOK_AWAY,
+  getOptionConsequence,
+  resolveProfileSource,
+} from "@shared/governanceConsequences";
 
 /* ─── Helper: write audit log ─── */
 async function auditLog(db: NonNullable<Awaited<ReturnType<typeof getDb>>>, adminId: number, action: string, details?: unknown) {
@@ -56,6 +73,155 @@ async function auditLog(db: NonNullable<Awaited<ReturnType<typeof getDb>>>, admi
     action,
     details: details as any,
   });
+}
+
+/* ─── Helper: apply a player-profile event (upsert + audit row).
+   Mirrors the pattern in playerProfile.recordEvent / chessClimb so
+   the governance dispatcher can write deltas without an extra
+   round-trip. The `recordedSource` is the canonical source id we
+   stamp on the audit row; `recordedDelta` is the resolved delta.
+   Returns the new snapshot for the caller to surface if useful. */
+async function applyProfileEventInline(
+  db: NonNullable<Awaited<ReturnType<typeof getDb>>>,
+  userId: number,
+  recordedSource: string,
+  recordedDelta: ProfileDelta,
+  payload: Record<string, unknown> | null,
+): Promise<PlayerProfile> {
+  const now = new Date();
+  const existing = await db
+    .select()
+    .from(playerProfile)
+    .where(eq(playerProfile.userId, userId))
+    .limit(1);
+
+  const current: PlayerProfile = existing.length === 0
+    ? emptyProfile()
+    : {
+        aggression: existing[0].aggression,
+        mercy: existing[0].mercy,
+        curiosity: existing[0].curiosity,
+        conformity: existing[0].conformity,
+        vigilance: existing[0].vigilance,
+        vulnerability: existing[0].vulnerability,
+        wit: existing[0].wit,
+        eventCount: existing[0].eventCount,
+        lastUpdatedAt: existing[0].lastUpdatedAt ?? null,
+      };
+
+  const next = applyProfileDelta(current, recordedDelta, now);
+
+  if (existing.length === 0) {
+    await db.insert(playerProfile).values({
+      userId,
+      aggression: next.aggression,
+      mercy: next.mercy,
+      curiosity: next.curiosity,
+      conformity: next.conformity,
+      vigilance: next.vigilance,
+      vulnerability: next.vulnerability,
+      wit: next.wit,
+      eventCount: next.eventCount,
+      lastUpdatedAt: now,
+    });
+  } else {
+    await db
+      .update(playerProfile)
+      .set({
+        aggression: next.aggression,
+        mercy: next.mercy,
+        curiosity: next.curiosity,
+        conformity: next.conformity,
+        vigilance: next.vigilance,
+        vulnerability: next.vulnerability,
+        wit: next.wit,
+        eventCount: next.eventCount,
+        lastUpdatedAt: now,
+      })
+      .where(eq(playerProfile.userId, userId));
+  }
+
+  await db.insert(playerProfileEvents).values({
+    userId,
+    source: recordedSource,
+    payload,
+    deltas: (recordedDelta as Record<string, number>) ?? null,
+    createdAt: now,
+  });
+
+  return next;
+}
+
+/* ─── Helper: merge narrative flags onto userProgress.gameData.
+   Reads the row (creates one if missing), unions the flag set,
+   writes back. Idempotent. Errors are swallowed at call sites that
+   prefer the cast to succeed even if flag-write fails. */
+async function setNarrativeFlagsInline(
+  db: NonNullable<Awaited<ReturnType<typeof getDb>>>,
+  userId: number,
+  flags: ReadonlyArray<string>,
+): Promise<void> {
+  if (flags.length === 0) return;
+  const [progress] = await db
+    .select()
+    .from(userProgress)
+    .where(eq(userProgress.userId, userId))
+    .limit(1);
+
+  const gameData = ((progress?.gameData as Record<string, unknown> | null) ?? {}) as Record<string, unknown>;
+  const currentFlags = (gameData.narrativeFlags as Record<string, boolean> | undefined) ?? {};
+  for (const flag of flags) currentFlags[flag] = true;
+  gameData.narrativeFlags = currentFlags;
+
+  if (!progress) {
+    await db.insert(userProgress).values({
+      userId,
+      gameData: gameData as Record<string, unknown>,
+    });
+  } else {
+    await db
+      .update(userProgress)
+      .set({ gameData: gameData as Record<string, unknown> })
+      .where(eq(userProgress.userId, userId));
+  }
+}
+
+/* ─── Helper: apply the consequence registry for a single vote
+   cast. Looks up `(voteId, optionNumber)` in the registry, applies
+   the profile-delta event, and unions any narrative flags. Tolerant
+   of unknown vote ids (no-op). */
+async function applyVoteConsequences(
+  db: NonNullable<Awaited<ReturnType<typeof getDb>>>,
+  userId: number,
+  voteId: string,
+  optionNumber: number,
+  payload?: Record<string, unknown>,
+): Promise<{ source: string; flagsSet: ReadonlyArray<string> }> {
+  const consequence = getOptionConsequence(voteId, optionNumber);
+  const source = resolveProfileSource(voteId, optionNumber);
+  const delta = getStandardDelta(source) ?? {};
+
+  const fullPayload: Record<string, unknown> = {
+    voteId,
+    optionNumber,
+    consequencesVersion: CONSEQUENCES_VERSION,
+    ...(payload ?? {}),
+  };
+
+  await applyProfileEventInline(db, userId, source, delta, fullPayload);
+
+  const flagsSet = consequence?.narrativeFlags ?? [];
+  if (flagsSet.length > 0) {
+    try {
+      await setNarrativeFlagsInline(db, userId, flagsSet);
+    } catch (err) {
+      // Profile delta already landed; flag-write failure should not
+      // break the vote-cast response. Log and continue.
+      console.warn(`[governance] narrativeFlags write failed for ${voteId}/${optionNumber}:`, err);
+    }
+  }
+
+  return { source, flagsSet };
 }
 
 export const architectConsoleRouter = router({
@@ -337,10 +503,208 @@ export const architectConsoleRouter = router({
         .set({ voteCount: sql`${voteOptions.voteCount} + 1` })
         .where(and(eq(voteOptions.voteId, input.voteId), eq(voteOptions.optionNumber, input.optionNumber)));
 
+      // Apply consequences (profile delta + narrative flags) per the
+      // shared registry. Unknown votes are tolerated — the cast lands
+      // even if no consequences are authored yet.
+      const { source: profileSource, flagsSet } = await applyVoteConsequences(
+        db,
+        ctx.user.id,
+        input.voteId,
+        input.optionNumber,
+      );
+
       // Ripple: governance vote cast
       await ripple.emit("governance_vote_cast", { userId: ctx.user.id, voteId: input.voteId, optionNumber: input.optionNumber });
 
-      return { success: true };
+      return {
+        success: true,
+        profileSource,
+        flagsSet: Array.from(flagsSet),
+      };
+    }),
+
+  /** Record the player's surveillance-gate handshake as Vote #0.
+   *  The gate runs pre-authentication, so it can't write to the
+   *  server directly; the client stores the answer in localStorage
+   *  under `dischordia_vote_zero` and calls this mutation on the
+   *  first authenticated session. Idempotent — re-calling with the
+   *  same answer is a no-op; calling with a *different* answer is
+   *  rejected (the original choice is canonical until the player
+   *  uses the Architect's re-cast offer). */
+  recordVoteZero: protectedProcedure
+    .input(z.object({
+      response: z.enum(["confirmed", "looked_away"]),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) return { success: false, alreadyRecorded: false };
+
+      const optionNumber = input.response === "confirmed"
+        ? VOTE_ZERO_OPTION_CONFIRM
+        : VOTE_ZERO_OPTION_LOOK_AWAY;
+
+      // Idempotent: if a row already exists, return the existing
+      // option without re-applying consequences. This is the common
+      // path on every subsequent session.
+      const [existing] = await db.select().from(playerVotes)
+        .where(and(eq(playerVotes.voteId, VOTE_ZERO_ID), eq(playerVotes.userId, ctx.user.id)))
+        .limit(1);
+      if (existing) {
+        return {
+          success: true,
+          alreadyRecorded: true,
+          response: existing.optionNumber === VOTE_ZERO_OPTION_CONFIRM ? "confirmed" : "looked_away",
+        };
+      }
+
+      await db.insert(playerVotes).values({
+        voteId: VOTE_ZERO_ID,
+        userId: ctx.user.id,
+        optionNumber,
+      });
+
+      const { source, flagsSet } = await applyVoteConsequences(
+        db,
+        ctx.user.id,
+        VOTE_ZERO_ID,
+        optionNumber,
+        { recordedAt: "vote_zero_handshake" },
+      );
+
+      // Ripple: same event emitted as a normal cast so the (future)
+      // Reality Front map listens through one channel.
+      await ripple.emit("governance_vote_cast", {
+        userId: ctx.user.id,
+        voteId: VOTE_ZERO_ID,
+        optionNumber,
+      });
+
+      return {
+        success: true,
+        alreadyRecorded: false,
+        response: input.response,
+        profileSource: source,
+        flagsSet: Array.from(flagsSet),
+      };
+    }),
+
+  /** Read the Architect's first-visit ceremony state. Used by the
+   *  client to decide whether to render the full Address overlay
+   *  (first time only) or the persistent Monologue panel (every
+   *  visit thereafter). Both flags live on
+   *  userProgress.gameData.narrativeFlags. */
+  getCeremonyState: protectedProcedure.query(async ({ ctx }) => {
+    const db = await getDb();
+    if (!db) return { seen: false, recastUsed: false };
+    const [progress] = await db.select().from(userProgress)
+      .where(eq(userProgress.userId, ctx.user.id))
+      .limit(1);
+    const flags = ((progress?.gameData as Record<string, unknown> | null)?.narrativeFlags as Record<string, boolean> | undefined) ?? {};
+    return {
+      seen: !!flags["architect_intro_seen"],
+      recastUsed: !!flags["architect_intro_revote_used"],
+    };
+  }),
+
+  /** Mark the first-visit ceremony as seen. Called when the player
+   *  presses "Enter the Chamber" at the end of the Address overlay.
+   *  Idempotent. */
+  markCeremonySeen: protectedProcedure.mutation(async ({ ctx }) => {
+    const db = await getDb();
+    if (!db) return { success: false };
+    await setNarrativeFlagsInline(db, ctx.user.id, ["architect_intro_seen"]);
+    return { success: true };
+  }),
+
+  /** Read the caller's Vote #0 record (if any). Returns `null` if
+   *  the player has not yet recorded the handshake — used by the
+   *  Architect's first-visit ceremony to branch its callback line. */
+  getVoteZero: protectedProcedure.query(async ({ ctx }) => {
+    const db = await getDb();
+    if (!db) return null;
+    const [row] = await db.select().from(playerVotes)
+      .where(and(eq(playerVotes.voteId, VOTE_ZERO_ID), eq(playerVotes.userId, ctx.user.id)))
+      .limit(1);
+    if (!row) return null;
+    return {
+      response: row.optionNumber === VOTE_ZERO_OPTION_CONFIRM ? "confirmed" as const : "looked_away" as const,
+      votedAt: row.votedAt ?? null,
+    };
+  }),
+
+  /** Architect's Kierkegaardian re-cast offer: the player gets ONE
+   *  chance to switch their Vote #0 answer when they first enter the
+   *  governance hub. Sticking writes `vote_zero_reaffirmed`;
+   *  switching writes `vote_zero_recanted`. After the call, the gate
+   *  is closed (`architect_intro_revote_used` flag). */
+  recastVoteZero: protectedProcedure
+    .input(z.object({
+      response: z.enum(["confirmed", "looked_away"]),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) return { success: false };
+
+      // Refuse if the gate is already closed.
+      const [progress] = await db.select().from(userProgress)
+        .where(eq(userProgress.userId, ctx.user.id))
+        .limit(1);
+      const flags = ((progress?.gameData as Record<string, unknown> | null)?.narrativeFlags as Record<string, boolean> | undefined) ?? {};
+      if (flags["architect_intro_revote_used"]) {
+        throw new TRPCError({ code: "BAD_REQUEST", message: "The chamber has already accepted your final answer." });
+      }
+
+      // Need an existing Vote #0 to re-cast.
+      const [existing] = await db.select().from(playerVotes)
+        .where(and(eq(playerVotes.voteId, VOTE_ZERO_ID), eq(playerVotes.userId, ctx.user.id)))
+        .limit(1);
+      if (!existing) {
+        throw new TRPCError({ code: "BAD_REQUEST", message: "Vote #0 has not been recorded yet." });
+      }
+
+      const newOption = input.response === "confirmed"
+        ? VOTE_ZERO_OPTION_CONFIRM
+        : VOTE_ZERO_OPTION_LOOK_AWAY;
+      const switched = existing.optionNumber !== newOption;
+
+      // Update the canonical row.
+      if (switched) {
+        await db.update(playerVotes)
+          .set({ optionNumber: newOption })
+          .where(and(eq(playerVotes.voteId, VOTE_ZERO_ID), eq(playerVotes.userId, ctx.user.id)));
+      }
+
+      // Write the reaffirmed/recanted profile event. Source ids
+      // come from playerProfileSources.ts.
+      const source = switched ? "vote_zero_recanted" : "vote_zero_reaffirmed";
+      const delta = getStandardDelta(source) ?? {};
+      await applyProfileEventInline(
+        db,
+        ctx.user.id,
+        source,
+        delta,
+        { previous: existing.optionNumber === VOTE_ZERO_OPTION_CONFIRM ? "confirmed" : "looked_away", current: input.response },
+      );
+
+      // Close the re-cast gate.
+      await setNarrativeFlagsInline(db, ctx.user.id, [
+        "architect_intro_revote_used",
+        switched
+          ? `vote_zero_${input.response}_after_recant`
+          : `vote_zero_${input.response}_reaffirmed`,
+      ]);
+
+      await ripple.emit("governance_vote_cast", {
+        userId: ctx.user.id,
+        voteId: VOTE_ZERO_ID,
+        optionNumber: newOption,
+      });
+
+      return {
+        success: true,
+        switched,
+        response: input.response,
+      };
     }),
 
   /** Get current active votes for player UI */

@@ -13,6 +13,7 @@
 import { useState, useEffect, useMemo, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "wouter";
+import { VOTE_ZERO_KEY } from "@/pages/title/SurveillanceOpening";
 import {
   ChevronLeft, Vote, BookOpen, BarChart3, Calendar,
   Users, Swords, Shield, Sparkles, Clock, Check,
@@ -23,6 +24,14 @@ import {
 import { KineticText, AtmosphereScope } from "@/components/void";
 import { useGovernanceStore } from "@/stores/governanceStore";
 import { trpc } from "@/lib/trpc";
+import ArchitectAddress, {
+  ArchitectMonologue,
+} from "@/components/governance/ArchitectAddress";
+import RealityFrontMap from "@/components/governance/RealityFrontMap";
+import RealityFrontMeter from "@/components/governance/RealityFrontMeter";
+import ArchitectsDirective from "@/components/governance/ArchitectsDirective";
+import { computeAperture } from "@shared/aperture";
+import { getArchitectCommentary } from "@shared/architectGovernanceVoices";
 import {
   generateFeedItem, nextAIVoteInterval, calculatePaddedTally,
   type VoteFeedItem,
@@ -319,15 +328,57 @@ function ActiveVotePanel() {
   );
 }
 
+/** Vote #0 — the Antiquarian's opening inscription. Branches on
+ *  the player's surveillance-gate answer. Always pinned to the
+ *  *bottom* of the merged Chronicle (it's the oldest entry — the
+ *  one that opens the transcript). The body intentionally does
+ *  not name CoNexus, the Architect, or any sealed-lore figure. */
+interface VoteZeroChronicleEntry {
+  id: string;
+  week: number;
+  type: "vote";
+  title: string;
+  body: string;
+  annotation: string | undefined;
+  timestamp: number;
+}
+
+function buildVoteZeroChronicleEntry(
+  response: "confirmed" | "looked_away" | null,
+): VoteZeroChronicleEntry | null {
+  if (!response) return null;
+  const body = response === "confirmed"
+    ? "Before you ever set foot in the chamber, the Eye called the question. You confirmed your operator. The transcript opens with your name set in ink."
+    : "Before you ever set foot in the chamber, the Eye called the question. You looked away. The transcript opens with your name set in pencil — and a margin note in my hand.";
+  const annotation = response === "looked_away"
+    ? "There is a long tradition of looking away. I have, on occasion, kept the practice."
+    : undefined;
+  return {
+    id: "tome:vote_zero_eye",
+    week: 0,
+    type: "vote",
+    title: "VOTE #0 — THE EYE CALLS",
+    body,
+    annotation,
+    // Force Vote #0 to the very bottom of the merged feed (oldest).
+    timestamp: 0,
+  };
+}
+
 /* ─── CHRONICLE PANEL ─── */
-function ChroniclePanel() {
+function ChroniclePanel({
+  voteZero,
+}: {
+  voteZero: "confirmed" | "looked_away" | null;
+}) {
   const store = useGovernanceStore();
   const chronicleEntries = store.chronicleEntries.length > 0
     ? store.chronicleEntries
     : SEED_CHRONICLE;
   const tomeEntries = store.tomeEntries;
 
-  // Merge and sort all entries by timestamp, newest first
+  // Merge and sort all entries by timestamp, newest first. Vote #0
+  // (synthetic, timestamp=0) lands at the bottom.
   const allEntries = useMemo(() => {
     const combined = [
       ...chronicleEntries.map((e) => ({
@@ -349,8 +400,10 @@ function ChroniclePanel() {
         timestamp: e.inscribedAt,
       })),
     ];
+    const voteZeroEntry = buildVoteZeroChronicleEntry(voteZero);
+    if (voteZeroEntry) combined.push(voteZeroEntry);
     return combined.sort((a, b) => b.timestamp - a.timestamp);
-  }, [chronicleEntries, tomeEntries]);
+  }, [chronicleEntries, tomeEntries, voteZero]);
 
   return (
     <AtmosphereScope themeId="golden_sanctuary">
@@ -657,8 +710,106 @@ function mapServerVoteToClient(
   };
 }
 
+/** Vote #0 sync — read the surveillance-gate answer from
+ *  localStorage on the first authenticated hub visit, persist it to
+ *  the server, then surface the canonical record for the Chronicle.
+ *  Idempotent on the server side; safe to call on every hub mount. */
+function useVoteZeroSync(): "confirmed" | "looked_away" | null {
+  const recordVoteZero = trpc.architectConsole.recordVoteZero.useMutation();
+  const { data: existing, refetch } = trpc.architectConsole.getVoteZero.useQuery(
+    undefined,
+    { staleTime: 60_000 },
+  );
+  const syncedRef = useRef(false);
+
+  useEffect(() => {
+    if (syncedRef.current) return;
+    if (existing) {
+      syncedRef.current = true;
+      return;
+    }
+    let pending: "confirmed" | "looked_away" | null = null;
+    try {
+      const raw = localStorage.getItem(VOTE_ZERO_KEY);
+      if (raw === "confirmed" || raw === "looked_away") pending = raw;
+    } catch {
+      /* storage blocked — nothing to sync */
+    }
+    if (!pending) return;
+    syncedRef.current = true;
+    recordVoteZero.mutate(
+      { response: pending },
+      {
+        onSuccess: () => { void refetch(); },
+        onError: (err) => {
+          console.warn("[Governance] Vote #0 sync failed:", err.message);
+          // Allow another attempt next mount.
+          syncedRef.current = false;
+        },
+      },
+    );
+  }, [existing, recordVoteZero, refetch]);
+
+  return existing?.response ?? null;
+}
+
+/** Aggregate Vote #0 tally for the Architect's commentary —
+ *  reads the global tally for the synthetic `vote_zero_eye` row
+ *  and maps it onto the {confirm, lookAway} shape the voice
+ *  module expects. Falls back to a neutral 1/1 when the row has
+ *  no votes yet so the Architect still has a band to render. */
+function useVoteZeroTally(): { confirm: number; lookAway: number } {
+  // For now, we only have the caller's own answer reliably (via
+  // getVoteZero) — the public global tally would need an admin-
+  // facing aggregate query. Slice 3 promotes this to a real
+  // server-backed tally; for slice 2 we seed from the player's
+  // own answer so the Architect always has a meaningful band.
+  const { data } = trpc.architectConsole.getVoteZero.useQuery(undefined, {
+    staleTime: 60_000,
+  });
+  if (!data) return { confirm: 1, lookAway: 1 };
+  return data.response === "confirmed"
+    ? { confirm: 1, lookAway: 0 }
+    : { confirm: 0, lookAway: 1 };
+}
+
 export default function GovernanceHubPage() {
   const [mobileTab, setMobileTab] = useState<"vote" | "chronicle" | "pulse" | "daily" | "palimpsest">("vote");
+  const voteZero = useVoteZeroSync();
+  const voteZeroTally = useVoteZeroTally();
+  const { data: ceremonyState, refetch: refetchCeremony } = trpc.architectConsole.getCeremonyState.useQuery(
+    undefined,
+    { staleTime: 60_000 },
+  );
+  const recastVoteZeroMutation = trpc.architectConsole.recastVoteZero.useMutation();
+  const markCeremonySeenMutation = trpc.architectConsole.markCeremonySeen.useMutation();
+
+  const handleRecastDecision = useCallback(
+    (response: "confirmed" | "looked_away") => {
+      recastVoteZeroMutation.mutate(
+        { response },
+        {
+          onSuccess: () => { void refetchCeremony(); },
+          onError: (err) => console.warn("[Governance] Re-cast failed:", err.message),
+        },
+      );
+    },
+    [recastVoteZeroMutation, refetchCeremony],
+  );
+
+  const handleCeremonyComplete = useCallback(() => {
+    markCeremonySeenMutation.mutate(undefined, {
+      onSuccess: () => { void refetchCeremony(); },
+    });
+  }, [markCeremonySeenMutation, refetchCeremony]);
+
+  // Show the Address overlay only on the first visit AFTER Vote #0
+  // has been recorded (so the callback beat has something to land
+  // on). Otherwise the Monologue renders inline.
+  const showAddress =
+    voteZero !== null &&
+    ceremonyState !== undefined &&
+    !ceremonyState.seen;
 
   const mobileTabs = [
     { id: "vote" as const, label: "VOTE", icon: Vote },
@@ -722,6 +873,59 @@ export default function GovernanceHubPage() {
             </div>
           </div>
 
+          {/* ═══ ARCHITECT — first-visit ceremony OR persistent monologue ═══ */}
+          {showAddress ? (
+            <ArchitectAddress
+              voteZero={voteZero}
+              tally={voteZeroTally}
+              recastAvailable={!ceremonyState?.recastUsed}
+              onRecastDecision={handleRecastDecision}
+              onComplete={handleCeremonyComplete}
+            />
+          ) : (
+            ceremonyState?.seen && (
+              <ArchitectMonologue voteZero={voteZero} tally={voteZeroTally} />
+            )
+          )}
+
+          {/* ═══ REALITY FRONT — meter + map + directive ═══ */}
+          {ceremonyState?.seen && (
+            <>
+              {(() => {
+                const aperture = computeAperture({
+                  globalTally: voteZeroTally,
+                  voteHistory: voteZero
+                    ? [{ framing: voteZero === "confirmed" ? "confirm" : "look_away", castAt: Date.now() }]
+                    : [],
+                  narrativeFlags: voteZero
+                    ? voteZero === "confirmed"
+                      ? { vote_zero_eye_response_confirmed: true }
+                      : { vote_zero_eye_response_looked_away: true }
+                    : {},
+                });
+                const caption = getArchitectCommentary({
+                  tally: voteZeroTally,
+                  playerChoice: voteZero,
+                }).line;
+                return <RealityFrontMeter score={aperture} caption={caption} />;
+              })()}
+              <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-4 mb-4">
+                <RealityFrontMap
+                  activeVoteId={null}
+                  activeVoteTally={undefined}
+                  voteZeroResponse={voteZero}
+                />
+                <ArchitectsDirective
+                  voteId={null}
+                  voteTitle=""
+                  tally={{}}
+                  endsAt={null}
+                  playerChoice={voteZero}
+                />
+              </div>
+            </>
+          )}
+
           {/* ═══ MOBILE: Tab bar (visible < lg) ═══ */}
           <div className="flex gap-1 mb-6 overflow-x-auto lg:hidden">
             {mobileTabs.map((t) => (
@@ -753,7 +957,7 @@ export default function GovernanceHubPage() {
               )}
               {mobileTab === "chronicle" && (
                 <motion.div key="chronicle" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
-                  <ChroniclePanel />
+                  <ChroniclePanel voteZero={voteZero} />
                 </motion.div>
               )}
               {mobileTab === "pulse" && (
@@ -773,7 +977,7 @@ export default function GovernanceHubPage() {
           <div className="hidden lg:grid lg:grid-cols-[280px_1fr_260px] gap-4">
             {/* LEFT — Chronicle */}
             <div>
-              <ChroniclePanel />
+              <ChroniclePanel voteZero={voteZero} />
             </div>
 
             {/* CENTER — Active Vote + Daily + Palimpsest */}

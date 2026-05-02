@@ -14,6 +14,16 @@
 
 /* ─── TYPES ─── */
 
+/** Where this option sits on the Confirm/Look-Away spine.
+ *  Drives subtle UI tinting (the iris of the option that aligns
+ *  with the player's running stance is brighter), the Architect's
+ *  reactive monologue band selection, and the
+ *  `governance_vote:confirm`/`look_away`/`neutral` profile delta
+ *  applied when the option is cast. Defaults to "neutral" if
+ *  unspecified, so existing votes don't start writing axis weight
+ *  retroactively. */
+export type VoteOptionEyeFraming = "confirm" | "look_away" | "neutral";
+
 export interface VoteOption {
   id: string;
   label: string;
@@ -22,6 +32,8 @@ export interface VoteOption {
   consequences: string[];
   /** Icon hint for UI */
   icon?: string;
+  /** Confirm/Look-Away alignment. Optional; absent = "neutral". */
+  eyeFraming?: VoteOptionEyeFraming;
 }
 
 export interface CommunityVote {
