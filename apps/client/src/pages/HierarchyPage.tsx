@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { useLoredex } from "@/contexts/LoredexContext";
 import { useGamification } from "@/contexts/GamificationContext";
+import { useGame } from "@/contexts/GameContext";
 import { CorruptibleBio } from "@/components/CorruptibleBio";
 
 /* ─── Hierarchy Data ─── */
@@ -336,9 +337,14 @@ export default function HierarchyPage() {
   const [selectedDemon, setSelectedDemon] = useState<DemonLeader | null>(null);
   const [viewMode, setViewMode] = useState<"chart" | "list">("chart");
   const { markHierarchyExplored } = useGamification();
+  const { setNarrativeFlag } = useGame();
 
-  // Track hierarchy exploration for achievement
-  useEffect(() => { markHierarchyExplored(); }, []);
+  // Track hierarchy exploration for achievement + unlock the
+  // blood-weave-gates-of-hell CoNexus Tome (placement gates on this flag).
+  useEffect(() => {
+    markHierarchyExplored();
+    setNarrativeFlag("hierarchy_discovered", true);
+  }, [markHierarchyExplored, setNarrativeFlag]);
 
   const cSuite = useMemo(() => DEMON_LEADERS.filter(d => d.tier === "c-suite"), []);
   const svps = useMemo(() => DEMON_LEADERS.filter(d => d.tier === "svp"), []);

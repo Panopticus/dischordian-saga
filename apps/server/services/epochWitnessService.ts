@@ -4,7 +4,7 @@ import { getDb } from "../db";
 import { epochVotes, epochVoteTallies, playerEpochProgress, shadowTongueState } from "../../db/schema";
 import { logger } from "../logger";
 import { ripple } from "./rippleEngine";
-import { AGE_OF_PRIVACY_VOTES, AGE_OF_PROPHECY_VOTES } from "@shared/epochWitnessVotes";
+import { AGE_OF_PRIVACY_VOTES, AGE_OF_PROPHECY_VOTES, isVoteUnlocked, unlockedVotes } from "@shared/epochWitnessVotes";
 import { AGE_OF_INSURGENCY_VOTES, AGE_OF_REVELATION_VOTES, FALL_OF_REALITY_VOTES } from "@shared/epochWitnessVotesLate";
 import type { NexusPointVote } from "@shared/epochWitnessVotes";
 import {
@@ -21,19 +21,33 @@ const ALL_VOTES: NexusPointVote[] = [
   ...AGE_OF_INSURGENCY_VOTES, ...AGE_OF_REVELATION_VOTES, ...FALL_OF_REALITY_VOTES,
 ];
 
+export type CastVoteResult = { success: boolean; reason?: "locked" | "unknown_vote" | "invalid_option" | "duplicate" | "no_db"; tally?: Record<string, number> };
+
 export const epochWitnessService = {
-  async castVote(userId: number, voteId: string, optionChosen: string): Promise<{ success: boolean; tally?: Record<string, number> }> {
+  async castVote(
+    userId: number,
+    voteId: string,
+    optionChosen: string,
+    narrativeFlags?: Record<string, boolean>,
+  ): Promise<CastVoteResult> {
     const db = await getDb();
-    if (!db) return { success: false };
+    if (!db) return { success: false, reason: "no_db" };
     const voteDef = ALL_VOTES.find(v => v.id === voteId);
-    if (!voteDef) return { success: false };
+    if (!voteDef) return { success: false, reason: "unknown_vote" };
+    // Honour the lockedUntil narrative-flag gate declared in the vote
+    // definition (e.g. "welcome_to_celebration_conexus_complete"). The
+    // CoNexus Tome system raises these flags on completion; the
+    // Loredex / Iron Lion / Agent Zero arcs raise the others. Reject
+    // here so a client that hasn't reached the prerequisite can't
+    // shortcut the campaign by hand-crafting a tRPC call.
+    if (!isVoteUnlocked(voteDef, narrativeFlags)) return { success: false, reason: "locked" };
     const validOptions = voteDef.options.map(o => o.id);
-    if (!validOptions.includes(optionChosen)) return { success: false };
+    if (!validOptions.includes(optionChosen)) return { success: false, reason: "invalid_option" };
 
     try {
       await db.insert(epochVotes).values({ voteId, epoch: voteDef.epoch, userId, optionChosen });
     } catch (e: unknown) {
-      if ((e as Record<string, unknown>)?.code === "ER_DUP_ENTRY") return { success: false };
+      if ((e as Record<string, unknown>)?.code === "ER_DUP_ENTRY") return { success: false, reason: "duplicate" };
       throw e;
     }
 
@@ -169,5 +183,11 @@ export const epochWitnessService = {
 
   getAllVotesForEpoch(epoch: string): NexusPointVote[] {
     return ALL_VOTES.filter(v => v.epoch === epoch);
+  },
+
+  /** Same as getAllVotesForEpoch but drops votes whose lockedUntil
+   *  flag isn't yet set on the caller's narrativeFlags map. */
+  getUnlockedVotesForEpoch(epoch: string, narrativeFlags?: Record<string, boolean>): NexusPointVote[] {
+    return unlockedVotes(ALL_VOTES.filter(v => v.epoch === epoch), narrativeFlags);
   },
 };
