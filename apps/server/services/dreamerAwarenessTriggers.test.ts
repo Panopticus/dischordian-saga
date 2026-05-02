@@ -15,6 +15,7 @@ import { describe, it, expect } from "vitest";
 import {
   maybeTagAskRepeated,
   maybeTagDeclineWinningDraw,
+  maybeTagMoralityDivergent,
   tagBurntCardWitnessed,
   _internals,
 } from "./dreamerAwarenessTriggers";
@@ -117,5 +118,51 @@ describe("trigger entry points — no-DB safety", () => {
 
   it("tagBurntCardWitnessed returns void without throwing", async () => {
     await expect(tagBurntCardWitnessed(99)).resolves.toBeUndefined();
+  });
+
+  it("maybeTagMoralityDivergent short-circuits on sub-threshold delta", async () => {
+    // Delta below MORALITY_DIVERGENT_THRESHOLD (5) — never reaches
+    // tagDreamerAwareness, so no DB hit and no throw possible.
+    await expect(
+      maybeTagMoralityDivergent(42, 3, "dialog"),
+    ).resolves.toBeUndefined();
+  });
+
+  it("maybeTagMoralityDivergent short-circuits on negative (machine-aligned) delta", async () => {
+    // Negative delta is the machine grain; the tag never fires for
+    // it regardless of magnitude.
+    await expect(
+      maybeTagMoralityDivergent(42, -10, "dialog"),
+    ).resolves.toBeUndefined();
+  });
+
+  it("maybeTagMoralityDivergent short-circuits on non-player-choice contexts", async () => {
+    // event / quest / diplomacy / celebration_trial are excluded —
+    // automatic deltas the player didn't directly pick from a
+    // wheel.
+    await expect(
+      maybeTagMoralityDivergent(42, 10, "event"),
+    ).resolves.toBeUndefined();
+    await expect(
+      maybeTagMoralityDivergent(42, 10, "quest"),
+    ).resolves.toBeUndefined();
+    await expect(
+      maybeTagMoralityDivergent(42, 10, "diplomacy"),
+    ).resolves.toBeUndefined();
+  });
+
+  it("maybeTagMoralityDivergent returns void without throwing on a qualifying delta + context (no-DB)", async () => {
+    // A delta that DOES qualify (≥5, dialog) — would call
+    // tagDreamerAwareness, which short-circuits to no-op without a
+    // DB pool. Either way: no throw.
+    await expect(
+      maybeTagMoralityDivergent(42, 10, "dialog"),
+    ).resolves.toBeUndefined();
+    await expect(
+      maybeTagMoralityDivergent(42, 25, "companion"),
+    ).resolves.toBeUndefined();
+    await expect(
+      maybeTagMoralityDivergent(42, 5, "governance"),
+    ).resolves.toBeUndefined();
   });
 });

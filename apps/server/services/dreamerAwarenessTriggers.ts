@@ -26,6 +26,9 @@ import {
   BURNT_CARD_WITNESSED,
   DECLINE_DRAW_MATERIAL_ADVANTAGE,
   DECLINE_WINNING_DRAW,
+  MORALITY_DIVERGENT_CHOICE,
+  MORALITY_DIVERGENT_CONTEXTS,
+  MORALITY_DIVERGENT_THRESHOLD,
   dreamerTagForTopicId,
   SUBSTRATE_TOPIC_PATTERNS,
   DREAM_TOPIC_PATTERNS,
@@ -152,4 +155,31 @@ export const _internals = {
  */
 export async function tagBurntCardWitnessed(userId: number): Promise<void> {
   await tagDreamerAwareness(userId, BURNT_CARD_WITNESSED.id);
+}
+
+/**
+ * Called from rpgSystems.applyMoralityChoice after the morality
+ * score update commits. Fires MORALITY_DIVERGENT_CHOICE when the
+ * choice was a meaningful humanity-aligned step (positive delta
+ * ≥ MORALITY_DIVERGENT_THRESHOLD) from a player-choice context
+ * (dialog / companion / governance — automatic event/quest deltas
+ * are excluded).
+ *
+ * Polarity reference: in this codebase positive moralityDelta =
+ * humanity-aligned (the Dreamer's grain); negative = machine-
+ * aligned (the Architect's grain). See the rpgSystems threshold
+ * registry, which has a "dreamer_noticed" event at +75.
+ *
+ * Idempotent at the service layer. Subsequent qualifying choices
+ * are no-ops at the tag fire — the count moved exactly once,
+ * and that's all the Dreamer notices.
+ */
+export async function maybeTagMoralityDivergent(
+  userId: number,
+  actualDelta: number,
+  sourceContext: string,
+): Promise<void> {
+  if (actualDelta < MORALITY_DIVERGENT_THRESHOLD) return;
+  if (!MORALITY_DIVERGENT_CONTEXTS.includes(sourceContext)) return;
+  await tagDreamerAwareness(userId, MORALITY_DIVERGENT_CHOICE.id);
 }

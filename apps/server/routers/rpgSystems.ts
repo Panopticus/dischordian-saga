@@ -15,6 +15,7 @@ import { z } from "zod";
 import { router, protectedProcedure } from "../_core/trpc";
 import { getDb } from "../db";
 import { logger } from "../logger";
+import { maybeTagMoralityDivergent } from "../services/dreamerAwarenessTriggers";
 import {
   citizenCharacters, classMastery, masteryBranches,
   citizenTalentSelections, civilSkillProgress,
@@ -793,6 +794,21 @@ export const rpgSystemsRouter = router({
         sessionId: "server",
         clientTimestamp: new Date(),
       }).catch(e => logger.error("[Morality] Analytics insert failed:", e));
+
+      // 7. Dreamer-awareness silent counter (D1). A meaningful
+      // humanity-aligned choice from a player-choice context fires
+      // MORALITY_DIVERGENT_CHOICE — the Dreamer's network notices
+      // when the player breaks against the optimizer's grain.
+      // Helper is no-throw + idempotent at the service layer; fire-
+      // and-forget so a counter failure never rejects the morality
+      // mutation.
+      maybeTagMoralityDivergent(
+        ctx.user.id,
+        actualDelta,
+        input.sourceContext,
+      ).catch((e) => {
+        logger.warn(`[Morality] dreamer-awareness trigger failed: ${e instanceof Error ? e.message : String(e)}`);
+      });
 
       return {
         success: true,
