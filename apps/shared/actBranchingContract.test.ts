@@ -48,6 +48,7 @@ const ACT_FORK_FLAGS: Readonly<Record<number, readonly string[]>> = {
     "act5_strategic_chosen",
     "act5_path_humanity_first",
     "act5_path_strength_first",
+    "act5_balanced_chosen",
   ],
   6: [
     "act6_ally_chosen",
@@ -130,9 +131,9 @@ describe("Act branching contract — every fork flag has reactive + ask + varian
     }
   });
 
-  it("totals: 7 acts, 30 fork flags covered", () => {
+  it("totals: 7 acts, 31 fork flags covered", () => {
     expect(Object.keys(ACT_FORK_FLAGS).map(Number).sort()).toEqual([1, 2, 3, 4, 5, 6, 7]);
-    expect(ALL_FORK_FLAGS.length).toBe(30);
+    expect(ALL_FORK_FLAGS.length).toBe(31);
   });
 
   // Ghost-flag detector: a fork flag is "ghost" if no production code path

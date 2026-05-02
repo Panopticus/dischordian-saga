@@ -1078,6 +1078,8 @@ export const COMPANION_ASK_TOPICS: readonly CompanionAskTopic[] = [
         answer: "Engineer-tech tilt. The infrastructure-stable path. The Engineer's faction warms; the Strategic faction notes without warming. Your supply lines are robust; your maneuver lines are narrower. Trade is fair." },
       { unlockedFromAct: 5, requiredFlag: "act5_strategic_chosen",
         answer: "Strategic tilt. The information-dense path. The Strategic faction warms; the Engineer's faction continues to like you slightly less warmly. Your maneuver lines are sharp; your supply lines run leaner. Trade is fair." },
+      { unlockedFromAct: 5, requiredFlag: "act5_balanced_chosen",
+        answer: "Balanced — simultaneous signal to all sectors. The diplomat's play. Neither supply nor maneuver tilts; instead the map chose you. The first world that responded set the tone; you carry that tone into Act 6 without having shaped it." },
     ],
     followUp: "ask_human_engineering_act5",
   },
@@ -1094,6 +1096,8 @@ export const COMPANION_ASK_TOPICS: readonly CompanionAskTopic[] = [
         answer: "Engineer-tech. The supply-line tilt. Most witnesses do not regret it; some do, and the regret, when it comes, is small. You will feel it in Act 7 if the cathedral asks for a maneuver you wish you had practised. Plan accordingly." },
       { unlockedFromAct: 5, requiredFlag: "act5_strategic_chosen",
         answer: "Strategic. The maneuver-line tilt. Most witnesses do not regret it; some do, and the regret is felt in Act 6 when a sector pushes back and the supplies are thinner than wanted. Plan the resupply window." },
+      { unlockedFromAct: 5, requiredFlag: "act5_balanced_chosen",
+        answer: "Balanced. The diplomat's play. You let the universe choose and followed the first signal back. I did this once — the response came from the least likely sector and changed the entire campaign. Trust whatever came back." },
     ],
   },
 

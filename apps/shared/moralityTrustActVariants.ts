@@ -3448,4 +3448,17 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
     act: 1,
     requiredFlags: ["signal_traced"],
   },
+
+  // Act 5 balanced — surfaces in Act 6 cabin
+  {
+    id: "npc_line_human_balanced_act6",
+    surface: "npc_line",
+    targetId: "human_act6_cabin",
+    text:
+      "You sent signals to all five sectors and waited for the universe to answer first. The first response back was the tone-setter; you carried it without shaping it. That posture — the diplomat's play — is why the recruitment campaign had no enemies. Most campaigns have at least one sector that resents being approached second. Yours had none. I am filing that as an outlier worth studying.",
+    morality: "any",
+    trust: "any",
+    act: 6,
+    requiredFlags: ["act5_balanced_chosen"],
+  },
 ];
