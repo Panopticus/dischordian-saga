@@ -6176,3 +6176,89 @@ export const dreamerAwareness = mysqlTable("dreamer_awareness", {
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 });
 export type DreamerAwarenessRow = typeof dreamerAwareness.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
+   T12 — PARTY SYSTEM
+   Backs 2v2 ranked queues + card co-op encounter parties.
+   A player can be in at most one active party at a time.
+   ═══════════════════════════════════════════════════════ */
+export const parties = mysqlTable("parties", {
+  id: int("id").autoincrement().primaryKey(),
+  partyId: varchar("partyId", { length: 64 }).notNull().unique(),
+  leaderUserId: int("leaderUserId").notNull(),
+  /** Mode the party is preparing for. Affects max member count. */
+  mode: mysqlEnum("mode", ["card_2v2", "card_coop", "card_ffa", "open"]).notNull().default("open"),
+  /** Open parties accept join requests; closed only honors invites. */
+  openToJoin: int("openToJoin").notNull().default(0),
+  status: mysqlEnum("status", ["forming", "queued", "in_match", "disbanded"]).notNull().default("forming"),
+  /** Set when the party transitions to in_match. */
+  matchId: varchar("matchId", { length: 64 }),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  leaderIdx: index("idx_parties_leader").on(table.leaderUserId),
+  statusIdx: index("idx_parties_status").on(table.status),
+}));
+export type Party = typeof parties.$inferSelect;
+
+export const partyMembers = mysqlTable("party_members", {
+  id: int("id").autoincrement().primaryKey(),
+  partyId: varchar("partyId", { length: 64 }).notNull(),
+  userId: int("userId").notNull(),
+  role: mysqlEnum("role", ["leader", "member"]).notNull().default("member"),
+  /** Slot index inside the party (0..N-1). Leader is always 0. */
+  slot: int("slot").notNull(),
+  joinedAt: timestamp("joinedAt").defaultNow().notNull(),
+}, (table) => ({
+  partyIdx: index("idx_party_members_party").on(table.partyId),
+  userIdx: index("idx_party_members_user").on(table.userId),
+  uniqUserParty: uniqueIndex("uniq_party_members_user_party").on(
+    table.partyId,
+    table.userId,
+  ),
+  uniqUserSingleParty: uniqueIndex("uniq_party_members_user_single").on(table.userId),
+}));
+export type PartyMember = typeof partyMembers.$inferSelect;
+
+export const partyInvites = mysqlTable("party_invites", {
+  id: int("id").autoincrement().primaryKey(),
+  partyId: varchar("partyId", { length: 64 }).notNull(),
+  invitedUserId: int("invitedUserId").notNull(),
+  invitedByUserId: int("invitedByUserId").notNull(),
+  status: mysqlEnum("status", ["pending", "accepted", "declined", "expired"]).notNull().default("pending"),
+  expiresAt: timestamp("expiresAt").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  respondedAt: timestamp("respondedAt"),
+}, (table) => ({
+  invitedUserIdx: index("idx_party_invites_invited_user").on(table.invitedUserId),
+  partyIdx: index("idx_party_invites_party").on(table.partyId),
+  uniqPendingInvite: uniqueIndex("uniq_party_invites_pending").on(
+    table.partyId,
+    table.invitedUserId,
+  ),
+}));
+export type PartyInvite = typeof partyInvites.$inferSelect;
+
+/* T12 — Card co-op encounter sessions. One row per attempt by a
+ * party at a specific encounter. Underlying engine still runs 1v1;
+ * the WS layer routes party inputs to side 0. */
+export const coopCardSessions = mysqlTable("coop_card_sessions", {
+  id: int("id").autoincrement().primaryKey(),
+  sessionId: varchar("sessionId", { length: 64 }).notNull().unique(),
+  partyId: varchar("partyId", { length: 64 }).notNull(),
+  encounterKey: varchar("encounterKey", { length: 64 }).notNull(),
+  difficulty: mysqlEnum("difficulty", ["normal", "heroic", "mythic"]).notNull().default("normal"),
+  /** JSON array of contributing user ids, in turn-priority order. */
+  partyMemberIds: json("partyMemberIds").$type<number[]>().notNull(),
+  /** Underlying matchId in pvp_matches. */
+  underlyingMatchId: varchar("underlyingMatchId", { length: 64 }),
+  outcome: mysqlEnum("outcome", ["pending", "victory", "defeat", "abandoned"]).notNull().default("pending"),
+  /** JSON array of phase fractions that fired. For replays / analysis. */
+  phasesFired: json("phasesFired").$type<number[]>().notNull().default([]),
+  startedAt: timestamp("startedAt").defaultNow().notNull(),
+  endedAt: timestamp("endedAt"),
+}, (table) => ({
+  partyIdx: index("idx_coop_card_sessions_party").on(table.partyId),
+  encounterIdx: index("idx_coop_card_sessions_encounter").on(table.encounterKey),
+}));
+export type CoopCardSession = typeof coopCardSessions.$inferSelect;
