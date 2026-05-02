@@ -20,6 +20,15 @@ interface PlayerContextType {
   setVolume: (v: number) => void;
   seek: (time: number) => void;
   hasAudio: boolean;
+  /** Audio-element `muted` flag, separate from `volume` so toggling
+   *  silence doesn't clobber the user's preferred level. Used by the
+   *  title flow to pre-roll The Enigma's Lament under the meme video
+   *  on iOS Safari (where every programmatic `play()` outside a user
+   *  activation is blocked) — the song starts muted inside the
+   *  CONFIRM/LOOK AWAY click handler, then `setMuted(false)` reveals
+   *  it for the last 10s of the broadcast. */
+  muted: boolean;
+  setMuted: (m: boolean) => void;
 }
 
 const PlayerContext = createContext<PlayerContextType | null>(null);
@@ -32,6 +41,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [volume, setVolumeState] = useState(0.8);
+  const [muted, setMutedState] = useState(false);
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
   // Use refs for queue and currentSong so event handlers always see latest values
@@ -188,6 +198,13 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
+  const setMuted = useCallback((m: boolean) => {
+    setMutedState(m);
+    if (audioRef.current) {
+      audioRef.current.muted = m;
+    }
+  }, []);
+
   const seek = useCallback((time: number) => {
     if (audioRef.current && currentSong?.audio_url) {
       const clamped = Math.max(0, Math.min(time, audioRef.current.duration || 0));
@@ -201,6 +218,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       value={{
         currentSong, isPlaying, queue, playSong, pause, resume, next, prev,
         setQueue, showPlayer, currentTime, duration, volume, setVolume, seek, hasAudio,
+        muted, setMuted,
       }}
     >
       {children}
