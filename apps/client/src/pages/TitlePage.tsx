@@ -763,25 +763,28 @@ export default function TitlePage({ onDismiss }: TitlePageProps = {}) {
           isGameReady={thresholdPassed && !auth.loading}
           onCinematicEnded={() => setCinematicEnded(true)}
           onSongShouldStart={() => {
-            // Pre-roll The Enigma's Lament ~10s before the meme video
-            // ends so the song is already playing when the slideshow
-            // takes over. The video element is mid-playback here so
-            // we're inside its transient user activation; audio.play()
-            // is allowed. TitleAlbumIntro detects T01 is already the
-            // current song on mount and skips its own playSong call so
-            // currentTime + slideshow alignment are preserved.
-            player.playSong(TITLE_T01_LOREDEX_ENTRY);
+            // The song was already pre-rolled muted on the
+            // CONFIRM/LOOK AWAY click (see SurveillanceOpening's onArm
+            // wiring above) so it's been advancing silently through
+            // the broadcast. With ~10s left, REVEAL it: rewind to 0 +
+            // unmute so the audible intro plays under the closing
+            // beats and the slideshow inherits a song mid-flight at
+            // currentTime ~= 10s. Both seek and unmute are safe
+            // outside a user activation.
+            player.seek(0);
+            player.setMuted(false);
           }}
           onComplete={(reachedEndNaturally) => {
             // If the user AWAKENed before the cinematic ended, skip
             // the T01 stage entirely — they want into the game NOW.
-            // Pause the player in case the song was already pre-rolled
-            // (AWAKEN inside the last 10s of the broadcast) so it
-            // doesn't bleed under the title screen.
+            // Pause and unmute the player so the song doesn't bleed
+            // under the title screen and the next playSong call
+            // anywhere in the app doesn't surface in muted state.
             if (!reachedEndNaturally) {
               setOpeningDone(true);
               if (player.currentSong?.id === TITLE_T01_LOREDEX_ENTRY.id) {
                 player.pause();
+                player.setMuted(false);
               }
             }
           }}
@@ -802,6 +805,20 @@ export default function TitlePage({ onDismiss }: TitlePageProps = {}) {
       {!handshakeDone && (
         <SurveillanceOpening
           transparent
+          onArm={() => {
+            // Pre-roll The Enigma's Lament INSIDE the user-activation
+            // handler — iOS Safari rejects every programmatic
+            // audio.play() that happens later. We start the song muted
+            // so it doesn't fight the meme video's own audio; the
+            // cinematic's onSongShouldStart cue (~10s before the video
+            // ends) seeks back to 0 and unmutes, so the slideshow takes
+            // over with the song already mid-flight. Skip if T01 is
+            // already current (re-arm guard for the LOOK AWAY → second
+            // attempt edge case).
+            if (player.currentSong?.id === TITLE_T01_LOREDEX_ENTRY.id) return;
+            player.setMuted(true);
+            player.playSong(TITLE_T01_LOREDEX_ENTRY);
+          }}
           onConfirm={() => setConfirmedEarly(true)}
           onComplete={() => setHandshakeDone(true)}
         />

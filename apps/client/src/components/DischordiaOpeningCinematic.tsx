@@ -52,10 +52,13 @@ interface Props {
    *  the 400ms fade-out. The parent uses this to start the T01
    *  audio + slideshow handoff while the cinematic is still fading. */
   onCinematicEnded?: () => void;
-  /** Fires once, ~10 seconds before the meme video ends, so the parent
-   *  can pre-roll The Enigma's Lament. By the time the slideshow takes
-   *  over the song is already playing and currentTime is non-zero —
-   *  TitleAlbumIntro detects that and skips its own playSong call. */
+  /** Fires once, ~10 seconds before the meme video ends. The parent
+   *  uses this to REVEAL The Enigma's Lament — the song was already
+   *  pre-rolled muted on the user's CONFIRM/LOOK AWAY click (so iOS
+   *  Safari accepts the audio.play() — sticky activation doesn't apply
+   *  there). At cue time the parent seeks back to 0 and unmutes; the
+   *  audible intro plays under the closing beats and the slideshow
+   *  inherits a song already mid-flight. */
   onSongShouldStart?: () => void;
   /** Drives the AWAKEN button's enabled state. When false, AWAKEN
    *  renders with a "Stand by…" sub-label and is non-interactive.

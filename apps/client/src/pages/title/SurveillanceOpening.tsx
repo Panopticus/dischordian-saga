@@ -36,6 +36,13 @@ interface SurveillanceOpeningProps {
    *  blank wait. The Look-Away path does NOT call this — that branch
    *  shows the punitive flash first, then completes. */
   onConfirm?: () => void;
+  /** Fires synchronously inside the click handler of EITHER the
+   *  CONFIRM OPERATOR or LOOK AWAY button — i.e. the moment the
+   *  player commits to entering the opening. The parent uses this
+   *  to start media that requires a fresh user activation (iOS
+   *  Safari rejects programmatic `audio.play()` outside one), like
+   *  pre-rolling The Enigma's Lament muted under the meme video. */
+  onArm?: () => void;
   /** Force-show even if previously dismissed. Wired to a future
    *  Architect's Console toggle; defaults off in production. */
   force?: boolean;
@@ -120,6 +127,7 @@ function buildLines(fp: Fingerprint): ScanLine[] {
 export function SurveillanceOpening({
   onComplete,
   onConfirm,
+  onArm,
   force = false,
   transparent = false,
 }: SurveillanceOpeningProps) {
@@ -310,6 +318,11 @@ export function SurveillanceOpening({
         {stage === "gate" && (
           <GateView
             onInitiate={() => {
+              // FIRST: fire onArm synchronously so the parent can start
+              // any user-activation-locked media (audio pre-roll on iOS
+              // Safari) before the React re-render. Order matters —
+              // anything async-y after this can break the activation.
+              onArm?.();
               // Arm the meme cinematic immediately so its audio + video
               // start buffering/playing while the scan animation runs
               // on top — the operator never sees a wait beat.
@@ -317,7 +330,13 @@ export function SurveillanceOpening({
               setStage("scanning");
               setRevealed(0);
             }}
-            onSkip={() => setStage("shamed")}
+            onSkip={() => {
+              // LOOK AWAY also commits the player to the opening; arm
+              // the same media here so the punitive shame beat doesn't
+              // burn the activation window.
+              onArm?.();
+              setStage("shamed");
+            }}
           />
         )}
 

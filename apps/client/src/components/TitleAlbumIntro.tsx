@@ -80,6 +80,17 @@ export default function TitleAlbumIntro({
   // here — otherwise the slideshow renders silently.
   useEffect(() => {
     let cancelled = false;
+    // Safety net: TitlePage's onArm starts T01 muted on the first
+    // user gesture and unmutes at the cinematic's -10s cue. If the
+    // safety timer fires before the cue (video stalled, error path)
+    // the song is still muted when we mount — un-silence it here so
+    // the slideshow isn't a quiet movie.
+    if (
+      player.currentSong?.id === T01_SYNTH_LOREDEX_ENTRY.id &&
+      player.muted
+    ) {
+      player.setMuted(false);
+    }
     const preRollTook =
       player.currentSong?.id === T01_SYNTH_LOREDEX_ENTRY.id &&
       (player.isPlaying || player.currentTime > 0);
