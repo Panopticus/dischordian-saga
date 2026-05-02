@@ -60,18 +60,12 @@ interface Props {
    *  audible intro plays under the closing beats and the slideshow
    *  inherits a song already mid-flight. */
   onSongShouldStart?: () => void;
-  /** Drives the AWAKEN button's enabled state. When false, AWAKEN
-   *  renders with a "Stand by…" sub-label and is non-interactive.
-   *  When true, AWAKEN gets its glow + becomes clickable. Defaults
-   *  to true so existing call sites work unchanged. */
-  isGameReady?: boolean;
 }
 
 export default function DischordiaOpeningCinematic({
   onComplete,
   onCinematicEnded,
   onSongShouldStart,
-  isGameReady = true,
 }: Props) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const completedRef = useRef(false);
@@ -295,30 +289,25 @@ export default function DischordiaOpeningCinematic({
 
           {/* AWAKEN — in-world skip button. Visible from 2s onward,
               in every phase, so a stuck or unwanted video never traps.
-              Disabled (with "Stand by…" sub-label) until the rest of
-              the app reports it's ready (auth resolved, threshold
-              passed). When ready, glows + becomes clickable. */}
+              Always clickable: this is the player's escape hatch, and
+              gating it behind isGameReady would trap a player whose
+              auth/threshold check hangs. Downstream gates can deal
+              with the not-ready case. */}
           <AnimatePresence>
             {showAwaken && (
               <motion.button
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0 }}
-                onClick={() => isGameReady && finish(false)}
-                disabled={!isGameReady}
+                onClick={() => finish(false)}
                 aria-label="Skip the opening transmission"
-                aria-disabled={!isGameReady}
                 style={{
                   bottom: "max(1.5rem, env(safe-area-inset-bottom, 0px))",
                   right: "max(1.5rem, env(safe-area-inset-right, 0px))",
                 }}
-                className={
-                  isGameReady
-                    ? "absolute px-5 py-3 border border-emerald-500/60 bg-black/80 hover:bg-emerald-900/40 text-emerald-200 font-mono text-xs uppercase tracking-[0.3em] rounded backdrop-blur-sm shadow-[0_0_18px_rgba(16,185,129,0.4)]"
-                    : "absolute px-5 py-3 border border-emerald-900/60 bg-black/80 text-emerald-500/40 font-mono text-xs uppercase tracking-[0.3em] rounded backdrop-blur-sm cursor-not-allowed"
-                }
+                className="absolute px-5 py-3 border border-emerald-500/60 bg-black/80 hover:bg-emerald-900/40 text-emerald-200 font-mono text-xs uppercase tracking-[0.3em] rounded backdrop-blur-sm shadow-[0_0_18px_rgba(16,185,129,0.4)]"
               >
-                {isGameReady ? "AWAKEN ▸" : "Stand by…"}
+                AWAKEN ▸
               </motion.button>
             )}
           </AnimatePresence>

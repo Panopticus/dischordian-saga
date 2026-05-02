@@ -32,9 +32,6 @@ interface Props {
    *  ONLY on natural song-end so the server can advance the album
    *  cursor past T01. AWAKEN/safety => completed=false. */
   onComplete: (completed: boolean) => void;
-  /** Drives the AWAKEN button's enabled state. While false, AWAKEN
-   *  reads "Stand by…" and is non-interactive. */
-  isGameReady?: boolean;
 }
 
 const T01_SYNTH_LOREDEX_ENTRY: LoredexEntry = {
@@ -54,7 +51,6 @@ export const TITLE_T01_LOREDEX_ENTRY = T01_SYNTH_LOREDEX_ENTRY;
 
 export default function TitleAlbumIntro({
   onComplete,
-  isGameReady = true,
 }: Props) {
   const player = usePlayer();
   const { isAuthenticated } = useAuth();
@@ -274,29 +270,27 @@ export default function TitleAlbumIntro({
             )}
           </AnimatePresence>
 
-          {/* AWAKEN — always present; gated on isGameReady. Sits above
-              the tap-to-begin overlay (z-40 vs z-30). The bottom offset
-              uses safe-area-inset so iOS Safari's bottom toolbar can't
-              hide it in landscape; the right offset gets the same
+          {/* AWAKEN — always present and always clickable. This is the
+              player's escape hatch from the slideshow; gating it behind
+              isGameReady would trap a player whose auth/threshold check
+              hangs (the original "Stand by…" disabled state). When
+              isGameReady is false the button still bails the slideshow
+              — downstream gates handle the not-ready state. The bottom
+              offset uses safe-area-inset so iOS Safari's bottom toolbar
+              can't hide it in landscape; the right offset gets the same
               treatment for the home-indicator margin in PWA mode. */}
           <motion.button
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
-            onClick={() => isGameReady && finish(false)}
-            disabled={!isGameReady}
+            onClick={() => finish(false)}
             aria-label="Skip the song and proceed to login"
-            aria-disabled={!isGameReady}
             style={{
               bottom: "max(1.5rem, env(safe-area-inset-bottom, 0px))",
               right: "max(1.5rem, env(safe-area-inset-right, 0px))",
             }}
-            className={
-              isGameReady
-                ? "absolute z-40 px-5 py-3 border border-emerald-500/60 bg-black/80 hover:bg-emerald-900/40 text-emerald-200 font-mono text-xs uppercase tracking-[0.3em] rounded backdrop-blur-sm shadow-[0_0_18px_rgba(16,185,129,0.4)]"
-                : "absolute z-40 px-5 py-3 border border-emerald-900/60 bg-black/80 text-emerald-500/40 font-mono text-xs uppercase tracking-[0.3em] rounded backdrop-blur-sm cursor-not-allowed"
-            }
+            className="absolute z-40 px-5 py-3 border border-emerald-500/60 bg-black/80 hover:bg-emerald-900/40 text-emerald-200 font-mono text-xs uppercase tracking-[0.3em] rounded backdrop-blur-sm shadow-[0_0_18px_rgba(16,185,129,0.4)]"
           >
-            {isGameReady ? "AWAKEN ▸" : "Stand by…"}
+            AWAKEN ▸
           </motion.button>
         </motion.div>
       )}
