@@ -7,6 +7,12 @@
      - Trade Empire art (apps/shared/tradeEmpireArtPrompts.ts)
      - S2 Hierarchy of the Damned (apps/shared/expansionArt/hierarchyOfDamned.ts)
      - Dischordia base-set + tier-grids (apps/shared/expansionArt/dischordiaBaseSet.ts)
+     - Cinematics + VFX (apps/shared/expansionArt/cinematicsManifest.ts)
+       — incl. the dreamer_visions Veo flashes (substrate_pulse,
+         iris_collapse, cryo_frost_retreat) added in PR #336
+     - Album 1 slideshow frames (apps/shared/expansionArt/album1Slideshows.ts)
+     - Title-page music videos + ark-drift loop + opening cinematic
+       (apps/client/src/pages/TitlePage.tsx + DischordiaOpeningCinematic.tsx)
 
    Requires AWS_ACCESS_KEY_ID + AWS_SECRET_ACCESS_KEY (HEAD on a
    private bucket), default region us-east-2.
@@ -75,6 +81,39 @@ for (const t of ALBUM1_TRACKS) {
   for (const rel of t.frameRelPaths) {
     jobs.push({ label: "album1-slideshows", key: `${KEY_PREFIX}${rel}`, id: `${t.id}/${rel.split("/").pop()}` });
   }
+}
+
+/* ─── Title-page videos ────────────────────────────────────────────
+   Hardcoded mirror of the URLs that TitlePage.tsx + DischordiaOpening
+   Cinematic.tsx render at boot. Production-bible §4 flagged these as
+   not covered by the probe; adding them here surfaces the upload
+   delta (currently 7-9 paths missing per the bible) on every CI run.
+   When the producer drops a new title-page MP4, add the path here.
+   The list is short enough that hardcoding beats an extra shared
+   module + import boundary. */
+const TITLE_PAGE_VIDEO_PATHS = [
+  // FEATURED_TRANSMISSIONS — apps/client/src/pages/TitlePage.tsx
+  "videos/title/music/the-book-of-daniel.mp4",
+  "videos/title/music/building-the-architect.mp4",
+  "videos/title/music/hypnotized.mp4",
+  "videos/title/music/brushstroke-of-the-empire.mp4",
+  "videos/title/music/baron-heart-of-time.mp4",
+  "videos/title/music/the-last-christmas.mp4",
+  // Ark drift loop background — also TitlePage.tsx; ships both
+  // webm + mp4 sources so the <video> picks the smaller of the
+  // two on supporting browsers.
+  "videos/title/ark-drift-loop.webm",
+  "videos/title/ark-drift-loop.mp4",
+  // DischordiaOpeningCinematic.tsx — the one-shot opening cinematic
+  // that plays before the title screen on first session.
+  "videos/title/the-dischordia-opening.mp4",
+];
+for (const rel of TITLE_PAGE_VIDEO_PATHS) {
+  jobs.push({
+    label: "title-videos",
+    key: `${KEY_PREFIX}${rel}`,
+    id: rel.split("/").pop(),
+  });
 }
 
 console.log(`Planned ${jobs.length} HEAD checks.`);
