@@ -117,6 +117,7 @@ const Act1C4TrialPage = lazy(() => import("./pages/Act1C4TrialPage"));
 const DevVariantsPage = lazy(() => import("./pages/DevVariantsPage"));
 const DevGuildCutscenesPage = lazy(() => import("./pages/DevGuildCutscenesPage"));
 const CrossGameThreadsPage = lazy(() => import("./pages/CrossGameThreadsPage"));
+const DreamerFragmentsPage = lazy(() => import("./pages/DreamerFragmentsPage"));
 const Act2InterludePage = lazy(() => import("./pages/Act2InterludePage"));
 const EngineersBenchPage = lazy(() => import("./pages/EngineersBenchPage"));
 const GameMastersArenaAct2Page = lazy(() => import("./pages/GameMastersArenaAct2Page"));
@@ -333,6 +334,10 @@ function Router() {
         <Route path="/dev/variants" component={DevVariantsPage} />
         <Route path="/dev/guild-cutscenes" component={DevGuildCutscenesPage} />
         <Route path="/cross-game-threads" component={CrossGameThreadsPage} />
+        {/* Dreamer Fragments — Loredex retroactive-reveal section.
+            Server-side gated; the page renders a 404 shell until the
+            player has received Vision 3. */}
+        <Route path="/loredex/dreamer-fragments" component={DreamerFragmentsPage} />
         <Route path="/act2-interlude" component={Act2InterludePage} />
         <Route path="/engineers-bench" component={EngineersBenchPage} />
         <Route path="/game-masters-arena" component={GameMastersArenaAct2Page} />
