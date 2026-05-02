@@ -40,6 +40,18 @@ export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
           source: "war-room",
           order: 0,
         },
+        // Mystery Engine binding — when Jericho Jones arc is the
+        // active case, the holo-table's BRIEFING mode also surfaces
+        // the Degen's commission brief: a folio in the Degen's
+        // hand naming Jericho's role as witness, not executioner.
+        // Lore match: BRIEFING is canonically where the room
+        // convenes a live theatre map; the commission brief is
+        // exactly that kind of document.
+        mysteryBinding: {
+          mysteryId: "mystery.jericho_jones",
+          episodeId: "jericho.e5",
+          cluesFound: ["jericho.e5.commission_brief"],
+        },
       },
     },
     "casualty-board": {

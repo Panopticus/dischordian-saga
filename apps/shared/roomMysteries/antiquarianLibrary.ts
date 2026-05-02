@@ -253,6 +253,7 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           cluesFound: [
             "jericho.e1.akai_shi_aftermath",
             "jericho.e3.lionism_imprint_protocol",
+            "jericho.e5.wraith_pre_rite_contract",
           ],
         },
       },
