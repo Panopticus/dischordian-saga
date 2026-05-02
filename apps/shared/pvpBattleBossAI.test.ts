@@ -42,8 +42,12 @@ describe("chooseBossAction", () => {
     const decision = chooseBossAction(state, BOSS_ID);
     expect(decision.action.type).toBe("PLAY_CARD");
     if (decision.action.type === "PLAY_CARD") {
-      const playedInstanceId = decision.action.cardInstanceId;
-      const played = boss.hand.find((c) => c.instanceId === playedInstanceId);
+      // Capture the narrowed action into a const so TypeScript can
+      // preserve the narrowing inside the .find callback closure
+      // (PvpAction's fields are mutable, so the type-guard doesn't
+      // survive a closure boundary without this).
+      const action = decision.action;
+      const played = boss.hand.find((c) => c.instanceId === action.cardInstanceId);
       expect(played).toBeDefined();
       // Should be the highest-cost affordable card.
       const maxAffordableCost = Math.max(...boss.hand.filter((c) => c.cost <= 5).map((c) => c.cost));

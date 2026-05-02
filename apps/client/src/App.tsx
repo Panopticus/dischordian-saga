@@ -118,6 +118,7 @@ const DevVariantsPage = lazy(() => import("./pages/DevVariantsPage"));
 const DevGuildCutscenesPage = lazy(() => import("./pages/DevGuildCutscenesPage"));
 const CrossGameThreadsPage = lazy(() => import("./pages/CrossGameThreadsPage"));
 const DreamerFragmentsPage = lazy(() => import("./pages/DreamerFragmentsPage"));
+const DreamerDossierPage = lazy(() => import("./pages/DreamerDossierPage"));
 const Act2InterludePage = lazy(() => import("./pages/Act2InterludePage"));
 const EngineersBenchPage = lazy(() => import("./pages/EngineersBenchPage"));
 const GameMastersArenaAct2Page = lazy(() => import("./pages/GameMastersArenaAct2Page"));
@@ -385,6 +386,10 @@ function Router() {
         <Route path="/admin/pvp" component={AdminPvpPage} />
         <Route path="/architect-console" component={ArchitectConsolePage} />
         <Route path="/architect/dossier" component={ArchitectDossierPage} />
+        {/* Dreamer Dossier — cryptic vision-summary mirror of the
+            Architect dossier. Server-side gated on Vision 3 receipt;
+            renders the same 404 shell as /dreamer pre-unlock. */}
+        <Route path="/dreamer/dossier" component={DreamerDossierPage} />
         {/* Liminal touch — 23-second-delayed cryptic transcript at /architect.
             Distinct from /architect/dossier (which is the structured candidate
             file). Order matters: /architect/dossier must come first so the

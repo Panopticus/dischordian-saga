@@ -131,6 +131,7 @@ import { dreamerVisionsRouter } from "./routers/dreamerVisions";
 import { dreamerAwarenessRouter } from "./routers/dreamerAwareness";
 import { dreamerFragmentsRouter } from "./routers/dreamerFragments";
 import { architectDossierRouter } from "./routers/architectDossier";
+import { dreamerDossierRouter } from "./routers/dreamerDossier";
 
 export const appRouter = router({
   collection: collectionRouter,
@@ -254,6 +255,7 @@ export const appRouter = router({
   dreamerAwareness: dreamerAwarenessRouter,
   dreamerFragments: dreamerFragmentsRouter,
   architectDossier: architectDossierRouter,
+  dreamerDossier: dreamerDossierRouter,
   crossGameThreads: crossGameThreadsRouter,
   arkThemes: arkThemesRouter,
   announcements: announcementsRouter,
