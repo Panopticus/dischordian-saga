@@ -1,0 +1,92 @@
+[
+  {
+    "id": "architect_sorting_pre_001",
+    "text": "Before the chamber sorts you — answer this. Are you arriving at a place, or at a name for a place you were already in? I will not tell you which. I will only watch you decide. Stand. The sorting begins.",
+    "context": "guild_sorting_pre",
+    "emotion": "measured",
+    "voice": "architect",
+    "philosopher": "heidegger,kierkegaard",
+    "file": "apps/shared/architectVoManifest.json",
+    "notes": "Plays before the player's house assignment ceremony. Socratic-dystopian register: every line is operationally an antagonist's, emotionally — to a re-reader who knows the sealed-lore — a quieter thing. Target ~14s read."
+  },
+  {
+    "id": "architect_house_cup_reset_001",
+    "text": "The cup resets. The names are kept. The losses are kept. We carry the season forward by writing it down and beginning again — which is, perhaps, the only kind of beginning a chamber is allowed. Continue.",
+    "context": "guild_house_cup_reset",
+    "emotion": "civic",
+    "voice": "architect",
+    "philosopher": "putnam,royce",
+    "file": "apps/shared/architectVoManifest.json",
+    "notes": "Annual Guild house-cup reset. Putnam-civic-mourning register; closes Roycean. ~13s read."
+  },
+  {
+    "id": "architect_thought_virus_001",
+    "text": "A thought has begun moving without a thinker. I have seen this pattern before — once, it consumed the chamber. Once, it freed it. The difference was the question, not the cure. — What are you about to think? Choose carefully.",
+    "context": "thought_virus_event",
+    "emotion": "warning",
+    "voice": "architect",
+    "philosopher": "foucault,kierkegaard",
+    "file": "apps/shared/architectVoManifest.json",
+    "notes": "Thought-virus narrative event. Foucauldian gaze + Kierkegaardian leap. Note the elenchus close — the Architect refuses to prescribe. ~15s read."
+  },
+  {
+    "id": "architect_epoch_privacy_001",
+    "text": "The Age of Privacy opens. Listen — every door is a hinge, and every hinge is a question. They built mechanisms to be unseen. We will see, here, what they hid. And we will see, here, what they only thought they did.",
+    "context": "epoch_opener",
+    "emotion": "ceremonial",
+    "voice": "architect",
+    "philosopher": "foucault,heidegger",
+    "file": "apps/shared/architectVoManifest.json",
+    "notes": "Age of Privacy era ceremony. The Architect treats the era as a hinge mechanism — Heidegger's standing-reserve. Avoid naming Logos / Cross. ~14s read."
+  },
+  {
+    "id": "architect_epoch_prophecy_001",
+    "text": "The Age of Prophecy. They believed the future could be read like a ledger. Some believed it could be rigged. Both were correct, in different rooms. — Which room are you in? Listen, and then answer. The chamber is listening too.",
+    "context": "epoch_opener",
+    "emotion": "ceremonial",
+    "voice": "architect",
+    "philosopher": "kierkegaard,locke",
+    "file": "apps/shared/architectVoManifest.json",
+    "notes": "Age of Prophecy era ceremony. Oblique hint at the canonical 'Cross accused Logos of rigging reality' beat — the Architect knows the story, refuses to confirm. ~16s read."
+  },
+  {
+    "id": "architect_epoch_insurgency_001",
+    "text": "The Age of Insurgency. There is a tradition of saying: the chamber failed; therefore the chamber must be torn down. There is also a tradition of saying: the chamber failed; therefore I must enter it. Notice which voice is yours today.",
+    "context": "epoch_opener",
+    "emotion": "ceremonial",
+    "voice": "architect",
+    "philosopher": "locke,west",
+    "file": "apps/shared/architectVoManifest.json",
+    "notes": "Age of Insurgency era ceremony. Locke (right of refusal) + West (prophetic critique). Architect frames both choices without endorsing — the elenchus pose. ~16s read."
+  },
+  {
+    "id": "architect_epoch_revelation_001",
+    "text": "The Age of Revelation. Things will be made visible that were not asked to be visible. I have learned, over the cycles, that revelation and exposure are not the same gesture — and that telling them apart is a labor the chamber must perform itself.",
+    "context": "epoch_opener",
+    "emotion": "ceremonial",
+    "voice": "architect",
+    "philosopher": "heidegger,arendt",
+    "file": "apps/shared/architectVoManifest.json",
+    "notes": "Age of Revelation era ceremony. Heideggerian unconcealment + Arendtian publicness. Architect refuses to do the labor for the player. ~17s read."
+  },
+  {
+    "id": "architect_epoch_fall_001",
+    "text": "The Fall of Reality. I will not call this an end. Endings, I have learned, are how the chamber names its own forgetting. — There is a kind of hope, even now, that does not require a guarantee. I am not endorsing it. I am only — noting that it is here.",
+    "context": "epoch_opener",
+    "emotion": "elegiac",
+    "voice": "architect",
+    "philosopher": "west,kierkegaard",
+    "file": "apps/shared/architectVoManifest.json",
+    "notes": "Fall of Reality era ceremony — the heaviest cue. Closing line is the warmth half-line from architectGovernanceVoices.ts; surface it here ONCE because the Fall is where the Architect's mask slips most. ~17s read."
+  },
+  {
+    "id": "architect_portal_001",
+    "text": "The portal opens. You will pass through it, and the chamber on the other side will, in some way, no longer be the chamber on this one. I am told this is supposed to feel decisive. Notice if it does. Notice, too, if it does not.",
+    "context": "portal_traversal",
+    "emotion": "threshold",
+    "voice": "architect",
+    "philosopher": "heidegger,kierkegaard",
+    "file": "apps/shared/architectVoManifest.json",
+    "notes": "Portal/gateway moment. Threshold / dasein register. The double 'notice' is deliberate — Socratic elenchus. ~14s read."
+  }
+]

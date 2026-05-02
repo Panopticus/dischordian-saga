@@ -754,29 +754,36 @@ function useVoteZeroSync(): "confirmed" | "looked_away" | null {
 }
 
 /** Aggregate Vote #0 tally for the Architect's commentary —
- *  reads the global tally for the synthetic `vote_zero_eye` row
- *  and maps it onto the {confirm, lookAway} shape the voice
- *  module expects. Falls back to a neutral 1/1 when the row has
- *  no votes yet so the Architect still has a band to render. */
+ *  community-truth from the server. Falls back to a neutral 1/1
+ *  when no rows exist yet so the Architect still has a band. */
 function useVoteZeroTally(): { confirm: number; lookAway: number } {
-  // For now, we only have the caller's own answer reliably (via
-  // getVoteZero) — the public global tally would need an admin-
-  // facing aggregate query. Slice 3 promotes this to a real
-  // server-backed tally; for slice 2 we seed from the player's
-  // own answer so the Architect always has a meaningful band.
-  const { data } = trpc.architectConsole.getVoteZero.useQuery(undefined, {
-    staleTime: 60_000,
+  const { data } = trpc.architectConsole.getVoteZeroTally.useQuery(undefined, {
+    staleTime: 30_000,
+    refetchOnWindowFocus: true,
   });
-  if (!data) return { confirm: 1, lookAway: 1 };
-  return data.response === "confirmed"
-    ? { confirm: 1, lookAway: 0 }
-    : { confirm: 0, lookAway: 1 };
+  if (!data || (data.confirm + data.lookAway) === 0) {
+    return { confirm: 1, lookAway: 1 };
+  }
+  return { confirm: data.confirm, lookAway: data.lookAway };
+}
+
+/** Read the persisted Reality Front sector state from the server.
+ *  Auto-seeds on first call (server-side). Falls back to an empty
+ *  list when offline; the map then degrades to client-side
+ *  derivation. */
+function useRealityFrontSectors(): ReadonlyArray<{ sectorId: string; controlPoints: number }> {
+  const { data } = trpc.architectConsole.getRealityFrontState.useQuery(undefined, {
+    staleTime: 30_000,
+    refetchOnWindowFocus: true,
+  });
+  return data?.sectors ?? [];
 }
 
 export default function GovernanceHubPage() {
   const [mobileTab, setMobileTab] = useState<"vote" | "chronicle" | "pulse" | "daily" | "palimpsest">("vote");
   const voteZero = useVoteZeroSync();
   const voteZeroTally = useVoteZeroTally();
+  const realityFrontSectors = useRealityFrontSectors();
   const { data: ceremonyState, refetch: refetchCeremony } = trpc.architectConsole.getCeremonyState.useQuery(
     undefined,
     { staleTime: 60_000 },
@@ -913,6 +920,7 @@ export default function GovernanceHubPage() {
                 <RealityFrontMap
                   activeVoteId={null}
                   activeVoteTally={undefined}
+                  serverSectors={realityFrontSectors}
                   voteZeroResponse={voteZero}
                 />
                 <ArchitectsDirective

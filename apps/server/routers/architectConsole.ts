@@ -45,6 +45,7 @@ import {
   prestigeProgress,
   playerProfile,
   playerProfileEvents,
+  realityFrontSectors,
 } from "../../db/schema";
 import { eq, sql, desc, and, lte, gte, or, isNull, type SQL } from "drizzle-orm";
 import { pressureService } from "../services/pressureService";
@@ -65,6 +66,10 @@ import {
   getOptionConsequence,
   resolveProfileSource,
 } from "@shared/governanceConsequences";
+import {
+  REALITY_FRONT_SECTOR_IDS,
+  getOptionBinding as getFrontOptionBinding,
+} from "@shared/governanceFrontBindings";
 
 /* ─── Helper: write audit log ─── */
 async function auditLog(db: NonNullable<Awaited<ReturnType<typeof getDb>>>, adminId: number, action: string, details?: unknown) {
@@ -186,10 +191,62 @@ async function setNarrativeFlagsInline(
   }
 }
 
+/* ─── Helper: ensure all 12 Reality Front sectors have a row.
+   Idempotent — inserts only the sectors that don't already exist.
+   Called at the top of any read/write of front state. */
+async function seedRealityFrontSectorsIfMissing(
+  db: NonNullable<Awaited<ReturnType<typeof getDb>>>,
+): Promise<void> {
+  const existing = await db.select({ sectorId: realityFrontSectors.sectorId })
+    .from(realityFrontSectors);
+  const have = new Set(existing.map(r => r.sectorId));
+  const missing = REALITY_FRONT_SECTOR_IDS.filter(id => !have.has(id));
+  if (missing.length === 0) return;
+  await db.insert(realityFrontSectors).values(
+    missing.map(id => ({ sectorId: id, controlPoints: 0, contestCount: 0 })),
+  );
+}
+
+/* ─── Helper: apply the per-vote front binding's controlDelta to
+   the affected sectors, clamped to [-100, +100]. Increments
+   contestCount per touched sector. Tolerant of unbound votes
+   (no-op). Scales the delta per-cast: a single vote moves the
+   sector by `controlDelta / 25` (rounded), so it takes ~25 casts
+   on one option to fully tip a sector. */
+async function applyFrontBindingForCast(
+  db: NonNullable<Awaited<ReturnType<typeof getDb>>>,
+  voteId: string,
+  optionNumber: number,
+): Promise<void> {
+  const binding = getFrontOptionBinding(voteId, optionNumber);
+  if (!binding) return;
+  await seedRealityFrontSectorsIfMissing(db);
+
+  // Per-cast delta — small, so the sector moves *gradually* with
+  // community pressure. The binding's `controlDelta` is the
+  // fully-tipped magnitude; we apply 1/25 of it per cast (min 1).
+  const perCastDelta = Math.sign(binding.controlDelta) * Math.max(1, Math.round(Math.abs(binding.controlDelta) / 25));
+
+  for (const sectorId of binding.affectedSectors) {
+    const [row] = await db.select().from(realityFrontSectors)
+      .where(eq(realityFrontSectors.sectorId, sectorId))
+      .limit(1);
+    if (!row) continue;
+    const next = Math.max(-100, Math.min(100, row.controlPoints + perCastDelta));
+    await db.update(realityFrontSectors)
+      .set({
+        controlPoints: next,
+        contestCount: row.contestCount + 1,
+      })
+      .where(eq(realityFrontSectors.sectorId, sectorId));
+  }
+}
+
 /* ─── Helper: apply the consequence registry for a single vote
    cast. Looks up `(voteId, optionNumber)` in the registry, applies
-   the profile-delta event, and unions any narrative flags. Tolerant
-   of unknown vote ids (no-op). */
+   the profile-delta event, unions any narrative flags, AND nudges
+   the affected Reality Front sectors. Tolerant of unknown vote
+   ids (no-op). */
 async function applyVoteConsequences(
   db: NonNullable<Awaited<ReturnType<typeof getDb>>>,
   userId: number,
@@ -219,6 +276,14 @@ async function applyVoteConsequences(
       // break the vote-cast response. Log and continue.
       console.warn(`[governance] narrativeFlags write failed for ${voteId}/${optionNumber}:`, err);
     }
+  }
+
+  // Reality Front sector deltas. Errors here also tolerated — the
+  // map will pick up the next cast even if this one slipped.
+  try {
+    await applyFrontBindingForCast(db, voteId, optionNumber);
+  } catch (err) {
+    console.warn(`[governance] front-binding write failed for ${voteId}/${optionNumber}:`, err);
   }
 
   return { source, flagsSet };
@@ -614,6 +679,60 @@ export const architectConsoleRouter = router({
     if (!db) return { success: false };
     await setNarrativeFlagsInline(db, ctx.user.id, ["architect_intro_seen"]);
     return { success: true };
+  }),
+
+  /** Aggregate global Vote #0 tally — the community's total
+   *  Confirm and Look-Away counts. Drives the Reality Front Meter
+   *  caption + the Architect's commentary band so the chamber
+   *  reads as community-truth, not the caller's lonely 1-vote
+   *  sample. Cheap (single grouped query). */
+  getVoteZeroTally: protectedProcedure.query(async () => {
+    const db = await getDb();
+    if (!db) return { confirm: 0, lookAway: 0 };
+    const rows = await db
+      .select({
+        optionNumber: playerVotes.optionNumber,
+        count: sql<number>`COUNT(*)`,
+      })
+      .from(playerVotes)
+      .where(eq(playerVotes.voteId, VOTE_ZERO_ID))
+      .groupBy(playerVotes.optionNumber);
+    let confirm = 0;
+    let lookAway = 0;
+    for (const r of rows) {
+      const n = Number(r.count ?? 0);
+      if (r.optionNumber === VOTE_ZERO_OPTION_CONFIRM) confirm = n;
+      else if (r.optionNumber === VOTE_ZERO_OPTION_LOOK_AWAY) lookAway = n;
+    }
+    return { confirm, lookAway };
+  }),
+
+  /** Read the persisted Reality Front sector state. Auto-seeds
+   *  missing sectors on first call (and only on first call —
+   *  subsequent reads see all 12 rows already). Returns rows
+   *  unsorted; the client lays them out per
+   *  `apps/shared/governanceFrontBindings.ts`. */
+  getRealityFrontState: protectedProcedure.query(async () => {
+    const db = await getDb();
+    if (!db) {
+      // Fallback: ephemeral zeroed state for offline / dev mode.
+      return {
+        sectors: REALITY_FRONT_SECTOR_IDS.map(id => ({
+          sectorId: id,
+          controlPoints: 0,
+          contestCount: 0,
+        })),
+      };
+    }
+    await seedRealityFrontSectorsIfMissing(db);
+    const rows = await db.select().from(realityFrontSectors);
+    return {
+      sectors: rows.map(r => ({
+        sectorId: r.sectorId,
+        controlPoints: r.controlPoints,
+        contestCount: r.contestCount,
+      })),
+    };
   }),
 
   /** Read the caller's Vote #0 record (if any). Returns `null` if

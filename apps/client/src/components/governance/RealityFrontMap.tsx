@@ -49,30 +49,46 @@ interface RealityFrontMapProps {
   /** Current active vote id — drives which sectors highlight. */
   activeVoteId?: string | null;
   /** Live tally for the active vote, keyed by 1-based optionNumber.
-   *  Ratios drive the per-sector tint magnitude. */
+   *  Used as a *preview* tilt overlay on top of the persisted
+   *  server state. */
   activeVoteTally?: Readonly<Record<number, number>>;
-  /** Vote #0 result, optional — if the player has cast it, the
-   *  affected sectors carry a permanent baseline tint. */
+  /** Server-truth sector control points (-100..+100), keyed by
+   *  string sectorId. When provided, drives the base tint;
+   *  client-side derivations only contribute the active-vote
+   *  preview overlay. */
+  serverSectors?: ReadonlyArray<{ sectorId: string; controlPoints: number }>;
+  /** Vote #0 result — only used as a fallback when serverSectors
+   *  is not available (offline / dev mode). */
   voteZeroResponse?: "confirmed" | "looked_away" | null;
 }
 
 export default function RealityFrontMap({
   activeVoteId,
   activeVoteTally,
+  serverSectors,
   voteZeroResponse,
 }: RealityFrontMapProps) {
   const positions = useMemo(() => spiralPositions(REALITY_FRONT_SECTOR_IDS), []);
 
   // Compute a tint score per sector (-1 = full Dream, +1 = full
-  // Order). Combines:
-  //   - Vote #0 baseline (small, persistent)
-  //   - Active-vote leading-option binding (larger, transient)
+  // Order). Layers, in order:
+  //   1. Persisted server state (-100..+100 → -1..+1 after scale).
+  //   2. Vote #0 fallback baseline if no server truth available.
+  //   3. Active-vote preview overlay (small, transient — shows
+  //      where the chamber is *about to* push).
   const sectorScores = useMemo(() => {
     const scores = new Map<RealityFrontSectorId, number>();
     for (const id of REALITY_FRONT_SECTOR_IDS) scores.set(id, 0);
 
-    // Vote #0 baseline.
-    if (voteZeroResponse) {
+    // Layer 1 — persisted server state.
+    if (serverSectors && serverSectors.length > 0) {
+      for (const row of serverSectors) {
+        if ((REALITY_FRONT_SECTOR_IDS as readonly string[]).includes(row.sectorId)) {
+          scores.set(row.sectorId as RealityFrontSectorId, row.controlPoints / 100);
+        }
+      }
+    } else if (voteZeroResponse) {
+      // Layer 2 — fallback Vote #0 baseline.
       const v0 = getFrontBinding("vote_zero_eye");
       if (v0) {
         const opt = voteZeroResponse === "confirmed" ? v0.options[1] : v0.options[2];
@@ -86,7 +102,7 @@ export default function RealityFrontMap({
       }
     }
 
-    // Active vote — accumulate per-option tilt weighted by share.
+    // Layer 3 — active-vote preview overlay.
     if (activeVoteId && activeVoteTally) {
       const binding = getFrontBinding(activeVoteId);
       const totalCast = Object.values(activeVoteTally).reduce((a, b) => a + b, 0);
@@ -97,8 +113,8 @@ export default function RealityFrontMap({
           if (!opt) continue;
           const share = count / totalCast;
           const sign = opt.controlDelta >= 0 ? 1 : -1;
-          // Up to ±0.75 per sector at full share.
-          const magnitude = sign * share * 0.75;
+          // Smaller overlay magnitude (max ±0.4) so it tints, doesn't override.
+          const magnitude = sign * share * 0.4;
           for (const sector of opt.affectedSectors) {
             const cur = scores.get(sector) ?? 0;
             scores.set(sector, cur + magnitude);
@@ -107,12 +123,11 @@ export default function RealityFrontMap({
       }
     }
 
-    // Clamp to [-1, 1].
     for (const [k, v] of scores) {
       scores.set(k, Math.max(-1, Math.min(1, v)));
     }
     return scores;
-  }, [activeVoteId, activeVoteTally, voteZeroResponse]);
+  }, [activeVoteId, activeVoteTally, serverSectors, voteZeroResponse]);
 
   const highlightedSectors = useMemo(() => {
     if (!activeVoteId) return new Set<RealityFrontSectorId>();

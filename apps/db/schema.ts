@@ -3116,6 +3116,33 @@ export const playerVotes = mysqlTable("player_votes", {
   voteIdx: index("idx_player_votes_vote").on(table.voteId),
 }));
 
+/**
+ * Reality Front sectors — symbolic governance map state.
+ * Single-row-per-sector global state. Re-keyed by string sectorId
+ * (matching apps/shared/governanceFrontBindings.ts) so the
+ * governance hub's cosmic chart is not tangled with the
+ * trade-empire war_territories table. Control points are SIGNED
+ * here: −100 = fully Dream / Look-Away, +100 = fully Order /
+ * Confirm, 0 = balanced. The dispatcher applies signed deltas
+ * from `governanceFrontBindings.ts` on every cast.
+ */
+export const realityFrontSectors = mysqlTable("reality_front_sectors", {
+  id: int("id").autoincrement().primaryKey(),
+  sectorId: varchar("sectorId", { length: 64 }).notNull().unique(),
+  /** Signed control points (-100..+100). Negative = Dream-leaning,
+   *  positive = Order-leaning, zero = balanced. */
+  controlPoints: int("controlPoints").notNull().default(0),
+  /** Total casts that have touched this sector (for "contested"
+   *  visualizations + audit). */
+  contestCount: int("contestCount").notNull().default(0),
+  lastUpdatedAt: timestamp("lastUpdatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  sectorIdIdx: index("idx_reality_front_sectors_sector").on(table.sectorId),
+}));
+
+export type RealityFrontSector = typeof realityFrontSectors.$inferSelect;
+export type InsertRealityFrontSector = typeof realityFrontSectors.$inferInsert;
+
 // ═══ ARCHITECT'S CONSOLE — Live Events ═══
 export const adminEvents = mysqlTable("admin_events", {
   id: int("id").primaryKey().autoincrement(),
