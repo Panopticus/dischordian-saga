@@ -27,6 +27,7 @@ function asGameState(view: LegacyDuelystGameState): DuelystGameState {
   return view as unknown as DuelystGameState;
 }
 import { TUTORIAL_STEPS, isTutorialActionComplete, type TutorialStep } from "./tutorial";
+import { fireCompanionComment } from "@/lib/companionCommentQueue";
 import { summarizeTrial, trialToCombatBuff, type TrialHistoryEntry, type TrialCombatBuff } from "@shared/celebrationTrial";
 import { dischordiaSounds } from "./SoundManager";
 import {
@@ -934,6 +935,13 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
       // flag) or "did the trial resolve?" (check the marker).
       setNarrativeFlag("act1_authority_outcome", true);
       setNarrativeFlag(`act1_authority_${outcome}`, true);
+      // B2 (dual-faction recruitment plan) — fire the Human's
+      // calibration-acknowledgment companion comment alongside the
+      // outcome flag. The companion-comment system handles the
+      // rest (queueing, dedupe, toast). Lines live in
+      // apps/shared/companionComments.ts under
+      // `authority_trial_verdict_{overturn,sentence_passed}`.
+      fireCompanionComment(`authority_trial_verdict_${outcome}`);
     }
     prevTrialOutcomeRef.current = outcome;
   }, [gameState, gameStateContext.innerVoiceSkills, setNarrativeFlag]);

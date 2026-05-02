@@ -52,7 +52,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const REPO_ROOT = path.resolve(__dirname, "../..");
 
-type VoiceProfile = "elara" | "human" | "antiquarian" | "the_watcher" | "architect_echo" | "dreamer_echo";
+type VoiceProfile = "elara" | "human" | "antiquarian" | "architect" | "the_watcher" | "architect_echo" | "dreamer_echo";
 
 interface VoiceSettings {
   stability: number;
@@ -69,6 +69,11 @@ const VOICE_SETTINGS: Record<VoiceProfile, VoiceSettings> = {
   elara:          { stability: 0.45, similarity: 0.78, style: 0.35, speakerBoost: true },
   human:          { stability: 0.55, similarity: 0.85, style: 0.30, speakerBoost: true },
   antiquarian:    { stability: 0.50, similarity: 0.82, style: 0.40, speakerBoost: true },
+  // The Architect (B3 — dual-faction recruitment plan). Calibration-
+  // register voice; flat affect; never warm. High stability + low
+  // style mirror the architect_echo settings, since the Architect is
+  // the canonical source the echo descends from.
+  architect:      { stability: 0.80, similarity: 0.55, style: 0.10, speakerBoost: false },
   the_watcher:    { stability: 0.70, similarity: 0.60, style: 0.15, speakerBoost: false },
   architect_echo: { stability: 0.80, similarity: 0.55, style: 0.10, speakerBoost: false },
   dreamer_echo:   { stability: 0.30, similarity: 0.50, style: 0.55, speakerBoost: true },
@@ -78,6 +83,7 @@ const DISPLAY_NAMES: Record<VoiceProfile, string> = {
   elara: "Elara",
   human: "The Human",
   antiquarian: "The Antiquarian",
+  architect: "The Architect",
   the_watcher: "The Watcher",
   architect_echo: "Architect Echo",
   dreamer_echo: "Dreamer Echo",
@@ -130,7 +136,13 @@ function writeCsv(outPath: string, rows: VoRow[]): void {
 // terse (≤ 180 chars) so the CSVs stay paste-ready into ElevenLabs
 // Studio without truncation.
 
-function directionForReactive(speaker: "elara" | "human" | "antiquarian", trigger: string): string {
+function directionForReactive(speaker: "elara" | "human" | "antiquarian" | "architect", trigger: string): string {
+  if (speaker === "architect") {
+    // B3 (dual-faction recruitment plan) — Architect speaks only on
+    // Witnessing-milestone events. Calibration-acknowledgment
+    // register; flat affect; never warm. ≤ 15 sec / 35 words.
+    return "Calibrated, flat-affect, observational. The Architect's logging-voice — never warm, never editorial. ≤ 15 sec.";
+  }
   if (speaker === "elara") {
     if (trigger.startsWith("act6_")) return "Reflective, one click above a whisper. Post-confession vulnerability. Aristocratic precision without formality.";
     if (trigger.startsWith("act7_")) return "Steady, warm, present-tense. Convergence voice. No grandeur; the stakes speak for themselves.";

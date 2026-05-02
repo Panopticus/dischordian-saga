@@ -1,6 +1,12 @@
 /* Companion Comment System — event-triggered Elara/Human voice lines */
 export interface CompanionComment {
-  id: string; speaker: "elara" | "human" | "antiquarian";
+  /** Speaker. The Architect is reserved for Phase-2 dual-faction
+   *  recruitment lines (B3 in
+   *  /root/.claude/plans/continue-your-qr-assessment-mighty-valley.md):
+   *  he is the only one of the four who is *also* the recruiter, and
+   *  his lines fire only on Witnessing-milestone events that the
+   *  Architect specifically observes. */
+  id: string; speaker: "elara" | "human" | "antiquarian" | "architect";
   trigger: string; voiceLine: string;
   loreReveal?: string; timing: "immediate" | "delayed_5s" | "next_room_enter";
   maxPlays: 1 | 2;
@@ -677,4 +683,63 @@ export const COMPANION_COMMENTS: CompanionComment[] = [
   { id: "cc_act7_pattern_chosen_human", speaker: "human", trigger: "act7_pattern_chosen",
     voiceLine: "Pattern. The Antiquarian's favourite stance, statistically. He pretends not to have favourites. He does. I will not tell him you noticed.",
     timing: "delayed_5s", maxPlays: 1 },
+
+  // ── D4 — DREAMER-RELAY HINTS (Elara as covert relay) ──
+  // Fires from the client-side `useDreamerRelayHints` hook on
+  // dreamer-awareness state transitions (count crossing 3, each
+  // vision delivered). Elara never names the relay; the lines are
+  // ambient and intentionally under-explained — players who notice
+  // the pattern figure out her role; players who don't still get
+  // pleasant character ambience.
+  { id: "cc_dreamer_relay_threshold_3", speaker: "elara",
+    trigger: "dreamer_relay_threshold_3",
+    voiceLine: "I had to step out for a moment. My phone — never mind. There's nothing to report. There's nothing to report. Twice is suspicious; I am aware.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_dreamer_relay_after_vision_1", speaker: "elara",
+    trigger: "dreamer_relay_after_vision_1",
+    voiceLine: "Did you sleep alright? I ask because I didn't. Something — somewhere — was paying attention to you. I felt it pass through the room. I don't think it meant any harm. I'm fairly sure.",
+    timing: "next_room_enter", maxPlays: 1 },
+  { id: "cc_dreamer_relay_after_vision_2", speaker: "elara",
+    trigger: "dreamer_relay_after_vision_2",
+    voiceLine: "There's someone who knows you. I shouldn't say who. I don't know who. I only know the way the air changes when they're paying attention. The air is different right now.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_dreamer_relay_after_vision_3", speaker: "elara",
+    trigger: "dreamer_relay_after_vision_3",
+    voiceLine: "I have a friend. I won't name him. He asks me how you're doing — not in those words; he doesn't use words that direct. He listens for them in the gaps between mine. I've been answering. I thought you should know.",
+    timing: "next_room_enter", maxPlays: 1 },
+
+  // ── B2 — AUTHORITY TRIAL VERDICT CALLBACK (Human as informant) ──
+  // Fires from DuelystGameUI when `act1_authority_outcome` lands. The
+  // Human's calibration-acknowledgment register — the trial outcome
+  // is filed, the file is read, the file is forwarded. He doesn't
+  // name the recipient; the player who's been paying attention
+  // already knows who reads the Human's files.
+  { id: "cc_authority_trial_overturn_human", speaker: "human",
+    trigger: "authority_trial_verdict_overturn",
+    voiceLine: "Verdict overturned. The Authority files this kind of overturn under 'irregular' — never under 'wrong.' I have read those files. The irregular ones are the ones that get forwarded furthest up the chain. You are now further up the chain than you were this morning.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_authority_trial_sentence_passed_human", speaker: "human",
+    trigger: "authority_trial_verdict_sentence_passed",
+    voiceLine: "Sentence passed. The Authority files this kind of sentence under 'expected.' The expected ones are the ones the Architect uses for calibration baselines. Your name is in a baseline now. That is not nothing.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  // ── B3 — WITNESSING-MILESTONE ARCHITECT REACTION ──
+  // Fires from useNarrativeIntegration.fireMilestone alongside the
+  // existing toast. The Architect is the only speaker who reacts to
+  // Witnessing milestones — Elara, the Human, and the Antiquarian
+  // already have their own surfaces. The plan calls this "the Architect
+  // (and only the Architect) emits a 15-sec line."
+  //
+  // Trigger format: `witnessing_milestone_{id}` so any future
+  // milestone added to WITNESSING_MILESTONES auto-routes here if a
+  // matching line is authored. Lines are kept short — the Architect
+  // doesn't broadcast warmth.
+  { id: "cc_arch_witnessing_bulb_dims", speaker: "architect",
+    trigger: "witnessing_milestone_bulb_dims",
+    voiceLine: "I have logged this dimming. The bulb was an indicator; the indicator did its work. The next bulb is already brighter. You will be told when the next bulb fails. Calibration proceeds.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_arch_witnessing_sector_wakes", speaker: "architect",
+    trigger: "witnessing_milestone_sector_wakes",
+    voiceLine: "A sector has woken. I have logged the geometry of the waking. You will be assigned a vector through it within the hour. The vector is not optional. The pace through it is.",
+    timing: "immediate", maxPlays: 1 },
 ];
