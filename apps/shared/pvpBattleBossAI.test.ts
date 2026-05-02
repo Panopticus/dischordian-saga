@@ -42,10 +42,8 @@ describe("chooseBossAction", () => {
     const decision = chooseBossAction(state, BOSS_ID);
     expect(decision.action.type).toBe("PLAY_CARD");
     if (decision.action.type === "PLAY_CARD") {
-      // Capture the narrowed action into a const so TypeScript can
-      // preserve the narrowing inside the .find callback closure
-      // (PvpAction's fields are mutable, so the type-guard doesn't
-      // survive a closure boundary without this).
+      // Capture into a const so TS preserves the narrowing inside
+      // the .find() closure (PvpAction fields are mutable).
       const action = decision.action;
       const played = boss.hand.find((c) => c.instanceId === action.cardInstanceId);
       expect(played).toBeDefined();
