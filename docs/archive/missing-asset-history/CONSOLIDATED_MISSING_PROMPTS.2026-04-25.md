@@ -1,3 +1,7 @@
+> ⚠️ **SUPERSEDED 2026-05-02** — see `docs/production/OPEN_ASSETS_2026-05-02.md`
+> Kept as historical reference. Do not edit.
+
+
 # Consolidated Missing-Asset Prompts — 2026-04-25
 
 > **Dispatch-ready prompt pack** for every asset confirmed
@@ -811,5 +815,3 @@ Three categories are deliberately NOT in this prompt pack:
 
 Plus PR #180 upload (221) + legacy CloudFront decision (1,727)
 deferred per user direction.
-
-

@@ -1,3 +1,7 @@
+> ⚠️ **SUPERSEDED 2026-05-02** — see `docs/production/OPEN_ASSETS_2026-05-02.md`
+> Kept as historical reference. Do not edit.
+
+
 # MISSING CUTSCENES — Complete Production List
 ## 46 cinematics needed across 7 categories
 

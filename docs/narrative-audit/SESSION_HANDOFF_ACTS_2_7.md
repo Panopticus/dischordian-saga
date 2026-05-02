@@ -113,17 +113,21 @@ sits outside this repo or requires assets that aren't ready:
    substrate whisper, Last Words radio fragment). The server contract
    accepts `emittedBy: "cades_fps"`; the receiving wires in Loredex
    are already listening.
+   <!-- 🔴 STILL OPEN 2026-05-02: games/cades-fps/autoloads/WebBridge.gd has no crossGameThreads.emit calls. See OPEN_ASSETS §10.1. -->
 2. **Dead Man's Circuit implementation** of its emit side
    (Programmer's Math puzzle solutions, Vox letter decoding, hidden
    substrate signature, telemetry suppression, closing motif). Same
    contract; same receiving-side readiness.
+   <!-- 🔴 STILL OPEN 2026-05-02: games/dead-mans-circuit/autoloads/WebBridge.gd has no game-specific emits. See OPEN_ASSETS §10.2. -->
 3. **Act 7 Convergence Seat close-line editorial pass** — explicitly
    deferred until the finale cinematic locks. Lines authored; tone
    intentionally untouched in `82dd391`.
+   <!-- 🟡 STILL DEFERRED 2026-05-02: cinematic CIN-ACT7-VOICES-ALIGN MP4 is now LIVE on CDN (verified 200) so the editorial-pass blocker has been lifted. Designer can proceed with the close-line tone pass. -->
 4. **Real-player QA** feeding back into variant tuning. The 289
    entries are first-pass authored; some will read better than others
    in actual play. The `/dev/variants` harness is the surface for
    triage.
+   <!-- ✅ HARNESS SHIPPED 2026-05-02: /dev/variants page exists at apps/client/src/pages/dev/DevVariantsPage.tsx with 7 contract tests. Ongoing real-player QA work continues. -->
 
 If you want to keep pressing internally, options that still have
 volume left:

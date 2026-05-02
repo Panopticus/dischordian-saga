@@ -1,3 +1,7 @@
+> ⚠️ **SUPERSEDED 2026-05-02** — see `docs/production/OPEN_ASSETS_2026-05-02.md`
+> Kept as historical reference. Do not edit.
+
+
 # Missing Prelude + Act 1 Assets — Veo 3.1 Prompt Pack
 
 Single consolidated audit of every cutscene, room, VFX, VO, and art asset

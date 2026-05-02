@@ -933,6 +933,34 @@ Reference: `apps/client/public/references/npcs/authority/REFERENCE.md`.
 }
 ```
 
+#### 2G.5 — Fighter-form (CANON ADDITION 2026-05-02)
+
+> **Canon bridge:** The hall (2G.1–2G.4) is the Authority's TRUE form — verdict-as-environment. When directly challenged in combat — i.e. when a player enters Collector's Arena story mode and reaches the Authority's match — the verdict CONDENSES into a humanoid projection. This fighter-form is the only state in which the Authority is corporeal enough to strike or be struck. It dissolves on KO back into the hall silhouette. The two canons coexist: environmental hall everywhere except the fight game; fighter-form only inside the fight engine.
+
+**Visual canon (fighter-form):**
+
+- **Mask:** Full-coverage **silver mirror mask**, no eye-holes, no mouth slit. Surface is liquid-metallic — neither chrome (too sharp) nor brushed (too dull) — read as molten mercury frozen mid-pour. Reflects the opponent's silhouette at all times; in close-up, the player's own fighter face is faintly visible in the mask. Verdict logic: *the verdict is whoever stands before it.*
+- **Suit:** **Three-piece silver suit** — jacket, waistcoat, trousers — sharply tailored, single-button jacket, peaked lapels. Fabric reads as **matte silver** (NOT chrome — closer to liquid mercury cooled to a soft sheen, like chalk-white silk with metallic depth). White dress shirt under the waistcoat, no necktie (the throat is bare and continues the mirror-mask treatment, blurring where mask meets collar).
+- **Glow:** **Red emissive aura** (#ef4444 core, #b91c1c outer falloff) wrapping the entire figure at ~30% baseline intensity. Volumetric — visible as rim light + ambient red wash on nearby surfaces. Aura intensifies on attacks (peak 1.8×) and on landed hits (1.2× sustained).
+- **Hands:** Bare. Same silver mirror-skin treatment as the mask. No nails, no knuckles, no creases — featureless reflective surface where there would be hands.
+- **Feet:** Black silver-trimmed dress shoes (the only non-silver element).
+- **Stance:** Formal. Even in combat, posture reads as a judge approaching the bench. Idle: hands clasped behind back, weight even. Combat stance: hands forward but held with the deliberation of a verdict, not a brawler.
+- **Movement:** No telegraphed wind-ups; strikes resolve with the suddenness of a gavel. Particles: each strike releases a faint puff of cyan-amber-violet courthouse dust (sourced from the three coffin colors of the hall), implying the verdict is dragging fragments of its hall into the arena.
+- **KO state:** Mask cracks once (single hairline fracture, no shards). The figure collapses to one knee. The red aura inverts to cyan (#4ba3b5 — the VERDICT-GUILTY coffin color from 2G.3) and then dissolves the figure entirely. The fight engine should overlay a 1.5s fade-to-black and return to the hall silhouette as the post-fight victory pose.
+- **Victory state:** Mask reflection briefly resolves into the OPPONENT'S victorious face — a small, deliberately unsettling beat. Aura sustains red. Holds for 2.5s before the figure dissolves to the hall.
+
+**Archetype:** Powerhouse (per gameData.ts roster — see also `apps/client/src/game/spriteSheetConfig.ts` addition). Heavy frame data, slow but unblockable special at full charge ("FINAL VERDICT" — pronounced as red-aura blade-projection from extended forearm).
+
+**Engine wiring:**
+
+- `apps/client/src/game/spriteSheetConfig.ts` — add `authority` id, standard sheet pattern (idle_movement / attacks_specials / reactions_victory / portraits)
+- `apps/client/src/game/gameData.ts` (or fighter roster) — Powerhouse archetype, accentColor `#ef4444`, default arena pairing: Shadow Sanctum
+- `apps/shared/authorityVoManifest.json` — already exists; reuse for fighter-form taunts (the_authority_taunt_early, the_authority_taunt_late). Add taunt slots if combat-specific lines are needed.
+
+**Sprite-strip prompts:** see `docs/production/OPEN_ASSETS_2026-05-02.md` §2.3 → Authority entry for the full per-state prompt set.
+
+**Note on the Reference doc:** `apps/client/public/references/npcs/authority/REFERENCE.md` should be updated with a new "fighter-form" section pointing to the rendered sprite kit once delivered. Until then, the reference there describes the hall canon only — both canons are valid simultaneously per this addendum.
+
 ---
 
 ### 2H — CADES — RETRACTED (2026-04-22, codebase-audit finding)

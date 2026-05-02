@@ -1,3 +1,7 @@
+> ⚠️ **SUPERSEDED 2026-05-02** — see `docs/production/OPEN_ASSETS_2026-05-02.md`
+> Kept as historical reference. Do not edit.
+
+
 # MISSING ART PROMPTS — Batch Generation Queue
 
 > **10 art assets** referenced in code but not yet generated.

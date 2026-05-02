@@ -223,6 +223,23 @@ export const FIGHTER_SPRITE_SHEETS: Record<string, FighterSpriteData> = {
   wraith_calder: standardFighter("wraith_calder"),
   warden:        standardFighter("warden"),
   jailer:        standardFighter("jailer"),
+
+  /* ════════════════════════════════════════════════════
+     18-22. NEW PLAYABLE ROSTER (added 2026-05-02)
+     Sprite kits not yet on CDN — see
+     docs/production/OPEN_ASSETS_2026-05-02.md §2.3.
+
+     Note: gameData.ts uses hyphen form for shadow-tongue and
+     game-master, while CDN paths use underscore form. Both keys
+     are provided so callers using either form resolve correctly.
+     ════════════════════════════════════════════════════ */
+  programmer:      standardFighter("programmer"),
+  shadow_tongue:   standardFighter("shadow_tongue"),
+  "shadow-tongue": standardFighter("shadow_tongue"),
+  game_master:     standardFighter("game_master"),
+  "game-master":   standardFighter("game_master"),
+  watcher:         standardFighter("watcher"),
+  authority:       standardFighter("authority"),
 };
 
 /* ─── UTILITIES ─── */
@@ -315,6 +332,11 @@ export const FIGHTER_IDS = [
   "wraith_calder",
   "warden",
   "jailer",
+  "programmer",
+  "shadow_tongue",
+  "game_master",
+  "watcher",
+  "authority",
 ] as const;
 
 export type FighterId = (typeof FIGHTER_IDS)[number];
