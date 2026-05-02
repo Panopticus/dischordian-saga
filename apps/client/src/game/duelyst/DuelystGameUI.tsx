@@ -561,6 +561,27 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
     return () => { renderer.destroy(); rendererRef.current = null; };
   }, []);
 
+  // M1 (responsive Pixi board) — observe the canvas's parent wrapper
+  // and resize the renderer when it changes. Triggered on portrait /
+  // landscape rotations, IDE-pane drags on desktop, and PWA install
+  // mode transitions. The renderer keeps a fixed internal coordinate
+  // space, so existing render code is unaffected.
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const wrapper = canvas?.parentElement ?? null;
+    if (!wrapper) return;
+    const obs = new ResizeObserver((entries) => {
+      const renderer = rendererRef.current;
+      if (!renderer) return;
+      for (const entry of entries) {
+        const { width, height } = entry.contentRect;
+        renderer.resize(width, height);
+      }
+    });
+    obs.observe(wrapper);
+    return () => obs.disconnect();
+  }, []);
+
   // Update renderer when state changes
   useEffect(() => {
     if (gameState && rendererRef.current) {

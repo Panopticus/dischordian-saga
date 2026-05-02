@@ -24,11 +24,57 @@ const TILE_H = 80;
 const TILE_GAP = 2;
 const BOARD_PAD = 20;
 
+/** Logical (internal-coordinate-space) board size. The renderer always
+ *  draws into this fixed coordinate system; `resize()` scales the
+ *  stage so the same internal coordinates land at any physical canvas
+ *  size. Decouples the gameplay code from device-pixel math. */
+const LOGICAL_W = BOARD_W * (TILE_W + TILE_GAP) + BOARD_PAD * 2; // 778
+const LOGICAL_H = BOARD_H * (TILE_H + TILE_GAP) + BOARD_PAD * 2; // 450
+const LOGICAL_ASPECT = LOGICAL_W / LOGICAL_H; // ≈ 1.73 (9:5 board)
+
 /** PR — duration of the unit-move tween. Short enough to stay
  *  snappy on fast plays; long enough to read as movement, not
  *  teleport. 280ms lands in the sweet spot between "readable"
  *  and "slow enough to fight the AI pacing." */
 const MOVE_TWEEN_MS = 280;
+
+/** M1 — pure helper: largest 9:5 (LOGICAL_ASPECT) box that fits
+ *  inside the given bounding box. Both dimensions guaranteed > 0
+ *  for any positive input; returns zero-size when given zero-size. */
+export function fitAspect(
+  boundingWidth: number,
+  boundingHeight: number,
+): { width: number; height: number } {
+  if (boundingWidth <= 0 || boundingHeight <= 0) {
+    return { width: 0, height: 0 };
+  }
+  let w = boundingWidth;
+  let h = w / LOGICAL_ASPECT;
+  if (h > boundingHeight) {
+    h = boundingHeight;
+    w = h * LOGICAL_ASPECT;
+  }
+  return { width: Math.floor(w), height: Math.floor(h) };
+}
+
+/** M1 — derive the initial physical canvas size from a parent
+ *  element. Falls back to LOGICAL_W × LOGICAL_H when the parent is
+ *  missing or hidden, so unit tests and pre-mount inits keep
+ *  working. */
+export function computePhysicalSize(
+  parent: HTMLElement | null,
+): { width: number; height: number } {
+  if (!parent) return { width: LOGICAL_W, height: LOGICAL_H };
+  const rect = parent.getBoundingClientRect();
+  if (rect.width <= 0 || rect.height <= 0) {
+    return { width: LOGICAL_W, height: LOGICAL_H };
+  }
+  return fitAspect(rect.width, rect.height);
+}
+
+/** Internal logical board dimensions exposed for layout / test use. */
+export const BOARD_LOGICAL_WIDTH = LOGICAL_W;
+export const BOARD_LOGICAL_HEIGHT = LOGICAL_H;
 
 // Particle for effects
 interface Particle {
@@ -66,10 +112,17 @@ export class BoardRenderer {
 
   async init(canvas: HTMLCanvasElement): Promise<void> {
     if (this.initialized) return;
+    // M1 (responsive Pixi board) — pick the largest aspect-correct
+    // physical size that fits inside the canvas's parent. The stage
+    // is scaled so existing render code keeps using the LOGICAL_W ×
+    // LOGICAL_H coordinate space; only the GPU buffer + CSS size
+    // change. Falls back to logical size when no parent bbox is
+    // available (test envs, hidden mounts).
+    const initial = computePhysicalSize(canvas.parentElement ?? null);
     await this.app.init({
       canvas,
-      width: BOARD_W * (TILE_W + TILE_GAP) + BOARD_PAD * 2,
-      height: BOARD_H * (TILE_H + TILE_GAP) + BOARD_PAD * 2,
+      width: initial.width,
+      height: initial.height,
       backgroundAlpha: 0,
       antialias: true,
       // Cap at 2 to avoid GPU thrashing on retina iPad Pro (~5K
@@ -79,6 +132,7 @@ export class BoardRenderer {
       resolution: Math.min(window.devicePixelRatio || 1, 2),
       autoDensity: true,
     });
+    this.applyStageScale(initial.width, initial.height);
     this.app.stage.addChild(this.boardContainer);
     this.app.stage.addChild(this.highlightContainer);
     this.app.stage.addChild(this.unitsContainer);
@@ -86,6 +140,38 @@ export class BoardRenderer {
     this.drawBoard();
     this.startParticleLoop();
     this.initialized = true;
+  }
+
+  /**
+   * M1 — resize the renderer to a new physical size. Caller (a
+   * `ResizeObserver` on the canvas's parent wrapper) decides the
+   * box; this method picks the largest aspect-correct rectangle
+   * that fits inside it and rescales the stage so the existing
+   * render code keeps working in LOGICAL_W × LOGICAL_H coordinates.
+   *
+   * Touch coordinates are unaffected — Pixi normalises pointer
+   * events through the canvas's CSS-to-internal transform before
+   * applying the stage scale, so a tap at any screen size lands on
+   * the correct tile.
+   */
+  resize(boundingWidth: number, boundingHeight: number): void {
+    if (!this.initialized) return;
+    const physical = fitAspect(boundingWidth, boundingHeight);
+    if (physical.width <= 0 || physical.height <= 0) return;
+    this.app.renderer.resize(physical.width, physical.height);
+    this.applyStageScale(physical.width, physical.height);
+  }
+
+  /** Scale the stage so LOGICAL_W × LOGICAL_H maps to the current
+   *  canvas physical size. Both axes use the same scale because
+   *  computePhysicalSize / fitAspect maintain the 9:5 aspect ratio,
+   *  but `min` is the safe choice if either is ever fed a
+   *  mis-shaped box. */
+  private applyStageScale(canvasWidth: number, canvasHeight: number): void {
+    const sx = canvasWidth / LOGICAL_W;
+    const sy = canvasHeight / LOGICAL_H;
+    const s = Math.min(sx, sy);
+    this.app.stage.scale.set(s);
   }
 
   setCallbacks(onTile: (row: number, col: number) => void, onUnit: (unitId: string) => void): void {
