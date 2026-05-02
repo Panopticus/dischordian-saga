@@ -48,6 +48,7 @@ import InstallPromptBanner from "./components/InstallPromptBanner";
 import ImmersiveModeManager from "./components/ImmersiveModeManager";
 import { DischordiaCycleSync } from "./components/DischordiaCycleSync";
 import { useTitleEarnedToasts } from "./hooks/useTitleEarnedToasts";
+import { useDreamerRelayHints } from "./hooks/useDreamerRelayHints";
 import { ForgivenessChoicePanel } from "./components/ForgivenessChoicePanel";
 import { Act1ClosingChoicePanel } from "./components/Act1ClosingChoicePanel";
 import { useElaraTTS } from "./hooks/useElaraTTS";
@@ -257,6 +258,15 @@ const CADESFPSPage = lazy(() => import("./pages/CADESFPSPage"));
 /* ═══ LOADING FALLBACK ═══ */
 function TitleToastHost() {
   useTitleEarnedToasts();
+  return null;
+}
+
+/** D4 (dual-faction recruitment plan) — mounts the hook that fires
+ *  Elara's covert-relay companion-comment lines on dreamer-awareness
+ *  threshold crossings. Same pattern as TitleToastHost: lifecycle-only
+ *  side effect, no UI. */
+function DreamerRelayHintsHost() {
+  useDreamerRelayHints();
   return null;
 }
 
@@ -733,6 +743,15 @@ function App() {
                         and tracks a localStorage cursor to avoid
                         re-toasting the same grant twice. */}
                     <TitleToastHost />
+                    {/* D4 — Elara's covert-relay companion-comment
+                        host. Watches dreamer-awareness state via
+                        the existing tRPC query and fires Elara
+                        hint lines on threshold crossings (count
+                        ≥ 3) and per-vision deliveries. Lines are
+                        ambient and intentionally under-explained;
+                        the toast subsystem renders them. No UI of
+                        its own. */}
+                    <DreamerRelayHintsHost />
                     {/* Witnessing §5 — global slideshow host. Mounts
                         whenever any caller queues a slideshow via
                         playSlideshow(id). Must be above AuthGate so

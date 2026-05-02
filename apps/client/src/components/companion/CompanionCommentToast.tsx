@@ -96,18 +96,26 @@ export function CompanionCommentToast() {
     };
   }, []);
 
+  // Speaker accent palettes. Architect lands in a desaturated grey-
+  // violet — calibration-register, intentionally flatter than the
+  // warmer companion palettes so the contrast reads as "this one's
+  // not on your side, exactly."
   const accent =
     active?.speaker === "elara"
       ? { border: "border-cyan-500/60", bg: "bg-cyan-950/60", text: "text-cyan-50", mono: "text-cyan-300/80" }
       : active?.speaker === "antiquarian"
         ? { border: "border-amber-500/60", bg: "bg-amber-950/60", text: "text-amber-50", mono: "text-amber-300/80" }
-        : { border: "border-rose-500/60", bg: "bg-rose-950/60", text: "text-rose-50", mono: "text-rose-300/80" };
+        : active?.speaker === "architect"
+          ? { border: "border-violet-500/40", bg: "bg-slate-950/70", text: "text-slate-100", mono: "text-violet-300/70" }
+          : { border: "border-rose-500/60", bg: "bg-rose-950/60", text: "text-rose-50", mono: "text-rose-300/80" };
   const speakerName =
     active?.speaker === "elara"
       ? "Elara"
       : active?.speaker === "antiquarian"
         ? "The Antiquarian"
-        : "The Human";
+        : active?.speaker === "architect"
+          ? "The Architect"
+          : "The Human";
 
   return (
     <div className="pointer-events-none fixed bottom-4 left-4 z-40 max-w-sm">

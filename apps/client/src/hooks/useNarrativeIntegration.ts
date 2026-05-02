@@ -394,6 +394,15 @@ export function useNarrativeIntegration() {
           dark: milestone.darkEnergyCost,
         });
       }
+      // B3 (dual-faction recruitment plan) — Architect-only reaction
+      // alongside the toast. The companion-comment system picks up
+      // the trigger if a matching `witnessing_milestone_{id}` line is
+      // authored in apps/shared/companionComments.ts; if not, the
+      // fire is a silent no-op (companionCommentQueue dedupes by
+      // trigger). The Architect's calibration-acknowledgment register
+      // is the only speaker registered for these triggers — Elara,
+      // the Human, and the Antiquarian have their own surfaces.
+      fireCompanionComment(`witnessing_milestone_${id}`);
     },
     [state.narrativeFlags, setNarrativeFlag, applyRawDelta],
   );
