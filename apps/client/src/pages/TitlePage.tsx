@@ -15,7 +15,7 @@
    Video transmission player (manual + auto-intercept).
    The Reset Wall is launched from State C.
    ═══════════════════════════════════════════════════════ */
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "framer-motion";
 
 import { useAuth } from "@/_core/hooks/useAuth";
@@ -304,6 +304,62 @@ export default function TitlePage({ onDismiss }: TitlePageProps = {}) {
   // handshake-seen flag set bypass everything.
   const [confirmedEarly, setConfirmedEarly] = useState(false);
   const cinematicArmed = confirmedEarly || handshakeDone;
+
+  /* ─── Title-screen background music: Dischordian Logic (T02).
+       Plays as the "login loading" bed — autoplay muted on mount
+       (browser policy permits) and unmute on first user gesture.
+       Stops once the cinematic begins so its audio takes over.
+       This is a separate audio element from PlayerContext (which
+       owns T01 / The Enigma's Lament for the slideshow flow). ─── */
+  const loginBedAudioRef = useRef<HTMLAudioElement | null>(null);
+  const loginBedStoppedRef = useRef(false);
+
+  useEffect(() => {
+    const audio = loginBedAudioRef.current;
+    if (!audio) return;
+    if (cinematicArmed || openingDone) return;
+    audio.loop = true;
+    audio.volume = 0.55;
+    audio.muted = true;
+    audio.play().catch(() => {
+      /* autoplay blocked even when muted — first gesture below
+         retries with muted=false, which IS allowed post-gesture. */
+    });
+    const unmuteOnGesture = () => {
+      const el = loginBedAudioRef.current;
+      if (!el || loginBedStoppedRef.current) return;
+      el.muted = false;
+      el.play().catch(() => {});
+      window.removeEventListener("pointerdown", unmuteOnGesture);
+      window.removeEventListener("keydown", unmuteOnGesture);
+    };
+    window.addEventListener("pointerdown", unmuteOnGesture);
+    window.addEventListener("keydown", unmuteOnGesture);
+    return () => {
+      window.removeEventListener("pointerdown", unmuteOnGesture);
+      window.removeEventListener("keydown", unmuteOnGesture);
+    };
+  }, [cinematicArmed, openingDone]);
+
+  useEffect(() => {
+    if (!cinematicArmed && !openingDone) return;
+    const audio = loginBedAudioRef.current;
+    if (!audio || audio.paused) return;
+    loginBedStoppedRef.current = true;
+    // Brief fade so the cut to cinematic audio doesn't pop.
+    const startVol = audio.volume;
+    const steps = 12;
+    let i = 0;
+    const t = setInterval(() => {
+      i += 1;
+      audio.volume = Math.max(0, startVol * (1 - i / steps));
+      if (i >= steps) {
+        clearInterval(t);
+        audio.pause();
+      }
+    }, 25);
+    return () => clearInterval(t);
+  }, [cinematicArmed, openingDone]);
 
   /* ─── Suppress SagaThemeBGM on the title screen.
        The provider auto-starts a shuffled saga theme on first
@@ -728,6 +784,24 @@ export default function TitlePage({ onDismiss }: TitlePageProps = {}) {
         />
       )}
 
+      {/* Title-screen background music — "Dischordian Logic" (album1
+          T02). Mounts on first paint so the browser starts buffering
+          the loop immediately; the effect above unmutes on the first
+          user gesture and pauses when the cinematic arms. Hidden +
+          aria-hidden — this is ambient, not a control. */}
+      {!cinematicArmed && !openingDone && (
+        <audio
+          ref={loginBedAudioRef}
+          src={assetUrl("audio/album1/T02.mp3")}
+          preload="auto"
+          loop
+          muted
+          aria-hidden
+          tabIndex={-1}
+          style={{ position: "absolute", width: 0, height: 0, opacity: 0, pointerEvents: "none" }}
+        />
+      )}
+
       {/* Hidden preload sink for the meme cinematic. Mounted from the
           first paint of the title page so the browser starts buffering
           the 3:09 mp4 the moment the user lands — by the time they
@@ -766,7 +840,6 @@ export default function TitlePage({ onDismiss }: TitlePageProps = {}) {
           Player can replay this from INBOX tab in the Transmission Deck. */}
       {cinematicArmed && !openingDone && !cinematicEnded && (
         <DischordiaOpeningCinematic
-          isGameReady={thresholdPassed && !auth.loading}
           onCinematicEnded={() => setCinematicEnded(true)}
           onSongShouldStart={() => {
             // The song was already pre-rolled muted on the
@@ -836,7 +909,6 @@ export default function TitlePage({ onDismiss }: TitlePageProps = {}) {
           fires (cursor stays at T01 for next session's modal). */}
       {!openingDone && cinematicEnded && (
         <TitleAlbumIntro
-          isGameReady={thresholdPassed && !auth.loading}
           onComplete={() => setOpeningDone(true)}
         />
       )}

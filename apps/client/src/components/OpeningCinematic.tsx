@@ -1,19 +1,25 @@
 /* ═══════════════════════════════════════════════════════
-   OPENING CINEMATIC — Fullscreen video + Dischordian Logic
-   Video plays first (no music). When video ends (or is skipped),
-   "Dischordian Logic" (Album 1, T02) begins looping as the music
-   bed for the entire Awakening sequence — distinct from "The
-   Enigma's Lament" (T01) that played on the title, so the player
-   doesn't perceive the same song restarting. The audio element
-   is passed back to the parent via onComplete so it persists
-   beyond this component.
+   OPENING CINEMATIC — Fullscreen cryo-pod video + Saga Theme
+   Video plays first; the saga theme (the canonical title-card
+   theme song) starts on the BEGIN click and rides at a barely-
+   there volume under the video audio so the player perceives a
+   single uninterrupted bed running from cryo-pod open through
+   Elara's first dialog. The audio element is handed to the
+   parent via onComplete so it persists beyond this component;
+   AwakeningVOPlayer ducks/restores it across each VO line.
    ═══════════════════════════════════════════════════════ */
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { assetUrl } from "@/lib/assetUrl";
 
 const CINEMATIC_VIDEO = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/opening_cinematic_9b899561.mp4";
-export const AWAKENING_BED_URL = assetUrl("audio/album1/T02.mp3");
+/** Canonical saga theme — same track the SagaThemeBGM provider
+ *  shuffles on. Starting it here ties the cryo-pod opening to the
+ *  rest of the saga musically. */
+export const AWAKENING_BED_URL = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/SagaTheme_0cd5de9a.mp3";
+/** Volume the bed runs at while the cinematic video is the focal
+ *  audio — quiet enough not to fight the video, present enough to
+ *  bridge into Elara's first line. */
+const BED_VOLUME_UNDER_VIDEO = 0.06;
 
 interface OpeningCinematicProps {
   /**
@@ -30,6 +36,7 @@ interface OpeningCinematicProps {
 
 export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const bedAudioRef = useRef<HTMLAudioElement | null>(null);
   const [fadeOut, setFadeOut] = useState(false);
   const [showSkip, setShowSkip] = useState(false);
   const [videoState, setVideoState] = useState<"loading" | "waiting-for-click" | "playing-muted" | "playing-unmuted" | "needs-tap">("loading");
@@ -50,11 +57,35 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
     setVideoState("waiting-for-click");
   }, []);
 
-  /** Called when user clicks "BEGIN" — starts video with sound */
+  /** Called when user clicks "BEGIN" — starts video with sound and
+   *  kicks off the saga-theme bed at a low volume so a single piece
+   *  of music carries from the cryo-pod open straight into Elara's
+   *  first dialog beat. The user gesture here is the only reliable
+   *  window we'll have to start audio playback (iOS Safari rejects
+   *  later programmatic plays). */
   const handleBeginClick = useCallback(async () => {
     userClickedRef.current = true;
     const video = videoRef.current;
     if (!video) return;
+
+    // Spin up the looping saga-theme bed alongside the video. It
+    // rides quiet under the cinematic audio and is handed off to
+    // the AwakeningPage in handleComplete; AwakeningVOPlayer ducks
+    // and restores it from there. We construct the element once
+    // and never reset it so playback is continuous through the
+    // visual fade.
+    if (!bedAudioRef.current) {
+      const bed = new Audio(AWAKENING_BED_URL);
+      bed.loop = true;
+      bed.preload = "auto";
+      bed.volume = BED_VOLUME_UNDER_VIDEO;
+      bedAudioRef.current = bed;
+      bed.play().catch(() => {
+        /* autoplay blocked — handleComplete still hands the element
+           off; AwakeningVOPlayer.startThemeIfNeeded retries on the
+           next user gesture (Elara's first line). */
+      });
+    }
 
     // Try unmuted first — should work because we have a user gesture
     video.muted = false;
@@ -73,13 +104,15 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
     }
   }, []);
 
-  /** Hand off a paused Dischordian Logic audio element, then fade out
-   *  the cinematic. The bed is intentionally NOT started here — the
-   *  AwakeningVOPlayer starts it the moment Elara delivers her first
-   *  VO line, so the player doesn't hear an instrumental bed playing
-   *  alone over the BLACKOUT fade-in (which previously clashed with
-   *  the cinematic's tail audio and felt like two pieces of music
-   *  fighting). */
+  /** Hand off the saga-theme bed (already playing, started by
+   *  handleBeginClick) and fade out the cinematic. The bed continues
+   *  uninterrupted so a single piece of music bridges the cryo-pod
+   *  open into Elara's first dialog. AwakeningVOPlayer takes over
+   *  ducking/restoring from the first VO line onward. If the user
+   *  reached the cinematic via a SKIP / safety-timer / load-error
+   *  path before clicking BEGIN, the bed was never created — we
+   *  fall back to a paused element so AwakeningVOPlayer can still
+   *  start it on the first VO. */
   const handleComplete = useCallback((reachedEndNaturally: boolean) => {
     if (completedRef.current) return;
     completedRef.current = true;
@@ -89,12 +122,14 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
       endSafetyTimerRef.current = null;
     }
 
-    // Prepare (don't play) the bed audio. AwakeningVOPlayer starts it
-    // on the first VO trigger and fades it in alongside Elara's line.
-    const themeAudio = new Audio(AWAKENING_BED_URL);
-    themeAudio.loop = true;
-    themeAudio.volume = 0;
-    themeAudio.preload = "auto";
+    let themeAudio = bedAudioRef.current;
+    if (!themeAudio) {
+      themeAudio = new Audio(AWAKENING_BED_URL);
+      themeAudio.loop = true;
+      themeAudio.volume = 0;
+      themeAudio.preload = "auto";
+      bedAudioRef.current = themeAudio;
+    }
 
     // Visual fade out FIRST. Pausing the video before the fade was
     // amputating the last second of Elara's tail dialogue — we now let
