@@ -19,4 +19,12 @@ describe("dreamerAwarenessRouter — wiring", () => {
     );
     expect(keys).toContain("reportBurntCardWitnessed");
   });
+
+  it("exposes the D3 Dreamer-aware status query", () => {
+    const keys = Object.keys(
+      (dreamerAwarenessRouter as unknown as { _def: { procedures: Record<string, unknown> } })
+        ._def.procedures,
+    );
+    expect(keys).toContain("getStatus");
+  });
 });

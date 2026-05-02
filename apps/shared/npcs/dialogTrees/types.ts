@@ -75,16 +75,59 @@ export interface NpcDialogTree {
   npcKey: NpcKey;
   /** Conventional entry node — defaults to "root". */
   entryNodeId?: string;
+  /**
+   * Optional alternate entry node for Dreamer-aware players. When the
+   * caller indicates the player has accumulated awareness ≥ 3 AND
+   * received at least one Dreamer vision, `getEntryNode(tree, {
+   * dreamerAware: true })` resolves here instead of `entryNodeId`.
+   *
+   * Used for D3 in the dual-faction recruitment plan — the three Keys
+   * (Degen, Vex Solène, Jericho Jones) get an alternate first-meet
+   * branch that decodes the visions in their own voice. Trees that do
+   * not author this field render identically for all players.
+   */
+  dreamerAwareEntryNodeId?: string;
   /** Flat node map. */
   nodes: Readonly<Record<string, NpcDialogNode>>;
 }
 
+export interface EntryNodeOptions {
+  /**
+   * Caller asserts the player is Dreamer-aware (count ≥ 3 AND has
+   * received ≥ 1 vision). The server-side `dreamerAwareness.getStatus`
+   * query is the canonical source for this flag; the client passes it
+   * through to `getEntryNode` when starting a tree.
+   */
+  dreamerAware?: boolean;
+}
+
 // --- Resolver utilities (mirror dialogTree.ts) -----------------------------
 
-/** Returns the tree's entry node, or null if the tree has no nodes. */
-export function getEntryNode(tree: NpcDialogTree): NpcDialogNode | null {
-  const entryId = tree.entryNodeId ?? "root";
+/** Returns the tree's entry node, or null if the tree has no nodes.
+ *  Pass `{ dreamerAware: true }` to resolve the alternate Dreamer-
+ *  aware entry (when the tree authors one); falls back to the default
+ *  entry when no alternate exists, so trees without a variant render
+ *  identically for all players. */
+export function getEntryNode(
+  tree: NpcDialogTree,
+  opts?: EntryNodeOptions,
+): NpcDialogNode | null {
+  const entryId = resolveEntryNodeId(tree, opts);
   return tree.nodes[entryId] ?? null;
+}
+
+/** Resolve the id of the entry node that should fire for this caller.
+ *  Pure helper — used by client-side dialog runners that pass the id
+ *  to `useNpcConversation({ entryLineId })` and by the lint tests that
+ *  walk every authored entry. */
+export function resolveEntryNodeId(
+  tree: NpcDialogTree,
+  opts?: EntryNodeOptions,
+): string {
+  if (opts?.dreamerAware && tree.dreamerAwareEntryNodeId) {
+    return tree.dreamerAwareEntryNodeId;
+  }
+  return tree.entryNodeId ?? "root";
 }
 
 /** Look up a node id; throws for unknown ids so authoring mistakes surface early. */
@@ -112,16 +155,25 @@ export function visibleChoices(
   );
 }
 
-/** Walk every node in declaration order (entry first). */
+/** Walk every node in declaration order (default entry first, then
+ *  the Dreamer-aware entry if the tree authors one, then the rest). */
 export function walkNodes(
   tree: NpcDialogTree,
 ): ReadonlyArray<NpcDialogNode> {
   const entryId = tree.entryNodeId ?? "root";
+  const dreamerEntryId = tree.dreamerAwareEntryNodeId;
   const entry = tree.nodes[entryId];
-  const rest = Object.values(tree.nodes).filter(
-    (n) => n.id !== entryId,
-  );
-  return entry ? [entry, ...rest] : rest;
+  const dreamerEntry =
+    dreamerEntryId && dreamerEntryId !== entryId
+      ? tree.nodes[dreamerEntryId]
+      : undefined;
+  const skip = new Set([entryId, ...(dreamerEntryId ? [dreamerEntryId] : [])]);
+  const rest = Object.values(tree.nodes).filter((n) => !skip.has(n.id));
+  const out: NpcDialogNode[] = [];
+  if (entry) out.push(entry);
+  if (dreamerEntry) out.push(dreamerEntry);
+  out.push(...rest);
+  return out;
 }
 
 /** Terminal nodes — no choices and no autoNext. */

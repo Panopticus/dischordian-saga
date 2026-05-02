@@ -27,7 +27,10 @@ import { allRegisteredFlags } from "../crossCharacterReactions";
 
 describe("Phase 6e.1c tree shape contract", () => {
   const trees = [
-    { tree: THE_DEGEN_FIRST_GAME, npcKey: "the_degen", expectedNodes: 6 },
+    // Degen first-meeting: 6 baseline nodes (root + 4 branches +
+    // terminal) + 3 D3 dreamer-aware nodes (dreamer_aware_root +
+    // who_watches + denial). All converge on the shared `terminal`.
+    { tree: THE_DEGEN_FIRST_GAME, npcKey: "the_degen", expectedNodes: 9 },
     {
       tree: DMC_CLONE_COMPANION_AWAKENING_ARRIVAL,
       npcKey: "dmc_clone_companion",

@@ -21,6 +21,15 @@
 //   - NO "forever" (entropy canon)
 //   - NO religious vocabulary (soul / salvation / sin)
 //   - "Mostly takes" leitmotif NOT used here (deploy-once canon)
+//
+// Dreamer-aware variant (D3):
+//   When the player arrives Dreamer-aware (awareness ≥ 3 AND has
+//   received at least one vision), the runner enters at
+//   `dreamer_aware_root` instead — the Degen's nihilist-gnomic
+//   decoder voice, casino-as-arithmetic register. He doesn't name
+//   the Dreamer; the visions are the recognition signal he reads
+//   off the player's posture. Auto-converges to the standard
+//   terminal so re-entries don't loop.
 
 import type { NpcDialogTree } from "../types";
 
@@ -28,6 +37,7 @@ export const THE_DEGEN_FIRST_GAME: NpcDialogTree = {
   id: "degen-first-game",
   npcKey: "the_degen",
   entryNodeId: "root",
+  dreamerAwareEntryNodeId: "dreamer_aware_root",
   nodes: {
     root: {
       id: "root",
@@ -123,6 +133,63 @@ export const THE_DEGEN_FIRST_GAME: NpcDialogTree = {
       voLineId: "degen.first_meeting.terminal",
       onscreenText:
         "The booth, the bar, or the back-room. Three doors. The Casino has more, but those are for people I have already been canonical-introduced to. Pick a door, friend. The arithmetic is waiting.",
+    },
+
+    // ─── Dreamer-aware entry (D3) ──────────────────────────────────
+    // Nihilist-gnomic decoder voice. The Degen has seen the same
+    // patterns the player has — the visions are the tell. He does
+    // not name the Dreamer; he reads the recognition off the
+    // player's posture and files it.
+    dreamer_aware_root: {
+      id: "dreamer_aware_root",
+      npcKey: "the_degen",
+      voLineId: "degen.first_meeting.dreamer_aware_root",
+      onscreenText:
+        "You walked in already losing, friend. Not money — the other thing. You have been watching the ceiling. People who have been watching the ceiling do not need the Casino to teach them anything; the Casino is the canonical-confirmation. Sit. The arithmetic is going to repeat itself for you a few more times before it stops. I will deal slowly.",
+      choices: [
+        {
+          label: "Who's been watching me back?",
+          nextId: "dreamer_aware_who_watches",
+          sets: "degen_filed_player_as_dreamer_aware",
+          trustDelta: 2,
+          publicFlag: "degen_filed_player_as_dreamer_aware_first_contact",
+        },
+        {
+          label: "Then deal. I came to lose loud.",
+          nextId: "all_in_branch",
+          sets: "degen_axis_read_aggression",
+          axisDelta: [{ axis: "aggression", delta: 1 }],
+        },
+        {
+          label: "I don't know what you mean.",
+          nextId: "dreamer_aware_denial",
+          axisDelta: [{ axis: "wit", delta: 1 }],
+        },
+      ],
+    },
+
+    // Decoder beat — Degen confirms the player has been seen without
+    // naming the watcher. The "no signature" callback hooks the
+    // vision-cutscene aesthetic without breaking voice protections.
+    dreamer_aware_who_watches: {
+      id: "dreamer_aware_who_watches",
+      npcKey: "the_degen",
+      voLineId: "degen.first_meeting.dreamer_aware_who_watches",
+      onscreenText:
+        "I do not name the canonical-watchers, friend. I file them. You have a file. The file has been receiving canonical-signatures from a hand I do not canonical-recognise — and I canonical-recognise most hands at this latitude. The signatures arrive without canonical-names. The arithmetic notices. I notice the arithmetic noticing. Sit; we will canonical-play, and the file will canonical-grow.",
+      autoNext: "terminal",
+    },
+
+    // Soft denial branch — keeps the Degen plausibly deniable for
+    // players who reached the Dreamer-aware threshold by accident
+    // (e.g. burnt-card witness firing alone).
+    dreamer_aware_denial: {
+      id: "dreamer_aware_denial",
+      npcKey: "the_degen",
+      voLineId: "degen.first_meeting.dreamer_aware_denial",
+      onscreenText:
+        "Then the arithmetic is canonical-mistaken about you, friend, and the arithmetic is canonical-rarely mistaken. The booth is over there; the canonical-files have a copy of you regardless. Pick a door.",
+      autoNext: "terminal",
     },
   },
 };
