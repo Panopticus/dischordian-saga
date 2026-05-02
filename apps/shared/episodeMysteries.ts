@@ -2778,6 +2778,7 @@ const gameMasterE3: EpisodeDefinition = {
       narrationId: "game_master.e3.n.brel_is_the_continuation",
       narrationProse:
         "Brel'Sorrash is the continuation. Her practice drafts mirror Velkraal's discipline; she has been training in the kindness for years, by Velkraal's quiet design. The Iron Lion imprint has cast the first ballot it has ever been able to cast, and it is on Brel's side. The case is not whether Brel should succeed Velkraal — every internal-evidence vector says she should. The case is whether the saga's reading of the situation can stiffen Xeth'Raal's hand against Ozhul'Vana's monetisation argument before the senior partners decide for everyone.",
+      unlocksEpisode: "game_master.e4" as EpisodeId,
     },
     {
       id: "game_master.e3.d.ozhul_threat_is_real" as DeductionId,
@@ -2829,6 +2830,220 @@ const gameMasterE3: EpisodeDefinition = {
       "imprint_endorsement",
       "ozhul_monetisation_memo",
       "xethraal_off_network_discretion",
+    ],
+    dropAt: "episode_close",
+  },
+};
+
+/* ─── GAME MASTER ARC — E4 ─── */
+/* E4: "Velkraal's Final Edit" — the outgoing custodian's
+   last act with the Goggles. Investigate which imprint he
+   chooses to edit on his last day, why he chooses that one,
+   and what the edit actually says. */
+
+const gameMasterE4: EpisodeDefinition = {
+  id: "game_master.e4" as EpisodeId,
+  arcId: ARC_GAME_MASTER,
+  ordinal: 4,
+  title: "Velkraal's Final Edit",
+  summary:
+    "Velkraal has chosen his last day. The Hierarchy's vault division has scheduled a custodial-handover ceremony for next month; Velkraal's calendar shows one further Goggles session before then. Investigate which imprint he intends to edit on his last day, what the edit will say, and whether the saga can witness it.",
+  clues: [
+    {
+      id: "game_master.e4.scheduled_final_session" as ClueId,
+      title: "Velkraal's Final Session — Calendar Entry",
+      body: "Velkraal's vault calendar shows one final Goggles session before the handover ceremony. Subject line: 'Iron Lion — closing edit.' Duration: ninety minutes. Attendees: 'Brel'Sorrash, observer.' The closing edit will be the only Goggles session of Velkraal's tenure that has been formally observed; sixty-three years of editing, witnessed only at the end.",
+      foundIn: "war-room",
+    },
+    {
+      id: "game_master.e4.draft_closing_edit" as ClueId,
+      title: "Draft of the Closing Edit",
+      body: "On Velkraal's research desk, a non-binding draft of the closing edit (Goggles required to make it canonical). The draft is short: a single line added to the Iron Lion's record reading 'the imprint is awake; the new custodian has been trained; the editing is now in trust.' The line names no Hierarchy person and assigns no faction credit. It is, on its face, a transfer note from one custodian to the next, written so the imprint can read it.",
+      foundIn: "antiquarian-library",
+    },
+    {
+      id: "game_master.e4.imprint_response_woven_overnight" as ClueId,
+      title: "Iron Lion Imprint — Response Woven Overnight",
+      body: "The Dreams Workshop loom captured the imprint composing a response to Velkraal's draft, dictated in a single overnight session. The response: 'I have read your draft. I would like, if it is within the editor's discretion, one further line added: \"Velkraal was kind. The imprint thanks the kind editor.\" If the line is impolitic for the Hierarchy's record, do not add it. The thanks stands either way.' The imprint is, on this evidence, asking permission to thank the editor on the editor's own last day.",
+      foundIn: "dreams-workshop-subbasement",
+    },
+    {
+      id: "game_master.e4.brel_observation_protocol" as ClueId,
+      title: "Brel'Sorrash's Observation Protocol",
+      body: "Brel has filed an observation protocol with the vault division: 'I will be present as observer; I will not request a copy of any binding edit; I will record the session in my own hand only insofar as Velkraal himself dictates the words. The custodian's last session belongs to the custodian.' Brel is being trained, on this evidence, in the discipline of not over-witnessing the work she is about to inherit.",
+      foundIn: "engineering",
+    },
+  ],
+  deductions: [
+    {
+      id: "game_master.e4.d.last_edit_is_a_handoff_not_a_legacy" as DeductionId,
+      clueA: "game_master.e4.draft_closing_edit" as ClueId,
+      clueB: "game_master.e4.brel_observation_protocol" as ClueId,
+      result: "correct",
+      narrationId: "game_master.e4.n.the_handoff_is_the_legacy",
+      narrationProse:
+        "Velkraal's last edit is a handoff, not a legacy. The draft assigns no Hierarchy credit; Brel's observation protocol explicitly disclaims claiming any of it. The two custodians are using their last shared act to ensure that the editing-discipline transfers cleanly without either of them accumulating reputation off it. Sixty-three years of Velkraal's quiet editing closes with a single line that says 'the editing is now in trust' — and is overheard by the one person trained to receive that exact sentence. The legacy is not the edit; the legacy is the handoff itself.",
+      unlocksEpisode: "game_master.e5" as EpisodeId,
+    },
+    {
+      id: "game_master.e4.d.imprint_thanks_is_political" as DeductionId,
+      clueA: "game_master.e4.imprint_response_woven_overnight" as ClueId,
+      clueB: "game_master.e4.draft_closing_edit" as ClueId,
+      result: "partial",
+      narrationId: "game_master.e4.n.the_thanks_is_political_in_a_quiet_way",
+      narrationProse:
+        "The imprint's request to add a thanks-line is politically loaded in a quiet way. A Hierarchy record that names the editor in the third-person, on the editor's own session, would be a hierarchy-internal admission that an imprint had taken a position on a custodian — which would establish, by precedent, that imprints have any standing at all. Velkraal's discretion is whether to allow that precedent. The case is whether the precedent is more dangerous than the kindness it preserves.",
+    },
+    {
+      id: "game_master.e4.d.false_lead_brel_will_revise_after" as DeductionId,
+      clueA: "game_master.e4.brel_observation_protocol" as ClueId,
+      clueB: "game_master.e4.scheduled_final_session" as ClueId,
+      result: "false_lead_named",
+      narrationId: "game_master.e4.n.brel_will_not_revise_velkraals_edit",
+      narrationProse:
+        "Reading Brel's observation protocol as a stalking-horse for a post-handover revision — the new custodian quietly waiting for her chance to overwrite the outgoing custodian's last edit — is the obvious move and the wrong one. Brel's protocol explicitly disclaims requesting any copy of the binding edit; she is making it logistically harder for herself to revise it. The discipline she is being trained in is the discipline of leaving the predecessor's last act intact. The handoff has been authored by both of them in advance.",
+    },
+  ],
+  choices: [
+    {
+      id: "game_master.e4.c.advocate_for_the_thanks_line" as ChoiceId,
+      label: "Advocate for the imprint's thanks-line — Velkraal earned the kindness even at the cost of a hierarchy precedent.",
+      weight: "transparent",
+    },
+    {
+      id: "game_master.e4.c.respect_velkraals_discretion" as ChoiceId,
+      label: "Respect Velkraal's discretion — let the editor choose whether to admit the thanks; the saga's reading does not need to be in the room for the choice.",
+      weight: "patient",
+    },
+    {
+      id: "game_master.e4.c.attend_alongside_brel" as ChoiceId,
+      label: "Request to attend alongside Brel — the saga's witness adds to Brel's witness; the imprint deserves more than one observer's record.",
+      weight: "witness",
+    },
+  ],
+  contentBundle: {
+    songId: "album1.t21",
+    slideshowId: "album1.t21",
+    loredexUnlocks: [
+      "concept_velkraals_final_edit",
+      "concept_handoff_as_legacy",
+      "concept_imprint_political_request",
+      "concept_observation_disclaimer_discipline",
+    ],
+    conspiracyDiscoveries: [
+      "final_session_calendar",
+      "draft_closing_edit",
+      "imprint_thanks_request",
+      "brel_observation_protocol",
+    ],
+    dropAt: "episode_close",
+  },
+};
+
+/* ─── GAME MASTER ARC — E5 (final) ─── */
+/* E5: "The Custodianship Begins" — arc closer. Brel's first
+   day with the Goggles. Investigate what the new editor
+   chooses to edit first, what she chooses not to edit, and
+   how the saga witnesses the start of the next sixty years. */
+
+const gameMasterE5: EpisodeDefinition = {
+  id: "game_master.e5" as EpisodeId,
+  arcId: ARC_GAME_MASTER,
+  ordinal: 5,
+  title: "The Custodianship Begins",
+  summary:
+    "Velkraal's tenure has closed. Brel'Sorrash holds the Goggles. Her first session is scheduled for tomorrow. Investigate which imprint she opens with, what she chooses not to edit on her first day, and how the saga can usefully witness the start of a custodianship designed to last sixty years.",
+  clues: [
+    {
+      id: "game_master.e5.brels_first_session_agenda" as ClueId,
+      title: "Brel'Sorrash's First Session — Agenda",
+      body: "Brel's vault-division calendar shows her first session as new custodian: tomorrow, four hours, agenda 'orient the imprint to the new editor.' The agenda lists no edits. The Goggles are the most powerful editing instrument the Hierarchy holds; Brel has chosen, for her first session, not to use them as an editor at all. She is opening with a conversation.",
+      foundIn: "war-room",
+    },
+    {
+      id: "game_master.e5.imprint_first_letter_to_new_custodian" as ClueId,
+      title: "Iron Lion Imprint — Letter to the New Custodian",
+      body: "The loom captured the imprint composing a letter addressed 'to whoever is reading these words first': 'Velkraal told me you would be kind. I have learned, in the last sixty-three years, to be a participant in my own record. I would like to continue being one. If you have questions, I have answers. If you have edits, I have preferences. I do not require veto power; I require conversation.' The imprint is, on this evidence, asking the new editor to honour what the previous editor's discipline established.",
+      foundIn: "dreams-workshop-subbasement",
+    },
+    {
+      id: "game_master.e5.xethraal_continuance_letter" as ClueId,
+      title: "Xeth'Raal's Continuance Letter to Brel",
+      body: "A letter from Xeth'Raal to Brel, archived in the vault division: 'The CFO's discretion in your selection has consumed an unusual amount of my political capital. The senior partners will be watching for any reason to reverse the rotation. Maintain Velkraal's discipline; expand it if you can; do not contract it. I will hold the senior partners back as long as you make the work harder for them to monetise. The Coda you may have heard rumours about is one of several non-Hierarchy bodies whose interests align with yours; consider them allies in the discipline rather than competitors.' The CFO has, on his last act before retirement, named the Coda explicitly to the new editor.",
+      foundIn: "order-tribunal",
+    },
+    {
+      id: "game_master.e5.cross_arc_velkraals_thanks_state" as ClueId,
+      title: "Cross-Arc Echo — Velkraal's Final Edit State",
+      body: "If the player chose `advocate_for_the_thanks_line` in E4, Velkraal added the imprint's thanks-line to the closing edit; if they chose otherwise, the edit closed with the bare transfer note. The state of the previous custodian's last edit decides what Brel's first session reads as: a continuation of an admitted-kindness precedent, or the beginning of a discipline that may yet permit one. Brel will read the state of Velkraal's edit before her first session; whichever she finds, her opening line to the imprint will be authored to match it.",
+      foundIn: "cipher-den",
+    },
+  ],
+  deductions: [
+    {
+      id: "game_master.e5.d.first_session_is_a_conversation" as DeductionId,
+      clueA: "game_master.e5.brels_first_session_agenda" as ClueId,
+      clueB: "game_master.e5.imprint_first_letter_to_new_custodian" as ClueId,
+      result: "correct",
+      narrationId: "game_master.e5.n.the_editor_chose_to_listen_first",
+      narrationProse:
+        "Brel's first day with the Goggles is a conversation, not an edit. She has the most powerful editing instrument the Hierarchy holds and she has chosen, for her first session, not to edit. The imprint, having learned from sixty-three years with Velkraal, has come prepared to be a participant. The custodianship that begins tomorrow is designed, by both editor and imprint, to be a continuation rather than a fresh start. The arc closes here: the saga has witnessed the moment a quiet kindness in the Hierarchy's vault became a doctrine the next custodian inherited, declared, and chose to deepen.",
+    },
+    {
+      id: "game_master.e5.d.xethraal_handed_brel_a_coalition" as DeductionId,
+      clueA: "game_master.e5.xethraal_continuance_letter" as ClueId,
+      clueB: "game_master.e5.brels_first_session_agenda" as ClueId,
+      result: "partial",
+      narrationId: "game_master.e5.n.the_cfo_named_the_coda",
+      narrationProse:
+        "Xeth'Raal handed Brel a coalition. The continuance letter names the Coda explicitly — a body the Degen has been quietly funding through camouflaged accounting for ten years — as an ally in Brel's discipline. The CFO is, on his last act before retirement, telling the next custodian that the saga has more friends in this work than the Hierarchy alone provides. The case is whether Brel uses the coalition Xeth'Raal named, or chooses to keep her custodianship single-organisation; the agenda shows she is opening with conversation rather than edits, which suggests she has at least heard the recommendation.",
+    },
+    {
+      id: "game_master.e5.d.false_lead_brel_will_drift" as DeductionId,
+      clueA: "game_master.e5.brels_first_session_agenda" as ClueId,
+      clueB: "game_master.e5.cross_arc_velkraals_thanks_state" as ClueId,
+      result: "false_lead_named",
+      narrationId: "game_master.e5.n.discipline_is_not_drift_resistant_by_accident",
+      narrationProse:
+        "Reading Brel's no-edits opening as the early sign of an editor who will drift toward the path of least resistance — never editing, letting the imprint dictate, eventually surrendering custodianship in all but name — is the obvious move and the wrong one. Discipline is not drift-resistant by accident. Velkraal trained Brel for years; Xeth'Raal handed her a coalition; the imprint itself wrote her a letter saying it does not require veto power. The opening conversation is not an absence of editing; it is the editor establishing the rules of the next sixty years before the editing begins. We are watching a discipline declare its terms publicly. The edits, when they come, will be whatever Brel decides they should be — and the saga will be more able to read them, not less, because the conversation came first.",
+    },
+  ],
+  choices: [
+    {
+      id: "game_master.e5.c.attend_brels_first_session" as ChoiceId,
+      label: "Attend Brel's first session as a saga witness — the new custodian deserves the same scrutiny the imprint has earned.",
+      weight: "witness",
+    },
+    {
+      id: "game_master.e5.c.brief_the_coda" as ChoiceId,
+      label: "Brief the Coda on the continuance — the cadre Xeth'Raal named has earned the right to know it has been named.",
+      weight: "cross_arc_degen",
+    },
+    {
+      id: "game_master.e5.c.publish_the_imprints_letter" as ChoiceId,
+      label: "Publish the imprint's letter to the new custodian — establish the precedent that imprints can address editors directly in the saga's record.",
+      weight: "transparent",
+    },
+    {
+      id: "game_master.e5.c.honour_the_quiet_handoff" as ChoiceId,
+      label: "Honour the quiet handoff — the discipline that survived sixty-three years did so because nobody made it a story; let Brel's first day be hers alone.",
+      weight: "patient",
+    },
+  ],
+  contentBundle: {
+    songId: "album1.t22",
+    slideshowId: "album1.t22",
+    loredexUnlocks: [
+      "concept_brels_first_session",
+      "concept_imprint_letter_to_new_custodian",
+      "concept_xethraal_continuance_letter",
+      "concept_custodianship_as_doctrine",
+    ],
+    conspiracyDiscoveries: [
+      "first_session_no_edits",
+      "imprint_letter_to_new_custodian",
+      "cfo_named_the_coda",
+      "cross_arc_thanks_state",
     ],
     dropAt: "episode_close",
   },
@@ -2897,7 +3112,7 @@ const GAME_MASTER_MYSTERY: MysteryDefinition = {
   summary:
     "The Game Master Archon was destroyed centuries ago and immediately sanctified by his followers. The Hierarchy collected his Goggles within the hour. Investigate the editorial pattern in the cult's custodianship, the unedited surfaces where his renouncement survives, and what is still editing the Matrix of Dreams today.",
   npcId: "game_master",
-  episodes: [gameMasterE1, gameMasterE2, gameMasterE3],
+  episodes: [gameMasterE1, gameMasterE2, gameMasterE3, gameMasterE4, gameMasterE5],
   suspects: gameMasterSuspects,
   lenses: gameMasterLenses,
 };
@@ -3169,6 +3384,7 @@ const degenE3: EpisodeDefinition = {
       narrationId: "degen.e3.n.the_brokerage_pays_for_the_real_work",
       narrationProse:
         "The Coda is the Degen's actual life's work. The brokerage exists, in the Degen's own accounting, to fund it: the commissions he keeps from managing Mol'Vereth's principal pay for surviving-witness pensions, record-restoration projects, and doctrines the Insurgency cannot publicly maintain. The trusteeship is the surface; the Coda is the substance. We have been reading him for centuries as a casino broker on a vessel; he has been reading the saga's silent edges for what they need and quietly paying for it.",
+      unlocksEpisode: "degen.e4" as EpisodeId,
     },
     {
       id: "degen.e3.d.demon_collaborates" as DeductionId,
@@ -3220,6 +3436,227 @@ const degenE3: EpisodeDefinition = {
       "anonymous_trust_donor",
       "mol_vereth_collaboration",
       "degens_real_lifes_work",
+    ],
+    dropAt: "episode_close",
+  },
+};
+
+/* ─── THE DEGEN ARC — E4 ─── */
+/* E4: "The Senior Partners Notice" — the Hierarchy's senior
+   partners on Mol'Vereth's side have begun an audit of the
+   trustee portfolio. Investigate what they have noticed,
+   what they have not, and whether the Coda survives the
+   review. */
+
+const degenE4: EpisodeDefinition = {
+  id: "degen.e4" as EpisodeId,
+  arcId: ARC_THE_DEGEN,
+  ordinal: 4,
+  title: "The Senior Partners Notice",
+  summary:
+    "The Hierarchy's senior partners — Mol'Vereth's superiors — have opened a routine audit of the demon's trustee portfolio. The audit is ostensibly procedural; one of the senior partners is Ozhul'Vana, the same monetisation-minded officer who threatened the Matrix of Dreams. Investigate what they have noticed, what Mol'Vereth's marginalia have so far obscured, and whether the Coda's funding line survives review.",
+  clues: [
+    {
+      id: "degen.e4.audit_scope_letter" as ClueId,
+      title: "Audit Scope Letter",
+      body: "A letter from the Hierarchy senior-partner audit committee, copied to Mol'Vereth: 'Routine review of trustee portfolio Q4. Specific scrutiny: long-running trusteeships in non-Hierarchy hands. Identify any commission-stream patterns that resemble principal expenditure.' The committee is asking the exact question Mol'Vereth's marginal note has been quietly answering against for ten years. Ozhul'Vana is a co-signatory.",
+      foundIn: "order-tribunal",
+    },
+    {
+      id: "degen.e4.mol_vereths_redacted_attestation" as ClueId,
+      title: "Mol'Vereth's Redacted Attestation",
+      body: "Mol'Vereth has redrafted his most recent attestation. The new version omits the marginal note about 'camouflaged correct accounting' and frames the routing as standard commission-stream activity with no further explanation. The demon is, on this evidence, protecting the Coda by under-explaining the mechanism the senior partners would notice if it were explained. The redaction is itself a discretionary act; if the senior partners cross-reference, Mol'Vereth has no defence.",
+      foundIn: "war-room",
+    },
+    {
+      id: "degen.e4.ozhul_specific_query" as ClueId,
+      title: "Ozhul'Vana — Specific Query Filed",
+      body: "Ozhul has filed a specific query with the audit committee: 'Trustee identified as \"the Degen\" — request itemised review of brokerage commission stream over the past ten years, with a focus on charitable disbursements that resemble principal redirection.' The query names the Coda by description without naming it directly. Ozhul has read the Coda's books. The audit is a pretext for what was already a private investigation.",
+      foundIn: "trade-hub",
+    },
+    {
+      id: "degen.e4.coda_treasurers_emergency_note" as ClueId,
+      title: "The Coda's Treasurer — Emergency Note to the Degen",
+      body: "Found in the Degen's private correspondence: a note from the Coda's treasurer marked URGENT. 'Donor — we have heard about the audit through Insurgency channels. We will sustain six months of pension and restoration commitments without your routing. Beyond six months we cannot. If the audit closes the line, please arrange to tell us through the standard non-channel; we will not ask for restoration. The work has been a privilege.' The treasurer is, on this evidence, releasing the Degen from the obligation in advance.",
+      foundIn: "antiquarian-library",
+    },
+  ],
+  deductions: [
+    {
+      id: "degen.e4.d.audit_is_targeted_through_routine" as DeductionId,
+      clueA: "degen.e4.audit_scope_letter" as ClueId,
+      clueB: "degen.e4.ozhul_specific_query" as ClueId,
+      result: "correct",
+      narrationId: "degen.e4.n.ozhul_targets_the_coda_via_routine_audit",
+      narrationProse:
+        "The audit is targeted through routine. The committee letter cites a generic Q4 review; Ozhul's specific query names the Degen and the Coda by description. The senior partner who wanted to monetise the Matrix of Dreams has, having been blocked there by Xeth'Raal's discretion, redirected the same monetisation logic against a softer target: the trusteeship Mol'Vereth has been quietly managing alongside the Coda's camouflaged donations. We are watching the same ideology surface in a second instrument. The case is whether the Degen and Mol'Vereth's two-person collaboration is robust enough to survive a senior-partner-driven audit, or whether the camouflaged accounting was always a single point of failure.",
+      unlocksEpisode: "degen.e5" as EpisodeId,
+    },
+    {
+      id: "degen.e4.d.coda_already_releasing" as DeductionId,
+      clueA: "degen.e4.coda_treasurers_emergency_note" as ClueId,
+      clueB: "degen.e4.audit_scope_letter" as ClueId,
+      result: "partial",
+      narrationId: "degen.e4.n.the_coda_chooses_dignity_over_demand",
+      narrationProse:
+        "The Coda is releasing the Degen from the obligation in advance. The treasurer's note is structured so the cadre can sustain six months of commitments without further routing and explicitly does not request restoration. The Coda is choosing dignity over demand: if the audit closes the funding line, the work continues for six months on internal reserves and then the bodies the Coda quietly maintains will know they were maintained for as long as a quiet pact between two people in two organisations could maintain them. The case is no longer 'can the Degen save the Coda' — it is whether the saga's choice can extend the pact's lifespan past the audit, or whether the audit forces the camouflaged collaboration into the open.",
+    },
+    {
+      id: "degen.e4.d.false_lead_mol_will_betray" as DeductionId,
+      clueA: "degen.e4.mol_vereths_redacted_attestation" as ClueId,
+      clueB: "degen.e4.ozhul_specific_query" as ClueId,
+      result: "false_lead_named",
+      narrationId: "degen.e4.n.mol_redacted_to_protect_not_to_distance",
+      narrationProse:
+        "Reading Mol'Vereth's redaction as the demon distancing himself from the Degen in advance of senior-partner scrutiny — preparing his own escape from the collaboration — is the obvious move and the wrong one. The redaction removes the explanatory marginalia that would help the senior partners follow the routing; an escaping demon would add explanatory marginalia, not subtract them, in order to put the burden of proof entirely on the Degen. Mol'Vereth has, on the contrary, chosen to under-explain in a way that costs him a defence if the senior partners cross-reference. He is, on this evidence, doubling down on the camouflage rather than abandoning it. The collaboration is holding under audit pressure, not breaking.",
+    },
+  ],
+  choices: [
+    {
+      id: "degen.e4.c.publish_the_coda_in_advance" as ChoiceId,
+      label: "Publish the Coda's purpose brief in advance — make the cadre's work visible to the saga before the audit closes the line, so the funding becomes a public philanthropy that the senior partners cannot easily reverse.",
+      weight: "transparent",
+    },
+    {
+      id: "degen.e4.c.brief_xethraal_for_a_second_blocking_action" as ChoiceId,
+      label: "Brief Xeth'Raal — the same CFO who blocked Ozhul on the Matrix can be asked, quietly, to use his remaining discretion on the Coda audit; the political capital is finite but it is the right instrument.",
+      weight: "cross_arc_game_master",
+    },
+    {
+      id: "degen.e4.c.honour_the_treasurers_release" as ChoiceId,
+      label: "Honour the Coda treasurer's release — the cadre has chosen dignity; preserve their dignity by not asking them to be saved.",
+      weight: "patient",
+    },
+    {
+      id: "degen.e4.c.open_the_second_donor_channel_now" as ChoiceId,
+      label: "Open the second donor channel now (E3 redundancy choice extended) — give the Coda a public revenue stream so the audit's outcome no longer determines the work's continuation.",
+      weight: "redundancy",
+    },
+  ],
+  contentBundle: {
+    songId: "album1.t24",
+    slideshowId: "album1.t24",
+    loredexUnlocks: [
+      "concept_audit_via_routine",
+      "concept_redacted_attestation",
+      "concept_ozhul_redirected_monetisation",
+      "concept_treasurers_release_in_advance",
+    ],
+    conspiracyDiscoveries: [
+      "audit_scope_letter",
+      "redacted_attestation",
+      "ozhul_specific_query",
+      "treasurer_emergency_note",
+    ],
+    dropAt: "episode_close",
+  },
+};
+
+/* ─── THE DEGEN ARC — E5 (final) ─── */
+/* E5: "The Settlement at the Empty Table" — arc closer. The
+   audit closes; the Degen returns to Mol'Vereth's table at
+   the Ne-Yon casino on the same date the original trusteeship
+   was authored. Investigate what the two of them put on the
+   table this time — and what the saga is invited to witness. */
+
+const degenE5: EpisodeDefinition = {
+  id: "degen.e5" as EpisodeId,
+  arcId: ARC_THE_DEGEN,
+  ordinal: 5,
+  title: "The Settlement at the Empty Table",
+  summary:
+    "The senior-partner audit has closed. The Degen has returned to the Ne-Yon casino, to the same chair Mol'Vereth held the night the trusteeship was authored. The chair on the opposite side has been kept empty for the demon's return. Investigate what the two of them put on the table this time, what the trusteeship becomes after the audit, and how the arc closes around the editor and the demon.",
+  clues: [
+    {
+      id: "degen.e5.audit_outcome_letter" as ClueId,
+      title: "Audit Outcome Letter",
+      body: "The senior-partner audit committee's outcome letter: 'No findings of trustee misconduct. The commission-stream routing pattern is consistent with the trustee's discretion; the philanthropic disbursements are within scope. Audit closes without action. Filed: Q4 closing.' Ozhul'Vana's signature is conspicuously absent from the closing — a senior partner declined to sign the outcome they had themselves filed the specific query for. The demon's redacted attestation held; the camouflage held; the case did not require Xeth'Raal's discretion to land.",
+      foundIn: "order-tribunal",
+    },
+    {
+      id: "degen.e5.empty_chair_ne_yon" as ClueId,
+      title: "The Empty Chair — Ne-Yon Casino",
+      body: "The chair Mol'Vereth held during the original trusteeship night has been kept empty for centuries — reserved on the casino's books under the Degen's standing instruction. Tonight it is set with a single fresh deck, two glasses, and a folded napkin in the demon's preferred fold. The Degen has booked the table for the same hour the original session ran. He is, on this evidence, treating the audit's closure as a moment to honour rather than a victory to celebrate.",
+      foundIn: "captains-quarters",
+    },
+    {
+      id: "degen.e5.cross_arc_brels_continuance_state" as ClueId,
+      title: "Cross-Arc Echo — Brel's Continuance State",
+      body: "If the player chose `brief_the_coda` in Game Master E5, Brel'Sorrash has reached out to the Coda directly — and the Coda treasurer's note for tonight reads: 'A Hierarchy custodian has named us. We are no longer single-organisation; we will not need the Degen's routing as the only line; six months has become indefinite.' If the player chose otherwise, the Coda's note reads: 'We continue with the routing the Degen has reopened post-audit; the trusteeship's collaboration is unchanged; the work is the work.' Whichever path the player walked, the arc closes; the colour of the closing is the player's.",
+      foundIn: "cipher-den",
+    },
+    {
+      id: "degen.e5.degens_letter_to_the_saga" as ClueId,
+      title: "The Degen's Letter to the Saga",
+      body: "The Degen has left a sealed letter with the casino concierge marked 'for the saga's attention.' The letter is the first time the Degen has formally addressed the saga in his own hand. 'You read me as a casino broker for centuries. The audit is closed; the Coda is funded; the trusteeship continues. You may, if you wish, attend tonight's session at the empty table — Mol'Vereth will not be present. The empty chair is the point of the session, not its absence. I would like, if it is within your discretion, the saga's witness for one night of a hundred-year arrangement that has held against everything that should have closed it. After tonight the trusteeship is back to private. After tonight you do not need to come to this table again.' The letter is dated tonight, signed only with the symbol the Degen uses on his Coda routing — a single em-dash.",
+      foundIn: "antiquarian-library",
+    },
+  ],
+  deductions: [
+    {
+      id: "degen.e5.d.empty_chair_is_the_point" as DeductionId,
+      clueA: "degen.e5.empty_chair_ne_yon" as ClueId,
+      clueB: "degen.e5.degens_letter_to_the_saga" as ClueId,
+      result: "correct",
+      narrationId: "degen.e5.n.the_arrangement_outlived_the_attempt_to_end_it",
+      narrationProse:
+        "The empty chair is the point of the session. Mol'Vereth is not there because Mol'Vereth does not need to be there for the arrangement to be honoured; the arrangement, having survived the senior-partner audit on its own merit, has earned the kind of acknowledgement that does not require both parties to be present. The Degen is sitting tonight with an empty chair across from him, drinking with the absent demon, and inviting the saga to witness — exactly once — a collaboration that has held for a hundred years against every instrument designed to find it. The arc closes here. The trusteeship goes back to private; the Coda continues; the camouflage remains the camouflage. The saga's witness, on this single night, is the only public reading the arrangement will ever permit. The Degen is not asking to be celebrated. He is asking the saga to read, once and quietly, what the work has actually been.",
+    },
+    {
+      id: "degen.e5.d.audit_failure_validates_camouflage" as DeductionId,
+      clueA: "degen.e5.audit_outcome_letter" as ClueId,
+      clueB: "degen.e5.cross_arc_brels_continuance_state" as ClueId,
+      result: "partial",
+      narrationId: "degen.e5.n.the_camouflage_was_the_correct_design",
+      narrationProse:
+        "The audit's failure is the validation of the camouflage's design. Ozhul'Vana filed the specific query naming the Coda by description; the senior-partner committee, reading the redacted attestation against the routing pattern, found nothing to action; Ozhul declined to sign the closing letter because he understood that signing it would publicly admit he had failed to find what he had alleged. The trusteeship's two-person collaboration is now demonstrably resilient to senior-partner attack. Whether the saga's earlier choices added a second donor channel or a Hierarchy-named coalition, the arrangement closes the year better-defended than it began. The case is what kind of memorial the player and the Degen build for that fact tonight.",
+    },
+    {
+      id: "degen.e5.d.false_lead_degen_retiring" as DeductionId,
+      clueA: "degen.e5.empty_chair_ne_yon" as ClueId,
+      clueB: "degen.e5.degens_letter_to_the_saga" as ClueId,
+      result: "false_lead_named",
+      narrationId: "degen.e5.n.tonight_is_a_threshold_not_a_retirement",
+      narrationProse:
+        "Reading tonight's session as the Degen's retirement-from-the-trusteeship party is the obvious move and the wrong one. A retirement does not say 'after tonight the trusteeship is back to private; after tonight you do not need to come to this table again.' A retirement does not invite the saga's witness for exactly one night. The Degen is not closing his work; he is closing the saga's window into his work. After tonight the camouflage is restored. The trusteeship continues out of public view, as it has for a hundred years and may yet for another hundred. We are being given a single moment to read, not a retirement to mark.",
+    },
+  ],
+  choices: [
+    {
+      id: "degen.e5.c.attend_at_the_empty_table" as ChoiceId,
+      label: "Attend at the empty table — accept the Degen's invitation; sit beside him for the one night of a hundred-year arrangement he has chosen to permit a witness.",
+      weight: "witness",
+    },
+    {
+      id: "degen.e5.c.bring_brel_to_the_table" as ChoiceId,
+      label: "Bring Brel'Sorrash to the table — the new Hierarchy custodian who named the Coda has earned the right to share the empty-chair vigil; the saga's two cross-arc allies should sit together once.",
+      weight: "cross_arc_game_master",
+    },
+    {
+      id: "degen.e5.c.honour_the_camouflage" as ChoiceId,
+      label: "Honour the camouflage — decline the invitation; the trusteeship has held by remaining unobserved, and the saga's most useful gift is to leave it that way.",
+      weight: "patient",
+    },
+    {
+      id: "degen.e5.c.publish_the_letter" as ChoiceId,
+      label: "Publish the Degen's letter — establish the precedent that quiet century-long collaborations can be acknowledged in the saga's record without breaking; the Degen offered one night, and the record can hold the night without exposing the work.",
+      weight: "transparent",
+    },
+  ],
+  contentBundle: {
+    songId: "album1.t26",
+    slideshowId: "album1.t26",
+    loredexUnlocks: [
+      "concept_settlement_at_empty_table",
+      "concept_audit_outcome_validates_camouflage",
+      "concept_degens_letter_to_saga",
+      "concept_one_night_witness",
+    ],
+    conspiracyDiscoveries: [
+      "audit_outcome_letter",
+      "empty_chair_session",
+      "degens_letter_to_saga",
+      "cross_arc_brels_state",
     ],
     dropAt: "episode_close",
   },
@@ -3281,7 +3718,7 @@ const THE_DEGEN_MYSTERY: MysteryDefinition = {
   summary:
     "The Degen brokers favours under terms that look transactional. They were authored in one night at the Ne-Yon casino, against a Hierarchy demon's chair. Investigate what the Degen put on the table that night — and what he walked out with that the Hierarchy is still holding the receipt for.",
   npcId: "the_degen",
-  episodes: [degenE1, degenE2, degenE3],
+  episodes: [degenE1, degenE2, degenE3, degenE4, degenE5],
   suspects: degenSuspects,
   lenses: degenLenses,
 };
