@@ -39,6 +39,14 @@ export const settingsSchema = z.object({
   fontSize: z.enum(["small", "medium", "large"]).default("medium"),
   theme: z.enum(["dark", "light"]).default("dark"),
   arkTheme: z.string().optional(),
+  // Immersive mode — when on, the first user gesture in a session
+  // requests browser fullscreen and (on mobile) locks orientation to
+  // landscape. Designed for the widescreen art direction; players who
+  // prefer a windowed/portrait experience can disable this here.
+  // Browsers require the request inside a user-activation handler, so
+  // ImmersiveModeManager arms a one-shot pointer/keydown listener
+  // rather than calling requestFullscreen on mount.
+  immersiveMode: z.boolean().default(true),
 
   // Audio
   masterVolume: z.number().min(0).max(1).default(0.8),

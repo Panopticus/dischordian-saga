@@ -133,20 +133,27 @@ export default function DischordiaOpeningCinematic({
     const onError = () => {
       if (!cancelled) setPhase("needs-tap");
     };
-    // Pre-roll the T01 song once we're inside the last `SONG_PREROLL_LEAD_S`
-    // of the broadcast. Falling back to the producer-supplied
-    // VIDEO_DURATION_S if the metadata-derived duration isn't finite
-    // (live streams, partial buffers) keeps the cue tractable.
-    const onTimeUpdate = () => {
-      if (songCueFiredRef.current) return;
+    // Pre-roll the T01 song once we're inside the last
+    // `SONG_PREROLL_LEAD_S` of the broadcast. We poll on an interval
+    // rather than `timeupdate` because `timeupdate` cadence varies wildly
+    // across browsers/codecs (sometimes ~250ms, sometimes seconds apart)
+    // and on slow devices can skip the threshold entirely. A 250ms
+    // poll is cheap and deterministic; falls back to VIDEO_DURATION_S
+    // if the metadata-derived duration isn't finite.
+    const cueInterval = setInterval(() => {
+      if (songCueFiredRef.current) {
+        clearInterval(cueInterval);
+        return;
+      }
       const total =
         Number.isFinite(video.duration) && video.duration > 0
           ? video.duration
           : VIDEO_DURATION_S;
       if (total - video.currentTime <= SONG_PREROLL_LEAD_S) {
         fireSongCue();
+        clearInterval(cueInterval);
       }
-    };
+    }, 250);
     if (video.readyState >= 1) {
       // Metadata already buffered (cached load) — start immediately.
       startPlayback();
@@ -154,12 +161,11 @@ export default function DischordiaOpeningCinematic({
       video.addEventListener("loadedmetadata", onLoaded);
     }
     video.addEventListener("error", onError);
-    video.addEventListener("timeupdate", onTimeUpdate);
     return () => {
       cancelled = true;
+      clearInterval(cueInterval);
       video.removeEventListener("loadedmetadata", onLoaded);
       video.removeEventListener("error", onError);
-      video.removeEventListener("timeupdate", onTimeUpdate);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
