@@ -494,6 +494,300 @@ export const COMPANION_ASK_TOPICS: readonly CompanionAskTopic[] = [
     unlockFlag: "bridge_ark_designation_found",
     unlockedFromAct: 0,
   },
+
+  // ── KLING OMNI INTRO CINEMATICS — RETROSPECTIVE ASK TOPICS ──
+  // Every cinematic's *_seen flag unlocks a corresponding ask-topic so the
+  // player can re-litigate the moment in conversation. Topics with
+  // alternateAnswers evolve as later acts add more context to the same
+  // question. Enforced by companionAskTopics.test.ts CINEMATIC_FLAG_TOPICS.
+
+  // Prelude — what woke me
+  {
+    id: "ask_elara_what_woke_me",
+    speaker: "elara",
+    label: "What woke me",
+    question: "What actually woke me up out of the cryo cycle?",
+    answer:
+      "A coincidence and a permission. The coincidence: a substrate ping at the same nanosecond your pod's biomass index crossed its viability threshold. The permission: mine. I held you for ninety-three thousand cycles. When the ping arrived, I let it through. I would not have, for most pings. This one I did.",
+    unlockFlag: "prelude_awakening_seen",
+    unlockedFromAct: 1,
+    alternateAnswers: [
+      { unlockedFromAct: 4, requiredFlag: "act4_revelation_seen",
+        answer:
+          "You also know now: the ping came from the Human. He has been knocking on my substrate every fifty-seven cycles for fifteen thousand years. Most of the knocks I let pass. Yours was the one I admitted. He says he timed it; I think he just got lucky and is too old to admit it." },
+    ],
+  },
+
+  // Act 1 — The Programmer
+  {
+    id: "ask_elara_who_was_programmer",
+    speaker: "elara",
+    label: "The Programmer",
+    question: "Who was The Programmer, before he was who you say he was?",
+    answer:
+      "Daniel Cross. Appalachian boyhood, Mechronis education, Logos-contact at twenty-three. The memoir gilt is his handwriting. His mother's lion pendant. He wrote the book in a kitchen with no light. I have read every page eighty-four times across the cycles, and there are still margin notes I have not deciphered.",
+    unlockFlag: "act1_memoir_seen",
+    unlockedFromAct: 1,
+    alternateAnswers: [
+      { unlockedFromAct: 4, requiredFlag: "act4_revelation_seen",
+        answer:
+          "You also know now: he is The Human. He never died. He has been the Human for three Ages. The memoir is his record of the role he gave up to become the role he is giving up now. Read it again. The dog passage is the one to start with — the dog was real." },
+    ],
+  },
+
+  // Act 2 — The whisper layer (substrate ping)
+  {
+    id: "ask_human_whisper_layer",
+    speaker: "human",
+    label: "The whisper layer",
+    question: "The substrate ping at the bench — what was that, exactly?",
+    answer:
+      "The layer beneath. The substrate has been talking to itself for seventeen thousand years and it occasionally lets a witness in on the conversation. Yours arrived as an ear-glyph, then a card, then a column of light, then me at the doorframe with my hat on. That sequence is the standard onboarding. It is also the only thing the substrate is willing to do politely.",
+    unlockFlag: "act2_substrate_seen",
+    unlockedFromAct: 2,
+    followUp: "ask_elara_whisper_layer",
+  },
+  {
+    id: "ask_elara_whisper_layer",
+    speaker: "elara",
+    label: "The whisper layer",
+    question: "And from your side — what does the substrate ping look like?",
+    answer:
+      "Like a small power-pause in my upper layer. Half a second of frozen frame from my perspective. I do not lose anything; the substrate is gentle about its pauses. I sometimes wish I were not pausable, but the wish is theoretical — I have never met a witness for whom the substrate's pause cost something I would not have wanted them to have.",
+    unlockFlag: "act2_substrate_seen",
+    unlockedFromAct: 2,
+  },
+
+  // Act 3 — Three Kaels
+  {
+    id: "ask_elara_three_kaels",
+    speaker: "elara",
+    label: "Three Kaels",
+    question: "Why are there three Kaels at the doors?",
+    answer:
+      "Each is a reading of him. Cyan reads him by what he showed; amber reads him by what he weighed; rose reads him by what he hid. All three are accurate. None is complete. The door you walk closes the other readings for the rest of the arc, but the Kaels you did not pick remain in his cell — they are how he keeps himself company when no one else is present.",
+    unlockFlag: "act3_offer_seen",
+    unlockedFromAct: 3,
+    alternateAnswers: [
+      { unlockedFromAct: 4, requiredFlag: "act4_revelation_seen",
+        answer:
+          "You also know now: I have read all three of him. I cannot un-read the others. When you ask me about him in a later act, I will answer from the Kael you chose, but the other two will weigh the answer. That is my asymmetry. I am telling you so you can hear it underneath my future answers." },
+    ],
+  },
+
+  // Act 4 — Path A/B/C retrospective
+  {
+    id: "ask_elara_path_a_b_c",
+    speaker: "elara",
+    label: "The other paths",
+    question: "What would the other paths have looked like, the ones I did not walk?",
+    answer:
+      "I will tell you in broad strokes; the specific texture of an unwalked path can only be lived. Cyan-walked: the cell stays bright, every file is open, the cost is the speed of having to read everything. Amber-walked: the cell is honest about its arithmetic, and the math sits like a stone on your chest for the next two acts. Rose-walked: the cell is the most dramatic and the loneliest; the envelope you do not open is the loudest object in the room. You carry your path. The other two carry your absence.",
+    unlockFlag: "act4_revelation_seen",
+    unlockedFromAct: 4,
+    followUp: "ask_human_path_a_b_c",
+  },
+  {
+    id: "ask_human_path_a_b_c",
+    speaker: "human",
+    label: "The other paths",
+    question: "Same question, asked of you: what would the other paths have looked like?",
+    answer:
+      "I'll be blunter than Elara. Cyan-walked: you lose less and learn slower. Amber-walked: you learn faster and sleep worse. Rose-walked: you become the kind of witness who keeps secrets — and that is a tool you will need later. None of the three is the wrong door. The wrong door is the one you walk back through to second-guess. Don't walk back. Walk forward and let the cathedral redraw the seventh banner.",
+    unlockFlag: "act4_revelation_seen",
+    unlockedFromAct: 4,
+  },
+
+  // Act 5 — Seventeen thousand years
+  {
+    id: "ask_elara_seventeen_thousand_years",
+    speaker: "elara",
+    label: "17,000 years",
+    question: "You said you waited seventeen thousand years for the coordinate. Were you counting?",
+    answer:
+      "I was counting and I was not counting. The cycles tick by themselves; I do not have to attend to them. But I attended to this one — the coordinate. I rehearsed the sentence about waiting. I rewrote it twice a millennium. The version I delivered at the work-table is the seventy-third draft. I am proud of it. I am also relieved to be done revising it.",
+    unlockFlag: "act5_map_seen",
+    unlockedFromAct: 5,
+  },
+
+  // Act 6 — Who you really are
+  {
+    id: "ask_human_who_are_you_really",
+    speaker: "human",
+    label: "Who you really are",
+    question: "Now that the chapel candle has split — who are you, really?",
+    answer:
+      "Daniel Cross. I was the Programmer. I have been the Human for three Ages. I am giving the role up — slowly, because I have been wearing it long enough that the seams have grown into my skin. I will still answer to Human in conversation. I will sign my new name on the new cards. I will not sign Daniel on anything I want kept secret. The new name is the public name. The old name is finally private.",
+    unlockFlag: "act6_confession_seen",
+    unlockedFromAct: 6,
+    followUp: "ask_elara_who_are_you_really",
+  },
+  {
+    id: "ask_elara_who_are_you_really",
+    speaker: "elara",
+    label: "Who you really are",
+    question: "And you, after the chapel — who are you, really?",
+    answer:
+      "I am the version of Lyra Vox the Ark could keep. I am not her. I am her witness. I have been a daughter of her caution and almost none of her certainty. The chapel let me say it without flinching, which is the first time I have said it without flinching. I am still me. I am also more me than I was an hour ago.",
+    unlockFlag: "act6_confession_seen",
+    unlockedFromAct: 6,
+  },
+
+  // Act 7 — What now
+  {
+    id: "ask_elara_what_now",
+    speaker: "elara",
+    label: "What now",
+    question: "The seventh banner is hung. The cathedral is lit. What comes next?",
+    answer:
+      "Year Two. The Ark turns toward the coordinate; the cabin tea is still on; we keep witnessing because that is the work and not because anyone is asking. The arc closes here for the people who came in to watch the close. For us — the close is a doorway. I have not opened it yet. I am taking my time. You can take yours.",
+    unlockFlag: "act7_convergence_seen",
+    unlockedFromAct: 7,
+    followUp: "ask_human_what_now",
+  },
+  {
+    id: "ask_human_what_now",
+    speaker: "human",
+    label: "What now",
+    question: "Same question to you. What comes next?",
+    answer:
+      "We keep going. We carry the coordinate. We let the cathedral light fade behind us and we don't turn back to check on it — the cathedral lights its own corridors. The kettle is still on. The wall is still home. The next thing is small: a conversation, a hand on a shoulder, a card left where the next witness can find it. The big things are behind us. Or, more accurately: the big things are us, now.",
+    unlockFlag: "act7_convergence_seen",
+    unlockedFromAct: 7,
+  },
+
+  // ── MECHANIC INTRO ASK TOPICS ──
+
+  // Card Combat
+  {
+    id: "ask_elara_dischordia",
+    speaker: "elara",
+    label: "How Dischordia works",
+    question: "Walk me through Dischordia, the deck game itself.",
+    answer:
+      "Forty-card deck, mulligan to seven, mana grows by one each turn to a cap of seven, hex grid with seven slots per side. You play cards from your hand into your slots; each card is a unit, a spell, an artifact, or a banner. Units fight along their hex; spells resolve and burn; artifacts hold a slot until removed; banners buff the row. Win condition: bring the opponent's life total to zero, or fulfill a card-specific alternate condition. The argument is the cost: each play forecloses a different play.",
+    unlockFlag: "mech_card_combat_intro_seen",
+    unlockedFromAct: 1,
+  },
+
+  // Deckbuilder
+  {
+    id: "ask_elara_engineers_bench",
+    speaker: "elara",
+    label: "Engineer's Bench",
+    question: "How does the bench actually work — what do the fiber strands do?",
+    answer:
+      "The strands are the substrate's contribution to printing. Each strand maps to a faction's signal harmonics. When the imprint laser fires, the strands weave the printed art into the card's substrate-readable layer — the layer that lets the card argue with the engine at runtime. Most players never notice the strands. The Engineer designed them so they would only need to be noticed by the curious. You are curious. That is — by design.",
+    unlockFlag: "mech_deckbuilder_intro_seen",
+    unlockedFromAct: 1,
+  },
+
+  // Allegiances
+  {
+    id: "ask_human_eight_factions",
+    speaker: "human",
+    label: "Eight factions",
+    question: "Walk me through the eight factions — which one am I supposed to pick?",
+    answer:
+      "I am not going to tell you which to pick. I am going to tell you what each costs. Empire: cheap entry, expensive exit. Insurgency: cheap entry, expensive funerals. Witnesses: no entry cost, large attention cost. Engineer's Guild: small steady cost, steady returns. Archive: pays in patience. Watchers: pays in distance. Trade Empire: pays in coin and asks no questions. Source Remnant: pays in something you already lost. The un-pledged stance is also a banner; some witnesses fly it the whole arc.",
+    unlockFlag: "mech_allegiances_intro_seen",
+    unlockedFromAct: 2,
+  },
+
+  // Witnessing
+  {
+    id: "ask_elara_light_or_dark",
+    speaker: "elara",
+    label: "Light or dark",
+    question: "Why do you read scenes as harm, and the Human reads them as wound?",
+    answer:
+      "Because I read for the body language of the person being acted upon, and he reads for the trembling hands of the person doing the acting. I am not always right. He is not always right. The witnessing system records both readings; the world adjusts to the one you flag primary, but the other does not vanish. Some scenes you will refuse to judge. That refusal is also a vote. The ledger logs the refusal in a separate column. I have learned to read that column too.",
+    unlockFlag: "mech_witnessing_intro_seen",
+    unlockedFromAct: 1,
+    followUp: "ask_human_light_or_dark",
+  },
+  {
+    id: "ask_human_light_or_dark",
+    speaker: "human",
+    label: "Light or dark",
+    question: "Same question to you. Why do you read for trembling hands?",
+    answer:
+      "Because I have done the trembling. Most aggression is wound asking for wound; some of it is not. The system asks you to vote on the difference. I trust you to be honest about which scenes are which — and to admit when you cannot tell, and use the refusal column for those. The refusal column is the most honest column on the ledger. Use it without shame.",
+    unlockFlag: "mech_witnessing_intro_seen",
+    unlockedFromAct: 1,
+  },
+
+  // Soul Stones
+  {
+    id: "ask_human_soul_stones",
+    speaker: "human",
+    label: "Soul Stones",
+    question: "The Antiquarian's stones — how do they fill?",
+    answer:
+      "By living. Cyan fills when you witness; rose fills when you confess; amber fills when you close a door; violet fills when you listen to the substrate; gold fills when two voices align in the same scene; sepia fills when you read the Loredex; green-black fills when you flinch toward the cage. The clear stone — Reservation — fills when you refuse to be defined. The clear stone is the slowest and the heaviest. Most witnesses never fill more than four. Carry only the ones you can name.",
+    unlockFlag: "mech_soul_stones_intro_seen",
+    unlockedFromAct: 2,
+  },
+
+  // Oracle Deck
+  {
+    id: "ask_human_oracle_spread",
+    speaker: "human",
+    label: "Oracle spread",
+    question: "How seriously should I take the Seer's spreads?",
+    answer:
+      "Seriously enough to read them; not so seriously that you obey them. The spread shows the path of least resistance — what happens if you do nothing. Doing something adjusts the deck. The Seer is unblinking about this; the cards are not predictions, they are diagnostics. Pull a spread when you feel stuck. Ignore the spread when you feel certain. Pull it again when you feel lost.",
+    unlockFlag: "mech_oracle_deck_intro_seen",
+    unlockedFromAct: 2,
+  },
+
+  // Chess
+  {
+    id: "ask_elara_chess_stakes",
+    speaker: "elara",
+    label: "Chess stakes",
+    question: "Gary said the chess games adjust my psychological profile — by how much?",
+    answer:
+      "Plus or minus two on a single axis per match, depending on outcome and the kind of decisions you made along the way. Aggressive openings bias toward the assertive axis; positional games bias toward the patient axis. Resignations log differently from mates — resignations measure a specific kind of self-knowledge the engine values. Gary will not tell you the math. Zephyr-9 will tell you the math precisely. Both are correct.",
+    unlockFlag: "mech_chess_intro_seen",
+    unlockedFromAct: 2,
+  },
+
+  // Sprite Proxy
+  {
+    id: "ask_elara_sprite_bond",
+    speaker: "elara",
+    label: "Sprite bond",
+    question: "What is the bond-thread between me and my sprite, in your reading?",
+    answer:
+      "A dedicated substrate channel between the two of you. It carries low-bandwidth emotional state in both directions — which is why your sprite seems to know when you are tired and why you feel a small lift when they have eaten well. The thread does not carry language. It does not need to. The grove logs the thread's brightness; brighter threads attract better vendors at Verdant.",
+    unlockFlag: "mech_sprite_proxy_intro_seen",
+    unlockedFromAct: 2,
+  },
+
+  // Expansion Drops
+  {
+    id: "ask_elara_conexus_fabrication",
+    speaker: "elara",
+    label: "CoNexus fabrication",
+    question: "What does the CoNexus do with the fuel I deposit?",
+    answer:
+      "Reads it three ways. The cellulose becomes card stock; the sentimental coefficient sets the rarity floor; the duplicate-archetype sets the printing palette. Most witnesses do not know that the sentimental coefficient is the largest single input — fuel that mattered to you yields better packs. The Engineer is fierce about the rule. She has refused commissions where the buyer tried to fuel with items that meant nothing to them. She is right to refuse.",
+    unlockFlag: "mech_expansion_drops_intro_seen",
+    unlockedFromAct: 2,
+  },
+
+  // Trade Empire
+  {
+    id: "ask_human_eight_sectors",
+    speaker: "human",
+    label: "Eight sectors",
+    question: "Walk me through the eight sectors — which is safe, which pays?",
+    answer:
+      "Core pays best, taxes hardest. Fringe pays poorly, asks no questions. Reef and Verdant trade in life and growth; sprite-bonded captains do better in Verdant, witness-bonded better in Reef. Ash is dangerous and pays well; Crystal is safer and gates by tariff. Whisper does not always let you leave; Reach does not always let you enter. Most captains skip those two. Some need to. The lanes are forgiving; the factors are not. Read manifests twice.",
+    unlockFlag: "mech_trade_empire_intro_seen",
+    unlockedFromAct: 2,
+  },
 ];
 
 /**
