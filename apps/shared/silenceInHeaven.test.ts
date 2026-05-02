@@ -3,6 +3,13 @@ import { ALL_SIH_TRACKS } from "./slideshowData/silence-in-heaven/index";
 import { SIH_TRACKLIST, SIH_NARRATORS, SIH_PROLOGUE, SIH_INTER_TRACK_DIALOG } from "./silenceInHeavenTracklist";
 import { validateSlideshow } from "./songSlideshow";
 import albumAudio from "./silenceInHeavenAlbumAudio.json";
+import {
+  SIH_SHOW_PROGRAM,
+  SIH_SHOW_TOTAL_DURATION_MS,
+  getShowStep,
+  getNextShowStep,
+  locateShowTime,
+} from "./silenceInHeavenShow";
 
 describe("Silence in Heaven", () => {
   it("has 18 tracks in the tracklist", () => {
@@ -185,5 +192,80 @@ describe("Silence in Heaven — 37-track album audio manifest", () => {
     expect(manifest.tracks[0].kind).toBe("dialog");
     expect(manifest.tracks[36].title).toBe("The Story is Yours Now");
     expect(manifest.tracks[36].kind).toBe("dialog");
+  });
+});
+
+describe("Silence in Heaven — end-to-end show program", () => {
+  it("has 37 ordered steps (1..37) matching the album manifest", () => {
+    expect(SIH_SHOW_PROGRAM).toHaveLength(37);
+    for (let i = 0; i < 37; i++) {
+      expect(SIH_SHOW_PROGRAM[i].albumTrackNumber).toBe(i + 1);
+    }
+  });
+
+  it("song steps carry the matching SongSlideshowDef", () => {
+    for (const step of SIH_SHOW_PROGRAM) {
+      if (step.kind !== "song") continue;
+      expect(step.songNumber).toBeGreaterThanOrEqual(1);
+      expect(step.songNumber).toBeLessThanOrEqual(18);
+      expect(step.slideshow).toBe(ALL_SIH_TRACKS[step.songNumber - 1]);
+      expect(step.audioUrl).toBe(step.slideshow.audioUrl);
+      expect(step.durationMs).toBe(step.slideshow.durationMs);
+    }
+  });
+
+  it("dialog steps default both narrators and a non-empty theme color", () => {
+    for (const step of SIH_SHOW_PROGRAM) {
+      if (step.kind !== "dialog") continue;
+      expect(step.speakers).toEqual(["antiquarian", "storyteller"]);
+      expect(step.themeColor).toMatch(/^#[0-9A-Fa-f]{6}$/);
+    }
+  });
+
+  it("the prologue step (track 1) carries the SIH_PROLOGUE beats", () => {
+    const step = getShowStep(1)!;
+    expect(step.kind).toBe("dialog");
+    if (step.kind === "dialog") {
+      expect(step.beats).toBe(SIH_PROLOGUE);
+    }
+  });
+
+  it("authored inter-track interludes are wired to the right album positions", () => {
+    for (const d of SIH_INTER_TRACK_DIALOG) {
+      const albumPos = d.afterTrack * 2 + 1;
+      const step = getShowStep(albumPos)!;
+      expect(step.kind).toBe("dialog");
+      if (step.kind === "dialog") {
+        expect(step.beats).toBe(d.beats);
+      }
+    }
+  });
+
+  it("totalDurationMs sums the album manifest", () => {
+    const sum = SIH_SHOW_PROGRAM.reduce((a, s) => a + s.durationMs, 0);
+    expect(SIH_SHOW_TOTAL_DURATION_MS).toBe(sum);
+    expect(SIH_SHOW_TOTAL_DURATION_MS).toBe((albumAudio as { totalDurationMs: number }).totalDurationMs);
+  });
+
+  it("getNextShowStep walks the program and falls off the end", () => {
+    expect(getNextShowStep(1)?.albumTrackNumber).toBe(2);
+    expect(getNextShowStep(36)?.albumTrackNumber).toBe(37);
+    expect(getNextShowStep(37)).toBeUndefined();
+  });
+
+  it("locateShowTime resolves boundaries correctly", () => {
+    const first = locateShowTime(0)!;
+    expect(first.step.albumTrackNumber).toBe(1);
+    expect(first.offsetMs).toBe(0);
+
+    const justBeforeSecond = locateShowTime(SIH_SHOW_PROGRAM[0].durationMs - 1)!;
+    expect(justBeforeSecond.step.albumTrackNumber).toBe(1);
+
+    const intoSecond = locateShowTime(SIH_SHOW_PROGRAM[0].durationMs + 100)!;
+    expect(intoSecond.step.albumTrackNumber).toBe(2);
+    expect(intoSecond.offsetMs).toBe(100);
+
+    expect(locateShowTime(-1)).toBeNull();
+    expect(locateShowTime(SIH_SHOW_TOTAL_DURATION_MS)).toBeNull();
   });
 });
