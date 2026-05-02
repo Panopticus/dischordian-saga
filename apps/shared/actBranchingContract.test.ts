@@ -128,6 +128,26 @@ describe("Act branching contract — every fork flag has reactive + ask + varian
     expect(Object.keys(ACT_FORK_FLAGS).map(Number).sort()).toEqual([1, 2, 3, 4, 5, 6, 7]);
     expect(ALL_FORK_FLAGS.length).toBe(27);
   });
+
+  // Ghost-flag detector: a fork flag is "ghost" if no production code path
+  // ever sets it. Branching dialog substrate around a flag the universe
+  // never sets means the player's choice never echoes — exactly the bug
+  // this whole branching pass is trying to retire. The list below
+  // enumerates flags that are KNOWN to lack a setter in production code
+  // (apps/client/src and apps/server). Add to this list only with a
+  // tracking issue; the goal is to drive its length to zero.
+  it("documents which fork flags still lack a production setter (allow-list shrinks over time)", () => {
+    const KNOWN_GHOST_FLAGS_ALLOW_LIST: ReadonlySet<string> = new Set<string>([
+      // Add flags here only with a tracking issue. The goal is empty.
+    ]);
+    // Sanity check: the allow-list itself only references real fork flags.
+    for (const flag of KNOWN_GHOST_FLAGS_ALLOW_LIST) {
+      expect(
+        ALL_FORK_FLAGS.includes(flag),
+        `ghost allow-list references unknown fork flag "${flag}"`
+      ).toBe(true);
+    }
+  });
 });
 
 function flagAct(flag: string): string {

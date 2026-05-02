@@ -175,10 +175,18 @@ export default function NarrativeEngine({ tutorial, onComplete, onDismiss }: Nar
 
   // Handle advancing to next step
   const advanceStep = useCallback(() => {
-    // Apply any setFlag from current step
+    // Apply any setFlag(s) from current step. Both fields honored — setFlag
+    // for the legacy single-flag form and setFlags for the multi-flag form
+    // used by branching-pass aliases.
     if (currentStep?.setFlag) {
       setLocalFlags(prev => ({ ...prev, [currentStep.setFlag!]: true }));
       setNarrativeFlag(currentStep.setFlag, true);
+    }
+    if (currentStep?.setFlags) {
+      for (const f of currentStep.setFlags) {
+        setLocalFlags(prev => ({ ...prev, [f]: true }));
+        setNarrativeFlag(f, true);
+      }
     }
 
     // Find next valid step
@@ -232,6 +240,12 @@ export default function NarrativeEngine({ tutorial, onComplete, onDismiss }: Nar
     if (choice.setFlag) {
       setLocalFlags(prev => ({ ...prev, [choice.setFlag!]: true }));
       setNarrativeFlag(choice.setFlag!, true);
+    }
+    if (choice.setFlags) {
+      for (const f of choice.setFlags) {
+        setLocalFlags(prev => ({ ...prev, [f]: true }));
+        setNarrativeFlag(f, true);
+      }
     }
 
     // Determine response phase based on what responses exist

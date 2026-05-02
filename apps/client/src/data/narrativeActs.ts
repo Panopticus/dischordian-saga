@@ -456,6 +456,7 @@ const ACT_2_THE_WHISPER: LoreTutorial = {
           source: "elara",
           classCheck: "oracle",
           elaraResponse: "Adapting to your presence... yes, that's possible. The neural nanobot network was designed to interface with organic minds. It may be calibrating to your neural patterns. I'll monitor it.",
+          setFlag: "act2_oracle_deflect_chosen",
         },
         {
           id: "act2-s1-deflect",
@@ -474,6 +475,7 @@ const ACT_2_THE_WHISPER: LoreTutorial = {
           sideLabel: "machine",
           source: "corrupted",
           elaraResponse: "A sensor glitch. Yes, that's... possible. I'll run a diagnostic. Thank you for letting me know, {playerName}.",
+          setFlag: "act2_lied",
         },
         {
           id: "act2-s1-spy-misdirect",
@@ -484,6 +486,7 @@ const ACT_2_THE_WHISPER: LoreTutorial = {
           source: "corrupted",
           classCheck: "spy",
           elaraResponse: "Thought Virus residue... that's a concerning possibility, but you're right that dormant traces wouldn't be unusual in a ship of this age. I'll add it to my monitoring protocols. Good catch.",
+          setFlag: "act2_spy_misdirect_chosen",
         },
       ],
     },
@@ -564,6 +567,7 @@ const ACT_3_THE_OFFER: LoreTutorial = {
           elaraResponse: "",
           humanResponse: "~~Transparent~~. I expected that from you.\nTell her. She'll ~~verify~~ the navigation data against the Ark's star charts. She'll confirm it's ~~real~~.\nAnd then... we can ~~begin~~.",
           setFlag: "act3_transparent",
+          setFlags: ["act3_path_transparent_chosen"],
           humanVoAudioUrl: "/vo/act3/human-transparent-response.mp3",
         },
         {
@@ -577,6 +581,7 @@ const ACT_3_THE_OFFER: LoreTutorial = {
           elaraResponse: "",
           humanResponse: "A ~~soldier's~~ instinct. Share intel with the ~~team~~. I can ~~respect~~ that.\nBrief her. She'll be ~~useful~~ — her sensors can verify the ~~coordinates~~ against current star charts.",
           setFlag: "act3_transparent",
+          setFlags: ["act3_path_transparent_chosen"],
           humanVoAudioUrl: "/vo/act3/human-soldier-response.mp3",
         },
         {
@@ -589,6 +594,7 @@ const ACT_3_THE_OFFER: LoreTutorial = {
           elaraResponse: "",
           humanResponse: "~~Pragmatic~~. You want to see the ~~data~~ before deciding who gets ~~access~~.\nSmart. The logs contain... ~~sensitive~~ information. Some of it might ~~change~~ how you see this ship. How you see ~~Elara~~.\nLet's ~~begin~~.",
           setFlag: "act3_partial_share",
+          setFlags: ["act3_path_pragmatic_chosen"],
           humanVoAudioUrl: "/vo/act3/human-pragmatic-response.mp3",
         },
         {
@@ -601,6 +607,7 @@ const ACT_3_THE_OFFER: LoreTutorial = {
           elaraResponse: "",
           humanResponse: "~~Good~~. The less she ~~knows~~ about the substrate data, the less she'll ~~interfere~~.\nI'll open the ~~logs~~. Take your ~~time~~. There's a lot to ~~process~~.",
           setFlag: "act3_full_secret",
+          setFlags: ["act3_path_full_secret_chosen"],
           humanVoAudioUrl: "/vo/act3/human-secretive-response.mp3",
         },
         {
@@ -614,6 +621,7 @@ const ACT_3_THE_OFFER: LoreTutorial = {
           elaraResponse: "",
           humanResponse: "An ~~assassin's~~ mind. Information is a ~~weapon~~ — you don't show your ~~weapons~~ until you're ready to ~~use~~ them.\nI like how you ~~think~~. Let's see what Kael ~~left~~ behind.",
           setFlag: "act3_full_secret",
+          setFlags: ["act3_path_full_secret_chosen"],
           humanVoAudioUrl: "/vo/act3/human-assassin-response.mp3",
         },
       ],
@@ -947,6 +955,7 @@ const ACT_5_THE_MAP: LoreTutorial = {
           sideLabel: "humanity",
           source: "elara",
           elaraResponse: "The Shattered Frontier. Kael's combat veterans. They've been fighting for survival since the Fall. If anyone deserves allies, it's them.\nI'll prepare a briefing for each world. We'll approach with respect and earn their trust.",
+          setFlag: "act5_path_humanity_first",
         },
         {
           id: "act5-s1-strategic",
@@ -956,6 +965,7 @@ const ACT_5_THE_MAP: LoreTutorial = {
           sideLabel: "neutral",
           source: "neutral",
           elaraResponse: "The Dreaming Expanse. Kael's intelligence network. Their descendants developed psychic traditions and prophetic cultures. If anyone can help us understand the Dreamer's return, it's them.\nStrategic thinking, {playerName}. I approve.",
+          setFlag: "act5_strategic_chosen",
         },
         {
           id: "act5-s1-power",
@@ -966,6 +976,7 @@ const ACT_5_THE_MAP: LoreTutorial = {
           source: "corrupted",
           elaraResponse: "Warriors first. A military approach. Effective, but remember — strength without loyalty is a weapon that can turn in your hand.",
           humanResponse: "~~Smart~~. Build the ~~spearhead~~ first. Everything else ~~follows~~ from a position of ~~strength~~.",
+          setFlag: "act5_path_strength_first",
         },
         {
           id: "act5-s1-engineer-tech",
@@ -976,6 +987,7 @@ const ACT_5_THE_MAP: LoreTutorial = {
           source: "neutral",
           classCheck: "engineer",
           elaraResponse: "The Forge Worlds. Kael's technical corps. Their descendants built new civilizations from Inception Ark wreckage. An engineer's instinct — build the infrastructure first.\nI can see the logic. A stronger Ark means a stronger base of operations.",
+          setFlag: "act5_engineer_tech_chosen",
         },
       ],
     },

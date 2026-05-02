@@ -58,6 +58,14 @@ export interface TutorialChoice {
   setFlag?: string;
   /** VO audio URL for The Human's response to this choice */
   humanVoAudioUrl?: string;
+  /**
+   * Multiple narrative flags to set when this choice is selected. Used for
+   * choices that need to fire both a surface-specific flag and a canonical
+   * branching-pass alias (e.g. `act3_transparent` + `act3_path_transparent_chosen`)
+   * so companionComments / askTopics / variants gating on either name resolve.
+   * Both `setFlag` and `setFlags` may be present — both are honored.
+   */
+  setFlags?: readonly string[];
 }
 
 export interface TutorialStep {
@@ -87,6 +95,12 @@ export interface TutorialStep {
   speaker?: "elara" | "human" | "system" | "kael_log";
   /** Narrative flag to set when this step is completed */
   setFlag?: string;
+  /**
+   * Multiple narrative flags to set when this step is completed. Same
+   * semantics as TutorialChoice.setFlags — fires alongside setFlag if
+   * both are present.
+   */
+  setFlags?: readonly string[];
   /** Narrative flag required to show this step */
   requireFlag?: string;
   /** Narrative flag that must NOT be set for this step to show */
