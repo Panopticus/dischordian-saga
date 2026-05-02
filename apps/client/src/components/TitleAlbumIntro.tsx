@@ -226,30 +226,48 @@ export default function TitleAlbumIntro({
             </div>
           </div>
 
-          {/* Tap-to-begin overlay — only if autoplay was rejected */}
+          {/* Tap-to-begin overlay — covers the whole surface so any
+              tap (not just the centered button) starts the song. iOS
+              Safari rejects programmatic audio.play() outside a user
+              activation, so the only reliable path is a real touch
+              handled here. The hint text + glowing button signal what
+              to do; the surrounding backdrop is itself the gesture
+              target. AWAKEN sits at z-40 so it stays reachable. */}
           <AnimatePresence>
             {needsTap && (
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="absolute inset-0 z-30 flex items-center justify-center bg-black/60"
+                onClick={handleTapToBegin}
+                className="absolute inset-0 z-30 flex flex-col items-center justify-center gap-4 bg-black/70 cursor-pointer"
+                role="button"
+                aria-label="Tap anywhere to begin the song"
               >
+                <div className="font-mono text-[10px] uppercase tracking-[0.4em] text-emerald-400/70">
+                  ▸ Audio standing by
+                </div>
                 <button
-                  onClick={handleTapToBegin}
-                  className="px-10 py-3 bg-emerald-700 hover:bg-emerald-600 text-black font-mono uppercase tracking-widest text-sm rounded shadow-[0_0_36px_rgba(16,185,129,0.6)]"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleTapToBegin();
+                  }}
+                  className="px-10 py-4 bg-emerald-700 hover:bg-emerald-600 text-black font-mono uppercase tracking-widest text-sm rounded shadow-[0_0_36px_rgba(16,185,129,0.6)]"
                 >
                   ▸ Tap to begin the song
                 </button>
+                <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-emerald-500/50">
+                  (or tap anywhere)
+                </div>
               </motion.div>
             )}
           </AnimatePresence>
 
-          {/* AWAKEN — always present; gated on isGameReady. Bottom
-              right matches the cinematic's button placement so the
-              player's eye never has to relocate. Sits above the
-              tap-to-begin overlay (z-40 vs z-30) so a blocked autoplay
-              never traps the player behind a backdrop. */}
+          {/* AWAKEN — always present; gated on isGameReady. Sits above
+              the tap-to-begin overlay (z-40 vs z-30). The bottom offset
+              uses safe-area-inset so iOS Safari's bottom toolbar can't
+              hide it in landscape; the right offset gets the same
+              treatment for the home-indicator margin in PWA mode. */}
           <motion.button
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
@@ -257,10 +275,14 @@ export default function TitleAlbumIntro({
             disabled={!isGameReady}
             aria-label="Skip the song and proceed to login"
             aria-disabled={!isGameReady}
+            style={{
+              bottom: "max(1.5rem, env(safe-area-inset-bottom, 0px))",
+              right: "max(1.5rem, env(safe-area-inset-right, 0px))",
+            }}
             className={
               isGameReady
-                ? "absolute bottom-6 right-6 z-40 px-5 py-2 border border-emerald-500/60 bg-black/60 hover:bg-emerald-900/40 text-emerald-200 font-mono text-xs uppercase tracking-[0.3em] rounded backdrop-blur-sm shadow-[0_0_18px_rgba(16,185,129,0.4)]"
-                : "absolute bottom-6 right-6 z-40 px-5 py-2 border border-emerald-900/60 bg-black/60 text-emerald-500/40 font-mono text-xs uppercase tracking-[0.3em] rounded backdrop-blur-sm cursor-not-allowed"
+                ? "absolute z-40 px-5 py-3 border border-emerald-500/60 bg-black/80 hover:bg-emerald-900/40 text-emerald-200 font-mono text-xs uppercase tracking-[0.3em] rounded backdrop-blur-sm shadow-[0_0_18px_rgba(16,185,129,0.4)]"
+                : "absolute z-40 px-5 py-3 border border-emerald-900/60 bg-black/80 text-emerald-500/40 font-mono text-xs uppercase tracking-[0.3em] rounded backdrop-blur-sm cursor-not-allowed"
             }
           >
             {isGameReady ? "AWAKEN ▸" : "Stand by…"}
