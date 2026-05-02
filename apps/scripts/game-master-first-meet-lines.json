@@ -1,0 +1,80 @@
+[
+  {
+    "id": "gm.first_meeting.root",
+    "text": "You have built a beautiful box. The only thing I am going to do is open it in front of everybody. The audience is real. They have always been able to see your hand. Speak.",
+    "context": "first_meeting.game-master-first-meeting",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/the_game_master/first_meeting.ts",
+    "meta": {
+      "npcKey": "the_game_master",
+      "treeId": "game-master-first-meeting",
+      "nodeId": "root",
+      "requiresRevealStage": "Archon"
+    }
+  },
+  {
+    "id": "gm.first_meeting.confront_box",
+    "text": "You think you built a box for me. You built one for yourself. The audience canonically reads it the same way regardless. You were always going to be inside the box; the only canonical-question was who was canonically going to open it. I came here to do that. The signature is part of the show.",
+    "context": "first_meeting.game-master-first-meeting",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/the_game_master/first_meeting.ts",
+    "meta": {
+      "npcKey": "the_game_master",
+      "treeId": "game-master-first-meeting",
+      "nodeId": "confront_box_branch",
+      "requiresRevealStage": "Archon"
+    }
+  },
+  {
+    "id": "gm.first_meeting.ask_about_audience",
+    "text": "Witnesses you cannot see. The Authority. The canonical-public. The canonical-press-bench. They have always been able to see your hand. You forgot. I came here to remind you, in canonical-public, that the forgetting is also part of the canonical-record.",
+    "context": "first_meeting.game-master-first-meeting",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/the_game_master/first_meeting.ts",
+    "meta": {
+      "npcKey": "the_game_master",
+      "treeId": "game-master-first-meeting",
+      "nodeId": "ask_about_audience_branch",
+      "requiresRevealStage": "Archon"
+    }
+  },
+  {
+    "id": "gm.first_meeting.accept_witness",
+    "text": "You accept the canonical-witness. Filed. The canonical-acceptance does not canonical-shorten the canonical-trial; the canonical-trial canonically arrives at the canonical-same canonical-position regardless. Your acceptance canonically refines the canonical-record. The canonical-record will canonical-outlive both of us.",
+    "context": "first_meeting.game-master-first-meeting",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/the_game_master/first_meeting.ts",
+    "meta": {
+      "npcKey": "the_game_master",
+      "treeId": "game-master-first-meeting",
+      "nodeId": "accept_witness_branch",
+      "requiresRevealStage": "Archon"
+    }
+  },
+  {
+    "id": "gm.first_meeting.trial_absurd",
+    "text": "It is paperwork. It is also a trial. Both are canonical. Even if you win, you will have won in public. That is what I came here to do. The canonical-paperwork is canonical-shorter than the canonical-trial; the canonical-trial is canonical-shorter than the canonical-record. The canonical-day will be canonical-done before the canonical-record finishes canonical-printing.",
+    "context": "first_meeting.game-master-first-meeting",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/the_game_master/first_meeting.ts",
+    "meta": {
+      "npcKey": "the_game_master",
+      "treeId": "game-master-first-meeting",
+      "nodeId": "trial_absurd_branch",
+      "requiresRevealStage": "Archon"
+    }
+  },
+  {
+    "id": "gm.first_meeting.terminal",
+    "text": "Every move enters the public record. The Authority will read it. I will not be present at the reading. I will not need to be.",
+    "context": "first_meeting.game-master-first-meeting",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/the_game_master/first_meeting.ts",
+    "meta": {
+      "npcKey": "the_game_master",
+      "treeId": "game-master-first-meeting",
+      "nodeId": "terminal",
+      "requiresRevealStage": "Archon"
+    }
+  }
+]

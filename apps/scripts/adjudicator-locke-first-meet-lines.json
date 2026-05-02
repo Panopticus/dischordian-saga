@@ -1,0 +1,80 @@
+[
+  {
+    "id": "locke.first_meeting.root",
+    "text": "Welcome to the Authority's ledger. Before you sign anything, I want to know which of us is buying.",
+    "context": "first_meeting.locke-first-meeting",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/adjudicator_locke/first_meeting.ts",
+    "meta": {
+      "npcKey": "adjudicator_locke",
+      "treeId": "locke-first-meeting",
+      "nodeId": "root",
+      "requiresRevealStage": null
+    }
+  },
+  {
+    "id": "locke.first_meeting.mercantile",
+    "text": "Good. Business I understand. Sit down. The chair is filed under 'unpriced'. We will see what category fits you by close of day.",
+    "context": "first_meeting.locke-first-meeting",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/adjudicator_locke/first_meeting.ts",
+    "meta": {
+      "npcKey": "adjudicator_locke",
+      "treeId": "locke-first-meeting",
+      "nodeId": "mercantile_branch",
+      "requiresRevealStage": null
+    }
+  },
+  {
+    "id": "locke.first_meeting.judicial",
+    "text": "I am filing this. You read first. Most people do not. The ones who do are the ones I keep. Welcome to the docket.",
+    "context": "first_meeting.locke-first-meeting",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/adjudicator_locke/first_meeting.ts",
+    "meta": {
+      "npcKey": "adjudicator_locke",
+      "treeId": "locke-first-meeting",
+      "nodeId": "judicial_branch",
+      "requiresRevealStage": null
+    }
+  },
+  {
+    "id": "locke.first_meeting.collegial",
+    "text": "Then someone is fortunate. The Authority does not often hire on behalf of someone else. Tell me whose chair you are warming. I will adjust the file accordingly.",
+    "context": "first_meeting.locke-first-meeting",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/adjudicator_locke/first_meeting.ts",
+    "meta": {
+      "npcKey": "adjudicator_locke",
+      "treeId": "locke-first-meeting",
+      "nodeId": "collegial_branch",
+      "requiresRevealStage": null
+    }
+  },
+  {
+    "id": "locke.first_meeting.predatory",
+    "text": "I am filing that you said that. Sit anyway. We can find out together. Most counterparties don't ask the question that loud on day one. You did. The file thickens.",
+    "context": "first_meeting.locke-first-meeting",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/adjudicator_locke/first_meeting.ts",
+    "meta": {
+      "npcKey": "adjudicator_locke",
+      "treeId": "locke-first-meeting",
+      "nodeId": "predatory_branch",
+      "requiresRevealStage": null
+    }
+  },
+  {
+    "id": "locke.first_meeting.terminal",
+    "text": "Now: which side of the ledger are you on today? Pick one. We can revise on the second meeting.",
+    "context": "first_meeting.locke-first-meeting",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/adjudicator_locke/first_meeting.ts",
+    "meta": {
+      "npcKey": "adjudicator_locke",
+      "treeId": "locke-first-meeting",
+      "nodeId": "terminal",
+      "requiresRevealStage": null
+    }
+  }
+]

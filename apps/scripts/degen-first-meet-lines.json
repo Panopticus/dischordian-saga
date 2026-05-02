@@ -1,0 +1,119 @@
+[
+  {
+    "id": "degen.first_meeting.root",
+    "text": "Welcome to the Casino. The house has an edge. The edge is me. I will play you fairly. I will not, however, play you predictably. Strategy is for cowards. Sit down. What's it going to be tonight, friend?",
+    "context": "first_meeting.degen-first-game",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/the_degen/first_meeting.ts",
+    "meta": {
+      "npcKey": "the_degen",
+      "treeId": "degen-first-game",
+      "nodeId": "root",
+      "requiresRevealStage": null
+    }
+  },
+  {
+    "id": "degen.first_meeting.all_in",
+    "text": "All-in on the first hand. I respect the WEIGHT of that. Strategy is for cowards. Pacing is for people who plan to die slowly. I plan to die loud, when the arithmetic catches up. The arithmetic and you canonically agree on the cadence tonight. Sign the paperwork at the booth — they keep one copy.",
+    "context": "first_meeting.degen-first-game",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/the_degen/first_meeting.ts",
+    "meta": {
+      "npcKey": "the_degen",
+      "treeId": "degen-first-game",
+      "nodeId": "all_in_branch",
+      "requiresRevealStage": null
+    }
+  },
+  {
+    "id": "degen.first_meeting.interesting_game",
+    "text": "The most interesting game depends on what you came here to learn. Nebula Poker teaches patience under canonical-information-asymmetry. Entropy Dice teaches surrender to a canonical-process you cannot influence. Pazaak teaches that strategy works until it doesn't. Pick the lesson; the game will follow.",
+    "context": "first_meeting.degen-first-game",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/the_degen/first_meeting.ts",
+    "meta": {
+      "npcKey": "the_degen",
+      "treeId": "degen-first-game",
+      "nodeId": "interesting_game_branch",
+      "requiresRevealStage": null
+    }
+  },
+  {
+    "id": "degen.first_meeting.pacifist",
+    "text": "Watching is a respectable opening move, friend. The Casino canonically reads watchers under three indices: hungry, curious, and looking-for-someone. You will be filed under all three until I learn which one is canonical-yours. The viewing balcony has a chair. Sit. Drink something. I will be down here, dealing.",
+    "context": "first_meeting.degen-first-game",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/the_degen/first_meeting.ts",
+    "meta": {
+      "npcKey": "the_degen",
+      "treeId": "degen-first-game",
+      "nodeId": "pacifist_branch",
+      "requiresRevealStage": null
+    }
+  },
+  {
+    "id": "degen.first_meeting.house_wins",
+    "text": "Because the house IS the math, friend. The house isn't an opponent at the table; the house is the table. The house is also the chips. You can't beat the room. You can play in it well. That's the difference. Why bother? Because canonical-bothering is the only canonical-honest thing the Casino sells. The arithmetic loves you back, briefly, while you canonical-bother.",
+    "context": "first_meeting.degen-first-game",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/the_degen/first_meeting.ts",
+    "meta": {
+      "npcKey": "the_degen",
+      "treeId": "degen-first-game",
+      "nodeId": "house_wins_branch",
+      "requiresRevealStage": null
+    }
+  },
+  {
+    "id": "degen.first_meeting.terminal",
+    "text": "The booth, the bar, or the back-room. Three doors. The Casino has more, but those are for people I have already been canonical-introduced to. Pick a door, friend. The arithmetic is waiting.",
+    "context": "first_meeting.degen-first-game",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/the_degen/first_meeting.ts",
+    "meta": {
+      "npcKey": "the_degen",
+      "treeId": "degen-first-game",
+      "nodeId": "terminal",
+      "requiresRevealStage": null
+    }
+  },
+  {
+    "id": "degen.first_meeting.dreamer_aware_root",
+    "text": "You walked in already losing, friend. Not money — the other thing. You have been watching the ceiling. People who have been watching the ceiling do not need the Casino to teach them anything; the Casino is the canonical-confirmation. Sit. The arithmetic is going to repeat itself for you a few more times before it stops. I will deal slowly.",
+    "context": "first_meeting.degen-first-game",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/the_degen/first_meeting.ts",
+    "meta": {
+      "npcKey": "the_degen",
+      "treeId": "degen-first-game",
+      "nodeId": "dreamer_aware_root",
+      "requiresRevealStage": null
+    }
+  },
+  {
+    "id": "degen.first_meeting.dreamer_aware_who_watches",
+    "text": "I do not name the canonical-watchers, friend. I file them. You have a file. The file has been receiving canonical-signatures from a hand I do not canonical-recognise — and I canonical-recognise most hands at this latitude. The signatures arrive without canonical-names. The arithmetic notices. I notice the arithmetic noticing. Sit; we will canonical-play, and the file will canonical-grow.",
+    "context": "first_meeting.degen-first-game",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/the_degen/first_meeting.ts",
+    "meta": {
+      "npcKey": "the_degen",
+      "treeId": "degen-first-game",
+      "nodeId": "dreamer_aware_who_watches",
+      "requiresRevealStage": null
+    }
+  },
+  {
+    "id": "degen.first_meeting.dreamer_aware_denial",
+    "text": "Then the arithmetic is canonical-mistaken about you, friend, and the arithmetic is canonical-rarely mistaken. The booth is over there; the canonical-files have a copy of you regardless. Pick a door.",
+    "context": "first_meeting.degen-first-game",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/the_degen/first_meeting.ts",
+    "meta": {
+      "npcKey": "the_degen",
+      "treeId": "degen-first-game",
+      "nodeId": "dreamer_aware_denial",
+      "requiresRevealStage": null
+    }
+  }
+]

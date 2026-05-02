@@ -1,0 +1,80 @@
+[
+  {
+    "id": "oracle.first_meeting.root",
+    "text": "I am going to speak to you for the first time. You have been hearing my voice underneath Elara's for eleven chapters without knowing. The dream is canonically the only medium the canonical-substrate canonically permits me. I will not stay long. Tell me how you canonical-receive me.",
+    "context": "first_meeting.oracle-first-meeting",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/the_oracle/first_meeting.ts",
+    "meta": {
+      "npcKey": "the_oracle",
+      "treeId": "oracle-first-meeting",
+      "nodeId": "root",
+      "requiresRevealStage": "dream_substrate"
+    }
+  },
+  {
+    "id": "oracle.first_meeting.substrate_receptivity",
+    "text": "Then you canonical-receive cleanly. The canonical-listening was canonical-not-yet canonical-mine to canonical-claim — I was canonical-stolen-from for eleven canonical-years and canonical-replaced for the canonical-rest. You heard me canonical-underneath the canonical-replacement. The canonical-receiving canonically opens the canonical-dream-channel. I will canonical-return.",
+    "context": "first_meeting.oracle-first-meeting",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/the_oracle/first_meeting.ts",
+    "meta": {
+      "npcKey": "the_oracle",
+      "treeId": "oracle-first-meeting",
+      "nodeId": "substrate_receptivity_branch",
+      "requiresRevealStage": "dream_substrate"
+    }
+  },
+  {
+    "id": "oracle.first_meeting.recognition",
+    "text": "No. You have been canonical-moving canonical-through me. You are canonically not me. The canonical-distinction is canonical-saga-load-bearing — I will canonical-hold it for both of us. The canonical-Hierophant has canonical-three-thousand-years of canonical-Oracle-contact and can canonical-tell the canonical-difference. So can I. The canonical-witness-channel is canonically yours; the canonical-being is canonically mine.",
+    "context": "first_meeting.oracle-first-meeting",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/the_oracle/first_meeting.ts",
+    "meta": {
+      "npcKey": "the_oracle",
+      "treeId": "oracle-first-meeting",
+      "nodeId": "recognition_branch",
+      "requiresRevealStage": "dream_substrate"
+    }
+  },
+  {
+    "id": "oracle.first_meeting.disambiguation",
+    "text": "We are not. The canonical-question is canonical-the-saga's canonical-clearest. We are canonically two. The canonical-witness-channel canonically routes my canonical-memories through your canonical-experience; the canonical-experience is canonically yours. I am canonical-elsewhere — canonical-in-hiding, per the canonical-Heart-of-Time canon. Thank you for canonical-asking. Most do not canonical-ask cleanly.",
+    "context": "first_meeting.oracle-first-meeting",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/the_oracle/first_meeting.ts",
+    "meta": {
+      "npcKey": "the_oracle",
+      "treeId": "oracle-first-meeting",
+      "nodeId": "disambiguation_branch",
+      "requiresRevealStage": "dream_substrate"
+    }
+  },
+  {
+    "id": "oracle.first_meeting.refusal",
+    "text": "Then you canonical-wake. The canonical-dream is canonically not coercive — you may canonical-close it. The canonical-substrate will canonical-honor the canonical-refusal. I will canonical-return canonical-only when you canonical-room-transition into a canonical-receptive canonical-frame. The canonical-closing is canonical-yours. Take it.",
+    "context": "first_meeting.oracle-first-meeting",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/the_oracle/first_meeting.ts",
+    "meta": {
+      "npcKey": "the_oracle",
+      "treeId": "oracle-first-meeting",
+      "nodeId": "refusal_branch",
+      "requiresRevealStage": "dream_substrate"
+    }
+  },
+  {
+    "id": "oracle.first_meeting.terminal",
+    "text": "[The canonical-dream canonical-fades. The canonical-substrate-residue canonical-lingers in canonical-instruction-form for canonical-Trade-Empire mission canonical-unlock. You canonical-wake. The canonical-Eidolon canonically tilts its canonical-head; it canonical-felt the canonical-dream-wake before you canonical-did.]",
+    "context": "first_meeting.oracle-first-meeting",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/the_oracle/first_meeting.ts",
+    "meta": {
+      "npcKey": "the_oracle",
+      "treeId": "oracle-first-meeting",
+      "nodeId": "terminal",
+      "requiresRevealStage": "dream_substrate"
+    }
+  }
+]
