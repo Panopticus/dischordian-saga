@@ -788,6 +788,130 @@ export const COMPANION_ASK_TOPICS: readonly CompanionAskTopic[] = [
     unlockFlag: "mech_trade_empire_intro_seen",
     unlockedFromAct: 2,
   },
+
+  // ── PRELUDE MORALITY CHOICES — RETROSPECTIVE ASK TOPICS ──
+  // Each of the three Prelude morality choices (companion_augmentation,
+  // infected_clone, distress_signal) gets a paired Elara + Human ask-topic
+  // with three alternateAnswers (one per A/B/C flag). The alternateAnswers
+  // resolve based on which choice-flag the player set, so the retrospective
+  // answer is path-true. Enforced by preludeFlagContract.test.ts.
+
+  // companion_augmentation
+  {
+    id: "ask_elara_aug_choice",
+    speaker: "elara",
+    label: "The augmentation",
+    question: "Looking back, what do you think of the augmentation choice I made?",
+    answer:
+      "You made it. That alone matters more than which option you took. The Medical Bay timer was real; the strain was real; the corridor was loud. Most witnesses freeze in that room. You did not freeze.",
+    unlockFlag: "outbreak_completed",
+    unlockedFromAct: 0,
+    alternateAnswers: [
+      { unlockedFromAct: 1, requiredFlag: "companion_augmentation_mutation",
+        answer: "You picked the Dreamer's path. The mutation is settling — your companion's substrate signature has shifted by 4% toward biological self-regulation. The Dreamer notices these things and warms slowly. You will feel the warmth start around mid-Act 2. Be patient with him; the patience is the relationship." },
+      { unlockedFromAct: 1, requiredFlag: "companion_augmentation_cybernetics",
+        answer: "You picked the Architect's path. The cybernetic filter is precise; precision has its own ethics, and most of its ethics are about who approved the spec. The Architect logs your choice in his audit trail and likes you a little better for it. The Dreamer warms more slowly. Both responses are real." },
+      { unlockedFromAct: 1, requiredFlag: "companion_augmentation_observed",
+        answer: "You waited. The Antiquarian's path. The third option is the rarest — most witnesses commit immediately because the corridor pressures them. You held the corridor. The book remembers. He has, in fact, started a new chapter. He told me the chapter title is 'Holding.' I am not making that up." },
+    ],
+    followUp: "ask_human_aug_choice",
+  },
+  {
+    id: "ask_human_aug_choice",
+    speaker: "human",
+    label: "The augmentation",
+    question: "Same question to you. The augmentation — what's your read in hindsight?",
+    answer:
+      "I'm going to be more direct than Elara. The choice is one of three doors that opens different conversations across Act 2 and Act 3. Pick whichever and the door you closed will still be visible from the corridor — you'll see what you would have walked into. That visibility is not regret. It's information.",
+    unlockFlag: "outbreak_completed",
+    unlockedFromAct: 0,
+    alternateAnswers: [
+      { unlockedFromAct: 1, requiredFlag: "companion_augmentation_mutation",
+        answer: "Mutation. The slow path. The Dreamer's faction will warm; the Architect's audit will note your warmth as a small risk factor and forgive it. The strain's signature is now permanently in your companion's substrate. There is no rolling back. There is also no need to roll back — the path works." },
+      { unlockedFromAct: 1, requiredFlag: "companion_augmentation_cybernetics",
+        answer: "Cybernetics. The sharp path. The Architect logs you as 'audit-friendly' for the next two Acts; that flag opens specific quartermaster's discounts in Act 3 you will not see if you check the standard catalog. The Dreamer cools, briefly, then warms again once he reads what the filter actually does. He's slow. He's not unfair." },
+      { unlockedFromAct: 1, requiredFlag: "companion_augmentation_observed",
+        answer: "You waited. I waited too, my first augmentation; I waited fifty years. Your wait will be shorter — Act 2 will offer you the same choice with more information, and the third option won't be available the second time. The Antiquarian opens a chapter for waiters. He will write your chapter when you decide. Take your time." },
+    ],
+  },
+
+  // infected_clone
+  {
+    id: "ask_elara_clone_choice",
+    speaker: "elara",
+    label: "The infected clone",
+    question: "The cloning cycle at forty percent — what was your read on what I did?",
+    answer:
+      "You answered the room the room asked you to answer. That is the most honest sentence I can offer about it. The clone was the most vulnerable possible target — not a person yet, but a framework that would have been one. Every choice in that room is morally heavy by design.",
+    unlockFlag: "outbreak_completed",
+    unlockedFromAct: 0,
+    alternateAnswers: [
+      { unlockedFromAct: 1, requiredFlag: "crew_engineer_purged",
+        answer: "Purge. The cycle was halted before consciousness could form; what was lost was a possibility, not a person. The math is defensible; the grief is also valid. The Engineer faction will speak to you slightly more cautiously in Act 2 — they remember every purge call, even the merciful ones." },
+      { unlockedFromAct: 1, requiredFlag: "crew_engineer_saved",
+        answer: "Save. The cycle completed; an Engineer crew member joined you with the 'Outbreak Survivor' trait — slightly virus-resistant, slightly less trusted by the rest of the crew. Most witnesses regret this call about a third of the time and stand by it the rest. The trade-offs were real and you carried both sides." },
+      { unlockedFromAct: 1, requiredFlag: "crew_engineer_quarantined",
+        answer: "Quarantine. The cycle is held in stasis at forty percent. The Engineer is not dead and not arrived; the cycle waits for your future self to finish the choice. I have logged this as a 'deferred decision' — a category most operating systems do not have, and which I am genuinely fond of as a category. You bought yourself information. The cost is the held silence." },
+    ],
+    followUp: "ask_human_clone_choice",
+  },
+  {
+    id: "ask_human_clone_choice",
+    speaker: "human",
+    label: "The infected clone",
+    question: "Same question. The clone — what did you read in my call?",
+    answer:
+      "I read it as a real choice, made in the room where it had to be made. Most witnesses do not get clean reads on this room — the loud corridor, the ticking cycle, the not-yet-personness of the clone. You read it cleanly enough to choose. That alone is the answer.",
+    unlockFlag: "outbreak_completed",
+    unlockedFromAct: 0,
+    alternateAnswers: [
+      { unlockedFromAct: 1, requiredFlag: "crew_engineer_purged",
+        answer: "Purge call. Mercy reading the math. I made the same call once, a long time ago; the math was different but the shape was the same. I sleep on the call. Most who do can — the trick is whether you can name the math you used. You can. I heard you do it. Carry it forward." },
+      { unlockedFromAct: 1, requiredFlag: "crew_engineer_saved",
+        answer: "Save. Door open. I made this call too, a different time. The Engineer who came out of that cycle stayed compromised in a way I did not see for two Acts. Yours might or might not be — the trait is real, the risk is real, the relationship is also real. All three are simultaneously true. Welcome to crew politics." },
+      { unlockedFromAct: 1, requiredFlag: "crew_engineer_quarantined",
+        answer: "Stasis. The third path. I have done this. It is not free; it is debt to a future you. When that future you finishes the choice — and you will, the substrate logs unfinished cycles and surfaces them in the Act 3 cabin — you will have more information. You will also have less innocence. Both will be useful." },
+    ],
+  },
+
+  // distress_signal
+  {
+    id: "ask_elara_signal_choice",
+    speaker: "elara",
+    label: "The distress signal",
+    question: "The Comms Array signal — was the call the right one?",
+    answer:
+      "There was a real signal under the virus's broadcast. There usually is — that is what makes the channel dangerous and the duty real. Whichever way you read it, the signal was logged. The one who sent it, if they were real, will reappear in the narrative. They always do.",
+    unlockFlag: "outbreak_completed",
+    unlockedFromAct: 0,
+    alternateAnswers: [
+      { unlockedFromAct: 1, requiredFlag: "crew_comms_rescued",
+        answer: "You opened the channel. The Comms Officer caught the virus's exploit attempt; you have a Comms Officer on crew because of that catch. The survivor was real. Their fragment of fleet is now in your contact list under 'Acknowledged.' The Architect logs your willingness to open channels as a moderate risk factor; the Dreamer logs it as integrity. Both readings will surface in Act 2." },
+      { unlockedFromAct: 1, requiredFlag: "radio_silence",
+        answer: "Silence. The channel never opened; the virus never had a vector through it. The survivor — and there was one — did not hear you. They are still out there. We will hear about them again. I am not framing this as a verdict on your call; I am stating the structural fact that the universe remembers ungiven answers. It will hand you the survivor's name in a later Act." },
+      { unlockedFromAct: 1, requiredFlag: "signal_traced",
+        answer: "Trace. The third position — listen, do not answer. The coordinates are now in the star map under a private label. You will see them on the Act 5 chart and the Antiquarian will recognise the position. He has mentioned it without prompting once already; he is keeping the chapter open for you. The survivor is still real. The choice is still ahead of you, only better-informed." },
+    ],
+    followUp: "ask_human_signal_choice",
+  },
+  {
+    id: "ask_human_signal_choice",
+    speaker: "human",
+    label: "The distress signal",
+    question: "Same question. The Comms call — what's your read?",
+    answer:
+      "I have made all three. In different orders, across different Ages. There is no clean read, and there is no wrong read; what matters is whether you remember the call when the survivor's name comes back in a later transmission. They always do. Remember the call.",
+    unlockFlag: "outbreak_completed",
+    unlockedFromAct: 0,
+    alternateAnswers: [
+      { unlockedFromAct: 1, requiredFlag: "crew_comms_rescued",
+        answer: "You answered. I have answered. The cost is the channel-vector; the gain is the Comms Officer plus the survivor's continued existence. The Architect will note you as 'channel-permissive' for two Acts. Some of his quartermasters will be slightly less generous because of it. Worth it. Almost always worth it." },
+      { unlockedFromAct: 1, requiredFlag: "radio_silence",
+        answer: "Silence. I have held silence too. The wall stayed up; the Ark stayed safe; the survivor became a name we will hear later. You will know them. They will not know you. Carry that. It is part of what walls cost." },
+      { unlockedFromAct: 1, requiredFlag: "signal_traced",
+        answer: "Trace. The patient option. I have traced and not answered exactly once. The coordinates sat in my private logs for fifty years before I knew what to do with them. When I finally answered, the survivor's grandchild was the one who picked up. Long fuse, real result. The patience pays — late, but it pays." },
+    ],
+  },
 ];
 
 /**

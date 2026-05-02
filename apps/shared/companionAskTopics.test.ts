@@ -98,11 +98,17 @@ describe("companionAskTopics", () => {
           `${t.id} alternate must gate above the base unlockedFromAct`
         ).toBeGreaterThan(t.unlockedFromAct);
       }
-      const acts = t.alternateAnswers.map((a) => a.unlockedFromAct);
+      // Match-key uniqueness: no two alternates can share the same
+      // (act, requiredFlag) pair, which would make the resolver
+      // result ambiguous. Same act + different requiredFlag is
+      // allowed — that is the path-true alternate pattern.
+      const matchKeys = t.alternateAnswers.map(
+        (a) => `${a.unlockedFromAct}::${a.requiredFlag ?? ""}`
+      );
       expect(
-        new Set(acts).size,
-        `${t.id} has duplicate alternate act gates`
-      ).toBe(acts.length);
+        new Set(matchKeys).size,
+        `${t.id} has duplicate alternate match keys (act, requiredFlag)`
+      ).toBe(matchKeys.length);
     }
   });
 });
