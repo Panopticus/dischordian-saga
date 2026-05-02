@@ -91,6 +91,20 @@ export const DREAMS_WORKSHOP_MYSTERY: RoomMysteryModule<DreamsWorkshopHotspotId>
           source: "dreams-workshop-subbasement",
           order: 2,
         },
+        // Mystery Engine binding — when Game Master arc is the
+        // active case, the mirror-pool surfaces Iron Lion's
+        // unauthored signal from inside the Matrix of Dreams.
+        // Lore match: the pool is canonically a backward-
+        // looking window into the workshop's lineage, and the
+        // Iron Lion imprint is a consciousness-residue from
+        // the pre-Fall holder of the callsign — exactly the
+        // kind of older-world signal the pool's lineage-
+        // discipline can carry forward.
+        mysteryBinding: {
+          mysteryId: "mystery.game_master",
+          episodeId: "game_master.e1",
+          cluesFound: ["game_master.e1.iron_lion_signal"],
+        },
       },
     },
   },

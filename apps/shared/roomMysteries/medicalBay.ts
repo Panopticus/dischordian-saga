@@ -474,6 +474,20 @@ export const MEDICAL_BAY_MYSTERY: RoomMysteryModule<MedicalBayHotspotId> = {
           },
           voId: "detective.medbay.emergency-safe.look.t1",
         },
+        // Mystery Engine binding — when Game Master arc is the
+        // active case, the emergency-safe surfaces the unedited
+        // Matrix fragment via the CADES unit's secondary
+        // channel. Lore match: the safe is canonically a Vox-
+        // sabotaged lock that protects records the editor
+        // cannot pry open with the right person's body alone.
+        // The Matrix fragment — the Game Master's renouncement
+        // — is exactly the kind of editor-resistant audio the
+        // safe was designed to outlast.
+        mysteryBinding: {
+          mysteryId: "mystery.game_master",
+          episodeId: "game_master.e1",
+          cluesFound: ["game_master.e1.matrix_unedited_fragment"],
+        },
         tiers: [
           {
             narration: {

@@ -103,6 +103,19 @@ export const VEX_SOLENE_LINES: TrustVoiceLines = {
   inheriting: "You can put my name back on the credit line whenever the saga is ready. I trust your timing now. I did not, when you started.",
 };
 
+/** The Degen's voice. Trustee, not free agent — his lines move
+ *  from broker-mode to candour as the band rises. The shift is
+ *  the discipline of someone who has been managing a stake on
+ *  someone else's behalf for centuries and is finally deciding
+ *  to say so. */
+export const THE_DEGEN_LINES: TrustVoiceLines = {
+  hostile:    "I don't know you. The chair I sit at doesn't know you. We do not extend credit to strangers; we don't extend trust faster than that.",
+  wary:       "You read the ledger. Read it again. The brokerage is the brokerage; the rest is none of your business until I make it your business.",
+  witnessed:  "You saw the first entry. Most people miss it — the ledger's standard tone covers for the one line where I admitted what I was. Stay with the work.",
+  present:    "You've earned the part of the conversation where I stop calling it the brokerage and call it the trusteeship. That distinction took me a century to be honest about. You got there faster.",
+  inheriting: "If the principal is ever returned, you are on the list of witnesses Mol'Vereth would accept. I am not telling you what the asset is. I am telling you that when it surfaces, you will know — and so will I.",
+};
+
 /** The Game Master Archon's voice. Speaks from the unedited Matrix
  *  fragment — the cult's saint, in his own words, renouncing the
  *  recognition that became the door. */
