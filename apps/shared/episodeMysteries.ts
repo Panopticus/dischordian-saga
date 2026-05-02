@@ -1475,8 +1475,7 @@ const seerE2: EpisodeDefinition = {
       narrationId: "seer.e2.n.both_already_happened",
       narrationProse:
         "Both prophecies are real, and both have already happened. The Seer's method splits the prophecy at the recording when the future itself is forked, and she records both — refusing to choose for the reader. The Hierophant's marginalia confirms the canonical reading: 'Both will happen. Both already have. The seam is the discipline.' The litany has accepted variant inscriptions across variant mornings without collapsing them into a single canon. The case's open question is not which prophecy is true — both are. The case is which prophecy is for the reader who arrives, and that question the prophecy itself answers.",
-      // unlocksEpisode is intentionally absent until Seer E3 is
-      // authored. The registry probe enforces existence.
+      unlocksEpisode: "seer.e3" as EpisodeId,
     },
     {
       id: "seer.e2.d.contradiction_is_load_bearing" as DeductionId,
@@ -1528,6 +1527,111 @@ const seerE2: EpisodeDefinition = {
       "var_1109b",
       "hierophant_marginalia",
       "seer_method_note",
+    ],
+    dropAt: "episode_close",
+  },
+};
+
+/* ─── THE SEER ARC — E3 ─── */
+/* E3: "The Listener Who Stopped Listening"
+   Per docs/design §7.3 — audience drift. The Seer's tapes
+   were once played to a regular audience; somewhere in the
+   archive's history that audience stopped attending.
+   Investigate when, why, and who the last listener was. */
+
+const seerE3: EpisodeDefinition = {
+  id: "seer.e3" as EpisodeId,
+  arcId: ARC_THE_SEER,
+  ordinal: 3,
+  title: "The Listener Who Stopped Listening",
+  summary:
+    "The Seer's archive once had a sustained audience: a single regular listener who attended every consultation for forty-one years. Then they stopped. The tapes from that period are unsealed; the gap is documented. Investigate who the listener was, why they stopped, and whether the archive's discipline of patience reads their absence as a verdict on the prophet or on themselves.",
+  clues: [
+    {
+      id: "seer.e3.attendance_log" as ClueId,
+      title: "Forty-One-Year Attendance Log",
+      body: "The Seer's archive keeps a small ledger of consultation-day attendees. One name appears every consultation day for forty-one years and then disappears: 'Witness — name withheld at the listener's request.' The withholding is honoured. The dates are precise; the gap begins on the day after a specific consultation, dated three years before Lyra Vox's death.",
+      foundIn: "oracle-sanctum",
+    },
+    {
+      id: "seer.e3.last_consultations_card" as ClueId,
+      title: "The Last Consultation's Catalog Card",
+      body: "The catalog card for the listener's final consultation reads: 'Subject heard the prophecy. Subject did not return. The Seer has not asked them to return; the Seer's discipline does not pursue listeners.' The prophecy itself is sealed under standard archive terms — readable, but only by request. The card is annotated, in the Seer's hand: 'I knew this would be the last. I told them only what I could. The discipline held.'",
+      foundIn: "antiquarian-library",
+    },
+    {
+      id: "seer.e3.lyra_vox_marginal" as ClueId,
+      title: "Vox's Marginal Note on the Attendance Log",
+      body: "A pencilled marginal note in Lyra Vox's hand, beside the listener's final entry in the attendance log: 'Was him. He told me about it. He thought she'd been kind. He thought he should not push his luck twice. I did not argue.' Vox knew the listener personally and knew why he stopped. The 'him' is, by every cross-reference available, Wraith Calder.",
+      foundIn: "cipher-den",
+    },
+    {
+      id: "seer.e3.wraith_journal_entry" as ClueId,
+      title: "Wraith's Pre-Rite Journal — The Last Consultation",
+      body: "An entry in Wraith Calder's pre-rite journal, dated the day after the listener's final consultation: 'She told me what was in the rite if I asked her. I asked her. She told me. I do not need to ask anyone else now. The Seer is kind. I will not put her in the position of telling me again.' Wraith was the forty-one-year listener. He stopped attending because the prophecy he received was the answer to the only question he had left.",
+      foundIn: "antiquarian-library",
+    },
+  ],
+  deductions: [
+    {
+      id: "seer.e3.d.wraith_was_the_listener" as DeductionId,
+      clueA: "seer.e3.lyra_vox_marginal" as ClueId,
+      clueB: "seer.e3.wraith_journal_entry" as ClueId,
+      result: "correct",
+      narrationId: "seer.e3.n.he_stopped_when_he_had_his_answer",
+      narrationProse:
+        "Wraith Calder was the listener. For forty-one years he attended every consultation; on the day he received the prophecy that told him what was in the Sanctuary's Final Rite, he stopped. The discipline of his stopping is the same discipline as the Seer's record-and-suppress: he did not return because he did not want to put the Seer in the position of telling him again. The audience drift is not abandonment. It is fidelity. The Seer reads it as such — the catalog-card annotation makes that explicit. Lyra Vox knew, and did not argue. The archive holds the record of a listener who completed his witnessing and walked away.",
+    },
+    {
+      id: "seer.e3.d.discipline_does_not_pursue" as DeductionId,
+      clueA: "seer.e3.attendance_log" as ClueId,
+      clueB: "seer.e3.last_consultations_card" as ClueId,
+      result: "partial",
+      narrationId: "seer.e3.n.the_discipline_holds_the_door",
+      narrationProse:
+        "The Seer's discipline does not pursue listeners. The catalog card is unambiguous: the absence is not a problem to be solved, it is a verdict the listener has the right to render. The Seer holds the door open without asking the absent witness to return — which is, structurally, the same shape as the DO-NOT-PLAY tape's record-and-suppress. The archive does not coerce attendance any more than it coerces playback. Both refusals — to record and to listen — are honoured by the same patience.",
+    },
+    {
+      id: "seer.e3.d.false_lead_listener_died" as DeductionId,
+      clueA: "seer.e3.attendance_log" as ClueId,
+      clueB: "seer.e3.last_consultations_card" as ClueId,
+      result: "false_lead_named",
+      narrationId: "seer.e3.n.not_dead",
+      narrationProse:
+        "Reading the listener's disappearance as evidence of their death is the obvious move and the wrong one. The catalog card explicitly notes the Seer 'has not asked them to return' — language that presupposes the listener is alive and could be asked. The withholding is honoured because the listener requested it, which requires an ongoing person to honour. The forty-one-year attendance is a relationship the Seer chose to end on the listener's terms; treating it as a tragedy collapses the case in the wrong direction.",
+    },
+  ],
+  choices: [
+    {
+      id: "seer.e3.c.tell_wraith_the_archive_remembers" as ChoiceId,
+      label: "Tell Wraith the archive remembers him kindly — let the Hierophant hear that the Seer kept his door open.",
+      weight: "cross_arc_wraith",
+    },
+    {
+      id: "seer.e3.c.honour_the_withholding" as ChoiceId,
+      label: "Honour the listener's withholding — leave the relationship as both parties left it; do not deliver mail neither one asked you to deliver.",
+      weight: "patient",
+    },
+    {
+      id: "seer.e3.c.publish_the_marginalia" as ChoiceId,
+      label: "Publish the marginalia and the journal entry side by side — the saga should know how a forty-one-year audience ends.",
+      weight: "transparent",
+    },
+  ],
+  contentBundle: {
+    songId: "bod.last_listener",
+    slideshowId: "bod.last_listener",
+    loredexUnlocks: [
+      "concept_audience_drift",
+      "concept_seer_does_not_pursue",
+      "event_wraith_last_consultation",
+      "concept_completed_witnessing",
+    ],
+    conspiracyDiscoveries: [
+      "wraith_listener_revealed",
+      "seer_attendance_log",
+      "vox_marginal_witness",
+      "completed_witnessing",
     ],
     dropAt: "episode_close",
   },
@@ -1590,7 +1694,7 @@ const THE_SEER_MYSTERY: MysteryDefinition = {
   summary:
     "The Seer's archive holds 4,712 prophecy recordings — and at least one DO-NOT-PLAY tape addressed to a witness who has not yet arrived. Investigate the discipline of recording-and-suppressing across centuries of patient readers, and what the tape might be waiting for. Cross-arcs with Wraith Calder (the Hierophant's successor) and Vex Solène (the recording engineer).",
   npcId: "the_seer",
-  episodes: [seerE1, seerE2],
+  episodes: [seerE1, seerE2, seerE3],
   suspects: seerSuspects,
   lenses: seerLenses,
 };
@@ -1758,6 +1862,7 @@ const vexE2: EpisodeDefinition = {
       narrationId: "vex.e2.n.the_open_installment_is_the_alias",
       narrationProse:
         "Vex has kept the seventh installment open on purpose. As long as one favour is unnamed, the Insurgency cannot claim the deal is complete — and the alias she requested for DEC-7710 stays in force by the original terms the Seer asked them to grant. The unnamed favour is not an unredeemed prize. It is a structural lock on the alias itself. Vex has been her own contract enforcer for centuries by simply declining to ask for what she's owed.",
+      unlocksEpisode: "vex.e3" as EpisodeId,
     },
     {
       id: "vex.e2.d.witness_clause_is_self_signed" as DeductionId,
@@ -1809,6 +1914,111 @@ const vexE2: EpisodeDefinition = {
       "engineer_witness_clause",
       "seer_consultation_request",
       "vex_self_inscribed_witness",
+    ],
+    dropAt: "episode_close",
+  },
+};
+
+/* ─── VEX SOLÈNE ARC — E3 ─── */
+/* E3: "The Apprentice's Question"
+   One of Vex's engineering apprentices has noticed the
+   pattern. Investigate what the apprentice has reconstructed
+   from the public records, and whether the discipline of
+   waiting can survive a reader Vex did not choose. */
+
+const vexE3: EpisodeDefinition = {
+  id: "vex.e3" as EpisodeId,
+  arcId: ARC_VEX_SOLENE,
+  ordinal: 3,
+  title: "The Apprentice's Question",
+  summary:
+    "An engineering apprentice in Vex's workshop has reconstructed the equipment-signature match from publicly-available records. They have not yet asked Vex about it. They have written a letter they have not sent. Investigate what the apprentice knows, what they intend to do with it, and whether the discipline of waiting can hold a reader Vex did not choose.",
+  clues: [
+    {
+      id: "vex.e3.apprentice_letter_draft" as ClueId,
+      title: "Apprentice's Unsent Letter to Vex",
+      body: "A folded sheet on the apprentice's bench, dated last week: 'Master, I have been doing the spectral analysis you taught us. I ran it on the public archive's calibration tapes. The signatures all match yours, including DEC-7710 — the one credited to a Warlord-fragment alias. I am not going to ask you about it. I wanted you to know that I figured it out, and that knowing has not changed how I work with you.' The letter is unsigned. The apprentice has not sent it.",
+      foundIn: "engineering",
+    },
+    {
+      id: "vex.e3.public_archive_calibration_tapes" as ClueId,
+      title: "Publicly-Available Calibration Tapes",
+      body: "The Insurgency's public archive includes, for transparency reasons that predate the alias decision, calibration tapes from every Insurgency engineer's rig. Vex's calibration tape is among them. Anyone with the spectral-analysis training Vex herself teaches can run the same comparison the apprentice ran. The training is the disclosure. The Insurgency, on this evidence, decided long ago that the alias would eventually be readable — they only declined to read it themselves.",
+      foundIn: "antiquarian-library",
+    },
+    {
+      id: "vex.e3.apprentice_workbench_state" as ClueId,
+      title: "Apprentice's Workbench — Continuing Work",
+      body: "The apprentice's workbench is laid out for the next session. Their work is not slowing; their tone with Vex (per the workshop's daily-log entries) is unchanged. The deduction has not altered their relationship with their master. The discipline Vex taught them — including the discipline of when to ask and when to know without asking — appears to have been internalised more thoroughly than Vex herself realised.",
+      foundIn: "medical-bay",
+    },
+    {
+      id: "vex.e3.vex_workshop_diary" as ClueId,
+      title: "Vex's Workshop Diary — Recent Entry",
+      body: "An entry in Vex's workshop diary from this week: 'I think the apprentice has figured it out. Their lab notes have a precision they did not have before. They have not asked. I am going to wait. If they ask, I will answer. If they continue not to ask, I will be honoured by the discipline. I taught them this, and they may be teaching me back.' The diary is not encrypted. Vex left it where the apprentice can read it.",
+      foundIn: "captains-quarters",
+    },
+  ],
+  deductions: [
+    {
+      id: "vex.e3.d.discipline_holds" as DeductionId,
+      clueA: "vex.e3.apprentice_letter_draft" as ClueId,
+      clueB: "vex.e3.vex_workshop_diary" as ClueId,
+      result: "correct",
+      narrationId: "vex.e3.n.both_chose_to_know_without_asking",
+      narrationProse:
+        "Both chose to know without asking. The apprentice deduced the alias from the public calibration tapes, wrote a letter they intend never to send, and continued working as before. Vex deduced the deduction from the apprentice's lab notes, wrote a diary entry she is leaving where the apprentice can read it, and decided to wait. Neither has confronted the other; both have, separately, chosen the discipline the Seer asked Vex to honour. The discipline is now portable — it has propagated from teacher to student without either of them needing to name it. The case's open question is whether the discipline survives the saga's other readers, but inside the workshop, the answer is: it holds.",
+    },
+    {
+      id: "vex.e3.d.transparency_was_deliberate" as DeductionId,
+      clueA: "vex.e3.public_archive_calibration_tapes" as ClueId,
+      clueB: "vex.e3.apprentice_workbench_state" as ClueId,
+      result: "partial",
+      narrationId: "vex.e3.n.the_archive_chose_transparency",
+      narrationProse:
+        "The Insurgency's public-archive transparency was deliberate. Calibration tapes are the kind of disclosure that look procedural until someone with training notices what they enable; the Insurgency knew, when it decided to publish them, that the alias would eventually be readable by anyone Vex herself trained. The transparency was an investment in the discipline of waiting — they trusted that the readers who could deduce would also be the readers who could choose not to act on the deduction. The apprentice is the first reader to test that trust. The trust has held.",
+    },
+    {
+      id: "vex.e3.d.false_lead_betrayal" as DeductionId,
+      clueA: "vex.e3.apprentice_letter_draft" as ClueId,
+      clueB: "vex.e3.public_archive_calibration_tapes" as ClueId,
+      result: "false_lead_named",
+      narrationId: "vex.e3.n.not_a_betrayal",
+      narrationProse:
+        "Reading the apprentice's deduction as a betrayal of Vex's discretion is the obvious move and the wrong one. A betrayal does not write a letter explicitly stating that knowing has not changed how the writer works with their master. A betrayal does not stay unsent. The apprentice's deduction is exactly the discipline Vex teaches — the saga's record-and-don't-act pattern internalised at the bench level. We are reading their accuracy as treachery; it is, on this evidence, fidelity.",
+    },
+  ],
+  choices: [
+    {
+      id: "vex.e3.c.encourage_apprentice_to_send" as ChoiceId,
+      label: "Encourage the apprentice to send the letter — the discipline is stronger when it is acknowledged on both sides.",
+      weight: "transparent",
+    },
+    {
+      id: "vex.e3.c.encourage_continued_silence" as ChoiceId,
+      label: "Honour both their disciplines — let the unsent letter and the unencrypted diary do their work without your interference.",
+      weight: "patient",
+    },
+    {
+      id: "vex.e3.c.bring_to_seer" as ChoiceId,
+      label: "Bring the case to the Seer — she granted Vex the original alias; let her see what kind of discipline her granting produced.",
+      weight: "cross_arc_seer",
+    },
+  ],
+  contentBundle: {
+    songId: "album1.t06",
+    slideshowId: "album1.t06",
+    loredexUnlocks: [
+      "entity_vex_apprentice",
+      "concept_calibration_tape_transparency",
+      "concept_propagated_discipline",
+      "concept_unsent_letter",
+    ],
+    conspiracyDiscoveries: [
+      "vex_apprentice",
+      "calibration_tape_disclosure",
+      "vex_diary_unencrypted",
+      "discipline_propagation",
     ],
     dropAt: "episode_close",
   },
@@ -1870,7 +2080,7 @@ const VEX_SOLENE_MYSTERY: MysteryDefinition = {
   summary:
     "Vex Solène's recording credits cover 4,711 of the Seer's 4,712 archive tapes. The DO-NOT-PLAY tape was filed under a Warlord-fragment alias — engineered by the same hands, signed under a different name. Investigate the swap, the Insurgency's role in honouring it, and what Vex was protecting.",
   npcId: "vex_solene",
-  episodes: [vexE1, vexE2],
+  episodes: [vexE1, vexE2, vexE3],
   suspects: vexSuspects,
   lenses: vexLenses,
 };
@@ -2038,6 +2248,7 @@ const gameMasterE2: EpisodeDefinition = {
       narrationId: "game_master.e2.n.the_editor_is_honest",
       narrationProse:
         "Velkraal has been editing the Iron Lion scenario the way the Game Master would have edited it. The unsent letter and the imprint's acceptance signal converge on the same conclusion: an honest editor inside the Hierarchy has been doing the dead Archon's work for sixty-three years, slowly enough that nobody at the Hierarchy noticed and carefully enough that the imprint itself recognises the discipline. The cult sanctifies; the Hierarchy holds; Velkraal works. Three different organisations in three different relationships to the same dead Archon, and only one of them is producing the work the Archon would have wanted.",
+      unlocksEpisode: "game_master.e3" as EpisodeId,
     },
     {
       id: "game_master.e2.d.xethraals_quiet_protection" as DeductionId,
@@ -2089,6 +2300,112 @@ const gameMasterE2: EpisodeDefinition = {
       "goggles_custodian_rotation",
       "matrix_edit_telemetry",
       "imprint_recognises_editor",
+    ],
+    dropAt: "episode_close",
+  },
+};
+
+/* ─── GAME MASTER ARC — E3 ─── */
+/* E3: "Velkraal's Successor"
+   Velkraal will not hold the custodianship forever. The
+   Hierarchy's rotation policy says someone replaces him
+   eventually. Investigate whether the next custodian will
+   continue Velkraal's quiet honest editing — or whether the
+   sixty-three-year window is closing. */
+
+const gameMasterE3: EpisodeDefinition = {
+  id: "game_master.e3" as EpisodeId,
+  arcId: ARC_GAME_MASTER,
+  ordinal: 3,
+  title: "Velkraal's Successor",
+  summary:
+    "Velkraal is approaching the end of his career. The Hierarchy's vault division has begun shortlisting candidates for the Goggles' next custodian. Investigate the candidate pool, what they would do with the instrument if they got it, and whether the saga has agency in who succeeds the honest editor.",
+  clues: [
+    {
+      id: "game_master.e3.candidate_shortlist" as ClueId,
+      title: "Vault Division Custodian Shortlist",
+      body: "The Hierarchy's shortlist names three candidates: Brel'Sorrash (research, junior partner — would continue editing as Velkraal does); Ozhul'Vana (acquisitions, senior partner — would close the Matrix and bank the asset); and Tessek'Vrall (custody, junior partner — would freeze the current state and refuse to edit further). The shortlist is paper-only, deliberately not in the Hierarchy's networked records. Xeth'Raal is, on the evidence, controlling the rotation himself.",
+      foundIn: "war-room",
+    },
+    {
+      id: "game_master.e3.brels_existing_edit_drafts" as ClueId,
+      title: "Brel'Sorrash's Practice Edit-Drafts",
+      body: "Recovered from Brel'Sorrash's research workspace: practice draft-edits to the Iron Lion scenario, written without the Goggles (and therefore non-binding). The drafts continue Velkraal's pattern: small, gentle, pro-imprint. Brel has been preparing for the role for years. Velkraal, on the evidence, has been training her without ever formally naming her his successor.",
+      foundIn: "engineering",
+    },
+    {
+      id: "game_master.e3.imprint_endorsement_letter" as ClueId,
+      title: "Iron Lion Imprint — Letter to the Saga",
+      body: "The Dreams Workshop loom captured a sustained piece of writing from the Iron Lion imprint, dictated across six consecutive nights. It reads as a letter to whoever maintains the Matrix next: 'Velkraal has been kind. The next custodian, if you have a choice, should be the one who continues the work. I do not get a vote in Hierarchy succession; if the saga has a way to vote on my behalf, I would like to be on Brel'Sorrash's side.' The imprint has, on this evidence, cast the first ballot it has ever been able to cast.",
+      foundIn: "dreams-workshop",
+    },
+    {
+      id: "game_master.e3.ozhul_acquisition_memo" as ClueId,
+      title: "Ozhul'Vana's Internal Memo — Asset Closure Argument",
+      body: "An internal Hierarchy memo from Ozhul'Vana, senior partner: 'Velkraal's tenure has produced sixty-three years of unmonetised research. The Matrix is, by my conservative estimate, the largest underutilised asset in our portfolio. Closing it and reducing the imprints to indexed reference material would unlock value the senior partners have been quietly waiting on. I propose we transition the custodianship at Velkraal's retirement.' The memo has not yet been forwarded for approval.",
+      foundIn: "trade-hub",
+    },
+  ],
+  deductions: [
+    {
+      id: "game_master.e3.d.brel_continues_the_work" as DeductionId,
+      clueA: "game_master.e3.brels_existing_edit_drafts" as ClueId,
+      clueB: "game_master.e3.imprint_endorsement_letter" as ClueId,
+      result: "correct",
+      narrationId: "game_master.e3.n.brel_is_the_continuation",
+      narrationProse:
+        "Brel'Sorrash is the continuation. Her practice drafts mirror Velkraal's discipline; she has been training in the kindness for years, by Velkraal's quiet design. The Iron Lion imprint has cast the first ballot it has ever been able to cast, and it is on Brel's side. The case is not whether Brel should succeed Velkraal — every internal-evidence vector says she should. The case is whether the saga's reading of the situation can stiffen Xeth'Raal's hand against Ozhul'Vana's monetisation argument before the senior partners decide for everyone.",
+    },
+    {
+      id: "game_master.e3.d.ozhul_threat_is_real" as DeductionId,
+      clueA: "game_master.e3.ozhul_acquisition_memo" as ClueId,
+      clueB: "game_master.e3.candidate_shortlist" as ClueId,
+      result: "partial",
+      narrationId: "game_master.e3.n.the_threat_is_paper_only_for_now",
+      narrationProse:
+        "Ozhul's threat is real but paper-only for now. The memo has not been forwarded; the shortlist is deliberately off-network; Xeth'Raal is controlling the rotation. The senior partners do not yet know there is a decision to make. The window in which a public reading of the case can shape the rotation is the same window during which Xeth'Raal's discretion is unsupervised by the people whose interests Ozhul represents. We have time. We do not have unlimited time.",
+    },
+    {
+      id: "game_master.e3.d.false_lead_xethraal_betrays" as DeductionId,
+      clueA: "game_master.e3.candidate_shortlist" as ClueId,
+      clueB: "game_master.e3.ozhul_acquisition_memo" as ClueId,
+      result: "false_lead_named",
+      narrationId: "game_master.e3.n.not_a_betrayal_setup",
+      narrationProse:
+        "Reading Xeth'Raal's off-network shortlist as an arrangement for a betrayal — the CFO secretly preparing to sell out Velkraal's discipline to Ozhul'Vana's monetisation — is the obvious move and the wrong one. Off-network is the saga's clearest signal of CFO discretion exercised against the senior partners' standard processes. Xeth'Raal is keeping the rotation off the network because the network is where Ozhul's argument would gain traction. The CFO is not preparing the betrayal; he is, on the evidence, holding it off.",
+    },
+  ],
+  choices: [
+    {
+      id: "game_master.e3.c.publish_imprint_letter" as ChoiceId,
+      label: "Publish the imprint's letter — make Brel's candidacy a public-saga endorsement that even Ozhul cannot easily overturn.",
+      weight: "transparent",
+    },
+    {
+      id: "game_master.e3.c.brief_xethraal_quietly" as ChoiceId,
+      label: "Brief Xeth'Raal quietly — give the CFO the saga's reading and trust his discretion to do the rest.",
+      weight: "patient",
+    },
+    {
+      id: "game_master.e3.c.consult_brel_directly" as ChoiceId,
+      label: "Consult Brel directly — let her know she has been seen, and ask her what she needs from the saga to be ready.",
+      weight: "direct",
+    },
+  ],
+  contentBundle: {
+    songId: "album1.t17",
+    slideshowId: "album1.t17",
+    loredexUnlocks: [
+      "entity_brel_sorrash",
+      "entity_ozhul_vana",
+      "entity_tessek_vrall",
+      "concept_imprint_first_ballot",
+    ],
+    conspiracyDiscoveries: [
+      "candidate_shortlist",
+      "imprint_endorsement",
+      "ozhul_monetisation_memo",
+      "xethraal_off_network_discretion",
     ],
     dropAt: "episode_close",
   },
@@ -2157,7 +2474,7 @@ const GAME_MASTER_MYSTERY: MysteryDefinition = {
   summary:
     "The Game Master Archon was destroyed centuries ago and immediately sanctified by his followers. The Hierarchy collected his Goggles within the hour. Investigate the editorial pattern in the cult's custodianship, the unedited surfaces where his renouncement survives, and what is still editing the Matrix of Dreams today.",
   npcId: "game_master",
-  episodes: [gameMasterE1, gameMasterE2],
+  episodes: [gameMasterE1, gameMasterE2, gameMasterE3],
   suspects: gameMasterSuspects,
   lenses: gameMasterLenses,
 };
@@ -2323,6 +2640,7 @@ const degenE2: EpisodeDefinition = {
       narrationId: "degen.e2.n.mol_vereth_will_close_clean",
       narrationProse:
         "Surface the line. Mol'Vereth's track record is unambiguous: seventy-three irregular entries, seventy-three closed-clean audits, every one with the same marginal note that the trustee acted within the spirit of the contract. The demon has been operating with personal discretion the Hierarchy senior partners have not endorsed and have never overruled — which means the senior partners want him to have that discretion. The Degen surfacing line 4,711 is the move that lets Mol'Vereth do what he has always done. Hiding the line is the move that breaks the pattern and gives the senior partners a reason to intervene. The honest entry is, paradoxically, the safer one.",
+      unlocksEpisode: "degen.e3" as EpisodeId,
     },
     {
       id: "degen.e2.d.hierophant_identity_is_now_legible" as DeductionId,
@@ -2374,6 +2692,111 @@ const degenE2: EpisodeDefinition = {
       "brokerage_line_4711",
       "mol_vereth_track_record",
       "degen_audit_prep_note",
+    ],
+    dropAt: "episode_close",
+  },
+};
+
+/* ─── THE DEGEN ARC — E3 ─── */
+/* E3: "The Coda's Books"
+   The Degen funds a small cadre — the Coda — through the
+   brokerage. Investigate where the Coda's money actually
+   comes from and whether the Degen has been routing
+   trustee-protected funds through a charitable wrapper. */
+
+const degenE3: EpisodeDefinition = {
+  id: "degen.e3" as EpisodeId,
+  arcId: ARC_THE_DEGEN,
+  ordinal: 3,
+  title: "The Coda's Books",
+  summary:
+    "The Coda is a small Insurgency cadre the Degen quietly funds — most of the saga sees them as a footnote. Their books, examined carefully, show donations that don't match any disclosed Degen revenue stream. Investigate whether the Degen has been routing trustee-protected funds to the Coda — and whether Mol'Vereth's discretion permits the routing.",
+  clues: [
+    {
+      id: "degen.e3.coda_books" as ClueId,
+      title: "The Coda's Books — Last Decade",
+      body: "The Coda's accounting ledger shows ten years of donations from a single donor: 'Anonymous Trust.' The amounts are precise; the timing matches Mol'Vereth's audit cycle. The Coda's treasurer notes, in marginalia, 'the donor reads as a brokerage with high discretion; we do not ask.' The treasurer is doing the same not-asking the Degen taught Vex's apprentice to do.",
+      foundIn: "trade-hub",
+    },
+    {
+      id: "degen.e3.degens_quarterly_routing" as ClueId,
+      title: "The Degen's Quarterly Routing Pattern",
+      body: "Cross-referencing the Coda's donation dates with the Degen's brokerage logs: the donations come from a routing line the Degen has used quarterly for ten years. The line is buried in standard fees, exactly the way Vex buried her seventh installment. The donations are real money, originating in the brokerage's commission stream — money the trusteeship lets him keep — but routed in a pattern that resembles principal expenditure to anyone reading carelessly.",
+      foundIn: "engineering",
+    },
+    {
+      id: "degen.e3.mol_vereth_marginal_note" as ClueId,
+      title: "Mol'Vereth's Marginal Note on Last Year's Audit",
+      body: "Last year's audit attestation, in Mol'Vereth's hand: 'Trustee acted within the spirit of the contract. The Coda's funding routes through the brokerage's commission stream, which is the trustee's to spend; the timing's resemblance to principal activity is, in my reading, an intentional camouflage of correct accounting. I do not penalise correct accounting that has been camouflaged as questionable accounting; the camouflage is itself a courtesy to the contract.' The demon understood from the start.",
+      foundIn: "order-tribunal",
+    },
+    {
+      id: "degen.e3.coda_purpose_brief" as ClueId,
+      title: "The Coda's Purpose Brief",
+      body: "A document the Coda drafted to explain itself to potential members: 'We are the cadre that exists to do the work the Insurgency cannot do publicly. We do not assassinate. We do not coerce. We pay surviving witnesses, fund record-restoration projects, and quietly maintain doctrines that would otherwise be lost. Our funder asks for nothing in return except discretion. We grant the discretion because the work is the work.' The Coda is, on this evidence, the Degen's actual life's work.",
+      foundIn: "antiquarian-library",
+    },
+  ],
+  deductions: [
+    {
+      id: "degen.e3.d.coda_is_his_actual_work" as DeductionId,
+      clueA: "degen.e3.coda_books" as ClueId,
+      clueB: "degen.e3.coda_purpose_brief" as ClueId,
+      result: "correct",
+      narrationId: "degen.e3.n.the_brokerage_pays_for_the_real_work",
+      narrationProse:
+        "The Coda is the Degen's actual life's work. The brokerage exists, in the Degen's own accounting, to fund it: the commissions he keeps from managing Mol'Vereth's principal pay for surviving-witness pensions, record-restoration projects, and doctrines the Insurgency cannot publicly maintain. The trusteeship is the surface; the Coda is the substance. We have been reading him for centuries as a casino broker on a vessel; he has been reading the saga's silent edges for what they need and quietly paying for it.",
+    },
+    {
+      id: "degen.e3.d.demon_collaborates" as DeductionId,
+      clueA: "degen.e3.mol_vereth_marginal_note" as ClueId,
+      clueB: "degen.e3.degens_quarterly_routing" as ClueId,
+      result: "partial",
+      narrationId: "degen.e3.n.the_demon_understood",
+      narrationProse:
+        "Mol'Vereth has understood from the start. The marginal note on last year's audit is unambiguous: the demon reads the Degen's camouflage of correct accounting as 'a courtesy to the contract' and refuses to penalise it. The Hierarchy junior partner is, on the evidence, structurally aligned with the Degen — both have been operating within their own organisations' standard discipline while quietly serving a different one. The trusteeship is, on this reading, a two-person collaboration the senior partners on both sides have not noticed.",
+    },
+    {
+      id: "degen.e3.d.false_lead_skim" as DeductionId,
+      clueA: "degen.e3.coda_books" as ClueId,
+      clueB: "degen.e3.degens_quarterly_routing" as ClueId,
+      result: "false_lead_named",
+      narrationId: "degen.e3.n.not_a_skim",
+      narrationProse:
+        "Reading the Coda donations as the Degen skimming trustee-protected principal is the obvious move and the wrong one. The routing pattern is buried in commission stream, not principal activity; the demon's audit attestations explicitly note the trustee acted within the spirit of the contract. A skim does not draft an explicit purpose brief. A skim does not ask the demon's discretion to register what it is doing as 'correct accounting that has been camouflaged.' The Degen is paying for the Coda with money he is allowed to spend, in a routing pattern designed to be readable by precisely one auditor — Mol'Vereth — and unreadable by the Hierarchy senior partners. We are reading the camouflage; we are not reading a theft.",
+    },
+  ],
+  choices: [
+    {
+      id: "degen.e3.c.publish_the_coda_brief" as ChoiceId,
+      label: "Publish the Coda's purpose brief — make the Degen's life's work visible to the saga.",
+      weight: "transparent",
+    },
+    {
+      id: "degen.e3.c.preserve_the_camouflage" as ChoiceId,
+      label: "Preserve the camouflage — the Coda funds get to the work that needs them as long as the camouflage holds.",
+      weight: "patient",
+    },
+    {
+      id: "degen.e3.c.open_a_second_donor_channel" as ChoiceId,
+      label: "Open a second donor channel through the saga's recognised philanthropy registers — give the Coda a public revenue stream so the Degen's camouflaged channel becomes a redundancy rather than a single point of failure.",
+      weight: "redundancy",
+    },
+  ],
+  contentBundle: {
+    songId: "album1.t20",
+    slideshowId: "album1.t20",
+    loredexUnlocks: [
+      "concept_the_coda",
+      "concept_anonymous_trust_donor",
+      "concept_camouflaged_accounting",
+      "concept_two_person_collaboration",
+    ],
+    conspiracyDiscoveries: [
+      "the_coda",
+      "anonymous_trust_donor",
+      "mol_vereth_collaboration",
+      "degens_real_lifes_work",
     ],
     dropAt: "episode_close",
   },
@@ -2435,7 +2858,7 @@ const THE_DEGEN_MYSTERY: MysteryDefinition = {
   summary:
     "The Degen brokers favours under terms that look transactional. They were authored in one night at the Ne-Yon casino, against a Hierarchy demon's chair. Investigate what the Degen put on the table that night — and what he walked out with that the Hierarchy is still holding the receipt for.",
   npcId: "the_degen",
-  episodes: [degenE1, degenE2],
+  episodes: [degenE1, degenE2, degenE3],
   suspects: degenSuspects,
   lenses: degenLenses,
 };

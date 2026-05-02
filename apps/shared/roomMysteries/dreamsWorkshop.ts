@@ -103,7 +103,10 @@ export const DREAMS_WORKSHOP_MYSTERY: RoomMysteryModule<DreamsWorkshopHotspotId>
         mysteryBinding: {
           mysteryId: "mystery.game_master",
           episodeId: "game_master.e1",
-          cluesFound: ["game_master.e1.iron_lion_signal"],
+          cluesFound: [
+            "game_master.e1.iron_lion_signal",
+            "game_master.e2.imprint_acceptance_signal",
+          ],
         },
       },
     },

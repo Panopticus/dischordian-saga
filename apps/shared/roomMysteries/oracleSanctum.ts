@@ -166,7 +166,11 @@ export const ORACLE_SANCTUM_MYSTERY: RoomMysteryModule<OracleSanctumHotspotId> =
         mysteryBinding: {
           mysteryId: "mystery.the_seer",
           episodeId: "seer.e1",
-          cluesFound: ["seer.e1.recording_session_log"],
+          cluesFound: [
+            "seer.e1.recording_session_log",
+            "seer.e2.tape_a_morning",
+            "seer.e2.tape_b_afternoon",
+          ],
         },
       },
     },
