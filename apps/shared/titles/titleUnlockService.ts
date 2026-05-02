@@ -112,6 +112,8 @@ export function evaluateTitleUnlock(
       return state.apprenticeTrialsAttended >= cond.count;
     case "apprentice_trial_graduated":
       return state.apprenticeTrialsGraduated >= cond.count;
+    case "battle_pass_tier_reached":
+      return state.battlePassTier >= cond.minTier;
 
     case "level_reached":
       return state.level >= cond.level;
@@ -288,6 +290,7 @@ export function makeTitleProgressSnapshot(
     guildHallTier: number;
     apprenticeTrialsAttended: number;
     apprenticeTrialsGraduated: number;
+    battlePassTier: number;
   }>,
 ): TitleProgressSnapshot {
   return {
@@ -317,6 +320,7 @@ export function makeTitleProgressSnapshot(
     guildHallTier: partial.guildHallTier ?? 0,
     apprenticeTrialsAttended: partial.apprenticeTrialsAttended ?? 0,
     apprenticeTrialsGraduated: partial.apprenticeTrialsGraduated ?? 0,
+    battlePassTier: partial.battlePassTier ?? 0,
   };
 }
 

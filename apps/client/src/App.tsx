@@ -46,6 +46,7 @@ import { SlideshowPlayerRoot } from "./components/SlideshowPlayerRoot";
 import DreamerVisionPlayer from "./components/DreamerVisionPlayer";
 import InstallPromptBanner from "./components/InstallPromptBanner";
 import { DischordiaCycleSync } from "./components/DischordiaCycleSync";
+import { useTitleEarnedToasts } from "./hooks/useTitleEarnedToasts";
 import { ForgivenessChoicePanel } from "./components/ForgivenessChoicePanel";
 import { Act1ClosingChoicePanel } from "./components/Act1ClosingChoicePanel";
 import { useElaraTTS } from "./hooks/useElaraTTS";
@@ -166,6 +167,7 @@ const AdminPage = lazy(() => import("./pages/AdminPage"));
 // Admin-gated client-side as a fast-fail; the underlying tRPC queries
 // are admin-gated server-side.
 const AdminHealthPage = lazy(() => import("./pages/AdminHealthPage"));
+const AdminPvpPage = lazy(() => import("./pages/AdminPvpPage"));
 const ArchitectConsolePage = lazy(() => import("./pages/ArchitectConsolePage"));
 const ArchitectDossierPage = lazy(() => import("./pages/ArchitectDossierPage"));
 const HierarchyPage = lazy(() => import("./pages/HierarchyPage"));
@@ -251,6 +253,11 @@ const DeadMansCircuitPage = lazy(() => import("./pages/DeadMansCircuitPage"));
 const CADESFPSPage = lazy(() => import("./pages/CADESFPSPage"));
 
 /* ═══ LOADING FALLBACK ═══ */
+function TitleToastHost() {
+  useTitleEarnedToasts();
+  return null;
+}
+
 function PageLoader() {
   return <LoadingScreen />;
 }
@@ -354,6 +361,7 @@ function Router() {
         <Route path="/cases" component={CasesPage} />
         <Route path="/admin" component={AdminPage} />
         <Route path="/admin/health" component={AdminHealthPage} />
+        <Route path="/admin/pvp" component={AdminPvpPage} />
         <Route path="/architect-console" component={ArchitectConsolePage} />
         <Route path="/architect/dossier" component={ArchitectDossierPage} />
         <Route path="/hierarchy" component={HierarchyPage} />
@@ -710,6 +718,11 @@ function App() {
                         and install fire-and-forget write-through
                         for every subsequent applyEnergy call. */}
                     <DischordiaCycleSync />
+                    {/* Tier 1: surface newly-earned PvP / narrative /
+                        co-op / guild titles as toasts. Polls every 60s
+                        and tracks a localStorage cursor to avoid
+                        re-toasting the same grant twice. */}
+                    <TitleToastHost />
                     {/* Witnessing §5 — global slideshow host. Mounts
                         whenever any caller queues a slideshow via
                         playSlideshow(id). Must be above AuthGate so

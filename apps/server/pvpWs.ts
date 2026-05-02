@@ -119,12 +119,12 @@ type ServerMessage =
   | { type: "ACTION_RESULT"; success: boolean; error?: string }
   | { type: "GAME_OVER"; winnerId: number; eloChange: number; newElo: number }
   | { type: "OPPONENT_DISCONNECTED" }
-  | { type: "SPECTATE_JOINED"; matchId: string; player1Name: string; player2Name: string; player1Elo: number; player2Elo: number }
+  | { type: "SPECTATE_JOINED"; matchId: string; player1Name: string; player2Name: string; player1UserId: number; player2UserId: number; player1Elo: number; player2Elo: number }
   | { type: "SPECTATE_STATE"; state: PvpBattleState }
   | { type: "SPECTATE_ENDED"; reason: string }
   | { type: "SPECTATOR_CHAT"; spectatorName: string; text: string; timestamp: number }
   | { type: "SPECTATOR_CHAT_RATE_LIMITED"; cooldownSeconds: number }
-  | { type: "ACTIVE_MATCHES"; matches: Array<{ matchId: string; player1Name: string; player2Name: string; player1Elo: number; player2Elo: number; turnNumber: number; spectatorCount: number }> }
+  | { type: "ACTIVE_MATCHES"; matches: Array<{ matchId: string; player1Name: string; player2Name: string; player1UserId: number; player2UserId: number; player1Elo: number; player2Elo: number; turnNumber: number; spectatorCount: number }> }
   | { type: "EMOTE"; playerId: number; playerName: string; emoteId: string; emoteText: string }
   | { type: "EMOTE_RATE_LIMITED"; cooldownSeconds: number }
   | { type: "PLACEMENT_STATUS"; matchNumber: number; totalRequired: number; isPlacement: boolean }
@@ -195,12 +195,14 @@ function getSpectatorView(state: PvpBattleState): PvpBattleState {
 
 /** Get list of active matches for spectator lobby */
 function getActiveMatchesList() {
-  const list: Array<{ matchId: string; player1Name: string; player2Name: string; player1Elo: number; player2Elo: number; turnNumber: number; spectatorCount: number }> = [];
+  const list: Array<{ matchId: string; player1Name: string; player2Name: string; player1UserId: number; player2UserId: number; player1Elo: number; player2Elo: number; turnNumber: number; spectatorCount: number }> = [];
   Array.from(activeMatches.values()).forEach(match => {
     list.push({
       matchId: match.matchId,
       player1Name: match.player1.userName,
       player2Name: match.player2.userName,
+      player1UserId: match.player1.userId,
+      player2UserId: match.player2.userId,
       player1Elo: match.player1.elo,
       player2Elo: match.player2.elo,
       turnNumber: match.state.turnNumber,
@@ -878,6 +880,8 @@ export function setupPvpWebSocket(server: Server) {
             matchId: msg.matchId,
             player1Name: matchToWatch.player1.userName,
             player2Name: matchToWatch.player2.userName,
+            player1UserId: matchToWatch.player1.userId,
+            player2UserId: matchToWatch.player2.userId,
             player1Elo: matchToWatch.player1.elo,
             player2Elo: matchToWatch.player2.elo,
           });

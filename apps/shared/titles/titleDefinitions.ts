@@ -897,6 +897,44 @@ export const TITLE_DEFINITIONS: readonly TitleDef[] = [
     condition: { kind: "apprentice_trial_graduated", count: 3 },
   },
 
+  /* ─── BATTLE PASS (T9.17) ─────────────────────────────────── */
+  // Surfaced through battlePass.tierRewards.titleKey grants AND
+  // earned automatically once a player crosses each tier threshold.
+  {
+    titleKey: "battlepass_t1",
+    rootKey: "battlepass",
+    tier: 1,
+    name: "Pass Initiate",
+    description: "Reach battle pass tier 10.",
+    rarity: "common",
+    category: "seasonal",
+    iconKey: "Sparkles",
+    condition: { kind: "battle_pass_tier_reached", minTier: 10 },
+  },
+  {
+    titleKey: "battlepass_t2",
+    rootKey: "battlepass",
+    tier: 2,
+    name: "Pass Champion",
+    description: "Reach battle pass tier 50.",
+    rarity: "epic",
+    category: "seasonal",
+    iconKey: "Sparkles",
+    condition: { kind: "battle_pass_tier_reached", minTier: 50 },
+  },
+  {
+    titleKey: "battlepass_t3",
+    rootKey: "battlepass",
+    tier: 3,
+    name: "Founding Author of the Pass",
+    description: "Reach battle pass tier 100 (max).",
+    flavorText: "Every page filled, every sigil claimed.",
+    rarity: "legendary",
+    category: "seasonal",
+    iconKey: "Crown",
+    condition: { kind: "battle_pass_tier_reached", minTier: 100 },
+  },
+
   /* ─── COSMETIC PURCHASE (migrated from cosmeticShop.ts) ──── */
   {
     titleKey: "title_legend",

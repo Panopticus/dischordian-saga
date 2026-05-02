@@ -5778,6 +5778,8 @@ export const guildClueProgress = mysqlTable("guild_clue_progress", {
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 }, (table) => ({
   guildIdIdx: index("idx_guild_clue_progress_guild_id").on(table.guildId),
+  /** Drives the Oracle Pool peek scan (board, then everything-but-caller). */
+  boardIdIdx: index("idx_guild_clue_progress_board_id").on(table.boardKey, table.guildId),
   guildBoardUniq: uniqueIndex("uniq_guild_clue_progress_guild_board").on(
     table.guildId,
     table.boardKey,

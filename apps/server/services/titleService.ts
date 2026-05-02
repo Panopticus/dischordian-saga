@@ -25,6 +25,7 @@ import {
   guildMembers,
   guilds,
   apprenticeTrialCompletions,
+  battlePassProgress,
 } from "../../db/schema";
 import {
   computeNewlyUnlocked,
@@ -171,6 +172,17 @@ export async function buildTitleSnapshot(
   const apprenticeTrialsAttended = apprenticeRows.length;
   const apprenticeTrialsGraduated = apprenticeRows.filter((r) => r.graduated === 1).length;
 
+  // Battle pass tier — current season's highest tier reached.
+  let battlePassTier = 0;
+  try {
+    const bpRows = await db
+      .select({ currentTier: battlePassProgress.currentTier })
+      .from(battlePassProgress)
+      .where(eq(battlePassProgress.userId, userId))
+      .limit(1);
+    battlePassTier = bpRows[0]?.currentTier ?? 0;
+  } catch { /* table may not exist yet on dev DBs */ }
+
   // Guild context
   const memberRows = await db
     .select()
@@ -208,6 +220,7 @@ export async function buildTitleSnapshot(
     guildHallTier,
     apprenticeTrialsAttended,
     apprenticeTrialsGraduated,
+    battlePassTier,
   });
 }
 
@@ -284,6 +297,31 @@ export async function awardEligibleTitles(
     "titleService",
     { userId, granted: newlyUnlocked.map((t) => t.titleKey), event: event?.kind },
   );
+
+  // T9.16: cross-ref into the achievement system. Increments stay
+  // forwards-compatible — `trackIncrement` is a no-op when the
+  // achievement key isn't seeded, so this fires safely today and
+  // starts counting once the corresponding achievement rows are
+  // added to apps/server/routers/cardAchievements.ts.
+  try {
+    const { trackIncrement } = await import("../achievementTracker");
+    for (const t of newlyUnlocked) {
+      // Generic "titles earned" counter.
+      trackIncrement(userId, "titles_earned", 1).catch(() => {/* ignore */});
+      // Per-rarity counter (e.g. titles_earned_legendary).
+      trackIncrement(userId, `titles_earned_${t.rarity}`, 1).catch(() => {/* ignore */});
+      // Per-category counter (e.g. titles_earned_mystery).
+      trackIncrement(userId, `titles_earned_${t.category}`, 1).catch(() => {/* ignore */});
+      // Tier-3 mastery counter — every time a player completes a
+      // full progression root.
+      if (t.tier >= 3) {
+        trackIncrement(userId, "title_progression_mastered", 1).catch(() => {/* ignore */});
+      }
+    }
+  } catch {
+    /* achievement tracker import failure shouldn't block grant */
+  }
+
   return newlyUnlocked.map((t) => t.titleKey);
 }
 

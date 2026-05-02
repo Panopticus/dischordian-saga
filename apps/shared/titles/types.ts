@@ -69,6 +69,8 @@ export type TitleUnlockCondition =
   // Apprentice Trial
   | { kind: "apprentice_trial_graduated"; count: number }
   | { kind: "apprentice_trial_attended"; count: number }
+  // Battle pass (T9.17)
+  | { kind: "battle_pass_tier_reached"; minTier: number }
   // Generic gates
   | { kind: "level_reached"; level: number }
   | { kind: "prestige_reached"; prestigeKey: string; level: number }
@@ -167,6 +169,8 @@ export interface TitleProgressSnapshot {
   readonly apprenticeTrialsAttended: number;
   /** Apprentice Trial cohorts graduated (sole survivor). */
   readonly apprenticeTrialsGraduated: number;
+  /** Highest battle-pass tier reached this season. */
+  readonly battlePassTier: number;
 }
 
 /** Empty snapshot — useful for tests + unauth flows. */
@@ -197,6 +201,7 @@ export const NULL_TITLE_PROGRESS_SNAPSHOT: TitleProgressSnapshot = Object.freeze
   guildHallTier: 0,
   apprenticeTrialsAttended: 0,
   apprenticeTrialsGraduated: 0,
+  battlePassTier: 0,
 });
 
 /**

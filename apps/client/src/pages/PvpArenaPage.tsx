@@ -131,6 +131,14 @@ export default function PvpArenaPage() {
   const allTraitBonuses = trpc.citizen.getAllTraitBonuses.useQuery(undefined, { enabled: isAuthenticated, retry: false, refetchOnWindowFocus: false });
   const pvpBonuses = allTraitBonuses.data?.pvp;
   const myLoadout = trpc.titles.getMyLoadout.useQuery(undefined, { enabled: isAuthenticated });
+  const matchHistoryOpponentIds = useMemo(
+    () => [...new Set((matchHistory.data ?? []).map((m) => (m as { opponentId?: number }).opponentId).filter((id): id is number => !!id))],
+    [matchHistory.data],
+  );
+  const historyOpponentTitles = trpc.titles.resolveEquippedTitles.useQuery(
+    { userIds: matchHistoryOpponentIds },
+    { enabled: isAuthenticated && matchHistoryOpponentIds.length > 0 },
+  );
   const opponentTitleQuery = trpc.titles.resolveEquippedTitles.useQuery(
     { userIds: opponentUserId != null ? [opponentUserId] : [] },
     { enabled: opponentUserId != null },
@@ -255,6 +263,7 @@ export default function PvpArenaPage() {
           setMySide("player1"); // spectators view from player1 perspective
           setOpponentName(msg.player2Name || "Player 2");
           setOpponentElo(0);
+          setOpponentUserId((msg as { player2UserId?: number }).player2UserId ?? null);
           setTurnBannerText("SPECTATING");
           setShowTurnBanner(true);
           setTimeout(() => setShowTurnBanner(false), 1500);
@@ -1029,7 +1038,15 @@ export default function PvpArenaPage() {
                           {match.won ? "W" : "L"}
                         </span>
                         <div>
-                          <p className="font-mono text-xs font-bold">vs {match.opponentName}</p>
+                          <div className="flex items-center gap-2">
+                            <p className="font-mono text-xs font-bold">vs {match.opponentName}</p>
+                            {(match as { opponentId?: number }).opponentId && historyOpponentTitles.data?.[(match as { opponentId?: number }).opponentId!] && (
+                              <TitlePill
+                                titleKey={historyOpponentTitles.data[(match as { opponentId?: number }).opponentId!]!.titleKey}
+                                size="xs"
+                              />
+                            )}
+                          </div>
                           <p className="font-mono text-[10px] text-muted-foreground">
                             {match.totalTurns} turns • {match.endedAt ? new Date(match.endedAt).toLocaleDateString() : "In progress"}
                           </p>

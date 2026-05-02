@@ -25,6 +25,15 @@ export default function ConspiracyBoardsPage() {
     },
   });
 
+  const [peekedBoard, setPeekedBoard] = useState<string | null>(null);
+  const [peekResults, setPeekResults] = useState<Record<string, Array<{ guildId: number; guildName: string; guildTag: string; cluesGathered: number; cluesRequired: number; progress: number }>>>({});
+  const peekMutation = trpc.conspiracy.oraclePoolPeek.useMutation({
+    onSuccess: (data, variables) => {
+      setPeekResults((prev) => ({ ...prev, [variables.boardKey]: data.rivals }));
+      setPeekedBoard(variables.boardKey);
+    },
+  });
+
   const myByKey = useMemo(() => {
     const m = new Map<string, NonNullable<typeof myBoards.data>[number]>();
     for (const b of myBoards.data ?? []) m.set(b.boardKey, b);
@@ -154,6 +163,38 @@ export default function ConspiracyBoardsPage() {
                   <p className="mt-3 font-mono text-[10px] text-primary text-center">
                     ✓ SOLVED {data?.solvedAt ? new Date(data.solvedAt).toLocaleDateString() : ""}
                   </p>
+                )}
+
+                {/* Tier 4: Oracle Pool peek (hall T4+, costs 50 Dream). */}
+                {tab === "guild" && (
+                  <div className="mt-3">
+                    <button
+                      type="button"
+                      className="w-full font-mono text-[10px] py-1.5 border border-amber-400/40 text-amber-400 rounded hover:bg-amber-400/5"
+                      disabled={peekMutation.isPending}
+                      onClick={() => peekMutation.mutate({ boardKey: board.boardKey })}
+                    >
+                      {peekMutation.isPending && peekMutation.variables?.boardKey === board.boardKey
+                        ? "PEEKING..."
+                        : "ORACLE POOL PEEK (50 Dream)"}
+                    </button>
+                    {peekedBoard === board.boardKey && peekResults[board.boardKey] && (
+                      <div className="mt-2 border border-amber-400/30 bg-amber-400/5 rounded p-2 space-y-1">
+                        <p className="font-mono text-[10px] text-amber-400 mb-1">Rival guilds racing:</p>
+                        {peekResults[board.boardKey].length === 0 && (
+                          <p className="font-mono text-[10px] text-muted-foreground italic">No rivals on this board.</p>
+                        )}
+                        {peekResults[board.boardKey].slice(0, 5).map((r) => (
+                          <div key={r.guildId} className="flex items-center justify-between font-mono text-[10px]">
+                            <span>[{r.guildTag}] {r.guildName}</span>
+                            <span className="text-amber-400">
+                              {r.cluesGathered}/{r.cluesRequired} ({Math.round(r.progress * 100)}%)
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                 )}
               </motion.div>
             );

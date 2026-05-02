@@ -212,6 +212,38 @@ export const titlesRouter = router({
       return result;
     }),
 
+  /**
+   * Poll for unseen title grants — used by the global Title Toast
+   * hook on the client. Returns every title earned in the last 30
+   * minutes that hasn't been polled yet for this user. Idempotent
+   * via a localStorage cursor on the client; server returns "all
+   * recent" and the client filters.
+   */
+  pollRecentGrants: protectedProcedure
+    .input(z.object({ sinceTimestamp: z.number().int().optional() }).optional())
+    .query(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) return [];
+      const since = input?.sinceTimestamp
+        ? new Date(input.sinceTimestamp)
+        : new Date(Date.now() - 30 * 60_000);
+      const rows = await db
+        .select()
+        .from(userTitles)
+        .where(
+          and(
+            eq(userTitles.userId, ctx.user.id),
+            sql`${userTitles.earnedAt} >= ${since}`,
+          ),
+        )
+        .orderBy(desc(userTitles.earnedAt))
+        .limit(20);
+      return rows.map((r) => ({
+        titleKey: r.titleKey,
+        earnedAt: r.earnedAt,
+      }));
+    }),
+
   /** Snapshot of the title evaluator state — useful for debugging. */
   getMyProgressSnapshot: protectedProcedure.query(async ({ ctx }) => {
     const snapshot = await buildTitleSnapshot(ctx.user.id);

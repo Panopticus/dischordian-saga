@@ -2,7 +2,7 @@
   "version": "5",
   "dialect": "mysql",
   "id": "86170f4b-90a3-499a-a5f7-21a782777ce7",
-  "prevId": "b5e28df6-efcc-48ff-86a0-41ed1fa7c4c0",
+  "prevId": "a93df4bd-6444-4c59-8cfa-64acf39c3b55",
   "tables": {
     "achievement_trait_progress": {
       "name": "achievement_trait_progress",

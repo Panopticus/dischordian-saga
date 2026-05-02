@@ -255,6 +255,26 @@ describe("apprentice trial conditions", () => {
   });
 });
 
+describe("battle pass tier conditions (T9.17)", () => {
+  it("battle_pass_tier_reached fires at threshold", () => {
+    const state = makeTitleProgressSnapshot({ battlePassTier: 50 });
+    expect(evaluateTitleUnlock({ kind: "battle_pass_tier_reached", minTier: 50 }, state)).toBe(true);
+    expect(evaluateTitleUnlock({ kind: "battle_pass_tier_reached", minTier: 51 }, state)).toBe(false);
+  });
+
+  it("battlepass_t1 needs tier 10", () => {
+    const def = getTitleDef("battlepass_t1")!;
+    expect(isTitleUnlocked(def, makeTitleProgressSnapshot({ battlePassTier: 9 }))).toBe(false);
+    expect(isTitleUnlocked(def, makeTitleProgressSnapshot({ battlePassTier: 10 }))).toBe(true);
+  });
+
+  it("battlepass_t3 needs tier 100", () => {
+    const def = getTitleDef("battlepass_t3")!;
+    expect(isTitleUnlocked(def, makeTitleProgressSnapshot({ battlePassTier: 99 }))).toBe(false);
+    expect(isTitleUnlocked(def, makeTitleProgressSnapshot({ battlePassTier: 100 }))).toBe(true);
+  });
+});
+
 describe("registry integrity", () => {
   it("every titleKey is unique", () => {
     const seen = new Set<string>();
