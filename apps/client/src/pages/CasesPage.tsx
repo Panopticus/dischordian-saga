@@ -24,6 +24,7 @@ import { DeductionPanel } from "@/components/DeductionPanel";
 import { ChoicePanel } from "@/components/ChoicePanel";
 import { CaseRecap } from "@/components/CaseRecap";
 import { TrustScalars } from "@/components/TrustScalars";
+import { TrustVoiceLine, WRAITH_CALDER_LINES } from "@/components/TrustVoiceLine";
 
 export default function CasesPage() {
   const { isAuthenticated } = useAuth();
@@ -88,8 +89,13 @@ export default function CasesPage() {
         </section>
 
         {/* Trust scalars — hidden when the player has no scalars yet */}
-        <section className="mb-6">
+        <section className="mb-6 space-y-3">
           <TrustScalars />
+          <TrustVoiceLine
+            npcId="wraith_calder"
+            speakerLabel="Wraith Calder, Hierophant"
+            lines={WRAITH_CALDER_LINES}
+          />
         </section>
 
         {/* Available cases */}

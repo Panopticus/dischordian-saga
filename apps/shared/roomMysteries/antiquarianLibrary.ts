@@ -149,6 +149,28 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           cluesFound: ["wraith.e5.scrubbed_names_register"],
         },
       },
+      use: {
+        narration: {
+          lucid:
+            "You touch the brass slab where the witness ought to recite. The vault does not open — the witness is not adequate yet — but the slab warms briefly and a single drawer beside the door slides forward. Inside: a magnetic-tape reel wrapped in a paper band that reads, in a hand you recognise as the Seer's, DO-NOT-PLAY. The drawer holds the band the way a vault holds a verdict — with the discipline of someone who has weighed both halves.",
+          fragmented:
+            "Do. Not. Play. Do not play. Do not play. The band. The band. The band has been replaced. Many readers. Many readers honoured.",
+          luminous:
+            "We address the vault and the room responds with something other than the vault. A drawer beside the door surfaces the Seer's DO-NOT-PLAY tape — sealed by paper band, in her own hand. The band has been replaced multiple times across centuries; the seal is not closed by force. It is closed by an unbroken line of readers willing to wait. The vault has never opened to anyone, but the drawer beside the vault has surfaced for every reader who came with the right discipline. We are one of those readers.",
+        },
+        voId: "elara.antiquarian-library.locked-vault.use",
+        // Mystery Engine binding — using the locked-vault surfaces
+        // the Seer's DO-NOT-PLAY tape. Lore match: the vault's
+        // memory-witness lock and the Seer's record-and-suppress
+        // discipline are the same shape — both rooms ask the
+        // witness to wait, and both reward patient witnessing
+        // without forcing the seal.
+        mysteryBinding: {
+          mysteryId: "mystery.the_seer",
+          episodeId: "seer.e1",
+          cluesFound: ["seer.e1.do_not_play_band"],
+        },
+      },
     },
     "antiquarian-bust": {
       look: {

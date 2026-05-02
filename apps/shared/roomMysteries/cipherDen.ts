@@ -160,6 +160,28 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
           "You take the decoded copy of Vox's last letter. The original goes back into its cubbyhole. The decoded translation is in plainspoken English; the cipher was never the point — the point was that someone had to do the work to read it. We did the work.",
         voId: "elara.cipher-den.encrypted-correspondence.use",
       },
+      talk: {
+        narration: {
+          lucid:
+            "You speak to the cubbyhole rack. A specific letter slides forward — third row from the top, dated three years after DEC-7710 was sealed. Lyra Vox's hand, the rosetta-key cipher: 'Asked the Seer if I should play it. She said no — but more carefully: not yet, and not by you. I do not know who is meant to play this. The Seer says I will not be the one to find out. I trust her on this. The tape stays sealed.' The letter holds; we read it twice; it returns itself to the cubbyhole.",
+          fragmented:
+            "Not yet. Not by you. Not yet. Not yet. Not by you. The tape stays sealed. The tape stays sealed.",
+          luminous:
+            "We address the rack and Vox's consultation note on the Seer's DO-NOT-PLAY tape surfaces. She asked the Seer; the Seer answered with care; Vox accepted that she would not be the reader the tape was for. The note is the earliest record we have of the Seer's record-and-suppress discipline being honoured by another reader. Centuries of subsequent readers replaced the band; Vox set the precedent. We are now part of that line — the case asks us, by reaching us, to choose whether to extend it.",
+        },
+        voId: "elara.cipher-den.encrypted-correspondence.talk",
+        // Mystery Engine binding — talking to the cubbyhole rack
+        // surfaces Vox's consultation note on the DO-NOT-PLAY
+        // tape. Lore match: the rack already holds Wraith's
+        // encrypted ledger with Vox; her consultation notes on
+        // Seer-archive sealings sit as sibling letters in the
+        // same archive, indexed by the same rosetta-key cipher.
+        mysteryBinding: {
+          mysteryId: "mystery.the_seer",
+          episodeId: "seer.e1",
+          cluesFound: ["seer.e1.vox_consultation_note"],
+        },
+      },
     },
     "dictionary-of-edits": {
       look: {
