@@ -339,4 +339,14 @@ export const mysteriesRouter = router({
   getMyProgress: protectedProcedure.query(async ({ ctx }) => {
     return mysteryService.listMyProgress(ctx.user.id);
   }),
+
+  /**
+   * Per-NPC trust trajectory — replays the player's
+   * interrogation-log entries against the neutral midpoint
+   * (50) with the same clamp [0..100] the live scalar uses.
+   * Drives the sparkline beside each TrustScalars row.
+   */
+  getMyTrustHistory: protectedProcedure.query(async ({ ctx }) => {
+    return mysteryService.listMyTrustHistory(ctx.user.id);
+  }),
 });

@@ -47,9 +47,45 @@ function npcLabel(npcId: string): string {
   return NPC_LABELS[npcId] ?? npcId;
 }
 
+/** Inline SVG sparkline of a trust trajectory. The trajectory is
+ *  always non-empty (seeded with 50 at the start) so the path is
+ *  guaranteed to render. */
+function TrustSparkline({ trajectory }: { trajectory: number[] }) {
+  if (trajectory.length < 2) return null;
+  const W = 56;
+  const H = 14;
+  const stepX = W / (trajectory.length - 1);
+  const points = trajectory.map((s, i) => {
+    const x = i * stepX;
+    const y = H - (s / 100) * H;
+    return `${x.toFixed(1)},${y.toFixed(1)}`;
+  });
+  return (
+    <svg
+      width={W}
+      height={H}
+      viewBox={`0 0 ${W} ${H}`}
+      className="shrink-0"
+      style={{ color: "rgba(226, 232, 240, 0.55)" }}
+      aria-hidden
+    >
+      <polyline
+        points={points.join(" ")}
+        fill="none"
+        stroke="currentColor"
+        strokeWidth={1}
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 export function TrustScalars() {
   const { isAuthenticated } = useAuth();
   const scalars = trpc.mysteries.getMyTrustScalars.useQuery(undefined, {
+    enabled: isAuthenticated,
+  });
+  const history = trpc.mysteries.getMyTrustHistory.useQuery(undefined, {
     enabled: isAuthenticated,
   });
 
@@ -95,6 +131,11 @@ export function TrustScalars() {
               >
                 {band.label}
               </span>
+              <TrustSparkline
+                trajectory={
+                  history.data?.find((h) => h.npcId === row.npcId)?.trajectory ?? []
+                }
+              />
               <span
                 className="font-mono text-[10px] shrink-0 tabular-nums"
                 style={{ color: "rgba(226, 232, 240, 0.55)", minWidth: "2.5rem", textAlign: "right" }}

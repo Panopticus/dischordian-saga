@@ -447,6 +447,46 @@ export const mysteryService = {
   },
 
   /**
+   * Replay the player's interrogation-log entries to reconstruct
+   * each NPC's per-(user, npc) scalar trajectory. Returns one
+   * entry per NPC the player has interrogated, with an array of
+   * cumulative scalar values (0-100, clamped) in askedAt order.
+   *
+   * The trajectory is computed pure-server-side from the log so
+   * the client doesn't have to know the clamping rule or the
+   * neutral-midpoint seed (50) — both are encoded here.
+   *
+   * Drives the sparkline on the TrustScalars panel.
+   */
+  async listMyTrustHistory(
+    userId: number,
+  ): Promise<{ npcId: string; trajectory: number[] }[]> {
+    const db = await getDb();
+    if (!db) return [];
+    const logs = await db.select({
+      npcId: mysteryInterrogationLog.npcId,
+      delta: mysteryInterrogationLog.trustDeltaApplied,
+      askedAt: mysteryInterrogationLog.askedAt,
+    })
+      .from(mysteryInterrogationLog)
+      .where(eq(mysteryInterrogationLog.userId, userId))
+      .orderBy(mysteryInterrogationLog.askedAt);
+
+    const byNpc = new Map<string, number[]>();
+    for (const row of logs) {
+      const trajectory = byNpc.get(row.npcId) ?? [50]; // neutral midpoint
+      const last = trajectory[trajectory.length - 1];
+      const next = Math.max(0, Math.min(100, last + row.delta));
+      trajectory.push(next);
+      byNpc.set(row.npcId, trajectory);
+    }
+    return Array.from(byNpc.entries()).map(([npcId, trajectory]) => ({
+      npcId,
+      trajectory,
+    }));
+  },
+
+  /**
    * Assemble the recap payload for a case — every clue, deduction,
    * and choice the player has made, in chronological order. Drives
    * `CaseRecap.tsx`'s Telltale-style cold-open + the late-joiner

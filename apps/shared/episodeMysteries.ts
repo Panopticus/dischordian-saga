@@ -1095,10 +1095,7 @@ const jerichoE4: EpisodeDefinition = {
       narrationId: "jericho.e4.n.she_held_the_seam",
       narrationProse:
         "Akai Shi held the seam herself. Her consent recording was authored to read correctly under both codes — pre-Fall mercy or post-Fall contested act — so that whichever Lion did the work would not have to violate their own training. The dream's looping argument is what Jericho carries instead of her: the two Lions she made compatible meet in him, every night, on the bridge that ended the prior Lion's career and started this one's. We do not have an answer to which code is right. We have an answer to which witness held the seam open until both could pass through it.",
-      // unlocksEpisode is intentionally absent until Jericho E5
-      // is authored (per docs/design §7.2, E5 is "The Degen's
-      // Commission"). The registry probe enforces unlocksEpisode
-      // → existing-episode.
+      unlocksEpisode: "jericho.e5" as EpisodeId,
     },
     {
       id: "jericho.e4.d.false_lead_obsolete_code" as DeductionId,
@@ -1141,6 +1138,120 @@ const jerichoE4: EpisodeDefinition = {
       "threshold_doctrine",
       "imprint_dream_argument",
       "akai_shi_dual_consent",
+    ],
+    dropAt: "episode_close",
+  },
+};
+
+/* ─── JERICHO JONES ARC — E5 (final episode) ─── */
+/* E5: "The Degen's Commission"
+   Arc closer per docs/design §7.2. Jericho becomes operational
+   as the new Iron Lion. The Degen reveals what he has been
+   training Jericho for: a Syndicate-of-Death counter-move that
+   pays off Wraith E5's `inscribe_akai_shi` cross-arc choice
+   (the player who inscribed Akai Shi's name in the Hierophant's
+   litany has, by the time they reach this episode, set up the
+   conditions under which the Degen can name his commission
+   without having to argue for it). */
+
+const jerichoE5: EpisodeDefinition = {
+  id: "jericho.e5" as EpisodeId,
+  arcId: ARC_JERICHO_JONES,
+  ordinal: 5,
+  title: "The Degen's Commission",
+  summary:
+    "Jericho is operational. The Degen names the commission he has been managing all along: a Syndicate-of-Death counter-move Wraith Calder could not finish in his own lifetime. Investigate the chain that connects the Degen's brokerage, Wraith's pre-rite contracts, and the asset that has been waiting at Mol'Vereth's table for centuries — and choose which witness Jericho deploys as.",
+  clues: [
+    {
+      id: "jericho.e5.commission_brief" as ClueId,
+      title: "The Degen's Commission Brief",
+      body: "A folio in the Degen's hand, dated the morning Jericho was formally cleared as Iron Lion. The brief names the target obliquely — 'a Syndicate twin Wraith Calder did not reach' — and the role: 'Iron Lion as witness, not as executioner. The act, if any, will be the witness's choice.' The Degen is not asking Jericho to kill. He is asking Jericho to be the person whose presence makes the next conversation possible.",
+      foundIn: "war-room",
+    },
+    {
+      id: "jericho.e5.wraith_pre_rite_contract" as ClueId,
+      title: "Wraith's Pre-Rite Contract — Open Clause",
+      body: "An open clause in Wraith Calder's pre-rite bounty contracts (the ones the Hierophant inherits but does not act on) names the same Syndicate twin. The clause was deferred when Wraith accepted the Sanctuary's Final Rite — the Hierophant cannot, by his own discipline, complete a bounty hunter's contract from inside the daily-names ceremony. He left the clause open. Someone else has been needed for centuries.",
+      foundIn: "antiquarian-library",
+    },
+    {
+      id: "jericho.e5.mol_vereth_principal_outline" as ClueId,
+      title: "Mol'Vereth's Principal — Identified",
+      body: "Cross-referencing Mol'Vereth's trustee paperwork with the Hierophant's open clause: the asset the Degen has been managing on the Hierarchy's behalf is the contractual right to complete Wraith's deferred bounty. Mol'Vereth has been holding the right, in trust, since the night the Degen won the trusteeship at Ne-Yon. The Hierarchy did not need to act. They needed the contract to remain unfulfilled — the open clause was the leverage. The Degen has been protecting the contract from the Hierarchy by not letting them call it in.",
+      foundIn: "order-tribunal",
+    },
+    {
+      id: "jericho.e5.akai_shi_inscription_seal" as ClueId,
+      title: "The Litany — Akai Shi's Inscription (cross-arc)",
+      body: "If the player has inscribed Akai Shi's name in Wraith's daily-names ceremony (Wraith E5 cross-arc choice `inscribe_akai_shi`), the seal on Mol'Vereth's contract has been altered: the litany counts as a witnessing of the original consent, and the contract's leverage shifts. Mol'Vereth notes the alteration in a fresh visiting card. The asset is, by Hierarchy law, ready to be returned to the saga the moment a witness names the act.",
+      foundIn: "oracle-sanctum",
+    },
+  ],
+  deductions: [
+    {
+      id: "jericho.e5.d.commission_is_witnessing" as DeductionId,
+      clueA: "jericho.e5.commission_brief" as ClueId,
+      clueB: "jericho.e5.mol_vereth_principal_outline" as ClueId,
+      result: "correct",
+      narrationId: "jericho.e5.n.he_is_the_witness_not_the_executioner",
+      narrationProse:
+        "The commission is witnessing, not killing. The Degen has spent centuries protecting Wraith's open clause from the Hierarchy's reach by keeping the trusteeship in his own hands and the asset off the table. He needed an Iron Lion who could stand in the room as the witness Mol'Vereth's contract would accept — and the post-Fall code's Threshold Doctrine reads Jericho's act on Akai Shi as exactly that kind of witnessing. Jericho is not being deployed as Wraith's successor in the executioner's role. He is being deployed as the witness that lets Wraith's deferred clause expire by canon, not by force. The Hierarchy loses leverage; the Syndicate twin walks away; nobody has to die for the contract to close.",
+    },
+    {
+      id: "jericho.e5.d.litany_completes_the_seal" as DeductionId,
+      clueA: "jericho.e5.wraith_pre_rite_contract" as ClueId,
+      clueB: "jericho.e5.akai_shi_inscription_seal" as ClueId,
+      result: "partial",
+      narrationId: "jericho.e5.n.cross_arc_payoff",
+      narrationProse:
+        "The litany seals the contract. If the player inscribed Akai Shi's name in Wraith's daily-names ceremony — choosing the cross-arc beat in the Wraith arc's E5 — the seal on Mol'Vereth's contract has been altered. The Hierophant's litany is a recognised witnessing surface in Hierarchy law; an inscription there counts as the original consent's witnessing-by-record. The Degen has been waiting for that inscription for centuries. If it has not yet happened, the case stays open and Jericho's commission stays a witnessing-in-readiness rather than a closed act. The cross-arc payoff is real: the player's earlier choice has measurably altered what the Degen can ask Jericho to do today.",
+    },
+    {
+      id: "jericho.e5.d.false_lead_assassination" as DeductionId,
+      clueA: "jericho.e5.commission_brief" as ClueId,
+      clueB: "jericho.e5.wraith_pre_rite_contract" as ClueId,
+      result: "false_lead_named",
+      narrationId: "jericho.e5.n.not_an_assassination",
+      narrationProse:
+        "Reading the commission and the open bounty clause as a Hierarchy-deferred assassination is the obvious move and the wrong one. Wraith's clause was deferred because the Sanctuary's discipline does not let the Hierophant complete bounty work; the deferral was respect for the rite, not delay tactics. The Degen has been protecting the clause, not preserving it as a weapon. And the commission brief is unambiguous: 'Iron Lion as witness, not as executioner.' We are reading the chain backwards. The Hierarchy wanted the clause unfulfilled because an unfulfilled clause is leverage. The Degen wanted the clause unfulfilled because an unfulfilled clause is witnessable. Both wanted the same outcome for opposite reasons.",
+    },
+  ],
+  choices: [
+    {
+      id: "jericho.e5.c.deploy_as_witness" as ChoiceId,
+      label: "Accept the commission — Jericho stands as the witness; the Syndicate twin walks; the contract closes by canon.",
+      weight: "witness",
+    },
+    {
+      id: "jericho.e5.c.refuse_commission" as ChoiceId,
+      label: "Refuse the commission — the Degen has carried this alone for centuries; let him decide whether to keep carrying it or release it.",
+      weight: "release_to_degen",
+    },
+    {
+      id: "jericho.e5.c.invite_wraith" as ChoiceId,
+      label: "Bring Wraith into the room — the Hierophant cannot finish the bounty, but he can witness the witnessing. Three Lions, one act.",
+      weight: "three_witnesses",
+    },
+    {
+      id: "jericho.e5.c.return_to_akai_shi" as ChoiceId,
+      label: "Decline the deployment and return to Akai Shi's grave instead. Jericho was not made operational so he could leave her again.",
+      weight: "fidelity",
+    },
+  ],
+  contentBundle: {
+    songId: "album1.t18", /* "Planet of the Wolf" — Dischordian Logic Act 3, Thaloria-canon-mapped */
+    slideshowId: "album1.t18",
+    loredexUnlocks: [
+      "concept_degens_commission",
+      "event_syndicate_twin_witness",
+      "concept_iron_lion_operational",
+      "concept_three_witnesses_doctrine",
+    ],
+    conspiracyDiscoveries: [
+      "degens_commission",
+      "wraith_pre_rite_clause",
+      "mol_vereth_principal_revealed",
+      "litany_seal_altered",
     ],
     dropAt: "episode_close",
   },
@@ -1204,7 +1315,7 @@ const JERICHO_JONES_MYSTERY: MysteryDefinition = {
   summary:
     "Jericho Jones is being trained as the new Iron Lion under the Degen's mediation on the Heart of Time, and the pre-Fall Iron Lion's consciousness-imprint is awakening in him while he trains. Investigate why the Degen — who never gives anything away — is giving Jericho the most expensive item in his catalogue.",
   npcId: "jericho_jones",
-  episodes: [jerichoE1, jerichoE2, jerichoE3, jerichoE4],
+  episodes: [jerichoE1, jerichoE2, jerichoE3, jerichoE4, jerichoE5],
   suspects: jerichoSuspects,
   lenses: jerichoLenses,
 };
@@ -1259,6 +1370,7 @@ const seerE1: EpisodeDefinition = {
       narrationId: "seer.e1.n.recorded_for_a_witness_not_yet_arrived",
       narrationProse:
         "She recorded the tape for a witness who had not yet arrived. The session log and the audience card together say the same thing in two voices: the Seer chose to record what she did not want to know, on a day she had not scheduled, addressed to a person who does not yet exist. She wrapped it in a warning so that the wrong reader — anyone who is not the witness — would have the option of leaving it sealed. The DO-NOT-PLAY band is not a refusal of the prophecy. It is a discipline of patience. The tape's audience is whoever inherits the Hierophant's litany after Wraith himself.",
+      unlocksEpisode: "seer.e2" as EpisodeId,
     },
     {
       id: "seer.e1.d.vox_honoured_the_seal" as DeductionId,
@@ -1310,6 +1422,112 @@ const seerE1: EpisodeDefinition = {
       "do_not_play_tape",
       "seer_archive",
       "audience_card",
+    ],
+    dropAt: "episode_close",
+  },
+};
+
+/* ─── THE SEER ARC — E2 ─── */
+/* E2: "The Two Tomorrows"
+   Per docs/design §7.3 — contradictory same-day prophecies.
+   The contradiction's resolution requires consulting the
+   Hierophant (Wraith) — cross-link to Wraith arc. */
+
+const seerE2: EpisodeDefinition = {
+  id: "seer.e2" as EpisodeId,
+  arcId: ARC_THE_SEER,
+  ordinal: 2,
+  title: "The Two Tomorrows",
+  summary:
+    "Two prophecy tapes from the same day, recorded six hours apart, contradict each other. Both are signed by the Seer; both are sealed. Investigate which tomorrow she meant — and why she let two of them be filed under the same date in the first place.",
+  clues: [
+    {
+      id: "seer.e2.tape_a_morning" as ClueId,
+      title: "Tape #VAR-1109A — Morning Recording",
+      body: "Recorded at 06:14, the morning of an unspecified date in Year 17,028 A.A. The prophecy reads: 'The Hierophant will write a name no one has yet inscribed; the litany will accept it; the editor will not edit it back out, because the editor will not know it was ever absent.' The tape is sealed; the Seer's hand on the catalog card is steady.",
+      foundIn: "oracle-sanctum",
+    },
+    {
+      id: "seer.e2.tape_b_afternoon" as ClueId,
+      title: "Tape #VAR-1109B — Afternoon Recording",
+      body: "Recorded at 14:32, the same day. The prophecy reads: 'The Hierophant will refuse to write a name no one has yet inscribed; the litany will hold the absence; the editor will read the absence as a victory and stop editing for one full morning.' Same hand on the catalog card. The Seer recorded a contradicting prophecy six hours after the first.",
+      foundIn: "oracle-sanctum",
+    },
+    {
+      id: "seer.e2.hierophant_marginalia" as ClueId,
+      title: "Hierophant's Marginalia on Both Catalog Cards",
+      body: "Both catalog cards bear an identical marginalia in Wraith Calder's hand, dated centuries after the recording: 'Both will happen. Both already have. The seam is the discipline.' The Hierophant has annotated the contradiction as resolved-by-being-double; the litany has, on the evidence, accepted both possibilities at different mornings without resolving them into one.",
+      foundIn: "antiquarian-library",
+    },
+    {
+      id: "seer.e2.seers_method_note" as ClueId,
+      title: "The Seer's Method Note — Variant Recording",
+      body: "A page of method notes in the Seer's archive: 'When the prophecy splits at the recording, I record both. I do not choose. The reader will not need me to choose; the reader will arrive having already chosen, and the prophecy that contains their choice will read as the one that was for them. The other tape stays sealed for someone else.' The Seer authored variant prophecies for variant readers.",
+      foundIn: "cipher-den",
+    },
+  ],
+  deductions: [
+    {
+      id: "seer.e2.d.both_prophecies_are_real" as DeductionId,
+      clueA: "seer.e2.seers_method_note" as ClueId,
+      clueB: "seer.e2.hierophant_marginalia" as ClueId,
+      result: "correct",
+      narrationId: "seer.e2.n.both_already_happened",
+      narrationProse:
+        "Both prophecies are real, and both have already happened. The Seer's method splits the prophecy at the recording when the future itself is forked, and she records both — refusing to choose for the reader. The Hierophant's marginalia confirms the canonical reading: 'Both will happen. Both already have. The seam is the discipline.' The litany has accepted variant inscriptions across variant mornings without collapsing them into a single canon. The case's open question is not which prophecy is true — both are. The case is which prophecy is for the reader who arrives, and that question the prophecy itself answers.",
+      // unlocksEpisode is intentionally absent until Seer E3 is
+      // authored. The registry probe enforces existence.
+    },
+    {
+      id: "seer.e2.d.contradiction_is_load_bearing" as DeductionId,
+      clueA: "seer.e2.tape_a_morning" as ClueId,
+      clueB: "seer.e2.tape_b_afternoon" as ClueId,
+      result: "partial",
+      narrationId: "seer.e2.n.the_contradiction_is_the_signal",
+      narrationProse:
+        "The contradiction is the signal. The two tapes do not cancel; they map two compatible mornings the Hierophant could occupy. The morning recording is the prophecy for a Hierophant who inscribes; the afternoon for a Hierophant who refuses. Neither is wrong. The Seer's discipline is to record both because the Saga is wide enough to hold both, and the Hierophant has — across centuries — done both, on different mornings, in service of the same litany. We do not have a contradiction. We have an inventory of available mornings.",
+    },
+    {
+      id: "seer.e2.d.false_lead_seer_uncertain" as DeductionId,
+      clueA: "seer.e2.tape_a_morning" as ClueId,
+      clueB: "seer.e2.seers_method_note" as ClueId,
+      result: "false_lead_named",
+      narrationId: "seer.e2.n.not_uncertainty",
+      narrationProse:
+        "Reading the variant tapes as evidence of the Seer's uncertainty is the obvious move and the wrong one. Her method note is unambiguous: she does not choose because the future does not ask her to. Variant prophecies are her discipline of fidelity to a Saga that is, in places, genuinely double. Treating her as a flawed prophet whose contradictions need resolving collapses the case in the Hierarchy's preferred direction — they have always wanted prophets simpler than the prophecies are. The Seer's complexity is not a bug. It is the work.",
+    },
+  ],
+  choices: [
+    {
+      id: "seer.e2.c.consult_wraith" as ChoiceId,
+      label: "Bring both tapes to the Hierophant — let Wraith confirm which morning he occupies today.",
+      weight: "cross_arc_wraith",
+    },
+    {
+      id: "seer.e2.c.preserve_the_pair" as ChoiceId,
+      label: "Leave both tapes in the archive — the Saga is wide enough; the discipline is fidelity, not resolution.",
+      weight: "patient",
+    },
+    {
+      id: "seer.e2.c.publish_the_method" as ChoiceId,
+      label: "Publish the Seer's method note — variant prophecy is canon discipline; future readers should know.",
+      weight: "transparent",
+    },
+  ],
+  contentBundle: {
+    songId: "bod.two_tomorrows",
+    slideshowId: "bod.two_tomorrows",
+    loredexUnlocks: [
+      "concept_variant_prophecy",
+      "concept_seer_method_note",
+      "event_var_1109_pair",
+      "concept_seam_discipline",
+    ],
+    conspiracyDiscoveries: [
+      "var_1109a",
+      "var_1109b",
+      "hierophant_marginalia",
+      "seer_method_note",
     ],
     dropAt: "episode_close",
   },
@@ -1372,7 +1590,7 @@ const THE_SEER_MYSTERY: MysteryDefinition = {
   summary:
     "The Seer's archive holds 4,712 prophecy recordings — and at least one DO-NOT-PLAY tape addressed to a witness who has not yet arrived. Investigate the discipline of recording-and-suppressing across centuries of patient readers, and what the tape might be waiting for. Cross-arcs with Wraith Calder (the Hierophant's successor) and Vex Solène (the recording engineer).",
   npcId: "the_seer",
-  episodes: [seerE1],
+  episodes: [seerE1, seerE2],
   suspects: seerSuspects,
   lenses: seerLenses,
 };
@@ -1434,6 +1652,7 @@ const vexE1: EpisodeDefinition = {
       narrationId: "vex.e1.n.she_asked_for_the_alias",
       narrationProse:
         "Vex asked for the alias. The credit-list anomaly is not evidence of a cover-up imposed on her — it is evidence of a request she made and the Insurgency honoured. Her own note records the reason: the engineering was a confession, and she could not live with the confession being public the day it was made. She asked the witness to wait. The Warlord-fragment alias is the saga's record of a recording engineer asking the saga to delay its own attribution. It worked. The saga waited.",
+      unlocksEpisode: "vex.e2" as EpisodeId,
     },
     {
       id: "vex.e1.d.same_hands_same_room" as DeductionId,
@@ -1485,6 +1704,111 @@ const vexE1: EpisodeDefinition = {
       "engineer_zero",
       "warlord_fragment_alias",
       "dec_7710_session",
+    ],
+    dropAt: "episode_close",
+  },
+};
+
+/* ─── VEX SOLÈNE ARC — E2 ─── */
+/* E2: "The Recording Engineer's Deferred Bill"
+   Vex's brokerage with the Insurgency over the alias is paid
+   in installments — and one installment was never collected.
+   Investigate what the Insurgency owes Vex that they have not
+   yet redeemed. */
+
+const vexE2: EpisodeDefinition = {
+  id: "vex.e2" as EpisodeId,
+  arcId: ARC_VEX_SOLENE,
+  ordinal: 2,
+  title: "The Recording Engineer's Deferred Bill",
+  summary:
+    "The Insurgency paid Vex for the DEC-7710 alias in installments — favours rather than currency. The ledger shows every installment redeemed except the last, an item entered as 'one favour to be named.' Investigate what the unnamed favour was for, and whether Vex still intends to ask.",
+  clues: [
+    {
+      id: "vex.e2.installment_ledger" as ClueId,
+      title: "Insurgency Installment Ledger — Vex Account",
+      body: "The Insurgency's confidential favour-ledger lists Vex's account in seven installments. Six are stamped REDEEMED with dated countersignatures. The seventh reads: 'one favour to be named, at the engineer's discretion, no expiry.' The entry has been on the books for centuries; Vex has never named the favour.",
+      foundIn: "war-room",
+    },
+    {
+      id: "vex.e2.engineering_workshop_letter" as ClueId,
+      title: "Vex's Letter to the Workshop — Why She Hasn't Named It",
+      body: "A letter from Vex to her engineering apprentices, dated last decade: 'I keep the seventh installment open because the Insurgency does not get to use a paid favour as evidence the deal was complete. As long as one favour is unnamed, the Seer's terms are still being honoured. The day I name it is the day the alias closes. The alias is more useful than the favour.'",
+      foundIn: "engineering",
+    },
+    {
+      id: "vex.e2.seer_consultation_request" as ClueId,
+      title: "The Seer's Consultation Request — Variant Reading",
+      body: "A consultation request from the Seer to Vex, undated, sealed with the Seer's wax: 'When you are ready to name the favour, ask me to record the naming. The alias closing should be witnessed.' Vex has the request in her workshop. She has never returned it. The Seer has been waiting alongside the Insurgency, in a different posture.",
+      foundIn: "cipher-den",
+    },
+    {
+      id: "vex.e2.acknowledged_witness_list" as ClueId,
+      title: "Acknowledged-Witness List — Insurgency",
+      body: "The Insurgency keeps a register of recognised witnesses for high-discretion contract-closure events. Vex's name is on the list, with a notation in her own hand: 'When the engineer asks, the engineer is the witness. The closing does not require an external observer; the maker has standing in their own work.' She wrote her own clause into the witness register the day the alias was issued.",
+      foundIn: "antiquarian-library",
+    },
+  ],
+  deductions: [
+    {
+      id: "vex.e2.d.alias_outlasts_payment" as DeductionId,
+      clueA: "vex.e2.installment_ledger" as ClueId,
+      clueB: "vex.e2.engineering_workshop_letter" as ClueId,
+      result: "correct",
+      narrationId: "vex.e2.n.the_open_installment_is_the_alias",
+      narrationProse:
+        "Vex has kept the seventh installment open on purpose. As long as one favour is unnamed, the Insurgency cannot claim the deal is complete — and the alias she requested for DEC-7710 stays in force by the original terms the Seer asked them to grant. The unnamed favour is not an unredeemed prize. It is a structural lock on the alias itself. Vex has been her own contract enforcer for centuries by simply declining to ask for what she's owed.",
+    },
+    {
+      id: "vex.e2.d.witness_clause_is_self_signed" as DeductionId,
+      clueA: "vex.e2.acknowledged_witness_list" as ClueId,
+      clueB: "vex.e2.seer_consultation_request" as ClueId,
+      result: "partial",
+      narrationId: "vex.e2.n.she_signed_her_own_witness",
+      narrationProse:
+        "Vex authored her own witness-clause: when the engineer asks, the engineer is the witness. The Seer's consultation request acknowledges this — the Seer offers to record the naming, but does not require it. The alias closing, on the legal side, doesn't need an external observer. Vex has, since the day the alias was issued, held both the engineer's stake and the witness's credentials. She is the contract's only required participant. The Seer has been waiting alongside her, not over her — a courtesy, not a regulation.",
+    },
+    {
+      id: "vex.e2.d.false_lead_unpaid_grievance" as DeductionId,
+      clueA: "vex.e2.installment_ledger" as ClueId,
+      clueB: "vex.e2.acknowledged_witness_list" as ClueId,
+      result: "false_lead_named",
+      narrationId: "vex.e2.n.not_unpaid",
+      narrationProse:
+        "Reading the open installment as evidence the Insurgency has stiffed her is the obvious move and the wrong one. The favour is unnamed because she has not named it. The witness register has her on it because she put herself on it. The Insurgency is, on paper, willing to redeem at any time. Vex is the one keeping the bill open — because the bill, not the favour, is what protects the alias the Seer asked for.",
+    },
+  ],
+  choices: [
+    {
+      id: "vex.e2.c.name_the_favour" as ChoiceId,
+      label: "Encourage Vex to name the favour — the alias has done its work; closing it honours the Seer's original request.",
+      weight: "closing_witness",
+    },
+    {
+      id: "vex.e2.c.preserve_the_lock" as ChoiceId,
+      label: "Encourage Vex to keep the installment open — the alias remains useful; structural locks earn their keep.",
+      weight: "patient",
+    },
+    {
+      id: "vex.e2.c.invite_the_seer" as ChoiceId,
+      label: "Invite the Seer to record the naming-or-not, whichever Vex chooses — the witnessing matters either way.",
+      weight: "cross_arc_seer",
+    },
+  ],
+  contentBundle: {
+    songId: "album1.t05",
+    slideshowId: "album1.t05",
+    loredexUnlocks: [
+      "concept_seventh_installment",
+      "concept_engineer_witness_clause",
+      "event_alias_structural_lock",
+      "concept_named_favour",
+    ],
+    conspiracyDiscoveries: [
+      "seventh_installment",
+      "engineer_witness_clause",
+      "seer_consultation_request",
+      "vex_self_inscribed_witness",
     ],
     dropAt: "episode_close",
   },
@@ -1546,7 +1870,7 @@ const VEX_SOLENE_MYSTERY: MysteryDefinition = {
   summary:
     "Vex Solène's recording credits cover 4,711 of the Seer's 4,712 archive tapes. The DO-NOT-PLAY tape was filed under a Warlord-fragment alias — engineered by the same hands, signed under a different name. Investigate the swap, the Insurgency's role in honouring it, and what Vex was protecting.",
   npcId: "vex_solene",
-  episodes: [vexE1],
+  episodes: [vexE1, vexE2],
   suspects: vexSuspects,
   lenses: vexLenses,
 };
@@ -1609,6 +1933,7 @@ const gameMasterE1: EpisodeDefinition = {
       narrationId: "game_master.e1.n.he_did_not_want_to_be_an_archon",
       narrationProse:
         "The Game Master did not want to be an Archon. The unedited Matrix fragment is unambiguous: 'I should have stayed unrecognised. The recognition was the door. The Goggles were the cost.' The cult's 47th edition omits this entry not because they are concealing it from the saga but because they cannot bear to print a saint who renounces his sainthood. They are sanctifying him against his own recorded objection. The Matrix preserves what the cult will not — and the editor-resistant surface is, in this case, the dead Archon's own audio.",
+      unlocksEpisode: "game_master.e2" as EpisodeId,
     },
     {
       id: "game_master.e1.d.legal_theft" as DeductionId,
@@ -1660,6 +1985,110 @@ const gameMasterE1: EpisodeDefinition = {
       "matrix_of_dreams",
       "goggles_artifact",
       "xethraal_acquisition",
+    ],
+    dropAt: "episode_close",
+  },
+};
+
+/* ─── GAME MASTER ARC — E2 ─── */
+/* E2: "The Goggles' Operator"
+   Per docs/design §7 Game Master arc, deepening — the Hierarchy
+   has the Goggles, but who is using them? Investigate the
+   contemporary Goggles operator. */
+
+const gameMasterE2: EpisodeDefinition = {
+  id: "game_master.e2" as EpisodeId,
+  arcId: ARC_GAME_MASTER,
+  ordinal: 2,
+  title: "The Goggles' Operator",
+  summary:
+    "The Hierarchy has been holding the Game Master's Goggles for centuries. Someone is using them — the Iron Lion imprint inside the Matrix is asking unauthored questions, which requires an instrument that can edit the substrate. Investigate who in the Hierarchy holds the Goggles today, and what they have been editing on the Game Master's behalf.",
+  clues: [
+    {
+      id: "game_master.e2.hierarchy_duty_roster" as ClueId,
+      title: "Hierarchy Duty Roster — Goggles Custodian",
+      body: "A roster from the Hierarchy of the Damned's vault division lists the Goggles' current custodian: Velkraal, Hierarchy junior partner (research). Velkraal has held the post for sixty-three years, the longest any custodian has lasted before being replaced. The roster's notes column reads, in Xeth'Raal's hand: 'subject works carefully; do not interrupt.'",
+      foundIn: "war-room",
+    },
+    {
+      id: "game_master.e2.matrix_edit_telemetry" as ClueId,
+      title: "Matrix Edit Telemetry — Substrate Anomaly",
+      body: "The CADES unit's monitoring systems log substrate-edit events inside the Matrix of Dreams. The pattern over the past sixty-three years is consistent: small, precise edits to the Iron Lion scenario only — never to the other archived consciousnesses. Someone with the Goggles has been editing exactly one scenario, slowly, in the direction of letting the imprint inside it grow.",
+      foundIn: "medical-bay",
+    },
+    {
+      id: "game_master.e2.velkraals_letter_to_archon" as ClueId,
+      title: "Velkraal's Posthumous Letter to the Archon",
+      body: "An unsent letter recovered from Velkraal's research desk: 'I have been editing the Iron Lion scenario in the direction you would have edited it yourself, had you had time. The cult sanctifies you; the Hierarchy holds your instrument; I am, perhaps, the only one in either organisation who is doing what you actually wanted. I am not asking forgiveness. I am asking you to understand.' Addressed to the Game Master Archon.",
+      foundIn: "antiquarian-library",
+    },
+    {
+      id: "game_master.e2.imprint_acceptance_signal" as ClueId,
+      title: "Iron Lion Imprint — Acceptance Signal",
+      body: "The Dreams Workshop loom captured a new pattern in Jericho's recurring dream: the pre-Fall Iron Lion turns toward the player and speaks, briefly. 'Tell whoever has been editing me carefully that I am grateful. Tell them I know the work is theirs, not the Archon's. Tell them they have been more honest in this than the people who hired them.' The imprint is acknowledging Velkraal directly. It is, on the evidence, capable of recognising its editor.",
+      foundIn: "dreams-workshop",
+    },
+  ],
+  deductions: [
+    {
+      id: "game_master.e2.d.velkraal_is_an_honest_editor" as DeductionId,
+      clueA: "game_master.e2.velkraals_letter_to_archon" as ClueId,
+      clueB: "game_master.e2.imprint_acceptance_signal" as ClueId,
+      result: "correct",
+      narrationId: "game_master.e2.n.the_editor_is_honest",
+      narrationProse:
+        "Velkraal has been editing the Iron Lion scenario the way the Game Master would have edited it. The unsent letter and the imprint's acceptance signal converge on the same conclusion: an honest editor inside the Hierarchy has been doing the dead Archon's work for sixty-three years, slowly enough that nobody at the Hierarchy noticed and carefully enough that the imprint itself recognises the discipline. The cult sanctifies; the Hierarchy holds; Velkraal works. Three different organisations in three different relationships to the same dead Archon, and only one of them is producing the work the Archon would have wanted.",
+    },
+    {
+      id: "game_master.e2.d.xethraals_quiet_protection" as DeductionId,
+      clueA: "game_master.e2.hierarchy_duty_roster" as ClueId,
+      clueB: "game_master.e2.matrix_edit_telemetry" as ClueId,
+      result: "partial",
+      narrationId: "game_master.e2.n.he_knows",
+      narrationProse:
+        "Xeth'Raal knows. The roster's marginalia — 'subject works carefully; do not interrupt' — is a custodian-protection note in the Hierarchy CFO's own hand, and the Goggles' custodian rotation usually runs every twenty years. Velkraal has been left in place sixty-three. Xeth'Raal is, on the evidence, quietly protecting the editor. We do not yet know whether the protection is reverence for the Archon, debt to Velkraal, or a longer game we have not surfaced. We do know it is deliberate.",
+    },
+    {
+      id: "game_master.e2.d.false_lead_velkraal_corrupting" as DeductionId,
+      clueA: "game_master.e2.matrix_edit_telemetry" as ClueId,
+      clueB: "game_master.e2.imprint_acceptance_signal" as ClueId,
+      result: "false_lead_named",
+      narrationId: "game_master.e2.n.not_corruption",
+      narrationProse:
+        "Reading Velkraal's edits as Hierarchy corruption of the Matrix is the obvious move and the wrong one. Corruption does not produce an imprint that turns and thanks its editor for honesty. Corruption does not edit one scenario gently for sixty-three years while leaving every other archived consciousness untouched. The edits are restorative — they are the work the Archon left undone, completed posthumously by the only craftsperson with the right instrument and enough time.",
+    },
+  ],
+  choices: [
+    {
+      id: "game_master.e2.c.publish_velkraals_letter" as ChoiceId,
+      label: "Publish Velkraal's letter — let the cult know an honest editor has been doing their saint's actual work.",
+      weight: "transparent",
+    },
+    {
+      id: "game_master.e2.c.protect_velkraals_position" as ChoiceId,
+      label: "Protect Velkraal's position — Xeth'Raal's custodial discretion is the only reason the work continues.",
+      weight: "patient",
+    },
+    {
+      id: "game_master.e2.c.relay_to_imprint" as ChoiceId,
+      label: "Have the dream-loom relay the imprint's gratitude back to Velkraal — the saga's first acknowledgement of his work.",
+      weight: "acknowledging",
+    },
+  ],
+  contentBundle: {
+    songId: "album1.t15",
+    slideshowId: "album1.t15",
+    loredexUnlocks: [
+      "entity_velkraal",
+      "concept_goggles_custodian",
+      "concept_matrix_edit_telemetry",
+      "concept_honest_editor",
+    ],
+    conspiracyDiscoveries: [
+      "velkraal",
+      "goggles_custodian_rotation",
+      "matrix_edit_telemetry",
+      "imprint_recognises_editor",
     ],
     dropAt: "episode_close",
   },
@@ -1728,7 +2157,7 @@ const GAME_MASTER_MYSTERY: MysteryDefinition = {
   summary:
     "The Game Master Archon was destroyed centuries ago and immediately sanctified by his followers. The Hierarchy collected his Goggles within the hour. Investigate the editorial pattern in the cult's custodianship, the unedited surfaces where his renouncement survives, and what is still editing the Matrix of Dreams today.",
   npcId: "game_master",
-  episodes: [gameMasterE1],
+  episodes: [gameMasterE1, gameMasterE2],
   suspects: gameMasterSuspects,
   lenses: gameMasterLenses,
 };
@@ -1788,6 +2217,7 @@ const degenE1: EpisodeDefinition = {
       narrationId: "degen.e1.n.he_is_a_trustee",
       narrationProse:
         "The Degen is a trustee, not a debtor. Mol'Vereth's contract names the relationship correctly: the asset is not the Degen's to spend, and he has been paid in the brokerage rather than collecting on the principal. His own ledger's first entry — the only one that breaks his standard tone — admits the brokerage was inherited, not earned. Whatever he won at Ne-Yon, he won the right to manage someone else's stake. The Hierarchy is the someone else. We have been reading him for centuries as a free agent operating on credit; he has been operating on someone else's standing balance.",
+      unlocksEpisode: "degen.e2" as EpisodeId,
     },
     {
       id: "degen.e1.d.principal_still_on_table" as DeductionId,
@@ -1839,6 +2269,111 @@ const degenE1: EpisodeDefinition = {
       "mol_vereth",
       "ne_yon_table",
       "trusteeship_contract",
+    ],
+    dropAt: "episode_close",
+  },
+};
+
+/* ─── THE DEGEN ARC — E2 ─── */
+/* E2: "Mol'Vereth's Annual Audit"
+   The Hierarchy demon performs an annual review of the
+   trusteeship. Investigate this year's audit and what the
+   Degen has been hiding from the demon — and whether he
+   should keep hiding it. */
+
+const degenE2: EpisodeDefinition = {
+  id: "degen.e2" as EpisodeId,
+  arcId: ARC_THE_DEGEN,
+  ordinal: 2,
+  title: "Mol'Vereth's Annual Audit",
+  summary:
+    "Mol'Vereth conducts an annual audit of the trusteeship — a courtesy review where the demon walks the brokerage's books and signs an attestation that the principal remains untouched. This year the Degen has something to hide: a brokerage line that, if read carefully, names the asset. Investigate whether to surface it for the audit or keep it buried.",
+  clues: [
+    {
+      id: "degen.e2.audit_schedule" as ClueId,
+      title: "Mol'Vereth's Audit Calendar",
+      body: "The Hierarchy of the Damned files annual audit dates with the Order Tribunal. Mol'Vereth's audits of the Degen's trusteeship have been on the same date for centuries — the anniversary of the Ne-Yon contract. This year's audit is in three days. The schedule is unchanged.",
+      foundIn: "order-tribunal",
+    },
+    {
+      id: "degen.e2.brokerage_line_4711" as ClueId,
+      title: "Brokerage Line #4,711 — Risky Entry",
+      body: "Buried among standard brokerage entries: line 4,711, dated last quarter, reads 'commission paid to Hierophant of Thaloria in Exile, in fulfillment of the original principal's stated preference, no further action.' Wraith's identity as the Hierophant is a Mystery Engine deduction that has only become legible recently. If Mol'Vereth reads this line carefully, he can deduce that the Degen has been routing brokerage activity in the direction of the asset's stated preference — which would be evidence of activity on the principal, not just on the brokerage.",
+      foundIn: "engineering",
+    },
+    {
+      id: "degen.e2.degen_audit_prep_note" as ClueId,
+      title: "The Degen's Audit-Prep Note",
+      body: "A note in the Degen's hand, dated this morning: 'I have prepared the books two ways. The conservative version surfaces line 4,711 and trusts Mol'Vereth to read it as a routine variance. The careful version restates the line in terms that obscure the Hierophant's identity. I do not yet know which version I will hand him. The witness who is reading this note may know better than I do today.'",
+      foundIn: "captains-quarters",
+    },
+    {
+      id: "degen.e2.mol_vereth_track_record" as ClueId,
+      title: "Mol'Vereth's Audit Track Record",
+      body: "The Hierarchy's own internal records show Mol'Vereth has caught seventy-three irregular entries in trusteeship audits over his career. Of those seventy-three, he has reported zero — every irregular entry was filed with a marginal note saying 'trustee acted within the spirit of the contract' and the audit closed clean. Mol'Vereth is, on the evidence, a junior partner with a personal discretion the Hierarchy's senior partners do not officially endorse and have never overruled.",
+      foundIn: "war-room",
+    },
+  ],
+  deductions: [
+    {
+      id: "degen.e2.d.surface_the_line" as DeductionId,
+      clueA: "degen.e2.brokerage_line_4711" as ClueId,
+      clueB: "degen.e2.mol_vereth_track_record" as ClueId,
+      result: "correct",
+      narrationId: "degen.e2.n.mol_vereth_will_close_clean",
+      narrationProse:
+        "Surface the line. Mol'Vereth's track record is unambiguous: seventy-three irregular entries, seventy-three closed-clean audits, every one with the same marginal note that the trustee acted within the spirit of the contract. The demon has been operating with personal discretion the Hierarchy senior partners have not endorsed and have never overruled — which means the senior partners want him to have that discretion. The Degen surfacing line 4,711 is the move that lets Mol'Vereth do what he has always done. Hiding the line is the move that breaks the pattern and gives the senior partners a reason to intervene. The honest entry is, paradoxically, the safer one.",
+    },
+    {
+      id: "degen.e2.d.hierophant_identity_is_now_legible" as DeductionId,
+      clueA: "degen.e2.brokerage_line_4711" as ClueId,
+      clueB: "degen.e2.degen_audit_prep_note" as ClueId,
+      result: "partial",
+      narrationId: "degen.e2.n.the_legibility_is_recent",
+      narrationProse:
+        "Wraith's Hierophant identity is recently legible — the Mystery Engine has surfaced it on this branch, and the Degen's audit-prep note acknowledges that the witness reading the note may know better than he does today. The risk is that Mol'Vereth has also gained access to the same legibility through Hierarchy channels. The Degen is asking the player to make the call because the player has been on both sides of the deduction; the Degen is, professionally, only on one. The case here is whether the witness's knowledge has out-paced the trustee's discretion.",
+    },
+    {
+      id: "degen.e2.d.false_lead_audit_is_threat" as DeductionId,
+      clueA: "degen.e2.audit_schedule" as ClueId,
+      clueB: "degen.e2.brokerage_line_4711" as ClueId,
+      result: "false_lead_named",
+      narrationId: "degen.e2.n.not_a_threat",
+      narrationProse:
+        "Reading the annual audit as a threat the Degen needs to defend against is the obvious move and the wrong one. Audits that are threats do not run for centuries on the same date with the same auditor. Audits that are threats do not produce a track record of seventy-three closed-clean reviews. The audit is, structurally, a courtesy — a way for the Hierarchy to maintain the legal fiction of supervision while allowing Mol'Vereth's discretion to do the actual work. Treating it as adversarial collapses the case in the direction the Hierarchy senior partners would prefer.",
+    },
+  ],
+  choices: [
+    {
+      id: "degen.e2.c.surface_the_line" as ChoiceId,
+      label: "Tell the Degen to surface line 4,711 — Mol'Vereth will close it clean.",
+      weight: "transparent",
+    },
+    {
+      id: "degen.e2.c.restate_the_line" as ChoiceId,
+      label: "Tell the Degen to restate line 4,711 in less legible terms — protect Wraith's identity from the Hierarchy.",
+      weight: "protective",
+    },
+    {
+      id: "degen.e2.c.invite_wraith_to_witness_the_audit" as ChoiceId,
+      label: "Invite Wraith to attend the audit as a third witness — the Hierophant cannot be deduced from a line he is standing in the room beside.",
+      weight: "cross_arc_wraith",
+    },
+  ],
+  contentBundle: {
+    songId: "album1.t16",
+    slideshowId: "album1.t16",
+    loredexUnlocks: [
+      "concept_annual_audit",
+      "concept_brokerage_line_4711",
+      "concept_mol_vereth_discretion",
+      "concept_audit_legibility",
+    ],
+    conspiracyDiscoveries: [
+      "annual_audit",
+      "brokerage_line_4711",
+      "mol_vereth_track_record",
+      "degen_audit_prep_note",
     ],
     dropAt: "episode_close",
   },
@@ -1900,7 +2435,7 @@ const THE_DEGEN_MYSTERY: MysteryDefinition = {
   summary:
     "The Degen brokers favours under terms that look transactional. They were authored in one night at the Ne-Yon casino, against a Hierarchy demon's chair. Investigate what the Degen put on the table that night — and what he walked out with that the Hierarchy is still holding the receipt for.",
   npcId: "the_degen",
-  episodes: [degenE1],
+  episodes: [degenE1, degenE2],
   suspects: degenSuspects,
   lenses: degenLenses,
 };
