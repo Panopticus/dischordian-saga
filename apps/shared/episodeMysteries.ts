@@ -972,6 +972,7 @@ const jerichoE3: EpisodeDefinition = {
       narrationId: "jericho.e3.n.the_imprint_is_a_gift",
       narrationProse:
         "The imprint is doctrinal. The pre-Fall Lionism documented imprint-resonance as a successor's inheritance — a gift, not a possession; advice, not instruction. The dreams of the Bridge of Kael are the prior Iron Lion offering Jericho his three-hour, forty-seven-minute lesson in holding ground. Jericho is the first successor in whom this doctrine is being tested in practice. The imprint is, in the canon's own grammar, the callsign's voluntary inheritance of attention.",
+      unlocksEpisode: "jericho.e4" as EpisodeId,
     },
     {
       id: "jericho.e3.d.cross_arc_substrate" as DeductionId,
@@ -1023,6 +1024,123 @@ const jerichoE3: EpisodeDefinition = {
       "pre_fall_iron_lion",
       "lionism_imprint_doctrine",
       "substrate_n_overlap",
+    ],
+    dropAt: "episode_close",
+  },
+};
+
+/* ─── JERICHO JONES ARC — E4 ─── */
+/* E4: "Lionism Ethics"
+   Per docs/design/STREAMED_PRISM_MYSTERY_ENGINE.md §7.2 — the
+   Iron Lion code vs. the killing of Akai Shi. The pre-Fall
+   Iron Lion (whose imprint Jericho is now carrying) had a
+   different read on the code than current Jericho. Sherlock-
+   style deduction matrix: which Lion's reading is correct?
+   The honest answer is *both readings are partial* — the code
+   evolved between the Falls, and Jericho is the first Lion to
+   hold both readings at once.
+
+   This episode is the moral spine of the arc. The Disco-
+   Elysium internal-voice contention from E2 returns, but at
+   the doctrinal level rather than the personal one. */
+
+const jerichoE4: EpisodeDefinition = {
+  id: "jericho.e4" as EpisodeId,
+  arcId: ARC_JERICHO_JONES,
+  ordinal: 4,
+  title: "Lionism Ethics",
+  summary:
+    "The pre-Fall Iron Lion's imprint reads the killing of Akai Shi as a textbook mercy under the Lionism code he was trained to. Jericho reads it as a contested-doctrine act he chose to make at the threshold. Both Lions are right inside their own training. Investigate the seam between the two readings — and whether the code, like the callsign, can carry both.",
+  clues: [
+    {
+      id: "jericho.e4.pre_fall_lionism_code" as ClueId,
+      title: "Pre-Fall Lionism Code — Section 4 Mercy",
+      body: "The pre-Fall Lionism code's Section 4 (Mercy) is unambiguous: when an ally is taken by an irreversible vector, the Lion who knows them best is duty-bound to deliver the cleanest possible end. The code names the act as a discharge of love, not a violation of bonds. The pre-Fall Iron Lion read Akai Shi's killing under this section without hesitation; his imprint reads it the same way today.",
+      foundIn: "antiquarian-library",
+    },
+    {
+      id: "jericho.e4.post_fall_revision" as ClueId,
+      title: "Post-Fall Lionism Revision — Threshold Doctrine",
+      body: "The post-Fall Lionism code, revised after Veridian VI, replaced the Section 4 mercy clause with the Threshold Doctrine: an ally taken by the Thought Virus may still cross back if the Lion holds the threshold long enough; killing-as-mercy became contested doctrine, no longer codified. Jericho was trained in the post-Fall code. He killed Akai Shi at the threshold the new doctrine asks the Lion to hold.",
+      foundIn: "order-tribunal",
+    },
+    {
+      id: "jericho.e4.imprint_dream_argument" as ClueId,
+      title: "Imprint Dream — Two Lions Arguing",
+      body: "The Dreams Workshop loom captured a second recurring dream from Jericho: he stands on the Bridge of Kael with the pre-Fall Iron Lion beside him. They argue about Akai Shi. The pre-Fall Lion reads the Section 4 mercy clause aloud. Jericho reads the Threshold Doctrine. Neither concedes. The argument loops; in every iteration, the pre-Fall Lion ends with the same line: 'You did the right thing under your code. So did I, under mine. The hard part is that we are now the same person.'",
+      foundIn: "dreams-workshop",
+    },
+    {
+      id: "jericho.e4.akai_shi_witness_choice" as ClueId,
+      title: "Akai Shi's Pre-Threshold Recording — Reading 2",
+      body: "Re-reading the pre-threshold recording from E2 with the doctrinal evidence in hand: Akai Shi knew Jericho was post-Fall trained. She recorded the consent for him specifically, not for the prior Iron Lion. 'He'll do it correctly without permission' is, in the post-Fall code, an act under contested doctrine; in the pre-Fall code, an act of canonical mercy. Akai Shi authored a consent that read correctly under both codes simultaneously — she made it possible for either Lion to do the work without violating their own.",
+      foundIn: "cipher-den",
+    },
+  ],
+  deductions: [
+    {
+      id: "jericho.e4.d.both_codes_are_right" as DeductionId,
+      clueA: "jericho.e4.pre_fall_lionism_code" as ClueId,
+      clueB: "jericho.e4.post_fall_revision" as ClueId,
+      result: "correct",
+      narrationId: "jericho.e4.n.the_code_carries_both_readings",
+      narrationProse:
+        "Both codes are right inside their own training. The pre-Fall Section 4 reads the killing as a clean-mercy duty; the post-Fall Threshold Doctrine reads it as a contested act. The honest reading is that the code evolved between the Falls because the saga itself evolved — what was unambiguously kind in one era became a question worth holding open in the next. Jericho is the first Lion to carry both codes at once. The imprint's argument with him in the dream is not a refutation; it is an inheritance. The Lionism code, like the callsign, can carry both readings forward.",
+    },
+    {
+      id: "jericho.e4.d.akai_shi_read_both" as DeductionId,
+      clueA: "jericho.e4.akai_shi_witness_choice" as ClueId,
+      clueB: "jericho.e4.imprint_dream_argument" as ClueId,
+      result: "partial",
+      narrationId: "jericho.e4.n.she_held_the_seam",
+      narrationProse:
+        "Akai Shi held the seam herself. Her consent recording was authored to read correctly under both codes — pre-Fall mercy or post-Fall contested act — so that whichever Lion did the work would not have to violate their own training. The dream's looping argument is what Jericho carries instead of her: the two Lions she made compatible meet in him, every night, on the bridge that ended the prior Lion's career and started this one's. We do not have an answer to which code is right. We have an answer to which witness held the seam open until both could pass through it.",
+      // unlocksEpisode is intentionally absent until Jericho E5
+      // is authored (per docs/design §7.2, E5 is "The Degen's
+      // Commission"). The registry probe enforces unlocksEpisode
+      // → existing-episode.
+    },
+    {
+      id: "jericho.e4.d.false_lead_obsolete_code" as DeductionId,
+      clueA: "jericho.e4.pre_fall_lionism_code" as ClueId,
+      clueB: "jericho.e4.imprint_dream_argument" as ClueId,
+      result: "false_lead_named",
+      narrationId: "jericho.e4.n.not_obsolete",
+      narrationProse:
+        "Reading the pre-Fall code as obsolete because the post-Fall revision replaced it is the obvious move and the wrong one. Codes are not obsolete because they were superseded; they are obsolete only if no living witness still operates by them. The pre-Fall Iron Lion's imprint operates by Section 4 today, inside Jericho's mind, in arguments Jericho cannot dismiss. The pre-Fall code is alive in him. The post-Fall code is also alive in him. Both are operative. Treating one as the historical and the other as the current collapses the case in the wrong direction.",
+    },
+  ],
+  choices: [
+    {
+      id: "jericho.e4.c.adopt_pre_fall" as ChoiceId,
+      label: "Adopt the pre-Fall reading — what Jericho did was clean mercy under canon.",
+      weight: "pre_fall_lionist",
+    },
+    {
+      id: "jericho.e4.c.adopt_post_fall" as ChoiceId,
+      label: "Hold the post-Fall reading — the act stays contested, and that is the discipline.",
+      weight: "post_fall_lionist",
+    },
+    {
+      id: "jericho.e4.c.carry_both" as ChoiceId,
+      label: "Carry both codes — Jericho is the first Lion who can hold the seam open.",
+      weight: "seam_holder",
+    },
+  ],
+  contentBundle: {
+    songId: "bod.last_stand", /* "The Last Stand" — Book of Daniel 2:47, Iron Lion canon song */
+    slideshowId: "bod.last_stand",
+    loredexUnlocks: [
+      "concept_lionism_section_4",
+      "concept_threshold_doctrine",
+      "concept_imprint_dream_argument",
+      "concept_seam_holder",
+    ],
+    conspiracyDiscoveries: [
+      "lionism_section_4",
+      "threshold_doctrine",
+      "imprint_dream_argument",
+      "akai_shi_dual_consent",
     ],
     dropAt: "episode_close",
   },
@@ -1086,7 +1204,7 @@ const JERICHO_JONES_MYSTERY: MysteryDefinition = {
   summary:
     "Jericho Jones is being trained as the new Iron Lion under the Degen's mediation on the Heart of Time, and the pre-Fall Iron Lion's consciousness-imprint is awakening in him while he trains. Investigate why the Degen — who never gives anything away — is giving Jericho the most expensive item in his catalogue.",
   npcId: "jericho_jones",
-  episodes: [jerichoE1, jerichoE2, jerichoE3],
+  episodes: [jerichoE1, jerichoE2, jerichoE3, jerichoE4],
   suspects: jerichoSuspects,
   lenses: jerichoLenses,
 };

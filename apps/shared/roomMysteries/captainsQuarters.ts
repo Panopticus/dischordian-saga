@@ -144,6 +144,19 @@ export const CAPTAINS_QUARTERS_MYSTERY: RoomMysteryModule<CaptainsQuartersHotspo
             "You said hello to Mr. Whiskers. The photograph does not respond — not because it can't, but because the cat in it has, professionally and consistently, never responded to anyone except Lyra. I think we both received the proper greeting. I think we should be content with it.",
         },
         voId: "elara.captains-quarters.cat-photo.talk",
+        // Mystery Engine binding — when the Degen arc is the
+        // active case, addressing the photograph surfaces a Ne-
+        // Yon casino chip balance Lyra had filed behind the
+        // photograph alongside her other private records. Lore
+        // match: Lyra vouched for the Degen at Ne-Yon the night
+        // he won the trusteeship, and kept her copy of the chip-
+        // balance record where the editor would not look —
+        // behind the cat she trusted to keep its discretion.
+        mysteryBinding: {
+          mysteryId: "mystery.the_degen",
+          episodeId: "degen.e1",
+          cluesFound: ["degen.e1.ne_yon_chip_balance"],
+        },
       },
     },
   },

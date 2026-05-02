@@ -45,6 +45,9 @@ export default function CasesPage() {
   const available = trpc.mysteries.listAvailable.useQuery(undefined, {
     enabled: isAuthenticated,
   });
+  const myProgress = trpc.mysteries.getMyProgress.useQuery(undefined, {
+    enabled: isAuthenticated,
+  });
   const community = trpc.mysteries.listCommunityCases.useQuery(undefined, {
     enabled: isAuthenticated,
   });
@@ -146,6 +149,17 @@ export default function CasesPage() {
             {available.data?.map((m) => {
               const isActive = activeCase.data?.progress?.mysteryId === m.id;
               const Icon = isActive ? FolderOpen : Folder;
+              // Per-arc progress badge: find the player's progress
+              // row for this mystery, locate currentEpisodeId in
+              // the authored episode-id list, render "X of Y."
+              // Hidden when the player has not opened the case.
+              const progressRow = myProgress.data?.find((p) => p.mysteryId === m.id);
+              const progressIndex = progressRow
+                ? m.episodeIds.indexOf(progressRow.currentEpisodeId)
+                : -1;
+              const progressLabel = progressIndex >= 0
+                ? `Episode ${progressIndex + 1} of ${m.episodeCount}`
+                : null;
               return (
                 <div
                   key={m.id}
@@ -163,8 +177,23 @@ export default function CasesPage() {
                     <p className="font-mono text-[10px] leading-relaxed mt-1" style={{ color: "rgba(226, 232, 240, 0.55)" }}>
                       {m.summary}
                     </p>
-                    <p className="font-mono text-[9px] mt-2" style={{ color: "rgba(226, 232, 240, 0.4)" }}>
-                      {m.episodeCount} episode{m.episodeCount === 1 ? "" : "s"}
+                    <p className="font-mono text-[9px] mt-2 flex items-center gap-2" style={{ color: "rgba(226, 232, 240, 0.4)" }}>
+                      <span>{m.episodeCount} episode{m.episodeCount === 1 ? "" : "s"}</span>
+                      {progressLabel && (
+                        <>
+                          <span>·</span>
+                          <span
+                            className="font-mono text-[9px] tracking-widest px-1.5 py-0.5 rounded-full"
+                            style={{
+                              background: "color-mix(in oklch, var(--energy-primary) 16%, transparent)",
+                              color: "var(--energy-primary)",
+                              border: "1px solid color-mix(in oklch, var(--energy-primary) 40%, transparent)",
+                            }}
+                          >
+                            {progressLabel.toUpperCase()}
+                          </span>
+                        </>
+                      )}
                     </p>
                   </div>
                   {!isActive && (
