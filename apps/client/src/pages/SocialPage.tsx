@@ -3,7 +3,7 @@
    ═══════════════════════════════════════════════════════ */
 import { trpc } from "@/lib/trpc";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Link } from "wouter";
 import {
   ChevronLeft, Users, MessageCircle, UserPlus, Check,
@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { TitlePill } from "@/components/TitlePill";
 
 type Tab = "friends" | "messages" | "requests";
 
@@ -21,6 +22,21 @@ export default function SocialPage() {
   const [messageText, setMessageText] = useState("");
 
   const { data: friends, isLoading, refetch: refetchFriends } = trpc.social.getMyFriends.useQuery();
+  // Tier 9 H — render each friend's equipped title pill alongside
+  // their name. Single batch resolve avoids N+1.
+  const friendUserIds = useMemo(() => {
+    const ids = new Set<number>();
+    for (const f of (friends ?? []) as Array<{ userId?: number; user1Id?: number; user2Id?: number }>) {
+      const me = f.userId;
+      const other = me === f.user1Id ? f.user2Id : f.user1Id;
+      if (other) ids.add(other);
+    }
+    return [...ids];
+  }, [friends]);
+  const friendTitles = trpc.titles.resolveEquippedTitles.useQuery(
+    { userIds: friendUserIds },
+    { enabled: friendUserIds.length > 0 },
+  );
   const { data: pending } = trpc.social.getPendingRequests.useQuery();
   const { data: inbox } = trpc.social.getInbox.useQuery(undefined, { enabled: tab === "messages" });
   const { data: conversation } = trpc.social.getConversation.useQuery(
@@ -122,7 +138,14 @@ export default function SocialPage() {
                       <Users size={14} className="text-primary" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="font-mono text-xs font-semibold">Player #{f.userId === f.user1Id ? f.user2Id : f.user1Id}</p>
+                      <div className="flex items-center gap-2">
+                        <p className="font-mono text-xs font-semibold">Player #{f.userId === f.user1Id ? f.user2Id : f.user1Id}</p>
+                        {(() => {
+                          const otherId = f.userId === f.user1Id ? f.user2Id : f.user1Id;
+                          const t = otherId && friendTitles.data?.[otherId];
+                          return t ? <TitlePill titleKey={t.titleKey} size="xs" /> : null;
+                        })()}
+                      </div>
                       <p className="font-mono text-[10px] text-muted-foreground">
                         Friends since {new Date(f.createdAt).toLocaleDateString()}
                       </p>
