@@ -3266,6 +3266,41 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
   // surfaces in at least one Act 1+ NPC line, so the Prelude choices
   // actually move the universe. Enforced by preludeFlagContract.test.ts.
 
+  // Act 3 path_*_chosen echoes — Act 4+ NPCs read which Kael lens you walked
+  {
+    id: "npc_line_kael_lens_transparent",
+    surface: "npc_line",
+    targetId: "kael_act4",
+    text:
+      "You walked the cyan door. I keep my cell well-lit when you come back; the files stay open across the table between us. You see what I am and you see what I did. The light is the relationship — that is what cyan-walked witnesses get. I am told I greet you with the sentence that costs the least to say first; I do not check whether the witness who walked dark gets the same sentence. I assume not.",
+    morality: "any",
+    trust: "any",
+    act: 4,
+    requiredFlags: ["act3_path_transparent_chosen"],
+  },
+  {
+    id: "npc_line_kael_lens_pragmatic",
+    surface: "npc_line",
+    targetId: "kael_act4",
+    text:
+      "You walked the amber door. I keep the casualty list on the table between us when you visit; the conversation begins with the math because the math is what you came for. I respect the format. The format is also what you chose me with. Carrying the format is the relationship.",
+    morality: "any",
+    trust: "any",
+    act: 4,
+    requiredFlags: ["act3_path_pragmatic_chosen"],
+  },
+  {
+    id: "npc_line_kael_lens_secret",
+    surface: "npc_line",
+    targetId: "kael_act4",
+    text:
+      "You walked the rose door. The cell is dim on your visits; the safe stays closed; the envelope is in my coat pocket. I greet you with what I hid because that is the lens you taught me to use with you. The hiding is the relationship; the eventual unhiding will be the next chapter. Neither of us is in a hurry.",
+    morality: "any",
+    trust: "any",
+    act: 4,
+    requiredFlags: ["act3_path_full_secret_chosen"],
+  },
+
   // companion_augmentation echoes
   {
     id: "npc_line_dreamer_aug_mutation",
