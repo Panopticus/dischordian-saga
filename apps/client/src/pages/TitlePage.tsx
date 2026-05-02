@@ -27,6 +27,7 @@ import KineticText from "@/components/void/KineticText";
 
 import { BroadcastPanel } from "./title/BroadcastPanel";
 import { BroadcastTicker } from "./title/BroadcastTicker";
+import { TitleBootSequence } from "./title/TitleBootSequence";
 import { ResetWall } from "./title/ResetWall";
 import { SurveillanceOpening } from "./title/SurveillanceOpening";
 import DischordiaOpeningCinematic, { DISCHORDIA_OPENING_VIDEO_URL } from "@/components/DischordiaOpeningCinematic";
@@ -688,6 +689,11 @@ export default function TitlePage({ onDismiss }: TitlePageProps = {}) {
       {hasSave && handshakeDone && (
         <BroadcastTicker announcements={announcements} accentColor={theme.palette.accent} />
       )}
+
+      {/* Liminal touch §5 — calibration log lines flash once per
+          session in the top-left. Pure decoration; aria-hidden inside
+          the component so screen readers ignore it. */}
+      {handshakeDone && <TitleBootSequence />}
 
       {/* Broadcast panel — only mounted when a returning account opened
           the chip; without `hasSave` the chip never renders. */}

@@ -63,6 +63,8 @@ import { useTutorialOrchestrator } from "./hooks/useTutorialOrchestrator";
 import { syncFromServer, initSync } from "@/lib/settingsSync";
 import { detectQualityTier, applyQualityTierToDOM } from "@/lib/qualityTier";
 import { installViewTransitions } from "@/lib/viewTransitions";
+import { logBootBanner, useIdleTitleCycle } from "@/lib/liminalTouches";
+import { useMoralityStore } from "@/stores/moralityStore";
 import { initCrossGameBeats } from "@/lib/crossGameBeats";
 import RecapOverlay, { shouldShowRecap, RECAP_INACTIVITY_DAYS } from "./components/RecapOverlay";
 import { loadingManager, LOADING_TASKS } from "@/lib/loadingProgress";
@@ -172,6 +174,8 @@ const AdminHealthPage = lazy(() => import("./pages/AdminHealthPage"));
 const AdminPvpPage = lazy(() => import("./pages/AdminPvpPage"));
 const ArchitectConsolePage = lazy(() => import("./pages/ArchitectConsolePage"));
 const ArchitectDossierPage = lazy(() => import("./pages/ArchitectDossierPage"));
+const ArchitectCryptic = lazy(() => import("./pages/ArchitectCryptic"));
+const DreamerFragment = lazy(() => import("./pages/DreamerFragment"));
 const HierarchyPage = lazy(() => import("./pages/HierarchyPage"));
 const DemonPackPage = lazy(() => import("./pages/DemonPackPage"));
 const FightLeaderboardPage = lazy(() => import("./pages/FightLeaderboardPage"));
@@ -376,6 +380,15 @@ function Router() {
         <Route path="/admin/pvp" component={AdminPvpPage} />
         <Route path="/architect-console" component={ArchitectConsolePage} />
         <Route path="/architect/dossier" component={ArchitectDossierPage} />
+        {/* Liminal touch — 23-second-delayed cryptic transcript at /architect.
+            Distinct from /architect/dossier (which is the structured candidate
+            file). Order matters: /architect/dossier must come first so the
+            longer-prefix route doesn't get shadowed. */}
+        <Route path="/architect" component={ArchitectCryptic} />
+        {/* Liminal touch — /dreamer 404-styled page with vision fragment.
+            Intercepted before the catch-all so direct URL visits land here
+            instead of NotFound; navigation through the app never hits it. */}
+        <Route path="/dreamer" component={DreamerFragment} />
         <Route path="/hierarchy" component={HierarchyPage} />
         <Route path="/demon-packs">{() => <Suspense fallback={<CardGridSkeleton />}><DemonPackPage /></Suspense>}</Route>
         <Route path="/fight-leaderboard" component={FightLeaderboardPage} />
@@ -491,6 +504,20 @@ function GameGate() {
 
   // A.8 Analytics — session tracking and page views
   useAnalytics();
+
+  // Liminal touches — title cycles when the tab is hidden, console
+  // emits a morality-conditional boot banner once per session.
+  // Both are narrative-dressing for the dual-faction recruitment
+  // ARG; neither affects gameplay.
+  useIdleTitleCycle("Loredex OS - The Dischordian Saga");
+  const moralityScoreForBanner = useMoralityStore((s) => s.score);
+  useEffect(() => {
+    logBootBanner(moralityScoreForBanner);
+    // The banner is one-shot per session via an internal window flag;
+    // re-running this effect is a no-op. Intentionally empty deps so
+    // it fires exactly once on mount.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // F13 — sync GameContext state into the companion scheduler so band
   // gates + flag-gated lines see fresh data without an explicit push.
