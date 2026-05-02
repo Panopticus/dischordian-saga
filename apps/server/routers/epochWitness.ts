@@ -14,9 +14,17 @@ const activeEditInputSchema = z.object({
 
 export const epochWitnessRouter = router({
   castVote: protectedProcedure
-    .input(z.object({ voteId: z.string(), optionChosen: z.string() }))
+    .input(z.object({
+      voteId: z.string(),
+      optionChosen: z.string(),
+      // Narrative flags live in client GameContext (no server-side
+      // sync table yet). The client passes the slice of flags relevant
+      // to the lockedUntil gates so the service can reject premature
+      // votes without trusting hand-crafted tRPC calls.
+      narrativeFlags: z.record(z.string(), z.boolean()).optional(),
+    }))
     .mutation(async ({ ctx, input }) => {
-      return epochWitnessService.castVote(ctx.user.id, input.voteId, input.optionChosen);
+      return epochWitnessService.castVote(ctx.user.id, input.voteId, input.optionChosen, input.narrativeFlags);
     }),
 
   getTally: publicProcedure
@@ -72,5 +80,16 @@ export const epochWitnessRouter = router({
     .input(z.object({ epoch: z.string() }))
     .query(async ({ input }) => {
       return epochWitnessService.getAllVotesForEpoch(input.epoch);
+    }),
+
+  /** Same as getVotesForEpoch but filters out votes still locked behind
+   *  the player's narrative flags (e.g. CoNexus Tome completion). */
+  getUnlockedVotesForEpoch: protectedProcedure
+    .input(z.object({
+      epoch: z.string(),
+      narrativeFlags: z.record(z.string(), z.boolean()).optional(),
+    }))
+    .query(async ({ input }) => {
+      return epochWitnessService.getUnlockedVotesForEpoch(input.epoch, input.narrativeFlags);
     }),
 });

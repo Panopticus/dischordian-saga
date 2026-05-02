@@ -11,8 +11,27 @@ export interface NexusPointVote {
   options: { id: string; text: string; consequence: string }[];
   duration: "72h" | "7d" | "30d";
   archetypeRequired?: EpochArchetype;
+  /** Narrative flag that must be true on the player's GameContext for
+   *  this vote to be castable. Reads cleanly against flags like
+   *  `welcome_to_celebration_conexus_complete` (set when a CoNexus Tome
+   *  is closed) or `iron_lion_loredex_complete`. Server-enforced via
+   *  `isVoteUnlocked` in the service castVote path. */
   lockedUntil?: string;
   isEpochCloser?: boolean;
+}
+
+/** Pure: is this vote castable given the player's narrative flags? Votes
+ *  with no `lockedUntil` are always unlocked. Used both client-side (to
+ *  decide whether to render the cast button) and server-side (to reject
+ *  premature `castVote` calls). */
+export function isVoteUnlocked(vote: NexusPointVote, narrativeFlags: Record<string, boolean> | undefined): boolean {
+  if (!vote.lockedUntil) return true;
+  return Boolean(narrativeFlags?.[vote.lockedUntil]);
+}
+
+/** Filter helper for vote lists — drops anything still gated. */
+export function unlockedVotes(votes: ReadonlyArray<NexusPointVote>, narrativeFlags: Record<string, boolean> | undefined): NexusPointVote[] {
+  return votes.filter((v) => isVoteUnlocked(v, narrativeFlags));
 }
 
 export const AGE_OF_PRIVACY_VOTES: NexusPointVote[] = [
