@@ -19,6 +19,7 @@
    ═══════════════════════════════════════════════════════ */
 import { protectedProcedure, router } from "../_core/trpc";
 import { tagBurntCardWitnessed } from "../services/dreamerAwarenessTriggers";
+import { getDreamerAwareness } from "../services/dreamerAwareness";
 
 export const dreamerAwarenessRouter = router({
   /**
@@ -31,5 +32,40 @@ export const dreamerAwarenessRouter = router({
   reportBurntCardWitnessed: protectedProcedure.mutation(async ({ ctx }) => {
     await tagBurntCardWitnessed(ctx.user.id);
     return { success: true as const };
+  }),
+
+  /**
+   * Read-only status surface for the Dreamer-aware gating layer (D3).
+   *
+   * Returns a small, opaque-by-default snapshot the client uses to
+   * pick alternate dialog-tree entries when the player has crossed
+   * the Dreamer-recognition bar. The flag the client actually reads
+   * is `isDreamerAware` — true iff the silent counter has reached
+   * the first vision threshold AND at least one vision has been
+   * delivered. The raw `count` is exposed for moderator surfaces
+   * but the client UI does not display it.
+   *
+   * No row → returns the inert zero state. Visions / counts cannot
+   * regress, so this is safe to cache aggressively client-side.
+   */
+  getStatus: protectedProcedure.query(async ({ ctx }) => {
+    const snapshot = await getDreamerAwareness(ctx.user.id);
+    if (!snapshot) {
+      return {
+        count: 0,
+        visionsReceivedCount: 0,
+        isDreamerAware: false as const,
+      };
+    }
+    const visionsReceivedCount = snapshot.visionsReceived.length;
+    return {
+      count: snapshot.count,
+      visionsReceivedCount,
+      // The Dreamer-aware gate per the recruitment plan:
+      //   awareness ≥ 3  AND  ≥ 1 vision has been delivered.
+      // Both must be true — a player who's accumulated tags but
+      // hasn't yet been delivered a vision is still pre-recognition.
+      isDreamerAware: snapshot.count >= 3 && visionsReceivedCount >= 1,
+    };
   }),
 });

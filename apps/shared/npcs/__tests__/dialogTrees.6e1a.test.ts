@@ -46,8 +46,11 @@ describe("Phase 6e.1a tree shape contract", () => {
         expect(getEntryNode(tree)).not.toBeNull();
       });
 
-      it("has the canonical 6-node pattern (root + 4 branches + terminal)", () => {
-        expect(walkNodes(tree).length).toBe(6);
+      it("has at least the canonical 6-node pattern (root + 4 branches + terminal); some trees author additional D3 dreamer-aware nodes on top", () => {
+        // Vex's tree carries 3 extra D3 dreamer-aware nodes
+        // (dreamer_aware_root + mintwork + ledger_entry); Nilmorg
+        // and Hierophant ship the canonical 6 today.
+        expect(walkNodes(tree).length).toBeGreaterThanOrEqual(6);
       });
 
       it("has ≥4 canonical player-paths (1 per branch)", () => {

@@ -21,6 +21,16 @@
 //
 // §1.6 silence-shape: NEVER "Engineer" / "Engineer Zero" / "Agent Zero"
 // in any node. Canonical reveal-gate enforces.
+//
+// Dreamer-aware variant (D3):
+//   When the player arrives Dreamer-aware (awareness ≥ 3 AND has
+//   received at least one vision), the runner enters at
+//   `dreamer_aware_root` instead. The Maestro's aristocratic-riddle
+//   decoder register leans on Vision 2 imagery — "the coin without
+//   a face," "the ledger you cannot read." She does not name the
+//   Dreamer; the canonical reveal-gate (eyes_of_reality) still
+//   applies, so the variant only fires for players who have already
+//   reached Vex through normal arc progression.
 
 import type { NpcDialogTree } from "../types";
 
@@ -28,6 +38,7 @@ export const VEX_SOLENE_FIRST_MEETING: NpcDialogTree = {
   id: "vex-first-meeting",
   npcKey: "vex_solene",
   entryNodeId: "root",
+  dreamerAwareEntryNodeId: "dreamer_aware_root",
   nodes: {
     root: {
       id: "root",
@@ -129,6 +140,68 @@ export const VEX_SOLENE_FIRST_MEETING: NpcDialogTree = {
       voLineId: "vex.first_meeting.terminal",
       onscreenText:
         "I have a canonical-tempo to keep. Come back when you have a canonical-second-question. The first canonical-question canonical-introduced you; the second canonical-question canonical-keeps you.",
+      requiresRevealStage: "eyes_of_reality",
+    },
+
+    // ─── Dreamer-aware entry (D3) ──────────────────────────────────
+    // Aristocratic-riddle decoder voice. The Maestro recognises the
+    // canonical-coin-without-a-face the player has been carrying —
+    // a direct callback to Vision 2's imagery — and frames her
+    // reading as a canonical-ledger-entry. She does not name the
+    // sender; the canonical-Maestro silence-shape forbids it.
+    dreamer_aware_root: {
+      id: "dreamer_aware_root",
+      npcKey: "vex_solene",
+      voLineId: "vex.first_meeting.dreamer_aware_root",
+      onscreenText:
+        "You arrive carrying a canonical-coin without a face. I canonical-recognise the canonical-mintwork. The canonical-Maestro's canonical-ledger does not log every canonical-listener — only the canonical-listeners who have already been canonical-addressed by the canonical-music underneath. You have been canonical-addressed. State the canonical-second-question; I will not waste your canonical-tempo on the first.",
+      requiresRevealStage: "eyes_of_reality",
+      choices: [
+        {
+          label: "Whose mintwork is it?",
+          nextId: "dreamer_aware_mintwork",
+          sets: "vex_filed_player_as_dreamer_aware",
+          trustDelta: 2,
+          publicFlag: "vex_filed_player_as_dreamer_aware_first_contact",
+        },
+        {
+          label: "Read the ledger entry to me.",
+          nextId: "dreamer_aware_ledger_entry",
+          axisDelta: [{ axis: "curiosity", delta: 1 }],
+        },
+        {
+          label: "I want to see your paperwork.",
+          nextId: "audit_aware_branch",
+          sets: "vex_axis_read_vigilance",
+          axisDelta: [{ axis: "vigilance", delta: 1 }],
+        },
+      ],
+    },
+
+    // Decoder beat — confirms the watcher exists without naming.
+    // The canonical "no canonical-signature" callback hooks Vision
+    // 1's reduced-motion closing-line aesthetic.
+    dreamer_aware_mintwork: {
+      id: "dreamer_aware_mintwork",
+      npcKey: "vex_solene",
+      voLineId: "vex.first_meeting.dreamer_aware_mintwork",
+      onscreenText:
+        "The canonical-mintwork is canonical-old. Older than the canonical-Maestro's canonical-tenure, older than the canonical-Coda silence-shape. The canonical-coins are canonical-issued without canonical-signatures because the canonical-issuer canonical-prefers the canonical-recipient to canonical-recognise the canonical-hand on canonical-sight. You canonical-recognised. That is the canonical-only canonical-credential the canonical-mint requires.",
+      autoNext: "terminal",
+      requiresRevealStage: "eyes_of_reality",
+    },
+
+    // Cross-references the "ledger you cannot read" line from Vision
+    // 2 directly. The Maestro reads it back to the player partial,
+    // not whole — partial readings are the canon for what one Key
+    // can decode alone (full readings need all three).
+    dreamer_aware_ledger_entry: {
+      id: "dreamer_aware_ledger_entry",
+      npcKey: "vex_solene",
+      voLineId: "vex.first_meeting.dreamer_aware_ledger_entry",
+      onscreenText:
+        "The canonical-entry is canonical-partial. The canonical-Maestro reads what the canonical-Maestro can read; the canonical-rest is a canonical-different canonical-hand's. It says: the canonical-listener canonical-arrived through the canonical-noise underneath, the canonical-noon was canonical-wrong, the canonical-cup was canonical-wrong, the canonical-listener was canonical-correct. The canonical-rest of the canonical-entry will canonical-require the canonical-Casino, or the canonical-Insurgency. I do not canonical-keep the canonical-other canonical-keys.",
+      autoNext: "terminal",
       requiresRevealStage: "eyes_of_reality",
     },
   },

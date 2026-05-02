@@ -1425,6 +1425,41 @@ export const CROSS_CHARACTER_REACTIONS: ReadonlyArray<CrossCharacterReaction> = 
       "cascade). Demonstrates canonical pre-recording predicted the " +
       "canonical Ch6 disambiguation.",
   },
+
+  // ─── D3 (dual-faction recruitment) — Three Keys Dreamer-aware first-contact public flags
+  //
+  // Set by the Dreamer-aware variant entry of the Degen / Vex first-
+  // meeting trees when the player has crossed the recruitment-plan
+  // recognition bar (awareness ≥ 3 AND ≥ 1 vision delivered). Reacted
+  // to by future_reader because the third Key (Jericho Jones) is not
+  // yet onboarded into the NPC roster — when he is, his bank should
+  // react to BOTH siblings' filings to seed the "all three Keys can
+  // decode a full vision" canon.
+
+  {
+    flag: "degen_filed_player_as_dreamer_aware_first_contact",
+    setBy: ["the_degen"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Degen first_meeting tree dreamer_aware_root → " +
+      "dreamer_aware_who_watches branch (D3 from the dual-faction " +
+      "recruitment plan). The Degen files the player as Dreamer-aware " +
+      "without naming the watcher; canonical-arithmetic-recognition " +
+      "register. Trust-positive seed for the Key-as-interpreter arc.",
+  },
+  {
+    flag: "vex_filed_player_as_dreamer_aware_first_contact",
+    setBy: ["vex_solene"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Per Vex first_meeting tree dreamer_aware_root → " +
+      "dreamer_aware_mintwork branch (D3 from the dual-faction " +
+      "recruitment plan). The Maestro files the player as Dreamer-" +
+      "aware via the canonical 'coin without a face' mintwork " +
+      "recognition (Vision 2 callback). Trust-positive seed for the " +
+      "Key-as-interpreter arc; canonical reveal-gate (eyes_of_reality) " +
+      "still applies upstream.",
+  },
 ];
 
 // --- Helpers --------------------------------------------------------------
