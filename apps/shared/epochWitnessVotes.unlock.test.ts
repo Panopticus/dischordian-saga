@@ -10,7 +10,14 @@
  *   • `unlockedVotes` filter is a pure projection.
  */
 import { describe, it, expect } from "vitest";
-import { isVoteUnlocked, unlockedVotes, type NexusPointVote } from "./epochWitnessVotes";
+import {
+  AGE_OF_PRIVACY_VOTES,
+  gateFlagKeys,
+  isVoteUnlocked,
+  pickGateFlags,
+  unlockedVotes,
+  type NexusPointVote,
+} from "./epochWitnessVotes";
 
 const baseVote: NexusPointVote = {
   id: "test_v1",
@@ -53,5 +60,42 @@ describe("unlockedVotes", () => {
     expect(unlockedVotes([a, b, c], { flag_b: true }).map(v => v.id)).toEqual(["a", "b"]);
     expect(unlockedVotes([a, b, c], { flag_b: true, flag_c: true }).map(v => v.id)).toEqual(["a", "b", "c"]);
     expect(unlockedVotes([a, b, c], undefined).map(v => v.id)).toEqual(["a"]);
+  });
+});
+
+describe("gateFlagKeys + pickGateFlags", () => {
+  const a: NexusPointVote = { ...baseVote, id: "a" };
+  const b: NexusPointVote = { ...baseVote, id: "b", lockedUntil: "flag_b" };
+  const c: NexusPointVote = { ...baseVote, id: "c", lockedUntil: "flag_c" };
+  const d: NexusPointVote = { ...baseVote, id: "d", lockedUntil: "flag_b" }; // dup gate
+
+  it("gateFlagKeys returns sorted, deduped lockedUntil values", () => {
+    expect(gateFlagKeys([a, b, c, d])).toEqual(["flag_b", "flag_c"]);
+    expect(gateFlagKeys([a])).toEqual([]);
+    expect(gateFlagKeys([])).toEqual([]);
+  });
+
+  it("pickGateFlags drops keys that aren't in any gate", () => {
+    const flags = { flag_b: true, flag_c: false, irrelevant: true, also_irrelevant: true };
+    expect(pickGateFlags(flags, [a, b, c, d])).toEqual({ flag_b: true });
+  });
+
+  it("pickGateFlags returns an empty object for undefined / empty input", () => {
+    expect(pickGateFlags(undefined, [a, b, c, d])).toEqual({});
+    expect(pickGateFlags({}, [a, b, c, d])).toEqual({});
+  });
+
+  it("pickGateFlags shipping payload is bounded by the vote definitions, not the input flags map", () => {
+    // 1 000-key flags map; output must only contain keys that exist as gates.
+    const flags: Record<string, boolean> = {};
+    for (let i = 0; i < 1000; i++) flags[`junk_${i}`] = true;
+    flags.flag_b = true;
+    const sliced = pickGateFlags(flags, [a, b, c, d]);
+    expect(Object.keys(sliced)).toEqual(["flag_b"]);
+  });
+
+  it("real Age-of-Privacy vote definitions surface their lockedUntil flags via gateFlagKeys", () => {
+    const keys = gateFlagKeys(AGE_OF_PRIVACY_VOTES);
+    expect(keys).toContain("welcome_to_celebration_conexus_complete");
   });
 });

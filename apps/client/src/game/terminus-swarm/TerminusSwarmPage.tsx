@@ -26,6 +26,7 @@ import { DockedNarrative } from "../../components/NarrativeControls";
 import { CONVEYOR_COST, RESOURCE_NODES, MAP_RESOURCE_NODES, collectResources, createConveyorState, type ConveyorState } from "./conveyors";
 import { trpc } from "@/lib/trpc";
 import { useAuth } from "@/_core/hooks/useAuth";
+import { useGame } from "@/contexts/GameContext";
 import { useTerminusPvP } from "./pvpClient";
 import type { TerminusGameState, TurretDef, GamePhase } from "./types";
 
@@ -98,6 +99,7 @@ const TILE_SIZE = 40;
 
 export default function TerminusSwarmPage() {
   const { user, isAuthenticated } = useAuth();
+  const { setNarrativeFlag } = useGame();
 
   // §G.11 — pull suit bonuses through the passive-bonus aggregator
   // and latch them into the engine's module state before
@@ -346,7 +348,13 @@ export default function TerminusSwarmPage() {
               // Quest integration: increment swarm-related quests
               updateQuestProgress.mutate({ questId: "d_survive_wave", increment: 1 });
               if (isBoss) updateQuestProgress.mutate({ questId: "w_kill_boss", increment: 1 });
-              if (updated.wave >= 10) updateQuestProgress.mutate({ questId: "w_reach_wave_10", increment: 1 });
+              if (updated.wave >= 10) {
+                updateQuestProgress.mutate({ questId: "w_reach_wave_10", increment: 1 });
+                // Narrative gate — TomePlacement.flagReq for terminus-swarm
+                // and civil-war-samsara-rising. Idempotent (setNarrativeFlag
+                // skips if already true).
+                setNarrativeFlag("terminus_wave_10", true);
+              }
             }
 
             // Collect conveyor resources between waves

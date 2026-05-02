@@ -21,7 +21,16 @@ const ALL_VOTES: NexusPointVote[] = [
   ...AGE_OF_INSURGENCY_VOTES, ...AGE_OF_REVELATION_VOTES, ...FALL_OF_REALITY_VOTES,
 ];
 
-export type CastVoteResult = { success: boolean; reason?: "locked" | "unknown_vote" | "invalid_option" | "duplicate" | "no_db"; tally?: Record<string, number> };
+export type CastVoteResult = {
+  success: boolean;
+  reason?: "locked" | "unknown_vote" | "invalid_option" | "duplicate" | "no_db";
+  tally?: Record<string, number>;
+  /** Narrative flags the server unlocked as a side-effect of this vote.
+   *  The client applies them via setNarrativeFlag. Currently only
+   *  `voted_in_3_plus_epochs` is emitted (gates an Epoch Witness vote
+   *  in epochWitnessVotesLate.ts). */
+  unlockedFlags?: string[];
+};
 
 export const epochWitnessService = {
   async castVote(
@@ -64,7 +73,24 @@ export const epochWitnessService = {
     } catch (err) { logger.error("[epochWitness] ripple failed", err); }
 
     const [tally] = await db.select().from(epochVoteTallies).where(eq(epochVoteTallies.voteId, voteId)).limit(1);
-    return { success: true, tally: tally ? { a: tally.optionACount, b: tally.optionBCount, c: tally.optionCCount, d: tally.optionDCount, e: tally.optionECount, total: tally.totalVotes } : undefined };
+
+    // After-write side-effect: the `voted_in_3_plus_epochs` lockedUntil
+    // flag (epochWitnessVotesLate.ts) gates the final epoch closer.
+    // Re-read player progress and fire the flag the moment the player
+    // crosses 3 distinct epochs voted. The persisted source of truth is
+    // playerEpochProgress.epochsVoted (JSON map of epoch → voteIds[]).
+    const unlockedFlags: string[] = [];
+    try {
+      const [progress] = await db.select().from(playerEpochProgress).where(eq(playerEpochProgress.userId, userId)).limit(1);
+      const epochsVoted = (progress?.epochsVoted ?? {}) as Record<string, string[]>;
+      if (Object.keys(epochsVoted).length >= 3) unlockedFlags.push("voted_in_3_plus_epochs");
+    } catch (err) { logger.error("[epochWitness] post-vote flag check failed", err); }
+
+    return {
+      success: true,
+      tally: tally ? { a: tally.optionACount, b: tally.optionBCount, c: tally.optionCCount, d: tally.optionDCount, e: tally.optionECount, total: tally.totalVotes } : undefined,
+      unlockedFlags: unlockedFlags.length > 0 ? unlockedFlags : undefined,
+    };
   },
 
   async getTally(voteId: string) {
