@@ -39,6 +39,18 @@ export const DECLINE_WINNING_DRAW: DreamerAwarenessTag = {
     "Player declined a draw offer in chess while holding a winning position. Refusing comfort signals the kind of agent the Dreamer's network notices.",
 };
 
+/**
+ * NOT YET WIRED. Blocked on engine-level lethal-attack detection —
+ * needs an `availableLethalAttacks(state, side)` helper in
+ * apps/shared/tcg-core/engine to enumerate "had a unit in range
+ * with attack ≥ enemy general HP and didn't use it" at end-of-
+ * turn. The tag id + weight are reserved here so the catalog stays
+ * stable for downstream consumers (DREAMER_AWARENESS_TAGS, the
+ * idempotency dedupe set, etc.); when the engine helper lands, add
+ * a maybeTagSpareLethalOpponent(...) helper to
+ * apps/server/services/dreamerAwarenessTriggers.ts and call from
+ * the duelyst end-of-turn path.
+ */
 export const SPARE_LETHAL_OPPONENT: DreamerAwarenessTag = {
   id: "spare_lethal_opponent",
   weight: 1,
@@ -74,6 +86,17 @@ export const MORALITY_DIVERGENT_CHOICE: DreamerAwarenessTag = {
     "Player chose a morality-divergent option in a dialog wheel where the obvious choice was machine-aligned.",
 };
 
+/**
+ * NOT YET WIRED. Blocked on the Trade Empire "wonder" mechanic
+ * not yet existing — apps/server/routers/tradeEmpire.ts has eras /
+ * encounters / doctrines / civics / fleet / sectors but no
+ * "wonder" concept. (Guild wonders in apps/shared/guildWonders.ts
+ * are a different surface — guild-level, not Trade Empire.) When
+ * the Trade Empire content layer adds wonder completion + an
+ * "expected to consolidate" optimizer signal, plug the trigger in
+ * via apps/server/services/dreamerAwarenessTriggers.ts following
+ * the maybeTagMoralityDivergent shape.
+ */
 export const TRADE_WONDER_OFF_META: DreamerAwarenessTag = {
   id: "trade_wonder_off_meta",
   weight: 1,
@@ -174,6 +197,25 @@ export const ASK_REPEAT_THRESHOLD = 3;
  *  minor piece up; conservative bar so we don't tag every "I'd
  *  rather play it out" decline. */
 export const DECLINE_DRAW_MATERIAL_ADVANTAGE = 3;
+
+/** Magnitude of a single morality choice that counts as
+ *  "divergent." Positive moralityDelta is humanity-aligned in this
+ *  codebase (see apps/server/routers/rpgSystems.ts threshold
+ *  registry — +75 = "dreamer_noticed"); a delta of ≥5 from a
+ *  player-choice context (dialog / companion / governance) is the
+ *  bar at which the choice is intentional rather than incidental.
+ *  Smaller +1/+2 nudges aren't tagged. */
+export const MORALITY_DIVERGENT_THRESHOLD = 5;
+
+/** Source-context values for which a positive morality delta counts
+ *  as a divergent player CHOICE. Context values like "event" /
+ *  "quest" describe automatic / world-state deltas the player
+ *  didn't directly pick from a wheel; those are excluded. */
+export const MORALITY_DIVERGENT_CONTEXTS: readonly string[] = [
+  "dialog",
+  "companion",
+  "governance",
+];
 
 /** Resolve which tag (if any) a given topic id maps to. Pure helper
  *  used by the server-side trigger glue. */
