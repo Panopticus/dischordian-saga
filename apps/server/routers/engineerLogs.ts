@@ -138,4 +138,45 @@ export const engineerLogsRouter = router({
       unread: Number(row.unread ?? 0),
     };
   }),
+
+  /**
+   * C5 — discovery-rarity counts per log. Aggregated across all
+   * users; the count is the number of distinct players who have
+   * unlocked each log. The client surfaces these via the pure
+   * `rarityLabelForCount()` formatter from
+   * apps/shared/engineerLogRarity.ts ("Only N players have found
+   * this", etc.).
+   *
+   * Returns a Record<logId, count> for compactness. Unlisted log ids
+   * are implicitly count=0. The query intentionally does NOT scope
+   * to the caller's user — the rarity badge is community-wide and
+   * the count must be the same for every viewer.
+   *
+   * Cacheable: this aggregate moves only when a player unlocks a
+   * log, which is a low-frequency event. The client should TanStack-
+   * Query-cache it per-session; we don't add server-side caching
+   * here because the read is cheap.
+   */
+  getRarityCounts: protectedProcedure.query(async () => {
+    const db = await getDb();
+    const counts: Record<string, number> = {};
+    if (!db) return { counts, totalLogs: ENGINEER_LOGS.length };
+    try {
+      const rows = await db
+        .select({
+          logId: engineerLogUnlocks.logId,
+          count: sql<number>`COUNT(DISTINCT ${engineerLogUnlocks.userId})`,
+        })
+        .from(engineerLogUnlocks)
+        .groupBy(engineerLogUnlocks.logId);
+      for (const r of rows) {
+        if (ENGINEER_LOG_MAP[r.logId]) {
+          counts[r.logId] = Number(r.count ?? 0);
+        }
+      }
+    } catch (e) {
+      logger.warn("engineerLogs.getRarityCounts failed", e);
+    }
+    return { counts, totalLogs: ENGINEER_LOGS.length };
+  }),
 });
