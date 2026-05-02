@@ -127,6 +127,31 @@ export default function DeadMansCircuitPage() {
     null,
   );
   const resolveDmc = trpc.crew.resolveDeadMansCircuit.useMutation();
+  const submitCircuitPvpResult = trpc.tier5Pvp.circuit.submitResult.useMutation();
+
+  // T9 / Tier 5A — Rival Run PvP context. Activated via `?match=<id>`
+  // arriving from /pvp-variants → Circuit. The Godot bridge picks the
+  // seed up via PostMessage CIRCUIT_CONFIG (see useEffect below).
+  const pvpMatchIdParam = (() => {
+    if (typeof window === "undefined") return null;
+    const sp = new URLSearchParams(window.location.search);
+    return sp.get("match");
+  })();
+  const pvpMatchQuery = trpc.tier5Pvp.circuit.getMyMatches.useQuery(
+    { limit: 5 },
+    { enabled: isAuthenticated && !!pvpMatchIdParam },
+  );
+  const pvpRow = pvpMatchIdParam
+    ? (pvpMatchQuery.data ?? []).find((m) => m.matchId === pvpMatchIdParam)
+    : null;
+  const pvpMatch = pvpRow
+    ? {
+        matchId: pvpRow.matchId,
+        trackSeed: pvpRow.trackSeed,
+        opponentScore: -1,
+        opponentName: "",
+      }
+    : null;
 
   // Player-chosen splice abilities (exactly 2). Persisted to
   // localStorage so the loadout survives page reloads.
@@ -344,7 +369,7 @@ export default function DeadMansCircuitPage() {
             : typeof nestedClone?.designation === "string"
               ? (nestedClone.designation as string)
               : null) ?? "WIRED-0000-ALPHA";
-        const config = {
+        const config: Record<string, unknown> = {
           player_clone: { designation, ...mergedClone },
           total_laps: 3,
           phase: season.data?.phase || 1,
@@ -354,6 +379,20 @@ export default function DeadMansCircuitPage() {
           track_sequence: trackConfig.data?.track.tileSequence || ["STRAIGHT", "CURVE_LIGHT", "STRAIGHT", "BONE_LANE", "CURVE_HARD", "SPEED_CONDUIT", "STRAIGHT", "DEAD_STRAIGHT"],
           bone_obstacles: trackConfig.data?.boneObstacles || [],
         };
+        // T9 / Tier 5A — Rival Run PvP. When the player arrives via
+        // /pvp-variants → Circuit, `pvpMatch` is set on this page and
+        // we forward the seed + opponent context into the Godot
+        // bridge for deterministic synchronous racing.
+        if (pvpMatch) {
+          config.pvp_seed = pvpMatch.trackSeed;
+          config.pvp_match_id = pvpMatch.matchId;
+          config.opponent_score = pvpMatch.opponentScore ?? -1;
+          config.opponent_name = pvpMatch.opponentName ?? "";
+          // Override the track sequence with a deterministic seed-derived
+          // permutation. The Godot side computes the same permutation
+          // from `pvp_seed` so both clients render the same track.
+          config.pvp_seeded_track = true;
+        }
         iframeRef.current?.contentWindow?.postMessage({ type: "CIRCUIT_CONFIG", payload: config }, "*");
       }
       if (e.data.type === "CIRCUIT_RESULT") {
@@ -369,6 +408,26 @@ export default function DeadMansCircuitPage() {
           rivalKills: result.rival_kills || 0,
           abilitiesUsed: result.abilities_used || [],
         });
+        // T9 / Tier 5A — Rival Run scoring. Composite per the plan:
+        // position 60% + survival 25% + kills 15%. The opposing
+        // player's score is fetched server-side at settlement time.
+        const pvpMatchId = result.pvp_match_id as string | undefined;
+        if (pvpMatchId) {
+          const pos = result.finish_position ?? 8;
+          const survived = result.clone_survived ? 1 : 0;
+          const kills = result.rival_kills ?? 0;
+          // Higher = better. 8th place → 0; 1st → 60. Survival adds 25.
+          // Each kill adds ~2.
+          const composite =
+            (8 - pos) * 7.5 +     // 1st=52.5, 8th=0
+            survived * 25 +
+            kills * 2;
+          submitCircuitPvpResult.mutate({
+            matchId: pvpMatchId,
+            myScore: Math.round(composite),
+            opponentScore: 0, // server-side: prior submission, if any
+          });
+        }
         // If the player sent a real crew member, resolve their fate in the roster
         if (crewRunner) {
           resolveDmc.mutate({

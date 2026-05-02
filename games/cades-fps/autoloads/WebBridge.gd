@@ -1,10 +1,24 @@
 extends Node
 
 signal config_received(config: Dictionary)
+## Async PvP — emitted when CADES_CONFIG carries pvp metadata so
+## scenarios can seed deterministically and the result screen can
+## show the opponent's score side-by-side.
+signal pvp_config_received(pvp_seed: String, opponent_score: int, opponent_name: String, match_id: String)
 
 var is_web: bool = false
 var _config_timer: Timer = null
 var _config_received: bool = false
+
+# T8.4 / T9 — async time-trial PvP metadata (Tier 5C).
+# pvp_seed:        deterministic scenario seed shared with the opponent
+# pvp_match_id:    server-issued match id; echoed back in CADES_RESULT
+# opponent_score:  prior submitted score (-1 if opponent hasn't run yet)
+# opponent_name:   for the post-match comparison panel
+var pvp_seed: String = ""
+var pvp_match_id: String = ""
+var opponent_score: int = -1
+var opponent_name: String = ""
 
 # Section §G.11.1 — suit-set bonuses delivered by the React side in
 # CADES_CONFIG.suit_bonuses. Any subsystem (ShieldManager,
@@ -62,12 +76,33 @@ func _check_config() -> void:
 				var sb = cfg.get("suit_bonuses", {})
 				if sb is Dictionary:
 					suit_bonuses = sb
+				# T9 — async PvP metadata. Optional fields; absent on
+				# solo / co-op runs.
+				if cfg.has("pvp_seed"):
+					pvp_seed = String(cfg.get("pvp_seed", ""))
+					pvp_match_id = String(cfg.get("pvp_match_id", ""))
+					opponent_score = int(cfg.get("opponent_score", -1))
+					opponent_name = String(cfg.get("opponent_name", ""))
+					if pvp_seed != "":
+						emit_signal(
+							"pvp_config_received",
+							pvp_seed,
+							opponent_score,
+							opponent_name,
+							pvp_match_id,
+						)
 				_config_received = true
 				if _config_timer:
 					_config_timer.stop()
 				emit_signal("config_received", cfg)
 
 func send_result(data: Dictionary) -> void:
+	# T9 — when this is a PvP run, echo the match id so the React side
+	# can route the result to apps/server/routers/cadesPvp.submitScore
+	# without needing to thread the id through scenario state itself.
+	if pvp_match_id != "":
+		data["pvp_match_id"] = pvp_match_id
+		data["pvp_seed"] = pvp_seed
 	if is_web:
 		var json_str = JSON.stringify(data)
 		JavaScriptBridge.eval("window.parent.postMessage({type:'CADES_RESULT',payload:" + json_str + "},'*');")
