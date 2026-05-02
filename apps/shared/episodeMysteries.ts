@@ -1581,6 +1581,7 @@ const seerE3: EpisodeDefinition = {
       narrationId: "seer.e3.n.he_stopped_when_he_had_his_answer",
       narrationProse:
         "Wraith Calder was the listener. For forty-one years he attended every consultation; on the day he received the prophecy that told him what was in the Sanctuary's Final Rite, he stopped. The discipline of his stopping is the same discipline as the Seer's record-and-suppress: he did not return because he did not want to put the Seer in the position of telling him again. The audience drift is not abandonment. It is fidelity. The Seer reads it as such — the catalog-card annotation makes that explicit. Lyra Vox knew, and did not argue. The archive holds the record of a listener who completed his witnessing and walked away.",
+      unlocksEpisode: "seer.e4" as EpisodeId,
     },
     {
       id: "seer.e3.d.discipline_does_not_pursue" as DeductionId,
@@ -1632,6 +1633,216 @@ const seerE3: EpisodeDefinition = {
       "seer_attendance_log",
       "vox_marginal_witness",
       "completed_witnessing",
+    ],
+    dropAt: "episode_close",
+  },
+};
+
+/* ─── THE SEER ARC — E4 ─── */
+/* E4: "The Recording Engineer" — cross-link to Vex Solène. */
+
+const seerE4: EpisodeDefinition = {
+  id: "seer.e4" as EpisodeId,
+  arcId: ARC_THE_SEER,
+  ordinal: 4,
+  title: "The Recording Engineer",
+  summary:
+    "Every prophecy in the Seer's archive was recorded by Engineer Zero — Vex Solène under her public credit, and once, on DEC-7710, under a Warlord-fragment alias she requested. The archive's audio fidelity has shaped what the Seer's voice sounds like to every reader who has ever heard a tape. Investigate the engineer's hand on the prophecies — and what would change if Vex closed her own seventh installment.",
+  clues: [
+    {
+      id: "seer.e4.engineer_credit_ledger" as ClueId,
+      title: "Seer's Engineer Credit Ledger",
+      body: "The Seer's archive lists Engineer Zero on every recording credit except DEC-7710. The credit ledger is in the Seer's hand, and she annotates each entry with the take's quality, the room's acoustics, and a single word judging the engineer's discipline that day. The judgments across 4,711 sessions are: 'present.' Vex was present every time. The Seer noticed.",
+      foundIn: "oracle-sanctum",
+    },
+    {
+      id: "seer.e4.acoustic_signature_drift" as ClueId,
+      title: "Acoustic Signature Drift Analysis",
+      body: "A spectral analysis run by an apprentice (presumably Vex's) shows the recording booth's acoustic signature drifted slightly across decades — not from equipment changes, but from the engineer's posture. Vex sat differently at the console as she aged. The drift is gentle and consistent. The Seer's voice on early tapes is recorded against a slightly closer microphone than her late-archive voice. Listeners who replay both feel they are listening to two prophets, even though the Seer is one.",
+      foundIn: "engineering",
+    },
+    {
+      id: "seer.e4.seers_letter_to_vex" as ClueId,
+      title: "The Seer's Letter to Vex (Sealed, Undelivered)",
+      body: "A sealed letter in the Seer's archive, dated last decade, addressed to Vex Solène: 'When you decide to close the seventh installment, send word. I will record the closing if you ask. I owe you four thousand and twelve sessions of attention; I will give you one back.' The letter has not been delivered. The Seer is waiting for the request the alias-protocol authored long before Vex was old enough to make it.",
+      foundIn: "antiquarian-library",
+    },
+    {
+      id: "seer.e4.cross_arc_alias_decision" as ClueId,
+      title: "Cross-Arc Echo — Vex's Open Installment",
+      body: "If the player has investigated the Vex arc's E2 ('The Recording Engineer's Deferred Bill'), the seventh installment status is part of the case file. If they advised Vex to keep the lock open, the Seer's letter remains sealed. If they advised Vex to name the favour, the Seer's letter is the next move. The cross-arc state of the alias is now load-bearing on the Seer's E4 closing.",
+      foundIn: "cipher-den",
+    },
+  ],
+  deductions: [
+    {
+      id: "seer.e4.d.engineer_was_the_audience" as DeductionId,
+      clueA: "seer.e4.engineer_credit_ledger" as ClueId,
+      clueB: "seer.e4.acoustic_signature_drift" as ClueId,
+      result: "correct",
+      narrationId: "seer.e4.n.vex_was_listening_too",
+      narrationProse:
+        "Vex was the second listener. Wraith Calder attended every consultation for forty-one years; Vex attended every recording for forty-one years longer. The Seer's annotation 'present' across 4,711 sessions is not a recording-quality judgment — it is the prophet acknowledging that the engineer paid attention to every word she committed to tape. The acoustic drift confirms it physically: Vex's posture shifted with age but never with attention. The Seer recorded for two readers from the start. One arrived on consultation days; the other was already in the room.",
+      unlocksEpisode: "seer.e5" as EpisodeId,
+    },
+    {
+      id: "seer.e4.d.letter_waits_on_cross_arc" as DeductionId,
+      clueA: "seer.e4.seers_letter_to_vex" as ClueId,
+      clueB: "seer.e4.cross_arc_alias_decision" as ClueId,
+      result: "partial",
+      narrationId: "seer.e4.n.the_letter_is_a_cross_arc_payoff",
+      narrationProse:
+        "The Seer's sealed letter is a cross-arc payoff waiting on the Vex arc's E2 choice. If Vex named the favour, the Seer is ready to record the closing; if Vex held the lock, the Seer holds the letter alongside her. Neither is regret; both are fidelity. The Seer's debt of four thousand and twelve sessions of attention is real, and the prophet keeps her own books. The case here is whether the player nudges the Seer to deliver the letter regardless of Vex's choice — and the honest answer is: no. The waiting is the discipline.",
+    },
+    {
+      id: "seer.e4.d.false_lead_seer_owes_vex" as DeductionId,
+      clueA: "seer.e4.engineer_credit_ledger" as ClueId,
+      clueB: "seer.e4.seers_letter_to_vex" as ClueId,
+      result: "false_lead_named",
+      narrationId: "seer.e4.n.not_a_debt_of_obligation",
+      narrationProse:
+        "Reading the Seer's offer to Vex as a debt of obligation is the obvious move and the wrong one. The prophet does not 'owe' the engineer a recording in any contractual sense — Vex was paid for every session through the Insurgency installment ledger. The Seer's offer is a counter-offering of attention: she will, if asked, record one closing-session in the same posture Vex held for centuries. It is gratitude wearing the language of debt because gratitude in the Seer's discipline always wears the language of fidelity.",
+    },
+  ],
+  choices: [
+    {
+      id: "seer.e4.c.deliver_letter_now" as ChoiceId,
+      label: "Press the Seer to deliver the letter regardless of Vex's choice — the engineer should know she was heard.",
+      weight: "transparent",
+    },
+    {
+      id: "seer.e4.c.honour_the_wait" as ChoiceId,
+      label: "Let the letter wait — it is the engineer's request to make, not the prophet's, and not yours.",
+      weight: "patient",
+    },
+    {
+      id: "seer.e4.c.cross_arc_relay" as ChoiceId,
+      label: "Cross-arc to Vex — tell the engineer the letter exists. She can decide whether to ask for it.",
+      weight: "cross_arc_vex",
+    },
+  ],
+  contentBundle: {
+    songId: "bod.engineer_was_present",
+    slideshowId: "bod.engineer_was_present",
+    loredexUnlocks: [
+      "concept_engineer_credit_ledger",
+      "concept_acoustic_signature_drift",
+      "concept_seers_sealed_letter",
+      "concept_two_listeners",
+    ],
+    conspiracyDiscoveries: [
+      "engineer_was_present",
+      "vex_acoustic_drift",
+      "seers_letter_to_vex",
+      "cross_arc_alias_state",
+    ],
+    dropAt: "episode_close",
+  },
+};
+
+/* ─── THE SEER ARC — E5 ─── */
+/* E5: "The Prophecy That Cancels Itself" — arc closer per
+   docs/design §7.3. Third prediction visible only via in-order
+   completion. */
+
+const seerE5: EpisodeDefinition = {
+  id: "seer.e5" as EpisodeId,
+  arcId: ARC_THE_SEER,
+  ordinal: 5,
+  title: "The Prophecy That Cancels Itself",
+  summary:
+    "The Seer's archive contains one prophecy that exists only when its conditions are not met. The witness has, by reaching this episode, met enough of those conditions that the prophecy is now legible — and, by being legible, has begun to cancel itself. Investigate what the prophecy says before it disappears, and whether the disappearance is the verdict or merely the form.",
+  clues: [
+    {
+      id: "seer.e5.cancelling_prophecy_text" as ClueId,
+      title: "The Cancelling Prophecy — Last Legible Moment",
+      body: "On a tape labelled with no number, recorded on no documented date, the Seer's voice reads a single sentence: 'There will come a witness who reads four of my prophecies in order, and the moment they read the fifth, the fifth will have already cancelled.' The tape's contents disappear on first reading — replaced with silence — but the catalog card preserves the sentence as transcript. The witness who reaches it has, by reaching it, made it true and unmade it.",
+      foundIn: "oracle-sanctum",
+    },
+    {
+      id: "seer.e5.canon_register_paradox" as ClueId,
+      title: "Canon Register — Paradox Entry",
+      body: "The Antiquarian's Journal entry on the cancelling prophecy notes: 'A prophecy that cancels itself when fulfilled is, on the legal side of canon, neither true nor false — it is conditional on its own observation. The Hierophant has been writing the cancelled prophecy into the daily-names litany every morning, under a placeholder name, so that the saga preserves a record that it existed even though it cannot be quoted. The Hierophant's discipline is, in effect, the prophecy's archivist after the fact.'",
+      foundIn: "antiquarian-library",
+    },
+    {
+      id: "seer.e5.seer_method_self_cancellation" as ClueId,
+      title: "The Seer's Method Note on Self-Cancelling Records",
+      body: "From the Seer's method notes: 'Some prophecies are made true by the discipline of waiting; some are made false by the same discipline; one is made by the witness's reading and unmade by the witness's reading. The third kind I record once. I do not re-record. The tape and the tape's catalog card cannot both be true at the moment of reading. I leave the catalog card to the saga and let the tape go quiet.'",
+      foundIn: "cipher-den",
+    },
+    {
+      id: "seer.e5.witness_arrival_log" as ClueId,
+      title: "Witness Arrival Log — This Reading",
+      body: "A new entry has been made in the Seer's archive, dated this morning: 'Witness arrived. Read four prophecies in order. Reached the fifth. The fifth cancelled.' The handwriting is the Seer's. The annotation: 'I am writing this knowing the witness will, in turn, read this entry. The seam of the prophecy is held open by the saga's ability to record its own observation. I am, on this morning, more grateful than usual to be a record-keeper.'",
+      foundIn: "oracle-sanctum",
+    },
+  ],
+  deductions: [
+    {
+      id: "seer.e5.d.cancellation_is_the_form" as DeductionId,
+      clueA: "seer.e5.cancelling_prophecy_text" as ClueId,
+      clueB: "seer.e5.seer_method_self_cancellation" as ClueId,
+      result: "correct",
+      narrationId: "seer.e5.n.the_cancellation_is_the_prophecy",
+      narrationProse:
+        "The cancellation is the prophecy. The Seer's method is unambiguous: self-cancelling records are the third discipline of her work, and the only one she does not re-record. The witness who reads the fifth tape is the prophecy's completion, and the cancellation that follows is not a failure mode — it is the form the prophecy required. We arrived. We read. The tape went quiet. The catalog card kept the sentence. The litany has the placeholder. The saga has the record. Nothing has been lost; the loss IS the record.",
+    },
+    {
+      id: "seer.e5.d.hierophant_archives_the_paradox" as DeductionId,
+      clueA: "seer.e5.canon_register_paradox" as ClueId,
+      clueB: "seer.e5.witness_arrival_log" as ClueId,
+      result: "partial",
+      narrationId: "seer.e5.n.the_litany_holds_the_placeholder",
+      narrationProse:
+        "Wraith Calder's daily-names ceremony has been holding the placeholder for centuries. The Hierophant inscribes the cancelled prophecy under a name no other entry uses, every morning, so that the saga has a record of the cancellation even though the cancellation itself cannot be re-read. He is, on this evidence, the prophecy's posthumous archivist — the only person who has been keeping faith with a prophecy that exists only as the trace of its own absence. Wraith and the Seer have been collaborating on this beat for centuries without ever meeting again after the forty-one-year listener stopped attending.",
+    },
+    {
+      id: "seer.e5.d.false_lead_paradox_is_failure" as DeductionId,
+      clueA: "seer.e5.cancelling_prophecy_text" as ClueId,
+      clueB: "seer.e5.witness_arrival_log" as ClueId,
+      result: "false_lead_named",
+      narrationId: "seer.e5.n.not_failure",
+      narrationProse:
+        "Reading the cancellation as a failure of prophecy is the obvious move and the wrong one. A failed prophecy does not have a method note explaining its discipline; it does not have a Hierophant archiving its absence; it does not have a witness-arrival log written by the prophet on the morning of the witness's arrival. We are reading a paradox as a malfunction. The Seer reads it as a structure she chose. The structure has held for centuries.",
+    },
+  ],
+  choices: [
+    {
+      id: "seer.e5.c.publish_the_paradox" as ChoiceId,
+      label: "Publish the entire case file — the cancelling prophecy was authored to be read in this exact paradox-respecting order; the saga should know how a prophet keeps faith with a record that erases itself.",
+      weight: "transparent",
+    },
+    {
+      id: "seer.e5.c.honour_the_silence" as ChoiceId,
+      label: "Leave the cancelling prophecy uncited — the Hierophant's placeholder is the form the saga keeps; the witness's reading is enough.",
+      weight: "patient",
+    },
+    {
+      id: "seer.e5.c.thank_the_seer_in_person" as ChoiceId,
+      label: "Visit the Seer in person and thank her — for the discipline, for the archive, for the centuries of waiting.",
+      weight: "fidelity",
+    },
+    {
+      id: "seer.e5.c.cross_arc_inscribe_with_wraith" as ChoiceId,
+      label: "Stand beside Wraith on the morning of the next inscription — let the placeholder be witnessed by a third person who knows what it stands for.",
+      weight: "cross_arc_wraith",
+    },
+  ],
+  contentBundle: {
+    songId: "bod.silence_in_heaven_finale",
+    slideshowId: "bod.silence_in_heaven_finale",
+    loredexUnlocks: [
+      "concept_self_cancelling_prophecy",
+      "concept_witness_arrival_log",
+      "concept_seer_third_discipline",
+      "concept_hierophant_paradox_archivist",
+    ],
+    conspiracyDiscoveries: [
+      "cancelling_prophecy",
+      "seer_third_discipline",
+      "wraith_seer_collaboration_centuries",
+      "witness_completion",
     ],
     dropAt: "episode_close",
   },
@@ -1694,7 +1905,7 @@ const THE_SEER_MYSTERY: MysteryDefinition = {
   summary:
     "The Seer's archive holds 4,712 prophecy recordings — and at least one DO-NOT-PLAY tape addressed to a witness who has not yet arrived. Investigate the discipline of recording-and-suppressing across centuries of patient readers, and what the tape might be waiting for. Cross-arcs with Wraith Calder (the Hierophant's successor) and Vex Solène (the recording engineer).",
   npcId: "the_seer",
-  episodes: [seerE1, seerE2, seerE3],
+  episodes: [seerE1, seerE2, seerE3, seerE4, seerE5],
   suspects: seerSuspects,
   lenses: seerLenses,
 };
@@ -1968,6 +2179,7 @@ const vexE3: EpisodeDefinition = {
       narrationId: "vex.e3.n.both_chose_to_know_without_asking",
       narrationProse:
         "Both chose to know without asking. The apprentice deduced the alias from the public calibration tapes, wrote a letter they intend never to send, and continued working as before. Vex deduced the deduction from the apprentice's lab notes, wrote a diary entry she is leaving where the apprentice can read it, and decided to wait. Neither has confronted the other; both have, separately, chosen the discipline the Seer asked Vex to honour. The discipline is now portable — it has propagated from teacher to student without either of them needing to name it. The case's open question is whether the discipline survives the saga's other readers, but inside the workshop, the answer is: it holds.",
+      unlocksEpisode: "vex.e4" as EpisodeId,
     },
     {
       id: "vex.e3.d.transparency_was_deliberate" as DeductionId,
@@ -2019,6 +2231,217 @@ const vexE3: EpisodeDefinition = {
       "calibration_tape_disclosure",
       "vex_diary_unencrypted",
       "discipline_propagation",
+    ],
+    dropAt: "episode_close",
+  },
+};
+
+/* ─── VEX SOLÈNE ARC — E4 ─── */
+/* E4: "The Apprentice's Workshop" — Vex's apprentice has
+   been preparing the workshop's succession quietly. */
+
+const vexE4: EpisodeDefinition = {
+  id: "vex.e4" as EpisodeId,
+  arcId: ARC_VEX_SOLENE,
+  ordinal: 4,
+  title: "The Apprentice's Workshop",
+  summary:
+    "The apprentice's deduction in E3 was the first move in a longer succession. Their bench is now configured to take over the Insurgency's calibration-tape pipeline; their training files are organised; their tools are hers. Investigate whether Vex has been preparing the apprentice for succession all along — and whether the apprentice has known.",
+  clues: [
+    {
+      id: "vex.e4.workshop_inventory" as ClueId,
+      title: "Workshop Inventory — Tool Migration Map",
+      body: "Vex's master inventory shows fifty-four primary tools. Across the past three years, twenty-two have been migrated to the apprentice's bench (still labelled with Vex's name), six have been duplicated (apprentice has a copy), and twenty-six remain on Vex's bench. The migration is gradual, deliberate, and unmentioned in any of the workshop's daily logs. The apprentice's bench is half a master's bench now.",
+      foundIn: "engineering",
+    },
+    {
+      id: "vex.e4.training_files_meta" as ClueId,
+      title: "Training Files Metadata",
+      body: "Vex's training files for the apprentice carry timestamps that pre-date the apprentice's official enrollment by four years. The files were authored before Vex met them; the curriculum was prepared before the student existed. Cross-reference with the Insurgency's apprentice-selection records: Vex was on the selection committee that chose the apprentice.",
+      foundIn: "antiquarian-library",
+    },
+    {
+      id: "vex.e4.calibration_pipeline_handoff_draft" as ClueId,
+      title: "Calibration Pipeline Handoff Draft",
+      body: "A draft document on Vex's desk: 'Calibration Pipeline — Transition Plan v.7.' Version 1 dates to seven years ago; v.7 is dated last week. The handoff is fully specified: the apprentice runs every Insurgency calibration through their own rig within eighteen months, with Vex as advisory backup for two years after that. The draft has no signature line. Vex has been preparing for the day she stops being the engineer of record without ever marking the day on any calendar.",
+      foundIn: "war-room",
+    },
+    {
+      id: "vex.e4.apprentice_workbench_personal_note" as ClueId,
+      title: "Apprentice's Workbench — Personal Note",
+      body: "Tucked under the apprentice's calibration manual, a private note in their hand: 'I have known since the second week. Master left the v.1 transition plan visible during my first inventory rotation. I have been working at her pace. When she names it, I am ready. When she does not, I am still ready.' The note is dated six years ago.",
+      foundIn: "captains-quarters",
+    },
+  ],
+  deductions: [
+    {
+      id: "vex.e4.d.succession_was_mutual" as DeductionId,
+      clueA: "vex.e4.training_files_meta" as ClueId,
+      clueB: "vex.e4.apprentice_workbench_personal_note" as ClueId,
+      result: "correct",
+      narrationId: "vex.e4.n.both_have_known",
+      narrationProse:
+        "Both have known from the start. Vex authored the curriculum before the student existed, sat on the committee that selected them, and left the v.1 transition plan visible during the apprentice's first inventory rotation. The apprentice has known since the second week, and has been working at Vex's pace ever since. The succession is mutual; both have refused to name it for the same reason — naming it would make it a deadline, and the work is the work whether or not it has a deadline. The discipline Vex teaches is, on this evidence, the discipline of preparing for succession without rehearsing the closing.",
+      unlocksEpisode: "vex.e5" as EpisodeId,
+    },
+    {
+      id: "vex.e4.d.handoff_is_already_underway" as DeductionId,
+      clueA: "vex.e4.workshop_inventory" as ClueId,
+      clueB: "vex.e4.calibration_pipeline_handoff_draft" as ClueId,
+      result: "partial",
+      narrationId: "vex.e4.n.the_handoff_is_a_practiced_motion",
+      narrationProse:
+        "The handoff is already underway. Twenty-two of fifty-four primary tools have migrated; the calibration pipeline draft has been rewritten seven times across seven years; the apprentice's bench is half a master's. The succession is not a future event the saga is anticipating — it is a process that has been in progress for years, slow enough that nobody (including Vex) has had to mark a day. The case here is whether marking the day would change anything. The honest answer is: marginally. The work continues either way.",
+    },
+    {
+      id: "vex.e4.d.false_lead_apprentice_eager" as DeductionId,
+      clueA: "vex.e4.apprentice_workbench_personal_note" as ClueId,
+      clueB: "vex.e4.workshop_inventory" as ClueId,
+      result: "false_lead_named",
+      narrationId: "vex.e4.n.not_eager_displacement",
+      narrationProse:
+        "Reading the apprentice's preparation as eagerness to displace the master is the obvious move and the wrong one. An eager-to-displace apprentice does not write 'When she does not name it, I am still ready.' An eager apprentice does not work at the master's pace; they work faster, hoping to force the timeline. The apprentice's discipline is fidelity — they have made themselves continuously ready without making themselves the reason for the change.",
+    },
+  ],
+  choices: [
+    {
+      id: "vex.e4.c.encourage_naming_the_day" as ChoiceId,
+      label: "Encourage Vex to name the day — the succession deserves a marked transition.",
+      weight: "transparent",
+    },
+    {
+      id: "vex.e4.c.honour_the_unmarked_handoff" as ChoiceId,
+      label: "Honour the unmarked handoff — the discipline is fidelity to the work, not theatre about its phases.",
+      weight: "patient",
+    },
+    {
+      id: "vex.e4.c.brief_the_apprentice" as ChoiceId,
+      label: "Brief the apprentice on the case file — they have earned the saga's confidence; let them know.",
+      weight: "direct",
+    },
+  ],
+  contentBundle: {
+    songId: "album1.t07",
+    slideshowId: "album1.t07",
+    loredexUnlocks: [
+      "concept_workshop_inventory_migration",
+      "concept_training_files_meta",
+      "concept_calibration_pipeline_handoff",
+      "concept_unmarked_succession",
+    ],
+    conspiracyDiscoveries: [
+      "tool_migration_map",
+      "pre_authored_curriculum",
+      "transition_plan_v7",
+      "apprentice_known_since_week_two",
+    ],
+    dropAt: "episode_close",
+  },
+};
+
+/* ─── VEX SOLÈNE ARC — E5 (final) ─── */
+/* E5: "The Engineer's Last Calibration" — arc closer. Vex
+   runs one final calibration session, alone, on the same
+   rig she used for DEC-7710. */
+
+const vexE5: EpisodeDefinition = {
+  id: "vex.e5" as EpisodeId,
+  arcId: ARC_VEX_SOLENE,
+  ordinal: 5,
+  title: "The Engineer's Last Calibration",
+  summary:
+    "Vex has scheduled a final calibration session on her original rig — alone, no apprentice, no Seer attendance. The session is logged for tomorrow morning. Investigate what the calibration is FOR — and choose whether to attend, whether to leave the engineer the privacy she requested, or whether to bring the alias back into the room one last time.",
+  clues: [
+    {
+      id: "vex.e5.scheduled_session_card" as ClueId,
+      title: "Scheduled Session Card — Tomorrow 06:00",
+      body: "The Insurgency calibration-pipeline log shows a session scheduled for tomorrow at 06:00. Engineer of record: Vex Solène. Subject: 'final calibration of the original rig before retirement.' Attendees: 'none requested.' Vex has booked the room for two hours. The calibration only takes forty-five minutes.",
+      foundIn: "engineering",
+    },
+    {
+      id: "vex.e5.original_rig_status" as ClueId,
+      title: "Original Rig — Maintenance Status",
+      body: "The rig Vex used for DEC-7710 has been retained in working order despite being decommissioned twenty years ago. Maintenance logs in Vex's hand: every six months, full diagnostic, no part replacement, no documented reason. The rig is preserved because Vex preserved it. The apprentice's rig (modern, in active service) is across the room.",
+      foundIn: "engineering",
+    },
+    {
+      id: "vex.e5.private_recording_intent" as ClueId,
+      title: "Vex's Private Recording Intent",
+      body: "A diary entry the apprentice has not read (still in the workshop diary the apprentice does not open out of respect): 'Tomorrow I am going to record a single take alone on the original rig. I do not yet know what I am recording. The Seer's letter is sealed in my desk; I have not opened it. Whether tomorrow's session names the seventh installment or seals it forever, I want to be the one who hears the take first. After tomorrow, the rig is the apprentice's to retire as they choose.'",
+      foundIn: "captains-quarters",
+    },
+    {
+      id: "vex.e5.cross_arc_seer_letter_state" as ClueId,
+      title: "Cross-Arc Echo — Seer's Letter State",
+      body: "If the player has reached Seer E4 and chosen to relay the letter's existence to Vex (`cross_arc_relay`), the diary entry above ends with 'I will open it tonight.' If the player chose otherwise, the diary entry ends with 'I will not open it.' The player's earlier choice is, on this evidence, the variable that decides whether tomorrow morning's session is a closing or a continuation.",
+      foundIn: "cipher-den",
+    },
+  ],
+  deductions: [
+    {
+      id: "vex.e5.d.session_is_a_self_witnessing" as DeductionId,
+      clueA: "vex.e5.private_recording_intent" as ClueId,
+      clueB: "vex.e5.original_rig_status" as ClueId,
+      result: "correct",
+      narrationId: "vex.e5.n.she_recorded_for_herself_first",
+      narrationProse:
+        "Tomorrow's session is a self-witnessing. Vex has preserved the original rig for twenty years past its decommissioning so that she could, when ready, record a single take alone — to be the first listener to whatever the engineer's life has finally accumulated into. The apprentice will be the second listener; the Seer (if the letter is opened) will be the recorder; but Vex herself will be the first. The recording engineer is, on this morning, becoming her own audience for the first time. Her career began with her recording for someone else's prophecy. Her career closes with her recording for herself.",
+    },
+    {
+      id: "vex.e5.d.cross_arc_decides_closing" as DeductionId,
+      clueA: "vex.e5.scheduled_session_card" as ClueId,
+      clueB: "vex.e5.cross_arc_seer_letter_state" as ClueId,
+      result: "partial",
+      narrationId: "vex.e5.n.your_earlier_choice_is_in_the_room_tomorrow",
+      narrationProse:
+        "The player's earlier choice is in the room tomorrow. If Vex opens the Seer's letter tonight, tomorrow's session has a recorder, the alias closes by canon, and the seventh installment is named. If she does not, tomorrow is a private take that lives only in Vex's own files, and the alias keeps the structural lock for another generation. Both endings are real; both are honoured by the engineer's career. The case here is whether the player attends tomorrow or trusts the engineer to be her own first reader.",
+    },
+    {
+      id: "vex.e5.d.false_lead_retirement_party" as DeductionId,
+      clueA: "vex.e5.scheduled_session_card" as ClueId,
+      clueB: "vex.e5.original_rig_status" as ClueId,
+      result: "false_lead_named",
+      narrationId: "vex.e5.n.not_a_retirement_party",
+      narrationProse:
+        "Reading tomorrow's session as a retirement party is the obvious move and the wrong one. Retirement parties have attendees; Vex booked attendees: 'none requested.' Retirement parties have a programme; Vex's session has only a subject line. The engineer is not closing a career publicly — she is, on her own terms, recording one final take that may or may not enter the saga. The discipline that started with an alias is closing in a posture matched to its origin: alone, by request, on the rig the alias was issued for.",
+    },
+  ],
+  choices: [
+    {
+      id: "vex.e5.c.attend_at_06_00" as ChoiceId,
+      label: "Attend at 06:00 — be present without being requested; the engineer has earned a witness whether she asked for one or not.",
+      weight: "witness",
+    },
+    {
+      id: "vex.e5.c.honour_the_privacy" as ChoiceId,
+      label: "Honour the 'none requested' — Vex earned the right to be her own first listener; do not impose your presence on the morning she chose for solitude.",
+      weight: "patient",
+    },
+    {
+      id: "vex.e5.c.cross_arc_attend_with_seer" as ChoiceId,
+      label: "Stand in the corridor outside the booth with the Seer — neither of you enter; both of you are present without intruding; the recording happens behind a door that you both witness without crossing.",
+      weight: "cross_arc_seer",
+    },
+    {
+      id: "vex.e5.c.tell_apprentice_to_attend" as ChoiceId,
+      label: "Quietly inform the apprentice — let them choose for themselves whether to be present; they have earned the agency.",
+      weight: "succession",
+    },
+  ],
+  contentBundle: {
+    songId: "album1.t08",
+    slideshowId: "album1.t08",
+    loredexUnlocks: [
+      "concept_engineers_last_calibration",
+      "concept_self_witnessing_recording",
+      "concept_unrequested_attendance",
+      "concept_alias_closing_options",
+    ],
+    conspiracyDiscoveries: [
+      "tomorrow_06_00_session",
+      "preserved_original_rig",
+      "private_recording_intent",
+      "cross_arc_letter_state",
     ],
     dropAt: "episode_close",
   },
@@ -2080,7 +2503,7 @@ const VEX_SOLENE_MYSTERY: MysteryDefinition = {
   summary:
     "Vex Solène's recording credits cover 4,711 of the Seer's 4,712 archive tapes. The DO-NOT-PLAY tape was filed under a Warlord-fragment alias — engineered by the same hands, signed under a different name. Investigate the swap, the Insurgency's role in honouring it, and what Vex was protecting.",
   npcId: "vex_solene",
-  episodes: [vexE1, vexE2, vexE3],
+  episodes: [vexE1, vexE2, vexE3, vexE4, vexE5],
   suspects: vexSuspects,
   lenses: vexLenses,
 };
