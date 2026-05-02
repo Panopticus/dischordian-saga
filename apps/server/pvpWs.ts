@@ -109,7 +109,11 @@ type ClientMessage =
   | { type: "SPECTATE"; matchId: string; spectatorName?: string }
   | { type: "STOP_SPECTATING" }
   | { type: "SEND_SPECTATOR_CHAT"; text: string }
-  | { type: "PING" };
+  | { type: "PING" }
+  // T14 — coop match join. The party's current coop session id is
+  // looked up server-side if `sessionId` is omitted (caller must
+  // already be in an in_match party for that path to resolve).
+  | { type: "JOIN_COOP_MATCH"; userId: number; userName: string; deck: DeckCard[]; sessionId?: string; faction?: string; companionId?: string };
 
 type ServerMessage =
   | { type: "QUEUE_JOINED"; position: number }
@@ -148,7 +152,10 @@ const TURN_TIMEOUT_SECONDS = 75;
 const MATCHMAKING_INTERVAL_MS = 3000;
 
 /* ─── HELPERS ─── */
-function send(ws: WebSocket, msg: ServerMessage) {
+function send(ws: WebSocket | undefined, msg: ServerMessage) {
+  // T14: synthetic players (e.g. coop bosses) have no WS; sends are
+  // no-ops in that case rather than crashing on undefined.readyState.
+  if (!ws) return;
   if (ws.readyState === WebSocket.OPEN) {
     ws.send(JSON.stringify(msg));
   }
@@ -751,6 +758,111 @@ export function setupPvpWebSocket(server: Server) {
             send(ws, { type: "QUEUE_JOINED", position: matchmakingQueue.length });
             tryMatchPlayers();
           });
+          break;
+        }
+
+        case "JOIN_COOP_MATCH": {
+          if (player) {
+            send(ws, { type: "ERROR", message: "Already in queue or match" });
+            return;
+          }
+          if (!msg.deck || msg.deck.length < 5) {
+            send(ws, { type: "ERROR", message: "Deck must have at least 5 cards" });
+            return;
+          }
+          // Resolve session: explicit > party-bound.
+          const { findCoopSessionForUser, prepareCoopSpawn, linkMatchToSession } = await import("./coopBattleSpawner");
+          let sessionId = msg.sessionId;
+          if (!sessionId) {
+            const inferred = await findCoopSessionForUser(msg.userId);
+            if (!inferred) {
+              send(ws, { type: "ERROR", message: "No active coop session for this user" });
+              return;
+            }
+            sessionId = inferred;
+          }
+          const spawn = await prepareCoopSpawn({ callerUserId: msg.userId, sessionId });
+          if (!spawn.ok) {
+            send(ws, { type: "ERROR", message: `Coop spawn rejected: ${spawn.error}` });
+            return;
+          }
+
+          const lbInfo = await getOrCreateLeaderboard(msg.userId, msg.userName);
+          const humanPlayer: ConnectedPlayer = {
+            ws,
+            userId: msg.userId,
+            userName: msg.userName,
+            deck: msg.deck,
+            elo: lbInfo.elo,
+            matchId: null,
+            placementMatchesPlayed: lbInfo.matchesPlayed,
+            faction: msg.faction || "neutral",
+            companionId: msg.companionId,
+            emoteRateState: { timestamps: [] },
+          };
+          // Synthetic boss "ConnectedPlayer" with no WS. Outbound
+          // sends to it are no-ops via the send() guard further down
+          // when ws is undefined.
+          const bossPlayer: ConnectedPlayer = {
+            ws: undefined as unknown as WebSocket,
+            userId: spawn.result.bossPlayer.userId,
+            userName: spawn.result.bossPlayer.userName,
+            deck: spawn.result.bossPlayer.deck,
+            elo: spawn.result.bossPlayer.elo,
+            matchId: null,
+            placementMatchesPlayed: 999,
+            faction: "boss",
+            companionId: undefined,
+            emoteRateState: { timestamps: [] },
+          };
+          player = humanPlayer;
+          playerConnections.set(msg.userId, humanPlayer);
+          // Spawn the underlying 1v1 match. The driver registers a
+          // boss-turn ticker that calls `spawn.result.tickBoss` on a
+          // 750ms cadence whenever it becomes the boss's turn.
+          startMatch(humanPlayer, bossPlayer);
+          // Link match → session for finalize.
+          if (humanPlayer.matchId) {
+            linkMatchToSession(sessionId, humanPlayer.matchId);
+          }
+          // Per-match boss-turn driver. Polls every 250ms; cheap.
+          const interval = setInterval(() => {
+            const matchId = humanPlayer.matchId;
+            if (!matchId) {
+              clearInterval(interval);
+              return;
+            }
+            const match = activeMatches.get(matchId);
+            if (!match) {
+              // Match concluded — finalize.
+              clearInterval(interval);
+              spawn.result.finalize("abandoned").catch(() => {});
+              return;
+            }
+            // The boss only acts during its own turn. tickBoss
+            // returns true if it took a non-end-turn action; a
+            // false return ends the loop iteration.
+            const beforeTurn = match.state.currentTurn;
+            spawn.result.tickBoss(match.state, (action) => {
+              const result = processPvpAction(match.state, bossPlayer.userId, action);
+              if (result.success) {
+                match.state = result.state;
+                // Notify the human player of state change.
+                send(humanPlayer.ws, { type: "GAME_STATE", state: getPlayerView(match.state, humanPlayer.userId) });
+                broadcastToSpectators(match, { type: "GAME_STATE", state: match.state });
+              }
+            });
+            // If match ended this tick, finalize.
+            if (match.state.winner != null) {
+              clearInterval(interval);
+              const won = match.state.winner === humanPlayer.userId;
+              spawn.result.finalize(won ? "victory" : "defeat").catch(() => {});
+            }
+            // If turn flipped to boss when it wasn't, that's our
+            // signal to keep ticking; otherwise sleep.
+            void beforeTurn;
+          }, 250);
+          send(ws, { type: "QUEUE_JOINED", position: 0 });
           break;
         }
 
