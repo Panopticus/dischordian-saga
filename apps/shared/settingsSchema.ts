@@ -25,6 +25,20 @@ export const settingsSchema = z.object({
   // Toggle for audio-reactive UI (logo glow pulses, vitals sync, visualizers).
   // Off by default for the first boot so players opt in after hearing the music.
   audioReactive: z.boolean().default(true),
+  // M6 — quality preset for Three.js + Pixi.js render-cost knobs.
+  //   "auto"   → resolved at runtime via detectQualityTier() +
+  //              useIsMobile() (medium on mobile, high on desktop,
+  //              low when the detector signals weak hardware).
+  //   "low"    → Pixi resolution capped at 1, Three.js DPR 1, no
+  //              shader composer chain, simpler particles.
+  //   "medium" → Pixi 1.5×, Three.js DPR 1.5, shader composer
+  //              with skipped passes, half-density particles.
+  //   "high"   → Pixi up to 2×, Three.js DPR up to 2, full chain.
+  // The "auto" default keeps existing behavior — players opt into a
+  // fixed tier from settings if the auto detection isn't right.
+  qualityPreference: z
+    .enum(["auto", "low", "medium", "high"])
+    .default("auto"),
   // Captions — when on, VO-driven dialog surfaces (Awakening, cutscenes,
   // NPC reveals) render a speaker-label prefix and sound cues inline with
   // the existing typewriter so players who can't hear the VO still get
