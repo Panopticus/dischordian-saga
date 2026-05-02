@@ -135,3 +135,33 @@ describe("getMysteryDefinition / getEpisodeDefinition / getMysteriesForArc", () 
     expect(arcMysteries.every((m) => m.arcId === ARC_WRAITH_CALDER)).toBe(true);
   });
 });
+
+describe("Loredex parity — every loredexUnlocks id has a catalog entry", () => {
+  // Loaded inline (not at module top) so the loredex JSON only loads when
+  // this describe runs. The Loredex catalog ships with the client and is
+  // the source of truth for entry ids; every id referenced from
+  // episodeMysteries.ts must exist in the catalog before episodes ship —
+  // otherwise an episode close drops a Loredex unlock the UI cannot render.
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  const loredexJson = require("../client/src/data/loredex-data.json") as {
+    entries: ReadonlyArray<{ id: string }>;
+  };
+  const known = new Set(loredexJson.entries.map((e) => e.id));
+
+  it("every loredexUnlocks id resolves in loredex-data.json", () => {
+    const missing: string[] = [];
+    for (const m of MYSTERY_DEFINITIONS) {
+      for (const e of m.episodes) {
+        for (const id of e.contentBundle.loredexUnlocks) {
+          if (!known.has(id)) {
+            missing.push(`${m.id}/${e.id} → ${id}`);
+          }
+        }
+      }
+    }
+    expect(
+      missing,
+      `Missing Loredex entries (author them in apps/client/src/data/loredex-data.json):\n  ${missing.join("\n  ")}`,
+    ).toEqual([]);
+  });
+});
