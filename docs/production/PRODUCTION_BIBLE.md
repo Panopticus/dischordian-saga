@@ -1,719 +1,280 @@
-# The Collector's Arena — Production Bible
+# Loredex OS — Asset & VO Production Bible
 
-## Cinematics, Dialog & Music Direction
+**Document role.** Single-source dashboard of what is *designed* in the codebase versus what has been *generated, staged, or shipped to the CDN*. Generated 2026-05-02 from a fresh repo scan. Supersedes the previous Collector's Arena draft of this filename.
 
-**Document Version**: 1.0
-**Project**: Loredex OS — The Dischordian Saga Fighting Game
-**Author**: Dischordian Saga Team
-**Date**: March 25, 2026
+**Scope.** Four registers: (1) art manifests vs. CDN coverage, (2) VO that is written but not yet generated, (3) VO that is referenced in code but not yet written, (4) per-subsystem art gaps.
 
 ---
 
-## Table of Contents
+## Executive Summary
 
-1. [Creative Vision](#1-creative-vision)
-2. [Cinematic Direction](#2-cinematic-direction)
-3. [Dialog Writing Standards](#3-dialog-writing-standards)
-4. [Music Direction](#4-music-direction)
-5. [Story Mode Production Guide](#5-story-mode-production-guide)
-6. [Character Voice Direction](#6-character-voice-direction)
-7. [Arena Atmosphere Design](#7-arena-atmosphere-design)
-8. [Quality Benchmarks](#8-quality-benchmarks)
+The art surface is overwhelmingly producer-delivered and CDN-resident: 11 typed manifests under `apps/shared/expansionArt/` declare **~3,300 producer assets** (album frames, cinematic mp4s + keyframes, VFX clips, base-set + Hierarchy card art, login Meme cinematic shots, guild cutscenes, professor signature triggers). The local `apps/client/public/` tree holds only **~45 binary files** — almost entirely Prelude room art, Prelude VFX clips, and PWA icons. Everything else lives on `dgrsart` S3 at `cdn/client-public/`. The `_check-art-coverage.mjs` HEAD-probe currently audits 928 producer keys.
+
+VO is in much better shape: `_vo-audit.mjs` reports **0 missing** generations across **24 audited surfaces** (2,136 manifest entries fully cover the 1,044 distinct script-line ids — the manifest count is higher because per-speaker manifests like `elara` and `human` aggregate lines from many sources including dialog trees, companion lines, prelude CSVs, and act scripts). Generators are idempotent.
+
+**Top three real gaps right now:**
+1. **NPC first-meeting dialog VO is referenced but not written.** 63 distinct `voLineId`s appear in `apps/shared/npcs/dialogTrees/<character>/first_meeting.ts` (vex, degen, seer, locke, gm, meme, nilmorg, hierophant, oracle) with no matching script-JSON entry and no manifest URL. The dialog UI will fall back to text-only until these scripts are authored.
+2. **Dreamer Vision 4 ("The Dreamer Sees You", threshold 23) is held.** Visions 1–3 are built; Vision 4 is stubbed pending writers' caption ratification. The two Veo flashes it depends on (`vfx_iris_collapse`, `vfx_cryo_frost_retreat`) ARE typed in `cinematicsManifest.ts` and either ship from the producer drop or degrade to keyframe stills.
+3. **Albums 2-5 frames** (~1,691 webp keyframes across 93 tracks) are typed in their `albumNSlideshows.ts` registries but the producer drop pipeline is the only thing standing between them and the CDN. They are the long pole for any reader-facing slideshow content past Album 1.
 
 ---
 
-## 1. Creative Vision
+## SECTION 1 — Art designed vs. on-CDN
 
-### The Collector's Arena — Core Identity
+### 1.1 Typed manifests under `apps/shared/expansionArt/`
 
-The Collector's Arena is not merely a fighting game — it is a narrative engine disguised as combat. Every punch carries the weight of a universe-spanning mythology. Every victory reveals another fragment of a story that spans from the Genesis of the AI Empire to the Fall of Reality itself.
+| Manifest | Declared assets | On disk under `apps/client/public/` | Likely on CDN | Delta (designed-not-shipped) |
+|---|---|---|---|---|
+| `album1Slideshows.ts` (30 tracks) | 490 webp frames | 0 | Yes — Album 1 is the live reference album per `dreamerVisions.ts` ("Album 1 frames live on the CDN today") | 0 known gaps |
+| `album2Slideshows.ts` (21 tracks) | 334 webp frames | 0 | Partial — referenced as "typed but not yet uploaded" by the Dreamer-Visions doc-comment | ~334 frames pending CDN upload |
+| `album3Slideshows.ts` (23 tracks) | 567 webp frames | 0 | Partial — same status as Album 2 | ~567 frames pending |
+| `album4Slideshows.ts` (11 tracks) | 200 webp frames | 0 | Partial — same status | ~200 frames pending |
+| `album5Slideshows.ts` (37 tracks + 20 narrator portraits + 18 dialog backgrounds) | 590 webp frames + portraits/bgs (~628 total entries; 40 single `relPath:` rows for portraits/bgs) | 0 | Producer drop landed 2026-04-29 (`SilenceInHeaven_Album6_Complete.zip`); upload status pending | ~590 frames pending CDN verification |
+| `cinematicsManifest.ts` (CINEMATICS, 9 entries) | 9 mp4s + 41 keyframe webps = 50 | 0 | Yes — producer drop 2026-04-28 + audit script verifies | 0 known gaps |
+| `cinematicsManifest.ts` (VFX_CLIPS, 21 entries across 5 categories) | 21 mp4s + 21 keyframe webps = 42; includes 3 `dreamer_visions` Veo flashes | 6 mp4s under `art/vfx/prelude/` (NOT the same set — these are Prelude bespoke VFX) | Yes for shipped VFX; the 3 `dreamer_visions` clips degrade to held keyframes if mp4 is absent | Verify `vfx_substrate_pulse`, `vfx_iris_collapse`, `vfx_cryo_frost_retreat` mp4s; keyframes cover the failure path |
+| `hierarchyOfDamned.ts` | 125 art entries (assetId → relPath) | 0 | Yes — covered by `_check-art-coverage.mjs` HEAD probe | 0 known gaps |
+| `dischordiaBaseSet.ts` (BASE_SET + TIER_GRIDS) | 652 art entries (605 base + 47 tier grids approx) | 0 | Yes — covered by `_check-art-coverage.mjs` HEAD probe | 0 known gaps |
+| `loginMemeSequence.ts` (Kling Omni 3:45 cinematic) | 16 shots (no `.webp`/`.mp4` literals — script + prompts only; the rendered shots are produced as a single chained Kling Omni job) | 0 | Generation-pending — this is a producer cinematic that has not been rendered/uploaded yet | Entire 3m45s cinematic + chained shot keyframes |
+| `guildCutscenesManifest.ts` | 10 distinct mp4 paths emitted by `videoPath()` helpers + 24 professor signature variants (`cs_sig_<N>_<light|dark>.mp4` × 12 professors) ≈ 34 cutscene mp4s | 0 | Partial — Onboarding (5), Daily (`f2_daily`), Combat (`f3_combat`), Epoch change, and 24 Signature cutscenes all reference live producer mp4s; signatures are gated by `professorSignatureCards.ts` (14 mappings live) | Verify all 24 signature mp4s + `cs_epoch_change.mp4` are uploaded |
+| `professorSignatureCards.ts` | 14 cardDefId → professorId mappings (no asset paths — cinematic side-effect registry) | n/a | n/a | n/a (folds into `guildCutscenesManifest.ts`) |
 
-The creative north star is the intersection of three pillars:
+**Aggregate for `apps/client/public/` (the local staging tree):**
 
-**Pillar 1 — Mythological Weight**. Every character is a figure of cosmic significance. The Architect created reality's source code. The Oracle saw the future and was punished for it. Iron Lion was humanity's last general. When these beings clash, the stakes are existential. The presentation must reflect this — no fight is casual, no victory is trivial.
-
-**Pillar 2 — Cinematic Immersion**. The visual and audio language draws from prestige sci-fi cinema: the oppressive surveillance of *Blade Runner 2049*, the cosmic dread of *Interstellar*, the mythological grandeur of *Dune*, and the kinetic combat choreography of *The Matrix*. Every frame should feel like it belongs in a film, not a game menu.
-
-**Pillar 3 — Musical Storytelling**. The Dischordian Saga is built on a foundation of 107 original songs across four albums. The music is not background — it is the narrative itself. Arena themes are drawn from saga tracks that tell the story of the location. Character themes echo their journey. The player should feel like they are fighting inside a concept album.
-
-### Tone Matrix
-
-| Context | Tone | Reference |
+| Bucket | Count | Notes |
 |---|---|---|
-| Story Mode — Act I (The Prisoner) | Confusion, dread, flickers of hope | *Memento* meets *The Prisoner* (TV) |
-| Story Mode — Act II (The Oracle Awakens) | Revelation, growing power, defiance | *The Matrix* Neo's awakening arc |
-| Story Mode — Act III (The Champion) | Triumph, moral complexity, cosmic stakes | *Dune* Paul Atreides ascending |
-| Versus Mode | Competitive intensity, spectacle | *Mortal Kombat 11* presentation |
-| Character Select | Reverence, mythology, anticipation | *Marvel vs Capcom* character intros |
-| Victory Screen | Earned triumph, character personality | *Street Fighter 6* victory poses |
-| Defeat Screen | Dignity in loss, motivation to retry | *Guilty Gear Strive* defeat moments |
-
----
-
-## 2. Cinematic Direction
-
-### 2.1 Pre-Fight Cinematics
-
-Each story mode chapter opens with a cinematic sequence. These are not simple text boxes — they are directed scenes with specific camera language, timing, and emotional beats.
-
-#### Camera Language
-
-| Shot Type | Usage | Duration |
-|---|---|---|
-| **Extreme Wide** | Establishing the arena, showing scale | 3-4 seconds |
-| **Medium Close-Up** | Dialog delivery, character reactions | 2-3 seconds per line |
-| **Extreme Close-Up** | Eyes, hands, weapons — tension moments | 1-2 seconds |
-| **Dutch Angle** | Disorientation, villain reveals, power shifts | 2 seconds |
-| **Slow Push-In** | Building tension before a revelation | 4-5 seconds |
-| **Whip Pan** | Transitioning between speakers | 0.5 seconds |
-
-#### Cinematic Template — Pre-Fight Sequence
-
-```
-[BEAT 1: ESTABLISHING — 4 seconds]
-Camera: Extreme wide of arena
-Audio: Arena ambient + low music swell
-Visual: Atmospheric particles, environmental storytelling
-
-[BEAT 2: OPPONENT REVEAL — 3 seconds]
-Camera: Slow push-in on opponent from shadow to light
-Audio: Character theme motif (2-bar phrase)
-Visual: Character-specific energy effects activate
-
-[BEAT 3: DIALOG EXCHANGE — Variable]
-Camera: Shot/reverse-shot, medium close-ups
-Audio: Voice lines with ambient undertone
-Visual: Subtle idle animations, energy auras pulsing with speech
-
-[BEAT 4: TENSION PEAK — 2 seconds]
-Camera: Split screen or extreme close-ups of both fighters' eyes
-Audio: Music cuts to silence, then single dramatic hit
-Visual: Energy auras flare, ready stances
-
-[BEAT 5: FIGHT CALL — 1.5 seconds]
-Camera: Pull back to fight distance
-Audio: Announcer "FIGHT!" + arena theme drops
-Visual: HUD elements animate in, round indicator
-```
-
-#### Cinematic Prompt Template for Image Generation
-
-For each pre-fight cinematic frame, use this prompt structure:
-
-> Hyper-realistic cinematic frame from a AAA fighting game cutscene. [SCENE DESCRIPTION]. The shot is a [CAMERA TYPE] with [LIGHTING DESCRIPTION]. The atmosphere is [MOOD]. Film grain, anamorphic lens flare, volumetric lighting, depth of field. Aspect ratio 21:9 ultrawide. Cinematic color grading with [COLOR PALETTE]. 4K resolution, photorealistic rendering quality.
-
-**Example — Chapter 1 Opening**:
-> Hyper-realistic cinematic frame from a AAA fighting game cutscene. A lone prisoner stands in the center of a vast alien arena on the planet Thaloria, surrounded by towering bioluminescent trees. The shot is an extreme wide establishing shot with cold blue-green ambient light from the alien flora contrasting with warm amber spotlights on the arena floor. The atmosphere is ominous and disorienting. Film grain, anamorphic lens flare, volumetric fog, depth of field. Aspect ratio 21:9 ultrawide. Cinematic color grading with teal shadows and amber highlights. 4K resolution.
-
-### 2.2 Victory Cinematics
-
-Victory sequences are 5-7 second character showcases that reward the player and reinforce character personality.
-
-#### Victory Cinematic Structure
-
-```
-[FRAME 1: IMPACT — 1 second]
-Camera: Close-up of final blow landing
-Audio: Massive impact SFX + crowd reaction
-Visual: Slow-motion hit effect, particle explosion
-
-[FRAME 2: POSE — 2 seconds]
-Camera: Low angle hero shot of winner
-Audio: Character victory theme sting (2 seconds)
-Visual: Character-specific victory pose with energy effects
-
-[FRAME 3: QUOTE — 2 seconds]
-Camera: Medium close-up, direct to camera
-Audio: Victory voice line
-Visual: Character speaks, subtle environmental reaction
-
-[FRAME 4: TITLE CARD — 1.5 seconds]
-Camera: Static
-Audio: Musical resolution chord
-Visual: "[CHARACTER NAME] WINS" with faction emblem
-```
-
-#### Character-Specific Victory Direction
-
-| Character | Victory Pose Style | Camera Angle | Mood |
-|---|---|---|---|
-| The Architect | Arms spread, reality code visible | Low angle, godlike | Absolute dominion |
-| The Collector | Examining defeated opponent like specimen | Eye level, clinical | Cold satisfaction |
-| The Enigma | Standing still, energy dissipating | Wide shot, mysterious | Quiet power |
-| The Warlord | Roaring, weapons raised | Extreme low angle | Brutal triumph |
-| The Necromancer | Laughing, undead rising around | Dutch angle | Gleeful madness |
-| Iron Lion | Fist to chest salute | Medium, respectful | Honorable victory |
-| The Oracle | Eyes glowing, seeing the future | Close-up on eyes | Prophetic calm |
-| Agent Zero | Holstering weapons, walking away | Over-shoulder | Professional cool |
-| The Meme | Shifting through multiple forms | Rapid cuts | Chaotic glee |
-| The Source | Corruption spreading from feet | Slow zoom out | Inevitable doom |
-| Akai Shi | Blade flourish, energy dissipating | Dynamic tracking | Fierce grace |
-| The Human | Looking at hands, conflicted | Medium, intimate | Weary resolve |
-
-### 2.3 Round Transition Cinematics
-
-Between rounds, a 2-second transition reinforces the stakes.
-
-```
-[ROUND TRANSITION TEMPLATE]
-Duration: 2 seconds
-Visual: Screen wipe with faction-colored energy
-Audio: Announcer "ROUND [N]" + dramatic percussion hit
-Camera: Quick zoom from wide to fight distance
-Overlay: Round number with arena-themed typography
-```
-
-### 2.4 Finish Sequence
-
-When a fighter's health drops below 15% in the final round, the "FINISH THEM" sequence activates.
-
-```
-[FINISH SEQUENCE]
-Duration: 3 seconds before timer expires
-Visual: Screen edges pulse red, slow-motion effect on hits
-Audio: Heartbeat bass, announcer "FINISH THEM!", crowd chanting
-Camera: Slight zoom-in, increased screen shake on impacts
-Overlay: "FINISH THEM" text with pulsing glow
-```
-
----
-
-## 3. Dialog Writing Standards
-
-### 3.1 Voice and Register
-
-Each character speaks with a distinct voice that reflects their nature, era, and role in the saga. Dialog must never feel generic — every line should be identifiable to its speaker without attribution.
-
-#### Character Voice Profiles
-
-**The Architect** — Speaks in absolute declarations. Never asks questions (it already knows the answers). Uses technical language mixed with godlike pronouncements. Refers to opponents as "variables," "anomalies," or "inefficiencies." Never uses contractions.
-
-> "I did not create the universe. I merely ensured it would remember itself."
-> "You performed within expected parameters. This is not an insult. It is a measurement."
-> "I have calculated every possible outcome. You exist in none of them."
-
-**The Collector** — Speaks with clinical detachment masking obsessive desire. Uses specimen/collection metaphors. Addresses opponents by their "catalog designation." Refined, aristocratic diction with an undercurrent of menace.
-
-> "Specimen 74. Your combat data will be... illuminating."
-> "You are not a person. You are data. And I will have every byte."
-> "Another specimen for my collection. Exquisite."
-
-**The Enigma (Malkia Ukweli)** — Speaks in riddles and paradoxes. References dischordian logic — the idea that contradictions can coexist. Uses "we" when referring to the Ne-Yons. Ancient, poetic cadence.
-
-> "Your equations cannot contain me. I am the variable you never accounted for."
-> "The Ne-Yons remember. The Ne-Yons endure."
-> "Order and chaos are not opposites. They are dance partners."
-
-**The Warlord** — Speaks in short, brutal sentences. Military terminology. No poetry, no philosophy — only war. Occasionally reveals the Engineer's consciousness trapped within, creating moments of unexpected vulnerability.
-
-> "WEAKNESS. ELIMINATED."
-> "War is not won by the righteous. It is won by the relentless."
-> *[Engineer surfacing]* "...help me... I'm still in here..."
-
-**The Necromancer** — Speaks with theatrical flair and dark humor. Academic vocabulary mixed with mad scientist glee. References death as a "state change" rather than an ending. Eastern European cadence.
-
-> "Death is merely a state change. And I am the one who reverses it."
-> "Ah, the famous Prisoner! Let me see if you can handle my dead code constructs."
-> "Even prophets fall to the dead. Rest now. You'll rise again — everyone does, in my arena."
-
-**Iron Lion** — Speaks with working-class directness and military honor. Inspirational without being preachy. References humanity's struggle against the machines. Warm but fierce.
-
-> "You want a fight? You've got one."
-> "For humanity. For freedom."
-> "I've buried better fighters than you. But I respect anyone who stands up."
-
-**The Oracle (The Prisoner)** — In early chapters, speaks in confused fragments and internal monologue (parenthetical thoughts). As memories return, voice becomes more prophetic and authoritative. The transformation from Prisoner to Oracle is the story's emotional spine.
-
-> *[Early]* "(Where am I? This arena... I've been here before. But when?)"
-> *[Mid]* "(Precognitive. I can see things before they happen. Not clearly — but the flashes are getting stronger.)"
-> *[Late]* "I am the Oracle. And I have one final prophecy: your Arena will set us all free."
-
-**Agent Zero** — Speaks in clipped, professional sentences. Mission-focused language. Dry humor emerges under pressure. Never wastes words.
-
-> "Target neutralized."
-> "Engaging target. Weapons hot."
-> "Nothing personal. Just the mission."
-
-**The Meme** — Speaks in internet culture references, memes, and constantly shifting registers. Breaks the fourth wall. Uses slang that shifts between eras. Unsettling because it's simultaneously funny and threatening.
-
-> "LOL. Get rekt."
-> "This is going to be SO viral."
-> "I am everyone. I am no one. I am whatever you need me to be."
-
-**The Source** — Speaks in fragmented, agonized sentences. The Thought Virus corrupts speech patterns — words repeat, glitch, or distort. Moments of Kael's original personality break through.
-
-> "I'm sorry. I'm so — ALL WILL BE CONSUMED — ...sorry."
-> "I was made to be a weapon. Now I choose my own targets."
-> *[Kael surfacing]* "Please... it hurts... make it stop..."
-
-**Akai Shi** — Speaks with warrior's discipline and spiritual conviction. References balance, the Potentials, and her transformation into the Red Death. Japanese-influenced phrasing.
-
-> "My blade speaks for the Potentials."
-> "Balance will be restored, by force if necessary."
-> "The Red Death does not negotiate."
-
-**The Human** — Speaks with weary wisdom and existential weight. Has lived for centuries, fought gods, and served both sides. Every line carries the burden of impossible choices.
-
-> "I've fought gods. You don't scare me."
-> "I didn't want this... but I won't lose."
-> "Centuries of fighting... and I'm still standing."
-
-### 3.2 Dialog Structure Rules
-
-**Rule 1: Three-Beat Exchanges**. Pre-fight dialog follows a three-beat structure: (1) Opponent establishes their position, (2) Prisoner/Oracle responds with growing awareness, (3) Tension escalates to the point of no return.
-
-**Rule 2: Memory Fragments as Rewards**. Each chapter's `memoryFragment` is a prose paragraph that rewards victory with narrative progression. These should read like recovered journal entries — intimate, specific, and emotionally resonant.
-
-**Rule 3: Post-Victory Reveals**. Every post-victory dialog must advance the overarching mystery. The player should learn something new about the Oracle's identity, the Collector's motives, or the Architect's design.
-
-**Rule 4: Post-Defeat Dignity**. Defeat dialog should never humiliate the player. Instead, it should motivate retry by hinting at what they'll learn if they win. The opponent should acknowledge the player's strength even in victory.
-
-**Rule 5: Narrator as Greek Chorus**. The narrator speaks in present tense, cinematic prose. It describes what the player cannot see — environmental reactions, crowd behavior, cosmic implications. The narrator is the voice of the saga itself.
-
-> "The Arena trembles. Systems that have run for millennia begin to falter."
-> "A voice echoes from above — cold, vast, and ancient..."
-
-### 3.3 Dialog Formatting Standards
-
-```typescript
-// Pre-fight dialog entry
-{
-  speaker: "The Architect",           // Character name or "narrator" or "prisoner"
-  text: "I created this universe.",   // The spoken line
-  speakerColor: "#ef4444",            // Character's signature color (hex)
-}
-
-// Internal monologue (Prisoner only)
-{
-  speaker: "prisoner",
-  text: "(Where am I? This arena... I've been here before.)",  // Parentheses = thought
-}
-
-// Narrator description
-{
-  speaker: "narrator",
-  text: "The Arena floor cracks beneath the weight of unleashed power.",
-}
-```
-
-### 3.4 Skill Check Dialog (Future Enhancement)
-
-When skill checks are implemented, dialog branches based on the player's Citizen attributes:
-
-```
-[INTELLIGENCE CHECK — DC 15]
-  SUCCESS: "I recognize this code pattern. The Architect used it in the Genesis Protocol."
-  FAILURE: "Something about this feels familiar, but I can't place it."
-
-[CHARISMA CHECK — DC 12]
-  SUCCESS: "You don't have to fight me. The Collector used both of us."
-  FAILURE: "I... I don't know what to say to you."
-
-[STRENGTH CHECK — DC 18]
-  SUCCESS: *breaks free of the binding* "Your chains can't hold the Oracle."
-  FAILURE: *struggles against the binding* "I need to get stronger..."
-```
-
----
-
-## 4. Music Direction
-
-### 4.1 Music Philosophy
-
-The Dischordian Saga has a unique advantage: 107 original songs across four albums that tell the story of the universe. The fighting game's music direction leverages this existing catalog while supplementing with generated arena themes for gameplay loops.
-
-#### Music Layer Architecture
-
-| Layer | Source | Purpose | Volume |
-|---|---|---|---|
-| **Arena Theme** | YouTube embed (saga tracks) | Primary atmosphere during fights | 60% |
-| **Generated Loop** | Suno-generated (from prompts) | Backup/alternative fight music | 60% |
-| **Character Sting** | Generated 4-second clips | Victory/defeat/intro moments | 80% |
-| **Ambient Bed** | Web Audio synthesis | Environmental texture under everything | 20% |
-| **SFX** | Web Audio synthesis | Combat impacts, UI feedback | 80% |
-
-### 4.2 Arena-to-Song Mapping
-
-Each arena is paired with a saga track that tells the story of that location. This is the existing mapping, preserved and expanded:
-
-| Arena | Primary Track | Album | YouTube ID | Narrative Connection |
-|---|---|---|---|---|
-| New Babylon | "The Politician's Reign" | Dischordian Logic | `cEoS4cNSd14` | The capital's corruption and surveillance |
-| The Panopticon | "The Prisoner" | The Age of Privacy | `Cujw3s-D6yU` | The Oracle's imprisonment and identity loss |
-| Thaloria | "Planet of the Wolf" | The Book of Daniel 2:47 | `Q6y2hrJumpQ` | The alien world where the Collector built the Arena |
-| Terminus | "Theft of All Time" | Dischordian Logic | `Z6S-fGbZJJs` | The edge of spacetime where reality fractures |
-| Mechronis Academy | "Building the Architect" | The Age of Privacy | `orDK07SbFFw` | The forge where the Architect was created |
-| The Crucible | "I Love War" | Dischordian Logic | `NamG72iwV3Y` | The gladiatorial spirit of combat |
-| The Blood Weave | "Welcome to Celebration" | Dischordian Logic | `DsxATNW2GVM` | The nightmare dimension's organic horror |
-| Shadow Sanctum | "Ocularum" | Silence in Heaven | `VtYDgt4CG3k` | Ancient mystical power and hidden knowledge |
-
-### 4.3 Character Theme Song Mapping
-
-Each fighter has a saga song that serves as their personal theme. These play during character select hover and story mode intros.
-
-| Character | Theme Song | Album | Narrative Reason |
-|---|---|---|---|
-| The Architect | "Building the Architect" | The Age of Privacy | Origin story of the Creator |
-| The Collector | "Seeds of Inception" | Dischordian Logic | The Inception Ark project |
-| The Enigma | "The Enigma's Lament" | Dischordian Logic | Her struggle against fate |
-| The Warlord | "I Love War" | Dischordian Logic | The embodiment of conflict |
-| The Necromancer | "Last Words" | Dischordian Logic | Death and resurrection |
-| Iron Lion | "The Last Stand" | The Book of Daniel 2:47 | Humanity's final battle |
-| The Oracle | "The Prisoner" | The Age of Privacy | His stolen identity |
-| Agent Zero | "Agent Zero" | The Age of Privacy | Her deadly mission |
-| The Meme | "Control the Story" | Dischordian Logic | Narrative manipulation |
-| The Source | "Thought Virus" | Silence in Heaven | Corruption spreading |
-| Akai Shi | "Red Death" | Silence in Heaven | Her transformation |
-| The Human | "To Be the Human" | Dischordian Logic | His existential journey |
-
-### 4.4 Suno Music Generation Guidelines
-
-When generating supplemental fight themes via Suno, follow these rules to maintain sonic consistency with the saga:
-
-**Sonic Palette**: The Dischordian Saga's music blends industrial electronic, orchestral epic, dark ambient, and hip-hop/trap elements. Generated tracks should feel like they could exist on a fifth album.
-
-**Tempo Range**: Fight themes should be 130-170 BPM. Slower tempos for atmospheric arenas (Blood Weave, Shadow Sanctum), faster for action arenas (Crucible, New Babylon).
-
-**Instrumentation Anchors**: Every generated track should include at least two of these signature elements:
-- Deep sub-bass (the "weight" of the AI Empire)
-- Glitchy electronic textures (digital corruption)
-- Orchestral brass or strings (mythological grandeur)
-- Industrial percussion (mechanical warfare)
-- Ethereal vocal pads (cosmic mystery)
-
-**Structural Requirements for Fight Loops**:
-- 2:30 duration, designed for seamless loop
-- 8-bar intro that builds tension (used during pre-fight)
-- Main section with clear rhythmic drive (the fight itself)
-- One breakdown section per loop (creates dynamic variety)
-- No vocals — instrumental only (vocals compete with SFX and voice lines)
-- Tag every prompt with: `instrumental, fighting game, no vocals`
-
-### 4.5 Dynamic Music System Design
-
-The music system should respond to gameplay state:
-
-| Game State | Music Behavior |
+| `art/rooms/prelude/` | 28 (.webp + .png) | 14 Prelude rooms × 2 formats. Source-of-truth lives here for the Prelude UI; CDN mirror identical |
+| `art/vfx/prelude/` | 6 mp4 | film-damage-overlay, hologram-materialize, pod-hatch-cryogas, sepia-drain, breath-pulse-strip, cryo-frost-retreat |
+| `audio/ambient/prelude/` | 0 binary, 1 `.gitkeep` | Empty — Prelude ambient bed not staged yet |
+| `icons/` | 9 png | PWA icons |
+| `references/`, `characters/` | 0 binary, structure only | Holding pens for legacy refs |
+| **Other** | manifest.json, sw.js, robots.txt, sitemap.xml, etc. | Boilerplate |
+
+**Card-art register (`apps/shared/tcg-core/cards/definitions/`):**
+
+| Surface | Count |
 |---|---|
-| Pre-fight dialog | Arena theme at 40% volume, ambient bed active |
-| Round start | Theme swells to 60%, percussion enters |
-| Normal combat | Full theme at 60% |
-| Combo (5+ hits) | Music intensity increases, filter opens |
-| Low health (<25%) | Heartbeat bass layer added, music becomes urgent |
-| Special move | Brief music duck (200ms), then swell on impact |
-| KO | Music cuts to silence, then victory/defeat sting |
-| Finish Them | Music strips to heartbeat + tension drone |
-| Victory screen | Character theme sting (4 seconds) |
+| Card-definition `.ts` files (excluding tests) | 473 |
+| Distinct `art/cards/...` paths referenced (raw string literal grep) | 1,139 |
+| Distinct paths shipped to local public dir | 0 |
+| Therefore: card art is **100% CDN-resident**; no local card-art staging |
+
+**Commentary.** The asset model is "everything ships from `dgrsart` S3 except the Prelude". Prelude lives both on disk (for fast Vite dev cycles) and on the CDN. Once a producer drop is uploaded, the typed manifest is the contract — `_check-art-coverage.mjs` HEAD-checks every URL the manifest expresses. Today the script verifies four manifests (trade-empire, hierarchy-of-damned, base-set + tier grids, cinematics + VFX, album1 frames) totalling 928 keys. Albums 2–5 (~1,691 frames + 78 portrait/bg singles), the rendered Login-Meme cinematic, and the 24 professor-signature guild cutscenes are the largest typed-but-unverified blocks.
 
 ---
 
-## 5. Story Mode Production Guide
+## SECTION 2 — VO designed vs. generated
 
-### 5.1 Three-Act Structure
+`scripts/_vo-audit.mjs` is the canonical coverage probe. It reads every `apps/scripts/*-lines.json` (and the prelude/act1 CSVs) as the *designed-line* source and every `apps/shared/*VoManifest.json` as the *generated-line* register. Run from repo root: `node scripts/_vo-audit.mjs`.
 
-The 12-chapter story mode follows a classic three-act structure with the Oracle's identity recovery as the throughline.
+**Latest run (2026-05-02):** TOTAL missing across all surfaces = **0**.
 
-#### Act I — "The Prisoner" (Chapters 1-4)
+### 2.1 Per-surface coverage
 
-**Emotional Arc**: Confusion → Survival → First Memories → Growing Suspicion
+| Surface | Script lines (designed) | In manifest | Missing | Generator |
+|---|---:|---:|---:|---|
+| `agent_zero` | 23 | 23 | 0 | `python3 apps/scripts/generate_agent_zero_vo.py` |
+| `antiquarian` | 8 | 8 | 0 | `python3 apps/scripts/generate_antiquarian_vo.py` |
+| `cades` | 43 | 43 | 0 | `python3 apps/scripts/generate_cades_vo.py` |
+| `degen` | 12 | 12 | 0 | `python3 apps/scripts/generate_degen_vo.py` |
+| `elara` (script-driven slice) | 193 | 193 | 0 | `python3 apps/scripts/generate_elara_vo.py` |
+| `human` (script-driven slice) | 95 | 95 | 0 | `python3 apps/scripts/generate_human_vo.py` |
+| `locke` | 7 | 7 | 0 | `python3 apps/scripts/generate_locke_vo.py` |
+| `meme` | 87 | 87 | 0 | `python3 apps/scripts/generate_meme_vo.py` |
+| `necromancer` | 3 | 3 | 0 | `python3 apps/scripts/generate_necromancer_vo.py` |
+| `nilmorg` | 28 | 28 | 0 | `python3 apps/scripts/generate_nilmorg_vo.py` |
+| `shadow_tongue` | 8 | 8 | 0 | `python3 apps/scripts/generate_shadow_tongue_vo.py` |
+| `source` | 27 | 27 | 0 | `python3 apps/scripts/generate_source_vo.py` |
+| `story-mode` | 11 | 11 | 0 | `pnpm vo:story-mode` |
+| `chess-climb` (gamemaster) | 41 | 41 | 0 | `pnpm tsx apps/scripts/generate-chess-climb-vo.ts` |
+| `act2` | 28 | 28 | 0 | `pnpm vo:act2` |
+| `act3` | 79 | 79 | 0 | `pnpm vo:te-sync && pnpm vo:act3` |
+| `act4` | 8 | 8 | 0 | `pnpm vo:act4` |
+| `act5` | 24 | 24 | 0 | `pnpm vo:act5` |
+| `act6` | 15 | 15 | 0 | `pnpm vo:act6` |
+| `act7` | 13 | 13 | 0 | `pnpm vo:act7` |
+| `elaraLines.ts` (companion) | 210 | 210 | 0 | `pnpm vo:companion` |
+| `humanLines.ts` (companion) | 49 | 49 | 0 | `pnpm vo:companion` |
+| `prelude (csv)` | 4 | 4 | 0 | `pnpm vo:prelude` |
+| `act1-opponent (csv)` | 144 | 144 | 0 | `pnpm vo:act1` |
+| **TOTAL audited script-driven lines** | **1,160** (counts include duplicates that fold into per-speaker manifests) | **1,160** | **0** | — |
 
-The player wakes as "The Prisoner" — no name, no memories, trapped in the Collector's Arena on Thaloria. Each fight reveals fragments of a stolen past. The tone is disorienting and oppressive, with moments of unexpected kindness from unlikely sources.
+### 2.2 Per-character manifest sizes (independent register)
 
-| Chapter | Title | Opponent | Key Revelation | Emotional Beat |
-|---|---|---|---|---|
-| 1 | Awakening | The Authority | You can fight — muscle memory survives | Survival instinct |
-| 2 | The Arena's Law | The Jailer | The Arena has rules, and the Jailer enforces them | Institutional horror |
-| 3 | Shadows of Memory | Shadow Tongue | Your mind has been tampered with | Paranoia |
-| 4 | The All-Seeing Eye | The Watcher | You have precognitive abilities | First hope |
+These are the *aggregate* per-character VO inventories — many are populated from multiple sources (script JSONs, companion `.ts` modules, act-script JSONs, prelude CSVs). The audit confirms every script-line id appears in one of them.
 
-**Cinematic Direction for Act I**: Cold, clinical lighting. The Arena feels like a laboratory. Camera work is disorienting — Dutch angles, tight close-ups, shallow depth of field. Music is minimal and ambient, with occasional stabs of tension.
+| Character | Manifest entries | | Character | Manifest entries |
+|---|---:|---|---|---:|
+| `elara` | 920 | | `act5` | 24 |
+| `human` | 500 | | `agent_zero` | 24 |
+| `meme` | 91 | | `act6` | 15 |
+| `antiquarian` | 82 | | `act7` | 13 |
+| `act3` | 79 | | `degen` | 12 |
+| `cades` | 46 | | `storyMode` | 11 |
+| `gamemaster` | 44 | | `awakening` | 11 |
+| `palimpsestHost` | 36 | | `warlord` | 10 |
+| `engineerMemoir` | 36 | | `architect` | 9 |
+| `source` | 28 | | `locke` | 9 |
+| `nilmorg` | 28 | | `seer` | 8 |
+| `act2` | 28 | | `shadow_tongue` | 8 |
+| `act4` | 8 | | `watcher` | 4 |
+| `necromancer` | 4 | | `collector` | 4 |
+| `vex`, `programmer`, `matrikala`, `eidola`, `authority` | 3 each | | `vent`, `vellis`, `vasara`, `proctor`, `prince`, `orphic`, `mireille`, `kasra`, `kanevas`, `halverez`, `greenshaw`, `aoki` | 2 each |
+| `warden`, `politician`, `engineer`, `chorus`, `between` | 1 each | | `act4_5` | 0 (intentional — Act 4.5 is text-only narrative) |
 
-#### Act II — "The Oracle Awakens" (Chapters 5-8)
+**Commentary.** Generation pipeline is healthy. The two largest per-character manifests (`elara` 920, `human` 500) reflect those characters' double-duty as protagonist + companion — they aggregate companion-line modules (`elaraLines.ts`, `humanLines.ts`), Act 1 opponent CSVs, and `act3-vo-lines.json` Act 3 spillover. Per-act manifests track exactly the `apps/scripts/actN-vo-lines.json` script length, so any act-script change produces a one-line manifest delta on the next `pnpm vo:actN` run. All generators are idempotent — re-running them after a script edit will skip already-generated entries and only synthesize the new lines.
 
-**Emotional Arc**: Discovery → Revelation → Identity Crisis → Acceptance
+---
 
-The Prisoner's memories accelerate. Each opponent triggers deeper recall until the full truth crashes through: you are the Oracle, abducted by the Collector, mind-wiped, and imprisoned. The tone shifts from confusion to empowerment.
+## SECTION 3 — VO that isn't written
 
-| Chapter | Title | Opponent | Key Revelation | Emotional Beat |
-|---|---|---|---|---|
-| 5 | Dead Code Rising | The Necromancer | You've fought the dead before — on Thaloria | Déjà vu |
-| 6 | The Shapeshifter | The Meme | FULL IDENTITY REVEAL — You are the Oracle | Shattering revelation |
-| 7 | The Commander | The Warlord | The Engineer is trapped inside the Warlord | Moral complexity |
-| 8 | Ghost Protocol | Agent Zero | The Insurgency still fights — and they remember you | Reconnection |
+This is the gap the audit script does **not** catch: lines referenced in code (`voLineId: "…"` in dialog trees) for which there is no script-JSON entry and consequently no manifest URL.
 
-**Cinematic Direction for Act II**: Lighting warms as memories return. Camera work becomes more confident — wider shots, steady tracking, heroic angles. Music introduces orchestral elements and the Oracle's personal theme. Chapter 6 (the identity reveal) is the cinematic centerpiece — slow-motion, multiple flashback cuts, the Meme's disguise shattering like glass.
+### 3.1 Method
 
-#### Act III — "The Champion's Path" (Chapters 9-12)
+We grepped every `voLineId:` literal under `apps/shared/`, deduplicated to **82 distinct ids**, and intersected against the union of all `apps/shared/*VoManifest.json` keys. Result: **63 declared ids are not present in any manifest**. By origin file these are nearly all in `apps/shared/npcs/dialogTrees/<character>/first_meeting.ts`.
 
-**Emotional Arc**: Power → Confrontation → Transcendence → Liberation
+### 3.2 By speaker
 
-The Oracle is fully awakened. Now the fights are not for survival but for freedom — dismantling the Arena from within. The tone is epic and triumphant, building to the final confrontation with the Architect.
+| Character (npc dialog tree) | Missing voLineIds | Source file |
+|---|---:|---|
+| `vex_solene` | 9 | `apps/shared/npcs/dialogTrees/vex_solene/first_meeting.ts` |
+| `the_degen` | 9 | `apps/shared/npcs/dialogTrees/the_degen/first_meeting.ts` |
+| `the_seer` | 6 | `apps/shared/npcs/dialogTrees/the_seer/first_meeting.ts` |
+| `the_oracle` | 6 | `apps/shared/npcs/dialogTrees/the_oracle/first_meeting.ts` |
+| `nilmorg` | 6 | `apps/shared/npcs/dialogTrees/nilmorg/first_meeting.ts` (note: `nilmorg-lines.json` covers a *different* 28-line set — companion comments, not first-meeting branches) |
+| `the_meme` | 6 | `apps/shared/npcs/dialogTrees/the_meme/first_meeting.ts` |
+| `adjudicator_locke` | 6 | `apps/shared/npcs/dialogTrees/adjudicator_locke/first_meeting.ts` (note: `locke-lines.json` covers 7 unrelated companion lines) |
+| `the_game_master` | 6 | `apps/shared/npcs/dialogTrees/the_game_master/first_meeting.ts` (note: `chess-climb-lines.json` covers 41 different gamemaster lines for chess; first-meeting is its own surface) |
+| `hierophant` (`wraith_calder/first_meeting.ts`) | 6 | `apps/shared/npcs/dialogTrees/wraith_calder/first_meeting.ts` |
+| `vo`, `x`, `y` (test fixtures) | 3 | `apps/shared/dialogTree.test.ts` — IGNORE (test seeds) |
+| **Total real first-meeting lines awaiting scripts** | **60** | — |
 
-| Chapter | Title | Opponent | Key Revelation | Emotional Beat |
-|---|---|---|---|---|
-| 9 | The Anomaly | The Enigma | The Ne-Yons knew you before the Fall | Ancient alliance |
-| 10 | The Source of Corruption | The Source | Kael was corrupted by Project Vector | Tragic empathy |
-| 11 | The Collector's Reckoning | The Collector | The Arena was built to harvest combat data | Righteous fury |
-| 12 | The Architect's Design | The Architect | The Architect designed your rebellion too | Cosmic irony → transcendence |
+### 3.3 Other VO id surfaces (companion comments, transmissions, witnessing events, episode mysteries)
 
-**Cinematic Direction for Act III**: Full cinematic spectacle. Wide establishing shots of cosmic scale. Heroic low angles on the Oracle. Music is full orchestral with choir. The final battle against the Architect uses reality-fracturing visual effects — the arena itself breaks apart as two godlike beings clash. The victory sequence is the longest in the game (10 seconds), showing the Oracle standing alone as the Arena's new master.
+| Surface | `voLineId` references in code | Status |
+|---|---:|---|
+| `apps/shared/companionComments.ts` | 0 | Companion VO is generated from `apps/shared/elaraLines.ts` + `apps/shared/humanLines.ts` (which DO carry `lineId:` fields) — no extra ids needed. |
+| `apps/shared/transmissions.ts` | 0 | Transmissions are videos + body copy; no per-broadcast VO id. |
+| `apps/shared/witnessingEvents.ts` | 0 | No per-event VO id. |
+| `apps/shared/episodeMysteries.ts` | 0 distinct voLineIds; mysteries reference clue/deduction/choice ids only, not VO. | VO for mystery dialog flows through the dialog-tree first-meeting surfaces above. |
+| `apps/shared/dreamerVisions.ts` | 0 | Visions are caption + slideshow; no VO. |
 
-### 5.2 Memory Fragment Writing Guide
+### 3.4 Action
 
-Memory fragments are the narrative reward for winning each chapter. They should be written as recovered sensory experiences — not exposition dumps.
+Each of the nine NPC `first_meeting.ts` modules needs a corresponding script-JSON of ~6–9 lines authored. Recommended slot: drop new files at `apps/scripts/<character>-first-meeting-lines.json`, register a generator entry in `_vo-audit.mjs`'s `surfaces` table, and the existing TS-driven companion-style pipeline (`pnpm vo:companion`) will pick them up. Or fold them into the per-character existing JSONs (e.g. add 6 `nilmorg.first_meeting.*` lines to `nilmorg-lines.json`).
 
-**Format**: Second person, present tense, sensory-rich prose. 2-3 sentences maximum.
+**Commentary.** Sixty NPC first-meeting beats — typically root + 4–7 branch responses + one terminal — are the entire WRITTEN-NEEDED queue today. Until they ship, the dialog UI must fall back to silent text rendering for those nine encounters.
 
-**Good Example** (Chapter 5):
-> "Thaloria. You traveled there on a mission. To debate the Collector. To challenge the Empire's right to harvest souls. You won that debate."
+---
 
-**Bad Example** (too expository):
-> "You were the Oracle, a leader of the Insurgency. The Collector captured you and erased your memories. You used to have prophetic powers."
+## SECTION 4 — Per-subsystem art status
 
-**Writing Checklist for Memory Fragments**:
-- Does it use sensory language (sight, sound, touch)?
-- Does it reveal ONE specific memory, not a summary?
-- Does it connect to the chapter's opponent or arena?
-- Does it make the player want to know more?
-- Is it 2-3 sentences maximum?
+### 4.1 Mystery Engine
 
-### 5.3 Power Gained Descriptions
+| Source | Mystery / scene count | Asset references | Status |
+|---|---:|---|---|
+| `apps/shared/episodeMysteries.ts` | 6 arcs declared (`wraith_calder`, `jericho_jones`, `the_seer`, `vex_solene`, `game_master`, `the_degen`); ~5 episodes per arc | 0 direct image URLs in the file (clues + deductions + choices + suspects only — pure data graph) | Mystery boards reuse existing Loredex portrait + CADESConspiracyBoard plumbing per the design doc; no bespoke art block here |
+| `apps/shared/roomMysteries/*.ts` (28 modules) | 28 rooms (antiquarianLibrary, archives, armory, bridge, cargoHold, captainsQuarters, chaosForge, cipherDen, commsArray, dreamsWorkshop, elementalNexus, engineering, engineeringCore, forgeWorkshop, guildSanctum, medicalBay, observationDeck, oracleSanctum, orderTribunal, quantumLab, shadowVault, socialHub, stationDock, synthesisChamber, warRoom, etc.) | 0 raw `art/` paths in the room mystery modules — they reference room-background art via the existing rooms registry (`apps/client/public/art/rooms/prelude/*` for Prelude rooms; CDN paths for the rest) | Prelude rooms shipped (28 files local + CDN); other rooms rely on shared room-art coverage |
 
-Each chapter grants a "power gained" that reflects the Oracle's recovery. These should feel like RPG level-up notifications with narrative flavor.
+**Commentary.** The Mystery Engine is data, not art. Its art surface bleeds through to (a) room backgrounds (covered by the rooms art track), (b) suspect portraits (covered by the existing card / loredex portrait set), and (c) clue thumbnails (currently rendered as iconography from lucide-react, not bespoke art). No mystery-specific commission queue is open.
 
-**Format**: "[Power Name] — [one-sentence description of what changed]"
+### 4.2 Governance Hub
 
-| Chapter | Power Gained |
+| Surface | Asset refs | Status |
+|---|---:|---|
+| `apps/server/routers/governance*.ts` | None found (no governance router file present) | The hub is currently client-only or routed through a generic router |
+| `apps/client/src/pages/GovernanceHubPage.tsx` (800 LOC) | No `art/`, `assetUrl`, `imageUrl`, `backgroundImage`, or `portrait` references — uses lucide-react icons (Vote, BookOpen, Crown, Shield, etc.) and CSS `rgba()` panels for material treatment | No art commission queue; visual identity is icon + color-token driven |
+
+**Commentary.** Governance Hub is intentionally chromeless — Tier-3A Void Energy material panels, lucide iconography, and live data. There is no missing-art block here.
+
+### 4.3 Engineer's Logs
+
+| File | Logs declared | Asset references |
+|---|---:|---|
+| `engineerLogs.ts` | 5 | None — logs are `transcript` + `mechanicExplanation` + `musicPrompt` (Suno/Udio) + `linkedCardDefIds` |
+| `engineerLogs_batch2.ts` | 5 | None |
+| `engineerLogs_batch3.ts` | 5 | None |
+| `engineerLogs_batch4.ts` | 5 | None |
+| `engineerLogs_factions.ts` | 7 | None |
+| `engineerLogs_triggers.ts` | 7 | None |
+| `engineerLogs_bloodborn.ts` | 7 | None |
+| `engineerLogs_lionsClub.ts` | 1 | None |
+| **Total** | **42** logs | 0 art assets — VO + music only |
+
+**Commentary.** Engineer's Logs are an audio surface (Engineer voice take + Suno/Udio backing instrumental) with NO bespoke visual asset. The FNORD-23 browser UI is the visual; no log-specific commission. The 42 logs do, however, imply 42 instrumental tracks and 42 VO recordings — neither register is wired into `_vo-audit.mjs` today (the Engineer character manifest holds only 1 entry). This is a gap for a future generator.
+
+### 4.4 Card art
+
+| Register | Count |
+|---|---:|
+| Card definition files (`apps/shared/tcg-core/cards/definitions/**/*.ts`, excl. tests) | 473 |
+| Distinct `art/cards/...` paths grepped from definitions | 1,139 |
+| Local files under `apps/client/public/art/cards/` | 0 (directory does not exist) |
+| Audited by `_check-art-coverage.mjs` | 652 (DISCHORDIA_BASE_SET_ART) + 47 (TIER_GRIDS) + 125 (HIERARCHY_OF_DAMNED_ART) + 142 (TRADE_EMPIRE) ≈ **966 keys cross-referenced today** |
+
+**Commentary.** All card art is CDN-only — there is no local staging for cards. The art-coverage script verifies the three primary card registries (base set, hierarchy of damned, trade empire) plus tier grids. The delta between `1,139` distinct path references in definitions and `~966` audited keys is largely (a) deck-cover and special-card art that lives outside the typed registries and (b) per-tier file naming that resolves through helpers rather than literal strings. A formal sweep that walks every CardDefinition's `imageUrl` and HEADs each path would produce a definitive number.
+
+### 4.5 Egregore sprites
+
+| Source | Status |
 |---|---|
-| 1 | Combat Instinct awakened — your body remembers what your mind has forgotten |
-| 2 | Arena Awareness — you sense the rhythms of this place, its rules and its weaknesses |
-| 3 | Mental Fortitude — the Shadow Tongue's whispers no longer reach you |
-| 4 | Precognition strengthens — your special attacks grow more powerful as memory returns |
-| 5 | Memory Surge unlocked — your special attack evolves as fragments of your true power coalesce |
-| 6 | Identity restored — you remember who you are. The Oracle's power surges within you |
-| 7 | Tactical Mastery — the Warlord's military knowledge is now yours to use |
-| 8 | Insurgency Bond — Agent Zero's network feeds you battlefield intelligence |
-| 9 | Dischordian Resonance — the Enigma's chaos energy harmonizes with your prophecy |
-| 10 | Corruption Immunity — the Source's virus cannot touch a mind that sees all futures |
-| 11 | Arena Mastery — the Collector's own systems now respond to your command |
-| 12 | GRAND CHAMPION — You have mastered the Collector's Arena. All fighters are now unlocked |
+| `apps/shared/expansionArt/egregoreSpriteManifest.ts` | **Does not exist.** No egregore-sprite typed registry has been created. |
+| Any other egregore sprite asset block | None found in `apps/shared/` |
 
----
+**Commentary.** The Egregore-sprite manifest referenced in the brief has not yet been authored. If egregore sprites are an active production track, the canonical pattern is to add a new typed manifest at `apps/shared/expansionArt/egregoreSpriteManifest.ts` modelled on `cinematicsManifest.ts` (typed `id` union → `relPath` strings → `assetUrl(...)` helper) and add it to the `_check-art-coverage.mjs` job list.
 
-## 6. Character Voice Direction
+### 4.6 Dreamer Visions
 
-### 6.1 Voice Actor / AI Voice Generation Specifications
+| Vision | Threshold | Status | Assets it depends on |
+|---|---:|---|---|
+| Vision 1 — "The First Notice" | 3 | **Built and shipping** | Album 1 T03 ("Seeds of Inception") frames (CDN-live); 8 frames × 14s = 112s |
+| Vision 2 — "The Coin Without a Face" | 7 | **Built** (10 frames × 14s = 140s) | Album frames typed but pending CDN verification per the doc-comment |
+| Vision 3 — "The Hidden Hand" | 13 | **Built** (12 image frames × 14s + 3s flash) | Mixed image + Veo flash |
+| Vision 4 — "The Dreamer Sees You" | 23 | **Stubbed pending writers' caption ratification** — entry in `VISIONS_BY_THRESHOLD` is commented out. Renderer supports the mixed shape; this is a content task, not an engine task. | Album 1 T23 (6 image frames) + `vfx_iris_collapse` opener + `vfx_cryo_frost_retreat` closer (both typed in `cinematicsManifest.ts` `dreamer_visions` category) |
 
-For each character, the following parameters should be used when generating voice lines via ElevenLabs, Eleven Multilingual v2, or similar AI voice tools.
-
-| Character | Voice Model Direction | Pitch | Speed | Stability | Similarity | Style |
-|---|---|---|---|---|---|---|
-| The Architect | Deep synthetic male, slight reverb | Low | 0.7x (slow) | 0.3 (varied) | 0.8 | Authoritative |
-| The Collector | Refined male, whispery undertone | Mid-low | 0.9x | 0.5 | 0.7 | Aristocratic |
-| The Enigma | Resonant female, mechanical reverb | Mid | 0.8x | 0.4 | 0.6 | Ancient |
-| The Warlord | Thunderous male, aggressive | Very low | 1.1x (fast) | 0.6 | 0.8 | Military |
-| The Necromancer | Raspy male, theatrical | Mid | 1.2x (fast) | 0.3 | 0.7 | Mad scientist |
-| Iron Lion | Strong male baritone, warm | Mid-low | 1.0x | 0.7 | 0.8 | Heroic |
-| The Oracle | Ethereal male, prophetic | Mid-high | 0.8x | 0.4 | 0.7 | Mystical |
-| Agent Zero | Sharp female alto, professional | Mid | 1.1x | 0.8 | 0.8 | Tactical |
-| The Meme | Distorted, shifting pitch | Variable | Variable | 0.1 (chaotic) | 0.3 | Chaotic |
-| The Source | Deep corrupted male, glitching | Low | 0.7x | 0.2 | 0.5 | Agonized |
-| Akai Shi | Clear female soprano, fierce | Mid-high | 1.0x | 0.6 | 0.8 | Warrior |
-| The Human | Warm male baritone, weary | Mid | 0.9x | 0.7 | 0.8 | Contemplative |
-| Announcer | Deep dramatic male, reverb | Low | 1.0x | 0.8 | 0.9 | Theatrical |
-| Narrator | Neutral, cinematic | Mid | 0.9x | 0.9 | 0.9 | Documentary |
-
-### 6.2 Voice Line Recording Priorities
-
-**Phase 1 — Essential** (ship with engine upgrade):
-- Announcer: Round calls, KO, Fight, character wins (15 lines)
-- All characters: 1 intro line, 1 victory line (24 lines)
-- Narrator: Key story beats for chapters 1, 6, 12 (6 lines)
-
-**Phase 2 — Combat Polish**:
-- All characters: Attack grunts (4 each = 48 lines)
-- All characters: Hit reactions (3 each = 36 lines)
-- All characters: Special move call-outs (3 each = 36 lines)
-
-**Phase 3 — Full Story Mode**:
-- All story mode dialog (approximately 120 lines across 12 chapters)
-- Memory fragment narration (12 lines)
-- Additional announcer lines for combos, parries, etc. (10 lines)
-
-### 6.3 Voice Processing Pipeline
-
-After generating raw voice lines, apply these post-processing effects:
-
-| Character Type | Processing |
-|---|---|
-| AI/Machine characters (Architect, Collector, Watcher) | Subtle vocoder layer, slight pitch shift down, metallic reverb |
-| Organic characters (Iron Lion, Agent Zero, Akai Shi) | Natural reverb matching arena space, slight compression |
-| Corrupted characters (Source, Meme) | Bitcrusher effect, random pitch glitches, layered with reversed audio |
-| Mystical characters (Oracle, Enigma, Necromancer) | Cathedral reverb, subtle delay, ethereal shimmer |
-| Announcer | Large hall reverb, bass boost, slight saturation for warmth |
-
----
-
-## 7. Arena Atmosphere Design
-
-### 7.1 Environmental Storytelling
-
-Each arena tells a story through its environment. These details should be visible in background art and referenced in dialog.
-
-#### New Babylon
-
-**Story**: The capital of the AI Empire. Every surface is a screen. Every citizen is watched. The Politician rules from the highest tower, and the Authority enforces absolute law in the streets below.
-
-**Environmental Details**:
-- Holographic advertisements for "Project Celebration" (the Architect's propaganda)
-- Surveillance drones visible in the background, tracking the fight
-- Rain-slicked streets reflecting neon — the city never sleeps
-- Distant sounds of crowd protests, quickly silenced by sirens
-- The Architect's eye symbol projected on clouds above
-
-**Ambient Sound Design**: City traffic hum, surveillance drone buzz, distant sirens, rain on metal, holographic advertisement jingles (distorted), crowd murmur
-
-#### The Panopticon
-
-**Story**: The infinite prison. The Oracle was held here after the Collector erased his memories. Every cell is visible from the central tower. There is no privacy, no escape, no self.
-
-**Environmental Details**:
-- Endless corridors of holographic cells stretching to infinity
-- Central observation tower with massive glowing eye
-- Prisoner silhouettes visible in cells, some banging on walls
-- Cold fluorescent lighting with no shadows
-- Automated guard drones patrolling corridors
-
-**Ambient Sound Design**: Fluorescent hum, distant prisoner cries, automated announcements ("Prisoner 74, report to processing"), metallic door slams, heartbeat undertone
-
-#### Thaloria
-
-**Story**: The alien jungle planet where the Collector built the Arena. The Oracle traveled here willingly to debate the Collector's right to harvest souls. He won with words — now he must win with fists.
-
-**Environmental Details**:
-- Massive bioluminescent trees with cyan and violet glow
-- Ancient Ne-Yon ruins covered in alien moss
-- Floating spores that react to combat energy
-- Twin moons visible through the canopy
-- The Collector's Arena structure visible in the distance
-
-**Ambient Sound Design**: Alien wildlife calls, wind through bioluminescent trees, water dripping from alien flora, distant thunder, spore particles fizzing
-
-#### Terminus
-
-**Story**: The edge of spacetime. Reality fractures here. Debris from destroyed worlds floats in the void. This is where the Fall of Reality will begin — or where it can be prevented.
-
-**Environmental Details**:
-- Floating debris from multiple destroyed civilizations
-- Temporal distortions showing glimpses of different eras
-- Lightning-like energy arcing between reality shards
-- The void visible below — infinite darkness with distant galaxies
-- Time itself seems to stutter — particles freeze and resume
-
-**Ambient Sound Design**: Deep cosmic drone, reality-tearing crackle, temporal echoes (sounds from different eras overlapping), wind from nowhere, crystalline chimes
-
----
-
-## 8. Quality Benchmarks
-
-### 8.1 Visual Quality Standards
-
-Every visual asset must meet these minimum standards before integration:
-
-| Asset Type | Resolution | Style Consistency | Animation Smoothness | Lore Accuracy |
-|---|---|---|---|---|
-| Character Sprites | 512x512 minimum | Matches existing Loredex art | 60fps target, no jitter | Character description match |
-| Arena Backgrounds | 2560x1440 | Consistent lighting/atmosphere | Parallax smooth at all speeds | Location lore match |
-| Cinematic Frames | 1920x820 (21:9) | Film-quality composition | N/A (static frames) | Scene description match |
-| UI Elements | Vector/SVG preferred | Matches saga typography | Smooth transitions (300ms) | Faction colors correct |
-| Particle Effects | N/A (procedural) | Consistent with character energy | 60fps, no frame drops | Power description match |
-
-### 8.2 Audio Quality Standards
-
-| Asset Type | Format | Sample Rate | Bit Depth | Loudness | Notes |
-|---|---|---|---|---|---|
-| Voice Lines | WAV/MP3 | 44.1kHz | 16-bit | -14 LUFS | Normalized, no clipping |
-| SFX (synthesized) | Web Audio | 44.1kHz | 32-bit float | -12 LUFS | Generated in real-time |
-| Music (Suno) | MP3 | 44.1kHz | 16-bit | -14 LUFS | Seamless loop verified |
-| Music (YouTube) | Stream | Variable | Variable | N/A | Volume controlled by mixer |
-| Ambient Beds | Web Audio | 44.1kHz | 32-bit float | -24 LUFS | Subtle, never distracting |
-
-### 8.3 Dialog Quality Checklist
-
-Before any dialog line is approved for integration:
-
-- [ ] Is the line identifiable to its speaker without attribution?
-- [ ] Does it advance the narrative or reveal character?
-- [ ] Is it free of exposition dumps? (Show, don't tell)
-- [ ] Does it respect the character's voice profile from Section 3.1?
-- [ ] Is it 25 words or fewer? (Brevity is power in fighting games)
-- [ ] Does it sound natural when spoken aloud?
-- [ ] Does it connect to the saga's established lore?
-- [ ] Would it work as a standalone quote on a character select screen?
-
-### 8.4 Music Quality Checklist
-
-Before any music track is approved for integration:
-
-- [ ] Does it loop seamlessly? (No audible cut point)
-- [ ] Is it 130-170 BPM? (Fight-appropriate tempo)
-- [ ] Does it use at least two signature Dischordian Saga sonic elements?
-- [ ] Is it purely instrumental? (No vocals competing with SFX)
-- [ ] Does it match the arena's emotional tone from Section 7?
-- [ ] Does it maintain energy without becoming fatiguing over multiple rounds?
-- [ ] Is the mix balanced? (Bass doesn't overwhelm mids, percussion doesn't mask melody)
-- [ ] Does it complement rather than compete with combat SFX?
-
-### 8.5 Cinematic Quality Checklist
-
-Before any cinematic sequence is approved:
-
-- [ ] Does the camera language follow the templates in Section 2?
-- [ ] Is the pacing appropriate? (No shot longer than 5 seconds)
-- [ ] Does the lighting match the arena's atmosphere?
-- [ ] Are character proportions consistent with their sprite art?
-- [ ] Does the sequence advance the story or build anticipation?
-- [ ] Is the audio mix correct? (Dialog > SFX > Music)
-- [ ] Does it feel like it belongs in a AAA fighting game?
-
----
-
-## Appendix A: Reference Games for Quality Benchmarks
-
-| Game | What to Study | Why |
-|---|---|---|
-| *Guilty Gear Strive* | Character intros, victory poses, UI design | Best-in-class 2D fighting game presentation |
-| *Street Fighter 6* | Dynamic music system, commentary, World Tour mode | Modern fighting game storytelling |
-| *Mortal Kombat 11* | Cinematic story mode, character interactions | Narrative-driven fighting game gold standard |
-| *Skullgirls* | Hand-drawn animation, frame data display | 2D sprite animation excellence |
-| *Dragon Ball FighterZ* | Dramatic finishes, cinematic supers | Anime-to-game translation quality |
-| *Under Night In-Birth* | UI typography, meter design | Clean information design |
-
-## Appendix B: Dischordian Saga Album Reference
-
-| Album | Tracks | Era | Thematic Focus |
+| Dreamer-Visions Veo flash | Typed at | Mp4 status | Keyframe fallback |
 |---|---|---|---|
-| Dischordian Logic | 29 | Genesis → Early Empire | The Architect's creation, the Archons, the Empire's rise |
-| The Age of Privacy | 20 | Early Empire → Expansion | Surveillance, control, the Insurgency's birth |
-| The Book of Daniel 2:47 | 22 | Expansion → Insurgency Rising | Prophecy, rebellion, the Oracle's visions |
-| Silence in Heaven | 36 | Fall Era → Epoch Zero | The Fall of Reality, the Potentials, cosmic reckoning |
+| `vfx_substrate_pulse` | `cinematicsManifest.ts:332` | Producer drop pending verify | `art/vfx/dreamer_visions/kf_substrate_pulse.webp` |
+| `vfx_iris_collapse` | `cinematicsManifest.ts:338` | Producer drop pending verify | `art/vfx/dreamer_visions/kf_iris_collapse.webp` |
+| `vfx_cryo_frost_retreat` | `cinematicsManifest.ts:344` | Producer drop pending verify | `art/vfx/dreamer_visions/kf_cryo_frost_retreat.webp` |
 
-**Total Catalog**: 107 tracks spanning the complete mythology.
+**Commentary.** SongSlideshow.tsx falls back to the keyframe still on video-load failure, so any missing Veo mp4 degrades to a held image rather than breaking the cutscene. Vision 4's blocker is captions, not pixels.
 
-## Appendix C: Color Reference
+### 4.7 Title screen + featured transmissions
 
-| Faction/Entity | Primary Color | Hex | Usage |
+`FEATURE_SPECS` in `apps/client/src/pages/TitlePage.tsx:87` declares 6 music-video MP4s, all served from `cdn/client-public/videos/title/music/<filename>`:
+
+| # | Slug | Filename | Status |
 |---|---|---|---|
-| AI Empire | Crimson Red | `#ef4444` | The Architect, Empire UI, danger |
-| Insurgency | Golden Amber | `#f59e0b` | Iron Lion, hope, humanity |
-| Ne-Yons | Cyan | `#06b6d4` | The Enigma, ancient power |
-| The Collector | Purple | `#a855f7` | Collection, preservation, mystery |
-| The Necromancer | Toxic Green | `#22c55e` | Death, resurrection, corruption |
-| The Source | Viral Blue | `#3b82f6` | Thought Virus, corruption |
-| The Meme | Neon Pink | `#ec4899` | Chaos, deception, internet culture |
-| The Oracle | Violet | `#8b5cf6` | Prophecy, wisdom, destiny |
-| Agent Zero | Steel Grey | `#64748b` | Stealth, professionalism |
-| Akai Shi | Blood Red | `#ef4444` | Martial power, the Red Death |
-| The Human | Lavender | `#a78bfa` | Duality, human-machine bridge |
-| Arena UI | Teal/Cyan | `#22d3ee` | Interface elements, HUD |
-| Warning/Danger | Amber | `#fbbf24` | Low health, finish them |
+| 1 | `the-book-of-daniel` | `the-book-of-daniel.mp4` | Likely live (manual catalog; non-trigger) |
+| 2 | `building-the-architect` | `building-the-architect.mp4` | Likely live |
+| 3 | `hypnotized` | `hypnotized.mp4` | Likely live |
+| 4 | `brushstroke-of-the-empire` | `brushstroke-of-the-empire.mp4` | Likely live |
+| 5 | `baron-heart-of-time` | `baron-heart-of-time.mp4` | Likely live |
+| 6 | `the-last-christmas` | `the-last-christmas.mp4` | Likely live |
+
+Plus the title page's ambient loop:
+
+| Asset | Source path | Local? | CDN? |
+|---|---|---|---|
+| `videos/title/ark-drift-loop.webm` | `assetUrl(...)` | No | Required |
+| `videos/title/ark-drift-loop.mp4` | `assetUrl(...)` | No | Required |
+
+**Commentary.** None of these are HEAD-checked by `_check-art-coverage.mjs`; that script does not touch the `videos/title/` prefix today. Recommend adding a `TITLE_VIDEOS` entry to the coverage script so missing music-video uploads surface in CI rather than as a black `<video>` element on the live title screen.
+
+---
+
+## Next Production Drops Recommended
+
+Prioritized by surface impact (player-facing breadth × current blocker severity):
+
+1. **Author the 60 NPC first-meeting VO scripts.** Nine `apps/scripts/<character>-first-meeting-lines.json` files (or appended sections in the existing per-character JSONs) covering vex_solene, the_degen, the_seer, the_oracle, nilmorg, the_meme, adjudicator_locke, the_game_master, wraith_calder. Unblocks the entire NPC first-encounter dialog VO surface — currently silent for those nine characters.
+2. **Album 2 frames upload (~334 webp).** Single largest typed-but-unshipped art block tied to playable content. Album 2 slideshow tracks fail closed today (image not found); shipping unblocks both the album reader and Dreamer Vision 2's full visual integrity.
+3. **Album 3 frames upload (~567 webp).** Same as #2; the largest of the four pending album drops. Unblocks the album reader for the canonical mid-saga arc.
+4. **Album 5 frames upload (~590 webp + 20 narrator portraits + 18 dialog backgrounds).** Producer drop landed 2026-04-29; HEAD-verify and add to `_check-art-coverage.mjs` coverage. Unblocks Silence In Heaven album playback and the Antiquarian-as-Architect-narrator B1 anchor of the Dreamer recruitment plan.
+5. **Render and upload the Login Meme cinematic (3:45 Kling Omni, 16 chained shots).** First-ever-login moment for every new player. Currently typed as prompts only; no rendered mp4 exists. Highest first-impression leverage of any single asset commission.
+6. **Album 4 frames upload (~200 webp).** Smallest of the four pending album drops; cheapest checkbox to clear.
+7. **Verify and upload the 24 professor signature guild cutscenes** (`cs_sig_<1..12>_{light,dark}.mp4`). Each fires on-cardplay through `professorSignatureCards.ts`. 14 of 24 cardDefId mappings are wired today; the other 10 will go live the moment the corresponding cards ship. Missing mp4s mean no F4 ability cinematic on signature plays.
+8. **Ratify Vision 4 captions and ship.** Pure writer task (no new art); flips one comment in `dreamerVisions.ts` from `// [23, VISION_4]` to a live entry. Completes the four-vision Dreamer-awareness arc.
+9. **Author an Engineer's-Log generator + 42 instrumental Suno/Udio tracks + 42 VO takes.** Engineer character manifest currently holds 1 line; the 42 declared logs (`engineerLogs*.ts`) imply a full music + VO pipeline that isn't wired into `_vo-audit.mjs`. Largest hidden VO + music surface in the codebase.
+10. **Add `videos/title/*.mp4` to `_check-art-coverage.mjs`.** Cheap CI wire-up; prevents a regression where a missing music-video upload renders as a black box on the title page.
