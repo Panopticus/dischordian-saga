@@ -999,6 +999,17 @@ const ACT_5_THE_MAP: LoreTutorial = {
           elaraResponse: "The Forge Worlds. Kael's technical corps. Their descendants built new civilizations from Inception Ark wreckage. An engineer's instinct — build the infrastructure first.\nI can see the logic. A stronger Ark means a stronger base of operations.",
           setFlag: "act5_engineer_tech_chosen",
         },
+        {
+          id: "act5-s1-balanced",
+          text: "We don't pick one sector first. We send advance signals to all five simultaneously and go where the first response comes from.",
+          shortText: "ALL AT ONCE",
+          moralityShift: 2,
+          sideLabel: "humanity",
+          source: "neutral",
+          elaraResponse: "All five sectors. Simultaneous contact. It spreads our attention thin — but it lets the map choose us instead of the other way around.\nThe first world that answers will set the tone for the entire campaign. I find that honest.",
+          humanResponse: "~~Balanced~~. The ~~diplomat's~~ play. Let the ~~universe~~ tell you where to ~~start~~ instead of imposing a ~~shape~~. I've done this. It ~~works~~. Slowly. But it ~~works~~.",
+          setFlag: "act5_balanced_chosen",
+        },
       ],
     },
     {

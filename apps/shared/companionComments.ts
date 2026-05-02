@@ -645,6 +645,12 @@ export const COMPANION_COMMENTS: CompanionComment[] = [
   { id: "cc_act5_path_strength_human", speaker: "human", trigger: "act5_path_strength_first",
     voiceLine: "Strength first. The shorter-fuse choice. The hardest fight is now behind us; the warmth options are still open later, just slightly cooler than they would have been. Even trade. Both paths land.",
     timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_act5_balanced_elara", speaker: "elara", trigger: "act5_balanced_chosen",
+    voiceLine: "All sectors at once. The diplomat's play — you let the map choose you instead of imposing a shape. The first world that responds sets the tone; the tone is theirs to offer, not yours to demand. I find that honest.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_act5_balanced_human", speaker: "human", trigger: "act5_balanced_chosen",
+    voiceLine: "Balanced. Simultaneous signal to all five sectors. It spreads attention thin — it also lets the universe tell you where to start. I have done this once. The wait is the hardest part; the response, when it comes, is always the right first step. Trust the response.",
+    timing: "delayed_5s", maxPlays: 1 },
 
   // ── ACT 6 — THREE BINARY PAIRS ──
   // Ally / Practical

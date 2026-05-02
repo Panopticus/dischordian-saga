@@ -42,6 +42,11 @@ export const THE_DEGEN_BANK: ReadonlyArray<BankEntry> = [
     maxPlays: 1,
     setsFlags: ["broker_degen_first_meeting"],
     setsPublicFlags: ["met_the_degen"],
+    choices: [
+      { id: "degen.casino_welcome.sit", label: "Sit down.", trustDelta: 2 },
+      { id: "degen.casino_welcome.edge", label: "What's the edge cost me?", trustDelta: 1 },
+      { id: "degen.casino_welcome.walk", label: "I'll stand.", trustDelta: -1 },
+    ],
   },
 
   // ═════════════════════════════════════════════════════════════════════
@@ -58,6 +63,10 @@ export const THE_DEGEN_BANK: ReadonlyArray<BankEntry> = [
     surfaces: ["match"],
     cooldownKey: "degen.match.ch9b_intro",
     maxPlays: 1,
+    choices: [
+      { id: "degen.ch9b.match_energy", label: "All-in it is.", trustDelta: 2 },
+      { id: "degen.ch9b.call_bluff", label: "Loud isn't the same as brave." },
+    ],
   },
 
   {
@@ -71,6 +80,10 @@ export const THE_DEGEN_BANK: ReadonlyArray<BankEntry> = [
     unlockFlags: ["ch9b_player_won"],
     cooldownKey: "degen.match.ch9b_win",
     maxPlays: 1,
+    choices: [
+      { id: "degen.ch9b.win.accept", label: "He earned the loss.", trustDelta: 1 },
+      { id: "degen.ch9b.win.deflect", label: "I got lucky." },
+    ],
   },
 
   {
@@ -84,6 +97,10 @@ export const THE_DEGEN_BANK: ReadonlyArray<BankEntry> = [
     unlockFlags: ["ch9b_player_lost"],
     cooldownKey: "degen.match.ch9b_loss",
     maxPlays: 1,
+    choices: [
+      { id: "degen.ch9b.loss.rematch", label: "Cold-shuffled works for me.", trustDelta: 2 },
+      { id: "degen.ch9b.loss.leave", label: "I need a minute." },
+    ],
   },
 
   // ═════════════════════════════════════════════════════════════════════

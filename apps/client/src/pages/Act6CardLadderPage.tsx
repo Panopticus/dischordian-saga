@@ -66,7 +66,9 @@ const CONFESSION_STANCES: ReadonlyArray<{
     | "act6_confession_close_challenge"
     | "act6_confession_close_refusal"
     | "act6_confession_close_reluctant_ally"
-    | "act6_confession_close_partial";
+    | "act6_confession_close_partial"
+    | "act6_confession_close_oracle_sense"
+    | "act6_confession_close_practical";
   label: string;
   body: string;
 }> = [
@@ -94,6 +96,16 @@ const CONFESSION_STANCES: ReadonlyArray<{
     flag: "act6_confession_close_partial",
     label: "Acknowledge what was said. Hold what wasn't.",
     body: "You name back to them only the part you heard clearly. The part you suspect they meant but didn't say — you let it sit. Not every line in a confession is yours to complete. The room can carry what's between you without naming it.",
+  },
+  {
+    flag: "act6_confession_close_oracle_sense",
+    label: "Close your eyes and listen beneath the words.",
+    body: "The confession carries a substrate reading the speaker did not intend to send. You receive it — the quieter signal underneath the louder sentence. The Oracle's channel opens. You report what you sensed, not what was said.",
+  },
+  {
+    flag: "act6_confession_close_practical",
+    label: "Take the ledger out. Balance what was said.",
+    body: "A confession is also a transaction — something was owed, something was paid. You name the debt and the payment in plain language. No warmth, no distance, no judgment. Arithmetic. The room is lighter for it.",
   },
 ];
 
@@ -226,6 +238,8 @@ export default function Act6CardLadderPage() {
         act6_confession_close_refusal: "act6_refuse_secrecy_chosen",
         act6_confession_close_reluctant_ally: "act6_ally_chosen",
         act6_confession_close_partial: "act6_partial_disclosure_chosen",
+        act6_confession_close_oracle_sense: "act6_oracle_sense_chosen",
+        act6_confession_close_practical: "act6_practical_chosen",
       };
       setNarrativeFlag(ALIASES[flag], true);
       fireCompanionComment(flag);
@@ -238,6 +252,8 @@ export default function Act6CardLadderPage() {
         act6_confession_close_refusal: "stance-refusal",
         act6_confession_close_reluctant_ally: "stance-reluctant-ally",
         act6_confession_close_partial: "stance-partial",
+        act6_confession_close_oracle_sense: "stance-oracle-sense",
+        act6_confession_close_practical: "stance-practical",
       };
       vo.speak(stanceLineId[flag]);
       setView("ladder");
