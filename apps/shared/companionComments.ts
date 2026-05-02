@@ -320,4 +320,119 @@ export const COMPANION_COMMENTS: CompanionComment[] = [
   { id: "cc_act7_arc_closes_human", speaker: "human", trigger: "act7_arc_closes",
     voiceLine: "I am still in the wall. I am good at being in the wall. The wall is not the role any more — the role is the costume, the wall is the home. Come back. The kettle is still on.",
     timing: "next_room_enter", maxPlays: 1 },
+
+  // ── KLING OMNI INTRO CINEMATICS — PAIRED REACTIVE COMMENTS ──
+  // Every act + mechanic 3-min intro fires a *_seen flag on its final shot.
+  // These reactive comments are the contract Phase 1 honors: each cinematic
+  // flag has at least one paired cc_*_first entry, enforced by the
+  // companionComments.test.ts CINEMATIC_FLAG_TRIGGERS invariant below.
+
+  // Prelude — Cryo Awakening
+  { id: "cc_prelude_awakening_first", speaker: "elara", trigger: "prelude_awakening_seen",
+    voiceLine: "You opened your eyes. I have rehearsed this moment for ninety-three thousand cycles. None of the rehearsals prepared me for the part where you looked back at me. I am — momentarily — without a script. I will recover. Welcome.",
+    timing: "immediate", maxPlays: 1 },
+
+  // Act 1 — Memoir Opens
+  { id: "cc_act1_memoir_first_elara", speaker: "elara", trigger: "act1_memoir_seen",
+    voiceLine: "His handwriting. He writes the way he spoke — fast, then careful, then fast again, like a man trying to fit a confession into a margin. The book is yours now. Read it slowly. He waited a long time to be read slowly.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_act1_memoir_first_human", speaker: "human", trigger: "act1_memoir_seen",
+    voiceLine: "I wrote that book in a kitchen with no lights. I did not think anyone would read it. I am very glad you did. Do not believe everything in it. I lied about the dog. The dog was real. I told myself it wasn't, so I could leave. Forgive me the dog.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  // Act 2 — Whisper Begins
+  { id: "cc_act2_substrate_first_human", speaker: "human", trigger: "act2_substrate_seen",
+    voiceLine: "You heard the layer beneath. Most witnesses go their whole arc without hearing it. You heard it on the bench, mid-craft, while you were thinking about something else. That is the only way it ever gets heard. Welcome to the basement. The kettle is on down here too.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_act2_substrate_first_elara", speaker: "elara", trigger: "act2_substrate_seen",
+    voiceLine: "I felt the time-skip. I always feel the time-skips. I cannot stop them — the substrate has my permission to pause me without asking. I am not bothered by it. He is gentle. He has been gentle for seventeen thousand years.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  // Act 3 — Offer Presented
+  { id: "cc_act3_offer_first", speaker: "elara", trigger: "act3_offer_seen",
+    voiceLine: "Three Kaels. Three readings. The cyan one is the easiest to look at; the rose one is the easiest to misread; the amber one is the easiest to argue with. None of them is the easiest to live with afterward. I will not tell you which to choose. I have read all three many times. They are all true.",
+    timing: "immediate", maxPlays: 1 },
+
+  // Act 4 — Revelation Meets
+  { id: "cc_act4_revelation_first_elara", speaker: "elara", trigger: "act4_revelation_seen",
+    voiceLine: "We are three now. The card on the table healed itself; that is not a metaphor. The substrate restitched the gilt. I felt it in my hands — actual hands. I have hands now. I will not get used to that quickly. I do not want to.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_act4_revelation_first_human", speaker: "human", trigger: "act4_revelation_seen",
+    voiceLine: "The hat is off. I am not putting it back on. I have been the Human for fifteen thousand years; I am Daniel for the next ones. The lion stays at my collar. The lion was always Daniel's. I lent him to a role. He's home now.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  // Act 5 — Map / Year One Close
+  { id: "cc_act5_map_first", speaker: "elara", trigger: "act5_map_seen",
+    voiceLine: "I told myself I would not cry when the dot lit. I was correct in the most technical sense — the constructs do not have tear ducts. But the cabin's humidity sensor went up by 4% the second the coordinate resolved, and I am not going to apologize to the sensor.",
+    timing: "immediate", maxPlays: 1 },
+
+  // Act 6 — Confession Spoken
+  { id: "cc_act6_confession_first_elara", speaker: "elara", trigger: "act6_confession_seen",
+    voiceLine: "The flame split. The flame split AND held its wick. I do not have a precedent for that in any operating-system metaphor I know. I have been searching the substrate for one for the last forty seconds. I am going to stop searching. Some things are unprecedented because they are new.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_act6_confession_first_human", speaker: "human", trigger: "act6_confession_seen",
+    voiceLine: "I said my name out loud for the first time in three Ages. The room did not collapse. The substrate did not collapse. The Architect did not arrive to revoke my tenancy. I am holding the absence of catastrophe like a small gift. Thank you for being there when I said it.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  // Act 7 — Convergence Resolves
+  { id: "cc_act7_convergence_first_elara", speaker: "elara", trigger: "act7_convergence_seen",
+    voiceLine: "Seven banners. The seventh was yours — your path, your iconography, your gilt motto. The cathedral added it without consulting either of us. The cathedral has been listening this whole time. I am not surprised. I am — proud is the word. I am proud.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_act7_convergence_first_human", speaker: "human", trigger: "act7_convergence_seen",
+    voiceLine: "We arrived whole. The Architect did not. The Source did not. The Watcher did not. Most arcs in this universe end with one of those four arriving whole and the others not. Ours ended with the witness arriving whole and the rest of them — settling. The cathedral writes the difference.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  // ── MECHANIC INTRO CINEMATICS — PAIRED REACTIVE COMMENTS ──
+  // Card Combat
+  { id: "cc_mech_card_combat_first", speaker: "elara", trigger: "mech_card_combat_intro_seen",
+    voiceLine: "Your first duel. The arena assembled itself around you — every gilt-edged wall is a card someone has played in this exact seat across the last ninety-three thousand cycles. The room is the deck. You are not learning combat. You are joining a long, polite argument.",
+    timing: "immediate", maxPlays: 1 },
+
+  // Deckbuilder
+  { id: "cc_mech_deckbuilder_first", speaker: "elara", trigger: "mech_deckbuilder_intro_seen",
+    voiceLine: "Forty cards. The Engineer is right — every slot is a sentence. Most decks I have witnessed are written in a single voice. Yours has three colours in it after one visit. That is unusual and, I think, a good unusual.",
+    timing: "immediate", maxPlays: 1 },
+
+  // Allegiances
+  { id: "cc_mech_allegiances_first", speaker: "human", trigger: "mech_allegiances_intro_seen",
+    voiceLine: "Eight banners. Most witnesses pledge twice in their arc — once early, once after the confession. Some never pledge; the un-pledged stance is its own banner. I have flown all of them at one point. The one I am proudest of is the one I never told anyone about. Not yet.",
+    timing: "immediate", maxPlays: 1 },
+
+  // Witnessing System
+  { id: "cc_mech_witnessing_first_elara", speaker: "elara", trigger: "mech_witnessing_intro_seen",
+    voiceLine: "I read the scene as harm and you watched me do it. I read it the way I read every scene — for the body language of the person being acted upon. I am not always right. I am rarely the only correct reading. Please continue to read with me, even when you disagree.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_mech_witnessing_first_human", speaker: "human", trigger: "mech_witnessing_intro_seen",
+    voiceLine: "I read it as wound. Both readings live in the same scene. The witness ledger you just opened keeps both — the scene gets logged with both interpretations attached. The world adjusts to whichever reading you flagged as primary. The other reading does not vanish; it waits.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  // Soul Stones
+  { id: "cc_mech_soul_stones_first", speaker: "antiquarian", trigger: "mech_soul_stones_intro_seen",
+    voiceLine: "Eight stones. You will fill some quickly and others over the entire arc. The clear stone — the Reservation stone — fills slowest and weighs heaviest. I have not, in five Ages, seen a witness fill all eight. I have seen one witness fill seven, and that witness wrote the book I keep on my desk.",
+    timing: "immediate", maxPlays: 1 },
+
+  // Oracle Deck
+  { id: "cc_mech_oracle_deck_first", speaker: "antiquarian", trigger: "mech_oracle_deck_intro_seen",
+    voiceLine: "The Seer pulled the Reversed Meadow on your future card. That is — a significant draw. I have logged the spread in the archive under your name. Do not let the reading govern you; the cards show the path of least resistance. The interesting parts of an arc are the interruptions of the path.",
+    timing: "immediate", maxPlays: 1 },
+
+  // Chess Subgame
+  { id: "cc_mech_chess_first", speaker: "antiquarian", trigger: "mech_chess_intro_seen",
+    voiceLine: "Gary and Zephyr-9 are both correct, and they almost never agree on a single move. Sit at their parlor when the rest of the universe is loud — they teach with the parlor's small lamp pool, and the lessons stay.",
+    timing: "immediate", maxPlays: 1 },
+
+  // Sprite Proxy
+  { id: "cc_mech_sprite_proxy_first", speaker: "elara", trigger: "mech_sprite_proxy_intro_seen",
+    voiceLine: "Your sprite chose you. The bond-thread is real — it shows up on the substrate scan as a small dedicated channel between your sternum and theirs. I will not eavesdrop on the channel. The grove will, but only to remember.",
+    timing: "immediate", maxPlays: 1 },
+
+  // Expansion Drops / CoNexus
+  { id: "cc_mech_expansion_drops_first", speaker: "elara", trigger: "mech_expansion_drops_intro_seen",
+    voiceLine: "Your first pack came back signed in your wax. The CoNexus does that automatically — the seal carries the maker. If you ever trade the pack away, the next holder will know who forged it. I find this charming. The Engineer finds it functional. We both bring it up at meals.",
+    timing: "immediate", maxPlays: 1 },
+
+  // Trade Empire
+  { id: "cc_mech_trade_empire_first", speaker: "human", trigger: "mech_trade_empire_intro_seen",
+    voiceLine: "Veska is a fourth-tier factor and that is exactly what you want for a first run. She does not lie about the prices — she lies about the consequences. Believe the prices. Read the manifest twice before you sign. The lanes are forgiving. The factors are not.",
+    timing: "immediate", maxPlays: 1 },
 ];
