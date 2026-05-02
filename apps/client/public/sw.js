@@ -1,4 +1,4 @@
-const CACHE_NAME = 'loredex-os-v1';
+const CACHE_NAME = 'loredex-os-v2';
 const STATIC_ASSETS = [
   '/',
   '/manifest.json',
@@ -28,6 +28,24 @@ self.addEventListener('fetch', (event) => {
 
   // Skip non-GET and API/tRPC calls
   if (event.request.method !== 'GET' || url.pathname.startsWith('/api/')) {
+    return;
+  }
+
+  // Skip cross-origin requests. CDN assets (S3 audio/video, CloudFront
+  // images) carry their own long-lived cache-control headers and the
+  // browser HTTP cache handles them. Intercepting them here breaks
+  // media playback: HTML5 Audio issues range requests that return
+  // 206 Partial Content, which cache.put() rejects with TypeError —
+  // taking the audio element down with it. Keeping the SW scope to
+  // same-origin shell + assets avoids the whole class of issue.
+  if (url.origin !== self.location.origin) {
+    return;
+  }
+
+  // Skip range requests even on same-origin. The Cache API can't store
+  // 206 Partial Content, and any future same-origin media file would
+  // hit the same failure mode.
+  if (event.request.headers.has('range')) {
     return;
   }
 
