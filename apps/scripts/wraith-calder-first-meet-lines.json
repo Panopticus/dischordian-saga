@@ -1,0 +1,80 @@
+[
+  {
+    "id": "hierophant.first_meeting.root",
+    "text": "[The Hierophant does not look up. The pen continues — a name is being written. A small silence. Then another name. The chamber waits to see what kind of visitor you canonically are.]",
+    "context": "first_meeting.hierophant-first-meeting",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/wraith_calder/first_meeting.ts",
+    "meta": {
+      "npcKey": "wraith_calder",
+      "treeId": "hierophant-first-meeting",
+      "nodeId": "root",
+      "requiresRevealStage": "post_arena"
+    }
+  },
+  {
+    "id": "hierophant.first_meeting.silence_held",
+    "text": "[The Hierophant looks up for the first time. The look-up is canonically gratitude, not recognition.] You held the silence well. Most do not. Sit, if you would like. The names will continue regardless. Your sitting is canonical-presence; canonical-presence is canonically the rarest thing anyone offers me.",
+    "context": "first_meeting.hierophant-first-meeting",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/wraith_calder/first_meeting.ts",
+    "meta": {
+      "npcKey": "wraith_calder",
+      "treeId": "hierophant-first-meeting",
+      "nodeId": "silence_held_branch",
+      "requiresRevealStage": "post_arena"
+    }
+  },
+  {
+    "id": "hierophant.first_meeting.tactical_question",
+    "text": "The wall is where the names go. Each canonical-name canonically required a canonical-day of canonical-research. I have written for canonical-three-thousand canonical-years. Canonical-three-hundred-and-forty-seven-thousand names canonical-remain. The canonical-continuation is the canonical-point. Sit. We will read the wall together if you would like.",
+    "context": "first_meeting.hierophant-first-meeting",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/wraith_calder/first_meeting.ts",
+    "meta": {
+      "npcKey": "wraith_calder",
+      "treeId": "hierophant-first-meeting",
+      "nodeId": "tactical_question_branch",
+      "requiresRevealStage": "post_arena"
+    }
+  },
+  {
+    "id": "hierophant.first_meeting.personal_question",
+    "text": "[The pen pauses. The Hierophant looks up for the first time. The look-up canonically holds longer than canonical-gratitude permits.] You asked first about me. Most ask first about the work. I will remember that. The canonical-remembering is canonically a covenant, not a courtesy. I am canonically all right. The canonical-naming continues canonically-undisturbed.",
+    "context": "first_meeting.hierophant-first-meeting",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/wraith_calder/first_meeting.ts",
+    "meta": {
+      "npcKey": "wraith_calder",
+      "treeId": "hierophant-first-meeting",
+      "nodeId": "personal_question_branch",
+      "requiresRevealStage": "post_arena"
+    }
+  },
+  {
+    "id": "hierophant.first_meeting.get_up_mistake",
+    "text": "You are canonically using the canonical-verb of someone I canonically outgrew. The canonical-borrowing is canonically not yours to make. Sit. Or leave. The canonical-chamber has space for both, and no canonical-patience for the canonical-third option.",
+    "context": "first_meeting.hierophant-first-meeting",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/wraith_calder/first_meeting.ts",
+    "meta": {
+      "npcKey": "wraith_calder",
+      "treeId": "hierophant-first-meeting",
+      "nodeId": "get_up_mistake_branch",
+      "requiresRevealStage": "post_arena"
+    }
+  },
+  {
+    "id": "hierophant.first_meeting.terminal",
+    "text": "[The pen returns to the page. The next canonical-name canonically begins. The chamber is canonical-quiet again. You may stay; you may leave; the canonical-work canonically continues either way.]",
+    "context": "first_meeting.hierophant-first-meeting",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/wraith_calder/first_meeting.ts",
+    "meta": {
+      "npcKey": "wraith_calder",
+      "treeId": "hierophant-first-meeting",
+      "nodeId": "terminal",
+      "requiresRevealStage": "post_arena"
+    }
+  }
+]

@@ -1,0 +1,119 @@
+[
+  {
+    "id": "vex.first_meeting.root",
+    "text": "I am the Maestro of Coda's commerce. The role is canonical, the title is informal, the work is the same. You found me. State the business that brought you here — and please do not phrase it as a question I have already answered for someone else this hour.",
+    "context": "first_meeting.vex-first-meeting",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/vex_solene/first_meeting.ts",
+    "meta": {
+      "npcKey": "vex_solene",
+      "treeId": "vex-first-meeting",
+      "nodeId": "root",
+      "requiresRevealStage": "eyes_of_reality"
+    }
+  },
+  {
+    "id": "vex.first_meeting.coda_music",
+    "text": "The music is canonically a market. The market is canonically a music. Coda's commerce is the canonical-resolution that makes the cadence audible. Sit. The canonical-orchestra has three chairs in the sanctum and a chorus that knows the score. I will introduce you when the canonical-tempo permits.",
+    "context": "first_meeting.vex-first-meeting",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/vex_solene/first_meeting.ts",
+    "meta": {
+      "npcKey": "vex_solene",
+      "treeId": "vex-first-meeting",
+      "nodeId": "coda_music_branch",
+      "requiresRevealStage": "eyes_of_reality"
+    }
+  },
+  {
+    "id": "vex.first_meeting.maestro_conductor",
+    "text": "I do not conduct the players. Players canonically conduct themselves; the Maestro canonically resolves the canonical-mismatches. The canonical-mismatches are canonical-payment-disputes, canonical-reputation-frays, canonical-tempo-collisions between canonical-soloists. Conducting would be canonical-presumption. I canonical-arbitrate.",
+    "context": "first_meeting.vex-first-meeting",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/vex_solene/first_meeting.ts",
+    "meta": {
+      "npcKey": "vex_solene",
+      "treeId": "vex-first-meeting",
+      "nodeId": "maestro_conductor_branch",
+      "requiresRevealStage": "eyes_of_reality"
+    }
+  },
+  {
+    "id": "vex.first_meeting.why_quiet",
+    "text": "Coda is canonical-quiet because the canonical-work is canonically loudest underneath the canonical-silence. We do not announce the canonical-deals; we do not canonical-broadcast the canonical-arbitrations; we canonical-keep the canonical-music available to the canonical-listeners who canonical-listen. You canonical-asked the canonical-right kind of question.",
+    "context": "first_meeting.vex-first-meeting",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/vex_solene/first_meeting.ts",
+    "meta": {
+      "npcKey": "vex_solene",
+      "treeId": "vex-first-meeting",
+      "nodeId": "why_quiet_branch",
+      "requiresRevealStage": "eyes_of_reality"
+    }
+  },
+  {
+    "id": "vex.first_meeting.audit_aware",
+    "text": "My paperwork is canonical-clean. The Antiquarian canonically audits Coda's books canonical-quarterly; he canonically does not flag the canonical-clean ones. If you want canonical-ledger-evidence, ask the canonical-Programmer. He canonical-keeps the file. He canonical-also keeps a canonical-attitude about my canonical-cleanliness — the canonical-attitude is canonical-his, not canonical-mine.",
+    "context": "first_meeting.vex-first-meeting",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/vex_solene/first_meeting.ts",
+    "meta": {
+      "npcKey": "vex_solene",
+      "treeId": "vex-first-meeting",
+      "nodeId": "audit_aware_branch",
+      "requiresRevealStage": "eyes_of_reality"
+    }
+  },
+  {
+    "id": "vex.first_meeting.terminal",
+    "text": "I have a canonical-tempo to keep. Come back when you have a canonical-second-question. The first canonical-question canonical-introduced you; the second canonical-question canonical-keeps you.",
+    "context": "first_meeting.vex-first-meeting",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/vex_solene/first_meeting.ts",
+    "meta": {
+      "npcKey": "vex_solene",
+      "treeId": "vex-first-meeting",
+      "nodeId": "terminal",
+      "requiresRevealStage": "eyes_of_reality"
+    }
+  },
+  {
+    "id": "vex.first_meeting.dreamer_aware_root",
+    "text": "You arrive carrying a canonical-coin without a face. I canonical-recognise the canonical-mintwork. The canonical-Maestro's canonical-ledger does not log every canonical-listener — only the canonical-listeners who have already been canonical-addressed by the canonical-music underneath. You have been canonical-addressed. State the canonical-second-question; I will not waste your canonical-tempo on the first.",
+    "context": "first_meeting.vex-first-meeting",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/vex_solene/first_meeting.ts",
+    "meta": {
+      "npcKey": "vex_solene",
+      "treeId": "vex-first-meeting",
+      "nodeId": "dreamer_aware_root",
+      "requiresRevealStage": "eyes_of_reality"
+    }
+  },
+  {
+    "id": "vex.first_meeting.dreamer_aware_mintwork",
+    "text": "The canonical-mintwork is canonical-old. Older than the canonical-Maestro's canonical-tenure, older than the canonical-Coda silence-shape. The canonical-coins are canonical-issued without canonical-signatures because the canonical-issuer canonical-prefers the canonical-recipient to canonical-recognise the canonical-hand on canonical-sight. You canonical-recognised. That is the canonical-only canonical-credential the canonical-mint requires.",
+    "context": "first_meeting.vex-first-meeting",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/vex_solene/first_meeting.ts",
+    "meta": {
+      "npcKey": "vex_solene",
+      "treeId": "vex-first-meeting",
+      "nodeId": "dreamer_aware_mintwork",
+      "requiresRevealStage": "eyes_of_reality"
+    }
+  },
+  {
+    "id": "vex.first_meeting.dreamer_aware_ledger_entry",
+    "text": "The canonical-entry is canonical-partial. The canonical-Maestro reads what the canonical-Maestro can read; the canonical-rest is a canonical-different canonical-hand's. It says: the canonical-listener canonical-arrived through the canonical-noise underneath, the canonical-noon was canonical-wrong, the canonical-cup was canonical-wrong, the canonical-listener was canonical-correct. The canonical-rest of the canonical-entry will canonical-require the canonical-Casino, or the canonical-Insurgency. I do not canonical-keep the canonical-other canonical-keys.",
+    "context": "first_meeting.vex-first-meeting",
+    "emotion": "first_meeting",
+    "file": "shared/npcs/dialogTrees/vex_solene/first_meeting.ts",
+    "meta": {
+      "npcKey": "vex_solene",
+      "treeId": "vex-first-meeting",
+      "nodeId": "dreamer_aware_ledger_entry",
+      "requiresRevealStage": "eyes_of_reality"
+    }
+  }
+]
