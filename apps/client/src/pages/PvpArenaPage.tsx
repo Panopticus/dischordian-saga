@@ -139,6 +139,22 @@ export default function PvpArenaPage() {
     { userIds: matchHistoryOpponentIds },
     { enabled: isAuthenticated && matchHistoryOpponentIds.length > 0 },
   );
+  // Tier 9 G — spectator lobby titles. Batch-resolve every player in
+  // the active-matches list so each match card can render both
+  // players' equipped title pills.
+  const spectateLobbyPlayerIds = useMemo(
+    () => [...new Set(
+      (activeMatches.data ?? []).flatMap((m) => [
+        (m as { player1Id?: number }).player1Id,
+        (m as { player2Id?: number }).player2Id,
+      ]).filter((id): id is number => !!id),
+    )],
+    [activeMatches.data],
+  );
+  const spectateLobbyTitles = trpc.titles.resolveEquippedTitles.useQuery(
+    { userIds: spectateLobbyPlayerIds },
+    { enabled: spectateLobbyPlayerIds.length > 0 },
+  );
   const opponentTitleQuery = trpc.titles.resolveEquippedTitles.useQuery(
     { userIds: opponentUserId != null ? [opponentUserId] : [] },
     { enabled: opponentUserId != null },
@@ -991,6 +1007,14 @@ export default function PvpArenaPage() {
                       <div className="flex items-center justify-between mb-3">
                         <div className="text-center flex-1">
                           <p className="font-mono text-xs font-bold">{match.player1Name}</p>
+                          {(match as { player1Id?: number }).player1Id && spectateLobbyTitles.data?.[(match as { player1Id?: number }).player1Id!] && (
+                            <div className="flex justify-center mt-0.5">
+                              <TitlePill
+                                titleKey={spectateLobbyTitles.data[(match as { player1Id?: number }).player1Id!]!.titleKey}
+                                size="xs"
+                              />
+                            </div>
+                          )}
                           <p className="font-mono text-[10px] text-primary">{match.player1Elo} ELO</p>
                         </div>
                         <div className="px-3">
@@ -998,6 +1022,14 @@ export default function PvpArenaPage() {
                         </div>
                         <div className="text-center flex-1">
                           <p className="font-mono text-xs font-bold">{match.player2Name}</p>
+                          {(match as { player2Id?: number }).player2Id && spectateLobbyTitles.data?.[(match as { player2Id?: number }).player2Id!] && (
+                            <div className="flex justify-center mt-0.5">
+                              <TitlePill
+                                titleKey={spectateLobbyTitles.data[(match as { player2Id?: number }).player2Id!]!.titleKey}
+                                size="xs"
+                              />
+                            </div>
+                          )}
                           <p className="font-mono text-[10px] text-primary">{match.player2Elo} ELO</p>
                         </div>
                       </div>

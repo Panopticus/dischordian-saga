@@ -140,3 +140,117 @@ jobs:
 
       - name: Run fresh-DB smoke test (orphan bootstraps + DDL assertions)
         run: pnpm db:smoke
+
+  # Auth-gated Playwright e2e job (T9.11 / Tier 9 I).
+  #
+  # This job is the missing wiring for our auth-gated specs. The
+  # Playwright global-setup mints a JWT pointing at a seeded test user
+  # and writes a storageState.json; specs key off the file's existence
+  # to either run or skip auth-gated cases.
+  #
+  # Skipped when JWT_SECRET is absent (forks without secrets, dependabot
+  # PRs, etc.) — the public-route Playwright cases still run if a future
+  # dev cleavage adds them.
+  e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    if: ${{ vars.RUN_E2E == 'true' || github.event_name == 'workflow_dispatch' }}
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: ci_e2e_pw
+          MYSQL_DATABASE: dischordian_e2e
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h localhost -uroot -pci_e2e_pw"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=12
+    env:
+      DATABASE_URL: "mysql://root:ci_e2e_pw@127.0.0.1:3306/dischordian_e2e"
+      JWT_SECRET: ${{ secrets.E2E_JWT_SECRET || 'ci-e2e-development-secret-not-for-prod' }}
+      E2E_AUTH_OPEN_ID: "e2e-test-user"
+      E2E_AUTH_NAME: "E2E Test User"
+      E2E_BASE_URL: "http://localhost:3000"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Wait for MySQL to be ready
+        run: |
+          for i in 1 2 3 4 5 6 7 8 9 10; do
+            if mysqladmin ping -h 127.0.0.1 -P 3306 -uroot -pci_e2e_pw --silent 2>/dev/null; then
+              echo "MySQL is ready"
+              exit 0
+            fi
+            echo "Waiting for MySQL... attempt $i"
+            sleep 3
+          done
+          echo "::error::MySQL did not become ready in time"
+          exit 1
+
+      - name: Apply migrations
+        # Same continue-on-error gate as the db-smoke job — see the
+        # journal-drift discussion above. The seed/server steps still
+        # run; missing tables surface as a Playwright spec failure.
+        continue-on-error: true
+        run: pnpm db:migrate:prod
+
+      - name: Seed E2E test user
+        run: pnpm seed:e2e-user
+
+      - name: Build app
+        run: pnpm build
+        env:
+          VITE_APP_ID: "ci-e2e-build"
+          OAUTH_SERVER_URL: "https://stub.example.com"
+          VITE_OAUTH_PORTAL_URL: "https://stub.example.com/portal"
+
+      - name: Start app server
+        run: |
+          pnpm start &
+          echo "SERVER_PID=$!" >> $GITHUB_ENV
+          # Wait for the server to bind to its port.
+          for i in 1 2 3 4 5 6 7 8 9 10 11 12; do
+            if curl -fsS http://localhost:3000/api/health 2>/dev/null; then
+              echo "Server is up"
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "::warning::Server did not respond to /api/health — Playwright will retry"
+
+      - name: Run Playwright (auth-gated specs included)
+        run: pnpm test:e2e
+
+      - name: Upload Playwright report on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7
+
+      - name: Stop app server
+        if: always()
+        run: |
+          if [ -n "$SERVER_PID" ]; then
+            kill $SERVER_PID 2>/dev/null || true
+          fi
