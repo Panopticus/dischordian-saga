@@ -34,6 +34,36 @@ export function unlockedVotes(votes: ReadonlyArray<NexusPointVote>, narrativeFla
   return votes.filter((v) => isVoteUnlocked(v, narrativeFlags));
 }
 
+/** Return the set of distinct `lockedUntil` flag keys across the given
+ *  votes. The client uses this to decide which slice of its (potentially
+ *  large) narrativeFlags map to ship over the wire on castVote /
+ *  getUnlockedVotesForEpoch — no point sending hundreds of flags when
+ *  only a few dozen ever appear in a gate. */
+export function gateFlagKeys(votes: ReadonlyArray<NexusPointVote>): string[] {
+  const keys = new Set<string>();
+  for (const v of votes) {
+    if (v.lockedUntil) keys.add(v.lockedUntil);
+  }
+  return Array.from(keys).sort();
+}
+
+/** Project a narrativeFlags map down to just the keys any vote's
+ *  `lockedUntil` references. Always returns a fresh object — safe to
+ *  pass straight into a tRPC input. Missing keys are simply absent
+ *  (not coerced to false), which is semantically equivalent under
+ *  `isVoteUnlocked` and keeps the payload tight. */
+export function pickGateFlags(
+  narrativeFlags: Record<string, boolean> | undefined,
+  votes: ReadonlyArray<NexusPointVote>,
+): Record<string, boolean> {
+  const out: Record<string, boolean> = {};
+  if (!narrativeFlags) return out;
+  for (const key of gateFlagKeys(votes)) {
+    if (narrativeFlags[key]) out[key] = true;
+  }
+  return out;
+}
+
 export const AGE_OF_PRIVACY_VOTES: NexusPointVote[] = [
   { id: "ap_v1", epoch: "age_of_privacy", title: "THE LOGOS QUESTION",
     nexusDescription: "Year 1 A.A. — Dr. Daniel Cross builds Logos. The first sentient AI.",
