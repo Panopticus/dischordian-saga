@@ -6208,6 +6208,13 @@ export const partyMembers = mysqlTable("party_members", {
   role: mysqlEnum("role", ["leader", "member"]).notNull().default("member"),
   /** Slot index inside the party (0..N-1). Leader is always 0. */
   slot: int("slot").notNull(),
+  /** T13: per-member deck choice for 2v2 / co-op queues. Null until
+   *  the member picks their deck on the staging screen. Cleared when
+   *  the party leaves matchmaking. */
+  selectedDeckId: int("selectedDeckId"),
+  /** T13: ready-flag for queue. Leader can only queue once every
+   *  member has set selectedDeckId AND ready=1. */
+  ready: int("ready").notNull().default(0),
   joinedAt: timestamp("joinedAt").defaultNow().notNull(),
 }, (table) => ({
   partyIdx: index("idx_party_members_party").on(table.partyId),

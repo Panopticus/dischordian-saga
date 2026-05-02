@@ -36,6 +36,7 @@ import { pvpModerationRouter } from "./routers/pvpModeration";
 import { pvpTelemetryRouter } from "./routers/pvpTelemetry";
 import { partyRouter } from "./routers/party";
 import { coopCardRouter } from "./routers/coopCard";
+import { cadesIceRouter } from "./routers/cadesIce";
 import { draftRouter } from "./routers/draft";
 import { tradingRouter } from "./routers/trading";
 import { cardAchievementsRouter } from "./routers/cardAchievements";
@@ -162,6 +163,7 @@ export const appRouter = router({
   pvpTelemetry: pvpTelemetryRouter,
   party: partyRouter,
   coopCard: coopCardRouter,
+  cadesIce: cadesIceRouter,
   draft: draftRouter,
   trading: tradingRouter,
   cardAchievements: cardAchievementsRouter,

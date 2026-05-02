@@ -303,7 +303,7 @@ const cadesPvpRouter = router({
     }),
 
   submitScore: protectedProcedure
-    .input(z.object({ matchId: z.string(), score: z.number().int().min(0) }))
+    .input(z.object({ matchId: z.string(), score: z.number().int().min(0).max(1_000_000) }))
     .mutation(async ({ ctx, input }) => {
       const db = await getDb();
       if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
@@ -317,6 +317,20 @@ const cadesPvpRouter = router({
       const isP1 = m.player1Id === ctx.user.id;
       if (!isP1 && m.player2Id !== ctx.user.id) {
         throw new TRPCError({ code: "FORBIDDEN" });
+      }
+      // T13.7 — anti-cheat clamp. Per the design doc the
+      // composite score formula is `waves × 10 + kills`. For
+      // last_stand mode the theoretical ceiling at 30 waves +
+      // 100 kills is 400; for ship_defense and historical_incursions
+      // it's higher. Hard-cap at 50,000 to deflect obvious
+      // tampering while still allowing perfect-clear scores.
+      // The frontend caps at 1M (zod) as a basic sanity floor;
+      // the harder gameplay-aware cap lives here.
+      if (input.score > 50_000) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Score above plausible ceiling — possible tampering",
+        });
       }
       const updates: Record<string, unknown> = isP1 ? { player1Score: input.score } : { player2Score: input.score };
       const newStatus = isP1
