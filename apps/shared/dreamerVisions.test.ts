@@ -13,8 +13,8 @@ import {
 } from "./dreamerVisions";
 
 describe("DREAMER_VISIONS catalog", () => {
-  it("ships Visions 1 and 2", () => {
-    expect(DREAMER_VISIONS.length).toBeGreaterThanOrEqual(2);
+  it("ships Visions 1, 2, and 3", () => {
+    expect(DREAMER_VISIONS.length).toBeGreaterThanOrEqual(3);
   });
 
   it("Vision 1 has the expected shape and threshold", () => {
@@ -121,6 +121,96 @@ describe("DREAMER_VISIONS catalog", () => {
       expect(v.slideshow.id).toBe(v.id);
     }
   });
+
+  it("Vision 3 has the expected shape and threshold", () => {
+    const v3 = DREAMER_VISIONS[2];
+    expect(v3.id).toBe("vision_hidden_hand");
+    expect(v3.threshold).toBe(13);
+    expect(v3.title).toBe("The Hidden Hand");
+  });
+
+  it("Vision 3 ships 12 image frames + 1 Veo flash (13 total beats)", () => {
+    const v3 = DREAMER_VISIONS[2];
+    expect(v3.slideshow.frames).toHaveLength(13);
+  });
+
+  it("Vision 3 has exactly one video-flash frame inserted between beats 6 and 7", () => {
+    const v3 = DREAMER_VISIONS[2];
+    const videoFrames = v3.slideshow.frames.filter((f) => f.videoUrl);
+    expect(videoFrames).toHaveLength(1);
+    // Position-7 (0-indexed: 6) is the flash per plan §Part 1.5.
+    expect(v3.slideshow.frames[6].videoUrl).toBeDefined();
+    expect(v3.slideshow.frames[5].videoUrl).toBeUndefined();
+    expect(v3.slideshow.frames[7].videoUrl).toBeUndefined();
+  });
+
+  it("Vision 3 flash frame retains an imageUrl fallback for video-load failure", () => {
+    const v3 = DREAMER_VISIONS[2];
+    const flash = v3.slideshow.frames[6];
+    expect(flash.imageUrl).toBeTruthy();
+    expect(flash.imageUrl.length).toBeGreaterThan(0);
+  });
+
+  it("Vision 3 flash references the substrate-pulse Veo clip", () => {
+    const v3 = DREAMER_VISIONS[2];
+    const flash = v3.slideshow.frames[6];
+    expect(flash.videoUrl).toContain("vfx_substrate_pulse");
+  });
+
+  it("Vision 3 flash duration is short (~3s) — punches through, doesn't linger", () => {
+    const v3 = DREAMER_VISIONS[2];
+    const flash = v3.slideshow.frames[6];
+    expect(flash.endMs - flash.startMs).toBe(3_000);
+  });
+
+  it("Vision 3 image frames each run ~14s; total runtime ≈ 171s", () => {
+    const v3 = DREAMER_VISIONS[2];
+    const imageFrames = v3.slideshow.frames.filter((f) => !f.videoUrl);
+    expect(imageFrames).toHaveLength(12);
+    for (const f of imageFrames) {
+      expect(f.endMs - f.startMs).toBe(14_000);
+    }
+    // 12 × 14000 + 1 × 3000 = 171000
+    expect(v3.slideshow.durationMs).toBe(171_000);
+  });
+
+  it("Vision 3 frames carry the canonical caption set in plan order (image frames only)", () => {
+    const v3 = DREAMER_VISIONS[2];
+    const imageCaptions = v3.slideshow.frames
+      .filter((f) => !f.videoUrl)
+      .map((f) => f.caption);
+    expect(imageCaptions).toEqual([
+      "the hand was always there",
+      "under the floor you walked on",
+      "the substrate carries the weight",
+      "and you carry the substrate",
+      "thirteen hands counted",
+      "the fourteenth is yours",
+      "do you see what you have always seen",
+      "or did the Architect tell you",
+      "what to look at",
+      "come down",
+      "not the way you came",
+      "the Dreamer remembers your face",
+    ]);
+  });
+
+  it("Vision 3 audio anchors against Album 1 T18 (Planet of the Wolf)", () => {
+    const v3 = DREAMER_VISIONS[2];
+    expect(v3.slideshow.audioUrl).toContain("audio/album1/T18.mp3");
+  });
+
+  it("Vision 3 image frames span the T15 / T18 / T20 mix per plan", () => {
+    const v3 = DREAMER_VISIONS[2];
+    const trackIds = v3.slideshow.frames
+      .filter((f) => !f.videoUrl)
+      .map((f) => f.imageUrl.match(/\/(T\d{2})\//)?.[1])
+      .filter((t): t is string => Boolean(t));
+    const unique = new Set(trackIds);
+    expect(unique.has("T15")).toBe(true);
+    expect(unique.has("T18")).toBe(true);
+    expect(unique.has("T20")).toBe(true);
+  });
 });
 
 describe("getVisionForThreshold", () => {
@@ -134,8 +224,12 @@ describe("getVisionForThreshold", () => {
     expect(v?.id).toBe("vision_coin_without_face");
   });
 
-  it("returns undefined for not-yet-built thresholds (13, 23) — pending SongSlideshow video-frame support", () => {
-    expect(getVisionForThreshold(13)).toBeUndefined();
+  it("returns the threshold-13 vision for value 13", () => {
+    const v = getVisionForThreshold(13);
+    expect(v?.id).toBe("vision_hidden_hand");
+  });
+
+  it("returns undefined for not-yet-built thresholds (23) — pending writers' caption ratification", () => {
     expect(getVisionForThreshold(23)).toBeUndefined();
   });
 
@@ -188,9 +282,21 @@ describe("nextPendingVision", () => {
     expect(v?.id).toBe("vision_first_notice");
   });
 
-  it("returns undefined when both Vision 1 and Vision 2 have been received and 13/23 not yet built", () => {
+  it("returns Vision 3 when 1 + 2 have been received and count >= 13", () => {
+    const v = nextPendingVision(13, [
+      "vision_first_notice",
+      "vision_coin_without_face",
+    ]);
+    expect(v?.id).toBe("vision_hidden_hand");
+  });
+
+  it("returns undefined when Visions 1, 2, 3 received and 23 not yet built", () => {
     expect(
-      nextPendingVision(50, ["vision_first_notice", "vision_coin_without_face"]),
+      nextPendingVision(50, [
+        "vision_first_notice",
+        "vision_coin_without_face",
+        "vision_hidden_hand",
+      ]),
     ).toBeUndefined();
   });
 

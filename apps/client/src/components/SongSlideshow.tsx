@@ -16,8 +16,15 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
 export interface SlideshowFrame {
-  /** Path to the still image (relative to /public). */
+  /** Path to the still image (relative to /public). Always required —
+   *  used as the fallback when a video frame fails to load. */
   imageSrc: string;
+  /** Optional video URL. When set, the renderer plays the MP4 in
+   *  place of the still and pauses the background audio for the
+   *  frame's duration (the song "stretches over" the flash silently
+   *  per the recruitment plan §Part 1.5). Falls back to `imageSrc`
+   *  on video-load failure or unsupported codec. */
+  videoSrc?: string;
   /** Optional lyric line displayed over the image. */
   lyric?: string;
   /** How long this frame stays (ms). Default 5000. */
@@ -50,12 +57,26 @@ export default function SongSlideshow({
 }: SongSlideshowProps) {
   const [currentIndex, setCurrentIndex] = useState(-1); // -1 = title card
   const [dismissed, setDismissed] = useState(false);
+  // Track per-frame video-load failures so a 404 / unsupported codec
+  // falls back to the still image without disrupting playback. Keyed
+  // by frame index so a later frame's failure doesn't poison earlier
+  // frames if the slideshow is re-mounted.
+  const [videoFailedAtIndex, setVideoFailedAtIndex] = useState<Set<number>>(
+    () => new Set(),
+  );
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const timerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   const frame = currentIndex >= 0 && currentIndex < frames.length
     ? frames[currentIndex]
     : null;
+
+  // True when the current frame should render as a <video>: it
+  // declares a videoSrc AND the video hasn't already failed at this
+  // index. Both checks live here so the timer + audio coordination
+  // useEffects below stay in sync.
+  const isVideoFrame =
+    Boolean(frame?.videoSrc) && !videoFailedAtIndex.has(currentIndex);
 
   const advance = useCallback(() => {
     setCurrentIndex(prev => {
@@ -68,16 +89,20 @@ export default function SongSlideshow({
     });
   }, [frames.length, onEnd]);
 
-  // Auto-advance timer
+  // Auto-advance timer. Skipped for video frames — the <video>
+  // element's onEnded handler advances when the clip finishes, which
+  // is more accurate than a wall-clock timer (and respects clips
+  // that came in slightly under or over their declared duration).
   useEffect(() => {
     if (dismissed) return;
+    if (isVideoFrame) return;
     const dur = currentIndex === -1
       ? 2500 // title card
       : (frame?.durationMs ?? DEFAULT_DURATION);
 
     timerRef.current = setTimeout(advance, dur);
     return () => clearTimeout(timerRef.current);
-  }, [currentIndex, dismissed, frame, advance]);
+  }, [currentIndex, dismissed, frame, advance, isVideoFrame]);
 
   // Start audio
   useEffect(() => {
@@ -91,6 +116,22 @@ export default function SongSlideshow({
       audio.src = "";
     };
   }, [audioSrc]);
+
+  // Audio coordination: pause the song bed while a video frame plays
+  // so the flash punches through silently; resume on the next image
+  // frame. The plan calls this "the song stretches over the flash" —
+  // we don't seek the audio, so the missing seconds are simply not
+  // played back. Resume is silently no-op if the audio failed to
+  // start (autoplay block) or has already ended.
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    if (isVideoFrame) {
+      audio.pause();
+    } else if (currentIndex >= 0) {
+      audio.play().catch(() => {/* gesture-required after pause — silent */});
+    }
+  }, [isVideoFrame, currentIndex]);
 
   const handleDismiss = () => {
     if (!dismissible) return;
@@ -148,13 +189,35 @@ export default function SongSlideshow({
             transition={{ duration: FADE_MS / 1000 }}
             className="absolute inset-0 flex items-center justify-center"
           >
-            {/* Background image */}
-            <img
-              src={frame.imageSrc}
-              alt=""
-              className="absolute inset-0 w-full h-full object-cover"
-              style={{ filter: "brightness(0.6) saturate(0.85)" }}
-            />
+            {/* Background — <video> for Veo flash frames (D2 Vision
+                3 + 4), <img> otherwise or as a fallback when the
+                video errors. `playsInline` is required for iOS
+                Safari inline playback (see audit M-vision-mobile). */}
+            {isVideoFrame ? (
+              <video
+                src={frame.videoSrc}
+                autoPlay
+                playsInline
+                muted={false}
+                onEnded={advance}
+                onError={() =>
+                  setVideoFailedAtIndex((prev) => {
+                    const next = new Set(prev);
+                    next.add(currentIndex);
+                    return next;
+                  })
+                }
+                className="absolute inset-0 w-full h-full object-cover"
+                style={{ filter: "brightness(0.7) saturate(0.85)" }}
+              />
+            ) : (
+              <img
+                src={frame.imageSrc}
+                alt=""
+                className="absolute inset-0 w-full h-full object-cover"
+                style={{ filter: "brightness(0.6) saturate(0.85)" }}
+              />
+            )}
 
             {/* Lyric overlay */}
             {frame.lyric && (
