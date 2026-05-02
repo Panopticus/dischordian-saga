@@ -14,6 +14,7 @@ import { Link } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import { trpc } from "@/lib/trpc";
 import { useAuth } from "@/_core/hooks/useAuth";
+import { useCadesSignaling } from "@/hooks/useCadesSignaling";
 import { useGame } from "@/contexts/GameContext";
 import { ChevronLeft, Skull, Shield, BookOpen, Crosshair, Clock } from "lucide-react";
 import { CADES_CHARACTERS, CADES_UI, CADES_MUSIC } from "@/data/cadesAssets";
@@ -121,8 +122,49 @@ export default function CADESFPSPage() {
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
+  // T9 — async PvP context. When the player enters this page from the
+  // /pvp-variants Rival Run flow, `?match=<id>` appears in the URL and
+  // we hydrate the match here. The Godot bridge picks it up via the
+  // PostMessage CADES_CONFIG payload (see useEffect below).
+  const pvpMatchIdParam = (() => {
+    if (typeof window === "undefined") return null;
+    const sp = new URLSearchParams(window.location.search);
+    return sp.get("match");
+  })();
+  const pvpMatchQuery = trpc.tier5Pvp.cades.getMyMatches.useQuery(
+    { limit: 5 },
+    { enabled: isAuthenticated && !!pvpMatchIdParam },
+  );
+  const pvpRow = pvpMatchIdParam
+    ? (pvpMatchQuery.data ?? []).find((m) => m.matchId === pvpMatchIdParam)
+    : null;
+  const pvpMatch = pvpRow
+    ? {
+        matchId: pvpRow.matchId,
+        scenarioSeed: pvpRow.scenarioSeed,
+        // Opposing player's score, if they've already submitted theirs.
+        opponentScore: -1,
+        opponentName: "",
+      }
+    : null;
+
   // Persisted CADES data
   const cadesData = trpc.gameState.getCadesData.useQuery(undefined, { enabled: isAuthenticated });
+  const submitCadesPvpScore = trpc.tier5Pvp.cades.submitScore.useMutation();
+  // T10 — real-time PvP signaling relay. The hook is a no-op when
+  // `pvpMatch` is null, so solo runs pay nothing.
+  useCadesSignaling({
+    matchId: pvpMatch?.matchId ?? null,
+    // Host = the player who proposed the match (player1 in the row).
+    // For now, treat URL ?role=host as the explicit signal; default
+    // to joiner. Future patch: derive from pvpRow.player1Id === user.id.
+    role: (typeof window !== "undefined" &&
+      new URLSearchParams(window.location.search).get("role") === "host")
+      ? "host"
+      : "joiner",
+    userId: user?.id ?? null,
+    iframeRef,
+  });
   const saveCadesResult = trpc.gameState.saveCadesResult.useMutation({
     onSuccess: () => cadesData.refetch(),
   });
@@ -138,13 +180,24 @@ export default function CADESFPSPage() {
         // reload semantics: no retro-apply mid-run). The adapter is
         // pure — missing aggregator data yields a 1.0/0 payload so
         // pre-suit-system saves behave identically.
-        const config = {
+        const config: Record<string, unknown> = {
           mode: selectedMode,
           loop_count: cadesData.data?.loopCount ?? 0,
           awareness_level: cadesData.data?.awarenessLevel ?? 0,
           scenarios_completed: cadesData.data?.scenariosCompleted ?? [],
           suit_bonuses: toFpsSuitBonuses(cadesPassiveBonuses),
         };
+        // T9 — async PvP metadata. When `pvpMatch` is set on this page
+        // (Tier 5C "Rival Run" flow), forward the seed + opponent
+        // context into the Godot bridge so the scenario seeds
+        // deterministically and the result UI can display the
+        // opponent comparison.
+        if (pvpMatch) {
+          config.pvp_seed = pvpMatch.scenarioSeed;
+          config.pvp_match_id = pvpMatch.matchId;
+          config.opponent_score = pvpMatch.opponentScore ?? -1;
+          config.opponent_name = pvpMatch.opponentName ?? "";
+        }
         iframeRef.current?.contentWindow?.postMessage(
           { type: "CADES_CONFIG", payload: config }, "*"
         );
@@ -156,6 +209,19 @@ export default function CADESFPSPage() {
         setPhase("result");
         // Persist
         saveCadesResult.mutate(r as unknown as Record<string, unknown>);
+        // T9 — when this is a PvP run (Godot bridge echoes pvp_match_id
+        // in the result), route the score to the Tier 5C async
+        // ladder so the rating mirror + title grant fire.
+        const pvpMatchId = (r as unknown as { pvp_match_id?: string }).pvp_match_id;
+        if (pvpMatchId) {
+          // Compose a single composite score from the result payload —
+          // the same formula the lore-spec'd "Last Stand: Rival Run"
+          // documents (waves × difficulty + kills).
+          const waves = (r as unknown as { waves_survived?: number }).waves_survived ?? 0;
+          const kills = (r as unknown as { thoughtborn_killed?: number }).thoughtborn_killed ?? 0;
+          const composite = waves * 10 + kills;
+          submitCadesPvpScore.mutate({ matchId: pvpMatchId, score: composite });
+        }
         // Fan out narrative events so the living universe layer can react.
         if (r.canon_achieved) dispatchNarrativeEffect(undefined, "cades_canon_achieved");
         if (r.mode === "ship_defense" && r.success) dispatchNarrativeEffect(undefined, "cades_shields_restored");

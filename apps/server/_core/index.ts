@@ -341,6 +341,13 @@ async function startServer() {
   setupPvpWebSocket(server);
   setupChessPvpWebSocket(server);
 
+  // T10 — CADES real-time PvP signaling. Stateless WebRTC SDP/ICE
+  // relay between two peers in a `match_id` room. The Godot side
+  // (games/cades-fps/autoloads/MultiplayerBridge.gd) handles the
+  // actual peer-connection lifecycle; this only brokers handshakes.
+  const { setupCadesSignalingWebSocket } = await import("../cadesSignalingWs");
+  setupCadesSignalingWebSocket(server);
+
   // Terminus Swarm PvP raids
   const { setupTerminusPvpWebSocket } = await import("../terminusWs");
   setupTerminusPvpWebSocket(server);
