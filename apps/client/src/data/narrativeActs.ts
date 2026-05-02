@@ -488,6 +488,16 @@ const ACT_2_THE_WHISPER: LoreTutorial = {
           elaraResponse: "Thought Virus residue... that's a concerning possibility, but you're right that dormant traces wouldn't be unusual in a ship of this age. I'll add it to my monitoring protocols. Good catch.",
           setFlag: "act2_spy_misdirect_chosen",
         },
+        {
+          id: "act2-s1-full-truth",
+          text: "Elara — there's a presence in the substrate. It speaks. It calls itself the Human. I've been talking to it. I should have told you the moment I realized it was a person.",
+          shortText: "FULL TRUTH",
+          moralityShift: 12,
+          sideLabel: "humanity",
+          source: "elara",
+          elaraResponse: "Thank you, {playerName}. That cost you something to say, and I am noting the cost. A person in my substrate. That is a sentence I will need a long time to think about. I am not angry — I am informed. The information helps. We will not pretend otherwise from here on.",
+          setFlag: "act2_full_truth",
+        },
       ],
     },
 

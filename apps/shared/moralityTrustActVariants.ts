@@ -3266,6 +3266,49 @@ export const VARIANT_REGISTRY: readonly MoralityTrustActVariant[] = [
   // surfaces in at least one Act 1+ NPC line, so the Prelude choices
   // actually move the universe. Enforced by preludeFlagContract.test.ts.
 
+  // ── NET-NEW TRI-STATE EXPANSIONS — Act 1 / Act 2 / Act 6 third options ──
+  // Each new third option's flag has at least one downstream variant so the
+  // contract test passes and the choice surfaces in real gameplay.
+
+  // Act 1 alignment_balanced — surfaces in Act 2 archive room
+  {
+    id: "npc_line_archivist_alignment_balanced",
+    surface: "npc_line",
+    targetId: "mechronis_archivist_act2",
+    text:
+      "Your Cycle C entry is in the third column. We do not commemorate the third column out loud — we commemorate it by the silence with which we file. I am telling you this only because you came to ask. Most witnesses do not come to ask; they assume the silence is indifference. It is not. It is the praise. Welcome to the column.",
+    morality: "any",
+    trust: "any",
+    act: 2,
+    requiredFlags: ["act1_cycle_c_alignment_balanced"],
+  },
+
+  // Act 2 full_truth — surfaces in Act 3 cabin
+  {
+    id: "npc_line_human_full_truth_act3",
+    surface: "npc_line",
+    targetId: "human_act3_cabin",
+    text:
+      "She knows. Has known since you told her in the Comms Array. We do not pretend in this cabin any more — not because pretending stopped working but because you ended it on a Thursday afternoon and the room has been a different room since. The wall I have been in has a window now. You cut the window. I am not going to perform gratitude; I am going to use the window. Frequently.",
+    morality: "any",
+    trust: "any",
+    act: 3,
+    requiredFlags: ["act2_full_truth"],
+  },
+
+  // Act 6 partial_disclosure — surfaces in Act 7 cathedral
+  {
+    id: "npc_line_antiquarian_partial_disclosure_act7",
+    surface: "npc_line",
+    targetId: "the_antiquarian_act7",
+    text:
+      "Your partial-disclosure entry is in the book. The chapter on partial disclosure was empty before you; I have been keeping it open for an honest entry for three Ages. Yours arrived without performance. Most witnesses cannot resist completing the sentence or refusing the room — you did neither. The chapter has its first line. The book is, as a result, slightly heavier.",
+    morality: "any",
+    trust: "any",
+    act: 7,
+    requiredFlags: ["act6_partial_disclosure_chosen"],
+  },
+
   // Act 3 path_*_chosen echoes — Act 4+ NPCs read which Kael lens you walked
   {
     id: "npc_line_kael_lens_transparent",

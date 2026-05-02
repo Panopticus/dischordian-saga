@@ -63,8 +63,9 @@ describe("act1CycleCWitnessing — alignment gate", () => {
 });
 
 describe("act1CycleCWitnessing — alignment choices", () => {
-  it("exposes exactly 'light' and 'dark' ids", () => {
+  it("exposes 'light', 'dark', and 'balanced' ids", () => {
     expect(ALIGNMENT_CHOICES.map((c) => c.id).sort()).toEqual([
+      "balanced",
       "dark",
       "light",
     ]);

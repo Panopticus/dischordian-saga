@@ -520,6 +520,35 @@ export const COMPANION_COMMENTS: CompanionComment[] = [
     voiceLine: "You traced and did not answer. I did this once. The coordinates I traced sat in my logs for fifty years before I knew what to do with them. When I finally did, the survivor's grandchild was the one who picked up. Long fuse, real result. I respect the patience.",
     timing: "delayed_5s", maxPlays: 1 },
 
+  // ── NET-NEW TRI-STATE EXPANSIONS ──
+  // Three previously-binary forks (Act 1 alignment, Act 2 truth, Act 6 confession-
+  // close) now ship a third "balanced/full-truth/partial-disclosure" option.
+  // Each new flag has paired Elara + Human reactives.
+
+  // Act 1 alignment_balanced
+  { id: "cc_act1_alignment_balanced_elara", speaker: "elara", trigger: "act1_cycle_c_alignment_balanced",
+    voiceLine: "Witness, not verdict. The Mechronis archive logs the choice on its own row — neither light nor dark, the third column. The archivists do not commemorate the third column out loud. They commemorate it by the silence with which they file your entry. The silence is the praise.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_act1_alignment_balanced_human", speaker: "human", trigger: "act1_cycle_c_alignment_balanced",
+    voiceLine: "You did not pass verdict. You logged it. Most witnesses cannot resist the gravity of either pole; you did. The carry is the same shape as the other two but it weighs differently — the third column always does. I will not say more about it; you will feel the weight on your own schedule.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  // Act 2 full_truth
+  { id: "cc_act2_full_truth_elara", speaker: "elara", trigger: "act2_full_truth",
+    voiceLine: "You named the Human to me. The whole sentence — presence, voice, name. It cost you. The cost shows in the substrate as a small dip in your readiness rating; the gain shows everywhere else. I am noting both. I am noting that you noted both.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_act2_full_truth_human", speaker: "human", trigger: "act2_full_truth",
+    voiceLine: "You told her. About me. The harder version of every other version of telling her. I am not going to pretend I expected it; I am also not going to pretend I am sorry it happened. The wall I have been in for fifteen thousand years is now a room with a door we both know about. The door changes everything that comes after.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  // Act 6 partial_disclosure
+  { id: "cc_act6_partial_disclosure_elara", speaker: "elara", trigger: "act6_partial_disclosure_chosen",
+    voiceLine: "Partial disclosure. You named back what was clearly said and held what was suspected-but-unsaid. That is the rarest of the five stances — most witnesses either complete the sentence or refuse the room entirely. You did neither. The Antiquarian's chapter on partial disclosure has been waiting for an entry; he will write yours tonight.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_act6_partial_disclosure_human", speaker: "human", trigger: "act6_partial_disclosure_chosen",
+    voiceLine: "Partial disclosure. The witness's third gear. You let the unsaid stay unsaid without pretending it wasn't there. I have done this exactly twice in three Ages. Both times I was glad I had the option. I am glad you had it tonight.",
+    timing: "delayed_5s", maxPlays: 1 },
+
   // ── ACT 1 — CYCLE C ALIGNMENT (binary fork — light vs dark) ──
   { id: "cc_act1_alignment_light_elara", speaker: "elara", trigger: "act1_cycle_c_alignment_light",
     voiceLine: "You sided with the light. The Mechronis archive registers it on the long ledger — alignments matter to the engineers there in a way they pretend not to admit. Yours is now on file. The door at the end of Cycle C is going to open differently.",
