@@ -82,6 +82,20 @@ export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
           source: "war-room",
           order: 2,
         },
+        // Mystery Engine binding — when Vex Solène arc is the
+        // active case, the rack also surfaces the Insurgency's
+        // Warlord-Fragment alias dossier on Vex. Lore match:
+        // the rack catalogues factional negotiation records,
+        // and Warlord-fragment cover identities are the
+        // Insurgency's alias programme for operatives whose
+        // work the official record could not name. Vex's
+        // assigned alias was issued for one session at her
+        // request, granted because the Seer asked them to.
+        mysteryBinding: {
+          mysteryId: "mystery.vex_solene",
+          episodeId: "vex.e1",
+          cluesFound: ["vex.e1.warlord_fragment_dossier"],
+        },
       },
     },
   },

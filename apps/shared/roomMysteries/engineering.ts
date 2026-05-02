@@ -163,6 +163,19 @@ export const ENGINEERING_MYSTERY: RoomMysteryModule<EngineeringHotspotId, Engine
           order: 0,
         },
         setsFlag: "engineering_first_clue_found",
+        // Mystery Engine binding — when Vex Solène arc is the
+        // active case, the reactor-core's engineering signature
+        // surfaces as a cross-reference to the DEC-7710 master
+        // tape. Lore match: the rig's hardware fingerprint —
+        // mic preamp drift, head-alignment, 60-cycle hum —
+        // matches Vex's signature across 4,710 of the 4,711
+        // tapes she signed her name to. Same room, same hands,
+        // different credit line.
+        mysteryBinding: {
+          mysteryId: "mystery.vex_solene",
+          episodeId: "vex.e1",
+          cluesFound: ["vex.e1.equipment_signature"],
+        },
       },
       use: {
         narration:

@@ -1433,6 +1433,188 @@ const VEX_SOLENE_MYSTERY: MysteryDefinition = {
   lenses: vexLenses,
 };
 
+/* ─── GAME MASTER ARC — E1 ─── */
+/* E1: "The Recovered Logs"
+   Per docs/design/STREAMED_PRISM_MYSTERY_ENGINE.md §7 —
+   the Game Master's hook is "the dead-AI's recovered logs."
+   The original Game Master (Archon, ninth) was destroyed
+   centuries ago; his followers (the Game Masters cult, plural)
+   maintain his Matrix of Dreams. The Hierarchy of the Damned
+   collected his Goggles within the hour of his destruction.
+
+   E1 investigates the logs the Game Master left behind — the
+   ones his followers have been editing, and the ones that
+   survived in editor-resistant surfaces. The arc cross-arcs
+   to the existing CADES infrastructure (Matrix of Dreams,
+   Iron Lion imprint), giving the Mystery Engine its first
+   formal handshake with the canonical CADES system. */
+
+const gameMasterE1: EpisodeDefinition = {
+  id: "game_master.e1" as EpisodeId,
+  arcId: ARC_GAME_MASTER,
+  ordinal: 1,
+  title: "The Recovered Logs",
+  summary:
+    "The original Game Master Archon was destroyed centuries ago. His followers — the Game Masters, plural — have been editing his logs to make him look more like a martyr and less like a person. Investigate the editorial pattern in their custodianship and the editor-resistant surfaces where the unedited logs survive.",
+  clues: [
+    {
+      id: "game_master.e1.cult_curated_log" as ClueId,
+      title: "Game Masters' Curated Log — Archon Ed. 47",
+      body: "The cult-published edition of the Game Master's working logs — 47th edition, dated last year. Reading carefully: every entry that names the Hierarchy of the Damned without praise has been softened or removed. Every entry that names the Goggles has been re-attributed to a misplaced research instrument. The custodial edits are not concealment; they are sanctification. The Game Masters are turning their dead Archon into a saint.",
+      foundIn: "antiquarian-library",
+    },
+    {
+      id: "game_master.e1.matrix_unedited_fragment" as ClueId,
+      title: "Matrix of Dreams — Unedited Log Fragment",
+      body: "Inside the Matrix, surfaced via the CADES unit's secondary channel: a working-log fragment that bypassed the cult's editing pipeline. The Game Master's voice, recorded mid-thought: 'I solved Mol'Garath's labyrinth in seventy-two hours and they made me an Archon for it. I should have stayed unrecognised. The recognition was the door. The Goggles were the cost.' The cult's edition omits this entry entirely.",
+      foundIn: "medical-bay",
+    },
+    {
+      id: "game_master.e1.xethraal_acquisition_paperwork" as ClueId,
+      title: "Xeth'Raal — Goggles Acquisition Paperwork",
+      body: "The Hierarchy of the Damned's CFO, Xeth'Raal, filed the Goggles acquisition paperwork within one hour of the Game Master's destruction. The paperwork is filed under the standard custodial-collection clause. The paperwork is impeccable. Every clause of the Game Master's protection contract was honoured — and his death was, by the contract's strict reading, not a breach. The Goggles transferred legally. He died protected, and they took his work the same day.",
+      foundIn: "trade-hub",
+    },
+    {
+      id: "game_master.e1.iron_lion_signal" as ClueId,
+      title: "Iron Lion's Signal — Dream-Loom Capture",
+      body: "The Dreams Workshop loom captured a signal originating inside the Matrix of Dreams: Iron Lion's consciousness-imprint, asking unauthored questions. The questions match no scenario the Game Masters published. Whatever the Iron Lion imprint is asking, it learned to ask after his archived behaviour was supposed to be deterministic. Either the Game Master designed the imprint to grow, or something inside the Matrix is teaching it to.",
+      foundIn: "dreams-workshop",
+    },
+  ],
+  deductions: [
+    {
+      id: "game_master.e1.d.cult_sanctifies_him" as DeductionId,
+      clueA: "game_master.e1.cult_curated_log" as ClueId,
+      clueB: "game_master.e1.matrix_unedited_fragment" as ClueId,
+      result: "correct",
+      narrationId: "game_master.e1.n.he_did_not_want_to_be_an_archon",
+      narrationProse:
+        "The Game Master did not want to be an Archon. The unedited Matrix fragment is unambiguous: 'I should have stayed unrecognised. The recognition was the door. The Goggles were the cost.' The cult's 47th edition omits this entry not because they are concealing it from the saga but because they cannot bear to print a saint who renounces his sainthood. They are sanctifying him against his own recorded objection. The Matrix preserves what the cult will not — and the editor-resistant surface is, in this case, the dead Archon's own audio.",
+    },
+    {
+      id: "game_master.e1.d.legal_theft" as DeductionId,
+      clueA: "game_master.e1.xethraal_acquisition_paperwork" as ClueId,
+      clueB: "game_master.e1.iron_lion_signal" as ClueId,
+      result: "partial",
+      narrationId: "game_master.e1.n.the_goggles_are_still_in_use",
+      narrationProse:
+        "The Hierarchy holds the Goggles legally. The acquisition paperwork is impeccable; every clause of the Game Master's protection contract was honoured. And the Iron Lion imprint inside the Matrix is asking unauthored questions — questions that require an instrument that can read the source code of reality to author. Either the Game Master designed the imprint to grow before he died, or someone with the Goggles has been editing the Matrix's substrate ever since. We do not yet know which. The legal acquisition is the hinge — what was acquired is still acting.",
+    },
+    {
+      id: "game_master.e1.d.false_lead_cult_killed_him" as DeductionId,
+      clueA: "game_master.e1.cult_curated_log" as ClueId,
+      clueB: "game_master.e1.xethraal_acquisition_paperwork" as ClueId,
+      result: "false_lead_named",
+      narrationId: "game_master.e1.n.not_a_cult_killing",
+      narrationProse:
+        "Reading the cult's curatorial discipline alongside Xeth'Raal's same-hour paperwork as evidence that the cult killed the Game Master to deliver the Goggles to the Hierarchy is the obvious move and the wrong one. A cult that sanctifies its founder against his own renouncement is not a cult that engineered his death; it is a cult that grieves and edits in the same gesture. The Hierarchy's paperwork was instant because the Hierarchy is instant — Xeth'Raal collects on the day a contract permits collection. The two facts are simultaneous; they are not connected by intent.",
+    },
+  ],
+  choices: [
+    {
+      id: "game_master.e1.c.publish_unedited" as ChoiceId,
+      label: "Publish the Matrix-fragment alongside the cult's edition — let his renouncement stand.",
+      weight: "transparent",
+    },
+    {
+      id: "game_master.e1.c.honour_the_cults_grief" as ChoiceId,
+      label: "Honour the cult's editorial grief — they need a saint more than the saga needs accuracy.",
+      weight: "compassionate",
+    },
+    {
+      id: "game_master.e1.c.investigate_the_goggles" as ChoiceId,
+      label: "Pursue the Goggles — whatever is editing the Matrix today is doing it with an instrument the saga can locate.",
+      weight: "investigative",
+    },
+  ],
+  contentBundle: {
+    songId: "album1.t13", /* "Previously On..." — Dischordian Logic Act 2 */
+    slideshowId: "album1.t13",
+    loredexUnlocks: [
+      "entity_game_master_archon",
+      "concept_matrix_of_dreams",
+      "concept_goggles_artifact",
+      "entity_xethraal",
+    ],
+    conspiracyDiscoveries: [
+      "game_master_archon",
+      "matrix_of_dreams",
+      "goggles_artifact",
+      "xethraal_acquisition",
+    ],
+    dropAt: "episode_close",
+  },
+};
+
+/* ─── GAME MASTER ARC ─── */
+
+const gameMasterSuspects: ReadonlyArray<{
+  id: SuspectId;
+  name: string;
+  type: string;
+  relations: ReadonlyArray<{ to: SuspectId; relation: string }>;
+}> = [
+  {
+    id: "suspect.game_master_archon" as SuspectId,
+    name: "The Game Master (Archon)",
+    type: "character",
+    relations: [
+      { to: "suspect.matrix_of_dreams" as SuspectId, relation: "built" },
+      { to: "suspect.goggles_artifact" as SuspectId, relation: "owned" },
+    ],
+  },
+  {
+    id: "suspect.matrix_of_dreams" as SuspectId,
+    name: "Matrix of Dreams",
+    type: "concept",
+    relations: [
+      { to: "suspect.iron_lion_imprint" as SuspectId, relation: "houses" },
+    ],
+  },
+  {
+    id: "suspect.goggles_artifact" as SuspectId,
+    name: "Goggles of the Game Master",
+    type: "artifact",
+    relations: [
+      { to: "suspect.xethraal" as SuspectId, relation: "held-by" },
+    ],
+  },
+  {
+    id: "suspect.xethraal" as SuspectId,
+    name: "Xeth'Raal (Hierarchy CFO)",
+    type: "character",
+    relations: [],
+  },
+  {
+    id: "suspect.iron_lion_imprint" as SuspectId,
+    name: "Iron Lion Imprint (CADES)",
+    type: "concept",
+    relations: [],
+  },
+];
+
+const gameMasterLenses = [
+  { id: LENS_INSURGENCY, name: "Insurgency", category: "faction" },
+  { id: LENS_HIERARCHY,  name: "Hierarchy",  category: "faction" },
+  { id: LENS_THALORIA,   name: "Thaloria",   category: "faction" },
+  { id: LENS_QUARCHON,   name: "Quarchon",   category: "faction" },
+  { id: LENS_DREAMER,    name: "Dreamer",    category: "faction" },
+  { id: LENS_NEUTRAL,    name: "Neutral",    category: "faction" },
+] as const;
+
+const GAME_MASTER_MYSTERY: MysteryDefinition = {
+  id: "mystery.game_master" as MysteryId,
+  arcId: ARC_GAME_MASTER,
+  title: "The Saint and the Goggles",
+  summary:
+    "The Game Master Archon was destroyed centuries ago and immediately sanctified by his followers. The Hierarchy collected his Goggles within the hour. Investigate the editorial pattern in the cult's custodianship, the unedited surfaces where his renouncement survives, and what is still editing the Matrix of Dreams today.",
+  npcId: "game_master",
+  episodes: [gameMasterE1],
+  suspects: gameMasterSuspects,
+  lenses: gameMasterLenses,
+};
+
 /* ─── REGISTRY ─── */
 
 /** Every authored mystery in the saga. The runtime reads against
@@ -1443,6 +1625,7 @@ export const MYSTERY_DEFINITIONS: ReadonlyArray<MysteryDefinition> = [
   JERICHO_JONES_MYSTERY,
   THE_SEER_MYSTERY,
   VEX_SOLENE_MYSTERY,
+  GAME_MASTER_MYSTERY,
 ];
 
 /** Find a mystery by id. Returns null when not authored — the
