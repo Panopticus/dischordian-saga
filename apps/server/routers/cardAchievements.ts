@@ -21,6 +21,13 @@ export interface CardAchievementDef {
 }
 
 export const CARD_ACHIEVEMENTS: CardAchievementDef[] = [
+  // ─── TITLES (T9.16 cross-ref achievements) ───
+  { key: "titles_earned", title: "Storied", description: "Earn 10 titles across any category", icon: "🏷️", category: "pvp", tier: "bronze", target: 10, dreamReward: 25 },
+  { key: "titles_earned_legendary", title: "Lorebound", description: "Earn 5 legendary titles", icon: "📜", category: "pvp", tier: "gold", target: 5, dreamReward: 75 },
+  { key: "titles_earned_mythic", title: "Beyond the Veil", description: "Earn a mythic title", icon: "✨", category: "pvp", tier: "legendary", target: 1, dreamReward: 200 },
+  { key: "title_progression_mastered", title: "Tiered Triumphs", description: "Complete 3 full title progressions (tier-3 each)", icon: "👑", category: "pvp", tier: "diamond", target: 3, dreamReward: 150 },
+  { key: "titles_earned_mystery", title: "The Antiquarian's Scribe", description: "Earn 3 mystery-rooted titles", icon: "📖", category: "pvp", tier: "silver", target: 3, dreamReward: 50 },
+
   // ─── PVP ───
   { key: "first_blood", title: "First Blood", description: "Win your first PvP match", icon: "⚔️", category: "pvp", tier: "bronze", target: 1, dreamReward: 5 },
   { key: "pvp_wins_10", title: "Warrior", description: "Win 10 PvP matches", icon: "🗡️", category: "pvp", tier: "silver", target: 10, dreamReward: 15 },

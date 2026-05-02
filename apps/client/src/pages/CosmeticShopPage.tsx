@@ -56,6 +56,12 @@ export default function CosmeticShopPage() {
           </Link>
           <Sparkles size={18} className="text-chart-4" />
           <h1 className="font-display text-sm font-bold tracking-[0.15em]">COSMETIC SHOP</h1>
+          <Link
+            href="/titles"
+            className="ml-auto font-mono text-[10px] px-2 py-1 border border-chart-4/40 text-chart-4 rounded hover:bg-chart-4/10 inline-flex items-center gap-1"
+          >
+            VIEW ALL TITLES →
+          </Link>
         </div>
         <div className="px-4 sm:px-6 flex gap-1 pb-2">
           {(["shop", "owned", "equipped"] as Tab[]).map(t => (

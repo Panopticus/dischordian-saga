@@ -3,9 +3,12 @@
 -- PvP overhaul migration: titles, conspiracy, ratings, guild
 -- expansion, Tier 5 PvP variants, apprentice trials.
 --
--- Hand-written because drizzle-kit generate currently fails on a
--- pre-existing snapshot collision (0037 / 0040). Idempotent on
--- re-run via IF NOT EXISTS.
+-- Hand-written. The drizzle-kit snapshot lineage was repaired in
+-- T9.12 (0040 reparented to 0037 instead of forking from 0035) so
+-- future schema additions can use `drizzle-kit generate` again,
+-- but this PvP-overhaul migration was authored by hand and stays
+-- authoritative for the table set it defines. Idempotent via
+-- IF NOT EXISTS.
 -- ════════════════════════════════════════════════════════════════
 
 -- ─── TIER 1: TITLE SYSTEM ───────────────────────────────────────
@@ -118,6 +121,8 @@ CREATE TABLE IF NOT EXISTS `guild_clue_progress` (
   `isFirstDiscoverer` int NOT NULL DEFAULT 0,
   `updatedAt` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL,
   INDEX `idx_guild_clue_progress_guild_id` (`guildId`),
+  -- T9.13: drives Oracle Pool peek scan (board-leading, then guild filter).
+  INDEX `idx_guild_clue_progress_board_id` (`boardKey`, `guildId`),
   UNIQUE INDEX `uniq_guild_clue_progress_guild_board` (`guildId`, `boardKey`)
 );
 
@@ -345,3 +350,22 @@ CREATE TABLE IF NOT EXISTS `pvp_moderation_reports` (
   INDEX `idx_pvp_moderation_reports_status` (`status`),
   INDEX `idx_pvp_moderation_reports_target` (`targetKind`, `targetId`)
 );
+
+-- T9.13: Oracle Pool peek index — adds the board-leading index when
+-- upgrading an existing deployment. Fresh DBs already get it via the
+-- CREATE TABLE above. MySQL <8.0.29 lacks `CREATE INDEX IF NOT EXISTS`,
+-- so we check INFORMATION_SCHEMA before issuing the DDL.
+SET @idx_exists := (
+  SELECT COUNT(*)
+    FROM INFORMATION_SCHEMA.STATISTICS
+   WHERE TABLE_SCHEMA = DATABASE()
+     AND TABLE_NAME = 'guild_clue_progress'
+     AND INDEX_NAME = 'idx_guild_clue_progress_board_id'
+);
+SET @sql := IF(
+  @idx_exists = 0,
+  'CREATE INDEX `idx_guild_clue_progress_board_id` ON `guild_clue_progress` (`boardKey`, `guildId`)',
+  'SELECT 1'
+);
+PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+

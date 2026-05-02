@@ -279,6 +279,24 @@ export const battlePassRouter = router({
       const tierReward = rewards[String(input.tier)];
       const reward = input.track === "free" ? tierReward?.free : tierReward?.premium;
 
+      // T9.17: if the reward bag includes a `titleKey`, grant the
+      // title via the unified user_titles table. Forwards-compat —
+      // existing reward bags without titleKey are unaffected.
+      const titleKey = (reward as { titleKey?: string } | undefined)?.titleKey;
+      if (titleKey) {
+        try {
+          const { sql } = await import("drizzle-orm");
+          const { userTitles } = await import("../../db/schema");
+          await db
+            .insert(userTitles)
+            .values({ userId: ctx.user.id, titleKey })
+            .onDuplicateKeyUpdate({ set: { earnedAt: sql`earned_at` } })
+            .catch(() => {/* idempotent */});
+        } catch {
+          /* mirror is best-effort */
+        }
+      }
+
       return { success: true, reward: reward || {} };
     }),
 

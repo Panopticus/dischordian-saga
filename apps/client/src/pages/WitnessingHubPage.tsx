@@ -44,6 +44,7 @@ import { PreludeMissionRunner } from "@/components/PreludeMissionRunner";
 import type { PreludeCrewMission } from "@shared/preludeCrewMissions";
 import LivingBackground from "@/components/LivingBackground";
 import { PreludeTutorCard } from "@/components/prelude/PreludeTutorCard";
+import { trpc } from "@/lib/trpc";
 
 import { assetUrl } from "@/lib/assetUrl";
 type TabId = "journey" | "prelude" | "kael" | "chronicle" | "archive";
@@ -737,6 +738,9 @@ function KaelFragmentsPanel({
 
 function ChroniclePanel({ hubState }: { hubState: WitnessingHubState }) {
   const { chronicleFeed, beatChronicleEntries } = hubState;
+  // Tier 2B: surface server-wide reveal events alongside the
+  // Antiquarian's chronicle. Public endpoint — no auth gate.
+  const reveals = trpc.conspiracy.getServerWideRevealHistory.useQuery({ limit: 5 });
   // Interleave milestone + beat entries into one chronological
   // timeline. Milestone entries use their canonical order;
   // beat entries use their declared order field.
@@ -762,6 +766,33 @@ function ChroniclePanel({ hubState }: { hubState: WitnessingHubState }) {
   );
   return (
     <div className="space-y-4">
+      {/* Tier 2B: server-wide reveals strip — first-discoverer chips. */}
+      {(reveals.data ?? []).length > 0 && (
+        <section className="rounded-md border void-border-subtle void-bg-canvas p-5">
+          <header className="mb-3 flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.25em] void-text-accent">
+            <Sparkles size={12} />
+            DISCOVERY REVEALS — FIRST WITNESSES
+          </header>
+          <ul className="space-y-2">
+            {reveals.data!.map((evt) => (
+              <li key={evt.eventKey} className="flex items-start justify-between gap-2 font-mono text-xs">
+                <div className="min-w-0">
+                  <p className="font-bold truncate">{evt.eventKey}</p>
+                  <p className="text-[10px] opacity-70">
+                    First witnessed by <span className="void-text-accent">{evt.firstDiscovererName}</span>
+                    {evt.firstDiscovererGuild && (
+                      <> of <span className="void-text-accent">[{evt.firstDiscovererGuild.tag}] {evt.firstDiscovererGuild.name}</span></>
+                    )}
+                  </p>
+                </div>
+                <span className="font-mono text-[10px] opacity-60 whitespace-nowrap">
+                  {evt.discoveredAt ? new Date(evt.discoveredAt).toLocaleDateString() : "—"}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
       <section className="rounded-md border void-border-subtle void-bg-canvas p-5">
         <header className="mb-3 flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.25em] void-text-accent">
           <Scroll size={12} />

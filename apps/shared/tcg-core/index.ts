@@ -136,6 +136,15 @@ export {
   filterByController,
 } from "./types/TeamTargeting";
 
+/* Team-aware MatchView projection (Tier 3 boundary layer). */
+export type { MatchView } from "./types/MatchView";
+export {
+  viewOf,
+  actorSlotFromSide,
+  sideFromActorSlot,
+  peekNextSlot,
+} from "./types/MatchView";
+
 /* ─── Engine ─── */
 export {
   reduce,

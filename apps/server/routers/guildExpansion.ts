@@ -14,6 +14,7 @@ import {
   guildCosmetics,
   guildStash,
   guildStashLog,
+  userTitles,
 } from "../../db/schema";
 import { eq, and, desc, sql } from "drizzle-orm";
 import { TRPCError } from "@trpc/server";
@@ -213,6 +214,23 @@ export const guildExpansionRouter = router({
       }
       if (def.rewards.bannerKey) {
         await unlockBannerForGuild(ctxg.guild.id, def.rewards.bannerKey);
+      }
+      // Tier 4: if quest has an explicit titleKey reward, grant it
+      // directly to every contributing guild member. (Some quests
+      // pre-grant a tier-1 title that the player wouldn't otherwise
+      // qualify for via standard event progression.)
+      if (def.rewards.titleKey) {
+        const memberRows = await db
+          .select({ userId: guildMembers.userId })
+          .from(guildMembers)
+          .where(eq(guildMembers.guildId, ctxg.guild.id));
+        for (const m of memberRows) {
+          await db
+            .insert(userTitles)
+            .values({ userId: m.userId, titleKey: def.rewards.titleKey })
+            .onDuplicateKeyUpdate({ set: { earnedAt: sql`earned_at` } })
+            .catch(() => { /* idempotent */ });
+        }
       }
       return { ok: true, rewards: def.rewards };
     }),

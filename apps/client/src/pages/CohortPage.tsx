@@ -125,6 +125,11 @@ export default function CohortPage() {
   const leaderboard = getCohortLeaderboard(cohort);
   const standing = getPlayerStanding(cohort);
   const aliveCount = cohort.members.filter(m => m.alive).length;
+  // Tier 7: pull aggregate apprentice trial stats so we can surface the
+  // player's earned celebrant progression next to the cohort UI.
+  const trialStats = trpc.apprenticeTrial.getMyStats.useQuery();
+  const myTitles = trpc.titles.getMyTitles.useQuery();
+  const earnedCelebrant = (myTitles.data ?? []).filter((t) => t.titleKey.startsWith("celebrant_"));
 
   return (
     <div className="min-h-screen bg-background text-foreground p-4 sm:p-6">
@@ -142,6 +147,29 @@ export default function CohortPage() {
             </p>
           </div>
         </div>
+
+        {/* Tier 7: celebrant progression — apprentice trial stats + earned titles. */}
+        {trialStats.data && (trialStats.data.attended > 0 || trialStats.data.graduated > 0) && (
+          <div className="mb-4 p-3 rounded border void-border-subtle void-bg-canvas">
+            <div className="flex items-center justify-between mb-2">
+              <span className="font-mono text-[9px] uppercase tracking-wider void-text-accent">
+                Celebrant Record
+              </span>
+              <span className="font-mono text-[10px] tabular-nums">
+                {trialStats.data.graduated} graduated · {trialStats.data.attended} attended
+              </span>
+            </div>
+            {earnedCelebrant.length > 0 && (
+              <div className="flex flex-wrap gap-1.5">
+                {earnedCelebrant.map((t) => (
+                  <span key={t.titleKey} className="font-mono text-[10px] px-2 py-0.5 rounded-full border border-amber-400/40 text-amber-400 bg-amber-400/10">
+                    {t.definition?.name ?? t.titleKey}
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
 
         {/* Player standing */}
         {standing && (

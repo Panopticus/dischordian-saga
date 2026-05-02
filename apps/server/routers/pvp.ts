@@ -146,6 +146,7 @@ export const pvpRouter = router({
         const isPlayer1 = match.player1Id === ctx.user.id;
         return {
           ...match,
+          opponentId,
           opponentName: (opponentId && opponentNames.get(opponentId)) || "Unknown",
           won: match.winnerId === ctx.user.id,
           eloChange: isPlayer1 ? match.player1EloChange : match.player2EloChange,

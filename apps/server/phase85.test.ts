@@ -911,9 +911,12 @@ describe("Guild Recruitment Schema", () => {
 
 /* ═══ ACHIEVEMENT TRACKER ═══ */
 describe("Achievement Tracker", () => {
-  it("CARD_ACHIEVEMENTS should have 35 achievements", async () => {
+  it("CARD_ACHIEVEMENTS should have 40 achievements", async () => {
+    // T9.16 added 5 title cross-ref achievements: titles_earned,
+    // titles_earned_legendary, titles_earned_mythic,
+    // title_progression_mastered, titles_earned_mystery.
     const { CARD_ACHIEVEMENTS } = await import("./routers/cardAchievements");
-    expect(CARD_ACHIEVEMENTS.length).toBe(35);
+    expect(CARD_ACHIEVEMENTS.length).toBe(40);
   });
 
   it("should have achievements across all categories", async () => {
