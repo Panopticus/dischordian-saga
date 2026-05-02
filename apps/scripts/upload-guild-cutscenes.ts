@@ -67,13 +67,17 @@ const CONTENT_TYPES: Record<string, string> = {
 };
 
 /** Errors AWS marks as transient — worth retrying. Anything else
- *  (NoSuchBucket, AccessDenied) fails fast. */
+ *  (NoSuchBucket, AccessDenied) fails fast. ENOTFOUND covers
+ *  intermittent DNS dropouts (WiFi flap, VPN reconnect) — DNS
+ *  usually recovers within seconds, well inside the backoff window. */
 const TRANSIENT_ERROR_NAMES = new Set([
   "RequestTimeout",
   "TimeoutError",
   "NetworkingError",
   "EPIPE",
   "ECONNRESET",
+  "ENOTFOUND",
+  "EAI_AGAIN",
 ]);
 
 function isTransientError(err: unknown): boolean {
