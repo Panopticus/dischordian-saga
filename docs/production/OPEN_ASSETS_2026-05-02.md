@@ -40,7 +40,8 @@ The genuinely open work is concentrated in:
 | §1.7 Crew Awakening / Prestige / Companion Death | 5 videos | Kling | P2 |
 | §1.8 Mode intros (Casino, Trade Empire, Mechronis, etc.) | placeholders | Kling | P2 |
 | §4 TCG card art (s1_pack2 + race + allegiance gaps) | ~120 WEBPs | NB2 | P2 |
-| §5 Loredex portraits | 4 PNGs | NB2 | P2 |
+| §5 Loredex portraits — entity/char only (corrected from "4") | 38 PNGs (1 already fixed) | NB2 | P2 |
+| §5.5 🚨 CloudFront migration (1,727 dead URLs) — BLOCKS LOREDEX/CARDS DISPLAY | code/infra | — | **P0** |
 | §8 Acts 2–7 voice-over | per `act{N}VoManifest.json` | ElevenLabs | P0–P1 |
 | §10 Cross-cutting code work (out of asset scope) | code | — | P1 |
 
@@ -372,12 +373,88 @@ Total expected new renders: ~120 WEBPs.
 
 ## §5 Loredex portraits
 
-Per the prior agent audit, 4 of 372 entries in `apps/client/src/data/loredex-data.json` lack an `image` field. Identify with:
+> **Correction 2026-05-02 (post-publish):** the prior-agent claim of "4 of 372 missing" was wrong. Actual breakdown follows. The bigger problem is that **all 193 currently-populated `image` URLs point to the dead legacy CloudFront** (`d2xsxph8kpxj0f.cloudfront.net`) — every loredex entry is effectively imageless in production until the migration in §10.9 lands.
+
+### §5.0 — Empty `image` field — accurate breakdown
+
+372 entries total in `apps/client/src/data/loredex-data.json`. **179 have an empty/null `image` field**, broken down by id-prefix:
+
+| Prefix | Count | Likely needs portrait? |
+|---|---:|---|
+| `entity_*` and `char_*` | 39 | Yes — characters/beings |
+| `concept_*` | 89 | Design call — abstract lore concepts |
+| `song_*` | 37 | All Silence in Heaven album tracks; covers exist as song slideshow frames, not portraits |
+| `event_*` | 11 | Event illustration optional |
+| `lore_*` | 2 | Design call |
+| `location_*` | 1 | `location_ark_47` (Inception Ark 1047) |
+
+Identify the live list any time with:
 ```bash
-jq '.entries[] | select(.image == null) | .id' apps/client/src/data/loredex-data.json
+jq -r '.entries[] | select(.image == null or .image == "") | .id + "\t" + .name' apps/client/src/data/loredex-data.json
 ```
 
-Tool: NB2. Generate from the entry's `name` + `bio` + `era` + `affiliation`. Output paths under `art/loredex/` per existing convention.
+### §5.1 — 39 entity/char entries needing portraits
+
+Many of these are core characters with established art elsewhere in the repo (NPC bibles at `apps/shared/npcs/bibles/`, character dirs at `apps/client/public/characters/`). For those, the fix is to **populate the `image` field with the existing CDN URL**, not commission new art.
+
+| Id | Name | Action 2026-05-02 |
+|---|---|---|
+| `entity_the_seer` | The Seer | ✅ FIXED — now points to `characters/seer/bust.avif` (live on dgrsart) |
+| `entity_wraith_calder` | Wraith Calder | 🟡 Has NPC bible at `apps/shared/npcs/bibles/wraith_calder.md` but **no CDN art**. Probe: `characters/wraith_calder/bust.avif` → 403. Needs commission. |
+| `entity_akai_shi` | Akai Shi | 🟡 No bible, no CDN art. `characters/akai_shi/bust.avif` → 403. Needs commission. |
+| `entity_vex_solene` | Vex Solène | 🟡 Has NPC bible, **no CDN art**. `characters/vex_solene/bust.avif` → 403. Needs commission. |
+| `char_the_student` | The Student | Needs commission |
+| `char_the_seeker` | The Seeker | Needs commission |
+| `entity_105` | Marion Kell | Needs commission |
+| `entity_106` | Darren Fessler | Needs commission |
+| `entity_107`–`entity_121` | Trickster, Titan, Sorcerer, Kanshi Sha, Six Sins, Frog God Mask, Program and Control, Synopticon, MeMe Civilization, N0NOS / NØX Code, Top Floor Door, The NØX, Casino Heist, The Experiment, Archon Ascension Ceremony | Needs commission (15 entries) |
+| `entity_syndicate_of_death` | The Syndicate of Death | Needs commission |
+| `entity_word_silence` | The Word and The Silence | Needs commission |
+| `entity_thalorian_vessel` | The Thalorian Vessel | Needs commission |
+| `entity_hierophant_wraith` | The Hierophant Wraith | Needs commission |
+| `entity_jericho_jones` | Jericho Jones | Needs commission |
+| `entity_pre_fall_iron_lion` | The Pre-Fall Iron Lion | Needs commission |
+| `entity_vex_apprentice` | Vex's Apprentice | Needs commission |
+| `entity_game_master_archon` | The Game Master (Archon) | Needs commission (distinct from playable Game Master) |
+| `entity_xethraal` | Xeth'Raal | Needs commission |
+| `entity_velkraal` | Velkraal | Needs commission |
+| `entity_brel_sorrash` | Brel'Sorrash | Needs commission |
+| `entity_ozhul_vana` | Ozhul'Vana | Needs commission |
+| `entity_tessek_vrall` | Tessek'Vrall | Needs commission |
+| `entity_mol_vereth` | Mol'Vereth | Needs commission |
+
+Plus two intentional alias entries that share content with their canonical sibling — **do not merge**:
+
+| Id | Name | Note |
+|---|---|---|
+| `entity_degen` | The Degen | Intentional Jericho-arc cross-reference of `entity_the_degen`. The entry's own `history` field warns: "the Mystery Engine retains both ids because they were authored against different episode contexts and breaking either reference would silently empty the unlock banner of one arc." Both should populate the same `image` URL when commissioned. |
+| `entity_the_degen` | The Degen | Canonical entry. |
+
+(My earlier suggestion to dedup these was wrong — retracting.)
+
+### §5.2 — 89 `concept_*` entries
+
+Abstract lore (e.g. `concept_seam_holder`, `concept_audit_legibility`, `concept_oracle_awaited`). Design decision whether each warrants a unique portrait or whether they should render with a faction-themed placeholder card frame. **Default recommendation:** render with category-themed placeholders (cheaper than 89 unique commissions); only commission portraits for concepts with story-critical UI presence.
+
+### §5.3 — 37 `song_sih_*` entries
+
+Silence in Heaven album tracks (numbered 1–37). Each has slideshow frames at `art/cinematics/silence-of-two-witnesses/...` style paths (verified live via prior probe). Two options:
+- **(a)** Populate each `image` field with the song's slideshow `frame01.webp` URL (cheap, immediate fix)
+- **(b)** Commission a dedicated cover-art portrait per track (expensive — 37 NB2 renders)
+
+Default: do (a) now, leave (b) as P2.
+
+### §5.4 — 11 `event_*` + 2 `lore_*` + 1 `location_*` entries
+
+Event/lore narrative pages — likely render as text cards without images today. Producer + designer call.
+
+### §5.5 — 🚨 BLOCKING: legacy CloudFront migration
+
+**193 of 193 currently-populated `image` URLs point to the dead `d2xsxph8kpxj0f.cloudfront.net`** bucket which returns 403 on every HEAD probe. This means **0 of 372 loredex entries currently render an image in production**, regardless of whether their `image` field is populated.
+
+The fix is upstream of asset commission: either re-route the CloudFront distribution to the live origin, or migrate every URL to the dgrsart S3 bucket via a sweep over `loredex-data.json`. See §10.9 for the cross-cutting code work.
+
+**Until §10.9 lands, even the 1 entry I just populated above (the Seer) is the only loredex portrait that resolves to a 200 in production.**
 
 ---
 
@@ -495,8 +572,9 @@ Producer doesn't render code, but these block several asset categories from bein
 4. **UI sound layer code** — see §7.1 sub-bullet 1.
 5. **VFX atlas runtime wiring** — see §3 final paragraph. Atlases must be applied during cinematic playback for the rendered effect to show.
 6. **Album audio manifest expansion** — albums 1–4 need `audioUrl` plumbing in their slideshow manifests; mirror `silenceInHeavenAlbumAudio.json` shape.
-7. **Loredex 4-portrait fix** — once §5 renders are uploaded, the 4 entries need their `image` field populated in `loredex-data.json`.
+7. **Loredex `image` field population** — once §5.1 commissions land, populate `loredex-data.json` for the 35+ entities still needing `image` URLs. (1 of 39 — the Seer — already fixed 2026-05-02.)
 8. **Programmer in gameData.ts** — designer task per §2.5.
+9. **🚨 Legacy CloudFront migration (BLOCKING for loredex display)** — 193 loredex `image` URLs + the entire season1-cards.json + most expansion card art point to `d2xsxph8kpxj0f.cloudfront.net` which returns 403 on every probe. 1,727 dead URLs total per the audit ledger. Either re-point the CloudFront distribution at a live origin, or sweep every URL across the codebase migrating to the dgrsart S3 bucket. Without this, the loredex / season1 cards / expansion cards render zero images in production. See `docs/production/audit/per-source-status.tsv` for the full per-source kill list.
 
 ---
 
