@@ -1,6 +1,16 @@
 {
   "entries": [
     {
+      "id": "dream_enigmas_lament",
+      "type": "dream",
+      "name": "The Enigma's Lament",
+      "album": "Dischordian Logic",
+      "track_number": 1,
+      "audio_url": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/audio/album1/T01.mp3",
+      "image": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/slideshows/album1/T01/T01_00_title.webp",
+      "bio": "A dream you have already had, recovered. The first transmission you saw on this device — surfaced from memory and replayable on demand."
+    },
+    {
       "id": "entity_1",
       "type": "character",
       "name": "The Programmer",

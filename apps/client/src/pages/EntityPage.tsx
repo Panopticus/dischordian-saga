@@ -6,8 +6,11 @@ import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import {
   ArrowLeft, Users, MapPin, Swords, Music, Play, ExternalLink,
-  Link2, Clock, Shield, Eye, Disc3, Zap, ChevronRight, Gamepad2, Video
+  Link2, Clock, Shield, Eye, Disc3, Zap, ChevronRight, Gamepad2, Video, Moon
 } from "lucide-react";
+import { playSlideshow } from "@/stores/witnessingStore";
+import { ALBUM1_T01_SLIDESHOW } from "@shared/songSlideshows";
+import { DREAM_ENIGMAS_LAMENT_ID } from "@/lib/dreams";
 import StoryArc from "@/components/StoryArc";
 import RelationshipMiniGraph from "@/components/RelationshipMiniGraph";
 import LoreAppearancesTimeline from "@/components/LoreAppearancesTimeline";
@@ -23,6 +26,7 @@ const TYPE_ICONS: Record<string, typeof Users> = {
   faction: Swords,
   concept: Eye,
   song: Music,
+  dream: Moon,
 };
 
 const BADGE_CLASS: Record<string, string> = {
@@ -31,6 +35,14 @@ const BADGE_CLASS: Record<string, string> = {
   faction: "badge-faction",
   song: "badge-song",
   concept: "badge-concept",
+  dream: "badge-concept",
+};
+
+/** Map a dream Loredex id to the slideshow def it replays. Keep this
+ *  the single registry — adding a new dream means an entry in the
+ *  Loredex JSON + an entry here. */
+const DREAM_SLIDESHOWS: Record<string, typeof ALBUM1_T01_SLIDESHOW> = {
+  [DREAM_ENIGMAS_LAMENT_ID]: ALBUM1_T01_SLIDESHOW,
 };
 
 export default function EntityPage() {
@@ -211,6 +223,31 @@ export default function EntityPage() {
                 This entry has been altered by the Shadow Tongue's Apprentice path. The original reading is gone.
               </p>
             )}
+          </motion.section>
+        )}
+
+        {/* ═══ DREAM REPLAY ═══ */}
+        {entry.type === "dream" && DREAM_SLIDESHOWS[entry.id] && (
+          <motion.section
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.22 }}
+            className="void-surface border-primary/20 p-5"
+          >
+            <h2 className="font-display text-xs font-bold tracking-[0.2em] text-primary mb-3 flex items-center gap-2">
+              <Moon size={13} /> RECALL THE DREAM
+            </h2>
+            <p className="text-xs text-foreground/70 leading-relaxed mb-4">
+              The first transmission you witnessed. Replay it from the
+              Loredex any time — the song and the slideshow play in full.
+            </p>
+            <button
+              type="button"
+              onClick={() => playSlideshow(DREAM_SLIDESHOWS[entry.id]!)}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-md bg-primary/10 border border-primary/30 text-primary text-sm font-mono hover:bg-primary/20 transition-all hover-lift"
+            >
+              <Play size={14} /> ▸ REPLAY DREAM
+            </button>
           </motion.section>
         )}
 

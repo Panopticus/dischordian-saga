@@ -15,7 +15,7 @@
    Video transmission player (manual + auto-intercept).
    The Reset Wall is launched from State C.
    ═══════════════════════════════════════════════════════ */
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 
 import { useAuth } from "@/_core/hooks/useAuth";
@@ -31,9 +31,12 @@ import { TitleBootSequence } from "./title/TitleBootSequence";
 import { ResetWall } from "./title/ResetWall";
 import { SurveillanceOpening } from "./title/SurveillanceOpening";
 import DischordiaOpeningCinematic, { DISCHORDIA_OPENING_VIDEO_URL } from "@/components/DischordiaOpeningCinematic";
-import TitleAlbumIntro, { TITLE_T01_LOREDEX_ENTRY } from "@/components/TitleAlbumIntro";
 import { usePlayer } from "@/contexts/PlayerContext";
+import { useLoredex } from "@/contexts/LoredexContext";
 import { hasSeenOpening } from "@/lib/dischordiaOpeningSeen";
+import { markT01SeenInTitle } from "@/lib/dischordiaT01SeenInTitle";
+import { TITLE_T01_LOREDEX_ENTRY } from "@/lib/titleT01Entry";
+import { DREAM_ENIGMAS_LAMENT_ID } from "@/lib/dreams";
 import { TitleStateNoSave } from "./title/TitleStateNoSave";
 import { TitleStateReturning } from "./title/TitleStateReturning";
 import { TitleStateUnauth } from "./title/TitleStateUnauth";
@@ -232,6 +235,8 @@ export default function TitlePage({ onDismiss }: TitlePageProps = {}) {
   const auth = useAuth();
   const { state } = useGame();
   const player = usePlayer();
+  const loredex = useLoredex();
+  const acceptAlbumMutation = trpc.transmissions.acceptAlbumTransmission.useMutation();
   const isAuthenticated = auth.isAuthenticated;
   const hasSave = state.characterCreated && state.phase !== "FIRST_VISIT";
 
@@ -293,9 +298,6 @@ export default function TitlePage({ onDismiss }: TitlePageProps = {}) {
   // sequence is: cinematic → T01 audio + slideshow → reveal title.
   // Read synchronously so first paint never flashes the title behind.
   const [openingDone, setOpeningDone] = useState<boolean>(() => hasSeenOpening());
-  // The cinematic's video has reached its end (or AWAKEN fired from
-  // inside it). Triggers the T01 album intro stage.
-  const [cinematicEnded, setCinematicEnded] = useState(false);
   // Flips on CONFIRM OPERATOR so the cinematic mounts CONCURRENTLY with
   // the surveillance scan animation — the operator never sees a wait
   // beat between picking and the meme transmission starting. The
@@ -305,71 +307,35 @@ export default function TitlePage({ onDismiss }: TitlePageProps = {}) {
   const [confirmedEarly, setConfirmedEarly] = useState(false);
   const cinematicArmed = confirmedEarly || handshakeDone;
 
-  /* ─── Title-screen background music: Dischordian Logic (T02).
-       Plays as the "login loading" bed — autoplay muted on mount
-       (browser policy permits) and unmute on first user gesture.
-       Stops once the cinematic begins so its audio takes over.
-       This is a separate audio element from PlayerContext (which
-       owns T01 / The Enigma's Lament for the slideshow flow). ─── */
-  const loginBedAudioRef = useRef<HTMLAudioElement | null>(null);
-  const loginBedStoppedRef = useRef(false);
-
+  /* ─── Stop The Enigma's Lament when the title route unmounts.
+       T01 is pre-rolled muted on the surveillance gesture, unmuted
+       at the cinematic's −10s cue, and continues playing under the
+       login screen until the user clicks RECONNECT / ESTABLISH NEW
+       CONNECTION. The route change unmounts TitlePage; this cleanup
+       is the single chokepoint that pauses the song so it doesn't
+       bleed into /awakening (where AwakeningVOPlayer takes over the
+       audio stage as Elara begins her first line). Mount-only deps
+       so the cleanup fires on actual unmount, not on every render. */
   useEffect(() => {
-    const audio = loginBedAudioRef.current;
-    if (!audio) return;
-    if (cinematicArmed || openingDone) return;
-    audio.loop = true;
-    audio.volume = 0.55;
-    audio.muted = true;
-    audio.play().catch(() => {
-      /* autoplay blocked even when muted — first gesture below
-         retries with muted=false, which IS allowed post-gesture. */
-    });
-    const unmuteOnGesture = () => {
-      const el = loginBedAudioRef.current;
-      if (!el || loginBedStoppedRef.current) return;
-      el.muted = false;
-      el.play().catch(() => {});
-      window.removeEventListener("pointerdown", unmuteOnGesture);
-      window.removeEventListener("keydown", unmuteOnGesture);
-    };
-    window.addEventListener("pointerdown", unmuteOnGesture);
-    window.addEventListener("keydown", unmuteOnGesture);
     return () => {
-      window.removeEventListener("pointerdown", unmuteOnGesture);
-      window.removeEventListener("keydown", unmuteOnGesture);
-    };
-  }, [cinematicArmed, openingDone]);
-
-  useEffect(() => {
-    if (!cinematicArmed && !openingDone) return;
-    const audio = loginBedAudioRef.current;
-    if (!audio || audio.paused) return;
-    loginBedStoppedRef.current = true;
-    // Brief fade so the cut to cinematic audio doesn't pop.
-    const startVol = audio.volume;
-    const steps = 12;
-    let i = 0;
-    const t = setInterval(() => {
-      i += 1;
-      audio.volume = Math.max(0, startVol * (1 - i / steps));
-      if (i >= steps) {
-        clearInterval(t);
-        audio.pause();
+      if (player.currentSong?.id === TITLE_T01_LOREDEX_ENTRY.id) {
+        try { player.pause(); } catch { /* swallow — leaving the page anyway */ }
       }
-    }, 25);
-    return () => clearInterval(t);
-  }, [cinematicArmed, openingDone]);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   /* ─── Suppress SagaThemeBGM on the title screen.
        The provider auto-starts a shuffled saga theme on first
        interaction; on the title we want silence until the user
        clears the surveillance gate (then the cinematic owns audio,
-       then TitleAlbumIntro owns audio). Suppress while mounted.
+       then T01 plays under the login screen until the route
+       unmounts). The saga theme is intentionally held back until
+       /awakening, where it fades in alongside Elara's first VO line.
        Mount-only deps — the BGM context value isn't reference-stable,
        so a [sagaBGM] dep would re-run every render and the cleanup's
        unsuppress() would race against suppress() and bleed playback
-       under the cinematic / slideshow. ─── */
+       under the cinematic. ─── */
   const sagaBGM = useSagaThemeBGM();
   useEffect(() => {
     sagaBGM.suppress();
@@ -784,24 +750,6 @@ export default function TitlePage({ onDismiss }: TitlePageProps = {}) {
         />
       )}
 
-      {/* Title-screen background music — "Dischordian Logic" (album1
-          T02). Mounts on first paint so the browser starts buffering
-          the loop immediately; the effect above unmutes on the first
-          user gesture and pauses when the cinematic arms. Hidden +
-          aria-hidden — this is ambient, not a control. */}
-      {!cinematicArmed && !openingDone && (
-        <audio
-          ref={loginBedAudioRef}
-          src={assetUrl("audio/album1/T02.mp3")}
-          preload="auto"
-          loop
-          muted
-          aria-hidden
-          tabIndex={-1}
-          style={{ position: "absolute", width: 0, height: 0, opacity: 0, pointerEvents: "none" }}
-        />
-      )}
-
       {/* Hidden preload sink for the meme cinematic. Mounted from the
           first paint of the title page so the browser starts buffering
           the 3:09 mp4 the moment the user lands — by the time they
@@ -838,33 +786,51 @@ export default function TitlePage({ onDismiss }: TitlePageProps = {}) {
           The scanning sequence renders ON TOP of the playing video for
           the Confirm path so the operator never sees a wait beat.
           Player can replay this from INBOX tab in the Transmission Deck. */}
-      {cinematicArmed && !openingDone && !cinematicEnded && (
+      {cinematicArmed && !openingDone && (
         <DischordiaOpeningCinematic
-          onCinematicEnded={() => setCinematicEnded(true)}
           onSongShouldStart={() => {
             // The song was already pre-rolled muted on the
             // CONFIRM/LOOK AWAY click (see SurveillanceOpening's onArm
             // wiring above) so it's been advancing silently through
             // the broadcast. With ~10s left, REVEAL it: rewind to 0 +
             // unmute so the audible intro plays under the closing
-            // beats and the slideshow inherits a song mid-flight at
-            // currentTime ~= 10s. Both seek and unmute are safe
-            // outside a user activation.
+            // beats and continues under the login screen. Both seek
+            // and unmute are safe outside a user activation.
             player.seek(0);
             player.setMuted(false);
           }}
           onComplete={(reachedEndNaturally) => {
-            // If the user AWAKENed before the cinematic ended, skip
-            // the T01 stage entirely — they want into the game NOW.
-            // Pause and unmute the player so the song doesn't bleed
-            // under the title screen and the next playSong call
-            // anywhere in the app doesn't surface in muted state.
-            if (!reachedEndNaturally) {
-              setOpeningDone(true);
-              if (player.currentSong?.id === TITLE_T01_LOREDEX_ENTRY.id) {
-                player.pause();
-                player.setMuted(false);
-              }
+            // The cinematic dismissing is the end of the opening —
+            // either path lands directly on the login screen with
+            // T01 audible underneath.
+            setOpeningDone(true);
+
+            // If T01 was pre-rolled muted but never reached the −10s
+            // unmute cue (AWAKEN-mid-cinematic), unmute it now so the
+            // login screen has audible music. Don't pause it: T01 is
+            // the login bed until the user navigates away from the
+            // title route (see the unmount cleanup above).
+            if (player.currentSong?.id === TITLE_T01_LOREDEX_ENTRY.id && player.muted) {
+              player.setMuted(false);
+            }
+
+            // Notify the server cursor exactly once. completed=true
+            // advances past T01 and grants the reward; completed=false
+            // marks firstEverDelivered so the cinematic doesn't
+            // replay on refresh but the cursor stays at T01 for next
+            // session's modal pop.
+            if (isAuthenticated) {
+              acceptAlbumMutation.mutate({ trackId: "T01", completed: reachedEndNaturally });
+            }
+
+            // Persist the title-flow seen flag (was previously the
+            // album-intro stage's job).
+            markT01SeenInTitle();
+
+            // Unlock the dream — only on a clean run-through. AWAKEN
+            // mid-cinematic shouldn't grant the Loredex reveal.
+            if (reachedEndNaturally) {
+              loredex.discoverEntry(DREAM_ENIGMAS_LAMENT_ID);
             }
           }}
         />
@@ -903,15 +869,6 @@ export default function TitlePage({ onDismiss }: TitlePageProps = {}) {
         />
       )}
 
-      {/* T01 album intro stage — fades in over the cinematic's 400ms
-          fade-out. Owns The Enigma's Lament audio + slideshow until
-          the song ends naturally (advance cursor to T02) or AWAKEN
-          fires (cursor stays at T01 for next session's modal). */}
-      {!openingDone && cinematicEnded && (
-        <TitleAlbumIntro
-          onComplete={() => setOpeningDone(true)}
-        />
-      )}
     </div>
   );
 }
