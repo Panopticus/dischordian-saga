@@ -8,8 +8,13 @@
    transmission's own audio plays unmuted and is the only
    sound the player hears for the duration of the broadcast.
 
-   When the video ends naturally, TitleAlbumIntro takes over
-   with the T01 ("The Enigma's Lament") slideshow + song.
+   The cinematic dismisses straight back to the title's login
+   screen. T01 ("The Enigma's Lament") was pre-rolled muted on
+   the surveillance gesture and unmuted in the broadcast's last
+   10 seconds, so the player lands on login with the song already
+   playing as the title bed. The 19-frame T01 slideshow is no
+   longer played in the title flow — it surfaces in the Loredex
+   as a "dream" entry once this cinematic completes naturally.
 
    Pattern mirrored from apps/client/src/components/OpeningCinematic.tsx:
      - Skip ("AWAKEN") fades in after 2 seconds
@@ -57,8 +62,8 @@ interface Props {
    *  pre-rolled muted on the user's CONFIRM/LOOK AWAY click (so iOS
    *  Safari accepts the audio.play() — sticky activation doesn't apply
    *  there). At cue time the parent seeks back to 0 and unmutes; the
-   *  audible intro plays under the closing beats and the slideshow
-   *  inherits a song already mid-flight. */
+   *  audible intro plays under the closing beats and continues under
+   *  the login screen as the title bed. */
   onSongShouldStart?: () => void;
 }
 

@@ -309,15 +309,19 @@ const SongAppearanceSchema = z.object({
 
 export const LoredexEntrySchema = z.object({
   id: nonEmpty,
-  type: z.enum(["character", "faction", "location", "concept", "song", "event", "artifact"]),
+  // "dream" entries (e.g. dream_enigmas_lament) are replayable narrative
+  // sequences unlocked by gameplay events. They share the same Loredex
+  // shape as canonical entities but skip the era/affiliation/status fields
+  // (a dream isn't an entity — it's a memory).
+  type: z.enum(["character", "faction", "location", "concept", "song", "event", "artifact", "dream"]),
   name: nonEmpty,
   aliases: z.array(z.string()).optional(),
-  era: z.string(),
+  era: z.string().optional(),
   date_aa: z.string().optional(),
   date_ad: z.string().optional(),
   season: z.string().optional(),
-  affiliation: z.string(),
-  status: z.string(),
+  affiliation: z.string().optional(),
+  status: z.string().optional(),
   bio: nonEmpty,
   history: z.string().optional(),
   connections: z.array(z.string()).optional(),
