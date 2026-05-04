@@ -64,4 +64,37 @@ _None yet._
 | 15 | 2026-05-04 | Act 6 (Confession) | unification reveal Watcher line: Architect/Panopticon/Source/Watcher as one entity | 0 | 4441c6b |
 | 16 | 2026-05-04 | Act 7 (Convergence) | grand-secret inheritance Watcher line; seven acts as interview | 0 | 8c9353a |
 | 17 | 2026-05-04 | Cross-system surfaces | static audit — verified architectDossier/dreamerDossier 404-shell pattern; logged 16 incomplete imprint art-prompt sets | 1 | adddb5f |
-| 18 | 2026-05-04 | Asset + VO sweep | in-repo invariant tests pass; logged that real CDN HEAD-check + VO audit need credentialed CI run | 2 | _pending_ |
+| 18 | 2026-05-04 | Asset + VO sweep | in-repo invariant tests pass; logged that real CDN HEAD-check + VO audit need credentialed CI run | 2 | 68594d3 |
+| 19 | 2026-05-04 | Final verification pass | pnpm check clean, 10817/10817 tests pass, eslint 0 errors, void-energy 112 files clean | 0 | _pending_ |
+
+---
+
+## Final state — 2026-05-04
+
+Audit campaign complete. Branch `claude/audit-game-systems-iTiN3` ships:
+
+- New cross-cutting Watcher subsystem (apps/shared/watcher/, apps/server/routers/watcher.ts, apps/client/src/lib/watcher.ts, apps/client/src/companion/WatcherHost.tsx) with 14 authored Watcher lines covering acts 0 through 7 plus per-surface beats (locked-door persistence, pvp retreats).
+- 9 inline fixes:
+  - TitlePage WELCOME BACK boot line for return operators
+  - SurveillanceOpening ?surveillance=force QA hook
+  - AwakeningPage choice_latency capture (5 question steps) + name_committed observation + inline Watcher acknowledgment overlay
+  - Beat H Locke echo (30s post-bloom)
+  - Ark Explorer locked-door persistence trigger
+  - DuelystGameUI match-end combat juice (achievementFanfare + screenShake + koSlowmo) + pvp_retreat capture
+  - PackOpening dopamine pass (wired authored audio cues + lootCelebration + achievementFanfare)
+  - Act 2 tab-hidden detection
+  - Centralized act-gated Watcher trigger evaluation in WatcherHost
+- Documentation:
+  - docs/built/WATCHER_DESIGN.md — full subsystem doc with privacy guarantee
+  - docs/AUDIT_2026-05_FINAL_TODO.md — this living TODO log
+
+Verification (run locally on 2026-05-04):
+- `pnpm check` — clean
+- `pnpm test` — 10817 passed, 0 failed (40 skipped)
+- `pnpm lint` — 0 errors (2004 warnings, all pre-existing)
+- `pnpm lint:void-energy` — 112 adopted files clean
+
+Out-of-repo verification still owed:
+- `pnpm db:smoke` — needs DATABASE_URL
+- `node scripts/_check-art-coverage.mjs` — needs AWS credentials
+- `pnpm vo:audit` — manifest walk before any narrative-text PR
