@@ -5,8 +5,14 @@ export interface CompanionComment {
    *  /root/.claude/plans/continue-your-qr-assessment-mighty-valley.md):
    *  he is the only one of the four who is *also* the recruiter, and
    *  his lines fire only on Witnessing-milestone events that the
-   *  Architect specifically observes. */
-  id: string; speaker: "elara" | "human" | "antiquarian" | "architect";
+   *  Architect specifically observes.
+   *
+   *  The Watcher (apps/shared/watcher/) is the unified Architect/
+   *  Panopticon/Source identity that observes the operator across
+   *  the whole game. Watcher lines live in apps/shared/watcher/
+   *  watcherLines.ts and are merged into the toast pickComment
+   *  pipeline. See docs/built/WATCHER_DESIGN.md. */
+  id: string; speaker: "elara" | "human" | "antiquarian" | "architect" | "watcher";
   trigger: string; voiceLine: string;
   loreReveal?: string; timing: "immediate" | "delayed_5s" | "next_room_enter";
   maxPlays: 1 | 2;

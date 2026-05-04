@@ -27,6 +27,7 @@ import AchievementUnlockToast from "./components/AchievementUnlockToast";
 import RememberThisToast from "./components/RememberThisToast";
 import FeatureUnlockToast from "./components/FeatureUnlockToast";
 import CompanionHost from "./companion/CompanionHost";
+import { WatcherHost } from "./companion/WatcherHost";
 import { setContext as setCompanionContext } from "./companion/companionScheduler";
 import TradeNotificationWatcher from "./components/TradeNotificationWatcher";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -804,6 +805,13 @@ function App() {
                         the toast subsystem renders them. No UI of
                         its own. */}
                     <DreamerRelayHintsHost />
+                    {/* Watcher subsystem — hydrates the observation log
+                        from the server and starts the batched flush
+                        daemon. No UI of its own; Watcher lines surface
+                        through CompanionCommentToast via the shared
+                        speaker registry. See docs/built/
+                        WATCHER_DESIGN.md. */}
+                    <WatcherHost />
                     {/* Witnessing §5 — global slideshow host. Mounts
                         whenever any caller queues a slideshow via
                         playSlideshow(id). Must be above AuthGate so
