@@ -35,6 +35,7 @@ import {
 } from "@shared/mechronisAcademyDialog";
 import type { DialogScene, DialogCue } from "@shared/tcg-core/story/dialogBank";
 import { episodeCompletionFlag, hamletClueFlag } from "@shared/matrixSaveFlags";
+import { cueAudioUrl } from "@shared/episodeVoLookup";
 import { useGame } from "@/contexts/GameContext";
 
 /* ─── Helpers ─── */
@@ -272,7 +273,13 @@ export default function MatrixSchoolEpisodePage() {
             }}
           >
             {!done ? (
-              <CueRender cue={cue} scene={scene} keySuffix={`${sceneIndex}-${cueIndex}`} />
+              <CueRender
+                cue={cue}
+                scene={scene}
+                episodeId={episodeId}
+                cueIndex={cueIndex}
+                keySuffix={`${sceneIndex}-${cueIndex}`}
+              />
             ) : (
               <EpisodeComplete
                 level={level}
@@ -304,12 +311,17 @@ export default function MatrixSchoolEpisodePage() {
 function CueRender({
   cue,
   scene,
+  episodeId,
+  cueIndex,
   keySuffix,
 }: {
   cue: DialogCue;
   scene: DialogScene;
+  episodeId: string;
+  cueIndex: number;
   keySuffix: string;
 }) {
+  const audioUrl = cueAudioUrl(episodeId, scene.id, cueIndex);
   return (
     <AnimatePresence mode="wait">
       <motion.div
@@ -326,6 +338,18 @@ function CueRender({
         <p className="text-lg leading-relaxed text-zinc-100">{cue.text}</p>
         {cue.internal && (
           <p className="mt-3 italic text-zinc-500 text-sm">— {cue.internal}</p>
+        )}
+        {audioUrl && (
+          <audio
+            // The key forces a fresh element per cue so the browser
+            // doesn't try to resume the previous one mid-track.
+            key={`${keySuffix}-audio`}
+            src={audioUrl}
+            autoPlay
+            className="mt-4 w-full"
+            controls
+            preload="auto"
+          />
         )}
         <p className="sr-only">Scene label: {scene.label}</p>
       </motion.div>
