@@ -124,6 +124,8 @@ const Act2InterludePage = lazy(() => import("./pages/Act2InterludePage"));
 const EngineersBenchPage = lazy(() => import("./pages/EngineersBenchPage"));
 const HellboxPortalPage = lazy(() => import("./pages/HellboxPortalPage"));
 const MatrixSchoolEpisodePage = lazy(() => import("./pages/MatrixSchoolEpisodePage"));
+const MolGarathAudiencePage = lazy(() => import("./pages/MolGarathAudiencePage"));
+const HamletConspiracyBoardPage = lazy(() => import("./pages/HamletConspiracyBoardPage"));
 const GameMastersArenaAct2Page = lazy(() => import("./pages/GameMastersArenaAct2Page"));
 const Act5InterludePage = lazy(() => import("./pages/Act5InterludePage"));
 const BridgeOfKaelPage = lazy(() => import("./pages/BridgeOfKaelPage"));
@@ -351,6 +353,8 @@ function Router() {
         <Route path="/engineers-bench" component={EngineersBenchPage} />
         <Route path="/hellbox" component={HellboxPortalPage} />
         <Route path="/matrix/:episodeId" component={MatrixSchoolEpisodePage} />
+        <Route path="/mol-garath-audience" component={MolGarathAudiencePage} />
+        <Route path="/conspiracy-board" component={HamletConspiracyBoardPage} />
         <Route path="/game-masters-arena" component={GameMastersArenaAct2Page} />
         <Route path="/act5-interlude" component={Act5InterludePage} />
         <Route path="/bridge-of-kael" component={BridgeOfKaelPage} />
