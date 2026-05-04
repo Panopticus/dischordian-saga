@@ -44,6 +44,7 @@ import { VideoTransmissionPlayer } from "./title/VideoTransmissionPlayer";
 import { resolveTitleTheme } from "./title/themes";
 import type { AnnouncementAudience, AnnouncementRow } from "./title/types";
 import { useTransmissionIntercept } from "./title/useTransmissionIntercept";
+import { observe as observeWatcher } from "@/lib/watcher";
 
 import { assetUrl } from "@/lib/assetUrl";
 const THRESHOLD_MS = 1500;
@@ -179,12 +180,38 @@ interface TitlePageProps {
  * lines fall back to an instant reveal.
  */
 function DiegeticBootSequence({ skipAnimation = false }: { skipAnimation?: boolean }) {
-  const lines = [
-    "CoNEXUS HANDSHAKE",
-    "LINK ESTABLISHED",
-    "ARK DESIGNATION: 1047",
-    "AWAITING OPERATOR",
-  ];
+  // Returning operators get a "WELCOME BACK" beat appended to the
+  // boot sequence — first-time visitors don't see it, so the line
+  // never spoils the handshake. The Watcher (apps/shared/watcher/)
+  // is the diegetic identity behind this acknowledgment; the visual
+  // styling stays inside DiegeticBootSequence so the line reads as
+  // continuous with the rest of the boot HUD instead of as a toast
+  // popping over it. Recency window: 7 days from loredex_last_login.
+  const isReturning = useMemo(() => {
+    try {
+      if (localStorage.getItem("dischordia_handshake_seen") !== "1") return false;
+      const lastLoginRaw = localStorage.getItem("loredex_last_login");
+      if (!lastLoginRaw) return false;
+      const last = Number(lastLoginRaw);
+      if (!Number.isFinite(last) || last <= 0) return false;
+      const sevenDaysMs = 7 * 24 * 60 * 60 * 1000;
+      return Date.now() - last < sevenDaysMs;
+    } catch { return false; }
+  }, []);
+  const lines = isReturning
+    ? [
+        "CoNEXUS HANDSHAKE",
+        "LINK ESTABLISHED",
+        "ARK DESIGNATION: 1047",
+        "OPERATOR 1047 — UPLINK RESUMED",
+        "WELCOME BACK",
+      ]
+    : [
+        "CoNEXUS HANDSHAKE",
+        "LINK ESTABLISHED",
+        "ARK DESIGNATION: 1047",
+        "AWAITING OPERATOR",
+      ];
   return (
     <div
       aria-hidden
@@ -405,6 +432,21 @@ export default function TitlePage({ onDismiss }: TitlePageProps = {}) {
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
+  }, []);
+
+  /* ─── Watcher observation: late-night session open.
+       Fires once per TitlePage mount when the operator's local clock
+       is between 00:00 and 04:00. Used by Acts 5+ to mirror the
+       chronosphere line back at the operator ("you opened the
+       uplink at 03:14"). Pure observation; no UI side effects. ─── */
+  useEffect(() => {
+    const now = new Date();
+    const hour = now.getHours();
+    if (hour >= 0 && hour < 4) {
+      observeWatcher({ kind: "late_night_session", localHour: hour, at: now.getTime() });
+    }
+    // Mount-only: we want one observation per session-open, not per render.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   /* ─── First-gesture RECONNECT for State C returning users ─── */

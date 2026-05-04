@@ -32,7 +32,7 @@ _None yet._
 
 ## Low (polish / juice)
 
-_None yet._
+- [ ] **Google login URL helper does not null-check missing client_id** — Stop 1 — `apps/client/src/const.ts:4-17` — `getGoogleLoginUrl()` builds a URL with `client_id=undefined` literally if `VITE_GOOGLE_CLIENT_ID` is unset, while `getDiscordLoginUrl()`/`getGitHubLoginUrl()` return `null` and let the caller hide the button. In a misconfigured deployment the Google button shows but leads to a broken Google OAuth page. Fix needs care: `getLoginUrl` (the deprecated alias) is called from ~10 sites that assume a string return. Recommended: add a parallel `isGoogleLoginAvailable(): boolean` helper, gate the button in `TitleStateUnauth.tsx:108-112` on it, leave `getGoogleLoginUrl()` untouched.
 
 ## Out of repo (Cades-FPS emit, asset CDN uploads, VO re-records)
 
@@ -44,4 +44,5 @@ _None yet._
 
 | Stop | Date | Surface | Fixes inline | Logged here | Commit |
 |---|---|---|---|---|---|
-| 0 | 2026-05-04 | Watcher subsystem scaffolding | Plumbing only — no behavioral change | 0 | _pending_ |
+| 0 | 2026-05-04 | Watcher subsystem scaffolding | Plumbing only — no behavioral change | 0 | a112d46 |
+| 1 | 2026-05-04 | TitlePage + AuthGate + OAuth | WELCOME BACK boot line for return ops; late_night_session observation | 1 | _pending_ |
