@@ -1,1 +1,5 @@
-{}
+{
+  "professor_matrikala_taunt_early": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Matrikala+Voices/act1_taunts/professor_matrikala_taunt_early.mp3",
+  "professor_matrikala_taunt_mid": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Matrikala+Voices/act1_taunts/professor_matrikala_taunt_mid.mp3",
+  "professor_matrikala_taunt_late": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Matrikala+Voices/act1_taunts/professor_matrikala_taunt_late.mp3"
+}
