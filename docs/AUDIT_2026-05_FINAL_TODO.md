@@ -28,7 +28,7 @@ _None yet._
 
 ## Medium (degrades acts 2–7)
 
-- [ ] **PvP queue has no bot-fallback for empty queue** — Stop 9 — `apps/server/duelystWs.ts:289-300` (setupDuelystWebSocket matchmaking loop) — `tryMatchPlayers()` pairs from a shared real-player queue every MATCHMAKING_INTERVAL_MS; if the player is alone in queue they wait forever. UX: solo testers and low-traffic-time visitors see "QUEUE_UPDATE position: 1" indefinitely. Recommended fix: after `QUEUE_TIMEOUT_BEFORE_BOT_MS` (e.g., 45s) of being alone in queue, dispatch the player into a single-player CADES match against a faction-appropriate AI opponent using DuelystAI.ts (already used for solo Act 1 ladder). Cleanup is already supported (`activeMatches.delete`, `playerConnections` mapping).
+- [x] ~~**PvP queue has no bot-fallback for empty queue**~~ — Stop 9, fixed in Stop 22. Server now sends `BOT_FALLBACK_OFFER { secondsAlone }` once per queue-session after `QUEUE_BOT_FALLBACK_MS` (45s) of being alone in queue. PvpArenaPage renders a "PRACTICE VS AI" CTA inline with the queue spinner; clicking navigates to `/act1-ladder` (DuelystAI client-side, no ELO impact). Live queue stays open in case a real opponent arrives mid-decision. Hooked into the live `/api/pvp` server (`pvpWs.ts`); audit-plan reference to `duelystWs.ts` was misdirected (that endpoint is set up but not wired to a client).
 
 ## Low (polish / juice)
 
@@ -67,7 +67,8 @@ _None yet._
 | 18 | 2026-05-04 | Asset + VO sweep | in-repo invariant tests pass; logged that real CDN HEAD-check + VO audit need credentialed CI run | 2 | 68594d3 |
 | 19 | 2026-05-04 | Final verification pass | pnpm check clean, 10817/10817 tests pass, eslint 0 errors, void-energy 112 files clean | 0 | edcda3b |
 | 20 | 2026-05-04 | Google login null-check (TODO closeout) | added isGoogleLoginAvailable() helper; gated Google button in TitleStateUnauth | -1 | bccbdfc |
-| 21 | 2026-05-04 | Unlock-filter wiring (TODO closeout) | new playerExpansionState service; wired into cardGame.browse + openBoosterPack + claimDailyPack | -1 | _pending_ |
+| 21 | 2026-05-04 | Unlock-filter wiring (TODO closeout) | new playerExpansionState service; wired into cardGame.browse + openBoosterPack + claimDailyPack | -1 | 681a90c |
+| 22 | 2026-05-04 | PvP bot-fallback (TODO closeout) | server BOT_FALLBACK_OFFER after 45s alone in queue; PvpArenaPage CTA → /act1-ladder | -1 | _pending_ |
 
 ---
 
