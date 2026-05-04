@@ -25,7 +25,7 @@ import {
   ChevronUp, Play, Radio, Tv, BookOpen
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import { EmptyMatchHistory } from "@/components/EmptyStates";
 import { TitlePill } from "@/components/TitlePill";
 import { TeamStagingPanel } from "@/components/match/TeamStagingPanel";
@@ -72,7 +72,12 @@ export default function PvpArenaPage() {
   const { state: gameState } = useGame();
   const { playSFX, initAudio, audioReady } = useSound();
 
+  const [, navigate] = useLocation();
   const [phase, setPhase] = useState<Phase>("lobby");
+  // Bot-fallback offer: server sends BOT_FALLBACK_OFFER once a player
+  // has been alone in queue past QUEUE_BOT_FALLBACK_MS. The CTA gives
+  // the operator an out without forcing a navigation.
+  const [botFallbackSeconds, setBotFallbackSeconds] = useState<number | null>(null);
   const [lobbyTab, setLobbyTab] = useState<LobbyTab>("overview");
   const [ws, setWs] = useState<WebSocket | null>(null);
   const [battleState, setBattleState] = useState<PvpBattleState | null>(null);
@@ -258,10 +263,18 @@ export default function PvpArenaPage() {
         case "QUEUE_JOINED":
           setPhase("queue");
           setQueuePosition(msg.position);
+          setBotFallbackSeconds(null);
           break;
         case "QUEUE_UPDATE":
           setQueuePosition(msg.position);
           setPlayersInQueue(msg.playersInQueue);
+          break;
+        case "BOT_FALLBACK_OFFER":
+          // Server has flagged the operator as alone-in-queue past
+          // QUEUE_BOT_FALLBACK_MS (server-side default 45s). Surface
+          // the CTA — the queue stays live in case a real opponent
+          // arrives mid-decision.
+          setBotFallbackSeconds(typeof msg.secondsAlone === "number" ? msg.secondsAlone : null);
           break;
         case "MATCH_FOUND":
           setPhase("battle");
@@ -1147,6 +1160,30 @@ export default function PvpArenaPage() {
               />
             </div>
           </div>
+          {/* Bot-fallback CTA — surfaces only after the server has
+              sent BOT_FALLBACK_OFFER. Stays alongside the live queue
+              so a real opponent arriving mid-decision still pre-empts
+              into MATCH_FOUND. The "Practice vs AI" path navigates
+              into the existing Act 1 ladder, which uses DuelystAI
+              client-side (no server matchmaking, no ELO impact). */}
+          {botFallbackSeconds !== null && (
+            <div className="mb-4 rounded-md border border-amber-500/40 bg-amber-950/30 p-3 text-left">
+              <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-amber-300/90 mb-1">
+                NO OPPONENTS FOUND
+              </p>
+              <p className="font-mono text-xs text-amber-100/85 leading-relaxed mb-3">
+                You've been alone in the queue for {botFallbackSeconds}s. The
+                queue stays live — but you can practice now and rejoin
+                later.
+              </p>
+              <button
+                onClick={() => navigate("/act1-ladder")}
+                className="px-4 py-1.5 border border-amber-400/60 text-amber-100 font-mono text-xs rounded hover:bg-amber-400/15 transition-colors"
+              >
+                PRACTICE VS AI &gt;
+              </button>
+            </div>
+          )}
           <button
             onClick={handleLeaveQueue}
             className="px-6 py-2 border border-border/50 text-muted-foreground font-mono text-sm rounded hover:border-destructive/50 hover:text-destructive transition-colors"

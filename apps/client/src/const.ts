@@ -1,5 +1,12 @@
 export { COOKIE_NAME, ONE_YEAR_MS } from "@shared/const";
 
+/** True iff a `VITE_GOOGLE_CLIENT_ID` is configured in this build.
+ *  UI surfaces should gate the Google login button on this so a
+ *  misconfigured deployment doesn't render a button that leads to a
+ *  broken Google OAuth page (`client_id=undefined`). */
+export const isGoogleLoginAvailable = (): boolean =>
+  Boolean(import.meta.env.VITE_GOOGLE_CLIENT_ID);
+
 // Generate Google OAuth login URL at runtime so redirect URI reflects the current origin.
 export const getGoogleLoginUrl = () => {
   const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;

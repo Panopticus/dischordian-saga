@@ -96,6 +96,20 @@ export function BeatHInbox({ onComplete, volume = 0.9 }: BeatHInboxProps) {
   const canContinue = phase === "read";
   const collapsed = phase === "closed";
 
+  // Watcher echo — 30s after the "I am watching" cyan bloom appears,
+  // the Watcher (apps/shared/watcher/) surfaces a one-shot toast
+  // commenting on Locke. By the time the line fires, the player is
+  // typically on a later beat; CompanionCommentToast picks it up
+  // there. `maxPlays: 1` on the line definition is what prevents a
+  // re-fire across sessions, not this effect's flag.
+  useEffect(() => {
+    if (!showHighlight) return;
+    const t = setTimeout(() => {
+      fireCompanionComment("watcher_locke_echo");
+    }, 30_000);
+    return () => clearTimeout(t);
+  }, [showHighlight]);
+
   return (
     <div
       role="region"

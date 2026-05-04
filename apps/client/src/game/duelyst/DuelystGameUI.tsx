@@ -28,6 +28,8 @@ function asGameState(view: LegacyDuelystGameState): DuelystGameState {
 }
 import { TUTORIAL_STEPS, isTutorialActionComplete, type TutorialStep } from "./tutorial";
 import { fireCompanionComment } from "@/lib/companionCommentQueue";
+import { achievementFanfare, koSlowmo, screenShake } from "@/lib/combatJuice";
+import { observe as observeWatcher } from "@/lib/watcher";
 import { summarizeTrial, trialToCombatBuff, type TrialHistoryEntry, type TrialCombatBuff } from "@shared/celebrationTrial";
 import { dischordiaSounds } from "./SoundManager";
 import {
@@ -756,6 +758,29 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
         // Victory/defeat sting — the SoundManager's "victory" and
         // "defeat" cases were authored but never called.
         dischordiaSounds.play(gameState.winner === 0 ? "victory" : "defeat");
+        // Combat juice — the card-game UI was authored without the
+        // visual punctuation the rest of the game uses (achievement
+        // fanfare, KO slowmo). Wire them here so match end actually
+        // feels like an event. Respects prefers-reduced-motion via
+        // combatJuice's internal guard.
+        if (gameState.winner === 0) {
+          achievementFanfare("gold");
+          screenShake("medium");
+        } else {
+          koSlowmo(700);
+        }
+        // Watcher: a concede before turn 5 is a tilt-or-flee signal.
+        // Recorded so Acts 4.5 / 5+ can surface the retreat-count
+        // line ("three retreats. The wager remembers.").
+        if (conceded && turnsTaken < 5) {
+          const matchId = encounter?.id ?? `unknown_${Date.now()}`;
+          observeWatcher({
+            kind: "pvp_retreat",
+            matchId,
+            turn: turnsTaken,
+            at: Date.now(),
+          });
+        }
         // PR — record the match to the local history so the Bridge
         // Console can surface "you beat the Warlord yesterday." Not
         // persisted server-side today (see clientMatchHistory.ts).

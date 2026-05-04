@@ -136,7 +136,16 @@ function writeCsv(outPath: string, rows: VoRow[]): void {
 // terse (≤ 180 chars) so the CSVs stay paste-ready into ElevenLabs
 // Studio without truncation.
 
-function directionForReactive(speaker: "elara" | "human" | "antiquarian" | "architect", trigger: string): string {
+function directionForReactive(speaker: "elara" | "human" | "antiquarian" | "architect" | "watcher", trigger: string): string {
+  if (speaker === "watcher") {
+    // The Watcher (apps/shared/watcher/) is the unified Architect /
+    // Panopticon / Source identity that observes the operator across
+    // the whole game. Its voice is colder than the Architect's
+    // calibration register — surveillance-cadence, present tense,
+    // first-person plural. Never editorial; the Watcher narrates
+    // observations, not opinions. ≤ 12 sec / 25 words.
+    return "Surveillance cadence. First-person plural. Present tense. No warmth, no irony. The Watcher reports what it has already recorded. ≤ 12 sec.";
+  }
   if (speaker === "architect") {
     // B3 (dual-faction recruitment plan) — Architect speaks only on
     // Witnessing-milestone events. Calibration-acknowledgment

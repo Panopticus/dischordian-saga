@@ -15,6 +15,7 @@ import HolographicElara from "@/components/HolographicElara";
 import OpeningCinematic from "@/components/OpeningCinematic";
 import { resolveRoomStateAsset } from "@/game/roomStateAssets";
 import { getAwakeningCinematic } from "@shared/awakeningCinematicPrompts";
+import { observe as observeWatcher } from "@/lib/watcher";
 
 const ELARA_PORTRAIT = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/elara_portrait_speaking-J3GJUrfnNKzSBrxY2PfWrL.webp";
 
@@ -470,6 +471,16 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
   const [audioInitialized, setAudioInitialized] = useState(false);
   const lastSpokenRef = useRef<string>("");
   const themeAudioRef = useRef<HTMLAudioElement | null>(null);
+  // Watcher integration: timestamp the moment each question step renders
+  // so the choice handler can record `choice_latency`. Reset on every
+  // step change. Used by Acts 5+ to mirror "you took eight seconds on
+  // the alignment question" back at the operator.
+  const stepShownAtRef = useRef<number>(Date.now());
+  // Inline Watcher acknowledgment: shows for ~3s after name commit so
+  // the operator's first direct address from the surveillance entity
+  // lands inside the Awakening UI rather than as a toast that doesn't
+  // mount until the post-Awakening app surface comes up.
+  const [showWatcherAck, setShowWatcherAck] = useState(false);
   const [showCinematic, setShowCinematic] = useState(() => {
     // Only show cinematic on first visit (BLACKOUT step = very beginning)
     if (typeof window === "undefined") return false;
@@ -538,6 +549,40 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
       playSFX("dialog_open");
     }
   }, [awakeningStep, audioInitialized, playSFX]);
+
+  // Watcher: stamp the moment a question step renders so the choice
+  // handlers below can record `choice_latency`. Only the question +
+  // input steps get a stamp; intro/outro beats are excluded.
+  useEffect(() => {
+    if (
+      awakeningStep === "SPECIES_QUESTION" ||
+      awakeningStep === "CLASS_QUESTION" ||
+      awakeningStep === "ALIGNMENT_QUESTION" ||
+      awakeningStep === "ELEMENT_QUESTION" ||
+      awakeningStep === "NAME_INPUT" ||
+      awakeningStep === "ATTRIBUTES"
+    ) {
+      stepShownAtRef.current = Date.now();
+    }
+  }, [awakeningStep]);
+
+  // Helper: record latency from the current question's render to the
+  // operator's commit. `surface` is the awakening step name so Acts 5+
+  // can pick out specific beats ("you took twelve seconds on alignment").
+  const recordChoiceLatency = useCallback((surface: string) => {
+    const now = Date.now();
+    const latencyMs = Math.max(0, now - stepShownAtRef.current);
+    observeWatcher({ kind: "choice_latency", surface, latencyMs, at: now });
+  }, []);
+
+  // Auto-hide the Watcher acknowledgment after 3.2s — long enough to
+  // read once, short enough to not slow the handoff to ATTRIBUTES.
+  // Reduce-motion users still see the message; the timer just fires.
+  useEffect(() => {
+    if (!showWatcherAck) return;
+    const t = setTimeout(() => setShowWatcherAck(false), 3200);
+    return () => clearTimeout(t);
+  }, [showWatcherAck]);
 
   // Elara TTS — speak dialog text when step changes
   const STEP_DIALOG: Partial<Record<AwakeningStep, string>> = useMemo(() => ({
@@ -899,6 +944,7 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
                 { label: "I remember the quantum storms, the probability fields...", value: "quarchon", description: "Quarchon — Vast artificial intelligence. Cold, calculating machines that transcended their programming. Masters of dimensions and data." },
               ]}
               onChoice={(v) => {
+                recordChoiceLatency("awakening_species");
                 setCharacterChoice("species", v as any);
                 advanceAwakening();
               }}
@@ -920,6 +966,7 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
                 { label: "I have lived in the spaces between truths...", value: "spy", description: "Spy — You wear other people's certainties like coats. Trust is a tool. So is the absence of it." },
               ]}
               onChoice={(v) => {
+                recordChoiceLatency("awakening_class");
                 setCharacterChoice("characterClass", v as any);
                 advanceAwakening();
               }}
@@ -938,6 +985,7 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
                 { label: "Freedom. Chaos. Choice.", value: "chaos", description: "Chaotic, brave. A dark aura coils about you. The Dreamer's static makes you harder to pin down." },
               ]}
               onChoice={(v) => {
+                recordChoiceLatency("awakening_alignment");
                 setCharacterChoice("alignment", v as any);
                 advanceAwakening();
               }}
@@ -962,6 +1010,7 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
                 description: e.desc,
               }))}
               onChoice={(v) => {
+                recordChoiceLatency("awakening_element");
                 setCharacterChoice("element", v);
                 advanceAwakening();
               }}
@@ -998,6 +1047,9 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
                     autoFocus
                     onKeyDown={e => {
                       if (e.key === "Enter" && nameInput.trim().length >= 2) {
+                        recordChoiceLatency("awakening_name");
+                        observeWatcher({ kind: "name_committed", at: Date.now() });
+                        setShowWatcherAck(true);
                         setCharacterChoice("name", nameInput.trim());
                         advanceAwakening();
                       }
@@ -1006,6 +1058,9 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
                   <button
                     onClick={() => {
                       if (nameInput.trim().length >= 2) {
+                        recordChoiceLatency("awakening_name");
+                        observeWatcher({ kind: "name_committed", at: Date.now() });
+                        setShowWatcherAck(true);
                         setCharacterChoice("name", nameInput.trim());
                         advanceAwakening();
                       }
@@ -1098,6 +1153,72 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
           )}
         </AnimatePresence>
       </div>
+
+      {/* Watcher acknowledgment — fires once after the operator commits
+          their name. The Watcher (apps/shared/watcher/) is the unified
+          surveillance entity; this is its first direct address. Visual
+          treatment matches SurveillanceOpening (red LED dot, monospace,
+          black backdrop) so the operator reads it as continuous with the
+          cold-boot handshake. Auto-hides after 3.2s. */}
+      <AnimatePresence>
+        {showWatcherAck && (
+          <motion.div
+            key="watcher-ack"
+            role="status"
+            aria-live="polite"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -6 }}
+            transition={{ duration: 0.32 }}
+            style={{
+              position: "fixed",
+              top: "1.25rem",
+              left: "50%",
+              transform: "translateX(-50%)",
+              zIndex: 60,
+              maxWidth: "min(620px, 92vw)",
+              padding: "0.85rem 1.25rem",
+              borderRadius: 6,
+              background: "rgba(0,0,0,0.82)",
+              border: "1px solid rgba(255,60,64,0.55)",
+              boxShadow: "0 0 22px rgba(255,60,64,0.22)",
+              fontFamily: "'JetBrains Mono', 'Fira Code', monospace",
+              color: "#ffe4e6",
+              display: "flex",
+              alignItems: "center",
+              gap: "0.65rem",
+            }}
+          >
+            <span
+              aria-hidden
+              style={{
+                width: 8,
+                height: 8,
+                borderRadius: "50%",
+                background: "#ff3c40",
+                boxShadow: "0 0 10px rgba(255,60,64,0.85)",
+                flexShrink: 0,
+              }}
+            />
+            <div>
+              <div
+                style={{
+                  fontSize: "0.6rem",
+                  letterSpacing: "0.32em",
+                  textTransform: "uppercase",
+                  color: "rgba(255,120,124,0.85)",
+                  marginBottom: "0.2rem",
+                }}
+              >
+                {"// UPLINK"}
+              </div>
+              <div style={{ fontSize: "0.85rem", letterSpacing: "0.04em" }}>
+                {(characterChoices.name?.trim() || "OPERATOR")}. Recorded. Indexed. Watched.
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Skip button (bottom corner) */}
       {awakeningStep !== "BLACKOUT" && awakeningStep !== "FIRST_STEPS" && (

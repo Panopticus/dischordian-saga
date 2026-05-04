@@ -80,6 +80,15 @@ interface ConnectedPlayer {
   companionId?: string;
   /** Emote rate limit state */
   emoteRateState: EmoteRateState;
+  /** Wall-clock ms when this player entered the matchmaking queue.
+   *  Used to detect "alone in queue too long" and offer a bot
+   *  fallback so solo testers / low-traffic-time visitors aren't
+   *  stuck. */
+  queueJoinedAt: number;
+  /** True once the BOT_FALLBACK_OFFER has been sent for this queue
+   *  session — prevents the matchmaking loop from spamming the
+   *  message every 3s. Reset on every fresh JOIN_QUEUE. */
+  botFallbackOffered: boolean;
 }
 
 interface Spectator {
@@ -133,6 +142,11 @@ type ServerMessage =
   | { type: "EMOTE_RATE_LIMITED"; cooldownSeconds: number }
   | { type: "PLACEMENT_STATUS"; matchNumber: number; totalRequired: number; isPlacement: boolean }
   | { type: "PLACEMENT_COMPLETE"; initialRank: string; finalElo: number; wins: number }
+  /** Sent to a player who has been alone in the queue past
+   *  QUEUE_BOT_FALLBACK_MS without being matched. The client should
+   *  surface a "Practice vs AI" CTA. ELO is unaffected — bot
+   *  matches happen client-side via DuelystAI. */
+  | { type: "BOT_FALLBACK_OFFER"; secondsAlone: number }
   | { type: "ERROR"; message: string }
   | { type: "PONG" };
 
@@ -150,6 +164,11 @@ const SPECTATOR_CHAT_MAX_PER_WINDOW = 3;
 
 const TURN_TIMEOUT_SECONDS = 75;
 const MATCHMAKING_INTERVAL_MS = 3000;
+/** Threshold for offering a bot-fallback. After this many ms of
+ *  being alone in queue, the server emits BOT_FALLBACK_OFFER once.
+ *  45s strikes a balance between "give the queue a chance to find
+ *  a peer" and "don't strand solo testers / low-traffic visitors." */
+const QUEUE_BOT_FALLBACK_MS = 45_000;
 
 /* ─── HELPERS ─── */
 function send(ws: WebSocket | undefined, msg: ServerMessage) {
@@ -684,8 +703,25 @@ export function setupPvpWebSocket(server: Server) {
   // Matchmaking loop
   setInterval(() => {
     tryMatchPlayers();
+    const now = Date.now();
     matchmakingQueue.forEach((p, i) => {
       send(p.ws, { type: "QUEUE_UPDATE", position: i + 1, playersInQueue: matchmakingQueue.length });
+      // Bot-fallback: if a player has been alone in the queue past
+      // QUEUE_BOT_FALLBACK_MS without being matched, send the offer
+      // exactly once. The client renders a "Practice vs AI" CTA on
+      // receipt; the actual bot match runs client-side via DuelystAI
+      // so ELO, leaderboard, and replay storage are all unaffected.
+      // Guards: queue length 1 (truly alone), and per-player flag to
+      // avoid re-offering every 3s.
+      if (
+        matchmakingQueue.length === 1 &&
+        !p.botFallbackOffered &&
+        now - p.queueJoinedAt >= QUEUE_BOT_FALLBACK_MS
+      ) {
+        p.botFallbackOffered = true;
+        const secondsAlone = Math.floor((now - p.queueJoinedAt) / 1000);
+        send(p.ws, { type: "BOT_FALLBACK_OFFER", secondsAlone });
+      }
     });
   }, MATCHMAKING_INTERVAL_MS);
 
@@ -750,6 +786,8 @@ export function setupPvpWebSocket(server: Server) {
               faction: msg.faction || "neutral",
               companionId: msg.companionId,
               emoteRateState: { timestamps: [] },
+              queueJoinedAt: Date.now(),
+              botFallbackOffered: false,
             };
 
             playerConnections.set(msg.userId, player);
@@ -799,6 +837,8 @@ export function setupPvpWebSocket(server: Server) {
             faction: msg.faction || "neutral",
             companionId: msg.companionId,
             emoteRateState: { timestamps: [] },
+            queueJoinedAt: Date.now(),
+            botFallbackOffered: false,
           };
           // Synthetic boss "ConnectedPlayer" with no WS. Outbound
           // sends to it are no-ops via the send() guard further down
@@ -814,6 +854,8 @@ export function setupPvpWebSocket(server: Server) {
             faction: "boss",
             companionId: undefined,
             emoteRateState: { timestamps: [] },
+            queueJoinedAt: Date.now(),
+            botFallbackOffered: false,
           };
           player = humanPlayer;
           playerConnections.set(msg.userId, humanPlayer);

@@ -48,6 +48,8 @@ import {
 import LandscapeEnforcer from "@/components/LandscapeEnforcer";
 import { toast } from "sonner";
 import { enqueue as enqueueCompanionLine } from "@/companion/companionScheduler";
+import { fireCompanionComment } from "@/lib/companionCommentQueue";
+import { observe as observeWatcher, readLog as readWatcherLog } from "@/lib/watcher";
 import { lockedDoorLineId } from "@shared/lockedDoorLines";
 import { useNotificationQueue } from "@/hooks/useNotificationQueue";
 import PuzzleModal, { ROOM_PUZZLES } from "@/components/PuzzleSystem";
@@ -1426,6 +1428,20 @@ export default function ArkExplorerPage() {
             "There's still an earlier part of the ship you haven't finished cleaning. The Ark is patient.",
           duration: 5000,
         });
+      }
+      // Watcher: tally attempts per door. After 3 attempts on the
+      // same door, surface a Watcher comment acknowledging the
+      // operator's persistence. Threshold check uses the local log
+      // mirror; appendObservation runs first so the just-counted
+      // attempt is included.
+      observeWatcher({ kind: "locked_door_attempt", doorId: targetRoomId, at: Date.now() });
+      const log = readWatcherLog();
+      const sameDoorAttempts = log.events.reduce(
+        (n, e) => n + (e.kind === "locked_door_attempt" && e.doorId === targetRoomId ? 1 : 0),
+        0,
+      );
+      if (sameDoorAttempts === 3) {
+        fireCompanionComment("watcher_locked_door_persistence");
       }
       return;
     }

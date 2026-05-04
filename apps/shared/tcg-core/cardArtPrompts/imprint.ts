@@ -1759,11 +1759,19 @@ const IMPRINT_PROMPTS_LIST: readonly CardArtPrompt[] = [
 /**
  * Imprint faction's prompt registry, keyed by card id.
  *
- * Currently populated: 2 / 18 character sets (Elara + Antiquarian).
- * TODO: agent_zero, akai_shi, foucault, iron_lion, locke,
- * the_architect, the_collector, the_detective, the_dreamer,
- * the_engineer, the_enigma, the_human, the_jailer,
- * the_necromancer, the_oracle, the_source.
+ * Fully populated: 18 / 18 character sets × 5 tiers each = 90
+ * prompts. Coverage:
+ *   elara, antiquarian, iron_lion, agent_zero, akai_shi,
+ *   foucault, locke, the_architect, the_collector,
+ *   the_detective, the_dreamer, the_engineer, the_enigma,
+ *   the_human, the_jailer, the_necromancer, the_oracle,
+ *   the_source.
+ *
+ * Tier convention: t1 = mortal/origin form; t2-t4 escalate
+ * mechanically + visually; t5 = transcendent legendary form.
+ * Lore boundary discipline: every t5 stays inside Epoch 2 canon
+ * (no Acts 3-7 reveals). See per-prompt `notes` for the specific
+ * spoiler-line each card guards.
  */
 export const IMPRINT_CARD_ART_PROMPTS: Readonly<Record<string, CardArtPrompt>> =
   Object.freeze(
