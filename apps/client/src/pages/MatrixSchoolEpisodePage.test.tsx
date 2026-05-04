@@ -80,4 +80,9 @@ describe("MatrixSchoolEpisodePage — episode runtime", () => {
     // Look for the effect-pattern that fires on done && episodeId
     expect(SRC).toMatch(/if\s*\(done\s*&&\s*episodeId\)/);
   });
+
+  it("also sets the per-clue Hamlet flag when the level surfaces a conspiracy clue", () => {
+    expect(SRC).toContain("hamletClueFlag");
+    expect(SRC).toContain("level?.conspiracyClue");
+  });
 });

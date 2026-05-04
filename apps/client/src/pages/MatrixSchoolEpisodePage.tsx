@@ -34,7 +34,7 @@ import {
   MECHRONIS_EPISODE_SCENE_MAP,
 } from "@shared/mechronisAcademyDialog";
 import type { DialogScene, DialogCue } from "@shared/tcg-core/story/dialogBank";
-import { episodeCompletionFlag } from "@shared/matrixSaveFlags";
+import { episodeCompletionFlag, hamletClueFlag } from "@shared/matrixSaveFlags";
 import { useGame } from "@/contexts/GameContext";
 
 /* ─── Helpers ─── */
@@ -75,12 +75,18 @@ export default function MatrixSchoolEpisodePage() {
   }, [episodeId]);
 
   // Persist completion flag the first time the player reaches the end
-  // of the episode. Replays do not unset.
+  // of the episode. If the episode surfaces a Hamlet conspiracy clue
+  // (per its level definition), set the per-clue flag too — this is the
+  // canonical wiring; the conspiracy board's episode-completion fallback
+  // is a safety net, not the primary signal. Replays do not unset.
   useEffect(() => {
     if (done && episodeId) {
       setNarrativeFlag(episodeCompletionFlag(episodeId), true);
+      if (level?.conspiracyClue) {
+        setNarrativeFlag(hamletClueFlag(level.conspiracyClue), true);
+      }
     }
-  }, [done, episodeId, setNarrativeFlag]);
+  }, [done, episodeId, level, setNarrativeFlag]);
 
   const advance = () => {
     if (done) return;
