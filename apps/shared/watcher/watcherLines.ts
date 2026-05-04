@@ -58,6 +58,18 @@ export const WATCHER_COMMENTS: readonly CompanionComment[] = [
     timing: "immediate",
     maxPlays: 1,
   },
+  // ── ARK EXPLORER (Stop 5) — locked-door persistence ──
+  // Fires when the operator hits the same locked door 3 times. The
+  // Watcher comments rather than helps; the door is still locked,
+  // but the surveillance has been noticed. Once per account.
+  {
+    id: "watcher_ark_locked_door_persistence",
+    speaker: "watcher",
+    trigger: "watcher_locked_door_persistence",
+    voiceLine: "Persistence noted. The door has not changed.",
+    timing: "immediate",
+    maxPlays: 1,
+  },
 ];
 
 /** Helper for callers that want both COMPANION_COMMENTS and WATCHER_COMMENTS

@@ -48,4 +48,5 @@ _None yet._
 | 1 | 2026-05-04 | TitlePage + AuthGate + OAuth | WELCOME BACK boot line for return ops; late_night_session observation | 1 | cd89858 |
 | 2 | 2026-05-04 | SurveillanceOpening | first_dissent observation on LOOK AWAY; ?surveillance=force QA hook | 0 | 1215357 |
 | 3 | 2026-05-04 | AwakeningPage | choice_latency on 5 question steps; name_committed; inline Watcher acknowledgment overlay | 0 | e4a8756 |
-| 4 | 2026-05-04 | Prelude Beat H | Watcher Locke-echo: 30s after "I am watching" bloom, surfaces "Locke is one of us. He just doesn't know it yet." | 0 | _pending_ |
+| 4 | 2026-05-04 | Prelude Beat H | Watcher Locke-echo: 30s after "I am watching" bloom, surfaces "Locke is one of us. He just doesn't know it yet." | 0 | 51b9770 |
+| 5 | 2026-05-04 | ArkExplorer hub | locked_door_attempt observation; 3-attempt persistence Watcher line; verified tutorial orchestrator one-shot guard | 0 | _pending_ |
