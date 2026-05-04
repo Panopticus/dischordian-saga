@@ -157,6 +157,12 @@ export const CELEBRATION_SCHOOL_EPISODES: readonly MatrixLevelDefinition[] = [
     rounds: ["duel", "ritual", "mystery_reveal"],
     prereqEpisodes: ["celebration_c3_chess_class", "celebration_c6_the_dueling_court"],
     replayable: true,
+    playableBridge: {
+      path: "/chess/princes-game",
+      label: "Play the Match",
+      description:
+        "Walk through the canonical Donald-Byrne-vs-Fischer 1956 game — the only chess game the Game Master ever lost, fictionally to the Engineer.",
+    },
     authorNotes:
       "Mechanically: the chess match is playable — the Game Master uses the canonical opening from chessQuoteCanon.lore.ts, the Prince has 50% engine assist that fades over the match. After victory: cinematic of goggles handover. The Prince looks through them. The town's source code unrolls visually. Recording 4½ unlocks. This is the Engineer becoming able to see.",
   },

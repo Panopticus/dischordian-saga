@@ -98,6 +98,18 @@ describe("matrixOfDreamsLevels", () => {
     expect(c9?.teaches).toBe("chess_replay_match");
   });
 
+  it("C9 declares a playable bridge to /chess/princes-game (Donald Byrne v Fischer 1956)", () => {
+    const c9 = getLevelById("celebration_c9_the_match");
+    expect(c9?.playableBridge?.path).toBe("/chess/princes-game");
+    expect(c9?.playableBridge?.label).toBe("Play the Match");
+    expect(c9?.playableBridge?.description).toBeTruthy();
+  });
+
+  it("playable bridges only fire on the C9 keystone (no spurious wiring)", () => {
+    const withBridge = MATRIX_OF_DREAMS_LEVELS.filter((l) => l.playableBridge);
+    expect(withBridge.map((l) => l.id)).toEqual(["celebration_c9_the_match"]);
+  });
+
   it("every conspiracy clue id used by an episode is from the canonical clue list", () => {
     const allowedClues = new Set([
       "ghost_seen",

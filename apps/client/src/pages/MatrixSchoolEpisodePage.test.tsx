@@ -85,4 +85,10 @@ describe("MatrixSchoolEpisodePage — episode runtime", () => {
     expect(SRC).toContain("hamletClueFlag");
     expect(SRC).toContain("level?.conspiracyClue");
   });
+
+  it("renders the playable bridge CTA when the level declares one (e.g. C9 → /chess/princes-game)", () => {
+    expect(SRC).toContain("level.playableBridge");
+    expect(SRC).toContain("playableBridge.path");
+    expect(SRC).toContain("playableBridge.label");
+  });
 });

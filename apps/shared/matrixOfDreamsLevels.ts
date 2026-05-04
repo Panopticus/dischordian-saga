@@ -144,6 +144,19 @@ export interface MatrixLevelDefinition {
   readonly prereqEpisodes: readonly string[];
   /** Whether this episode is replayable for additional layers. */
   readonly replayable: boolean;
+  /**
+   * Optional playable bridge — when an episode has a corresponding
+   * interactive game/scene the player can step into mid-narrative
+   * (e.g. C9 The Match → the actual playable chess walkthrough at
+   * /chess/princes-game), this declares the route and CTA label.
+   * Surfaced in the runtime as a button on the episode completion
+   * screen.
+   */
+  readonly playableBridge?: Readonly<{
+    path: string;
+    label: string;
+    description?: string;
+  }>;
   /** Free-form notes for narrative authoring (not shown to player). */
   readonly authorNotes?: string;
 }
