@@ -17,6 +17,7 @@ import { useEffect } from "react";
 import { useLocation } from "wouter";
 import { useGame } from "@/contexts/GameContext";
 import { PreludeSequencePlayerConnected } from "@/components/prelude/PreludeSequencePlayerConnected";
+import RecruitStageVoiceOverlay from "@/components/prelude/RecruitStageVoiceOverlay";
 
 export default function PreludePage() {
   const { state } = useGame();
@@ -31,8 +32,11 @@ export default function PreludePage() {
   if (preludeComplete) return null;
 
   return (
-    <PreludeSequencePlayerConnected
-      onPreludeComplete={() => navigate("/ark")}
-    />
+    <>
+      <RecruitStageVoiceOverlay />
+      <PreludeSequencePlayerConnected
+        onPreludeComplete={() => navigate("/ark")}
+      />
+    </>
   );
 }
