@@ -4,10 +4,12 @@
 
    Flow: Pack Selection → Pack Rip → Card Reveals → Summary
    ═══════════════════════════════════════════════════════ */
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Package, Sparkles, ChevronRight, Star, X, Gem } from "lucide-react";
 import { CARD_VARIANTS, type CardVariant } from "../cardGameDepth";
+import { dischordiaSounds } from "./SoundManager";
+import { achievementFanfare, lootCelebration } from "@/lib/combatJuice";
 
 interface PackCard {
   id: string;
@@ -67,21 +69,58 @@ interface PackOpeningProps {
 
 type Phase = "intro" | "ripping" | "revealing" | "summary";
 
+/** Map a card rarity onto the SoundManager's authored reveal cues
+ *  (apps/client/src/game/duelyst/SoundManager.ts). The cues exist
+ *  for common/rare/epic/legendary; mythic + neyon ride the
+ *  legendary cue. Audit: the cues were authored but PackOpening
+ *  never called them — Stop 7 wires them. */
+function revealSoundForRarity(rarity: string): "card_reveal_common" | "card_reveal_rare" | "card_reveal_epic" | "card_reveal_legendary" {
+  if (rarity === "legendary" || rarity === "mythic" || rarity === "neyon") return "card_reveal_legendary";
+  if (rarity === "epic") return "card_reveal_epic";
+  if (rarity === "rare") return "card_reveal_rare";
+  return "card_reveal_common";
+}
+
 export default function PackOpening({ cards, packType, onComplete, onClose }: PackOpeningProps) {
   const [phase, setPhase] = useState<Phase>("intro");
   const [revealIndex, setRevealIndex] = useState(-1);
   const [revealedCards, setRevealedCards] = useState<PackCard[]>([]);
+  // Element ref used by lootCelebration to anchor the particle burst.
+  const revealCardRef = useRef<HTMLDivElement | null>(null);
 
   const pack = PACK_TYPES.find(p => p.id === packType) || PACK_TYPES[0];
 
   const handleRip = useCallback(() => {
     setPhase("ripping");
+    dischordiaSounds.play("pack_rip");
     // Ripping animation plays for 1.5 seconds, then start reveals
     setTimeout(() => {
       setPhase("revealing");
       setRevealIndex(0);
     }, 1500);
   }, []);
+
+  // When a new card surfaces during the revealing phase, play its
+  // rarity-specific cue + (rare+) burst a particle celebration around
+  // the card element. The DOM element is targeted via revealCardRef.
+  useEffect(() => {
+    if (phase !== "revealing" || revealIndex < 0) return;
+    const card = cards[revealIndex];
+    if (!card) return;
+    dischordiaSounds.play(revealSoundForRarity(card.rarity));
+    if (["rare", "epic", "legendary", "mythic", "neyon"].includes(card.rarity)) {
+      // Defer one frame so the card element has rendered.
+      const t = setTimeout(() => {
+        if (revealCardRef.current) {
+          // Map mythic + neyon onto the loot config's mythic key for
+          // the rainbow cascade; legendary keeps the gold burst.
+          const lootKey = card.rarity === "neyon" ? "mythic" : card.rarity;
+          lootCelebration(lootKey, revealCardRef.current);
+        }
+      }, 60);
+      return () => clearTimeout(t);
+    }
+  }, [phase, revealIndex, cards]);
 
   const handleRevealNext = useCallback(() => {
     if (revealIndex < cards.length - 1) {
@@ -90,7 +129,15 @@ export default function PackOpening({ cards, packType, onComplete, onClose }: Pa
     } else {
       // Last card revealed
       setRevealedCards(prev => [...prev, cards[revealIndex]]);
-      setTimeout(() => setPhase("summary"), 800);
+      // Summary fanfare — gold tier if any legendary+ pulled, silver
+      // otherwise. The fanfare honors prefers-reduced-motion internally.
+      const hasHighRarity = cards.some(c =>
+        ["legendary", "mythic", "neyon"].includes(c.rarity),
+      );
+      setTimeout(() => {
+        achievementFanfare(hasHighRarity ? "gold" : "silver");
+        setPhase("summary");
+      }, 800);
     }
   }, [revealIndex, cards]);
 
@@ -198,7 +245,7 @@ export default function PackOpening({ cards, packType, onComplete, onClose }: Pa
             )}
 
             {/* Card */}
-            <div className={`w-56 h-80 rounded-2xl border-2 overflow-hidden ${rarityStyle.bg} ${rarityStyle.border} ${rarityStyle.glow} transition-all`}>
+            <div ref={revealCardRef} className={`w-56 h-80 rounded-2xl border-2 overflow-hidden ${rarityStyle.bg} ${rarityStyle.border} ${rarityStyle.glow} transition-all`}>
               {/* Header: cost + rarity */}
               <div className="flex items-center justify-between px-3 pt-3">
                 <span className="w-8 h-8 flex items-center justify-center rounded-full void-bg-sunk void-text-energy font-mono text-sm font-bold">
