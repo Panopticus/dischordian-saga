@@ -70,6 +70,19 @@ export const WATCHER_COMMENTS: readonly CompanionComment[] = [
     timing: "immediate",
     maxPlays: 1,
   },
+  // ── ACT 2 (Stop 10) — first tab-hidden inside the narrative ──
+  // The Watcher's first direct address since Awakening. Lands when
+  // the operator has hidden the tab >= 30 seconds during Act 2.
+  // Once per account; the second-eye-open beat doesn't need a
+  // re-fire — once you know we're watching, you know.
+  {
+    id: "watcher_act2_tab_hidden",
+    speaker: "watcher",
+    trigger: "watcher_act2_tab_hidden",
+    voiceLine: "You looked away. We noted it.",
+    timing: "immediate",
+    maxPlays: 1,
+  },
 ];
 
 /** Helper for callers that want both COMPANION_COMMENTS and WATCHER_COMMENTS

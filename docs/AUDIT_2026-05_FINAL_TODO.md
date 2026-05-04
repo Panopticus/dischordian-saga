@@ -53,4 +53,5 @@ _None yet._
 | 6 | 2026-05-04 | DuelystGameUI match end | achievement fanfare + screen shake on win; KO slowmo on loss; pvp_retreat observation when conceded < turn 5 | 0 | 9dddab1 |
 | 7 | 2026-05-04 | PackOpening dopamine pass | wired pack_rip + card_reveal_<rarity> SoundManager cues; lootCelebration particles on rare+; achievementFanfare on summary | 0 | 4b32fe8 |
 | 8 | 2026-05-04 | Deck builder + unlock service | static audit only — no inline fixes (multi-surface fix) | 1 | d7468db |
-| 9 | 2026-05-04 | PvP entry + matchmaking | static audit — verified rank decay logic, no bot-fallback for empty queue | 1 | _pending_ |
+| 9 | 2026-05-04 | PvP entry + matchmaking | static audit — verified rank decay logic, no bot-fallback for empty queue | 1 | b5cb983 |
+| 10 | 2026-05-04 | Act 2 (Whisper) | verified substrate-ping already wired (audit plan was outdated); added tab_hidden detection + Watcher's first direct address ("You looked away. We noted it.") | 0 | _pending_ |

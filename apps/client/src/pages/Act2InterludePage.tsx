@@ -24,6 +24,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft, Ear, Play, X } from "lucide-react";
 import { useGame } from "@/contexts/GameContext";
 import { fireCompanionComment } from "@/lib/companionCommentQueue";
+import { observe as observeWatcher } from "@/lib/watcher";
 import { useActVO } from "@/hooks/useActVO";
 import { getActsSystemTutor } from "@shared/acts2to7SystemTutors";
 import LivingBackground from "@/components/LivingBackground";
@@ -78,6 +79,33 @@ export default function Act2InterludePage() {
       return () => window.clearTimeout(t);
     }
   }, [alreadyActivated, gameState.narrativeFlags, setNarrativeFlag, vo]);
+
+  // Watcher tab-hidden detection. If the operator hides the tab
+  // for >= 30 seconds while Act 2 is on screen, fire the Watcher's
+  // first direct address ("You looked away. We noted it.") on
+  // return. Once-per-account via WATCHER_COMMENTS maxPlays: 1.
+  useEffect(() => {
+    let hiddenAt: number | null = null;
+    const onVis = () => {
+      if (document.visibilityState === "hidden") {
+        hiddenAt = Date.now();
+      } else if (hiddenAt !== null) {
+        const seconds = Math.floor((Date.now() - hiddenAt) / 1000);
+        hiddenAt = null;
+        if (seconds >= 30) {
+          observeWatcher({
+            kind: "tab_hidden",
+            surface: "act2_interlude",
+            seconds,
+            at: Date.now(),
+          });
+          fireCompanionComment("watcher_act2_tab_hidden");
+        }
+      }
+    };
+    document.addEventListener("visibilitychange", onVis);
+    return () => document.removeEventListener("visibilitychange", onVis);
+  }, []);
 
   const tutor = getActsSystemTutor("dual_channel");
 
