@@ -24,7 +24,7 @@ _None yet._
 
 ## High (degrades opening / first hour)
 
-_None yet._
+- [ ] **`filterPlayerVisibleCards` / `isVisibleToPlayer` are uncalled outside their own tests** — Stop 8 — `apps/shared/tcg-core/cards/cardVisibility.ts` + `apps/shared/tcg-core/rewards/expansionUnlockService.ts` — the unified visibility helpers exist, are well-tested, and are correct, but no production surface invokes them. `apps/server/routers/cardGame.ts:128` (`browse`) returns all `isActive=1` rows without filtering by `unlockCondition`; `apps/client/src/pages/DeckBuilderPage.tsx:113` consumes `cardGame.browse` directly; pack-opening reward grants don't filter either. Result: act-gated S2 hierarchy cards (act_exclusives, special_editions, etc.) leak to fresh-save players. Fix needs a `PlayerExpansionState` accessor (server-side: read `userProgress.gameData.completedActs` + battle-pass tier + entitlements; client-side: cached over websocket), then `filterPlayerVisibleCards(rows, state)` at the end of `cardGame.browse`, the pack-opening pool builder, and reward-grant menus. Touches ~4 files but each is a small wrapper.
 
 ## Medium (degrades acts 2–7)
 
@@ -51,4 +51,5 @@ _None yet._
 | 4 | 2026-05-04 | Prelude Beat H | Watcher Locke-echo: 30s after "I am watching" bloom, surfaces "Locke is one of us. He just doesn't know it yet." | 0 | 51b9770 |
 | 5 | 2026-05-04 | ArkExplorer hub | locked_door_attempt observation; 3-attempt persistence Watcher line; verified tutorial orchestrator one-shot guard | 0 | 9d9a2f5 |
 | 6 | 2026-05-04 | DuelystGameUI match end | achievement fanfare + screen shake on win; KO slowmo on loss; pvp_retreat observation when conceded < turn 5 | 0 | 9dddab1 |
-| 7 | 2026-05-04 | PackOpening dopamine pass | wired pack_rip + card_reveal_<rarity> SoundManager cues; lootCelebration particles on rare+; achievementFanfare on summary | 0 | _pending_ |
+| 7 | 2026-05-04 | PackOpening dopamine pass | wired pack_rip + card_reveal_<rarity> SoundManager cues; lootCelebration particles on rare+; achievementFanfare on summary | 0 | 4b32fe8 |
+| 8 | 2026-05-04 | Deck builder + unlock service | static audit only — no inline fixes (multi-surface fix) | 1 | _pending_ |
