@@ -37,7 +37,8 @@ _None yet._
 
 ## Out of repo (Cades-FPS emit, asset CDN uploads, VO re-records)
 
-_None yet._
+- [ ] **Asset coverage probe needs CI run with AWS credentials** — Stop 18 — `scripts/_check-art-coverage.mjs` HEAD-checks 928 producer keys against the dgrsart S3 bucket; requires AWS_ACCESS_KEY_ID + AWS_SECRET_ACCESS_KEY. Run in a CI environment with credentials before any asset-touching release. Local audit verified in-repo invariants (preludeFlagContract, coverageProbeTitleVideos) pass cleanly.
+- [ ] **VO audit needs a manifest-walk run** — Stop 18 — `scripts/_vo-audit.mjs` walks the per-character VO manifests and reports orphaned line ids. Run before any narrative-text PR lands.
 
 ---
 
@@ -62,4 +63,5 @@ _None yet._
 | 14 | 2026-05-04 | Act 5 (Map) | verified Elara map-first-open beat already wired (audit plan was outdated); added chronosphere Watcher line | 0 | 92c6c7d |
 | 15 | 2026-05-04 | Act 6 (Confession) | unification reveal Watcher line: Architect/Panopticon/Source/Watcher as one entity | 0 | 4441c6b |
 | 16 | 2026-05-04 | Act 7 (Convergence) | grand-secret inheritance Watcher line; seven acts as interview | 0 | 8c9353a |
-| 17 | 2026-05-04 | Cross-system surfaces | static audit — verified architectDossier/dreamerDossier 404-shell pattern; logged 16 incomplete imprint art-prompt sets | 1 | _pending_ |
+| 17 | 2026-05-04 | Cross-system surfaces | static audit — verified architectDossier/dreamerDossier 404-shell pattern; logged 16 incomplete imprint art-prompt sets | 1 | adddb5f |
+| 18 | 2026-05-04 | Asset + VO sweep | in-repo invariant tests pass; logged that real CDN HEAD-check + VO audit need credentialed CI run | 2 | _pending_ |
