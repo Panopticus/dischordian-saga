@@ -136,6 +136,7 @@ apps/client/public/videos/
 apps/client/public/music/
 apps/client/public/games/
 apps/client/public/vfx-atlases/
+apps/client/public/vo/
 __pycache__/
 
 .env
@@ -143,5 +144,3 @@ __pycache__/
 !.env.example
 asset-coverage-report.json
 asset-liveness-report.json
-apps/client/public/audio/episodes/
-apps/client/public/audio/episodes/
