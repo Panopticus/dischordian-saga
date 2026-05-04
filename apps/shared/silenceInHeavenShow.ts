@@ -10,11 +10,13 @@
    audio plays under a themed title card.
 
    Album positions (1-indexed):
-     - odd  → dialog interlude (audio under title card)
+     - odd  → dialog interlude (authored beats, fall back to themed title card)
      - even → song with full slideshow
    Songs at album positions 2,4,…,36 map 1:1 to ALL_SIH_TRACKS[0..17].
-   Dialog interludes at positions 3,7,11,17,19,23 reuse the line
-   beats from SIH_INTER_TRACK_DIALOG; track 1 reuses SIH_PROLOGUE.
+   Dialog interludes at positions 3,5,…,37 each carry authored beats
+   from SIH_INTER_TRACK_DIALOG (afterTrack n → position n*2+1); track 1
+   reuses SIH_PROLOGUE. Each beat pairs a dialog background + narrator
+   expression from album5Slideshows.ts for the composite renderer.
    ═══════════════════════════════════════════════════════ */
 
 import albumAudio from "./silenceInHeavenAlbumAudio.json";

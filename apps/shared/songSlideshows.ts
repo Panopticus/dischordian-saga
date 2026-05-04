@@ -41,12 +41,6 @@ import {
   type Album4TrackDef,
   type Album4TrackId,
 } from "./expansionArt/album4Slideshows";
-import {
-  ALBUM5_TRACKS,
-  album5FrameUrl,
-  type Album5TrackDef,
-  type Album5TrackId,
-} from "./expansionArt/album5Slideshows";
 /* ─── LAST WORDS (§5.4) ─── */
 
 /**
@@ -648,72 +642,14 @@ function album4Slideshow(
   };
 }
 
-/* ─── ALBUM 5 — SILENCE IN HEAVEN ─── */
-
-/**
- * Per-track audio durations in ms. Album 5's producer manifest gives
- * exact runtimes (e.g. "5:15", "1:24") that translate directly. The
- * map below stays empty for now so the factory keeps the same fail-
- * loud contract as Albums 1-4 — fill in entries from the producer
- * MANIFEST.md as masters are ingested. The producer table to crib
- * from sits in the album5Slideshows.ts header comment.
+/* ─── ALBUM 5 — SILENCE IN HEAVEN ─── *
+ *
+ * Album 5's playback orchestration lives in apps/shared/silenceInHeavenShow.ts,
+ * which reads silenceInHeavenAlbumAudio.json (audio URLs at
+ * cdn/silence-in-heaven/<NN>-<slug>.mp3 + per-track durationMs) and ties to
+ * the 18 hand-authored song slideshows in slideshowData/silence-in-heaven/.
+ * No factory needed here.
  */
-const ALBUM5_AUDIO_DURATIONS_MS: Partial<Record<Album5TrackId, number>> = {};
-
-/**
- * Album 5 song-track factory. Dialog tracks need the
- * narrator-portrait + dialog-background composite renderer that
- * isn't built yet — calling this with a dialog track id throws so
- * accidental misuse is loud. Album 5's manifest exposes
- * ALBUM5_NARRATOR_PORTRAITS + ALBUM5_DIALOG_BACKGROUNDS for the
- * future composite system.
- */
-function album5Slideshow(
-  trackId: Album5TrackId,
-  opts: AlbumSlideshowOpts = {},
-): SongSlideshowDef {
-  const track: Album5TrackDef | undefined = ALBUM5_TRACKS.find((t) => t.id === trackId);
-  if (!track) throw new Error(`album5Slideshow: ${trackId} not in manifest`);
-  if (track.kind === "dialog") {
-    throw new Error(
-      `album5Slideshow: ${trackId} is a dialog track; use the dialog-composite renderer (not built yet)`,
-    );
-  }
-  const durationMs = ALBUM5_AUDIO_DURATIONS_MS[trackId];
-  if (durationMs === undefined) {
-    throw new Error(
-      `album5Slideshow: ${trackId} has no audio duration wired (see ALBUM5_AUDIO_DURATIONS_MS)`,
-    );
-  }
-  const titleUrl = album5FrameUrl(trackId, 1);
-  if (!titleUrl) throw new Error(`album5Slideshow: ${trackId} title card missing`);
-  // Album 5's producer naming is sih_t<nn>_f<NN>.png with no separate
-  // _00_title.png — frame 1 IS the title-coded first beat. Treat it
-  // as the title-card hero and run the rest as the slideshow.
-  const beatCount = track.frameRelPaths.length - 1;
-  const id = `album5-${trackId.toLowerCase()}-${albumIdSlug(track.title)}`;
-  const completionFlag = `slideshow_${id.replace(/-/g, "_")}_complete`;
-  const flagsSetOnComplete = [completionFlag, ...(opts.flagsSetOnComplete ?? [])];
-  return {
-    id,
-    songId: `album5_${trackId.toLowerCase()}`,
-    audioUrl: assetUrl(`audio/album5/${trackId}.mp3`),
-    durationMs,
-    title: track.title,
-    subtitle: opts.subtitle,
-    credits: `Album 5 · Silence in Heaven — ${trackId}`,
-    priority: opts.priority ?? "P1",
-    flagsSetOnComplete,
-    unlockLoredexEntry: opts.unlockLoredexEntry,
-    lightEnergyReward: opts.lightEnergyReward,
-    frames: buildAlbumFrames(beatCount, durationMs, (i) => album5FrameUrl(trackId, i), trackId),
-    reducedMotionFallback: {
-      heroImageUrl: titleUrl,
-      prose: `Track ${trackId} from "Silence in Heaven" — "${track.title}". ${beatCount} 16:9 cinematic beats over ${(durationMs / 60_000).toFixed(1)} minutes of cel-shaded anime mapping onto Revelation chapters 1-22.`,
-      closingLine: "Album 5 · Silence in Heaven.",
-    },
-  };
-}
 
 // Factories are exported as the public API. No ALBUM<N>_T<NN>_SLIDESHOW
 // constants are emitted here yet — those land per-track as audio
@@ -729,8 +665,6 @@ export {
   ALBUM3_AUDIO_DURATIONS_MS,
   album4Slideshow,
   ALBUM4_AUDIO_DURATIONS_MS,
-  album5Slideshow,
-  ALBUM5_AUDIO_DURATIONS_MS,
 };
 
 /* ─── WELCOME TO CELEBRATION (§4.3 Cycle A finale, §12 C2) ─── */
