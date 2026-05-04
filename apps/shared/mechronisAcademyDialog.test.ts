@@ -7,9 +7,23 @@ import {
 import { MECHRONIS_ACADEMY_EPISODES } from "./mechronisAcademyEpisodes";
 
 describe("mechronisAcademyDialog — vertical slice M1", () => {
-  it("registers scenes for the M1 keystone episode", () => {
-    expect(Object.keys(MECHRONIS_EPISODE_SCENE_MAP)).toContain(
-      "mechronis_m1_choric_compliance",
+  it("registers scenes for all 12 Mechronis episodes (keystone + part-2)", () => {
+    const episodeIds = Object.keys(MECHRONIS_EPISODE_SCENE_MAP).sort();
+    expect(episodeIds).toEqual(
+      [
+        "mechronis_m1_choric_compliance",
+        "mechronis_m2_applied_surveillance",
+        "mechronis_m3_the_trade_exercise",
+        "mechronis_m4_the_patrons_game",
+        "mechronis_m5_the_necromancers_lecture",
+        "mechronis_m6_the_antiquarian_visits",
+        "mechronis_m7_trade_practicum",
+        "mechronis_m8_the_apprentice_trial",
+        "mechronis_m9_the_oracles_counterclaim",
+        "mechronis_m10_the_final_exam",
+        "mechronis_m11_the_patrons_true_face",
+        "mechronis_m12_the_diploma_that_isnt",
+      ].sort(),
     );
   });
 
@@ -75,5 +89,49 @@ describe("mechronisAcademyDialog — vertical slice M1", () => {
     );
     const text = drillScene!.cues.map((c) => c.text).join(" ").toLowerCase();
     expect(text).toContain("metronome");
+  });
+
+  it("M6 — the Antiquarian visit has NO hidden agenda (canon: only honest visiting voice)", () => {
+    const scene = MECHRONIS_ACADEMY_SCENES.find(
+      (s) => s.id === "mechronis_m6_scene_1_the_guest_lecture",
+    );
+    expect(scene).toBeDefined();
+    const text = scene!.cues.map((c) => c.text).join(" ").toLowerCase();
+    // The Antiquarian's archival register
+    expect(text).toContain("artifact");
+  });
+
+  it("M7 — Veska's market sim narrative includes her defection beat", () => {
+    const scene = MECHRONIS_ACADEMY_SCENES.find(
+      (s) => s.id === "mechronis_m7_scene_2_full_marks",
+    );
+    expect(scene).toBeDefined();
+    const text = scene!.cues.map((c) => c.text).join(" ").toLowerCase();
+    expect(text).toContain("eight sectors");
+  });
+
+  it("M12 — the Dreamer becomes audible (today, not whispered) for the diploma choice", () => {
+    const scene = MECHRONIS_ACADEMY_SCENES.find(
+      (s) => s.id === "mechronis_m12_scene_1_the_hall",
+    );
+    expect(scene).toBeDefined();
+    const dreamerCues = scene!.cues.filter((c) => c.speaker === "the_dreamer");
+    expect(dreamerCues.length).toBeGreaterThan(0);
+  });
+
+  it("Mechronis Professors NEVER say 'we' across all part-2 episodes (no individual learning)", () => {
+    const professorSpeakers = new Set([
+      "the_architect",
+      "headmaster_kanevas",
+      "professor_aoki",
+      "curator_halverez",
+      "the_patron",
+    ]);
+    for (const scene of MECHRONIS_ACADEMY_SCENES) {
+      for (const cue of scene.cues) {
+        if (!professorSpeakers.has(cue.speaker)) continue;
+        expect(cue.text).not.toMatch(/\bwe\b/i);
+      }
+    }
   });
 });
