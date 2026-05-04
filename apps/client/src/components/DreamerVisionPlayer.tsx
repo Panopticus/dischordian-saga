@@ -35,9 +35,14 @@ import { useEffect, useMemo, useRef } from "react";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { useGame } from "@/contexts/GameContext";
 import { useWitnessingStore } from "@/stores/witnessingStore";
+import { recordMemorableMoment } from "@/stores/memorableMomentsStore";
 import { trpc } from "@/lib/trpc";
 import { getSlideshow } from "@shared/songSlideshows";
 import { DREAMER_VISIONS } from "@shared/dreamerVisions";
+import {
+  findProphecyForFlag,
+  resolveBookend,
+} from "@shared/prophecyVisionMap";
 
 function resolveSlideshowDef(slideshowId: string) {
   const direct = getSlideshow(slideshowId);
@@ -116,6 +121,29 @@ export default function DreamerVisionPlayer(): null {
     trpc.dreamerVisions.markVisionReceived.useMutation();
   const queueProphecyMutation =
     trpc.dreamerVisions.queueProphecyVision.useMutation();
+  const backfillMutation =
+    trpc.dreamerVisions.runProphecyBackfill.useMutation();
+  const backfillFiredRef = useRef(false);
+
+  // Lazy retroactive Witness credit. On first authenticated mount,
+  // ship the player's narrativeFlags map to the server so any
+  // slideshow they watched before the prophecy system shipped lands
+  // in their Witness ladder. Idempotent — safe to fire on every
+  // session, but we gate to once per page load.
+  useEffect(() => {
+    if (backfillFiredRef.current) return;
+    if (!isAuthenticated) return;
+    backfillFiredRef.current = true;
+    backfillMutation.mutate({
+      narrativeFlags: game.state.narrativeFlags ?? {},
+      currentAct: eligibility.currentAct,
+    });
+  }, [
+    isAuthenticated,
+    backfillMutation,
+    game.state.narrativeFlags,
+    eligibility.currentAct,
+  ]);
 
   // Install the global reactor that GameContext.setNarrativeFlag
   // calls on every false→true transition. Living in this component
@@ -124,6 +152,21 @@ export default function DreamerVisionPlayer(): null {
   useEffect(() => {
     if (!isAuthenticated) return;
     const reactor = (flagId: string) => {
+      // Static-tier visions don't mutate any DB rows server-side —
+      // the server returns intensity:"static" and trusts the client
+      // to emit the memorable-moment stamp. Marquee + Whisper paths
+      // mutate dreamer_awareness; their result is informational.
+      const vision = findProphecyForFlag(flagId);
+      if (vision?.intensity === "static") {
+        const bookend = resolveBookend(vision);
+        const stamp = bookend?.opening.text ?? `A vision stirred: ${vision.id}`;
+        recordMemorableMoment(
+          "slideshow_watched",
+          stamp,
+          undefined,
+          { slideshowId: vision.slideshowId, prophecyId: vision.id, tier: "static_echo" },
+        );
+      }
       queueProphecyMutation.mutate({
         flagId,
         currentAct: eligibility.currentAct,

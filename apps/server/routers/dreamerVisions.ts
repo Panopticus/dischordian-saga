@@ -54,6 +54,7 @@ import {
   type EligibilitySnapshot,
 } from "../services/prophecyQueue";
 import { evaluateAndGrant } from "../services/prophecyAchievements";
+import { backfillProphecyCredit } from "../services/prophecyBackfill";
 import {
   getProphecyVisionById,
   resolveBookend,
@@ -251,6 +252,26 @@ export const dreamerVisionsRouter = router({
     }
     return progress;
   }),
+
+  /* ─── Retroactive Witness credit ─── */
+  /** Backfill credit for a player who watched slideshows before the
+   *  prophecy system shipped. The client passes its narrativeFlags
+   *  map; the server credits any prophecy whose bound flag is set
+   *  but whose vision hasn't been received / viewed yet. Idempotent. */
+  runProphecyBackfill: protectedProcedure
+    .input(
+      z.object({
+        narrativeFlags: z.record(z.string(), z.boolean()),
+        currentAct: z.number().int().min(0).max(7).default(1),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      return backfillProphecyCredit(
+        ctx.user.id,
+        input.narrativeFlags,
+        input.currentAct >= 7,
+      );
+    }),
 
   /* ─── Dream-mode bookend resolver (used by free-browse paths
         that want to render a vision with its bookend even when

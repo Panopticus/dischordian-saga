@@ -29,6 +29,8 @@ import {
   AGE_OF_REVELATION_VOTES,
   FALL_OF_REALITY_VOTES,
 } from "./epochWitnessVotesLate";
+import { PROPHECY_VISIONS } from "./prophecyVisionMap";
+import { SONG_SLIDESHOWS } from "./songSlideshows";
 
 const REPO_ROOT = path.resolve(__dirname, "..", "..");
 
@@ -58,6 +60,13 @@ const KNOWN_ORPHANS: ReadonlyArray<{ flag: string; gap: string }> = [
   // TomePlacement.flagReq aspirational gates that pre-existed before
   // the #300/#306 rewire. These are content-future, not bugs.
   { flag: "hierarchy_discovered", gap: "PRODUCED — keep here only if test fails; otherwise remove" },
+
+  // Prophecy vision bindings — the First Visitation is delivered via
+  // the legacy awareness-threshold path (Vision 1), not via the
+  // narrative-flag reactor, so its binding flag has no setNarrativeFlag
+  // producer. Kept in the registry as a documentary entry so the
+  // Antiquarian's Index can render the First Visitation tile.
+  { flag: "dreamer_awareness_threshold_3", gap: "virtual — fires via dreamerAwareness threshold crossing, not setNarrativeFlag" },
 ];
 
 const ALL_VOTES = [
@@ -105,6 +114,13 @@ function collectProducedFlags(): Set<string> {
   // through setNarrativeFlag so for the audit's purposes the flag is
   // produced.
   const serverEmitRe = /unlockedFlags\.push\(\s*["']([a-z][a-zA-Z0-9_]+)["']/g;
+  // Slideshow completion-flag arrays — `flagsSetOnComplete: ["foo",
+  // "bar"]`. SlideshowPlayerRoot iterates each entry and calls
+  // setNarrativeFlag, so for the audit's purposes every entry is
+  // produced. Multi-line arrays are tolerated.
+  const flagsArrayRe =
+    /flagsSetOnComplete\s*:\s*\[([\s\S]*?)\]/g;
+  const flagInArrayRe = /["']([a-z][a-zA-Z0-9_]+)["']/g;
   for (const dir of SCAN_DIRS) {
     for (const file of walk(dir)) {
       if (file.endsWith(".test.ts") || file.endsWith(".test.tsx") || file.endsWith(".spec.ts")) continue;
@@ -113,6 +129,11 @@ function collectProducedFlags(): Set<string> {
       while ((m = literalRe.exec(src)) !== null) produced.add(m[1]);
       while ((m = templateRe.exec(src)) !== null) produced.add(`__template:${m[1]}_*`);
       while ((m = serverEmitRe.exec(src)) !== null) produced.add(m[1]);
+      while ((m = flagsArrayRe.exec(src)) !== null) {
+        const inner = m[1];
+        let f: RegExpExecArray | null;
+        while ((f = flagInArrayRe.exec(inner)) !== null) produced.add(f[1]);
+      }
     }
   }
   return produced;
@@ -163,6 +184,16 @@ function detectDynamicSuffixes(produced: Set<string>) {
 describe("Narrative flag audit — orphan gates", () => {
   const produced = collectProducedFlags();
   detectDynamicSuffixes(produced);
+  // Slideshow completion flags are computed at build time
+  // (`slideshow_${id.replace(/-/g, "_")}_complete`) so the static
+  // regex scan can't see them. Pull them from the live registry
+  // instead — SlideshowPlayerRoot fires every entry of
+  // flagsSetOnComplete via setNarrativeFlag, so they are produced.
+  for (const def of Object.values(SONG_SLIDESHOWS)) {
+    for (const flag of def.flagsSetOnComplete ?? []) {
+      produced.add(flag);
+    }
+  }
 
   // Every gate-consumer surface this audit covers. Add new sources here
   // as the codebase grows new gating mechanisms.
@@ -177,6 +208,13 @@ describe("Narrative flag audit — orphan gates", () => {
   );
   for (const m of livingArkSrc.matchAll(/flagReq:\s*"([a-z][a-zA-Z0-9_]+)"/g)) {
     consumed.add(m[1]);
+  }
+  // Prophecy vision bindings — the prophecy queue listens for these
+  // flag transitions to enqueue marquee dreams and unlock Whisper /
+  // Static visions in the Antiquarian's Index. A binding without a
+  // producer means the vision will never fire.
+  for (const v of PROPHECY_VISIONS) {
+    consumed.add(v.flagId);
   }
 
   it("every consumed gate flag is either produced, or a known orphan", () => {

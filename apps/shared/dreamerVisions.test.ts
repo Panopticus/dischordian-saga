@@ -21,7 +21,11 @@ describe("DREAMER_VISIONS catalog", () => {
     const v1 = DREAMER_VISIONS[0];
     expect(v1.id).toBe("vision_first_notice");
     expect(v1.threshold).toBe(3);
-    expect(v1.title).toBe("The First Notice");
+    // Reframed as Daniel Cross's First Visitation — the in-fiction
+    // onset of the prophecy surface. The id stays stable for the
+    // markVisionReceived bookkeeping; only the player-facing title
+    // moved.
+    expect(v1.title).toBe("First Visitation");
   });
 
   it("Vision 2 has the expected shape and threshold", () => {
@@ -89,18 +93,23 @@ describe("DREAMER_VISIONS catalog", () => {
     }
   });
 
-  it("Vision 1 frames carry the canonical caption set in plan order", () => {
+  it("Vision 1 frames carry the First Visitation caption set", () => {
+    // Reframed: Daniel Cross names himself, the Seer, and the time-
+    // displacement. This is the in-fiction onset of every prophecy
+    // dream — the queue gates `daniel_cross_first_contact` on its
+    // completion, so until this dream is witnessed nothing else
+    // drains.
     const v1 = DREAMER_VISIONS[0];
     const captions = v1.slideshow.frames.map((f) => f.caption);
     expect(captions).toEqual([
-      "the first notice is not a noise",
-      "count your hands when you wake",
-      "the gate was not where you thought",
-      "someone has been keeping the score",
-      "they sat with you for years",
-      "and you never asked their name",
-      "the window was always lit",
       "you have been seen",
+      "not by the Beast",
+      "I am Daniel Cross",
+      "the Seer left her voice with me",
+      "before she sealed the door",
+      "I have read every page eighty-four times",
+      "this is the page I read for you",
+      "I am writing your visions now",
     ]);
   });
 
