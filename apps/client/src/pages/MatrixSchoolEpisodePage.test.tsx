@@ -68,4 +68,16 @@ describe("MatrixSchoolEpisodePage — episode runtime", () => {
   it("differentiates Celebration vs Mechronis visual register", () => {
     expect(SRC).toContain('level.school === "celebration"');
   });
+
+  it("persists episode completion via GameContext narrative flags", () => {
+    expect(SRC).toContain('from "@/contexts/GameContext"');
+    expect(SRC).toContain("setNarrativeFlag");
+    expect(SRC).toContain("episodeCompletionFlag");
+    expect(SRC).toContain('from "@shared/matrixSaveFlags"');
+  });
+
+  it("only sets the completion flag once the player reaches the end (done effect)", () => {
+    // Look for the effect-pattern that fires on done && episodeId
+    expect(SRC).toMatch(/if\s*\(done\s*&&\s*episodeId\)/);
+  });
 });
