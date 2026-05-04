@@ -357,7 +357,11 @@ async function main() {
     const checkUrl = typeof existing === "string" && existing.startsWith("http")
       ? existing
       : `https://${BUCKET}.s3.${REGION}.amazonaws.com/${S3_PREFIX.split(" ").join("+")}/${s3Folder}/${line.lineId}.mp3`;
-    if (await headExists(checkUrl)) {
+    const exists = await headExists(checkUrl);
+    if (process.env.VO_DEBUG) {
+      console.log(`  [head] ${exists ? "200" : "MISS"} ${line.lineId} ← ${checkUrl}`);
+    }
+    if (exists) {
       skipped.push(line.lineId);
       continue;
     }
