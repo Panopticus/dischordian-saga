@@ -61,6 +61,11 @@ export function WatcherHost(): null {
         fireCompanionComment("watcher_act4_5_three_retreats");
       }
     }
+    // Stop 14 — Act 5 (Map): chronosphere-placement tell. The
+    // delayed_5s timing means the line follows Elara's
+    // "seventeen thousand years" map-first-open beat rather than
+    // racing it.
+    if (act >= 5) fireCompanionComment("watcher_act5_chronosphere");
   }, [state.narrativeAct]);
 
   return null;

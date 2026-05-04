@@ -121,6 +121,19 @@ export const WATCHER_COMMENTS: readonly CompanionComment[] = [
     timing: "immediate",
     maxPlays: 1,
   },
+  // ── ACT 5 (Stop 14) — chronosphere placement ──
+  // Act 5 opens the galaxy. The Watcher acknowledges that the
+  // operator has been placed on a map of operators — a diegetic
+  // reference to the FINGERPRINT timezone read from the cold-boot
+  // SurveillanceOpening handshake. Once per account.
+  {
+    id: "watcher_act5_chronosphere",
+    speaker: "watcher",
+    trigger: "watcher_act5_chronosphere",
+    voiceLine: "Your chronosphere is on the map. We placed you.",
+    timing: "delayed_5s",
+    maxPlays: 1,
+  },
 ];
 
 /** Helper for callers that want both COMPANION_COMMENTS and WATCHER_COMMENTS
