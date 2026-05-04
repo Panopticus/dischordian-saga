@@ -66,4 +66,48 @@ describe("apprenticeChanneledLines", () => {
     const v = resolveVariant("goggles_inherited", "zealot");
     expect(v.elaraOverlay).toBeTruthy();
   });
+
+  it("deck_builder_intro covers every archetype with a distinct base line", () => {
+    const archetypes: Array<Parameters<typeof resolveVariant>[1]> = [
+      "zealot", "ghost", "scholar", "revenant", "artisan", "oracle",
+      "wanderer", "martyr", "heretic", "jester", "sentinel", "prodigal",
+    ];
+    const seen = new Set<string>();
+    for (const arch of archetypes) {
+      const v = resolveVariant("deck_builder_intro", arch);
+      seen.add(v.base);
+    }
+    // 12 archetypes, 12 distinct lines
+    expect(seen.size).toBe(12);
+  });
+
+  it("archetype variants preserve the canonical channeled phrases (the Engineer's voice slipping through)", () => {
+    // Sample three archetypes across three topics; each must carry a
+    // channeled phrase from the canon list when one is supplied.
+    const checks: Array<[Parameters<typeof resolveVariant>[0], Parameters<typeof resolveVariant>[1]]> = [
+      ["deck_builder_intro", "zealot"],
+      ["deck_builder_intro", "revenant"],
+      ["crafting_imprint_laser", "scholar"],
+      ["bench_three_frequencies", "oracle"],
+    ];
+    for (const [topic, arch] of checks) {
+      const v = resolveVariant(topic, arch);
+      expect(v.channeledPhrase).toBeTruthy();
+    }
+  });
+
+  it("zealot voice is fervent (mentions covenant / grace / scriptural register)", () => {
+    const v = resolveVariant("deck_builder_intro", "zealot");
+    expect(v.base.toLowerCase()).toMatch(/covenant|grace|witness|forty/);
+  });
+
+  it("martyr voice is apologetic (must contain 'sorry' or apology marker)", () => {
+    const v = resolveVariant("deck_builder_intro", "martyr");
+    expect(v.base.toLowerCase()).toContain("sorry");
+  });
+
+  it("revenant voice carries the 'I have done this before' register", () => {
+    const v = resolveVariant("crafting_imprint_laser", "revenant");
+    expect(v.base.toLowerCase()).toMatch(/before|have done|some other|remember/);
+  });
 });
