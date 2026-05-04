@@ -39,6 +39,57 @@ import { useGame } from "@/contexts/GameContext";
 
 /* ─── Helpers ─── */
 
+interface Playhead {
+  sceneIndex: number;
+  cueIndex: number;
+}
+
+const PLAYHEAD_STORAGE_PREFIX = "matrix_episode_playhead:";
+
+function playheadKey(episodeId: string): string {
+  return `${PLAYHEAD_STORAGE_PREFIX}${episodeId}`;
+}
+
+function readPlayhead(episodeId: string): Playhead {
+  if (!episodeId) return { sceneIndex: 0, cueIndex: 0 };
+  if (typeof window === "undefined") return { sceneIndex: 0, cueIndex: 0 };
+  try {
+    const raw = window.localStorage.getItem(playheadKey(episodeId));
+    if (!raw) return { sceneIndex: 0, cueIndex: 0 };
+    const parsed = JSON.parse(raw) as Partial<Playhead>;
+    const sceneIndex = Number.isFinite(parsed.sceneIndex)
+      ? Math.max(0, Math.floor(parsed.sceneIndex as number))
+      : 0;
+    const cueIndex = Number.isFinite(parsed.cueIndex)
+      ? Math.max(0, Math.floor(parsed.cueIndex as number))
+      : 0;
+    return { sceneIndex, cueIndex };
+  } catch {
+    return { sceneIndex: 0, cueIndex: 0 };
+  }
+}
+
+function writePlayhead(episodeId: string, head: Playhead): void {
+  if (!episodeId) return;
+  if (typeof window === "undefined") return;
+  try {
+    window.localStorage.setItem(playheadKey(episodeId), JSON.stringify(head));
+  } catch {
+    // Storage may be full or disabled; the runtime degrades to non-resuming
+    // playback, which is harmless.
+  }
+}
+
+function clearPlayhead(episodeId: string): void {
+  if (!episodeId) return;
+  if (typeof window === "undefined") return;
+  try {
+    window.localStorage.removeItem(playheadKey(episodeId));
+  } catch {
+    // Same as writePlayhead — non-fatal.
+  }
+}
+
 function loadScenesForEpisode(episodeId: string): readonly DialogScene[] {
   // First check the Celebration map, then the Mechronis map.
   if (episodeId in CELEBRATION_EPISODE_SCENE_MAP) {
@@ -64,14 +115,23 @@ export default function MatrixSchoolEpisodePage() {
   );
   const scenes = useMemo(() => loadScenesForEpisode(episodeId), [episodeId]);
 
-  const [sceneIndex, setSceneIndex] = useState(0);
-  const [cueIndex, setCueIndex] = useState(0);
+  // Restore playhead from localStorage on mount. If the player departed
+  // the episode mid-flow (e.g. via the playable bridge), they resume here.
+  const initial = useMemo(() => readPlayhead(episodeId), [episodeId]);
+  const [sceneIndex, setSceneIndex] = useState(initial.sceneIndex);
+  const [cueIndex, setCueIndex] = useState(initial.cueIndex);
   const [done, setDone] = useState(false);
+  /** Mid-episode bridge gate — set when a scene completes that matches
+   *  level.playableBridgeAfterScene. The runtime renders the bridge
+   *  panel; the player chooses to play or to skip and continue. */
+  const [bridgeOffered, setBridgeOffered] = useState(false);
 
   useEffect(() => {
-    setSceneIndex(0);
-    setCueIndex(0);
+    const restored = readPlayhead(episodeId);
+    setSceneIndex(restored.sceneIndex);
+    setCueIndex(restored.cueIndex);
     setDone(false);
+    setBridgeOffered(false);
   }, [episodeId]);
 
   // Persist completion flag the first time the player reaches the end
@@ -85,8 +145,18 @@ export default function MatrixSchoolEpisodePage() {
       if (level?.conspiracyClue) {
         setNarrativeFlag(hamletClueFlag(level.conspiracyClue), true);
       }
+      // Episode finished — clear the playhead so a clean replay starts at scene 0.
+      clearPlayhead(episodeId);
     }
   }, [done, episodeId, level, setNarrativeFlag]);
+
+  // Persist the playhead whenever it advances. Localized to localStorage
+  // (not GameContext flags, since flags are boolean-only here).
+  useEffect(() => {
+    if (!episodeId) return;
+    if (done) return;
+    writePlayhead(episodeId, { sceneIndex, cueIndex });
+  }, [episodeId, sceneIndex, cueIndex, done]);
 
   const advance = () => {
     if (done) return;
@@ -97,6 +167,18 @@ export default function MatrixSchoolEpisodePage() {
     const currentScene = scenes[sceneIndex];
     if (cueIndex < currentScene.cues.length - 1) {
       setCueIndex(cueIndex + 1);
+      return;
+    }
+    // End of scene — check whether a mid-episode playable bridge is
+    // configured to surface here. If so, pause the runtime; the player
+    // chooses to play the bridge or skip past it.
+    const justFinishedScene = currentScene;
+    if (
+      level?.playableBridge &&
+      level.playableBridgeAfterScene === justFinishedScene.id &&
+      !bridgeOffered
+    ) {
+      setBridgeOffered(true);
       return;
     }
     if (sceneIndex < scenes.length - 1) {
@@ -155,34 +237,59 @@ export default function MatrixSchoolEpisodePage() {
           <p className="text-zinc-400 italic mt-1 text-sm">{level.beat}</p>
         </div>
 
-        <div
-          className={`rounded-lg border p-8 cursor-pointer select-none ${themeAccent}`}
-          onClick={advance}
-          role="button"
-          tabIndex={0}
-          onKeyDown={(e) => {
-            if (e.key === " " || e.key === "Enter") {
-              e.preventDefault();
-              advance();
-            }
-          }}
-        >
-          {!done ? (
-            <CueRender cue={cue} scene={scene} keySuffix={`${sceneIndex}-${cueIndex}`} />
-          ) : (
-            <EpisodeComplete
-              level={level}
-              onReturn={() => setLocation("/hellbox")}
-              onReplay={() => {
-                setSceneIndex(0);
+        {bridgeOffered && level.playableBridge ? (
+          <MidEpisodeBridge
+            level={level}
+            onPlay={() => {
+              // Persist the playhead at the END of the just-finished scene.
+              // When the player returns from the bridge, they land in the
+              // NEXT scene at cue 0.
+              const nextScene = Math.min(sceneIndex + 1, scenes.length - 1);
+              writePlayhead(episodeId, { sceneIndex: nextScene, cueIndex: 0 });
+              window.location.assign(level.playableBridge!.path);
+            }}
+            onSkip={() => {
+              setBridgeOffered(false);
+              if (sceneIndex < scenes.length - 1) {
+                setSceneIndex(sceneIndex + 1);
                 setCueIndex(0);
-                setDone(false);
-              }}
-            />
-          )}
-        </div>
+              } else {
+                setDone(true);
+              }
+            }}
+          />
+        ) : (
+          <div
+            className={`rounded-lg border p-8 cursor-pointer select-none ${themeAccent}`}
+            onClick={advance}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === " " || e.key === "Enter") {
+                e.preventDefault();
+                advance();
+              }
+            }}
+          >
+            {!done ? (
+              <CueRender cue={cue} scene={scene} keySuffix={`${sceneIndex}-${cueIndex}`} />
+            ) : (
+              <EpisodeComplete
+                level={level}
+                onReturn={() => setLocation("/hellbox")}
+                onReplay={() => {
+                  clearPlayhead(episodeId);
+                  setSceneIndex(0);
+                  setCueIndex(0);
+                  setDone(false);
+                  setBridgeOffered(false);
+                }}
+              />
+            )}
+          </div>
+        )}
 
-        {!done && (
+        {!done && !bridgeOffered && (
           <p className="text-center text-xs text-zinc-600 mt-4">
             click the panel or press space / enter to advance
           </p>
@@ -231,6 +338,57 @@ function prettySpeaker(speaker: string): string {
     .split("_")
     .map((part) => (part.length > 0 ? part[0].toUpperCase() + part.slice(1) : part))
     .join(" ");
+}
+
+/* ─── Mid-episode playable bridge ─── */
+
+function MidEpisodeBridge({
+  level,
+  onPlay,
+  onSkip,
+}: {
+  level: MatrixLevelDefinition;
+  onPlay: () => void;
+  onSkip: () => void;
+}) {
+  if (!level.playableBridge) return null;
+  return (
+    <div
+      className="rounded-lg border border-amber-700/50 bg-amber-950/20 p-8"
+      data-component="mid-episode-bridge"
+      data-episode={level.id}
+    >
+      <div className="text-xs uppercase tracking-widest text-amber-400 mb-2">
+        Take a hand in the moment
+      </div>
+      <h2 className="text-xl font-semibold mb-3">{level.playableBridge.label}</h2>
+      {level.playableBridge.description && (
+        <p className="text-sm text-zinc-300 mb-5 leading-relaxed">
+          {level.playableBridge.description}
+        </p>
+      )}
+      <p className="text-xs text-zinc-500 italic mb-5">
+        Stepping into the game pauses the chamber. When you return, the next
+        scene picks up where you left off.
+      </p>
+      <div className="flex items-center gap-3">
+        <button
+          type="button"
+          onClick={onPlay}
+          className="inline-flex items-center justify-center px-4 py-2 rounded-md border border-amber-600 bg-amber-900/30 hover:bg-amber-900/50 text-sm transition-colors"
+        >
+          {level.playableBridge.label} →
+        </button>
+        <button
+          type="button"
+          onClick={onSkip}
+          className="text-sm px-4 py-2 rounded-md border border-zinc-700 hover:border-zinc-500 transition-colors"
+        >
+          Skip and watch
+        </button>
+      </div>
+    </div>
+  );
 }
 
 /* ─── Empty / fallback states ─── */
