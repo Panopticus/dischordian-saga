@@ -44,6 +44,20 @@ export const WATCHER_COMMENTS: readonly CompanionComment[] = [
     timing: "immediate",
     maxPlays: 1,
   },
+  // ── PRELUDE BEAT H (Stop 4) — Locke echo ──
+  // Fires 30s after the "I am watching" cyan bloom in BeatHInbox. The
+  // Watcher acknowledges what the operator just read. Locke himself
+  // does not know he's part of the same surveillance the Watcher
+  // serves; that's the seed Acts 6/7 harvest. `maxPlays: 1` keeps it
+  // a once-per-account beat.
+  {
+    id: "watcher_prelude_locke_echo",
+    speaker: "watcher",
+    trigger: "watcher_locke_echo",
+    voiceLine: "Locke is one of us. He just doesn't know it yet.",
+    timing: "immediate",
+    maxPlays: 1,
+  },
 ];
 
 /** Helper for callers that want both COMPANION_COMMENTS and WATCHER_COMMENTS

@@ -38,7 +38,7 @@ export function WatcherHost(): null {
   //   useEffect(() => {
   //     const log = readLog();
   //     if (countByKind(log, "first_dissent") > 0 && /* ... */) {
-  //       fireCompanionComment({ trigger: "watcher_act2_seen_dissent" });
+  //       fireCompanionComment("watcher_act2_seen_dissent");
   //     }
   //   }, [/* scheduler context */]);
 
