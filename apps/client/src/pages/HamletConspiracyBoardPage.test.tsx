@@ -64,4 +64,30 @@ describe("HamletConspiracyBoardPage — Artist Prince mystery board", () => {
     expect(SRC).toContain("availableConnections");
     expect(SRC).toContain("connectionsMade.has");
   });
+
+  describe("LucasArts mystery / corkboard polish", () => {
+    it("renders pinned-paper rotations on found clues (data-found attribute + rotate utilities)", () => {
+      expect(SRC).toContain("data-found");
+      expect(SRC).toMatch(/rotate-\d|-rotate-\d/);
+      // Pin-head dot (red, upper-left)
+      expect(SRC).toContain("rounded-full bg-red-700");
+    });
+
+    it("renders the connections panel as red threads (border-l-red on pinned + available)", () => {
+      expect(SRC).toContain("border-l-red");
+    });
+
+    it("uses the Antiquarian's archival framing in the header copy", () => {
+      expect(SRC).toContain("treats grief like a vintage");
+    });
+
+    it("frames connections as 'threads' rather than generic links (LucasArts conspiracy register)", () => {
+      expect(SRC).toContain("Pin this thread");
+      expect(SRC).toContain("Threads ·");
+    });
+
+    it("uses font-mono for the metadata (typewritten archive register)", () => {
+      expect(SRC).toContain("font-mono");
+    });
+  });
 });

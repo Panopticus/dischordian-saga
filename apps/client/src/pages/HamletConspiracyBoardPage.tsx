@@ -95,7 +95,12 @@ export default function HamletConspiracyBoardPage() {
   return (
     <div
       data-page="hamlet-conspiracy-board"
-      className="min-h-screen bg-zinc-950 text-zinc-100 px-6 py-8"
+      className="min-h-screen bg-gradient-to-b from-stone-950 via-stone-900 to-stone-950 text-zinc-100 px-6 py-8"
+      style={{
+        // Subtle corkboard texture — radial dots evoking pinholes.
+        backgroundImage:
+          "radial-gradient(circle at 20% 30%, rgba(180,140,90,0.04) 0%, transparent 50%), radial-gradient(circle at 80% 70%, rgba(120,90,60,0.03) 0%, transparent 50%)",
+      }}
     >
       <header className="max-w-5xl mx-auto mb-8 flex items-center justify-between">
         <Link
@@ -105,17 +110,22 @@ export default function HamletConspiracyBoardPage() {
           <ChevronLeft size={18} />
           <span>Back</span>
         </Link>
-        <div className="text-zinc-500 text-sm tabular-nums">
+        <div className="text-amber-200/60 text-xs uppercase tracking-widest tabular-nums font-mono">
           {completion}% of the board pinned
         </div>
       </header>
 
       <main className="max-w-5xl mx-auto space-y-8">
         <div>
-          <div className="text-xs uppercase tracking-widest text-zinc-500">
+          <div className="text-xs uppercase tracking-widest text-amber-300/70 font-mono">
             The Antiquarian's Conspiracy Board
           </div>
-          <h1 className="text-2xl font-semibold mt-1">How did the first Celebration end?</h1>
+          <h1 className="text-2xl font-semibold mt-1 text-amber-50">
+            How did the first Celebration end?
+          </h1>
+          <p className="text-zinc-400 italic text-sm mt-2 max-w-2xl">
+            Pin what you find. Connect what reads true. The Antiquarian files everything; he treats grief like a vintage.
+          </p>
         </div>
 
         <CluesGrid cluesCollected={cluesCollected} />
@@ -143,22 +153,39 @@ export default function HamletConspiracyBoardPage() {
 /* ─── Clues grid ─── */
 
 function CluesGrid({ cluesCollected }: { cluesCollected: ReadonlySet<ClueId> }) {
+  // Subtle deterministic rotations so found clues feel pinned, not gridded.
+  // Index-based and stable so the layout doesn't jitter on re-render.
+  const rotations = ["-rotate-1", "rotate-0", "rotate-1", "-rotate-2", "rotate-2", "rotate-0", "-rotate-1", "rotate-1"];
   return (
     <section>
-      <h2 className="text-sm uppercase tracking-widest text-zinc-400 mb-3">
-        Clues · {cluesCollected.size} / {CLUE_CARDS.length}
+      <h2 className="text-sm uppercase tracking-widest text-amber-300/70 mb-3 font-mono">
+        Clues pinned · {cluesCollected.size} / {CLUE_CARDS.length}
       </h2>
-      <ul className="grid md:grid-cols-2 lg:grid-cols-4 gap-3">
-        {CLUE_CARDS.map((card) => {
+      <ul className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 pt-2">
+        {CLUE_CARDS.map((card, i) => {
           const found = cluesCollected.has(card.id);
+          const rot = found ? rotations[i % rotations.length] : "rotate-0";
           return (
             <li
               key={card.id}
-              className={`rounded-md border p-3 ${found ? "border-amber-700/40 bg-amber-950/10" : "border-zinc-800 bg-zinc-900/30 opacity-50"}`}
+              data-clue-id={card.id}
+              data-found={found ? "true" : "false"}
+              className={`relative rounded-sm border p-3 transition-transform ${rot} ${
+                found
+                  ? "border-amber-700/50 bg-amber-50/[0.03] shadow-md hover:rotate-0"
+                  : "border-zinc-800 bg-zinc-900/30 opacity-40"
+              }`}
             >
+              {/* Pin head — small dot in upper-left, only on found cards */}
+              {found && (
+                <span
+                  aria-hidden="true"
+                  className="absolute -top-1.5 left-3 w-2 h-2 rounded-full bg-red-700 shadow-sm"
+                />
+              )}
               <div className="flex items-center gap-2 mb-1">
                 {found ? (
-                  <Sparkles size={14} className="text-amber-500 shrink-0" />
+                  <Sparkles size={14} className="text-amber-400 shrink-0" />
                 ) : (
                   <Lock size={12} className="text-zinc-600 shrink-0" />
                 )}
@@ -188,14 +215,15 @@ function ConnectionsPanel({
 }) {
   return (
     <section>
-      <h2 className="text-sm uppercase tracking-widest text-zinc-400 mb-3">
-        Connections · {connectionsMade.size} / {BOARD_CONNECTIONS.length}
+      <h2 className="text-sm uppercase tracking-widest text-amber-300/70 mb-3 font-mono">
+        Threads · {connectionsMade.size} / {BOARD_CONNECTIONS.length}
       </h2>
 
       {availableConnections.length === 0 && connectionsMade.size === 0 && (
         <p className="text-zinc-500 italic text-sm">
-          No connections available yet. Collect more clues by completing
-          Celebration episodes; pinned strings will appear here.
+          No threads to pin yet. Collect more clues by completing
+          Celebration episodes; the strings appear here when two pins
+          are close enough to connect.
         </p>
       )}
 
@@ -203,15 +231,17 @@ function ConnectionsPanel({
         {availableConnections.map((conn) => (
           <article
             key={conn.id}
-            className="rounded-md border border-zinc-700 bg-zinc-900/40 p-4"
+            className="relative rounded-sm border-l-4 border-l-red-700/60 border-y border-r border-zinc-700 bg-zinc-900/40 p-4"
+            data-connection-id={conn.id}
+            data-state="available"
           >
             <p className="text-zinc-200 mb-2">{conn.inference}</p>
             <button
               type="button"
               onClick={() => onMakeConnection(conn.id)}
-              className="text-xs px-3 py-1 rounded border border-zinc-700 hover:border-zinc-500"
+              className="text-xs px-3 py-1 rounded border border-red-800/50 hover:border-red-600/70 hover:bg-red-950/20 transition-colors"
             >
-              Pin this connection
+              Pin this thread
             </button>
           </article>
         ))}
@@ -219,7 +249,9 @@ function ConnectionsPanel({
         {BOARD_CONNECTIONS.filter((c) => connectionsMade.has(c.id)).map((conn) => (
           <article
             key={conn.id}
-            className="rounded-md border border-amber-700/40 bg-amber-950/10 p-4"
+            className="relative rounded-sm border-l-4 border-l-red-600 border-y border-r border-amber-700/40 bg-amber-50/[0.04] p-4"
+            data-connection-id={conn.id}
+            data-state="pinned"
           >
             <div className="flex items-start gap-2 mb-2">
               <Check size={14} className="text-amber-500 mt-1 shrink-0" />
