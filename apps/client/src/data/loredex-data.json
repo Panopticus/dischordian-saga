@@ -9820,7 +9820,7 @@
           "music_video": {}
         }
       ],
-      "image": "",
+      "image": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/characters/watcher/bust_static.webp",
       "priority": "high",
       "streaming_links": {}
     },
@@ -9977,7 +9977,7 @@
           "music_video": {}
         }
       ],
-      "image": "",
+      "image": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/slideshows/album2/T15/T15_00_title.webp",
       "priority": "normal",
       "streaming_links": {}
     },
@@ -10041,7 +10041,7 @@
           "music_video": {}
         }
       ],
-      "image": "",
+      "image": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/slideshows/album2/T06/T06_00_title.webp",
       "priority": "normal",
       "streaming_links": {}
     },
@@ -10145,7 +10145,7 @@
           "music_video": {}
         }
       ],
-      "image": "",
+      "image": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/slideshows/album1/T16/T16_00_title.webp",
       "priority": "high",
       "streaming_links": {}
     },
@@ -10178,7 +10178,7 @@
           "music_video": {}
         }
       ],
-      "image": "",
+      "image": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/art/slideshows/album2/T05/T05_00_title.webp",
       "priority": "medium",
       "streaming_links": {}
     },
@@ -10653,7 +10653,7 @@
       ],
       "conexus_stories": [],
       "song_appearances": [],
-      "image": "",
+      "image": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/characters/degen/bust_static.webp",
       "priority": "high"
     },
     {
@@ -10786,7 +10786,7 @@
       "connections": [],
       "conexus_stories": [],
       "song_appearances": [],
-      "image": "",
+      "image": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/characters/iron_lion/bust_static.webp",
       "priority": "normal"
     },
     {
@@ -11007,7 +11007,7 @@
       ],
       "conexus_stories": [],
       "song_appearances": [],
-      "image": "",
+      "image": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/characters/seer/bust_static.webp",
       "priority": "critical"
     },
     {
@@ -11404,7 +11404,7 @@
       ],
       "conexus_stories": [],
       "song_appearances": [],
-      "image": "",
+      "image": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/characters/agent_zero/bust_static.webp",
       "priority": "critical"
     },
     {
@@ -11802,7 +11802,7 @@
       ],
       "conexus_stories": [],
       "song_appearances": [],
-      "image": "",
+      "image": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/characters/gamemaster/bust_static.webp",
       "priority": "critical"
     },
     {
@@ -12200,7 +12200,7 @@
       ],
       "conexus_stories": [],
       "song_appearances": [],
-      "image": "",
+      "image": "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/characters/degen/bust_static.webp",
       "priority": "critical"
     },
     {
