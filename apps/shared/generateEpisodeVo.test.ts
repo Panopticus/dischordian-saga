@@ -121,12 +121,16 @@ describe("episode-voice-config.ts — speaker coverage", () => {
     expect(prefixCount).toBeGreaterThan(20);
   });
 
-  it("all voice ids start as TODO_ placeholders so the operator must explicitly fill them", () => {
+  it("ships real ElevenLabs voice IDs (no TODO_ placeholders) so vo:episodes works out of the box", () => {
     const voiceIdMatches = CONFIG_SRC.match(/voiceId:\s*"([^"]*)"/g) ?? [];
     expect(voiceIdMatches.length).toBeGreaterThan(20);
     for (const match of voiceIdMatches) {
-      // Check that every voiceId in the shipped config starts as TODO_
-      expect(match).toContain("TODO_");
+      expect(match).not.toContain("TODO_");
+      // ElevenLabs voice ids are 20-char alphanumeric strings.
+      const idMatch = match.match(/voiceId:\s*"([^"]*)"/);
+      expect(idMatch).not.toBeNull();
+      const id = idMatch![1];
+      expect(id.length).toBeGreaterThanOrEqual(20);
     }
   });
 });
