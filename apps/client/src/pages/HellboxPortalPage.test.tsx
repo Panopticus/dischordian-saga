@@ -35,6 +35,19 @@ describe("HellboxPortalPage — runtime UI for the Hellbox", () => {
     expect(SRC).toContain('model.state === "unlocked"');
   });
 
+  it("persists state via GameContext narrative flags (not local React state)", () => {
+    expect(SRC).toContain('from "@/contexts/GameContext"');
+    expect(SRC).toContain("setNarrativeFlag");
+    expect(SRC).toContain("HELLBOX_DISCOVERED_FLAG");
+    expect(SRC).toContain("HELLBOX_FIRST_TOUCH_FLAG");
+    expect(SRC).toContain("episodeCompletionFlag");
+  });
+
+  it("derives completedIds from the persisted episode flags", () => {
+    expect(SRC).toContain("MATRIX_OF_DREAMS_LEVELS");
+    expect(SRC).toMatch(/episodeCompletionFlag\(level\.id\)/);
+  });
+
   it("first-touch cinematic routes to C1 on completion (canon: compelled transport lands in Celebration C1)", () => {
     expect(SRC).toContain("/matrix/celebration_c1_the_watch");
   });

@@ -29,20 +29,31 @@ import {
   type HellboxAccessConditions,
   type HellboxSelectorGroup,
 } from "@shared/hellboxPortal";
-import type { MatrixLevelDefinition } from "@shared/matrixOfDreamsLevels";
+import { MATRIX_OF_DREAMS_LEVELS, type MatrixLevelDefinition } from "@shared/matrixOfDreamsLevels";
+import { useGame } from "@/contexts/GameContext";
+import {
+  episodeCompletionFlag,
+  HELLBOX_DISCOVERED_FLAG,
+  HELLBOX_FIRST_TOUCH_FLAG,
+} from "@shared/matrixSaveFlags";
 
 /* ─── Component ─── */
 
 export default function HellboxPortalPage() {
   const [, setLocation] = useLocation();
+  const { state, setNarrativeFlag } = useGame();
+  const flags = state.narrativeFlags ?? {};
 
-  // For first-pass shipping, runtime state lives in React. A follow-on
-  // PR will wire this to the persistent save-state via GameContext.
-  const [hellboxDiscovered, setHellboxDiscovered] = useState(true);
-  const [firstTouchComplete, setFirstTouchComplete] = useState(false);
-  const [completedIds, setCompletedIds] = useState<ReadonlySet<string>>(
-    () => new Set<string>(),
-  );
+  const hellboxDiscovered = Boolean(flags[HELLBOX_DISCOVERED_FLAG]);
+  const firstTouchComplete = Boolean(flags[HELLBOX_FIRST_TOUCH_FLAG]);
+
+  const completedIds = useMemo<ReadonlySet<string>>(() => {
+    const set = new Set<string>();
+    for (const level of MATRIX_OF_DREAMS_LEVELS) {
+      if (flags[episodeCompletionFlag(level.id)]) set.add(level.id);
+    }
+    return set;
+  }, [flags]);
 
   const conditions: HellboxAccessConditions = {
     hellboxDiscovered,
@@ -62,13 +73,12 @@ export default function HellboxPortalPage() {
     [setLocation],
   );
 
-  const onMarkComplete = useCallback((levelId: string) => {
-    setCompletedIds((prev) => {
-      const next = new Set(prev);
-      next.add(levelId);
-      return next;
-    });
-  }, []);
+  const onMarkComplete = useCallback(
+    (levelId: string) => {
+      setNarrativeFlag(episodeCompletionFlag(levelId), true);
+    },
+    [setNarrativeFlag],
+  );
 
   return (
     <div
@@ -98,7 +108,7 @@ export default function HellboxPortalPage() {
         {model.state === "first_touch" && (
           <FirstTouchCinematic
             onComplete={() => {
-              setFirstTouchComplete(true);
+              setNarrativeFlag(HELLBOX_FIRST_TOUCH_FLAG, true);
               // Per canon: first touch lands the player in C1 automatically.
               setLocation("/matrix/celebration_c1_the_watch");
             }}
@@ -113,13 +123,15 @@ export default function HellboxPortalPage() {
           />
         )}
 
-        {/* Dev affordance — for first-pass demoing without save state */}
+        {/* Dev affordance — Beat B normally fires this in the medbay flow.
+            Until that wiring is added, this lets developers/QA discover
+            the device manually. */}
         {!hellboxDiscovered && (
           <div className="mt-12 border-t border-zinc-800 pt-6">
             <button
               type="button"
               className="text-xs text-zinc-600 hover:text-zinc-400 underline"
-              onClick={() => setHellboxDiscovered(true)}
+              onClick={() => setNarrativeFlag(HELLBOX_DISCOVERED_FLAG, true)}
             >
               [dev] simulate Beat-B Hellbox discovery
             </button>

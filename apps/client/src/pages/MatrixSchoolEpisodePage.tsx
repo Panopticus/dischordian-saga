@@ -34,6 +34,8 @@ import {
   MECHRONIS_EPISODE_SCENE_MAP,
 } from "@shared/mechronisAcademyDialog";
 import type { DialogScene, DialogCue } from "@shared/tcg-core/story/dialogBank";
+import { episodeCompletionFlag } from "@shared/matrixSaveFlags";
+import { useGame } from "@/contexts/GameContext";
 
 /* ─── Helpers ─── */
 
@@ -53,6 +55,7 @@ function loadScenesForEpisode(episodeId: string): readonly DialogScene[] {
 export default function MatrixSchoolEpisodePage() {
   const [, params] = useRoute<{ episodeId: string }>("/matrix/:episodeId");
   const [, setLocation] = useLocation();
+  const { setNarrativeFlag } = useGame();
   const episodeId = params?.episodeId ?? "";
 
   const level: MatrixLevelDefinition | undefined = useMemo(
@@ -70,6 +73,14 @@ export default function MatrixSchoolEpisodePage() {
     setCueIndex(0);
     setDone(false);
   }, [episodeId]);
+
+  // Persist completion flag the first time the player reaches the end
+  // of the episode. Replays do not unset.
+  useEffect(() => {
+    if (done && episodeId) {
+      setNarrativeFlag(episodeCompletionFlag(episodeId), true);
+    }
+  }, [done, episodeId, setNarrativeFlag]);
 
   const advance = () => {
     if (done) return;
