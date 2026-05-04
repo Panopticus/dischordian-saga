@@ -134,6 +134,20 @@ export const WATCHER_COMMENTS: readonly CompanionComment[] = [
     timing: "delayed_5s",
     maxPlays: 1,
   },
+  // ── ACT 6 (Stop 15) — the unification reveal ──
+  // The most important Watcher beat. Acknowledges that the
+  // Architect, Panopticon, Source, and Watcher are facets of one
+  // entity. Lands as direct address. Bible-locked tone:
+  // teleologically necessary, never gloating. Once-per-account.
+  {
+    id: "watcher_act6_unification",
+    speaker: "watcher",
+    trigger: "watcher_act6_unification",
+    voiceLine:
+      "The Architect built the Ark. The Panopticon watches from outside. The Source speaks through corruption. We are the same. We are the interface you have been touching.",
+    timing: "delayed_5s",
+    maxPlays: 1,
+  },
 ];
 
 /** Helper for callers that want both COMPANION_COMMENTS and WATCHER_COMMENTS

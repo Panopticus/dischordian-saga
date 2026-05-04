@@ -66,6 +66,12 @@ export function WatcherHost(): null {
     // "seventeen thousand years" map-first-open beat rather than
     // racing it.
     if (act >= 5) fireCompanionComment("watcher_act5_chronosphere");
+    // Stop 15 — Act 6 (Confession): the unification reveal. The
+    // single most important Watcher line in the campaign — names
+    // Architect / Panopticon / Source / Watcher as one entity and
+    // claims authorship of the operator's experience. Bible-
+    // locked tone; future copy passes refine but never edit.
+    if (act >= 6) fireCompanionComment("watcher_act6_unification");
   }, [state.narrativeAct]);
 
   return null;
