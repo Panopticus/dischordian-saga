@@ -45,6 +45,78 @@ describe("mechanicTutorialGates — full deckbuilder walkthrough", () => {
     expect(gate!.completionFlag).toBe("goggles_inherited");
   });
 
+  describe("multi-domain coverage", () => {
+    it("registers witnessing gates routed through The Seer", () => {
+      const gates = getGatesForMechanic("witnessing");
+      expect(gates.length).toBeGreaterThan(0);
+      for (const g of gates) {
+        expect(g.speaker.kind).toBe("direct");
+        if (g.speaker.kind === "direct") {
+          expect(g.speaker.speaker).toBe("the_seer");
+        }
+      }
+    });
+
+    it("registers allegiances gates routed through Locke (bond ledger)", () => {
+      const gates = getGatesForMechanic("allegiances");
+      expect(gates.length).toBeGreaterThan(0);
+      for (const g of gates) {
+        expect(g.speaker.kind).toBe("direct");
+        if (g.speaker.kind === "direct") {
+          expect(g.speaker.speaker).toBe("locke");
+        }
+      }
+    });
+
+    it("registers soul-stones gates routed through The Antiquarian", () => {
+      const gates = getGatesForMechanic("soul_stones");
+      expect(gates.length).toBeGreaterThan(0);
+      for (const g of gates) {
+        expect(g.speaker.kind).toBe("direct");
+        if (g.speaker.kind === "direct") {
+          expect(g.speaker.speaker).toBe("antiquarian");
+        }
+      }
+    });
+
+    it("registers oracle-deck gates routed through The Seer", () => {
+      const gates = getGatesForMechanic("oracle_deck");
+      expect(gates.length).toBeGreaterThan(0);
+      for (const g of gates) {
+        expect(g.speaker.kind).toBe("direct");
+        if (g.speaker.kind === "direct") {
+          expect(g.speaker.speaker).toBe("the_seer");
+        }
+      }
+    });
+
+    it("each new domain has a first_ui_open intro gate matching the canonical uiId", () => {
+      const expectations: Array<[string, string]> = [
+        ["tutor_witnessing_intro", "witnessing_hub"],
+        ["tutor_allegiances_intro", "allegiances_hub"],
+        ["tutor_soul_stones_intro", "soul_stones"],
+        ["tutor_oracle_deck_intro", "oracle_deck"],
+      ];
+      for (const [gateId, uiId] of expectations) {
+        const gate = getGateById(gateId);
+        expect(gate).toBeDefined();
+        expect(gate!.trigger.kind).toBe("first_ui_open");
+        if (gate!.trigger.kind === "first_ui_open") {
+          expect(gate!.trigger.uiId).toBe(uiId);
+        }
+      }
+    });
+
+    it("Engineer-domain gates remain apprentice-channeled (deckbuilder, crafting, goggles)", () => {
+      const apprenticeOnly = ["deck_builder_intro", "crafting_imprint_laser", "goggles_inherited"];
+      for (const id of apprenticeOnly) {
+        const gate = getGateById(`tutor_${id}`);
+        expect(gate).toBeDefined();
+        expect(gate!.speaker.kind).toBe("apprentice_channeling");
+      }
+    });
+  });
+
   describe("getEligibleGates", () => {
     it("returns the intro gate when the bench UI opens for the first time", () => {
       const eligible = getEligibleGates({

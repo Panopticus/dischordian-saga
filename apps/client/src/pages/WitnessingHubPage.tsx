@@ -15,6 +15,7 @@
 import { useMemo, useState } from "react";
 import { Link } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
+import MechanicTutorialOverlay from "@/components/MechanicTutorialOverlay";
 import {
   ChevronLeft,
   ChevronRight,
@@ -81,6 +82,7 @@ export default function WitnessingHubPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[var(--bg-void)] to-[var(--bg-void)] relative">
+      <MechanicTutorialOverlay uiId="witnessing_hub" />
       <LivingBackground
         src={assetUrl("art/rooms/room-archives.png")}
         accent="var(--energy-accent)"
