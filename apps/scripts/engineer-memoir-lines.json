@@ -1,0 +1,254 @@
+[
+  {
+    "id": "memoir_iron_lion_expelled_intro",
+    "text": "The Iron Lion. Expelled, not defeated — those are different ledgers. Watch how he carries the rank he was stripped of. The grip never softens; the order is gone but the salute remains. That is the wound you will study.",
+    "context": "act1_memoir",
+    "emotion": "instructive",
+    "file": "shared/engineerMemoirVoManifest.json"
+  },
+  {
+    "id": "memoir_iron_lion_expelled_close_win",
+    "text": "You won the round he was already losing inside himself. Mark this match in the long ledger: it took a soldier with no army for you to find your first true line of attack. Do not mistake his collapse for your strength. Both are true. Only one is yours.",
+    "context": "act1_memoir",
+    "emotion": "sober",
+    "file": "shared/engineerMemoirVoManifest.json"
+  },
+  {
+    "id": "memoir_iron_lion_expelled_close_loss",
+    "text": "He held the line on a banner that no longer flies. There is something in that — a discipline you have not learned yet because you have never had a flag taken from you. Lose this one cleanly. The Iron Lion will respect a clean loss in ways the others will not.",
+    "context": "act1_memoir",
+    "emotion": "wistful",
+    "file": "shared/engineerMemoirVoManifest.json"
+  },
+  {
+    "id": "memoir_little_collector_intro",
+    "text": "The Little Collector. Apprentice rank, hoard already growing. Every card on his side of the bench is a card he could not bear to leave behind. Read the deck and you will read the child. He is not playing to win. He is playing to keep.",
+    "context": "act1_memoir",
+    "emotion": "warm",
+    "file": "shared/engineerMemoirVoManifest.json"
+  },
+  {
+    "id": "memoir_little_collector_close_win",
+    "text": "You took something from him today. Be careful with the knowing of that. The Little Collector loses cards the way other children lose teeth — slowly, with great seriousness, and a private grief no instruction can reach.",
+    "context": "act1_memoir",
+    "emotion": "wistful",
+    "file": "shared/engineerMemoirVoManifest.json"
+  },
+  {
+    "id": "memoir_little_collector_close_loss",
+    "text": "He kept what he came in with and added yours to the stack. Good. He needed that more than you needed the win. There will be other matches, and his hoard is the lesson — not the loss column.",
+    "context": "act1_memoir",
+    "emotion": "warm",
+    "file": "shared/engineerMemoirVoManifest.json"
+  },
+  {
+    "id": "memoir_little_meme_intro",
+    "text": "The Little Meme. Yes — that one is contagious by design, even at apprentice tier. Do not laugh at the openings. The laugh is the tell. By the time you are amused, the board has already shifted and you have already agreed with it.",
+    "context": "act1_memoir",
+    "emotion": "knowing",
+    "file": "shared/engineerMemoirVoManifest.json"
+  },
+  {
+    "id": "memoir_little_meme_close_win",
+    "text": "You held the frame. That is the rarer victory against a Meme — to leave the table still meaning what you meant when you sat down. The score is small. The discipline is large. Remember which is which.",
+    "context": "act1_memoir",
+    "emotion": "proud",
+    "file": "shared/engineerMemoirVoManifest.json"
+  },
+  {
+    "id": "memoir_little_meme_close_loss",
+    "text": "He is laughing and you are also laughing and that is how he ate the match. Sit with the loss. Do not joke it away. The joke is the same gate he used. Walk out a different door this time.",
+    "context": "act1_memoir",
+    "emotion": "sober",
+    "file": "shared/engineerMemoirVoManifest.json"
+  },
+  {
+    "id": "memoir_little_watcher_intro",
+    "text": "The Little Watcher. Already keeping books on you — and on me, through this recording. Play as if every misstep is being filed. It is. The Watcher does not rush you. The Watcher is in no hurry to be wrong.",
+    "context": "act1_memoir",
+    "emotion": "instructive",
+    "file": "shared/engineerMemoirVoManifest.json"
+  },
+  {
+    "id": "memoir_little_watcher_close_win",
+    "text": "He saw the lure. He took it anyway. That is the strange luxury of the watching ones — they sometimes choose to be wrong because the record is more interesting than the result. Do not assume that gift is given twice.",
+    "context": "act1_memoir",
+    "emotion": "knowing",
+    "file": "shared/engineerMemoirVoManifest.json"
+  },
+  {
+    "id": "memoir_little_watcher_close_loss",
+    "text": "He has been waiting for that exact mistake from you for three turns longer than you noticed. He is not gloating. He is updating the file. Take the loss. The file is the thing to study, not the score.",
+    "context": "act1_memoir",
+    "emotion": "wistful",
+    "file": "shared/engineerMemoirVoManifest.json"
+  },
+  {
+    "id": "memoir_professor_eidola_intro",
+    "text": "Professor Eidola. She lectures in images that other people remember as their own ideas. Her opening is always a mirror. If your first move feels obvious, it is because she has already shown it to you and you are calling it inspiration.",
+    "context": "act1_memoir",
+    "emotion": "knowing",
+    "file": "shared/engineerMemoirVoManifest.json"
+  },
+  {
+    "id": "memoir_professor_eidola_close_win",
+    "text": "You broke the mirror. Briefly. Notice the effort it took. The Professor does not mind being beaten — she minds being seen, and only barely. You saw her. Mark the date.",
+    "context": "act1_memoir",
+    "emotion": "proud",
+    "file": "shared/engineerMemoirVoManifest.json"
+  },
+  {
+    "id": "memoir_professor_eidola_close_loss",
+    "text": "She let you find your way through her hall and out the door you came in. The room never changed. Your map of it did. That is the lesson she teaches and bills you for whether you noticed the bill or not.",
+    "context": "act1_memoir",
+    "emotion": "wistful",
+    "file": "shared/engineerMemoirVoManifest.json"
+  },
+  {
+    "id": "memoir_professor_matrikala_intro",
+    "text": "Professor Matrikala. Holds the mother-text the way most people hold a knife — close, edge in. Her lines have older lines underneath. Read both layers or you will read neither.",
+    "context": "act1_memoir",
+    "emotion": "instructive",
+    "file": "shared/engineerMemoirVoManifest.json"
+  },
+  {
+    "id": "memoir_professor_matrikala_close_win",
+    "text": "You answered the surface and the substrate at once. That is rare for an apprentice. Do not say it aloud — she will revise the test. She is already revising it.",
+    "context": "act1_memoir",
+    "emotion": "proud",
+    "file": "shared/engineerMemoirVoManifest.json"
+  },
+  {
+    "id": "memoir_professor_matrikala_close_loss",
+    "text": "She quoted the line you skipped reading. There is no shortcut around the substrate, and no scoreboard that will forgive you for trying. Lose this one and read again. She prefers students who came back.",
+    "context": "act1_memoir",
+    "emotion": "sober",
+    "file": "shared/engineerMemoirVoManifest.json"
+  },
+  {
+    "id": "memoir_the_authority_intro",
+    "text": "The Authority. Not a person. A posture wearing a person. Watch the cards he refuses to play — those are the rules he is enforcing on himself, and they are the seams in the armor.",
+    "context": "act1_memoir",
+    "emotion": "knowing",
+    "file": "shared/engineerMemoirVoManifest.json"
+  },
+  {
+    "id": "memoir_the_authority_close_win",
+    "text": "You won by walking through a door he was forbidden to acknowledge. Do not advertise the route. Authorities patch routes. The door will be a wall the next time you look.",
+    "context": "act1_memoir",
+    "emotion": "knowing",
+    "file": "shared/engineerMemoirVoManifest.json"
+  },
+  {
+    "id": "memoir_the_authority_close_loss",
+    "text": "He did not beat you. The rules he wears beat you. The distinction matters when you replay this match. Argue with the rules, not the man. The man is downstream of his uniform.",
+    "context": "act1_memoir",
+    "emotion": "sober",
+    "file": "shared/engineerMemoirVoManifest.json"
+  },
+  {
+    "id": "memoir_the_detective_student_intro",
+    "text": "Locke's apprentice. The Detective Student. Already three questions ahead of his own evidence — that is the failure mode the master never trained out of him. Lead him with a clean trail. He will follow it past the obvious answer and into yours.",
+    "context": "act1_memoir",
+    "emotion": "instructive",
+    "file": "shared/engineerMemoirVoManifest.json"
+  },
+  {
+    "id": "memoir_the_detective_student_close_win",
+    "text": "He was investigating the wrong room. You let him. That is not unkindness — that is teaching, of a kind. He will redo the case file tonight and arrive sharper than he came in. So will you.",
+    "context": "act1_memoir",
+    "emotion": "warm",
+    "file": "shared/engineerMemoirVoManifest.json"
+  },
+  {
+    "id": "memoir_the_detective_student_close_loss",
+    "text": "He read your bench in the order you played it. That is Locke's discipline, half-learned and very dangerous in a student. Lose this one and study the order of your own moves. He already has.",
+    "context": "act1_memoir",
+    "emotion": "wistful",
+    "file": "shared/engineerMemoirVoManifest.json"
+  },
+  {
+    "id": "memoir_the_game_master_original_intro",
+    "text": "The original. Before the mask. Before the show. He is not yet the Host you will fear later — he is the bench-keeper who taught me the difference between a game and a trial. Treat the difference with respect. He will know if you have not.",
+    "context": "act1_memoir",
+    "emotion": "warm",
+    "file": "shared/engineerMemoirVoManifest.json"
+  },
+  {
+    "id": "memoir_the_game_master_original_close_win",
+    "text": "He let you have it. Not the win — the lesson the win is wrapped around. There is no shame in receiving a gift from the original Game Master. There is shame in not unwrapping it.",
+    "context": "act1_memoir",
+    "emotion": "proud",
+    "file": "shared/engineerMemoirVoManifest.json"
+  },
+  {
+    "id": "memoir_the_game_master_original_close_loss",
+    "text": "You lost cleanly to the man who wrote the rules you are still learning. That is the best loss you will take in Act One. Save the replay. Bring it back when the Host wears his face. You will need to remember what was underneath.",
+    "context": "act1_memoir",
+    "emotion": "wistful",
+    "file": "shared/engineerMemoirVoManifest.json"
+  },
+  {
+    "id": "memoir_the_programmer_intro",
+    "text": "The Programmer. Treats the bench as a runtime and you as an unhandled exception. He will probe for the throw. Do not give him a stack trace. Play moves that compile cleanly even when they are wrong.",
+    "context": "act1_memoir",
+    "emotion": "instructive",
+    "file": "shared/engineerMemoirVoManifest.json"
+  },
+  {
+    "id": "memoir_the_programmer_close_win",
+    "text": "You crashed his model of you. Briefly. He is recompiling now and the next match will not be this easy. Notes will be taken. Tests will be written. Welcome to being someone's regression suite.",
+    "context": "act1_memoir",
+    "emotion": "knowing",
+    "file": "shared/engineerMemoirVoManifest.json"
+  },
+  {
+    "id": "memoir_the_programmer_close_loss",
+    "text": "He found your edge case. Every player has one in Act One. The repair is not to hide it — the repair is to make the edge case load-bearing. Lose this one and rebuild around the seam he showed you.",
+    "context": "act1_memoir",
+    "emotion": "sober",
+    "file": "shared/engineerMemoirVoManifest.json"
+  },
+  {
+    "id": "memoir_the_seer_visit_intro",
+    "text": "The Seer is visiting. She does not arrive — she resumes. Every line she plays was recorded against your already-spoken question. Do not try to surprise her. The surprise is in your column, pre-filed, waiting.",
+    "context": "act1_memoir",
+    "emotion": "knowing",
+    "file": "shared/engineerMemoirVoManifest.json"
+  },
+  {
+    "id": "memoir_the_seer_visit_close_win",
+    "text": "She let the win arrive on schedule. That was the recording she left for this branch. Take the score. Do not take the score as evidence of anything except her patience. Her patience is the deepest stat on the board.",
+    "context": "act1_memoir",
+    "emotion": "wistful",
+    "file": "shared/engineerMemoirVoManifest.json"
+  },
+  {
+    "id": "memoir_the_seer_visit_close_loss",
+    "text": "Canonical-loss. She prepared this answer before you sat down. There is nothing humiliating in a pre-recorded defeat — only in pretending you outplayed the recording. Lose this one and listen for the cue. There is always a cue.",
+    "context": "act1_memoir",
+    "emotion": "sober",
+    "file": "shared/engineerMemoirVoManifest.json"
+  },
+  {
+    "id": "memoir_the_warlord_zero_first_intro",
+    "text": "Warlord Zero — first encounter. The zero is not a number; it is a vow. He has erased something to be here, and the erasure is the deck. Hit him where the absence is. The presences are decoys.",
+    "context": "act1_memoir",
+    "emotion": "instructive",
+    "file": "shared/engineerMemoirVoManifest.json"
+  },
+  {
+    "id": "memoir_the_warlord_zero_first_close_win",
+    "text": "You found the void. He felt it found. That is rarer than the win and worth more than the score. Warlord Zero remembers the players who could read the gap. So will the next one. So will I.",
+    "context": "act1_memoir",
+    "emotion": "proud",
+    "file": "shared/engineerMemoirVoManifest.json"
+  },
+  {
+    "id": "memoir_the_warlord_zero_first_close_loss",
+    "text": "He swung through the place where you were not. That is the war he has trained for — the negative space made into a blade. Lose this one without flinching. The flinch is the next match's opening for him.",
+    "context": "act1_memoir",
+    "emotion": "sober",
+    "file": "shared/engineerMemoirVoManifest.json"
+  }
+]

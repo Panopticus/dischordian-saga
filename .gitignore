@@ -143,3 +143,5 @@ __pycache__/
 !.env.example
 asset-coverage-report.json
 asset-liveness-report.json
+apps/client/public/audio/episodes/
+apps/client/public/audio/episodes/
