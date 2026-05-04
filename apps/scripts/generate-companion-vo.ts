@@ -256,6 +256,15 @@ function saveManifest(
   fs.writeFileSync(full, JSON.stringify(sorted, null, 2) + "\n");
 }
 
+async function headExists(url: string): Promise<boolean> {
+  try {
+    const res = await fetch(url, { method: "HEAD" });
+    return res.ok;
+  } catch {
+    return false;
+  }
+}
+
 /* ─── MAIN ─── */
 
 async function main() {
@@ -292,12 +301,15 @@ async function main() {
 
   for (const line of lines) {
     const manifest = manifests[line.speaker];
-    if (manifest[line.voId]) {
+    const s3Key = `${line.speaker}/${line.voId}.mp3`;
+    const existing = manifest[line.voId];
+    const checkUrl = typeof existing === "string" && existing.startsWith("http")
+      ? existing
+      : `https://${BUCKET}.s3.${REGION}.amazonaws.com/${S3_PREFIX.split(" ").join("+")}/${line.speaker}/${line.voId}.mp3`;
+    if (await headExists(checkUrl)) {
       skipped.push(line.voId);
       continue;
     }
-
-    const s3Key = `${line.speaker}/${line.voId}.mp3`;
     const labelPrefix = `[${generated + errors.length + 1}/${lines.length}] ${line.speaker}:${line.voId}`;
 
     if (dryRun) {
