@@ -28,10 +28,18 @@ import RememberThisToast from "./components/RememberThisToast";
 import FeatureUnlockToast from "./components/FeatureUnlockToast";
 import HellboxAffordanceToast from "./components/HellboxAffordanceToast";
 import { useHellboxDiscovery } from "./hooks/useHellboxDiscovery";
+import { useLivingUniverseSync } from "./hooks/useLivingUniverseSync";
 
 /** Side-effect-only watcher — sets HELLBOX_DISCOVERED_FLAG on medbay entry. */
 function HellboxDiscoveryWatcher() {
   useHellboxDiscovery();
+  return null;
+}
+
+/** Side-effect-only watcher — mirrors server-side Living Universe active
+ *  events into GameContext flags so the LivingShipSensorOverlay can render. */
+function LivingUniverseSyncWatcher() {
+  useLivingUniverseSync();
   return null;
 }
 import CompanionHost from "./companion/CompanionHost";
@@ -698,6 +706,7 @@ function GameGate() {
       <FeatureUnlockToast />
       <HellboxAffordanceToast />
       <HellboxDiscoveryWatcher />
+      <LivingUniverseSyncWatcher />
       {sortingTrigger.shouldTrigger && sortingTrigger.skillId && (
         <SortingCeremony skillId={sortingTrigger.skillId} onComplete={handleSortingComplete} />
       )}
