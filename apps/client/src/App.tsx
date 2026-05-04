@@ -122,6 +122,8 @@ const DreamerDossierPage = lazy(() => import("./pages/DreamerDossierPage"));
 const LoredexGraphPage = lazy(() => import("./pages/LoredexGraphPage"));
 const Act2InterludePage = lazy(() => import("./pages/Act2InterludePage"));
 const EngineersBenchPage = lazy(() => import("./pages/EngineersBenchPage"));
+const HellboxPortalPage = lazy(() => import("./pages/HellboxPortalPage"));
+const MatrixSchoolEpisodePage = lazy(() => import("./pages/MatrixSchoolEpisodePage"));
 const GameMastersArenaAct2Page = lazy(() => import("./pages/GameMastersArenaAct2Page"));
 const Act5InterludePage = lazy(() => import("./pages/Act5InterludePage"));
 const BridgeOfKaelPage = lazy(() => import("./pages/BridgeOfKaelPage"));
@@ -347,6 +349,8 @@ function Router() {
         <Route path="/loredex/graph" component={LoredexGraphPage} />
         <Route path="/act2-interlude" component={Act2InterludePage} />
         <Route path="/engineers-bench" component={EngineersBenchPage} />
+        <Route path="/hellbox" component={HellboxPortalPage} />
+        <Route path="/matrix/:episodeId" component={MatrixSchoolEpisodePage} />
         <Route path="/game-masters-arena" component={GameMastersArenaAct2Page} />
         <Route path="/act5-interlude" component={Act5InterludePage} />
         <Route path="/bridge-of-kael" component={BridgeOfKaelPage} />
