@@ -33,7 +33,7 @@ _None yet._
 ## Low (polish / juice)
 
 - [x] ~~**Google login URL helper does not null-check missing client_id**~~ — Stop 1, fixed in Stop 20. Added `isGoogleLoginAvailable()` helper to `apps/client/src/const.ts`; gated the Google button in `TitleStateUnauth.tsx` on it. `getGoogleLoginUrl()` left untouched so the ~10 callers assuming string return are unaffected.
-- [ ] **Imprint card art prompts incomplete (2/18 character sets populated)** — Stop 17 — `apps/shared/tcg-core/cardArtPrompts/imprint.ts:1763` — `IMPRINT_PROMPTS_LIST` covers Elara + Antiquarian only; the other 16 sets (agent_zero, akai_shi, foucault, iron_lion, locke, the_architect, the_collector, the_detective, the_dreamer, the_engineer, the_enigma, the_human, the_jailer, the_necromancer, the_oracle, the_source) have no prompts. Imprint cards reference the registry through `IMPRINT_CARD_ART_PROMPTS` so the absence is graceful — those cards just don't have art-generation guidance. This is content work (16 sets × multi-tier prompts each), not engineering, but tracked here so the gap is visible.
+- [x] ~~**Imprint card art prompts incomplete (2/18 character sets populated)**~~ — Stop 17, closed in Stop 23. Investigation found the TODO comment was stale: all 18 character sets × 5 tiers = 90 prompts are actually present. Updated the file's doc comment to reflect the real coverage. The audit-plan claim was outdated; no content work was needed.
 
 ## Out of repo (Cades-FPS emit, asset CDN uploads, VO re-records)
 
@@ -68,7 +68,8 @@ _None yet._
 | 19 | 2026-05-04 | Final verification pass | pnpm check clean, 10817/10817 tests pass, eslint 0 errors, void-energy 112 files clean | 0 | edcda3b |
 | 20 | 2026-05-04 | Google login null-check (TODO closeout) | added isGoogleLoginAvailable() helper; gated Google button in TitleStateUnauth | -1 | bccbdfc |
 | 21 | 2026-05-04 | Unlock-filter wiring (TODO closeout) | new playerExpansionState service; wired into cardGame.browse + openBoosterPack + claimDailyPack | -1 | 681a90c |
-| 22 | 2026-05-04 | PvP bot-fallback (TODO closeout) | server BOT_FALLBACK_OFFER after 45s alone in queue; PvpArenaPage CTA → /act1-ladder | -1 | _pending_ |
+| 22 | 2026-05-04 | PvP bot-fallback (TODO closeout) | server BOT_FALLBACK_OFFER after 45s alone in queue; PvpArenaPage CTA → /act1-ladder | -1 | ba22616 |
+| 23 | 2026-05-04 | Imprint art prompts (TODO closeout) | TODO comment was stale; verified all 90 prompts present; refreshed doc comment | -1 | _pending_ |
 
 ---
 
