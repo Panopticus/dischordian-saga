@@ -3,8 +3,9 @@ import { z } from "zod";
 import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import { cards, userCards, decks, cardGameMatches, characterSheets, dreamBalance, userProgress, pvpMatches } from "../../db/schema";
-import { eq, and, or, like, inArray, sql, desc, asc, type SQL } from "drizzle-orm";
+import { eq, and, or, like, inArray, notInArray, sql, desc, asc, type SQL } from "drizzle-orm";
 import { fetchCitizenData, fetchPotentialNftData, resolveCardGameBonuses } from "../traitResolver";
+import { getPlayerExpansionState, getLockedCardIds } from "../services/playerExpansionState";
 import { trackAiResult, trackCollectionSize } from "../achievementTracker";
 import { ripple } from "../services/rippleEngine";
 import { getConsequences } from "../services/universeConsequences";
@@ -142,7 +143,7 @@ export const cardGameRouter = router({
         sortDir: z.enum(["asc", "desc"]).default("asc"),
       }).optional()
     )
-    .query(async ({ input }) => {
+    .query(async ({ ctx, input }) => {
       const db = await getDb();
       if (!db) return { cards: [], total: 0, page: 1, totalPages: 0 };
 
@@ -160,6 +161,17 @@ export const cardGameRouter = router({
       if (input?.alignment) conditions.push(eq(cards.alignment, input.alignment as any));
       if (input?.characterClass) conditions.push(eq(cards.characterClass, input.characterClass as any));
       if (input?.faction) conditions.push(like(cards.faction, `%${input.faction}%`));
+
+      // Player-visibility gate: hide reserved cards + cards locked
+      // behind unfinished progression (act_completion, secret,
+      // battle_pass, founding_author, authors_edition). Builds the
+      // exclusion set from ALL_CARD_DEFINITIONS so DB rows are
+      // filtered against the canonical CardDefinition gate.
+      const expansionState = await getPlayerExpansionState(ctx.user?.id);
+      const lockedIds = getLockedCardIds(expansionState);
+      if (lockedIds.size > 0) {
+        conditions.push(notInArray(cards.cardId, Array.from(lockedIds)));
+      }
 
       const whereClause = conditions.length > 1 ? and(...conditions) : conditions[0];
 
@@ -371,6 +383,15 @@ export const cardGameRouter = router({
       // 5 cards per pack: 3 common, 1 uncommon, 1 rare+ (tier scales the rare slot)
       const conditions: SQL[] = [eq(cards.isActive, 1)];
       if (input?.season) conditions.push(eq(cards.season, input.season));
+
+      // Pack-pool visibility gate: matches deck-builder behaviour. A
+      // player who hasn't completed the gating act doesn't pull the
+      // gated card. Reserved cards are excluded universally.
+      const expansionState = await getPlayerExpansionState(ctx.user.id);
+      const lockedIds = getLockedCardIds(expansionState);
+      if (lockedIds.size > 0) {
+        conditions.push(notInArray(cards.cardId, Array.from(lockedIds)));
+      }
 
       const allCards = await db.select().from(cards).where(and(...conditions));
 
@@ -849,7 +870,18 @@ export const cardGameRouter = router({
     }
 
     // Generate a standard 5-card pack (same distribution as openBoosterPack).
-    const allCards = await db.select().from(cards).where(eq(cards.isActive, 1));
+    // Mirror the player-visibility gate so the daily pack respects act
+    // gating like the paid pack does.
+    const dailyExpansionState = await getPlayerExpansionState(ctx.user.id);
+    const dailyLockedIds = getLockedCardIds(dailyExpansionState);
+    const dailyConds: SQL[] = [eq(cards.isActive, 1)];
+    if (dailyLockedIds.size > 0) {
+      dailyConds.push(notInArray(cards.cardId, Array.from(dailyLockedIds)));
+    }
+    const allCards = await db
+      .select()
+      .from(cards)
+      .where(dailyConds.length > 1 ? and(...dailyConds) : dailyConds[0]);
     if (allCards.length === 0) {
       return { success: false, message: "No cards available", cards: [] };
     }

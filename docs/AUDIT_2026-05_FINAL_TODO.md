@@ -24,7 +24,7 @@ _None yet._
 
 ## High (degrades opening / first hour)
 
-- [ ] **`filterPlayerVisibleCards` / `isVisibleToPlayer` are uncalled outside their own tests** — Stop 8 — `apps/shared/tcg-core/cards/cardVisibility.ts` + `apps/shared/tcg-core/rewards/expansionUnlockService.ts` — the unified visibility helpers exist, are well-tested, and are correct, but no production surface invokes them. `apps/server/routers/cardGame.ts:128` (`browse`) returns all `isActive=1` rows without filtering by `unlockCondition`; `apps/client/src/pages/DeckBuilderPage.tsx:113` consumes `cardGame.browse` directly; pack-opening reward grants don't filter either. Result: act-gated S2 hierarchy cards (act_exclusives, special_editions, etc.) leak to fresh-save players. Fix needs a `PlayerExpansionState` accessor (server-side: read `userProgress.gameData.completedActs` + battle-pass tier + entitlements; client-side: cached over websocket), then `filterPlayerVisibleCards(rows, state)` at the end of `cardGame.browse`, the pack-opening pool builder, and reward-grant menus. Touches ~4 files but each is a small wrapper.
+- [x] ~~**`filterPlayerVisibleCards` / `isVisibleToPlayer` are uncalled outside their own tests**~~ — Stop 8, fixed in Stop 21. New `apps/server/services/playerExpansionState.ts` exposes `getPlayerExpansionState(userId)` (reads `userProgress.gameData`) + `getLockedCardIds(state)` (walks `ALL_CARD_DEFINITIONS`). Wired into `cardGame.browse`, `cardGame.openBoosterPack`, and `cardGame.claimDailyPack` so deck-builder + paid packs + daily packs all gate locked cards. Reserved cards now also excluded from these surfaces.
 
 ## Medium (degrades acts 2–7)
 
@@ -66,7 +66,8 @@ _None yet._
 | 17 | 2026-05-04 | Cross-system surfaces | static audit — verified architectDossier/dreamerDossier 404-shell pattern; logged 16 incomplete imprint art-prompt sets | 1 | adddb5f |
 | 18 | 2026-05-04 | Asset + VO sweep | in-repo invariant tests pass; logged that real CDN HEAD-check + VO audit need credentialed CI run | 2 | 68594d3 |
 | 19 | 2026-05-04 | Final verification pass | pnpm check clean, 10817/10817 tests pass, eslint 0 errors, void-energy 112 files clean | 0 | edcda3b |
-| 20 | 2026-05-04 | Google login null-check (TODO closeout) | added isGoogleLoginAvailable() helper; gated Google button in TitleStateUnauth | -1 | _pending_ |
+| 20 | 2026-05-04 | Google login null-check (TODO closeout) | added isGoogleLoginAvailable() helper; gated Google button in TitleStateUnauth | -1 | bccbdfc |
+| 21 | 2026-05-04 | Unlock-filter wiring (TODO closeout) | new playerExpansionState service; wired into cardGame.browse + openBoosterPack + claimDailyPack | -1 | _pending_ |
 
 ---
 
