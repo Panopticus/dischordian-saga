@@ -20,6 +20,10 @@
    ═══════════════════════════════════════════════════════ */
 
 import type { DialogScene } from "./tcg-core/story/dialogBank";
+import {
+  CELEBRATION_SCHOOL_SCENES_PART_2,
+  CELEBRATION_EPISODE_SCENE_MAP_PART_2,
+} from "./celebrationSchoolDialog_part2";
 
 /* ═══════════════════════════════════════════════════════
    C1 — THE WATCH
@@ -553,6 +557,7 @@ export const CELEBRATION_SCHOOL_SCENES: readonly DialogScene[] = Object.freeze([
   C9_SCENE_4_THE_GOGGLES,
   C12_SCENE_1_THE_BENCH,
   C12_SCENE_2_THE_LINE_LANDS,
+  ...CELEBRATION_SCHOOL_SCENES_PART_2,
 ]);
 
 /** Map episode id → ordered scene ids that belong to that episode. */
@@ -573,6 +578,7 @@ export const CELEBRATION_EPISODE_SCENE_MAP: Readonly<Record<string, readonly str
     "celebration_c12_scene_1_the_bench",
     "celebration_c12_scene_2_the_line_lands",
   ],
+  ...CELEBRATION_EPISODE_SCENE_MAP_PART_2,
 });
 
 export function getScenesForEpisode(episodeId: string): readonly DialogScene[] {

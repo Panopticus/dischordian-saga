@@ -15,6 +15,10 @@
    ═══════════════════════════════════════════════════════ */
 
 import type { DialogScene } from "./tcg-core/story/dialogBank";
+import {
+  MECHRONIS_ACADEMY_SCENES_PART_2,
+  MECHRONIS_EPISODE_SCENE_MAP_PART_2,
+} from "./mechronisAcademyDialog_part2";
 
 /* ═══════════════════════════════════════════════════════
    M1 — CHORIC COMPLIANCE DRILL
@@ -173,6 +177,7 @@ export const MECHRONIS_ACADEMY_SCENES: readonly DialogScene[] = Object.freeze([
   M1_SCENE_1_THE_LECTERN,
   M1_SCENE_2_THE_DRILL,
   M1_SCENE_3_HIDDEN_AGENDA,
+  ...MECHRONIS_ACADEMY_SCENES_PART_2,
 ]);
 
 export const MECHRONIS_EPISODE_SCENE_MAP: Readonly<Record<string, readonly string[]>> = Object.freeze({
@@ -181,6 +186,7 @@ export const MECHRONIS_EPISODE_SCENE_MAP: Readonly<Record<string, readonly strin
     "mechronis_m1_scene_2_the_drill",
     "mechronis_m1_scene_3_hidden_agenda",
   ],
+  ...MECHRONIS_EPISODE_SCENE_MAP_PART_2,
 });
 
 export function getMechronisScenesForEpisode(episodeId: string): readonly DialogScene[] {

@@ -7,12 +7,24 @@ import {
 import { CELEBRATION_SCHOOL_EPISODES } from "./celebrationSchoolEpisodes";
 
 describe("celebrationSchoolDialog — vertical slices C1, C9, C12", () => {
-  it("registers scenes for the three keystone episodes", () => {
-    expect(Object.keys(CELEBRATION_EPISODE_SCENE_MAP)).toEqual([
-      "celebration_c1_the_watch",
-      "celebration_c9_the_match",
-      "celebration_c12_the_last_good_day",
-    ]);
+  it("registers scenes for all 12 Celebration episodes (keystones + part-2)", () => {
+    const allEpisodeIds = Object.keys(CELEBRATION_EPISODE_SCENE_MAP).sort();
+    expect(allEpisodeIds).toEqual(
+      [
+        "celebration_c1_the_watch",
+        "celebration_c2_first_day",
+        "celebration_c3_chess_class",
+        "celebration_c4_under_the_floor",
+        "celebration_c5_the_banner_glitches",
+        "celebration_c6_the_dueling_court",
+        "celebration_c7_the_patrons_summons",
+        "celebration_c8_the_ghost_in_the_hall",
+        "celebration_c9_the_match",
+        "celebration_c10_the_arks_rise",
+        "celebration_c11_the_uncles_verdict",
+        "celebration_c12_the_last_good_day",
+      ].sort(),
+    );
   });
 
   it("every scene id is unique", () => {
@@ -118,5 +130,49 @@ describe("celebrationSchoolDialog — vertical slices C1, C9, C12", () => {
     );
     expect(elaraReveal).toBeDefined();
     expect(elaraReveal!.text.toLowerCase()).toContain("you are the engineer");
+  });
+
+  it("Game Master voice discipline holds across ALL Celebration episodes (no 'darling', no caps emphasis)", () => {
+    for (const scene of CELEBRATION_SCHOOL_SCENES) {
+      for (const cue of scene.cues) {
+        if (cue.speaker !== "the_collector") continue;
+        expect(cue.text.toLowerCase()).not.toContain("darling");
+        const fullCapsWords = cue.text.match(/\b[A-Z]{4,}\b/g) ?? [];
+        const emphasizingCaps = fullCapsWords.filter(
+          (w) =>
+            !["HIERARCHY", "ENGINEER", "GOGGLES", "ARK", "ARCHIVE", "MATRIX", "BOOK", "READ"].includes(w),
+        );
+        expect(emphasizingCaps).toEqual([]);
+      }
+    }
+  });
+
+  it("C5 — Shadow Tongue surfacing names the propaganda layer", () => {
+    const scene = CELEBRATION_SCHOOL_SCENES.find(
+      (s) => s.id === "celebration_c5_scene_1_the_square",
+    );
+    expect(scene).toBeDefined();
+    const text = scene!.cues.map((c) => c.text).join(" ").toLowerCase();
+    expect(text).toContain("propaganda");
+  });
+
+  it("C8 — the Dreamer's hum surfaces underneath the Ghost King (mercy register)", () => {
+    const scene = CELEBRATION_SCHOOL_SCENES.find(
+      (s) => s.id === "celebration_c8_scene_2_the_dreamers_hum",
+    );
+    expect(scene).toBeDefined();
+    const dreamerCues = scene!.cues.filter((c) => c.speaker === "the_dreamer");
+    expect(dreamerCues.length).toBeGreaterThan(0);
+    const text = dreamerCues.map((c) => c.text).join(" ").toLowerCase();
+    expect(text).toContain("wake gently");
+  });
+
+  it("C11 — the verdict is fixed (Celebration falls; the trial is the prequel form of Authority Trial)", () => {
+    const verdictScene = CELEBRATION_SCHOOL_SCENES.find(
+      (s) => s.id === "celebration_c11_scene_2_the_verdict",
+    );
+    expect(verdictScene).toBeDefined();
+    const text = verdictScene!.cues.map((c) => c.text).join(" ").toLowerCase();
+    expect(text).toContain("first celebration burns");
   });
 });
