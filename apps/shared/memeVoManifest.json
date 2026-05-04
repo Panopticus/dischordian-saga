@@ -1,7 +1,4 @@
 {
-  "little_meme_taunt_early": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Meme+Voices/act1_taunts/little_meme_taunt_early.mp3",
-  "little_meme_taunt_late": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Meme+Voices/act1_taunts/little_meme_taunt_late.mp3",
-  "little_meme_taunt_mid": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Meme+Voices/act1_taunts/little_meme_taunt_mid.mp3",
   "meme_arena_outro": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Meme+Voices/arena_lore/meme_arena_outro.mp3",
   "meme_casino_tale": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Meme+Voices/casino_lore/meme_casino_tale.mp3",
   "meme_fight_defeat": "https://dgrsvoices.s3.us-east-2.amazonaws.com/Meme+Voices/boss_fight/meme_fight_defeat.mp3",
