@@ -13,6 +13,7 @@
 import { useState, useMemo } from "react";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { trpc } from "@/lib/trpc";
+import MechanicTutorialOverlay from "@/components/MechanicTutorialOverlay";
 import { getLoginUrl } from "@/const";
 import { Link } from "wouter";
 import {
@@ -158,6 +159,7 @@ export default function OracleDeckPage() {
 
   return (
     <div className="min-h-screen p-4 sm:p-6 max-w-5xl mx-auto space-y-6">
+      <MechanicTutorialOverlay uiId="oracle_deck" />
       {/* Header */}
       <div className="flex items-center gap-3">
         <Link

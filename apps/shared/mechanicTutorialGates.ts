@@ -188,6 +188,149 @@ const CRAFTING_GATES: readonly MechanicTutorialGate[] = [
 ];
 
 /* ═══════════════════════════════════════════════════════
+   WITNESSING WALKTHROUGH — The Seer (mercy variant)
+
+   Fires on first open of the Witnessing Hub. Direct speaker —
+   the Engineer's bench-channeling does not apply here; the Seer
+   is canonically authorized to teach Witnessing (per
+   mechanicSystemTutors.ts).
+   ═══════════════════════════════════════════════════════ */
+
+const WITNESSING_GATES: readonly MechanicTutorialGate[] = [
+  {
+    id: "tutor_witnessing_intro",
+    systemId: "witnessing",
+    order: 1,
+    label: "The First Witnessing",
+    teaches:
+      "Every choice you make is a vote on who you are becoming. I record the vote. You make it. I do not tell you which way I saw you choose.",
+    trigger: { kind: "first_ui_open", uiId: "witnessing_hub" },
+    speaker: { kind: "direct", speaker: "the_seer" },
+    reward: { dream: 50, xp: 100, flagSet: "witnessing_gate_1_done" },
+    completionFlag: "witnessing_gate_1_done",
+  },
+  {
+    id: "tutor_witnessing_mercy_variant",
+    systemId: "witnessing",
+    order: 2,
+    label: "Mercy Has Weight",
+    teaches:
+      "There is a kindness in choosing to refuse. You do not owe the system a vote. You may also choose to question the question. I file all three with equal care.",
+    trigger: { kind: "after_gate", gateId: "tutor_witnessing_intro" },
+    speaker: { kind: "direct", speaker: "the_seer" },
+    reward: { xp: 150, flagSet: "witnessing_gate_2_done" },
+    completionFlag: "witnessing_gate_2_done",
+  },
+  {
+    id: "tutor_witnessing_no_score",
+    systemId: "witnessing",
+    order: 3,
+    label: "I Already Saw You Choose",
+    teaches:
+      "I'm staying because I want to know why. Not what — why. The vote is yours. The reason is the part I read.",
+    trigger: { kind: "after_action_count", actionId: "witnessing_vote_cast", count: 5 },
+    speaker: { kind: "direct", speaker: "the_seer" },
+    reward: { dream: 100, xp: 200, flagSet: "witnessing_gate_3_done" },
+    completionFlag: "witnessing_gate_3_done",
+  },
+];
+
+/* ═══════════════════════════════════════════════════════
+   ALLEGIANCES WALKTHROUGH — Faction-paired voice
+
+   Faction speakers vary by which faction the player aligns with.
+   For first-pass shipping the gates use a generic "faction
+   quartermaster" voice; per-faction variants can be authored later
+   without changing the gate registry.
+   ═══════════════════════════════════════════════════════ */
+
+const ALLEGIANCES_GATES: readonly MechanicTutorialGate[] = [
+  {
+    id: "tutor_allegiances_intro",
+    systemId: "allegiances",
+    order: 1,
+    label: "Pledging an Allegiance",
+    teaches:
+      "Eight factions. Each pledges something different of you, and each gives something different back. The pledge is reversible at cost; the cost is paid in trust, not coin.",
+    trigger: { kind: "first_ui_open", uiId: "allegiances_hub" },
+    speaker: { kind: "direct", speaker: "locke" },
+    reward: { dream: 50, xp: 100, flagSet: "allegiances_gate_1_done" },
+    completionFlag: "allegiances_gate_1_done",
+  },
+  {
+    id: "tutor_allegiances_pivoting",
+    systemId: "allegiances",
+    order: 2,
+    label: "Pivoting Allegiance",
+    teaches:
+      "You may un-pledge. You may re-pledge. The ledger keeps both. The cost is the difference. I file the difference.",
+    trigger: { kind: "after_gate", gateId: "tutor_allegiances_intro" },
+    speaker: { kind: "direct", speaker: "locke" },
+    reward: { xp: 200, flagSet: "allegiances_gate_2_done" },
+    completionFlag: "allegiances_gate_2_done",
+  },
+];
+
+/* ═══════════════════════════════════════════════════════
+   SOUL STONES WALKTHROUGH — The Antiquarian
+
+   Eight-stone reliquary; per mechanicSystemTutors.ts canon, the
+   Antiquarian narrates this surface. He treats grief like a
+   vintage; the stones are foreclosed identities he files.
+   ═══════════════════════════════════════════════════════ */
+
+const SOUL_STONES_GATES: readonly MechanicTutorialGate[] = [
+  {
+    id: "tutor_soul_stones_intro",
+    systemId: "soul_stones",
+    order: 1,
+    label: "The Reliquary",
+    teaches:
+      "Eight stones. Each one is an identity that did not survive its own decision. I keep them because no other archivist will. You may bind a stone to a companion; the companion gains the part of the stone that still wants to live.",
+    trigger: { kind: "first_ui_open", uiId: "soul_stones" },
+    speaker: { kind: "direct", speaker: "antiquarian" },
+    reward: { dream: 75, xp: 150, flagSet: "soul_stones_gate_1_done" },
+    completionFlag: "soul_stones_gate_1_done",
+  },
+  {
+    id: "tutor_soul_stones_binding",
+    systemId: "soul_stones",
+    order: 2,
+    label: "Binding a Stone",
+    teaches:
+      "Place the stone. Hold the binding. Speak the companion's name. The stone listens; the companion answers. If the companion refuses the binding, the stone returns to me. I file the refusal as well.",
+    trigger: { kind: "after_gate", gateId: "tutor_soul_stones_intro" },
+    speaker: { kind: "direct", speaker: "antiquarian" },
+    reward: { xp: 200, flagSet: "soul_stones_gate_2_done" },
+    completionFlag: "soul_stones_gate_2_done",
+  },
+];
+
+/* ═══════════════════════════════════════════════════════
+   ORACLE DECK WALKTHROUGH — The Seer
+
+   Three-card spread. The Seer reads it; the player chooses how
+   the reading shapes their next move. Per the canon, the spread
+   is observational, not deterministic — she names what's there,
+   not what to do about it.
+   ═══════════════════════════════════════════════════════ */
+
+const ORACLE_DECK_GATES: readonly MechanicTutorialGate[] = [
+  {
+    id: "tutor_oracle_deck_intro",
+    systemId: "oracle_deck",
+    order: 1,
+    label: "Your First Spread",
+    teaches:
+      "Three cards. The first is what is. The second is what is becoming. The third is what is asking to be chosen. I read all three; you decide which to listen to. The deck remembers your choice. So do I.",
+    trigger: { kind: "first_ui_open", uiId: "oracle_deck" },
+    speaker: { kind: "direct", speaker: "the_seer" },
+    reward: { dream: 50, xp: 100, flagSet: "oracle_deck_gate_1_done" },
+    completionFlag: "oracle_deck_gate_1_done",
+  },
+];
+
+/* ═══════════════════════════════════════════════════════
    GOGGLES INHERITANCE GATE — endgame
    ═══════════════════════════════════════════════════════ */
 
@@ -211,6 +354,10 @@ const GOGGLES_INHERITANCE_GATE: MechanicTutorialGate = {
 export const MECHANIC_TUTORIAL_GATES: readonly MechanicTutorialGate[] = [
   ...DECKBUILDER_GATES,
   ...CRAFTING_GATES,
+  ...WITNESSING_GATES,
+  ...ALLEGIANCES_GATES,
+  ...SOUL_STONES_GATES,
+  ...ORACLE_DECK_GATES,
   GOGGLES_INHERITANCE_GATE,
 ];
 
