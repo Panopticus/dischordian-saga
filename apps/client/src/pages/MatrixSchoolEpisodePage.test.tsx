@@ -91,4 +91,26 @@ describe("MatrixSchoolEpisodePage — episode runtime", () => {
     expect(SRC).toContain("playableBridge.path");
     expect(SRC).toContain("playableBridge.label");
   });
+
+  it("persists the playhead to localStorage so the player can resume mid-episode", () => {
+    expect(SRC).toContain("readPlayhead");
+    expect(SRC).toContain("writePlayhead");
+    expect(SRC).toContain("clearPlayhead");
+    expect(SRC).toContain("PLAYHEAD_STORAGE_PREFIX");
+  });
+
+  it("clears the playhead on episode completion (Replay starts at scene 0)", () => {
+    expect(SRC).toMatch(/clearPlayhead\(episodeId\)/);
+  });
+
+  it("surfaces the mid-episode bridge after the configured scene completes", () => {
+    expect(SRC).toContain("playableBridgeAfterScene");
+    expect(SRC).toContain("MidEpisodeBridge");
+    expect(SRC).toContain("bridgeOffered");
+  });
+
+  it("Skip-and-watch advances to the next scene without routing to the bridge", () => {
+    expect(SRC).toContain("Skip and watch");
+    expect(SRC).toContain("onSkip");
+  });
 });

@@ -157,6 +157,17 @@ export interface MatrixLevelDefinition {
     label: string;
     description?: string;
   }>;
+  /**
+   * Optional scene id after which the playable bridge surfaces
+   * MID-EPISODE (in addition to the completion screen). When the
+   * player finishes the named scene, the runtime pauses and offers
+   * the bridge before continuing into the next scene. Choosing the
+   * bridge persists the playhead so the episode resumes when they
+   * return. Choosing "Skip and watch" advances normally.
+   *
+   * Only meaningful when `playableBridge` is also set.
+   */
+  readonly playableBridgeAfterScene?: string;
   /** Free-form notes for narrative authoring (not shown to player). */
   readonly authorNotes?: string;
 }

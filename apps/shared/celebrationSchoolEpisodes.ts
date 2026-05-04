@@ -163,6 +163,13 @@ export const CELEBRATION_SCHOOL_EPISODES: readonly MatrixLevelDefinition[] = [
       description:
         "Walk through the canonical Donald-Byrne-vs-Fischer 1956 game — the only chess game the Game Master ever lost, fictionally to the Engineer.",
     },
+    /**
+     * Mid-episode surfacing: after the build-up scene "The Game" but
+     * BEFORE the win lands narratively in "The Win" / "The Goggles."
+     * The player can step into the playable game, then return to
+     * watch the goggles handover with the win in their hands.
+     */
+    playableBridgeAfterScene: "celebration_c9_scene_2_the_game",
     authorNotes:
       "Mechanically: the chess match is playable — the Game Master uses the canonical opening from chessQuoteCanon.lore.ts, the Prince has 50% engine assist that fades over the match. After victory: cinematic of goggles handover. The Prince looks through them. The town's source code unrolls visually. Recording 4½ unlocks. This is the Engineer becoming able to see.",
   },

@@ -110,6 +110,19 @@ describe("matrixOfDreamsLevels", () => {
     expect(withBridge.map((l) => l.id)).toEqual(["celebration_c9_the_match"]);
   });
 
+  it("C9's mid-episode bridge surfaces after Scene 2 'The Game' (before The Win)", () => {
+    const c9 = getLevelById("celebration_c9_the_match");
+    expect(c9?.playableBridgeAfterScene).toBe("celebration_c9_scene_2_the_game");
+  });
+
+  it("any episode declaring playableBridgeAfterScene also declares playableBridge (no orphans)", () => {
+    for (const level of MATRIX_OF_DREAMS_LEVELS) {
+      if (level.playableBridgeAfterScene) {
+        expect(level.playableBridge).toBeDefined();
+      }
+    }
+  });
+
   it("every conspiracy clue id used by an episode is from the canonical clue list", () => {
     const allowedClues = new Set([
       "ghost_seen",
