@@ -72,6 +72,11 @@ export function WatcherHost(): null {
     // claims authorship of the operator's experience. Bible-
     // locked tone; future copy passes refine but never edit.
     if (act >= 6) fireCompanionComment("watcher_act6_unification");
+    // Stop 16 — Act 7 (Convergence): the grand-secret inheritance
+    // frame. The seven acts were the interview. The Convergence
+    // Seat stance choice (accept / refuse / recognize) is the
+    // inheritance regardless. Once-per-account.
+    if (act >= 7) fireCompanionComment("watcher_act7_inheritance");
   }, [state.narrativeAct]);
 
   return null;

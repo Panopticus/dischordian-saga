@@ -59,4 +59,5 @@ _None yet._
 | 12 | 2026-05-04 | Act 4 (Revelation) | "We have seen this pattern before." Watcher line | 0 | 23c1ad7 |
 | 13 | 2026-05-04 | Act 4.5 (Circuit) | "Three retreats. The wager remembers." — gated on >= 3 pvp_retreat observations | 0 | ed9e644 |
 | 14 | 2026-05-04 | Act 5 (Map) | verified Elara map-first-open beat already wired (audit plan was outdated); added chronosphere Watcher line | 0 | 92c6c7d |
-| 15 | 2026-05-04 | Act 6 (Confession) | unification reveal Watcher line: Architect/Panopticon/Source/Watcher as one entity | 0 | _pending_ |
+| 15 | 2026-05-04 | Act 6 (Confession) | unification reveal Watcher line: Architect/Panopticon/Source/Watcher as one entity | 0 | 4441c6b |
+| 16 | 2026-05-04 | Act 7 (Convergence) | grand-secret inheritance Watcher line; seven acts as interview | 0 | _pending_ |

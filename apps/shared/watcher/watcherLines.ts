@@ -148,6 +148,20 @@ export const WATCHER_COMMENTS: readonly CompanionComment[] = [
     timing: "delayed_5s",
     maxPlays: 1,
   },
+  // ── ACT 7 (Stop 16) — the grand secret ──
+  // Act 7 is The Convergence. The Watcher names what the seven
+  // acts have been: an interview. The operator was being
+  // recruited to inherit the role. The line frames the finale
+  // stance choice without dictating an answer. Once-per-account.
+  {
+    id: "watcher_act7_inheritance",
+    speaker: "watcher",
+    trigger: "watcher_act7_inheritance",
+    voiceLine:
+      "Seven acts. We have been auditioning you. Whatever you choose at the seat — accept, refuse, or recognize the trick — was the inheritance.",
+    timing: "delayed_5s",
+    maxPlays: 1,
+  },
 ];
 
 /** Helper for callers that want both COMPANION_COMMENTS and WATCHER_COMMENTS
