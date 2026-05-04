@@ -109,6 +109,18 @@ export const WATCHER_COMMENTS: readonly CompanionComment[] = [
     timing: "immediate",
     maxPlays: 1,
   },
+  // ── ACT 4.5 (Stop 13) — three retreats ──
+  // The Casino/Dead Man's Circuit beat. Fires when the operator
+  // has retreated 3+ times across all matches; the wager metaphor
+  // ties the line to the act's gambling theme. Once per account.
+  {
+    id: "watcher_act4_5_three_retreats",
+    speaker: "watcher",
+    trigger: "watcher_act4_5_three_retreats",
+    voiceLine: "Three retreats. The wager remembers.",
+    timing: "immediate",
+    maxPlays: 1,
+  },
 ];
 
 /** Helper for callers that want both COMPANION_COMMENTS and WATCHER_COMMENTS

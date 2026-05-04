@@ -21,7 +21,7 @@ import { useEffect } from "react";
 import { trpc } from "@/lib/trpc";
 import { useGame } from "@/contexts/GameContext";
 import { fireCompanionComment } from "@/lib/companionCommentQueue";
-import { hydrateFromServer, startFlushDaemon } from "@/lib/watcher";
+import { hydrateFromServer, readLog, startFlushDaemon } from "@/lib/watcher";
 
 export function WatcherHost(): null {
   const utils = trpc.useUtils();
@@ -48,6 +48,19 @@ export function WatcherHost(): null {
     if (act >= 3) fireCompanionComment("watcher_act3_hesitation");
     // Stop 12 — Act 4 (Revelation): pattern-recognition tell.
     if (act >= 4) fireCompanionComment("watcher_act4_pattern");
+    // Stop 13 — Act 4.5 (Circuit): three-retreats tell. Counts
+    // pvp_retreat events across the whole log; >= 3 fires the
+    // line. Act 4.5 is gated behind the act_4_5_started flag, but
+    // the Watcher line itself is gated by accumulation rather
+    // than a specific cinematic — the player who never retreats
+    // doesn't hear it.
+    if (act >= 4) {
+      const log = readLog();
+      const retreats = log.events.filter(e => e.kind === "pvp_retreat").length;
+      if (retreats >= 3) {
+        fireCompanionComment("watcher_act4_5_three_retreats");
+      }
+    }
   }, [state.narrativeAct]);
 
   return null;
