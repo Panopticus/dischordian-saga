@@ -71,7 +71,7 @@ export default function MolGarathAudienceOfferToast() {
               </p>
               <div className="flex items-center gap-2">
                 <Link
-                  href="/mol-garath"
+                  href="/mol-garath-audience"
                   className="text-xs px-3 py-1.5 rounded-md border border-stone-500 bg-stone-900/40 hover:bg-stone-900/60 transition-colors"
                 >
                   Accept the audience
