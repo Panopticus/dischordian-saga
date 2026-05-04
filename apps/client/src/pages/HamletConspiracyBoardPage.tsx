@@ -42,9 +42,10 @@ import { useGame } from "@/contexts/GameContext";
 import {
   MOL_GARATH_AUDIENCE_FLAG,
   HAMLET_FINAL_CONNECTION_FLAG,
+  hamletClueFlag,
+  hamletConnectionFlag,
+  episodeCompletionFlag,
 } from "@shared/matrixSaveFlags";
-
-const CONNECTION_MADE_FLAG_PREFIX = "hamlet_connection_";
 
 export default function HamletConspiracyBoardPage() {
   const { state, setNarrativeFlag } = useGame();
@@ -53,13 +54,16 @@ export default function HamletConspiracyBoardPage() {
   const cluesCollected = useMemo<ReadonlySet<ClueId>>(() => {
     const set = new Set<ClueId>();
     for (const card of CLUE_CARDS) {
-      // Each Celebration / Mechronis episode that surfaces a clue persists a
-      // hamlet-clue flag at completion. For first-pass shipping we accept the
-      // canonical hamlet_clue_<id> key OR derive from the source-episode
-      // completion flag (so the clue surfaces as soon as the episode is done).
-      const directFlag = `hamlet_clue_${card.id}`;
-      const episodeDoneFlag = `matrix_episode_${card.sourceEpisodeId}_complete`;
-      if (flags[directFlag] || flags[episodeDoneFlag]) set.add(card.id);
+      // Primary signal: the per-clue flag (set by MatrixSchoolEpisodePage
+      // when an episode with this conspiracyClue completes). Fallback:
+      // source-episode completion (kept as a safety net for any clue
+      // wired via a non-Matrix surface).
+      if (
+        flags[hamletClueFlag(card.id)] ||
+        flags[episodeCompletionFlag(card.sourceEpisodeId)]
+      ) {
+        set.add(card.id);
+      }
     }
     return set;
   }, [flags]);
@@ -67,7 +71,7 @@ export default function HamletConspiracyBoardPage() {
   const connectionsMade = useMemo<ReadonlySet<string>>(() => {
     const set = new Set<string>();
     for (const conn of BOARD_CONNECTIONS) {
-      if (flags[`${CONNECTION_MADE_FLAG_PREFIX}${conn.id}`]) set.add(conn.id);
+      if (flags[hamletConnectionFlag(conn.id)]) set.add(conn.id);
     }
     return set;
   }, [flags]);
@@ -85,7 +89,7 @@ export default function HamletConspiracyBoardPage() {
   );
 
   const onMakeConnection = (connId: string) => {
-    setNarrativeFlag(`${CONNECTION_MADE_FLAG_PREFIX}${connId}`, true);
+    setNarrativeFlag(hamletConnectionFlag(connId), true);
   };
 
   return (

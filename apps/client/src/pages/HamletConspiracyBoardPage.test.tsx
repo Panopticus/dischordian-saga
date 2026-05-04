@@ -26,9 +26,13 @@ describe("HamletConspiracyBoardPage — Artist Prince mystery board", () => {
     expect(SRC).toContain("isHamletConnectionUnlocked");
   });
 
-  it("derives clue collection from BOTH direct and episode-completion flags", () => {
-    expect(SRC).toContain("hamlet_clue_${card.id}");
-    expect(SRC).toContain("matrix_episode_${card.sourceEpisodeId}_complete");
+  it("derives clue collection from BOTH per-clue flag and episode-completion fallback", () => {
+    expect(SRC).toContain("hamletClueFlag(card.id)");
+    expect(SRC).toContain("episodeCompletionFlag(card.sourceEpisodeId)");
+  });
+
+  it("uses canonical hamletConnectionFlag helper for connection persistence", () => {
+    expect(SRC).toContain("hamletConnectionFlag");
   });
 
   it("requires Mol'Garath's audience before the final connection unlocks", () => {

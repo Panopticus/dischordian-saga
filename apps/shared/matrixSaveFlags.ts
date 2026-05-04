@@ -43,3 +43,30 @@ export const HAMLET_FINAL_CONNECTION_FLAG = "hamlet_warlord_substrate_named";
 
 /** Set when the Apprentice graduates and inherits the Goggles in Act 7. */
 export const GOGGLES_INHERITED_FLAG = "goggles_inherited";
+
+/**
+ * Compose the per-clue flag for the Hamlet conspiracy board. Set when an
+ * episode that surfaces this clue (per its conspiracyClue field) completes.
+ * The conspiracy board reads either this flag OR the source-episode
+ * completion flag — but the per-clue flag is preferred because it lets
+ * future content (e.g. clues that surface mid-episode without finishing)
+ * wire in cleanly.
+ */
+export function hamletClueFlag(clueId: string): string {
+  return `hamlet_clue_${clueId}`;
+}
+
+/** Inverse: extract the clue id from a hamlet-clue flag, if it is one. */
+export function extractClueIdFromFlag(flagKey: string): string | undefined {
+  const prefix = "hamlet_clue_";
+  if (!flagKey.startsWith(prefix)) return undefined;
+  return flagKey.slice(prefix.length);
+}
+
+/**
+ * Compose the per-Hamlet-board-connection flag (set when the player pins a
+ * connection on the conspiracy board).
+ */
+export function hamletConnectionFlag(connectionId: string): string {
+  return `hamlet_connection_${connectionId}`;
+}
