@@ -8,7 +8,7 @@
    ═══════════════════════════════════════════════════════ */
 import { useEffect, useRef } from "react";
 
-import { getGoogleLoginUrl, getDiscordLoginUrl, getGitHubLoginUrl } from "@/const";
+import { getGoogleLoginUrl, getDiscordLoginUrl, getGitHubLoginUrl, isGoogleLoginAvailable } from "@/const";
 import { KineticText } from "@/components/void";
 
 import type { TitleTheme } from "./themes";
@@ -24,6 +24,10 @@ interface TitleStateUnauthProps {
 export function TitleStateUnauth({ theme, showLogin, onAuthSuccess }: TitleStateUnauthProps) {
   const discordUrl = getDiscordLoginUrl();
   const githubUrl = getGitHubLoginUrl();
+  // Mirror the Discord/GitHub pattern: hide the button if no client_id
+  // is configured, so a misconfigured deployment doesn't render a
+  // button that leads to client_id=undefined on accounts.google.com.
+  const googleAvailable = isGoogleLoginAvailable();
   const popupRef = useRef<Window | null>(null);
 
   useEffect(() => {
@@ -104,12 +108,14 @@ export function TitleStateUnauth({ theme, showLogin, onAuthSuccess }: TitleState
           alignItems: "center",
         }}
       >
-        <LoginButton
-          label="INITIALIZE WITH GOOGLE"
-          accent={theme.palette.accent}
-          onClick={() => go(getGoogleLoginUrl())}
-          icon={<GoogleGlyph color={theme.palette.accent} />}
-        />
+        {googleAvailable && (
+          <LoginButton
+            label="INITIALIZE WITH GOOGLE"
+            accent={theme.palette.accent}
+            onClick={() => go(getGoogleLoginUrl())}
+            icon={<GoogleGlyph color={theme.palette.accent} />}
+          />
+        )}
         {discordUrl && (
           <LoginButton
             label="INITIALIZE WITH DISCORD"

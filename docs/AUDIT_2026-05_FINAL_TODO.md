@@ -32,7 +32,7 @@ _None yet._
 
 ## Low (polish / juice)
 
-- [ ] **Google login URL helper does not null-check missing client_id** — Stop 1 — `apps/client/src/const.ts:4-17` — `getGoogleLoginUrl()` builds a URL with `client_id=undefined` literally if `VITE_GOOGLE_CLIENT_ID` is unset, while `getDiscordLoginUrl()`/`getGitHubLoginUrl()` return `null` and let the caller hide the button. In a misconfigured deployment the Google button shows but leads to a broken Google OAuth page. Fix needs care: `getLoginUrl` (the deprecated alias) is called from ~10 sites that assume a string return. Recommended: add a parallel `isGoogleLoginAvailable(): boolean` helper, gate the button in `TitleStateUnauth.tsx:108-112` on it, leave `getGoogleLoginUrl()` untouched.
+- [x] ~~**Google login URL helper does not null-check missing client_id**~~ — Stop 1, fixed in Stop 20. Added `isGoogleLoginAvailable()` helper to `apps/client/src/const.ts`; gated the Google button in `TitleStateUnauth.tsx` on it. `getGoogleLoginUrl()` left untouched so the ~10 callers assuming string return are unaffected.
 - [ ] **Imprint card art prompts incomplete (2/18 character sets populated)** — Stop 17 — `apps/shared/tcg-core/cardArtPrompts/imprint.ts:1763` — `IMPRINT_PROMPTS_LIST` covers Elara + Antiquarian only; the other 16 sets (agent_zero, akai_shi, foucault, iron_lion, locke, the_architect, the_collector, the_detective, the_dreamer, the_engineer, the_enigma, the_human, the_jailer, the_necromancer, the_oracle, the_source) have no prompts. Imprint cards reference the registry through `IMPRINT_CARD_ART_PROMPTS` so the absence is graceful — those cards just don't have art-generation guidance. This is content work (16 sets × multi-tier prompts each), not engineering, but tracked here so the gap is visible.
 
 ## Out of repo (Cades-FPS emit, asset CDN uploads, VO re-records)
@@ -65,7 +65,8 @@ _None yet._
 | 16 | 2026-05-04 | Act 7 (Convergence) | grand-secret inheritance Watcher line; seven acts as interview | 0 | 8c9353a |
 | 17 | 2026-05-04 | Cross-system surfaces | static audit — verified architectDossier/dreamerDossier 404-shell pattern; logged 16 incomplete imprint art-prompt sets | 1 | adddb5f |
 | 18 | 2026-05-04 | Asset + VO sweep | in-repo invariant tests pass; logged that real CDN HEAD-check + VO audit need credentialed CI run | 2 | 68594d3 |
-| 19 | 2026-05-04 | Final verification pass | pnpm check clean, 10817/10817 tests pass, eslint 0 errors, void-energy 112 files clean | 0 | _pending_ |
+| 19 | 2026-05-04 | Final verification pass | pnpm check clean, 10817/10817 tests pass, eslint 0 errors, void-energy 112 files clean | 0 | edcda3b |
+| 20 | 2026-05-04 | Google login null-check (TODO closeout) | added isGoogleLoginAvailable() helper; gated Google button in TitleStateUnauth | -1 | _pending_ |
 
 ---
 
