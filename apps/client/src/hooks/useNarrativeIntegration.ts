@@ -999,6 +999,7 @@ export function useNarrativeIntegration() {
     // placeholder pattern the Kael fragment watcher uses above.
     const dischordiaStepPlaceholder = 0;
     const allAct1Complete = !!state.narrativeFlags?.act_1_complete;
+    const preludeComplete = !!state.narrativeFlags?.prelude_complete;
     for (const milestone of CARD_BATTLE_MILESTONES) {
       if (state.narrativeFlags?.[milestone.discoveryFlag]) continue;
       if (cardWins < milestone.minWins) continue;
@@ -1007,6 +1008,10 @@ export function useNarrativeIntegration() {
         dischordiaStepPlaceholder < milestone.dischordiaStep
       ) continue;
       if (milestone.allAct1Complete && !allAct1Complete) continue;
+      // Recording 0 — gated on Prelude completion. Reserved for the
+      // Engineer's "If You're Hearing This" transmission that lands
+      // at the close of the Prelude before Act 1 opens.
+      if (milestone.preludeComplete && !preludeComplete) continue;
       // Room gate: Engineer Recordings are each pinned to a specific room
       // (archives, observation_deck, …). Only fire the discovery once the
       // player has actually entered that room; otherwise the Antiquarian

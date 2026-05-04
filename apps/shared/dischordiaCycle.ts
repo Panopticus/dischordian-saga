@@ -476,10 +476,20 @@ export interface CardBattleMilestone {
   readonly minWins: number;
   readonly dischordiaStep?: number;
   readonly allAct1Complete?: boolean;
+  /**
+   * Optional gate — only fire the recording once the Prelude has
+   * completed (`narrativeFlags.prelude_complete` raised). Reserved
+   * for Recording 0, which lands at end-of-Prelude before Act 1.
+   */
+  readonly preludeComplete?: boolean;
   readonly discoveryFlag: string;
 }
 
 export const CARD_BATTLE_MILESTONES: readonly CardBattleMilestone[] = [
+  // Recording 0 — "If You're Hearing This." Engineer's end-of-Prelude
+  // transmission. Per canon (engineerRecordings.ts:74), it surfaces when
+  // the Prelude completes, before any card-battle wins are recorded.
+  { recordingOrder: 0, minWins: 0, preludeComplete: true, discoveryFlag: "engineer_recording_0_discovered" },
   { recordingOrder: 1, minWins: 1, discoveryFlag: "engineer_recording_1_discovered" },
   { recordingOrder: 2, minWins: 3, discoveryFlag: "engineer_recording_2_discovered" },
   { recordingOrder: 3, minWins: 4, discoveryFlag: "engineer_recording_3_discovered" },

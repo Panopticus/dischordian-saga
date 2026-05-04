@@ -27,6 +27,7 @@ import AchievementUnlockToast from "./components/AchievementUnlockToast";
 import RememberThisToast from "./components/RememberThisToast";
 import FeatureUnlockToast from "./components/FeatureUnlockToast";
 import HellboxAffordanceToast from "./components/HellboxAffordanceToast";
+import MolGarathAudienceOfferToast from "./components/MolGarathAudienceOfferToast";
 import { useHellboxDiscovery } from "./hooks/useHellboxDiscovery";
 import { useLivingUniverseSync } from "./hooks/useLivingUniverseSync";
 
@@ -705,6 +706,7 @@ function GameGate() {
       <RememberThisToast />
       <FeatureUnlockToast />
       <HellboxAffordanceToast />
+      <MolGarathAudienceOfferToast />
       <HellboxDiscoveryWatcher />
       <LivingUniverseSyncWatcher />
       {sortingTrigger.shouldTrigger && sortingTrigger.skillId && (
