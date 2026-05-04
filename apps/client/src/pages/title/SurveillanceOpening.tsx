@@ -25,6 +25,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import GlitchFx from "@/components/GlitchFx";
 import KineticText from "@/components/void/KineticText";
+import { observe as observeWatcher } from "@/lib/watcher";
 
 const SEEN_KEY = "dischordia_handshake_seen";
 
@@ -335,6 +336,11 @@ export function SurveillanceOpening({
               // the same media here so the punitive shame beat doesn't
               // burn the activation window.
               onArm?.();
+              // The Watcher remembers this. Picking LOOK AWAY is the
+              // operator's first act of dissent — Acts 5+ surface
+              // callbacks to it. Recorded once; the observation log
+              // is append-only, but downstream code dedupes by kind.
+              observeWatcher({ kind: "first_dissent", at: Date.now() });
               setStage("shamed");
             }}
           />

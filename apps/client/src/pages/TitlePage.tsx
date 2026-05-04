@@ -312,8 +312,16 @@ export default function TitlePage({ onDismiss }: TitlePageProps = {}) {
   const [glitchText, setGlitchText] = useState(false);
   const [scanlineOffset, setScanlineOffset] = useState(0);
   // The handshake plays once per device. Reading the flag synchronously
-  // here avoids a flash of the title behind the scene.
+  // here avoids a flash of the title behind the scene. QA can force the
+  // handshake to re-play with `?surveillance=force` in the URL — useful
+  // for stop-2 walkthroughs without clearing all localStorage.
+  const forceHandshake = useMemo(() => {
+    try {
+      return new URLSearchParams(window.location.search).get("surveillance") === "force";
+    } catch { return false; }
+  }, []);
   const [handshakeDone, setHandshakeDone] = useState<boolean>(() => {
+    if (forceHandshake) return false;
     try { return localStorage.getItem("dischordia_handshake_seen") === "1"; }
     catch { return true; }
   });
@@ -892,6 +900,7 @@ export default function TitlePage({ onDismiss }: TitlePageProps = {}) {
       {!handshakeDone && (
         <SurveillanceOpening
           transparent
+          force={forceHandshake}
           onArm={() => {
             // Pre-roll The Enigma's Lament INSIDE the user-activation
             // handler — iOS Safari rejects every programmatic

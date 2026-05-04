@@ -45,4 +45,5 @@ _None yet._
 | Stop | Date | Surface | Fixes inline | Logged here | Commit |
 |---|---|---|---|---|---|
 | 0 | 2026-05-04 | Watcher subsystem scaffolding | Plumbing only — no behavioral change | 0 | a112d46 |
-| 1 | 2026-05-04 | TitlePage + AuthGate + OAuth | WELCOME BACK boot line for return ops; late_night_session observation | 1 | _pending_ |
+| 1 | 2026-05-04 | TitlePage + AuthGate + OAuth | WELCOME BACK boot line for return ops; late_night_session observation | 1 | cd89858 |
+| 2 | 2026-05-04 | SurveillanceOpening | first_dissent observation on LOOK AWAY; ?surveillance=force QA hook | 0 | _pending_ |
