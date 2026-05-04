@@ -83,6 +83,19 @@ export const WATCHER_COMMENTS: readonly CompanionComment[] = [
     timing: "immediate",
     maxPlays: 1,
   },
+  // ── ACT 3 (Stop 11) — hesitation as data ──
+  // Fires when the operator's first long deliberation (>= 12s
+  // choice_latency) is recorded inside Act 3. The line is a tell:
+  // the Watcher tracks not only what was chosen but how long it
+  // took to choose. Once per account.
+  {
+    id: "watcher_act3_hesitation",
+    speaker: "watcher",
+    trigger: "watcher_act3_hesitation",
+    voiceLine: "Hesitation is data.",
+    timing: "immediate",
+    maxPlays: 1,
+  },
 ];
 
 /** Helper for callers that want both COMPANION_COMMENTS and WATCHER_COMMENTS

@@ -2,26 +2,30 @@
    WATCHER HOST — lifecycle-only mount
 
    Sibling of CompanionHost / DreamerRelayHintsHost. Renders no
-   UI of its own; its only job is to:
+   UI of its own; its responsibilities:
 
      1. Hydrate the local Watcher log mirror from the server on
         mount.
      2. Start the periodic batched-flush daemon.
-     3. (Future, Stops 1–17) subscribe to scheduler context +
-        observation log, evaluate trigger predicates, fire
-        `fireCompanionComment(...)` to surface Watcher lines via
-        the existing toast.
+     3. Evaluate act-gated Watcher trigger predicates and fire
+        `fireCompanionComment(...)` so the toast surfaces them.
 
-   Stop 0 ships only (1) and (2). Trigger evaluation lands as
-   per-stop additions during the audit campaign.
+   Trigger predicates are act-gated by `narrativeAct >= N` and
+   often by an additional flag/observation. Once-per-account is
+   enforced by `maxPlays: 1` in the registered CompanionComment
+   entries, not here — re-firing the trigger is harmless because
+   the toast picker filters out played lines.
    ═══════════════════════════════════════════════════════ */
 
 import { useEffect } from "react";
 import { trpc } from "@/lib/trpc";
+import { useGame } from "@/contexts/GameContext";
+import { fireCompanionComment } from "@/lib/companionCommentQueue";
 import { hydrateFromServer, startFlushDaemon } from "@/lib/watcher";
 
 export function WatcherHost(): null {
   const utils = trpc.useUtils();
+  const { state } = useGame();
 
   useEffect(() => {
     // Best-effort hydrate. Failure (no auth, no DB) is silent — the
@@ -34,13 +38,17 @@ export function WatcherHost(): null {
     return stop;
   }, [utils]);
 
-  // Trigger evaluation is added per audit stop. Pattern:
-  //   useEffect(() => {
-  //     const log = readLog();
-  //     if (countByKind(log, "first_dissent") > 0 && /* ... */) {
-  //       fireCompanionComment("watcher_act2_seen_dissent");
-  //     }
-  //   }, [/* scheduler context */]);
+  // Per-act trigger evaluation. Re-runs whenever narrativeAct
+  // changes; the toast pipeline dedupes via maxPlays so spurious
+  // re-fires are harmless. Each block is independent — adding new
+  // lines means adding a new conditional fire here.
+  useEffect(() => {
+    const act = state.narrativeAct ?? 0;
+    if (act < 3) return;
+    // Stop 11 — Act 3 (Offer): the operator has crossed into Act 3.
+    // Watcher comments on hesitation as a tracked signal.
+    fireCompanionComment("watcher_act3_hesitation");
+  }, [state.narrativeAct]);
 
   return null;
 }
