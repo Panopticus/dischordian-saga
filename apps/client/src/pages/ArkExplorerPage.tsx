@@ -24,6 +24,7 @@ import {
 import { processArkEvent, type ArkEventResult } from "@/game/arkEventHandler";
 import { useDailyBrief } from "@/hooks/useDailyBrief";
 import PageMeta from "@/components/PageMeta";
+import LivingShipSensorOverlay from "@/components/LivingShipSensorOverlay";
 import RoomAmbientLife from "@/components/RoomAmbientLife";
 import ArkFastTravelModal from "@/components/ArkFastTravelModal";
 import NPCDialog, { buildFirstContactScene, type NPCDialogScene, type NPCDialogChoice } from "@/components/NPCDialog";
@@ -1878,6 +1879,7 @@ export default function ArkExplorerPage() {
       description="Walk the Ark's decks, meet the crew, and uncover the ship's daily secrets. The Living Universe is always in motion."
     />
     <div ref={fullscreenRef} className={`min-h-screen ${isFullscreen ? 'bg-background overflow-auto' : ''} pb-8`}>
+      <LivingShipSensorOverlay />
       {/* Header */}
       <div className="px-4 sm:px-6 pt-4 pb-3">
         <div className="flex items-center justify-between">
