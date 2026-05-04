@@ -253,6 +253,24 @@ function EpisodeComplete({
           ? "The chamber folds behind you."
           : "The lecture ends. The cohort files out."}
       </p>
+      {level.playableBridge && (
+        <div className="mb-6 mx-auto max-w-md rounded-md border border-amber-700/40 bg-amber-950/20 p-4">
+          <div className="text-xs uppercase tracking-widest text-amber-400 mb-1">
+            Playable bridge
+          </div>
+          {level.playableBridge.description && (
+            <p className="text-sm text-zinc-300 mb-3 leading-relaxed">
+              {level.playableBridge.description}
+            </p>
+          )}
+          <a
+            href={level.playableBridge.path}
+            className="inline-flex items-center justify-center px-4 py-2 rounded-md border border-amber-600 bg-amber-900/30 hover:bg-amber-900/50 text-sm transition-colors"
+          >
+            {level.playableBridge.label} →
+          </a>
+        </div>
+      )}
       <div className="flex items-center justify-center gap-3">
         <button
           type="button"
