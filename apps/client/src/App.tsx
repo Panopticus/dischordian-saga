@@ -26,6 +26,14 @@ import { CompanionCommentToast } from "./components/companion/CompanionCommentTo
 import AchievementUnlockToast from "./components/AchievementUnlockToast";
 import RememberThisToast from "./components/RememberThisToast";
 import FeatureUnlockToast from "./components/FeatureUnlockToast";
+import HellboxAffordanceToast from "./components/HellboxAffordanceToast";
+import { useHellboxDiscovery } from "./hooks/useHellboxDiscovery";
+
+/** Side-effect-only watcher — sets HELLBOX_DISCOVERED_FLAG on medbay entry. */
+function HellboxDiscoveryWatcher() {
+  useHellboxDiscovery();
+  return null;
+}
 import CompanionHost from "./companion/CompanionHost";
 import { setContext as setCompanionContext } from "./companion/companionScheduler";
 import TradeNotificationWatcher from "./components/TradeNotificationWatcher";
@@ -688,6 +696,8 @@ function GameGate() {
       <CompanionCommentToast />
       <RememberThisToast />
       <FeatureUnlockToast />
+      <HellboxAffordanceToast />
+      <HellboxDiscoveryWatcher />
       {sortingTrigger.shouldTrigger && sortingTrigger.skillId && (
         <SortingCeremony skillId={sortingTrigger.skillId} onComplete={handleSortingComplete} />
       )}
