@@ -28,7 +28,7 @@ _None yet._
 
 ## Medium (degrades acts 2–7)
 
-_None yet._
+- [ ] **PvP queue has no bot-fallback for empty queue** — Stop 9 — `apps/server/duelystWs.ts:289-300` (setupDuelystWebSocket matchmaking loop) — `tryMatchPlayers()` pairs from a shared real-player queue every MATCHMAKING_INTERVAL_MS; if the player is alone in queue they wait forever. UX: solo testers and low-traffic-time visitors see "QUEUE_UPDATE position: 1" indefinitely. Recommended fix: after `QUEUE_TIMEOUT_BEFORE_BOT_MS` (e.g., 45s) of being alone in queue, dispatch the player into a single-player CADES match against a faction-appropriate AI opponent using DuelystAI.ts (already used for solo Act 1 ladder). Cleanup is already supported (`activeMatches.delete`, `playerConnections` mapping).
 
 ## Low (polish / juice)
 
@@ -52,4 +52,5 @@ _None yet._
 | 5 | 2026-05-04 | ArkExplorer hub | locked_door_attempt observation; 3-attempt persistence Watcher line; verified tutorial orchestrator one-shot guard | 0 | 9d9a2f5 |
 | 6 | 2026-05-04 | DuelystGameUI match end | achievement fanfare + screen shake on win; KO slowmo on loss; pvp_retreat observation when conceded < turn 5 | 0 | 9dddab1 |
 | 7 | 2026-05-04 | PackOpening dopamine pass | wired pack_rip + card_reveal_<rarity> SoundManager cues; lootCelebration particles on rare+; achievementFanfare on summary | 0 | 4b32fe8 |
-| 8 | 2026-05-04 | Deck builder + unlock service | static audit only — no inline fixes (multi-surface fix) | 1 | _pending_ |
+| 8 | 2026-05-04 | Deck builder + unlock service | static audit only — no inline fixes (multi-surface fix) | 1 | d7468db |
+| 9 | 2026-05-04 | PvP entry + matchmaking | static audit — verified rank decay logic, no bot-fallback for empty queue | 1 | _pending_ |
