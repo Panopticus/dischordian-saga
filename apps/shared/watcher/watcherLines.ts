@@ -96,6 +96,19 @@ export const WATCHER_COMMENTS: readonly CompanionComment[] = [
     timing: "immediate",
     maxPlays: 1,
   },
+  // ── ACT 4 (Stop 12) — pattern recognition ──
+  // Act 4 is The Revelation. The Watcher acknowledges that the
+  // operator's choices fall into patterns it has seen across
+  // operators. Generic phrasing — Stop 12 keeps it short rather
+  // than introducing string templating just for one line.
+  {
+    id: "watcher_act4_pattern",
+    speaker: "watcher",
+    trigger: "watcher_act4_pattern",
+    voiceLine: "We have seen this pattern before.",
+    timing: "immediate",
+    maxPlays: 1,
+  },
 ];
 
 /** Helper for callers that want both COMPANION_COMMENTS and WATCHER_COMMENTS

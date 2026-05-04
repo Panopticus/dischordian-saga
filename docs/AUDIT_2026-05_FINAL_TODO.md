@@ -55,4 +55,5 @@ _None yet._
 | 8 | 2026-05-04 | Deck builder + unlock service | static audit only — no inline fixes (multi-surface fix) | 1 | d7468db |
 | 9 | 2026-05-04 | PvP entry + matchmaking | static audit — verified rank decay logic, no bot-fallback for empty queue | 1 | b5cb983 |
 | 10 | 2026-05-04 | Act 2 (Whisper) | verified substrate-ping already wired (audit plan was outdated); added tab_hidden detection + Watcher's first direct address ("You looked away. We noted it.") | 0 | 6edb17f |
-| 11 | 2026-05-04 | Act 3 (Offer) | "Hesitation is data." Watcher line; centralized act-gated trigger eval in WatcherHost | 0 | _pending_ |
+| 11 | 2026-05-04 | Act 3 (Offer) | "Hesitation is data." Watcher line; centralized act-gated trigger eval in WatcherHost | 0 | bed4ba4 |
+| 12 | 2026-05-04 | Act 4 (Revelation) | "We have seen this pattern before." Watcher line | 0 | _pending_ |

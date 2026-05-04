@@ -44,10 +44,10 @@ export function WatcherHost(): null {
   // lines means adding a new conditional fire here.
   useEffect(() => {
     const act = state.narrativeAct ?? 0;
-    if (act < 3) return;
-    // Stop 11 — Act 3 (Offer): the operator has crossed into Act 3.
-    // Watcher comments on hesitation as a tracked signal.
-    fireCompanionComment("watcher_act3_hesitation");
+    // Stop 11 — Act 3 (Offer): hesitation-as-data tell.
+    if (act >= 3) fireCompanionComment("watcher_act3_hesitation");
+    // Stop 12 — Act 4 (Revelation): pattern-recognition tell.
+    if (act >= 4) fireCompanionComment("watcher_act4_pattern");
   }, [state.narrativeAct]);
 
   return null;
