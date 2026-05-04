@@ -57,6 +57,9 @@ for (const [src, manifest, generator, idem] of [
   ["act5-vo-lines.json",       "act5",          "pnpm vo:act5",                                       true],
   ["act6-vo-lines.json",       "act6",          "pnpm vo:act6",                                       true],
   ["act7-vo-lines.json",       "act7",          "pnpm vo:act7",                                       true],
+  ["engineer-memoir-lines.json", "engineerMemoir", "pnpm vo:engineer-memoir",                          true],
+  ["palimpsest-host-lines.json", "palimpsestHost", "pnpm vo:palimpsest-host",                          true],
+  ["seer-lines.json",            "seer",           "pnpm vo:seer",                                     true],
 ]) {
   const ids = loadLineIds(src) ?? [];
   surfaces.push({

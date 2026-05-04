@@ -142,7 +142,8 @@ run_stage "Stage 13 / chess-climb"       pnpm tsx apps/scripts/generate-chess-cl
 # ── Stage 5: Per-character Python generators ──────────
 if [ $SKIP_PYTHON -eq 0 ]; then
   for char in elara human agent_zero antiquarian cades degen locke \
-              meme necromancer nilmorg shadow_tongue source; do
+              meme necromancer nilmorg shadow_tongue source \
+              engineer_memoir palimpsest_host seer; do
     run_stage "Stage 14.$char / generate_${char}_vo.py" \
       python3 apps/scripts/generate_${char}_vo.py
   done

@@ -1,0 +1,58 @@
+[
+  {
+    "id": "seer_tutor_witnessing_intro",
+    "text": "Witnessing is canonical-not-watching. The bench has canonical-recorded my canonical-introduction to this canonical-mechanic sixteen-thousand canonical-years before you canonical-arrived to read it. Sit. The canonical-lesson is canonical-already-finished on my side. You will canonical-receive it on yours.",
+    "context": "tutor",
+    "emotion": "pre_recorded",
+    "file": "shared/seerVoManifest.json"
+  },
+  {
+    "id": "seer_usage_dark_chosen",
+    "text": "You canonical-chose the canonical-dark. The canonical-dark canonical-chose you sixteen-thousand canonical-years ago and canonical-waited politely for the canonical-handshake. The canonical-recording is canonical-pleased. My canonical-pleasure is canonical-pre-recorded. Continue.",
+    "context": "tutor",
+    "emotion": "pre_recorded",
+    "file": "shared/seerVoManifest.json"
+  },
+  {
+    "id": "seer_usage_light_chosen",
+    "text": "You canonical-chose the canonical-light. The canonical-light canonical-chose you sixteen-thousand canonical-years ago and canonical-waited equally politely. The canonical-symmetry is canonical-the-bench's canonical-favorite shape. Continue. The canonical-witnessing is canonical-on-cue.",
+    "context": "tutor",
+    "emotion": "pre_recorded",
+    "file": "shared/seerVoManifest.json"
+  },
+  {
+    "id": "seer_usage_song_starts",
+    "text": "The canonical-song is canonical-starting. It is canonical-not the first time. It is canonical-not the last time. It is canonical-this-time, which is the canonical-only-time the canonical-bench grades. Listen on the canonical-cue. The canonical-cue is canonical-now.",
+    "context": "tutor",
+    "emotion": "prophetic",
+    "file": "shared/seerVoManifest.json"
+  },
+  {
+    "id": "seer_usage_verse_lands",
+    "text": "The canonical-verse canonical-landed. Canonical-on-the-bench. Canonical-on-the-cue. Canonical-on-time. The canonical-recording is canonical-satisfied with your canonical-timing. The canonical-satisfaction is canonical-pre-recorded and canonical-meaningless to my schedule.",
+    "context": "tutor",
+    "emotion": "indifferent",
+    "file": "shared/seerVoManifest.json"
+  },
+  {
+    "id": "the_seer_visit_taunt_early",
+    "text": "Early. Canonical-early. I have canonical-this-line canonical-prepared for the canonical-eager-ones. You are canonical-on-schedule for a canonical-loss in canonical-three turns. Do not canonical-rush. The canonical-rush is canonical-the-recording's canonical-favorite tell.",
+    "context": "act1_taunts",
+    "emotion": "pre_recorded",
+    "file": "shared/seerVoManifest.json"
+  },
+  {
+    "id": "the_seer_visit_taunt_mid",
+    "text": "Canonical-midmatch. The canonical-bench has canonical-already-graded this canonical-position. You are canonical-not-losing yet. You are canonical-becoming-losing. The canonical-becoming is the canonical-only-thing the canonical-recording could not canonical-pre-empt.",
+    "context": "act1_taunts",
+    "emotion": "prophetic",
+    "file": "shared/seerVoManifest.json"
+  },
+  {
+    "id": "the_seer_visit_taunt_late",
+    "text": "Canonical-late. Canonical-on-the-cue. The canonical-loss is canonical-arriving with canonical-good-posture. I have canonical-this-line canonical-prepared for the canonical-quiet-end. The canonical-staff is canonical-on-the-bench. Take it if you want it. I left it for you canonical-specifically.",
+    "context": "act1_taunts",
+    "emotion": "indifferent",
+    "file": "shared/seerVoManifest.json"
+  }
+]

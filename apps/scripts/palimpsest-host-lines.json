@@ -1,0 +1,274 @@
+[
+  {
+    "id": "gm_intro_episode_1",
+    "text": "Welcome — to the WELCOME MAT! Episode One. SAFE on the green, UNSAFE on the red, and the floor — well — the floor decides. Don't think too hard. The thinking is what falls.",
+    "context": "",
+    "emotion": "barker",
+    "filename": "ep01_welcome_mat_intro.mp3",
+    "file": "shared/palimpsestHostVoManifest.json"
+  },
+  {
+    "id": "gm_intro_episode_2",
+    "text": "Episode TWO! THE LINK! One of you is the weakest. One of you is voting. One of you is a stranger on a different Ark and they don't know they're playing yet — but they ARE — and they're losing.",
+    "context": "",
+    "emotion": "barker",
+    "filename": "ep02_first_objection_intro.mp3",
+    "file": "shared/palimpsestHostVoManifest.json"
+  },
+  {
+    "id": "gm_intro_episode_3",
+    "text": "Episode three. THE LIAR. Office hours are open. One of you brought a truth you have not told anyone. We will tell it for you. With music. On a stage. With your name in lights you did not consent to.",
+    "context": "",
+    "emotion": "barker",
+    "filename": "ep03_office_hours_intro.mp3",
+    "file": "shared/palimpsestHostVoManifest.json"
+  },
+  {
+    "id": "gm_intro_episode_4",
+    "text": "Episode FOUR — THE AUCTION! Tonight we ask the only question that ever mattered: WOULD — YOU — SELL — YOUR — and the rest of the sentence is up to you, contestant. The bidding is already happening. You are already late.",
+    "context": "",
+    "emotion": "barker",
+    "filename": "ep04_ghost_contestant_intro.mp3",
+    "file": "shared/palimpsestHostVoManifest.json"
+  },
+  {
+    "id": "gm_intro_episode_5",
+    "text": "Episode five. THE ORACLE. We have a Chaser. We have a board. We have a — sorry, sorry, the cue card is — the cue card is from a different episode — let's start again — ORACLE! Eyes forward. Smile.",
+    "context": "",
+    "emotion": "mask_slipping",
+    "filename": "ep05_midpoint_stutter_intro.mp3",
+    "file": "shared/palimpsestHostVoManifest.json"
+  },
+  {
+    "id": "gm_intro_episode_6",
+    "text": "Episode six! SURVIVOR — MECHRONIS! Tribe has spoken. Tribe has been speaking for some time. Tribe will speak through the next contestant whether they want it or not. The torches are sponsored. The torches are watching.",
+    "context": "",
+    "emotion": "barker",
+    "filename": "ep06_survivor_mechronis_intro.mp3",
+    "file": "shared/palimpsestHostVoManifest.json"
+  },
+  {
+    "id": "gm_intro_episode_7",
+    "text": "Episode SEVEN — RAILROAD! Service starts in three. Two. One. The kitchen is the kitchen — the kitchen is also the boardroom — the kitchen is also the courtroom — pick a knife and run, contestant, you have a station to fail at.",
+    "context": "",
+    "emotion": "barker",
+    "filename": "ep07_second_safe_point_intro.mp3",
+    "file": "shared/palimpsestHostVoManifest.json"
+  },
+  {
+    "id": "gm_intro_episode_8",
+    "text": "Episode eight. HOUSE — OF — CARDS! The Diary Room is open. The Diary Room is always open. The Diary Room is reading you back to yourself with corrections in the margins, and the corrections are in your handwriting, and you do not remember writing them.",
+    "context": "",
+    "emotion": "barker",
+    "filename": "ep08_corrections_intro.mp3",
+    "file": "shared/palimpsestHostVoManifest.json"
+  },
+  {
+    "id": "gm_intro_episode_9",
+    "text": "Episode NINE! THE GAUNTLET! Forwards is for cowards. Tonight — we crawl backwards. The padding is sponsored. The padding will not save you. Smile for the slow-motion. Smile WIDER.",
+    "context": "",
+    "emotion": "barker",
+    "filename": "ep09_backwards_crawl_intro.mp3",
+    "file": "shared/palimpsestHostVoManifest.json"
+  },
+  {
+    "id": "gm_intro_episode_10",
+    "text": "Episode ten. THE DEBATE. Tonight: THALORIA. Two podiums. Two opinions. One of them is yours. One of them was yours BEFORE we asked you, and the difference between them is the only thing the audience came to watch.",
+    "context": "",
+    "emotion": "barker",
+    "filename": "ep10_thaloria_debate_intro.mp3",
+    "file": "shared/palimpsestHostVoManifest.json"
+  },
+  {
+    "id": "gm_intro_episode_11",
+    "text": "Episode eleven. INTERVIEWS. We rehearsed this. We rehearsed THIS. We rehearsed — you. We rehearsed your seat. We rehearsed the chair you would be late to and we are running it on schedule whether or not you arrive.",
+    "context": "",
+    "emotion": "mask_slipping",
+    "filename": "ep11_late_to_taping_intro.mp3",
+    "file": "shared/palimpsestHostVoManifest.json"
+  },
+  {
+    "id": "gm_intro_episode_12",
+    "text": "Episode TWELVE! THE ELIMINATION! Plate one. Plate two. Plate — the plate is — the plate is on fire and the judge is the INVENTOR and he is taking the show now, contestant, please remain seated, please REMAIN — please —",
+    "context": "",
+    "emotion": "mask_slipping",
+    "filename": "ep12_inventor_takeover_intro.mp3",
+    "file": "shared/palimpsestHostVoManifest.json"
+  },
+  {
+    "id": "gm_intro_episode_13",
+    "text": "Episode thirteen. THE RECKONING. There is no Round Three tonight. There is no question. There is no buzzer. There is only the chair, and the chair is yours, and you have always been the contestant. Welcome home.",
+    "context": "",
+    "emotion": "sincere_breakthrough",
+    "filename": "ep13_the_reckoning_intro.mp3",
+    "file": "shared/palimpsestHostVoManifest.json"
+  },
+  {
+    "id": "gm_correct_response_1",
+    "text": "CORRECT! Beautifully delivered. The audience adores you. The audience is contractually required to.",
+    "context": "",
+    "emotion": "saccharine",
+    "filename": "response_correct_01.mp3",
+    "file": "shared/palimpsestHostVoManifest.json"
+  },
+  {
+    "id": "gm_correct_response_2",
+    "text": "Correct — and on the FIRST try — give yourself the smile you came in with. Don't worry, we kept it warm.",
+    "context": "",
+    "emotion": "saccharine",
+    "filename": "response_correct_02.mp3",
+    "file": "shared/palimpsestHostVoManifest.json"
+  },
+  {
+    "id": "gm_correct_response_3",
+    "text": "Correct! Look at THAT. Look at YOU. The lights are tilting just a little towards your side of the stage now. Did you feel that? Of course you did.",
+    "context": "",
+    "emotion": "saccharine",
+    "filename": "response_correct_03.mp3",
+    "file": "shared/palimpsestHostVoManifest.json"
+  },
+  {
+    "id": "gm_correct_response_4",
+    "text": "CORRECT — and the home audience is on their feet — the home audience is always on their feet for you specifically — they have been standing the whole time waiting for this answer.",
+    "context": "",
+    "emotion": "saccharine",
+    "filename": "response_correct_04.mp3",
+    "file": "shared/palimpsestHostVoManifest.json"
+  },
+  {
+    "id": "gm_wrong_response_1",
+    "text": "Oh — OH — that is — that is not the answer we have on the card. The card is firm. The card is the card. The card is, in fact, the only thing in this building that doesn't change.",
+    "context": "",
+    "emotion": "gleeful_wrong",
+    "filename": "response_wrong_01.mp3",
+    "file": "shared/palimpsestHostVoManifest.json"
+  },
+  {
+    "id": "gm_wrong_response_2",
+    "text": "Wrong! And so CONFIDENTLY wrong, which is the best kind. The audience LOVES a confident wrong. The audience does not love a hesitant correct. Remember that for next round.",
+    "context": "",
+    "emotion": "gleeful_wrong",
+    "filename": "response_wrong_02.mp3",
+    "file": "shared/palimpsestHostVoManifest.json"
+  },
+  {
+    "id": "gm_wrong_response_3",
+    "text": "Wrong. Mmm. We will keep that one. We will keep that one in the file with the others. The file is getting THICK, contestant. The file is humming.",
+    "context": "",
+    "emotion": "gleeful_wrong",
+    "filename": "response_wrong_03.mp3",
+    "file": "shared/palimpsestHostVoManifest.json"
+  },
+  {
+    "id": "gm_wrong_response_4",
+    "text": "INCORRECT! Take a moment. Breathe. The wrong answer is not a small thing — it is the SHAPE of you tonight, and we are filming it from THREE angles for the highlights.",
+    "context": "",
+    "emotion": "gleeful_wrong",
+    "filename": "response_wrong_04.mp3",
+    "file": "shared/palimpsestHostVoManifest.json"
+  },
+  {
+    "id": "gm_lifeline_50_50",
+    "text": "FIFTY — FIFTY! Two answers remain. One of them is the truth. One of them is the OTHER truth. Choose the one that flatters you. The audience will not know the difference until they wake up.",
+    "context": "",
+    "emotion": "barker",
+    "filename": "lifeline_50_50.mp3",
+    "file": "shared/palimpsestHostVoManifest.json"
+  },
+  {
+    "id": "gm_lifeline_audience",
+    "text": "ASK — THE — AUDIENCE! They have been waiting all evening to be useful. Look at them. Look at them in their good shirts. Their answer is averaged. Their average is your fate.",
+    "context": "",
+    "emotion": "barker",
+    "filename": "lifeline_audience.mp3",
+    "file": "shared/palimpsestHostVoManifest.json"
+  },
+  {
+    "id": "gm_lifeline_ghost",
+    "text": "The Phone — A — Ghost! Pick up. They have been waiting on the line since before you were a contestant. They have a thirty-second hint and they will spend twenty-eight of them apologizing for what they cannot tell you.",
+    "context": "",
+    "emotion": "barker",
+    "filename": "lifeline_phone_ghost.mp3",
+    "file": "shared/palimpsestHostVoManifest.json"
+  },
+  {
+    "id": "gm_round5_halfway",
+    "text": "Halfway. The HALF — way — point. From here on, every answer you give is also an answer to the answer you gave before, and the audience is keeping a running tally in their teeth.",
+    "context": "",
+    "emotion": "barker",
+    "filename": "round5_halfway.mp3",
+    "file": "shared/palimpsestHostVoManifest.json"
+  },
+  {
+    "id": "gm_round10_final",
+    "text": "ROUND — TEN! Final round. Final lights. Final smile from your humble host. The cue cards have run out and we are working from memory now and the memory is — getting — interesting.",
+    "context": "",
+    "emotion": "mask_slipping",
+    "filename": "round10_final.mp3",
+    "file": "shared/palimpsestHostVoManifest.json"
+  },
+  {
+    "id": "gm_perfect_run",
+    "text": "A — PERFECT — RUN! Ten for ten! No errors! No hesitations! No tells! The audience is — the audience is uneasy, contestant. A perfect run is the SCARIEST thing we can show them. Take a bow. Take a longer one.",
+    "context": "",
+    "emotion": "saccharine",
+    "filename": "perfect_run.mp3",
+    "file": "shared/palimpsestHostVoManifest.json"
+  },
+  {
+    "id": "gm_mask_slip_stutter",
+    "text": "And the next — the n— the next question — sorry — the n— the next — the question is — give me a moment — the question — was already answered — by you — before you sat down — sorry — smile, please. Smile.",
+    "context": "",
+    "emotion": "mask_slipping",
+    "filename": "mask_slip_stutter.mp3",
+    "file": "shared/palimpsestHostVoManifest.json"
+  },
+  {
+    "id": "gm_mask_slip_full",
+    "text": "I am not the Game Master. I am wearing him. I am wearing him very well. The audience does not know yet. Let's not tell them. Let's keep it a — let's keep it a SHOW. Smile, contestant. Both of us are smiling.",
+    "context": "",
+    "emotion": "mask_slipping",
+    "filename": "mask_slip_full.mp3",
+    "file": "shared/palimpsestHostVoManifest.json"
+  },
+  {
+    "id": "gm_objection_accepted",
+    "text": "OBJECTION — from General Alaric — and the General is — the General is RIGHT, the cue card was wrong, give him his point, give him TWO of his points, the General is in the building tonight and the building is OBLIGED.",
+    "context": "",
+    "emotion": "barker",
+    "filename": "alaric_objection_accepted.mp3",
+    "file": "shared/palimpsestHostVoManifest.json"
+  },
+  {
+    "id": "gm_objection_exposed",
+    "text": "Objection — sustained — and the General has just exposed something he did not mean to expose, on live air, with the lights up, in front of the audience and the file and the cue cards and his own boss. Roll the tape. Roll it AGAIN.",
+    "context": "",
+    "emotion": "gleeful_wrong",
+    "filename": "alaric_objection_exposed.mp3",
+    "file": "shared/palimpsestHostVoManifest.json"
+  },
+  {
+    "id": "gm_vyre_introduction",
+    "text": "And tonight — joining us in seat four — please welcome — the GUEST — VYRE! Eyes forward, audience. Eyes forward, contestants. Eyes forward, Vyre — the seat will tell you which way is forward, and you will agree with it.",
+    "context": "",
+    "emotion": "barker",
+    "filename": "vyre_guest_introduction.mp3",
+    "file": "shared/palimpsestHostVoManifest.json"
+  },
+  {
+    "id": "gm_darren_eulogy",
+    "text": "Darren Fessler. Assistant Dream Engineer. Second Class. Eliminated tonight on Plate Two. He wrote a novel about dragons that did paperwork. He never showed it to anyone. We are showing it to everyone now. Applause — please — for Darren.",
+    "context": "",
+    "emotion": "eulogy",
+    "filename": "darren_eulogy_ep12.mp3",
+    "file": "shared/palimpsestHostVoManifest.json"
+  },
+  {
+    "id": "gm_inventor_takeover",
+    "text": "Ladies and gentlemen — contestants — audience — file — the Inventor has the floor. The Inventor has the lights. The Inventor has my microphone. I am — I am stepping back. I am stepping back. The mask is — the mask is staying on. For now.",
+    "context": "",
+    "emotion": "mask_slipping",
+    "filename": "inventor_takeover_ep12_fullsession.mp3",
+    "file": "shared/palimpsestHostVoManifest.json"
+  }
+]
