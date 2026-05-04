@@ -145,7 +145,13 @@ export function SlideshowPlayerRoot() {
   // path if the video errors.
   const useVideoPlayer = Boolean(slideshowDef.videoUrl) && !videoFailed;
 
-  const inner = useVideoPlayer ? (
+  // Dream-mode props are threaded through when the queue entry
+  // declares dream metadata. The presence of `dream` flips
+  // SongSlideshow into bookend + awaken behavior. The video-player
+  // path is intentionally not dream-aware — dream visions render
+  // as frame slideshows so the prophecy bookends bracket cleanly.
+  const dream = active?.dream;
+  const inner = useVideoPlayer && !dream ? (
     <SongCinematicVideo
       videoUrl={slideshowDef.videoUrl!}
       audioUrl={slideshowDef.audioUrl}
@@ -159,6 +165,11 @@ export function SlideshowPlayerRoot() {
       audioSrc={slideshowDef.audioUrl}
       title={slideshowDef.title}
       onEnd={handleComplete}
+      dreamMode={Boolean(dream)}
+      bookend={dream?.bookend}
+      visionId={dream?.visionId}
+      unawakenable={dream?.unawakenable}
+      onDreamEnd={dream?.onDreamEnd}
     />
   );
 

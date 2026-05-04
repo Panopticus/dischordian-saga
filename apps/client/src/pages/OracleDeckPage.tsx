@@ -28,6 +28,31 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { getOracleCardBySlug } from "@shared/tcg-core";
+import { useGame } from "@/contexts/GameContext";
+import { useWitnessingStore } from "@/stores/witnessingStore";
+import {
+  PROPHECY_VISIONS,
+  type ProphecyVision,
+} from "@shared/prophecyVisionMap";
+import { getProphecyById } from "@shared/danielCrossProphecies";
+import { getSlideshow } from "@shared/songSlideshows";
+import { DREAMER_VISIONS } from "@shared/dreamerVisions";
+
+/** Find the prophecy vision bound to an Oracle card slug, if any.
+ *  ~23 marquee visions are bound (one per Major Arcanum); the
+ *  remaining marquees + every whisper / static are unbound. */
+function findVisionForOracleSlug(slug: string): ProphecyVision | undefined {
+  return PROPHECY_VISIONS.find((v) => v.oracleCardSlug === slug);
+}
+
+function resolveSlideshowDef(slideshowId: string) {
+  const direct = getSlideshow(slideshowId);
+  if (direct) return direct;
+  for (const dv of DREAMER_VISIONS) {
+    if (dv.slideshow.id === slideshowId) return dv.slideshow;
+  }
+  return undefined;
+}
 
 type View = "deck" | "daily_reading" | "weekly_reading";
 
@@ -417,6 +442,68 @@ function DrawnCard({ drawn, hidden }: { drawn: any; hidden: boolean }) {
     : card
       ? ARCANUM_ACCENT[card.arcanum] ?? "border-border/30 text-foreground"
       : "border-border/30 text-foreground";
+
+  // Prophecy binding: ~23 marquees are bound to Oracle cards. If
+  // this card has a bound vision, surface the appropriate
+  // affordance — "Witness this prophecy" when the player has
+  // unlocked it, a "hum-of-vision" tease when they haven't.
+  const game = useGame();
+  const playSlideshow = useWitnessingStore((s) => s.playSlideshow);
+  const completeActive = useWitnessingStore((s) => s.completeActiveSlideshow);
+  const progressQuery = trpc.dreamerVisions.getProphecyProgress.useQuery(
+    undefined,
+    { enabled: !hidden && Boolean(drawn.cardSlug) },
+  );
+  const markIndexViewedMutation =
+    trpc.dreamerVisions.markIndexViewed.useMutation();
+
+  const boundVision = !hidden ? findVisionForOracleSlug(drawn.cardSlug) : undefined;
+  const boundOpening = boundVision
+    ? getProphecyById(boundVision.openingProphecyId)
+    : undefined;
+
+  const visionUnlocked = useMemo(() => {
+    if (!boundVision || !progressQuery.data) return false;
+    const received = new Set(progressQuery.data.marqueesReceived);
+    const completed = new Set(progressQuery.data.marqueesCompleted);
+    const unlockedWhispers = new Set(progressQuery.data.unlockedWhispers);
+    const viewed = new Set(progressQuery.data.viewedInIndex);
+    if (boundVision.intensity === "marquee") {
+      return received.has(boundVision.id) || completed.has(boundVision.id);
+    }
+    return unlockedWhispers.has(boundVision.id) || viewed.has(boundVision.id);
+  }, [boundVision, progressQuery.data]);
+
+  const watchProphecy = () => {
+    if (!boundVision) return;
+    const def = resolveSlideshowDef(boundVision.slideshowId);
+    if (!def) return;
+    const opening = getProphecyById(boundVision.openingProphecyId);
+    const closing = getProphecyById(boundVision.closingProphecyId);
+    playSlideshow(def, {
+      dream:
+        opening && closing
+          ? {
+              visionId: boundVision.id,
+              bookend: { opening, closing },
+              unawakenable: boundVision.unawakenable,
+              onDreamEnd: ({ kind }) => {
+                if (kind === "full") {
+                  // Index re-watch from a reading is a free re-experience —
+                  // it counts toward the Archivist tier but not toward
+                  // initial completion (server short-circuits dupes).
+                  markIndexViewedMutation.mutate({
+                    visionId: boundVision.id,
+                    currentAct: deriveActFromFlags(game.state.narrativeFlags),
+                  });
+                }
+              },
+            }
+          : undefined,
+      onComplete: () => completeActive(),
+    });
+  };
+
   return (
     <div className={`rounded-md border ${accent} bg-black/40 p-4 space-y-2`}>
       <p className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
@@ -447,8 +534,39 @@ function DrawnCard({ drawn, hidden }: { drawn: any; hidden: boolean }) {
           <p className="font-mono text-[9px] text-muted-foreground">
             applies at {drawn.position.appliesAt}
           </p>
+          {boundVision && visionUnlocked && (
+            <button
+              type="button"
+              onClick={watchProphecy}
+              className="mt-2 w-full rounded border border-primary/30 bg-primary/10 px-3 py-1.5 font-mono text-[10px] uppercase tracking-widest text-primary hover:bg-primary/20 transition-colors"
+            >
+              Witness this prophecy →
+            </button>
+          )}
+          {boundVision && !visionUnlocked && (
+            <div className="mt-2 rounded border border-border/20 bg-black/30 px-3 py-2">
+              <p className="font-mono text-[10px] italic text-muted-foreground/70">
+                This card hums with a vision you haven&apos;t dreamed.
+              </p>
+              {boundOpening && (
+                <p className="font-display text-[11px] text-foreground/60 italic mt-1 line-clamp-2">
+                  {boundOpening.text.split("\n")[0]}
+                </p>
+              )}
+            </div>
+          )}
         </>
       )}
     </div>
   );
+}
+
+function deriveActFromFlags(
+  flags: Readonly<Record<string, boolean>> | undefined,
+): number {
+  if (!flags) return 1;
+  for (let n = 7; n >= 1; n--) {
+    if (flags[`act${n}_started`] || flags[`act${n}_complete`]) return n;
+  }
+  return 1;
 }

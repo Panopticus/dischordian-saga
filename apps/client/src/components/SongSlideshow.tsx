@@ -14,6 +14,23 @@
    ═══════════════════════════════════════════════════════ */
 import { useState, useEffect, useCallback, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import type { DanielCrossProphecy } from "@shared/danielCrossProphecies";
+import DreamProphecyFlash from "./DreamProphecyFlash";
+
+/** Bookend pair drawn from DANIEL_CROSS_PROPHECIES. When provided
+ *  to a slideshow in dreamMode, the opening flash plays before the
+ *  first frame and the closing flash plays after the last. */
+export interface DreamBookend {
+  readonly opening: DanielCrossProphecy;
+  readonly closing: DanielCrossProphecy;
+}
+
+/** Result of a dream-mode playback. Surfaced via onDreamEnd so the
+ *  caller can decide whether the watch counts as full or partial. */
+export interface DreamEndResult {
+  readonly kind: "full" | "awoken_early";
+  readonly visionId: string;
+}
 
 export interface SlideshowFrame {
   /** Path to the still image (relative to /public). Always required —
@@ -43,6 +60,24 @@ export interface SongSlideshowProps {
   dismissible?: boolean;
   /** Optional title shown before the first frame fades in. */
   title?: string;
+  /** Dream mode: bookend the slideshow with prophecy flashes,
+   *  hide the "tap to skip" hint, and surface an Awaken affordance
+   *  in place of click-to-dismiss. The slideshow becomes a
+   *  prophecy cinematic. */
+  dreamMode?: boolean;
+  /** Bookend prophecies — required when dreamMode is true. */
+  bookend?: DreamBookend;
+  /** Stable id for the vision being delivered. Surfaced back via
+   *  onDreamEnd so the caller knows which vision was just resolved. */
+  visionId?: string;
+  /** Disable the awaken affordance — used for the unawakenable
+   *  apex pair (First Visitation + "Not a Lion but a Lamb"). */
+  unawakenable?: boolean;
+  /** Dream-mode end callback. Fires with { kind: "full" } on
+   *  natural completion of the closing prophecy flash, or
+   *  { kind: "awoken_early" } when the player triggers the
+   *  awaken affordance during the body. */
+  onDreamEnd?: (result: DreamEndResult) => void;
 }
 
 const DEFAULT_DURATION = 5000;
@@ -54,9 +89,25 @@ export default function SongSlideshow({
   onEnd,
   dismissible = true,
   title,
+  dreamMode = false,
+  bookend,
+  visionId,
+  unawakenable = false,
+  onDreamEnd,
 }: SongSlideshowProps) {
+  // Dream-mode phases: opening flash → body → closing flash → done.
+  // Non-dream playback skips straight to "body" and never visits
+  // the bookend phases.
+  const [dreamPhase, setDreamPhase] = useState<
+    "opening" | "body" | "closing" | "done"
+  >(dreamMode && bookend ? "opening" : "body");
   const [currentIndex, setCurrentIndex] = useState(-1); // -1 = title card
   const [dismissed, setDismissed] = useState(false);
+  // Awaken affordance — hold-to-confirm so an accidental tap doesn't
+  // skip the dream. 1.5s threshold matches the plan; mirrored in the
+  // E2E test invariants.
+  const [awakenHoldStart, setAwakenHoldStart] = useState<number | null>(null);
+  const [awoken, setAwoken] = useState(false);
   // Track per-frame video-load failures so a 404 / unsupported codec
   // falls back to the still image without disrupting playback. Keyed
   // by frame index so a later frame's failure doesn't poison earlier
@@ -78,16 +129,42 @@ export default function SongSlideshow({
   const isVideoFrame =
     Boolean(frame?.videoSrc) && !videoFailedAtIndex.has(currentIndex);
 
+  const finishBody = useCallback(() => {
+    if (dreamMode && bookend) {
+      setDreamPhase("closing");
+    } else {
+      onEnd?.();
+    }
+  }, [dreamMode, bookend, onEnd]);
+
   const advance = useCallback(() => {
     setCurrentIndex(prev => {
       const next = prev + 1;
       if (next >= frames.length) {
-        onEnd?.();
+        finishBody();
         return prev; // stay on last frame
       }
       return next;
     });
-  }, [frames.length, onEnd]);
+  }, [frames.length, finishBody]);
+
+  // Hold-to-awaken: when the player presses and holds the awaken
+  // affordance for ≥ 1.5s during dream-mode body playback, treat it
+  // as an early dismissal and fire onDreamEnd({ kind: "awoken_early" }).
+  // Mounted in dream-mode only; the standard click-to-dismiss path
+  // is suppressed in dream mode (see dismissible vs. dreamMode below).
+  useEffect(() => {
+    if (!dreamMode) return;
+    if (dreamPhase !== "body") return;
+    if (awakenHoldStart === null) return;
+    const timer = setTimeout(() => {
+      setAwoken(true);
+      audioRef.current?.pause();
+      onDreamEnd?.({ kind: "awoken_early", visionId: visionId ?? "" });
+      setDismissed(true);
+    }, 1500);
+    return () => clearTimeout(timer);
+  }, [dreamMode, dreamPhase, awakenHoldStart, onDreamEnd, visionId]);
 
   // Auto-advance timer. Skipped for video frames — the <video>
   // element's onEnded handler advances when the clip finishes, which
@@ -134,6 +211,11 @@ export default function SongSlideshow({
   }, [isVideoFrame, currentIndex]);
 
   const handleDismiss = () => {
+    // In dream mode, click-to-dismiss is disabled — only the
+    // hold-to-awaken affordance can leave a dream early. The
+    // standard click-to-skip path still works for ordinary
+    // (free-browse) playback.
+    if (dreamMode) return;
     if (!dismissible) return;
     clearTimeout(timerRef.current);
     audioRef.current?.pause();
@@ -143,23 +225,67 @@ export default function SongSlideshow({
 
   if (dismissed) return null;
 
+  // Dream-mode opening / closing flashes are the bookend prophecy
+  // text. Phase machine: opening → body → closing → done.
+  if (dreamMode && bookend && dreamPhase === "opening") {
+    return (
+      <DreamProphecyFlash
+        prophecy={bookend.opening}
+        onDone={() => setDreamPhase("body")}
+      />
+    );
+  }
+  if (dreamMode && bookend && dreamPhase === "closing") {
+    return (
+      <DreamProphecyFlash
+        prophecy={bookend.closing}
+        onDone={() => {
+          setDreamPhase("done");
+          if (!awoken) {
+            onDreamEnd?.({ kind: "full", visionId: visionId ?? "" });
+          }
+          setDismissed(true);
+        }}
+      />
+    );
+  }
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       className="fixed inset-0 z-[9999] bg-black flex items-center justify-center"
-      onClick={dismissible ? handleDismiss : undefined}
+      onClick={dismissible && !dreamMode ? handleDismiss : undefined}
       role="dialog"
-      aria-label="Song slideshow"
+      aria-label={dreamMode ? "Prophecy dream" : "Song slideshow"}
     >
-      {/* Skip hint */}
-      {dismissible && (
+      {/* Skip hint — suppressed in dream mode (use Awaken instead). */}
+      {dismissible && !dreamMode && (
         <div className="absolute top-4 right-4 z-10">
           <span className="font-mono text-[10px] text-white/30 uppercase tracking-wider">
             tap to skip
           </span>
         </div>
+      )}
+
+      {/* Awaken affordance (dream mode only). Hold for 1.5s to
+          dismiss the dream early — fires onDreamEnd with kind:
+          "awoken_early". Disabled on unawakenable visions (the
+          First Visitation + "Not a Lion but a Lamb" capstone). */}
+      {dreamMode && !unawakenable && (
+        <button
+          type="button"
+          className="absolute bottom-6 right-6 z-20 select-none rounded-full border border-white/15 bg-black/40 px-5 py-2 font-mono text-[11px] uppercase tracking-[0.2em] text-white/60 transition-all hover:bg-black/60 hover:text-white/90 focus:outline-none focus:ring-1 focus:ring-white/30"
+          onPointerDown={() => setAwakenHoldStart(Date.now())}
+          onPointerUp={() => setAwakenHoldStart(null)}
+          onPointerLeave={() => setAwakenHoldStart(null)}
+          onPointerCancel={() => setAwakenHoldStart(null)}
+          aria-label="Hold to awaken from the dream"
+          data-awaken-button="true"
+        >
+          {awakenHoldStart !== null ? "awakening…" : "hold to awaken"}
+        </button>
       )}
 
       {/* Title card */}

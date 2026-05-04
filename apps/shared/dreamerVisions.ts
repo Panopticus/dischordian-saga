@@ -80,23 +80,28 @@ function album1TitleUrl(trackId: string): string {
   return assetUrl(track.frameRelPaths[0]);
 }
 
-/** Vision 1 cutscene script — see Part 1.5 of the recruitment plan
- *  for the per-frame caption authoring rationale. The producer-frame
- *  reordering is intentional: the Dreamer is showing the player
- *  imagery they've already seen during normal Album 1 playback,
- *  refracted into a different meaning. */
+/** Vision 1 — "First Visitation" cutscene script. Reframes the
+ *  original "First Notice" beats as Daniel Cross's first contact:
+ *  he names himself, the Seer, and the time-displacement. This is
+ *  the in-fiction onset of every prophecy that follows; the
+ *  prophecy queue gates `daniel_cross_first_contact` on its
+ *  completion, so until this dream is witnessed nothing else
+ *  drains. The frames are still recycled from Album 1 T03 ("Seeds
+ *  of Inception") so the Dreamer-aware imagery the player has
+ *  seen during normal album playback resurfaces in a different
+ *  voice. */
 const VISION_1_FRAMES: ReadonlyArray<{
   producerIndex: number;
   caption: string;
 }> = [
-  { producerIndex: 7,  caption: "the first notice is not a noise" },
-  { producerIndex: 2,  caption: "count your hands when you wake" },
-  { producerIndex: 11, caption: "the gate was not where you thought" },
-  { producerIndex: 5,  caption: "someone has been keeping the score" },
-  { producerIndex: 14, caption: "they sat with you for years" },
-  { producerIndex: 3,  caption: "and you never asked their name" },
-  { producerIndex: 9,  caption: "the window was always lit" },
-  { producerIndex: 1,  caption: "you have been seen" },
+  { producerIndex: 7,  caption: "you have been seen" },
+  { producerIndex: 2,  caption: "not by the Beast" },
+  { producerIndex: 11, caption: "I am Daniel Cross" },
+  { producerIndex: 5,  caption: "the Seer left her voice with me" },
+  { producerIndex: 14, caption: "before she sealed the door" },
+  { producerIndex: 3,  caption: "I have read every page eighty-four times" },
+  { producerIndex: 9,  caption: "this is the page I read for you" },
+  { producerIndex: 1,  caption: "I am writing your visions now" },
 ];
 
 const t03FrameUrl = (i: number) => album1FrameUrl("T03", i);
@@ -108,7 +113,7 @@ function buildVision1Slideshow(): SongSlideshowDef {
     songId: "dreamer_vision_1",
     audioUrl: assetUrl("audio/album1/T03.mp3"),
     durationMs: VISION_1_RUNTIME_MS,
-    title: "The First Notice",
+    title: "First Visitation",
     subtitle: undefined,
     credits: undefined,
     priority: "P0",
@@ -126,15 +131,16 @@ function buildVision1Slideshow(): SongSlideshowDef {
         caption: f.caption,
       };
     }),
-    // No flags fire on completion — the vision-delivery system handles
-    // the bookkeeping via dreamerAwareness.markVisionReceived() so
-    // re-trigger logic isn't tied to slideshow flag state.
-    flagsSetOnComplete: [],
+    // First contact sets `daniel_cross_first_contact` on completion;
+    // the prophecy queue gates further marquee delivery on it. Other
+    // bookkeeping (the visionsReceived ledger, etc.) goes through the
+    // markVisionReceived service.
+    flagsSetOnComplete: ["daniel_cross_first_contact"],
     reducedMotionFallback: {
       heroImageUrl: t03TitleUrl(),
       prose:
-        "you have been seen. count your hands when you wake. the window was always lit.",
-      closingLine: "(no signature)",
+        "you have been seen. not by the Beast. I am Daniel Cross. The Seer left her voice with me before she sealed the door. I am writing your visions now.",
+      closingLine: "— Daniel Cross",
     },
   };
 }
@@ -145,7 +151,7 @@ const VISION_1_SLIDESHOW = buildVision1Slideshow();
 const VISION_1: DreamerVision = {
   id: "vision_first_notice",
   threshold: 3,
-  title: "The First Notice",
+  title: "First Visitation",
   slideshow: VISION_1_SLIDESHOW,
 };
 

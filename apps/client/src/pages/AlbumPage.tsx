@@ -1,11 +1,17 @@
 import { useLoredex } from "@/contexts/LoredexContext";
 import { usePlayer } from "@/contexts/PlayerContext";
 import { useRoute, Link } from "wouter";
-import { useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowLeft, Play, Disc3, ExternalLink, Clock, Music } from "lucide-react";
+import { ArrowLeft, BookOpen, Clock, Disc3, Film, Music, Play } from "lucide-react";
 import { usePageMeta } from "@/hooks/usePageMeta";
 import AudioSpectrum from "@/components/AudioSpectrum";
+import AlbumFilmPlayer from "@/components/AlbumFilmPlayer";
+import { trpc } from "@/lib/trpc";
+import {
+  PROPHECY_VISIONS,
+  type AlbumSlug,
+} from "@shared/prophecyVisionMap";
 
 const ALBUM_SLUGS: Record<string, string> = {
   "dischordian-logic": "Dischordian Logic",
@@ -21,6 +27,13 @@ const ALBUM_META: Record<string, { date: string; color: string }> = {
   "Silence in Heaven": { date: "July 30, 2026", color: "var(--void-error, #ff3c40)" },
 };
 
+const ALBUM_SLUG_TO_PROPHECY: Record<string, AlbumSlug> = {
+  "dischordian-logic": "dischordian-logic",
+  "age-of-privacy": "age-of-privacy",
+  "book-of-daniel": "book-of-daniel",
+  "silence-in-heaven": "silence-in-heaven",
+};
+
 export default function AlbumPage() {
   const [, params] = useRoute("/album/:slug");
   const { getByAlbum } = useLoredex();
@@ -31,6 +44,47 @@ export default function AlbumPage() {
   const tracks = getByAlbum(albumName);
   const meta = ALBUM_META[albumName] || { date: "", color: "#00f0ff" };
   const albumArt = tracks[0]?.image || "";
+
+  /* ─── Prophecy gating + Album-as-Film integration ─── */
+  const prophecySlug = ALBUM_SLUG_TO_PROPHECY[slug];
+  const progressQuery = trpc.dreamerVisions.getProphecyProgress.useQuery(
+    undefined,
+    { enabled: Boolean(prophecySlug) },
+  );
+
+  const visionsForAlbum = useMemo(() => {
+    if (!prophecySlug) return [];
+    return PROPHECY_VISIONS.filter((v) => v.albumSlug === prophecySlug);
+  }, [prophecySlug]);
+
+  // The film is watchable when every song in the album has at
+  // least an unlocked vision binding. The ordered list of
+  // slideshow ids drives the AlbumFilmPlayer.
+  const filmReady = useMemo(() => {
+    if (!progressQuery.data) return false;
+    if (visionsForAlbum.length === 0) return false;
+    const received = new Set(progressQuery.data.marqueesReceived);
+    const completed = new Set(progressQuery.data.marqueesCompleted);
+    const unlockedWhispers = new Set(progressQuery.data.unlockedWhispers);
+    const viewed = new Set(progressQuery.data.viewedInIndex);
+    return visionsForAlbum.every((v) => {
+      if (v.intensity === "marquee") {
+        return received.has(v.id) || completed.has(v.id);
+      }
+      return unlockedWhispers.has(v.id) || viewed.has(v.id);
+    });
+  }, [progressQuery.data, visionsForAlbum]);
+
+  const filmSlideshowIds = useMemo(
+    () => visionsForAlbum.map((v) => v.slideshowId),
+    [visionsForAlbum],
+  );
+  const filmBookmark =
+    prophecySlug && progressQuery.data?.albumFilmBookmarks
+      ? progressQuery.data.albumFilmBookmarks[prophecySlug]
+      : undefined;
+
+  const [filmActive, setFilmActive] = useState(false);
 
   usePageMeta({
     title: albumName || "Album",
@@ -99,13 +153,47 @@ export default function AlbumPage() {
                 <span className="flex items-center gap-1"><Clock size={10} /> {meta.date}</span>
                 <span>{tracks.length} tracks</span>
               </div>
-              <button
-                onClick={playAll}
-                className="flex items-center gap-2 px-5 py-2.5 rounded-md text-sm font-mono font-bold hover:scale-105 transition-transform mt-4 w-fit"
-                style={{ backgroundColor: meta.color + "20", color: meta.color, border: `1px solid ${meta.color}40` }}
-              >
-                <Play size={14} /> PLAY ALL
-              </button>
+              <div className="flex items-center gap-2 mt-4 flex-wrap">
+                <button
+                  onClick={playAll}
+                  className="flex items-center gap-2 px-5 py-2.5 rounded-md text-sm font-mono font-bold hover:scale-105 transition-transform w-fit"
+                  style={{ backgroundColor: meta.color + "20", color: meta.color, border: `1px solid ${meta.color}40` }}
+                >
+                  <Play size={14} /> PLAY ALL
+                </button>
+                {prophecySlug && (
+                  <>
+                    <button
+                      onClick={() => filmReady && setFilmActive(true)}
+                      disabled={!filmReady}
+                      className={`flex items-center gap-2 px-5 py-2.5 rounded-md text-sm font-mono font-bold transition-transform w-fit border ${
+                        filmReady
+                          ? "hover:scale-105 cursor-pointer"
+                          : "opacity-40 cursor-not-allowed"
+                      }`}
+                      style={{
+                        borderColor: meta.color + "40",
+                        color: meta.color,
+                      }}
+                      title={
+                        filmReady
+                          ? "Watch the album as one continuous film"
+                          : "Unlock all visions to watch the full film"
+                      }
+                    >
+                      <Film size={14} />{" "}
+                      {filmBookmark ? "RESUME FILM" : "WATCH AS FILM"}
+                    </button>
+                    <Link
+                      href="/antiquarian-index"
+                      className="flex items-center gap-2 px-5 py-2.5 rounded-md text-xs font-mono text-muted-foreground/70 hover:text-primary transition-colors w-fit border border-border/30 hover:border-primary/40"
+                      title="Open the Antiquarian's Index"
+                    >
+                      <BookOpen size={12} /> THE INDEX
+                    </Link>
+                  </>
+                )}
+              </div>
             </motion.div>
           </div>
         </div>
@@ -234,6 +322,16 @@ export default function AlbumPage() {
           })}
         </div>
       </div>
+
+      {filmActive && prophecySlug && filmReady && (
+        <AlbumFilmPlayer
+          albumSlug={prophecySlug}
+          slideshowIds={filmSlideshowIds}
+          resumeFromTrackId={filmBookmark}
+          onComplete={() => setFilmActive(false)}
+          onAwaken={() => setFilmActive(false)}
+        />
+      )}
     </div>
   );
 }

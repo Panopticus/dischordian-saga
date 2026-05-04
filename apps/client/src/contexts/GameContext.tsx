@@ -2387,10 +2387,34 @@ export function GameProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const setNarrativeFlag = useCallback((flag: string, value: boolean = true) => {
-    setState(prev => ({
-      ...prev,
-      narrativeFlags: { ...prev.narrativeFlags, [flag]: value },
-    }));
+    let crossedFalseToTrue = false;
+    setState(prev => {
+      const wasFalse = prev.narrativeFlags?.[flag] !== true;
+      const becomesTrue = value === true;
+      crossedFalseToTrue = wasFalse && becomesTrue;
+      return {
+        ...prev,
+        narrativeFlags: { ...prev.narrativeFlags, [flag]: value },
+      };
+    });
+    // Prophecy reactor: every false→true narrative-flag transition
+    // is fire-and-forget piped to the prophecy queue. The server
+    // looks up whether any prophecy vision is bound to the flag,
+    // gates by awareness + act, and routes by intensity (marquee /
+    // whisper / static). Deduped server-side; safe to fire on
+    // double-write.
+    if (crossedFalseToTrue) {
+      try {
+        const reactor = (
+          window as unknown as {
+            __prophecyReactor?: (flagId: string) => void;
+          }
+        ).__prophecyReactor;
+        reactor?.(flag);
+      } catch {
+        /* never let the reactor break flag setting */
+      }
+    }
   }, []);
 
   /* ─── Section F — Cryo Bay mystery actions ─── */

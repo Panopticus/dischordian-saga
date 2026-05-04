@@ -31,7 +31,24 @@ import {
   type NarratorSlotSeedResult,
 } from "@shared/mobileNarrator";
 import type { SongSlideshowDef } from "@shared/songSlideshow";
+import type { DanielCrossProphecy } from "@shared/danielCrossProphecies";
 import { getSlideshow } from "@shared/songSlideshows";
+
+/** Bookend prophecies for dream-mode playback. When set on the
+ *  queue entry, SlideshowPlayerRoot threads them into SongSlideshow
+ *  to render the opening + closing prophecy flashes around the body. */
+export interface DreamPlaybackOptions {
+  /** Stable id for the vision being delivered. Surfaced back via
+   *  onDreamEnd so the caller knows which vision was just resolved. */
+  visionId: string;
+  bookend: { opening: DanielCrossProphecy; closing: DanielCrossProphecy };
+  /** Disable the awaken affordance (First Visitation + capstone). */
+  unawakenable?: boolean;
+  /** Fires on dream end with full / awoken_early result. The
+   *  prophecy queue uses this to decide whether to grant
+   *  completion + Witness rewards. */
+  onDreamEnd?: (result: { kind: "full" | "awoken_early"; visionId: string }) => void;
+}
 
 /* ─── SLIDESHOW QUEUE ENTRY ─── */
 
@@ -41,6 +58,8 @@ export interface SlideshowQueueEntry {
   onComplete?: () => void;
   /** Fired if the user explicitly closes the slideshow (X button). */
   onClose?: () => void;
+  /** When set, render the slideshow in dream mode with bookends. */
+  dream?: DreamPlaybackOptions;
 }
 
 /* ─── STORE SHAPE ─── */
@@ -80,7 +99,11 @@ interface WitnessingStore {
   /** Queue a slideshow for playback. */
   playSlideshow: (
     defOrId: SongSlideshowDef | string,
-    opts?: { onComplete?: () => void; onClose?: () => void },
+    opts?: {
+      onComplete?: () => void;
+      onClose?: () => void;
+      dream?: DreamPlaybackOptions;
+    },
   ) => boolean;
   /** Fire the active slideshow's onComplete callback and clear the queue. */
   completeActiveSlideshow: () => void;
@@ -197,6 +220,7 @@ export const useWitnessingStore = create<WitnessingStore>((set, get) => ({
         def,
         onComplete: opts?.onComplete,
         onClose: opts?.onClose,
+        dream: opts?.dream,
       },
     });
     return true;
@@ -244,7 +268,11 @@ export const selectPotentialAloneUnlocked = (s: WitnessingStore) =>
  */
 export function playSlideshow(
   defOrId: SongSlideshowDef | string,
-  opts?: { onComplete?: () => void; onClose?: () => void },
+  opts?: {
+    onComplete?: () => void;
+    onClose?: () => void;
+    dream?: DreamPlaybackOptions;
+  },
 ): boolean {
   return useWitnessingStore.getState().playSlideshow(defOrId, opts);
 }
