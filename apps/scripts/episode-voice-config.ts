@@ -61,8 +61,8 @@ export interface EpisodeSpeakerVoice {
 export const EPISODE_SPEAKER_VOICES: Record<string, EpisodeSpeakerVoice> = {
   /* ─── Celebration cast ─── */
   narrator: {
-    // Daniel — British male newsreader (neutral, dry).
-    voiceId: "onwK4e9ZLuTAKqWW03F9",
+    // Operator-supplied custom voice.
+    voiceId: "yAKlvHIsuj4SvnKQ6Mk4",
     stability: 0.6,
     similarity_boost: 0.75,
     style: 0.15,
@@ -82,9 +82,8 @@ export const EPISODE_SPEAKER_VOICES: Record<string, EpisodeSpeakerVoice> = {
   },
   the_seer: {
     // Lady Malkia in Celebration scenes; the Seer in Witnessing scenes.
-    // Charlotte — accent-flexible female; sensible default for Kenyan-
-    // inflected English. Replace with a cloned voice for production.
-    voiceId: "XB0fDUnXU5powFXDhCwa",
+    // Operator-supplied custom voice.
+    voiceId: "BTfBVfMM9XgZG8GG1bJn",
     stability: 0.55,
     similarity_boost: 0.8,
     style: 0.25,
@@ -93,8 +92,8 @@ export const EPISODE_SPEAKER_VOICES: Record<string, EpisodeSpeakerVoice> = {
       "*Kenyan-inflected English, crisp precision, warm without sentimentality; never hurries; speaks as though already remembering the conversation* ",
   },
   the_jailer: {
-    // Joseph — British older male; the Ghost King's sorrowful royalty.
-    voiceId: "Zlb1dXrM653N07WRdFW3",
+    // Operator-supplied custom voice — Ghost King.
+    voiceId: "xYjWL0MUjpDG64c0YSh3",
     stability: 0.6,
     similarity_boost: 0.78,
     style: 0.2,
@@ -103,8 +102,8 @@ export const EPISODE_SPEAKER_VOICES: Record<string, EpisodeSpeakerVoice> = {
       "*ghostly, low resonance with a faint metallic undertone, sorrowful but composed; words placed deliberately as though each costs him* ",
   },
   the_collector: {
-    // George — British male warm; the Senator-era Game Master.
-    voiceId: "JBFqnCBsd6RMkjVDRZzb",
+    // Operator-supplied custom voice — Senator-era Game Master.
+    voiceId: "3Exjc4AUhfBcYeXunfEL",
     stability: 0.6,
     similarity_boost: 0.78,
     style: 0.2,
@@ -113,8 +112,8 @@ export const EPISODE_SPEAKER_VOICES: Record<string, EpisodeSpeakerVoice> = {
       "*warm, theatrical with private weariness, predestination cadence — the Senator-era Game Master before the split; never raises voice, never says 'darling'* ",
   },
   engineer: {
-    // Liam — young confident male; the Prince + the adult Engineer.
-    voiceId: "TX3LPaxmHKxFdv7VOQHJ",
+    // Operator-supplied custom voice — the Prince + the adult Engineer.
+    voiceId: "FLW8imgp50K85LICuLQs",
     stability: 0.55,
     similarity_boost: 0.78,
     style: 0.2,
@@ -123,9 +122,8 @@ export const EPISODE_SPEAKER_VOICES: Record<string, EpisodeSpeakerVoice> = {
       "*young Black man, neat dreads, thirteen-to-late-teens depending on scene; quiet, watchful, dry plain register, slight musical lilt when his guard drops; the same voice as the adult Engineer's recordings, just younger* ",
   },
   the_architect: {
-    // Brian — American male deep; works for both young Archie (warmer
-    // delivery via prefix) and the adult Architect (cold delivery).
-    voiceId: "nPczCjzI2devNBz1zQrb",
+    // Operator-supplied custom voice — young Archie + adult Architect.
+    voiceId: "PmtzUaeg5rMejCZzRqOZ",
     stability: 0.65,
     similarity_boost: 0.78,
     style: 0.18,
@@ -164,8 +162,8 @@ export const EPISODE_SPEAKER_VOICES: Record<string, EpisodeSpeakerVoice> = {
       "*teenage cyborg girl, few words, slight mechanical resonance through the welding mask; 'busy' is her primary verb* ",
   },
   shadow_tongue: {
-    // Adam — American male deep, silken.
-    voiceId: "pNInz6obpgDQGcFmaJgB",
+    // Operator-supplied custom voice — Shadow Tongue.
+    voiceId: "14wGKUgRFDPSwtCQurbB",
     stability: 0.6,
     similarity_boost: 0.78,
     style: 0.3,
@@ -184,8 +182,8 @@ export const EPISODE_SPEAKER_VOICES: Record<string, EpisodeSpeakerVoice> = {
       "*drowsy, kind, half-hummed; brightens the moment she catches the listener listening; never wise, never authoritative — the boy you were, pretending to dream* ",
   },
   elara: {
-    // Matilda — American female warm.
-    voiceId: "XrExE9yKIg1WjnnlVkGX",
+    // Operator-supplied custom voice — Elara.
+    voiceId: "xMyNDrPFEtQN8iZtT7l2",
     stability: 0.55,
     similarity_boost: 0.8,
     style: 0.2,
@@ -194,8 +192,8 @@ export const EPISODE_SPEAKER_VOICES: Record<string, EpisodeSpeakerVoice> = {
       "*the Ark's narrating voice — warm, precise, occasionally caught mid-breath; uses 'you' like it costs her; never helpful-AI cheerful* ",
   },
   the_human: {
-    // Thomas — calm male, philosophical.
-    voiceId: "GBv7mTt0atIp3Br8iCZE",
+    // Operator-supplied custom voice — the Human.
+    voiceId: "oGbGJdgofRR8z0MxwI8L",
     stability: 0.5,
     similarity_boost: 0.8,
     style: 0.25,
@@ -206,8 +204,8 @@ export const EPISODE_SPEAKER_VOICES: Record<string, EpisodeSpeakerVoice> = {
 
   /* ─── Mechronis cast ─── */
   professor_aoki: {
-    // Ethan — whisper register; surgical surveillance.
-    voiceId: "g5CIjZEefAph4nQFvHAz",
+    // Operator-supplied custom voice — Professor Aoki.
+    voiceId: "MbdzdO8povpUYf1tSRZF",
     stability: 0.7,
     similarity_boost: 0.78,
     style: 0.1,
@@ -216,8 +214,8 @@ export const EPISODE_SPEAKER_VOICES: Record<string, EpisodeSpeakerVoice> = {
       "*Japanese man, late forties, surgeon's precision; never blinks, never repeats, surveillance personified — speaks as though the listener is also being watched* ",
   },
   curator_halverez: {
-    // Bill — American male deep, mature; bookkeeper.
-    voiceId: "pqHfZKP75CvOlQylNhV4",
+    // Operator-supplied custom voice — Curator Halverez.
+    voiceId: "g2fMR6g1e1gOpe3DXsfI",
     stability: 0.65,
     similarity_boost: 0.78,
     style: 0.15,
@@ -236,8 +234,8 @@ export const EPISODE_SPEAKER_VOICES: Record<string, EpisodeSpeakerVoice> = {
       "*Architect-aligned proxy; face that the listener cannot quite hold in memory; voice clinical, polite, faintly bored — until it isn't* ",
   },
   necromancer: {
-    // Clyde — war veteran; the man who has died once and remembers it.
-    voiceId: "2EiwWnXFnvU5JabPnv8n",
+    // Operator-supplied custom voice — the Necromancer.
+    voiceId: "II5QotwxLcQdwey5xEyd",
     stability: 0.6,
     similarity_boost: 0.78,
     style: 0.22,
@@ -246,8 +244,11 @@ export const EPISODE_SPEAKER_VOICES: Record<string, EpisodeSpeakerVoice> = {
       "*tall, dark robes, the small tired courtesy of someone who has died once and remembers it; slow, measured, slightly echoing* ",
   },
   antiquarian: {
-    // Dave — British conversational; archival gentleness.
-    voiceId: "CYw3kZ02Hs0563khs1Fj",
+    // Operator-supplied custom voice — the Antiquarian.
+    // NOTE: shares an id with `narrator` (yAKlvHIsuj4SvnKQ6Mk4); the
+    // text_prefix register prompts will still differentiate the two
+    // deliveries. Update if a distinct voice is intended.
+    voiceId: "yAKlvHIsuj4SvnKQ6Mk4",
     stability: 0.6,
     similarity_boost: 0.78,
     style: 0.2,
@@ -266,8 +267,8 @@ export const EPISODE_SPEAKER_VOICES: Record<string, EpisodeSpeakerVoice> = {
       "*Trade Factor; brisk, grounded, salt-of-the-galaxy; curses creatively in three languages* ",
   },
   white_oracle: {
-    // Grace — American Southern, gentle.
-    voiceId: "oWAxZDx7w5VEj9dCyTzz",
+    // Operator-supplied custom voice — the white Oracle.
+    voiceId: "mpeeKhhSuOwXIwvKclcn",
     stability: 0.6,
     similarity_boost: 0.78,
     style: 0.25,
@@ -276,8 +277,8 @@ export const EPISODE_SPEAKER_VOICES: Record<string, EpisodeSpeakerVoice> = {
       "*re-awakened oracle; gentle, declarative, counter-Architect reading; never raises her voice; never apologizes for the reading* ",
   },
   zephyr_9: {
-    // Nicole — whisper precise.
-    voiceId: "piTKgcLEGmPE4e6mEKli",
+    // Operator-supplied custom voice — Zephyr-9.
+    voiceId: "KSh0G8kOAWOgMbf9FWEL",
     stability: 0.7,
     similarity_boost: 0.78,
     style: 0.1,
@@ -286,8 +287,8 @@ export const EPISODE_SPEAKER_VOICES: Record<string, EpisodeSpeakerVoice> = {
       "*precise, slow, lightly mechanical, with almost-affectionate restraint; never repeats, never hurries — a patient evaluator who grades on what the rubric cannot measure* ",
   },
   headmaster_kanevas: {
-    // Michael — American male older; calm authority for the headmaster.
-    voiceId: "flq6f7yk4E4fJM5XTYuZ",
+    // Operator-supplied custom voice — Headmaster Kanevas.
+    voiceId: "6E9LhzysAiUZsORxoEZu",
     stability: 0.7,
     similarity_boost: 0.78,
     style: 0.1,
@@ -303,7 +304,8 @@ export const EPISODE_SPEAKER_VOICES: Record<string, EpisodeSpeakerVoice> = {
  * still generates sensibly without crashing.
  */
 export const DEFAULT_EPISODE_VOICE: EpisodeSpeakerVoice = {
-  voiceId: "onwK4e9ZLuTAKqWW03F9", // Daniel
+  // Falls back to the operator-supplied narrator voice.
+  voiceId: "yAKlvHIsuj4SvnKQ6Mk4",
   stability: 0.6,
   similarity_boost: 0.75,
   style: 0.15,
