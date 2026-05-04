@@ -75,7 +75,17 @@ const REPO_ROOT = resolve(__dirname, "..", "..");
 const PUBLIC_ROOT = join(REPO_ROOT, "apps", "client", "public");
 const MANIFEST_PATH = join(REPO_ROOT, "apps", "shared", "episodeVoManifest.json");
 
-const ELEVENLABS_KEY = process.env.ELEVENLABS_API_KEY ?? "";
+const ELEVENLABS_KEY_RAW = process.env.ELEVENLABS_API_KEY ?? "";
+/** Sanitize the API key — strip any non-printable-ASCII characters. Pasted
+ *  keys sometimes include U+2028 (LINE SEPARATOR) or U+00A0 (NBSP) when
+ *  copied from web pages, which throws "ByteString" errors at fetch time
+ *  because HTTP header values must be Latin-1 / ASCII. */
+const ELEVENLABS_KEY = ELEVENLABS_KEY_RAW.replace(/[^\x20-\x7E]/g, "").trim();
+if (ELEVENLABS_KEY_RAW && ELEVENLABS_KEY_RAW !== ELEVENLABS_KEY) {
+  console.warn(
+    `WARN: ELEVENLABS_API_KEY contained ${ELEVENLABS_KEY_RAW.length - ELEVENLABS_KEY.length} non-ASCII character(s); stripped before use.`,
+  );
+}
 const BUCKET = process.env.S3_BUCKET ?? "dgrsvoices";
 const REGION = process.env.AWS_REGION ?? "us-east-2";
 const HAS_AWS =
@@ -200,11 +210,14 @@ async function tts(line: { text: string; voice: EpisodeSpeakerVoice }): Promise<
 
 async function uploadToS3(body: Buffer, key: string): Promise<string> {
   const { S3Client, PutObjectCommand } = await import("@aws-sdk/client-s3");
+  // Sanitize AWS creds same as the ElevenLabs key — strip any
+  // non-printable-ASCII chars (paste smuggles U+2028/NBSP in some clients).
+  const sanitize = (v: string) => v.replace(/[^\x20-\x7E]/g, "").trim();
   const s3 = new S3Client({
     region: REGION,
     credentials: {
-      accessKeyId: process.env.AWS_ACCESS_KEY_ID ?? "",
-      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY ?? "",
+      accessKeyId: sanitize(process.env.AWS_ACCESS_KEY_ID ?? ""),
+      secretAccessKey: sanitize(process.env.AWS_SECRET_ACCESS_KEY ?? ""),
     },
   });
   await s3.send(
