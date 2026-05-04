@@ -62,6 +62,15 @@ def upload_to_s3(data, key):
         ContentType="audio/mpeg", CacheControl="public, max-age=31536000")
     return f"https://{BUCKET}.s3.{REGION}.amazonaws.com/{full_key.replace(' ', '+')}"
 
+def s3_url(key):
+    return f"https://{BUCKET}.s3.{REGION}.amazonaws.com/{S3_PREFIX.replace(' ', '+')}/{key.replace(' ', '+')}"
+
+def head_exists(url):
+    try:
+        return requests.head(url, timeout=10).status_code == 200
+    except Exception:
+        return False
+
 def main():
     with open(os.path.join(os.path.dirname(__file__), "locke-lines.json")) as f:
         lines = json.load(f)
@@ -77,8 +86,14 @@ def main():
     initial_count = len(manifest)
     for i, line in enumerate(lines):
         s3_key = f"{line['context']}/{line['id']}.mp3"
-        if line["id"] in manifest:
-            print(f"[{i+1}/{len(lines)}] {line['id']} (already in manifest, skipping)")
+        existing = manifest.get(line["id"])
+        check_url = existing if (isinstance(existing, str) and existing.startswith("http")) else s3_url(s3_key)
+        if head_exists(check_url):
+            print(f"[{i+1}/{len(lines)}] {line['id']} (audio on S3, skipping)")
+            if existing != check_url:
+                manifest[line["id"]] = check_url
+                with open(manifest_path, "w") as _mf:
+                    json.dump(manifest, _mf, indent=2)
             continue
         try:
             sys.stdout.write(f"[{i+1}/{len(lines)}] {line['id']} ({line['emotion']})... ")

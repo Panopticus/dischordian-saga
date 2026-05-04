@@ -15,7 +15,7 @@
   },
   {
     "id": "locke_detective",
-    "text": "I knew your Detective \u2014 The Human \u2014 when he worked New Babylon. Brilliant investigator. Terrible poker player. He thought he was serving justice. He was serving us.",
+    "text": "I knew your Detective — The Human — when he worked New Babylon. Brilliant investigator. Terrible poker player. He thought he was serving justice. He was serving us.",
     "context": "dialog",
     "emotion": "sardonic",
     "file": "client/src/game/lockeRelationship.ts"
@@ -29,14 +29,14 @@
   },
   {
     "id": "locke_network",
-    "text": "New Babylon isn't a city anymore. It's a network. We have agents on every surviving Ark. We don't need loyalty \u2014 we need invoices. And everyone, eventually, sends us an invoice.",
+    "text": "New Babylon isn't a city anymore. It's a network. We have agents on every surviving Ark. We don't need loyalty — we need invoices. And everyone, eventually, sends us an invoice.",
     "context": "dialog",
     "emotion": "sharp",
     "file": "client/src/game/lockeRelationship.ts"
   },
   {
     "id": "locke_endgame",
-    "text": "There is no winning side. Every war, every plague, every existential crisis \u2014 those are revenue streams. Peace is bankruptcy. Victory is obsolescence. The only sustainable model is perpetual, managed conflict.",
+    "text": "There is no winning side. Every war, every plague, every existential crisis — those are revenue streams. Peace is bankruptcy. Victory is obsolescence. The only sustainable model is perpetual, managed conflict.",
     "context": "dialog",
     "emotion": "cold",
     "file": "client/src/game/lockeRelationship.ts"
@@ -47,5 +47,12 @@
     "context": "prestige",
     "emotion": "knowing",
     "file": "shared/prestigeDialogs.ts"
+  },
+  {
+    "id": "locke_tutor_mission_board_intro",
+    "text": "This is the cargo-bay mission board. Three postings on it are still active. They have all been active since before any of your parents had been born. The board does not lie about its age, which is rare in a board. Read the postings in any order. Read all three before you accept any of them — that is a habit I am asking you to develop. The postings will tell you who the Concord was, what the Nightlane Guild owed, and where the Outer Dusk maps were wrong. None of those institutions exist in their old form anymore. The work does. The work is what I am here to broker.",
+    "context": "tutor",
+    "emotion": "knowing",
+    "file": "shared/preludeSystemTutors.ts"
   }
 ]

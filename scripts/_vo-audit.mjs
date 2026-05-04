@@ -57,6 +57,9 @@ for (const [src, manifest, generator, idem] of [
   ["act5-vo-lines.json",       "act5",          "pnpm vo:act5",                                       true],
   ["act6-vo-lines.json",       "act6",          "pnpm vo:act6",                                       true],
   ["act7-vo-lines.json",       "act7",          "pnpm vo:act7",                                       true],
+  ["engineer-memoir-lines.json", "engineerMemoir", "pnpm vo:engineer-memoir",                          true],
+  ["palimpsest-host-lines.json", "palimpsestHost", "pnpm vo:palimpsest-host",                          true],
+  ["seer-lines.json",            "seer",           "pnpm vo:seer",                                     true],
 ]) {
   const ids = loadLineIds(src) ?? [];
   surfaces.push({
@@ -114,6 +117,24 @@ function listCsvIds(globPath) {
     return ids;
   } catch { return []; }
 }
+// Act 1 opponent taunts fold into per-character manifests
+// (collector/watcher/eidola/matrikala/authority/programmer/warlord).
+{
+  const ids = loadLineIds("act1-taunts-lines.json") ?? [];
+  const charManifests = ["collector", "watcher", "eidola", "matrikala", "authority", "programmer", "warlord"];
+  const charKeys = new Set();
+  for (const m of charManifests) for (const id of loadManifest(m)) charKeys.add(id);
+  surfaces.push({
+    surface: "act1-taunts",
+    source: "act1-taunts-lines.json",
+    generator: "pnpm vo:act1-taunts",
+    idempotent: true,
+    expected: new Set(ids),
+    actual: charKeys,
+    manifest: "(folds into 7 char manifests)",
+  });
+}
+
 // Prelude + Act 1 lines fold into per-speaker manifests (elara/human/
 // antiquarian/prince). Cross-resolve here so the audit doesn't
 // false-positive an EMPTY surface when those manifests already cover them.
