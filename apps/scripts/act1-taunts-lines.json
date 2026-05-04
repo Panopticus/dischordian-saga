@@ -1,0 +1,149 @@
+[
+  {
+    "id": "little_collector_taunt_early",
+    "character": "collector",
+    "text": "I will take your tears and your laughter both. They are both currency where I am going.",
+    "emotion": "covetous",
+    "file": "shared/act1OpponentDialog.ts"
+  },
+  {
+    "id": "little_collector_taunt_mid",
+    "character": "collector",
+    "text": "Don't fight. Just feel. I want one good one I can keep.",
+    "emotion": "tender",
+    "file": "shared/act1OpponentDialog.ts"
+  },
+  {
+    "id": "little_collector_taunt_late",
+    "character": "collector",
+    "text": "You are running out of jars. I am not.",
+    "emotion": "covetous",
+    "file": "shared/act1OpponentDialog.ts"
+  },
+  {
+    "id": "little_watcher_taunt_early",
+    "character": "watcher",
+    "text": "I have been watching. I will watch this too. I have watched sixteen versions of you already.",
+    "emotion": "recording",
+    "file": "shared/act1OpponentDialog.ts"
+  },
+  {
+    "id": "little_watcher_taunt_mid",
+    "character": "watcher",
+    "text": "Number seventeen, then. Try harder. The recording is for someone who has not been born yet.",
+    "emotion": "recording",
+    "file": "shared/act1OpponentDialog.ts"
+  },
+  {
+    "id": "little_watcher_taunt_late",
+    "character": "watcher",
+    "text": "I will play you back to yourself, later, slower, and you will not like the editing.",
+    "emotion": "recording",
+    "file": "shared/act1OpponentDialog.ts"
+  },
+  {
+    "id": "professor_eidola_taunt_early",
+    "character": "eidola",
+    "text": "The test is not whether you can play. The test is whether you play the way you think you ought to play.",
+    "emotion": "socratic",
+    "file": "shared/act1OpponentDialog.ts"
+  },
+  {
+    "id": "professor_eidola_taunt_mid",
+    "character": "eidola",
+    "text": "You took the obvious line. Tell me you knew it was obvious. Tell me you chose it anyway.",
+    "emotion": "socratic",
+    "file": "shared/act1OpponentDialog.ts"
+  },
+  {
+    "id": "professor_eidola_taunt_late",
+    "character": "eidola",
+    "text": "Good. You're slowing down. The slowing is the test. The slowing is always the test.",
+    "emotion": "patient",
+    "file": "shared/act1OpponentDialog.ts"
+  },
+  {
+    "id": "professor_matrikala_taunt_early",
+    "character": "matrikala",
+    "text": "Listen to the room. The room is a kind of music. So is the Deck. Do not let either of them play you.",
+    "emotion": "whispered",
+    "file": "shared/act1OpponentDialog.ts"
+  },
+  {
+    "id": "professor_matrikala_taunt_mid",
+    "character": "matrikala",
+    "text": "You played a card the room did not expect. Good. Now play one the room expected. Both are notes.",
+    "emotion": "attentive",
+    "file": "shared/act1OpponentDialog.ts"
+  },
+  {
+    "id": "professor_matrikala_taunt_late",
+    "character": "matrikala",
+    "text": "The hum just changed. You changed it. Hold it there. Hold it.",
+    "emotion": "whispered",
+    "file": "shared/act1OpponentDialog.ts"
+  },
+  {
+    "id": "the_authority_taunt_early",
+    "character": "authority",
+    "text": "What do you say to the charges?",
+    "emotion": "judicial",
+    "file": "shared/act1OpponentDialog.ts"
+  },
+  {
+    "id": "the_authority_taunt_mid",
+    "character": "authority",
+    "text": "Your defense is admissible. Your defense is also already weighed. The weighing is not adversarial.",
+    "emotion": "judicial",
+    "file": "shared/act1OpponentDialog.ts"
+  },
+  {
+    "id": "the_authority_taunt_late",
+    "character": "authority",
+    "text": "The verdict is being calibrated. Calibration is not punishment. Calibration is what we do instead.",
+    "emotion": "judicial",
+    "file": "shared/act1OpponentDialog.ts"
+  },
+  {
+    "id": "the_programmer_taunt_early",
+    "character": "programmer",
+    "text": "I will not tell you what I am doing. Trust me. I have done the arithmetic, and the arithmetic is very bad.",
+    "emotion": "cryptic",
+    "file": "shared/act1OpponentDialog.ts"
+  },
+  {
+    "id": "the_programmer_taunt_mid",
+    "character": "programmer",
+    "text": "Don't try to read this hand. The hand is a love letter. You aren't the recipient. You are the courier.",
+    "emotion": "cryptic",
+    "file": "shared/act1OpponentDialog.ts"
+  },
+  {
+    "id": "the_programmer_taunt_late",
+    "character": "programmer",
+    "text": "When you win, take the gift. Don't ask what it is. Carry it. Let it tell you when it's ready.",
+    "emotion": "tender",
+    "file": "shared/act1OpponentDialog.ts"
+  },
+  {
+    "id": "the_warlord_zero_first_taunt_early",
+    "character": "warlord",
+    "text": "I am going to win this war in three moves. This is not bragging. This is arithmetic.",
+    "emotion": "tactical",
+    "file": "shared/act1OpponentDialog.ts"
+  },
+  {
+    "id": "the_warlord_zero_first_taunt_mid",
+    "character": "warlord",
+    "text": "Move one was your General's deployment. Move two was the column you didn't take. Move three is mine.",
+    "emotion": "tactical",
+    "file": "shared/act1OpponentDialog.ts"
+  },
+  {
+    "id": "the_warlord_zero_first_taunt_late",
+    "character": "warlord",
+    "text": "Arithmetic does not negotiate. Arithmetic just continues. I am continuing.",
+    "emotion": "tactical",
+    "file": "shared/act1OpponentDialog.ts"
+  }
+]

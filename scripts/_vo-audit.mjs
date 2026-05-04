@@ -117,6 +117,24 @@ function listCsvIds(globPath) {
     return ids;
   } catch { return []; }
 }
+// Act 1 opponent taunts fold into per-character manifests
+// (collector/watcher/eidola/matrikala/authority/programmer/warlord).
+{
+  const ids = loadLineIds("act1-taunts-lines.json") ?? [];
+  const charManifests = ["collector", "watcher", "eidola", "matrikala", "authority", "programmer", "warlord"];
+  const charKeys = new Set();
+  for (const m of charManifests) for (const id of loadManifest(m)) charKeys.add(id);
+  surfaces.push({
+    surface: "act1-taunts",
+    source: "act1-taunts-lines.json",
+    generator: "pnpm vo:act1-taunts",
+    idempotent: true,
+    expected: new Set(ids),
+    actual: charKeys,
+    manifest: "(folds into 7 char manifests)",
+  });
+}
+
 // Prelude + Act 1 lines fold into per-speaker manifests (elara/human/
 // antiquarian/prince). Cross-resolve here so the audit doesn't
 // false-positive an EMPTY surface when those manifests already cover them.
