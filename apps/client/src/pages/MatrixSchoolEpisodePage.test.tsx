@@ -113,4 +113,16 @@ describe("MatrixSchoolEpisodePage — episode runtime", () => {
     expect(SRC).toContain("Skip and watch");
     expect(SRC).toContain("onSkip");
   });
+
+  it("renders an autoplay <audio> element when the cue has VO recorded", () => {
+    expect(SRC).toContain('from "@shared/episodeVoLookup"');
+    expect(SRC).toContain("cueAudioUrl");
+    expect(SRC).toContain("<audio");
+    expect(SRC).toContain("autoPlay");
+  });
+
+  it("passes episodeId + cueIndex to CueRender so audio can resolve", () => {
+    expect(SRC).toContain("episodeId={episodeId}");
+    expect(SRC).toContain("cueIndex={cueIndex}");
+  });
 });
