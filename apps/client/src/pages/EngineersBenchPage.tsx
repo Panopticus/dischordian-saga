@@ -62,6 +62,7 @@ import {
 } from "@shared/engineerRecordings";
 import MemoryEnergyBadge from "@/components/MemoryEnergyBadge";
 import LivingBackground from "@/components/LivingBackground";
+import MechanicTutorialOverlay from "@/components/MechanicTutorialOverlay";
 
 import { assetUrl } from "@/lib/assetUrl";
 type Modal =
@@ -322,6 +323,7 @@ export default function EngineersBenchPage() {
 
   return (
     <div className="relative min-h-screen bg-stone-950 text-stone-100">
+      <MechanicTutorialOverlay uiId="engineer_bench" />
       <LivingBackground
         src={assetUrl("art/rooms/room-engineers-bench.png")}
         accent={benchAccent}
