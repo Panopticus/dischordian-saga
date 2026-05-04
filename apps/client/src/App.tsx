@@ -28,6 +28,7 @@ import RememberThisToast from "./components/RememberThisToast";
 import FeatureUnlockToast from "./components/FeatureUnlockToast";
 import HellboxAffordanceToast from "./components/HellboxAffordanceToast";
 import MolGarathAudienceOfferToast from "./components/MolGarathAudienceOfferToast";
+import RecruitAlignmentBadge from "./components/RecruitAlignmentBadge";
 import { useHellboxDiscovery } from "./hooks/useHellboxDiscovery";
 import { useLivingUniverseSync } from "./hooks/useLivingUniverseSync";
 
@@ -143,6 +144,7 @@ const EngineersBenchPage = lazy(() => import("./pages/EngineersBenchPage"));
 const HellboxPortalPage = lazy(() => import("./pages/HellboxPortalPage"));
 const MatrixSchoolEpisodePage = lazy(() => import("./pages/MatrixSchoolEpisodePage"));
 const MolGarathAudiencePage = lazy(() => import("./pages/MolGarathAudiencePage"));
+const MolGarathTrapsFeedPage = lazy(() => import("./pages/MolGarathTrapsFeedPage"));
 const HamletConspiracyBoardPage = lazy(() => import("./pages/HamletConspiracyBoardPage"));
 const GameMastersArenaAct2Page = lazy(() => import("./pages/GameMastersArenaAct2Page"));
 const Act5InterludePage = lazy(() => import("./pages/Act5InterludePage"));
@@ -372,6 +374,7 @@ function Router() {
         <Route path="/hellbox" component={HellboxPortalPage} />
         <Route path="/matrix/:episodeId" component={MatrixSchoolEpisodePage} />
         <Route path="/mol-garath-audience" component={MolGarathAudiencePage} />
+        <Route path="/mol-garath-traps" component={MolGarathTrapsFeedPage} />
         <Route path="/conspiracy-board" component={HamletConspiracyBoardPage} />
         <Route path="/game-masters-arena" component={GameMastersArenaAct2Page} />
         <Route path="/act5-interlude" component={Act5InterludePage} />
@@ -708,6 +711,7 @@ function GameGate() {
       <FeatureUnlockToast />
       <HellboxAffordanceToast />
       <MolGarathAudienceOfferToast />
+      <RecruitAlignmentBadge />
       <HellboxDiscoveryWatcher />
       <LivingUniverseSyncWatcher />
       {sortingTrigger.shouldTrigger && sortingTrigger.skillId && (

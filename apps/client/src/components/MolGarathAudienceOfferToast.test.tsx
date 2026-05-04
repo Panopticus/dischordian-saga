@@ -33,8 +33,8 @@ describe("MolGarathAudienceOfferToast", () => {
     expect(SRC).toContain('location.startsWith("/mol-garath")');
   });
 
-  it("provides the audience CTA linking to /mol-garath", () => {
-    expect(SRC).toContain('href="/mol-garath"');
+  it("provides the audience CTA linking to the canonical /mol-garath-audience route", () => {
+    expect(SRC).toContain('href="/mol-garath-audience"');
   });
 
   it("persists a dismiss flag so the offer doesn't keep popping after refusal", () => {
