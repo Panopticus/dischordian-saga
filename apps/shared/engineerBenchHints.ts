@@ -222,6 +222,7 @@ export function getEligibleHints(
 /** Map a HoloRecordingId to its discovery flag. */
 function recordingIdToFlag(id: HoloRecordingId): string {
   const orderMap: Record<HoloRecordingId, number> = {
+    holo_trap_is_you: 0,
     holo_wake_the_bench: 1,
     holo_princes_notebook: 2,
     holo_worlds_i_saved: 3,

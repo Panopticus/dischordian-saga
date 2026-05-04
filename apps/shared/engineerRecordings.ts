@@ -17,6 +17,7 @@ import type { RoomId, EventType } from "./arkEventHandler";
 // ---------------------------------------------------------------------------
 
 export type HoloRecordingId =
+  | "holo_trap_is_you"
   | "holo_wake_the_bench"
   | "holo_princes_notebook"
   | "holo_worlds_i_saved"
@@ -64,6 +65,10 @@ export interface HoloRecordingTrigger {
   readonly dischordiaStep?: number;
   /** Optional: all Act 1 battles must be complete. */
   readonly allAct1Complete?: boolean;
+  /** Optional: fires at the close of the Prelude (after the Ark is saved,
+   *  before Act 1 opens). Reserved for Recording 0 — the Engineer's
+   *  end-of-Prelude transmission that establishes the trap-is-you spine. */
+  readonly preludeComplete?: boolean;
 }
 
 // ---------------------------------------------------------------------------
@@ -71,6 +76,33 @@ export interface HoloRecordingTrigger {
 // ---------------------------------------------------------------------------
 
 export const ENGINEER_RECORDINGS: readonly HoloRecording[] = [
+  {
+    id: "holo_trap_is_you",
+    order: 0,
+    roomId: "engineering",
+    eventType: "lore_discovery",
+    title: "If You're Hearing This",
+    trigger: { minCardWins: 0, preludeComplete: true },
+    transcript:
+      "If you're hearing this, the bench is humming, the Apprentice is awake, " +
+      "and the Architect's design is still running. Good. " +
+      "Archie always thought his game was perfect. He was almost right. " +
+      "I'm leaving you the seven recordings, the bench, and the only thing the " +
+      "Game Master ever gave another person. The Apprentice will know what to " +
+      "do with them. So will you. Especially you.",
+    discoveryFlag: "engineer_recording_0_discovered",
+    npcReactions: {
+      elara:
+        "That's him. Yes. He recorded that one last — he asked me to keep it for the close of " +
+        "the Prelude. He called the Architect 'Archie.' I didn't know they'd known each other " +
+        "as boys. I should have. I'm sorry.",
+      the_human:
+        "He saved it for now. He saves things for now. The trap is already running and he's " +
+        "telling you, on the way out, what kind of trap it is. That's how he was. That's how " +
+        "I want you to remember him.",
+    },
+    reward: { dream: 100, xp: 250 },
+  },
   {
     id: "holo_wake_the_bench",
     order: 1,
@@ -279,12 +311,14 @@ export function getNextPendingRecording(
   cardWins: number,
   dischordiaStep: number,
   allAct1Complete: boolean,
+  preludeComplete: boolean = false,
 ): HoloRecording | undefined {
   return ENGINEER_RECORDINGS.find((r) => {
     if (flags[r.discoveryFlag]) return false;
     if (cardWins < r.trigger.minCardWins) return false;
     if (r.trigger.dischordiaStep != null && dischordiaStep < r.trigger.dischordiaStep) return false;
     if (r.trigger.allAct1Complete && !allAct1Complete) return false;
+    if (r.trigger.preludeComplete && !preludeComplete) return false;
     return true;
   });
 }
