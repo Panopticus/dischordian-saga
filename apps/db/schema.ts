@@ -6173,6 +6173,37 @@ export const dreamerAwareness = mysqlTable("dreamer_awareness", {
    *  in the service. */
   visionsReceived: json("visionsReceived").$type<string[]>(),
   lastTagAt: timestamp("lastTagAt"),
+  /* ─── Prophecy vision pipeline (apps/shared/prophecyVisionMap.ts).
+     The prophecy system layers on top of dreamer awareness — every
+     song slideshow has a vision, delivered as marquee (dream-mode
+     interrupt), whisper (Antiquarian's Index discovery), or static
+     echo (memorable-moments stream). Full slideshows always
+     reachable in the Index. ─── */
+  /** Marquees received (delivered to the player in dream mode at
+   *  least once). Populated by markProphecyReceived. */
+  prophecyVisionsReceived: json("prophecyVisionsReceived").$type<string[]>(),
+  /** Marquees pending delivery — drained one per session. */
+  pendingMarqueeIds: json("pendingMarqueeIds").$type<string[]>(),
+  /** Marquees the player watched in full (no awaken-early). Drives
+   *  the Witness ladder. */
+  prophecyVisionsCompleted: json("prophecyVisionsCompleted").$type<string[]>(),
+  /** Whisper visions unlocked into the Antiquarian's Index but not
+   *  yet viewed in full. */
+  unlockedWhisperIds: json("unlockedWhisperIds").$type<string[]>(),
+  /** Vision ids the player has watched in full from the Index
+   *  (whispers + statics + replayed marquees). */
+  viewedWhisperIds: json("viewedWhisperIds").$type<string[]>(),
+  /** Album slugs the player has watched end-to-end as continuous
+   *  films — earns the Album Film Witness tier. */
+  albumFilmsCompleted: json("albumFilmsCompleted").$type<string[]>(),
+  /** Bookmark map: album slug → the trackId the player paused on
+   *  via "Awaken from the Album". Empty when nothing is bookmarked. */
+  albumFilmBookmarks: json("albumFilmBookmarks").$type<Record<string, string>>(),
+  /** Achievement ids granted (idempotent — never re-granted). */
+  prophecyAchievementsGranted: json("prophecyAchievementsGranted").$type<string[]>(),
+  /** Timestamp of the last marquee dream that played. Drives the
+   *  ≤ 1 marquee per session pacing rule. */
+  lastMarqueePlayedAt: timestamp("lastMarqueePlayedAt"),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 });
 export type DreamerAwarenessRow = typeof dreamerAwareness.$inferSelect;

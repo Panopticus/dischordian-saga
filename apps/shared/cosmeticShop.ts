@@ -36,6 +36,9 @@ export interface CosmeticItem {
   earnedFromEvent?: string;
   /** Earned from achievement */
   earnedFromAchievement?: string;
+  /** Earned from a prophecy-vision Witness-ladder tier (key =
+   *  album slug or "full_tapestry" / "antiquarians_codex"). */
+  earnedFromProphecy?: string;
 }
 
 export const COSMETIC_ITEMS: CosmeticItem[] = [
@@ -119,6 +122,40 @@ export const COSMETIC_ITEMS: CosmeticItem[] = [
   // The Seer (§4.9)
   { key: "seer_badge", name: "Prophecy Broken Badge", description: "Earned by defeating The Seer along the winnable path", icon: "Eye", color: "#7c3aed", type: "badge", rarity: "epic", price: 0, limited: false, earnedFromBoss: "act1_seer" },
   { key: "seer_staff_skin", name: "Reclaimed Staff Board Skin", description: "Earned by mastering The Seer (rare — 5 winnable-path defeats)", icon: "Eye", color: "#7c3aed", type: "board_skin", rarity: "legendary", price: 0, limited: false, earnedFromBoss: "act1_seer" },
+
+  // ═══ PROPHECY VISION COSMETICS — the Witness ladder ═══
+  // Earned by watching prophecy dreams in full. Three tiers per
+  // album (Witness / Film Witness / Archivist) plus two unique
+  // global tiers (Full Tapestry / Antiquarian's Codex).
+
+  // Album 1 · Dischordian Logic
+  { key: "dischordian_logic_witness", name: "Dischordian Witness", description: "Witness of every Dischordian Logic prophecy.", icon: "Eye", color: "#00f0ff", type: "badge", rarity: "epic", price: 0, limited: false, earnedFromProphecy: "dischordian-logic" },
+  { key: "dischordian_logic_film_witness", name: "Dischordian Film Witness", description: "Watched Dischordian Logic as one continuous film.", icon: "Eye", color: "#00f0ff", type: "badge", rarity: "epic", price: 0, limited: false, earnedFromProphecy: "dischordian-logic" },
+  { key: "dischordian_logic_archivist", name: "Dischordian Archivist", description: "Catalogued every Dischordian Logic vision in the Antiquarian's Index.", icon: "BookOpen", color: "#00f0ff", type: "title", rarity: "legendary", price: 0, limited: false, earnedFromProphecy: "dischordian-logic" },
+
+  // Album 2 · Age of Privacy
+  { key: "age_of_privacy_witness", name: "Privacy Witness", description: "Witness of every Age of Privacy prophecy.", icon: "Eye", color: "#eab308", type: "badge", rarity: "epic", price: 0, limited: false, earnedFromProphecy: "age-of-privacy" },
+  { key: "age_of_privacy_film_witness", name: "Privacy Film Witness", description: "Watched The Age of Privacy as one continuous film.", icon: "Eye", color: "#eab308", type: "badge", rarity: "epic", price: 0, limited: false, earnedFromProphecy: "age-of-privacy" },
+  { key: "age_of_privacy_archivist", name: "Privacy Archivist", description: "Catalogued every Age of Privacy vision in the Antiquarian's Index.", icon: "BookOpen", color: "#eab308", type: "title", rarity: "legendary", price: 0, limited: false, earnedFromProphecy: "age-of-privacy" },
+
+  // Album 3 · The Book of Daniel 24:7
+  { key: "book_of_daniel_witness", name: "Witness of the Book of Daniel", description: "Every Book-of-Daniel prophecy fully witnessed.", icon: "Eye", color: "#7c3aed", type: "badge", rarity: "legendary", price: 0, limited: false, earnedFromProphecy: "book-of-daniel" },
+  { key: "book_of_daniel_film_witness", name: "Book of Daniel Film Witness", description: "Watched the Book of Daniel as one continuous film.", icon: "Eye", color: "#7c3aed", type: "badge", rarity: "legendary", price: 0, limited: false, earnedFromProphecy: "book-of-daniel" },
+  { key: "book_of_daniel_archivist", name: "Daniel's Archivist", description: "Catalogued every Book-of-Daniel vision in the Antiquarian's Index.", icon: "BookOpen", color: "#7c3aed", type: "title", rarity: "legendary", price: 0, limited: false, earnedFromProphecy: "book-of-daniel" },
+
+  // Album 4 · West by God
+  { key: "west_by_god_witness", name: "West-by-God Witness", description: "Witness of every West by God prophecy.", icon: "Eye", color: "#dc2626", type: "badge", rarity: "epic", price: 0, limited: false, earnedFromProphecy: "west-by-god" },
+  { key: "west_by_god_film_witness", name: "West-by-God Film Witness", description: "Watched West by God as one continuous film.", icon: "Eye", color: "#dc2626", type: "badge", rarity: "epic", price: 0, limited: false, earnedFromProphecy: "west-by-god" },
+  { key: "west_by_god_archivist", name: "West-by-God Archivist", description: "Catalogued every West by God vision in the Antiquarian's Index.", icon: "BookOpen", color: "#dc2626", type: "title", rarity: "legendary", price: 0, limited: false, earnedFromProphecy: "west-by-god" },
+
+  // Album 5 · Silence in Heaven
+  { key: "silence_in_heaven_witness", name: "Witness of the Silence", description: "Every Silence in Heaven prophecy fully witnessed.", icon: "Eye", color: "#ff3c40", type: "badge", rarity: "legendary", price: 0, limited: false, earnedFromProphecy: "silence-in-heaven" },
+  { key: "silence_in_heaven_film_witness", name: "Silence in Heaven Film Witness", description: "Watched Silence in Heaven as one continuous film.", icon: "Eye", color: "#ff3c40", type: "badge", rarity: "legendary", price: 0, limited: false, earnedFromProphecy: "silence-in-heaven" },
+  { key: "silence_in_heaven_archivist", name: "Heaven's Archivist", description: "Catalogued every Silence in Heaven vision in the Antiquarian's Index.", icon: "BookOpen", color: "#ff3c40", type: "title", rarity: "mythic", price: 0, limited: false, earnedFromProphecy: "silence-in-heaven" },
+
+  // Global tiers
+  { key: "full_tapestry_title", name: "Witness of the Full Tapestry", description: "Watched every prophecy marquee in full. The book is read.", icon: "Sparkles", color: "#fbbf24", type: "title", rarity: "mythic", price: 0, limited: false, earnedFromProphecy: "full_tapestry" },
+  { key: "antiquarians_codex_title", name: "The Antiquarian's Codex", description: "Saw everything. The full truth, in Daniel Cross's hand.", icon: "Sparkles", color: "#fbbf24", type: "title", rarity: "mythic", price: 0, limited: false, earnedFromProphecy: "antiquarians_codex" },
 ];
 
 export const COSMETIC_TYPE_LABELS: Record<CosmeticType, string> = {
