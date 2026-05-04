@@ -48,6 +48,8 @@ import { fileURLToPath } from "url";
 import { ELARA_LINES } from "../shared/elaraLines";
 import { HUMAN_LINES } from "../shared/humanLines";
 import { LOCKED_DOOR_LINES } from "../shared/lockedDoorLines";
+import { COMPANION_COMMENTS } from "../shared/companionComments";
+import { COMPANION_ASK_TOPICS } from "../shared/companionAskTopics";
 import type { CompanionLine, CompanionSpeaker } from "../shared/companion";
 
 import { assetUrl } from "../client/src/lib/assetUrl";
@@ -143,6 +145,20 @@ function collectAllLines(): GenLine[] {
   for (const line of ELARA_LINES) push(line, "elaraLines.ts");
   for (const line of HUMAN_LINES) push(line, "humanLines.ts");
   for (const line of LOCKED_DOOR_LINES) push(line, "lockedDoorLines.ts");
+  // Comments fire as one-shot reactions to gameplay triggers; only
+  // elara/human have rendering targets here (antiquarian/architect
+  // lines are rendered by their own per-character pipelines).
+  for (const c of COMPANION_COMMENTS) {
+    if (c.speaker !== "elara" && c.speaker !== "human") continue;
+    if (seen.has(c.id)) continue;
+    seen.add(c.id);
+    rows.push({ voId: c.id, speaker: c.speaker, text: c.voiceLine, source: "companionComments.ts" });
+  }
+  for (const t of COMPANION_ASK_TOPICS) {
+    if (seen.has(t.id)) continue;
+    seen.add(t.id);
+    rows.push({ voId: t.id, speaker: t.speaker, text: t.answer, source: "companionAskTopics.ts" });
+  }
   return rows;
 }
 

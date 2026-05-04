@@ -60,6 +60,8 @@
     "vo:source": "python3 apps/scripts/generate_source_vo.py",
     "vo:run-all": "bash scripts/run-all-vo.sh",
     "vo:audit": "node scripts/_vo-audit.mjs",
+    "vo:purge-zombies:dry": "node scripts/_vo-purge-zombies.mjs",
+    "vo:purge-zombies": "node scripts/_vo-purge-zombies.mjs --apply",
     "art:generate-csv": "tsx apps/scripts/generate-act1-art-csv.ts",
     "art:trade-empire": "tsx apps/scripts/generate-trade-empire-art-csv.ts",
     "art:trade-empire:upload": "tsx apps/scripts/upload-trade-empire-art.ts",
