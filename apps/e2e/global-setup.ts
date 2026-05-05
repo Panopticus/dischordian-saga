@@ -18,8 +18,17 @@
  */
 import { mkdirSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 import { SignJWT } from "jose";
 import { COOKIE_NAME } from "../shared/const";
+
+// ESM has no __dirname; derive it from import.meta.url so this file
+// works under the project's `"type": "module"` setting. The previous
+// CommonJS-style __dirname blew up Playwright's config loader at
+// import time, which is why the e2e job in CI fails before any
+// test even attempts to run.
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const STATE_PATH = join(__dirname, ".auth", "storageState.json");
 const ONE_YEAR_MS = 365 * 24 * 60 * 60 * 1000;

@@ -1,6 +1,14 @@
 import { existsSync } from "node:fs";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import { defineConfig, devices } from "@playwright/test";
 import { STORAGE_STATE_PATH } from "./global-setup";
+
+// `require.resolve` doesn't exist under ESM; derive the absolute
+// global-setup path from this file's URL instead. Same reason as the
+// __dirname fix in global-setup.ts.
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const GLOBAL_SETUP = resolve(__dirname, "global-setup.ts");
 
 const storageState = existsSync(STORAGE_STATE_PATH) ? STORAGE_STATE_PATH : undefined;
 
@@ -12,7 +20,7 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   timeout: 30_000,
 
-  globalSetup: require.resolve("./global-setup"),
+  globalSetup: GLOBAL_SETUP,
 
   snapshotPathTemplate: "{testDir}/__screenshots__/{testFilePath}/{arg}{ext}",
 
