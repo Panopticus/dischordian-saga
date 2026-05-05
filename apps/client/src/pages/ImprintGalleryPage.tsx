@@ -196,7 +196,7 @@ export default function ImprintGalleryPage() {
               </div>
               <div className="w-full bg-border/30 rounded-full h-1">
                 <div
-                  className="h-1 rounded-full bg-gradient-to-r from-amber-400/60 to-amber-300"
+                  className="h-1 rounded-full void-bg-energy"
                   style={{ width: `${row.progressPercent}%` }}
                 />
               </div>

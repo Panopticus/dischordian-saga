@@ -29,9 +29,9 @@ const GAME_LABEL: Record<string, string> = {
 };
 
 const GAME_ACCENT: Record<string, string> = {
-  loredex: "text-cyan-300",
-  cades_fps: "text-amber-300",
-  dead_mans_circuit: "text-purple-300",
+  loredex: "void-text-energy",
+  cades_fps: "void-text-accent",
+  dead_mans_circuit: "void-text-system",
 };
 
 function ThreadCard({ threadId }: { threadId: string }) {
@@ -41,8 +41,8 @@ function ThreadCard({ threadId }: { threadId: string }) {
 
   if (isLoading) {
     return (
-      <div className="rounded border border-stone-700 bg-stone-900/40 p-4">
-        <p className="font-mono text-[10px] uppercase tracking-wider text-stone-500">
+      <div className="rounded border void-border void-bg-canvas p-4">
+        <p className="font-mono text-[10px] uppercase tracking-wider void-text">
           loading {threadId}…
         </p>
       </div>
@@ -50,11 +50,11 @@ function ThreadCard({ threadId }: { threadId: string }) {
   }
   if (error || !data) {
     return (
-      <div className="rounded border border-rose-500/40 bg-rose-950/20 p-4">
-        <p className="font-mono text-[10px] uppercase tracking-wider text-rose-300/80">
+      <div className="rounded border void-border-error void-bg-error p-4">
+        <p className="font-mono text-[10px] uppercase tracking-wider void-text-error">
           status unavailable
         </p>
-        <p className="mt-1 text-[12px] text-rose-200">
+        <p className="mt-1 text-[12px] void-text-error">
           {error?.message ?? "Unknown error"}
         </p>
       </div>
@@ -65,31 +65,31 @@ function ThreadCard({ threadId }: { threadId: string }) {
     <div
       className={`rounded border p-4 transition-colors ${
         data.complete
-          ? "border-emerald-500/40 bg-emerald-950/15"
-          : "border-stone-700 bg-stone-900/40"
+          ? "void-border-success void-bg-success"
+          : "void-border void-bg-canvas"
       }`}
     >
       <div className="flex items-center justify-between gap-3">
         <div>
-          <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-stone-400">
+          <p className="font-mono text-[10px] uppercase tracking-[0.25em] void-text">
             Thread · originates in{" "}
-            <span className={GAME_ACCENT[data.originGame] ?? "text-stone-300"}>
+            <span className={GAME_ACCENT[data.originGame] ?? "void-text"}>
               {GAME_LABEL[data.originGame] ?? data.originGame}
             </span>
           </p>
-          <h3 className="mt-1 font-display text-base text-stone-100">
+          <h3 className="mt-1 font-display text-base void-text">
             {data.title}
           </h3>
         </div>
-        <div className="text-right font-mono text-[11px] text-stone-300">
+        <div className="text-right font-mono text-[11px] void-text">
           {data.totalEmitted}/{data.totalBeats}
           {data.complete && (
-            <span className="ml-2 text-emerald-300">complete</span>
+            <span className="ml-2 void-text-energy">complete</span>
           )}
         </div>
       </div>
 
-      <p className="mt-2 font-mono text-[9px] uppercase tracking-wider text-stone-500">
+      <p className="mt-2 font-mono text-[9px] uppercase tracking-wider void-text">
         Participates in:{" "}
         {data.participatingGames
           .map((g) => GAME_LABEL[g] ?? g)
@@ -100,28 +100,28 @@ function ThreadCard({ threadId }: { threadId: string }) {
         {data.beats.map((b) => (
           <li
             key={b.id}
-            className="flex items-start gap-2 rounded border border-stone-800/60 bg-stone-950/40 px-3 py-2"
+            className="flex items-start gap-2 rounded border void-border void-bg-canvas px-3 py-2"
           >
             <div className="mt-0.5 shrink-0">
               {b.emitted ? (
-                <CheckCircle2 size={14} className="text-emerald-400/90" />
+                <CheckCircle2 size={14} className="void-text-energy" />
               ) : (
-                <Circle size={14} className="text-stone-600" />
+                <Circle size={14} className="void-text" />
               )}
             </div>
             <div className="flex-1">
               <div className="flex items-baseline justify-between gap-2">
-                <p className="font-serif text-[13px] text-stone-100">
+                <p className="font-serif text-[13px] void-text">
                   {b.label}
                 </p>
-                <p className="font-mono text-[9px] uppercase tracking-wider text-stone-500">
+                <p className="font-mono text-[9px] uppercase tracking-wider void-text">
                   emitted by{" "}
-                  <span className={GAME_ACCENT[b.emittedBy] ?? "text-stone-400"}>
+                  <span className={GAME_ACCENT[b.emittedBy] ?? "void-text"}>
                     {GAME_LABEL[b.emittedBy] ?? b.emittedBy}
                   </span>
                 </p>
               </div>
-              <p className="mt-0.5 font-mono text-[10px] text-stone-500">
+              <p className="mt-0.5 font-mono text-[10px] void-text">
                 beat id: {b.id} · order: {b.order}
               </p>
             </div>
@@ -137,21 +137,21 @@ export default function CrossGameThreadsPage() {
     trpc.crossGameThreads.listThreads.useQuery();
 
   return (
-    <div className="min-h-screen bg-stone-950 text-stone-100">
-      <header className="border-b border-stone-700 bg-stone-950/80 px-4 py-3 backdrop-blur">
+    <div className="min-h-screen void-bg-canvas void-text">
+      <header className="border-b void-border void-bg-canvas px-4 py-3 backdrop-blur">
         <div className="mx-auto flex max-w-4xl items-center justify-between gap-3">
           <Link
             to="/witnessing"
-            className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.25em] text-stone-300/80 hover:text-stone-100"
+            className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.25em] void-text-dim void-text"
           >
             <ChevronLeft size={14} />
             Back to Witnessing
           </Link>
           <div className="text-right">
-            <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-stone-400">
+            <p className="font-mono text-[10px] uppercase tracking-[0.3em] void-text">
               Transmedia · Cross-Game Threads
             </p>
-            <p className="mt-1 font-serif text-lg italic text-stone-50">
+            <p className="mt-1 font-serif text-lg italic void-text">
               What the other games are reading
             </p>
           </div>
@@ -159,7 +159,7 @@ export default function CrossGameThreadsPage() {
       </header>
 
       <main className="mx-auto max-w-4xl space-y-4 px-4 py-6">
-        <p className="font-serif italic text-[13px] leading-relaxed text-stone-200/80">
+        <p className="font-serif italic text-[13px] leading-relaxed void-text-dim">
           Events you trigger in this Ark are read by the other games in
           the Saga — Cades FPS and Dead Man's Circuit. Below are the
           threads currently in motion. A check means the beat has
@@ -168,17 +168,17 @@ export default function CrossGameThreadsPage() {
         </p>
 
         {isLoading && (
-          <p className="font-mono text-[11px] text-stone-400">
+          <p className="font-mono text-[11px] void-text">
             loading thread registry…
           </p>
         )}
 
         {error && (
-          <div className="rounded border border-rose-500/40 bg-rose-950/20 p-4">
-            <p className="font-mono text-[10px] uppercase tracking-wider text-rose-300/80">
+          <div className="rounded border void-border-error void-bg-error p-4">
+            <p className="font-mono text-[10px] uppercase tracking-wider void-text-error">
               registry unavailable
             </p>
-            <p className="mt-1 text-[12px] text-rose-200">
+            <p className="mt-1 text-[12px] void-text-error">
               {error.message}
             </p>
           </div>
@@ -187,10 +187,10 @@ export default function CrossGameThreadsPage() {
         {threads &&
           threads.map((t) => <ThreadCard key={t.id} threadId={t.id} />)}
 
-        <div className="rounded border border-stone-700 bg-stone-900/30 p-4">
+        <div className="rounded border void-border void-bg-canvas p-4">
           <div className="flex items-start gap-2">
-            <ExternalLink size={14} className="mt-1 shrink-0 text-stone-500" />
-            <p className="font-serif text-[12px] italic text-stone-400">
+            <ExternalLink size={14} className="mt-1 shrink-0 void-text" />
+            <p className="font-serif text-[12px] italic void-text">
               Beats waiting on Cades FPS or Dead Man's Circuit will fire
               when the relevant moments happen in those games. The Ark
               listens; the other games speak.

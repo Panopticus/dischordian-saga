@@ -29,16 +29,16 @@ import {
 const DEFAULT_FOCUS = "entity_1";
 
 const TYPE_COLORS: Readonly<Record<LoredexEntryType, string>> = {
-  character: "#22d3ee",   // cyan
-  concept: "#a78bfa",     // violet
-  event: "#fb923c",       // orange
-  faction: "#f472b6",     // pink
-  location: "#34d399",    // emerald
-  song: "#fde047",        // yellow
-  artifact: "#94a3b8",    // slate
+  character: "var(--energy-primary)",
+  concept: "var(--energy-system)",
+  event: "var(--energy-accent)",
+  faction: "var(--energy-error)",
+  location: "var(--energy-success)",
+  song: "var(--energy-premium)",
+  artifact: "var(--energy-secondary)",
 };
 
-const FOGGED_COLOR = "#475569"; // slate-600
+const FOGGED_COLOR = "color-mix(in oklch, var(--energy-secondary) 30%, black)";
 
 export default function LoredexGraphPage() {
   const { entries, relationships, discoveredIds } = useLoredex();
@@ -77,7 +77,7 @@ export default function LoredexGraphPage() {
           </p>
           <Link
             href="/loredex/graph"
-            className="font-mono text-[10px] uppercase tracking-[0.25em] text-cyan-300/80 hover:text-cyan-200"
+            className="font-mono text-[10px] uppercase tracking-[0.25em] void-text-energy void-text-energy"
           >
             ← back to default focus
           </Link>
@@ -110,7 +110,7 @@ export default function LoredexGraphPage() {
             aria-label={`${view.focus.name} relationship graph`}
           >
             {/* Edges first so nodes paint over them. */}
-            <g stroke="rgba(255,255,255,0.15)" strokeWidth={1}>
+            <g stroke="color-mix(in oklch, var(--text-primary) 15%, transparent)" strokeWidth={1}>
               {view.edges.map((edge, i) => {
                 const target =
                   edge.source === view.focus.id
@@ -183,7 +183,7 @@ function FocusNode({ focus }: { focus: LoredexGraphNode }) {
         textAnchor="middle"
         fontSize={8}
         fontFamily="monospace"
-        fill="rgba(255,255,255,0.4)"
+        fill="color-mix(in oklch, var(--text-primary) 40%, transparent)"
       >
         {focus.type.toUpperCase()}
       </text>
@@ -227,7 +227,7 @@ function NeighbourNode({
         textAnchor="middle"
         fontSize={9}
         fontFamily={node.discovered ? "serif" : "monospace"}
-        fill={node.discovered ? "white" : "rgba(255,255,255,0.4)"}
+        fill={node.discovered ? "white" : "color-mix(in oklch, var(--text-primary) 40%, transparent)"}
       >
         {display}
       </text>

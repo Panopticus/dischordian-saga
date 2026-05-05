@@ -115,7 +115,10 @@ apps/client/src/pages/ChessStudyPage.tsx
 apps/client/src/pages/ChessTutorialPage.tsx
 apps/client/src/pages/ClueJournalPage.tsx
 apps/client/src/pages/CodexPage.tsx
+apps/client/src/pages/ConspiracyBoardsPage.tsx
 apps/client/src/pages/CoopRaidPage.tsx
+apps/client/src/pages/CosmeticShopPage.tsx
+apps/client/src/pages/CrossGameThreadsPage.tsx
 apps/client/src/pages/DevGuildCutscenesPage.tsx
 apps/client/src/pages/DonationPage.tsx
 apps/client/src/pages/DraftTournamentPage.tsx
@@ -124,13 +127,18 @@ apps/client/src/pages/DreamerFragmentsPage.tsx
 apps/client/src/pages/FleetViewerPage.tsx
 apps/client/src/pages/FriendlyChallengesPage.tsx
 apps/client/src/pages/HouseCupPage.tsx
+apps/client/src/pages/IdeologyPage.tsx
+apps/client/src/pages/ImprintGalleryPage.tsx
 apps/client/src/pages/LeaderboardPage.tsx
 apps/client/src/pages/LoreQuizPage.tsx
+apps/client/src/pages/LoredexGraphPage.tsx
 apps/client/src/pages/MarketplacePage.tsx
+apps/client/src/pages/MolGarathAudiencePage.tsx
 apps/client/src/pages/MolGarathTrapsFeedPage.tsx
 apps/client/src/pages/PetBattlesPage.tsx
 apps/client/src/pages/PlanetGalleryPage.tsx
 apps/client/src/pages/PlayerProfilePage.tsx
+apps/client/src/pages/PotentialsLeaderboardPage.tsx
 apps/client/src/pages/PreludePage.tsx
 apps/client/src/pages/PrestigeQuestPage.tsx
 apps/client/src/pages/PrivacyPage.tsx
@@ -146,4 +154,6 @@ apps/client/src/pages/SuitGalleryPage.tsx
 apps/client/src/pages/SyndicateWorldPage.tsx
 apps/client/src/pages/SystemsLibraryPage.tsx
 apps/client/src/pages/TermsPage.tsx
+apps/client/src/pages/TitlesPage.tsx
+apps/client/src/pages/TransmissionInboxPage.tsx
 apps/client/src/services/engagementTracker.ts
