@@ -20,6 +20,8 @@ import { recordMatchStart, recordMatchEnd } from "./matchLengthMonitor";
 import { randomUUID } from "crypto";
 import { checkWsRateLimit, sendRateLimitError, storeDisconnectedSession, recoverSession } from "./wsRateLimit";
 import { logger } from "./logger";
+import { authenticateWebSocket } from "./_core/wsAuth";
+import type { User } from "../db/schema";
 
 /* ─── ZOD MESSAGE SCHEMAS ─── */
 const DeckCardSchema = z.object({
@@ -725,11 +727,31 @@ export function setupPvpWebSocket(server: Server) {
     });
   }, MATCHMAKING_INTERVAL_MS);
 
-  wss.on("connection", (ws) => {
+  wss.on("connection", (ws, req) => {
     let player: ConnectedPlayer | null = null;
     let isSpectator = false;
+    // Authenticate the WS upgrade once and bind the result. The
+    // session cookie travels on the upgrade request just like any
+    // other HTTP request. Anonymous connections are allowed (so the
+    // spectator flow keeps working without login), but every action
+    // that mutates state — JOIN_QUEUE, JOIN_COOP_MATCH, GAME_ACTION,
+    // SURRENDER, SEND_EMOTE — checks `authedUser` and rejects if null
+    // or if the message claims a different userId.
+    let authedUser: User | null = null;
+    const authPromise = authenticateWebSocket(req)
+      .then((u) => {
+        authedUser = u;
+      })
+      .catch(() => {
+        authedUser = null;
+      });
 
     ws.on("message", async (raw) => {
+      // Make sure auth has resolved before we trust authedUser. The
+      // authentication is fast (verify JWT + DB lookup) and the
+      // first client message arrives well after the upgrade, but
+      // awaiting once here is correct.
+      await authPromise;
       let msg: ClientMessage;
       try {
         const parsed = JSON.parse(raw.toString());
@@ -757,6 +779,25 @@ export function setupPvpWebSocket(server: Server) {
           break;
 
         case "JOIN_QUEUE": {
+          // Reject anonymous joins — ranked play needs a verified
+          // userId to credit ELO/W-L to the right account.
+          if (!authedUser) {
+            send(ws, { type: "ERROR", message: "Authentication required to join queue" });
+            ws.close(4401, "unauthorized");
+            return;
+          }
+          // Reject mismatched userIds — historically this trusted
+          // msg.userId, which let any client claim any account.
+          if (msg.userId !== authedUser.id) {
+            logger.warn("[PvP] JOIN_QUEUE userId mismatch", {
+              authedUserId: authedUser.id,
+              claimedUserId: msg.userId,
+            });
+            send(ws, { type: "ERROR", message: "Identity mismatch" });
+            ws.close(4403, "forbidden");
+            return;
+          }
+
           if (player) {
             send(ws, { type: "ERROR", message: "Already in queue or match" });
             return;
@@ -767,18 +808,22 @@ export function setupPvpWebSocket(server: Server) {
             return;
           }
 
-          const existing = playerConnections.get(msg.userId);
+          // Use the server-known identity, never the client claim.
+          const userId = authedUser.id;
+          const userName = authedUser.name ?? msg.userName;
+
+          const existing = playerConnections.get(userId);
           if (existing) {
             send(existing.ws, { type: "ERROR", message: "Connected from another session" });
             existing.ws.close();
-            playerConnections.delete(msg.userId);
+            playerConnections.delete(userId);
           }
 
-          getOrCreateLeaderboard(msg.userId, msg.userName).then(({ elo, matchesPlayed }) => {
+          getOrCreateLeaderboard(userId, userName).then(({ elo, matchesPlayed }) => {
             player = {
               ws,
-              userId: msg.userId,
-              userName: msg.userName,
+              userId,
+              userName,
               deck: msg.deck,
               elo,
               matchId: null,
@@ -790,7 +835,7 @@ export function setupPvpWebSocket(server: Server) {
               botFallbackOffered: false,
             };
 
-            playerConnections.set(msg.userId, player);
+            playerConnections.set(userId, player);
             matchmakingQueue.push(player);
 
             send(ws, { type: "QUEUE_JOINED", position: matchmakingQueue.length });
@@ -800,6 +845,21 @@ export function setupPvpWebSocket(server: Server) {
         }
 
         case "JOIN_COOP_MATCH": {
+          if (!authedUser) {
+            send(ws, { type: "ERROR", message: "Authentication required for coop match" });
+            ws.close(4401, "unauthorized");
+            return;
+          }
+          if (msg.userId !== authedUser.id) {
+            logger.warn("[PvP] JOIN_COOP_MATCH userId mismatch", {
+              authedUserId: authedUser.id,
+              claimedUserId: msg.userId,
+            });
+            send(ws, { type: "ERROR", message: "Identity mismatch" });
+            ws.close(4403, "forbidden");
+            return;
+          }
+
           if (player) {
             send(ws, { type: "ERROR", message: "Already in queue or match" });
             return;
@@ -808,28 +868,30 @@ export function setupPvpWebSocket(server: Server) {
             send(ws, { type: "ERROR", message: "Deck must have at least 5 cards" });
             return;
           }
+          const userId = authedUser.id;
+          const userName = authedUser.name ?? msg.userName;
           // Resolve session: explicit > party-bound.
           const { findCoopSessionForUser, prepareCoopSpawn, linkMatchToSession } = await import("./coopBattleSpawner");
           let sessionId = msg.sessionId;
           if (!sessionId) {
-            const inferred = await findCoopSessionForUser(msg.userId);
+            const inferred = await findCoopSessionForUser(userId);
             if (!inferred) {
               send(ws, { type: "ERROR", message: "No active coop session for this user" });
               return;
             }
             sessionId = inferred;
           }
-          const spawn = await prepareCoopSpawn({ callerUserId: msg.userId, sessionId });
+          const spawn = await prepareCoopSpawn({ callerUserId: userId, sessionId });
           if (!spawn.ok) {
             send(ws, { type: "ERROR", message: `Coop spawn rejected: ${spawn.error}` });
             return;
           }
 
-          const lbInfo = await getOrCreateLeaderboard(msg.userId, msg.userName);
+          const lbInfo = await getOrCreateLeaderboard(userId, userName);
           const humanPlayer: ConnectedPlayer = {
             ws,
-            userId: msg.userId,
-            userName: msg.userName,
+            userId,
+            userName,
             deck: msg.deck,
             elo: lbInfo.elo,
             matchId: null,

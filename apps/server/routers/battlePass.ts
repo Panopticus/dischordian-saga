@@ -234,50 +234,60 @@ export const battlePassRouter = router({
       const db = await getDb();
       if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
 
-      const season = await db.select().from(battlePassSeasons)
-        .where(eq(battlePassSeasons.status, "active"))
-        .limit(1);
-      if (!season[0]) throw new TRPCError({ code: "NOT_FOUND", message: "No active season" });
+      // Wrap read-check-write in a transaction. The historical pattern
+      // — read claimedTiers, push, write — let two parallel claim
+      // requests both pass the dedup check and both write, with the
+      // second silently overwriting the first's update (single-claim,
+      // double-grant on rewards downstream).
+      const claimResult = await db.transaction(async (tx) => {
+        const season = await tx.select().from(battlePassSeasons)
+          .where(eq(battlePassSeasons.status, "active"))
+          .limit(1);
+        if (!season[0]) throw new TRPCError({ code: "NOT_FOUND", message: "No active season" });
 
-      const progress = await db.select().from(battlePassProgress)
-        .where(and(
-          eq(battlePassProgress.userId, ctx.user.id),
-          eq(battlePassProgress.seasonId, season[0].id),
-        ))
-        .limit(1);
-      if (!progress[0]) throw new TRPCError({ code: "NOT_FOUND" });
+        const progress = await tx.select().from(battlePassProgress)
+          .where(and(
+            eq(battlePassProgress.userId, ctx.user.id),
+            eq(battlePassProgress.seasonId, season[0].id),
+          ))
+          .limit(1);
+        if (!progress[0]) throw new TRPCError({ code: "NOT_FOUND" });
 
-      if (input.tier > progress[0].currentTier) {
-        throw new TRPCError({ code: "FORBIDDEN", message: "Tier not yet reached" });
-      }
+        if (input.tier > progress[0].currentTier) {
+          throw new TRPCError({ code: "FORBIDDEN", message: "Tier not yet reached" });
+        }
 
-      if (input.track === "premium" && !progress[0].isPremium) {
-        throw new TRPCError({ code: "FORBIDDEN", message: "Premium pass required" });
-      }
+        if (input.track === "premium" && !progress[0].isPremium) {
+          throw new TRPCError({ code: "FORBIDDEN", message: "Premium pass required" });
+        }
 
-      const claimed = input.track === "free"
-        ? (progress[0].claimedFreeTiers || [])
-        : (progress[0].claimedPremiumTiers || []);
+        const claimed = input.track === "free"
+          ? (progress[0].claimedFreeTiers || [])
+          : (progress[0].claimedPremiumTiers || []);
 
-      if (claimed.includes(input.tier)) {
-        throw new TRPCError({ code: "CONFLICT", message: "Already claimed" });
-      }
+        if (claimed.includes(input.tier)) {
+          throw new TRPCError({ code: "CONFLICT", message: "Already claimed" });
+        }
 
-      const newClaimed = [...claimed, input.tier];
-      if (input.track === "free") {
-        await db.update(battlePassProgress)
-          .set({ claimedFreeTiers: newClaimed })
-          .where(eq(battlePassProgress.id, progress[0].id));
-      } else {
-        await db.update(battlePassProgress)
-          .set({ claimedPremiumTiers: newClaimed })
-          .where(eq(battlePassProgress.id, progress[0].id));
-      }
+        const newClaimed = [...claimed, input.tier];
+        if (input.track === "free") {
+          await tx.update(battlePassProgress)
+            .set({ claimedFreeTiers: newClaimed })
+            .where(eq(battlePassProgress.id, progress[0].id));
+        } else {
+          await tx.update(battlePassProgress)
+            .set({ claimedPremiumTiers: newClaimed })
+            .where(eq(battlePassProgress.id, progress[0].id));
+        }
 
-      // Get the reward data
-      const rewards = season[0].tierRewards || {};
-      const tierReward = rewards[String(input.tier)];
-      const reward = input.track === "free" ? tierReward?.free : tierReward?.premium;
+        // Get the reward data inside the tx so we read the same season row.
+        const rewards = season[0].tierRewards || {};
+        const tierReward = rewards[String(input.tier)];
+        const reward = input.track === "free" ? tierReward?.free : tierReward?.premium;
+        return { reward };
+      });
+
+      const reward = claimResult.reward;
 
       // T9.17: if the reward bag includes a `titleKey`, grant the
       // title via the unified user_titles table. Forwards-compat —

@@ -46,6 +46,12 @@ import { warMapRouter } from "./routers/warMap";
 import { contentApiRouter } from "./routers/contentApi";
 import { moralityLeaderboardRouter } from "./routers/moralityLeaderboard";
 import { companionRouter } from "./routers/companion";
+import { romanceRouter } from "./routers/romance";
+import { encounterRouter } from "./routers/encounter";
+import { coNexusTomesRouter } from "./routers/coNexusTomes";
+import { thoughtVirusSpreadRouter } from "./routers/thoughtVirusSpread";
+import { twoWitnessesDecodeRouter } from "./routers/twoWitnessesDecode";
+import { lyraVoxQuestRouter } from "./routers/lyraVoxQuest";
 import { marketplaceRouter } from "./routers/marketplace";
 import { dailyQuestsRouter } from "./routers/dailyQuests";
 import { bonusObjectivesRouter } from "./routers/bonusObjectives";
@@ -133,10 +139,22 @@ import { dreamerFragmentsRouter } from "./routers/dreamerFragments";
 import { architectDossierRouter } from "./routers/architectDossier";
 import { dreamerDossierRouter } from "./routers/dreamerDossier";
 import { watcherRouter } from "./routers/watcher";
+import { accountRouter } from "./routers/account";
+import { twoFactorRouter } from "./routers/twoFactor";
+import { sessionsRouter } from "./routers/sessions";
+import { rumRouter } from "./routers/rum";
+import { blocksRouter } from "./routers/blocks";
+import { supportRouter } from "./routers/support";
 
 export const appRouter = router({
   collection: collectionRouter,
   system: systemRouter,
+  account: accountRouter,
+  twoFactor: twoFactorRouter,
+  sessions: sessionsRouter,
+  rum: rumRouter,
+  blocks: blocksRouter,
+  support: supportRouter,
   cardGame: cardGameRouter,
   ark: arkRouter,
   trophy: trophyRouter,
@@ -176,6 +194,12 @@ export const appRouter = router({
   contentApi: contentApiRouter,
   moralityLeaderboard: moralityLeaderboardRouter,
   companion: companionRouter,
+  romance: romanceRouter,
+  encounter: encounterRouter,
+  coNexusTomes: coNexusTomesRouter,
+  thoughtVirusSpread: thoughtVirusSpreadRouter,
+  twoWitnessesDecode: twoWitnessesDecodeRouter,
+  lyraVoxQuest: lyraVoxQuestRouter,
   marketplace: marketplaceRouter,
   quests: dailyQuestsRouter,
   bonusObjectives: bonusObjectivesRouter,

@@ -540,6 +540,108 @@ generation not required. Shapes per canon:
 - J (Silence) — a single horizontal line. Nothing else.
 
 
+### 7.3 Choice-impact stance epilogue frames (Bandersnatch Move 1)
+
+Each of the five Act 7 stance epilogues (`apps/shared/act7Epilogues.ts`)
+declares a `defaultFrameSlug` the cinematic renderer reads to set the
+modal's background. These are distinct from the §7.2 opener frames —
+they play **after** the stance is committed, layered behind the
+Elara/Human dual-narrator script in
+`apps/shared/encounters/act7EpilogueVoScripts.ts`. Each is text-overlaid
+during render, so leave the centre composition open.
+
+| #  | Slug                                | Path                                                              | Stance              | Mood                                                |
+|----|-------------------------------------|-------------------------------------------------------------------|---------------------|-----------------------------------------------------|
+| K  | `epilogue_humanity_ark_warm`        | `art/cinematics/act-7-epilogue/humanity.webp`                     | Humanity            | warm, mortal, owned                                 |
+| L  | `epilogue_machine_ark_exact`        | `art/cinematics/act-7-epilogue/machine.webp`                      | Machine             | exact, total, measured                              |
+| M  | `epilogue_balance_ark_glow`         | `art/cinematics/act-7-epilogue/balance.webp`                      | Balance             | the third option, refused-and-chosen                |
+| N  | `epilogue_soldier_bridge_lit`       | `art/cinematics/act-7-epilogue/soldier-command.webp`              | Soldier-Command     | command, taken, with full eyes                      |
+| O  | `epilogue_silence_seat_unlit`       | `art/cinematics/act-7-epilogue/silence.webp`                      | Silence             | the fourth choice, refusing the having of a choice  |
+
+All five frames: 1920×1080 webp, lossy 75–80%, layered behind
+captioned dual-narrator dialog (avoid bright centre composition).
+Match the Act 1–6 cinematic palette already established in
+`art/cinematics/`; do not introduce HUD elements, lower-thirds, or
+character portraits — these are environmental establishing frames.
+
+**Prompt — K (Humanity ending)**:
+```
+Interior of an aging starship's command bridge — the Ark — at a calm
+post-arrival hour, golden window-light from the planet below filtering
+across uniformed crew working at their stations, a small kettle steaming
+on a side table, a single open navigation console with a hand resting on
+it (no face shown), low-key warm cinematography, painterly style, dark
+sci-fi but with mortal warmth — like a long voyage's first quiet morning
+in port, leave the centre third clear for caption overlay, --ar 16:9
+--v 6.1 --s 700 --q 2
+```
+
+**Prompt — L (Machine ending)**:
+```
+Same starship bridge, but the geometry corrected to perfect right angles,
+substrate light striations visible as faint horizontal scan-lines across
+every surface, every console aligned to a sub-pixel grid, the kettle
+absent, the warm yellow replaced with a cool mathematical green-cyan, no
+crew visible — only the hum of substrate-aligned machinery, photoreal
+cinematic, faintly cold, the precision is the affect, leave centre third
+clear, --ar 16:9 --v 6.1 --s 700 --q 2
+```
+
+**Prompt — M (Balance ending)**:
+```
+Exterior view of the Ark in motion against a vast orange-blue twilight
+horizon, the Convergence Seat visible inside an upper observation gallery
+but unlit, deliberate ambiguity in the colour temperature (neither warm
+nor cool, the in-between), no destination indicator, no mission timer
+visible, a long shape suggesting the ship has chosen movement without
+choosing direction, painterly cinematography, --ar 16:9 --v 6.1 --s 700
+--q 2
+```
+
+**Prompt — N (Soldier-Command / The Bridge ending)**:
+```
+The Ark's bridge fully lit, viewed from the second chair's POV looking
+forward — captain's chair foregrounded but empty (the captain has just
+risen), bridge windows showing motion-streaks of stars indicating active
+travel, instrument panels active and crewed, a single beam of cold light
+crossing the captain's chair from above, the framing places the
+viewer where a partner would sit, photoreal cinematic, dark sci-fi
+command-deck palette, leave centre clear, --ar 16:9 --v 6.1 --s 700
+--q 2
+```
+
+**Prompt — O (Silence ending)**:
+```
+The Convergence Seat itself, completely unlit save for trace ambient
+substrate glow — a circular ceremonial chair on a low pedestal in an
+otherwise empty circular chamber, the chamber's walls reading as
+suggestion rather than detail, the seat slightly off-centre in the
+frame, the longest reverb of any ending implied by extreme negative
+space and high ceiling, the player declined to choose and the room
+respects the declining, painterly cinematography, near-monochrome
+indigo-grey, leave centre clear, --ar 16:9 --v 6.1 --s 700 --q 2
+```
+
+**Wiring note**: The cinematic renderer
+(`apps/client/src/components/act7/Act7EpilogueRenderer.tsx`, when it
+ships) will resolve each slug via `assetUrl()`. The asset pipeline
+should upload these to `s3://dgrsart/cdn/client-public/art/cinematics/
+act-7-epilogue/<slug>.webp` via the existing `pnpm assets:upload`
+workflow. No code change required in the engine after upload — the
+slugs are stable across the choice-impact PR sequence (#404–#427).
+
+**Acceptance**:
+
+- [ ] Five frames generated, palette-matched against the Act 1–6
+  cinematic library
+- [ ] Centre third of each frame remains overlay-friendly (text-readable
+  against the chosen palette)
+- [ ] Uploaded to S3 via `pnpm assets:upload`
+- [ ] Spot-check: render the Humanity ending in dev with the longest
+  Path-C variant line ("You lied to her at the bridge…") and verify
+  caption legibility
+
+
 ---
 
 ## 8 · Cross-act & supplementary

@@ -1,5 +1,37 @@
 import { describe, it, expect } from "vitest";
-import { DEFAULT_LISTS, filterMessage } from "./profanityFilter";
+import { DEFAULT_LISTS, detectPii, filterMessage } from "./profanityFilter";
+
+describe("detectPii", () => {
+  it("flags email addresses", () => {
+    const r = detectPii("contact me at racho@example.com please");
+    expect(r.found).toBe(true);
+    expect(r.kinds).toContain("email");
+  });
+
+  it("flags phone-like numbers", () => {
+    const r = detectPii("call +1 555-867-5309");
+    expect(r.found).toBe(true);
+    expect(r.kinds).toContain("phone");
+  });
+
+  it("flags SSN-shaped strings", () => {
+    const r = detectPii("ssn 123-45-6789");
+    expect(r.found).toBe(true);
+    expect(r.kinds).toContain("ssn");
+  });
+
+  it("does not flag clean text", () => {
+    expect(detectPii("hey are you ready for the match").found).toBe(false);
+  });
+});
+
+describe("filterMessage — PII", () => {
+  it("flags 'pii' alongside other flags without blocking", () => {
+    const r = filterMessage("text me at 555-123-4567!!!!");
+    expect(r.blocked).toBe(false);
+    expect(r.flags).toContain("pii");
+  });
+});
 
 describe("filterMessage — clean text", () => {
   it("passes a normal sentence unchanged", () => {

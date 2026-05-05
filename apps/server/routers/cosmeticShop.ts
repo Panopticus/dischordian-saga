@@ -94,28 +94,47 @@ export const cosmeticShopRouter = router({
       // Can't purchase boss mastery items
       if (item.earnedFromBoss) throw new Error("This cosmetic is earned from boss mastery, not purchasable");
 
-      // Check if already owned
-      const [existing] = await db.select().from(cosmeticPurchases)
-        .where(and(eq(cosmeticPurchases.userId, ctx.user.id), eq(cosmeticPurchases.itemKey, input.itemKey)));
-      if (existing) throw new Error("Already owned");
+      // Wrap the whole purchase in a transaction so balance check,
+      // balance deduction, and ownership insert are atomic. The
+      // historical TOCTOU let two parallel requests both see funds,
+      // both deduct, and the second succeed silently — leaving
+      // negative balance or dual-grant.
+      const { sql } = await import("drizzle-orm");
+      await db.transaction(async (tx) => {
+        // Already-owned check inside the tx so a concurrent buy of the
+        // same item can't squeak past.
+        const [existing] = await tx.select().from(cosmeticPurchases)
+          .where(and(eq(cosmeticPurchases.userId, ctx.user.id), eq(cosmeticPurchases.itemKey, input.itemKey)));
+        if (existing) throw new Error("Already owned");
 
-      // Check and deduct Dream currency
-      if (item.price > 0) {
-        const [bal] = await db.select().from(dreamBalance)
-          .where(eq(dreamBalance.userId, ctx.user.id));
-        if (!bal) throw new Error("No Dream balance found");
-        if (bal.dreamTokens < item.price) {
-          throw new Error(`Not enough Dream tokens. Need ${item.price}, have ${bal.dreamTokens}`);
+        if (item.price > 0) {
+          // Single conditional UPDATE — only touches the row when the
+          // user has enough Dream. mysql2 returns affectedRows; an
+          // affectedRows of 0 means the WHERE clause didn't match
+          // (insufficient balance OR no row at all), and we error.
+          const result = await tx.execute(sql`
+            UPDATE dream_balance
+            SET dream_tokens = dream_tokens - ${item.price}
+            WHERE user_id = ${ctx.user.id} AND dream_tokens >= ${item.price}
+          `);
+          // Drizzle/mysql2 result shape: [ResultSetHeader, FieldPacket[]]
+          // ResultSetHeader has affectedRows.
+          const affected = (result as unknown as Array<{ affectedRows?: number }>)[0]?.affectedRows ?? 0;
+          if (affected === 0) {
+            // Either no balance row or insufficient funds — fetch to
+            // distinguish for a clearer error.
+            const [bal] = await tx.select().from(dreamBalance)
+              .where(eq(dreamBalance.userId, ctx.user.id));
+            if (!bal) throw new Error("No Dream balance found");
+            throw new Error(`Not enough Dream tokens. Need ${item.price}, have ${bal.dreamTokens}`);
+          }
         }
-        await db.update(dreamBalance)
-          .set({ dreamTokens: bal.dreamTokens - item.price })
-          .where(eq(dreamBalance.userId, ctx.user.id));
-      }
 
-      await db.insert(cosmeticPurchases).values({
-        userId: ctx.user.id,
-        itemKey: input.itemKey,
-        price: item.price,
+        await tx.insert(cosmeticPurchases).values({
+          userId: ctx.user.id,
+          itemKey: input.itemKey,
+          price: item.price,
+        });
       });
 
       // Mirror into userTitles so cosmetic-shop title purchases show up

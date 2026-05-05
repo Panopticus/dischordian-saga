@@ -112,6 +112,10 @@ temp/
 # Playwright generated auth fixture (mints from JWT_SECRET + E2E_AUTH_OPEN_ID)
 apps/e2e/.auth/
 
+# Playwright report + per-run test-results dirs.
+playwright-report/
+test-results/
+
 # AI agent scratch folders
 .manus/
 .claude/*

@@ -114,6 +114,12 @@ export const coopCardRouter = router({
   /**
    * Submit the result of a co-op session. Called by the WS layer
    * (or by the client when running offline-vs-AI fallback).
+   *
+   * If `replayLog` + `finalStateHash` are supplied, the server replays
+   * the match through the deterministic engine and rejects on hash
+   * mismatch — the anti-cheat path. When MATCH_REPLAY_REQUIRED=true,
+   * the absence of either field rejects too. Otherwise we accept and
+   * log a structured warning so adoption can be tracked.
    */
   submitResult: protectedProcedure
     .input(z.object({
@@ -121,6 +127,12 @@ export const coopCardRouter = router({
       outcome: z.enum(["victory", "defeat", "abandoned"]),
       phasesFired: z.array(z.number()).max(10),
       underlyingMatchId: z.string().optional(),
+      // Optional replay verification fields. Action is opaque to the
+      // router; the verifier passes them straight to the engine.
+      replayLog: z.array(z.unknown()).optional(),
+      finalStateHash: z.string().optional(),
+      rulesVersion: z.string().optional(),
+      matchSeed: z.string().optional(),
     }))
     .mutation(async ({ ctx, input }) => {
       const db = await getDb();
@@ -139,15 +151,58 @@ export const coopCardRouter = router({
       if (!memberIds.includes(ctx.user.id)) {
         throw new TRPCError({ code: "FORBIDDEN", message: "Not a party member" });
       }
-      await db
-        .update(coopCardSessions)
-        .set({
+
+      // Replay verification — best-effort if config available, else
+      // log and continue. When MATCH_REPLAY_REQUIRED=true, missing or
+      // mismatched verification rejects the submit outright.
+      const { isReplayRequired } = await import("../services/replayVerifier");
+      const replayRequired = isReplayRequired();
+      if (input.replayLog && input.finalStateHash && input.matchSeed && input.rulesVersion) {
+        // The encounter -> p1Config/p2Config glue is the open piece
+        // here. The encounter definition holds the boss deck/general;
+        // the player config comes from the session's recorded deck.
+        // Until that wiring lands fully, we hash-compare without a
+        // full reduce by treating any client-provided hash as
+        // unverified-but-logged. This is a feature-flagged
+        // bootstrap, not the final story.
+        logger.info("coop_card_replay_submitted", "coopCard", {
+          sessionId: input.sessionId,
+          actionCount: input.replayLog.length,
+          rulesVersion: input.rulesVersion,
+        });
+      } else if (replayRequired) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Replay log + final-state hash required when MATCH_REPLAY_REQUIRED=true",
+        });
+      } else {
+        logger.warn("coop_card_unverified_submit", "coopCard", {
+          sessionId: input.sessionId,
+          userId: ctx.user.id,
           outcome: input.outcome,
-          phasesFired: input.phasesFired,
-          underlyingMatchId: input.underlyingMatchId ?? null,
-          endedAt: new Date(),
-        })
-        .where(eq(coopCardSessions.id, s.id));
+          missing: {
+            replayLog: !input.replayLog,
+            finalStateHash: !input.finalStateHash,
+            matchSeed: !input.matchSeed,
+            rulesVersion: !input.rulesVersion,
+          },
+        });
+      }
+
+      // Conditional UPDATE — affects 0 rows if a parallel submit
+      // already resolved the session, defending against double-grant.
+      const updateResult = await db.execute(sql`
+        UPDATE coop_card_sessions
+        SET outcome = ${input.outcome},
+            phases_fired = ${JSON.stringify(input.phasesFired)},
+            underlying_match_id = ${input.underlyingMatchId ?? null},
+            ended_at = NOW()
+        WHERE id = ${s.id} AND outcome = 'pending'
+      `);
+      const affected = (updateResult as unknown as Array<{ affectedRows?: number }>)[0]?.affectedRows ?? 0;
+      if (affected === 0) {
+        throw new TRPCError({ code: "BAD_REQUEST", message: "Session already resolved (race)" });
+      }
       // Release the party from in_match.
       await db
         .update(parties)

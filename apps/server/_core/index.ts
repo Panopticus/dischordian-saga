@@ -14,6 +14,7 @@ import { setupChessPvpWebSocket } from "../chessWs";
 import { registerSpriteProxy } from "../spriteProxy";
 import { registerChessMultiplayer } from "../chessMultiplayer";
 import { ENV } from "./env";
+import { securityHeaders } from "./securityHeaders";
 import { performanceMiddleware } from "../performanceMonitor";
 import { sentryErrorHandler, waitForSentry } from "../sentry";
 import { waitForOTel } from "../otel";
@@ -207,6 +208,9 @@ async function startServer() {
 
   // Performance monitoring — mount before route handlers
   app.use(performanceMiddleware);
+
+  // Security headers — CSP, HSTS, XFO, nosniff, etc.
+  app.use(securityHeaders({ isProduction: ENV.isProduction }));
 
   // Task 6.1 — CORS hardening.
   //
@@ -513,6 +517,63 @@ async function startServer() {
     const { bootstrapWebhookEventsTable } = await import("../services/webhookEventsBootstrap");
     bootstrapWebhookEventsTable().catch(e =>
       console.error("[WebhookEventsBootstrap] failed:", e),
+    );
+
+    // Ensure user_agreements exists (migration 0063). New table for
+    // GDPR Art. 7 demonstrable-consent recording. Required by
+    // routers/account.ts (acceptAgreement / getAgreementStatus).
+    const { bootstrapUserAgreementsTable } = await import("../services/userAgreementsBootstrap");
+    bootstrapUserAgreementsTable().catch(e =>
+      console.error("[UserAgreementsBootstrap] failed:", e),
+    );
+
+    // Stat-sanity CHECK constraints (migration 0064). Defense-in-depth
+    // on top of the application-level conditional UPDATEs from G4 —
+    // any code path that bypasses the routers still can't write a
+    // negative balance. Idempotent: ALTER+CHECK that's already
+    // present is logged as "skipped".
+    const { bootstrapStatSanityConstraints } = await import("../services/statSanityBootstrap");
+    bootstrapStatSanityConstraints().catch(e =>
+      console.error("[StatSanityBootstrap] failed:", e),
+    );
+
+    // Ensure user_two_factor exists (migration 0065). Required by
+    // the 2FA enrollment / verification router.
+    const { bootstrapUserTwoFactorTable } = await import("../services/userTwoFactorBootstrap");
+    bootstrapUserTwoFactorTable().catch(e =>
+      console.error("[UserTwoFactorBootstrap] failed:", e),
+    );
+
+    // Ensure user_sessions exists (migration 0066). Required by the
+    // sessions router (list/revoke active devices).
+    const { bootstrapUserSessionsTable } = await import("../services/userSessionsBootstrap");
+    bootstrapUserSessionsTable().catch(e =>
+      console.error("[UserSessionsBootstrap] failed:", e),
+    );
+
+    // G16/G17 — indexes + FKs (migration 0067). Idempotent.
+    const { bootstrapIndexesAndFks } = await import("../services/indexesFksBootstrap");
+    bootstrapIndexesAndFks().catch(e =>
+      console.error("[IndexesFksBootstrap] failed:", e),
+    );
+
+    // user_blocks (migration 0068).
+    const { bootstrapUserBlocksTable } = await import("../services/userBlocksBootstrap");
+    bootstrapUserBlocksTable().catch(e =>
+      console.error("[UserBlocksBootstrap] failed:", e),
+    );
+
+    // support_impersonation_grants (migration 0069).
+    const { bootstrapSupportImpersonationTable } = await import("../services/supportImpersonationBootstrap");
+    bootstrapSupportImpersonationTable().catch(e =>
+      console.error("[SupportImpersonationBootstrap] failed:", e),
+    );
+
+    // G27 — users cohort columns (migration 0070). Backfills
+    // signupWeek for legacy rows.
+    const { bootstrapCohortColumns } = await import("../services/cohortColumnsBootstrap");
+    bootstrapCohortColumns().catch(e =>
+      console.error("[CohortColumnsBootstrap] failed:", e),
     );
 
     // Ensure pvp_ratings exists (#7). Migration 0058 is orphaned

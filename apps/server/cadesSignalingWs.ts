@@ -101,7 +101,21 @@ function dropFromRoom(ws: WebSocket): void {
   sockToMatch.delete(ws);
 }
 
-export function setupCadesSignalingWebSocket(server: Server): WebSocketServer {
+/** Auth resolver for the signaling server. Default uses the session
+ *  cookie via `_core/wsAuth`. Tests inject a stub via the optional
+ *  `authResolver` parameter on `setupCadesSignalingWebSocket`. */
+type SignalingAuthResolver = (req: import("http").IncomingMessage) => Promise<number | null>;
+
+const defaultAuthResolver: SignalingAuthResolver = async (req) => {
+  const { authenticateWebSocket } = await import("./_core/wsAuth");
+  const u = await authenticateWebSocket(req);
+  return u?.id ?? null;
+};
+
+export function setupCadesSignalingWebSocket(
+  server: Server,
+  authResolver: SignalingAuthResolver = defaultAuthResolver,
+): WebSocketServer {
   const wss = new WebSocketServer({ noServer: true });
 
   server.on("upgrade", (request, socket, head) => {
@@ -112,8 +126,35 @@ export function setupCadesSignalingWebSocket(server: Server): WebSocketServer {
     });
   });
 
-  wss.on("connection", (ws) => {
+  wss.on("connection", (ws, req) => {
+    // Authenticate the WS upgrade. Cades signaling is identity-bound:
+    // the userId tells us which side of the call this peer is on. We
+    // bind to the verified session userId and ignore client claims.
+    let authedUserId: number | null = null;
+    let authResolved = false;
+    void (async () => {
+      try {
+        authedUserId = await authResolver(req);
+      } catch {
+        authedUserId = null;
+      } finally {
+        authResolved = true;
+      }
+    })();
+
     ws.on("message", (raw) => {
+      // Best-effort: messages received before auth resolves are
+      // dropped. The first message from a client is usually JOIN_ROOM
+      // and arrives well after the upgrade has settled.
+      if (!authResolved) {
+        send(ws, { type: "ERROR", reason: "auth_pending" });
+        return;
+      }
+      if (authedUserId === null) {
+        send(ws, { type: "ERROR", reason: "unauthorized" });
+        ws.close(4401, "unauthorized");
+        return;
+      }
       let parsed: unknown;
       try {
         parsed = JSON.parse(raw.toString());
@@ -128,6 +169,12 @@ export function setupCadesSignalingWebSocket(server: Server): WebSocketServer {
         const j = JoinSchema.safeParse(msg);
         if (!j.success) {
           send(ws, { type: "ERROR", reason: "bad_join" });
+          return;
+        }
+        // Reject mismatched userIds — historically trusted client claim.
+        if (j.data.userId !== authedUserId) {
+          send(ws, { type: "ERROR", reason: "identity_mismatch" });
+          ws.close(4403, "forbidden");
           return;
         }
         let room = rooms.get(j.data.matchId);

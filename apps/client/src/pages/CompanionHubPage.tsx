@@ -47,6 +47,13 @@ import { AnimatedPortrait } from "@/components/AnimatedPortrait";
 import { getMaterialById } from "@/data/craftingData";
 import { ALL_LOYALTY_MISSIONS, getAvailableLoyaltyMissions, type LoyaltyMission, type LoyaltyMissionStep } from "@/data/loyaltyMissions";
 import { HolidayDialogTicker } from "@/components/HolidayDialogTicker";
+import { RomanceLadderPanel } from "@/components/romance/RomanceLadderPanel";
+import { EncounterListPanel } from "@/components/encounter/EncounterListPanel";
+import { AntiquariansTomePanel } from "@/components/tome/AntiquariansTomePanel";
+import { CoNexusTomeLibrary } from "@/components/conexus/CoNexusTomeLibrary";
+import { ThoughtVirusPanel } from "@/components/saga/ThoughtVirusPanel";
+import { TwoWitnessesDecodePanel } from "@/components/saga/TwoWitnessesDecodePanel";
+import { LyraVoxQuestPanel } from "@/components/saga/LyraVoxQuestPanel";
 
 import LivingBackground from "@/components/LivingBackground";
 
@@ -301,6 +308,58 @@ export default function CompanionHubPage() {
               </div>
             </div>
           </motion.div>
+
+          {/* Bonds — five romance candidates beyond Elara/Human. The
+              panel reads trpc.romance.getStatus and renders each
+              candidate's stage, trust, and per-candidate advance /
+              commit / end actions. The RomanceScenePlayer modal
+              walks the multi-line cinematic when the player advances
+              into a new stage. */}
+          <div className="mt-8">
+            <RomanceLadderPanel />
+          </div>
+
+          {/* Encounters — Hierarchy lord + Malkia + Source/Kael
+              cinematic events. Driven by the encounter dispatcher
+              service; each entry walks through entry / negotiation /
+              resolution / aftermath phases with branch picks at the
+              resolution. Malkia internally has six steps. */}
+          <div className="mt-6">
+            <EncounterListPanel />
+          </div>
+
+          {/* The Antiquarian's Tome — every governance vote outcome,
+              every prestige cycle close, and the dischordia summary
+              get an inscription. Annotations gate on Antiquarian
+              trust ≥ 60. */}
+          <div className="mt-6">
+            <AntiquariansTomePanel />
+          </div>
+
+          {/* CoNexus Library — seven parallel-reality story
+              fragments. Each Tome unlocks via a room hint or
+              flag. Discovered ones surface their flash-fiction
+              body; the rest stay redacted. */}
+          <div className="mt-6">
+            <CoNexusTomeLibrary />
+          </div>
+
+          {/* Section-5 systems: Thought Virus spread (5 sectors,
+              4 containments each), Two Witnesses decode quest
+              (5 fragments, state-derived ciphers), Dr. Lyra Vox
+              investigation (5-step arc, 3 verdicts). Each is
+              its own self-contained panel; they share no data
+              other than the canonical npc_public_flags they
+              write. */}
+          <div className="mt-6">
+            <ThoughtVirusPanel />
+          </div>
+          <div className="mt-6">
+            <TwoWitnessesDecodePanel />
+          </div>
+          <div className="mt-6">
+            <LyraVoxQuestPanel />
+          </div>
         </div>
       </div>
     );

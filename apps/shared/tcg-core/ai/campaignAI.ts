@@ -17,6 +17,17 @@ import { BOARD_HEIGHT, BOARD_WIDTH, posKey, parsePosKey } from "../types/GameSta
 import type { Action } from "../types/Action";
 import type { Side } from "../types/Ids";
 import type { CardInstance } from "../types/Card";
+import { createRng, type Rng } from "../engine/rng";
+
+/**
+ * Build a deterministic per-decision RNG from the game state.
+ * Mixing in `seq` means each AI decision within the same match
+ * still varies, but two replays of the same match always make the
+ * same decisions. Closes the audit-flagged determinism leak.
+ */
+function aiRng(state: GameState, salt: string): Rng {
+  return createRng(`${state.rngState ?? state.seed ?? ""}|${state.actionSeq}|${salt}`);
+}
 
 const AI_SIDE: Side = 1;
 
@@ -101,8 +112,9 @@ function chooseBestCardPlay(
   // Sort by cost descending — play the most expensive card first
   candidates.sort((a, b) => b.cost - a.cost);
 
-  // Difficulty filter: at low difficulty, occasionally skip good plays
-  const pick = applyDifficultyFilter(candidates, difficulty);
+  // Difficulty filter: at low difficulty, occasionally skip good plays.
+  // RNG seeded from state — replays of the same match always re-pick.
+  const pick = applyDifficultyFilter(candidates, difficulty, aiRng(state, "play_card"));
   if (!pick) return null;
 
   return {
@@ -199,7 +211,7 @@ function chooseBestAttack(
   // Sort by target HP ascending — attack the lowest-HP enemy first
   candidates.sort((a, b) => a.targetHp - b.targetHp);
 
-  const pick = applyDifficultyFilter(candidates, difficulty);
+  const pick = applyDifficultyFilter(candidates, difficulty, aiRng(state, "attack"));
   if (!pick) return null;
 
   return {
@@ -307,7 +319,7 @@ function chooseBestMove(
   // Sort by distance gain descending — move units that get closer first
   candidates.sort((a, b) => b.distanceGain - a.distanceGain);
 
-  const pick = applyDifficultyFilter(candidates, difficulty);
+  const pick = applyDifficultyFilter(candidates, difficulty, aiRng(state, "move"));
   if (!pick) return null;
 
   return {
@@ -375,12 +387,16 @@ function manhattanDist(r1: number, c1: number, r2: number, c2: number): number {
  *
  * Returns null with probability (1 - difficulty) * 0.3 to simulate
  * the AI "forgetting" to take an action at low difficulty.
+ *
+ * Routes RNG through the seeded `rng` argument so the AI's decisions
+ * are reproducible from (seed, action log) — required by the engine's
+ * replay determinism contract. Math.random was the audit-flagged leak.
  */
-function applyDifficultyFilter<T>(sorted: T[], difficulty: number): T | null {
+function applyDifficultyFilter<T>(sorted: T[], difficulty: number, rng: Rng): T | null {
   if (sorted.length === 0) return null;
 
   // At low difficulty, occasionally skip the action entirely
-  if (difficulty < 1 && Math.random() > difficulty + 0.3) {
+  if (difficulty < 1 && rng.next() > difficulty + 0.3) {
     return null;
   }
 
@@ -388,10 +404,10 @@ function applyDifficultyFilter<T>(sorted: T[], difficulty: number): T | null {
 
   // Weighted random: higher difficulty biases toward index 0
   const bias = difficulty * difficulty; // quadratic curve
-  const roll = Math.random();
+  const roll = rng.next();
   if (roll < bias) return sorted[0];
 
   // Otherwise pick a random candidate
-  const idx = Math.floor(Math.random() * sorted.length);
+  const idx = Math.floor(rng.next() * sorted.length);
   return sorted[idx];
 }
