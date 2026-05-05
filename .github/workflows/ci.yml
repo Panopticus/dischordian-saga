@@ -216,7 +216,13 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Install Playwright browsers
-        run: pnpm exec playwright install --with-deps chromium
+        # GitHub-hosted ubuntu-latest images already ship the apt
+        # packages Chromium needs (libnss3, libgbm1, libasound2, …),
+        # so `--with-deps` is redundant and adds a sudo apt-get round
+        # trip that has historically been the e2e-job fail point.
+        # Plain `playwright install chromium` just downloads the
+        # browser binary.
+        run: pnpm exec playwright install chromium
 
       - name: Wait for MySQL to be ready
         run: |

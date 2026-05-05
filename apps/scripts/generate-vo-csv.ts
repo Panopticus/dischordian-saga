@@ -102,14 +102,27 @@ interface VoRow {
 const CSV_HEADER =
   "id,character,voice_profile,stability,similarity,style,speaker_boost,text,direction,priority";
 
-function csvField(value: string): string {
+function csvField(value: string | undefined | null): string {
   // Always quote; double any inner quotes per RFC 4180.
-  return `"${value.replace(/"/g, '""')}"`;
+  // Defensive against undefined/null — source data sometimes uses
+  // a speaker id outside VoiceProfile (e.g. "darren_loomis"), which
+  // makes DISPLAY_NAMES[id] undefined. Treat as empty string rather
+  // than crash the whole CSV generation.
+  const safe = value ?? "";
+  return `"${safe.replace(/"/g, '""')}"`;
 }
 
+const FALLBACK_VOICE_SETTINGS: VoiceSettings = {
+  stability: 0.50, similarity: 0.75, style: 0.30, speakerBoost: true,
+};
+
 function rowToCsv(row: VoRow): string {
-  const settings = VOICE_SETTINGS[row.voiceProfile];
-  const displayName = DISPLAY_NAMES[row.voiceProfile];
+  // Same defence: if the voice profile isn't in our registry, fall
+  // back to neutral settings + the raw id as the display name.
+  // Prefer surfacing "unknown speaker" as a row in the CSV than
+  // failing the whole generator.
+  const settings = VOICE_SETTINGS[row.voiceProfile] ?? FALLBACK_VOICE_SETTINGS;
+  const displayName = DISPLAY_NAMES[row.voiceProfile] ?? row.voiceProfile;
   return [
     row.id,
     csvField(displayName),
