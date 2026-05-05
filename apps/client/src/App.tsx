@@ -181,6 +181,7 @@ const CodexPage = lazy(() => import("./pages/CodexPage"));
 // CardBattlePage removed — redirects to Dischordia
 const CardBattlePage = lazy(() => import("./game/duelyst/DuelystPage"));
 const DuelystPage = lazy(() => import("./game/duelyst/DuelystPage"));
+const DuelystMatchmakingPage = lazy(() => import("./pages/DuelystMatchmakingPage"));
 const CardGalleryPage = lazy(() => import("./pages/CardGalleryPage"));
 const PlayerProfilePage = lazy(() => import("./pages/PlayerProfilePage"));
 const LeaderboardPage = lazy(() => import("./pages/LeaderboardPage"));
@@ -341,6 +342,7 @@ function Router() {
         <Route path="/cards">{() => <Suspense fallback={<CardGridSkeleton />}><CardBrowserPage /></Suspense>}</Route>
         <Route path="/cards/play">{() => <GameRoute component={DuelystPage} />}</Route>
         <Route path="/duelyst">{() => <GameRoute component={DuelystPage} />}</Route>
+        <Route path="/duelyst-pvp">{() => <GameRoute component={DuelystMatchmakingPage} />}</Route>
         <Route path="/terminus-swarm">{() => <GameRoute component={TerminusSwarmPage} />}</Route>
         <Route path="/ark" component={ArkExplorerPage} />
         <Route path="/prelude" component={PreludePage} />
