@@ -173,7 +173,6 @@ const AntiquariansJournalPage = lazy(() => import("./pages/AntiquariansJournalPa
 const AntiquariansIndexPage = lazy(() => import("./pages/AntiquariansIndexPage"));
 const ResearchLabPage = lazy(() => import("./pages/ResearchLabPage"));
 const StorePage = lazy(() => import("./pages/StorePage"));
-const GamesPage = lazy(() => import("./pages/GamesPage"));
 const DiscographyPage = lazy(() => import("./pages/DiscographyPage"));
 const SagaTimelinePage = lazy(() => import("./pages/SagaTimelinePage"));
 const FavoritesPage = lazy(() => import("./pages/FavoritesPage"));
@@ -221,7 +220,6 @@ const CardAchievementsPage = lazy(() => import("./pages/CardAchievementsPage"));
 const SettingsPage = lazy(() => import("./pages/SettingsPage"));
 const ClueJournalPage = lazy(() => import("./pages/ClueJournalPage"));
 const ResearchMinigamePage = lazy(() => import("./pages/ResearchMinigamePage"));
-const LoreTutorialHubPage = lazy(() => import("./pages/LoreTutorialHubPage"));
 const MoralityLeaderboardPage = lazy(() => import("./pages/MoralityLeaderboardPage"));
 const ForgePage = lazy(() => import("./pages/ForgePage"));
 const CompanionHubPage = lazy(() => import("./pages/CompanionHubPage"));
