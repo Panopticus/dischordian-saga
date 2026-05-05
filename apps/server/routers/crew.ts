@@ -49,7 +49,7 @@ import {
 import { CREW_BALANCE } from "../../shared/crewBalance";
 import { applyTick as sharedApplyTick } from "../../shared/crewTick";
 import { distributeCrewXp } from "../../shared/crewXpCredit";
-import { syncCrewStateToTables } from "./crewTableSync";
+import { syncCrewStateToTables } from "../services/crewTableSync";
 
 const FRANCHISE = "dischordian-saga";
 

@@ -1,3 +1,20 @@
+/**
+ * Marketplace + social + combat + exploration + crafting + collector
+ * + economy achievements. Defines 75+ achievements with conditions
+ * keyed off stat-types like `market_listings`, `market_sales`,
+ * `market_purchases`. The marketplace router calls `trackIncrement`
+ * after each stat-changing mutation; the achievementTracker dispatches
+ * to `unlockMarketAchievementsByStat` which recomputes from source
+ * tables and writes earned ids to `userAchievements`.
+ *
+ * Phase I of the build-everything pass un-deprecated this router by
+ * wiring the trackIncrement → marketStatsService → userAchievements
+ * path. The router itself exposes:
+ *   - getAll               — all defs with earned status (UI)
+ *   - getByCategory        — filter by domain (UI)
+ *   - checkAndUnlock       — manual stats push (kept for parity)
+ *   - getCategories        — category counts (UI)
+ */
 import { z } from "zod";
 import { protectedProcedure, publicProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
@@ -8,7 +25,7 @@ import { eq, and, inArray } from "drizzle-orm";
    ACHIEVEMENT DEFINITIONS — Marketplace + Social + Combat + Exploration
    ═══════════════════════════════════════════════════════ */
 
-interface AchievementDef {
+export interface AchievementDef {
   id: string;
   name: string;
   description: string;
@@ -21,7 +38,7 @@ interface AchievementDef {
   hidden?: boolean;
 }
 
-const ACHIEVEMENT_DEFS: AchievementDef[] = [
+export const ACHIEVEMENT_DEFS: AchievementDef[] = [
   // ═══ MARKETPLACE ACHIEVEMENTS ═══
   { id: "market_first_listing", name: "Open for Business", description: "List your first item on the Intergalactic Market", icon: "store", category: "marketplace", tier: "bronze", xpReward: 50, pointsReward: 100, condition: { type: "market_listings", count: 1 } },
   { id: "market_10_listings", name: "Vendor", description: "List 10 items on the marketplace", icon: "store", category: "marketplace", tier: "silver", xpReward: 150, pointsReward: 300, condition: { type: "market_listings", count: 10 } },

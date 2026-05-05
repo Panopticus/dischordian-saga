@@ -232,6 +232,7 @@ import { cardDef as gen_game_master_original } from "./definitions/neutral/gen_g
 import { cardDef as gen_seer } from "./definitions/neutral/gen_seer.ts";
 import { cardDef as burnt_card_placeholder } from "./definitions/neutral/burnt_card_placeholder.ts";
 import { cardDef as s1_char_004_ambassador_veron } from "./definitions/neutral/s1_char_004_ambassador_veron.ts";
+import { ENGINE_DEMO_CARDS } from "./definitions/neutral/engine_demo_cards.ts";
 import { cardDef as s1_char_086_wandering_merchant } from "./definitions/neutral/s1_char_086_wandering_merchant.ts";
 import { cardDef as s1_char_087_scrapyard_golem } from "./definitions/neutral/s1_char_087_scrapyard_golem.ts";
 import { cardDef as s1_char_088_field_medic } from "./definitions/neutral/s1_char_088_field_medic.ts";
@@ -719,6 +720,7 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   gen_seer,
   burnt_card_placeholder,
   s1_char_004_ambassador_veron,
+  ...ENGINE_DEMO_CARDS,
   s1_char_086_wandering_merchant,
   s1_char_087_scrapyard_golem,
   s1_char_088_field_medic,

@@ -146,6 +146,37 @@ export function deployCard(
     }
   }
 
+  // Enqueue on_summoned_near_me triggers on friendly entities within
+  // their declared radius of the new deploy. Audit 2026-05 §3.2 lifted
+  // the `// reserved` annotation on `on_summoned_near_me` once this
+  // hook landed.
+  for (const observer of Object.values(draft.board)) {
+    if (observer.entityId === entity.entityId) continue;
+    if (observer.card.owner !== side) continue;
+    const obsDef = ctx.registry.get(observer.card.defId);
+    if (!obsDef) continue;
+    const obsAbilities = obsDef.abilities as unknown as readonly ConcreteAbility[];
+    for (let i = 0; i < obsAbilities.length; i++) {
+      const ab = obsAbilities[i];
+      if (ab.trigger.kind !== "on_summoned_near_me") continue;
+      const dr = Math.abs(observer.row - row);
+      const dc = Math.abs(observer.col - col);
+      const dist = Math.max(dr, dc); // king-distance
+      if (dist > ab.trigger.radius) continue;
+      enqueueTrigger(draft, {
+        sourceEntityId: observer.entityId,
+        sourceOwner: observer.card.owner,
+        sourceRow: observer.row,
+        sourceCol: observer.col,
+        abilityIdx: i,
+        context: {
+          triggerSourceId: observer.entityId,
+          triggerVictimId: entity.entityId,
+        },
+      });
+    }
+  }
+
   return { ok: true, entityId: entity.entityId };
 }
 

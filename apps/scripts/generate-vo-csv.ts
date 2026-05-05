@@ -245,7 +245,11 @@ function collectCompanionAskRows(priority: string): VoRow[] {
   return rows;
 }
 
-const OPPONENT_FIELDS_ACT1: readonly (keyof Act1OpponentDialog)[] = [
+// Listed by literal key (not `keyof Act1OpponentDialog`) so the
+// element type narrows to the string-valued fields only — the
+// `tauntVoIds` field on the interface is non-string so widening to
+// `keyof` would break `d[field]` below.
+const OPPONENT_FIELDS_ACT1 = [
   "engineerMemoirIntro",
   "elaraPreMatch",
   "humanPreMatch",
@@ -258,7 +262,7 @@ const OPPONENT_FIELDS_ACT1: readonly (keyof Act1OpponentDialog)[] = [
   "humanPostMatchLoss",
   "engineerMemoirCloseWin",
   "engineerMemoirCloseLoss",
-];
+] as const satisfies readonly (keyof Act1OpponentDialog)[];
 
 function voiceForOpponentField(opponentId: string, field: string): VoiceProfile {
   if (field.startsWith("elara")) return "elara";

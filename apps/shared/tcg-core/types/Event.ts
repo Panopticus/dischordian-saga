@@ -79,6 +79,7 @@ export type GameEvent =
   | { type: "counter_added"; targetId: string; counterKind: string; delta: number; newValue: number }
   | { type: "teleported"; entityId: string; toRow: number; toCol: number }
   | { type: "pushed"; entityId: string; toRow: number; toCol: number; distance: number }
+  | { type: "resurrected"; entityId: string; atRow: number; atCol: number }
   | {
       type: "trigger_fired";
       sourceId: string;

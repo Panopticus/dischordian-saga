@@ -11,6 +11,7 @@ import type { DrizzleDb } from "../db";
 type TxOrDb = DrizzleDb | Parameters<Parameters<DrizzleDb["transaction"]>[0]>[0];
 import { eq, and, desc, sql } from "drizzle-orm";
 import { ripple } from "../services/rippleEngine";
+import { setEntitlement } from "../services/entitlementService";
 
 export const storeRouter = router({
   /** List all products, optionally filtered by category */
@@ -51,10 +52,18 @@ export const storeRouter = router({
       // production so EU/CA/UK VAT is collected from launch.
       const automaticTaxEnabled = process.env.STRIPE_AUTOMATIC_TAX !== "false";
 
-      const session = await stripe.checkout.sessions.create({
-        payment_method_types: ["card"],
-        line_items: [
-          {
+      // Resolve a real Stripe price-id from env when the product
+      // declares one (Phase L / B4). When the env var is set we pass
+      // `price` directly (Stripe's SKU carries its own tax_code);
+      // otherwise fall back to inline price_data with the
+      // electronically-supplied-services tax_code. Lets ops swap
+      // SKUs without a code change.
+      const stripePriceId = product.stripePriceEnv
+        ? process.env[product.stripePriceEnv]
+        : undefined;
+      const lineItem = stripePriceId
+        ? { price: stripePriceId, quantity: input.quantity }
+        : {
             price_data: {
               currency: "usd",
               product_data: {
@@ -71,8 +80,11 @@ export const storeRouter = router({
               unit_amount: product.priceUsd,
             },
             quantity: input.quantity,
-          },
-        ],
+          };
+
+      const session = await stripe.checkout.sessions.create({
+        payment_method_types: ["card"],
+        line_items: [lineItem],
         mode: "payment",
         success_url: `${origin}/store?success=true&session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${origin}/store?canceled=true`,
@@ -477,6 +489,13 @@ async function doFulfill(
     } else {
       await tx.insert(shipUpgrades).values({ userId, upgradeType: "cargo", level: 2, obtainedVia: "purchase" });
     }
+  }
+
+  // Grant entitlement (boolean account flag — gates cards via
+  // expansionUnlockService; see services/entitlementService.ts).
+  if (rewards.entitlement) {
+    summary.entitlement = rewards.entitlement;
+    await setEntitlement(tx, userId, rewards.entitlement, true);
   }
 
   // Grant fuel capacity

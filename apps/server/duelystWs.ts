@@ -3,6 +3,14 @@
    Real-time PvP for the Dischordia tactical card game.
    Follows the same architecture as pvpWs.ts.
 
+   STATUS (2026-05-05): backend-complete, awaiting client connector.
+   The WS is mounted at /api/duelyst-pvp and exercised by 6+ tests
+   (heatWiring, replayProducer, replayVerification, task4-resilience,
+   matchLengthMonitor, pvpRanking) but no client opens a socket here
+   yet — DuelystPage is currently single-player. Do NOT delete; this
+   is the multiplayer surface for when the client connector lands.
+   See docs/HIDDEN_SYSTEMS_AUDIT_2026-05.md §2.3.
+
    Protocol:
    Client → Server: JOIN_QUEUE, GAME_ACTION, SURRENDER, PING
    Server → Client: QUEUE_JOINED, MATCH_FOUND, GAME_STATE,

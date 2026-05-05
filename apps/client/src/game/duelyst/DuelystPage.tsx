@@ -412,6 +412,16 @@ export default function DuelystPage() {
                 <span className="flex-1 text-left">RANKED LADDER</span>
                 <ChevronRight size={14} className="opacity-30" />
               </button>
+
+              <a
+                href="/duelyst-pvp"
+                onClick={() => dischordiaSounds.play("button_click")}
+                className="group flex items-center gap-3 px-5 py-3 rounded-lg bg-primary/10 border border-primary/40 text-primary font-mono text-sm hover:bg-primary/20 transition-all"
+              >
+                <Swords size={16} />
+                <span className="flex-1 text-left">RANKED MULTIPLAYER</span>
+                <ChevronRight size={14} className="opacity-30" />
+              </a>
             </div>
           </motion.div>
         )}

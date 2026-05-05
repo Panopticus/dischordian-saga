@@ -6,7 +6,8 @@ import { useSwipeTabs } from "@/hooks/useSwipeTabs";
 import {
   Users, Shield, Crown, Star, MessageSquare, Send, Settings,
   Plus, Search, ChevronRight, Loader2, Flag, Gem, Coins,
-  Trophy, Swords, UserPlus, LogOut, Check, X, ArrowUp, Clock
+  Trophy, Swords, UserPlus, LogOut, Check, X, ArrowUp, Clock,
+  ScrollText
 } from "lucide-react";
 import { getLoginUrl } from "@/const";
 import { EmptyGuildHall } from "@/components/EmptyStates";
@@ -30,7 +31,7 @@ const ROLE_ICONS: Record<string, typeof Crown> = {
 
 export default function GuildPage() {
   const { isAuthenticated, user } = useAuth();
-  const [tab, setTab] = useState<"overview" | "roster" | "chat" | "treasury" | "wars" | "browse">("overview");
+  const [tab, setTab] = useState<"overview" | "roster" | "chat" | "treasury" | "contracts" | "wars" | "browse">("overview");
 
   const { data: myGuild, isLoading: guildLoading, refetch: refetchGuild } = trpc.guild.myGuild.useQuery(undefined, {
     enabled: isAuthenticated,
@@ -71,6 +72,7 @@ export default function GuildPage() {
     { id: "roster" as const, label: "ROSTER", icon: Users },
     { id: "chat" as const, label: "COMMS", icon: MessageSquare },
     { id: "treasury" as const, label: "TREASURY", icon: Gem },
+    { id: "contracts" as const, label: "CONTRACTS", icon: ScrollText },
     { id: "wars" as const, label: "TERRITORY", icon: Swords },
   ];
 
@@ -145,6 +147,11 @@ export default function GuildPage() {
           {tab === "treasury" && (
             <motion.div key="treasury" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
               <GuildTreasury guild={myGuild.guild} />
+            </motion.div>
+          )}
+          {tab === "contracts" && (
+            <motion.div key="contracts" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+              <GuildContracts />
             </motion.div>
           )}
           {tab === "wars" && (
@@ -926,6 +933,193 @@ function GuildHallUpgradePanel({
             </p>
           )}
         </>
+      )}
+    </div>
+  );
+}
+
+/* ═══ GUILD CONTRACTS — F.2 weekly board ═══
+ *
+ * Surfaces the 8 weekly contracts (apps/shared/guildContracts.ts).
+ * Progress is server-tracked: guild.donate and guildWars.contribute
+ * already call incrementContractProgress under the hood, so the bars
+ * tick up as the player plays. The CLAIM button only enables once
+ * progressCount >= targetCount, then fires completeContract +
+ * cs_contract_complete.
+ *
+ * Per-session, on first mount we also fire acknowledgeWeeklyUnlock
+ * + acknowledgeWeeklyReset against the player's last-acknowledged
+ * weekIds in localStorage so the Monday tarot-flip and the Sunday→
+ * Monday reset cinematics play exactly once per cycle. */
+const ACK_UNLOCK_KEY = "dischordian:guild:lastAckUnlockWeek";
+const ACK_RESET_KEY = "dischordian:guild:lastAckResetWeek";
+
+function GuildContracts() {
+  const utils = trpc.useUtils();
+  const { data, isLoading } = trpc.guildContracts.listAvailable.useQuery();
+  const [cinematicQueue, setCinematicQueue] = useState<readonly CutsceneTrigger[]>([]);
+
+  const completeMut = trpc.guildContracts.completeContract.useMutation({
+    onSuccess: (res) => {
+      if (res.success && res.cutscene) {
+        setCinematicQueue((q) => [...q, res.cutscene!]);
+      }
+      void utils.guildContracts.listAvailable.invalidate();
+    },
+  });
+
+  const ackUnlockMut = trpc.guildContracts.acknowledgeWeeklyUnlock.useMutation({
+    onSuccess: (res) => {
+      try { localStorage.setItem(ACK_UNLOCK_KEY, res.weekId); } catch { /* ignore */ }
+      if (res.fired && res.cutscene) {
+        setCinematicQueue((q) => [...q, res.cutscene!]);
+      }
+    },
+  });
+
+  const ackResetMut = trpc.guildContracts.acknowledgeWeeklyReset.useMutation({
+    onSuccess: (res) => {
+      try { localStorage.setItem(ACK_RESET_KEY, res.weekId); } catch { /* ignore */ }
+      if (res.fired && res.cutscene) {
+        setCinematicQueue((q) => [...q, res.cutscene!]);
+      }
+    },
+  });
+
+  // One-shot per mount: ack the current week against last-seen weekIds
+  // from localStorage. The mutation is a no-op when weekId already matches.
+  const ackedRef = useRef(false);
+  useEffect(() => {
+    if (ackedRef.current) return;
+    ackedRef.current = true;
+    let lastUnlock: string | null = null;
+    let lastReset: string | null = null;
+    try {
+      lastUnlock = localStorage.getItem(ACK_UNLOCK_KEY);
+      lastReset = localStorage.getItem(ACK_RESET_KEY);
+    } catch { /* ignore */ }
+    ackUnlockMut.mutate({ lastSeenWeekId: lastUnlock });
+    ackResetMut.mutate({ lastSeenWeekId: lastReset });
+  }, [ackUnlockMut, ackResetMut]);
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center py-16">
+        <Loader2 size={20} className="animate-spin text-muted-foreground" />
+      </div>
+    );
+  }
+  if (!data) {
+    return (
+      <div className="font-mono text-xs text-muted-foreground text-center py-16">
+        Contracts unavailable.
+      </div>
+    );
+  }
+
+  const progressById = new Map(data.progress.map((p) => [p.contractId, p]));
+
+  return (
+    <div className="space-y-6">
+      <div className="flex items-baseline justify-between">
+        <h3 className="font-display text-xs font-bold tracking-[0.2em] text-muted-foreground flex items-center gap-2">
+          <ScrollText size={13} className="text-primary" /> WEEKLY CONTRACTS
+        </h3>
+        <span className="font-mono text-[10px] text-muted-foreground tracking-wider">
+          WEEK {data.weekId}
+        </span>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        {data.contracts.map((c) => {
+          const prog = progressById.get(c.id);
+          const progressCount = prog?.progressCount ?? 0;
+          const targetCount = c.targetCount;
+          const ratio = Math.min(1, progressCount / targetCount);
+          const completed = prog?.completed ?? false;
+          const ready = !completed && progressCount >= targetCount;
+          const isClaiming =
+            completeMut.isPending && completeMut.variables?.contractId === c.id;
+
+          return (
+            <div
+              key={c.id}
+              className={`p-4 rounded-lg border transition-colors ${
+                completed
+                  ? "void-bg-success border-emerald-700/40"
+                  : ready
+                    ? "void-bg-system void-border-system"
+                    : "bg-card/30 border-border/20"
+              }`}
+            >
+              <div className="flex items-start justify-between gap-2">
+                <div>
+                  <h4 className="font-display text-sm font-bold tracking-wide">
+                    {c.title}
+                  </h4>
+                  <p className="font-mono text-[11px] text-muted-foreground mt-1">
+                    {c.description}
+                  </p>
+                </div>
+                {completed && <Check size={16} className="void-text-energy shrink-0" />}
+              </div>
+
+              <div className="mt-3 space-y-1">
+                <div className="flex items-center justify-between font-mono text-[10px] text-muted-foreground">
+                  <span>{progressCount.toLocaleString()} / {targetCount.toLocaleString()}</span>
+                  <span>{Math.round(ratio * 100)}%</span>
+                </div>
+                <div className="h-2 bg-secondary rounded-full overflow-hidden">
+                  <div
+                    className={`h-full transition-all duration-500 ${
+                      completed
+                        ? "bg-emerald-400"
+                        : ready
+                          ? "bg-primary"
+                          : "bg-muted-foreground/40"
+                    }`}
+                    style={{ width: `${Math.round(ratio * 100)}%` }}
+                  />
+                </div>
+              </div>
+
+              <div className="mt-3 flex items-center justify-between gap-2">
+                <div className="font-mono text-[10px] text-muted-foreground tracking-wider flex gap-2">
+                  {c.rewards.dream ? <span><Gem size={10} className="inline" /> {c.rewards.dream}</span> : null}
+                  {c.rewards.guildXp ? <span>+{c.rewards.guildXp} XP</span> : null}
+                </div>
+                {ready && (
+                  <button
+                    onClick={() => completeMut.mutate({ contractId: c.id })}
+                    disabled={isClaiming}
+                    className="px-3 py-1 rounded-md bg-primary/10 border border-primary/40 text-primary font-mono text-[11px] font-bold tracking-wider hover:bg-primary/20 transition-all disabled:opacity-50"
+                  >
+                    {isClaiming ? <Loader2 size={12} className="animate-spin" /> : "CLAIM"}
+                  </button>
+                )}
+                {completed && (
+                  <span className="font-mono text-[10px] void-text-energy tracking-wider">CLAIMED</span>
+                )}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {cinematicQueue.length > 0 && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Guild contract cinematic"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 p-4"
+        >
+          <div className="w-full max-w-4xl">
+            <GuildCutsceneQueue
+              triggers={cinematicQueue}
+              onComplete={() => setCinematicQueue([])}
+            />
+          </div>
+        </div>
       )}
     </div>
   );

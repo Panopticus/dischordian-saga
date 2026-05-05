@@ -223,13 +223,58 @@ function resolveTargetSelectorRaw(
       }
       return out;
     }
-    case "radius":
-    case "line":
-    case "nearest":
-    case "position_empty":
-      throw new UnsupportedSelectorError(
-        `selector kind '${sel.kind}' not yet implemented`
-      );
+    case "radius": {
+      const origin = resolveOrigin(sel.origin, ctx, state);
+      if (!origin) return [];
+      const out: EntityId[] = [];
+      for (const entity of Object.values(state.board)) {
+        const dr = Math.abs(entity.row - origin.row);
+        const dc = Math.abs(entity.col - origin.col);
+        if (Math.max(dr, dc) > sel.radius) continue;
+        if (!matchesUnitFilter(entity, sel.filter, ctx)) continue;
+        out.push(entity.entityId);
+      }
+      return out;
+    }
+    case "line": {
+      const origin = resolveOrigin(sel.origin, ctx, state);
+      if (!origin) return [];
+      const [dr, dc] = directionToDelta(sel.direction);
+      const out: EntityId[] = [];
+      for (let step = 1; step <= sel.length; step++) {
+        const r = origin.row + dr * step;
+        const c = origin.col + dc * step;
+        const entity = state.board[`${r},${c}`];
+        if (!entity) continue;
+        if (!matchesUnitFilter(entity, sel.filter, ctx)) continue;
+        out.push(entity.entityId);
+      }
+      return out;
+    }
+    case "nearest": {
+      const origin = resolveOrigin(sel.from, ctx, state);
+      if (!origin) return [];
+      let best: { dist: number; id: EntityId } | null = null;
+      for (const entity of Object.values(state.board)) {
+        if (!matchesUnitFilter(entity, sel.filter, ctx)) continue;
+        const dr = Math.abs(entity.row - origin.row);
+        const dc = Math.abs(entity.col - origin.col);
+        const dist = Math.max(dr, dc);
+        if (best === null || dist < best.dist) {
+          best = { dist, id: entity.entityId };
+        }
+      }
+      return best ? [best.id] : [];
+    }
+    case "position_empty": {
+      // Returns the entityIds of "virtual" empty-tile placeholders is
+      // not the right model — empty tiles aren't entities. Effects
+      // that consume position_empty (e.g. summon) read positions
+      // directly from the constraint, NOT entity ids. Returning [] is
+      // the correct contract here; consumers that meaningfully want
+      // a tile go through PositionSelector instead. Audit Phase J4.
+      return [];
+    }
     default: {
       const _exhaust: never = sel;
       void _exhaust;
@@ -302,5 +347,71 @@ export class UnsupportedSelectorError extends Error {
   constructor(message: string) {
     super(`UnsupportedSelectorError: ${message}`);
     this.name = "UnsupportedSelectorError";
+  }
+}
+
+/* ─── Phase J4 helpers — origin + direction resolution ─── */
+
+import type { OriginSelector, Direction } from "../types/Targeting";
+
+function resolveOrigin(
+  o: OriginSelector,
+  ctx: ExecCtx,
+  state: GameState,
+): { row: number; col: number } | null {
+  switch (o.kind) {
+    case "self": {
+      if (!ctx.sourceEntityId) return null;
+      const e = findBoardEntity(state, ctx.sourceEntityId);
+      return e ? { row: e.row, col: e.col } : null;
+    }
+    case "trigger_source": {
+      const id = ctx.triggerSourceId ?? ctx.sourceEntityId;
+      if (!id) return null;
+      const e = findBoardEntity(state, id);
+      return e ? { row: e.row, col: e.col } : null;
+    }
+    case "trigger_victim": {
+      const id = ctx.triggerVictimId;
+      if (!id) return null;
+      const e = findBoardEntity(state, id);
+      return e ? { row: e.row, col: e.col } : null;
+    }
+    case "friendly_general": {
+      const generalId = state.players[ctx.actorSide].generalEntityId;
+      const e = findBoardEntity(state, generalId);
+      return e ? { row: e.row, col: e.col } : null;
+    }
+    case "enemy_general": {
+      const enemySide = ctx.actorSide === 0 ? 1 : 0;
+      const generalId = state.players[enemySide].generalEntityId;
+      const e = findBoardEntity(state, generalId);
+      return e ? { row: e.row, col: e.col } : null;
+    }
+    case "last_target": {
+      const id = ctx.previousTarget;
+      if (!id) return null;
+      const e = findBoardEntity(state, id);
+      return e ? { row: e.row, col: e.col } : null;
+    }
+    default: {
+      const _exhaust: never = o;
+      void _exhaust;
+      return null;
+    }
+  }
+}
+
+function directionToDelta(d: Direction): [number, number] {
+  switch (d) {
+    case "up":    return [-1, 0];
+    case "down":  return [ 1, 0];
+    case "left":  return [ 0, -1];
+    case "right": return [ 0, 1];
+    default: {
+      const _exhaust: never = d;
+      void _exhaust;
+      return [0, 0];
+    }
   }
 }

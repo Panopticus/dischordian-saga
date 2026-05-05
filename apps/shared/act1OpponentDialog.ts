@@ -55,6 +55,18 @@ export interface Act1OpponentDialog {
   humanPostMatchLoss: string;
   engineerMemoirCloseWin: string;
   engineerMemoirCloseLoss: string;
+  /**
+   * Optional VO line ids (keys into apps/shared/act1TauntsVoManifest.json)
+   * for the three mid-match opponent taunts. Present only on the seven
+   * opponents whose taunts are authored in apps/scripts/act1-taunts-lines.json.
+   * Consumed by Act1OpponentTauntOverlay via useAct1TauntsVO. Audit
+   * 2026-05-05 §4.1.
+   */
+  tauntVoIds?: {
+    early: string;
+    mid: string;
+    late: string;
+  };
 }
 
 /* ─── CYCLE A — Kindergarten of Gods ─── */
@@ -113,6 +125,11 @@ const LITTLE_COLLECTOR: Act1OpponentDialog = {
     "The jar cracked at the seam I had been staring at the whole match. I never told him. I never told anyone.",
   engineerMemoirCloseLoss:
     "He kept a piece of me in a small jar. I felt it missing for years. I never knew what to call it.",
+  tauntVoIds: {
+    early: "little_collector_taunt_early",
+    mid: "little_collector_taunt_mid",
+    late: "little_collector_taunt_late",
+  },
 };
 
 const LITTLE_WATCHER: Act1OpponentDialog = {
@@ -141,6 +158,11 @@ const LITTLE_WATCHER: Act1OpponentDialog = {
     "Under her mask was a face that looked like it was about to cry. I never saw it again. I think I made it up. I think I didn't.",
   engineerMemoirCloseLoss:
     "I never saw under her mask. Nobody who lost to her did. The Authority was watching the recording before I knew it existed.",
+  tauntVoIds: {
+    early: "little_watcher_taunt_early",
+    mid: "little_watcher_taunt_mid",
+    late: "little_watcher_taunt_late",
+  },
 };
 
 /* ─── CYCLE B — Mechronis Academy ─── */
@@ -227,6 +249,11 @@ const PROFESSOR_EIDOLA: Act1OpponentDialog = {
     "I never read the word. The card is in a drawer in a building that no longer exists. I have a feeling it was 'yes.'",
   engineerMemoirCloseLoss:
     "Of course, she said. Of course. I carried that of course for the rest of my life. I am still carrying it.",
+  tauntVoIds: {
+    early: "professor_eidola_taunt_early",
+    mid: "professor_eidola_taunt_mid",
+    late: "professor_eidola_taunt_late",
+  },
 };
 
 const PROFESSOR_MATRIKALA: Act1OpponentDialog = {
@@ -255,6 +282,11 @@ const PROFESSOR_MATRIKALA: Act1OpponentDialog = {
     "Years later I sat on that bench and built the deck on top of it. I think she meant for that to happen. I am not sure she would say so.",
   engineerMemoirCloseLoss:
     "I sat on the bench afterward, alone. The hum was wrong by half a cycle. I did not yet know how to fix it.",
+  tauntVoIds: {
+    early: "professor_matrikala_taunt_early",
+    mid: "professor_matrikala_taunt_mid",
+    late: "professor_matrikala_taunt_late",
+  },
 };
 
 const THE_SEER_VISIT: Act1OpponentDialog = {
@@ -313,6 +345,11 @@ const THE_WARLORD_ZERO_FIRST: Act1OpponentDialog = {
     "I bought the line one measure. The Programmer used the measure. He has not stopped using it. He will not.",
   engineerMemoirCloseLoss:
     "I picked up the staff and kept it. The Seer's staff. I did not yet know it was hers. I have not put it down.",
+  tauntVoIds: {
+    early: "the_warlord_zero_first_taunt_early",
+    mid: "the_warlord_zero_first_taunt_mid",
+    late: "the_warlord_zero_first_taunt_late",
+  },
 };
 
 const THE_PROGRAMMER: Act1OpponentDialog = {
@@ -341,6 +378,11 @@ const THE_PROGRAMMER: Act1OpponentDialog = {
     "He shook my hand and disappeared. The song outlived us both. It is playing now. It has not stopped.",
   engineerMemoirCloseLoss:
     "He lost on purpose. He looked at me like I should know. I knew. I have always known. I have never said.",
+  tauntVoIds: {
+    early: "the_programmer_taunt_early",
+    mid: "the_programmer_taunt_mid",
+    late: "the_programmer_taunt_late",
+  },
 };
 
 const THE_GAME_MASTER_ORIGINAL: Act1OpponentDialog = {
@@ -397,6 +439,11 @@ const THE_AUTHORITY: Act1OpponentDialog = {
     "I made one more card. They let me make it because they did not yet understand what a song could carry.",
   engineerMemoirCloseLoss:
     "I made the card anyway. I made it after. I made it for you. You are reading it now.",
+  tauntVoIds: {
+    early: "the_authority_taunt_early",
+    mid: "the_authority_taunt_mid",
+    late: "the_authority_taunt_late",
+  },
 };
 
 /* ─── Registry ─── */
