@@ -45,6 +45,7 @@ import { canPrestige, getPrestigeLevel, getPrestigeStars, getPrestigeTitle, PRES
 import { MASTERY_BRANCHES } from "@shared/masteryTree";
 
 import LivingBackground from "@/components/LivingBackground";
+import { FactionStandingPanel } from "@/components/faction/FactionStandingPanel";
 
 /* ═══════════════════════════════════════════════════
    CONSTANTS & MAPPINGS
@@ -1449,6 +1450,18 @@ export default function CharacterSheetPage() {
             </div>
           </div>
         </motion.div>
+
+        {/* ═══════════════════════════════════════════════════
+            FACTION STANDINGS — five-faction reputation
+            (Architect Remnants / New Babylon / Hierarchy /
+            Insurgency / Dreamer's Children). Standing values
+            are server-authoritative via getFactionStandings;
+            this widget renders bars and the current band
+            (enemy / suspect / neutral / ally / champion).
+           ═══════════════════════════════════════════════════ */}
+        <div className="my-6">
+          <FactionStandingPanel />
+        </div>
 
         {/* ═══════════════════════════════════════════════════
             SECTION 8: GAME MASTER WARNING

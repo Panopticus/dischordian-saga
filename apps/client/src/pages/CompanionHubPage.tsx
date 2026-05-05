@@ -49,6 +49,7 @@ import { ALL_LOYALTY_MISSIONS, getAvailableLoyaltyMissions, type LoyaltyMission,
 import { HolidayDialogTicker } from "@/components/HolidayDialogTicker";
 import { RomanceLadderPanel } from "@/components/romance/RomanceLadderPanel";
 import { EncounterListPanel } from "@/components/encounter/EncounterListPanel";
+import { AntiquariansTomePanel } from "@/components/tome/AntiquariansTomePanel";
 
 import LivingBackground from "@/components/LivingBackground";
 
@@ -321,6 +322,14 @@ export default function CompanionHubPage() {
               resolution. Malkia internally has six steps. */}
           <div className="mt-6">
             <EncounterListPanel />
+          </div>
+
+          {/* The Antiquarian's Tome — every governance vote outcome,
+              every prestige cycle close, and the dischordia summary
+              get an inscription. Annotations gate on Antiquarian
+              trust ≥ 60. */}
+          <div className="mt-6">
+            <AntiquariansTomePanel />
           </div>
         </div>
       </div>

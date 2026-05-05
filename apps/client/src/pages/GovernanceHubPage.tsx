@@ -23,6 +23,7 @@ import {
 import { KineticText, AtmosphereScope } from "@/components/void";
 import { useGovernanceStore } from "@/stores/governanceStore";
 import { trpc } from "@/lib/trpc";
+import { DischordiaMeterPanel } from "@/components/dischordia/DischordiaMeterPanel";
 import {
   generateFeedItem, nextAIVoteInterval, calculatePaddedTally,
   type VoteFeedItem,
@@ -793,6 +794,16 @@ export default function GovernanceHubPage() {
 
           {/* ═══ FOOTER — Upcoming Events (always visible) ═══ */}
           <UpcomingEventsBar />
+
+          {/* ═══ DISCHORDIA CYCLE METER — community-wide
+              light/dark/vortex meter that surfaces the
+              consequences of the votes the player just cast.
+              The post-run inscription reports the same numbers
+              after Act 7; this gives the player a live read
+              between cycles. ═══ */}
+          <div className="mt-6">
+            <DischordiaMeterPanel />
+          </div>
         </div>
       </div>
     </AtmosphereScope>
