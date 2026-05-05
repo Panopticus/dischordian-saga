@@ -11,6 +11,26 @@ import {
 } from "../../shared/starterLoadout";
 import type { ClassKey, ElementKey } from "../../shared/earnedLoadouts";
 import { BASE_LOCKED_SLOTS } from "../../shared/suitEquipSlots";
+import { bootstrapCitizenSchema } from "../services/citizenSchemaBootstrap";
+
+/**
+ * Resolves the DB handle and waits for citizen_characters' runtime
+ * schema bootstrap to finish before any handler issues a query.
+ *
+ * Migration 0054 (foundation column) is orphaned from drizzle's
+ * journal; the bootstrap runs an idempotent ADD COLUMN on startup,
+ * but it was previously fire-and-forget — a request that landed
+ * before the ALTER finished would crash citizen.getCharacter with
+ * "Unknown column 'foundation'" and brick the Awakening handoff.
+ *
+ * The bootstrap promise is memoized in citizenSchemaBootstrap.ts,
+ * so this await only blocks until the first invocation completes.
+ */
+async function citizenDb() {
+  const handle = await getDb();
+  if (handle) await bootstrapCitizenSchema();
+  return handle;
+}
 
 /* ═══════════════════════════════════════════════════
    Species / Class / Element configuration
@@ -156,7 +176,7 @@ export const citizenRouter = router({
 
   /** Get the player's citizen character(s) */
   getCharacter: protectedProcedure.query(async ({ ctx }) => {
-    const db = await getDb();
+    const db = await citizenDb();
     if (!db) return null;
     const rows = await db
       .select()
@@ -198,7 +218,7 @@ export const citizenRouter = router({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      const db = await getDb();
+      const db = await citizenDb();
       if (!db) throw new Error("Database unavailable");
 
       // Check if user already has a primary citizen.
@@ -304,7 +324,7 @@ export const citizenRouter = router({
 
   /** Level up class (costs EXP + Dream) */
   levelUpClass: protectedProcedure.mutation(async ({ ctx }) => {
-    const db = await getDb();
+    const db = await citizenDb();
     if (!db) throw new Error("Database unavailable");
 
     const chars = await db
@@ -349,7 +369,7 @@ export const citizenRouter = router({
   levelUpAttribute: protectedProcedure
     .input(z.object({ attribute: z.enum(["attack", "defense", "vitality"]) }))
     .mutation(async ({ ctx, input }) => {
-      const db = await getDb();
+      const db = await citizenDb();
       if (!db) throw new Error("Database unavailable");
 
       const chars = await db
@@ -425,7 +445,7 @@ export const citizenRouter = router({
       updatedAt: new Date(),
     };
     try {
-      const db = await getDb();
+      const db = await citizenDb();
       if (!db) return zeroedBalance;
       const rows = await db
         .select()
@@ -464,7 +484,7 @@ export const citizenRouter = router({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      const db = await getDb();
+      const db = await citizenDb();
       if (!db) throw new Error("Database unavailable");
 
       // Update dream balance
@@ -531,7 +551,7 @@ export const citizenRouter = router({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      const db = await getDb();
+      const db = await citizenDb();
       if (!db) throw new Error("Database unavailable");
 
       const chars = await db
@@ -578,7 +598,7 @@ export const citizenRouter = router({
 
   /** Get respec costs for the current citizen */
   getRespecCosts: protectedProcedure.query(async ({ ctx }) => {
-    const db = await getDb();
+    const db = await citizenDb();
     if (!db) return null;
 
     const chars = await db
@@ -631,7 +651,7 @@ export const citizenRouter = router({
       })
     )
     .mutation(async ({ ctx, input }) => {
-      const db = await getDb();
+      const db = await citizenDb();
       if (!db) throw new Error("Database unavailable");
 
       const chars = await db
@@ -714,7 +734,7 @@ export const citizenRouter = router({
   respecAlignment: protectedProcedure
     .input(z.object({ alignment: z.enum(["order", "chaos"]) }))
     .mutation(async ({ ctx, input }) => {
-      const db = await getDb();
+      const db = await citizenDb();
       if (!db) throw new Error("Database unavailable");
 
       const chars = await db
@@ -763,7 +783,7 @@ export const citizenRouter = router({
   respecElement: protectedProcedure
     .input(z.object({ element: z.enum(["earth", "fire", "water", "air", "space", "time", "probability", "reality"]) }))
     .mutation(async ({ ctx, input }) => {
-      const db = await getDb();
+      const db = await citizenDb();
       if (!db) throw new Error("Database unavailable");
 
       const chars = await db
