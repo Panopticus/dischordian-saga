@@ -48,6 +48,7 @@ import { getMaterialById } from "@/data/craftingData";
 import { ALL_LOYALTY_MISSIONS, getAvailableLoyaltyMissions, type LoyaltyMission, type LoyaltyMissionStep } from "@/data/loyaltyMissions";
 import { HolidayDialogTicker } from "@/components/HolidayDialogTicker";
 import { RomanceLadderPanel } from "@/components/romance/RomanceLadderPanel";
+import { EncounterListPanel } from "@/components/encounter/EncounterListPanel";
 
 import LivingBackground from "@/components/LivingBackground";
 
@@ -311,6 +312,15 @@ export default function CompanionHubPage() {
               into a new stage. */}
           <div className="mt-8">
             <RomanceLadderPanel />
+          </div>
+
+          {/* Encounters — Hierarchy lord + Malkia + Source/Kael
+              cinematic events. Driven by the encounter dispatcher
+              service; each entry walks through entry / negotiation /
+              resolution / aftermath phases with branch picks at the
+              resolution. Malkia internally has six steps. */}
+          <div className="mt-6">
+            <EncounterListPanel />
           </div>
         </div>
       </div>
