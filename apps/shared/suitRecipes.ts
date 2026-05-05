@@ -176,6 +176,47 @@ function deriveRecipes(): readonly SuitRecipe[] {
 
 export const SUIT_RECIPES: readonly SuitRecipe[] = deriveRecipes();
 
+/* ─── Starter pouch ─── */
+
+/**
+ * Sentinel key on `citizenCharacters.suitMaterials` that records that
+ * the citizen has already received the one-time starter pouch grant.
+ * Stored alongside MaterialId counts in the same JSON bag so we don't
+ * need a separate boolean column.
+ *
+ * The double-underscore prefix signals "engine-internal flag, not a
+ * MaterialId" to anyone reading the JSON. MaterialId values never
+ * start with `__`.
+ */
+export const STARTER_GRANTED_SENTINEL = "__starterGranted";
+
+/**
+ * One-time starter grant deposited into a fresh citizen's pouch the
+ * first time they attempt to craft. Sized so the player can land:
+ *   - 2 common crafts of any set (2 brass-plate each)               OR
+ *   - 1 uncommon craft using any one element (3 brass + 1 essence)
+ *
+ * Deliberately stops short of enabling a rare craft — rare needs
+ * 5 brass + 2 essence (RARITY_COST), so the starter pouch (4 brass +
+ * 1 essence) leaves the rare-tier grind intact. Thread-of-null is
+ * not seeded at all, so epic+ and legendary+ also stay blocked.
+ *
+ * The sentinel + this constant together guarantee a single grant per
+ * citizen — if the player spends down to zero legitimately, they
+ * don't get a free refill.
+ */
+export const STARTER_SUIT_POUCH: Readonly<Record<string, number>> = Object.freeze({
+  "brass-plate": 4,
+  "earth-essence": 1,
+  "fire-essence": 1,
+  "water-essence": 1,
+  "air-essence": 1,
+  "space-essence": 1,
+  "time-essence": 1,
+  "probability-essence": 1,
+  "reality-essence": 1,
+});
+
 /* ─── Accessors ─── */
 
 const BY_ID = new Map<string, SuitRecipe>(

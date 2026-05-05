@@ -13,6 +13,8 @@ import { TRPCError } from "@trpc/server";
 import {
   getRecipe,
   type SuitRecipeId,
+  STARTER_GRANTED_SENTINEL,
+  STARTER_SUIT_POUCH,
 } from "../../shared/suitRecipes";
 import {
   isSchematicEligibleForOperative,
@@ -1140,8 +1142,29 @@ export const craftingRouter = router({
       // bag on citizenCharacters.suitMaterials keyed by MaterialId.
       // Audit Phase J1 landed the schema column; loot/quest emitters
       // top it up, and this mutation deducts on success.
-      const pouch: Record<string, number> =
+      let pouch: Record<string, number> =
         (character.suitMaterials as Record<string, number> | null) ?? {};
+
+      // One-time starter grant: a fresh citizen who has never crafted
+      // gets STARTER_SUIT_POUCH deposited so the first craft attempt
+      // lands. Tracked via STARTER_GRANTED_SENTINEL inside the JSON
+      // bag itself so spending the pouch down to zero later does NOT
+      // re-trigger the grant. Persisted before the shortage check so
+      // the rest of this mutation reads the post-grant pouch.
+      if (!pouch[STARTER_GRANTED_SENTINEL]) {
+        pouch = {
+          ...STARTER_SUIT_POUCH,
+          [STARTER_GRANTED_SENTINEL]: 1,
+        };
+        await db
+          .update(citizenCharacters)
+          .set({ suitMaterials: pouch })
+          .where(eq(citizenCharacters.id, character.id));
+        logger.info(
+          `[suit-craft] starter pouch granted to citizen=${character.id} user=${ctx.user.id}`,
+        );
+      }
+
       const shortage = recipe.inputs.find(
         (req) => (pouch[req.materialId] ?? 0) < req.count,
       );
