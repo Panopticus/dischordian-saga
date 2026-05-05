@@ -607,9 +607,54 @@ async function endMatch(match: ActiveChessMatch, winnerId: number | null, reason
   broadcastActiveMatchesToLobby();
 }
 
+/* ─── STARTUP RECOVERY ─── */
+// Server restart drops the in-memory activeMatches Map. The chess_games
+// rows for those matches still say `status = 'active'` and clients
+// still try to RECONNECT to non-existent ActiveChessMatch entries —
+// they hang forever waiting for a state update.
+//
+// On startup we mark stale active rows as abandoned so the next
+// RECONNECT cleanly shows "match ended" instead of stalling. Full
+// in-memory rehydration (clocks, turn order, etc.) would need
+// snapshot data we don't currently persist; mark-as-abandoned is
+// the safe-and-simple fix.
+async function recoverStaleMatchesOnStartup(): Promise<void> {
+  try {
+    const db = await getDb();
+    if (!db) return;
+    const stale = await db
+      .select()
+      .from(chessGames)
+      .where(eq(chessGames.status, "active"));
+    if (stale.length === 0) return;
+    for (const row of stale) {
+      await db
+        .update(chessGames)
+        .set({
+          status: "abandoned",
+          // Mark a clear winner of "none" rather than fabricate one;
+          // ELO will not change because the abandonment-on-restart
+          // path doesn't run the rating delta.
+          winnerId: null,
+        })
+        .where(eq(chessGames.id, row.id));
+    }
+    // Use console here instead of logger because logger import order
+    // can race with module init in the test harness.
+    console.warn(
+      `[ChessWs] Marked ${stale.length} stale active match(es) as abandoned on restart.`,
+    );
+  } catch (err) {
+    console.error("[ChessWs] Failed to recover stale matches on startup:", err);
+  }
+}
+
 /* ─── WEBSOCKET SERVER SETUP ─── */
 export function setupChessPvpWebSocket(server: Server) {
   const wss = new WebSocketServer({ noServer: true });
+
+  // Run once at boot. Don't block startup — best-effort cleanup.
+  void recoverStaleMatchesOnStartup();
 
   // Handle upgrade for /api/chess-pvp path
   server.on("upgrade", (req, socket, head) => {
