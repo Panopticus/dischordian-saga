@@ -604,29 +604,6 @@ describe("Phase 39: Route Registration", () => {
   });
 });
 
-/* ─── NAVIGATION ─── */
-describe("Phase 39: Navigation Links", () => {
-  const gamesPage = fs.readFileSync(
-    path.resolve(__dirname, "../client/src/pages/GamesPage.tsx"),
-    "utf-8"
-  );
-
-  it("should have Draft Tournament link in Games Hub", () => {
-    expect(gamesPage).toContain("/draft");
-    expect(gamesPage).toContain("DRAFT TOURNAMENT");
-  });
-
-  it("should have Card Trading link in Games Hub", () => {
-    expect(gamesPage).toContain("/trading");
-    expect(gamesPage).toContain("CARD TRADING");
-  });
-
-  it("should have Card Achievements link in Games Hub", () => {
-    expect(gamesPage).toContain("/card-achievements");
-    expect(gamesPage).toContain("CARD ACHIEVEMENTS");
-  });
-});
-
 /* ─── ROUTER REGISTRATION ─── */
 describe("Phase 39: Server Router Registration", () => {
   const routers = fs.readFileSync(

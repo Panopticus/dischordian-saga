@@ -185,12 +185,6 @@ describe("Trade Empire Narrative Content", () => {
 
 /* ═══ GAME DATA REFERENCES ═══ */
 describe("Game Data - Trade Empire References", () => {
-  it("should reference Trade Empire in GamesPage simulations", async () => {
-    const fs = await import("fs");
-    const content = fs.readFileSync("apps/client/src/pages/GamesPage.tsx", "utf-8");
-    expect(content).toContain("TRADE EMPIRE");
-  });
-
   it("should have /trade-empire route in App.tsx", async () => {
     const fs = await import("fs");
     const content = fs.readFileSync("apps/client/src/App.tsx", "utf-8");

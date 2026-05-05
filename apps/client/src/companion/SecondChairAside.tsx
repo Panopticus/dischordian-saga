@@ -27,8 +27,10 @@ export interface SecondChairAsideProps {
 }
 
 export function SecondChairAside({ ctx }: SecondChairAsideProps) {
-  if (!isEligible(ctx.revealStage)) return null;
+  // Hooks must run on every render in the same order — compute the
+  // advice unconditionally, then early-return for visibility.
   const advice = React.useMemo(() => getSecondChairAdvice(ctx), [ctx]);
+  if (!isEligible(ctx.revealStage)) return null;
   if (!advice.rendered) return null;
 
   return (

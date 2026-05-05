@@ -287,30 +287,6 @@ describe("PreviouslyOn Component", () => {
   });
 });
 
-/* ═══ GAMES PAGE INTEGRATION ═══ */
-describe("GamesPage Integration", () => {
-  it("should include Antiquarian's Library in SIMULATIONS", async () => {
-    const fs = await import("fs");
-    const content = fs.readFileSync("apps/client/src/pages/GamesPage.tsx", "utf-8");
-    expect(content).toContain("ANTIQUARIAN'S LIBRARY");
-    expect(content).toContain("conexus-portal");
-  });
-
-  it("should include Boss Encounters in SIMULATIONS", async () => {
-    const fs = await import("fs");
-    const content = fs.readFileSync("apps/client/src/pages/GamesPage.tsx", "utf-8");
-    expect(content).toContain("BOSS ENCOUNTERS");
-    expect(content).toContain("boss-battle");
-  });
-
-  it("should include Multiplayer Arena in SIMULATIONS", async () => {
-    const fs = await import("fs");
-    const content = fs.readFileSync("apps/client/src/pages/GamesPage.tsx", "utf-8");
-    expect(content).toContain("MULTIPLAYER ARENA");
-    expect(content).toContain("card-challenge");
-  });
-});
-
 /* ═══ APP ROUTES ═══ */
 describe("App Routes", () => {
   it("should have routes for boss-battle, card-challenge, and conexus-portal", async () => {

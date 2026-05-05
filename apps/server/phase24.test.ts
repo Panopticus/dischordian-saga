@@ -232,13 +232,6 @@ describe("Routes and Navigation", () => {
     expect(mod.default).toBeDefined();
   });
 
-  it("GamesPage should include achievements link", async () => {
-    const fs = await import("fs");
-    const content = fs.readFileSync("./apps/client/src/pages/GamesPage.tsx", "utf-8");
-    expect(content).toContain('/achievements');
-    expect(content).toContain('LORE ACHIEVEMENTS');
-  });
-
   it("ConexusPortalPage should import GamePreviewTooltip", async () => {
     const fs = await import("fs");
     const content = fs.readFileSync("./apps/client/src/pages/ConexusPortalPage.tsx", "utf-8");

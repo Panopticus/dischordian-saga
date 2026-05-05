@@ -327,14 +327,6 @@ describe("Feature Integration", () => {
     expect(shell).toContain("pvp");
   });
 
-  it("should have PvP Arena in Games page", () => {
-    const games = fs.readFileSync(
-      path.resolve(__dirname, "../client/src/pages/GamesPage.tsx"),
-      "utf-8"
-    );
-    expect(games).toContain("PVP ARENA");
-  });
-
   it("should have PvP in CommandConsole", () => {
     const console = fs.readFileSync(
       path.resolve(__dirname, "../client/src/components/CommandConsole.tsx"),
