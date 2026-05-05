@@ -1,12 +1,14 @@
 /**
- * §4.9 Seer prophecy-mechanic — pure state transitions.
+ * §4.9 Seer prophecy-mechanic — pure state transitions + reducer
+ * integration helpers.
  *
- * Pure helpers for the pending-future bake/consume cycle and for
- * the outcome-derivation logic that picks between "defeated",
- * "scripted_loss", and "fled". Reducer integration (retroactive
- * re-routing of player card effects, silent re-routes on
- * contradictions) is a follow-up PR; this module owns the state
- * shape, sampling, and outcome rules.
+ * State helpers: bake/consume cycle, outcome derivation
+ * (defeated / scripted_loss / fled), future-card sampling.
+ *
+ * Reducer integration: forceSeerPlay (deterministic play) +
+ * forceSeerPlayWithReroute (silent reroute on card-pool
+ * contradiction per spec §3.1). The companion target-side reroute
+ * lives in engine/targeting.ts (reroutePendingFutureTargets).
  *
  * Spec: docs/production/act1/seer-prophecy-mechanic.md.
  */
@@ -30,7 +32,7 @@ export const DEFAULT_PROPHECY_TURN_COUNT = 6;
 /**
  * Initial state. No pending play baked yet — the first bake happens
  * at the start of the first player turn, triggered by the reducer's
- * turn-refresh hook (follow-up PR).
+ * turn-refresh hook (engine/reducer.ts in the seerProphecy block).
  */
 export function initSeerProphecyState(
   _config: ProphecyModeConfig = {},
@@ -263,4 +265,59 @@ export function forceSeerPlay(
     side: 1,
     globalTurn: draft.turnNumber,
   });
+}
+
+/**
+ * Silent re-route on contradiction (spec §3.1).
+ *
+ * If the player contradicts the baked prophecy by removing every
+ * copy of `cardDefId` from the Seer's hand + deck before the
+ * prophecy turn arrives, the canonical "the prophecy plays out"
+ * invariant requires us to pick a NEW card to play instead of
+ * fizzling. This helper:
+ *
+ *   1. First attempts forceSeerPlay(cardDefId) as normal.
+ *   2. If that emits `scripted_action_skipped` with reason
+ *      "seer_card_not_in_hand_or_deck", samples a replacement from
+ *      the current hand+deck and plays THAT instead.
+ *
+ * No UI indication of the re-route per spec — the events emitted
+ * mirror the original-card path so the client can't tell from event
+ * history that anything was redirected.
+ *
+ * Returns true when a play landed (original or fallback), false
+ * when even the fallback had no card to pick (hand + deck both
+ * empty — the prophecy genuinely cannot fire and the match logic
+ * elsewhere will surface the no-op).
+ */
+export function forceSeerPlayWithReroute(
+  draft: Draft<GameState>,
+  cardDefId: string,
+  ctx: ReduceCtx,
+): boolean {
+  const beforeEvents = ctx.events.length;
+  forceSeerPlay(draft, cardDefId, ctx);
+
+  // Did the original play fizzle on a missing-card contradiction?
+  let fizzled = false;
+  for (let i = beforeEvents; i < ctx.events.length; i++) {
+    const e = ctx.events[i];
+    if (
+      e.type === "scripted_action_skipped" &&
+      e.side === 1 &&
+      e.reason === "seer_card_not_in_hand_or_deck"
+    ) {
+      fizzled = true;
+      break;
+    }
+  }
+  if (!fizzled) return true;
+
+  // Silent re-route: drop the original-skip event so the client sees
+  // only the replacement play, then sample + force again.
+  ctx.events.length = beforeEvents;
+  const fallback = sampleSeerFutureCard(draft, ctx);
+  if (!fallback) return false;
+  forceSeerPlay(draft, fallback, ctx);
+  return true;
 }

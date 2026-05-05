@@ -18,8 +18,8 @@
  * play_card, replace_card, bloodborn, mulligan, end_turn, concede,
  * resolve_choose_one, etc.) delegates to a dedicated handler under
  * engine/* and the fixed-point trigger drain runs after each action.
- * The seer-prophecy "silent re-route on contradiction" optimization
- * is the only deferred follow-up — match plays correctly without it.
+ * Seer-prophecy reroute on contradiction is wired (target side via
+ * engine/targeting.ts; card-pool side via forceSeerPlayWithReroute).
  *
  * The reducer itself stays small (a couple hundred lines of switch
  * dispatch); rule logic lives in the per-action handlers.
@@ -42,7 +42,7 @@ import { acceptGift, declineGift } from "./programmerGift";
 import {
   bakeSeerFuture,
   consumeSeerFuture,
-  forceSeerPlay,
+  forceSeerPlayWithReroute,
   sampleSeerFutureCard,
 } from "./seerProphecy";
 import { handlePlayCard as handlePlayCardReal } from "./playCard";
@@ -454,11 +454,18 @@ function handleEndTurn(
   //     during the player's turn so card effects can (eventually)
   //     resolve against it.
   //   • Incoming side 1 (Seer): consume the pending future if one
-  //     matches the new turn and force-play it. If no bake exists yet
-  //     (canonical first Seer turn of the match), bake-then-consume
-  //     in the same tick so the Seer's very first play always fires.
-  // Silent re-route of contradicted player effects is deferred to
-  // a follow-up PR; the match plays correctly without it.
+  //     matches the new turn and force-play it via forceSeerPlayWithReroute.
+  //     If no bake exists yet (canonical first Seer turn of the
+  //     match), bake-then-consume in the same tick so the Seer's
+  //     very first play always fires.
+  // Silent re-route on contradiction (spec §3.1) covers two cases:
+  //   1. Target rerouting — handled in engine/targeting.ts via
+  //      reroutePendingFutureTargets when the player's effect targets
+  //      the Seer general while a prophecy is pending.
+  //   2. Card-pool contradiction — the player removes every copy of
+  //      the prophesied cardDefId before its turn arrives. Handled
+  //      by forceSeerPlayWithReroute, which silently resamples a
+  //      replacement card and plays that instead. No UI indication.
   if (draft.seerProphecy) {
     if (nextPlayer === 1) {
       if (!draft.seerProphecy.pending) {
@@ -474,7 +481,7 @@ function handleEndTurn(
       const result = consumeSeerFuture(draft.seerProphecy, draft.turnNumber);
       draft.seerProphecy = result.next;
       if (result.consumed) {
-        forceSeerPlay(draft, result.consumed.cardDefId, ctx);
+        forceSeerPlayWithReroute(draft, result.consumed.cardDefId, ctx);
       }
     } else if (!draft.seerProphecy.pending) {
       const sampled = sampleSeerFutureCard(draft, ctx);

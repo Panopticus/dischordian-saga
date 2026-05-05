@@ -40,22 +40,23 @@ const REPO_ROOT = path.resolve(__dirname, "..", "..");
  *  doesn't exist yet). Each entry should have a comment naming the
  *  blocker so future audits know whether to wire or remove the gate. */
 const KNOWN_ORPHANS: ReadonlyArray<{ flag: string; gap: string }> = [
-  // Loredex completion gates — Epoch Witness votes lock behind these.
-  // Producer would need a "all loredex entries tagged ENTITY discovered"
-  // check in LoredexContext.discoverEntry. Entries themselves exist
-  // (loredex-data.json), but there's no entity → entries mapping yet.
-  { flag: "iron_lion_loredex_complete",                  gap: "no producer — needs entity-completion detector in LoredexContext" },
-  { flag: "agent_zero_loredex_complete",                 gap: "no producer — needs entity-completion detector in LoredexContext" },
-  { flag: "battle_of_nexon_loredex_complete",            gap: "no producer — needs event-completion detector in LoredexContext" },
-  { flag: "programmer_and_antiquarian_loredex_complete", gap: "no producer — needs paired-entity detector in LoredexContext" },
+  // Loredex completion gates — wired in audit follow-up via the
+  // LoredexCompletionFlagWatcher (apps/client/src/components/
+  // LoredexCompletionFlagWatcher.tsx) reading
+  // apps/shared/loredexCompletionTargets.ts. The four entries
+  // previously listed here (iron_lion / agent_zero / battle_of_nexon
+  // / programmer_and_antiquarian) now have producers.
 
   // Silence in Heaven (album) track-completion gates. The discography /
   // music_player feature exists at observation_deck but no per-track
-  // completion flag is fired. Producer would live near the music player.
-  { flag: "silence_in_heaven_track_24_complete", gap: "no producer — needs music-player track-complete hook" },
-  { flag: "sih_track_32_complete",               gap: "no producer — needs music-player track-complete hook" },
-  { flag: "sih_track_37_complete",               gap: "no producer — needs music-player track-complete hook" },
-  { flag: "sih_all_37_tracks_complete",          gap: "no producer — needs music-player album-complete hook" },
+  // completion flag is fired. Producer needs a `markTrackPlayed(songId,
+  // trackNum)` action on GameContext + a hook in the music-player
+  // component (apps/client/src/components/AlbumFilmPlayer.tsx) that
+  // calls it on track-end. Tracked as a music-system follow-up.
+  { flag: "silence_in_heaven_track_24_complete", gap: "needs music-player track-complete hook (AlbumFilmPlayer)" },
+  { flag: "sih_track_32_complete",               gap: "needs music-player track-complete hook (AlbumFilmPlayer)" },
+  { flag: "sih_track_37_complete",               gap: "needs music-player track-complete hook (AlbumFilmPlayer)" },
+  { flag: "sih_all_37_tracks_complete",          gap: "needs music-player album-complete hook (AlbumFilmPlayer)" },
 
   // TomePlacement.flagReq aspirational gates that pre-existed before
   // the #300/#306 rewire. These are content-future, not bugs.
@@ -121,6 +122,14 @@ function collectProducedFlags(): Set<string> {
   const flagsArrayRe =
     /flagsSetOnComplete\s*:\s*\[([\s\S]*?)\]/g;
   const flagInArrayRe = /["']([a-z][a-zA-Z0-9_]+)["']/g;
+  // Loredex completion-flag producers (apps/shared/loredexCompletionTargets.ts).
+  // The watcher (LoredexCompletionFlagWatcher) calls setNarrativeFlag(t.flag,
+  // ...) where `t.flag` is a variable, so the literalRe scan above can't see
+  // it. Catch each `flag: "name", requiredEntryIds: [...]` shape directly.
+  // The "requiredEntryIds:" sibling key uniquely identifies the
+  // LoredexCompletionTarget object literal vs. unrelated "flag:" usages.
+  const loredexFlagRe =
+    /flag:\s*["']([a-z][a-zA-Z0-9_]+)["'][\s\S]*?requiredEntryIds/g;
   for (const dir of SCAN_DIRS) {
     for (const file of walk(dir)) {
       if (file.endsWith(".test.ts") || file.endsWith(".test.tsx") || file.endsWith(".spec.ts")) continue;
@@ -134,6 +143,7 @@ function collectProducedFlags(): Set<string> {
         let f: RegExpExecArray | null;
         while ((f = flagInArrayRe.exec(inner)) !== null) produced.add(f[1]);
       }
+      while ((m = loredexFlagRe.exec(src)) !== null) produced.add(m[1]);
     }
   }
   return produced;
@@ -249,6 +259,9 @@ describe("Narrative flag audit — orphan gates", () => {
     // Snapshot the count: as we wire producers (Loredex, SIH tracks),
     // this number drops and the snapshot needs updating. Going UP means
     // somebody added a new locked vote without a producer.
-    expect(orphanLocks.length).toBe(8);
+    // 2026-05 audit follow-up: 4 loredex flags wired via
+    // LoredexCompletionFlagWatcher → 8 dropped to 4 (the SIH track
+    // flags remain pending the music-player track-complete hook).
+    expect(orphanLocks.length).toBe(4);
   });
 });

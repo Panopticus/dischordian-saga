@@ -20,6 +20,8 @@ import {
   marketListings,
   marketTransactions,
   userCards,
+  marketBuyOrders,
+  currencyExchange,
 } from "../../db/schema";
 
 export interface MarketStats {
@@ -45,7 +47,7 @@ export async function computeMarketStats(
   db: DrizzleDb,
   userId: number,
 ): Promise<MarketStats> {
-  const [listings, sales, purchases, auctions] = await Promise.all([
+  const [listings, sales, purchases, auctions, buyOrders, exchanges] = await Promise.all([
     db
       .select({ count: sql<number>`COUNT(*)` })
       .from(marketListings)
@@ -73,6 +75,24 @@ export async function computeMarketStats(
           eq(userCards.obtainedVia, "auction_won"),
         ),
       ),
+    db
+      .select({ count: sql<number>`COUNT(*)` })
+      .from(marketBuyOrders)
+      .where(eq(marketBuyOrders.buyerId, userId)),
+    // Exchange completions: every row this user owns whose status
+    // landed at "filled". The marketplace router fires
+    // trackIncrement("exchanges_completed", 1) per side at fill time;
+    // recomputing from source keeps the stat correct under retries
+    // and ledger replays.
+    db
+      .select({ count: sql<number>`COUNT(*)` })
+      .from(currencyExchange)
+      .where(
+        and(
+          eq(currencyExchange.userId, userId),
+          eq(currencyExchange.status, "filled"),
+        ),
+      ),
   ]);
 
   return {
@@ -82,9 +102,7 @@ export async function computeMarketStats(
     auctions_won: Number(auctions[0]?.count ?? 0),
     market_credits_earned: Number(sales[0]?.credits ?? 0),
     market_dream_spent: Number(purchases[0]?.dreamSpent ?? 0),
-    // Buy-order + currency-exchange counts aren't yet pre-tabulated
-    // anywhere; surface as 0 until those emitters route through here.
-    buy_orders_placed: 0,
-    exchanges_completed: 0,
+    buy_orders_placed: Number(buyOrders[0]?.count ?? 0),
+    exchanges_completed: Number(exchanges[0]?.count ?? 0),
   };
 }

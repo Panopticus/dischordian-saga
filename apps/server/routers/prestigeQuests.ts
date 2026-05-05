@@ -16,6 +16,8 @@ import { eq, and } from "drizzle-orm";
 import {
   PRESTIGE_QUEST_CHAINS, canStartPrestigeQuest, canSkipStep, getQuestXpMultiplier,
 } from "../../shared/prestigeQuests";
+import { grantSuitMaterials } from "../services/suitMaterialsService";
+import { logger } from "../logger";
 
 interface RpgStats {
   characterClass: string;
@@ -250,6 +252,31 @@ export const prestigeQuestRouter = router({
 
       if (isComplete) {
         await unlockPrestigeClass(ctx.user.id, chain);
+        // Suit-material drop on prestige-chain completion: 3 brass +
+        // 2 of every essence. Per-chain (not per-step) so it scales
+        // with player effort. Routed through the shared service.
+        grantSuitMaterials(ctx.user.id, [
+          { materialId: "brass-plate", count: 3 },
+          { materialId: "earth-essence", count: 2 },
+          { materialId: "fire-essence", count: 2 },
+          { materialId: "water-essence", count: 2 },
+          { materialId: "air-essence", count: 2 },
+          { materialId: "space-essence", count: 2 },
+          { materialId: "time-essence", count: 2 },
+          { materialId: "probability-essence", count: 2 },
+          { materialId: "reality-essence", count: 2 },
+          { materialId: "thread-of-null", count: 1 },
+        ]).catch((e) =>
+          logger.error("[PrestigeQuests] Suit-material grant failed:", e),
+        );
+      } else {
+        // Per-step grant: 1 brass-plate keeps the trickle going while
+        // chains are in progress.
+        grantSuitMaterials(ctx.user.id, [
+          { materialId: "brass-plate", count: 1 },
+        ]).catch((e) =>
+          logger.error("[PrestigeQuests] Suit-material per-step grant failed:", e),
+        );
       }
 
       return { success: true, xpEarned, isComplete };

@@ -1861,6 +1861,51 @@ export const cardGameRouter = router({
       completionPercent: available > 0 ? Math.round((uniqueCount / available) * 100) : 0,
     };
   }),
+
+  /**
+   * §4.9 retroactive delivery of `burnt_card_placeholder` (the Seer
+   * winnable-path key card). Fired client-side when the Seer's staff
+   * is canonically witnessed and Cycle B is complete. Idempotent —
+   * a second call after the card is already in the player's
+   * collection is a benign no-op.
+   *
+   * Spec: docs/production/act1/seer-prophecy-mechanic.md §3.3.
+   * Audit follow-up: closes the "burnt_card_placeholder retroactive
+   * delivery" item.
+   */
+  grantBurntCardPlaceholder: protectedProcedure
+    .mutation(async ({ ctx }): Promise<{ granted: boolean; alreadyOwned: boolean }> => {
+      const db = await getDb();
+      if (!db) return { granted: false, alreadyOwned: false };
+
+      const BURNT_ID = "burnt_card_placeholder";
+
+      // Idempotency check.
+      const [existing] = await db
+        .select()
+        .from(userCards)
+        .where(
+          and(
+            eq(userCards.userId, ctx.user.id),
+            eq(userCards.cardId, BURNT_ID),
+          ),
+        )
+        .limit(1);
+      if (existing) {
+        return { granted: false, alreadyOwned: true };
+      }
+
+      await db.insert(userCards).values({
+        userId: ctx.user.id,
+        cardId: BURNT_ID,
+        quantity: 1,
+        isFoil: 0,
+        cardLevel: 1,
+        obtainedVia: "seer_winnable_path",
+      });
+
+      return { granted: true, alreadyOwned: false };
+    }),
 });
 
 // ═══════════════════════════════════════════════════════
