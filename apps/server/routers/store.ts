@@ -44,6 +44,13 @@ export const storeRouter = router({
 
       const origin = ctx.req.headers.origin || "https://loredex-os.app";
 
+      // Auto-tax: requires Stripe Tax to be enabled in the Stripe
+      // dashboard with origin tax registrations configured. Set
+      // STRIPE_AUTOMATIC_TAX=false to disable for jurisdictions
+      // where you haven't yet registered. Defaults to true in
+      // production so EU/CA/UK VAT is collected from launch.
+      const automaticTaxEnabled = process.env.STRIPE_AUTOMATIC_TAX !== "false";
+
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ["card"],
         line_items: [
@@ -53,6 +60,13 @@ export const storeRouter = router({
               product_data: {
                 name: product.name,
                 description: product.description,
+                // Stripe Tax requires a tax_code for automatic
+                // classification. `txcd_10000000` = "General — Services —
+                // Electronically Supplied Services", which fits in-game
+                // currency / cosmetic / pass purchases. Adjust per
+                // product when offerings diverge (digital-good vs
+                // service vs subscription).
+                tax_code: "txcd_10000000",
               },
               unit_amount: product.priceUsd,
             },
@@ -65,6 +79,10 @@ export const storeRouter = router({
         client_reference_id: ctx.user.id.toString(),
         customer_email: ctx.user.email || undefined,
         allow_promotion_codes: true,
+        automatic_tax: { enabled: automaticTaxEnabled },
+        // Stripe needs the customer's address to determine the tax
+        // rate. Forcing collection guarantees a valid jurisdiction.
+        billing_address_collection: automaticTaxEnabled ? "required" : "auto",
         metadata: {
           user_id: ctx.user.id.toString(),
           product_key: input.productKey,
