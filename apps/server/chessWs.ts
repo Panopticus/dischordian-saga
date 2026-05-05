@@ -13,6 +13,8 @@ import { randomUUID } from "crypto";
 // Task 6.1 — per-user token bucket for every WS message.
 // Shared with pvpWs + duelystWs via the `wsRateLimit` module.
 import { checkWsRateLimit, sendRateLimitError } from "./wsRateLimit";
+import { authenticateWebSocket } from "./_core/wsAuth";
+import type { User } from "../db/schema";
 import { awardEligibleTitles, rankTierIndex } from "./services/titleService";
 import { mirrorRating } from "./services/competitiveRatingsService";
 import { processClueDropEvent } from "./services/conspiracyService";
@@ -618,8 +620,21 @@ export function setupChessPvpWebSocket(server: Server) {
     }
   });
 
-  wss.on("connection", (ws: WebSocket) => {
+  wss.on("connection", (ws: WebSocket, req) => {
+    // Authenticate the WS upgrade once via session cookie. Anonymous
+    // connections are rejected for chess multiplayer — every action
+    // here is identity-bound (matchmaking, ELO, rewards).
+    let authedUser: User | null = null;
+    const authPromise = authenticateWebSocket(req)
+      .then((u) => {
+        authedUser = u;
+      })
+      .catch(() => {
+        authedUser = null;
+      });
+
     ws.on("message", async (data) => {
+      await authPromise;
       try {
         const parsed = JSON.parse(data.toString());
         const result = ChessClientMessageSchema.safeParse(parsed);
@@ -648,12 +663,27 @@ export function setupChessPvpWebSocket(server: Server) {
             break;
 
           case "JOIN_QUEUE": {
+            if (!authedUser) {
+              send(ws, { type: "ERROR", message: "Authentication required to join queue" });
+              ws.close(4401, "unauthorized");
+              return;
+            }
+            if (msg.userId !== authedUser.id) {
+              send(ws, { type: "ERROR", message: "Identity mismatch" });
+              ws.close(4403, "forbidden");
+              return;
+            }
+
+            // Use the server-known identity, never the client claim.
+            const userId = authedUser.id;
+            const userName = authedUser.name ?? msg.userName;
+
             // Prevent duplicate connections
-            if (playerConnections.has(msg.userId)) {
-              const existing = playerConnections.get(msg.userId)!;
+            if (playerConnections.has(userId)) {
+              const existing = playerConnections.get(userId)!;
               send(existing.ws, { type: "ERROR", message: "Connected from another session" });
               existing.ws.close();
-              playerConnections.delete(msg.userId);
+              playerConnections.delete(userId);
             }
 
             // Get player ELO
@@ -662,20 +692,20 @@ export function setupChessPvpWebSocket(server: Server) {
               const db = await getDb();
               if (db) {
                 const r = await db.select().from(chessRankings)
-                  .where(eq(chessRankings.userId, msg.userId)).limit(1);
+                  .where(eq(chessRankings.userId, userId)).limit(1);
                 if (r[0]) elo = r[0].elo;
               }
             } catch (e) { /* use default */ }
 
             const player: ChessPlayer = {
               ws,
-              userId: msg.userId,
-              userName: msg.userName,
+              userId,
+              userName,
               characterId: msg.characterId,
               elo,
               matchId: null,
             };
-            playerConnections.set(msg.userId, player);
+            playerConnections.set(userId, player);
             matchmakingQueue.push(player);
 
             send(ws, { type: "QUEUE_JOINED", position: matchmakingQueue.length });
@@ -802,13 +832,24 @@ export function setupChessPvpWebSocket(server: Server) {
           }
 
           case "RECONNECT": {
+            // Auth is mandatory — without it the userId is forgeable.
+            if (!authedUser) {
+              send(ws, { type: "ERROR", message: "Authentication required" });
+              ws.close(4401, "unauthorized");
+              return;
+            }
+            if (msg.userId !== authedUser.id) {
+              send(ws, { type: "ERROR", message: "Identity mismatch" });
+              ws.close(4403, "forbidden");
+              return;
+            }
             const match = activeMatches.get(msg.matchId);
             if (!match || match.status !== "active") {
               send(ws, { type: "ERROR", message: "Match not found or already ended" });
               break;
             }
-            const isWhite = match.white.userId === msg.userId;
-            const isBlack = match.black.userId === msg.userId;
+            const isWhite = match.white.userId === authedUser.id;
+            const isBlack = match.black.userId === authedUser.id;
             if (!isWhite && !isBlack) {
               send(ws, { type: "ERROR", message: "You are not a player in this match" });
               break;
