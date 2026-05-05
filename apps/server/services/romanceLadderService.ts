@@ -331,6 +331,30 @@ export async function advanceRomanceStage(
   }
 
   const sceneLines = sceneLinesForStage(npcId, newStage);
+
+  // Write each scene line's setsFlags to npc_public_flags so
+  // existing NPC banks reading via reactsToPublicFlag pick them
+  // up. The unique (userId, flag) index keeps it idempotent.
+  for (const line of sceneLines) {
+    for (const flag of line.setsFlags ?? []) {
+      await writeStickyFlag(userId, flag, "romance_scene");
+    }
+  }
+
+  // If the player just advanced into Vex stage 2+ (the
+  // played-for-one-listener beat sets one of the
+  // engineer_zero_confirmed prerequisites), fire the Vex
+  // reveal advancer. Idempotent — calling when conditions
+  // aren't met is a no-op.
+  if (npcId === "vex" && newStage >= 2) {
+    try {
+      const { advanceVexRevealIfReady } = await import("./vexRevealAdvancer");
+      void advanceVexRevealIfReady(userId);
+    } catch (err) {
+      logger.warn("[romanceLadder] vex reveal advancer call failed:", err);
+    }
+  }
+
   return { ok: true, newStage, scene: sceneLines };
 }
 

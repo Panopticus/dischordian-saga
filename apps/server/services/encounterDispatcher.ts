@@ -341,6 +341,50 @@ export async function advancePhase(
     };
   }
 
+  // Write the just-played phase's setsFlags to npc_public_flags
+  // so cross-system reactions fire. Filter to lines whose flags
+  // we care about (any setsFlags entry — encounter content keeps
+  // it tight). Idempotent on the unique (userId, flag) index.
+  const flags = await readPublicFlags(userId);
+  const justPlayed = filterLinesForPhase({
+    encounterId,
+    phase: progress.phase as EncounterPhase,
+    step: progress.step ?? null,
+    flags,
+  });
+  for (const line of justPlayed) {
+    for (const flag of line.setsFlags ?? []) {
+      try {
+        await db
+          .insert(npcPublicFlags)
+          .values({ userId, flag, setBy: "encounter" })
+          .onDuplicateKeyUpdate({
+            set: { flag: sql`${npcPublicFlags.flag}` },
+          });
+      } catch (err) {
+        logger.warn(`[encounterDispatcher] write flag ${flag} failed:`, err);
+      }
+    }
+  }
+
+  // After Malkia step 4 plays (phrase echo) the
+  // act4_malkia_phrase_echo flag is now set. The
+  // antiquarianMalkiaRevealStage resolver advances on it.
+  // No service-side action needed — the flag write above
+  // suffices; companion comments + the resolver pick it up.
+
+  // After any encounter that touches Engineer-arc flags, run
+  // the Vex reveal advancer in case engineer_zero_confirmed
+  // is now reachable.
+  if (encounterId === "source_kael" || encounterId === "malkia_revolution") {
+    try {
+      const { advanceVexRevealIfReady } = await import("./vexRevealAdvancer");
+      void advanceVexRevealIfReady(userId);
+    } catch (err) {
+      logger.warn("[encounterDispatcher] vex advancer call failed:", err);
+    }
+  }
+
   const currentPhaseIdx = PHASE_ORDER.indexOf(progress.phase as EncounterPhase);
   if (currentPhaseIdx < PHASE_ORDER.length - 1) {
     const nextPhase = PHASE_ORDER[currentPhaseIdx + 1];
