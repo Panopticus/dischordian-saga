@@ -1,5 +1,5 @@
 /**
- * /admin/health — telemetry dashboard (#148).
+ * /admin/health — telemetry dashboard (PR 148). // void-ignore
  *
  * Visualization layer on top of the metrics already captured by the
  * #88 telemetry track:

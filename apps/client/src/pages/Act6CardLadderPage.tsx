@@ -290,23 +290,23 @@ export default function Act6CardLadderPage() {
     }
   }, [postMatchResult, anyStanceTaken]);
 
-  const accent = "border-amber-500/50 text-amber-200";
-  const subAccent = "text-amber-300/80";
+  const accent = "void-border void-text-accent";
+  const subAccent = "void-text-accent";
 
   return (
-    <div className="relative min-h-screen bg-stone-950 text-stone-100">
+    <div className="relative min-h-screen void-bg-canvas void-text">
       <LivingBackground
         src={assetUrl("art/rooms/room-archives.png")}
-        accent="rgba(245, 158, 11, 0.4)"
+        accent="color-mix(in oklch, var(--energy-accent) 40%, transparent)"
         opacity={0.08}
         particleCount={3}
         scanlines={false}
       />
 
-      <header className="relative z-10 flex items-center justify-between border-b border-amber-500/30 bg-stone-950/80 px-4 py-3 backdrop-blur">
+      <header className="relative z-10 flex items-center justify-between border-b void-border void-bg-canvas px-4 py-3 backdrop-blur">
         <Link
           to="/bridge"
-          className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.25em] text-amber-300/80 hover:text-amber-100"
+          className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.25em] void-text-accent void-text-accent"
         >
           <ChevronLeft size={14} />
           Return to Bridge
@@ -315,11 +315,11 @@ export default function Act6CardLadderPage() {
           <p className={`font-mono text-[10px] uppercase tracking-[0.3em] ${subAccent}`}>
             Act 6 · The Confession
           </p>
-          <p className="mt-1 font-serif text-lg italic text-amber-50">
+          <p className="mt-1 font-serif text-lg italic void-text-accent">
             Confession Mirrors
           </p>
         </div>
-        <div className="font-mono text-[10px] uppercase tracking-wider text-amber-300/80">
+        <div className="font-mono text-[10px] uppercase tracking-wider void-text-accent">
           {wins}/{ACT_6_OPPONENTS.length} · {losses}L
         </div>
       </header>
@@ -335,7 +335,7 @@ export default function Act6CardLadderPage() {
               transition={{ duration: 0.25 }}
               className="space-y-3"
             >
-              <p className={`font-serif italic text-[13px] leading-relaxed text-amber-100/80`}>
+              <p className={`font-serif italic text-[13px] leading-relaxed void-text-accent`}>
                 Two confessions, two matches. Elara plays the hand of
                 the woman she was before the upload. The Human plays
                 the hand of the man he was before the role. Neither
@@ -350,10 +350,10 @@ export default function Act6CardLadderPage() {
                     key={opp.id}
                     className={`rounded-md border px-4 py-3 transition-colors ${
                       done
-                        ? "border-amber-500/30 bg-amber-950/20"
+                        ? "void-border void-bg-sunk"
                         : isCurrent
-                          ? `${accent} bg-amber-950/40`
-                          : "border-stone-700/40 bg-stone-900/40"
+                          ? `${accent} void-bg-sunk`
+                          : "void-border void-bg-canvas"
                     }`}
                   >
                     <div className="flex items-center justify-between">
@@ -361,20 +361,20 @@ export default function Act6CardLadderPage() {
                         <p className={`font-mono text-[9px] uppercase tracking-wider ${subAccent}`}>
                           Match {opp.actStep}
                         </p>
-                        <p className="mt-1 font-serif text-[14px] text-amber-50">
+                        <p className="mt-1 font-serif text-[14px] void-text-accent">
                           {opp.name}
                         </p>
                       </div>
                       <div className="flex items-center gap-2">
                         {done && (
-                          <CheckCircle2 size={18} className="text-emerald-400/80" />
+                          <CheckCircle2 size={18} className="void-text-energy" />
                         )}
-                        {locked && <Lock size={16} className="text-stone-500" />}
+                        {locked && <Lock size={16} className="void-text" />}
                         {isCurrent && (
                           <button
                             type="button"
                             onClick={() => setView("matchup")}
-                            className="flex items-center gap-1 rounded border border-amber-500/50 bg-amber-950/40 px-3 py-1 font-mono text-[10px] uppercase tracking-wider text-amber-200 hover:bg-amber-900/60"
+                            className="flex items-center gap-1 rounded border void-border void-bg-sunk px-3 py-1 font-mono text-[10px] uppercase tracking-wider void-text-accent void-bg-sunk"
                           >
                             <Swords size={12} />
                             Sit
@@ -386,14 +386,14 @@ export default function Act6CardLadderPage() {
                 );
               })}
               {ladderComplete && (
-                <div className="rounded-md border border-emerald-500/40 bg-emerald-950/20 p-4">
+                <div className="rounded-md border void-border-success void-bg-success p-4">
                   <div className="flex items-center gap-2">
-                    <Trophy size={16} className="text-emerald-300" />
-                    <p className="font-mono text-[10px] uppercase tracking-wider text-emerald-300/90">
+                    <Trophy size={16} className="void-text-energy" />
+                    <p className="font-mono text-[10px] uppercase tracking-wider void-text-energy">
                       Both confessions held
                     </p>
                   </div>
-                  <p className="mt-2 font-serif text-[12px] italic text-emerald-100/80">
+                  <p className="mt-2 font-serif text-[12px] italic void-text-energy">
                     Two sacrifices, side by side. Neither apologised.
                     The Ark is warm. Return to the bridge when ready.
                   </p>
@@ -401,7 +401,7 @@ export default function Act6CardLadderPage() {
                     <button
                       type="button"
                       onClick={() => setView("stance")}
-                      className="mt-3 rounded border border-amber-500/60 bg-amber-950/40 px-3 py-1 font-mono text-[10px] uppercase tracking-wider text-amber-100 hover:bg-amber-900/60"
+                      className="mt-3 rounded border void-border void-bg-sunk px-3 py-1 font-mono text-[10px] uppercase tracking-wider void-text-accent void-bg-sunk"
                     >
                       Choose how to carry them
                     </button>
@@ -420,22 +420,22 @@ export default function Act6CardLadderPage() {
               transition={{ duration: 0.3 }}
               className="space-y-4"
             >
-              <div className="rounded-md border border-amber-500/40 bg-stone-950/60 p-5">
+              <div className="rounded-md border void-border void-bg-canvas p-5">
                 <p className={`font-mono text-[9px] uppercase tracking-wider ${subAccent}`}>
                   Match {currentOpponent.actStep} · {currentOpponent.name}
                 </p>
-                <p className="mt-2 font-serif text-[14px] text-amber-50">
+                <p className="mt-2 font-serif text-[14px] void-text-accent">
                   {currentOpponent.backstory}
                 </p>
                 {dialog?.frameIntro && (
-                  <p className={`mt-3 font-serif italic text-[12px] leading-relaxed text-amber-200/80`}>
+                  <p className={`mt-3 font-serif italic text-[12px] leading-relaxed void-text-accent`}>
                     {dialog.frameIntro}
                   </p>
                 )}
                 <p className={`mt-3 font-mono text-[9px] uppercase tracking-wider ${subAccent}`}>
                   Pre-match
                 </p>
-                <p className="mt-1 font-serif italic text-[13px] text-amber-100">
+                <p className="mt-1 font-serif italic text-[13px] void-text-accent">
                   "{currentOpponent.preMatchLine}"
                 </p>
               </div>
@@ -443,7 +443,7 @@ export default function Act6CardLadderPage() {
                 <button
                   type="button"
                   onClick={() => setView("ladder")}
-                  className="flex items-center gap-1 font-mono text-[10px] uppercase tracking-wider text-amber-300/80 hover:text-amber-100"
+                  className="flex items-center gap-1 font-mono text-[10px] uppercase tracking-wider void-text-accent void-text-accent"
                 >
                   <ChevronLeft size={12} />
                   Back
@@ -451,7 +451,7 @@ export default function Act6CardLadderPage() {
                 <button
                   type="button"
                   onClick={() => setView("battle")}
-                  className="flex items-center gap-2 rounded border border-amber-500/60 bg-amber-950/40 px-4 py-2 font-mono text-[10px] uppercase tracking-wider text-amber-100 hover:bg-amber-900/60"
+                  className="flex items-center gap-2 rounded border void-border void-bg-sunk px-4 py-2 font-mono text-[10px] uppercase tracking-wider void-text-accent void-bg-sunk"
                 >
                   <Play size={12} />
                   Begin
@@ -497,7 +497,7 @@ export default function Act6CardLadderPage() {
               transition={{ duration: 0.35 }}
               className="space-y-4"
             >
-              <div className="rounded-md border border-amber-500/40 bg-stone-950/60 p-5">
+              <div className="rounded-md border void-border void-bg-canvas p-5">
                 <div className="flex items-center justify-between">
                   <p className={`font-mono text-[9px] uppercase tracking-wider ${subAccent}`}>
                     {postMatchResult.outcome === "win"
@@ -507,19 +507,19 @@ export default function Act6CardLadderPage() {
                   <button
                     type="button"
                     onClick={handlePostMatchContinue}
-                    className="text-amber-300/80 hover:text-amber-100"
+                    className="void-text-accent void-text-accent"
                     aria-label="Close"
                   >
                     <X size={14} />
                   </button>
                 </div>
-                <p className="mt-2 font-serif text-[14px] italic text-amber-50">
+                <p className="mt-2 font-serif text-[14px] italic void-text-accent">
                   {postMatchResult.outcome === "win"
                     ? postMatchResult.opponent.postMatchWin
                     : postMatchResult.opponent.postMatchLoss}
                 </p>
                 {dialog && (
-                  <p className={`mt-3 font-serif italic text-[12px] leading-relaxed text-amber-200/80`}>
+                  <p className={`mt-3 font-serif italic text-[12px] leading-relaxed void-text-accent`}>
                     {postMatchResult.outcome === "win"
                       ? dialog.frameCloseWin
                       : dialog.frameCloseLoss}
@@ -530,7 +530,7 @@ export default function Act6CardLadderPage() {
                 <button
                   type="button"
                   onClick={handlePostMatchContinue}
-                  className="rounded border border-amber-500/60 bg-amber-950/40 px-4 py-2 font-mono text-[10px] uppercase tracking-wider text-amber-100 hover:bg-amber-900/60"
+                  className="rounded border void-border void-bg-sunk px-4 py-2 font-mono text-[10px] uppercase tracking-wider void-text-accent void-bg-sunk"
                 >
                   Continue
                 </button>
@@ -547,14 +547,14 @@ export default function Act6CardLadderPage() {
               transition={{ duration: 0.35 }}
               className="space-y-4"
             >
-              <div className="rounded-md border border-amber-500/40 bg-stone-950/60 p-5">
+              <div className="rounded-md border void-border void-bg-canvas p-5">
                 <p className={`font-mono text-[10px] uppercase tracking-[0.3em] ${subAccent}`}>
                   Act 6 · Close
                 </p>
-                <p className="mt-2 font-serif text-[15px] italic text-amber-50">
+                <p className="mt-2 font-serif text-[15px] italic void-text-accent">
                   Both confessions held. Choose how you carry them.
                 </p>
-                <p className="mt-3 font-serif text-[12px] leading-relaxed text-amber-100/80">
+                <p className="mt-3 font-serif text-[12px] leading-relaxed void-text-accent">
                   The Ark is warm. Neither of them is asking to be saved. The
                   only remaining question is what you do with the silence
                   after.
@@ -566,12 +566,12 @@ export default function Act6CardLadderPage() {
                     <button
                       type="button"
                       onClick={() => handleStanceChosen(stance.flag)}
-                      className="w-full rounded-md border border-amber-500/40 bg-amber-950/20 px-4 py-3 text-left hover:border-amber-400 hover:bg-amber-950/40"
+                      className="w-full rounded-md border void-border void-bg-sunk px-4 py-3 text-left void-border void-bg-sunk"
                     >
-                      <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-amber-200">
+                      <p className="font-mono text-[10px] uppercase tracking-[0.25em] void-text-accent">
                         {stance.label}
                       </p>
-                      <p className="mt-1 font-serif text-[12px] leading-relaxed italic text-amber-100/80">
+                      <p className="mt-1 font-serif text-[12px] leading-relaxed italic void-text-accent">
                         {stance.body}
                       </p>
                     </button>

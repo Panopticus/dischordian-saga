@@ -91,7 +91,15 @@ apps/client/src/game/duelyst/DuelystGameUI.tsx
 apps/client/src/game/duelyst/DuelystPage.tsx
 apps/client/src/game/duelyst/PackOpening.tsx
 apps/client/src/hooks/useOrientation.tsx
+apps/client/src/pages/AchievementsGalleryPage.tsx
+apps/client/src/pages/Act1C4TrialPage.tsx
 apps/client/src/pages/Act1CardLadderPage.tsx
+apps/client/src/pages/Act3CardLadderPage.tsx
+apps/client/src/pages/Act6CardLadderPage.tsx
+apps/client/src/pages/Act7CardLadderPage.tsx
+apps/client/src/pages/AdminHealthPage.tsx
+apps/client/src/pages/AdminPvpPage.tsx
+apps/client/src/pages/AntiquariansIndexPage.tsx
 apps/client/src/pages/ArkExplorerPage.tsx
 apps/client/src/pages/ArmyManagementPage.tsx
 apps/client/src/pages/CardAchievementsPage.tsx
