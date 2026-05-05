@@ -3096,6 +3096,14 @@ export const voteOptions = mysqlTable("vote_options", {
   id: int("id").primaryKey().autoincrement(),
   voteId: varchar("voteId", { length: 128 }).notNull(),
   optionNumber: int("optionNumber").notNull(),
+  /**
+   * Stable string id (e.g. "power_up", "ark-food"). Optional for
+   * legacy votes seeded before the consequence applier landed;
+   * required for new votes so the structured-consequence
+   * registry in apps/shared/governanceConsequenceMap.ts can
+   * resolve the winning option without ordinal coupling.
+   */
+  optionId: varchar("optionId", { length: 128 }),
   optionText: varchar("optionText", { length: 255 }).notNull(),
   description: text("description"),
   rewardOnWin: json("rewardOnWin"),
@@ -3115,6 +3123,136 @@ export const playerVotes = mysqlTable("player_votes", {
   /** Fast lookup by vote */
   voteIdx: index("idx_player_votes_vote").on(table.voteId),
 }));
+
+/* ═══════════════════════════════════════════════════════
+   ROMANCE LADDERS — per-player progression on each NPC
+   romance candidate. Sprint 2 #12-#16 of the choice-impact
+   roadmap. The audit named the gap: zero player-facing
+   romances vs. Bioware genre baseline.
+
+   stage ranges 0..5:
+     0 — not started
+     1 — Acquaintance (default flirt available)
+     2 — Mutual interest (one personal-quest beat unlocks)
+     3 — Commitment (exclusivity decision; locks competing romances)
+     4 — Intimacy (one fade-to-black or artistic scene)
+     5 — Devotion (post-romance reactivity in cutscenes)
+
+   Stage 3 commitment writes a public flag
+   `romance:committed:<npcId>` that other romance ladders'
+   gates check via reactsToPublicFlag — the existing Vex/Locke
+   exclusivity pattern, generalised.
+   ═══════════════════════════════════════════════════════ */
+export const romanceLadders = mysqlTable("romance_ladders", {
+  id: int("id").primaryKey().autoincrement(),
+  userId: int("userId").notNull(),
+  npcId: varchar("npcId", { length: 64 }).notNull(),
+  stage: int("stage").notNull().default(0),
+  /** Whether the player committed to exclusivity at stage 3.
+   *  Once true, advancing other ladders past stage 2 is gated. */
+  exclusive: boolean("exclusive").notNull().default(false),
+  /** Whether the romance ended (broken off / partner died /
+   *  player rejected). Stays in the table so post-romance
+   *  reactivity can fire ("the one I lost"). */
+  ended: boolean("ended").notNull().default(false),
+  startedAt: timestamp("startedAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  uniqueUserNpc: uniqueIndex("uq_romance_user_npc").on(table.userId, table.npcId),
+  userIdx: index("idx_romance_user").on(table.userId),
+}));
+export type RomanceLadder = typeof romanceLadders.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
+   FACTION STANDING — per-player reputation with the five
+   designed factions. Sprint 2 of the choice-impact roadmap;
+   the audit named this gap (no userFactionStanding column,
+   alignment lore unbacked by mechanics).
+
+   Standing range: -100 (sworn enemy) to +100 (champion). Each
+   row is a (userId, factionId) pair; rows are upserted via
+   factionStandingService.applyDelta. The service writes a
+   public flag at threshold crossings (faction:championed:* /
+   faction:enemied:*) so existing NPC banks read alignment via
+   the same mechanism as governance outcomes.
+   ═══════════════════════════════════════════════════════ */
+export const userFactionStanding = mysqlTable("user_faction_standing", {
+  id: int("id").primaryKey().autoincrement(),
+  userId: int("userId").notNull(),
+  factionId: varchar("factionId", { length: 64 }).notNull(),
+  standing: int("standing").notNull().default(0),
+  /** Highest standing ever reached — for "championed" achievements. */
+  peakStanding: int("peakStanding").notNull().default(0),
+  /** Lowest standing ever reached — for "enemied" achievements. */
+  troughStanding: int("troughStanding").notNull().default(0),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  userFactionUniq: uniqueIndex("uq_user_faction_standing").on(table.userId, table.factionId),
+  userIdx: index("idx_user_faction_standing_user").on(table.userId),
+}));
+export type UserFactionStanding = typeof userFactionStanding.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
+   VOTE TOME ENTRIES — Antiquarian inscriptions per closed vote.
+   Written exactly once when a vote's structured consequences
+   are applied (see voteConsequenceApplier). The Governance Hub
+   renders these to all players; `annotation` gates on
+   Antiquarian trust ≥ 60.
+   ═══════════════════════════════════════════════════════ */
+export const voteAntiquarianEntries = mysqlTable("vote_antiquarian_entries", {
+  id: int("id").primaryKey().autoincrement(),
+  voteId: varchar("voteId", { length: 128 }).notNull(),
+  winningOptionNumber: int("winningOptionNumber").notNull(),
+  body: text("body").notNull(),
+  annotation: text("annotation"),
+  inscribedAt: timestamp("inscribedAt").defaultNow().notNull(),
+}, (table) => ({
+  voteIdIdx: index("idx_vote_antiquarian_entries_vote").on(table.voteId),
+  uniqueVote: uniqueIndex("uq_vote_antiquarian_entries_vote").on(table.voteId),
+}));
+export type VoteAntiquarianEntry = typeof voteAntiquarianEntries.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
+   WORLD MODIFIERS — Active multipliers from vote outcomes,
+   seasonal events, and rehearsal protocols. Consumers
+   (combat scaling, crafting XP, daily-vote badge UI) query
+   `getActiveWorldModifiers()` and apply their own scaling.
+   ═══════════════════════════════════════════════════════ */
+export const worldModifiers = mysqlTable("world_modifiers", {
+  id: int("id").primaryKey().autoincrement(),
+  modifierKey: varchar("modifierKey", { length: 128 }).notNull(),
+  modifierType: varchar("modifierType", { length: 64 }).notNull(),
+  modifierValue: int("modifierValue").notNull(),
+  description: text("description"),
+  source: varchar("source", { length: 256 }),
+  startedAt: timestamp("startedAt").defaultNow().notNull(),
+  expiresAt: timestamp("expiresAt"),
+  isActive: boolean("isActive").default(true).notNull(),
+}, (table) => ({
+  modifierKeyIdx: index("idx_world_modifiers_key").on(table.modifierKey),
+  activeIdx: index("idx_world_modifiers_active").on(table.isActive),
+  uniqueKey: uniqueIndex("uq_world_modifiers_key").on(table.modifierKey),
+}));
+export type WorldModifier = typeof worldModifiers.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
+   DAILY GOVERNANCE VOTES — server-persisted ship-management
+   binary choices. Phase 2 of the governance wiring; replaces
+   the old client-only Zustand store. Per-day deterministic
+   template id; player choice tallied; winning side activates a
+   24-hour world modifier surfaced as a badge on the hub.
+   ═══════════════════════════════════════════════════════ */
+export const dailyGovernanceVotes = mysqlTable("daily_governance_votes", {
+  id: int("id").primaryKey().autoincrement(),
+  dateKey: varchar("dateKey", { length: 16 }).notNull(),
+  userId: int("userId").notNull(),
+  side: mysqlEnum("side", ["A", "B"]).notNull(),
+  votedAt: timestamp("votedAt").defaultNow().notNull(),
+}, (table) => ({
+  uniqueUserDate: uniqueIndex("uq_daily_governance_votes_user_date").on(table.dateKey, table.userId),
+  dateIdx: index("idx_daily_governance_votes_date").on(table.dateKey),
+}));
+export type DailyGovernanceVote = typeof dailyGovernanceVotes.$inferSelect;
 
 // ═══ ARCHITECT'S CONSOLE — Live Events ═══
 export const adminEvents = mysqlTable("admin_events", {

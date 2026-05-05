@@ -124,3 +124,147 @@ describe("companionComments — Act 2–7 reactive coverage", () => {
     expect(act2To7.some((c) => c.speaker === "human")).toBe(true);
   });
 });
+
+describe("companionComments — governance vote reactivity (Phase 3)", () => {
+  const REQUIRED_GOVERNANCE_TRIGGERS = [
+    "flag_set:governance:engineer_bench_powered",
+    "flag_set:governance:engineer_bench_contained",
+    "flag_set:governance:vex_told_engineer_truth",
+    "flag_set:governance:vex_kept_in_dark",
+    "flag_set:governance:ghost_network_endorsed",
+    "flag_set:governance:ghost_network_doubted",
+    "flag_set:governance:revolution_of_thought",
+    "flag_set:governance:violence_was_warranted",
+    "flag_set:governance:kael_chose_dissolution",
+    "flag_set:governance:kael_was_taken",
+    "flag_set:governance:annual_ark_food",
+    "flag_set:governance:annual_ark_research",
+    "flag_set:governance:annual_ark_culture",
+    "flag_set:governance:annual_ark_defense",
+  ] as const;
+
+  it("has at least one reactive line for every governance vote outcome", () => {
+    for (const trigger of REQUIRED_GOVERNANCE_TRIGGERS) {
+      const matches = COMPANION_COMMENTS.filter((c) => c.trigger === trigger);
+      expect(
+        matches.length,
+        `governance trigger "${trigger}" has no companion line`,
+      ).toBeGreaterThan(0);
+    }
+  });
+
+  it("the Engineer-arc Tell-Vex / Don't-Tell-Vex outcomes both have Antiquarian commentary", () => {
+    const tell = COMPANION_COMMENTS.filter(
+      (c) =>
+        c.trigger === "flag_set:governance:vex_told_engineer_truth" &&
+        c.speaker === "antiquarian",
+    );
+    const dontTell = COMPANION_COMMENTS.filter(
+      (c) =>
+        c.trigger === "flag_set:governance:vex_kept_in_dark" &&
+        c.speaker === "antiquarian",
+    );
+    expect(tell.length).toBeGreaterThan(0);
+    expect(dontTell.length).toBeGreaterThan(0);
+  });
+
+  it("governance triggers route to multiple speakers (not a single voice)", () => {
+    const govLines = COMPANION_COMMENTS.filter((c) =>
+      c.trigger.startsWith("flag_set:governance:"),
+    );
+    const speakers = new Set(govLines.map((c) => c.speaker));
+    expect(speakers.size).toBeGreaterThanOrEqual(3);
+  });
+});
+
+describe("companionComments — Act 6/7 path-aware callbacks (Bandersnatch Move 3)", () => {
+  /** Every Act 6/7 confession/landing trigger should have lines for
+   *  all three macro-paths (A=Disclosure, B=Discovery, C=Betrayal).
+   *  This is the path-lock pattern from act4OpponentDialog.ts
+   *  extended through Acts 5–7 per the audit recommendation.
+   */
+  const PATH_AWARE_BASE_TRIGGERS = [
+    "act6_elara_confession_heard",
+    "act6_human_confession_heard",
+    "act6_confession_close",
+    "act7_visible_war_won",
+    "act7_convergence_landing",
+    "act7_arc_closes",
+  ] as const;
+
+  for (const base of PATH_AWARE_BASE_TRIGGERS) {
+    it(`has all three path variants (_pathA / _pathB / _pathC) for "${base}"`, () => {
+      for (const suffix of ["_pathA", "_pathB", "_pathC"]) {
+        const trigger = `${base}${suffix}`;
+        const matches = COMPANION_COMMENTS.filter((c) => c.trigger === trigger);
+        expect(
+          matches.length,
+          `path-aware trigger "${trigger}" missing`,
+        ).toBeGreaterThan(0);
+      }
+    });
+  }
+
+  it("path C (Betrayal) lines never claim the relationship is unchanged", () => {
+    const pathCLines = COMPANION_COMMENTS.filter((c) =>
+      c.trigger.endsWith("_pathC"),
+    );
+    expect(pathCLines.length).toBeGreaterThan(0);
+    for (const line of pathCLines) {
+      // Cheap soft-canon check: the betrayal arc should not say
+      // "everything is fine" — that would invalidate the path's
+      // emotional cost. Spot-check for a few words an over-eager
+      // editor might insert.
+      const text = line.voiceLine.toLowerCase();
+      expect(text).not.toContain("forgiven and forgotten");
+      expect(text).not.toContain("never happened");
+    }
+  });
+});
+
+describe("companionComments — Bandersnatch Move 2 meta narrator lines", () => {
+  const REQUIRED_META_TRIGGERS = [
+    "meta:first_run_complete",
+    "meta:second_run_starts",
+    "meta:second_run_finished",
+    "meta:third_run_starts",
+    "meta:path_full_secret_committed",
+    "meta:humanity_path_third_time",
+    "meta:machine_path_first_choice",
+    "meta:balance_path_chosen",
+    "meta:silence_at_seat",
+    "meta:returning_player_recognised",
+    "meta:dischordia_carryover_high",
+    "meta:governance_pattern_consistent",
+  ] as const;
+
+  for (const trigger of REQUIRED_META_TRIGGERS) {
+    it(`has at least one meta line for "${trigger}"`, () => {
+      const matches = COMPANION_COMMENTS.filter((c) => c.trigger === trigger);
+      expect(matches.length).toBeGreaterThan(0);
+    });
+  }
+
+  it("most meta lines are voiced by the Antiquarian (canonical witness)", () => {
+    const metaLines = COMPANION_COMMENTS.filter((c) =>
+      c.trigger.startsWith("meta:"),
+    );
+    const antiquarianCount = metaLines.filter(
+      (c) => c.speaker === "antiquarian",
+    ).length;
+    expect(antiquarianCount).toBeGreaterThanOrEqual(metaLines.length / 2);
+  });
+
+  it("uses the word 'player' at most once across all meta lines (calibrated 4th-wall reach)", () => {
+    const metaLines = COMPANION_COMMENTS.filter((c) =>
+      c.trigger.startsWith("meta:"),
+    );
+    const occurrences = metaLines.filter((c) =>
+      c.voiceLine.toLowerCase().includes("player"),
+    );
+    // Bandersnatch tone: dropping the word 'player' is rare and
+    // intentional. Used at most once — the 'humanity_path_third_time'
+    // line is the single place we lean fully into it.
+    expect(occurrences.length).toBeLessThanOrEqual(1);
+  });
+});

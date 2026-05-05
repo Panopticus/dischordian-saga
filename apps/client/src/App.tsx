@@ -23,6 +23,8 @@ import AppShell from "./components/AppShellImmersive";
 import CommandConsole from "./components/CommandConsole";
 import AchievementToast from "./components/AchievementToast";
 import { CompanionCommentToast } from "./components/companion/CompanionCommentToast";
+import { useGovernanceCommentReplay } from "./hooks/useGovernanceCommentReplay";
+import { useMetaNarratorReplay } from "./hooks/useMetaNarratorReplay";
 import AchievementUnlockToast from "./components/AchievementUnlockToast";
 import RememberThisToast from "./components/RememberThisToast";
 import FeatureUnlockToast from "./components/FeatureUnlockToast";
@@ -550,6 +552,20 @@ function GameGate() {
 
   // A.8 Analytics — session tracking and page views
   useAnalytics();
+
+  // Governance vote-outcome NPC reactivity (Phase 3 — see
+  // /root/.claude/plans/analyze-the-entire-game-iterative-prism.md §3).
+  // Polls recent npc_public_flags written by the consequence
+  // applier and fires fireCompanionComment("flag_set:<flag>")
+  // for each new entry; the toast then surfaces the matching
+  // cc_gov_* line authored in companionComments.ts.
+  useGovernanceCommentReplay();
+
+  // Bandersnatch Move 2 — fires meta:* triggers based on prestige
+  // cycle, path flags, and stance choices. The Antiquarian
+  // acknowledges the player as a person making decisions across
+  // runs, without breaking the fourth wall hard.
+  useMetaNarratorReplay();
 
   // Liminal touches — title cycles when the tab is hidden, console
   // emits a morality-conditional boot banner once per session.

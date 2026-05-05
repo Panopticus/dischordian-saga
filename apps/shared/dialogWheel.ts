@@ -169,6 +169,23 @@ export const SEGMENT_META: Record<WheelSegment, {
  * (spec §Part 1.2). A separate contribution source tracks Ne-Yon crossings
  * via the ripple engine; see `unityMeterService`.
  */
+/** Stat-name aliases the dialog wheel skill-check honors as a
+ *  fallback when a Civil Skill of the same id isn't registered.
+ *  Resolves the long-standing collision flagged in the choice-impact
+ *  audit: a wheel option declares `requireSkill: { intelligence: 12 }`
+ *  but no Civil Skill named 'intelligence' exists; the check would
+ *  silently fail. Falling through to the player's RPG stat with the
+ *  same name lights up the existing 6-stat columns without a schema
+ *  change. */
+const STAT_FALLBACK_KEYS = new Set([
+  "strength",
+  "intelligence",
+  "agility",
+  "charisma",
+  "perception",
+  "willpower",
+]);
+
 export function getAvailableOptions(
   options: WheelOption[],
   context: {
@@ -179,6 +196,13 @@ export function getAvailableOptions(
     characterClass?: CharClass;
     element?: Element;
     alignment?: Alignment;
+    /** Optional RPG stat block (characterSheets columns). Used as a
+     *  fallback when a skill check references one of the six stat
+     *  names and no Civil Skill of that id is registered. */
+    stats?: Partial<Record<
+      "strength" | "intelligence" | "agility" | "charisma" | "perception" | "willpower",
+      number
+    >>;
   },
 ): WheelOption[] {
   const asArray = <T,>(v: T | T[] | undefined): T[] =>
@@ -188,8 +212,13 @@ export function getAvailableOptions(
     const gate = opt.gateCondition;
     if (!gate) return true;
     if (gate.minSkillLevel) {
-      const level = context.skills[gate.minSkillLevel.skillId] ?? 0;
-      if (level < gate.minSkillLevel.level) return false;
+      const skillId = gate.minSkillLevel.skillId;
+      const skillLevel = context.skills[skillId] ?? 0;
+      const statLevel = STAT_FALLBACK_KEYS.has(skillId)
+        ? (context.stats?.[skillId as keyof NonNullable<typeof context.stats>] ?? 0)
+        : 0;
+      const effectiveLevel = Math.max(skillLevel, statLevel);
+      if (effectiveLevel < gate.minSkillLevel.level) return false;
     }
     if (gate.minTrust) {
       const trust = context.npcTrust[gate.minTrust.npcId] ?? 0;

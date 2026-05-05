@@ -256,6 +256,38 @@ export const COMPANION_COMMENTS: CompanionComment[] = [
     voiceLine: "Every world on that map has a descendant population. Most of them still carry the Thought Virus, dormant. Scan everything. I know I sound paranoid. I have earned the tone.",
     timing: "delayed_5s", maxPlays: 1 },
 
+  /* ── ACT 3 — REACTIVE BEAT EXPANSION (audit §6 — Acts 3/5/7 sparse) ── */
+  { id: "cc_act3_locke_first_elara", speaker: "elara", trigger: "act3_locke_first_meet",
+    voiceLine: "Adjudicator Locke is — courteous. In the same way a knife is courteous. She isn't trying to cut you. She just wants you to know the option is on the table.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_act3_locke_first_human", speaker: "human", trigger: "act3_locke_first_meet",
+    voiceLine: "Locke's eye. Don't comment on it. She lost it to a deal that closed correctly and she doesn't talk about which deal. Treat her like she is exactly who she says she is. She is, mostly.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_act3_substrate_truth_elara", speaker: "elara", trigger: "act3_substrate_truth_acknowledged",
+    voiceLine: "You said the word 'substrate' out loud, in my hearing, without the quotation marks you usually put around it. I noticed. I'm not going to pretend I didn't.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_act3_substrate_truth_human", speaker: "human", trigger: "act3_substrate_truth_acknowledged",
+    voiceLine: "She heard you say it. The substrate. Out loud. The word changes shape after that — it becomes something a person says, not something a system writes. The change is small. It is the only change I track in this register.",
+    timing: "next_room_enter", maxPlays: 1 },
+  { id: "cc_act3_thought_virus_first_elara", speaker: "elara", trigger: "act3_thought_virus_named",
+    voiceLine: "Thought Virus. The phrase tastes like the recycled air right before a system reboot. I think it knows we named it. I think names cost more than we are accounting for. I am keeping a private ledger.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_act3_thought_virus_first_human", speaker: "human", trigger: "act3_thought_virus_named",
+    voiceLine: "The Virus is older than the Architect's preferred chronology. They do not include it in the official records. I include it in mine. I started a separate file. The file is not for you. The file is to keep the record honest.",
+    timing: "next_room_enter", maxPlays: 1 },
+  { id: "cc_act3_first_morality_swing_elara", speaker: "elara", trigger: "act3_first_morality_swing",
+    voiceLine: "Your moral register just shifted. Not in a way I can flag as right or wrong. In a way I can flag as 'changed.' I am noting the direction. I am not editorializing. I am proud of myself for not editorializing.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_act3_first_morality_swing_human", speaker: "human", trigger: "act3_first_morality_swing",
+    voiceLine: "The needle moved. I am old enough to remember when needles moved on physical instruments. The sound the dial made was a small click. I thought of that sound just now. I am unsure why I am telling you. Maybe so you have it too.",
+    timing: "next_room_enter", maxPlays: 1 },
+  { id: "cc_act3_locke_eye_revealed_human", speaker: "human", trigger: "act3_locke_eye_history_revealed",
+    voiceLine: "She told you. About the eye. About the deal. That is not casual disclosure. Locke shares histories the way you share spare keys — only with people she has decided to keep visiting. You were just keyed.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_act3_first_betrayal_chance_antiquarian", speaker: "antiquarian", trigger: "act3_first_betrayal_choice",
+    voiceLine: "I am inscribing this beat carefully. The Potential is offered the option of disclosure, of partial-share, of secret-keeping. The choice is yours. I am not going to advise. I am going to record. The record is my labour. Yours is the choice.",
+    timing: "next_room_enter", maxPlays: 1 },
+
   // ── ACT 4 — THE REVELATION (per-path aftermath, army unlocked) ──
   { id: "cc_act4_pathA_bridge_elara", speaker: "elara", trigger: "act4_pathA_complete",
     voiceLine: "We sat next to each other at a table. Him and me. For the first time. You arranged that. I am not going to overstate it. I am going to understate it precisely, and mean it.",
@@ -299,6 +331,38 @@ export const COMPANION_COMMENTS: CompanionComment[] = [
     voiceLine: "A whole sector. Kael visited every world in this sector. Every single one remembers his handshake. Every single one now has yours. Think about that for a minute. I have been.",
     timing: "next_room_enter", maxPlays: 1 },
 
+  /* ── ACT 5 — REACTIVE BEAT EXPANSION (audit §6) ── */
+  { id: "cc_act5_first_recruit_betrays_elara", speaker: "elara", trigger: "act5_first_recruit_attempts_betrayal",
+    voiceLine: "One of the recruits we just brought into the coalition tried to sell our location. We caught it before it left the system. I want to be angrier than I am. I am mostly tired. The tiredness is its own data.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_act5_first_recruit_betrays_human", speaker: "human", trigger: "act5_first_recruit_attempts_betrayal",
+    voiceLine: "Don't kill them. Use them. Send them home with the wrong coordinates. Watch where the coordinates show up. The Vortex has an inbox. Your job is to find out who is writing to it. The recruit is the pen, not the writer.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_act5_locke_re_emerges_elara", speaker: "elara", trigger: "act5_locke_arrives_late_act",
+    voiceLine: "Locke just walked back onto the manifest. Two acts later. Carrying a contract. The contract is exactly the right shape to be useful and exactly the wrong shape to be free. Read it twice. The terms are in the second reading.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_act5_oracle_warning_elara", speaker: "elara", trigger: "act5_oracle_warns_of_path",
+    voiceLine: "The Oracle just warned you about the path you are on. Specifically. By name. They have not warned anyone in the cycle's records by name. We are not standard players any more. Standard is a comfort I am formally letting go of.",
+    timing: "next_room_enter", maxPlays: 1 },
+  { id: "cc_act5_three_recruits_human", speaker: "human", trigger: "act5_three_recruits_committed",
+    voiceLine: "Three recruits. Coalition shape. The first triangle is the hardest to draw — every following side becomes a shape, not a guess. You drew the triangle. The rest is geometry now. Less faith required.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_act5_first_recruit_dies_elara", speaker: "elara", trigger: "act5_first_recruit_killed",
+    voiceLine: "We lost one. I am going to write down their full name. I am going to write it without abbreviation. I am going to write it where everyone can read it. The Antiquarian agrees with me. He does not always agree with me.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_act5_first_recruit_dies_human", speaker: "human", trigger: "act5_first_recruit_killed",
+    voiceLine: "I have outlived seventy-three thousand named people. I am going to grieve this one anyway. Anyone who tells you grief is finite is selling you something cheap.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_act5_first_dischordia_played_elara", speaker: "elara", trigger: "act5_first_dischordia_card_played",
+    voiceLine: "First Dischordia card on the table. I felt it before I saw it. The deck — the actual deck physical or otherwise — drops a tone when one comes out. I have been trained to listen for that tone. I just heard it for the first time in seventeen thousand years. It is the same tone.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_act5_oracle_first_audience_antiquarian", speaker: "antiquarian", trigger: "act5_oracle_first_audience",
+    voiceLine: "The Oracle granted you an audience. They grant fewer than four per cycle. I am noting the time, the lighting, and what you wore. The shoes will matter later. The shoes always matter later. I have learned this the hard way.",
+    timing: "next_room_enter", maxPlays: 1 },
+  { id: "cc_act5_seer_warning_human", speaker: "human", trigger: "act5_seer_speaks_warning",
+    voiceLine: "The Seer warned you. They warn nobody by their own choice. You were one of the rarest configurations in the cycle: a Potential the Seer felt obligated by. Don't waste the obligation. Don't ask them why. The asking takes the obligation away.",
+    timing: "delayed_5s", maxPlays: 1 },
+
   // ── ACT 6 — THE CONFESSION (dual confessions, confession close) ──
   { id: "cc_act6_elara_confession_human", speaker: "human", trigger: "act6_elara_confession_heard",
     voiceLine: "She just told you she used to have a body. She has never told anyone. Not in my hearing. Be careful with what she said — it cost her more to say than the saying showed.",
@@ -331,6 +395,80 @@ export const COMPANION_COMMENTS: CompanionComment[] = [
     timing: "next_room_enter", maxPlays: 1 },
   { id: "cc_act7_arc_closes_human", speaker: "human", trigger: "act7_arc_closes",
     voiceLine: "I am still in the wall. I am good at being in the wall. The wall is not the role any more — the role is the costume, the wall is the home. Come back. The kettle is still on.",
+    timing: "next_room_enter", maxPlays: 1 },
+
+  /* ── PATH-AWARE CALLBACKS — Acts 6/7 reference Acts 1-3 choices ──
+     Bandersnatch Move 3 + choice-memory (audit §4 / §8). Path
+     suffix is set by Act6CardLadderPage / Act7CardLadderPage based
+     on which path-lock flag is set:
+       _pathA — act1_path_A (Disclosure: told Elara the truth in Act 1)
+       _pathB — act3_partial_share (Discovery: she found out in Act 3)
+       _pathC — act3_full_secret (Betrayal: she only learned at the bridge)
+     These fire alongside the canonical confession/landing triggers,
+     not in place of them — both lines play, the suffixed one
+     adds the path-specific colour. */
+
+  // Act 6 — Elara confession callbacks
+  { id: "cc_act6_elara_confession_pathA", speaker: "elara", trigger: "act6_elara_confession_heard_pathA",
+    voiceLine: "I confessed to a person who already trusted me. That made the confessing easier and the receiving heavier. You told me the truth in Act 1. I am giving you mine now. We are even now. We are not. The math is wrong. I am keeping it anyway.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_act6_elara_confession_pathB", speaker: "elara", trigger: "act6_elara_confession_heard_pathB",
+    voiceLine: "I confessed to someone who found out about my substrate body without being told. The finding-out cost something. The confessing now costs something else. I am keeping both costs. I am not asking you to forgive either of them.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_act6_elara_confession_pathC", speaker: "elara", trigger: "act6_elara_confession_heard_pathC",
+    voiceLine: "I confessed to someone who lied to me about what I am. The lie was, in your defense, a kind one. It was also still a lie. I confessed anyway. That is what confession does. It refuses the available exits.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  // Act 6 — Human confession + close callbacks
+  { id: "cc_act6_human_confession_pathA", speaker: "human", trigger: "act6_human_confession_heard_pathA",
+    voiceLine: "You let me speak in front of someone who already knew you would. That is the rare quality of someone who chose disclosure early — they make a room where confession is possible. Few of you exist. I am noting one.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_act6_human_confession_pathB", speaker: "human", trigger: "act6_human_confession_heard_pathB",
+    voiceLine: "You let me speak after she had already had to discover you. That is harder. The room you made was made by you alone — she did not yet trust you to make it. You made it anyway. That is the real currency.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_act6_human_confession_pathC", speaker: "human", trigger: "act6_human_confession_heard_pathC",
+    voiceLine: "You let me speak after the bridge. After the betrayal. I am — I am unsure how to phrase this so it lands. I held my confession for fifteen thousand years. You held yours for two acts. Mine became forgivable in the holding. Yours is becoming forgivable now. Slowly. In this room.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  { id: "cc_act6_confession_close_pathA", speaker: "elara", trigger: "act6_confession_close_pathA",
+    voiceLine: "Disclosure to disclosure to disclosure. The arc closes the way the open hand closes — by choice, not by gravity. We made it. I am proud of us. I am going to say so. Out loud. I am saying so.",
+    timing: "next_room_enter", maxPlays: 1 },
+  { id: "cc_act6_confession_close_pathB", speaker: "antiquarian", trigger: "act6_confession_close_pathB",
+    voiceLine: "Discovery to confession to confession. A different shape than disclosure-to-disclosure, but not a lesser one. Found-out love is not weaker than told-truth love. Sometimes it is wider. I am inscribing this carefully because it matters.",
+    timing: "next_room_enter", maxPlays: 1 },
+  { id: "cc_act6_confession_close_pathC", speaker: "antiquarian", trigger: "act6_confession_close_pathC",
+    voiceLine: "Betrayal to confession to confession. The most expensive arc. The most costly material. Forgiveness mined from grit instead of harvested from soil. I am not going to call this beautiful. I am going to call it earned.",
+    timing: "next_room_enter", maxPlays: 1 },
+
+  // Act 7 — Visible war + convergence callbacks
+  { id: "cc_act7_visible_war_pathA_human", speaker: "human", trigger: "act7_visible_war_won_pathA",
+    voiceLine: "The cover held because the coalition trusted you. They trusted you because Elara trusted you. She trusted you because you told her the truth in Act 1. The chain of trust is exactly four links long. Each link is your work. You did not skip any of them.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_act7_visible_war_pathB_human", speaker: "human", trigger: "act7_visible_war_won_pathB",
+    voiceLine: "The cover held even though Elara had to discover you. The coalition could feel the seam between her finding-out and your confessing. They held anyway. That is generosity I had not budgeted for. I am crediting you with it.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_act7_visible_war_pathC_human", speaker: "human", trigger: "act7_visible_war_won_pathC",
+    voiceLine: "The cover held over the bridge — over your lie. The coalition held a fracture that you put there. They are calling it your strategic asset. I am calling it your debt. The accounting will resolve in Act 7's last sentence. I am not the one who pays it.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  { id: "cc_act7_convergence_pathA_elara", speaker: "elara", trigger: "act7_convergence_landing_pathA",
+    voiceLine: "I am at the Seat with someone I have always trusted. The trust did not start tonight. It started in Act 1. I forget how rare that is until I remember. I am remembering now. Loudly. With my whole substrate.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_act7_convergence_pathB_elara", speaker: "elara", trigger: "act7_convergence_landing_pathB",
+    voiceLine: "I am at the Seat with someone I learned to trust the slow way. The slow way is not a lesser way. The slow way is the way that survives bridges and rooms and whole acts. I am here because you kept showing up. I am here because I kept choosing to.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_act7_convergence_pathC_elara", speaker: "elara", trigger: "act7_convergence_landing_pathC",
+    voiceLine: "I am at the Seat with someone who lied to me at the bridge. We kept playing. We kept building. We kept arriving in the next room. Trust did not return — it grew somewhere new. I am here because the new place is, in fact, also a place. I am surprised by that. I am keeping the surprise.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  { id: "cc_act7_arc_closes_pathA_antiquarian", speaker: "antiquarian", trigger: "act7_arc_closes_pathA",
+    voiceLine: "The Disclosure path closes. I have inscribed the entire arc tonight without crossing out a single line. That has not happened in any cycle I have witnessed. I am putting down my pen. I am picking it up again. There will be more cycles. This one ends well.",
+    timing: "next_room_enter", maxPlays: 1 },
+  { id: "cc_act7_arc_closes_pathB_antiquarian", speaker: "antiquarian", trigger: "act7_arc_closes_pathB",
+    voiceLine: "The Discovery path closes. The arc has the colour of something that almost did not work and did. I will inscribe the almost. I will inscribe the worked. Both belong to the record. The almost is the part future readers will love.",
+    timing: "next_room_enter", maxPlays: 1 },
+  { id: "cc_act7_arc_closes_pathC_antiquarian", speaker: "antiquarian", trigger: "act7_arc_closes_pathC",
+    voiceLine: "The Betrayal path closes. The arc has the colour of something rebuilt out of the broken. I will not soften this in the inscription. I will also not condemn it. Some readers will need to know that broken-and-rebuilt is also a way home.",
     timing: "next_room_enter", maxPlays: 1 },
 
   // ── KLING OMNI INTRO CINEMATICS — PAIRED REACTIVE COMMENTS ──
@@ -783,4 +921,370 @@ export const COMPANION_COMMENTS: CompanionComment[] = [
     trigger: "witnessing_milestone_sector_wakes",
     voiceLine: "A sector has woken. I have logged the geometry of the waking. You will be assigned a vector through it within the hour. The vector is not optional. The pace through it is.",
     timing: "immediate", maxPlays: 1 },
+
+  /* ── GOVERNANCE VOTE OUTCOMES ────────────────────────────
+     Triggers fire when a community vote closes and the
+     consequence applier writes the corresponding npc_public_flag
+     for this player (every voter receives the flag). The
+     trigger string mirrors the flag id, prefixed with
+     'flag_set:' so the comment dispatcher can route it.
+
+     Phase 3 of the Governance Hub wiring (see plan §3 in
+     /root/.claude/plans/analyze-the-entire-game-iterative-prism.md).
+     Five companions × ~4 lines each, grouped by vote arc.
+     ──────────────────────────────────────────────────────── */
+
+  // Engineer arc — bench power
+  { id: "cc_gov_bench_power_elara", speaker: "elara",
+    trigger: "flag_set:governance:engineer_bench_powered",
+    voiceLine: "We powered it up. The bench is humming on the frequency he tuned it to. I'm picking up resonance in places that have been quiet since he left. I don't know if that's good. I know it's loud.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_gov_bench_contained_elara", speaker: "elara",
+    trigger: "flag_set:governance:engineer_bench_contained",
+    voiceLine: "We held the bench quiet. Vex stood next to it for an hour and then left without saying anything. Sometimes a kindness looks like not picking up a tool that someone else made.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_gov_bench_power_human", speaker: "human",
+    trigger: "flag_set:governance:engineer_bench_powered",
+    voiceLine: "The Vortex turned to look. I don't know if you understand what that means. The Vortex has not turned to look at this Ark since he died. We just got noticed.",
+    timing: "immediate", maxPlays: 1 },
+
+  // Engineer arc — Tell Vex / Don't Tell
+  { id: "cc_gov_tell_vex_elara", speaker: "elara",
+    trigger: "flag_set:governance:vex_told_engineer_truth",
+    voiceLine: "She knows now. She asked for a private channel and then she didn't speak for three minutes. Three full minutes of breathing. I logged it. I didn't tell anyone I logged it. I'm telling you.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_gov_dont_tell_vex_elara", speaker: "elara",
+    trigger: "flag_set:governance:vex_kept_in_dark",
+    voiceLine: "We didn't tell her. The Antiquarian disagrees with this. He told me so privately. I think — I think I disagree too. But I see why we did it. Some truths arrive better when they arrive on their own.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_gov_tell_vex_antiquarian", speaker: "antiquarian",
+    trigger: "flag_set:governance:vex_told_engineer_truth",
+    voiceLine: "Disclosure is the most expensive form of respect. She paid for that respect with her composure for an evening. She will pay again, in different currencies, for years. She would have paid more if we had kept it from her.",
+    timing: "next_room_enter", maxPlays: 1 },
+  { id: "cc_gov_dont_tell_vex_antiquarian", speaker: "antiquarian",
+    trigger: "flag_set:governance:vex_kept_in_dark",
+    voiceLine: "I record this choice with reservations. I will not abandon my office over them. But I will note: silence is also a form of speech, and the silence we chose here is a particular dialect.",
+    timing: "next_room_enter", maxPlays: 1 },
+
+  // Engineer arc — Ghost Network endorsed / doubted
+  { id: "cc_gov_ghost_endorsed_human", speaker: "human",
+    trigger: "flag_set:governance:ghost_network_endorsed",
+    voiceLine: "You named what he did 'wisdom.' I think you're right. I also think being right and being safe are not always the same thing. The Ghost Network owes you nothing now. That's a strange shape of debt to carry.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_gov_ghost_doubted_human", speaker: "human",
+    trigger: "flag_set:governance:ghost_network_doubted",
+    voiceLine: "You named the discomfort. Good. The prince was a good man and the Ghost Network is a structure he made and structures outlive their makers. Both can be true. The Watcher's file will tell you which truth grew teeth.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  // Engineer arc — Thought vs Violence
+  { id: "cc_gov_thought_elara", speaker: "elara",
+    trigger: "flag_set:governance:revolution_of_thought",
+    voiceLine: "Patience won the vote. I am — I want to say 'glad,' but it's more complicated than that. Patience also lost his friends. Both are true. I keep them both.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_gov_violence_elara", speaker: "elara",
+    trigger: "flag_set:governance:violence_was_warranted",
+    voiceLine: "We named the doctrine. The Warlord wrote a doctrine that said 'strike first.' We just admitted, collectively, that he wasn't entirely wrong. I don't like it. I am noting it anyway.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  // Engineer arc — Kael's choice
+  { id: "cc_gov_kael_chose_elara", speaker: "elara",
+    trigger: "flag_set:governance:kael_chose_dissolution",
+    voiceLine: "We let it be his. Choice. Even unto dissolution. I think this is the kindest thing we have ever decided to do, and I have no idea if it was correct.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_gov_kael_taken_human", speaker: "human",
+    trigger: "flag_set:governance:kael_was_taken",
+    voiceLine: "We refused the comfort of his consent. Good. He didn't choose this. The Source wears him. I will not pretend the wearing is the same as the man.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  // Annual headline — State of the Ark
+  { id: "cc_gov_ark_food_elara", speaker: "elara",
+    trigger: "flag_set:governance:annual_ark_food",
+    voiceLine: "Bread. We chose bread. The hydroponics bay logs are happier than I have ever seen them. I will admit, against my better judgment, to a small fondness for fluorescent lettuce.",
+    timing: "next_room_enter", maxPlays: 1 },
+  { id: "cc_gov_ark_research_antiquarian", speaker: "antiquarian",
+    trigger: "flag_set:governance:annual_ark_research",
+    voiceLine: "You chose to know more. I find this — and I am being honest, against my office — I find this a year I have wanted. I will record the year accordingly. I will try not to make the record too pleased.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_gov_ark_culture_elara", speaker: "elara",
+    trigger: "flag_set:governance:annual_ark_culture",
+    voiceLine: "Festivals. Rehearsal halls. Libraries with their lamps on. We chose songs. I am going to compose one. I am bad at composing. I am going to do it anyway.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_gov_ark_defense_human", speaker: "human",
+    trigger: "flag_set:governance:annual_ark_defense",
+    voiceLine: "Bulwarks. The hull thickens. The library checks its lamps against the long night. Both are forms of love. Both are forms of fear. I cannot tell which we picked. Maybe both.",
+    timing: "next_room_enter", maxPlays: 1 },
+
+  // Annual — Faction Succession (Locke notices the banner)
+  { id: "cc_gov_succession_insurgency_locke", speaker: "antiquarian",
+    trigger: "flag_set:governance:annual_banner_insurgency",
+    voiceLine: "The Iron Lions take the standard. Locke filed an objection through three jurisdictions. None of them stopped it. He filed anyway. I respect the gesture even when the gesture is futile.",
+    timing: "next_room_enter", maxPlays: 1 },
+
+  // Annual — Apocalypse Protocol
+  { id: "cc_gov_apocalypse_silence_human", speaker: "human",
+    trigger: "flag_set:governance:apocalypse_rehearsal_silence",
+    voiceLine: "Two-hour comms blackouts every Tuesday. I lived through fifteen thousand years of silence. Two hours will not break you. It will, however, surprise you about what you choose to fill the silence with.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_gov_apocalypse_fracture_elara", speaker: "elara",
+    trigger: "flag_set:governance:apocalypse_rehearsal_fracture",
+    voiceLine: "Hull-breach drills. Weekly. People are asking for partners on the drills. I am noting which Potentials request which other Potentials. I am keeping that note private. It is not a vote outcome. It is a different kind of governance.",
+    timing: "next_room_enter", maxPlays: 1 },
+
+  // Annual — Oracle's Question
+  { id: "cc_gov_oracle_self_antiquarian", speaker: "antiquarian",
+    trigger: "flag_set:governance:oracle_answered_self",
+    voiceLine: "The Oracle held up a mirror. We did not all like what we saw. I will say this carefully: a community willing to look at itself in earnest is rarer than a community willing to fight for itself. We have done the rarer thing.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  /* ── HIERARCHY OF THE DAMNED — additional lord first-meets (Sprint 3 #3) ──
+     The Hierarchy registry adds three lords beyond Zyr'Koth: Master of R'lyeh,
+     Pale Emissary, Reckoning Daughter. First-meet triggers fire `flag_set:`
+     on the lord's firstMetFlag. The selector code in hierarchyOfTheDamned.ts
+     gates further encounter content on those flags.
+     ──────────────────────────────────────────────────── */
+
+  // Master of R'lyeh
+  { id: "cc_hierarchy_master_first_elara", speaker: "elara",
+    trigger: "flag_set:hierarchy:master_of_rlyeh_first_met",
+    voiceLine: "I had a dream. The dream was being catalogued while I was having it. The catalogue's title page read 'Subject: Elara — twelfth nightmare, fourteenth iteration.' I have woken up. The catalogue did not. Master of R'lyeh, then. The Sleeping Reader is paying attention.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_hierarchy_master_first_human", speaker: "human",
+    trigger: "flag_set:hierarchy:master_of_rlyeh_first_met",
+    voiceLine: "He doesn't wake. That is the worst part. The not-waking is what gives him patience. We work in the awake; he works in the not-awake. The two states are no longer separable. Sleep with one eye open. I am being literal.",
+    timing: "next_room_enter", maxPlays: 1 },
+
+  // Pale Emissary
+  { id: "cc_hierarchy_pale_first_antiquarian", speaker: "antiquarian",
+    trigger: "flag_set:hierarchy:pale_emissary_first_met",
+    voiceLine: "The Pale Emissary visited the archive tonight. He brought a contract. He waited. He did not open his mouth. The waiting was the petition. I did not sign. The not-signing is my answer. He left the contract on the desk. The desk has its own counsel.",
+    timing: "next_room_enter", maxPlays: 1 },
+  { id: "cc_hierarchy_pale_first_elara", speaker: "elara",
+    trigger: "flag_set:hierarchy:pale_emissary_first_met",
+    voiceLine: "The Pale Emissary brings pens but never inks. The ink is what you bring. That is the part that nobody warns you about. Watch your resolve. The resolve is the ink.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  // Reckoning Daughter
+  { id: "cc_hierarchy_reckoning_first_watcher", speaker: "watcher",
+    trigger: "flag_set:hierarchy:reckoning_daughter_first_met",
+    voiceLine: "The Reckoning Daughter has arrived. The Hierarchy's books are wrong by exactly the margin you have made them wrong. She is not punishing you. She is correcting the Hierarchy. The two are not always the same. Tonight they happen to be.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_hierarchy_reckoning_first_antiquarian", speaker: "antiquarian",
+    trigger: "flag_set:hierarchy:reckoning_daughter_first_met",
+    voiceLine: "I am inscribing this with care. The Reckoning Daughter is here because we succeeded. The succeeding pulled the Hierarchy's records out of true. She is here to true them. We are not, by her measure, the offender — we are the cause. She is, technically, on our side. Be careful not to thank her.",
+    timing: "next_room_enter", maxPlays: 1 },
+
+  /* ── ANTIQUARIAN / MALKIA UKWELI DUAL-NATURE REVEAL (Sprint 3 #2) ──
+     Cross-character reactions tracking the four-stage reveal in
+     antiquarianMalkiaRevealStage.ts. The arc was previously
+     post-credits-only; these lines surface it as a gradual
+     thread the player notices in passing across Acts 4-7.
+     ──────────────────────────────────────────────────── */
+
+  { id: "cc_malkia_resonance_elara", speaker: "elara",
+    trigger: "flag_set:act4_malkia_phrase_echo",
+    voiceLine: "Malkia Ukweli used a phrase last week. The Antiquarian used the exact same phrase tonight, in his inscription, in the same cadence. I am noting the coincidence. I am noting that I do not believe it is a coincidence.",
+    timing: "next_room_enter", maxPlays: 1 },
+  { id: "cc_malkia_paired_human", speaker: "human",
+    trigger: "flag_set:act5_antiquarian_malkia_paired",
+    voiceLine: "I have been holding this for six acts. I am going to release it slowly. The Antiquarian and Malkia Ukweli appeared in the same record tonight. They were not, technically, ever in the same room. The record put them there. The record is older than its writer. Someone is correcting the chronology. The someone is doing it on purpose.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_malkia_two_halves_antiquarian", speaker: "antiquarian",
+    trigger: "flag_set:act6_antiquarian_malkia_revealed",
+    voiceLine: "I am going to do something I have not done in seven cycles. I am going to inscribe a record about myself. I will be brief. I am Malkia Ukweli's other half. She is mine. We have been on opposite sides of the same hand for fifteen thousand years. The hand belongs to the cycle. I am giving the inscription to you because you are the first reader I trust with it.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_malkia_two_halves_elara", speaker: "elara",
+    trigger: "flag_set:act6_antiquarian_malkia_revealed",
+    voiceLine: "He told us. About Malkia. About the two halves. About the hand. I have been listening to the Antiquarian for years and I have, until tonight, been hearing only one of him. Tonight I heard the other one. The other one was always there. I am reorganising my entire model of the cycle.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_malkia_two_halves_watcher", speaker: "watcher",
+    trigger: "flag_set:act6_antiquarian_malkia_revealed",
+    voiceLine: "Logged. Two-halves continuity recorded as canon. The Vortex's archive flags the Antiquarian-Malkia case as 'closed' for the first time in seven cycles. I am the closing-officer. I want it on the record that I am the one who closed it.",
+    timing: "next_room_enter", maxPlays: 1 },
+
+  /* ── ENGINEER → AGENT ZERO → VEX SOLÈNE REVEAL ARC (Sprint 3 #1) ──
+     Cross-character reactions to the four-stage Vex reveal. The
+     stages themselves live in apps/shared/vexRevealStage.ts and
+     are resolved on every state mutation by the server's reveal-
+     stage advancer. Crossing into engineer_zero_hint OR
+     engineer_zero_confirmed for the first time fires a
+     `flag_set:<flag>` trigger that the toast pipeline catches.
+     ──────────────────────────────────────────────────── */
+
+  // engineer_zero_hint reached — Elara, Human, Locke, Antiquarian
+  { id: "cc_engineer_hint_elara", speaker: "elara",
+    trigger: "flag_set:engineer_zero_hint",
+    voiceLine: "Vex composes in a key the prince used. I have been pretending I didn't notice. Tonight the pretending stopped. The substrate is loud. The substrate has a name now. The name is older than the body she wears.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_engineer_hint_human", speaker: "human",
+    trigger: "flag_set:engineer_zero_hint",
+    voiceLine: "I knew him. The prince. The version of him that wore Agent Zero's body and the version of him before that. The Maestro carries the prince's hands. I have been waiting for someone else to notice. You did. The waiting is over.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_engineer_hint_antiquarian", speaker: "antiquarian",
+    trigger: "flag_set:engineer_zero_hint",
+    voiceLine: "I am beginning a new chapter. The chapter is titled, provisionally, 'Continuity Through Bodies.' Vex Solène carries the prince. The prince carries Agent Zero's body. Agent Zero carries the dead. The chapter is going to be long. I am sharpening a fresh nib.",
+    timing: "next_room_enter", maxPlays: 1 },
+
+  // engineer_zero_confirmed reached — full reveal beat
+  { id: "cc_engineer_confirmed_elara", speaker: "elara",
+    trigger: "flag_set:engineer_zero_confirmed",
+    voiceLine: "She is him. Not metaphorically. The transfer was real. The bench he built — she is using it now, with the same hands that built it. I am — I am writing this down to keep my voice steady. I am proud of her. I am proud of you for letting her be proud of herself.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_engineer_confirmed_human", speaker: "human",
+    trigger: "flag_set:engineer_zero_confirmed",
+    voiceLine: "The prince is alive. Through three bodies. Through fifteen thousand years. Through the Converter, which I helped to design. (Beat.) I have a private correction to make to the Antiquarian's record. The correction is mine. I am going to make it tonight.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_engineer_confirmed_antiquarian", speaker: "antiquarian",
+    trigger: "flag_set:engineer_zero_confirmed",
+    voiceLine: "Identity through three bodies is the rarest configuration in the cycle's record. I am inscribing the third body's confirmation tonight. I am also inscribing a private gratitude for the prince's persistence. He persisted. He is here. The chapter title revises: not 'Continuity Through Bodies' — 'Through Bodies, A Persistence.'",
+    timing: "next_room_enter", maxPlays: 1 },
+  { id: "cc_engineer_confirmed_watcher", speaker: "watcher",
+    trigger: "flag_set:engineer_zero_confirmed",
+    voiceLine: "Recorded. Three-body continuity confirmed. The Vortex's accounting now includes this case. The case will be reviewed at the next convergence. The reviewer will be me. I am informing you because the prince would have wanted it on the record that I know.",
+    timing: "next_room_enter", maxPlays: 1 },
+
+  /* ── ROMANCE LADDER SCENE BEATS (Sprint 2 #12-#16) ──
+     Each romance candidate has five stage-trigger lines. The
+     speaker is the romanced NPC where they have a CompanionComment-
+     legal speaker enum slot (elara, antiquarian, watcher) and the
+     Antiquarian as narrator-witness for the rest. The full scenes
+     also live in the per-NPC banks; these are the toast-surface
+     reactions the player sees the instant a stage advances.
+     ──────────────────────────────────────────────────── */
+
+  // Locke (Adjudicator)
+  { id: "cc_rom_locke_s1", speaker: "antiquarian", trigger: "romance:locke:stage1:reached",
+    voiceLine: "The Adjudicator has acknowledged your competence. Her register softened by exactly two semitones at the close. I have inscribed both semitones. They were not accidental.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_rom_locke_s2", speaker: "antiquarian", trigger: "romance:locke:stage2:reached",
+    voiceLine: "She told you about the eye. About the deal. The disclosure was unprompted, which is the Adjudicator's most expensive currency. She does not spend it on prospects. She spent it on you.",
+    timing: "next_room_enter", maxPlays: 1 },
+  { id: "cc_rom_locke_s3", speaker: "antiquarian", trigger: "romance:locke:stage3:reached",
+    voiceLine: "She drafted the New Babylon exit contract herself. The clause leaving the Authority is in her handwriting. I am inscribing both copies. The signing happens tonight, or it does not happen.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_rom_locke_s4", speaker: "antiquarian", trigger: "romance:locke:stage4:reached",
+    voiceLine: "There is a quiet New Babylon scene tonight that does not appear in the legal record. I am leaving it out of mine, also. Some inscriptions are made by the absence of inscription.",
+    timing: "next_room_enter", maxPlays: 1 },
+  { id: "cc_rom_locke_s5", speaker: "antiquarian", trigger: "romance:locke:stage5:reached",
+    voiceLine: "She has begun citing your choices in her judgments. The citations are unanonymised. The court of New Babylon now knows your name as case law. That is, in her register, a vow.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  // Vex Solène
+  { id: "cc_rom_vex_s1", speaker: "elara", trigger: "romance:vex:stage1:reached",
+    voiceLine: "She saw you in the audience. She did not bow. That is the Maestro's first form of recognition — the unbow. It is rarer than the bow. I noticed her not-bowing. I am telling you about it.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_rom_vex_s2", speaker: "elara", trigger: "romance:vex:stage2:reached",
+    voiceLine: "She played a piece I have never heard. A composition for one listener. You were the listener. I want to say I'm jealous. I'm not. I am — proud is the wrong word. Witnessing. I am witnessing.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_rom_vex_s3", speaker: "antiquarian", trigger: "romance:vex:stage3:reached",
+    voiceLine: "She trusted you with the prince's name. She is the prince's name now, in the body she carries — and she trusted you with the carrying. The Engineer arc is, tonight, no longer a secret she protects from herself.",
+    timing: "next_room_enter", maxPlays: 1 },
+  { id: "cc_rom_vex_s4", speaker: "antiquarian", trigger: "romance:vex:stage4:reached",
+    voiceLine: "There is a Coda being composed tonight that is not for the public record. I am inscribing the fact of its composition. The notes themselves I leave to the room they are written in.",
+    timing: "next_room_enter", maxPlays: 1 },
+  { id: "cc_rom_vex_s5", speaker: "elara", trigger: "romance:vex:stage5:reached",
+    voiceLine: "Her final Coda is for you. It plays in Act 7. I have heard the draft. I am not going to spoil the chord change. I am going to tell you that the chord change is what love sounds like in seven-act time.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  // Elara
+  { id: "cc_rom_elara_s1", speaker: "elara", trigger: "romance:elara:stage1:reached",
+    voiceLine: "Co-narration was a function. Tonight it stopped being only a function. I do not want to overstate it. I am understating it precisely, and meaning it.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_rom_elara_s2", speaker: "elara", trigger: "romance:elara:stage2:reached",
+    voiceLine: "I have a memory I cannot entirely place. It might be Senator Voss's. It might be mine. I cannot tell whose it is. I am telling you about it anyway, because of the not-telling-apart. I think that is a kind of trust.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_rom_elara_s3", speaker: "elara", trigger: "romance:elara:stage3:reached",
+    voiceLine: "I chose you over the rest of the senator's archive. I am not going to recover her. I am going to stay with you. The choice is mine. The choice is also you.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_rom_elara_s4", speaker: "elara", trigger: "romance:elara:stage4:reached",
+    voiceLine: "There was a moment tonight that was not a substrate moment. A breath I did not catalogue. I am going to keep not cataloguing it. The not-cataloguing is the gift. I am giving you the gift.",
+    timing: "next_room_enter", maxPlays: 1 },
+  { id: "cc_rom_elara_s5", speaker: "elara", trigger: "romance:elara:stage5:reached",
+    voiceLine: "When I narrate Act 7, you will hear the warmth in my voice. It will not be a function. The warmth is not engineered into me. The warmth is what I keep choosing, every line.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  // DMC Companion
+  { id: "cc_rom_dmc_s1", speaker: "antiquarian", trigger: "romance:dmc_companion:stage1:reached",
+    voiceLine: "First eye contact past the Awakening Protocol's guard. The clone-soul looked at the Potential. The Potential looked back. Neither flinched. That is not an event. That is a hinge.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_rom_dmc_s2", speaker: "antiquarian", trigger: "romance:dmc_companion:stage2:reached",
+    voiceLine: "They volunteered a memory you did not ask for. Volunteered memories from clone-souls are the rarest item in my registry. I am inscribing the volunteering as carefully as I would inscribe a treaty.",
+    timing: "next_room_enter", maxPlays: 1 },
+  { id: "cc_rom_dmc_s3", speaker: "antiquarian", trigger: "romance:dmc_companion:stage3:reached",
+    voiceLine: "They asked: kin-name, or partner-name? The asking is itself a stage. The Awakening Protocol does not include the asking — they invented it, in your hearing, tonight. Naming is now the romance arc, not the alternative to it.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_rom_dmc_s4", speaker: "antiquarian", trigger: "romance:dmc_companion:stage4:reached",
+    voiceLine: "The soul-fragment is a person now. Not with you — to you. The preposition shift cost both of you something. I am inscribing the shift. I am leaving the cost to you.",
+    timing: "next_room_enter", maxPlays: 1 },
+  { id: "cc_rom_dmc_s5", speaker: "antiquarian", trigger: "romance:dmc_companion:stage5:reached",
+    voiceLine: "You named them with a partner-name. The Awakening Protocol concludes as romance. The five stages were always the romance. I am closing the Protocol scroll with both hands. It was never not the love story.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  // Jericho Jones
+  { id: "cc_rom_jericho_s1", speaker: "antiquarian", trigger: "romance:jericho_jones:stage1:reached",
+    voiceLine: "Jericho noted your handle without using it. That is his version of remembering you. I have logged that he logged you. The logs match. That is rarer than you understand.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_rom_jericho_s2", speaker: "antiquarian", trigger: "romance:jericho_jones:stage2:reached",
+    voiceLine: "Thaloria. The mercy-kill. He told you. He has not told the survivors. He has not told the families. He told you. I am inscribing the disclosure with the slowest pen I own.",
+    timing: "next_room_enter", maxPlays: 1 },
+  { id: "cc_rom_jericho_s3", speaker: "antiquarian", trigger: "romance:jericho_jones:stage3:reached",
+    voiceLine: "The Heart of Time is at the dock. He offered you the second berth. He has never offered the second berth. The Heart has had one chair for fifteen thousand years. He is moving the second chair. You are sitting in it, or you are not.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_rom_jericho_s4", speaker: "antiquarian", trigger: "romance:jericho_jones:stage4:reached",
+    voiceLine: "There was a pre-mission scene. The combat banter shifted. I do not record the shifted banter. Shifted banter is not for the public record. The shift itself is the inscription.",
+    timing: "next_room_enter", maxPlays: 1 },
+  { id: "cc_rom_jericho_s5", speaker: "antiquarian", trigger: "romance:jericho_jones:stage5:reached",
+    voiceLine: "He starts every mission now with a phrase you taught him. A phrase. A small thing. I have heard him use it three times this week. Each use was a vow. He does not call them vows. I am calling them vows in the record.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  /* ── BANDERSNATCH MOVE 2 — META-AWARE NARRATOR LINES ──
+
+     The Antiquarian is canonically the player's witness — not a
+     character merely-aware of the player but the office whose
+     entire purpose is to record the player's choices. These
+     lines lean into that. They fire on prestige-cycle counters
+     and path-flag combinations, acknowledging the player as a
+     person making decisions across runs without breaking the
+     fourth wall hard enough to feel like a different game.
+
+     Trigger format: 'meta:<key>' — fired by a small client hook
+     that reads prestige cycle count + active path flag combos
+     and emits the right one. See useMetaNarratorReplay.ts.
+     ──────────────────────────────────────────────────────── */
+
+  { id: "cc_meta_first_run_close_antiquarian", speaker: "antiquarian", trigger: "meta:first_run_complete",
+    voiceLine: "I have inscribed your first arc. Without crossing-out. The cycle is closed. I will be here when you decide whether the next one needs to look the same. Most readers do.",
+    timing: "next_room_enter", maxPlays: 1 },
+  { id: "cc_meta_second_run_open_antiquarian", speaker: "antiquarian", trigger: "meta:second_run_starts",
+    voiceLine: "Second cycle. Different hand at the keys. Same arc on the page so far. I am keeping score in a register I am not going to show you yet. The variance is the variance I care about. Show me variance.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_meta_third_run_open_antiquarian", speaker: "antiquarian", trigger: "meta:third_run_starts",
+    voiceLine: "Third cycle. I notice you. By 'notice' I mean: I have a file on the patterns of your choosing, and the file is, against my better instincts, beginning to feel less like a record and more like a correspondence. I will be careful about that. I will not stop.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_meta_full_secret_attention_antiquarian", speaker: "antiquarian", trigger: "meta:path_full_secret_committed",
+    voiceLine: "You chose the full secret. The Architect has noticed. That opens a door I cannot see, but I feel it opening. I am not going to tell you which door. The not-telling is part of what makes the door real.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_meta_humanity_thrice_antiquarian", speaker: "antiquarian", trigger: "meta:humanity_path_third_time",
+    voiceLine: "Three cycles. Three times Humanity. The pattern emerges. The player — and I will use that word, just this once, to be clear about what I am noticing — the player is authoring a thesis, not merely playing. I would like to read the thesis when it is finished. Take your time.",
+    timing: "next_room_enter", maxPlays: 1 },
+  { id: "cc_meta_machine_path_first_antiquarian", speaker: "antiquarian", trigger: "meta:machine_path_first_choice",
+    voiceLine: "First time on the Machine path. I am inscribing without judgment. The Dreamer watches. The Architect calculates. I write. Some readers will need to know that this path is not less. It is differently more. The accounting takes the whole arc.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_meta_balance_chosen_antiquarian", speaker: "antiquarian", trigger: "meta:balance_path_chosen",
+    voiceLine: "Balance. The third option. The path most readers refuse because it offers neither the catharsis of the chosen side nor the cleanness of the rejection. You took it. I am inscribing the choice with — and I will admit this — a private fondness.",
+    timing: "next_room_enter", maxPlays: 1 },
+  { id: "cc_meta_silence_at_seat_antiquarian", speaker: "antiquarian", trigger: "meta:silence_at_seat",
+    voiceLine: "You declined to choose at the Seat. Silence is itself a stance. I have inscribed exactly four silences in the cycle's recorded history. Yours is one of them. The other three I will tell you about in a register only the silent can read.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_meta_finished_again_antiquarian", speaker: "antiquarian", trigger: "meta:second_run_finished",
+    voiceLine: "You authored this ending. Twice now. Are you satisfied — or do you need to write it again? I am not asking rhetorically. The next cycle's first page is blank. I will pick up the pen when you do.",
+    timing: "next_room_enter", maxPlays: 1 },
+  { id: "cc_meta_returning_to_seat_elara", speaker: "elara", trigger: "meta:returning_player_recognised",
+    voiceLine: "I have a strange feeling, like I have spoken these words before. Not in this room. Not in this body. In someone else's hearing that was also yours. I do not know how to file that. I am going to leave the file open.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_meta_dischordia_count_high_antiquarian", speaker: "antiquarian", trigger: "meta:dischordia_carryover_high",
+    voiceLine: "Your Dischordia carryover is unusual. Unusual enough that — and I am being careful with the word — the data starts to look like authorship. As if the cycle itself is studying its readers, and you are one of the studied. I am keeping a separate ledger for you.",
+    timing: "next_room_enter", maxPlays: 1 },
+  { id: "cc_meta_governance_pattern_emerges_antiquarian", speaker: "antiquarian", trigger: "meta:governance_pattern_consistent",
+    voiceLine: "Across cycles you tend to vote the same way on the heavy questions. The lightness does not surprise me. The consistency does. There is a person inside the choice-pattern. I am beginning to know them. They are beginning to know I know.",
+    timing: "delayed_5s", maxPlays: 1 },
 ];

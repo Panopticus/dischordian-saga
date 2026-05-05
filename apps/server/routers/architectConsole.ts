@@ -43,11 +43,22 @@ import {
   loreJournalEntries,
   userAchievements,
   prestigeProgress,
+  voteAntiquarianEntries,
+  worldModifiers,
+  dailyGovernanceVotes,
+  npcPublicFlags,
 } from "../../db/schema";
 import { eq, sql, desc, and, lte, gte, or, isNull, type SQL } from "drizzle-orm";
 import { pressureService } from "../services/pressureService";
 import { ripple } from "../services/rippleEngine";
 import { invalidateFeatureFlagCache } from "../middleware/featureFlag";
+import {
+  applyVoteConsequences,
+  activateWorldModifier,
+  lookupOptionId,
+  type AppliedConsequenceSummary,
+} from "../services/voteConsequenceApplier";
+import { getDailyVote } from "../../shared/governance";
 
 /* ─── Helper: write audit log ─── */
 async function auditLog(db: NonNullable<Awaited<ReturnType<typeof getDb>>>, adminId: number, action: string, details?: unknown) {
@@ -181,10 +192,11 @@ export const architectConsoleRouter = router({
       impactPayload: z.record(z.string(), z.unknown()).optional(),
       options: z.array(z.object({
         optionNumber: z.number().int().min(1),
+        optionId: z.string().min(1).max(128).optional(),
         optionText: z.string().min(1).max(255),
         description: z.string().optional(),
         rewardOnWin: z.record(z.string(), z.unknown()).optional(),
-      })).min(3).max(5),
+      })).min(2).max(5),
     }))
     .mutation(async ({ ctx, input }) => {
       const db = await getDb();
@@ -205,6 +217,7 @@ export const architectConsoleRouter = router({
         input.options.map(opt => ({
           voteId: input.voteId,
           optionNumber: opt.optionNumber,
+          optionId: opt.optionId ?? null,
           optionText: opt.optionText,
           description: opt.description,
           rewardOnWin: opt.rewardOnWin as any,
@@ -285,7 +298,7 @@ export const architectConsoleRouter = router({
         .set({ status: "closed" })
         .where(eq(communityVotes.voteId, input.voteId));
 
-      // Mark the winner
+      // Mark the winner and read its rewardOnWin payload
       await db.update(voteOptions)
         .set({ isWinner: true })
         .where(and(
@@ -293,8 +306,39 @@ export const architectConsoleRouter = router({
           eq(voteOptions.optionNumber, input.winnerOptionNumber),
         ));
 
-      await auditLog(db, ctx.user.id, "close_vote", { voteId: input.voteId, winner: input.winnerOptionNumber });
-      return { success: true };
+      const [winner] = await db
+        .select({
+          optionId: voteOptions.optionId,
+          rewardOnWin: voteOptions.rewardOnWin,
+        })
+        .from(voteOptions)
+        .where(and(
+          eq(voteOptions.voteId, input.voteId),
+          eq(voteOptions.optionNumber, input.winnerOptionNumber),
+        ))
+        .limit(1);
+
+      const optionId = winner?.optionId ?? (await lookupOptionId(input.voteId, input.winnerOptionNumber));
+
+      // Apply structured consequences (flags, energy delta, tome
+      // entry, world modifiers). Idempotent — safe to retry.
+      const summary: AppliedConsequenceSummary = await applyVoteConsequences({
+        voteId: input.voteId,
+        optionNumber: input.winnerOptionNumber,
+        optionId,
+        rewardOnWin: winner?.rewardOnWin ?? null,
+      });
+
+      await auditLog(db, ctx.user.id, "close_vote", {
+        voteId: input.voteId,
+        winner: input.winnerOptionNumber,
+        flagsSet: summary.flagsSet,
+        unlocksGranted: summary.unlocksGranted,
+        energyDelta: summary.energyDelta,
+        worldModifiersActivated: summary.worldModifiersActivated,
+        tomeEntryWritten: summary.tomeEntryWritten,
+      });
+      return { success: true, summary };
     }),
 
   /** Cast a vote — one per user per vote (player) */
@@ -387,6 +431,213 @@ export const architectConsoleRouter = router({
       options: optionsByVote.get(v.voteId) ?? [],
       userVotedOption: userVoteMap.get(v.voteId) ?? null,
     }));
+  }),
+
+  /**
+   * Tome entries written by the consequence applier on each
+   * vote close. Public; rendered on the Governance Hub. The
+   * `annotation` field is filtered out unless the requesting
+   * player has Antiquarian trust >= 60 (see annotation gate
+   * in companion-service code).
+   */
+  getTomeEntries: protectedProcedure
+    .input(z.object({ limit: z.number().int().min(1).max(100).default(50) }).optional())
+    .query(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) return [];
+      const limit = input?.limit ?? 50;
+      const rows = await db
+        .select()
+        .from(voteAntiquarianEntries)
+        .orderBy(desc(voteAntiquarianEntries.inscribedAt))
+        .limit(limit);
+
+      // Antiquarian-trust gate. Read companion trust if available;
+      // hide annotations otherwise. Tolerant of missing rows.
+      let antiquarianTrust = 0;
+      try {
+        const [companion] = await db
+          .select({ trust: companionRelationships.relationshipLevel })
+          .from(companionRelationships)
+          .where(and(
+            eq(companionRelationships.userId, ctx.user.id),
+            eq(companionRelationships.companionId, "antiquarian"),
+          ))
+          .limit(1);
+        antiquarianTrust = companion?.trust ?? 0;
+      } catch {
+        antiquarianTrust = 0;
+      }
+
+      return rows.map((row) => ({
+        voteId: row.voteId,
+        winningOptionNumber: row.winningOptionNumber,
+        body: row.body,
+        annotation: antiquarianTrust >= 60 ? row.annotation : null,
+        inscribedAt: row.inscribedAt,
+      }));
+    }),
+
+  /**
+   * Daily binary vote: cast the player's choice. Server-authoritative
+   * replacement for the prior client-only Zustand mutation. Idempotent
+   * by (dateKey, userId) unique constraint — second call returns the
+   * existing choice rather than throwing.
+   */
+  castDailyVote: protectedProcedure
+    .input(z.object({
+      dateKey: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+      side: z.enum(["A", "B"]),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) return { success: false, side: input.side };
+
+      const [existing] = await db
+        .select()
+        .from(dailyGovernanceVotes)
+        .where(and(
+          eq(dailyGovernanceVotes.dateKey, input.dateKey),
+          eq(dailyGovernanceVotes.userId, ctx.user.id),
+        ))
+        .limit(1);
+
+      if (existing) {
+        return { success: true, side: existing.side, alreadyVoted: true };
+      }
+
+      await db.insert(dailyGovernanceVotes).values({
+        dateKey: input.dateKey,
+        userId: ctx.user.id,
+        side: input.side,
+      });
+
+      return { success: true, side: input.side, alreadyVoted: false };
+    }),
+
+  /**
+   * Read the current state of a given day's daily vote: tallies
+   * for both sides, this user's vote (if any), and — when the
+   * date is past and not yet closed — close it and activate the
+   * winning side's 24-hour world modifier.
+   *
+   * Lazy close-on-read pattern lets us avoid a cron without
+   * dropping consequences. Re-running is safe (idempotent on
+   * world_modifiers.modifierKey).
+   */
+  getDailyVoteState: protectedProcedure
+    .input(z.object({ dateKey: z.string().regex(/^\d{4}-\d{2}-\d{2}$/) }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) {
+        return { dateKey: input.dateKey, tallyA: 0, tallyB: 0, userSide: null as "A" | "B" | null, closed: false, winner: null as "A" | "B" | null };
+      }
+
+      const rows = await db
+        .select({ userId: dailyGovernanceVotes.userId, side: dailyGovernanceVotes.side })
+        .from(dailyGovernanceVotes)
+        .where(eq(dailyGovernanceVotes.dateKey, input.dateKey));
+
+      let tallyA = 0;
+      let tallyB = 0;
+      let userSide: "A" | "B" | null = null;
+      for (const row of rows) {
+        if (row.side === "A") tallyA += 1;
+        else tallyB += 1;
+        if (row.userId === ctx.user.id) userSide = row.side;
+      }
+
+      // If the dateKey is in the past, ensure the day's modifier
+      // is active. Idempotent: writing the same modifierKey twice
+      // is a no-op via the unique index.
+      const today = new Date().toISOString().slice(0, 10);
+      const isPast = input.dateKey < today;
+      let winner: "A" | "B" | null = null;
+      if (isPast && (tallyA > 0 || tallyB > 0)) {
+        winner = tallyA >= tallyB ? "A" : "B";
+        const template = getDailyVote(input.dateKey);
+        const winningOption = winner === "A" ? template.optionA : template.optionB;
+        await activateWorldModifier({
+          modifierKey: `${winningOption.modifier.modifierKey}:${input.dateKey}`,
+          modifierType: winningOption.modifier.modifierType,
+          modifierValue: winningOption.modifier.modifierValue,
+          description: winningOption.effect,
+          source: `daily_vote:${input.dateKey}`,
+          durationMs: 24 * 60 * 60 * 1000,
+        });
+      }
+
+      return {
+        dateKey: input.dateKey,
+        tallyA,
+        tallyB,
+        userSide,
+        closed: isPast,
+        winner,
+      };
+    }),
+
+  /**
+   * Recent governance-sourced npc_public_flags for this user. The
+   * client useGovernanceCommentReplay hook reads this and fires
+   * fireCompanionComment("flag_set:<flag>") for each entry — the
+   * existing CompanionCommentToast then surfaces the matching NPC
+   * line authored in companionComments.ts.
+   *
+   * The hook tracks last-acknowledged setAt in localStorage to
+   * avoid replaying lines on every session load.
+   */
+  getRecentGovernanceFlags: protectedProcedure
+    .input(z.object({
+      sinceMs: z.number().int().nonnegative().optional(),
+      limit: z.number().int().min(1).max(50).default(20),
+    }).optional())
+    .query(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) return [];
+      const since = input?.sinceMs ? new Date(input.sinceMs) : new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+      const limit = input?.limit ?? 20;
+      const rows = await db
+        .select({
+          flag: npcPublicFlags.flag,
+          setAt: npcPublicFlags.setAt,
+        })
+        .from(npcPublicFlags)
+        .where(and(
+          eq(npcPublicFlags.userId, ctx.user.id),
+          eq(npcPublicFlags.setBy, "governance"),
+          gte(npcPublicFlags.setAt, since),
+        ))
+        .orderBy(desc(npcPublicFlags.setAt))
+        .limit(limit);
+      return rows;
+    }),
+
+  /**
+   * Currently-active world modifiers from vote outcomes. Drives
+   * Governance Hub badge UI and is read by combat/crafting
+   * scaling code that opts in (see getActiveWorldModifiers).
+   */
+  getActiveWorldModifiers: protectedProcedure.query(async () => {
+    const db = await getDb();
+    if (!db) return [];
+    const now = new Date();
+    const rows = await db
+      .select()
+      .from(worldModifiers)
+      .where(eq(worldModifiers.isActive, true))
+      .orderBy(desc(worldModifiers.startedAt));
+    return rows
+      .filter((r) => !r.expiresAt || r.expiresAt > now)
+      .map((r) => ({
+        modifierKey: r.modifierKey,
+        modifierType: r.modifierType,
+        modifierValue: r.modifierValue,
+        description: r.description,
+        source: r.source,
+        startedAt: r.startedAt,
+        expiresAt: r.expiresAt,
+      }));
   }),
 
   // ═══════════════════════════════════════════════════

@@ -65,12 +65,24 @@ export interface VoteResult {
   appliedConsequences: string[];
 }
 
+/**
+ * Structured 24-hour modifier activated when a daily vote
+ * closes. Mirrors the `world_modifier` arm of VoteConsequence
+ * but bound to a single side ("A" or "B") of a daily binary
+ * choice. The applier sets `expiresAt = now + 24h`.
+ */
+export interface DailyVoteModifier {
+  modifierKey: string;
+  modifierType: string;
+  modifierValue: number;
+}
+
 export interface DailyResourceVote {
   id: string;
   date: string; // YYYY-MM-DD
   question: string;
-  optionA: { label: string; effect: string };
-  optionB: { label: string; effect: string };
+  optionA: { label: string; effect: string; modifier: DailyVoteModifier };
+  optionB: { label: string; effect: string; modifier: DailyVoteModifier };
   /** Elara frames these as ship management decisions */
   elaraContext: string;
 }
@@ -148,44 +160,100 @@ export function generateVoterName(): string {
 export const DAILY_VOTE_TEMPLATES: Omit<DailyResourceVote, "id" | "date">[] = [
   {
     question: "How should the Ark allocate today's Dream reserves?",
-    optionA: { label: "Defense Systems", effect: "+10% TD turret damage today" },
-    optionB: { label: "Research", effect: "+10% lore discovery rate today" },
+    optionA: {
+      label: "Defense Systems",
+      effect: "+10% TD turret damage today",
+      modifier: { modifierKey: "daily_td_turret", modifierType: "td_turret_damage_pct", modifierValue: 10 },
+    },
+    optionB: {
+      label: "Research",
+      effect: "+10% lore discovery rate today",
+      modifier: { modifierKey: "daily_lore_discovery", modifierType: "lore_discovery_pct", modifierValue: 10 },
+    },
     elaraContext: "Our Dream reserves are limited. I need your decision on allocation priority.",
   },
   {
     question: "A signal fragment was intercepted. Who should analyze it?",
-    optionA: { label: "Elara (fast, surface-level)", effect: "Quick lore snippet revealed" },
-    optionB: { label: "The Antiquarian (slow, deep)", effect: "Delayed but richer Loredex entry" },
+    optionA: {
+      label: "Elara (fast, surface-level)",
+      effect: "Quick lore snippet revealed",
+      modifier: { modifierKey: "daily_signal_fast", modifierType: "lore_snippet_grant", modifierValue: 1 },
+    },
+    optionB: {
+      label: "The Antiquarian (slow, deep)",
+      effect: "Delayed but richer Loredex entry",
+      modifier: { modifierKey: "daily_signal_deep", modifierType: "loredex_entry_grant", modifierValue: 1 },
+    },
     elaraContext: "I can process this in minutes. The Antiquarian would take hours but may find what I'd miss.",
   },
   {
     question: "Crew rotation: which department gets extra hands?",
-    optionA: { label: "Armory", effect: "+5% fight XP today" },
-    optionB: { label: "Engineering", effect: "+5% crafting success today" },
+    optionA: {
+      label: "Armory",
+      effect: "+5% fight XP today",
+      modifier: { modifierKey: "daily_fight_xp", modifierType: "fight_xp_pct", modifierValue: 5 },
+    },
+    optionB: {
+      label: "Engineering",
+      effect: "+5% crafting success today",
+      modifier: { modifierKey: "daily_crafting_success", modifierType: "crafting_success_pct", modifierValue: 5 },
+    },
     elaraContext: "We're short-staffed everywhere. Where do you want the extra support?",
   },
   {
     question: "Power grid fluctuation detected. Prioritize which system?",
-    optionA: { label: "Shields", effect: "Reduced TD core damage for 24h" },
-    optionB: { label: "Scanners", effect: "Reveal hidden room items for 24h" },
+    optionA: {
+      label: "Shields",
+      effect: "Reduced TD core damage for 24h",
+      modifier: { modifierKey: "daily_td_core_shield", modifierType: "td_core_damage_reduction_pct", modifierValue: 15 },
+    },
+    optionB: {
+      label: "Scanners",
+      effect: "Reveal hidden room items for 24h",
+      modifier: { modifierKey: "daily_hidden_reveal", modifierType: "hidden_room_reveal_pct", modifierValue: 100 },
+    },
     elaraContext: "Power grid instability. I can stabilize one system. Choose carefully.",
   },
   {
     question: "The Meme is broadcasting on two frequencies. Which do we listen to?",
-    optionA: { label: "Frequency Alpha", effect: "Comedy commentary, +mood bonus" },
-    optionB: { label: "Frequency Omega", effect: "Cryptic lore hint, +discovery" },
+    optionA: {
+      label: "Frequency Alpha",
+      effect: "Comedy commentary, +mood bonus",
+      modifier: { modifierKey: "daily_meme_alpha", modifierType: "morale_pct", modifierValue: 5 },
+    },
+    optionB: {
+      label: "Frequency Omega",
+      effect: "Cryptic lore hint, +discovery",
+      modifier: { modifierKey: "daily_meme_omega", modifierType: "lore_discovery_pct", modifierValue: 5 },
+    },
     elaraContext: "The Meme is... being the Meme. Both signals seem intentional. Which one resonates?",
   },
   {
     question: "Ration distribution: feed the crew or stockpile for emergencies?",
-    optionA: { label: "Feed the crew", effect: "+3% all XP today" },
-    optionB: { label: "Stockpile", effect: "+50 Dream banked for weekend event" },
+    optionA: {
+      label: "Feed the crew",
+      effect: "+3% all XP today",
+      modifier: { modifierKey: "daily_all_xp", modifierType: "all_xp_pct", modifierValue: 3 },
+    },
+    optionB: {
+      label: "Stockpile",
+      effect: "+50 Dream banked for weekend event",
+      modifier: { modifierKey: "daily_dream_stockpile", modifierType: "dream_grant", modifierValue: 50 },
+    },
     elaraContext: "Morale versus preparedness. There's never a right answer. Only a necessary one.",
   },
   {
     question: "A stowaway specimen was found in Cargo Bay. Release or study?",
-    optionA: { label: "Release into the wild", effect: "Specimen encounter chance +20% today" },
-    optionB: { label: "Study in Medical Bay", effect: "Specimen evolution XP +15% today" },
+    optionA: {
+      label: "Release into the wild",
+      effect: "Specimen encounter chance +20% today",
+      modifier: { modifierKey: "daily_specimen_encounter", modifierType: "specimen_encounter_pct", modifierValue: 20 },
+    },
+    optionB: {
+      label: "Study in Medical Bay",
+      effect: "Specimen evolution XP +15% today",
+      modifier: { modifierKey: "daily_specimen_xp", modifierType: "specimen_evolution_xp_pct", modifierValue: 15 },
+    },
     elaraContext: "It's scared. It's also potentially valuable. Your call, Operative.",
   },
 ];
