@@ -16,7 +16,9 @@ Idempotent: HEAD-checks each line's S3 URL (existing manifest URL
 when present, canonical computed URL otherwise). Skips when the
 audio is already reachable; generates + uploads when it's missing.
 """
-import json, os, sys, time, requests, boto3
+import json, os, sys, time
+# `requests` and `boto3` are deferred to the call sites so --dry-run
+# (audit Phase M) can run with only the stdlib installed.
 
 ELEVENLABS_KEY = os.environ.get("ELEVENLABS_API_KEY", "")
 BUCKET = "dgrsvoices"
@@ -88,6 +90,7 @@ EMOTIONS = {
 
 
 def head_exists(url):
+    import requests  # deferred — see top-of-file note
     try:
         return requests.head(url, timeout=10).status_code == 200
     except Exception:
@@ -102,6 +105,7 @@ def s3_url(prefix, key):
 
 
 def generate_speech(text, emotion, voice_id):
+    import requests  # deferred — see top-of-file note
     s = EMOTIONS.get(emotion, EMOTIONS["judicial"])
     resp = requests.post(
         f"https://api.elevenlabs.io/v1/text-to-speech/{voice_id}",
@@ -126,6 +130,7 @@ def generate_speech(text, emotion, voice_id):
 
 
 def upload_to_s3(data, prefix, key):
+    import boto3  # deferred — see top-of-file note
     s3 = boto3.client(
         "s3", region_name=REGION,
         aws_access_key_id=os.environ.get("AWS_ACCESS_KEY_ID", ""),
@@ -140,14 +145,57 @@ def upload_to_s3(data, prefix, key):
 
 
 def main():
+    dry_run = "--dry-run" in sys.argv
+
     here = os.path.dirname(__file__)
     with open(os.path.join(here, "act1-taunts-lines.json")) as f:
         lines = json.load(f)
 
     print(f"═══ ACT 1 OPPONENT TAUNT VO ═══")
-    print(f"  {len(lines)} lines across {len(CHARACTERS)} characters\n")
+    print(f"  {len(lines)} lines across {len(CHARACTERS)} characters")
+    if dry_run:
+        print(f"  Mode: DRY RUN (no API calls, no S3 writes)\n")
+    else:
+        print()
+
+    if dry_run:
+        # Audit Phase M (B): structure-only validation. Walk the input
+        # lines, confirm every character maps to a CHARACTERS entry +
+        # has a non-TODO voice_id, and every emotion has an EMOTIONS
+        # preset. Reports what WOULD be generated without touching
+        # ElevenLabs or S3.
+        unknown_chars = []
+        todo_voices = []
+        unknown_emotions = []
+        will_generate = 0
+        for line in lines:
+            cfg = CHARACTERS.get(line["character"])
+            if not cfg:
+                unknown_chars.append(f"{line['id']} (character={line['character']!r})")
+                continue
+            if cfg["voice_id"].startswith("TODO_"):
+                todo_voices.append(line["character"])
+                continue
+            if line["emotion"] not in EMOTIONS:
+                unknown_emotions.append(f"{line['id']} (emotion={line['emotion']!r})")
+                continue
+            will_generate += 1
+        print(f"Would generate: {will_generate} / {len(lines)}")
+        if unknown_chars:
+            print(f"Unknown characters: {len(unknown_chars)}")
+            for u in unknown_chars[:5]:
+                print(f"  - {u}")
+        if todo_voices:
+            unique_chars = sorted(set(todo_voices))
+            print(f"Characters with TODO voice ids: {unique_chars}")
+        if unknown_emotions:
+            print(f"Unknown emotions: {len(unknown_emotions)}")
+            for u in unknown_emotions[:5]:
+                print(f"  - {u}")
+        return 0 if not (unknown_chars or unknown_emotions) else 1
+
     if not ELEVENLABS_KEY:
-        print("ERROR: export ELEVENLABS_API_KEY=your_key")
+        print("ERROR: export ELEVENLABS_API_KEY=your_key (or use --dry-run)")
         sys.exit(1)
 
     # Lazy-load each character's manifest as we encounter its first line.

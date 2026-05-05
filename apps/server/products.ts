@@ -10,6 +10,14 @@ export interface StoreProduct {
   category: "dream" | "ship" | "cards" | "cosmetic" | "bundle";
   /** Price in cents (USD) */
   priceUsd: number;
+  /**
+   * Optional Stripe price-id env-var name. When set + the env var
+   * is present, store.ts's purchase flow passes the resolved
+   * price-id to Stripe instead of building inline price_data.
+   * Audit Phase L (B4). Setting `process.env.STRIPE_PRICE_*`
+   * lets ops swap real Stripe SKUs without a code change.
+   */
+  stripePriceEnv?: string;
   /** Alternative price in in-game credits (0 = real money only) */
   priceCredits: number;
   /** Alternative price in Dream tokens (0 = not purchasable with Dream) */
@@ -316,7 +324,8 @@ export const STORE_PRODUCTS: StoreProduct[] = [
     name: "Founding Author Edition",
     description: "Permanent commemorative entitlement. Unlocks the Founding Author special-edition card.",
     category: "cosmetic",
-    priceUsd: 4900, // $49.00 — placeholder, ops to confirm
+    priceUsd: 4900, // $49.00 — fallback price; STRIPE_PRICE_FOUNDING_AUTHOR overrides
+    stripePriceEnv: "STRIPE_PRICE_FOUNDING_AUTHOR",
     priceCredits: 0,
     priceDream: 0,
     rewards: { entitlement: "foundingAuthor" },
@@ -329,7 +338,8 @@ export const STORE_PRODUCTS: StoreProduct[] = [
     name: "Author's Edition — Season 2",
     description: "Season 2 commemorative entitlement. Unlocks the Author's Edition S2 special-edition card.",
     category: "cosmetic",
-    priceUsd: 1900, // $19.00 — placeholder, ops to confirm
+    priceUsd: 1900, // $19.00 — fallback price; STRIPE_PRICE_AUTHORS_EDITION_S2 overrides
+    stripePriceEnv: "STRIPE_PRICE_AUTHORS_EDITION_S2",
     priceCredits: 0,
     priceDream: 0,
     rewards: { entitlement: "authorsEditionS2" },

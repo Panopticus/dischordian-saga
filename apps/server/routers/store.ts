@@ -45,10 +45,20 @@ export const storeRouter = router({
 
       const origin = ctx.req.headers.origin || "https://loredex-os.app";
 
-      const session = await stripe.checkout.sessions.create({
-        payment_method_types: ["card"],
-        line_items: [
-          {
+      // Resolve a real Stripe price-id from env when the product
+      // declares one (Phase L / B4). When the env var is set we pass
+      // `price` directly; otherwise fall back to inline price_data
+      // built from priceUsd. Lets ops swap SKUs without a code change.
+      const stripePriceId = product.stripePriceEnv
+        ? process.env[product.stripePriceEnv]
+        : undefined;
+      // Stripe types are imported dynamically. The line-item shape
+      // is well-formed against the SDK's CheckoutSessionCreateParams
+      // either way; we widen via unknown to satisfy TS without
+      // pulling Stripe's type tree into the checker.
+      const lineItem = stripePriceId
+        ? { price: stripePriceId, quantity: input.quantity }
+        : {
             price_data: {
               currency: "usd",
               product_data: {
@@ -58,8 +68,11 @@ export const storeRouter = router({
               unit_amount: product.priceUsd,
             },
             quantity: input.quantity,
-          },
-        ],
+          };
+
+      const session = await stripe.checkout.sessions.create({
+        payment_method_types: ["card"],
+        line_items: [lineItem],
         mode: "payment",
         success_url: `${origin}/store?success=true&session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${origin}/store?canceled=true`,
