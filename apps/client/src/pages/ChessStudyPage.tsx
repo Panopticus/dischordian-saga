@@ -10,7 +10,7 @@ import { CHESS_OPENINGS, type ChessOpening } from "@shared/chessOpenings";
 
 function OpeningDetail({ opening }: { opening: ChessOpening }) {
   return (
-    <article className="p-4 border border-void-border/40 rounded bg-void-bg/40">
+    <article className="p-4 border border-void-border rounded bg-void-bg/40">
       <header className="mb-3">
         <h2 className="text-lg text-void-text">{opening.name}</h2>
         <p className="text-xs text-void-text-muted">
@@ -79,8 +79,8 @@ export default function ChessStudyPage() {
               onClick={() => setSelected(o.id)}
               className={`block w-full text-left text-sm px-3 py-2 rounded border ${
                 selected === o.id
-                  ? "border-void-text-accent/60 bg-void-bg/60 text-void-text-accent"
-                  : "border-void-border/30 text-void-text-muted hover:text-void-text"
+                  ? "border-void-text-accent bg-void-bg/60 text-void-text-accent"
+                  : "border-void-border text-void-text-muted hover:text-void-text"
               }`}
             >
               <div>{o.name}</div>

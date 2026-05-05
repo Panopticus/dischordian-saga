@@ -165,7 +165,7 @@ export function BeatFBiometricLockbox({ onComplete }: BeatFBiometricLockboxProps
               left: "50%",
               top: "50%",
               transform: "translate(-50%, -50%)",
-              width: "min(520px, 90vw)",
+              width: "min(32.5rem, 90vw)",
               padding: "var(--space-lg) var(--space-lg) var(--space-md)",
               background: "color-mix(in oklch, var(--bg-void) 92%, transparent)",
               border:

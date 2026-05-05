@@ -12,9 +12,38 @@ apps/client/src/components/act1/Act1CompanionPanel.tsx
 apps/client/src/components/companion/CompanionAskPanel.tsx
 apps/client/src/components/companion/CompanionCommentToast.tsx
 apps/client/src/components/prelude/PreludeTutorCard.tsx
+# Speaker-accent pair (stone=Architect cold voice, amber=Recruit warm voice):
+apps/client/src/components/prelude/RecruitStageVoiceOverlay.tsx
 # Per-NPC identity color read from a registry (RememberThisToast consumes FACTION_NPCS.color):
 apps/client/src/components/RememberThisToast.tsx
 # Faction-identity colors (game-rule signal) live in types.ts FACTION_COLORS.
 apps/client/src/game/duelyst/types.ts
 # Per-act narrative-signal accents (indigo=Act2, purple=Act3, cyan=Act4, amber=Act5/6, stone=Act7/transmedia):
 apps/client/src/pages/WitnessingHubPage.tsx
+# Per-faction identity colors (FACTION_COLORS map; faction is game-rule signal):
+apps/client/src/pages/FightPage.tsx
+# VISION_COLORS map — per-political-vision identity (architect cyan, dreamer amber, insurgency red, new_babylon purple, hierarchy slate, antiquarian yellow):
+apps/client/src/pages/IdeologyPage.tsx
+# Per-planet identity colors (Atarion blue, Violetta purple, New Babylon violet, etc.):
+apps/client/src/pages/PlanetGalleryPage.tsx
+# 13-era chronological palette (each era owns its color in the timeline UI):
+apps/client/src/pages/TimelinePage.tsx
+# Prelude VFX components — by design these render specific authored colors and dimensions
+# (each component name encodes the visual identity: AmberGlow paints amber, CyanPulse pulses
+# cyan, MemoryCrystalPulse encodes its specific crystal palette, etc.). These are content,
+# not theme. Includes the choice-pillar light/dark visualization and the inbox envelope
+# layout which encodes authored letter dimensions:
+apps/client/src/components/prelude/vfx/effects/AmberGlow.tsx
+apps/client/src/components/prelude/vfx/effects/BiometricLock.tsx
+apps/client/src/components/prelude/vfx/effects/ChairRimHotEdge.tsx
+apps/client/src/components/prelude/vfx/effects/CyanPulse.tsx
+apps/client/src/components/prelude/vfx/effects/DataSlateGlow.tsx
+apps/client/src/components/prelude/vfx/effects/MemoryCrystalPulse.tsx
+apps/client/src/components/prelude/vfx/effects/MissionSlateGlow.tsx
+apps/client/src/components/prelude/vfx/effects/PeripheralWarmHalo.tsx
+apps/client/src/components/prelude/vfx/effects/PrimaryLightsCascade.tsx
+apps/client/src/components/prelude/vfx/effects/StatusPipShift.tsx
+apps/client/src/components/prelude/vfx/effects/WitnessingHubBloom.tsx
+apps/client/src/components/prelude/vfx/ui/AmberCounterGlyph.tsx
+apps/client/src/components/prelude/vfx/ui/ChoicePillarLightDark.tsx
+apps/client/src/components/prelude/vfx/ui/InboxEnvelopeUnfold.tsx

@@ -197,7 +197,7 @@ export default function AntiquariansIndexPage() {
           dreamed waits for the right page.
         </p>
         {codexUnlocked ? (
-          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-amber-200/80 mt-3">
+          <p className="font-mono text-[10px] uppercase tracking-[0.2em] void-text-accent mt-3">
             <Sparkles className="inline" size={10} />{" "}
             ANTIQUARIAN'S CODEX UNLOCKED — THE FULL TRUTH
           </p>

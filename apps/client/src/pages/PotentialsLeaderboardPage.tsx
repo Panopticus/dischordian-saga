@@ -14,10 +14,10 @@ import { useAuth } from "@/_core/hooks/useAuth";
 
 /* ─── Tier Config ─── */
 const TIER_CONFIG: Record<string, { label: string; color: string; bg: string; glow: string }> = {
-  legendary: { label: "GRAND COLLECTOR", color: "void-text-accent", bg: "void-bg-sunk void-border", glow: "0 0 12px color-mix(in oklch, var(--energy-premium) 30%, transparent)" },
-  epic: { label: "ARCHON", color: "void-text-system", bg: "void-bg-system void-border-system", glow: "0 0 12px color-mix(in oklch, var(--energy-system) 30%, transparent)" },
-  rare: { label: "ELITE", color: "void-text-energy", bg: "void-bg-success void-border-success", glow: "0 0 12px color-mix(in oklch, var(--energy-primary) 30%, transparent)" },
-  common: { label: "CHAMPION", color: "void-text-energy", bg: "void-bg-success void-border-success", glow: "0 0 12px color-mix(in oklch, var(--energy-success) 30%, transparent)" },
+  legendary: { label: "GRAND COLLECTOR", color: "void-text-accent", bg: "void-bg-sunk void-border", glow: "0 0 0.75rem color-mix(in oklch, var(--energy-premium) 30%, transparent)" },
+  epic: { label: "ARCHON", color: "void-text-system", bg: "void-bg-system void-border-system", glow: "0 0 0.75rem color-mix(in oklch, var(--energy-system) 30%, transparent)" },
+  rare: { label: "ELITE", color: "void-text-energy", bg: "void-bg-success void-border-success", glow: "0 0 0.75rem color-mix(in oklch, var(--energy-primary) 30%, transparent)" },
+  common: { label: "CHAMPION", color: "void-text-energy", bg: "void-bg-success void-border-success", glow: "0 0 0.75rem color-mix(in oklch, var(--energy-success) 30%, transparent)" },
 };
 
 const RANK_TIER_COLORS: Record<string, string> = {
@@ -81,7 +81,7 @@ export default function PotentialsLeaderboardPage() {
         ) : (
           <div className="space-y-2">
             {/* Header row */}
-            <div className="hidden sm:grid grid-cols-12 gap-2 px-4 py-2 font-mono text-[10px] text-muted-foreground/50 tracking-wider">
+            <div className="hidden sm:grid grid-cols-12 gap-2 px-4 py-2 font-mono text-[0.625rem] text-muted-foreground/50 tracking-wider">
               <div className="col-span-1">#</div>
               <div className="col-span-3">OPERATIVE</div>
               <div className="col-span-2">HOLDER TIER</div>

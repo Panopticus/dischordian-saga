@@ -210,7 +210,7 @@ function ModerationTab() {
                 </span>
               </div>
               <p className="font-mono text-[10px] text-muted-foreground">
-                Reason: <span className="text-amber-400">{r.reason}</span> · reported by user {r.reporterId}
+                Reason: <span className="void-text-accent">{r.reason}</span> · reported by user {r.reporterId}
               </p>
               {r.contentSnapshot && (
                 <p className="font-mono text-[10px] mt-1 italic break-all">"{r.contentSnapshot}"</p>
@@ -221,7 +221,7 @@ function ModerationTab() {
               <div className="mt-2 flex gap-2">
                 <button
                   type="button"
-                  className="font-mono text-[10px] px-2 py-1 border border-red-400/40 text-red-400 rounded hover:bg-red-400/10"
+                  className="font-mono text-[10px] px-2 py-1 border void-border-error void-text-error rounded void-bg-error"
                   onClick={() => resolve.mutate({ reportId: r.id, outcome: "resolved_action", applyAction: true })}
                 >
                   ACTION + REVERT

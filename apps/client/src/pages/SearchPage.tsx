@@ -17,10 +17,10 @@ const TYPE_ICONS: Record<string, typeof Users> = {
 
 const TYPE_COLORS: Record<string, string> = {
   character: "void-text-primary",
-  location: "text-[var(--void-gold,#eab308)]",
-  faction: "text-[var(--void-system,var(--energy-system))]",
-  song: "text-[var(--void-error,#ff3c40)]",
-  concept: "text-[var(--void-success,var(--energy-success))]",
+  location: "void-text-premium",
+  faction: "void-text-system",
+  song: "void-text-error",
+  concept: "void-text-energy",
 };
 
 const TYPE_BG: Record<string, string> = {

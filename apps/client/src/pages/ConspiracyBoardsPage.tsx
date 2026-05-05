@@ -101,7 +101,7 @@ export default function ConspiracyBoardsPage() {
                 <div className="flex items-start justify-between gap-2 mb-2">
                   <h3 className="font-display text-lg font-bold tracking-wider">{board.name}</h3>
                   {isFirst && (
-                    <span className="font-mono text-[10px] px-2 py-0.5 rounded-full text-amber-400 border border-amber-400/40 bg-amber-400/10 whitespace-nowrap">
+                    <span className="font-mono text-[10px] px-2 py-0.5 rounded-full void-text-accent border void-border void-bg-sunk whitespace-nowrap">
                       <Sparkles size={9} className="inline mr-0.5" />
                       FIRST
                     </span>
@@ -170,7 +170,7 @@ export default function ConspiracyBoardsPage() {
                   <div className="mt-3">
                     <button
                       type="button"
-                      className="w-full font-mono text-[10px] py-1.5 border border-amber-400/40 text-amber-400 rounded hover:bg-amber-400/5"
+                      className="w-full font-mono text-[10px] py-1.5 border void-border void-text-accent rounded void-bg-sunk"
                       disabled={peekMutation.isPending}
                       onClick={() => peekMutation.mutate({ boardKey: board.boardKey })}
                     >
@@ -179,15 +179,15 @@ export default function ConspiracyBoardsPage() {
                         : "ORACLE POOL PEEK (50 Dream)"}
                     </button>
                     {peekedBoard === board.boardKey && peekResults[board.boardKey] && (
-                      <div className="mt-2 border border-amber-400/30 bg-amber-400/5 rounded p-2 space-y-1">
-                        <p className="font-mono text-[10px] text-amber-400 mb-1">Rival guilds racing:</p>
+                      <div className="mt-2 border void-border void-bg-sunk rounded p-2 space-y-1">
+                        <p className="font-mono text-[10px] void-text-accent mb-1">Rival guilds racing:</p>
                         {peekResults[board.boardKey].length === 0 && (
                           <p className="font-mono text-[10px] text-muted-foreground italic">No rivals on this board.</p>
                         )}
                         {peekResults[board.boardKey].slice(0, 5).map((r) => (
                           <div key={r.guildId} className="flex items-center justify-between font-mono text-[10px]">
                             <span>[{r.guildTag}] {r.guildName}</span>
-                            <span className="text-amber-400">
+                            <span className="void-text-accent">
                               {r.cluesGathered}/{r.cluesRequired} ({Math.round(r.progress * 100)}%)
                             </span>
                           </div>

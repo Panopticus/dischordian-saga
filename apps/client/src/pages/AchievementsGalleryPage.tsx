@@ -67,7 +67,7 @@ function AchievementModal({ achievement, earned, onClose }: {
         }`}
       >
         {/* Header */}
-        <div className={`relative p-6 pb-4 ${earned ? "bg-gradient-to-br from-amber-500/10 to-amber-900/10" : "bg-gradient-to-br from-secondary/50 to-secondary/20"}`}>
+        <div className={`relative p-6 pb-4 ${earned ? "void-bg-sunk" : "bg-gradient-to-br from-secondary/50 to-secondary/20"}`}>
           <button
             onClick={onClose}
             className="absolute top-3 right-3 w-8 h-8 rounded-full bg-muted/60 border border-border/60 flex items-center justify-center text-muted-foreground/80 hover:text-foreground transition-colors"
@@ -208,7 +208,7 @@ export default function AchievementsGalleryPage() {
 
   return (
     <div className="min-h-screen relative overflow-hidden animate-fade-in pb-20">
-      <LivingBackground src="https://dgrsart.s3.us-east-2.amazonaws.com/page-backgrounds/ACH-001_achievement-vault.jpg" accent="#fbbf24" opacity={0.13} particleCount={4} scanlines={false} />
+      <LivingBackground src="https://dgrsart.s3.us-east-2.amazonaws.com/page-backgrounds/ACH-001_achievement-vault.jpg" accent="var(--energy-accent)" opacity={0.13} particleCount={4} scanlines={false} />
       {/* ═══ HEADER ═══ */}
       <div className="border-b border-border/30 bg-card/30">
         <div className="max-w-5xl mx-auto px-4 py-5">
@@ -235,7 +235,7 @@ export default function AchievementsGalleryPage() {
             </div>
             <div className="h-2.5 bg-secondary/50 rounded-full overflow-hidden">
               <motion.div
-                className="h-full bg-gradient-to-r from-amber-600 via-amber-400 to-yellow-300 rounded-full"
+                className="h-full void-bg-energy rounded-full"
                 initial={{ width: 0 }}
                 animate={{ width: `${overallPercent}%` }}
                 transition={{ duration: 1, ease: "easeOut" }}
@@ -283,10 +283,10 @@ export default function AchievementsGalleryPage() {
               <div className="h-1.5 bg-secondary/50 rounded-full overflow-hidden mb-1.5">
                 <motion.div
                   className="h-full rounded-full"
-                  style={{ backgroundColor: ageStat.color.includes("blue") ? "#3b82f6" :
+                  style={{ backgroundColor: ageStat.color.includes("blue") ? "var(--energy-primary)" :
                     ageStat.color.includes("amber") ? "var(--energy-accent)" :
                     ageStat.color.includes("red") ? "var(--energy-error)" :
-                    ageStat.color.includes("green") ? "var(--energy-success)" : "#a855f7" }}
+                    ageStat.color.includes("green") ? "var(--energy-success)" : "var(--energy-system)" }}
                   initial={{ width: 0 }}
                   animate={{ width: `${ageStat.percent}%` }}
                   transition={{ duration: 0.8, delay: 0.1 * i }}

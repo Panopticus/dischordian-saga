@@ -98,14 +98,14 @@ export default function Act1C4TrialPage() {
 
   if (!opponent) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-black text-amber-300 font-mono">
+      <div className="min-h-screen flex items-center justify-center bg-black void-text-accent font-mono">
         <p>Wayne Warden opponent data not found.</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#0c0608] via-[#1a0808] to-[#0c0608] text-amber-50 font-serif">
+    <div className="min-h-screen void-bg-sunk void-text-accent font-serif">
       <TopNav />
 
       <AnimatePresence mode="wait">
@@ -138,12 +138,12 @@ export default function Act1C4TrialPage() {
 
 function TopNav() {
   return (
-    <div className="border-b border-amber-900/40 bg-black/50 backdrop-blur px-6 py-3 flex items-center gap-4">
-      <Link href="/" className="text-amber-300/70 hover:text-amber-300">
+    <div className="border-b void-border bg-black/50 backdrop-blur px-6 py-3 flex items-center gap-4">
+      <Link href="/" className="void-text-accent void-text-accent">
         <ChevronLeft className="w-5 h-5 inline" /> Home
       </Link>
       <div className="flex-1" />
-      <div className="text-amber-300/60 text-sm tracking-widest uppercase">
+      <div className="void-text-accent text-sm tracking-widest uppercase">
         Cycle C4 — Authority Tribunal
       </div>
     </div>
@@ -159,29 +159,29 @@ function MatchupView({ onStart }: { onStart: () => void }) {
       className="max-w-3xl mx-auto px-6 py-16 space-y-8"
     >
       <header className="space-y-3 text-center">
-        <div className="text-amber-300/60 text-xs tracking-[0.3em] uppercase">
+        <div className="void-text-accent text-xs tracking-[0.3em] uppercase">
           Cycle C4
         </div>
-        <h1 className="text-4xl font-bold text-amber-50">
+        <h1 className="text-4xl font-bold void-text-accent">
           Wayne Warden
         </h1>
-        <div className="text-amber-300/70 italic">Authority's Tribunal</div>
+        <div className="void-text-accent italic">Authority's Tribunal</div>
       </header>
 
       <CrystalCoffins />
 
-      <div className="bg-black/60 border border-amber-900/40 rounded-lg p-6 space-y-4">
-        <blockquote className="text-amber-100/90 leading-relaxed italic">
+      <div className="bg-black/60 border void-border rounded-lg p-6 space-y-4">
+        <blockquote className="void-text-accent leading-relaxed italic">
           "The defendant will rise. The chamber is in session. The charges
           have been entered into the record and read in absentia. What do
           you say to the charges?"
         </blockquote>
-        <div className="text-amber-300/60 text-sm">— Wayne Warden, §2.13</div>
+        <div className="void-text-accent text-sm">— Wayne Warden, §2.13</div>
       </div>
 
-      <div className="bg-black/40 border border-amber-900/30 rounded-lg p-4 text-sm space-y-2 text-amber-100/80">
+      <div className="bg-black/40 border void-border rounded-lg p-4 text-sm space-y-2 void-text-accent">
         <p>
-          <strong className="text-amber-300">Trial format.</strong> No health
+          <strong className="void-text-accent">Trial format.</strong> No health
           pools. The Tribunal plays jury + evidence cards; the verdict
           scroll fills to 10 ink lines (loss) or the Tribunal runs out of
           cards (win).
@@ -195,7 +195,7 @@ function MatchupView({ onStart }: { onStart: () => void }) {
       <div className="flex justify-center">
         <button
           onClick={onStart}
-          className="bg-amber-700 hover:bg-amber-600 text-black font-bold px-8 py-3 rounded-lg flex items-center gap-2 transition"
+          className="void-bg-sunk void-bg-sunk text-black font-bold px-8 py-3 rounded-lg flex items-center gap-2 transition"
         >
           <Play className="w-5 h-5" /> I will let the deck answer.
         </button>
@@ -222,7 +222,7 @@ function TrialView({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="max-w-6xl mx-auto px-6 py-8 grid grid-cols-1 md:grid-cols-[1fr_280px] gap-6"
+      className="max-w-6xl mx-auto px-6 py-8 grid grid-cols-1 md:grid-cols-[1fr_17.5rem] gap-6"
     >
       {/* Main trial area */}
       <section className="space-y-6">
@@ -259,7 +259,7 @@ function CrystalCoffins() {
             ease: "easeInOut",
             delay: i * 0.1,
           }}
-          className="h-20 bg-gradient-to-b from-amber-900/30 to-amber-700/20 border border-amber-600/40 rounded-sm"
+          className="h-20 void-bg-sunk border void-border rounded-sm"
         />
       ))}
     </div>
@@ -269,7 +269,7 @@ function CrystalCoffins() {
 function PendingCard({ card }: { card: TribunalCard | null }) {
   if (!card) {
     return (
-      <div className="bg-black/60 border border-amber-900/30 rounded-lg p-6 text-center text-amber-300/50 italic">
+      <div className="bg-black/60 border void-border rounded-lg p-6 text-center void-text-accent italic">
         Awaiting the Tribunal…
       </div>
     );
@@ -279,30 +279,30 @@ function PendingCard({ card }: { card: TribunalCard | null }) {
     card.kind === "jury" ? "Jury Card" : "Evidence Card";
   const weightColor =
     card.weight === 1
-      ? "text-amber-300"
+      ? "void-text-accent"
       : card.weight === 2
-      ? "text-orange-400"
+      ? "void-text-premium"
       : card.weight === 3
-      ? "text-red-400"
-      : "text-red-500";
+      ? "void-text-error"
+      : "void-text-error";
 
   return (
     <motion.div
       key={card.id}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="bg-gradient-to-b from-[#2a0a0a] to-black border-2 border-amber-700/50 rounded-lg p-6 space-y-3"
+      className="void-bg-sunk border-2 void-border rounded-lg p-6 space-y-3"
     >
       <div className="flex items-center justify-between text-xs tracking-widest uppercase">
-        <span className="text-amber-300/70">{kindLabel}</span>
+        <span className="void-text-accent">{kindLabel}</span>
         <span className={`${weightColor} font-bold`}>
           Weight {card.weight}
           {card.unanswerable ? " — unanswerable" : ""}
         </span>
       </div>
-      <h3 className="text-xl font-bold text-amber-100">{card.name}</h3>
+      <h3 className="text-xl font-bold void-text-accent">{card.name}</h3>
       {card.flavor && (
-        <p className="text-amber-200/60 italic text-sm leading-relaxed">
+        <p className="void-text-accent italic text-sm leading-relaxed">
           {card.flavor}
         </p>
       )}
@@ -324,7 +324,7 @@ function EngineerHand({
   const disabled = pending === null;
   return (
     <div className="space-y-3">
-      <div className="text-amber-300/70 text-xs tracking-widest uppercase">
+      <div className="void-text-accent text-xs tracking-widest uppercase">
         Your deck — {hand.length} cards
       </div>
       <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
@@ -337,13 +337,13 @@ function EngineerHand({
               disabled={disabled || !canUse}
               className={`text-left p-3 rounded border transition ${
                 canUse
-                  ? "bg-amber-900/30 border-amber-600/50 hover:bg-amber-800/40 hover:border-amber-500 text-amber-50"
-                  : "bg-black/40 border-amber-900/20 text-amber-200/30 cursor-not-allowed"
+                  ? "void-bg-sunk void-border void-bg-sunk void-border void-text-accent"
+                  : "bg-black/40 void-border void-text-accent cursor-not-allowed"
               }`}
             >
               <div className="text-sm font-semibold">{cardLabel(cardId)}</div>
               {canUse && (
-                <div className="text-xs text-amber-400/70 mt-1">
+                <div className="text-xs void-text-accent mt-1">
                   thematic counter
                 </div>
               )}
@@ -355,7 +355,7 @@ function EngineerHand({
         <button
           onClick={() => onCounter(null)}
           disabled={disabled}
-          className="w-full p-3 rounded border border-red-900/40 bg-black/40 hover:bg-red-950/30 text-red-300/80 text-sm transition disabled:opacity-50"
+          className="w-full p-3 rounded border void-border-error bg-black/40 void-bg-error void-text-error text-sm transition disabled:opacity-50"
         >
           Accept the ink (no counter)
         </button>
@@ -367,10 +367,10 @@ function EngineerHand({
 function VerdictScroll({ inkLines }: { inkLines: number }) {
   const MAX = 10;
   return (
-    <div className="bg-[#f4e4bc]/10 border border-amber-700/50 rounded-lg p-4 sticky top-6">
+    <div className="void-bg-sunk border void-border rounded-lg p-4 sticky top-6">
       <div className="flex items-center gap-2 mb-3">
-        <Scale className="w-5 h-5 text-amber-400" />
-        <h3 className="text-amber-100 font-bold tracking-widest uppercase text-xs">
+        <Scale className="w-5 h-5 void-text-accent" />
+        <h3 className="void-text-accent font-bold tracking-widest uppercase text-xs">
           Verdict Scroll
         </h3>
       </div>
@@ -383,20 +383,20 @@ function VerdictScroll({ inkLines }: { inkLines: number }) {
               initial={false}
               animate={{
                 backgroundColor: filled
-                  ? "rgba(26, 20, 16, 0.85)"
-                  : "rgba(244, 228, 188, 0.08)",
+                  ? "color-mix(in oklch, var(--energy-accent) 18%, transparent)"
+                  : "color-mix(in oklch, var(--energy-accent) 4%, transparent)",
               }}
               transition={{ duration: 0.4 }}
-              className="h-4 rounded-sm border border-amber-900/30"
+              className="h-4 rounded-sm border void-border"
             />
           );
         })}
       </div>
-      <div className="mt-3 text-center text-amber-300/70 text-sm font-mono">
+      <div className="mt-3 text-center void-text-accent text-sm font-mono">
         {inkLines} / {MAX}
       </div>
       {inkLines >= 7 && inkLines < MAX && (
-        <div className="mt-3 text-center text-red-400/80 text-xs italic">
+        <div className="mt-3 text-center void-text-error text-xs italic">
           The Tribunal is near sentence.
         </div>
       )}
@@ -420,37 +420,37 @@ function PostMatchView({
       className="max-w-3xl mx-auto px-6 py-16 space-y-8"
     >
       <header className="text-center space-y-3">
-        <Hammer className="w-12 h-12 mx-auto text-amber-500" />
-        <h2 className="text-3xl font-bold text-amber-50">
+        <Hammer className="w-12 h-12 mx-auto void-text-accent" />
+        <h2 className="text-3xl font-bold void-text-accent">
           {isWin ? "The Tribunal Recesses" : "Sentence"}
         </h2>
       </header>
 
-      <div className="bg-black/60 border border-amber-900/40 rounded-lg p-6 space-y-4">
+      <div className="bg-black/60 border void-border rounded-lg p-6 space-y-4">
         {isWin ? (
           <>
-            <p className="text-amber-100/90 italic leading-relaxed">
+            <p className="void-text-accent italic leading-relaxed">
               "The Tribunal has not been outmatched in this chamber in
               nineteen years. The deck has answered. The Authority will
               consult and reconvene. You will be returned to holding."
             </p>
-            <p className="text-amber-200/70 italic text-sm">
+            <p className="void-text-accent italic text-sm">
               Later, quietly, only to you:
             </p>
-            <p className="text-amber-100/90 italic leading-relaxed">
+            <p className="void-text-accent italic leading-relaxed">
               "You have until morning to decide what you want recorded.
               A microphone will be brought to your cell. Use it well."
             </p>
           </>
         ) : (
           <>
-            <p className="text-amber-100/90 italic leading-relaxed">
+            <p className="void-text-accent italic leading-relaxed">
               "The defendant is found guilty under all entered charges.
               Sentence: termination, by Authority protocol, to be carried
               out at first light. The deck has answered. The Tribunal
               records its decision."
             </p>
-            <p className="text-red-300/80 italic text-sm leading-relaxed">
+            <p className="void-text-error italic text-sm leading-relaxed">
               "You will be granted a final recording before execution.
               Authority protocol. The microphone will be present in the
               chamber. You may speak for as long as the recording medium
@@ -458,10 +458,10 @@ function PostMatchView({
             </p>
           </>
         )}
-        <div className="text-amber-300/60 text-sm pt-2">— §2.13</div>
+        <div className="void-text-accent text-sm pt-2">— §2.13</div>
       </div>
 
-      <div className="bg-amber-900/10 border border-amber-800/30 rounded-lg p-4 text-center text-amber-200/80 text-sm italic">
+      <div className="void-bg-sunk border void-border rounded-lg p-4 text-center void-text-accent text-sm italic">
         The <em>Last Words</em> slideshow fires next (§17) with the{" "}
         {isWin ? "win-path cell-private" : "loss-path chamber-public"}{" "}
         framing.
@@ -470,13 +470,13 @@ function PostMatchView({
       <div className="flex justify-center gap-3">
         <button
           onClick={onReset}
-          className="border border-amber-600/40 text-amber-200 hover:bg-amber-900/30 px-6 py-2 rounded transition flex items-center gap-2"
+          className="border void-border void-text-accent void-bg-sunk px-6 py-2 rounded transition flex items-center gap-2"
         >
           <X className="w-4 h-4" /> Replay
         </button>
         <Link
           href="/"
-          className="bg-amber-700 hover:bg-amber-600 text-black font-bold px-6 py-2 rounded transition"
+          className="void-bg-sunk void-bg-sunk text-black font-bold px-6 py-2 rounded transition"
         >
           Return to Ark
         </Link>

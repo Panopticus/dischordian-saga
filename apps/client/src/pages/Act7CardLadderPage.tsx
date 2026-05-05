@@ -280,23 +280,23 @@ export default function Act7CardLadderPage() {
     }
   }, [postMatchResult, anyStanceTaken]);
 
-  const accent = "border-stone-400/50 text-stone-200";
-  const subAccent = "text-stone-300/80";
+  const accent = "void-border void-text";
+  const subAccent = "void-text-dim";
 
   return (
-    <div className="relative min-h-screen bg-stone-950 text-stone-100">
+    <div className="relative min-h-screen void-bg-canvas void-text">
       <LivingBackground
         src={assetUrl("art/rooms/room-bridge.png")}
-        accent="rgba(168, 162, 158, 0.3)"
+        accent="color-mix(in oklch, var(--energy-accent) 30%, transparent)"
         opacity={0.08}
         particleCount={2}
         scanlines={false}
       />
 
-      <header className="relative z-10 flex items-center justify-between border-b border-stone-400/30 bg-stone-950/80 px-4 py-3 backdrop-blur">
+      <header className="relative z-10 flex items-center justify-between border-b void-border void-bg-canvas px-4 py-3 backdrop-blur">
         <Link
           to="/bridge"
-          className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.25em] text-stone-300/80 hover:text-stone-100"
+          className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.25em] void-text-dim void-text"
         >
           <ChevronLeft size={14} />
           Return to Bridge
@@ -305,11 +305,11 @@ export default function Act7CardLadderPage() {
           <p className={`font-mono text-[10px] uppercase tracking-[0.3em] ${subAccent}`}>
             Act 7 · The Convergence
           </p>
-          <p className="mt-1 font-serif text-lg italic text-stone-50">
+          <p className="mt-1 font-serif text-lg italic void-text">
             The Seat Awaits
           </p>
         </div>
-        <div className="font-mono text-[10px] uppercase tracking-wider text-stone-300/80">
+        <div className="font-mono text-[10px] uppercase tracking-wider void-text-dim">
           {wins}/{ACT_7_OPPONENTS.length} · {losses}L
         </div>
       </header>
@@ -325,7 +325,7 @@ export default function Act7CardLadderPage() {
               transition={{ duration: 0.25 }}
               className="space-y-3"
             >
-              <p className={`font-serif italic text-[13px] leading-relaxed text-stone-100/80`}>
+              <p className={`font-serif italic text-[13px] leading-relaxed void-text-dim`}>
                 Four matches. The visible war you can see. The Watcher's
                 shadow you can barely feel. Patient Zero, wearing a
                 jacket you loved. And the Seat. Three absences, resolving
@@ -340,10 +340,10 @@ export default function Act7CardLadderPage() {
                     key={opp.id}
                     className={`rounded-md border px-4 py-3 transition-colors ${
                       done
-                        ? "border-stone-400/30 bg-stone-800/30"
+                        ? "void-border void-bg-canvas"
                         : isCurrent
-                          ? `${accent} bg-stone-800/50`
-                          : "border-stone-700/40 bg-stone-900/40"
+                          ? `${accent} void-bg-canvas`
+                          : "void-border void-bg-canvas"
                     }`}
                   >
                     <div className="flex items-center justify-between">
@@ -351,20 +351,20 @@ export default function Act7CardLadderPage() {
                         <p className={`font-mono text-[9px] uppercase tracking-wider ${subAccent}`}>
                           Match {opp.actStep}
                         </p>
-                        <p className="mt-1 font-serif text-[14px] text-stone-50">
+                        <p className="mt-1 font-serif text-[14px] void-text">
                           {opp.name}
                         </p>
                       </div>
                       <div className="flex items-center gap-2">
                         {done && (
-                          <CheckCircle2 size={18} className="text-emerald-400/80" />
+                          <CheckCircle2 size={18} className="void-text-energy" />
                         )}
-                        {locked && <Lock size={16} className="text-stone-500" />}
+                        {locked && <Lock size={16} className="void-text" />}
                         {isCurrent && (
                           <button
                             type="button"
                             onClick={() => setView("matchup")}
-                            className="flex items-center gap-1 rounded border border-stone-400/50 bg-stone-800/50 px-3 py-1 font-mono text-[10px] uppercase tracking-wider text-stone-100 hover:bg-stone-700/60"
+                            className="flex items-center gap-1 rounded border void-border void-bg-canvas px-3 py-1 font-mono text-[10px] uppercase tracking-wider void-text void-bg-canvas"
                           >
                             <Swords size={12} />
                             Step in
@@ -376,14 +376,14 @@ export default function Act7CardLadderPage() {
                 );
               })}
               {ladderComplete && (
-                <div className="rounded-md border border-emerald-500/40 bg-emerald-950/20 p-4">
+                <div className="rounded-md border void-border-success void-bg-success p-4">
                   <div className="flex items-center gap-2">
-                    <Trophy size={16} className="text-emerald-300" />
-                    <p className="font-mono text-[10px] uppercase tracking-wider text-emerald-300/90">
+                    <Trophy size={16} className="void-text-energy" />
+                    <p className="font-mono text-[10px] uppercase tracking-wider void-text-energy">
                       Arc complete — you arrived whole
                     </p>
                   </div>
-                  <p className="mt-2 font-serif text-[12px] italic text-emerald-100/80">
+                  <p className="mt-2 font-serif text-[12px] italic void-text-energy">
                     The visible war is won. The invisible war has begun.
                     The Ark is warm. The Array is on. Come back to the
                     bridge when you can.
@@ -392,7 +392,7 @@ export default function Act7CardLadderPage() {
                     <button
                       type="button"
                       onClick={() => setView("stance")}
-                      className="mt-3 rounded border border-stone-400/60 bg-stone-900/40 px-3 py-1 font-mono text-[10px] uppercase tracking-wider text-stone-100 hover:bg-stone-800/60"
+                      className="mt-3 rounded border void-border void-bg-canvas px-3 py-1 font-mono text-[10px] uppercase tracking-wider void-text void-bg-canvas"
                     >
                       Choose your final stance
                     </button>
@@ -411,22 +411,22 @@ export default function Act7CardLadderPage() {
               transition={{ duration: 0.3 }}
               className="space-y-4"
             >
-              <div className="rounded-md border border-stone-400/40 bg-stone-950/60 p-5">
+              <div className="rounded-md border void-border void-bg-canvas p-5">
                 <p className={`font-mono text-[9px] uppercase tracking-wider ${subAccent}`}>
                   Match {currentOpponent.actStep} · {currentOpponent.name}
                 </p>
-                <p className="mt-2 font-serif text-[14px] text-stone-50">
+                <p className="mt-2 font-serif text-[14px] void-text">
                   {currentOpponent.backstory}
                 </p>
                 {dialog?.frameIntro && (
-                  <p className={`mt-3 font-serif italic text-[12px] leading-relaxed whitespace-pre-line text-stone-200/80`}>
+                  <p className={`mt-3 font-serif italic text-[12px] leading-relaxed whitespace-pre-line void-text-dim`}>
                     {dialog.frameIntro}
                   </p>
                 )}
                 <p className={`mt-3 font-mono text-[9px] uppercase tracking-wider ${subAccent}`}>
                   Pre-match
                 </p>
-                <p className="mt-1 font-serif italic text-[13px] text-stone-100">
+                <p className="mt-1 font-serif italic text-[13px] void-text">
                   "{currentOpponent.preMatchLine}"
                 </p>
               </div>
@@ -434,7 +434,7 @@ export default function Act7CardLadderPage() {
                 <button
                   type="button"
                   onClick={() => setView("ladder")}
-                  className="flex items-center gap-1 font-mono text-[10px] uppercase tracking-wider text-stone-300/80 hover:text-stone-100"
+                  className="flex items-center gap-1 font-mono text-[10px] uppercase tracking-wider void-text-dim void-text"
                 >
                   <ChevronLeft size={12} />
                   Back
@@ -442,7 +442,7 @@ export default function Act7CardLadderPage() {
                 <button
                   type="button"
                   onClick={handleEngage}
-                  className="flex items-center gap-2 rounded border border-stone-400/60 bg-stone-800/50 px-4 py-2 font-mono text-[10px] uppercase tracking-wider text-stone-100 hover:bg-stone-700/60"
+                  className="flex items-center gap-2 rounded border void-border void-bg-canvas px-4 py-2 font-mono text-[10px] uppercase tracking-wider void-text void-bg-canvas"
                 >
                   <Play size={12} />
                   Begin
@@ -488,7 +488,7 @@ export default function Act7CardLadderPage() {
               transition={{ duration: 0.35 }}
               className="space-y-4"
             >
-              <div className="rounded-md border border-stone-400/40 bg-stone-950/60 p-5">
+              <div className="rounded-md border void-border void-bg-canvas p-5">
                 <div className="flex items-center justify-between">
                   <p className={`font-mono text-[9px] uppercase tracking-wider ${subAccent}`}>
                     {postMatchResult.outcome === "win"
@@ -498,19 +498,19 @@ export default function Act7CardLadderPage() {
                   <button
                     type="button"
                     onClick={handlePostMatchContinue}
-                    className="text-stone-300/80 hover:text-stone-100"
+                    className="void-text-dim void-text"
                     aria-label="Close"
                   >
                     <X size={14} />
                   </button>
                 </div>
-                <p className="mt-2 font-serif text-[14px] italic text-stone-50">
+                <p className="mt-2 font-serif text-[14px] italic void-text">
                   {postMatchResult.outcome === "win"
                     ? postMatchResult.opponent.postMatchWin
                     : postMatchResult.opponent.postMatchLoss}
                 </p>
                 {dialog && (
-                  <p className={`mt-3 font-serif italic text-[12px] leading-relaxed whitespace-pre-line text-stone-200/80`}>
+                  <p className={`mt-3 font-serif italic text-[12px] leading-relaxed whitespace-pre-line void-text-dim`}>
                     {postMatchResult.outcome === "win"
                       ? dialog.frameCloseWin
                       : dialog.frameCloseLoss}
@@ -521,7 +521,7 @@ export default function Act7CardLadderPage() {
                 <button
                   type="button"
                   onClick={handlePostMatchContinue}
-                  className="rounded border border-stone-400/60 bg-stone-800/50 px-4 py-2 font-mono text-[10px] uppercase tracking-wider text-stone-100 hover:bg-stone-700/60"
+                  className="rounded border void-border void-bg-canvas px-4 py-2 font-mono text-[10px] uppercase tracking-wider void-text void-bg-canvas"
                 >
                   Continue
                 </button>
@@ -538,14 +538,14 @@ export default function Act7CardLadderPage() {
               transition={{ duration: 0.35 }}
               className="space-y-4"
             >
-              <div className="rounded-md border border-stone-400/40 bg-stone-950/60 p-5">
+              <div className="rounded-md border void-border void-bg-canvas p-5">
                 <p className={`font-mono text-[10px] uppercase tracking-[0.3em] ${subAccent}`}>
                   Act 7 · Final Stance
                 </p>
-                <p className="mt-2 font-serif text-[15px] italic text-stone-50">
+                <p className="mt-2 font-serif text-[15px] italic void-text">
                   The seat is yours. So is the silence.
                 </p>
-                <p className="mt-3 font-serif text-[12px] leading-relaxed text-stone-200/80">
+                <p className="mt-3 font-serif text-[12px] leading-relaxed void-text-dim">
                   The Convergence Seat is empty and the room is waiting.
                   Choose a stance, or refuse to choose — either is the
                   whole answer. The next cycle will inherit it.
@@ -557,12 +557,12 @@ export default function Act7CardLadderPage() {
                     <button
                       type="button"
                       onClick={() => handleStanceChosen(stance.flag)}
-                      className="w-full rounded-md border border-stone-400/40 bg-stone-900/30 px-4 py-3 text-left hover:border-stone-200 hover:bg-stone-900/60"
+                      className="w-full rounded-md border void-border void-bg-canvas px-4 py-3 text-left void-border void-bg-canvas"
                     >
-                      <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-stone-100">
+                      <p className="font-mono text-[10px] uppercase tracking-[0.25em] void-text">
                         {stance.label}
                       </p>
-                      <p className="mt-1 font-serif text-[12px] leading-relaxed italic text-stone-200/80">
+                      <p className="mt-1 font-serif text-[12px] leading-relaxed italic void-text-dim">
                         {stance.body}
                       </p>
                     </button>
@@ -572,12 +572,12 @@ export default function Act7CardLadderPage() {
                   <button
                     type="button"
                     onClick={handleSilenceChosen}
-                    className="w-full rounded-md border border-stone-500/30 bg-stone-950/40 px-4 py-3 text-left hover:border-stone-300 hover:bg-stone-900/40"
+                    className="w-full rounded-md border void-border void-bg-canvas px-4 py-3 text-left void-border void-bg-canvas"
                   >
-                    <p className="font-mono text-[10px] uppercase tracking-[0.25em] text-stone-300">
+                    <p className="font-mono text-[10px] uppercase tracking-[0.25em] void-text">
                       Refuse to choose. Hold the silence.
                     </p>
-                    <p className="mt-1 font-serif text-[12px] leading-relaxed italic text-stone-300/70">
+                    <p className="mt-1 font-serif text-[12px] leading-relaxed italic void-text-dim">
                       The room is full of people who will speak for you.
                       You let them. The cycle inherits the silence and
                       makes of it what it makes.

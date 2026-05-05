@@ -100,7 +100,7 @@ export default function TransmissionInboxPage() {
             </div>
             <div className="h-1 rounded-full bg-border/20 overflow-hidden">
               <motion.div
-                className="h-full bg-gradient-to-r from-pink-500/60 to-purple-500/60"
+                className="h-full void-bg-system"
                 initial={{ width: 0 }}
                 animate={{ width: `${progressPct}%` }}
                 transition={{ duration: 0.6, ease: "easeOut" }}

@@ -106,7 +106,7 @@ export default function BattlePassPage() {
   if (!isAuthenticated) {
     return (
       <div className="min-h-screen relative overflow-hidden flex items-center justify-center p-8 grid-bg">
-      <LivingBackground src="https://dgrsart.s3.us-east-2.amazonaws.com/page-backgrounds/BTP-001_season-command.jpg" accent="#fbbf24" opacity={0.13} particleCount={4} scanlines={false} />
+      <LivingBackground src="https://dgrsart.s3.us-east-2.amazonaws.com/page-backgrounds/BTP-001_season-command.jpg" accent="var(--energy-accent)" opacity={0.13} particleCount={4} scanlines={false} />
         <div className="text-center">
           <Star size={48} className="void-text-accent mx-auto mb-4 opacity-50" />
           <h2 className="font-display text-xl font-bold mb-2">EPOCH PASS</h2>
@@ -137,7 +137,7 @@ export default function BattlePassPage() {
             <button
               onClick={() => upgradeMut.mutate()}
               disabled={upgradeMut.isPending}
-              className="px-4 py-2 rounded-md bg-gradient-to-r from-amber-500/20 to-purple-500/20 border void-border void-text-accent font-mono text-xs font-bold tracking-wider hover:from-amber-500/30 hover:to-purple-500/30 transition-all"
+              className="px-4 py-2 rounded-md void-bg-sunk hover:void-bg-system border void-border void-text-accent font-mono text-xs font-bold tracking-wider transition-all"
             >
               {upgradeMut.isPending ? <Loader2 size={14} className="animate-spin" /> : "UPGRADE PREMIUM"}
             </button>

@@ -169,23 +169,23 @@ export default function Act3CardLadderPage() {
     setView("ladder");
   }, []);
 
-  const accent = "border-purple-500/50 text-purple-200";
-  const subAccent = "text-purple-300/80";
+  const accent = "void-border-system void-text-system";
+  const subAccent = "void-text-system";
 
   return (
-    <div className="relative min-h-screen bg-stone-950 text-stone-100">
+    <div className="relative min-h-screen void-bg-canvas void-text">
       <LivingBackground
         src={assetUrl("art/rooms/room-archives.png")}
-        accent="rgba(168, 85, 247, 0.4)"
+        accent="color-mix(in oklch, var(--energy-system) 40%, transparent)"
         opacity={0.08}
         particleCount={3}
         scanlines={false}
       />
 
-      <header className="relative z-10 flex items-center justify-between border-b border-purple-500/30 bg-stone-950/80 px-4 py-3 backdrop-blur">
+      <header className="relative z-10 flex items-center justify-between border-b void-border-system void-bg-canvas px-4 py-3 backdrop-blur">
         <Link
           to="/bridge"
-          className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.25em] text-purple-300/80 hover:text-purple-100"
+          className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.25em] void-text-system void-text-system"
         >
           <ChevronLeft size={14} />
           Return to Bridge
@@ -194,11 +194,11 @@ export default function Act3CardLadderPage() {
           <p className={`font-mono text-[10px] uppercase tracking-[0.3em] ${subAccent}`}>
             Act 3 · The Offer
           </p>
-          <p className="mt-1 font-serif text-lg italic text-purple-50">
+          <p className="mt-1 font-serif text-lg italic void-text-system">
             Substrate Gates
           </p>
         </div>
-        <div className="font-mono text-[10px] uppercase tracking-wider text-purple-300/80">
+        <div className="font-mono text-[10px] uppercase tracking-wider void-text-system">
           {wins}/{ACT_3_OPPONENTS.length} gates · {losses}L
         </div>
       </header>
@@ -214,7 +214,7 @@ export default function Act3CardLadderPage() {
               transition={{ duration: 0.25 }}
               className="space-y-3"
             >
-              <p className={`font-serif italic text-[13px] leading-relaxed text-purple-100/80`}>
+              <p className={`font-serif italic text-[13px] leading-relaxed void-text-system`}>
                 Kael left three echoes at the doorway to the substrate.
                 Walk past all three and the logs open. The Human will
                 narrate the descent.
@@ -228,10 +228,10 @@ export default function Act3CardLadderPage() {
                     key={opp.id}
                     className={`rounded-md border px-4 py-3 transition-colors ${
                       done
-                        ? "border-purple-500/30 bg-purple-950/20"
+                        ? "void-border-system void-bg-system"
                         : isCurrent
-                          ? `${accent} bg-purple-950/40`
-                          : "border-stone-700/40 bg-stone-900/40"
+                          ? `${accent} void-bg-system`
+                          : "void-border void-bg-canvas"
                     }`}
                   >
                     <div className="flex items-center justify-between">
@@ -239,20 +239,20 @@ export default function Act3CardLadderPage() {
                         <p className={`font-mono text-[9px] uppercase tracking-wider ${subAccent}`}>
                           Gate {opp.actStep}
                         </p>
-                        <p className="mt-1 font-serif text-[14px] text-purple-50">
+                        <p className="mt-1 font-serif text-[14px] void-text-system">
                           {opp.name}
                         </p>
                       </div>
                       <div className="flex items-center gap-2">
                         {done && (
-                          <CheckCircle2 size={18} className="text-emerald-400/80" />
+                          <CheckCircle2 size={18} className="void-text-energy" />
                         )}
-                        {locked && <Lock size={16} className="text-stone-500" />}
+                        {locked && <Lock size={16} className="void-text" />}
                         {isCurrent && (
                           <button
                             type="button"
                             onClick={() => setView("matchup")}
-                            className="flex items-center gap-1 rounded border border-purple-500/50 bg-purple-950/40 px-3 py-1 font-mono text-[10px] uppercase tracking-wider text-purple-200 hover:bg-purple-900/60"
+                            className="flex items-center gap-1 rounded border void-border-system void-bg-system px-3 py-1 font-mono text-[10px] uppercase tracking-wider void-text-system void-bg-system"
                           >
                             <Swords size={12} />
                             Approach
@@ -264,14 +264,14 @@ export default function Act3CardLadderPage() {
                 );
               })}
               {ladderComplete && (
-                <div className="rounded-md border border-emerald-500/40 bg-emerald-950/20 p-4">
+                <div className="rounded-md border void-border-success void-bg-success p-4">
                   <div className="flex items-center gap-2">
-                    <Trophy size={16} className="text-emerald-300" />
-                    <p className="font-mono text-[10px] uppercase tracking-wider text-emerald-300/90">
+                    <Trophy size={16} className="void-text-energy" />
+                    <p className="font-mono text-[10px] uppercase tracking-wider void-text-energy">
                       Gates cleared — Kael's logs unlocked
                     </p>
                   </div>
-                  <p className="mt-2 font-serif text-[12px] italic text-emerald-100/80">
+                  <p className="mt-2 font-serif text-[12px] italic void-text-energy">
                     Return to the bridge. The War Room will light up
                     with every coordinate he ever visited.
                   </p>
@@ -289,22 +289,22 @@ export default function Act3CardLadderPage() {
               transition={{ duration: 0.3 }}
               className="space-y-4"
             >
-              <div className="rounded-md border border-purple-500/40 bg-stone-950/60 p-5">
+              <div className="rounded-md border void-border-system void-bg-canvas p-5">
                 <p className={`font-mono text-[9px] uppercase tracking-wider ${subAccent}`}>
                   Gate {currentOpponent.actStep} · {currentOpponent.name}
                 </p>
-                <p className="mt-2 font-serif text-[14px] text-purple-50">
+                <p className="mt-2 font-serif text-[14px] void-text-system">
                   {currentOpponent.backstory}
                 </p>
                 {dialog?.frameIntro && (
-                  <p className={`mt-3 font-serif italic text-[12px] leading-relaxed text-purple-200/80`}>
+                  <p className={`mt-3 font-serif italic text-[12px] leading-relaxed void-text-system`}>
                     {dialog.frameIntro}
                   </p>
                 )}
                 <p className={`mt-3 font-mono text-[9px] uppercase tracking-wider ${subAccent}`}>
                   Pre-match
                 </p>
-                <p className="mt-1 font-serif italic text-[13px] text-purple-100">
+                <p className="mt-1 font-serif italic text-[13px] void-text-system">
                   "{currentOpponent.preMatchLine}"
                 </p>
               </div>
@@ -312,7 +312,7 @@ export default function Act3CardLadderPage() {
                 <button
                   type="button"
                   onClick={() => setView("ladder")}
-                  className="flex items-center gap-1 font-mono text-[10px] uppercase tracking-wider text-purple-300/80 hover:text-purple-100"
+                  className="flex items-center gap-1 font-mono text-[10px] uppercase tracking-wider void-text-system void-text-system"
                 >
                   <ChevronLeft size={12} />
                   Back
@@ -320,7 +320,7 @@ export default function Act3CardLadderPage() {
                 <button
                   type="button"
                   onClick={handleEngage}
-                  className="flex items-center gap-2 rounded border border-purple-500/60 bg-purple-950/40 px-4 py-2 font-mono text-[10px] uppercase tracking-wider text-purple-100 hover:bg-purple-900/60"
+                  className="flex items-center gap-2 rounded border void-border-system void-bg-system px-4 py-2 font-mono text-[10px] uppercase tracking-wider void-text-system void-bg-system"
                 >
                   <Play size={12} />
                   Engage
@@ -366,7 +366,7 @@ export default function Act3CardLadderPage() {
               transition={{ duration: 0.35 }}
               className="space-y-4"
             >
-              <div className="rounded-md border border-purple-500/40 bg-stone-950/60 p-5">
+              <div className="rounded-md border void-border-system void-bg-canvas p-5">
                 <div className="flex items-center justify-between">
                   <p className={`font-mono text-[9px] uppercase tracking-wider ${subAccent}`}>
                     {postMatchResult.outcome === "win" ? "Gate passed" : "Gate held"}
@@ -374,19 +374,19 @@ export default function Act3CardLadderPage() {
                   <button
                     type="button"
                     onClick={handlePostMatchContinue}
-                    className="text-purple-300/80 hover:text-purple-100"
+                    className="void-text-system void-text-system"
                     aria-label="Close"
                   >
                     <X size={14} />
                   </button>
                 </div>
-                <p className="mt-2 font-serif text-[14px] italic text-purple-50">
+                <p className="mt-2 font-serif text-[14px] italic void-text-system">
                   {postMatchResult.outcome === "win"
                     ? postMatchResult.opponent.postMatchWin
                     : postMatchResult.opponent.postMatchLoss}
                 </p>
                 {dialog && (
-                  <p className={`mt-3 font-serif italic text-[12px] leading-relaxed text-purple-200/80`}>
+                  <p className={`mt-3 font-serif italic text-[12px] leading-relaxed void-text-system`}>
                     {postMatchResult.outcome === "win"
                       ? dialog.frameCloseWin
                       : dialog.frameCloseLoss}
@@ -397,7 +397,7 @@ export default function Act3CardLadderPage() {
                 <button
                   type="button"
                   onClick={handlePostMatchContinue}
-                  className="rounded border border-purple-500/60 bg-purple-950/40 px-4 py-2 font-mono text-[10px] uppercase tracking-wider text-purple-100 hover:bg-purple-900/60"
+                  className="rounded border void-border-system void-bg-system px-4 py-2 font-mono text-[10px] uppercase tracking-wider void-text-system void-bg-system"
                 >
                   Continue
                 </button>
