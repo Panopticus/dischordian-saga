@@ -43,11 +43,18 @@ import {
   loreJournalEntries,
   userAchievements,
   prestigeProgress,
+  voteAntiquarianEntries,
+  worldModifiers,
 } from "../../db/schema";
 import { eq, sql, desc, and, lte, gte, or, isNull, type SQL } from "drizzle-orm";
 import { pressureService } from "../services/pressureService";
 import { ripple } from "../services/rippleEngine";
 import { invalidateFeatureFlagCache } from "../middleware/featureFlag";
+import {
+  applyVoteConsequences,
+  lookupOptionId,
+  type AppliedConsequenceSummary,
+} from "../services/voteConsequenceApplier";
 
 /* ─── Helper: write audit log ─── */
 async function auditLog(db: NonNullable<Awaited<ReturnType<typeof getDb>>>, adminId: number, action: string, details?: unknown) {
@@ -181,10 +188,11 @@ export const architectConsoleRouter = router({
       impactPayload: z.record(z.string(), z.unknown()).optional(),
       options: z.array(z.object({
         optionNumber: z.number().int().min(1),
+        optionId: z.string().min(1).max(128).optional(),
         optionText: z.string().min(1).max(255),
         description: z.string().optional(),
         rewardOnWin: z.record(z.string(), z.unknown()).optional(),
-      })).min(3).max(5),
+      })).min(2).max(5),
     }))
     .mutation(async ({ ctx, input }) => {
       const db = await getDb();
@@ -205,6 +213,7 @@ export const architectConsoleRouter = router({
         input.options.map(opt => ({
           voteId: input.voteId,
           optionNumber: opt.optionNumber,
+          optionId: opt.optionId ?? null,
           optionText: opt.optionText,
           description: opt.description,
           rewardOnWin: opt.rewardOnWin as any,
@@ -285,7 +294,7 @@ export const architectConsoleRouter = router({
         .set({ status: "closed" })
         .where(eq(communityVotes.voteId, input.voteId));
 
-      // Mark the winner
+      // Mark the winner and read its rewardOnWin payload
       await db.update(voteOptions)
         .set({ isWinner: true })
         .where(and(
@@ -293,8 +302,39 @@ export const architectConsoleRouter = router({
           eq(voteOptions.optionNumber, input.winnerOptionNumber),
         ));
 
-      await auditLog(db, ctx.user.id, "close_vote", { voteId: input.voteId, winner: input.winnerOptionNumber });
-      return { success: true };
+      const [winner] = await db
+        .select({
+          optionId: voteOptions.optionId,
+          rewardOnWin: voteOptions.rewardOnWin,
+        })
+        .from(voteOptions)
+        .where(and(
+          eq(voteOptions.voteId, input.voteId),
+          eq(voteOptions.optionNumber, input.winnerOptionNumber),
+        ))
+        .limit(1);
+
+      const optionId = winner?.optionId ?? (await lookupOptionId(input.voteId, input.winnerOptionNumber));
+
+      // Apply structured consequences (flags, energy delta, tome
+      // entry, world modifiers). Idempotent — safe to retry.
+      const summary: AppliedConsequenceSummary = await applyVoteConsequences({
+        voteId: input.voteId,
+        optionNumber: input.winnerOptionNumber,
+        optionId,
+        rewardOnWin: winner?.rewardOnWin ?? null,
+      });
+
+      await auditLog(db, ctx.user.id, "close_vote", {
+        voteId: input.voteId,
+        winner: input.winnerOptionNumber,
+        flagsSet: summary.flagsSet,
+        unlocksGranted: summary.unlocksGranted,
+        energyDelta: summary.energyDelta,
+        worldModifiersActivated: summary.worldModifiersActivated,
+        tomeEntryWritten: summary.tomeEntryWritten,
+      });
+      return { success: true, summary };
     }),
 
   /** Cast a vote — one per user per vote (player) */
@@ -387,6 +427,78 @@ export const architectConsoleRouter = router({
       options: optionsByVote.get(v.voteId) ?? [],
       userVotedOption: userVoteMap.get(v.voteId) ?? null,
     }));
+  }),
+
+  /**
+   * Tome entries written by the consequence applier on each
+   * vote close. Public; rendered on the Governance Hub. The
+   * `annotation` field is filtered out unless the requesting
+   * player has Antiquarian trust >= 60 (see annotation gate
+   * in companion-service code).
+   */
+  getTomeEntries: protectedProcedure
+    .input(z.object({ limit: z.number().int().min(1).max(100).default(50) }).optional())
+    .query(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) return [];
+      const limit = input?.limit ?? 50;
+      const rows = await db
+        .select()
+        .from(voteAntiquarianEntries)
+        .orderBy(desc(voteAntiquarianEntries.inscribedAt))
+        .limit(limit);
+
+      // Antiquarian-trust gate. Read companion trust if available;
+      // hide annotations otherwise. Tolerant of missing rows.
+      let antiquarianTrust = 0;
+      try {
+        const [companion] = await db
+          .select({ trust: companionRelationships.relationshipLevel })
+          .from(companionRelationships)
+          .where(and(
+            eq(companionRelationships.userId, ctx.user.id),
+            eq(companionRelationships.companionId, "antiquarian"),
+          ))
+          .limit(1);
+        antiquarianTrust = companion?.trust ?? 0;
+      } catch {
+        antiquarianTrust = 0;
+      }
+
+      return rows.map((row) => ({
+        voteId: row.voteId,
+        winningOptionNumber: row.winningOptionNumber,
+        body: row.body,
+        annotation: antiquarianTrust >= 60 ? row.annotation : null,
+        inscribedAt: row.inscribedAt,
+      }));
+    }),
+
+  /**
+   * Currently-active world modifiers from vote outcomes. Drives
+   * Governance Hub badge UI and is read by combat/crafting
+   * scaling code that opts in (see getActiveWorldModifiers).
+   */
+  getActiveWorldModifiers: protectedProcedure.query(async () => {
+    const db = await getDb();
+    if (!db) return [];
+    const now = new Date();
+    const rows = await db
+      .select()
+      .from(worldModifiers)
+      .where(eq(worldModifiers.isActive, true))
+      .orderBy(desc(worldModifiers.startedAt));
+    return rows
+      .filter((r) => !r.expiresAt || r.expiresAt > now)
+      .map((r) => ({
+        modifierKey: r.modifierKey,
+        modifierType: r.modifierType,
+        modifierValue: r.modifierValue,
+        description: r.description,
+        source: r.source,
+        startedAt: r.startedAt,
+        expiresAt: r.expiresAt,
+      }));
   }),
 
   // ═══════════════════════════════════════════════════

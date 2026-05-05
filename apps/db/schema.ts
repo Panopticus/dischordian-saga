@@ -3096,6 +3096,14 @@ export const voteOptions = mysqlTable("vote_options", {
   id: int("id").primaryKey().autoincrement(),
   voteId: varchar("voteId", { length: 128 }).notNull(),
   optionNumber: int("optionNumber").notNull(),
+  /**
+   * Stable string id (e.g. "power_up", "ark-food"). Optional for
+   * legacy votes seeded before the consequence applier landed;
+   * required for new votes so the structured-consequence
+   * registry in apps/shared/governanceConsequenceMap.ts can
+   * resolve the winning option without ordinal coupling.
+   */
+  optionId: varchar("optionId", { length: 128 }),
   optionText: varchar("optionText", { length: 255 }).notNull(),
   description: text("description"),
   rewardOnWin: json("rewardOnWin"),
@@ -3115,6 +3123,68 @@ export const playerVotes = mysqlTable("player_votes", {
   /** Fast lookup by vote */
   voteIdx: index("idx_player_votes_vote").on(table.voteId),
 }));
+
+/* ═══════════════════════════════════════════════════════
+   VOTE TOME ENTRIES — Antiquarian inscriptions per closed vote.
+   Written exactly once when a vote's structured consequences
+   are applied (see voteConsequenceApplier). The Governance Hub
+   renders these to all players; `annotation` gates on
+   Antiquarian trust ≥ 60.
+   ═══════════════════════════════════════════════════════ */
+export const voteAntiquarianEntries = mysqlTable("vote_antiquarian_entries", {
+  id: int("id").primaryKey().autoincrement(),
+  voteId: varchar("voteId", { length: 128 }).notNull(),
+  winningOptionNumber: int("winningOptionNumber").notNull(),
+  body: text("body").notNull(),
+  annotation: text("annotation"),
+  inscribedAt: timestamp("inscribedAt").defaultNow().notNull(),
+}, (table) => ({
+  voteIdIdx: index("idx_vote_antiquarian_entries_vote").on(table.voteId),
+  uniqueVote: uniqueIndex("uq_vote_antiquarian_entries_vote").on(table.voteId),
+}));
+export type VoteAntiquarianEntry = typeof voteAntiquarianEntries.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
+   WORLD MODIFIERS — Active multipliers from vote outcomes,
+   seasonal events, and rehearsal protocols. Consumers
+   (combat scaling, crafting XP, daily-vote badge UI) query
+   `getActiveWorldModifiers()` and apply their own scaling.
+   ═══════════════════════════════════════════════════════ */
+export const worldModifiers = mysqlTable("world_modifiers", {
+  id: int("id").primaryKey().autoincrement(),
+  modifierKey: varchar("modifierKey", { length: 128 }).notNull(),
+  modifierType: varchar("modifierType", { length: 64 }).notNull(),
+  modifierValue: int("modifierValue").notNull(),
+  description: text("description"),
+  source: varchar("source", { length: 256 }),
+  startedAt: timestamp("startedAt").defaultNow().notNull(),
+  expiresAt: timestamp("expiresAt"),
+  isActive: boolean("isActive").default(true).notNull(),
+}, (table) => ({
+  modifierKeyIdx: index("idx_world_modifiers_key").on(table.modifierKey),
+  activeIdx: index("idx_world_modifiers_active").on(table.isActive),
+  uniqueKey: uniqueIndex("uq_world_modifiers_key").on(table.modifierKey),
+}));
+export type WorldModifier = typeof worldModifiers.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
+   DAILY GOVERNANCE VOTES — server-persisted ship-management
+   binary choices. Phase 2 of the governance wiring; replaces
+   the old client-only Zustand store. Per-day deterministic
+   template id; player choice tallied; winning side activates a
+   24-hour world modifier surfaced as a badge on the hub.
+   ═══════════════════════════════════════════════════════ */
+export const dailyGovernanceVotes = mysqlTable("daily_governance_votes", {
+  id: int("id").primaryKey().autoincrement(),
+  dateKey: varchar("dateKey", { length: 16 }).notNull(),
+  userId: int("userId").notNull(),
+  side: mysqlEnum("side", ["A", "B"]).notNull(),
+  votedAt: timestamp("votedAt").defaultNow().notNull(),
+}, (table) => ({
+  uniqueUserDate: uniqueIndex("uq_daily_governance_votes_user_date").on(table.dateKey, table.userId),
+  dateIdx: index("idx_daily_governance_votes_date").on(table.dateKey),
+}));
+export type DailyGovernanceVote = typeof dailyGovernanceVotes.$inferSelect;
 
 // ═══ ARCHITECT'S CONSOLE — Live Events ═══
 export const adminEvents = mysqlTable("admin_events", {
