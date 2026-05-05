@@ -267,4 +267,48 @@ export const prestigeRouter = router({
 
     return { eligible: true, currentTier: tier, nextTier: tier + 1 };
   }),
+
+  /**
+   * Bandersnatch Moves 4 + 5 — write the post-run Tome
+   * inscriptions for the player's just-finished cycle.
+   * Idempotent on prestigeTier+stance, so repeated calls
+   * after a run-close don't duplicate rows. Called by the
+   * Act 7 completion flow once `act_7_complete` is set.
+   */
+  inscribePostRun: protectedProcedure
+    .input(z.object({
+      stanceFlag: z.string().nullable(),
+      pathFlag: z
+        .union([z.literal("act1_path_A"), z.literal("act3_partial_share"), z.literal("act3_full_secret")])
+        .nullable(),
+      humanityRunCount: z.number().int().min(0).default(0),
+      machineRunCount: z.number().int().min(0).default(0),
+      balanceRunCount: z.number().int().min(0).default(0),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) return { success: false };
+
+      const [sheet] = await db.select({ prestigeTier: characterSheets.prestigeTier })
+        .from(characterSheets)
+        .where(eq(characterSheets.userId, ctx.user.id))
+        .limit(1);
+      if (!sheet) return { success: false, reason: "no character sheet" };
+
+      const { inscribePostRun, snapshotInscriptionContext } = await import(
+        "../services/postRunInscriptionsService"
+      );
+
+      const inscriptionCtx = await snapshotInscriptionContext({
+        userId: ctx.user.id,
+        prestigeTier: sheet.prestigeTier + 1, // count this run as the closed cycle
+        stanceFlag: input.stanceFlag,
+        pathFlag: input.pathFlag,
+        humanityRunCount: input.humanityRunCount,
+        machineRunCount: input.machineRunCount,
+        balanceRunCount: input.balanceRunCount,
+      });
+      const result = await inscribePostRun({ userId: ctx.user.id, ctx: inscriptionCtx });
+      return { success: true, ...result };
+    }),
 });
