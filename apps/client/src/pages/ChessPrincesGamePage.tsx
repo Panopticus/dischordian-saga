@@ -110,7 +110,7 @@ export default function ChessPrincesGamePage() {
           </p>
           <button
             onClick={advance}
-            className="mt-3 px-4 py-2 border border-void-text-accent/60 text-void-text-accent rounded text-sm"
+            className="mt-3 px-4 py-2 border border-void-text-accent text-void-text-accent rounded text-sm"
           >
             Continue
           </button>
@@ -138,7 +138,7 @@ export default function ChessPrincesGamePage() {
             )}
             <button
               onClick={advance}
-              className="mt-3 px-4 py-2 border border-void-text-accent/60 text-void-text-accent rounded text-sm"
+              className="mt-3 px-4 py-2 border border-void-text-accent text-void-text-accent rounded text-sm"
             >
               {stepIdx + 1 < steps.length ? "Play next move" : "Conclude"}
             </button>
@@ -153,7 +153,7 @@ export default function ChessPrincesGamePage() {
           </p>
           <button
             onClick={advance}
-            className="mt-3 px-4 py-2 border border-void-text-accent/60 text-void-text-accent rounded text-sm"
+            className="mt-3 px-4 py-2 border border-void-text-accent text-void-text-accent rounded text-sm"
           >
             {outroIdx + 1 < outroCues.length ? "Continue" : "Finish"}
           </button>

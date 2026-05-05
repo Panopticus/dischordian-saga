@@ -38,7 +38,7 @@ function AxisRow({ axis, profile }: { axis: ProfileAxis; profile: PlayerProfile 
   const pos = axisToScalePos(value);
 
   return (
-    <div className="border border-void-border/40 rounded p-4 bg-void-bg/40">
+    <div className="border border-void-border rounded p-4 bg-void-bg/40">
       <div className="flex items-baseline justify-between mb-2">
         <h3 className="text-void-text capitalize text-sm tracking-wide">
           {axis}
@@ -51,7 +51,7 @@ function AxisRow({ axis, profile }: { axis: ProfileAxis; profile: PlayerProfile 
           className="absolute top-0 bottom-0 w-0.5 bg-void-text-accent"
           style={{ left: `${pos}%` }}
         />
-        <div className="absolute top-0 bottom-0 left-1/2 w-px bg-void-border/60" />
+        <div className="absolute top-0 bottom-0 left-1/2 w-px bg-void-border" />
       </div>
 
       <div className="flex justify-between text-[10px] text-void-text-muted mt-1 uppercase tracking-wider">
@@ -152,7 +152,7 @@ export default function SelfPortraitPage() {
             {events.map((e) => (
               <li
                 key={e.id}
-                className="font-mono text-void-text-muted flex justify-between gap-3 py-1 border-b border-void-border/20"
+                className="font-mono text-void-text-muted flex justify-between gap-3 py-1 border-b border-void-border"
               >
                 <span className="truncate">{e.source}</span>
                 <span className="opacity-60">

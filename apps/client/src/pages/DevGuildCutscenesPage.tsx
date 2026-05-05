@@ -176,7 +176,7 @@ function CutsceneRow({
         <button
           type="button"
           onClick={() => onPick(undefined)}
-          className="w-full px-2 py-1 rounded bg-card/40 hover:bg-card/60 font-mono text-[10px] text-left text-muted-foreground"
+          className="w-full px-2 py-1 rounded bg-card/40 hover:bg-card/60 font-mono text-[0.625rem] text-left text-muted-foreground"
         >
           play cinematic only (no VO)
         </button>
@@ -187,7 +187,7 @@ function CutsceneRow({
               key={line.id}
               type="button"
               onClick={() => onPick(line.id)}
-              className="w-full px-2 py-1 rounded bg-card/40 hover:bg-card/60 font-mono text-[10px] text-left"
+              className="w-full px-2 py-1 rounded bg-card/40 hover:bg-card/60 font-mono text-[0.625rem] text-left"
               title={line.text}
             >
               <span className="text-primary">▸</span> {line.id}

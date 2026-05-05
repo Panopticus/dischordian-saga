@@ -98,7 +98,7 @@ export default function SuitGalleryPage() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr_240px] gap-4 p-4 sm:p-6">
+      <div className="grid grid-cols-1 lg:grid-cols-[17.5rem_1fr_15rem] gap-4 p-4 sm:p-6">
         {/* Set list */}
         <aside className="space-y-1 order-2 lg:order-1">
           <h2 className="font-display text-xs font-bold tracking-[0.2em] text-muted-foreground mb-2">
@@ -136,7 +136,7 @@ export default function SuitGalleryPage() {
         <main className="order-1 lg:order-2 flex flex-col items-center">
           <div
             className="rounded-lg p-4 border border-border/30 w-full max-w-md"
-            style={{ background: "radial-gradient(ellipse at center, #0f0f1a 0%, #000 80%)" }}
+            style={{ background: "radial-gradient(ellipse at center, color-mix(in oklch, var(--energy-system) 8%, black) 0%, black 80%)" }}
           >
             <PaperDollBG3
               loadout={loadout}

@@ -66,32 +66,32 @@ export default function BridgeOfKaelPage() {
   }, [flags, setNarrativeFlag, navigate]);
 
   return (
-    <div className="relative min-h-screen bg-stone-950 text-stone-100">
+    <div className="relative min-h-screen void-bg-canvas void-text">
       <LivingBackground
         src={assetUrl("art/rooms/room-bridge.png")}
-        accent="rgba(212, 188, 120, 0.28)"
+        accent="color-mix(in oklch, var(--energy-accent) 28%, transparent)"
         opacity={0.1}
         particleCount={3}
         scanlines={false}
       />
 
-      <header className="relative z-10 flex items-center justify-between border-b border-amber-500/25 bg-stone-950/80 px-4 py-3 backdrop-blur">
+      <header className="relative z-10 flex items-center justify-between border-b void-border void-bg-canvas px-4 py-3 backdrop-blur">
         <Link
           to="/witnessing"
-          className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.25em] text-amber-300/80 hover:text-amber-100"
+          className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.25em] void-text-accent void-text-accent"
         >
           <ChevronLeft size={14} />
           Witnessing Hub
         </Link>
         <div className="text-center">
-          <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-amber-300/70">
+          <p className="font-mono text-[10px] uppercase tracking-[0.3em] void-text-accent">
             §5 · The Bridge of Kael
           </p>
-          <p className="mt-1 font-serif text-lg italic text-amber-50">
+          <p className="mt-1 font-serif text-lg italic void-text-accent">
             {BRIDGE_OF_KAEL_POST_CREDITS.title}
           </p>
         </div>
-        <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-amber-300/80">
+        <span className="font-mono text-[10px] uppercase tracking-[0.25em] void-text-accent">
           Post-credits
         </span>
       </header>
@@ -101,9 +101,9 @@ export default function BridgeOfKaelPage() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1.2 }}
-          className="rounded-md border border-amber-500/30 bg-stone-950/60 p-6 backdrop-blur"
+          className="rounded-md border void-border void-bg-canvas p-6 backdrop-blur"
         >
-          <ul className="space-y-3 font-serif text-[14px] italic text-amber-100/90 leading-relaxed">
+          <ul className="space-y-3 font-serif text-[14px] italic void-text-accent leading-relaxed">
             {BRIDGE_OF_KAEL_POST_CREDITS.changes.map((line, i) => (
               <motion.li
                 key={i}
@@ -121,15 +121,15 @@ export default function BridgeOfKaelPage() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 6, duration: 1.5 }}
-          className="rounded-md border border-amber-500/40 bg-amber-950/20 p-5"
+          className="rounded-md border void-border void-bg-sunk p-5"
         >
           <div className="flex items-center gap-2 mb-2">
-            <Star size={14} className="text-amber-300" />
-            <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-amber-300/80">
+            <Star size={14} className="void-text-accent" />
+            <p className="font-mono text-[10px] uppercase tracking-[0.3em] void-text-accent">
               Console
             </p>
           </div>
-          <p className="font-serif text-[13px] italic text-amber-50/90 leading-relaxed">
+          <p className="font-serif text-[13px] italic void-text-accent leading-relaxed">
             {BRIDGE_OF_KAEL_POST_CREDITS.consoleObject}
           </p>
         </motion.section>
@@ -138,9 +138,9 @@ export default function BridgeOfKaelPage() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 9, duration: 1.8 }}
-          className="rounded-md border border-emerald-500/30 bg-emerald-950/10 p-5 text-center"
+          className="rounded-md border void-border-success void-bg-success p-5 text-center"
         >
-          <p className="font-serif text-[16px] italic text-emerald-50/95 leading-relaxed">
+          <p className="font-serif text-[16px] italic void-text-energy leading-relaxed">
             &ldquo;{BRIDGE_OF_KAEL_POST_CREDITS.closingLine}&rdquo;
           </p>
         </motion.section>
@@ -152,7 +152,7 @@ export default function BridgeOfKaelPage() {
             animate={{ opacity: 1 }}
             transition={{ delay: 12, duration: 1 }}
             onClick={close}
-            className="rounded border border-amber-500/50 bg-amber-950/30 px-5 py-2 font-mono text-[11px] uppercase tracking-[0.25em] text-amber-100 hover:bg-amber-900/50"
+            className="rounded border void-border void-bg-sunk px-5 py-2 font-mono text-[11px] uppercase tracking-[0.25em] void-text-accent void-bg-sunk"
           >
             Close the console
           </motion.button>
