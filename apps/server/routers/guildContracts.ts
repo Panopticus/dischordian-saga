@@ -2,10 +2,24 @@
    GUILD CONTRACTS — F.2.1 / F.2.2 / F.2.3 cutscene trigger
    surface for the weekly guild board.
 
-   This is a thin scaffold. The bible's F.2 contract loop
-   (8 contracts auto-unlock Monday → players complete →
-   guild treasury rewards) needs a content-design pass to
-   define what the contracts actually ARE; the router
+   STATUS (2026-05-05): backend-active, awaiting client UI.
+   Contract progress IS accruing server-side — guild.ts:387
+   (`guild_donation`) and guildWars.ts:202 (war contributions)
+   call `incrementContractProgress` as players play. The 8
+   weekly contract templates live at apps/shared/guildContracts;
+   the per-player progress table is `guildContractProgress` in
+   apps/db/schema.ts. The HouseCupPage (apps/client/src/pages/
+   HouseCupPage.tsx) is the natural surface for this router but
+   doesn't consume it yet — when that page wires
+   `trpc.guildContracts.listAvailable` + `.completeContract`,
+   the loop closes. Do NOT delete; the data is real and the
+   feature gap is purely the client UI. Audit
+   docs/HIDDEN_SYSTEMS_AUDIT_2026-05.md §C2 / B2.
+
+   Originally shipped as a thin scaffold — the bible's F.2
+   contract loop (8 contracts auto-unlock Monday → players
+   complete → guild treasury rewards) needs a content-design
+   pass to define what the contracts actually ARE; the router
    shipped here exposes the cinematic-trigger seams so the
    client can drive cs_contract_unlock / cs_contract_complete /
    cs_house_cup_weekly_reset against real ISO-week boundaries

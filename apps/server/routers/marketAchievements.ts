@@ -1,3 +1,19 @@
+/**
+ * @deprecated Orphan in shipping code. The router defines 75+
+ * achievement definitions and a `checkAndUnlock` mutation, but:
+ *   - No client `trpc.marketAchievements.*` calls exist (Achievements
+ *     Gallery uses lore achievements; CardAchievementsPage uses the
+ *     cardGameAchievements table, not userAchievements).
+ *   - Marketplace router never invokes `checkAndUnlock`, so the
+ *     `market_first_listing` / `market_first_sale` / etc. triggers
+ *     never fire even when players take the action.
+ * Functionally dead end-to-end. NOT superseded by cardAchievements
+ * (which covers card-game-specific achievements only); the marketplace,
+ * social, combat, exploration, crafting, collector, and economy
+ * achievement domains here have no shipping replacement. Either wire
+ * the marketplace router to call checkAndUnlock OR delete; do not
+ * extend until §2.1 of HIDDEN_SYSTEMS_AUDIT_2026-05.md is resolved.
+ */
 import { z } from "zod";
 import { protectedProcedure, publicProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
