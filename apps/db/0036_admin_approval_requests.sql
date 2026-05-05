@@ -11,10 +11,12 @@
 -- `executed`. Any admin can reject at any time.
 --
 -- Existing rows with role='user' or role='admin' are untouched by
--- the enum widening; MySQL preserves their values.
+-- the enum widening;
+--> statement-breakpoint MySQL preserves their values.
 
 ALTER TABLE `users`
   MODIFY COLUMN `role` ENUM('user', 'moderator', 'admin') NOT NULL DEFAULT 'user';
+--> statement-breakpoint
 
 CREATE TABLE `admin_approval_requests` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
@@ -31,12 +33,15 @@ CREATE TABLE `admin_approval_requests` (
   `executedAt` TIMESTAMP NULL DEFAULT NULL,
   `rejectedAt` TIMESTAMP NULL DEFAULT NULL
 );
+--> statement-breakpoint
 
 CREATE INDEX `idx_admin_approval_status`
   ON `admin_approval_requests` (`status`);
+--> statement-breakpoint
 
 CREATE INDEX `idx_admin_approval_requested_by`
   ON `admin_approval_requests` (`requestedBy`);
+--> statement-breakpoint
 
 CREATE INDEX `idx_admin_approval_created_at`
   ON `admin_approval_requests` (`createdAt`);

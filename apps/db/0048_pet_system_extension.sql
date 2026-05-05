@@ -4,7 +4,8 @@
 -- to avoid colliding with three other branches that all chose 0037
 -- (0037_dischordia_cycle, 0037_dead_mans_circuit_lifecycle,
 -- 0037_pet_system_extension). The journal currently contains
--- 0037_dischordia_cycle as its canonical entry for idx 37; the other
+-- 0037_dischordia_cycle as its canonical entry for idx 37;
+--> statement-breakpoint the other
 -- two — and this one — are orphaned until a broader journal
 -- reconciliation lands. See apps/db/README.md §"Hand-written migrations".
 --
@@ -28,6 +29,7 @@
 
 -- ─── Helper procedure: add a column only if it does not already exist ──
 DROP PROCEDURE IF EXISTS addColumnIfMissing;
+--> statement-breakpoint
 DELIMITER //
 CREATE PROCEDURE addColumnIfMissing(
   IN tableName VARCHAR(128),
@@ -42,22 +44,36 @@ BEGIN
       AND column_name = columnName
   ) THEN
     SET @sql = CONCAT('ALTER TABLE `', tableName, '` ADD COLUMN `', columnName, '` ', columnDef);
+--> statement-breakpoint
     PREPARE stmt FROM @sql;
+--> statement-breakpoint
     EXECUTE stmt;
+--> statement-breakpoint
     DEALLOCATE PREPARE stmt;
+--> statement-breakpoint
   END IF;
+--> statement-breakpoint
 END //
 DELIMITER ;
+--> statement-breakpoint
 
 CALL addColumnIfMissing('player_pets', 'unlockedSkillNodes',  'JSON DEFAULT (''[]'')');
+--> statement-breakpoint
 CALL addColumnIfMissing('player_pets', 'completedQuestSteps', 'JSON DEFAULT (''[]'')');
+--> statement-breakpoint
 CALL addColumnIfMissing('player_pets', 'deathCount',          'INT NOT NULL DEFAULT 0');
+--> statement-breakpoint
 CALL addColumnIfMissing('player_pets', 'isSpectral',          'BOOLEAN NOT NULL DEFAULT FALSE');
+--> statement-breakpoint
 CALL addColumnIfMissing('player_pets', 'spectralBonusSystem', 'VARCHAR(64) DEFAULT NULL');
+--> statement-breakpoint
 CALL addColumnIfMissing('player_pets', 'deathCause',          'VARCHAR(64) DEFAULT NULL');
+--> statement-breakpoint
 CALL addColumnIfMissing('player_pets', 'isActive',            'BOOLEAN NOT NULL DEFAULT TRUE');
+--> statement-breakpoint
 
 DROP PROCEDURE IF EXISTS addColumnIfMissing;
+--> statement-breakpoint
 
 -- ─── Widen notifications.type enum ──────────────────────────────────
 -- Idempotent: MODIFY COLUMN always rewrites to the supplied list.

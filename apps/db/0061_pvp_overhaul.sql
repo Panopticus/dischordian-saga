@@ -30,6 +30,7 @@ CREATE TABLE IF NOT EXISTS `title_definitions` (
   INDEX `idx_title_definitions_root` (`rootKey`),
   INDEX `idx_title_definitions_category` (`category`)
 );
+--> statement-breakpoint
 
 CREATE TABLE IF NOT EXISTS `user_titles` (
   `id` int AUTO_INCREMENT PRIMARY KEY,
@@ -41,6 +42,7 @@ CREATE TABLE IF NOT EXISTS `user_titles` (
   INDEX `idx_user_titles_user_id` (`userId`),
   UNIQUE INDEX `uniq_user_titles_user_title` (`userId`, `titleKey`)
 );
+--> statement-breakpoint
 
 CREATE TABLE IF NOT EXISTS `user_cosmetic_loadout` (
   `id` int AUTO_INCREMENT PRIMARY KEY,
@@ -50,6 +52,7 @@ CREATE TABLE IF NOT EXISTS `user_cosmetic_loadout` (
   `equippedFrameKey` varchar(96),
   `updatedAt` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL
 );
+--> statement-breakpoint
 
 -- ─── TIER 2A: COMPETITIVE RATINGS ───────────────────────────────
 CREATE TABLE IF NOT EXISTS `competitive_ratings` (
@@ -73,6 +76,7 @@ CREATE TABLE IF NOT EXISTS `competitive_ratings` (
   INDEX `idx_competitive_ratings_game_type` (`gameType`),
   UNIQUE INDEX `uniq_competitive_ratings_user_game_type` (`userId`, `gameType`)
 );
+--> statement-breakpoint
 
 -- ─── TIER 2B: WITNESSING DISCOVERY RACE ─────────────────────────
 CREATE TABLE IF NOT EXISTS `discovery_events` (
@@ -86,6 +90,7 @@ CREATE TABLE IF NOT EXISTS `discovery_events` (
   INDEX `idx_discovery_events_event_key` (`eventKey`),
   INDEX `idx_discovery_events_first_user` (`firstDiscovererUserId`)
 );
+--> statement-breakpoint
 
 CREATE TABLE IF NOT EXISTS `conspiracy_boards` (
   `id` int AUTO_INCREMENT PRIMARY KEY,
@@ -98,6 +103,7 @@ CREATE TABLE IF NOT EXISTS `conspiracy_boards` (
   `active` int NOT NULL DEFAULT 1,
   `createdAt` timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
+--> statement-breakpoint
 
 CREATE TABLE IF NOT EXISTS `user_clue_progress` (
   `id` int AUTO_INCREMENT PRIMARY KEY,
@@ -110,6 +116,7 @@ CREATE TABLE IF NOT EXISTS `user_clue_progress` (
   INDEX `idx_user_clue_progress_user_id` (`userId`),
   UNIQUE INDEX `uniq_user_clue_progress_user_board` (`userId`, `boardKey`)
 );
+--> statement-breakpoint
 
 CREATE TABLE IF NOT EXISTS `guild_clue_progress` (
   `id` int AUTO_INCREMENT PRIMARY KEY,
@@ -125,6 +132,7 @@ CREATE TABLE IF NOT EXISTS `guild_clue_progress` (
   INDEX `idx_guild_clue_progress_board_id` (`boardKey`, `guildId`),
   UNIQUE INDEX `uniq_guild_clue_progress_guild_board` (`guildId`, `boardKey`)
 );
+--> statement-breakpoint
 
 -- ─── TIER 4: GUILD EXPANSION ─────────────────────────────────────
 CREATE TABLE IF NOT EXISTS `guild_perks` (
@@ -140,6 +148,7 @@ CREATE TABLE IF NOT EXISTS `guild_perks` (
   `iconKey` varchar(32) NOT NULL DEFAULT 'Sparkles',
   `createdAt` timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
+--> statement-breakpoint
 
 CREATE TABLE IF NOT EXISTS `guild_unlocked_perks` (
   `id` int AUTO_INCREMENT PRIMARY KEY,
@@ -149,6 +158,7 @@ CREATE TABLE IF NOT EXISTS `guild_unlocked_perks` (
   INDEX `idx_guild_unlocked_perks_guild_id` (`guildId`),
   UNIQUE INDEX `uniq_guild_unlocked_perks_guild_perk` (`guildId`, `perkKey`)
 );
+--> statement-breakpoint
 
 CREATE TABLE IF NOT EXISTS `guild_quest_definitions` (
   `id` int AUTO_INCREMENT PRIMARY KEY,
@@ -160,6 +170,7 @@ CREATE TABLE IF NOT EXISTS `guild_quest_definitions` (
   `rewards` json NOT NULL,
   `createdAt` timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
+--> statement-breakpoint
 
 CREATE TABLE IF NOT EXISTS `guild_quest_progress` (
   `id` int AUTO_INCREMENT PRIMARY KEY,
@@ -174,6 +185,7 @@ CREATE TABLE IF NOT EXISTS `guild_quest_progress` (
   INDEX `idx_guild_quest_progress_guild_id` (`guildId`),
   UNIQUE INDEX `uniq_guild_quest_progress_guild_quest` (`guildId`, `questKey`)
 );
+--> statement-breakpoint
 
 CREATE TABLE IF NOT EXISTS `guild_cosmetics` (
   `id` int AUTO_INCREMENT PRIMARY KEY,
@@ -185,6 +197,7 @@ CREATE TABLE IF NOT EXISTS `guild_cosmetics` (
   `unlockedEmblems` json NOT NULL,
   `updatedAt` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL
 );
+--> statement-breakpoint
 
 CREATE TABLE IF NOT EXISTS `guild_stash` (
   `id` int AUTO_INCREMENT PRIMARY KEY,
@@ -198,6 +211,7 @@ CREATE TABLE IF NOT EXISTS `guild_stash` (
   INDEX `idx_guild_stash_guild_id` (`guildId`),
   UNIQUE INDEX `uniq_guild_stash_guild_slot` (`guildId`, `slotKey`)
 );
+--> statement-breakpoint
 
 CREATE TABLE IF NOT EXISTS `guild_stash_log` (
   `id` int AUTO_INCREMENT PRIMARY KEY,
@@ -210,6 +224,7 @@ CREATE TABLE IF NOT EXISTS `guild_stash_log` (
   `at` timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
   INDEX `idx_guild_stash_log_guild_id` (`guildId`)
 );
+--> statement-breakpoint
 
 -- ─── TIER 5: PVP VARIANTS ────────────────────────────────────────
 CREATE TABLE IF NOT EXISTS `circuit_pvp_matches` (
@@ -226,6 +241,7 @@ CREATE TABLE IF NOT EXISTS `circuit_pvp_matches` (
   `startedAt` timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
   `endedAt` timestamp
 );
+--> statement-breakpoint
 
 CREATE TABLE IF NOT EXISTS `trade_sector_control` (
   `id` int AUTO_INCREMENT PRIMARY KEY,
@@ -238,6 +254,7 @@ CREATE TABLE IF NOT EXISTS `trade_sector_control` (
   INDEX `idx_trade_sector_control_sector_id` (`sectorId`),
   UNIQUE INDEX `uniq_trade_sector_control_sector_week` (`sectorId`, `weekStart`)
 );
+--> statement-breakpoint
 
 CREATE TABLE IF NOT EXISTS `trade_oracle_duels` (
   `id` int AUTO_INCREMENT PRIMARY KEY,
@@ -253,6 +270,7 @@ CREATE TABLE IF NOT EXISTS `trade_oracle_duels` (
   `settlesAt` timestamp NOT NULL,
   `settledAt` timestamp
 );
+--> statement-breakpoint
 
 CREATE TABLE IF NOT EXISTS `cades_pvp_matches` (
   `id` int AUTO_INCREMENT PRIMARY KEY,
@@ -268,6 +286,7 @@ CREATE TABLE IF NOT EXISTS `cades_pvp_matches` (
   `startedAt` timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
   `endedAt` timestamp
 );
+--> statement-breakpoint
 
 CREATE TABLE IF NOT EXISTS `td_live_sieges` (
   `id` int AUTO_INCREMENT PRIMARY KEY,
@@ -282,6 +301,7 @@ CREATE TABLE IF NOT EXISTS `td_live_sieges` (
   `startedAt` timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
   `endedAt` timestamp
 );
+--> statement-breakpoint
 
 CREATE TABLE IF NOT EXISTS `guild_war_skirmishes` (
   `id` int AUTO_INCREMENT PRIMARY KEY,
@@ -297,6 +317,7 @@ CREATE TABLE IF NOT EXISTS `guild_war_skirmishes` (
   `completedAt` timestamp,
   INDEX `idx_guild_war_skirmishes_guilds` (`guildAId`, `guildBId`)
 );
+--> statement-breakpoint
 
 CREATE TABLE IF NOT EXISTS `guild_war_skirmish_matches` (
   `id` int AUTO_INCREMENT PRIMARY KEY,
@@ -309,6 +330,7 @@ CREATE TABLE IF NOT EXISTS `guild_war_skirmish_matches` (
   `recordedAt` timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
   INDEX `idx_guild_war_skirmish_matches_skirmish` (`skirmishId`)
 );
+--> statement-breakpoint
 
 -- ─── APPRENTICE TRIAL + BACKFILL MARKER ─────────────────────────
 CREATE TABLE IF NOT EXISTS `apprentice_trial_completions` (
@@ -324,6 +346,7 @@ CREATE TABLE IF NOT EXISTS `apprentice_trial_completions` (
   INDEX `idx_apprentice_trial_user_id` (`userId`),
   UNIQUE INDEX `uniq_apprentice_trial_user_cohort` (`userId`, `cohortNumber`)
 );
+--> statement-breakpoint
 
 CREATE TABLE IF NOT EXISTS `competitive_ratings_backfill` (
   `id` int AUTO_INCREMENT PRIMARY KEY,
@@ -332,6 +355,7 @@ CREATE TABLE IF NOT EXISTS `competitive_ratings_backfill` (
   `chessMirrored` int NOT NULL DEFAULT 0,
   `ranAt` timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
+--> statement-breakpoint
 
 -- Tier 8: moderation reports table
 CREATE TABLE IF NOT EXISTS `pvp_moderation_reports` (
@@ -350,6 +374,7 @@ CREATE TABLE IF NOT EXISTS `pvp_moderation_reports` (
   INDEX `idx_pvp_moderation_reports_status` (`status`),
   INDEX `idx_pvp_moderation_reports_target` (`targetKind`, `targetId`)
 );
+--> statement-breakpoint
 
 -- T9.13: Oracle Pool peek index — adds the board-leading index when
 -- upgrading an existing deployment. Fresh DBs already get it via the
@@ -362,12 +387,17 @@ SET @idx_exists := (
      AND TABLE_NAME = 'guild_clue_progress'
      AND INDEX_NAME = 'idx_guild_clue_progress_board_id'
 );
+--> statement-breakpoint
 SET @sql := IF(
   @idx_exists = 0,
   'CREATE INDEX `idx_guild_clue_progress_board_id` ON `guild_clue_progress` (`boardKey`, `guildId`)',
   'SELECT 1'
 );
-PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+--> statement-breakpoint
+PREPARE stmt FROM @sql;
+--> statement-breakpoint EXECUTE stmt;
+--> statement-breakpoint DEALLOCATE PREPARE stmt;
+--> statement-breakpoint
 
 
 -- T12: Party system
@@ -384,6 +414,7 @@ CREATE TABLE IF NOT EXISTS `parties` (
   INDEX `idx_parties_leader` (`leaderUserId`),
   INDEX `idx_parties_status` (`status`)
 );
+--> statement-breakpoint
 
 CREATE TABLE IF NOT EXISTS `party_members` (
   `id` int AUTO_INCREMENT PRIMARY KEY,
@@ -397,6 +428,7 @@ CREATE TABLE IF NOT EXISTS `party_members` (
   UNIQUE INDEX `uniq_party_members_user_party` (`partyId`, `userId`),
   UNIQUE INDEX `uniq_party_members_user_single` (`userId`)
 );
+--> statement-breakpoint
 
 CREATE TABLE IF NOT EXISTS `party_invites` (
   `id` int AUTO_INCREMENT PRIMARY KEY,
@@ -411,6 +443,7 @@ CREATE TABLE IF NOT EXISTS `party_invites` (
   INDEX `idx_party_invites_party` (`partyId`),
   UNIQUE INDEX `uniq_party_invites_pending` (`partyId`, `invitedUserId`)
 );
+--> statement-breakpoint
 
 -- T12: Co-op card encounter sessions
 CREATE TABLE IF NOT EXISTS `coop_card_sessions` (
@@ -428,6 +461,7 @@ CREATE TABLE IF NOT EXISTS `coop_card_sessions` (
   INDEX `idx_coop_card_sessions_party` (`partyId`),
   INDEX `idx_coop_card_sessions_encounter` (`encounterKey`)
 );
+--> statement-breakpoint
 
 -- T13: per-member deck + ready columns on party_members.
 SET @col_exists := (
@@ -435,17 +469,26 @@ SET @col_exists := (
   WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'party_members'
     AND COLUMN_NAME = 'selectedDeckId'
 );
+--> statement-breakpoint
 SET @sql := IF(@col_exists = 0,
   'ALTER TABLE `party_members` ADD COLUMN `selectedDeckId` int NULL AFTER `slot`',
   'SELECT 1');
-PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+--> statement-breakpoint
+PREPARE stmt FROM @sql;
+--> statement-breakpoint EXECUTE stmt;
+--> statement-breakpoint DEALLOCATE PREPARE stmt;
+--> statement-breakpoint
 
 SET @col_exists := (
   SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS
   WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'party_members'
     AND COLUMN_NAME = 'ready'
 );
+--> statement-breakpoint
 SET @sql := IF(@col_exists = 0,
   'ALTER TABLE `party_members` ADD COLUMN `ready` int NOT NULL DEFAULT 0 AFTER `selectedDeckId`',
   'SELECT 1');
-PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+--> statement-breakpoint
+PREPARE stmt FROM @sql;
+--> statement-breakpoint EXECUTE stmt;
+--> statement-breakpoint DEALLOCATE PREPARE stmt;

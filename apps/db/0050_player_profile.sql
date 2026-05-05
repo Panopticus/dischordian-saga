@@ -3,7 +3,8 @@
 -- Two tables:
 --   * `player_profile` — one row per user, the current snapshot of
 --     all seven style axes, plus a counter of how many events have
---     been folded in. Reads are cheap (single PK lookup); writes
+--     been folded in. Reads are cheap (single PK lookup);
+--> statement-breakpoint writes
 --     happen in the same transaction as the originating action
 --     (e.g. a chess mind-game choice updates the profile and
 --     records the choice atomically).
@@ -27,6 +28,7 @@
 
 -- Axes are stored as INT in the range [-100, 100]. The repo
 -- convention (see schema.ts line 4426) is to avoid FLOAT columns;
+--> statement-breakpoint
 -- whole-unit precision is enough for these axes — the magnitude
 -- buckets (`magnitudeOf` in playerProfile.ts) are at ±11/±34/±67.
 CREATE TABLE `player_profile` (
@@ -42,6 +44,7 @@ CREATE TABLE `player_profile` (
   `lastUpdatedAt` TIMESTAMP NULL DEFAULT NULL,
   `createdAt` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+--> statement-breakpoint
 
 CREATE TABLE `player_profile_events` (
   `id` BIGINT AUTO_INCREMENT PRIMARY KEY,
@@ -51,11 +54,13 @@ CREATE TABLE `player_profile_events` (
   `deltas` JSON NULL,
   `createdAt` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+--> statement-breakpoint
 
 -- Hot path: "give me this user's most recent N events", used by
 -- the GM to cite SPECIFIC past events.
 CREATE INDEX `idx_player_profile_events_user_created`
   ON `player_profile_events` (`userId`, `createdAt` DESC);
+--> statement-breakpoint
 
 -- Secondary: "give me all events of this source for this user",
 -- used when the GM wants to read back e.g. all draw offers.

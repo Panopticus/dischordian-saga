@@ -7,9 +7,11 @@
 
 ALTER TABLE `universe_event_state`
   ADD COLUMN `expiresAt` timestamp NULL AFTER `activatedAt`;
+--> statement-breakpoint
 
 ALTER TABLE `universe_event_state`
   ADD COLUMN `playerParticipation` int NOT NULL DEFAULT 0 AFTER `resolvedAt`;
+--> statement-breakpoint
 
 CREATE TABLE `universe_event_history` (
   `id` int AUTO_INCREMENT NOT NULL,
@@ -22,6 +24,8 @@ CREATE TABLE `universe_event_history` (
   `effectsSummary` json,
   CONSTRAINT `universe_event_history_id` PRIMARY KEY(`id`)
 );
+--> statement-breakpoint
 
 CREATE INDEX `idx_universe_history_event` ON `universe_event_history` (`eventId`);
+--> statement-breakpoint
 CREATE INDEX `idx_universe_history_resolved` ON `universe_event_history` (`resolvedAt`);

@@ -40,6 +40,7 @@ CREATE TABLE IF NOT EXISTS `announcements` (
   INDEX `idx_announcements_published` (`publishedAt`),
   INDEX `idx_announcements_audience` (`audience`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+--> statement-breakpoint
 
 CREATE TABLE IF NOT EXISTS `announcement_views` (
   `id` INT NOT NULL AUTO_INCREMENT,

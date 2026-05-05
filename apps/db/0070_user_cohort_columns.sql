@@ -10,6 +10,7 @@ ALTER TABLE `users`
   ADD COLUMN `installSource` VARCHAR(32) NULL,
   ADD COLUMN `abVariant` VARCHAR(64) NULL,
   ADD INDEX `idx_users_signup_week` (`signupWeek`);
+--> statement-breakpoint
 
 -- Backfill signupWeek for existing rows from createdAt.
 UPDATE `users`

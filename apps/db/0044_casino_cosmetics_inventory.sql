@@ -7,9 +7,11 @@
 
 ALTER TABLE `casino_state`
   ADD COLUMN `casinoUnlockedRewards` JSON DEFAULT NULL;
+--> statement-breakpoint
 
 ALTER TABLE `casino_jackpot_pool`
   ADD COLUMN `lastBroadcastAt` TIMESTAMP NULL DEFAULT NULL;
+--> statement-breakpoint
 
 ALTER TABLE `xmas_july_progress`
   ADD COLUMN `dangerResolutions` JSON DEFAULT NULL;

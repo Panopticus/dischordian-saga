@@ -1,6 +1,7 @@
 -- ─────────────────────────────────────────────────────────────────
 -- User 2FA — TOTP secret + hashed backup codes (one row per user).
--- Required for admin role; optional for regular users.
+-- Required for admin role;
+--> statement-breakpoint optional for regular users.
 -- ─────────────────────────────────────────────────────────────────
 
 CREATE TABLE IF NOT EXISTS `user_two_factor` (

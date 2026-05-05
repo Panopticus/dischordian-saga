@@ -3,8 +3,10 @@
 --
 -- Adds two tables that back Phase 6's BioWare-depth dialog systems:
 --   * npc_ask_topic_history — one row per (user, topic) ask event;
+--> statement-breakpoint
 --     drives "you've already asked this" re-entry responses + cooldown.
---   * npc_dialog_tree_state — one row per (user, tree); supports
+--   * npc_dialog_tree_state — one row per (user, tree);
+--> statement-breakpoint supports
 --     tree-resume across sessions when a player closes a multi-turn
 --     conversation mid-walk.
 --
@@ -27,6 +29,7 @@ CREATE TABLE IF NOT EXISTS `npc_ask_topic_history` (
   INDEX `idx_npc_ask_topic_history_user_id` (`userId`),
   INDEX `idx_npc_ask_topic_history_user_topic` (`userId`, `npcKey`, `topicId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+--> statement-breakpoint
 
 CREATE TABLE IF NOT EXISTS `npc_dialog_tree_state` (
   `id` INT NOT NULL AUTO_INCREMENT,

@@ -36,10 +36,15 @@ SET @col_exists := (
   WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'dreamer_awareness'
     AND COLUMN_NAME = 'prophecyVisionsReceived'
 );
+--> statement-breakpoint
 SET @sql := IF(@col_exists = 0,
   'ALTER TABLE `dreamer_awareness` ADD COLUMN `prophecyVisionsReceived` json AFTER `visionsReceived`',
   'SELECT 1');
-PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+--> statement-breakpoint
+PREPARE stmt FROM @sql;
+--> statement-breakpoint EXECUTE stmt;
+--> statement-breakpoint DEALLOCATE PREPARE stmt;
+--> statement-breakpoint
 
 -- pendingMarqueeIds
 SET @col_exists := (
@@ -47,10 +52,15 @@ SET @col_exists := (
   WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'dreamer_awareness'
     AND COLUMN_NAME = 'pendingMarqueeIds'
 );
+--> statement-breakpoint
 SET @sql := IF(@col_exists = 0,
   'ALTER TABLE `dreamer_awareness` ADD COLUMN `pendingMarqueeIds` json AFTER `prophecyVisionsReceived`',
   'SELECT 1');
-PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+--> statement-breakpoint
+PREPARE stmt FROM @sql;
+--> statement-breakpoint EXECUTE stmt;
+--> statement-breakpoint DEALLOCATE PREPARE stmt;
+--> statement-breakpoint
 
 -- prophecyVisionsCompleted
 SET @col_exists := (
@@ -58,10 +68,15 @@ SET @col_exists := (
   WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'dreamer_awareness'
     AND COLUMN_NAME = 'prophecyVisionsCompleted'
 );
+--> statement-breakpoint
 SET @sql := IF(@col_exists = 0,
   'ALTER TABLE `dreamer_awareness` ADD COLUMN `prophecyVisionsCompleted` json AFTER `pendingMarqueeIds`',
   'SELECT 1');
-PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+--> statement-breakpoint
+PREPARE stmt FROM @sql;
+--> statement-breakpoint EXECUTE stmt;
+--> statement-breakpoint DEALLOCATE PREPARE stmt;
+--> statement-breakpoint
 
 -- unlockedWhisperIds
 SET @col_exists := (
@@ -69,10 +84,15 @@ SET @col_exists := (
   WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'dreamer_awareness'
     AND COLUMN_NAME = 'unlockedWhisperIds'
 );
+--> statement-breakpoint
 SET @sql := IF(@col_exists = 0,
   'ALTER TABLE `dreamer_awareness` ADD COLUMN `unlockedWhisperIds` json AFTER `prophecyVisionsCompleted`',
   'SELECT 1');
-PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+--> statement-breakpoint
+PREPARE stmt FROM @sql;
+--> statement-breakpoint EXECUTE stmt;
+--> statement-breakpoint DEALLOCATE PREPARE stmt;
+--> statement-breakpoint
 
 -- viewedWhisperIds
 SET @col_exists := (
@@ -80,10 +100,15 @@ SET @col_exists := (
   WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'dreamer_awareness'
     AND COLUMN_NAME = 'viewedWhisperIds'
 );
+--> statement-breakpoint
 SET @sql := IF(@col_exists = 0,
   'ALTER TABLE `dreamer_awareness` ADD COLUMN `viewedWhisperIds` json AFTER `unlockedWhisperIds`',
   'SELECT 1');
-PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+--> statement-breakpoint
+PREPARE stmt FROM @sql;
+--> statement-breakpoint EXECUTE stmt;
+--> statement-breakpoint DEALLOCATE PREPARE stmt;
+--> statement-breakpoint
 
 -- albumFilmsCompleted
 SET @col_exists := (
@@ -91,10 +116,15 @@ SET @col_exists := (
   WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'dreamer_awareness'
     AND COLUMN_NAME = 'albumFilmsCompleted'
 );
+--> statement-breakpoint
 SET @sql := IF(@col_exists = 0,
   'ALTER TABLE `dreamer_awareness` ADD COLUMN `albumFilmsCompleted` json AFTER `viewedWhisperIds`',
   'SELECT 1');
-PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+--> statement-breakpoint
+PREPARE stmt FROM @sql;
+--> statement-breakpoint EXECUTE stmt;
+--> statement-breakpoint DEALLOCATE PREPARE stmt;
+--> statement-breakpoint
 
 -- albumFilmBookmarks
 SET @col_exists := (
@@ -102,10 +132,15 @@ SET @col_exists := (
   WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'dreamer_awareness'
     AND COLUMN_NAME = 'albumFilmBookmarks'
 );
+--> statement-breakpoint
 SET @sql := IF(@col_exists = 0,
   'ALTER TABLE `dreamer_awareness` ADD COLUMN `albumFilmBookmarks` json AFTER `albumFilmsCompleted`',
   'SELECT 1');
-PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+--> statement-breakpoint
+PREPARE stmt FROM @sql;
+--> statement-breakpoint EXECUTE stmt;
+--> statement-breakpoint DEALLOCATE PREPARE stmt;
+--> statement-breakpoint
 
 -- prophecyAchievementsGranted
 SET @col_exists := (
@@ -113,10 +148,15 @@ SET @col_exists := (
   WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'dreamer_awareness'
     AND COLUMN_NAME = 'prophecyAchievementsGranted'
 );
+--> statement-breakpoint
 SET @sql := IF(@col_exists = 0,
   'ALTER TABLE `dreamer_awareness` ADD COLUMN `prophecyAchievementsGranted` json AFTER `albumFilmBookmarks`',
   'SELECT 1');
-PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+--> statement-breakpoint
+PREPARE stmt FROM @sql;
+--> statement-breakpoint EXECUTE stmt;
+--> statement-breakpoint DEALLOCATE PREPARE stmt;
+--> statement-breakpoint
 
 -- lastMarqueePlayedAt
 SET @col_exists := (
@@ -124,7 +164,11 @@ SET @col_exists := (
   WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'dreamer_awareness'
     AND COLUMN_NAME = 'lastMarqueePlayedAt'
 );
+--> statement-breakpoint
 SET @sql := IF(@col_exists = 0,
   'ALTER TABLE `dreamer_awareness` ADD COLUMN `lastMarqueePlayedAt` timestamp NULL AFTER `prophecyAchievementsGranted`',
   'SELECT 1');
-PREPARE stmt FROM @sql; EXECUTE stmt; DEALLOCATE PREPARE stmt;
+--> statement-breakpoint
+PREPARE stmt FROM @sql;
+--> statement-breakpoint EXECUTE stmt;
+--> statement-breakpoint DEALLOCATE PREPARE stmt;

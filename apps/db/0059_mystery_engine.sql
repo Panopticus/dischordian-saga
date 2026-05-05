@@ -14,7 +14,8 @@
 --   * npc_trust_scalars            — per-player NPC trust (0-100), arc-finalized
 --
 -- Schema source of truth: apps/db/schema.ts. Authored side lives in
--- apps/shared/episodeMysteries.ts; orchestration in
+-- apps/shared/episodeMysteries.ts;
+--> statement-breakpoint orchestration in
 -- apps/server/services/mysteryService.ts (lands in a follow-up PR).
 --
 -- Idempotent: CREATE TABLE IF NOT EXISTS so re-runs are no-ops. The
@@ -27,6 +28,7 @@
 
 ALTER TABLE `epoch_vote_tallies`
   ADD COLUMN `expiresAt` TIMESTAMP NULL DEFAULT NULL AFTER `winningOption`;
+--> statement-breakpoint
 
 CREATE TABLE IF NOT EXISTS `player_mystery_progress` (
   `id` INT NOT NULL AUTO_INCREMENT,
@@ -41,6 +43,7 @@ CREATE TABLE IF NOT EXISTS `player_mystery_progress` (
   UNIQUE INDEX `uniq_pmp_user_mystery` (`userId`, `mysteryId`),
   INDEX `idx_pmp_last_acted` (`lastActedAt`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+--> statement-breakpoint
 
 CREATE TABLE IF NOT EXISTS `mystery_evidence` (
   `id` INT NOT NULL AUTO_INCREMENT,
@@ -56,6 +59,7 @@ CREATE TABLE IF NOT EXISTS `mystery_evidence` (
   UNIQUE INDEX `uniq_evidence_user_mystery_clue` (`userId`, `mysteryId`, `clueId`),
   INDEX `idx_evidence_user_mystery` (`userId`, `mysteryId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+--> statement-breakpoint
 
 CREATE TABLE IF NOT EXISTS `mystery_deductions` (
   `id` INT NOT NULL AUTO_INCREMENT,
@@ -71,6 +75,7 @@ CREATE TABLE IF NOT EXISTS `mystery_deductions` (
   PRIMARY KEY (`id`),
   INDEX `idx_deductions_user_mystery_episode` (`userId`, `mysteryId`, `episodeId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+--> statement-breakpoint
 
 CREATE TABLE IF NOT EXISTS `player_mystery_choices` (
   `id` INT NOT NULL AUTO_INCREMENT,
@@ -84,6 +89,7 @@ CREATE TABLE IF NOT EXISTS `player_mystery_choices` (
   PRIMARY KEY (`id`),
   UNIQUE INDEX `uniq_choice_user_mystery_episode` (`userId`, `mysteryId`, `episodeId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+--> statement-breakpoint
 
 CREATE TABLE IF NOT EXISTS `mystery_interrogation_log` (
   `id` INT NOT NULL AUTO_INCREMENT,
@@ -99,6 +105,7 @@ CREATE TABLE IF NOT EXISTS `mystery_interrogation_log` (
   INDEX `idx_interrogation_user_npc` (`userId`, `npcId`),
   INDEX `idx_interrogation_user_mystery_episode` (`userId`, `mysteryId`, `episodeId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+--> statement-breakpoint
 
 CREATE TABLE IF NOT EXISTS `npc_trust_scalars` (
   `id` INT NOT NULL AUTO_INCREMENT,
