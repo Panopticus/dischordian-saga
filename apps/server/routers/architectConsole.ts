@@ -46,6 +46,7 @@ import {
   voteAntiquarianEntries,
   worldModifiers,
   dailyGovernanceVotes,
+  npcPublicFlags,
 } from "../../db/schema";
 import { eq, sql, desc, and, lte, gte, or, isNull, type SQL } from "drizzle-orm";
 import { pressureService } from "../services/pressureService";
@@ -574,6 +575,42 @@ export const architectConsoleRouter = router({
         closed: isPast,
         winner,
       };
+    }),
+
+  /**
+   * Recent governance-sourced npc_public_flags for this user. The
+   * client useGovernanceCommentReplay hook reads this and fires
+   * fireCompanionComment("flag_set:<flag>") for each entry — the
+   * existing CompanionCommentToast then surfaces the matching NPC
+   * line authored in companionComments.ts.
+   *
+   * The hook tracks last-acknowledged setAt in localStorage to
+   * avoid replaying lines on every session load.
+   */
+  getRecentGovernanceFlags: protectedProcedure
+    .input(z.object({
+      sinceMs: z.number().int().nonnegative().optional(),
+      limit: z.number().int().min(1).max(50).default(20),
+    }).optional())
+    .query(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) return [];
+      const since = input?.sinceMs ? new Date(input.sinceMs) : new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+      const limit = input?.limit ?? 20;
+      const rows = await db
+        .select({
+          flag: npcPublicFlags.flag,
+          setAt: npcPublicFlags.setAt,
+        })
+        .from(npcPublicFlags)
+        .where(and(
+          eq(npcPublicFlags.userId, ctx.user.id),
+          eq(npcPublicFlags.setBy, "governance"),
+          gte(npcPublicFlags.setAt, since),
+        ))
+        .orderBy(desc(npcPublicFlags.setAt))
+        .limit(limit);
+      return rows;
     }),
 
   /**

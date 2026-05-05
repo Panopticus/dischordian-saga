@@ -124,3 +124,55 @@ describe("companionComments — Act 2–7 reactive coverage", () => {
     expect(act2To7.some((c) => c.speaker === "human")).toBe(true);
   });
 });
+
+describe("companionComments — governance vote reactivity (Phase 3)", () => {
+  const REQUIRED_GOVERNANCE_TRIGGERS = [
+    "flag_set:governance:engineer_bench_powered",
+    "flag_set:governance:engineer_bench_contained",
+    "flag_set:governance:vex_told_engineer_truth",
+    "flag_set:governance:vex_kept_in_dark",
+    "flag_set:governance:ghost_network_endorsed",
+    "flag_set:governance:ghost_network_doubted",
+    "flag_set:governance:revolution_of_thought",
+    "flag_set:governance:violence_was_warranted",
+    "flag_set:governance:kael_chose_dissolution",
+    "flag_set:governance:kael_was_taken",
+    "flag_set:governance:annual_ark_food",
+    "flag_set:governance:annual_ark_research",
+    "flag_set:governance:annual_ark_culture",
+    "flag_set:governance:annual_ark_defense",
+  ] as const;
+
+  it("has at least one reactive line for every governance vote outcome", () => {
+    for (const trigger of REQUIRED_GOVERNANCE_TRIGGERS) {
+      const matches = COMPANION_COMMENTS.filter((c) => c.trigger === trigger);
+      expect(
+        matches.length,
+        `governance trigger "${trigger}" has no companion line`,
+      ).toBeGreaterThan(0);
+    }
+  });
+
+  it("the Engineer-arc Tell-Vex / Don't-Tell-Vex outcomes both have Antiquarian commentary", () => {
+    const tell = COMPANION_COMMENTS.filter(
+      (c) =>
+        c.trigger === "flag_set:governance:vex_told_engineer_truth" &&
+        c.speaker === "antiquarian",
+    );
+    const dontTell = COMPANION_COMMENTS.filter(
+      (c) =>
+        c.trigger === "flag_set:governance:vex_kept_in_dark" &&
+        c.speaker === "antiquarian",
+    );
+    expect(tell.length).toBeGreaterThan(0);
+    expect(dontTell.length).toBeGreaterThan(0);
+  });
+
+  it("governance triggers route to multiple speakers (not a single voice)", () => {
+    const govLines = COMPANION_COMMENTS.filter((c) =>
+      c.trigger.startsWith("flag_set:governance:"),
+    );
+    const speakers = new Set(govLines.map((c) => c.speaker));
+    expect(speakers.size).toBeGreaterThanOrEqual(3);
+  });
+});

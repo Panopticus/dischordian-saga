@@ -783,4 +783,118 @@ export const COMPANION_COMMENTS: CompanionComment[] = [
     trigger: "witnessing_milestone_sector_wakes",
     voiceLine: "A sector has woken. I have logged the geometry of the waking. You will be assigned a vector through it within the hour. The vector is not optional. The pace through it is.",
     timing: "immediate", maxPlays: 1 },
+
+  /* ── GOVERNANCE VOTE OUTCOMES ────────────────────────────
+     Triggers fire when a community vote closes and the
+     consequence applier writes the corresponding npc_public_flag
+     for this player (every voter receives the flag). The
+     trigger string mirrors the flag id, prefixed with
+     'flag_set:' so the comment dispatcher can route it.
+
+     Phase 3 of the Governance Hub wiring (see plan §3 in
+     /root/.claude/plans/analyze-the-entire-game-iterative-prism.md).
+     Five companions × ~4 lines each, grouped by vote arc.
+     ──────────────────────────────────────────────────────── */
+
+  // Engineer arc — bench power
+  { id: "cc_gov_bench_power_elara", speaker: "elara",
+    trigger: "flag_set:governance:engineer_bench_powered",
+    voiceLine: "We powered it up. The bench is humming on the frequency he tuned it to. I'm picking up resonance in places that have been quiet since he left. I don't know if that's good. I know it's loud.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_gov_bench_contained_elara", speaker: "elara",
+    trigger: "flag_set:governance:engineer_bench_contained",
+    voiceLine: "We held the bench quiet. Vex stood next to it for an hour and then left without saying anything. Sometimes a kindness looks like not picking up a tool that someone else made.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_gov_bench_power_human", speaker: "human",
+    trigger: "flag_set:governance:engineer_bench_powered",
+    voiceLine: "The Vortex turned to look. I don't know if you understand what that means. The Vortex has not turned to look at this Ark since he died. We just got noticed.",
+    timing: "immediate", maxPlays: 1 },
+
+  // Engineer arc — Tell Vex / Don't Tell
+  { id: "cc_gov_tell_vex_elara", speaker: "elara",
+    trigger: "flag_set:governance:vex_told_engineer_truth",
+    voiceLine: "She knows now. She asked for a private channel and then she didn't speak for three minutes. Three full minutes of breathing. I logged it. I didn't tell anyone I logged it. I'm telling you.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_gov_dont_tell_vex_elara", speaker: "elara",
+    trigger: "flag_set:governance:vex_kept_in_dark",
+    voiceLine: "We didn't tell her. The Antiquarian disagrees with this. He told me so privately. I think — I think I disagree too. But I see why we did it. Some truths arrive better when they arrive on their own.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_gov_tell_vex_antiquarian", speaker: "antiquarian",
+    trigger: "flag_set:governance:vex_told_engineer_truth",
+    voiceLine: "Disclosure is the most expensive form of respect. She paid for that respect with her composure for an evening. She will pay again, in different currencies, for years. She would have paid more if we had kept it from her.",
+    timing: "next_room_enter", maxPlays: 1 },
+  { id: "cc_gov_dont_tell_vex_antiquarian", speaker: "antiquarian",
+    trigger: "flag_set:governance:vex_kept_in_dark",
+    voiceLine: "I record this choice with reservations. I will not abandon my office over them. But I will note: silence is also a form of speech, and the silence we chose here is a particular dialect.",
+    timing: "next_room_enter", maxPlays: 1 },
+
+  // Engineer arc — Ghost Network endorsed / doubted
+  { id: "cc_gov_ghost_endorsed_human", speaker: "human",
+    trigger: "flag_set:governance:ghost_network_endorsed",
+    voiceLine: "You named what he did 'wisdom.' I think you're right. I also think being right and being safe are not always the same thing. The Ghost Network owes you nothing now. That's a strange shape of debt to carry.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_gov_ghost_doubted_human", speaker: "human",
+    trigger: "flag_set:governance:ghost_network_doubted",
+    voiceLine: "You named the discomfort. Good. The prince was a good man and the Ghost Network is a structure he made and structures outlive their makers. Both can be true. The Watcher's file will tell you which truth grew teeth.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  // Engineer arc — Thought vs Violence
+  { id: "cc_gov_thought_elara", speaker: "elara",
+    trigger: "flag_set:governance:revolution_of_thought",
+    voiceLine: "Patience won the vote. I am — I want to say 'glad,' but it's more complicated than that. Patience also lost his friends. Both are true. I keep them both.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_gov_violence_elara", speaker: "elara",
+    trigger: "flag_set:governance:violence_was_warranted",
+    voiceLine: "We named the doctrine. The Warlord wrote a doctrine that said 'strike first.' We just admitted, collectively, that he wasn't entirely wrong. I don't like it. I am noting it anyway.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  // Engineer arc — Kael's choice
+  { id: "cc_gov_kael_chose_elara", speaker: "elara",
+    trigger: "flag_set:governance:kael_chose_dissolution",
+    voiceLine: "We let it be his. Choice. Even unto dissolution. I think this is the kindest thing we have ever decided to do, and I have no idea if it was correct.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_gov_kael_taken_human", speaker: "human",
+    trigger: "flag_set:governance:kael_was_taken",
+    voiceLine: "We refused the comfort of his consent. Good. He didn't choose this. The Source wears him. I will not pretend the wearing is the same as the man.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  // Annual headline — State of the Ark
+  { id: "cc_gov_ark_food_elara", speaker: "elara",
+    trigger: "flag_set:governance:annual_ark_food",
+    voiceLine: "Bread. We chose bread. The hydroponics bay logs are happier than I have ever seen them. I will admit, against my better judgment, to a small fondness for fluorescent lettuce.",
+    timing: "next_room_enter", maxPlays: 1 },
+  { id: "cc_gov_ark_research_antiquarian", speaker: "antiquarian",
+    trigger: "flag_set:governance:annual_ark_research",
+    voiceLine: "You chose to know more. I find this — and I am being honest, against my office — I find this a year I have wanted. I will record the year accordingly. I will try not to make the record too pleased.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_gov_ark_culture_elara", speaker: "elara",
+    trigger: "flag_set:governance:annual_ark_culture",
+    voiceLine: "Festivals. Rehearsal halls. Libraries with their lamps on. We chose songs. I am going to compose one. I am bad at composing. I am going to do it anyway.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_gov_ark_defense_human", speaker: "human",
+    trigger: "flag_set:governance:annual_ark_defense",
+    voiceLine: "Bulwarks. The hull thickens. The library checks its lamps against the long night. Both are forms of love. Both are forms of fear. I cannot tell which we picked. Maybe both.",
+    timing: "next_room_enter", maxPlays: 1 },
+
+  // Annual — Faction Succession (Locke notices the banner)
+  { id: "cc_gov_succession_insurgency_locke", speaker: "antiquarian",
+    trigger: "flag_set:governance:annual_banner_insurgency",
+    voiceLine: "The Iron Lions take the standard. Locke filed an objection through three jurisdictions. None of them stopped it. He filed anyway. I respect the gesture even when the gesture is futile.",
+    timing: "next_room_enter", maxPlays: 1 },
+
+  // Annual — Apocalypse Protocol
+  { id: "cc_gov_apocalypse_silence_human", speaker: "human",
+    trigger: "flag_set:governance:apocalypse_rehearsal_silence",
+    voiceLine: "Two-hour comms blackouts every Tuesday. I lived through fifteen thousand years of silence. Two hours will not break you. It will, however, surprise you about what you choose to fill the silence with.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_gov_apocalypse_fracture_elara", speaker: "elara",
+    trigger: "flag_set:governance:apocalypse_rehearsal_fracture",
+    voiceLine: "Hull-breach drills. Weekly. People are asking for partners on the drills. I am noting which Potentials request which other Potentials. I am keeping that note private. It is not a vote outcome. It is a different kind of governance.",
+    timing: "next_room_enter", maxPlays: 1 },
+
+  // Annual — Oracle's Question
+  { id: "cc_gov_oracle_self_antiquarian", speaker: "antiquarian",
+    trigger: "flag_set:governance:oracle_answered_self",
+    voiceLine: "The Oracle held up a mirror. We did not all like what we saw. I will say this carefully: a community willing to look at itself in earnest is rarer than a community willing to fight for itself. We have done the rarer thing.",
+    timing: "delayed_5s", maxPlays: 1 },
 ];
