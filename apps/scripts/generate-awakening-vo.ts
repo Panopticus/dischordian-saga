@@ -260,22 +260,68 @@ async function uploadToS3(buffer: Buffer, key: string): Promise<string> {
   return `https://${BUCKET}.s3.${REGION}.amazonaws.com/${encodeURIComponent(fullKey).replace(/%2F/g, "/")}`;
 }
 
+/**
+ * Parse `--only=ID[,ID,...]` (or `--only ID,ID`) from argv. Lets the
+ * operator regenerate a single beat — e.g. only ALIGNMENT_QUESTION —
+ * without re-billing ElevenLabs for the other eight. When set, the
+ * existing manifest on disk is read and merged so untouched URLs
+ * survive the rewrite.
+ */
+function parseOnlyFilter(argv: string[]): Set<string> | null {
+  const ids: string[] = [];
+  for (let i = 0; i < argv.length; i++) {
+    const arg = argv[i];
+    if (arg.startsWith("--only=")) {
+      ids.push(...arg.slice("--only=".length).split(","));
+    } else if (arg === "--only" && argv[i + 1]) {
+      ids.push(...argv[i + 1].split(","));
+      i += 1;
+    }
+  }
+  const cleaned = ids.map(s => s.trim()).filter(Boolean);
+  return cleaned.length > 0 ? new Set(cleaned) : null;
+}
+
 async function main() {
+  const onlyFilter = parseOnlyFilter(process.argv.slice(2));
+  const targetLines = onlyFilter
+    ? AWAKENING_LINES.filter(l => onlyFilter.has(l.id))
+    : AWAKENING_LINES;
+
+  if (onlyFilter && targetLines.length === 0) {
+    const known = AWAKENING_LINES.map(l => l.id).join(", ");
+    console.error(
+      `ERROR: --only filter [${[...onlyFilter].join(", ")}] matched no lines. ` +
+        `Known IDs: ${known}`,
+    );
+    process.exit(1);
+  }
+
   console.log("═══════════════════════════════════════");
   console.log("  AWAKENING VO GENERATOR");
-  console.log(`  ${AWAKENING_LINES.length} lines to (re)generate`);
+  if (onlyFilter) {
+    console.log(`  --only=${[...onlyFilter].join(",")} → ${targetLines.length} of ${AWAKENING_LINES.length} lines`);
+  } else {
+    console.log(`  ${targetLines.length} lines to (re)generate`);
+  }
   console.log(`  Voice: ${VOICE_ID}`);
   console.log(`  Bucket: s3://${BUCKET}/${S3_PREFIX}`);
   console.log("═══════════════════════════════════════\n");
 
-  const manifest: Record<string, string> = {};
+  const manifestPath = path.join(__dirname, "..", "shared", "awakeningVoManifest.json");
+
+  // Seed the manifest from disk when filtering, so untouched lines
+  // keep their URLs. Full regeneration starts from {} as before.
+  const manifest: Record<string, string> = onlyFilter && fs.existsSync(manifestPath)
+    ? (JSON.parse(fs.readFileSync(manifestPath, "utf-8")) as Record<string, string>)
+    : {};
   const errors: { id: string; error: string }[] = [];
   let i = 0;
 
-  for (const line of AWAKENING_LINES) {
+  for (const line of targetLines) {
     i += 1;
     const s3Key = `${line.id}.mp3`;
-    process.stdout.write(`[${i}/${AWAKENING_LINES.length}] ${line.id} (${line.emotion})...`);
+    process.stdout.write(`[${i}/${targetLines.length}] ${line.id} (${line.emotion})...`);
     try {
       const audio = await generateSpeech(line.text, line.emotion);
       const url = await uploadToS3(audio, s3Key);
@@ -299,7 +345,6 @@ async function main() {
     manifest.ELEMENT_QUESTION_QUARCHON = manifest.ELEMENT_QUESTION;
   }
 
-  const manifestPath = path.join(__dirname, "..", "shared", "awakeningVoManifest.json");
   fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2));
 
   console.log("\n═══ COMPLETE ═══");
