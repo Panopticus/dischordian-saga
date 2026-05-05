@@ -557,6 +557,12 @@ async function startServer() {
       console.error("[IndexesFksBootstrap] failed:", e),
     );
 
+    // user_blocks (migration 0068).
+    const { bootstrapUserBlocksTable } = await import("../services/userBlocksBootstrap");
+    bootstrapUserBlocksTable().catch(e =>
+      console.error("[UserBlocksBootstrap] failed:", e),
+    );
+
     // Ensure pvp_ratings exists (#7). Migration 0058 is orphaned
     // from _journal.json; without this table the pvpRanking router
     // throws on every read/write. Failure surface is "MMR badge +

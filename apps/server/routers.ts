@@ -137,6 +137,7 @@ import { accountRouter } from "./routers/account";
 import { twoFactorRouter } from "./routers/twoFactor";
 import { sessionsRouter } from "./routers/sessions";
 import { rumRouter } from "./routers/rum";
+import { blocksRouter } from "./routers/blocks";
 
 export const appRouter = router({
   collection: collectionRouter,
@@ -145,6 +146,7 @@ export const appRouter = router({
   twoFactor: twoFactorRouter,
   sessions: sessionsRouter,
   rum: rumRouter,
+  blocks: blocksRouter,
   cardGame: cardGameRouter,
   ark: arkRouter,
   trophy: trophyRouter,

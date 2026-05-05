@@ -121,6 +121,33 @@ export const userSessions = mysqlTable(
 );
 export type UserSession = typeof userSessions.$inferSelect;
 
+/**
+ * Player blocks — one row per (blocker → blocked) directed edge.
+ *
+ * The chat / pvp / friend layers consult this table to:
+ *   - hide the blocked user's chat messages from the blocker
+ *   - filter the blocked user out of friend-suggestion / matchmaking
+ *   - reject DM / trade attempts in either direction
+ *
+ * Bidirectional muting requires two rows; that's intentional —
+ * each side independently controls visibility.
+ */
+export const userBlocks = mysqlTable(
+  "user_blocks",
+  {
+    id: int("id").autoincrement().primaryKey(),
+    blockerUserId: int("blockerUserId").notNull(),
+    blockedUserId: int("blockedUserId").notNull(),
+    reason: varchar("reason", { length: 256 }),
+    createdAt: timestamp("createdAt").defaultNow().notNull(),
+  },
+  (table) => ({
+    pairIdx: uniqueIndex("uniq_user_block_pair").on(table.blockerUserId, table.blockedUserId),
+    blockerIdx: index("idx_user_blocks_blocker").on(table.blockerUserId),
+  }),
+);
+export type UserBlock = typeof userBlocks.$inferSelect;
+
 /* ═══════════════════════════════════════════════════════
    GAMIFICATION — Achievements, Progress, Ark Themes
    Designed franchise-agnostic: franchiseId scopes all data
