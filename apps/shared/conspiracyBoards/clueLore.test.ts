@@ -8,15 +8,12 @@
  */
 import { describe, it, expect } from "vitest";
 import { CONSPIRACY_BOARDS } from "./definitions";
-import { ACTS_1_2_CLUE_LORE, getClueLore } from "./clueLore";
+import { ACTS_1_2_CLUE_LORE, ALL_CLUE_LORE, getClueLore } from "./clueLore";
 
-const ACT_1_2_BOARD_KEYS = new Set(["first_memory", "inheritance_ledger"]);
-
-describe("clueLore — Acts 1+2 coverage", () => {
-  it("every Acts 1-2 acceptedClue has a body-text entry", () => {
+describe("clueLore — full Acts 1-7 coverage", () => {
+  it("every clue id on every conspiracy board has a body-text entry", () => {
     const missing: string[] = [];
     for (const board of CONSPIRACY_BOARDS) {
-      if (!ACT_1_2_BOARD_KEYS.has(board.boardKey)) continue;
       for (const clueId of board.acceptedClues) {
         if (!getClueLore(clueId)) missing.push(clueId);
       }
@@ -24,27 +21,38 @@ describe("clueLore — Acts 1+2 coverage", () => {
     expect(missing).toEqual([]);
   });
 
-  it("registry is exactly 10 entries (5 per board)", () => {
+  it("Acts 1-2 sub-registry is exactly 10 entries (5 per board, kept for backward compat)", () => {
     expect(ACTS_1_2_CLUE_LORE.length).toBe(10);
   });
 
+  it("ALL_CLUE_LORE registry covers every clue across the 7 boards", () => {
+    const totalAcceptedClues = CONSPIRACY_BOARDS.reduce(
+      (n, b) => n + b.acceptedClues.length,
+      0,
+    );
+    // Defensive: catch the case where the same clueId appears on
+    // multiple boards. ALL_CLUE_LORE is keyed by id so duplicates
+    // would NOT make this assertion fail, but the missing-coverage
+    // check above would. Pin the count anyway.
+    expect(ALL_CLUE_LORE.length).toBe(totalAcceptedClues);
+  });
+
   it("every clue lore has body text + an in-fiction source", () => {
-    for (const c of ACTS_1_2_CLUE_LORE) {
+    for (const c of ALL_CLUE_LORE) {
       expect(c.body.trim().length).toBeGreaterThan(0);
       expect(c.source.trim().length).toBeGreaterThan(0);
     }
   });
 
   it("every clue lore loredex anchor uses the existing entity_<n> id pattern", () => {
-    for (const c of ACTS_1_2_CLUE_LORE) {
+    for (const c of ALL_CLUE_LORE) {
       for (const id of c.loredexEntityIds ?? []) {
         expect(id).toMatch(/^entity_\d+$/);
       }
     }
   });
 
-  it("getClueLore returns undefined for unknown ids (Acts 3-7 are label-only)", () => {
-    expect(getClueLore("clue_warlord_first_speech")).toBeUndefined();
+  it("getClueLore returns undefined for unknown ids", () => {
     expect(getClueLore("not_a_real_clue")).toBeUndefined();
   });
 });

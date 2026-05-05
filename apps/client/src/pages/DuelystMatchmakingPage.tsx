@@ -361,18 +361,92 @@ function PlayerStatusCard({ label, player }: { label: string; player: PlayerStat
   );
 }
 
+/* ─── Grid-based board renderer ─── */
+
+const BOARD_WIDTH = 9;
+const BOARD_HEIGHT = 5;
+
 function BoardSummary({ board, mySide }: { board: Record<string, BoardEntityShape>; mySide: 0 | 1 }) {
-  const entries = Object.values(board);
-  const mine = entries.filter((e) => e.side === mySide);
-  const theirs = entries.filter((e) => e.side === (mySide === 0 ? 1 : 0));
+  // Build a (row, col) → entity lookup. Engine uses string keys
+  // "row,col" for board cells; tolerate both that shape and the
+  // entity's own row/col fields (some serializers populate one but
+  // not the other).
+  const cells = new Map<string, BoardEntityShape>();
+  for (const [k, v] of Object.entries(board)) {
+    if (typeof v.row === "number" && typeof v.col === "number") {
+      cells.set(`${v.row},${v.col}`, v);
+    } else {
+      cells.set(k, v);
+    }
+  }
+
+  const oppSide = mySide === 0 ? 1 : 0;
+
+  // Render rows back-to-front so the player's general appears at
+  // the BOTTOM (closer to the player) and the opponent's at the
+  // TOP. Side-0 starts at col 1; side-1 at col 7. Convention
+  // mirrors the engine init.ts:272-283 layout.
+  const rowOrder = mySide === 0
+    ? [4, 3, 2, 1, 0]      // player at top (row 0) → bottom of screen
+    : [0, 1, 2, 3, 4];
+
   return (
-    <div className="grid grid-cols-2 gap-3">
-      <BoardSide label="YOUR BOARD" units={mine} />
-      <BoardSide label="OPPONENT BOARD" units={theirs} />
+    <div className="space-y-2">
+      <div className="flex items-center justify-between">
+        <span className="font-mono text-[10px] text-muted-foreground tracking-wider">BOARD</span>
+        <div className="flex gap-3 font-mono text-[10px] text-muted-foreground">
+          <span><span className="inline-block w-2 h-2 rounded-sm bg-sky-500/60 mr-1 align-middle" />YOU</span>
+          <span><span className="inline-block w-2 h-2 rounded-sm bg-rose-500/60 mr-1 align-middle" />OPPONENT</span>
+        </div>
+      </div>
+      <div
+        role="grid"
+        aria-label="Match board"
+        className="rounded-lg bg-card/30 border border-border/20 p-2"
+      >
+        {rowOrder.map((row) => (
+          <div key={row} className="grid grid-cols-9 gap-1">
+            {Array.from({ length: BOARD_WIDTH }, (_, col) => {
+              const entity = cells.get(`${row},${col}`);
+              const isMine = entity?.side === mySide;
+              const isOpp = entity?.side === oppSide;
+              return (
+                <div
+                  key={col}
+                  role="gridcell"
+                  className={`aspect-square rounded-sm border flex flex-col items-center justify-center text-[8px] font-mono leading-none ${
+                    entity
+                      ? isMine
+                        ? "bg-sky-950/40 border-sky-500/40 text-sky-100"
+                        : isOpp
+                          ? "bg-rose-950/40 border-rose-500/40 text-rose-100"
+                          : "bg-card/40 border-border/30"
+                      : "bg-card/20 border-border/10"
+                  }`}
+                  title={entity ? `${entity.defId ?? "?"} ${entity.power ?? 0}/${entity.health ?? 0} @ (${row},${col})` : `(${row},${col})`}
+                >
+                  {entity && (
+                    <>
+                      <span className="truncate w-full text-center px-0.5 opacity-80" style={{ fontSize: "7px" }}>
+                        {(entity.defId ?? "?").slice(-6)}
+                      </span>
+                      <span className="font-bold">
+                        {entity.power ?? 0}/{entity.health ?? 0}
+                      </span>
+                    </>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
 
+// Legacy list view kept around as a fallback for cells without
+// row/col coords (defensive).
 function BoardSide({ label, units }: { label: string; units: readonly BoardEntityShape[] }) {
   return (
     <div className="p-3 rounded-lg bg-card/30 border border-border/20">
