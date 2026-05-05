@@ -176,3 +176,48 @@ describe("companionComments — governance vote reactivity (Phase 3)", () => {
     expect(speakers.size).toBeGreaterThanOrEqual(3);
   });
 });
+
+describe("companionComments — Act 6/7 path-aware callbacks (Bandersnatch Move 3)", () => {
+  /** Every Act 6/7 confession/landing trigger should have lines for
+   *  all three macro-paths (A=Disclosure, B=Discovery, C=Betrayal).
+   *  This is the path-lock pattern from act4OpponentDialog.ts
+   *  extended through Acts 5–7 per the audit recommendation.
+   */
+  const PATH_AWARE_BASE_TRIGGERS = [
+    "act6_elara_confession_heard",
+    "act6_human_confession_heard",
+    "act6_confession_close",
+    "act7_visible_war_won",
+    "act7_convergence_landing",
+    "act7_arc_closes",
+  ] as const;
+
+  for (const base of PATH_AWARE_BASE_TRIGGERS) {
+    it(`has all three path variants (_pathA / _pathB / _pathC) for "${base}"`, () => {
+      for (const suffix of ["_pathA", "_pathB", "_pathC"]) {
+        const trigger = `${base}${suffix}`;
+        const matches = COMPANION_COMMENTS.filter((c) => c.trigger === trigger);
+        expect(
+          matches.length,
+          `path-aware trigger "${trigger}" missing`,
+        ).toBeGreaterThan(0);
+      }
+    });
+  }
+
+  it("path C (Betrayal) lines never claim the relationship is unchanged", () => {
+    const pathCLines = COMPANION_COMMENTS.filter((c) =>
+      c.trigger.endsWith("_pathC"),
+    );
+    expect(pathCLines.length).toBeGreaterThan(0);
+    for (const line of pathCLines) {
+      // Cheap soft-canon check: the betrayal arc should not say
+      // "everything is fine" — that would invalidate the path's
+      // emotional cost. Spot-check for a few words an over-eager
+      // editor might insert.
+      const text = line.voiceLine.toLowerCase();
+      expect(text).not.toContain("forgiven and forgotten");
+      expect(text).not.toContain("never happened");
+    }
+  });
+});

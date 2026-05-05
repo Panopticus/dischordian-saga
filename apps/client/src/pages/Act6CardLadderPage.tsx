@@ -182,9 +182,21 @@ export default function Act6CardLadderPage() {
           `act6_step_${currentOpponent.actStep}_complete`,
           true,
         );
+        // Path callback selector — Acts 1-3 path locks the variant
+        // of the confession callback that fires here. Honours the
+        // path-lock pattern in act4OpponentDialog.ts.
+        const pathSuffix = gameState.narrativeFlags?.act1_path_A
+          ? "_pathA"
+          : gameState.narrativeFlags?.act3_full_secret
+            ? "_pathC"
+            : gameState.narrativeFlags?.act3_partial_share
+              ? "_pathB"
+              : "";
+
         if (currentOpponent.id === "act6_the_woman_she_was") {
           setNarrativeFlag("act6_elara_confession_heard", true);
           fireCompanionComment("act6_elara_confession_heard");
+          if (pathSuffix) fireCompanionComment(`act6_elara_confession_heard${pathSuffix}`);
           // Queue the full 5-line confession arc; the hook serialises
           // them so the player hears Elara's whole beat in sequence.
           vo.speak("elara-confession-01");
@@ -197,6 +209,10 @@ export default function Act6CardLadderPage() {
           setNarrativeFlag("act6_confession_close", true);
           fireCompanionComment("act6_human_confession_heard");
           fireCompanionComment("act6_confession_close");
+          if (pathSuffix) {
+            fireCompanionComment(`act6_human_confession_heard${pathSuffix}`);
+            fireCompanionComment(`act6_confession_close${pathSuffix}`);
+          }
           vo.speak("human-confession-01");
           vo.speak("human-confession-02");
           vo.speak("human-confession-03");

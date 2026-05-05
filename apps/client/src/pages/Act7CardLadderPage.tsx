@@ -157,6 +157,16 @@ export default function Act7CardLadderPage() {
   const handleGameEnd = useCallback(
     (winner: "player" | "opponent") => {
       if (!currentOpponent) return;
+      // Path callback selector — Acts 1-3 path locks the variant of
+      // the convergence callback. Mirrors the Act 6 mechanism;
+      // honours the path-lock pattern in act4OpponentDialog.ts.
+      const pathSuffix = gameState.narrativeFlags?.act1_path_A
+        ? "_pathA"
+        : gameState.narrativeFlags?.act3_full_secret
+          ? "_pathC"
+          : gameState.narrativeFlags?.act3_partial_share
+            ? "_pathB"
+            : "";
       if (winner === "player") {
         recordWin(currentOpponent.id);
         setNarrativeFlag(
@@ -166,6 +176,7 @@ export default function Act7CardLadderPage() {
         if (currentOpponent.id === "act7_the_visible_war") {
           setNarrativeFlag("act7_visible_war_won", true);
           fireCompanionComment("act7_visible_war_won");
+          if (pathSuffix) fireCompanionComment(`act7_visible_war_won${pathSuffix}`);
           vo.speak("visible-war-win");
         } else if (currentOpponent.id === "act7_the_watcher_shadow") {
           // Tier 4D: clearing the Shadow without triggering the
@@ -182,6 +193,10 @@ export default function Act7CardLadderPage() {
           setNarrativeFlag("act_7_complete", true);
           fireCompanionComment("act7_convergence_landing");
           fireCompanionComment("act7_arc_closes");
+          if (pathSuffix) {
+            fireCompanionComment(`act7_convergence_landing${pathSuffix}`);
+            fireCompanionComment(`act7_arc_closes${pathSuffix}`);
+          }
           // Tier 4D: Act 7 callback closes the substrate handshake
           // thread. Only fires once — helper is idempotent.
           void fireCrossGameBeat("substrate_handshake_loredex_act7_callback");

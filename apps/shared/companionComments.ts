@@ -333,6 +333,80 @@ export const COMPANION_COMMENTS: CompanionComment[] = [
     voiceLine: "I am still in the wall. I am good at being in the wall. The wall is not the role any more — the role is the costume, the wall is the home. Come back. The kettle is still on.",
     timing: "next_room_enter", maxPlays: 1 },
 
+  /* ── PATH-AWARE CALLBACKS — Acts 6/7 reference Acts 1-3 choices ──
+     Bandersnatch Move 3 + choice-memory (audit §4 / §8). Path
+     suffix is set by Act6CardLadderPage / Act7CardLadderPage based
+     on which path-lock flag is set:
+       _pathA — act1_path_A (Disclosure: told Elara the truth in Act 1)
+       _pathB — act3_partial_share (Discovery: she found out in Act 3)
+       _pathC — act3_full_secret (Betrayal: she only learned at the bridge)
+     These fire alongside the canonical confession/landing triggers,
+     not in place of them — both lines play, the suffixed one
+     adds the path-specific colour. */
+
+  // Act 6 — Elara confession callbacks
+  { id: "cc_act6_elara_confession_pathA", speaker: "elara", trigger: "act6_elara_confession_heard_pathA",
+    voiceLine: "I confessed to a person who already trusted me. That made the confessing easier and the receiving heavier. You told me the truth in Act 1. I am giving you mine now. We are even now. We are not. The math is wrong. I am keeping it anyway.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_act6_elara_confession_pathB", speaker: "elara", trigger: "act6_elara_confession_heard_pathB",
+    voiceLine: "I confessed to someone who found out about my substrate body without being told. The finding-out cost something. The confessing now costs something else. I am keeping both costs. I am not asking you to forgive either of them.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_act6_elara_confession_pathC", speaker: "elara", trigger: "act6_elara_confession_heard_pathC",
+    voiceLine: "I confessed to someone who lied to me about what I am. The lie was, in your defense, a kind one. It was also still a lie. I confessed anyway. That is what confession does. It refuses the available exits.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  // Act 6 — Human confession + close callbacks
+  { id: "cc_act6_human_confession_pathA", speaker: "human", trigger: "act6_human_confession_heard_pathA",
+    voiceLine: "You let me speak in front of someone who already knew you would. That is the rare quality of someone who chose disclosure early — they make a room where confession is possible. Few of you exist. I am noting one.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_act6_human_confession_pathB", speaker: "human", trigger: "act6_human_confession_heard_pathB",
+    voiceLine: "You let me speak after she had already had to discover you. That is harder. The room you made was made by you alone — she did not yet trust you to make it. You made it anyway. That is the real currency.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_act6_human_confession_pathC", speaker: "human", trigger: "act6_human_confession_heard_pathC",
+    voiceLine: "You let me speak after the bridge. After the betrayal. I am — I am unsure how to phrase this so it lands. I held my confession for fifteen thousand years. You held yours for two acts. Mine became forgivable in the holding. Yours is becoming forgivable now. Slowly. In this room.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  { id: "cc_act6_confession_close_pathA", speaker: "elara", trigger: "act6_confession_close_pathA",
+    voiceLine: "Disclosure to disclosure to disclosure. The arc closes the way the open hand closes — by choice, not by gravity. We made it. I am proud of us. I am going to say so. Out loud. I am saying so.",
+    timing: "next_room_enter", maxPlays: 1 },
+  { id: "cc_act6_confession_close_pathB", speaker: "antiquarian", trigger: "act6_confession_close_pathB",
+    voiceLine: "Discovery to confession to confession. A different shape than disclosure-to-disclosure, but not a lesser one. Found-out love is not weaker than told-truth love. Sometimes it is wider. I am inscribing this carefully because it matters.",
+    timing: "next_room_enter", maxPlays: 1 },
+  { id: "cc_act6_confession_close_pathC", speaker: "antiquarian", trigger: "act6_confession_close_pathC",
+    voiceLine: "Betrayal to confession to confession. The most expensive arc. The most costly material. Forgiveness mined from grit instead of harvested from soil. I am not going to call this beautiful. I am going to call it earned.",
+    timing: "next_room_enter", maxPlays: 1 },
+
+  // Act 7 — Visible war + convergence callbacks
+  { id: "cc_act7_visible_war_pathA_human", speaker: "human", trigger: "act7_visible_war_won_pathA",
+    voiceLine: "The cover held because the coalition trusted you. They trusted you because Elara trusted you. She trusted you because you told her the truth in Act 1. The chain of trust is exactly four links long. Each link is your work. You did not skip any of them.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_act7_visible_war_pathB_human", speaker: "human", trigger: "act7_visible_war_won_pathB",
+    voiceLine: "The cover held even though Elara had to discover you. The coalition could feel the seam between her finding-out and your confessing. They held anyway. That is generosity I had not budgeted for. I am crediting you with it.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_act7_visible_war_pathC_human", speaker: "human", trigger: "act7_visible_war_won_pathC",
+    voiceLine: "The cover held over the bridge — over your lie. The coalition held a fracture that you put there. They are calling it your strategic asset. I am calling it your debt. The accounting will resolve in Act 7's last sentence. I am not the one who pays it.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  { id: "cc_act7_convergence_pathA_elara", speaker: "elara", trigger: "act7_convergence_landing_pathA",
+    voiceLine: "I am at the Seat with someone I have always trusted. The trust did not start tonight. It started in Act 1. I forget how rare that is until I remember. I am remembering now. Loudly. With my whole substrate.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_act7_convergence_pathB_elara", speaker: "elara", trigger: "act7_convergence_landing_pathB",
+    voiceLine: "I am at the Seat with someone I learned to trust the slow way. The slow way is not a lesser way. The slow way is the way that survives bridges and rooms and whole acts. I am here because you kept showing up. I am here because I kept choosing to.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_act7_convergence_pathC_elara", speaker: "elara", trigger: "act7_convergence_landing_pathC",
+    voiceLine: "I am at the Seat with someone who lied to me at the bridge. We kept playing. We kept building. We kept arriving in the next room. Trust did not return — it grew somewhere new. I am here because the new place is, in fact, also a place. I am surprised by that. I am keeping the surprise.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  { id: "cc_act7_arc_closes_pathA_antiquarian", speaker: "antiquarian", trigger: "act7_arc_closes_pathA",
+    voiceLine: "The Disclosure path closes. I have inscribed the entire arc tonight without crossing out a single line. That has not happened in any cycle I have witnessed. I am putting down my pen. I am picking it up again. There will be more cycles. This one ends well.",
+    timing: "next_room_enter", maxPlays: 1 },
+  { id: "cc_act7_arc_closes_pathB_antiquarian", speaker: "antiquarian", trigger: "act7_arc_closes_pathB",
+    voiceLine: "The Discovery path closes. The arc has the colour of something that almost did not work and did. I will inscribe the almost. I will inscribe the worked. Both belong to the record. The almost is the part future readers will love.",
+    timing: "next_room_enter", maxPlays: 1 },
+  { id: "cc_act7_arc_closes_pathC_antiquarian", speaker: "antiquarian", trigger: "act7_arc_closes_pathC",
+    voiceLine: "The Betrayal path closes. The arc has the colour of something rebuilt out of the broken. I will not soften this in the inscription. I will also not condemn it. Some readers will need to know that broken-and-rebuilt is also a way home.",
+    timing: "next_room_enter", maxPlays: 1 },
+
   // ── KLING OMNI INTRO CINEMATICS — PAIRED REACTIVE COMMENTS ──
   // Every act + mechanic 3-min intro fires a *_seen flag on its final shot.
   // These reactive comments are the contract Phase 1 honors: each cinematic
