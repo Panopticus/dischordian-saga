@@ -563,6 +563,12 @@ async function startServer() {
       console.error("[UserBlocksBootstrap] failed:", e),
     );
 
+    // support_impersonation_grants (migration 0069).
+    const { bootstrapSupportImpersonationTable } = await import("../services/supportImpersonationBootstrap");
+    bootstrapSupportImpersonationTable().catch(e =>
+      console.error("[SupportImpersonationBootstrap] failed:", e),
+    );
+
     // Ensure pvp_ratings exists (#7). Migration 0058 is orphaned
     // from _journal.json; without this table the pvpRanking router
     // throws on every read/write. Failure surface is "MMR badge +

@@ -148,6 +148,39 @@ export const userBlocks = mysqlTable(
 );
 export type UserBlock = typeof userBlocks.$inferSelect;
 
+/**
+ * Support impersonation grants — short-lived, audited tokens that
+ * let an authorised admin/moderator act as another user to
+ * reproduce a bug. The grant must be redeemed within the TTL,
+ * carries a mandatory reason, and ends up in adminAuditLog so the
+ * use is reviewable after the fact.
+ *
+ * Storage shape:
+ *   - issuedToAdminId: who can use this grant
+ *   - targetUserId:    whose account they're entering
+ *   - reason:          mandatory free-text justification
+ *   - expiresAt:       short, e.g. 1 hour
+ *   - usedAt:          burn-after-use; the redeem mutation flips
+ *                      this so a leaked token isn't reusable.
+ */
+export const supportImpersonationGrants = mysqlTable(
+  "support_impersonation_grants",
+  {
+    id: int("id").autoincrement().primaryKey(),
+    issuedToAdminId: int("issuedToAdminId").notNull(),
+    targetUserId: int("targetUserId").notNull(),
+    reason: varchar("reason", { length: 512 }).notNull(),
+    createdAt: timestamp("createdAt").defaultNow().notNull(),
+    expiresAt: timestamp("expiresAt").notNull(),
+    usedAt: timestamp("usedAt"),
+  },
+  (table) => ({
+    adminIdx: index("idx_support_grants_admin").on(table.issuedToAdminId),
+    targetIdx: index("idx_support_grants_target").on(table.targetUserId),
+  }),
+);
+export type SupportImpersonationGrant = typeof supportImpersonationGrants.$inferSelect;
+
 /* ═══════════════════════════════════════════════════════
    GAMIFICATION — Achievements, Progress, Ark Themes
    Designed franchise-agnostic: franchiseId scopes all data
