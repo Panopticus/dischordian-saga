@@ -14,6 +14,7 @@ import { setupChessPvpWebSocket } from "../chessWs";
 import { registerSpriteProxy } from "../spriteProxy";
 import { registerChessMultiplayer } from "../chessMultiplayer";
 import { ENV } from "./env";
+import { securityHeaders } from "./securityHeaders";
 import { performanceMiddleware } from "../performanceMonitor";
 import { sentryErrorHandler, waitForSentry } from "../sentry";
 import { waitForOTel } from "../otel";
@@ -207,6 +208,9 @@ async function startServer() {
 
   // Performance monitoring — mount before route handlers
   app.use(performanceMiddleware);
+
+  // Security headers — CSP, HSTS, XFO, nosniff, etc.
+  app.use(securityHeaders({ isProduction: ENV.isProduction }));
 
   // Task 6.1 — CORS hardening.
   //

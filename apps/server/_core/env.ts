@@ -6,21 +6,40 @@
 
 const isProduction = process.env.NODE_ENV === "production";
 
+/**
+ * Strip non-printable / non-ASCII characters that get smuggled in when an
+ * operator pastes a key from a web page or chat client. Common offenders:
+ *   U+2028 (line separator), U+2029 (paragraph separator), U+00A0 (nbsp),
+ *   U+200B–U+200D (zero-width), U+FEFF (BOM), smart quotes.
+ * These are invisible but blow up HTTP header encoding (ByteString error),
+ * cause silent auth failures, and pollute logs with the raw key.
+ *
+ * Apply once at boot to every credential. PR #402 fixed this for
+ * ELEVENLABS_API_KEY in two VO scripts; this generalises the fix.
+ */
+export function sanitizeCredential(value: string | undefined): string {
+  if (!value) return "";
+  // Strip everything outside printable ASCII. Catches all invisible-paste
+  // offenders without enumerating each codepoint.
+  return value.replace(/[^\x20-\x7E]/g, "").trim();
+}
+
 /** Required in production, warned in development */
 function required(key: string, value: string | undefined): string {
-  if (!value || value.trim() === "") {
+  const cleaned = sanitizeCredential(value);
+  if (!cleaned) {
     if (isProduction) {
       throw new Error(`[ENV] Missing required environment variable: ${key}`);
     }
-    console.warn(`[ENV] ⚠ Missing ${key} — some features will be disabled`);
+    console.warn(`[ENV] Missing ${key} — some features will be disabled`);
     return "";
   }
-  return value;
+  return cleaned;
 }
 
 /** Optional — returns empty string if missing, no warning */
 function optional(key: string, value: string | undefined, fallback = ""): string {
-  return value?.trim() || fallback;
+  return sanitizeCredential(value) || fallback;
 }
 
 export const ENV = {
@@ -47,9 +66,20 @@ export const ENV = {
   forgeApiUrl: optional("LLM_API_URL", process.env.LLM_API_URL),
   forgeApiKey: optional("LLM_API_KEY", process.env.LLM_API_KEY),
 
+  // ElevenLabs (VO generation pipeline)
+  elevenLabsApiKey: optional("ELEVENLABS_API_KEY", process.env.ELEVENLABS_API_KEY),
+
+  // AWS (S3 asset uploads, VO upload)
+  awsAccessKeyId: optional("AWS_ACCESS_KEY_ID", process.env.AWS_ACCESS_KEY_ID),
+  awsSecretAccessKey: optional("AWS_SECRET_ACCESS_KEY", process.env.AWS_SECRET_ACCESS_KEY),
+
   // Payments (optional — store disabled without it)
   stripeSecretKey: optional("STRIPE_SECRET_KEY", process.env.STRIPE_SECRET_KEY),
   stripeWebhookSecret: optional("STRIPE_WEBHOOK_SECRET", process.env.STRIPE_WEBHOOK_SECRET),
+
+  // Email (transactional). Resend or SendGrid; service decides at use site.
+  resendApiKey: optional("RESEND_API_KEY", process.env.RESEND_API_KEY),
+  sendgridApiKey: optional("SENDGRID_API_KEY", process.env.SENDGRID_API_KEY),
 
   // CORS (defaults to production domain).
   //

@@ -3,6 +3,7 @@ import { drizzle } from "drizzle-orm/mysql2";
 import { createPool } from "mysql2/promise";
 import { InsertUser, users } from "../db/schema";
 import { ENV } from './_core/env';
+import { isReservedName, normalizeDisplayName } from "../shared/usernamePolicy";
 
 /** Re-usable type for the drizzle DB instance */
 export type DrizzleDb = ReturnType<typeof drizzle>;
@@ -103,7 +104,20 @@ export async function upsertUser(user: InsertUser): Promise<void> {
     const assignNullable = (field: TextField) => {
       const value = user[field];
       if (value === undefined) return;
-      const normalized = value ?? null;
+      let normalized: string | null = value ?? null;
+      if (field === "name" && normalized) {
+        // NFKC-normalise + strip zero-widths to defeat lookalike
+        // username impersonation. If the OAuth-supplied name collides
+        // with a reserved name (admin/mod/etc.) under homoglyph
+        // collapse, suffix it with a random tag rather than rejecting
+        // the whole upsert — OAuth onboarding must not fail because
+        // a Google profile happens to be named "Admin".
+        normalized = normalizeDisplayName(normalized);
+        if (isReservedName(normalized)) {
+          const suffix = Math.floor(Math.random() * 9000 + 1000);
+          normalized = `${normalized}_${suffix}`;
+        }
+      }
       values[field] = normalized;
       updateSet[field] = normalized;
     };
