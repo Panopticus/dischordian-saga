@@ -551,6 +551,12 @@ async function startServer() {
       console.error("[UserSessionsBootstrap] failed:", e),
     );
 
+    // G16/G17 — indexes + FKs (migration 0067). Idempotent.
+    const { bootstrapIndexesAndFks } = await import("../services/indexesFksBootstrap");
+    bootstrapIndexesAndFks().catch(e =>
+      console.error("[IndexesFksBootstrap] failed:", e),
+    );
+
     // Ensure pvp_ratings exists (#7). Migration 0058 is orphaned
     // from _journal.json; without this table the pvpRanking router
     // throws on every read/write. Failure surface is "MMR badge +
