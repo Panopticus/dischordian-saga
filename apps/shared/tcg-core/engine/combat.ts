@@ -124,8 +124,8 @@ export function handleAttack(
   // casualties afterwards. Capture both power values before applying
   // either damage so a lethal blow doesn't cancel the defender's
   // retaliation.
-  const attackDamage = Math.max(0, attacker.card.currentPower);
-  const retaliationDamage = isRangedLike ? 0 : Math.max(0, target.card.currentPower);
+  const attackDamage = Math.max(0, effectivePower(draft, attacker));
+  const retaliationDamage = isRangedLike ? 0 : Math.max(0, effectivePower(draft, target));
 
   applyCombatDamage(draft, attacker, target, attackDamage, ctx);
   if (retaliationDamage > 0) {
@@ -254,4 +254,89 @@ function findAdjacentEnemyWithKeyword(
     }
   }
   return null;
+}
+
+/**
+ * Effective combat power including positional + keyword bonuses.
+ *
+ * Zeal: while the unit is king-adjacent to its owner's general, add
+ * +1 to its combat power. Wired here (and at retaliation in attack)
+ * so the bonus follows the unit on both sides of a swing without
+ * mutating currentPower itself — the bonus is read fresh each combat
+ * resolution against current board geometry.
+ *
+ * Pack: +1 per OTHER allied unit on the board with the same faction
+ * tag (excluding the pack unit itself + the general). Read fresh each
+ * combat so deploys/deaths flip the bonus immediately.
+ *
+ * Audit 2026-05 §3.3 lifted the "// reserved" annotations on `zeal`
+ * and `pack` once these hooks landed. (Backwards-compatible alias
+ * `effectivePowerWithZeal` is preserved for the existing zeal test.)
+ */
+const ZEAL_BONUS = 1;
+const PACK_BONUS_PER_ALLY = 1;
+
+export function effectivePower(
+  draft: Draft<GameState> | GameState,
+  unit: Draft<BoardEntity> | BoardEntity,
+): number {
+  let p = unit.card.currentPower;
+  if (
+    unit.card.activeKeywords.includes("zeal") &&
+    isAdjacentToOwnGeneral(draft, unit)
+  ) {
+    p += ZEAL_BONUS;
+  }
+  if (unit.card.activeKeywords.includes("pack")) {
+    p += packBonus(draft, unit);
+  }
+  return p;
+}
+
+/** @deprecated Use effectivePower; kept so existing tests keep linking. */
+export function effectivePowerWithZeal(
+  draft: Draft<GameState> | GameState,
+  unit: Draft<BoardEntity> | BoardEntity,
+): number {
+  return effectivePower(draft, unit);
+}
+
+function packBonus(
+  draft: Draft<GameState> | GameState,
+  unit: Draft<BoardEntity> | BoardEntity,
+): number {
+  // Faction lookup needs the static card def; reading the def requires
+  // a registry, which combat callers wire through ReduceCtx. For the
+  // dynamic check we fall back to an inline scan keyed on the
+  // CardInstance's def-id captured on the entity at deploy time.
+  // Same-defId stacking is a sane proxy for "same faction" until
+  // engine/registry threading is plumbed through every call site.
+  const myDef = unit.card.defId;
+  const myOwner = unit.card.owner;
+  let count = 0;
+  for (const e of Object.values(draft.board)) {
+    if (!e || e.entityId === unit.entityId) continue;
+    if (e.isGeneral) continue;
+    if (e.card.owner !== myOwner) continue;
+    if (e.card.defId === myDef) count++;
+  }
+  return count * PACK_BONUS_PER_ALLY;
+}
+
+function isAdjacentToOwnGeneral(
+  draft: Draft<GameState> | GameState,
+  unit: Draft<BoardEntity> | BoardEntity,
+): boolean {
+  const ownerSide = unit.card.owner;
+  for (let dr = -1; dr <= 1; dr++) {
+    for (let dc = -1; dc <= 1; dc++) {
+      if (dr === 0 && dc === 0) continue;
+      const nr = unit.row + dr;
+      const nc = unit.col + dc;
+      const neighbor = draft.board[posKey(nr, nc)];
+      if (!neighbor) continue;
+      if (neighbor.isGeneral && neighbor.card.owner === ownerSide) return true;
+    }
+  }
+  return false;
 }

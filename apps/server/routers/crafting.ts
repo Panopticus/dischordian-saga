@@ -941,40 +941,18 @@ export const craftingRouter = router({
       const fxRecipe = await getConsequences();
       successRate = Math.min(1, successRate * fxRecipe.craftingMultiplier);
 
-      // Deduct materials
-      for (const [matId, needed] of Object.entries(input.materials)) {
-        materials[matId] = (materials[matId] ?? 0) - needed;
-        if (materials[matId] <= 0) delete materials[matId];
-      }
-
-      // Deduct Dream
-      if (input.dreamCost > 0 && dreamRow[0]) {
-        await db.update(dreamBalance)
-          .set({ dreamTokens: currentDream - input.dreamCost })
-          .where(eq(dreamBalance.userId, ctx.user.id));
-      }
-
-      // Deduct Memory Energy (Act 2+ recipes). The validation above
-      // guarantees currentMemoryEnergy >= cost, so the subtraction is
-      // safe. We deduct BEFORE the success roll — even a failed craft
-      // consumes the Memory Energy, matching the canon §6.2 framing
-      // ("the bench hums at a lower frequency" for a dark craft even
-      // when the card doesn't stick). If we need refund-on-failure in
-      // future tuning, that's a separate row update after the roll.
-      if (input.memoryEnergyCost > 0) {
-        await db.update(memoryEnergyBalance)
-          .set({
-            memoryEnergy: currentMemoryEnergy - input.memoryEnergyCost,
-            totalSpent: sql`${memoryEnergyBalance.totalSpent} + ${input.memoryEnergyCost}`,
-          })
-          .where(eq(memoryEnergyBalance.userId, ctx.user.id));
-      }
-
-      // Roll for success
+      // ── Atomic deduction + state save ──
+      // Wrap balance deductions, materials decrement, gameData save,
+      // and craftingLog insert in a single transaction. If anything
+      // throws (DB error, conditional UPDATE missing affected rows,
+      // etc.) the entire craft rolls back — no half-charged crafts
+      // where Dream is gone but Memory Energy isn't, or where state
+      // is saved but the log row failed.
+      //
+      // Roll the success outcome BEFORE the transaction so the random
+      // number is fixed across retries; deterministic-replay-friendly.
       const roll = Math.random();
       const succeeded = roll <= successRate;
-
-      // Award XP regardless of success (reduced on failure)
       const xpAwarded = succeeded ? input.xpGain : Math.floor(input.xpGain * 0.3);
       const skillData = { ...(skills[input.skill] ?? { level: 1, xp: 0 }) };
       skillData.xp += xpAwarded;
@@ -993,20 +971,53 @@ export const craftingRouter = router({
         }
       }
 
-      // Save state
-      await db.update(userProgress)
-        .set({ gameData: { ...gameData, craftingSkills: skills, materials, craftedItems } })
-        .where(and(eq(userProgress.userId, ctx.user.id), eq(userProgress.franchiseId, "dischordian-saga")));
+      // Decrement materials in our local copy; the actual write goes
+      // through inside the tx below.
+      for (const [matId, needed] of Object.entries(input.materials)) {
+        materials[matId] = (materials[matId] ?? 0) - needed;
+        if (materials[matId] <= 0) delete materials[matId];
+      }
 
-      // Log — map to craftingLog schema fields
-      await db.insert(craftingLog).values({
-        userId: ctx.user.id,
-        recipeType: input.recipeId,
-        inputCards: Object.entries(input.materials).map(([id, qty]) => ({ cardId: id, quantity: qty })),
-        outputCardId: succeeded ? input.outputItemId : "FAILED",
-        success: succeeded ? 1 : 0,
-        creditsCost: input.dreamCost,
-      }).catch(e => logger.error("[Crafting] Craft log insert failed:", e));
+      await db.transaction(async (tx) => {
+        if (input.dreamCost > 0) {
+          // Conditional UPDATE: only deducts if balance still suffices.
+          // Affects 0 rows if a parallel spend dropped balance below cost.
+          const r = await tx.execute(sql`
+            UPDATE dream_balance
+            SET dream_tokens = dream_tokens - ${input.dreamCost}
+            WHERE user_id = ${ctx.user.id} AND dream_tokens >= ${input.dreamCost}
+          `);
+          const affected = (r as unknown as Array<{ affectedRows?: number }>)[0]?.affectedRows ?? 0;
+          if (affected === 0) throw new Error("Dream balance insufficient (concurrent spend?)");
+        }
+
+        if (input.memoryEnergyCost > 0) {
+          const r = await tx.execute(sql`
+            UPDATE memory_energy_balance
+            SET memory_energy = memory_energy - ${input.memoryEnergyCost},
+                total_spent = total_spent + ${input.memoryEnergyCost}
+            WHERE user_id = ${ctx.user.id} AND memory_energy >= ${input.memoryEnergyCost}
+          `);
+          const affected = (r as unknown as Array<{ affectedRows?: number }>)[0]?.affectedRows ?? 0;
+          if (affected === 0) throw new Error("Memory Energy insufficient (concurrent spend?)");
+        }
+
+        // Save state inside the tx so a rollback restores everything.
+        await tx.update(userProgress)
+          .set({ gameData: { ...gameData, craftingSkills: skills, materials, craftedItems } })
+          .where(and(eq(userProgress.userId, ctx.user.id), eq(userProgress.franchiseId, "dischordian-saga")));
+
+        // Log — must be in tx so failed crafts don't leave orphan logs
+        // and successful crafts always have an audit row.
+        await tx.insert(craftingLog).values({
+          userId: ctx.user.id,
+          recipeType: input.recipeId,
+          inputCards: Object.entries(input.materials).map(([id, qty]) => ({ cardId: id, quantity: qty })),
+          outputCardId: succeeded ? input.outputItemId : "FAILED",
+          success: succeeded ? 1 : 0,
+          creditsCost: input.dreamCost,
+        });
+      });
 
       await ripple.emit("craft_result", { userId: ctx.user.id, success: succeeded, recipeId: input.recipeId, rarity: "crafted" });
 
@@ -1066,9 +1077,10 @@ export const craftingRouter = router({
    * percentage, and on success writes the piece into
    * citizenCharacters.gear keyed by slot.
    *
-   * Material deduction awaits the suit-materials inventory system
-   * (not yet on schema). This mutation is the load-bearing wire;
-   * the material check drops in once the inventory lands.
+   * Material gating against citizenCharacters.suitMaterials (added
+   * in audit Phase J1). On success, deducts each input's count from
+   * the pouch atomically with the gear write. Loot drops + quest
+   * rewards are responsible for topping up the pouch.
    */
   attemptSuitCraft: protectedProcedure
     .input(z.object({ recipeId: z.string() }))
@@ -1123,9 +1135,28 @@ export const craftingRouter = router({
         });
       }
 
-      // Material deduction is deferred until the suit-materials
-      // inventory lands. Until then, the mutation grants-or-denies
-      // based on the recipe's baseSuccessPct alone.
+      // §G.9 material gate — read citizen's suit-materials pouch and
+      // confirm every input requirement is met. The pouch is a JSON
+      // bag on citizenCharacters.suitMaterials keyed by MaterialId.
+      // Audit Phase J1 landed the schema column; loot/quest emitters
+      // top it up, and this mutation deducts on success.
+      const pouch: Record<string, number> =
+        (character.suitMaterials as Record<string, number> | null) ?? {};
+      const shortage = recipe.inputs.find(
+        (req) => (pouch[req.materialId] ?? 0) < req.count,
+      );
+      if (shortage) {
+        return {
+          success: false as const,
+          recipeId: recipe.id,
+          outcome: "missing_materials" as const,
+          missing: {
+            materialId: shortage.materialId,
+            need: shortage.count,
+            have: pouch[shortage.materialId] ?? 0,
+          },
+        };
+      }
 
       const roll = Math.random() * 100;
       const succeeded = roll < recipe.baseSuccessPct;
@@ -1153,9 +1184,16 @@ export const craftingRouter = router({
           source: "crafted",
         },
       };
+      // Deduct materials atomically with the gear write. Materials
+      // are only consumed on SUCCESS — a Ruined Draft outcome above
+      // returns before this point so the player keeps their pouch.
+      const nextPouch: Record<string, number> = { ...pouch };
+      for (const req of recipe.inputs) {
+        nextPouch[req.materialId] = (nextPouch[req.materialId] ?? 0) - req.count;
+      }
       await db
         .update(citizenCharacters)
-        .set({ gear: nextGear })
+        .set({ gear: nextGear, suitMaterials: nextPouch })
         .where(eq(citizenCharacters.id, character.id));
 
       logger.info(

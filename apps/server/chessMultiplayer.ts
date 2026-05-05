@@ -11,6 +11,8 @@ import {
   pickMultiplayerEndLine,
   hashMultiplayerSeed,
 } from "@shared/tcg-core/story/chessMultiplayerArena";
+import { authenticateWebSocket } from "./_core/wsAuth";
+import { ENV } from "./_core/env";
 
 interface Player {
   socketId: string;
@@ -67,24 +69,54 @@ function generateGameId(): string {
 }
 
 export function registerChessMultiplayer(httpServer: HttpServer) {
+  // CORS: was wildcard "*". Restrict to the same allowlist used by
+  // the rest of the server. Socket.IO honours an array of origins
+  // or a callback.
+  const corsAllowlist = ENV.corsAllowlist;
   const io = new SocketServer(httpServer, {
     path: "/api/chess-ws",
-    cors: { origin: "*", methods: ["GET", "POST"] },
+    cors: {
+      origin: corsAllowlist.includes("*") ? "*" : corsAllowlist,
+      methods: ["GET", "POST"],
+      credentials: !corsAllowlist.includes("*"),
+    },
     transports: ["websocket", "polling"],
   });
 
   console.log("[Chess PvP] WebSocket server initialized on /api/chess-ws");
 
-  io.on("connection", (socket) => {
+  io.on("connection", async (socket) => {
     let currentPlayer: Player | null = null;
 
-    /* ─── AUTHENTICATE ─── */
-    socket.on("auth", (data: { userId: number; username: string; elo: number }) => {
+    // Authenticate via session cookie on the upgrade handshake.
+    // Socket.IO surfaces it on socket.handshake.headers.cookie. The
+    // legacy `auth` event used to trust client-supplied userId
+    // entirely — anyone could authenticate as anyone.
+    const handshakeReq = {
+      headers: socket.handshake.headers,
+    } as Parameters<typeof authenticateWebSocket>[0];
+    const authedUser = await authenticateWebSocket(handshakeReq);
+
+    if (!authedUser) {
+      socket.emit("error", { message: "Unauthorized" });
+      socket.disconnect(true);
+      return;
+    }
+
+    /* ─── AUTHENTICATE — server-bound, ignores client-supplied id ─── */
+    socket.on("auth", (data: { userId?: number; username?: string; elo?: number }) => {
+      // Reject mismatched claims rather than silently overriding —
+      // helps detect client bugs/misuse.
+      if (typeof data.userId === "number" && data.userId !== authedUser.id) {
+        socket.emit("error", { message: "Identity mismatch" });
+        socket.disconnect(true);
+        return;
+      }
       currentPlayer = {
         socketId: socket.id,
-        userId: data.userId,
-        username: data.username,
-        elo: data.elo || 1200,
+        userId: authedUser.id,
+        username: authedUser.name ?? data.username ?? `Player${authedUser.id}`,
+        elo: typeof data.elo === "number" ? data.elo : 1200,
       };
       socket.emit("auth:ok", { playerId: socket.id });
     });

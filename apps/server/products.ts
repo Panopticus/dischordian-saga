@@ -10,6 +10,14 @@ export interface StoreProduct {
   category: "dream" | "ship" | "cards" | "cosmetic" | "bundle";
   /** Price in cents (USD) */
   priceUsd: number;
+  /**
+   * Optional Stripe price-id env-var name. When set + the env var
+   * is present, store.ts's purchase flow passes the resolved
+   * price-id to Stripe instead of building inline price_data.
+   * Audit Phase L (B4). Setting `process.env.STRIPE_PRICE_*`
+   * lets ops swap real Stripe SKUs without a code change.
+   */
+  stripePriceEnv?: string;
   /** Alternative price in in-game credits (0 = real money only) */
   priceCredits: number;
   /** Alternative price in Dream tokens (0 = not purchasable with Dream) */
@@ -26,6 +34,11 @@ export interface StoreProduct {
     cargoExpansion?: number;
     fuelCapacity?: number;
     cosmetic?: string;
+    /** Boolean entitlement flag set on userProgress.gameData.entitlements.
+     *  Currently gates the `se_founding_author` and
+     *  `se_authors_edition_s2` cards (apps/shared/tcg-core/cards/
+     *  definitions/s2_hierarchy/special_editions.ts). */
+    entitlement?: "foundingAuthor" | "authorsEditionS2";
   };
   /** Is this a featured/promoted item */
   featured: boolean;
@@ -300,6 +313,39 @@ export const STORE_PRODUCTS: StoreProduct[] = [
     featured: true,
     sortOrder: 41,
     icon: "crown",
+  },
+
+  // ═══ ENTITLEMENTS ═══
+  // Boolean account flags that unlock entitlement-gated cards. Real
+  // money only — these aren't credit/Dream purchasable. SKUs are
+  // placeholders; production Stripe price IDs will be wired by ops.
+  {
+    key: "entitlement_founding_author",
+    name: "Founding Author Edition",
+    description: "Permanent commemorative entitlement. Unlocks the Founding Author special-edition card.",
+    category: "cosmetic",
+    priceUsd: 4900, // $49.00 — fallback price; STRIPE_PRICE_FOUNDING_AUTHOR overrides
+    stripePriceEnv: "STRIPE_PRICE_FOUNDING_AUTHOR",
+    priceCredits: 0,
+    priceDream: 0,
+    rewards: { entitlement: "foundingAuthor" },
+    featured: false,
+    sortOrder: 50,
+    icon: "feather",
+  },
+  {
+    key: "entitlement_authors_edition_s2",
+    name: "Author's Edition — Season 2",
+    description: "Season 2 commemorative entitlement. Unlocks the Author's Edition S2 special-edition card.",
+    category: "cosmetic",
+    priceUsd: 1900, // $19.00 — fallback price; STRIPE_PRICE_AUTHORS_EDITION_S2 overrides
+    stripePriceEnv: "STRIPE_PRICE_AUTHORS_EDITION_S2",
+    priceCredits: 0,
+    priceDream: 0,
+    rewards: { entitlement: "authorsEditionS2" },
+    featured: false,
+    sortOrder: 51,
+    icon: "scroll",
   },
 ];
 

@@ -32,6 +32,8 @@ import type { Action, ReduceError } from "../types/Action";
 import type { EntityId } from "../types/Ids";
 import type { ReduceCtx } from "./reducer";
 import { findBoardEntity } from "./targeting";
+import { enqueueTrigger } from "./triggerQueue";
+import type { ConcreteAbility } from "../types/Trigger";
 
 export interface Coord {
   row: number;
@@ -197,6 +199,25 @@ export function handleMove(
     toRow: action.toRow,
     toCol: action.toCol,
   });
+
+  // Enqueue on_move triggers on the unit that just moved. Audit
+  // 2026-05 §3.2 lifted the `// reserved` annotation on `on_move`
+  // once this hook landed.
+  const movingDef = ctx.registry.get(moving.card.defId);
+  if (movingDef) {
+    const abilities = movingDef.abilities as unknown as readonly ConcreteAbility[];
+    for (let i = 0; i < abilities.length; i++) {
+      if (abilities[i].trigger.kind !== "on_move") continue;
+      enqueueTrigger(draft, {
+        sourceEntityId: moving.entityId,
+        sourceOwner: moving.card.owner,
+        sourceRow: moving.row,
+        sourceCol: moving.col,
+        abilityIdx: i,
+        context: { triggerSourceId: moving.entityId },
+      });
+    }
+  }
 
   return undefined;
 }

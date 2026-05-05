@@ -181,6 +181,8 @@ const CodexPage = lazy(() => import("./pages/CodexPage"));
 // CardBattlePage removed — redirects to Dischordia
 const CardBattlePage = lazy(() => import("./game/duelyst/DuelystPage"));
 const DuelystPage = lazy(() => import("./game/duelyst/DuelystPage"));
+const DuelystMatchmakingPage = lazy(() => import("./pages/DuelystMatchmakingPage"));
+const MarketplaceAchievementsPage = lazy(() => import("./pages/MarketplaceAchievementsPage"));
 const CardGalleryPage = lazy(() => import("./pages/CardGalleryPage"));
 const PlayerProfilePage = lazy(() => import("./pages/PlayerProfilePage"));
 const LeaderboardPage = lazy(() => import("./pages/LeaderboardPage"));
@@ -341,6 +343,8 @@ function Router() {
         <Route path="/cards">{() => <Suspense fallback={<CardGridSkeleton />}><CardBrowserPage /></Suspense>}</Route>
         <Route path="/cards/play">{() => <GameRoute component={DuelystPage} />}</Route>
         <Route path="/duelyst">{() => <GameRoute component={DuelystPage} />}</Route>
+        <Route path="/duelyst-pvp">{() => <GameRoute component={DuelystMatchmakingPage} />}</Route>
+        <Route path="/marketplace-achievements" component={MarketplaceAchievementsPage} />
         <Route path="/terminus-swarm">{() => <GameRoute component={TerminusSwarmPage} />}</Route>
         <Route path="/ark" component={ArkExplorerPage} />
         <Route path="/prelude" component={PreludePage} />
@@ -400,7 +404,6 @@ function Router() {
         <Route path="/antiquarian-index" component={AntiquariansIndexPage} />
         <Route path="/legion" component={GraduateLegionPage} />
         <Route path="/research-lab" component={ResearchLabPage} />
-        {/* /games removed — all games accessed through Ark rooms */}
         <Route path="/forge" component={ForgePage} />
         <Route path="/discography" component={DiscographyPage} />
         <Route path="/saga-timeline" component={SagaTimelinePage} />
@@ -450,7 +453,6 @@ function Router() {
         <Route path="/settings" component={SettingsPage} />
         <Route path="/clue-journal" component={ClueJournalPage} />
         <Route path="/research-minigame">{() => <GameRoute component={ResearchMinigamePage} />}</Route>
-        {/* /lore-tutorials removed — Elara teaches naturally through room dialog */}
         <Route path="/morality-census" component={MoralityLeaderboardPage} />
         <Route path="/companions" component={CompanionHubPage} />
         <Route path="/fleet" component={FleetViewerPage} />

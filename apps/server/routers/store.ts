@@ -11,6 +11,7 @@ import type { DrizzleDb } from "../db";
 type TxOrDb = DrizzleDb | Parameters<Parameters<DrizzleDb["transaction"]>[0]>[0];
 import { eq, and, desc, sql } from "drizzle-orm";
 import { ripple } from "../services/rippleEngine";
+import { setEntitlement } from "../services/entitlementService";
 
 export const storeRouter = router({
   /** List all products, optionally filtered by category */
@@ -44,27 +45,56 @@ export const storeRouter = router({
 
       const origin = ctx.req.headers.origin || "https://loredex-os.app";
 
-      const session = await stripe.checkout.sessions.create({
-        payment_method_types: ["card"],
-        line_items: [
-          {
+      // Auto-tax: requires Stripe Tax to be enabled in the Stripe
+      // dashboard with origin tax registrations configured. Set
+      // STRIPE_AUTOMATIC_TAX=false to disable for jurisdictions
+      // where you haven't yet registered. Defaults to true in
+      // production so EU/CA/UK VAT is collected from launch.
+      const automaticTaxEnabled = process.env.STRIPE_AUTOMATIC_TAX !== "false";
+
+      // Resolve a real Stripe price-id from env when the product
+      // declares one (Phase L / B4). When the env var is set we pass
+      // `price` directly (Stripe's SKU carries its own tax_code);
+      // otherwise fall back to inline price_data with the
+      // electronically-supplied-services tax_code. Lets ops swap
+      // SKUs without a code change.
+      const stripePriceId = product.stripePriceEnv
+        ? process.env[product.stripePriceEnv]
+        : undefined;
+      const lineItem = stripePriceId
+        ? { price: stripePriceId, quantity: input.quantity }
+        : {
             price_data: {
               currency: "usd",
               product_data: {
                 name: product.name,
                 description: product.description,
+                // Stripe Tax requires a tax_code for automatic
+                // classification. `txcd_10000000` = "General — Services —
+                // Electronically Supplied Services", which fits in-game
+                // currency / cosmetic / pass purchases. Adjust per
+                // product when offerings diverge (digital-good vs
+                // service vs subscription).
+                tax_code: "txcd_10000000",
               },
               unit_amount: product.priceUsd,
             },
             quantity: input.quantity,
-          },
-        ],
+          };
+
+      const session = await stripe.checkout.sessions.create({
+        payment_method_types: ["card"],
+        line_items: [lineItem],
         mode: "payment",
         success_url: `${origin}/store?success=true&session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${origin}/store?canceled=true`,
         client_reference_id: ctx.user.id.toString(),
         customer_email: ctx.user.email || undefined,
         allow_promotion_codes: true,
+        automatic_tax: { enabled: automaticTaxEnabled },
+        // Stripe needs the customer's address to determine the tax
+        // rate. Forcing collection guarantees a valid jurisdiction.
+        billing_address_collection: automaticTaxEnabled ? "required" : "auto",
         metadata: {
           user_id: ctx.user.id.toString(),
           product_key: input.productKey,
@@ -129,20 +159,21 @@ export const storeRouter = router({
       if (!product) throw new Error("Product not found");
       if (product.priceDream <= 0) throw new Error("This product cannot be purchased with Dream");
       const totalCost = product.priceDream * input.quantity;
-      // Use transaction to ensure atomicity of currency operations
+      // Use transaction to ensure atomicity of currency operations.
+      // Conditional UPDATE — affects 0 rows iff balance dropped below
+      // cost between the implied check and the write (e.g. parallel
+      // store + casino spend). Failing-closed avoids the silent
+      // negative-balance bug.
       return await db.transaction(async (tx) => {
-        const [balance] = await tx
-          .select()
-          .from(dreamBalance)
-          .where(eq(dreamBalance.userId, ctx.user.id))
-          .limit(1);
-        if (!balance || balance.dreamTokens < totalCost) {
+        const r = await tx.execute(sql`
+          UPDATE dream_balance
+          SET dream_tokens = dream_tokens - ${totalCost}
+          WHERE user_id = ${ctx.user.id} AND dream_tokens >= ${totalCost}
+        `);
+        const affected = (r as unknown as Array<{ affectedRows?: number }>)[0]?.affectedRows ?? 0;
+        if (affected === 0) {
           throw new Error("Insufficient Dream tokens");
         }
-        await tx
-          .update(dreamBalance)
-          .set({ dreamTokens: sql`${dreamBalance.dreamTokens} - ${totalCost}` })
-          .where(eq(dreamBalance.userId, ctx.user.id));
         await tx.insert(storePurchases).values({
           userId: ctx.user.id,
           productKey: input.productKey,
@@ -458,6 +489,13 @@ async function doFulfill(
     } else {
       await tx.insert(shipUpgrades).values({ userId, upgradeType: "cargo", level: 2, obtainedVia: "purchase" });
     }
+  }
+
+  // Grant entitlement (boolean account flag — gates cards via
+  // expansionUnlockService; see services/entitlementService.ts).
+  if (rewards.entitlement) {
+    summary.entitlement = rewards.entitlement;
+    await setEntitlement(tx, userId, rewards.entitlement, true);
   }
 
   // Grant fuel capacity

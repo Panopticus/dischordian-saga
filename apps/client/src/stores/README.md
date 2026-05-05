@@ -28,6 +28,7 @@ Instead, we're doing a **parallel migration**:
 - **`moralityStore.ts`** — Morality score, choice history, alignment unlocks, secret transmission discovery.
 - **`progressionStore.ts`** — Civil skills, talent picks, prestige tier display cache.
 - **`syncStatusStore.ts`** *(Task 3.1)* — Cross-device save sync state (`status`, `lastSyncedAt`, `lastError`). Extracted from `GameContext.syncStatus`/`lastSyncedAt` because the debounced save fires every ~5s, and under the old architecture every fire re-rendered all 77 GameContext consumers.
+- **`companionStore.ts`** *(G30)* — Companion relationships, quests, backstory unlocks, romance, dialog history, gifts. Migration target for `state.companionRelationships` + `state.companionQuestsCompleted` + `state.companionQuestsActive` + `state.companionBackstoryUnlocked` + `state.companionRomanceActive` + `state.companionDialogHistory` + `state.giftsGiven` from GameContext. Tied with `narrativeFlags` for highest re-render fan-out potential — most narrative pages read at least one companion field.
 
 ## Task 3.1 — Extraction candidates for future passes
 

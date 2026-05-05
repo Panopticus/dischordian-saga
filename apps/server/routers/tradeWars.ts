@@ -315,6 +315,13 @@ export const tradeWarsRouter = router({
       commodity: z.enum(["fuelOre", "organics", "equipment"]),
       action: z.enum(["buy", "sell"]),
       quantity: z.number().min(1).max(9999),
+      // Removed in G11 (sec audit): the prior schema accepted
+      // client-supplied faction reputation and used it directly to
+      // discount prices. A client could send `{ empire: 99999 }` and
+      // get the maximum 15% discount with no server-side check. The
+      // diplomacy price modifier is disabled until server-derived
+      // reputation lands (see docs/operations/TRADE_DIPLOMACY_TODO.md).
+      // Field accepted-and-ignored for back-compat with old clients.
       factionReputation: z.record(z.string(), z.number()).optional(),
     }))
     .mutation(async ({ ctx, input }) => {
@@ -340,36 +347,21 @@ export const tradeWarsRouter = router({
       const commodity = portData.commodities[input.commodity];
       if (!commodity) return { success: false, message: `Port doesn't trade ${input.commodity}` };
       
-      let price = commodity.price;
+      // Was `let price` while the disabled diplomacy block reassigned
+      // it. Now that the discount logic is removed, the price is
+      // taken straight from the commodity definition.
+      const price = commodity.price;
       const cargoUsed = getCargoUsed(player);
-      
-      // ═══ DIPLOMACY PRICE MODIFIERS ═══
-      // Faction reputation from diplomacy choices affects trade prices
-      if (input.factionReputation) {
-        const rep = input.factionReputation;
-        const isEmpirePort = player.currentSector % 2 === 0;
-        const empireRep = rep.empire || 0;
-        const insurgencyRep = rep.insurgency || 0;
-        const independentRep = rep.independent || 0;
-        const pirateRep = rep.pirate || 0;
-        
-        // Faction alignment discount: up to 15% off at aligned ports
-        let factionDiscount = 0;
-        if (isEmpirePort) {
-          factionDiscount = Math.min(0.15, Math.max(0, empireRep) * 0.003);
-          factionDiscount -= Math.min(0.10, Math.max(0, -insurgencyRep) * 0.002);
-        } else {
-          factionDiscount = Math.min(0.15, Math.max(0, insurgencyRep) * 0.003);
-          factionDiscount -= Math.min(0.10, Math.max(0, -empireRep) * 0.002);
-        }
-        // Independent reputation gives universal small bonus
-        factionDiscount += Math.min(0.05, Math.max(0, independentRep) * 0.001);
-        // Pirate reputation: better black market prices
-        if (pirateRep > 20) factionDiscount += 0.03;
-        if (pirateRep < -20) factionDiscount -= 0.02;
-        
-        price = Math.max(1, Math.floor(price * (1 - factionDiscount)));
-      }
+
+      // ═══ DIPLOMACY PRICE MODIFIERS — DISABLED ═══
+      // The previous implementation read input.factionReputation
+      // directly to compute up to 15% price discounts. Client-
+      // supplied — trivially spoofable. Disabled in G11 until a
+      // server-derived reputation source replaces it (likely
+      // aggregated from trade_sector_reputation rows).
+      //
+      // No price modification applied. `input.factionReputation` is
+      // accepted for back-compat but ignored.
       
       if (input.action === "buy") {
         // Port must be selling (not buying) this commodity

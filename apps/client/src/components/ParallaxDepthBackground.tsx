@@ -129,6 +129,21 @@ export default function ParallaxDepthBackground({
     };
     window.addEventListener("resize", onResize);
 
+    // WebGL context-loss handlers — mobile suspend/resume restores
+    // the canvas; without these the scene goes black on return.
+    const onContextLost = (e: Event) => {
+      e.preventDefault();
+      cancelAnimationFrame(rafRef.current);
+    };
+    const onContextRestored = () => {
+      // The renderer rebuilds GL state automatically; restart the
+      // RAF loop so frames flow again.
+      rafRef.current = requestAnimationFrame(animate);
+    };
+    const canvas = renderer.domElement;
+    canvas.addEventListener("webglcontextlost", onContextLost, false);
+    canvas.addEventListener("webglcontextrestored", onContextRestored, false);
+
     // Animation loop
     const clock = new THREE.Clock();
     const animate = () => {
@@ -159,6 +174,8 @@ export default function ParallaxDepthBackground({
       window.removeEventListener("mousemove", onMouseMove);
       window.removeEventListener("deviceorientation", onDeviceOrientation);
       window.removeEventListener("resize", onResize);
+      canvas.removeEventListener("webglcontextlost", onContextLost);
+      canvas.removeEventListener("webglcontextrestored", onContextRestored);
 
       // Dispose
       colorTexture.dispose();

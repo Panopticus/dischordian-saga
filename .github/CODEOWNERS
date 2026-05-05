@@ -1,0 +1,44 @@
+# GitHub CODEOWNERS — automatic reviewer assignment.
+#
+# Patterns are evaluated top-to-bottom; the LAST matching rule wins.
+# Default to the repo lead, then narrow for sensitive surfaces.
+
+# Default — every PR pings the lead.
+*                                                @panopticus
+
+# ─── Money & identity (extra scrutiny) ───────────────────
+apps/server/routers/store.ts                     @panopticus @senior-eng
+apps/server/routers/cosmeticShop.ts              @panopticus @senior-eng
+apps/server/routers/casino.ts                    @panopticus @senior-eng
+apps/server/routers/crafting.ts                  @panopticus @senior-eng
+apps/server/routers/battlePass.ts                @panopticus @senior-eng
+apps/server/routers/architectConsole.ts          @panopticus @senior-eng
+apps/server/routers/account.ts                   @panopticus @senior-eng
+apps/server/routers/admin.ts                     @panopticus @senior-eng
+apps/server/_core/oauth.ts                       @panopticus @senior-eng
+apps/server/_core/sdk.ts                         @panopticus @senior-eng
+apps/server/_core/wsAuth.ts                      @panopticus @senior-eng
+apps/server/_core/securityHeaders.ts             @panopticus @senior-eng
+
+# ─── DB schema ──────────────────────────────────────────
+apps/db/schema.ts                                @panopticus @db-owner
+apps/db/*.sql                                    @panopticus @db-owner
+
+# ─── Card engine ────────────────────────────────────────
+apps/shared/tcg-core/engine/                     @panopticus @engine-lead
+apps/shared/tcg-core/cards/schema.ts             @panopticus @engine-lead
+
+# ─── Late-act narrative (spoiler protection) ────────────
+apps/shared/episodeMysteries.ts                  @narrative-lead
+apps/shared/moralityTrustActVariants.ts          @narrative-lead
+
+# ─── CI / infra ─────────────────────────────────────────
+.github/                                         @panopticus
+railway.toml                                     @panopticus
+vite.config.ts                                   @panopticus
+vitest.config.ts                                 @panopticus
+
+# ─── Legal / compliance ─────────────────────────────────
+docs/legal/                                      @panopticus
+apps/client/src/pages/PrivacyPolicyPage.tsx      @panopticus
+apps/client/src/pages/TermsOfServicePage.tsx     @panopticus

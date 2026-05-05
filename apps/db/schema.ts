@@ -14,13 +14,180 @@ export const users = mysqlTable("users", {
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
   lastSignedIn: timestamp("lastSignedIn").defaultNow().notNull(),
   deletedAt: timestamp("deletedAt"),
+  // Cohort tagging (G27) — derived at signup, immutable.
+  /** ISO-week identifier ("2026-W18") for trivial cohort filters. */
+  signupWeek: varchar("signupWeek", { length: 8 }),
+  /** Coarse install-source bucket: organic / paid / referral / partner. */
+  installSource: varchar("installSource", { length: 32 }),
+  /** A/B variant assignment at signup (e.g. "tutorial-v2:control"). */
+  abVariant: varchar("abVariant", { length: 64 }),
 }, (table) => ({
   createdAtIdx: index("idx_users_created_at").on(table.createdAt),
   lastSignedInIdx: index("idx_users_last_signed_in").on(table.lastSignedIn),
+  signupWeekIdx: index("idx_users_signup_week").on(table.signupWeek),
 }));
 
 export type User = typeof users.$inferSelect;
 export type InsertUser = typeof users.$inferInsert;
+
+/**
+ * User agreements — records every ToS / Privacy / Cookie acceptance
+ * with the policy version that was in force at the time. GDPR Art. 7
+ * requires demonstrable, recorded consent; this is that record.
+ *
+ * Schema:
+ *   - agreementType: which policy (terms_of_service, privacy_policy,
+ *     cookie_policy, etc.)
+ *   - version: a string identifier for the policy revision (we use
+ *     ISO date prefixes like "2026-05-05" so version ordering is
+ *     trivially time-ordered)
+ *   - agreedAt: when the user accepted
+ *   - ipHash: hash of the IP at acceptance time, in case we ever
+ *     need to defend the consent record against a "I never agreed"
+ *     dispute. We store a hash so the row itself isn't a PII liability.
+ *
+ * One row per (user, type, version). Re-acceptance of the same
+ * version is idempotent.
+ */
+export const userAgreements = mysqlTable(
+  "user_agreements",
+  {
+    id: int("id").autoincrement().primaryKey(),
+    userId: int("userId").notNull(),
+    agreementType: varchar("agreementType", { length: 64 }).notNull(),
+    version: varchar("version", { length: 32 }).notNull(),
+    agreedAt: timestamp("agreedAt").defaultNow().notNull(),
+    ipHash: varchar("ipHash", { length: 64 }),
+  },
+  (table) => ({
+    userIdx: index("idx_user_agreements_user").on(table.userId),
+    uniqueAcceptance: uniqueIndex(
+      "uniq_user_agreement_version",
+    ).on(table.userId, table.agreementType, table.version),
+  }),
+);
+export type UserAgreement = typeof userAgreements.$inferSelect;
+
+/**
+ * User 2FA — TOTP secret + hashed backup codes.
+ *
+ * One row per user. The TOTP secret is stored as base32 plaintext
+ * (it must be retrievable to verify codes) — the database is the
+ * trust boundary, so guard it accordingly. Backup codes are
+ * sha256-hashed and stored as a JSON array; on use we burn the
+ * matching hash from the array.
+ *
+ * Required for admin role; optional for regular users.
+ */
+export const userTwoFactor = mysqlTable(
+  "user_two_factor",
+  {
+    userId: int("userId").primaryKey(),
+    /** base32 TOTP secret. Generated server-side; revealed once on enroll. */
+    secret: varchar("secret", { length: 64 }).notNull(),
+    /** Hashed backup codes — JSON array of sha256 hex strings. */
+    backupCodeHashes: json("backupCodeHashes").$type<string[]>().notNull(),
+    /** True iff the user has confirmed enrollment by entering a valid code. */
+    confirmed: boolean("confirmed").notNull().default(false),
+    enrolledAt: timestamp("enrolledAt").defaultNow().notNull(),
+    confirmedAt: timestamp("confirmedAt"),
+    lastUsedAt: timestamp("lastUsedAt"),
+  },
+);
+export type UserTwoFactor = typeof userTwoFactor.$inferSelect;
+
+/**
+ * User sessions — tracks active refresh tokens per device.
+ *
+ * Closes the "logging in on device B doesn't invalidate device A"
+ * gap. Each refresh token issued by the OAuth callback / refresh
+ * endpoint creates a row here keyed by jti. On logout / force-revoke
+ * we delete the row, and the in-memory invalidatedRefreshTokens set
+ * (apps/server/_core/sdk.ts) loads any DB rows tagged revokedAt.
+ *
+ * `lastUsedAt` updates on every refresh; nightly cron prunes idle
+ * rows > 60 days.
+ */
+export const userSessions = mysqlTable(
+  "user_sessions",
+  {
+    id: int("id").autoincrement().primaryKey(),
+    userId: int("userId").notNull(),
+    /** jti from the refresh token. */
+    refreshTokenJti: varchar("refreshTokenJti", { length: 64 }).notNull(),
+    /** Coarse device identifier — User-Agent string trimmed. */
+    deviceLabel: varchar("deviceLabel", { length: 256 }),
+    ipHash: varchar("ipHash", { length: 64 }),
+    createdAt: timestamp("createdAt").defaultNow().notNull(),
+    lastUsedAt: timestamp("lastUsedAt").defaultNow().notNull(),
+    revokedAt: timestamp("revokedAt"),
+  },
+  (table) => ({
+    userIdx: index("idx_user_sessions_user").on(table.userId),
+    jtiIdx: uniqueIndex("uniq_user_sessions_jti").on(table.refreshTokenJti),
+  }),
+);
+export type UserSession = typeof userSessions.$inferSelect;
+
+/**
+ * Player blocks — one row per (blocker → blocked) directed edge.
+ *
+ * The chat / pvp / friend layers consult this table to:
+ *   - hide the blocked user's chat messages from the blocker
+ *   - filter the blocked user out of friend-suggestion / matchmaking
+ *   - reject DM / trade attempts in either direction
+ *
+ * Bidirectional muting requires two rows; that's intentional —
+ * each side independently controls visibility.
+ */
+export const userBlocks = mysqlTable(
+  "user_blocks",
+  {
+    id: int("id").autoincrement().primaryKey(),
+    blockerUserId: int("blockerUserId").notNull(),
+    blockedUserId: int("blockedUserId").notNull(),
+    reason: varchar("reason", { length: 256 }),
+    createdAt: timestamp("createdAt").defaultNow().notNull(),
+  },
+  (table) => ({
+    pairIdx: uniqueIndex("uniq_user_block_pair").on(table.blockerUserId, table.blockedUserId),
+    blockerIdx: index("idx_user_blocks_blocker").on(table.blockerUserId),
+  }),
+);
+export type UserBlock = typeof userBlocks.$inferSelect;
+
+/**
+ * Support impersonation grants — short-lived, audited tokens that
+ * let an authorised admin/moderator act as another user to
+ * reproduce a bug. The grant must be redeemed within the TTL,
+ * carries a mandatory reason, and ends up in adminAuditLog so the
+ * use is reviewable after the fact.
+ *
+ * Storage shape:
+ *   - issuedToAdminId: who can use this grant
+ *   - targetUserId:    whose account they're entering
+ *   - reason:          mandatory free-text justification
+ *   - expiresAt:       short, e.g. 1 hour
+ *   - usedAt:          burn-after-use; the redeem mutation flips
+ *                      this so a leaked token isn't reusable.
+ */
+export const supportImpersonationGrants = mysqlTable(
+  "support_impersonation_grants",
+  {
+    id: int("id").autoincrement().primaryKey(),
+    issuedToAdminId: int("issuedToAdminId").notNull(),
+    targetUserId: int("targetUserId").notNull(),
+    reason: varchar("reason", { length: 512 }).notNull(),
+    createdAt: timestamp("createdAt").defaultNow().notNull(),
+    expiresAt: timestamp("expiresAt").notNull(),
+    usedAt: timestamp("usedAt"),
+  },
+  (table) => ({
+    adminIdx: index("idx_support_grants_admin").on(table.issuedToAdminId),
+    targetIdx: index("idx_support_grants_target").on(table.targetUserId),
+  }),
+);
+export type SupportImpersonationGrant = typeof supportImpersonationGrants.$inferSelect;
 
 /* ═══════════════════════════════════════════════════════
    GAMIFICATION — Achievements, Progress, Ark Themes
@@ -601,6 +768,14 @@ export const citizenCharacters = mysqlTable("citizen_characters", {
   gear: json("gear").$type<Record<string, unknown>>(),
   /** JSON: unlocked abilities, element mastery levels */
   abilities: json("abilities").$type<Record<string, unknown>>(),
+  /**
+   * JSON: suit-materials inventory keyed by MaterialId
+   * (apps/shared/suitRecipes.ts). Used by attemptSuitCraft to gate
+   * recipes against the citizen's pouch and deduct on success. Loot
+   * drops + quest rewards top this up; defaults to {} for fresh
+   * citizens. Audit Phase J1.
+   */
+  suitMaterials: json("suitMaterials").$type<Record<string, number>>(),
   /** If species=neyon, which specific Ne-Yon token ID (1-10) this citizen is tied to */
   neyonTokenId: int("neyonTokenId"),
   /** Is this the player's primary (free) citizen? */
@@ -3141,6 +3316,85 @@ export const romanceLadders = mysqlTable("romance_ladders", {
 export type RomanceLadder = typeof romanceLadders.$inferSelect;
 
 /* ═══════════════════════════════════════════════════════
+   ENCOUNTER PROGRESS — per-player walk-state for the
+   Hierarchy demon-lord encounters, the Malkia revolution
+   questline, and the Source/Kael philosophical dialogue.
+   The content (shared/encounters/*.ts) is phase-keyed; the
+   dispatcher records which phase the player is currently in
+   plus the branch they picked at any choice point. The set
+   of fired flags is sourced from npc_public_flags as usual.
+   ═══════════════════════════════════════════════════════ */
+export const encounterProgress = mysqlTable("encounter_progress", {
+  id: int("id").primaryKey().autoincrement(),
+  userId: int("userId").notNull(),
+  /** Stable encounter id ('master_of_rlyeh', 'pale_emissary',
+   *  'reckoning_daughter', 'malkia_revolution', 'source_kael'). */
+  encounterId: varchar("encounterId", { length: 64 }).notNull(),
+  /** Which phase the player is currently inside. */
+  phase: mysqlEnum("phase", ["entry", "negotiation", "resolution", "aftermath"])
+    .notNull()
+    .default("entry"),
+  /** Branch picked at the choice point, if any. The encounter
+   *  content uses setsFlags entries like 'rlyeh_resolution_purchase'
+   *  to mark branches; we mirror the choice here for fast UI. */
+  branchChosen: varchar("branchChosen", { length: 64 }),
+  /** True once the aftermath phase has played to completion. */
+  completed: boolean("completed").notNull().default(false),
+  /** For Malkia: which step (1-6) the player is on. Encounters
+   *  without internal steps leave this null. */
+  step: int("step"),
+  startedAt: timestamp("startedAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  uniqueUserEncounter: uniqueIndex("uq_encounter_user").on(table.userId, table.encounterId),
+  userIdx: index("idx_encounter_user").on(table.userId),
+}));
+export type EncounterProgress = typeof encounterProgress.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
+   THOUGHT VIRUS INFECTION — per-(user, sector) infection
+   level (0-100). Item 9 of the choice-impact follow-up. The
+   infection grows daily until containment caps at 100;
+   containment actions reduce the level. Sectors live in
+   apps/shared/thoughtVirusSpread.ts.
+   ═══════════════════════════════════════════════════════ */
+export const thoughtVirusInfection = mysqlTable("thought_virus_infection", {
+  id: int("id").primaryKey().autoincrement(),
+  userId: int("userId").notNull(),
+  sectorId: varchar("sectorId", { length: 64 }).notNull(),
+  level: int("level").notNull().default(0),
+  /** Last day a containment action ran in this sector — used
+   *  to gate cooldowns. */
+  lastContainmentAt: timestamp("lastContainmentAt"),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  uniqueUserSector: uniqueIndex("uq_virus_user_sector").on(table.userId, table.sectorId),
+  userIdx: index("idx_virus_user").on(table.userId),
+}));
+export type ThoughtVirusInfection = typeof thoughtVirusInfection.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
+   LYRA VOX QUESTLINE PROGRESS — per-user step + chosen
+   theory / witness / verdict. Item 11 of the choice-impact
+   follow-up.
+   ═══════════════════════════════════════════════════════ */
+export const lyraVoxProgress = mysqlTable("lyra_vox_progress", {
+  id: int("id").primaryKey().autoincrement(),
+  userId: int("userId").notNull(),
+  currentStep: varchar("currentStep", { length: 32 }).notNull().default("file"),
+  theoryChosen: varchar("theoryChosen", { length: 32 }),
+  doorOpened: varchar("doorOpened", { length: 32 }),
+  witnessBelieved: varchar("witnessBelieved", { length: 32 }),
+  verdict: varchar("verdict", { length: 32 }),
+  completed: boolean("completed").notNull().default(false),
+  startedAt: timestamp("startedAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  uniqueUser: uniqueIndex("uq_lyra_vox_user").on(table.userId),
+}));
+export type LyraVoxProgress = typeof lyraVoxProgress.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
    FACTION STANDING — per-player reputation with the five
    designed factions. Sprint 2 of the choice-impact roadmap;
    the audit named this gap (no userFactionStanding column,
@@ -5228,6 +5482,14 @@ export const tradeContracts = mysqlTable("trade_contracts", {
   stageStatus: json("stageStatus").$type<Record<string, string>>().default({}),
   /** Disclosed hidden clauses, JSON: list of clause ids. */
   disclosedClauses: json("disclosedClauses").$type<string[]>().default([]),
+  /**
+   * Multiplier applied to the contract's final reward, stored as an
+   * integer percentage to avoid float storage quirks (100 = 1.00x;
+   * 110 = 1.10x; 50 = 0.50x). Accumulates from `reward_modifier`
+   * clause effects: each clause multiplies the running modifier.
+   * Audit Phase J2.
+   */
+  rewardModifierPct: int("rewardModifierPct").notNull().default(100),
   signedAt: timestamp("signedAt").defaultNow().notNull(),
   resolvedAt: timestamp("resolvedAt"),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),

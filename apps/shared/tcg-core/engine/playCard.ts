@@ -38,6 +38,9 @@ import type { EntityId } from "../types/Ids";
 import type { ArtifactInstance } from "../types/GameState";
 import { MAX_ARTIFACTS } from "../types/GameState";
 import { deployCard } from "./deploy";
+import { enqueueTrigger } from "./triggerQueue";
+import type { CardFilter } from "../types/Trigger";
+import type { Faction, Keyword } from "../types/Card";
 import { interpret } from "./effectInterpreter";
 import { makeExecCtx } from "./execCtx";
 import { mintEntityId } from "./init";
@@ -147,6 +150,12 @@ export function handlePlayCard(
     row: action.row,
     col: action.col,
   });
+
+  // Enqueue on_card_played triggers on every existing board entity
+  // whose ability matches the played card via the optional filter.
+  // Audit 2026-05 §3.2 lifted the `// reserved` annotation on
+  // `on_card_played` once this hook landed.
+  enqueueOnCardPlayedTriggers(draft, ctx, def, card.entityId);
 
   switch (def.cardType) {
     case "unit":
@@ -347,4 +356,67 @@ export function handlePlayCard(
       };
     }
   }
+}
+
+/**
+ * Walk every board entity and enqueue on_card_played triggers whose
+ * optional filter matches the played card. Helper for playCard above.
+ *
+ * Skips the just-played card itself (no self-fire on its own deploy)
+ * and entities whose CardDefinition isn't in the registry.
+ */
+function enqueueOnCardPlayedTriggers(
+  draft: Draft<GameState>,
+  ctx: ReduceCtx,
+  playedDef: CardDefinitionLike,
+  playedEntityId: EntityId,
+): void {
+  for (const observer of Object.values(draft.board)) {
+    if (observer.entityId === playedEntityId) continue;
+    const obsDef = ctx.registry.get(observer.card.defId);
+    if (!obsDef) continue;
+    const obsAbilities = obsDef.abilities as unknown as readonly ConcreteAbility[];
+    for (let i = 0; i < obsAbilities.length; i++) {
+      const ab = obsAbilities[i];
+      if (ab.trigger.kind !== "on_card_played") continue;
+      if (!matchesCardFilter(playedDef, ab.trigger.filter)) continue;
+      enqueueTrigger(draft, {
+        sourceEntityId: observer.entityId,
+        sourceOwner: observer.card.owner,
+        sourceRow: observer.row,
+        sourceCol: observer.col,
+        abilityIdx: i,
+        context: {
+          triggerSourceId: observer.entityId,
+        },
+      });
+    }
+  }
+}
+
+/** Loose subset of CardDefinition that we touch from the matcher.
+ *  Uses `string` for cardType so it tolerates the `general` variant
+ *  the schema allows but the CardFilter type does not enumerate. */
+interface CardDefinitionLike {
+  cardType: string;
+  faction?: Faction;
+  rarity?: string;
+  keywords?: readonly Keyword[];
+  id: string;
+}
+
+function matchesCardFilter(
+  def: CardDefinitionLike,
+  filter: CardFilter | undefined,
+): boolean {
+  if (!filter) return true;
+  if (filter.cardType && filter.cardType !== def.cardType) return false;
+  if (filter.faction && def.faction && !filter.faction.includes(def.faction)) return false;
+  if (filter.rarity && def.rarity && !filter.rarity.includes(def.rarity)) return false;
+  if (filter.keywords?.has) {
+    const has = new Set<string>(def.keywords ?? []);
+    for (const k of filter.keywords.has) if (!has.has(k)) return false;
+  }
+  if (filter.idPrefix && !def.id.startsWith(filter.idPrefix)) return false;
+  return true;
 }

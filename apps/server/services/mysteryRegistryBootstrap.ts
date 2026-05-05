@@ -25,6 +25,7 @@
 
 import { mysterySeeds } from "../../db/schema";
 import { getDb } from "../db";
+import { isMissingTableError } from "../db/missingTable";
 import { logger } from "../logger";
 import { compileMysterySeed } from "@shared/mysteryTemplates";
 import type { MysterySeed, MysterySeedSource } from "@shared/mysteryTypes";
@@ -97,7 +98,15 @@ async function run(): Promise<MysteryRegistryBootstrapResult> {
       `[MysteryRegistryBootstrap] hydrated dynamic registry: ${result.registered} registered, ${result.skipped} skipped, ${result.read} total seeds`,
     );
   } catch (err) {
-    logger.error("[MysteryRegistryBootstrap] failed:", err);
+    if (isMissingTableError(err)) {
+      logger.info(
+        "[MysteryRegistryBootstrap] mystery_seeds table not yet migrated — " +
+          "skipping hydrate. Run `pnpm db:push` (or `drizzle-kit push`) when " +
+          "you want dynamic-mystery persistence.",
+      );
+    } else {
+      logger.error("[MysteryRegistryBootstrap] failed:", err);
+    }
   }
   return result;
 }

@@ -8,6 +8,7 @@ import { TRPCError } from "@trpc/server";
 import { getDb } from "../db";
 import { users, cards, userCards, userProgress, contentRewards, contentParticipation } from "../../db/schema";
 import { eq, sql, desc, like, and, type SQL } from "drizzle-orm";
+import { setEntitlement, type EntitlementKey } from "../services/entitlementService";
 
 // Admin guard middleware
 const adminProcedure = protectedProcedure.use(({ ctx, next }) => {
@@ -18,6 +19,17 @@ const adminProcedure = protectedProcedure.use(({ ctx, next }) => {
 });
 
 export const adminRouter = router({
+  // ═══ ABUSE DETECTION ═══
+  // On-demand sweep — runs the heuristic queries from
+  // services/abuseDetection.ts and returns the flagged accounts /
+  // pairs / sessions for moderator review. Read-only; no auto-bans.
+  abuseSweep: adminProcedure.query(async () => {
+    const db = await getDb();
+    if (!db) return null;
+    const { runAbuseSweep } = await import("../services/abuseDetection");
+    return runAbuseSweep(db);
+  }),
+
   // ═══ DASHBOARD STATS ═══
   dashboardStats: adminProcedure.query(async () => {
     const db = await getDb();
@@ -210,5 +222,22 @@ export const adminRouter = router({
       if (!db) return { success: false };
       await db.delete(contentRewards).where(eq(contentRewards.id, input.id));
       return { success: true };
+    }),
+
+  // ═══ ENTITLEMENT MANAGEMENT ═══
+  // Manual grant path for the founding-author and authors-edition
+  // entitlements that gate `se_founding_author` and `se_authors_edition_s2`.
+  // Store / Stripe also writes these via fulfilPurchase → setEntitlement.
+  grantEntitlement: adminProcedure
+    .input(z.object({
+      userId: z.number().int().positive(),
+      key: z.enum(["foundingAuthor", "authorsEditionS2"]),
+      value: z.boolean().default(true),
+    }))
+    .mutation(async ({ input }): Promise<{ success: boolean; changed?: boolean }> => {
+      const db = await getDb();
+      if (!db) return { success: false };
+      const result = await setEntitlement(db, input.userId, input.key as EntitlementKey, input.value);
+      return { success: true, changed: result.changed };
     }),
 });

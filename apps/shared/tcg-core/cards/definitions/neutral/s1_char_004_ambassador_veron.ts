@@ -35,6 +35,9 @@ export const cardDef: CardDefinition = {
   keywords: [],
   abilities: [
     // --- Seed the kill counter on deploy ---
+    // NB: in `add_counter`, `kind` is the counter NAME (free string per
+    // cards/schema.ts:497), not a Trigger discriminator. `veron_kills` is
+    // the per-card counter slot read by `counter_gte` below.
     {
       id: "av_seed_kills" as CardDefinition["abilities"][number]["id"],
       trigger: { kind: "on_deploy" },

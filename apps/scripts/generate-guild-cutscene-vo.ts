@@ -42,7 +42,8 @@ import { fileURLToPath } from "node:url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const ELEVENLABS_KEY = process.env.ELEVENLABS_API_KEY ?? "";
+import { optionalCredential } from "./credentialUtils";
+const ELEVENLABS_KEY = optionalCredential("ELEVENLABS_API_KEY");
 const BUCKET = process.env.S3_BUCKET ?? "dgrsvoices";
 const REGION = process.env.AWS_REGION ?? "us-east-2";
 const HAS_AWS =

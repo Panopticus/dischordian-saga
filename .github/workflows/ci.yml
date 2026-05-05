@@ -41,11 +41,33 @@ jobs:
         # and tracked as tech debt until reduced in a follow-up pass.
         run: pnpm run lint
 
+      - name: Lint (Void Energy ratchet)
+        # Tier 3A token/state-protocol enforcement. The list of
+        # adopted files is in `.void-energy-adopted`; this lint runs
+        # the rules across that list and fails on violations. New code
+        # adopting void-energy must not regress.
+        run: pnpm run lint:void-energy
+
       - name: Type-check (tsc --noEmit)
         run: pnpm run check
 
       - name: Run unit tests
         run: pnpm run test
+
+      - name: Dependency audit (advisory)
+        # Surfaces high/critical CVEs without failing the build (yet).
+        # Once the existing transitive CVEs are triaged, flip
+        # `continue-on-error` to false so new vulns block PRs.
+        continue-on-error: true
+        run: pnpm audit --prod --audit-level=high
+
+      - name: Lore entity-name consistency (advisory)
+        # Reports capitalised multi-word names referenced in cards /
+        # dialog / mysteries that aren't present in the loredex
+        # registry. Advisory — false positives include flavour text.
+        # Counts surface high-frequency unknowns first.
+        continue-on-error: true
+        run: pnpm run lint:entity-names
 
       - name: Build
         run: pnpm run build
@@ -154,7 +176,10 @@ jobs:
   e2e:
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    if: ${{ vars.RUN_E2E == 'true' || github.event_name == 'workflow_dispatch' }}
+    # Runs on every push/PR by default. Skips in forks/dependabot
+    # where secrets aren't injected — the global-setup falls back to
+    # the embedded dev JWT secret in that case so auth-gated specs
+    # still pass; only the optional per-repo overrides are missing.
     services:
       mysql:
         image: mysql:8.0
@@ -190,8 +215,31 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Cache Playwright browsers
+        # Browser binary is ~170MB. Caching avoids re-downloading
+        # on every run and removes the dominant e2e-job fail mode
+        # (chromium download failing transient).
+        id: pw-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-1.59.1
+
       - name: Install Playwright browsers
-        run: pnpm exec playwright install --with-deps chromium
+        # GitHub-hosted ubuntu-latest already has the system libs
+        # Chromium needs, so `--with-deps` is redundant. Retry once
+        # if the first download fails — historically the dominant
+        # cause of this job going red.
+        run: |
+          for i in 1 2 3; do
+            if pnpm exec playwright install chromium; then
+              exit 0
+            fi
+            echo "::warning::playwright install attempt $i failed; retrying"
+            sleep 5
+          done
+          echo "::error::playwright install failed after 3 attempts"
+          exit 1
 
       - name: Wait for MySQL to be ready
         run: |

@@ -1,13 +1,19 @@
-/* ═══════════════════════════════════════════════════════
-   PVP RANKING ROUTER (#7)
-
-   Read access to the persistent MMR + seasonal rank table.
-   Write access (applyMatchResult) is server-internal and called
-   from duelystWs.endMatch in a follow-up PR — not exposed via
-   tRPC because client-side rating writes are inherently
-   forgeable and the producer needs both player ids in scope
-   anyway.
-   ═══════════════════════════════════════════════════════ */
+/**
+ * @deprecated Superseded by `competitive.ts` (unified cross-game
+ * ratings) which backfills from this router's tables. The duelyst WS
+ * write hook referenced below was never wired and the WS itself has
+ * no client connector. Scheduled for deletion in audit Phase E1; see
+ * docs/HIDDEN_SYSTEMS_AUDIT_2026-05.md §2.1.
+ *
+ * PVP RANKING ROUTER (#7)
+ *
+ * Read access to the persistent MMR + seasonal rank table.
+ * Write access (applyMatchResult) is server-internal and called
+ * from duelystWs.endMatch in a follow-up PR — not exposed via
+ * tRPC because client-side rating writes are inherently
+ * forgeable and the producer needs both player ids in scope
+ * anyway.
+ */
 import { z } from "zod";
 import { router, protectedProcedure, publicProcedure } from "../_core/trpc";
 import { getRating, getLeaderboard } from "../services/pvpRatingsService";

@@ -13,6 +13,17 @@ export interface AnalyticsEvent {
   sessionId: string;
 }
 
+/**
+ * Event taxonomy schema version. BUMP THIS when an event's
+ * properties shape changes (renaming a field, removing a field,
+ * adding a required field). Don't bump for additive optional
+ * properties.
+ *
+ * Downstream dashboards filter on properties.schemaVersion so
+ * historical data isn't mis-classified after a rename.
+ */
+export const ANALYTICS_SCHEMA_VERSION = 1;
+
 // ─── Pre-defined game events for key funnels ───────────
 
 export const GameEvents = {
@@ -96,9 +107,16 @@ export function trackEvent(
 ): void {
   if (!currentSessionId) return;
 
+  // Always stamp the schema version so the dashboard knows which
+  // properties shape to apply when reading. Property is reserved.
+  const stamped: Record<string, string | number | boolean> = {
+    ...(properties ?? {}),
+    schemaVersion: ANALYTICS_SCHEMA_VERSION,
+  };
+
   const entry: AnalyticsEvent = {
     event,
-    properties,
+    properties: stamped,
     timestamp: Date.now(),
     sessionId: currentSessionId,
   };

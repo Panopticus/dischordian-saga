@@ -1,14 +1,37 @@
 /* ═══════════════════════════════════════════════════════
    ACHIEVEMENT AUTO-TRACKER — Server-side helper to track
-   achievement progress from any game action
+   achievement progress from any game action.
+
+   Routes by key:
+     - CARD_ACHIEVEMENTS keys (from cardAchievements.ts) → write to
+       cardGameAchievements (existing behavior).
+     - marketAchievements stat-types (e.g. "market_listings",
+       "market_purchases", "market_sales") → recompute running totals
+       from marketplace tables via marketStatsService and unlock any
+       ACHIEVEMENT_DEFS whose condition is met. Writes to
+       userAchievements.
+
+   Phase I of the build-everything pass un-deprecated marketAchievements
+   by routing the marketplace router's existing trackIncrement calls
+   through this dispatcher.
    ═══════════════════════════════════════════════════════ */
 import { eq, and, sql } from "drizzle-orm";
 import { getDb } from "./db";
-import { cardGameAchievements, userCards, dreamBalance } from "../db/schema";
+import { cardGameAchievements, userCards, dreamBalance, userAchievements } from "../db/schema";
 import { CARD_ACHIEVEMENTS, type CardAchievementDef } from "./routers/cardAchievements";
+import { ACHIEVEMENT_DEFS as MARKET_ACHIEVEMENT_DEFS } from "./routers/marketAchievements";
+import { computeMarketStats } from "./services/marketStatsService";
 
 const achievementMap = new Map<string, CardAchievementDef>(
   CARD_ACHIEVEMENTS.map(a => [a.key, a])
+);
+
+/** Stat-types referenced by marketAchievements ACHIEVEMENT_DEFS
+ *  conditions. Any trackIncrement call with one of these keys is
+ *  routed to the marketAchievements unlock path instead of the
+ *  card-game-achievements path. */
+const MARKET_STAT_KEYS = new Set<string>(
+  MARKET_ACHIEVEMENT_DEFS.map((a) => a.condition.type as string),
 );
 
 /**
@@ -20,6 +43,16 @@ export async function trackIncrement(
   achievementKey: string,
   amount: number = 1,
 ): Promise<{ newlyCompleted: boolean; progress: number }> {
+  // marketAchievements branch — when the key is a stat-type that
+  // marketAchievements conditions read against, recompute totals from
+  // source tables and unlock any defs whose condition is met. Returns
+  // a normalized shape so the existing call sites don't have to know
+  // which registry resolved the key.
+  if (MARKET_STAT_KEYS.has(achievementKey)) {
+    const result = await unlockMarketAchievementsByStat(userId, achievementKey);
+    return result;
+  }
+
   const def = achievementMap.get(achievementKey);
   if (!def) return { newlyCompleted: false, progress: 0 };
 
@@ -282,4 +315,60 @@ export async function trackAiResult(userId: number, won: boolean): Promise<strin
   }
 
   return completed;
+}
+
+/**
+ * Recompute the user's marketplace stats and unlock any
+ * marketAchievements ACHIEVEMENT_DEFS whose condition is now met.
+ * Writes to `userAchievements` (NOT `cardGameAchievements`).
+ *
+ * Returns a normalized result so trackIncrement's existing call sites
+ * keep their {newlyCompleted, progress} contract. `progress` here is
+ * the headline stat value the caller incremented; `newlyCompleted`
+ * is true if at least one achievement crossed its threshold.
+ */
+async function unlockMarketAchievementsByStat(
+  userId: number,
+  statKey: string,
+): Promise<{ newlyCompleted: boolean; progress: number }> {
+  try {
+    const db = await getDb();
+    if (!db) return { newlyCompleted: false, progress: 0 };
+
+    const stats = await computeMarketStats(db, userId);
+    const headline = stats[statKey] ?? 0;
+
+    const candidates = MARKET_ACHIEVEMENT_DEFS.filter(
+      (a) => a.condition.type === statKey,
+    );
+    if (candidates.length === 0) return { newlyCompleted: false, progress: headline };
+
+    const earned = await db
+      .select({ achievementId: userAchievements.achievementId })
+      .from(userAchievements)
+      .where(eq(userAchievements.userId, userId));
+    const earnedSet = new Set(earned.map((r) => r.achievementId));
+
+    let newlyCompleted = false;
+    for (const a of candidates) {
+      if (earnedSet.has(a.id)) continue;
+      const required = Number(a.condition.count ?? 0);
+      if (headline >= required) {
+        try {
+          await db.insert(userAchievements).values({
+            userId,
+            achievementId: a.id,
+          });
+          newlyCompleted = true;
+        } catch (err) {
+          console.warn(`[AchievementTracker] insert collision for ${a.id}:`, err);
+        }
+      }
+    }
+
+    return { newlyCompleted, progress: headline };
+  } catch (e) {
+    console.error(`[AchievementTracker] market-stat dispatch failed for ${statKey} user ${userId}:`, e);
+    return { newlyCompleted: false, progress: 0 };
+  }
 }
