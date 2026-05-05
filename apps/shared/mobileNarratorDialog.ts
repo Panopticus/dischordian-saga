@@ -357,13 +357,57 @@ export const NARRATOR_DIALOG: Record<NarratorRoomId, RoomDialogSet> = {
     ],
   },
 
-  // Prelude-only rooms. The mobile narrator slot is suppressed during
-  // the Prelude (narrator activates post-Prelude — see toNarratorRoomId +
-  // seedNarratorSlot). Empty dialog arrays satisfy the Record type.
-  corridor:      { roomId: "corridor",      elara: [], the_human: [] },
-  galley:        { roomId: "galley",        elara: [], the_human: [] },
-  briefing_room: { roomId: "briefing_room", elara: [], the_human: [] },
-  mess_hall:     { roomId: "mess_hall",     elara: [], the_human: [] },
+  // Prelude-suppressed rooms. The mobile narrator slot is suppressed
+  // during the Prelude (narrator activates post-Prelude — see
+  // toNarratorRoomId + seedNarratorSlot). Authored at F-tier only:
+  // functional, post-Prelude fallback lines if any future surface
+  // routes a narrator into one of these rooms outside Prelude
+  // suppression. Cargo-Bay style — observation + redirect, no
+  // vulnerability tiers.
+  corridor: {
+    roomId: "corridor",
+    elara: [
+      { tier: "F", text: "Brass-framed junction. The hull-ribs are vaulted here on purpose — sound carries differently. Whatever we say between this bulkhead and the next, the next watch will hear." },
+      { tier: "F", text: "Oil-blued steel along the deck plates. Someone polished it recently. We have a crew member who notices corridors." },
+    ],
+    the_human: [
+      { tier: "F", text: "Then we don't say anything we wouldn't say to the next watch." },
+      { tier: "F", text: "Whoever they are, give them the late shift off. Polished decks are a tell. They're trying to be useful." },
+    ],
+  },
+  galley: {
+    roomId: "galley",
+    elara: [
+      { tier: "F", text: "Two settings on the prep counter. Fresh, not curated. Somebody planned to eat here and didn't get to." },
+      { tier: "F", text: "The kettle's still warm. We just missed them." },
+    ],
+    the_human: [
+      { tier: "F", text: "Leave the second setting. They'll come back for it. People come back for unfinished meals." },
+      { tier: "F", text: "Then we don't sit here. Pour ours into a flask and walk." },
+    ],
+  },
+  briefing_room: {
+    roomId: "briefing_room",
+    elara: [
+      { tier: "F", text: "The chairs are arranged in a half-circle. Whoever called this one is already deciding what kind of meeting it is." },
+      { tier: "F", text: "The display panel is wiped. Not powered down — wiped. Whatever was up before, we aren't supposed to read it." },
+    ],
+    the_human: [
+      { tier: "F", text: "Sit at the open end of the half-circle. Don't close it. Make them choose where you fit." },
+      { tier: "F", text: "Don't ask what was on the panel. Ask why it's wiped. The answer to the second question is the meeting." },
+    ],
+  },
+  mess_hall: {
+    roomId: "mess_hall",
+    elara: [
+      { tier: "F", text: "Three groups sitting separately. They could share a table. They've decided not to. That's the briefing." },
+      { tier: "F", text: "Someone left a deck of cards on the long table — face up, mid-hand. They walked away in the middle of a game." },
+    ],
+    the_human: [
+      { tier: "F", text: "Then sit at the empty table. Make a fourth group. See which one breaks first." },
+      { tier: "F", text: "Don't touch the cards. Whoever they were, they'll be back. Mid-hand is not the same as quitting." },
+    ],
+  },
 };
 
 /**
