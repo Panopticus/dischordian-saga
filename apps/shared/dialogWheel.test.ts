@@ -215,4 +215,58 @@ describe("dialogWheel", () => {
       expect(demagiAvail.map(o => o.id)).toContain("any_damage_class");
     });
   });
+
+  describe("stat fallback for skill checks (resolves audit collision)", () => {
+    const statCheckOpts: WheelOption[] = [
+      {
+        id: "intel_check",
+        segment: "skill_check",
+        rarity: "rare",
+        label: "Pattern-match the encoding",
+        fullText: "...",
+        outcome: {},
+        gateCondition: { minSkillLevel: { skillId: "intelligence", level: 8 } },
+      },
+      {
+        id: "charisma_check",
+        segment: "compassionate",
+        rarity: "rare",
+        label: "Persuade the guard",
+        fullText: "...",
+        outcome: {},
+        gateCondition: { minSkillLevel: { skillId: "charisma", level: 7 } },
+      },
+    ];
+
+    it("falls back to RPG stat when no Civil Skill of that id exists", () => {
+      const avail = getAvailableOptions(statCheckOpts, {
+        skills: {},
+        npcTrust: {},
+        flags: {},
+        stats: { intelligence: 9, charisma: 5 },
+      });
+      expect(avail.map((o) => o.id)).toContain("intel_check");
+      expect(avail.map((o) => o.id)).not.toContain("charisma_check");
+    });
+
+    it("uses whichever is higher between skill and stat", () => {
+      const avail = getAvailableOptions(statCheckOpts, {
+        skills: { charisma: 8 },
+        npcTrust: {},
+        flags: {},
+        stats: { charisma: 3 },
+      });
+      expect(avail.map((o) => o.id)).toContain("charisma_check");
+    });
+
+    it("ignores stats absent from the player sheet", () => {
+      const avail = getAvailableOptions(statCheckOpts, {
+        skills: {},
+        npcTrust: {},
+        flags: {},
+        stats: {},
+      });
+      expect(avail).toHaveLength(0);
+    });
+  });
 });

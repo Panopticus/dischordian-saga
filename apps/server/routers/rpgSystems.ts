@@ -83,6 +83,37 @@ async function getUserCitizen(userId: number) {
 
 export const rpgSystemsRouter = router({
 
+  /* ─── 0. CHARACTER STATS (RPG sheet) ───
+   *
+   * Surfaces the six characterSheets stat columns
+   * (strength/intelligence/agility/charisma/perception/willpower)
+   * to the client. Previously these columns were written by
+   * cardGame.createCharacterSheet but never read by any UI or
+   * gameplay system — the choice-impact audit identified them
+   * as inert. The dialog wheel skill-check fallback
+   * (apps/shared/dialogWheel.ts) and the companion-trust
+   * charisma bonus (apps/server/services/charismaTrustService.ts)
+   * now consume this data; any future stat-aware system should
+   * read it from here too.
+   */
+  getCharacterStats: protectedProcedure.query(async ({ ctx }) => {
+    const db = await getDb();
+    if (!db) return null;
+    const [sheet] = await db
+      .select({
+        strength: characterSheets.strength,
+        intelligence: characterSheets.intelligence,
+        agility: characterSheets.agility,
+        charisma: characterSheets.charisma,
+        perception: characterSheets.perception,
+        willpower: characterSheets.willpower,
+      })
+      .from(characterSheets)
+      .where(eq(characterSheets.userId, ctx.user.id))
+      .limit(1);
+    return sheet ?? null;
+  }),
+
   /* ─── 1. SYNERGY BONUSES ─── */
   getSynergyBonuses: protectedProcedure.query(async ({ ctx }) => {
     const citizen = await getUserCitizen(ctx.user.id);

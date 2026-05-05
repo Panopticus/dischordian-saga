@@ -33,6 +33,7 @@ import {
 import { getDb } from "../db";
 import { logger } from "../logger";
 import { lookupEpisode, lookupMystery } from "./mysteryRegistry";
+import { scaleTrustDeltaByCharisma } from "./charismaTrustService";
 import type {
   ArcId,
   ChoiceId,
@@ -371,6 +372,16 @@ export const mysteryService = {
    * Apply a trust delta to a per-player NPC scalar. Clamps to
    * [0, 100]. Upserts the row when the (user, npc) pair has no
    * scalar yet (start at 50, then apply delta).
+   *
+   * Positive deltas are scaled by the player's charisma stat
+   * (audit: "stats matter — wire charisma to trust gain"). The
+   * multiplier is `(charisma - 5) * 0.05 + 1.0`, applied only to
+   * positive deltas — Spy (charisma 6) and Oracle (charisma 7)
+   * gain trust faster; Assassin (charisma 3) gains it slower; a
+   * negative delta still bites at full strength regardless of
+   * charisma. Charisma is read from characterSheets via the
+   * RPG sheet table, matching the dialog wheel skill-check
+   * fallback.
    */
   async applyTrustDelta(
     userId: number,
@@ -380,6 +391,7 @@ export const mysteryService = {
   ): Promise<void> {
     const db = await getDb();
     if (!db) return;
+    const scaledDelta = await scaleTrustDeltaByCharisma(userId, delta);
     const existing = await db.select().from(npcTrustScalars)
       .where(and(
         eq(npcTrustScalars.userId, userId),
@@ -387,7 +399,7 @@ export const mysteryService = {
       ))
       .limit(1);
     const current = existing[0]?.scalar ?? 50;
-    const next = Math.max(0, Math.min(100, current + delta));
+    const next = Math.max(0, Math.min(100, current + scaledDelta));
     if (existing.length === 0) {
       await db.insert(npcTrustScalars).values({
         userId,
