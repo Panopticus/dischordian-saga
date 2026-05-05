@@ -34,8 +34,25 @@
  *   # Plan without calling ElevenLabs (lists what would generate)
  *   pnpm tsx apps/scripts/generate-content-pass-vo.ts --dry-run
  *
- *   # Skip lines whose voice ID is the placeholder (TODO_VOICE)
+ *   # Skip lines whose voice ID is still the placeholder
  *   pnpm tsx apps/scripts/generate-content-pass-vo.ts --skip-todo
+ *
+ *   # Supply voice IDs for sentinel speakers via env vars:
+ *   export VOICE_ID_JERICHO_JONES=abc123...
+ *   export VOICE_ID_DMC_CLONE_COMPANION=def456...
+ *   export VOICE_ID_HIERARCHY_MASTER_OF_RLYEH=ghi789...
+ *   export VOICE_ID_HIERARCHY_PALE_EMISSARY=jkl012...
+ *   export VOICE_ID_HIERARCHY_RECKONING_DAUGHTER=mno345...
+ *   export VOICE_ID_MALKIA_UKWELI=pqr678...
+ *   export VOICE_ID_SOURCE=stu901...
+ *   export VOICE_ID_KAEL_TRACE=vwx234...
+ *   export VOICE_ID_SYSTEM=narrator_voice_id
+ *   export VOICE_ID_DUAL=dual_chord_voice_id  # producer mixes elara+human
+ *
+ *   # Or via JSON config (precedence: env > config > defaults):
+ *   pnpm tsx apps/scripts/generate-content-pass-vo.ts \
+ *     --voice-config voice-ids.json
+ *   # voice-ids.json: { "jericho_jones": "...", "source": "...", ... }
  *
  * Idempotent — manifest entries are skipped on rerun. Output cues
  * embedded in Act 7 lines (the [CUE 0:00] markers) are stripped
@@ -83,13 +100,28 @@ const SHARED_ROOT = join(REPO_ROOT, "apps", "shared");
 //
 // Roster speakers source their voice IDs from
 // apps/shared/npcs/registry.ts. Sentinel speakers (Hierarchy
-// lords, Source, Kael trace, Malkia) use producer-supplied
-// voice IDs — fill these in before recording. Until then,
-// passing --skip-todo will skip them.
+// lords, Source, Kael trace, Malkia, DMC, Jericho) use
+// producer-supplied voice IDs.
+//
+// Three ways to supply the producer voice IDs, in order of
+// precedence:
+//
+//   1. Env var:  VOICE_ID_<SPEAKER>=...   (highest precedence)
+//                  e.g. VOICE_ID_JERICHO_JONES=abc123,
+//                       VOICE_ID_HIERARCHY_MASTER_OF_RLYEH=xyz789,
+//                       VOICE_ID_SYSTEM=narrator_voice_id
+//                  Speaker name is uppercased; ':' becomes '_'.
+//   2. JSON config:  --voice-config voice-ids.json
+//                  (a flat { "<speaker>": "<voiceId>" } map)
+//   3. Defaults below.
+//
+// Lines whose final resolved voice id is TODO_VOICE are
+// skipped when --skip-todo is passed; otherwise they emit a
+// warning and are skipped silently in the count.
 
 const TODO_VOICE = "TODO_VOICE";
 
-const VOICE_IDS: Record<string, string> = {
+const DEFAULT_VOICE_IDS: Record<string, string> = {
   // Roster (matches registry.ts)
   elara: "xMyNDrPFEtQN8iZtT7l2",
   the_human: "oGbGJdgofRR8z0MxwI8L",
@@ -110,9 +142,45 @@ const VOICE_IDS: Record<string, string> = {
   // Dual + system are mixed in post; both speaker tracks use
   // their own voice IDs and the producer mixes them. The
   // 'system' channel uses a dedicated narrator voice.
-  system: "narrator", // resolved below to a registered narrator
-  dual: "dual_marker", // never used directly; producer mixes elara + the_human
+  system: TODO_VOICE,
+  dual: TODO_VOICE,
 };
+
+/**
+ * Resolve the final voice-id map. Precedence: env var > JSON
+ * config (--voice-config) > DEFAULT_VOICE_IDS. The env-var
+ * lookup transforms speaker names to upper-snake_case with
+ * ':' replaced by '_' so 'hierarchy:master_of_rlyeh' becomes
+ * VOICE_ID_HIERARCHY_MASTER_OF_RLYEH.
+ */
+function buildVoiceIds(configPath?: string): Record<string, string> {
+  const ids: Record<string, string> = { ...DEFAULT_VOICE_IDS };
+  if (configPath) {
+    if (!existsSync(configPath)) {
+      console.error(`ERROR: --voice-config ${configPath} not found.`);
+      process.exit(1);
+    }
+    try {
+      const json = JSON.parse(readFileSync(configPath, "utf8"));
+      for (const [speaker, voiceId] of Object.entries(json)) {
+        if (typeof voiceId === "string" && voiceId.length > 0) {
+          ids[speaker] = voiceId;
+        }
+      }
+    } catch (err) {
+      console.error(`ERROR: failed to parse ${configPath}: ${(err as Error).message}`);
+      process.exit(1);
+    }
+  }
+  for (const speaker of Object.keys(ids)) {
+    const envKey = `VOICE_ID_${speaker.toUpperCase().replace(/:/g, "_")}`;
+    const envValue = process.env[envKey];
+    if (envValue && envValue.length > 0) {
+      ids[speaker] = envValue;
+    }
+  }
+  return ids;
+}
 
 interface Settings {
   stability: number;
@@ -485,6 +553,7 @@ interface Args {
   only?: string;
   dryRun: boolean;
   skipTodo: boolean;
+  voiceConfig?: string;
 }
 
 function parseArgs(): Args {
@@ -501,6 +570,7 @@ function parseArgs(): Args {
     only: get("--only"),
     dryRun: argv.includes("--dry-run"),
     skipTodo: argv.includes("--skip-todo"),
+    voiceConfig: get("--voice-config"),
   };
 }
 
@@ -510,6 +580,18 @@ async function main(): Promise<void> {
   if (!ELEVENLABS_KEY && !args.dryRun) {
     console.error("ERROR: ELEVENLABS_API_KEY not set (use --dry-run to plan).");
     process.exit(1);
+  }
+
+  const VOICE_IDS = buildVoiceIds(args.voiceConfig);
+  const todoSpeakers = Object.entries(VOICE_IDS)
+    .filter(([, v]) => v === TODO_VOICE)
+    .map(([k]) => k);
+  if (todoSpeakers.length > 0) {
+    console.log(
+      `[content-vo] ${todoSpeakers.length} speaker(s) still have placeholder voice IDs ` +
+        `(${todoSpeakers.join(", ")}). ` +
+        `Override via VOICE_ID_<SPEAKER> env vars or --voice-config <file.json>.`,
+    );
   }
 
   const all = buildAllLines();
@@ -544,14 +626,16 @@ async function main(): Promise<void> {
       continue;
     }
     const voiceId = VOICE_IDS[line.speaker] ?? TODO_VOICE;
-    if (voiceId === TODO_VOICE || voiceId === "narrator" || voiceId === "dual_marker") {
+    if (voiceId === TODO_VOICE) {
       if (args.skipTodo) {
         todoSkipped++;
         continue;
       }
+      const envKey = `VOICE_ID_${line.speaker.toUpperCase().replace(/:/g, "_")}`;
       console.log(
-        `! ${line.id}: speaker '${line.speaker}' has placeholder voice id; ` +
-          `pass --skip-todo to skip, or fill VOICE_IDS in this script.`,
+        `! ${line.id}: speaker '${line.speaker}' has no voice id. ` +
+          `Set ${envKey} or use --voice-config voice-ids.json. ` +
+          `Pass --skip-todo to silence this warning.`,
       );
       todoSkipped++;
       continue;
