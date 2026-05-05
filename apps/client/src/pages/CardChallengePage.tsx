@@ -108,7 +108,7 @@ export default function CardChallengePage() {
               <motion.div initial={{ scale: 0.8 }} animate={{ scale: 1 }}
                 className="rounded-xl p-8 text-center max-w-sm w-full"
                 style={{
-                  background: "rgba(10,10,40,0.95)",
+                  background: "color-mix(in oklch, var(--energy-primary) 8%, black 95%)",
                   border: `2px solid ${showResult.isWinner ? "color-mix(in oklch, var(--energy-success) 40%, transparent)" : "color-mix(in oklch, var(--energy-error) 40%, transparent)"}`,
                 }}
                 onClick={e => e.stopPropagation()}>

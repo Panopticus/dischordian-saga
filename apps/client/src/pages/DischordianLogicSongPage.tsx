@@ -43,12 +43,12 @@ function SlideArt({ slide }: { slide: SongSlide }) {
         onError={(e) => ((e.target as HTMLImageElement).style.display = "none")}
       />
       {/* Ink-wash fallback — pure CSS, works with or without assets. */}
-      <div className="absolute inset-0 bg-gradient-to-b from-zinc-950 via-zinc-900 to-black" />
+      <div className="absolute inset-0 void-bg-canvas" />
       <div
         className="absolute inset-0 opacity-40"
         style={{
           backgroundImage:
-            "radial-gradient(ellipse at 30% 40%, rgba(255,255,255,0.05), transparent 50%), radial-gradient(ellipse at 70% 60%, rgba(200,60,60,0.08), transparent 50%)",
+            "radial-gradient(ellipse at 30% 40%, color-mix(in oklch, var(--text-primary) 5%, transparent), transparent 50%), radial-gradient(ellipse at 70% 60%, color-mix(in oklch, var(--energy-error) 8%, transparent), transparent 50%)",
           mixBlendMode: "screen",
         }}
       />

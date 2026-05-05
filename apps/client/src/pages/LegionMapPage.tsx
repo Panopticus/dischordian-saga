@@ -135,7 +135,7 @@ export default function LegionMapPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           {/* Map canvas */}
           <div className="lg:col-span-2">
-            <div className="relative w-full aspect-video border border-border/40 rounded-lg bg-gradient-to-br from-indigo-950/30 via-background to-purple-950/20 overflow-hidden">
+            <div className="relative w-full aspect-video border border-border/40 rounded-lg void-bg-system overflow-hidden">
               {/* Star field */}
               <svg className="absolute inset-0 w-full h-full opacity-30" viewBox="0 0 100 100" preserveAspectRatio="none">
                 {Array.from({ length: 60 }, (_, i) => {
@@ -153,7 +153,7 @@ export default function LegionMapPage() {
                     key={`line-${node.id}`}
                     x1={50} y1={50}
                     x2={node.x} y2={node.y}
-                    stroke="rgba(165, 180, 252, 0.2)"
+                    stroke="color-mix(in oklch, var(--energy-system) 35%, transparent)"
                     strokeWidth="0.15"
                     strokeDasharray="0.5 0.8"
                   />
@@ -233,7 +233,7 @@ function DeploymentDetail({ node, apprentice }: { node: Deployment; apprentice: 
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className="p-4 rounded border void-border bg-gradient-to-br from-amber-950/20 to-indigo-950/10"
+      className="p-4 rounded border void-border void-bg-sunk"
     >
       <div className="flex items-center gap-2 mb-2">
         <Icon size={14} className={node.color} />

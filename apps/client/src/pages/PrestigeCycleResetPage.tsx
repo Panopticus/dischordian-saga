@@ -73,39 +73,39 @@ export default function PrestigeCycleResetPage() {
   }, [spineComplete, performPrestige, nextPrestigeLevel, navigate, vo]);
 
   return (
-    <div className="relative min-h-screen bg-stone-950 text-stone-100">
+    <div className="relative min-h-screen void-bg-canvas void-text">
       <LivingBackground
         src="/art/cinematics/act-7-convergence/hero.webp"
-        accent="rgba(245, 158, 11, 0.32)"
+        accent="color-mix(in oklch, var(--energy-accent) 32%, transparent)"
         opacity={0.12}
         particleCount={4}
         scanlines={false}
       />
 
-      <header className="relative z-10 flex items-center justify-between border-b border-amber-500/30 bg-stone-950/85 px-4 py-3 backdrop-blur">
+      <header className="relative z-10 flex items-center justify-between border-b void-border void-bg-canvas px-4 py-3 backdrop-blur">
         <Link
           to="/witnessing"
-          className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.25em] text-amber-300/80 hover:text-amber-100"
+          className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.25em] void-text-accent void-text-accent"
         >
           <ChevronLeft size={14} />
           Witnessing Hub
         </Link>
         <div className="text-center">
-          <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-amber-300/70">
+          <p className="font-mono text-[10px] uppercase tracking-[0.3em] void-text-accent">
             §15 · Prestige Cycle Reset
           </p>
-          <p className="mt-1 font-serif text-lg italic text-amber-50">
+          <p className="mt-1 font-serif text-lg italic void-text-accent">
             The Antiquarian is still writing
           </p>
         </div>
-        <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-amber-300/80">
+        <span className="font-mono text-[10px] uppercase tracking-[0.25em] void-text-accent">
           Cycle {prestigeLevel} → {nextPrestigeLevel}
         </span>
       </header>
 
       <main className="relative z-10 mx-auto max-w-2xl px-4 py-8">
-        <section className="mb-6 rounded-md border border-amber-500/30 bg-amber-950/10 p-5">
-          <p className="font-serif italic leading-relaxed text-[14px] text-amber-100/90">
+        <section className="mb-6 rounded-md border void-border void-bg-sunk p-5">
+          <p className="font-serif italic leading-relaxed text-[14px] void-text-accent">
             The seven acts resolved on a single sustained chord this afternoon.
             The galaxy paused for one measure. The cycle is complete — which
             means the cycle is about to begin. A new Potential is waking up
@@ -115,17 +115,17 @@ export default function PrestigeCycleResetPage() {
         </section>
 
         {!spineComplete && (
-          <section className="mb-6 rounded-md border border-stone-700 bg-stone-900/40 p-5">
+          <section className="mb-6 rounded-md border void-border void-bg-canvas p-5">
             <div className="flex items-start gap-3">
               <AlertTriangle
                 size={16}
-                className="mt-0.5 shrink-0 text-stone-400"
+                className="mt-0.5 shrink-0 void-text"
               />
               <div>
-                <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-stone-300">
+                <p className="font-mono text-[10px] uppercase tracking-[0.2em] void-text">
                   Cycle not yet complete
                 </p>
-                <p className="mt-1 font-serif italic text-[13px] text-stone-300/90">
+                <p className="mt-1 font-serif italic text-[13px] void-text-dim">
                   Act 7 has not closed. The Antiquarian's book is still open.
                   Return when the Convergence has landed. The page will be
                   here. So will he.
@@ -135,8 +135,8 @@ export default function PrestigeCycleResetPage() {
           </section>
         )}
 
-        <section className="mb-6 rounded-md border border-amber-500/30 bg-stone-950/60 p-5">
-          <header className="mb-3 flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.25em] text-amber-300/80">
+        <section className="mb-6 rounded-md border void-border void-bg-canvas p-5">
+          <header className="mb-3 flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.25em] void-text-accent">
             <Sparkles size={12} />
             What the Antiquarian keeps
           </header>
@@ -145,24 +145,24 @@ export default function PrestigeCycleResetPage() {
               const pct = Math.round(rule.carryoverPortion * 100);
               const tone =
                 pct === 100
-                  ? "text-emerald-300"
+                  ? "void-text-energy"
                   : pct === 0
-                    ? "text-red-300"
-                    : "text-amber-200";
+                    ? "void-text-error"
+                    : "void-text-accent";
               return (
                 <li
                   key={rule.id}
-                  className="rounded border border-amber-500/20 bg-stone-950/40 p-3"
+                  className="rounded border void-border void-bg-canvas p-3"
                 >
                   <div className="flex items-baseline justify-between gap-2">
-                    <p className="font-serif text-[14px] italic text-amber-50">
+                    <p className="font-serif text-[14px] italic void-text-accent">
                       {rule.label}
                     </p>
                     <span className={`font-mono text-[12px] font-bold ${tone}`}>
                       {pct}%
                     </span>
                   </div>
-                  <p className="mt-1 font-serif italic leading-relaxed text-[12px] text-amber-100/75">
+                  <p className="mt-1 font-serif italic leading-relaxed text-[12px] void-text-accent">
                     {rule.rationale}
                   </p>
                 </li>
@@ -171,12 +171,12 @@ export default function PrestigeCycleResetPage() {
           </ul>
         </section>
 
-        <section className="rounded-md border border-red-500/30 bg-red-950/10 p-5">
-          <header className="mb-3 flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.25em] text-red-300/80">
+        <section className="rounded-md border void-border-error void-bg-error p-5">
+          <header className="mb-3 flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.25em] void-text-error">
             <AlertTriangle size={12} />
             What resets
           </header>
-          <p className="font-serif italic leading-relaxed text-[13px] text-red-100/85">
+          <p className="font-serif italic leading-relaxed text-[13px] void-text-error">
             Narrative act, Prelude playhead, Light/Dark alignment, room
             discovery, narrator dominance, and any flag tied to a specific
             cycle. You will wake up on the Ark again. You will meet Elara
@@ -188,7 +188,7 @@ export default function PrestigeCycleResetPage() {
         <div className="mt-8 flex items-center justify-between gap-3">
           <Link
             to="/witnessing"
-            className="font-mono text-[11px] uppercase tracking-wider text-amber-300/60 hover:text-amber-100"
+            className="font-mono text-[11px] uppercase tracking-wider void-text-accent void-text-accent"
           >
             Not yet
           </Link>
@@ -200,8 +200,8 @@ export default function PrestigeCycleResetPage() {
             className={[
               "rounded border px-5 py-3 font-mono text-[11px] uppercase tracking-[0.2em]",
               spineComplete
-                ? "border-amber-400/60 bg-amber-900/40 text-amber-100 hover:bg-amber-800/60"
-                : "border-stone-700 bg-stone-900/40 text-stone-500 cursor-not-allowed",
+                ? "void-border void-bg-sunk void-text-accent void-bg-sunk"
+                : "void-border void-bg-canvas void-text cursor-not-allowed",
             ].join(" ")}
           >
             <Crown size={12} className="mr-2 inline-block" />
@@ -234,27 +234,27 @@ function ConfirmCeremony({
 }) {
   return (
     <motion.div
-      className="fixed inset-0 z-[120] flex items-center justify-center bg-stone-950/90 backdrop-blur-sm px-4"
+      className="fixed inset-0 z-[120] flex items-center justify-center void-bg-canvas backdrop-blur-sm px-4"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       onClick={onCancel}
     >
       <motion.div
-        className="w-full max-w-md rounded border border-amber-400/60 bg-stone-950/95 p-6 shadow-[0_0_80px_rgba(245,158,11,0.3)]"
+        className="w-full max-w-md rounded border void-border void-bg-canvas p-6 shadow-[0_0_80px_color-mix(in oklch, var(--energy-accent) 30%, transparent)]"
         initial={{ y: 12, opacity: 0, scale: 0.98 }}
         animate={{ y: 0, opacity: 1, scale: 1 }}
         exit={{ y: -12, opacity: 0 }}
         transition={{ duration: 0.35 }}
         onClick={(e) => e.stopPropagation()}
       >
-        <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-amber-300/80">
+        <p className="font-mono text-[10px] uppercase tracking-[0.3em] void-text-accent">
           One measure of silence
         </p>
-        <h2 className="mt-2 font-serif text-xl italic text-amber-50">
+        <h2 className="mt-2 font-serif text-xl italic void-text-accent">
           Begin cycle {nextCycleNumber}?
         </h2>
-        <p className="mt-4 font-serif italic leading-relaxed text-[13px] text-amber-100/85">
+        <p className="mt-4 font-serif italic leading-relaxed text-[13px] void-text-accent">
           A new Potential is about to wake up. You will be on the other side
           of the pod. You will not be the person you were when this cycle
           started — you will be the person who finished it. That is the
@@ -264,7 +264,7 @@ function ConfirmCeremony({
           <button
             type="button"
             onClick={onCancel}
-            className="font-mono text-[11px] uppercase tracking-wider text-amber-300/60 hover:text-amber-100"
+            className="font-mono text-[11px] uppercase tracking-wider void-text-accent void-text-accent"
           >
             Hold the measure
           </button>
@@ -272,7 +272,7 @@ function ConfirmCeremony({
             type="button"
             onClick={onConfirm}
             data-testid="prestige-cycle-confirm"
-            className="rounded border border-amber-400/70 bg-amber-900/50 px-5 py-2 font-mono text-[11px] uppercase tracking-[0.2em] text-amber-100 hover:bg-amber-800/70"
+            className="rounded border void-border void-bg-sunk px-5 py-2 font-mono text-[11px] uppercase tracking-[0.2em] void-text-accent void-bg-sunk"
           >
             Release
           </button>

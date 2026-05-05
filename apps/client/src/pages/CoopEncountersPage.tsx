@@ -13,9 +13,9 @@ import { useAuth } from "@/_core/hooks/useAuth";
 type Difficulty = "normal" | "heroic" | "mythic";
 
 const DIFFICULTY_COLOR: Record<Difficulty, string> = {
-  normal: "#94a3b8",
-  heroic: "#a855f7",
-  mythic: "#fbbf24",
+  normal: "var(--energy-secondary)",
+  heroic: "var(--energy-system)",
+  mythic: "var(--energy-accent)",
 };
 
 export default function CoopEncountersPage() {
@@ -91,7 +91,7 @@ export default function CoopEncountersPage() {
             <button
               type="button"
               onClick={() => leaveParty.mutate()}
-              className="font-mono text-[10px] text-muted-foreground hover:text-red-400"
+              className="font-mono text-[10px] text-muted-foreground void-text-error"
             >
               LEAVE
             </button>
@@ -104,7 +104,7 @@ export default function CoopEncountersPage() {
               {partyMode !== "card_coop" && (
                 <button
                   type="button"
-                  className="ml-2 font-mono text-[10px] px-2 py-0.5 border border-amber-400/40 text-amber-400 rounded hover:bg-amber-400/10"
+                  className="ml-2 font-mono text-[10px] px-2 py-0.5 border void-border void-text-accent rounded void-bg-sunk"
                   onClick={() => setMode.mutate({ mode: "card_coop" })}
                 >
                   SWITCH TO COOP
@@ -117,7 +117,7 @@ export default function CoopEncountersPage() {
                   key={m.userId}
                   className={`font-mono text-[10px] px-2 py-1 rounded-full border ${
                     m.role === "leader"
-                      ? "border-amber-400/40 text-amber-400 bg-amber-400/5"
+                      ? "void-border void-text-accent void-bg-sunk"
                       : "border-border/40 text-muted-foreground"
                   }`}
                 >
@@ -143,8 +143,8 @@ export default function CoopEncountersPage() {
 
       {/* Pending invites */}
       {(myInvites.data ?? []).length > 0 && (
-        <section className="border border-amber-400/30 bg-amber-400/5 rounded-lg p-4 mb-6">
-          <h3 className="font-display text-sm font-bold tracking-wider uppercase mb-2 text-amber-400">
+        <section className="border void-border void-bg-sunk rounded-lg p-4 mb-6">
+          <h3 className="font-display text-sm font-bold tracking-wider uppercase mb-2 void-text-accent">
             Pending Invites
           </h3>
           <div className="space-y-2">
@@ -169,7 +169,7 @@ export default function CoopEncountersPage() {
                   <button
                     type="button"
                     onClick={() => declineInvite.mutate({ inviteId: inv.inviteId })}
-                    className="font-mono text-[10px] px-2 py-1 border border-border/40 rounded hover:border-red-400/40"
+                    className="font-mono text-[10px] px-2 py-1 border border-border/40 rounded void-border-error"
                   >
                     DECLINE
                   </button>
@@ -241,7 +241,7 @@ export default function CoopEncountersPage() {
                   </p>
                 )}
                 {enc.rewards.dreamTokens > 0 && (
-                  <p className="font-mono text-[10px] text-amber-400">
+                  <p className="font-mono text-[10px] void-text-accent">
                     {enc.rewards.dreamTokens} Dream
                   </p>
                 )}
@@ -278,7 +278,7 @@ export default function CoopEncountersPage() {
                       s.outcome === "victory"
                         ? "border border-primary/40 text-primary bg-primary/5"
                         : s.outcome === "defeat"
-                          ? "border border-red-400/40 text-red-400 bg-red-400/5"
+                          ? "border void-border-error void-text-error void-bg-error"
                           : "border border-border/40 text-muted-foreground"
                     }`}
                   >

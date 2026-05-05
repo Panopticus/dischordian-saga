@@ -162,7 +162,7 @@ export default function CohortPage() {
             {earnedCelebrant.length > 0 && (
               <div className="flex flex-wrap gap-1.5">
                 {earnedCelebrant.map((t) => (
-                  <span key={t.titleKey} className="font-mono text-[10px] px-2 py-0.5 rounded-full border border-amber-400/40 text-amber-400 bg-amber-400/10">
+                  <span key={t.titleKey} className="font-mono text-[10px] px-2 py-0.5 rounded-full border void-border void-text-accent void-bg-sunk">
                     {t.definition?.name ?? t.titleKey}
                   </span>
                 ))}
@@ -194,7 +194,7 @@ export default function CohortPage() {
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="mb-4 p-4 rounded border void-border bg-gradient-to-br from-amber-500/15 to-orange-500/5 text-center"
+            className="mb-4 p-4 rounded border void-border void-bg-sunk text-center"
           >
             <Trophy size={28} className="mx-auto void-text-accent mb-2" />
             <h2 className="font-display text-lg font-bold tracking-wider text-foreground">GRADUATED</h2>
