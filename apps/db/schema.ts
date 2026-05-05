@@ -88,6 +88,39 @@ export const userTwoFactor = mysqlTable(
 );
 export type UserTwoFactor = typeof userTwoFactor.$inferSelect;
 
+/**
+ * User sessions — tracks active refresh tokens per device.
+ *
+ * Closes the "logging in on device B doesn't invalidate device A"
+ * gap. Each refresh token issued by the OAuth callback / refresh
+ * endpoint creates a row here keyed by jti. On logout / force-revoke
+ * we delete the row, and the in-memory invalidatedRefreshTokens set
+ * (apps/server/_core/sdk.ts) loads any DB rows tagged revokedAt.
+ *
+ * `lastUsedAt` updates on every refresh; nightly cron prunes idle
+ * rows > 60 days.
+ */
+export const userSessions = mysqlTable(
+  "user_sessions",
+  {
+    id: int("id").autoincrement().primaryKey(),
+    userId: int("userId").notNull(),
+    /** jti from the refresh token. */
+    refreshTokenJti: varchar("refreshTokenJti", { length: 64 }).notNull(),
+    /** Coarse device identifier — User-Agent string trimmed. */
+    deviceLabel: varchar("deviceLabel", { length: 256 }),
+    ipHash: varchar("ipHash", { length: 64 }),
+    createdAt: timestamp("createdAt").defaultNow().notNull(),
+    lastUsedAt: timestamp("lastUsedAt").defaultNow().notNull(),
+    revokedAt: timestamp("revokedAt"),
+  },
+  (table) => ({
+    userIdx: index("idx_user_sessions_user").on(table.userId),
+    jtiIdx: uniqueIndex("uniq_user_sessions_jti").on(table.refreshTokenJti),
+  }),
+);
+export type UserSession = typeof userSessions.$inferSelect;
+
 /* ═══════════════════════════════════════════════════════
    GAMIFICATION — Achievements, Progress, Ark Themes
    Designed franchise-agnostic: franchiseId scopes all data

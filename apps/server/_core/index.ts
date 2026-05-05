@@ -544,6 +544,13 @@ async function startServer() {
       console.error("[UserTwoFactorBootstrap] failed:", e),
     );
 
+    // Ensure user_sessions exists (migration 0066). Required by the
+    // sessions router (list/revoke active devices).
+    const { bootstrapUserSessionsTable } = await import("../services/userSessionsBootstrap");
+    bootstrapUserSessionsTable().catch(e =>
+      console.error("[UserSessionsBootstrap] failed:", e),
+    );
+
     // Ensure pvp_ratings exists (#7). Migration 0058 is orphaned
     // from _journal.json; without this table the pvpRanking router
     // throws on every read/write. Failure surface is "MMR badge +
