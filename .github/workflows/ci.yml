@@ -226,13 +226,16 @@ jobs:
           key: playwright-${{ runner.os }}-1.59.1
 
       - name: Install Playwright browsers
-        # GitHub-hosted ubuntu-latest already has the system libs
-        # Chromium needs, so `--with-deps` is redundant. Retry once
-        # if the first download fails — historically the dominant
-        # cause of this job going red.
+        # `--with-deps` runs `sudo apt-get install` for the libs
+        # Chromium needs (libnss3, libnspr4, libatk1.0-0, libgbm1,
+        # libasound2, …). Ubuntu 24.04 GitHub-hosted runners do NOT
+        # ship a complete superset, and Playwright fails to launch
+        # the browser silently — `pnpm test:e2e` exits 1 with no
+        # report (which matches the symptom we hit). Keep --with-deps.
+        # Retry up to 3 times on transient apt / CDN issues.
         run: |
           for i in 1 2 3; do
-            if pnpm exec playwright install chromium; then
+            if pnpm exec playwright install --with-deps chromium; then
               exit 0
             fi
             echo "::warning::playwright install attempt $i failed; retrying"
