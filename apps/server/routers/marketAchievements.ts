@@ -1,18 +1,19 @@
 /**
- * @deprecated Orphan in shipping code. The router defines 75+
- * achievement definitions and a `checkAndUnlock` mutation, but:
- *   - No client `trpc.marketAchievements.*` calls exist (Achievements
- *     Gallery uses lore achievements; CardAchievementsPage uses the
- *     cardGameAchievements table, not userAchievements).
- *   - Marketplace router never invokes `checkAndUnlock`, so the
- *     `market_first_listing` / `market_first_sale` / etc. triggers
- *     never fire even when players take the action.
- * Functionally dead end-to-end. NOT superseded by cardAchievements
- * (which covers card-game-specific achievements only); the marketplace,
- * social, combat, exploration, crafting, collector, and economy
- * achievement domains here have no shipping replacement. Either wire
- * the marketplace router to call checkAndUnlock OR delete; do not
- * extend until §2.1 of HIDDEN_SYSTEMS_AUDIT_2026-05.md is resolved.
+ * Marketplace + social + combat + exploration + crafting + collector
+ * + economy achievements. Defines 75+ achievements with conditions
+ * keyed off stat-types like `market_listings`, `market_sales`,
+ * `market_purchases`. The marketplace router calls `trackIncrement`
+ * after each stat-changing mutation; the achievementTracker dispatches
+ * to `unlockMarketAchievementsByStat` which recomputes from source
+ * tables and writes earned ids to `userAchievements`.
+ *
+ * Phase I of the build-everything pass un-deprecated this router by
+ * wiring the trackIncrement → marketStatsService → userAchievements
+ * path. The router itself exposes:
+ *   - getAll               — all defs with earned status (UI)
+ *   - getByCategory        — filter by domain (UI)
+ *   - checkAndUnlock       — manual stats push (kept for parity)
+ *   - getCategories        — category counts (UI)
  */
 import { z } from "zod";
 import { protectedProcedure, publicProcedure, router } from "../_core/trpc";
@@ -24,7 +25,7 @@ import { eq, and, inArray } from "drizzle-orm";
    ACHIEVEMENT DEFINITIONS — Marketplace + Social + Combat + Exploration
    ═══════════════════════════════════════════════════════ */
 
-interface AchievementDef {
+export interface AchievementDef {
   id: string;
   name: string;
   description: string;
@@ -37,7 +38,7 @@ interface AchievementDef {
   hidden?: boolean;
 }
 
-const ACHIEVEMENT_DEFS: AchievementDef[] = [
+export const ACHIEVEMENT_DEFS: AchievementDef[] = [
   // ═══ MARKETPLACE ACHIEVEMENTS ═══
   { id: "market_first_listing", name: "Open for Business", description: "List your first item on the Intergalactic Market", icon: "store", category: "marketplace", tier: "bronze", xpReward: 50, pointsReward: 100, condition: { type: "market_listings", count: 1 } },
   { id: "market_10_listings", name: "Vendor", description: "List 10 items on the marketplace", icon: "store", category: "marketplace", tier: "silver", xpReward: 150, pointsReward: 300, condition: { type: "market_listings", count: 10 } },
