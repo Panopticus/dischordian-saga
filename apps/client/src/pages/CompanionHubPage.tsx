@@ -51,6 +51,9 @@ import { RomanceLadderPanel } from "@/components/romance/RomanceLadderPanel";
 import { EncounterListPanel } from "@/components/encounter/EncounterListPanel";
 import { AntiquariansTomePanel } from "@/components/tome/AntiquariansTomePanel";
 import { CoNexusTomeLibrary } from "@/components/conexus/CoNexusTomeLibrary";
+import { ThoughtVirusPanel } from "@/components/saga/ThoughtVirusPanel";
+import { TwoWitnessesDecodePanel } from "@/components/saga/TwoWitnessesDecodePanel";
+import { LyraVoxQuestPanel } from "@/components/saga/LyraVoxQuestPanel";
 
 import LivingBackground from "@/components/LivingBackground";
 
@@ -339,6 +342,23 @@ export default function CompanionHubPage() {
               body; the rest stay redacted. */}
           <div className="mt-6">
             <CoNexusTomeLibrary />
+          </div>
+
+          {/* Section-5 systems: Thought Virus spread (5 sectors,
+              4 containments each), Two Witnesses decode quest
+              (5 fragments, state-derived ciphers), Dr. Lyra Vox
+              investigation (5-step arc, 3 verdicts). Each is
+              its own self-contained panel; they share no data
+              other than the canonical npc_public_flags they
+              write. */}
+          <div className="mt-6">
+            <ThoughtVirusPanel />
+          </div>
+          <div className="mt-6">
+            <TwoWitnessesDecodePanel />
+          </div>
+          <div className="mt-6">
+            <LyraVoxQuestPanel />
           </div>
         </div>
       </div>

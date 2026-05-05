@@ -49,6 +49,9 @@ import { companionRouter } from "./routers/companion";
 import { romanceRouter } from "./routers/romance";
 import { encounterRouter } from "./routers/encounter";
 import { coNexusTomesRouter } from "./routers/coNexusTomes";
+import { thoughtVirusSpreadRouter } from "./routers/thoughtVirusSpread";
+import { twoWitnessesDecodeRouter } from "./routers/twoWitnessesDecode";
+import { lyraVoxQuestRouter } from "./routers/lyraVoxQuest";
 import { marketplaceRouter } from "./routers/marketplace";
 import { dailyQuestsRouter } from "./routers/dailyQuests";
 import { bonusObjectivesRouter } from "./routers/bonusObjectives";
@@ -194,6 +197,9 @@ export const appRouter = router({
   romance: romanceRouter,
   encounter: encounterRouter,
   coNexusTomes: coNexusTomesRouter,
+  thoughtVirusSpread: thoughtVirusSpreadRouter,
+  twoWitnessesDecode: twoWitnessesDecodeRouter,
+  lyraVoxQuest: lyraVoxQuestRouter,
   marketplace: marketplaceRouter,
   quests: dailyQuestsRouter,
   bonusObjectives: bonusObjectivesRouter,
