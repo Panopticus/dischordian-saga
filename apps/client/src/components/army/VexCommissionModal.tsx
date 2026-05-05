@@ -18,13 +18,42 @@ import * as React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FileText, ChevronRight } from "lucide-react";
 import type { CodaCommission } from "@shared/vexSoleneCommissions";
+import type {
+  SecondChairAdviceContext,
+  SecondChairRevealStage,
+} from "@shared/codaSecondChair";
+import { SecondChairAside } from "@/companion/SecondChairAside";
 
 export interface VexCommissionModalProps {
   commission: CodaCommission | null;
   onDismiss: () => void;
+  /**
+   * Optional Vex reveal stage for the current player. When this
+   * reaches `engineer_zero_hint` or `engineer_zero_confirmed` the
+   * commission modal renders an Engineer-flavoured "Second Chair"
+   * aside beside Vex's filing line.
+   */
+  revealStage?: SecondChairRevealStage;
+  /** Vex bond tier (0..4); gates rare vexAware fragments. */
+  vexBondTier?: 0 | 1 | 2 | 3 | 4;
 }
 
-export function VexCommissionModal({ commission, onDismiss }: VexCommissionModalProps) {
+export function VexCommissionModal({
+  commission,
+  onDismiss,
+  revealStage,
+  vexBondTier = 0,
+}: VexCommissionModalProps) {
+  const secondChairCtx: SecondChairAdviceContext | null =
+    commission && revealStage
+      ? {
+          missionId: `vex-commission:${commission.id}`,
+          archetype: commission.directive.missionKind,
+          reconstructionConfidence: 0.4 + vexBondTier * 0.15,
+          revealStage,
+          vexBondTier,
+        }
+      : null;
   return (
     <AnimatePresence>
       {commission && (
@@ -71,6 +100,7 @@ export function VexCommissionModal({ commission, onDismiss }: VexCommissionModal
                   </p>
                 </div>
               )}
+              {secondChairCtx && <SecondChairAside ctx={secondChairCtx} />}
             </div>
 
             {/* Directive card. Distinct surface so the unlock
