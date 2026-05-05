@@ -132,7 +132,6 @@ apps/client/src/pages/DreamerFragmentsPage.tsx
 apps/client/src/pages/FleetViewerPage.tsx
 apps/client/src/pages/FriendlyChallengesPage.tsx
 apps/client/src/pages/HouseCupPage.tsx
-apps/client/src/pages/IdeologyPage.tsx
 apps/client/src/pages/ImprintGalleryPage.tsx
 apps/client/src/pages/InventoryPage.tsx
 apps/client/src/pages/LeaderboardPage.tsx
@@ -144,7 +143,6 @@ apps/client/src/pages/MolGarathAudiencePage.tsx
 apps/client/src/pages/MolGarathTrapsFeedPage.tsx
 apps/client/src/pages/PersonalQuartersPage.tsx
 apps/client/src/pages/PetBattlesPage.tsx
-apps/client/src/pages/PlanetGalleryPage.tsx
 apps/client/src/pages/PlayerProfilePage.tsx
 apps/client/src/pages/PotentialsLeaderboardPage.tsx
 apps/client/src/pages/PreludePage.tsx

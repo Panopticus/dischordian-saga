@@ -21,12 +21,12 @@ import {
 } from "@/game/politicalVisions";
 
 const VISION_COLORS: Record<string, { color: string; border: string; bg: string; gradient: string }> = {
-  architect: { color: "void-text-energy", border: "void-border-success", bg: "void-bg-success", gradient: "void-bg-success" },
-  dreamer: { color: "void-text-accent", border: "void-border", bg: "void-bg-sunk", gradient: "void-bg-sunk" },
-  insurgency: { color: "void-text-error", border: "void-border-error", bg: "void-bg-error", gradient: "void-bg-error" },
-  new_babylon: { color: "void-text-system", border: "void-border-system", bg: "void-bg-system", gradient: "void-bg-system" },
-  hierarchy: { color: "void-text", border: "void-border", bg: "void-bg-canvas", gradient: "void-bg-canvas" },
-  antiquarian: { color: "void-text-premium", border: "void-border", bg: "void-bg-sunk", gradient: "void-bg-sunk" },
+  architect: { color: "void-text-energy", border: "void-border-success", bg: "void-bg-success", gradient: "from-cyan-500/20 to-blue-500/10" },
+  dreamer: { color: "void-text-accent", border: "void-border", bg: "void-bg-sunk", gradient: "from-amber-500/20 to-orange-500/10" },
+  insurgency: { color: "void-text-error", border: "void-border-error", bg: "void-bg-error", gradient: "from-red-500/20 to-rose-500/10" },
+  new_babylon: { color: "void-text-system", border: "void-border-system", bg: "void-bg-system", gradient: "from-purple-500/20 to-indigo-500/10" },
+  hierarchy: { color: "void-text", border: "void-border", bg: "void-bg-canvas", gradient: "from-slate-500/20 to-zinc-500/10" },
+  antiquarian: { color: "void-text-premium", border: "void-border", bg: "void-bg-sunk", gradient: "from-yellow-500/20 to-amber-500/10" },
 };
 
 export default function IdeologyPage() {
@@ -111,7 +111,7 @@ export default function IdeologyPage() {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -10 }}
-                  className={`p-4 rounded-lg border ${selectedStyle.border} ${selectedStyle.gradient}`}
+                  className={`p-4 rounded-lg border ${selectedStyle.border} bg-gradient-to-br ${selectedStyle.gradient}`}
                 >
                   {/* Title */}
                   <div className="mb-3">

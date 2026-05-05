@@ -22,7 +22,7 @@ interface Planet {
 
 const PLANETS: Planet[] = [
   {
-    id: "violetta", name: "Violetta", image: assetUrl("art/planets/planet-violetta.png"), color: "var(--energy-system)",
+    id: "violetta", name: "Violetta", image: assetUrl("art/planets/planet-violetta.png"), color: "#c084fc",
     description: "The Voltari homeworld. A purple planet inside a living electrical storm. It has been broadcasting a signal for 2 million years. The storm is the language.",
     faction: "Voltari",
   },
@@ -42,8 +42,8 @@ const PLANETS: Planet[] = [
     faction: "The Degen (Ne-Yon #8)",
   },
   // Placeholder entries for planets not yet uploaded
-  { id: "atarion", name: "Atarion", image: "", color: "var(--energy-primary)", description: "Crystal spires that sing in the wind. Bioluminescent forests. Elara's homeworld — beautiful, destroyed.", faction: "Elara" },
-  { id: "new-babylon", name: "New Babylon", image: "", color: "var(--energy-system)", description: "Corrupt mega-city planet. Orbital trade stations. Where Adjudicator Locke makes deals that reshape civilizations.", faction: "Locke" },
+  { id: "atarion", name: "Atarion", image: "", color: "#60a5fa", description: "Crystal spires that sing in the wind. Bioluminescent forests. Elara's homeworld — beautiful, destroyed.", faction: "Elara" },
+  { id: "new-babylon", name: "New Babylon", image: "", color: "#a855f7", description: "Corrupt mega-city planet. Orbital trade stations. Where Adjudicator Locke makes deals that reshape civilizations.", faction: "Locke" },
   { id: "mechronis", name: "Mechronis", image: "", color: "var(--energy-success)", description: "The Architect's academy world. Gothic spires, institutional cold. Where Potentials are shaped into weapons.", faction: "The Architect" },
   { id: "panopticon", name: "The Panopticon", image: "", color: "var(--energy-error)", description: "Planet-sized surveillance megastructure. Eyes everywhere. Now broken free, becoming Terminus.", faction: "The Architect" },
 ];
@@ -55,7 +55,7 @@ export default function PlanetGalleryPage() {
     <div className="min-h-screen bg-black text-white relative overflow-hidden">
       {/* Starfield background */}
       <div className="absolute inset-0" style={{
-        background: "radial-gradient(ellipse at 50% 50%, color-mix(in oklch, var(--energy-primary) 6%, black) 0%, black 100%)",
+        background: "radial-gradient(ellipse at 50% 50%, #0a0a1a 0%, #000 100%)",
       }}>
         {Array.from({ length: 80 }).map((_, i) => (
           <div
@@ -161,7 +161,7 @@ export default function PlanetGalleryPage() {
                   <X size={20} />
                 </button>
                 <div className="absolute bottom-4 left-6">
-                  <h2 className="font-display text-3xl font-bold tracking-wider" style={{ color: selected.color, textShadow: `0 0 1.875rem ${selected.color}40` }}>
+                  <h2 className="font-display text-3xl font-bold tracking-wider" style={{ color: selected.color, textShadow: `0 0 30px ${selected.color}40` }}>
                     {selected.name}
                   </h2>
                   {selected.faction && (

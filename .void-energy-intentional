@@ -18,3 +18,11 @@ apps/client/src/components/RememberThisToast.tsx
 apps/client/src/game/duelyst/types.ts
 # Per-act narrative-signal accents (indigo=Act2, purple=Act3, cyan=Act4, amber=Act5/6, stone=Act7/transmedia):
 apps/client/src/pages/WitnessingHubPage.tsx
+# Per-faction identity colors (FACTION_COLORS map; faction is game-rule signal):
+apps/client/src/pages/FightPage.tsx
+# VISION_COLORS map — per-political-vision identity (architect cyan, dreamer amber, insurgency red, new_babylon purple, hierarchy slate, antiquarian yellow):
+apps/client/src/pages/IdeologyPage.tsx
+# Per-planet identity colors (Atarion blue, Violetta purple, New Babylon violet, etc.):
+apps/client/src/pages/PlanetGalleryPage.tsx
+# 13-era chronological palette (each era owns its color in the timeline UI):
+apps/client/src/pages/TimelinePage.tsx
