@@ -88,6 +88,24 @@ describe("expansionUnlockService — isCardUnlocked", () => {
     const reveal = makePlayerExpansionState({ secretActsRevealed: [5] });
     expect(isCardUnlocked(card, reveal)).toBe(true);
   });
+
+  // Act 1 + Act 2 secret cards previously had no reveal path (no
+  // conspiracy boards for those acts). Boards "first_memory" and
+  // "inheritance_ledger" now flip these flags; this test pins the
+  // unlock chain so the cards aren't silently re-orphaned.
+  it("act 1 secret card unlocks once secret_act_1_revealed flips", () => {
+    const card = stub("test_secret_act1", { kind: "secret", act: 1 });
+    expect(isCardUnlocked(card, NULL_PLAYER_EXPANSION_STATE)).toBe(false);
+    const reveal = makePlayerExpansionState({ secretActsRevealed: [1] });
+    expect(isCardUnlocked(card, reveal)).toBe(true);
+  });
+
+  it("act 2 secret card unlocks once secret_act_2_revealed flips", () => {
+    const card = stub("test_secret_act2", { kind: "secret", act: 2 });
+    expect(isCardUnlocked(card, NULL_PLAYER_EXPANSION_STATE)).toBe(false);
+    const reveal = makePlayerExpansionState({ secretActsRevealed: [2] });
+    expect(isCardUnlocked(card, reveal)).toBe(true);
+  });
 });
 
 describe("expansionUnlockService — filterUnlockedCards / filterLockedCards", () => {

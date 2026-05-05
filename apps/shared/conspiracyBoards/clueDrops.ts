@@ -42,6 +42,8 @@ export const DROP_TABLES: readonly ClueDropTable[] = [
       "clue_celebration_invite",
       "clue_iron_lion_inoculation",
       "clue_recruiter_mark_oath",
+      "clue_act1_authority_signature",
+      "clue_act2_dischordia_cycle_a_complete",
     ],
   },
   {
@@ -61,6 +63,7 @@ export const DROP_TABLES: readonly ClueDropTable[] = [
       "clue_celebration_palimpsest",
       "clue_watcher_cipher_key",
       "clue_watcher_dead_drop",
+      "clue_act1_nexon_zero_glitch",
     ],
   },
   {
@@ -68,6 +71,7 @@ export const DROP_TABLES: readonly ClueDropTable[] = [
     dropRate: 0.05,
     pool: [
       "clue_celebration_witness_log",
+      "clue_act2_archivist_redact",
     ],
   },
   {
@@ -80,6 +84,8 @@ export const DROP_TABLES: readonly ClueDropTable[] = [
       "clue_recruiter_cell_network",
       "clue_kael_fragment_F1",
       "clue_kael_fragment_F2",
+      "clue_act1_kindergarten_anomaly",
+      "clue_act2_iron_lion_correspondence",
     ],
   },
   {
@@ -94,6 +100,8 @@ export const DROP_TABLES: readonly ClueDropTable[] = [
       "clue_dischordia_cycle_b_complete",
       "clue_watcher_panopticon_relay",
       "clue_watcher_recruiter_inversion",
+      "clue_act1_first_logbook",
+      "clue_act2_recruiter_legacy_tag",
     ],
   },
   {
@@ -112,6 +120,8 @@ export const DROP_TABLES: readonly ClueDropTable[] = [
       "clue_recruiter_mechronis_records",
       "clue_watcher_handler_alpha",
       "clue_watcher_handler_beta",
+      "clue_act1_mechronis_dropout",
+      "clue_act2_predecessor_journal",
     ],
   },
 ];

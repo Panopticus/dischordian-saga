@@ -28,6 +28,38 @@ export interface ConspiracyBoardDef {
 
 export const CONSPIRACY_BOARDS: readonly ConspiracyBoardDef[] = [
   {
+    boardKey: "first_memory",
+    name: "The First Memory",
+    description: "Reconstruct what was erased from the Awakening — the night Ark 1047 chose its replacement.",
+    flavorText: "You woke up. You were never asked. Someone else's hand pressed the switch.",
+    factionAlignment: "empire",
+    cluesRequired: 5,
+    acceptedClues: [
+      "clue_act1_first_logbook",
+      "clue_act1_authority_signature",
+      "clue_act1_kindergarten_anomaly",
+      "clue_act1_nexon_zero_glitch",
+      "clue_act1_mechronis_dropout",
+    ],
+    revealFlag: "secret_act_1_revealed",
+  },
+  {
+    boardKey: "inheritance_ledger",
+    name: "The Inheritance Ledger",
+    description: "Trace the predecessors who walked the Last Words gate before you and left their accounts behind.",
+    flavorText: "You aren't the first. You won't be the last. The ledger is older than the Ark.",
+    factionAlignment: "insurgency",
+    cluesRequired: 5,
+    acceptedClues: [
+      "clue_act2_predecessor_journal",
+      "clue_act2_iron_lion_correspondence",
+      "clue_act2_recruiter_legacy_tag",
+      "clue_act2_archivist_redact",
+      "clue_act2_dischordia_cycle_a_complete",
+    ],
+    revealFlag: "secret_act_2_revealed",
+  },
+  {
     boardKey: "thought_virus",
     name: "The Thought Virus",
     description: "Trace the memetic contagion's spread through consciousness itself.",
