@@ -272,7 +272,23 @@ export function createCinematicComposer(
       for (const pass of composer.passes) {
         const anyPass = pass as any;
         if (typeof anyPass.dispose === "function") anyPass.dispose();
+        // UnrealBloomPass holds private renderTargetX/renderTargetY
+        // that its own dispose() doesn't always release across
+        // three.js versions. Belt-and-suspenders.
+        if (anyPass.renderTargetsHorizontal) {
+          for (const rt of anyPass.renderTargetsHorizontal) rt?.dispose?.();
+        }
+        if (anyPass.renderTargetsVertical) {
+          for (const rt of anyPass.renderTargetsVertical) rt?.dispose?.();
+        }
       }
+      // Composer's own write/read targets.
+      const c = composer as unknown as {
+        renderTarget1?: { dispose?: () => void };
+        renderTarget2?: { dispose?: () => void };
+      };
+      c.renderTarget1?.dispose?.();
+      c.renderTarget2?.dispose?.();
     },
     render: () => {
       // Drive grain time so noise reseeds per frame. Without this

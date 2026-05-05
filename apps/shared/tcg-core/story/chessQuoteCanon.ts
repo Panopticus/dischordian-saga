@@ -56,7 +56,17 @@ export function pairQuotes(theme: QuoteTheme, seed?: string): QuotePair {
       `pairQuotes: no LORE quote for theme "${theme}". Add one in chessQuoteCanon.lore.ts.`,
     );
   }
-  const h = seed !== undefined ? hashSeed(seed) : Math.floor(Math.random() * 1e9);
+  // Require an explicit seed — the previous Math.random() fallback
+  // broke replay determinism whenever pairQuotes was called from
+  // game logic without a seed. Callers that genuinely want a random
+  // pairing should pass `Date.now().toString()` or similar
+  // explicitly to make the source of nondeterminism visible.
+  if (seed === undefined) {
+    throw new Error(
+      "pairQuotes: `seed` is required. Pass a stable string (cue id, match id, climb tier) for replay determinism.",
+    );
+  }
+  const h = hashSeed(seed);
   const real = reals[h % reals.length];
   const lore = lores[(h >>> 1) % lores.length];
   return { theme, real, lore };

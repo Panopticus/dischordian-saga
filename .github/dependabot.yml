@@ -1,0 +1,39 @@
+version: 2
+updates:
+  # Application dependencies — patch + minor only. Major bumps need
+  # a manual PR with migration notes (e.g. Drizzle, Vite, React).
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "06:00"
+      timezone: UTC
+    open-pull-requests-limit: 5
+    versioning-strategy: increase-if-necessary
+    labels:
+      - dependencies
+      - automerge-candidate
+    ignore:
+      # Major bumps — always manual.
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+    groups:
+      # Group Radix updates so we don't get 25 PRs every week.
+      radix:
+        patterns:
+          - "@radix-ui/*"
+      # Group tRPC updates so server + client move together.
+      trpc:
+        patterns:
+          - "@trpc/*"
+
+  # GitHub Actions — keep workflows current.
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    open-pull-requests-limit: 3
+    labels:
+      - dependencies
+      - github-actions

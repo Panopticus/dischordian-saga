@@ -58,7 +58,8 @@ const __dirname = path.dirname(__filename);
 
 /* ─── CONFIG ─── */
 
-const ELEVENLABS_KEY = process.env.ELEVENLABS_API_KEY || "";
+import { optionalCredential } from "./credentialUtils";
+const ELEVENLABS_KEY = optionalCredential("ELEVENLABS_API_KEY");
 const BUCKET = process.env.S3_BUCKET || "dgrsvoices";
 const REGION = process.env.AWS_REGION || "us-east-2";
 const S3_PREFIX = "Prelude Voices";

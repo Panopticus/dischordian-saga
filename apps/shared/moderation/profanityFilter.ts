@@ -50,7 +50,36 @@ export interface FilterFlags {
   readonly evidence: Readonly<Record<FilterFlag, readonly string[]>>;
 }
 
-export type FilterFlag = "blocked" | "masked" | "caps" | "spam" | "url";
+export type FilterFlag = "blocked" | "masked" | "caps" | "spam" | "url" | "pii";
+
+/**
+ * PII patterns — grossly approximate. False positives are tolerated;
+ * the goal is "did the message contain something that *looks* like
+ * PII," not "this is a confirmed phone number." When a PII match
+ * fires, the chat handler can: redact, soft-warn the user, queue
+ * for moderator review.
+ */
+const PII_PATTERNS: { name: string; re: RegExp }[] = [
+  // Email — straightforward.
+  { name: "email", re: /\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/iu },
+  // Phone numbers (US-ish + international leading +). 7-15 digits
+  // with optional separators.
+  { name: "phone", re: /(?:\+?\d[\s.\-()]?){7,15}/u },
+  // SSN-shaped (9 digits with dashes).
+  { name: "ssn", re: /\b\d{3}-\d{2}-\d{4}\b/u },
+  // Credit-card-shaped (13–19 digits, optionally separated).
+  { name: "card", re: /\b(?:\d[ -]*?){13,19}\b/u },
+  // Bitcoin address (legacy + bech32 — coarse).
+  { name: "btc", re: /\b(?:bc1|[13])[A-HJ-NP-Za-km-z1-9]{25,42}\b/u },
+];
+
+export function detectPii(text: string): { found: boolean; kinds: string[] } {
+  const kinds: string[] = [];
+  for (const { name, re } of PII_PATTERNS) {
+    if (re.test(text)) kinds.push(name);
+  }
+  return { found: kinds.length > 0, kinds };
+}
 
 export interface FilterLists {
   /** Block-list — message is rejected outright if any entry matches. */
@@ -202,6 +231,7 @@ export function filterMessage(
     caps: [],
     spam: [],
     url: [],
+    pii: [],
   };
 
   // 1. Block list — short-circuit. Sanitized field echoes raw input
@@ -254,6 +284,16 @@ export function filterMessage(
     evidence.url = [urlMatch[0]];
   }
 
+  // PII detection — flag email/phone/SSN/CC/BTC-shaped content.
+  // We don't auto-redact; the chat handler decides whether to
+  // soft-block, queue for review, or warn the user. False positives
+  // are tolerated (phone-like numeric strings).
+  const pii = detectPii(raw);
+  if (pii.found) {
+    flags.push("pii");
+    evidence.pii = pii.kinds;
+  }
+
   return {
     blocked: false,
     sanitized: working,
@@ -271,5 +311,6 @@ function freezeEvidence(
     caps: Object.freeze([...e.caps]),
     spam: Object.freeze([...e.spam]),
     url: Object.freeze([...e.url]),
+    pii: Object.freeze([...e.pii]),
   };
 }

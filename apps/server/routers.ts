@@ -134,10 +134,22 @@ import { dreamerFragmentsRouter } from "./routers/dreamerFragments";
 import { architectDossierRouter } from "./routers/architectDossier";
 import { dreamerDossierRouter } from "./routers/dreamerDossier";
 import { watcherRouter } from "./routers/watcher";
+import { accountRouter } from "./routers/account";
+import { twoFactorRouter } from "./routers/twoFactor";
+import { sessionsRouter } from "./routers/sessions";
+import { rumRouter } from "./routers/rum";
+import { blocksRouter } from "./routers/blocks";
+import { supportRouter } from "./routers/support";
 
 export const appRouter = router({
   collection: collectionRouter,
   system: systemRouter,
+  account: accountRouter,
+  twoFactor: twoFactorRouter,
+  sessions: sessionsRouter,
+  rum: rumRouter,
+  blocks: blocksRouter,
+  support: supportRouter,
   cardGame: cardGameRouter,
   ark: arkRouter,
   trophy: trophyRouter,

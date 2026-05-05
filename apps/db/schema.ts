@@ -14,13 +14,180 @@ export const users = mysqlTable("users", {
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
   lastSignedIn: timestamp("lastSignedIn").defaultNow().notNull(),
   deletedAt: timestamp("deletedAt"),
+  // Cohort tagging (G27) — derived at signup, immutable.
+  /** ISO-week identifier ("2026-W18") for trivial cohort filters. */
+  signupWeek: varchar("signupWeek", { length: 8 }),
+  /** Coarse install-source bucket: organic / paid / referral / partner. */
+  installSource: varchar("installSource", { length: 32 }),
+  /** A/B variant assignment at signup (e.g. "tutorial-v2:control"). */
+  abVariant: varchar("abVariant", { length: 64 }),
 }, (table) => ({
   createdAtIdx: index("idx_users_created_at").on(table.createdAt),
   lastSignedInIdx: index("idx_users_last_signed_in").on(table.lastSignedIn),
+  signupWeekIdx: index("idx_users_signup_week").on(table.signupWeek),
 }));
 
 export type User = typeof users.$inferSelect;
 export type InsertUser = typeof users.$inferInsert;
+
+/**
+ * User agreements — records every ToS / Privacy / Cookie acceptance
+ * with the policy version that was in force at the time. GDPR Art. 7
+ * requires demonstrable, recorded consent; this is that record.
+ *
+ * Schema:
+ *   - agreementType: which policy (terms_of_service, privacy_policy,
+ *     cookie_policy, etc.)
+ *   - version: a string identifier for the policy revision (we use
+ *     ISO date prefixes like "2026-05-05" so version ordering is
+ *     trivially time-ordered)
+ *   - agreedAt: when the user accepted
+ *   - ipHash: hash of the IP at acceptance time, in case we ever
+ *     need to defend the consent record against a "I never agreed"
+ *     dispute. We store a hash so the row itself isn't a PII liability.
+ *
+ * One row per (user, type, version). Re-acceptance of the same
+ * version is idempotent.
+ */
+export const userAgreements = mysqlTable(
+  "user_agreements",
+  {
+    id: int("id").autoincrement().primaryKey(),
+    userId: int("userId").notNull(),
+    agreementType: varchar("agreementType", { length: 64 }).notNull(),
+    version: varchar("version", { length: 32 }).notNull(),
+    agreedAt: timestamp("agreedAt").defaultNow().notNull(),
+    ipHash: varchar("ipHash", { length: 64 }),
+  },
+  (table) => ({
+    userIdx: index("idx_user_agreements_user").on(table.userId),
+    uniqueAcceptance: uniqueIndex(
+      "uniq_user_agreement_version",
+    ).on(table.userId, table.agreementType, table.version),
+  }),
+);
+export type UserAgreement = typeof userAgreements.$inferSelect;
+
+/**
+ * User 2FA — TOTP secret + hashed backup codes.
+ *
+ * One row per user. The TOTP secret is stored as base32 plaintext
+ * (it must be retrievable to verify codes) — the database is the
+ * trust boundary, so guard it accordingly. Backup codes are
+ * sha256-hashed and stored as a JSON array; on use we burn the
+ * matching hash from the array.
+ *
+ * Required for admin role; optional for regular users.
+ */
+export const userTwoFactor = mysqlTable(
+  "user_two_factor",
+  {
+    userId: int("userId").primaryKey(),
+    /** base32 TOTP secret. Generated server-side; revealed once on enroll. */
+    secret: varchar("secret", { length: 64 }).notNull(),
+    /** Hashed backup codes — JSON array of sha256 hex strings. */
+    backupCodeHashes: json("backupCodeHashes").$type<string[]>().notNull(),
+    /** True iff the user has confirmed enrollment by entering a valid code. */
+    confirmed: boolean("confirmed").notNull().default(false),
+    enrolledAt: timestamp("enrolledAt").defaultNow().notNull(),
+    confirmedAt: timestamp("confirmedAt"),
+    lastUsedAt: timestamp("lastUsedAt"),
+  },
+);
+export type UserTwoFactor = typeof userTwoFactor.$inferSelect;
+
+/**
+ * User sessions — tracks active refresh tokens per device.
+ *
+ * Closes the "logging in on device B doesn't invalidate device A"
+ * gap. Each refresh token issued by the OAuth callback / refresh
+ * endpoint creates a row here keyed by jti. On logout / force-revoke
+ * we delete the row, and the in-memory invalidatedRefreshTokens set
+ * (apps/server/_core/sdk.ts) loads any DB rows tagged revokedAt.
+ *
+ * `lastUsedAt` updates on every refresh; nightly cron prunes idle
+ * rows > 60 days.
+ */
+export const userSessions = mysqlTable(
+  "user_sessions",
+  {
+    id: int("id").autoincrement().primaryKey(),
+    userId: int("userId").notNull(),
+    /** jti from the refresh token. */
+    refreshTokenJti: varchar("refreshTokenJti", { length: 64 }).notNull(),
+    /** Coarse device identifier — User-Agent string trimmed. */
+    deviceLabel: varchar("deviceLabel", { length: 256 }),
+    ipHash: varchar("ipHash", { length: 64 }),
+    createdAt: timestamp("createdAt").defaultNow().notNull(),
+    lastUsedAt: timestamp("lastUsedAt").defaultNow().notNull(),
+    revokedAt: timestamp("revokedAt"),
+  },
+  (table) => ({
+    userIdx: index("idx_user_sessions_user").on(table.userId),
+    jtiIdx: uniqueIndex("uniq_user_sessions_jti").on(table.refreshTokenJti),
+  }),
+);
+export type UserSession = typeof userSessions.$inferSelect;
+
+/**
+ * Player blocks — one row per (blocker → blocked) directed edge.
+ *
+ * The chat / pvp / friend layers consult this table to:
+ *   - hide the blocked user's chat messages from the blocker
+ *   - filter the blocked user out of friend-suggestion / matchmaking
+ *   - reject DM / trade attempts in either direction
+ *
+ * Bidirectional muting requires two rows; that's intentional —
+ * each side independently controls visibility.
+ */
+export const userBlocks = mysqlTable(
+  "user_blocks",
+  {
+    id: int("id").autoincrement().primaryKey(),
+    blockerUserId: int("blockerUserId").notNull(),
+    blockedUserId: int("blockedUserId").notNull(),
+    reason: varchar("reason", { length: 256 }),
+    createdAt: timestamp("createdAt").defaultNow().notNull(),
+  },
+  (table) => ({
+    pairIdx: uniqueIndex("uniq_user_block_pair").on(table.blockerUserId, table.blockedUserId),
+    blockerIdx: index("idx_user_blocks_blocker").on(table.blockerUserId),
+  }),
+);
+export type UserBlock = typeof userBlocks.$inferSelect;
+
+/**
+ * Support impersonation grants — short-lived, audited tokens that
+ * let an authorised admin/moderator act as another user to
+ * reproduce a bug. The grant must be redeemed within the TTL,
+ * carries a mandatory reason, and ends up in adminAuditLog so the
+ * use is reviewable after the fact.
+ *
+ * Storage shape:
+ *   - issuedToAdminId: who can use this grant
+ *   - targetUserId:    whose account they're entering
+ *   - reason:          mandatory free-text justification
+ *   - expiresAt:       short, e.g. 1 hour
+ *   - usedAt:          burn-after-use; the redeem mutation flips
+ *                      this so a leaked token isn't reusable.
+ */
+export const supportImpersonationGrants = mysqlTable(
+  "support_impersonation_grants",
+  {
+    id: int("id").autoincrement().primaryKey(),
+    issuedToAdminId: int("issuedToAdminId").notNull(),
+    targetUserId: int("targetUserId").notNull(),
+    reason: varchar("reason", { length: 512 }).notNull(),
+    createdAt: timestamp("createdAt").defaultNow().notNull(),
+    expiresAt: timestamp("expiresAt").notNull(),
+    usedAt: timestamp("usedAt"),
+  },
+  (table) => ({
+    adminIdx: index("idx_support_grants_admin").on(table.issuedToAdminId),
+    targetIdx: index("idx_support_grants_target").on(table.targetUserId),
+  }),
+);
+export type SupportImpersonationGrant = typeof supportImpersonationGrants.$inferSelect;
 
 /* ═══════════════════════════════════════════════════════
    GAMIFICATION — Achievements, Progress, Ark Themes

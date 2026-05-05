@@ -1,0 +1,28 @@
+# Browser support matrix.
+#
+# Vite/esbuild use this to decide which transforms to apply.
+# Tighter than `defaults` so we ship modern syntax to modern
+# browsers and a lighter polyfill payload.
+#
+# Coverage:
+#   - Chrome / Edge: last 2 major versions
+#   - Firefox: last 2 major versions
+#   - Safari iOS: 14+ (covers iPhone 6s and later)
+#   - Safari macOS: 14+
+#   - Android Chrome: last 2 versions
+#   - WebView Android: last 2 versions
+#
+# Anything older falls outside support — show a "your browser is too
+# old" notice on landing rather than ship broken JS.
+
+defaults
+not dead
+not IE 11
+not op_mini all
+not Baidu > 0
+last 2 Chrome versions
+last 2 Edge versions
+last 2 Firefox versions
+last 2 Safari versions
+iOS >= 14
+last 2 ChromeAndroid versions

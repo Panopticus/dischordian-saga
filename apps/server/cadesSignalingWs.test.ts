@@ -19,7 +19,14 @@ interface Harness {
 
 async function startHarness(): Promise<Harness> {
   const server = createServer();
-  setupCadesSignalingWebSocket(server);
+  // Tests bypass the session-cookie auth by reading a synthetic
+  // `x-test-user-id` header set on the WS handshake. Production code
+  // path uses `authenticateWebSocket` via the default resolver.
+  setupCadesSignalingWebSocket(server, async (req) => {
+    const raw = req.headers["x-test-user-id"];
+    const id = typeof raw === "string" ? Number(raw) : NaN;
+    return Number.isFinite(id) ? id : null;
+  });
   await new Promise<void>((resolve) => server.listen(0, resolve));
   const addr = server.address();
   if (typeof addr !== "object" || !addr) throw new Error("no address");
@@ -30,9 +37,11 @@ async function startHarness(): Promise<Harness> {
   };
 }
 
-function openClient(port: number): Promise<WebSocket> {
+function openClient(port: number, userId: number): Promise<WebSocket> {
   return new Promise((resolve, reject) => {
-    const ws = new WebSocket(`ws://127.0.0.1:${port}/ws/cades-signaling`);
+    const ws = new WebSocket(`ws://127.0.0.1:${port}/ws/cades-signaling`, {
+      headers: { "x-test-user-id": String(userId) },
+    });
     ws.once("open", () => resolve(ws));
     ws.once("error", reject);
   });
@@ -66,8 +75,8 @@ describe("cadesSignalingWs", () => {
 
   it("pairs two peers in the same room and notifies both with PEER_READY", async () => {
     harness = await startHarness();
-    const host = await openClient(harness.port);
-    const joiner = await openClient(harness.port);
+    const host = await openClient(harness.port, 100);
+    const joiner = await openClient(harness.port, 200);
 
     host.send(JSON.stringify({ type: "JOIN_ROOM", matchId: "m1", role: "host", userId: 100 }));
     joiner.send(JSON.stringify({ type: "JOIN_ROOM", matchId: "m1", role: "joiner", userId: 200 }));
@@ -84,8 +93,8 @@ describe("cadesSignalingWs", () => {
 
   it("relays OFFER from host to joiner only", async () => {
     harness = await startHarness();
-    const host = await openClient(harness.port);
-    const joiner = await openClient(harness.port);
+    const host = await openClient(harness.port, 1);
+    const joiner = await openClient(harness.port, 2);
     host.send(JSON.stringify({ type: "JOIN_ROOM", matchId: "m2", role: "host", userId: 1 }));
     joiner.send(JSON.stringify({ type: "JOIN_ROOM", matchId: "m2", role: "joiner", userId: 2 }));
     await nextMessage(host); // PEER_READY
@@ -102,8 +111,8 @@ describe("cadesSignalingWs", () => {
 
   it("rejects a second peer claiming an already-occupied role", async () => {
     harness = await startHarness();
-    const a = await openClient(harness.port);
-    const b = await openClient(harness.port);
+    const a = await openClient(harness.port, 1);
+    const b = await openClient(harness.port, 2);
     a.send(JSON.stringify({ type: "JOIN_ROOM", matchId: "m3", role: "host", userId: 1 }));
     b.send(JSON.stringify({ type: "JOIN_ROOM", matchId: "m3", role: "host", userId: 2 }));
     const err = await nextMessage(b);
@@ -115,8 +124,8 @@ describe("cadesSignalingWs", () => {
 
   it("notifies remaining peer with PEER_LEFT on partner disconnect", async () => {
     harness = await startHarness();
-    const host = await openClient(harness.port);
-    const joiner = await openClient(harness.port);
+    const host = await openClient(harness.port, 1);
+    const joiner = await openClient(harness.port, 2);
     host.send(JSON.stringify({ type: "JOIN_ROOM", matchId: "m4", role: "host", userId: 1 }));
     joiner.send(JSON.stringify({ type: "JOIN_ROOM", matchId: "m4", role: "joiner", userId: 2 }));
     await nextMessage(host);
@@ -130,7 +139,7 @@ describe("cadesSignalingWs", () => {
 
   it("returns ERROR for a relay message with no partner", async () => {
     harness = await startHarness();
-    const lone = await openClient(harness.port);
+    const lone = await openClient(harness.port, 1);
     lone.send(JSON.stringify({ type: "JOIN_ROOM", matchId: "m5", role: "host", userId: 1 }));
     lone.send(JSON.stringify({ type: "OFFER", matchId: "m5", sdp: "x" }));
     const err = await nextMessage(lone);
@@ -141,7 +150,7 @@ describe("cadesSignalingWs", () => {
 
   it("rejects malformed JSON", async () => {
     harness = await startHarness();
-    const ws = await openClient(harness.port);
+    const ws = await openClient(harness.port, 99);
     ws.send("{not json");
     const err = await nextMessage(ws);
     expect(err.type).toBe("ERROR");
@@ -149,9 +158,34 @@ describe("cadesSignalingWs", () => {
     ws.close();
   });
 
+  it("rejects JOIN_ROOM with userId mismatching the authed identity", async () => {
+    harness = await startHarness();
+    const ws = await openClient(harness.port, 1);
+    // Authed as 1, claims to be 999 — must be rejected.
+    ws.send(JSON.stringify({ type: "JOIN_ROOM", matchId: "m7", role: "host", userId: 999 }));
+    const err = await nextMessage(ws);
+    expect(err.type).toBe("ERROR");
+    expect(err.reason).toBe("identity_mismatch");
+  });
+
+  it("rejects unauthenticated connections at first message", async () => {
+    harness = await startHarness();
+    // openClient with NaN user → resolver returns null → connection
+    // is unauthorized.
+    const ws = await new Promise<WebSocket>((resolve, reject) => {
+      const w = new WebSocket(`ws://127.0.0.1:${harness!.port}/ws/cades-signaling`);
+      w.once("open", () => resolve(w));
+      w.once("error", reject);
+    });
+    ws.send(JSON.stringify({ type: "JOIN_ROOM", matchId: "m8", role: "host", userId: 1 }));
+    const err = await nextMessage(ws);
+    expect(err.type).toBe("ERROR");
+    expect(err.reason).toBe("unauthorized");
+  });
+
   it("getSignalingStatus reports rooms + paired/pending counts", async () => {
     harness = await startHarness();
-    const a = await openClient(harness.port);
+    const a = await openClient(harness.port, 1);
     a.send(JSON.stringify({ type: "JOIN_ROOM", matchId: "m6", role: "host", userId: 1 }));
     // Wait a tick so the server processes the JOIN.
     await new Promise((r) => setTimeout(r, 50));

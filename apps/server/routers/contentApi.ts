@@ -2,7 +2,7 @@
    CONTENT API — Serves static JSON data with server-side caching
    Replaces direct JSON imports on the client with tRPC procedures.
    ═══════════════════════════════════════════════════════ */
-import { publicProcedure, router } from "../_core/trpc";
+import { adminProcedure, publicProcedure, router } from "../_core/trpc";
 import { z } from "zod";
 import fs from "fs";
 import path from "path";
@@ -154,7 +154,9 @@ export const contentApiRouter = router({
   }),
 
   /* ── Cache invalidation (admin only) ── */
-  invalidateCache: publicProcedure.mutation(() => {
+  // Previously publicProcedure — anyone could spam this to force re-parse
+  // of large JSON content from disk on every read, a trivial DoS.
+  invalidateCache: adminProcedure.mutation(() => {
     loredexCache = null;
     cardsCache = null;
     loredexCacheTime = 0;
