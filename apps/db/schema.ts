@@ -22,6 +22,44 @@ export const users = mysqlTable("users", {
 export type User = typeof users.$inferSelect;
 export type InsertUser = typeof users.$inferInsert;
 
+/**
+ * User agreements — records every ToS / Privacy / Cookie acceptance
+ * with the policy version that was in force at the time. GDPR Art. 7
+ * requires demonstrable, recorded consent; this is that record.
+ *
+ * Schema:
+ *   - agreementType: which policy (terms_of_service, privacy_policy,
+ *     cookie_policy, etc.)
+ *   - version: a string identifier for the policy revision (we use
+ *     ISO date prefixes like "2026-05-05" so version ordering is
+ *     trivially time-ordered)
+ *   - agreedAt: when the user accepted
+ *   - ipHash: hash of the IP at acceptance time, in case we ever
+ *     need to defend the consent record against a "I never agreed"
+ *     dispute. We store a hash so the row itself isn't a PII liability.
+ *
+ * One row per (user, type, version). Re-acceptance of the same
+ * version is idempotent.
+ */
+export const userAgreements = mysqlTable(
+  "user_agreements",
+  {
+    id: int("id").autoincrement().primaryKey(),
+    userId: int("userId").notNull(),
+    agreementType: varchar("agreementType", { length: 64 }).notNull(),
+    version: varchar("version", { length: 32 }).notNull(),
+    agreedAt: timestamp("agreedAt").defaultNow().notNull(),
+    ipHash: varchar("ipHash", { length: 64 }),
+  },
+  (table) => ({
+    userIdx: index("idx_user_agreements_user").on(table.userId),
+    uniqueAcceptance: uniqueIndex(
+      "uniq_user_agreement_version",
+    ).on(table.userId, table.agreementType, table.version),
+  }),
+);
+export type UserAgreement = typeof userAgreements.$inferSelect;
+
 /* ═══════════════════════════════════════════════════════
    GAMIFICATION — Achievements, Progress, Ark Themes
    Designed franchise-agnostic: franchiseId scopes all data

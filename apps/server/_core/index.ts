@@ -519,6 +519,14 @@ async function startServer() {
       console.error("[WebhookEventsBootstrap] failed:", e),
     );
 
+    // Ensure user_agreements exists (migration 0063). New table for
+    // GDPR Art. 7 demonstrable-consent recording. Required by
+    // routers/account.ts (acceptAgreement / getAgreementStatus).
+    const { bootstrapUserAgreementsTable } = await import("../services/userAgreementsBootstrap");
+    bootstrapUserAgreementsTable().catch(e =>
+      console.error("[UserAgreementsBootstrap] failed:", e),
+    );
+
     // Ensure pvp_ratings exists (#7). Migration 0058 is orphaned
     // from _journal.json; without this table the pvpRanking router
     // throws on every read/write. Failure surface is "MMR badge +
