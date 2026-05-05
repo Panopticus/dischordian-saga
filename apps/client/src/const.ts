@@ -7,50 +7,33 @@ export { COOKIE_NAME, ONE_YEAR_MS } from "@shared/const";
 export const isGoogleLoginAvailable = (): boolean =>
   Boolean(import.meta.env.VITE_GOOGLE_CLIENT_ID);
 
-// Generate Google OAuth login URL at runtime so redirect URI reflects the current origin.
-export const getGoogleLoginUrl = () => {
-  const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
-  const redirectUri = `${window.location.origin}/api/oauth/callback`;
-
-  const url = new URL("https://accounts.google.com/o/oauth2/v2/auth");
-  url.searchParams.set("client_id", clientId);
-  url.searchParams.set("redirect_uri", redirectUri);
-  url.searchParams.set("response_type", "code");
-  url.searchParams.set("scope", "openid email profile");
-  url.searchParams.set("access_type", "offline");
-  url.searchParams.set("prompt", "consent");
-
+/**
+ * Routes go through `/api/oauth/start/<provider>` rather than building
+ * the provider URL on the client. The server generates a `state`
+ * nonce, stores it in an HttpOnly cookie, and redirects to the
+ * provider — this is what defeats CSRF on the OAuth callback.
+ *
+ * `returnTo` is preserved across the round-trip so a user who
+ * clicks "Sign in" from a deep page lands back on the same page.
+ */
+const buildStartUrl = (provider: "google" | "discord" | "github") => {
+  const returnTo = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+  const url = new URL(`/api/oauth/start/${provider}`, window.location.origin);
+  if (returnTo && returnTo !== "/") url.searchParams.set("returnTo", returnTo);
   return url.toString();
 };
+
+export const getGoogleLoginUrl = () => buildStartUrl("google");
 
 /** @deprecated Use getGoogleLoginUrl instead */
 export const getLoginUrl = getGoogleLoginUrl;
 
 export const getDiscordLoginUrl = () => {
-  const clientId = import.meta.env.VITE_DISCORD_CLIENT_ID;
-  if (!clientId) return null;
-
-  const redirectUri = `${window.location.origin}/api/oauth/callback/discord`;
-
-  const url = new URL("https://discord.com/api/oauth2/authorize");
-  url.searchParams.set("client_id", clientId);
-  url.searchParams.set("redirect_uri", redirectUri);
-  url.searchParams.set("response_type", "code");
-  url.searchParams.set("scope", "identify email");
-
-  return url.toString();
+  if (!import.meta.env.VITE_DISCORD_CLIENT_ID) return null;
+  return buildStartUrl("discord");
 };
 
 export const getGitHubLoginUrl = () => {
-  const clientId = import.meta.env.VITE_GITHUB_CLIENT_ID;
-  if (!clientId) return null;
-
-  const redirectUri = `${window.location.origin}/api/oauth/callback/github`;
-
-  const url = new URL("https://github.com/login/oauth/authorize");
-  url.searchParams.set("client_id", clientId);
-  url.searchParams.set("redirect_uri", redirectUri);
-  url.searchParams.set("scope", "read:user user:email");
-
-  return url.toString();
+  if (!import.meta.env.VITE_GITHUB_CLIENT_ID) return null;
+  return buildStartUrl("github");
 };

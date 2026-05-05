@@ -1,8 +1,10 @@
 import { COOKIE_NAME, REFRESH_COOKIE_NAME, ACCESS_TOKEN_MS, REFRESH_TOKEN_MS } from "@shared/const";
 import type { Express, Request, Response } from "express";
+import { randomBytes, timingSafeEqual } from "crypto";
 import * as db from "../db";
 import { getSessionCookieOptions } from "./cookies";
 import { sdk } from "./sdk";
+import { ENV } from "./env";
 
 function getQueryParam(req: Request, key: string): string | undefined {
   const value = req.query[key];
@@ -16,7 +18,114 @@ function isValidProvider(value: string): value is OAuthProvider {
   return VALID_PROVIDERS.has(value as OAuthProvider);
 }
 
+const STATE_COOKIE_PREFIX = "oauth_state_";
+const STATE_TTL_MS = 10 * 60 * 1000; // 10 min — long enough for slow user, short enough to limit replay window
+// Read per-request so tests can flip the env mid-suite. Defaults to
+// required in production, optional in dev (eases the client rollout
+// of the new /api/oauth/start route).
+function isStateRequired(): boolean {
+  const raw = process.env.OAUTH_STATE_REQUIRED;
+  if (raw === undefined) return ENV.isProduction;
+  return raw === "true";
+}
+
+const PROVIDER_AUTHORIZE_URLS: Record<OAuthProvider, string> = {
+  google: "https://accounts.google.com/o/oauth2/v2/auth",
+  discord: "https://discord.com/api/oauth2/authorize",
+  github: "https://github.com/login/oauth/authorize",
+};
+
+const PROVIDER_SCOPES: Record<OAuthProvider, string> = {
+  google: "openid email profile",
+  discord: "identify email",
+  github: "read:user user:email",
+};
+
+function getClientId(provider: OAuthProvider): string {
+  switch (provider) {
+    case "google":
+      return ENV.googleClientId;
+    case "discord":
+      return ENV.discordClientId;
+    case "github":
+      return ENV.githubClientId;
+  }
+}
+
+function buildRedirectUri(req: Request, provider: OAuthProvider): string {
+  const proto = req.get("x-forwarded-proto") || req.protocol;
+  const callbackPath = provider === "google"
+    ? "/api/oauth/callback"
+    : `/api/oauth/callback/${provider}`;
+  return `${proto}://${req.get("host")}${callbackPath}`;
+}
+
+/**
+ * Generate a CSRF-resistant `state` value: 32 bytes of randomness,
+ * base64url-encoded (43 chars). The same value is sent to the
+ * provider AND set in a short-lived HttpOnly cookie. On callback,
+ * cookie and query must match in constant time.
+ */
+function generateState(): string {
+  return randomBytes(32).toString("base64url");
+}
+
+function timingSafeEquals(a: string, b: string): boolean {
+  const ab = Buffer.from(a, "utf8");
+  const bb = Buffer.from(b, "utf8");
+  if (ab.length !== bb.length) return false;
+  return timingSafeEqual(ab, bb);
+}
+
 export function registerOAuthRoutes(app: Express) {
+  // ── OAuth start endpoint ──
+  // Generates a state nonce, stores it in an HttpOnly cookie, and
+  // redirects the user to the provider authorize URL with the same
+  // state. The callback handler (below) requires the state in the
+  // query to match the state in the cookie — defeats CSRF on auth.
+  //
+  // GET /api/oauth/start/:provider?returnTo=/foo
+  app.get("/api/oauth/start/:provider?", async (req: Request, res: Response) => {
+    const provider = (req.params.provider || "google").toLowerCase();
+    if (!isValidProvider(provider)) {
+      res.status(400).send(`Unknown OAuth provider: ${provider}`);
+      return;
+    }
+    const clientId = getClientId(provider);
+    if (!clientId) {
+      res.status(503).send(`Provider ${provider} not configured`);
+      return;
+    }
+
+    const state = generateState();
+    const cookieOptions = getSessionCookieOptions(req);
+    res.cookie(`${STATE_COOKIE_PREFIX}${provider}`, state, {
+      ...cookieOptions,
+      maxAge: STATE_TTL_MS,
+    });
+
+    // Optional: persist a returnTo path, scoped to same-origin.
+    const rawReturnTo = getQueryParam(req, "returnTo") ?? "/";
+    const returnTo = rawReturnTo.startsWith("/") && !rawReturnTo.startsWith("//") ? rawReturnTo : "/";
+    res.cookie(`${STATE_COOKIE_PREFIX}return_${provider}`, returnTo, {
+      ...cookieOptions,
+      maxAge: STATE_TTL_MS,
+    });
+
+    const redirectUri = buildRedirectUri(req, provider);
+    const authUrl = new URL(PROVIDER_AUTHORIZE_URLS[provider]);
+    authUrl.searchParams.set("client_id", clientId);
+    authUrl.searchParams.set("redirect_uri", redirectUri);
+    authUrl.searchParams.set("response_type", "code");
+    authUrl.searchParams.set("scope", PROVIDER_SCOPES[provider]);
+    authUrl.searchParams.set("state", state);
+    if (provider === "google") {
+      authUrl.searchParams.set("access_type", "offline");
+      authUrl.searchParams.set("prompt", "consent");
+    }
+    res.redirect(authUrl.toString());
+  });
+
   // ── Refresh token endpoint ──
   // Validates the refresh token, rotates it, and issues new access + refresh tokens.
   app.post("/api/refresh", async (req: Request, res: Response) => {
@@ -71,12 +180,49 @@ export function registerOAuthRoutes(app: Express) {
       return;
     }
 
+    // ── State validation (CSRF defense) ──
+    // Pulled from cookie set by /api/oauth/start. If the client did
+    // not go through /start, the cookie is absent — that's the
+    // legacy path. Production requires it; dev allows it but warns.
     try {
-      const proto = req.get("x-forwarded-proto") || req.protocol;
-      const callbackPath = provider === "google"
-        ? "/api/oauth/callback"
-        : `/api/oauth/callback/${provider}`;
-      const redirectUri = `${proto}://${req.get("host")}${callbackPath}`;
+      const { parse: parseCookieHeader } = await import("cookie");
+      const cookies = req.headers.cookie
+        ? parseCookieHeader(req.headers.cookie)
+        : {};
+      const expectedState = cookies[`${STATE_COOKIE_PREFIX}${provider}`];
+      const queryState = getQueryParam(req, "state");
+
+      if (expectedState || queryState) {
+        if (!expectedState || !queryState || !timingSafeEquals(expectedState, queryState)) {
+          console.warn(`[OAuth] ${provider} state mismatch — possible CSRF`, {
+            hasCookie: Boolean(expectedState),
+            hasQuery: Boolean(queryState),
+          });
+          res.status(400).json({ error: "OAuth state mismatch" });
+          return;
+        }
+      } else if (isStateRequired()) {
+        console.warn(`[OAuth] ${provider} missing state — rejecting`);
+        res.status(400).json({ error: "OAuth state required" });
+        return;
+      } else {
+        console.warn(`[OAuth] ${provider} legacy callback without state — accepting under OAUTH_isStateRequired()=false`);
+      }
+
+      // Always clear state cookies after read, regardless of outcome.
+      const cookieOptions = getSessionCookieOptions(req);
+      res.clearCookie(`${STATE_COOKIE_PREFIX}${provider}`, cookieOptions);
+    } catch (err) {
+      console.error(`[OAuth] ${provider} state-check error:`, err);
+      // Fail closed in production, open in dev.
+      if (isStateRequired()) {
+        res.status(500).json({ error: "OAuth state check failed" });
+        return;
+      }
+    }
+
+    try {
+      const redirectUri = buildRedirectUri(req, provider);
 
       // Resolve user info from the provider
       const userInfo = await sdk.resolveOAuthUser(provider, code, redirectUri);
