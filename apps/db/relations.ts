@@ -23,7 +23,6 @@ import {
   craftingLog,
   citizenCharacters,
   dreamBalance,
-  storeItems,
   storePurchases,
   shipUpgrades,
   playerBases,
@@ -167,11 +166,6 @@ export const dreamBalanceRelations = relations(dreamBalance, ({ one }) => ({
 // ═══ STORE ═══
 export const storePurchasesRelations = relations(storePurchases, ({ one }) => ({
   user: one(users, { fields: [storePurchases.userId], references: [users.id] }),
-  item: one(storeItems, { fields: [storePurchases.itemId], references: [storeItems.id] }),
-}));
-
-export const storeItemsRelations = relations(storeItems, ({ many }) => ({
-  purchases: many(storePurchases),
 }));
 
 // ═══ SHIP UPGRADES ═══

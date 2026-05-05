@@ -657,29 +657,6 @@ export type DreamBalance = typeof dreamBalance.$inferSelect;
    INTERGALACTIC MARKET — In-game store items & purchases
    ═══════════════════════════════════════════════════════ */
 
-export const storeItems = mysqlTable("store_items", {
-  id: int("id").autoincrement().primaryKey(),
-  name: varchar("name", { length: 128 }).notNull(),
-  description: text("description"),
-  category: mysqlEnum("category", [
-    "troop_upgrade", "skill_pack", "cosmetic", "booster",
-    "elite_pass", "story_extension", "ship_upgrade", "room_upgrade",
-    "dream_pack"
-  ]).notNull(),
-  /** Price in cents (USD) for real-money items, 0 = in-game currency only */
-  priceUsd: int("priceUsd").notNull().default(0),
-  /** Price in Dream tokens */
-  priceDream: int("priceDream").notNull().default(0),
-  /** Price in credits (in-game) */
-  priceCredits: int("priceCredits").notNull().default(0),
-  /** JSON: item effects, bonuses, contents */
-  itemData: json("itemData").$type<Record<string, unknown>>(),
-  isActive: int("isActive").notNull().default(1),
-  createdAt: timestamp("createdAt").defaultNow().notNull(),
-});
-
-export type StoreItem = typeof storeItems.$inferSelect;
-
 export const storePurchases = mysqlTable("store_purchases", {
   id: int("id").autoincrement().primaryKey(),
   userId: int("userId").notNull(),
@@ -3707,24 +3684,6 @@ export const playerEpochProgress = mysqlTable("player_epoch_progress", {
 
 export type PlayerEpochProgress = typeof playerEpochProgress.$inferSelect;
 
-export const mandelaEffects = mysqlTable("mandela_effects", {
-  id: int("id").autoincrement().primaryKey(),
-  triggeredByVote: varchar("triggeredByVote", { length: 50 }).notNull(),
-  entryId: varchar("entryId", { length: 100 }).notNull(),
-  fieldEdited: varchar("fieldEdited", { length: 100 }).notNull(),
-  originalValue: text("originalValue").notNull(),
-  editedValue: text("editedValue").notNull(),
-  active: int("active").notNull().default(1),
-  triggeredAt: timestamp("triggeredAt").defaultNow().notNull(),
-  restoredAt: timestamp("restoredAt"),
-  playersWhoNoticed: int("playersWhoNoticed").notNull().default(0),
-}, (table) => ({
-  idxActive: index("idx_mandela_active").on(table.active),
-  idxVote: index("idx_mandela_vote").on(table.triggeredByVote),
-}));
-
-export type MandelaEffect = typeof mandelaEffects.$inferSelect;
-
 /* ═══════════════════════════════════════════════════════
    MYSTERY ENGINE — Streamed Prism episodic detective layer
 
@@ -4737,70 +4696,6 @@ export const tutorialProgress = mysqlTable("tutorial_progress", {
 
 export type TutorialProgressRow = typeof tutorialProgress.$inferSelect;
 export type InsertTutorialProgress = typeof tutorialProgress.$inferInsert;
-
-/* ═══════════════════════════════════════════════════════
-   RANKED SEASONS — Competitive TCG ladder (WS8)
-   ═══════════════════════════════════════════════════════ */
-
-export const rankedSeasons = mysqlTable("ranked_seasons", {
-  id: int("id").autoincrement().primaryKey(),
-  seasonNumber: int("seasonNumber").notNull().unique(),
-  name: varchar("name", { length: 128 }).notNull(),
-  /** Ranked tiers: Bronze→Silver→Gold→Diamond→Master→Legend. */
-  tiers: json("tiers").$type<Array<{
-    id: string;
-    name: string;
-    minRating: number;
-    maxRating: number;
-    icon: string;
-  }>>(),
-  /** Starting rating for new players this season. */
-  startingRating: int("startingRating").notNull().default(1000),
-  /** K-factor for ELO calculation. */
-  kFactor: int("kFactor").notNull().default(32),
-  /** Season end rewards per tier (JSON). */
-  tierRewards: json("tierRewards").$type<Record<string, {
-    dreamTokens: number;
-    packCredits: number;
-    cardBackId?: string;
-    titleId?: string;
-  }>>(),
-  status: mysqlEnum("status", ["upcoming", "active", "ended"]).default("upcoming").notNull(),
-  startsAt: timestamp("startsAt").notNull(),
-  endsAt: timestamp("endsAt").notNull(),
-  createdAt: timestamp("createdAt").defaultNow().notNull(),
-});
-
-export type RankedSeasonRow = typeof rankedSeasons.$inferSelect;
-export type InsertRankedSeason = typeof rankedSeasons.$inferInsert;
-
-/**
- * Per-user ranked season record.
- */
-export const rankedRecords = mysqlTable("ranked_records", {
-  id: int("id").autoincrement().primaryKey(),
-  userId: int("userId").notNull(),
-  seasonId: int("seasonId").notNull(),
-  rating: int("rating").notNull().default(1000),
-  peakRating: int("peakRating").notNull().default(1000),
-  wins: int("wins").notNull().default(0),
-  losses: int("losses").notNull().default(0),
-  winStreak: int("winStreak").notNull().default(0),
-  bestWinStreak: int("bestWinStreak").notNull().default(0),
-  /** Current tier id (e.g. "gold_3"). */
-  currentTier: varchar("currentTier", { length: 32 }).default("bronze_1"),
-  /** Has this player received end-of-season rewards? */
-  rewardsClaimed: int("rewardsClaimed").notNull().default(0),
-  lastMatchAt: timestamp("lastMatchAt"),
-  createdAt: timestamp("createdAt").defaultNow().notNull(),
-  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
-}, (table) => ({
-  userSeasonIdx: uniqueIndex("uq_ranked_user_season").on(table.userId, table.seasonId),
-  ratingIdx: index("idx_ranked_rating").on(table.seasonId, table.rating),
-}));
-
-export type RankedRecordRow = typeof rankedRecords.$inferSelect;
-export type InsertRankedRecord = typeof rankedRecords.$inferInsert;
 
 /* ═══════════════════════════════════════════════════════
    CELEBRATION TRIAL — 28-day Apprentice training persistence
@@ -5976,22 +5871,6 @@ export const guildUnlockedPerks = mysqlTable("guild_unlocked_perks", {
 }));
 
 export type GuildUnlockedPerk = typeof guildUnlockedPerks.$inferSelect;
-
-/** Guild quest definitions — daily / weekly / seasonal objectives. */
-export const guildQuestDefinitions = mysqlTable("guild_quest_definitions", {
-  id: int("id").autoincrement().primaryKey(),
-  questKey: varchar("questKey", { length: 64 }).notNull().unique(),
-  scope: mysqlEnum("scope", ["daily", "weekly", "seasonal"]).notNull(),
-  name: varchar("name", { length: 128 }).notNull(),
-  description: text("description"),
-  /** Discriminated-union condition: { kind, threshold, ... } */
-  condition: json("condition").$type<Record<string, unknown>>().notNull(),
-  /** Reward bag: { guildXp, treasuryDream, bannerKey?, titleKey? } */
-  rewards: json("rewards").$type<Record<string, unknown>>().notNull(),
-  createdAt: timestamp("createdAt").defaultNow().notNull(),
-});
-
-export type GuildQuestDefinition = typeof guildQuestDefinitions.$inferSelect;
 
 /** Per-guild quest progress. Reset by cron on the appropriate cadence. */
 export const guildQuestProgress = mysqlTable("guild_quest_progress", {
