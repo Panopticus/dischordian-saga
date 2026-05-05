@@ -26,6 +26,7 @@ import {
   buildOpponentTauntHooks,
   type Act1OpponentDialog,
 } from "@shared/act1OpponentDialog";
+import { useAct1TauntsVO } from "@/hooks/useAct1TauntsVO";
 
 export type Act1TauntPhase = "early" | "mid" | "late";
 
@@ -62,8 +63,12 @@ export function Act1OpponentTauntOverlay({
     [dialog],
   );
   const [active, setActive] = useState<Act1TauntPhase | null>(null);
+  const tauntsVO = useAct1TauntsVO();
 
   // Follow parent-driven phase changes, then auto-clear after holdMs.
+  // If the dialog declares tauntVoIds (audit 2026-05-05 §4.1), also
+  // play the matching VO line. Lines whose VO id is missing from the
+  // manifest fall back to text-only — useNpcVO logs a warn.
   useEffect(() => {
     if (!hooks) return;
     if (!phase) {
@@ -71,12 +76,14 @@ export function Act1OpponentTauntOverlay({
       return;
     }
     setActive(phase);
+    const lineId = dialog?.tauntVoIds?.[phase];
+    if (lineId) tauntsVO.speak(lineId);
     if (!Number.isFinite(holdMs)) return;
     const timer = window.setTimeout(() => {
       setActive((current) => (current === phase ? null : current));
     }, holdMs);
     return () => window.clearTimeout(timer);
-  }, [hooks, phase, holdMs]);
+  }, [hooks, phase, holdMs, dialog, tauntsVO]);
 
   if (!hooks) return null;
   const text =
