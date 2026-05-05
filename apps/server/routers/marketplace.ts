@@ -563,6 +563,11 @@ export const marketplaceRouter = router({
         maxPriceCredits: input.maxPriceCredits,
         expiresAt,
       });
+
+      trackIncrement(ctx.user.id, "buy_orders_placed", 1).catch(e =>
+        logger.error("[Marketplace] Buy-order tracking failed:", e),
+      );
+
       return { success: true, orderId: Number(result.insertId) };
     }),
 
@@ -1165,6 +1170,17 @@ async function tryMatchExchangeOrders(db: DrizzleDb, orderId: number, userId: nu
     await db.update(currencyExchange)
       .set({ filledAmount: sql`${currencyExchange.filledAmount} + ${fillAmount}`, status: "filled" })
       .where(eq(currencyExchange.id, orderId));
+
+    // Both sides of the exchange just completed — fire achievement
+    // tracking for each. Audit follow-up: closes the
+    // marketStatsService surface that previously hard-coded these
+    // two stats to 0 because no emitter routed through.
+    trackIncrement(userId, "exchanges_completed", 1).catch(e =>
+      logger.error("[Marketplace] Exchange tracking failed (originator):", e),
+    );
+    trackIncrement(match.userId, "exchanges_completed", 1).catch(e =>
+      logger.error("[Marketplace] Exchange tracking failed (match):", e),
+    );
 
     break; // One match at a time
   }

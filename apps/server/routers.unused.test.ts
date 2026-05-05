@@ -7,9 +7,10 @@
  * client. Follow-up triage proved the count was inflated — most are
  * called server-internally during other client-facing operations, and
  * a handful are alias-mapped (e.g. `replaySystem` → `trpc.replay`).
- * But the original misread is easy to make again, and the few truly
- * dead routers (`questProgress`, `pvpRanking`) shouldn't be allowed
- * to grow back as a class.
+ * The two truly dead routers (`questProgress`, `pvpRanking`) were
+ * deleted in PR #433 (audit follow-up). The class of bug — a router
+ * shipping with no consumer — should not be allowed to grow back
+ * unnoticed.
  *
  * For each `key: <name>Router` registered in apps/server/routers.ts,
  * this test asserts at least one of:

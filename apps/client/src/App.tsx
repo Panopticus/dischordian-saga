@@ -9,6 +9,7 @@ import GameErrorBoundary from "./components/GameErrorBoundary";
 import RouteErrorBoundary from "./components/RouteErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { LoredexProvider } from "./contexts/LoredexContext";
+import { LoredexCompletionFlagWatcher } from "./components/LoredexCompletionFlagWatcher";
 import { PlayerProvider } from "./contexts/PlayerContext";
 import { GamificationProvider } from "./contexts/GamificationContext";
 import { GameProvider, useGame } from "./contexts/GameContext";
@@ -816,6 +817,7 @@ function App() {
               <AmbientMusicProvider>
               <GameAudioInner>
               <LoredexProvider>
+                <LoredexCompletionFlagWatcher />
                 <PlayerProvider>
                   <SagaThemeBGMProvider>
                   <TooltipProvider>

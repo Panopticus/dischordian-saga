@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { logger } from "../logger";
 import { grantCardReward } from "../services/cardRewardService";
+import { grantSuitMaterials } from "../services/suitMaterialsService";
 import { protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import { dailyQuests, loginCalendar, dreamBalance, notifications, characterSheets } from "../../db/schema";
@@ -405,6 +406,22 @@ export const dailyQuestsRouter = router({
       // Award civil skill XP (endurance + lore)
       const { awardCivilXp } = await import("../civilSkillHelper");
       awardCivilXp(ctx.user.id, "complete_quest").catch(e => logger.error("[DailyQuests] Civil XP award failed:", e));
+
+      // Suit-material drop: every claimed quest grants 1 brass-plate
+      // so the suit-craft pouch stays topped up over time. Crafting
+      // quests grant an extra brass-plate (the "Forge Worker"
+      // questType: "craft" entries become a small pipeline). Routed
+      // through the shared service so the suit-craft mutation reads
+      // a consistent pouch shape.
+      const suitGrant = record[0].questId === "d_craft_item" ||
+        record[0].questId === "d_gather_materials"
+        ? 2
+        : 1;
+      grantSuitMaterials(ctx.user.id, [
+        { materialId: "brass-plate", count: suitGrant },
+      ]).catch((e) =>
+        logger.error("[DailyQuests] Suit-material grant failed:", e),
+      );
 
       await ripple.emit("daily_quest_complete", { userId: ctx.user.id });
 

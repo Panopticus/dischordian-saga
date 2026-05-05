@@ -225,3 +225,76 @@ describe("seerProphecy — deriveSeerOutcome (§5 priority rules)", () => {
     ).toBeNull();
   });
 });
+
+/* ─── forceSeerPlayWithReroute (card-pool contradiction reroute) ─── */
+
+import { produce } from "immer";
+import { forceSeerPlayWithReroute } from "./seerProphecy";
+import { buildBareState, makeCardInstance } from "../test/fixtures/stateBuilder";
+import { createRng } from "./rng";
+import type { GameEvent } from "../types/Event";
+import type { CardRegistry } from "../types/GameState";
+import type { ReduceCtx } from "./reducer";
+import type { EntityId } from "../types/Ids";
+
+function makeReduceCtx(events: GameEvent[], registry: CardRegistry, rngState: string): ReduceCtx {
+  return {
+    events,
+    rng: createRng(rngState, true),
+    registry,
+  };
+}
+
+const NULL_REGISTRY: CardRegistry = {
+  get: () => undefined,
+  has: () => false,
+  listAll: () => [],
+};
+
+describe("forceSeerPlayWithReroute — silent reroute on contradiction", () => {
+  it("returns false (no play) when both seer hand and deck are empty", () => {
+    const s = buildBareState({ seed: "seer-empty" });
+    const events: GameEvent[] = [];
+    const ctx = makeReduceCtx(events, NULL_REGISTRY, s.rngState);
+    const next = produce(s, (draft) => {
+      // Seer's hand + deck are empty in buildBareState; force a play
+      // for a card that doesn't exist anywhere.
+      const ok = forceSeerPlayWithReroute(draft, "card_that_does_not_exist", ctx);
+      expect(ok).toBe(false);
+    });
+    // No play landed → no scripted_action_fired event.
+    expect(events.find((e) => e.type === "scripted_action_fired")).toBeUndefined();
+    void next;
+  });
+
+  it("falls back to a card from hand when the requested card isn't there", () => {
+    const FALLBACK_DEF = "fallback_card_def";
+    const s0 = buildBareState({ seed: "seer-fallback" });
+    const s = produce(s0, (draft) => {
+      // Stock the seer's hand with a fallback card so sampleSeerFutureCard
+      // has something to pick when the original cardDefId fizzles.
+      draft.players[1].hand = [
+        makeCardInstance("h_fallback" as unknown as string, FALLBACK_DEF, 1 as 0 | 1),
+      ];
+    });
+    const events: GameEvent[] = [];
+    const ctx = makeReduceCtx(events, NULL_REGISTRY, s.rngState);
+    produce(s, (draft) => {
+      // Requested card is NOT present (was "removed by player effects").
+      forceSeerPlayWithReroute(draft, "removed_by_player", ctx);
+    });
+    // The original "skipped" event should NOT appear (silent reroute
+    // dropped it). A scripted_action_fired tagged with the FALLBACK
+    // cardDefId should appear instead, OR a downstream skip from the
+    // play_card error path. Either way, we must NOT see the original
+    // missing-card skip.
+    expect(
+      events.find(
+        (e) =>
+          e.type === "scripted_action_skipped" &&
+          (e as { reason?: string }).reason === "seer_card_not_in_hand_or_deck" &&
+          (e as { cardDefId?: string }).cardDefId === "removed_by_player",
+      ),
+    ).toBeUndefined();
+  });
+});

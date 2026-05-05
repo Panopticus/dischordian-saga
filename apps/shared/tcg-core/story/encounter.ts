@@ -99,9 +99,11 @@ export interface StoryEncounter {
   /**
    * Optional §4.9 Seer prophecy-mode opt-in. Forwarded to the
    * engine via createMatchState. When set, the match starts with a
-   * seerProphecy state; the reducer (in a follow-up PR) bakes the
-   * pending future at each turn-refresh. Only current user is
-   * `chSeerVisit`. See docs/production/act1/seer-prophecy-mechanic.md.
+   * seerProphecy state; the reducer bakes the pending future at
+   * each turn-refresh (engine/reducer.ts seerProphecy block) and
+   * silently reroutes on contradiction (engine/targeting.ts +
+   * engine/seerProphecy.ts forceSeerPlayWithReroute). Only current
+   * user is `chSeerVisit`. See docs/production/act1/seer-prophecy-mechanic.md.
    */
   prophecyMode?: ProphecyModeConfig;
 }

@@ -242,6 +242,11 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
   // service layer; the `useEffect` below calls it.
   const reportBurntCardWitnessed =
     trpc.dreamerAwareness.reportBurntCardWitnessed.useMutation();
+  // Retroactive delivery of the burnt_card_placeholder when the
+  // Seer's defeated outcome resolves (spec §3.3 winnable-path key
+  // card). Server-side mutation is idempotent — see
+  // apps/server/routers/cardGame.ts grantBurntCardPlaceholder.
+  const grantBurntCard = trpc.cardGame.grantBurntCardPlaceholder.useMutation();
 
   // PR — quest-complete toast: when the server reports `completed:
   // true` on an updateProgress resolution, surface it so the player
@@ -875,11 +880,16 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
       // are silent.
       if (outcome === "defeated") {
         reportBurntCardWitnessed.mutate(undefined as never);
+        // Retroactive delivery of the burnt_card_placeholder. The
+        // mutation is idempotent server-side; calling it on every
+        // defeated outcome is safe even if the player has already
+        // received the card.
+        grantBurntCard.mutate(undefined as never);
       }
     }
     setNarrativeFlag(SEER_STAFF_WITNESSED_FLAG, true);
     setNarrativeFlag(ACT1_CYCLE_B_COMPLETE_FLAG, true);
-  }, [gameState, setNarrativeFlag, reportBurntCardWitnessed]);
+  }, [gameState, setNarrativeFlag, reportBurntCardWitnessed, grantBurntCard]);
 
   // §4.9 match-start screen-reader announcement (spec §6.3). Fires
   // exactly once per playthrough when seerProphecy first appears on

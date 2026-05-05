@@ -4,10 +4,10 @@
    Follows the same architecture as pvpWs.ts.
 
    STATUS (2026-05-05): backend-complete, awaiting client connector.
-   The WS is mounted at /api/duelyst-pvp and exercised by 6+ tests
+   The WS is mounted at /api/duelyst-pvp and exercised by 5+ tests
    (heatWiring, replayProducer, replayVerification, task4-resilience,
-   matchLengthMonitor, pvpRanking) but no client opens a socket here
-   yet — DuelystPage is currently single-player. Do NOT delete; this
+   matchLengthMonitor) but no client opens a socket here yet —
+   DuelystPage is currently single-player. Do NOT delete; this
    is the multiplayer surface for when the client connector lands.
    See docs/HIDDEN_SYSTEMS_AUDIT_2026-05.md §2.3.
 
