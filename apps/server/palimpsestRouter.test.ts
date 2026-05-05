@@ -83,6 +83,9 @@ function createAuthContext(userId = 777): TrpcContext {
     updatedAt: new Date(),
     lastSignedIn: new Date(),
     deletedAt: null,
+    signupWeek: null,
+    installSource: null,
+    abVariant: null,
   };
 
   return {

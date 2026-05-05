@@ -5,6 +5,17 @@ import { InsertUser, users } from "../db/schema";
 import { ENV } from './_core/env';
 import { isReservedName, normalizeDisplayName } from "../shared/usernamePolicy";
 
+/** ISO-week formatter ("2026-W18"). Cheap inline implementation
+ *  matching MySQL DATE_FORMAT(_, '%x-W%v') semantics. */
+function isoWeek(date: Date): string {
+  const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+  const dayNum = d.getUTCDay() || 7;
+  d.setUTCDate(d.getUTCDate() + 4 - dayNum);
+  const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+  const weekNo = Math.ceil(((d.getTime() - yearStart.getTime()) / 86400000 + 1) / 7);
+  return `${d.getUTCFullYear()}-W${String(weekNo).padStart(2, "0")}`;
+}
+
 /** Re-usable type for the drizzle DB instance */
 export type DrizzleDb = ReturnType<typeof drizzle>;
 
@@ -139,6 +150,14 @@ export async function upsertUser(user: InsertUser): Promise<void> {
     if (!values.lastSignedIn) {
       values.lastSignedIn = new Date();
     }
+
+    // G27 — set signupWeek on first insert. ON DUPLICATE KEY UPDATE
+    // keeps the original value, so existing accounts don't get
+    // re-stamped with the current week. installSource and abVariant
+    // are populated by the OAuth callback when present (referrer +
+    // UTM resolution); upsertUser doesn't have access to those.
+    const now = values.lastSignedIn ?? new Date();
+    values.signupWeek = isoWeek(now);
 
     if (Object.keys(updateSet).length === 0) {
       updateSet.lastSignedIn = new Date();

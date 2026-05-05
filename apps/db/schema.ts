@@ -14,9 +14,17 @@ export const users = mysqlTable("users", {
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
   lastSignedIn: timestamp("lastSignedIn").defaultNow().notNull(),
   deletedAt: timestamp("deletedAt"),
+  // Cohort tagging (G27) — derived at signup, immutable.
+  /** ISO-week identifier ("2026-W18") for trivial cohort filters. */
+  signupWeek: varchar("signupWeek", { length: 8 }),
+  /** Coarse install-source bucket: organic / paid / referral / partner. */
+  installSource: varchar("installSource", { length: 32 }),
+  /** A/B variant assignment at signup (e.g. "tutorial-v2:control"). */
+  abVariant: varchar("abVariant", { length: 64 }),
 }, (table) => ({
   createdAtIdx: index("idx_users_created_at").on(table.createdAt),
   lastSignedInIdx: index("idx_users_last_signed_in").on(table.lastSignedIn),
+  signupWeekIdx: index("idx_users_signup_week").on(table.signupWeek),
 }));
 
 export type User = typeof users.$inferSelect;
