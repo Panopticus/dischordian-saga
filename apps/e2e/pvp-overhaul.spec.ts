@@ -1,6 +1,7 @@
 import { test, expect } from "@playwright/test";
 import { existsSync } from "node:fs";
-import { join } from "node:path";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 
 // ---------------------------------------------------------------------------
 // PvP Overhaul — happy-path smoke tests for the new systems.
@@ -10,6 +11,7 @@ import { join } from "node:path";
 // JWT_SECRET env vars set); otherwise they skip with a clear message.
 // ---------------------------------------------------------------------------
 
+const __dirname = dirname(fileURLToPath(import.meta.url));
 const HAS_AUTH = existsSync(join(__dirname, ".auth", "storageState.json"));
 
 test.describe("PvP overhaul — public route registration", () => {

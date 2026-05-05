@@ -215,8 +215,31 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Cache Playwright browsers
+        # Browser binary is ~170MB. Caching avoids re-downloading
+        # on every run and removes the dominant e2e-job fail mode
+        # (chromium download failing transient).
+        id: pw-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-1.59.1
+
       - name: Install Playwright browsers
-        run: pnpm exec playwright install --with-deps chromium
+        # GitHub-hosted ubuntu-latest already has the system libs
+        # Chromium needs, so `--with-deps` is redundant. Retry once
+        # if the first download fails — historically the dominant
+        # cause of this job going red.
+        run: |
+          for i in 1 2 3; do
+            if pnpm exec playwright install chromium; then
+              exit 0
+            fi
+            echo "::warning::playwright install attempt $i failed; retrying"
+            sleep 5
+          done
+          echo "::error::playwright install failed after 3 attempts"
+          exit 1
 
       - name: Wait for MySQL to be ready
         run: |
