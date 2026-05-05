@@ -60,6 +60,34 @@ export const userAgreements = mysqlTable(
 );
 export type UserAgreement = typeof userAgreements.$inferSelect;
 
+/**
+ * User 2FA — TOTP secret + hashed backup codes.
+ *
+ * One row per user. The TOTP secret is stored as base32 plaintext
+ * (it must be retrievable to verify codes) — the database is the
+ * trust boundary, so guard it accordingly. Backup codes are
+ * sha256-hashed and stored as a JSON array; on use we burn the
+ * matching hash from the array.
+ *
+ * Required for admin role; optional for regular users.
+ */
+export const userTwoFactor = mysqlTable(
+  "user_two_factor",
+  {
+    userId: int("userId").primaryKey(),
+    /** base32 TOTP secret. Generated server-side; revealed once on enroll. */
+    secret: varchar("secret", { length: 64 }).notNull(),
+    /** Hashed backup codes — JSON array of sha256 hex strings. */
+    backupCodeHashes: json("backupCodeHashes").$type<string[]>().notNull(),
+    /** True iff the user has confirmed enrollment by entering a valid code. */
+    confirmed: boolean("confirmed").notNull().default(false),
+    enrolledAt: timestamp("enrolledAt").defaultNow().notNull(),
+    confirmedAt: timestamp("confirmedAt"),
+    lastUsedAt: timestamp("lastUsedAt"),
+  },
+);
+export type UserTwoFactor = typeof userTwoFactor.$inferSelect;
+
 /* ═══════════════════════════════════════════════════════
    GAMIFICATION — Achievements, Progress, Ark Themes
    Designed franchise-agnostic: franchiseId scopes all data

@@ -537,6 +537,13 @@ async function startServer() {
       console.error("[StatSanityBootstrap] failed:", e),
     );
 
+    // Ensure user_two_factor exists (migration 0065). Required by
+    // the 2FA enrollment / verification router.
+    const { bootstrapUserTwoFactorTable } = await import("../services/userTwoFactorBootstrap");
+    bootstrapUserTwoFactorTable().catch(e =>
+      console.error("[UserTwoFactorBootstrap] failed:", e),
+    );
+
     // Ensure pvp_ratings exists (#7). Migration 0058 is orphaned
     // from _journal.json; without this table the pvpRanking router
     // throws on every read/write. Failure surface is "MMR badge +

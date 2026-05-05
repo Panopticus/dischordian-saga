@@ -134,11 +134,13 @@ import { architectDossierRouter } from "./routers/architectDossier";
 import { dreamerDossierRouter } from "./routers/dreamerDossier";
 import { watcherRouter } from "./routers/watcher";
 import { accountRouter } from "./routers/account";
+import { twoFactorRouter } from "./routers/twoFactor";
 
 export const appRouter = router({
   collection: collectionRouter,
   system: systemRouter,
   account: accountRouter,
+  twoFactor: twoFactorRouter,
   cardGame: cardGameRouter,
   ark: arkRouter,
   trophy: trophyRouter,
