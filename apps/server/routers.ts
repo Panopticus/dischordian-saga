@@ -48,6 +48,7 @@ import { moralityLeaderboardRouter } from "./routers/moralityLeaderboard";
 import { companionRouter } from "./routers/companion";
 import { romanceRouter } from "./routers/romance";
 import { encounterRouter } from "./routers/encounter";
+import { coNexusTomesRouter } from "./routers/coNexusTomes";
 import { marketplaceRouter } from "./routers/marketplace";
 import { dailyQuestsRouter } from "./routers/dailyQuests";
 import { bonusObjectivesRouter } from "./routers/bonusObjectives";
@@ -192,6 +193,7 @@ export const appRouter = router({
   companion: companionRouter,
   romance: romanceRouter,
   encounter: encounterRouter,
+  coNexusTomes: coNexusTomesRouter,
   marketplace: marketplaceRouter,
   quests: dailyQuestsRouter,
   bonusObjectives: bonusObjectivesRouter,
