@@ -79,7 +79,7 @@ function JournalEntryCard({ entry, expanded, onToggle, index }: {
       initial={{ opacity: 0, y: 6 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.04 }}
-      className="border void-border bg-gradient-to-b from-amber-950/15 to-amber-950/5 rounded-lg overflow-hidden"
+      className="border void-border void-bg-sunk rounded-lg overflow-hidden"
       data-testid={`journal-${entry.transmissionId}`}
     >
       <button onClick={onToggle} className="w-full text-left p-4 void-bg-sunk transition-colors">

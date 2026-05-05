@@ -44,17 +44,17 @@ export default function MolGarathTrapsFeedPage() {
   return (
     <div
       data-page="mol-garath-traps-feed"
-      className="min-h-screen bg-zinc-950 text-zinc-100 px-6 py-8"
+      className="min-h-screen void-bg-canvas void-text px-6 py-8"
     >
       <header className="max-w-4xl mx-auto mb-8 flex items-center justify-between">
         <Link
           href="/mol-garath-audience"
-          className="inline-flex items-center gap-2 text-zinc-400 hover:text-zinc-100 transition-colors"
+          className="inline-flex items-center gap-2 void-text void-text transition-colors"
         >
           <ChevronLeft size={18} />
           <span>Audience Chamber</span>
         </Link>
-        <div className="text-zinc-500 text-xs uppercase tracking-widest">
+        <div className="void-text text-xs uppercase tracking-widest">
           Mol'Garath's Reading Desk
         </div>
       </header>
@@ -63,7 +63,7 @@ export default function MolGarathTrapsFeedPage() {
         <h1 className="text-2xl font-semibold mb-2">
           The List of Traps Still Being Designed
         </h1>
-        <p className="text-zinc-400 italic mb-8">
+        <p className="void-text italic mb-8">
           {audienceComplete
             ? "Updated every hour. The Archivist refreshes the page when the universe coughs."
             : "The Archivist has not yet shown you this list. Complete his audience first."}
@@ -85,7 +85,7 @@ export default function MolGarathTrapsFeedPage() {
 
 function LockedState() {
   return (
-    <div className="flex flex-col items-center gap-4 py-24 text-zinc-500">
+    <div className="flex flex-col items-center gap-4 py-24 void-text">
       <Lock size={48} className="opacity-50" />
       <p className="text-center max-w-md">
         Mol'Garath does not surface this archive to those who haven't sat with
@@ -108,7 +108,7 @@ function TrapEntry({
   return (
     <li
       className={`rounded-lg border p-5 ${
-        live ? "border-amber-700/50 bg-amber-950/10" : "border-zinc-800 bg-zinc-900/40"
+        live ? "void-border void-bg-sunk" : "void-border void-bg-canvas"
       }`}
       data-trap={trap.id}
       data-live={live ? "true" : "false"}
@@ -116,24 +116,24 @@ function TrapEntry({
       <div className="flex items-start gap-3">
         <Activity
           size={18}
-          className={`shrink-0 mt-0.5 ${live ? "text-amber-400" : "text-zinc-600"}`}
+          className={`shrink-0 mt-0.5 ${live ? "void-text-accent" : "void-text"}`}
           aria-hidden="true"
         />
         <div className="flex-1 min-w-0">
           <div className="flex items-center justify-between gap-2 mb-1">
-            <h3 className="font-medium text-zinc-100">{trap.label}</h3>
+            <h3 className="font-medium void-text">{trap.label}</h3>
             <span
               className={`text-xs uppercase tracking-widest shrink-0 ${
-                live ? "text-amber-300" : "text-zinc-600"
+                live ? "void-text-accent" : "void-text"
               }`}
             >
               {live ? "live" : "watched"}
             </span>
           </div>
-          <p className="text-sm text-zinc-300 leading-relaxed mb-3">
+          <p className="text-sm void-text leading-relaxed mb-3">
             {trap.description}
           </p>
-          <div className="grid sm:grid-cols-2 gap-x-4 gap-y-1 text-xs text-zinc-500">
+          <div className="grid sm:grid-cols-2 gap-x-4 gap-y-1 text-xs void-text">
             <div>
               <span className="uppercase tracking-widest">Designer · </span>
               <span className="italic">{DESIGNER_LABEL[trap.designer]}</span>

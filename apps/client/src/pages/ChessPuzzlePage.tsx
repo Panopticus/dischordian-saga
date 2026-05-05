@@ -110,7 +110,7 @@ export default function ChessPuzzlePage() {
         </p>
       </header>
 
-      <section className="mb-6 p-4 border border-void-border/40 rounded bg-void-bg/40">
+      <section className="mb-6 p-4 border border-void-border rounded bg-void-bg/40">
         <p className="text-sm italic text-void-text">{intro}</p>
       </section>
 
