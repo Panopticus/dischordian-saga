@@ -246,6 +246,11 @@ export const accountRouter = router({
         reason: input.reason ?? null,
       });
 
+      // Capture the email address before we null it so we can send
+      // the confirmation. After this update completes the email is
+      // gone — that's intentional from a PII standpoint.
+      const emailToNotify = ctx.user.email;
+
       await db
         .update(users)
         .set({
@@ -254,6 +259,21 @@ export const accountRouter = router({
           deletedAt: new Date(),
         })
         .where(eq(users.id, ctx.user.id));
+
+      // Best-effort confirmation email. If RESEND_API_KEY isn't set
+      // the service no-ops cleanly — same behaviour as before.
+      if (emailToNotify) {
+        const { sendEmail, renderAccountDeletedEmail } = await import("../services/emailService");
+        const tmpl = renderAccountDeletedEmail({ graceWindowDays: 30, recoverUrl: null });
+        sendEmail({
+          to: emailToNotify,
+          subject: tmpl.subject,
+          html: tmpl.html,
+          text: tmpl.text,
+          category: "account_deletion",
+          idempotencyKey: `account-delete-${ctx.user.id}-${Date.now()}`,
+        }).catch(() => {/* logged inside service */});
+      }
 
       // Best-effort downstream: clear local Dream balance + game state
       // immediately. The cron will sweep dependent tables after the
