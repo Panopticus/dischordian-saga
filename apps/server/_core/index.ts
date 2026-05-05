@@ -527,6 +527,16 @@ async function startServer() {
       console.error("[UserAgreementsBootstrap] failed:", e),
     );
 
+    // Stat-sanity CHECK constraints (migration 0064). Defense-in-depth
+    // on top of the application-level conditional UPDATEs from G4 —
+    // any code path that bypasses the routers still can't write a
+    // negative balance. Idempotent: ALTER+CHECK that's already
+    // present is logged as "skipped".
+    const { bootstrapStatSanityConstraints } = await import("../services/statSanityBootstrap");
+    bootstrapStatSanityConstraints().catch(e =>
+      console.error("[StatSanityBootstrap] failed:", e),
+    );
+
     // Ensure pvp_ratings exists (#7). Migration 0058 is orphaned
     // from _journal.json; without this table the pvpRanking router
     // throws on every read/write. Failure surface is "MMR badge +
