@@ -18,6 +18,17 @@ const adminProcedure = protectedProcedure.use(({ ctx, next }) => {
 });
 
 export const adminRouter = router({
+  // ═══ ABUSE DETECTION ═══
+  // On-demand sweep — runs the heuristic queries from
+  // services/abuseDetection.ts and returns the flagged accounts /
+  // pairs / sessions for moderator review. Read-only; no auto-bans.
+  abuseSweep: adminProcedure.query(async () => {
+    const db = await getDb();
+    if (!db) return null;
+    const { runAbuseSweep } = await import("../services/abuseDetection");
+    return runAbuseSweep(db);
+  }),
+
   // ═══ DASHBOARD STATS ═══
   dashboardStats: adminProcedure.query(async () => {
     const db = await getDb();
