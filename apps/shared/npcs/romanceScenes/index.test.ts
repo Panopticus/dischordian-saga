@@ -1,7 +1,10 @@
 import { describe, it, expect } from "vitest";
 
-import { ROMANCE_LADDERS, ROMANCE_NPC_IDS } from "../../romanceLadders";
-import { ROMANCE_SCENE_BANKS } from "./index";
+import {
+  ROMANCE_COMMITTED_FLAGS,
+  ROMANCE_NPC_IDS,
+  ROMANCE_SCENE_BANKS,
+} from "./index";
 
 describe("romance scene banks coverage", () => {
   it("ships a scene bank for every romance candidate", () => {
@@ -15,29 +18,28 @@ describe("romance scene banks coverage", () => {
   it("every bank has at least two scenes per ladder stage (open + close)", () => {
     for (const id of ROMANCE_NPC_IDS) {
       const bank = ROMANCE_SCENE_BANKS[id];
-      const ladder = ROMANCE_LADDERS[id];
-      for (const stage of ladder.stages) {
+      for (const stage of [1, 2, 3, 4, 5] as const) {
         const hits = bank.filter((line) =>
-          line.lineId.includes(`.s${stage.stage}.`)
+          line.lineId.includes(`.s${stage}.`)
         );
         expect(
           hits.length,
-          `${id} stage ${stage.stage} has ${hits.length} scenes (need >= 2)`,
+          `${id} stage ${stage} has ${hits.length} scenes (need >= 2)`,
         ).toBeGreaterThanOrEqual(2);
       }
     }
   });
 
-  it("every committed-romance flag is set somewhere in the bank", () => {
+  it("every committed-romance flag is set somewhere in its bank", () => {
     for (const id of ROMANCE_NPC_IDS) {
       const bank = ROMANCE_SCENE_BANKS[id];
-      const committedFlag = ROMANCE_LADDERS[id].committedFlag;
+      const committedFlag = ROMANCE_COMMITTED_FLAGS[id];
       const flagSetters = bank.filter((line) =>
         (line.setsFlags ?? []).includes(committedFlag),
       );
       expect(
         flagSetters.length,
-        `${id} bank should set ${committedFlag} on at least one stage-3 scene`,
+        `${id} bank should set ${committedFlag}`,
       ).toBeGreaterThan(0);
     }
   });
@@ -76,14 +78,14 @@ describe("romance scene banks coverage", () => {
     expect(betrayal).toBeDefined();
   });
 
-  it("every stage-5 scene fires at minAct >= 7 (Act 7 / post-arc devotion)", () => {
+  it("every stage-5 scene fires at minAct >= 6 (post-arc devotion)", () => {
     for (const id of ROMANCE_NPC_IDS) {
       const bank = ROMANCE_SCENE_BANKS[id];
       const stage5 = bank.filter((l) => l.lineId.includes(".s5."));
       for (const scene of stage5) {
         expect(
           scene.minAct ?? 0,
-          `${scene.lineId} should be act 7+`,
+          `${scene.lineId} should be act 6+`,
         ).toBeGreaterThanOrEqual(6);
       }
     }

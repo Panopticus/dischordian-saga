@@ -343,6 +343,31 @@ export const NPC_REGISTRY: Readonly<Record<NpcKey, NpcProfile>> = {
       authoringScope: "~88 lines (cinematic + dream + memory; bible §5.5)",
     },
   },
+
+  jericho_jones: {
+    npcKey: "jericho_jones",
+    name: "Jericho Jones",
+    role: "Heart of Time pilot / mercy-killed Akai Shi at Thaloria",
+    trustBands: [
+      { band: "Stranger", threshold: 0 },
+      { band: "Acquaintance", threshold: 20 },
+      { band: "Crew", threshold: 45 },
+      { band: "Confidant", threshold: 70 },
+      { band: "Sworn", threshold: 90 },
+    ],
+    axisOfInterest: ["mercy", "vigilance"],
+    personalityArchetypes: ["pre_thaloria", "thaloria_known", "heart_offered", "aboard"],
+    revealStages: ["pre_thaloria", "thaloria_known", "heart_offered", "aboard"],
+    expressionChannels: ["verbal"],
+    primaryRoom: "ark-bay-heart-of-time",
+    signatureMonologueLineId: "jericho.thaloria.confess",
+    metadata: {
+      pronouns: "he/him",
+      ship: "Heart of Time (chrono-engine, two berths, the second moved Act 5)",
+      defining_event: "Mercy-kill of Akai Shi at Thaloria; canonical Insurgency dovetail",
+      authoringScope: "~26 lines bank + 10-scene romance ladder",
+    },
+  },
 } as const;
 
 // --- Helpers ---------------------------------------------------------------
