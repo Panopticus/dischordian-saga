@@ -224,10 +224,24 @@ export default function ShaderOverlay({
 
     rafRef.current = requestAnimationFrame(animate);
 
+    // WebGL context-loss handlers — mobile tab-suspend / resume.
+    const onContextLost = (e: Event) => {
+      e.preventDefault();
+      cancelAnimationFrame(rafRef.current);
+    };
+    const onContextRestored = () => {
+      rafRef.current = requestAnimationFrame(animate);
+    };
+    const canvas = renderer.domElement;
+    canvas.addEventListener("webglcontextlost", onContextLost, false);
+    canvas.addEventListener("webglcontextrestored", onContextRestored, false);
+
     // Cleanup
     return () => {
       cancelAnimationFrame(rafRef.current);
       window.removeEventListener("resize", onResize);
+      canvas.removeEventListener("webglcontextlost", onContextLost);
+      canvas.removeEventListener("webglcontextrestored", onContextRestored);
 
       cinematic.dispose();
       composerRef.current = null;

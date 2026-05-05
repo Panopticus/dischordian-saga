@@ -1864,18 +1864,79 @@ const glowFragmentShader = `
 const textureLoader = new THREE.TextureLoader();
 textureLoader.crossOrigin = "anonymous";
 
-// Cache textures
-const textureCache = new Map<string, THREE.Texture>();
+// Cache textures with reference counting + LRU bound. The audit
+// flagged this Map as a memory-leak vector — every revisit added a
+// texture that was never disposed. Behaviour now:
+//   - First use of a URL: load + insert.
+//   - Subsequent uses: bump refcount.
+//   - Caller calls releaseCharacterTexture(url) on unmount;
+//     refcount → 0 evicts and disposes.
+//   - Ceiling of MAX_TEXTURE_CACHE_SIZE; oldest unreferenced
+//     entries are disposed when the cache is full.
+const MAX_TEXTURE_CACHE_SIZE = 64;
+interface CachedTexture {
+  texture: THREE.Texture;
+  refs: number;
+  /** Insertion order — bumped on access for crude LRU. */
+  lastTouchedAt: number;
+}
+const textureCache = new Map<string, CachedTexture>();
 
 function loadCharacterTexture(url: string): THREE.Texture {
-  if (textureCache.has(url)) return textureCache.get(url)!;
-  
+  const existing = textureCache.get(url);
+  if (existing) {
+    existing.refs++;
+    existing.lastTouchedAt = performance.now();
+    return existing.texture;
+  }
+
+  // Evict the oldest unreferenced entry if at capacity.
+  if (textureCache.size >= MAX_TEXTURE_CACHE_SIZE) {
+    let oldestKey: string | null = null;
+    let oldestAt = Infinity;
+    for (const [k, v] of textureCache) {
+      if (v.refs > 0) continue;
+      if (v.lastTouchedAt < oldestAt) {
+        oldestAt = v.lastTouchedAt;
+        oldestKey = k;
+      }
+    }
+    if (oldestKey) {
+      const evicted = textureCache.get(oldestKey)!;
+      evicted.texture.dispose();
+      textureCache.delete(oldestKey);
+    }
+  }
+
   const texture = textureLoader.load(url);
   texture.minFilter = THREE.LinearFilter;
   texture.magFilter = THREE.LinearFilter;
   texture.colorSpace = THREE.SRGBColorSpace;
-  textureCache.set(url, texture);
+  textureCache.set(url, { texture, refs: 1, lastTouchedAt: performance.now() });
   return texture;
+}
+
+/**
+ * Release a reference to a cached texture. When refs hit zero the
+ * entry is eligible for eviction; it isn't immediately disposed
+ * because re-mounting the same character within a frame is common
+ * and we want the cache hit.
+ */
+export function releaseCharacterTexture(url: string): void {
+  const entry = textureCache.get(url);
+  if (!entry) return;
+  entry.refs = Math.max(0, entry.refs - 1);
+}
+
+/**
+ * Force-dispose every cached texture. Call from app-level "free
+ * everything" paths (e.g., low-memory event, page hide on mobile).
+ */
+export function clearCharacterTextureCache(): void {
+  for (const { texture } of textureCache.values()) {
+    texture.dispose();
+  }
+  textureCache.clear();
 }
 
 /* ─── CREATE ENERGY PARTICLES ─── */
