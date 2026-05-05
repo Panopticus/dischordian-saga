@@ -51,11 +51,8 @@ export type Trigger =
   | { kind: "on_turn_end"; owner: "self" | "opponent" | "either" }
   | { kind: "on_any_unit_dies"; filter?: CardFilter }
   | { kind: "on_card_drawn"; filter?: CardFilter }
-  // reserved — no card uses; see HIDDEN_SYSTEMS_AUDIT_2026-05.md §3.2
   | { kind: "on_card_played"; filter?: CardFilter }
-  // reserved — no card uses; see HIDDEN_SYSTEMS_AUDIT_2026-05.md §3.2
   | { kind: "on_move" }
-  // reserved — no card uses; see HIDDEN_SYSTEMS_AUDIT_2026-05.md §3.2
   | { kind: "on_summoned_near_me"; filter?: CardFilter; radius: number }
   | { kind: "passive_aura"; range: AuraRange }
   | { kind: "activated"; cost: ActivationCost };

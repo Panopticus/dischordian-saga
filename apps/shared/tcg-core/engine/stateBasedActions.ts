@@ -69,6 +69,43 @@ export function runStateBasedActions(
       deadKeys.push(key);
     }
   }
+  // Pass 1a — resurrect intercept. Before any death event fires, give
+  // dying units with the `resurrect` keyword one chance to spring back
+  // to full health. Once resurrected, the entity carries
+  // `card.counters.has_resurrected = 1` so it can't loop. Generals
+  // never resurrect (their death is the win condition).
+  // Audit 2026-05 §3.3 lifted the `// reserved` annotation on
+  // `resurrect` once this hook landed and engine/resurrect.test.ts
+  // proved it out.
+  if (deadKeys.length > 0) {
+    const survivors: string[] = [];
+    for (const key of deadKeys) {
+      const entity = draft.board[key];
+      if (entity.isGeneral) continue;
+      if (!entity.card.activeKeywords.includes("resurrect")) continue;
+      if (entity.card.counters.has_resurrected === 1) continue;
+      entity.card.counters = {
+        ...entity.card.counters,
+        has_resurrected: 1,
+      };
+      entity.card.currentHealth = entity.card.maxHealth;
+      ctx.events.push({
+        type: "resurrected",
+        entityId: entity.entityId,
+        atRow: entity.row,
+        atCol: entity.col,
+      });
+      survivors.push(key);
+      changed = true;
+    }
+    if (survivors.length > 0) {
+      const surviving = new Set(survivors);
+      // Drop survivors from the dead-keys list — they aren't dying.
+      for (let i = deadKeys.length - 1; i >= 0; i--) {
+        if (surviving.has(deadKeys[i])) deadKeys.splice(i, 1);
+      }
+    }
+  }
   if (deadKeys.length > 0) {
     // Sort by (owner, row, col, entityId) so death event order is
     // deterministic across JS engines and platforms.
