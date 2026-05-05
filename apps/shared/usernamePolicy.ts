@@ -73,8 +73,10 @@ const HOMOGLYPH_MAP: Record<string, string> = {
 export function normalizeDisplayName(raw: string): string {
   return raw
     .normalize("NFKC")
-    .replace(/[​-‍﻿]/g, "")
-    .replace(/ /g, " ")
+    // Strip zero-width chars (U+200B..U+200D) + BOM (U+FEFF).
+    .replace(/[\u200B-\u200D\uFEFF]/g, "")
+    // Convert nbsp (U+00A0) to a regular space.
+    .replace(/\u00A0/g, " ")
     .replace(/\s+/g, " ")
     .trim();
 }

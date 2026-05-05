@@ -26,22 +26,29 @@ export default function RecruitAlignmentBadge() {
   const { state } = useGame();
   const flags = state.narrativeFlags ?? {};
 
+  // Hooks must run on every render in the same order — derive the
+  // memoised values FIRST, then early-return for visibility. The
+  // previous order called useMemo after `if (!visible) return null`,
+  // which violates rules-of-hooks.
+  const refusedRole = Boolean(flags.dreamer_unsanctioned_choice);
+  const askedForbiddenQuestion = Boolean(flags.dreamer_plinth_question_asked);
+  const touchedWrongPanel = Boolean(flags.dreamer_wrong_panel_touched);
+  const recording0Heard = Boolean(flags.engineer_recording_0_discovered);
+
+  const alignment = useMemo(() => {
+    const actions: RecruitStageActionsLog = {
+      refusedRole,
+      askedForbiddenQuestion,
+      touchedWrongPanel,
+      recording0Heard,
+    };
+    return summarizeRecruitStageAlignment(actions);
+  }, [refusedRole, askedForbiddenQuestion, touchedWrongPanel, recording0Heard]);
+
   // The badge surfaces only after the Prelude completes. Before that,
   // alignment is meaningless because the player hasn't made the
   // canonical recruit-stage choices yet.
-  const visible = Boolean(flags.prelude_complete);
-  if (!visible) return null;
-
-  const actions: RecruitStageActionsLog = {
-    refusedRole: Boolean(flags.dreamer_unsanctioned_choice),
-    askedForbiddenQuestion: Boolean(flags.dreamer_plinth_question_asked),
-    touchedWrongPanel: Boolean(flags.dreamer_wrong_panel_touched),
-    recording0Heard: Boolean(flags.engineer_recording_0_discovered),
-  };
-  const alignment = useMemo(
-    () => summarizeRecruitStageAlignment(actions),
-    [actions.refusedRole, actions.askedForbiddenQuestion, actions.touchedWrongPanel, actions.recording0Heard],
-  );
+  if (!flags.prelude_complete) return null;
 
   // Engineer score derives from a SEPARATE axis: how many Engineer
   // recordings the player has heard. The recruit-stage helper covers

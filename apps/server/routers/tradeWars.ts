@@ -347,9 +347,12 @@ export const tradeWarsRouter = router({
       const commodity = portData.commodities[input.commodity];
       if (!commodity) return { success: false, message: `Port doesn't trade ${input.commodity}` };
       
-      let price = commodity.price;
+      // Was `let price` while the disabled diplomacy block reassigned
+      // it. Now that the discount logic is removed, the price is
+      // taken straight from the commodity definition.
+      const price = commodity.price;
       const cargoUsed = getCargoUsed(player);
-      
+
       // ═══ DIPLOMACY PRICE MODIFIERS — DISABLED ═══
       // The previous implementation read input.factionReputation
       // directly to compute up to 15% price discounts. Client-

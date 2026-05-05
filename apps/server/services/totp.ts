@@ -8,7 +8,7 @@
  * Backup codes ship alongside: 8-character base32 strings that each
  * accept-and-burn once when the user can't reach their authenticator.
  */
-import { createHmac, randomBytes, timingSafeEqual } from "crypto";
+import { createHash, createHmac, randomBytes, timingSafeEqual } from "crypto";
 
 const STEP_SECONDS = 30;
 const DIGITS = 6;
@@ -99,8 +99,6 @@ export function generateBackupCodes(count = 10): string[] {
 }
 
 export function hashBackupCode(code: string): string {
-  // Lazy import — keep crypto.createHash out of the module hot path.
-  const { createHash } = require("crypto") as typeof import("crypto");
   return createHash("sha256").update(code.toUpperCase()).digest("hex");
 }
 
