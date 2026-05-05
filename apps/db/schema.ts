@@ -3331,6 +3331,42 @@ export const romanceLadders = mysqlTable("romance_ladders", {
 export type RomanceLadder = typeof romanceLadders.$inferSelect;
 
 /* ═══════════════════════════════════════════════════════
+   ENCOUNTER PROGRESS — per-player walk-state for the
+   Hierarchy demon-lord encounters, the Malkia revolution
+   questline, and the Source/Kael philosophical dialogue.
+   The content (shared/encounters/*.ts) is phase-keyed; the
+   dispatcher records which phase the player is currently in
+   plus the branch they picked at any choice point. The set
+   of fired flags is sourced from npc_public_flags as usual.
+   ═══════════════════════════════════════════════════════ */
+export const encounterProgress = mysqlTable("encounter_progress", {
+  id: int("id").primaryKey().autoincrement(),
+  userId: int("userId").notNull(),
+  /** Stable encounter id ('master_of_rlyeh', 'pale_emissary',
+   *  'reckoning_daughter', 'malkia_revolution', 'source_kael'). */
+  encounterId: varchar("encounterId", { length: 64 }).notNull(),
+  /** Which phase the player is currently inside. */
+  phase: mysqlEnum("phase", ["entry", "negotiation", "resolution", "aftermath"])
+    .notNull()
+    .default("entry"),
+  /** Branch picked at the choice point, if any. The encounter
+   *  content uses setsFlags entries like 'rlyeh_resolution_purchase'
+   *  to mark branches; we mirror the choice here for fast UI. */
+  branchChosen: varchar("branchChosen", { length: 64 }),
+  /** True once the aftermath phase has played to completion. */
+  completed: boolean("completed").notNull().default(false),
+  /** For Malkia: which step (1-6) the player is on. Encounters
+   *  without internal steps leave this null. */
+  step: int("step"),
+  startedAt: timestamp("startedAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  uniqueUserEncounter: uniqueIndex("uq_encounter_user").on(table.userId, table.encounterId),
+  userIdx: index("idx_encounter_user").on(table.userId),
+}));
+export type EncounterProgress = typeof encounterProgress.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
    FACTION STANDING — per-player reputation with the five
    designed factions. Sprint 2 of the choice-impact roadmap;
    the audit named this gap (no userFactionStanding column,
