@@ -31,6 +31,8 @@ import {
   worldModifiers,
   playerVotes,
 } from "../../db/schema";
+import type { FactionId } from "../../shared/factions";
+import { applyFactionDelta } from "./factionStandingService";
 import {
   parseVoteRewardPayload,
   type VoteConsequence,
@@ -49,6 +51,7 @@ export interface AppliedConsequenceSummary {
   unlocksGranted: string[];
   energyDelta: { light: number; dark: number; vortex: number };
   worldModifiersActivated: string[];
+  factionDeltas: Array<{ factionId: string; delta: number }>;
   tomeEntryWritten: boolean;
   alreadyApplied: boolean;
 }
@@ -68,6 +71,7 @@ function emptySummary(
     unlocksGranted: [],
     energyDelta: { ...ZERO_ENERGY },
     worldModifiersActivated: [],
+    factionDeltas: [],
     tomeEntryWritten: false,
     alreadyApplied: false,
   };
@@ -181,6 +185,23 @@ async function applyOne(
         annotation: consequence.annotation ?? null,
       });
       summary.tomeEntryWritten = true;
+      return;
+    }
+    case "faction_delta": {
+      // Apply to every voter so the community's vote moves the
+      // alignment landscape for everyone who took part.
+      for (const voterId of voterIds) {
+        await applyFactionDelta({
+          userId: voterId,
+          factionId: consequence.factionId as FactionId,
+          delta: consequence.delta,
+          source: `vote:${voteId}`,
+        });
+      }
+      summary.factionDeltas.push({
+        factionId: consequence.factionId,
+        delta: consequence.delta,
+      });
       return;
     }
     case "world_modifier": {

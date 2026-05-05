@@ -114,6 +114,20 @@ export const rpgSystemsRouter = router({
     return sheet ?? null;
   }),
 
+  /* ─── 0.5 FACTION STANDING ───
+   *
+   * Reads user_faction_standing rows and returns a record keyed
+   * by FactionId. Sprint 2 of the choice-impact roadmap. The
+   * audit named the gap: alignment lore unbacked by mechanics.
+   * Now backed.
+   */
+  getFactionStandings: protectedProcedure.query(async ({ ctx }) => {
+    const { getFactionStandings } = await import(
+      "../services/factionStandingService"
+    );
+    return getFactionStandings(ctx.user.id);
+  }),
+
   /* ─── 1. SYNERGY BONUSES ─── */
   getSynergyBonuses: protectedProcedure.query(async ({ ctx }) => {
     const citizen = await getUserCitizen(ctx.user.id);

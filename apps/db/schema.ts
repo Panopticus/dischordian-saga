@@ -3125,6 +3125,35 @@ export const playerVotes = mysqlTable("player_votes", {
 }));
 
 /* ═══════════════════════════════════════════════════════
+   FACTION STANDING — per-player reputation with the five
+   designed factions. Sprint 2 of the choice-impact roadmap;
+   the audit named this gap (no userFactionStanding column,
+   alignment lore unbacked by mechanics).
+
+   Standing range: -100 (sworn enemy) to +100 (champion). Each
+   row is a (userId, factionId) pair; rows are upserted via
+   factionStandingService.applyDelta. The service writes a
+   public flag at threshold crossings (faction:championed:* /
+   faction:enemied:*) so existing NPC banks read alignment via
+   the same mechanism as governance outcomes.
+   ═══════════════════════════════════════════════════════ */
+export const userFactionStanding = mysqlTable("user_faction_standing", {
+  id: int("id").primaryKey().autoincrement(),
+  userId: int("userId").notNull(),
+  factionId: varchar("factionId", { length: 64 }).notNull(),
+  standing: int("standing").notNull().default(0),
+  /** Highest standing ever reached — for "championed" achievements. */
+  peakStanding: int("peakStanding").notNull().default(0),
+  /** Lowest standing ever reached — for "enemied" achievements. */
+  troughStanding: int("troughStanding").notNull().default(0),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  userFactionUniq: uniqueIndex("uq_user_faction_standing").on(table.userId, table.factionId),
+  userIdx: index("idx_user_faction_standing_user").on(table.userId),
+}));
+export type UserFactionStanding = typeof userFactionStanding.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
    VOTE TOME ENTRIES — Antiquarian inscriptions per closed vote.
    Written exactly once when a vote's structured consequences
    are applied (see voteConsequenceApplier). The Governance Hub

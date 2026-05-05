@@ -90,6 +90,7 @@ const REGISTRY: Record<string, VoteRewardPayload> = {
     consequences: [
       { kind: "set_flag", flag: "governance:revolution_of_thought" },
       { kind: "energy_delta", light: 15 },
+      { kind: "faction_delta", factionId: "architect_remnants", delta: 10 },
       {
         kind: "world_modifier",
         modifierKey: "diplomacy_trade_bonus",
@@ -112,6 +113,7 @@ const REGISTRY: Record<string, VoteRewardPayload> = {
     consequences: [
       { kind: "set_flag", flag: "governance:violence_was_warranted" },
       { kind: "energy_delta", dark: 15 },
+      { kind: "faction_delta", factionId: "insurgency", delta: 10 },
       { kind: "unlock", unlockId: "lore:warlord_strike_first_doctrine" },
       {
         kind: "tome_entry",
@@ -306,6 +308,7 @@ const REGISTRY: Record<string, VoteRewardPayload> = {
     consequences: [
       { kind: "set_flag", flag: "governance:annual_banner_insurgency" },
       { kind: "unlock", unlockId: "storyline:insurgency_year" },
+      { kind: "faction_delta", factionId: "insurgency", delta: 25 },
       {
         kind: "tome_entry",
         body:
@@ -317,6 +320,7 @@ const REGISTRY: Record<string, VoteRewardPayload> = {
     consequences: [
       { kind: "set_flag", flag: "governance:annual_banner_antiquarians" },
       { kind: "unlock", unlockId: "storyline:antiquarian_year" },
+      { kind: "faction_delta", factionId: "architect_remnants", delta: 25 },
       {
         kind: "tome_entry",
         body:
@@ -330,6 +334,7 @@ const REGISTRY: Record<string, VoteRewardPayload> = {
     consequences: [
       { kind: "set_flag", flag: "governance:annual_banner_architects" },
       { kind: "unlock", unlockId: "storyline:architect_year" },
+      { kind: "faction_delta", factionId: "new_babylon", delta: 25 },
       {
         kind: "tome_entry",
         body:

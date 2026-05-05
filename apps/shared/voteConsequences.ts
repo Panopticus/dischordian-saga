@@ -86,12 +86,25 @@ export interface UnlockConsequence {
   description?: string;
 }
 
+/**
+ * Adjust standing with one of the five factions. Cross-faction
+ * echo is applied automatically by factionStandingService — a
+ * positive delta to the Insurgency drains New Babylon and the
+ * Architect Remnants by half. See apps/shared/factions.ts.
+ */
+export interface FactionDeltaConsequence {
+  kind: "faction_delta";
+  factionId: string;
+  delta: number;
+}
+
 export type VoteConsequence =
   | SetFlagConsequence
   | EnergyDeltaConsequence
   | TomeEntryConsequence
   | WorldModifierConsequence
-  | UnlockConsequence;
+  | UnlockConsequence
+  | FactionDeltaConsequence;
 
 export interface VoteRewardPayload {
   consequences: readonly VoteConsequence[];
@@ -160,6 +173,10 @@ function parseConsequence(raw: unknown): VoteConsequence | null {
             description: typeof c.description === "string" ? c.description : undefined,
           }
         : null;
+    case "faction_delta":
+      if (typeof c.factionId !== "string") return null;
+      if (typeof c.delta !== "number") return null;
+      return { kind: "faction_delta", factionId: c.factionId, delta: c.delta };
     default:
       return null;
   }
