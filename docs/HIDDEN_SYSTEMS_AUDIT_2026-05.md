@@ -48,10 +48,31 @@ The original audit reported "~39 routers with zero client `trpc.<routerName>.` c
 
 The original audit flagged `apps/server/duelystWs.ts` (mounted at `/api/duelyst-pvp`, not `/api/duelyst` as misreported) as orphan because `DuelystPage` is single-player. Follow-up triage found the WS has 6 dedicated test files — `heatWiring.test.ts`, `replayProducer.test.ts`, `replayVerification.test.ts`, `task4-resilience.test.ts`, `matchLengthMonitor.test.ts`, `pvpRanking.test.ts` — plus heat-modifier integration, replay verification, match-length monitoring, and follows the same architecture as the live `pvpWs.ts` and `chessWs.ts`. It's backend-complete, awaiting a multiplayer client connector. Header comment added in this branch flagging this. **Do NOT delete.**
 
+### C5. §4.2 — Acts 3-7 ask-topic unlocks are NOT missing
+
+`apps/shared/companionAskTopics.ts` already contains 163 ask-topic entries: 44 for Act 1, 24 for Act 2, 18 for Act 3, 21 for Act 4, 20 for Act 5, 22 for Act 6, 14 for Act 7. The original audit cited the narrative-audit doc's claim of "no Act 2-specific topic" and over-generalised it to "entire act-ladder unimplemented." The actual narrative-audit gaps are SPECIFIC missing topics (e.g. Act 6's `ask_human_who` needs an alternate post-confession answer; Act 4 has no path-retrospective topic) — these are individual content TODOs for the narrative team, not engineering scaffolding work.
+
+### C6. §4.4 — EXPANSION_BIBLE §1 discoverable items are NOT spec-only
+
+The audit reported "8+ specific room hotspots described (Vox's journal, neural array fragment, surveillance override, cryo pod claw marks, etc.) with no evidence of implementation in room mysteries." Re-checking: every named room — Bridge, Medical Bay, Engineering, Observation Deck, Cryo Bay, Captain's Quarters — has a substantive room-mystery module under `apps/shared/roomMysteries/` (or `apps/shared/cryoBayMystery.ts`) with Vox / neural / surveillance lore woven in. `bridge.ts` carries Vox's Timeline-Projector confession; `medicalBay.test.ts` references the Vox neural bridge donate flow; `cipherDen.ts` carries Vox's translation key; the Bridge conspiracy board has the blank pin (Kael) the bible called for. The lore is shipped — not as separate "Vox's journal" hotspot inventory items, but as integrated mystery-module content, which is the same delivery target.
+
+### C7. §4.5 — First Wave dark-sector probe events are NOT spec-only
+
+`apps/shared/questlineClassSpy.ts` is the home for this content (lines 171–304+). The Eyes / First Wave / dark sector lore — including the deliberate sacrifice, the Dreamer's Shield boundary, the pre-Ark structure — is shipped through Locke's quest dialog with full multi-step branching. Architect-driven probe events not yet wired *as gameplay events*, but the narrative substrate exists.
+
+### C8. §4.6 — Engineer Zero post-credits is NOT spec-only
+
+`engineer_zero_hint` is a real flag gating Vex's romance stage 3 (`apps/shared/romanceLadders.test.ts:37`). `bridge_of_kael_post_credit_seen` is a witnessing-integration flag (`apps/shared/witnessingIntegrations.test.ts:33`). `apps/shared/episodeMysteries.ts:1914` defines "The Engineer Zero Swap" as a multi-clue episode mystery with 4,711-session credit-ledger detail. The post-credits *cinematic* may still need final VO authoring, but the systems integration is already done — far more than "frame and route exist."
+
 ### Remediation status (this branch)
 
 - **Phase A** (commit `44a4aad`): dead lazy imports removed from `App.tsx`; `LoreTutorialHubPage.tsx` deleted; `crewTableSync.ts` + test moved to `apps/server/services/`; Veron clarification comment added; unused engine ops/triggers/keywords annotated `// reserved`; `questProgress` and `pvpRanking` marked `@deprecated`.
-- **Phase B–E**: tracked in `/root/.claude/plans/make-a-plan-to-prancy-mochi.md`. Phase C (entitlement grant + Stripe stub, conspiracy boards Acts 1-2 scaffolding, Act 1 taunt VO pipeline, CI guard) and Phase D content authoring are pending.
+- **Phase C1+C2** (commit `1439887`): duelystWs reserved-for-future header (NOT deleted, per C4 correction); `entitlementService` shared helper; `admin.grantEntitlement` mutation; Stripe webhook stub via two new SKUs (`entitlement_founding_author`, `entitlement_authors_edition_s2`) plus `rewards.entitlement` branch in `store.doFulfill`; 7 new tests cover merge / sibling preservation / idempotent retry / fresh-row / revoke.
+- **Phase C3** (commit `b09b048`): Acts 1-2 conspiracy boards authored (`first_memory`, `inheritance_ledger`) with 5 clues each, wired into `DROP_TABLES` under `act_completed` / `pvp_card_win` / `pvp_chess_*` / `coop_raid_clear` / `narrative_milestone`. Two new tests pin the unlock chain so the cards aren't silently re-orphaned.
+- **Phase C4** (commit `9f5fba8`): Act 1 taunt audio playback wired. `Act1OpponentDialog.tauntVoIds` populated on the 7 opponents with authored taunts; `useAct1TauntsVO` merges 7 per-character manifests; `Act1OpponentTauntOverlay` calls `speak()` on phase change. Existing `apps/scripts/generate_act1_taunts_vo.py` (Python, real voice IDs already assigned) is the producer-side generator — when run with creds, audio fills in automatically.
+- **Phase C5** (commit `2d29b41`): `apps/server/routers.unused.test.ts` CI guard prevents future orphan-router regressions. Walks the `appRouter` registry; each key needs a client tRPC call, server-internal import, or `@deprecated`/`audit-allow` waiver. Currently 100% green.
+- **Phase D**: corrections C5–C8 above showed most claimed content gaps were over-claims by the audit's research agents — the content is substantively shipped under different file paths than the audit assumed. Specific narrative-audit micro-gaps (Act 6 `ask_human_who` post-confession variant; Act 4 path-retrospective topic; Act 5 star-chart ask) remain narrative-team content TODOs but are not blocking engineering work.
+- **Phase E** (deferred): once `marketAchievements` deprecation is product-confirmed (Phase B1), it joins `questProgress` + `pvpRanking` for deletion.
 
 ---
 
