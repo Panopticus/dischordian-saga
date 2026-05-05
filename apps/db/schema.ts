@@ -3367,6 +3367,49 @@ export const encounterProgress = mysqlTable("encounter_progress", {
 export type EncounterProgress = typeof encounterProgress.$inferSelect;
 
 /* ═══════════════════════════════════════════════════════
+   THOUGHT VIRUS INFECTION — per-(user, sector) infection
+   level (0-100). Item 9 of the choice-impact follow-up. The
+   infection grows daily until containment caps at 100;
+   containment actions reduce the level. Sectors live in
+   apps/shared/thoughtVirusSpread.ts.
+   ═══════════════════════════════════════════════════════ */
+export const thoughtVirusInfection = mysqlTable("thought_virus_infection", {
+  id: int("id").primaryKey().autoincrement(),
+  userId: int("userId").notNull(),
+  sectorId: varchar("sectorId", { length: 64 }).notNull(),
+  level: int("level").notNull().default(0),
+  /** Last day a containment action ran in this sector — used
+   *  to gate cooldowns. */
+  lastContainmentAt: timestamp("lastContainmentAt"),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  uniqueUserSector: uniqueIndex("uq_virus_user_sector").on(table.userId, table.sectorId),
+  userIdx: index("idx_virus_user").on(table.userId),
+}));
+export type ThoughtVirusInfection = typeof thoughtVirusInfection.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
+   LYRA VOX QUESTLINE PROGRESS — per-user step + chosen
+   theory / witness / verdict. Item 11 of the choice-impact
+   follow-up.
+   ═══════════════════════════════════════════════════════ */
+export const lyraVoxProgress = mysqlTable("lyra_vox_progress", {
+  id: int("id").primaryKey().autoincrement(),
+  userId: int("userId").notNull(),
+  currentStep: varchar("currentStep", { length: 32 }).notNull().default("file"),
+  theoryChosen: varchar("theoryChosen", { length: 32 }),
+  doorOpened: varchar("doorOpened", { length: 32 }),
+  witnessBelieved: varchar("witnessBelieved", { length: 32 }),
+  verdict: varchar("verdict", { length: 32 }),
+  completed: boolean("completed").notNull().default(false),
+  startedAt: timestamp("startedAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  uniqueUser: uniqueIndex("uq_lyra_vox_user").on(table.userId),
+}));
+export type LyraVoxProgress = typeof lyraVoxProgress.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
    FACTION STANDING — per-player reputation with the five
    designed factions. Sprint 2 of the choice-impact roadmap;
    the audit named this gap (no userFactionStanding column,
