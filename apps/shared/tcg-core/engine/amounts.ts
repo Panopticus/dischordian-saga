@@ -11,7 +11,7 @@
 import type { GameState } from "../types/GameState";
 import type { Amount } from "../types/Effect";
 import type { ExecCtx } from "./execCtx";
-import { matchesUnitFilter } from "./targeting";
+import { matchesUnitFilter, resolveTargetRef, findBoardEntity } from "./targeting";
 
 export function evaluateAmount(
   amount: Amount,
@@ -28,12 +28,29 @@ export function evaluateAmount(
       }
       return n;
     }
-    case "x_cost":
-    case "missing_health":
-    case "counter_of":
-      throw new UnsupportedAmountError(
-        `amount kind '${amount.kind}' not yet implemented`
-      );
+    case "x_cost": {
+      // X-cost spells are spells whose mana cost the player chose at
+      // cast time; the chosen amount lands on the ExecCtx as
+      // `xCost`. Defaults to 0 if absent (the engine guard makes
+      // sure x_cost amounts are only resolved on contexts that have
+      // it). Audit Phase J4.
+      const x = (ctx as unknown as { xCost?: number }).xCost;
+      return typeof x === "number" ? x : 0;
+    }
+    case "missing_health": {
+      const ids = resolveTargetRef(amount.of, ctx, state);
+      if (ids.length === 0) return 0;
+      const entity = findBoardEntity(state, ids[0]);
+      if (!entity) return 0;
+      return Math.max(0, entity.card.maxHealth - entity.card.currentHealth);
+    }
+    case "counter_of": {
+      const ids = resolveTargetRef(amount.of, ctx, state);
+      if (ids.length === 0) return 0;
+      const entity = findBoardEntity(state, ids[0]);
+      if (!entity) return 0;
+      return entity.card.counters[amount.counter] ?? 0;
+    }
     default: {
       const _exhaust: never = amount;
       void _exhaust;
