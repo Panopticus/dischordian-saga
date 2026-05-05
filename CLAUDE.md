@@ -32,7 +32,13 @@ pnpm lint                 # eslint
 pnpm lint:void-energy     # Tier-3A token/state-protocol enforcement (see Void Energy below)
 pnpm test                 # vitest run (~9400 unit tests; ~75s on a warm machine)
 pnpm test:e2e             # Playwright (apps/e2e/playwright.config.ts)
-pnpm db:push              # drizzle-kit generate && drizzle-kit migrate
+pnpm db:push              # drizzle-kit push — diff schema → DB and apply
+                          #   (idempotent; bypasses the migration journal,
+                          #   safe on out-of-sync DBs)
+pnpm db:generate          # drizzle-kit generate — author a journaled migration
+pnpm db:migrate           # drizzle-kit migrate — apply journaled migrations in
+                          #   order (use for production deploys with a known
+                          #   journal; will refuse if reality diverged from it)
 pnpm db:smoke             # apps/scripts/db-fresh-smoke.ts — full schema sanity
 ```
 
