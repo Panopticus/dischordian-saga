@@ -95,10 +95,12 @@ export type EffectOp =
   | { op: "summon"; tokenId: string; at: PositionSelector; controller: "self" | "opponent" }
   | { op: "transform"; into: string; to: TargetRef }
   | { op: "destroy"; to: TargetRef }
+  // reserved — no card uses; see HIDDEN_SYSTEMS_AUDIT_2026-05.md §3.1
   | { op: "dispel"; to: TargetRef }
   | { op: "silence"; to: TargetRef }
   | { op: "stun"; duration: Duration; to: TargetRef }
   | { op: "teleport"; target: TargetRef; to: PositionSelector }
+  // reserved — no card uses; see HIDDEN_SYSTEMS_AUDIT_2026-05.md §3.1
   | { op: "push"; target: TargetRef; direction: DirectionRef; distance: number }
   // Resource
   | { op: "gain_mana"; amount: Amount; permanent: boolean }
@@ -110,6 +112,7 @@ export type EffectOp =
 export type Effect =
   | EffectOp
   | { op: "sequence"; steps: readonly Effect[] }
+  // reserved — no card uses; see HIDDEN_SYSTEMS_AUDIT_2026-05.md §3.1
   | { op: "if"; cond: Condition; then: Effect; else?: Effect }
   | {
       op: "foreach";

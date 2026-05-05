@@ -5,6 +5,52 @@ Scope: every line of code and dialog in the monorepo, scored against player reac
 
 This audit catalogues systems and ideas that exist in the design docs **or** the code but that a normal logged-in player cannot currently see, hear, or trigger. It is organised so the engineering team can act on the findings: each entry has file paths, a concrete defect class, and a "real?" verdict that says whether the gap was confirmed against the source rather than just inferred from a doc.
 
+## Corrections (post-review 2026-05-05)
+
+Three findings in the original audit below were inaccurate. The originals are kept in place as a historical record; these corrections take precedence.
+
+### C1. §1.1 — `/comms-array` is NOT a broken nav button
+
+`AppShellImmersive.tsx:293–315` is a `<button>` (not `<Link>`) that calls `setShowTransmissions(true)` to open the `TransmissionDeck` modal. The `path: "/comms-array"` field in `NAV_ITEMS` is unused metadata — the button never navigates. The `hasMediaAccess` gate already correctly hides the button until the room is unlocked at Prelude beat 5/10 (every player hits this). **No defect. No action needed.**
+
+### C2. §2.1 — Router orphan count is much smaller than reported
+
+The original audit reported "~39 routers with zero client `trpc.<routerName>.` calls." Two methodology errors inflated this number.
+
+**Error A: alias-mapped routers were missed.** ~11 routers register under a different name in `apps/server/routers.ts` than the file suggests:
+
+| File | Registered as | Client uses |
+|---|---|---|
+| `replaySystem.ts` | `trpc.replay` | 4 refs |
+| `coopRaids.ts` | `trpc.coopRaid` | 4 refs |
+| `donationSystem.ts` | `trpc.donation` | 5 refs |
+| `socialFeatures.ts` | `trpc.social` | 7 refs |
+| `friendlyChallenges.ts` | `trpc.friendlyChallenge` | 4 refs |
+| `prestigeQuests.ts` | `trpc.prestigeQuest` | 5 refs |
+| `dailyQuests.ts` | `trpc.quests` | 14 refs |
+| `rpgSystems.ts` | `trpc.rpg` | 18 refs |
+| `chat.ts`, `cadesIce.ts`, `engineerLogs.ts`, `dischordiaCycle.ts`, `arkThemes.ts` | (server-internal) | called by other server modules |
+
+**Error B: server-internal callers weren't checked.** Of the remaining 24 routers, follow-up triage found:
+
+- **2 truly dead** — `questProgress` (concept merged into `dailyQuests`) and `pvpRanking` (replaced by `competitive` with a backfill). Both now carry `@deprecated` JSDoc and are scheduled for deletion in Phase E1.
+- **1 reserved-for-future** — `guildContracts` is a thin scaffold for F.2 contract-unlock cinematics; intentionally not wired.
+- **1 partial / superseded but coexisting** — `marketAchievements` covers marketplace achievements; broader `cardAchievements` covers the rest. Decision pending in Phase B1.
+- **22 actively shipping** with full DB tables and procedures (`fnord23`, `potentialIdentity`, `potentialFactions`, `tradeContracts`, `trophy`, `collection`, `celebration`, `bonusObjectives`, `tutorial`, `competitive`, `eidolonBond`, `factions`, `graduateLegion`, `masteryTree`, `techTree`, `outbreak`, `storyMode`, `communityCodex`, `ark`, `contentApi`, plus the alias-mapped ones above). They are invoked server-internally during other client-facing operations (e.g. `cardGame.endMatch` writes to `factions` and `eidolonBond`; companion interactions update `eidolonBond`; trophy displays render through other surfaces). The audit's grep for `trpc.<router>.` was too literal.
+
+**Corrected dead-router list**: 2 routers (`questProgress`, `pvpRanking`), with a third candidate (`marketAchievements`) pending product confirmation.
+
+### C3. §3.4 — Veron's `kind: "veron_kills"` is correct
+
+`apps/shared/tcg-core/cards/definitions/neutral/s1_char_004_ambassador_veron.ts` uses `kind: "veron_kills"` as the **counter name** in an `add_counter` effect op, not as a top-level `Trigger` discriminator. `cards/schema.ts:497` deliberately accepts arbitrary counter strings (`z.string().min(1)`). The runtime at `engine/effectInterpreter.ts:94–111` and `engine/conditions.ts:30–41` resolves it generically against `entity.card.counters[name]`. The card has been live for 19 test files. **No defect. Comment clarification added in this branch.**
+
+### Remediation status (this branch)
+
+- **Phase A complete on commit ea72d5b's successor**: dead lazy imports removed from `App.tsx`; `LoreTutorialHubPage.tsx` deleted; `crewTableSync.ts` + test moved to `apps/server/services/`; Veron clarification comment added; unused engine ops/triggers/keywords annotated `// reserved`; `questProgress` and `pvpRanking` marked `@deprecated`.
+- **Phase B–E**: tracked in `/root/.claude/plans/make-a-plan-to-prancy-mochi.md`. Phase C (entitlement grant + Stripe stub, conspiracy boards Acts 1-2 scaffolding, Act 1 taunt VO pipeline, CI guard) and Phase D content authoring are pending.
+
+---
+
 ## How to read this report
 
 Every finding falls into one of five categories:

@@ -1,7 +1,12 @@
-/* ═══════════════════════════════════════════════════════
-   QUEST PROGRESS — Server-side quest tracking
-   Persists daily/weekly/epoch quest progress per player.
-   ═══════════════════════════════════════════════════════ */
+/**
+ * @deprecated Concept merged into `dailyQuests.ts` (registered as
+ * `trpc.quests`). This router has no client surface and no internal
+ * server callers. Scheduled for deletion in audit Phase E1; see
+ * docs/HIDDEN_SYSTEMS_AUDIT_2026-05.md §2.1.
+ *
+ * QUEST PROGRESS — Server-side quest tracking
+ * Persists daily/weekly/epoch quest progress per player.
+ */
 import { z } from "zod";
 import { protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";

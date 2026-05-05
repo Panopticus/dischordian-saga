@@ -49,10 +49,10 @@ export type Keyword =
   | "infiltrate" // bonus while on enemy side of the board
   | "grow" // gains stats at start of owner's turn
   | "backstab" // bonus damage attacking from behind
-  | "zeal" // bonus while adjacent to friendly general
+  | "zeal" // bonus while adjacent to friendly general — reserved, no card uses (HIDDEN_SYSTEMS_AUDIT_2026-05.md §3.3)
   | "dispel" // strips ongoing effects on hit
   | "stun" // cannot act next turn
-  | "structure" // cannot move or attack
+  | "structure" // cannot move or attack — reserved, no card uses (HIDDEN_SYSTEMS_AUDIT_2026-05.md §3.3)
   | "ephemeral" // dies at end of owner's turn
   | "untargetable" // cannot be chosen as a single target
   | "ignore_armor_3" // pierces 3 flat armor (Agent Zero & friends)
@@ -62,9 +62,9 @@ export type Keyword =
   | "pierce" // ignores a portion of enemy armor
   | "overcharge" // deals bonus damage on first attack, then self-damages
   | "fury" // attacks hit with extra ferocity (multi-attack)
-  | "pack" // gains bonuses from allied units of the same type
+  | "pack" // gains bonuses from allied units of the same type — reserved, no card uses (HIDDEN_SYSTEMS_AUDIT_2026-05.md §3.3)
   | "rally_buff" // on deploy, buffs adjacent friendly units
-  | "resurrect"; // returns to the field once after death
+  | "resurrect"; // returns to the field once after death — reserved, no card uses (HIDDEN_SYSTEMS_AUDIT_2026-05.md §3.3)
 
 /**
  * Trial-phase category tags used by §5.8 Authority match (Act 1 finale).
