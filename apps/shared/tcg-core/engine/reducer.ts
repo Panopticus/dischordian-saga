@@ -14,14 +14,15 @@
  *     is advanced to reflect any draws. If the reducer made no random
  *     choices, `nextState.rngState === state.rngState`.
  *
- * This file is currently a skeleton: it validates the contract plumbing
- * (action routing, frozen input, error returns, determinism) so that
- * downstream workstreams (WS2 card interpreter, WS4 server match loop,
- * WS9 replay verifier) can wire onto a stable surface immediately.
+ * This reducer is fully implemented: every action kind (move, attack,
+ * play_card, replace_card, bloodborn, mulligan, end_turn, concede,
+ * resolve_choose_one, etc.) delegates to a dedicated handler under
+ * engine/* and the fixed-point trigger drain runs after each action.
+ * The seer-prophecy "silent re-route on contradiction" optimization
+ * is the only deferred follow-up — match plays correctly without it.
  *
- * Each `case` block delegates to a dedicated handler under engine/* that
- * will be filled in subsequently. The reducer itself should never grow
- * past a couple hundred lines.
+ * The reducer itself stays small (a couple hundred lines of switch
+ * dispatch); rule logic lives in the per-action handlers.
  */
 import { produce, freeze } from "immer";
 import type { Draft } from "immer";

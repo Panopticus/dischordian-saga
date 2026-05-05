@@ -1066,9 +1066,10 @@ export const craftingRouter = router({
    * percentage, and on success writes the piece into
    * citizenCharacters.gear keyed by slot.
    *
-   * Material deduction awaits the suit-materials inventory system
-   * (not yet on schema). This mutation is the load-bearing wire;
-   * the material check drops in once the inventory lands.
+   * Material gating against citizenCharacters.suitMaterials (added
+   * in audit Phase J1). On success, deducts each input's count from
+   * the pouch atomically with the gear write. Loot drops + quest
+   * rewards are responsible for topping up the pouch.
    */
   attemptSuitCraft: protectedProcedure
     .input(z.object({ recipeId: z.string() }))
