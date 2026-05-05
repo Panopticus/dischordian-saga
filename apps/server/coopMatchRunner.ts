@@ -14,6 +14,7 @@
  */
 import { eq } from "drizzle-orm";
 import { getDb } from "./db";
+import { isMissingTableError } from "./db/missingTable";
 import { coopCardSessions, parties } from "../db/schema";
 import {
   getCoopEncounter,
@@ -39,17 +40,42 @@ let pollTimer: NodeJS.Timeout | null = null;
 
 const POLL_INTERVAL_MS = 4000;
 
-/** Start the background poller. Idempotent. */
+/** Start the background poller. Idempotent. Self-disables when
+ *  the coop_card_sessions table doesn't exist yet — better to
+ *  log once and let the operator run db:push than spam every
+ *  POLL_INTERVAL_MS forever. */
 export function startCoopRunnerPoller(): void {
   if (pollTimer) return;
   pollTimer = setInterval(() => {
     pollPendingSessions().catch((err) => {
+      if (isMissingTableError(err)) {
+        logger.info(
+          "coop_runner_table_missing",
+          "coopMatchRunner",
+          {
+            note: "coop_card_sessions table not yet migrated — disabling poller. Run `pnpm db:push` (or `drizzle-kit push`) and restart to re-enable.",
+          },
+        );
+        stopCoopRunnerPoller();
+        return;
+      }
       logger.warn("coop_runner_poll_failed", "coopMatchRunner", { error: String(err) });
     });
   }, POLL_INTERVAL_MS);
   // Run once immediately so a fresh deploy doesn't wait the first
   // interval to pick up sessions started right at boot.
   pollPendingSessions().catch((err) => {
+    if (isMissingTableError(err)) {
+      logger.info(
+        "coop_runner_table_missing",
+        "coopMatchRunner",
+        {
+          note: "coop_card_sessions table not yet migrated — disabling poller. Run `pnpm db:push` (or `drizzle-kit push`) and restart to re-enable.",
+        },
+      );
+      stopCoopRunnerPoller();
+      return;
+    }
     logger.warn("coop_runner_initial_poll_failed", "coopMatchRunner", { error: String(err) });
   });
 }
