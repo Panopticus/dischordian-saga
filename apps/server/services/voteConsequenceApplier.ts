@@ -245,6 +245,60 @@ async function writeFlagForVoters(
 }
 
 /**
+ * Idempotent upsert of a world modifier. Used both by the vote
+ * consequence applier and by the daily-vote close-on-read path
+ * (Phase 2).
+ */
+export async function activateWorldModifier(args: {
+  modifierKey: string;
+  modifierType: string;
+  modifierValue: number;
+  description?: string | null;
+  source?: string | null;
+  durationMs: number;
+}): Promise<void> {
+  const db = await getDb();
+  if (!db) return;
+  const now = new Date();
+  const expiresAt = new Date(now.getTime() + args.durationMs);
+
+  // Deactivate any prior row with the same key, then upsert via
+  // the unique index on modifierKey.
+  await db
+    .update(worldModifiers)
+    .set({ isActive: false })
+    .where(
+      and(
+        eq(worldModifiers.modifierKey, args.modifierKey),
+        eq(worldModifiers.isActive, true),
+      ),
+    );
+  await db
+    .insert(worldModifiers)
+    .values({
+      modifierKey: args.modifierKey,
+      modifierType: args.modifierType,
+      modifierValue: args.modifierValue,
+      description: args.description ?? null,
+      source: args.source ?? null,
+      startedAt: now,
+      expiresAt,
+      isActive: true,
+    })
+    .onDuplicateKeyUpdate({
+      set: {
+        modifierType: args.modifierType,
+        modifierValue: args.modifierValue,
+        description: args.description ?? null,
+        source: args.source ?? null,
+        startedAt: now,
+        expiresAt,
+        isActive: true,
+      },
+    });
+}
+
+/**
  * Return active world modifiers (non-expired, isActive=true).
  * Consumed by client UIs and combat/crafting scaling code.
  */
