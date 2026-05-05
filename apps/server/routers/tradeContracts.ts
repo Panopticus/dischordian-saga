@@ -20,8 +20,8 @@ import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 import { protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
-import { tradeContracts, tradeBrokerEngagement, npcPublicFlags } from "../../db/schema";
-import { and, eq, desc } from "drizzle-orm";
+import { tradeContracts, tradeBrokerEngagement, npcPublicFlags, npcTrust, userProgress } from "../../db/schema";
+import { and, eq, desc, sql } from "drizzle-orm";
 import { ripple } from "../services/rippleEngine";
 import { logger } from "../logger";
 import {
@@ -85,14 +85,134 @@ async function applyClauseEffects(
           }
           break;
         }
-        // Other effect kinds (trust_delta / set_flag / faction_reputation_delta /
-        // reward_modifier) require additional state-handlers we don't have
-        // here. We log them for now; Phase 2 chunk 6+ wires through.
-        default:
-          logger.debug("clause effect not yet handled", {
+        case "trust_delta": {
+          // Bump (or decrement) per-NPC trust on the npcTrust table.
+          // Unique key on (userId, npcKey) is implied; if not present
+          // we upsert. Trust is clamped 0..100 by the band resolver
+          // downstream, so unbounded delta is safe here.
+          const [existing] = await db
+            .select({ id: npcTrust.id })
+            .from(npcTrust)
+            .where(
+              and(
+                eq(npcTrust.userId, userId),
+                eq(npcTrust.npcKey, eff.npcKey as string),
+              ),
+            )
+            .limit(1);
+          if (existing) {
+            await db
+              .update(npcTrust)
+              .set({ trust: sql`GREATEST(0, LEAST(100, ${npcTrust.trust} + ${eff.delta}))` })
+              .where(eq(npcTrust.id, existing.id));
+          } else {
+            await db.insert(npcTrust).values({
+              userId,
+              npcKey: eff.npcKey as string,
+              trust: Math.max(0, Math.min(100, eff.delta)),
+            });
+          }
+          break;
+        }
+        case "set_flag": {
+          // Set a private narrative flag on userProgress.gameData.
+          // Mirrors the read pattern in playerExpansionState.ts.
+          const rows = await db
+            .select()
+            .from(userProgress)
+            .where(eq(userProgress.userId, userId))
+            .limit(1);
+          const row = rows[0];
+          type AnyRecord = Record<string, unknown>;
+          const gameData = (row?.gameData as AnyRecord) ?? {};
+          const flags = (gameData.narrativeFlags as AnyRecord) ?? {};
+          if (flags[eff.flag] === true) break; // idempotent
+          const nextGameData: AnyRecord = {
+            ...gameData,
+            narrativeFlags: { ...flags, [eff.flag]: true },
+          };
+          if (row) {
+            await db
+              .update(userProgress)
+              .set({ gameData: nextGameData })
+              .where(eq(userProgress.userId, userId));
+          } else {
+            await db.insert(userProgress).values({ userId, gameData: nextGameData });
+          }
+          break;
+        }
+        case "faction_reputation_delta": {
+          // Faction reputation lives at userProgress.gameData.
+          // factionReputation as Record<factionId, number>.
+          const rows = await db
+            .select()
+            .from(userProgress)
+            .where(eq(userProgress.userId, userId))
+            .limit(1);
+          const row = rows[0];
+          type AnyRecord = Record<string, unknown>;
+          const gameData = (row?.gameData as AnyRecord) ?? {};
+          const rep = (gameData.factionReputation as Record<string, number>) ?? {};
+          const next = { ...rep, [eff.factionId]: (rep[eff.factionId] ?? 0) + eff.delta };
+          const nextGameData: AnyRecord = {
+            ...gameData,
+            factionReputation: next,
+          };
+          if (row) {
+            await db
+              .update(userProgress)
+              .set({ gameData: nextGameData })
+              .where(eq(userProgress.userId, userId));
+          } else {
+            await db.insert(userProgress).values({ userId, gameData: nextGameData });
+          }
+          break;
+        }
+        case "reward_modifier": {
+          // Reward multiplier is consumed at progressStage time;
+          // here we persist a composed multiplier on the contract row
+          // (stored as integer percentage). Multiple clauses compose
+          // by multiplying their percentages and dividing by 100.
+          // Find the most-recently-signed contract row for this user
+          // — at signing, exactly one matching row exists (the one
+          // we just inserted).
+          const rows = await db
+            .select({ id: tradeContracts.id, modifier: tradeContracts.rewardModifierPct })
+            .from(tradeContracts)
+            .where(eq(tradeContracts.userId, userId))
+            .orderBy(desc(tradeContracts.signedAt))
+            .limit(1);
+          if (rows.length > 0 && rows[0].id) {
+            const priorPct = Number(rows[0].modifier ?? 100);
+            const nextPct = Math.round((priorPct * eff.modifier));
+            await db
+              .update(tradeContracts)
+              .set({ rewardModifierPct: nextPct })
+              .where(eq(tradeContracts.id, rows[0].id));
+          }
+          break;
+        }
+        // Phase 3 broker effects — applied at stage progression, not
+        // at signing. Logged here for traceability; the stage handler
+        // (progressStage mutation below) reads the relevant clauses
+        // off the contract definition when it computes stage rewards.
+        case "cross_reference":
+        case "aleatory_roll":
+        case "market_volatility":
+        case "ceremonial_audit":
+          logger.debug("phase-3 clause effect deferred to stage progression", {
             clauseId: clause.clauseId,
             effectKind: eff.kind,
           });
+          break;
+        default: {
+          // Exhaustiveness check.
+          const _exhaust: never = eff;
+          void _exhaust;
+          logger.debug("clause effect not yet handled", {
+            clauseId: clause.clauseId,
+          });
+        }
       }
     } catch (err) {
       logger.warn("clause effect failed", { err, clauseId: clause.clauseId });

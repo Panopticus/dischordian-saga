@@ -601,6 +601,14 @@ export const citizenCharacters = mysqlTable("citizen_characters", {
   gear: json("gear").$type<Record<string, unknown>>(),
   /** JSON: unlocked abilities, element mastery levels */
   abilities: json("abilities").$type<Record<string, unknown>>(),
+  /**
+   * JSON: suit-materials inventory keyed by MaterialId
+   * (apps/shared/suitRecipes.ts). Used by attemptSuitCraft to gate
+   * recipes against the citizen's pouch and deduct on success. Loot
+   * drops + quest rewards top this up; defaults to {} for fresh
+   * citizens. Audit Phase J1.
+   */
+  suitMaterials: json("suitMaterials").$type<Record<string, number>>(),
   /** If species=neyon, which specific Ne-Yon token ID (1-10) this citizen is tied to */
   neyonTokenId: int("neyonTokenId"),
   /** Is this the player's primary (free) citizen? */
@@ -5333,6 +5341,14 @@ export const tradeContracts = mysqlTable("trade_contracts", {
   stageStatus: json("stageStatus").$type<Record<string, string>>().default({}),
   /** Disclosed hidden clauses, JSON: list of clause ids. */
   disclosedClauses: json("disclosedClauses").$type<string[]>().default([]),
+  /**
+   * Multiplier applied to the contract's final reward, stored as an
+   * integer percentage to avoid float storage quirks (100 = 1.00x;
+   * 110 = 1.10x; 50 = 0.50x). Accumulates from `reward_modifier`
+   * clause effects: each clause multiplies the running modifier.
+   * Audit Phase J2.
+   */
+  rewardModifierPct: int("rewardModifierPct").notNull().default(100),
   signedAt: timestamp("signedAt").defaultNow().notNull(),
   resolvedAt: timestamp("resolvedAt"),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),

@@ -1123,9 +1123,28 @@ export const craftingRouter = router({
         });
       }
 
-      // Material deduction is deferred until the suit-materials
-      // inventory lands. Until then, the mutation grants-or-denies
-      // based on the recipe's baseSuccessPct alone.
+      // §G.9 material gate — read citizen's suit-materials pouch and
+      // confirm every input requirement is met. The pouch is a JSON
+      // bag on citizenCharacters.suitMaterials keyed by MaterialId.
+      // Audit Phase J1 landed the schema column; loot/quest emitters
+      // top it up, and this mutation deducts on success.
+      const pouch: Record<string, number> =
+        (character.suitMaterials as Record<string, number> | null) ?? {};
+      const shortage = recipe.inputs.find(
+        (req) => (pouch[req.materialId] ?? 0) < req.count,
+      );
+      if (shortage) {
+        return {
+          success: false as const,
+          recipeId: recipe.id,
+          outcome: "missing_materials" as const,
+          missing: {
+            materialId: shortage.materialId,
+            need: shortage.count,
+            have: pouch[shortage.materialId] ?? 0,
+          },
+        };
+      }
 
       const roll = Math.random() * 100;
       const succeeded = roll < recipe.baseSuccessPct;
@@ -1153,9 +1172,16 @@ export const craftingRouter = router({
           source: "crafted",
         },
       };
+      // Deduct materials atomically with the gear write. Materials
+      // are only consumed on SUCCESS — a Ruined Draft outcome above
+      // returns before this point so the player keeps their pouch.
+      const nextPouch: Record<string, number> = { ...pouch };
+      for (const req of recipe.inputs) {
+        nextPouch[req.materialId] = (nextPouch[req.materialId] ?? 0) - req.count;
+      }
       await db
         .update(citizenCharacters)
-        .set({ gear: nextGear })
+        .set({ gear: nextGear, suitMaterials: nextPouch })
         .where(eq(citizenCharacters.id, character.id));
 
       logger.info(
