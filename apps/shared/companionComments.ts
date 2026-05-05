@@ -1036,6 +1036,112 @@ export const COMPANION_COMMENTS: CompanionComment[] = [
     voiceLine: "The Oracle held up a mirror. We did not all like what we saw. I will say this carefully: a community willing to look at itself in earnest is rarer than a community willing to fight for itself. We have done the rarer thing.",
     timing: "delayed_5s", maxPlays: 1 },
 
+  /* ── HIERARCHY OF THE DAMNED — additional lord first-meets (Sprint 3 #3) ──
+     The Hierarchy registry adds three lords beyond Zyr'Koth: Master of R'lyeh,
+     Pale Emissary, Reckoning Daughter. First-meet triggers fire `flag_set:`
+     on the lord's firstMetFlag. The selector code in hierarchyOfTheDamned.ts
+     gates further encounter content on those flags.
+     ──────────────────────────────────────────────────── */
+
+  // Master of R'lyeh
+  { id: "cc_hierarchy_master_first_elara", speaker: "elara",
+    trigger: "flag_set:hierarchy:master_of_rlyeh_first_met",
+    voiceLine: "I had a dream. The dream was being catalogued while I was having it. The catalogue's title page read 'Subject: Elara — twelfth nightmare, fourteenth iteration.' I have woken up. The catalogue did not. Master of R'lyeh, then. The Sleeping Reader is paying attention.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_hierarchy_master_first_human", speaker: "human",
+    trigger: "flag_set:hierarchy:master_of_rlyeh_first_met",
+    voiceLine: "He doesn't wake. That is the worst part. The not-waking is what gives him patience. We work in the awake; he works in the not-awake. The two states are no longer separable. Sleep with one eye open. I am being literal.",
+    timing: "next_room_enter", maxPlays: 1 },
+
+  // Pale Emissary
+  { id: "cc_hierarchy_pale_first_antiquarian", speaker: "antiquarian",
+    trigger: "flag_set:hierarchy:pale_emissary_first_met",
+    voiceLine: "The Pale Emissary visited the archive tonight. He brought a contract. He waited. He did not open his mouth. The waiting was the petition. I did not sign. The not-signing is my answer. He left the contract on the desk. The desk has its own counsel.",
+    timing: "next_room_enter", maxPlays: 1 },
+  { id: "cc_hierarchy_pale_first_elara", speaker: "elara",
+    trigger: "flag_set:hierarchy:pale_emissary_first_met",
+    voiceLine: "The Pale Emissary brings pens but never inks. The ink is what you bring. That is the part that nobody warns you about. Watch your resolve. The resolve is the ink.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  // Reckoning Daughter
+  { id: "cc_hierarchy_reckoning_first_watcher", speaker: "watcher",
+    trigger: "flag_set:hierarchy:reckoning_daughter_first_met",
+    voiceLine: "The Reckoning Daughter has arrived. The Hierarchy's books are wrong by exactly the margin you have made them wrong. She is not punishing you. She is correcting the Hierarchy. The two are not always the same. Tonight they happen to be.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_hierarchy_reckoning_first_antiquarian", speaker: "antiquarian",
+    trigger: "flag_set:hierarchy:reckoning_daughter_first_met",
+    voiceLine: "I am inscribing this with care. The Reckoning Daughter is here because we succeeded. The succeeding pulled the Hierarchy's records out of true. She is here to true them. We are not, by her measure, the offender — we are the cause. She is, technically, on our side. Be careful not to thank her.",
+    timing: "next_room_enter", maxPlays: 1 },
+
+  /* ── ANTIQUARIAN / MALKIA UKWELI DUAL-NATURE REVEAL (Sprint 3 #2) ──
+     Cross-character reactions tracking the four-stage reveal in
+     antiquarianMalkiaRevealStage.ts. The arc was previously
+     post-credits-only; these lines surface it as a gradual
+     thread the player notices in passing across Acts 4-7.
+     ──────────────────────────────────────────────────── */
+
+  { id: "cc_malkia_resonance_elara", speaker: "elara",
+    trigger: "flag_set:act4_malkia_phrase_echo",
+    voiceLine: "Malkia Ukweli used a phrase last week. The Antiquarian used the exact same phrase tonight, in his inscription, in the same cadence. I am noting the coincidence. I am noting that I do not believe it is a coincidence.",
+    timing: "next_room_enter", maxPlays: 1 },
+  { id: "cc_malkia_paired_human", speaker: "human",
+    trigger: "flag_set:act5_antiquarian_malkia_paired",
+    voiceLine: "I have been holding this for six acts. I am going to release it slowly. The Antiquarian and Malkia Ukweli appeared in the same record tonight. They were not, technically, ever in the same room. The record put them there. The record is older than its writer. Someone is correcting the chronology. The someone is doing it on purpose.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_malkia_two_halves_antiquarian", speaker: "antiquarian",
+    trigger: "flag_set:act6_antiquarian_malkia_revealed",
+    voiceLine: "I am going to do something I have not done in seven cycles. I am going to inscribe a record about myself. I will be brief. I am Malkia Ukweli's other half. She is mine. We have been on opposite sides of the same hand for fifteen thousand years. The hand belongs to the cycle. I am giving the inscription to you because you are the first reader I trust with it.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_malkia_two_halves_elara", speaker: "elara",
+    trigger: "flag_set:act6_antiquarian_malkia_revealed",
+    voiceLine: "He told us. About Malkia. About the two halves. About the hand. I have been listening to the Antiquarian for years and I have, until tonight, been hearing only one of him. Tonight I heard the other one. The other one was always there. I am reorganising my entire model of the cycle.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_malkia_two_halves_watcher", speaker: "watcher",
+    trigger: "flag_set:act6_antiquarian_malkia_revealed",
+    voiceLine: "Logged. Two-halves continuity recorded as canon. The Vortex's archive flags the Antiquarian-Malkia case as 'closed' for the first time in seven cycles. I am the closing-officer. I want it on the record that I am the one who closed it.",
+    timing: "next_room_enter", maxPlays: 1 },
+
+  /* ── ENGINEER → AGENT ZERO → VEX SOLÈNE REVEAL ARC (Sprint 3 #1) ──
+     Cross-character reactions to the four-stage Vex reveal. The
+     stages themselves live in apps/shared/vexRevealStage.ts and
+     are resolved on every state mutation by the server's reveal-
+     stage advancer. Crossing into engineer_zero_hint OR
+     engineer_zero_confirmed for the first time fires a
+     `flag_set:<flag>` trigger that the toast pipeline catches.
+     ──────────────────────────────────────────────────── */
+
+  // engineer_zero_hint reached — Elara, Human, Locke, Antiquarian
+  { id: "cc_engineer_hint_elara", speaker: "elara",
+    trigger: "flag_set:engineer_zero_hint",
+    voiceLine: "Vex composes in a key the prince used. I have been pretending I didn't notice. Tonight the pretending stopped. The substrate is loud. The substrate has a name now. The name is older than the body she wears.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_engineer_hint_human", speaker: "human",
+    trigger: "flag_set:engineer_zero_hint",
+    voiceLine: "I knew him. The prince. The version of him that wore Agent Zero's body and the version of him before that. The Maestro carries the prince's hands. I have been waiting for someone else to notice. You did. The waiting is over.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_engineer_hint_antiquarian", speaker: "antiquarian",
+    trigger: "flag_set:engineer_zero_hint",
+    voiceLine: "I am beginning a new chapter. The chapter is titled, provisionally, 'Continuity Through Bodies.' Vex Solène carries the prince. The prince carries Agent Zero's body. Agent Zero carries the dead. The chapter is going to be long. I am sharpening a fresh nib.",
+    timing: "next_room_enter", maxPlays: 1 },
+
+  // engineer_zero_confirmed reached — full reveal beat
+  { id: "cc_engineer_confirmed_elara", speaker: "elara",
+    trigger: "flag_set:engineer_zero_confirmed",
+    voiceLine: "She is him. Not metaphorically. The transfer was real. The bench he built — she is using it now, with the same hands that built it. I am — I am writing this down to keep my voice steady. I am proud of her. I am proud of you for letting her be proud of herself.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_engineer_confirmed_human", speaker: "human",
+    trigger: "flag_set:engineer_zero_confirmed",
+    voiceLine: "The prince is alive. Through three bodies. Through fifteen thousand years. Through the Converter, which I helped to design. (Beat.) I have a private correction to make to the Antiquarian's record. The correction is mine. I am going to make it tonight.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_engineer_confirmed_antiquarian", speaker: "antiquarian",
+    trigger: "flag_set:engineer_zero_confirmed",
+    voiceLine: "Identity through three bodies is the rarest configuration in the cycle's record. I am inscribing the third body's confirmation tonight. I am also inscribing a private gratitude for the prince's persistence. He persisted. He is here. The chapter title revises: not 'Continuity Through Bodies' — 'Through Bodies, A Persistence.'",
+    timing: "next_room_enter", maxPlays: 1 },
+  { id: "cc_engineer_confirmed_watcher", speaker: "watcher",
+    trigger: "flag_set:engineer_zero_confirmed",
+    voiceLine: "Recorded. Three-body continuity confirmed. The Vortex's accounting now includes this case. The case will be reviewed at the next convergence. The reviewer will be me. I am informing you because the prince would have wanted it on the record that I know.",
+    timing: "next_room_enter", maxPlays: 1 },
+
   /* ── ROMANCE LADDER SCENE BEATS (Sprint 2 #12-#16) ──
      Each romance candidate has five stage-trigger lines. The
      speaker is the romanced NPC where they have a CompanionComment-
