@@ -50,6 +50,7 @@ import { HolidayDialogTicker } from "@/components/HolidayDialogTicker";
 import { RomanceLadderPanel } from "@/components/romance/RomanceLadderPanel";
 import { EncounterListPanel } from "@/components/encounter/EncounterListPanel";
 import { AntiquariansTomePanel } from "@/components/tome/AntiquariansTomePanel";
+import { CoNexusTomeLibrary } from "@/components/conexus/CoNexusTomeLibrary";
 
 import LivingBackground from "@/components/LivingBackground";
 
@@ -330,6 +331,14 @@ export default function CompanionHubPage() {
               trust ≥ 60. */}
           <div className="mt-6">
             <AntiquariansTomePanel />
+          </div>
+
+          {/* CoNexus Library — seven parallel-reality story
+              fragments. Each Tome unlocks via a room hint or
+              flag. Discovered ones surface their flash-fiction
+              body; the rest stay redacted. */}
+          <div className="mt-6">
+            <CoNexusTomeLibrary />
           </div>
         </div>
       </div>
