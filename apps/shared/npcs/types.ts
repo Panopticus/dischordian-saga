@@ -28,7 +28,8 @@ export type NpcKey =
   | "wraith_calder"
   | "the_seer"
   | "dmc_clone_companion"
-  | "the_oracle";
+  | "the_oracle"
+  | "jericho_jones";
 
 // --- Trust / Reveal / Channel ----------------------------------------------
 

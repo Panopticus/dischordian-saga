@@ -3125,6 +3125,45 @@ export const playerVotes = mysqlTable("player_votes", {
 }));
 
 /* ═══════════════════════════════════════════════════════
+   ROMANCE LADDERS — per-player progression on each NPC
+   romance candidate. Sprint 2 #12-#16 of the choice-impact
+   roadmap. The audit named the gap: zero player-facing
+   romances vs. Bioware genre baseline.
+
+   stage ranges 0..5:
+     0 — not started
+     1 — Acquaintance (default flirt available)
+     2 — Mutual interest (one personal-quest beat unlocks)
+     3 — Commitment (exclusivity decision; locks competing romances)
+     4 — Intimacy (one fade-to-black or artistic scene)
+     5 — Devotion (post-romance reactivity in cutscenes)
+
+   Stage 3 commitment writes a public flag
+   `romance:committed:<npcId>` that other romance ladders'
+   gates check via reactsToPublicFlag — the existing Vex/Locke
+   exclusivity pattern, generalised.
+   ═══════════════════════════════════════════════════════ */
+export const romanceLadders = mysqlTable("romance_ladders", {
+  id: int("id").primaryKey().autoincrement(),
+  userId: int("userId").notNull(),
+  npcId: varchar("npcId", { length: 64 }).notNull(),
+  stage: int("stage").notNull().default(0),
+  /** Whether the player committed to exclusivity at stage 3.
+   *  Once true, advancing other ladders past stage 2 is gated. */
+  exclusive: boolean("exclusive").notNull().default(false),
+  /** Whether the romance ended (broken off / partner died /
+   *  player rejected). Stays in the table so post-romance
+   *  reactivity can fire ("the one I lost"). */
+  ended: boolean("ended").notNull().default(false),
+  startedAt: timestamp("startedAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  uniqueUserNpc: uniqueIndex("uq_romance_user_npc").on(table.userId, table.npcId),
+  userIdx: index("idx_romance_user").on(table.userId),
+}));
+export type RomanceLadder = typeof romanceLadders.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
    FACTION STANDING — per-player reputation with the five
    designed factions. Sprint 2 of the choice-impact roadmap;
    the audit named this gap (no userFactionStanding column,

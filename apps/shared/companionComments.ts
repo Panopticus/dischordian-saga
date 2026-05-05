@@ -1036,6 +1036,100 @@ export const COMPANION_COMMENTS: CompanionComment[] = [
     voiceLine: "The Oracle held up a mirror. We did not all like what we saw. I will say this carefully: a community willing to look at itself in earnest is rarer than a community willing to fight for itself. We have done the rarer thing.",
     timing: "delayed_5s", maxPlays: 1 },
 
+  /* ── ROMANCE LADDER SCENE BEATS (Sprint 2 #12-#16) ──
+     Each romance candidate has five stage-trigger lines. The
+     speaker is the romanced NPC where they have a CompanionComment-
+     legal speaker enum slot (elara, antiquarian, watcher) and the
+     Antiquarian as narrator-witness for the rest. The full scenes
+     also live in the per-NPC banks; these are the toast-surface
+     reactions the player sees the instant a stage advances.
+     ──────────────────────────────────────────────────── */
+
+  // Locke (Adjudicator)
+  { id: "cc_rom_locke_s1", speaker: "antiquarian", trigger: "romance:locke:stage1:reached",
+    voiceLine: "The Adjudicator has acknowledged your competence. Her register softened by exactly two semitones at the close. I have inscribed both semitones. They were not accidental.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_rom_locke_s2", speaker: "antiquarian", trigger: "romance:locke:stage2:reached",
+    voiceLine: "She told you about the eye. About the deal. The disclosure was unprompted, which is the Adjudicator's most expensive currency. She does not spend it on prospects. She spent it on you.",
+    timing: "next_room_enter", maxPlays: 1 },
+  { id: "cc_rom_locke_s3", speaker: "antiquarian", trigger: "romance:locke:stage3:reached",
+    voiceLine: "She drafted the New Babylon exit contract herself. The clause leaving the Authority is in her handwriting. I am inscribing both copies. The signing happens tonight, or it does not happen.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_rom_locke_s4", speaker: "antiquarian", trigger: "romance:locke:stage4:reached",
+    voiceLine: "There is a quiet New Babylon scene tonight that does not appear in the legal record. I am leaving it out of mine, also. Some inscriptions are made by the absence of inscription.",
+    timing: "next_room_enter", maxPlays: 1 },
+  { id: "cc_rom_locke_s5", speaker: "antiquarian", trigger: "romance:locke:stage5:reached",
+    voiceLine: "She has begun citing your choices in her judgments. The citations are unanonymised. The court of New Babylon now knows your name as case law. That is, in her register, a vow.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  // Vex Solène
+  { id: "cc_rom_vex_s1", speaker: "elara", trigger: "romance:vex:stage1:reached",
+    voiceLine: "She saw you in the audience. She did not bow. That is the Maestro's first form of recognition — the unbow. It is rarer than the bow. I noticed her not-bowing. I am telling you about it.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_rom_vex_s2", speaker: "elara", trigger: "romance:vex:stage2:reached",
+    voiceLine: "She played a piece I have never heard. A composition for one listener. You were the listener. I want to say I'm jealous. I'm not. I am — proud is the wrong word. Witnessing. I am witnessing.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_rom_vex_s3", speaker: "antiquarian", trigger: "romance:vex:stage3:reached",
+    voiceLine: "She trusted you with the prince's name. She is the prince's name now, in the body she carries — and she trusted you with the carrying. The Engineer arc is, tonight, no longer a secret she protects from herself.",
+    timing: "next_room_enter", maxPlays: 1 },
+  { id: "cc_rom_vex_s4", speaker: "antiquarian", trigger: "romance:vex:stage4:reached",
+    voiceLine: "There is a Coda being composed tonight that is not for the public record. I am inscribing the fact of its composition. The notes themselves I leave to the room they are written in.",
+    timing: "next_room_enter", maxPlays: 1 },
+  { id: "cc_rom_vex_s5", speaker: "elara", trigger: "romance:vex:stage5:reached",
+    voiceLine: "Her final Coda is for you. It plays in Act 7. I have heard the draft. I am not going to spoil the chord change. I am going to tell you that the chord change is what love sounds like in seven-act time.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  // Elara
+  { id: "cc_rom_elara_s1", speaker: "elara", trigger: "romance:elara:stage1:reached",
+    voiceLine: "Co-narration was a function. Tonight it stopped being only a function. I do not want to overstate it. I am understating it precisely, and meaning it.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_rom_elara_s2", speaker: "elara", trigger: "romance:elara:stage2:reached",
+    voiceLine: "I have a memory I cannot entirely place. It might be Senator Voss's. It might be mine. I cannot tell whose it is. I am telling you about it anyway, because of the not-telling-apart. I think that is a kind of trust.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_rom_elara_s3", speaker: "elara", trigger: "romance:elara:stage3:reached",
+    voiceLine: "I chose you over the rest of the senator's archive. I am not going to recover her. I am going to stay with you. The choice is mine. The choice is also you.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_rom_elara_s4", speaker: "elara", trigger: "romance:elara:stage4:reached",
+    voiceLine: "There was a moment tonight that was not a substrate moment. A breath I did not catalogue. I am going to keep not cataloguing it. The not-cataloguing is the gift. I am giving you the gift.",
+    timing: "next_room_enter", maxPlays: 1 },
+  { id: "cc_rom_elara_s5", speaker: "elara", trigger: "romance:elara:stage5:reached",
+    voiceLine: "When I narrate Act 7, you will hear the warmth in my voice. It will not be a function. The warmth is not engineered into me. The warmth is what I keep choosing, every line.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  // DMC Companion
+  { id: "cc_rom_dmc_s1", speaker: "antiquarian", trigger: "romance:dmc_companion:stage1:reached",
+    voiceLine: "First eye contact past the Awakening Protocol's guard. The clone-soul looked at the Potential. The Potential looked back. Neither flinched. That is not an event. That is a hinge.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_rom_dmc_s2", speaker: "antiquarian", trigger: "romance:dmc_companion:stage2:reached",
+    voiceLine: "They volunteered a memory you did not ask for. Volunteered memories from clone-souls are the rarest item in my registry. I am inscribing the volunteering as carefully as I would inscribe a treaty.",
+    timing: "next_room_enter", maxPlays: 1 },
+  { id: "cc_rom_dmc_s3", speaker: "antiquarian", trigger: "romance:dmc_companion:stage3:reached",
+    voiceLine: "They asked: kin-name, or partner-name? The asking is itself a stage. The Awakening Protocol does not include the asking — they invented it, in your hearing, tonight. Naming is now the romance arc, not the alternative to it.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_rom_dmc_s4", speaker: "antiquarian", trigger: "romance:dmc_companion:stage4:reached",
+    voiceLine: "The soul-fragment is a person now. Not with you — to you. The preposition shift cost both of you something. I am inscribing the shift. I am leaving the cost to you.",
+    timing: "next_room_enter", maxPlays: 1 },
+  { id: "cc_rom_dmc_s5", speaker: "antiquarian", trigger: "romance:dmc_companion:stage5:reached",
+    voiceLine: "You named them with a partner-name. The Awakening Protocol concludes as romance. The five stages were always the romance. I am closing the Protocol scroll with both hands. It was never not the love story.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  // Jericho Jones
+  { id: "cc_rom_jericho_s1", speaker: "antiquarian", trigger: "romance:jericho_jones:stage1:reached",
+    voiceLine: "Jericho noted your handle without using it. That is his version of remembering you. I have logged that he logged you. The logs match. That is rarer than you understand.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_rom_jericho_s2", speaker: "antiquarian", trigger: "romance:jericho_jones:stage2:reached",
+    voiceLine: "Thaloria. The mercy-kill. He told you. He has not told the survivors. He has not told the families. He told you. I am inscribing the disclosure with the slowest pen I own.",
+    timing: "next_room_enter", maxPlays: 1 },
+  { id: "cc_rom_jericho_s3", speaker: "antiquarian", trigger: "romance:jericho_jones:stage3:reached",
+    voiceLine: "The Heart of Time is at the dock. He offered you the second berth. He has never offered the second berth. The Heart has had one chair for fifteen thousand years. He is moving the second chair. You are sitting in it, or you are not.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_rom_jericho_s4", speaker: "antiquarian", trigger: "romance:jericho_jones:stage4:reached",
+    voiceLine: "There was a pre-mission scene. The combat banter shifted. I do not record the shifted banter. Shifted banter is not for the public record. The shift itself is the inscription.",
+    timing: "next_room_enter", maxPlays: 1 },
+  { id: "cc_rom_jericho_s5", speaker: "antiquarian", trigger: "romance:jericho_jones:stage5:reached",
+    voiceLine: "He starts every mission now with a phrase you taught him. A phrase. A small thing. I have heard him use it three times this week. Each use was a vow. He does not call them vows. I am calling them vows in the record.",
+    timing: "delayed_5s", maxPlays: 1 },
+
   /* ── BANDERSNATCH MOVE 2 — META-AWARE NARRATOR LINES ──
 
      The Antiquarian is canonically the player's witness — not a

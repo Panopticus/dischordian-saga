@@ -14,9 +14,9 @@ import {
 import type { NpcKey } from "../types";
 
 describe("NPC_REGISTRY", () => {
-  it("contains all 13 priority-roster + companion characters", () => {
+  it("contains all 14 priority-roster + companion characters (13 original + Jericho Jones)", () => {
     const keys = allNpcKeys();
-    expect(keys).toHaveLength(13);
+    expect(keys).toHaveLength(14);
     const expected: NpcKey[] = [
       "elara",
       "the_human",
@@ -31,6 +31,7 @@ describe("NPC_REGISTRY", () => {
       "the_seer",
       "dmc_clone_companion",
       "the_oracle",
+      "jericho_jones",
     ];
     for (const key of expected) {
       expect(keys).toContain(key);
