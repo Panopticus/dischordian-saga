@@ -44,9 +44,13 @@ The original audit reported "~39 routers with zero client `trpc.<routerName>.` c
 
 `apps/shared/tcg-core/cards/definitions/neutral/s1_char_004_ambassador_veron.ts` uses `kind: "veron_kills"` as the **counter name** in an `add_counter` effect op, not as a top-level `Trigger` discriminator. `cards/schema.ts:497` deliberately accepts arbitrary counter strings (`z.string().min(1)`). The runtime at `engine/effectInterpreter.ts:94–111` and `engine/conditions.ts:30–41` resolves it generically against `entity.card.counters[name]`. The card has been live for 19 test files. **No defect. Comment clarification added in this branch.**
 
+### C4. §2.3 — Duelyst WebSocket is NOT dead either
+
+The original audit flagged `apps/server/duelystWs.ts` (mounted at `/api/duelyst-pvp`, not `/api/duelyst` as misreported) as orphan because `DuelystPage` is single-player. Follow-up triage found the WS has 6 dedicated test files — `heatWiring.test.ts`, `replayProducer.test.ts`, `replayVerification.test.ts`, `task4-resilience.test.ts`, `matchLengthMonitor.test.ts`, `pvpRanking.test.ts` — plus heat-modifier integration, replay verification, match-length monitoring, and follows the same architecture as the live `pvpWs.ts` and `chessWs.ts`. It's backend-complete, awaiting a multiplayer client connector. Header comment added in this branch flagging this. **Do NOT delete.**
+
 ### Remediation status (this branch)
 
-- **Phase A complete on commit ea72d5b's successor**: dead lazy imports removed from `App.tsx`; `LoreTutorialHubPage.tsx` deleted; `crewTableSync.ts` + test moved to `apps/server/services/`; Veron clarification comment added; unused engine ops/triggers/keywords annotated `// reserved`; `questProgress` and `pvpRanking` marked `@deprecated`.
+- **Phase A** (commit `44a4aad`): dead lazy imports removed from `App.tsx`; `LoreTutorialHubPage.tsx` deleted; `crewTableSync.ts` + test moved to `apps/server/services/`; Veron clarification comment added; unused engine ops/triggers/keywords annotated `// reserved`; `questProgress` and `pvpRanking` marked `@deprecated`.
 - **Phase B–E**: tracked in `/root/.claude/plans/make-a-plan-to-prancy-mochi.md`. Phase C (entitlement grant + Stripe stub, conspiracy boards Acts 1-2 scaffolding, Act 1 taunt VO pipeline, CI guard) and Phase D content authoring are pending.
 
 ---

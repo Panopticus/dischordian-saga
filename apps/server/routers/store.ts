@@ -11,6 +11,7 @@ import type { DrizzleDb } from "../db";
 type TxOrDb = DrizzleDb | Parameters<Parameters<DrizzleDb["transaction"]>[0]>[0];
 import { eq, and, desc, sql } from "drizzle-orm";
 import { ripple } from "../services/rippleEngine";
+import { setEntitlement } from "../services/entitlementService";
 
 export const storeRouter = router({
   /** List all products, optionally filtered by category */
@@ -458,6 +459,13 @@ async function doFulfill(
     } else {
       await tx.insert(shipUpgrades).values({ userId, upgradeType: "cargo", level: 2, obtainedVia: "purchase" });
     }
+  }
+
+  // Grant entitlement (boolean account flag — gates cards via
+  // expansionUnlockService; see services/entitlementService.ts).
+  if (rewards.entitlement) {
+    summary.entitlement = rewards.entitlement;
+    await setEntitlement(tx, userId, rewards.entitlement, true);
   }
 
   // Grant fuel capacity

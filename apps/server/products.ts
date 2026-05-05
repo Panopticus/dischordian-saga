@@ -26,6 +26,11 @@ export interface StoreProduct {
     cargoExpansion?: number;
     fuelCapacity?: number;
     cosmetic?: string;
+    /** Boolean entitlement flag set on userProgress.gameData.entitlements.
+     *  Currently gates the `se_founding_author` and
+     *  `se_authors_edition_s2` cards (apps/shared/tcg-core/cards/
+     *  definitions/s2_hierarchy/special_editions.ts). */
+    entitlement?: "foundingAuthor" | "authorsEditionS2";
   };
   /** Is this a featured/promoted item */
   featured: boolean;
@@ -300,6 +305,37 @@ export const STORE_PRODUCTS: StoreProduct[] = [
     featured: true,
     sortOrder: 41,
     icon: "crown",
+  },
+
+  // ═══ ENTITLEMENTS ═══
+  // Boolean account flags that unlock entitlement-gated cards. Real
+  // money only — these aren't credit/Dream purchasable. SKUs are
+  // placeholders; production Stripe price IDs will be wired by ops.
+  {
+    key: "entitlement_founding_author",
+    name: "Founding Author Edition",
+    description: "Permanent commemorative entitlement. Unlocks the Founding Author special-edition card.",
+    category: "cosmetic",
+    priceUsd: 4900, // $49.00 — placeholder, ops to confirm
+    priceCredits: 0,
+    priceDream: 0,
+    rewards: { entitlement: "foundingAuthor" },
+    featured: false,
+    sortOrder: 50,
+    icon: "feather",
+  },
+  {
+    key: "entitlement_authors_edition_s2",
+    name: "Author's Edition — Season 2",
+    description: "Season 2 commemorative entitlement. Unlocks the Author's Edition S2 special-edition card.",
+    category: "cosmetic",
+    priceUsd: 1900, // $19.00 — placeholder, ops to confirm
+    priceCredits: 0,
+    priceDream: 0,
+    rewards: { entitlement: "authorsEditionS2" },
+    featured: false,
+    sortOrder: 51,
+    icon: "scroll",
   },
 ];
 
