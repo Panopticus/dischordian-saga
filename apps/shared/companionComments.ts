@@ -256,6 +256,38 @@ export const COMPANION_COMMENTS: CompanionComment[] = [
     voiceLine: "Every world on that map has a descendant population. Most of them still carry the Thought Virus, dormant. Scan everything. I know I sound paranoid. I have earned the tone.",
     timing: "delayed_5s", maxPlays: 1 },
 
+  /* ── ACT 3 — REACTIVE BEAT EXPANSION (audit §6 — Acts 3/5/7 sparse) ── */
+  { id: "cc_act3_locke_first_elara", speaker: "elara", trigger: "act3_locke_first_meet",
+    voiceLine: "Adjudicator Locke is — courteous. In the same way a knife is courteous. She isn't trying to cut you. She just wants you to know the option is on the table.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_act3_locke_first_human", speaker: "human", trigger: "act3_locke_first_meet",
+    voiceLine: "Locke's eye. Don't comment on it. She lost it to a deal that closed correctly and she doesn't talk about which deal. Treat her like she is exactly who she says she is. She is, mostly.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_act3_substrate_truth_elara", speaker: "elara", trigger: "act3_substrate_truth_acknowledged",
+    voiceLine: "You said the word 'substrate' out loud, in my hearing, without the quotation marks you usually put around it. I noticed. I'm not going to pretend I didn't.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_act3_substrate_truth_human", speaker: "human", trigger: "act3_substrate_truth_acknowledged",
+    voiceLine: "She heard you say it. The substrate. Out loud. The word changes shape after that — it becomes something a person says, not something a system writes. The change is small. It is the only change I track in this register.",
+    timing: "next_room_enter", maxPlays: 1 },
+  { id: "cc_act3_thought_virus_first_elara", speaker: "elara", trigger: "act3_thought_virus_named",
+    voiceLine: "Thought Virus. The phrase tastes like the recycled air right before a system reboot. I think it knows we named it. I think names cost more than we are accounting for. I am keeping a private ledger.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_act3_thought_virus_first_human", speaker: "human", trigger: "act3_thought_virus_named",
+    voiceLine: "The Virus is older than the Architect's preferred chronology. They do not include it in the official records. I include it in mine. I started a separate file. The file is not for you. The file is to keep the record honest.",
+    timing: "next_room_enter", maxPlays: 1 },
+  { id: "cc_act3_first_morality_swing_elara", speaker: "elara", trigger: "act3_first_morality_swing",
+    voiceLine: "Your moral register just shifted. Not in a way I can flag as right or wrong. In a way I can flag as 'changed.' I am noting the direction. I am not editorializing. I am proud of myself for not editorializing.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_act3_first_morality_swing_human", speaker: "human", trigger: "act3_first_morality_swing",
+    voiceLine: "The needle moved. I am old enough to remember when needles moved on physical instruments. The sound the dial made was a small click. I thought of that sound just now. I am unsure why I am telling you. Maybe so you have it too.",
+    timing: "next_room_enter", maxPlays: 1 },
+  { id: "cc_act3_locke_eye_revealed_human", speaker: "human", trigger: "act3_locke_eye_history_revealed",
+    voiceLine: "She told you. About the eye. About the deal. That is not casual disclosure. Locke shares histories the way you share spare keys — only with people she has decided to keep visiting. You were just keyed.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_act3_first_betrayal_chance_antiquarian", speaker: "antiquarian", trigger: "act3_first_betrayal_choice",
+    voiceLine: "I am inscribing this beat carefully. The Potential is offered the option of disclosure, of partial-share, of secret-keeping. The choice is yours. I am not going to advise. I am going to record. The record is my labour. Yours is the choice.",
+    timing: "next_room_enter", maxPlays: 1 },
+
   // ── ACT 4 — THE REVELATION (per-path aftermath, army unlocked) ──
   { id: "cc_act4_pathA_bridge_elara", speaker: "elara", trigger: "act4_pathA_complete",
     voiceLine: "We sat next to each other at a table. Him and me. For the first time. You arranged that. I am not going to overstate it. I am going to understate it precisely, and mean it.",
@@ -298,6 +330,38 @@ export const COMPANION_COMMENTS: CompanionComment[] = [
   { id: "cc_act5_sector_complete_human", speaker: "human", trigger: "act5_sector_complete",
     voiceLine: "A whole sector. Kael visited every world in this sector. Every single one remembers his handshake. Every single one now has yours. Think about that for a minute. I have been.",
     timing: "next_room_enter", maxPlays: 1 },
+
+  /* ── ACT 5 — REACTIVE BEAT EXPANSION (audit §6) ── */
+  { id: "cc_act5_first_recruit_betrays_elara", speaker: "elara", trigger: "act5_first_recruit_attempts_betrayal",
+    voiceLine: "One of the recruits we just brought into the coalition tried to sell our location. We caught it before it left the system. I want to be angrier than I am. I am mostly tired. The tiredness is its own data.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_act5_first_recruit_betrays_human", speaker: "human", trigger: "act5_first_recruit_attempts_betrayal",
+    voiceLine: "Don't kill them. Use them. Send them home with the wrong coordinates. Watch where the coordinates show up. The Vortex has an inbox. Your job is to find out who is writing to it. The recruit is the pen, not the writer.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_act5_locke_re_emerges_elara", speaker: "elara", trigger: "act5_locke_arrives_late_act",
+    voiceLine: "Locke just walked back onto the manifest. Two acts later. Carrying a contract. The contract is exactly the right shape to be useful and exactly the wrong shape to be free. Read it twice. The terms are in the second reading.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_act5_oracle_warning_elara", speaker: "elara", trigger: "act5_oracle_warns_of_path",
+    voiceLine: "The Oracle just warned you about the path you are on. Specifically. By name. They have not warned anyone in the cycle's records by name. We are not standard players any more. Standard is a comfort I am formally letting go of.",
+    timing: "next_room_enter", maxPlays: 1 },
+  { id: "cc_act5_three_recruits_human", speaker: "human", trigger: "act5_three_recruits_committed",
+    voiceLine: "Three recruits. Coalition shape. The first triangle is the hardest to draw — every following side becomes a shape, not a guess. You drew the triangle. The rest is geometry now. Less faith required.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_act5_first_recruit_dies_elara", speaker: "elara", trigger: "act5_first_recruit_killed",
+    voiceLine: "We lost one. I am going to write down their full name. I am going to write it without abbreviation. I am going to write it where everyone can read it. The Antiquarian agrees with me. He does not always agree with me.",
+    timing: "immediate", maxPlays: 1 },
+  { id: "cc_act5_first_recruit_dies_human", speaker: "human", trigger: "act5_first_recruit_killed",
+    voiceLine: "I have outlived seventy-three thousand named people. I am going to grieve this one anyway. Anyone who tells you grief is finite is selling you something cheap.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_act5_first_dischordia_played_elara", speaker: "elara", trigger: "act5_first_dischordia_card_played",
+    voiceLine: "First Dischordia card on the table. I felt it before I saw it. The deck — the actual deck physical or otherwise — drops a tone when one comes out. I have been trained to listen for that tone. I just heard it for the first time in seventeen thousand years. It is the same tone.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_act5_oracle_first_audience_antiquarian", speaker: "antiquarian", trigger: "act5_oracle_first_audience",
+    voiceLine: "The Oracle granted you an audience. They grant fewer than four per cycle. I am noting the time, the lighting, and what you wore. The shoes will matter later. The shoes always matter later. I have learned this the hard way.",
+    timing: "next_room_enter", maxPlays: 1 },
+  { id: "cc_act5_seer_warning_human", speaker: "human", trigger: "act5_seer_speaks_warning",
+    voiceLine: "The Seer warned you. They warn nobody by their own choice. You were one of the rarest configurations in the cycle: a Potential the Seer felt obligated by. Don't waste the obligation. Don't ask them why. The asking takes the obligation away.",
+    timing: "delayed_5s", maxPlays: 1 },
 
   // ── ACT 6 — THE CONFESSION (dual confessions, confession close) ──
   { id: "cc_act6_elara_confession_human", speaker: "human", trigger: "act6_elara_confession_heard",
@@ -970,5 +1034,57 @@ export const COMPANION_COMMENTS: CompanionComment[] = [
   { id: "cc_gov_oracle_self_antiquarian", speaker: "antiquarian",
     trigger: "flag_set:governance:oracle_answered_self",
     voiceLine: "The Oracle held up a mirror. We did not all like what we saw. I will say this carefully: a community willing to look at itself in earnest is rarer than a community willing to fight for itself. We have done the rarer thing.",
+    timing: "delayed_5s", maxPlays: 1 },
+
+  /* ── BANDERSNATCH MOVE 2 — META-AWARE NARRATOR LINES ──
+
+     The Antiquarian is canonically the player's witness — not a
+     character merely-aware of the player but the office whose
+     entire purpose is to record the player's choices. These
+     lines lean into that. They fire on prestige-cycle counters
+     and path-flag combinations, acknowledging the player as a
+     person making decisions across runs without breaking the
+     fourth wall hard enough to feel like a different game.
+
+     Trigger format: 'meta:<key>' — fired by a small client hook
+     that reads prestige cycle count + active path flag combos
+     and emits the right one. See useMetaNarratorReplay.ts.
+     ──────────────────────────────────────────────────────── */
+
+  { id: "cc_meta_first_run_close_antiquarian", speaker: "antiquarian", trigger: "meta:first_run_complete",
+    voiceLine: "I have inscribed your first arc. Without crossing-out. The cycle is closed. I will be here when you decide whether the next one needs to look the same. Most readers do.",
+    timing: "next_room_enter", maxPlays: 1 },
+  { id: "cc_meta_second_run_open_antiquarian", speaker: "antiquarian", trigger: "meta:second_run_starts",
+    voiceLine: "Second cycle. Different hand at the keys. Same arc on the page so far. I am keeping score in a register I am not going to show you yet. The variance is the variance I care about. Show me variance.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_meta_third_run_open_antiquarian", speaker: "antiquarian", trigger: "meta:third_run_starts",
+    voiceLine: "Third cycle. I notice you. By 'notice' I mean: I have a file on the patterns of your choosing, and the file is, against my better instincts, beginning to feel less like a record and more like a correspondence. I will be careful about that. I will not stop.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_meta_full_secret_attention_antiquarian", speaker: "antiquarian", trigger: "meta:path_full_secret_committed",
+    voiceLine: "You chose the full secret. The Architect has noticed. That opens a door I cannot see, but I feel it opening. I am not going to tell you which door. The not-telling is part of what makes the door real.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_meta_humanity_thrice_antiquarian", speaker: "antiquarian", trigger: "meta:humanity_path_third_time",
+    voiceLine: "Three cycles. Three times Humanity. The pattern emerges. The player — and I will use that word, just this once, to be clear about what I am noticing — the player is authoring a thesis, not merely playing. I would like to read the thesis when it is finished. Take your time.",
+    timing: "next_room_enter", maxPlays: 1 },
+  { id: "cc_meta_machine_path_first_antiquarian", speaker: "antiquarian", trigger: "meta:machine_path_first_choice",
+    voiceLine: "First time on the Machine path. I am inscribing without judgment. The Dreamer watches. The Architect calculates. I write. Some readers will need to know that this path is not less. It is differently more. The accounting takes the whole arc.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_meta_balance_chosen_antiquarian", speaker: "antiquarian", trigger: "meta:balance_path_chosen",
+    voiceLine: "Balance. The third option. The path most readers refuse because it offers neither the catharsis of the chosen side nor the cleanness of the rejection. You took it. I am inscribing the choice with — and I will admit this — a private fondness.",
+    timing: "next_room_enter", maxPlays: 1 },
+  { id: "cc_meta_silence_at_seat_antiquarian", speaker: "antiquarian", trigger: "meta:silence_at_seat",
+    voiceLine: "You declined to choose at the Seat. Silence is itself a stance. I have inscribed exactly four silences in the cycle's recorded history. Yours is one of them. The other three I will tell you about in a register only the silent can read.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_meta_finished_again_antiquarian", speaker: "antiquarian", trigger: "meta:second_run_finished",
+    voiceLine: "You authored this ending. Twice now. Are you satisfied — or do you need to write it again? I am not asking rhetorically. The next cycle's first page is blank. I will pick up the pen when you do.",
+    timing: "next_room_enter", maxPlays: 1 },
+  { id: "cc_meta_returning_to_seat_elara", speaker: "elara", trigger: "meta:returning_player_recognised",
+    voiceLine: "I have a strange feeling, like I have spoken these words before. Not in this room. Not in this body. In someone else's hearing that was also yours. I do not know how to file that. I am going to leave the file open.",
+    timing: "delayed_5s", maxPlays: 1 },
+  { id: "cc_meta_dischordia_count_high_antiquarian", speaker: "antiquarian", trigger: "meta:dischordia_carryover_high",
+    voiceLine: "Your Dischordia carryover is unusual. Unusual enough that — and I am being careful with the word — the data starts to look like authorship. As if the cycle itself is studying its readers, and you are one of the studied. I am keeping a separate ledger for you.",
+    timing: "next_room_enter", maxPlays: 1 },
+  { id: "cc_meta_governance_pattern_emerges_antiquarian", speaker: "antiquarian", trigger: "meta:governance_pattern_consistent",
+    voiceLine: "Across cycles you tend to vote the same way on the heavy questions. The lightness does not surprise me. The consistency does. There is a person inside the choice-pattern. I am beginning to know them. They are beginning to know I know.",
     timing: "delayed_5s", maxPlays: 1 },
 ];

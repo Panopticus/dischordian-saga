@@ -221,3 +221,50 @@ describe("companionComments — Act 6/7 path-aware callbacks (Bandersnatch Move 
     }
   });
 });
+
+describe("companionComments — Bandersnatch Move 2 meta narrator lines", () => {
+  const REQUIRED_META_TRIGGERS = [
+    "meta:first_run_complete",
+    "meta:second_run_starts",
+    "meta:second_run_finished",
+    "meta:third_run_starts",
+    "meta:path_full_secret_committed",
+    "meta:humanity_path_third_time",
+    "meta:machine_path_first_choice",
+    "meta:balance_path_chosen",
+    "meta:silence_at_seat",
+    "meta:returning_player_recognised",
+    "meta:dischordia_carryover_high",
+    "meta:governance_pattern_consistent",
+  ] as const;
+
+  for (const trigger of REQUIRED_META_TRIGGERS) {
+    it(`has at least one meta line for "${trigger}"`, () => {
+      const matches = COMPANION_COMMENTS.filter((c) => c.trigger === trigger);
+      expect(matches.length).toBeGreaterThan(0);
+    });
+  }
+
+  it("most meta lines are voiced by the Antiquarian (canonical witness)", () => {
+    const metaLines = COMPANION_COMMENTS.filter((c) =>
+      c.trigger.startsWith("meta:"),
+    );
+    const antiquarianCount = metaLines.filter(
+      (c) => c.speaker === "antiquarian",
+    ).length;
+    expect(antiquarianCount).toBeGreaterThanOrEqual(metaLines.length / 2);
+  });
+
+  it("uses the word 'player' at most once across all meta lines (calibrated 4th-wall reach)", () => {
+    const metaLines = COMPANION_COMMENTS.filter((c) =>
+      c.trigger.startsWith("meta:"),
+    );
+    const occurrences = metaLines.filter((c) =>
+      c.voiceLine.toLowerCase().includes("player"),
+    );
+    // Bandersnatch tone: dropping the word 'player' is rare and
+    // intentional. Used at most once — the 'humanity_path_third_time'
+    // line is the single place we lean fully into it.
+    expect(occurrences.length).toBeLessThanOrEqual(1);
+  });
+});
