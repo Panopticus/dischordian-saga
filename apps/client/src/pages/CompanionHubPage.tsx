@@ -47,6 +47,7 @@ import { AnimatedPortrait } from "@/components/AnimatedPortrait";
 import { getMaterialById } from "@/data/craftingData";
 import { ALL_LOYALTY_MISSIONS, getAvailableLoyaltyMissions, type LoyaltyMission, type LoyaltyMissionStep } from "@/data/loyaltyMissions";
 import { HolidayDialogTicker } from "@/components/HolidayDialogTicker";
+import { RomanceLadderPanel } from "@/components/romance/RomanceLadderPanel";
 
 import LivingBackground from "@/components/LivingBackground";
 
@@ -301,6 +302,16 @@ export default function CompanionHubPage() {
               </div>
             </div>
           </motion.div>
+
+          {/* Bonds — five romance candidates beyond Elara/Human. The
+              panel reads trpc.romance.getStatus and renders each
+              candidate's stage, trust, and per-candidate advance /
+              commit / end actions. The RomanceScenePlayer modal
+              walks the multi-line cinematic when the player advances
+              into a new stage. */}
+          <div className="mt-8">
+            <RomanceLadderPanel />
+          </div>
         </div>
       </div>
     );
