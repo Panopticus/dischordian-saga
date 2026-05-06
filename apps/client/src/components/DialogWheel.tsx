@@ -16,13 +16,16 @@ import {
   ChevronRight, Radio, Wifi, WifiOff
 } from "lucide-react";
 import { useGame } from "@/contexts/GameContext";
+import { rollSkillCheck, deriveSkillStats } from "@/lib/dialogSkillCheck";
+import type { SkillType } from "@/lib/dialogSkillCheck";
 
 // ─── Types (re-export from shared) ───
 import type {
-  SkillType, CorruptionSource, CardRarity, SkillCheckDef,
+  CorruptionSource, CardRarity, SkillCheckDef,
   TutorialChoice,
 } from "@/data/loreTutorials";
-export type { SkillType, CorruptionSource, CardRarity };
+export type { CorruptionSource, CardRarity };
+export type { SkillType };
 export type MoralityAlignment = "machine" | "humanity" | "neutral";
 
 /** WheelChoice extends TutorialChoice with required shortText and alignment */
@@ -79,13 +82,8 @@ const RARITY_GLOW: Record<CardRarity, string> = {
   mythic: "drop-shadow-[0_0_8px_color-mix(in oklch, var(--energy-error) 70%, transparent)]",
 };
 
-// ─── Skill Check Logic ───
-function rollSkillCheck(playerStat: number, threshold: number): { passed: boolean; roll: number } {
-  // D100 roll + player stat vs threshold
-  const roll = Math.floor(Math.random() * 100) + 1;
-  const total = roll + playerStat;
-  return { passed: total >= threshold, roll };
-}
+// Skill-check logic moved to apps/client/src/lib/dialogSkillCheck.ts so
+// NPCDialog (plan §A1) shares the same D100 + playerStat vs threshold rule.
 
 // ─── Glitch Text Effect ───
 function GlitchText({ text, intensity = 0.3 }: { text: string; intensity?: number }) {
@@ -403,21 +401,12 @@ export default function DialogWheel({
   const { state } = useGame();
   const characterChoices = state.characterChoices;
 
-  // Get player stats from character sheet
-  // Map the 3 core attributes (attack/defense/vitality) to 6 skill types
-  const playerStats = useMemo<Record<SkillType, number>>(() => {
-    const atk = characterChoices?.attrAttack || 5;
-    const def = characterChoices?.attrDefense || 5;
-    const vit = characterChoices?.attrVitality || 5;
-    return {
-      charisma: vit * 10,       // Vitality → social resilience
-      intelligence: atk * 8 + def * 2, // Attack-weighted analysis
-      strength: atk * 10,       // Raw attack power
-      perception: def * 6 + atk * 4,   // Defense-weighted awareness
-      willpower: def * 10,      // Pure defense → mental fortitude
-      agility: atk * 5 + vit * 5,      // Balanced speed
-    };
-  }, [characterChoices]);
+  // Stat derivation factored into apps/client/src/lib/dialogSkillCheck.ts
+  // so NPCDialog uses the same mapping for its skill-check choices.
+  const playerStats = useMemo<Record<SkillType, number>>(
+    () => deriveSkillStats(characterChoices),
+    [characterChoices],
+  );
 
   // Filter choices based on class/alignment requirements and corruption
   const visibleChoices = useMemo(() => {
