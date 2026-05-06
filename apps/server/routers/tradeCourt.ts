@@ -67,6 +67,21 @@ import {
   listMyAnomalies,
   spendIntelligenceOnAnomaly,
 } from "../services/anomalyService";
+import {
+  appendDynastyBookEntry,
+  betrayAlliance,
+  chooseSuccessor,
+  declareAlliance,
+  dismissNewsDigest,
+  getActiveEdict,
+  getDynasty,
+  getNewsDigest,
+  issueEdict,
+  listMyAlliances,
+  nameDynasty,
+} from "../services/empireFeelService";
+import { allEdictKeys, EDICT_REGISTRY } from "@shared/tradeEmpire/edicts";
+import { isKnownSubHouseKey as _isKnownSubHouseKey } from "@shared/tradeEmpire/houses";
 import { REFERENCE_AGENDAS } from "@shared/tradeEmpire/agendas";
 import { spaceStations, towerPlacements, userProgress } from "../../db/schema";
 import { allKnownMunitionRefs, getMunitionEffect, TOWERS } from "@shared/towerDefense";
@@ -400,6 +415,109 @@ export const tradeCourtRouter = router({
         throw new TRPCError({ code: "BAD_REQUEST", message: result.error });
       }
       return result;
+    }),
+
+  // --- Empire-feel endpoints (Phase D) -----------------------------------
+
+  // Alliances
+  declareAlliance: protectedProcedure
+    .input(z.object({ houseAKey: z.string(), houseBKey: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      if (!_isKnownSubHouseKey(input.houseAKey) || !_isKnownSubHouseKey(input.houseBKey)) {
+        throw new TRPCError({ code: "BAD_REQUEST", message: "unknown sub-house" });
+      }
+      const result = await declareAlliance(
+        ctx.user.id,
+        input.houseAKey,
+        input.houseBKey,
+      );
+      if (!result.ok) {
+        throw new TRPCError({ code: "BAD_REQUEST", message: result.error });
+      }
+      return result;
+    }),
+
+  betrayAlliance: protectedProcedure
+    .input(z.object({ allianceId: z.number().int().positive() }))
+    .mutation(async ({ ctx, input }) => {
+      const result = await betrayAlliance(ctx.user.id, input.allianceId);
+      if (!result.ok) {
+        throw new TRPCError({ code: "BAD_REQUEST", message: result.error });
+      }
+      return result;
+    }),
+
+  myAlliances: protectedProcedure.query(async ({ ctx }) => {
+    return listMyAlliances(ctx.user.id);
+  }),
+
+  // Dynasty
+  myDynasty: protectedProcedure.query(async ({ ctx }) => {
+    return getDynasty(ctx.user.id);
+  }),
+
+  nameDynasty: protectedProcedure
+    .input(z.object({ houseName: z.string().min(1).max(128) }))
+    .mutation(async ({ ctx, input }) => {
+      const result = await nameDynasty(ctx.user.id, input.houseName);
+      if (!result.ok) {
+        throw new TRPCError({ code: "BAD_REQUEST", message: result.error });
+      }
+      return result;
+    }),
+
+  chooseSuccessor: protectedProcedure
+    .input(z.object({ successorNpcKey: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const result = await chooseSuccessor(ctx.user.id, input.successorNpcKey);
+      if (!result.ok) {
+        throw new TRPCError({ code: "BAD_REQUEST", message: result.error });
+      }
+      return result;
+    }),
+
+  appendDynastyBookEntry: protectedProcedure
+    .input(
+      z.object({
+        kind: z.string(),
+        summary: z.string(),
+        payload: z.record(z.string(), z.unknown()).optional(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      await appendDynastyBookEntry(ctx.user.id, input);
+      return { ok: true };
+    }),
+
+  // Edicts
+  listEdicts: publicProcedure.query(() => {
+    return allEdictKeys().map(k => EDICT_REGISTRY[k]);
+  }),
+
+  myActiveEdict: protectedProcedure.query(async ({ ctx }) => {
+    return getActiveEdict(ctx.user.id);
+  }),
+
+  issueEdict: protectedProcedure
+    .input(z.object({ edictKey: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const result = await issueEdict(ctx.user.id, input.edictKey);
+      if (!result.ok) {
+        throw new TRPCError({ code: "BAD_REQUEST", message: result.error });
+      }
+      return result;
+    }),
+
+  // While-you-were-gone digest
+  newsDigest: protectedProcedure.query(async ({ ctx }) => {
+    return getNewsDigest(ctx.user.id);
+  }),
+
+  dismissNewsDigest: protectedProcedure
+    .input(z.object({ eventId: z.number().int().nonnegative() }))
+    .mutation(async ({ ctx, input }) => {
+      await dismissNewsDigest(ctx.user.id, input.eventId);
+      return { ok: true };
     }),
 
   // --- Anomaly endpoints (Phase B) ---------------------------------------

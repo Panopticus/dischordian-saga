@@ -399,5 +399,10 @@ export function describeCounterCost(cost: AgendaCounterCost): string {
       return `Tribute ${cost.count}× ${cost.minRarity}+ ${cost.cardFaction} cards.`;
     case "contract_signed":
       return `Sign an active contract with ${cost.brokerKey}.`;
+    case "shared_cost": {
+      const playerCost = Math.round(cost.totalCredits * cost.playerShare);
+      const helperCost = cost.totalCredits - playerCost;
+      return `Ask ${cost.helperHouse} to co-fund: you pay ${playerCost}, they front ${helperCost}. Future favour owed.`;
+    }
   }
 }

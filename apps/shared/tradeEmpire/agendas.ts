@@ -48,8 +48,23 @@ export type AgendaCounterCost =
     }
   | {
       kind: "contract_signed";
-      /** Player must hold an active signed contract with this broker. */
+      /** Player must hold an active signed contract with this borker. */
       brokerKey: string;
+    }
+  // Phase D: shared-cost counter. Player asks another sub-house to
+  // co-fund the counter. The helper-house fronts (1 - playerShare)
+  // of the cost; the player covers `playerShare`. The helper-house
+  // gains rep proportional to their share; the targeted agenda is
+  // countered. Creates a *debt web* — the helper may later call in
+  // a favour via a galactic event or demand.
+  | {
+      kind: "shared_cost";
+      /** Sub-house the player asks for help. */
+      helperHouse: SubHouseKey;
+      /** Total cost in credits. */
+      totalCredits: number;
+      /** Player's share (0..1). Helper covers (1 - playerShare). */
+      playerShare: number;
     };
 
 // --- Stage shape ----------------------------------------------------------

@@ -6786,3 +6786,92 @@ export const tradeAnomalies = mysqlTable("trade_anomalies", {
   ),
 }));
 export type TradeAnomalyRow = typeof tradeAnomalies.$inferSelect;
+
+/**
+ * Phase D (Empire-feel): sub-house alliances. Per-(user, seasonNumber)
+ * declared treaties between two sub-houses. Active alliances cause
+ * shared-enemy rep deltas to *double*; explicit betrayal posts a
+ * public flag and applies -20 to both sides.
+ */
+export const tradeAlliances = mysqlTable("trade_alliances", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  seasonNumber: int("seasonNumber").notNull(),
+  /** Lower-sorted SubHouseKey for canonical pair ordering. */
+  houseA: varchar("houseA", { length: 64 }).notNull(),
+  /** Higher-sorted SubHouseKey. */
+  houseB: varchar("houseB", { length: 64 }).notNull(),
+  /** "active" | "betrayed" | "expired" */
+  status: mysqlEnum("status", ["active", "betrayed", "expired"]).notNull().default("active"),
+  formedAt: timestamp("formedAt").defaultNow().notNull(),
+  resolvedAt: timestamp("resolvedAt"),
+}, (table) => ({
+  userIdx: index("idx_trade_alliances_user_id").on(table.userId),
+  userSeasonHousesUniq: uniqueIndex(
+    "uniq_trade_alliances_user_season_houses",
+  ).on(table.userId, table.seasonNumber, table.houseA, table.houseB),
+}));
+export type TradeAllianceRow = typeof tradeAlliances.$inferSelect;
+
+/**
+ * Phase D (Empire-feel): empire dynasty. Per-user record of the
+ * player's house name, current leader, and history of successions.
+ * Successor + biases inherited at Act completion.
+ */
+export const tradeDynasty = mysqlTable("trade_dynasty", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().unique(),
+  /** Player-chosen House name (legacy, not a person). */
+  houseName: varchar("houseName", { length: 128 }).notNull(),
+  /** Current leader NPC key (or "player" for the first leader). */
+  currentLeader: varchar("currentLeader", { length: 64 }).notNull().default("player"),
+  /** Dynasty book — append-only ledger of sealed treaties, broken
+   *  oaths, season declarations, succession events. JSON array of
+   *  `{ at, kind, summary, payload }`. */
+  dynastyBook: json("dynastyBook").$type<Array<Record<string, unknown>>>().notNull(),
+  /** Faction biases inherited from successor's faction. JSON map
+   *  `{ "new_babylon": -10, "antiquarian": +5, ... }`. */
+  factionBiases: json("factionBiases").$type<Record<string, number>>().notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+export type TradeDynastyRow = typeof tradeDynasty.$inferSelect;
+
+/**
+ * Phase D (Empire-feel): player-issued edicts. One per season per
+ * player. Active edicts apply a season-long modifier (toggleable
+ * bonus + sub-house rep cost). Foundation for revolts.
+ */
+export const tradeEdicts = mysqlTable("trade_edicts", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  seasonNumber: int("seasonNumber").notNull(),
+  /** Edict key from EDICT_REGISTRY (apps/shared/tradeEmpire/edicts.ts). */
+  edictKey: varchar("edictKey", { length: 128 }).notNull(),
+  /** "active" | "expired" — edicts auto-expire at season end. */
+  status: mysqlEnum("status", ["active", "expired"]).notNull().default("active"),
+  issuedAt: timestamp("issuedAt").defaultNow().notNull(),
+  expiredAt: timestamp("expiredAt"),
+}, (table) => ({
+  userIdx: index("idx_trade_edicts_user_id").on(table.userId),
+  userSeasonUniq: uniqueIndex("uniq_trade_edicts_user_season").on(
+    table.userId,
+    table.seasonNumber,
+  ),
+}));
+export type TradeEdictRow = typeof tradeEdicts.$inferSelect;
+
+/**
+ * Phase D (Empire-feel): per-user "while you were gone" cursor.
+ * Tracks the last public-knowledge event id the player has
+ * acknowledged. Session-start UI reads everything past this cursor
+ * as the digest. One row per user.
+ */
+export const tradeNewsCursor = mysqlTable("trade_news_cursor", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().unique(),
+  /** Last public-knowledge event id the player has dismissed. */
+  lastSeenEventId: int("lastSeenEventId").notNull().default(0),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+export type TradeNewsCursorRow = typeof tradeNewsCursor.$inferSelect;
