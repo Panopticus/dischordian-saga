@@ -170,8 +170,17 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
       },
       use: {
         narration:
-          "You take the decoded copy of Vox's last letter. The original goes back into its cubbyhole. The decoded translation is in plainspoken English; the cipher was never the point — the point was that someone had to do the work to read it. We did the work.",
+          "You take the decoded copy of Vox's last letter. The original goes back into its cubbyhole. The decoded translation is in plainspoken English; the cipher was never the point — the point was that someone had to do the work to read it. We did the work. — Beneath the cubbyhole rack, on a thin shelf used for cross-arc index cards: a state-card titled BREL'S CONTINUANCE STATE. The card's face mirrors a Game-Master-arc decision the player has not yet committed to; its reverse, in the Degen's hand, reads: 'If Brel continues as custodian, my audit closes clean. If she does not, the audit reopens, and the table sets again.' Two arcs braided into a single index card. The Degen knows.",
         voId: "elara.cipher-den.encrypted-correspondence.use",
+        // Degen arc binding — cross-arc echo from Game Master arc.
+        // Brel's continuance decision has direct consequence for the
+        // Degen's audit outcome. degen.e5.cross_arc_brels_
+        // continuance_state foundIn: cipher-den.
+        mysteryBinding: {
+          mysteryId: "mystery.the_degen",
+          episodeId: "degen.e5",
+          cluesFound: ["degen.e5.cross_arc_brels_continuance_state"],
+        },
       },
       talk: {
         narration: {

@@ -226,9 +226,17 @@ export const ENGINEERING_MYSTERY: RoomMysteryModule<EngineeringHotspotId, Engine
       },
       use: {
         narration:
-          "You leaf through the holo-schematics. Each card-design rotates slowly under your hand, projecting its mana-cost and effect text in the air. The two L. V. designs are honest in the literal sense: every line of text is a true accounting of what the card does. The third — the unsigned one — refuses to display its effect text under direct query. The card describes itself only when not being asked.",
+          "You leaf through the holo-schematics. Each card-design rotates slowly under your hand, projecting its mana-cost and effect text in the air. The two L. V. designs are honest in the literal sense: every line of text is a true accounting of what the card does. The third — the unsigned one — refuses to display its effect text under direct query. The card describes itself only when not being asked. — Tucked beside the third schematic: the Degen's quarterly routing pattern, scribbled on a square of foolscap. Quarter after quarter, his routing flows through one specific brokerage line in the same rhythm. The pattern is too regular to be ad-hoc; whoever is on the other end of that line is, for the Degen, a fixed appointment.",
         voId: "elara.engineering.blueprints.use",
         setsFlag: "blueprints_unsigned_evasive",
+        // Degen arc binding — the Degen's quarterly routing pattern,
+        // tucked behind the unsigned schematic. Engineering is where
+        // the Degen meets his routing-engineer (Vex's apprentice).
+        mysteryBinding: {
+          mysteryId: "mystery.the_degen",
+          episodeId: "degen.e3",
+          cluesFound: ["degen.e3.degens_quarterly_routing"],
+        },
       },
     },
     "crafting-bench": {
@@ -264,8 +272,17 @@ export const ENGINEERING_MYSTERY: RoomMysteryModule<EngineeringHotspotId, Engine
       // examine the bench rather than open the lab.
       use: {
         narration:
-          "You pick up one of the tools laid out on the bench. The grip is worn to a left-handed engineer's thumb — the same wear pattern as the iron knife at the social-hub mess-table. Lyra was, again, the last person to use this. The tool sits naturally in your right hand because she set the bench up for whoever came next, not for herself.",
+          "You pick up one of the tools laid out on the bench. The grip is worn to a left-handed engineer's thumb — the same wear pattern as the iron knife at the social-hub mess-table. Lyra was, again, the last person to use this. The tool sits naturally in your right hand because she set the bench up for whoever came next, not for herself. — Beneath the tool tray: the Degen's brokerage ledger row #4,711, the entry Mol'Vereth's audit-scope letter named. The risk profile is, by Lyra's old marginalia, deliberate — a position the Degen took on purpose. The note in the margin is not a warning. It is a witness statement.",
         voId: "elara.engineering.crafting-bench.use",
+        // Degen arc binding — brokerage line #4,711 is the entry the
+        // Senior Partners' audit names. The bench keeps it because
+        // the routing engineer who built the line is the same hand
+        // who built the bench.
+        mysteryBinding: {
+          mysteryId: "mystery.the_degen",
+          episodeId: "degen.e2",
+          cluesFound: ["degen.e2.brokerage_line_4711"],
+        },
       },
       talk: {
         narration:

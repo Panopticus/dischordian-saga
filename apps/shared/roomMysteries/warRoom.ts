@@ -55,9 +55,18 @@ export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
       },
       use: {
         narration:
-          "You turn the brass dial through its three positions. BRIEFING — the table's theatre map flickers awake, dark and ready to be populated. RECON — overlapping satellite traces from sectors the ship hasn't actively scouted in centuries. OBITUARY — the names of every casualty, sorted by who they died for, scrolling slowly. You leave the dial on BRIEFING. We are not, today, the audience for the obituary.",
+          "You turn the brass dial through its three positions. BRIEFING — the table's theatre map flickers awake, dark and ready to be populated. RECON — overlapping satellite traces from sectors the ship hasn't actively scouted in centuries. OBITUARY — the names of every casualty, sorted by who they died for, scrolling slowly. You leave the dial on BRIEFING. We are not, today, the audience for the obituary. — As the table warms, an overlay surfaces: Mol'Vereth's audit track record across thirty years of Hierarchy filings. He has audited eleven Coda trustees. Eight cleared cleanly. Three were demoted. Zero were prosecuted. The pattern: he is exact, he is not vindictive, and his findings have always been ratified by the Order without amendment.",
         voId: "elara.war-room.holo-table.use",
         setsFlag: "war_room_dial_used",
+        // Degen arc binding — Mol'Vereth's audit track record. The
+        // war-room's tactical archive includes Hierarchy auditor
+        // performance records (the Order's CFO is itself a tactical
+        // factor in any saga-wide settlement).
+        mysteryBinding: {
+          mysteryId: "mystery.the_degen",
+          episodeId: "degen.e2",
+          cluesFound: ["degen.e2.mol_vereth_track_record"],
+        },
       },
       talk: {
         narration:
@@ -87,9 +96,19 @@ export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
       },
       use: {
         narration:
-          "You leaf through the Protocol Zero binder. The kept / lost annotations alternate without obvious pattern — kept, lost, kept, lost, kept, kept, lost. A small note in Wraith's hand on the inside back cover reads only: 'Kept = the ones whose work survives in the next crew. Lost = the ones whose work the editor reached.' That makes the count tractable. We can verify it.",
+          "You leaf through the Protocol Zero binder. The kept / lost annotations alternate without obvious pattern — kept, lost, kept, lost, kept, kept, lost. A small note in Wraith's hand on the inside back cover reads only: 'Kept = the ones whose work survives in the next crew. Lost = the ones whose work the editor reached.' That makes the count tractable. We can verify it. — Behind the Protocol Zero binder, on the same shelf: a slim folio in Mol'Vereth's hand titled REDACTED ATTESTATION. The text is mostly black-bar redactions; only the signature block and the closing sentence survive: 'I attest, in the form the Order requires, that the foregoing is sufficient. The remainder is the kind of truth the saga is not yet structured to receive.' The Hierarchy CFO has, in writing, told the saga that he knows more than he is filing.",
         voId: "elara.war-room.casualty-board.use",
         setsFlag: "war_room_protocol_zero_decoded",
+        // Degen arc binding — Mol'Vereth's redacted attestation is
+        // his pre-emptive declaration that the audit's findings will
+        // include redactions he refuses to lift. War-room because
+        // the casualty-board is the room's record of "what was
+        // sacrificed and what survived."
+        mysteryBinding: {
+          mysteryId: "mystery.the_degen",
+          episodeId: "degen.e4",
+          cluesFound: ["degen.e4.mol_vereths_redacted_attestation"],
+        },
       },
       talk: {
         narration:

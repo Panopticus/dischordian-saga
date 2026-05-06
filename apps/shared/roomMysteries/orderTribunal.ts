@@ -7,7 +7,10 @@
 
 import type { RoomMysteryModule } from "./_template";
 
-export type OrderTribunalHotspotId = "judges-bench" | "evidence-locker";
+export type OrderTribunalHotspotId =
+  | "judges-bench"
+  | "evidence-locker"
+  | "mol-vereth-audit-ledger";
 
 export const ORDER_TRIBUNAL_MYSTERY: RoomMysteryModule<OrderTribunalHotspotId> = {
   roomId: "order-tribunal",
@@ -145,6 +148,59 @@ export const ORDER_TRIBUNAL_MYSTERY: RoomMysteryModule<OrderTribunalHotspotId> =
           mysteryId: "mystery.jericho_jones",
           episodeId: "jericho.e4",
           cluesFound: ["jericho.e4.post_fall_revision"],
+        },
+      },
+    },
+    // Degen arc: e2-e5 audit-trail clue surface. Mol'Vereth files
+    // every annual audit through the Order's clerk-of-record. The
+    // resulting ledger lives in a small bound volume on a side-shelf
+    // beside the judges-bench. Four entries bind the four episodes.
+    "mol-vereth-audit-ledger": {
+      look: {
+        narration: {
+          lucid:
+            "A small bound volume on the side-shelf beside the judges-bench. Mol'Vereth's audit calendar is pinned to the cover — every year the Hierarchy CFO files an annual audit through the Order's clerk-of-record. Today's date is circled in red ink. Inside the front cover, in his marginal hand, last year's audit closes with: 'No further query — pending the next clerk who can read the Coda's fourth column.'",
+          fragmented:
+            "Today. Today. Today. Circled. Circled. The clerk who can read. The clerk. The clerk. We are the clerk. We are.",
+          luminous:
+            "The Audit Ledger holds Mol'Vereth's audit calendar (today is circled) and his marginal note from last year — left for the next clerk who can read the Coda's fourth column. The Coda is the seven-faction trustee body the Degen serves; the fourth column is its routing register. Mol'Vereth has been waiting for an auditor who knows where to look. We are, on the date the calendar circled, that auditor.",
+        },
+        voId: "elara.order-tribunal.mol-vereth-audit-ledger.look",
+        logsClue: {
+          id: "clue-tribunal-audit-ledger",
+          title: "Mol'Vereth's audit ledger + last year's marginal note",
+          body:
+            "The Order Tribunal holds a side-shelf bound volume — Mol'Vereth's audit ledger. Today's date is circled on the calendar; last year's audit closes with a marginal note awaiting 'the next clerk who can read the Coda's fourth column.'",
+          source: "order-tribunal",
+          order: 2,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.the_degen",
+          episodeId: "degen.e2",
+          cluesFound: [
+            "degen.e2.audit_schedule",
+            "degen.e3.mol_vereth_marginal_note",
+          ],
+        },
+      },
+      use: {
+        narration:
+          "You leaf forward to the current year's audit-scope letter. Mol'Vereth's signature opens it; the scope clause names three brokerage rows the Senior Partners want examined. Row 4,711 is one of the three. The scope is, by his hand, narrower than usual — he is auditing one specific risk, not the year's normal sweep.",
+        voId: "elara.order-tribunal.mol-vereth-audit-ledger.use",
+        mysteryBinding: {
+          mysteryId: "mystery.the_degen",
+          episodeId: "degen.e4",
+          cluesFound: ["degen.e4.audit_scope_letter"],
+        },
+      },
+      talk: {
+        narration:
+          "If you address the ledger, the back endpaper warms. A draft of the audit-outcome letter rises into legibility — Mol'Vereth pre-wrote the result in pencil, leaving only the signature line blank. The pencilled text reads: 'Settled. Account restored to nominal. Trustee status reaffirmed. The Coda's books are the Coda's books. The Saga returns to the table.' The letter is dated forward — three weeks from today. He has, in effect, sketched the verdict before the audit. Whether the pencilled text becomes the actual outcome depends on what the audit finds in the meantime.",
+        voId: "elara.order-tribunal.mol-vereth-audit-ledger.talk",
+        mysteryBinding: {
+          mysteryId: "mystery.the_degen",
+          episodeId: "degen.e5",
+          cluesFound: ["degen.e5.audit_outcome_letter"],
         },
       },
     },
