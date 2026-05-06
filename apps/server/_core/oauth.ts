@@ -5,6 +5,7 @@ import * as db from "../db";
 import { getSessionCookieOptions } from "./cookies";
 import { sdk } from "./sdk";
 import { ENV } from "./env";
+import { logAuthEvent } from "../services/authAudit";
 
 function getQueryParam(req: Request, key: string): string | undefined {
   const value = req.query[key];
@@ -137,6 +138,7 @@ export function registerOAuthRoutes(app: Express) {
 
       const oldRefreshToken = cookies.get(REFRESH_COOKIE_NAME);
       if (!oldRefreshToken) {
+        logAuthEvent(req, "token_refresh_missing");
         res.status(401).json({ error: "Missing refresh token" });
         return;
       }
@@ -147,6 +149,7 @@ export function registerOAuthRoutes(app: Express) {
         const cookieOptions = getSessionCookieOptions(req);
         res.clearCookie(COOKIE_NAME, cookieOptions);
         res.clearCookie(REFRESH_COOKIE_NAME, cookieOptions);
+        logAuthEvent(req, "token_refresh_failure", { reason: "invalid_or_expired" });
         res.status(401).json({ error: "Invalid or expired refresh token" });
         return;
       }
@@ -155,10 +158,12 @@ export function registerOAuthRoutes(app: Express) {
       res.cookie(COOKIE_NAME, tokens.accessToken, { ...cookieOptions, maxAge: ACCESS_TOKEN_MS });
       res.cookie(REFRESH_COOKIE_NAME, tokens.refreshToken, { ...cookieOptions, maxAge: REFRESH_TOKEN_MS });
 
+      logAuthEvent(req, "token_refresh_success");
       res.json({ ok: true });
     } catch (error: unknown) {
       const errMsg = error instanceof Error ? error.message : String(error);
       console.error("[Auth] Refresh token error:", errMsg);
+      logAuthEvent(req, "token_refresh_failure", { reason: errMsg });
       res.status(500).json({ error: "Token refresh failed" });
     }
   });
@@ -198,15 +203,22 @@ export function registerOAuthRoutes(app: Express) {
             hasCookie: Boolean(expectedState),
             hasQuery: Boolean(queryState),
           });
+          logAuthEvent(req, "csrf_state_mismatch", {
+            provider,
+            hasCookie: Boolean(expectedState),
+            hasQuery: Boolean(queryState),
+          });
           res.status(400).json({ error: "OAuth state mismatch" });
           return;
         }
       } else if (isStateRequired()) {
         console.warn(`[OAuth] ${provider} missing state — rejecting`);
+        logAuthEvent(req, "csrf_state_missing", { provider });
         res.status(400).json({ error: "OAuth state required" });
         return;
       } else {
         console.warn(`[OAuth] ${provider} legacy callback without state — accepting under OAUTH_isStateRequired()=false`);
+        logAuthEvent(req, "csrf_state_legacy", { provider });
       }
 
       // Always clear state cookies after read, regardless of outcome.
@@ -247,6 +259,11 @@ export function registerOAuthRoutes(app: Express) {
       res.cookie(COOKIE_NAME, accessToken, { ...cookieOptions, maxAge: ACCESS_TOKEN_MS });
       res.cookie(REFRESH_COOKIE_NAME, refreshToken, { ...cookieOptions, maxAge: REFRESH_TOKEN_MS });
 
+      logAuthEvent(req, "login_success", {
+        provider,
+        openId: userInfo.openId,
+      });
+
       // If the flow was initiated from a popup, signal the opener and
       // close the window so the title page (and its music) keeps
       // playing in the background. Otherwise fall back to a normal
@@ -267,6 +284,7 @@ export function registerOAuthRoutes(app: Express) {
     } catch (error: unknown) {
       const errMsg = error instanceof Error ? error.message : String(error);
       console.error(`[OAuth] ${provider} callback failed:`, errMsg);
+      logAuthEvent(req, "login_failure", { provider, reason: errMsg });
       res.status(500).json({
         error: "OAuth callback failed",
         detail: errMsg || "Unknown error",
