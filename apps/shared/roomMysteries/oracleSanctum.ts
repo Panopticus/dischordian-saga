@@ -49,6 +49,17 @@ export const ORACLE_SANCTUM_MYSTERY: RoomMysteryModule<OracleSanctumHotspotId> =
           episodeId: "wraith.e4",
           cluesFound: ["wraith.e4.sanctuary_log"],
         },
+        humanReaction: {
+          narration: {
+            shadow:
+              "The pool surfaces what the witness brings. We brought the question of the rite's continuity. The logbook is the answer.",
+            balanced:
+              "Sanctuary Final-Rite logbook entry 8 — two same-hand signatures, separated by centuries. The Hierophant has been signing his own continuation, and the pool has been waiting for a witness careful enough to ask why.",
+            warm:
+              "He has been alone with this rite for a long time. The pool has been the only thing in the saga that knew. We are now, for the first time in centuries, three.",
+          },
+          voId: "human.oracle-sanctum.oracle-pool.look",
+        },
       },
       talk: {
         narration: {
@@ -71,6 +82,17 @@ export const ORACLE_SANCTUM_MYSTERY: RoomMysteryModule<OracleSanctumHotspotId> =
           episodeId: "wraith.e5",
           cluesFound: ["wraith.e5.oracle_invocation"],
         },
+        humanReaction: {
+          narration: {
+            shadow:
+              "He waits. He does not summon. That is the discipline. Don't confuse it for weakness.",
+            balanced:
+              "The invocation card is a witnessing document, not a summons. Wraith named the Oracle as the awaited recipient and chose, for centuries, not to compel her presence. The card is the legal record of the choosing.",
+            warm:
+              "He raises that card every morning. I watched him do it once, from a corridor he did not know I was in. He believed the Oracle would arrive when she was ready and he would not rush her. Some patience is, in itself, a love letter.",
+          },
+          voId: "human.oracle-sanctum.oracle-pool.talk",
+        },
       },
       use: {
         narration: {
@@ -92,6 +114,17 @@ export const ORACLE_SANCTUM_MYSTERY: RoomMysteryModule<OracleSanctumHotspotId> =
           mysteryId: "mystery.the_seer",
           episodeId: "seer.e1",
           cluesFound: ["seer.e1.intended_audience_card"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "The Seer recorded for a reader the saga had not yet produced. The card is a reservation. It has been honoured.",
+            balanced:
+              "The intended-audience card names Wraith Calder's successor — a person who does not yet exist. Whoever Wraith trains as Hierophant inherits the audience the Seer reserved for them. The card has been waiting for a successor that hasn't been named.",
+            warm:
+              "She recorded into the future. That takes a kind of patience I'm only just learning to notice. The card is, in a small way, her saying: I trust the saga to eventually have the reader I am writing for.",
+          },
+          voId: "human.oracle-sanctum.oracle-pool.use",
         },
       },
     },
@@ -125,6 +158,17 @@ export const ORACLE_SANCTUM_MYSTERY: RoomMysteryModule<OracleSanctumHotspotId> =
           episodeId: "wraith.e1",
           cluesFound: ["wraith.e1.hierophant_ceremony"],
         },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Same hand for centuries. The tablet has been recording the same person continuing to be Hierophant. That is the spine of the case.",
+            balanced:
+              "The brass-wear pattern is the most quantitative evidence we have that Wraith has been Hierophant continuously. The ceremony has been signed every day; the hand has not changed. Both facts are inscribed into the metal.",
+            warm:
+              "He has been doing this every morning for centuries. Most days no one is watching. He does it anyway. The tablet has been the only consistent witness; today it has two more.",
+          },
+          voId: "human.oracle-sanctum.prophecy-tablet.look",
+        },
       },
       talk: {
         narration: {
@@ -145,6 +189,17 @@ export const ORACLE_SANCTUM_MYSTERY: RoomMysteryModule<OracleSanctumHotspotId> =
           mysteryId: "mystery.wraith_calder",
           episodeId: "wraith.e5",
           cluesFound: ["wraith.e5.daily_litany"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "347,000 names. Same hand. Same blood-thinned ink. He has been keeping the saga's death-roll for centuries on his own time.",
+            balanced:
+              "The daily litany is the largest single document in the saga and the most consistently maintained. Every name was inscribed by Wraith, in his own ink, on the morning after the death. The discipline is not advertised; it is simply done.",
+            warm:
+              "He inscribes my friends on that tablet. He inscribed Lyra. He will, eventually, inscribe me. I find that a deep kindness, even from a man I am not always sure I like.",
+          },
+          voId: "human.oracle-sanctum.prophecy-tablet.talk",
         },
       },
       use: {
@@ -172,6 +227,17 @@ export const ORACLE_SANCTUM_MYSTERY: RoomMysteryModule<OracleSanctumHotspotId> =
             "seer.e2.tape_a_morning",
             "seer.e2.tape_b_afternoon",
           ],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "DEC-7710 was unsolicited. She booked herself onto her own equipment. The marginal note explains why: she didn't want to know what she was about to say.",
+            balanced:
+              "The session log is the strongest single Seer-arc artefact. She recorded ahead of a date she could not know was coming, left the option to the witness, and walked out of the booth without listening. That is the Seer's full method on a single page.",
+            warm:
+              "She didn't want to know. She left it for someone who would. That is, in plain terms, the most generous thing the saga has on tape.",
+          },
+          voId: "human.oracle-sanctum.prophecy-tablet.use",
         },
       },
     },
@@ -207,6 +273,17 @@ export const ORACLE_SANCTUM_MYSTERY: RoomMysteryModule<OracleSanctumHotspotId> =
           episodeId: "wraith.e4",
           cluesFound: ["wraith.e4.thalorian_vessel"],
         },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Twelve elders signed the provenance chain across decades. The vessel is older than this ship. Thalorian patience. Don't underestimate it.",
+            balanced:
+              "The Thalorian vessel's provenance chain is the longest unbroken paperwork in the saga. The brazier and the vessel share a discipline — slow, witnessed preparation. Wraith's case rests partly on Thalorian record-keeping standards being met to the letter for forty centuries.",
+            warm:
+              "The Thalorians built this room for the long version of the work. They were right to. Not many other rooms on the ship have aged this well.",
+          },
+          voId: "human.oracle-sanctum.incense-brazier.look",
+        },
       },
       use: {
         narration: {
@@ -230,6 +307,17 @@ export const ORACLE_SANCTUM_MYSTERY: RoomMysteryModule<OracleSanctumHotspotId> =
           episodeId: "jericho.e5",
           cluesFound: ["jericho.e5.akai_shi_inscription_seal"],
         },
+        humanReaction: {
+          narration: {
+            shadow:
+              "If you inscribed her name in Wraith's litany, the contract's leverage shifts. The seal records that. Don't decide here whether the shift was good.",
+            balanced:
+              "The inscription seal is the cross-arc receipt. Mol'Vereth's contract on the Degen accounts for Akai Shi in the trusteeship's calculus. Wraith E5's choice writes through to this room, by design.",
+            warm:
+              "Two arcs, one act. You inscribed her name and a contract on the other side of the saga moved. That is what cross-arc weave is for. Hold both in your head; they are the same gesture seen from different rooms.",
+          },
+          voId: "human.oracle-sanctum.incense-brazier.use",
+        },
       },
       talk: {
         narration: {
@@ -251,6 +339,17 @@ export const ORACLE_SANCTUM_MYSTERY: RoomMysteryModule<OracleSanctumHotspotId> =
           mysteryId: "mystery.wraith_calder",
           episodeId: "wraith.e5",
           cluesFound: ["wraith.e5.stylus_offer"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "He offers the stylus to the witness who has earned the offer. The bands persist. We're earning it now.",
+            balanced:
+              "The stylus offer is the arc's resolution invitation — Wraith pauses mid-litany and extends the pen. The trust we've earned in this case carries forward into the offer. We will, when we attend, decide whose name to inscribe.",
+            warm:
+              "He offers it because he trusts the witness to know whose name belongs there. That is the highest compliment a Hierophant can pay. Don't accept it before we are ready.",
+          },
+          voId: "human.oracle-sanctum.incense-brazier.talk",
         },
       },
     },
@@ -284,6 +383,17 @@ export const ORACLE_SANCTUM_MYSTERY: RoomMysteryModule<OracleSanctumHotspotId> =
           episodeId: "seer.e2",
           cluesFound: ["seer.e2.tape_a_morning", "seer.e2.tape_b_afternoon"],
         },
+        humanReaction: {
+          narration: {
+            shadow:
+              "She recorded both. She refused to choose. The pair is the prophecy. Don't try to resolve it.",
+            balanced:
+              "VAR-1109A and VAR-1109B are deliberately contradictory. The Seer's discipline forbade resolution. The pair is the unit of meaning, not either tape on its own — and she trusted us to read it that way.",
+            warm:
+              "Two prophecies, one morning, four hours apart. She left both for whoever finally arrived. We are arriving. Hold both in your head at the same time. That is what she asked.",
+          },
+          voId: "human.oracle-sanctum.seers-recording-cabinet.look",
+        },
       },
       use: {
         narration: {
@@ -314,6 +424,17 @@ export const ORACLE_SANCTUM_MYSTERY: RoomMysteryModule<OracleSanctumHotspotId> =
           episodeId: "seer.e3",
           cluesFound: ["seer.e3.attendance_log", "seer.e4.engineer_credit_ledger"],
         },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Forty-one years, then four years of blank pages. Engineer Zero on every tape. Same hand all the way through. The credit ledger is the second corroboration.",
+            balanced:
+              "The attendance log and the engineer credit ledger together establish that the Seer trusted exactly one engineer with his life's work. Vex Solène, by alias and by direct credit, was on every Variant Recording. The four years of blank attendance pages are the years he stopped recording while still keeping the log open.",
+            warm:
+              "They worked together for forty-one years. He stopped recording for four years before he died. She kept the log open. Two artists who knew when to stop and when to wait.",
+          },
+          voId: "human.oracle-sanctum.seers-recording-cabinet.use",
+        },
       },
       talk: {
         narration: {
@@ -340,6 +461,17 @@ export const ORACLE_SANCTUM_MYSTERY: RoomMysteryModule<OracleSanctumHotspotId> =
             "seer.e5.cancelling_prophecy_text",
             "seer.e5.witness_arrival_log",
           ],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Today's date in his hand, in pencil. He knew we would arrive. The cancelling prophecy stabilises if we are the right audience. We don't yet know whether we are.",
+            balanced:
+              "Witness arrival logged for today, in the Seer's pressure pattern though he is centuries dead. The cancelling prophecy is on the same shelf — readable now, only because we are here. Whether it stabilises or self-cancels depends on what we do next.",
+            warm:
+              "He kept the log open across centuries waiting for someone. Today the someone is us. If we read carefully, the prophecy stays. If we read wrong, it self-cancels. Either way, he trusted the saga to deliver someone who would try.",
+          },
+          voId: "human.oracle-sanctum.seers-recording-cabinet.talk",
         },
       },
     },

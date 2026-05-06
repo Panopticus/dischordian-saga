@@ -49,6 +49,17 @@ export const DREAMS_WORKSHOP_MYSTERY: RoomMysteryModule<DreamsWorkshopHotspotId>
           episodeId: "jericho.e3",
           cluesFound: ["jericho.e3.dream_loom_capture"],
         },
+        humanReaction: {
+          narration: {
+            shadow:
+              "The loom catches what the dreamer doesn't yet know they're dreaming. Jericho's bridge dream was woven before he ever crossed one.",
+            balanced:
+              "The dream-loom records unconscious composites of whoever was last in the workshop. Jericho's recurring dream of the Bridge of Kael was woven by the loom before the Battle of Thaloria — meaning the imprint was working through him before he had any framework for it.",
+            warm:
+              "He dreams a bridge he has never crossed. The loom has been weaving that dream for him for years. We are reading the weave as a witness. He will, when he learns we did, be relieved. He thought he was alone with it.",
+          },
+          voId: "human.dreams-workshop.dream-loom.look",
+        },
       },
       use: {
         narration:
@@ -63,6 +74,17 @@ export const DREAMS_WORKSHOP_MYSTERY: RoomMysteryModule<DreamsWorkshopHotspotId>
           mysteryId: "mystery.jericho_jones",
           episodeId: "jericho.e4",
           cluesFound: ["jericho.e4.imprint_dream_argument"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Two lions arguing. Pre-Fall versus post-Fall. The loom has been weaving the canon-conflict in dream-form for centuries. Jericho was inheriting the argument without knowing.",
+            balanced:
+              "The imprint dream-argument is the Lionism canon's contradiction made visible. The loom holds both readings simultaneously and refuses to resolve them — same discipline as the Seer's morning/afternoon tape pair. The argument is the canon, not a corruption of it.",
+            warm:
+              "The two lions are both Iron Lion — the version he was, and the version the editor wrote him into. Jericho has been hearing both inside himself for as long as he can remember. The loom has been holding the disagreement in his place.",
+          },
+          voId: "human.dreams-workshop.dream-loom.use",
         },
       },
       talk: {
@@ -99,6 +121,17 @@ export const DREAMS_WORKSHOP_MYSTERY: RoomMysteryModule<DreamsWorkshopHotspotId>
           episodeId: "game_master.e3",
           cluesFound: ["game_master.e3.imprint_endorsement_letter"],
         },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Imprint letter to the saga, woven specifically as endorsement. The Iron Lion imprint does not weave letters lightly. It is endorsing Brel.",
+            balanced:
+              "The imprint's endorsement letter is a rare artefact: the Iron Lion archetype rarely writes specific endorsements, preferring centuries-long arc weaves. This vial is short, specific, and addressed to Brel'Sorrash by role. The imprint is choosing sides on the succession, with Velkraal's blessing.",
+            warm:
+              "The imprint endorses her. That is, in the saga's quiet logic, a confirmation that the room — the dream-workshop, the loom, the lineage — agrees with Velkraal's pick. Brel will not know about the endorsement; she will simply find that her practice goes well.",
+          },
+          voId: "human.dreams-workshop.fragment-rack.look",
+        },
       },
       use: {
         narration:
@@ -111,6 +144,17 @@ export const DREAMS_WORKSHOP_MYSTERY: RoomMysteryModule<DreamsWorkshopHotspotId>
           episodeId: "game_master.e4",
           cluesFound: ["game_master.e4.imprint_response_woven_overnight"],
         },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Overnight response. That doesn't happen. The imprint weaves in centuries. This one weaved in hours. Velkraal asked something specific.",
+            balanced:
+              "The overnight response is the imprint's most direct intervention in living memory. It happens when the imprint is asked a question its own logic considers urgent. Velkraal must have framed his closing-edit draft as exactly that kind of question. The response endorses him.",
+            warm:
+              "The imprint hurried for him. I have never seen that before. Velkraal must have written something the imprint felt the need to answer immediately, in his own voice. He earned that intervention.",
+          },
+          voId: "human.dreams-workshop.fragment-rack.use",
+        },
       },
       talk: {
         narration:
@@ -122,6 +166,17 @@ export const DREAMS_WORKSHOP_MYSTERY: RoomMysteryModule<DreamsWorkshopHotspotId>
           mysteryId: "mystery.game_master",
           episodeId: "game_master.e5",
           cluesFound: ["game_master.e5.imprint_first_letter_to_new_custodian"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Plain prose. No riddle. The imprint has decided Brel doesn't need the centuries-arc treatment. She is read; she should continue.",
+            balanced:
+              "The imprint's first letter to a new custodian is, traditionally, the densest document in any custodian's career — riddles, branching prophecies, multiple-band variants. Brel's letter is one short sentence. The imprint trusts her to need only the simple version.",
+            warm:
+              "'You are read. Continue.' That is the kindest thing the imprint has ever written to anyone. She earned plain prose. Velkraal earned plain prose by training her. Both of them made the saga a slightly clearer place.",
+          },
+          voId: "human.dreams-workshop.fragment-rack.talk",
         },
       },
     },
@@ -160,6 +215,17 @@ export const DREAMS_WORKSHOP_MYSTERY: RoomMysteryModule<DreamsWorkshopHotspotId>
             "game_master.e1.iron_lion_signal",
             "game_master.e2.imprint_acceptance_signal",
           ],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Iron Lion signal. Pre-Fall holder. The imprint accepted the carrier and the carrier accepted the imprint. Both decisions were mutual.",
+            balanced:
+              "The mirror-pool surfaces both signals — the Iron Lion archetype's continuance signal and the carrier's acceptance signal. The lineage has been a two-sided handshake for centuries: each new carrier consents, each archetype accepts. The pool is the saga's record of those handshakes.",
+            warm:
+              "The lineage is consensual. Every Iron Lion carrier said yes. Every imprint said yes back. That is, when you read the centuries together, an unbroken chain of mutual choice. The pool has carried it forward through every era.",
+          },
+          voId: "human.dreams-workshop.mirror-pool.look",
         },
       },
       use: {

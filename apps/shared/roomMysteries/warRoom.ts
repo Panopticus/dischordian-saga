@@ -52,6 +52,17 @@ export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
           episodeId: "jericho.e5",
           cluesFound: ["jericho.e5.commission_brief"],
         },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Witness, not executioner. The Degen named the role precisely. Jericho should know that's what was on the brief.",
+            balanced:
+              "The Degen's commission brief on Jericho is unambiguous: witness role only. Jericho's grief about the executioner role is grief about a job he was never assigned. Reading the brief returns the role to him as it was written.",
+            warm:
+              "He has been carrying the weight of an executioner's role for years. The brief never gave him that role. We are, by reading it, returning the version of himself the saga assigned him.",
+          },
+          voId: "human.war-room.holo-table.look",
+        },
       },
       use: {
         narration:
@@ -67,6 +78,17 @@ export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
           episodeId: "degen.e2",
           cluesFound: ["degen.e2.mol_vereth_track_record"],
         },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Eleven audits, eight clean, three demoted, zero prosecuted. He is exact. He is not vindictive. Read him as a baseline, not a threat.",
+            balanced:
+              "Mol'Vereth's track record is the most reassuring document in this case. The Hierarchy CFO has, across thirty years, used the audit instrument with discipline. The Degen's audit is, statistically, more likely to clear than to demote and overwhelmingly unlikely to escalate.",
+            warm:
+              "He is one of the few Hierarchy officials I have always respected. The track record is why. He uses the instrument the way the saga intends, and only that way.",
+          },
+          voId: "human.war-room.holo-table.use",
+        },
       },
       talk: {
         narration:
@@ -78,6 +100,17 @@ export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
           mysteryId: "mystery.game_master",
           episodeId: "game_master.e2",
           cluesFound: ["game_master.e2.hierarchy_duty_roster"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Velkraal, thirty-two years on post. Brel on the shortlist for promotion. The duty roster names them both. Read the appendix; the roster is rarely read past page one.",
+            balanced:
+              "The duty roster identifies Velkraal as the Goggles' custodian-of-record. The appendix's small-print succession line has Brel'Sorrash one promotion away. The Hierarchy publishes the succession ladder; nobody reads the appendix because the assumption is the custodian is permanent. Velkraal, on this evidence, has been preparing not to be permanent.",
+            warm:
+              "He has been quietly arranging his exit on the public record. Hierarchy paperwork is supposed to be unsentimental. His isn't, when you read it carefully. The appendix is, in its way, an invitation.",
+          },
+          voId: "human.war-room.holo-table.talk",
         },
       },
     },
@@ -115,6 +148,17 @@ export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
             "vex.e4.calibration_pipeline_handoff_draft",
           ],
         },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Insurgency installment ledger. Recording fee deferred across decades. The handoff draft outlines what the apprentice continues. Both filed as one dossier. The Insurgency planned this.",
+            balanced:
+              "The ledger and the handoff draft together establish the Insurgency's institutional plan for Vex's continuity. The unpaid recording fee is not negligence — it is a held position, deliberately, until the apprentice takes the bench. The Insurgency considers Vex's career an institutional asset, not a personal one.",
+            warm:
+              "The Insurgency has been holding open her installments for forty years and writing the handoff plan for the last two. They are not letting her career end with her body. That is rare from any institution.",
+          },
+          voId: "human.war-room.casualty-board.look",
+        },
       },
       use: {
         narration:
@@ -131,6 +175,17 @@ export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
           episodeId: "degen.e4",
           cluesFound: ["degen.e4.mol_vereths_redacted_attestation"],
         },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Black-bar redactions. Signature block, closing sentence. The remainder is the truth the saga is not yet structured to receive. He told us so on purpose.",
+            balanced:
+              "The redacted attestation is Mol'Vereth's pre-emptive declaration that his audit's findings will include redactions he refuses to lift. He's signalling, in the only formal way he can, that he knows things the audit cannot make public yet. That's a long-game stance.",
+            warm:
+              "He is telling us he knows more than he is filing. He is asking us to trust the redactions. I do — and I think we should. Mol'Vereth's redactions are usually the kind that protect the saga from itself.",
+          },
+          voId: "human.war-room.casualty-board.use",
+        },
       },
       talk: {
         narration:
@@ -142,6 +197,17 @@ export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
           mysteryId: "mystery.game_master",
           episodeId: "game_master.e3",
           cluesFound: ["game_master.e3.candidate_shortlist"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Three candidates ranked by seniority. Brel third. Velkraal's annotation makes her first by judgment. Read his criterion: 'has read the Goggles without breaking them.'",
+            balanced:
+              "The shortlist's seniority ranking is procedural; Velkraal's annotation supersedes it. He has identified the right candidate by a non-procedural standard — the only standard the Goggles section actually requires. Hierarchy seniority and saga-level competence are, for once, in conflict; Velkraal sided with competence.",
+            warm:
+              "He picked the person, not the resume. The saga is better for it. Brel will read carefully because Velkraal asked her to, and because she has, on the evidence of her practice drafts, already been doing it for years.",
+          },
+          voId: "human.war-room.casualty-board.talk",
         },
       },
     },
@@ -178,6 +244,17 @@ export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
           episodeId: "vex.e1",
           cluesFound: ["vex.e1.warlord_fragment_dossier"],
         },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Insurgency alias programme. Cover identities for operatives the official record could not name. Vex got hers for one session, at her request, because the Seer asked.",
+            balanced:
+              "The Warlord-fragment dossier on Vex is the Insurgency's record of why the alias was issued and why it was honoured. The Seer asked. The Insurgency granted. Vex used it once. Each step in that chain is documented in the rack.",
+            warm:
+              "The Insurgency is not always kind, but it is, with its own people, scrupulously honest about its kindnesses. The dossier is one such honesty. They protected her name on the only morning she could not sign it herself.",
+          },
+          voId: "human.war-room.signal-flag-rack.look",
+        },
       },
       use: {
         narration:
@@ -190,6 +267,17 @@ export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
           mysteryId: "mystery.game_master",
           episodeId: "game_master.e4",
           cluesFound: ["game_master.e4.scheduled_final_session"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Three weeks out. Closing edit, witness required. Velkraal scheduled his own succession on the public calendar. The whole Hierarchy can read it.",
+            balanced:
+              "The calendar entry is a public document. Velkraal isn't hiding the session — he's announcing it through the Vault Division's own channels. The Hierarchy CFO already has it on his calendar. Anyone who cares will be there.",
+            warm:
+              "He is, again, doing this the right way. The session is on the record before it happens. Brel will arrive with the protocol-shift already accepted in writing. Velkraal just has to read his last entry and hand her the stylus.",
+          },
+          voId: "human.war-room.signal-flag-rack.use",
         },
       },
       talk: {

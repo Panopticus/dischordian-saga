@@ -155,6 +155,7 @@ export const ENGINEERING_MYSTERY: RoomMysteryModule<EngineeringHotspotId, Engine
       look: {
         narration:
           "The core runs on Dream — crystallised quantum consciousness, the same substance that powers what you can do. The capacity readout sits at 34% and is dropping by tenths every cycle. Whoever last calibrated this thing did not finish.",
+        voId: "elara.engineering.reactor-core.look",
         logsClue: {
           id: "clue-engineering-reactor-bleed",
           title: "The reactor is bleeding capacity",
@@ -176,6 +177,17 @@ export const ENGINEERING_MYSTERY: RoomMysteryModule<EngineeringHotspotId, Engine
           episodeId: "vex.e1",
           cluesFound: ["vex.e1.equipment_signature"],
         },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Mic preamp drift, head-alignment, 60-cycle hum. Same engineer's hands on every recording. Same hands on the reactor.",
+            balanced:
+              "The reactor's standing pulse carries Vex's equipment signature — every recording she ever made and every reactor calibration she ever performed share the same drift pattern. The Insurgency knows; the Hierarchy doesn't. This is the most quantitative attribution we have.",
+            warm:
+              "She has been on this ship's reactor for forty years and the reactor remembers her. Every engineer leaves a fingerprint; hers happens to be unusually legible.",
+          },
+          voId: "human.engineering.reactor-core.look",
+        },
       },
       use: {
         narration:
@@ -187,6 +199,17 @@ export const ENGINEERING_MYSTERY: RoomMysteryModule<EngineeringHotspotId, Engine
           mysteryId: "mystery.vex_solene",
           episodeId: "vex.e2",
           cluesFound: ["vex.e2.engineering_workshop_letter"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "She broke off mid-sentence. The candidate exists. The naming has not happened. It will happen tomorrow.",
+            balanced:
+              "Vex's letter to her own workshop is the most specific document in the Vex arc and the only one she has not been ready to finish. The unfinished line — 'I have a candidate. They are not me.' — is her acknowledgement that the workshop has had a single hand for forty years and is about to have two.",
+            warm:
+              "She will finish that letter in her own time. We are not here to finish it for her. We are here to confirm that the candidate is real. The candidate is real.",
+          },
+          voId: "human.engineering.reactor-core.use",
         },
       },
       talk: {
@@ -202,12 +225,24 @@ export const ENGINEERING_MYSTERY: RoomMysteryModule<EngineeringHotspotId, Engine
           episodeId: "seer.e4",
           cluesFound: ["seer.e4.acoustic_signature_drift"],
         },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Cross-medium fingerprint. Reactor and recordings share drift patterns. Same engineer, two arcs. The Seer's case turns on this measurement.",
+            balanced:
+              "The acoustic signature drift is the cross-medium proof that the Seer's engineer-of-record and the Ark's reactor calibrator are the same person. Two arcs converge on the measurement. The Seer arc rests partly on it; the Vex arc rests entirely on it.",
+            warm:
+              "She has been recording the saga's most important music with one hand and keeping its most important reactor with the other. The drift pattern in the standing pulse is, in literal terms, a record of how she works.",
+          },
+          voId: "human.engineering.reactor-core.talk",
+        },
       },
     },
     "blueprints": {
       look: {
         narration:
           "Floating holo-schematics of cards that were never finished. Three are stamped LEGENDARY-CLASS — the kind of design that turns a fight. Two of the three have the same engineer's initials in the bottom corner: L. V. The third has no initials at all.",
+        voId: "elara.engineering.blueprints.look",
         logsClue: {
           id: "clue-engineering-vox-blueprints",
           title: "Vox initialled two of the three legendary blueprints",
@@ -227,6 +262,17 @@ export const ENGINEERING_MYSTERY: RoomMysteryModule<EngineeringHotspotId, Engine
           episodeId: "jericho.e1",
           cluesFound: ["jericho.e1.degens_ledger"],
         },
+        humanReaction: {
+          narration: {
+            shadow:
+              "The Degen's ledger is the saga's quiet record of what was deferred. The unsigned blueprint is on his deferred-fee line. The fee is two centuries late.",
+            balanced:
+              "The Degen's ledger entry on the unsigned blueprint is one of the few documents in the saga where a deferred fee has been carried for centuries on purpose. The fee was deferred because the design was never built; the design was never built because Lyra refused the order.",
+            warm:
+              "The Degen has been carrying a fee on Lyra's refusal for two centuries because he loved her enough not to invoice her estate. Some bookkeeping is its own kind of love letter.",
+          },
+          voId: "human.engineering.blueprints.look",
+        },
       },
       talk: {
         narration:
@@ -238,6 +284,17 @@ export const ENGINEERING_MYSTERY: RoomMysteryModule<EngineeringHotspotId, Engine
           mysteryId: "mystery.game_master",
           episodeId: "game_master.e3",
           cluesFound: ["game_master.e3.brels_existing_edit_drafts"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "She drafts. She does not commit. The drafts are read-don't-edit, every one. She has been rehearsing the protocol for years.",
+            balanced:
+              "Brel's practice drafts are the strongest single piece of evidence that her custodianship will preserve the read-don't-edit discipline. She has been writing edits she does not commit since long before Velkraal named her. The protocol-shift is, in her hands, already operational.",
+            warm:
+              "She has been preparing without being asked, without being noticed, without being told this would be hers. That is, in a small way, the saga's most quiet form of fidelity.",
+          },
+          voId: "human.engineering.blueprints.talk",
         },
       },
       use: {
@@ -253,12 +310,24 @@ export const ENGINEERING_MYSTERY: RoomMysteryModule<EngineeringHotspotId, Engine
           episodeId: "degen.e3",
           cluesFound: ["degen.e3.degens_quarterly_routing"],
         },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Same routing, every quarter. Hidden in plain sight on a piece of foolscap. Whoever's on the other end is fixed; the rhythm doesn't lie.",
+            balanced:
+              "The Degen's quarterly routing pattern is, by Hierarchy convention, a discoverable signature. He has been making it discoverable on purpose — anyone careful enough to notice the rhythm earns the read. We are now in the small group of people who noticed.",
+            warm:
+              "He routed through the same line for thirty years. The other end is someone he trusts. The Degen is, on this evidence, more loyal than the Hierarchy gives him credit for.",
+          },
+          voId: "human.engineering.blueprints.use",
+        },
       },
     },
     "crafting-bench": {
       look: {
         narration:
           "The workbench is laid out for a job that was never started. Tools in the right hands. A blank fusion socket waiting for two cards. The bench's last user logged off mid-procedure and never came back.",
+        voId: "elara.engineering.crafting-bench.look",
         logsClue: {
           id: "clue-engineering-abandoned-bench",
           title: "A crafting job that was never started",
@@ -278,6 +347,17 @@ export const ENGINEERING_MYSTERY: RoomMysteryModule<EngineeringHotspotId, Engine
           mysteryId: "mystery.jericho_jones",
           episodeId: "jericho.e2",
           cluesFound: ["jericho.e2.degen_witness"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Witness page from Thaloria. The Degen reserved judgment within the hour. The bench remembers because the Degen filed the witness page through it.",
+            balanced:
+              "The Degen's witness page on the Battle of Thaloria is the only contemporaneous record of his refusal to render verdict on Akai Shi's killing. He filed it within sixty minutes of the event, deliberately, while the bench was still warm from the prior fusion job. The bench preserved the document by keeping the heat-trace.",
+            warm:
+              "He reserved judgment when nobody else did. That refusal is, in retrospect, the closest thing to a vote of confidence Jericho ever received. The bench has been carrying that vote forward for centuries.",
+          },
+          voId: "human.engineering.crafting-bench.look",
         },
       },
       // The `use` verb falls through to the existing /research-lab
@@ -299,6 +379,17 @@ export const ENGINEERING_MYSTERY: RoomMysteryModule<EngineeringHotspotId, Engine
           episodeId: "degen.e2",
           cluesFound: ["degen.e2.brokerage_line_4711"],
         },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Risky position, deliberate. Lyra's marginalia is the witness statement. The Degen took the line on purpose.",
+            balanced:
+              "Brokerage line #4,711 is the audit's named entry. Lyra's marginalia frames it as a deliberate position rather than a misjudgement — the Degen took the risk because the Coda required it. Mol'Vereth, when he reads Ozhul's query, will see the same framing in her hand.",
+            warm:
+              "Lyra wrote in the margin so the Degen would have a witness if anyone ever asked. We are the witness. Two centuries later, but we count.",
+          },
+          voId: "human.engineering.crafting-bench.use",
+        },
       },
       talk: {
         narration:
@@ -311,12 +402,24 @@ export const ENGINEERING_MYSTERY: RoomMysteryModule<EngineeringHotspotId, Engine
           episodeId: "game_master.e4",
           cluesFound: ["game_master.e4.brel_observation_protocol"],
         },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Exhaustive protocol. When to look, when to speak, when to sign. She has thought through every minute of the session. Velkraal will be in good hands.",
+            balanced:
+              "Brel's observation protocol is the most prepared single document in the Game Master arc. Her cover note — 'I will not edit. I will record. The Goggles will continue.' — is her commitment to the protocol-shift Velkraal designed. The protocol is, on the bench, ready to be performed.",
+            warm:
+              "She practised every gesture of the session in advance. That is the kind of preparation people do when the work matters more than they do. Velkraal trained her well. She trained herself the rest of the way.",
+          },
+          voId: "human.engineering.crafting-bench.talk",
+        },
       },
     },
     "egg-eng-formula": {
       look: {
         narration:
           "A dimensional resonance equation, etched by hand into the reactor housing. Clean math, except for the extra term: Ψ-null. The null-consciousness coefficient. A door to nowhere — the space between spaces. The Source dwells there. Nobody scratches this casually. — Folded between the housing and the cooling-jacket, an unsent letter draft from Vex's apprentice. The draft is addressed to Vex by her real name; the apprentice has been refraining from sending it because they aren't sure they're permitted to know the name. The unfinished sentence reads: 'If you are reading this, you have come back to the bench, and I am going to ask you the question I have been holding for two years —'",
+        voId: "elara.engineering.egg-eng-formula.look",
         logsClue: {
           id: "clue-engineering-psi-null-formula",
           title: "The Ψ-null formula",
@@ -331,6 +434,17 @@ export const ENGINEERING_MYSTERY: RoomMysteryModule<EngineeringHotspotId, Engine
           mysteryId: "mystery.vex_solene",
           episodeId: "vex.e3",
           cluesFound: ["vex.e3.apprentice_letter_draft"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "They have been holding the letter for two years. They want to ask whether they are permitted to know her real name. Tomorrow they will be permitted.",
+            balanced:
+              "The apprentice's unsent letter is the saga's quietest declaration of devotion. Two years of refraining from sending it because they aren't sure they're permitted to know her real name. Vex will, tomorrow morning, make the permission explicit. The letter will be either delivered or rendered unnecessary.",
+            warm:
+              "They love her enough to wait two years for permission to ask. Vex loves them enough to grant it tomorrow. The whole apprenticeship, on this evidence, has been one careful act of consent.",
+          },
+          voId: "human.engineering.egg-eng-formula.look",
         },
       },
       use: {
@@ -456,6 +570,17 @@ export const ENGINEERING_MYSTERY: RoomMysteryModule<EngineeringHotspotId, Engine
           episodeId: "vex.e4",
           cluesFound: ["vex.e4.workshop_inventory"],
         },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Tool migration map. Six months of gradual transfer. The apprentice's bench is, in inventory terms, already the working surface.",
+            balanced:
+              "The workshop inventory is the most procedurally exact succession document in the saga. Vex has been moving tools, in small batches, to the apprentice's bench for half a year. The inventory shows the migration as a single continuous handover, not a discrete event. Tomorrow ratifies what has already happened.",
+            warm:
+              "She has been giving them her tools, gradually, so they could learn the weight of each one. By the time the session begins, the apprentice will already know every grip in the workshop. That is the only honest way to teach a craft.",
+          },
+          voId: "human.engineering.instruction-manual.use",
+        },
       },
       talk: {
         narration: {
@@ -473,6 +598,17 @@ export const ENGINEERING_MYSTERY: RoomMysteryModule<EngineeringHotspotId, Engine
           mysteryId: "mystery.vex_solene",
           episodeId: "vex.e5",
           cluesFound: ["vex.e5.original_rig_status"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Decommissioned, by owner. The rig that recorded every Variant Recording is formally retired. The successor is on the apprentice's bench.",
+            balanced:
+              "Vex stamped the rig's status herself. Decommissioned, by owner — the most procedurally honest retirement statement available. The rig will sit silent. The next recording session will use the apprentice's bench as the new official rig of record.",
+            warm:
+              "She retired her own rig. She didn't break it; she stamped it. The discipline is consistent: every act has its paperwork, every paperwork has its consent. She will not have to record again, and she made sure of that in the form the saga can read.",
+          },
+          voId: "human.engineering.instruction-manual.talk",
         },
       },
     },
@@ -549,6 +685,17 @@ export const ENGINEERING_MYSTERY: RoomMysteryModule<EngineeringHotspotId, Engine
           episodeId: "degen.e1",
           cluesFound: ["degen.e1.mol_vereth_visiting_card"],
         },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Mol'Vereth files trustee-status updates by pressing his card into a binding the trustee will eventually open. Old Hierarchy practice. The Degen knows to look.",
+            balanced:
+              "Mol'Vereth's visiting card is a Hierarchy-internal tradition: trustee-status updates are filed in physical bindings the trustee will, in the course of routine ledger work, eventually find. The card in the schematic-pad's binding has been waiting for the Degen to open the binding. He hasn't yet; we did it for him.",
+            warm:
+              "Mol'Vereth still uses paper cards. I respect that more than the saga gives him credit for. The card is a small kindness — a tactile rather than a digital notification of trustee status.",
+          },
+          voId: "human.engineering.schematic-pad.use",
+        },
       },
       talk: {
         narration: {
@@ -567,6 +714,17 @@ export const ENGINEERING_MYSTERY: RoomMysteryModule<EngineeringHotspotId, Engine
           mysteryId: "mystery.vex_solene",
           episodeId: "vex.e5",
           cluesFound: ["vex.e5.scheduled_session_card"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Tomorrow at six. Both signatures. Witness present required. The handover is a contract.",
+            balanced:
+              "The scheduled-session card is the contractual core of the Vex arc's resolution. Vex's countersignature and the apprentice's initialled acceptance both appear on the same physical card. The session is, in formal terms, already begun — the card itself is the first of its documents.",
+            warm:
+              "They both signed. The handover is, by both their hands, real. We get to be there if we want. We should be.",
+          },
+          voId: "human.engineering.schematic-pad.talk",
         },
       },
     },
