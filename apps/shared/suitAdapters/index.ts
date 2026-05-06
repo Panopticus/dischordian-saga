@@ -15,7 +15,12 @@ export {
 } from "./tradeEmpire";
 export { toArkEventModifiers, type ArkEventModifiers } from "./arkEvents";
 export { toCasinoModifiers, type CasinoModifiers } from "./casino";
-export { toDiplomacyModifiers, type DiplomacyModifiers } from "./diplomacy";
+export {
+  toDiplomacyModifiers,
+  courtEntryReaction,
+  type DiplomacyModifiers,
+  type CourtEntryReaction,
+} from "./diplomacy";
 export {
   toInfiltrationModifiers,
   hasInfiltrationSetBonus,
