@@ -24,7 +24,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import GlitchFx from "@/components/GlitchFx";
-import KineticText from "@/components/void/KineticText";
 import { observe as observeWatcher } from "@/lib/watcher";
 
 const SEEN_KEY = "dischordia_handshake_seen";
@@ -102,11 +101,6 @@ type Stage = "gate" | "scanning" | "shamed" | "done";
  *  to feel like a loading screen. */
 const SHAMED_HOLD_MS = 800;
 
-/**
- * Each line is rendered with KineticText decode so glyphs scramble
- * into place — the same treatment used by the main boot sequence so
- * the handshake feels diegetically continuous.
- */
 interface ScanLine {
   label: string;
   value: string;
@@ -179,27 +173,18 @@ export function SurveillanceOpening({
     return () => clearTimeout(t);
   }, [stage, finish]);
 
-  // Drive the scanning reveal on a jagged cadence — snappy at the top,
-  // with just enough late-line drag to land FINGERPRINT as a punch.
-  // The whole sequence wraps in ~60ms so the player never perceives it
-  // as a loading screen. Reduce-motion collapses to a tick.
-  const CADENCE = [3, 4, 4, 5, 7, 9, 12, 16];
+  // Land all readouts in a single frame, hold ~120ms so the operator
+  // can register them as a flash, then snap shut. The per-line drip
+  // and per-character decode that used to live here ran much longer
+  // than their design budget in practice — a static all-at-once
+  // render reads as the intended "blink past" instead of a loading
+  // screen.
   useEffect(() => {
     if (stage !== "scanning") return;
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) {
-      setRevealed(lines.length);
-      const t = setTimeout(finish, 40);
-      return () => clearTimeout(t);
-    }
-    if (revealed >= lines.length) {
-      const t = setTimeout(finish, 40);
-      return () => clearTimeout(t);
-    }
-    const delay = CADENCE[Math.min(revealed, CADENCE.length - 1)];
-    const t = setTimeout(() => setRevealed(n => n + 1), delay);
+    setRevealed(lines.length);
+    const t = setTimeout(finish, 120);
     return () => clearTimeout(t);
-  }, [stage, revealed, lines.length, finish]);
+  }, [stage, lines.length, finish]);
 
   if (stage === "done") return null;
 
@@ -520,15 +505,7 @@ function ScanView({ lines, revealed }: { lines: ScanLine[]; revealed: number }) 
           // The last two lines glitch on reveal — RGB chroma split for
           // a half-second so the late readouts feel intrusive.
           const shouldGlitch = i >= lines.length - 2;
-          const valueNode = (
-            <KineticText
-              key={`${line.label}-${i}`}
-              text={line.value}
-              mode="decode"
-              speed={2}
-              showCursor={false}
-            />
-          );
+          const valueNode = <span>{line.value}</span>;
           return (
             <div
               key={line.label}
