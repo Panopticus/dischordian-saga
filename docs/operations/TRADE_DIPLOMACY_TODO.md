@@ -1,49 +1,62 @@
-# Trade Empire — diplomacy price modifier (re-enable)
+# Trade Empire — diplomacy price modifier (re-enabled)
 
-## Why this doc exists
+## Status — RE-ENABLED with a server-derived source
 
-`apps/server/routers/tradeWars.ts:performTrade` previously accepted
+`apps/server/routers/tradeWars.ts:trade` originally accepted
 `input.factionReputation` from the client and used it directly to
 compute up to a 15% price discount. A malicious client could send
 `{ empire: 99999 }` and pay 15% less on every trade.
 
-In G11 (security pass) we **disabled the diplomacy modifier**. The
-input field is still accepted (back-compat with old clients) but
-ignored.
+In G11 (security pass) the modifier was **disabled**. The
+client-supplied input field was kept for back-compat but ignored.
 
-## What needs to land before re-enabling
+The modifier is now back, sourced server-side. The wire field is
+still ignored — dropping it from the Zod schema is the only step
+intentionally deferred (breaking change for old clients; coordinate
+with a client release).
 
-1. **Server-side faction reputation source.** Likely candidates:
-   - Aggregate per-faction sums from `trade_sector_reputation`
-     (sector × faction mapping in `tradeSectors`).
-   - A new table `user_faction_reputation` with one row per
-     (userId, factionKey).
-   - A field on `tradeEmpirePlayerState` for the four faction
-     totals.
-2. **Bounded math.** Cap server-computed reputation values to a
-   sane range (-1000..+1000) so even a corrupted state can't yield
-   absurd discounts.
-3. **Mutation events.** Wherever the player makes a diplomacy
-   choice (mission outcomes, sector control, trade contracts,
-   conspiracy boards), the relevant faction values should adjust.
-4. **Decay.** Reputation should bleed back toward 0 over time so a
-   one-time max-out doesn't grant permanent discounts.
+## How it works now
 
-## Re-enable steps
+- **Source.** `userProgress.gameData.factionReputation`
+  (`Record<factionKey, number>`). Already mutated by
+  `apps/server/routers/tradeContracts.ts` when contract effects of
+  kind `faction_reputation_delta` fire, so the data path was
+  already populated.
+- **Lookup key.** The player's home faction
+  (`tw_player_state.faction`, one of `"empire" | "insurgency"`).
+  Server-derived; cannot be spoofed.
+- **Bounds.** `factionReputationService.boundReputation` clamps to
+  ±`REP_BOUND` (1000). A corrupted state caps at the same ceiling
+  as a legitimate one — no escalation.
+- **Math.** `computeTradePriceMultiplier(rep) = 1 - (rep / REP_BOUND) * 0.15`,
+  yielding `[0.85, 1.15]`. Positive reputation cheapens prices,
+  negative reputation marks them up.
+- **Decay.** `runFactionReputationDecayTick` runs hourly via the
+  cron driver in `apps/server/_core/index.ts`. Bleeds every
+  non-zero reputation toward 0 by 1 unit per tick (rep=1000 fully
+  decays in ~42 days). Ensures a one-time max-out doesn't grant a
+  permanent discount.
 
-1. Implement the source above.
-2. Replace the disabled block in `performTrade` with a server-side
-   `await getFactionReputation(ctx.user.id)` call.
-3. Apply the same discount math, but with the server values.
-4. Drop the `factionReputation` input field entirely from the Zod
-   schema (breaking change — coordinate with client to remove the
-   call site at the same release).
-5. Update CHANGELOG with a "diplomacy modifier re-enabled" line.
+## Files
 
-## Acceptance test
+- `apps/server/services/factionReputationService.ts` — the source +
+  helpers + decay tick.
+- `apps/server/services/factionReputationService.test.ts` —
+  unit coverage on the pure-math helpers + no-DB graceful fallback.
+- `apps/server/routers/tradeWars.ts` — the re-enabled call site
+  (replaces the old `// DIPLOMACY PRICE MODIFIERS — DISABLED` block).
+- `apps/server/_core/index.ts` — wires the hourly decay tick.
 
-A test that exercises the trade endpoint with a deliberately
-spoofed `factionReputation: { empire: 99999 }` body and asserts
-that the executed trade price is **identical** to a trade with no
-factionReputation. Once the re-enable lands, replace this test
-with one that asserts server-derived reputation is used.
+## Deferred (still owed)
+
+- **Drop `factionReputation` from the Zod input schema.** Breaking
+  change for clients that still send the field. Plan: coordinate
+  with a client release that stops sending it, then remove the
+  field on the next minor server release.
+- **Acceptance test against the live trade endpoint.** Currently
+  the spoof guarantee is enforced by `clamp(rep)` returning the
+  same multiplier for `{ empire: 99999 }` as for
+  `{ empire: 1000 }` (covered in
+  `factionReputationService.test.ts`). A round-trip test that
+  POSTs to the trade endpoint and asserts price equality lands
+  alongside an integration harness for the trade routers.

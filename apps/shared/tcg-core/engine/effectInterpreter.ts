@@ -70,7 +70,7 @@ export function interpret(
       return;
 
     case "with_target": {
-      const targets = resolveTargetSelector(effect.selector, ctx, draft);
+      const targets = resolveTargetSelector(effect.selector, ctx, draft, reduceCtx.rng);
       if (targets.length === 0) return;
       // For single-target selectors we only iterate the first result.
       // Multi-target aggregation lives on `foreach`.
@@ -535,7 +535,7 @@ export function interpret(
     }
 
     case "foreach": {
-      const targets = resolveTargetSelector(effect.over, ctx, draft);
+      const targets = resolveTargetSelector(effect.over, ctx, draft, reduceCtx.rng);
       for (const targetId of targets) {
         const newCtx = withIt(ctx, targetId);
         interpret(effect.do, newCtx, draft, reduceCtx);
@@ -544,7 +544,7 @@ export function interpret(
     }
 
     case "sacrifice_then": {
-      const sacTargets = resolveTargetSelector(effect.sac, ctx, draft);
+      const sacTargets = resolveTargetSelector(effect.sac, ctx, draft, reduceCtx.rng);
       if (sacTargets.length === 0) return;
       // Sacrifice the first resolved target.
       const sacId = sacTargets[0];

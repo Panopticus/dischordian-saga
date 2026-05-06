@@ -315,13 +315,12 @@ export const tradeWarsRouter = router({
       commodity: z.enum(["fuelOre", "organics", "equipment"]),
       action: z.enum(["buy", "sell"]),
       quantity: z.number().min(1).max(9999),
-      // Removed in G11 (sec audit): the prior schema accepted
-      // client-supplied faction reputation and used it directly to
-      // discount prices. A client could send `{ empire: 99999 }` and
-      // get the maximum 15% discount with no server-side check. The
-      // diplomacy price modifier is disabled until server-derived
-      // reputation lands (see docs/operations/TRADE_DIPLOMACY_TODO.md).
-      // Field accepted-and-ignored for back-compat with old clients.
+      // Re-enabled with a server-derived source (factionReputationService).
+      // The wire field is still accepted for back-compat with older
+      // clients but is intentionally ignored — the discount comes from
+      // the player's server-side reputation with their home faction.
+      // Removing this field is a coordinated breaking change tracked
+      // in docs/operations/TRADE_DIPLOMACY_TODO.md.
       factionReputation: z.record(z.string(), z.number()).optional(),
     }))
     .mutation(async ({ ctx, input }) => {
@@ -343,25 +342,26 @@ export const tradeWarsRouter = router({
       
       const portData = sector.sectorData as any;
       if (!portData?.commodities) return { success: false, message: "Port data corrupted" };
-      
+
       const commodity = portData.commodities[input.commodity];
       if (!commodity) return { success: false, message: `Port doesn't trade ${input.commodity}` };
-      
-      // Was `let price` while the disabled diplomacy block reassigned
-      // it. Now that the discount logic is removed, the price is
-      // taken straight from the commodity definition.
-      const price = commodity.price;
-      const cargoUsed = getCargoUsed(player);
 
-      // ═══ DIPLOMACY PRICE MODIFIERS — DISABLED ═══
-      // The previous implementation read input.factionReputation
-      // directly to compute up to 15% price discounts. Client-
-      // supplied — trivially spoofable. Disabled in G11 until a
-      // server-derived reputation source replaces it (likely
-      // aggregated from trade_sector_reputation rows).
-      //
-      // No price modification applied. `input.factionReputation` is
-      // accepted for back-compat but ignored.
+      // ═══ DIPLOMACY PRICE MODIFIER (server-derived) ═══
+      // Reads the player's reputation with their declared home faction
+      // (`tw_player_state.faction`) from the server-side reputation
+      // source (userProgress.gameData.factionReputation, mutated by
+      // tradeContracts faction_reputation_delta effects). Bounded to
+      // ±REP_BOUND and decayed hourly by the cron tick. The legacy
+      // client-supplied `input.factionReputation` is still accepted on
+      // the wire for back-compat but is intentionally ignored here.
+      const { getReputationFor, computeTradePriceMultiplier } = await import(
+        "../services/factionReputationService"
+      );
+      const homeFaction = (player.faction ?? "empire") as string;
+      const factionRep = await getReputationFor(ctx.user.id, homeFaction);
+      const priceMultiplier = computeTradePriceMultiplier(factionRep);
+      const price = Math.max(1, Math.round(commodity.price * priceMultiplier));
+      const cargoUsed = getCargoUsed(player);
       
       if (input.action === "buy") {
         // Port must be selling (not buying) this commodity
