@@ -603,8 +603,28 @@ export default function Home() {
     },
   ], []);
 
-  // Show boot sequence once per session
+  // Show boot sequence once per session.
+  // Plan §D5 — when the player has opted into skipBootOnRepeat in
+  // settings AND has booted at least once before, fast-forward
+  // through the sequence. The default in settingsSchema is true, so
+  // returning players don't sit through the intro every visit.
   if (!booted) {
+    let skipBootOnRepeat = true;
+    try {
+      const raw = localStorage.getItem("loredex-settings");
+      if (raw) {
+        const parsed = JSON.parse(raw) as { skipBootOnRepeat?: boolean };
+        if (typeof parsed.skipBootOnRepeat === "boolean") {
+          skipBootOnRepeat = parsed.skipBootOnRepeat;
+        }
+      }
+    } catch {
+      /* fall through to default */
+    }
+    if (hasBootedBefore && skipBootOnRepeat) {
+      handleBootComplete();
+      return null;
+    }
     return <BootSequence onComplete={handleBootComplete} skipCeremony={hasBootedBefore} />;
   }
 

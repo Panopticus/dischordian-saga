@@ -19,6 +19,9 @@ import { storeRouter } from "./routers/store";
 import { elaraRouter } from "./routers/elara";
 import { lyricsRouter } from "./routers/lyrics";
 import { gameStateRouter } from "./routers/gameState";
+import { diplomacyRouter } from "./routers/diplomacy";
+import { loyaltyMissionRouter } from "./routers/loyaltyMission";
+import { crossGameLedgerRouter } from "./routers/crossGameLedger";
 import { cardChallengeRouter } from "./routers/cardChallenge";
 import { adminRouter } from "./routers/admin";
 import { contentRewardRouter } from "./routers/contentReward";
@@ -166,6 +169,9 @@ export const appRouter = router({
   elara: elaraRouter,
   lyrics: lyricsRouter,
   gameState: gameStateRouter,
+  diplomacy: diplomacyRouter,
+  loyaltyMission: loyaltyMissionRouter,
+  crossGameLedger: crossGameLedgerRouter,
   cardChallenge: cardChallengeRouter,
   admin: adminRouter,
   contentReward: contentRewardRouter,

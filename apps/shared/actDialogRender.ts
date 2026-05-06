@@ -25,7 +25,7 @@ import { renderTemplate, type FlagBag } from "./dialogTemplating";
 /** Render every string-valued field of `dialog` through the
  *  templating engine. Non-string fields (numbers, ids,
  *  nested objects) pass through untouched. */
-export function renderActDialog<T extends Record<string, unknown>>(
+export function renderActDialog<T extends object>(
   dialog: T,
   flags: FlagBag,
 ): T {
@@ -40,7 +40,7 @@ export function renderActDialog<T extends Record<string, unknown>>(
  *  keyed by opponent / scene id — useful for a one-shot
  *  pre-render of an entire act's bank when the player loads
  *  into it. */
-export function renderActDialogBank<T extends Record<string, unknown>>(
+export function renderActDialogBank<T extends object>(
   bank: Readonly<Record<string, T>>,
   flags: FlagBag,
 ): Record<string, T> {

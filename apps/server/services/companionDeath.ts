@@ -17,7 +17,7 @@
    ═══════════════════════════════════════════════════════ */
 
 import { getDb } from "../db";
-import { eidolonBonds, eidolonMemorial, notifications } from "../../db/schema";
+import { eidolonBonds, eidolonMemorial, notifications, userProgress } from "../../db/schema";
 import { eq, and } from "drizzle-orm";
 import { logger } from "../logger";
 import { pressureService } from "./pressureService";
@@ -58,8 +58,25 @@ export const companionDeath = {
     if (!bond) return { success: false, isSpectral: false, spectralBonusSystem: null, memorialCreated: false };
     if (bond.health === "dead") return { success: false, isSpectral: false, spectralBonusSystem: null, memorialCreated: false };
 
-    // Blood sacrifice Path C = no spectral form (permanent death)
-    const becomesSpectral = cause !== "sacrifice";
+    // Blood sacrifice Path C = no spectral form (permanent death).
+    // Plan §C6 — ironman opt-in (settingsSchema.ironman) ALSO disables
+    // the spectral safety net. We read the setting from the player's
+    // userProgress.gameData since per-user settings duplicate to that
+    // surface for cross-device persistence.
+    let ironman = false;
+    try {
+      const [progress] = await db
+        .select()
+        .from(userProgress)
+        .where(eq(userProgress.userId, userId))
+        .limit(1);
+      const gd = (progress?.gameData ?? {}) as Record<string, unknown>;
+      const settings = (gd.settings ?? {}) as Record<string, unknown>;
+      ironman = settings.ironman === true;
+    } catch {
+      // settings unreachable → fall through to default (non-ironman) path
+    }
+    const becomesSpectral = cause !== "sacrifice" && !ironman;
     const spectralSystem = becomesSpectral
       ? (DEATH_CONTEXT_TO_SYSTEM[context ?? cause] ?? "all")
       : null;

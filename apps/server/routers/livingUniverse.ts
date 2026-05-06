@@ -276,6 +276,58 @@ export const livingUniverseRouter = router({
       hasAnyActiveEvent: (Number(countRow?.n) || 0) > 0,
     };
   }),
+
+  /**
+   * Plan §C7 — current world→minigame modifier bundle for the
+   * caller. Each minigame entry point (CardBattle / TowerDefense /
+   * Chess / TradeEmpire) calls this once per run-init and applies the
+   * resulting bonuses on top of its base values.
+   */
+  getMinigameModifiers: protectedProcedure.query(async () => {
+    const { computeMinigameModifiers } = await import("../../shared/worldMinigameModifiers");
+    const pressure = await pressureService.getAllPressures();
+    const cycleNet = (pressure.moralityHumanity ?? 0) - (pressure.moralityMachine ?? 0);
+    return computeMinigameModifiers({
+      deaths: pressure.deaths,
+      viralExposures: pressure.viralExposures,
+      truthRevealed: pressure.truthRevealed,
+      healingDone: pressure.healingDone,
+      exploration: pressure.exploration,
+      cycleNet,
+    });
+  }),
+
+  /**
+   * Plan §E2 — admin tick of the rules-engine layer. Reads the current
+   * pressure snapshot, evaluates LIVING_UNIVERSE_RULES against it, and
+   * returns the rules that fired. Mount a Railway cron service to invoke
+   * weekly; never setInterval inside the stateless server.
+   *
+   * The rules engine runs ALONGSIDE the existing EVENT_SYNERGIES (which
+   * stay hand-tuned). This endpoint is the opt-in path so consumers can
+   * adopt rule-based emergent events incrementally.
+   */
+  adminEvaluateRules: adminProcedure.mutation(async () => {
+    const { LIVING_UNIVERSE_RULES, evaluateRules } = await import("../../shared/livingUniverseRules");
+    const pressure = await pressureService.getAllPressures();
+    // Map the codebase's pressure-vector shape onto the rules-engine's
+    // PressureSnapshot. Conservative mapping — only dimensions the rules
+    // currently reference are forwarded.
+    // PressureTracker exposes humanity/machine (light/dark) as morality scalars.
+    const cycleNet = (pressure.moralityHumanity ?? 0) - (pressure.moralityMachine ?? 0);
+    const fired = evaluateRules({
+      pressure: {
+        deaths: pressure.deaths,
+        viralExposures: pressure.viralExposures,
+        truthRevealed: pressure.truthRevealed,
+        healingDone: pressure.healingDone,
+        exploration: pressure.exploration,
+        cycleNet,
+      },
+    }, LIVING_UNIVERSE_RULES);
+    logger.info(`[LivingUniverse] rules-engine fired ${fired.length}/${LIVING_UNIVERSE_RULES.length}: ${fired.map(r => r.id).join(",") || "none"}`);
+    return { firedCount: fired.length, fired: fired.map(r => ({ id: r.id, eventId: r.eventId, name: r.name })) };
+  }),
 });
 
 /**
