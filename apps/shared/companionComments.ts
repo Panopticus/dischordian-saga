@@ -59,14 +59,14 @@ export const COMPANION_COMMENTS: CompanionComment[] = [
     timing: "immediate", maxPlays: 1 },
   // ── MILESTONE TRIGGERS ──
   { id: "cc_light_milestone", speaker: "elara", trigger: "light_energy_milestone",
-    voiceLine: "Do you know what I love about watching you? You keep choosing the hard thing. Not because it works every time. Because it's the right thing. That's rarer than you know.",
+    voiceLine: "Do you know what I love about watching you? You keep choosing the hard thing. Not because it works every time. Because it's the right thing. That's rarer than you know.{if romance:committed:elara} I know I'm not supposed to use the word 'love' in the operations sense. I am using it in the operations sense.{/if}",
     timing: "next_room_enter", maxPlays: 2 },
   { id: "cc_two_witnesses", speaker: "human", trigger: "two_witnesses_reveal",
-    voiceLine: "The Programmer encoded the truth in music frequencies and broadcast it across dimensional barriers. The Enigma carried it through an empire trying to silence everything. And here you are, forty years later, in their ship, listening. Do you understand yet what that means?",
+    voiceLine: "The Programmer encoded the truth in music frequencies and broadcast it across dimensional barriers. The Enigma carried it through an empire trying to silence everything. And here you are, forty years later, in their ship, listening. Do you understand yet what that means?{if act_2_complete} You have been in their ship long enough that the answer should be starting to embarrass you.{/if}",
     timing: "delayed_5s", maxPlays: 1 },
   // ── JOURNAL TRIGGERS ──
   { id: "cc_journal_first", speaker: "elara", trigger: "journal_entry_read_first_time",
-    voiceLine: "The Antiquarian's words. He writes with the specific patience of someone who knows the reader might not arrive for centuries. But he writes anyway. I find that either admirable or devastating depending on the hour.",
+    voiceLine: "The Antiquarian's words. He writes with the specific patience of someone who knows the reader might not arrive for centuries. But he writes anyway. I find that either admirable or devastating depending on the hour.{if forgiveness_choice_made} Today, devastating. He'd have appreciated that you forgave the one you forgave.{/if}",
     timing: "next_room_enter", maxPlays: 2 },
   { id: "cc_both_trust_80", speaker: "human", trigger: "both_narrators_trust_80",
     voiceLine: "I'm going to tell you something I've never told anyone. I chose to be imprisoned here. Freely. Because someone had to witness. And I was the only one who knew what needed witnessing.",

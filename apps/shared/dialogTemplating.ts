@@ -32,8 +32,11 @@
 
 export type FlagBag = Readonly<Record<string, boolean | undefined>>;
 
-const IF_RE = /\{if\s+([a-z][a-zA-Z0-9_]*)\}([\s\S]*?)(?:\{else\}([\s\S]*?))?\{\/if\}/g;
-const FLAG_INTERP_RE = /\{flag:([a-z][a-zA-Z0-9_]*)\}/g;
+// Flag keys are lowercase snake_case. The romance subsystem uses a
+// colon-separated namespace (`romance:committed:<id>`); we admit
+// colons in the key class to support that pattern.
+const IF_RE = /\{if\s+([a-z][a-zA-Z0-9_:]*)\}([\s\S]*?)(?:\{else\}([\s\S]*?))?\{\/if\}/g;
+const FLAG_INTERP_RE = /\{flag:([a-z][a-zA-Z0-9_:]*)\}/g;
 
 /** Render an authored template against a flag bag. Lines without
  *  any template syntax pass through unchanged (zero-cost path). */

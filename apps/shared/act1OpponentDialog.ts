@@ -86,11 +86,11 @@ const LITTLE_MEME: Act1OpponentDialog = {
   opponentMidMatchLate:
     "Say my name once. One time. That is all I am asking.",
   elaraPostMatchWin:
-    "You stopped the chant. Most adults can't. The Engineer couldn't, the first time he tried.",
+    "You stopped the chant. Most adults can't. The Engineer couldn't, the first time he tried.{if forgiveness_choice_made} You forgave one earlier; you stopped one here. Both count.{/if}",
   humanPostMatchWin:
     "Memes don't die. They just sleep. You bought yourself the rest of the recess.",
   elaraPostMatchLoss:
-    "It got in. That's all losing means here. We'll wash it out at the next break.",
+    "It got in. That's all losing means here. We'll wash it out at the next break.{if act_2_complete} You've washed worse out, since.{/if}",
   humanPostMatchLoss:
     "You hummed it on the walk home. Don't beat yourself up. Everyone hums it.",
   engineerMemoirCloseWin:
@@ -114,9 +114,9 @@ const LITTLE_COLLECTOR: Act1OpponentDialog = {
   opponentMidMatchLate:
     "You are running out of jars. I am not.",
   elaraPostMatchWin:
-    "The jar cracked. He'll learn to want a smaller one. Or he won't, and we'll meet him again.",
+    "The jar cracked. He'll learn to want a smaller one. Or he won't, and we'll meet him again.{if forgiveness_choice_made} You met one of his sort earlier and chose forgiveness. The lesson followed you here.{/if}",
   humanPostMatchWin:
-    "Good. Some children grow into the Collectors. Some grow out. You bought him the option.",
+    "Good. Some children grow into the Collectors. Some grow out. You bought him the option.{if act_1_cycle_a_complete} You bought it for the second time today. I noticed.{/if}",
   elaraPostMatchLoss:
     "He took something small. We'll find out which thing was small later. We always do.",
   humanPostMatchLoss:
