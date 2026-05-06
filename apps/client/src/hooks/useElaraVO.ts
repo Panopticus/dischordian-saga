@@ -14,6 +14,7 @@
      speak("feature_unlock_companion_selection");
    ═══════════════════════════════════════════════════════ */
 import { useRef, useState, useCallback, useEffect } from "react";
+import { voPlaybackEnded, voPlaybackStarted } from "@/lib/voSpeakingState";
 
 let manifest: Record<string, string> | null = null;
 let manifestLoading = false;
@@ -76,24 +77,49 @@ export function useElaraVO() {
     a.volume = 0.8;
     setAudio(a);
 
+    // Each play() owns exactly one published-start / published-end pair so
+    // the global ducking refcount stays balanced even if onerror fires
+    // after onended (or vice versa).
+    let published = false;
+    const finishPublish = () => {
+      if (published) {
+        published = false;
+        voPlaybackEnded();
+      }
+    };
+
     a.onplay = () => {
       speakingRef.current = true;
       setSpeaking(true);
+      if (!published) {
+        published = true;
+        voPlaybackStarted();
+      }
     };
     a.onended = () => {
       speakingRef.current = false;
       setSpeaking(false);
+      finishPublish();
       const next = queueRef.current.shift();
       if (next) speak(next);
     };
     a.onerror = () => {
       speakingRef.current = false;
       setSpeaking(false);
+      finishPublish();
+    };
+    a.onpause = () => {
+      // .pause() in stop() flips speaking false but doesn't fire onended;
+      // mirror the published-end here so a stop()-while-playing doesn't
+      // strand the duck refcount.
+      if (a.ended) return;
+      finishPublish();
     };
 
     a.play().catch(() => {
       speakingRef.current = false;
       setSpeaking(false);
+      finishPublish();
     });
   }, []);
 

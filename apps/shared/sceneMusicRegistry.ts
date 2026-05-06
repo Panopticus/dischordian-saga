@@ -97,6 +97,67 @@ export const SCENE_MUSIC_CUES: SceneMusicCue[] = [
     allowCombatRamp: false,
     note: "Quieter, contemplative — the player came here on purpose.",
   },
+  // ── Per-room hub cues (Phase E) ──
+  // The actual playback for these rooms already runs through
+  // apps/client/src/contexts/AmbientMusicContext.tsx ROOM_TRACKS
+  // (YouTube-backed). These cues are the *metadata* layer
+  // (intensity / fade / allowCombatRamp) the consumer can pair
+  // against the room id when scoring decisions need more than
+  // "does it loop?". See plan §E.
+  {
+    sceneId: "hub_bridge",
+    baseTrackId: "governance-hub",
+    intensity: "ambient",
+    fadeInMs: 1800,
+    fadeOutMs: 1200,
+    allowCombatRamp: false,
+    note: "Bridge / Conspiracy Board — sits under Elara narration. Reuses the governance bed since the Bridge is where state-level decisions happen.",
+  },
+  {
+    sceneId: "hub_archives",
+    baseTrackId: "building-the-architect",
+    intensity: "ambient",
+    fadeInMs: 2200,
+    fadeOutMs: 1500,
+    allowCombatRamp: false,
+    note: "Archives — Antiquarian + Shadow Tongue presence; should feel like a held breath.",
+  },
+  {
+    sceneId: "hub_medical_bay",
+    baseTrackId: "hacking-reality",
+    intensity: "ambient",
+    fadeInMs: 2000,
+    fadeOutMs: 1800,
+    allowCombatRamp: false,
+    note: "Medical Bay — The Source surfaces through the bio-bed monitors. Quarantine state should not lift the bed.",
+  },
+  {
+    sceneId: "hub_comms_array",
+    baseTrackId: "the-prisoner",
+    intensity: "ambient",
+    fadeInMs: 1600,
+    fadeOutMs: 1200,
+    allowCombatRamp: false,
+    note: "Comms Array — Human's substrate underneath the relay hum. The Prisoner fits the Panopticon-coded broadcast layer.",
+  },
+  {
+    sceneId: "hub_cryo_bay",
+    baseTrackId: "welcome-to-celebration",
+    intensity: "ambient",
+    fadeInMs: 1500,
+    fadeOutMs: 1000,
+    allowCombatRamp: false,
+    note: "Cryo Bay — first-visit beat; Elara's awakening narration sits on top.",
+  },
+  {
+    sceneId: "hub_engineering",
+    baseTrackId: "last-words",
+    intensity: "ambient",
+    fadeInMs: 1500,
+    fadeOutMs: 1200,
+    allowCombatRamp: false,
+    note: "Engineering — Antiquarian's 'I remember the Engineer' line lives in this song; fits the workbench's literal context.",
+  },
   {
     sceneId: "romance_locke_stage_3",
     baseTrackId: "the-two-witnesses",
@@ -149,6 +210,19 @@ const KNOWN_TRACK_IDS = new Set(SONG_TRIGGER_MAP.map((s) => s.songId));
 
 export function getSceneMusicCue(sceneId: string): SceneMusicCue | undefined {
   return SCENE_MUSIC_CUES.find((c) => c.sceneId === sceneId);
+}
+
+/** Resolve a room-id (kebab-case, as in ROOM_DEFINITIONS) to its
+ *  hub cue. Tries `hub_<roomId-with-underscores>` first since that
+ *  matches the existing `hub_observation_deck` / `hub_inception_ark`
+ *  convention; returns undefined when no cue is authored.
+ *
+ *  Phase E — used by the room renderer to pair existing
+ *  AmbientMusicContext playback with the registry's intensity /
+ *  fade metadata. */
+export function getRoomMusicCue(roomId: string): SceneMusicCue | undefined {
+  const sceneId = `hub_${roomId.replace(/-/g, "_")}`;
+  return getSceneMusicCue(sceneId);
 }
 
 /** True if the cue's base track is one we already advertise

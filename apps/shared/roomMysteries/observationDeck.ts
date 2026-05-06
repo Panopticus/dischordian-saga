@@ -7,6 +7,15 @@
    (purification-crystal-cradle). The first-look on the
    panoramic viewport sets observation_first_clue_found.
 
+   Phase G — fully verb-authored as the canonical example for
+   what every room module should look like once the audit
+   sweep completes (see scripts/audit-room-verb-coverage.mjs).
+   Each hotspot carries Look + Use + Talk responses, banded
+   narration where Elara has weight to bring, and a Human
+   reaction on the beats where the Detective holds context
+   she doesn't. Three hotspots × three verbs = 9 verb cells;
+   stub modules ship with 1-3.
+
    Universal room — confirmed by §6.3b parity probe.
    ═══════════════════════════════════════════════════════ */
 
@@ -17,7 +26,15 @@ export type ObservationDeckHotspotId =
   | "purification-crystal-cradle"
   | "bond-resonance-altar";
 
-export const OBSERVATION_DECK_MYSTERY: RoomMysteryModule<ObservationDeckHotspotId> = {
+export type ObservationDeckInventoryId =
+  | "observation-keycard"
+  | "purification-crystal"
+  | "bond-resonance-recording";
+
+export const OBSERVATION_DECK_MYSTERY: RoomMysteryModule<
+  ObservationDeckHotspotId,
+  ObservationDeckInventoryId
+> = {
   roomId: "observation-deck",
   responses: {
     "panoramic-viewport": {
@@ -40,6 +57,33 @@ export const OBSERVATION_DECK_MYSTERY: RoomMysteryModule<ObservationDeckHotspotI
           source: "observation-deck",
           order: 0,
         },
+        humanReaction: {
+          narration: {
+            balanced:
+              "She built it as a check. If the instruments ever lied, the eye would catch it. Lyra knew you'd be the one to figure that out. Not me. You.",
+            shadow:
+              "She built it to prove the ship was lying. Took her two years to admit she didn't know the answer and she might never. Then she built the window anyway.",
+            warm:
+              "Lyra used to stand here for hours. Not looking for anything. Just — watching. She told me once it was the only place on the ship where she didn't have to be the smartest person in the room.",
+          },
+          voId: "human.observation-deck.panoramic-viewport.talk",
+        },
+      },
+      use: {
+        narration:
+          "You press your palm against the viewport. The glass is cold the way only deep-vacuum-adjacent glass is cold. Through the soles of your boots you feel the faintest hum — the Ark's lifesupport pumps, two decks down, doing their continuous work. Nothing happens; nothing is supposed to.",
+        voId: "elara.observation-deck.panoramic-viewport.use",
+      },
+      talk: {
+        narration: {
+          lucid:
+            "You don't talk to a viewport. You stand in front of it. That's the whole interaction. — That said, if you want me to narrate what we're seeing, I will.",
+          fragmented:
+            "Speak to the stars. Speak to them. They are listening. Or they are not. We cannot tell which.",
+          luminous:
+            "The viewport is the only piece of architecture on this ship that isn't conversational. It does not respond to you. It is not waiting for you to do anything. That is, I think, the gift of it.",
+        },
+        voId: "elara.observation-deck.panoramic-viewport.talk",
       },
     },
     "purification-crystal-cradle": {
@@ -62,6 +106,35 @@ export const OBSERVATION_DECK_MYSTERY: RoomMysteryModule<ObservationDeckHotspotI
           order: 1,
         },
       },
+      use: {
+        narration: {
+          lucid:
+            "You set the purification crystal into the cradle's clips. They retract softly to grip it — the cradle was machined to a tolerance of microns and the crystal sits exactly. The plaque's lighting changes, very slightly, from a held breath to a satisfied one.",
+          fragmented:
+            "It fits. It fits. It fits. The crystal is home. The crystal is home. The crystal — the crystal is —",
+          luminous:
+            "The cradle accepts the crystal. The room registers the acceptance and the warm-gold afterimage Lyra described in her notes briefly tints the air. We have done the thing the room was waiting for. The Ark is — not happier, but more itself, the way a body is more itself when it stops favouring an injured leg.",
+        },
+        voId: "elara.observation-deck.purification-crystal-cradle.use",
+        // Authoring note — only fires when the player actually has
+        // the crystal in their mystery inventory; the verb-coin
+        // runtime gates `use` on inventory presence at the call site,
+        // so we don't need to re-check here.
+        setsFlag: "purification_crystal_seated",
+        logsClue: {
+          id: "clue-obs-crystal-seated",
+          title: "Purification crystal seated in the cradle",
+          body:
+            "The crystal earned from the bond-resonance ritual now occupies the cradle. The room's ambient light shifts to register the acceptance — Lyra's warm-gold afterimage. The cradle is no longer waiting.",
+          source: "observation-deck",
+          order: 3,
+        },
+      },
+      talk: {
+        narration:
+          "The cradle does not answer to speech. The plaque is the only thing that addresses you, and it has already said its line.",
+        voId: "elara.observation-deck.purification-crystal-cradle.talk",
+      },
     },
     "bond-resonance-altar": {
       look: {
@@ -83,6 +156,73 @@ export const OBSERVATION_DECK_MYSTERY: RoomMysteryModule<ObservationDeckHotspotI
           order: 2,
         },
       },
+      use: {
+        narration: {
+          lucid:
+            "You kneel on the oxblood leather. The altar registers your weight and chimes — once, the way a tuning fork chimes — and the room's instruments begin their slow listen. The chord is supposed to take a companion. Without one, the altar holds the listening for a long beat and then releases it, gently, with no judgment.",
+          fragmented:
+            "Alone. Alone. The chord is alone. The chord cannot — the chord cannot find — it cannot find —",
+          luminous:
+            "You kneel, and the altar listens, and finds only one register. That is, of course, the point: the ritual is for two. We will return when we have someone whose register is close enough to ours that the chord can land. In the meantime, the altar holds the listening with the dignity of something that was built to wait.",
+        },
+        voId: "elara.observation-deck.bond-resonance-altar.use",
+        setsFlag: "bond_altar_first_kneel",
+      },
+      talk: {
+        narration: {
+          lucid:
+            "If you address the altar directly, it does not answer. But if you address Elara — or whichever companion is currently aboard — the altar's listening sharpens. Speech, here, is the room's tuning gesture.",
+          fragmented:
+            "Speak. Speak. Speak. The altar listens. The altar — the altar listens. The altar — listens.",
+          luminous:
+            "You speak, and Elara listens, and the altar listens to the listening. There is a recursion to it that the room finds satisfying. Try it: tell me something you wouldn't say in any other room. The altar will not record it. It will only register that the chord is being attempted.",
+        },
+        voId: "elara.observation-deck.bond-resonance-altar.talk",
+        humanReaction: {
+          narration: {
+            balanced:
+              "I tried it once. With Lyra. We were arguing about whether the ship was alive. The chord landed. We stopped arguing. That is the only time, in my long memory, that the altar has done its work.",
+            shadow:
+              "I tried it. Once. The chord landed. I'm not telling you with whom and I'm not telling you what was said. The altar is for two; the rest of us are bystanders.",
+            warm:
+              "Try it with her. Truly. The altar is one of the few pieces of Lyra's architecture that does what she said it would. You'll know when the chord lands. Everyone does.",
+          },
+          voId: "human.observation-deck.bond-resonance-altar.talk",
+          logsClue: {
+            id: "clue-obs-human-altar-confession",
+            title: "The Human has knelt at this altar",
+            body:
+              "The Detective acknowledges he has performed the bond-resonance ritual at least once. He won't say with whom. The chord landed, which by Lyra's design implies a successful phase-coherence event between two consciousnesses on the Ark.",
+            source: "observation-deck",
+            order: 4,
+          },
+        },
+      },
     },
   },
+  combines: [
+    // Earning the purification crystal: the bond-resonance recording
+    // (made by kneeling at the altar with a companion present) plus
+    // the observation keycard (already in inventory from medical-bay)
+    // produces the crystal the cradle has been waiting for.
+    {
+      a: "bond-resonance-recording",
+      b: "observation-keycard",
+      result: {
+        narration:
+          "You feed the bond-resonance recording into the keycard's microscopic data slot. The card flares — briefly, warm-gold — and a faceted crystal precipitates from its surface, exactly the size of the cradle's clips. Lyra's design, finishing its final step centuries late.",
+        producesInventory: "purification-crystal",
+        setsFlag: "purification_crystal_earned",
+        consumesItems: true,
+        logsClue: {
+          id: "clue-obs-crystal-earned",
+          title: "Purification crystal precipitated from the recording",
+          body:
+            "The bond-resonance recording, fed through the observation keycard's data slot, precipitated a faceted crystal sized for the cradle's clips. The keycard was the missing catalyst — Lyra's design completed centuries after she sealed it.",
+          source: "observation-deck",
+          order: 5,
+        },
+      },
+    },
+  ],
 };

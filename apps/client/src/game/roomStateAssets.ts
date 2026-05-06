@@ -184,6 +184,104 @@ function pickTierAsset(roomId: string, tier: RoomTier): string | null {
   return null;
 }
 
+/* ─── ADVENTURE FEATURE STATE ASSETS (Phase F) ─────────
+ *
+ * Mirrors the `ROOM_STATE_CHANGES` table in
+ * apps/client/src/game/adventureFeatures.ts. Each entry there
+ * declares "when flag X is set, room Y looks different" — and
+ * the renderer is supposed to swap the background to a flag-
+ * specific .webp. The runtime wire (Section F) already lights
+ * these up for cryo-bay / medical-bay; this section adds
+ * registry entries for the *other* rooms listed in
+ * ROOM_STATE_CHANGES so the data exists once the producer
+ * uploads the alt art.
+ *
+ * URLs follow the same path convention as the Section F
+ * states (`/art/rooms/mystery-states/<room>_<state>.webp`).
+ * Each entry is marked producer-pending until the corresponding .webp
+ * lands on the CDN — the renderer's existing fallback chain
+ * (state → "initial" → legacy) means a 404 here just shows
+ * the legacy room art, never a broken image.
+ */
+export const ADVENTURE_STATE_ASSET_URLS: Readonly<
+  Record<string, Readonly<Record<string, string>>>
+> = {
+  // From ROOM_STATE_CHANGES in adventureFeatures.ts:
+  //   - quarantine_encountered → medical_bay (red biosafety pulse)
+  //   - human_contact_made     → comms_array (substrate visible thru floor)
+  "medical-bay": {
+    // (producer-pending) uploadmedical-bay_quarantine.webp
+    quarantine: `${ROOM_STATE_ASSET_BASE}/medical-bay_quarantine.webp`,
+  },
+  archives: {
+    // (producer-pending) uploadarchives_glitch-corruption.webp
+    "glitch-corruption": `${ROOM_STATE_ASSET_BASE}/archives_glitch-corruption.webp`,
+  },
+  bridge: {
+    // (producer-pending) uploadbridge_kael-trace.webp (UV-glow blood + scorch)
+    "kael-trace": `${ROOM_STATE_ASSET_BASE}/bridge_kael-trace.webp`,
+  },
+  "observation-deck": {
+    // (producer-pending) uploadobservation-deck_terminus-signal.webp
+    "terminus-signal": `${ROOM_STATE_ASSET_BASE}/observation-deck_terminus-signal.webp`,
+  },
+  engineering: {
+    // (producer-pending) uploadengineering_vox-hologram.webp
+    "vox-hologram": `${ROOM_STATE_ASSET_BASE}/engineering_vox-hologram.webp`,
+  },
+  "comms-array": {
+    // (producer-pending) uploadcomms-array_substrate-pulse.webp
+    "substrate-pulse": `${ROOM_STATE_ASSET_BASE}/comms-array_substrate-pulse.webp`,
+  },
+  "cryo-bay": {
+    // (producer-pending) uploadcryo-bay_pod-zero.webp
+    // Different from the Section F states above — this triggers
+    // when pod_0_discovered is set, not when the murder mystery
+    // advances. Coexists with the Section F art via priority.
+    "pod-zero": `${ROOM_STATE_ASSET_BASE}/cryo-bay_pod-zero.webp`,
+  },
+};
+
+/** Map a ROOM_STATE_CHANGES `triggerFlag` to its kebab-case
+ *  state id (the suffix used in the asset URL). Kept inline
+ *  rather than importing adventureFeatures.ts to avoid the
+ *  client-side circular dep. Author here when adding rows to
+ *  ROOM_STATE_CHANGES. */
+const ADVENTURE_FLAG_STATE_MAP: Readonly<Record<string, { roomId: string; stateId: string }>> = {
+  quarantine_encountered: { roomId: "medical-bay", stateId: "quarantine" },
+  shadow_tongue_evidence: { roomId: "archives", stateId: "glitch-corruption" },
+  kael_theft_witnessed: { roomId: "bridge", stateId: "kael-trace" },
+  terminus_singer_found: { roomId: "observation-deck", stateId: "terminus-signal" },
+  vox_log_found: { roomId: "engineering", stateId: "vox-hologram" },
+  human_contact_made: { roomId: "comms-array", stateId: "substrate-pulse" },
+  pod_0_discovered: { roomId: "cryo-bay", stateId: "pod-zero" },
+};
+
+/** Resolve an adventure-feature state asset URL for a room, if any
+ *  flag in ADVENTURE_FLAG_STATE_MAP is currently set. Returns null
+ *  when no adventure-feature flag is active for this room — caller
+ *  should fall back to the regular tier/legacy chain.
+ *
+ *  Order: highest-priority match wins (object iteration order). When
+ *  the producer hasn't uploaded the .webp yet, the URL still
+ *  resolves; the browser surfaces a 404 that the renderer can
+ *  optionally guard with an onError fallback. */
+export function resolveAdventureStateAssetUrl(
+  roomId: string,
+  flags: NarrativeFlags | null | undefined,
+): string | null {
+  const f = flags || {};
+  const table = ADVENTURE_STATE_ASSET_URLS[roomId];
+  if (!table) return null;
+  for (const [flag, mapping] of Object.entries(ADVENTURE_FLAG_STATE_MAP)) {
+    if (mapping.roomId !== roomId) continue;
+    if (!f[flag]) continue;
+    const url = table[mapping.stateId];
+    if (url) return url;
+  }
+  return null;
+}
+
 /* ─── VIDEO OVERLAYS — Veo 3.1 ─────────────────────────
  *
  * Videos are OVERLAYS, not replacements: the still always renders
@@ -366,8 +464,19 @@ export function resolveRoomBackgroundUrl(
   legacyImageUrl: string,
 ): string {
   if (roomId === "cryo-bay" || roomId === "medical-bay") {
-    return resolveRoomStateAsset(roomId, flags);
+    // Section F flag art always wins for the murder-mystery rooms.
+    // For these two rooms we still consult the adventure-feature
+    // overlay as a second layer below, but the Section F resolver
+    // is authoritative.
+    const sectionF = resolveRoomStateAsset(roomId, flags);
+    if (sectionF) return sectionF;
   }
+  // Phase F — adventure-feature flag overlays ride above tier art
+  // when an alt asset is available. resolveAdventureStateAssetUrl
+  // returns null when no adventure flag is set or when no entry is
+  // registered for the room, so this is a transparent additive layer.
+  const adv = resolveAdventureStateAssetUrl(roomId, flags);
+  if (adv) return adv;
   const tier = getRoomTier(roomId, { narrativeFlags: flags ?? {} });
   return pickTierAsset(roomId, tier) ?? legacyImageUrl;
 }
