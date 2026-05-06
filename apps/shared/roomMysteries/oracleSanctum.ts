@@ -211,14 +211,25 @@ export const ORACLE_SANCTUM_MYSTERY: RoomMysteryModule<OracleSanctumHotspotId> =
       use: {
         narration: {
           lucid:
-            "You add a small charge of fresh phosphor-lavender resin to the brazier's coal-bed. The smoke thickens noticeably and the pool's luminous undertow brightens by what I would call a measurable handsbreadth. The brazier accepts the offering and immediately spends it. The pool, by direct correlation, gives back more.",
+            "You add a small charge of fresh phosphor-lavender resin to the brazier's coal-bed. The smoke thickens noticeably and the pool's luminous undertow brightens by what I would call a measurable handsbreadth. The brazier accepts the offering and immediately spends it. The pool, by direct correlation, gives back more. — As the smoke thickens, the inscription seal on Mol'Vereth's contract — visible through the pool's surface — alters. If you have inscribed Akai Shi's name in Wraith's daily-names ceremony, the seal counts the litany as a witnessing of her original consent and the contract's leverage shifts. The asset, by Hierarchy law, is ready to be returned to the saga the moment a witness names the act.",
           fragmented:
-            "Resin. Resin. Resin. Brighter. Brighter. The pool. The pool gives back. The pool gives back.",
+            "Resin. Resin. Resin. Brighter. Brighter. The pool. The pool gives back. The pool gives back. The seal. The seal. Akai Shi. Akai Shi. Inscribed. Inscribed.",
           luminous:
-            "You feed the brazier. The pool brightens in proportion. There is a one-to-one correspondence here: every offering is converted, with no loss, into perceptual surface for whoever stands at the pool's edge. The Thalorian discipline that built this room knew the conversion ratio precisely. We are not, as ritual matters go, on a tight budget — but the conversion is honest, and that means the budget is real.",
+            "You feed the brazier. The pool brightens in proportion. There is a one-to-one correspondence here: every offering is converted, with no loss, into perceptual surface for whoever stands at the pool's edge. The Thalorian discipline that built this room knew the conversion ratio precisely. We are not, as ritual matters go, on a tight budget — but the conversion is honest, and that means the budget is real. The pool's brightening also surfaces the inscription seal on Mol'Vereth's contract: if Akai Shi's name has been inscribed in Wraith's daily-names ceremony, the litany now counts as a witnessing of her original consent, and the trusteeship's leverage shifts. The cross-arc consequence becomes legible exactly here, in this room, on this offering.",
         },
         voId: "elara.oracle-sanctum.incense-brazier.use",
         setsFlag: "brazier_fed",
+        // Jericho arc binding — the inscription seal alteration is
+        // the cross-arc echo from Wraith E5's inscribe_akai_shi
+        // choice. Surfaces here because the oracle-pool is the
+        // canonical aperture for cross-arc consequence-reading.
+        // jericho.e5.akai_shi_inscription_seal foundIn:
+        // oracle-sanctum.
+        mysteryBinding: {
+          mysteryId: "mystery.jericho_jones",
+          episodeId: "jericho.e5",
+          cluesFound: ["jericho.e5.akai_shi_inscription_seal"],
+        },
       },
       talk: {
         narration: {

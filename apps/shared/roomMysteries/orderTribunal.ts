@@ -71,13 +71,22 @@ export const ORDER_TRIBUNAL_MYSTERY: RoomMysteryModule<OrderTribunalHotspotId> =
       talk: {
         narration: {
           lucid:
-            "You address the bench. The wood does not answer in voice — it answers in resonance. Stand close enough and the three centuries of pronouncements absorbed into the grain produce, very faintly, a sub-audible standing tone. The Order trained adjudicators to hear the tone before they spoke. We are listening to it now. We are not, today, going to add another verdict to the count.",
+            "You address the bench. The wood does not answer in voice — it answers in resonance. Stand close enough and the three centuries of pronouncements absorbed into the grain produce, very faintly, a sub-audible standing tone. The Order trained adjudicators to hear the tone before they spoke. We are listening to it now. We are not, today, going to add another verdict to the count. — As you address it, a sealed letter slides forward from beneath the chief adjudicator's seat: Mol'Vereth's principal-of-record outline, identifying the actual party the trusteeship contract was held for. The Order ratified the verdict; this letter names the principal the verdict ratified.",
           fragmented:
-            "The tone. The tone. The tone. The wood hums. The wood hums. The wood remembers every verdict. Every verdict.",
+            "The tone. The tone. The tone. The wood hums. The wood hums. The wood remembers every verdict. Every verdict. The principal. The principal. Mol'Vereth's principal. Named.",
           luminous:
-            "The bench answers in resonance, not in words. The standing tone is the cumulative weight of three centuries of judgments, and the Order's discipline was that no adjudicator should pronounce a verdict whose weight exceeded what the bench could already hold. The tone is the limit. We are not, today, here to test it — we are here to acknowledge the limit and to honour the discipline of the room that made the limit legible in the first place.",
+            "The bench answers in resonance, not in words. The standing tone is the cumulative weight of three centuries of judgments, and the Order's discipline was that no adjudicator should pronounce a verdict whose weight exceeded what the bench could already hold. The tone is the limit. We are not, today, here to test it — we are here to acknowledge the limit and to honour the discipline of the room that made the limit legible in the first place. The sealed letter that slid forward when we addressed the bench is the Order's record of Mol'Vereth's principal — the actual party the trusteeship contract was held for, named in the same wax-seal protocol the Order uses for any verdict whose subject the public record is not allowed to carry.",
         },
         voId: "elara.order-tribunal.judges-bench.talk",
+        // Jericho arc binding — the principal-of-record letter
+        // identifies whom the trusteeship verdict actually served.
+        // jericho.e5.mol_vereth_principal_outline foundIn:
+        // order-tribunal.
+        mysteryBinding: {
+          mysteryId: "mystery.jericho_jones",
+          episodeId: "jericho.e5",
+          cluesFound: ["jericho.e5.mol_vereth_principal_outline"],
+        },
       },
     },
     "evidence-locker": {
@@ -125,8 +134,18 @@ export const ORDER_TRIBUNAL_MYSTERY: RoomMysteryModule<OrderTribunalHotspotId> =
       },
       talk: {
         narration:
-          "If you address the locker, you address every open case the Order has not yet been able to close. Three voices, three pending verdicts. The newest of them is, as we now know, ours to either inherit or decline. The locker is, in this moment, asking which we intend to do.",
+          "If you address the locker, you address every open case the Order has not yet been able to close. Three voices, three pending verdicts. The newest of them is, as we now know, ours to either inherit or decline. The locker is, in this moment, asking which we intend to do. — As you speak, the second-newest sealed compartment thins around its wax: the Order's post-Fall Lionism revision, the threshold-doctrine update that revised Section 4 Mercy in the years after the academy fell. The revision is dated in a hand we now recognise as the editor's. The Order ratified it; the editor authored it. The threshold-doctrine that has governed Lionism for two centuries is, on the evidence, his.",
         voId: "elara.order-tribunal.evidence-locker.talk",
+        // Jericho arc binding — the post-Fall threshold-doctrine
+        // revision is the editor's hand on the Lionism canon. The
+        // pre-Fall code lives in the Antiquarian's library; the
+        // post-Fall revision lives here, in the Order's locker.
+        // jericho.e4.post_fall_revision foundIn: order-tribunal.
+        mysteryBinding: {
+          mysteryId: "mystery.jericho_jones",
+          episodeId: "jericho.e4",
+          cluesFound: ["jericho.e4.post_fall_revision"],
+        },
       },
     },
   },
