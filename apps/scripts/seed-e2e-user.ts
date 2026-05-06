@@ -65,6 +65,21 @@ async function main(): Promise<void> {
     console.warn("[seed-e2e-user] users-table bootstrap warning:", err);
   }
 
+  // Bootstrap the cohort columns added in #410 (signupWeek /
+  // installSource / abVariant). They live in migration 0070 which
+  // is orphan-not-in-journal, so drizzle-kit migrate doesn't apply
+  // them on a fresh DB. Without these columns the Drizzle INSERT
+  // below fails with `Unknown column 'signupWeek' in 'field list'`
+  // because the schema includes them.
+  try {
+    const { bootstrapCohortColumns } = await import(
+      "../server/services/cohortColumnsBootstrap"
+    );
+    await bootstrapCohortColumns();
+  } catch (err) {
+    console.warn("[seed-e2e-user] cohort-columns bootstrap warning:", err);
+  }
+
   const existing = await db
     .select({ id: users.id, openId: users.openId })
     .from(users)
