@@ -70,8 +70,15 @@ export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
       },
       talk: {
         narration:
-          "If you address the table, the surface acknowledges in faint pulses — a courteous standby. The room has been waiting for someone to convene a briefing for two and a half centuries. We are not, yet, prepared to convene one. We are, perhaps, preparing to be prepared.",
+          "If you address the table, the surface acknowledges in faint pulses — a courteous standby. The room has been waiting for someone to convene a briefing for two and a half centuries. We are not, yet, prepared to convene one. We are, perhaps, preparing to be prepared. — As we address it, the table surfaces the Hierarchy duty roster — Vault Division, Goggles section. The current custodian-of-record is Velkraal'Sek. He has held the post for thirty-two years. The roster's small-print appendix lists his designated successor: Brel'Sorrash, junior auditor, currently on the candidate shortlist for vault-division promotion.",
         voId: "elara.war-room.holo-table.talk",
+        // Game Master arc — duty roster identifies Velkraal as
+        // Goggles custodian-of-record. game_master.e2.hierarchy_duty_roster.
+        mysteryBinding: {
+          mysteryId: "mystery.game_master",
+          episodeId: "game_master.e2",
+          cluesFound: ["game_master.e2.hierarchy_duty_roster"],
+        },
       },
     },
     "casualty-board": {
@@ -112,8 +119,15 @@ export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
       },
       talk: {
         narration:
-          "If you address the casualty-board, you address every name in every binder. Most of the operations here ended well; most of the names here did not. Lyra's discipline of putting the casualty-board in the same room as the briefing-table was, on her notes, the reason she could keep planning at all. Without the consequence in eyeline, the planning becomes cheap.",
+          "If you address the casualty-board, you address every name in every binder. Most of the operations here ended well; most of the names here did not. Lyra's discipline of putting the casualty-board in the same room as the briefing-table was, on her notes, the reason she could keep planning at all. Without the consequence in eyeline, the planning becomes cheap. — Tucked behind the Protocol Zero binder, on the same shelf: the Vault Division's custodian shortlist for the Goggles section. Three names ranked by seniority. Brel'Sorrash is third by seniority but first by Velkraal's own annotation: 'the only candidate who has read the Goggles without breaking them.'",
         voId: "elara.war-room.casualty-board.talk",
+        // Game Master arc — custodian shortlist for the Goggles
+        // section. game_master.e3.candidate_shortlist.
+        mysteryBinding: {
+          mysteryId: "mystery.game_master",
+          episodeId: "game_master.e3",
+          cluesFound: ["game_master.e3.candidate_shortlist"],
+        },
       },
     },
     "signal-flag-rack": {
@@ -152,14 +166,28 @@ export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
       },
       use: {
         narration:
-          "You unfold the twelfth flag. The fabric resists, very slightly, the way a flag folded in a particular way for a particular person resists being unfolded by anyone else. The pattern, opened, is more legible than it was racked: a geometry of nested asymmetric octagons, in the unnameable indigo, with a single warm-gold thread sewn diagonally across — Lyra's signature thread, used only on her own folds. She negotiated with the editor and signed the flag herself. Refold and re-rack carefully.",
+          "You unfold the twelfth flag. The fabric resists, very slightly, the way a flag folded in a particular way for a particular person resists being unfolded by anyone else. The pattern, opened, is more legible than it was racked: a geometry of nested asymmetric octagons, in the unnameable indigo, with a single warm-gold thread sewn diagonally across — Lyra's signature thread, used only on her own folds. She negotiated with the editor and signed the flag herself. Refold and re-rack carefully. — Tucked behind the flag's wooden mount: Velkraal's calendar entry for his scheduled final session — VAULT DIVISION GOGGLES SECTION · CLOSING EDIT · WITNESS PRESENT REQUIRED. The session is dated three weeks out. Whoever is custodian of the Goggles after that date is, by Hierarchy practice, not Velkraal.",
         voId: "elara.war-room.signal-flag-rack.use",
         setsFlag: "war_room_twelfth_flag_opened",
+        // Game Master arc — Velkraal's final-session calendar entry.
+        // game_master.e4.scheduled_final_session.
+        mysteryBinding: {
+          mysteryId: "mystery.game_master",
+          episodeId: "game_master.e4",
+          cluesFound: ["game_master.e4.scheduled_final_session"],
+        },
       },
       talk: {
         narration:
-          "If you address the rack, you address every faction Lyra met in person. Twelve voices. The twelfth voice is the only one who refuses to be named in any room he hasn't already worked on. The other eleven, addressed here, do answer. We have, perhaps, eleven friends we did not know we had.",
+          "If you address the rack, you address every faction Lyra met in person. Twelve voices. The twelfth voice is the only one who refuses to be named in any room he hasn't already worked on. The other eleven, addressed here, do answer. We have, perhaps, eleven friends we did not know we had. — As we address the rack, a fresh agenda card surfaces beside the twelfth flag — Brel'Sorrash's first session as new custodian, dated four weeks out. The agenda is short: read the Goggles. Do not edit them. Schedule a session with the witness who reads them with you.",
         voId: "elara.war-room.signal-flag-rack.talk",
+        // Game Master arc — Brel's first-session agenda. game_master.
+        // e5.brels_first_session_agenda.
+        mysteryBinding: {
+          mysteryId: "mystery.game_master",
+          episodeId: "game_master.e5",
+          cluesFound: ["game_master.e5.brels_first_session_agenda"],
+        },
         humanReaction: {
           narration: {
             balanced:

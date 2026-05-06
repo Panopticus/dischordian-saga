@@ -1052,6 +1052,8 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "hierophants-marginalia-stack", name: "Hierophant's Marginalia Stack", description: "A small stack of catalog cards in the desk's far corner, every card bearing the Hierophant's preserved marginalia.", x: 72, y: 64, width: 6, height: 10, type: "interact", action: "room-mystery:antiquarian-library:hierophants-marginalia-stack" },
       // Mystery wiring — Degen arc Coda research surface
       { id: "codas-purpose-shelf", name: "Coda's Purpose Shelf", description: "A small dedicated shelf the Antiquarian set aside for the seven inter-faction trustee bodies. The Coda's section is the largest.", x: 28, y: 86, width: 8, height: 10, type: "interact", action: "room-mystery:antiquarian-library:codas-purpose-shelf" },
+      // Mystery wiring — Game Master arc Velkraal correspondence + draft surface
+      { id: "velkraals-correspondence-folio", name: "Velkraal's Correspondence Folio", description: "A leather folio on the desk's far-left corner. Velkraal'Sek's correspondence, posthumous letters, and the draft of his closing edit.", x: 36, y: 86, width: 8, height: 10, type: "interact", action: "room-mystery:antiquarian-library:velkraals-correspondence-folio" },
     ],
   },
   /* ═══ CHAIN-UNLOCKED HIDDEN ROOMS ═══ */
@@ -1223,6 +1225,8 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "encrypted-correspondence", name: "Encrypted Correspondence", description: "Cubbyholes along the back wall stuffed with rolled letters — Lyra and Wraith's cipher exchange in the last six months of her command.", x: 4, y: 8, width: 18, height: 50, type: "interact", action: "room-mystery:cipher-den:encrypted-correspondence" },
       { id: "dictionary-of-edits", name: "Dictionary of Edits", description: "A freestanding lectern stage-left with a perpetually-open book. Pages turn themselves at one every fifteen seconds — the editor's vocabulary catalogued.", x: 28, y: 24, width: 10, height: 30, type: "interact", action: "room-mystery:cipher-den:dictionary-of-edits" },
       { id: "uncorruption-bench", name: "Uncorruption Bench", description: "A worktop stage-right with a brass-rimmed magnifier on a swing-arm. Combine corrupted-fragments here with their originals — the lens does the work.", x: 70, y: 60, width: 22, height: 22, type: "interact", action: "room-mystery:cipher-den:uncorruption-bench" },
+      // Mystery wiring — Game Master arc cross-arc thanks-state card
+      { id: "cross-arc-thanks-card", name: "Cross-Arc Thanks Card", description: "A small index card in a brass frame on the cross-arc shelf — Velkraal's final-edit gratitude state, updating with the player's choices.", x: 92, y: 8, width: 6, height: 10, type: "interact", action: "room-mystery:cipher-den:cross-arc-thanks-card" },
     ],
   },
   /* ═══ ALIGNMENT-UNLOCKED HIDDEN ROOMS ═══ */

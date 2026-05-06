@@ -222,7 +222,15 @@ export const ENGINEERING_MYSTERY: RoomMysteryModule<EngineeringHotspotId, Engine
       },
       talk: {
         narration:
-          "Elara: \"The unsigned one is the one we should be worried about. Whoever finished it didn't want their name on it. That is rarely a generous instinct.\"",
+          "Elara: \"The unsigned one is the one we should be worried about. Whoever finished it didn't want their name on it. That is rarely a generous instinct. — A side-shelf below the schematics holds Brel'Sorrash's practice edit-drafts. Brel is the junior auditor on Velkraal's Goggles-section shortlist. She has been practising — quietly, without official sanction — by writing edits she does not commit. The drafts are read-don't-edit, every one of them. She is rehearsing the protocol she intends to install when she takes over.\"",
+        voId: "elara.engineering.blueprints.talk",
+        // Game Master arc — Brel's practice edit drafts, read-don't-
+        // edit. game_master.e3.brels_existing_edit_drafts.
+        mysteryBinding: {
+          mysteryId: "mystery.game_master",
+          episodeId: "game_master.e3",
+          cluesFound: ["game_master.e3.brels_existing_edit_drafts"],
+        },
       },
       use: {
         narration:
@@ -286,8 +294,15 @@ export const ENGINEERING_MYSTERY: RoomMysteryModule<EngineeringHotspotId, Engine
       },
       talk: {
         narration:
-          "Elara: \"Address the bench and you address every job that was ever started here and finished elsewhere. The bench was Lyra's, but the bench has had dozens of users. The fusion socket waits for two cards. The components wait for a welder. The bench is, in its quiet way, asking whether we are the engineer or the visitor. Either is allowed.\"",
+          "Elara: \"Address the bench and you address every job that was ever started here and finished elsewhere. The bench was Lyra's, but the bench has had dozens of users. The fusion socket waits for two cards. The components wait for a welder. The bench is, in its quiet way, asking whether we are the engineer or the visitor. Either is allowed. — Pinned to the bench's tool-rest is Brel'Sorrash's observation protocol — the procedure she will use during Velkraal's final session. The protocol is exhaustive: when to look, when to speak, when to inscribe a witness signature, when to file a marginal note. The protocol's cover note: 'I will be the witness who reads the Goggles with him on the day he stops reading them. I will not edit. I will record. The Goggles will continue.'\"",
         voId: "elara.engineering.crafting-bench.talk",
+        // Game Master arc — Brel's observation protocol for Velkraal's
+        // final session. game_master.e4.brel_observation_protocol.
+        mysteryBinding: {
+          mysteryId: "mystery.game_master",
+          episodeId: "game_master.e4",
+          cluesFound: ["game_master.e4.brel_observation_protocol"],
+        },
       },
     },
     "egg-eng-formula": {

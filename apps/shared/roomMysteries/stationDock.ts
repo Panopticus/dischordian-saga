@@ -201,8 +201,17 @@ export const STATION_DOCK_MYSTERY: RoomMysteryModule<StationDockHotspotId> = {
       },
       talk: {
         narration:
-          "If you address the trading-floor desk, the dock clerk's pen — a thin brass thing, left in the inkwell — pulses faintly under the room's standing light. The clerk has been off-shift for two and a half centuries. The desk has, on the evidence of three different inks in the inkwell, been continuously used by whoever passes through the dock with paperwork to file. We are addressing a desk maintained by anonymous careful hands.",
+          "If you address the trading-floor desk, the dock clerk's pen — a thin brass thing, left in the inkwell — pulses faintly under the room's standing light. The clerk has been off-shift for two and a half centuries. The desk has, on the evidence of three different inks in the inkwell, been continuously used by whoever passes through the dock with paperwork to file. We are addressing a desk maintained by anonymous careful hands. — On the desk's outgoing-correspondence tray: a sealed memo from Ozhul'Vana to her own internal Hierarchy file, never to be sent. ASSET CLOSURE ARGUMENT — VAULT DIVISION GOGGLES SECTION. The memo argues, at length, that the Goggles section should be closed permanently rather than handed to Brel. The argument is precise and cold. Ozhul filed it for the record, then chose not to send it. She could have ended the section. She decided not to.",
         voId: "elara.station-dock.codas-trading-floor.talk",
+        // Game Master arc — Ozhul's internal closure-argument memo,
+        // filed but unsent. game_master.e3.ozhul_acquisition_memo.
+        // (foundIn: trade-hub in episodeMysteries.ts; bound here at
+        // station-dock since trade-hub has no module.)
+        mysteryBinding: {
+          mysteryId: "mystery.game_master",
+          episodeId: "game_master.e3",
+          cluesFound: ["game_master.e3.ozhul_acquisition_memo"],
+        },
       },
     },
   },

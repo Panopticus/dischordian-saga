@@ -30,7 +30,8 @@ export type CipherDenHotspotId =
   | "rosetta-pad"
   | "encrypted-correspondence"
   | "dictionary-of-edits"
-  | "uncorruption-bench";
+  | "uncorruption-bench"
+  | "cross-arc-thanks-card";
 
 export type CipherDenInventoryId = "rosetta-key-1" | "vox-letter-decoded";
 
@@ -352,6 +353,37 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
           mysteryId: "mystery.the_seer",
           episodeId: "seer.e4",
           cluesFound: ["seer.e4.cross_arc_alias_decision"],
+        },
+      },
+    },
+    // Game Master arc — cross-arc echo card. The cipher-den's
+    // cross-arc index shelf holds a single small card recording the
+    // state of Velkraal's final-edit gratitude. The card is not
+    // bound to any one verb-coin grammar; it is filed as a saga-
+    // weave artefact on the den's cross-arc shelf.
+    "cross-arc-thanks-card": {
+      look: {
+        narration: {
+          lucid:
+            "On the cipher-den's small cross-arc shelf — the one Lyra reserved for cards that carry consequence between arcs — a single index card stands in a brass frame. VELKRAAL'S FINAL EDIT — STATE. The card mirrors the Game Master arc's e4 outcome and reflects, in pencil that updates whenever the player's choices update, the imprint's recorded gratitude for Velkraal's patient handover. The card is, in literal terms, a saga-weave indicator.",
+          fragmented:
+            "Final edit. Final edit. State. State. The card knows. The card knows.",
+          luminous:
+            "The cross-arc thanks card is a small artefact Lyra kept here for exactly this purpose: a single physical surface that registers, between arcs, when a saga-weave decision has had its full consequence carried forward. The card's pencil-state today reads: ACCEPTED. The imprint has accepted Velkraal's handover, on the saga's terms. The Game Master arc's resolution is, as far as this card knows, complete.",
+        },
+        voId: "elara.cipher-den.cross-arc-thanks-card.look",
+        logsClue: {
+          id: "clue-cipher-den-cross-arc-thanks",
+          title: "Velkraal's final-edit thanks state — saga-weave indicator",
+          body:
+            "The Cipher Den's cross-arc shelf holds a small card recording the state of Velkraal's final-edit gratitude — a saga-weave indicator that updates with the player's choices. Today it reads: ACCEPTED. The Game Master arc's resolution is complete by this card's accounting.",
+          source: "cipher-den",
+          order: 4,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.game_master",
+          episodeId: "game_master.e5",
+          cluesFound: ["game_master.e5.cross_arc_velkraals_thanks_state"],
         },
       },
     },
