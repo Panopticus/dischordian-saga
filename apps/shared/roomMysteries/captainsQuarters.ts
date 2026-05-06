@@ -19,7 +19,7 @@
 
 import type { RoomMysteryModule } from "./_template";
 
-export type CaptainsQuartersHotspotId = "cat-photo";
+export type CaptainsQuartersHotspotId = "cat-photo" | "degens-corner";
 
 export const CAPTAINS_QUARTERS_MYSTERY: RoomMysteryModule<CaptainsQuartersHotspotId> = {
   roomId: "captains-quarters",
@@ -157,6 +157,66 @@ export const CAPTAINS_QUARTERS_MYSTERY: RoomMysteryModule<CaptainsQuartersHotspo
           episodeId: "degen.e1",
           cluesFound: ["degen.e1.ne_yon_chip_balance"],
         },
+      },
+    },
+    // Degen arc: e2 + e5 surface in Lyra's quarters. Lyra hosted the
+    // Degen at the captain's table on three documented evenings
+    // before her death; the Degen left two artefacts in this room
+    // for the next reader. Both are still on the small side-desk
+    // beside the cracked mirror.
+    "degens-corner": {
+      look: {
+        narration: {
+          lucid:
+            "A small side-desk beside the cracked mirror — the only piece of furniture in the captain's quarters that wasn't Lyra's. The Degen used to sit at this desk while Lyra worked at hers. Today the desk holds his audit-prep note: a single sheet, three columns, every line in his own neat trustee's hand. The columns are titled BROKERAGE / TRUSTEE-SIDE READING / CODA-SIDE READING. The note is a rehearsal — he was preparing to be audited, in advance, by reading his own books from both sides.",
+          fragmented:
+            "Two readings. Two readings. He read his own books. Both sides. Both sides. He prepared.",
+          luminous:
+            "The Degen's audit-prep note is the most disciplined thing on this ship that does not bear Lyra's monogram. He read his own books from both his trustee role and the Coda's perspective; the third column is left for Mol'Vereth's reading, in the audit. The discipline is Lyra's, transmitted: an honest auditor pre-reads against themselves before any external auditor arrives.",
+        },
+        voId: "elara.captains-quarters.degens-corner.look",
+        logsClue: {
+          id: "clue-captains-quarters-degens-prep-note",
+          title: "The Degen's audit-prep note (3-column rehearsal)",
+          body:
+            "On the side-desk in Lyra's quarters: the Degen's own audit-prep note. Three columns — Brokerage / Trustee-side / Coda-side — with the third column reserved for Mol'Vereth. The Degen pre-read his own books from both sides before submitting to audit; the discipline is Lyra's, transmitted.",
+          source: "captains-quarters",
+          order: 2,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.the_degen",
+          episodeId: "degen.e2",
+          cluesFound: ["degen.e2.degen_audit_prep_note"],
+        },
+      },
+      use: {
+        narration: {
+          lucid:
+            "You open the side-desk's drawer. Inside, beneath a stack of betting chips: a small folded card with a Ne-Yon casino seal. THE EMPTY CHAIR — RESERVED, in the Degen's hand. The card is dated forward — three weeks from today, the same day Mol'Vereth's audit-outcome letter is dated. The Degen has reserved an empty chair at his usual table for the night the audit closes. Whether the chair stays empty or fills depends on the outcome.",
+          fragmented:
+            "The empty chair. The empty chair. The empty chair. Reserved. Reserved. Same date. Same date. Same date.",
+          luminous:
+            "The empty chair card. The Degen reserves an empty seat at the Ne-Yon casino's high-stakes table on the night his audit closes — for the saga, for himself, for whoever the audit ratifies. The chair stays empty if the verdict is clean; it fills if the verdict is contested. The Saga's seat at the Degen's table is, in literal terms, in the player's hands.",
+        },
+        voId: "elara.captains-quarters.degens-corner.use",
+        logsClue: {
+          id: "clue-captains-quarters-empty-chair",
+          title: "Empty chair — Ne-Yon casino, dated to audit-close",
+          body:
+            "The Degen reserves an empty chair at the Ne-Yon casino on the night Mol'Vereth's audit closes. The chair stays empty if the verdict is clean; it fills if the verdict is contested. The Saga's seat is, on the card's evidence, in the player's hands.",
+          source: "captains-quarters",
+          order: 3,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.the_degen",
+          episodeId: "degen.e5",
+          cluesFound: ["degen.e5.empty_chair_ne_yon"],
+        },
+      },
+      talk: {
+        narration:
+          "If you address the desk, the cracked mirror behind it briefly steadies. The Degen sat here when Lyra invited him — three documented evenings, three different readings of the same Coda book. Lyra never told him she was teaching him to audit himself; he never told her he had figured it out by the second evening. Both knew. Neither said. The desk has been waiting for an auditor with the patience to read all three evenings as a single evening's lesson.",
+        voId: "elara.captains-quarters.degens-corner.talk",
       },
     },
   },

@@ -12,7 +12,8 @@ export type AntiquarianLibraryHotspotId =
   | "card-catalog"
   | "locked-vault"
   | "antiquarian-bust"
-  | "hierophants-marginalia-stack";
+  | "hierophants-marginalia-stack"
+  | "codas-purpose-shelf";
 
 export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHotspotId> = {
   roomId: "antiquarian-library",
@@ -342,6 +343,74 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
             "seer.e4.seers_letter_to_vex",
             "seer.e5.canon_register_paradox",
           ],
+        },
+      },
+    },
+    // Degen arc: Coda-related research clues. The Coda is the seven-
+    // faction trustee body the Degen serves; its purpose-brief and
+    // its treasurer's emergency note both live in a small dedicated
+    // shelf the Antiquarian set aside for inter-faction trustee
+    // bodies.
+    "codas-purpose-shelf": {
+      look: {
+        narration: {
+          lucid:
+            "A small dedicated shelf the Antiquarian set aside for the seven inter-faction trustee bodies. The Coda's section holds, prominently, its founding purpose brief — six pages signed by representatives of every faction the Coda serves. The brief is older than the Order Tribunal. It lists, in plain language, the trustees' obligations and the four tests for replacing one.",
+          fragmented:
+            "Six pages. Six. Six pages. Older than the Order. Older. Older. Plain language. Plain language.",
+          luminous:
+            "The Coda's purpose brief predates every other inter-faction body on the saga's books. The four tests for replacing a trustee are: financial misappropriation, intentional concealment, repeated procedural failure, and irreversible loss of faction trust. Mol'Vereth's audit is, by the brief's own grammar, a test for the third — repeated procedural failure. Nothing in the audit, on the evidence so far, supports any of the other three. The Coda's bookkeeping is, by design, the most legible single document on the ship.",
+        },
+        voId: "elara.antiquarian-library.codas-purpose-shelf.look",
+        logsClue: {
+          id: "clue-antiquarian-codas-purpose-brief",
+          title: "Coda Purpose Brief — four tests for trustee replacement",
+          body:
+            "The Antiquarian Library's Coda shelf holds the founding purpose brief — six pages, signed by every faction. The brief lists four tests for replacing a trustee. Mol'Vereth's audit is testing for procedural failure only.",
+          source: "antiquarian-library",
+          order: 6,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.the_degen",
+          episodeId: "degen.e3",
+          cluesFound: ["degen.e3.coda_purpose_brief"],
+        },
+      },
+      use: {
+        narration: {
+          lucid:
+            "You take down the Coda treasurer's emergency-note folio. Inside: a single sheet, addressed to the Degen, dated three days ago. The treasurer's hand is shaky. The note: 'I cannot delay the audit further. Mol'Vereth has formally requested it. I have honoured the request, in the form the Coda's bylaws require. The audit opens at sunrise. I am sorry for the timing. Whatever you have, have it ready.' The Degen, on the evidence of the timing, has had three days.",
+          fragmented:
+            "Three days. Three days. Three days. The treasurer warned him. The treasurer warned him.",
+          luminous:
+            "The Coda's treasurer wrote the Degen a courtesy warning the Coda's bylaws would have permitted her to omit. She honoured Mol'Vereth's audit request, but she gave the Degen — as a fellow trustee — three days to get his books in order. The note is the closest thing to a pre-audit indicator the Degen will receive. He has, on the evidence of his prep-note in Lyra's quarters, used the three days well.",
+        },
+        voId: "elara.antiquarian-library.codas-purpose-shelf.use",
+        logsClue: {
+          id: "clue-antiquarian-codas-treasurer-note",
+          title: "Coda treasurer's emergency note (3-day warning)",
+          body:
+            "The Antiquarian Library's Coda shelf holds the Coda treasurer's emergency note to the Degen — a 3-day pre-audit warning that the Coda's bylaws permitted her to omit. The Degen used the three days for his audit-prep rehearsal in Lyra's quarters.",
+          source: "antiquarian-library",
+          order: 7,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.the_degen",
+          episodeId: "degen.e4",
+          cluesFound: ["degen.e4.coda_treasurers_emergency_note"],
+        },
+      },
+      talk: {
+        narration:
+          "If you address the shelf, you address every inter-faction trustee body the Antiquarian has ever indexed. The Coda's section is the largest. It is also the most heavily read — the spines of the records are worn from cross-reference. Whoever was last using this shelf has left it in working order, the way a librarian leaves a desk for whoever sits down next. — As you address it, a sealed envelope on the shelf's reading-rest warms slightly: THE DEGEN'S LETTER TO THE SAGA, in his hand, addressed not to any one reader but to whoever is left at the table when the audit closes. The seal is unbroken. The letter is already filed in the Antiquarian's index — the Antiquarian knew it would be read someday. We are, by sitting here, the day.",
+        voId: "elara.antiquarian-library.codas-purpose-shelf.talk",
+        // Degen arc binding — the Degen's letter to the saga, filed
+        // for an unspecified future reader. degen.e5.degens_letter_
+        // to_the_saga foundIn: antiquarian-library.
+        mysteryBinding: {
+          mysteryId: "mystery.the_degen",
+          episodeId: "degen.e5",
+          cluesFound: ["degen.e5.degens_letter_to_the_saga"],
         },
       },
     },
