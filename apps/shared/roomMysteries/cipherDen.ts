@@ -110,6 +110,11 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
           cluesFound: ["jericho.e2.akai_shi_recording"],
         },
       },
+      use: {
+        narration:
+          "You take a working tracing of the rosetta's third column — Vox's black-ink translation key — onto a fresh sheet. The key is short enough to memorise but worth carrying physically: any letter you decode after this can be cross-checked against the tracing without re-borrowing the codex. The pad keeps the original. We keep the working copy.",
+        voId: "elara.cipher-den.rosetta-pad.use",
+      },
     },
     "encrypted-correspondence": {
       look: {
@@ -241,8 +246,33 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
         },
         voId: "elara.cipher-den.dictionary-of-edits.talk",
       },
+      use: {
+        narration:
+          "You bookmark the page currently turned-up — entry 217, a substitution pattern the editor used four times this month on the Bridge marginalia. The bookmark holds the page open. The dictionary tolerates the interruption, the way a well-bound book tolerates a careful reader. We can return to it without losing our place.",
+        voId: "elara.cipher-den.dictionary-of-edits.use",
+        setsFlag: "shadow_tongue_dictionary_bookmarked",
+      },
     },
     "uncorruption-bench": {
+      look: {
+        narration: {
+          lucid:
+            "The uncorruption-bench occupies the workshop-side of the den — a long worktop with a brass-rimmed magnifier on a hinged arm, two shallow trays for evidence, and a recessed clamp for holding two paper sheets in alignment. Lyra Vox's monogram is stamped into the clamp's brass. The bench was built for the work this room does. The work is older than the room's current case.",
+          fragmented:
+            "The bench. The bench. The bench. Brass clamp. Brass clamp. Lyra. Lyra. Lyra built the bench.",
+          luminous:
+            "Lyra built the bench. The clamp's monogram dates the workshop to roughly thirty years before her death — she set up this room while still actively translating the Archives, which means the editor's pattern was visible to her three decades before she could prove it. The bench is, in our hands today, the inheritance she left for whoever finally arrived to finish the case. We are at the bench. We are the inheritor.",
+        },
+        voId: "elara.cipher-den.uncorruption-bench.look",
+        logsClue: {
+          id: "clue-cipher-bench-vox-built",
+          title: "Lyra Vox built the uncorruption-bench thirty years pre-death",
+          body:
+            "The Cipher Den's uncorruption-bench bears Lyra Vox's monogram — the workshop was set up roughly thirty years before her death. Vox detected the editor's pattern decades before she could prove it. The bench is the inheritance she left for whoever eventually arrived to finish the case.",
+          source: "cipher-den",
+          order: 3,
+        },
+      },
       use: {
         narration: {
           lucid:
@@ -266,6 +296,11 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
           episodeId: "wraith.e4",
           cluesFound: ["wraith.e4.bounty_hunter_remembers"],
         },
+      },
+      talk: {
+        narration:
+          "The bench has no voice but it has a discipline: speech here is supposed to be the report of the work, not the planning of it. Lyra trained her translators to narrate aloud while resolving each seam — the spoken record was, in her view, the only honest audit-trail. We can do the same. The bench is listening.",
+        voId: "elara.cipher-den.uncorruption-bench.talk",
       },
     },
   },

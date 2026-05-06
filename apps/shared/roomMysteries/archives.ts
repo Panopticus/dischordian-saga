@@ -241,6 +241,23 @@ export const ARCHIVES_MYSTERY: RoomMysteryModule<
           voId: "detective.archives.tome.look",
         },
       },
+      use: {
+        narration:
+          "You shift the tome to a closed position and slide it under your arm. The leather warms to your body temperature, then settles. The book is portable. We can carry it to the cipher den's lectern, where the rosetta-pad's third column might — slowly, with care — give us a partial translation without requiring anyone to voice the activation phonemes.",
+        voId: "elara.archives.tome.use",
+        setsFlag: "tome_carried",
+      },
+      talk: {
+        narration: {
+          lucid:
+            "You do not address the tome. The Detective is right — voicing it is the activation, and the activation is the seventh seal. You can address ME about the tome, however, and I will listen.",
+          fragmented:
+            "Don't speak. Don't speak. Don't speak. Don't speak the words. Don't speak. Don't.",
+          luminous:
+            "We do not speak it aloud. The book's pronunciation is its mechanism, and the mechanism opens the seventh seal. Address me, address the room, address the question of whether to carry it — but do not address the book in its own language. We have, between us, the discipline to leave that activation unfired today.",
+        },
+        voId: "elara.archives.tome.talk",
+      },
     },
     "corrupted-scroll-rack": {
       look: {
@@ -280,6 +297,17 @@ export const ARCHIVES_MYSTERY: RoomMysteryModule<
         narration:
           "You press your palm against the rack's frosted glass. The corrupted-fragment in your hand catches a sliver of warmth from one scroll's underlayer — enough to remind you the original is still there, intact, beneath the edit. Carry it.",
         voId: "elara.archives.corrupted-scroll-rack.use",
+      },
+      talk: {
+        narration: {
+          lucid:
+            "If you address the rack, you address every original Lyra committed to its glass. The scrolls do not answer, but the warm-gold underlayer of the nearest scroll faintly steadies — the original is registering the address even through the indigo overprint. The originals are still there. They have always been there. We are reminding them.",
+          fragmented:
+            "Mine. Mine. Mine underneath. Mine underneath. Mine. Mine. Still there. Still there. Still there.",
+          luminous:
+            "The originals hold under the overprint. Address them and the warm-gold steadies — they are, in some real sense, glad to be addressed. The editor's overprint is the surface; the underlayer is the room's continuous and unbroken voice. We can talk to the underlayer. We do.",
+        },
+        voId: "elara.archives.corrupted-scroll-rack.talk",
       },
     },
     "rewritten-ledger": {
@@ -390,6 +418,17 @@ export const ARCHIVES_MYSTERY: RoomMysteryModule<
         },
         voId: "elara.archives.indigo-glow-lectern.use",
       },
+      talk: {
+        narration: {
+          lucid:
+            "You address the lectern. The halo flickers once and steadies — not in answer, but in acknowledgement. The session does not break. He hears you, in the same way the static-screen face hears you, in the same way the cell-glass figure hears you. We have, by our addressed presence, made him slightly less anonymous.",
+          fragmented:
+            "He hears. He hears. He hears. He hears. Less anonymous. Less anonymous. Less.",
+          luminous:
+            "The lectern is, in this moment, the third surface in this case the editor uses without our permission and the third surface he has acknowledged us through. The static, the cell, the lectern. He is becoming a person to us by way of being acknowledged. That is, unsettlingly, also how a relationship begins.",
+        },
+        voId: "elara.archives.indigo-glow-lectern.talk",
+      },
     },
     "unnameable-hue-cabinet": {
       look: {
@@ -422,6 +461,22 @@ export const ARCHIVES_MYSTERY: RoomMysteryModule<
           },
           voId: "detective.archives.unnameable-hue-cabinet.look",
         },
+      },
+      use: {
+        narration: {
+          lucid:
+            "You touch the cabinet's glass. It is cool, ordinary, locked. The hand-stitched label resists the touch the way old fabric resists — softly, with no give. The cabinet does not open. The cabinet was not meant to open today.",
+          fragmented:
+            "Don't. Don't. Don't open. Don't open. Don't open. Locked. Locked. Locked.",
+          luminous:
+            "The cabinet stays locked. The Detective's discipline is right: the surviving original is the case's only control variable, and we do not break the seal until we have triangulated, from everything else, what the original ought to say. The cabinet is, in this case's economy, the savings account. We do not draw on it lightly.",
+        },
+        voId: "elara.archives.unnameable-hue-cabinet.use",
+      },
+      talk: {
+        narration:
+          "If you address the cabinet, you address the one untouched original on this ship. The scroll inside does not answer; nothing in this room has, today, answered in voice. But the warm-gold of the visible label brightens by a quarter-tone, and the unnameable hue around it dims to match. The original is glad to be addressed without being read. We honour that.",
+        voId: "elara.archives.unnameable-hue-cabinet.talk",
       },
     },
   },

@@ -83,6 +83,18 @@ export const SHADOW_VAULT_MYSTERY: RoomMysteryModule<
         voId: "elara.shadow-vault.sealed-cell-glass.talk",
         setsFlag: "shadow_tongue_first_address",
       },
+      use: {
+        narration: {
+          lucid:
+            "You place a palm against the glass. The cell registers the contact and the unnameable indigo, briefly, lifts at your fingerprints — five small windows of clear glass, scaled to your hand, through which you can see him plainly. The figure inside raises his own palm in answering position. The clear-glass windows hold for as long as you keep contact, then re-saturate when you withdraw.",
+          fragmented:
+            "His palm. His palm. His palm. Up. Up. Up. He raised his palm. He raised his palm. He answered with his palm.",
+          luminous:
+            "Your palm cleared a window in the indigo and his palm rose to meet it. The contact is silent and gestural. He is acknowledging that you can see him; he is, in turn, choosing to be seen. This is the second exchange in the conversation: the first was glyph; this is gesture. The case may have come this far on documents, but the resolution will be made in moments like this one.",
+        },
+        voId: "elara.shadow-vault.sealed-cell-glass.use",
+        setsFlag: "shadow_tongue_glass_contact",
+      },
     },
     "manuscript-pile": {
       look: {
@@ -117,8 +129,38 @@ export const SHADOW_VAULT_MYSTERY: RoomMysteryModule<
           voId: "detective.shadow-vault.manuscript-pile.look",
         },
       },
+      use: {
+        narration:
+          "You take the top folio from the pile. It is heavy. The leather is warm — warmer than the room. He has been touching it; he is, on the evidence of the warmth, still finishing it. The folio leaves the pile in your hand and the next folio underneath rises slightly into the place the top one occupied, as if the pile is a stack he has been keeping ordered specifically for this moment.",
+        voId: "elara.shadow-vault.manuscript-pile.use",
+        setsFlag: "manuscript_folio_taken",
+      },
+      talk: {
+        narration:
+          "You address the manuscript. The pile does not speak, but the topmost folio's pages riffle very briefly, like a book read by wind. He is letting you know that the work is unfinished — and that the unfinished portion is, in some sense, a question he is still asking. We do not know yet whether the question is rhetorical.",
+        voId: "elara.shadow-vault.manuscript-pile.talk",
+      },
     },
     "warden-terminal": {
+      look: {
+        narration: {
+          lucid:
+            "The warden-terminal is a low brass console set into the wall opposite the cell, angled so the operator faces both the cell and the readout simultaneously. The phosphor-lavender display is the only light source on this side of the room. The console's keys are oxblood-leather caps, polished from use — many wardens have stood here.",
+          fragmented:
+            "Many wardens. Many wardens. Many wardens. Many wardens. The keys are worn. The keys are worn.",
+          luminous:
+            "The console is older than I expected. The wear pattern on the keys is the wear of dozens of wardens across centuries — the cell has been observed continuously, by a rotating watch Lyra established and the Order has, on its own initiative, maintained ever since. We are tonight's warden. We are not the first; we will not be the last.",
+        },
+        voId: "elara.shadow-vault.warden-terminal.look",
+        logsClue: {
+          id: "clue-shadow-vault-warden-watch-continuous",
+          title: "The Shadow Vault has been continuously warden-watched",
+          body:
+            "The Shadow Vault's warden-terminal shows centuries of use-wear on its keys — a rotating watch Lyra Vox established and the Order Tribunal has maintained without interruption ever since. The cell has never been unobserved. The case's witnesses have always been present, even when the prosecution was not.",
+          source: "shadow-vault",
+          order: 4,
+        },
+      },
       use: {
         narration: {
           lucid:
@@ -139,8 +181,32 @@ export const SHADOW_VAULT_MYSTERY: RoomMysteryModule<
           order: 2,
         },
       },
+      talk: {
+        narration:
+          "If you address the terminal, the readout dims, very slightly, in acknowledgement — the console is courteous to its operators. We are addressed back without words. The continuous watch that built this courtesy was, on the docket, two and a half centuries of small honest gestures by people who never met one another. The terminal carries the relay.",
+        voId: "elara.shadow-vault.warden-terminal.talk",
+      },
     },
     "release-or-seal-lever": {
+      look: {
+        narration: {
+          lucid:
+            "The lever is an oxblood-leather-wrapped brass shaft set into a heavy escutcheon plate beside the cell. Three positions are scribed into the plate in deeply-cut serifs: SEAL above, NEUTRAL middle, RELEASE below. The lever is currently centred. The hardware is the heaviest single piece of metal in the room.",
+          fragmented:
+            "Three positions. Three. Three positions. SEAL. NEUTRAL. RELEASE. The lever is heavy. The lever is heavy.",
+          luminous:
+            "The lever is deliberately heavy. Lyra's discipline was that any decision of this weight should require a literal weight of effort to make — the operator must bodily commit to the throw, no flick of a switch, no tap of a key. The escutcheon's serifs are deep enough to read by touch in the dark, so a warden who has lost the lights cannot mis-position the lever by accident. Every detail of the hardware is the hardware refusing to let the choice be casual.",
+        },
+        voId: "elara.shadow-vault.release-or-seal-lever.look",
+        logsClue: {
+          id: "clue-shadow-vault-lever-deliberate-weight",
+          title: "The lever is engineered to resist casual use",
+          body:
+            "The Shadow Vault's release-or-seal lever is the heaviest single piece of metal in the room — deliberately weighted by Lyra Vox so the operator must bodily commit to any throw. Escutcheon serifs are deep-cut for reading in the dark. Every hardware detail refuses casual use of the decision.",
+          source: "shadow-vault",
+          order: 5,
+        },
+      },
       use: {
         narration: {
           lucid:
@@ -171,6 +237,11 @@ export const SHADOW_VAULT_MYSTERY: RoomMysteryModule<
           },
           voId: "detective.shadow-vault.release-or-seal-lever.use",
         },
+      },
+      talk: {
+        narration:
+          "If you address the lever, you address the choice itself rather than either of its outcomes. The hardware does not respond — the lever is, by design, a stoic. But the act of addressing the choice without throwing it is, in this room, the discipline Lyra installed: speak about the decision before you make it; let the speech be the deliberation; let the lever wait. We are deliberating. The lever is waiting.",
+        voId: "elara.shadow-vault.release-or-seal-lever.talk",
       },
     },
   },

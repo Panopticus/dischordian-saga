@@ -207,6 +207,18 @@ export const ORACLE_SANCTUM_MYSTERY: RoomMysteryModule<OracleSanctumHotspotId> =
           cluesFound: ["wraith.e4.thalorian_vessel"],
         },
       },
+      use: {
+        narration: {
+          lucid:
+            "You add a small charge of fresh phosphor-lavender resin to the brazier's coal-bed. The smoke thickens noticeably and the pool's luminous undertow brightens by what I would call a measurable handsbreadth. The brazier accepts the offering and immediately spends it. The pool, by direct correlation, gives back more.",
+          fragmented:
+            "Resin. Resin. Resin. Brighter. Brighter. The pool. The pool gives back. The pool gives back.",
+          luminous:
+            "You feed the brazier. The pool brightens in proportion. There is a one-to-one correspondence here: every offering is converted, with no loss, into perceptual surface for whoever stands at the pool's edge. The Thalorian discipline that built this room knew the conversion ratio precisely. We are not, as ritual matters go, on a tight budget — but the conversion is honest, and that means the budget is real.",
+        },
+        voId: "elara.oracle-sanctum.incense-brazier.use",
+        setsFlag: "brazier_fed",
+      },
       talk: {
         narration: {
           lucid:
