@@ -43,6 +43,7 @@ import { selectDeclarationForSeason } from "@shared/tradeEmpire/declarations";
 import { seasonClockService } from "./seasonClockService";
 import { tickUserAgendas } from "./agendaEngine";
 import { postPublicKnowledge } from "./publicKnowledgeService";
+import { maybeGenerateDemandForUser, sweepExpiredDemands } from "./demandService";
 
 export interface SeasonTickOutcome {
   /** True if any state was changed during this run. */
@@ -185,7 +186,20 @@ export async function runSeasonTick(now: number = Date.now()): Promise<SeasonTic
       } catch (err) {
         logger.error("[seasonTick] tickUserAgendas failed:", err);
       }
+      // Phase 7: roll a demand for each active user once per agenda tick.
+      try {
+        await maybeGenerateDemandForUser(userId);
+      } catch (err) {
+        logger.error("[seasonTick] demand generation failed:", err);
+      }
     }
+  }
+
+  // Sweep expired demands every run (cheap when the table is small).
+  try {
+    await sweepExpiredDemands();
+  } catch (err) {
+    logger.error("[seasonTick] demand sweep failed:", err);
   }
 
   return {

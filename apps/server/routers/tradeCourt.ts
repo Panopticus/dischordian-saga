@@ -56,8 +56,15 @@ import {
   getMyAgendaProgress,
   tickUserAgendas,
 } from "../services/agendaEngine";
+import {
+  listMyDemands,
+  payDemand,
+  refuseDemand,
+} from "../services/demandService";
 import { REFERENCE_AGENDAS } from "@shared/tradeEmpire/agendas";
-import { userProgress } from "../../db/schema";
+import { spaceStations, towerPlacements, userProgress } from "../../db/schema";
+import { allKnownMunitionRefs, getMunitionEffect, TOWERS } from "@shared/towerDefense";
+import { inArray } from "drizzle-orm";
 
 export const tradeCourtRouter = router({
   /** Static registry — sub-house defs + their internal rivals. */
@@ -143,9 +150,11 @@ export const tradeCourtRouter = router({
    * so the UI can grey them out without filtering client-side.
    */
   courtSnapshot: protectedProcedure.query(async ({ ctx }) => {
-    const [reps, rollup] = await Promise.all([
+    const [reps, rollup, demands, agendaProgress] = await Promise.all([
       getAllSubHouseReputation(ctx.user.id),
       getFactionReputationRollup(ctx.user.id),
+      listMyDemands(ctx.user.id),
+      getMyAgendaProgress(ctx.user.id),
     ]);
     const season = seasonClockService.getState();
     const news = getRecentPublicKnowledge(20);
@@ -164,6 +173,8 @@ export const tradeCourtRouter = router({
       };
     });
 
+    const pendingDemands = demands.filter(d => d.status === "pending");
+
     return {
       season: {
         ...season,
@@ -173,6 +184,8 @@ export const tradeCourtRouter = router({
       houses,
       factionRollup: rollup,
       recentNews: news,
+      pendingDemands,
+      agendaProgress,
     };
   }),
 
@@ -313,6 +326,142 @@ export const tradeCourtRouter = router({
     const results = await tickUserAgendas(ctx.user.id);
     return { ok: true, results };
   }),
+
+  // --- Demand endpoints (phase 7) -----------------------------------------
+
+  myDemands: protectedProcedure.query(async ({ ctx }) => {
+    return listMyDemands(ctx.user.id);
+  }),
+
+  payDemand: protectedProcedure
+    .input(
+      z.object({
+        demandId: z.number().int().positive(),
+        cardId: z.string(),
+        isFoil: z.boolean().optional(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const result = await payDemand({
+        userId: ctx.user.id,
+        demandId: input.demandId,
+        cardId: input.cardId,
+        isFoil: input.isFoil,
+      });
+      if (!result.ok) {
+        throw new TRPCError({ code: "BAD_REQUEST", message: result.error });
+      }
+      return result;
+    }),
+
+  refuseDemand: protectedProcedure
+    .input(z.object({ demandId: z.number().int().positive() }))
+    .mutation(async ({ ctx, input }) => {
+      const result = await refuseDemand(ctx.user.id, input.demandId);
+      if (!result.ok) {
+        throw new TRPCError({ code: "BAD_REQUEST", message: result.error });
+      }
+      return result;
+    }),
+
+  // --- Tower listing for the court widget --------------------------------
+
+  listMyTowers: protectedProcedure.query(async ({ ctx }) => {
+    const munitions = allKnownMunitionRefs().map(ref => ({
+      ref,
+      label: getMunitionEffect(ref)?.label ?? ref,
+    }));
+
+    const db = await getDb();
+    if (!db) return { towers: [], availableMunitions: munitions };
+
+    // The player's stations (joined to scope towerPlacements ownership).
+    const stations = await db
+      .select({ id: spaceStations.id, name: spaceStations.stationName })
+      .from(spaceStations)
+      .where(eq(spaceStations.userId, ctx.user.id));
+    if (stations.length === 0) {
+      return { towers: [], availableMunitions: munitions };
+    }
+
+    const stationIds = stations.map(s => s.id);
+    const towers = await db
+      .select()
+      .from(towerPlacements)
+      .where(
+        and(
+          eq(towerPlacements.ownerType, "station"),
+          inArray(towerPlacements.ownerId, stationIds),
+        ),
+      );
+
+    return {
+      towers: towers.map(t => {
+        const def = TOWERS.find(td => td.key === t.towerKey);
+        const munitionEffect = getMunitionEffect(t.equippedMunition);
+        return {
+          id: t.id,
+          towerKey: t.towerKey,
+          towerName: def?.name ?? t.towerKey,
+          level: t.level,
+          status: t.status,
+          gridX: t.gridX,
+          gridY: t.gridY,
+          equippedMunition: t.equippedMunition,
+          munitionLabel: munitionEffect?.label ?? null,
+        };
+      }),
+      availableMunitions: munitions,
+    };
+  }),
+
+  // --- Tower munition endpoint (phase 7 wiring of phase 5 catalog) -------
+
+  /**
+   * Equip / clear a tower munition slot. The wave resolver consumes
+   * the slot on the next wave; this endpoint just writes the
+   * `equippedMunition` column. Pass `itemRef: null` to clear.
+   */
+  equipMunition: protectedProcedure
+    .input(
+      z.object({
+        towerId: z.number().int().positive(),
+        itemRef: z.string().nullable(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) {
+        throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "no db" });
+      }
+
+      if (input.itemRef !== null) {
+        const effect = getMunitionEffect(input.itemRef);
+        if (!effect) {
+          throw new TRPCError({
+            code: "BAD_REQUEST",
+            message: `unknown munition ${input.itemRef}`,
+          });
+        }
+      }
+
+      const [tower] = await db
+        .select()
+        .from(towerPlacements)
+        .where(eq(towerPlacements.id, input.towerId))
+        .limit(1);
+      if (!tower) {
+        throw new TRPCError({ code: "NOT_FOUND", message: "tower not found" });
+      }
+
+      await db
+        .update(towerPlacements)
+        .set({ equippedMunition: input.itemRef })
+        .where(eq(towerPlacements.id, input.towerId));
+
+      void ctx;
+      return { ok: true, towerId: input.towerId, itemRef: input.itemRef };
+    }),
 
   /**
    * Pay tribute to a sub-house by sacrificing one card. The card is
