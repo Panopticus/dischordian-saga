@@ -1043,6 +1043,11 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "card-catalog", name: "Card Catalogue", description: "A brass-bound card catalogue beside the desk. Pre-Ark inventory of every story the Antiquarian has ever filed.", x: 23, y: 21, width: 8, height: 14, type: "interact", action: "room-mystery:antiquarian-library:card-catalog" },
       { id: "locked-vault", name: "Locked Vault", description: "A small reinforced vault recessed into the bookshelf — sealed by the Antiquarian against his own future readings.", x: 64, y: 30, width: 8, height: 14, type: "interact", action: "room-mystery:antiquarian-library:locked-vault" },
       { id: "antiquarian-bust", name: "Antiquarian's Bust", description: "A marble bust of the Antiquarian on a pedestal. Eyes inlaid with phosphor-lavender glass.", x: 64, y: 48, width: 8, height: 14, type: "interact", action: "room-mystery:antiquarian-library:antiquarian-bust" },
+      // Mystery wiring — apps/shared/roomMysteries/antiquarianLibrary.ts
+      // Seer arc clue surface; small stack of catalog cards on the
+      // antiquarian-desk's far corner, all bearing the Hierophant's
+      // marginalia.
+      { id: "hierophants-marginalia-stack", name: "Hierophant's Marginalia Stack", description: "A small stack of catalog cards in the desk's far corner, every card bearing the Hierophant's preserved marginalia.", x: 72, y: 64, width: 6, height: 10, type: "interact", action: "room-mystery:antiquarian-library:hierophants-marginalia-stack" },
     ],
   },
   /* ═══ CHAIN-UNLOCKED HIDDEN ROOMS ═══ */
@@ -1103,6 +1108,10 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "oracle-pool", name: "Oracle Pool", description: "A circle of still water sunk into the floor, brass-rimmed and sigil-engraved. The water reflects something that is not in the pool.", x: 62, y: 18, width: 14, height: 32, type: "interact", action: "room-mystery:oracle-sanctum:oracle-pool" },
       { id: "prophecy-tablet", name: "Prophecy Tablet", description: "A brass-pedestal'd slate. Currently blank, but the brass beneath has been worn smooth by thousands of writings.", x: 11, y: 6, width: 22, height: 14, type: "interact", action: "room-mystery:oracle-sanctum:prophecy-tablet" },
       { id: "incense-brazier", name: "Incense Brazier", description: "A brazier on a chain, smoking phosphor-lavender. The smoke falls toward the pool rather than rising.", x: 84, y: 6, width: 14, height: 18, type: "interact", action: "room-mystery:oracle-sanctum:incense-brazier" },
+      // Mystery wiring — apps/shared/roomMysteries/oracleSanctum.ts
+      // Seer arc clue surface; recessed back-wall cabinet behind the
+      // brazier with reel-tape canisters indexed by session.
+      { id: "seers-recording-cabinet", name: "Seer's Recording Cabinet", description: "A recessed brass-bound glass-fronted cabinet behind the brazier. Hand-typed labels on every reel-tape canister.", x: 80, y: 56, width: 16, height: 22, type: "interact", action: "room-mystery:oracle-sanctum:seers-recording-cabinet" },
     ],
   },
   {

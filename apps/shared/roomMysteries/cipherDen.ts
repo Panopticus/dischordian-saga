@@ -238,19 +238,35 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
       talk: {
         narration: {
           lucid:
-            "Talk to the dictionary? It does not converse. It does, however, respond to your reading by turning its pages a little faster — as if it is pleased to have a reader who is paying attention. We accept that as enough conversation for now.",
+            "Talk to the dictionary? It does not converse. It does, however, respond to your reading by turning its pages a little faster — as if it is pleased to have a reader who is paying attention. We accept that as enough conversation for now. — A loose page near the back, in the Seer's hand, slips out as the dictionary speeds. Method note: 'On records that cancel themselves when read by the wrong audience, and stabilise when read by the right one. The reader is not a passive party. The recording listens back.'",
           fragmented:
-            "It pages. It pages. It pages. It pages faster. It pages faster. It is — it is — it is reading us read it.",
+            "It pages. It pages. It pages. It pages faster. It pages faster. It is — it is — it is reading us read it. The Seer's note. The Seer's note.",
           luminous:
-            "The dictionary turns its pages a little faster while you read. I do not know what mechanism governs that — possibly the same mechanism that governs the editor's annotations on the Bridge. Possibly the dictionary IS one of his annotations, made larger. We treat it the way we treat the rest: as evidence, as cooperation, as something the editor wrote and forgot to deny.",
+            "The dictionary turns its pages a little faster while you read. I do not know what mechanism governs that — possibly the same mechanism that governs the editor's annotations on the Bridge. Possibly the dictionary IS one of his annotations, made larger. The loose page that slipped out, however, is not the editor's. It is the Seer's: a method note on self-cancelling records, in his own hand, slipped between pages 437 and 438 of the editor's vocabulary. The Seer left his counterpoint to the editor's method tucked inside the editor's own dictionary. We treat the rest as we always do — but we keep the Seer's page.",
         },
         voId: "elara.cipher-den.dictionary-of-edits.talk",
+        // Seer arc binding — the loose page is the e5 method note on
+        // self-cancelling records. Found in cipher-den per
+        // episodeMysteries.ts seer.e5.seer_method_self_cancellation.
+        mysteryBinding: {
+          mysteryId: "mystery.the_seer",
+          episodeId: "seer.e5",
+          cluesFound: ["seer.e5.seer_method_self_cancellation"],
+        },
       },
       use: {
         narration:
-          "You bookmark the page currently turned-up — entry 217, a substitution pattern the editor used four times this month on the Bridge marginalia. The bookmark holds the page open. The dictionary tolerates the interruption, the way a well-bound book tolerates a careful reader. We can return to it without losing our place.",
+          "You bookmark the page currently turned-up — entry 217, a substitution pattern the editor used four times this month on the Bridge marginalia. The bookmark holds the page open. Beside the bookmark, a smaller annotation in a hand that is neither the editor's nor mine: 'recording method, variant — see VAR-1109A/B and tape DEC-7710.' The Seer's working notes on the editor's method, filed in the editor's own dictionary.",
         voId: "elara.cipher-den.dictionary-of-edits.use",
         setsFlag: "shadow_tongue_dictionary_bookmarked",
+        // Seer arc binding — the smaller annotation is the e2 method
+        // note on Variant Recording, kept in the cipher-den per
+        // episodeMysteries.ts seer.e2.seers_method_note.
+        mysteryBinding: {
+          mysteryId: "mystery.the_seer",
+          episodeId: "seer.e2",
+          cluesFound: ["seer.e2.seers_method_note"],
+        },
       },
     },
     "uncorruption-bench": {
@@ -271,6 +287,16 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
             "The Cipher Den's uncorruption-bench bears Lyra Vox's monogram — the workshop was set up roughly thirty years before her death. Vox detected the editor's pattern decades before she could prove it. The bench is the inheritance she left for whoever eventually arrived to finish the case.",
           source: "cipher-den",
           order: 3,
+        },
+        // Seer arc binding — the bench's monogram-stamp brass clamp
+        // also holds Vox's marginal note on the Seer's 41-year
+        // attendance log (filed for translation alongside her own
+        // working papers). seer.e3.lyra_vox_marginal foundIn:
+        // cipher-den.
+        mysteryBinding: {
+          mysteryId: "mystery.the_seer",
+          episodeId: "seer.e3",
+          cluesFound: ["seer.e3.lyra_vox_marginal"],
         },
       },
       use: {
@@ -299,8 +325,17 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
       },
       talk: {
         narration:
-          "The bench has no voice but it has a discipline: speech here is supposed to be the report of the work, not the planning of it. Lyra trained her translators to narrate aloud while resolving each seam — the spoken record was, in her view, the only honest audit-trail. We can do the same. The bench is listening.",
+          "The bench has no voice but it has a discipline: speech here is supposed to be the report of the work, not the planning of it. Lyra trained her translators to narrate aloud while resolving each seam — the spoken record was, in her view, the only honest audit-trail. We can do the same. The bench is listening. — Beneath the magnifier, a small folded note in the Seer's hand: 'When Vex's installment ledger reads the alias as the engineer-of-record, the cross-arc decision is made for both of us. I record this so the witness who arrives knows the decision was mutual.'",
         voId: "elara.cipher-den.uncorruption-bench.talk",
+        // Seer arc binding — the folded note is the cross-arc echo
+        // recorded by the Seer about Vex's installment-ledger
+        // decision. seer.e4.cross_arc_alias_decision foundIn:
+        // cipher-den.
+        mysteryBinding: {
+          mysteryId: "mystery.the_seer",
+          episodeId: "seer.e4",
+          cluesFound: ["seer.e4.cross_arc_alias_decision"],
+        },
       },
     },
   },

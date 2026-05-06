@@ -11,7 +11,8 @@ import type { RoomMysteryModule } from "./_template";
 export type OracleSanctumHotspotId =
   | "oracle-pool"
   | "prophecy-tablet"
-  | "incense-brazier";
+  | "incense-brazier"
+  | "seers-recording-cabinet";
 
 export const ORACLE_SANCTUM_MYSTERY: RoomMysteryModule<OracleSanctumHotspotId> = {
   roomId: "oracle-sanctum",
@@ -239,6 +240,95 @@ export const ORACLE_SANCTUM_MYSTERY: RoomMysteryModule<OracleSanctumHotspotId> =
           mysteryId: "mystery.wraith_calder",
           episodeId: "wraith.e5",
           cluesFound: ["wraith.e5.stylus_offer"],
+        },
+      },
+    },
+    // Seer arc: e2-e5 clue surface. The brazier and the pool already
+    // carry e1+e4+e5 bindings; this cabinet (recessed in the back wall,
+    // cataloguing every Variant Recording the Seer logged across the
+    // 41 years of his attendance) hosts the e2-e5 clues authored in
+    // apps/shared/episodeMysteries.ts. All clues' foundIn is
+    // "oracle-sanctum"; this hotspot is the local surface.
+    "seers-recording-cabinet": {
+      look: {
+        narration: {
+          lucid:
+            "The cabinet is recessed into the back wall behind the brazier — brass-bound, glass-fronted, full of small reel-tape canisters with hand-typed labels. Each label carries a session number, a date, and the Seer's initials. Two adjacent canisters — VAR-1109A and VAR-1109B — are dated the same morning and the same afternoon, and the labels say MORNING and AFTERNOON in the same hand. Two prophecies for the same day, recorded by the same speaker, four hours apart.",
+          fragmented:
+            "Two tapes. Two tapes. Same day. Same day. Same day. Two prophecies. Two. Two. Why two.",
+          luminous:
+            "The cabinet logs every Variant Recording the Seer made — 4,712 sessions across 41 years. The pair on the second shelf, VAR-1109A and VAR-1109B, are dated the same date and the same speaker but four hours apart. The morning recording predicts one outcome; the afternoon predicts a contradicting one. The Seer recorded both, refused to choose between them, and trusted the witness who would eventually arrive to read them as a deliberate pair rather than a contradiction. We are arriving.",
+        },
+        voId: "elara.oracle-sanctum.seers-recording-cabinet.look",
+        logsClue: {
+          id: "clue-oracle-seers-cabinet",
+          title: "Seer's recording cabinet — VAR-1109A/B paradox pair",
+          body:
+            "The Oracle Sanctum's recording cabinet logs 4,712 Variant Recordings across 41 years. Tapes VAR-1109A and VAR-1109B are dated the same date with contradictory prophecies four hours apart. The Seer's discipline: record both, refuse to resolve, trust a future witness.",
+          source: "oracle-sanctum",
+          order: 3,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.the_seer",
+          episodeId: "seer.e2",
+          cluesFound: ["seer.e2.tape_a_morning", "seer.e2.tape_b_afternoon"],
+        },
+      },
+      use: {
+        narration: {
+          lucid:
+            "You open the cabinet's lower drawer. Inside: a forty-one-year attendance log in the Seer's own hand — every session he ever recorded, every witness who ever attended. The last entry, dated four years before his death, is followed by a long blank. Beneath it, in a different hand: a credit ledger crediting Engineer Zero on every recording he made.",
+          fragmented:
+            "Forty-one years. Forty-one. Forty-one. Then nothing. Then nothing. Engineer Zero. Engineer Zero. Engineer Zero credited every — every — every —",
+          luminous:
+            "The drawer holds two artefacts. The attendance log: 41 years of recording sessions, then four years of blank pages — the Seer kept the log running but stopped recording. The credit ledger: every recording credits Engineer Zero in the engineer field. The credits are continuous across all 4,711 entries plus DEC-7710. Same engineer, same hands, on every session — the Seer trusted exactly one recording engineer with his life's work.",
+        },
+        voId: "elara.oracle-sanctum.seers-recording-cabinet.use",
+        logsClue: {
+          id: "clue-oracle-seers-cabinet-attendance",
+          title: "41-year attendance log + Engineer Zero credit ledger",
+          body:
+            "The Oracle Sanctum cabinet's lower drawer holds the Seer's 41-year attendance log (followed by four blank years) and a credit ledger crediting Engineer Zero (Vex Solène's alias) on every Variant Recording session. The Seer trusted one engineer with the entire life's work.",
+          source: "oracle-sanctum",
+          order: 4,
+        },
+        // The narration explicitly surfaces both the attendance log
+        // (e3) and the engineer credit ledger (e4); the binding
+        // credits both arcs' clues since the Vex/Seer credit-ledger
+        // is canonically the same physical artefact described from
+        // two arc-readings (the engine accepts cross-episode clue
+        // ids on a single binding so long as mysteryId matches).
+        mysteryBinding: {
+          mysteryId: "mystery.the_seer",
+          episodeId: "seer.e3",
+          cluesFound: ["seer.e3.attendance_log", "seer.e4.engineer_credit_ledger"],
+        },
+      },
+      talk: {
+        narration: {
+          lucid:
+            "If you address the cabinet, you address the Seer's whole working life. The labels on the tapes pulse very faintly under your address — phosphor-lavender, the same colour the brazier's smoke uses. Two recent additions catch the light: a tape labelled CANCELLING — last legible moment, dated to the Seer's final session, and beside it a witness arrival log with today's date pencilled in at the bottom. The cabinet has been keeping its log up to the moment we walked in.",
+          fragmented:
+            "Today. Today. Today. The cabinet logged today. The cabinet logged us. The cabinet logged us.",
+          luminous:
+            "The cabinet logged our arrival. The witness arrival log on the second-to-last shelf has today's date pencilled at the bottom in a hand we do not recognise — but the cadence of the pencil pressure matches the Seer's own. He has been keeping the log open for whoever finally walked in. The CANCELLING tape on the same shelf is his last recording: a prophecy that, by the Seer's authored note, cancels itself if heard by the wrong audience and stabilises if heard by the right one. The cabinet trusts us to be the right audience. We do not yet know whether the trust is justified.",
+        },
+        voId: "elara.oracle-sanctum.seers-recording-cabinet.talk",
+        logsClue: {
+          id: "clue-oracle-seers-cabinet-cancelling",
+          title: "The cancelling prophecy + today's witness arrival log",
+          body:
+            "The Oracle Sanctum cabinet holds the Seer's final recording — a CANCELLING prophecy that stabilises only when read by the right audience — and a witness arrival log with today's date pencilled in. The Seer kept the log open across centuries for the witness he was waiting for.",
+          source: "oracle-sanctum",
+          order: 5,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.the_seer",
+          episodeId: "seer.e5",
+          cluesFound: [
+            "seer.e5.cancelling_prophecy_text",
+            "seer.e5.witness_arrival_log",
+          ],
         },
       },
     },
