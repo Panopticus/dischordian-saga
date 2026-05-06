@@ -40,6 +40,8 @@ import TransmissionDeck from "@/components/TransmissionDeck";
 import MobileBottomNav from "@/components/MobileBottomNav";
 import { useNarrativeEvents } from "@/hooks/useNarrativeEvents";
 import { usePetQuestEventBridge } from "@/game/petQuestHooks";
+import { useCodexUnlockToasts } from "@/lib/codexUnlockNotifier";
+import { useGamification } from "@/contexts/GamificationContext";
 import { useNarrativeIntegration } from "@/hooks/useNarrativeIntegration";
 import { useIncomingTransmissions } from "@/hooks/useIncomingTransmissions";
 import { useLoginAlbumTransmission } from "@/hooks/useLoginAlbumTransmission";
@@ -94,6 +96,13 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
   // so every page that dispatches the existing `room-enter` event (the
   // ArkExplorerPage in particular) automatically progresses pet quests.
   usePetQuestEventBridge();
+
+  // Codex unlock notifier — toasts when the player's level crosses an
+  // entry's unlockRequirement. First-run toasts are suppressed (returning
+  // players don't get a flood); subsequent level-ups fire one toast per
+  // newly-unlocked entry. See plan §A4.
+  const gamification = useGamification();
+  useCodexUnlockToasts(gamification.level || 0);
 
   // Narrative integration — lore discovery, morality world effects, cross-game threads,
   // NPC trust consequences. Watches game state and triggers narrative systems automatically.
