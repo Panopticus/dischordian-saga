@@ -50,6 +50,17 @@ export const DREAMS_WORKSHOP_MYSTERY: RoomMysteryModule<DreamsWorkshopHotspotId>
           cluesFound: ["jericho.e3.dream_loom_capture"],
         },
       },
+      use: {
+        narration:
+          "You step closer. The loom's threads halt entirely — phosphor-lavender suspended mid-weave like a held breath. The pattern remains visible while you stand here. The moment you step away, the threads resume the unweaving they began when you arrived.",
+        voId: "elara.dreams-workshop.dream-loom.use",
+        setsFlag: "dream_loom_observed",
+      },
+      talk: {
+        narration:
+          "If you address the loom, the threads bow, very faintly, in your direction — the same gesture they make when an experienced dreamer enters the workshop. The loom recognises the kind of attention you bring. That, too, is something.",
+        voId: "elara.dreams-workshop.dream-loom.talk",
+      },
     },
     "fragment-rack": {
       look: {
@@ -70,6 +81,16 @@ export const DREAMS_WORKSHOP_MYSTERY: RoomMysteryModule<DreamsWorkshopHotspotId>
           source: "dreams-workshop-subbasement",
           order: 1,
         },
+      },
+      use: {
+        narration:
+          "You lift one of the older vials. The thread inside coils tighter when held in a warm hand — sensitive to body temperature even centuries on. The label is in a script I can read but cannot place; the dream it preserves is, by the colour of the thread, somebody's grief.",
+        voId: "elara.dreams-workshop.fragment-rack.use",
+      },
+      talk: {
+        narration:
+          "If you address the rack, the vials hum, very faintly, in their slots — finished dreams resonating with a fresh witness. The previous workshop's residents would have known what to say in answer. We do not, yet. We can learn.",
+        voId: "elara.dreams-workshop.fragment-rack.talk",
       },
     },
     "mirror-pool": {
@@ -108,6 +129,17 @@ export const DREAMS_WORKSHOP_MYSTERY: RoomMysteryModule<DreamsWorkshopHotspotId>
             "game_master.e2.imprint_acceptance_signal",
           ],
         },
+      },
+      use: {
+        narration:
+          "You touch a fingertip to the mercury surface. The metal yields like glass and re-settles instantly — but the warm-gold lantern in the reflected ceiling, for one heartbeat, brightens. Whoever maintains that lantern, on the other side of wherever the pool reflects, has noticed our touch.",
+        voId: "elara.dreams-workshop.mirror-pool.use",
+        setsFlag: "mirror_pool_touched",
+      },
+      talk: {
+        narration:
+          "If you address the pool, you address the unfamiliar room reflected in it. The mercury carries voice — slowly, with delay, the way deep water carries it. We do not know who, on the other side, will hear. We do know, now, that someone might.",
+        voId: "elara.dreams-workshop.mirror-pool.talk",
       },
     },
   },
