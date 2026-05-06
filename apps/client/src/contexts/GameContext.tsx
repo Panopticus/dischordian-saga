@@ -1010,6 +1010,8 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "egg-captain-mirror", name: "Cracked Mirror", description: "A mirror in the corner, cracked in a spider-web pattern. Your reflection looks... wrong.", x: 8, y: 18, width: 4, height: 5, type: "examine", elaraDialog: "That mirror... look at your reflection. Do you see it? For a fraction of a second, your reflection moved differently than you did. It smiled when you didn't. The White Oracle — the face-changing guardian — was said to inhabit reflective surfaces. Some believe the Meme left the Oracle for dead and assumed his place — the shapeshifter hiding in plain sight. The universe believes the Meme was destroyed, but is it watching us through every mirror on this ship? How long has it been watching?" },
       { id: "egg-kael-escape-hatch", name: "Forced Access Panel", description: "A maintenance panel that's been pried open with brute force. Tool marks scar the metal.", x: 76, y: 84, width: 4, height: 5, type: "item", action: "kael-escape-route", elaraDialog: "These tool marks... they're not from standard maintenance equipment. Someone forced this panel open in a hurry. The scratches are deep — desperate. Behind it is an emergency access tunnel that connects directly to the shuttle bay. This is how Kael escaped. The Recruiter turned insurgent turned prisoner. He broke out of the Panopticon, fought his way to this ship, and used this exact tunnel to reach the bridge and override the launch sequence. But look — there's no damage to the security systems. The locks were already disengaged. Dr. Lyra Vox — the Warlord — opened the doors for him. Kael's great escape was a guided tour." },
       { id: "cat-photo", name: "Photo of a Cat", description: "A framed photo of a cat wearing tiny goggles. Label reads: 'Mr. Whiskers — Chief Science Officer.'", x: 8, y: 26, width: 4, height: 5, type: "examine", action: "room-mystery:captains-quarters:cat-photo", elaraDialog: "Mr. Whiskers. Chief Science Officer. Lyra hand-lettered the label. The cat is not looking at the camera; the cat is looking at her, who was behind it. I have been looking at this photograph for two hundred and thirty years." },
+      // Mystery wiring — Degen arc audit-prep + empty-chair surface
+      { id: "degens-corner", name: "The Degen's Corner", description: "A small side-desk beside the cracked mirror. The only piece of furniture in the captain's quarters that wasn't Lyra's — the Degen sat here on three documented evenings before her death.", x: 30, y: 70, width: 14, height: 18, type: "interact", action: "room-mystery:captains-quarters:degens-corner" },
       { id: "egg-vox-personal-log", name: "Dr. Vox's Personal Terminal", description: "A hidden terminal behind the bookshelf, still powered. The screen shows encrypted files.", x: 60, y: 56, width: 4, height: 4, type: "item", action: "vox-personal-log", elaraDialog: "Dr. Lyra Vox's personal terminal. Let me try to decrypt... 'Day 1,247. The Warlord's voice grows louder. I can no longer distinguish my thoughts from its commands. The Thought Virus is complete — the Warden and I have created something that will reshape consciousness itself. But I am losing myself. Today I looked in the mirror and saw the Warlord looking back. Tomorrow I will order the Recruiter's transfer to this vessel. He is already infected — Project Vector saw to that. He is Patient Zero, and he doesn't know it. When Kael steals this ship, the virus will walk aboard with him. Every system he touches will be contaminated from day one. The Source will be born from the ashes of the Recruiter's rage. And the Warlord will have won without ever raising a weapon.' She knew. She knew everything." },
     ],
   },
@@ -1048,6 +1050,10 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       // antiquarian-desk's far corner, all bearing the Hierophant's
       // marginalia.
       { id: "hierophants-marginalia-stack", name: "Hierophant's Marginalia Stack", description: "A small stack of catalog cards in the desk's far corner, every card bearing the Hierophant's preserved marginalia.", x: 72, y: 64, width: 6, height: 10, type: "interact", action: "room-mystery:antiquarian-library:hierophants-marginalia-stack" },
+      // Mystery wiring — Degen arc Coda research surface
+      { id: "codas-purpose-shelf", name: "Coda's Purpose Shelf", description: "A small dedicated shelf the Antiquarian set aside for the seven inter-faction trustee bodies. The Coda's section is the largest.", x: 28, y: 86, width: 8, height: 10, type: "interact", action: "room-mystery:antiquarian-library:codas-purpose-shelf" },
+      // Mystery wiring — Game Master arc Velkraal correspondence + draft surface
+      { id: "velkraals-correspondence-folio", name: "Velkraal's Correspondence Folio", description: "A leather folio on the desk's far-left corner. Velkraal'Sek's correspondence, posthumous letters, and the draft of his closing edit.", x: 36, y: 86, width: 8, height: 10, type: "interact", action: "room-mystery:antiquarian-library:velkraals-correspondence-folio" },
     ],
   },
   /* ═══ CHAIN-UNLOCKED HIDDEN ROOMS ═══ */
@@ -1219,6 +1225,8 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "encrypted-correspondence", name: "Encrypted Correspondence", description: "Cubbyholes along the back wall stuffed with rolled letters — Lyra and Wraith's cipher exchange in the last six months of her command.", x: 4, y: 8, width: 18, height: 50, type: "interact", action: "room-mystery:cipher-den:encrypted-correspondence" },
       { id: "dictionary-of-edits", name: "Dictionary of Edits", description: "A freestanding lectern stage-left with a perpetually-open book. Pages turn themselves at one every fifteen seconds — the editor's vocabulary catalogued.", x: 28, y: 24, width: 10, height: 30, type: "interact", action: "room-mystery:cipher-den:dictionary-of-edits" },
       { id: "uncorruption-bench", name: "Uncorruption Bench", description: "A worktop stage-right with a brass-rimmed magnifier on a swing-arm. Combine corrupted-fragments here with their originals — the lens does the work.", x: 70, y: 60, width: 22, height: 22, type: "interact", action: "room-mystery:cipher-den:uncorruption-bench" },
+      // Mystery wiring — Game Master arc cross-arc thanks-state card
+      { id: "cross-arc-thanks-card", name: "Cross-Arc Thanks Card", description: "A small index card in a brass frame on the cross-arc shelf — Velkraal's final-edit gratitude state, updating with the player's choices.", x: 92, y: 8, width: 6, height: 10, type: "interact", action: "room-mystery:cipher-den:cross-arc-thanks-card" },
     ],
   },
   /* ═══ ALIGNMENT-UNLOCKED HIDDEN ROOMS ═══ */
@@ -1247,6 +1255,8 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       // Mystery wiring — apps/shared/roomMysteries/orderTribunal.ts
       { id: "judges-bench", name: "Judges' Bench", description: "A long brass-and-oak slab elevated on three steps. Three high-backed chairs; the chief adjudicator's middle seat is taller by a hand's-width.", x: 26, y: 60, width: 48, height: 28, type: "interact", action: "room-mystery:order-tribunal:judges-bench" },
       { id: "evidence-locker", name: "Evidence Locker", description: "A wall of small brass-faced compartments. Most empty. Three sealed in red wax — open cases, awaiting verdict.", x: 78, y: 60, width: 18, height: 32, type: "interact", action: "room-mystery:order-tribunal:evidence-locker" },
+      // Mystery wiring — Degen arc audit-trail surface
+      { id: "mol-vereth-audit-ledger", name: "Mol'Vereth's Audit Ledger", description: "A small bound volume on the side-shelf beside the bench. Mol'Vereth files every annual audit through this ledger.", x: 16, y: 76, width: 8, height: 12, type: "interact", action: "room-mystery:order-tribunal:mol-vereth-audit-ledger" },
     ],
   },
   {
@@ -1398,6 +1408,8 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "airlock-control", name: "Airlock Control", description: "A brass-rimmed cylinder with deep-oxblood seal gaskets. Currently sealed, ready-light glowing steady warm-gold.", x: 38, y: 8, width: 24, height: 28, type: "interact", action: "room-mystery:station-dock:airlock-control" },
       { id: "ship-manifest", name: "Ship Manifest", description: "A brass slab with rolling-paper readouts. The most recent entry is dated the day before Lyra's death.", x: 18, y: 8, width: 18, height: 18, type: "interact", action: "room-mystery:station-dock:ship-manifest" },
       { id: "cargo-lift", name: "Cargo Lift", description: "The platform is at floor level, currently empty. Last used to load Wraith's transport. A faint graphite smear remains.", x: 38, y: 91, width: 24, height: 7, type: "interact", action: "room-mystery:station-dock:cargo-lift" },
+      // Mystery wiring — Degen arc Coda books / Hierarchy queries surface
+      { id: "codas-trading-floor", name: "Coda's Trading-Floor Desk", description: "A brass-edged worktop tucked behind the manifest console where Hierarchy correspondents file documents in transit.", x: 18, y: 30, width: 14, height: 18, type: "interact", action: "room-mystery:station-dock:codas-trading-floor" },
     ],
   },
   {

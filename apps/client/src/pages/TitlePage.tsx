@@ -839,15 +839,14 @@ export default function TitlePage({ onDismiss }: TitlePageProps = {}) {
       {cinematicArmed && !openingDone && (
         <DischordiaOpeningCinematic
           onSongShouldStart={() => {
-            // The song was already pre-rolled muted on the
-            // CONFIRM/LOOK AWAY click (see SurveillanceOpening's onArm
-            // wiring above) so it's been advancing silently through
-            // the broadcast. With ~10s left, REVEAL it: rewind to 0 +
-            // unmute so the audible intro plays under the closing
-            // beats and continues under the login screen. Both seek
-            // and unmute are safe outside a user activation.
-            player.seek(0);
-            player.setMuted(false);
+            // The song was loaded and "unlocked" on the CONFIRM/LOOK
+            // AWAY click via prerollAndPause (see onArm wiring below)
+            // — the audio element played for one tick inside the
+            // gesture, then paused at currentTime=0. iOS Safari treats
+            // the element as activated, so a plain resume() outside
+            // any gesture plays cleanly from sample 0. No seek glitch,
+            // no unmute pop.
+            player.resume();
           }}
           onComplete={(reachedEndNaturally) => {
             // The cinematic dismissing is the end of the opening —
@@ -855,13 +854,13 @@ export default function TitlePage({ onDismiss }: TitlePageProps = {}) {
             // T01 audible underneath.
             setOpeningDone(true);
 
-            // If T01 was pre-rolled muted but never reached the −10s
-            // unmute cue (AWAKEN-mid-cinematic), unmute it now so the
-            // login screen has audible music. Don't pause it: T01 is
-            // the login bed until the user navigates away from the
-            // title route (see the unmount cleanup above).
-            if (player.currentSong?.id === TITLE_T01_LOREDEX_ENTRY.id && player.muted) {
-              player.setMuted(false);
+            // If T01 was pre-rolled but never reached the −10s resume
+            // cue (AWAKEN-mid-cinematic), resume it now so the login
+            // screen has audible music. Don't pause it: T01 is the
+            // login bed until the user navigates away from the title
+            // route (see the unmount cleanup above).
+            if (player.currentSong?.id === TITLE_T01_LOREDEX_ENTRY.id && !player.isPlaying) {
+              player.resume();
             }
 
             // Notify the server cursor exactly once. completed=true
@@ -902,18 +901,17 @@ export default function TitlePage({ onDismiss }: TitlePageProps = {}) {
           transparent
           force={forceHandshake}
           onArm={() => {
-            // Pre-roll The Enigma's Lament INSIDE the user-activation
-            // handler — iOS Safari rejects every programmatic
-            // audio.play() that happens later. We start the song muted
-            // so it doesn't fight the meme video's own audio; the
-            // cinematic's onSongShouldStart cue (~10s before the video
-            // ends) seeks back to 0 and unmutes, so the slideshow takes
-            // over with the song already mid-flight. Skip if T01 is
-            // already current (re-arm guard for the LOOK AWAY → second
-            // attempt edge case).
+            // "Unlock" The Enigma's Lament inside the user-activation
+            // handler — iOS Safari only treats audio.play() calls
+            // backed by a fresh gesture as legitimate, so we have to
+            // touch the element here even though we don't want it
+            // audible yet. prerollAndPause() does exactly that:
+            // play()-then-pause() at currentTime=0, leaving the
+            // element activated for a later resume() at the meme
+            // video's −10s cue. Skip if T01 is already current
+            // (re-arm guard for the LOOK AWAY → second-attempt edge).
             if (player.currentSong?.id === TITLE_T01_LOREDEX_ENTRY.id) return;
-            player.setMuted(true);
-            player.playSong(TITLE_T01_LOREDEX_ENTRY);
+            player.prerollAndPause(TITLE_T01_LOREDEX_ENTRY);
           }}
           onConfirm={() => setConfirmedEarly(true)}
           onComplete={() => setHandshakeDone(true)}

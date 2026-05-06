@@ -12,7 +12,9 @@ export type AntiquarianLibraryHotspotId =
   | "card-catalog"
   | "locked-vault"
   | "antiquarian-bust"
-  | "hierophants-marginalia-stack";
+  | "hierophants-marginalia-stack"
+  | "codas-purpose-shelf"
+  | "velkraals-correspondence-folio";
 
 export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHotspotId> = {
   roomId: "antiquarian-library",
@@ -343,6 +345,134 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
             "seer.e5.canon_register_paradox",
           ],
         },
+      },
+    },
+    // Degen arc: Coda-related research clues. The Coda is the seven-
+    // faction trustee body the Degen serves; its purpose-brief and
+    // its treasurer's emergency note both live in a small dedicated
+    // shelf the Antiquarian set aside for inter-faction trustee
+    // bodies.
+    "codas-purpose-shelf": {
+      look: {
+        narration: {
+          lucid:
+            "A small dedicated shelf the Antiquarian set aside for the seven inter-faction trustee bodies. The Coda's section holds, prominently, its founding purpose brief — six pages signed by representatives of every faction the Coda serves. The brief is older than the Order Tribunal. It lists, in plain language, the trustees' obligations and the four tests for replacing one.",
+          fragmented:
+            "Six pages. Six. Six pages. Older than the Order. Older. Older. Plain language. Plain language.",
+          luminous:
+            "The Coda's purpose brief predates every other inter-faction body on the saga's books. The four tests for replacing a trustee are: financial misappropriation, intentional concealment, repeated procedural failure, and irreversible loss of faction trust. Mol'Vereth's audit is, by the brief's own grammar, a test for the third — repeated procedural failure. Nothing in the audit, on the evidence so far, supports any of the other three. The Coda's bookkeeping is, by design, the most legible single document on the ship.",
+        },
+        voId: "elara.antiquarian-library.codas-purpose-shelf.look",
+        logsClue: {
+          id: "clue-antiquarian-codas-purpose-brief",
+          title: "Coda Purpose Brief — four tests for trustee replacement",
+          body:
+            "The Antiquarian Library's Coda shelf holds the founding purpose brief — six pages, signed by every faction. The brief lists four tests for replacing a trustee. Mol'Vereth's audit is testing for procedural failure only.",
+          source: "antiquarian-library",
+          order: 6,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.the_degen",
+          episodeId: "degen.e3",
+          cluesFound: ["degen.e3.coda_purpose_brief"],
+        },
+      },
+      use: {
+        narration: {
+          lucid:
+            "You take down the Coda treasurer's emergency-note folio. Inside: a single sheet, addressed to the Degen, dated three days ago. The treasurer's hand is shaky. The note: 'I cannot delay the audit further. Mol'Vereth has formally requested it. I have honoured the request, in the form the Coda's bylaws require. The audit opens at sunrise. I am sorry for the timing. Whatever you have, have it ready.' The Degen, on the evidence of the timing, has had three days.",
+          fragmented:
+            "Three days. Three days. Three days. The treasurer warned him. The treasurer warned him.",
+          luminous:
+            "The Coda's treasurer wrote the Degen a courtesy warning the Coda's bylaws would have permitted her to omit. She honoured Mol'Vereth's audit request, but she gave the Degen — as a fellow trustee — three days to get his books in order. The note is the closest thing to a pre-audit indicator the Degen will receive. He has, on the evidence of his prep-note in Lyra's quarters, used the three days well.",
+        },
+        voId: "elara.antiquarian-library.codas-purpose-shelf.use",
+        logsClue: {
+          id: "clue-antiquarian-codas-treasurer-note",
+          title: "Coda treasurer's emergency note (3-day warning)",
+          body:
+            "The Antiquarian Library's Coda shelf holds the Coda treasurer's emergency note to the Degen — a 3-day pre-audit warning that the Coda's bylaws permitted her to omit. The Degen used the three days for his audit-prep rehearsal in Lyra's quarters.",
+          source: "antiquarian-library",
+          order: 7,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.the_degen",
+          episodeId: "degen.e4",
+          cluesFound: ["degen.e4.coda_treasurers_emergency_note"],
+        },
+      },
+      talk: {
+        narration:
+          "If you address the shelf, you address every inter-faction trustee body the Antiquarian has ever indexed. The Coda's section is the largest. It is also the most heavily read — the spines of the records are worn from cross-reference. Whoever was last using this shelf has left it in working order, the way a librarian leaves a desk for whoever sits down next. — As you address it, a sealed envelope on the shelf's reading-rest warms slightly: THE DEGEN'S LETTER TO THE SAGA, in his hand, addressed not to any one reader but to whoever is left at the table when the audit closes. The seal is unbroken. The letter is already filed in the Antiquarian's index — the Antiquarian knew it would be read someday. We are, by sitting here, the day.",
+        voId: "elara.antiquarian-library.codas-purpose-shelf.talk",
+        // Degen arc binding — the Degen's letter to the saga, filed
+        // for an unspecified future reader. degen.e5.degens_letter_
+        // to_the_saga foundIn: antiquarian-library.
+        mysteryBinding: {
+          mysteryId: "mystery.the_degen",
+          episodeId: "degen.e5",
+          cluesFound: ["degen.e5.degens_letter_to_the_saga"],
+        },
+      },
+    },
+    // Game Master arc: Velkraal's correspondence + draft surface.
+    // The Vault Division's official paperwork crosses through the
+    // Antiquarian's library on the way to the Order Tribunal — the
+    // Antiquarian indexes by witness, and Velkraal trusted the
+    // index. The folio lives on the desk's far-left corner.
+    "velkraals-correspondence-folio": {
+      look: {
+        narration: {
+          lucid:
+            "A leather folio on the desk's far-left corner — Velkraal'Sek's correspondence, all of it. Today the folio is open to a posthumous-format letter addressed to the Hierarchy Archon, dated to be opened only after Velkraal's final session. The letter names his successor (Brel'Sorrash), describes the Goggles' read-don't-edit protocol, and asks the Archon to ratify the succession quietly. Velkraal has been planning his exit for at least a year.",
+          fragmented:
+            "He planned. He planned. He planned. He chose her. He chose her.",
+          luminous:
+            "Velkraal pre-wrote his own succession. The posthumous letter is dated forward — to be opened only after his final session — and asks the Archon to ratify Brel quietly. He has been planning his exit, with full deliberation, for at least a year. The Vault Division does not lose its custodian. It changes hands.",
+        },
+        voId: "elara.antiquarian-library.velkraals-correspondence-folio.look",
+        logsClue: {
+          id: "clue-antiquarian-velkraal-letter-archon",
+          title: "Velkraal's posthumous letter to the Archon",
+          body:
+            "The Antiquarian Library holds Velkraal'Sek's posthumous letter to the Hierarchy Archon, naming Brel'Sorrash as his successor and asking the Archon to ratify the succession quietly. Velkraal pre-planned his exit at least a year in advance.",
+          source: "antiquarian-library",
+          order: 8,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.game_master",
+          episodeId: "game_master.e2",
+          cluesFound: ["game_master.e2.velkraals_letter_to_archon"],
+        },
+      },
+      use: {
+        narration: {
+          lucid:
+            "You leaf to the folio's back pocket. Inside: a draft of Velkraal's closing edit — the actual edit text he plans to make in his final session, written out long-hand for review. The edit is small, carefully scoped, and ends with a single line: 'The next reader of this entry will be Brel'Sorrash. Read it. Do not edit it. The custodianship continues.' The draft has Brel's initials in the margin — she has read it. She will not be editing it.",
+          fragmented:
+            "Read it. Do not edit it. Read it. Do not edit it. Read. Read. Read. Don't edit. Don't edit.",
+          luminous:
+            "The closing-edit draft is not an edit, in the sense Velkraal's predecessors used the word. It is a hand-off. The single-line postscript instructs Brel to read the entry and not to edit it — the Vault Division's protocol-shift is being installed by Velkraal's last act. Brel's initials in the margin mean she has read the draft, accepted the protocol-shift, and is committing in advance to honour it. The transition is, in literal terms, already complete. The session itself will only ratify what the folio has already arranged.",
+        },
+        voId: "elara.antiquarian-library.velkraals-correspondence-folio.use",
+        logsClue: {
+          id: "clue-antiquarian-draft-closing-edit",
+          title: "Velkraal's draft closing-edit + Brel's pre-read initials",
+          body:
+            "The Antiquarian Library holds Velkraal's hand-written draft of his closing edit. The edit's postscript instructs Brel'Sorrash to read but not edit the entry, installing a protocol-shift in the Vault Division. Brel's initials in the margin pre-confirm her acceptance.",
+          source: "antiquarian-library",
+          order: 9,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.game_master",
+          episodeId: "game_master.e4",
+          cluesFound: ["game_master.e4.draft_closing_edit"],
+        },
+      },
+      talk: {
+        narration:
+          "If you address the folio, you address Velkraal's discipline as a working method. He filed everything. Every letter, every draft, every marginal note. The Antiquarian indexed all of it. Whoever reads this folio will, by the end of one careful afternoon, have the entire shape of Velkraal's last year in their head. He arranged for that on purpose.",
+        voId: "elara.antiquarian-library.velkraals-correspondence-folio.talk",
       },
     },
   },

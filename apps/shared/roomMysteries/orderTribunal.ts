@@ -7,7 +7,10 @@
 
 import type { RoomMysteryModule } from "./_template";
 
-export type OrderTribunalHotspotId = "judges-bench" | "evidence-locker";
+export type OrderTribunalHotspotId =
+  | "judges-bench"
+  | "evidence-locker"
+  | "mol-vereth-audit-ledger";
 
 export const ORDER_TRIBUNAL_MYSTERY: RoomMysteryModule<OrderTribunalHotspotId> = {
   roomId: "order-tribunal",
@@ -123,14 +126,21 @@ export const ORDER_TRIBUNAL_MYSTERY: RoomMysteryModule<OrderTribunalHotspotId> =
       use: {
         narration: {
           lucid:
-            "You break the red wax on the newest sealed compartment. The wax cracks cleanly, the way wax cracks when it has been waiting to be cracked for a long time and the seal-keeper had no objection. Inside: a single docket sheet in Lyra Vox's hand, a witness deposition signed by Wraith Calder, and a charge sheet with the defendant's name redacted in indigo. The case file is intact. The case is, as a matter of procedural record, still ours to advance.",
+            "You break the red wax on the newest sealed compartment. The wax cracks cleanly, the way wax cracks when it has been waiting to be cracked for a long time and the seal-keeper had no objection. Inside: a single docket sheet in Lyra Vox's hand, a witness deposition signed by Wraith Calder, and a charge sheet with the defendant's name redacted in indigo. The case file is intact. The case is, as a matter of procedural record, still ours to advance. — Beneath the case file: an unrelated letter from Xeth'Raal to Brel'Sorrash, filed with the tribunal's clerk for safekeeping. The letter's text: 'You are continued in your post. Continue. The Hierarchy's gratitude is unsentimental, and is, on this occasion, sincere.' The letter has been countersigned by the Order's clerk, making the continuance Order-ratified.",
           fragmented:
-            "The wax. The wax. The wax. The seal opens. The seal opens. Lyra. Wraith. Lyra. Wraith. Both signatures. Both signatures. Both signatures.",
+            "The wax. The wax. The wax. The seal opens. The seal opens. Lyra. Wraith. Lyra. Wraith. Both signatures. Both signatures. Both signatures. Continuance. Continuance. Brel continued.",
           luminous:
-            "The case file is intact. Lyra's docket sheet, Wraith's deposition, and a charge sheet with the defendant's name redacted in indigo. The case has been sitting in this compartment for two and a half centuries, fully prepared, awaiting only a prosecutor and a present principal witness. The Order keeps every open case open until it is properly closed; this is the case the Order has been waiting longest to close.",
+            "The case file is intact. Lyra's docket sheet, Wraith's deposition, and a charge sheet with the defendant's name redacted in indigo. The case has been sitting in this compartment for two and a half centuries, fully prepared, awaiting only a prosecutor and a present principal witness. The Order keeps every open case open until it is properly closed; this is the case the Order has been waiting longest to close. The Xeth'Raal continuance letter beneath it is a sister document — the Hierarchy CFO's formal acknowledgement, Order-ratified, that Brel'Sorrash continues in her custodianship of the Goggles section.",
         },
         voId: "elara.order-tribunal.evidence-locker.use",
         setsFlag: "tribunal_open_case_opened",
+        // Game Master arc — Xeth'Raal's continuance letter to Brel,
+        // Order-ratified. game_master.e5.xethraal_continuance_letter.
+        mysteryBinding: {
+          mysteryId: "mystery.game_master",
+          episodeId: "game_master.e5",
+          cluesFound: ["game_master.e5.xethraal_continuance_letter"],
+        },
       },
       talk: {
         narration:
@@ -145,6 +155,59 @@ export const ORDER_TRIBUNAL_MYSTERY: RoomMysteryModule<OrderTribunalHotspotId> =
           mysteryId: "mystery.jericho_jones",
           episodeId: "jericho.e4",
           cluesFound: ["jericho.e4.post_fall_revision"],
+        },
+      },
+    },
+    // Degen arc: e2-e5 audit-trail clue surface. Mol'Vereth files
+    // every annual audit through the Order's clerk-of-record. The
+    // resulting ledger lives in a small bound volume on a side-shelf
+    // beside the judges-bench. Four entries bind the four episodes.
+    "mol-vereth-audit-ledger": {
+      look: {
+        narration: {
+          lucid:
+            "A small bound volume on the side-shelf beside the judges-bench. Mol'Vereth's audit calendar is pinned to the cover — every year the Hierarchy CFO files an annual audit through the Order's clerk-of-record. Today's date is circled in red ink. Inside the front cover, in his marginal hand, last year's audit closes with: 'No further query — pending the next clerk who can read the Coda's fourth column.'",
+          fragmented:
+            "Today. Today. Today. Circled. Circled. The clerk who can read. The clerk. The clerk. We are the clerk. We are.",
+          luminous:
+            "The Audit Ledger holds Mol'Vereth's audit calendar (today is circled) and his marginal note from last year — left for the next clerk who can read the Coda's fourth column. The Coda is the seven-faction trustee body the Degen serves; the fourth column is its routing register. Mol'Vereth has been waiting for an auditor who knows where to look. We are, on the date the calendar circled, that auditor.",
+        },
+        voId: "elara.order-tribunal.mol-vereth-audit-ledger.look",
+        logsClue: {
+          id: "clue-tribunal-audit-ledger",
+          title: "Mol'Vereth's audit ledger + last year's marginal note",
+          body:
+            "The Order Tribunal holds a side-shelf bound volume — Mol'Vereth's audit ledger. Today's date is circled on the calendar; last year's audit closes with a marginal note awaiting 'the next clerk who can read the Coda's fourth column.'",
+          source: "order-tribunal",
+          order: 2,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.the_degen",
+          episodeId: "degen.e2",
+          cluesFound: [
+            "degen.e2.audit_schedule",
+            "degen.e3.mol_vereth_marginal_note",
+          ],
+        },
+      },
+      use: {
+        narration:
+          "You leaf forward to the current year's audit-scope letter. Mol'Vereth's signature opens it; the scope clause names three brokerage rows the Senior Partners want examined. Row 4,711 is one of the three. The scope is, by his hand, narrower than usual — he is auditing one specific risk, not the year's normal sweep.",
+        voId: "elara.order-tribunal.mol-vereth-audit-ledger.use",
+        mysteryBinding: {
+          mysteryId: "mystery.the_degen",
+          episodeId: "degen.e4",
+          cluesFound: ["degen.e4.audit_scope_letter"],
+        },
+      },
+      talk: {
+        narration:
+          "If you address the ledger, the back endpaper warms. A draft of the audit-outcome letter rises into legibility — Mol'Vereth pre-wrote the result in pencil, leaving only the signature line blank. The pencilled text reads: 'Settled. Account restored to nominal. Trustee status reaffirmed. The Coda's books are the Coda's books. The Saga returns to the table.' The letter is dated forward — three weeks from today. He has, in effect, sketched the verdict before the audit. Whether the pencilled text becomes the actual outcome depends on what the audit finds in the meantime.",
+        voId: "elara.order-tribunal.mol-vereth-audit-ledger.talk",
+        mysteryBinding: {
+          mysteryId: "mystery.the_degen",
+          episodeId: "degen.e5",
+          cluesFound: ["degen.e5.audit_outcome_letter"],
         },
       },
     },

@@ -15,7 +15,8 @@ import type { RoomMysteryModule } from "./_template";
 export type StationDockHotspotId =
   | "airlock-control"
   | "ship-manifest"
-  | "cargo-lift";
+  | "cargo-lift"
+  | "codas-trading-floor";
 
 export const STATION_DOCK_MYSTERY: RoomMysteryModule<StationDockHotspotId> = {
   roomId: "station-dock",
@@ -139,6 +140,77 @@ export const STATION_DOCK_MYSTERY: RoomMysteryModule<StationDockHotspotId> = {
               "He looked over his shoulder once. Just once. He was looking at Lyra's window in the bridge — she was already at her desk that morning. She didn't look back. They had agreed not to. The dock saw both halves of that goodbye.",
           },
           voId: "human.station-dock.cargo-lift.talk",
+        },
+      },
+    },
+    // Degen arc: trade-hub clues land here. The episodeMysteries
+    // foundIn "trade-hub" doesn't have a room-mystery module — so
+    // the dock (the closest commercial-transactions surface on the
+    // ship) hosts the Coda books and Ozhul'Vana's specific query.
+    // Narratively, the dock is where Hierarchy correspondents file
+    // documents in transit between factions — exactly the surface
+    // Coda books and Hierarchy queries flow through.
+    "codas-trading-floor": {
+      look: {
+        narration: {
+          lucid:
+            "The dock's trading-floor desk — a brass-edged worktop tucked behind the manifest console where Hierarchy correspondents file documents in transit between factions. Today the desk holds the Coda's books for the last decade, sent up from the trade-hub for Mol'Vereth's audit. The volumes are heavy, leather-bound, and meticulously kept. The Degen's signature is on every quarter-end attestation. Every signature is in the same neat hand.",
+          fragmented:
+            "Ten years. Ten years. Ten years of books. Same hand. Same hand. Same hand.",
+          luminous:
+            "Ten years of the Coda's books, every quarter-end signed in the Degen's hand. The volumes are too heavy to be performative — these are the working books, not display copies. The Coda has been audited annually by the Hierarchy CFO across all ten years; every prior year cleared cleanly. This year is the first time the books have been pulled to the dock for in-transit review rather than being audited in place. Mol'Vereth wants them moved through a Hierarchy-correspondent path. That detail matters more than it looks.",
+        },
+        voId: "elara.station-dock.codas-trading-floor.look",
+        logsClue: {
+          id: "clue-station-dock-coda-books",
+          title: "Coda's books — last decade, all quarter-ends signed",
+          body:
+            "The Station Dock's trading-floor desk holds the Coda's books for the last decade, pulled up for Mol'Vereth's audit. Every quarter-end attestation is the Degen's signature. The unusual detail: this year's audit is in-transit through a Hierarchy correspondent, not in place — Mol'Vereth wants the books moved.",
+          source: "station-dock",
+          order: 3,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.the_degen",
+          episodeId: "degen.e3",
+          cluesFound: ["degen.e3.coda_books"],
+        },
+      },
+      use: {
+        narration: {
+          lucid:
+            "You leaf to the trading-floor's incoming-correspondence tray. A single sealed envelope — addressed to Mol'Vereth, marked CONFIDENTIAL — has been returned-to-sender by the dock clerk. The seal: Ozhul'Vana, junior partner, Hierarchy. The envelope's reverse carries her cover note: 'Specific query, filed per protocol. The Degen's brokerage-line #4,711 may not be what the audit-scope letter says it is. Recommend a second reading before the audit closes.' The dock clerk returned it because Mol'Vereth was off-station; the envelope is now waiting for him. We have read it ahead of him.",
+          fragmented:
+            "Ozhul. Ozhul. Ozhul'Vana. Specific query. Specific query. Second reading. Second reading.",
+          luminous:
+            "Ozhul'Vana — the Hierarchy junior partner who has appeared as a clue node in three other arcs — has filed a private query against the audit's framing of brokerage-line #4,711. She thinks Mol'Vereth has misread the line and is recommending a second reading. The query is in the dock's hold; it has not yet reached him. We are now in possession of intelligence the auditor himself doesn't have. The cross-arc presence of Ozhul'Vana as a quiet-correction figure is, on the saga's evidence, deliberate.",
+        },
+        voId: "elara.station-dock.codas-trading-floor.use",
+        logsClue: {
+          id: "clue-station-dock-ozhul-query",
+          title: "Ozhul'Vana's specific query against Mol'Vereth's audit",
+          body:
+            "The Station Dock's trading-floor desk holds Ozhul'Vana's sealed query against Mol'Vereth's reading of brokerage-line #4,711 — recommending a second reading before the audit closes. The query is intelligence Mol'Vereth himself does not yet have.",
+          source: "station-dock",
+          order: 4,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.the_degen",
+          episodeId: "degen.e4",
+          cluesFound: ["degen.e4.ozhul_specific_query"],
+        },
+      },
+      talk: {
+        narration:
+          "If you address the trading-floor desk, the dock clerk's pen — a thin brass thing, left in the inkwell — pulses faintly under the room's standing light. The clerk has been off-shift for two and a half centuries. The desk has, on the evidence of three different inks in the inkwell, been continuously used by whoever passes through the dock with paperwork to file. We are addressing a desk maintained by anonymous careful hands. — On the desk's outgoing-correspondence tray: a sealed memo from Ozhul'Vana to her own internal Hierarchy file, never to be sent. ASSET CLOSURE ARGUMENT — VAULT DIVISION GOGGLES SECTION. The memo argues, at length, that the Goggles section should be closed permanently rather than handed to Brel. The argument is precise and cold. Ozhul filed it for the record, then chose not to send it. She could have ended the section. She decided not to.",
+        voId: "elara.station-dock.codas-trading-floor.talk",
+        // Game Master arc — Ozhul's internal closure-argument memo,
+        // filed but unsent. game_master.e3.ozhul_acquisition_memo.
+        // (foundIn: trade-hub in episodeMysteries.ts; bound here at
+        // station-dock since trade-hub has no module.)
+        mysteryBinding: {
+          mysteryId: "mystery.game_master",
+          episodeId: "game_master.e3",
+          cluesFound: ["game_master.e3.ozhul_acquisition_memo"],
         },
       },
     },
