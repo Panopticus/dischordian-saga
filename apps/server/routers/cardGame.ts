@@ -1906,6 +1906,155 @@ export const cardGameRouter = router({
 
       return { granted: true, alreadyOwned: false };
     }),
+
+  /**
+   * Plan §B6 — companion ability activation during a card battle.
+   *
+   * The CompanionAbilitySlot UI tracks per-ability cooldowns client-side
+   * (single-player; the server is permissive about pacing). This endpoint
+   * applies the ability's effect to the live match state. Each effectKind
+   * dispatches to a small inline handler:
+   *
+   *   • draw_card           — shift one card from drawPile to hand
+   *   • heal_general        — heal player1 by 3 HP, capped at 30
+   *   • buff_friendly_unit  — +1/+1 to a friendly field unit (targetIndex)
+   *   • debuff_enemy_unit   — −2 power on an enemy field unit (targetIndex,
+   *                           clamped at 0)
+   *   • deal_damage         — 2 damage to an enemy field unit (targetIndex)
+   *                           or 2 to the opponent directly when omitted
+   *   • summon_token        — append a 1/1 drone token to player1.field
+   *
+   * The endpoint validates that the player owns the match, the ability id
+   * is real, and the targetIndex (when required) points at a live unit.
+   * Cooldown enforcement stays client-side via useCompanionAbilitySlot.
+   */
+  companionAbility: protectedProcedure
+    .input(
+      z.object({
+        matchId: z.number(),
+        abilityId: z.string(),
+        targetIndex: z.number().int().nonnegative().optional(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { getCompanionAbility } = await import("../../shared/companionAbilities");
+      const ability = getCompanionAbility(input.abilityId);
+      if (!ability) {
+        return { success: false, message: "Unknown ability" };
+      }
+
+      const db = await getDb();
+      if (!db) return { success: false, message: "Database unavailable" };
+
+      const match = await db
+        .select()
+        .from(cardGameMatches)
+        .where(
+          and(
+            eq(cardGameMatches.id, input.matchId),
+            eq(cardGameMatches.player1Id, ctx.user.id),
+          ),
+        )
+        .limit(1);
+      if (!match[0] || match[0].status !== "active") {
+        return { success: false, message: "Match not found" };
+      }
+
+      const state = match[0].gameState as unknown as GameState;
+      const player = state.player1;
+      const opponent = state.player2;
+      const log = state.log ?? [];
+
+      switch (ability.effectKind) {
+        case "draw_card": {
+          const card = player.drawPile.shift();
+          if (!card) {
+            return { success: false, message: "Draw pile is empty" };
+          }
+          player.hand.push(card);
+          log.push(`${ability.name}: drew ${card.name}.`);
+          break;
+        }
+        case "heal_general": {
+          const before = player.health;
+          player.health = Math.min(30, player.health + 3);
+          log.push(`${ability.name}: healed ${player.health - before} HP.`);
+          break;
+        }
+        case "buff_friendly_unit": {
+          if (input.targetIndex === undefined) {
+            return { success: false, message: "Target required for buff" };
+          }
+          const unit = player.field[input.targetIndex];
+          if (!unit) return { success: false, message: "No friendly unit at index" };
+          unit.power += 1;
+          unit.health += 1;
+          if (typeof unit.maxHealth === "number") unit.maxHealth += 1;
+          log.push(`${ability.name}: +1/+1 on ${unit.name}.`);
+          break;
+        }
+        case "debuff_enemy_unit": {
+          if (input.targetIndex === undefined) {
+            return { success: false, message: "Target required for debuff" };
+          }
+          const unit = opponent.field[input.targetIndex];
+          if (!unit) return { success: false, message: "No enemy unit at index" };
+          unit.power = Math.max(0, unit.power - 2);
+          log.push(`${ability.name}: ${unit.name} -2 power.`);
+          break;
+        }
+        case "deal_damage": {
+          const dmg = 2;
+          if (input.targetIndex === undefined) {
+            opponent.health = Math.max(0, opponent.health - dmg);
+            log.push(`${ability.name}: ${dmg} direct damage.`);
+            break;
+          }
+          const unit = opponent.field[input.targetIndex];
+          if (!unit) return { success: false, message: "No enemy unit at index" };
+          unit.health -= dmg;
+          log.push(`${ability.name}: ${dmg} to ${unit.name}.`);
+          if (unit.health <= 0) {
+            opponent.graveyard.push(unit);
+            opponent.field.splice(input.targetIndex, 1);
+            log.push(`${unit.name} fell.`);
+          }
+          break;
+        }
+        case "summon_token": {
+          const token: CardInPlay = {
+            cardId: `${ability.id}_token_${Date.now()}`,
+            cardType: "drone",
+            name: "Drone",
+            power: 1,
+            health: 1,
+            maxHealth: 1,
+            cost: 0,
+            tapped: true, // can't act the turn it's summoned
+          };
+          player.field.push(token);
+          log.push(`${ability.name}: summoned a Drone token.`);
+          break;
+        }
+      }
+
+      state.log = log;
+      await db
+        .update(cardGameMatches)
+        .set({ gameState: state as unknown as Record<string, unknown> })
+        .where(eq(cardGameMatches.id, input.matchId));
+
+      // Check victory: if opponent is at 0 HP, mark match complete.
+      if (opponent.health <= 0) {
+        await db
+          .update(cardGameMatches)
+          .set({ status: "completed", winnerId: ctx.user.id })
+          .where(eq(cardGameMatches.id, input.matchId));
+        return { success: true, victory: true, log };
+      }
+
+      return { success: true, victory: false, log };
+    }),
 });
 
 // ═══════════════════════════════════════════════════════
