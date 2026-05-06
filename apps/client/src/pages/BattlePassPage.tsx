@@ -145,7 +145,7 @@ export default function BattlePassPage() {
               <button
                 onClick={() => upgradeMut.mutate({ currency: "void_crystals" })}
                 disabled={upgradeMut.isPending}
-                className="px-4 py-2 rounded-md void-bg-sunk hover:void-bg-system border border-purple-400/40 text-purple-300 font-mono text-xs font-bold tracking-wider transition-all"
+                className="px-4 py-2 rounded-md void-bg-sunk hover:void-bg-system border void-border void-text-premium font-mono text-xs font-bold tracking-wider transition-all"
               >
                 {upgradeMut.isPending ? <Loader2 size={14} className="animate-spin" /> : "1000 VOID CRYSTALS"}
               </button>
