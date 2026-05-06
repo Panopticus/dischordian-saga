@@ -19,6 +19,13 @@ export default defineConfig({
   retries: 1,
   workers: process.env.CI ? 1 : undefined,
   timeout: 30_000,
+  // Whole-suite ceiling, well below the workflow's 15-minute job
+  // timeout. When the workflow timed out, the run was killed by GH
+  // Actions and its `if: failure()` artifact-upload step didn't
+  // execute — so we never got the report. With globalTimeout we hit
+  // the Playwright-level cap first, the run completes with
+  // status=failed, and the report uploads.
+  globalTimeout: 12 * 60_000,
 
   globalSetup: GLOBAL_SETUP,
 
