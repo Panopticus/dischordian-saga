@@ -219,6 +219,17 @@ export const MEDICAL_BAY_MYSTERY: RoomMysteryModule<MedicalBayHotspotId> = {
         },
         voId: "elara.medbay.dna-helix.use",
       },
+      talk: {
+        narration: {
+          lucid:
+            "You address the helix. The rotation slows by a noticeable margin while you speak — the station is courteous to its operators in the same way the warden-terminal in the shadow-vault is. Three rows pulse in time with your speech; the fourth, the unnamed one, pulses in counterpoint. The fourth row is not behaving in the way the other three behave.",
+          fragmented:
+            "The fourth. The fourth. The fourth pulses different. The fourth pulses different.",
+          luminous:
+            "Three rows respond to your address in time; the fourth responds in counterpoint. The fourth row's DNA template is, by its acoustic response, not the same kind of organism as the others. It is, on this room's evidence, something the station has been keeping company with rather than analysing. The Thalorian template is a guest. Lyra hosted it. We are addressing the guest.",
+        },
+        voId: "elara.medbay.dna-helix.talk",
+      },
     },
     "medicine-cabinet": {
       look: {
@@ -306,6 +317,17 @@ export const MEDICAL_BAY_MYSTERY: RoomMysteryModule<MedicalBayHotspotId> = {
           voId: "detective.medbay.medicine-cabinet.use",
         },
       },
+      talk: {
+        narration: {
+          lucid:
+            "If you address the cabinet, the unlabelled vial pulses very faintly — phosphor-lavender, the same colour the oracle-pool's brazier-smoke uses. The cabinet is, in a small way, acknowledging that it has been addressed. The vial's contents are not, today, asked of us. We acknowledge the cabinet back. We move on.",
+          fragmented:
+            "The vial. The vial. The vial pulses. The vial pulses. The vial pulses. Acknowledge. Acknowledge. Move on.",
+          luminous:
+            "The unlabelled vial answers our address with a phosphor pulse. Whatever it contains is connected to the oracle-sanctum's ritual surface. Lyra was, on the evidence of the cabinet's organisation, keeping a single dose of something the Oracle would have asked for and never received. We do not, today, draw on the dose. We acknowledge that it is here.",
+        },
+        voId: "elara.medbay.medicine-cabinet.talk",
+      },
     },
     "medical-log": {
       look: {
@@ -385,6 +407,29 @@ export const MEDICAL_BAY_MYSTERY: RoomMysteryModule<MedicalBayHotspotId> = {
           },
         ],
       },
+      use: {
+        narration: {
+          lucid:
+            "You take the data pad in both hands. The screen warms — the pad has been low-power dormant for two and a half centuries and is, on contact, glad to render. The final entry — 'signal' — holds steady on the screen for as long as you keep contact. The pad is portable. We can carry it to the cipher den's lectern and read it under the magnifier without losing the entry.",
+          fragmented:
+            "Carry. Carry. Carry the pad. Carry the pad. The pad. The pad. The pad survives.",
+          luminous:
+            "The pad survives the move. The medical officer's final word renders, plainly, on a screen that has not been actively read since she set it down. We carry it. The cipher den is the room where its final word can be properly weighed.",
+        },
+        voId: "elara.medbay.medical-log.use",
+        setsFlag: "medical_log_carried",
+      },
+      talk: {
+        narration: {
+          lucid:
+            "If you read the case-file roster aloud — Lyra Vox, Theo Kael, Elara — the pad's screen dims by a perceptible margin between each name and brightens after each is spoken. The pad is acknowledging, by light, that the names belong on the chart. Reading them out loud makes the chart honest.",
+          fragmented:
+            "Three names. Three. Three names. Lyra. Theo. Elara. Three. Three. Three. The pad acknowledges. The pad acknowledges.",
+          luminous:
+            "Reading the three names aloud restores them to the chart. The pad's acknowledgement-by-dimming is the medical officer's design: she wanted the act of reading the chart to be a small ceremony. We are performing the ceremony now, on her behalf. The chart is, in this moment, complete.",
+        },
+        voId: "elara.medbay.medical-log.talk",
+      },
     },
     "egg-vox-neural-bridge": {
       look: {
@@ -444,6 +489,7 @@ export const MEDICAL_BAY_MYSTERY: RoomMysteryModule<MedicalBayHotspotId> = {
       // owns the donate/refuse choice and sets `medbay_device_awakened`
       // (Tier 1 → 2 advancement) on donate. The verb-coin's "use"
       // dispatch falls through to that branch unchanged.
+      // medicalBay.test.ts asserts the omission.
     },
     "emergency-safe": {
       look: {
@@ -566,6 +612,17 @@ export const MEDICAL_BAY_MYSTERY: RoomMysteryModule<MedicalBayHotspotId> = {
           },
           voId: "detective.medbay.emergency-safe.use",
         },
+      },
+      talk: {
+        narration: {
+          lucid:
+            "You speak Lyra's name to the safe. The keypad's '1' key, worn from her habitual entry, flickers once — not lighting, exactly, but registering the address. The safe knows her name. It also knows you are not her. Both facts are honest; both facts hold.",
+          fragmented:
+            "Her name. Her name. The safe knows her name. Her name. Her name.",
+          luminous:
+            "The safe acknowledges Lyra's name without unlocking. It is, in this hardware's discipline, a small mercy: the safe will recognise the people who knew her without giving them the contents she protected. We are, in that sense, on the safe's roster of acknowledged callers. We are not, today, on its roster of authorised openers. Both rosters are honest.",
+        },
+        voId: "elara.medbay.emergency-safe.talk",
       },
     },
   },
