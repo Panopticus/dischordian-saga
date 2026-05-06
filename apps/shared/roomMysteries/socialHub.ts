@@ -33,6 +33,16 @@ export const SOCIAL_HUB_MYSTERY: RoomMysteryModule<SocialHubHotspotId> = {
           order: 0,
         },
       },
+      use: {
+        narration:
+          "You take down the memorial-reading notice and read it. Date, time, room — the order-tribunal, by tradition. The note bears, on the back, a signature in this year's ink: someone has been keeping the tradition alive without prompting. The notice goes back on the board exactly where you found it.",
+        voId: "elara.social-hub.bulletin-board.use",
+      },
+      talk: {
+        narration:
+          "If you address the bulletin-board, you address every resident who ever pinned to it. Most are decades dead. A few, by the dates, are still aboard. The board is the closest thing this ship has to a continuous chorus.",
+        voId: "elara.social-hub.bulletin-board.talk",
+      },
     },
     "mess-table": {
       look: {
@@ -53,6 +63,17 @@ export const SOCIAL_HUB_MYSTERY: RoomMysteryModule<SocialHubHotspotId> = {
           source: "social-hub",
           order: 1,
         },
+      },
+      use: {
+        narration:
+          "You sit at the head of the table — Lyra's seat, by the position of the chair-marks worn into the floor. The cup at this place is hand-thrown, slightly lopsided, and the plate beside it carries the signature scratch of an iron knife used habitually by a left-handed person. Lyra was left-handed.",
+        voId: "elara.social-hub.mess-table.use",
+        setsFlag: "social_hub_lyra_seat_taken",
+      },
+      talk: {
+        narration:
+          "If you address the table, you address the meals it has held. Two and a half centuries of lunches, arguments, recoveries, partings. The table has a long memory and no opinions; it is the room's most patient witness.",
+        voId: "elara.social-hub.mess-table.talk",
       },
     },
   },
