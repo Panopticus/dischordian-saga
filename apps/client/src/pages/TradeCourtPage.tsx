@@ -85,6 +85,18 @@ function timeAgo(ms: number): string {
   return `${Math.floor(dt / 86_400_000)}d ago`;
 }
 
+/** Phase E: render a season-end countdown given phaseEndsAt. */
+function formatCountdown(endsAt: number | null): string {
+  if (endsAt === null) return "—";
+  const dt = endsAt - Date.now();
+  if (dt <= 0) return "transitioning…";
+  const days = Math.floor(dt / 86_400_000);
+  const hours = Math.floor((dt % 86_400_000) / 3_600_000);
+  if (days > 0) return `${days}d ${hours}h`;
+  const mins = Math.floor((dt % 3_600_000) / 60_000);
+  return `${hours}h ${mins}m`;
+}
+
 export default function TradeCourtPage() {
   const utils = trpc.useUtils();
   const snapshot = trpc.tradeCourt.courtSnapshot.useQuery(undefined, {
@@ -92,10 +104,35 @@ export default function TradeCourtPage() {
   });
   const myCards = trpc.cardGame.myCollection.useQuery({ page: 1, limit: 100 });
   const myTowers = trpc.tradeCourt.listMyTowers.useQuery();
+  // Phase D wiring (empire-feel surfaces).
+  const myDynasty = trpc.tradeCourt.myDynasty.useQuery();
+  const myAlliances = trpc.tradeCourt.myAlliances.useQuery();
+  const myActiveEdict = trpc.tradeCourt.myActiveEdict.useQuery();
+  const listEdicts = trpc.tradeCourt.listEdicts.useQuery();
+  const newsDigest = trpc.tradeCourt.newsDigest.useQuery();
   const myFactionRollup = trpc.tradeCourt.myFactionRollup.useQuery();
   const availableContracts = trpc.tradeContracts.listAvailable.useQuery();
   const equipMunition = trpc.tradeCourt.equipMunition.useMutation({
     onSuccess: () => utils.tradeCourt.listMyTowers.invalidate(),
+  });
+  // Phase D mutations
+  const issueEdict = trpc.tradeCourt.issueEdict.useMutation({
+    onSuccess: () => {
+      utils.tradeCourt.myActiveEdict.invalidate();
+      utils.tradeCourt.courtSnapshot.invalidate();
+    },
+  });
+  const nameDynasty = trpc.tradeCourt.nameDynasty.useMutation({
+    onSuccess: () => utils.tradeCourt.myDynasty.invalidate(),
+  });
+  const dismissNewsDigest = trpc.tradeCourt.dismissNewsDigest.useMutation({
+    onSuccess: () => utils.tradeCourt.newsDigest.invalidate(),
+  });
+  const declareAllianceMut = trpc.tradeCourt.declareAlliance.useMutation({
+    onSuccess: () => utils.tradeCourt.myAlliances.invalidate(),
+  });
+  const betrayAllianceMut = trpc.tradeCourt.betrayAlliance.useMutation({
+    onSuccess: () => utils.tradeCourt.myAlliances.invalidate(),
   });
   const signContract = trpc.tradeContracts.sign.useMutation({
     onSuccess: () => {
@@ -225,11 +262,20 @@ export default function TradeCourtPage() {
           <p className="text-zinc-400 text-sm">
             Season {data.season.seasonNumber} ·{" "}
             <span className="capitalize">{data.season.phase}</span>{" "}
+            <span className="ml-2 text-zinc-500">
+              · phase ends in {formatCountdown(data.season.phaseEndsAt)}
+            </span>
             {data.season.acceptsContractSignings ? null : (
               <span className="ml-2 text-amber-400">
                 · contracts locked this phase
               </span>
             )}
+            {myDynasty.data ? (
+              <span className="ml-3 text-zinc-300">
+                · House <strong>{myDynasty.data.houseName}</strong> · led by{" "}
+                {myDynasty.data.currentLeader}
+              </span>
+            ) : null}
           </p>
         </div>
         <Link
@@ -249,6 +295,219 @@ export default function TradeCourtPage() {
             {declaration.headline}
           </div>
           <p className="text-zinc-400 text-sm mt-1 max-w-3xl">{declaration.text}</p>
+        </section>
+      )}
+
+      {/* Phase F: While-you-were-gone digest. Top of the dashboard
+          when there are unread events; dismissed by clicking anywhere. */}
+      {newsDigest.data && newsDigest.data.length > 0 && (
+        <section className="px-6 py-5 bg-emerald-950/30 border-b border-emerald-900">
+          <div className="flex items-center justify-between mb-2">
+            <h2 className="text-lg font-medium text-emerald-200">
+              While you were gone ({newsDigest.data.length})
+            </h2>
+            <button
+              type="button"
+              onClick={() => {
+                const maxId = Math.max(...newsDigest.data!.map(e => e.id));
+                dismissNewsDigest.mutate({ eventId: maxId });
+              }}
+              className="text-xs px-2 py-1 rounded bg-zinc-800 hover:bg-zinc-700 text-zinc-200"
+            >
+              Acknowledge all
+            </button>
+          </div>
+          <ol className="space-y-1">
+            {newsDigest.data.slice(0, 8).map(e => (
+              <li
+                key={e.id}
+                className="text-sm text-zinc-300 border-l-2 border-emerald-700 pl-3"
+              >
+                <div className="text-zinc-500 text-xs">
+                  {timeAgo(e.createdAt)} · {e.eventKind}
+                  {e.subjectHouseKey ? ` · ${e.subjectHouseKey}` : ""}
+                </div>
+                <div>{e.summary}</div>
+              </li>
+            ))}
+            {newsDigest.data.length > 8 && (
+              <li className="text-xs text-zinc-500 italic pl-3">
+                …and {newsDigest.data.length - 8} more
+              </li>
+            )}
+          </ol>
+        </section>
+      )}
+
+      {/* Phase F: Dynasty founding (one-time prompt). */}
+      {!myDynasty.data && (
+        <section className="px-6 py-5 bg-amber-950/30 border-b border-amber-900">
+          <h2 className="text-lg font-medium text-amber-200 mb-2">
+            Found your House
+          </h2>
+          <p className="text-zinc-400 text-sm mb-3">
+            Name a House (a legacy, not a person). Successors will inherit
+            faction biases. The dynasty book records every sealed treaty,
+            broken oath, and season declaration under your name.
+          </p>
+          <form
+            onSubmit={e => {
+              e.preventDefault();
+              const data = new FormData(e.currentTarget);
+              const name = String(data.get("houseName") || "").trim();
+              if (name) nameDynasty.mutate({ houseName: name });
+            }}
+            className="flex gap-2"
+          >
+            <input
+              type="text"
+              name="houseName"
+              maxLength={128}
+              placeholder="e.g. House of the First Witness"
+              className="flex-1 bg-zinc-800 border border-zinc-700 rounded p-2 text-sm"
+              required
+            />
+            <button
+              type="submit"
+              disabled={nameDynasty.isPending}
+              className="px-3 py-2 rounded bg-amber-700 hover:bg-amber-600 text-amber-50 text-sm"
+            >
+              Found House
+            </button>
+          </form>
+        </section>
+      )}
+
+      {/* Phase F: Active edict + edict catalogue. */}
+      <section className="px-6 py-5 border-b border-zinc-800">
+        <h2 className="text-lg font-medium mb-3">Edicts</h2>
+        {myActiveEdict.data ? (
+          <div className="bg-zinc-900 border border-amber-900 rounded p-3 mb-3">
+            <div className="text-xs uppercase tracking-wider text-amber-300 mb-1">
+              Active this season
+            </div>
+            <div className="font-medium">{myActiveEdict.data.name}</div>
+            <p className="text-xs text-zinc-400 mt-1">
+              {myActiveEdict.data.loreContext}
+            </p>
+          </div>
+        ) : (
+          <p className="text-zinc-500 text-sm mb-3">
+            No edict active this season. Issue one — bonuses are real;
+            costs are real.
+          </p>
+        )}
+        {!myActiveEdict.data && listEdicts.data && (
+          <div className="grid gap-2 md:grid-cols-2">
+            {listEdicts.data.map(e => (
+              <article
+                key={e.edictKey}
+                className="bg-zinc-900 border border-zinc-800 rounded p-3"
+              >
+                <div className="flex items-baseline justify-between mb-1">
+                  <div className="font-medium">{e.name}</div>
+                  <button
+                    type="button"
+                    onClick={() => issueEdict.mutate({ edictKey: e.edictKey })}
+                    disabled={issueEdict.isPending}
+                    className="text-xs px-2 py-1 rounded bg-amber-800 hover:bg-amber-700 text-amber-50 disabled:opacity-50"
+                  >
+                    Issue
+                  </button>
+                </div>
+                <p className="text-xs text-zinc-400 mb-2 line-clamp-3">
+                  {e.loreContext}
+                </p>
+                <div className="text-xs text-rose-300">
+                  cost:{" "}
+                  {e.costDeltas
+                    .map(c => `${c.houseKey} ${c.delta}`)
+                    .join(", ")}
+                </div>
+              </article>
+            ))}
+          </div>
+        )}
+      </section>
+
+      {/* Phase F: Alliances. */}
+      {myAlliances.data && (
+        <section className="px-6 py-5 border-b border-zinc-800">
+          <h2 className="text-lg font-medium mb-3">Alliances</h2>
+          {myAlliances.data.length === 0 ? (
+            <p className="text-zinc-500 text-sm">
+              No alliances declared. Click two sub-houses to ally them —
+              shared rep deltas double; betrayal costs both -20.
+            </p>
+          ) : (
+            <ul className="space-y-2">
+              {myAlliances.data.map(a => (
+                <li
+                  key={a.id}
+                  className="bg-zinc-900 border border-zinc-800 rounded p-2 flex justify-between items-center"
+                >
+                  <div className="text-sm">
+                    <strong>{a.houseA}</strong> ↔ <strong>{a.houseB}</strong>
+                    <span className="ml-2 text-xs text-zinc-500">
+                      season {a.seasonNumber} · {a.status}
+                    </span>
+                  </div>
+                  {a.status === "active" && (
+                    <button
+                      type="button"
+                      onClick={() => betrayAllianceMut.mutate({ allianceId: a.id })}
+                      disabled={betrayAllianceMut.isPending}
+                      className="text-xs px-2 py-1 rounded bg-rose-800 hover:bg-rose-700 text-rose-50 disabled:opacity-50"
+                    >
+                      Betray
+                    </button>
+                  )}
+                </li>
+              ))}
+            </ul>
+          )}
+          {/* Quick alliance picker — pairs the first two distinct sub-houses
+              the user can align with. Phase F.1 will replace with a graph picker. */}
+          {data.houses.length >= 2 && (
+            <details className="mt-3 text-xs text-zinc-400">
+              <summary className="cursor-pointer">Declare new alliance…</summary>
+              <form
+                onSubmit={e => {
+                  e.preventDefault();
+                  const fd = new FormData(e.currentTarget);
+                  const a = String(fd.get("houseA") || "");
+                  const b = String(fd.get("houseB") || "");
+                  if (a && b && a !== b) {
+                    declareAllianceMut.mutate({ houseAKey: a, houseBKey: b });
+                  }
+                }}
+                className="flex gap-2 mt-2"
+              >
+                <select name="houseA" className="bg-zinc-800 border border-zinc-700 rounded p-1.5">
+                  {data.houses.filter(h => !h.unalignable).map(h => (
+                    <option key={h.houseKey} value={h.houseKey}>
+                      {h.name}
+                    </option>
+                  ))}
+                </select>
+                <span className="self-center">↔</span>
+                <select name="houseB" className="bg-zinc-800 border border-zinc-700 rounded p-1.5">
+                  {data.houses.filter(h => !h.unalignable).map(h => (
+                    <option key={h.houseKey} value={h.houseKey}>
+                      {h.name}
+                    </option>
+                  ))}
+                </select>
+                <button
+                  type="submit"
+                  className="px-2 py-1 rounded bg-emerald-700 hover:bg-emerald-600 text-emerald-50"
+                  disabled={declareAllianceMut.isPending}
+                >
+                  Declare
+                </button>
+              </form>
+            </details>
+          )}
         </section>
       )}
 
