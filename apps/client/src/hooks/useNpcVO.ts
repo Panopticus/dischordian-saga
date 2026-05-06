@@ -9,7 +9,12 @@
    real-time lip sync via wawa-lipsync.
    ═══════════════════════════════════════════════════════ */
 import { useRef, useState, useCallback, useEffect } from "react";
-import { voPlaybackEnded, voPlaybackStarted } from "@/lib/voSpeakingState";
+import {
+  claimActiveVo,
+  releaseActiveVo,
+  voPlaybackEnded,
+  voPlaybackStarted,
+} from "@/lib/voSpeakingState";
 
 type Manifest = Record<string, string>;
 type ManifestLoader = () => Promise<Manifest>;
@@ -88,10 +93,9 @@ export function useNpcVO(key: string, loader: ManifestLoader): NpcVoApi {
       return;
     }
 
-    if (speakingRef.current) {
-      queueRef.current.push(lineId);
-      return;
-    }
+    // Latest speak() wins — drop anything we had queued so the user's
+    // most recent click takes priority over a stale serialization.
+    queueRef.current = [];
 
     const a = new Audio();
     a.crossOrigin = "anonymous";
@@ -111,6 +115,15 @@ export function useNpcVO(key: string, loader: ManifestLoader): NpcVoApi {
       }
     };
 
+    // Become the global active speaker NOW (synchronously). Doing it
+    // before play() resolves means call order is the deterministic
+    // tiebreaker when two hooks (e.g. Elara + Human) speak in the
+    // same tick. claimActiveVo synchronously pauses the previous
+    // active hook's audio, which fires its onpause and runs its
+    // cleanup — no overlap reaches the speakers.
+    const myStop = () => { a.pause(); };
+    claimActiveVo(myStop);
+
     a.onplay = () => {
       speakingRef.current = true;
       setSpeaking(true);
@@ -123,23 +136,27 @@ export function useNpcVO(key: string, loader: ManifestLoader): NpcVoApi {
       speakingRef.current = false;
       setSpeaking(false);
       finishPublish();
-      const next = queueRef.current.shift();
-      if (next) speak(next);
+      releaseActiveVo(myStop);
     };
     a.onerror = () => {
       speakingRef.current = false;
       setSpeaking(false);
       finishPublish();
+      releaseActiveVo(myStop);
     };
     a.onpause = () => {
       if (a.ended) return;
+      speakingRef.current = false;
+      setSpeaking(false);
       finishPublish();
+      releaseActiveVo(myStop);
     };
 
     a.play().catch(() => {
       speakingRef.current = false;
       setSpeaking(false);
       finishPublish();
+      releaseActiveVo(myStop);
     });
   }, [key, loader]);
 
