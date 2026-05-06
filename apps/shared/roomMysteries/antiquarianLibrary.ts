@@ -11,7 +11,8 @@ import type { RoomMysteryModule } from "./_template";
 export type AntiquarianLibraryHotspotId =
   | "card-catalog"
   | "locked-vault"
-  | "antiquarian-bust";
+  | "antiquarian-bust"
+  | "hierophants-marginalia-stack";
 
 export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHotspotId> = {
   roomId: "antiquarian-library",
@@ -254,6 +255,91 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
             "jericho.e1.akai_shi_aftermath",
             "jericho.e3.lionism_imprint_protocol",
             "jericho.e5.wraith_pre_rite_contract",
+          ],
+        },
+      },
+    },
+    // Seer arc: e2-e5 clue surface in the Antiquarian's library. The
+    // existing card-catalog/locked-vault/antiquarian-bust hotspots
+    // carry their own arc bindings; this stack — the Hierophant's
+    // marginalia, accumulated on every catalog card he ever signed
+    // out — is the local surface for the Seer arc's library clues.
+    "hierophants-marginalia-stack": {
+      look: {
+        narration: {
+          lucid:
+            "A small stack of catalog cards on the antiquarian-desk's far corner — every card the Hierophant has ever signed out, with his marginalia preserved on the back. The two cards on top are dated the same day, four hours apart. His marginalia on each card explicitly references the other. Both cards predict — and the predictions disagree.",
+          fragmented:
+            "Both cards. Both cards. He read both. He read both. He marked both. He marked both.",
+          luminous:
+            "The two top cards are the cataloguing slips for tapes VAR-1109A and VAR-1109B. The Hierophant's marginalia on each card cites the other and adds: 'load-bearing pair — do not separate.' He read both prophecies, treated them as a single deliberate two-part work, and signed his name to the pairing. Whoever the Seer was waiting for, the Hierophant has spent four hundred years preserving the pair on the Seer's behalf.",
+        },
+        voId: "elara.antiquarian-library.hierophants-marginalia-stack.look",
+        logsClue: {
+          id: "clue-antiquarian-hierophant-marginalia",
+          title: "Hierophant's marginalia: VAR-1109A/B is a deliberate pair",
+          body:
+            "The Antiquarian Library's marginalia stack has the Hierophant's signed annotations on both VAR-1109A and VAR-1109B catalog cards: 'load-bearing pair — do not separate.' The Hierophant has spent four centuries preserving the prophecy pair as a deliberate two-part work.",
+          source: "antiquarian-library",
+          order: 3,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.the_seer",
+          episodeId: "seer.e2",
+          cluesFound: ["seer.e2.hierophant_marginalia"],
+        },
+      },
+      use: {
+        narration: {
+          lucid:
+            "You leaf the stack downward. Beneath the morning/afternoon pair: the catalog card for the Seer's last consultation — DEC-7710 — bearing the Hierophant's annotation that the session was unsolicited and self-recorded. Behind that: a thick journal in Wraith Calder's hand, dated to his pre-rite years, with a passage flagged by the Hierophant's bookmark. The flagged passage describes the Seer's last consultation in language Wraith does not have words for, ending: 'I will not record what I heard. I will record that I heard.'",
+          fragmented:
+            "I heard. I heard. I will record that I heard. I heard. I heard. I will record.",
+          luminous:
+            "Two artefacts in succession. The DEC-7710 catalog card — the unsolicited session, the self-recording — annotated by the Hierophant as the inflection point of the Seer's discipline. Wraith's pre-rite journal — flagged at the passage where Wraith attended that final consultation as a witness and refused, in writing, to commit what he heard to record while still recording the fact of the witness. Two readers, two centuries apart, both honouring the Seer's record-and-suppress protocol.",
+        },
+        voId: "elara.antiquarian-library.hierophants-marginalia-stack.use",
+        logsClue: {
+          id: "clue-antiquarian-last-consultation-card",
+          title: "DEC-7710 catalog card + Wraith's pre-rite journal flag",
+          body:
+            "The Antiquarian Library's marginalia stack holds the catalog card for the Seer's last consultation (DEC-7710) and Wraith Calder's pre-rite journal flagged at his witness passage. Two readers across two centuries honoured the Seer's record-and-suppress discipline.",
+          source: "antiquarian-library",
+          order: 4,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.the_seer",
+          episodeId: "seer.e3",
+          cluesFound: [
+            "seer.e3.last_consultations_card",
+            "seer.e3.wraith_journal_entry",
+          ],
+        },
+      },
+      talk: {
+        narration: {
+          lucid:
+            "If you address the stack, the topmost card warms — the Hierophant's marginalia briefly glows phosphor-lavender. Beneath the warmed card a sealed envelope rises, addressed to Vex Solène in the Seer's hand and never delivered. Beside it, a single ledger card the Hierophant filed last week: CANON REGISTER — PARADOX ENTRY, marking the cancelling prophecy as both extant and self-cancelled in the same line. The library has been holding all of this against the day a witness arrived.",
+          fragmented:
+            "To Vex. To Vex. He wrote to Vex. He wrote to Vex. He wrote to Vex and never sent it.",
+          luminous:
+            "Three artefacts surface. The undelivered letter to Vex Solène — the Seer wrote to his engineer-of-record but did not send it. The canon-register paradox card — a Hierophant filing that holds both 'this prophecy exists' and 'this prophecy has cancelled itself' on the same line, dated last week. The library has been keeping the saga's bookkeeping for centuries; the paradox entry is its way of telling us that the canon itself recognises the Seer's last work as a deliberate self-cancelling act.",
+        },
+        voId: "elara.antiquarian-library.hierophants-marginalia-stack.talk",
+        logsClue: {
+          id: "clue-antiquarian-letter-to-vex-and-paradox",
+          title: "Undelivered Seer→Vex letter + Canon Register paradox entry",
+          body:
+            "The Antiquarian Library's marginalia stack holds the Seer's sealed undelivered letter to Vex Solène and a Hierophant-filed CANON REGISTER paradox entry that records the cancelling prophecy as both extant and self-cancelled. The canon recognises the Seer's last work as a deliberate self-cancelling act.",
+          source: "antiquarian-library",
+          order: 5,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.the_seer",
+          episodeId: "seer.e4",
+          cluesFound: [
+            "seer.e4.seers_letter_to_vex",
+            "seer.e5.canon_register_paradox",
           ],
         },
       },

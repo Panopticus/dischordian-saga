@@ -183,8 +183,17 @@ export const ENGINEERING_MYSTERY: RoomMysteryModule<EngineeringHotspotId, Engine
       },
       talk: {
         narration:
-          "Elara: \"The core hums in B-flat. It always has. Every engineer who worked here learned to detect the bleed by listening for the half-tone drift. Today's hum is one-eighth flat of nominal — closer than the readout suggests, slower than the panel says. The core is steadier than its instruments. Address it; it knows you are here.\"",
+          "Elara: \"The core hums in B-flat. It always has. Every engineer who worked here learned to detect the bleed by listening for the half-tone drift. Today's hum is one-eighth flat of nominal — closer than the readout suggests, slower than the panel says. The core is steadier than its instruments. Address it; it knows you are here. — There is also a small acoustic signature in the reactor's standing pulse that does not belong to the core itself: a drift pattern matching, on direct comparison, the drift of every Variant Recording the Seer ever made. Whoever engineered the reactor's standing pulse is the same engineer who engineered the recordings. Vex Solène, on every front, on every project, leaving the same fingerprint.\"",
         voId: "elara.engineering.reactor-core.talk",
+        // Seer arc binding — the acoustic signature drift in the
+        // reactor's hum is the cross-medium fingerprint that
+        // identifies Vex Solène as the Seer's engineer-of-record.
+        // seer.e4.acoustic_signature_drift foundIn: engineering.
+        mysteryBinding: {
+          mysteryId: "mystery.the_seer",
+          episodeId: "seer.e4",
+          cluesFound: ["seer.e4.acoustic_signature_drift"],
+        },
       },
     },
     "blueprints": {
