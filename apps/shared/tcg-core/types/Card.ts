@@ -64,7 +64,8 @@ export type Keyword =
   | "fury" // attacks hit with extra ferocity (multi-attack)
   | "pack" // +1 power per other ally with the same defId (engine/combat.ts packBonus)
   | "rally_buff" // on deploy, buffs adjacent friendly units
-  | "resurrect"; // returns once at full health on first death (engine/stateBasedActions.ts Pass 1a)
+  | "resurrect" // returns once at full health on first death (engine/stateBasedActions.ts Pass 1a)
+  | "flanking"; // +N power when attacking a target the unit's ally is also adjacent to (engine/combat.ts flankingBonus, plan §C1)
 
 /**
  * Trial-phase category tags used by §5.8 Authority match (Act 1 finale).
