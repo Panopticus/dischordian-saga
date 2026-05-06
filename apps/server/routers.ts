@@ -93,6 +93,7 @@ import { epochWitnessRouter } from "./routers/epochWitness";
 import { eidolonBondRouter } from "./routers/eidolonBond";
 import { npcRouter } from "./routers/npc";
 import { tradeContractsRouter } from "./routers/tradeContracts";
+import { tradeCourtRouter } from "./routers/tradeCourt";
 import { techTreeRouter } from "./routers/techTree";
 import { masteryTreeRouter } from "./routers/masteryTree";
 import { guildHallRouter } from "./routers/guildHall";
@@ -239,6 +240,7 @@ export const appRouter = router({
   eidolonBond: eidolonBondRouter,
   npc: npcRouter,
   tradeContracts: tradeContractsRouter,
+  tradeCourt: tradeCourtRouter,
   techTree: techTreeRouter,
   masteryTree: masteryTreeRouter,
   guildHall: guildHallRouter,

@@ -31,6 +31,30 @@ import {
 import { clausesAtSigning } from "../../shared/tradeEmpire/contracts";
 import { isKnownBrokerKey, BROKER_REGISTRY } from "../../shared/tradeEmpire/brokers";
 import type { ContractDef, ContractHiddenClause } from "../../shared/tradeEmpire/contracts";
+import { applySubHouseRepDelta } from "../services/subHouseReputationService";
+import { postPublicKnowledge } from "../services/publicKnowledgeService";
+import { seasonClockService } from "../services/seasonClockService";
+import { applyDeclarationModifier } from "../../shared/tradeEmpire/declarations";
+import { SUB_HOUSE_REGISTRY, type SubHouseKey } from "../../shared/tradeEmpire/houses";
+
+/**
+ * Map a brokerKey to the sub-house its contracts primarily advance.
+ * Phase 2: a small static table, sourced from the bible-faithful
+ * sub-house registry. Phase 3+ may extend BrokerDef with this field
+ * directly so it lives next to the broker definition.
+ */
+const BROKER_TO_PRIMARY_SUB_HOUSE: Readonly<Record<string, SubHouseKey>> = {
+  broker_locke: "nb_authoritys_ledger",
+  broker_nilmorg_severance: "hierarchy_severance",
+  broker_degen_casino: "antiquarian_casino",
+  broker_antiquarian_archive: "antiquarian_shelfmates",
+  broker_independent_freeport: "ind_freeports",
+  broker_thaloria_quietwork: "thaloria_quietwork",
+};
+
+function primarySubHouseForBroker(brokerKey: string): SubHouseKey | null {
+  return BROKER_TO_PRIMARY_SUB_HOUSE[brokerKey] ?? null;
+}
 
 // --- Validation ----------------------------------------------------------
 
@@ -83,6 +107,20 @@ async function applyClauseEffects(
               lockedOutReason: clause.clauseId,
             });
           }
+          // Post a public-knowledge event so other NPCs can react.
+          const lockedHouse = primarySubHouseForBroker(eff.brokerKey);
+          await postPublicKnowledge({
+            userId,
+            eventKind: "contract_signed",
+            subjectHouseKey: lockedHouse,
+            summary: `${BROKER_REGISTRY[eff.brokerKey]?.name ?? eff.brokerKey} locked out by clause ${clause.clauseId}.`,
+            payload: {
+              brokerKey: eff.brokerKey,
+              clauseId: clause.clauseId,
+              kind: "lock_out_broker",
+            },
+            seasonNumber: seasonClockService.getState().seasonNumber,
+          }).catch(err => logger.warn("lock_out_broker public knowledge failed", { err }));
           break;
         }
         case "trust_delta": {
@@ -355,6 +393,42 @@ export const tradeContractsRouter = router({
       emitContractSignedRipple(userId, template, audited);
       emitBrokerEngagementRipple(userId, template, "mission_accepted");
 
+      // Phase 2 — sub-house reputation delta. Signing advances the
+      // broker's primary sub-house (and anti-correlates with its
+      // rival via rivalryDeltas). Active season declarations amplify
+      // the delta when it touches the issuing or target house.
+      const primaryHouse = primarySubHouseForBroker(template.brokerKey);
+      if (primaryHouse) {
+        const baseDelta = 8; // Stake-per-signing — tuned conservatively in phase 2.
+        const declaration = seasonClockService.getState().declaration;
+        const modifiedDelta = applyDeclarationModifier(
+          declaration,
+          primaryHouse,
+          baseDelta,
+        );
+        await applySubHouseRepDelta(
+          userId,
+          primaryHouse,
+          modifiedDelta,
+          `signed ${template.contractKey}`,
+        ).catch(err => logger.warn("subHouseRep on signing failed", { err }));
+
+        // Public-knowledge entry tied to the sub-house, so any NPC
+        // belonging to that house picks it up next session.
+        await postPublicKnowledge({
+          userId,
+          eventKind: "contract_signed",
+          subjectHouseKey: primaryHouse,
+          summary: `${SUB_HOUSE_REGISTRY[primaryHouse].name} acknowledged a new signing: ${template.name}.`,
+          payload: {
+            contractKey: template.contractKey,
+            brokerKey: template.brokerKey,
+            audited,
+          },
+          seasonNumber: seasonClockService.getState().seasonNumber,
+        }).catch(err => logger.warn("public knowledge on signing failed", { err }));
+      }
+
       return {
         ok: true,
         contractId: insertResult?.id,
@@ -417,6 +491,33 @@ export const tradeContractsRouter = router({
         });
       } catch (err) {
         logger.warn("contract_broken ripple failed", { err });
+      }
+
+      // Phase 2 — breach costs sub-house rep. Cancelling a signed
+      // contract costs more than declining one; we apply a negative
+      // delta to the broker's primary sub-house and post a public
+      // event so rival NPCs can comment.
+      const primaryHouse = primarySubHouseForBroker(row.brokerKey);
+      if (primaryHouse) {
+        await applySubHouseRepDelta(
+          userId,
+          primaryHouse,
+          -12,
+          `breached ${row.contractKey}`,
+        ).catch(err => logger.warn("subHouseRep on breach failed", { err }));
+
+        await postPublicKnowledge({
+          userId,
+          eventKind: "contract_breached",
+          subjectHouseKey: primaryHouse,
+          summary: `${SUB_HOUSE_REGISTRY[primaryHouse].name} records a breached contract: ${template.name}.`,
+          payload: {
+            contractKey: template.contractKey,
+            brokerKey: row.brokerKey,
+            cancellationCost: template.cancellationCost ?? 0,
+          },
+          seasonNumber: seasonClockService.getState().seasonNumber,
+        }).catch(err => logger.warn("public knowledge on breach failed", { err }));
       }
 
       return {
