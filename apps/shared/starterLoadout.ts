@@ -27,7 +27,17 @@ export type FoundationKey = "humanity" | "machine";
 // three in-game species. The distinction lives because a human
 // operative can still carry one of the three species decals on
 // their mask (per plan: mask motif is keyed by species).
+//
+// Phase C migration: StarterSpecies is the canonical
+// `starterPlayable` subset of SPECIES_REGISTRY in
+// apps/shared/species/registry.ts. The compile-time invariant
+// below asserts subset-ness; runtime tests in
+// apps/shared/species/__tests__/registry.test.ts check the two
+// stay aligned.
+import type { SpeciesKey as CanonicalSpeciesKey } from "./species/registry";
 export type StarterSpecies = "demagi" | "quarchon" | "neyon" | "human";
+const _starterIsRegistrySubset: StarterSpecies extends CanonicalSpeciesKey ? true : false = true;
+void _starterIsRegistrySubset;
 
 export interface StarterLoadout {
   baseMaskId: string;
