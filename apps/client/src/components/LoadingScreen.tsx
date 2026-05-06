@@ -36,6 +36,7 @@ const ROUTE_SCREEN_MAP: Record<string, string> = {
   "/store": "trade",
   "/search": "archives",
   "/codex": "archives",
+  "/civilopedia": "archives",
   "/entity": "archives",
   "/terminus": "terminus",
   "/tower-defense": "terminus",

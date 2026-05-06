@@ -89,6 +89,7 @@ const SYSTEMS: SystemDef[] = [
     routes: [
       { path: "/search", label: "DATABASE", icon: Search, desc: "Search all entries" },
       { path: "/codex", label: "THE CODEX", icon: BookOpen, desc: "Lore library" },
+      { path: "/civilopedia", label: "CIVILOPEDIA", icon: BookOpen, desc: "Cross-linked reference" },
     ],
   },
   {

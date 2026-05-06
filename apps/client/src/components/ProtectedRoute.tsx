@@ -21,6 +21,7 @@ export const ROUTE_ROOM_MAP: Record<string, string> = {
   // Archives routes
   "/search": "archives",
   "/codex": "archives",
+  "/civilopedia": "archives",
   // Comms Array routes
   "/watch": "comms-array",
   "/conexus-portal": "comms-array",

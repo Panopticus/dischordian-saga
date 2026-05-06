@@ -181,6 +181,7 @@ const SagaTimelinePage = lazy(() => import("./pages/SagaTimelinePage"));
 const FavoritesPage = lazy(() => import("./pages/FavoritesPage"));
 const LoreQuizPage = lazy(() => import("./pages/LoreQuizPage"));
 const CodexPage = lazy(() => import("./pages/CodexPage"));
+const CivilopediaPage = lazy(() => import("./pages/CivilopediaPage"));
 // CardBattlePage removed — redirects to Dischordia
 const CardBattlePage = lazy(() => import("./game/duelyst/DuelystPage"));
 const DuelystPage = lazy(() => import("./game/duelyst/DuelystPage"));
@@ -416,6 +417,7 @@ function Router() {
         <Route path="/favorites" component={FavoritesPage} />
         <Route path="/quiz" component={LoreQuizPage} />
         <Route path="/codex" component={CodexPage} />
+        <Route path="/civilopedia" component={CivilopediaPage} />
         <Route path="/store" component={StorePage} />
         <Route path="/battle">{() => <GameRoute component={CardBattlePage} />}</Route>
         <Route path="/card-gallery">{() => <Suspense fallback={<CardGridSkeleton />}><CardGalleryPage /></Suspense>}</Route>
