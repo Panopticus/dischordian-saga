@@ -7,6 +7,7 @@ import { useGameAreaBGM } from "@/contexts/GameAudioContext";
    ═══════════════════════════════════════════════════════ */
 import { useState, useCallback, useEffect, useMemo, useRef } from "react";
 import { dialogOpened, dialogClosed } from "@/lib/dialogState";
+import { claimActiveVo, releaseActiveVo } from "@/lib/voSpeakingState";
 import { useGame, ROOM_DEFINITIONS, type HotspotDef, type RoomDef } from "@/contexts/GameContext";
 import { resolveRoomBackgroundUrl } from "@/game/roomStateAssets";
 import { getRoomTier, type RoomTier } from "@shared/roomTier";
@@ -243,8 +244,13 @@ function ElaraPopup({ text, onClose, voUrl }: { text: string | string[]; onClose
     const audio = new Audio(voUrl);
     audio.volume = 0.92;
     audioRef.current = audio;
+    // Funnel through the single-active-VO bus so this legacy URL path
+    // can't overlap with hook-driven lines from elara/human/etc.
+    const myStop = () => { audio.pause(); };
+    claimActiveVo(myStop);
     audio.play().catch(() => {/* autoplay blocked */});
     return () => {
+      releaseActiveVo(myStop);
       audio.pause();
       audioRef.current = null;
     };

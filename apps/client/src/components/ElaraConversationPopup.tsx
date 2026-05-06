@@ -29,6 +29,7 @@ import { motion } from "framer-motion";
 import { X } from "lucide-react";
 import HolographicElara from "@/components/HolographicElara";
 import type { NpcVoApi } from "@/hooks/useNpcVO";
+import { claimActiveVo, releaseActiveVo } from "@/lib/voSpeakingState";
 
 /* ─── Types ───
    The popup accepts choices in a shape that's a strict superset of
@@ -171,8 +172,14 @@ export function ElaraConversationPopup({
       audio.crossOrigin = "anonymous";
       audio.volume = 0.92;
       legacyAudioRef.current = audio;
+      // Wire the legacy URL path through the same single-active-VO bus
+      // the hook-driven paths use, so a hover whisper or popup line
+      // started elsewhere gets cancelled when this Elara line begins.
+      const myStop = () => { audio.pause(); };
+      claimActiveVo(myStop);
       audio.play().catch(() => { /* autoplay blocked */ });
       return () => {
+        releaseActiveVo(myStop);
         audio.pause();
         legacyAudioRef.current = null;
       };

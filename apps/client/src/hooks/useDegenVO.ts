@@ -1,5 +1,6 @@
 /* useDegenVO — Plays Degen's voice lines */
 import { useRef, useState, useCallback, useEffect } from "react";
+import { claimActiveVo, releaseActiveVo } from "@/lib/voSpeakingState";
 let manifest: Record<string, string> | null = null;
 let loaded = false;
 async function loadManifest() {
@@ -14,14 +15,17 @@ export function useDegenVO() {
   useEffect(() => { loadManifest(); }, []);
   const speak = useCallback((lineId: string) => {
     if (!manifest || !manifest[lineId]) return;
-    if (speaking) { queueRef.current.push(lineId); return; }
+    queueRef.current = [];
     const audio = new Audio(manifest[lineId]);
     audioRef.current = audio; audio.volume = 0.8;
+    const myStop = () => { audio.pause(); };
+    claimActiveVo(myStop);
     audio.onplay = () => setSpeaking(true);
-    audio.onended = () => { setSpeaking(false); const n = queueRef.current.shift(); if (n) speak(n); };
-    audio.onerror = () => setSpeaking(false);
-    audio.play().catch(() => setSpeaking(false));
-  }, [speaking]);
+    audio.onended = () => { setSpeaking(false); releaseActiveVo(myStop); };
+    audio.onerror = () => { setSpeaking(false); releaseActiveVo(myStop); };
+    audio.onpause = () => { if (!audio.ended) { setSpeaking(false); releaseActiveVo(myStop); } };
+    audio.play().catch(() => { setSpeaking(false); releaseActiveVo(myStop); });
+  }, []);
   const stop = useCallback(() => {
     if (audioRef.current) { audioRef.current.pause(); audioRef.current = null; }
     queueRef.current = []; setSpeaking(false);
