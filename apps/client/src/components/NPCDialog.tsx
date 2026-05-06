@@ -10,11 +10,10 @@
 import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  MessageCircle, X, ChevronRight, Radio, AlertTriangle,
-  Shield, Skull, Clock, Eye, Zap, BookOpen, Brain, Heart, Sword,
-  Lock, Unlock, Star, Sparkles,
+  X, Radio, AlertTriangle,
+  Skull, Clock, Eye, Zap, BookOpen,
 } from "lucide-react";
-import { FACTION_NPCS, type FactionNPCId, type FactionNPC } from "@/game/factionNPCs";
+import { FACTION_NPCS, type FactionNPCId } from "@/game/factionNPCs";
 import { useGame } from "@/contexts/GameContext";
 import { GIFT_ITEMS, calculateGiftResult, type GiftItem, type NpcId, type GiftItemId } from "@/game/npcGifts";
 import { useNPCPhysics } from "@/engine/useVoidEngine";
@@ -28,39 +27,15 @@ import { ARCHON_VOICE_MAPPING } from "@/game/archonTrainingVoices";
 import { KineticText } from "@/components/void";
 import type { NarrativeEffect } from "@/engine/voidNarrative";
 import { VOID } from "@/engine/voidPresets";
-import { rollSkillCheck, deriveSkillStats, type SkillType } from "@/lib/dialogSkillCheck";
+import { deriveSkillStats, type SkillType } from "@/lib/dialogSkillCheck";
+import NPCDialogChoiceWheel from "./NPCDialogChoiceWheel";
 
-/* ─── ME-style choice affordance icons (mirrors DialogWheel) ─── */
+// Choice-affordance icons (SKILL_ICONS / SKILL_COLORS / RARITY_COLORS)
+// moved into NPCDialogChoiceWheel.tsx — they only render inside the
+// choice list and the wheel internalises that rendering now.
 
-const SKILL_ICONS: Record<SkillType, typeof Brain> = {
-  charisma: Heart,
-  intelligence: Brain,
-  strength: Sword,
-  perception: Eye,
-  willpower: Shield,
-  agility: Zap,
-};
-
-const SKILL_COLORS: Record<SkillType, string> = {
-  charisma: "void-text-error",
-  intelligence: "void-text-energy",
-  strength: "void-text-error",
-  perception: "void-text-error",
-  willpower: "void-text-system",
-  agility: "void-text-energy",
-};
-
-type CardRarity = "common" | "uncommon" | "rare" | "epic" | "legendary" | "mythic";
 type MoralityAlignment = "machine" | "humanity" | "neutral";
-
-const RARITY_COLORS: Record<CardRarity, string> = {
-  common: "void-text",
-  uncommon: "void-text-energy",
-  rare: "void-text-energy",
-  epic: "void-text-system",
-  legendary: "void-text-error",
-  mythic: "void-text-error",
-};
+type CardRarity = "common" | "uncommon" | "rare" | "epic" | "legendary" | "mythic";
 
 /* ─── MANIFESTATION STYLES ─── */
 
@@ -210,13 +185,9 @@ export default function NPCDialog({ npcId, scene, onClose, onChoice }: NPCDialog
     [state.characterChoices],
   );
 
-  // Per-choice skill-check state — keyed by choice.id so the SUCCESS/
-  // FAILED badge persists after the roll, and a failed roll disables
-  // re-clicking. Resets when the scene changes.
-  const [skillCheckResults, setSkillCheckResults] = useState<
-    Record<string, { passed: boolean; roll: number } | undefined>
-  >({});
-  const [rollingChoiceId, setRollingChoiceId] = useState<string | null>(null);
+  // Per-choice skill-check state previously lived here; the §D1
+  // promotion moved it into NPCDialogChoiceWheel where the roll UI
+  // is rendered.
 
   // NPC relationship state (tier + personality based on player archetype)
   const relationship = useMemo(
@@ -301,8 +272,9 @@ export default function NPCDialog({ npcId, scene, onClose, onChoice }: NPCDialog
     setShowChoices(false);
     setKineticKey(k => k + 1);
     setAudioWorked(false);
-    setSkillCheckResults({});
-    setRollingChoiceId(null);
+    // Skill-check roll state lives in NPCDialogChoiceWheel; the wheel
+    // remounts on scene-change because its `choices` prop reference
+    // changes, so per-scene reset happens automatically.
     if (scene.voLineId) {
       vo.speak(scene.voLineId);
     }
@@ -560,199 +532,21 @@ export default function NPCDialog({ npcId, scene, onClose, onChoice }: NPCDialog
             </motion.div>
           )}
 
-          {/* Choices */}
+          {/* Choices — D1 promotion: NPCDialogChoiceWheel renders the
+              ME-style alignment-sorted wheel with HUMANITY/NEUTRAL/MACHINE
+              legend and the right-side affordance cluster. Skill-check
+              roll state is internalised in the wheel component, so
+              NPCDialog no longer needs to track skillCheckResults /
+              rollingChoiceId locally. */}
           <AnimatePresence>
             {showChoices && scene.choices.length > 0 && (
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="px-4 pb-4 space-y-2"
-              >
-                {scene.choices.map((choice, i) => {
-                  const sc = choice.skillCheck;
-                  const result = skillCheckResults[choice.id];
-                  const rolling = rollingChoiceId === choice.id;
-                  const isHumanity = choice.alignment === "humanity";
-                  const isMachine = choice.alignment === "machine";
-                  const failedLocked = !!result && !result.passed;
-
-                  const handleClick = (e: React.MouseEvent) => {
-                    e.stopPropagation();
-                    if (failedLocked || rolling) return;
-                    if (sc && !result) {
-                      setRollingChoiceId(choice.id);
-                      const stat = playerStats[sc.skill] ?? 0;
-                      const rolled = rollSkillCheck(stat, sc.threshold);
-                      setTimeout(() => {
-                        setSkillCheckResults((prev) => ({
-                          ...prev,
-                          [choice.id]: { passed: rolled.passed, roll: rolled.roll },
-                        }));
-                        setRollingChoiceId(null);
-                        setTimeout(() => onChoice(choice, rolled.passed), 700);
-                      }, 600);
-                      return;
-                    }
-                    onChoice(choice, true);
-                  };
-
-                  return (
-                    <motion.button
-                      key={choice.id}
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: i * 0.1 }}
-                      onClick={handleClick}
-                      onMouseEnter={() => setHoveredArchetype(choice.archetype)}
-                      onMouseLeave={() => setHoveredArchetype(null)}
-                      disabled={failedLocked || rolling}
-                      className={`relative w-full flex items-center gap-2 p-3 rounded-lg border transition-all text-left group hover:brightness-125 ${
-                        isHumanity ? "void-border-success void-bg-success"
-                          : isMachine ? "void-border-error void-bg-error" : ""
-                      } ${failedLocked ? "opacity-30 line-through" : ""}`}
-                      style={!isHumanity && !isMachine ? {
-                        borderColor: `${npc.color}15`,
-                        backgroundColor: `${npc.color}05`,
-                      } : undefined}
-                    >
-                      {/* Alignment indicator bar — only when alignment is set */}
-                      {choice.alignment && (
-                        <div className={`w-1 self-stretch rounded-full flex-shrink-0 ${
-                          isHumanity ? "void-bg-success"
-                            : isMachine ? "void-bg-error"
-                              : "bg-muted-foreground/30"
-                        }`} />
-                      )}
-
-                      <ChevronRight size={12} style={{ color: `${npc.color}60` }}
-                        className="group-hover:translate-x-0.5 transition-transform flex-shrink-0" />
-
-                      <div className="flex-1 min-w-0">
-                        <p className={`font-mono text-xs group-hover:text-white transition-colors ${
-                          isHumanity ? "void-text-energy"
-                            : isMachine ? "void-text-error" : "text-white/80"
-                        }`}>
-                          {choice.label}
-                        </p>
-                        <div className="flex items-center gap-2 mt-0.5">
-                          <span className="font-mono text-[8px] text-white/20">
-                            [{choice.archetype}]
-                          </span>
-                          {choice.secretFromElara && (
-                            <span className="font-mono text-[7px] void-text-error">SECRET</span>
-                          )}
-                          {choice.trustChange !== 0 && (
-                            <span className={`font-mono text-[8px] ${choice.trustChange > 0 ? "void-text-energy" : "void-text-error"}`}>
-                              {choice.trustChange > 0 ? "+" : ""}{choice.trustChange} trust
-                            </span>
-                          )}
-                        </div>
-                      </div>
-
-                      {/* Right-side affordances — skill-check, reward, morality shift */}
-                      <div className="flex items-center gap-1.5 flex-shrink-0">
-                        {sc && (() => {
-                          const SkillIcon = SKILL_ICONS[sc.skill];
-                          return (
-                            <div
-                              className={`flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-mono ${
-                                result
-                                  ? result.passed
-                                    ? "void-bg-success void-text-energy"
-                                    : "void-bg-error void-text-error"
-                                  : `bg-muted/30 ${SKILL_COLORS[sc.skill]}`
-                              }`}
-                              data-testid={`skill-check-${choice.id}`}
-                            >
-                              <SkillIcon size={10} />
-                              {result ? (
-                                result.passed ? <Unlock size={10} /> : <Lock size={10} />
-                              ) : (
-                                <span>{sc.threshold}</span>
-                              )}
-                            </div>
-                          );
-                        })()}
-
-                        {choice.cardRewardRarity && (
-                          <div className={`flex items-center gap-0.5 px-1 py-0.5 rounded text-[10px] font-mono ${
-                            RARITY_COLORS[choice.cardRewardRarity]
-                          }`}>
-                            <Star size={9} />
-                            <span className="uppercase tracking-wider">
-                              {choice.cardRewardRarity.slice(0, 3)}
-                            </span>
-                          </div>
-                        )}
-
-                        {choice.moralityShift !== undefined && choice.moralityShift !== 0 && (() => {
-                          const absVal = Math.abs(choice.moralityShift);
-                          const isMachineShift = choice.moralityShift < 0;
-                          return (
-                            <div className="flex items-center gap-1 text-[10px] font-mono font-bold">
-                              {isMachineShift ? (
-                                <>
-                                  <span className="void-text-error">+{absVal}</span>
-                                  <span className="text-muted-foreground/40">/</span>
-                                  <span className="void-text-energy">-{absVal}</span>
-                                </>
-                              ) : (
-                                <>
-                                  <span className="void-text-energy">+{absVal}</span>
-                                  <span className="text-muted-foreground/40">/</span>
-                                  <span className="void-text-error">-{absVal}</span>
-                                </>
-                              )}
-                            </div>
-                          );
-                        })()}
-                      </div>
-
-                      {/* Skill-check rolling overlay */}
-                      <AnimatePresence>
-                        {rolling && (
-                          <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            exit={{ opacity: 0 }}
-                            className="absolute inset-0 flex items-center justify-center bg-background/85 rounded-lg"
-                          >
-                            <div className="flex items-center gap-2 text-sm font-mono">
-                              <motion.div
-                                animate={{ rotate: 360 }}
-                                transition={{ duration: 0.6, repeat: Infinity, ease: "linear" }}
-                              >
-                                <Sparkles size={14} className="text-primary" />
-                              </motion.div>
-                              <span className="text-primary">SKILL CHECK...</span>
-                            </div>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-
-                      {/* Skill-check result overlay */}
-                      <AnimatePresence>
-                        {result && (
-                          <motion.div
-                            initial={{ opacity: 0, scale: 0.9 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            exit={{ opacity: 0 }}
-                            className={`absolute inset-0 flex items-center justify-center rounded-lg ${
-                              result.passed ? "void-bg-success" : "void-bg-error"
-                            }`}
-                          >
-                            <span className={`text-xs font-mono font-bold tracking-wider ${
-                              result.passed ? "void-text-energy" : "void-text-error"
-                            }`}>
-                              {result.passed ? "SUCCESS" : "FAILED"} [{result.roll}]
-                            </span>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </motion.button>
-                  );
-                })}
-              </motion.div>
+              <NPCDialogChoiceWheel
+                choices={scene.choices}
+                npcColor={npc.color}
+                playerStats={playerStats}
+                onChoice={onChoice}
+                onHoverArchetype={setHoveredArchetype}
+              />
             )}
           </AnimatePresence>
 
