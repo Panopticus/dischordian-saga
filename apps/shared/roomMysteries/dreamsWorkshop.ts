@@ -90,16 +90,39 @@ export const DREAMS_WORKSHOP_MYSTERY: RoomMysteryModule<DreamsWorkshopHotspotId>
           source: "dreams-workshop-subbasement",
           order: 1,
         },
+        // Game Master arc — among the rack's vials is the Iron Lion
+        // imprint's letter to the saga, woven during E3 as
+        // endorsement of Brel as Velkraal's chosen successor.
+        // game_master.e3.imprint_endorsement_letter.
+        mysteryBinding: {
+          mysteryId: "mystery.game_master",
+          episodeId: "game_master.e3",
+          cluesFound: ["game_master.e3.imprint_endorsement_letter"],
+        },
       },
       use: {
         narration:
-          "You lift one of the older vials. The thread inside coils tighter when held in a warm hand — sensitive to body temperature even centuries on. The label is in a script I can read but cannot place; the dream it preserves is, by the colour of the thread, somebody's grief.",
+          "You lift one of the older vials. The thread inside coils tighter when held in a warm hand — sensitive to body temperature even centuries on. The label is in a script I can read but cannot place; the dream it preserves is, by the colour of the thread, somebody's grief. — Beside the older vials, a freshly racked one stands warmer than the others. The label, in handwriting I don't recognise but I think I should: 'Response, woven overnight.' The Iron Lion imprint does not ordinarily respond to specific letters — it weaves, when it weaves, in centuries-long arcs. This vial is dated last night.",
         voId: "elara.dreams-workshop.fragment-rack.use",
+        // Game Master arc — the Iron Lion imprint's overnight
+        // response. game_master.e4.imprint_response_woven_overnight.
+        mysteryBinding: {
+          mysteryId: "mystery.game_master",
+          episodeId: "game_master.e4",
+          cluesFound: ["game_master.e4.imprint_response_woven_overnight"],
+        },
       },
       talk: {
         narration:
-          "If you address the rack, the vials hum, very faintly, in their slots — finished dreams resonating with a fresh witness. The previous workshop's residents would have known what to say in answer. We do not, yet. We can learn.",
+          "If you address the rack, the vials hum, very faintly, in their slots — finished dreams resonating with a fresh witness. The previous workshop's residents would have known what to say in answer. We do not, yet. We can learn. — A single newer vial, stand-alone on the upper shelf, hums in counterpoint: the imprint's first letter to the new custodian, addressed to Brel'Sorrash by name. The letter is, by the imprint's standards, plain prose — no centuries-long arc, no riddles. Just: 'You are read. Continue.'",
         voId: "elara.dreams-workshop.fragment-rack.talk",
+        // Game Master arc — imprint's first letter to the new
+        // custodian. game_master.e5.imprint_first_letter_to_new_custodian.
+        mysteryBinding: {
+          mysteryId: "mystery.game_master",
+          episodeId: "game_master.e5",
+          cluesFound: ["game_master.e5.imprint_first_letter_to_new_custodian"],
+        },
       },
     },
     "mirror-pool": {

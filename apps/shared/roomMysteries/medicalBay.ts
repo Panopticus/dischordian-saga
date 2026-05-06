@@ -119,6 +119,16 @@ export const MEDICAL_BAY_MYSTERY: RoomMysteryModule<MedicalBayHotspotId> = {
             "The bed accepts you. Fresh vitals come up clean — clean enough — except for one trace marker that sits in the same odd register as the chart on the dead pod. I am telling you this on the slab so you hear it from me first. We will figure out what it means together. You are not alone with it.",
         },
         voId: "elara.medbay.bio-bed.use.t1",
+        // Game Master arc — the bio-bed's matrix-edit telemetry log
+        // surfaces a substrate anomaly in Velkraal'Sek's most recent
+        // edits. Found on this surface because the bed's substrate
+        // monitors are the only sensors fine enough to register
+        // matrix-layer perturbation. game_master.e2.matrix_edit_telemetry.
+        mysteryBinding: {
+          mysteryId: "mystery.game_master",
+          episodeId: "game_master.e2",
+          cluesFound: ["game_master.e2.matrix_edit_telemetry"],
+        },
         humanReaction: {
           narration: {
             shadow:

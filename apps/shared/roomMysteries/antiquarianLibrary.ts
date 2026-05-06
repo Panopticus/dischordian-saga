@@ -13,7 +13,8 @@ export type AntiquarianLibraryHotspotId =
   | "locked-vault"
   | "antiquarian-bust"
   | "hierophants-marginalia-stack"
-  | "codas-purpose-shelf";
+  | "codas-purpose-shelf"
+  | "velkraals-correspondence-folio";
 
 export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHotspotId> = {
   roomId: "antiquarian-library",
@@ -412,6 +413,66 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           episodeId: "degen.e5",
           cluesFound: ["degen.e5.degens_letter_to_the_saga"],
         },
+      },
+    },
+    // Game Master arc: Velkraal's correspondence + draft surface.
+    // The Vault Division's official paperwork crosses through the
+    // Antiquarian's library on the way to the Order Tribunal — the
+    // Antiquarian indexes by witness, and Velkraal trusted the
+    // index. The folio lives on the desk's far-left corner.
+    "velkraals-correspondence-folio": {
+      look: {
+        narration: {
+          lucid:
+            "A leather folio on the desk's far-left corner — Velkraal'Sek's correspondence, all of it. Today the folio is open to a posthumous-format letter addressed to the Hierarchy Archon, dated to be opened only after Velkraal's final session. The letter names his successor (Brel'Sorrash), describes the Goggles' read-don't-edit protocol, and asks the Archon to ratify the succession quietly. Velkraal has been planning his exit for at least a year.",
+          fragmented:
+            "He planned. He planned. He planned. He chose her. He chose her.",
+          luminous:
+            "Velkraal pre-wrote his own succession. The posthumous letter is dated forward — to be opened only after his final session — and asks the Archon to ratify Brel quietly. He has been planning his exit, with full deliberation, for at least a year. The Vault Division does not lose its custodian. It changes hands.",
+        },
+        voId: "elara.antiquarian-library.velkraals-correspondence-folio.look",
+        logsClue: {
+          id: "clue-antiquarian-velkraal-letter-archon",
+          title: "Velkraal's posthumous letter to the Archon",
+          body:
+            "The Antiquarian Library holds Velkraal'Sek's posthumous letter to the Hierarchy Archon, naming Brel'Sorrash as his successor and asking the Archon to ratify the succession quietly. Velkraal pre-planned his exit at least a year in advance.",
+          source: "antiquarian-library",
+          order: 8,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.game_master",
+          episodeId: "game_master.e2",
+          cluesFound: ["game_master.e2.velkraals_letter_to_archon"],
+        },
+      },
+      use: {
+        narration: {
+          lucid:
+            "You leaf to the folio's back pocket. Inside: a draft of Velkraal's closing edit — the actual edit text he plans to make in his final session, written out long-hand for review. The edit is small, carefully scoped, and ends with a single line: 'The next reader of this entry will be Brel'Sorrash. Read it. Do not edit it. The custodianship continues.' The draft has Brel's initials in the margin — she has read it. She will not be editing it.",
+          fragmented:
+            "Read it. Do not edit it. Read it. Do not edit it. Read. Read. Read. Don't edit. Don't edit.",
+          luminous:
+            "The closing-edit draft is not an edit, in the sense Velkraal's predecessors used the word. It is a hand-off. The single-line postscript instructs Brel to read the entry and not to edit it — the Vault Division's protocol-shift is being installed by Velkraal's last act. Brel's initials in the margin mean she has read the draft, accepted the protocol-shift, and is committing in advance to honour it. The transition is, in literal terms, already complete. The session itself will only ratify what the folio has already arranged.",
+        },
+        voId: "elara.antiquarian-library.velkraals-correspondence-folio.use",
+        logsClue: {
+          id: "clue-antiquarian-draft-closing-edit",
+          title: "Velkraal's draft closing-edit + Brel's pre-read initials",
+          body:
+            "The Antiquarian Library holds Velkraal's hand-written draft of his closing edit. The edit's postscript instructs Brel'Sorrash to read but not edit the entry, installing a protocol-shift in the Vault Division. Brel's initials in the margin pre-confirm her acceptance.",
+          source: "antiquarian-library",
+          order: 9,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.game_master",
+          episodeId: "game_master.e4",
+          cluesFound: ["game_master.e4.draft_closing_edit"],
+        },
+      },
+      talk: {
+        narration:
+          "If you address the folio, you address Velkraal's discipline as a working method. He filed everything. Every letter, every draft, every marginal note. The Antiquarian indexed all of it. Whoever reads this folio will, by the end of one careful afternoon, have the entire shape of Velkraal's last year in their head. He arranged for that on purpose.",
+        voId: "elara.antiquarian-library.velkraals-correspondence-folio.talk",
       },
     },
   },
