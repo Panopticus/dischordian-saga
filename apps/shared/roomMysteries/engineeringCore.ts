@@ -49,6 +49,16 @@ export const ENGINEERING_CORE_MYSTERY: RoomMysteryModule<EngineeringCoreHotspotI
           cluesFound: ["wraith.e2.substrate_n_residue"],
         },
       },
+      use: {
+        narration:
+          "You rest a palm against the coil's outer ribbing. The brass is warm, not hot — the reactor running cleanly at its standing draw. The pulse you feel through your hand is the same pulse the ship has carried for two and a half centuries. The hardware is steady. The hardware was always steady.",
+        voId: "elara.engineering-core.reactor-coil.use",
+      },
+      talk: {
+        narration:
+          "If you address the coil, you address the only continuous voice on the ship. It has been speaking, in pulses, since long before either of us. It does not have words. It has presence. That is, in this room, enough.",
+        voId: "elara.engineering-core.reactor-coil.talk",
+      },
     },
     "coolant-pipe": {
       look: {
@@ -83,6 +93,17 @@ export const ENGINEERING_CORE_MYSTERY: RoomMysteryModule<EngineeringCoreHotspotI
           cluesFound: ["jericho.e3.substrate_n_overlap"],
         },
       },
+      use: {
+        narration:
+          "You trace one of the secondary-loop pipes from the coil to its junction. The brass is correctly stamped at every weld — Lyra's shop-marks, a hundred years before her death and a hundred years after. The actual pipework is exactly what the original schematic ought to have specified. The forgery never reached the metal.",
+        voId: "elara.engineering-core.coolant-pipe.use",
+        setsFlag: "coolant_loop_traced",
+      },
+      talk: {
+        narration:
+          "If you address the loop, the coolant's standing flow note shifts up a quarter-tone — the engineers who maintained these pipes were trained to listen for the change as a sign someone was paying attention. The pipes have been waiting for an attentive ear. They have one again.",
+        voId: "elara.engineering-core.coolant-pipe.talk",
+      },
     },
     "core-terminal": {
       look: {
@@ -103,6 +124,16 @@ export const ENGINEERING_CORE_MYSTERY: RoomMysteryModule<EngineeringCoreHotspotI
           source: "engineering-core",
           order: 2,
         },
+      },
+      use: {
+        narration:
+          "You test each lever's resistance without throwing them. Coolant flow and reactor draw move freely under light pressure — calibrated, maintained, ready. The shutdown lever does not move; the lock-plate has held for two and a half centuries. Wraith is still not present. The ship is still respecting Lyra's order.",
+        voId: "elara.engineering-core.core-terminal.use",
+      },
+      talk: {
+        narration:
+          "If you address the terminal, the ready-light steadies. The console knows it is being read, and it is glad to be read by someone who isn't going to throw the lever. That, in this room, is the only kind of conversation that matters.",
+        voId: "elara.engineering-core.core-terminal.talk",
       },
     },
   },

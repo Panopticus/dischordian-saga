@@ -41,6 +41,17 @@ export const STATION_DOCK_MYSTERY: RoomMysteryModule<StationDockHotspotId> = {
           order: 0,
         },
       },
+      use: {
+        narration:
+          "You key a status check into the recessed control panel. The diagnostic returns nominal across every gasket, every pressure ring, every actuator. The dock has been waiting in operational readiness — not idle, not dormant, ready. Two and a half centuries of nothing happening on purpose.",
+        voId: "elara.station-dock.airlock-control.use",
+        setsFlag: "dock_status_checked",
+      },
+      talk: {
+        narration:
+          "If you address the dock, you address the room that has been the most patient on the ship. Every other room found a use for itself in the long silence — the bridge mapped the conspiracy, the archives kept the codex, the synthesis chamber kept the medical bay alive. The dock just waited. The dock will, soon, be addressed by something other than us.",
+        voId: "elara.station-dock.airlock-control.talk",
+      },
     },
     "ship-manifest": {
       look: {
@@ -76,6 +87,17 @@ export const STATION_DOCK_MYSTERY: RoomMysteryModule<StationDockHotspotId> = {
           cluesFound: ["game_master.e1.xethraal_acquisition_paperwork"],
         },
       },
+      use: {
+        narration:
+          "You scroll the rolling-paper readout back through the manifest's history. Departures and arrivals run cleanly back through Lyra's tenure and into the previous captains' centuries. Wraith's outbound entry is the last anomaly — the only single-passenger, single-cargo line in the entire archive. Lyra's discipline shows in negative: she let one record stand undocumented because she trusted one person to carry the contents.",
+        voId: "elara.station-dock.ship-manifest.use",
+        setsFlag: "dock_manifest_scrolled",
+      },
+      talk: {
+        narration:
+          "If you address the manifest, you address every cargo this dock has ever cleared. The console keeps a courteous silence on Wraith's folio — the silence is the record. We will, in time, fill the silence in ourselves.",
+        voId: "elara.station-dock.ship-manifest.talk",
+      },
     },
     "cargo-lift": {
       look: {
@@ -95,6 +117,28 @@ export const STATION_DOCK_MYSTERY: RoomMysteryModule<StationDockHotspotId> = {
             "The Station Dock's cargo-lift platform shows a faint graphite smear matching the rubbings the player has been collecting. Wraith Calder departed with a folio of original-rubbings — the editor's victims, preserved. He has been doing the same work in exile for two and a half centuries with no combine partner. Locating Wraith is the case's most important practical objective.",
           source: "station-dock",
           order: 2,
+        },
+      },
+      use: {
+        narration:
+          "You take a tracing of the graphite smear from the lift platform. The pattern matches, line for line, the rubbings already in your inventory from the engineering schematic-pad and the archives ledger. Wraith's folio is, on the evidence, the same kind of evidence we have been assembling. He started this case. We are continuing it.",
+        voId: "elara.station-dock.cargo-lift.use",
+        setsFlag: "dock_lift_tracing_taken",
+      },
+      talk: {
+        narration:
+          "If you address the lift, you address the platform that carried Wraith out. The brass remembers his weight; the room remembers his departure. Whoever speaks to the lift now is, in the dock's logic, asking after him. That is the right question.",
+        voId: "elara.station-dock.cargo-lift.talk",
+        humanReaction: {
+          narration: {
+            balanced:
+              "He stood here for a long time before he stepped on. Not because he was afraid. Because he was deciding what to put on the platform. The folio was the only thing he brought. He left everything else behind on purpose.",
+            shadow:
+              "Wraith left clean. No personal effects, no notes to anyone, no addresses to forward to. The folio was a witness statement and the rest was deniability. He still hasn't been found because that was the assignment.",
+            warm:
+              "He looked over his shoulder once. Just once. He was looking at Lyra's window in the bridge — she was already at her desk that morning. She didn't look back. They had agreed not to. The dock saw both halves of that goodbye.",
+          },
+          voId: "human.station-dock.cargo-lift.talk",
         },
       },
     },
