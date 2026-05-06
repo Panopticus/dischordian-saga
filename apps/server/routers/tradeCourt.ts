@@ -82,6 +82,23 @@ import {
 } from "../services/empireFeelService";
 import { allEdictKeys, EDICT_REGISTRY } from "@shared/tradeEmpire/edicts";
 import { isKnownSubHouseKey as _isKnownSubHouseKey } from "@shared/tradeEmpire/houses";
+import {
+  ESPIONAGE_INFLUENCE_COST,
+  listMyEspionageOps,
+  runEspionageOp,
+} from "../services/espionageOpsService";
+import {
+  BLOCKADE_INFLUENCE_COST,
+  BLOCKADE_THREAT_MINIMUM,
+  breakBlockade,
+  declareBlockade,
+  isSectorBlockaded,
+  listMyBlockades,
+} from "../services/blockadeService";
+import {
+  CLIMAX_RESOLUTIONS,
+  CLIMAX_THRESHOLD,
+} from "@shared/tradeEmpire/convergenceClimax";
 import { REFERENCE_AGENDAS } from "@shared/tradeEmpire/agendas";
 import { spaceStations, towerPlacements, userProgress } from "../../db/schema";
 import { allKnownMunitionRefs, getMunitionEffect, TOWERS } from "@shared/towerDefense";
@@ -519,6 +536,92 @@ export const tradeCourtRouter = router({
       await dismissNewsDigest(ctx.user.id, input.eventId);
       return { ok: true };
     }),
+
+  // --- Espionage operations (Phase D.5) ----------------------------------
+
+  espionageInfluenceCost: publicProcedure.query(() => ESPIONAGE_INFLUENCE_COST),
+
+  /**
+   * Run an espionage op against a broker (sabotage) or agenda (intel).
+   * Caller is responsible for influence budgeting at the call site.
+   */
+  runEspionageOp: protectedProcedure
+    .input(
+      z.object({
+        opKind: z.enum(["intel", "sabotage"]),
+        targetKey: z.string(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const result = await runEspionageOp({
+        userId: ctx.user.id,
+        opKind: input.opKind,
+        targetKey: input.targetKey,
+      });
+      if (!result.ok) {
+        throw new TRPCError({ code: "BAD_REQUEST", message: result.error });
+      }
+      return result;
+    }),
+
+  myEspionageOps: protectedProcedure.query(async ({ ctx }) => {
+    return listMyEspionageOps(ctx.user.id);
+  }),
+
+  // --- Blockades (Phase D.5) ---------------------------------------------
+
+  blockadeConstants: publicProcedure.query(() => ({
+    influenceCost: BLOCKADE_INFLUENCE_COST,
+    threatMinimum: BLOCKADE_THREAT_MINIMUM,
+  })),
+
+  declareBlockade: protectedProcedure
+    .input(
+      z.object({
+        sectorId: z.string(),
+        sectorThreat: z.number().int().nonnegative(),
+        influenceAvailable: z.number().int().nonnegative(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const result = await declareBlockade({
+        userId: ctx.user.id,
+        sectorId: input.sectorId,
+        sectorThreat: input.sectorThreat,
+        influenceAvailable: input.influenceAvailable,
+      });
+      if (!result.ok) {
+        throw new TRPCError({ code: "BAD_REQUEST", message: result.error });
+      }
+      return result;
+    }),
+
+  myBlockades: protectedProcedure.query(async ({ ctx }) => {
+    return listMyBlockades(ctx.user.id);
+  }),
+
+  breakBlockade: protectedProcedure
+    .input(z.object({ blockadeId: z.number().int().positive() }))
+    .mutation(async ({ ctx, input }) => {
+      const result = await breakBlockade(ctx.user.id, input.blockadeId);
+      if (!result.ok) {
+        throw new TRPCError({ code: "BAD_REQUEST", message: result.error });
+      }
+      return result;
+    }),
+
+  isSectorBlockaded: protectedProcedure
+    .input(z.object({ sectorId: z.string() }))
+    .query(async ({ ctx, input }) => {
+      return isSectorBlockaded(ctx.user.id, input.sectorId);
+    }),
+
+  // --- Convergence climax (Phase D.5) ------------------------------------
+
+  climaxResolutions: publicProcedure.query(() => ({
+    threshold: CLIMAX_THRESHOLD,
+    resolutions: CLIMAX_RESOLUTIONS,
+  })),
 
   // --- Anomaly endpoints (Phase B) ---------------------------------------
 

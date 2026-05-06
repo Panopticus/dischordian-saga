@@ -6875,3 +6875,119 @@ export const tradeNewsCursor = mysqlTable("trade_news_cursor", {
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });
 export type TradeNewsCursorRow = typeof tradeNewsCursor.$inferSelect;
+
+/**
+ * Phase D.5 (Empire-feel substrate extensions): blockades.
+ * A sector with threat ≥ 50 can be blockaded for 1 turn of orders +
+ * influence. Blockaded sectors yield 0 credits that tick. Faction
+ * can counter-blockade. Pure political theatre — gates future fleet
+ * combat. Per-(user, seasonNumber, sectorId).
+ */
+export const tradeBlockades = mysqlTable("trade_blockades", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  seasonNumber: int("seasonNumber").notNull(),
+  sectorId: varchar("sectorId", { length: 128 }).notNull(),
+  /** "active" | "broken" | "expired" */
+  status: mysqlEnum("status", ["active", "broken", "expired"]).notNull().default("active"),
+  /** Influence spent to establish the blockade. */
+  influenceSpent: int("influenceSpent").notNull().default(0),
+  declaredAt: timestamp("declaredAt").defaultNow().notNull(),
+  resolvedAt: timestamp("resolvedAt"),
+}, (table) => ({
+  userIdx: index("idx_trade_blockades_user_id").on(table.userId),
+  userSectorSeasonUniq: uniqueIndex(
+    "uniq_trade_blockades_user_sector_season",
+  ).on(table.userId, table.sectorId, table.seasonNumber),
+}));
+export type TradeBlockadeRow = typeof tradeBlockades.$inferSelect;
+
+/**
+ * Phase D.5: route commodity saturation. Each route's run count
+ * crashes the local commodity price; the saturation row tracks how
+ * much of a sector's commodity capacity is currently in oversupply.
+ * Decays back to 0 over real-time idle.
+ */
+export const tradeRouteSaturation = mysqlTable("trade_route_saturation", {
+  id: int("id").autoincrement().primaryKey(),
+  /** SectorId at the receiving end of a route. */
+  sectorId: varchar("sectorId", { length: 128 }).notNull().unique(),
+  /** Saturation score (0..200). 100 = at-capacity; >100 = oversupply
+   *  yielding price-crash penalties on subsequent runs. */
+  saturation: int("saturation").notNull().default(0),
+  /** Last time the saturation ticked. */
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+export type TradeRouteSaturationRow = typeof tradeRouteSaturation.$inferSelect;
+
+/**
+ * Phase D.5: research races. When a player starts a tech, an NPC
+ * racer is rolled. The race ticks until one side completes; if the
+ * NPC wins, the player still gets the tech but at -20% bonus.
+ */
+export const tradeResearchRaces = mysqlTable("trade_research_races", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /** Tech key the race is over. */
+  techKey: varchar("techKey", { length: 128 }).notNull(),
+  /** Sub-house key of the NPC racer. */
+  rivalHouseKey: varchar("rivalHouseKey", { length: 64 }).notNull(),
+  /** Real-ms deadline by which one side completes. */
+  deadlineMs: bigint("deadlineMs", { mode: "number" }).notNull(),
+  /** "pending" | "player_won" | "rival_won" */
+  status: mysqlEnum("status", ["pending", "player_won", "rival_won"]).notNull().default("pending"),
+  startedAt: timestamp("startedAt").defaultNow().notNull(),
+  resolvedAt: timestamp("resolvedAt"),
+}, (table) => ({
+  userIdx: index("idx_trade_research_races_user_id").on(table.userId),
+}));
+export type TradeResearchRaceRow = typeof tradeResearchRaces.$inferSelect;
+
+/**
+ * Phase D.5: espionage operations log. Each row is one cover-identity
+ * op the player attempted: "intel" (learn an agenda step early) or
+ * "sabotage" (lock a broker out for N hours). Tracks success / blown
+ * outcomes for the analytics + dialog layer.
+ */
+export const tradeEspionageOps = mysqlTable("trade_espionage_ops", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /** Active coverId at the time of the op (FK soft-link). */
+  coverId: varchar("coverId", { length: 128 }).notNull(),
+  /** "intel" | "sabotage" */
+  opKind: mysqlEnum("opKind", ["intel", "sabotage"]).notNull(),
+  /** Target broker key for sabotage; agenda key for intel. */
+  targetKey: varchar("targetKey", { length: 128 }).notNull(),
+  /** "success" | "blown" */
+  outcome: mysqlEnum("outcome", ["success", "blown"]).notNull(),
+  /** Influence spent on the op. */
+  influenceSpent: int("influenceSpent").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => ({
+  userIdx: index("idx_trade_espionage_ops_user_id").on(table.userId),
+}));
+export type TradeEspionageOpRow = typeof tradeEspionageOps.$inferSelect;
+
+/**
+ * Phase D.5: convergence climax. Singleton (id=1) — the doom clock.
+ * When `convergence` reaches 100, the climax window opens: all
+ * other actions are locked for 72h real-time and the player must
+ * pick from 3 bad options. Phase D.5 ships the data + helpers; the
+ * UI lock + choice resolution lands when the climax narrative
+ * branches are authored.
+ */
+export const convergenceClimaxState = mysqlTable("convergence_climax_state", {
+  id: int("id").primaryKey(),
+  /** 0..100 — when 100, the climax window opens. */
+  convergence: int("convergence").notNull().default(0),
+  /** "dormant" | "open" | "resolved" — open means choice is pending. */
+  phase: mysqlEnum("phase", ["dormant", "open", "resolved"]).notNull().default("dormant"),
+  /** When the climax window opened. Null in dormant phase. */
+  openedAt: timestamp("openedAt"),
+  /** Real-ms when the climax window auto-resolves (default 72h). */
+  closesAtMs: bigint("closesAtMs", { mode: "number" }),
+  /** Resolution choice key (set when phase=resolved). */
+  resolutionKey: varchar("resolutionKey", { length: 128 }),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+export type ConvergenceClimaxStateRow = typeof convergenceClimaxState.$inferSelect;
