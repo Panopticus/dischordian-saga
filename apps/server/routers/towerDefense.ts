@@ -19,6 +19,7 @@ import {
   resolveTowerDefenseBonuses,
   calculateRaidStars, calculateRaidLoot,
   getAvailableTowers, getAvailableRaidUnits,
+  getMunitionEffect,
 } from "../../shared/towerDefense";
 import { ripple } from "../services/rippleEngine";
 import { getConsequences } from "../services/universeConsequences";
@@ -939,13 +940,51 @@ export const towerDefenseRouter = router({
       }
       towerDps = Math.max(towerDps, 1);
 
-      const totalWaveHp = enemyCount * enemyHp * (difficultyMultiplier / 100);
+      let totalWaveHp = enemyCount * enemyHp * (difficultyMultiplier / 100);
       const totalWaveDps = enemyCount * enemyDmg * (difficultyMultiplier / 100);
 
+      /* ─── Phase 6 — consume equipped munitions ─── */
+      // Each tower with an equipped munition fires it this wave.
+      // AoE damage is applied as upfront damage to the wave HP pool;
+      // invuln waves zero the damage taken; loot multipliers compose
+      // multiplicatively across all consumed munitions.
+      let upfrontAoeDamage = 0;
+      let invulnThisWave = false;
+      let lootMultiplier = 1;
+      const consumedMunitionsLog: { towerId: number; ref: string; effect: string }[] = [];
+      for (const t of towers) {
+        const effect = getMunitionEffect(t.equippedMunition);
+        if (!effect) continue;
+        if (effect.aoeDamage) upfrontAoeDamage += effect.aoeDamage * enemyCount;
+        if (effect.invulnWaves && effect.invulnWaves > 0) invulnThisWave = true;
+        if (effect.lootMultiplier && effect.lootMultiplier > 0) {
+          lootMultiplier *= effect.lootMultiplier;
+        }
+        consumedMunitionsLog.push({
+          towerId: t.id,
+          ref: t.equippedMunition!,
+          effect: effect.label,
+        });
+      }
+      totalWaveHp = Math.max(0, totalWaveHp - upfrontAoeDamage);
+
       // Time (sec) for the towers to burn through the wave.
-      const killDuration = totalWaveHp / towerDps;
-      // Towers soak incoming damage for `killDuration` seconds.
-      const damageTaken = Math.ceil(totalWaveDps * killDuration);
+      const killDuration = totalWaveHp === 0 ? 0 : totalWaveHp / towerDps;
+      // Towers soak incoming damage for `killDuration` seconds, unless
+      // a Void Elixir munition fired this wave.
+      const damageTaken = invulnThisWave
+        ? 0
+        : Math.ceil(totalWaveDps * killDuration);
+
+      // Clear consumed munitions from the tower rows now — even on a
+      // failed wave the munition was used. Avoids "save-scumming" by
+      // letting a player retry waves with the same loaded item.
+      for (const log of consumedMunitionsLog) {
+        await db
+          .update(towerPlacements)
+          .set({ equippedMunition: null })
+          .where(eq(towerPlacements.id, log.towerId));
+      }
 
       const survived = damageTaken < towerHpPool;
 
@@ -970,8 +1009,8 @@ export const towerDefenseRouter = router({
       let rewards: Record<string, number> = {};
       if (survived) {
         rewards = {
-          credits: 100 + waveNumber * 50,
-          alloy: 10 + waveNumber * 5,
+          credits: Math.round((100 + waveNumber * 50) * lootMultiplier),
+          alloy: Math.round((10 + waveNumber * 5) * lootMultiplier),
         };
         // Add rewards to owner storedResources
         if (input.ownerType === "station") {
