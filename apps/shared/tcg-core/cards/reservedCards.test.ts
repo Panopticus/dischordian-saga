@@ -47,11 +47,21 @@ describe("reservedCards — filterReservedFromPool", () => {
 });
 
 describe("reservedCards — registry audit", () => {
-  it("only burnt_card_placeholder is reserved today", () => {
+  // Phase 9 added two House Oath title cards as reserved-pool entries
+  // (apps/shared/tcg-core/cards/definitions/neutral/house_oath_titles.ts).
+  // Each is a non-playable narrative-only marker delivered as the
+  // completionReward for a House Oath multi-stage contract.
+  const RESERVED_CARDS = [
+    BURNT_CARD_PLACEHOLDER_ID,
+    "card_locke_sworn_pen_title",
+    "card_thaloria_witness_title",
+  ];
+
+  it("the canonical reserved set matches expectation", () => {
     const reserved = ALL_CARD_DEFINITIONS.filter(isReservedCard).map(
       (d) => String(d.id),
     );
-    expect(reserved).toEqual([BURNT_CARD_PLACEHOLDER_ID]);
+    expect(reserved.sort()).toEqual([...RESERVED_CARDS].sort());
   });
 
   it("burnt_card_placeholder is filtered out of the registry pool", () => {
@@ -60,9 +70,9 @@ describe("reservedCards — registry audit", () => {
     expect(poolIds).not.toContain(BURNT_CARD_PLACEHOLDER_ID);
   });
 
-  it("pool size drops by exactly one when reserved is filtered", () => {
+  it("pool size drops by exactly the reserved-set size when filtered", () => {
     const before = ALL_CARD_DEFINITIONS.length;
     const after = filterReservedFromPool(ALL_CARD_DEFINITIONS).length;
-    expect(before - after).toBe(1);
+    expect(before - after).toBe(RESERVED_CARDS.length);
   });
 });

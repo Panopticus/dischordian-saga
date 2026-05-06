@@ -1460,6 +1460,71 @@ export const CROSS_CHARACTER_REACTIONS: ReadonlyArray<CrossCharacterReaction> = 
       "Key-as-interpreter arc; canonical reveal-gate (eyes_of_reality) " +
       "still applies upstream.",
   },
+  // ─── Phase 9: public-knowledge recent-news flags ────────────────────
+  // These are not stored in npc_public_flags; they are computed at
+  // dialog-selection time by enrichPublicFlags() in
+  // apps/server/services/npcPublicKnowledgeReactions.ts. The canonical
+  // setter is the system itself (any contract sign / tribute / demand
+  // resolution that posts to trade_public_knowledge).
+  {
+    flag: "pk.contract_signed.recent",
+    setBy: ["system"],
+    reactsBy: ["adjudicator_locke"],
+    canonicalNote:
+      "Phase 9 enrichPublicFlags surface — recent contract signing " +
+      "in the trade_public_knowledge log. Locke acknowledges the " +
+      "pattern; future readers will react to specific contract types.",
+  },
+  {
+    flag: "pk.nb_authoritys_ledger.tribute_paid.recent",
+    setBy: ["system"],
+    reactsBy: ["adjudicator_locke"],
+    canonicalNote:
+      "Phase 9 enrichPublicFlags surface — Authority's Ledger received " +
+      "a tribute. Locke files it under 'goodwill rendered'.",
+  },
+  {
+    flag: "pk.demand_refused.recent",
+    setBy: ["system"],
+    reactsBy: ["adjudicator_locke"],
+    canonicalNote:
+      "Phase 9 enrichPublicFlags surface — any sub-house's demand was " +
+      "refused recently. Locke warns against repeat refusals.",
+  },
+  // ─── Phase A lore-correction flags ──────────────────────────────────
+  {
+    flag: "met_the_antiquarian",
+    setBy: ["the_antiquarian"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Phase A: first-meeting flag for Daniel Cross / The Antiquarian. " +
+      "Set by the antiquarian.signature.desks_do_not_run line.",
+  },
+  {
+    flag: "met_drael_mon",
+    setBy: ["drael_mon"],
+    reactsBy: ["future_reader"],
+    canonicalNote:
+      "Phase A: first-meeting flag for Drael'Mon, SVP Acquisitions. " +
+      "Set by the drael_mon.signature.we_already_own_you line.",
+  },
+  {
+    flag: "pk.antiquarian_shelfmates.tribute_paid.recent",
+    setBy: ["system"],
+    reactsBy: ["the_antiquarian"],
+    canonicalNote:
+      "Phase A enrichPublicFlags surface — the Shelf-mates received a " +
+      "tribute. Daniel Cross cites the source and informs the destination.",
+  },
+  {
+    flag: "pk.thaloria_council.tribute_paid.recent",
+    setBy: ["system"],
+    reactsBy: ["drael_mon"],
+    canonicalNote:
+      "Phase A enrichPublicFlags surface — Thaloria's Council (Wraith " +
+      "Hierophant) received a tribute. Drael'Mon notes the revival's " +
+      "growing flock as an Acquisitions concern.",
+  },
 ];
 
 // --- Helpers --------------------------------------------------------------

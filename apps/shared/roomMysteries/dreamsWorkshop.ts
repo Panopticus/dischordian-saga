@@ -52,9 +52,18 @@ export const DREAMS_WORKSHOP_MYSTERY: RoomMysteryModule<DreamsWorkshopHotspotId>
       },
       use: {
         narration:
-          "You step closer. The loom's threads halt entirely — phosphor-lavender suspended mid-weave like a held breath. The pattern remains visible while you stand here. The moment you step away, the threads resume the unweaving they began when you arrived.",
+          "You step closer. The loom's threads halt entirely — phosphor-lavender suspended mid-weave like a held breath. The pattern remains visible while you stand here. The moment you step away, the threads resume the unweaving they began when you arrived. — The pattern, held by your presence, resolves into a recurring imprint: two lions arguing, one in the academy uniform of the pre-Fall canon, the other in the threshold-doctrine variant. The argument has been woven and unwoven by the workshop for centuries. Jericho's recurring dream of two Lions is, on this evidence, not Jericho's invention — it is the dream the loom has been holding open for him.",
         voId: "elara.dreams-workshop.dream-loom.use",
         setsFlag: "dream_loom_observed",
+        // Jericho arc binding — the imprint of two lions arguing is
+        // the recurring dream the loom holds for Jericho across
+        // centuries. jericho.e4.imprint_dream_argument foundIn:
+        // dreams-workshop.
+        mysteryBinding: {
+          mysteryId: "mystery.jericho_jones",
+          episodeId: "jericho.e4",
+          cluesFound: ["jericho.e4.imprint_dream_argument"],
+        },
       },
       talk: {
         narration:

@@ -816,6 +816,13 @@ export default function TradeEmpirePage() {
           <span className="void-text-system">{empire.influence} <span className="text-white/20">INF</span></span>
           <span className="void-text-energy">{empire.intelligence} <span className="text-white/20">INT</span></span>
           <span className="text-white/20">{empire.controlledSectors.length} sectors</span>
+          <a
+            href="/court"
+            className="ml-2 px-2 py-1 rounded border border-white/20 text-white/80 hover:text-white hover:border-white/40 font-mono text-[10px] tracking-wider"
+            title="The Court — sub-house reputation, season declarations, demands, agendas"
+          >
+            COURT →
+          </a>
         </div>
       </div>
 

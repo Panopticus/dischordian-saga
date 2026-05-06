@@ -2737,6 +2737,14 @@ export const towerPlacements = mysqlTable("tower_placements", {
   /** Status */
   status: mysqlEnum("status", ["active", "building", "upgrading", "destroyed"]).notNull().default("active"),
   completesAt: timestamp("completesAt"),
+  /**
+   * Phase 5 (items-matter / GoT arc): one consumable inventory item
+   * loaded into the tower as munition. Format: "<itemKind>:<id>"
+   * (e.g. "card:card_terrify", "potion:berserker_elixir"). Consumed
+   * on the next wave the tower fires in. Null when no munition is
+   * loaded.
+   */
+  equippedMunition: varchar("equippedMunition", { length: 128 }),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });
@@ -6605,3 +6613,407 @@ export const coopCardSessions = mysqlTable("coop_card_sessions", {
   encounterIdx: index("idx_coop_card_sessions_encounter").on(table.encounterKey),
 }));
 export type CoopCardSession = typeof coopCardSessions.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
+   TRADE EMPIRE — Items-matter / Game-of-Thrones arc (Phase 1)
+   Sub-house reputation, season clock singleton, and the
+   public-knowledge log NPCs read for dialog flavor.
+   ═══════════════════════════════════════════════════════ */
+
+/**
+ * Per-(user, sub-house) reputation tracker. Sub-houses sit *inside*
+ * top-level factions (see apps/shared/tradeEmpire/houses.ts); rep is
+ * tracked per house so internal court intrigue can pull a player in
+ * two directions inside a single faction.
+ *
+ * Top-level faction rep is computed as the mean of sub-house rep on
+ * read, not stored separately, so houses are the only source of
+ * truth.
+ */
+export const tradeSubHouseReputation = mysqlTable("trade_sub_house_reputation", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /** SubHouseKey from apps/shared/tradeEmpire/houses.ts */
+  houseKey: varchar("houseKey", { length: 64 }).notNull(),
+  reputation: int("reputation").notNull().default(0),
+  /** Highest absolute rep ever reached — used by court widget to show
+   *  "you were once a friend of this house". */
+  peakReputation: int("peakReputation").notNull().default(0),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  userIdIdx: index("idx_trade_sub_house_rep_user_id").on(table.userId),
+  userHouseUniq: uniqueIndex("uniq_trade_sub_house_rep_user_house").on(
+    table.userId,
+    table.houseKey,
+  ),
+}));
+export type TradeSubHouseReputationRow = typeof tradeSubHouseReputation.$inferSelect;
+
+/**
+ * Season clock — singleton row holding the global season state.
+ * `id` is always 1 (enforced by the service layer), mirroring the
+ * dischordia_cycle_state pattern.
+ */
+export const seasonClockState = mysqlTable("season_clock_state", {
+  id: int("id").primaryKey(),
+  seasonNumber: int("seasonNumber").notNull().default(1),
+  /** SeasonPhase from apps/shared/tradeEmpire/season.ts */
+  phase: varchar("phase", { length: 32 }).notNull().default("prologue"),
+  phaseStartedAt: timestamp("phaseStartedAt").defaultNow().notNull(),
+  /** When the next phase transition is scheduled. Null inside
+   *  interregnum — server triggers manually after settlement. */
+  phaseEndsAt: timestamp("phaseEndsAt"),
+  /** Tick counter inside the current season. Resets each new season. */
+  tickNumber: int("tickNumber").notNull().default(0),
+  lastTickAt: timestamp("lastTickAt"),
+  /** Active SeasonDeclaration JSON — null inside prologue before
+   *  resolution. Shape defined in apps/shared/tradeEmpire/season.ts */
+  declaration: json("declaration").$type<Record<string, unknown> | null>(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+export type SeasonClockStateRow = typeof seasonClockState.$inferSelect;
+
+/**
+ * Public-knowledge log — append-only feed of in-world events that any
+ * faction NPC may read to flavor dialog. Contract signings, demand
+ * refusals, blown covers, agenda step completions, season declarations
+ * all post entries here.
+ *
+ * Distinct from `npc_public_flags` which is per-NPC presence/met
+ * tracking. This table is faction-scoped news.
+ */
+export const tradePublicKnowledge = mysqlTable("trade_public_knowledge", {
+  id: int("id").autoincrement().primaryKey(),
+  /** Optional acting user — null for world events (declarations,
+   *  AI-vs-AI agenda completions). */
+  userId: int("userId"),
+  /** Canonical event kind, e.g. "contract_signed", "demand_refused",
+   *  "cover_blown", "agenda_step", "season_declaration", "tribute_paid". */
+  eventKind: varchar("eventKind", { length: 64 }).notNull(),
+  /** SubHouseKey the event is *primarily* about — drives which NPCs
+   *  pull it from the feed. */
+  subjectHouseKey: varchar("subjectHouseKey", { length: 64 }),
+  /** Free-form summary string for dialog renderers. */
+  summary: varchar("summary", { length: 512 }).notNull(),
+  /** Optional structured payload (contract id, demand id, etc.). */
+  payload: json("payload").$type<Record<string, unknown> | null>(),
+  /** Season number when the event posted — lets the court widget
+   *  filter "this season" vs. historical. */
+  seasonNumber: int("seasonNumber").notNull().default(1),
+  /** True once the event is no longer hot news (e.g., season has
+   *  rolled over twice). Soft-archive flag; rows are never deleted. */
+  archived: boolean("archived").notNull().default(false),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => ({
+  createdAtIdx: index("idx_trade_public_knowledge_created").on(table.createdAt),
+  userIdx: index("idx_trade_public_knowledge_user").on(table.userId),
+  houseIdx: index("idx_trade_public_knowledge_house").on(table.subjectHouseKey),
+  seasonIdx: index("idx_trade_public_knowledge_season").on(table.seasonNumber),
+}));
+export type TradePublicKnowledgeRow = typeof tradePublicKnowledge.$inferSelect;
+
+/**
+ * Per-(user, season, agendaKey) progress on a season agenda. One row
+ * per agenda the user is engaged with; missing rows default to "not
+ * yet started" — the agenda engine creates a row when the agenda
+ * first ticks against this user.
+ *
+ * Phase 4 of the items-matter / Game-of-Thrones arc.
+ */
+export const tradeAgendaProgress = mysqlTable("trade_agenda_progress", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /** SeasonAgendaDef.agendaKey from apps/shared/tradeEmpire/agendas.ts */
+  agendaKey: varchar("agendaKey", { length: 128 }).notNull(),
+  seasonNumber: int("seasonNumber").notNull(),
+  /** First tick at which this agenda began advancing for this user. */
+  startedAtTick: int("startedAtTick").notNull().default(0),
+  /** Stage statuses keyed by stageId: "pending" | "world_fired" |
+   *  "countered" | "skipped". */
+  stageStatus: json("stageStatus").$type<Record<string, string>>().notNull(),
+  /** Set true when every stage is resolved. */
+  resolved: boolean("resolved").notNull().default(false),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  userIdIdx: index("idx_trade_agenda_progress_user_id").on(table.userId),
+  userAgendaSeasonUniq: uniqueIndex(
+    "uniq_trade_agenda_progress_user_agenda_season",
+  ).on(table.userId, table.agendaKey, table.seasonNumber),
+}));
+export type TradeAgendaProgressRow = typeof tradeAgendaProgress.$inferSelect;
+
+/**
+ * Faction demand events — phase 7 of the items-matter / GoT arc.
+ *
+ * When a sub-house holds enough sphere-of-influence, it can demand a
+ * specific item from a player traveling near its territory. The
+ * player chooses to pay (item destroyed, +rep with the demanding
+ * house, -rep with its rival) or refuse (-rep, public flag posted,
+ * possible cargo impound on next mission).
+ *
+ * Generated by the season-tick driver during the `running` phase
+ * against active players (those with at least one sub-house rep
+ * row). Resolved by the player via the tradeCourt router.
+ */
+export const tradeDemands = mysqlTable("trade_demands", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /** SubHouseKey making the demand. */
+  demandingHouseKey: varchar("demandingHouseKey", { length: 64 }).notNull(),
+  /** Demanded card rarity (basic..legendary) — phase 7 only demands cards. */
+  demandedRarity: varchar("demandedRarity", { length: 16 }).notNull(),
+  /** Optional faction filter on the demanded card. */
+  demandedFaction: varchar("demandedFaction", { length: 64 }),
+  /** Wall-clock when the demand expires (un-acted demands count as
+   *  refusals at expiry). */
+  expiresAt: timestamp("expiresAt").notNull(),
+  /** "pending" | "paid" | "refused" | "expired" */
+  status: mysqlEnum("status", ["pending", "paid", "refused", "expired"]).notNull().default("pending"),
+  /** When the player acted on the demand. */
+  resolvedAt: timestamp("resolvedAt"),
+  /** Free-form note from the resolution path. */
+  resolution: varchar("resolution", { length: 256 }),
+  seasonNumber: int("seasonNumber").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => ({
+  userIdx: index("idx_trade_demands_user_id").on(table.userId),
+  userPendingIdx: index("idx_trade_demands_user_pending").on(table.userId, table.status),
+  expiresIdx: index("idx_trade_demands_expires").on(table.expiresAt),
+}));
+export type TradeDemandRow = typeof tradeDemands.$inferSelect;
+
+/**
+ * Phase B (Living Galaxy): per-(user, sector) anomaly discoveries.
+ * When the player first enters a sector with hasAnomaly=true, an
+ * `anomaly_discovered` event posts and one row lands here. Player
+ * spends `intelligence` to investigate; resolution drops a one-time
+ * tome / card / trait + a sub-house rep delta.
+ */
+export const tradeAnomalies = mysqlTable("trade_anomalies", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  sectorId: varchar("sectorId", { length: 128 }).notNull(),
+  /** Anomaly kind drawn from the sector's flavor — see anomalyService. */
+  kind: varchar("kind", { length: 64 }).notNull(),
+  /** "pending" | "investigated" | "abandoned" */
+  status: mysqlEnum("status", ["pending", "investigated", "abandoned"]).notNull().default("pending"),
+  /** Intelligence spent so far. Resolution requires meeting the
+   *  per-anomaly threshold encoded in anomalyService. */
+  intelligenceSpent: int("intelligenceSpent").notNull().default(0),
+  /** Optional payload describing the resolution outcome. */
+  resolution: json("resolution").$type<Record<string, unknown> | null>(),
+  discoveredAt: timestamp("discoveredAt").defaultNow().notNull(),
+  resolvedAt: timestamp("resolvedAt"),
+}, (table) => ({
+  userIdx: index("idx_trade_anomalies_user_id").on(table.userId),
+  userSectorUniq: uniqueIndex("uniq_trade_anomalies_user_sector").on(
+    table.userId,
+    table.sectorId,
+  ),
+}));
+export type TradeAnomalyRow = typeof tradeAnomalies.$inferSelect;
+
+/**
+ * Phase D (Empire-feel): sub-house alliances. Per-(user, seasonNumber)
+ * declared treaties between two sub-houses. Active alliances cause
+ * shared-enemy rep deltas to *double*; explicit betrayal posts a
+ * public flag and applies -20 to both sides.
+ */
+export const tradeAlliances = mysqlTable("trade_alliances", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  seasonNumber: int("seasonNumber").notNull(),
+  /** Lower-sorted SubHouseKey for canonical pair ordering. */
+  houseA: varchar("houseA", { length: 64 }).notNull(),
+  /** Higher-sorted SubHouseKey. */
+  houseB: varchar("houseB", { length: 64 }).notNull(),
+  /** "active" | "betrayed" | "expired" */
+  status: mysqlEnum("status", ["active", "betrayed", "expired"]).notNull().default("active"),
+  formedAt: timestamp("formedAt").defaultNow().notNull(),
+  resolvedAt: timestamp("resolvedAt"),
+}, (table) => ({
+  userIdx: index("idx_trade_alliances_user_id").on(table.userId),
+  userSeasonHousesUniq: uniqueIndex(
+    "uniq_trade_alliances_user_season_houses",
+  ).on(table.userId, table.seasonNumber, table.houseA, table.houseB),
+}));
+export type TradeAllianceRow = typeof tradeAlliances.$inferSelect;
+
+/**
+ * Phase D (Empire-feel): empire dynasty. Per-user record of the
+ * player's house name, current leader, and history of successions.
+ * Successor + biases inherited at Act completion.
+ */
+export const tradeDynasty = mysqlTable("trade_dynasty", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().unique(),
+  /** Player-chosen House name (legacy, not a person). */
+  houseName: varchar("houseName", { length: 128 }).notNull(),
+  /** Current leader NPC key (or "player" for the first leader). */
+  currentLeader: varchar("currentLeader", { length: 64 }).notNull().default("player"),
+  /** Dynasty book — append-only ledger of sealed treaties, broken
+   *  oaths, season declarations, succession events. JSON array of
+   *  `{ at, kind, summary, payload }`. */
+  dynastyBook: json("dynastyBook").$type<Array<Record<string, unknown>>>().notNull(),
+  /** Faction biases inherited from successor's faction. JSON map
+   *  `{ "new_babylon": -10, "antiquarian": +5, ... }`. */
+  factionBiases: json("factionBiases").$type<Record<string, number>>().notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+export type TradeDynastyRow = typeof tradeDynasty.$inferSelect;
+
+/**
+ * Phase D (Empire-feel): player-issued edicts. One per season per
+ * player. Active edicts apply a season-long modifier (toggleable
+ * bonus + sub-house rep cost). Foundation for revolts.
+ */
+export const tradeEdicts = mysqlTable("trade_edicts", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  seasonNumber: int("seasonNumber").notNull(),
+  /** Edict key from EDICT_REGISTRY (apps/shared/tradeEmpire/edicts.ts). */
+  edictKey: varchar("edictKey", { length: 128 }).notNull(),
+  /** "active" | "expired" — edicts auto-expire at season end. */
+  status: mysqlEnum("status", ["active", "expired"]).notNull().default("active"),
+  issuedAt: timestamp("issuedAt").defaultNow().notNull(),
+  expiredAt: timestamp("expiredAt"),
+}, (table) => ({
+  userIdx: index("idx_trade_edicts_user_id").on(table.userId),
+  userSeasonUniq: uniqueIndex("uniq_trade_edicts_user_season").on(
+    table.userId,
+    table.seasonNumber,
+  ),
+}));
+export type TradeEdictRow = typeof tradeEdicts.$inferSelect;
+
+/**
+ * Phase D (Empire-feel): per-user "while you were gone" cursor.
+ * Tracks the last public-knowledge event id the player has
+ * acknowledged. Session-start UI reads everything past this cursor
+ * as the digest. One row per user.
+ */
+export const tradeNewsCursor = mysqlTable("trade_news_cursor", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().unique(),
+  /** Last public-knowledge event id the player has dismissed. */
+  lastSeenEventId: int("lastSeenEventId").notNull().default(0),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+export type TradeNewsCursorRow = typeof tradeNewsCursor.$inferSelect;
+
+/**
+ * Phase D.5 (Empire-feel substrate extensions): blockades.
+ * A sector with threat ≥ 50 can be blockaded for 1 turn of orders +
+ * influence. Blockaded sectors yield 0 credits that tick. Faction
+ * can counter-blockade. Pure political theatre — gates future fleet
+ * combat. Per-(user, seasonNumber, sectorId).
+ */
+export const tradeBlockades = mysqlTable("trade_blockades", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  seasonNumber: int("seasonNumber").notNull(),
+  sectorId: varchar("sectorId", { length: 128 }).notNull(),
+  /** "active" | "broken" | "expired" */
+  status: mysqlEnum("status", ["active", "broken", "expired"]).notNull().default("active"),
+  /** Influence spent to establish the blockade. */
+  influenceSpent: int("influenceSpent").notNull().default(0),
+  declaredAt: timestamp("declaredAt").defaultNow().notNull(),
+  resolvedAt: timestamp("resolvedAt"),
+}, (table) => ({
+  userIdx: index("idx_trade_blockades_user_id").on(table.userId),
+  userSectorSeasonUniq: uniqueIndex(
+    "uniq_trade_blockades_user_sector_season",
+  ).on(table.userId, table.sectorId, table.seasonNumber),
+}));
+export type TradeBlockadeRow = typeof tradeBlockades.$inferSelect;
+
+/**
+ * Phase D.5: route commodity saturation. Each route's run count
+ * crashes the local commodity price; the saturation row tracks how
+ * much of a sector's commodity capacity is currently in oversupply.
+ * Decays back to 0 over real-time idle.
+ */
+export const tradeRouteSaturation = mysqlTable("trade_route_saturation", {
+  id: int("id").autoincrement().primaryKey(),
+  /** SectorId at the receiving end of a route. */
+  sectorId: varchar("sectorId", { length: 128 }).notNull().unique(),
+  /** Saturation score (0..200). 100 = at-capacity; >100 = oversupply
+   *  yielding price-crash penalties on subsequent runs. */
+  saturation: int("saturation").notNull().default(0),
+  /** Last time the saturation ticked. */
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+export type TradeRouteSaturationRow = typeof tradeRouteSaturation.$inferSelect;
+
+/**
+ * Phase D.5: research races. When a player starts a tech, an NPC
+ * racer is rolled. The race ticks until one side completes; if the
+ * NPC wins, the player still gets the tech but at -20% bonus.
+ */
+export const tradeResearchRaces = mysqlTable("trade_research_races", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /** Tech key the race is over. */
+  techKey: varchar("techKey", { length: 128 }).notNull(),
+  /** Sub-house key of the NPC racer. */
+  rivalHouseKey: varchar("rivalHouseKey", { length: 64 }).notNull(),
+  /** Real-ms deadline by which one side completes. */
+  deadlineMs: bigint("deadlineMs", { mode: "number" }).notNull(),
+  /** "pending" | "player_won" | "rival_won" */
+  status: mysqlEnum("status", ["pending", "player_won", "rival_won"]).notNull().default("pending"),
+  startedAt: timestamp("startedAt").defaultNow().notNull(),
+  resolvedAt: timestamp("resolvedAt"),
+}, (table) => ({
+  userIdx: index("idx_trade_research_races_user_id").on(table.userId),
+}));
+export type TradeResearchRaceRow = typeof tradeResearchRaces.$inferSelect;
+
+/**
+ * Phase D.5: espionage operations log. Each row is one cover-identity
+ * op the player attempted: "intel" (learn an agenda step early) or
+ * "sabotage" (lock a broker out for N hours). Tracks success / blown
+ * outcomes for the analytics + dialog layer.
+ */
+export const tradeEspionageOps = mysqlTable("trade_espionage_ops", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /** Active coverId at the time of the op (FK soft-link). */
+  coverId: varchar("coverId", { length: 128 }).notNull(),
+  /** "intel" | "sabotage" */
+  opKind: mysqlEnum("opKind", ["intel", "sabotage"]).notNull(),
+  /** Target broker key for sabotage; agenda key for intel. */
+  targetKey: varchar("targetKey", { length: 128 }).notNull(),
+  /** "success" | "blown" */
+  outcome: mysqlEnum("outcome", ["success", "blown"]).notNull(),
+  /** Influence spent on the op. */
+  influenceSpent: int("influenceSpent").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => ({
+  userIdx: index("idx_trade_espionage_ops_user_id").on(table.userId),
+}));
+export type TradeEspionageOpRow = typeof tradeEspionageOps.$inferSelect;
+
+/**
+ * Phase D.5: convergence climax. Singleton (id=1) — the doom clock.
+ * When `convergence` reaches 100, the climax window opens: all
+ * other actions are locked for 72h real-time and the player must
+ * pick from 3 bad options. Phase D.5 ships the data + helpers; the
+ * UI lock + choice resolution lands when the climax narrative
+ * branches are authored.
+ */
+export const convergenceClimaxState = mysqlTable("convergence_climax_state", {
+  id: int("id").primaryKey(),
+  /** 0..100 — when 100, the climax window opens. */
+  convergence: int("convergence").notNull().default(0),
+  /** "dormant" | "open" | "resolved" — open means choice is pending. */
+  phase: mysqlEnum("phase", ["dormant", "open", "resolved"]).notNull().default("dormant"),
+  /** When the climax window opened. Null in dormant phase. */
+  openedAt: timestamp("openedAt"),
+  /** Real-ms when the climax window auto-resolves (default 72h). */
+  closesAtMs: bigint("closesAtMs", { mode: "number" }),
+  /** Resolution choice key (set when phase=resolved). */
+  resolutionKey: varchar("resolutionKey", { length: 128 }),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+export type ConvergenceClimaxStateRow = typeof convergenceClimaxState.$inferSelect;

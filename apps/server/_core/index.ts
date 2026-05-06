@@ -449,6 +449,20 @@ async function startServer() {
       console.error("[MysteryRegistryBootstrap] failed:", e),
     );
 
+    // Trade Empire season tick — drives the political season clock
+    // and per-user agenda ticks. Phase 6 of the items-matter / GoT
+    // arc. Idempotent (compares wall-clock to persisted state); 5-min
+    // interval is plenty since phase boundaries are wall-hour grained
+    // and agenda ticks are wall-day grained.
+    const FIVE_MIN_MS = 5 * 60 * 1000;
+    const { runSeasonTick } = await import("../services/seasonTickService");
+    setInterval(() => {
+      runSeasonTick().catch(e => console.error("[SeasonTick] tick error:", e));
+    }, FIVE_MIN_MS);
+    // Run once on startup so a fresh deploy initialises the season
+    // clock row without waiting five minutes.
+    runSeasonTick().catch(e => console.error("[SeasonTick] initial tick error:", e));
+
     // Mystery Engine closure tick — picks expired epoch_vote_tallies
     // (expiresAt <= now AND isClosed = 0), writes the winning option,
     // and compiles a MysterySeed → MysteryDefinition for downstream

@@ -172,6 +172,32 @@ async function readPublicFlags(userId: number): Promise<Set<string>> {
   return new Set(rows.map(r => r.flag));
 }
 
+/**
+ * Read the player's public flags AND enrich them with the recent-news
+ * flags computed from the public-knowledge log for this NPC. Phase 7
+ * of the items-matter / GoT arc — lets authored npc_lines react to
+ * recent contract signings, tributes, demand refusals, agenda steps,
+ * etc., via stable pk.<eventKind>.recent prefixes.
+ *
+ * Falls back to the base flag set on any error so dialog never breaks
+ * because of the enrichment path.
+ */
+async function readPublicFlagsForNpc(
+  userId: number,
+  npcKey: NpcKey,
+): Promise<Set<string>> {
+  const base = await readPublicFlags(userId);
+  try {
+    const { enrichPublicFlags } = await import(
+      "../services/npcPublicKnowledgeReactions"
+    );
+    const enriched = await enrichPublicFlags(npcKey, userId, base);
+    return new Set(enriched);
+  } catch {
+    return base;
+  }
+}
+
 async function writePublicFlag(
   userId: number,
   flag: string,
@@ -664,7 +690,7 @@ export const npcRouter = router({
       const npcKey = input.npcKey as NpcKey;
       const profile = NPC_REGISTRY[npcKey];
       const trustState = await resolveTrustState(userId, npcKey);
-      const publicFlagsSet = await readPublicFlags(userId);
+      const publicFlagsSet = await readPublicFlagsForNpc(userId, npcKey);
       const flagsSet = new Set<string>(input.narrativeFlags);
       const trustBand = trustState.band;
       const trustBandIndex = profile.trustBands.findIndex(
@@ -812,7 +838,7 @@ export async function tryNpcReaction(
   const db = await getDb();
 
   const trustState = await resolveTrustState(userId, npcKey);
-  const publicFlagsSet = await readPublicFlags(userId);
+  const publicFlagsSet = await readPublicFlagsForNpc(userId, npcKey);
   const flagsSet = new Set<string>(narrativeFlags);
 
   let profileSnap: PlayerProfileSnapshot;

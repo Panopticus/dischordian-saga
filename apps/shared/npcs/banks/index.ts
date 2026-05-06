@@ -20,6 +20,8 @@ import { THE_MEME_BANK } from "./the_meme";
 import { THE_GAME_MASTER_BANK } from "./the_game_master";
 import { WRAITH_CALDER_BANK } from "./wraith_calder";
 import { DMC_CLONE_COMPANION_BANK } from "./dmc_clone_companion";
+import { THE_ANTIQUARIAN_BANK } from "./the_antiquarian";
+import { DRAEL_MON_BANK } from "./drael_mon";
 
 type BankEntry = NpcLine & { surfaces: ReadonlyArray<DialogSurface> };
 
@@ -39,6 +41,8 @@ export const ALL_NPC_LINES: ReadonlyArray<BankEntry> = [
   ...THE_GAME_MASTER_BANK,
   ...WRAITH_CALDER_BANK,
   ...DMC_CLONE_COMPANION_BANK,
+  ...THE_ANTIQUARIAN_BANK,
+  ...DRAEL_MON_BANK,
 ];
 
 /**
@@ -65,4 +69,6 @@ export {
   THE_GAME_MASTER_BANK,
   WRAITH_CALDER_BANK,
   DMC_CLONE_COMPANION_BANK,
+  THE_ANTIQUARIAN_BANK,
+  DRAEL_MON_BANK,
 };

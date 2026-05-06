@@ -268,6 +268,74 @@ export function applyEnergyGain(
   });
 }
 
+/* ─── Phase 5: item-tagged energy gain (items-matter / GoT arc) ─── */
+
+/**
+ * Per-faction additive energy nudges applied on top of an action's
+ * baseline. Items reveal their alignment by which side of the
+ * Dischordia meter they push. The mapping is intentionally
+ * conservative — we only nudge by a few points so a single trade
+ * can't dominate the global meter.
+ *
+ * Aligned with the priority-roster faction taxonomy:
+ * - Light-leaning: Antiquarian, Thaloria/independent, Potentials
+ * - Dark-leaning: Hierarchy, Thought Virus, Architect
+ * - Neutral: New Babylon, Insurgency, Free Ports — politics, not metaphysics
+ */
+const FACTION_ENERGY_NUDGE: Readonly<Record<string, { light: number; dark: number }>> = {
+  antiquarian: { light: 3, dark: 0 },
+  thaloria: { light: 4, dark: 0 },
+  potentials: { light: 2, dark: 0 },
+  hierarchy: { light: 0, dark: 4 },
+  thought_virus: { light: 0, dark: 5 },
+  architect: { light: 0, dark: 3 },
+  artificial_empire: { light: 0, dark: 3 },
+  new_babylon: { light: 0, dark: 0 },
+  insurgency: { light: 0, dark: 0 },
+  independent: { light: 1, dark: 0 },
+  neutral: { light: 0, dark: 0 },
+};
+
+/**
+ * Look up the per-action nudge for a given faction id (or any string —
+ * unknown values fall through to neutral). Used by the item-tagged
+ * energy paths and exported so callers can preview the effect.
+ */
+export function factionEnergyNudge(factionId: string | null | undefined): {
+  light: number;
+  dark: number;
+} {
+  if (!factionId) return { light: 0, dark: 0 };
+  return FACTION_ENERGY_NUDGE[factionId] ?? { light: 0, dark: 0 };
+}
+
+/**
+ * Apply an energy-gain action AND add a small faction-keyed nudge
+ * derived from an item's political alignment. Used wherever an
+ * action's energy effect should depend on what was traded / crafted /
+ * disenchanted.
+ *
+ * Pure function. Use this in place of applyEnergyGain when the
+ * action has an associated item / card / good with a faction tag.
+ */
+export function applyEnergyGainForFaction(
+  state: DischordiaCycleState,
+  actionId: EnergyGainActionId,
+  factionId: string | null | undefined,
+): DischordiaCycleState {
+  const baseAction = getEnergyGain(actionId);
+  if (!baseAction) return state;
+  const nudge = factionEnergyNudge(factionId);
+  return recomputeDerived({
+    ...state,
+    lightEnergy: state.lightEnergy + baseAction.light + nudge.light,
+    darkEnergy: state.darkEnergy + baseAction.dark + nudge.dark,
+    vortexProximity: clampProximity(
+      state.vortexProximity + (baseAction.vortex ?? 0),
+    ),
+  });
+}
+
 /* ─── RECLAMATION CHAIN (§3.4) ─── */
 
 export interface ReclamationStep {
@@ -282,7 +350,20 @@ export interface ReclamationStep {
     | { type: "collect_resources"; items: string[] }
     | { type: "card_duel_win"; targetOpponent: string }
     | { type: "comms_clicks"; clicksRequired: number }
-    | { type: "cutscene_play"; cutsceneId: string };
+    | { type: "cutscene_play"; cutsceneId: string }
+    /**
+     * Phase 9 of the items-matter / GoT arc — community-scale gate
+     * requires sacrificing crafted items. Every participating player
+     * may consume up to `perPlayerCap` items meeting the rarity
+     * floor. The community goal is `requiredCount` total items
+     * sacrificed before the step counts as complete.
+     */
+    | {
+        type: "craft_sacrifice";
+        minRarity: string;
+        requiredCount: number;
+        perPlayerCap: number;
+      };
   /** Personal Light Energy pool awarded to participants. */
   personalLightReward: number;
 }
@@ -326,8 +407,23 @@ export const RECLAMATION_CHAIN: readonly ReclamationStep[] = [
     personalLightReward: 50,
   },
   {
-    id: "sector_wakes_cutscene",
+    id: "sacrifice_for_the_signal",
     stage: 4,
+    name: "Sacrifice for the Signal",
+    description:
+      "Phase 9 — the reclamation runs on what players forge. Each participating player may sacrifice up to two rare-or-better crafted items; the community goal is one hundred sacrifices total before the cutscene fires.",
+    gameMode: "trade_empire",
+    objective: {
+      type: "craft_sacrifice",
+      minRarity: "rare",
+      requiredCount: 100,
+      perPlayerCap: 2,
+    },
+    personalLightReward: 80,
+  },
+  {
+    id: "sector_wakes_cutscene",
+    stage: 5,
     name: "A Sector Wakes",
     description: "The consumed sector reboots on the galaxy map. Gold border. Reclaimer tome page.",
     gameMode: "cutscene",

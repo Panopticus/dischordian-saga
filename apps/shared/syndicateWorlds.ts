@@ -648,6 +648,15 @@ const CLASS_CAPITAL_BONUSES: Record<string, {
 
 /* ═══════════════════════════════════════════════════════
    SPECIES → CAPITAL BONUS LOOKUP
+   Phase C migration: keys here are loose strings because this map
+   pre-dates the canonical SPECIES_REGISTRY in
+   apps/shared/species/registry.ts. The "synthetic" key is a
+   gameplay-only label (it maps to multiple registry species —
+   construct + future synthetics), so we keep the lookup loose. The
+   five species *are* expected to be canonical-or-pseudo-canonical;
+   the test in apps/shared/species/__tests__/registry.test.ts
+   verifies the canonical ones (demagi/quarchon/neyon/human) exist
+   in SPECIES_REGISTRY.
    ═══════════════════════════════════════════════════════ */
 
 const SPECIES_CAPITAL_BONUSES: Record<string, { resourceBonus: number; defenseBonus: number; label: string }> = {
