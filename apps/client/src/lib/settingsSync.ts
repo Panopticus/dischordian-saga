@@ -63,6 +63,17 @@ function applySettingsToDOM(settings: GameSettings): void {
   // consumers already familiar with the convention pick it up.
   root.classList.toggle("captions-on", settings.captions);
   root.style.setProperty("--typewriter-speed-ms", String(settings.typewriterSpeed));
+  // Caption size — exposed as a multiplier on `--caption-scale` so
+  // consumers can do `font-size: calc(var(--caption-base) * var(--caption-scale))`.
+  // Default 1.0 maps to "medium". Mirrors the colorblind-* class pattern
+  // for symmetry with the rest of the a11y settings.
+  const CAPTION_SCALE: Record<typeof settings.captionSize, number> = {
+    small: 0.85,
+    medium: 1.0,
+    large: 1.25,
+    xlarge: 1.5,
+  };
+  root.style.setProperty("--caption-scale", String(CAPTION_SCALE[settings.captionSize]));
 
   // Colorblind palette presets. Mutually exclusive — clear all three
   // before applying so toggling between modes never accumulates classes.

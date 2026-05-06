@@ -44,6 +44,11 @@ export const settingsSchema = z.object({
   // the existing typewriter so players who can't hear the VO still get
   // the full narrative context.
   captions: z.boolean().default(false),
+  // Caption text size. Multiplies the base caption font size via the
+  // `--caption-scale` custom property (set in settingsSync). Sized
+  // generously for streaming-quality readability — the largest preset
+  // matches WCAG-AA recommendations for closed-caption presentation.
+  captionSize: z.enum(["small", "medium", "large", "xlarge"]).default("medium"),
   // Typewriter pacing, in milliseconds per character. Consumers read this
   // via the `--typewriter-speed-ms` custom property (set by settingsSync).
   // Lower = faster reveal; 0 = instant (good for speed-readers).
