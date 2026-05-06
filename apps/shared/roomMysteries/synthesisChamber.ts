@@ -33,6 +33,17 @@ export const SYNTHESIS_CHAMBER_MYSTERY: RoomMysteryModule<SynthesisChamberHotspo
           order: 0,
         },
       },
+      use: {
+        narration:
+          "You draw a small sample from the vat's tap. The fluid in the phial keeps spinning at the same slow rate it spins in the tank — the synth-vat's standing rotation transfers to anything decanted from it. Lyra's note, taped to the tap: 'Stir before use, but not yet.'",
+        voId: "elara.synthesis-chamber.synth-vat.use",
+        setsFlag: "synth_vat_sampled",
+      },
+      talk: {
+        narration:
+          "If you address the vat, the rotation steadies. The chamber is, in its quiet way, attentive — the larder pays attention to the kitchen it serves. We should pay attention back.",
+        voId: "elara.synthesis-chamber.synth-vat.talk",
+      },
     },
     "recipe-board": {
       look: {
@@ -53,6 +64,17 @@ export const SYNTHESIS_CHAMBER_MYSTERY: RoomMysteryModule<SynthesisChamberHotspo
           source: "synthesis-chamber",
           order: 1,
         },
+      },
+      use: {
+        narration:
+          "You run a finger across the slate's slot for Substrate-N. The chalk gives faintly under your touch — the entry has been re-traced more than once over the centuries, kept legible by visitors who knew not to erase it. Whoever has been re-tracing the line knows the recipe but is honouring the original refusal.",
+        voId: "elara.synthesis-chamber.recipe-board.use",
+        setsFlag: "synthesis_recipe_retraced",
+      },
+      talk: {
+        narration:
+          "If you address the recipe-board, you address every authorised synthesis the chamber has ever done. Twenty entries, mostly routine. One — the last — is the only thing in this room that would change the case if it were spoken aloud. We will not, today, speak it.",
+        voId: "elara.synthesis-chamber.recipe-board.talk",
       },
     },
   },

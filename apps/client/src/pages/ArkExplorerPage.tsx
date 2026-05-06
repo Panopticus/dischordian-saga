@@ -37,13 +37,14 @@ import { dispatchRememberThis } from "@/game/narrativeSystems";
 import { getActiveBreadcrumbs, type BreadcrumbChain } from "@/game/explorationSystems";
 import { getCluesForRoom, type EnvironmentalClue } from "@/game/puzzleClues";
 import { getAdjustedTrustGain } from "@/game/npcDailyRotation";
+import { getNPCPortrait, getHumanRevealImage } from "@/game/npcPortraits";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "wouter";
 import {
   Terminal, Eye, Package, DoorOpen, Hand, Lock, ChevronRight,
   MapPin, Compass, Zap, Ship, ArrowLeft, X, Star, Volume2, VolumeX,
   Maximize2, Minimize2, Music, Swords, Search, BookOpen, Tv,
-  FlaskConical, Shield, User, Map as MapIcon, Flame
+  FlaskConical, Shield, User, Map as MapIcon, Flame, Backpack
 } from "lucide-react";
 import LandscapeEnforcer from "@/components/LandscapeEnforcer";
 import { toast } from "sonner";
@@ -61,6 +62,7 @@ import { getRoomTransmissions, getElaraVariant, type SecretTransmission } from "
 import AlienSymbolPuzzle from "@/components/AlienSymbolPuzzle";
 import FastTravelPanel from "@/components/FastTravelPanel";
 import ItemDetailModal from "@/components/ItemDetailModal";
+import AdventureInventoryDrawer from "@/components/AdventureInventoryDrawer";
 import ElaraConversationPopup from "@/components/ElaraConversationPopup";
 import CompanionPresenceBadge from "@/components/CompanionPresenceBadge";
 import { useElaraVO } from "@/hooks/useElaraVO";
@@ -105,6 +107,7 @@ function getHotspotIcon(type: HotspotDef["type"]) {
     case "door": return DoorOpen;
     case "examine": return Eye;
     case "interact": return Hand;
+    case "npc": return User;
     default: return Eye;
   }
 }
@@ -145,6 +148,16 @@ function getHotspotColor(type: HotspotDef["type"]) {
         bg: "color-mix(in oklch, var(--energy-success) 15%, transparent)",
         glow: "color-mix(in oklch, var(--energy-success) 30%, transparent)",
         text: "var(--energy-success)",
+      };
+    case "npc":
+      // NPC presence — the bust portrait carries its own per-character
+      // colour ring (from NPC_PORTRAITS[npcId].color), so this fallback
+      // only paints a generic glow when the portrait failed to load.
+      return {
+        border: "color-mix(in oklch, var(--energy-premium) 60%, transparent)",
+        bg: "color-mix(in oklch, var(--bg-void) 70%, transparent)",
+        glow: "color-mix(in oklch, var(--energy-premium) 40%, transparent)",
+        text: "var(--energy-premium)",
       };
   }
 }
@@ -582,6 +595,39 @@ function RoomScene({
                   transform: `translate(-50%, -50%) scale(${isHovered ? 1.2 : 1})`,
                 }}
               >
+                {hotspot.type === "npc" && hotspot.npcId ? (
+                  // Phase C — NPC presence. Render the NPC's bust portrait
+                  // at the hotspot instead of the default icon. The Human
+                  // is special: portrait progressive-reveals via
+                  // getHumanRevealImage(trust) until trust ≥ 50.
+                  (() => {
+                    const portrait = getNPCPortrait(hotspot.npcId);
+                    const trust = gameStateForArt.npcTrust?.[hotspot.npcId] ?? 0;
+                    const src = hotspot.npcId === "the_human"
+                      ? getHumanRevealImage(trust)
+                      : (portrait?.bustPortrait ?? portrait?.fullPortrait);
+                    if (!src) return null;
+                    return (
+                      <div
+                        className="rounded-full flex items-center justify-center overflow-hidden"
+                        style={{
+                          width: "var(--space-2xl)",
+                          height: "var(--space-2xl)",
+                          background: "color-mix(in oklch, var(--bg-void) 70%, transparent)",
+                          border: `2px solid ${portrait?.color ?? "color-mix(in oklch, var(--energy-primary) 70%, transparent)"}`,
+                          boxShadow: `0 0 var(--space-md) ${portrait?.color ?? "var(--glass-border)"}`,
+                        }}
+                      >
+                        <img
+                          src={src}
+                          alt={portrait?.name ?? hotspot.name}
+                          className="w-full h-full object-cover"
+                          loading="lazy"
+                        />
+                      </div>
+                    );
+                  })()
+                ) : (
                 <div
                   className={`${isEasterEgg ? "w-4 h-4" : hotspot.type === "door" ? "w-10 h-10" : "w-8 h-8"} rounded-full flex items-center justify-center`}
                   style={{
@@ -593,6 +639,7 @@ function RoomScene({
                   {!isEasterEgg && <Icon size={hotspot.type === "door" ? 18 : 14} style={{ color: colors.text }} />}
                   {isEasterEgg && <div className="w-1.5 h-1.5 rounded-full" style={{ background: colors.text, opacity: 0.4 }} />}
                 </div>
+                )}
                 {/* Feature sub-icon badge for terminal hotspots */}
                 {FeatureIcon && !isEasterEgg && (
                   <div
@@ -1359,6 +1406,7 @@ export default function ArkExplorerPage() {
   // fastTravelUnlocked so pre-puzzle players don't get a keyboard
   // shortcut that exposes rooms they haven't earned yet.
   const [fastTravelModalOpen, setFastTravelModalOpen] = useState(false);
+  const [inventoryDrawerOpen, setInventoryDrawerOpen] = useState(false);
   useEffect(() => {
     if (!fastTravelUnlocked) return;
     const onKey = (e: KeyboardEvent) => {
@@ -1605,6 +1653,17 @@ export default function ArkExplorerPage() {
           { type: "item_inspect", itemId: hotspot.action ?? hotspot.id },
           ((state as unknown as { innerVoiceSkills?: Record<string, number> }).innerVoiceSkills ?? {}) as Record<string, number>,
         );
+        break;
+      }
+      case "npc": {
+        // Phase C — NPC presence at room hotspots. The hotspot carries
+        // a FactionNPCId; opening NPCDialog with buildFirstContactScene
+        // routes through useDialogVO (already wired to play VO) and
+        // through the global vo-speaking refcount (Phase A) so the BGM
+        // ducks while the NPC speaks. No additional plumbing required.
+        if (!hotspot.npcId) break;
+        const scene = buildFirstContactScene(hotspot.npcId as FactionNPCId);
+        setNpcDialogScene(scene);
         break;
       }
       case "examine":
@@ -1917,6 +1976,34 @@ export default function ArkExplorerPage() {
             </div>
           </div>
           <div className="flex items-center gap-2">
+            {/* Phase B — Adventure-inventory backpack toggle. Reads
+                state.mysteryInventory and runs INVENTORY_COMBINATIONS
+                via tryCombineItems(). The badge surfaces item count so
+                the player knows when a pickup just landed. */}
+            <button
+              onClick={() => setInventoryDrawerOpen((v) => !v)}
+              className="relative flex items-center gap-1.5 px-3 py-1.5 rounded-md font-mono text-[11px] transition-all"
+              style={{
+                background: inventoryDrawerOpen ? "color-mix(in oklch, var(--energy-premium) 15%, transparent)" : "color-mix(in oklch, var(--text-primary) 3%, transparent)",
+                border: `1px solid ${inventoryDrawerOpen ? "color-mix(in oklch, var(--energy-premium) 30%, transparent)" : "color-mix(in oklch, var(--text-primary) 10%, transparent)"}`,
+                color: inventoryDrawerOpen ? "var(--energy-premium)" : "color-mix(in oklch, var(--text-primary) 50%, transparent)",
+              }}
+              title="Inventory"
+            >
+              <Backpack size={12} />
+              INVENTORY
+              {state.mysteryInventory && state.mysteryInventory.length > 0 && (
+                <span
+                  className="ml-1 px-1.5 rounded-full font-mono text-[9px]"
+                  style={{
+                    background: "color-mix(in oklch, var(--energy-premium) 30%, transparent)",
+                    color: "var(--energy-premium)",
+                  }}
+                >
+                  {state.mysteryInventory.length}
+                </span>
+              )}
+            </button>
             <button
               onClick={toggleFullscreen}
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-md font-mono text-[11px] transition-all"
@@ -2271,6 +2358,14 @@ export default function ArkExplorerPage() {
           }}
         />
       )}
+
+      {/* Phase B — Adventure inventory drawer. Always mounted so the
+          player can review items + run combines from any room. */}
+      <AdventureInventoryDrawer
+        open={inventoryDrawerOpen}
+        onClose={() => setInventoryDrawerOpen(false)}
+      />
+
 
       {/* Fast Travel Panel — only visible after solving the nav puzzle */}
       {fastTravelUnlocked && (

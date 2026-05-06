@@ -143,6 +143,7 @@ const DreamerFragmentsPage = lazy(() => import("./pages/DreamerFragmentsPage"));
 const DreamerDossierPage = lazy(() => import("./pages/DreamerDossierPage"));
 const LoredexGraphPage = lazy(() => import("./pages/LoredexGraphPage"));
 const Act2InterludePage = lazy(() => import("./pages/Act2InterludePage"));
+const Act2OpeningPage = lazy(() => import("./pages/Act2OpeningPage"));
 const EngineersBenchPage = lazy(() => import("./pages/EngineersBenchPage"));
 const HellboxPortalPage = lazy(() => import("./pages/HellboxPortalPage"));
 const MatrixSchoolEpisodePage = lazy(() => import("./pages/MatrixSchoolEpisodePage"));
@@ -375,6 +376,7 @@ function Router() {
             the focus entity declared in LoredexGraphPage. */}
         <Route path="/loredex/graph" component={LoredexGraphPage} />
         <Route path="/act2-interlude" component={Act2InterludePage} />
+        <Route path="/act2-opening" component={Act2OpeningPage} />
         <Route path="/engineers-bench" component={EngineersBenchPage} />
         <Route path="/hellbox" component={HellboxPortalPage} />
         <Route path="/matrix/:episodeId" component={MatrixSchoolEpisodePage} />
@@ -758,11 +760,28 @@ function useSoundForTTS() {
   return { muted, volume };
 }
 
-/** Wrapper that reads SoundContext state and passes to GameAudioProvider */
+/** Wrapper that reads SoundContext state and passes to GameAudioProvider.
+ *  Subscribes to the global vo-speaking pubsub (see lib/voSpeakingState)
+ *  so the BGM mix ducks whenever any NPC VO hook (Elara, Human, Locke,
+ *  …) is mid-line — without each page having to thread `speaking` props
+ *  through the tree. */
 function GameAudioInner({ children }: { children: ReactNode }) {
   const { muted, volume } = useSound();
+  const [voSpeaking, setVoSpeaking] = useState(false);
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const detail = (e as CustomEvent<{ active: boolean }>).detail;
+      setVoSpeaking(!!detail?.active);
+    };
+    window.addEventListener("vo-speaking-change", handler);
+    return () => window.removeEventListener("vo-speaking-change", handler);
+  }, []);
   return (
-    <GameAudioProvider masterVolume={volume * 0.6} masterMuted={muted}>
+    <GameAudioProvider
+      masterVolume={volume * 0.6}
+      masterMuted={muted}
+      elaraSpeaking={voSpeaking}
+    >
       {children}
     </GameAudioProvider>
   );
