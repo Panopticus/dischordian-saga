@@ -15,6 +15,7 @@ import { STARTER_DECK_MAP } from "@shared/tcg-core/decks/starterDecks";
 import { trpc } from "@/lib/trpc";
 import { useAuth } from "@/_core/hooks/useAuth";
 import DuelystGameUI from "./DuelystGameUI";
+import BattleCompanionSlotHUD from "@/components/BattleCompanionSlotHUD";
 import { DeckPickerModal } from "@/components/match/DeckPickerModal";
 import PackOpening, { type PackCard } from "./PackOpening";
 import CollectionView from "./CollectionView";
@@ -650,6 +651,10 @@ export default function DuelystPage() {
               }}
               onBack={() => { setIsTutorial(false); setPickedDeckCardDefIds(null); setView("menu"); }}
             />
+            {/* Plan §B6 — companion ability HUD overlay. Hidden during the
+                tutorial so the onboarding stays focused; visible in normal
+                play for the player's bond-gated ME-style support kit. */}
+            <BattleCompanionSlotHUD visible={!isTutorial} />
           </motion.div>
         )}
 
