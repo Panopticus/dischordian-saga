@@ -10,6 +10,14 @@ import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import { userProgress, users, contentParticipation } from "../../db/schema";
 import { eq, desc, sql, and } from "drizzle-orm";
+import {
+  MAX_SLOT_LABEL_LEN,
+  buildCrossArcCarryforward,
+  deleteSlot,
+  listSlots,
+  restoreFromSlot,
+  saveToSlot,
+} from "../../shared/saveSlots";
 
 function dbUnavailable(): never {
   throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Database unavailable" });
@@ -379,4 +387,113 @@ export const gameStateRouter = router({
       await db.update(userProgress).set({ gameData: state }).where(eq(userProgress.userId, ctx.user.id));
       return { ok: true };
     }),
+
+  /* ─── Save slots (plan §B7) ─── */
+
+  /** List all save slots for the current player. Sorted newest-first. */
+  listSaveSlots: protectedProcedure.query(async ({ ctx }) => {
+    const db = await getDb();
+    if (!db) dbUnavailable();
+    const row = await db
+      .select()
+      .from(userProgress)
+      .where(eq(userProgress.userId, ctx.user.id))
+      .limit(1);
+    const gameData = (row[0]?.gameData ?? {}) as Record<string, unknown>;
+    return listSlots(gameData).map((slot) => ({
+      id: slot.id,
+      label: slot.label,
+      createdAt: slot.createdAt,
+      updatedAt: slot.updatedAt,
+      // Snapshot data is intentionally not returned — restore endpoint
+      // returns it. Keeps list-payloads small.
+    }));
+  }),
+
+  /** Save current gameData into a named slot. Idempotent for the same id —
+   *  re-saving updates updatedAt + label without losing createdAt. */
+  saveToSlot: protectedProcedure
+    .input(
+      z.object({
+        slotId: z.string().min(1).max(64),
+        label: z.string().max(MAX_SLOT_LABEL_LEN),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) dbUnavailable();
+      const row = await db
+        .select()
+        .from(userProgress)
+        .where(eq(userProgress.userId, ctx.user.id))
+        .limit(1);
+      const gameData = (row[0]?.gameData ?? {}) as Record<string, unknown>;
+      const result = saveToSlot(gameData, input.slotId, input.label);
+      if ("error" in result) {
+        return { ok: false, error: result.error };
+      }
+      await db
+        .update(userProgress)
+        .set({ gameData: result.gameData })
+        .where(eq(userProgress.userId, ctx.user.id));
+      return { ok: true, slot: { id: result.slot.id, label: result.slot.label, updatedAt: result.slot.updatedAt } };
+    }),
+
+  /** Restore from a named slot. Replaces live gameData with the slot's
+   *  snapshot but preserves the saveSlots array so other saves are kept. */
+  restoreFromSlot: protectedProcedure
+    .input(z.object({ slotId: z.string().min(1) }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) dbUnavailable();
+      const row = await db
+        .select()
+        .from(userProgress)
+        .where(eq(userProgress.userId, ctx.user.id))
+        .limit(1);
+      const gameData = (row[0]?.gameData ?? {}) as Record<string, unknown>;
+      const result = restoreFromSlot(gameData, input.slotId);
+      if ("error" in result) {
+        return { ok: false, error: result.error };
+      }
+      await db
+        .update(userProgress)
+        .set({ gameData: result.gameData })
+        .where(eq(userProgress.userId, ctx.user.id));
+      return { ok: true };
+    }),
+
+  /** Delete a slot. Idempotent. */
+  deleteSlot: protectedProcedure
+    .input(z.object({ slotId: z.string().min(1) }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) dbUnavailable();
+      const row = await db
+        .select()
+        .from(userProgress)
+        .where(eq(userProgress.userId, ctx.user.id))
+        .limit(1);
+      const gameData = (row[0]?.gameData ?? {}) as Record<string, unknown>;
+      const result = deleteSlot(gameData, input.slotId);
+      await db
+        .update(userProgress)
+        .set({ gameData: result.gameData })
+        .where(eq(userProgress.userId, ctx.user.id));
+      return { ok: true };
+    }),
+
+  /** Build the cross-arc carryforward without committing it. Lets the
+   *  client preview what survives an NG+ before the player commits. */
+  previewCrossArcCarryforward: protectedProcedure.query(async ({ ctx }) => {
+    const db = await getDb();
+    if (!db) dbUnavailable();
+    const row = await db
+      .select()
+      .from(userProgress)
+      .where(eq(userProgress.userId, ctx.user.id))
+      .limit(1);
+    const gameData = (row[0]?.gameData ?? {}) as Record<string, unknown>;
+    return buildCrossArcCarryforward(gameData);
+  }),
 });

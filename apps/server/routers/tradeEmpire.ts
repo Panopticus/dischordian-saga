@@ -1601,4 +1601,23 @@ export const tradeEmpireRouter = router({
         npcAcknowledgments,
       };
     }),
+
+  /** Pressure-driven price modifiers (plan §C4). Returns the per-good
+   *  multiplier bundle the trade UI applies on top of base prices. The
+   *  Living Universe pressure snapshot drives the math; clients pair
+   *  this with their authored base-price record via applyPriceModifiers. */
+  getPriceModifiers: protectedProcedure.query(async () => {
+    const { computePriceModifiers } = await import("../../shared/tradePriceDrift");
+    const { pressureService } = await import("../services/pressureService");
+    const pressure = await pressureService.getAllPressures();
+    const cycleNet = (pressure.moralityHumanity ?? 0) - (pressure.moralityMachine ?? 0);
+    return computePriceModifiers({
+      deaths: pressure.deaths,
+      viralExposures: pressure.viralExposures,
+      truthRevealed: pressure.truthRevealed,
+      healingDone: pressure.healingDone,
+      exploration: pressure.exploration,
+      cycleNet,
+    });
+  }),
 });
