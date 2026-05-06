@@ -158,6 +158,64 @@ describe.skipIf(!process.env.DATABASE_URL)("tradeWars", () => {
       expect(typeof result.success).toBe("boolean");
       expect(typeof result.message).toBe("string");
     });
+
+    it("ignores client-supplied factionReputation (spoof guarantee)", async () => {
+      // Spoof guarantee: the legacy `factionReputation` wire field is
+      // accepted (Zod strip-mode) but ignored — the server reads
+      // reputation from userProgress.gameData.factionReputation via
+      // factionReputationService. Two trade calls with identical
+      // (commodity, action, quantity) — one carrying a max-spoof
+      // factionReputation map, one carrying nothing — must yield the
+      // same per-unit price.
+      //
+      // The unit-level math gate lives in
+      // apps/server/services/factionReputationService.test.ts; this
+      // test closes the wire-level loop the diplomacy doc owes.
+      const state = await caller.tradeWars.getState();
+      const sector = await caller.tradeWars.getSector({} as never);
+      if (
+        !state ||
+        !sector ||
+        (sector.sectorType !== "port" && sector.sectorType !== "stardock")
+      ) {
+        // Player isn't at a trading port in this test run — earlier
+        // tests in the file may have warped them. The spoof guarantee
+        // is exercised by the unit test in either case; the wire-level
+        // assertion needs an actual buy to succeed.
+        return;
+      }
+
+      // Call once WITHOUT the spoof field — the canonical baseline.
+      const baseline = await caller.tradeWars.trade({
+        commodity: "fuelOre",
+        action: "buy",
+        quantity: 1,
+      });
+
+      if (!baseline.success) {
+        // Port doesn't sell fuelOre, or some other gating condition
+        // fired. Skip — the unit test still covers the math guarantee.
+        return;
+      }
+
+      // Call again WITH a max-spoof factionReputation. The Zod schema
+      // no longer carries this field so we cast through `never` —
+      // proves the runtime accepts the extra wire key (strip mode)
+      // and that ignoring it produces the same totalCost.
+      const spoofInput = {
+        commodity: "fuelOre" as const,
+        action: "buy" as const,
+        quantity: 1,
+        factionReputation: { empire: 99999, insurgency: 99999, neutral: 99999 },
+      };
+      const spoofed = await caller.tradeWars.trade(spoofInput as never);
+
+      expect(spoofed.success).toBe(true);
+      // The message embeds the totalCost: "Bought 1 fuelOre for N credits".
+      // Same commodity + same quantity + identical (server-derived)
+      // reputation + same citizen-discount → identical totalCost.
+      expect(spoofed.message).toBe(baseline.message);
+    });
   });
 
   describe("combat", () => {
