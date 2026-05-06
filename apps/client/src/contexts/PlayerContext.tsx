@@ -20,15 +20,15 @@ interface PlayerContextType {
   setVolume: (v: number) => void;
   seek: (time: number) => void;
   hasAudio: boolean;
-  /** Audio-element `muted` flag, separate from `volume` so toggling
-   *  silence doesn't clobber the user's preferred level. Used by the
-   *  title flow to pre-roll The Enigma's Lament under the meme video
-   *  on iOS Safari (where every programmatic `play()` outside a user
-   *  activation is blocked) — the song starts muted inside the
-   *  CONFIRM/LOOK AWAY click handler, then `setMuted(false)` reveals
-   *  it for the last 10s of the broadcast. */
-  muted: boolean;
-  setMuted: (m: boolean) => void;
+  /** Load a song and "unlock" the audio element inside the current
+   *  user gesture — play() is invoked, then immediately paused at
+   *  currentTime=0. iOS Safari counts the play() as gesture-backed,
+   *  so a later `resume()` outside any gesture plays cleanly from
+   *  sample 0 with no seek glitch. Used by the title flow so The
+   *  Enigma's Lament can land at exactly the meme-video −10s cue
+   *  without an audible blip-then-mute on the click and without a
+   *  seek-back-to-0 stall on the unmute. */
+  prerollAndPause: (song: LoredexEntry) => void;
 }
 
 const PlayerContext = createContext<PlayerContextType | null>(null);
@@ -41,7 +41,6 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [volume, setVolumeState] = useState(0.8);
-  const [muted, setMutedState] = useState(false);
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
   // Use refs for queue and currentSong so event handlers always see latest values
@@ -198,10 +197,38 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  const setMuted = useCallback((m: boolean) => {
-    setMutedState(m);
-    if (audioRef.current) {
-      audioRef.current.muted = m;
+  const prerollAndPause = useCallback((song: LoredexEntry) => {
+    const audio = audioRef.current;
+    if (!audio || !song.audio_url) return;
+    setCurrentSong(song);
+    setShowPlayer(true);
+    setCurrentTime(0);
+    setDuration(0);
+    // Mute is a defense-in-depth seatbelt: pause() should land before
+    // any sample is heard, but if the play promise resolves a frame
+    // before our pause callback (race on slow main threads) the muted
+    // flag absorbs that single frame.
+    audio.muted = true;
+    audio.src = song.audio_url;
+    const playPromise = audio.play();
+    const cleanup = () => {
+      audio.pause();
+      audio.currentTime = 0;
+      audio.muted = false;
+      setIsPlaying(false);
+      setCurrentTime(0);
+    };
+    if (playPromise && typeof playPromise.then === "function") {
+      playPromise.then(cleanup).catch((e) => {
+        // Genuine autoplay refusal (rare since we're inside a fresh
+        // user gesture). Leave the element in a known state; the
+        // −10s `resume()` will retry.
+        console.warn("[Player] preroll-and-pause autoplay blocked:", e);
+        audio.muted = false;
+        setIsPlaying(false);
+      });
+    } else {
+      cleanup();
     }
   }, []);
 
@@ -218,7 +245,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       value={{
         currentSong, isPlaying, queue, playSong, pause, resume, next, prev,
         setQueue, showPlayer, currentTime, duration, volume, setVolume, seek, hasAudio,
-        muted, setMuted,
+        prerollAndPause,
       }}
     >
       {children}
