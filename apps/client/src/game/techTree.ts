@@ -33,6 +33,22 @@ export interface Technology {
   prerequisites: string[];
   /** Gameplay effects */
   effects: TechEffect[];
+  /** Civ-style civics fork: techs in this list become unresearchable
+   *  once any sibling in the group is researched. Shared symmetric set —
+   *  if A lists B in mutexWith then B should list A. The forks are the
+   *  only mechanism in the tree where research is a real *choice*. */
+  mutexWith?: string[];
+}
+
+export interface TechSynergy {
+  id: string;
+  /** Required tech ids — every entry must be researched for the bonus
+   *  to apply. */
+  requires: string[];
+  name: string;
+  description: string;
+  /** Effects accumulated alongside per-tech effects in getTotalEffects. */
+  effects: TechEffect[];
 }
 
 export type TechEffect =
@@ -136,6 +152,32 @@ const MILITARY_TECHS: Technology[] = [
       { type: "unlock_feature", feature: "dreadnought", description: "Unlock Dreadnought capital ship for guild fleet" },
     ],
   },
+  /* ─── Civics fork: choose one doctrine per prestige cycle ─── */
+  {
+    id: "mil_doctrine_aggression",
+    name: "Doctrine of Aggression",
+    branch: "military", tier: 2,
+    description: "All-offense fleet posture. Excludes Doctrine of Attrition.",
+    loreText: "The Warlord's notebook closed with a single line: 'Hesitation is the only true defeat.'",
+    cost: { influence: 35, dream: 60 }, researchHours: 6,
+    prerequisites: ["mil_basic_tactics"],
+    mutexWith: ["mil_doctrine_attrition"],
+    effects: [{ type: "fleet_combat", bonus: 25, percent: true }],
+  },
+  {
+    id: "mil_doctrine_attrition",
+    name: "Doctrine of Attrition",
+    branch: "military", tier: 2,
+    description: "Endurance-first fleet posture. Excludes Doctrine of Aggression.",
+    loreText: "Iron Lion's discarded draft: 'A fleet that survives the second day wins the war.'",
+    cost: { influence: 35, dream: 60 }, researchHours: 6,
+    prerequisites: ["mil_armor_plating"],
+    mutexWith: ["mil_doctrine_aggression"],
+    effects: [
+      { type: "fleet_cargo", bonus: 25, percent: true },
+      { type: "war_points", bonus: 10, percent: true },
+    ],
+  },
 ];
 
 /* ─── ECONOMIC BRANCH ─── */
@@ -221,6 +263,32 @@ const ECONOMIC_TECHS: Technology[] = [
       { type: "trade_profit", bonus: 50, percent: true },
       { type: "resource_generation", resource: "dream", bonus: 15, percent: true },
       { type: "unlock_feature", feature: "trade_station", description: "Build a personal Trade Station generating passive income" },
+    ],
+  },
+  /* ─── Civics fork: choose one economic doctrine per prestige cycle ─── */
+  {
+    id: "eco_doctrine_free_market",
+    name: "Free Market Doctrine",
+    branch: "economic", tier: 2,
+    description: "Profit through deregulated commerce. Excludes Command Economy.",
+    loreText: "Locke's gospel: 'Price is the only signal that doesn't lie.'",
+    cost: { influence: 35, dream: 50 }, researchHours: 6,
+    prerequisites: ["eco_trade_routes"],
+    mutexWith: ["eco_doctrine_command_economy"],
+    effects: [{ type: "trade_profit", bonus: 30, percent: true }],
+  },
+  {
+    id: "eco_doctrine_command_economy",
+    name: "Command Economy",
+    branch: "economic", tier: 2,
+    description: "Profit through controlled extraction. Excludes Free Market.",
+    loreText: "The Antiquarian's dry footnote: 'Every empire that planned its grain stores outlasted the ones that priced them.'",
+    cost: { influence: 35, dream: 50 }, researchHours: 6,
+    prerequisites: ["eco_cargo_optimization"],
+    mutexWith: ["eco_doctrine_free_market"],
+    effects: [
+      { type: "sector_income", bonus: 25, percent: true },
+      { type: "resource_generation", resource: "salvage", bonus: 10, percent: true },
     ],
   },
 ];
@@ -314,6 +382,32 @@ const DIPLOMATIC_TECHS: Technology[] = [
       { type: "unlock_feature", feature: "galactic_council", description: "Establish the Galactic Council — endgame faction management" },
     ],
   },
+  /* ─── Civics fork: choose one diplomatic doctrine per prestige cycle ─── */
+  {
+    id: "dip_doctrine_open",
+    name: "Open Diplomacy Doctrine",
+    branch: "diplomatic", tier: 2,
+    description: "Soft-power negotiation. Excludes Realpolitik.",
+    loreText: "Elara's first protocol: 'The hardest thing to negotiate against is sincerity.'",
+    cost: { influence: 30, dream: 40 }, researchHours: 5,
+    prerequisites: ["dip_first_contact"],
+    mutexWith: ["dip_doctrine_realpolitik"],
+    effects: [{ type: "diplomacy_bonus", bonus: 30, percent: true }],
+  },
+  {
+    id: "dip_doctrine_realpolitik",
+    name: "Realpolitik Doctrine",
+    branch: "diplomatic", tier: 2,
+    description: "Pragmatic negotiation backed by intelligence. Excludes Open Diplomacy.",
+    loreText: "The Human's dry assessment: 'Trust the signal, not the speaker.'",
+    cost: { influence: 30, dream: 40 }, researchHours: 5,
+    prerequisites: ["dip_intelligence_network"],
+    mutexWith: ["dip_doctrine_open"],
+    effects: [
+      { type: "diplomacy_bonus", bonus: 20, percent: true },
+      { type: "agent_slots", bonus: 1 },
+    ],
+  },
 ];
 
 /* ─── COMBINED TREE ─── */
@@ -322,6 +416,45 @@ export const ALL_TECHNOLOGIES: Technology[] = [
   ...MILITARY_TECHS,
   ...ECONOMIC_TECHS,
   ...DIPLOMATIC_TECHS,
+];
+
+/* ─── CROSS-BRANCH SYNERGIES ─── */
+
+export const TECH_SYNERGIES: TechSynergy[] = [
+  {
+    id: "syn_combined_arms",
+    requires: ["mil_advanced_weapons", "dip_espionage"],
+    name: "Combined Arms Intelligence",
+    description: "Espionage and frontline weapons share targeting data.",
+    effects: [
+      { type: "fleet_combat", bonus: 5, percent: true },
+      { type: "war_points", bonus: 5, percent: true },
+    ],
+  },
+  {
+    id: "syn_trade_diplomacy",
+    requires: ["eco_market_manipulation", "dip_first_contact"],
+    name: "Trade Diplomacy",
+    description: "Insider markets reward established diplomatic ties.",
+    effects: [{ type: "trade_profit", bonus: 10, percent: true }],
+  },
+  {
+    id: "syn_void_armada",
+    requires: ["mil_terminus_doctrine", "eco_void_harvesting"],
+    name: "Void Armada",
+    description: "Void-crystal-fueled fleets adapt the Terminus swarm tempo.",
+    effects: [{ type: "fleet_combat", bonus: 15, percent: true }],
+  },
+  {
+    id: "syn_trade_alliance",
+    requires: ["dip_alliance_charter", "eco_new_babylon_accord"],
+    name: "Trade Alliance",
+    description: "Charters with anchor markets stabilize both sides.",
+    effects: [
+      { type: "diplomacy_bonus", bonus: 10, percent: true },
+      { type: "trade_profit", bonus: 10, percent: true },
+    ],
+  },
 ];
 
 /* ─── HELPERS ─── */
@@ -338,20 +471,31 @@ export function canResearch(techId: string, researched: string[]): boolean {
   const tech = getTechById(techId);
   if (!tech) return false;
   if (researched.includes(techId)) return false;
-  return tech.prerequisites.every(p => researched.includes(p));
+  if (!tech.prerequisites.every(p => researched.includes(p))) return false;
+  if (tech.mutexWith?.some(m => researched.includes(m))) return false;
+  return true;
+}
+
+export function getActiveSynergies(researched: string[]): TechSynergy[] {
+  const set = new Set(researched);
+  return TECH_SYNERGIES.filter(s => s.requires.every(r => set.has(r)));
 }
 
 export function getTotalEffects(researched: string[]): Record<string, number> {
   const totals: Record<string, number> = {};
-  for (const id of researched) {
-    const tech = getTechById(id);
-    if (!tech) continue;
-    for (const effect of tech.effects) {
+  const accumulate = (effects: TechEffect[]) => {
+    for (const effect of effects) {
       if ("bonus" in effect) {
-        const key = effect.type;
-        totals[key] = (totals[key] || 0) + effect.bonus;
+        totals[effect.type] = (totals[effect.type] || 0) + effect.bonus;
       }
     }
+  };
+  for (const id of researched) {
+    const tech = getTechById(id);
+    if (tech) accumulate(tech.effects);
+  }
+  for (const synergy of getActiveSynergies(researched)) {
+    accumulate(synergy.effects);
   }
   return totals;
 }
