@@ -2,8 +2,7 @@
 --
 -- Persistent MMR + seasonal rank for the PvP card ladder (#7 from
 -- the AAA review roadmap). Pure season-reset destroys long-term
--- aspiration;
---> statement-breakpoint Hearthstone / MTG Arena keep a hidden MMR alongside
+-- aspiration; Hearthstone / MTG Arena keep a hidden MMR alongside
 -- the visible seasonal rank for a reason. This table mirrors that:
 --
 --   - `mmr` — hidden, persistent ELO score. Drives matchmaking
@@ -12,13 +11,11 @@
 --   - `seasonRank` — visible cosmetic rank. Resets every season so
 --     each season has its own ladder narrative.
 --   - `peakMmr` — the highest MMR the player has ever achieved.
---     Persistent badge;
---> statement-breakpoint informs reward tiers.
+--     Persistent badge; informs reward tiers.
 --
 -- This migration is hand-written. It is orphaned from `_journal.json`
 -- following the existing pattern for new migrations under the journal-
--- drift situation (see apps/db/README.md §"Known journal drift");
---> statement-breakpoint the
+-- drift situation (see apps/db/README.md §"Known journal drift"); the
 -- matching startup bootstrap is `bootstrapPvpRatingsTable()` in
 -- apps/server/services/pvpRatingsBootstrap.ts.
 --

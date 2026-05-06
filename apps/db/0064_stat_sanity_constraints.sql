@@ -26,8 +26,7 @@ ALTER TABLE `memory_energy_balance`
 --> statement-breakpoint
 
 -- userProgress.level must never decrease. We can't enforce strict
--- monotonicity in a CHECK without a trigger;
---> statement-breakpoint the >= 1 floor at
+-- monotonicity in a CHECK without a trigger; the >= 1 floor at
 -- least catches accidental zero/negative writes.
 ALTER TABLE `user_progress`
   ADD CONSTRAINT `chk_user_progress_level_floor`

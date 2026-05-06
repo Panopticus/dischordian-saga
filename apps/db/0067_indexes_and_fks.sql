@@ -15,8 +15,7 @@
 
 -- pvp_leaderboard sandbagging detection joins on (peak_elo - elo,
 -- last_match_at). The (last_match_at) index speeds the time-windowed
--- scan;
---> statement-breakpoint the heuristic is too dynamic for a covering index, so we
+-- scan; the heuristic is too dynamic for a covering index, so we
 -- accept the row-by-row evaluation of the peak/elo math.
 ALTER TABLE `pvp_leaderboard`
   ADD INDEX IF NOT EXISTS `idx_pvp_lb_last_match_at` (`last_match_at`);

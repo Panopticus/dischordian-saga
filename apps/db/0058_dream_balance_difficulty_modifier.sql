@@ -15,8 +15,7 @@
 --
 -- This migration is hand-written and orphaned from `_journal.json`
 -- following the existing pattern for new migrations under the journal-
--- drift situation (see apps/db/README.md §"Known journal drift");
---> statement-breakpoint the
+-- drift situation (see apps/db/README.md §"Known journal drift"); the
 -- matching startup bootstrap is `bootstrapDreamBalanceDifficultyModifier()`
 -- in apps/server/services/dreamBalanceBootstrap.ts. The bootstrap also
 -- runs the same DDL idempotently on every startup so a fresh DB or a
@@ -24,7 +23,6 @@
 --
 -- Idempotent: the bootstrap variant uses an information_schema check
 -- before ALTER. This file uses the simplest form for hand-application;
---> statement-breakpoint
 -- prefer the bootstrap path in production.
 
 ALTER TABLE `dream_balance`

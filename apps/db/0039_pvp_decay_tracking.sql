@@ -5,8 +5,7 @@
 -- the delta since the last check rather than recomputing the full
 -- (now - lastMatchAt) window on every read.
 --
--- Existing rows get NULL;
---> statement-breakpoint the helper falls back to `lastMatchAt`
+-- Existing rows get NULL; the helper falls back to `lastMatchAt`
 -- as the anchor on first application, then writes the real value.
 
 ALTER TABLE `pvp_leaderboard`

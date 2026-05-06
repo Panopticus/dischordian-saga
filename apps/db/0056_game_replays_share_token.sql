@@ -10,8 +10,7 @@
 --
 -- This migration is hand-written. It is orphaned from `_journal.json`
 -- following the existing pattern for new migrations under the journal-
--- drift situation (see apps/db/README.md §"Known journal drift");
---> statement-breakpoint the
+-- drift situation (see apps/db/README.md §"Known journal drift"); the
 -- matching startup bootstrap is `bootstrapReplayShareToken()` in
 -- apps/server/services/replaysBootstrap.ts. The bootstrap also runs
 -- the same DDL idempotently on every startup so a fresh DB or a DB
@@ -19,7 +18,6 @@
 --
 -- Idempotent: the bootstrap variant uses an information_schema check
 -- before ALTER. This file uses the simplest form for hand-application;
---> statement-breakpoint
 -- prefer the bootstrap path in production.
 
 ALTER TABLE `game_replays`

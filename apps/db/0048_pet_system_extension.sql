@@ -4,8 +4,7 @@
 -- to avoid colliding with three other branches that all chose 0037
 -- (0037_dischordia_cycle, 0037_dead_mans_circuit_lifecycle,
 -- 0037_pet_system_extension). The journal currently contains
--- 0037_dischordia_cycle as its canonical entry for idx 37;
---> statement-breakpoint the other
+-- 0037_dischordia_cycle as its canonical entry for idx 37; the other
 -- two — and this one — are orphaned until a broader journal
 -- reconciliation lands. See apps/db/README.md §"Hand-written migrations".
 --

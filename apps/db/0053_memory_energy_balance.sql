@@ -1,7 +1,6 @@
 -- Memory Energy — Act 2 / Act 3 Trade Empire currency.
 --
 -- Memory Energy fuels the Engineer's Bench. Starting cap is 50;
---> statement-breakpoint
 -- clearing Act 2 lifts the cap to 200 via the `trade_empire_unlocked`
 -- narrative flag, which is also the canonical gate for Act 3 Trade
 -- Empire content. This table is the server-authoritative balance

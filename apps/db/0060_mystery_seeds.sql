@@ -2,7 +2,6 @@
 --
 -- Adds the persistent record of every MysterySeed the engine
 -- has produced. The cron writes a row on every successful close;
---> statement-breakpoint
 -- the server-startup bootstrap reads them back and re-compiles
 -- each seed via mysteryTemplates.compileMysterySeed so the in-
 -- memory dynamic registry survives deploys.

@@ -19,7 +19,6 @@
 --   WHERE stripePaymentIntentId IS NOT NULL
 --   GROUP BY stripePaymentIntentId
 --   HAVING c > 1;
---> statement-breakpoint
 --
 -- ...and manually reconcile / delete the older rows.
 

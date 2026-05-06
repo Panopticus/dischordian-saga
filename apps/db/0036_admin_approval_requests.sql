@@ -11,8 +11,7 @@
 -- `executed`. Any admin can reject at any time.
 --
 -- Existing rows with role='user' or role='admin' are untouched by
--- the enum widening;
---> statement-breakpoint MySQL preserves their values.
+-- the enum widening; MySQL preserves their values.
 
 ALTER TABLE `users`
   MODIFY COLUMN `role` ENUM('user', 'moderator', 'admin') NOT NULL DEFAULT 'user';

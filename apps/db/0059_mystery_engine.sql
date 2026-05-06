@@ -14,8 +14,7 @@
 --   * npc_trust_scalars            — per-player NPC trust (0-100), arc-finalized
 --
 -- Schema source of truth: apps/db/schema.ts. Authored side lives in
--- apps/shared/episodeMysteries.ts;
---> statement-breakpoint orchestration in
+-- apps/shared/episodeMysteries.ts; orchestration in
 -- apps/server/services/mysteryService.ts (lands in a follow-up PR).
 --
 -- Idempotent: CREATE TABLE IF NOT EXISTS so re-runs are no-ops. The

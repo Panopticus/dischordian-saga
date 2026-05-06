@@ -9,8 +9,7 @@
 --
 -- This migration is hand-written. It is orphaned from `_journal.json`
 -- following the existing pattern for new migrations under the journal-
--- drift situation (see apps/db/README.md §"Known journal drift");
---> statement-breakpoint the
+-- drift situation (see apps/db/README.md §"Known journal drift"); the
 -- matching startup bootstrap is `bootstrapWebhookEventsTable()` in
 -- apps/server/services/webhookEventsBootstrap.ts.
 --
