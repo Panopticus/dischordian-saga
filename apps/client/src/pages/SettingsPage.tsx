@@ -597,6 +597,17 @@ export default function SettingsPage() {
             onChange={(v) => updateSetting("captions", v)}
             icon={Accessibility}
           />
+          <OptionSelector
+            label="CAPTION SIZE"
+            value={settings.captionSize}
+            onChange={(v) => updateSetting("captionSize", v)}
+            options={[
+              { value: "small", label: "Small", desc: "0.85×", icon: Type },
+              { value: "medium", label: "Medium", desc: "Default", icon: Type },
+              { value: "large", label: "Large", desc: "1.25×", icon: Type },
+              { value: "xlarge", label: "Extra Large", desc: "1.5×", icon: Type },
+            ]}
+          />
           {/* Colorblind palette presets — remap the five energy/faction
               tokens to a CVD-safe palette derived from Okabe-Ito. The
               underlying CSS lives in apps/client/src/index.css under

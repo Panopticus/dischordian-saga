@@ -7,7 +7,7 @@
 import { z } from "zod";
 import { logger } from "../logger";
 import { eq, and, desc, sql, count, sum } from "drizzle-orm";
-import { protectedProcedure, router } from "../_core/trpc";
+import { protectedProcedure, adminProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import {
   warTerritories,
@@ -16,6 +16,7 @@ import {
   twSectors,
   twPlayerState,
 } from "../../db/schema";
+import { runWeeklyFactionDrift } from "../services/factionDriftService";
 
 /* ─── SEASON NAMES ─── */
 const SEASON_NAMES = [
@@ -441,5 +442,21 @@ export const warMapRouter = router({
       totalPoints: Number(c.totalPoints || 0),
       actionCount: Number(c.actionCount || 0),
     }));
+  }),
+
+  /**
+   * Admin-only: run one weekly NPC faction-drift tick on the
+   * current active season (plan §C3). Wire a Railway cron service
+   * to invoke this once per scheduled tick window — single
+   * dispatcher, never setInterval inside the stateless server.
+   * Returns the count of moved territories so the cron job can
+   * log a useful one-line summary.
+   */
+  adminTickFactionDrift: adminProcedure.mutation(async () => {
+    const db = await getDb();
+    if (!db) return { ok: false, ticked: 0, error: "Database unavailable" };
+    const season = await getCurrentSeason();
+    const result = await runWeeklyFactionDrift(db, season.id);
+    return { ok: true, ticked: result.ticked, totalTerritories: result.results.length };
   }),
 });

@@ -25,6 +25,8 @@ const TECH_COSTS: Record<string, { influence: number; dream?: number; voidCrysta
   mil_terminus_doctrine: { influence: 50, dream: 100 },
   mil_archon_tactics: { influence: 80, dream: 200, voidCrystals: 10 },
   mil_iron_lion_legacy: { influence: 150, dream: 500, voidCrystals: 25 },
+  mil_doctrine_aggression: { influence: 35, dream: 60 },
+  mil_doctrine_attrition: { influence: 35, dream: 60 },
   eco_trade_routes: { influence: 10 },
   eco_cargo_optimization: { influence: 12 },
   eco_market_manipulation: { influence: 25, dream: 40 },
@@ -32,6 +34,8 @@ const TECH_COSTS: Record<string, { influence: number; dream?: number; voidCrysta
   eco_new_babylon_accord: { influence: 50, dream: 100 },
   eco_void_harvesting: { influence: 80, dream: 200, voidCrystals: 5 },
   eco_galactic_monopoly: { influence: 150, dream: 500, voidCrystals: 25 },
+  eco_doctrine_free_market: { influence: 35, dream: 50 },
+  eco_doctrine_command_economy: { influence: 35, dream: 50 },
   dip_first_contact: { influence: 10 },
   dip_intelligence_network: { influence: 15 },
   dip_faction_envoys: { influence: 25, dream: 30 },
@@ -39,6 +43,8 @@ const TECH_COSTS: Record<string, { influence: number; dream?: number; voidCrysta
   dip_alliance_charter: { influence: 50, dream: 100 },
   dip_shadow_diplomacy: { influence: 80, dream: 200, voidCrystals: 10 },
   dip_architects_accord: { influence: 150, dream: 500, voidCrystals: 25 },
+  dip_doctrine_open: { influence: 30, dream: 40 },
+  dip_doctrine_realpolitik: { influence: 30, dream: 40 },
 };
 
 const TECH_PREREQS: Record<string, string[]> = {
@@ -47,28 +53,48 @@ const TECH_PREREQS: Record<string, string[]> = {
   mil_terminus_doctrine: ["mil_advanced_weapons", "mil_rapid_deployment"],
   mil_archon_tactics: ["mil_terminus_doctrine"],
   mil_iron_lion_legacy: ["mil_archon_tactics"],
+  mil_doctrine_aggression: ["mil_basic_tactics"],
+  mil_doctrine_attrition: ["mil_armor_plating"],
   eco_market_manipulation: ["eco_trade_routes"],
   eco_resource_extraction: ["eco_cargo_optimization"],
   eco_new_babylon_accord: ["eco_market_manipulation", "eco_resource_extraction"],
   eco_void_harvesting: ["eco_new_babylon_accord"],
   eco_galactic_monopoly: ["eco_void_harvesting"],
+  eco_doctrine_free_market: ["eco_trade_routes"],
+  eco_doctrine_command_economy: ["eco_cargo_optimization"],
   dip_faction_envoys: ["dip_first_contact"],
   dip_espionage: ["dip_intelligence_network"],
   dip_alliance_charter: ["dip_faction_envoys", "dip_espionage"],
   dip_shadow_diplomacy: ["dip_alliance_charter"],
   dip_architects_accord: ["dip_shadow_diplomacy"],
+  dip_doctrine_open: ["dip_first_contact"],
+  dip_doctrine_realpolitik: ["dip_intelligence_network"],
+};
+
+/** Civics-style mutual exclusion. Symmetric — keep parity with the
+ *  client `mutexWith` declarations in apps/client/src/game/techTree.ts. */
+const TECH_MUTEX: Record<string, string[]> = {
+  mil_doctrine_aggression: ["mil_doctrine_attrition"],
+  mil_doctrine_attrition: ["mil_doctrine_aggression"],
+  eco_doctrine_free_market: ["eco_doctrine_command_economy"],
+  eco_doctrine_command_economy: ["eco_doctrine_free_market"],
+  dip_doctrine_open: ["dip_doctrine_realpolitik"],
+  dip_doctrine_realpolitik: ["dip_doctrine_open"],
 };
 
 const TECH_HOURS: Record<string, number> = {
   mil_basic_tactics: 2, mil_armor_plating: 3, mil_advanced_weapons: 6,
   mil_rapid_deployment: 5, mil_terminus_doctrine: 12, mil_archon_tactics: 24,
   mil_iron_lion_legacy: 48,
+  mil_doctrine_aggression: 6, mil_doctrine_attrition: 6,
   eco_trade_routes: 2, eco_cargo_optimization: 2, eco_market_manipulation: 5,
   eco_resource_extraction: 4, eco_new_babylon_accord: 10, eco_void_harvesting: 20,
   eco_galactic_monopoly: 48,
+  eco_doctrine_free_market: 6, eco_doctrine_command_economy: 6,
   dip_first_contact: 2, dip_intelligence_network: 3, dip_faction_envoys: 5,
   dip_espionage: 6, dip_alliance_charter: 10, dip_shadow_diplomacy: 24,
   dip_architects_accord: 48,
+  dip_doctrine_open: 5, dip_doctrine_realpolitik: 5,
 };
 
 // Zod schema for TechTreeState — validates JSON blob data integrity
@@ -139,6 +165,12 @@ export const techTreeRouter = router({
       const missingPrereqs = prereqs.filter(p => !state.researched.includes(p));
       if (missingPrereqs.length > 0) {
         return { success: false, error: `Missing prerequisites: ${missingPrereqs.join(", ")}` };
+      }
+
+      const mutex = TECH_MUTEX[techId] ?? [];
+      const blocking = mutex.filter(m => state.researched.includes(m) || state.currentResearch?.techId === m);
+      if (blocking.length > 0) {
+        return { success: false, error: `Excluded by mutually exclusive doctrine: ${blocking.join(", ")}` };
       }
 
       // Deduct economy costs — Dream from dreamBalance table, influence/voidCrystals from gameData
