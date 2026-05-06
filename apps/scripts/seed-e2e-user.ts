@@ -87,6 +87,23 @@ async function main(): Promise<void> {
 }
 
 main().catch((err) => {
-  console.error("[seed-e2e-user] failed:", err);
+  // Print every diagnostic field MySQL / Drizzle expose so CI logs
+  // surface the actual cause instead of an opaque "exit code 1".
+  // The bare `console.error("...failed:", err)` was eating the
+  // useful fields when err is a non-Error object.
+  console.error("[seed-e2e-user] failed:");
+  if (err && typeof err === "object") {
+    const e = err as Record<string, unknown>;
+    console.error("  message:    ", e.message);
+    console.error("  code:       ", e.code);
+    console.error("  errno:      ", e.errno);
+    console.error("  sqlState:   ", e.sqlState);
+    console.error("  sqlMessage: ", e.sqlMessage);
+    console.error("  sql:        ", typeof e.sql === "string" ? e.sql.slice(0, 600) : e.sql);
+    if (e.cause) console.error("  cause:      ", e.cause);
+    if (typeof e.stack === "string") console.error("  stack:\n" + e.stack);
+  } else {
+    console.error("  (non-object thrown):", err);
+  }
   process.exit(1);
 });
