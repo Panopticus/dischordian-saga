@@ -37,6 +37,7 @@ import {
 } from "lucide-react";
 import { ACT_1_OPPONENTS, type Act1Opponent } from "@shared/act1Opponents";
 import { getAct1OpponentDialog } from "@shared/act1OpponentDialog";
+import { renderActDialog } from "@shared/actDialogRender";
 import { getTauntHooksForOpponent } from "@shared/actOpponentTaunts";
 import { getNextAct1Opponent } from "@shared/witnessingRuntime";
 import { useAct1LadderStore } from "@/stores/act1CardLadderStore";
@@ -521,7 +522,15 @@ function MatchupView({
   const { state: gameState } = useGame();
   const opponentFaction = resolveOpponentFaction(opponent);
   const opponentColor = FACTION_COLORS[opponentFaction];
-  const dialog = getAct1OpponentDialog(opponent.id);
+  // Plan §A2 — render every string field of the dialog through the
+  // {if flag} templating engine against the player's flag bag, so any
+  // backfilled conditional variants light up here. Pristine static
+  // lines pass through unchanged.
+  const rawDialog = getAct1OpponentDialog(opponent.id);
+  const dialog = useMemo(
+    () => (rawDialog ? renderActDialog(rawDialog, gameState.narrativeFlags) : rawDialog),
+    [rawDialog, gameState.narrativeFlags],
+  );
   const flags = useMemo(
     () =>
       new Set(
@@ -677,6 +686,7 @@ function PostMatchView({
   outcome: "win" | "loss";
   onContinue: () => void;
 }) {
+  const { state: postMatchGameState } = useGame();
   const body = outcome === "win" ? opponent.postMatchWin : opponent.postMatchLoss;
   // Outcome chrome: win = sunk surface, loss = sunk surface with
   // error-axis tint. Inline style for the tint since there's no
@@ -691,7 +701,10 @@ function PostMatchView({
       : undefined;
   const Icon = outcome === "win" ? Trophy : Sparkles;
   const label = outcome === "win" ? "VICTORY" : "SETBACK";
-  const dialog = getAct1OpponentDialog(opponent.id);
+  // Plan §A2 — render templated lines through the flag-aware
+  // engine. Static lines pass through unchanged.
+  const rawDialog = getAct1OpponentDialog(opponent.id);
+  const dialog = rawDialog ? renderActDialog(rawDialog, postMatchGameState.narrativeFlags) : rawDialog;
   const elaraLine = dialog
     ? outcome === "win"
       ? dialog.elaraPostMatchWin
