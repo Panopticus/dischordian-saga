@@ -2,7 +2,7 @@ import { z } from "zod";
 import { protectedProcedure, publicProcedure, router } from "../_core/trpc";
 import { getDb } from "../db";
 import { STORE_PRODUCTS, getProduct, getProductsByCategory, getFeaturedProducts } from "../products";
-import { storePurchases, dreamBalance, shipUpgrades, playerBases, userCards, cards, purchaseGrants, type StorePurchase } from "../../db/schema";
+import { storePurchases, dreamBalance, shipUpgrades, playerBases, userCards, cards, purchaseGrants, cosmeticCatalogOwnership, battlePassProgress, battlePassSeasons, type StorePurchase } from "../../db/schema";
 import type { DrizzleDb } from "../db";
 
 /** Either a top-level drizzle handle or a transactional one — the
@@ -201,6 +201,57 @@ export const storeRouter = router({
       });
     }),
 
+  /** Purchase with Void Crystals (premium currency stored as `gems`).
+   *  Mirrors purchaseWithDream — atomic conditional UPDATE that fails
+   *  closed if the balance dropped between the implied check and the
+   *  write. Stripe checkout is the primary path for VC SKUs; this
+   *  mutation handles in-game spending of already-acquired VC. */
+  purchaseWithVoidCrystals: protectedProcedure
+    .input(z.object({ productKey: z.string(), quantity: z.number().min(1).max(10).default(1) }))
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) throw new Error("Database unavailable");
+      const product = getProduct(input.productKey);
+      if (!product) throw new Error("Product not found");
+      if (product.priceVoidCrystals <= 0) {
+        throw new Error("This product cannot be purchased with Void Crystals");
+      }
+      const totalCost = product.priceVoidCrystals * input.quantity;
+      return await db.transaction(async (tx) => {
+        const r = await tx.execute(sql`
+          UPDATE dream_balance
+          SET gems = gems - ${totalCost}
+          WHERE user_id = ${ctx.user.id} AND gems >= ${totalCost}
+        `);
+        const affected = (r as unknown as Array<{ affectedRows?: number }>)[0]?.affectedRows ?? 0;
+        if (affected === 0) {
+          throw new Error("Insufficient Void Crystals");
+        }
+        await tx.insert(storePurchases).values({
+          userId: ctx.user.id,
+          productKey: input.productKey,
+          paymentMethod: "void_crystals",
+          quantity: input.quantity,
+          amount: totalCost,
+          fulfilled: 1,
+        });
+        const fulfillmentId = synthesiseFulfillmentId(
+          "void_crystals",
+          ctx.user.id,
+          input.productKey,
+        );
+        await fulfillPurchase(
+          ctx.user.id,
+          input.productKey,
+          input.quantity,
+          fulfillmentId,
+          tx,
+        );
+        await ripple.emit("store_purchase", { userId: ctx.user.id, amount: totalCost });
+        return { success: true, message: `Purchased ${product.name}!` };
+      });
+    }),
+
   /** Get user's purchase history */
   myPurchases: protectedProcedure.query(async ({ ctx }) => {
     const db = await getDb();
@@ -229,7 +280,7 @@ export const storeRouter = router({
    * own dedicated lookup path. */
   myDreamBalance: protectedProcedure.query(async ({ ctx }) => {
     const db = await getDb();
-    if (!db) return { dreamTokens: 0, soulBoundDream: 0, totalDreamEarned: 0, dnaCode: 0 };
+    if (!db) return { dreamTokens: 0, soulBoundDream: 0, totalDreamEarned: 0, dnaCode: 0, gems: 0, totalGemsPurchased: 0 };
 
     const [balance] = await db
       .select({
@@ -237,6 +288,8 @@ export const storeRouter = router({
         soulBoundDream: dreamBalance.soulBoundDream,
         totalDreamEarned: dreamBalance.totalDreamEarned,
         dnaCode: dreamBalance.dnaCode,
+        gems: dreamBalance.gems,
+        totalGemsPurchased: dreamBalance.totalGemsPurchased,
       })
       .from(dreamBalance)
       .where(eq(dreamBalance.userId, ctx.user.id))
@@ -250,7 +303,7 @@ export const storeRouter = router({
         totalDreamEarned: 10,
         dnaCode: 0,
       });
-      return { dreamTokens: 10, soulBoundDream: 0, totalDreamEarned: 10, dnaCode: 0 };
+      return { dreamTokens: 10, soulBoundDream: 0, totalDreamEarned: 10, dnaCode: 0, gems: 0, totalGemsPurchased: 0 };
     }
 
     return balance;
@@ -264,7 +317,7 @@ export const storeRouter = router({
  * the grant.
  */
 export function synthesiseFulfillmentId(
-  source: "credits" | "dream" | "manual",
+  source: "credits" | "dream" | "manual" | "void_crystals",
   userId: number,
   productKey: string,
 ): string {
@@ -496,6 +549,94 @@ async function doFulfill(
   if (rewards.entitlement) {
     summary.entitlement = rewards.entitlement;
     await setEntitlement(tx, userId, rewards.entitlement, true);
+  }
+
+  // Grant Void Crystals (premium currency, stored in dreamBalance.gems).
+  if (rewards.voidCrystals) {
+    const amount = rewards.voidCrystals * quantity;
+    summary.voidCrystals = amount;
+    const [existing] = await tx
+      .select()
+      .from(dreamBalance)
+      .where(eq(dreamBalance.userId, userId))
+      .limit(1);
+    if (existing) {
+      await tx
+        .update(dreamBalance)
+        .set({
+          gems: sql`${dreamBalance.gems} + ${amount}`,
+          totalGemsPurchased: sql`${dreamBalance.totalGemsPurchased} + ${amount}`,
+        })
+        .where(eq(dreamBalance.userId, userId));
+    } else {
+      await tx.insert(dreamBalance).values({
+        userId,
+        dreamTokens: 0,
+        soulBoundDream: 0,
+        totalDreamEarned: 0,
+        dnaCode: 0,
+        gems: amount,
+        totalGemsPurchased: amount,
+      });
+    }
+  }
+
+  // Grant cosmetics from a bundle (Founder's, Author's Edition, premium
+  // cosmetic SKU). Idempotent via the (userId, cosmeticId) unique index —
+  // if the player somehow already owns it, the row insert is a no-op.
+  if (rewards.cosmetics && rewards.cosmetics.length > 0) {
+    summary.cosmeticsCount = rewards.cosmetics.length;
+    for (const cosmeticId of rewards.cosmetics) {
+      await tx
+        .insert(cosmeticCatalogOwnership)
+        .values({
+          userId,
+          cosmeticId,
+          source: "bundle",
+          pricePaid: 0,
+          bundleSkuKey: productKey,
+        })
+        .onDuplicateKeyUpdate({ set: { grantedAt: sql`granted_at` } })
+        .catch(() => {/* idempotent — duplicate is fine */});
+    }
+  }
+
+  // Grant Battle Pass premium track for the active season. Auto-creates
+  // the progress row if missing so a player who buys the pass before
+  // earning their first XP isn't stuck.
+  if (rewards.battlePassPremium) {
+    summary.battlePassPremium = "granted";
+    const [season] = await tx
+      .select()
+      .from(battlePassSeasons)
+      .where(eq(battlePassSeasons.status, "active"))
+      .limit(1);
+    if (season) {
+      const [progress] = await tx
+        .select()
+        .from(battlePassProgress)
+        .where(and(
+          eq(battlePassProgress.userId, userId),
+          eq(battlePassProgress.seasonId, season.id),
+        ))
+        .limit(1);
+      if (progress) {
+        await tx
+          .update(battlePassProgress)
+          .set({ isPremium: true })
+          .where(eq(battlePassProgress.id, progress.id));
+      } else {
+        await tx.insert(battlePassProgress).values({
+          userId,
+          seasonId: season.id,
+          currentXp: 0,
+          currentTier: 0,
+          isPremium: true,
+          claimedFreeTiers: [],
+          claimedPremiumTiers: [],
+        });
+      }
+    }
   }
 
   // Grant fuel capacity

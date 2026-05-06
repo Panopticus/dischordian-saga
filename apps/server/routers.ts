@@ -82,6 +82,7 @@ import { friendlyChallengesRouter } from "./routers/friendlyChallenges";
 import { coopRaidsRouter } from "./routers/coopRaids";
 import { bossMasteryRouter } from "./routers/bossMastery";
 import { cosmeticShopRouter } from "./routers/cosmeticShop";
+import { cosmeticCatalogRouter } from "./routers/cosmeticCatalog";
 import { donationSystemRouter } from "./routers/donationSystem";
 import { socialFeaturesRouter } from "./routers/socialFeatures";
 import { loreJournalRouter } from "./routers/loreJournal";
@@ -228,6 +229,7 @@ export const appRouter = router({
   coopRaid: coopRaidsRouter,
   bossMastery: bossMasteryRouter,
   cosmeticShop: cosmeticShopRouter,
+  cosmeticCatalog: cosmeticCatalogRouter,
   donation: donationSystemRouter,
   social: socialFeaturesRouter,
   loreJournal: loreJournalRouter,

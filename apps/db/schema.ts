@@ -837,7 +837,7 @@ export const storePurchases = mysqlTable("store_purchases", {
   userId: int("userId").notNull(),
   itemId: int("itemId"),
   /** Payment method: credits, dream, stripe */
-  paymentMethod: mysqlEnum("paymentMethod", ["credits", "dream", "stripe"]).notNull(),
+  paymentMethod: mysqlEnum("paymentMethod", ["credits", "dream", "stripe", "void_crystals"]).notNull(),
   /** Stripe checkout session ID */
   stripeSessionId: varchar("stripeSessionId", { length: 256 }),
   /** Stripe payment intent ID — unique when present, for webhook idempotency */
@@ -3105,6 +3105,32 @@ export const cosmeticPurchases = mysqlTable("cosmetic_purchases", {
   purchasedAt: timestamp("purchasedAt").defaultNow().notNull(),
 });
 export type CosmeticPurchaseRow = typeof cosmeticPurchases.$inferSelect;
+
+/* ─── 3-TIER COSMETIC CATALOG OWNERSHIP ───
+   Tracks ownership of cosmetics from the new tiered catalog
+   (apps/shared/cosmeticCatalog.ts). Distinct from cosmeticPurchases
+   above, which serves the legacy Dream-only RPG cosmetic shop. The
+   two systems coexist; the new catalog adds Void-Crystal pricing
+   and bundle-grant sources, neither of which fit the legacy schema.
+   The (userId, cosmeticId) pair is unique — no double grants. */
+export const cosmeticCatalogOwnership = mysqlTable("cosmetic_catalog_ownership", {
+  id: int("id").primaryKey().autoincrement(),
+  userId: int("userId").notNull(),
+  /** Cosmetic id from `apps/shared/cosmeticCatalog.ts` ALL_COSMETICS. */
+  cosmeticId: varchar("cosmeticId", { length: 100 }).notNull(),
+  /** How the player obtained this cosmetic. Drives analytics + refunds. */
+  source: varchar("source", { length: 24 }).notNull(), // "dream" | "void_crystals" | "bundle"
+  /** Amount of currency spent (0 for bundle-granted cosmetics). */
+  pricePaid: int("pricePaid").notNull().default(0),
+  /** Optional: SKU key that granted this when source="bundle". */
+  bundleSkuKey: varchar("bundleSkuKey", { length: 100 }),
+  grantedAt: timestamp("grantedAt").defaultNow().notNull(),
+}, (table) => ({
+  userIdIdx: index("idx_cosmetic_catalog_ownership_user").on(table.userId),
+  uniqUserCosmetic: uniqueIndex("uniq_cosmetic_catalog_ownership_user_item")
+    .on(table.userId, table.cosmeticId),
+}));
+export type CosmeticCatalogOwnershipRow = typeof cosmeticCatalogOwnership.$inferSelect;
 
 /* ─── DONATIONS ─── */
 export const donations = mysqlTable("donations", {

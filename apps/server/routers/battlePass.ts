@@ -310,10 +310,20 @@ export const battlePassRouter = router({
       return { success: true, reward: reward || {} };
     }),
 
-  /* ─── Upgrade to premium pass ─── */
-  upgradePremium: protectedProcedure.mutation(async ({ ctx }) => {
+  /* ─── Upgrade to premium pass (Dream OR Void Crystals) ───
+     The Dream path is the F2P grind option (500 Dream); the VC path
+     mirrors the in-game Battle Pass SKU (1000 VC, matching the
+     ECONOMY.battlePass.premiumCostVoidCrystals knob). The Stripe
+     route — `battle_pass_premium` SKU — flips isPremium directly
+     via store.fulfillPurchase. */
+  upgradePremium: protectedProcedure
+    .input(z.object({
+      currency: z.enum(["dream", "void_crystals"]).optional().default("dream"),
+    }).optional())
+    .mutation(async ({ ctx, input }) => {
     const db = await getDb();
     if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
+    const currency = input?.currency ?? "dream";
 
     const season = await db.select().from(battlePassSeasons)
       .where(eq(battlePassSeasons.status, "active"))
@@ -332,26 +342,49 @@ export const battlePassRouter = router({
       throw new TRPCError({ code: "CONFLICT", message: "Already premium" });
     }
 
-    // Deduct Dream tokens for premium upgrade
-    const dreamRow = await db.select().from(dreamBalance)
-      .where(eq(dreamBalance.userId, ctx.user.id)).limit(1);
-    const currentDream = dreamRow[0]?.dreamTokens ?? 0;
-    if (currentDream < PREMIUM_COST_DREAM) {
-      throw new TRPCError({
-        code: "PRECONDITION_FAILED",
-        message: `Need ${PREMIUM_COST_DREAM} Dream tokens, have ${currentDream}`,
-      });
+    if (currency === "dream") {
+      // Atomic conditional UPDATE — the previous select-then-update
+      // pattern let two parallel upgrades both succeed because the
+      // implied check and the write weren't atomic.
+      const r = await db.execute(sql`
+        UPDATE dream_balance
+        SET dream_tokens = dream_tokens - ${PREMIUM_COST_DREAM}
+        WHERE user_id = ${ctx.user.id} AND dream_tokens >= ${PREMIUM_COST_DREAM}
+      `);
+      const affected = (r as unknown as Array<{ affectedRows?: number }>)[0]?.affectedRows ?? 0;
+      if (affected === 0) {
+        const dreamRow = await db.select().from(dreamBalance)
+          .where(eq(dreamBalance.userId, ctx.user.id)).limit(1);
+        const have = dreamRow[0]?.dreamTokens ?? 0;
+        throw new TRPCError({
+          code: "PRECONDITION_FAILED",
+          message: `Need ${PREMIUM_COST_DREAM} Dream tokens, have ${have}`,
+        });
+      }
+    } else {
+      const PREMIUM_COST_VC = 1000;
+      const r = await db.execute(sql`
+        UPDATE dream_balance
+        SET gems = gems - ${PREMIUM_COST_VC}
+        WHERE user_id = ${ctx.user.id} AND gems >= ${PREMIUM_COST_VC}
+      `);
+      const affected = (r as unknown as Array<{ affectedRows?: number }>)[0]?.affectedRows ?? 0;
+      if (affected === 0) {
+        const dreamRow = await db.select().from(dreamBalance)
+          .where(eq(dreamBalance.userId, ctx.user.id)).limit(1);
+        const have = dreamRow[0]?.gems ?? 0;
+        throw new TRPCError({
+          code: "PRECONDITION_FAILED",
+          message: `Need ${PREMIUM_COST_VC} Void Crystals, have ${have}`,
+        });
+      }
     }
-
-    await db.update(dreamBalance)
-      .set({ dreamTokens: currentDream - PREMIUM_COST_DREAM })
-      .where(eq(dreamBalance.userId, ctx.user.id));
 
     await db.update(battlePassProgress)
       .set({ isPremium: true })
       .where(eq(battlePassProgress.id, progress[0].id));
 
-    return { success: true };
+    return { success: true, currencyUsed: currency };
   }),
 
   /* ─── Get tier rewards for current season ─── */

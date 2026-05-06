@@ -134,13 +134,22 @@ export default function BattlePassPage() {
             </p>
           </div>
           {!isPremium && (
-            <button
-              onClick={() => upgradeMut.mutate()}
-              disabled={upgradeMut.isPending}
-              className="px-4 py-2 rounded-md void-bg-sunk hover:void-bg-system border void-border void-text-accent font-mono text-xs font-bold tracking-wider transition-all"
-            >
-              {upgradeMut.isPending ? <Loader2 size={14} className="animate-spin" /> : "UPGRADE PREMIUM"}
-            </button>
+            <div className="flex flex-col gap-1.5">
+              <button
+                onClick={() => upgradeMut.mutate({ currency: "dream" })}
+                disabled={upgradeMut.isPending}
+                className="px-4 py-2 rounded-md void-bg-sunk hover:void-bg-system border void-border void-text-accent font-mono text-xs font-bold tracking-wider transition-all"
+              >
+                {upgradeMut.isPending ? <Loader2 size={14} className="animate-spin" /> : "500 DREAM"}
+              </button>
+              <button
+                onClick={() => upgradeMut.mutate({ currency: "void_crystals" })}
+                disabled={upgradeMut.isPending}
+                className="px-4 py-2 rounded-md void-bg-sunk hover:void-bg-system border border-purple-400/40 text-purple-300 font-mono text-xs font-bold tracking-wider transition-all"
+              >
+                {upgradeMut.isPending ? <Loader2 size={14} className="animate-spin" /> : "1000 VOID CRYSTALS"}
+              </button>
+            </div>
           )}
           {isPremium && (
             <div className="px-3 py-1.5 rounded-md void-bg-sunk border void-border">
