@@ -84,6 +84,17 @@ export const settingsSchema = z.object({
   skipTutorials: z.boolean().default(false),
   showHints: z.boolean().default(true),
   difficulty: z.enum(["casual", "standard", "hardcore"]).default("standard"),
+  // Ironman mode (plan §C6) — when on, eidolon/companion permadeath is
+  // hard: no spectral form, no resurrection, no graveyard recovery. The
+  // bond bonuses are reduced (see companionDeath service for the math).
+  // A bragging-rights mode for the hardcore audience; opt-in at character
+  // creation, persisted here.
+  ironman: z.boolean().default(false),
+  // Skip-on-repeat boot (plan §D5) — when true, the terminal-style
+  // boot sequence (apps/client/src/components/BootSequence.tsx) is
+  // skipped on every launch except the very first. Default true so
+  // returning players don't sit through the intro every visit.
+  skipBootOnRepeat: z.boolean().default(true),
 
   // Haptics
   hapticsEnabled: z.boolean().default(true),

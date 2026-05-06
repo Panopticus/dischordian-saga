@@ -26,3 +26,17 @@ describe("settingsSchema — caption size", () => {
     expect(parsed.captions).toBe(false);
   });
 });
+
+describe("settingsSchema — ironman + skipBootOnRepeat", () => {
+  it("ironman defaults to false (opt-in)", () => {
+    expect(DEFAULT_SETTINGS.ironman).toBe(false);
+  });
+
+  it("skipBootOnRepeat defaults to true (returning players)", () => {
+    expect(DEFAULT_SETTINGS.skipBootOnRepeat).toBe(true);
+  });
+
+  it("rejects non-boolean ironman", () => {
+    expect(() => settingsSchema.parse({ ironman: "yes" })).toThrow();
+  });
+});
