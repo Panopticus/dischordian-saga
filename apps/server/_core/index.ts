@@ -449,6 +449,33 @@ async function startServer() {
     }, ONE_HOUR_MS);
     runMysteryClosure().catch(e => console.error("[MysteryClosure] initial tick error:", e));
 
+    // Data-retention sweeps (docs/legal/RETENTION_POLICY.md). Hourly
+    // tick: hard-deletes soft-deleted accounts past their 30-day
+    // grace, purges guild_chat older than 90 days, and analytics_events
+    // older than 24 months. Each function is idempotent and
+    // fire-and-forget (best-effort logged on failure).
+    const { runRetentionTick } = await import("../services/retentionService");
+    setInterval(() => {
+      runRetentionTick().catch(e => console.error("[Retention] tick error:", e));
+    }, ONE_HOUR_MS);
+    runRetentionTick().catch(e => console.error("[Retention] initial tick error:", e));
+
+    // Faction-reputation decay (docs/operations/TRADE_DIPLOMACY_TODO.md
+    // §"Decay"). Bleeds every non-zero faction reputation toward 0 by
+    // 1 unit per tick so a one-time max-out doesn't grant permanent
+    // trade discounts. Idempotent; fire-and-forget.
+    const { runFactionReputationDecayTick } = await import(
+      "../services/factionReputationService"
+    );
+    setInterval(() => {
+      runFactionReputationDecayTick().catch(e =>
+        console.error("[FactionReputation] decay tick error:", e),
+      );
+    }, ONE_HOUR_MS);
+    runFactionReputationDecayTick().catch(e =>
+      console.error("[FactionReputation] initial decay error:", e),
+    );
+
     // Witnessing §3 — load the community Dischordia Cycle meter
     // from MySQL into the in-memory cache on startup. If the DB
     // has no row yet (fresh install), seeds defaults. Falls back
