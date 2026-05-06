@@ -590,6 +590,17 @@ export default function TowerDefensePage() {
                           <span className="font-mono text-[9px] font-bold">{(def?.baseRange || 0) + (tdBonuses?.towerRangeBonus || 0)}</span>
                         </div>
                       </div>
+                      {/* Phase 9: equipped munition badge. Loaded item
+                          fires once on the next wave. Set/cleared from
+                          the /court page (tradeCourt.equipMunition). */}
+                      {tower.equippedMunition ? (
+                        <div className="mb-1 px-1 py-0.5 rounded border void-border-accent void-bg-canvas">
+                          <span className="font-mono text-[7px] void-text-accent block">MUNITION</span>
+                          <span className="font-mono text-[8px] truncate block">
+                            {tower.equippedMunition}
+                          </span>
+                        </div>
+                      ) : null}
                       <div className="flex items-center gap-2">
                         {busy ? (
                           <>

@@ -31,6 +31,7 @@
 
 import {
   applyEnergyGain,
+  applyEnergyGainForFaction,
   clampProximity,
   completeReclamation as pureCompleteReclamation,
   DEFAULT_DISCHORDIA_CYCLE_STATE,
@@ -220,6 +221,35 @@ export const dischordiaCycleService = {
     const record: EnergyEventRecord = {
       userId,
       actionId,
+      lightDelta: after.lightEnergy - before.lightEnergy,
+      darkDelta: after.darkEnergy - before.darkEnergy,
+      vortexDelta: after.vortexProximity - before.vortexProximity,
+      timestamp: Date.now(),
+    };
+    recordAudit(record);
+    void persistStateToDb(after);
+    void persistAuditToDb(record);
+    return this.getState();
+  },
+
+  /**
+   * Phase 9: faction-tagged variant. Wraps applyEnergyGainForFaction
+   * so callers that destroy / trade / disenchant a faction-aligned
+   * item asymmetrically push the global meter via factionEnergyNudge.
+   * The audit record uses a synthetic actionId of
+   * `<actionId>:<factionId>` so analytics can split tagged events.
+   */
+  applyEnergyForFaction(
+    actionId: EnergyGainActionId,
+    factionId: string | null | undefined,
+    userId: number | null = null,
+  ): DischordiaCycleState {
+    const before = singletonState;
+    const after = applyEnergyGainForFaction(before, actionId, factionId);
+    singletonState = after;
+    const record: EnergyEventRecord = {
+      userId,
+      actionId: factionId ? `${actionId}:${factionId}` : actionId,
       lightDelta: after.lightEnergy - before.lightEnergy,
       darkDelta: after.darkEnergy - before.darkEnergy,
       vortexDelta: after.vortexProximity - before.vortexProximity,

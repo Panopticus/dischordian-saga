@@ -17,7 +17,20 @@
    ═══════════════════════════════════════════════════════ */
 
 export type ClassKey = "engineer" | "oracle" | "assassin" | "soldier" | "spy";
+
+// Phase C migration: SpeciesKey here is the *earned-loadout* subset
+// of the canonical registry in apps/shared/species/registry.ts.
+// This narrower union covers the three species with shipping
+// loadouts; the registry's wider union (human, voltari, iron_lion,
+// construct) covers NPC + future content. The narrower type is
+// asserted to be a subset of the canonical type via compile-time
+// type-check below.
+import type { SpeciesKey as CanonicalSpeciesKey } from "./species/registry";
 export type SpeciesKey = "demagi" | "quarchon" | "neyon";
+// Compile-time invariant: SpeciesKey ⊆ CanonicalSpeciesKey. If
+// the registry ever drops one of these keys, this fails to typecheck.
+const _earnedSpeciesIsRegistrySubset: SpeciesKey extends CanonicalSpeciesKey ? true : false = true;
+void _earnedSpeciesIsRegistrySubset;
 export type ElementKey =
   | "earth"
   | "fire"

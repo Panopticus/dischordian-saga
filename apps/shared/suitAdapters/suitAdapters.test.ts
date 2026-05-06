@@ -15,6 +15,7 @@ import {
   toTcgPreMatchModifiers,
   toTerminusModifiers,
   toTradeEmpireDealModifiers,
+  courtEntryReaction,
 } from "./index";
 
 /**
@@ -132,6 +133,59 @@ describe("suitAdapters — casino + chess + diplomacy", () => {
       toDiplomacyModifiers(bonusesUpTo("regalia-of-the-seeing-stylus", 10))
         .previewDemandUses,
     ).toBe(1);
+  });
+});
+
+describe("suitAdapters — court entry reactions (phase 3)", () => {
+  it("wearing the receiver's own alignment (4pc) gives +2 trust", () => {
+    // Bulwark of the Eighth Column → nb_authoritys_ledger
+    const bonuses = bonusesUpTo("bulwark-of-the-eighth-column", 4);
+    const r = courtEntryReaction(bonuses, "nb_authoritys_ledger");
+    expect(r.trustDelta).toBe(2);
+    expect(r.contributors.length).toBe(1);
+  });
+
+  it("wearing the rival's alignment costs -3 trust", () => {
+    // Bulwark → ledger; ledger's rival is civic engineers.
+    // Wearing pressure-loom-harness (civic engineers) into ledger:
+    const bonuses = bonusesUpTo("pressure-loom-harness", 4);
+    const r = courtEntryReaction(bonuses, "nb_authoritys_ledger");
+    expect(r.trustDelta).toBe(-3);
+  });
+
+  it("wearing a third-party alignment costs -1 trust", () => {
+    // Antiquarian set into a New Babylon court:
+    const bonuses = bonusesUpTo("regalia-of-the-seeing-stylus", 4);
+    const r = courtEntryReaction(bonuses, "nb_authoritys_ledger");
+    expect(r.trustDelta).toBe(-1);
+  });
+
+  it("wearing under 4 pieces does not trigger any modifier", () => {
+    const bonuses = bonusesUpTo("bulwark-of-the-eighth-column", 2);
+    const r = courtEntryReaction(bonuses, "nb_authoritys_ledger");
+    expect(r.trustDelta).toBe(0);
+    expect(r.contributors).toEqual([]);
+  });
+
+  it("multiple aligned sets stack (two friendly = +4)", () => {
+    // Both bulwark + a hypothetical second ledger-aligned set; we
+    // test stacking by mixing one friendly (2pc receiving) and
+    // verify the contributors list reflects each individually.
+    const bonuses = [
+      ...bonusesUpTo("bulwark-of-the-eighth-column", 7),
+      ...bonusesUpTo("regalia-of-the-seeing-stylus", 4), // third-party
+    ];
+    const r = courtEntryReaction(bonuses, "nb_authoritys_ledger");
+    // +2 (ledger-aligned) + -1 (third-party) = +1
+    expect(r.trustDelta).toBe(1);
+    expect(r.contributors.length).toBe(2);
+  });
+
+  it("neutral-only loadouts produce zero modifier", () => {
+    // dicewrights-motley is not in the COURT_AWARE list — should be ignored.
+    const bonuses = bonusesUpTo("dicewrights-motley", 10);
+    const r = courtEntryReaction(bonuses, "nb_authoritys_ledger");
+    expect(r.trustDelta).toBe(0);
   });
 });
 

@@ -8,6 +8,10 @@ import { eq, and, sql, desc, inArray } from "drizzle-orm";
 import { fetchCitizenData, fetchPotentialNftData, resolveCraftingBonuses } from "../traitResolver";
 import { ripple } from "../services/rippleEngine";
 import { getConsequences } from "../services/universeConsequences";
+import { applySubHouseRepDelta } from "../services/subHouseReputationService";
+import { tcgFactionToAlignment } from "../../shared/tradeEmpire/itemTags";
+import type { Faction } from "../../shared/tcg-core/types/Card";
+import { dischordiaCycleService } from "../services/dischordiaCycleService";
 import { checkFeatureFlag } from "../middleware/featureFlag";
 import { TRPCError } from "@trpc/server";
 import {
@@ -446,6 +450,35 @@ export const craftingRouter = router({
 
         // Achievement auto-tracking for disenchant
         trackDisenchant(ctx.user.id).catch(e => logger.error("[Crafting] Achievement error:", e));
+
+        // Phase 3 — politicize disenchant. Destroying a faction-aligned
+        // card costs rep with that faction's primary sub-house. Foil
+        // disenchants hurt 2x — the card was rarer + more visible.
+        const cardFaction = cardDetail[0]?.faction ?? null;
+        if (cardFaction) {
+          const alignment = tcgFactionToAlignment(cardFaction as Faction);
+          if (alignment !== "neutral") {
+            const baseHit = -3;
+            const repDelta = targetIsFoil ? baseHit * 2 : baseHit;
+            applySubHouseRepDelta(
+              ctx.user.id,
+              alignment,
+              repDelta,
+              `disenchanted ${input.inputCardIds[0]}${targetIsFoil ? " (foil)" : ""}`,
+            ).catch(e => logger.warn("[Crafting] subHouseRep on disenchant failed:", e));
+          }
+          // Phase 9 — Dischordia faction nudge: destroying a faction-
+          // aligned card pushes the global meter asymmetrically.
+          try {
+            dischordiaCycleService.applyEnergyForFaction(
+              "crafting_light_card",
+              cardFaction,
+              ctx.user.id,
+            );
+          } catch (e) {
+            logger.warn("[Crafting] dischordia faction nudge failed:", e);
+          }
+        }
 
         return {
           success: true,

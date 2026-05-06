@@ -76,6 +76,49 @@ export const ADJUDICATOR_LOCKE_BANK: ReadonlyArray<BankEntry> = [
     maxPlays: 3,
   },
 
+  // Phase 9: public-knowledge reactions. These lines fire when the
+  // npc selector context picks up a recent-news pk.*.recent flag
+  // computed by enrichPublicFlags() from the trade_public_knowledge
+  // log. Each reads a stable canonical key the helper guarantees
+  // exists in apps/server/services/npcPublicKnowledgeReactions.ts.
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "locke.room.pk.tribute_paid.acknowledgement",
+    text:
+      "I noticed the tribute. The Ledger noticed too — the Ledger always notices. " +
+      "It will be filed under 'goodwill rendered'. The category has consequences.",
+    surfaces: ["room"],
+    reactsToPublicFlag: "pk.nb_authoritys_ledger.tribute_paid.recent",
+    cooldownKey: "locke.pk.tribute_paid",
+    maxPlays: 4,
+  },
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "locke.room.pk.demand_refused.warning",
+    text:
+      "Word travels faster than ledger updates. A house was refused recently. " +
+      "I would not refuse twice in the same season, were I you. Ink remembers.",
+    surfaces: ["room"],
+    reactsToPublicFlag: "pk.demand_refused.recent",
+    cooldownKey: "locke.pk.demand_refused",
+    maxPlays: 3,
+  },
+
+  {
+    npcKey: NPC_KEY,
+    lineId: "locke.room.pk.contract_signed.partner_circle",
+    text:
+      "You've been signing. The Authority approves of pattern; the Authority distrusts pattern. " +
+      "Choose, in the next signing, which side you'd like the Ledger to read first.",
+    surfaces: ["room"],
+    reactsToPublicFlag: "pk.contract_signed.recent",
+    requiresTrustBand: "Partner",
+    cooldownKey: "locke.pk.contract_signed",
+    maxPlays: 2,
+  },
+
   {
     npcKey: NPC_KEY,
     lineId: "locke.room.trade_nexus.insider.deferred_threat",
