@@ -18,6 +18,17 @@
 import { useMemo, useState } from "react";
 import { Link } from "wouter";
 import { trpc } from "@/lib/trpc";
+import { tcgFactionToAlignment } from "@shared/tradeEmpire/itemTags";
+import { SUB_HOUSE_REGISTRY } from "@shared/tradeEmpire/houses";
+import type { Faction } from "@shared/tcg-core/types/Card";
+
+const RARITY_ORDER = ["basic", "common", "uncommon", "rare", "epic", "legendary"] as const;
+type RarityKey = typeof RARITY_ORDER[number];
+
+function rarityIdx(r: string): number {
+  const idx = RARITY_ORDER.indexOf(r as RarityKey);
+  return idx === -1 ? 0 : idx;
+}
 
 // Local row types — inferred shape rather than re-derived from the
 // query, to avoid an inference-loop with the trpc proxy types.
@@ -104,6 +115,7 @@ export default function TradeCourtPage() {
   const [tributeHouse, setTributeHouse] = useState<string | null>(null);
   const [tributeCardId, setTributeCardId] = useState<string | null>(null);
   const [tributeIsFoil, setTributeIsFoil] = useState(false);
+  const [tributeRarityFilter, setTributeRarityFilter] = useState<string>("any");
   const [demandPicker, setDemandPicker] = useState<DemandRow | null>(null);
   const [demandCardId, setDemandCardId] = useState<string | null>(null);
 
@@ -115,12 +127,43 @@ export default function TradeCourtPage() {
         cardId: c.cardId,
         name: c.name ?? c.cardId,
         rarity: c.rarity ?? "common",
+        faction: (c.faction ?? "neutral") as Faction,
+        alignment: tcgFactionToAlignment((c.faction ?? "neutral") as Faction),
         quantity: c.userCard?.quantity ?? 0,
         isFoil: Boolean(c.userCard?.isFoil),
       }))
       .filter(c => c.quantity > 0)
       .sort((a, b) => (a.cardId < b.cardId ? -1 : 1));
   }, [myCards.data]);
+
+  // Tribute filter: only cards aligned to the receiver or neutral
+  // (rejecting rival-aligned cards client-side, mirroring server check).
+  const tributeOptions = useMemo(() => {
+    if (!tributeHouse) return [];
+    const receiver = SUB_HOUSE_REGISTRY[tributeHouse as keyof typeof SUB_HOUSE_REGISTRY];
+    if (!receiver) return [];
+    return cardOptions
+      .filter(c => c.alignment !== receiver.rivalHouseKey)
+      .filter(c =>
+        tributeRarityFilter === "any" || c.rarity === tributeRarityFilter,
+      );
+  }, [cardOptions, tributeHouse, tributeRarityFilter]);
+
+  // Demand filter: cards meeting rarity floor + faction filter.
+  const demandOptions = useMemo(() => {
+    if (!demandPicker) return [];
+    const minIdx = rarityIdx(demandPicker.demandedRarity);
+    return cardOptions.filter(c => {
+      if (rarityIdx(c.rarity) < minIdx) return false;
+      if (
+        demandPicker.demandedFaction &&
+        c.faction !== demandPicker.demandedFaction
+      ) {
+        return false;
+      }
+      return true;
+    });
+  }, [cardOptions, demandPicker]);
 
   type SnapshotHouse = NonNullable<typeof data>["houses"][number];
   const housesByFaction = useMemo(() => {
@@ -426,19 +469,46 @@ export default function TradeCourtPage() {
             </h3>
             <p className="text-sm text-zinc-400 mb-3">
               The card you choose is destroyed. Hand-crafted &gt; market-bought
-              &gt; looted. Cards aligned to this house's rival are refused.
+              &gt; looted. Cards aligned to this house's rival are not shown
+              (would be refused).
             </p>
+            <div className="flex gap-2 mb-2">
+              <select
+                value={tributeRarityFilter}
+                onChange={e => {
+                  setTributeRarityFilter(e.target.value);
+                  setTributeCardId(null);
+                }}
+                className="bg-zinc-800 border border-zinc-700 rounded p-2 text-sm"
+              >
+                <option value="any">any rarity</option>
+                {RARITY_ORDER.map(r => (
+                  <option key={r} value={r}>
+                    {r}
+                  </option>
+                ))}
+              </select>
+              <span className="text-xs text-zinc-500 self-center">
+                {tributeOptions.length} card
+                {tributeOptions.length === 1 ? "" : "s"} accepted
+              </span>
+            </div>
             <select
               value={tributeCardId ?? ""}
               onChange={e => setTributeCardId(e.target.value || null)}
               className="w-full bg-zinc-800 border border-zinc-700 rounded p-2 text-sm mb-2"
             >
               <option value="">— select a card —</option>
-              {cardOptions.map(c => (
-                <option key={`${c.cardId}-${c.isFoil}`} value={c.cardId}>
-                  {c.name} · {c.rarity} ×{c.quantity} {c.isFoil ? "(foil)" : ""}
-                </option>
-              ))}
+              {tributeOptions.map(c => {
+                const aligned = c.alignment === tributeHouse;
+                const tag = aligned ? "★ aligned" : c.alignment === "neutral" ? "neutral" : "third party";
+                return (
+                  <option key={`${c.cardId}-${c.isFoil}`} value={c.cardId}>
+                    {c.name} · {c.rarity} · {tag} ×{c.quantity}
+                    {c.isFoil ? " (foil)" : ""}
+                  </option>
+                );
+              })}
             </select>
             <label className="flex items-center gap-2 text-sm text-zinc-400 mb-3">
               <input
@@ -501,15 +571,28 @@ export default function TradeCourtPage() {
                 : ""}
               . The card will be destroyed.
             </p>
+            <div className="flex justify-between items-center mb-1">
+              <span className="text-xs text-zinc-500">
+                {demandOptions.length} card
+                {demandOptions.length === 1 ? "" : "s"} eligible
+              </span>
+              {demandOptions.length === 0 && (
+                <span className="text-xs text-amber-400">
+                  no matching cards in collection
+                </span>
+              )}
+            </div>
             <select
               value={demandCardId ?? ""}
               onChange={e => setDemandCardId(e.target.value || null)}
               className="w-full bg-zinc-800 border border-zinc-700 rounded p-2 text-sm mb-3"
+              disabled={demandOptions.length === 0}
             >
               <option value="">— select a card —</option>
-              {cardOptions.map(c => (
+              {demandOptions.map(c => (
                 <option key={`${c.cardId}-${c.isFoil}`} value={c.cardId}>
-                  {c.name} · {c.rarity} ×{c.quantity} {c.isFoil ? "(foil)" : ""}
+                  {c.name} · {c.rarity} ×{c.quantity}
+                  {c.isFoil ? " (foil)" : ""}
                 </option>
               ))}
             </select>

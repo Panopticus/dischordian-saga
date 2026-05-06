@@ -454,12 +454,33 @@ export const tradeCourtRouter = router({
         throw new TRPCError({ code: "NOT_FOUND", message: "tower not found" });
       }
 
+      // Ownership check: the tower must belong to a station owned by
+      // the calling user. Phase 7 supports station-owned towers only;
+      // world-owned (guild) towers stay locked from this surface
+      // until the guild ownership semantics are clarified.
+      if (tower.ownerType !== "station") {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "munition slot only available on station-owned towers",
+        });
+      }
+      const [station] = await db
+        .select({ userId: spaceStations.userId })
+        .from(spaceStations)
+        .where(eq(spaceStations.id, tower.ownerId))
+        .limit(1);
+      if (!station || station.userId !== ctx.user.id) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "you do not own this tower",
+        });
+      }
+
       await db
         .update(towerPlacements)
         .set({ equippedMunition: input.itemRef })
         .where(eq(towerPlacements.id, input.towerId));
 
-      void ctx;
       return { ok: true, towerId: input.towerId, itemRef: input.itemRef };
     }),
 
