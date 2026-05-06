@@ -124,7 +124,10 @@ export function handleAttack(
   // casualties afterwards. Capture both power values before applying
   // either damage so a lethal blow doesn't cancel the defender's
   // retaliation.
-  const attackDamage = Math.max(0, effectivePower(draft, attacker));
+  // Flanking (plan §C1) only applies to the *attacker* side — pass
+  // the target so effectiveAttackPower can pick up the bonus when
+  // an ally is also adjacent to the target.
+  const attackDamage = Math.max(0, effectiveAttackPower(draft, attacker, target));
   const retaliationDamage = isRangedLike ? 0 : Math.max(0, effectivePower(draft, target));
 
   applyCombatDamage(draft, attacker, target, attackDamage, ctx);
@@ -275,6 +278,11 @@ function findAdjacentEnemyWithKeyword(
  */
 const ZEAL_BONUS = 1;
 const PACK_BONUS_PER_ALLY = 1;
+/** Flanking damage bonus when the attacker has the keyword AND an
+ *  allied unit (other than the attacker) is also king-adjacent to
+ *  the target at the moment of impact. XCOM-style positional pressure;
+ *  the new strategic axis introduced by plan §C1. */
+const FLANKING_BONUS = 2;
 
 export function effectivePower(
   draft: Draft<GameState> | GameState,
@@ -299,6 +307,57 @@ export function effectivePowerWithZeal(
   unit: Draft<BoardEntity> | BoardEntity,
 ): number {
   return effectivePower(draft, unit);
+}
+
+/**
+ * Attacker-side power including the flanking bonus when applicable.
+ * Wraps effectivePower so retaliation (which calls effectivePower
+ * directly) never picks up the attacker-only bonus.
+ *
+ * Flanking semantics (plan §C1): the attacker has the `flanking`
+ * keyword AND there is at least one allied unit, other than the
+ * attacker itself, king-adjacent to the target at the moment of
+ * impact. The bonus is fixed at FLANKING_BONUS regardless of how
+ * many allies are flanking — it's a positional unlock, not a stack.
+ */
+export function effectiveAttackPower(
+  draft: Draft<GameState> | GameState,
+  attacker: Draft<BoardEntity> | BoardEntity,
+  target: Draft<BoardEntity> | BoardEntity,
+): number {
+  let p = effectivePower(draft, attacker);
+  if (
+    attacker.card.activeKeywords.includes("flanking") &&
+    isFlanking(draft, attacker, target)
+  ) {
+    p += FLANKING_BONUS;
+  }
+  return p;
+}
+
+/** True iff the attacker is flanking the target — i.e. some other
+ *  allied unit is also king-adjacent to the target. The attacker
+ *  itself doesn't count (otherwise every adjacent attack would
+ *  trivially flank). Pure helper, exported for tests. */
+export function isFlanking(
+  draft: Draft<GameState> | GameState,
+  attacker: Draft<BoardEntity> | BoardEntity,
+  target: Draft<BoardEntity> | BoardEntity,
+): boolean {
+  const allySide = attacker.card.owner;
+  for (let dr = -1; dr <= 1; dr++) {
+    for (let dc = -1; dc <= 1; dc++) {
+      if (dr === 0 && dc === 0) continue;
+      const nr = target.row + dr;
+      const nc = target.col + dc;
+      const neighbor = draft.board[posKey(nr, nc)];
+      if (!neighbor) continue;
+      if (neighbor.entityId === attacker.entityId) continue;
+      if (neighbor.card.owner !== allySide) continue;
+      return true;
+    }
+  }
+  return false;
 }
 
 function packBonus(
