@@ -6677,3 +6677,33 @@ export const tradePublicKnowledge = mysqlTable("trade_public_knowledge", {
   seasonIdx: index("idx_trade_public_knowledge_season").on(table.seasonNumber),
 }));
 export type TradePublicKnowledgeRow = typeof tradePublicKnowledge.$inferSelect;
+
+/**
+ * Per-(user, season, agendaKey) progress on a season agenda. One row
+ * per agenda the user is engaged with; missing rows default to "not
+ * yet started" — the agenda engine creates a row when the agenda
+ * first ticks against this user.
+ *
+ * Phase 4 of the items-matter / Game-of-Thrones arc.
+ */
+export const tradeAgendaProgress = mysqlTable("trade_agenda_progress", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /** SeasonAgendaDef.agendaKey from apps/shared/tradeEmpire/agendas.ts */
+  agendaKey: varchar("agendaKey", { length: 128 }).notNull(),
+  seasonNumber: int("seasonNumber").notNull(),
+  /** First tick at which this agenda began advancing for this user. */
+  startedAtTick: int("startedAtTick").notNull().default(0),
+  /** Stage statuses keyed by stageId: "pending" | "world_fired" |
+   *  "countered" | "skipped". */
+  stageStatus: json("stageStatus").$type<Record<string, string>>().notNull(),
+  /** Set true when every stage is resolved. */
+  resolved: boolean("resolved").notNull().default(false),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  userIdIdx: index("idx_trade_agenda_progress_user_id").on(table.userId),
+  userAgendaSeasonUniq: uniqueIndex(
+    "uniq_trade_agenda_progress_user_agenda_season",
+  ).on(table.userId, table.agendaKey, table.seasonNumber),
+}));
+export type TradeAgendaProgressRow = typeof tradeAgendaProgress.$inferSelect;

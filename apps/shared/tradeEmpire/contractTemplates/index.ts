@@ -14,6 +14,7 @@ import { DEGEN_CONTRACTS } from "./degen";
 import { ANTIQUARIAN_CONTRACTS } from "./antiquarian";
 import { INDEPENDENT_CONTRACTS } from "./independent";
 import { THALORIA_CONTRACTS } from "./thaloria";
+import { HOUSE_OATH_CONTRACTS } from "./houseOaths";
 
 export const ALL_CONTRACT_TEMPLATES: ReadonlyArray<ContractDef> = [
   ...LOCKE_CONTRACTS,
@@ -22,6 +23,7 @@ export const ALL_CONTRACT_TEMPLATES: ReadonlyArray<ContractDef> = [
   ...ANTIQUARIAN_CONTRACTS,
   ...INDEPENDENT_CONTRACTS,
   ...THALORIA_CONTRACTS,
+  ...HOUSE_OATH_CONTRACTS,
 ];
 
 /** Resolve a contract template by its canonical key. */
@@ -46,4 +48,5 @@ export {
   ANTIQUARIAN_CONTRACTS,
   INDEPENDENT_CONTRACTS,
   THALORIA_CONTRACTS,
+  HOUSE_OATH_CONTRACTS,
 };

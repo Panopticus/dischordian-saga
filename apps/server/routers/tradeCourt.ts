@@ -50,6 +50,14 @@ import {
   getPublicKnowledgeForHouse,
   postPublicKnowledge,
 } from "../services/publicKnowledgeService";
+import {
+  counterAgendaStep,
+  describeCounterCost,
+  getMyAgendaProgress,
+  tickUserAgendas,
+} from "../services/agendaEngine";
+import { REFERENCE_AGENDAS } from "@shared/tradeEmpire/agendas";
+import { userProgress } from "../../db/schema";
 
 export const tradeCourtRouter = router({
   /** Static registry — sub-house defs + their internal rivals. */
@@ -175,6 +183,136 @@ export const tradeCourtRouter = router({
       if (!isKnownSubHouseKey(input.houseKey)) return null;
       return factionForHouse(input.houseKey);
     }),
+
+  // --- Agenda endpoints (phase 4) -----------------------------------------
+
+  /** Static agenda registry — projected for the court widget. */
+  listAgendas: publicProcedure.query(() => {
+    return REFERENCE_AGENDAS.map(a => ({
+      agendaKey: a.agendaKey,
+      npcKey: a.npcKey,
+      name: a.name,
+      primaryHouseKey: a.primaryHouseKey,
+      threatenedHouseKey: a.threatenedHouseKey,
+      stages: a.stages.map(s => ({
+        stageId: s.stageId,
+        label: s.label,
+        tickOffset: s.tickOffset,
+        worldStepSummary: s.worldStepSummary,
+        counterDescription: s.counter.description,
+        counterCostText: describeCounterCost(s.counter.cost),
+      })),
+      minAct: a.minAct ?? null,
+      requiresRevealStage: a.requiresRevealStage ?? null,
+    }));
+  }),
+
+  /** Per-user agenda progress in the current season. */
+  myAgendaProgress: protectedProcedure.query(async ({ ctx }) => {
+    return getMyAgendaProgress(ctx.user.id);
+  }),
+
+  /**
+   * Player counter for an agenda stage. The cost has been validated +
+   * consumed by the *triggering* endpoint (sign for contract_signed,
+   * payTribute for tribute, etc.) — this just records the counter
+   * effect. For the small-cost paths (credits / influence) we
+   * consume here directly off userProgress.gameData.
+   */
+  counterAgendaStep: protectedProcedure
+    .input(
+      z.object({
+        agendaKey: z.string(),
+        stageId: z.string(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const userId = ctx.user.id;
+      const agenda = REFERENCE_AGENDAS.find(a => a.agendaKey === input.agendaKey);
+      if (!agenda) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: `unknown agenda ${input.agendaKey}`,
+        });
+      }
+      const stage = agenda.stages.find(s => s.stageId === input.stageId);
+      if (!stage) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: `unknown stage ${input.stageId}`,
+        });
+      }
+
+      // Consume credits/influence costs here. Tribute and contract-
+      // signed costs are validated and consumed by their own
+      // endpoints, then those endpoints call this mutation by
+      // server-side dispatch (phase 4.1 will wire that).
+      const cost = stage.counter.cost;
+      if (cost.kind === "credits" || cost.kind === "influence") {
+        const db = await getDb();
+        if (db) {
+          const rows = await db
+            .select()
+            .from(userProgress)
+            .where(eq(userProgress.userId, userId))
+            .limit(1);
+          const row = rows[0];
+          type AnyRecord = Record<string, unknown>;
+          const gameData = (row?.gameData as AnyRecord) ?? {};
+          const balanceKey = cost.kind === "credits" ? "credits" : "influence";
+          const balanceMap = (gameData[balanceKey] as Record<string, number>) ?? {};
+          const current =
+            cost.kind === "credits"
+              ? Number((gameData["credits"] as number | undefined) ?? 0)
+              : Number((gameData["influence"] as number | undefined) ?? 0);
+          if (current < cost.amount) {
+            throw new TRPCError({
+              code: "FORBIDDEN",
+              message: `insufficient ${cost.kind} (have ${current}, need ${cost.amount})`,
+            });
+          }
+          const next = { ...gameData, [cost.kind]: current - cost.amount };
+          if (row) {
+            await db
+              .update(userProgress)
+              .set({ gameData: next })
+              .where(eq(userProgress.userId, userId));
+          }
+          // The unused balanceMap reference quiet — kept for future
+          // extension to per-faction bucketed balances.
+          void balanceMap;
+        }
+      } else if (cost.kind === "none") {
+        // No cost; proceed.
+      } else {
+        // Other cost kinds must be paid through the dedicated
+        // endpoint (tribute / contract sign). Reject here so callers
+        // don't think they're getting a free counter.
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: `cost kind ${cost.kind} requires the dedicated endpoint`,
+        });
+      }
+
+      const result = await counterAgendaStep(userId, input.agendaKey, input.stageId);
+      if (!result) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "agenda stage is not in a counterable state",
+        });
+      }
+      return { ok: true, ...result };
+    }),
+
+  /**
+   * Admin / test-only: tick the current user's agendas once. Wired
+   * here for the e2e smoke test in the plan's verification section.
+   * Real tick scheduling lives in a separate phase-4.1 cron.
+   */
+  _tickMyAgendas: protectedProcedure.mutation(async ({ ctx }) => {
+    const results = await tickUserAgendas(ctx.user.id);
+    return { ok: true, results };
+  }),
 
   /**
    * Pay tribute to a sub-house by sacrificing one card. The card is

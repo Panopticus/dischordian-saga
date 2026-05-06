@@ -17,6 +17,7 @@ import {
   ANTIQUARIAN_CONTRACTS,
   INDEPENDENT_CONTRACTS,
   THALORIA_CONTRACTS,
+  HOUSE_OATH_CONTRACTS,
 } from "../contractTemplates";
 import {
   validateContractDef,
@@ -33,7 +34,8 @@ describe("Contract template registry", () => {
         DEGEN_CONTRACTS.length +
         ANTIQUARIAN_CONTRACTS.length +
         INDEPENDENT_CONTRACTS.length +
-        THALORIA_CONTRACTS.length,
+        THALORIA_CONTRACTS.length +
+        HOUSE_OATH_CONTRACTS.length,
     );
   });
 
@@ -67,7 +69,12 @@ describe("Contract template registry", () => {
 
   it("contractsByBroker returns only that broker's templates", () => {
     const lockeContracts = contractsByBroker("broker_locke");
-    expect(lockeContracts.length).toBe(LOCKE_CONTRACTS.length);
+    // Includes the per-broker family + any cross-cutting templates
+    // (e.g., House Oaths) that point at the same broker.
+    const expected =
+      LOCKE_CONTRACTS.length +
+      HOUSE_OATH_CONTRACTS.filter(c => c.brokerKey === "broker_locke").length;
+    expect(lockeContracts.length).toBe(expected);
     for (const c of lockeContracts) {
       expect(c.brokerKey).toBe("broker_locke");
     }
