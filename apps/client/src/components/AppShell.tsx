@@ -7,7 +7,7 @@ import { ROUTE_ROOM_MAP } from "@/components/ProtectedRoute";
 import {
   Search, Menu, X, Map, Music, Users, MapPin, Swords, Clock,
   ChevronRight, ChevronDown, Terminal, Disc3, Shield, Tv, BarChart3, Gamepad2, Trophy, Crosshair,
-  Home, Rocket, Store, ScrollText, FlaskConical, Ship, Crown, Compass, Radio, Heart, Brain, BookOpen, Gem, Lock, Sun, Moon, Scale,
+  Home, Rocket, Store, ScrollText, FlaskConical, Ship, Crown, Compass, Radio, Heart, Brain, BookOpen, BookMarked, Gem, Lock, Sun, Moon, Scale,
   CalendarDays, Star, Package, Eye
 } from "lucide-react";
 import { useGamification } from "@/contexts/GamificationContext";
@@ -66,6 +66,7 @@ const NAV_GROUPS: NavGroup[] = [
       { path: "/character-timeline", label: "CHAR TIMELINE", icon: BarChart3, description: "Character arcs" },
       { path: "/timeline", label: "ERA TIMELINE", icon: Clock, description: "Historical eras" },
       { path: "/codex", label: "THE CODEX", icon: BookOpen, description: "Lore library" },
+      { path: "/civilopedia", label: "CIVILOPEDIA", icon: BookMarked, description: "Cross-linked reference index" },
       { path: "/clue-journal", label: "CLUE JOURNAL", icon: ScrollText, description: "Clues & puzzles" },
     ],
   },
