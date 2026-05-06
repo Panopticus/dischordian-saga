@@ -138,12 +138,27 @@ describe("pickBanterPair", () => {
     expect(result?.id).toBe("banter_elara_human_first_hard_choice");
   });
 
-  it("respects romance lockout on the Locke–Human pair", () => {
-    const ctx = baseCtx({
-      trigger: "trade_contract_completed",
-      presentSpeakers: ["locke", "human"],
-      flags: { "romance:committed:locke": true },
-    });
-    expect(pickBanterPair(ctx)).toBeNull();
+  it("respects romance lockout on the original Locke–Human flirt pair", () => {
+    // The seed flirt pair (excludeFlags: romance:committed:locke) does NOT
+    // fire when romance is committed; the COMMITTED-pair (different banter
+    // entirely, requiresFlags: romance:committed:locke) does fire instead.
+    // This guards both — the lockout AND the substitution.
+    const flirt = pickBanterPair(
+      baseCtx({
+        trigger: "trade_contract_completed",
+        presentSpeakers: ["locke", "human"],
+        flags: { "romance:committed:locke": true },
+      }),
+    );
+    expect(flirt?.id).toBe("banter_locke_human_locke_committed");
+
+    const flirtUncommitted = pickBanterPair(
+      baseCtx({
+        trigger: "trade_contract_completed",
+        presentSpeakers: ["locke", "human"],
+        flags: {},
+      }),
+    );
+    expect(flirtUncommitted?.id).toBe("banter_locke_human_after_trade_win");
   });
 });
