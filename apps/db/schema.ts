@@ -6579,3 +6579,101 @@ export const coopCardSessions = mysqlTable("coop_card_sessions", {
   encounterIdx: index("idx_coop_card_sessions_encounter").on(table.encounterKey),
 }));
 export type CoopCardSession = typeof coopCardSessions.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
+   TRADE EMPIRE — Items-matter / Game-of-Thrones arc (Phase 1)
+   Sub-house reputation, season clock singleton, and the
+   public-knowledge log NPCs read for dialog flavor.
+   ═══════════════════════════════════════════════════════ */
+
+/**
+ * Per-(user, sub-house) reputation tracker. Sub-houses sit *inside*
+ * top-level factions (see apps/shared/tradeEmpire/houses.ts); rep is
+ * tracked per house so internal court intrigue can pull a player in
+ * two directions inside a single faction.
+ *
+ * Top-level faction rep is computed as the mean of sub-house rep on
+ * read, not stored separately, so houses are the only source of
+ * truth.
+ */
+export const tradeSubHouseReputation = mysqlTable("trade_sub_house_reputation", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  /** SubHouseKey from apps/shared/tradeEmpire/houses.ts */
+  houseKey: varchar("houseKey", { length: 64 }).notNull(),
+  reputation: int("reputation").notNull().default(0),
+  /** Highest absolute rep ever reached — used by court widget to show
+   *  "you were once a friend of this house". */
+  peakReputation: int("peakReputation").notNull().default(0),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  userIdIdx: index("idx_trade_sub_house_rep_user_id").on(table.userId),
+  userHouseUniq: uniqueIndex("uniq_trade_sub_house_rep_user_house").on(
+    table.userId,
+    table.houseKey,
+  ),
+}));
+export type TradeSubHouseReputationRow = typeof tradeSubHouseReputation.$inferSelect;
+
+/**
+ * Season clock — singleton row holding the global season state.
+ * `id` is always 1 (enforced by the service layer), mirroring the
+ * dischordia_cycle_state pattern.
+ */
+export const seasonClockState = mysqlTable("season_clock_state", {
+  id: int("id").primaryKey(),
+  seasonNumber: int("seasonNumber").notNull().default(1),
+  /** SeasonPhase from apps/shared/tradeEmpire/season.ts */
+  phase: varchar("phase", { length: 32 }).notNull().default("prologue"),
+  phaseStartedAt: timestamp("phaseStartedAt").defaultNow().notNull(),
+  /** When the next phase transition is scheduled. Null inside
+   *  interregnum — server triggers manually after settlement. */
+  phaseEndsAt: timestamp("phaseEndsAt"),
+  /** Tick counter inside the current season. Resets each new season. */
+  tickNumber: int("tickNumber").notNull().default(0),
+  lastTickAt: timestamp("lastTickAt"),
+  /** Active SeasonDeclaration JSON — null inside prologue before
+   *  resolution. Shape defined in apps/shared/tradeEmpire/season.ts */
+  declaration: json("declaration").$type<Record<string, unknown> | null>(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+export type SeasonClockStateRow = typeof seasonClockState.$inferSelect;
+
+/**
+ * Public-knowledge log — append-only feed of in-world events that any
+ * faction NPC may read to flavor dialog. Contract signings, demand
+ * refusals, blown covers, agenda step completions, season declarations
+ * all post entries here.
+ *
+ * Distinct from `npc_public_flags` which is per-NPC presence/met
+ * tracking. This table is faction-scoped news.
+ */
+export const tradePublicKnowledge = mysqlTable("trade_public_knowledge", {
+  id: int("id").autoincrement().primaryKey(),
+  /** Optional acting user — null for world events (declarations,
+   *  AI-vs-AI agenda completions). */
+  userId: int("userId"),
+  /** Canonical event kind, e.g. "contract_signed", "demand_refused",
+   *  "cover_blown", "agenda_step", "season_declaration", "tribute_paid". */
+  eventKind: varchar("eventKind", { length: 64 }).notNull(),
+  /** SubHouseKey the event is *primarily* about — drives which NPCs
+   *  pull it from the feed. */
+  subjectHouseKey: varchar("subjectHouseKey", { length: 64 }),
+  /** Free-form summary string for dialog renderers. */
+  summary: varchar("summary", { length: 512 }).notNull(),
+  /** Optional structured payload (contract id, demand id, etc.). */
+  payload: json("payload").$type<Record<string, unknown> | null>(),
+  /** Season number when the event posted — lets the court widget
+   *  filter "this season" vs. historical. */
+  seasonNumber: int("seasonNumber").notNull().default(1),
+  /** True once the event is no longer hot news (e.g., season has
+   *  rolled over twice). Soft-archive flag; rows are never deleted. */
+  archived: boolean("archived").notNull().default(false),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => ({
+  createdAtIdx: index("idx_trade_public_knowledge_created").on(table.createdAt),
+  userIdx: index("idx_trade_public_knowledge_user").on(table.userId),
+  houseIdx: index("idx_trade_public_knowledge_house").on(table.subjectHouseKey),
+  seasonIdx: index("idx_trade_public_knowledge_season").on(table.seasonNumber),
+}));
+export type TradePublicKnowledgeRow = typeof tradePublicKnowledge.$inferSelect;
