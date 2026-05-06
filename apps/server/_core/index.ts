@@ -284,9 +284,22 @@ async function startServer() {
     legacyHeaders: false,
     message: { error: "LLM rate limit exceeded, please wait" },
   });
+  // Auth endpoints — covers OAuth start/callback and refresh-token
+  // rotation. Real users hit these a handful of times per session;
+  // 30/min per IP is comfortably above that and well below what's
+  // useful for brute-forcing or refresh-token-stuffing.
+  const authLimiter = rateLimit({
+    windowMs: 60 * 1000,
+    max: 30,
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: { error: "Too many auth requests, please try again later" },
+  });
   app.use("/api/trpc", generalLimiter);
   app.use("/api/trpc/elara", llmLimiter);
   app.use("/api/trpc/codex", llmLimiter);
+  app.use("/api/oauth", authLimiter);
+  app.use("/api/refresh", authLimiter);
 
   // Sprite proxy (before CSRF — it's a GET endpoint for images)
   registerSpriteProxy(app);
