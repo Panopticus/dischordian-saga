@@ -294,16 +294,24 @@ jobs:
       - name: Upload Playwright report on failure
         # Always upload when not successful — `failure()` doesn't
         # match `cancelled`, and a workflow-level timeout shows up
-        # as `cancelled`. Without this, suite-level hangs left no
-        # artifact and we couldn't see which test was the offender.
-        # Playwright globalTimeout (apps/e2e/playwright.config.ts)
-        # now caps the run before GHA cancels, so this is mostly
-        # belt-and-suspenders.
+        # as `cancelled`. Playwright globalTimeout (apps/e2e/
+        # playwright.config.ts) now caps the run before GHA cancels,
+        # so this is mostly belt-and-suspenders.
+        #
+        # The report path is `apps/e2e/playwright-report/`: Playwright's
+        # HTML reporter writes the report in a directory relative to
+        # the *config file*, not CWD. With our config at
+        # `apps/e2e/playwright.config.ts` the report lives at
+        # `apps/e2e/playwright-report/`. The previous `playwright-report/`
+        # path (repo root) never existed, so every artifact upload
+        # returned "No files were found".
         if: ${{ failure() || cancelled() }}
         uses: actions/upload-artifact@v4
         with:
           name: playwright-report
-          path: playwright-report/
+          path: |
+            apps/e2e/playwright-report/
+            playwright-report/
           retention-days: 7
           if-no-files-found: warn
 
