@@ -29,6 +29,8 @@ import type { EntityId, Side } from "../types/Ids";
 import type { TargetRef, UnitFilter } from "../types/Effect";
 import type { TargetSelector } from "../types/Targeting";
 import type { ExecCtx } from "./execCtx";
+import type { Rng } from "./rng";
+import { rngPick } from "./rng";
 
 /**
  * Look up a BoardEntity by entityId. Returns undefined if not on board.
@@ -173,6 +175,10 @@ function resolveTargetRefRaw(
  *  - `single` with `chooser: "player"` — reads the Action's
  *    `playerChosenTargetId` from the ExecCtx and validates it against
  *    the filter. Returns [] if no match.
+ *  - `single` with `chooser: "random"` — picks one of the matching
+ *    entities via the GameState RNG. When `rng` is omitted (e.g. the
+ *    `target_exists` condition just wants to know whether any candidate
+ *    exists), returns the full candidate list without burning RNG.
  *  - `all` with a unit filter — returns every matching entity.
  *
  * Unsupported selectors throw — the effect interpreter catches and
@@ -181,16 +187,18 @@ function resolveTargetRefRaw(
 export function resolveTargetSelector(
   sel: TargetSelector,
   ctx: ExecCtx,
-  state: GameState
+  state: GameState,
+  rng?: Rng,
 ): EntityId[] {
-  const ids = resolveTargetSelectorRaw(sel, ctx, state);
+  const ids = resolveTargetSelectorRaw(sel, ctx, state, rng);
   return reroutePendingFutureTargets(ids, ctx, state);
 }
 
 function resolveTargetSelectorRaw(
   sel: TargetSelector,
   ctx: ExecCtx,
-  state: GameState
+  state: GameState,
+  rng?: Rng,
 ): EntityId[] {
   switch (sel.kind) {
     case "self":
@@ -202,17 +210,35 @@ function resolveTargetSelectorRaw(
       return [state.players[enemy].generalEntityId];
     }
     case "single": {
-      if (sel.chooser !== "player") {
-        throw new UnsupportedSelectorError(
-          `single-target chooser '${sel.chooser}' not yet implemented`
-        );
+      if (sel.chooser === "player") {
+        const chosenId = ctx.playerChosenTargetId;
+        if (!chosenId) return [];
+        const entity = findBoardEntity(state, chosenId);
+        if (!entity) return [];
+        if (!matchesUnitFilter(entity, sel.filter, ctx)) return [];
+        return [chosenId];
       }
-      const chosenId = ctx.playerChosenTargetId;
-      if (!chosenId) return [];
-      const entity = findBoardEntity(state, chosenId);
-      if (!entity) return [];
-      if (!matchesUnitFilter(entity, sel.filter, ctx)) return [];
-      return [chosenId];
+      if (sel.chooser === "random") {
+        // Collect every board entity matching the filter, sorted by
+        // entityId so the candidate order is independent of object-
+        // iteration order (replay-stable).
+        const candidates: EntityId[] = [];
+        for (const entity of Object.values(state.board)) {
+          if (matchesUnitFilter(entity, sel.filter, ctx)) {
+            candidates.push(entity.entityId);
+          }
+        }
+        candidates.sort((a, b) => (a < b ? -1 : a > b ? 1 : 0));
+        // No rng provided (e.g. target_exists existence check) — return
+        // the full candidate list so callers can probe `length > 0`
+        // without burning RNG state.
+        if (!rng) return candidates;
+        const picked = rngPick(rng, candidates);
+        return picked ? [picked] : [];
+      }
+      throw new UnsupportedSelectorError(
+        `single-target chooser '${sel.chooser}' not yet implemented`
+      );
     }
     case "all": {
       const out: EntityId[] = [];
