@@ -1312,7 +1312,6 @@ export default function TradeWarsPage() {
             commodity: commodity as "fuelOre" | "organics" | "equipment",
             action: "buy",
             quantity: qty,
-            factionReputation: gameState.factionReputation,
           });
           addLine(result.message, result.success ? "success" : "error");
           utils.tradeWars.getState.invalidate();
@@ -1339,7 +1338,6 @@ export default function TradeWarsPage() {
             commodity: commodity as "fuelOre" | "organics" | "equipment",
             action: "sell",
             quantity: qty,
-            factionReputation: gameState.factionReputation,
           });
           addLine(result.message, result.success ? "success" : "error");
           // ── TRADE MATERIAL DROPS on successful sell ──
