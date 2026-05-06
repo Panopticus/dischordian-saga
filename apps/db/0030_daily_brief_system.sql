@@ -11,8 +11,10 @@ CREATE TABLE `daily_briefs` (
   CONSTRAINT `daily_briefs_id` PRIMARY KEY(`id`),
   CONSTRAINT `uq_daily_brief_user_date` UNIQUE(`userId`, `briefDate`)
 );
+--> statement-breakpoint
 
 CREATE INDEX `idx_daily_brief_date` ON `daily_briefs` (`briefDate`);
+--> statement-breakpoint
 
 CREATE TABLE `pressure_events` (
   `id` int AUTO_INCREMENT NOT NULL,
@@ -24,10 +26,14 @@ CREATE TABLE `pressure_events` (
   `createdAt` timestamp NOT NULL DEFAULT (now()),
   CONSTRAINT `pressure_events_id` PRIMARY KEY(`id`)
 );
+--> statement-breakpoint
 
 CREATE INDEX `idx_pressure_type` ON `pressure_events` (`pressureType`);
+--> statement-breakpoint
 CREATE INDEX `idx_pressure_created` ON `pressure_events` (`createdAt`);
+--> statement-breakpoint
 CREATE INDEX `idx_pressure_user` ON `pressure_events` (`userId`);
+--> statement-breakpoint
 
 CREATE TABLE `universe_event_state` (
   `id` int AUTO_INCREMENT NOT NULL,
@@ -42,6 +48,7 @@ CREATE TABLE `universe_event_state` (
   CONSTRAINT `universe_event_state_id` PRIMARY KEY(`id`),
   CONSTRAINT `universe_event_state_eventId_unique` UNIQUE(`eventId`)
 );
+--> statement-breakpoint
 
 CREATE TABLE `room_states` (
   `id` int AUTO_INCREMENT NOT NULL,
@@ -58,5 +65,6 @@ CREATE TABLE `room_states` (
   CONSTRAINT `room_states_id` PRIMARY KEY(`id`),
   CONSTRAINT `uq_room_state_user_room` UNIQUE(`userId`, `roomId`)
 );
+--> statement-breakpoint
 
 CREATE INDEX `idx_room_state_user` ON `room_states` (`userId`);

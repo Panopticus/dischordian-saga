@@ -13,6 +13,7 @@ CREATE TABLE IF NOT EXISTS epoch_votes (
   INDEX idx_epoch_vote_id (vote_id),
   INDEX idx_epoch_user (user_id)
 );
+--> statement-breakpoint
 
 CREATE TABLE IF NOT EXISTS epoch_vote_tallies (
   vote_id VARCHAR(50) PRIMARY KEY,
@@ -26,6 +27,7 @@ CREATE TABLE IF NOT EXISTS epoch_vote_tallies (
   closed_at TIMESTAMP NULL,
   winning_option VARCHAR(10) NULL
 );
+--> statement-breakpoint
 
 CREATE TABLE IF NOT EXISTS shadow_tongue_state (
   id INT PRIMARY KEY DEFAULT 1,
@@ -35,9 +37,11 @@ CREATE TABLE IF NOT EXISTS shadow_tongue_state (
   grand_edit_active BOOLEAN DEFAULT FALSE,
   CONSTRAINT shadow_tongue_singleton CHECK (id = 1)
 );
+--> statement-breakpoint
 
 INSERT INTO shadow_tongue_state (id, power_level) SELECT 1, 0
 WHERE NOT EXISTS (SELECT 1 FROM shadow_tongue_state WHERE id = 1);
+--> statement-breakpoint
 
 CREATE TABLE IF NOT EXISTS player_epoch_progress (
   user_id INT PRIMARY KEY,
@@ -47,6 +51,7 @@ CREATE TABLE IF NOT EXISTS player_epoch_progress (
   shadow_tongue_catches INT DEFAULT 0,
   campaign_complete BOOLEAN DEFAULT FALSE
 );
+--> statement-breakpoint
 
 CREATE TABLE IF NOT EXISTS mandela_effects (
   id INT PRIMARY KEY AUTO_INCREMENT,

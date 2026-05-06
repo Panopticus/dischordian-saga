@@ -40,6 +40,7 @@ CREATE TABLE `palimpsest_state` (
   `updatedAt` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   UNIQUE KEY `palimpsest_state_user_id_unique` (`userId`)
 );
+--> statement-breakpoint
 
 CREATE INDEX `idx_palimpsest_state_user_id`
   ON `palimpsest_state` (`userId`);

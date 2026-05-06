@@ -18,6 +18,7 @@ CREATE TABLE `chess_user_state` (
   `updatedAt` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
     ON UPDATE CURRENT_TIMESTAMP
 );
+--> statement-breakpoint
 
 CREATE INDEX `idx_chess_user_state_last_visit`
   ON `chess_user_state` (`lastVisitAt`);

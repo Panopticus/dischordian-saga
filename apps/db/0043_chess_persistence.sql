@@ -32,11 +32,14 @@ CREATE TABLE `chess_puzzle_progress` (
   `solvedAt` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `attempts` INT NOT NULL DEFAULT 1
 );
+--> statement-breakpoint
 
 CREATE UNIQUE INDEX `idx_chess_puzzle_progress_user_puzzle`
   ON `chess_puzzle_progress` (`userId`, `puzzleId`);
+--> statement-breakpoint
 CREATE INDEX `idx_chess_puzzle_progress_user`
   ON `chess_puzzle_progress` (`userId`);
+--> statement-breakpoint
 
 CREATE TABLE `chess_tournament_participants` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
@@ -48,13 +51,17 @@ CREATE TABLE `chess_tournament_participants` (
   `active` BOOLEAN NOT NULL DEFAULT TRUE,
   `joinedAt` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+--> statement-breakpoint
 
 CREATE UNIQUE INDEX `idx_chess_tournament_participants_tourney_user`
   ON `chess_tournament_participants` (`tournamentId`, `userId`);
+--> statement-breakpoint
 CREATE INDEX `idx_chess_tournament_participants_tournament`
   ON `chess_tournament_participants` (`tournamentId`);
+--> statement-breakpoint
 CREATE INDEX `idx_chess_tournament_participants_user`
   ON `chess_tournament_participants` (`userId`);
+--> statement-breakpoint
 
 CREATE TABLE `chess_tournament_pairings` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
@@ -68,8 +75,10 @@ CREATE TABLE `chess_tournament_pairings` (
   `deadlineAt` TIMESTAMP NULL DEFAULT NULL,
   `createdAt` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+--> statement-breakpoint
 
 CREATE INDEX `idx_chess_tournament_pairings_tournament`
   ON `chess_tournament_pairings` (`tournamentId`);
+--> statement-breakpoint
 CREATE INDEX `idx_chess_tournament_pairings_tournament_round`
   ON `chess_tournament_pairings` (`tournamentId`, `round`);

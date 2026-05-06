@@ -11,10 +11,12 @@ ALTER TABLE `circuit_seasons`
   ADD COLUMN `activeUniverseEvents` json AFTER `totalDeaths`,
   ADD COLUMN `championUserId` int AFTER `activeUniverseEvents`,
   ADD COLUMN `closedAt` timestamp NULL AFTER `championUserId`;
+--> statement-breakpoint
 
 ALTER TABLE `circuit_leaderboard`
   ADD COLUMN `claimedTiers` json AFTER `clonesLost`,
   ADD COLUMN `severancePrizeClaimed` int NOT NULL DEFAULT 0 AFTER `claimedTiers`;
+--> statement-breakpoint
 
 CREATE TABLE `circuit_clones` (
   `id` int AUTO_INCREMENT NOT NULL,
@@ -34,9 +36,12 @@ CREATE TABLE `circuit_clones` (
   `diedAt` timestamp NULL,
   CONSTRAINT `circuit_clones_id` PRIMARY KEY(`id`)
 );
+--> statement-breakpoint
 
 CREATE INDEX `idx_circuit_clones_user_season` ON `circuit_clones` (`userId`, `seasonId`);
+--> statement-breakpoint
 CREATE INDEX `idx_circuit_clones_status` ON `circuit_clones` (`status`);
+--> statement-breakpoint
 
 CREATE TABLE `circuit_identity_chains` (
   `id` int AUTO_INCREMENT NOT NULL,
@@ -53,6 +58,7 @@ CREATE TABLE `circuit_identity_chains` (
   CONSTRAINT `circuit_identity_chains_id` PRIMARY KEY(`id`),
   CONSTRAINT `circuit_identity_chains_userId_unique` UNIQUE(`userId`)
 );
+--> statement-breakpoint
 
 CREATE TABLE `circuit_side_quest_progress` (
   `id` int AUTO_INCREMENT NOT NULL,
