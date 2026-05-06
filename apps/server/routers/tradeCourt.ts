@@ -62,6 +62,11 @@ import {
   payDemand,
   refuseDemand,
 } from "../services/demandService";
+import {
+  discoverAnomaly,
+  listMyAnomalies,
+  spendIntelligenceOnAnomaly,
+} from "../services/anomalyService";
 import { REFERENCE_AGENDAS } from "@shared/tradeEmpire/agendas";
 import { spaceStations, towerPlacements, userProgress } from "../../db/schema";
 import { allKnownMunitionRefs, getMunitionEffect, TOWERS } from "@shared/towerDefense";
@@ -391,6 +396,51 @@ export const tradeCourtRouter = router({
         demandId: input.demandId,
         materialsToConsume: input.materialsToConsume,
       });
+      if (!result.ok) {
+        throw new TRPCError({ code: "BAD_REQUEST", message: result.error });
+      }
+      return result;
+    }),
+
+  // --- Anomaly endpoints (Phase B) ---------------------------------------
+
+  myAnomalies: protectedProcedure.query(async ({ ctx }) => {
+    return listMyAnomalies(ctx.user.id);
+  }),
+
+  /**
+   * Discover an anomaly in a sector. Idempotent — already-discovered
+   * sectors return the existing kind. Called by the galaxy map on
+   * first entry to a hasAnomaly sector.
+   */
+  discoverAnomaly: protectedProcedure
+    .input(z.object({ sectorId: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const result = await discoverAnomaly(ctx.user.id, input.sectorId);
+      if (!result.ok) {
+        throw new TRPCError({ code: "BAD_REQUEST", message: result.error });
+      }
+      return result;
+    }),
+
+  /**
+   * Spend intelligence to investigate an anomaly. Caller's intelligence
+   * must already be debited at the call site (e.g. by tradeEmpire's
+   * resource ledger). Returns whether the anomaly resolved.
+   */
+  investigateAnomaly: protectedProcedure
+    .input(
+      z.object({
+        sectorId: z.string(),
+        intelligenceAmount: z.number().int().positive(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const result = await spendIntelligenceOnAnomaly(
+        ctx.user.id,
+        input.sectorId,
+        input.intelligenceAmount,
+      );
       if (!result.ok) {
         throw new TRPCError({ code: "BAD_REQUEST", message: result.error });
       }

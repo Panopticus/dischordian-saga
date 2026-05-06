@@ -35,7 +35,10 @@ export type PublicKnowledgeEventKind =
   | "season_declaration"
   | "sector_flipped"
   | "house_oath_sworn"
-  | "house_oath_broken";
+  | "house_oath_broken"
+  // Phase B (Living Galaxy):
+  | "anomaly_discovered"
+  | "ruin_uncovered";
 
 /** Input shape for posting a single event. */
 export interface PostKnowledgeEvent {

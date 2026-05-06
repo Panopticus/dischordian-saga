@@ -6755,3 +6755,34 @@ export const tradeDemands = mysqlTable("trade_demands", {
   expiresIdx: index("idx_trade_demands_expires").on(table.expiresAt),
 }));
 export type TradeDemandRow = typeof tradeDemands.$inferSelect;
+
+/**
+ * Phase B (Living Galaxy): per-(user, sector) anomaly discoveries.
+ * When the player first enters a sector with hasAnomaly=true, an
+ * `anomaly_discovered` event posts and one row lands here. Player
+ * spends `intelligence` to investigate; resolution drops a one-time
+ * tome / card / trait + a sub-house rep delta.
+ */
+export const tradeAnomalies = mysqlTable("trade_anomalies", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  sectorId: varchar("sectorId", { length: 128 }).notNull(),
+  /** Anomaly kind drawn from the sector's flavor — see anomalyService. */
+  kind: varchar("kind", { length: 64 }).notNull(),
+  /** "pending" | "investigated" | "abandoned" */
+  status: mysqlEnum("status", ["pending", "investigated", "abandoned"]).notNull().default("pending"),
+  /** Intelligence spent so far. Resolution requires meeting the
+   *  per-anomaly threshold encoded in anomalyService. */
+  intelligenceSpent: int("intelligenceSpent").notNull().default(0),
+  /** Optional payload describing the resolution outcome. */
+  resolution: json("resolution").$type<Record<string, unknown> | null>(),
+  discoveredAt: timestamp("discoveredAt").defaultNow().notNull(),
+  resolvedAt: timestamp("resolvedAt"),
+}, (table) => ({
+  userIdx: index("idx_trade_anomalies_user_id").on(table.userId),
+  userSectorUniq: uniqueIndex("uniq_trade_anomalies_user_sector").on(
+    table.userId,
+    table.sectorId,
+  ),
+}));
+export type TradeAnomalyRow = typeof tradeAnomalies.$inferSelect;

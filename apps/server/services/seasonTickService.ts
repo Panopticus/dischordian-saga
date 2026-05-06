@@ -40,10 +40,18 @@ import {
   type SeasonDeclaration,
 } from "@shared/tradeEmpire/season";
 import { selectDeclarationForSeason } from "@shared/tradeEmpire/declarations";
+import {
+  pickEventsToFire,
+  REFERENCE_GALACTIC_EVENTS,
+  type GalacticEventDef,
+  type TriggerContext,
+} from "@shared/tradeEmpire/galacticEvents";
+import { pickFrontierRotation } from "@shared/tradeEmpire/frontier";
 
 import { seasonClockService } from "./seasonClockService";
 import { tickUserAgendas } from "./agendaEngine";
-import { postPublicKnowledge } from "./publicKnowledgeService";
+import { postPublicKnowledge, getRecentPublicKnowledge } from "./publicKnowledgeService";
+import { applySubHouseRepDelta } from "./subHouseReputationService";
 import { maybeGenerateDemandForUser, sweepExpiredDemands } from "./demandService";
 
 export interface SeasonTickOutcome {
@@ -196,6 +204,36 @@ export async function runSeasonTick(now: number = Date.now()): Promise<SeasonTic
     }
   }
 
+  // Phase B: galactic events. World-level events fire whether or not
+  // the player is active; the universe takes its own actions. Events
+  // post to the public-knowledge feed and apply sub-house rep deltas.
+  // These fire on every run that advances the season clock OR an
+  // agenda tick — i.e. whenever something happened.
+  if (transitions.length > 0 || agendaTickFired) {
+    try {
+      const phaseEntered = transitions.length > 0
+        ? transitions[transitions.length - 1].enteredPhase
+        : undefined;
+      const recentNews = getRecentPublicKnowledge(50);
+      const recentFlags = new Set<string>();
+      for (const item of recentNews) {
+        const payload = item.payload as { publicFlag?: string } | null;
+        if (payload?.publicFlag) recentFlags.add(payload.publicFlag);
+      }
+      const triggerCtx: TriggerContext = {
+        phaseEntered,
+        recentPublicFlags: recentFlags,
+        resolvedAgendaKeys: new Set<string>(),
+      };
+      const fired = pickEventsToFire(REFERENCE_GALACTIC_EVENTS, triggerCtx);
+      for (const event of fired) {
+        await fireGalacticEvent(event, next.seasonNumber);
+      }
+    } catch (err) {
+      logger.error("[seasonTick] galactic events failed:", err);
+    }
+  }
+
   // Sweep expired demands every run (cheap when the table is small).
   try {
     await sweepExpiredDemands();
@@ -211,6 +249,34 @@ export async function runSeasonTick(now: number = Date.now()): Promise<SeasonTic
       await flipNegativeRepSectors(next.seasonNumber);
     } catch (err) {
       logger.error("[seasonTick] sector flip failed:", err);
+    }
+
+    // Phase B: frontier rotation. One independent sector becomes
+    // contested; one previously-contested sector relaxes. Posts a
+    // sector_flipped event surfaced as a "frontier rotation" entry
+    // in the news feed.
+    try {
+      const lastOpened = readLastFrontier();
+      const rotation = pickFrontierRotation(lastOpened);
+      writeLastFrontier(rotation.opening);
+      await postPublicKnowledge({
+        userId: null,
+        eventKind: "sector_flipped",
+        subjectHouseKey: null,
+        summary:
+          rotation.relaxing !== null
+            ? `Frontier rotation: ${rotation.opening} now contested, ${rotation.relaxing} relaxes.`
+            : `Frontier rotation: ${rotation.opening} now contested.`,
+        payload: {
+          frontierOpening: rotation.opening,
+          frontierRelaxing: rotation.relaxing,
+        },
+        seasonNumber: next.seasonNumber,
+      }).catch(err =>
+        logger.warn("[seasonTick] frontier post failed:", err),
+      );
+    } catch (err) {
+      logger.error("[seasonTick] frontier rotation failed:", err);
     }
   }
 
@@ -230,6 +296,56 @@ export async function runSeasonTick(now: number = Date.now()): Promise<SeasonTic
  * For larger user bases this should batch / paginate; phase-6 keeps
  * it simple and fires each user sequentially.
  */
+// Phase B: in-memory tracker for the last frontier rotation. The
+// season clock state is the canonical store, but reading from there
+// requires extending the DB row — for now we keep the rotation in
+// memory (server restart re-rolls, which is acceptable since the
+// frontier state is mostly narrative).
+let _lastFrontierOpened: string | null = null;
+function readLastFrontier(): string | null {
+  return _lastFrontierOpened;
+}
+function writeLastFrontier(sectorId: string): void {
+  _lastFrontierOpened = sectorId;
+}
+
+/**
+ * Phase B: fire one galactic event. Posts to the public-knowledge log
+ * (system-attributed; userId null) and applies sub-house deltas as
+ * a world action. Per-user effects (counters, demand generation)
+ * remain handled by the agenda + demand engines.
+ */
+async function fireGalacticEvent(
+  event: GalacticEventDef,
+  seasonNumber: number,
+): Promise<void> {
+  await postPublicKnowledge({
+    userId: null,
+    eventKind: event.effect.eventKind ?? "agenda_step",
+    subjectHouseKey: event.effect.subHouseDeltas?.[0]?.houseKey ?? null,
+    summary: event.effect.summary,
+    payload: {
+      eventKey: event.eventKey,
+      publicFlag: event.effect.publicFlag,
+    },
+    seasonNumber,
+  }).catch(err => logger.warn("[seasonTick] event post failed:", err));
+
+  // World-level rep deltas. Apply as a *system* delta (no userId);
+  // they shift the global narrative weight rather than a specific
+  // player's standing. Per-user response happens via agenda counters.
+  // We reuse applySubHouseRepDelta with a sentinel system userId of 0
+  // for now — a future Phase B.1 may add a globalSubHouseRep table.
+  for (const delta of event.effect.subHouseDeltas ?? []) {
+    await applySubHouseRepDelta(
+      0, // system actor (no specific user)
+      delta.houseKey,
+      delta.delta,
+      `galactic event ${event.eventKey}`,
+    ).catch(err => logger.warn("[seasonTick] event rep delta failed:", err));
+  }
+}
+
 async function listActiveUserIds(): Promise<ReadonlyArray<number>> {
   const db = await getDb();
   if (!db) return [];
