@@ -29,7 +29,14 @@ export type NpcKey =
   | "the_seer"
   | "dmc_clone_companion"
   | "the_oracle"
-  | "jericho_jones";
+  | "jericho_jones"
+  // Lore-corrections (Phase A of the galactic-empire arc):
+  // - the_antiquarian: Daniel Cross, the actual Antiquarian. Previously
+  //   the_seer was wrongly assigned as primary NPC of the Shelf-mates.
+  // - drael_mon: Hierarchy SVP of Acquisitions (peer demon lord). The
+  //   Hierarchy_acquisitions sub-house had no real face before.
+  | "the_antiquarian"
+  | "drael_mon";
 
 // --- Trust / Reveal / Channel ----------------------------------------------
 

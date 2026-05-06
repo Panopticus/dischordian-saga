@@ -368,6 +368,71 @@ export const NPC_REGISTRY: Readonly<Record<NpcKey, NpcProfile>> = {
       authoringScope: "~16 lines (recruitment + Thaloria + romance ladder + faction reactions)",
     },
   },
+
+  // Phase A lore-corrections: Daniel Cross is the actual Antiquarian
+  // (the_seer is Insurgency-adjacent / Sixth Sense). This entry is a
+  // canonical projection of his bible at apps/shared/npcs/bibles/the_antiquarian.md.
+  the_antiquarian: {
+    npcKey: "the_antiquarian",
+    name: "Daniel Cross / The Antiquarian",
+    faction: "antiquarian",
+    role: "Bibliographic curator of the Antiquarian's Refuge — Daniel Cross",
+    trustBands: [
+      { band: "Uncited", threshold: 0 },
+      { band: "Catalogued", threshold: 25 },
+      { band: "Cross-referenced", threshold: 50 },
+      { band: "Shelf-mate", threshold: 75 },
+      { band: "Citation", threshold: 95 },
+    ],
+    axisOfInterest: ["curiosity", "vigilance"],
+    personalityArchetypes: [
+      "Bibliographic",
+      "Reluctant-arbiter",
+      "Out-of-time-observer",
+    ],
+    expressionChannels: ["verbal", "glyph"],
+    primaryRoom: "antiquarian-archive",
+    signatureMonologueLineId: "antiquarian.signature.desks_do_not_run",
+    metadata: {
+      pronouns: "he/him",
+      title: "The Antiquarian",
+      bibleNote:
+        "Bible-canon: Daniel Cross watches from outside time; the_seer is Antiquarian-adjacent as a broker but not the owning NPC.",
+    },
+  },
+
+  // Drael'Mon "the Harvester" — SVP of Acquisitions inside the
+  // Hierarchy of the Damned. Peer demon lord to Mol'Garath. Phase A
+  // upgrade so the hierarchy_acquisitions sub-house has a real face.
+  drael_mon: {
+    npcKey: "drael_mon",
+    name: "Drael'Mon, SVP Acquisitions",
+    faction: "hierarchy",
+    role: "Hierarchy SVP of Acquisitions — hostile-takeover doctrine",
+    trustBands: [
+      { band: "Untargeted", threshold: 0 },
+      { band: "Watched", threshold: 20 },
+      { band: "Negotiable", threshold: 45 },
+      { band: "Recognised-asset", threshold: 70 },
+      { band: "Acquired", threshold: 90 },
+    ],
+    axisOfInterest: ["aggression", "wit"],
+    personalityArchetypes: [
+      "Predatory-corporate",
+      "Acquisitive",
+      "Blood-weave-enforcer",
+    ],
+    expressionChannels: ["verbal"],
+    primaryRoom: "the-trench",
+    signatureMonologueLineId: "drael_mon.signature.we_already_own_you",
+    metadata: {
+      pronouns: "he/him",
+      title: "SVP Acquisitions",
+      epithet: "the Harvester",
+      bibleNote:
+        "Bible-canon: peer to Mol'Garath. Acquisitions is the wet-end of the Hierarchy's hostile-takeover doctrine; Severance does the clean ritual closing.",
+    },
+  },
 } as const;
 
 // --- Helpers ---------------------------------------------------------------

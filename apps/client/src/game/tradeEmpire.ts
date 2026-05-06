@@ -27,6 +27,12 @@ export type GalacticFactionId =
   | "thought_virus"     // Still spreading from Terminus
   | "antiquarian"       // Hidden pocket universe through a black hole
   | "dreamer_shield"    // Potentials sector — shielded, dark, no contact
+  | "thaloria"          // Phase A: independent world, sovereign government,
+                        //   home of the resurrected Thalorian religion led
+                        //   by the Wraith Hierophant (Wraith Calder).
+                        //   Insurgent revival weaponised against the New
+                        //   Babylon Authority and the Hierarchy's Syndicate
+                        //   of Death.
   | "independent";      // New civilizations evolved in the ruins
 
 export interface GalacticFaction {
@@ -99,6 +105,13 @@ export const GALACTIC_FACTIONS: Record<GalacticFactionId, GalacticFaction> = {
     description: "The Dreamer erected a barrier around an entire sector and went dark. No communication possible. What's behind that shield? The remaining Potentials? A trap? A promise? No one knows.",
     color: "#ffea00", attitude: "neutral", territory: 20, strength: 0, economy: 0,
     traits: ["impenetrable_shield", "no_contact", "unknown_contents"],
+  },
+  thaloria: {
+    id: "thaloria", name: "Thaloria — the Quiet World", leader: "Wraith Calder, the Wraith Hierophant",
+    shipNPC: "wraith_calder",
+    description: "Sovereign world; home of the resurrected Thalorian religion. Led by the Wraith Hierophant, a Potential who took up the Hierophant mantle millennia after the original died in the Fall. The revival is canonically an insurgent religious movement weaponised against the New Babylon Authority and the Hierarchy's Syndicate of Death. Quiet on the surface; coordinated underneath.",
+    color: "#7dd3fc", attitude: "cautious", territory: 3, strength: 35, economy: 25,
+    traits: ["religious_revival", "anti_authority", "anti_syndicate_of_death", "ceremony_aware"],
   },
   independent: {
     id: "independent", name: "Independent Civilizations", leader: "Various",

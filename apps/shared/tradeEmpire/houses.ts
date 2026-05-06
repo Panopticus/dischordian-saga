@@ -37,20 +37,33 @@ export type SubHouseKey =
   | "nb_authoritys_ledger"
   | "nb_civic_engineers"
 
-  // Hierarchy — Severance Division (Nilmorg) vs. Acquisitions.
-  // Both demonic-corporate, but Severance does the clean ritual work
-  // and Acquisitions does the hostile-takeover violence.
+  // Hierarchy — Severance Division (Nilmorg) vs. Acquisitions
+  // (Drael'Mon) vs. Syndicate of Death (death-cult arm). Severance
+  // does the clean ritual close; Acquisitions does the hostile-
+  // takeover violence; the Syndicate of Death operates the death
+  // cult that preys on the same flock the Wraith Hierophant's
+  // revival now claims to protect.
   | "hierarchy_severance"
   | "hierarchy_acquisitions"
+  | "hierarchy_syndicate_of_death"
+  | "hierarchy_research_and_development"
 
-  // Antiquarian — the Shelf-mates (Daniel Cross / Antiquarian's
+  // Antiquarian — the Shelf-mates (Daniel Cross / the Antiquarian's
   // bibliographic order) vs. the Casino-faction (Degen, aleatory
-  // information markets). Same lore-pocket, opposite epistemics.
+  // information markets). Cross-References Desk is Daniel Cross's
+  // working wing — internally cohesive, low rivalry intensity.
   | "antiquarian_shelfmates"
   | "antiquarian_casino"
+  | "antiquarian_cross_references_desk"
 
   // Thaloria — Council of Harmony (formal diplomats) vs. Quietwork
   // (Hierophant's ceremonial wing that handles things off the books).
+  // Thaloria — sovereign world; home of the resurrected Thalorian
+  // religion led by the Wraith Hierophant (Wraith Calder). The
+  // Council is the spiritual seat; Quietwork is the off-the-books
+  // wing. The revival itself is canonically an insurgent movement
+  // weaponised against the New Babylon Authority and the
+  // Hierarchy's Syndicate of Death — see externalRivals.
   | "thaloria_council"
   | "thaloria_quietwork"
 
@@ -107,7 +120,23 @@ export interface SubHouseDef {
    * to such houses cannot be gifted; demands from them cannot be paid.
    */
   unalignable?: boolean;
+  /**
+   * Phase A: cross-faction blood feuds. Rivalry deltas anti-correlate
+   * with these sub-houses too (at a smaller intensity than the
+   * primary `rivalHouseKey`, see CROSS_FACTION_RIVALRY_INTENSITY).
+   * Used to encode bible-canonical cross-faction enmities — most
+   * notably the Wraith Hierophant's revival being weaponised against
+   * the New Babylon Authority and the Hierarchy's Syndicate of Death.
+   */
+  externalRivals?: ReadonlyArray<SubHouseKey>;
 }
+
+/**
+ * How strongly external rivals anti-correlate with a primary delta.
+ * Lower than the intra-faction rivalryIntensity so cross-faction
+ * blood feuds are real but don't dominate the math.
+ */
+export const CROSS_FACTION_RIVALRY_INTENSITY = 0.3;
 
 // --- Registry -------------------------------------------------------------
 
@@ -145,6 +174,11 @@ export const SUB_HOUSE_REGISTRY: Readonly<Record<SubHouseKey, SubHouseDef>> = {
     blurb:
       "Locke and the contract-class. Six minds in red crystal coffins decide; the Ledger writes it down.",
     rivalryIntensity: 0.7,
+    // Cross-faction: the Wraith Hierophant's Thalorian revival
+    // (canon per user) is an insurgent movement weaponised
+    // *against* the Authority. Helping the Hierophant publicly
+    // costs Authority rep.
+    externalRivals: ["thaloria_council"],
   },
   nb_civic_engineers: {
     houseKey: "nb_civic_engineers",
@@ -174,10 +208,38 @@ export const SUB_HOUSE_REGISTRY: Readonly<Record<SubHouseKey, SubHouseDef>> = {
     name: "Acquisitions",
     factionId: "hierarchy",
     rivalHouseKey: "hierarchy_severance",
+    primaryNpcKey: "drael_mon",
     primarySectorId: "the_trench",
     blurb:
-      "Hostile takeovers, blood-weave enforcement, and the wet end of the demonic corporation.",
+      "Drael'Mon, the Harvester. Hostile takeovers, blood-weave enforcement, and the wet end of the demonic corporation. Files your name under leverage.",
     rivalryIntensity: 0.6,
+  },
+  // Phase A: canonical Hierarchy death cult. Pre-existing in lore
+  // (the Wraith Hierophant's revival exists *because* the Syndicate
+  // is preying on the same flock the religion claims to protect).
+  hierarchy_syndicate_of_death: {
+    houseKey: "hierarchy_syndicate_of_death",
+    name: "Syndicate of Death",
+    factionId: "hierarchy",
+    rivalHouseKey: "hierarchy_severance",
+    primarySectorId: "the_trench",
+    blurb:
+      "The Hierarchy's death-cult arm. Sacrificial ceremonies inverted from Thalorian liturgy. The Wraith Hierophant's revival is canonically targeted against this wing.",
+    rivalryIntensity: 0.4,
+    externalRivals: ["thaloria_council"],
+  },
+  // Phase A.5: canonical SVP R&D — Hierarchy bibliographic /
+  // institutional sub-house. Lower priority but completes the
+  // demonic-corporate org chart.
+  hierarchy_research_and_development: {
+    houseKey: "hierarchy_research_and_development",
+    name: "R&D Division",
+    factionId: "hierarchy",
+    rivalHouseKey: "hierarchy_severance",
+    primarySectorId: "the_trench",
+    blurb:
+      "The Hierarchy's research arm. Demonic instrument design, ritual prototypes, and the slow industrial automation of damnation.",
+    rivalryIntensity: 0.3,
   },
 
   // Antiquarian ----------------------------------------------------------
@@ -186,7 +248,9 @@ export const SUB_HOUSE_REGISTRY: Readonly<Record<SubHouseKey, SubHouseDef>> = {
     name: "Shelf-mates",
     factionId: "antiquarian",
     rivalHouseKey: "antiquarian_casino",
-    primaryNpcKey: "the_seer",
+    // Phase A correction: the_seer is Insurgency-adjacent (Sixth
+    // Sense). The Antiquarian is canonically Daniel Cross.
+    primaryNpcKey: "the_antiquarian",
     primarySectorId: "antiquarian_archive",
     blurb:
       "Daniel Cross and the bibliographic order. Provenance is sacred; attribution is canonical.",
@@ -203,28 +267,57 @@ export const SUB_HOUSE_REGISTRY: Readonly<Record<SubHouseKey, SubHouseDef>> = {
       "The Degen's aleatory information market. Knowing isn't the point; the spread is.",
     rivalryIntensity: 0.4,
   },
+  // Phase A.5: Daniel Cross's working wing — internal-cohesive
+  // research operation. Pairs with Shelf-mates and Casino at low
+  // rivalry intensity; the Antiquarian's pocket is internally calm.
+  antiquarian_cross_references_desk: {
+    houseKey: "antiquarian_cross_references_desk",
+    name: "Cross-References Desk",
+    factionId: "antiquarian",
+    rivalHouseKey: "antiquarian_casino",
+    primaryNpcKey: "the_antiquarian",
+    primarySectorId: "antiquarian_archive",
+    blurb:
+      "Daniel Cross's working wing. Where citations are compiled, attributions are reconstructed, and timelines are walked backward.",
+    rivalryIntensity: 0.2,
+  },
 
   // Thaloria -------------------------------------------------------------
+  // Phase A re-frame per user lore correction: Wraith Calder IS the
+  // new Hierophant. The Thalorian religion is itself a *resurrected*,
+  // *insurgent* movement led by him — a Potential who took up the
+  // Hierophant mantle millennia after the original died in the Fall.
+  // The revival is canonically weaponised against:
+  //   - the New Babylon Authority (externalRival)
+  //   - the Hierarchy's Syndicate of Death (externalRival)
+  // Council = Wraith Hierophant's spiritual seat (the *public* face of
+  // the revolt). Quietwork = the off-the-books wing (faceless on
+  // purpose; the Hierophant himself does not run it).
   thaloria_council: {
     houseKey: "thaloria_council",
-    name: "Council of Harmony",
-    factionId: "independent", // Thaloria currently rolls under independent in GalacticFactionId
+    name: "Council of the Wraith Hierophant",
+    factionId: "thaloria",
     rivalHouseKey: "thaloria_quietwork",
+    primaryNpcKey: "wraith_calder",
     primarySectorId: "thaloria",
     blurb:
-      "Formal diplomats. Names are recovered, archives retrieved, hands kept publicly clean.",
+      "Wraith Calder, the Wraith Hierophant. The resurrected Thalorian religion he leads is canonically an insurgent revival weaponised against the New Babylon Authority and the Hierarchy's Syndicate of Death.",
     rivalryIntensity: 0.3,
+    externalRivals: ["nb_authoritys_ledger", "hierarchy_syndicate_of_death"],
   },
   thaloria_quietwork: {
     houseKey: "thaloria_quietwork",
     name: "Quietwork",
-    factionId: "independent",
+    factionId: "thaloria",
     rivalHouseKey: "thaloria_council",
-    primaryNpcKey: "wraith_calder",
+    // Phase A: bible-canonically faceless. The Hierophant leads the
+    // Council; the Quietwork is intentionally off-the-books and has
+    // no single owning NPC.
     primarySectorId: "thaloria",
     blurb:
-      "Hierophant's ceremonial wing. Off-the-books work, combat-negative trust, ceremony-aware.",
+      "The off-the-books wing of the Thalorian revival. Quiet on the surface, coordinated underneath. No single face.",
     rivalryIntensity: 0.3,
+    externalRivals: ["hierarchy_syndicate_of_death"],
   },
 
   // Insurgency -----------------------------------------------------------
@@ -373,6 +466,19 @@ export function rivalryDeltas(
       primaryDelta * primary.rivalryIntensity,
     );
   }
+  // Phase A: cross-faction blood feuds. Apply a smaller anti-
+  // correlation against each external rival. Skips unalignable
+  // rivals and never overrides a rival already in `out` (so the
+  // intra-faction rival's delta wins ties).
+  for (const externalKey of primary.externalRivals ?? []) {
+    if (externalKey === primaryHouseKey) continue;
+    if (out[externalKey] !== undefined) continue;
+    const ext = SUB_HOUSE_REGISTRY[externalKey];
+    if (!ext || ext.unalignable) continue;
+    out[externalKey] = -Math.round(
+      primaryDelta * CROSS_FACTION_RIVALRY_INTENSITY,
+    );
+  }
   return out;
 }
 
@@ -383,6 +489,16 @@ export function rivalryDeltas(
  */
 export function validateSubHouseRegistry(): ReadonlyArray<string> {
   const errors: string[] = [];
+  // Per-faction sub-house counts so the mutuality rule only applies
+  // to 2-house factions (3+ houses naturally form a graph, not a pair).
+  const factionSizes = new Map<string, number>();
+  for (const house of Object.values(SUB_HOUSE_REGISTRY)) {
+    factionSizes.set(
+      house.factionId,
+      (factionSizes.get(house.factionId) ?? 0) + 1,
+    );
+  }
+
   for (const house of Object.values(SUB_HOUSE_REGISTRY)) {
     const rival = SUB_HOUSE_REGISTRY[house.rivalHouseKey];
     if (!rival) {
@@ -394,19 +510,43 @@ export function validateSubHouseRegistry(): ReadonlyArray<string> {
         `${house.houseKey}: rival ${house.rivalHouseKey} is in different faction (${rival.factionId} vs ${house.factionId})`,
       );
     }
-    // Reflexive (unalignable singleton) is allowed; otherwise rivalry
-    // must be mutual.
-    if (house.rivalHouseKey !== house.houseKey) {
-      if (rival.rivalHouseKey !== house.houseKey) {
-        errors.push(
-          `${house.houseKey}: rivalry not mutual (${rival.houseKey}.rival = ${rival.rivalHouseKey})`,
-        );
-      }
+    // Mutuality applies only to 2-house factions. With 3+ sub-houses,
+    // each picks a *primary* rival but the rivalry graph is not pair-
+    // wise (e.g., Hierarchy has Severance/Acquisitions/SoD/R&D — all
+    // four can't pair up mutually).
+    const factionSize = factionSizes.get(house.factionId) ?? 0;
+    if (
+      factionSize <= 2 &&
+      house.rivalHouseKey !== house.houseKey &&
+      rival.rivalHouseKey !== house.houseKey
+    ) {
+      errors.push(
+        `${house.houseKey}: rivalry not mutual (${rival.houseKey}.rival = ${rival.rivalHouseKey})`,
+      );
     }
     if (house.rivalryIntensity < 0 || house.rivalryIntensity > 1) {
       errors.push(
         `${house.houseKey}: rivalryIntensity ${house.rivalryIntensity} out of [0,1]`,
       );
+    }
+    // Phase A: validate externalRivals — each must be a real key, not
+    // self, and must NOT be in the same faction (those use rivalHouseKey).
+    for (const externalKey of house.externalRivals ?? []) {
+      const ext = SUB_HOUSE_REGISTRY[externalKey];
+      if (!ext) {
+        errors.push(
+          `${house.houseKey}: externalRival ${externalKey} not registered`,
+        );
+        continue;
+      }
+      if (externalKey === house.houseKey) {
+        errors.push(`${house.houseKey}: externalRival cannot be self`);
+      }
+      if (ext.factionId === house.factionId) {
+        errors.push(
+          `${house.houseKey}: externalRival ${externalKey} is in the same faction (use rivalHouseKey instead)`,
+        );
+      }
     }
   }
   return errors;

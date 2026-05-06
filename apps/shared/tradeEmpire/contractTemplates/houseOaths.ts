@@ -137,78 +137,95 @@ export const HOUSE_OATH_AUTHORITY: ContractDef = {
 };
 
 /**
- * Oath of the Quiet Year — bind the player to Thaloria's Quietwork
- * sub-house. Combat-positive missions are forbidden mid-oath
- * (ceremonial_audit clause); succeeding grants the "Witness" title.
+ * Oath of the Witness — Revival. Phase A re-tone per user lore
+ * correction: Wraith Calder IS the Wraith Hierophant, and the
+ * Thalorian religion he leads is a *resurrected, insurgent* movement
+ * weaponised against the New Babylon Authority and the Hierarchy's
+ * Syndicate of Death. Previously framed as an "Oath of the Quiet
+ * Year" (ceremonial restraint) — that's wrong. The oath is *quiet
+ * on the surface and insurgent underneath*.
  */
-export const HOUSE_OATH_QUIETYEAR: ContractDef = {
-  contractKey: "oath.thaloria.quiet_year",
+export const HOUSE_OATH_WITNESS_REVIVAL: ContractDef = {
+  contractKey: "oath.thaloria.witness_revival",
   brokerKey: "broker_thaloria_quietwork",
-  name: "Oath of the Quiet Year",
+  name: "Oath of the Witness — Revival",
   loreContext:
-    "A Hierophant-witnessed oath of ceremonial restraint. The player commits to a season of quiet work — diplomacy, archive recovery, name retrieval — and to abstaining from combat-positive engagements. The oath is not pacifism; it is canonically a year given to the ceremonial wing.",
+    "Wraith Calder, the Wraith Hierophant, witnesses an oath of revival. The player commits to a season inside the resurrected Thalorian religion — bearing witness to the revival's progress against the New Babylon Authority and the Hierarchy's Syndicate of Death. The oath is canonically *quiet on the surface, insurgent underneath*. Public ceremony; private revolt.",
   stages: [
     {
       stageId: "vesting",
-      label: "Vesting",
+      label: "Vesting in the Wraith Hierophant's chapel",
       loreContext:
-        "Wraith Calder leads the vesting in the Council antechamber. The ceremony is short. The witnesses are not.",
+        "Wraith Calder leads the vesting himself. The chapel is a converted Thaloria Council antechamber. The witnesses are the seven names the original Hierophant carried. They will be added to.",
       requiredMissionIds: [],
-      objective: "Complete the vesting ceremony with Hierophant",
+      objective: "Take the Wraith Hierophant's vesting",
       rewards: { credits: 250, influence: 50 },
     },
     {
-      stageId: "name_run",
-      label: "First name recovery",
+      stageId: "name_recovery",
+      label: "First name recovery (anti-Authority)",
       loreContext:
-        "Recover one name. The oath does not specify whose; the Council provides one each season for the oath-bound to retrieve. They are always names someone wants forgotten.",
+        "Recover one name the New Babylon Authority erased. Each season the Hierophant names a candidate; the player executes the recovery. Names are weapons — every recovered citation publicly contradicts an Authority record.",
       requiredMissionIds: ["antiquarian_invitation"],
-      objective: "Recover one canonical name with Council oversight",
+      objective: "Recover one Authority-erased name with the Hierophant's witness",
       rewards: { credits: 1500, influence: 100, intelligence: 50 },
       factionEffect: { factionId: "antiquarian", change: 10 },
     },
     {
-      stageId: "second_silence",
-      label: "Second silence",
+      stageId: "expose_syndicate",
+      label: "Expose a Syndicate of Death sacrifice",
       loreContext:
-        "The oath's midpoint. The player visits the Council's archive antechamber and demonstrates that nothing combat-positive has been undertaken. The audit is canonically polite. It is also canonically non-negotiable.",
+        "The Hierophant's revival exists in part *because* the Hierarchy's Syndicate of Death is preying on the same flock. The mid-oath act is a public exposure: a single sacrifice, witnessed and recorded, the Syndicate cannot deny.",
       requiredMissionIds: [],
-      objective: "Pass the mid-oath silence audit",
+      objective: "Witness and publish one Syndicate of Death sacrifice",
       rewards: { credits: 750, influence: 75 },
+      factionEffect: { factionId: "hierarchy", change: -10 },
     },
     {
       stageId: "investiture",
-      label: "Investiture as Witness",
+      label: "Investiture as Witness of the Revival",
       loreContext:
-        "If the oath survives the season unbroken, the Council confers the Witness title. The title is not a position; it is a permission to be present.",
+        "If the oath survives the season unbroken, the Wraith Hierophant confers the Witness title. The title is not a position; it is a *standing accusation* against the Authority and the Syndicate of Death, carried by the bearer.",
       requiredMissionIds: [],
-      objective: "Receive the Witness title",
+      objective: "Receive the Witness of the Revival title",
       rewards: { credits: 4000, influence: 300 },
       factionEffect: { factionId: "antiquarian", change: 25 },
     },
   ],
   hiddenClauses: [
     {
-      clauseId: "council_lockout",
-      label: "Acquisitions lock-out (public)",
+      clauseId: "severance_lockout",
+      label: "Severance lock-out (public)",
       text:
-        "While the Quiet Year is active, Hierarchy's Acquisitions wing refuses contracts. The combat-positive doctrine of Acquisitions is canonically incompatible with the oath.",
+        "While the Witness oath is active, Hierarchy's Severance Division refuses contracts. The Hierophant's revival publicly opposes the Hierarchy on multiple fronts; Severance treats the oath-bound as canonically incompatible counterparties.",
       triggers: ["on_signing"],
       effect: { kind: "lock_out_broker", brokerKey: "broker_nilmorg_severance" },
     },
     {
       clauseId: "oath_public",
-      label: "Public oath registry",
+      label: "Public oath registry — the revival is named",
       text:
-        "The Council registers the oath. Its existence is canonically public; the player's specific covenants remain private to the Council and the player.",
+        "The Wraith Hierophant publishes the oath. The Authority and the Syndicate of Death will read the registry. The oath-bound becomes canonically a target of both.",
       triggers: ["on_signing"],
-      effect: { kind: "set_public_flag", flag: "oath.thaloria.quiet_year.active" },
+      effect: { kind: "set_public_flag", flag: "oath.thaloria.witness_revival.active" },
+    },
+    {
+      clauseId: "anti_authority_canon",
+      label: "Anti-Authority canon (post-signing)",
+      text:
+        "The Authority's Ledger registers the oath as a pro-revival commitment. New Babylon brokers may decline contracts citing 'doctrinal incompatibility'.",
+      triggers: ["on_first_stage_complete"],
+      effect: {
+        kind: "faction_reputation_delta",
+        factionId: "new_babylon",
+        delta: -10,
+      },
     },
     {
       clauseId: "ceremonial_audit_clause",
-      label: "Ceremonial audit at completion",
+      label: "Revival audit at completion",
       text:
-        "The investiture stage runs a ceremonial audit. Any combat-positive completed mission breaks the oath retroactively, costing trust with Hierophant and posting a public oath_broken flag.",
+        "The investiture stage runs a revival audit. Any combat-positive engagement against Thaloria-aligned targets retroactively breaks the oath; trust with the Hierophant collapses; a public oath_broken flag fires.",
       triggers: ["on_full_completion"],
       effect: {
         kind: "ceremonial_audit",
@@ -220,9 +237,9 @@ export const HOUSE_OATH_QUIETYEAR: ContractDef = {
       clauseId: "breach_visible",
       label: "Breach is canonically visible",
       text:
-        "Cancelling or failing the Quiet Year posts a public flag readable by every Hierarchy and New Babylon broker for at least one season.",
+        "Cancelling or failing the Witness oath posts a public flag readable by every Hierarchy and New Babylon broker for at least one season. The Authority and Syndicate of Death will *celebrate* the breach.",
       triggers: ["on_breach"],
-      effect: { kind: "set_public_flag", flag: "oath.thaloria.quiet_year.broken" },
+      effect: { kind: "set_public_flag", flag: "oath.thaloria.witness_revival.broken" },
     },
   ],
   cancellationCost: 4000,
@@ -233,17 +250,19 @@ export const HOUSE_OATH_QUIETYEAR: ContractDef = {
     reputation: [
       { factionId: "antiquarian", change: 40 },
       { factionId: "hierarchy", change: -30 },
+      { factionId: "new_babylon", change: -20 },
     ],
   },
-  firstSigningFlag: "oath.thaloria.quiet_year.first_sworn",
+  firstSigningFlag: "oath.thaloria.witness_revival.first_sworn",
   minAct: 3,
   metadata: {
     tier: "house_oath",
-    canon: "Phase 4 House Oath — Thaloria Quietwork commitment",
+    canon: "Phase A re-tone — Wraith Hierophant insurgent revival commitment",
   },
 };
 
+
 export const HOUSE_OATH_CONTRACTS: ReadonlyArray<ContractDef> = [
   HOUSE_OATH_AUTHORITY,
-  HOUSE_OATH_QUIETYEAR,
+  HOUSE_OATH_WITNESS_REVIVAL,
 ];
