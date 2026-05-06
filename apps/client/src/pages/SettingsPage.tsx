@@ -677,6 +677,20 @@ export default function SettingsPage() {
             onChange={(v) => updateSetting("showHints", v)}
             icon={HelpCircle}
           />
+          <Toggle
+            label="Skip Boot Sequence on Repeat"
+            description="After your first launch, fast-forward the terminal boot animation. Off = always play the cinematic."
+            enabled={settings.skipBootOnRepeat}
+            onChange={(v) => updateSetting("skipBootOnRepeat", v)}
+            icon={SkipForward}
+          />
+          <Toggle
+            label="Ironman Mode"
+            description="Companion permadeath becomes hard. No spectral form, no resurrection. Bragging-rights mode for the hardcore audience."
+            enabled={settings.ironman}
+            onChange={(v) => updateSetting("ironman", v)}
+            icon={Shield}
+          />
 
           <Toggle
             label="Show Room Markers"
