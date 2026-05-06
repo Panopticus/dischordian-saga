@@ -112,8 +112,16 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
       },
       use: {
         narration:
-          "You take a working tracing of the rosetta's third column — Vox's black-ink translation key — onto a fresh sheet. The key is short enough to memorise but worth carrying physically: any letter you decode after this can be cross-checked against the tracing without re-borrowing the codex. The pad keeps the original. We keep the working copy.",
+          "You take a working tracing of the rosetta's third column — Vox's black-ink translation key — onto a fresh sheet. The key is short enough to memorise but worth carrying physically: any letter you decode after this can be cross-checked against the tracing without re-borrowing the codex. The pad keeps the original. We keep the working copy. — As the tracing dries, a second pass of Akai Shi's pre-threshold recording surfaces under the magnifier. Reading 2: she did not just consent — she chose her witness. The recording names Jericho specifically. The first pass we recovered was the consent; this pass is the assignment. He was not a default. He was selected, by name, by her, four minutes before the threshold took her motor function.",
         voId: "elara.cipher-den.rosetta-pad.use",
+        // Jericho arc binding — Reading 2 of the pre-threshold
+        // recording names Jericho as the witness Akai Shi chose.
+        // jericho.e4.akai_shi_witness_choice foundIn: cipher-den.
+        mysteryBinding: {
+          mysteryId: "mystery.jericho_jones",
+          episodeId: "jericho.e4",
+          cluesFound: ["jericho.e4.akai_shi_witness_choice"],
+        },
       },
     },
     "encrypted-correspondence": {
