@@ -22,6 +22,24 @@ describe("SPECIES_PROLOGUES — invariants", () => {
     const flags = SPECIES_PROLOGUES.map((s) => s.completionFlag);
     expect(new Set(flags).size).toBe(flags.length);
   });
+
+  it("every species has the full 5-beat prologue authored", () => {
+    const expectedBeats = ["wake", "first_glance", "first_voice", "first_act", "transition"];
+    for (const species of ["demagi", "quarchon", "neyon"] as const) {
+      const scenes = getPrologueForSpecies(species);
+      const beats = scenes.map((s) => s.beat);
+      for (const expected of expectedBeats) {
+        expect(beats, `${species} missing beat ${expected}`).toContain(expected);
+      }
+    }
+  });
+
+  it("every scene has narration with at least 30 words (production-scale check)", () => {
+    for (const scene of SPECIES_PROLOGUES) {
+      const wordCount = scene.narration.trim().split(/\s+/).length;
+      expect(wordCount, `${scene.id} narration too short`).toBeGreaterThanOrEqual(30);
+    }
+  });
 });
 
 describe("getPrologueForSpecies", () => {

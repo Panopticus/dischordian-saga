@@ -18,9 +18,16 @@ describe("ROMANCE_ACT_SCENES — invariants", () => {
     }
   });
 
-  it("requiresFlag follows the romance commitment naming convention", () => {
+  it("requiresFlag is either a romance:committed:* gate OR an act-started gate paired with excludeFlags", () => {
     for (const s of ROMANCE_ACT_SCENES) {
-      expect(s.requiresFlag).toMatch(/^romance:committed:/);
+      const isCommitGate = /^romance:committed:/.test(s.requiresFlag);
+      const isAnchorGate =
+        /^(act_\d_started|act_\d_complete|narrative_spine_complete)$/.test(s.requiresFlag) &&
+        (s.excludeFlags?.length ?? 0) > 0;
+      expect(
+        isCommitGate || isAnchorGate,
+        `${s.id}: requiresFlag '${s.requiresFlag}' doesn't follow either pattern`,
+      ).toBe(true);
     }
   });
 });

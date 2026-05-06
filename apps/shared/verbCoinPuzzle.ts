@@ -131,6 +131,327 @@ export const VERB_COIN_PUZZLES: ReadonlyArray<VerbCoinPuzzle> = [
     fallbackResponse:
       "The Antiquarian raises an eyebrow but doesn't look up. The room remains, unhelpful.",
   },
+
+  /* ─── Bridge of Kael ─── */
+  {
+    id: "bridge_of_kael",
+    title: "The Bridge of Kael",
+    intro:
+      "Kael's old captain's chair is bolted to the deckplate as if the ship had decided not to let him leave. The room smells of cold solder and rosemary; nobody has explained the rosemary.",
+    verbs: ["look", "talk_to", "use", "push"],
+    hotspots: [
+      {
+        id: "captains_chair",
+        name: "The captain's chair",
+        reactions: {
+          look: {
+            response:
+              "The chair faces the forward viewport. The cushion has the shape of a man who was tall on the right side and shorter on the left. The shape has not changed in fourteen years.",
+          },
+          use: {
+            response:
+              "You sit. The chair recognises you. Not as Kael. Not as a stranger. As whoever the chair has been waiting for, which is — apparently — a category that includes you. The console wakes.",
+            setsFlag: "verb_kael_chair_sat",
+            triggersNextScene: "bridge_of_kael_console",
+            endsScene: true,
+          },
+          talk_to: {
+            response:
+              "You address the chair. Nothing answers. The chair is very, very good at being a chair when it wants to be.",
+          },
+        },
+      },
+      {
+        id: "rosemary",
+        name: "The rosemary",
+        reactions: {
+          look: {
+            response:
+              "A small clay pot. The rosemary is alive. Nobody has explained how. The label, in a child's handwriting, reads: 'For when he comes back. — L.'",
+          },
+          pick_up: {
+            response:
+              "You leave the pot where it is. So does everyone else who has ever come in here.",
+          },
+          talk_to: {
+            response:
+              "You greet the rosemary. The rosemary does not respond, but the smell strengthens — possibly an updraft, possibly not.",
+          },
+        },
+      },
+      {
+        id: "viewport",
+        name: "The forward viewport",
+        reactions: {
+          look: {
+            response:
+              "The viewport shows the same star Kael steered toward fourteen years ago. The star is no closer than it was when he left.",
+          },
+          push: {
+            response:
+              "You can't push a viewport. You can press your hand to it. The glass takes your hand-warmth and gives it back, slowly, over the next three minutes.",
+          },
+        },
+      },
+      {
+        id: "headset",
+        name: "Kael's headset",
+        reactions: {
+          look: {
+            response:
+              "Service-issue, second-generation. The temple foam has been replaced once, in someone else's hand. It still works.",
+          },
+          use: {
+            response:
+              "You put on the headset. There is a recording on the buffer. It is one minute and seventeen seconds long. Kael's voice, mid-sentence: 'tell L. the rosemary takes more water than she thinks. I'll be back when I'm back.'",
+            setsFlag: "verb_kael_headset_heard",
+          },
+        },
+      },
+    ],
+    fallbackResponse:
+      "The Bridge holds its breath. The thing you tried to do isn't the thing the room is here for.",
+  },
+
+  /* ─── Engineering — the Workbench ─── */
+  {
+    id: "engineering_workbench",
+    title: "The Engineer's Workbench",
+    intro:
+      "The Engineer left this bench mid-shift. The mug is cold. The schematic is half-rolled. There is a glove on the floor that has never been picked up, because nobody currently aboard knows whose glove it was.",
+    verbs: ["look", "pick_up", "use", "talk_to"],
+    hotspots: [
+      {
+        id: "schematic",
+        name: "The half-rolled schematic",
+        reactions: {
+          look: {
+            response:
+              "A starter-card prototype. Pencil. The signature is the Engineer's. The margin notes are Lyra Vox's. They were arguing on paper, politely.",
+          },
+          pick_up: {
+            response:
+              "You roll the schematic. The crease memorises a new fold; the old one fades. You set it back where it was. The bench remembers; you both pretend it doesn't.",
+          },
+          use: {
+            response:
+              "You can't 'use' a schematic. You can read it. The schematic is unreadable until the second pass; on the second pass it makes sense; on the third it is obvious. You walk away owing the Engineer something.",
+            setsFlag: "verb_workbench_schematic_read",
+          },
+        },
+      },
+      {
+        id: "mug",
+        name: "The cold mug",
+        reactions: {
+          look: {
+            response:
+              "Tea, maybe; the leaves have settled. There is a single fingerprint on the rim that is clearly the Engineer's. Nobody has washed it.",
+          },
+          pick_up: {
+            response:
+              "You don't pick it up. You can feel that you don't pick it up before you decide not to. The mug stays where it has been for fourteen years.",
+          },
+        },
+      },
+      {
+        id: "glove",
+        name: "The glove on the floor",
+        reactions: {
+          look: {
+            response:
+              "Not the Engineer's. Not Lyra's. Not anyone currently aboard. A spare, perhaps, from a hand that left and didn't come back.",
+          },
+          pick_up: {
+            response:
+              "You leave it. The bench has decided to keep it. You agree without speaking.",
+          },
+        },
+      },
+      {
+        id: "starter_cards",
+        name: "Cycle A starter cards (loose)",
+        reactions: {
+          look: {
+            response:
+              "Five cards. Three Engineer-tier. Two with no faction yet inked. The blanks are deliberate; the Engineer left them for whoever sat down next.",
+          },
+          pick_up: {
+            response:
+              "You pocket the two blanks. They are warm — they have been waiting in the pile for someone to want them.",
+            setsFlag: "verb_workbench_blanks_taken",
+            triggersNextScene: "engineering_blanks_inked",
+          },
+          use: {
+            response:
+              "You shuffle the three Engineer-tiers. The deck recognises you; it does not protest. You place it back. The bench logs the contact, quietly.",
+          },
+        },
+      },
+    ],
+    fallbackResponse:
+      "The bench stays the way the Engineer left it. The thing you tried isn't on the schematic.",
+  },
+
+  /* ─── Observation Deck — Memorial Plate (Loom-shaped) ─── */
+  {
+    id: "observation_memorial",
+    title: "The Memorial Plate",
+    intro:
+      "A small brass plate set into the deck's outer rail. Names, in three columns. The column on the right is unfilled. There is one chair, set at the precise distance to read the names without choosing one.",
+    verbs: ["look", "talk_to"],
+    hotspots: [
+      {
+        id: "left_column",
+        name: "The left column of names",
+        reactions: {
+          look: {
+            response:
+              "Crew lost in the pre-launch fire. Eleven names. The first is Lyra Vox's husband, although the plate doesn't say so.",
+          },
+          talk_to: {
+            response:
+              "You read three names aloud. The room takes them. Whatever the room does with them, you don't see.",
+          },
+        },
+      },
+      {
+        id: "middle_column",
+        name: "The middle column of names",
+        reactions: {
+          look: {
+            response:
+              "Crew lost in the long sleep. Twenty-three names. None of them are anyone you have spoken to yet, but you will recognise three of them later, and one of them will recognise you.",
+          },
+          talk_to: {
+            response:
+              "You read silently. The middle column doesn't ask out loud.",
+          },
+        },
+      },
+      {
+        id: "right_column",
+        name: "The empty right column",
+        reactions: {
+          look: {
+            response:
+              "Nineteen blank rows. The Antiquarian engraved them in advance, decades before the plate was hung. He knew the column would be needed. He has never explained how.",
+          },
+          talk_to: {
+            response:
+              "You don't speak. The right column doesn't take spoken words. It will take written ones, eventually, and not from you.",
+            setsFlag: "verb_memorial_silenced",
+          },
+        },
+      },
+      {
+        id: "chair",
+        name: "The single chair",
+        reactions: {
+          look: {
+            response:
+              "Set at exactly the distance to read all three columns without making a choice between them. The chair is older than the plate. The plate was sized to the chair.",
+          },
+        },
+      },
+    ],
+    fallbackResponse:
+      "The deck holds. There is no other verb here.",
+  },
+
+  /* ─── Recipe Archive — Forgotten Recipe ─── */
+  {
+    id: "recipe_archive_forgotten",
+    title: "The Forgotten Recipe",
+    intro:
+      "The Antiquarian's recipe archive has one drawer that doesn't open. The drawer is the only one with a label. The label is, perplexingly, blank.",
+    verbs: ["look", "use", "give", "pick_up", "open"],
+    hotspots: [
+      {
+        id: "blank_drawer",
+        name: "The drawer with the blank label",
+        reactions: {
+          look: {
+            response:
+              "The label is genuinely blank. You can see the indent where ink used to be — but the ink itself is gone. As if the recipe had un-named itself.",
+          },
+          open: {
+            response:
+              "The drawer doesn't open. The mechanism isn't locked; it's simply uninterested.",
+          },
+          use: {
+            response:
+              "You can't use a drawer. You can address it. The drawer prefers being addressed. The handle warms slightly under your touch.",
+          },
+        },
+      },
+      {
+        id: "antiquarian",
+        name: "The Antiquarian (across the room)",
+        reactions: {
+          talk_to: {
+            response:
+              "Antiquarian: 'That drawer, yes. It used to have a recipe in it. I have forgotten the recipe. The drawer has, as a courtesy, forgotten with me.'",
+          },
+          give: {
+            response:
+              "He doesn't accept gifts during cataloguing hours. You return whatever you offered to your inventory; the room does not log the gesture.",
+          },
+        },
+      },
+      {
+        id: "memory_token",
+        name: "A loose memory token on the shelf",
+        reactions: {
+          look: {
+            response:
+              "An older token. The kind the Engineer used, before holographic indexes were standard. The token has no label. Its weight is wrong for its size.",
+          },
+          pick_up: {
+            response:
+              "You pocket the token. It is warm in the way the bench's blanks were warm — content to be carried.",
+            setsFlag: "verb_archive_token_carried",
+          },
+          give: {
+            response:
+              "You can't give a token you haven't picked up.",
+          },
+        },
+      },
+      {
+        id: "stove",
+        name: "The cold stove in the corner",
+        reactions: {
+          look: {
+            response:
+              "Iron, two-burner, antique. The grate is clean. The grate has always been clean.",
+          },
+          use: {
+            response:
+              "You light a burner. The stove warms. The blank drawer makes a small, considered click. It does not open. It declines, politely, with a click.",
+            requiresFlag: "verb_archive_token_carried",
+            setsFlag: "verb_archive_stove_lit",
+          },
+        },
+      },
+      {
+        id: "drawer_solved",
+        name: "The drawer (after stove + token)",
+        reactions: {
+          open: {
+            response:
+              "You hold the token to the label. The label takes it. The drawer opens. Inside: one card, hand-drawn — the Antiquarian's hand — with a recipe so old the ink is now warm. The Antiquarian, across the room, without looking up: 'There it is. Thank you. I had — quite forgotten.'",
+            requiresFlag: "verb_archive_stove_lit",
+            setsFlag: "verb_archive_recipe_recovered",
+            triggersNextScene: "antiquarian_chapter_handoff",
+            endsScene: true,
+          },
+        },
+      },
+    ],
+    fallbackResponse:
+      "The archive is patient. The thing you tried wasn't the recipe; the recipe is still missing.",
+  },
 ];
 
 /* ─── Helpers ─── */

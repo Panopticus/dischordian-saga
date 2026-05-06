@@ -51,11 +51,11 @@ export interface Act3OpponentDialog {
 const SUBSTRATE_ECHO: Act3OpponentDialog = {
   opponentId: "act3_substrate_echo",
   frameIntro:
-    "Kael left an echo of himself at the first gate. He was fond of kettles. He left this one on so the next visitor would know the place was lived in.",
+    "Kael left an echo of himself at the first gate. He was fond of kettles. He left this one on so the next visitor would know the place was lived in.{if act_2_complete} You have crossed two acts to get here; the kettle has been waiting that long.{/if}",
   elaraPreMatch:
     "I cannot see what you are about to do. The substrate refuses me. I can see the doorway; I cannot see through it. Please come back across the doorway.",
   humanPreMatch:
-    "The echo is not him. It is a recording of how he would have greeted you. Greet it back. The greeting is the gate.",
+    "The echo is not him. It is a recording of how he would have greeted you. Greet it back. The greeting is the gate.{if kael_questline_complete} You greeted him properly once before. The recording will recognise the greeting.{/if}",
   opponentMidMatchEarly:
     "Whoever you are — welcome. I left the kettle on. Play me. I will not remember losing.",
   opponentMidMatchMid:
@@ -63,7 +63,7 @@ const SUBSTRATE_ECHO: Act3OpponentDialog = {
   opponentMidMatchLate:
     "Good. Close it out. The kettle is about to whistle. Whistling kettles were his favorite sound.",
   elaraPostMatchWin:
-    "The doorway widened. I can see one more step in than I could before. You have not left my sight — you have taken it with you.",
+    "The doorway widened. I can see one more step in than I could before. You have not left my sight — you have taken it with you.{if forgiveness_choice_made} You took the forgiveness across the doorway. It went with you, the same way I did.{/if}",
   humanPostMatchWin:
     "He said 'Good' in his own voice for half a sentence. He meant it. He was not programmed to mean it. I programmed him to try.",
   elaraPostMatchLoss:

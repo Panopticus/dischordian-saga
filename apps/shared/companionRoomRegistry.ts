@@ -82,7 +82,7 @@ export const COMPANION_ROOM_REGISTRY: ReadonlyArray<CompanionRoomEntry> = [
   {
     companionId: "adjudicator_locke",
     roomId: "war-room",
-    presenceLine: "Locke leans over the warmap, sleeves still creased.",
+    presenceLine: "Locke's comms feed hums on the warmap console. She projects only when she means to.",
     visibleFromFlag: "trade_empire_unlocked",
   },
   {
