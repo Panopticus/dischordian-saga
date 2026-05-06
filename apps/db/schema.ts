@@ -2737,6 +2737,14 @@ export const towerPlacements = mysqlTable("tower_placements", {
   /** Status */
   status: mysqlEnum("status", ["active", "building", "upgrading", "destroyed"]).notNull().default("active"),
   completesAt: timestamp("completesAt"),
+  /**
+   * Phase 5 (items-matter / GoT arc): one consumable inventory item
+   * loaded into the tower as munition. Format: "<itemKind>:<id>"
+   * (e.g. "card:card_terrify", "potion:berserker_elixir"). Consumed
+   * on the next wave the tower fires in. Null when no munition is
+   * loaded.
+   */
+  equippedMunition: varchar("equippedMunition", { length: 128 }),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });

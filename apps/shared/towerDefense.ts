@@ -729,6 +729,91 @@ export function getAvailableRaidUnits(opts: {
   });
 }
 
+/* ═══════════════════════════════════════════════════════
+   Phase 5 (items-matter / GoT arc): item integration helpers.
+   ═══════════════════════════════════════════════════════ */
+
+/**
+ * Munition effect catalog. Maps an `itemRef` ("kind:id") to the
+ * mechanical effect a single wave consumes when this munition is
+ * loaded into a tower. Phase-5 ships a small canonical catalog;
+ * craftingData.ts may extend it via authoring tools later.
+ */
+export interface MunitionEffect {
+  /** Stacking AoE damage applied to all enemies on the wave. */
+  aoeDamage?: number;
+  /** Number of waves the tower is invulnerable. */
+  invulnWaves?: number;
+  /** Multiplier on loot from the wave / raid. */
+  lootMultiplier?: number;
+  /** Optional human-readable label for the wave-resolver log. */
+  label: string;
+}
+
+const MUNITION_EFFECTS: Readonly<Record<string, MunitionEffect>> = {
+  // Forge potions wired through itemTags.obtainedViaToCraftMethod=hand_crafted
+  // — these mirror existing potions in apps/client/src/data/craftingData.ts.
+  "potion:berserker_elixir": {
+    aoeDamage: 30,
+    label: "Berserker Elixir — AoE 30",
+  },
+  "potion:void_elixir": {
+    invulnWaves: 2,
+    label: "Void Elixir — 2-wave invulnerability",
+  },
+  "potion:fortune_draught": {
+    lootMultiplier: 1.25,
+    label: "Fortune Draught — +25% loot",
+  },
+  // Card-type munitions — disenchanting on load.
+  "card:terrify": {
+    aoeDamage: 20,
+    label: "Terrify — AoE 20",
+  },
+};
+
+export function getMunitionEffect(itemRef: string | null | undefined): MunitionEffect | null {
+  if (!itemRef) return null;
+  return MUNITION_EFFECTS[itemRef] ?? null;
+}
+
+/** All known munition refs — useful for UI dropdowns + tests. */
+export function allKnownMunitionRefs(): ReadonlyArray<string> {
+  return Object.keys(MUNITION_EFFECTS);
+}
+
+/**
+ * Faction-rep raid suppression. Given the player's per-faction
+ * reputation rollup (computed by getFactionReputationRollup() on the
+ * server), reduce the raw raid-source weight for any faction the
+ * player is on good terms with (rep >= 50) and amplify it for
+ * factions where rep <= -25.
+ *
+ * Returns a new weight map with the same keys.
+ *
+ * Pulls TD into the political economy: making allies in Trade Empire
+ * really does protect your Tower Defense base, and making enemies
+ * really does invite raids.
+ */
+export function applyFactionRepRaidSuppression(
+  rawWeights: Record<string, number>,
+  factionRep: Record<string, number>,
+): Record<string, number> {
+  const out: Record<string, number> = {};
+  for (const [factionId, weight] of Object.entries(rawWeights)) {
+    const rep = factionRep[factionId] ?? 0;
+    let multiplier = 1;
+    if (rep >= 75) multiplier = 0.25;
+    else if (rep >= 50) multiplier = 0.5;
+    else if (rep >= 25) multiplier = 0.8;
+    else if (rep <= -75) multiplier = 2.0;
+    else if (rep <= -50) multiplier = 1.6;
+    else if (rep <= -25) multiplier = 1.3;
+    out[factionId] = Math.max(0, Math.round(weight * multiplier * 100) / 100);
+  }
+  return out;
+}
+
 /**
  * Check for tower synergies on the grid.
  */
