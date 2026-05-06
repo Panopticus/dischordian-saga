@@ -606,6 +606,15 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "door-cryo", name: "Cryo Bay Door", description: "Return to the Cryo Bay.", x: 6, y: 30, width: 15, height: 45, type: "door", action: "cryo-bay" },
       { id: "egg-med-vial", name: "Unlabeled Vial", description: "A tiny vial of shimmering black liquid hidden behind the cabinet.", x: 85, y: 62, width: 3, height: 4, type: "item", action: "void-essence-sample", elaraDialog: "That vial... the liquid inside is moving on its own. The molecular structure doesn't match anything in my database. It's not from any known universe. The label has been torn off, but there's a serial number: VE-001. 'VE' — Void Essence? This shouldn't exist on this ship." },
       { id: "egg-vox-neural-bridge", name: "Unkempt Neural Device", description: "A hidden device behind the bio-bed's maintenance panel. Cables still warm. A humming needle-port waits for a DNA sample.", x: 46, y: 72, width: 5, height: 5, type: "interact", action: "dna-device-offer", elaraDialog: "[STATIC BURST] It's humming at a frequency your teeth can feel. A neural-bridge apparatus — military grade, built by Dr. Lyra Vox to move consciousness between a body and the Ark itself. It wants a sample. You don't know what it will give you back." },
+      // Mystery overlay sub-rectangles — apps/shared/roomMysteries/medicalBay.ts
+      // The feature-route hotspots above (bio-bed → /character-sheet,
+      // medical-log → item collect, egg-vox-neural-bridge → dna-device
+      // -offer) retain their primary actions; the small adjacent
+      // rectangles below dispatch the mystery's verb-coin responses.
+      { id: "mystery-bio-bed", name: "Bio-Bed Trace Marker", description: "A faint trace marker on the bio-bed's diagnostic strip — your DNA's signature, registered without your having sat down.", x: 38, y: 14, width: 6, height: 6, type: "interact", action: "room-mystery:medical-bay:bio-bed" },
+      { id: "mystery-medical-log", name: "Medical Log (Read)", description: "Read the data pad's final entry under the magnifier — patients across wake-cycles, the same dream, the word 'signal'.", x: 22, y: 78, width: 6, height: 6, type: "interact", action: "room-mystery:medical-bay:medical-log" },
+      { id: "mystery-vox-neural-bridge", name: "Neural Bridge (Read)", description: "Lyra's etched plate beside the needle-port: 'L. Vox.' She built the bridge to move consciousness between a body and the Ark.", x: 52, y: 72, width: 5, height: 5, type: "interact", action: "room-mystery:medical-bay:egg-vox-neural-bridge" },
+      { id: "emergency-safe", name: "Emergency Safe", description: "A reinforced wall safe with Dr. Lyra Vox's nameplate. Biometric reader sabotaged by her own hand; numeric keypad still works.", x: 70, y: 18, width: 12, height: 14, type: "interact", action: "room-mystery:medical-bay:emergency-safe" },
       // ── NPC presence (Phase C) ──
       // The Source — primaryRoom = medical_bay (factionNPCs.ts).
       // Manifestation: possessed_system. He surfaces through the bio-bed
@@ -677,6 +686,17 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       // this rectangle covers the floating indigo marginalia at three
       // tactical-display nodes per the bridge:annotations-visible art.
       { id: "shadow-tongue-annotations", name: "Indigo Marginalia", description: "Faint indigo annotations float at three of the Conspiracy Board's nodes — marginalia in someone else's hand, timestamped to your current shift.", x: 35, y: 12, width: 30, height: 10, type: "interact", action: "room-mystery:bridge:shadow-tongue-annotations" },
+      // Mystery overlay sub-rectangles — apps/shared/roomMysteries/bridge.ts
+      // The feature-route hotspots above (tactical-display → /board,
+      // timeline-projector → /saga-timeline, nav-console → puzzle modal,
+      // diplomacy-table → /diplomacy) keep their primary actions; small
+      // adjacent rectangles below dispatch the verb-coin's authored
+      // mystery responses without stealing the feature route.
+      { id: "mystery-tactical-display", name: "Conspiracy Marginalia", description: "Faint annotations along the Conspiracy Board's edge — read carefully and the editor's voice resolves.", x: 37, y: 8, width: 6, height: 6, type: "interact", action: "room-mystery:bridge:tactical-display" },
+      { id: "mystery-timeline-projector", name: "Timeline Drift", description: "The two post-launch entries on the Timeline Projector's lower edge drift one minute forward on every read.", x: 92, y: 14, width: 6, height: 8, type: "interact", action: "room-mystery:bridge:timeline-projector" },
+      { id: "mystery-nav-console", name: "Nav Console Sequence", description: "The previous crew's last unfinished glyph entry, frozen mid-attempt.", x: 4, y: 84, width: 6, height: 6, type: "interact", action: "room-mystery:bridge:nav-console" },
+      { id: "mystery-diplomacy-table", name: "Empty Delegate Seat", description: "The chair beside the empty seat at the Diplomacy Table — pulled out by Lyra's hand, in the seconds before the cryo order.", x: 64, y: 78, width: 6, height: 8, type: "interact", action: "room-mystery:bridge:diplomacy-table" },
+      { id: "captains-coffee", name: "Captain's Coffee", description: "A mug, half-full, on the command console. Two and a half centuries old. The handle still points toward the chair.", x: 60, y: 60, width: 6, height: 8, type: "interact", action: "room-mystery:bridge:captains-coffee" },
       // ── NPC presence (Phase C) ──
       // Elara's holographic projection. Faction NPC primaryRoom = "bridge".
       // Renders her bust portrait in-room and routes the `talk` verb to
@@ -833,6 +853,11 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       // and right, central floor strip leading to a back-wall doorway
       // (Forge), and side-edge exits to Observation and Armory.
       { id: "crafting-bench", name: "Crafting Workbench", description: "A workbench with tools for card crafting and fusion experiments.", x: 12, y: 50, width: 22, height: 32, type: "terminal", action: "/research-lab", elaraDialog: "The crafting workbench. Here you can fuse cards together to create more powerful versions. The recipes were developed by the Ark's engineers — combine the right elements and you might create something legendary." },
+      // Mystery overlay — apps/shared/roomMysteries/engineering.ts
+      // The crafting-bench above retains /research-lab as its primary
+      // action; this small sub-rectangle dispatches the verb-coin's
+      // authored mystery responses (the abandoned mid-fusion job).
+      { id: "mystery-crafting-bench", name: "Bench Tool Layout", description: "The tools on the bench, set up for a fusion job that was never started. Worn to a left-handed engineer's thumb.", x: 8, y: 84, width: 6, height: 6, type: "interact", action: "room-mystery:engineering:crafting-bench" },
       // Engineering mystery hotspots — see apps/shared/roomMysteries/engineering.ts.
       // First Look on either of these (or the etched-formula easter
       // egg below) logs a clue and flips `engineering_first_clue_found`
@@ -879,6 +904,10 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "recipe-archive", name: "Recipe Archive", description: "Holographic schematics showing all known crafting recipes.", x: 12, y: 28, width: 18, height: 28, type: "terminal", action: "/forge", elaraDialog: "The Recipe Archive. Every known crafting recipe is catalogued here — weapons, armor, potions, ship upgrades, and card enhancements. Some recipes are locked behind skill levels. The more you craft in a discipline, the more advanced recipes become available. Master all five disciplines and you'll unlock the legendary-tier recipes." },
       { id: "skill-totems", name: "Skill Totems", description: "Five crystalline totems representing the crafting disciplines.", x: 62, y: 28, width: 38, height: 50, type: "examine", elaraDialog: "The Skill Totems — one for each crafting discipline. Weaponsmithing, Armorsmithing, Enchanting, Alchemy, and Engineering. They glow brighter as your skill increases. Touch one to see your progress. The engineers who built this place believed that mastery of all five disciplines was the key to creating the ultimate weapon — one that could end the war between the Architect and the Source." },
       { id: "door-engineering-forge", name: "Return to Engineering", description: "The blast door back to the Engineering Bay.", x: 38, y: 90, width: 24, height: 10, type: "door", action: "engineering" },
+      // Mystery wiring — apps/shared/roomMysteries/forgeWorkshop.ts
+      { id: "anvil", name: "Anvil", description: "Centuries-old hardened brass on a steel base. The face is dished from a working life longer than most stars.", x: 14, y: 60, width: 16, height: 24, type: "interact", action: "room-mystery:forge-workshop:anvil" },
+      { id: "schema-rack", name: "Schema Rack", description: "Rolled diagrams along the back wall — weapon designs, armour patterns, prosthetic schematics. Most in Lyra's hand. A few in another.", x: 14, y: 6, width: 22, height: 18, type: "interact", action: "room-mystery:forge-workshop:schema-rack" },
+      { id: "kiln", name: "Kiln", description: "Brass-bound clay, fired thousands of times. Cold now, but the chimney smells faintly of bay leaf.", x: 64, y: 80, width: 18, height: 14, type: "interact", action: "room-mystery:forge-workshop:kiln" },
     ],
   },
   {
@@ -909,6 +938,14 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "door-cargo", name: "Cargo Hold", description: "Stairs leading down to the Cargo Hold.", x: 42, y: 86, width: 16, height: 12, type: "door", action: "cargo-hold" },
       { id: "egg-armory-dogtag", name: "Fallen Dog Tag", description: "A military dog tag wedged between floor plates.", x: 34, y: 80, width: 3, height: 4, type: "item", action: "agent-zero-dogtag", elaraDialog: "A dog tag. Name: CLASSIFIED. Rank: Assassin, First Class. Unit: Insurgency Special Operations. Callsign: 'Agent Zero.' But wait — the biometric data on the tag doesn't match Agent Zero's profile. It matches... the Engineer. The mind swap. The Engineer is walking around in Agent Zero's body, hiding among the Potentials. On THIS ship." },
       { id: "motivational-poster", name: "Motivational Poster", description: "A faded poster showing a sunset with the text 'HANG IN THERE!' Signed in the corner: Iron Lion.", x: 88, y: 14, width: 5, height: 6, type: "examine", action: "room-mystery:armory:motivational-poster", elaraDialog: "Iron Lion's poster. He printed thousands of these. Most of them are gone. This one isn't. There is a cat in the bottom corner that I did not, until today, register." },
+      // Phase C extension — Agent Zero NPC presence in his canonical
+      // primaryRoom (per apps/client/src/game/factionNPCs.ts). The
+      // armory is the deck where Iron Lion's lineage of soldiers
+      // gathers, and Agent Zero — the Engineer-in-disguise discovered
+      // via the egg-armory-dogtag clue — manifests here once that
+      // clue has been logged. See ArkExplorerPage's npc-hotspot
+      // render path for the bust-portrait dispatch.
+      { id: "npc-agent-zero", name: "Agent Zero", description: "A figure leaning against the rifle racks. Insurgency uniform, dog-tag at the throat, eyes that have already counted every exit.", x: 26, y: 50, width: 8, height: 16, type: "npc", action: "npc:agent_zero", npcId: "agent_zero" },
     ],
   },
   {
@@ -1002,6 +1039,10 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "star-ceiling", name: "Living Star Map", description: "The domed ceiling displays constellations that move and shift, showing the positions of stars across multiple timelines.", x: 22, y: 0, width: 56, height: 18, type: "examine", elaraDialog: "The ceiling shows star maps from every major timeline in the Saga. Watch — the constellations shift as different realities branch and collapse. Each point of light is a universe. Some are thriving. Some are dying. Some have already been consumed by the Terminus Swarm. The Antiquarian watches them all." },
       { id: "door-captains", name: "Return to Captain's Quarters", description: "The shimmering portal back to the Ark.", x: 38, y: 32, width: 24, height: 28, type: "door", action: "captains-quarters" },
       { id: "egg-library-prophecy", name: "Hidden Prophecy", description: "A single page, glowing faintly, tucked behind a shelf. It seems to have been placed here deliberately.", x: 86, y: 56, width: 5, height: 6, type: "item", action: "antiquarian-prophecy", elaraDialog: "A prophecy written in the Antiquarian's own hand. 'When the seventh seal breaks and silence falls upon heaven, the Orb will shatter and the stories will become real. The Potentials will face the final choice: to end the Saga or begin it anew. The Programmer dies so the Antiquarian can live. The Antiquarian lives so the stories can be told. And the stories are told so that you — yes, you, the one reading this — can choose.' He's... he's talking to us directly. He knew we would find this. He planned for everything." },
+      // Mystery wiring — apps/shared/roomMysteries/antiquarianLibrary.ts
+      { id: "card-catalog", name: "Card Catalogue", description: "A brass-bound card catalogue beside the desk. Pre-Ark inventory of every story the Antiquarian has ever filed.", x: 23, y: 21, width: 8, height: 14, type: "interact", action: "room-mystery:antiquarian-library:card-catalog" },
+      { id: "locked-vault", name: "Locked Vault", description: "A small reinforced vault recessed into the bookshelf — sealed by the Antiquarian against his own future readings.", x: 64, y: 30, width: 8, height: 14, type: "interact", action: "room-mystery:antiquarian-library:locked-vault" },
+      { id: "antiquarian-bust", name: "Antiquarian's Bust", description: "A marble bust of the Antiquarian on a pedestal. Eyes inlaid with phosphor-lavender glass.", x: 64, y: 48, width: 8, height: 14, type: "interact", action: "room-mystery:antiquarian-library:antiquarian-bust" },
     ],
   },
   /* ═══ CHAIN-UNLOCKED HIDDEN ROOMS ═══ */
@@ -1029,6 +1070,10 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "warp-schematics", name: "Warp Drive Schematics", description: "Holographic blueprints showing the Ark's dimensional fold engine in extraordinary detail.", x: 16, y: 12, width: 26, height: 26, type: "examine", elaraDialog: "These schematics show the Ark's warp drive — but not the one in Engineering Bay. This is the real drive. It doesn't move through space. It folds space around the Ark. The Architect reverse-engineered it from Quarchon quantum tunneling technology. Only an Engineer would understand the mathematics involved." },
       { id: "door-engineering", name: "Return to Engineering Bay", description: "The sealed blast door back to the main engineering section.", x: 38, y: 70, width: 22, height: 28, type: "door", action: "engineering" },
       { id: "egg-core-frequency", name: "Resonance Frequency", description: "A specific harmonic emanating from the core that seems to encode a message.", x: 4, y: 78, width: 8, height: 8, type: "item", action: "core-frequency", elaraDialog: "That frequency... it's not random. It's a message encoded in the core's harmonic oscillation. The Architect left it here for whoever found this room. It says: 'The machine remembers what the maker forgets. Build well, Engineer. The next Ark is yours to design.'" },
+      // Mystery wiring — apps/shared/roomMysteries/engineeringCore.ts
+      { id: "reactor-coil", name: "Reactor Coil", description: "A ribbed brass-and-steel column running phosphor-green coolant through transparent ducts. The hardware is nominal; the schematic is not.", x: 80, y: 14, width: 14, height: 30, type: "interact", action: "room-mystery:engineering-core:reactor-coil" },
+      { id: "coolant-pipe", name: "Coolant Pipe Array", description: "Six lines feeding the secondary loop. The pipes are correct; any future repair following the edited schematic would reroute them.", x: 80, y: 48, width: 14, height: 18, type: "interact", action: "room-mystery:engineering-core:coolant-pipe" },
+      { id: "core-terminal", name: "Core Terminal", description: "A brass console with three oxblood-leather levers — coolant flow, reactor draw, emergency shutdown. The shutdown lever is locked.", x: 14, y: 48, width: 18, height: 18, type: "interact", action: "room-mystery:engineering-core:core-terminal" },
     ],
   },
   {
@@ -1054,6 +1099,10 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "meditation-platforms", name: "Meditation Platforms", description: "Hovering platforms that amplify precognitive abilities.", x: 10, y: 72, width: 80, height: 22, type: "examine", elaraDialog: "These platforms use quantum entanglement to synchronize your neural patterns with the probability field. Sit on one and your visions become clearer, more detailed. The original Oracle spent centuries here, mapping every possible future. Some say they went mad from seeing too much. Others say they achieved perfect clarity." },
       { id: "door-observation", name: "Return to Observation Deck", description: "The shimmering portal back to the Observation Deck.", x: 1, y: 35, width: 8, height: 40, type: "door", action: "observation-deck" },
       { id: "egg-oracle-vision", name: "Sealed Vision", description: "A sealed crystal containing a single frozen vision.", x: 76, y: 36, width: 5, height: 6, type: "item", action: "oracle-vision", elaraDialog: "A sealed vision. The Oracle locked this one away because it was too dangerous to share. It shows... the end. The final moment of the Saga. I can't see the details — only an Oracle can unseal it. But the emotion radiating from it is overwhelming. Hope and terror in equal measure." },
+      // Mystery wiring — apps/shared/roomMysteries/oracleSanctum.ts
+      { id: "oracle-pool", name: "Oracle Pool", description: "A circle of still water sunk into the floor, brass-rimmed and sigil-engraved. The water reflects something that is not in the pool.", x: 62, y: 18, width: 14, height: 32, type: "interact", action: "room-mystery:oracle-sanctum:oracle-pool" },
+      { id: "prophecy-tablet", name: "Prophecy Tablet", description: "A brass-pedestal'd slate. Currently blank, but the brass beneath has been worn smooth by thousands of writings.", x: 11, y: 6, width: 22, height: 14, type: "interact", action: "room-mystery:oracle-sanctum:prophecy-tablet" },
+      { id: "incense-brazier", name: "Incense Brazier", description: "A brazier on a chain, smoking phosphor-lavender. The smoke falls toward the pool rather than rising.", x: 84, y: 6, width: 14, height: 18, type: "interact", action: "room-mystery:oracle-sanctum:incense-brazier" },
     ],
   },
   {
@@ -1117,6 +1166,13 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "faction-war-map", name: "Faction War Map", description: "A strategic overlay showing faction conflict zones and territory control.", x: 28, y: 6, width: 44, height: 28, type: "terminal", action: "/faction-wars", elaraDialog: "The Faction War Map. The great factions of the Dischordian Saga are locked in eternal conflict. Choose your side, fight for territory, and shape the outcome of the Saga. Your faction's victories and defeats ripple across every timeline." },
       { id: "door-bridge", name: "Return to Command Bridge", description: "The reinforced corridor back to the main Bridge.", x: 1, y: 60, width: 14, height: 38, type: "door", action: "bridge" },
       { id: "egg-war-medal", name: "Iron Lion's Medal", description: "A battered medal of valor pinned to the command chair.", x: 48, y: 88, width: 5, height: 6, type: "item", action: "war-medal", elaraDialog: "Iron Lion's Medal of Valor. Awarded for holding the line at the Siege of the Panopticon when all seemed lost. He fought for seventy-two hours without rest, rallying broken units and turning retreat into counterattack. The medal is scratched and dented — he wore it into every battle after. He said it reminded him what he was fighting for: not victory, but the people behind him." },
+      // Mystery wiring — apps/shared/roomMysteries/warRoom.ts
+      // Small mystery sub-rectangles overlay the existing battle/tactical
+      // hotspots so the player can reach the verb-coin without losing
+      // the battle-map's /faction-wars route.
+      { id: "holo-table", name: "Holo Table Dial", description: "The brass dial at the holo-table's edge. BRIEFING / RECON / OBITUARY. Currently set to BRIEFING.", x: 18, y: 82, width: 8, height: 8, type: "interact", action: "room-mystery:war-room:holo-table" },
+      { id: "casualty-board", name: "Casualty Board", description: "Oxblood-leather binders racked along the wall, each labelled with an operation name and a year. The thickest is PROTOCOL ZERO.", x: 56, y: 82, width: 18, height: 12, type: "interact", action: "room-mystery:war-room:casualty-board" },
+      { id: "signal-flag-rack", name: "Signal Flag Rack", description: "Stage-left rack of folded signal-flags. Twelve flags, one per faction Lyra negotiated with in person.", x: 18, y: 60, width: 8, height: 18, type: "interact", action: "room-mystery:war-room:signal-flag-rack" },
     ],
   },
   {
@@ -1179,6 +1235,9 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "scale-justice", name: "Scale of Justice", description: "A golden holographic scale that weighs moral decisions.", x: 40, y: 50, width: 20, height: 36, type: "examine", elaraDialog: "The Scale of Justice. It weighs not gold or silver, but intention and consequence. Every major decision in the Saga was evaluated by this scale. The Hierophant used it to determine which actions served the greater good and which served only selfish desire. It's responding to your presence — it recognizes a champion of Order." },
       { id: "law-archives", name: "Law Archives", description: "Floating holographic tomes containing every law and code of the Saga.", x: 0, y: 30, width: 24, height: 36, type: "examine", elaraDialog: "The complete legal code of the Dischordian Saga. Laws governing reality itself — the Conservation of Narrative Energy, the Prohibition of Temporal Paradox, the Right of Every Potential to Choose Their Own Path. The Hierophant wrote most of these. Some say they're the only thing preventing the multiverse from collapsing into chaos." },
       { id: "door-bridge-order", name: "Return to Bridge", description: "The formal corridor back to the Command Bridge.", x: 40, y: 22, width: 20, height: 30, type: "door", action: "bridge" },
+      // Mystery wiring — apps/shared/roomMysteries/orderTribunal.ts
+      { id: "judges-bench", name: "Judges' Bench", description: "A long brass-and-oak slab elevated on three steps. Three high-backed chairs; the chief adjudicator's middle seat is taller by a hand's-width.", x: 26, y: 60, width: 48, height: 28, type: "interact", action: "room-mystery:order-tribunal:judges-bench" },
+      { id: "evidence-locker", name: "Evidence Locker", description: "A wall of small brass-faced compartments. Most empty. Three sealed in red wax — open cases, awaiting verdict.", x: 78, y: 60, width: 18, height: 32, type: "interact", action: "room-mystery:order-tribunal:evidence-locker" },
     ],
   },
   {
@@ -1204,6 +1263,11 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "reality-forges", name: "Reality Forges", description: "Forges burning with flames of different colors, each one warping reality around it.", x: 12, y: 38, width: 76, height: 42, type: "examine", elaraDialog: "The Reality Forges. Each one burns a different fuel — compressed probability, crystallized paradox, liquefied déjà vu. The Meme used them to forge weapons that shouldn't exist. A sword that cuts through time. A shield that reflects consequences. A bomb that erases the concept of a specific idea. Chaos isn't destruction — it's unlimited creativity." },
       { id: "chaos-equations", name: "Chaos Equations", description: "Brilliant equations scrawled on the walls alongside anarchist graffiti.", x: 75, y: 8, width: 22, height: 55, type: "examine", elaraDialog: "The equations of chaos. They look like madness, but each one solves an impossible problem. How to travel faster than light without a ship. How to exist in two places simultaneously. How to make a joke so funny it literally rewrites reality. The Meme was a genius — they just expressed their genius through destruction and humor rather than order and logic." },
       { id: "door-engineering-chaos", name: "Return to Engineering Bay", description: "A jagged hole blasted through the wall leading back to Engineering.", x: 38, y: 88, width: 24, height: 12, type: "door", action: "engineering" },
+      // Phase: room-mystery reachability — wire authored verb-coin
+      // responses (apps/shared/roomMysteries/chaosForge.ts) to
+      // clickable rectangles. Positions chosen to clear existing art.
+      { id: "chaos-anvil", name: "Chaos Anvil", description: "An asymmetric anvil heavier on the left than the right. Strikes ring different harmonics depending on where they land.", x: 4, y: 8, width: 10, height: 14, type: "interact", action: "room-mystery:chaos-forge:chaos-anvil" },
+      { id: "entropy-vat", name: "Entropy Vat", description: "A copper-rimmed bath of seething oil that never settles. Used for tempering — and, by deliberate design, for refusing the smith their certainty.", x: 4, y: 76, width: 10, height: 12, type: "interact", action: "room-mystery:chaos-forge:entropy-vat" },
     ],
   },
   /* ═══ SPECIES-UNLOCKED HIDDEN ROOMS ═══ */
@@ -1230,6 +1294,9 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "convergence-point", name: "Convergence Point", description: "The center where all four elements merge into pure white energy.", x: 42, y: 18, width: 18, height: 50, type: "examine", elaraDialog: "The Convergence Point. Where fire, water, earth, and air become one. The DeMagi believed that all of reality was built from these four elements in different combinations. At the convergence, you can feel the truth of it — everything is connected, everything is one. The power here is immense. The DeMagi who built this room could reshape matter with a thought." },
       { id: "demagi-runes", name: "DeMagi Runes", description: "Ancient runes carved into the floor, glowing with shifting elemental colors.", x: 8, y: 78, width: 84, height: 22, type: "examine", elaraDialog: "Ancient DeMagi script. These runes predate the Ark by millennia. They describe the Elemental Covenant — the agreement between the DeMagi and the elements themselves. In exchange for the power to command fire, water, earth, and air, the DeMagi swore to maintain the balance of nature across every world they touched. Your heritage carries that oath." },
       { id: "door-observation-nexus", name: "Return to Observation Deck", description: "The elemental gateway back to the Observation Deck.", x: 42, y: 50, width: 16, height: 28, type: "door", action: "observation-deck" },
+      // Mystery wiring — apps/shared/roomMysteries/elementalNexus.ts
+      { id: "elemental-orrery", name: "Elemental Orrery", description: "A brass-armatured model of the eight elemental relations — four DeMagi, four Quarchon — orbiting an empty centre.", x: 64, y: 16, width: 14, height: 22, type: "interact", action: "room-mystery:elemental-nexus:elemental-orrery" },
+      { id: "node-pillar", name: "Node Pillar", description: "A fluted brass column with eight horizontal slots. Three hold etched-glass element-discs; five are empty.", x: 76, y: 18, width: 8, height: 30, type: "interact", action: "room-mystery:elemental-nexus:node-pillar" },
     ],
   },
   {
@@ -1255,6 +1322,9 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "quantum-anomaly", name: "Quantum Anomaly", description: "A shimmering mass of matter existing in multiple states simultaneously.", x: 38, y: 20, width: 22, height: 42, type: "examine", elaraDialog: "The Quantum Anomaly. It's simultaneously a star, a planet, a person, and nothing at all. Quarchon physics says that observation collapses probability into reality — but this anomaly resists observation. It stays in superposition no matter who looks at it. The Quarchon scientists believed it was a fragment of the universe before the Big Bang — before anything decided to be anything." },
       { id: "probability-engine", name: "Probability Engine", description: "A device that can calculate and manipulate quantum probability fields.", x: 78, y: 22, width: 20, height: 32, type: "examine", elaraDialog: "The Probability Engine. It doesn't predict the future — it calculates every possible present. Feed it a question and it shows you every reality where that question has a different answer. The Quarchon used it to find the optimal timeline — the one where the most beings survive the Terminus Swarm. They found it. We're living in it." },
       { id: "door-archives-quantum", name: "Return to Archives", description: "The quantum-locked door back to the Archives.", x: 38, y: 70, width: 24, height: 28, type: "door", action: "archives" },
+      // Mystery wiring — apps/shared/roomMysteries/quantumLab.ts
+      { id: "entanglement-rig", name: "Entanglement Rig", description: "A brass armature suspending two clear quartz orbs at opposite corners of the room. Strike one and the other rings half a beat later.", x: 4, y: 10, width: 26, height: 50, type: "interact", action: "room-mystery:quantum-lab:entanglement-rig" },
+      { id: "observation-cage", name: "Observation Cage", description: "A small brass-mesh enclosure beside the entanglement-rig. Faraday-isolated; holds a single oxblood-leather notebook.", x: 64, y: 60, width: 16, height: 32, type: "interact", action: "room-mystery:quantum-lab:observation-cage" },
     ],
   },
   {
@@ -1280,6 +1350,13 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "dna-helix", name: "Ne-Yon DNA Helix", description: "A rotating holographic DNA helix showing the fusion of organic and synthetic code.", x: 40, y: 8, width: 20, height: 70, type: "examine", elaraDialog: "The Ne-Yon DNA Helix. Half biological, half digital. It shows how the Ne-Yon evolved — or were engineered — to bridge the gap between organic life and artificial intelligence. Every Ne-Yon carries this dual code. Your thoughts are processed by both neurons and nanites simultaneously. That's why you can interface with technology that would fry a pure organic brain." },
       { id: "bio-circuits", name: "Bio-Circuits", description: "Living vines that function as biological data cables.", x: 0, y: 12, width: 22, height: 76, type: "examine", elaraDialog: "Bio-circuits. Living data networks grown from Ne-Yon genetic material. They process information faster than silicon and repair themselves when damaged. The Ne-Yon dream of a future where all technology is alive — where machines grow, evolve, and think alongside their creators. This chamber is the prototype for that future." },
       { id: "door-medical-synthesis", name: "Return to Medical Bay", description: "The bio-organic passage back to the Medical Bay.", x: 40, y: 78, width: 20, height: 22, type: "door", action: "medical-bay" },
+      // Mystery wiring — apps/shared/roomMysteries/synthesisChamber.ts
+      // (NOTE: the existing GameContext "dna-helix" hotspot above is
+      //  intentionally distinct from synthesis-chamber's mystery-only
+      //  "synth-vat" / "recipe-board" surfaces — different physical
+      //  features described in the mystery module.)
+      { id: "synth-vat", name: "Synthesis Vat", description: "A cylindrical glass tank ten feet tall, currently holding a slow-spinning amber fluid — the medical bay's neural-stim base, synthesised from raw biostock.", x: 64, y: 12, width: 18, height: 60, type: "interact", action: "room-mystery:synthesis-chamber:synth-vat" },
+      { id: "recipe-board", name: "Recipe Board", description: "A brass-framed slate listing the chamber's authorised syntheses. The newest entry — Substrate-N. RESTRICTED — is in a hand that is not Lyra's.",  x: 84, y: 12, width: 14, height: 60, type: "interact", action: "room-mystery:synthesis-chamber:recipe-board" },
     ],
   },
   {
@@ -1308,6 +1385,10 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "defense-grid", name: "The Warden's Vigil", description: "Dimensional fortification and raiding systems.", x: 80, y: 22, width: 18, height: 50, type: "terminal", action: "/tower-defense", elaraDialog: "The Warden's Vigil — named after the Archon who oversaw the Panopticon's defense grid. Place elemental towers to fortify your station, or launch raids against other Potentials. Your class, species, alignment, and skills all shape which towers and units you command." },
       { id: "arena-portal", name: "Competitive Arena Portal", description: "Trophy rankings, daily streaks, and league standings.", x: 62, y: 52, width: 12, height: 22, type: "terminal", action: "/competitive-arena", elaraDialog: "The Competitive Arena. Track your raid trophies, climb the league ladder, and maintain your daily streak for Chrono Shards. Your RPG build gives you an edge — stronger characters earn more trophies per victory." },
       { id: "door-engineering-dock", name: "Return to Engineering", description: "The corridor back to Engineering.", x: 2, y: 30, width: 12, height: 60, type: "door", action: "engineering" },
+      // Mystery wiring — apps/shared/roomMysteries/stationDock.ts
+      { id: "airlock-control", name: "Airlock Control", description: "A brass-rimmed cylinder with deep-oxblood seal gaskets. Currently sealed, ready-light glowing steady warm-gold.", x: 38, y: 8, width: 24, height: 28, type: "interact", action: "room-mystery:station-dock:airlock-control" },
+      { id: "ship-manifest", name: "Ship Manifest", description: "A brass slab with rolling-paper readouts. The most recent entry is dated the day before Lyra's death.", x: 18, y: 8, width: 18, height: 18, type: "interact", action: "room-mystery:station-dock:ship-manifest" },
+      { id: "cargo-lift", name: "Cargo Lift", description: "The platform is at floor level, currently empty. Last used to load Wraith's transport. A faint graphite smear remains.", x: 38, y: 91, width: 24, height: 7, type: "interact", action: "room-mystery:station-dock:cargo-lift" },
     ],
   },
   {
@@ -1332,6 +1413,9 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "world-projector", name: "Syndicate World Projector", description: "A holographic display of your guild's capital world.", x: 38, y: 22, width: 24, height: 50, type: "terminal", action: "/syndicate-world", elaraDialog: "The Syndicate World Projector. Your guild's capital is displayed here. Your civil skills in Architecture and Engineering reduce build costs and times. Your class mastery unlocks special buildings only available to certain classes." },
       { id: "prestige-altar", name: "Prestige Altar", description: "A glowing altar where Potentials undertake quest chains to unlock prestige classes.", x: 70, y: 50, width: 18, height: 28, type: "terminal", action: "/prestige-quests", elaraDialog: "The Prestige Altar. Undertake quest chains that unlock prestige classes — advanced specializations that grant powerful bonuses to everything you do. Each requires specific base classes, species, and skill levels." },
       { id: "door-bridge-sanctum", name: "Return to Bridge", description: "The passage back to the Command Bridge.", x: 10, y: 45, width: 14, height: 38, type: "door", action: "bridge" },
+      // Mystery wiring — apps/shared/roomMysteries/guildSanctum.ts
+      { id: "sigil-altar", name: "Sigil Altar", description: "A low brass slab inscribed with every guild-sigil the Ark has ever recognised. Some sigils are scratched out. Some are double-engraved.", x: 38, y: 78, width: 24, height: 14, type: "interact", action: "room-mystery:guild-sanctum:sigil-altar" },
+      { id: "allegiance-pad", name: "Allegiance Pad", description: "A small pressure-pad in the floor in front of the altar. Stepping on it puts your current allegiances on the record.", x: 38, y: 90, width: 24, height: 8, type: "interact", action: "room-mystery:guild-sanctum:allegiance-pad" },
     ],
   },
   {
@@ -1359,6 +1443,9 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "donation-shrine", name: "Donation Shrine", description: "Donate resources to your guild and earn reputation.", x: 52, y: 28, width: 14, height: 38, type: "terminal", action: "/donations", elaraDialog: "The Donation Shrine. Contribute resources to your guild and earn reputation points. Higher reputation unlocks special guild perks and shows your dedication to the cause." },
       { id: "lore-desk", name: "Lore Journal Desk", description: "Write about the Dischordian Saga and earn XP.", x: 22, y: 60, width: 36, height: 35, type: "terminal", action: "/lore-journal", elaraDialog: "The Lore Journal. Write about characters, factions, events, and theories from the Dischordian Saga. Your writing earns XP based on word count, and your RPG build provides writing bonuses — Oracle class boosts XP multiplier, Diplomat civil skill improves engagement." },
       { id: "door-bridge-social", name: "Return to Bridge", description: "The corridor back to the Command Bridge.", x: 0, y: 30, width: 10, height: 50, type: "door", action: "bridge" },
+      // Mystery wiring — apps/shared/roomMysteries/socialHub.ts
+      { id: "bulletin-board", name: "Bulletin Board", description: "A wide cork panel along the back wall. Most pinned notices are decades old; a few — including a yearly memorial reading — are recent.", x: 68, y: 16, width: 28, height: 22, type: "interact", action: "room-mystery:social-hub:bulletin-board" },
+      { id: "mess-table", name: "Mess Table", description: "A long wooden mess-table with mismatched plates and cups — Lyra's discipline that no two crew ever ate from identical equipment.", x: 60, y: 44, width: 36, height: 14, type: "interact", action: "room-mystery:social-hub:mess-table" },
     ],
   },
   {
@@ -1426,6 +1513,10 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "inventors-door", name: "The Inventor's Door", description: "A door that was not here before. It is propped open with a brick. The brick has the Inventor's signature on it in red ink: '—I.'", x: 24, y: 25, width: 18, height: 65, type: "door", elaraDialog: "I have never seen this door before. It is not on any deck plan I have ever been given. The brick propping it open was not manufactured on this Ark. I am going to be direct with you: I think this door leads somewhere I cannot follow you. Please come back." },
       { id: "post-it-wall", name: "Nine Post-It Notes", description: "Nine hand-written post-its in Darren's uneven block-caps. They cover the lamp base and the corkboard edge.", x: 62, y: 78, width: 14, height: 14, type: "examine", elaraDialog: "Applause light. Vyre's red ink. Alaric's cufflink. Call the Antiquarian back. Marguerite's birthday. Leave earlier tonight. He was keeping score of every lie on the show and reminding himself of one real thing per day." },
       { id: "door-exit-workshop", name: "Return to Bridge", description: "A narrow stairwell leading back up to the Bridge.", x: 0, y: 30, width: 14, height: 60, type: "door", action: "bridge" },
+      // Mystery wiring — apps/shared/roomMysteries/dreamsWorkshop.ts
+      { id: "dream-loom", name: "Dream Loom", description: "A vertical brass frame strung with phosphor-lavender threads. Weaves dreams when unobserved; unweaves when watched.", x: 16, y: 2, width: 14, height: 18, type: "interact", action: "room-mystery:dreams-workshop-subbasement:dream-loom" },
+      { id: "fragment-rack", name: "Fragment Rack", description: "A wall-rack of small clear vials. Each holds one finished thread of dream-weave. Labels older than the Ark.", x: 46, y: 2, width: 14, height: 18, type: "interact", action: "room-mystery:dreams-workshop-subbasement:fragment-rack" },
+      { id: "mirror-pool", name: "Mirror Pool", description: "A shallow basin of mercury. The surface reflects a ceiling that is not in this room.", x: 46, y: 38, width: 12, height: 12, type: "interact", action: "room-mystery:dreams-workshop-subbasement:mirror-pool" },
     ],
   },
 ];
