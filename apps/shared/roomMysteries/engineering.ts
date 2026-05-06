@@ -179,7 +179,15 @@ export const ENGINEERING_MYSTERY: RoomMysteryModule<EngineeringHotspotId, Engine
       },
       use: {
         narration:
-          "You can't recalibrate the core by hand. You'd need a fresh resonance equation and a Research Station to compile it. The bench is right there.",
+          "You can't recalibrate the core by hand. You'd need a fresh resonance equation and a Research Station to compile it. The bench is right there. — Pinned to the bench's tool-rest beside the calibration kit: an undelivered letter from Vex Solène to her own workshop, addressed to the wall, never finished. The text: 'I have not named the workshop because I have not been ready to be named through it. The work has been mine. Now it has to be ours, or it will end with me. I have a candidate. They are not me.' She broke off mid-sentence. She has, on the evidence of the unfinished line, been thinking about an apprentice for at least a year.",
+        voId: "elara.engineering.reactor-core.use",
+        // Vex arc — Vex's letter to her workshop, undelivered.
+        // vex.e2.engineering_workshop_letter.
+        mysteryBinding: {
+          mysteryId: "mystery.vex_solene",
+          episodeId: "vex.e2",
+          cluesFound: ["vex.e2.engineering_workshop_letter"],
+        },
       },
       talk: {
         narration:
@@ -308,7 +316,7 @@ export const ENGINEERING_MYSTERY: RoomMysteryModule<EngineeringHotspotId, Engine
     "egg-eng-formula": {
       look: {
         narration:
-          "A dimensional resonance equation, etched by hand into the reactor housing. Clean math, except for the extra term: Ψ-null. The null-consciousness coefficient. A door to nowhere — the space between spaces. The Source dwells there. Nobody scratches this casually.",
+          "A dimensional resonance equation, etched by hand into the reactor housing. Clean math, except for the extra term: Ψ-null. The null-consciousness coefficient. A door to nowhere — the space between spaces. The Source dwells there. Nobody scratches this casually. — Folded between the housing and the cooling-jacket, an unsent letter draft from Vex's apprentice. The draft is addressed to Vex by her real name; the apprentice has been refraining from sending it because they aren't sure they're permitted to know the name. The unfinished sentence reads: 'If you are reading this, you have come back to the bench, and I am going to ask you the question I have been holding for two years —'",
         logsClue: {
           id: "clue-engineering-psi-null-formula",
           title: "The Ψ-null formula",
@@ -317,6 +325,13 @@ export const ENGINEERING_MYSTERY: RoomMysteryModule<EngineeringHotspotId, Engine
           order: 3,
         },
         setsFlag: "engineering_first_clue_found",
+        // Vex arc — apprentice's unsent letter to Vex.
+        // vex.e3.apprentice_letter_draft.
+        mysteryBinding: {
+          mysteryId: "mystery.vex_solene",
+          episodeId: "vex.e3",
+          cluesFound: ["vex.e3.apprentice_letter_draft"],
+        },
       },
       use: {
         narration:
@@ -431,17 +446,34 @@ export const ENGINEERING_MYSTERY: RoomMysteryModule<EngineeringHotspotId, Engine
             "Leave it on the bench. The manual has, by some small miracle, survived everyone who would have wanted it gone. Adding our hands to the ledger of people who carried it briefly seems unnecessary. Whoever wakes up next can read it the way Lyra hoped they would — exactly where she left it.",
         },
         voId: "elara.engineering.instruction-manual.use",
+        // Vex arc — workshop inventory tool-migration map. The
+        // manual's appendix includes a back-cover insert listing
+        // every tool the apprentice has rotated to their own
+        // workbench across the last six months. The migration is
+        // gradual and orderly. vex.e4.workshop_inventory.
+        mysteryBinding: {
+          mysteryId: "mystery.vex_solene",
+          episodeId: "vex.e4",
+          cluesFound: ["vex.e4.workshop_inventory"],
+        },
       },
       talk: {
         narration: {
           lucid:
-            "You read a paragraph aloud. The manual, having anticipated this kind of reader, includes a passage on page nine that begins: If you are reading this aloud, you are doing it correctly. Carry on.",
+            "You read a paragraph aloud. The manual, having anticipated this kind of reader, includes a passage on page nine that begins: If you are reading this aloud, you are doing it correctly. Carry on. — On page 142, in Vex's hand, a hand-stamped maintenance status of her original recording rig: STATUS — DECOMMISSIONED, BY OWNER. The stamp is dated last week. The rig is the one she used for every Variant Recording the Seer logged. She has, on the evidence of the stamp, decided that the rig's working life is over. Her apprentice's bench is the rig's successor.",
           fragmented:
-            "Aloud. Aloud. Read it aloud. Read it aloud. Read it aloud. Aloud. Aloud. Aloud.",
+            "Aloud. Aloud. Read it aloud. Read it aloud. Read it aloud. Aloud. Aloud. Aloud. Decommissioned. Decommissioned. Last week. Last week.",
           luminous:
-            "You read aloud. Lyra anticipated readers like you. Page nine includes a paragraph that opens: If you are reading this aloud, you are doing it correctly. Carry on. I think she would be — I think she is — pleased.",
+            "You read aloud. Lyra anticipated readers like you. Page nine includes a paragraph that opens: If you are reading this aloud, you are doing it correctly. Carry on. I think she would be — I think she is — pleased. — On page 142, Vex's stamp on her original rig's maintenance status: DECOMMISSIONED, BY OWNER, dated last week. The rig that recorded every Variant Recording the Seer logged has been formally retired by Vex herself, in the same disciplined paper-trail Lyra trained her crews to keep. The successor rig is on her apprentice's bench.",
         },
         voId: "elara.engineering.instruction-manual.talk",
+        // Vex arc — original recording rig's decommissioned status.
+        // vex.e5.original_rig_status.
+        mysteryBinding: {
+          mysteryId: "mystery.vex_solene",
+          episodeId: "vex.e5",
+          cluesFound: ["vex.e5.original_rig_status"],
+        },
       },
     },
     "schematic-pad": {
@@ -521,14 +553,21 @@ export const ENGINEERING_MYSTERY: RoomMysteryModule<EngineeringHotspotId, Engine
       talk: {
         narration: {
           lucid:
-            "If you read the schematic aloud — both registers, indigo and warm-gold — the act of vocalising the discrepancy makes the indigo overlay fade by a perceptible margin while you speak. The Shadow Tongue's edits cannot survive being narrated. The pad is, in this moment, a small public reading. The reading wins.",
+            "If you read the schematic aloud — both registers, indigo and warm-gold — the act of vocalising the discrepancy makes the indigo overlay fade by a perceptible margin while you speak. The Shadow Tongue's edits cannot survive being narrated. The pad is, in this moment, a small public reading. The reading wins. — Pinned to the bottom-right of the pad: a scheduled-session card. TOMORROW · 06:00 · CALIBRATION · WITNESS PRESENT REQUIRED. Vex's hand. The session is dated for tomorrow morning at the apprentice's bench. The card carries Vex's countersignature and the apprentice's initialled acceptance. Both parties have committed in writing to the handover.",
           fragmented:
-            "Aloud. Aloud. Aloud. The indigo fades. The indigo fades. The indigo fades.",
+            "Aloud. Aloud. Aloud. The indigo fades. The indigo fades. The indigo fades. Tomorrow. Tomorrow. Tomorrow at six. Both signed.",
           luminous:
-            "Read both layers aloud. The indigo fades while you speak; the warm-gold steadies. The schematic is, by direct observation, vulnerable to spoken witnessing in exactly the way Lyra's projector entries are. The Shadow Tongue's medium is silent record-rewriting; speech is the antidote. Every page he has touched on this ship can, in principle, be partially restored by being read out loud in front of a witness. We have just demonstrated the principle on the most consequential page in the bay.",
+            "Read both layers aloud. The indigo fades while you speak; the warm-gold steadies. The schematic is, by direct observation, vulnerable to spoken witnessing in exactly the way Lyra's projector entries are. The Shadow Tongue's medium is silent record-rewriting; speech is the antidote. Every page he has touched on this ship can, in principle, be partially restored by being read out loud in front of a witness. We have just demonstrated the principle on the most consequential page in the bay. — The scheduled-session card pinned to the pad announces tomorrow's calibration session at the apprentice's bench, dual-signed by Vex and her apprentice. The handover is, by both signatures, a contract.",
         },
         voId: "elara.engineering.schematic-pad.talk",
         setsFlag: "schematic_vocalised",
+        // Vex arc — scheduled-session card for the apprentice's
+        // first formal calibration. vex.e5.scheduled_session_card.
+        mysteryBinding: {
+          mysteryId: "mystery.vex_solene",
+          episodeId: "vex.e5",
+          cluesFound: ["vex.e5.scheduled_session_card"],
+        },
       },
     },
   },

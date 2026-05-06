@@ -100,6 +100,21 @@ export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
           source: "war-room",
           order: 1,
         },
+        // Vex arc — the casualty-board's lower-left rack also holds
+        // two Insurgency cross-reference documents: the installment
+        // ledger for Vex's account (an unpaid recording fee deferred
+        // across decades) and the calibration-pipeline handoff draft
+        // outlining the Insurgency's expected continuity through her
+        // apprentice. Two-clue cluesFound in one binding because the
+        // documents are filed as a single dossier.
+        mysteryBinding: {
+          mysteryId: "mystery.vex_solene",
+          episodeId: "vex.e2",
+          cluesFound: [
+            "vex.e2.installment_ledger",
+            "vex.e4.calibration_pipeline_handoff_draft",
+          ],
+        },
       },
       use: {
         narration:

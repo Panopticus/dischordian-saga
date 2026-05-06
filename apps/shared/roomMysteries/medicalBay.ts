@@ -221,13 +221,20 @@ export const MEDICAL_BAY_MYSTERY: RoomMysteryModule<MedicalBayHotspotId> = {
       use: {
         narration: {
           lucid:
-            "You won't learn what the fourth row is by poking the screen. You'd need a sample. The station is asking for one — politely, but not infinitely.",
+            "You won't learn what the fourth row is by poking the screen. You'd need a sample. The station is asking for one — politely, but not infinitely. — A small notes-app overlay surfaces in the corner of the helix display: VEX'S APPRENTICE — WORKBENCH STATE, SYNCED. Vex has linked the medical bay's helix-station to her apprentice's calibration bench so the apprentice can read DNA-marker signatures from their own workbench in real time. The apprentice is, in this moment, conducting continuing work that Vex has arranged to make accessible without requiring her to be present.",
           fragmented:
-            "Sample. Sample. It wants a sample. It wants a — it wants — please don't give it yours. Please don't. Please.",
+            "Sample. Sample. It wants a sample. It wants a — it wants — please don't give it yours. Please don't. Please. Synced. Synced. Continuing. Continuing.",
           luminous:
-            "The station is requesting a sample. Patiently, but it's a real request. Don't volunteer yours yet. There's a reason your trace marker showed up next to the dead pod's, and I'd like us to understand it before you let the station map you.",
+            "The station is requesting a sample. Patiently, but it's a real request. Don't volunteer yours yet. There's a reason your trace marker showed up next to the dead pod's, and I'd like us to understand it before you let the station map you. — The notes-app overlay shows Vex has cross-linked the helix to her apprentice's bench: the apprentice continues the calibration work in real time without Vex's bodily presence. The handover is, again, deliberate and gradual. Vex is making her own absence operational before she is absent.",
         },
         voId: "elara.medbay.dna-helix.use",
+        // Vex arc — apprentice's workbench state, cross-linked to
+        // the medical helix. vex.e3.apprentice_workbench_state.
+        mysteryBinding: {
+          mysteryId: "mystery.vex_solene",
+          episodeId: "vex.e3",
+          cluesFound: ["vex.e3.apprentice_workbench_state"],
+        },
       },
       talk: {
         narration: {

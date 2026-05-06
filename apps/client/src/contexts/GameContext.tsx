@@ -1012,6 +1012,8 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "cat-photo", name: "Photo of a Cat", description: "A framed photo of a cat wearing tiny goggles. Label reads: 'Mr. Whiskers — Chief Science Officer.'", x: 8, y: 26, width: 4, height: 5, type: "examine", action: "room-mystery:captains-quarters:cat-photo", elaraDialog: "Mr. Whiskers. Chief Science Officer. Lyra hand-lettered the label. The cat is not looking at the camera; the cat is looking at her, who was behind it. I have been looking at this photograph for two hundred and thirty years." },
       // Mystery wiring — Degen arc audit-prep + empty-chair surface
       { id: "degens-corner", name: "The Degen's Corner", description: "A small side-desk beside the cracked mirror. The only piece of furniture in the captain's quarters that wasn't Lyra's — the Degen sat here on three documented evenings before her death.", x: 30, y: 70, width: 14, height: 18, type: "interact", action: "room-mystery:captains-quarters:degens-corner" },
+      // Mystery wiring — Vex arc workshop diary on Lyra's bookshelf
+      { id: "vex-workshop-diary", name: "Vex's Workshop Diary", description: "A small bookshelf to the right of the bed. Vex Solène's workshop diary on the second shelf, the spine worn from forty years of opening.", x: 78, y: 30, width: 10, height: 36, type: "interact", action: "room-mystery:captains-quarters:vex-workshop-diary" },
       { id: "egg-vox-personal-log", name: "Dr. Vox's Personal Terminal", description: "A hidden terminal behind the bookshelf, still powered. The screen shows encrypted files.", x: 60, y: 56, width: 4, height: 4, type: "item", action: "vox-personal-log", elaraDialog: "Dr. Lyra Vox's personal terminal. Let me try to decrypt... 'Day 1,247. The Warlord's voice grows louder. I can no longer distinguish my thoughts from its commands. The Thought Virus is complete — the Warden and I have created something that will reshape consciousness itself. But I am losing myself. Today I looked in the mirror and saw the Warlord looking back. Tomorrow I will order the Recruiter's transfer to this vessel. He is already infected — Project Vector saw to that. He is Patient Zero, and he doesn't know it. When Kael steals this ship, the virus will walk aboard with him. Every system he touches will be contaminated from day one. The Source will be born from the ashes of the Recruiter's rage. And the Warlord will have won without ever raising a weapon.' She knew. She knew everything." },
     ],
   },
@@ -1054,6 +1056,8 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "codas-purpose-shelf", name: "Coda's Purpose Shelf", description: "A small dedicated shelf the Antiquarian set aside for the seven inter-faction trustee bodies. The Coda's section is the largest.", x: 28, y: 86, width: 8, height: 10, type: "interact", action: "room-mystery:antiquarian-library:codas-purpose-shelf" },
       // Mystery wiring — Game Master arc Velkraal correspondence + draft surface
       { id: "velkraals-correspondence-folio", name: "Velkraal's Correspondence Folio", description: "A leather folio on the desk's far-left corner. Velkraal'Sek's correspondence, posthumous letters, and the draft of his closing edit.", x: 36, y: 86, width: 8, height: 10, type: "interact", action: "room-mystery:antiquarian-library:velkraals-correspondence-folio" },
+      // Mystery wiring — Vex arc Insurgency-affairs surface
+      { id: "insurgency-witness-roster", name: "Insurgency Witness Roster", description: "A small bound register on the Insurgency-affairs shelf. The saga's only complete acknowledged-witness list for Vex Solène's recording career.", x: 44, y: 86, width: 8, height: 10, type: "interact", action: "room-mystery:antiquarian-library:insurgency-witness-roster" },
     ],
   },
   /* ═══ CHAIN-UNLOCKED HIDDEN ROOMS ═══ */
@@ -1227,6 +1231,8 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "uncorruption-bench", name: "Uncorruption Bench", description: "A worktop stage-right with a brass-rimmed magnifier on a swing-arm. Combine corrupted-fragments here with their originals — the lens does the work.", x: 70, y: 60, width: 22, height: 22, type: "interact", action: "room-mystery:cipher-den:uncorruption-bench" },
       // Mystery wiring — Game Master arc cross-arc thanks-state card
       { id: "cross-arc-thanks-card", name: "Cross-Arc Thanks Card", description: "A small index card in a brass frame on the cross-arc shelf — Velkraal's final-edit gratitude state, updating with the player's choices.", x: 92, y: 8, width: 6, height: 10, type: "interact", action: "room-mystery:cipher-den:cross-arc-thanks-card" },
+      // Mystery wiring — Vex arc Seer-Vex pair binder
+      { id: "vex-seer-pair-binder", name: "Vex-Seer Pair Binder", description: "A two-pocket binder on the Insurgency-engineer shelf — the Seer's consultation request to Vex and a state-card mirroring his undelivered letter.", x: 92, y: 24, width: 6, height: 10, type: "interact", action: "room-mystery:cipher-den:vex-seer-pair-binder" },
     ],
   },
   /* ═══ ALIGNMENT-UNLOCKED HIDDEN ROOMS ═══ */
