@@ -57,6 +57,7 @@ import {
   tickUserAgendas,
 } from "../services/agendaEngine";
 import {
+  forgeDemandSubstitute,
   listMyDemands,
   payDemand,
   refuseDemand,
@@ -65,6 +66,7 @@ import { REFERENCE_AGENDAS } from "@shared/tradeEmpire/agendas";
 import { spaceStations, towerPlacements, userProgress } from "../../db/schema";
 import { allKnownMunitionRefs, getMunitionEffect, TOWERS } from "@shared/towerDefense";
 import { inArray } from "drizzle-orm";
+import { dischordiaCycleService } from "../services/dischordiaCycleService";
 
 export const tradeCourtRouter = router({
   /** Static registry — sub-house defs + their internal rivals. */
@@ -364,6 +366,37 @@ export const tradeCourtRouter = router({
       return result;
     }),
 
+  /**
+   * Phase 9: forge a substitute. Consume suit-materials and roll
+   * against the receiving sub-house's detection threshold. Pass =
+   * tiny payment; detection = worse than refusal.
+   */
+  forgeDemandSubstitute: protectedProcedure
+    .input(
+      z.object({
+        demandId: z.number().int().positive(),
+        materialsToConsume: z
+          .array(
+            z.object({
+              materialId: z.string(),
+              count: z.number().int().positive(),
+            }),
+          )
+          .min(1),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const result = await forgeDemandSubstitute({
+        userId: ctx.user.id,
+        demandId: input.demandId,
+        materialsToConsume: input.materialsToConsume,
+      });
+      if (!result.ok) {
+        throw new TRPCError({ code: "BAD_REQUEST", message: result.error });
+      }
+      return result;
+    }),
+
   // --- Tower listing for the court widget --------------------------------
 
   listMyTowers: protectedProcedure.query(async ({ ctx }) => {
@@ -639,6 +672,20 @@ export const tradeCourtRouter = router({
         },
         seasonNumber,
       }).catch(err => logger.warn("tribute public knowledge failed", { err }));
+
+      // Phase 9 — Dischordia faction-tagged nudge. Tributing a card
+      // moves the global meter according to the receiving house's
+      // top-level faction alignment.
+      try {
+        const fac = factionForHouse(receivingHouse.houseKey);
+        dischordiaCycleService.applyEnergyForFaction(
+          "trade_diplomacy_treaty",
+          fac,
+          userId,
+        );
+      } catch (err) {
+        logger.warn("tribute dischordia faction nudge failed", { err });
+      }
 
       return {
         ok: true,

@@ -122,7 +122,7 @@ export const HOUSE_OATH_AUTHORITY: ContractDef = {
   completionReward: {
     credits: 10000,
     influence: 500,
-    cardIds: ["card.locke.sworn_pen_title"],
+    cardIds: ["card_locke_sworn_pen_title"],
     reputation: [
       { factionId: "new_babylon", change: 50 },
       { factionId: "hierarchy", change: -25 },
@@ -229,7 +229,7 @@ export const HOUSE_OATH_QUIETYEAR: ContractDef = {
   completionReward: {
     credits: 8000,
     influence: 600,
-    cardIds: ["card.thaloria.witness_title"],
+    cardIds: ["card_thaloria_witness_title"],
     reputation: [
       { factionId: "antiquarian", change: 40 },
       { factionId: "hierarchy", change: -30 },

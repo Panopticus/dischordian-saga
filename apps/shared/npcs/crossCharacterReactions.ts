@@ -1460,6 +1460,37 @@ export const CROSS_CHARACTER_REACTIONS: ReadonlyArray<CrossCharacterReaction> = 
       "Key-as-interpreter arc; canonical reveal-gate (eyes_of_reality) " +
       "still applies upstream.",
   },
+  // ─── Phase 9: public-knowledge recent-news flags ────────────────────
+  // These are not stored in npc_public_flags; they are computed at
+  // dialog-selection time by enrichPublicFlags() in
+  // apps/server/services/npcPublicKnowledgeReactions.ts. The canonical
+  // setter is the system itself (any contract sign / tribute / demand
+  // resolution that posts to trade_public_knowledge).
+  {
+    flag: "pk.contract_signed.recent",
+    setBy: ["system"],
+    reactsBy: ["adjudicator_locke"],
+    canonicalNote:
+      "Phase 9 enrichPublicFlags surface — recent contract signing " +
+      "in the trade_public_knowledge log. Locke acknowledges the " +
+      "pattern; future readers will react to specific contract types.",
+  },
+  {
+    flag: "pk.nb_authoritys_ledger.tribute_paid.recent",
+    setBy: ["system"],
+    reactsBy: ["adjudicator_locke"],
+    canonicalNote:
+      "Phase 9 enrichPublicFlags surface — Authority's Ledger received " +
+      "a tribute. Locke files it under 'goodwill rendered'.",
+  },
+  {
+    flag: "pk.demand_refused.recent",
+    setBy: ["system"],
+    reactsBy: ["adjudicator_locke"],
+    canonicalNote:
+      "Phase 9 enrichPublicFlags surface — any sub-house's demand was " +
+      "refused recently. Locke warns against repeat refusals.",
+  },
 ];
 
 // --- Helpers --------------------------------------------------------------

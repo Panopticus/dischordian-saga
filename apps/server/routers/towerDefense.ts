@@ -20,9 +20,12 @@ import {
   calculateRaidStars, calculateRaidLoot,
   getAvailableTowers, getAvailableRaidUnits,
   getMunitionEffect,
+  applyFactionRepRaidSuppression,
 } from "../../shared/towerDefense";
+import { getFactionReputationRollup } from "../services/subHouseReputationService";
 import { ripple } from "../services/rippleEngine";
 import { getConsequences } from "../services/universeConsequences";
+import { logger } from "../logger";
 
 /* ═══ RPG STATS LOADER ═══ */
 async function getUserRpgStats(userId: number) {
@@ -527,6 +530,60 @@ export const towerDefenseRouter = router({
       const result = stars > 0 ? "victory" : "defeat";
       const xpEarned = Math.floor(destructionPercent * 5 + stars * 100);
 
+      // Phase 9: 3-star raid item-loss. The defender (if a station)
+      // loses one named card from their collection in addition to
+      // the resource theft. This is the aggressive item sink the
+      // design plan called for — raid losses cost real items, not
+      // just abstract resources.
+      let stolenCardId: string | null = null;
+      if (stars === 3 && input.defenderType === "station") {
+        try {
+          const [defenderStation] = await db
+            .select({ userId: spaceStations.userId })
+            .from(spaceStations)
+            .where(eq(spaceStations.id, input.defenderId))
+            .limit(1);
+          if (defenderStation && defenderStation.userId !== ctx.user.id) {
+            const { userCards } = await import("../../db/schema");
+            // Pick the lowest-rarity card the defender owns multiples of —
+            // collectors lose duplicates first.
+            const candidates = await db
+              .select()
+              .from(userCards)
+              .where(and(
+                eq(userCards.userId, defenderStation.userId),
+                sql`${userCards.quantity} >= 1`,
+              ))
+              .orderBy(desc(userCards.quantity))
+              .limit(50);
+            if (candidates.length > 0) {
+              const target = candidates[Math.floor(Math.random() * candidates.length)];
+              stolenCardId = target.cardId;
+              if (target.quantity > 1) {
+                await db
+                  .update(userCards)
+                  .set({ quantity: target.quantity - 1 })
+                  .where(and(
+                    eq(userCards.userId, defenderStation.userId),
+                    eq(userCards.cardId, target.cardId),
+                    eq(userCards.isFoil, target.isFoil),
+                  ));
+              } else {
+                await db
+                  .delete(userCards)
+                  .where(and(
+                    eq(userCards.userId, defenderStation.userId),
+                    eq(userCards.cardId, target.cardId),
+                    eq(userCards.isFoil, target.isFoil),
+                  ));
+              }
+            }
+          }
+        } catch (err) {
+          logger.warn("[TowerDefense] 3-star item loss failed:", err);
+        }
+      }
+
       // Apply loot
       if (result === "victory") {
         const updatedDefResources = { ...defenderResources };
@@ -670,6 +727,7 @@ export const towerDefenseRouter = router({
         stars,
         destructionPercent,
         lootStolen,
+        stolenCardId,
         unitsLost,
         towersDestroyed,
         xpEarned,
@@ -918,7 +976,30 @@ export const towerDefenseRouter = router({
       const enemyCount = 5 + waveNumber * 2;
       const enemyHp = Math.ceil(50 * (1 + waveNumber * 0.15));
       const enemyDmg = Math.ceil(10 * (1 + waveNumber * 0.10));
-      const difficultyMultiplier = 100 + waveNumber * 20;
+      let difficultyMultiplier = 100 + waveNumber * 20;
+      // Phase 9: faction-rep raid suppression. The wave's "source"
+      // is treated as a generic mix; the player's faction rep
+      // rollup is fed into applyFactionRepRaidSuppression to compute
+      // a suppression factor that scales the wave's intensity.
+      // Allies (≥75 rep) suppress 75%; enemies (≤-75) amplify to 2x.
+      try {
+        const rollup = await getFactionReputationRollup(ctx.user.id);
+        // Treat each known faction as contributing equally to the
+        // wave's "source weight" — i.e., a uniform mix.
+        const baseWeights: Record<string, number> = {};
+        for (const factionId of Object.keys(rollup)) {
+          baseWeights[factionId] = 1;
+        }
+        const suppressed = applyFactionRepRaidSuppression(baseWeights, rollup);
+        const totalIn = Object.values(baseWeights).reduce((a, b) => a + b, 0);
+        const totalOut = Object.values(suppressed).reduce((a, b) => a + b, 0);
+        if (totalIn > 0 && totalOut > 0) {
+          const factor = totalOut / totalIn;
+          difficultyMultiplier = Math.max(20, Math.round(difficultyMultiplier * factor));
+        }
+      } catch (err) {
+        logger.warn("[TowerDefense] faction-rep suppression failed:", err);
+      }
       const enemies: { key: string; count: number; level: number }[] = [
         { key: "swarm_drone", count: enemyCount, level: waveNumber },
       ];

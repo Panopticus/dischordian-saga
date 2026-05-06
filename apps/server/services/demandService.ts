@@ -312,6 +312,164 @@ export async function refuseDemand(
   return { ok: true, demandId };
 }
 
+// --- Forge a substitute --------------------------------------------------
+
+/**
+ * Phase 9 — the third demand resolution path. Consume materials
+ * from the caller's citizen pouch to forge a fake substitute. The
+ * receiver rolls a detection check; success counts as a normal
+ * payment, failure counts WORSE than a refusal (per the design
+ * plan: "getting caught is worse than refusing").
+ *
+ * Detection probability scales with the receiving sub-house's
+ * engagement style — bibliographic houses (Antiquarian) detect
+ * more reliably than barter houses (Free Ports).
+ */
+export interface ForgeSubstituteArgs {
+  userId: number;
+  demandId: number;
+  /** Cost in suit-materials pouch units (any combination). */
+  materialsToConsume: ReadonlyArray<{ materialId: string; count: number }>;
+}
+
+const DETECTION_PROBABILITY_BY_HOUSE: Readonly<Record<string, number>> = {
+  // Bibliographic / institutional houses see through forgeries fast.
+  antiquarian_shelfmates: 0.85,
+  nb_authoritys_ledger: 0.75,
+  hierarchy_severance: 0.7,
+  thaloria_council: 0.65,
+  // Aleatory / barter houses care less about provenance.
+  antiquarian_casino: 0.4,
+  ind_freeports: 0.3,
+  ind_unaligned: 0.35,
+  // Combat-focused houses don't audit; they intimidate.
+  hierarchy_acquisitions: 0.5,
+  thaloria_quietwork: 0.55,
+  insurgency_zero_doctrine: 0.6,
+  insurgency_old_network: 0.45,
+  ae_architects_court: 0.7,
+  ae_substrate_rebels: 0.5,
+  nb_civic_engineers: 0.6,
+  potentials_restorationists: 0.5,
+  potentials_reformers: 0.5,
+};
+
+export async function forgeDemandSubstitute(
+  args: ForgeSubstituteArgs,
+  rng: () => number = Math.random,
+): Promise<
+  | { ok: true; outcome: "passed" | "detected"; demandId: number }
+  | { ok: false; error: string }
+> {
+  const db = await getDb();
+  if (!db) return { ok: false, error: "no db" };
+
+  const { citizenCharacters } = await import("../../db/schema");
+
+  const [demand] = await db
+    .select()
+    .from(tradeDemands)
+    .where(
+      and(
+        eq(tradeDemands.id, args.demandId),
+        eq(tradeDemands.userId, args.userId),
+        eq(tradeDemands.status, "pending"),
+      ),
+    )
+    .limit(1);
+  if (!demand) return { ok: false, error: "demand not found or already resolved" };
+
+  // Check & deduct materials from the citizen pouch.
+  const [citizen] = await db
+    .select()
+    .from(citizenCharacters)
+    .where(
+      and(
+        eq(citizenCharacters.userId, args.userId),
+        eq(citizenCharacters.isPrimary, 1),
+      ),
+    )
+    .limit(1);
+  if (!citizen) return { ok: false, error: "no citizen on file" };
+
+  const pouch = (citizen.suitMaterials ?? {}) as Record<string, number>;
+  for (const req of args.materialsToConsume) {
+    if ((pouch[req.materialId] ?? 0) < req.count) {
+      return { ok: false, error: `insufficient ${req.materialId}` };
+    }
+  }
+  const nextPouch: Record<string, number> = { ...pouch };
+  for (const req of args.materialsToConsume) {
+    nextPouch[req.materialId] = (nextPouch[req.materialId] ?? 0) - req.count;
+  }
+  await db
+    .update(citizenCharacters)
+    .set({ suitMaterials: nextPouch })
+    .where(eq(citizenCharacters.userId, args.userId));
+
+  const houseKey = demand.demandingHouseKey as SubHouseKey;
+  const detectProb = DETECTION_PROBABILITY_BY_HOUSE[houseKey] ?? 0.6;
+  const detected = rng() < detectProb;
+
+  const seasonNumber = seasonClockService.getState().seasonNumber;
+
+  if (detected) {
+    // Worse than refusal: -28 rep, public_flag posted, demand goes to refused.
+    await db
+      .update(tradeDemands)
+      .set({
+        status: "refused",
+        resolvedAt: new Date(),
+        resolution: "forgery detected",
+      })
+      .where(eq(tradeDemands.id, args.demandId));
+
+    if (isKnownSubHouseKey(houseKey)) {
+      await applySubHouseRepDelta(args.userId, houseKey, -28, `forgery detected #${args.demandId}`).catch(
+        err => logger.warn("[demands] forgery rep delta failed:", err),
+      );
+    }
+
+    await postPublicKnowledge({
+      userId: args.userId,
+      eventKind: "demand_refused",
+      subjectHouseKey: houseKey,
+      summary: `${SUB_HOUSE_REGISTRY[houseKey]?.name ?? houseKey} caught the player in a forged tribute.`,
+      payload: { demandId: args.demandId, forgeryDetected: true },
+      seasonNumber,
+    }).catch(err => logger.warn("[demands] forgery public knowledge failed:", err));
+
+    return { ok: true, outcome: "detected", demandId: args.demandId };
+  }
+
+  // Forgery passed: identical to a small payment.
+  await db
+    .update(tradeDemands)
+    .set({
+      status: "paid",
+      resolvedAt: new Date(),
+      resolution: "forgery passed",
+    })
+    .where(eq(tradeDemands.id, args.demandId));
+
+  if (isKnownSubHouseKey(houseKey)) {
+    await applySubHouseRepDelta(args.userId, houseKey, 6, `forgery passed #${args.demandId}`).catch(
+      err => logger.warn("[demands] forgery pass rep delta failed:", err),
+    );
+  }
+
+  await postPublicKnowledge({
+    userId: args.userId,
+    eventKind: "demand_paid",
+    subjectHouseKey: houseKey,
+    summary: `${SUB_HOUSE_REGISTRY[houseKey]?.name ?? houseKey} accepted what looked like payment.`,
+    payload: { demandId: args.demandId, forgeryPassed: true },
+    seasonNumber,
+  }).catch(err => logger.warn("[demands] forgery pass public knowledge failed:", err));
+
+  return { ok: true, outcome: "passed", demandId: args.demandId };
+}
+
 // --- Sweep ---------------------------------------------------------------
 
 /**

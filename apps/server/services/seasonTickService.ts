@@ -28,7 +28,8 @@
    ═══════════════════════════════════════════════════════ */
 
 import { getDb } from "../db";
-import { tradeSubHouseReputation } from "../../db/schema";
+import { tradeSectorReputation, tradeSubHouseReputation } from "../../db/schema";
+import { and, eq, lt } from "drizzle-orm";
 import { logger } from "../logger";
 
 import {
@@ -202,6 +203,17 @@ export async function runSeasonTick(now: number = Date.now()): Promise<SeasonTic
     logger.error("[seasonTick] demand sweep failed:", err);
   }
 
+  // Phase 9: sector flip on season boundary. Any per-user sector with
+  // reputation < 0 resets controlLevel to 0 and posts a sector_flipped
+  // event the moment the season enters interregnum.
+  if (phasesEntered.includes("interregnum")) {
+    try {
+      await flipNegativeRepSectors(next.seasonNumber);
+    } catch (err) {
+      logger.error("[seasonTick] sector flip failed:", err);
+    }
+  }
+
   return {
     changed: transitions.length > 0 || agendaTickFired,
     phasesEntered,
@@ -229,5 +241,54 @@ async function listActiveUserIds(): Promise<ReadonlyArray<number>> {
   } catch (err) {
     logger.error("[seasonTick] listActiveUserIds failed:", err);
     return [];
+  }
+}
+
+/**
+ * Flip every sector with rep < 0 (per user). Resets controlLevel to
+ * 0 and posts a sector_flipped public-knowledge event so dialog and
+ * the news feed can reference it. Idempotent — sectors with
+ * controlLevel already 0 are skipped.
+ */
+async function flipNegativeRepSectors(seasonNumber: number): Promise<number> {
+  const db = await getDb();
+  if (!db) return 0;
+  try {
+    const flips = await db
+      .select()
+      .from(tradeSectorReputation)
+      .where(lt(tradeSectorReputation.reputation, 0));
+    let count = 0;
+    for (const row of flips) {
+      if (row.controlLevel === 0) continue;
+      await db
+        .update(tradeSectorReputation)
+        .set({ controlLevel: 0 })
+        .where(
+          and(
+            eq(tradeSectorReputation.userId, row.userId),
+            eq(tradeSectorReputation.sectorId, row.sectorId),
+          ),
+        );
+      await postPublicKnowledge({
+        userId: row.userId,
+        eventKind: "sector_flipped",
+        subjectHouseKey: null,
+        summary: `Player lost control of sector ${row.sectorId} (rep ${row.reputation}).`,
+        payload: {
+          sectorId: row.sectorId,
+          previousControlLevel: row.controlLevel,
+          reputation: row.reputation,
+        },
+        seasonNumber,
+      }).catch(err =>
+        logger.warn("[seasonTick] sector flip public knowledge failed:", err),
+      );
+      count += 1;
+    }
+    return count;
+  } catch (err) {
+    logger.error("[seasonTick] flipNegativeRepSectors failed:", err);
+    return 0;
   }
 }

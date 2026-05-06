@@ -11,6 +11,7 @@ import { getConsequences } from "../services/universeConsequences";
 import { applySubHouseRepDelta } from "../services/subHouseReputationService";
 import { tcgFactionToAlignment } from "../../shared/tradeEmpire/itemTags";
 import type { Faction } from "../../shared/tcg-core/types/Card";
+import { dischordiaCycleService } from "../services/dischordiaCycleService";
 import { checkFeatureFlag } from "../middleware/featureFlag";
 import { TRPCError } from "@trpc/server";
 import {
@@ -465,6 +466,17 @@ export const craftingRouter = router({
               repDelta,
               `disenchanted ${input.inputCardIds[0]}${targetIsFoil ? " (foil)" : ""}`,
             ).catch(e => logger.warn("[Crafting] subHouseRep on disenchant failed:", e));
+          }
+          // Phase 9 — Dischordia faction nudge: destroying a faction-
+          // aligned card pushes the global meter asymmetrically.
+          try {
+            dischordiaCycleService.applyEnergyForFaction(
+              "crafting_light_card",
+              cardFaction,
+              ctx.user.id,
+            );
+          } catch (e) {
+            logger.warn("[Crafting] dischordia faction nudge failed:", e);
           }
         }
 

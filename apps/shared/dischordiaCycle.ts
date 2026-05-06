@@ -350,7 +350,20 @@ export interface ReclamationStep {
     | { type: "collect_resources"; items: string[] }
     | { type: "card_duel_win"; targetOpponent: string }
     | { type: "comms_clicks"; clicksRequired: number }
-    | { type: "cutscene_play"; cutsceneId: string };
+    | { type: "cutscene_play"; cutsceneId: string }
+    /**
+     * Phase 9 of the items-matter / GoT arc — community-scale gate
+     * requires sacrificing crafted items. Every participating player
+     * may consume up to `perPlayerCap` items meeting the rarity
+     * floor. The community goal is `requiredCount` total items
+     * sacrificed before the step counts as complete.
+     */
+    | {
+        type: "craft_sacrifice";
+        minRarity: string;
+        requiredCount: number;
+        perPlayerCap: number;
+      };
   /** Personal Light Energy pool awarded to participants. */
   personalLightReward: number;
 }
@@ -394,8 +407,23 @@ export const RECLAMATION_CHAIN: readonly ReclamationStep[] = [
     personalLightReward: 50,
   },
   {
-    id: "sector_wakes_cutscene",
+    id: "sacrifice_for_the_signal",
     stage: 4,
+    name: "Sacrifice for the Signal",
+    description:
+      "Phase 9 — the reclamation runs on what players forge. Each participating player may sacrifice up to two rare-or-better crafted items; the community goal is one hundred sacrifices total before the cutscene fires.",
+    gameMode: "trade_empire",
+    objective: {
+      type: "craft_sacrifice",
+      minRarity: "rare",
+      requiredCount: 100,
+      perPlayerCap: 2,
+    },
+    personalLightReward: 80,
+  },
+  {
+    id: "sector_wakes_cutscene",
+    stage: 5,
     name: "A Sector Wakes",
     description: "The consumed sector reboots on the galaxy map. Gold border. Reclaimer tome page.",
     gameMode: "cutscene",

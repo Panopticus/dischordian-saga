@@ -92,8 +92,16 @@ export default function TradeCourtPage() {
   });
   const myCards = trpc.cardGame.myCollection.useQuery({ page: 1, limit: 100 });
   const myTowers = trpc.tradeCourt.listMyTowers.useQuery();
+  const myFactionRollup = trpc.tradeCourt.myFactionRollup.useQuery();
+  const availableContracts = trpc.tradeContracts.listAvailable.useQuery();
   const equipMunition = trpc.tradeCourt.equipMunition.useMutation({
     onSuccess: () => utils.tradeCourt.listMyTowers.invalidate(),
+  });
+  const signContract = trpc.tradeContracts.sign.useMutation({
+    onSuccess: () => {
+      utils.tradeCourt.courtSnapshot.invalidate();
+      utils.tradeContracts.listAvailable.invalidate();
+    },
   });
 
   const refuse = trpc.tradeCourt.refuseDemand.useMutation({
@@ -118,6 +126,13 @@ export default function TradeCourtPage() {
   const [tributeRarityFilter, setTributeRarityFilter] = useState<string>("any");
   const [demandPicker, setDemandPicker] = useState<DemandRow | null>(null);
   const [demandCardId, setDemandCardId] = useState<string | null>(null);
+  const [newsHouseKey, setNewsHouseKey] = useState<string | null>(null);
+
+  // Per-house news drilldown (#13).
+  const houseNews = trpc.tradeCourt.newsForHouse.useQuery(
+    { houseKey: newsHouseKey ?? "", limit: 50 },
+    { enabled: Boolean(newsHouseKey) },
+  );
 
   const data = snapshot.data;
   const cardOptions = useMemo(() => {
@@ -304,20 +319,12 @@ export default function TradeCourtPage() {
               </div>
               <div className="space-y-2">
                 {houses.map(h => (
-                  <button
+                  <div
                     key={h.houseKey}
-                    type="button"
-                    disabled={h.unalignable}
-                    onClick={() => {
-                      if (h.unalignable) return;
-                      setTributeHouse(h.houseKey);
-                      setTributeCardId(null);
-                      setTributeIsFoil(false);
-                    }}
                     className={classNames(
-                      "w-full text-left rounded p-2 border",
+                      "rounded p-2 border",
                       "border-zinc-800 hover:border-zinc-600",
-                      h.unalignable && "opacity-50 cursor-not-allowed",
+                      h.unalignable && "opacity-50",
                     )}
                   >
                     <div className="flex justify-between items-start gap-2">
@@ -337,13 +344,124 @@ export default function TradeCourtPage() {
                       </span>
                     </div>
                     <p className="text-xs text-zinc-400 mt-1">{h.blurb}</p>
-                  </button>
+                    <div className="flex gap-2 mt-2">
+                      <button
+                        type="button"
+                        disabled={h.unalignable}
+                        onClick={() => {
+                          setTributeHouse(h.houseKey);
+                          setTributeCardId(null);
+                          setTributeIsFoil(false);
+                        }}
+                        className="text-xs px-2 py-1 rounded bg-emerald-900 hover:bg-emerald-800 text-emerald-100 disabled:opacity-30"
+                      >
+                        Tribute
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setNewsHouseKey(h.houseKey)}
+                        className="text-xs px-2 py-1 rounded bg-zinc-800 hover:bg-zinc-700 text-zinc-200"
+                      >
+                        News
+                      </button>
+                    </div>
+                  </div>
                 ))}
               </div>
             </div>
           ))}
         </div>
       </section>
+
+      {/* Faction rollup (#14) — top-level faction averages computed
+          from the sub-house grid above. */}
+      {myFactionRollup.data && Object.keys(myFactionRollup.data).length > 0 && (
+        <section className="px-6 py-4 border-t border-zinc-800">
+          <h2 className="text-lg font-medium mb-3">Faction standing</h2>
+          <div className="grid gap-2 md:grid-cols-3 lg:grid-cols-5">
+            {Object.entries(myFactionRollup.data)
+              .sort((a, b) => b[1] - a[1])
+              .map(([factionId, rep]) => (
+                <div
+                  key={factionId}
+                  className="bg-zinc-900 border border-zinc-800 rounded p-2 flex justify-between items-center"
+                >
+                  <span className="text-sm capitalize">
+                    {factionId.replace(/_/g, " ")}
+                  </span>
+                  <span className={classNames("text-xs px-2 py-0.5 rounded", repColor(rep))}>
+                    {rep}
+                  </span>
+                </div>
+              ))}
+          </div>
+        </section>
+      )}
+
+      {/* House Oaths (#12) — surface signable house oaths. The
+          contracts.listAvailable endpoint already returns these. */}
+      {availableContracts.data && (
+        <section className="px-6 py-4 border-t border-zinc-800">
+          <h2 className="text-lg font-medium mb-3">House Oaths</h2>
+          <p className="text-zinc-400 text-sm mb-3">
+            Season-long oaths. Locks out a rival broker; grants a title on
+            full completion. Breaking an oath is canonically visible to
+            every Authority broker.
+          </p>
+          <div className="grid gap-3 md:grid-cols-2">
+            {availableContracts.data
+              .filter(c => c.contractKey.startsWith("oath."))
+              .map(c => (
+                <article
+                  key={c.contractKey}
+                  className="bg-zinc-900 border border-zinc-800 rounded p-3"
+                >
+                  <div className="flex items-baseline justify-between gap-2">
+                    <div className="font-medium">{c.name}</div>
+                    <div className="text-xs text-zinc-500">
+                      {c.stageCount} stages
+                    </div>
+                  </div>
+                  <p className="text-xs text-zinc-400 mt-1 line-clamp-3">
+                    {c.loreContext}
+                  </p>
+                  <div className="flex gap-2 mt-3">
+                    <button
+                      type="button"
+                      disabled={
+                        signContract.isPending || !data.season.acceptsContractSignings
+                      }
+                      onClick={() =>
+                        signContract.mutate({ contractKey: c.contractKey, audit: true })
+                      }
+                      className="text-xs px-2 py-1 rounded bg-amber-800 hover:bg-amber-700 text-amber-50 disabled:opacity-40"
+                    >
+                      Sign (audit)
+                    </button>
+                    <button
+                      type="button"
+                      disabled={
+                        signContract.isPending || !data.season.acceptsContractSignings
+                      }
+                      onClick={() =>
+                        signContract.mutate({ contractKey: c.contractKey, useCover: true })
+                      }
+                      className="text-xs px-2 py-1 rounded bg-zinc-800 hover:bg-zinc-700 text-zinc-200 disabled:opacity-40"
+                    >
+                      Sign under cover
+                    </button>
+                  </div>
+                </article>
+              ))}
+            {availableContracts.data.filter(c => c.contractKey.startsWith("oath.")).length === 0 && (
+              <p className="text-zinc-500 text-sm">
+                No house oaths currently available — they may be locked behind
+                broker engagement, reveal stage, or a season constraint.
+              </p>
+            )}
+          </div>
+        </section>
+      )}
 
       {data.agendaProgress.length > 0 && (
         <section className="px-6 py-5 border-t border-zinc-800">
@@ -547,6 +665,54 @@ export default function TradeCourtPage() {
                 Tribute
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Per-house news drilldown (#13) */}
+      {newsHouseKey && (
+        <div
+          className="fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50"
+          onClick={() => setNewsHouseKey(null)}
+        >
+          <div
+            className="bg-zinc-900 border border-zinc-700 rounded p-5 max-w-2xl w-full max-h-[80vh] overflow-y-auto"
+            onClick={e => e.stopPropagation()}
+          >
+            <div className="flex items-baseline justify-between mb-3">
+              <h3 className="text-lg font-medium">
+                News:{" "}
+                {data.houses.find(h => h.houseKey === newsHouseKey)?.name ?? newsHouseKey}
+              </h3>
+              <button
+                type="button"
+                onClick={() => setNewsHouseKey(null)}
+                className="text-xs text-zinc-400 hover:text-zinc-200"
+              >
+                close
+              </button>
+            </div>
+            {houseNews.isLoading ? (
+              <p className="text-zinc-500 text-sm">Loading…</p>
+            ) : houseNews.data && houseNews.data.length > 0 ? (
+              <ol className="space-y-2">
+                {houseNews.data.map((n, i) => (
+                  <li
+                    key={`${n.id}-${i}`}
+                    className="text-sm text-zinc-300 border-l-2 border-zinc-700 pl-3"
+                  >
+                    <div className="text-zinc-500 text-xs">
+                      {timeAgo(n.createdAt)} · {n.eventKind} · season {n.seasonNumber}
+                    </div>
+                    <div>{n.summary}</div>
+                  </li>
+                ))}
+              </ol>
+            ) : (
+              <p className="text-zinc-500 text-sm">
+                No archived news for this house yet.
+              </p>
+            )}
           </div>
         </div>
       )}
