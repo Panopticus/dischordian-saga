@@ -10,10 +10,10 @@ compute up to a 15% price discount. A malicious client could send
 In G11 (security pass) the modifier was **disabled**. The
 client-supplied input field was kept for back-compat but ignored.
 
-The modifier is now back, sourced server-side. The wire field is
-still ignored — dropping it from the Zod schema is the only step
-intentionally deferred (breaking change for old clients; coordinate
-with a client release).
+The modifier is now back, sourced server-side. The legacy
+`factionReputation` Zod input field has been removed; old clients
+that still send it are unaffected because Zod's default strip-mode
+silently discards unknown wire keys.
 
 ## How it works now
 
@@ -49,14 +49,20 @@ with a client release).
 
 ## Deferred (still owed)
 
-- **Drop `factionReputation` from the Zod input schema.** Breaking
-  change for clients that still send the field. Plan: coordinate
-  with a client release that stops sending it, then remove the
-  field on the next minor server release.
-- **Acceptance test against the live trade endpoint.** Currently
-  the spoof guarantee is enforced by `clamp(rep)` returning the
-  same multiplier for `{ empire: 99999 }` as for
-  `{ empire: 1000 }` (covered in
-  `factionReputationService.test.ts`). A round-trip test that
-  POSTs to the trade endpoint and asserts price equality lands
-  alongside an integration harness for the trade routers.
+_None — the original deferred items have all landed:_
+
+- ~~**Drop `factionReputation` from the Zod input schema.**~~ Done.
+  The field is gone from `tradeWars.ts:trade`. Client call sites
+  in `apps/client/src/pages/TradeWarsPage.tsx` were updated in the
+  same commit to stop sending it. Old clients that still send the
+  field continue to work via Zod strip-mode.
+- ~~**Acceptance test against the live trade endpoint.**~~ Done.
+  `apps/server/tradeWars.test.ts:trade` carries an
+  `it("ignores client-supplied factionReputation (spoof guarantee)")`
+  block: two trades with identical `(commodity, action, quantity)`
+  — one carrying a max-spoof `factionReputation` map, one carrying
+  nothing — must yield identical post-trade messages (same
+  `totalCost`). DB-gated alongside the rest of `tradeWars.test.ts`.
+  The unit-level math gate in
+  `apps/server/services/factionReputationService.test.ts` remains
+  as the no-DB no-skip belt to the integration test's suspenders.

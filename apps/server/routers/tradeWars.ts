@@ -309,19 +309,15 @@ export const tradeWarsRouter = router({
       };
     }),
 
-  // Trade at a port
+  // Trade at a port. Diplomacy price modifier is sourced server-side
+  // via factionReputationService — the legacy client-supplied
+  // `factionReputation` field is gone (Zod strip-mode silently
+  // discards it on the wire if old clients still send it).
   trade: protectedProcedure
     .input(z.object({
       commodity: z.enum(["fuelOre", "organics", "equipment"]),
       action: z.enum(["buy", "sell"]),
       quantity: z.number().min(1).max(9999),
-      // Re-enabled with a server-derived source (factionReputationService).
-      // The wire field is still accepted for back-compat with older
-      // clients but is intentionally ignored — the discount comes from
-      // the player's server-side reputation with their home faction.
-      // Removing this field is a coordinated breaking change tracked
-      // in docs/operations/TRADE_DIPLOMACY_TODO.md.
-      factionReputation: z.record(z.string(), z.number()).optional(),
     }))
     .mutation(async ({ ctx, input }) => {
       const db = await getDb();
