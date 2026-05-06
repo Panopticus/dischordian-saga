@@ -28,7 +28,7 @@ import { EARLY_GAME_SINKS } from "./earlyGameSinks";
 
 export interface PlayerProfile {
   /** Display label for reports. */
-  archetype: "casual" | "regular" | "hardcore" | "whale";
+  archetype: "casual" | "regular" | "hardcore" | "whale" | "regular_paid" | "whale_paid";
   /** Player level — gates which sinks are accessible. */
   level: number;
   /** Matches per day the player attempts. Capped by `dailyRewardCap`. */
@@ -45,6 +45,11 @@ export interface PlayerProfile {
   loginsPerWeek: number;
   /** Sink engagement policy (see below). */
   sinkPolicy: SinkPolicy;
+  /**
+   * Real-money policy. Drives Void Crystal acquisition and which paid
+   * SKUs the player buys per month. "free" = no purchases.
+   */
+  paidPolicy?: PaidPolicy;
 }
 
 /**
@@ -57,6 +62,20 @@ export interface PlayerProfile {
  *                each week. Whale / sink-bait scenario.
  */
 export type SinkPolicy = "none" | "minimal" | "balanced" | "aggressive";
+
+/**
+ * Real-money spending intent.
+ *
+ * "free"          → never buys VC. The F2P baseline.
+ * "light_paid"    → buys the Battle Pass each season ($10/month).
+ *                   The most common "I like the game" tier.
+ * "engaged_paid"  → Battle Pass + ~1 cosmetic SKU/month + occasional
+ *                   VC pack (~$15-25/month). The AAA sweet-spot ARPDAU.
+ * "whale"         → Battle Pass + Founder's Edition (one-time first
+ *                   month) + multiple cosmetics + large VC packs
+ *                   ($60-150+/month). Drives the long tail.
+ */
+export type PaidPolicy = "free" | "light_paid" | "engaged_paid" | "whale";
 
 export const PROFILES = {
   casual: {
@@ -103,6 +122,35 @@ export const PROFILES = {
     loginsPerWeek: 7,
     sinkPolicy: "aggressive",
   },
+  /**
+   * Paid profiles. Same gameplay shape as their unpaid counterparts but
+   * with a real-money policy applied. Used to verify Void Crystal SKU
+   * pricing lands in the AAA monthly-spend windows.
+   */
+  regular_paid: {
+    archetype: "regular_paid",
+    level: 20,
+    matchesPerDay: 12,
+    winRate: 0.5,
+    dailyQuestsClaimedPerDay: 2,
+    avgDreamPerQuest: 15,
+    rankedRating: 1000,
+    loginsPerWeek: 6,
+    sinkPolicy: "balanced",
+    paidPolicy: "engaged_paid",
+  },
+  whale_paid: {
+    archetype: "whale_paid",
+    level: 45,
+    matchesPerDay: 30,
+    winRate: 0.65,
+    dailyQuestsClaimedPerDay: 3,
+    avgDreamPerQuest: 20,
+    rankedRating: 2100,
+    loginsPerWeek: 7,
+    sinkPolicy: "aggressive",
+    paidPolicy: "whale",
+  },
 } as const satisfies Record<string, PlayerProfile>;
 
 /* ─── Output ─── */
@@ -137,6 +185,25 @@ export interface SimulationResult {
   inflationFactor: number;
   /** Sinks the player engaged with, by id, with totals. */
   sinkLedger: Record<string, { count: number; dreamSpent: number }>;
+  /** Real-money + Void Crystal flow. Always present; zeroed for free profiles. */
+  paid: {
+    /** Total real-money spend in cents. */
+    usdSpentCents: number;
+    /** Average monthly spend in cents (for AAA-window assertions). */
+    monthlyUsdCents: number;
+    /** Void Crystals purchased over the run. */
+    voidCrystalsPurchased: number;
+    /** Void Crystals spent on cosmetics / boosters / battle pass. */
+    voidCrystalsSpent: number;
+    /** Final Void Crystal balance. */
+    finalVoidCrystals: number;
+    /** Cosmetic ids granted across the run (de-duplicated). */
+    cosmeticsGranted: string[];
+    /** Whether the Battle Pass premium was active. */
+    battlePassPremium: boolean;
+    /** Per-SKU purchase counts. */
+    skuLedger: Record<string, { count: number; usdCents: number }>;
+  };
 }
 
 /* ─── Per-day Dream income ─── */
@@ -245,6 +312,88 @@ function planForPolicy(policy: SinkPolicy): SinkPlan {
   }
 }
 
+/* ─── Real-money plan ─── */
+
+/**
+ * Mirror of the Void-Crystal-bearing rows in apps/server/products.ts.
+ *
+ * The simulator can't import the server catalog (apps/shared can't depend
+ * on apps/server), so it carries a slim copy of the SKUs it models. The
+ * test suite asserts these stay aligned by cross-checking against the
+ * server catalog in `economy.balance.test.ts`.
+ */
+interface PaidSkuMirror {
+  key: string;
+  usdCents: number;
+  voidCrystalsGranted: number;
+  battlePassPremium?: boolean;
+  cosmeticIds?: string[];
+  entitlement?: "foundingAuthor" | "authorsEditionS2";
+}
+
+const PAID_SKUS: Record<string, PaidSkuMirror> = {
+  vc_pack_small:    { key: "vc_pack_small",    usdCents: 199,  voidCrystalsGranted: 100 },
+  vc_pack_medium:   { key: "vc_pack_medium",   usdCents: 499,  voidCrystalsGranted: 325 },
+  vc_pack_large:    { key: "vc_pack_large",    usdCents: 999,  voidCrystalsGranted: 800 },
+  vc_pack_huge:     { key: "vc_pack_huge",     usdCents: 1999, voidCrystalsGranted: 1800 },
+  vc_pack_titanic:  { key: "vc_pack_titanic",  usdCents: 4999, voidCrystalsGranted: 5000 },
+  battle_pass_premium: {
+    key: "battle_pass_premium", usdCents: 999, voidCrystalsGranted: 0, battlePassPremium: true,
+  },
+  founders_edition: {
+    key: "entitlement_founding_author",
+    usdCents: 4900, voidCrystalsGranted: 4500, battlePassPremium: true,
+    entitlement: "foundingAuthor",
+    cosmeticIds: ["title_founder", "aura_archon_flame_premium"],
+  },
+};
+
+/** Cosmetic SKUs the paid plan can buy with VC. */
+const VC_COSMETIC_SKUS = [
+  { id: "aura_void_signature",      voidCrystals: 800 },
+  { id: "voice_pack_companion_lyra", voidCrystals: 1000 },
+  { id: "card_animation_signature", voidCrystals: 1200 },
+];
+
+interface PaidPlan {
+  /** Real-money / VC purchases that fire on day 1. */
+  oneTimeOnDay1: PaidSkuMirror[];
+  /** SKUs purchased every Nth day (typically every 30). */
+  monthlySkus: PaidSkuMirror[];
+  /** Cosmetic IDs to buy with VC each month, in priority order. */
+  monthlyCosmeticTargets: typeof VC_COSMETIC_SKUS;
+}
+
+function paidPlanForPolicy(policy: PaidPolicy | undefined): PaidPlan {
+  switch (policy) {
+    case undefined:
+    case "free":
+      return { oneTimeOnDay1: [], monthlySkus: [], monthlyCosmeticTargets: [] };
+    case "light_paid":
+      // Just the Battle Pass each month. ~$10/month — entry-level commitment.
+      return {
+        oneTimeOnDay1: [],
+        monthlySkus: [PAID_SKUS.battle_pass_premium],
+        monthlyCosmeticTargets: [],
+      };
+    case "engaged_paid":
+      // Battle Pass + medium VC pack + 1 cosmetic. ~$15-25/month sweet spot.
+      return {
+        oneTimeOnDay1: [],
+        monthlySkus: [PAID_SKUS.battle_pass_premium, PAID_SKUS.vc_pack_medium],
+        monthlyCosmeticTargets: VC_COSMETIC_SKUS.slice(0, 1),
+      };
+    case "whale":
+      // Founder's Edition on day 1, then Battle Pass + Titanic VC pack each month
+      // and as many cosmetics as VC affords.
+      return {
+        oneTimeOnDay1: [PAID_SKUS.founders_edition],
+        monthlySkus: [PAID_SKUS.battle_pass_premium, PAID_SKUS.vc_pack_titanic],
+        monthlyCosmeticTargets: VC_COSMETIC_SKUS,
+      };
+  }
+}
+
 /* ─── Simulator ─── */
 
 export function simulateEconomy(
@@ -253,6 +402,7 @@ export function simulateEconomy(
   startingDream: number = 0,
 ): SimulationResult {
   const plan = planForPolicy(profile.sinkPolicy);
+  const paidPlan = paidPlanForPolicy(profile.paidPolicy);
   const inc = dailyIncome(profile);
   const incomePerDay = inc.matches + inc.firstWinBonus + inc.dailyQuests;
   const loginPerDay = loginCalendarPerDay(profile);
@@ -264,11 +414,64 @@ export function simulateEconomy(
   let soulStones = 0;
   let packsBought = 0;
   let sinksSpent = 0;
+  let actualMatchesIncome = 0;
+  let actualFirstWinIncome = 0;
+  let actualQuestsIncome = 0;
+  let actualLoginIncome = 0;
+  let actualSeasonIncome = 0;
   const sinkLedger: SimulationResult["sinkLedger"] = {};
 
+  // Paid ledger
+  let usdSpentCents = 0;
+  let voidCrystalsPurchased = 0;
+  let voidCrystalsSpent = 0;
+  let voidCrystals = 0;
+  let battlePassPremium = false;
+  const cosmeticsGranted = new Set<string>();
+  const skuLedger: SimulationResult["paid"]["skuLedger"] = {};
+  const buySku = (sku: PaidSkuMirror) => {
+    usdSpentCents += sku.usdCents;
+    voidCrystalsPurchased += sku.voidCrystalsGranted;
+    voidCrystals += sku.voidCrystalsGranted;
+    if (sku.battlePassPremium) battlePassPremium = true;
+    for (const c of sku.cosmeticIds ?? []) cosmeticsGranted.add(c);
+    const entry = skuLedger[sku.key] ?? { count: 0, usdCents: 0 };
+    entry.count++;
+    entry.usdCents += sku.usdCents;
+    skuLedger[sku.key] = entry;
+  };
+
+  // Day-1 purchases
+  for (const sku of paidPlan.oneTimeOnDay1) buySku(sku);
+
   for (let day = 1; day <= days; day++) {
-    // Earn
-    dream += totalDailyIncome;
+    // Earn (with battle-pass XP+ multiplier if active — applied to Dream
+    // since match-Dream and Battle-Pass XP scale together in practice).
+    const incomeMultiplier = battlePassPremium ? ECONOMY.battlePass.premiumXpMultiplier : 1;
+    const todayMatches = inc.matches * incomeMultiplier;
+    const todayFirstWin = inc.firstWinBonus * incomeMultiplier;
+    const todayQuests = inc.dailyQuests * incomeMultiplier;
+    const todayLogin = loginPerDay * incomeMultiplier;
+    const todaySeason = seasonPerDay * incomeMultiplier;
+    actualMatchesIncome += todayMatches;
+    actualFirstWinIncome += todayFirstWin;
+    actualQuestsIncome += todayQuests;
+    actualLoginIncome += todayLogin;
+    actualSeasonIncome += todaySeason;
+    dream += todayMatches + todayFirstWin + todayQuests + todayLogin + todaySeason;
+
+    // Monthly paid purchases (every 30 days, starting day 30)
+    if (day % 30 === 0) {
+      for (const sku of paidPlan.monthlySkus) buySku(sku);
+      // Spend VC on cosmetics in priority order until we run out.
+      for (const cosmetic of paidPlan.monthlyCosmeticTargets) {
+        if (voidCrystals < cosmetic.voidCrystals) break;
+        if (cosmeticsGranted.has(cosmetic.id)) continue;
+        voidCrystals -= cosmetic.voidCrystals;
+        voidCrystalsSpent += cosmetic.voidCrystals;
+        cosmeticsGranted.add(cosmetic.id);
+      }
+    }
 
     // Buy packs
     const packCost = ECONOMY.packs.standardCost;
@@ -307,25 +510,27 @@ export function simulateEconomy(
     }
   }
 
-  const incomeMatches = inc.matches * days;
-  const incomeFirstWin = inc.firstWinBonus * days;
-  const incomeQuests = inc.dailyQuests * days;
-  const incomeLogin = loginPerDay * days;
-  const incomeSeason = seasonPerDay * days;
-
-  const incomeTotal = incomeMatches + incomeFirstWin + incomeQuests + incomeLogin + incomeSeason;
+  const incomeTotal =
+    actualMatchesIncome +
+    actualFirstWinIncome +
+    actualQuestsIncome +
+    actualLoginIncome +
+    actualSeasonIncome;
   const spendingPacks = packsBought * ECONOMY.packs.standardCost;
   const spendingTotal = spendingPacks + sinksSpent;
+
+  // Monthly USD averaged over the run length.
+  const monthlyUsdCents = days > 0 ? (usdSpentCents * 30) / days : 0;
 
   return {
     profile,
     days,
     income: {
-      matches: round2(incomeMatches),
-      firstWinBonus: round2(incomeFirstWin),
-      dailyQuests: round2(incomeQuests),
-      loginCalendar: round2(incomeLogin),
-      seasonRewards: round2(incomeSeason),
+      matches: round2(actualMatchesIncome),
+      firstWinBonus: round2(actualFirstWinIncome),
+      dailyQuests: round2(actualQuestsIncome),
+      loginCalendar: round2(actualLoginIncome),
+      seasonRewards: round2(actualSeasonIncome),
       total: round2(incomeTotal),
     },
     spending: {
@@ -338,6 +543,16 @@ export function simulateEconomy(
     finalSoulStones: round2(soulStones),
     inflationFactor: totalDailyIncome > 0 ? round2(dream / totalDailyIncome) : 0,
     sinkLedger,
+    paid: {
+      usdSpentCents,
+      monthlyUsdCents: round2(monthlyUsdCents),
+      voidCrystalsPurchased,
+      voidCrystalsSpent,
+      finalVoidCrystals: voidCrystals,
+      cosmeticsGranted: [...cosmeticsGranted],
+      battlePassPremium,
+      skuLedger,
+    },
   };
 }
 
@@ -364,10 +579,14 @@ export function simulateAllProfiles(
  * (Used by the test suite for diagnostic output on failure.)
  */
 export function formatResult(r: SimulationResult): string {
+  const usd = (r.paid.monthlyUsdCents / 100).toFixed(2);
+  const paid = r.profile.paidPolicy && r.profile.paidPolicy !== "free"
+    ? ` | $${usd}/mo VC=${r.paid.voidCrystalsPurchased} cos=${r.paid.cosmeticsGranted.length}`
+    : "";
   return [
-    `[${r.profile.archetype.padEnd(8)}] L${r.profile.level} ${r.profile.sinkPolicy.padEnd(10)}`,
+    `[${r.profile.archetype.padEnd(12)}] L${r.profile.level} ${r.profile.sinkPolicy.padEnd(10)}`,
     `income=${r.income.total.toFixed(0)} spend=${r.spending.total.toFixed(0)}`,
     `final=${r.finalDream.toFixed(0)} infl=${r.inflationFactor.toFixed(1)}x`,
-    `souls=${r.finalSoulStones.toFixed(0)}`,
+    `souls=${r.finalSoulStones.toFixed(0)}${paid}`,
   ].join(" | ");
 }

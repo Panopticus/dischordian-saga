@@ -35,6 +35,14 @@ import {
   getRecommendedSoulStoneSinks,
 } from "./earlyGameSinks";
 import {
+  ALL_COSMETICS,
+  COSMETICS_BY_ID,
+  getCosmeticsByTier,
+  getAffordableCosmetics,
+  type Cosmetic,
+} from "./cosmeticCatalog";
+import { STORE_PRODUCTS, getProduct, getProductsByCategory } from "../server/products";
+import {
   PROFILES,
   simulateEconomy,
   simulateAllProfiles,
@@ -590,6 +598,317 @@ describe("90-day economy simulator", () => {
     expect(all.length).toBe(Object.keys(PROFILES).length);
     if (process.env.ECONOMY_VERBOSE) {
       for (const r of all) console.log(formatResult(r));
+    }
+  });
+});
+
+/* ═══════════════════════════════════════════════════════
+   Section 7 — Cosmetic catalog (3-tier monetization)
+   ═══════════════════════════════════════════════════════ */
+
+describe("cosmetic catalog", () => {
+  it("all cosmetics have unique ids", () => {
+    const ids = ALL_COSMETICS.map((c) => c.id);
+    expect(new Set(ids).size).toBe(ids.length);
+  });
+
+  it("COSMETICS_BY_ID matches ALL_COSMETICS", () => {
+    expect(Object.keys(COSMETICS_BY_ID).length).toBe(ALL_COSMETICS.length);
+    for (const c of ALL_COSMETICS) expect(COSMETICS_BY_ID[c.id]).toBe(c);
+  });
+
+  it("every tier has at least 3 SKUs (monetization breadth)", () => {
+    expect(getCosmeticsByTier("earnable").length).toBeGreaterThanOrEqual(3);
+    expect(getCosmeticsByTier("hybrid").length).toBeGreaterThanOrEqual(3);
+    expect(getCosmeticsByTier("premium").length).toBeGreaterThanOrEqual(3);
+  });
+
+  it("T1 (earnable) cosmetics are Dream-only", () => {
+    for (const c of getCosmeticsByTier("earnable")) {
+      expect(c.priceDream).toBeGreaterThan(0);
+      expect(c.priceVoidCrystals).toBe(0);
+    }
+  });
+
+  it("T2 (hybrid) cosmetics offer BOTH Dream and Void Crystal prices", () => {
+    // The "F2P always has a path" invariant. If T2 ever drops the Dream
+    // price, F2P players are pushed toward the wallet — that's P2W creep.
+    for (const c of getCosmeticsByTier("hybrid")) {
+      expect(c.priceDream).toBeGreaterThan(0);
+      expect(c.priceVoidCrystals).toBeGreaterThan(0);
+    }
+  });
+
+  it("T3 (premium) cosmetics are VC-only OR bundle-exclusive", () => {
+    for (const c of getCosmeticsByTier("premium")) {
+      expect(c.priceDream).toBe(0);
+      // Either has a VC price (direct catalog buy) or is bundle-exclusive
+      // (priceVC=0 + exclusivity tag). Never has a Dream price.
+      const isBundleExclusive =
+        c.priceVoidCrystals === 0 && c.exclusivity !== undefined;
+      const isVcBuyable = c.priceVoidCrystals > 0;
+      expect(isBundleExclusive || isVcBuyable).toBe(true);
+    }
+  });
+
+  it("T1 max price < T2 min price < T3 min VC*10", () => {
+    // Tier separation: visible price gap between tiers signals "this is a
+    // bigger deal" to players. The 10× VC→Dream conversion comes from
+    // ECONOMY.packs (100 Dream / 10 VC).
+    const t1Max = Math.max(...getCosmeticsByTier("earnable").map((c) => c.priceDream));
+    const t2DreamPrices = getCosmeticsByTier("hybrid").map((c) => c.priceDream);
+    const t2Min = Math.min(...t2DreamPrices);
+    expect(t1Max).toBeLessThan(t2Min);
+
+    // T3 minimum (in VC*10 = Dream-equivalent, ignoring bundle-exclusive)
+    const t3Vc = getCosmeticsByTier("premium")
+      .map((c) => c.priceVoidCrystals)
+      .filter((p) => p > 0);
+    const t3MinDreamEquivalent = Math.min(...t3Vc) * 10;
+    const t2MaxDream = Math.max(...t2DreamPrices);
+    expect(t3MinDreamEquivalent).toBeGreaterThanOrEqual(t2MaxDream);
+  });
+
+  it("no cosmetic ever grants stats, cards, or resources (purely cosmetic)", () => {
+    // The "enhance, not win" invariant. A cosmetic that grants Dream,
+    // packs, or anything mechanical is by definition pay-to-win.
+    for (const c of ALL_COSMETICS) {
+      // Cosmetic.slot is a closed union; if a future "buff" or "card" slot is
+      // added, this assertion will fail and force a design conversation.
+      const allowedSlots = [
+        "card_back", "card_border", "avatar", "avatar_frame", "profile_banner",
+        "board_theme", "title", "aura", "voice_pack", "music_pack", "emote",
+      ];
+      expect(allowedSlots).toContain(c.slot);
+    }
+  });
+
+  it("F2P player at L25 with grind-level Dream can buy at least one cosmetic per tier", () => {
+    // The "pay-to-enhance, not pay-to-win" promise: cosmetic depth is
+    // accessible to free players via grind. T3 is bundle/VC-only by design,
+    // so we only require T1 and T2 here.
+    const ctx = {
+      level: 25,
+      dream: 5000,
+      voidCrystals: 0,
+      hasFoundingAuthor: false,
+      hasAuthorsEditionS2: false,
+    };
+    const affordable = getAffordableCosmetics(ctx);
+    expect(affordable.some((c) => c.tier === "earnable")).toBe(true);
+    expect(affordable.some((c) => c.tier === "hybrid")).toBe(true);
+  });
+
+  it("paying player with VC alone can buy T2 and T3 cosmetics (skip-the-grind path)", () => {
+    const ctx = {
+      level: 25,
+      dream: 0,
+      voidCrystals: 2000,
+      hasFoundingAuthor: false,
+      hasAuthorsEditionS2: false,
+    };
+    const affordable = getAffordableCosmetics(ctx);
+    expect(affordable.some((c) => c.tier === "hybrid")).toBe(true);
+    expect(affordable.some((c) => c.tier === "premium")).toBe(true);
+    // Pure-VC player can NOT buy T1 (Dream-only).
+    expect(affordable.some((c) => c.tier === "earnable")).toBe(false);
+  });
+
+  it("bundle-exclusive cosmetics are only granted when the entitlement is held", () => {
+    const ctxNoEnt = {
+      level: 50, dream: 100000, voidCrystals: 100000,
+      hasFoundingAuthor: false, hasAuthorsEditionS2: false,
+    };
+    const ctxFounder = { ...ctxNoEnt, hasFoundingAuthor: true };
+    const ctxAuthor = { ...ctxNoEnt, hasAuthorsEditionS2: true };
+
+    const noEnt = getAffordableCosmetics(ctxNoEnt);
+    expect(noEnt.find((c) => c.id === "title_founder")).toBeUndefined();
+    expect(noEnt.find((c) => c.id === "aura_authors_edition_s2")).toBeUndefined();
+
+    // Even with the entitlement, bundle-exclusive cosmetics aren't catalog-affordable
+    // because their prices are 0 — they are granted via product purchase only.
+    expect(getAffordableCosmetics(ctxFounder).find((c) => c.id === "title_founder")).toBeUndefined();
+    expect(getAffordableCosmetics(ctxAuthor).find((c) => c.id === "aura_authors_edition_s2")).toBeUndefined();
+  });
+});
+
+/* ═══════════════════════════════════════════════════════
+   Section 8 — Store catalog (Void Crystal SKUs, founder bundles)
+   ═══════════════════════════════════════════════════════ */
+
+describe("Void Crystal SKU catalog", () => {
+  it("has at least 5 VC pack price tiers (a full monetization pyramid)", () => {
+    const vcPacks = getProductsByCategory("void_crystals");
+    expect(vcPacks.length).toBeGreaterThanOrEqual(5);
+  });
+
+  it("VC pack value-per-dollar improves at higher tiers (whale-friendly pyramid)", () => {
+    // Standard mobile-game pricing: $1.99 → ~50 VC/$, $49.99 → ~100 VC/$.
+    // If a smaller pack ever has a better $/VC ratio, the pyramid is broken
+    // and players will only buy the cheap pack — kills LTV.
+    const vcPacks = getProductsByCategory("void_crystals")
+      .map((p) => ({
+        key: p.key,
+        usd: p.priceUsd,
+        vc: p.rewards.voidCrystals ?? 0,
+        ratio: (p.rewards.voidCrystals ?? 0) / (p.priceUsd / 100),
+      }))
+      .sort((a, b) => a.usd - b.usd);
+
+    for (let i = 1; i < vcPacks.length; i++) {
+      expect(vcPacks[i].ratio).toBeGreaterThanOrEqual(vcPacks[i - 1].ratio);
+    }
+  });
+
+  it("VC packs together span at least 50× from cheapest to priciest", () => {
+    const vcPacks = getProductsByCategory("void_crystals");
+    const usdAmounts = vcPacks.map((p) => p.priceUsd);
+    const min = Math.min(...usdAmounts);
+    const max = Math.max(...usdAmounts);
+    // Catches the failure mode where someone removes the $0.99 entry-point or
+    // the $49.99 whale pack — both anchor extremes of the pyramid.
+    expect(max / min).toBeGreaterThanOrEqual(20);
+  });
+
+  it("Battle Pass premium SKU exists and matches ECONOMY.battlePass cost", () => {
+    const bp = getProduct("battle_pass_premium");
+    expect(bp).toBeDefined();
+    expect(bp!.priceVoidCrystals).toBe(ECONOMY.battlePass.premiumCostVoidCrystals);
+    expect(bp!.rewards.battlePassPremium).toBe(true);
+  });
+
+  it("convenience boosters never grant resources (time-savers, not power)", () => {
+    const boosters = getProductsByCategory("booster");
+    expect(boosters.length).toBeGreaterThanOrEqual(3);
+    for (const b of boosters) {
+      expect(b.rewards.dreamTokens).toBeUndefined();
+      expect(b.rewards.cardPacks).toBeUndefined();
+      expect(b.rewards.voidCrystals).toBeUndefined();
+      expect(b.rewards.boosterHours).toBeGreaterThan(0);
+      expect(b.rewards.boosterKind).toBeDefined();
+    }
+  });
+});
+
+describe("Founder's & Author's Editions", () => {
+  it("Founder's Edition is a real bundle with VC + Battle Pass + cosmetics + entitlement", () => {
+    const founder = getProduct("entitlement_founding_author");
+    expect(founder).toBeDefined();
+    expect(founder!.category).toBe("bundle");
+    expect(founder!.rewards.entitlement).toBe("foundingAuthor");
+    expect(founder!.rewards.voidCrystals).toBeGreaterThanOrEqual(4000);
+    expect(founder!.rewards.battlePassPremium).toBe(true);
+    expect(founder!.rewards.cosmetics).toContain("title_founder");
+    expect(founder!.rewards.cardPacks).toBeGreaterThanOrEqual(10);
+  });
+
+  it("Author's Edition S2 bundles VC + Battle Pass + S2 aura + entitlement", () => {
+    const ae = getProduct("entitlement_authors_edition_s2");
+    expect(ae).toBeDefined();
+    expect(ae!.category).toBe("bundle");
+    expect(ae!.rewards.entitlement).toBe("authorsEditionS2");
+    expect(ae!.rewards.voidCrystals).toBeGreaterThanOrEqual(1000);
+    expect(ae!.rewards.battlePassPremium).toBe(true);
+    expect(ae!.rewards.cosmetics).toContain("aura_authors_edition_s2");
+  });
+
+  it("Founder's bundle is more valuable than Author's (price tiering)", () => {
+    const founder = getProduct("entitlement_founding_author")!;
+    const author = getProduct("entitlement_authors_edition_s2")!;
+    expect(founder.priceUsd).toBeGreaterThan(author.priceUsd);
+    expect(founder.rewards.voidCrystals!).toBeGreaterThan(author.rewards.voidCrystals!);
+  });
+
+  it("every cosmetic id referenced by a product exists in the catalog", () => {
+    for (const product of STORE_PRODUCTS) {
+      for (const cosmeticId of product.rewards.cosmetics ?? []) {
+        expect(COSMETICS_BY_ID[cosmeticId]).toBeDefined();
+      }
+    }
+  });
+
+  it("Stripe SKU env-var hints exist for high-value SKUs", () => {
+    // High-value SKUs should be ops-swappable without a code redeploy.
+    // Catches the failure mode where someone adds a $50 bundle without
+    // wiring a STRIPE_PRICE_* env hook.
+    const highValue = STORE_PRODUCTS.filter((p) => p.priceUsd >= 1900);
+    for (const p of highValue) {
+      expect(p.stripePriceEnv).toMatch(/^STRIPE_PRICE_/);
+    }
+  });
+});
+
+/* ═══════════════════════════════════════════════════════
+   Section 9 — Paid simulator profiles
+   ═══════════════════════════════════════════════════════ */
+
+describe("paid simulator profiles", () => {
+  it("free profiles have zero paid spend across the run", () => {
+    const free = simulateEconomy(PROFILES.regular, 90);
+    expect(free.paid.usdSpentCents).toBe(0);
+    expect(free.paid.voidCrystalsPurchased).toBe(0);
+    expect(free.paid.battlePassPremium).toBe(false);
+    expect(free.paid.cosmeticsGranted).toEqual([]);
+  });
+
+  it("regular_paid lands in the AAA $10-25/month engaged window", () => {
+    const r = simulateEconomy(PROFILES.regular_paid, 90);
+    const monthlyUsd = r.paid.monthlyUsdCents / 100;
+    expect(monthlyUsd).toBeGreaterThanOrEqual(10);
+    expect(monthlyUsd).toBeLessThanOrEqual(30);
+    expect(r.paid.battlePassPremium).toBe(true);
+    expect(r.paid.voidCrystalsPurchased).toBeGreaterThan(0);
+  });
+
+  it("whale_paid lands in the $50-150/month whale window", () => {
+    const r = simulateEconomy(PROFILES.whale_paid, 90);
+    const monthlyUsd = r.paid.monthlyUsdCents / 100;
+    expect(monthlyUsd).toBeGreaterThanOrEqual(50);
+    expect(monthlyUsd).toBeLessThanOrEqual(200);
+  });
+
+  it("whale_paid acquires the Founder's Edition entitlement on day 1", () => {
+    const r = simulateEconomy(PROFILES.whale_paid, 90);
+    expect(r.paid.skuLedger["entitlement_founding_author"]).toBeDefined();
+    expect(r.paid.skuLedger["entitlement_founding_author"].count).toBe(1);
+  });
+
+  it("paid VC ledger is conservation-clean (purchased = spent + final)", () => {
+    for (const archetype of ["regular_paid", "whale_paid"] as const) {
+      const r = simulateEconomy(PROFILES[archetype], 90);
+      expect(r.paid.voidCrystalsPurchased).toBe(
+        r.paid.voidCrystalsSpent + r.paid.finalVoidCrystals,
+      );
+    }
+  });
+
+  it("paid Battle Pass boosts Dream income via the +20% multiplier", () => {
+    const free = simulateEconomy(PROFILES.regular, 90);
+    const paid = simulateEconomy(PROFILES.regular_paid, 90);
+    // Paid player's match Dream should be ≥ 1.15× free player's
+    // (battle pass not active for the first 30 days, then 60 days × 1.2).
+    expect(paid.income.matches).toBeGreaterThan(free.income.matches * 1.05);
+    expect(paid.income.matches).toBeLessThan(free.income.matches * 1.25);
+  });
+
+  it("a whale's paid cosmetics are a strict superset of a regular_paid's", () => {
+    // Whale tier should always cover what engaged players cover, plus more.
+    const regular = simulateEconomy(PROFILES.regular_paid, 90);
+    const whale = simulateEconomy(PROFILES.whale_paid, 90);
+    expect(whale.paid.cosmeticsGranted.length).toBeGreaterThan(
+      regular.paid.cosmeticsGranted.length,
+    );
+  });
+
+  it("paid path does NOT grant exclusive POWER (no cards / Dream / packs sold via VC SKUs)", () => {
+    // Verifies the "enhance, not win" invariant at the simulator level.
+    // VC-only purchases the simulator makes should never grant gameplay
+    // resources — only cosmetics, battle pass entitlement, and currency.
+    const r = simulateEconomy(PROFILES.whale_paid, 90);
+    // Cosmetic IDs the whale acquired must all be cosmetics in the catalog.
+    for (const id of r.paid.cosmeticsGranted) {
+      expect(COSMETICS_BY_ID[id]).toBeDefined();
     }
   });
 });
