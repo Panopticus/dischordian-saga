@@ -14,7 +14,8 @@ export type AntiquarianLibraryHotspotId =
   | "antiquarian-bust"
   | "hierophants-marginalia-stack"
   | "codas-purpose-shelf"
-  | "velkraals-correspondence-folio";
+  | "velkraals-correspondence-folio"
+  | "insurgency-witness-roster";
 
 export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHotspotId> = {
   roomId: "antiquarian-library",
@@ -473,6 +474,73 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
         narration:
           "If you address the folio, you address Velkraal's discipline as a working method. He filed everything. Every letter, every draft, every marginal note. The Antiquarian indexed all of it. Whoever reads this folio will, by the end of one careful afternoon, have the entire shape of Velkraal's last year in their head. He arranged for that on purpose.",
         voId: "elara.antiquarian-library.velkraals-correspondence-folio.talk",
+      },
+    },
+    // Vex arc: e2/e3/e4 surface — Insurgency-side records about
+    // Vex's recording-engineer career. Lyra Vox, when she was alive,
+    // had access to the Insurgency's witness rosters via the
+    // Antiquarian's library; the library's small Insurgency-affairs
+    // section keeps a continuous shelf of Vex-related records.
+    "insurgency-witness-roster": {
+      look: {
+        narration: {
+          lucid:
+            "A small bound register on the Insurgency-affairs shelf — the saga's only complete acknowledged-witness list for Vex Solène's recording career. Every name in the register attended at least one Variant Recording session as a formal witness. Lyra Vox is on the list. Wraith Calder is on the list. The Hierophant is on the list. The list is short. Only nineteen names span four decades.",
+          fragmented:
+            "Nineteen. Nineteen. Nineteen names. Nineteen across four decades. Four decades.",
+          luminous:
+            "The Insurgency's acknowledged-witness list is the saga's most carefully limited document. Nineteen names across forty years of recording. Each name was admitted to at least one session by direct invitation; each invitation was countersigned by Vex herself. The list is, in effect, the trust-record of Vex's working life — every person she allowed in the room while she was working. The next addition to this list, on the evidence of the surrounding documents, will be her apprentice.",
+        },
+        voId: "elara.antiquarian-library.insurgency-witness-roster.look",
+        logsClue: {
+          id: "clue-antiquarian-acknowledged-witness-list",
+          title: "Insurgency acknowledged-witness list — 19 names / 40 years",
+          body:
+            "The Antiquarian Library's Insurgency-affairs shelf holds the Insurgency's acknowledged-witness list for Vex Solène's recording career. Nineteen names across four decades; each name was admitted to a session by direct invitation, each invitation countersigned by Vex.",
+          source: "antiquarian-library",
+          order: 10,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.vex_solene",
+          episodeId: "vex.e2",
+          cluesFound: ["vex.e2.acknowledged_witness_list"],
+        },
+      },
+      use: {
+        narration: {
+          lucid:
+            "You take down the publicly-available calibration tapes — a small box of public-archive copies the Insurgency released for academic study after each year's session-set was complete. The tapes are mundane on their face: standard pre-recording calibration, standard mic setup, standard environmental tones. The metadata, however, lists the engineer-of-record on each tape. The engineer field is the same hand on every entry: Engineer Zero. Vex's professional alias — public-facing, unambiguous, exact.",
+          fragmented:
+            "Engineer Zero. Engineer Zero. Engineer Zero on every tape. Every tape. Every tape.",
+          luminous:
+            "The public-archive calibration tapes are the Insurgency's official accounting of who-did-what-when. Engineer Zero — Vex Solène's public alias — is the engineer-of-record on every tape across forty years. The public record corroborates the private record; she has been the engineer the entire time, in plain view. The alias was not a concealment. It was a discipline of separating the engineer from the witness.",
+        },
+        voId: "elara.antiquarian-library.insurgency-witness-roster.use",
+        logsClue: {
+          id: "clue-antiquarian-public-calibration-tapes",
+          title: "Public-archive calibration tapes — Engineer Zero credited",
+          body:
+            "The Antiquarian Library's Insurgency-affairs shelf holds publicly-available calibration tapes from Vex Solène's career. The engineer-of-record field credits Engineer Zero on every tape across forty years. The alias was a public-facing discipline, not a concealment.",
+          source: "antiquarian-library",
+          order: 11,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.vex_solene",
+          episodeId: "vex.e3",
+          cluesFound: ["vex.e3.public_archive_calibration_tapes"],
+        },
+      },
+      talk: {
+        narration:
+          "If you address the roster, you address every witness Vex admitted to her work and every public listener the Insurgency invited to corroborate her career. The shelf hums very faintly under the address — the records are aware they have been read by a fresh audience. Behind the witness list, on the same shelf: a metadata folio for the apprentice's training files. Vex has registered the apprentice as a formal trainee with the Insurgency archive, and the archive has accepted the registration. The apprentice's name is now part of the public record of Vex's working life.",
+        voId: "elara.antiquarian-library.insurgency-witness-roster.talk",
+        // Vex arc — training files metadata for the apprentice.
+        // vex.e4.training_files_meta.
+        mysteryBinding: {
+          mysteryId: "mystery.vex_solene",
+          episodeId: "vex.e4",
+          cluesFound: ["vex.e4.training_files_meta"],
+        },
       },
     },
   },

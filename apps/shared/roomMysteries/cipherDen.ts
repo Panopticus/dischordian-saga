@@ -31,7 +31,8 @@ export type CipherDenHotspotId =
   | "encrypted-correspondence"
   | "dictionary-of-edits"
   | "uncorruption-bench"
-  | "cross-arc-thanks-card";
+  | "cross-arc-thanks-card"
+  | "vex-seer-pair-binder";
 
 export type CipherDenInventoryId = "rosetta-key-1" | "vox-letter-decoded";
 
@@ -384,6 +385,62 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
           mysteryId: "mystery.game_master",
           episodeId: "game_master.e5",
           cluesFound: ["game_master.e5.cross_arc_velkraals_thanks_state"],
+        },
+      },
+    },
+    // Vex arc: Seer-Vex pair documents. The cipher-den's Insurgency-
+    // engineer shelf holds two documents that link the Seer's
+    // consultation request to Vex and the cross-arc state of his
+    // letter to her. Both belong here because the rosetta-pad's
+    // translation discipline is the only authority the Insurgency
+    // and the Sanctuary share.
+    "vex-seer-pair-binder": {
+      look: {
+        narration: {
+          lucid:
+            "On the cipher-den's Insurgency-engineer shelf, a small two-pocket binder. The first pocket holds the Seer's consultation request — formal, dated, addressed by name to Vex Solène. The Seer asked for a Variant Reading of his own most recent prophecy. He wanted, in writing, to have his discipline checked by another working artist. Vex received the request three weeks before he died.",
+          fragmented:
+            "He asked. He asked her. He asked her. He asked her three weeks. Three weeks.",
+          luminous:
+            "The Seer's consultation request is the most disciplined document either of them ever exchanged: a formal request for an internal audit of his own method by the only other working artist who treated discipline the same way he did. He asked, in writing, with full formality, three weeks before his death. The fact that the request is filed in this binder — and not lost in either of their personal archives — means Vex preserved it deliberately. She wanted the saga to know the request had happened.",
+        },
+        voId: "elara.cipher-den.vex-seer-pair-binder.look",
+        logsClue: {
+          id: "clue-cipher-den-seer-consultation-request",
+          title: "Seer's consultation request to Vex (formal, preserved)",
+          body:
+            "The Cipher Den holds the Seer's formal consultation request to Vex Solène — a request for a Variant Reading of his own method by the only other working artist who treated discipline as he did. Vex preserved the request deliberately.",
+          source: "cipher-den",
+          order: 5,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.vex_solene",
+          episodeId: "vex.e2",
+          cluesFound: ["vex.e2.seer_consultation_request"],
+        },
+      },
+      use: {
+        narration: {
+          lucid:
+            "You open the binder's second pocket. Inside: a saga-weave state card mirroring the Seer arc's e4 letter — the undelivered letter from the Seer to Vex. The card's pencilled state today reads: HELD, UNREAD. Vex has chosen, on the saga's evidence, not to open the letter yet. The state will update if and when she does.",
+          fragmented:
+            "Held. Held. Unread. Held. Unread. She has not opened it. She has not opened it.",
+          luminous:
+            "The cross-arc state card mirrors the Seer's e4 letter to Vex. Today's state: HELD, UNREAD. Vex has the letter. She has chosen, with the same record-and-suppress discipline the Seer himself used, not to open it yet. The card will update when she does. Whether she opens it depends on choices the player's actions are still shaping. The card is, in the cipher-den's discipline, a saga-weave indicator the player can return to and watch change.",
+        },
+        voId: "elara.cipher-den.vex-seer-pair-binder.use",
+        logsClue: {
+          id: "clue-cipher-den-cross-arc-seer-letter",
+          title: "Cross-arc state — Seer's letter to Vex (HELD, UNREAD)",
+          body:
+            "The Cipher Den's cross-arc shelf holds a state-card mirroring the Seer arc's e4 undelivered letter to Vex. Today's state: HELD, UNREAD. The card updates with the player's saga-weave choices.",
+          source: "cipher-den",
+          order: 6,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.vex_solene",
+          episodeId: "vex.e5",
+          cluesFound: ["vex.e5.cross_arc_seer_letter_state"],
         },
       },
     },
