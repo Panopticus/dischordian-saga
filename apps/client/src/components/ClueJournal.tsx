@@ -14,6 +14,7 @@ import AwakeningJournalEntry from "./AwakeningJournalEntry";
 import MilestoneJournalEntries from "./MilestoneJournalEntries";
 import { motion, AnimatePresence } from "framer-motion";
 import { getAllAuthoredClues } from "@shared/roomMysteries";
+import { getActivePuzzleChains, PUZZLE_CHAINS } from "@/game/adventureFeatures";
 
 /* ─── CLUE DATA DEFINITIONS ─── */
 
@@ -409,7 +410,7 @@ interface ClueJournalProps {
 
 export default function ClueJournal({ onClose }: ClueJournalProps) {
   const { state } = useGame();
-  const [activeTab, setActiveTab] = useState<"log" | "clues" | "puzzles">(state.characterCreated ? "log" : "clues");
+  const [activeTab, setActiveTab] = useState<"log" | "clues" | "puzzles" | "investigations">(state.characterCreated ? "log" : "clues");
   const [expandedPuzzle, setExpandedPuzzle] = useState<string | null>(null);
   const [expandedClue, setExpandedClue] = useState<string | null>(null);
   // Source filter swaps in for the legacy clue-type filter — every
@@ -522,7 +523,7 @@ export default function ClueJournal({ onClose }: ClueJournalProps) {
 
         {/* Tab switcher */}
         <div className="flex gap-1">
-          {(["log", "clues", "puzzles"] as const).map(tab => (
+          {(["log", "clues", "investigations", "puzzles"] as const).map(tab => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
@@ -532,7 +533,13 @@ export default function ClueJournal({ onClose }: ClueJournalProps) {
                   : "text-muted-foreground hover:text-foreground hover:bg-secondary/50"
               }`}
             >
-              {tab === "log" ? "PERSONAL LOG" : tab === "clues" ? "DATA CRYSTALS" : "PUZZLES"}
+              {tab === "log"
+                ? "PERSONAL LOG"
+                : tab === "clues"
+                  ? "DATA CRYSTALS"
+                  : tab === "investigations"
+                    ? "INVESTIGATIONS"
+                    : "PUZZLES"}
             </button>
           ))}
         </div>
@@ -687,6 +694,159 @@ export default function ClueJournal({ onClose }: ClueJournalProps) {
                   </div>
                 </div>
               )}
+            </motion.div>
+          ) : activeTab === "investigations" ? (
+            <motion.div
+              key="investigations"
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              className="p-4 space-y-3"
+            >
+              {/* Phase D — Active Investigations panel.
+                  Reads getActivePuzzleChains(narrativeFlags) so chains
+                  the player has finished disappear automatically; lists
+                  every step, marking completed ones with a check and
+                  highlighting the next unfinished step prominently with
+                  the room id and verb action it expects. */}
+              {(() => {
+                const active = getActivePuzzleChains(state.narrativeFlags);
+                if (active.length === 0) {
+                  return (
+                    <div className="text-center py-8">
+                      <Sparkles size={24} className="mx-auto text-muted-foreground/30 mb-2" />
+                      <p className="font-mono text-xs text-muted-foreground/50">
+                        No active investigations. Look around the ship — talking to the crew and examining hotspots starts most chains.
+                      </p>
+                    </div>
+                  );
+                }
+                return active.map(({ chain, currentStep }) => {
+                  const totalSteps = chain.steps.length;
+                  return (
+                    <div
+                      key={chain.id}
+                      className="rounded-lg border border-primary/20 bg-card/30 p-3"
+                    >
+                      <div className="flex items-center justify-between mb-2">
+                        <h3 className="font-display text-sm font-bold">{chain.name}</h3>
+                        <span className="font-mono text-[10px] text-muted-foreground">
+                          {currentStep}/{totalSteps}
+                        </span>
+                      </div>
+                      <div className="space-y-1.5">
+                        {chain.steps.map(step => {
+                          const done = step.step <= currentStep;
+                          const isNext = step.step === currentStep + 1;
+                          return (
+                            <div
+                              key={step.step}
+                              className={`flex gap-2 items-start p-2 rounded ${
+                                isNext ? "bg-primary/10 border border-primary/30" : ""
+                              }`}
+                            >
+                              <span
+                                className={`mt-0.5 flex-shrink-0 ${
+                                  done
+                                    ? "text-primary"
+                                    : isNext
+                                      ? "text-accent"
+                                      : "text-muted-foreground/40"
+                                }`}
+                              >
+                                {done ? <Diamond size={12} /> : isNext ? <ChevronRight size={12} /> : <Lock size={12} />}
+                              </span>
+                              <div className="flex-1 min-w-0">
+                                <p
+                                  className={`font-mono text-[11px] leading-tight ${
+                                    done
+                                      ? "line-through text-muted-foreground/60"
+                                      : isNext
+                                        ? "text-foreground"
+                                        : "text-muted-foreground/70"
+                                  }`}
+                                >
+                                  {step.description}
+                                </p>
+                                {isNext && (
+                                  <p className="font-mono text-[9px] text-muted-foreground mt-0.5">
+                                    in <span className="text-accent">{step.roomId}</span> · {step.type.replace(/_/g, " ")}
+                                  </p>
+                                )}
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                      {chain.reward.trust && (
+                        <p className="font-mono text-[9px] text-muted-foreground/60 mt-2">
+                          Reward: +{chain.reward.trust.amount} trust with {chain.reward.trust.npcId.replace(/_/g, " ")}
+                        </p>
+                      )}
+                    </div>
+                  );
+                });
+              })()}
+
+              {/* NPC trust sidebar — shows current trust deltas across
+                  all faction NPCs the player has interacted with. Helps
+                  the player see relationship-progress without leaving
+                  the journal. */}
+              {Object.keys(state.npcTrust ?? {}).length > 0 && (
+                <div className="mt-6 rounded-lg border border-accent/20 bg-card/30 p-3">
+                  <h3 className="font-display text-xs font-bold tracking-[0.2em] mb-2">RELATIONSHIPS</h3>
+                  <div className="space-y-1">
+                    {Object.entries(state.npcTrust).map(([npcId, trust]) => (
+                      <div key={npcId} className="flex items-center justify-between">
+                        <span className="font-mono text-[11px] text-foreground/80 capitalize">
+                          {npcId.replace(/_/g, " ")}
+                        </span>
+                        <div className="flex items-center gap-2">
+                          <div className="w-24 h-1.5 rounded-full bg-secondary/50 overflow-hidden">
+                            <div
+                              className="h-full bg-accent transition-all"
+                              style={{ width: `${Math.max(0, Math.min(100, trust))}%` }}
+                            />
+                          </div>
+                          <span className="font-mono text-[10px] text-accent w-7 text-right">{trust}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* All chains overview — show reward + step count for
+                  chains the player hasn't started yet (hidden once any
+                  step has fired). */}
+              {(() => {
+                const activeIds = new Set(getActivePuzzleChains(state.narrativeFlags).map(({ chain }) => chain.id));
+                const seenAnyStepIds = new Set<string>();
+                for (const chain of PUZZLE_CHAINS) {
+                  if (chain.steps.some(s => state.narrativeFlags[s.completionFlag])) {
+                    seenAnyStepIds.add(chain.id);
+                  }
+                }
+                const dormant = PUZZLE_CHAINS.filter(c => !activeIds.has(c.id) && !seenAnyStepIds.has(c.id));
+                if (dormant.length === 0) return null;
+                return (
+                  <div className="mt-4 rounded-lg border border-muted-foreground/10 bg-card/20 p-3">
+                    <h3 className="font-display text-xs font-bold tracking-[0.2em] text-muted-foreground/70 mb-2">UNDISCOVERED THREADS</h3>
+                    <ul className="space-y-1">
+                      {dormant.map(chain => (
+                        <li
+                          key={chain.id}
+                          className="font-mono text-[10px] text-muted-foreground/50 flex items-center gap-2"
+                        >
+                          <Lock size={10} />
+                          <span>{chain.name}</span>
+                          <span className="text-muted-foreground/30">· {chain.steps.length} steps</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                );
+              })()}
             </motion.div>
           ) : (
             <motion.div

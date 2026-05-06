@@ -9,6 +9,7 @@
    real-time lip sync via wawa-lipsync.
    ═══════════════════════════════════════════════════════ */
 import { useRef, useState, useCallback, useEffect } from "react";
+import { voPlaybackEnded, voPlaybackStarted } from "@/lib/voSpeakingState";
 
 type Manifest = Record<string, string>;
 type ManifestLoader = () => Promise<Manifest>;
@@ -98,24 +99,47 @@ export function useNpcVO(key: string, loader: ManifestLoader): NpcVoApi {
     a.volume = 0.8;
     setAudio(a);
 
+    // Balance the global VO-ducking refcount across this play() — see
+    // useElaraVO.ts for the same pattern. published flips true on
+    // onplay and back to false on the first of {onended, onerror,
+    // onpause}, so cancel-during-play paths don't strand the count.
+    let published = false;
+    const finishPublish = () => {
+      if (published) {
+        published = false;
+        voPlaybackEnded();
+      }
+    };
+
     a.onplay = () => {
       speakingRef.current = true;
       setSpeaking(true);
+      if (!published) {
+        published = true;
+        voPlaybackStarted();
+      }
     };
     a.onended = () => {
       speakingRef.current = false;
       setSpeaking(false);
+      finishPublish();
       const next = queueRef.current.shift();
       if (next) speak(next);
     };
     a.onerror = () => {
       speakingRef.current = false;
       setSpeaking(false);
+      finishPublish();
+    };
+    a.onpause = () => {
+      if (a.ended) return;
+      finishPublish();
     };
 
     a.play().catch(() => {
       speakingRef.current = false;
       setSpeaking(false);
+      finishPublish();
     });
   }, [key, loader]);
 

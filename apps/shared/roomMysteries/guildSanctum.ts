@@ -33,6 +33,16 @@ export const GUILD_SANCTUM_MYSTERY: RoomMysteryModule<GuildSanctumHotspotId> = {
           order: 0,
         },
       },
+      use: {
+        narration:
+          "You run your palm along the engraved sigils. The brass is warm where guild-members have rested their hands across the centuries. Some sigils are smooth from frequent contact; others are sharp-edged, untouched. The altar is, in physical evidence, a record of which alliances were lived in.",
+        voId: "elara.guild-sanctum.sigil-altar.use",
+      },
+      talk: {
+        narration:
+          "If you address the altar, you address every guild that ever signed it. That is, on Lyra's discipline, the room's whole conversational logic — speech here is automatically witnessed by every prior alliance, broken or kept.",
+        voId: "elara.guild-sanctum.sigil-altar.talk",
+      },
     },
     "allegiance-pad": {
       look: {
@@ -53,6 +63,17 @@ export const GUILD_SANCTUM_MYSTERY: RoomMysteryModule<GuildSanctumHotspotId> = {
           source: "guild-sanctum",
           order: 1,
         },
+      },
+      use: {
+        narration:
+          "You step onto the pad. It registers your weight, and a moment later your current allegiances appear in faint indigo tracery on the sigil-altar's surface — not engraved yet, only previewed. Stepping off clears the preview. The pad is, by Lyra's design, a hesitation step before commitment.",
+        voId: "elara.guild-sanctum.allegiance-pad.use",
+        setsFlag: "guild_sanctum_pad_stepped",
+      },
+      talk: {
+        narration:
+          "The pad has no voice but it has a logic: speech is allowed once you are on the record. You are now on the record. The room is, accordingly, ready to listen to whatever you say next.",
+        voId: "elara.guild-sanctum.allegiance-pad.talk",
       },
     },
   },

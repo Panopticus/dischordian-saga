@@ -33,6 +33,17 @@ export const CHAOS_FORGE_MYSTERY: RoomMysteryModule<ChaosForgeHotspotId> = {
           order: 0,
         },
       },
+      use: {
+        narration:
+          "You strike the anvil's heavy left lobe. The ring is low and long, like a vow being kept. The anvil records the strike — a faint indigo afterglow on the dished face fades over the next thirty seconds, exactly the way every prior strike has faded for centuries.",
+        voId: "elara.chaos-forge.chaos-anvil.use",
+        setsFlag: "chaos_anvil_struck",
+      },
+      talk: {
+        narration:
+          "You can't argue with the chaos-anvil — it doesn't speak the same dialect as the Order Tribunal's bench. But you can listen to it for a long time, and what it says is consistent: every strike is its own claim, and no claim cancels the one before it.",
+        voId: "elara.chaos-forge.chaos-anvil.talk",
+      },
     },
     "entropy-vat": {
       look: {
@@ -53,6 +64,16 @@ export const CHAOS_FORGE_MYSTERY: RoomMysteryModule<ChaosForgeHotspotId> = {
           source: "chaos-forge",
           order: 1,
         },
+      },
+      use: {
+        narration:
+          "You ladle a quench-sample from the entropy-vat. The oil refuses to settle in the ladle either — it boils faintly even off the heat, registering thermal disagreement with whatever metal it most recently tempered. The vat is, as advertised, principled.",
+        voId: "elara.chaos-forge.entropy-vat.use",
+      },
+      talk: {
+        narration:
+          "If you address the vat, it answers in the seethe pattern of its surface. The room's smith taught me to read the seethe as a kind of speech — fast bubbles for impatience, slow rolls for assent. The vat is not, currently, impatient. The vat is, currently, listening.",
+        voId: "elara.chaos-forge.entropy-vat.talk",
       },
     },
   },

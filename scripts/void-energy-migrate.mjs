@@ -115,15 +115,11 @@ function pct(a) {
   return Math.round(parseFloat(a) * 100) + "%";
 }
 
-function migrate(abs) {
-  const rel = path.relative(REPO_ROOT, abs);
-  if (DATA_FILE_DENYLIST.has(rel)) {
-    return { skipped: true, reason: "data-file (feeds lerpColor)" };
-  }
-  if (!fs.existsSync(abs)) return { skipped: true, reason: "does not exist" };
-  let src = fs.readFileSync(abs, "utf-8");
-  const original = src;
-
+/**
+ * Pure source-to-source transform. Exported for unit tests; the
+ * file-based `migrate()` wrapper below reads/writes around it.
+ */
+export function transformSource(src) {
   for (const [family, m] of Object.entries(FAMILY_MAP)) {
     src = src.replace(
       new RegExp(`\\btext-${family}-\\d+\\/\\d+`, "g"),
@@ -136,11 +132,10 @@ function migrate(abs) {
     src = src.replace(new RegExp(`\\bborder-${family}-\\d+`, "g"), m.border);
   }
   src = src.replace(/\bhover:void-([a-z]+(?:-[a-z]+)*)/g, "void-$1");
-  src = src
-    .replace(/\bvoid-text-(?:energy|error|system|premium|accent|dim|muted)\/\d+\b/g, (m) => m.split("/")[0])
-    .replace(/\bvoid-text\/\d+\b/g, "void-text-dim")
-    .replace(/\bvoid-border(?:-(?:subtle|success|error|system))?\/\d+\b/g, (m) => m.split("/")[0])
-    .replace(/\bvoid-bg-(?:canvas|sunk|success|error|system)\/\d+\b/g, (m) => m.split("/")[0]);
+  // NOTE: opacity modifiers on already-void classes (e.g.
+  // `border-void-text-accent/40`) are LEGAL per the lint and must
+  // NOT be stripped here — doing so silently changes the rendered
+  // alpha from 40%/60% to 100% and breaks visual fidelity.
 
   for (const [re, to] of HEX_MAP) src = src.replace(re, to);
 
@@ -165,6 +160,18 @@ function migrate(abs) {
     );
     src = src.replace(reB, token);
   }
+
+  return src;
+}
+
+function migrate(abs) {
+  const rel = path.relative(REPO_ROOT, abs);
+  if (DATA_FILE_DENYLIST.has(rel)) {
+    return { skipped: true, reason: "data-file (feeds lerpColor)" };
+  }
+  if (!fs.existsSync(abs)) return { skipped: true, reason: "does not exist" };
+  const original = fs.readFileSync(abs, "utf-8");
+  const src = transformSource(original);
 
   if (src === original) return { changed: false };
   fs.writeFileSync(abs, src);
@@ -212,4 +219,7 @@ function main() {
   process.exit(anyDirty ? 1 : 0);
 }
 
-main();
+// Run main() only when invoked as a CLI; skip when imported (e.g. from a test).
+if (import.meta.url === `file://${process.argv[1]}`) {
+  main();
+}

@@ -409,7 +409,7 @@ export interface HotspotDef {
   y: number;
   width: number;
   height: number;
-  type: "terminal" | "item" | "door" | "examine" | "interact";
+  type: "terminal" | "item" | "door" | "examine" | "interact" | "npc";
   action?: string; // route to navigate or item to collect
   elaraDialog?: string;
   /** Stable manifest id for Elara's hotspot narration. When set, the
@@ -424,6 +424,14 @@ export interface HotspotDef {
   responses?: ElaraResponseChoice[];
   icon?: string;
   requiresItem?: string;
+  /** When set, the hotspot represents a Faction NPC standing in the
+   *  room. The runtime renders the NPC's bust portrait at (x, y)
+   *  instead of the default icon, and routes the `talk` verb (or a
+   *  plain click on `type: "npc"`) to NPCDialog with
+   *  buildFirstContactScene(npcId) — which already plays VO via
+   *  useDialogVO. Value is a FactionNPCId (kept as string here to
+   *  avoid a circular import; runtime narrows on use). */
+  npcId?: string;
 }
 
 export const ROOM_DEFINITIONS: RoomDef[] = [
@@ -598,6 +606,11 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "door-cryo", name: "Cryo Bay Door", description: "Return to the Cryo Bay.", x: 6, y: 30, width: 15, height: 45, type: "door", action: "cryo-bay" },
       { id: "egg-med-vial", name: "Unlabeled Vial", description: "A tiny vial of shimmering black liquid hidden behind the cabinet.", x: 85, y: 62, width: 3, height: 4, type: "item", action: "void-essence-sample", elaraDialog: "That vial... the liquid inside is moving on its own. The molecular structure doesn't match anything in my database. It's not from any known universe. The label has been torn off, but there's a serial number: VE-001. 'VE' — Void Essence? This shouldn't exist on this ship." },
       { id: "egg-vox-neural-bridge", name: "Unkempt Neural Device", description: "A hidden device behind the bio-bed's maintenance panel. Cables still warm. A humming needle-port waits for a DNA sample.", x: 46, y: 72, width: 5, height: 5, type: "interact", action: "dna-device-offer", elaraDialog: "[STATIC BURST] It's humming at a frequency your teeth can feel. A neural-bridge apparatus — military grade, built by Dr. Lyra Vox to move consciousness between a body and the Ark itself. It wants a sample. You don't know what it will give you back." },
+      // ── NPC presence (Phase C) ──
+      // The Source — primaryRoom = medical_bay (factionNPCs.ts).
+      // Manifestation: possessed_system. He surfaces through the bio-bed
+      // monitors when called. Talk verb opens NPCDialog.
+      { id: "npc-the-source", name: "The Source (Echo)", description: "The bio-bed monitors flicker in unison. A face — or the suggestion of one — resolves on the central display. Patient Zero is awake.", x: 50, y: 52, width: 9, height: 14, type: "npc", action: "npc:the_source", npcId: "the_source" },
     ],
   },
   {
@@ -664,6 +677,14 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       // this rectangle covers the floating indigo marginalia at three
       // tactical-display nodes per the bridge:annotations-visible art.
       { id: "shadow-tongue-annotations", name: "Indigo Marginalia", description: "Faint indigo annotations float at three of the Conspiracy Board's nodes — marginalia in someone else's hand, timestamped to your current shift.", x: 35, y: 12, width: 30, height: 10, type: "interact", action: "room-mystery:bridge:shadow-tongue-annotations" },
+      // ── NPC presence (Phase C) ──
+      // Elara's holographic projection. Faction NPC primaryRoom = "bridge".
+      // Renders her bust portrait in-room and routes the `talk` verb to
+      // NPCDialog with buildFirstContactScene("elara") so VO plays via
+      // useDialogVO without any extra hookup. Placed between the tactical
+      // display and the foreground row so she doesn't overlap the
+      // captain's chair / nav-console rectangles.
+      { id: "npc-elara", name: "Elara (Holographic)", description: "Elara's holographic projection flickers near the central display. She seems to be waiting for you to address her directly.", x: 46, y: 42, width: 10, height: 16, type: "npc", action: "npc:elara", npcId: "elara" },
     ],
   },
   {
@@ -705,6 +726,13 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       { id: "rewritten-ledger", name: "Rewritten Ledger", description: "An open ledger on the lectern's side-shelf — two entries scrubbed to blanks, one margin annotation surviving in your own younger hand.", x: 32, y: 68, width: 8, height: 10, type: "interact", action: "room-mystery:archives:rewritten-ledger" },
       { id: "indigo-glow-lectern", name: "Indigo-Glow Lectern", description: "The lectern's stone base is ringed in a faint halo in the colour you cannot name. Someone is logged in right now.", x: 42, y: 60, width: 16, height: 30, type: "interact", action: "room-mystery:archives:indigo-glow-lectern" },
       { id: "unnameable-hue-cabinet", name: "Unnameable-Hue Cabinet", description: "A freestanding glass cabinet stage-right with a hand-stitched label dyed in an unnameable hue. One scroll inside is undyed and untouched.", x: 88, y: 30, width: 10, height: 38, type: "interact", action: "room-mystery:archives:unnameable-hue-cabinet" },
+      // ── NPC presence (Phase C) ──
+      // The Antiquarian — primaryRoom in factionNPCs.ts. A temporal echo
+      // hovering near the central platform; talk routes to NPCDialog.
+      { id: "npc-antiquarian", name: "The Antiquarian", description: "A figure half-out-of-time stands beside the data orb, removing his goggles to look at you.", x: 47, y: 80, width: 8, height: 14, type: "npc", action: "npc:the_antiquarian", npcId: "the_antiquarian" },
+      // Shadow Tongue — secondaryRoom = archives. Manifests as a possessed
+      // system; visible at the lectern when he's currently logged in.
+      { id: "npc-shadow-tongue", name: "Shadow Tongue (Presence)", description: "The lectern's indigo halo deepens. A reflection in the glass cabinet doesn't match yours. Someone else is editing — right now.", x: 42, y: 50, width: 6, height: 10, type: "npc", action: "npc:shadow_tongue", npcId: "shadow_tongue" },
     ],
   },
   {
@@ -741,6 +769,14 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       // forming inside it. The hotspot lives on the same screen but
       // higher z-order; clicks on the inner rectangle hit this first.
       { id: "voice-in-the-static", name: "Voice in the Static", description: "The static on the central monitor has begun to organise itself — vertical bands of indigo arranging into the silhouette of a person speaking, then dissolving.", x: 13, y: 32, width: 6, height: 14, type: "interact", action: "room-mystery:comms-array:voice-in-the-static" },
+      // ── NPC presence (Phase C) ──
+      // The Human — primaryRoom = comms_array (factionNPCs.ts).
+      // Manifestation: substrate. He propagates through the comms layer
+      // and is only readable here once `first_human_revealed` is set; the
+      // hotspot is always present but the NPCDialog gate handles
+      // pre-reveal silence. Portrait progressive-reveals via
+      // getHumanRevealImage(trust).
+      { id: "npc-the-human", name: "The Human (Substrate)", description: "Beneath the relay's hum, a second voice carries — not on any frequency the antenna is tuned to. The substrate itself is broadcasting.", x: 30, y: 55, width: 8, height: 16, type: "npc", action: "npc:the_human", npcId: "the_human" },
     ],
   },
   {
@@ -766,7 +802,11 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
       // the viewport, nebula + ceiling skylight panels filling the upper
       // two-thirds.
       { id: "music-terminal", name: "Music Terminal", description: "A sophisticated music system with the complete discography of Malkia Ukweli & the Panopticon.", x: 62, y: 55, width: 28, height: 22, type: "terminal", action: "/discography", elaraDialog: "The complete discography. Four albums spanning the entire narrative — Dischordian Logic, The Age of Privacy, The Book of Daniel 2:47, and the upcoming Silence in Heaven. Every song is a piece of the puzzle." },
-      { id: "viewport", name: "Viewport", description: "The vast expanse of space stretches before you. The stars look... wrong.", x: 30, y: 2, width: 65, height: 70, type: "examine", elaraDialog: "Look at the stars. They're beautiful, aren't they? But they're wrong. The constellations don't match any known configuration from any of the mapped universes. Either we've traveled very, very far... or we're somewhere that shouldn't exist." },
+      // Phase G — wire the panoramic viewport to the observation-deck
+      // mystery module so Look/Use/Talk all route through the verb coin.
+      { id: "viewport", name: "Panoramic Viewport", description: "The vast expanse of space stretches before you. The stars look... wrong.", x: 30, y: 2, width: 65, height: 70, type: "interact", action: "room-mystery:observation-deck:panoramic-viewport", elaraDialog: "Look at the stars. They're beautiful, aren't they? But they're wrong. The constellations don't match any known configuration from any of the mapped universes. Either we've traveled very, very far... or we're somewhere that shouldn't exist." },
+      { id: "purification-crystal-cradle", name: "Crystal Cradle", description: "An empty cradle-pedestal stage-right. A brass plaque reads, in Lyra's hand: 'For the crystal that has not yet been chosen.'", x: 80, y: 78, width: 12, height: 14, type: "interact", action: "room-mystery:observation-deck:purification-crystal-cradle" },
+      { id: "bond-resonance-altar", name: "Bond Resonance Altar", description: "A low circular altar set into the floor's hex tiling. Brass-rimmed, oxblood-leather kneeler.", x: 40, y: 80, width: 18, height: 14, type: "interact", action: "room-mystery:observation-deck:bond-resonance-altar" },
       { id: "crew-memorial", name: "Crew Memorial", description: "A small memorial with names etched in light. The crew who didn't make it.", x: 6, y: 24, width: 24, height: 36, type: "examine", elaraDialog: "A memorial for the crew members who didn't survive the journey. One thousand and forty-seven names. They gave their lives to keep the Ark running while the Potentials slept. I remember every one of them." },
       { id: "door-comms", name: "Comms Array", description: "Return to the Communications Array.", x: 1, y: 80, width: 18, height: 18, type: "door", action: "comms-array" },
       { id: "door-engineering", name: "Engineering Access", description: "A maintenance hatch leading down to Engineering.", x: 95, y: 30, width: 5, height: 55, type: "door", action: "engineering" },
@@ -1596,6 +1636,12 @@ interface GameContextValue {
   // Section F — Mystery actions (cryo bay + every other room module)
   logClue: (clue: import("@shared/roomMysteries").Clue) => void;
   grantMysteryItem: (itemId: string) => void;
+  /** Atomic two-item combine — consumes both inputs from the
+   *  mystery inventory and grants the result. Idempotent: a
+   *  second call with the same inputs is a no-op once the
+   *  result is already in the inventory. Used by the adventure
+   *  inventory drawer and the verb-coin "use X with Y" path. */
+  combineMysteryItems: (consumeIds: readonly string[], grantId: string) => void;
   // Quest rewards
   claimQuestReward: (questId: string) => void;
   // Morality meter
@@ -2444,6 +2490,19 @@ export function GameProvider({ children }: { children: ReactNode }) {
           ...prev,
           mysteryInventory: [...prev.mysteryInventory, itemId],
         };
+      });
+    },
+    [],
+  );
+
+  const combineMysteryItems = useCallback(
+    (consumeIds: readonly string[], grantId: string) => {
+      setState(prev => {
+        if (prev.mysteryInventory.includes(grantId)) return prev;
+        const consumeSet = new Set(consumeIds);
+        const next = prev.mysteryInventory.filter(id => !consumeSet.has(id));
+        next.push(grantId);
+        return { ...prev, mysteryInventory: next };
       });
     },
     [],
@@ -3660,6 +3719,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
       bumpHotspotClick,
       logClue,
       grantMysteryItem,
+      combineMysteryItems,
       claimQuestReward,
       shiftMorality,
       getMoralityLabel,

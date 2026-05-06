@@ -33,6 +33,17 @@ export const ELEMENTAL_NEXUS_MYSTERY: RoomMysteryModule<ElementalNexusHotspotId>
           order: 0,
         },
       },
+      use: {
+        narration:
+          "You step onto the orrery's centre platform — the audience position. The eight spheres' orbits register your weight and shift, very slightly, into closer geometry. The model performs better with someone watching it. That is, on Lyra's notes, the rule of every honest model.",
+        voId: "elara.elemental-nexus.elemental-orrery.use",
+        setsFlag: "nexus_audience_taken",
+      },
+      talk: {
+        narration:
+          "If you address the orrery, the spheres' luminous output briefly synchronises — eight little pulses on the same beat. The Quarchon physics here treats observation as participation, not interference. The orrery is, in a sense, glad to see you.",
+        voId: "elara.elemental-nexus.elemental-orrery.talk",
+      },
     },
     "node-pillar": {
       look: {
@@ -53,6 +64,16 @@ export const ELEMENTAL_NEXUS_MYSTERY: RoomMysteryModule<ElementalNexusHotspotId>
           source: "elemental-nexus",
           order: 1,
         },
+      },
+      use: {
+        narration:
+          "You run a fingertip across the empty slots. The fluted brass is cold. The pillar is, as Lyra catalogued it, an apparatus that wants to be completed but does not demand it — half-functional is the room's working condition. You are not, today, the person who finishes it.",
+        voId: "elara.elemental-nexus.node-pillar.use",
+      },
+      talk: {
+        narration:
+          "The pillar does not respond to speech, but the three discs already seated do. Earth, water, time — they hum, very faintly, in the slot's brass acoustics. Three voices in a chord that wants its other five.",
+        voId: "elara.elemental-nexus.node-pillar.talk",
       },
     },
   },
