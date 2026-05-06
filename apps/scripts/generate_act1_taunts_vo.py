@@ -227,10 +227,9 @@ def main():
 
         if head_exists(check_url):
             print(f"[{i+1}/{len(lines)}] {line['id']} (audio on S3, skipping)")
-            if existing != check_url:
-                manifests[ch][line["id"]] = check_url
-                with open(manifest_paths[ch], "w") as _mf:
-                    json.dump(manifests[ch], _mf, indent=2)
+            manifests[ch][line["id"]] = check_url
+            with open(manifest_paths[ch], "w") as _mf:
+                json.dump(manifests[ch], _mf, indent=2)
             continue
 
         try:
