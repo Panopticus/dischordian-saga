@@ -110,6 +110,12 @@ export default function TradeCourtPage() {
   const myActiveEdict = trpc.tradeCourt.myActiveEdict.useQuery();
   const listEdicts = trpc.tradeCourt.listEdicts.useQuery();
   const newsDigest = trpc.tradeCourt.newsDigest.useQuery();
+  // Phase E.2 wiring: pending counters widget reads agenda registry +
+  // user agenda progress to surface upcoming worldStep firings.
+  const listAgendas = trpc.tradeCourt.listAgendas.useQuery();
+  // Phase D.5 wiring: blockades + espionage ops for the empire dashboard.
+  const myBlockades = trpc.tradeCourt.myBlockades.useQuery();
+  const myEspionageOps = trpc.tradeCourt.myEspionageOps.useQuery();
   const myFactionRollup = trpc.tradeCourt.myFactionRollup.useQuery();
   const availableContracts = trpc.tradeContracts.listAvailable.useQuery();
   const equipMunition = trpc.tradeCourt.equipMunition.useMutation({
@@ -511,6 +517,114 @@ export default function TradeCourtPage() {
         </section>
       )}
 
+      {/* Phase F.1: alliance graph. Renders the active alliance edges
+          as a simple SVG over a circular sub-house layout. Static
+          presentation; clicking a node scrolls the houses grid above. */}
+      {myAlliances.data && myAlliances.data.filter(a => a.status === "active").length > 0 && (
+        <section className="px-6 py-5 border-t border-zinc-800">
+          <h2 className="text-lg font-medium mb-3">Alliance graph</h2>
+          {(() => {
+            const activeAlliances = myAlliances.data!.filter(a => a.status === "active");
+            const houses = data.houses.filter(h => !h.unalignable);
+            const radius = 140;
+            const cx = 200;
+            const cy = 160;
+            const positions = new Map<string, { x: number; y: number }>();
+            houses.forEach((h, i) => {
+              const angle = (i / houses.length) * Math.PI * 2 - Math.PI / 2;
+              positions.set(h.houseKey, {
+                x: cx + Math.cos(angle) * radius,
+                y: cy + Math.sin(angle) * radius,
+              });
+            });
+            return (
+              <svg viewBox="0 0 400 320" className="w-full max-w-2xl bg-zinc-900 border border-zinc-800 rounded">
+                {activeAlliances.map(a => {
+                  const p1 = positions.get(a.houseA);
+                  const p2 = positions.get(a.houseB);
+                  if (!p1 || !p2) return null;
+                  return (
+                    <line
+                      key={a.id}
+                      x1={p1.x} y1={p1.y} x2={p2.x} y2={p2.y}
+                      stroke="rgba(16, 185, 129, 0.6)"
+                      strokeWidth={2}
+                    />
+                  );
+                })}
+                {houses.map(h => {
+                  const p = positions.get(h.houseKey)!;
+                  const allied = activeAlliances.some(
+                    a => a.houseA === h.houseKey || a.houseB === h.houseKey,
+                  );
+                  return (
+                    <g key={h.houseKey}>
+                      <circle
+                        cx={p.x} cy={p.y} r={5}
+                        fill={allied ? "rgb(16, 185, 129)" : "rgb(82, 82, 91)"}
+                      />
+                      <text
+                        x={p.x} y={p.y - 9}
+                        fontSize={9}
+                        textAnchor="middle"
+                        fill="rgb(212, 212, 216)"
+                      >
+                        {h.houseKey.replace(/^[a-z]+_/, "")}
+                      </text>
+                    </g>
+                  );
+                })}
+              </svg>
+            );
+          })()}
+        </section>
+      )}
+
+      {/* Phase D.5: blockades surfaced. Compact list with a Break action. */}
+      {myBlockades.data && myBlockades.data.length > 0 && (
+        <section className="px-6 py-5 border-t border-zinc-800">
+          <h2 className="text-lg font-medium mb-3">Active blockades</h2>
+          <ul className="space-y-2">
+            {myBlockades.data.map(b => (
+              <li
+                key={b.id}
+                className="bg-zinc-900 border border-zinc-800 rounded p-2 flex justify-between items-center"
+              >
+                <div className="text-sm">
+                  Sector <strong>{b.sectorId}</strong>
+                  <span className="ml-2 text-xs text-zinc-500">
+                    season {b.seasonNumber} · {b.status}
+                  </span>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      {/* Phase D.5: espionage ops log. Compact recent-list. */}
+      {myEspionageOps.data && myEspionageOps.data.length > 0 && (
+        <section className="px-6 py-5 border-t border-zinc-800">
+          <h2 className="text-lg font-medium mb-3">Espionage ops</h2>
+          <ul className="space-y-1">
+            {myEspionageOps.data.slice(0, 8).map(o => (
+              <li
+                key={o.id}
+                className={classNames(
+                  "text-xs border-l-2 pl-3",
+                  o.outcome === "success"
+                    ? "border-emerald-700 text-zinc-300"
+                    : "border-rose-800 text-rose-200",
+                )}
+              >
+                <span className="text-zinc-500">{timeAgo(o.createdAt)}</span>
+                {" "}· {o.opKind} on <strong>{o.targetKey}</strong> · {o.outcome}
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
       {data.pendingDemands.length > 0 && (
         <section className="px-6 py-5 bg-rose-950/40 border-b border-rose-900">
           <h2 className="text-lg font-medium text-rose-200 mb-3">
@@ -721,6 +835,71 @@ export default function TradeCourtPage() {
           </div>
         </section>
       )}
+
+      {/* Phase E.2: Pending counters widget. Surfaces every agenda
+          stage that is still pending (world step has not fired yet)
+          so the player can see what's about to bite. Entry click
+          navigates to the agendas section below. */}
+      {data.agendaProgress.length > 0 && listAgendas.data && (() => {
+        type Pending = {
+          agendaKey: string;
+          agendaName: string;
+          stageId: string;
+          stageLabel: string;
+          counterDescription: string;
+          counterCostText: string;
+        };
+        const pending: Pending[] = [];
+        for (const ap of data.agendaProgress) {
+          if (ap.resolved) continue;
+          const def = listAgendas.data.find(a => a.agendaKey === ap.agendaKey);
+          if (!def) continue;
+          for (const stage of def.stages) {
+            if (ap.stageStatus[stage.stageId] === "pending") {
+              pending.push({
+                agendaKey: ap.agendaKey,
+                agendaName: ap.agendaName,
+                stageId: stage.stageId,
+                stageLabel: stage.label,
+                counterDescription: stage.counterDescription,
+                counterCostText: stage.counterCostText,
+              });
+            }
+          }
+        }
+        if (pending.length === 0) return null;
+        return (
+          <section className="px-6 py-5 border-t border-zinc-800">
+            <h2 className="text-lg font-medium mb-3">
+              Pending counters ({pending.length})
+            </h2>
+            <p className="text-zinc-400 text-sm mb-3">
+              Stages still un-fired. The world ticks them at the next agenda
+              advance — counter to neutralise. Each counter costs the listed
+              resource and applies its own rep deltas.
+            </p>
+            <ul className="space-y-2">
+              {pending.slice(0, 8).map(p => (
+                <li
+                  key={`${p.agendaKey}-${p.stageId}`}
+                  className="bg-zinc-900 border border-amber-900 rounded p-2"
+                >
+                  <div className="text-sm">
+                    <strong>{p.agendaName}</strong>
+                    <span className="text-zinc-500"> · {p.stageLabel}</span>
+                  </div>
+                  <div className="text-xs text-zinc-400 mt-1">
+                    {p.counterDescription}
+                  </div>
+                  <div className="text-xs text-amber-300 mt-0.5">
+                    cost: {p.counterCostText}
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </section>
+        );
+      })()}
 
       {data.agendaProgress.length > 0 && (
         <section className="px-6 py-5 border-t border-zinc-800">
