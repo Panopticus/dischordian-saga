@@ -53,6 +53,17 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           episodeId: "wraith.e1",
           cluesFound: ["wraith.e1.witness_journal"],
         },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Antiquarian indexes by witness. Journal entry ep1-15 is the bounty's only contemporaneous witness record. Read the margin.",
+            balanced:
+              "The Antiquarian's journal entry on the Crystalline City's first attack mentions the bounty hunter only in the margin: 'the one who walked toward the wall when the others ran.' The witness-indexing scheme makes the marginal mention more reliable than any subsequent edit could be.",
+            warm:
+              "The Antiquarian remembers what others forget. He marked Wraith in the margin because he wasn't sure the centre of the page would survive the centuries. He was right to hedge. The margin survived; the centre was edited.",
+          },
+          voId: "human.antiquarian-library.card-catalog.look",
+        },
       },
       talk: {
         narration: {
@@ -74,6 +85,17 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           mysteryId: "mystery.jericho_jones",
           episodeId: "jericho.e1",
           cluesFound: ["jericho.e1.iron_lion_callsign_history"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Iron Lion callsign passes through the catalog. Holders, dates, threshold events. Jericho is the current holder. Don't tell him until he's ready.",
+            balanced:
+              "The catalog's callsign-history entry shows the Iron Lion lineage as a continuous chain of holders, each consenting to the next. Jericho is the current holder; the holder before him passed at Thaloria. Reading the history from this distance is, deliberately, less painful than reading it from inside it.",
+            warm:
+              "He is the Iron Lion. He has been since Akai Shi. He has carried the callsign for years thinking he stole it. The catalog records the consent. We will, when he is ready, hand him this entry.",
+          },
+          voId: "human.antiquarian-library.card-catalog.use",
         },
       },
       use: {
@@ -97,6 +119,17 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           mysteryId: "mystery.jericho_jones",
           episodeId: "jericho.e2",
           cluesFound: ["jericho.e2.thaloria_archon_log"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Thaloria Archon log. Akai Shi's threshold-event timestamp. Jericho's witness-time matches to the second. The log corroborates.",
+            balanced:
+              "The Thaloria Archon's log is the saga's official record of Akai Shi's threshold event. The timestamp matches Jericho's witness-time exactly — meaning Jericho was present, in the room, at the moment the threshold became irreversible. The log is institutional corroboration of his account.",
+            warm:
+              "He was there. The Archon recorded him there. We have, in this log, the institutional record that says he was where he says he was. He has needed this record for a long time.",
+          },
+          voId: "human.antiquarian-library.card-catalog.talk",
         },
       },
     },
@@ -130,6 +163,17 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           episodeId: "wraith.e2",
           cluesFound: ["wraith.e2.cargo_manifest"],
         },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Cargo manifest from Wraith's transport. Single folio listed. The folio is the only cargo. Everything else is paperwork.",
+            balanced:
+              "Wraith's outbound cargo manifest from the Station Dock lists exactly one item: a single folio. The Antiquarian filed the manifest in the locked vault rather than the public catalog because Lyra requested the privacy. The manifest is the strongest single piece of evidence Wraith left with intent and only intent.",
+            warm:
+              "He took one document. Nothing else. He did not pack a bag. He did not say goodbye. The manifest is what tells you, more than anything, that he expected to die before he could come back.",
+          },
+          voId: "human.antiquarian-library.locked-vault.look",
+        },
       },
       talk: {
         narration: {
@@ -152,6 +196,17 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           episodeId: "wraith.e5",
           cluesFound: ["wraith.e5.scrubbed_names_register"],
         },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Names the editor scrubbed from public record. Wraith kept a counter-register in the vault. Reading it is the only way to recover the count.",
+            balanced:
+              "Wraith's scrubbed-names register is his counter-record to the editor's redaction work. Every name the editor scrubbed from the public catalog Wraith preserved in the vault — not for restoration, but for accounting. The register is the saga's only complete count.",
+            warm:
+              "He counted what was lost so the saga would not have to forget the count. The register is, in plain terms, a memorial. We are reading it as such.",
+          },
+          voId: "human.antiquarian-library.locked-vault.use",
+        },
       },
       use: {
         narration: {
@@ -173,6 +228,17 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           mysteryId: "mystery.the_seer",
           episodeId: "seer.e1",
           cluesFound: ["seer.e1.do_not_play_band"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "DO-NOT-PLAY band on the Seer's tape. Replaced by every reader who has held it. The band is older than the discipline that named it.",
+            balanced:
+              "The DO-NOT-PLAY band on the Seer's sealed tape has been replaced by every reader who has handled it across centuries. Each replacement is a small act of consent: the reader, having considered playing the tape, chose to honour the band. The chain of replacements is the discipline made physical.",
+            warm:
+              "Every reader who has held this tape has, eventually, replaced the band rather than removed it. Each replacement is a small private decision. We will, when our turn comes, replace the band ourselves.",
+          },
+          voId: "human.antiquarian-library.locked-vault.talk",
         },
       },
     },
@@ -210,6 +276,17 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           episodeId: "wraith.e2",
           cluesFound: ["wraith.e2.antiquarian_marginalia"],
         },
+        humanReaction: {
+          narration: {
+            shadow:
+              "The bust's eyes track readers. The Antiquarian indexed by witness because the Antiquarian was the witness. His marginalia on Wraith's bounty file is in the bust's stone.",
+            balanced:
+              "The Antiquarian's marginalia on Wraith's bounty file is engraved beneath the bust's pedestal — physically inaccessible without dismantling the bust, and so preserved against any redaction. The witness-indexing scheme depends on the witness being inscribed where the witness cannot be edited.",
+            warm:
+              "He carved his marginalia into the saga's most permanent surface available — his own pedestal. The Antiquarian has been doing this for centuries. He is, in his way, the saga's stubbornest reader.",
+          },
+          voId: "human.antiquarian-library.antiquarian-bust.look",
+        },
       },
       talk: {
         narration: {
@@ -231,6 +308,17 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           mysteryId: "mystery.wraith_calder",
           episodeId: "wraith.e4",
           cluesFound: ["wraith.e4.hierophant_remembers"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "The bust pivots when addressed by the Hierophant's name. He sat for the carving. The Antiquarian carved him remembering his own bounty contract — the one he never collected.",
+            balanced:
+              "The bust's eyes narrow at certain phrases. The Antiquarian carved Wraith remembering — not as a static portrait but as a moment of specific recall. The phrase that triggers the eye-narrowing is the bounty contract's opening clause. The bust remembers what the saga keeps trying to forget.",
+            warm:
+              "The Antiquarian sculpted him as a man remembering the worst day of his life and choosing to live anyway. That is a generous portrait. I have looked at it, in passing, more times than I have admitted.",
+          },
+          voId: "human.antiquarian-library.antiquarian-bust.use",
         },
       },
       use: {
@@ -260,6 +348,17 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
             "jericho.e4.pre_fall_lionism_code",
             "jericho.e5.wraith_pre_rite_contract",
           ],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Four episodes' worth of Lionism canon, indexed by the bust. Pre-Fall code, imprint-protocol, witness aftermath, pre-rite contract. The bust has been holding the chain together.",
+            balanced:
+              "The bust surfaces the Antiquarian's full cross-episode Lionism index — pre-Fall code, imprint-protocol doctrine, the Akai Shi aftermath testimonies, and Wraith's pre-rite contract. Reading them in order shows the saga's Lionism canon as a continuous document. The editor's revisions did not cut the canon; they overlaid it. The original is still here.",
+            warm:
+              "Four pieces of Jericho's case, all surfaced at once. The bust has been holding the canon together for two centuries. The editor never figured out how to reach inside the bust. The Antiquarian planned for that.",
+          },
+          voId: "human.antiquarian-library.antiquarian-bust.talk",
         },
       },
     },
@@ -292,6 +391,17 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           episodeId: "seer.e2",
           cluesFound: ["seer.e2.hierophant_marginalia"],
         },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Hierophant signed both VAR-1109 catalog cards. 'Load-bearing pair — do not separate.' He read the Seer's discipline correctly the first time.",
+            balanced:
+              "The Hierophant's marginalia on the morning/afternoon catalog cards is the saga's earliest record of the contradiction-as-pair reading. He named the discipline correctly four hundred years before any subsequent reader had to figure it out. The pair has been preserved on his authority.",
+            warm:
+              "He read her right. He has been reading every Seer recording right since the Seer first started recording. Wraith's job, more than anyone else's, has been to be the careful reader the Seer trusted.",
+          },
+          voId: "human.antiquarian-library.hierophants-marginalia-stack.look",
+        },
       },
       use: {
         narration: {
@@ -319,6 +429,17 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
             "seer.e3.wraith_journal_entry",
           ],
         },
+        humanReaction: {
+          narration: {
+            shadow:
+              "DEC-7710 catalog card. Wraith's journal flagged at the witness passage. Two readers across two centuries honoured record-and-suppress.",
+            balanced:
+              "The catalog card and Wraith's journal-flag together establish that Wraith attended the Seer's last consultation as a formal witness and refused to commit what he heard to record while still recording the fact of the witness. The Hierophant's bookmark on the journal flag is the saga's third reader honouring the same protocol.",
+            warm:
+              "I attended that consultation. I will not, here or anywhere else, tell you what I heard. The journal flag is my own commitment to the discipline; the Hierophant's bookmark is his confirmation. The Seer trusted us. We have not betrayed that trust.",
+          },
+          voId: "human.antiquarian-library.hierophants-marginalia-stack.use",
+        },
       },
       talk: {
         narration: {
@@ -345,6 +466,17 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
             "seer.e4.seers_letter_to_vex",
             "seer.e5.canon_register_paradox",
           ],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Sealed letter to Vex. Canon paradox entry. Both filed by the Hierophant. He has been holding both halves for a long time.",
+            balanced:
+              "The Seer's undelivered letter to Vex and the Canon Register paradox entry are the two saga-scale documents the Hierophant filed at the Seer's request. Both have waited for the right reader. We are the right reader. The Hierophant's filing discipline made this moment possible.",
+            warm:
+              "He held both pieces. The letter for Vex; the paradox entry for the canon. He has been carrying the Seer's last requests forward for centuries. We are now in a position to honour the Seer's intent on both. We will, when the moment comes.",
+          },
+          voId: "human.antiquarian-library.hierophants-marginalia-stack.talk",
         },
       },
     },
@@ -377,6 +509,17 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           episodeId: "degen.e3",
           cluesFound: ["degen.e3.coda_purpose_brief"],
         },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Six pages, signed by every faction. Four tests for replacement: misappropriation, concealment, procedural failure, irreversible loss of trust. Mol'Vereth is testing for the third. Don't worry about the others.",
+            balanced:
+              "The Coda Purpose Brief is the legal framework Mol'Vereth's audit operates inside. The four trustee-replacement tests are the only authorised grounds. Mol'Vereth's audit-scope letter narrows to test three. Tests one, two, and four are not in scope. The Degen will be evaluated on procedural performance only.",
+            warm:
+              "The Coda built honest replacement criteria. They are still in use. Mol'Vereth follows them precisely. The Degen knows the framework as well as anyone — he wrote himself into it.",
+          },
+          voId: "human.antiquarian-library.codas-purpose-shelf.look",
+        },
       },
       use: {
         narration: {
@@ -401,6 +544,17 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           episodeId: "degen.e4",
           cluesFound: ["degen.e4.coda_treasurers_emergency_note"],
         },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Three-day pre-audit warning. Bylaws permitted the omission. The treasurer chose to give him the heads-up anyway.",
+            balanced:
+              "The Coda treasurer's emergency note is procedurally optional. She wrote it because she values fellow-trustee solidarity more than the institution's preference for an unwarned audit. The Degen's audit-prep on Lyra's desk is the result of those three days.",
+            warm:
+              "She warned him because she trusts him. Mol'Vereth, when he reads the audit's findings, will see the prep and know exactly when the warning came. He will not be displeased.",
+          },
+          voId: "human.antiquarian-library.codas-purpose-shelf.use",
+        },
       },
       talk: {
         narration:
@@ -413,6 +567,17 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           mysteryId: "mystery.the_degen",
           episodeId: "degen.e5",
           cluesFound: ["degen.e5.degens_letter_to_the_saga"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Sealed. Addressed to the saga's last reader. Filed by the Antiquarian. Don't open until the audit closes.",
+            balanced:
+              "The Degen's letter to the saga is the deepest single act of preparation in his arc. He wrote it for whoever will be at the table when the audit closes — and filed it through the Antiquarian to make sure it would be findable. The seal is unbroken; the letter is meant to be read after, not before.",
+            warm:
+              "He wrote a letter for the night the audit closes. It will be read whether the verdict is clean or contested. Either way, he wanted the saga to have his words. We have not opened the letter; we only know it exists.",
+          },
+          voId: "human.antiquarian-library.codas-purpose-shelf.talk",
         },
       },
     },
@@ -445,6 +610,17 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           episodeId: "game_master.e2",
           cluesFound: ["game_master.e2.velkraals_letter_to_archon"],
         },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Velkraal posthumous letter, dated forward. Names Brel, asks for quiet ratification. He has been preparing his exit for a year minimum.",
+            balanced:
+              "Velkraal's posthumous letter to the Hierarchy Archon is a clean exit document: pre-written, dated forward, filed for opening only after his final session. The Hierarchy will receive a fully-prepared succession ratification request. There is no chaos at the handover.",
+            warm:
+              "He took the year he had and used every day of it to prepare. The letter is the pre-written acknowledgement of an exit he chose to perform with dignity. Most people don't get the chance. He took it.",
+          },
+          voId: "human.antiquarian-library.velkraals-correspondence-folio.look",
+        },
       },
       use: {
         narration: {
@@ -468,6 +644,17 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           mysteryId: "mystery.game_master",
           episodeId: "game_master.e4",
           cluesFound: ["game_master.e4.draft_closing_edit"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Draft, hand-written. Single-line postscript: read, don't edit. Brel's initials on the margin. The protocol-shift is already installed.",
+            balanced:
+              "Velkraal's draft closing-edit is the protocol-shift's installation document. The single-line postscript is the entire policy change. Brel's marginal initials are the policy's pre-approval. The actual session ratifies what is already in writing — there will be no surprises.",
+            warm:
+              "He wrote the new rule on the same page as his last edit. She signed off on the new rule before it took effect. The custodianship will be quieter under both of them than it has been in centuries.",
+          },
+          voId: "human.antiquarian-library.velkraals-correspondence-folio.use",
         },
       },
       talk: {
@@ -505,6 +692,17 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           episodeId: "vex.e2",
           cluesFound: ["vex.e2.acknowledged_witness_list"],
         },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Nineteen names, four decades. Each invitation countersigned by Vex. The list is the trust-record. It is small on purpose.",
+            balanced:
+              "The Insurgency's acknowledged-witness list is, by Vex's discipline, restricted. Nineteen names across forty years means she invited an average of one new witness every two years — a rate consistent with her habit of admitting only people who could read the work as work. The list is, in effect, her professional trust-record.",
+            warm:
+              "Lyra is on this list. The Hierophant is on this list. I am not on this list. I never asked to be. I have looked at the list once, in passing, and I know exactly which names are there.",
+          },
+          voId: "human.antiquarian-library.insurgency-witness-roster.look",
+        },
       },
       use: {
         narration: {
@@ -529,6 +727,17 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           episodeId: "vex.e3",
           cluesFound: ["vex.e3.public_archive_calibration_tapes"],
         },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Public-archive tapes. Engineer Zero credited on every one across forty years. The alias is, in plain view, her actual name.",
+            balanced:
+              "The public-archive calibration tapes corroborate the witness-list and the Insurgency's installment ledger. Forty years of Engineer Zero credits, all attributable to one engineer, all available for academic study. The alias was a discipline of separation, not concealment — the public record was always there.",
+            warm:
+              "She has been credited under the alias on every tape since the first. The public-archive copies exist precisely so the saga's institutional record cannot pretend the work didn't happen. She made sure of that.",
+          },
+          voId: "human.antiquarian-library.insurgency-witness-roster.use",
+        },
       },
       talk: {
         narration:
@@ -540,6 +749,17 @@ export const ANTIQUARIAN_LIBRARY_MYSTERY: RoomMysteryModule<AntiquarianLibraryHo
           mysteryId: "mystery.vex_solene",
           episodeId: "vex.e4",
           cluesFound: ["vex.e4.training_files_meta"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Training-files metadata. The apprentice is registered with the Insurgency archive. The succession is in the public record before it has happened.",
+            balanced:
+              "The Insurgency archive accepted Vex's apprentice registration as a formal trainee. The metadata folio establishes the apprentice's professional identity in advance of the handover session. Tomorrow's calibration is, on this evidence, the moment a name on a registered file becomes a name on a live credit line.",
+            warm:
+              "She has been on the public record as Vex's trainee for some time. The handover is the saga's small ceremony for a fact already established. Sometimes ceremonies are like that. They confirm what is already true.",
+          },
+          voId: "human.antiquarian-library.insurgency-witness-roster.talk",
         },
       },
     },

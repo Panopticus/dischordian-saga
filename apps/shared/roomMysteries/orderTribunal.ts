@@ -47,6 +47,17 @@ export const ORDER_TRIBUNAL_MYSTERY: RoomMysteryModule<OrderTribunalHotspotId> =
           episodeId: "wraith.e3",
           cluesFound: ["wraith.e3.living_pairs_ledger"],
         },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Three pairs still active. Feet, Voices, Witnesses. The bench keeps the docket open until the verdicts are pronounced. They will be.",
+            balanced:
+              "The Syndicate pairs ledger is the Order's open-enforcement column. The bench is older than any of the three pairs and will outlive the last of them. The cases are not stale; the wood is just patient.",
+            warm:
+              "Three centuries of patience in one piece of wood. I have never been able to sit comfortably in this room. I respect everything about it.",
+          },
+          voId: "human.order-tribunal.judges-bench.look",
+        },
       },
       use: {
         narration: {
@@ -70,6 +81,17 @@ export const ORDER_TRIBUNAL_MYSTERY: RoomMysteryModule<OrderTribunalHotspotId> =
           episodeId: "degen.e1",
           cluesFound: ["degen.e1.hierarchy_demon_signature"],
         },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Mol'Vereth's red wax under the chief adjudicator's seat. Trustee, not debtor. The Order ratified the arrangement. The Degen has been managing someone else's stake the whole time.",
+            balanced:
+              "The demon-signature contract reframes everything in the Degen's case. He is not a free agent — he is a Hierarchy trustee, by Order ratification. His debts are someone else's stakes, and he has been performing the role under that constraint without complaint for centuries.",
+            warm:
+              "The Degen has been carrying someone else's stake at his table for as long as I have known him. He never complained. I think he found the work, even under the constraint, satisfying. I'm telling you so you don't read his quietness as resignation.",
+          },
+          voId: "human.order-tribunal.judges-bench.use",
+        },
       },
       talk: {
         narration: {
@@ -89,6 +111,17 @@ export const ORDER_TRIBUNAL_MYSTERY: RoomMysteryModule<OrderTribunalHotspotId> =
           mysteryId: "mystery.jericho_jones",
           episodeId: "jericho.e5",
           cluesFound: ["jericho.e5.mol_vereth_principal_outline"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "The principal-of-record is whoever the trusteeship actually serves. The letter names them. Read carefully; the Order doesn't volunteer this information twice.",
+            balanced:
+              "Mol'Vereth's principal-outline is the document that closes Jericho's case on the legal side. The Hierarchy has, in writing, named the party Jericho's trusteeship is held for — and the Order has countersigned. The bench tells the truth even when the case-file redacts it.",
+            warm:
+              "Whoever the principal is, they will know we read this. The Order's clerks log every wax-seal break. We have committed ourselves to the case by reading the letter; we should be ready to act on what it says.",
+          },
+          voId: "human.order-tribunal.judges-bench.talk",
         },
       },
     },
@@ -122,6 +155,17 @@ export const ORDER_TRIBUNAL_MYSTERY: RoomMysteryModule<OrderTribunalHotspotId> =
           episodeId: "wraith.e3",
           cluesFound: ["wraith.e3.tribunal_kill_list"],
         },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Confirmed-Kill list #C-7. Names redacted in indigo. Wraith was the principal witness on every entry. He went into exile rather than testify on the eighth.",
+            balanced:
+              "The kill list is a sibling exhibit to the case Lyra opened. C-7 lists confirmed kills attributable to the editor's protocol-theft pattern. Wraith was the principal witness on the seven names that survived the redaction — and by departing, refused to add an eighth.",
+            warm:
+              "He testified against seven killings. He could not testify against the eighth. I did not understand his refusal at the time. I think I understand it now.",
+          },
+          voId: "human.order-tribunal.evidence-locker.look",
+        },
       },
       use: {
         narration: {
@@ -141,6 +185,17 @@ export const ORDER_TRIBUNAL_MYSTERY: RoomMysteryModule<OrderTribunalHotspotId> =
           episodeId: "game_master.e5",
           cluesFound: ["game_master.e5.xethraal_continuance_letter"],
         },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Hierarchy CFO countersigned by the Order's clerk. Brel continues. The Vault Division goes on. Velkraal arranged this exit.",
+            balanced:
+              "Xeth'Raal's continuance letter is the formal close to the Game Master arc. Order-ratified, Hierarchy-issued, Velkraal-arranged. The Goggles section continues under Brel's read-don't-edit protocol. The succession is, as Velkraal designed it, quiet.",
+            warm:
+              "Brel reads. She will read for a long time. Velkraal made sure of that. The letter is the saga's small ratification of one careful person's careful exit.",
+          },
+          voId: "human.order-tribunal.evidence-locker.use",
+        },
       },
       talk: {
         narration:
@@ -155,6 +210,17 @@ export const ORDER_TRIBUNAL_MYSTERY: RoomMysteryModule<OrderTribunalHotspotId> =
           mysteryId: "mystery.jericho_jones",
           episodeId: "jericho.e4",
           cluesFound: ["jericho.e4.post_fall_revision"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Post-Fall threshold-doctrine. Editor's hand, Order ratification. The Lionism canon has been his for two centuries. Jericho was raised on it and didn't know.",
+            balanced:
+              "The post-Fall revision rewrote Section 4 Mercy in language that sounds like Lionism but isn't. The editor authored the threshold doctrine; the Order ratified it because the Insurgency stopped contesting it after Akai Shi's death. Jericho's trainers used the revision as canon. He learned the editor's voice before he learned the original.",
+            warm:
+              "He grew up on the wrong canon. That isn't his fault. We are, by reading this revision against the pre-Fall code, giving him the original he was supposed to have. He will be hard on himself when he realises. Don't let him.",
+          },
+          voId: "human.order-tribunal.evidence-locker.talk",
         },
       },
     },
@@ -189,6 +255,17 @@ export const ORDER_TRIBUNAL_MYSTERY: RoomMysteryModule<OrderTribunalHotspotId> =
             "degen.e3.mol_vereth_marginal_note",
           ],
         },
+        humanReaction: {
+          narration: {
+            shadow:
+              "He's been reading the same Coda column for thirty years. He left a note for the next clerk. We are the next clerk. The audit is on us.",
+            balanced:
+              "Mol'Vereth's audit calendar is exact and his marginal note is a quiet handover. He's looking for a clerk who can read what he reads. That's the Degen, on his good days; that's us, on this one.",
+            warm:
+              "Mol'Vereth is, beneath the precision, a kind man. The marginal note is him saying: someone, eventually, will read this carefully, and they will know what to do. We are the someone.",
+          },
+          voId: "human.order-tribunal.mol-vereth-audit-ledger.look",
+        },
       },
       use: {
         narration:
@@ -199,6 +276,17 @@ export const ORDER_TRIBUNAL_MYSTERY: RoomMysteryModule<OrderTribunalHotspotId> =
           episodeId: "degen.e4",
           cluesFound: ["degen.e4.audit_scope_letter"],
         },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Narrow scope. One specific risk. Row 4,711 named directly. He's not fishing — he's pointing.",
+            balanced:
+              "A narrow audit scope is a Mol'Vereth signal. He's done this before: when he wants to find one specific thing, he writes a one-thing scope letter. The Senior Partners always sign it. The Degen always knows what he's looking for. So do we, now.",
+            warm:
+              "He is being kind by being precise. A broad audit would have been a fishing expedition; a narrow one is a question he is asking the Degen to answer. The Degen will answer it well, because the Degen has been preparing for the question for at least three days.",
+          },
+          voId: "human.order-tribunal.mol-vereth-audit-ledger.use",
+        },
       },
       talk: {
         narration:
@@ -208,6 +296,17 @@ export const ORDER_TRIBUNAL_MYSTERY: RoomMysteryModule<OrderTribunalHotspotId> =
           mysteryId: "mystery.the_degen",
           episodeId: "degen.e5",
           cluesFound: ["degen.e5.audit_outcome_letter"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "He pre-wrote the verdict in pencil. Settled, restored, reaffirmed. The pencil holds if the audit doesn't surface anything that contradicts. We make sure it doesn't.",
+            balanced:
+              "Mol'Vereth's draft outcome letter is the Hierarchy CFO's working assumption: the Degen's books will check out and the trusteeship will continue. The pencil is rewriteable until it's signed. Our job is to make the pencil hold.",
+            warm:
+              "He believes the Degen is honest. That belief is rare and it is, on the evidence of thirty years, well-earned. The pencilled letter is Mol'Vereth telling the Degen — through us — that the trust is still good.",
+          },
+          voId: "human.order-tribunal.mol-vereth-audit-ledger.talk",
         },
       },
     },

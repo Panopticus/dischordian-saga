@@ -243,6 +243,17 @@ export const COMMS_ARRAY_MYSTERY: RoomMysteryModule<
           episodeId: "vex.e1",
           cluesFound: ["vex.e1.engineer_zero_credit_list"],
         },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Same engineer, different credit line. The Insurgency hides her in plain sight — alias on one tape, real name on every other.",
+            balanced:
+              "DEC-7710 is the only tape credited to a cover identity. Every other tape — 4,711 of them — credits Engineer Zero. The alias was issued for one session at her request, and the Seer asked the Insurgency to honour it. The credit-list anomaly is the public record's quiet way of telling us the request happened.",
+            warm:
+              "She used a fake name for one tape, in forty years of work, on a single morning when she couldn't sign her own. The Insurgency carried the alias for her without asking why. That is the kind of trust this saga still has and rarely shows.",
+          },
+          voId: "human.comms-array.egg-signal.use",
+        },
       },
       talk: {
         narration: {

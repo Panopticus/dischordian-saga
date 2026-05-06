@@ -235,6 +235,17 @@ export const MEDICAL_BAY_MYSTERY: RoomMysteryModule<MedicalBayHotspotId> = {
           episodeId: "vex.e3",
           cluesFound: ["vex.e3.apprentice_workbench_state"],
         },
+        humanReaction: {
+          narration: {
+            shadow:
+              "She left the tools where the apprentice can find them and the link where the apprentice can use it. That is succession by design.",
+            balanced:
+              "Vex is making her absence operational before she's absent. The handover is gradual on purpose — the apprentice is reading her marker-work in real time, not being handed a closed body of finished records. Watch the linkage. It's the cleanest succession Engineer Zero has ever performed.",
+            warm:
+              "She's giving them time to learn how she sees. That is the only good way to teach anyone anything important. The apprentice has been reading her work from a safe distance for months; tomorrow they read it together.",
+          },
+          voId: "human.medbay.dna-helix.use",
+        },
       },
       talk: {
         narration: {

@@ -87,6 +87,17 @@ export const STATION_DOCK_MYSTERY: RoomMysteryModule<StationDockHotspotId> = {
           episodeId: "game_master.e1",
           cluesFound: ["game_master.e1.xethraal_acquisition_paperwork"],
         },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Xeth'Raal filed acquisition paperwork within the hour the Game Master was destroyed. Custodial-collection. Same dock, same discipline of unlogged contents.",
+            balanced:
+              "The Hierarchy CFO's acquisition paperwork was filed through this dock within sixty minutes of the Game Master event. The discipline is institutional: the Hierarchy collects custodianship rights immediately and lets the Order sort out the legitimacy later. The dock saw the paperwork pass through.",
+            warm:
+              "Xeth'Raal moved fast. Some institutions do, on the right days. The dock has been carrying the paperwork forward across centuries because nobody asked for it back. Today we asked.",
+          },
+          voId: "human.station-dock.ship-manifest.look",
+        },
       },
       use: {
         narration:
@@ -174,6 +185,17 @@ export const STATION_DOCK_MYSTERY: RoomMysteryModule<StationDockHotspotId> = {
           episodeId: "degen.e3",
           cluesFound: ["degen.e3.coda_books"],
         },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Ten years of books, every quarter signed. Mol'Vereth wants them moved through a Hierarchy-correspondent path. That detail matters more than the books.",
+            balanced:
+              "The Coda's books being pulled to the dock for in-transit review is procedurally unusual. Mol'Vereth is normally an in-place auditor; relocating the books to a Hierarchy correspondent path means he wants the audit to be visible to a specific second reader. That second reader is, on the saga's evidence, Ozhul'Vana.",
+            warm:
+              "He's letting Ozhul see the books. That's why he moved them through her path. He trusts her audit-eye more than the formal review process. The discipline runs sideways.",
+          },
+          voId: "human.station-dock.codas-trading-floor.look",
+        },
       },
       use: {
         narration: {
@@ -198,6 +220,17 @@ export const STATION_DOCK_MYSTERY: RoomMysteryModule<StationDockHotspotId> = {
           episodeId: "degen.e4",
           cluesFound: ["degen.e4.ozhul_specific_query"],
         },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Ozhul has flagged Mol'Vereth's reading of brokerage-line #4,711. Returned-to-sender by the dock clerk because Mol'Vereth was off-station. We read it before he did.",
+            balanced:
+              "Ozhul'Vana's specific query is the kind of internal Hierarchy correspondence that almost never reaches a non-CFO reader. The dock clerk's return-to-sender is a small procedural anomaly that put it in our hands. Mol'Vereth will read it eventually; we read it first because the routing got us there before him.",
+            warm:
+              "Ozhul has been quietly correcting Mol'Vereth's audit framings for years. They both know it. They both pretend they don't. The saga is better for the pretence.",
+          },
+          voId: "human.station-dock.codas-trading-floor.use",
+        },
       },
       talk: {
         narration:
@@ -211,6 +244,17 @@ export const STATION_DOCK_MYSTERY: RoomMysteryModule<StationDockHotspotId> = {
           mysteryId: "mystery.game_master",
           episodeId: "game_master.e3",
           cluesFound: ["game_master.e3.ozhul_acquisition_memo"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Closure argument. Filed for the record, then withheld. She could have ended the Goggles section. She decided not to.",
+            balanced:
+              "Ozhul'Vana drafted a precise argument for permanently closing the Vault Division Goggles section after Velkraal's exit. She filed it internally, then chose not to send it. The decision to withhold the argument is itself the decision to support Brel's continuance. Internal Hierarchy filing-without-sending is, in her practice, a form of consent.",
+            warm:
+              "She wrote the cold version, kept it for the record, and chose not to act on it. That is, in the saga's quietest grammar, a kindness. She voted in Brel's favour by refusing to vote against her.",
+          },
+          voId: "human.station-dock.codas-trading-floor.talk",
         },
       },
     },
