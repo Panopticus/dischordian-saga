@@ -25,6 +25,7 @@ CREATE TABLE `chess_game_reviews` (
   `summary` VARCHAR(255) NULL,
   `createdAt` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+--> statement-breakpoint
 
 CREATE INDEX `idx_chess_game_reviews_user_created`
   ON `chess_game_reviews` (`userId`, `createdAt` DESC);

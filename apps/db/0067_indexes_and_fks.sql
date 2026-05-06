@@ -19,24 +19,28 @@
 -- accept the row-by-row evaluation of the peak/elo math.
 ALTER TABLE `pvp_leaderboard`
   ADD INDEX IF NOT EXISTS `idx_pvp_lb_last_match_at` (`last_match_at`);
+--> statement-breakpoint
 
 -- card_trades collusion detection groups by (buyer, seller). A
 -- composite makes the GROUP BY index-only.
 ALTER TABLE `card_trades`
   ADD INDEX IF NOT EXISTS `idx_card_trades_pair`
     (`buyer_user_id`, `seller_user_id`, `created_at`);
+--> statement-breakpoint
 
 -- crafting_log queries from the user dashboard pull the last N
 -- crafts per user.
 ALTER TABLE `crafting_log`
   ADD INDEX IF NOT EXISTS `idx_crafting_log_user_created`
     (`user_id`, `created_at`);
+--> statement-breakpoint
 
 -- analytics_events: dashboard groups by event name within a time
 -- window — composite on (event_name, created_at).
 ALTER TABLE `analytics_events`
   ADD INDEX IF NOT EXISTS `idx_analytics_events_name_created`
     (`event_name`, `created_at`);
+--> statement-breakpoint
 
 -- ─── Foreign keys on new tables ────────────────────────────────
 
@@ -45,12 +49,14 @@ ALTER TABLE `user_agreements`
   ADD CONSTRAINT `fk_user_agreements_user`
     FOREIGN KEY (`userId`) REFERENCES `users`(`id`)
     ON DELETE CASCADE ON UPDATE CASCADE;
+--> statement-breakpoint
 
 -- user_two_factor (migration 0065)
 ALTER TABLE `user_two_factor`
   ADD CONSTRAINT `fk_user_two_factor_user`
     FOREIGN KEY (`userId`) REFERENCES `users`(`id`)
     ON DELETE CASCADE ON UPDATE CASCADE;
+--> statement-breakpoint
 
 -- user_sessions (migration 0066)
 ALTER TABLE `user_sessions`

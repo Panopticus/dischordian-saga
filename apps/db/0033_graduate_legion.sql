@@ -15,6 +15,8 @@ CREATE TABLE `graduate_deployments` (
   `recalledAt` timestamp,
   CONSTRAINT `graduate_deployments_id` PRIMARY KEY(`id`)
 );
+--> statement-breakpoint
 
 CREATE INDEX `idx_graduate_deployments_user` ON `graduate_deployments` (`userId`);
+--> statement-breakpoint
 CREATE INDEX `idx_graduate_deployments_role` ON `graduate_deployments` (`role`);

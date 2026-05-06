@@ -13,14 +13,17 @@
 ALTER TABLE `dream_balance`
   ADD CONSTRAINT `chk_dream_tokens_nonneg`
     CHECK (`dream_tokens` >= 0);
+--> statement-breakpoint
 
 ALTER TABLE `memory_energy_balance`
   ADD CONSTRAINT `chk_memory_energy_nonneg`
     CHECK (`memory_energy` >= 0);
+--> statement-breakpoint
 
 ALTER TABLE `memory_energy_balance`
   ADD CONSTRAINT `chk_memory_total_spent_nonneg`
     CHECK (`total_spent` >= 0);
+--> statement-breakpoint
 
 -- userProgress.level must never decrease. We can't enforce strict
 -- monotonicity in a CHECK without a trigger; the >= 1 floor at
@@ -28,10 +31,12 @@ ALTER TABLE `memory_energy_balance`
 ALTER TABLE `user_progress`
   ADD CONSTRAINT `chk_user_progress_level_floor`
     CHECK (`level` >= 1);
+--> statement-breakpoint
 
 ALTER TABLE `user_progress`
   ADD CONSTRAINT `chk_user_progress_xp_nonneg`
     CHECK (`xp` >= 0);
+--> statement-breakpoint
 
 ALTER TABLE `user_progress`
   ADD CONSTRAINT `chk_user_progress_points_nonneg`

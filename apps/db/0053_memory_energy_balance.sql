@@ -31,6 +31,7 @@ CREATE TABLE `memory_energy_balance` (
   `createdAt` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
+--> statement-breakpoint
 
 CREATE INDEX `idx_memory_energy_balance_user_id`
   ON `memory_energy_balance` (`userId`);

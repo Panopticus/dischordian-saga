@@ -9,6 +9,7 @@ ALTER TABLE `casino_state`
   ADD COLUMN `gamesWon` JSON DEFAULT NULL,
   ADD COLUMN `consecutiveFactionWins` INT NOT NULL DEFAULT 0,
   ADD COLUMN `consecutiveGauntletWins` INT NOT NULL DEFAULT 0;
+--> statement-breakpoint
 
 -- Seed the new feature flag so admins can suppress the holiday ticker
 -- without disabling the whole event.

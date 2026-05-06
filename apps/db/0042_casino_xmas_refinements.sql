@@ -17,8 +17,10 @@ CREATE TABLE `casino_jackpot_pool` (
   `lastWinAt` TIMESTAMP NULL DEFAULT NULL,
   `updatedAt` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
+--> statement-breakpoint
 
 INSERT INTO `casino_jackpot_pool` (`poolKey`, `balance`, `totalPaidOut`) VALUES ('main', 0, 0);
+--> statement-breakpoint
 
 -- ──────────────────────────────────────────────────────────
 -- Christmas in July — additional counters

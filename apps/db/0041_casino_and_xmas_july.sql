@@ -32,8 +32,10 @@ CREATE TABLE `casino_state` (
   `createdAt` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
+--> statement-breakpoint
 
 CREATE INDEX `idx_casino_state_user` ON `casino_state` (`userId`);
+--> statement-breakpoint
 
 CREATE TABLE `casino_results` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
@@ -47,10 +49,14 @@ CREATE TABLE `casino_results` (
   `seed` VARCHAR(64) DEFAULT NULL,
   `playedAt` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+--> statement-breakpoint
 
 CREATE INDEX `idx_casino_results_user` ON `casino_results` (`userId`);
+--> statement-breakpoint
 CREATE INDEX `idx_casino_results_game` ON `casino_results` (`game`);
+--> statement-breakpoint
 CREATE INDEX `idx_casino_results_played_at` ON `casino_results` (`playedAt`);
+--> statement-breakpoint
 
 -- ──────────────────────────────────────────────────────────
 -- Christmas in July — event progress, gifts, charity
@@ -76,8 +82,10 @@ CREATE TABLE `xmas_july_progress` (
   `createdAt` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
+--> statement-breakpoint
 
 CREATE INDEX `idx_xmas_july_progress_user` ON `xmas_july_progress` (`userId`);
+--> statement-breakpoint
 
 CREATE TABLE `xmas_july_gifts` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
@@ -89,9 +97,12 @@ CREATE TABLE `xmas_july_gifts` (
   `sentAt` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `claimedAt` TIMESTAMP NULL DEFAULT NULL
 );
+--> statement-breakpoint
 
 CREATE INDEX `idx_xmas_july_gifts_sender` ON `xmas_july_gifts` (`senderId`);
+--> statement-breakpoint
 CREATE INDEX `idx_xmas_july_gifts_recipient` ON `xmas_july_gifts` (`recipientId`);
+--> statement-breakpoint
 
 CREATE TABLE `xmas_july_charity_pool` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
@@ -102,6 +113,7 @@ CREATE TABLE `xmas_july_charity_pool` (
   `milestonesReached` JSON DEFAULT NULL,
   `updatedAt` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
+--> statement-breakpoint
 
 CREATE TABLE `xmas_july_craps_rolls` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
@@ -113,8 +125,10 @@ CREATE TABLE `xmas_july_craps_rolls` (
   `stoneId` VARCHAR(64) DEFAULT NULL,
   `rolledAt` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+--> statement-breakpoint
 
 CREATE INDEX `idx_xmas_july_craps_user` ON `xmas_july_craps_rolls` (`userId`);
+--> statement-breakpoint
 
 CREATE TABLE `xmas_july_wheel_spins` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
@@ -125,13 +139,16 @@ CREATE TABLE `xmas_july_wheel_spins` (
   `rarity` VARCHAR(16) NOT NULL DEFAULT 'common',
   `spunAt` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+--> statement-breakpoint
 
 CREATE INDEX `idx_xmas_july_wheel_user` ON `xmas_july_wheel_spins` (`userId`);
+--> statement-breakpoint
 
 -- Seed the charity pool row for the 2026 event so the backend can
 -- rely on a single row existing.
 INSERT INTO `xmas_july_charity_pool` (`eventKey`, `totalGifts`, `totalTokensDonated`, `communityPool`, `milestonesReached`)
 VALUES ('christmas_in_july_2026', 0, 0, 0, JSON_ARRAY());
+--> statement-breakpoint
 
 -- Register feature flags so the casino and event routers can be
 -- toggled via admin console without redeploy.

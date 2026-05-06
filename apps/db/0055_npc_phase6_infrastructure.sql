@@ -27,6 +27,7 @@ CREATE TABLE IF NOT EXISTS `npc_ask_topic_history` (
   INDEX `idx_npc_ask_topic_history_user_id` (`userId`),
   INDEX `idx_npc_ask_topic_history_user_topic` (`userId`, `npcKey`, `topicId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+--> statement-breakpoint
 
 CREATE TABLE IF NOT EXISTS `npc_dialog_tree_state` (
   `id` INT NOT NULL AUTO_INCREMENT,

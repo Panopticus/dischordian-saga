@@ -16,11 +16,13 @@ CREATE TABLE IF NOT EXISTS `unity_meter_state` (
   PRIMARY KEY (`id`),
   CONSTRAINT `unity_meter_state_singleton` CHECK (`id` = 1)
 );
+--> statement-breakpoint
 
 -- Seed the singleton row if it is not yet present.
 INSERT INTO `unity_meter_state` (`id`, `phase`, `percent`)
 SELECT 1, 'contested', 50
 WHERE NOT EXISTS (SELECT 1 FROM `unity_meter_state` WHERE `id` = 1);
+--> statement-breakpoint
 
 CREATE TABLE IF NOT EXISTS `unity_contributions` (
   `id` INT NOT NULL AUTO_INCREMENT,
@@ -34,6 +36,7 @@ CREATE TABLE IF NOT EXISTS `unity_contributions` (
   INDEX `idx_unity_contrib_created` (`createdAt`),
   INDEX `idx_unity_contrib_faction` (`factionId`)
 );
+--> statement-breakpoint
 
 CREATE TABLE IF NOT EXISTS `potential_faction_membership` (
   `id` INT NOT NULL AUTO_INCREMENT,
@@ -47,6 +50,7 @@ CREATE TABLE IF NOT EXISTS `potential_faction_membership` (
   INDEX `idx_potfac_mem_user` (`userId`),
   INDEX `idx_potfac_mem_faction` (`factionId`)
 );
+--> statement-breakpoint
 
 CREATE TABLE IF NOT EXISTS `potential_faction_state` (
   `factionId` VARCHAR(64) NOT NULL,
@@ -57,22 +61,30 @@ CREATE TABLE IF NOT EXISTS `potential_faction_state` (
   `updatedAt` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`factionId`)
 );
+--> statement-breakpoint
 
 -- Seed the 8 faction rows if not yet present so joinFaction() never has
 -- to handle a missing parent.
 INSERT INTO `potential_faction_state` (`factionId`, `dominance`, `memberCount`, `threat`)
 SELECT 'demagi_assembly', 0, 0, 0 WHERE NOT EXISTS (SELECT 1 FROM `potential_faction_state` WHERE `factionId` = 'demagi_assembly');
+--> statement-breakpoint
 INSERT INTO `potential_faction_state` (`factionId`, `dominance`, `memberCount`, `threat`)
 SELECT 'demagi_wardens', 0, 0, 10 WHERE NOT EXISTS (SELECT 1 FROM `potential_faction_state` WHERE `factionId` = 'demagi_wardens');
+--> statement-breakpoint
 INSERT INTO `potential_faction_state` (`factionId`, `dominance`, `memberCount`, `threat`)
 SELECT 'demagi_resonance', 0, 0, 0 WHERE NOT EXISTS (SELECT 1 FROM `potential_faction_state` WHERE `factionId` = 'demagi_resonance');
+--> statement-breakpoint
 INSERT INTO `potential_faction_state` (`factionId`, `dominance`, `memberCount`, `threat`)
 SELECT 'demagi_pureflame', 0, 0, 40 WHERE NOT EXISTS (SELECT 1 FROM `potential_faction_state` WHERE `factionId` = 'demagi_pureflame');
+--> statement-breakpoint
 INSERT INTO `potential_faction_state` (`factionId`, `dominance`, `memberCount`, `threat`)
 SELECT 'quarchon_accord', 0, 0, 0 WHERE NOT EXISTS (SELECT 1 FROM `potential_faction_state` WHERE `factionId` = 'quarchon_accord');
+--> statement-breakpoint
 INSERT INTO `potential_faction_state` (`factionId`, `dominance`, `memberCount`, `threat`)
 SELECT 'quarchon_dimguard', 0, 0, 10 WHERE NOT EXISTS (SELECT 1 FROM `potential_faction_state` WHERE `factionId` = 'quarchon_dimguard');
+--> statement-breakpoint
 INSERT INTO `potential_faction_state` (`factionId`, `dominance`, `memberCount`, `threat`)
 SELECT 'quarchon_realinst', 0, 0, 5 WHERE NOT EXISTS (SELECT 1 FROM `potential_faction_state` WHERE `factionId` = 'quarchon_realinst');
+--> statement-breakpoint
 INSERT INTO `potential_faction_state` (`factionId`, `dominance`, `memberCount`, `threat`)
 SELECT 'quarchon_firstpattern', 0, 0, 40 WHERE NOT EXISTS (SELECT 1 FROM `potential_faction_state` WHERE `factionId` = 'quarchon_firstpattern');

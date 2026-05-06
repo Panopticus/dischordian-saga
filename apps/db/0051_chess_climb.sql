@@ -31,13 +31,17 @@ CREATE TABLE `chess_climb_runs` (
   `startedAt` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `finishedAt` TIMESTAMP NULL DEFAULT NULL
 );
+--> statement-breakpoint
 
 CREATE INDEX `idx_chess_climb_runs_user`
   ON `chess_climb_runs` (`userId`);
+--> statement-breakpoint
 CREATE INDEX `idx_chess_climb_runs_user_tier`
   ON `chess_climb_runs` (`userId`, `tierRank`);
+--> statement-breakpoint
 CREATE INDEX `idx_chess_climb_runs_user_outcome`
   ON `chess_climb_runs` (`userId`, `outcome`);
+--> statement-breakpoint
 
 CREATE TABLE `chess_climb_unlocks` (
   `userId` INT NOT NULL PRIMARY KEY,
