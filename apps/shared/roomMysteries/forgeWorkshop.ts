@@ -33,6 +33,17 @@ export const FORGE_WORKSHOP_MYSTERY: RoomMysteryModule<ForgeWorkshopHotspotId> =
           order: 0,
         },
       },
+      use: {
+        narration:
+          "You strike the anvil with the back of a knuckle. The note is low, even, and rings for nearly four seconds — Lyra's anvil, calibrated. The face's central dish absorbs the strike cleanly; the edges, less worn, ring brighter. The anvil tells you it is ready to be worked.",
+        voId: "elara.forge-workshop.anvil.use",
+        setsFlag: "forge_anvil_struck",
+      },
+      talk: {
+        narration:
+          "If you address the anvil, you address the working centre of the room. Every smith Lyra trained learned to greet it before lifting a hammer — not superstition, exactly, just the discipline of acknowledging what was built before you arrived.",
+        voId: "elara.forge-workshop.anvil.talk",
+      },
     },
     "schema-rack": {
       look: {
@@ -52,6 +63,28 @@ export const FORGE_WORKSHOP_MYSTERY: RoomMysteryModule<ForgeWorkshopHotspotId> =
             "The Forge Workshop's schema-rack contains diagrams in the editor's hand from the last week of Lyra Vox's command. The final schema appears to be a physical device that performs material substitution — the editor's text-method translated into hardware. Lyra never built it.",
           source: "forge-workshop",
           order: 1,
+        },
+      },
+      use: {
+        narration:
+          "You unroll the bottom-most schema. The unrecognised hand has drafted, in clean blue ink, what reads as a substitution-press: a device that takes a shaped artefact in one tray and produces, in the other, a copy with selectively altered geometry. Lyra would have refused to build it. She also, by the position of the schema in the rack, refused to throw it away.",
+        voId: "elara.forge-workshop.schema-rack.use",
+        setsFlag: "forge_editor_schema_unrolled",
+      },
+      talk: {
+        narration:
+          "If you address the rack, you address every weapon Lyra's forge has ever produced — and one weapon it never did. The unbuilt one is, in this room's logic, the most important. Speech here is, by Lyra's discipline, a small refusal of the editor's preferred kind of silence.",
+        voId: "elara.forge-workshop.schema-rack.talk",
+        humanReaction: {
+          narration: {
+            balanced:
+              "She kept that schema where she could see it. So that every time she walked into the workshop, she remembered what she had refused to make. The discipline was to look at it daily and still not build it.",
+            shadow:
+              "Some refusals are louder than others. Lyra's refusal of that schema was the loudest one she made. The editor never forgave her for it.",
+            warm:
+              "Lyra showed me that schema once, just once, and then put it back exactly where it had been. She wanted me to know it existed, and to know she would not build it. That was, in retrospect, a will.",
+          },
+          voId: "human.forge-workshop.schema-rack.talk",
         },
       },
     },
@@ -74,6 +107,17 @@ export const FORGE_WORKSHOP_MYSTERY: RoomMysteryModule<ForgeWorkshopHotspotId> =
           source: "forge-workshop",
           order: 2,
         },
+      },
+      use: {
+        narration:
+          "You open the kiln's firebox. The interior is cold ash and a few fragments of unburnt bay leaf at the bottom — last firing was unfinished, interrupted. Whoever was working the kiln when Lyra died never got to close the firing properly. The ash has been undisturbed since.",
+        voId: "elara.forge-workshop.kiln.use",
+        setsFlag: "forge_kiln_inspected",
+      },
+      talk: {
+        narration:
+          "If you address the kiln, you address the smith who left it cold. Their work is unfinished; the metal that was being tempered is, by the manifest stub, still in the quench-tub stage-right. Two and a half centuries late, and waiting.",
+        voId: "elara.forge-workshop.kiln.talk",
       },
     },
   },

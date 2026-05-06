@@ -88,3 +88,34 @@ export async function setEntitlement(
 
   return { changed: true };
 }
+
+/**
+ * Read the player's current entitlement flags. Always returns a populated
+ * object with all known keys (defaults to `false`) so call sites can do
+ * `(await getEntitlements(uid)).foundingAuthor` without null-guards.
+ */
+export async function getEntitlements(
+  userId: number,
+): Promise<Record<EntitlementKey, boolean>> {
+  const { getDb } = await import("../db");
+  const db = await getDb();
+  const empty: Record<EntitlementKey, boolean> = {
+    foundingAuthor: false,
+    authorsEditionS2: false,
+  };
+  if (!db) return empty;
+  const rows = await db
+    .select()
+    .from(userProgress)
+    .where(eq(userProgress.userId, userId))
+    .limit(1);
+  const row = rows[0];
+  if (!row) return empty;
+  type AnyRecord = Record<string, unknown>;
+  const gameData = (row.gameData as AnyRecord) ?? {};
+  const ents = (gameData.entitlements as AnyRecord) ?? {};
+  return {
+    foundingAuthor: ents.foundingAuthor === true,
+    authorsEditionS2: ents.authorsEditionS2 === true,
+  };
+}

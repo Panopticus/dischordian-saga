@@ -68,6 +68,17 @@ export const ORDER_TRIBUNAL_MYSTERY: RoomMysteryModule<OrderTribunalHotspotId> =
           cluesFound: ["degen.e1.hierarchy_demon_signature"],
         },
       },
+      talk: {
+        narration: {
+          lucid:
+            "You address the bench. The wood does not answer in voice — it answers in resonance. Stand close enough and the three centuries of pronouncements absorbed into the grain produce, very faintly, a sub-audible standing tone. The Order trained adjudicators to hear the tone before they spoke. We are listening to it now. We are not, today, going to add another verdict to the count.",
+          fragmented:
+            "The tone. The tone. The tone. The wood hums. The wood hums. The wood remembers every verdict. Every verdict.",
+          luminous:
+            "The bench answers in resonance, not in words. The standing tone is the cumulative weight of three centuries of judgments, and the Order's discipline was that no adjudicator should pronounce a verdict whose weight exceeded what the bench could already hold. The tone is the limit. We are not, today, here to test it — we are here to acknowledge the limit and to honour the discipline of the room that made the limit legible in the first place.",
+        },
+        voId: "elara.order-tribunal.judges-bench.talk",
+      },
     },
     "evidence-locker": {
       look: {
@@ -99,6 +110,23 @@ export const ORDER_TRIBUNAL_MYSTERY: RoomMysteryModule<OrderTribunalHotspotId> =
           episodeId: "wraith.e3",
           cluesFound: ["wraith.e3.tribunal_kill_list"],
         },
+      },
+      use: {
+        narration: {
+          lucid:
+            "You break the red wax on the newest sealed compartment. The wax cracks cleanly, the way wax cracks when it has been waiting to be cracked for a long time and the seal-keeper had no objection. Inside: a single docket sheet in Lyra Vox's hand, a witness deposition signed by Wraith Calder, and a charge sheet with the defendant's name redacted in indigo. The case file is intact. The case is, as a matter of procedural record, still ours to advance.",
+          fragmented:
+            "The wax. The wax. The wax. The seal opens. The seal opens. Lyra. Wraith. Lyra. Wraith. Both signatures. Both signatures. Both signatures.",
+          luminous:
+            "The case file is intact. Lyra's docket sheet, Wraith's deposition, and a charge sheet with the defendant's name redacted in indigo. The case has been sitting in this compartment for two and a half centuries, fully prepared, awaiting only a prosecutor and a present principal witness. The Order keeps every open case open until it is properly closed; this is the case the Order has been waiting longest to close.",
+        },
+        voId: "elara.order-tribunal.evidence-locker.use",
+        setsFlag: "tribunal_open_case_opened",
+      },
+      talk: {
+        narration:
+          "If you address the locker, you address every open case the Order has not yet been able to close. Three voices, three pending verdicts. The newest of them is, as we now know, ours to either inherit or decline. The locker is, in this moment, asking which we intend to do.",
+        voId: "elara.order-tribunal.evidence-locker.talk",
       },
     },
   },

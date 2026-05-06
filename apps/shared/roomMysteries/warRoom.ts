@@ -53,6 +53,17 @@ export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
           cluesFound: ["jericho.e5.commission_brief"],
         },
       },
+      use: {
+        narration:
+          "You turn the brass dial through its three positions. BRIEFING — the table's theatre map flickers awake, dark and ready to be populated. RECON — overlapping satellite traces from sectors the ship hasn't actively scouted in centuries. OBITUARY — the names of every casualty, sorted by who they died for, scrolling slowly. You leave the dial on BRIEFING. We are not, today, the audience for the obituary.",
+        voId: "elara.war-room.holo-table.use",
+        setsFlag: "war_room_dial_used",
+      },
+      talk: {
+        narration:
+          "If you address the table, the surface acknowledges in faint pulses — a courteous standby. The room has been waiting for someone to convene a briefing for two and a half centuries. We are not, yet, prepared to convene one. We are, perhaps, preparing to be prepared.",
+        voId: "elara.war-room.holo-table.talk",
+      },
     },
     "casualty-board": {
       look: {
@@ -73,6 +84,17 @@ export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
           source: "war-room",
           order: 1,
         },
+      },
+      use: {
+        narration:
+          "You leaf through the Protocol Zero binder. The kept / lost annotations alternate without obvious pattern — kept, lost, kept, lost, kept, kept, lost. A small note in Wraith's hand on the inside back cover reads only: 'Kept = the ones whose work survives in the next crew. Lost = the ones whose work the editor reached.' That makes the count tractable. We can verify it.",
+        voId: "elara.war-room.casualty-board.use",
+        setsFlag: "war_room_protocol_zero_decoded",
+      },
+      talk: {
+        narration:
+          "If you address the casualty-board, you address every name in every binder. Most of the operations here ended well; most of the names here did not. Lyra's discipline of putting the casualty-board in the same room as the briefing-table was, on her notes, the reason she could keep planning at all. Without the consequence in eyeline, the planning becomes cheap.",
+        voId: "elara.war-room.casualty-board.talk",
       },
     },
     "signal-flag-rack": {
@@ -107,6 +129,28 @@ export const WAR_ROOM_MYSTERY: RoomMysteryModule<WarRoomHotspotId> = {
           mysteryId: "mystery.vex_solene",
           episodeId: "vex.e1",
           cluesFound: ["vex.e1.warlord_fragment_dossier"],
+        },
+      },
+      use: {
+        narration:
+          "You unfold the twelfth flag. The fabric resists, very slightly, the way a flag folded in a particular way for a particular person resists being unfolded by anyone else. The pattern, opened, is more legible than it was racked: a geometry of nested asymmetric octagons, in the unnameable indigo, with a single warm-gold thread sewn diagonally across — Lyra's signature thread, used only on her own folds. She negotiated with the editor and signed the flag herself. Refold and re-rack carefully.",
+        voId: "elara.war-room.signal-flag-rack.use",
+        setsFlag: "war_room_twelfth_flag_opened",
+      },
+      talk: {
+        narration:
+          "If you address the rack, you address every faction Lyra met in person. Twelve voices. The twelfth voice is the only one who refuses to be named in any room he hasn't already worked on. The other eleven, addressed here, do answer. We have, perhaps, eleven friends we did not know we had.",
+        voId: "elara.war-room.signal-flag-rack.talk",
+        humanReaction: {
+          narration: {
+            balanced:
+              "She told me about the meeting once, briefly, and only the parts she could be sure he hadn't already heard. The flag was the only record she committed to. She trusted the rack to keep it safer than any document.",
+            shadow:
+              "She met him alone. No witness, no second chair, no record. The flag is the only thing she let exist of that meeting. Two days later she was dead and we still don't know what was said.",
+            warm:
+              "Lyra came back from that meeting and folded the flag in the war room, by herself, late at night. I watched her do it from the bridge corridor. She put it on the rack and went to bed. She slept badly. Two days later — well. You know.",
+          },
+          voId: "human.war-room.signal-flag-rack.talk",
         },
       },
     },

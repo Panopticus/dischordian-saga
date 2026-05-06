@@ -181,6 +181,11 @@ export const ENGINEERING_MYSTERY: RoomMysteryModule<EngineeringHotspotId, Engine
         narration:
           "You can't recalibrate the core by hand. You'd need a fresh resonance equation and a Research Station to compile it. The bench is right there.",
       },
+      talk: {
+        narration:
+          "Elara: \"The core hums in B-flat. It always has. Every engineer who worked here learned to detect the bleed by listening for the half-tone drift. Today's hum is one-eighth flat of nominal — closer than the readout suggests, slower than the panel says. The core is steadier than its instruments. Address it; it knows you are here.\"",
+        voId: "elara.engineering.reactor-core.talk",
+      },
     },
     "blueprints": {
       look: {
@@ -210,6 +215,12 @@ export const ENGINEERING_MYSTERY: RoomMysteryModule<EngineeringHotspotId, Engine
         narration:
           "Elara: \"The unsigned one is the one we should be worried about. Whoever finished it didn't want their name on it. That is rarely a generous instinct.\"",
       },
+      use: {
+        narration:
+          "You leaf through the holo-schematics. Each card-design rotates slowly under your hand, projecting its mana-cost and effect text in the air. The two L. V. designs are honest in the literal sense: every line of text is a true accounting of what the card does. The third — the unsigned one — refuses to display its effect text under direct query. The card describes itself only when not being asked.",
+        voId: "elara.engineering.blueprints.use",
+        setsFlag: "blueprints_unsigned_evasive",
+      },
     },
     "crafting-bench": {
       look: {
@@ -238,7 +249,20 @@ export const ENGINEERING_MYSTERY: RoomMysteryModule<EngineeringHotspotId, Engine
       },
       // The `use` verb falls through to the existing /research-lab
       // route action so the player can still reach the live crafting
-      // system from this hotspot.
+      // system from this hotspot. The narration below gives the
+      // verb-coin a non-blocking acknowledgement when the route is
+      // already navigated or the player is using the verb-coin to
+      // examine the bench rather than open the lab.
+      use: {
+        narration:
+          "You pick up one of the tools laid out on the bench. The grip is worn to a left-handed engineer's thumb — the same wear pattern as the iron knife at the social-hub mess-table. Lyra was, again, the last person to use this. The tool sits naturally in your right hand because she set the bench up for whoever came next, not for herself.",
+        voId: "elara.engineering.crafting-bench.use",
+      },
+      talk: {
+        narration:
+          "Elara: \"Address the bench and you address every job that was ever started here and finished elsewhere. The bench was Lyra's, but the bench has had dozens of users. The fusion socket waits for two cards. The components wait for a welder. The bench is, in its quiet way, asking whether we are the engineer or the visitor. Either is allowed.\"",
+        voId: "elara.engineering.crafting-bench.talk",
+      },
     },
     "egg-eng-formula": {
       look: {
@@ -252,6 +276,16 @@ export const ENGINEERING_MYSTERY: RoomMysteryModule<EngineeringHotspotId, Engine
           order: 3,
         },
         setsFlag: "engineering_first_clue_found",
+      },
+      use: {
+        narration:
+          "You take a graphite rubbing of the etched formula. The Ψ-null term comes through cleanly — the etcher pressed deep enough to ensure the rubbing would work centuries later. They wanted this read.",
+        voId: "elara.engineering.egg-eng-formula.use",
+      },
+      talk: {
+        narration:
+          "Elara: \"You can address the formula but it doesn't address back. Math, in our universe, is the one language nothing edits. The Ψ-null term will read the same, in any era, in any hand. That is, in this case's economy, the closest thing we have to a sealed-cabinet original. The reactor housing is the cabinet's glass.\"",
+        voId: "elara.engineering.egg-eng-formula.talk",
       },
     },
     "instruction-manual": {
@@ -442,6 +476,18 @@ export const ENGINEERING_MYSTERY: RoomMysteryModule<EngineeringHotspotId, Engine
           episodeId: "degen.e1",
           cluesFound: ["degen.e1.mol_vereth_visiting_card"],
         },
+      },
+      talk: {
+        narration: {
+          lucid:
+            "If you read the schematic aloud — both registers, indigo and warm-gold — the act of vocalising the discrepancy makes the indigo overlay fade by a perceptible margin while you speak. The Shadow Tongue's edits cannot survive being narrated. The pad is, in this moment, a small public reading. The reading wins.",
+          fragmented:
+            "Aloud. Aloud. Aloud. The indigo fades. The indigo fades. The indigo fades.",
+          luminous:
+            "Read both layers aloud. The indigo fades while you speak; the warm-gold steadies. The schematic is, by direct observation, vulnerable to spoken witnessing in exactly the way Lyra's projector entries are. The Shadow Tongue's medium is silent record-rewriting; speech is the antidote. Every page he has touched on this ship can, in principle, be partially restored by being read out loud in front of a witness. We have just demonstrated the principle on the most consequential page in the bay.",
+        },
+        voId: "elara.engineering.schematic-pad.talk",
+        setsFlag: "schematic_vocalised",
       },
     },
   },

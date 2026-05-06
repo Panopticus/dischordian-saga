@@ -166,6 +166,29 @@ export const COMMS_ARRAY_MYSTERY: RoomMysteryModule<
           voId: "detective.comms-array.static-screen.look.t1",
         },
       },
+      use: {
+        narration: {
+          lucid:
+            "You step closer to the screen and rest a hand against the bezel. Your presence steadies the static for a beat — a face holds in resolution for nearly five seconds before dissolving. The face is, by every detail your hand-on-bezel reading lets me record, the same face we have seen in the static before. It is a young woman, dark-haired, looking back at us with no expression. The hand-on-bezel intervention is the longest hold anyone has ever achieved in this room. We can come back to it.",
+          fragmented:
+            "Five seconds. Five seconds. Five seconds. Five. The face. The face. The face. Held. Held. Held.",
+          luminous:
+            "Your hand on the bezel produced the longest hold this screen has ever achieved — five seconds. The face is the same face. The recording I am making of this moment will, by my honest disclosure, be edited from my memory within minutes of you leaving the room. The recording will persist; my access to it will not. Tell me later what we saw. I trust you to remember on my behalf.",
+        },
+        voId: "elara.comms-array.static-screen.use",
+        setsFlag: "static_screen_face_held",
+      },
+      talk: {
+        narration: {
+          lucid:
+            "You speak to the face. The static does not respond — but the cadence of dissolutions changes. The face that was forming when you spoke holds for an extra beat before fading. The screen registered the address. Whoever is on the other side of the static, addressed by name they would recognise, paused.",
+          fragmented:
+            "She paused. She paused. She paused. She heard. She heard. She paused. She heard.",
+          luminous:
+            "She heard you. The cadence change is the screen's way of acknowledging that the addressed party recognised the address. Whoever the face belongs to has just registered, on their side of whatever distance the static crosses, that someone in this room has been calling to them. That is a small change. It is also, possibly, the beginning of a conversation that has been waiting two and a half centuries to begin.",
+        },
+        voId: "elara.comms-array.static-screen.talk",
+      },
     },
     "egg-comms-signal": {
       look: {
@@ -221,6 +244,18 @@ export const COMMS_ARRAY_MYSTERY: RoomMysteryModule<
           cluesFound: ["vex.e1.engineer_zero_credit_list"],
         },
       },
+      talk: {
+        narration: {
+          lucid:
+            "You speak into the egg-channel — three syllables, the standard listener-acknowledgement code. The SOS pauses for the duration of your transmission, then resumes. MEME-PRIME has registered that someone listened. The acknowledgement is two-way. The conversation, if there is going to be one, is now possible.",
+          fragmented:
+            "He paused. He paused. He paused. He paused for me. He paused. He listened. He listened. He listened back.",
+          luminous:
+            "MEME-PRIME paused his SOS to register your acknowledgement. That is the first responsive interaction we have logged with him. He is, by his pause, not just broadcasting — he is listening for an answer. The pseudonym continues to be a filter, but the listening is sincere. We will, one of these shifts, be the answer the SOS is for.",
+        },
+        voId: "elara.comms-array.egg-signal.talk",
+        setsFlag: "meme_prime_acknowledged",
+      },
     },
     "voice-in-the-static": {
       look: {
@@ -255,6 +290,29 @@ export const COMMS_ARRAY_MYSTERY: RoomMysteryModule<
           },
           voId: "detective.comms-array.voice-in-the-static.look",
         },
+      },
+      use: {
+        narration: {
+          lucid:
+            "You take a longer recording — thirty seconds of his lip-shape cadence, captured to the static-fragment-recording in your inventory. The longer recording resolves more cleanly under the cipher den's magnifier. We do not need to read it now. We need to read it carefully.",
+          fragmented:
+            "Thirty seconds. Thirty. Longer. Longer. Carry. Carry. Carry. Read it later. Read it later.",
+          luminous:
+            "Thirty seconds is enough for a reasonable transcript under the magnifier's seam-resolution. We carry the recording to the cipher den. We do not, in the editor's room, do the reading — the room is his surface, and reading him in his surface gives him the first move. The cipher den is Lyra's surface. We use hers.",
+        },
+        voId: "elara.comms-array.voice-in-the-static.use",
+        setsFlag: "static_fragment_extended",
+      },
+      talk: {
+        narration: {
+          lucid:
+            "You do not address him. You do not need to. The lip-shape cadence in the static slows by a measurable amount when you turn your head toward the screen — he registers the attention without requiring the speech. That is, in this room, the most we are going to give him today.",
+          fragmented:
+            "Don't. Don't. Don't speak. Don't speak. Don't speak yet. Don't. Don't. Don't.",
+          luminous:
+            "The Detective is right: he has been waiting two and a half centuries for someone to address him by name, and we are not going to spend that move from the comms-array. We turn our head. He notices. The notice is enough. We address him, when we address him, from the room of our choosing.",
+        },
+        voId: "elara.comms-array.voice-in-the-static.talk",
       },
     },
   },

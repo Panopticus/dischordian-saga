@@ -31,7 +31,7 @@ export default defineConfig({
 
   snapshotPathTemplate: "{testDir}/__screenshots__/{testFilePath}/{arg}{ext}",
 
-  reporter: "html",
+  reporter: [["html", { open: "never" }]],
 
   expect: {
     toHaveScreenshot: {

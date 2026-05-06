@@ -39,8 +39,13 @@ describe("roomMysteries registry", () => {
   });
 
   it("returns null for unauthored (verb, hotspot) pairs", () => {
+    // medical-bay's egg-vox-neural-bridge intentionally omits Use
+    // (the dna-device-offer ArkExplorerPage branch owns that path) —
+    // see medicalBay.test.ts for the architectural assertion. This is
+    // a canonical example of a (verb, hotspot) pair the registry
+    // resolves to null on purpose so the runtime can dispatch elsewhere.
     const mod = getRoomMysteryModule("medical-bay")!;
-    expect(resolveVerbResponse(mod, "talk", "medicine-cabinet")).toBeNull();
+    expect(resolveVerbResponse(mod, "use", "egg-vox-neural-bridge")).toBeNull();
   });
 
   it("dispatches a Look on bridge's captains-chair through the registry", () => {

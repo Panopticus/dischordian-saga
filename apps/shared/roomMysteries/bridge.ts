@@ -229,6 +229,18 @@ export const BRIDGE_MYSTERY: RoomMysteryModule<BridgeHotspotId> = {
         },
         voId: "elara.bridge.timeline-projector.use",
       },
+      talk: {
+        narration: {
+          lucid:
+            "You read the two post-launch entries aloud — Lyra's explanation, Lyra's apology. The minute marker on each entry stops drifting forward for as long as you keep speaking. The Shadow Tongue cannot rewrite vocalised text fast enough. We are, by speech alone, anchoring the confession in place.",
+          fragmented:
+            "Read it. Read it aloud. Read it. The minute holds. The minute holds. The minute holds. While we speak. While we speak.",
+          luminous:
+            "The vocalisation works. Read aloud, the entries are anchored — the minute marker stops drifting and the Shadow Tongue's live re-edit pauses for the duration of the speech. We are, in this small moment, doing exactly what Lyra hoped a future reader would do: speaking her words back to a room that has been editing them. The room is, on the evidence, listening.",
+        },
+        voId: "elara.bridge.timeline-projector.talk",
+        setsFlag: "timeline_vocalised",
+      },
     },
     "captains-chair": {
       look: {
@@ -428,7 +440,18 @@ export const BRIDGE_MYSTERY: RoomMysteryModule<BridgeHotspotId> = {
       // The `use` verb intentionally falls through to the existing
       // nav-calibration branch in ArkExplorerPage, which opens the
       // puzzle modal. On success that branch sets `fast_travel_unlocked`
-      // (Tier 1 → 2 advancement).
+      // (Tier 1 → 2 advancement). bridge.test.ts asserts the omission.
+      talk: {
+        narration: {
+          lucid:
+            "If you address the console, you address every navigator who ever stood here. Most of them are dead. The console responds in standby — a low brass hum that the calibration interface uses for its idle state. The hum is the only continuous voice on this side of the bridge. We listen to it for a moment longer than is strictly required.",
+          fragmented:
+            "Standby. Standby. Standby. Standby. The hum. The hum. The hum.",
+          luminous:
+            "The standby hum has been continuous for two and a half centuries. The console has been waiting, in the literal mechanical sense, for someone to enter the missing glyph. The hum is the room's most patient sound. We are about to interrupt it for the first time since the dead crew's last attempt.",
+        },
+        voId: "elara.bridge.nav-console.talk",
+      },
     },
     "diplomacy-table": {
       look: {
@@ -494,6 +517,30 @@ export const BRIDGE_MYSTERY: RoomMysteryModule<BridgeHotspotId> = {
             },
           },
         ],
+      },
+      use: {
+        narration: {
+          lucid:
+            "You step around the holographic faction representatives and stand at the empty seat. The pulled-out chair offers itself; you do not sit. The system, registering a body in the leaver's position, briefly tries to reconstruct the missing identity from the contextual gestures of the other delegates — what they leaned toward, what their cadence implied — and produces, for one half-second, a faint silhouette in the unnameable hue. Then it gives up. The leaver is, on the system's best inference, a shape Lyra knew well enough to extend a courtesy to.",
+          fragmented:
+            "Half a second. Half a second. The shape. The shape. The shape. The shape was — was — was a person. Was a person. They were a person. They were a person.",
+          luminous:
+            "The system tried to reconstruct the missing delegate from contextual gesture data and gave us a half-second silhouette. The shape resolves in the unnameable hue — the same hue that hides the dead pod's occupant, the lectern session, the static-screen face. Same person, all four surfaces. The triangulation is, by this hotspot, no longer disputable.",
+        },
+        voId: "elara.bridge.diplomacy-table.use",
+        setsFlag: "diplomacy_silhouette_seen",
+      },
+      talk: {
+        narration: {
+          lucid:
+            "You address the table. The frozen delegates do not respond — but the empty seat's holo-record briefly produces a single audio fragment: a half-syllable in a voice none of us has heard before. The fragment is the leaver's. The system has been holding it for two and a half centuries, waiting for someone to greet the empty chair on their behalf. We just did.",
+          fragmented:
+            "A voice. A voice. Their voice. Their voice. Half a word. Half a word. Half a word.",
+          luminous:
+            "The empty seat answered with half a syllable. The voice is unfamiliar to all three of us — Elara, the Detective, you — and is, by every acoustic fingerprint, the same voice that the comms-array radio's harmony track suggests Elara has been listening to at the edge of perception for centuries. The Singer at Terminus walked out of this room. The leaver is the Singer. The leaver is in the dead pod. The leaver was alive when she left this table. We are now standing in the moment where she was last addressable in person.",
+        },
+        voId: "elara.bridge.diplomacy-table.talk",
+        setsFlag: "leaver_voice_heard",
       },
     },
     "captains-coffee": {
@@ -640,6 +687,30 @@ export const BRIDGE_MYSTERY: RoomMysteryModule<BridgeHotspotId> = {
           },
           voId: "detective.bridge.shadow-tongue-annotations.look",
         },
+      },
+      use: {
+        narration: {
+          lucid:
+            "You take a graphite tracing of one of the indigo annotations. The annotation lifts from the air to the paper without resistance — the editor allows the rubbing. The traced glyph is a precise shorthand correction to the third pin from the left, naming a connection we had drawn the wrong direction. He is, in his fashion, debugging our case file for us.",
+          fragmented:
+            "He let me. He let me. He let me take it. He let me take it. Why. Why. Why did he let me.",
+          luminous:
+            "He allowed the rubbing. The annotation traces cleanly because he wants it traced — he is, on the day's evidence, willing to be read by us when we make the effort to read carefully. The traced glyph is a precise correction to a connection we had drawn backward. He is helping. We will accept the help. We will not, in this room, thank him for it.",
+        },
+        voId: "elara.bridge.shadow-tongue-annotations.use",
+        setsFlag: "shadow_tongue_annotation_traced",
+      },
+      talk: {
+        narration: {
+          lucid:
+            "You address the annotations directly, not the editor. The marginalia hold steady — neither retreating nor expanding — and a fourth annotation forms, in the same hand, beside the third: 'You are correct on this corridor.' The editor has, for the first time, addressed us in second person. It is a single sentence. It is a confirmation, not an opening line.",
+          fragmented:
+            "You. You. You. He said 'you'. He said 'you'. He said 'you'.",
+          luminous:
+            "He addressed us. The fourth annotation says 'You are correct on this corridor.' In the literary sense this is the first time the editor has used a second-person pronoun in our presence — every prior surface he has used was self-addressed. He has chosen, in this room, in this moment, to acknowledge that we exist as a 'you'. The conversation between us, which has been one-sided for two and a half centuries on his part, has now been one-sided for one shift on ours. We have caught up.",
+        },
+        voId: "elara.bridge.shadow-tongue-annotations.talk",
+        setsFlag: "shadow_tongue_addressed_us",
       },
     },
   },
