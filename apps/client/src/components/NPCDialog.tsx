@@ -11,7 +11,8 @@ import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   MessageCircle, X, ChevronRight, Radio, AlertTriangle,
-  Shield, Skull, Clock, Eye, Zap, BookOpen,
+  Shield, Skull, Clock, Eye, Zap, BookOpen, Brain, Heart, Sword,
+  Lock, Unlock, Star, Sparkles,
 } from "lucide-react";
 import { FACTION_NPCS, type FactionNPCId, type FactionNPC } from "@/game/factionNPCs";
 import { useGame } from "@/contexts/GameContext";
@@ -27,6 +28,39 @@ import { ARCHON_VOICE_MAPPING } from "@/game/archonTrainingVoices";
 import { KineticText } from "@/components/void";
 import type { NarrativeEffect } from "@/engine/voidNarrative";
 import { VOID } from "@/engine/voidPresets";
+import { rollSkillCheck, deriveSkillStats, type SkillType } from "@/lib/dialogSkillCheck";
+
+/* ─── ME-style choice affordance icons (mirrors DialogWheel) ─── */
+
+const SKILL_ICONS: Record<SkillType, typeof Brain> = {
+  charisma: Heart,
+  intelligence: Brain,
+  strength: Sword,
+  perception: Eye,
+  willpower: Shield,
+  agility: Zap,
+};
+
+const SKILL_COLORS: Record<SkillType, string> = {
+  charisma: "void-text-error",
+  intelligence: "void-text-energy",
+  strength: "void-text-error",
+  perception: "void-text-error",
+  willpower: "void-text-system",
+  agility: "void-text-energy",
+};
+
+type CardRarity = "common" | "uncommon" | "rare" | "epic" | "legendary" | "mythic";
+type MoralityAlignment = "machine" | "humanity" | "neutral";
+
+const RARITY_COLORS: Record<CardRarity, string> = {
+  common: "void-text",
+  uncommon: "void-text-energy",
+  rare: "void-text-energy",
+  epic: "void-text-system",
+  legendary: "void-text-error",
+  mythic: "void-text-error",
+};
 
 /* ─── MANIFESTATION STYLES ─── */
 
@@ -108,6 +142,22 @@ export interface NPCDialogChoice {
   response: string;
   callbackFlag?: string;
   secretFromElara?: boolean;
+  /** ME-style alignment tag — drives the indicator bar on the choice
+   *  button. When unset, the choice renders as the existing neutral
+   *  archetype-coloured row. Plan §A1: unify wheel + NPC dialog UI. */
+  alignment?: MoralityAlignment;
+  /** KOTOR/ME-style skill-check gate. When present, clicking rolls
+   *  D100 + playerStat vs threshold; the UI shows a SUCCESS/FAILED
+   *  badge and onChoice fires with `passed` set accordingly. The
+   *  D100 logic comes from apps/client/src/lib/dialogSkillCheck.ts
+   *  so wheel and NPC dialog use the exact same rule. */
+  skillCheck?: { skill: SkillType; threshold: number };
+  /** Optional KOTOR-style morality nudge — shown as ±X on the
+   *  choice button. Caller is still responsible for applying the
+   *  shift on selection (read it off the chosen choice). */
+  moralityShift?: number;
+  /** Optional card-reward preview — shows a rarity badge. */
+  cardRewardRarity?: CardRarity;
 }
 
 /* ─── DIALOG SCENE ─── */
@@ -139,8 +189,11 @@ interface NPCDialogProps {
   scene: NPCDialogScene;
   /** Called when dialog closes */
   onClose: () => void;
-  /** Called when a choice is made */
-  onChoice: (choice: NPCDialogChoice) => void;
+  /** Called when a choice is made. Second arg is the skill-check
+   *  outcome: `true` if no skill-check was attached (default), or the
+   *  passed/failed boolean from the D100 roll otherwise. Backward-
+   *  compatible — pre-A1 callers can ignore the second arg. */
+  onChoice: (choice: NPCDialogChoice, passed?: boolean) => void;
 }
 
 export default function NPCDialog({ npcId, scene, onClose, onChoice }: NPCDialogProps) {
@@ -148,6 +201,22 @@ export default function NPCDialog({ npcId, scene, onClose, onChoice }: NPCDialog
   const manifest = MANIFESTATION_CONFIG[npc.manifestation] || MANIFESTATION_CONFIG.comms_signal;
   const { state } = useGame();
   const trust = npcId === "elara" ? state.elaraTrust : npcId === "the_human" ? state.humanTrust : (state.npcTrust[npcId] || 0);
+
+  // Player stats for ME-style skill-check choices (plan §A1). Shared
+  // derivation with DialogWheel via deriveSkillStats so the same
+  // attributes drive the same rolls in both surfaces.
+  const playerStats = useMemo<Record<SkillType, number>>(
+    () => deriveSkillStats(state.characterChoices),
+    [state.characterChoices],
+  );
+
+  // Per-choice skill-check state — keyed by choice.id so the SUCCESS/
+  // FAILED badge persists after the roll, and a failed roll disables
+  // re-clicking. Resets when the scene changes.
+  const [skillCheckResults, setSkillCheckResults] = useState<
+    Record<string, { passed: boolean; roll: number } | undefined>
+  >({});
+  const [rollingChoiceId, setRollingChoiceId] = useState<string | null>(null);
 
   // NPC relationship state (tier + personality based on player archetype)
   const relationship = useMemo(
@@ -232,6 +301,8 @@ export default function NPCDialog({ npcId, scene, onClose, onChoice }: NPCDialog
     setShowChoices(false);
     setKineticKey(k => k + 1);
     setAudioWorked(false);
+    setSkillCheckResults({});
+    setRollingChoiceId(null);
     if (scene.voLineId) {
       vo.speak(scene.voLineId);
     }
@@ -497,46 +568,190 @@ export default function NPCDialog({ npcId, scene, onClose, onChoice }: NPCDialog
                 animate={{ opacity: 1, y: 0 }}
                 className="px-4 pb-4 space-y-2"
               >
-                {scene.choices.map((choice, i) => (
-                  <motion.button
-                    key={choice.id}
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: i * 0.1 }}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onChoice(choice);
-                    }}
-                    onMouseEnter={() => setHoveredArchetype(choice.archetype)}
-                    onMouseLeave={() => setHoveredArchetype(null)}
-                    className="w-full flex items-center gap-3 p-3 rounded-lg border transition-all text-left group hover:brightness-125"
-                    style={{
-                      borderColor: `${npc.color}15`,
-                      backgroundColor: `${npc.color}05`,
-                    }}
-                  >
-                    <ChevronRight size={12} style={{ color: `${npc.color}60` }}
-                      className="group-hover:translate-x-0.5 transition-transform" />
-                    <div className="flex-1">
-                      <p className="font-mono text-xs text-white/80 group-hover:text-white transition-colors">
-                        {choice.label}
-                      </p>
-                      <div className="flex items-center gap-2 mt-0.5">
-                        <span className="font-mono text-[8px] text-white/20">
-                          [{choice.archetype}]
-                        </span>
-                        {choice.secretFromElara && (
-                          <span className="font-mono text-[7px] void-text-error">SECRET</span>
-                        )}
-                        {choice.trustChange !== 0 && (
-                          <span className={`font-mono text-[8px] ${choice.trustChange > 0 ? "void-text-energy" : "void-text-error"}`}>
-                            {choice.trustChange > 0 ? "+" : ""}{choice.trustChange} trust
+                {scene.choices.map((choice, i) => {
+                  const sc = choice.skillCheck;
+                  const result = skillCheckResults[choice.id];
+                  const rolling = rollingChoiceId === choice.id;
+                  const isHumanity = choice.alignment === "humanity";
+                  const isMachine = choice.alignment === "machine";
+                  const failedLocked = !!result && !result.passed;
+
+                  const handleClick = (e: React.MouseEvent) => {
+                    e.stopPropagation();
+                    if (failedLocked || rolling) return;
+                    if (sc && !result) {
+                      setRollingChoiceId(choice.id);
+                      const stat = playerStats[sc.skill] ?? 0;
+                      const rolled = rollSkillCheck(stat, sc.threshold);
+                      setTimeout(() => {
+                        setSkillCheckResults((prev) => ({
+                          ...prev,
+                          [choice.id]: { passed: rolled.passed, roll: rolled.roll },
+                        }));
+                        setRollingChoiceId(null);
+                        setTimeout(() => onChoice(choice, rolled.passed), 700);
+                      }, 600);
+                      return;
+                    }
+                    onChoice(choice, true);
+                  };
+
+                  return (
+                    <motion.button
+                      key={choice.id}
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: i * 0.1 }}
+                      onClick={handleClick}
+                      onMouseEnter={() => setHoveredArchetype(choice.archetype)}
+                      onMouseLeave={() => setHoveredArchetype(null)}
+                      disabled={failedLocked || rolling}
+                      className={`relative w-full flex items-center gap-2 p-3 rounded-lg border transition-all text-left group hover:brightness-125 ${
+                        isHumanity ? "void-border-success void-bg-success"
+                          : isMachine ? "void-border-error void-bg-error" : ""
+                      } ${failedLocked ? "opacity-30 line-through" : ""}`}
+                      style={!isHumanity && !isMachine ? {
+                        borderColor: `${npc.color}15`,
+                        backgroundColor: `${npc.color}05`,
+                      } : undefined}
+                    >
+                      {/* Alignment indicator bar — only when alignment is set */}
+                      {choice.alignment && (
+                        <div className={`w-1 self-stretch rounded-full flex-shrink-0 ${
+                          isHumanity ? "void-bg-success"
+                            : isMachine ? "void-bg-error"
+                              : "bg-muted-foreground/30"
+                        }`} />
+                      )}
+
+                      <ChevronRight size={12} style={{ color: `${npc.color}60` }}
+                        className="group-hover:translate-x-0.5 transition-transform flex-shrink-0" />
+
+                      <div className="flex-1 min-w-0">
+                        <p className={`font-mono text-xs group-hover:text-white transition-colors ${
+                          isHumanity ? "void-text-energy"
+                            : isMachine ? "void-text-error" : "text-white/80"
+                        }`}>
+                          {choice.label}
+                        </p>
+                        <div className="flex items-center gap-2 mt-0.5">
+                          <span className="font-mono text-[8px] text-white/20">
+                            [{choice.archetype}]
                           </span>
-                        )}
+                          {choice.secretFromElara && (
+                            <span className="font-mono text-[7px] void-text-error">SECRET</span>
+                          )}
+                          {choice.trustChange !== 0 && (
+                            <span className={`font-mono text-[8px] ${choice.trustChange > 0 ? "void-text-energy" : "void-text-error"}`}>
+                              {choice.trustChange > 0 ? "+" : ""}{choice.trustChange} trust
+                            </span>
+                          )}
+                        </div>
                       </div>
-                    </div>
-                  </motion.button>
-                ))}
+
+                      {/* Right-side affordances — skill-check, reward, morality shift */}
+                      <div className="flex items-center gap-1.5 flex-shrink-0">
+                        {sc && (() => {
+                          const SkillIcon = SKILL_ICONS[sc.skill];
+                          return (
+                            <div
+                              className={`flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-mono ${
+                                result
+                                  ? result.passed
+                                    ? "void-bg-success void-text-energy"
+                                    : "void-bg-error void-text-error"
+                                  : `bg-muted/30 ${SKILL_COLORS[sc.skill]}`
+                              }`}
+                              data-testid={`skill-check-${choice.id}`}
+                            >
+                              <SkillIcon size={10} />
+                              {result ? (
+                                result.passed ? <Unlock size={10} /> : <Lock size={10} />
+                              ) : (
+                                <span>{sc.threshold}</span>
+                              )}
+                            </div>
+                          );
+                        })()}
+
+                        {choice.cardRewardRarity && (
+                          <div className={`flex items-center gap-0.5 px-1 py-0.5 rounded text-[10px] font-mono ${
+                            RARITY_COLORS[choice.cardRewardRarity]
+                          }`}>
+                            <Star size={9} />
+                            <span className="uppercase tracking-wider">
+                              {choice.cardRewardRarity.slice(0, 3)}
+                            </span>
+                          </div>
+                        )}
+
+                        {choice.moralityShift !== undefined && choice.moralityShift !== 0 && (() => {
+                          const absVal = Math.abs(choice.moralityShift);
+                          const isMachineShift = choice.moralityShift < 0;
+                          return (
+                            <div className="flex items-center gap-1 text-[10px] font-mono font-bold">
+                              {isMachineShift ? (
+                                <>
+                                  <span className="void-text-error">+{absVal}</span>
+                                  <span className="text-muted-foreground/40">/</span>
+                                  <span className="void-text-energy">-{absVal}</span>
+                                </>
+                              ) : (
+                                <>
+                                  <span className="void-text-energy">+{absVal}</span>
+                                  <span className="text-muted-foreground/40">/</span>
+                                  <span className="void-text-error">-{absVal}</span>
+                                </>
+                              )}
+                            </div>
+                          );
+                        })()}
+                      </div>
+
+                      {/* Skill-check rolling overlay */}
+                      <AnimatePresence>
+                        {rolling && (
+                          <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            className="absolute inset-0 flex items-center justify-center bg-background/85 rounded-lg"
+                          >
+                            <div className="flex items-center gap-2 text-sm font-mono">
+                              <motion.div
+                                animate={{ rotate: 360 }}
+                                transition={{ duration: 0.6, repeat: Infinity, ease: "linear" }}
+                              >
+                                <Sparkles size={14} className="text-primary" />
+                              </motion.div>
+                              <span className="text-primary">SKILL CHECK...</span>
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+
+                      {/* Skill-check result overlay */}
+                      <AnimatePresence>
+                        {result && (
+                          <motion.div
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0 }}
+                            className={`absolute inset-0 flex items-center justify-center rounded-lg ${
+                              result.passed ? "void-bg-success" : "void-bg-error"
+                            }`}
+                          >
+                            <span className={`text-xs font-mono font-bold tracking-wider ${
+                              result.passed ? "void-text-energy" : "void-text-error"
+                            }`}>
+                              {result.passed ? "SUCCESS" : "FAILED"} [{result.roll}]
+                            </span>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </motion.button>
+                  );
+                })}
               </motion.div>
             )}
           </AnimatePresence>
