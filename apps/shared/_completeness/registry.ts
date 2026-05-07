@@ -25,6 +25,7 @@ import { checkObservabilityWiring } from "./checks/observabilityWiring";
 import { checkDbForeignKeyCoverage } from "./checks/dbForeignKeyCoverage";
 import { checkEconomicTransactionCoverage } from "./checks/economicTransactionCoverage";
 import { checkMobileWiring } from "./checks/mobileWiring";
+import { checkListVirtualizationAdoption } from "./checks/listVirtualizationAdoption";
 
 export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
   // ─── Card engine ──────────────────────────────────────────
@@ -145,6 +146,13 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     description:
       "Capacitor scaffold (config, mobile:* scripts), payment adapter (web Stripe + native RevenueCat), server iapReceipt router mounted, list-virtualization helper, canvas touch-action class, LockedCardBadge UI component.",
     check: () => checkMobileWiring(),
+  },
+  {
+    id: "client.list_virtualization_adoption",
+    name: "List virtualization adoption",
+    description:
+      "Pages declared in checks/listVirtualizationAdoption.ts ADOPTED_LIST_PAGES still import useListVirtualizer. Catches accidental removal during refactors.",
+    check: () => checkListVirtualizationAdoption(),
   },
   // ─── Lore ─────────────────────────────────────────────────
   {
