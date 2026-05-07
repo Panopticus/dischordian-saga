@@ -11,8 +11,10 @@ export type {
   DlcParentSection,
   DlcPrerequisite,
   DlcRewardBundle,
-  DlcStoryEncounter,
-  DlcTutorialStep,
+  DlcStep,
+  DlcStepChoice,
+  DlcStepSpeakerId,
+  DlcStoryEncounterRef,
   GalacticDanceFactionId,
 } from "./types";
 

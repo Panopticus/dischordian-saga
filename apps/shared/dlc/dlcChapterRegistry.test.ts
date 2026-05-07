@@ -9,18 +9,27 @@ import {
 import type { DlcChapter, DlcParentSection } from "./types";
 
 describe("DLC chapter registry — foundation invariants", () => {
-  it("ships an empty (frozen) registry at Wave 2", () => {
-    // Wave 2 is foundation-only; chapters land in Wave 3+.
-    expect(ALL_DLC_CHAPTERS).toEqual([]);
+  it("registry is frozen and contains at least one chapter", () => {
     expect(Object.isFrozen(ALL_DLC_CHAPTERS)).toBe(true);
+    expect(ALL_DLC_CHAPTERS.length).toBeGreaterThan(0);
+  });
+
+  it("the Wave-3 reference chapter is registered", () => {
+    expect(getDlcChapter("dlc_advocate_01_sacrum_echo")).toBeDefined();
   });
 
   it("getDlcChapter returns undefined for unknown ids", () => {
     expect(getDlcChapter("dlc_does_not_exist")).toBeUndefined();
   });
 
-  it("getDlcChaptersForSection returns [] when registry is empty", () => {
-    expect(getDlcChaptersForSection({ kind: "advocate_arc" })).toEqual([]);
+  it("getDlcChaptersForSection returns [] for sections with no chapters", () => {
+    // Hierarchy arc has no Wave-3 chapters yet.
+    expect(getDlcChaptersForSection({ kind: "hierarchy_arc" })).toEqual([]);
+    // SiH per-track surface — no DLC chapters bound to individual tracks
+    // (the show wires through AlbumPage, not the DLC system).
+    expect(
+      getDlcChaptersForSection({ kind: "silence_in_heaven", trackNumber: 12 }),
+    ).toEqual([]);
   });
 
   it("dlcChapterCompletionFlag derives the canonical flag name", () => {

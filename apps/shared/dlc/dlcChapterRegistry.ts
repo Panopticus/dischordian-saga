@@ -14,10 +14,21 @@ import type {
   DlcChapter,
   DlcParentSection,
 } from "./types";
+import { DLC_ADVOCATE_01_SACRUM_ECHO } from "./chapters/dlc_advocate_01_sacrum_echo";
 
 /** Single source of truth for every DLC chapter. Frozen so a
- *  caller can't accidentally mutate the registry. */
-export const ALL_DLC_CHAPTERS: readonly DlcChapter[] = Object.freeze([] as DlcChapter[]);
+ *  caller can't accidentally mutate the registry.
+ *
+ *  Adding a chapter:
+ *    1. Author the folder under `./chapters/<id>/`
+ *    2. Import the chapter constant here
+ *    3. Spread it into the array below
+ *    4. Run pnpm test apps/shared/dlc — the registry tests will
+ *       fail loudly on duplicate ids, sequence collisions, or a
+ *       missing canonical completion flag. */
+export const ALL_DLC_CHAPTERS: readonly DlcChapter[] = Object.freeze([
+  DLC_ADVOCATE_01_SACRUM_ECHO,
+] as DlcChapter[]);
 
 /* ─── Lookup helpers ─── */
 

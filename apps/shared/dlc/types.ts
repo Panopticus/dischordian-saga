@@ -65,16 +65,62 @@ export interface DlcRewardBundle {
   readonly cosmeticIds?: readonly string[];
 }
 
-/** Forward declaration for the runtime step type. The actual
- *  shape lives in `apps/client/src/data/narrativeActs.ts`
- *  (TutorialStep). The DLC layer types it as `unknown` so the
- *  type system stays decoupled from React. */
-export type DlcTutorialStep = unknown;
+/** Speaker on a narration / dialog step. Loose string at the
+ *  shared layer so chapters can author for any character without
+ *  importing a client-side roster; the renderer is responsible
+ *  for resolving the speaker id to a portrait. */
+export type DlcStepSpeakerId = string;
 
-/** Forward declaration for the TCG encounter type. The actual
- *  shape lives in `apps/shared/tcg-core/story/chapters.ts`
- *  (StoryEncounter). Same decoupling rationale as steps. */
-export type DlcStoryEncounter = unknown;
+/** A choice option offered by a `choice` step. Selecting it
+ *  optionally raises a flag (consumed by future steps' visibility
+ *  logic or by the chapter's reward derivation). */
+export interface DlcStepChoice {
+  readonly id: string;
+  readonly text: string;
+  /** Optional narrative flag set when this choice is selected. */
+  readonly setFlag?: string;
+}
+
+/** Discriminated union of step kinds a DLC chapter may declare.
+ *  Renderable by a future client component without coupling to
+ *  the rich client-only `TutorialStep` (which embeds Elara/Human
+ *  dialog-wheel semantics that don't apply to every chapter). */
+export type DlcStep =
+  | {
+      readonly kind: "narration";
+      readonly id: string;
+      readonly speaker: DlcStepSpeakerId;
+      readonly text: string;
+      readonly subtitle?: string;
+    }
+  | {
+      readonly kind: "choice";
+      readonly id: string;
+      readonly speaker: DlcStepSpeakerId;
+      readonly prompt: string;
+      readonly options: readonly DlcStepChoice[];
+    }
+  | {
+      /** Reference to a StoryEncounter id in the TCG-core encounter
+       *  registry. The renderer fires the encounter and waits for
+       *  the standard win/loss flag before advancing. */
+      readonly kind: "encounter_ref";
+      readonly id: string;
+      readonly encounterId: string;
+    }
+  | {
+      /** Reference to a cinematic id in the cinematics manifest. */
+      readonly kind: "cinematic_ref";
+      readonly id: string;
+      readonly cinematicId: string;
+    };
+
+/** Reference to a StoryEncounter id. The full StoryEncounter
+ *  shape lives in `apps/shared/tcg-core/story/encounter.ts`. */
+export interface DlcStoryEncounterRef {
+  readonly id: string;
+  readonly encounterId: string;
+}
 
 /** A canonical DLC chapter. One per folder under
  *  `apps/shared/dlc/chapters/<id>/index.ts`. */
@@ -95,11 +141,11 @@ export interface DlcChapter {
   /** AND-combined prerequisites. Empty array means the chapter
    *  is always available. */
   readonly prerequisites: readonly DlcPrerequisite[];
-  /** Narrative steps in player order. Typed as
-   *  TutorialStep at the runtime layer — see DlcTutorialStep. */
-  readonly steps: readonly DlcTutorialStep[];
-  /** Optional TCG encounters fired at specific steps. */
-  readonly encounters?: readonly DlcStoryEncounter[];
+  /** Narrative steps in player order. Renderable via a switch on
+   *  step.kind — see DlcStep for the discriminated union. */
+  readonly steps: readonly DlcStep[];
+  /** Optional TCG encounter references fired at specific steps. */
+  readonly encounters?: readonly DlcStoryEncounterRef[];
   /** Optional cinematic id (resolved against the cinematics manifest). */
   readonly cinematicId?: string;
   /** Reward bundle delivered on completion. */
