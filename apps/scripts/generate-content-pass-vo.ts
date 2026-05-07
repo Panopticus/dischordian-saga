@@ -37,6 +37,11 @@
  *   # Skip lines whose voice ID is still the placeholder
  *   pnpm tsx apps/scripts/generate-content-pass-vo.ts --skip-todo
  *
+ *   # Force regeneration of lines that already have manifest entries
+ *   # (use after fixing a delivery-direction bug to re-record affected
+ *   # lines without manually clearing the manifest).
+ *   pnpm tsx apps/scripts/generate-content-pass-vo.ts --force
+ *
  *   # Supply voice IDs for sentinel speakers via env vars:
  *   export VOICE_ID_JERICHO_JONES=abc123...
  *   export VOICE_ID_DMC_CLONE_COMPANION=def456...
@@ -64,6 +69,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
+import { applyDelta, buildTtsBody, tuneFromDirection } from "./lib/tts-body";
 import {
   LOCKE_ROMANCE_BANK,
   VEX_ROMANCE_BANK,
@@ -187,7 +193,13 @@ interface Settings {
   similarity_boost: number;
   style: number;
   use_speaker_boost: boolean;
-  text_prefix: string;
+  /** Editorial / re-recording reference. Documentation only — never
+   *  sent to ElevenLabs as part of the spoken text. The numeric
+   *  voice_settings above carry the actual delivery direction;
+   *  tuneFromDirection() in lib/tts-body.ts translates the most
+   *  obvious phrasings into numeric nudges so the prose and the
+   *  numbers stay aligned. */
+  voiceDirection: string;
 }
 
 const DEFAULT_SETTINGS: Settings = {
@@ -195,7 +207,7 @@ const DEFAULT_SETTINGS: Settings = {
   similarity_boost: 0.78,
   style: 0.2,
   use_speaker_boost: true,
-  text_prefix: "",
+  voiceDirection: "",
 };
 
 const SPEAKER_SETTINGS: Record<string, Settings> = {
@@ -204,7 +216,7 @@ const SPEAKER_SETTINGS: Record<string, Settings> = {
     similarity_boost: 0.8,
     style: 0.25,
     use_speaker_boost: true,
-    text_prefix:
+    voiceDirection:
       "*lucid, warm, allow audible breath at line ends; the warmth is calibrated, not casual* ",
   },
   the_human: {
@@ -212,7 +224,7 @@ const SPEAKER_SETTINGS: Record<string, Settings> = {
     similarity_boost: 0.8,
     style: 0.25,
     use_speaker_boost: true,
-    text_prefix:
+    voiceDirection:
       "*spoken low and steady, conspiratorial, like a transmission through the walls; never hurries* ",
   },
   antiquarian: {
@@ -220,7 +232,7 @@ const SPEAKER_SETTINGS: Record<string, Settings> = {
     similarity_boost: 0.78,
     style: 0.3,
     use_speaker_boost: true,
-    text_prefix:
+    voiceDirection:
       "*archival, patient, slightly elevated formality; the inscriber's register — every sentence is being written down as it is spoken* ",
   },
   adjudicator_locke: {
@@ -228,7 +240,7 @@ const SPEAKER_SETTINGS: Record<string, Settings> = {
     similarity_boost: 0.78,
     style: 0.2,
     use_speaker_boost: true,
-    text_prefix:
+    voiceDirection:
       "*contractual cadence; precise consonants; warmth shows only in the pauses, never in the words themselves* ",
   },
   vex_solene: {
@@ -236,7 +248,7 @@ const SPEAKER_SETTINGS: Record<string, Settings> = {
     similarity_boost: 0.78,
     style: 0.35,
     use_speaker_boost: true,
-    text_prefix:
+    voiceDirection:
       "*Maestro-institutional in early stages; allow a softer register on lines that reference the bench or the prince — the softening is the Engineer-trace surfacing* ",
   },
   dmc_clone_companion: {
@@ -244,7 +256,7 @@ const SPEAKER_SETTINGS: Record<string, Settings> = {
     similarity_boost: 0.78,
     style: 0.25,
     use_speaker_boost: true,
-    text_prefix:
+    voiceDirection:
       "*clone-soul cadence with progressive individuation across stages; stage 1 sounds borrowed, stage 5 sounds theirs* ",
   },
   jericho_jones: {
@@ -252,7 +264,7 @@ const SPEAKER_SETTINGS: Record<string, Settings> = {
     similarity_boost: 0.78,
     style: 0.15,
     use_speaker_boost: true,
-    text_prefix:
+    voiceDirection:
       "*laconic gunfighter cadence; long pauses; the line after the silence is usually the real one* ",
   },
   "hierarchy:master_of_rlyeh": {
@@ -260,7 +272,7 @@ const SPEAKER_SETTINGS: Record<string, Settings> = {
     similarity_boost: 0.78,
     style: 0.4,
     use_speaker_boost: true,
-    text_prefix:
+    voiceDirection:
       "*archival, wet, never raises; reads aloud at four in the morning to a room that has not asked for the reading* ",
   },
   "hierarchy:pale_emissary": {
@@ -268,7 +280,7 @@ const SPEAKER_SETTINGS: Record<string, Settings> = {
     similarity_boost: 0.78,
     style: 0.15,
     use_speaker_boost: true,
-    text_prefix:
+    voiceDirection:
       "*tall, courteous, patient beyond instinct; never coerces — presents; the politeness is the threat* ",
   },
   "hierarchy:reckoning_daughter": {
@@ -276,7 +288,7 @@ const SPEAKER_SETTINGS: Record<string, Settings> = {
     similarity_boost: 0.78,
     style: 0.2,
     use_speaker_boost: true,
-    text_prefix:
+    voiceDirection:
       "*meticulous, warm — the warmth of someone who finds correctness comforting; pause before each numerical figure; the pause is the discipline* ",
   },
   malkia_ukweli: {
@@ -284,7 +296,7 @@ const SPEAKER_SETTINGS: Record<string, Settings> = {
     similarity_boost: 0.78,
     style: 0.3,
     use_speaker_boost: true,
-    text_prefix:
+    voiceDirection:
       "*declarative, present-tense, never uses the word 'should' — replaces it with 'will' or 'do'; the verb the Antiquarian is the noun of* ",
   },
   source: {
@@ -292,7 +304,7 @@ const SPEAKER_SETTINGS: Record<string, Settings> = {
     similarity_boost: 0.78,
     style: 0.45,
     use_speaker_boost: true,
-    text_prefix:
+    voiceDirection:
       "*theological present-tense; permeable phrases; 'you are' more often than 'you will be'; the cadence of attention without an object* ",
   },
   kael_trace: {
@@ -300,7 +312,7 @@ const SPEAKER_SETTINGS: Record<string, Settings> = {
     similarity_boost: 0.78,
     style: 0.3,
     use_speaker_boost: true,
-    text_prefix:
+    voiceDirection:
       "*half a register lower than the Source; memory of being a person leaks through; the leak is rare and precious* ",
   },
   system: {
@@ -308,7 +320,7 @@ const SPEAKER_SETTINGS: Record<string, Settings> = {
     similarity_boost: 0.75,
     style: 0.15,
     use_speaker_boost: true,
-    text_prefix:
+    voiceDirection:
       "*neutral, distant, declarative; gender-neutral; reverberant; one register, no shifts* ",
   },
   dual: {
@@ -316,7 +328,7 @@ const SPEAKER_SETTINGS: Record<string, Settings> = {
     similarity_boost: 0.78,
     style: 0.25,
     use_speaker_boost: true,
-    text_prefix:
+    voiceDirection:
       "*PRODUCER NOTE: dual cue — record elara and the_human takes separately, mix at equal volume with 12ms stereo offset* ",
   },
 };
@@ -453,7 +465,7 @@ function resolveSettings(speaker: string): Settings {
 
 async function generateSpeech(line: NormalisedLine, voiceId: string): Promise<Buffer> {
   const settings = resolveSettings(line.speaker);
-  const body = (settings.text_prefix ?? "") + line.text;
+  const tuned = applyDelta(settings, tuneFromDirection(settings.voiceDirection));
   const response = await fetch(
     `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`,
     {
@@ -464,13 +476,13 @@ async function generateSpeech(line: NormalisedLine, voiceId: string): Promise<Bu
         Accept: "audio/mpeg",
       },
       body: JSON.stringify({
-        text: body,
+        text: buildTtsBody({ text: line.text }),
         model_id: "eleven_multilingual_v2",
         voice_settings: {
-          stability: settings.stability,
-          similarity_boost: settings.similarity_boost,
-          style: settings.style,
-          use_speaker_boost: settings.use_speaker_boost,
+          stability: tuned.stability,
+          similarity_boost: tuned.similarity_boost,
+          style: tuned.style,
+          use_speaker_boost: tuned.use_speaker_boost,
         },
       }),
     },
@@ -553,6 +565,10 @@ interface Args {
   only?: string;
   dryRun: boolean;
   skipTodo: boolean;
+  /** When true, regenerate even lines that already have a manifest
+   *  entry. Used to re-record after a delivery-direction fix; the
+   *  default skip-on-existing behaviour is otherwise correct. */
+  force: boolean;
   voiceConfig?: string;
 }
 
@@ -570,6 +586,7 @@ function parseArgs(): Args {
     only: get("--only"),
     dryRun: argv.includes("--dry-run"),
     skipTodo: argv.includes("--skip-todo"),
+    force: argv.includes("--force"),
     voiceConfig: get("--voice-config"),
   };
 }
@@ -621,7 +638,7 @@ async function main(): Promise<void> {
 
   for (const line of filtered) {
     const manifest = manifests[line.source];
-    if (manifest[line.id]) {
+    if (manifest[line.id] && !args.force) {
       skipped++;
       continue;
     }

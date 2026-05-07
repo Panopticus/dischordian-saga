@@ -6,10 +6,13 @@
  * mechronisAcademyDialog are the keys here. New speakers (e.g. when
  * authoring future episodes) can be added by extending this map.
  *
- * Per-voice prefixes nudge ElevenLabs toward the canonical register
- * for each character — they are PROMPT prefixes injected before the
- * cue text, NOT spoken. Match the existing convention from
- * generate-act-vo.ts.
+ * Per-voice direction notes describe the canonical register for each
+ * character. They are EDITORIAL DOCUMENTATION ONLY — never sent to
+ * ElevenLabs as spoken text. The numeric voice_settings fields
+ * (stability/similarity_boost/style) carry the actual delivery cues;
+ * tuneFromDirection() in lib/tts-body.ts translates the most obvious
+ * phrasings into numeric nudges so the prose and the numbers stay
+ * aligned. Match the existing convention from generate-act-vo.ts.
  *
  * VOICE IDS shipped here are PUBLIC PRESET voices from ElevenLabs'
  * shared library — every account can use them, so the pipeline
@@ -52,10 +55,14 @@ export interface EpisodeSpeakerVoice {
   style: number;
   use_speaker_boost: boolean;
   /**
-   * Inline directorial cue prepended to the text; ElevenLabs uses it
-   * as register guidance. Asterisk-wrapped is convention.
+   * Editorial / re-recording reference for the actor or operator.
+   * Documentation only — never sent to ElevenLabs as part of the
+   * spoken text. Asterisk-wrapped is convention. The numeric
+   * voice_settings above carry the actual delivery direction; the
+   * tuneFromDirection() helper in lib/tts-body.ts translates the
+   * most obvious phrasings into numeric nudges.
    */
-  text_prefix: string;
+  voiceDirection: string;
 }
 
 export const EPISODE_SPEAKER_VOICES: Record<string, EpisodeSpeakerVoice> = {
@@ -67,7 +74,7 @@ export const EPISODE_SPEAKER_VOICES: Record<string, EpisodeSpeakerVoice> = {
     similarity_boost: 0.75,
     style: 0.15,
     use_speaker_boost: true,
-    text_prefix:
+    voiceDirection:
       "*neutral, unprocessed narrator voice — gender-neutral, dry, no emotion* ",
   },
   bernardo: {
@@ -77,7 +84,7 @@ export const EPISODE_SPEAKER_VOICES: Record<string, EpisodeSpeakerVoice> = {
     similarity_boost: 0.78,
     style: 0.2,
     use_speaker_boost: true,
-    text_prefix:
+    voiceDirection:
       "*young guardsman, twenty-two, frightened but trying to keep his post; voice quiet, occasionally a half-pitch too high* ",
   },
   the_seer: {
@@ -88,7 +95,7 @@ export const EPISODE_SPEAKER_VOICES: Record<string, EpisodeSpeakerVoice> = {
     similarity_boost: 0.8,
     style: 0.25,
     use_speaker_boost: true,
-    text_prefix:
+    voiceDirection:
       "*Kenyan-inflected English, crisp precision, warm without sentimentality; never hurries; speaks as though already remembering the conversation* ",
   },
   the_jailer: {
@@ -98,7 +105,7 @@ export const EPISODE_SPEAKER_VOICES: Record<string, EpisodeSpeakerVoice> = {
     similarity_boost: 0.78,
     style: 0.2,
     use_speaker_boost: true,
-    text_prefix:
+    voiceDirection:
       "*ghostly, low resonance with a faint metallic undertone, sorrowful but composed; words placed deliberately as though each costs him* ",
   },
   the_collector: {
@@ -108,7 +115,7 @@ export const EPISODE_SPEAKER_VOICES: Record<string, EpisodeSpeakerVoice> = {
     similarity_boost: 0.78,
     style: 0.2,
     use_speaker_boost: true,
-    text_prefix:
+    voiceDirection:
       "*warm, theatrical with private weariness, predestination cadence — the Senator-era Game Master before the split; never raises voice, never says 'darling'* ",
   },
   engineer: {
@@ -118,7 +125,7 @@ export const EPISODE_SPEAKER_VOICES: Record<string, EpisodeSpeakerVoice> = {
     similarity_boost: 0.78,
     style: 0.2,
     use_speaker_boost: true,
-    text_prefix:
+    voiceDirection:
       "*young Black man, neat dreads, thirteen-to-late-teens depending on scene; quiet, watchful, dry plain register, slight musical lilt when his guard drops; the same voice as the adult Engineer's recordings, just younger* ",
   },
   the_architect: {
@@ -128,7 +135,7 @@ export const EPISODE_SPEAKER_VOICES: Record<string, EpisodeSpeakerVoice> = {
     similarity_boost: 0.78,
     style: 0.18,
     use_speaker_boost: true,
-    text_prefix:
+    voiceDirection:
       "*two registers: YOUNG ARCHIE (warm, dryly hopeful, the Architect before he closed) for Celebration scenes; ADULT ARCHITECT (cold, technically beautiful, never says 'we' or 'sorry') for Mechronis scenes — let the scene context guide which* ",
   },
   vernon_vortex: {
@@ -138,7 +145,7 @@ export const EPISODE_SPEAKER_VOICES: Record<string, EpisodeSpeakerVoice> = {
     similarity_boost: 0.78,
     style: 0.35,
     use_speaker_boost: true,
-    text_prefix:
+    voiceDirection:
       "*teenage bully, broad-shouldered, voice swaggering on top of fear; cruel-charming until he loses* ",
   },
   minnie_the_meme: {
@@ -148,7 +155,7 @@ export const EPISODE_SPEAKER_VOICES: Record<string, EpisodeSpeakerVoice> = {
     similarity_boost: 0.78,
     style: 0.5,
     use_speaker_boost: true,
-    text_prefix:
+    voiceDirection:
       "*petite, mischievous, meme-fast cadence; ALL-CAPS for delight; cuts off her own punchlines; layers irony to hide tenderness* ",
   },
   wanda_wyrlord: {
@@ -158,7 +165,7 @@ export const EPISODE_SPEAKER_VOICES: Record<string, EpisodeSpeakerVoice> = {
     similarity_boost: 0.78,
     style: 0.15,
     use_speaker_boost: true,
-    text_prefix:
+    voiceDirection:
       "*teenage cyborg girl, few words, slight mechanical resonance through the welding mask; 'busy' is her primary verb* ",
   },
   shadow_tongue: {
@@ -168,7 +175,7 @@ export const EPISODE_SPEAKER_VOICES: Record<string, EpisodeSpeakerVoice> = {
     similarity_boost: 0.78,
     style: 0.3,
     use_speaker_boost: true,
-    text_prefix:
+    voiceDirection:
       "*silken, oblique, unexpectedly tender; tells only true lies; speaks as though editing the sentence even as he says it* ",
   },
   the_dreamer: {
@@ -178,7 +185,7 @@ export const EPISODE_SPEAKER_VOICES: Record<string, EpisodeSpeakerVoice> = {
     similarity_boost: 0.8,
     style: 0.25,
     use_speaker_boost: true,
-    text_prefix:
+    voiceDirection:
       "*drowsy, kind, half-hummed; brightens the moment she catches the listener listening; never wise, never authoritative — the boy you were, pretending to dream* ",
   },
   elara: {
@@ -188,7 +195,7 @@ export const EPISODE_SPEAKER_VOICES: Record<string, EpisodeSpeakerVoice> = {
     similarity_boost: 0.8,
     style: 0.2,
     use_speaker_boost: true,
-    text_prefix:
+    voiceDirection:
       "*the Ark's narrating voice — warm, precise, occasionally caught mid-breath; uses 'you' like it costs her; never helpful-AI cheerful* ",
   },
   the_human: {
@@ -198,7 +205,7 @@ export const EPISODE_SPEAKER_VOICES: Record<string, EpisodeSpeakerVoice> = {
     similarity_boost: 0.8,
     style: 0.25,
     use_speaker_boost: true,
-    text_prefix:
+    voiceDirection:
       "*spoken low and steady, conspiratorial, like a transmission through the walls; tired, philosophical, dryly funny* ",
   },
 
@@ -210,7 +217,7 @@ export const EPISODE_SPEAKER_VOICES: Record<string, EpisodeSpeakerVoice> = {
     similarity_boost: 0.78,
     style: 0.1,
     use_speaker_boost: true,
-    text_prefix:
+    voiceDirection:
       "*Japanese man, late forties, surgeon's precision; never blinks, never repeats, surveillance personified — speaks as though the listener is also being watched* ",
   },
   curator_halverez: {
@@ -220,7 +227,7 @@ export const EPISODE_SPEAKER_VOICES: Record<string, EpisodeSpeakerVoice> = {
     similarity_boost: 0.78,
     style: 0.15,
     use_speaker_boost: true,
-    text_prefix:
+    voiceDirection:
       "*middle-aged, gloved, masked; bookkeeper of the soul; rigs every exchange while sounding scrupulously fair* ",
   },
   the_patron: {
@@ -230,7 +237,7 @@ export const EPISODE_SPEAKER_VOICES: Record<string, EpisodeSpeakerVoice> = {
     similarity_boost: 0.78,
     style: 0.18,
     use_speaker_boost: true,
-    text_prefix:
+    voiceDirection:
       "*Architect-aligned proxy; face that the listener cannot quite hold in memory; voice clinical, polite, faintly bored — until it isn't* ",
   },
   necromancer: {
@@ -240,20 +247,20 @@ export const EPISODE_SPEAKER_VOICES: Record<string, EpisodeSpeakerVoice> = {
     similarity_boost: 0.78,
     style: 0.22,
     use_speaker_boost: true,
-    text_prefix:
+    voiceDirection:
       "*tall, dark robes, the small tired courtesy of someone who has died once and remembers it; slow, measured, slightly echoing* ",
   },
   antiquarian: {
     // Operator-supplied custom voice — the Antiquarian.
     // NOTE: shares an id with `narrator` (yAKlvHIsuj4SvnKQ6Mk4); the
-    // text_prefix register prompts will still differentiate the two
+    // voiceDirection register prompts will still differentiate the two
     // deliveries. Update if a distinct voice is intended.
     voiceId: "yAKlvHIsuj4SvnKQ6Mk4",
     stability: 0.6,
     similarity_boost: 0.78,
     style: 0.2,
     use_speaker_boost: true,
-    text_prefix:
+    voiceDirection:
       "*archival, gentle; treats grief like a vintage; long sentences; reads even bad endings carefully* ",
   },
   veska: {
@@ -263,7 +270,7 @@ export const EPISODE_SPEAKER_VOICES: Record<string, EpisodeSpeakerVoice> = {
     similarity_boost: 0.78,
     style: 0.25,
     use_speaker_boost: true,
-    text_prefix:
+    voiceDirection:
       "*Trade Factor; brisk, grounded, salt-of-the-galaxy; curses creatively in three languages* ",
   },
   white_oracle: {
@@ -273,7 +280,7 @@ export const EPISODE_SPEAKER_VOICES: Record<string, EpisodeSpeakerVoice> = {
     similarity_boost: 0.78,
     style: 0.25,
     use_speaker_boost: true,
-    text_prefix:
+    voiceDirection:
       "*re-awakened oracle; gentle, declarative, counter-Architect reading; never raises her voice; never apologizes for the reading* ",
   },
   zephyr_9: {
@@ -283,7 +290,7 @@ export const EPISODE_SPEAKER_VOICES: Record<string, EpisodeSpeakerVoice> = {
     similarity_boost: 0.78,
     style: 0.1,
     use_speaker_boost: true,
-    text_prefix:
+    voiceDirection:
       "*precise, slow, lightly mechanical, with almost-affectionate restraint; never repeats, never hurries — a patient evaluator who grades on what the rubric cannot measure* ",
   },
   headmaster_kanevas: {
@@ -293,7 +300,7 @@ export const EPISODE_SPEAKER_VOICES: Record<string, EpisodeSpeakerVoice> = {
     similarity_boost: 0.78,
     style: 0.1,
     use_speaker_boost: true,
-    text_prefix:
+    voiceDirection:
       "*tall, robed in quiet grey, silver-haired, eyes like empty lecterns; speaks for the cohort, never for himself; never says 'we'* ",
   },
 };
@@ -310,5 +317,5 @@ export const DEFAULT_EPISODE_VOICE: EpisodeSpeakerVoice = {
   similarity_boost: 0.75,
   style: 0.15,
   use_speaker_boost: true,
-  text_prefix: "*default narrator register — speaker not explicitly mapped* ",
+  voiceDirection: "*default narrator register — speaker not explicitly mapped* ",
 };
