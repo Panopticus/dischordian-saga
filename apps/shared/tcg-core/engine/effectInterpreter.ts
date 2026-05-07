@@ -52,6 +52,24 @@ import { enqueueCardDrawnTriggers } from "./turn";
 export type { Effect } from "../types/Effect";
 
 /**
+ * Maximum recursion depth before the interpreter aborts. Effect trees
+ * compose `sequence`, `with_target`, `if`, `foreach`, and `repeat` — a
+ * malformed or adversarially-shaped effect could in principle nest
+ * arbitrarily. This bound is well above any authored card pattern but
+ * stops a runaway from exhausting the JS stack or pinning the server.
+ * If a future card legitimately needs more, raise this — but log a
+ * warning, because it's almost certainly a bug.
+ */
+export const MAX_INTERPRET_DEPTH = 64;
+
+export class InterpretDepthExceededError extends Error {
+  constructor(public readonly op: string, public readonly depth: number) {
+    super(`Effect interpreter exceeded depth ${depth} at op="${op}" (limit ${MAX_INTERPRET_DEPTH}); likely an unbounded recursive effect`);
+    this.name = "InterpretDepthExceededError";
+  }
+}
+
+/**
  * Interpret an effect tree. Mutates the draft via Immer; pushes events
  * into `reduceCtx.events`.
  */
@@ -59,14 +77,18 @@ export function interpret(
   effect: Effect,
   ctx: ExecCtx,
   draft: Draft<GameState>,
-  reduceCtx: ReduceCtx
+  reduceCtx: ReduceCtx,
+  depth = 0
 ): void {
+  if (depth >= MAX_INTERPRET_DEPTH) {
+    throw new InterpretDepthExceededError(effect.op, depth);
+  }
   switch (effect.op) {
     /* ─── Control flow ─── */
 
     case "sequence":
       for (const step of effect.steps) {
-        interpret(step, ctx, draft, reduceCtx);
+        interpret(step, ctx, draft, reduceCtx, depth + 1);
       }
       return;
 
@@ -76,16 +98,16 @@ export function interpret(
       // For single-target selectors we only iterate the first result.
       // Multi-target aggregation lives on `foreach`.
       const newCtx = withIt(ctx, targets[0]);
-      interpret(effect.do, newCtx, draft, reduceCtx);
+      interpret(effect.do, newCtx, draft, reduceCtx, depth + 1);
       return;
     }
 
     case "if": {
       const branch = evaluateCondition(effect.cond, ctx, draft);
       if (branch) {
-        interpret(effect.then, ctx, draft, reduceCtx);
+        interpret(effect.then, ctx, draft, reduceCtx, depth + 1);
       } else if (effect.else) {
-        interpret(effect.else, ctx, draft, reduceCtx);
+        interpret(effect.else, ctx, draft, reduceCtx, depth + 1);
       }
       return;
     }
@@ -566,7 +588,7 @@ export function interpret(
       const targets = resolveTargetSelector(effect.over, ctx, draft, reduceCtx.rng);
       for (const targetId of targets) {
         const newCtx = withIt(ctx, targetId);
-        interpret(effect.do, newCtx, draft, reduceCtx);
+        interpret(effect.do, newCtx, draft, reduceCtx, depth + 1);
       }
       return;
     }
@@ -582,7 +604,7 @@ export function interpret(
         // SBA will clean up on the next fixed-point pass.
       }
       // Execute the "then" effect.
-      interpret(effect.then, ctx, draft, reduceCtx);
+      interpret(effect.then, ctx, draft, reduceCtx, depth + 1);
       return;
     }
 
@@ -606,7 +628,7 @@ export function interpret(
       // pulses change anything.
       const times = evaluateAmount(effect.times, ctx, draft);
       for (let i = 0; i < times; i++) {
-        interpret(effect.do, ctx, draft, reduceCtx);
+        interpret(effect.do, ctx, draft, reduceCtx, depth + 1);
       }
       return;
     }
@@ -676,7 +698,7 @@ export function interpret(
       // expressible in card data, but if they ever are, each layer should
       // carry its own choice via Action plumbing rather than inheriting.
       const innerCtx: ExecCtx = { ...ctx, chooseIndex: undefined };
-      interpret(effect.options[idx].effect, innerCtx, draft, reduceCtx);
+      interpret(effect.options[idx].effect, innerCtx, draft, reduceCtx, depth + 1);
       return;
     }
 
