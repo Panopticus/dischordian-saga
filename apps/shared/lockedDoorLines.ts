@@ -22,38 +22,39 @@ const h = (line: Omit<CompanionLine, "speaker">): CompanionLine => ({ ...line, s
  */
 export const LOCKED_DOOR_LINES: CompanionLine[] = [
   // ─────────────────────────────────────────────────────────────
-  // MED BAY — sealed until cryo_mystery_first_clue_found. The
-  // original toast read "Medical Bay requires Ark power to be
-  // restored" which is a phantom quest. These lines reference the
-  // actual gate: log a clue in the cryo case file.
+  // MED BAY — sealed until cryo_mystery_victim_identified. The
+  // bulkhead opens when the operative slots the torn ID tag
+  // (frosted-glass) into the cracked data-slate (under the pod)
+  // and the manifest spits out a name. Mental observations alone
+  // don't open it — the Ark wants the dead named.
   // ─────────────────────────────────────────────────────────────
   l({
     lineId: "locked_medbay_prelude_lucid",
-    text: "The Med Bay bulkhead isn't going to open for us yet. It's keyed to accept a logged clue as a reason. Go find me one — look at the pod, or the panel, or the chart. Any one will do.",
+    text: "The Med Bay won't open until the dead has a name. Two pieces, one combine — there's a torn ID tag near the dark pod's frosted glass, and a cracked data-slate hidden under the pod itself. Pocket both, then slot the tag against the slate. The manifest does the rest.",
     priority: 2,
     interruptible: false,
     dismissible: "tap",
-    durationMs: 10800,
+    durationMs: 12000,
     requiresElaraStability: "lucid",
     cooldownKey: "locked_medbay_prelude",
   }),
   l({
     lineId: "locked_medbay_prelude_fragmented",
-    text: "Sealed. Sealed. The door — the door won't — won't — log something first. Log something. Anything. Anything. A clue. A clue will open it. A clue. Please.",
+    text: "Sealed. Sealed. The door — the door wants a name. A name. Tag — the cord, the cut cord, the tag is — find it. The slate. Under the pod. Slot them. Slot them together. A name. Please. A name.",
     priority: 2,
     interruptible: false,
     dismissible: "tap",
-    durationMs: 10200,
+    durationMs: 11400,
     requiresElaraStability: "fragmented",
     cooldownKey: "locked_medbay_prelude",
   }),
   l({
     lineId: "locked_medbay_prelude_luminous",
-    text: "She won't open for us yet. She wants a reason logged in the case file — any of the clues in this room will be a reason. Look at something with intent and she'll treat it as permission.",
+    text: "She won't open for an unnamed dead. There are two pieces in this room — a torn ID tag the killer left in the frost, and a cracked data-slate someone hid under the pod for the right person to find. Carry them both, then put them together. The manifest will give the dead their name back, and the Ark will let us in.",
     priority: 2,
     interruptible: false,
     dismissible: "tap",
-    durationMs: 11200,
+    durationMs: 12600,
     requiresElaraStability: "luminous",
     cooldownKey: "locked_medbay_prelude",
   }),

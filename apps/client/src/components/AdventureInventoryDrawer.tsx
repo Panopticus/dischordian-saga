@@ -22,10 +22,15 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Backpack, X, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 import { useGame } from "@/contexts/GameContext";
+import { useNotificationQueue } from "@/hooks/useNotificationQueue";
 import {
   INVENTORY_COMBINATIONS,
   tryCombineItems,
 } from "@/game/adventureFeatures";
+import {
+  combineInventory as combineRoomMysteryItems,
+  getRoomMysteryModule,
+} from "@shared/roomMysteries";
 
 /** Humanize a snake_case item id into a display label. The
  *  INVENTORY_COMBINATIONS table only names *result* items; raw
@@ -55,7 +60,14 @@ interface Props {
 }
 
 export default function AdventureInventoryDrawer({ open, onClose }: Props) {
-  const { state, combineMysteryItems } = useGame();
+  const {
+    state,
+    combineMysteryItems,
+    setNarrativeFlag,
+    logClue,
+    getRoomDef,
+  } = useGame();
+  const { notify } = useNotificationQueue();
   const [selected, setSelected] = useState<string | null>(null);
   const items = state.mysteryInventory ?? [];
   const names = useMemo(buildNameLookup, []);
@@ -72,22 +84,63 @@ export default function AdventureInventoryDrawer({ open, onClose }: Props) {
         setSelected(null);
         return;
       }
+      // Legacy adventureFeatures combines first (decoder rings, signal
+      // boosters, etc.) — they grant a composite item.
       const combo = tryCombineItems(selected, itemId);
-      if (!combo) {
-        toast.error("Those don't combine.", {
-          description: "Try a different pairing.",
+      if (combo) {
+        combineMysteryItems([combo.itemA, combo.itemB], combo.result);
+        toast.success(combo.resultName, {
+          description: combo.elaraComment,
+          duration: 6000,
         });
         setSelected(null);
         return;
       }
-      combineMysteryItems([combo.itemA, combo.itemB], combo.result);
-      toast.success(combo.resultName, {
-        description: combo.elaraComment,
-        duration: 6000,
+      // Room-mystery combines (cryo-bay torn-id-tag + data-slate, etc.)
+      // — these don't always produce a composite; they may set a flag,
+      // log a clue, and unlock a door instead. Walk every authored room
+      // module so the drawer works regardless of where the player is.
+      const roomIds = Object.keys(state.rooms ?? {});
+      for (const roomId of roomIds) {
+        const mod = getRoomMysteryModule(roomId);
+        if (!mod) continue;
+        const result = combineRoomMysteryItems(mod, selected, itemId);
+        if (!result) continue;
+        if (result.consumesItems && result.producesInventory) {
+          combineMysteryItems([selected, itemId], result.producesInventory);
+        }
+        if (result.setsFlag) setNarrativeFlag(result.setsFlag);
+        if (result.logsClue) logClue(result.logsClue);
+        if (result.unlocksExit) {
+          const exitDef = getRoomDef(result.unlocksExit);
+          const exitName = exitDef?.name?.toUpperCase() ?? result.unlocksExit.toUpperCase();
+          notify(
+            "room-unlock",
+            `${exitName} UNSEALED`,
+            "The bulkhead has accepted your case file. A new area is open.",
+          );
+        }
+        toast.success("Combined", {
+          description: result.narration,
+          duration: 8000,
+        });
+        setSelected(null);
+        return;
+      }
+      toast.error("Those don't combine.", {
+        description: "Try a different pairing.",
       });
       setSelected(null);
     },
-    [selected, combineMysteryItems],
+    [
+      selected,
+      combineMysteryItems,
+      setNarrativeFlag,
+      logClue,
+      notify,
+      getRoomDef,
+      state.rooms,
+    ],
   );
 
   return (

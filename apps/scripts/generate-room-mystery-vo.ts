@@ -243,6 +243,26 @@ function collectAllLines(): GenLine[] {
     }
   }
 
+  // Inventory combines — climactic moments like the cryo-bay
+  // torn-id-tag + data-slate-fragment combine that unlocks the Med
+  // Bay door. Combine narration is currently a single string (not
+  // banded), but emitElara handles both shapes; we still emit three
+  // banded rows when an authored CombineResult uses a banded shape
+  // in the future.
+  for (const [roomId, mod] of Object.entries(ROOM_MYSTERY_REGISTRY)) {
+    for (const rule of mod.combines ?? []) {
+      const result = rule.result;
+      if (!result.voId) continue;
+      emitElara(
+        rows,
+        seen,
+        result.voId,
+        result.narration,
+        `${roomId}:combine:${rule.a}+${rule.b}`,
+      );
+    }
+  }
+
   return rows;
 }
 

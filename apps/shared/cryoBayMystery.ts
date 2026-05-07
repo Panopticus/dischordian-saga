@@ -17,10 +17,13 @@
        separate from the existing itemsCollected list) stores
        InventoryItem ids the player has collected here.
      - narrativeFlags.cryo_mystery_first_clue_found flips the
-       instant ANY clue is logged; the Med Bay bulkhead unlocks
-       off this single flag (per plan).
+       instant ANY clue is logged. It drives room tier 1, the
+       "investigating" art state, and the Clue Journal nav row —
+       NOT the Med Bay door.
      - narrativeFlags.cryo_mystery_victim_identified flips when
-       the ID tag and data-slate are combined.
+       the torn ID tag and data-slate are combined. THIS is the
+       Med Bay bulkhead's unlock — a physical action (slotting a
+       serial into a scanner), not a mental observation.
    ═══════════════════════════════════════════════════════ */
 
 // Verb / VERB_LIST are canonical in the generic room-mystery
@@ -725,7 +728,7 @@ export const CRYO_MYSTERY_RESPONSES: Readonly<
     },
     use: {
       narration:
-        "The door is sealed. The status console demands a reason. It will accept a clue logged in the case file as a reason.",
+        "The door is sealed. The status console wants a name in its manifest before it will let you cross — the dead are anonymous to the Ark, and she keeps medical closed until they aren't.",
       voId: "elara.cryo.med-bay-door.use",
       unlocksExit: "medical-bay",
     },
@@ -741,6 +744,9 @@ export const CRYO_MYSTERY_RESPONSES: Readonly<
  */
 export interface CombineResult {
   narration: string;
+  /** Optional VO id for Elara's combine narration. Banded suffix is
+   *  appended by the runtime (same pattern as VerbResponse.voId). */
+  voId?: string;
   /** Replaces the original items with a single composite (optional). */
   producesInventory?: CryoMysteryInventoryId;
   /** Flag to set. */
@@ -766,6 +772,7 @@ export const CRYO_MYSTERY_COMBINES: readonly CombineRule[] = [
     result: {
       narration:
         "You slot the torn tag against the data-slate's scanner. The slate flickers, runs through its half-decoded manifest, and settles on a single entry. A name. Rank. A cause of wake-failure that isn't a failure at all. The dead are yours to name now.",
+      voId: "elara.cryo.combine.tag-slate",
       setsFlag: "cryo_mystery_victim_identified",
       unlocksExit: "medical-bay",
       consumesItems: false,

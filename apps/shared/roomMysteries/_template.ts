@@ -222,6 +222,10 @@ export interface MysteryBinding {
 /** Result of a `use <a> on <b>` inventory combine. */
 export interface CombineResult {
   narration: string;
+  /** Optional VO id for Elara's combine narration. The runtime
+   *  appends an Elara-stability suffix (.lucid / .fragmented /
+   *  .luminous) at lookup time — same banded pattern as VerbResponse. */
+  voId?: string;
   /** Resulting composite item id (optional). */
   producesInventory?: string;
   setsFlag?: string;

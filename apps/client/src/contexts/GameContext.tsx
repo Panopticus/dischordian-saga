@@ -559,10 +559,12 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
     imageUrl: "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/room_medical_bay-gLunh6wxp8sNASjZDo5FpV.webp",
     features: ["Citizen Stats", "Upgrades", "Dream Balance"],
     featureRoutes: ["/character-sheet"],
-    // Section F — Med Bay is sealed until the player has logged their
-    // first cryo-mystery clue. A single Look at any investigative
-    // hotspot flips cryo_mystery_first_clue_found and the door opens.
-    unlockRequirement: { type: "narrative_event", value: "cryo_mystery_first_clue_found" },
+    // Section F — Med Bay is sealed until the operative names the
+    // victim. The torn ID tag (frosted-glass) + cracked data-slate
+    // combine sets cryo_mystery_victim_identified and unlocks the
+    // bulkhead. Mental observations are not enough; the door opens
+    // when a serial slots into a scanner.
+    unlockRequirement: { type: "narrative_event", value: "cryo_mystery_victim_identified" },
     connections: ["cryo-bay"],
     hotspots: [
       // Realigned 2026-04-25 to match the AAA Final medical-bay render —
