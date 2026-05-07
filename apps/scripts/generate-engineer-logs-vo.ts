@@ -23,7 +23,6 @@
 
    Required env:
      ELEVENLABS_API_KEY=sk_...
-     ELEVENLABS_VOICE_ID_ENGINEER=...   (engineer voice)
      AWS_ACCESS_KEY_ID=AKIA...
      AWS_SECRET_ACCESS_KEY=...
 
@@ -69,10 +68,9 @@ const ELEVENLABS_KEY = sanitizeCredential(
   "ELEVENLABS_API_KEY",
   process.env.ELEVENLABS_API_KEY,
 );
-const VOICE_ID = sanitizeCredential(
-  "ELEVENLABS_VOICE_ID_ENGINEER",
-  process.env.ELEVENLABS_VOICE_ID_ENGINEER,
-);
+// Engineer's voice id — same as the memoir generator
+// (apps/scripts/generate_engineer_memoir_vo.py).
+const VOICE_ID = "FLW8imgp50K85LICuLQs";
 const AWS_ACCESS_KEY_ID = sanitizeCredential(
   "AWS_ACCESS_KEY_ID",
   process.env.AWS_ACCESS_KEY_ID,
@@ -88,12 +86,6 @@ const SKIP_EXISTING = process.env.SKIP_EXISTING === "1";
 
 if (!ELEVENLABS_KEY) {
   console.error("ERROR: ELEVENLABS_API_KEY is required.");
-  process.exit(1);
-}
-if (!VOICE_ID) {
-  console.error(
-    "ERROR: ELEVENLABS_VOICE_ID_ENGINEER is required (set the Engineer's voice id).",
-  );
   process.exit(1);
 }
 if (!AWS_ACCESS_KEY_ID || !AWS_SECRET_ACCESS_KEY) {
