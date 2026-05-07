@@ -236,4 +236,8 @@ Client posts to `recordCompletion` on cohort conclusion.
   multi-tier design plan
 - Future work: full Tier 3 engine refactor (RULES_VERSION bump,
   replay-pinning, party/2v2/co-op queue + UI). Real-time CADES FPS
-  PvP is Godot-side WebRTC and lives outside this codebase.
+  PvP scaffolding lives in `games/cades-fps/` (in-codebase) — Godot
+  client + server signaling WS — and is documented separately in
+  `docs/built/CADES_PVP.md`. The WebRTC `RTCPeerConnection`
+  lifecycle is the remaining work; see CADES_PVP.md "What's NOT
+  done" for the explicit punch list.
