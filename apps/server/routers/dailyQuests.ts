@@ -379,17 +379,21 @@ export const dailyQuestsRouter = router({
 
       // Grant Dream reward (with trait bonus)
       if (adjustedDream > 0) {
-        const existing = await db.select().from(dreamBalance)
-          .where(eq(dreamBalance.userId, ctx.user.id)).limit(1);
-        if (existing[0]) {
-          await db.update(dreamBalance)
-            .set({ dreamTokens: sql`${dreamBalance.dreamTokens} + ${adjustedDream}` })
-            .where(eq(dreamBalance.userId, ctx.user.id));
-        } else {
-          await db.insert(dreamBalance).values({
-            userId: ctx.user.id, dreamTokens: adjustedDream, soulBoundDream: 0,
-          });
-        }
+        // Wrap balance read + write in a transaction so a partial
+        // failure between the read and the write rolls back. Plan §C3.
+        await db.transaction(async (tx) => {
+          const existing = await tx.select().from(dreamBalance)
+            .where(eq(dreamBalance.userId, ctx.user.id)).limit(1);
+          if (existing[0]) {
+            await tx.update(dreamBalance)
+              .set({ dreamTokens: sql`${dreamBalance.dreamTokens} + ${adjustedDream}` })
+              .where(eq(dreamBalance.userId, ctx.user.id));
+          } else {
+            await tx.insert(dreamBalance).values({
+              userId: ctx.user.id, dreamTokens: adjustedDream, soulBoundDream: 0,
+            });
+          }
+        });
       }
 
       // Build trait source labels for frontend toast

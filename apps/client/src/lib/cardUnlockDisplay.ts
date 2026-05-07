@@ -66,6 +66,18 @@ export function getUnlockConditionDisplay(
         chip: `Author's Ed. ${cond.season.toUpperCase()}`,
         description: `Included with the ${cond.season.toUpperCase()} Author's Edition. Direct purchase, not a progression unlock.`,
       };
+    case "dlc_chapter_completion":
+      return {
+        kind: "dlc_chapter_completion",
+        chip: `Finish DLC ${cond.chapterId}`,
+        description: `Unlocks when you complete the "${cond.chapterId}" DLC chapter.`,
+      };
+    case "bloodline_threshold":
+      return {
+        kind: "bloodline_threshold",
+        chip: `${cond.classification} gen ${cond.minGenerations}+`,
+        description: `Unlocks once your ${cond.classification} bloodline reaches generation ${cond.minGenerations} or higher.`,
+      };
   }
 }
 
@@ -81,4 +93,6 @@ export const ALL_UNLOCK_KINDS: ReadonlyArray<CardUnlockCondition["kind"]> = [
   "battle_pass",
   "founding_author",
   "authors_edition",
+  "dlc_chapter_completion",
+  "bloodline_threshold",
 ];

@@ -79,27 +79,32 @@ async function grantRandomCard(db: DrizzleDb, userId: number, rarityPool: string
 }
 
 async function grantDream(db: DrizzleDb, userId: number, amount: number) {
-  const existing = await db.select()
-    .from(dreamBalance)
-    .where(eq(dreamBalance.userId, userId))
-    .limit(1);
+  // Wrap balance read-then-write in a single transaction so a
+  // partial failure between the existence check and the write
+  // can't leave the user double-credited or un-credited. Plan §C3.
+  await db.transaction(async (tx) => {
+    const existing = await tx.select()
+      .from(dreamBalance)
+      .where(eq(dreamBalance.userId, userId))
+      .limit(1);
 
-  if (existing.length > 0) {
-    await db.update(dreamBalance)
-      .set({
-        dreamTokens: sql`${dreamBalance.dreamTokens} + ${amount}`,
-        totalDreamEarned: sql`${dreamBalance.totalDreamEarned} + ${amount}`,
-      })
-      .where(eq(dreamBalance.userId, userId));
-  } else {
-    await db.insert(dreamBalance).values({
-      userId,
-      dreamTokens: amount,
-      totalDreamEarned: amount,
-      soulBoundDream: 0,
-      dnaCode: 0,
-    });
-  }
+    if (existing.length > 0) {
+      await tx.update(dreamBalance)
+        .set({
+          dreamTokens: sql`${dreamBalance.dreamTokens} + ${amount}`,
+          totalDreamEarned: sql`${dreamBalance.totalDreamEarned} + ${amount}`,
+        })
+        .where(eq(dreamBalance.userId, userId));
+    } else {
+      await tx.insert(dreamBalance).values({
+        userId,
+        dreamTokens: amount,
+        totalDreamEarned: amount,
+        soulBoundDream: 0,
+        dnaCode: 0,
+      });
+    }
+  });
 }
 
 export const contentRewardRouter = router({

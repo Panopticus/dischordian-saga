@@ -817,23 +817,29 @@ export const architectConsoleRouter = router({
       const db = await getDb();
       if (!db) return { success: false };
 
-      // Award dream tokens
+      // Award dream tokens — wrapped so a partial failure between
+      // read and write can't leave the user un-credited / double-
+      // credited on retry. Architect-console grants are higher
+      // stakes than normal credits (admin-driven), so atomicity here
+      // matters extra. Plan §C3.
       if (input.dreamTokens && input.dreamTokens > 0) {
-        const [existing] = await db.select().from(dreamBalance).where(eq(dreamBalance.userId, input.userId)).limit(1);
-        if (existing) {
-          await db.update(dreamBalance)
-            .set({
-              dreamTokens: sql`${dreamBalance.dreamTokens} + ${input.dreamTokens}`,
-              totalDreamEarned: sql`${dreamBalance.totalDreamEarned} + ${input.dreamTokens}`,
-            })
-            .where(eq(dreamBalance.userId, input.userId));
-        } else {
-          await db.insert(dreamBalance).values({
-            userId: input.userId,
-            dreamTokens: input.dreamTokens,
-            totalDreamEarned: input.dreamTokens,
-          });
-        }
+        await db.transaction(async (tx) => {
+          const [existing] = await tx.select().from(dreamBalance).where(eq(dreamBalance.userId, input.userId)).limit(1);
+          if (existing) {
+            await tx.update(dreamBalance)
+              .set({
+                dreamTokens: sql`${dreamBalance.dreamTokens} + ${input.dreamTokens}`,
+                totalDreamEarned: sql`${dreamBalance.totalDreamEarned} + ${input.dreamTokens}`,
+              })
+              .where(eq(dreamBalance.userId, input.userId));
+          } else {
+            await tx.insert(dreamBalance).values({
+              userId: input.userId,
+              dreamTokens: input.dreamTokens,
+              totalDreamEarned: input.dreamTokens,
+            });
+          }
+        });
       }
 
       // Award soul-bound dream

@@ -734,22 +734,26 @@ export const deadMansCircuitRouter = router({
       };
       dreamAwarded = DREAM_BY_TIER[input.tier] ?? 0;
 
-      // Grant Dream
+      // Grant Dream — read-then-write in a transaction so a partial
+      // failure between the existence check and the write can't
+      // double-credit. Plan §C3.
       if (dreamAwarded > 0) {
-        const [existingDream] = await db.select().from(dreamBalance)
-          .where(eq(dreamBalance.userId, ctx.user.id))
-          .limit(1);
-        if (existingDream) {
-          await db.update(dreamBalance)
-            .set({ dreamTokens: sql`${dreamBalance.dreamTokens} + ${dreamAwarded}` })
-            .where(eq(dreamBalance.userId, ctx.user.id));
-        } else {
-          await db.insert(dreamBalance).values({
-            userId: ctx.user.id,
-            dreamTokens: dreamAwarded,
-            soulBoundDream: 0,
-          });
-        }
+        await db.transaction(async (tx) => {
+          const [existingDream] = await tx.select().from(dreamBalance)
+            .where(eq(dreamBalance.userId, ctx.user.id))
+            .limit(1);
+          if (existingDream) {
+            await tx.update(dreamBalance)
+              .set({ dreamTokens: sql`${dreamBalance.dreamTokens} + ${dreamAwarded}` })
+              .where(eq(dreamBalance.userId, ctx.user.id));
+          } else {
+            await tx.insert(dreamBalance).values({
+              userId: ctx.user.id,
+              dreamTokens: dreamAwarded,
+              soulBoundDream: 0,
+            });
+          }
+        });
       }
 
       // Grant XP + cosmetics via userProgress

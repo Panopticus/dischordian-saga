@@ -202,37 +202,44 @@ export const cardAchievementsRouter = router({
       if (!existing || existing.completed !== 1) return { success: false, error: "Achievement not completed" };
       if (existing.rewardClaimed === 1) return { success: false, error: "Reward already claimed" };
 
-      // Grant Dream tokens
-      if (def.dreamReward > 0) {
-        const [bal] = await db.select().from(dreamBalance).where(eq(dreamBalance.userId, ctx.user.id)).limit(1);
-        if (bal) {
-          await db.update(dreamBalance)
-            .set({ dreamTokens: sql`dreamTokens + ${def.dreamReward}` })
-            .where(eq(dreamBalance.userId, ctx.user.id));
-        } else {
-          await db.insert(dreamBalance).values({ userId: ctx.user.id, dreamTokens: def.dreamReward, soulBoundDream: 0 });
+      // Wrap reward grant + claim flag in a single transaction so a
+      // partial failure (e.g. card-grant fails after Dream tokens
+      // were credited) rolls everything back. Without this, a player
+      // could be credited Dream without `rewardClaimed = 1`,
+      // letting them claim again on retry.
+      await db.transaction(async (tx) => {
+        // Grant Dream tokens
+        if (def.dreamReward > 0) {
+          const [bal] = await tx.select().from(dreamBalance).where(eq(dreamBalance.userId, ctx.user.id)).limit(1);
+          if (bal) {
+            await tx.update(dreamBalance)
+              .set({ dreamTokens: sql`dreamTokens + ${def.dreamReward}` })
+              .where(eq(dreamBalance.userId, ctx.user.id));
+          } else {
+            await tx.insert(dreamBalance).values({ userId: ctx.user.id, dreamTokens: def.dreamReward, soulBoundDream: 0 });
+          }
         }
-      }
 
-      // Grant card reward if applicable
-      if (def.cardReward) {
-        const [existing2] = await db.select().from(userCards)
-          .where(and(eq(userCards.userId, ctx.user.id), eq(userCards.cardId, def.cardReward))).limit(1);
-        if (existing2) {
-          await db.update(userCards)
-            .set({ quantity: sql`quantity + 1` })
-            .where(eq(userCards.id, existing2.id));
-        } else {
-          await db.insert(userCards).values({
-            userId: ctx.user.id, cardId: def.cardReward, quantity: 1, obtainedVia: "achievement",
-          });
+        // Grant card reward if applicable
+        if (def.cardReward) {
+          const [existing2] = await tx.select().from(userCards)
+            .where(and(eq(userCards.userId, ctx.user.id), eq(userCards.cardId, def.cardReward))).limit(1);
+          if (existing2) {
+            await tx.update(userCards)
+              .set({ quantity: sql`quantity + 1` })
+              .where(eq(userCards.id, existing2.id));
+          } else {
+            await tx.insert(userCards).values({
+              userId: ctx.user.id, cardId: def.cardReward, quantity: 1, obtainedVia: "achievement",
+            });
+          }
         }
-      }
 
-      // Mark reward as claimed
-      await db.update(cardGameAchievements)
-        .set({ rewardClaimed: 1 })
-        .where(eq(cardGameAchievements.id, existing.id));
+        // Mark reward as claimed
+        await tx.update(cardGameAchievements)
+          .set({ rewardClaimed: 1 })
+          .where(eq(cardGameAchievements.id, existing.id));
+      });
 
       return { success: true, dreamReward: def.dreamReward, cardReward: def.cardReward };
     }),

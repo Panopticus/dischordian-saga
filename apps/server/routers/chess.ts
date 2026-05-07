@@ -1320,19 +1320,23 @@ export const chessRouter = router({
         awarded = puzzle.xpReward;
 
         // Award Dream tokens equal to the puzzle's XP reward.
-        const bal = await db.select().from(dreamBalance)
-          .where(eq(dreamBalance.userId, ctx.user.id)).limit(1);
-        if (bal[0]) {
-          await db.update(dreamBalance)
-            .set({ dreamTokens: sql`${dreamBalance.dreamTokens} + ${awarded}` })
-            .where(eq(dreamBalance.userId, ctx.user.id));
-        } else {
-          await db.insert(dreamBalance).values({
-            userId: ctx.user.id,
-            dreamTokens: awarded,
-            soulBoundDream: 0,
-          });
-        }
+        // Wrapped so the read-then-write can't double-credit on
+        // concurrent puzzle-solve requests. Plan §C3.
+        await db.transaction(async (tx) => {
+          const bal = await tx.select().from(dreamBalance)
+            .where(eq(dreamBalance.userId, ctx.user.id)).limit(1);
+          if (bal[0]) {
+            await tx.update(dreamBalance)
+              .set({ dreamTokens: sql`${dreamBalance.dreamTokens} + ${awarded}` })
+              .where(eq(dreamBalance.userId, ctx.user.id));
+          } else {
+            await tx.insert(dreamBalance).values({
+              userId: ctx.user.id,
+              dreamTokens: awarded,
+              soulBoundDream: 0,
+            });
+          }
+        });
 
         // Award civil skill XP (tactics training counts as chess study).
         const { awardCivilXp } = await import("../civilSkillHelper");
