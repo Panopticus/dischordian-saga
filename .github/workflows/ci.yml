@@ -13,7 +13,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup pnpm
         # `pnpm/action-setup@v4` reads the pnpm version from
@@ -129,7 +129,7 @@ jobs:
       DATABASE_URL: "mysql://root:ci_smoke_pw@127.0.0.1:3306/dischordian_smoke"
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
@@ -214,7 +214,7 @@ jobs:
       E2E_BASE_URL: "http://localhost:3000"
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
