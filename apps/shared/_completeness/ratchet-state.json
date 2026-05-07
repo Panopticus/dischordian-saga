@@ -1,7 +1,7 @@
 {
   "version": 1,
   "worstByEntry": {
-    "tcg.trigger_kind_coverage": 4,
+    "tcg.trigger_kind_coverage": 0,
     "tcg.keyword_behavior_coverage": 12,
     "tcg.unlock_condition_ui_coverage": 2
   }

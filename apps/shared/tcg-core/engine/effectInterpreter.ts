@@ -46,6 +46,7 @@ import { withIt } from "./execCtx";
 import { resolveTargetRef, resolveTargetSelector, findBoardEntity } from "./targeting";
 import { evaluateCondition } from "./conditions";
 import { evaluateAmount } from "./amounts";
+import { enqueueCardDrawnTriggers } from "./turn";
 
 // Re-export so reducer.ts + call sites get a single source of truth.
 export type { Effect } from "../types/Effect";
@@ -269,6 +270,7 @@ export function interpret(
             cardDefId: top.defId,
             entityId: top.entityId,
           });
+          enqueueCardDrawnTriggers(draft, side, top.defId, reduceCtx);
         }
       }
       return;

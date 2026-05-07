@@ -34,7 +34,7 @@ import { RULES_VERSION } from "./version";
 import { runStateBasedActions, SBA_SAFETY_CAP } from "./stateBasedActions";
 import { drainTriggerQueue, type TriggerEffectRunner } from "./triggerQueue";
 import { handleMulligan, handleFinishMulligan } from "./mulligan";
-import { refreshTurnForPlayer } from "./turn";
+import { refreshTurnForPlayer, enqueueTurnEndTriggers } from "./turn";
 import { tickLockout } from "./lockout";
 import { drainScriptedActions } from "./scriptedActions";
 import { emitPhaseStartEvent, resolveTrialOutcome } from "./trialPhase";
@@ -417,6 +417,11 @@ function handleEndTurn(
   }
   const ending = draft.currentPlayer;
   ctx.events.push({ type: "turn_ended", player: ending, turnNumber: draft.turnNumber });
+  // Enqueue on_turn_end triggers for the outgoing side's entities.
+  // Runs before tickLockout / refreshTurnForPlayer so the triggers
+  // resolve in the same time-slice as the turn-end event (matches
+  // on_turn_start ordering on the incoming side).
+  enqueueTurnEndTriggers(draft, ending, ctx);
   // §5.5 Warlord lockout — tick the countdown when the lockout's
   // target side ends their turn (spec §2.3 — "as the player completes
   // each of turns 4, 5, 6, the corresponding tile dims"). When the

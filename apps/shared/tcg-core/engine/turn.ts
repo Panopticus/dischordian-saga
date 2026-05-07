@@ -75,6 +75,7 @@ export function refreshTurnForPlayer(
         cardDefId: top.defId,
         entityId: top.entityId,
       });
+      enqueueCardDrawnTriggers(draft, side, top.defId, ctx);
     }
   } else {
     ctx.events.push({
@@ -132,5 +133,92 @@ export function refreshTurnForPlayer(
   // is not the lockout's target.
   if (draft.lockout && draft.lockout.targetSide === side) {
     reevaluateLockout(draft, side, ctx.registry, ctx.events);
+  }
+}
+
+/**
+ * Enqueue `on_card_drawn` triggers across the board when `drawingSide`
+ * draws `drawnDefId` into hand. Fires for every on-board entity (any
+ * side) whose ability has an `on_card_drawn` trigger — the trigger's
+ * optional `filter` is matched at dispatch time by the trigger
+ * runner's matchesCardFilter check, so observers on either side may
+ * react.
+ *
+ * Caveat: pre-game draws (mulligan, init.ts opening hand) do NOT call
+ * this — those phases run before the board exists. Mid-game draws
+ * via the turn-refresh path and the `draw` effect op do call it.
+ *
+ * Closes the `tcg.trigger_kind_coverage` gap for `on_card_drawn`.
+ */
+export function enqueueCardDrawnTriggers(
+  draft: Draft<GameState>,
+  drawingSide: Side,
+  _drawnDefId: string,
+  ctx: ReduceCtx,
+): void {
+  // The trigger's filter (if any) is applied by the runner against
+  // the drawn card definition at resolution time. At enqueue we only
+  // need to match the kind. Walk every entity on the board so
+  // friendly + opposing observers both get a chance to react.
+  void drawingSide;
+  for (const entity of Object.values(draft.board)) {
+    const def = ctx.registry.get(entity.card.defId);
+    if (!def) continue;
+    const abilities = def.abilities as unknown as ConcreteAbility[];
+    for (let i = 0; i < abilities.length; i++) {
+      if (abilities[i].trigger.kind !== "on_card_drawn") continue;
+      enqueueTrigger(draft, {
+        sourceEntityId: entity.entityId,
+        sourceOwner: entity.card.owner,
+        sourceRow: entity.row,
+        sourceCol: entity.col,
+        abilityIdx: i,
+        context: { triggerSourceId: entity.entityId },
+      });
+    }
+  }
+}
+
+/**
+ * Enqueue `on_turn_end` triggers for entities controlled by the side
+ * whose turn is ending. Called from the reducer's `end_turn` handler
+ * before the turn switch and before {@link refreshTurnForPlayer} runs
+ * for the incoming player.
+ *
+ * Mirror of the on_turn_start enqueue loop in {@link refreshTurnForPlayer},
+ * applied to the OUTGOING side. `owner: "either"` triggers fire for
+ * any side's turn end; `owner: "self"` only when their own turn ends;
+ * `owner: "opponent"` only when the opposing side's turn ends.
+ *
+ * Lands B6 part of the ship:check completeness gate — closes the
+ * `tcg.trigger_kind_coverage` gap for `on_turn_end`.
+ */
+export function enqueueTurnEndTriggers(
+  draft: Draft<GameState>,
+  endingSide: Side,
+  ctx: ReduceCtx,
+): void {
+  for (const entity of Object.values(draft.board)) {
+    const def = ctx.registry.get(entity.card.defId);
+    if (!def) continue;
+    const abilities = def.abilities as unknown as ConcreteAbility[];
+    for (let i = 0; i < abilities.length; i++) {
+      const trigger = abilities[i].trigger;
+      if (trigger.kind !== "on_turn_end") continue;
+      const ownsThisSide = entity.card.owner === endingSide;
+      const matchesOwner =
+        trigger.owner === "either" ||
+        (trigger.owner === "self" && ownsThisSide) ||
+        (trigger.owner === "opponent" && !ownsThisSide);
+      if (!matchesOwner) continue;
+      enqueueTrigger(draft, {
+        sourceEntityId: entity.entityId,
+        sourceOwner: entity.card.owner,
+        sourceRow: entity.row,
+        sourceCol: entity.col,
+        abilityIdx: i,
+        context: { triggerSourceId: entity.entityId },
+      });
+    }
   }
 }

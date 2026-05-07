@@ -40,6 +40,7 @@ import type { ReduceCtx } from "./reducer";
 import type { Side } from "../types/Ids";
 import type { ConcreteAbility } from "../types/Trigger";
 import { enqueueTrigger } from "./triggerQueue";
+import { enqueueKillTriggers } from "./stateBasedActions";
 
 export function handleAttack(
   draft: Draft<GameState>,
@@ -184,8 +185,22 @@ function applyCombatDamage(
     absorbed: false,
   });
 
-  // Enqueue on_damage_dealt triggers for the source entity.
+  // Enqueue on_damage_dealt triggers for the source entity, then
+  // on_damage_taken for the victim. Order matters: source-side
+  // triggers (drain heals, payback, etc.) must enqueue before the
+  // victim's reactive triggers so APNAP ordering reflects the
+  // actor-then-target convention.
   enqueueDamageDealtTriggers(draft, source, dest, ctx);
+  enqueueDamageTakenTriggers(draft, dest, ctx);
+
+  // Wire on_kill triggers when this damage instance lethaled the
+  // dest. enqueueKillTriggers is defined in stateBasedActions.ts but
+  // had no production caller before this commit — combat is the
+  // canonical site that knows both the killer and that the victim
+  // is dropping to ≤ 0 HP.
+  if (dest.card.currentHealth <= 0) {
+    enqueueKillTriggers(draft, source, ctx);
+  }
 
   // Artifact durability loss: when a general takes real damage, each
   // equipped artifact loses 1 durability.
@@ -194,6 +209,35 @@ function applyCombatDamage(
     for (const artifact of owner.artifacts) {
       artifact.durability = artifact.durability - 1;
     }
+  }
+}
+
+/**
+ * Enqueue on_damage_taken triggers for the victim entity after taking
+ * un-absorbed damage. Forcefield-absorbed damage does NOT fire
+ * on_damage_taken — matches the canonical TCG semantics where a
+ * blocker / shield prevents the "took damage" event entirely.
+ *
+ * Closes the `tcg.trigger_kind_coverage` gap for `on_damage_taken`.
+ */
+function enqueueDamageTakenTriggers(
+  draft: Draft<GameState>,
+  victim: Draft<BoardEntity>,
+  ctx: ReduceCtx,
+): void {
+  const def = ctx.registry.get(victim.card.defId);
+  if (!def) return;
+  const abilities = def.abilities as unknown as ConcreteAbility[];
+  for (let i = 0; i < abilities.length; i++) {
+    if (abilities[i].trigger.kind !== "on_damage_taken") continue;
+    enqueueTrigger(draft, {
+      sourceEntityId: victim.entityId,
+      sourceOwner: victim.card.owner,
+      sourceRow: victim.row,
+      sourceCol: victim.col,
+      abilityIdx: i,
+      context: { triggerSourceId: victim.entityId },
+    });
   }
 }
 
