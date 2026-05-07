@@ -48,6 +48,19 @@ jobs:
         # adopting void-energy must not regress.
         run: pnpm run lint:void-energy
 
+      - name: Ship-check (completeness gate)
+        # The "tracked-vs-shipped" gate. Walks
+        # apps/shared/_completeness/registry.ts and runs each
+        # subsystem's parity check (declared contract vs. implemented
+        # runtime). Hard-fails on any FAIL row; RATCHET rows are
+        # allowed but cannot regress beyond the ceiling recorded in
+        # apps/shared/_completeness/ratchet-state.json.
+        #
+        # When the registry is empty (Part A only — before subsystem
+        # checks land) this prints an informational message and
+        # exits 0.
+        run: pnpm run ship:check
+
       - name: Type-check (tsc --noEmit)
         run: pnpm run check
 

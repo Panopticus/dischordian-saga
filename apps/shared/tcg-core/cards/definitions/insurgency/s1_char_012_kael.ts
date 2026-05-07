@@ -84,9 +84,8 @@ export const cardDef: CardDefinition = {
           },
           // Reset the counter so the next 2 kills re-trigger evolve.
           {
-            op: "add_counter",
-            kind: "kael_kills",
-            amount: -999,
+            op: "reset_counter",
+            counter: "kael_kills",
             to: { kind: "self" },
           },
         ],

@@ -7,6 +7,8 @@ import {
 } from "lucide-react";
 
 import { assetUrl } from "@/lib/assetUrl";
+import { LockedCardBadge } from "@/components/LockedCardBadge";
+import type { CardUnlockCondition } from "@shared/tcg-core/types/Card";
 interface CardData {
   id?: number;
   cardId: string;
@@ -27,6 +29,14 @@ interface CardData {
   species?: string | null;
   dimension?: string | null;
   keywords?: string[] | null;
+  /** H5 — when set, surfaces the unlock-path chip on the card.
+   *  Typed loosely so server-projected JSON values (which arrive as
+   *  Record<string, unknown> through tRPC's superjson when the
+   *  source is a JSON column) are accepted. The runtime cast at the
+   *  render site relies on the engine schema's strictness — the
+   *  Zod `cardUnlockConditionSchema` rejects malformed kinds at
+   *  load time. */
+  unlockCondition?: CardUnlockCondition | Record<string, unknown> | null;
 }
 
 interface GameCardProps {
@@ -403,6 +413,19 @@ export default function GameCard({
               <p className="font-mono text-[8px] italic text-muted-foreground line-clamp-2">
                 "{card.flavorText}"
               </p>
+            </div>
+          )}
+
+          {/* H5 — unlock-condition chip. Mounted in the top-right
+              corner so it's visible at every card size without
+              colliding with the cost / type / rarity badges along
+              the top-left + bottom edges. */}
+          {card.unlockCondition && (
+            <div className="absolute top-1 right-1 pointer-events-none">
+              <LockedCardBadge
+                condition={card.unlockCondition as CardUnlockCondition}
+                className="bg-background/85 backdrop-blur-sm border-border/40 text-foreground"
+              />
             </div>
           )}
 

@@ -144,6 +144,47 @@ export function deployCard(
         });
       }
     }
+
+    // H2 — rally_buff: on deploy, apply CardDefinition.rallyBuff
+    // to every king-adjacent friendly unit (excluding the deploying
+    // unit itself and the friendly general — buffs are for line
+    // units, not the head of state). The Zod superRefine in
+    // cards/schema.ts requires `rallyBuff` to be set when the
+    // `rally_buff` keyword is present, so the cast below is safe.
+    if (card.activeKeywords.includes("rally_buff")) {
+      const rallyBuff = (def as { rallyBuff?: { power: number; health: number } }).rallyBuff
+        ?? { power: 1, health: 1 };
+      if (rallyBuff.power > 0 || rallyBuff.health > 0) {
+        for (const friendly of Object.values(draft.board)) {
+          if (friendly.entityId === entity.entityId) continue;
+          if (friendly.card.owner !== side) continue;
+          if (friendly.isGeneral) continue;
+          const dr = Math.abs(friendly.row - row);
+          const dc = Math.abs(friendly.col - col);
+          if (Math.max(dr, dc) !== 1) continue; // king-adjacency only
+          friendly.card.currentPower += rallyBuff.power;
+          friendly.card.maxHealth += rallyBuff.health;
+          friendly.card.currentHealth += rallyBuff.health;
+          friendly.card.buffs = [
+            ...friendly.card.buffs,
+            {
+              source: `rally_buff:${entity.entityId}`,
+              powerDelta: rallyBuff.power,
+              healthDelta: rallyBuff.health,
+              expiresAtTurn: -1, // permanent
+            },
+          ];
+          ctx.events.push({
+            type: "buff_applied",
+            sourceId: entity.entityId,
+            targetId: friendly.entityId,
+            powerDelta: rallyBuff.power,
+            healthDelta: rallyBuff.health,
+            expiresAtTurn: -1,
+          });
+        }
+      }
+    }
   }
 
   // Enqueue on_summoned_near_me triggers on friendly entities within

@@ -46,6 +46,7 @@ import { withIt } from "./execCtx";
 import { resolveTargetRef, resolveTargetSelector, findBoardEntity } from "./targeting";
 import { evaluateCondition } from "./conditions";
 import { evaluateAmount } from "./amounts";
+import { enqueueCardDrawnTriggers } from "./turn";
 
 // Re-export so reducer.ts + call sites get a single source of truth.
 export type { Effect } from "../types/Effect";
@@ -105,6 +106,32 @@ export function interpret(
           counterKind: effect.kind,
           delta: effect.amount,
           newValue: next,
+        });
+      }
+      return;
+    }
+
+    case "reset_counter": {
+      // Explicit zeroing primitive. Replaces the legacy
+      // `add_counter amount: -999` workaround which clamps to 0 in
+      // add_counter above but breaks silently if a counter ever
+      // exceeds 999. The new shape is unambiguous and can't drift.
+      const ids = resolveTargetRef(effect.to, ctx, draft);
+      for (const id of ids) {
+        const entity = findBoardEntity(draft, id);
+        if (!entity) continue;
+        const previous = entity.card.counters[effect.counter] ?? 0;
+        if (previous === 0) continue;
+        entity.card.counters[effect.counter] = 0;
+        // Emit counter_added with delta = -previous so existing event
+        // consumers (replay, animation) treat it like an add to 0
+        // without needing a new event variant.
+        reduceCtx.events.push({
+          type: "counter_added",
+          targetId: id,
+          counterKind: effect.counter,
+          delta: -previous,
+          newValue: 0,
         });
       }
       return;
@@ -269,6 +296,7 @@ export function interpret(
             cardDefId: top.defId,
             entityId: top.entityId,
           });
+          enqueueCardDrawnTriggers(draft, side, top.defId, reduceCtx);
         }
       }
       return;

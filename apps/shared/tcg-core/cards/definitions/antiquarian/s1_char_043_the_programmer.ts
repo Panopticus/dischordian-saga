@@ -71,9 +71,8 @@ export const cardDef: CardDefinition = {
             to: { kind: "self" },
           },
           {
-            op: "add_counter",
-            kind: "first_attack_bonus",
-            amount: -999,
+            op: "reset_counter",
+            counter: "first_attack_bonus",
             to: { kind: "self" },
           },
         ],
@@ -115,9 +114,8 @@ export const cardDef: CardDefinition = {
             to: { kind: "self" },
           },
           {
-            op: "add_counter",
-            kind: "programmer_kills",
-            amount: -999,
+            op: "reset_counter",
+            counter: "programmer_kills",
             to: { kind: "self" },
           },
         ],

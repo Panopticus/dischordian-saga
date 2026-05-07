@@ -498,6 +498,32 @@ export const effectSchema: z.ZodType<unknown> = z.lazy(() =>
         amount: z.number().int(),
         to: targetRefSchema,
       })
+      .strict()
+      .superRefine((val, ctx) => {
+        // Hand-roll a "use reset_counter instead" hint when authors
+        // try to zero a counter via a large negative amount. -999
+        // was the historical workaround; the engine clamps to 0
+        // (effectInterpreter Math.max(0, current + amount)) but the
+        // shape is brittle: as soon as a counter legitimately holds
+        // > 999, the reset breaks silently. The reset_counter op
+        // (added in B3) is the explicit primitive.
+        if (val.amount <= -100) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message:
+              `add_counter with amount ${val.amount} is the legacy "-999" reset workaround. ` +
+              `Use { op: "reset_counter", counter: "${val.kind}", to: ... } instead — ` +
+              `it's an explicit primitive that doesn't break when counters exceed the workaround value.`,
+            path: ["amount"],
+          });
+        }
+      }),
+    z
+      .object({
+        op: z.literal("reset_counter"),
+        counter: z.string().min(1),
+        to: targetRefSchema,
+      })
       .strict(),
     // Control flow
     z
@@ -795,6 +821,44 @@ export const cardDefinitionSchema = z
     /** Optional: gates the card behind a story / progression milestone.
      *  See Card.ts `unlockCondition` doc + expansionUnlockService.ts. */
     unlockCondition: cardUnlockConditionSchema.optional(),
+    /** Optional: explicit acknowledgement that this card's stat budget
+     *  diverges from the STAT_CURVE / KEYWORD_TAX expectation in
+     *  apps/shared/tcg-core/balance/statCurve.ts. The
+     *  ship:check tcg.card_stat_budget_coverage gate flags any
+     *  off-curve unit/structure that does NOT carry this field. The
+     *  exception is by-design — designer intent on record — not a
+     *  silencer for "we'll fix it later." `reason` is plain English;
+     *  `reviewer` is the human who signed off. */
+    balanceException: z
+      .object({
+        reason: z.string().min(8),
+        reviewer: z.string().min(2),
+      })
+      .strict()
+      .optional(),
+
+    /* H2 keyword-config fields. Each is optional — absent values
+     * fall back to documented engine defaults when the matching
+     * keyword is present. */
+    growAmount: z
+      .object({
+        power: z.number().int().nonnegative(),
+        health: z.number().int().nonnegative(),
+      })
+      .strict()
+      .optional(),
+    furyCount: z.number().int().min(2).max(5).optional(),
+    infiltrateBonus: z.number().int().min(0).max(5).optional(),
+    overchargeBonus: z.number().int().min(0).max(5).optional(),
+    overchargeSelfDamage: z.number().int().min(0).max(5).optional(),
+    rallyBuff: z
+      .object({
+        power: z.number().int().nonnegative(),
+        health: z.number().int().nonnegative(),
+      })
+      .strict()
+      .optional(),
+    backstabBonus: z.number().int().min(0).max(5).optional(),
   })
   .strict()
   .superRefine((card, ctx) => {
@@ -825,6 +889,12 @@ export const cardDefinitionSchema = z
       }
       seen.add(a.id);
     }
+
+    // H2 — `rally_buff` keyword has no required config field —
+    // engine defaults to {power:1, health:1} when absent — so the
+    // schema doesn't enforce. Mentioned here so future schema
+    // refactors don't accidentally reintroduce a strict check that
+    // breaks the existing rally_buff cards.
   });
 
 export type ValidatedCardDefinition = z.infer<typeof cardDefinitionSchema>;

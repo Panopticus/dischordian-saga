@@ -211,6 +211,57 @@ export interface CardDefinition {
    * module is the dispatcher for this field.
    */
   unlockCondition?: CardUnlockCondition;
+  /**
+   * Optional: explicit designer acknowledgement that this card's
+   * power+health diverges from the STAT_CURVE / KEYWORD_TAX
+   * expectation in `apps/shared/tcg-core/balance/statCurve.ts`. The
+   * ship:check `tcg.card_stat_budget_coverage` gate flags any unit
+   * or structure that's outside the per-cost tolerance and does NOT
+   * carry this field. Exceptions are by-design — a paper trail for
+   * "this card breaks the curve on purpose, here is who approved
+   * it" — not a silencer for "we'll fix balance later."
+   *
+   * `reason` is plain English (≥ 8 chars); `reviewer` is the human
+   * who signed off (≥ 2 chars). Both are enforced by the Zod
+   * schema.
+   */
+  balanceException?: {
+    reason: string;
+    reviewer: string;
+  };
+
+  /* ─── H2 keyword-config fields ───────────────────────────────────
+     Optional knobs read by the engine when the corresponding keyword
+     is on `keywords`. Absent fields fall back to documented defaults.
+  */
+
+  /** `grow`: per-turn permanent stat bump. Default {power:1, health:1}. */
+  growAmount?: { power: number; health: number };
+
+  /** `fury`: number of strikes per attack. Default 2. */
+  furyCount?: number;
+
+  /** `infiltrate`: power bonus while on enemy half of the board.
+   *  Default +1. */
+  infiltrateBonus?: number;
+
+  /** `overcharge`: bonus damage on the unit's first attack of the
+   *  match. Default +2. */
+  overchargeBonus?: number;
+  /** `overcharge`: self-damage applied after the first attack
+   *  resolves. Default 2. */
+  overchargeSelfDamage?: number;
+
+  /** `rally_buff`: stat bump applied to friendly adjacents on
+   *  deploy. No default — when the keyword is present this field
+   *  must be set; the Zod superRefine enforces. */
+  rallyBuff?: { power: number; health: number };
+
+  /** `backstab`: power bonus when attacking from "behind" — the
+   *  defender's row is between the attacker and the defender's
+   *  general (i.e. attacker is on the defender's home half).
+   *  Default +2. */
+  backstabBonus?: number;
 }
 
 /**

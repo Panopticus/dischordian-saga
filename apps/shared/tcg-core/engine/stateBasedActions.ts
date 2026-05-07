@@ -47,6 +47,9 @@ import type { ReduceCtx } from "./reducer";
 import type { Side } from "../types/Ids";
 import type { ConcreteAbility } from "../types/Trigger";
 import { enqueueTrigger } from "./triggerQueue";
+import { interpret } from "./effectInterpreter";
+import type { ExecCtx } from "./execCtx";
+import type { Effect } from "../types/Effect";
 
 /** Maximum SBA iterations per fixed-point loop. Defense in depth. */
 export const SBA_SAFETY_CAP = 64;
@@ -82,11 +85,19 @@ export function runStateBasedActions(
     for (const key of deadKeys) {
       const entity = draft.board[key];
       if (entity.isGeneral) continue;
-      if (!entity.card.activeKeywords.includes("resurrect")) continue;
-      if (entity.card.counters.has_resurrected === 1) continue;
+      const aks = entity.card.activeKeywords;
+      const hasResurrect = aks.includes("resurrect");
+      const hasRebirth = aks.includes("rebirth");
+      if (!hasResurrect && !hasRebirth) continue;
+      // Both keywords use a counter to prevent looping. resurrect
+      // uses `has_resurrected`; rebirth uses `has_rebirthed` — they
+      // are independent so a unit with both keywords (none ship
+      // today, but the type union allows it) gets one of each.
+      const counterKey = hasResurrect ? "has_resurrected" : "has_rebirthed";
+      if (entity.card.counters[counterKey] === 1) continue;
       entity.card.counters = {
         ...entity.card.counters,
-        has_resurrected: 1,
+        [counterKey]: 1,
       };
       entity.card.currentHealth = entity.card.maxHealth;
       ctx.events.push({
@@ -141,6 +152,38 @@ export function runStateBasedActions(
       delete draft.board[key];
     }
     changed = true;
+  }
+
+  // Pass 1c — passive auras. Runs after deaths so dying entities
+  // don't have their auras applied one final time. For each on-board
+  // entity, walk its abilities; every `passive_aura` ability whose
+  // `passive_aura_applied:<abilityIdx>` flag is unset has its effect
+  // interpreted exactly once and the flag is set. The flag persists
+  // for the life of the entity — when the entity dies and is removed
+  // from the board, its CardInstance leaves with it, so a fresh
+  // summon of the same defId starts unflagged.
+  //
+  // All current passive_aura consumers use `range: { kind: "self" }`
+  // and a permanent `grant_keyword` effect — i.e. "this unit gains
+  // X for the rest of its time on the board." The fire-once model
+  // is correct for those. Non-self ranges (adjacent / radius / etc.)
+  // would need re-evaluation as units enter/leave the range zone;
+  // when the first such consumer lands, this pass extends.
+  for (const entity of Object.values(draft.board)) {
+    const def = ctx.registry.get(entity.card.defId);
+    if (!def) continue;
+    const abilities = def.abilities as unknown as ConcreteAbility[];
+    for (let i = 0; i < abilities.length; i++) {
+      if (abilities[i].trigger.kind !== "passive_aura") continue;
+      const flagKey = `passive_aura_applied_${i}`;
+      if (entity.card.flags[flagKey]) continue;
+      // Build a minimal ExecCtx for the effect interpreter and run.
+      // We import the interpreter lazily at top-of-call to keep the
+      // SBA pass dependency-light at module init.
+      runPassiveAura(draft, entity, abilities[i], ctx);
+      entity.card.flags[flagKey] = true;
+      changed = true;
+    }
   }
 
   // Pass 2 — expired buffs.
@@ -260,6 +303,40 @@ function destroyEntity(
 /**
  * True if the player's general entity is still on the board with > 0 HP.
  */
+/**
+ * Apply a single passive_aura ability's effect once. Drives Pass 1c
+ * of {@link runStateBasedActions}.
+ *
+ * Current consumers all use `range: { kind: "self" }` + a permanent
+ * grant_keyword. When non-self ranges land, this function expands to
+ * resolve in-range targets and bind them to `it` per the existing
+ * effect-interpreter conventions.
+ */
+function runPassiveAura(
+  draft: Draft<GameState>,
+  entity: BoardEntity,
+  ability: ConcreteAbility,
+  ctx: ReduceCtx,
+): void {
+  const ctxExec: ExecCtx = {
+    sourceEntityId: entity.entityId,
+    actorSide: entity.card.owner,
+    it: undefined,
+    previousTarget: undefined,
+    triggerSourceId: entity.entityId,
+    triggerVictimId: undefined,
+    chooseIndex: undefined,
+    playerChosenTargetId: undefined,
+  };
+  ctx.events.push({
+    type: "trigger_fired",
+    sourceId: entity.entityId,
+    abilityId: ability.id,
+    cause: "passive_aura",
+  });
+  interpret(ability.effect as unknown as Effect, ctxExec, draft, ctx);
+}
+
 /**
  * Enqueue on_death triggers for a dying entity.
  */

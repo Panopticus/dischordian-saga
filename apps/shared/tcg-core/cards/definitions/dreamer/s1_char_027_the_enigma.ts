@@ -117,9 +117,8 @@ export const cardDef: CardDefinition = {
             to: { kind: "self" },
           },
           {
-            op: "add_counter",
-            kind: "enigma_kills",
-            amount: -999,
+            op: "reset_counter",
+            counter: "enigma_kills",
             to: { kind: "self" },
           },
         ],

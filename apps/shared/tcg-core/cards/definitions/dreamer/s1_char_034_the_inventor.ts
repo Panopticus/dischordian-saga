@@ -82,9 +82,8 @@ export const cardDef: CardDefinition = {
             to: { kind: "self" },
           },
           {
-            op: "add_counter",
-            kind: "inventor_kills",
-            amount: -999,
+            op: "reset_counter",
+            counter: "inventor_kills",
             to: { kind: "self" },
           },
         ],

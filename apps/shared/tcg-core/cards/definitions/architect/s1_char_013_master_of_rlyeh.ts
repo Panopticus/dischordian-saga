@@ -68,9 +68,8 @@ export const cardDef: CardDefinition = {
             to: { kind: "self" },
           },
           {
-            op: "add_counter",
-            kind: "rlyeh_kills",
-            amount: -999,
+            op: "reset_counter",
+            counter: "rlyeh_kills",
             to: { kind: "self" },
           },
         ],

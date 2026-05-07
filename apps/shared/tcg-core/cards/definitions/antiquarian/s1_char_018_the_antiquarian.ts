@@ -89,9 +89,8 @@ export const cardDef: CardDefinition = {
           // We go negative to zero-out whatever value the counter was at;
           // the engine clamps counters at 0 on read.
           {
-            op: "add_counter",
-            kind: "antiquarian_kills",
-            amount: -999,
+            op: "reset_counter",
+            counter: "antiquarian_kills",
             to: { kind: "self" },
           },
         ],

@@ -2,8 +2,13 @@
    LEADERBOARD — Competitive rankings across all Potentials
    Sort by completion, battles won, Easter eggs found, rooms explored.
    ═══════════════════════════════════════════════════════ */
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef } from "react";
+import type { ReactElement } from "react";
+import type { inferRouterOutputs } from "@trpc/server";
 import { trpc } from "@/lib/trpc";
+import type { AppRouter } from "../../../server/routers";
+
+type LeaderboardEntry = inferRouterOutputs<AppRouter>["gameState"]["leaderboard"][number];
 import { useAuth } from "@/_core/hooks/useAuth";
 import {
   Trophy, Swords, Eye, MapPin, Crown, Medal, Star,
@@ -12,6 +17,10 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { EmptyLeaderboard } from "@/components/EmptyStates";
+// H3 — list virtualization adoption. The leaderboard query caps at
+// 50 today but is described as growing to 10k+; virtualizing the
+// rendering protects against frame drops as the result set grows.
+import { useListVirtualizer } from "@/lib/virtualization";
 
 type SortBy = "completion" | "battles" | "easterEggs" | "rooms";
 
@@ -149,126 +158,7 @@ export default function LeaderboardPage() {
       ) : !entries || entries.length === 0 ? (
         <EmptyLeaderboard className="my-12" />
       ) : (
-        <div className="space-y-2">
-          <AnimatePresence mode="popLayout">
-            {entries.map((entry, idx) => {
-              const posStyle = POSITION_STYLES[entry.rank_position];
-              const isCurrentUser = user && entry.userId === user.id;
-              const speciesIcon = SPECIES_ICONS[entry.species ?? ""] ?? "👤";
-
-              return (
-                <motion.div
-                  key={entry.userId}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: 20 }}
-                  transition={{ delay: idx * 0.03, duration: 0.3 }}
-                  className={`rounded-lg border p-3 sm:p-4 transition-all ${
-                    isCurrentUser
-                      ? "border-primary/40 bg-primary/5 ring-1 ring-primary/20"
-                      : posStyle
-                      ? `${posStyle.border} ${posStyle.bg} ${posStyle.glow}`
-                      : "border-border/20 bg-card/20 hover:bg-card/40"
-                  }`}
-                >
-                  <div className="flex items-center gap-3 sm:gap-4">
-                    {/* Position */}
-                    <div className="flex-shrink-0 w-10 text-center">
-                      {entry.rank_position <= 3 ? (
-                        <span className={`inline-flex items-center justify-center w-8 h-8 rounded-full text-sm font-black ${posStyle?.badge ?? ""}`}>
-                          {entry.rank_position === 1 ? <Crown size={16} /> : entry.rank_position === 2 ? <Medal size={16} /> : <Star size={16} />}
-                        </span>
-                      ) : (
-                        <span className="font-display text-lg font-bold text-muted-foreground">
-                          {entry.rank_position}
-                        </span>
-                      )}
-                    </div>
-
-                    {/* Player info */}
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2">
-                        <span className="text-base">{speciesIcon}</span>
-                        <span className={`font-mono text-sm font-semibold truncate ${isCurrentUser ? "text-primary" : ""}`}>
-                          {entry.userName}
-                        </span>
-                        {isCurrentUser && (
-                          <span className="px-1.5 py-0.5 rounded text-[9px] font-bold bg-primary/20 text-primary tracking-wider">
-                            YOU
-                          </span>
-                        )}
-                      </div>
-                      <div className="flex items-center gap-2 mt-0.5">
-                        <span className={`font-mono text-[10px] ${RANK_COLORS[entry.rank] ?? "text-muted-foreground"}`}>
-                          {entry.rank}
-                        </span>
-                        {entry.characterClass && (
-                          <span className="font-mono text-[10px] text-muted-foreground/50 capitalize">
-                            • {entry.characterClass}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-
-                    {/* Stats */}
-                    <div className="hidden sm:flex items-center gap-4 text-center">
-                      <div className="w-14">
-                        <p className="font-mono text-xs font-bold">{entry.roomsUnlocked}/{entry.totalRooms}</p>
-                        <p className="font-mono text-[9px] text-muted-foreground/50">ROOMS</p>
-                      </div>
-                      <div className="w-14">
-                        <p className="font-mono text-xs font-bold">{entry.battlesWon}</p>
-                        <p className="font-mono text-[9px] text-muted-foreground/50">WINS</p>
-                      </div>
-                      <div className="w-14">
-                        <p className="font-mono text-xs font-bold">{entry.easterEggsFound}/{entry.totalEasterEggs}</p>
-                        <p className="font-mono text-[9px] text-muted-foreground/50">SECRETS</p>
-                      </div>
-                      <div className="w-14">
-                        <p className="font-mono text-xs font-bold">{entry.cardsCollected}</p>
-                        <p className="font-mono text-[9px] text-muted-foreground/50">CARDS</p>
-                      </div>
-                    </div>
-
-                    {/* Completion */}
-                    <div className="flex-shrink-0 text-right w-16">
-                      <p className={`font-display text-lg font-black ${
-                        entry.completionPercent >= 90 ? "void-text-accent" :
-                        entry.completionPercent >= 65 ? "void-text-system" :
-                        entry.completionPercent >= 40 ? "void-text-energy" :
-                        "text-foreground"
-                      }`}>
-                        {entry.completionPercent}%
-                      </p>
-                      <div className="w-full h-1 rounded-full bg-border/30 mt-1">
-                        <div
-                          className="h-full rounded-full bg-primary/60 transition-all duration-500"
-                          style={{ width: `${entry.completionPercent}%` }}
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Mobile stats row */}
-                  <div className="flex sm:hidden items-center gap-3 mt-2 pt-2 border-t border-border/10">
-                    <div className="flex items-center gap-1 text-[10px] font-mono text-muted-foreground">
-                      <MapPin size={10} /> {entry.roomsUnlocked}/{entry.totalRooms}
-                    </div>
-                    <div className="flex items-center gap-1 text-[10px] font-mono text-muted-foreground">
-                      <Swords size={10} /> {entry.battlesWon}W
-                    </div>
-                    <div className="flex items-center gap-1 text-[10px] font-mono text-muted-foreground">
-                      <Eye size={10} /> {entry.easterEggsFound}/{entry.totalEasterEggs}
-                    </div>
-                    <div className="flex items-center gap-1 text-[10px] font-mono text-muted-foreground">
-                      <Shield size={10} /> {entry.cardsCollected} cards
-                    </div>
-                  </div>
-                </motion.div>
-              );
-            })}
-          </AnimatePresence>
-        </div>
+        <VirtualLeaderboard entries={entries} user={user} />
       )}
 
       {/* ═══ FOOTER ═══ */}
@@ -276,6 +166,179 @@ export default function LeaderboardPage() {
         <p className="font-mono text-[10px] text-muted-foreground/40">
           RANKINGS UPDATE IN REAL-TIME // COMPLETE OBJECTIVES TO CLIMB
         </p>
+      </div>
+    </div>
+  );
+}
+
+// H3 — virtualized leaderboard rows.
+//
+// Replaces the previous `AnimatePresence`-wrapped `entries.map(...)`
+// render with a `@tanstack/react-virtual`-backed scroll container.
+// Per-row animation is preserved (motion.div on each rendered virtual
+// item) but staggered entrance delays are dropped — a virtualizer
+// only renders visible rows so a stagger keyed on `idx` would only
+// fire on the first ~10 rows anyway.
+//
+// estimateSize: 96 px — desktop row height is ~80; mobile rises with
+// the stats footer. Overestimating by ~15% costs nothing since the
+// virtualizer remeasures on layout.
+function VirtualLeaderboard({
+  entries,
+  user,
+}: {
+  entries: ReadonlyArray<LeaderboardEntry>;
+  user: { id: number } | null;
+}): ReactElement {
+  const parentRef = useRef<HTMLDivElement | null>(null);
+  const virtualizer = useListVirtualizer({
+    count: entries.length,
+    parentRef,
+    estimateSize: 96,
+    overscan: 5,
+  });
+  const items = virtualizer.getVirtualItems();
+
+  return (
+    <div
+      ref={parentRef}
+      className="overflow-auto"
+      style={{ height: 600, contain: "strict" }}
+    >
+      <div
+        style={{
+          height: virtualizer.getTotalSize(),
+          width: "100%",
+          position: "relative",
+        }}
+      >
+        <AnimatePresence mode="popLayout">
+          {items.map((virtualItem) => {
+            const idx = virtualItem.index;
+            const entry = entries[idx];
+            const posStyle = POSITION_STYLES[entry.rank_position];
+            const isCurrentUser = user && entry.userId === user.id;
+            const speciesIcon = SPECIES_ICONS[entry.species ?? ""] ?? "👤";
+            return (
+              <motion.div
+                key={entry.userId}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 20 }}
+                transition={{ duration: 0.2 }}
+                style={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  width: "100%",
+                  transform: `translateY(${virtualItem.start}px)`,
+                  height: virtualItem.size,
+                }}
+                className={`rounded-lg border p-3 sm:p-4 transition-all ${
+                  isCurrentUser
+                    ? "border-primary/40 bg-primary/5 ring-1 ring-primary/20"
+                    : posStyle
+                    ? `${posStyle.border} ${posStyle.bg} ${posStyle.glow}`
+                    : "border-border/20 bg-card/20 hover:bg-card/40"
+                }`}
+              >
+                <div className="flex items-center gap-3 sm:gap-4">
+                  {/* Position */}
+                  <div className="flex-shrink-0 w-10 text-center">
+                    {entry.rank_position <= 3 ? (
+                      <span className={`inline-flex items-center justify-center w-8 h-8 rounded-full text-sm font-black ${posStyle?.badge ?? ""}`}>
+                        {entry.rank_position === 1 ? <Crown size={16} /> : entry.rank_position === 2 ? <Medal size={16} /> : <Star size={16} />}
+                      </span>
+                    ) : (
+                      <span className="font-display text-lg font-bold text-muted-foreground">
+                        {entry.rank_position}
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Player info */}
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2">
+                      <span className="text-base">{speciesIcon}</span>
+                      <span className={`font-mono text-sm font-semibold truncate ${isCurrentUser ? "text-primary" : ""}`}>
+                        {entry.userName}
+                      </span>
+                      {isCurrentUser && (
+                        <span className="px-1.5 py-0.5 rounded text-[9px] font-bold bg-primary/20 text-primary tracking-wider">
+                          YOU
+                        </span>
+                      )}
+                    </div>
+                    <div className="flex items-center gap-2 mt-0.5">
+                      <span className={`font-mono text-[10px] ${RANK_COLORS[entry.rank] ?? "text-muted-foreground"}`}>
+                        {entry.rank}
+                      </span>
+                      {entry.characterClass && (
+                        <span className="font-mono text-[10px] text-muted-foreground/50 capitalize">
+                          • {entry.characterClass}
+                        </span>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Stats */}
+                  <div className="hidden sm:flex items-center gap-4 text-center">
+                    <div className="w-14">
+                      <p className="font-mono text-xs font-bold">{entry.roomsUnlocked}/{entry.totalRooms}</p>
+                      <p className="font-mono text-[9px] text-muted-foreground/50">ROOMS</p>
+                    </div>
+                    <div className="w-14">
+                      <p className="font-mono text-xs font-bold">{entry.battlesWon}</p>
+                      <p className="font-mono text-[9px] text-muted-foreground/50">WINS</p>
+                    </div>
+                    <div className="w-14">
+                      <p className="font-mono text-xs font-bold">{entry.easterEggsFound}/{entry.totalEasterEggs}</p>
+                      <p className="font-mono text-[9px] text-muted-foreground/50">SECRETS</p>
+                    </div>
+                    <div className="w-14">
+                      <p className="font-mono text-xs font-bold">{entry.cardsCollected}</p>
+                      <p className="font-mono text-[9px] text-muted-foreground/50">CARDS</p>
+                    </div>
+                  </div>
+
+                  {/* Completion */}
+                  <div className="flex-shrink-0 text-right w-16">
+                    <p className={`font-display text-lg font-black ${
+                      entry.completionPercent >= 90 ? "void-text-accent" :
+                      entry.completionPercent >= 65 ? "void-text-system" :
+                      entry.completionPercent >= 40 ? "void-text-energy" :
+                      "text-foreground"
+                    }`}>
+                      {entry.completionPercent}%
+                    </p>
+                    <div className="w-full h-1 rounded-full bg-border/30 mt-1">
+                      <div
+                        className="h-full rounded-full bg-primary/60 transition-all duration-500"
+                        style={{ width: `${entry.completionPercent}%` }}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Mobile stats row */}
+                <div className="flex sm:hidden items-center gap-3 mt-2 pt-2 border-t border-border/10">
+                  <div className="flex items-center gap-1 text-[10px] font-mono text-muted-foreground">
+                    <MapPin size={10} /> {entry.roomsUnlocked}/{entry.totalRooms}
+                  </div>
+                  <div className="flex items-center gap-1 text-[10px] font-mono text-muted-foreground">
+                    <Swords size={10} /> {entry.battlesWon}W
+                  </div>
+                  <div className="flex items-center gap-1 text-[10px] font-mono text-muted-foreground">
+                    <Eye size={10} /> {entry.easterEggsFound}/{entry.totalEasterEggs}
+                  </div>
+                  <div className="flex items-center gap-1 text-[10px] font-mono text-muted-foreground">
+                    <Shield size={10} /> {entry.cardsCollected} cards
+                  </div>
+                </div>
+              </motion.div>
+            );
+          })}
+        </AnimatePresence>
       </div>
     </div>
   );

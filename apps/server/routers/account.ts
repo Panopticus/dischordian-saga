@@ -20,6 +20,7 @@
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 import { protectedProcedure, publicProcedure, router } from "../_core/trpc";
+import { procedureRateLimit } from "../_core/procedureRateLimit";
 import { getDb } from "../db";
 import {
   users,
@@ -120,6 +121,11 @@ export const accountRouter = router({
 
   /** Record acceptance of a policy at its current version. */
   acceptAgreement: protectedProcedure
+    // H6 — consent-log spam ceiling. 5 acceptances per hour per
+    // user is well above any legitimate flow (1-2 per session at
+    // initial signup + occasional ToS updates) and floors any
+    // log-flood attempt.
+    .use(procedureRateLimit({ windowMs: 3_600_000, max: 5 }))
     .input(
       z.object({
         agreementType: AgreementType,

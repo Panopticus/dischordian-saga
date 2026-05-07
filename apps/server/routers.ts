@@ -16,6 +16,7 @@ import { medbayRouter } from "./routers/medbay";
 import { craftingRouter } from "./routers/crafting";
 import { memoryEnergyRouter } from "./routers/memoryEnergy";
 import { storeRouter } from "./routers/store";
+import { iapReceiptRouter } from "./routers/iapReceipt";
 import { elaraRouter } from "./routers/elara";
 import { lyricsRouter } from "./routers/lyrics";
 import { gameStateRouter } from "./routers/gameState";
@@ -168,6 +169,7 @@ export const appRouter = router({
   crafting: craftingRouter,
   memoryEnergy: memoryEnergyRouter,
   store: storeRouter,
+  iapReceipt: iapReceiptRouter,
   elara: elaraRouter,
   lyrics: lyricsRouter,
   gameState: gameStateRouter,

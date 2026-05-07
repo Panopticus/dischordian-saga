@@ -216,6 +216,13 @@ function resolveTargetSelectorRaw(
         const entity = findBoardEntity(state, chosenId);
         if (!entity) return [];
         if (!matchesUnitFilter(entity, sel.filter, ctx)) return [];
+        // H2 — untargetable: player-chosen single targets cannot be
+        // an `untargetable` unit. Combat damage routes through the
+        // attack action, not this resolver, so untargetable units
+        // remain valid attack targets — matches canonical TCG
+        // semantics where the keyword blocks SPELL/ability selection
+        // but not melee.
+        if (entity.card.activeKeywords.includes("untargetable")) return [];
         return [chosenId];
       }
       if (sel.chooser === "random") {

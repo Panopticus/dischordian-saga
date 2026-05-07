@@ -75,7 +75,9 @@ describe("s1_char_018 — The Antiquarian", () => {
     const [buff, grant, reset] = effect.steps as Array<{ op: string }>;
     expect(buff.op).toBe("buff");
     expect(grant.op).toBe("grant_keyword");
-    expect(reset.op).toBe("add_counter");
+    // Migrated from `add_counter amount: -999` to the explicit
+    // `reset_counter` op in B3 of the ship-check rollout.
+    expect(reset.op).toBe("reset_counter");
   });
 
   it("declares forcefield as an intrinsic keyword", () => {

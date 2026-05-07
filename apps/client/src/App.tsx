@@ -4,6 +4,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/NotFound";
 import { Route, Switch, useLocation } from "wouter";
+import { prefetchRouteAssets } from "@/lib/assetPrefetch";
 import ErrorBoundary from "./components/ErrorBoundary";
 import GameErrorBoundary from "./components/GameErrorBoundary";
 import RouteErrorBoundary from "./components/RouteErrorBoundary";
@@ -327,6 +328,16 @@ function GameRoute({ component: Comp, name }: { component: ComponentType; name?:
 }
 
 function Router() {
+  // H4 — route-aware asset prefetch. When wouter's location
+  // changes, schedule a prefetch pass for the new route's manifest
+  // entries. The hook is wrapped in requestIdleCallback so it
+  // never blocks interaction; cross-origin S3 hrefs land in the
+  // HTTP cache before the route's component requests them.
+  const [location] = useLocation();
+  useEffect(() => {
+    prefetchRouteAssets(location);
+  }, [location]);
+
   return (
     <RouteErrorBoundary>
     <Suspense fallback={<PageLoader />}>
