@@ -83,6 +83,12 @@ const PROBES: ReadonlyArray<Probe> = [
     pattern: /export\s+function\s+LockedCardBadge\b/,
     hint: "create apps/client/src/components/LockedCardBadge.tsx",
   },
+  {
+    name: "LockedCardBadge mounted on GameCard",
+    file: "apps/client/src/components/GameCard.tsx",
+    pattern: /<LockedCardBadge\b/,
+    hint: "render <LockedCardBadge condition={card.unlockCondition} /> in GameCard's body so locked cards surface their unlock path inline",
+  },
 ];
 
 export function checkMobileWiring(): RawParityCount {
