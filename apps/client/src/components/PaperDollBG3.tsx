@@ -29,7 +29,8 @@ import {
 import { parseSuitPieceArtId, suitArtUrl } from "@/game/paperDoll/suitArt";
 import { bodyArtUrl, type BodySpecies } from "@/game/paperDoll/bodyArt";
 import ResponsiveImage from "@/components/ResponsiveImage";
-import type { SuitEquipSlot } from "@shared/suitEquipSlots";
+import { SUIT_LAYER_Z, type SuitEquipSlot } from "@shared/suitEquipSlots";
+import type { SuitSlot } from "@shared/suitArtPrompts";
 
 interface Props {
   loadout: Loadout;
@@ -42,12 +43,30 @@ interface Props {
    *  Suit Gallery passes nothing because it previews catalog sets, not
    *  characters. */
   bodySpecies?: BodySpecies;
+  /** Inventor "base set race" — the species/foundation set rendered as a
+   *  full 8-slot underlayer beneath the loadout's class pieces. When set,
+   *  the renderer draws head/chest/shoulders/arms/gloves/belt/legs/feet
+   *  from this set at common rarity at each slot's natural z-index, then
+   *  the loadout's class layers paint on top in the same DOM. The result
+   *  is the BG3 reading: race body in species kit, class plate over. */
+  baseSetId?: string;
   /** Show coloured slot rectangles when a piece's PNG hasn't shipped yet.
    *  ON in the Suit Gallery (so art QA can see what's missing); OFF for
    *  player-facing surfaces — the chronicle card should never leak slot
    *  labels like "weapon-primary" into the visual. */
   showPlaceholders?: boolean;
 }
+
+const BASE_SET_RACE_SLOTS: readonly SuitSlot[] = [
+  "legs",
+  "feet",
+  "chest",
+  "belt",
+  "arms",
+  "gloves",
+  "shoulders",
+  "head",
+];
 
 /** Canvas dimensions baked in §G.8. */
 const CANVAS_W = 1024;
@@ -87,6 +106,7 @@ export default function PaperDollBG3({
   elementTint,
   width = 512,
   bodySpecies,
+  baseSetId,
   showPlaceholders = false,
 }: Props) {
   if (!hasRequiredBaseLayers(loadout)) {
@@ -118,6 +138,16 @@ export default function PaperDollBG3({
           (z=2) but above the aura (z=0) so the aura still glows from
           behind the figure. */}
       {bodySpecies ? <BodyLayer species={bodySpecies} /> : null}
+      {baseSetId
+        ? BASE_SET_RACE_SLOTS.map((slot) => (
+            <BasePieceLayer
+              key={`base:${slot}`}
+              setId={baseSetId}
+              slot={slot}
+              elementTint={elementTint}
+            />
+          ))
+        : null}
       {layers.map((layer) => (
         <PieceLayer
           key={`${layer.slot}:${layer.layerZ}`}
@@ -163,6 +193,62 @@ function BodyLayer({ species }: BodyLayerProps) {
           objectFit: "contain",
         }}
       />
+    </div>
+  );
+}
+
+interface BasePieceLayerProps {
+  setId: string;
+  slot: SuitSlot;
+  elementTint?: string;
+}
+
+/**
+ * One slot of the species/foundation Inventor set drawn underneath the
+ * loadout's class layers. Renders at the slot's natural z-index so DOM
+ * order — base layers render before class layers — puts the class on
+ * top wherever the class art is opaque, and lets the species kit show
+ * through wherever the class art has gaps. Silently disappears on 404,
+ * same pattern as PieceLayer.
+ */
+function BasePieceLayer({ setId, slot, elementTint }: BasePieceLayerProps) {
+  const [failed, setFailed] = useState(false);
+  if (failed) return null;
+  const src = suitArtUrl(setId, "common", slot);
+  return (
+    <div
+      style={{
+        position: "absolute",
+        inset: 0,
+        zIndex: SUIT_LAYER_Z[slot],
+        pointerEvents: "none",
+      }}
+    >
+      <ResponsiveImage
+        src={src}
+        alt={`${setId} ${slot}`}
+        onError={() => setFailed(true)}
+        style={{
+          position: "absolute",
+          inset: 0,
+          width: "100%",
+          height: "100%",
+          objectFit: "contain",
+        }}
+      />
+      {elementTint ? (
+        <div
+          aria-hidden
+          style={{
+            position: "absolute",
+            inset: 0,
+            background: elementTint,
+            mixBlendMode: "multiply",
+            opacity: 0.35,
+            pointerEvents: "none",
+          }}
+        />
+      ) : null}
     </div>
   );
 }
