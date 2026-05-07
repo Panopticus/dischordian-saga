@@ -77,6 +77,17 @@ export const ENV = {
   stripeSecretKey: optional("STRIPE_SECRET_KEY", process.env.STRIPE_SECRET_KEY),
   stripeWebhookSecret: optional("STRIPE_WEBHOOK_SECRET", process.env.STRIPE_WEBHOOK_SECRET),
 
+  // Observability — required in production (silent observability is
+  // a leading cause of post-launch incidents going unnoticed). The
+  // `required()` helper throws at boot in production if either is
+  // absent; in development they're advisory and the integrations
+  // gracefully no-op when unset.
+  sentryDsn: required("SENTRY_DSN", process.env.SENTRY_DSN),
+  otelEndpoint: required(
+    "OTEL_EXPORTER_OTLP_ENDPOINT",
+    process.env.OTEL_EXPORTER_OTLP_ENDPOINT,
+  ),
+
   // Email (transactional). Resend or SendGrid; service decides at use site.
   resendApiKey: optional("RESEND_API_KEY", process.env.RESEND_API_KEY),
   sendgridApiKey: optional("SENDGRID_API_KEY", process.env.SENDGRID_API_KEY),
@@ -105,6 +116,8 @@ const missing = [
   !ENV.googleClientSecret && "GOOGLE_CLIENT_SECRET",
   !ENV.cookieSecret && "JWT_SECRET",
   !ENV.databaseUrl && "DATABASE_URL",
+  !ENV.sentryDsn && "SENTRY_DSN",
+  !ENV.otelEndpoint && "OTEL_EXPORTER_OTLP_ENDPOINT",
 ].filter(Boolean);
 
 if (missing.length > 0 && !isProduction) {

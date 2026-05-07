@@ -18,6 +18,8 @@ import { securityHeaders } from "./securityHeaders";
 import { performanceMiddleware } from "../performanceMonitor";
 import { sentryErrorHandler, waitForSentry } from "../sentry";
 import { waitForOTel } from "../otel";
+import { metricsHandler } from "../metrics";
+import { publicIpRateLimit } from "../ipRateLimit";
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -303,6 +305,20 @@ async function startServer() {
 
   // Sprite proxy (before CSRF — it's a GET endpoint for images)
   registerSpriteProxy(app);
+
+  // D2 — Prometheus metrics endpoint. Mounted before per-IP rate
+  // limiting because scrapers come from a known address (and gated
+  // by METRICS_SCRAPE_TOKEN when set). Returns Prometheus-format
+  // exposition for default Node metrics + tRPC histograms + WS /
+  // currency counters.
+  app.get("/metrics", metricsHandler);
+
+  // D3 — Per-IP token-bucket rate limit on every unauthenticated
+  // surface (everything not gated by the OAuth callback or the
+  // protectedProcedure auth check). Uses the existing
+  // express-rate-limit dep with sensible defaults; the WS
+  // wsRateLimit module covers WS-specific bursts post-auth.
+  app.use("/api", publicIpRateLimit);
 
   // OAuth callback — MUST be registered BEFORE CSRF middleware
   registerOAuthRoutes(app);

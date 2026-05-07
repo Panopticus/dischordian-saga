@@ -21,6 +21,7 @@ import { checkCardStatBudgetCoverage } from "./checks/cardStatBudgetCoverage";
 import { checkNarrativeFlagBridgeCoverage } from "./checks/narrativeFlagBridgeCoverage";
 import { checkTrialCategoryCoverage } from "./checks/trialCategoryCoverage";
 import { checkLoreBibleDrift } from "./checks/loreBibleDrift";
+import { checkObservabilityWiring } from "./checks/observabilityWiring";
 
 export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
   // ─── Card engine ──────────────────────────────────────────
@@ -108,6 +109,14 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     // §5.8 runtime ships behind a feature flag that requires 100%
     // coverage.
     ratchet: { target: 0 },
+  },
+  // ─── Server / observability ───────────────────────────────
+  {
+    id: "server.observability_wiring",
+    name: "Observability wiring",
+    description:
+      "SENTRY_DSN + OTEL_EXPORTER_OTLP_ENDPOINT required in env (fail-fast in prod), prom-client metrics module exposed at /metrics, tRPC procedures auto-instrumented, per-IP rate limit on /api.",
+    check: () => checkObservabilityWiring(),
   },
   // ─── Lore ─────────────────────────────────────────────────
   {

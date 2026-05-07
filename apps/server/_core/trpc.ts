@@ -3,6 +3,7 @@ import { initTRPC, TRPCError } from "@trpc/server";
 import superjson from "superjson";
 import type { TrpcContext } from "./context";
 import { withSpan } from "../otel";
+import { recordTrpcRequest } from "../metrics";
 
 const t = initTRPC.context<TrpcContext>().create({
   transformer: superjson,
@@ -10,23 +11,32 @@ const t = initTRPC.context<TrpcContext>().create({
 
 export const router = t.router;
 
-// #88 OpenTelemetry — wrap every tRPC procedure in a span. When OTel
-// isn't initialized (default), `withSpan` is a tail-call to `fn()`
-// with one boolean check overhead, so this is safe to apply
-// universally. When the SDK is loaded, every query/mutation produces
-// a `trpc.<path>` span with `trpc.type` and `trpc.has_user`
-// attributes for correlation with downstream DB / external traces.
+// #88 OpenTelemetry + D2 prom-client — wrap every tRPC procedure in
+// an OTel span and record a Prometheus histogram observation. When
+// OTel isn't initialized (default), `withSpan` is a tail-call to
+// `fn()` with one boolean check overhead. The metrics call is
+// always-on; `prom-client` aggregates in-process and the
+// `/metrics` endpoint exposes the totals.
 const traceMiddleware = t.middleware(async opts => {
   const { next, path, type, ctx } = opts;
-  return (await withSpan(
-    `trpc.${path}`,
-    () => next(),
-    {
-      "trpc.path": path,
-      "trpc.type": type,
-      "trpc.has_user": ctx.user != null,
-    },
-  )) as Awaited<ReturnType<typeof next>>;
+  const startedAt = Date.now();
+  let status: "ok" | "error" = "ok";
+  try {
+    return (await withSpan(
+      `trpc.${path}`,
+      () => next(),
+      {
+        "trpc.path": path,
+        "trpc.type": type,
+        "trpc.has_user": ctx.user != null,
+      },
+    )) as Awaited<ReturnType<typeof next>>;
+  } catch (err) {
+    status = "error";
+    throw err;
+  } finally {
+    recordTrpcRequest(path, type, status, startedAt);
+  }
 });
 
 export const publicProcedure = t.procedure.use(traceMiddleware);
