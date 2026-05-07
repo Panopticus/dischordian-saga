@@ -20,8 +20,8 @@
 - file: /home/user/dischordian-saga/.github/workflows/ci.yml:173,277, /home/user/dischordian-saga/apps/server/_core/index.ts:530-689
 - severity: high
 - category: migration
-- finding: `db-smoke` and `e2e` run `pnpm db:migrate:prod` with `continue-on-error: true` because journal-tracked migrations 0045+ depend on orphans 0036–0044, 0049, 0054–0070 absent from `_journal.json`. Server compensates with ~25 `bootstrap*` IIFEs (`CREATE TABLE IF NOT EXISTS`/`ALTER TABLE`) at startup. Prod schema enforced by cold-boot, not `drizzle-kit migrate`; rollback to a prior image leaves columns/tables newer code expects; CI green ≠ migrations apply on fresh DB.
-- fix: Reconcile the journal; flip both `continue-on-error: true` flags to `false`; retire bootstraps once journaled.
+- finding: `db-smoke` and `e2e` run migrate with `continue-on-error: true` because journal-tracked migrations 0045+ depend on orphans 0036–0044, 0049, 0054–0070 absent from `_journal.json`. Server compensates with ~25 `bootstrap*` IIFEs (`CREATE TABLE IF NOT EXISTS`/`ALTER TABLE`) at startup. Prod schema enforced by cold-boot, not `drizzle-kit migrate`; rollback to prior image leaves columns/tables newer code expects; CI green ≠ migrations apply on fresh DB.
+- fix: Reconcile the journal; flip both `continue-on-error` flags to `false`; retire bootstraps once journaled.
 
 ### F4: No graceful-shutdown handler — SIGTERM kills in-flight HTTP/WS, skips Sentry/OTel flush
 - file: /home/user/dischordian-saga/apps/server/_core/index.ts
@@ -51,9 +51,9 @@
 
 ## Convergence hints
 
-- **Stripe + F2:** webhook (apps/server/_core/index.ts:51-209) has two-layer event-id/payment-intent idempotency but logs via `console.error` only — invisible without Sentry. `processed_webhook_events` is itself bootstrapped at startup (inherits F3). RevenueCat in deps but **no** `/api/revenuecat/webhook` route.
-- **Asset pipeline verified:** `apps/scripts/upload-public-to-s3.ts:78-98` computes local MD5 and HEAD-checks ETag/ContentLength before PUT. Soft failure: `objectMatches` returns `false` on any HEAD error (404 vs 403 indistinguishable); creds without `s3:HeadObject` silently re-upload everything.
-- **Secrets:** Only `.env.example` checked in. Flow via GitHub `secrets.*`. `env.ts:sanitizeCredential` strips non-printable chars. No rotation tooling, no IAM-scoping-as-code.
-- **Rollback:** none documented. `restartPolicyMaxRetries: 10` but bad migration loops until manual intervention. No image pinning, no DB snapshot strategy.
-- **Branch protection:** can't infer required-checks from filesystem. Parent audit should `gh api repos/.../branches/main/protection`.
-- **Cross-persona:** F2 ↔ security (audit-log gap); F3 ↔ DB persona (FK ratchet vs. bootstrap tables); F4 ↔ multiplayer (in-flight match drops on deploy).
+- **Stripe + F2:** webhook (apps/server/_core/index.ts:51-209) has two-layer idempotency but logs via `console.error` — invisible without Sentry. `processed_webhook_events` itself bootstrapped at startup (inherits F3). RevenueCat in deps but **no** `/api/revenuecat/webhook` route.
+- **Asset pipeline verified:** `upload-public-to-s3.ts:78-98` computes local MD5 and HEAD-checks ETag/ContentLength before PUT. Soft failure: any HEAD error returns `false` (404 vs 403 indistinguishable); creds lacking `s3:HeadObject` silently re-upload everything.
+- **Secrets:** Only `.env.example` checked in. Via GitHub `secrets.*`. `env.ts:sanitizeCredential` strips non-printable chars. No rotation tooling, no IAM-scoping-as-code.
+- **Rollback:** none documented. `restartPolicyMaxRetries: 10` but bad migration loops until manual intervention. No image pinning, no DB snapshot.
+- **Branch protection:** not inferable from filesystem. Parent audit: `gh api repos/.../branches/main/protection`.
+- **Cross-persona:** F2 ↔ security (audit gap); F3 ↔ DB (FK ratchet vs. bootstrap tables); F4 ↔ multiplayer (match drops on deploy).
