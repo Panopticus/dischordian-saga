@@ -1405,6 +1405,23 @@ export default function ArkExplorerPage() {
     narrateElara,
   ]);
 
+  // Investigator briefing — first cryo-bay entry only. Teaches the
+  // "look more than once for tier escalation" pattern that the room's
+  // hotspots rely on. Resolves to the appropriate Elara stability band
+  // via the scheduler's "_*" expansion (cryo_orient_08_lucid by default
+  // on a fresh save). Gated by cryo_briefing_delivered so it never
+  // replays.
+  useEffect(() => {
+    if (!currentRoom || currentRoom.id !== "cryo-bay") return;
+    if (state.narrativeFlags?.cryo_briefing_delivered) return;
+    setNarrativeFlag("cryo_briefing_delivered");
+    enqueueCompanionLine("cryo_orient_08_*");
+  }, [
+    currentRoom?.id,
+    state.narrativeFlags?.cryo_briefing_delivered,
+    setNarrativeFlag,
+  ]);
+
   // First-visit music cue. Mirrors the existing
   // music_heard_<song> flag pattern from RoomDialog beats —
   // doesn't auto-play audio, just marks the trigger as
@@ -1679,13 +1696,13 @@ export default function ArkExplorerPage() {
           let toastReason = "The door won't open.";
           let elaraReason = "The door won't open. Whatever the Ark is waiting for, we haven't given it yet.";
 
-          if (req?.type === "narrative_event" && req.value === "cryo_mystery_first_clue_found") {
+          if (req?.type === "narrative_event" && req.value === "cryo_mystery_victim_identified") {
             // Med Bay quarantine — the cryo-bay incident triggered an
-            // automatic seal. The Ark won't lift it until the case file
-            // has at least one logged observation.
+            // automatic seal. The Ark won't lift it until the dead is
+            // named: torn ID tag slotted into the cracked data-slate.
             toastReason = "Medical Bay is in quarantine lockdown.";
             elaraReason =
-              "Medical refused the request. The Ark sealed it the moment something went wrong in cryo, and she won't lift the quarantine until the incident has at least one logged observation in the case file. Look at the pod, the panel, the chart — anything you actually see counts.";
+              "Medical won't open until the dead are named. Find the ID tag — the cord under the frosted glass tells you it was taken — and the cracked data-slate hidden under the pod. Slot the tag against the slate's scanner. Once the manifest knows who died, the Ark will let us in.";
           } else if (req?.type === "narrative_event") {
             toastReason = "The Ark hasn't cleared this section yet.";
             elaraReason =

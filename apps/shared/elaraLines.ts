@@ -275,6 +275,42 @@ export const ELARA_LINES: CompanionLine[] = [
     cooldownKey: "cryo_orient_07",
   }),
 
+  // Beat 8 — investigator briefing. Fires once on first cryo-bay entry
+  // via the CompanionTrigger registry (oneShot). Teaches the "look more
+  // than once for tier escalation" pattern that the cryo-bay hotspots
+  // rely on (dead-pod, cracked-panel, medical-chart all have 2-3 tiers
+  // of deepening narration on repeat looks).
+  l({
+    lineId: "cryo_orient_08_lucid",
+    text: "I can guide this. Look at what catches your eye — and look again. A second pass earns more than the first; sometimes a third earns more than the second. The room rewards patience. So do I.",
+    priority: 2,
+    interruptible: false,
+    dismissible: "tap",
+    durationMs: 8400,
+    requiresElaraStability: "lucid",
+    cooldownKey: "cryo_orient_08",
+  }),
+  l({
+    lineId: "cryo_orient_08_fragmented",
+    text: "I'll — I'll help. I'll help. Look. Look at things. Look again. Twice. Twice tells me more than once. Three times — three times — sometimes three. Please. Look twice.",
+    priority: 2,
+    interruptible: false,
+    dismissible: "tap",
+    durationMs: 8000,
+    requiresElaraStability: "fragmented",
+    cooldownKey: "cryo_orient_08",
+  }),
+  l({
+    lineId: "cryo_orient_08_luminous",
+    text: "I'm with you for the whole of this investigation. Look at what holds your eye, and then look at it again — that's how this room teaches itself. The second look is where the room starts trusting you. Sometimes the third is where it tells you a secret.",
+    priority: 2,
+    interruptible: false,
+    dismissible: "tap",
+    durationMs: 9200,
+    requiresElaraStability: "luminous",
+    cooldownKey: "cryo_orient_08",
+  }),
+
   // ─────────────────────────────────────────────────────────────
   // Awakening step VOs — migrates AwakeningPage STEP_VO_AUDIO (12 beats)
   // onto the substrate. Single-band (lucid) since awakening happens before
