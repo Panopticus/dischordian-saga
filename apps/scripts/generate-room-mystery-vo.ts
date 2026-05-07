@@ -250,15 +250,18 @@ function collectAllLines(): GenLine[] {
 
 function parseArgs(): {
   dryRun: boolean;
+  listVoids: boolean;
   only: Set<Speaker>;
   limit: number | null;
 } {
   const argv = process.argv.slice(2);
   let dryRun = false;
+  let listVoids = false;
   const only = new Set<Speaker>();
   let limit: number | null = null;
   for (let i = 0; i < argv.length; i++) {
     if (argv[i] === "--dry-run") dryRun = true;
+    else if (argv[i] === "--list-voids") listVoids = true;
     else if (argv[i] === "--only" && i + 1 < argv.length) {
       const v = argv[++i];
       if (v === "elara" || v === "detective") only.add(v);
@@ -270,7 +273,7 @@ function parseArgs(): {
       limit = Number(argv[++i]);
     }
   }
-  return { dryRun, only, limit };
+  return { dryRun, listVoids, only, limit };
 }
 
 /* ─── ELEVENLABS TTS ─── */
@@ -359,7 +362,19 @@ function saveManifest(
 /* ─── MAIN ─── */
 
 async function main() {
-  const { dryRun, only, limit } = parseArgs();
+  const { dryRun, listVoids, only, limit } = parseArgs();
+
+  // --list-voids — emit every (speaker, voId) pair the registry
+  // expands to, one per line, no API calls. Consumed by
+  // scripts/_vo-audit.mjs to compute room-mystery coverage without
+  // having to know how the registry is structured. Speaker prefix
+  // matches the audit's manifest keys ("elara" / "detective" → the
+  // detective folds into humanVoManifest by namespace prefix).
+  if (listVoids) {
+    const all = collectAllLines();
+    for (const l of all) console.log(`${l.speaker}\t${l.voId}`);
+    return;
+  }
 
   if (!dryRun && !ELEVENLABS_KEY) {
     console.error("ERROR: ELEVENLABS_API_KEY not set.");

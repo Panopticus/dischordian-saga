@@ -135,6 +135,54 @@ function listCsvIds(globPath) {
   });
 }
 
+// Room-mystery verb-coin surface — voIds aren't in any *-lines.json.
+// They're authored as fields directly on RoomMysteryModule.responses
+// (apps/shared/roomMysteries/*.ts) and the generator (`pnpm
+// vo:room-mystery`) expands banded narrations into per-band lineIds.
+// We invoke the generator with --list-voids to enumerate the
+// expected (speaker, voId) pairs without any API calls.
+{
+  let lines = [];
+  try {
+    const out = execSync(
+      "pnpm tsx apps/scripts/generate-room-mystery-vo.ts --list-voids",
+      { cwd: ROOT, stdio: ["ignore", "pipe", "ignore"] },
+    ).toString();
+    lines = out.split("\n").filter(Boolean);
+  } catch (err) {
+    // If tsx isn't on PATH or the script fails to load, fall through
+    // with an empty expected set — the surface will report 0/0.
+    lines = [];
+  }
+  const elaraExpected = new Set();
+  const detectiveExpected = new Set();
+  for (const line of lines) {
+    const [speaker, voId] = line.split("\t");
+    if (speaker === "elara") elaraExpected.add(voId);
+    else if (speaker === "detective") detectiveExpected.add(voId);
+  }
+  const elaraActual = new Set(loadManifest("elara"));
+  const humanActual = new Set(loadManifest("human"));
+  surfaces.push({
+    surface: "room-mystery (elara)",
+    source: "apps/shared/roomMysteries/*.ts",
+    generator: "pnpm vo:room-mystery",
+    idempotent: true,
+    expected: elaraExpected,
+    actual: elaraActual,
+    manifest: "elara",
+  });
+  surfaces.push({
+    surface: "room-mystery (detective)",
+    source: "apps/shared/roomMysteries/*.ts",
+    generator: "pnpm vo:room-mystery",
+    idempotent: true,
+    expected: detectiveExpected,
+    actual: humanActual,
+    manifest: "human",
+  });
+}
+
 // Prelude + Act 1 lines fold into per-speaker manifests (elara/human/
 // antiquarian/prince). Cross-resolve here so the audit doesn't
 // false-positive an EMPTY surface when those manifests already cover them.
