@@ -55,6 +55,11 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     const audio = audioRef.current;
     if (!audio) return;
     if (song.audio_url) {
+      // Un-mute on every audible-playback path. `prerollAndPause` leaves
+      // the element muted as a defence-in-depth seatbelt so any stray
+      // play() between preroll and the −10s cue is silent; loadAndPlay
+      // is the audible-playback path, so it has to clear that flag.
+      audio.muted = false;
       audio.src = song.audio_url;
       audio.play().catch((e) => {
         console.warn("[Player] Autoplay blocked:", e);
@@ -162,6 +167,11 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   const resume = useCallback(() => {
     setIsPlaying(true);
     if (audioRef.current && currentSong?.audio_url) {
+      // `prerollAndPause` deliberately leaves the audio element muted —
+      // un-mute is part of the audible-playback step, not the preroll
+      // cleanup, so any stray play() between the gesture and the −10s
+      // cue stays silent.
+      audioRef.current.muted = false;
       audioRef.current.play().catch(() => {});
     }
   }, [currentSong]);
@@ -204,27 +214,30 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     setShowPlayer(true);
     setCurrentTime(0);
     setDuration(0);
-    // Mute is a defense-in-depth seatbelt: pause() should land before
-    // any sample is heard, but if the play promise resolves a frame
-    // before our pause callback (race on slow main threads) the muted
-    // flag absorbs that single frame.
+    // Mute is a defense-in-depth seatbelt that survives past the
+    // pause(). `resume()` and `loadAndPlay()` un-mute as part of the
+    // audible-playback step, so leaving the element muted here means
+    // any stray play() in the preroll → −10s cue window stays silent
+    // (e.g. a Strict-Mode double-mount, an HMR remount of
+    // PlayerProvider, or the play-event listener firing for an
+    // unrelated reason).
     audio.muted = true;
     audio.src = song.audio_url;
     const playPromise = audio.play();
     const cleanup = () => {
       audio.pause();
       audio.currentTime = 0;
-      audio.muted = false;
+      // Intentionally NOT clearing `audio.muted` here — see comment
+      // above. The next audible-playback path un-mutes on play.
       setIsPlaying(false);
       setCurrentTime(0);
     };
     if (playPromise && typeof playPromise.then === "function") {
       playPromise.then(cleanup).catch((e) => {
         // Genuine autoplay refusal (rare since we're inside a fresh
-        // user gesture). Leave the element in a known state; the
-        // −10s `resume()` will retry.
+        // user gesture). Leave the element in a known, silent state;
+        // the −10s `resume()` will un-mute and retry.
         console.warn("[Player] preroll-and-pause autoplay blocked:", e);
-        audio.muted = false;
         setIsPlaying(false);
       });
     } else {

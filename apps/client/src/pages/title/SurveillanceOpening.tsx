@@ -156,22 +156,32 @@ export function SurveillanceOpening({
     }, 40);
   }, [onComplete]);
 
+  // Latest-finish ref so the timer effects don't redepend on `finish`.
+  // TitlePage passes `onComplete` as an inline arrow, which gives `finish`
+  // a fresh identity every parent render; without this ref the effects
+  // below would tear down and re-arm their setTimeout on every parent
+  // tick and the timer would never get to fire.
+  const finishRef = useRef<() => void>(finish);
+  useEffect(() => { finishRef.current = finish; }, [finish]);
+
   // If we were already-seen on mount, hand control back immediately.
+  // Mount-only — see comment on finishRef.
   useEffect(() => {
     if (stage === "done" && !completedRef.current) {
       completedRef.current = true;
       onComplete();
     }
-  }, [stage, onComplete]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // LOOK AWAY drops the operator into a brief punitive flash before the
   // meme transmission takes over. The hold is just long enough to read
   // the line; finish() then plays the cinematic.
   useEffect(() => {
     if (stage !== "shamed") return;
-    const t = setTimeout(finish, SHAMED_HOLD_MS);
+    const t = setTimeout(() => finishRef.current(), SHAMED_HOLD_MS);
     return () => clearTimeout(t);
-  }, [stage, finish]);
+  }, [stage]);
 
   // Land all readouts in a single frame, hold ~120ms so the operator
   // can register them as a flash, then snap shut. The per-line drip
@@ -182,9 +192,9 @@ export function SurveillanceOpening({
   useEffect(() => {
     if (stage !== "scanning") return;
     setRevealed(lines.length);
-    const t = setTimeout(finish, 120);
+    const t = setTimeout(() => finishRef.current(), 120);
     return () => clearTimeout(t);
-  }, [stage, lines.length, finish]);
+  }, [stage, lines.length]);
 
   if (stage === "done") return null;
 
