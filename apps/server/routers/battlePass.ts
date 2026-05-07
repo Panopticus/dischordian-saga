@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { protectedProcedure, publicProcedure, router } from "../_core/trpc";
+import { procedureRateLimit } from "../_core/procedureRateLimit";
 import { getDb } from "../db";
 import { battlePassSeasons, battlePassProgress, dreamBalance, notifications } from "../../db/schema";
 import { eq, and, desc, sql } from "drizzle-orm";
@@ -72,8 +73,18 @@ export const battlePassRouter = router({
   }),
 
   /* ─── Add XP to battle pass ─── */
+  /**
+   * @deprecated Prefer `addXpFromAction` which validates the source via
+   * server-side `getXpSource(actionType)`. `addXp` accepts a raw XP value
+   * and is therefore exploitable if a rooted/MITM client forges large
+   * values — two posts at the previous max=10000 used to finish the entire
+   * 15750-XP season pass. The cap is now 200 and the procedure is
+   * rate-limited to 5/min/user; remove this handler entirely once all
+   * callers migrate to `addXpFromAction`.
+   */
   addXp: protectedProcedure
-    .input(z.object({ xp: z.number().min(1).max(10000) }))
+    .use(procedureRateLimit({ windowMs: 60_000, max: 5 }))
+    .input(z.object({ xp: z.number().min(1).max(200) }))
     .mutation(async ({ ctx, input }) => {
       const db = await getDb();
       if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });

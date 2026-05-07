@@ -4,6 +4,7 @@
 import { z } from "zod";
 import { eq, and, desc, sql } from "drizzle-orm";
 import { protectedProcedure, publicProcedure, router } from "../_core/trpc";
+import { procedureRateLimit } from "../_core/procedureRateLimit";
 import { getDb } from "../db";
 import {
   draftTournaments, draftParticipants, cards, dreamBalance, userCards,
@@ -201,6 +202,7 @@ export const draftRouter = router({
 
   /** Pick a card during draft */
   pickCard: protectedProcedure
+    .use(procedureRateLimit({ windowMs: 60_000, max: 60 }))
     .input(z.object({ tournamentId: z.number(), cardId: z.string() }))
     .mutation(async ({ ctx, input }) => {
       const db = await getDb();

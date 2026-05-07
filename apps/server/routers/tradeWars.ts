@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { logger } from "../logger";
 import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
+import { procedureRateLimit } from "../_core/procedureRateLimit";
 import { getDb, type DrizzleDb } from "../db";
 import type { TWPlayerState } from "../../db/schema";
 import { twSectors, twPlayerState, twGameLog, twColonies, cards, userCards, users, shipUpgrades, playerBases } from "../../db/schema";
@@ -1038,8 +1039,12 @@ export const tradeWarsRouter = router({
     });
   }),
 
-  // Collect income from all colonies
-  collectIncome: protectedProcedure.mutation(async ({ ctx }) => {
+  // Collect income from all colonies. Rate-limited because the underlying
+  // economic loop (looping through colonies, summing income) is a soft
+  // farming target if a script can fire it once per second.
+  collectIncome: protectedProcedure
+    .use(procedureRateLimit({ windowMs: 60_000, max: 12 }))
+    .mutation(async ({ ctx }) => {
     const db = await getDb();
     if (!db) return { success: false, message: "Database unavailable" };
 

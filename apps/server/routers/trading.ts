@@ -5,6 +5,7 @@ import { z } from "zod";
 import { logger } from "../logger";
 import { eq, and, or, desc, sql } from "drizzle-orm";
 import { protectedProcedure, router } from "../_core/trpc";
+import { procedureRateLimit } from "../_core/procedureRateLimit";
 import { getDb } from "../db";
 import { trackTradeComplete, trackCollectionSize } from "../achievementTracker";
 import { cardTrades, userCards, dreamBalance, users, notifications } from "../../db/schema";
@@ -15,6 +16,7 @@ const tradeCardSchema = z.object({ cardId: z.string(), quantity: z.number().min(
 export const tradingRouter = router({
   /** Create a trade offer */
   createOffer: protectedProcedure
+    .use(procedureRateLimit({ windowMs: 60_000, max: 20 }))
     .input(z.object({
       receiverId: z.number(),
       senderCards: z.array(tradeCardSchema).min(0),
@@ -69,6 +71,7 @@ export const tradingRouter = router({
     }),
   /** Accept a trade offer */
   acceptTrade: protectedProcedure
+    .use(procedureRateLimit({ windowMs: 60_000, max: 30 }))
     .input(z.object({ tradeId: z.number() }))
     .mutation(async ({ ctx, input }) => {
       const db = await getDb();

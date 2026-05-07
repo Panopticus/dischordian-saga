@@ -1,5 +1,6 @@
 import { logger } from "../logger";
-import { publicProcedure, router } from "../_core/trpc";
+import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
+import { procedureRateLimit } from "../_core/procedureRateLimit";
 import { invokeLLM } from "../_core/llm";
 import { sanitizePlayerInput, validateElaraResponse } from "../elaraGuardrails";
 import { z } from "zod";
@@ -157,8 +158,12 @@ export const elaraRouter = router({
     };
   }),
 
-  // Send a message to Elara and get a response with dialog choices
+  // Send a message to Elara and get a response with dialog choices.
+  // Rate-limited because each call dispatches a paid LLM request with
+  // up to 32k max_tokens — without a per-user bucket an anonymous loop
+  // is a credit-card incinerator the moment ELARA_LLM=on flips.
   chat: publicProcedure
+    .use(procedureRateLimit({ windowMs: 60_000, max: 5 }))
     .input(z.object({
       message: z.string().min(1).max(2000),
       category: z.string().optional(),

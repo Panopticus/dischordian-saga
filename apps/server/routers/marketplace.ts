@@ -57,6 +57,7 @@ import { z } from "zod";
 import { logger } from "../logger";
 import { eq, and, or, desc, asc, sql, gte, lte, like, inArray } from "drizzle-orm";
 import { protectedProcedure, router } from "../_core/trpc";
+import { procedureRateLimit } from "../_core/procedureRateLimit";
 import { getDb, type DrizzleDb } from "../db";
 import {
   marketListings, marketBuyOrders, marketTransactions,
@@ -123,6 +124,7 @@ export const marketplaceRouter = router({
   /** Create a new sell listing */
   createListing: protectedProcedure
     .use(checkFeatureFlag("marketplace"))
+    .use(procedureRateLimit({ windowMs: 60_000, max: 30 }))
     .input(z.object({
       itemType: z.enum(["card", "material", "crafted_item"]),
       itemId: z.string(),
@@ -215,6 +217,7 @@ export const marketplaceRouter = router({
 
   /** Buy a listing */
   buyListing: protectedProcedure
+    .use(procedureRateLimit({ windowMs: 60_000, max: 30 }))
     .input(z.object({
       listingId: z.number(),
       quantity: z.number().min(1).default(1),
@@ -638,6 +641,7 @@ export const marketplaceRouter = router({
      ────────────────────────────────────────────── */
 
   createAuction: protectedProcedure
+    .use(procedureRateLimit({ windowMs: 60_000, max: 10 }))
     .input(z.object({
       itemType: z.enum(["card", "material", "crafted_item"]),
       itemId: z.string(),
@@ -684,6 +688,7 @@ export const marketplaceRouter = router({
 
   /** Place a bid on an auction */
   placeBid: protectedProcedure
+    .use(procedureRateLimit({ windowMs: 60_000, max: 60 }))
     .input(z.object({ auctionId: z.number(), bidAmount: z.number().min(1) }))
     .mutation(async ({ ctx, input }) => {
       const db = await getDb();
@@ -790,6 +795,7 @@ export const marketplaceRouter = router({
      ────────────────────────────────────────────── */
 
   createExchangeOrder: protectedProcedure
+    .use(procedureRateLimit({ windowMs: 60_000, max: 10 }))
     .input(z.object({
       sellCurrency: z.enum(["dream", "credits"]),
       sellAmount: z.number().min(1).max(999999),
