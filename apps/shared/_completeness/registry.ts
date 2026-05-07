@@ -17,6 +17,7 @@ import { checkConditionKindCoverage } from "./checks/conditionKindCoverage";
 import { checkTriggerKindCoverage } from "./checks/triggerKindCoverage";
 import { checkKeywordBehaviorCoverage } from "./checks/keywordBehaviorCoverage";
 import { checkUnlockConditionUICoverage } from "./checks/unlockConditionUICoverage";
+import { checkCardStatBudgetCoverage } from "./checks/cardStatBudgetCoverage";
 
 export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
   // ─── Card engine ──────────────────────────────────────────
@@ -67,6 +68,18 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     // founding_author and authors_edition currently have no UI;
     // closed in Part E (mobile / collection surface) but the row
     // sits visible until then.
+    ratchet: { target: 0 },
+  },
+  {
+    id: "tcg.card_stat_budget_coverage",
+    name: "Card stat-budget compliance",
+    description:
+      "Every unit/structure card is either within the per-cost tolerance window from balance/statCurve.ts OR carries an explicit `balanceException: { reason, reviewer }`. Off-curve cards without an exception are silent power-curve outliers.",
+    check: () => checkCardStatBudgetCoverage(),
+    // Existing card pool has known outliers (the OVER/UNDER lines
+    // already printed by balance/balanceAudit.ts). Ratcheted at
+    // landing; tightens as designers either rebalance or add
+    // documented exceptions.
     ratchet: { target: 0 },
   },
 ];

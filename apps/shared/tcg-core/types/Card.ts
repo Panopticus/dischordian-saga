@@ -211,6 +211,24 @@ export interface CardDefinition {
    * module is the dispatcher for this field.
    */
   unlockCondition?: CardUnlockCondition;
+  /**
+   * Optional: explicit designer acknowledgement that this card's
+   * power+health diverges from the STAT_CURVE / KEYWORD_TAX
+   * expectation in `apps/shared/tcg-core/balance/statCurve.ts`. The
+   * ship:check `tcg.card_stat_budget_coverage` gate flags any unit
+   * or structure that's outside the per-cost tolerance and does NOT
+   * carry this field. Exceptions are by-design — a paper trail for
+   * "this card breaks the curve on purpose, here is who approved
+   * it" — not a silencer for "we'll fix balance later."
+   *
+   * `reason` is plain English (≥ 8 chars); `reviewer` is the human
+   * who signed off (≥ 2 chars). Both are enforced by the Zod
+   * schema.
+   */
+  balanceException?: {
+    reason: string;
+    reviewer: string;
+  };
 }
 
 /**

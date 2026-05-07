@@ -3,6 +3,7 @@
   "worstByEntry": {
     "tcg.trigger_kind_coverage": 0,
     "tcg.keyword_behavior_coverage": 0,
-    "tcg.unlock_condition_ui_coverage": 2
+    "tcg.unlock_condition_ui_coverage": 2,
+    "tcg.card_stat_budget_coverage": 235
   }
 }

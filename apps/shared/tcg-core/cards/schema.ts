@@ -795,6 +795,21 @@ export const cardDefinitionSchema = z
     /** Optional: gates the card behind a story / progression milestone.
      *  See Card.ts `unlockCondition` doc + expansionUnlockService.ts. */
     unlockCondition: cardUnlockConditionSchema.optional(),
+    /** Optional: explicit acknowledgement that this card's stat budget
+     *  diverges from the STAT_CURVE / KEYWORD_TAX expectation in
+     *  apps/shared/tcg-core/balance/statCurve.ts. The
+     *  ship:check tcg.card_stat_budget_coverage gate flags any
+     *  off-curve unit/structure that does NOT carry this field. The
+     *  exception is by-design — designer intent on record — not a
+     *  silencer for "we'll fix it later." `reason` is plain English;
+     *  `reviewer` is the human who signed off. */
+    balanceException: z
+      .object({
+        reason: z.string().min(8),
+        reviewer: z.string().min(2),
+      })
+      .strict()
+      .optional(),
   })
   .strict()
   .superRefine((card, ctx) => {
