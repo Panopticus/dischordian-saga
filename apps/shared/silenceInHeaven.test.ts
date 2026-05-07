@@ -6,10 +6,13 @@ import albumAudio from "./silenceInHeavenAlbumAudio.json";
 import {
   SIH_SHOW_PROGRAM,
   SIH_SHOW_TOTAL_DURATION_MS,
+  SIH_DIALOG_SLIDESHOWS,
+  SIH_SHOW_SLIDESHOW_IDS,
   getShowStep,
   getNextShowStep,
   locateShowTime,
 } from "./silenceInHeavenShow";
+import { getSlideshow } from "./songSlideshows";
 
 describe("Silence in Heaven", () => {
   it("has 18 tracks in the tracklist", () => {
@@ -100,6 +103,22 @@ describe("Silence in Heaven", () => {
     for (const track of ALL_SIH_TRACKS) {
       const last = track.frames[track.frames.length - 1];
       expect(last.endMs).toBeLessThanOrEqual(track.durationMs);
+    }
+  });
+
+  it("every frame has an imageUrl bound to album5 CDN art", () => {
+    for (const track of ALL_SIH_TRACKS) {
+      for (const frame of track.frames) {
+        expect(frame.imageUrl).toMatch(/\/art\/slideshows\/album5\/T\d{2}\/sih_t\d{2}_f\d{2}\.webp$/);
+      }
+    }
+  });
+
+  it("reduced-motion hero image is bound for every track", () => {
+    for (const track of ALL_SIH_TRACKS) {
+      expect(track.reducedMotionFallback.heroImageUrl).toMatch(
+        /\/art\/slideshows\/album5\/T\d{2}\/sih_t\d{2}_f01\.webp$/,
+      );
     }
   });
 });
@@ -251,6 +270,46 @@ describe("Silence in Heaven — end-to-end show program", () => {
     expect(getNextShowStep(1)?.albumTrackNumber).toBe(2);
     expect(getNextShowStep(36)?.albumTrackNumber).toBe(37);
     expect(getNextShowStep(37)).toBeUndefined();
+  });
+
+  it("synthesises 19 dialog slideshow defs with stable sih-dialog-<albumPos> ids", () => {
+    expect(SIH_DIALOG_SLIDESHOWS).toHaveLength(19);
+    const expectedIds = SIH_SHOW_PROGRAM
+      .filter((s) => s.kind === "dialog")
+      .map((s) => `sih-dialog-${s.albumTrackNumber}`);
+    expect(SIH_DIALOG_SLIDESHOWS.map((d) => d.id)).toEqual(expectedIds);
+  });
+
+  it("every synthesised dialog slideshow validates", () => {
+    for (const def of SIH_DIALOG_SLIDESHOWS) {
+      expect(validateSlideshow(def)).toEqual([]);
+    }
+  });
+
+  it("every synthesised dialog frame resolves to an album5 dialog background", () => {
+    for (const def of SIH_DIALOG_SLIDESHOWS) {
+      for (const frame of def.frames) {
+        expect(frame.imageUrl).toMatch(
+          /\/art\/slideshows\/album5\/bg\/sih_bg_[a-z_]+\.webp$/,
+        );
+      }
+    }
+  });
+
+  it("SIH_SHOW_SLIDESHOW_IDS lists 37 ids in album order — 18 song ids + 19 dialog ids", () => {
+    expect(SIH_SHOW_SLIDESHOW_IDS).toHaveLength(37);
+    const songIds = SIH_SHOW_SLIDESHOW_IDS.filter((id) => /^sih-\d{2}$/.test(id));
+    const dialogIds = SIH_SHOW_SLIDESHOW_IDS.filter((id) => id.startsWith("sih-dialog-"));
+    expect(songIds).toHaveLength(18);
+    expect(dialogIds).toHaveLength(19);
+  });
+
+  it("every show id resolves via getSlideshow()", () => {
+    for (const id of SIH_SHOW_SLIDESHOW_IDS) {
+      const def = getSlideshow(id);
+      expect(def, `getSlideshow(${id}) should resolve`).toBeDefined();
+      expect(def!.id).toBe(id);
+    }
   });
 
   it("locateShowTime resolves boundaries correctly", () => {

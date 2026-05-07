@@ -723,13 +723,15 @@ describe("The Bulb Breaks slideshow (§11.5 + §12 C11 — negative variant)", (
 });
 
 describe("Full registry invariants", () => {
-  it("registry has 30 slideshows total", () => {
+  it("registry has 67 slideshows total", () => {
     // 14 song slideshows
     // + ACT1_NARRATIVE_STRUCTURE.md §6 Two Witnesses Part 2
     // + §14.1 Silence of Two Witnesses (Act 2 bond-60 milestone)
     // + 5 act openers for Acts 4 / 4.5 / 5 / 6 / 7.
     // + Album 1 · Dischordian Logic T01..T09 (9 producer-drop tracks)
-    expect(Object.keys(SONG_SLIDESHOWS).length).toBe(30);
+    // + Album 5 · Silence in Heaven (18 song slideshows + 19 dialog interludes
+    //   synthesised from SIH_SHOW_PROGRAM)
+    expect(Object.keys(SONG_SLIDESHOWS).length).toBe(67);
   });
 
   it("every registered slideshow validates cleanly (second-wave audit)", () => {

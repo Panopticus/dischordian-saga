@@ -41,6 +41,9 @@ import {
   type Album4TrackDef,
   type Album4TrackId,
 } from "./expansionArt/album4Slideshows";
+import { ALL_SIH_TRACKS } from "./slideshowData/silence-in-heaven/index";
+import { SIH_DIALOG_SLIDESHOWS } from "./silenceInHeavenShow";
+
 /* ─── LAST WORDS (§5.4) ─── */
 
 /**
@@ -2508,6 +2511,12 @@ export const SONG_SLIDESHOWS: Record<string, SongSlideshowDef> = {
   [ACT_5_MAP_INTRO_SLIDESHOW.id]: ACT_5_MAP_INTRO_SLIDESHOW,
   [ACT_6_CONFESSION_INTRO_SLIDESHOW.id]: ACT_6_CONFESSION_INTRO_SLIDESHOW,
   [ACT_7_CONVERGENCE_INTRO_SLIDESHOW.id]: ACT_7_CONVERGENCE_INTRO_SLIDESHOW,
+  /* Album 5 · Silence in Heaven — 18 song slideshows + 19 dialog interludes
+   * synthesised from SIH_SHOW_PROGRAM. Frame art binds via the barrel in
+   * slideshowData/silence-in-heaven/index.ts; dialog interludes are built
+   * at module load from silenceInHeavenShow.ts. */
+  ...Object.fromEntries(ALL_SIH_TRACKS.map((t) => [t.id, t])),
+  ...Object.fromEntries(SIH_DIALOG_SLIDESHOWS.map((d) => [d.id, d])),
 };
 
 export function getSlideshow(id: string): SongSlideshowDef | undefined {

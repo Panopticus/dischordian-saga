@@ -94,9 +94,23 @@ describe("witnessingAssetManifest", () => {
       }
     });
 
-    it("every path has a unique value (no duplicate frame URLs)", () => {
-      const paths = listAllAssetPaths();
-      expect(new Set(paths).size).toBe(paths.length);
+    it("no two frames in the registry alias each other accidentally", () => {
+      // Original intent: catch accidental duplication of narrative
+      // frame art across slideshows. Two intentional exceptions:
+      //   1. Silence in Heaven dialog interludes reuse dialog
+      //      backgrounds across beats (the prologue's three beats
+      //      all sit on `sih_bg_void`; the void opens AND closes
+      //      the show). Skip dialog interludes.
+      //   2. SiH song heroes alias frame 1 because the producer
+      //      didn't ship separate hero art — the typed manifest
+      //      uses frame 1 as the hero. Heroes are not part of the
+      //      uniqueness check; only frames are.
+      const frameUrls: string[] = [];
+      for (const entry of listSlideshowImageAssets()) {
+        if (entry.slideshowId.startsWith("sih-dialog-")) continue;
+        frameUrls.push(...entry.frameImageUrls);
+      }
+      expect(new Set(frameUrls).size).toBe(frameUrls.length);
     });
   });
 });

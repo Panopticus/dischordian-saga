@@ -33,6 +33,11 @@ import {
   VFX_CLIPS,
 } from "../apps/shared/expansionArt/cinematicsManifest.ts";
 import { ALBUM1_TRACKS } from "../apps/shared/expansionArt/album1Slideshows.ts";
+import {
+  ALBUM5_TRACKS,
+  ALBUM5_NARRATOR_PORTRAITS,
+  ALBUM5_DIALOG_BACKGROUNDS,
+} from "../apps/shared/expansionArt/album5Slideshows.ts";
 
 const BUCKET = "dgrsart";
 const REGION = "us-east-2";
@@ -81,6 +86,20 @@ for (const t of ALBUM1_TRACKS) {
   for (const rel of t.frameRelPaths) {
     jobs.push({ label: "album1-slideshows", key: `${KEY_PREFIX}${rel}`, id: `${t.id}/${rel.split("/").pop()}` });
   }
+}
+/* Album 5 · Silence in Heaven — 552 track frames + 20 narrator portraits
+   + 18 dialog backgrounds. Producer drop sits under
+   art/slideshows/album5/{T<NN>,narrators,bg}/*.webp on the CDN. */
+for (const t of ALBUM5_TRACKS) {
+  for (const rel of t.frameRelPaths) {
+    jobs.push({ label: "album5-slideshows", key: `${KEY_PREFIX}${rel}`, id: `${t.id}/${rel.split("/").pop()}` });
+  }
+}
+for (const p of ALBUM5_NARRATOR_PORTRAITS) {
+  jobs.push({ label: "album5-narrators", key: `${KEY_PREFIX}${p.relPath}`, id: p.id });
+}
+for (const b of ALBUM5_DIALOG_BACKGROUNDS) {
+  jobs.push({ label: "album5-backgrounds", key: `${KEY_PREFIX}${b.relPath}`, id: b.id });
 }
 
 /* ─── Title-page videos ────────────────────────────────────────────
