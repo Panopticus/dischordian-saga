@@ -67,6 +67,63 @@ describe("expansionUnlockService — evaluateUnlockCondition", () => {
     expect(evaluateUnlockCondition({ kind: "authors_edition", season: "s2" }, yes)).toBe(true);
     expect(evaluateUnlockCondition({ kind: "authors_edition", season: "s2" }, no)).toBe(false);
   });
+
+  it("dlc_chapter_completion returns true iff the chapter id is in completedDlcChapters", () => {
+    const s = makePlayerExpansionState({
+      completedDlcChapters: ["dlc_advocate_01_sacrum_echo"],
+    });
+    expect(
+      evaluateUnlockCondition(
+        {
+          kind: "dlc_chapter_completion",
+          chapterId: "dlc_advocate_01_sacrum_echo",
+        },
+        s,
+      ),
+    ).toBe(true);
+    expect(
+      evaluateUnlockCondition(
+        {
+          kind: "dlc_chapter_completion",
+          chapterId: "dlc_does_not_exist",
+        },
+        s,
+      ),
+    ).toBe(false);
+    expect(
+      evaluateUnlockCondition(
+        {
+          kind: "dlc_chapter_completion",
+          chapterId: "anything",
+        },
+        NULL_PLAYER_EXPANSION_STATE,
+      ),
+    ).toBe(false);
+  });
+});
+
+describe("expansionUnlockService — derivePlayerExpansionStateFromFlags (DLC chapter completion)", () => {
+  it("scrapes dlc_chapter_<id>_complete flags into completedDlcChapters", () => {
+    const state = derivePlayerExpansionStateFromFlags({
+      dlc_chapter_dlc_advocate_01_sacrum_echo_complete: true,
+      dlc_chapter_dlc_hierarchy_03_xeth_audit_complete: true,
+      dlc_chapter_dlc_advocate_02_blood_weave_complete: false, // falsy -> ignored
+      unrelated_flag: true,
+    });
+    expect(state.completedDlcChapters).toEqual(
+      new Set([
+        "dlc_advocate_01_sacrum_echo",
+        "dlc_hierarchy_03_xeth_audit",
+      ]),
+    );
+  });
+
+  it("returns an empty set when no DLC flags are set", () => {
+    const state = derivePlayerExpansionStateFromFlags({
+      act_3_complete: true,
+    });
+    expect(state.completedDlcChapters.size).toBe(0);
+  });
 });
 
 describe("expansionUnlockService — isCardUnlocked", () => {

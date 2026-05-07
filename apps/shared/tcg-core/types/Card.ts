@@ -223,7 +223,8 @@ export type CardUnlockCondition =
   | { kind: "secret"; act: 1 | 2 | 3 | 4 | 5 | 6 | 7 }
   | { kind: "battle_pass"; tier: number }
   | { kind: "founding_author" }
-  | { kind: "authors_edition"; season: "s2" };
+  | { kind: "authors_edition"; season: "s2" }
+  | { kind: "dlc_chapter_completion"; chapterId: string };
 
 /** Forward-declared. Full shape lives in types/Trigger.ts. */
 export interface Ability {
