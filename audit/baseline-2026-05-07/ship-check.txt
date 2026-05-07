@@ -1,0 +1,7 @@
+
+> loredex-os@1.0.0 ship:check /home/user/dischordian-saga
+> tsx scripts/ship-check.ts
+
+sh: 1: tsx: not found
+ ELIFECYCLE  Command failed.
+ WARN   Local package.json exists, but node_modules missing, did you mean to install?
