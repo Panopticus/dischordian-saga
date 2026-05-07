@@ -1,0 +1,1905 @@
+{
+  "_comment": "Procedure-level orphan baseline. See apps/server/routers.unused.test.ts for the test that uses this file. Each entry is a (router, procedure) pair that has no client tRPC call, no server-internal call, and no audit-allow-proc waiver \u2014 but is grandfathered in at the time the procedure-level guard was added (CONNECTION_AUDIT_2026-05-07 \u00a72.1). The baseline can shrink as orphans are wired or deleted; it cannot grow without modifying this file directly. New procedures introduced after the baseline must satisfy the wiring or waiver requirements in routers.unused.test.ts.",
+  "knownOrphans": [
+    {
+      "router": "account",
+      "procedure": "deleteMyAccount"
+    },
+    {
+      "router": "account",
+      "procedure": "exportMyData"
+    },
+    {
+      "router": "account",
+      "procedure": "getAgreementStatus"
+    },
+    {
+      "router": "admin",
+      "procedure": "abuseSweep"
+    },
+    {
+      "router": "admin",
+      "procedure": "grantCard"
+    },
+    {
+      "router": "admin",
+      "procedure": "grantEntitlement"
+    },
+    {
+      "router": "analytics",
+      "procedure": "dailyActiveUsers"
+    },
+    {
+      "router": "analytics",
+      "procedure": "funnelCompletion"
+    },
+    {
+      "router": "analytics",
+      "procedure": "ingest"
+    },
+    {
+      "router": "analytics",
+      "procedure": "retention"
+    },
+    {
+      "router": "analytics",
+      "procedure": "topEvents"
+    },
+    {
+      "router": "analytics",
+      "procedure": "topPlayedGenerals"
+    },
+    {
+      "router": "analytics",
+      "procedure": "winrateByGeneral"
+    },
+    {
+      "router": "apprenticeTrial",
+      "procedure": "getMyCompletions"
+    },
+    {
+      "router": "architectConsole",
+      "procedure": "bulkAwardResources"
+    },
+    {
+      "router": "architectConsole",
+      "procedure": "castDailyVote"
+    },
+    {
+      "router": "architectConsole",
+      "procedure": "economyTimeseries"
+    },
+    {
+      "router": "architectConsole",
+      "procedure": "getActiveEvents"
+    },
+    {
+      "router": "architectConsole",
+      "procedure": "getActiveWorldModifiers"
+    },
+    {
+      "router": "architectConsole",
+      "procedure": "getDailyVoteState"
+    },
+    {
+      "router": "architectConsole",
+      "procedure": "getGameMetrics"
+    },
+    {
+      "router": "architectConsole",
+      "procedure": "removeItem"
+    },
+    {
+      "router": "architectConsole",
+      "procedure": "requestFeatureFlag"
+    },
+    {
+      "router": "architectConsole",
+      "procedure": "searchPlayers"
+    },
+    {
+      "router": "architectConsole",
+      "procedure": "setPressure"
+    },
+    {
+      "router": "architectConsole",
+      "procedure": "unlockFeature"
+    },
+    {
+      "router": "ark",
+      "procedure": "getProgress"
+    },
+    {
+      "router": "ark",
+      "procedure": "getRoom"
+    },
+    {
+      "router": "ark",
+      "procedure": "getRooms"
+    },
+    {
+      "router": "ark",
+      "procedure": "visitRoom"
+    },
+    {
+      "router": "arkThemes",
+      "procedure": "get"
+    },
+    {
+      "router": "arkThemes",
+      "procedure": "set"
+    },
+    {
+      "router": "battlePass",
+      "procedure": "addXp"
+    },
+    {
+      "router": "battlePass",
+      "procedure": "addXpFromAction"
+    },
+    {
+      "router": "battlePass",
+      "procedure": "generateSeason"
+    },
+    {
+      "router": "battlePass",
+      "procedure": "xpSources"
+    },
+    {
+      "router": "blocks",
+      "procedure": "amBlockedBy"
+    },
+    {
+      "router": "blocks",
+      "procedure": "block"
+    },
+    {
+      "router": "blocks",
+      "procedure": "listMine"
+    },
+    {
+      "router": "blocks",
+      "procedure": "unblock"
+    },
+    {
+      "router": "bonusObjectives",
+      "procedure": "list"
+    },
+    {
+      "router": "bossMastery",
+      "procedure": "getBossMastery"
+    },
+    {
+      "router": "cadesIce",
+      "procedure": "getIceServers"
+    },
+    {
+      "router": "cardAchievements",
+      "procedure": "incrementProgress"
+    },
+    {
+      "router": "cardAchievements",
+      "procedure": "setProgress"
+    },
+    {
+      "router": "cardGame",
+      "procedure": "attackWithCharacter"
+    },
+    {
+      "router": "cardGame",
+      "procedure": "claimDailyPack"
+    },
+    {
+      "router": "cardGame",
+      "procedure": "createCharacterSheet"
+    },
+    {
+      "router": "cardGame",
+      "procedure": "endTurn"
+    },
+    {
+      "router": "cardGame",
+      "procedure": "getActiveMatch"
+    },
+    {
+      "router": "cardGame",
+      "procedure": "getCard"
+    },
+    {
+      "router": "cardGame",
+      "procedure": "getCharacterSheet"
+    },
+    {
+      "router": "cardGame",
+      "procedure": "getDailyPackStatus"
+    },
+    {
+      "router": "cardGame",
+      "procedure": "getGemBalance"
+    },
+    {
+      "router": "cardGame",
+      "procedure": "getGemBundles"
+    },
+    {
+      "router": "cardGame",
+      "procedure": "getMetaArchetypes"
+    },
+    {
+      "router": "cardGame",
+      "procedure": "getMetaCardStats"
+    },
+    {
+      "router": "cardGame",
+      "procedure": "getPackPrices"
+    },
+    {
+      "router": "cardGame",
+      "procedure": "getUnifiedMatchHistory"
+    },
+    {
+      "router": "cardGame",
+      "procedure": "matchHistory"
+    },
+    {
+      "router": "cardGame",
+      "procedure": "playCard"
+    },
+    {
+      "router": "cardGame",
+      "procedure": "spendGems"
+    },
+    {
+      "router": "cardGame",
+      "procedure": "startMatch"
+    },
+    {
+      "router": "casino",
+      "procedure": "recentResults"
+    },
+    {
+      "router": "casino",
+      "procedure": "resetSession"
+    },
+    {
+      "router": "celebration",
+      "procedure": "addTranscriptEntry"
+    },
+    {
+      "router": "celebration",
+      "procedure": "addTrialHistoryEntry"
+    },
+    {
+      "router": "celebration",
+      "procedure": "adjustProfessorApproval"
+    },
+    {
+      "router": "celebration",
+      "procedure": "getProfessorApproval"
+    },
+    {
+      "router": "celebration",
+      "procedure": "getTranscript"
+    },
+    {
+      "router": "celebration",
+      "procedure": "getTrialHistory"
+    },
+    {
+      "router": "celebration",
+      "procedure": "getTrialState"
+    },
+    {
+      "router": "celebration",
+      "procedure": "saveTrialState"
+    },
+    {
+      "router": "chat",
+      "procedure": "listReports"
+    },
+    {
+      "router": "chat",
+      "procedure": "report"
+    },
+    {
+      "router": "chat",
+      "procedure": "resolveReport"
+    },
+    {
+      "router": "chess",
+      "procedure": "createTournament"
+    },
+    {
+      "router": "chess",
+      "procedure": "getDailyPuzzle"
+    },
+    {
+      "router": "chess",
+      "procedure": "getFightUnlocksFromChess"
+    },
+    {
+      "router": "chess",
+      "procedure": "getLegalMoves"
+    },
+    {
+      "router": "chess",
+      "procedure": "getMyActiveTournament"
+    },
+    {
+      "router": "chess",
+      "procedure": "getOpeningBooks"
+    },
+    {
+      "router": "chess",
+      "procedure": "getPuzzleById"
+    },
+    {
+      "router": "chess",
+      "procedure": "getPuzzleStats"
+    },
+    {
+      "router": "chess",
+      "procedure": "getTournament"
+    },
+    {
+      "router": "chess",
+      "procedure": "joinTournament"
+    },
+    {
+      "router": "chess",
+      "procedure": "leaveTournament"
+    },
+    {
+      "router": "chess",
+      "procedure": "listPuzzles"
+    },
+    {
+      "router": "chess",
+      "procedure": "listTournaments"
+    },
+    {
+      "router": "chess",
+      "procedure": "reportFightProgress"
+    },
+    {
+      "router": "chess",
+      "procedure": "reportTournamentResult"
+    },
+    {
+      "router": "chess",
+      "procedure": "solvePuzzle"
+    },
+    {
+      "router": "chess",
+      "procedure": "startTournament"
+    },
+    {
+      "router": "chess",
+      "procedure": "submitAiMove"
+    },
+    {
+      "router": "chessClimb",
+      "procedure": "getRunHistory"
+    },
+    {
+      "router": "chessClimb",
+      "procedure": "recordClimbGame"
+    },
+    {
+      "router": "chessPuzzle",
+      "procedure": "getMyGameReviews"
+    },
+    {
+      "router": "chessPuzzle",
+      "procedure": "listAllPuzzleIds"
+    },
+    {
+      "router": "chessPuzzle",
+      "procedure": "puzzleOfTheDay"
+    },
+    {
+      "router": "chessPuzzle",
+      "procedure": "saveGameReview"
+    },
+    {
+      "router": "chessPuzzle",
+      "procedure": "submitPuzzleSolution"
+    },
+    {
+      "router": "chessSideGate",
+      "procedure": "listSideGates"
+    },
+    {
+      "router": "christmasInJuly",
+      "procedure": "topGifters"
+    },
+    {
+      "router": "citizen",
+      "procedure": "getConfig"
+    },
+    {
+      "router": "classMastery",
+      "procedure": "awardXp"
+    },
+    {
+      "router": "classMastery",
+      "procedure": "getActivePerkEffects"
+    },
+    {
+      "router": "classMastery",
+      "procedure": "getLeaderboard"
+    },
+    {
+      "router": "classMastery",
+      "procedure": "getXpActions"
+    },
+    {
+      "router": "classMastery",
+      "procedure": "respec"
+    },
+    {
+      "router": "coNexusTomes",
+      "procedure": "discover"
+    },
+    {
+      "router": "collection",
+      "procedure": "createDeck"
+    },
+    {
+      "router": "collection",
+      "procedure": "deleteDeck"
+    },
+    {
+      "router": "collection",
+      "procedure": "getBalance"
+    },
+    {
+      "router": "collection",
+      "procedure": "getCollection"
+    },
+    {
+      "router": "collection",
+      "procedure": "getDeck"
+    },
+    {
+      "router": "collection",
+      "procedure": "getDecks"
+    },
+    {
+      "router": "collection",
+      "procedure": "updateDeck"
+    },
+    {
+      "router": "communityCodex",
+      "procedure": "getFeatured"
+    },
+    {
+      "router": "communityCodex",
+      "procedure": "list"
+    },
+    {
+      "router": "communityCodex",
+      "procedure": "moderate"
+    },
+    {
+      "router": "communityCodex",
+      "procedure": "submit"
+    },
+    {
+      "router": "communityCodex",
+      "procedure": "vote"
+    },
+    {
+      "router": "companion",
+      "procedure": "chatWithElara"
+    },
+    {
+      "router": "companion",
+      "procedure": "getRelationship"
+    },
+    {
+      "router": "competitive",
+      "procedure": "backfillRatings"
+    },
+    {
+      "router": "competitive",
+      "procedure": "getLeaderboard"
+    },
+    {
+      "router": "competitive",
+      "procedure": "getMyRatings"
+    },
+    {
+      "router": "competitive",
+      "procedure": "getProfileFeed"
+    },
+    {
+      "router": "contentAdmin",
+      "procedure": "getStats"
+    },
+    {
+      "router": "contentAdmin",
+      "procedure": "listAlbums"
+    },
+    {
+      "router": "contentApi",
+      "procedure": "getAllCards"
+    },
+    {
+      "router": "contentApi",
+      "procedure": "getAllEntries"
+    },
+    {
+      "router": "contentApi",
+      "procedure": "getCardById"
+    },
+    {
+      "router": "contentApi",
+      "procedure": "getEntryById"
+    },
+    {
+      "router": "contentApi",
+      "procedure": "getStats"
+    },
+    {
+      "router": "contentApi",
+      "procedure": "invalidateCache"
+    },
+    {
+      "router": "contentApi",
+      "procedure": "searchCards"
+    },
+    {
+      "router": "contentApi",
+      "procedure": "searchEntries"
+    },
+    {
+      "router": "contentReward",
+      "procedure": "isCompleted"
+    },
+    {
+      "router": "contentReward",
+      "procedure": "myParticipation"
+    },
+    {
+      "router": "coopCard",
+      "procedure": "submitResult"
+    },
+    {
+      "router": "coopRaid",
+      "procedure": "claimLoot"
+    },
+    {
+      "router": "coopRaid",
+      "procedure": "getRaidDetails"
+    },
+    {
+      "router": "cosmeticCatalog",
+      "procedure": "myCosmetics"
+    },
+    {
+      "router": "cosmeticShop",
+      "procedure": "getMyCollection"
+    },
+    {
+      "router": "crafting",
+      "procedure": "addMaterials"
+    },
+    {
+      "router": "crafting",
+      "procedure": "attemptSuitCraft"
+    },
+    {
+      "router": "crew",
+      "procedure": "resetCrew"
+    },
+    {
+      "router": "crossGameLedger",
+      "procedure": "getState"
+    },
+    {
+      "router": "crossGameLedger",
+      "procedure": "record"
+    },
+    {
+      "router": "crossGameThreads",
+      "procedure": "emit"
+    },
+    {
+      "router": "dailyBrief",
+      "procedure": "getEventDetail"
+    },
+    {
+      "router": "deadMansCircuit",
+      "procedure": "closeSeasonManual"
+    },
+    {
+      "router": "deadMansCircuit",
+      "procedure": "openSeasonManual"
+    },
+    {
+      "router": "diplomacy",
+      "procedure": "applyAction"
+    },
+    {
+      "router": "diplomacy",
+      "procedure": "getStandings"
+    },
+    {
+      "router": "dischordiaCycle",
+      "procedure": "applyEnergy"
+    },
+    {
+      "router": "dischordiaCycle",
+      "procedure": "applyRawDelta"
+    },
+    {
+      "router": "dischordiaCycle",
+      "procedure": "completeReclamation"
+    },
+    {
+      "router": "dischordiaCycle",
+      "procedure": "getAuditTrail"
+    },
+    {
+      "router": "dischordiaCycle",
+      "procedure": "triggerReclamation"
+    },
+    {
+      "router": "dischordiaCycle",
+      "procedure": "triggerVortexAdvance"
+    },
+    {
+      "router": "discovery",
+      "procedure": "getUnlocks"
+    },
+    {
+      "router": "discovery",
+      "procedure": "unlockFeature"
+    },
+    {
+      "router": "discovery",
+      "procedure": "unlockFromRoom"
+    },
+    {
+      "router": "draft",
+      "procedure": "completeTournament"
+    },
+    {
+      "router": "draft",
+      "procedure": "getMyDraftState"
+    },
+    {
+      "router": "draft",
+      "procedure": "getResults"
+    },
+    {
+      "router": "draft",
+      "procedure": "getTournament"
+    },
+    {
+      "router": "draft",
+      "procedure": "join"
+    },
+    {
+      "router": "draft",
+      "procedure": "pickCard"
+    },
+    {
+      "router": "draft",
+      "procedure": "reportBattleResult"
+    },
+    {
+      "router": "dreamerVisions",
+      "procedure": "getVisionWithBookend"
+    },
+    {
+      "router": "eidolonBond",
+      "procedure": "addFlower"
+    },
+    {
+      "router": "eidolonBond",
+      "procedure": "bindSpecimen"
+    },
+    {
+      "router": "eidolonBond",
+      "procedure": "feedSoulStone"
+    },
+    {
+      "router": "eidolonBond",
+      "procedure": "getBondTitles"
+    },
+    {
+      "router": "eidolonBond",
+      "procedure": "getCommunityStats"
+    },
+    {
+      "router": "eidolonBond",
+      "procedure": "getEvolutionProgress"
+    },
+    {
+      "router": "eidolonBond",
+      "procedure": "getMemorial"
+    },
+    {
+      "router": "eidolonBond",
+      "procedure": "getMyBond"
+    },
+    {
+      "router": "eidolonBond",
+      "procedure": "getMyCollection"
+    },
+    {
+      "router": "eidolonBond",
+      "procedure": "getSpectralBonus"
+    },
+    {
+      "router": "eidolonBond",
+      "procedure": "interact"
+    },
+    {
+      "router": "eidolonBond",
+      "procedure": "isSpectral"
+    },
+    {
+      "router": "eidolonBond",
+      "procedure": "kill"
+    },
+    {
+      "router": "eidolonBond",
+      "procedure": "resurrect"
+    },
+    {
+      "router": "elara",
+      "procedure": "getGreeting"
+    },
+    {
+      "router": "elara",
+      "procedure": "lookupEntity"
+    },
+    {
+      "router": "encounter",
+      "procedure": "listEncounters"
+    },
+    {
+      "router": "engineerLogs",
+      "procedure": "getAll"
+    },
+    {
+      "router": "engineerLogs",
+      "procedure": "getRarityCounts"
+    },
+    {
+      "router": "engineerLogs",
+      "procedure": "getUnlockedCount"
+    },
+    {
+      "router": "engineerLogs",
+      "procedure": "markRead"
+    },
+    {
+      "router": "engineerLogs",
+      "procedure": "unlockLog"
+    },
+    {
+      "router": "epochWitness",
+      "procedure": "clearActiveEdit"
+    },
+    {
+      "router": "epochWitness",
+      "procedure": "getMyProgress"
+    },
+    {
+      "router": "epochWitness",
+      "procedure": "getShadowTonguePower"
+    },
+    {
+      "router": "epochWitness",
+      "procedure": "getTally"
+    },
+    {
+      "router": "epochWitness",
+      "procedure": "getVotesForEpoch"
+    },
+    {
+      "router": "epochWitness",
+      "procedure": "recordActiveEdit"
+    },
+    {
+      "router": "essenceHarvest",
+      "procedure": "getFighterCount"
+    },
+    {
+      "router": "essenceHarvest",
+      "procedure": "getMostHarvested"
+    },
+    {
+      "router": "essenceHarvest",
+      "procedure": "harvest"
+    },
+    {
+      "router": "factions",
+      "procedure": "getFactionAllegiance"
+    },
+    {
+      "router": "factions",
+      "procedure": "getMyAllegiance"
+    },
+    {
+      "router": "factions",
+      "procedure": "recordMatchResult"
+    },
+    {
+      "router": "fightLeaderboard",
+      "procedure": "getRankDistribution"
+    },
+    {
+      "router": "fnord23",
+      "procedure": "captureAudio"
+    },
+    {
+      "router": "fnord23",
+      "procedure": "discover"
+    },
+    {
+      "router": "fnord23",
+      "procedure": "getDeviceLore"
+    },
+    {
+      "router": "fnord23",
+      "procedure": "getSpeakerCounts"
+    },
+    {
+      "router": "fnord23",
+      "procedure": "getState"
+    },
+    {
+      "router": "fnord23",
+      "procedure": "listChannels"
+    },
+    {
+      "router": "fnord23",
+      "procedure": "listMemoryResin"
+    },
+    {
+      "router": "fnord23",
+      "procedure": "listTracks"
+    },
+    {
+      "router": "fnord23",
+      "procedure": "rollFnord"
+    },
+    {
+      "router": "fnord23",
+      "procedure": "setLastPlayed"
+    },
+    {
+      "router": "friendlyChallenge",
+      "procedure": "completeChallenge"
+    },
+    {
+      "router": "friendlyChallenge",
+      "procedure": "getAvailableRules"
+    },
+    {
+      "router": "friendlyChallenge",
+      "procedure": "getOpenChallenges"
+    },
+    {
+      "router": "gameState",
+      "procedure": "deleteSlot"
+    },
+    {
+      "router": "gameState",
+      "procedure": "listSaveSlots"
+    },
+    {
+      "router": "gameState",
+      "procedure": "previewCrossArcCarryforward"
+    },
+    {
+      "router": "gameState",
+      "procedure": "restoreFromSlot"
+    },
+    {
+      "router": "gameState",
+      "procedure": "saveToSlot"
+    },
+    {
+      "router": "graduateLegion",
+      "procedure": "communityStats"
+    },
+    {
+      "router": "graduateLegion",
+      "procedure": "deploy"
+    },
+    {
+      "router": "graduateLegion",
+      "procedure": "getActiveBonuses"
+    },
+    {
+      "router": "graduateLegion",
+      "procedure": "getAvailableSlots"
+    },
+    {
+      "router": "graduateLegion",
+      "procedure": "gift"
+    },
+    {
+      "router": "graduateLegion",
+      "procedure": "history"
+    },
+    {
+      "router": "graduateLegion",
+      "procedure": "list"
+    },
+    {
+      "router": "graduateLegion",
+      "procedure": "recall"
+    },
+    {
+      "router": "graduateLegion",
+      "procedure": "sacrifice"
+    },
+    {
+      "router": "guild",
+      "procedure": "emblems"
+    },
+    {
+      "router": "guild",
+      "procedure": "invite"
+    },
+    {
+      "router": "guild",
+      "procedure": "leaderboard"
+    },
+    {
+      "router": "guild",
+      "procedure": "spendTreasury"
+    },
+    {
+      "router": "guild",
+      "procedure": "updateSettings"
+    },
+    {
+      "router": "guildExpansion",
+      "procedure": "depositToStash"
+    },
+    {
+      "router": "guildExpansion",
+      "procedure": "getQuestCatalog"
+    },
+    {
+      "router": "guildHall",
+      "procedure": "placeDecoration"
+    },
+    {
+      "router": "guildHall",
+      "procedure": "removeDecoration"
+    },
+    {
+      "router": "guildWars",
+      "procedure": "contribute"
+    },
+    {
+      "router": "guildWars",
+      "procedure": "createWar"
+    },
+    {
+      "router": "guildWars",
+      "procedure": "getActiveWars"
+    },
+    {
+      "router": "guildWars",
+      "procedure": "getAllWars"
+    },
+    {
+      "router": "guildWars",
+      "procedure": "getTerritories"
+    },
+    {
+      "router": "guildWars",
+      "procedure": "getWarDetails"
+    },
+    {
+      "router": "guildWars",
+      "procedure": "myContributions"
+    },
+    {
+      "router": "guildWars",
+      "procedure": "registerGuild"
+    },
+    {
+      "router": "guildWars",
+      "procedure": "resolveWar"
+    },
+    {
+      "router": "guildWars",
+      "procedure": "warLeaderboard"
+    },
+    {
+      "router": "imprints",
+      "procedure": "getConstants"
+    },
+    {
+      "router": "inventory",
+      "procedure": "disenchantPreview"
+    },
+    {
+      "router": "livingUniverse",
+      "procedure": "adminEvaluateRules"
+    },
+    {
+      "router": "livingUniverse",
+      "procedure": "getActivePressure"
+    },
+    {
+      "router": "livingUniverse",
+      "procedure": "getAdminSnapshot"
+    },
+    {
+      "router": "livingUniverse",
+      "procedure": "getEventHistory"
+    },
+    {
+      "router": "livingUniverse",
+      "procedure": "getMinigameModifiers"
+    },
+    {
+      "router": "livingUniverse",
+      "procedure": "getPreview"
+    },
+    {
+      "router": "livingUniverse",
+      "procedure": "incrementPressure"
+    },
+    {
+      "router": "livingUniverse",
+      "procedure": "recordParticipation"
+    },
+    {
+      "router": "livingUniverse",
+      "procedure": "resolveEvent"
+    },
+    {
+      "router": "livingUniverse",
+      "procedure": "runTick"
+    },
+    {
+      "router": "loyaltyMission",
+      "procedure": "get"
+    },
+    {
+      "router": "loyaltyMission",
+      "procedure": "getAll"
+    },
+    {
+      "router": "loyaltyMission",
+      "procedure": "markStageComplete"
+    },
+    {
+      "router": "marketAchievements",
+      "procedure": "checkAndUnlock"
+    },
+    {
+      "router": "marketAchievements",
+      "procedure": "getByCategory"
+    },
+    {
+      "router": "marketAchievements",
+      "procedure": "getCategories"
+    },
+    {
+      "router": "marketplace",
+      "procedure": "auctionBids"
+    },
+    {
+      "router": "marketplace",
+      "procedure": "createAuction"
+    },
+    {
+      "router": "marketplace",
+      "procedure": "priceHistory"
+    },
+    {
+      "router": "masteryTree",
+      "procedure": "getBonuses"
+    },
+    {
+      "router": "masteryTree",
+      "procedure": "getState"
+    },
+    {
+      "router": "masteryTree",
+      "procedure": "unlockNode"
+    },
+    {
+      "router": "medbay",
+      "procedure": "getDnaOfferStatus"
+    },
+    {
+      "router": "memoryEnergy",
+      "procedure": "spend"
+    },
+    {
+      "router": "mysteries",
+      "procedure": "finalizeTrust"
+    },
+    {
+      "router": "mysteries",
+      "procedure": "recordInterrogation"
+    },
+    {
+      "router": "npc",
+      "procedure": "getAllTrust"
+    },
+    {
+      "router": "npc",
+      "procedure": "getDialogTreeState"
+    },
+    {
+      "router": "npc",
+      "procedure": "getInnerVoice"
+    },
+    {
+      "router": "npc",
+      "procedure": "getLineHistory"
+    },
+    {
+      "router": "npc",
+      "procedure": "getPublicFlags"
+    },
+    {
+      "router": "npc",
+      "procedure": "getSocialLinkRank"
+    },
+    {
+      "router": "npc",
+      "procedure": "getTrust"
+    },
+    {
+      "router": "npc",
+      "procedure": "setPublicFlag"
+    },
+    {
+      "router": "npc",
+      "procedure": "setTrustBand"
+    },
+    {
+      "router": "oracleDeck",
+      "procedure": "castPreMatch"
+    },
+    {
+      "router": "oracleDeck",
+      "procedure": "claimCard"
+    },
+    {
+      "router": "oracleDeck",
+      "procedure": "listReadings"
+    },
+    {
+      "router": "outbreak",
+      "procedure": "advancePhase"
+    },
+    {
+      "router": "outbreak",
+      "procedure": "canEnterRoom"
+    },
+    {
+      "router": "outbreak",
+      "procedure": "cloneAutomaticCrew"
+    },
+    {
+      "router": "outbreak",
+      "procedure": "collectComponent"
+    },
+    {
+      "router": "outbreak",
+      "procedure": "complete"
+    },
+    {
+      "router": "outbreak",
+      "procedure": "getState"
+    },
+    {
+      "router": "outbreak",
+      "procedure": "makeChoice"
+    },
+    {
+      "router": "outbreak",
+      "procedure": "setTutorialMode"
+    },
+    {
+      "router": "palimpsest",
+      "procedure": "recordDebate"
+    },
+    {
+      "router": "party",
+      "procedure": "invite"
+    },
+    {
+      "router": "performance",
+      "procedure": "activeConnections"
+    },
+    {
+      "router": "performance",
+      "procedure": "healthCheck"
+    },
+    {
+      "router": "performance",
+      "procedure": "serverReport"
+    },
+    {
+      "router": "personalQuarters",
+      "procedure": "getRecentVisitors"
+    },
+    {
+      "router": "personalQuarters",
+      "procedure": "rename"
+    },
+    {
+      "router": "personalQuarters",
+      "procedure": "unlockZone"
+    },
+    {
+      "router": "petBattles",
+      "procedure": "canFight"
+    },
+    {
+      "router": "petBattles",
+      "procedure": "evolvePet"
+    },
+    {
+      "router": "petBattles",
+      "procedure": "getArenaOpponent"
+    },
+    {
+      "router": "petBattles",
+      "procedure": "getBattleHistory"
+    },
+    {
+      "router": "petBattles",
+      "procedure": "getOpponentPools"
+    },
+    {
+      "router": "petBattles",
+      "procedure": "getPartyTraits"
+    },
+    {
+      "router": "petBattles",
+      "procedure": "healPet"
+    },
+    {
+      "router": "petBattles",
+      "procedure": "killPet"
+    },
+    {
+      "router": "potentialFactions",
+      "procedure": "contribute"
+    },
+    {
+      "router": "potentialFactions",
+      "procedure": "getFactionLeaderboard"
+    },
+    {
+      "router": "potentialFactions",
+      "procedure": "getRecruitmentPressure"
+    },
+    {
+      "router": "potentialFactions",
+      "procedure": "getUnityState"
+    },
+    {
+      "router": "potentialFactions",
+      "procedure": "joinFaction"
+    },
+    {
+      "router": "potentialFactions",
+      "procedure": "listFactionStates"
+    },
+    {
+      "router": "potentialFactions",
+      "procedure": "listFactions"
+    },
+    {
+      "router": "potentialFactions",
+      "procedure": "listMyContributions"
+    },
+    {
+      "router": "potentialFactions",
+      "procedure": "listMyMemberships"
+    },
+    {
+      "router": "potentialIdentity",
+      "procedure": "completeHorrorReveal"
+    },
+    {
+      "router": "potentialIdentity",
+      "procedure": "getRevealState"
+    },
+    {
+      "router": "prestige",
+      "procedure": "canPrestige"
+    },
+    {
+      "router": "prestige",
+      "procedure": "execute"
+    },
+    {
+      "router": "prestige",
+      "procedure": "inscribePostRun"
+    },
+    {
+      "router": "prestigeQuest",
+      "procedure": "claimPrestige"
+    },
+    {
+      "router": "promoCodes",
+      "procedure": "getCodeStats"
+    },
+    {
+      "router": "promoCodes",
+      "procedure": "listMyCodes"
+    },
+    {
+      "router": "pvp",
+      "procedure": "deleteDeck"
+    },
+    {
+      "router": "pvp",
+      "procedure": "getDeckRules"
+    },
+    {
+      "router": "pvp",
+      "procedure": "getPastSeasons"
+    },
+    {
+      "router": "pvp",
+      "procedure": "getQueueStatus"
+    },
+    {
+      "router": "pvp",
+      "procedure": "saveDeck"
+    },
+    {
+      "router": "pvp",
+      "procedure": "setActiveDeck"
+    },
+    {
+      "router": "pvpModeration",
+      "procedure": "fileReport"
+    },
+    {
+      "router": "pvpModeration",
+      "procedure": "getMyReports"
+    },
+    {
+      "router": "pvpTelemetry",
+      "procedure": "getPublicGrantSummary"
+    },
+    {
+      "router": "pvpTelemetry",
+      "procedure": "resolveTitle"
+    },
+    {
+      "router": "replay",
+      "procedure": "getRecentByType"
+    },
+    {
+      "router": "replay",
+      "procedure": "saveReplay"
+    },
+    {
+      "router": "replay",
+      "procedure": "verifyReplay"
+    },
+    {
+      "router": "romance",
+      "procedure": "listCandidates"
+    },
+    {
+      "router": "rpg",
+      "procedure": "awardCivilSkillXp"
+    },
+    {
+      "router": "rpg",
+      "procedure": "getCharacterStats"
+    },
+    {
+      "router": "rpg",
+      "procedure": "getCompanionSynergyFull"
+    },
+    {
+      "router": "rpg",
+      "procedure": "getMoralityState"
+    },
+    {
+      "router": "rpg",
+      "procedure": "incrementCounter"
+    },
+    {
+      "router": "rpg",
+      "procedure": "resolveCombo"
+    },
+    {
+      "router": "rum",
+      "procedure": "webVitals"
+    },
+    {
+      "router": "seasonalEvents",
+      "procedure": "getPurchaseHistory"
+    },
+    {
+      "router": "seedData",
+      "procedure": "getDbStatus"
+    },
+    {
+      "router": "seedData",
+      "procedure": "seedVotes"
+    },
+    {
+      "router": "sessions",
+      "procedure": "listMine"
+    },
+    {
+      "router": "sessions",
+      "procedure": "revoke"
+    },
+    {
+      "router": "sessions",
+      "procedure": "revokeAllOthers"
+    },
+    {
+      "router": "settings",
+      "procedure": "resetSettings"
+    },
+    {
+      "router": "social",
+      "procedure": "markRead"
+    },
+    {
+      "router": "social",
+      "procedure": "removeFriend"
+    },
+    {
+      "router": "spaceStation",
+      "procedure": "getStationTiers"
+    },
+    {
+      "router": "spaceStation",
+      "procedure": "upgradeTier"
+    },
+    {
+      "router": "spaceStation",
+      "procedure": "visitStation"
+    },
+    {
+      "router": "store",
+      "procedure": "purchaseWithCredits"
+    },
+    {
+      "router": "store",
+      "procedure": "purchaseWithVoidCrystals"
+    },
+    {
+      "router": "storyMode",
+      "procedure": "castFinaleVote"
+    },
+    {
+      "router": "storyMode",
+      "procedure": "completeChapter"
+    },
+    {
+      "router": "storyMode",
+      "procedure": "getChapters"
+    },
+    {
+      "router": "storyMode",
+      "procedure": "getMorality"
+    },
+    {
+      "router": "storyMode",
+      "procedure": "getState"
+    },
+    {
+      "router": "storyMode",
+      "procedure": "leaderboard"
+    },
+    {
+      "router": "storyMode",
+      "procedure": "startChapter"
+    },
+    {
+      "router": "support",
+      "procedure": "issueGrant"
+    },
+    {
+      "router": "support",
+      "procedure": "listGrantsAgainstMe"
+    },
+    {
+      "router": "support",
+      "procedure": "listMyGrants"
+    },
+    {
+      "router": "support",
+      "procedure": "useGrant"
+    },
+    {
+      "router": "syndicateWorld",
+      "procedure": "getBuildingDefs"
+    },
+    {
+      "router": "syndicateWorld",
+      "procedure": "getWorldTypes"
+    },
+    {
+      "router": "techTree",
+      "procedure": "cancelResearch"
+    },
+    {
+      "router": "techTree",
+      "procedure": "completeResearch"
+    },
+    {
+      "router": "techTree",
+      "procedure": "getState"
+    },
+    {
+      "router": "techTree",
+      "procedure": "startResearch"
+    },
+    {
+      "router": "terminusSwarm",
+      "procedure": "getStats"
+    },
+    {
+      "router": "terminusSwarm",
+      "procedure": "loadBase"
+    },
+    {
+      "router": "thoughtVirus",
+      "procedure": "addLoad"
+    },
+    {
+      "router": "thoughtVirus",
+      "procedure": "logResidue"
+    },
+    {
+      "router": "thoughtVirus",
+      "procedure": "tick"
+    },
+    {
+      "router": "thoughtVirusSpread",
+      "procedure": "listSectors"
+    },
+    {
+      "router": "titles",
+      "procedure": "getCatalog"
+    },
+    {
+      "router": "titles",
+      "procedure": "getMyProgressSnapshot"
+    },
+    {
+      "router": "towerDefense",
+      "procedure": "getDefenseLog"
+    },
+    {
+      "router": "towerDefense",
+      "procedure": "getRaidHistory"
+    },
+    {
+      "router": "tradeContracts",
+      "procedure": "cancel"
+    },
+    {
+      "router": "tradeContracts",
+      "procedure": "listMine"
+    },
+    {
+      "router": "tradeCourt",
+      "procedure": "_factionForHouse"
+    },
+    {
+      "router": "tradeCourt",
+      "procedure": "_tickMyAgendas"
+    },
+    {
+      "router": "tradeCourt",
+      "procedure": "appendDynastyBookEntry"
+    },
+    {
+      "router": "tradeCourt",
+      "procedure": "blockadeConstants"
+    },
+    {
+      "router": "tradeCourt",
+      "procedure": "breakBlockade"
+    },
+    {
+      "router": "tradeCourt",
+      "procedure": "chooseSuccessor"
+    },
+    {
+      "router": "tradeCourt",
+      "procedure": "climaxResolutions"
+    },
+    {
+      "router": "tradeCourt",
+      "procedure": "counterAgendaStep"
+    },
+    {
+      "router": "tradeCourt",
+      "procedure": "declareBlockade"
+    },
+    {
+      "router": "tradeCourt",
+      "procedure": "discoverAnomaly"
+    },
+    {
+      "router": "tradeCourt",
+      "procedure": "espionageInfluenceCost"
+    },
+    {
+      "router": "tradeCourt",
+      "procedure": "forgeDemandSubstitute"
+    },
+    {
+      "router": "tradeCourt",
+      "procedure": "housesInFaction"
+    },
+    {
+      "router": "tradeCourt",
+      "procedure": "investigateAnomaly"
+    },
+    {
+      "router": "tradeCourt",
+      "procedure": "isSectorBlockaded"
+    },
+    {
+      "router": "tradeCourt",
+      "procedure": "listDeclarationKeys"
+    },
+    {
+      "router": "tradeCourt",
+      "procedure": "listHouses"
+    },
+    {
+      "router": "tradeCourt",
+      "procedure": "myAgendaProgress"
+    },
+    {
+      "router": "tradeCourt",
+      "procedure": "myAnomalies"
+    },
+    {
+      "router": "tradeCourt",
+      "procedure": "myDemands"
+    },
+    {
+      "router": "tradeCourt",
+      "procedure": "myReputation"
+    },
+    {
+      "router": "tradeCourt",
+      "procedure": "myReputationForHouse"
+    },
+    {
+      "router": "tradeCourt",
+      "procedure": "recentNews"
+    },
+    {
+      "router": "tradeCourt",
+      "procedure": "runEspionageOp"
+    },
+    {
+      "router": "tradeCourt",
+      "procedure": "seasonState"
+    },
+    {
+      "router": "tradeEmpire",
+      "procedure": "activateCoverIdentity"
+    },
+    {
+      "router": "tradeEmpire",
+      "procedure": "blowCoverCheck"
+    },
+    {
+      "router": "tradeEmpire",
+      "procedure": "cancelMission"
+    },
+    {
+      "router": "tradeEmpire",
+      "procedure": "completeContractStage"
+    },
+    {
+      "router": "tradeEmpire",
+      "procedure": "completeMission"
+    },
+    {
+      "router": "tradeEmpire",
+      "procedure": "dispatchMission"
+    },
+    {
+      "router": "tradeEmpire",
+      "procedure": "getMyClassAccess"
+    },
+    {
+      "router": "tradeEmpire",
+      "procedure": "getOracleFutures"
+    },
+    {
+      "router": "tradeEmpire",
+      "procedure": "getPriceModifiers"
+    },
+    {
+      "router": "tradeEmpire",
+      "procedure": "getState"
+    },
+    {
+      "router": "tradeEmpire",
+      "procedure": "purchaseFutures"
+    },
+    {
+      "router": "tradeEmpire",
+      "procedure": "recordRouteRun"
+    },
+    {
+      "router": "tradeEmpire",
+      "procedure": "resolveGeneralsDilemma"
+    },
+    {
+      "router": "tradeEmpire",
+      "procedure": "sectorFirstEntered"
+    },
+    {
+      "router": "tradeEmpire",
+      "procedure": "unlockClassSector"
+    },
+    {
+      "router": "tradeWars",
+      "procedure": "buildBase"
+    },
+    {
+      "router": "tradeWars",
+      "procedure": "depositResources"
+    },
+    {
+      "router": "tradeWars",
+      "procedure": "getColonies"
+    },
+    {
+      "router": "tradeWars",
+      "procedure": "getLeaderboard"
+    },
+    {
+      "router": "tradeWars",
+      "procedure": "getLog"
+    },
+    {
+      "router": "tradeWars",
+      "procedure": "getMyBase"
+    },
+    {
+      "router": "tradeWars",
+      "procedure": "getSector"
+    },
+    {
+      "router": "tradeWars",
+      "procedure": "getShipUpgrades"
+    },
+    {
+      "router": "tradeWars",
+      "procedure": "upgradeBase"
+    },
+    {
+      "router": "tradeWars",
+      "procedure": "upgradeShipModule"
+    },
+    {
+      "router": "trading",
+      "procedure": "counterOffer"
+    },
+    {
+      "router": "trading",
+      "procedure": "getTradeReputation"
+    },
+    {
+      "router": "transmissions",
+      "procedure": "getNextAlbumTransmission"
+    },
+    {
+      "router": "transmissions",
+      "procedure": "listWatched"
+    },
+    {
+      "router": "transmissions",
+      "procedure": "seedAchievements"
+    },
+    {
+      "router": "trophy",
+      "procedure": "createDisplay"
+    },
+    {
+      "router": "trophy",
+      "procedure": "deleteDisplay"
+    },
+    {
+      "router": "trophy",
+      "procedure": "getCollectionStats"
+    },
+    {
+      "router": "trophy",
+      "procedure": "getDisplay"
+    },
+    {
+      "router": "trophy",
+      "procedure": "myDisplays"
+    },
+    {
+      "router": "trophy",
+      "procedure": "updateDisplay"
+    },
+    {
+      "router": "tutorial",
+      "procedure": "completeGate"
+    },
+    {
+      "router": "tutorial",
+      "procedure": "getProgress"
+    },
+    {
+      "router": "tutorial",
+      "procedure": "skip"
+    },
+    {
+      "router": "twoFactor",
+      "procedure": "confirmEnroll"
+    },
+    {
+      "router": "twoFactor",
+      "procedure": "disable"
+    },
+    {
+      "router": "twoFactor",
+      "procedure": "enroll"
+    },
+    {
+      "router": "twoFactor",
+      "procedure": "status"
+    },
+    {
+      "router": "twoFactor",
+      "procedure": "verify"
+    },
+    {
+      "router": "vortexIncursion",
+      "procedure": "getUserStats"
+    },
+    {
+      "router": "vortexIncursion",
+      "procedure": "listRecentClears"
+    },
+    {
+      "router": "warMap",
+      "procedure": "adminTickFactionDrift"
+    },
+    {
+      "router": "warMap",
+      "procedure": "getMyWarStats"
+    },
+    {
+      "router": "watcher",
+      "procedure": "clearLog"
+    },
+    {
+      "router": "watcher",
+      "procedure": "getLog"
+    },
+    {
+      "router": "watcher",
+      "procedure": "observe"
+    }
+  ]
+}
