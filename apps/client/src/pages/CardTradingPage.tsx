@@ -1,6 +1,6 @@
 import { useAuth } from "@/_core/hooks/useAuth";
 import { trpc } from "@/lib/trpc";
-import { getLoginUrl } from "@/const";
+import { getGoogleLoginUrl } from "@/const";
 import { useState, useCallback, useMemo } from "react";
 import { useSwipeTabs } from "@/hooks/useSwipeTabs";
 import { motion, AnimatePresence } from "framer-motion";
@@ -169,7 +169,7 @@ export default function CardTradingPage() {
             Trade cards with other operatives. Login to access the trading floor.
           </p>
           <a
-            href={getLoginUrl()}
+            href={getGoogleLoginUrl()}
             className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-primary text-primary-foreground font-mono text-sm"
           >
             LOGIN TO TRADE

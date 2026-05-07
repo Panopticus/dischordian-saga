@@ -22,7 +22,7 @@ import {
 } from "@shared/tcg-core/story/chessClimbDialog";
 import { pickDailyWelcomeLine } from "@shared/tcg-core/story/chessSessionDialog";
 import { hashString } from "@shared/tcg-core/story/chessReviewNarration";
-import { getLoginUrl } from "@/const";
+import { getGoogleLoginUrl } from "@/const";
 import ClimbRevealPanel from "@/components/ClimbRevealPanel";
 import ClimbCinematicPanel from "@/components/ClimbCinematicPanel";
 import ChessSessionBanner from "@/components/ChessSessionBanner";
@@ -94,7 +94,7 @@ export default function ChessClimbPage() {
   if (!isAuthenticated) {
     return (
       <div className="min-h-screen flex items-center justify-center p-8">
-        <a href={getLoginUrl()} className="text-void-text-accent underline">
+        <a href={getGoogleLoginUrl()} className="text-void-text-accent underline">
           Sign in to climb the Game Master's Arena.
         </a>
       </div>

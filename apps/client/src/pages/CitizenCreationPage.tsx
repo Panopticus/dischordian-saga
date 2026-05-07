@@ -1,6 +1,6 @@
 import { useAuth } from "@/_core/hooks/useAuth";
 import { trpc } from "@/lib/trpc";
-import { getLoginUrl } from "@/const";
+import { getGoogleLoginUrl } from "@/const";
 import { useState, useMemo } from "react";
 import { Link, useLocation } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
@@ -236,7 +236,7 @@ export default function CitizenCreationPage() {
             Authentication required to create your Citizen.
           </p>
           <a
-            href={getLoginUrl()}
+            href={getGoogleLoginUrl()}
             className="inline-flex items-center gap-2 void-btn void-btn-primary font-mono text-sm"
           >
             AUTHENTICATE

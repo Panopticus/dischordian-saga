@@ -9,7 +9,7 @@ import {
   Trophy, Swords, UserPlus, LogOut, Check, X, ArrowUp, Clock,
   ScrollText
 } from "lucide-react";
-import { getLoginUrl } from "@/const";
+import { getGoogleLoginUrl } from "@/const";
 import { EmptyGuildHall } from "@/components/EmptyStates";
 import { GuildCutsceneQueue } from "@/components/GuildCutsceneQueue";
 import type { CutsceneTrigger } from "@shared/expansionArt/guildCutsceneVoMap";
@@ -46,7 +46,7 @@ export default function GuildPage() {
           <Shield size={48} className="text-primary mx-auto mb-4 opacity-50" />
           <h2 className="font-display text-xl font-bold mb-2">SYNDICATE ACCESS</h2>
           <p className="font-mono text-sm text-muted-foreground mb-4">Authentication required to access Syndicate operations.</p>
-          <a href={getLoginUrl()} className="inline-flex items-center gap-2 void-btn void-btn-primary font-mono text-sm">
+          <a href={getGoogleLoginUrl()} className="inline-flex items-center gap-2 void-btn void-btn-primary font-mono text-sm">
             AUTHENTICATE <ChevronRight size={14} />
           </a>
         </div>

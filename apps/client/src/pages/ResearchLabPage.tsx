@@ -9,7 +9,7 @@ import {
   Flame, Shield, Eye, ChevronRight, Trash2, Plus,
   Star, Gem, CircleDot
 } from "lucide-react";
-import { getLoginUrl } from "@/const";
+import { getGoogleLoginUrl } from "@/const";
 import { toast } from "sonner";
 
 const RARITY_COLORS: Record<string, string> = {
@@ -168,7 +168,7 @@ export default function ResearchLabPage() {
             Login to access the card crafting system
           </p>
           <a
-            href={getLoginUrl()}
+            href={getGoogleLoginUrl()}
             className="px-5 py-3 rounded-lg bg-primary/10 border border-primary/40 text-primary font-mono text-sm hover:bg-primary/20 transition-all"
           >
             LOGIN TO CRAFT

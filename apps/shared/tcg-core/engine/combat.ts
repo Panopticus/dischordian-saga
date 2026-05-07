@@ -420,8 +420,7 @@ function findAdjacentEnemyWithKeyword(
  * combat so deploys/deaths flip the bonus immediately.
  *
  * Audit 2026-05 §3.3 lifted the "// reserved" annotations on `zeal`
- * and `pack` once these hooks landed. (Backwards-compatible alias
- * `effectivePowerWithZeal` is preserved for the existing zeal test.)
+ * and `pack` once these hooks landed.
  */
 const ZEAL_BONUS = 1;
 const PACK_BONUS_PER_ALLY = 1;
@@ -478,14 +477,6 @@ export function effectivePower(
     if (onEnemyHalf) p += INFILTRATE_BONUS;
   }
   return p;
-}
-
-/** @deprecated Use effectivePower; kept so existing tests keep linking. */
-export function effectivePowerWithZeal(
-  draft: Draft<GameState> | GameState,
-  unit: Draft<BoardEntity> | BoardEntity,
-): number {
-  return effectivePower(draft, unit);
 }
 
 /**

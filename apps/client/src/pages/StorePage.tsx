@@ -1,6 +1,6 @@
 import { useAuth } from "@/_core/hooks/useAuth";
 import { trpc } from "@/lib/trpc";
-import { getLoginUrl } from "@/const";
+import { getGoogleLoginUrl } from "@/const";
 import { Link } from "wouter";
 import { useState } from "react";
 import {
@@ -82,7 +82,7 @@ export default function StorePage() {
 
   const handleBuyWithStripe = (productKey: string) => {
     if (!isAuthenticated) {
-      window.location.href = getLoginUrl();
+      window.location.href = getGoogleLoginUrl();
       return;
     }
     setPurchasing(productKey);
@@ -91,7 +91,7 @@ export default function StorePage() {
 
   const handleBuyWithDream = (productKey: string) => {
     if (!isAuthenticated) {
-      window.location.href = getLoginUrl();
+      window.location.href = getGoogleLoginUrl();
       return;
     }
     setPurchasing(productKey);

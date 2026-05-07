@@ -6,7 +6,7 @@ import {
   Star, Lock, Check, Crown, Gem, Gift, ChevronLeft, ChevronRight,
   Loader2, Zap, Shield, Swords, Trophy
 } from "lucide-react";
-import { getLoginUrl } from "@/const";
+import { getGoogleLoginUrl } from "@/const";
 import { toast } from "sonner";
 
 import LivingBackground from "@/components/LivingBackground";
@@ -111,7 +111,7 @@ export default function BattlePassPage() {
           <Star size={48} className="void-text-accent mx-auto mb-4 opacity-50" />
           <h2 className="font-display text-xl font-bold mb-2">EPOCH PASS</h2>
           <p className="font-mono text-sm text-muted-foreground mb-4">Authentication required to track your pass progress.</p>
-          <a href={getLoginUrl()} className="inline-flex items-center gap-2 void-btn void-btn-primary font-mono text-sm">
+          <a href={getGoogleLoginUrl()} className="inline-flex items-center gap-2 void-btn void-btn-primary font-mono text-sm">
             AUTHENTICATE <ChevronRight size={14} />
           </a>
         </div>

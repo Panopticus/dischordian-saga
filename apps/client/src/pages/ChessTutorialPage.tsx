@@ -8,7 +8,7 @@ import { useState, useEffect, useMemo, useCallback, useRef } from "react";
 import { useAuth } from "@/_core/hooks/useAuth";
 import ChessMatrixAmbient from "@/components/ChessMatrixAmbient";
 import { trpc } from "@/lib/trpc";
-import { getLoginUrl } from "@/const";
+import { getGoogleLoginUrl } from "@/const";
 import { Chessboard } from "react-chessboard";
 import { Chess } from "chess.js";
 import {
@@ -251,7 +251,7 @@ export default function ChessTutorialPage() {
     return (
       <div className="min-h-screen flex items-center justify-center p-6">
         <a
-          href={getLoginUrl()}
+          href={getGoogleLoginUrl()}
           className="px-6 py-3 rounded-lg bg-primary text-primary-foreground font-bold"
         >
           Sign in to begin the Chess Tutorial

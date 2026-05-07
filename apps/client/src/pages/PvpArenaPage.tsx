@@ -10,7 +10,7 @@ import { LoreOverlay } from "@/components/LoreOverlay";
 import NarrativeTrigger from "@/components/NarrativeTrigger";
 import { useSound } from "@/contexts/SoundContext";
 import { trpc } from "@/lib/trpc";
-import { getLoginUrl } from "@/const";
+import { getGoogleLoginUrl } from "@/const";
 import { generateStarterDeck, type StarterCard } from "@/components/StarterDeckViewer";
 import GameCard from "@/components/GameCard";
 import { AmbientParticles } from "@/components/BattleVFX";
@@ -462,7 +462,7 @@ export default function PvpArenaPage() {
           <Swords size={48} className="text-primary mx-auto" />
           <h1 className="font-display text-2xl font-bold tracking-wider">PVP ARENA</h1>
           <p className="font-mono text-sm text-muted-foreground">Login required to access multiplayer battles</p>
-          <a href={getLoginUrl()} className="inline-block px-6 py-2 bg-primary text-primary-foreground rounded font-mono text-sm">
+          <a href={getGoogleLoginUrl()} className="inline-block px-6 py-2 bg-primary text-primary-foreground rounded font-mono text-sm">
             LOGIN
           </a>
         </div>

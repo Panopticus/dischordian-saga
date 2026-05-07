@@ -11,7 +11,7 @@
    ═══════════════════════════════════════════════════════ */
 import { useAuth } from "@/_core/hooks/useAuth";
 import { trpc } from "@/lib/trpc";
-import { getLoginUrl } from "@/const";
+import { getGoogleLoginUrl } from "@/const";
 import { Link } from "wouter";
 import { ArrowLeft, Loader2, Sparkles, Crown } from "lucide-react";
 import { motion } from "framer-motion";
@@ -46,7 +46,7 @@ export default function ImprintGalleryPage() {
     return (
       <div className="min-h-screen flex items-center justify-center p-6">
         <a
-          href={getLoginUrl()}
+          href={getGoogleLoginUrl()}
           className="px-6 py-3 rounded-lg bg-primary text-primary-foreground font-bold"
         >
           Sign in to view the Imprint Gallery

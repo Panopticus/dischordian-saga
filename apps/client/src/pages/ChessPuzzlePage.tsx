@@ -27,7 +27,7 @@ import {
   markVisitedNow,
   daysBetween,
 } from "@/lib/chessLastVisit";
-import { getLoginUrl } from "@/const";
+import { getGoogleLoginUrl } from "@/const";
 import { useEffect, useMemo, useState } from "react";
 
 /** Today's ISO date in YYYY-MM-DD form, used both for intro
@@ -93,7 +93,7 @@ export default function ChessPuzzlePage() {
   if (!isAuthenticated) {
     return (
       <div className="min-h-screen flex items-center justify-center p-8">
-        <a href={getLoginUrl()} className="text-void-text-accent underline">
+        <a href={getGoogleLoginUrl()} className="text-void-text-accent underline">
           Sign in to see today's puzzle.
         </a>
       </div>
