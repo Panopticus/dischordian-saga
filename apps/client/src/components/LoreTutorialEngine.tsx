@@ -4,7 +4,7 @@
    branching choices, morality shifts, and rewards
    ═══════════════════════════════════════════════════════ */
 
-import { useState, useCallback, useEffect, useRef } from "react";
+import { useId, useState, useCallback, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ChevronRight, Gift, Zap, Star, Layers, X,
@@ -16,6 +16,7 @@ import type { WheelChoice } from "@/components/DialogWheel";
 import type {
   LoreTutorial, TutorialStep, TutorialChoice, TutorialReward,
 } from "@/data/loreTutorials";
+import { useFocusTrap, announce } from "@/components/a11y";
 import type { JSX } from "react";
 
 /* ─── MORALITY SHIFT INDICATOR ─── */
@@ -277,9 +278,20 @@ export default function LoreTutorialEngine({ tutorial, onComplete, onDismiss }: 
     });
   }, [playerClass, characterChoices.alignment]);
 
+  // Focus trap so Tab cycles within the dialog and SR announces opening.
+  const titleId = useId();
+  const trapRef = useFocusTrap(true);
+  useEffect(() => {
+    announce(`Tutorial: ${tutorial.title}. ${tutorial.subtitle}`);
+  }, [tutorial.title, tutorial.subtitle]);
+
   return (
     <AnimatePresence>
       <motion.div
+        ref={trapRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={titleId}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
@@ -322,7 +334,7 @@ export default function LoreTutorialEngine({ tutorial, onComplete, onDismiss }: 
               <span className="font-mono text-[10px] text-primary/70 tracking-[0.4em]">LORE TUTORIAL</span>
               <div className="h-px w-12 bg-gradient-to-l from-transparent to-primary/50" />
             </div>
-            <h2 className="font-display text-2xl sm:text-3xl font-bold text-foreground tracking-wide mb-2">
+            <h2 id={titleId} className="font-display text-2xl sm:text-3xl font-bold text-foreground tracking-wide mb-2">
               {tutorial.title}
             </h2>
             <p className="font-mono text-sm text-muted-foreground">{tutorial.subtitle}</p>

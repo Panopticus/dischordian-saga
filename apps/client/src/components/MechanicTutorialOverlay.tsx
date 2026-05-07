@@ -23,10 +23,11 @@
  * See plan §11 (Implementation Phases — Phase E onward).
  */
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useId, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Sparkles, Check, X } from "lucide-react";
 import { useGame } from "@/contexts/GameContext";
+import { useFocusTrap, announce } from "@/components/a11y";
 import {
   getEligibleGates,
   type MechanicTutorialGate,
@@ -113,10 +114,19 @@ function GatePanel({
 }) {
   const { speakerLabel, baseLine, channeledPhrase, elaraOverlay, awarePause } =
     resolveGateLines(gate, archetype);
+  const titleId = useId();
+  const trapRef = useFocusTrap(true);
+  useEffect(() => {
+    announce(`Tutorial: ${gate.label}. ${baseLine}`);
+  }, [gate.label, baseLine]);
 
   return (
     <AnimatePresence>
       <motion.div
+        ref={trapRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={titleId}
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: 12 }}
@@ -131,7 +141,7 @@ function GatePanel({
             <div className="text-xs uppercase tracking-widest text-amber-400">
               {speakerLabel}
             </div>
-            <div className="text-sm font-medium text-zinc-200 mt-1">{gate.label}</div>
+            <div id={titleId} className="text-sm font-medium text-zinc-200 mt-1">{gate.label}</div>
           </div>
           <button
             type="button"
