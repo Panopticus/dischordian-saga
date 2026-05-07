@@ -432,6 +432,13 @@ export function validateTransmissionUnlocks(): ValidationIssue[] {
         // Valid trigger — just verify it exists
         break;
 
+      case "loredex_discovered":
+        if (!trigger.entityId || trigger.entityId.trim() === "") {
+          issues.push(issue("critical", "transmission_unlock",
+            `Has empty loredex_discovered entityId`, loc));
+        }
+        break;
+
       default: {
         const _exhaustive: never = trigger;
         issues.push(issue("critical", "transmission_unlock",

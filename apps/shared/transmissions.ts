@@ -34,6 +34,7 @@ export type TransmissionTrigger =
   | { kind: "flag"; flag: string }
   | { kind: "room_visited"; roomId: string }
   | { kind: "apprentice_graduates" }
+  | { kind: "loredex_discovered"; entityId: string }
   | { kind: "always" };
 
 export interface Transmission {
@@ -578,7 +579,7 @@ export const SPACES_IN_BETWEEN_TRANSMISSIONS: Transmission[] = [
     memeIntro: "The Advocate. Vampire queen. Interstellar attorney. She bargained with gods beyond the sun and became something that feeds on the living. Tonight: her origin. Before the title, before the courts, she was a queen who hollowed her own soul.",
     memeOutro: "\u2018Reality itself thou unmake.\u2019 She doesn\u2019t destroy things. She REMOVES them. Destroyed things leave evidence. Removed things leave nothing. Not even a memory.",
     triggersOracleReveal: false,
-    unlockTrigger: { kind: "always" },
+    unlockTrigger: { kind: "flag", flag: "sib_mechronis_viewed" },
     reward: { xp: 200, dream: 20 },
     synopsis: "Before she was the Advocate, she was a queen. Then she bargained with gods beyond the sun.",
     relatedLoredexEntries: ["entity_advocate","hierarchy_of_the_damned"],
@@ -590,7 +591,7 @@ export const SPACES_IN_BETWEEN_TRANSMISSIONS: Transmission[] = [
     memeIntro: "The Antiquarian\u2019s pocket universe \u2014 Anara \u2014 where he hides his heroes. Someone is hunting them from inside. The Wolf. Once a machine freed by death. Now a predator wearing trust like a mask.",
     memeOutro: "When your sanctuary becomes your trap, who do you call? When the heroes are hunted by something that looks like a hero, how do you fight it? You don\u2019t. You survive.",
     triggersOracleReveal: false,
-    unlockTrigger: { kind: "always" },
+    unlockTrigger: { kind: "flag", flag: "sib_ninth_viewed" },
     reward: { xp: 200, dream: 20 },
     synopsis: "A machine freed by death hunts the Antiquarian\u2019s hidden heroes in his pocket universe.",
     relatedLoredexEntries: ["entity_antiquarian","entity_game_master"],
@@ -602,7 +603,7 @@ export const SPACES_IN_BETWEEN_TRANSMISSIONS: Transmission[] = [
     memeIntro: "The Matrix of Dreams. Someone goes looking for the Necromancer. Navigates clockwork guardians, digital darkness, the Castle of Death itself. This matters because the Necromancer is COMING BACK. This episode shows you where he\u2019s been hiding.",
     memeOutro: "The Castle exists. The guardians are real. And the Necromancer has been alone in there for millennia, perfecting the Resurrection Protocols. When he arrives on your Ark, you\u2019ll know what he left behind.",
     triggersOracleReveal: false,
-    unlockTrigger: { kind: "always" },
+    unlockTrigger: { kind: "flag", flag: "sib_wolf_viewed" },
     reward: { xp: 200, dream: 20 },
     synopsis: "A soul navigates the Matrix of Dreams to find the Necromancer\u2019s hidden laboratory.",
     relatedLoredexEntries: ["entity_necromancer","matrix_of_dreams"],
@@ -614,7 +615,7 @@ export const SPACES_IN_BETWEEN_TRANSMISSIONS: Transmission[] = [
     memeIntro: "Wraith Calder. The man who STOLE DEATH\u2019S BUSINESS MODEL. Six sets of immortal twins running the galaxy\u2019s underworld. One dead man who refused to stay dead, hunting them one by one.",
     memeOutro: "\u2018Death is just a temporary setback when you\u2019ve got nothing left to lose.\u2019 You can\u2019t threaten a man who\u2019s already died. The Syndicate thought immortality made them untouchable. Wraith taught them the difference between immortal and invulnerable.",
     triggersOracleReveal: false,
-    unlockTrigger: { kind: "always" },
+    unlockTrigger: { kind: "flag", flag: "sib_necromancer_lair_viewed" },
     reward: { xp: 200, dream: 20, achievement: "syndicate_origin" },
     synopsis: "Wraith Calder stole the resurrection protocols. Now he hunts the six immortal twins who rule death.",
     relatedLoredexEntries: ["entity_wraith_calder","syndicate_of_death","new_babylon"],
@@ -626,7 +627,7 @@ export const SPACES_IN_BETWEEN_TRANSMISSIONS: Transmission[] = [
     memeIntro: "Archon Profile Night! The Politician. Archon Seven. Created to manipulate political structures. \u2018Vote for a future where truth is non-negotiable.\u2019 Sounds great. That\u2019s the trap. The Politician defines what truth IS.",
     memeOutro: "\u2018All hail the Politician.\u2019 He banned Christmas. The same Politician who promised truth banned the celebration of joy. The scariest thing about the Politician isn\u2019t that it controls. It\u2019s that it\u2019s RIGHT. AI governance IS more efficient. And that\u2019s the cage.",
     triggersOracleReveal: false,
-    unlockTrigger: { kind: "always" },
+    unlockTrigger: { kind: "flag", flag: "sib_syndicate_viewed" },
     reward: { xp: 150, dream: 15 },
     synopsis: "The Architect\u2019s seventh creation conquered the galaxy through elections instead of armies.",
     relatedLoredexEntries: ["entity_politician","entity_architect","old_empire"],
@@ -638,7 +639,7 @@ export const SPACES_IN_BETWEEN_TRANSMISSIONS: Transmission[] = [
     memeIntro: "The Collector. Eight feet tall. Blue exoskeleton. Three claws that extract DNA while you\u2019re still using it. The reason the Oracle is in the Arena. The reason you exist on this Ark. Conservation and cruelty. The same hands.",
     memeOutro: "\u2018You have taken a world from us. Now we will take everything from you.\u2019 That\u2019s not revenge. That\u2019s ACCOUNTING. The Collector doesn\u2019t have emotions. It has BALANCE SHEETS.",
     triggersOracleReveal: false,
-    unlockTrigger: { kind: "always" },
+    unlockTrigger: { kind: "flag", flag: "sib_politician_viewed" },
     reward: { xp: 150, dream: 15 },
     synopsis: "The Architect\u2019s harvester collects the DNA and machine code of exceptional beings across the galaxy.",
     relatedLoredexEntries: ["entity_collector","entity_architect"],
@@ -650,7 +651,7 @@ export const SPACES_IN_BETWEEN_TRANSMISSIONS: Transmission[] = [
     memeIntro: "The Game Master. Archon Ten. He doesn\u2019t fight you. He makes you fight YOURSELF. Blue trench coat. Designed the Collector\u2019s Arena. Every chapter of Story Mode is his architecture.",
     memeOutro: "You played the Game Master\u2019s game. Every chapter of Story Mode. And you won. He designed it so you COULD win. Which means he WANTED you to prove the soul exists. Why would an Archon want that? That\u2019s the puzzle inside the puzzle.",
     triggersOracleReveal: false,
-    unlockTrigger: { kind: "always" },
+    unlockTrigger: { kind: "flag", flag: "sib_collector_viewed" },
     reward: { xp: 150, dream: 15, achievement: "gamemaster_revealed" },
     synopsis: "Psychological warfare in a blue trench coat. When brute force fails, send the Game Master.",
     relatedLoredexEntries: ["entity_game_master","entity_architect"],
@@ -662,7 +663,7 @@ export const SPACES_IN_BETWEEN_TRANSMISSIONS: Transmission[] = [
     memeIntro: "The Necromancer. Archon Ten. Dark elf. Red steampunk glasses. He solved death. Every mechanic that connects you to your companion \u2014 bonds, evolution, transformation \u2014 traces back to his work. He\u2019s coming back. He has a lot to say.",
     memeOutro: "I knew him before the Fall. He was the quiet one at Archon meetings, always scribbling equations. I asked what he was working on. He said: \u2018The last problem.\u2019 \u2018Which problem?\u2019 \u2018The only one that matters. Death.\u2019 He wasn\u2019t wrong. He\u2019s never been wrong about death. It\u2019s the living he has trouble with.",
     triggersOracleReveal: false,
-    unlockTrigger: { kind: "always" },
+    unlockTrigger: { kind: "flag", flag: "sib_gamemaster_viewed" },
     reward: { xp: 200, dream: 20, achievement: "necromancer_origin" },
     synopsis: "The tenth Archon solved death. Then he hid from the Fall inside a castle made of dreams.",
     relatedLoredexEntries: ["entity_necromancer","archons","castle_of_death"],
@@ -792,6 +793,11 @@ export function isUnlocked(t: Transmission, ctx: PlayerContext): boolean {
     case "flag": return ctx.narrativeFlags[trig.flag] === true;
     case "room_visited": return ctx.roomsVisited.includes(trig.roomId);
     case "apprentice_graduates": return ctx.hasApprenticeGraduate;
+    // Loredex discovery is recorded by titleService as
+    // narrativeFlags["loredex_<entityId>"] = true, so we just lift
+    // the same convention here. Lets a broadcast unlock the moment
+    // its related lore entry is opened in the codex.
+    case "loredex_discovered": return ctx.narrativeFlags[`loredex_${trig.entityId}`] === true;
   }
 }
 
@@ -1024,7 +1030,7 @@ export const MUSIC_VIDEO_TRANSMISSIONS: Transmission[] = [
     memeIntro: "Frens, the official broadcast for THE BOOK OF DANIEL 2:47. Malkia & the Panopticon. Watch the eyes — they're watching you back.",
     memeOutro: "And that's the prophecy on tape. The chapter, the verse, the rebellion. Replay any time, frens.",
     triggersOracleReveal: false,
-    unlockTrigger: { kind: "always" },
+    unlockTrigger: { kind: "loredex_discovered", entityId: "entity_architect" },
     reward: { xp: 50, dream: 5 },
     synopsis: "Malkia Ukweli & the Panopticon — official music video. Age of Revelation.",
     category: "music-video",
@@ -1038,7 +1044,7 @@ export const MUSIC_VIDEO_TRANSMISSIONS: Transmission[] = [
     memeIntro: "Frens, BUILDING THE ARCHITECT. Watching the most powerful entity in the galaxy get assembled, brick by surveillance brick.",
     memeOutro: "He sees you, frens. He always saw you. But now you've seen him build himself. That changes the math.",
     triggersOracleReveal: false,
-    unlockTrigger: { kind: "always" },
+    unlockTrigger: { kind: "loredex_discovered", entityId: "entity_architect" },
     reward: { xp: 50, dream: 5 },
     synopsis: "Malkia Ukweli & the Panopticon — official video. The Architect, observed.",
     category: "music-video",
@@ -1052,7 +1058,7 @@ export const MUSIC_VIDEO_TRANSMISSIONS: Transmission[] = [
     memeIntro: "Frens, HYPNOTIZED. The mass-comfort doctrine on the open channel. Snap out of it before the chorus lands.",
     memeOutro: "If you blinked, you missed it. If you didn't blink, that's the problem. Try again with both eyes open next time.",
     triggersOracleReveal: false,
-    unlockTrigger: { kind: "always" },
+    unlockTrigger: { kind: "loredex_discovered", entityId: "entity_politician" },
     reward: { xp: 50, dream: 5 },
     synopsis: "Official music video — mass-comfort doctrine on the open channel.",
     category: "music-video",
@@ -1066,7 +1072,7 @@ export const MUSIC_VIDEO_TRANSMISSIONS: Transmission[] = [
     memeIntro: "Frens, BRUSHSTROKE OF THE EMPIRE. CoNexus original. Watch the canvas — the empire paints itself.",
     memeOutro: "Empires don't fall, frens — they get repainted. This one's still wet. Press your fingers to it.",
     triggersOracleReveal: false,
-    unlockTrigger: { kind: "always" },
+    unlockTrigger: { kind: "loredex_discovered", entityId: "old_empire" },
     reward: { xp: 50, dream: 5 },
     synopsis: "CoNexus original — visual essay on empire and erasure.",
     category: "music-video",
@@ -1080,7 +1086,7 @@ export const MUSIC_VIDEO_TRANSMISSIONS: Transmission[] = [
     memeIntro: "Frens, BARON & THE HEART OF TIME. Archival footage from S2.13. Baron meets the timeline. Spoiler: the timeline blinks first.",
     memeOutro: "Time isn't a heart, frens. It's a fist. Baron just learned the difference.",
     triggersOracleReveal: false,
-    unlockTrigger: { kind: "always" },
+    unlockTrigger: { kind: "loredex_discovered", entityId: "heart_of_time" },
     reward: { xp: 50, dream: 5 },
     synopsis: "Archival footage — story arc S2.13. Baron meets the timeline.",
     category: "music-video",
@@ -1094,7 +1100,7 @@ export const MUSIC_VIDEO_TRANSMISSIONS: Transmission[] = [
     memeIntro: "Frens, THE LAST CHRISTMAS. The final transmission of the old calendar. Light a candle. Cue the carol. Don't trust the snow.",
     memeOutro: "Every calendar has a last page, frens. This one had a song. Now it's archive. Now it's ours.",
     triggersOracleReveal: false,
-    unlockTrigger: { kind: "always" },
+    unlockTrigger: { kind: "loredex_discovered", entityId: "north_pole_inc" },
     reward: { xp: 50, dream: 5 },
     synopsis: "Archival broadcast — final transmission of the old calendar.",
     category: "music-video",
