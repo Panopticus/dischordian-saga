@@ -112,7 +112,7 @@ export const userSessions = mysqlTable(
   "user_sessions",
   {
     id: int("id").autoincrement().primaryKey(),
-    userId: int("userId").notNull(),
+    userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
     /** jti from the refresh token. */
     refreshTokenJti: varchar("refreshTokenJti", { length: 64 }).notNull(),
     /** Coarse device identifier — User-Agent string trimmed. */
@@ -358,7 +358,7 @@ export type InsertCard = typeof cards.$inferInsert;
  */
 export const userCards = mysqlTable("user_cards", {
   id: int("id").autoincrement().primaryKey(),
-  userId: int("userId").notNull(),
+  userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
   cardId: varchar("cardId", { length: 128 }).notNull(),
   /** Number of copies owned */
   quantity: int("quantity").notNull().default(1),
@@ -380,7 +380,7 @@ export type UserCard = typeof userCards.$inferSelect;
  */
 export const decks = mysqlTable("decks", {
   id: int("id").autoincrement().primaryKey(),
-  userId: int("userId").notNull(),
+  userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
   name: varchar("name", { length: 256 }).notNull(),
   description: text("description"),
   /** Deck type: crypt (characters) or library (actions/events/items) */
@@ -834,7 +834,11 @@ export type DreamBalance = typeof dreamBalance.$inferSelect;
 
 export const storePurchases = mysqlTable("store_purchases", {
   id: int("id").autoincrement().primaryKey(),
-  userId: int("userId").notNull(),
+  // Purchases must persist for audit even if the user is deleted —
+  // financial reconciliation, refund disputes, regulatory access.
+  // `restrict` blocks user deletion if any purchases exist; the
+  // soft-delete on users.deletedAt is the operational answer.
+  userId: int("userId").notNull().references(() => users.id, { onDelete: "restrict" }),
   itemId: int("itemId"),
   /** Payment method: credits, dream, stripe */
   paymentMethod: mysqlEnum("paymentMethod", ["credits", "dream", "stripe", "void_crystals"]).notNull(),
@@ -1156,10 +1160,14 @@ export const pvpMatches = mysqlTable("pvp_matches", {
   id: int("id").autoincrement().primaryKey(),
   /** Unique match ID for WebSocket room */
   matchId: varchar("matchId", { length: 64 }).notNull().unique(),
-  /** Player 1 user ID */
-  player1Id: int("player1Id").notNull(),
-  /** Player 2 user ID */
-  player2Id: int("player2Id"),
+  /** Player 1 user ID. `restrict` keeps match history intact when
+   *  a user is deleted — replays and ladder records reference these
+   *  rows; the soft-delete on users.deletedAt is the operational
+   *  answer to "the user is gone but their matches remain." */
+  player1Id: int("player1Id").notNull().references(() => users.id, { onDelete: "restrict" }),
+  /** Player 2 user ID. Nullable for solo / queue-cancel / bot
+   *  matches; FK still applies when set. */
+  player2Id: int("player2Id").references(() => users.id, { onDelete: "restrict" }),
   /** Match status */
   status: mysqlEnum("status", ["waiting", "active", "completed", "abandoned"]).default("waiting").notNull(),
   /** Winner user ID */

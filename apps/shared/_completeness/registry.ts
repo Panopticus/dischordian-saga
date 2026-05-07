@@ -22,6 +22,8 @@ import { checkNarrativeFlagBridgeCoverage } from "./checks/narrativeFlagBridgeCo
 import { checkTrialCategoryCoverage } from "./checks/trialCategoryCoverage";
 import { checkLoreBibleDrift } from "./checks/loreBibleDrift";
 import { checkObservabilityWiring } from "./checks/observabilityWiring";
+import { checkDbForeignKeyCoverage } from "./checks/dbForeignKeyCoverage";
+import { checkEconomicTransactionCoverage } from "./checks/economicTransactionCoverage";
 
 export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
   // ─── Card engine ──────────────────────────────────────────
@@ -108,6 +110,23 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     // tightens per-card as designers fill in the categories. The
     // §5.8 runtime ships behind a feature flag that requires 100%
     // coverage.
+    ratchet: { target: 0 },
+  },
+  // ─── DB ───────────────────────────────────────────────────
+  {
+    id: "db.foreign_key_coverage",
+    name: "DB foreign-key coverage",
+    description:
+      "Every int FK-shaped column (`*Id` / `*_id`) in apps/db/schema.ts declares `.references()` — the difference between 'type says int' and 'database rejects orphans.' Ratcheted; tightens as plan §C2 backfills land.",
+    check: () => checkDbForeignKeyCoverage(),
+    ratchet: { target: 0 },
+  },
+  {
+    id: "db.economic_transaction_coverage",
+    name: "Economic surfaces are transactional",
+    description:
+      "Every server router that mutates a currency balance (dream / void_crystals / gems / credits / store_purchases) wraps its mutation in db.transaction(...). Ratcheted; 12 routers found to touch currency surfaces without wrapping at landing — each needs per-router care to pick the right isolation level, see the route-by-route plan in the C3 PR.",
+    check: () => checkEconomicTransactionCoverage(),
     ratchet: { target: 0 },
   },
   // ─── Server / observability ───────────────────────────────
