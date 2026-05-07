@@ -12,6 +12,7 @@ import {
   PROPHECY_VISIONS,
   type AlbumSlug,
 } from "@shared/prophecyVisionMap";
+import { SIH_SHOW_SLIDESHOW_IDS } from "@shared/silenceInHeavenShow";
 
 const ALBUM_SLUGS: Record<string, string> = {
   "dischordian-logic": "Dischordian Logic",
@@ -85,6 +86,15 @@ export default function AlbumPage() {
       : undefined;
 
   const [filmActive, setFilmActive] = useState(false);
+
+  /* ─── Silence in Heaven 37-step show ─── *
+   * The hand-authored slideshow program (SIH_SHOW_PROGRAM) walks the
+   * 18 song slideshows + 19 Antiquarian/Storyteller dialog interludes
+   * end-to-end. Always available on the SiH album page — distinct from
+   * the prophecy-gated "Watch as Film" path because the show is a
+   * first-class album experience, not a Dreamer-Vision unlock. */
+  const isSih = slug === "silence-in-heaven";
+  const [sihShowActive, setSihShowActive] = useState(false);
 
   usePageMeta({
     title: albumName || "Album",
@@ -161,6 +171,19 @@ export default function AlbumPage() {
                 >
                   <Play size={14} /> PLAY ALL
                 </button>
+                {isSih && (
+                  <button
+                    onClick={() => setSihShowActive(true)}
+                    className="flex items-center gap-2 px-5 py-2.5 rounded-md text-sm font-mono font-bold transition-transform w-fit border hover:scale-105 cursor-pointer"
+                    style={{
+                      borderColor: meta.color + "40",
+                      color: meta.color,
+                    }}
+                    title="Watch the 37-step show — songs + Antiquarian/Storyteller interludes"
+                  >
+                    <Film size={14} /> WATCH THE SHOW
+                  </button>
+                )}
                 {prophecySlug && (
                   <>
                     <button
@@ -330,6 +353,14 @@ export default function AlbumPage() {
           resumeFromTrackId={filmBookmark}
           onComplete={() => setFilmActive(false)}
           onAwaken={() => setFilmActive(false)}
+        />
+      )}
+      {sihShowActive && isSih && (
+        <AlbumFilmPlayer
+          albumSlug="silence-in-heaven"
+          slideshowIds={SIH_SHOW_SLIDESHOW_IDS}
+          onComplete={() => setSihShowActive(false)}
+          onAwaken={() => setSihShowActive(false)}
         />
       )}
     </div>

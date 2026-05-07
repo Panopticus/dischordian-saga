@@ -39,6 +39,16 @@ export interface PlayerExpansionState {
   readonly hasFoundingAuthor: boolean;
   /** True if the player owns the S2 author's edition. */
   readonly hasAuthorsEditionS2: boolean;
+  /** DLC chapter ids the player has finished (e.g.
+   *  "dlc_advocate_01_sacrum_echo"). Sourced from
+   *  `gameData.narrativeFlags["dlc_chapter_<id>_complete"]`. */
+  readonly completedDlcChapters: ReadonlySet<string>;
+  /** Crew-Bene-Gesserit Breeding Program — generations completed
+   *  per blood classification. Wave-6 gate: 5+ PURE generations
+   *  unlocks the Season-2 Advocate-body coordinate hook. Sourced
+   *  from `gameData.bloodlineGenerations`. Missing classifications
+   *  default to 0. */
+  readonly bloodlineGenerations: Readonly<Record<string, number>>;
 }
 
 /** Default snapshot — nothing unlocked. Useful for tests + unauth flows. */
@@ -48,6 +58,8 @@ export const NULL_PLAYER_EXPANSION_STATE: PlayerExpansionState = Object.freeze({
   battlePassTier: 0,
   hasFoundingAuthor: false,
   hasAuthorsEditionS2: false,
+  completedDlcChapters: new Set<string>(),
+  bloodlineGenerations: Object.freeze({}),
 });
 
 /**
@@ -70,6 +82,12 @@ export function evaluateUnlockCondition(
     case "authors_edition":
       // Only "s2" is currently defined in the type union.
       return cond.season === "s2" ? state.hasAuthorsEditionS2 : false;
+    case "dlc_chapter_completion":
+      return state.completedDlcChapters.has(cond.chapterId);
+    case "bloodline_threshold": {
+      const gens = state.bloodlineGenerations[cond.classification] ?? 0;
+      return gens >= cond.minGenerations;
+    }
   }
 }
 
@@ -121,6 +139,8 @@ export function makePlayerExpansionState(
     battlePassTier: number;
     hasFoundingAuthor: boolean;
     hasAuthorsEditionS2: boolean;
+    completedDlcChapters: ReadonlyArray<string>;
+    bloodlineGenerations: Readonly<Record<string, number>>;
   }>,
 ): PlayerExpansionState {
   return {
@@ -129,6 +149,8 @@ export function makePlayerExpansionState(
     battlePassTier: partial.battlePassTier ?? 0,
     hasFoundingAuthor: partial.hasFoundingAuthor ?? false,
     hasAuthorsEditionS2: partial.hasAuthorsEditionS2 ?? false,
+    completedDlcChapters: new Set(partial.completedDlcChapters ?? []),
+    bloodlineGenerations: { ...(partial.bloodlineGenerations ?? {}) },
   };
 }
 
@@ -142,6 +164,10 @@ export interface PlayerEntitlements {
   battlePassTier?: number;
   hasFoundingAuthor?: boolean;
   hasAuthorsEditionS2?: boolean;
+  /** Bloodline generation counts per BloodClassification.
+   *  Optional — defaults to {} (zero generations across the
+   *  board). Sourced from gameData.bloodlineGenerations. */
+  bloodlineGenerations?: Readonly<Record<string, number>>;
 }
 
 /**
@@ -174,11 +200,25 @@ export function derivePlayerExpansionStateFromFlags(
     if (flags[`act_${n}_complete`]) completedActs.push(n);
     if (flags[`secret_act_${n}_revealed`]) secretActsRevealed.push(n);
   }
+  /* DLC chapter completion is flag-driven: any flag matching
+   * `dlc_chapter_<id>_complete` flips the chapter into the completed
+   * set. The DLC chapter registry is the source of truth for which
+   * chapter ids exist; this scan accepts any flag with the prefix so
+   * the unlock service stays decoupled from the registry import
+   * graph (the registry can grow without touching this file). */
+  const completedDlcChapters: string[] = [];
+  for (const key of Object.keys(flags)) {
+    if (!flags[key]) continue;
+    const m = /^dlc_chapter_(.+)_complete$/.exec(key);
+    if (m) completedDlcChapters.push(m[1]);
+  }
   return {
     completedActs: new Set(completedActs),
     secretActsRevealed: new Set(secretActsRevealed),
     battlePassTier: entitlements.battlePassTier ?? 0,
     hasFoundingAuthor: entitlements.hasFoundingAuthor ?? false,
     hasAuthorsEditionS2: entitlements.hasAuthorsEditionS2 ?? false,
+    completedDlcChapters: new Set(completedDlcChapters),
+    bloodlineGenerations: { ...(entitlements.bloodlineGenerations ?? {}) },
   };
 }

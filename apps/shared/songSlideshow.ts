@@ -123,6 +123,14 @@ export interface SlideshowFrame {
   klingPrompt?: string;
   /** Production reference — Seedance 2.0 motion prompt for this frame. Not used at runtime. */
   seedanceMotion?: string;
+  /** Optional narrator portrait URL composited over the background.
+   *  When set, the renderer overlays the image at `portraitSide`
+   *  (default "center"). Used today by Silence in Heaven dialog
+   *  interludes to surface the speaker's expression on top of the
+   *  scene background. */
+  portraitUrl?: string;
+  /** Where the portrait sits relative to the frame. */
+  portraitSide?: "left" | "right" | "center";
 }
 
 export interface KenBurnsSpec {

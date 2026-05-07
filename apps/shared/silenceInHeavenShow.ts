@@ -27,7 +27,11 @@ import {
   SIH_TRACKLIST,
   type SIHPrologueBeat,
 } from "./silenceInHeavenTracklist";
-import type { SongSlideshowDef } from "./songSlideshow";
+import type { SlideshowFrame, SongSlideshowDef } from "./songSlideshow";
+import {
+  album5BackgroundUrl,
+  album5PortraitUrl,
+} from "./expansionArt/album5Slideshows";
 
 export type SIHShowStepKind = "song" | "dialog";
 
@@ -145,3 +149,109 @@ export function locateShowTime(showTimeMs: number): {
   }
   return null;
 }
+
+/* ─── DIALOG INTERLUDES AS SLIDESHOWS ──────────────────────────
+ * The 19 dialog steps each carry an mp3 + a beat list (speaker +
+ * line + bgId + portrait expressionId). Synthesise a SongSlideshowDef
+ * per dialog step so the standard slideshow pipeline (SongSlideshow
+ * + SlideshowPlayerRoot + AlbumFilmPlayer) can render them alongside
+ * the 18 song slideshows without any new component.
+ *
+ * Beats are split evenly across the audio duration; each beat's
+ * `bgId` resolves to a dialog background and the line drops into
+ * the `dialogOverlay` slot the renderer surfaces as the lyric track.
+ * Portrait expressions stay in the typed beats for future composite
+ * rendering — today they're carried but unused by the renderer. */
+
+const SIH_DIALOG_FALLBACK_BG = album5BackgroundUrl("sih_bg_void") ?? "";
+
+function narratorLabel(speaker: SIHPrologueBeat["speaker"]): string {
+  if (speaker === "antiquarian") return "The Antiquarian";
+  if (speaker === "storyteller") return "The Storyteller";
+  return "Both";
+}
+
+/** Where the speaker's portrait sits over the background. The Antiquarian
+ *  always reads from the left (Chronicle on his lap); the Storyteller
+ *  always commands the right (microphone stand). When both speak together
+ *  ("New Babylon. Goddamn.") no single portrait is overlaid — the line
+ *  reads as joint narration. */
+function portraitSideFor(
+  speaker: SIHPrologueBeat["speaker"],
+): "left" | "right" | undefined {
+  if (speaker === "antiquarian") return "left";
+  if (speaker === "storyteller") return "right";
+  return undefined;
+}
+
+function dialogStepToSlideshow(step: SIHDialogShowStep): SongSlideshowDef {
+  const beats = step.beats ?? [];
+  const beatCount = Math.max(beats.length, 1);
+  const slotMs = Math.max(1000, Math.floor(step.durationMs / beatCount));
+  const frames: SlideshowFrame[] =
+    beats.length === 0
+      ? [
+          {
+            startMs: 0,
+            endMs: step.durationMs,
+            imageUrl: SIH_DIALOG_FALLBACK_BG,
+            transition: "fade",
+            dialogOverlay: step.title,
+          },
+        ]
+      : beats.map((b, i) => {
+          const start = i * slotMs;
+          const end = i === beatCount - 1 ? step.durationMs : start + slotMs;
+          const bgUrl =
+            (b.bgId && album5BackgroundUrl(b.bgId)) || SIH_DIALOG_FALLBACK_BG;
+          const portraitUrl = b.expressionId
+            ? album5PortraitUrl(b.expressionId)
+            : undefined;
+          const portraitSide = portraitSideFor(b.speaker);
+          return {
+            startMs: start,
+            endMs: end,
+            imageUrl: bgUrl,
+            transition: i === 0 ? "fade" : "dissolve",
+            dialogOverlay: `${narratorLabel(b.speaker)} — ${b.line}`,
+            dialogSpeakerId: b.speaker,
+            portraitUrl: portraitSide ? portraitUrl : undefined,
+            portraitSide,
+          };
+        });
+  const id = `sih-dialog-${step.albumTrackNumber}`;
+  return {
+    id,
+    songId: step.slug,
+    audioUrl: step.audioUrl,
+    durationMs: step.durationMs,
+    title: step.title,
+    subtitle: "Silence in Heaven · Interlude",
+    priority: "P1",
+    frames,
+    flagsSetOnComplete: [`slideshow_${id.replace(/-/g, "_")}_complete`],
+    /* Loredex auto-discovery — interludes sit at odd album positions
+     * 1,3,…,37; the matching Loredex entry is `song_sih_<albumPos>`. */
+    unlockLoredexEntry: `song_sih_${step.albumTrackNumber}`,
+    reducedMotionFallback: {
+      heroImageUrl: SIH_DIALOG_FALLBACK_BG,
+      prose: beats.length
+        ? beats
+            .map((b) => `${narratorLabel(b.speaker)}: ${b.line}`)
+            .join("\n\n")
+        : `${step.title} — interlude.`,
+    },
+  };
+}
+
+/** SongSlideshowDef per dialog interlude (19 entries — odd album positions). */
+export const SIH_DIALOG_SLIDESHOWS: SongSlideshowDef[] = SIH_SHOW_PROGRAM
+  .filter((s): s is SIHDialogShowStep => s.kind === "dialog")
+  .map(dialogStepToSlideshow);
+
+/** Ordered slideshow ids for the full 37-step show. Pass this list to
+ *  AlbumFilmPlayer to play the show end-to-end. Songs use their canonical
+ *  `sih-NN` ids; interludes use synthetic `sih-dialog-<albumPos>` ids. */
+export const SIH_SHOW_SLIDESHOW_IDS: readonly string[] = SIH_SHOW_PROGRAM.map(
+  (s) => (s.kind === "song" ? s.slideshow.id : `sih-dialog-${s.albumTrackNumber}`),
+);

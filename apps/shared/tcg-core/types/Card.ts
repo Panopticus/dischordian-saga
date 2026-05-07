@@ -223,7 +223,16 @@ export type CardUnlockCondition =
   | { kind: "secret"; act: 1 | 2 | 3 | 4 | 5 | 6 | 7 }
   | { kind: "battle_pass"; tier: number }
   | { kind: "founding_author" }
-  | { kind: "authors_edition"; season: "s2" };
+  | { kind: "authors_edition"; season: "s2" }
+  | { kind: "dlc_chapter_completion"; chapterId: string }
+  | {
+      /** Crew-Bene-Gesserit gate. Mirrors the DlcPrerequisite of
+       *  the same kind — Wave-6 cards (e.g. ADVOCATE-bloodline
+       *  unique units) gate behind generation thresholds. */
+      kind: "bloodline_threshold";
+      classification: string;
+      minGenerations: number;
+    };
 
 /** Forward-declared. Full shape lives in types/Trigger.ts. */
 export interface Ability {

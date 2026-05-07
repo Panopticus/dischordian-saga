@@ -6,10 +6,13 @@ import albumAudio from "./silenceInHeavenAlbumAudio.json";
 import {
   SIH_SHOW_PROGRAM,
   SIH_SHOW_TOTAL_DURATION_MS,
+  SIH_DIALOG_SLIDESHOWS,
+  SIH_SHOW_SLIDESHOW_IDS,
   getShowStep,
   getNextShowStep,
   locateShowTime,
 } from "./silenceInHeavenShow";
+import { getSlideshow } from "./songSlideshows";
 
 describe("Silence in Heaven", () => {
   it("has 18 tracks in the tracklist", () => {
@@ -32,10 +35,21 @@ describe("Silence in Heaven", () => {
     }
   });
 
-  it("every frame has a klingPrompt", () => {
+  it("every frame is either authored (klingPrompt) or bound to producer art (album5 imageUrl)", () => {
+    // Tracks where the producer manifest ships more frames than the
+    // SongSlideshowDef declares are rebuilt in the barrel using all
+    // available producer art; the authored klingPrompts on those tracks
+    // are dropped because runtime no longer renders them. Frames in
+    // those tracks carry the production reference via their album5
+    // imageUrl instead.
     for (const track of ALL_SIH_TRACKS) {
       for (const frame of track.frames) {
-        expect(frame.klingPrompt).toBeTruthy();
+        const accounted =
+          Boolean(frame.klingPrompt) ||
+          /\/art\/slideshows\/album5\/T\d{2}\/sih_t\d{2}_f\d{2}\.webp$/.test(
+            frame.imageUrl,
+          );
+        expect(accounted, `Frame in ${track.id} is unaccounted for`).toBe(true);
       }
     }
   });
@@ -100,6 +114,50 @@ describe("Silence in Heaven", () => {
     for (const track of ALL_SIH_TRACKS) {
       const last = track.frames[track.frames.length - 1];
       expect(last.endMs).toBeLessThanOrEqual(track.durationMs);
+    }
+  });
+
+  it("every frame has an imageUrl bound to album5 CDN art", () => {
+    for (const track of ALL_SIH_TRACKS) {
+      for (const frame of track.frames) {
+        expect(frame.imageUrl).toMatch(/\/art\/slideshows\/album5\/T\d{2}\/sih_t\d{2}_f\d{2}\.webp$/);
+      }
+    }
+  });
+
+  it("reduced-motion hero image is bound for every track", () => {
+    for (const track of ALL_SIH_TRACKS) {
+      expect(track.reducedMotionFallback.heroImageUrl).toMatch(
+        /\/art\/slideshows\/album5\/T\d{2}\/sih_t\d{2}_f01\.webp$/,
+      );
+    }
+  });
+
+  it("every song slideshow declares its song_sih_<2N> Loredex unlock", () => {
+    for (let i = 0; i < ALL_SIH_TRACKS.length; i++) {
+      const songNumber = i + 1;
+      expect(ALL_SIH_TRACKS[i].unlockLoredexEntry).toBe(
+        `song_sih_${songNumber * 2}`,
+      );
+    }
+  });
+
+  it("frame expansion: every track uses all producer frames when the manifest ships more than authored", () => {
+    // Spot-check a few representative tracks where producer count
+    // exceeded the authored frame count (T02=27, T12=24, T18=23).
+    // After expansion each track's frame count should match the
+    // album5 producer count for its T<2N> id.
+    const samples: Array<{ songNumber: number; expectedFrames: number }> = [
+      { songNumber: 1, expectedFrames: 27 }, // sih-01 → T02
+      { songNumber: 6, expectedFrames: 24 }, // sih-06 → T12
+      { songNumber: 12, expectedFrames: 27 }, // sih-12 → T24
+      { songNumber: 18, expectedFrames: 17 }, // sih-18 → T36
+    ];
+    for (const { songNumber, expectedFrames } of samples) {
+      const track = ALL_SIH_TRACKS[songNumber - 1];
+      expect(track.frames.length).toBe(expectedFrames);
+      // Last frame's endMs lands exactly on durationMs.
+      expect(track.frames[track.frames.length - 1].endMs).toBe(track.durationMs);
     }
   });
 });
@@ -251,6 +309,46 @@ describe("Silence in Heaven — end-to-end show program", () => {
     expect(getNextShowStep(1)?.albumTrackNumber).toBe(2);
     expect(getNextShowStep(36)?.albumTrackNumber).toBe(37);
     expect(getNextShowStep(37)).toBeUndefined();
+  });
+
+  it("synthesises 19 dialog slideshow defs with stable sih-dialog-<albumPos> ids", () => {
+    expect(SIH_DIALOG_SLIDESHOWS).toHaveLength(19);
+    const expectedIds = SIH_SHOW_PROGRAM
+      .filter((s) => s.kind === "dialog")
+      .map((s) => `sih-dialog-${s.albumTrackNumber}`);
+    expect(SIH_DIALOG_SLIDESHOWS.map((d) => d.id)).toEqual(expectedIds);
+  });
+
+  it("every synthesised dialog slideshow validates", () => {
+    for (const def of SIH_DIALOG_SLIDESHOWS) {
+      expect(validateSlideshow(def)).toEqual([]);
+    }
+  });
+
+  it("every synthesised dialog frame resolves to an album5 dialog background", () => {
+    for (const def of SIH_DIALOG_SLIDESHOWS) {
+      for (const frame of def.frames) {
+        expect(frame.imageUrl).toMatch(
+          /\/art\/slideshows\/album5\/bg\/sih_bg_[a-z_]+\.webp$/,
+        );
+      }
+    }
+  });
+
+  it("SIH_SHOW_SLIDESHOW_IDS lists 37 ids in album order — 18 song ids + 19 dialog ids", () => {
+    expect(SIH_SHOW_SLIDESHOW_IDS).toHaveLength(37);
+    const songIds = SIH_SHOW_SLIDESHOW_IDS.filter((id) => /^sih-\d{2}$/.test(id));
+    const dialogIds = SIH_SHOW_SLIDESHOW_IDS.filter((id) => id.startsWith("sih-dialog-"));
+    expect(songIds).toHaveLength(18);
+    expect(dialogIds).toHaveLength(19);
+  });
+
+  it("every show id resolves via getSlideshow()", () => {
+    for (const id of SIH_SHOW_SLIDESHOW_IDS) {
+      const def = getSlideshow(id);
+      expect(def, `getSlideshow(${id}) should resolve`).toBeDefined();
+      expect(def!.id).toBe(id);
+    }
   });
 
   it("locateShowTime resolves boundaries correctly", () => {

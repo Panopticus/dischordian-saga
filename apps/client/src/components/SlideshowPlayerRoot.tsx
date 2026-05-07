@@ -25,6 +25,7 @@ import {
 import { getDynamicLionFrames } from "@shared/memorableMoments";
 import { useGame } from "@/contexts/GameContext";
 import { useActVO } from "@/hooks/useActVO";
+import { discoverLoredexEntries } from "@/lib/discoverLoredex";
 
 export function SlideshowPlayerRoot() {
   const active = useWitnessingStore((s) => s.activeSlideshow);
@@ -108,6 +109,16 @@ export function SlideshowPlayerRoot() {
         undefined,
         { slideshowId: active.def.id },
       );
+      // Loredex auto-discovery — when the slideshow declares an
+      // `unlockLoredexEntry`, mark it as discovered so the album /
+      // index pages reflect the watch without waiting for a manual
+      // tap. Generic across all registered slideshows; today binds
+      // the 18 SiH song slideshows and 19 dialog interludes to
+      // their `song_sih_<N>` Loredex entries plus any pre-existing
+      // declarations (e.g. last-words → "the-prince-of-celebration").
+      if (active.def.unlockLoredexEntry) {
+        discoverLoredexEntries([active.def.unlockLoredexEntry]);
+      }
     }
     completeActive();
   }, [active, completeActive, setNarrativeFlag]);
@@ -133,6 +144,11 @@ export function SlideshowPlayerRoot() {
         videoSrc: f.videoUrl,
         durationMs: Math.max(1000, f.endMs - f.startMs),
         lyric: f.dialogOverlay,
+        // Narrator portrait composite — Silence in Heaven dialog
+        // interludes carry a per-beat portrait + side; the runtime
+        // overlays the speaker's expression on the background.
+        portraitSrc: f.portraitUrl,
+        portraitSide: f.portraitSide,
       })) ?? [],
     [slideshowDef],
   );

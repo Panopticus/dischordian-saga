@@ -134,6 +134,7 @@ import { crossGameThreadsRouter } from "./routers/crossGameThreads";
 import { arkThemesRouter } from "./routers/arkThemes";
 import { announcementsRouter } from "./routers/announcements";
 import { playerResetRouter } from "./routers/playerReset";
+import { dlcChaptersRouter } from "./routers/dlcChapters";
 import { mysteriesRouter } from "./routers/mysteries";
 import { engagementRouter } from "./routers/engagement";
 import { dreamerVisionsRouter } from "./routers/dreamerVisions";
@@ -292,6 +293,7 @@ export const appRouter = router({
   arkThemes: arkThemesRouter,
   announcements: announcementsRouter,
   playerReset: playerResetRouter,
+  dlcChapters: dlcChaptersRouter,
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
     logout: publicProcedure.mutation(({ ctx }) => {
