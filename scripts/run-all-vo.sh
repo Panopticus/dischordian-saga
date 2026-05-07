@@ -149,6 +149,27 @@ run_stage "Stage 13 / chess-climb"       pnpm tsx apps/scripts/generate-chess-cl
 # in the Ark Explorer's verb coin falls back to silent text.
 run_stage "Stage 13b / vo:room-mystery"  pnpm vo:room-mystery
 
+# ── Stage 4c: Other generator surfaces wired to npm scripts but
+# previously missed by this orchestrator. Each is idempotent and
+# safe to re-run; the historical bug is that they were never invoked
+# by `pnpm vo:run-all`, so their content lived in code without
+# corresponding audio:
+#   • vo:awakening      → awakeningVoManifest    (cryo-bay revival sequence)
+#   • vo:engineer-logs  → engineerVoManifest     (engineer-memoir field logs)
+#   • vo:episodes       → episodeVoManifest      (CoNexus episode dialog
+#                                                  from CELEBRATION + MECHRONIS
+#                                                  episode-scene maps)
+#   • vo:guild-cutscenes → 25 per-speaker manifests fed by
+#                          guild-cutscene-vo-lines.json (aoki, architect,
+#                          between, chorus, engineer, greenshaw, halverez,
+#                          kanevas, kasra, mireille, orphic, politician,
+#                          proctor, vasara, vellis, vent, vex, warden,
+#                          plus elara/human/meme/necromancer/etc.)
+run_stage "Stage 13c / vo:awakening"       pnpm vo:awakening
+run_stage "Stage 13d / vo:engineer-logs"   pnpm vo:engineer-logs
+run_stage "Stage 13e / vo:episodes"        pnpm vo:episodes
+run_stage "Stage 13f / vo:guild-cutscenes" pnpm vo:guild-cutscenes
+
 # ── Stage 5: Per-character Python generators ──────────
 if [ $SKIP_PYTHON -eq 0 ]; then
   for char in elara human agent_zero antiquarian cades degen locke \
