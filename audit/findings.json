@@ -1,0 +1,320 @@
+{
+  "version": 1,
+  "audit_date": "2026-05-07",
+  "branch": "claude/code-analysis-review-VS1ob",
+  "personas_count": 16,
+  "findings_total": 86,
+  "convergent_findings_count": 14,
+  "personas": {
+    "01": "staff_engineer",
+    "02": "security_engineer",
+    "03": "db_engineer",
+    "04": "performance_engineer",
+    "05": "qa_engineer",
+    "06": "devops_sre",
+    "07": "accessibility",
+    "08": "mobile_engineer",
+    "09": "tcg_designer",
+    "10": "rpg_designer",
+    "11": "narrative_writer",
+    "12": "game_economist",
+    "13": "playtester",
+    "14": "lore_enthusiast",
+    "15": "legal_compliance",
+    "16": "modder"
+  },
+  "convergent_findings": [
+    {
+      "id": "C-01",
+      "title": "cardGame.ts reimplements TCG combat in parallel with tcg-core; uses Math.random() mid-mutation",
+      "files": [
+        "apps/server/routers/cardGame.ts:76-122",
+        "apps/server/routers/cardGame.ts:1228-1545",
+        "apps/server/routers/cardGame.ts:1266",
+        "apps/server/routers/cardGame.ts:1737-1830"
+      ],
+      "raised_by": ["01", "12"],
+      "supporting_findings": ["01.F2", "12.F4"],
+      "severity": "critical",
+      "categories": ["architecture", "replay_determinism", "transaction"],
+      "summary": "The cardGame router defines its own GameState/PlayerState types and hand-rolls combat outside tcg-core, calls Math.random() mid-mutation (line 1266), and lacks db.transaction() wrapping on pack-opening (1749) and currency flows. Replay determinism, RULES_VERSION discipline, and economic atomicity all break here.",
+      "fix": "Make cardGame.ts an auth+persistence shell only. Route gameplay through tcg-core's reduce(); replace Math.random() with createRng(seed) from engine/rng.ts; wrap pack/grant flows in db.transaction. Add ship-check server.cardGame_uses_engine that fails on Math.random in this file."
+    },
+    {
+      "id": "C-02",
+      "title": "175 of 199 publicProcedures lack rate limits; economic surfaces wide open",
+      "files": [
+        "apps/server/routers/marketplace.ts:124,217,640,686",
+        "apps/server/routers/casino.ts:633-824,1096",
+        "apps/server/routers/tradeWars.ts:316,604,1042",
+        "apps/server/routers/draft.ts:203,290",
+        "apps/server/routers/trading.ts:17,71",
+        "apps/server/routers/battlePass.ts:75-160",
+        "apps/server/routers/pvp.ts:85-93",
+        "apps/server/routers/elara.ts:161-243"
+      ],
+      "raised_by": ["02", "04", "12"],
+      "supporting_findings": ["02.F1", "02.F7", "04.F4", "12.F2"],
+      "severity": "critical",
+      "categories": ["rate_limit", "economic_integrity", "ddos"],
+      "summary": "procedureRateLimit exists (well-built at _core/procedureRateLimit.ts) but is applied at only 4 callsites across 199 publicProcedures. Casino plays, marketplace mutations, tradeWars actions, battlePass.addXp (10000 XP/call cap, total pass = 15750), pvp.getLeaderboard, and elara.chat (unbounded LLM cost) are all unprotected. Performance and economist personas confirm this is exploitable for currency farming, leaderboard scraping, and credit-card-incinerator LLM abuse.",
+      "fix": "Add procedureRateLimit({windowMs:60_000, max:30}) to all casino play* and marketplace/trading mutations; max:5 on claimJackpot/placeBid; max:5 on elara.chat. Delete battlePass.addXp or cap to max:200 + rate limit. Move bucket store to Redis before horizontal scale. Add ship-check security.public_procedure_rate_limit_coverage."
+    },
+    {
+      "id": "C-03",
+      "title": "iapReceipt.verify is a stub — RevenueCat receipt grants nothing or replays infinitely",
+      "files": [
+        "apps/server/routers/iapReceipt.ts:54-119",
+        "apps/server/routers/iapReceipt.ts:108"
+      ],
+      "raised_by": ["02", "08", "12"],
+      "supporting_findings": ["02.F4", "08.F4", "12.F3"],
+      "severity": "critical",
+      "categories": ["replay", "iap", "receipt_validation"],
+      "summary": "iapReceipt.verify validates the RevenueCat REST response and returns {ok:true,orderId} but never writes to storePurchases, never calls fulfillPurchase, and has no (userId,platform,transactionId) unique index. The docstring's 'Idempotent' claim is aspirational comment. Either iOS/Android purchasers get nothing or — if client trusts ok:true — any receipt is replayable indefinitely.",
+      "fix": "Implement recordIapFulfillment() upserting storePurchases keyed on transactionId via db.transaction; add unique index on (userId,platform,transactionId); block native binary deploy until verify returns a real fulfilled orderId. Gate route behind feature flag until wired."
+    },
+    {
+      "id": "C-04",
+      "title": "GameContext.tsx is a 3,960-line monolithic provider with fresh-object value every render",
+      "files": [
+        "apps/client/src/contexts/GameContext.tsx:1727-3956",
+        "apps/client/src/contexts/GameContext.tsx:3820-3952",
+        "apps/client/src/App.tsx:614-626"
+      ],
+      "raised_by": ["01", "04"],
+      "supporting_findings": ["01.F1", "04.F1", "04.F6"],
+      "severity": "critical",
+      "categories": ["architecture", "render", "perf"],
+      "summary": "One context exposes ~150 callbacks across 17+ domains; provider value is an inline object literal so identity changes every render, nullifying 126 useCallback/useMemo sites. Any setState (morality, hotspot, flag, autosave) re-renders ArkExplorerPage(2848), ChessPage(2547), FightPage(2158), DuelystGameUI(2043) simultaneously. App.tsx:614-626 amplifies by rebuilding a Set on every flag flip.",
+      "fix": "Split into Zustand/Jotai stores per domain (awakening, rooms, cards, morality, companion, factionWar). useMemo the provider value as an immediate fix. Split GameStateContext from GameActionsContext. Move setNarrativeFlag effect into a domain store with selector subscription."
+    },
+    {
+      "id": "C-05",
+      "title": "Economic mutations span multiple writes with zero db.transaction() — pack-opening, gem bundles, auctions all non-atomic",
+      "files": [
+        "apps/server/routers/cardGame.ts:548",
+        "apps/server/routers/cardGame.ts:1749",
+        "apps/server/routers/cardGame.ts:1907",
+        "apps/server/routers/marketplace.ts:155",
+        "apps/server/routers/marketplace.ts:548",
+        "apps/server/routers/marketplace.ts:663",
+        "apps/server/routers/marketplace.ts:686-745"
+      ],
+      "raised_by": ["03", "12"],
+      "supporting_findings": ["03.F1", "12.F4", "12.F5"],
+      "severity": "critical",
+      "categories": ["transaction", "atomicity", "exploit"],
+      "summary": "cardGame.ts has zero db.transaction() calls. Pack-opening sequences UPDATE(dreamBalance) → UPDATE(userCards) → INSERT(userCards) without atomicity — crash mid-sequence duplicates currency or destroys cards. Marketplace placeBid has TOCTOU on endsAt and 4 separate writes, allowing snipe/lost-update/escrow-loss. The economist confirms this is a direct economic exploit, not theoretical.",
+      "fix": "Wrap all >1-row currency/inventory mutations in db.transaction(async tx => ...). Mirror store.ts:purchaseWithDream pattern (conditional UPDATE + transaction). Add anti-snipe extension on placeBid (endsAt = GREATEST(endsAt, NOW()+60s)). Tighten the existing db.economic_transaction_coverage ratchet (currently 12) to 0 by closing the named callsites."
+    },
+    {
+      "id": "C-06",
+      "title": "Migration journal is a Potemkin facade; db:push is the actual prod deploy mechanism",
+      "files": [
+        "apps/db/migrations/README.md:30-49",
+        "apps/db/migrations/migration-drift.baseline.json",
+        ".github/workflows/ci.yml:173",
+        ".github/workflows/ci.yml:277",
+        "apps/server/_core/index.ts:530-689"
+      ],
+      "raised_by": ["03", "06"],
+      "supporting_findings": ["03.F3", "06.F3"],
+      "severity": "high",
+      "categories": ["migration", "deploy", "ci"],
+      "summary": "42 of 81 .sql migration files have no journal entry; 9 prefix collisions (0037,0043-0047,0055,0058,0059). CI's db-smoke and e2e jobs run pnpm db:migrate:prod with continue-on-error:true because journal-tracked migrations 0045+ depend on orphans. Server compensates with ~25 bootstrap* IIFEs at startup. CLAUDE.md's claim that 'production deploys use db:migrate' is therefore false; prod schema is enforced by application cold-boot.",
+      "fix": "Execute step 2 of migrations/README.md: collapse history into a single 0071_baseline_v1 from a fresh DB. Flip both continue-on-error:true to false. Retire bootstrap* IIFEs once journaled. Add a CI gate: `db:migrate` must succeed on a clean MySQL container without continue-on-error."
+    },
+    {
+      "id": "C-07",
+      "title": "FK coverage is 6 references() vs 450 *Id columns; users table has 200+ unprotected dependents",
+      "files": [
+        "apps/db/schema.ts:6",
+        "apps/db/schema.ts:147-148",
+        "apps/db/schema.ts:178-179",
+        "apps/db/schema.ts:203",
+        "apps/db/schema.ts:250",
+        "apps/db/schema.ts:265",
+        "apps/db/schema.ts:450",
+        "apps/db/0067_indexes_and_fks.sql:9-11"
+      ],
+      "raised_by": ["03", "02"],
+      "supporting_findings": ["03.F2", "02.convergence"],
+      "severity": "critical",
+      "categories": ["fk_coverage", "data_integrity", "audit_trail"],
+      "summary": "The 301-gap ratchet undersells reality: schema actually has 6 .references() against 450 *Id columns. users.id has 200+ inbound dependents (userProgress, userAchievements, arkThemes, characterSheets, userBlocks, supportImpersonationGrants) all bare int(). Security flagged that support_impersonation_grants (line 174) without FKs is a privilege bridge. The promised follow-up at 0067_indexes_and_fks.sql:9 references a docs/operations/SCHEMA_FK_AUDIT.md that doesn't exist.",
+      "fix": "Tier the rollout: tier 1 cascade on user_progress, ark_themes, character_sheets, user_achievements; tier 2 restrict on pvp_matches, card_game_matches, game_replays.winnerId (mirroring existing 1174/1177 pattern); tier 3 restrict on store_purchases, market_transactions. After C-06 lands, FKs can deploy via journaled migration. Tighten db.foreign_key_coverage ratchet downward as each tier ships."
+    },
+    {
+      "id": "C-08",
+      "title": "Sentry/OTel are 'required in prod' env-wise but skip silently if SDK packages are missing — observability is potentially zero",
+      "files": [
+        "apps/server/sentry.ts:21-25",
+        "apps/server/otel.ts",
+        "apps/server/_core/env.ts:85-89",
+        "package.json"
+      ],
+      "raised_by": ["02", "04", "06"],
+      "supporting_findings": ["06.F2", "02.convergence", "04.F5"],
+      "severity": "high",
+      "categories": ["observability", "deploy", "logging"],
+      "summary": "env.ts requires SENTRY_DSN and OTEL_EXPORTER_OTLP_ENDPOINT at boot, but sentry.ts and otel.ts wrap import('@sentry/node')/'@opentelemetry/...' in try/catch that skips silently. package.json has @sentry/node but ZERO @opentelemetry/* deps. Webhook errors log via console.error — invisible without Sentry. Performance flagged 89 console.* sites in client with no esbuild.drop. Combined: prod might be emitting nothing, and the team would not know.",
+      "fix": "Promote @opentelemetry/sdk-node + exporters to hard prod deps; convert dynamic imports to static; add ship-check that Sentry.getClient() and OTel SDK return non-null in prod. Configure vite esbuild.drop:['console','debugger'] for prod build. Replace webhook console.error with Sentry.captureException."
+    },
+    {
+      "id": "C-09",
+      "title": "E2E and unit tests run in CI but assert nothing meaningful — tautological matchers + no DB fixture for router tests",
+      "files": [
+        "apps/e2e/critical-paths.spec.ts",
+        "apps/e2e/game-modes.spec.ts:18-21",
+        "apps/e2e/stripe-checkout.spec.ts:55-58",
+        "apps/e2e/accessibility-audit.spec.ts:64",
+        "apps/server/routers/account.test.ts",
+        "apps/server/routers/store.purchaseGrants.test.ts:1-15"
+      ],
+      "raised_by": ["05", "06", "07"],
+      "supporting_findings": ["05.F1", "05.F2", "05.F3", "05.F4", "07.F3"],
+      "severity": "high",
+      "categories": ["test_quality", "ci_integration", "golden_path"],
+      "summary": "143 of 165 server routers have no adjacent test (87% golden-path gap; chess.ts/architectConsole.ts/cardGame.ts have zero). E2E specs use class-prefix wildcards ([class*='chess']) that match anything; stripe-checkout asserts only not.toBe(500) (404 passes). accessibility-audit.spec.ts skips all auth-gated tests without E2E_AUTH_OPEN_ID — only / /terms /privacy get axe coverage. Router 'tests' have zero vi.mock and document 'no DB available, contract-only' — that follow-up never landed. vitest has no coverage reporter wired.",
+      "fix": "Stand up vitest.integration.config.ts using existing mysql:8.0 service container; add pnpm test:integration step to CI between db:smoke and e2e. Replace E2E class-prefix locators with data-testid; add real interactions. Install @vitest/coverage-v8 with thresholds {lines:60,branches:50}; ratchet upward. Add ship-check tests.golden_path_router_coverage and a11y.axe_violation_count."
+    },
+    {
+      "id": "C-10",
+      "title": "Onboarding is a wall of jargon: 28 of 30 LORE_TUTORIALS never fire; no glossary; tutorials announce nothing to AT users",
+      "files": [
+        "apps/client/src/App.tsx:629",
+        "apps/client/src/pages/CardBrowserPage.tsx",
+        "apps/client/src/pages/FightPage.tsx",
+        "apps/client/src/pages/BridgeConsole.tsx",
+        "apps/client/src/components/LoreTutorialEngine.tsx:230-252",
+        "apps/client/src/components/LoreTutorialEngine.tsx:292",
+        "apps/client/src/components/MechanicTutorialOverlay.tsx:140",
+        "apps/client/src/components/match/TrialPhaseIndicator.tsx",
+        "apps/client/src/data/loredex-data.json"
+      ],
+      "raised_by": ["07", "11", "13", "14"],
+      "supporting_findings": ["07.F2", "11.F3", "13.F1", "13.F2", "13.F3", "13.F4", "14.F1"],
+      "severity": "high",
+      "categories": ["onboarding", "first_time_hook", "glossary_missing", "a11y_dialog", "i18n_block"],
+      "summary": "useAutoTutorial is mounted on only 2 of ~30 surfaces despite LORE_TUTORIALS defining triggerRoute for all. Bridge Console (cold-open landing) is deliberately empty with no CTA. Authority §5.8 trial UI is incomprehensible without lore (jury cards, ink lines, §-notation, cross-exam phases). No glossary anywhere — hundreds of jargon terms (Ocularum, Synopticon, Ne-Yon, Identity Chains, Trial Categories) have no clickable definition. Tutorial overlays are plain divs (no role=dialog, no focus trap, typewriter outside aria-live). LoreTutorialEngine applies morality on click with no Back/Undo. Zero i18n extraction means components can't be translated.",
+      "fix": "Mount AutoTutorialPrompt at GameGate level (App.tsx:629) — one ~5-line change unlocks 28 authored tutorials. Add empty-state CTA on BridgeConsole. Author tut-authority-trial. Build LoreTerm component that surfaces loredex-data.json summaries via Radix tooltip; existing LoredexContext already loads the data. Wrap tutorial overlays in role=dialog aria-modal=true + useFocusTrap; place typewriter in aria-live=polite. Surface consequence preview before morality-applying choices commit. Introduce react-i18next behind ItemDetailModal/MilestoneJournalEntries/RoomTutorialDialog (the heaviest prose sites)."
+    },
+    {
+      "id": "C-11",
+      "title": "9×5 Duelyst board + hand cards are a bare canvas + clickable divs — keyboard- and screen-reader-inaccessible",
+      "files": [
+        "apps/client/src/game/duelyst/DuelystGameUI.tsx:1692",
+        "apps/client/src/game/duelyst/DuelystGameUI.tsx:1900",
+        "apps/client/src/index.css:1296-1300",
+        "apps/shared/_completeness/checks/mobileWiring.ts:75-79"
+      ],
+      "raised_by": ["07", "08"],
+      "supporting_findings": ["07.F1", "07.F4", "08.F2"],
+      "severity": "critical",
+      "categories": ["a11y_canvas", "keyboard", "touch", "ship_check_false_positive"],
+      "summary": "The board renders as <canvas ref={canvasRef}/> with no aria-label/role/tabIndex/onKeyDown — keyboard users cannot focus a tile, screen-reader users get nothing for the 45-cell tactical surface. Hand slots are clickable divs (~line 1900), not buttons — keyboard-unreachable despite carrying aria-label. Concede/End Turn ARE real buttons; the primary play surface isn't. Compounds with mobile: .game-canvas-mount {touch-action:none} CSS rule exists in index.css purely so mobileWiring ship-check matches, but zero TSX consumers — the ship-check passes on file existence not runtime, the exact anti-pattern CLAUDE.md warns against.",
+      "fix": "Overlay parallel DOM grid: role='grid' aria-rowcount=5 aria-colcount=9 with one role='gridcell' per tile + aria-label='Row 3 Col 5, Maelis Drakar 4HP', roving tabindex on arrows, Enter/Space to commit. Convert hand cards to <button type='button'> with key handlers. Add className='game-canvas-mount' to all canvas wrappers. Tighten mobileWiring probe to grep TSX consumers, not just CSS declaration."
+    },
+    {
+      "id": "C-12",
+      "title": "Authoring/scaffolding mistaken for shipped: VARIANT_REGISTRY orphan, 5 stub VO manifests, 214 placeholder card flavors, lore-bible drift",
+      "files": [
+        "apps/shared/moralityTrustActVariants.ts:154",
+        "apps/shared/authorityVoManifest.json",
+        "apps/shared/act4_5VoManifest.json",
+        "apps/shared/eidolaVoManifest.json",
+        "apps/shared/matrikalaVoManifest.json",
+        "apps/shared/programmerVoManifest.json",
+        "apps/shared/tcg-core/cards/definitions/s1_pack2/architect.ts:250",
+        "docs/built/LORE_BIBLE.md:7-13",
+        "apps/client/src/data/loredex-data.json"
+      ],
+      "raised_by": ["09", "10", "11", "14"],
+      "supporting_findings": ["09.F5", "10.F1", "10.F2", "11.F1", "11.F2", "11.F4", "14.F1"],
+      "severity": "high",
+      "categories": ["scaffolding_vs_shipped", "narrative_drift", "lore_drift"],
+      "summary": "Pattern across content-heavy domains: 3,464 LOC of authored morality/trust/act variants (VARIANT_REGISTRY) have no shipping consumer — only DevVariantsPage and contract tests import. Trust gating exists but no Act page passes companionStats into a resolver. 5 antagonist VO manifests are empty {} stubs (Authority, Eidola, Matrikala — all listed as shipping in Production Bible §3.2). 214 cards in s1_pack2/ ship 'Of the architect.' as flavor. LORE_BIBLE.md drifts from loredex-data.json (109 vs 113 chars, 95 vs 109 concepts). 95 'concepts' bucket has 5 Audit-* near-duplicates and Mystery-Engine internals leaking out. The deathwatch keyword on 25 cards is silently sugar (engine treats as exempt — same bug as drain at 5x scale).",
+      "fix": "Wire resolveVariant(VARIANT_REGISTRY) into act-page surfaces; add narrativeFlagConsumerCoverage ship-check entry. Author authority-lines.json + 4 sibling JSON, then pnpm vo:run-all. Run pnpm lore:generate; close lore.bible_drift ratchet. Rewrite s1_pack2 flavor (one line per card from song_character_map) + add card_flavor_quality ratchet (zero matches for /^Of the [a-z]+\\.$/). Either auto-inject deathwatch trigger at card-load or strip the keyword from 25 cards."
+    },
+    {
+      "id": "C-13",
+      "title": "Casino RTP > 1.0 (negative house edge) compounds with no rate limit — sustained Dream printer",
+      "files": [
+        "apps/shared/casinoGames.ts:63-83",
+        "apps/shared/casinoGames.ts:186-197",
+        "apps/server/routers/casino.ts:355",
+        "apps/server/routers/casino.ts:633-824",
+        "apps/server/routers/casino.ts:1096"
+      ],
+      "raised_by": ["02", "12"],
+      "supporting_findings": ["02.F1", "12.F1"],
+      "severity": "critical",
+      "categories": ["economic_integrity", "rate_limit", "casino_house_edge"],
+      "summary": "Slots EV = (1/216)*50 + (5/216)*5 + (90/216)*2 = 1.18 RTP (-18% house edge i.e. +18% PLAYER edge). Quantum Roulette 'adjacent' with 3 factions at 2.5x payout × 0.5 probability = 1.25 RTP (+25% player edge). VIP win bonus and 2% jackpot rake amplify for whales. Combined with no procedureRateLimit on casino.play* (C-02), an authed bot can grind premium currency at +18%/+25% expected return as fast as the server will accept requests. claimJackpot pays premium currency unbounded.",
+      "fix": "Drop slot triple-2x payout to 1.5x or shrink twoSame probability surface; cap roulette adjacent at 1.7x (3-faction) and quarter at 2.2x (2-faction). Add casinoGames.test.ts asserting RTP <= 0.92 across the bet space. Land the rate limits from C-02 in the same PR."
+    },
+    {
+      "id": "C-14",
+      "title": "Confession trial category has 4 cards (all Insurgency) — Authority §5.8 phase 7 unwinnable for 6 of 7 factions; thin evidence/reactive in TV+NB",
+      "files": [
+        "apps/shared/tcg-core/cards/definitions/insurgency/",
+        "apps/shared/tcg-core/cards/definitions/thought_virus/",
+        "apps/shared/tcg-core/cards/definitions/new_babylon/",
+        "apps/shared/_completeness/registry.ts:117"
+      ],
+      "raised_by": ["09", "13"],
+      "supporting_findings": ["09.F1", "09.F2", "13.F2"],
+      "severity": "high",
+      "categories": ["trial_coverage", "balance", "first_time_hook"],
+      "summary": "Confession trial-category appears on only 4 cards corpus-wide, all Insurgency. Six of seven factions have zero confession cards — Authority Trial §5.8 phase 7 is therefore unwinnable for Architect/TV/NB/Dreamer/Antiquarian/Neutral decks regardless of skill. Thought Virus has 4 evidence / 13 reactive across 53 cards; New Babylon has 5 evidence / 4 reactive across 52 — below 30-card deck construction floor for trial-eligible cards across phases 3-8. Compounded by the playtester finding that the §5.8 UI offers zero player-facing explanation (no tut-authority-trial; jury/evidence/ink lines undocumented).",
+      "fix": "Backfill ≥2 confession-tagged cards per faction (≥12 total). Best candidates: existing reactive cards with self-cost. Tag ~8 more existing TV/NB cards with evidence/reactive (empire propaganda IS evidence). Use secondPassTrialCategorizer.ts. Author tut-authority-trial keyed to triggerRoute='/act1-c4-trial'. The TCG ratchet for trial coverage already exists (target 0) — drive it green."
+    }
+  ],
+  "single_persona_findings": [
+    {"id": "01.F3", "persona": "01", "title": "apps/shared/expansionArt/* and suitAdapters/* import from apps/client — hard layer violation", "severity": "high", "files": ["apps/shared/expansionArt/_assetManifest.ts:1", "apps/shared/suitAdapters/*.ts", "apps/shared/tradeEmpire/houses.ts"]},
+    {"id": "01.F4", "persona": "01", "title": "FightEngine2D is a single 4,558-line class entangling sim+render+audio+AI+HUD", "severity": "high", "files": ["apps/client/src/game/FightEngine2D.ts:1000"]},
+    {"id": "01.F5", "persona": "01", "title": "152-import root router + 3 page god-files (ChessPage/ArkExplorerPage/FightPage)", "severity": "medium", "files": ["apps/server/routers.ts:10-152", "apps/client/src/pages/ChessPage.tsx", "apps/client/src/pages/ArkExplorerPage.tsx", "apps/client/src/pages/FightPage.tsx"]},
+    {"id": "02.F2", "persona": "02", "title": "lookahead.ts default rng = Math.random — escapes the seeded engine/rng.ts contract", "severity": "high", "files": ["apps/shared/tcg-core/ai/lookahead.ts:95"]},
+    {"id": "02.F3", "persona": "02", "title": "Spectator WS is anon, uncapped, deep-clones full state per broadcast", "severity": "high", "files": ["apps/server/pvpWs.ts:1069-1107", "apps/server/pvpWs.ts:192-222"]},
+    {"id": "02.F4", "persona": "02", "title": "Stripe webhook idempotency layer A is conditional on if(db); non-checkout events lack layer B", "severity": "high", "files": ["apps/server/_core/index.ts:91-112", "apps/server/_core/index.ts:119-201"]},
+    {"id": "02.F5", "persona": "02", "title": "spriteProxy fallback fetch drops MAX_FETCH_BYTES guard, hardcodes Content-Type", "severity": "medium", "files": ["apps/server/spriteProxy.ts:230-247"]},
+    {"id": "02.F6", "persona": "02", "title": "sql.raw(voteDef.epoch) inside JSON_SET — injection waiting for an upstream change", "severity": "medium", "files": ["apps/server/services/epochWitnessService.ts"]},
+    {"id": "03.F4", "persona": "03", "title": "playerProfileEvents.id is bigint(mode:number) autoincrement — truncates above 2^53", "severity": "medium", "files": ["apps/db/schema.ts:5275"]},
+    {"id": "03.F5", "persona": "03", "title": "Composite indexes from 0067 SQL not declared in schema.ts — db:push would drop them", "severity": "medium", "files": ["apps/db/0067_indexes_and_fks.sql:26-43"]},
+    {"id": "03.F6", "persona": "03", "title": "users.name is unbounded text; users.email lacks unique index; no collation pinned", "severity": "medium", "files": ["apps/db/schema.ts:9-10"]},
+    {"id": "04.F2", "persona": "04", "title": "three.js + 5 postprocessing passes leak into initial chunk via eager AppShellImmersive import", "severity": "high", "files": ["apps/client/src/components/AppShellImmersive.tsx:29", "apps/client/src/components/ShaderOverlay.tsx:23"]},
+    {"id": "04.F3", "persona": "04", "title": "effectInterpreter recursion (foreach/repeat) has no depth/iteration cap; per-target Object.values rescans", "severity": "medium", "files": ["apps/shared/tcg-core/engine/effectInterpreter.ts:565-572", "apps/shared/tcg-core/engine/effectInterpreter.ts:601-612", "apps/shared/tcg-core/engine/effectInterpreter.ts:794"]},
+    {"id": "04.F4_marketplace", "persona": "04", "title": "marketplace.searchListings uses unindexable LIKE '%...%' + count(*); myListings has no LIMIT", "severity": "high", "files": ["apps/server/routers/marketplace.ts:441-485", "apps/server/routers/marketplace.ts:488-494"]},
+    {"id": "06.F1", "persona": "06", "title": "No HTTP /api/health route; railway healthcheck targets /, CI polls a non-existent path", "severity": "high", "files": ["railway.toml", ".github/workflows/ci.yml:296"]},
+    {"id": "06.F4", "persona": "06", "title": "No SIGTERM/SIGINT handler — Railway redeploys kill in-flight WS, skip Sentry/OTel flush", "severity": "medium", "files": ["apps/server/_core/index.ts"]},
+    {"id": "06.F5", "persona": "06", "title": "db:migrate and db:migrate:prod are aliases; no db:push guard against prod DATABASE_URL", "severity": "medium", "files": ["package.json", "railway.toml"]},
+    {"id": "07.F5", "persona": "07", "title": "Void Energy materials lack documented contrast ratios; high-contrast toggle patches Tailwind, not tokens", "severity": "medium", "files": ["apps/client/src/index.css", "apps/client/src/engine/void-materials.css"]},
+    {"id": "08.F1", "persona": "08", "title": "Capacitor is config-only — no ios/ or android/ native projects, no signing, no 1024x1024 icon", "severity": "high", "files": ["capacitor.config.ts:14-18"]},
+    {"id": "08.F3", "persona": "08", "title": "No store-SKU catalog — iosProductId/androidProductId/stripePriceId interface-only", "severity": "high", "files": ["apps/client/src/lib/payments/index.ts:27-41"]},
+    {"id": "08.F5", "persona": "08", "title": "Viewport blocks pinch-zoom globally; HUDs miss safe-area-inset-top; only Leaderboard adopts virtualization", "severity": "medium", "files": ["apps/client/index.html:5"]},
+    {"id": "09.F3", "persona": "09", "title": "12 keywords have <3 cards; 6 have exactly 1 (zeal/untargetable/structure/resurrect/pack/blast)", "severity": "medium", "files": ["apps/shared/tcg-core/types/Card.ts:37-68"]},
+    {"id": "09.F4", "persona": "09", "title": "Mana curve overweighted at 3-cost (650 of 1284 cost-bearing = 51%); 1-drops starved (36)", "severity": "medium", "files": ["apps/shared/tcg-core/cards/definitions/"]},
+    {"id": "09.F6", "persona": "09", "title": "Stat-budget gate has 1 documented exception across 475 cards — likely silent power outliers", "severity": "medium", "files": ["apps/shared/tcg-core/cards/definitions/", "apps/shared/tcg-core/balance/statCurve.ts"]},
+    {"id": "10.F3", "persona": "10", "title": "Act3 path flags only branch Act6/Act7 cosmetic VO suffix, not gameplay (deck/opponent/reward)", "severity": "medium", "files": ["apps/client/src/pages/Act6CardLadderPage.tsx", "apps/client/src/pages/Act7CardLadderPage.tsx"]},
+    {"id": "10.F4", "persona": "10", "title": "Mystery cross-arc choices (3,763 LOC) are producer-heavy; cross_arc_* persistence unverified", "severity": "medium", "files": ["apps/shared/episodeMysteries.ts:3731"]},
+    {"id": "10.F6", "persona": "10", "title": "Romance commits sticky flags but VARIANT_REGISTRY has zero romance flag entries", "severity": "low", "files": ["apps/server/routers/romance.ts:75"]},
+    {"id": "11.F5", "persona": "11", "title": "Concepts list has near-duplicates and Mystery-Engine internals leaking into public namespace", "severity": "low", "files": ["apps/client/src/data/loredex-data.json"]},
+    {"id": "12.F6", "persona": "12", "title": "currencyExchange allows player-set Dream<->Credits rates with no spread bounds — collusion laundering", "severity": "medium", "files": ["apps/server/routers/marketplace.ts:792-831"]},
+    {"id": "13.F5", "persona": "13", "title": "Bridge Console (cold-open landing) is deliberately empty with no first-time CTA", "severity": "medium", "files": ["apps/client/src/pages/BridgeConsole.tsx"]},
+    {"id": "14.F2", "persona": "14", "title": "Iron Lion bleed-through is mechanically wired but tonally collapses to ledger-entry prose", "severity": "medium", "files": ["apps/shared/episodeMysteries.ts", "apps/shared/questlineClassSoldier.ts"]},
+    {"id": "14.F3", "persona": "14", "title": "POSITIVE: act1_path_A / act3_partial_share / act3_full_secret reach Act 7 with 12 distinct convergence variants", "severity": "low", "files": ["apps/shared/act7Epilogues.ts", "apps/shared/act4CompletionGate.ts"], "preserve": true},
+    {"id": "14.F4", "persona": "14", "title": "Witnessing / Identity Chains / Thought Virus / Light-Dark are 4 parallel architectures, not woven", "severity": "high", "files": ["docs/design/NARRATIVE_ARCHITECTURE.md", "docs/design/WITNESSING_NARRATIVE_PROPOSAL.md"]},
+    {"id": "14.F5", "persona": "14", "title": "Determinism thesis vs 5 Act-7 endings is unresolved at the philosophical layer", "severity": "medium", "files": ["apps/shared/act7Epilogues.ts"]},
+    {"id": "15.R1", "persona": "15", "title": "Stockfish (GPL-3.0) bundled as hard production dep — closed-source bundle disclosure conflict", "severity": "blocker", "files": ["package.json:176", "apps/server/_core/securityHeaders.ts"]},
+    {"id": "15.R2", "persona": "15", "title": "AI-generated VO + art ship without provenance / disclosure (EU AI Act Art. 50 from Aug 2026)", "severity": "high", "files": ["apps/scripts/generate-*-vo.ts", "docs/production/*.md"]},
+    {"id": "15.R3", "persona": "15", "title": "Privacy Policy + Terms are explicit placeholder scaffolds; duplicate routes risk drift", "severity": "blocker", "files": ["apps/client/src/pages/PrivacyPolicyPage.tsx", "apps/client/src/pages/PrivacyPage.tsx", "apps/client/src/pages/TermsOfServicePage.tsx", "apps/client/src/pages/TermsPage.tsx"]},
+    {"id": "15.R4", "persona": "15", "title": "No age gate at signup; payments + analytics live without COPPA/GDPR-K screen", "severity": "high", "files": ["apps/server/_core/oauth.ts"]},
+    {"id": "15.R5", "persona": "15", "title": "S3 dgrsart relies on undocumented PublicReadCDN policy; no IaC bucket policy in repo", "severity": "medium", "files": ["apps/scripts/upload-public-to-s3.ts"]},
+    {"id": "16.F1", "persona": "16", "title": "Faction enum drift between TS Card.ts (8 factions, missing panopticon) and Zod schema.ts (9)", "severity": "high", "files": ["apps/shared/tcg-core/types/Card.ts:16-24", "apps/shared/tcg-core/cards/schema.ts:26-36"]},
+    {"id": "16.F2", "persona": "16", "title": "Card barrel is hand-maintained — every new card = manual import + spread (silent miss possible)", "severity": "high", "files": ["apps/shared/tcg-core/cards/index.ts"]},
+    {"id": "16.F3", "persona": "16", "title": "Promised apps/shared/tcg-core/README.md does not exist (CONTRIBUTING.md references it)", "severity": "high", "files": ["CONTRIBUTING.md:75-77"]},
+    {"id": "16.F4", "persona": "16", "title": "Adding a faction requires 5+ file edits across schema.ts/Card.ts/index.ts/expansionArt — no plugin manifest", "severity": "medium", "files": ["apps/shared/tcg-core/cards/schema.ts:26", "apps/shared/tcg-core/types/Card.ts:16"]},
+    {"id": "16.F5", "persona": "16", "title": "Effect-op vocabulary missing TCG staples: cancel_pending_effect (counterspell), copy_effect, search_deck", "severity": "medium", "files": ["apps/shared/tcg-core/engine/effectInterpreter.ts", "apps/shared/tcg-core/types/Effect.ts:79-127"]}
+  ]
+}
