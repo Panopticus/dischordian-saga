@@ -323,11 +323,13 @@ export const VFX_CLIPS: readonly VfxDef[] = [
     keyframeRelPath: "art/vfx/hierarchy_mechanics/kf_stock_buyback.webp",
   },
   // dreamer_visions (3) — mid-slideshow Veo flashes per the dual-
-  // faction recruitment plan §Part 1.5. Video assets ship from the
-  // producer drop; the renderer (SongSlideshow.tsx) falls back to
+  // faction recruitment plan §Part 1.5. CDN audit 2026-05-07: all
+  // three video keys + their kf_*.webp keyframes return 403 (NOT
+  // YET DELIVERED). The renderer (SongSlideshow.tsx) falls back to
   // the keyframe still image on video-load failure, so a missing
-  // MP4 degrades gracefully to a held image rather than breaking
-  // the cutscene.
+  // MP4 degrades gracefully to a held image — but the keyframes
+  // are also missing here, so currently both layers will fail to
+  // load until the producer delivers the dreamer-vision pack.
   {
     id: "vfx_substrate_pulse",
     category: "dreamer_visions",

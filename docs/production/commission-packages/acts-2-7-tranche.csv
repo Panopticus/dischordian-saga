@@ -1,58 +1,68 @@
 asset_id,type,tool,prompt_ref,output_path,dependencies,status,notes
+# ─── CDN AUDIT 2026-05-07 ─────────────────────────────────────────────────
+# All Act 2 + Act 3 cinematic mp4s, all VFX atlases, all 12 confirmed
+# Act 4-7 mp4s (opener + key beats + path/extraction/stance branches +
+# engineer recordings 6 + 7) HEAD-200 on dgrsart S3 cdn/client-public.
+# `status=delivered` rows are verified live; `status=pending` rows were
+# either confirmed 403 or not yet probed and remain canonically absent.
+# Intermediate stills (`_intermediate/...`) are not published to CDN by
+# design; their status reflects only whether the still has been rendered
+# locally, which we cannot verify from the CDN. Music for Act 2 is
+# partially shipped (3/4 stingers); Act 3 music is fully outstanding.
 # ─── ACT 2 OPENERS + VFX + CINEMATICS + MUSIC ──────────────────────────────
-vfx_act2_substrate_layer,still,procedural,ACTS_2_TO_7_PRODUCTION_BIBLE.md §1.1,apps/client/public/vfx-atlases/acts/act-2/substrate_layer.png,,pending,Procedural — Substance 3D tile
-vfx_act2_bench_glow_light,still,procedural,§1.1,apps/client/public/vfx-atlases/acts/act-2/bench_glow_light.png,,pending,
-vfx_act2_bench_glow_dark,still,procedural,§1.1,apps/client/public/vfx-atlases/acts/act-2/bench_glow_dark.png,,pending,
-vfx_act2_chess_depth_ring,still,procedural,§1.1,apps/client/public/vfx-atlases/acts/act-2/chess_depth_ring.png,,pending,8 concentric annuli
-vfx_act2_silence_freeze_grain,still,procedural,§1.1,apps/client/public/vfx-atlases/acts/act-2/silence_freeze_grain.png,,pending,
-cin_act2_opener_start,still,nano-banana-2,§1.2 START FRAME,_intermediate/act2_opener_start.png,,pending,
-cin_act2_opener_end,still,nano-banana-2,§1.2 END FRAME,_intermediate/act2_opener_end.png,,pending,
-cin_act2_opener,video,veo-3.1,§1.2 MOTION PROMPT,apps/client/public/videos/acts/act-2/cin_act2_opener.mp4,cin_act2_opener_start;cin_act2_opener_end,pending,21s P0
-cin_act2_silence_start,still,nano-banana-2,§1.3 START FRAME,_intermediate/act2_silence_start.png,,pending,
-cin_act2_silence_end,still,nano-banana-2,§1.3 END FRAME,_intermediate/act2_silence_end.png,,pending,
-cin_act2_silence,video,veo-3.1,§1.3 MOTION PROMPT,apps/client/public/videos/acts/act-2/cin_act2_silence_of_two_witnesses.mp4,cin_act2_silence_start;cin_act2_silence_end,pending,10s P0 — Bond 60 trigger
-cin_act2_gm_left_start,still,nano-banana-2,§1.4 LEFT START,_intermediate/act2_gm_left_start.png,,pending,
-cin_act2_gm_left_end,still,nano-banana-2,§1.4 LEFT END,_intermediate/act2_gm_left_end.png,,pending,
-cin_act2_gm_left_intro,video,veo-3.1,§1.4 LEFT MOTION,apps/client/public/videos/acts/act-2/cin_act2_gamemaster_left_intro.mp4,cin_act2_gm_left_start;cin_act2_gm_left_end,pending,6s P1
-cin_act2_gm_right_start,still,nano-banana-2,§1.4 RIGHT START,_intermediate/act2_gm_right_start.png,,pending,
-cin_act2_gm_right_end,still,nano-banana-2,§1.4 RIGHT END,_intermediate/act2_gm_right_end.png,,pending,
-cin_act2_gm_right_intro,video,veo-3.1,§1.4 RIGHT MOTION,apps/client/public/videos/acts/act-2/cin_act2_gamemaster_right_intro.mp4,cin_act2_gm_right_start;cin_act2_gm_right_end,pending,6s P1
-cin_act2_rec2_start,still,nano-banana-2,§1.5 START,_intermediate/act2_rec2_start.png,,pending,
-cin_act2_rec2_end,still,nano-banana-2,§1.5 END,_intermediate/act2_rec2_end.png,,pending,Requires Phase 1 Prince canon
-cin_act2_rec2,video,veo-3.1,§1.5 MOTION,apps/client/public/videos/acts/act-2/cin_act2_engineer_recording_2.mp4,cin_act2_rec2_start;cin_act2_rec2_end,pending,12s P1
-cin_act2_rec3_start,still,nano-banana-2,§1.6 START,_intermediate/act2_rec3_start.png,,pending,
-cin_act2_rec3_end,still,nano-banana-2,§1.6 END,_intermediate/act2_rec3_end.png,,pending,
-cin_act2_rec3,video,veo-3.1,§1.6 MOTION,apps/client/public/videos/acts/act-2/cin_act2_engineer_recording_3.mp4,cin_act2_rec3_start;cin_act2_rec3_end,pending,12s P1
+vfx_act2_substrate_layer,still,procedural,ACTS_2_TO_7_PRODUCTION_BIBLE.md §1.1,apps/client/public/vfx-atlases/acts/act-2/substrate_layer.png,,delivered,Procedural — Substance 3D tile
+vfx_act2_bench_glow_light,still,procedural,§1.1,apps/client/public/vfx-atlases/acts/act-2/bench_glow_light.png,,delivered,
+vfx_act2_bench_glow_dark,still,procedural,§1.1,apps/client/public/vfx-atlases/acts/act-2/bench_glow_dark.png,,delivered,
+vfx_act2_chess_depth_ring,still,procedural,§1.1,apps/client/public/vfx-atlases/acts/act-2/chess_depth_ring.png,,delivered,8 concentric annuli
+vfx_act2_silence_freeze_grain,still,procedural,§1.1,apps/client/public/vfx-atlases/acts/act-2/silence_freeze_grain.png,,delivered,
+cin_act2_opener_start,still,nano-banana-2,§1.2 START FRAME,_intermediate/act2_opener_start.png,,pending,Intermediate — not on CDN by design
+cin_act2_opener_end,still,nano-banana-2,§1.2 END FRAME,_intermediate/act2_opener_end.png,,pending,Intermediate — not on CDN by design
+cin_act2_opener,video,veo-3.1,§1.2 MOTION PROMPT,apps/client/public/videos/acts/act-2/cin_act2_opener.mp4,cin_act2_opener_start;cin_act2_opener_end,delivered,21s P0
+cin_act2_silence_start,still,nano-banana-2,§1.3 START FRAME,_intermediate/act2_silence_start.png,,pending,Intermediate — not on CDN by design
+cin_act2_silence_end,still,nano-banana-2,§1.3 END FRAME,_intermediate/act2_silence_end.png,,pending,Intermediate — not on CDN by design
+cin_act2_silence,video,veo-3.1,§1.3 MOTION PROMPT,apps/client/public/videos/acts/act-2/cin_act2_silence_of_two_witnesses.mp4,cin_act2_silence_start;cin_act2_silence_end,delivered,10s P0 — Bond 60 trigger
+cin_act2_gm_left_start,still,nano-banana-2,§1.4 LEFT START,_intermediate/act2_gm_left_start.png,,pending,Intermediate — not on CDN by design
+cin_act2_gm_left_end,still,nano-banana-2,§1.4 LEFT END,_intermediate/act2_gm_left_end.png,,pending,Intermediate — not on CDN by design
+cin_act2_gm_left_intro,video,veo-3.1,§1.4 LEFT MOTION,apps/client/public/videos/acts/act-2/cin_act2_gamemaster_left_intro.mp4,cin_act2_gm_left_start;cin_act2_gm_left_end,delivered,6s P1
+cin_act2_gm_right_start,still,nano-banana-2,§1.4 RIGHT START,_intermediate/act2_gm_right_start.png,,pending,Intermediate — not on CDN by design
+cin_act2_gm_right_end,still,nano-banana-2,§1.4 RIGHT END,_intermediate/act2_gm_right_end.png,,pending,Intermediate — not on CDN by design
+cin_act2_gm_right_intro,video,veo-3.1,§1.4 RIGHT MOTION,apps/client/public/videos/acts/act-2/cin_act2_gamemaster_right_intro.mp4,cin_act2_gm_right_start;cin_act2_gm_right_end,delivered,6s P1
+cin_act2_rec2_start,still,nano-banana-2,§1.5 START,_intermediate/act2_rec2_start.png,,pending,Intermediate — not on CDN by design
+cin_act2_rec2_end,still,nano-banana-2,§1.5 END,_intermediate/act2_rec2_end.png,,pending,Intermediate; Phase 1 Prince canon
+cin_act2_rec2,video,veo-3.1,§1.5 MOTION,apps/client/public/videos/acts/act-2/cin_act2_engineer_recording_2.mp4,cin_act2_rec2_start;cin_act2_rec2_end,delivered,12s P1
+cin_act2_rec3_start,still,nano-banana-2,§1.6 START,_intermediate/act2_rec3_start.png,,pending,Intermediate — not on CDN by design
+cin_act2_rec3_end,still,nano-banana-2,§1.6 END,_intermediate/act2_rec3_end.png,,pending,Intermediate — not on CDN by design
+cin_act2_rec3,video,veo-3.1,§1.6 MOTION,apps/client/public/videos/acts/act-2/cin_act2_engineer_recording_3.mp4,cin_act2_rec3_start;cin_act2_rec3_end,delivered,12s P1
 mus_act2_opener,audio,suno-v4,§1.7 mus_act2_opener,apps/client/public/audio/acts/act-2-intro.mp3,,pending,21s Easy
-mus_act2_silence,audio,suno-v4,§1.7 mus_act2_silence,apps/client/public/audio/acts/act-2-stingers/silence_of_two_witnesses.mp3,,pending,10s ★Tricky abrupt-cut
-mus_act2_bench_loop,audio,suno-v4,§1.7 mus_act2_bench_ambient_loop,apps/client/public/audio/acts/act-2-stingers/bench_ambient_loop.mp3,,pending,60s seamless loop
-mus_act2_rec_underscore,audio,suno-v4,§1.7 mus_act2_engineer_recording_underscore,apps/client/public/audio/acts/act-2-stingers/engineer_recording_underscore.mp3,,pending,12s reusable Rec 2-5
+mus_act2_silence,audio,suno-v4,§1.7 mus_act2_silence,apps/client/public/audio/acts/act-2-stingers/silence_of_two_witnesses.mp3,,delivered,10s ★Tricky abrupt-cut
+mus_act2_bench_loop,audio,suno-v4,§1.7 mus_act2_bench_ambient_loop,apps/client/public/audio/acts/act-2-stingers/bench_ambient_loop.mp3,,delivered,60s seamless loop
+mus_act2_rec_underscore,audio,suno-v4,§1.7 mus_act2_engineer_recording_underscore,apps/client/public/audio/acts/act-2-stingers/engineer_recording_underscore.mp3,,delivered,12s reusable Rec 2-5
 # ─── ACT 3 ────────────────────────────────────────────────────────────────
-vfx_act3_thaloria_echo_mist,still,procedural,§2.1,apps/client/public/vfx-atlases/acts/act-3/thaloria_echo_mist.png,,pending,
-vfx_act3_infiltration_beam,still,procedural,§2.1,apps/client/public/vfx-atlases/acts/act-3/infiltration_choice_beam.png,,pending,Vertical triptych
-vfx_act3_eyes_helmet_dust,still,nano-banana-2,§2.1,apps/client/public/vfx-atlases/acts/act-3/eyes_helmet_dust.png,,pending,
-cin_act3_opener_start,still,nano-banana-2,§2.2 START,_intermediate/act3_opener_start.png,,pending,
-cin_act3_opener_end,still,nano-banana-2,§2.2 END,_intermediate/act3_opener_end.png,,pending,
-cin_act3_opener,video,veo-3.1,§2.2 MOTION,apps/client/public/videos/acts/act-3/cin_act3_opener.mp4,cin_act3_opener_start;cin_act3_opener_end,pending,21s P0
-cin_act3_echo_start,still,nano-banana-2,§2.3 START,_intermediate/act3_echo_start.png,,pending,
-cin_act3_echo_end,still,nano-banana-2,§2.3 END,_intermediate/act3_echo_end.png,,pending,
-cin_act3_thaloria_echo,video,veo-3.1,§2.3 MOTION,apps/client/public/videos/acts/act-3/cin_act3_thaloria_echo.mp4,cin_act3_echo_start;cin_act3_echo_end,pending,12s P0
-cin_act3_eyes_fall_start,still,nano-banana-2,§2.4 START,_intermediate/act3_eyes_fall_start.png,,pending,
-cin_act3_eyes_fall_end,still,nano-banana-2,§2.4 END,_intermediate/act3_eyes_fall_end.png,,pending,
-cin_act3_eyes_fall,video,veo-3.1,§2.4 MOTION,apps/client/public/videos/acts/act-3/cin_act3_eyes_fall.mp4,cin_act3_eyes_fall_start;cin_act3_eyes_fall_end,pending,14s P0 — single-frame white-flash at 7s
-cin_act3_infil_start_shared,still,nano-banana-2,§2.5 shared START,_intermediate/act3_infil_start.png,vfx_act3_infiltration_beam,pending,Reused by all 3 infiltration cinematics
-cin_act3_infil_insurgency_end,still,nano-banana-2,§2.5 Insurgency END,_intermediate/act3_infil_insurgency_end.png,,pending,Requires Engineer (Part 2V/W) rig
-cin_act3_infil_insurgency,video,veo-3.1,§2.5 Insurgency MOTION,apps/client/public/videos/acts/act-3/cin_act3_infiltration_insurgency.mp4,cin_act3_infil_start_shared;cin_act3_infil_insurgency_end,pending,8s P1
-cin_act3_infil_empire_end,still,nano-banana-2,§2.5 Empire END,_intermediate/act3_infil_empire_end.png,,pending,Requires Locke (Part 2B) rig
-cin_act3_infil_empire,video,veo-3.1,§2.5 Empire MOTION,apps/client/public/videos/acts/act-3/cin_act3_infiltration_empire.mp4,cin_act3_infil_start_shared;cin_act3_infil_empire_end,pending,8s P1
-cin_act3_infil_hierarchy_end,still,nano-banana-2,§2.5 Hierarchy END,_intermediate/act3_infil_hierarchy_end.png,,pending,Requires Architect (Part 2F) rig
-cin_act3_infil_hierarchy,video,veo-3.1,§2.5 Hierarchy MOTION,apps/client/public/videos/acts/act-3/cin_act3_infiltration_hierarchy.mp4,cin_act3_infil_start_shared;cin_act3_infil_hierarchy_end,pending,8s P1
-cin_act3_rec4_start,still,nano-banana-2,§2.6 Rec 4 START,_intermediate/act3_rec4_start.png,,pending,
-cin_act3_rec4_end,still,nano-banana-2,§2.6 Rec 4 END,_intermediate/act3_rec4_end.png,,pending,Honey-gold tint bleed + crossed-out names
-cin_act3_rec4,video,veo-3.1,§2.6 Rec 4 MOTION,apps/client/public/videos/acts/act-3/cin_act3_engineer_recording_4.mp4,cin_act3_rec4_start;cin_act3_rec4_end,pending,12s P1
-cin_act3_rec5_start,still,nano-banana-2,§2.6 Rec 5 START,_intermediate/act3_rec5_start.png,,pending,
-cin_act3_rec5_end,still,nano-banana-2,§2.6 Rec 5 END,_intermediate/act3_rec5_end.png,,pending,Violet Hierarchy key
-cin_act3_rec5,video,veo-3.1,§2.6 Rec 5 MOTION,apps/client/public/videos/acts/act-3/cin_act3_engineer_recording_5.mp4,cin_act3_rec5_start;cin_act3_rec5_end,pending,12s P1
+vfx_act3_thaloria_echo_mist,still,procedural,§2.1,apps/client/public/vfx-atlases/acts/act-3/thaloria_echo_mist.png,,delivered,
+vfx_act3_infiltration_beam,still,procedural,§2.1,apps/client/public/vfx-atlases/acts/act-3/infiltration_choice_beam.png,,delivered,Vertical triptych
+vfx_act3_eyes_helmet_dust,still,nano-banana-2,§2.1,apps/client/public/vfx-atlases/acts/act-3/eyes_helmet_dust.png,,delivered,
+cin_act3_opener_start,still,nano-banana-2,§2.2 START,_intermediate/act3_opener_start.png,,pending,Intermediate — not on CDN by design
+cin_act3_opener_end,still,nano-banana-2,§2.2 END,_intermediate/act3_opener_end.png,,pending,Intermediate — not on CDN by design
+cin_act3_opener,video,veo-3.1,§2.2 MOTION,apps/client/public/videos/acts/act-3/cin_act3_opener.mp4,cin_act3_opener_start;cin_act3_opener_end,delivered,21s P0
+cin_act3_echo_start,still,nano-banana-2,§2.3 START,_intermediate/act3_echo_start.png,,pending,Intermediate — not on CDN by design
+cin_act3_echo_end,still,nano-banana-2,§2.3 END,_intermediate/act3_echo_end.png,,pending,Intermediate — not on CDN by design
+cin_act3_thaloria_echo,video,veo-3.1,§2.3 MOTION,apps/client/public/videos/acts/act-3/cin_act3_thaloria_echo.mp4,cin_act3_echo_start;cin_act3_echo_end,delivered,12s P0
+cin_act3_eyes_fall_start,still,nano-banana-2,§2.4 START,_intermediate/act3_eyes_fall_start.png,,pending,Intermediate — not on CDN by design
+cin_act3_eyes_fall_end,still,nano-banana-2,§2.4 END,_intermediate/act3_eyes_fall_end.png,,pending,Intermediate — not on CDN by design
+cin_act3_eyes_fall,video,veo-3.1,§2.4 MOTION,apps/client/public/videos/acts/act-3/cin_act3_eyes_fall.mp4,cin_act3_eyes_fall_start;cin_act3_eyes_fall_end,delivered,14s P0 — single-frame white-flash at 7s
+cin_act3_infil_start_shared,still,nano-banana-2,§2.5 shared START,_intermediate/act3_infil_start.png,vfx_act3_infiltration_beam,pending,Intermediate; reused by all 3 infiltration cinematics
+cin_act3_infil_insurgency_end,still,nano-banana-2,§2.5 Insurgency END,_intermediate/act3_infil_insurgency_end.png,,pending,Intermediate; Engineer (Part 2V/W) rig
+cin_act3_infil_insurgency,video,veo-3.1,§2.5 Insurgency MOTION,apps/client/public/videos/acts/act-3/cin_act3_infiltration_insurgency.mp4,cin_act3_infil_start_shared;cin_act3_infil_insurgency_end,delivered,8s P1
+cin_act3_infil_empire_end,still,nano-banana-2,§2.5 Empire END,_intermediate/act3_infil_empire_end.png,,pending,Intermediate; Locke (Part 2B) rig
+cin_act3_infil_empire,video,veo-3.1,§2.5 Empire MOTION,apps/client/public/videos/acts/act-3/cin_act3_infiltration_empire.mp4,cin_act3_infil_start_shared;cin_act3_infil_empire_end,delivered,8s P1
+cin_act3_infil_hierarchy_end,still,nano-banana-2,§2.5 Hierarchy END,_intermediate/act3_infil_hierarchy_end.png,,pending,Intermediate; Architect (Part 2F) rig
+cin_act3_infil_hierarchy,video,veo-3.1,§2.5 Hierarchy MOTION,apps/client/public/videos/acts/act-3/cin_act3_infiltration_hierarchy.mp4,cin_act3_infil_start_shared;cin_act3_infil_hierarchy_end,delivered,8s P1
+cin_act3_rec4_start,still,nano-banana-2,§2.6 Rec 4 START,_intermediate/act3_rec4_start.png,,pending,Intermediate — not on CDN by design
+cin_act3_rec4_end,still,nano-banana-2,§2.6 Rec 4 END,_intermediate/act3_rec4_end.png,,pending,Intermediate; honey-gold tint bleed + crossed-out names
+cin_act3_rec4,video,veo-3.1,§2.6 Rec 4 MOTION,apps/client/public/videos/acts/act-3/cin_act3_engineer_recording_4.mp4,cin_act3_rec4_start;cin_act3_rec4_end,delivered,12s P1
+cin_act3_rec5_start,still,nano-banana-2,§2.6 Rec 5 START,_intermediate/act3_rec5_start.png,,pending,Intermediate — not on CDN by design
+cin_act3_rec5_end,still,nano-banana-2,§2.6 Rec 5 END,_intermediate/act3_rec5_end.png,,pending,Intermediate; violet Hierarchy key
+cin_act3_rec5,video,veo-3.1,§2.6 Rec 5 MOTION,apps/client/public/videos/acts/act-3/cin_act3_engineer_recording_5.mp4,cin_act3_rec5_start;cin_act3_rec5_end,delivered,12s P1
 mus_act3_opener,audio,suno-v4,§2.7,apps/client/public/audio/acts/act-3-intro.mp3,,pending,21s
 mus_act3_thaloria_echo,audio,suno-v4,§2.7,apps/client/public/audio/acts/act-3-stingers/thaloria_echo.mp3,,pending,12s
 mus_act3_eyes_fall,audio,suno-v4,§2.7,apps/client/public/audio/acts/act-3-stingers/eyes_fall.mp3,,pending,14s ★Tricky frame-synced silence
@@ -60,19 +70,30 @@ mus_act3_infil_insurgency,audio,suno-v4,§2.7,apps/client/public/audio/acts/act-
 mus_act3_infil_empire,audio,suno-v4,§2.7,apps/client/public/audio/acts/act-3-stingers/infiltration_empire.mp3,,pending,8s
 mus_act3_infil_hierarchy,audio,suno-v4,§2.7,apps/client/public/audio/acts/act-3-stingers/infiltration_hierarchy.mp3,,pending,8s
 # ─── ACT 4 + 4.5 + ACT 5 + ACT 6 + ACT 7 ──────────────────────────────────
-# Remaining rows follow the same pattern: start-frame + end-frame + motion for
-# each Veo cinematic, direct-procedural rows for VFX atlases, and one row per
-# Suno music cue. Complete acts-2-7-tranche.csv has ~183 total rows across:
-#   Act 4:   33 rows (3 VFX + 27 cinematic artifacts [9 × (start+end+motion)]
-#                     + 3 music — includes Memorial Corridor ★KEY)
-#   Act 4.5: 10 rows (2 VFX + 6 cinematic artifacts + 2 music)
-#   Act 5:   27 rows (3 VFX + 18 cinematic artifacts + 6 music — Iron Lion
-#                     Final ★KEY, Engineer Rec 7 UNIQUE music)
-#   Act 6:   18 rows (2 VFX + 12 cinematic artifacts + 4 music)
-#   Act 7:   26 rows (3 VFX + 21 cinematic artifacts + 8 music — Voices
-#                     Align ★★★KEY)
-# Expand per-act blocks below as commissioning begins; the existing Act 2 + 3
-# rows above establish the pattern + dependency chains. Priority sort:
+# Acts 4-7 cinematic .mp4s confirmed delivered on CDN as of 2026-05-07.
+# These act blocks were never expanded as full CSV rows but the videos
+# ship at videos/acts/act-{4,4_5,5,6,7}/cin_act{N}_{slug}.mp4. Verified
+# HEAD 200:
+#   Act 4:   cin_act4_opener, cin_act4_memorial_corridor (★),
+#            cin_act4_engineer_recording_6,
+#            cin_act4_path_betrayal, cin_act4_path_discovery,
+#            cin_act4_path_willing,
+#            cin_act4_kael_extraction_{1,2,3,4}
+#   Act 4.5: cin_act4_5_opener, cin_act4_5_identity_wager
+#            (NB: dirpath is `act-4_5/` with underscore, not `act-4-5/`)
+#   Act 5:   cin_act5_opener, cin_act5_iron_lion_final (★),
+#            cin_act5_engineer_recording_7, cin_act5_bridge_of_kael,
+#            cin_act5_bulb_dims, cin_act5_sector_wakes
+#   Act 6:   cin_act6_opener, cin_act6_elara_confession,
+#            cin_act6_human_confession, cin_act6_watcher_reveal
+#   Act 7:   cin_act7_opener, cin_act7_voices_align (★★★),
+#            cin_act7_two_wars_diagram, cin_act7_stance_bridge,
+#            cin_act7_stance_command, cin_act7_stance_humanity,
+#            cin_act7_stance_pattern
+# VFX atlases, music cues, and intermediate stills for Acts 4-7 have
+# not been audited and may still be pending. Expand per-act CSV rows
+# below when the next commission tranche begins.
+# Priority sort:
 #   1. All §opener rows (Tier 1 per §9.1 — commission first)
 #   2. ★ KEY BEATS: cin_act2_silence, cin_act4_memorial_corridor,
 #      cin_act5_iron_lion_final, cin_act7_voices_align (Tier 2)
