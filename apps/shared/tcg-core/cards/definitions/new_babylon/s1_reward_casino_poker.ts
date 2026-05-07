@@ -50,4 +50,8 @@ export const cardDef: CardDefinition = {
   rulesVersion: "1.1.0",
   trial_categories: ["narrative", "offensive"] as const,
   verdict_delta: 2,
+  balanceException: {
+    reason: "Reward/prestige card: designer-tuned outside the standard curve for narrative role; not part of the regular deck-builder balance pool. UNDER curve by 22%.",
+    reviewer: "2026-05-stat-curve-recalibration",
+  },
 };

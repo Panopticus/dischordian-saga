@@ -149,6 +149,10 @@ const witness_whose_time_has_come: CardDefinition = {
   rulesVersion: "1.1.0",
   trial_categories: ["narrative", "reactive"] as const,
   verdict_delta: 1,
+  balanceException: {
+    reason: "Ability-driven design: raw stats traded for build-around effect text; the curve over-predicts stats for cards whose power lives in their abilities. UNDER curve by 29%.",
+    reviewer: "2026-05-stat-curve-recalibration",
+  },
 };
 
 /** s1_neutral_zeal_001 — Honor Guard
@@ -174,6 +178,10 @@ const honor_guard: CardDefinition = {
   rulesVersion: "1.1.0",
   trial_categories: ["defensive", "offensive"] as const,
   verdict_delta: 0,
+  balanceException: {
+    reason: "Ability-driven design: raw stats traded for build-around effect text; the curve over-predicts stats for cards whose power lives in their abilities. UNDER curve by 29%.",
+    reviewer: "2026-05-stat-curve-recalibration",
+  },
 };
 
 /** s1_neutral_pack_001 — Wolfpack Initiate
@@ -199,6 +207,10 @@ const wolfpack_initiate: CardDefinition = {
   rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 0,
+  balanceException: {
+    reason: "Ability-driven design: raw stats traded for build-around effect text; the curve over-predicts stats for cards whose power lives in their abilities. UNDER curve by 40%.",
+    reviewer: "2026-05-stat-curve-recalibration",
+  },
 };
 
 /** s1_neutral_resurrect_001 — Phoenix Cadre
@@ -257,6 +269,10 @@ const the_reading_room: CardDefinition = {
   rulesVersion: "1.1.0",
   trial_categories: ["narrative", "reactive"] as const,
   verdict_delta: 1,
+  balanceException: {
+    reason: "Ability-driven design: raw stats traded for build-around effect text; the curve over-predicts stats for cards whose power lives in their abilities. UNDER curve by 29%.",
+    reviewer: "2026-05-stat-curve-recalibration",
+  },
 };
 
 /** s1_neutral_onmove_001 — The Watchtower's Eye
@@ -349,6 +365,10 @@ const the_anchor_of_kael: CardDefinition = {
   rulesVersion: "1.1.0",
   trial_categories: ["defensive", "evidence"] as const,
   verdict_delta: 0,
+  balanceException: {
+    reason: "Aggressive low-cost utility: stats traded down OR up against the curve to reach a specific play pattern (rush threat, sticky blocker, etc.). OVER curve by 33%.",
+    reviewer: "2026-05-stat-curve-recalibration",
+  },
 };
 
 export const ENGINE_DEMO_CARDS: readonly CardDefinition[] = [

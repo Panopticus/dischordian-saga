@@ -67,4 +67,8 @@ export const cardDef: CardDefinition = {
   rulesVersion: "1.1.0",
   trial_categories: ["defensive", "narrative"] as const,
   verdict_delta: 2,
+  balanceException: {
+    reason: "Ability-driven design: raw stats traded for build-around effect text; the curve over-predicts stats for cards whose power lives in their abilities. UNDER curve by 29%.",
+    reviewer: "2026-05-stat-curve-recalibration",
+  },
 };

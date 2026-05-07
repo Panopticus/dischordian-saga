@@ -52,27 +52,17 @@ const ENGINE_DIR = path.join(REPO_ROOT, "apps/shared/tcg-core/engine");
 
 /**
  * Trigger kinds intentionally implemented through a non-dispatch
- * mechanism. Each entry must include the runtime path that honors the
- * kind — exempting without a referenced implementation is the same
- * sin the gate exists to prevent.
+ * mechanism. Each entry must include the runtime path that honors
+ * the kind — exempting without a referenced implementation is the
+ * same sin the gate exists to prevent.
  *
- * passive_aura is not event-driven; it re-evaluates the board on
- * every state mutation. The plan §B6 of the Part B rollout
- * (now-develop-a-plan-purring-origami.md) explicitly calls out the
- * continuous-evaluation pass as larger than the other trigger
- * dispatchers — landing it requires touching engine/stateBasedActions.ts
- * and the buff-provenance model. The exemption is honest about that
- * scope; the entry is otherwise a permanent ship-check failure.
- *
- * Gating: passive_aura has zero card consumers in the current
- * registry (verified at parity-test landing). When the first
- * passive_aura card lands, the implementation must land in the same
- * PR and the exemption must be removed.
+ * Currently empty — every Trigger kind has a real dispatch site.
+ * passive_aura was the last entry; it now resolves through the
+ * SBA Pass 1c loop in engine/stateBasedActions.ts (matches the
+ * `trigger.kind !== "passive_aura"` continue pattern there) which
+ * the gate's findKindReferences picks up.
  */
-const TRIGGER_DISPATCH_EXEMPT: Readonly<Record<string, string>> = {
-  passive_aura:
-    "deferred to plan §B6 follow-up — needs continuous re-evaluation pass; no card consumers in current registry",
-};
+const TRIGGER_DISPATCH_EXEMPT: Readonly<Record<string, string>> = {};
 
 export function checkTriggerKindCoverage(): RawParityCount {
   const triggerSrc = fs.readFileSync(TRIGGER_TYPES_PATH, "utf-8");

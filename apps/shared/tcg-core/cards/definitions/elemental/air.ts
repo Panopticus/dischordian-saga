@@ -31,6 +31,10 @@ export const air_01: CardDefinition = {
   rulesVersion: "1.1.0",
   trial_categories: ["narrative", "offensive"] as const,
   verdict_delta: 1,
+  balanceException: {
+    reason: "Thematic-pool card (element / class kit): stat profile shaped by thematic role rather than the curve. UNDER curve by 40%.",
+    reviewer: "2026-05-stat-curve-recalibration",
+  },
 };
 
 export const air_02: CardDefinition = {

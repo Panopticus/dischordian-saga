@@ -74,4 +74,8 @@ export const cardDef: CardDefinition = {
   rulesVersion: "1.1.0",
   trial_categories: ["evidence", "reactive"] as const,
   verdict_delta: 1,
+  balanceException: {
+    reason: "Aggressive low-cost utility: stats traded down OR up against the curve to reach a specific play pattern (rush threat, sticky blocker, etc.). OVER curve by 29%.",
+    reviewer: "2026-05-stat-curve-recalibration",
+  },
 };

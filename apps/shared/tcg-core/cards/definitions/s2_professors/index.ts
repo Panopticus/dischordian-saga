@@ -35,11 +35,27 @@ import { assetUrl } from "../../../../../client/src/lib/assetUrl";
 type Ability = CardDefinition["abilities"][number];
 type AbilityId = Ability["id"];
 
+/**
+ * §5.8 Authority-trial admissibility per signature spell, light/dark.
+ * Categories drawn from `apps/shared/tcg-core/types/Card.ts` doc:
+ *   - defensive: protective / shield / heal (phase 1 charge)
+ *   - narrative: information / draw / mill / discovery (phases 2, 9)
+ *   - evidence:  reveal / prove (phases 3-5)
+ *   - reactive:  interrupt / cross-examine (phases 6-8)
+ *   - confession: extract / debuff opponents (phase 7, insurgency lean)
+ *
+ * Light variants tend to lean defensive/narrative (sanctioned).
+ * Dark variants tend to lean confession/reactive (corrupted extraction).
+ * Categories must be sorted alphabetically per
+ * `resolveTrialCategories.test.ts` invariant.
+ */
+type TrialCats = CardDefinition["trial_categories"];
+
 interface SigDef {
   professor: string;
   sigN: number;
-  light: { ability: string; flavor: string; abilities: readonly Ability[] };
-  dark: { ability: string; flavor: string; abilities: readonly Ability[] };
+  light: { ability: string; flavor: string; abilities: readonly Ability[]; trialCategories: TrialCats };
+  dark: { ability: string; flavor: string; abilities: readonly Ability[]; trialCategories: TrialCats };
 }
 
 /* ─── Ability factories ─── */
@@ -410,41 +426,65 @@ const PROCTOR_DARK: readonly Ability[] = [{
 
 const SIGS: readonly SigDef[] = [
   { professor: "kanevas", sigN: 1,
-    light: { ability: "Harmonize", flavor: "Sync to me. We move as one.", abilities: KANEVAS_LIGHT },
-    dark: { ability: "Dissonance", flavor: "Sync to me. They will move as I choose.", abilities: KANEVAS_DARK } },
+    light: { ability: "Harmonize", flavor: "Sync to me. We move as one.", abilities: KANEVAS_LIGHT,
+      trialCategories: ["defensive"] },
+    dark: { ability: "Dissonance", flavor: "Sync to me. They will move as I choose.", abilities: KANEVAS_DARK,
+      trialCategories: ["confession"] } },
   { professor: "aoki", sigN: 2,
-    light: { ability: "Unseen Passage", flavor: "Walk where they cannot watch.", abilities: AOKI_LIGHT },
-    dark: { ability: "Private Confession", flavor: "Their secrets are mine now.", abilities: AOKI_DARK } },
+    light: { ability: "Unseen Passage", flavor: "Walk where they cannot watch.", abilities: AOKI_LIGHT,
+      trialCategories: ["defensive", "narrative"] },
+    dark: { ability: "Private Confession", flavor: "Their secrets are mine now.", abilities: AOKI_DARK,
+      trialCategories: ["confession"] } },
   { professor: "halverez", sigN: 3,
-    light: { ability: "Soul-Read", flavor: "Show me what you treasure.", abilities: HALVEREZ_LIGHT },
-    dark: { ability: "Soul-Take", flavor: "It is mine now. Always was.", abilities: HALVEREZ_DARK } },
+    light: { ability: "Soul-Read", flavor: "Show me what you treasure.", abilities: HALVEREZ_LIGHT,
+      trialCategories: ["evidence", "narrative"] },
+    dark: { ability: "Soul-Take", flavor: "It is mine now. Always was.", abilities: HALVEREZ_DARK,
+      trialCategories: ["confession"] } },
   { professor: "orphic", sigN: 4,
-    light: { ability: "Phase-Step", flavor: "Through. Out the other side.", abilities: ORPHIC_LIGHT },
-    dark: { ability: "Dimensional Drift", flavor: "Through... mostly.", abilities: ORPHIC_DARK } },
+    light: { ability: "Phase-Step", flavor: "Through. Out the other side.", abilities: ORPHIC_LIGHT,
+      trialCategories: ["defensive", "reactive"] },
+    dark: { ability: "Dimensional Drift", flavor: "Through... mostly.", abilities: ORPHIC_DARK,
+      trialCategories: ["narrative", "reactive"] } },
   { professor: "mireille", sigN: 5,
-    light: { ability: "Viral Word", flavor: "Believe me. Just for a moment.", abilities: MIREILLE_LIGHT },
-    dark: { ability: "Thought Carry", flavor: "Believe me. Tell everyone.", abilities: MIREILLE_DARK } },
+    light: { ability: "Viral Word", flavor: "Believe me. Just for a moment.", abilities: MIREILLE_LIGHT,
+      trialCategories: ["defensive", "narrative"] },
+    dark: { ability: "Thought Carry", flavor: "Believe me. Tell everyone.", abilities: MIREILLE_DARK,
+      trialCategories: ["confession"] } },
   { professor: "kasra", sigN: 6,
-    light: { ability: "Parade Order", flavor: "Parade order. To me. Now.", abilities: KASRA_LIGHT },
-    dark: { ability: "Acceptable Casualties", flavor: "Some losses are acceptable. These.", abilities: KASRA_DARK } },
+    light: { ability: "Parade Order", flavor: "Parade order. To me. Now.", abilities: KASRA_LIGHT,
+      trialCategories: ["reactive"] },
+    dark: { ability: "Acceptable Casualties", flavor: "Some losses are acceptable. These.", abilities: KASRA_DARK,
+      trialCategories: ["confession"] } },
   { professor: "vellis", sigN: 7,
-    light: { ability: "Verbal Contract", flavor: "Agreed. For five turns of the wheel.", abilities: VELLIS_LIGHT },
-    dark: { ability: "Blood Oath", flavor: "Agreed. For all turns. Mine.", abilities: VELLIS_DARK } },
+    light: { ability: "Verbal Contract", flavor: "Agreed. For five turns of the wheel.", abilities: VELLIS_LIGHT,
+      trialCategories: ["narrative"] },
+    dark: { ability: "Blood Oath", flavor: "Agreed. For all turns. Mine.", abilities: VELLIS_DARK,
+      trialCategories: ["confession", "narrative"] } },
   { professor: "greenshaw", sigN: 8,
-    light: { ability: "Quarantine", flavor: "Held. You will not move.", abilities: GREENSHAW_LIGHT },
-    dark: { ability: "Thought Virus", flavor: "Held. And contagious.", abilities: GREENSHAW_DARK } },
+    light: { ability: "Quarantine", flavor: "Held. You will not move.", abilities: GREENSHAW_LIGHT,
+      trialCategories: ["defensive", "reactive"] },
+    dark: { ability: "Thought Virus", flavor: "Held. And contagious.", abilities: GREENSHAW_DARK,
+      trialCategories: ["reactive"] } },
   { professor: "vex", sigN: 9,
-    light: { ability: "Rule Rewrite", flavor: "House rules. For this turn.", abilities: VEX_LIGHT },
-    dark: { ability: "House Rules", flavor: "House rules. From now on. Forever.", abilities: VEX_DARK } },
+    light: { ability: "Rule Rewrite", flavor: "House rules. For this turn.", abilities: VEX_LIGHT,
+      trialCategories: ["reactive"] },
+    dark: { ability: "House Rules", flavor: "House rules. From now on. Forever.", abilities: VEX_DARK,
+      trialCategories: ["confession", "reactive"] } },
   { professor: "vasara", sigN: 10,
-    light: { ability: "Second Breath", flavor: "Again. Not finished.", abilities: VASARA_LIGHT },
-    dark: { ability: "Borrowed Time", flavor: "Again. At their cost.", abilities: VASARA_DARK } },
+    light: { ability: "Second Breath", flavor: "Again. Not finished.", abilities: VASARA_LIGHT,
+      trialCategories: ["defensive"] },
+    dark: { ability: "Borrowed Time", flavor: "Again. At their cost.", abilities: VASARA_DARK,
+      trialCategories: ["confession", "defensive"] } },
   { professor: "vent", sigN: 11,
-    light: { ability: "Field Repair", flavor: "Fixed. Stronger than before.", abilities: VENT_LIGHT },
-    dark: { ability: "Salvage Rights", flavor: "Salvaged. Their loss, your gain.", abilities: VENT_DARK } },
+    light: { ability: "Field Repair", flavor: "Fixed. Stronger than before.", abilities: VENT_LIGHT,
+      trialCategories: ["defensive"] },
+    dark: { ability: "Salvage Rights", flavor: "Salvaged. Their loss, your gain.", abilities: VENT_DARK,
+      trialCategories: ["confession", "reactive"] } },
   { professor: "proctor", sigN: 12,
-    light: { ability: "Investigator's Sight", flavor: "There. The next answer.", abilities: PROCTOR_LIGHT },
-    dark: { ability: "Architect's Eye", flavor: "There. And there. And there. All of it. Yours.", abilities: PROCTOR_DARK } },
+    light: { ability: "Investigator's Sight", flavor: "There. The next answer.", abilities: PROCTOR_LIGHT,
+      trialCategories: ["evidence", "narrative"] },
+    dark: { ability: "Architect's Eye", flavor: "There. And there. And there. All of it. Yours.", abilities: PROCTOR_DARK,
+      trialCategories: ["confession", "narrative"] } },
 ];
 
 /* The visual art for each signature spell reuses the F.4 cinematic's
@@ -472,7 +512,7 @@ for (const sig of SIGS) {
     art: sigArt(sig.sigN, "light"),
     flavorText: sig.light.flavor,
     rulesVersion: "1.1.0",
-    trial_categories: [],
+    trial_categories: sig.light.trialCategories,
   });
   ALL.push({
     id: `s2_professors_${sig.professor}_${darkSlug}` as CardDefinition["id"],
@@ -486,7 +526,7 @@ for (const sig of SIGS) {
     art: sigArt(sig.sigN, "dark"),
     flavorText: sig.dark.flavor,
     rulesVersion: "1.1.0",
-    trial_categories: [],
+    trial_categories: sig.dark.trialCategories,
   });
 }
 

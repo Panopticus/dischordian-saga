@@ -1340,6 +1340,67 @@ export function useNarrativeIntegration() {
       });
     }
 
+    // ─── Secret-reveal flag bridge ────────────────────────────────
+    //
+    // expansionUnlockService.ts gates 7 cards on
+    // `secret_act_N_revealed` (one per act). Each act has a per-act
+    // "secret discovered" marker that content authors set when the
+    // canonical hidden lore beat is found — entering a hidden room,
+    // taking the optional Devotee path, hearing the Source's
+    // unredacted line, etc. (Act-specific discovery routes are
+    // owned by the narrative team; the writer here is the unified
+    // bridge that the unlock service consumes.)
+    //
+    // Naming convention:
+    //   `act_N_secret_discovered`  — set by content (single source per act)
+    //   `secret_act_N_revealed`    — set here, read by expansionUnlockService
+    //
+    // Idempotent: each branch only fires when the discovery marker
+    // is true AND the canonical flag isn't yet set, so no duplicate
+    // unlock toasts.
+    if (
+      state.narrativeFlags?.act_1_secret_discovered &&
+      !state.narrativeFlags?.secret_act_1_revealed
+    ) {
+      setNarrativeFlag("secret_act_1_revealed", true);
+    }
+    if (
+      state.narrativeFlags?.act_2_secret_discovered &&
+      !state.narrativeFlags?.secret_act_2_revealed
+    ) {
+      setNarrativeFlag("secret_act_2_revealed", true);
+    }
+    if (
+      state.narrativeFlags?.act_3_secret_discovered &&
+      !state.narrativeFlags?.secret_act_3_revealed
+    ) {
+      setNarrativeFlag("secret_act_3_revealed", true);
+    }
+    if (
+      state.narrativeFlags?.act_4_secret_discovered &&
+      !state.narrativeFlags?.secret_act_4_revealed
+    ) {
+      setNarrativeFlag("secret_act_4_revealed", true);
+    }
+    if (
+      state.narrativeFlags?.act_5_secret_discovered &&
+      !state.narrativeFlags?.secret_act_5_revealed
+    ) {
+      setNarrativeFlag("secret_act_5_revealed", true);
+    }
+    if (
+      state.narrativeFlags?.act_6_secret_discovered &&
+      !state.narrativeFlags?.secret_act_6_revealed
+    ) {
+      setNarrativeFlag("secret_act_6_revealed", true);
+    }
+    if (
+      state.narrativeFlags?.act_7_secret_discovered &&
+      !state.narrativeFlags?.secret_act_7_revealed
+    ) {
+      setNarrativeFlag("secret_act_7_revealed", true);
+    }
+
     // Check terminus
     const terminusWave = parseInt(localStorage.getItem("terminus_highest_wave") || "0");
     if (terminusWave >= 20 && !state.narrativeFlags?.terminus_champion) {

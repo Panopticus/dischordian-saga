@@ -44,6 +44,10 @@ export const the_oracle_t2: CardDefinition = {
   rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 1,
+  balanceException: {
+    reason: "General / imprint variant: signature legendary balance; raw-stat curve doesn't apply to one-of leader units. UNDER curve by 29%.",
+    reviewer: "2026-05-stat-curve-recalibration",
+  },
 };
 
 export const the_oracle_t3: CardDefinition = {
@@ -72,6 +76,10 @@ export const the_oracle_t3: CardDefinition = {
   rulesVersion: "1.1.0",
   trial_categories: ["narrative", "offensive"] as const,
   verdict_delta: 2,
+  balanceException: {
+    reason: "General / imprint variant: signature legendary balance; raw-stat curve doesn't apply to one-of leader units. UNDER curve by 22%.",
+    reviewer: "2026-05-stat-curve-recalibration",
+  },
 };
 
 export const the_oracle_t4: CardDefinition = {

@@ -9,7 +9,17 @@
  * purpose, here is who approved it." Without the exception, the
  * card is a silent power-curve outlier.
  *
- * "Declared" = number of unit/structure cards with baseStats.
+ * Eligibility excludes:
+ *   - **Tokens** (id prefix `tok_` / `token_`) — spawned by summon
+ *     ops, not played from hand; their stat budget is shaped by the
+ *     summoning card's cost, not their own (which is always 0).
+ *   - **Reserved cards** (`reserved: true`) — retroactive deliveries
+ *     never enter the deck-builder pool.
+ *   - **Warlord-only cards** (`warlord_only: true`) — scripted opponent
+ *     decks only; balance is shaped by the §5.5 lockout mechanic, not
+ *     the standard curve.
+ *
+ * "Declared" = the eligible-set count.
  * "Implemented" = the count that are either within tolerance OR
  * carry a `balanceException`.
  *
@@ -24,6 +34,10 @@ import {
 } from "../../tcg-core/balance/statCurve";
 import type { RawParityCount } from "../types";
 
+function isToken(id: string): boolean {
+  return id.startsWith("tok_") || id.startsWith("token_");
+}
+
 export function checkCardStatBudgetCoverage(): RawParityCount {
   const offenders: string[] = [];
   let declared = 0;
@@ -31,6 +45,9 @@ export function checkCardStatBudgetCoverage(): RawParityCount {
   for (const card of ALL_CARD_DEFINITIONS) {
     if (card.cardType !== "unit" && card.cardType !== "structure") continue;
     if (!card.baseStats) continue;
+    if (isToken(card.id)) continue;
+    if (card.reserved) continue;
+    if (card.warlord_only) continue;
     declared++;
 
     const total = card.baseStats.power + card.baseStats.health;
