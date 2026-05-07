@@ -87,7 +87,7 @@ Pixi.js card-game board, Stockfish WASM chess, Web Audio API + ElevenLabs VO.
 | Witnessing Hub | shipping | `pages/WitnessingHubPage.tsx` |
 | Act 1 ladder | shipping | `pages/Act1CardLadderPage.tsx` |
 | Dischordia (card game) | shipping | `game/duelyst/*` |
-| Loredex / Codex | shipping | `pages/LoredexPage.tsx`, `CodexPage.tsx` |
+| Loredex / Codex | shipping | `pages/LoredexGraphPage.tsx` (`/loredex`, `/loredex/graph`), `pages/DreamerFragmentsPage.tsx` (`/loredex/dreamer-fragments`), `CodexPage.tsx` |
 | Trade Empire | shipping | `game/TradeEmpirePage.tsx` |
 | Marketplace, trades | shipping | `pages/Marketplace*`, `CardTradingPage.tsx` |
 | Crew (breeding + roster) | shipping | `pages/CrewRosterPage.tsx`, `components/crew/*` |

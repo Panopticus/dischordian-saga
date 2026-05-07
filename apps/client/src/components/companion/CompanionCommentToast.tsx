@@ -25,6 +25,31 @@ import {
   recordCommentPlay,
 } from "@/lib/companionCommentQueue";
 
+/**
+ * Resolve `{chronosphere}` and any future `{token}` placeholders in a
+ * companion-comment voice line. Today's only token is `chronosphere` —
+ * the operator's IANA timezone (e.g. "America/New_York"), read live
+ * from Intl.DateTimeFormat at fire time. Mirrors the FINGERPRINT
+ * cold-boot read in SurveillanceOpening so the Watcher's diegetic
+ * "we placed you" line can name the actual placement.
+ *
+ * Unrecognised tokens are left intact so authoring typos surface as
+ * literal "{nonsense}" in the toast rather than silently disappearing.
+ */
+function resolveLineTokens(line: string): string {
+  if (!line.includes("{")) return line;
+  return line.replace(/\{(\w+)\}/g, (match, token) => {
+    if (token === "chronosphere") {
+      try {
+        return Intl.DateTimeFormat().resolvedOptions().timeZone || match;
+      } catch {
+        return match;
+      }
+    }
+    return match;
+  });
+}
+
 /** Authored toast lines plus Watcher additions. Computed once at
  *  module scope; both arrays are static, so this is cheap and stable. */
 const ALL_COMMENTS: readonly CompanionComment[] = [
@@ -167,7 +192,7 @@ export function CompanionCommentToast() {
                   : "font-serif text-[12px]"
               }`}
             >
-              {active.voiceLine}
+              {resolveLineTokens(active.voiceLine)}
             </p>
           </motion.div>
         )}

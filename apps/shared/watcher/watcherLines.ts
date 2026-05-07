@@ -125,12 +125,17 @@ export const WATCHER_COMMENTS: readonly CompanionComment[] = [
   // Act 5 opens the galaxy. The Watcher acknowledges that the
   // operator has been placed on a map of operators — a diegetic
   // reference to the FINGERPRINT timezone read from the cold-boot
-  // SurveillanceOpening handshake. Once per account.
+  // SurveillanceOpening handshake. The `{chronosphere}` token is
+  // resolved at fire time by CompanionCommentToast.resolveLineTokens
+  // to the operator's actual IANA timezone (e.g. "America/New_York"),
+  // so the line lands as a specific tell rather than generic
+  // surveillance pose. Per WATCHER_DESIGN.md §3.5 (Stop 14). Once
+  // per account.
   {
     id: "watcher_act5_chronosphere",
     speaker: "watcher",
     trigger: "watcher_act5_chronosphere",
-    voiceLine: "Your chronosphere is on the map. We placed you.",
+    voiceLine: "Your chronosphere reads {chronosphere}. We placed you on the map.",
     timing: "delayed_5s",
     maxPlays: 1,
   },

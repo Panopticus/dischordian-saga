@@ -8,6 +8,8 @@ import {
   getFactionReputation,
   getReputationFor,
   runFactionReputationDecayTick,
+  applyDeltaToGameData,
+  applyFactionReputationDelta,
 } from "./factionReputationService";
 
 /* ═══════════════════════════════════════════════════════
@@ -107,5 +109,106 @@ describe("no-DB fallback", () => {
   it("runFactionReputationDecayTick returns rowsTouched: 0 when DB is unavailable", async () => {
     const result = await runFactionReputationDecayTick();
     expect(result).toEqual({ rowsTouched: 0 });
+  });
+
+  it("applyFactionReputationDelta returns null when DB is unavailable", async () => {
+    const result = await applyFactionReputationDelta(42, "empire", 100);
+    expect(result).toBeNull();
+  });
+});
+
+describe("applyDeltaToGameData (pure transform)", () => {
+  // Round-trip the read-modify-write the legacy tradeContracts code
+  // did inline. The audit flagged this path as unbounded; these tests
+  // pin the bounded behavior the service helper now enforces.
+
+  it("seeds the faction key when no prior gameData exists", () => {
+    const r = applyDeltaToGameData(undefined, "empire", 100);
+    expect(r.previousValue).toBe(0);
+    expect(r.nextValue).toBe(100);
+    expect(r.nextGameData.factionReputation).toEqual({ empire: 100 });
+  });
+
+  it("seeds the faction key when gameData exists but has no factionReputation", () => {
+    const r = applyDeltaToGameData({ otherKey: "preserved" }, "empire", 50);
+    expect(r.nextValue).toBe(50);
+    expect(r.nextGameData.factionReputation).toEqual({ empire: 50 });
+    expect(r.nextGameData.otherKey).toBe("preserved");
+  });
+
+  it("preserves sibling faction keys", () => {
+    const r = applyDeltaToGameData(
+      { factionReputation: { empire: 100, rebels: -50 } },
+      "empire",
+      25,
+    );
+    expect(r.nextValue).toBe(125);
+    expect(r.nextGameData.factionReputation).toEqual({ empire: 125, rebels: -50 });
+  });
+
+  it("preserves sibling gameData keys", () => {
+    const r = applyDeltaToGameData(
+      { factionReputation: { empire: 100 }, narrativeFlags: { x: true } },
+      "empire",
+      10,
+    );
+    expect(r.nextGameData.narrativeFlags).toEqual({ x: true });
+  });
+
+  it("clamps the result to +REP_BOUND when delta would exceed it", () => {
+    const r = applyDeltaToGameData(
+      { factionReputation: { empire: 950 } },
+      "empire",
+      9999,
+    );
+    expect(r.nextValue).toBe(REP_BOUND);
+  });
+
+  it("clamps the result to -REP_BOUND when delta would exceed it", () => {
+    const r = applyDeltaToGameData(
+      { factionReputation: { empire: -950 } },
+      "empire",
+      -9999,
+    );
+    expect(r.nextValue).toBe(-REP_BOUND);
+  });
+
+  it("clamps a corrupted prior value before adding the delta", () => {
+    // Defense-in-depth: even if some other code path wrote 99999,
+    // the read clamps to REP_BOUND before applying the delta.
+    const r = applyDeltaToGameData(
+      { factionReputation: { empire: 99999 } },
+      "empire",
+      -100,
+    );
+    expect(r.previousValue).toBe(REP_BOUND);
+    expect(r.nextValue).toBe(REP_BOUND - 100);
+  });
+
+  it("ignores non-finite deltas (treats as zero) rather than corrupting state", () => {
+    const r = applyDeltaToGameData(
+      { factionReputation: { empire: 100 } },
+      "empire",
+      NaN,
+    );
+    expect(r.nextValue).toBe(100);
+  });
+
+  it("zero delta is a no-op on the bounded value", () => {
+    const r = applyDeltaToGameData(
+      { factionReputation: { empire: 250 } },
+      "empire",
+      0,
+    );
+    expect(r.previousValue).toBe(250);
+    expect(r.nextValue).toBe(250);
+  });
+
+  it("does not mutate the input gameData (returns a new object)", () => {
+    const input = { factionReputation: { empire: 100 } };
+    const r = applyDeltaToGameData(input, "empire", 50);
+    expect(input.factionReputation.empire).toBe(100);
+    expect(r.nextGameData).not.toBe(input);
+    expect(r.nextGameData.factionReputation).not.toBe(input.factionReputation);
   });
 });

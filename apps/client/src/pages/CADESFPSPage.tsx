@@ -20,6 +20,7 @@ import { ChevronLeft, Skull, Shield, BookOpen, Crosshair, Clock } from "lucide-r
 import { CADES_CHARACTERS, CADES_UI, CADES_MUSIC } from "@/data/cadesAssets";
 import { isCadesUnlocked } from "@/data/cadesNarrativeIntegration";
 import { dispatchNarrativeEffect } from "@/hooks/useNarrativeEvents";
+import { fireCrossGameBeat } from "@/lib/crossGameBeats";
 import { CADESFeed } from "@/components/CADESFeed";
 import { CADESAmbientLines } from "@/components/CADESAmbientLines";
 import { CADESClueBoard } from "@/components/CADESClueBoard";
@@ -291,6 +292,20 @@ export default function CADESFPSPage() {
           scenarios_total_completed: e.data.payload?.scenarios_completed ?? [],
         });
         dispatchNarrativeEffect(undefined, `cades_gm_contact_${level}`);
+      }
+
+      // Cross-game narrative beats — the Godot side fires these via
+      // WebBridge.fire_cross_game_beat(beat_id) at canonical narrative
+      // moments. The bridge protocol is intentionally tiny: the React
+      // host forwards the beat id to the existing fireCrossGameBeat()
+      // helper, which routes through trpc.crossGameThreads.emit. Beat
+      // ids must match an entry in apps/shared/crossGameNarrativeThreads.ts;
+      // the server rejects unknown ids.
+      if (e.data.type === "CROSS_GAME_BEAT") {
+        const beatId = e.data.payload?.beat_id;
+        if (typeof beatId === "string" && beatId.length > 0) {
+          void fireCrossGameBeat(beatId, { emittedBy: "cades_fps" });
+        }
       }
     };
 

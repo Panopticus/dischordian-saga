@@ -151,7 +151,10 @@ Each server message is forwarded with the `MULTIPLAYER_` prefix
       `WebRTCPeerConnectionExtension` interface for this; the wrapper
       is non-trivial.
 - [ ] Per-entity `MultiplayerSynchronizer` configs on
-      `RemotePlayer.tscn` (the scene doesn't exist yet).
+      `RemotePlayer.tscn`. (The scene scaffolding landed in
+      `games/cades-fps/scenes/multiplayer/RemotePlayer.tscn` along
+      with `RemotePlayer.gd`; per-entity synchronizer wiring is the
+      remaining work.)
 - [ ] Server-side validation / anti-cheat: damage clamp, fire-rate
       limit, server-authoritative hit detection. Currently the
       authority model is "trust the host"; that's fine for friendly

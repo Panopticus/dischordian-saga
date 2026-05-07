@@ -1,0 +1,23 @@
+{
+  "_comment": "Cross-game narrative beats with no fire site. Each beat needs either a fireCrossGameBeat(beatId) call in apps/ TS code, OR a fire_cross_game_beat(beat_id) call in games/ GD code (CADES + DMC). The 18 entries here are grandfathered at the time the wiring guard was added (CONNECTION_AUDIT 2026-05-07 \u00a76.3). The Godot-side bridge now exists (WebBridge.fire_cross_game_beat in both cades-fps and dead-mans-circuit autoloads), so wiring each beat at its canonical narrative moment is per-game writer work. PRs that add a fire site MUST also remove the corresponding entry here; the baseline can shrink but not grow.",
+  "deferredNarrativeWiring": [
+    "cades_fall_arrival",
+    "cades_fall_fall",
+    "iron_lions_wake_cades_greeting",
+    "iron_lions_wake_cades_memorial",
+    "kaels_lineage_return_cades_descendant_npc",
+    "kaels_lineage_return_cades_side_mission_complete",
+    "last_words_echo_cades_radio",
+    "last_words_echo_dmc_motif",
+    "programmers_gift_dmc_decoded",
+    "substrate_handshake_cades_whisper",
+    "substrate_handshake_dmc_signature",
+    "the_programmers_math_dmc_puzzle_opened",
+    "the_programmers_math_dmc_solved_efficient",
+    "the_programmers_math_dmc_solved_honest",
+    "the_watchers_yawn_cades_weather_suppressed",
+    "the_watchers_yawn_dmc_telemetry_clean",
+    "vox_correspondence_dmc_letter_decoded",
+    "vox_correspondence_dmc_letter_found"
+  ]
+}

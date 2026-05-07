@@ -169,6 +169,13 @@ run_stage "Stage 13c / vo:awakening"       pnpm vo:awakening
 run_stage "Stage 13d / vo:engineer-logs"   pnpm vo:engineer-logs
 run_stage "Stage 13e / vo:episodes"        pnpm vo:episodes
 run_stage "Stage 13f / vo:guild-cutscenes" pnpm vo:guild-cutscenes
+# vo:act1-taunts: 21 taunt lines for the 7 act-1 opponents
+# (collector, watcher, eidola, matrikala, authority, programmer,
+# warlord-zero-first). Client wiring is complete — Act1OpponentDialog
+# carries tauntVoIds, useAct1TauntsVO merges the 7 manifests, and
+# Act1OpponentTauntOverlay calls speak() on phase change. Without
+# this stage the taunts silently fall back to text-only.
+run_stage "Stage 13g / vo:act1-taunts"     pnpm vo:act1-taunts
 
 # ── Stage 5: Per-character Python generators ──────────
 if [ $SKIP_PYTHON -eq 0 ]; then

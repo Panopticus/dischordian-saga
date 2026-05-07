@@ -10,6 +10,7 @@ import { isDialogActive } from "@/lib/dialogState";
 import { ToastSlot } from "@/components/toast";
 import LottiePlayer from "@/components/LottiePlayer";
 import { hapticFeedback } from "@/lib/haptics";
+import { dispatchLegendaryAchievement } from "@/components/LegendaryAchievementModal";
 
 const TIER_COLORS: Record<string, string> = {
   bronze: "#cd7f32",
@@ -44,9 +45,30 @@ export default function AchievementToast() {
     return () => window.removeEventListener("dialog-state-change", handler);
   }, [visible]);
 
-  // When a new achievement arrives, show it if no dialog is active
+  // When a new achievement arrives, route by tier:
+  //   legendary → fullscreen LegendaryAchievementModal (skip the toast)
+  //   everything else → standard toast (suppressed during dialogs)
+  // The modal mounts at the App level and listens for the
+  // legendary-achievement custom event; dispatching from here keeps
+  // the celebration loop non-blocking and matches the existing
+  // pattern (every toast-tier component owns its own dispatch site).
   useEffect(() => {
     if (newAchievement) {
+      if (newAchievement.tier === "legendary") {
+        dispatchLegendaryAchievement({
+          id: newAchievement.achievementId,
+          name: newAchievement.name,
+          description: newAchievement.description,
+          tier: "legendary",
+          icon: newAchievement.icon,
+          xpReward: newAchievement.xpReward,
+          pointsReward: newAchievement.pointsReward,
+        });
+        dismissNewAchievement();
+        setVisible(false);
+        pendingRef.current = false;
+        return;
+      }
       if (isDialogActive()) {
         // Queue it — mark pending, don't show yet
         pendingRef.current = true;
@@ -58,7 +80,7 @@ export default function AchievementToast() {
       setVisible(false);
       pendingRef.current = false;
     }
-  }, [newAchievement]);
+  }, [newAchievement, dismissNewAchievement]);
 
   // When dialog closes and we have a pending achievement, show it
   useEffect(() => {

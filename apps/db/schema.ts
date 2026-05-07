@@ -427,7 +427,14 @@ export const cardGameMatches = mysqlTable("card_game_matches", {
   actionLog: text("actionLog"),
   /** SHA-256 hash of the final game state — desync audit + replay verify. */
   finalStateHash: varchar("finalStateHash", { length: 64 }),
-});
+}, (table) => ({
+  // Hot match-lookup indexes. Without these, every "list my matches"
+  // query falls back to a full scan; the table grows unbounded with
+  // every concluded match. CONNECTION_AUDIT §3.3 caught the gap.
+  player1Idx: index("idx_card_game_matches_player1").on(table.player1Id),
+  player2Idx: index("idx_card_game_matches_player2").on(table.player2Id),
+  statusIdx: index("idx_card_game_matches_status").on(table.status),
+}));
 
 export type CardGameMatch = typeof cardGameMatches.$inferSelect;
 
@@ -1178,7 +1185,13 @@ export const pvpMatches = mysqlTable("pvp_matches", {
   player2EloChange: int("player2EloChange").notNull().default(0),
   startedAt: timestamp("startedAt").defaultNow().notNull(),
   endedAt: timestamp("endedAt"),
-});
+}, (table) => ({
+  // Hot match-lookup indexes — same rationale as cardGameMatches.
+  // CONNECTION_AUDIT §3.3.
+  player1Idx: index("idx_pvp_matches_player1").on(table.player1Id),
+  player2Idx: index("idx_pvp_matches_player2").on(table.player2Id),
+  statusIdx: index("idx_pvp_matches_status").on(table.status),
+}));
 
 export type PvpMatch = typeof pvpMatches.$inferSelect;
 export type InsertPvpMatch = typeof pvpMatches.$inferInsert;
@@ -6933,6 +6946,10 @@ export type TradeBlockadeRow = typeof tradeBlockades.$inferSelect;
  * crashes the local commodity price; the saturation row tracks how
  * much of a sector's commodity capacity is currently in oversupply.
  * Decays back to 0 over real-time idle.
+ *
+ * audit-allow: pending-feature (Phase D.5) — schema lands ahead of
+ * helpers/readers; CONNECTION_AUDIT §3.2 flagged the empty consumer
+ * footprint, retained per Phase D.5 plan.
  */
 export const tradeRouteSaturation = mysqlTable("trade_route_saturation", {
   id: int("id").autoincrement().primaryKey(),
@@ -6950,6 +6967,8 @@ export type TradeRouteSaturationRow = typeof tradeRouteSaturation.$inferSelect;
  * Phase D.5: research races. When a player starts a tech, an NPC
  * racer is rolled. The race ticks until one side completes; if the
  * NPC wins, the player still gets the tech but at -20% bonus.
+ *
+ * audit-allow: pending-feature (Phase D.5) — see tradeRouteSaturation.
  */
 export const tradeResearchRaces = mysqlTable("trade_research_races", {
   id: int("id").autoincrement().primaryKey(),
@@ -7001,6 +7020,10 @@ export type TradeEspionageOpRow = typeof tradeEspionageOps.$inferSelect;
  * pick from 3 bad options. Phase D.5 ships the data + helpers; the
  * UI lock + choice resolution lands when the climax narrative
  * branches are authored.
+ *
+ * audit-allow: pending-feature (Phase D.5) — type is imported by
+ * tradeContracts.ts and tradeCourt.ts (forward-compat for the
+ * climax wiring); no read/write callers yet by design.
  */
 export const convergenceClimaxState = mysqlTable("convergence_climax_state", {
   id: int("id").primaryKey(),

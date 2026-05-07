@@ -113,6 +113,37 @@ func send_event(event_type: String, payload: Dictionary = {}) -> void:
 		var json_str = JSON.stringify(data)
 		JavaScriptBridge.eval("window.parent.postMessage(" + json_str + ",'*');")
 
+# Cross-game narrative beats — emit a beat id at a canonical narrative
+# moment in CADES, and the React side forwards it to the
+# crossGameThreads.emit tRPC mutation. The beat id MUST match an
+# entry in apps/shared/crossGameNarrativeThreads.ts (an unknown id is
+# rejected by the server). Caller is responsible for ensuring the
+# moment is the canonical one — beats are once-per-account and
+# idempotent server-side, so multiple emits are cheap but still
+# redundant.
+#
+# Example (Chapter 7 memorial reading) — generic placeholder so the
+# crossGameNarrativeThreads.test.ts wiring scanner doesn't count this
+# docstring as a real fire site:
+#   var beat = "iron_lions_wake_cades_memorial"  # use the real id at the call site
+#   if not WebBridge.has_emitted_cross_game_beat(beat):
+#       WebBridge.fire_cross_game_beat(beat)
+func fire_cross_game_beat(beat_id: String) -> void:
+	if beat_id == "":
+		return
+	if _cross_game_beats_emitted.has(beat_id):
+		return
+	_cross_game_beats_emitted[beat_id] = true
+	send_event("CROSS_GAME_BEAT", {"beat_id": beat_id})
+
+func has_emitted_cross_game_beat(beat_id: String) -> bool:
+	return _cross_game_beats_emitted.has(beat_id)
+
+# Session-local emit guard (server is the source of truth, this is
+# just a free local short-circuit so a hot loop doesn't spam the
+# bridge with redundant postMessage calls).
+var _cross_game_beats_emitted: Dictionary = {}
+
 func _dev_mode_config() -> void:
 	var cfg = {"mode": "last_stand", "loop_count": 0, "awareness_level": 0, "scenarios_completed": []}
 	emit_signal("config_received", cfg)

@@ -5,6 +5,7 @@ import { ALBUM_MEME_SCRIPTS } from "./albumMemeScripts";
 import { BROADCAST_LIBRARY } from "./broadcastLibrary";
 import { SONG_TRIGGER_MAP } from "./songTriggerMap";
 import { LOREDEX_SONG_MAP } from "./loredexSongMap";
+import sihAlbumAudio from "./silenceInHeavenAlbumAudio.json";
 import { JOURNAL_ENTRIES } from "./journalEntries";
 import { COMPANION_COMMENTS } from "./companionComments";
 import { AGE_OF_PRIVACY_VOTES, AGE_OF_PROPHECY_VOTES } from "./epochWitnessVotes";
@@ -54,6 +55,18 @@ describe("Master Production Bible", () => {
     it("has 20 links", () => { expect(LOREDEX_SONG_MAP).toHaveLength(20); });
     it("every link has a loredexId and songId", () => {
       for (const l of LOREDEX_SONG_MAP) { expect(l.loredexId).toBeTruthy(); expect(l.songId).toBeTruthy(); }
+    });
+    it("every silence-in-heaven entry's songId resolves to a real album manifest slug", () => {
+      // Wiring invariant: a loredex→song link is "frame without wiring" if
+      // the slug doesn't actually exist in the album audio catalog. This
+      // test makes the resolution lookup that real consumers will make.
+      const sihSlugs = new Set(
+        (sihAlbumAudio as { tracks: { slug: string }[] }).tracks.map(t => t.slug),
+      );
+      const unresolved = LOREDEX_SONG_MAP
+        .filter(l => l.album === "silence-in-heaven")
+        .filter(l => !sihSlugs.has(l.songId));
+      expect(unresolved).toEqual([]);
     });
   });
 
