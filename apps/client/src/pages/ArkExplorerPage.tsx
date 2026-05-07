@@ -464,6 +464,44 @@ function RoomScene({
     } catch { return true; }
   });
 
+  // Ambient mode — markers stay invisible until the cursor is over the
+  // bounding box (or the player holds Alt to peek). The old behaviour
+  // covered every shipped room with hand cursors and pulsing rings, which
+  // collapses the painted scenery into a checklist of icons. Players who
+  // need the hand-holding (accessibility, kids, screen-readers) can still
+  // flip Settings → "Always show hotspots" off this default.
+  const [ambientHotspots, setAmbientHotspots] = useState(() => {
+    try {
+      const v = localStorage.getItem("loredex-ambient-hotspots");
+      return v === null ? true : v === "true";
+    } catch { return true; }
+  });
+
+  // Alt-hold peek: while the key is down every marker fades in at full
+  // strength, then fades back out when the key releases. This is the
+  // discovery-friendly equivalent of a "scan visor" — the player asks
+  // "what's clickable in this room?" once, instead of the room
+  // pre-answering for them.
+  const [peekHotspots, setPeekHotspots] = useState(false);
+  useEffect(() => {
+    if (!ambientHotspots) return;
+    const down = (e: KeyboardEvent) => {
+      if (e.key === "Alt" && !e.repeat) setPeekHotspots(true);
+    };
+    const up = (e: KeyboardEvent) => {
+      if (e.key === "Alt") setPeekHotspots(false);
+    };
+    const blur = () => setPeekHotspots(false);
+    window.addEventListener("keydown", down);
+    window.addEventListener("keyup", up);
+    window.addEventListener("blur", blur);
+    return () => {
+      window.removeEventListener("keydown", down);
+      window.removeEventListener("keyup", up);
+      window.removeEventListener("blur", blur);
+    };
+  }, [ambientHotspots]);
+
   // ?debug-hotspots=1 — overlay every hotspot's bounding box with its id
   // label so we can re-anchor against the room art in one pass instead of
   // by binary search. No production cost; renders only when the flag is
@@ -478,6 +516,9 @@ function RoomScene({
       const detail = (e as CustomEvent).detail;
       if (detail && typeof detail.visible === "boolean") {
         setShowHotspots(detail.visible);
+      }
+      if (detail && typeof detail.ambient === "boolean") {
+        setAmbientHotspots(detail.ambient);
       }
     };
     window.addEventListener("hotspot-visibility-changed", handler);
@@ -548,6 +589,23 @@ function RoomScene({
           // Smaller hotspot → higher z. Cap so we never collide with
           // higher overlay layers (verb-coin, modals, etc.).
           const hotspotZ = Math.max(11, Math.min(40, 50 - Math.round(area / 30)));
+          // Ambient mode: the icon/label/rings only render when the
+          // player is hovering or holding Alt to peek. The cursor still
+          // changes to pointer over the bounding box so discovery still
+          // works — the painted scenery just isn't pre-spoiled by a
+          // ring of glowing chips. The legacy "always-on" mode is still
+          // available via Settings → markers toggle.
+          const markerVisible = !ambientHotspots || isHovered || peekHotspots;
+          // Quest-critical attention beacons (keycards, nav console,
+          // comms relay) keep their always-visible pulse so they still
+          // pull the player toward the next gate. Everything else falls
+          // back to ambient discovery.
+          const isAttentionBeacon =
+            hotspot.id === "observation-keycard" ||
+            hotspot.id === "captains-master-key" ||
+            hotspot.id === "nav-console" ||
+            hotspot.id === "comms-relay";
+          const persistentMarker = !ambientHotspots || isAttentionBeacon;
           return (
             <motion.div
               key={hotspot.id}
@@ -593,11 +651,24 @@ function RoomScene({
                 }}
               />
 
-              {/* Icon marker */}
+              {/* Icon marker — opacity respects ambient mode so the
+                  shipped scenery isn't covered in chips during normal
+                  play. Easter eggs stay nearly invisible regardless;
+                  attention beacons (key items, quest gates) keep their
+                  always-visible glow so the player still gets pulled to
+                  the next room. */}
               <div
                 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-all duration-300"
                 style={{
-                  opacity: isEasterEgg ? (isHovered ? 0.6 : 0.08) : (isHovered ? 1 : 0.85),
+                  opacity: isEasterEgg
+                    ? (markerVisible ? 0.6 : 0.08)
+                    : isHovered
+                      ? 1
+                      : persistentMarker
+                        ? 0.85
+                        : peekHotspots
+                          ? 0.7
+                          : 0,
                   transform: `translate(-50%, -50%) scale(${isHovered ? 1.2 : 1})`,
                 }}
               >
@@ -659,8 +730,11 @@ function RoomScene({
                     <FeatureIcon size={8} style={{ color: "var(--bg-void)" }} />
                   </div>
                 )}
-                {/* Door pulse rings - always visible, slower pulse */}
-                {hotspot.type === "door" && (
+                {/* Door pulse rings — gated on persistentMarker so they
+                    don't sit on every painted doorway during ambient
+                    play. They still appear on hover, on Alt-peek, or
+                    when the legacy "always-on" mode is selected. */}
+                {hotspot.type === "door" && (persistentMarker || markerVisible) && (
                   <>
                     <div
                       className="absolute inset-[-4px] rounded-full animate-ping"
@@ -672,8 +746,10 @@ function RoomScene({
                     />
                   </>
                 )}
-                {/* Pulse ring — only for regular items, not Easter eggs */}
-                {hotspot.type === "item" && !isEasterEgg && (
+                {/* Pulse ring — only for regular items, not Easter eggs.
+                    Same gating as doors: ambient mode keeps the room
+                    quiet until the player asks. */}
+                {hotspot.type === "item" && !isEasterEgg && (persistentMarker || markerVisible) && (
                   <div
                     className="absolute inset-0 rounded-full animate-ping"
                     style={{ border: `1px solid ${colors.border}`, opacity: 0.3 }}
@@ -755,9 +831,15 @@ function RoomScene({
                   </>
                 )}
               </div>
-              {/* Always-visible door label with room name + Living Ark event badge */}
-              {hotspot.type === "door" && !isEasterEgg && (
-                <div className="absolute left-1/2 -translate-x-1/2 -top-1 -translate-y-full pointer-events-none">
+              {/* Door label with room name + Living Ark event badge.
+                  In ambient mode the label only fades in on hover or
+                  Alt-peek so it doesn't sit permanently across whatever
+                  art lives above the door. */}
+              {hotspot.type === "door" && !isEasterEgg && (persistentMarker || markerVisible) && (
+                <div
+                  className="absolute left-1/2 -translate-x-1/2 -top-1 -translate-y-full pointer-events-none transition-opacity duration-200"
+                  style={{ opacity: markerVisible ? 1 : persistentMarker ? 1 : 0 }}
+                >
                   <div className="px-2.5 py-1 rounded flex items-center gap-1.5" style={{
                     background: "var(--bg-overlay)",
                     border: `1px solid ${hotspot.action && roomsWithEvents.has(hotspot.action.replace(/-/g, "_")) ? "color-mix(in oklch, var(--energy-premium) 60%, transparent)" : "color-mix(in oklch, var(--electric-blue) 35%, transparent)"}`,
@@ -2275,7 +2357,7 @@ export default function ArkExplorerPage() {
       <CompanionPresenceBadge
         elaraSpeaking={elaraSpeakingNow}
         humanSpeaking={humanSpeakingNow}
-        placement="top-right"
+        placement="bottom-right"
       />
 
       {/* Puzzle modal */}

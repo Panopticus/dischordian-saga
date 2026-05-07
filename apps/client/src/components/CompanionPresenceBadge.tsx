@@ -25,9 +25,13 @@ interface CompanionPresenceBadgeProps {
 }
 
 const PLACEMENT_CLASS: Record<NonNullable<CompanionPresenceBadgeProps["placement"]>, string> = {
-  "top-right": "fixed top-3 right-3",
+  // Placements clear the page chrome that lives in the same corner.
+  // top-right collides with the Ark header's INVENTORY / FULLSCREEN
+  // buttons, so callers should prefer bottom-right or top-left for
+  // in-room ambient presence.
+  "top-right": "fixed top-20 right-3",
   "top-left": "fixed top-3 left-3",
-  "bottom-right": "fixed bottom-3 right-3",
+  "bottom-right": "fixed bottom-6 right-4",
   "none": "",
 };
 
@@ -62,7 +66,7 @@ export function CompanionPresenceBadge({
             communicates "this slot is the human" without faking a
             second hologram. */}
         <div
-          className="w-[64px] h-[64px] rounded-full"
+          className="w-[44px] h-[44px] rounded-full"
           style={{
             background:
               "radial-gradient(circle at 35% 30%, color-mix(in oklch, var(--energy-system) 35%, transparent), transparent 70%)",
