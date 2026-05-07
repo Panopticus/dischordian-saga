@@ -1286,6 +1286,19 @@ html:not(.dark) .box-glow-purple { box-shadow: 0 0 8px rgba(124, 58, 237, 0.1); 
   button, a, [role="button"], .clickable {
     touch-action: manipulation;
   }
+
+  /* Plan §E4 — Canvas mounts (Pixi.js duel boards, Three.js scenes,
+     chessground boards, duelyst board) need touch-action:none so
+     the browser doesn't steal pinch-zoom / pan gestures from the
+     game's own input handlers. Components that wrap canvas content
+     should add the .game-canvas-mount class to their outermost
+     scrollable parent. */
+  .game-canvas-mount,
+  .game-canvas-mount canvas,
+  .pixi-canvas-mount,
+  .pixi-canvas-mount canvas {
+    touch-action: none;
+  }
   
   /* Ensure card grids are readable with proper gaps */
   .grid.grid-cols-2 {

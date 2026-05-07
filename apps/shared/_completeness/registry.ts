@@ -24,6 +24,7 @@ import { checkLoreBibleDrift } from "./checks/loreBibleDrift";
 import { checkObservabilityWiring } from "./checks/observabilityWiring";
 import { checkDbForeignKeyCoverage } from "./checks/dbForeignKeyCoverage";
 import { checkEconomicTransactionCoverage } from "./checks/economicTransactionCoverage";
+import { checkMobileWiring } from "./checks/mobileWiring";
 
 export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
   // ─── Card engine ──────────────────────────────────────────
@@ -136,6 +137,14 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     description:
       "SENTRY_DSN + OTEL_EXPORTER_OTLP_ENDPOINT required in env (fail-fast in prod), prom-client metrics module exposed at /metrics, tRPC procedures auto-instrumented, per-IP rate limit on /api.",
     check: () => checkObservabilityWiring(),
+  },
+  // ─── Mobile / native ──────────────────────────────────────
+  {
+    id: "client.mobile_wiring",
+    name: "Native-mobile wiring",
+    description:
+      "Capacitor scaffold (config, mobile:* scripts), payment adapter (web Stripe + native RevenueCat), server iapReceipt router mounted, list-virtualization helper, canvas touch-action class, LockedCardBadge UI component.",
+    check: () => checkMobileWiring(),
   },
   // ─── Lore ─────────────────────────────────────────────────
   {
