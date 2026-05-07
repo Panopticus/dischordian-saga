@@ -57,6 +57,9 @@ const TCG_FACTION_TO_SUB_HOUSE: Readonly<Record<Faction, SubHouseKey | "neutral"
   new_babylon: "nb_authoritys_ledger",
   antiquarian: "antiquarian_shelfmates",
   thought_virus: "tv_sovereigns_circle",
+  // Panopticon is the all-seeing-eye faction; it shares Architect's
+  // ledger discipline by default. Card authors can override per-card.
+  panopticon: "ae_architects_court",
   hierarchy_of_damned: "hierarchy_severance",
   neutral: "neutral",
 };

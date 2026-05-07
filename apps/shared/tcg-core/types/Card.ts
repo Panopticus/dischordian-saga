@@ -12,16 +12,16 @@
  * position, exhaustion, etc.).
  */
 import type { AbilityId, CardDefId, EntityId, Side } from "./Ids";
+import type { z } from "zod";
+import type { factionSchema } from "../cards/schema";
 
-export type Faction =
-  | "architect"
-  | "dreamer"
-  | "insurgency"
-  | "new_babylon"
-  | "antiquarian"
-  | "thought_virus"
-  | "neutral"
-  | "hierarchy_of_damned";
+/**
+ * Faction is derived from the Zod schema so the runtime validator and
+ * the TypeScript type can never drift. Adding a faction = one edit in
+ * `cards/schema.ts`. (Previously TS had its own copy and the `panopticon`
+ * faction existed in Zod but not in TS.)
+ */
+export type Faction = z.infer<typeof factionSchema>;
 
 export type CardType = "general" | "unit" | "spell" | "artifact" | "structure";
 
