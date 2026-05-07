@@ -14,7 +14,12 @@
      speak("feature_unlock_companion_selection");
    ═══════════════════════════════════════════════════════ */
 import { useRef, useState, useCallback, useEffect } from "react";
-import { voPlaybackEnded, voPlaybackStarted } from "@/lib/voSpeakingState";
+import {
+  claimActiveVo,
+  releaseActiveVo,
+  voPlaybackEnded,
+  voPlaybackStarted,
+} from "@/lib/voSpeakingState";
 
 let manifest: Record<string, string> | null = null;
 let manifestLoading = false;
@@ -66,10 +71,9 @@ export function useElaraVO() {
       return;
     }
 
-    if (speakingRef.current) {
-      queueRef.current.push(lineId);
-      return;
-    }
+    // Latest speak() wins — drop anything we had queued so the user's
+    // most recent click takes priority over a stale serialization.
+    queueRef.current = [];
 
     const a = new Audio();
     a.crossOrigin = "anonymous";
@@ -88,6 +92,14 @@ export function useElaraVO() {
       }
     };
 
+    // Become the global active speaker NOW (synchronously), not in
+    // onplay — the play promise resolves a frame later, which would
+    // let two parallel speak() calls (e.g. Elara + Human in the same
+    // tick) both reach `play()` before either stops the other. Doing
+    // it here makes call order the deterministic tiebreaker.
+    const myStop = () => { a.pause(); };
+    claimActiveVo(myStop);
+
     a.onplay = () => {
       speakingRef.current = true;
       setSpeaking(true);
@@ -100,26 +112,31 @@ export function useElaraVO() {
       speakingRef.current = false;
       setSpeaking(false);
       finishPublish();
-      const next = queueRef.current.shift();
-      if (next) speak(next);
+      releaseActiveVo(myStop);
     };
     a.onerror = () => {
       speakingRef.current = false;
       setSpeaking(false);
       finishPublish();
+      releaseActiveVo(myStop);
     };
     a.onpause = () => {
-      // .pause() in stop() flips speaking false but doesn't fire onended;
-      // mirror the published-end here so a stop()-while-playing doesn't
-      // strand the duck refcount.
+      // .pause() in stop() (or claimActiveVo cancelling us) flips
+      // speaking false but doesn't fire onended; mirror the
+      // published-end here so a cancel-during-play doesn't strand
+      // the duck refcount or leave us holding the active slot.
       if (a.ended) return;
+      speakingRef.current = false;
+      setSpeaking(false);
       finishPublish();
+      releaseActiveVo(myStop);
     };
 
     a.play().catch(() => {
       speakingRef.current = false;
       setSpeaking(false);
       finishPublish();
+      releaseActiveVo(myStop);
     });
   }, []);
 

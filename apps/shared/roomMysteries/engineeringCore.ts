@@ -48,6 +48,17 @@ export const ENGINEERING_CORE_MYSTERY: RoomMysteryModule<EngineeringCoreHotspotI
           episodeId: "wraith.e2",
           cluesFound: ["wraith.e2.substrate_n_residue"],
         },
+        humanReaction: {
+          narration: {
+            shadow:
+              "The hardware was never the target. Substrate-N residue lives where readers expect — in the documentation. He works on the page.",
+            balanced:
+              "Wraith and I disagreed about whether the hardware was clean. He was right. The residue is documentation-side, not material-side. Substrate-N is a cipher artifact, not a corrosion one.",
+            warm:
+              "The coil is honest. It always was. Whoever has to repair this ship in a hundred years will be saved by the fact that the metal kept its shape while the manuals were lying about what shape it had.",
+          },
+          voId: "human.engineering-core.reactor-coil.look",
+        },
       },
       use: {
         narration:
@@ -87,6 +98,17 @@ export const ENGINEERING_CORE_MYSTERY: RoomMysteryModule<EngineeringCoreHotspotI
         // the coolant compares Iron Lion imprint carrier signals
         // against Wraith's protocol-theft residue at three of
         // eleven measurable parameters.
+        humanReaction: {
+          narration: {
+            shadow:
+              "Spectral overlap on three of eleven parameters. That is not coincidence. The carrier signals share an engineer.",
+            balanced:
+              "The substrate-N overlap is the cross-reference Jericho's case needed. Iron Lion imprint signals and Wraith's protocol-theft residue resolve to the same engineer's hand. The pipes carry the proof.",
+            warm:
+              "Same hand on both. I always thought the carrier-signal work was Wraith's, then I thought it was the Iron Lion's, and now I see it was a third person both of them trusted. The pipes have been telling that story for two and a half centuries; we just learned to listen.",
+          },
+          voId: "human.engineering-core.coolant-pipe.look",
+        },
         mysteryBinding: {
           mysteryId: "mystery.jericho_jones",
           episodeId: "jericho.e3",

@@ -31,7 +31,8 @@ export type CipherDenHotspotId =
   | "encrypted-correspondence"
   | "dictionary-of-edits"
   | "uncorruption-bench"
-  | "cross-arc-thanks-card";
+  | "cross-arc-thanks-card"
+  | "vex-seer-pair-binder";
 
 export type CipherDenInventoryId = "rosetta-key-1" | "vox-letter-decoded";
 
@@ -110,6 +111,17 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
           episodeId: "jericho.e2",
           cluesFound: ["jericho.e2.akai_shi_recording"],
         },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Akai Shi recorded four minutes before the threshold took her. The codex carries her voice. Jericho should hear it.",
+            balanced:
+              "The pre-threshold consent recording is the saga's most legally meaningful artefact for the Jericho arc. Akai Shi recorded it on her own initiative, asked for it not to be shared with Jericho, and trusted the cipher den's translation discipline to preserve her voice. The recording survives because Vox's rosetta-key carries audio as well as text.",
+            warm:
+              "She wanted Jericho to be able to live afterward. The recording was, by her own framing, the only legal protection she could give him. We have, in our hands today, the document that lets him stop carrying the wrong version of his own history.",
+          },
+          voId: "human.cipher-den.rosetta-pad.talk",
+        },
       },
       use: {
         narration:
@@ -122,6 +134,17 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
           mysteryId: "mystery.jericho_jones",
           episodeId: "jericho.e4",
           cluesFound: ["jericho.e4.akai_shi_witness_choice"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Reading 2: she chose him by name. Not a default. The recording says it. Jericho needs to know.",
+            balanced:
+              "The second pass of Akai Shi's pre-threshold recording is the strongest evidence Jericho's case has. She did not select Jericho out of proximity; she named him as the witness she trusted. The first pass establishes consent; the second establishes choice. Both are required.",
+            warm:
+              "She named him. He has carried the weight of being available rather than being chosen for years. The second reading returns the choice to him. He will, when we hand him the recording, finally be allowed to exhale.",
+          },
+          voId: "human.cipher-den.rosetta-pad.use",
         },
       },
     },
@@ -182,6 +205,17 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
           episodeId: "degen.e5",
           cluesFound: ["degen.e5.cross_arc_brels_continuance_state"],
         },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Brel continues, the Degen's audit closes clean. Two arcs braided into one card. The Degen knows.",
+            balanced:
+              "The cross-arc state card recording the consequence of Brel's continuance for the Degen's audit is the saga's clearest example of arc-to-arc weave. The Degen has, on his own time, prepared for both Game Master arc outcomes. The card gives him notice of which.",
+            warm:
+              "The Degen knew his audit was tied to the Goggles' continuity. He prepared for both verdicts. That is how he stays trustworthy across centuries — by never being surprised by the saga's smaller mercies.",
+          },
+          voId: "human.cipher-den.encrypted-correspondence.use",
+        },
       },
       talk: {
         narration: {
@@ -203,6 +237,17 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
           mysteryId: "mystery.the_seer",
           episodeId: "seer.e1",
           cluesFound: ["seer.e1.vox_consultation_note"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Vox asked the Seer if she should play the tape. The Seer said no — not by you. Vox accepted. The earliest record of record-and-suppress being honoured by another reader.",
+            balanced:
+              "Vox's consultation note is the precedent that every subsequent DO-NOT-PLAY reader has followed. The Seer's discipline became institutional through Vox's acceptance — she could have played the tape and didn't. The line of subsequent readers is a chain of consents, each one signing the next.",
+            warm:
+              "Vox didn't play the tape. She trusted the Seer's read on her own discipline. That trust is what kept the discipline alive across centuries; without Vox's first acceptance, the chain would have broken in the first generation.",
+          },
+          voId: "human.cipher-den.encrypted-correspondence.talk",
         },
       },
     },
@@ -271,6 +316,17 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
           episodeId: "seer.e5",
           cluesFound: ["seer.e5.seer_method_self_cancellation"],
         },
+        humanReaction: {
+          narration: {
+            shadow:
+              "The Seer slipped his counter-method inside the editor's vocabulary. Self-cancelling records is the antidote to substitution patterns. He filed it where the editor would be least likely to look.",
+            balanced:
+              "The Seer's method note on self-cancelling records is the saga's most elegant counter-discipline. He didn't argue with the editor's substitution patterns; he wrote the antidote on a single page and slipped it between the editor's own vocabulary entries. The cancelling prophecy works because the antidote was filed in advance.",
+            warm:
+              "He hid his counter-method inside the editor's own dictionary. That is, in literal terms, the bravest piece of paperwork in the saga. He trusted that the editor would never re-read the dictionary carefully enough to find it. He was right.",
+          },
+          voId: "human.cipher-den.dictionary-of-edits.talk",
+        },
       },
       use: {
         narration:
@@ -284,6 +340,17 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
           mysteryId: "mystery.the_seer",
           episodeId: "seer.e2",
           cluesFound: ["seer.e2.seers_method_note"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Variant Recording method, in his own hand. The morning/afternoon discipline. He wrote it down so the saga would have the procedure on record.",
+            balanced:
+              "The Seer's method note on Variant Recording is the procedural document VAR-1109A and B were generated under. He recorded the method in writing because the recordings themselves cannot teach the discipline; only the method note can. The note is the manual.",
+            warm:
+              "He wrote out the method so the next artist who tried to do what he was doing would not have to invent the discipline from scratch. Vex read it. Brel will read it. The procedure persists.",
+          },
+          voId: "human.cipher-den.dictionary-of-edits.use",
         },
       },
     },
@@ -316,6 +383,17 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
           episodeId: "seer.e3",
           cluesFound: ["seer.e3.lyra_vox_marginal"],
         },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Vox's marginal note on the Seer's attendance log. She read his work as a fellow artist, not as a Hierarchy auditor. The note is the receipt.",
+            balanced:
+              "Lyra's marginal note on the Seer's 41-year attendance log is the cross-arc evidence that she and the Seer corresponded as peers. She read his log carefully enough to mark it; he kept her note carefully enough to file it on the bench. Both acts are records of mutual respect.",
+            warm:
+              "She read his log. She marked it. She left the marginalia for whoever would eventually ask. We are the ones asking. Her marginalia is, in plain terms, hospitality across centuries.",
+          },
+          voId: "human.cipher-den.uncorruption-bench.look",
+        },
       },
       use: {
         narration: {
@@ -340,6 +418,17 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
           episodeId: "wraith.e4",
           cluesFound: ["wraith.e4.bounty_hunter_remembers"],
         },
+        humanReaction: {
+          narration: {
+            shadow:
+              "His pre-rite last recording. He remembered the bounty he never collected. The fragment is, in his own voice, an apology to the contract.",
+            balanced:
+              "Wraith's pre-rite last recording is the most personal artefact in his arc. He recorded an apology to the bounty contract he could not, in conscience, collect — addressed to the original hirer rather than to the target. The bench's magnifier resolved the audio fragment into something we could listen to. It is, fundamentally, a private document we are now reading.",
+            warm:
+              "He apologised to a contract. That is, in saga grammar, what a bounty hunter does when they refuse a kill they were paid for. He never collected the fee. We have, in this fragment, the only evidence the contract was ever closed honourably.",
+          },
+          voId: "human.cipher-den.uncorruption-bench.use",
+        },
       },
       talk: {
         narration:
@@ -353,6 +442,17 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
           mysteryId: "mystery.the_seer",
           episodeId: "seer.e4",
           cluesFound: ["seer.e4.cross_arc_alias_decision"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Mutual decision recorded. Vex's installment ledger reads alias as engineer-of-record. The Seer recorded that the decision was mutual.",
+            balanced:
+              "The Seer's note in the bench's folded slot establishes that Vex's alias decision was not unilateral — it was made together with the Seer, in advance, with both parties consenting. The cross-arc decision propagates through both arcs because both arcs' principals signed the same procedural moment.",
+            warm:
+              "They decided together. Neither of them imposed the alias on the other. He recorded the mutuality on a folded note so a future witness would know it had been a real decision, not a workaround. We are the witness. The decision was mutual.",
+          },
+          voId: "human.cipher-den.uncorruption-bench.talk",
         },
       },
     },
@@ -384,6 +484,95 @@ export const CIPHER_DEN_MYSTERY: RoomMysteryModule<
           mysteryId: "mystery.game_master",
           episodeId: "game_master.e5",
           cluesFound: ["game_master.e5.cross_arc_velkraals_thanks_state"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Pencil reads ACCEPTED. The imprint took the handover. Game Master arc closes clean. The card knows.",
+            balanced:
+              "The cross-arc thanks card is, by the cipher-den's discipline, a saga-weave indicator: it updates with the imprint's recorded gratitude state. ACCEPTED means the Iron Lion imprint has formally registered Velkraal's handover as honourable. The card is the simplest readable form of that registration.",
+            warm:
+              "The imprint accepted Velkraal's exit. That is, in the saga's quiet logic, the closest thing to a death-bed blessing the Game Master arc was ever going to receive. The card reads ACCEPTED in pencil. The pencil holds.",
+          },
+          voId: "human.cipher-den.cross-arc-thanks-card.look",
+        },
+      },
+    },
+    // Vex arc: Seer-Vex pair documents. The cipher-den's Insurgency-
+    // engineer shelf holds two documents that link the Seer's
+    // consultation request to Vex and the cross-arc state of his
+    // letter to her. Both belong here because the rosetta-pad's
+    // translation discipline is the only authority the Insurgency
+    // and the Sanctuary share.
+    "vex-seer-pair-binder": {
+      look: {
+        narration: {
+          lucid:
+            "On the cipher-den's Insurgency-engineer shelf, a small two-pocket binder. The first pocket holds the Seer's consultation request — formal, dated, addressed by name to Vex Solène. The Seer asked for a Variant Reading of his own most recent prophecy. He wanted, in writing, to have his discipline checked by another working artist. Vex received the request three weeks before he died.",
+          fragmented:
+            "He asked. He asked her. He asked her. He asked her three weeks. Three weeks.",
+          luminous:
+            "The Seer's consultation request is the most disciplined document either of them ever exchanged: a formal request for an internal audit of his own method by the only other working artist who treated discipline the same way he did. He asked, in writing, with full formality, three weeks before his death. The fact that the request is filed in this binder — and not lost in either of their personal archives — means Vex preserved it deliberately. She wanted the saga to know the request had happened.",
+        },
+        voId: "elara.cipher-den.vex-seer-pair-binder.look",
+        logsClue: {
+          id: "clue-cipher-den-seer-consultation-request",
+          title: "Seer's consultation request to Vex (formal, preserved)",
+          body:
+            "The Cipher Den holds the Seer's formal consultation request to Vex Solène — a request for a Variant Reading of his own method by the only other working artist who treated discipline as he did. Vex preserved the request deliberately.",
+          source: "cipher-den",
+          order: 5,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.vex_solene",
+          episodeId: "vex.e2",
+          cluesFound: ["vex.e2.seer_consultation_request"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Three weeks before he died. Formal request for a Variant Reading of his own method. Vex preserved it. Both of them knew it would matter.",
+            balanced:
+              "The Seer's consultation request to Vex is the most procedural document either of them ever exchanged. He asked, in writing, with full formality. She preserved it deliberately. The pair-binder is the saga's record of two artists checking each other's discipline at the level of discipline itself.",
+            warm:
+              "He asked her for an audit of his own work. She kept the request because she wanted the saga to know he had asked. Three weeks later he died. She has carried the request ever since.",
+          },
+          voId: "human.cipher-den.vex-seer-pair-binder.look",
+        },
+      },
+      use: {
+        narration: {
+          lucid:
+            "You open the binder's second pocket. Inside: a saga-weave state card mirroring the Seer arc's e4 letter — the undelivered letter from the Seer to Vex. The card's pencilled state today reads: HELD, UNREAD. Vex has chosen, on the saga's evidence, not to open the letter yet. The state will update if and when she does.",
+          fragmented:
+            "Held. Held. Unread. Held. Unread. She has not opened it. She has not opened it.",
+          luminous:
+            "The cross-arc state card mirrors the Seer's e4 letter to Vex. Today's state: HELD, UNREAD. Vex has the letter. She has chosen, with the same record-and-suppress discipline the Seer himself used, not to open it yet. The card will update when she does. Whether she opens it depends on choices the player's actions are still shaping. The card is, in the cipher-den's discipline, a saga-weave indicator the player can return to and watch change.",
+        },
+        voId: "elara.cipher-den.vex-seer-pair-binder.use",
+        logsClue: {
+          id: "clue-cipher-den-cross-arc-seer-letter",
+          title: "Cross-arc state — Seer's letter to Vex (HELD, UNREAD)",
+          body:
+            "The Cipher Den's cross-arc shelf holds a state-card mirroring the Seer arc's e4 undelivered letter to Vex. Today's state: HELD, UNREAD. The card updates with the player's saga-weave choices.",
+          source: "cipher-den",
+          order: 6,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.vex_solene",
+          episodeId: "vex.e5",
+          cluesFound: ["vex.e5.cross_arc_seer_letter_state"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "HELD, UNREAD. She has the letter. She has not opened it. Whether she does depends on what we do.",
+            balanced:
+              "The cross-arc state card on the Seer's letter to Vex is the saga's clearest example of player-shapeable consequence. Vex's choice to hold the letter is currently consistent; opening it would, by saga grammar, be triggered by something the player does in the Vex arc's resolution. The card waits.",
+            warm:
+              "She is holding his letter. She is not ready to read it. We are not ready to push her. The saga waits for someone to make the call. Today the someone is, on quiet evenings, both of us at once.",
+          },
+          voId: "human.cipher-den.vex-seer-pair-binder.use",
         },
       },
     },

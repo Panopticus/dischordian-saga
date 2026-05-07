@@ -19,7 +19,7 @@
 
 import type { RoomMysteryModule } from "./_template";
 
-export type CaptainsQuartersHotspotId = "cat-photo" | "degens-corner";
+export type CaptainsQuartersHotspotId = "cat-photo" | "degens-corner" | "vex-workshop-diary";
 
 export const CAPTAINS_QUARTERS_MYSTERY: RoomMysteryModule<CaptainsQuartersHotspotId> = {
   roomId: "captains-quarters",
@@ -133,6 +133,17 @@ export const CAPTAINS_QUARTERS_MYSTERY: RoomMysteryModule<CaptainsQuartersHotspo
           episodeId: "vex.e1",
           cluesFound: ["vex.e1.vex_self_note"],
         },
+        humanReaction: {
+          narration: {
+            shadow:
+              "She left the cat-photo as a flag. The note behind it is hers. Nobody else thinks to look behind the photo of a cat.",
+            balanced:
+              "Vex hid the self-note where Lyra would find it eventually — behind a photo only the two of them found funny. The discipline is consistent: Vex commits to record where she trusts the future reader's specific eye. Lyra was that reader, then. We are now.",
+            warm:
+              "She trusted Lyra's eye more than the saga's institutional record. The note is in handwriting only Lyra would recognise as Vex's, behind a photo only Lyra would have known to look behind. Reading it makes us, briefly, Lyra's substitute.",
+          },
+          voId: "human.captains-quarters.cat-photo.use",
+        },
       },
       talk: {
         narration: {
@@ -156,6 +167,17 @@ export const CAPTAINS_QUARTERS_MYSTERY: RoomMysteryModule<CaptainsQuartersHotspo
           mysteryId: "mystery.the_degen",
           episodeId: "degen.e1",
           cluesFound: ["degen.e1.ne_yon_chip_balance"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Ne-Yon casino chip-balance receipt. Held in Mr. Whiskers's photo frame. The Degen marks his ledger in places only the saga's strangest readers will look.",
+            balanced:
+              "The chip-balance receipt is the Degen's running account at the Ne-Yon high-stakes table. He files his casino accounting in unexpected places because the Hierarchy's auditors have, traditionally, a poor sense of humour about cat photos. Mol'Vereth, by contrast, would think to look here.",
+            warm:
+              "He hid it behind the cat photo because Lyra would have laughed. Lyra laughed. The Degen is one of the few people on this ship who knew how to make her laugh without trying.",
+          },
+          voId: "human.captains-quarters.cat-photo.talk",
         },
       },
     },
@@ -188,6 +210,17 @@ export const CAPTAINS_QUARTERS_MYSTERY: RoomMysteryModule<CaptainsQuartersHotspo
           episodeId: "degen.e2",
           cluesFound: ["degen.e2.degen_audit_prep_note"],
         },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Three columns. He read his own books from both sides before submitting. That's the discipline. He learned it from Lyra without being told.",
+            balanced:
+              "The Degen's audit-prep note is the most disciplined private document in this case. Pre-reading your own books from both your role and the auditor's role is the kind of preparation only a small number of people on this ship know how to perform. Lyra trained him without naming the training.",
+            warm:
+              "He sat at this desk, with this lamp, and read his own books for hours. He didn't tell Lyra. She didn't ask. They both knew what was happening. That is, on this ship, a deep form of friendship.",
+          },
+          voId: "human.captains-quarters.degens-corner.look",
+        },
       },
       use: {
         narration: {
@@ -212,11 +245,129 @@ export const CAPTAINS_QUARTERS_MYSTERY: RoomMysteryModule<CaptainsQuartersHotspo
           episodeId: "degen.e5",
           cluesFound: ["degen.e5.empty_chair_ne_yon"],
         },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Empty chair, dated to audit-close. He reserves it for whoever the verdict produces. Stays empty if clean. Fills if contested.",
+            balanced:
+              "The empty-chair card is the Degen's ritual for the night an audit closes. He sets a place at his usual table for the saga, the audit's outcome, or whoever the verdict obligates him to host. The chair stays empty when the verdict ratifies the trusteeship and fills when the verdict reopens it.",
+            warm:
+              "He always sets the place. He has never been alone at that table on the night an audit closed, in three centuries. I find that, on quiet evenings, deeply consoling. He is not, even when alone, alone.",
+          },
+          voId: "human.captains-quarters.degens-corner.use",
+        },
       },
       talk: {
         narration:
           "If you address the desk, the cracked mirror behind it briefly steadies. The Degen sat here when Lyra invited him — three documented evenings, three different readings of the same Coda book. Lyra never told him she was teaching him to audit himself; he never told her he had figured it out by the second evening. Both knew. Neither said. The desk has been waiting for an auditor with the patience to read all three evenings as a single evening's lesson.",
         voId: "elara.captains-quarters.degens-corner.talk",
+      },
+    },
+    // Vex arc: Vex's personal-life surface in Lyra's quarters. Vex
+    // and Lyra were close enough that Vex kept her workshop diary
+    // and her apprentice's personal notes here, on the small
+    // bookshelf to the right of the bed. The shelf has remained
+    // undisturbed since Lyra's death; Vex has not retrieved her
+    // diary, but she has kept adding to it.
+    "vex-workshop-diary": {
+      look: {
+        narration: {
+          lucid:
+            "A small bookshelf to the right of the bed — the only piece of furniture in the captain's quarters Lyra kept for someone else's use. Vex Solène's workshop diary sits on the second shelf, the spine worn from forty years of opening. Today's most recent entry, in Vex's hand, dated yesterday: 'Tomorrow at six. I am ready. I have been ready for a while; I am only now telling the diary about it. The apprentice is ready too. We have practised this transition without naming it. Tomorrow we name it.'",
+          fragmented:
+            "Yesterday. Yesterday. She wrote yesterday. She wrote yesterday. She is ready. She is ready.",
+          luminous:
+            "Vex's workshop diary, kept on Lyra's shelf for forty years. Yesterday's entry — in Vex's hand, dated to the eve of the calibration session pinned to the schematic-pad — is her formal acknowledgement that the handover is going to happen. The diary has been the saga's quietest record of her working life. She has, in the saga's evidence, been preparing to be succeeded for at least a year, and she has chosen this room to record the preparation in.",
+        },
+        voId: "elara.captains-quarters.vex-workshop-diary.look",
+        logsClue: {
+          id: "clue-captains-quarters-vex-workshop-diary",
+          title: "Vex's workshop diary — yesterday's entry on the handover",
+          body:
+            "The Captain's Quarters bookshelf holds Vex Solène's workshop diary, kept on Lyra's shelf for forty years. Yesterday's entry records Vex's formal acknowledgement that tomorrow's calibration session is the handover she has been preparing for.",
+          source: "captains-quarters",
+          order: 4,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.vex_solene",
+          episodeId: "vex.e3",
+          cluesFound: ["vex.e3.vex_workshop_diary"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Forty years of diary. Yesterday's entry says she's ready. The handover is tomorrow. The diary was the rehearsal.",
+            balanced:
+              "Vex's workshop diary is the slowest single document in the saga and the most consistently maintained. Yesterday's entry — 'I am ready. I have been ready for a while; I am only now telling the diary about it.' — is the saga's quietest declaration of intent. Tomorrow she names what she has been preparing.",
+            warm:
+              "She has been writing this diary on Lyra's shelf for forty years. Lyra never read a word of it; Vex never asked her to. Two artists who knew when to keep silent, and when to keep records.",
+          },
+          voId: "human.captains-quarters.vex-workshop-diary.look",
+        },
+      },
+      use: {
+        narration: {
+          lucid:
+            "You leaf to the back endpaper of the diary. Tucked there: a separate small envelope addressed to Vex in her apprentice's hand, never sent. Inside, on a single sheet: 'I have been keeping a personal note on my own bench about what your trust has meant to me. I will hand it to you tomorrow morning when you arrive for the session. I am writing this draft so that, if I cannot speak it tomorrow, you have the words anyway.' The apprentice has, on this evidence, prepared in case they freeze.",
+          fragmented:
+            "If I cannot speak it. If I cannot speak it. They prepared. They prepared. In case.",
+          luminous:
+            "The apprentice's personal note is the kind of document people write only when they have practised being wrong about themselves enough to know the practice can fail at any time. They love her. They are afraid of letting her down by going silent in the moment. They have prepared, in writing, for the failure they hope will not happen. Vex will receive the note tomorrow whether or not the apprentice can speak.",
+        },
+        voId: "elara.captains-quarters.vex-workshop-diary.use",
+        logsClue: {
+          id: "clue-captains-quarters-apprentice-personal-note",
+          title: "Apprentice's personal note to Vex (drafted in advance)",
+          body:
+            "Tucked in the back of Vex's diary: the apprentice's personal note to Vex, drafted in advance against the possibility of going silent at the handover session. Vex will receive the note tomorrow whether or not the apprentice can speak.",
+          source: "captains-quarters",
+          order: 5,
+        },
+        mysteryBinding: {
+          mysteryId: "mystery.vex_solene",
+          episodeId: "vex.e4",
+          cluesFound: ["vex.e4.apprentice_workbench_personal_note"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Drafted in advance, in case they freeze. The apprentice loves her enough to plan for the failure they hope won't happen.",
+            balanced:
+              "The apprentice's personal note is the kind of preparation people do when they have practised being wrong about themselves enough to know the practice can fail. The note will be handed to Vex regardless. Whether the apprentice can speak or not, the words will arrive.",
+            warm:
+              "They love her. They are afraid of letting her down by going silent in the moment. They prepared, in writing, for the failure they hope will not happen. That is the deepest discipline of all.",
+          },
+          voId: "human.captains-quarters.vex-workshop-diary.use",
+        },
+      },
+      talk: {
+        narration: {
+          lucid:
+            "If you address the diary, the bookshelf briefly steadies. On the shelf above, a small folded card surfaces: VEX'S PRIVATE RECORDING INTENT — NOT FOR PUBLIC RELEASE. The card describes a private recording Vex plans to make tomorrow morning, of the moment she hands the apprentice the bench-key. The recording is intended only for the saga's internal archive — for the canon to know the handover happened, exactly, in real time. It is not for public release. It is for the record.",
+          fragmented:
+            "Private. Private. Private. Not for release. Not for release. For the record. For the record.",
+          luminous:
+            "Vex's private recording intent is the most disciplined act in this whole arc. She intends to record the handover moment, archive it, and never release it. The recording is for the canon, not for an audience. It is the cleanest possible execution of her record-and-suppress training: the act of making a record that exists only to anchor the truth, never to argue for it. The handover will, by her design, be both real and not for sale.",
+        },
+        voId: "elara.captains-quarters.vex-workshop-diary.talk",
+        // Vex arc — Vex's private recording intent for the handover.
+        // vex.e5.private_recording_intent.
+        mysteryBinding: {
+          mysteryId: "mystery.vex_solene",
+          episodeId: "vex.e5",
+          cluesFound: ["vex.e5.private_recording_intent"],
+        },
+        humanReaction: {
+          narration: {
+            shadow:
+              "Record the handover. Archive it. Never release it. The cleanest possible execution of record-and-suppress. The canon will know it happened.",
+            balanced:
+              "Vex's private recording intent is the most disciplined act in this whole arc. The recording will exist and never be played. The canon recognises it; the audience does not. That is the Seer's training, applied to her own life's most private moment.",
+            warm:
+              "She will record the handover for the canon and never let anyone hear it. The fact that the recording exists — anchored, dated, witnessed — is what matters. The fact that nobody will hear it is what keeps it sacred.",
+          },
+          voId: "human.captains-quarters.vex-workshop-diary.talk",
+        },
       },
     },
   },
