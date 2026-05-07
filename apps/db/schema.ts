@@ -6946,6 +6946,10 @@ export type TradeBlockadeRow = typeof tradeBlockades.$inferSelect;
  * crashes the local commodity price; the saturation row tracks how
  * much of a sector's commodity capacity is currently in oversupply.
  * Decays back to 0 over real-time idle.
+ *
+ * audit-allow: pending-feature (Phase D.5) — schema lands ahead of
+ * helpers/readers; CONNECTION_AUDIT §3.2 flagged the empty consumer
+ * footprint, retained per Phase D.5 plan.
  */
 export const tradeRouteSaturation = mysqlTable("trade_route_saturation", {
   id: int("id").autoincrement().primaryKey(),
@@ -6963,6 +6967,8 @@ export type TradeRouteSaturationRow = typeof tradeRouteSaturation.$inferSelect;
  * Phase D.5: research races. When a player starts a tech, an NPC
  * racer is rolled. The race ticks until one side completes; if the
  * NPC wins, the player still gets the tech but at -20% bonus.
+ *
+ * audit-allow: pending-feature (Phase D.5) — see tradeRouteSaturation.
  */
 export const tradeResearchRaces = mysqlTable("trade_research_races", {
   id: int("id").autoincrement().primaryKey(),
@@ -7014,6 +7020,10 @@ export type TradeEspionageOpRow = typeof tradeEspionageOps.$inferSelect;
  * pick from 3 bad options. Phase D.5 ships the data + helpers; the
  * UI lock + choice resolution lands when the climax narrative
  * branches are authored.
+ *
+ * audit-allow: pending-feature (Phase D.5) — type is imported by
+ * tradeContracts.ts and tradeCourt.ts (forward-compat for the
+ * climax wiring); no read/write callers yet by design.
  */
 export const convergenceClimaxState = mysqlTable("convergence_climax_state", {
   id: int("id").primaryKey(),
