@@ -23,8 +23,8 @@ describe("DLC chapter registry — foundation invariants", () => {
   });
 
   it("getDlcChaptersForSection returns [] for sections with no chapters", () => {
-    // Hierarchy arc has no Wave-3 chapters yet.
-    expect(getDlcChaptersForSection({ kind: "hierarchy_arc" })).toEqual([]);
+    // No DLC chapter is currently bound to the endgame surface.
+    expect(getDlcChaptersForSection({ kind: "endgame" })).toEqual([]);
     // SiH per-track surface — no DLC chapters bound to individual tracks
     // (the show wires through AlbumPage, not the DLC system).
     expect(
