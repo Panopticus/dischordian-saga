@@ -114,11 +114,14 @@ describe("episode-voice-config.ts — speaker coverage", () => {
     }
   });
 
-  it("every speaker has a directorial text_prefix (canonical voice prompt convention)", () => {
-    // Every entry should carry a non-empty text_prefix.
-    const prefixCount = (CONFIG_SRC.match(/text_prefix:/g) ?? []).length;
+  it("every speaker has a voiceDirection (editorial reference; not sent to TTS)", () => {
+    // Every entry should carry a non-empty voiceDirection. The field
+    // was renamed from text_prefix when the prefix-concatenation bug
+    // was fixed — see apps/scripts/lib/tts-body.ts and
+    // apps/scripts/__tests__/vo-tts-body.test.ts.
+    const directionCount = (CONFIG_SRC.match(/voiceDirection:/g) ?? []).length;
     // At least 20 speakers + the DEFAULT (one per entry).
-    expect(prefixCount).toBeGreaterThan(20);
+    expect(directionCount).toBeGreaterThan(20);
   });
 
   it("ships real ElevenLabs voice IDs (no TODO_ placeholders) so vo:episodes works out of the box", () => {

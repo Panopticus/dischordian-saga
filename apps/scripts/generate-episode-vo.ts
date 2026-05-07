@@ -42,6 +42,11 @@
  *   7. Local-only (no S3 upload):
  *        pnpm vo:episodes -- --episode celebration_c1_the_watch --no-s3
  *
+ *   8. Force regeneration after a delivery-direction fix (overrides
+ *      the idempotent skip-on-existing behaviour for the matching
+ *      scope):
+ *        pnpm vo:episodes -- --all --force
+ *
  * ───────────────────────────────────────────────────────────────────
  * OUTPUTS
  *   • S3:        s3://<bucket>/episodes/<episodeId>/<sceneId>/<cueIndex>.mp3
@@ -68,6 +73,7 @@ import {
   DEFAULT_EPISODE_VOICE,
   type EpisodeSpeakerVoice,
 } from "./episode-voice-config";
+import { applyDelta, buildTtsBody, tuneFromDirection } from "./lib/tts-body";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -118,6 +124,10 @@ function parseArgs() {
     dryRun: args.includes("--dry-run"),
     includeTodo: args.includes("--include-todo"),
     noS3: args.includes("--no-s3"),
+    /** When true, regenerate even cues that already have a manifest
+     *  entry. Used after a delivery-direction fix so the affected
+     *  audio gets re-recorded without manually clearing the manifest. */
+    force: args.includes("--force"),
   };
 }
 
@@ -180,6 +190,7 @@ function resolveVoice(speaker: string): EpisodeSpeakerVoice {
 }
 
 async function tts(line: { text: string; voice: EpisodeSpeakerVoice }): Promise<Buffer> {
+  const tuned = applyDelta(line.voice, tuneFromDirection(line.voice.voiceDirection));
   const response = await fetch(
     `https://api.elevenlabs.io/v1/text-to-speech/${line.voice.voiceId}`,
     {
@@ -190,13 +201,13 @@ async function tts(line: { text: string; voice: EpisodeSpeakerVoice }): Promise<
         Accept: "audio/mpeg",
       },
       body: JSON.stringify({
-        text: line.voice.text_prefix + line.text,
+        text: buildTtsBody({ text: line.text }),
         model_id: "eleven_multilingual_v2",
         voice_settings: {
-          stability: line.voice.stability,
-          similarity_boost: line.voice.similarity_boost,
-          style: line.voice.style,
-          use_speaker_boost: line.voice.use_speaker_boost,
+          stability: tuned.stability,
+          similarity_boost: tuned.similarity_boost,
+          style: tuned.style,
+          use_speaker_boost: tuned.use_speaker_boost,
         },
       }),
     },
@@ -295,9 +306,11 @@ async function main() {
   const allJobs = buildCueJobs(scope);
   const manifest = loadManifest();
 
-  const skippedAlreadyDone = allJobs.filter((j) => manifest[j.manifestKey]);
+  const skippedAlreadyDone = opts.force
+    ? []
+    : allJobs.filter((j) => manifest[j.manifestKey]);
   const skippedTodo = allJobs.filter((j) => {
-    if (manifest[j.manifestKey]) return false;
+    if (manifest[j.manifestKey] && !opts.force) return false;
     const v = resolveVoice(j.speaker);
     return v.voiceId.startsWith("TODO_") && !opts.includeTodo;
   });
@@ -305,7 +318,7 @@ async function main() {
     skippedTodo.map((j) => j.speaker),
   );
   const candidates = allJobs.filter((j) => {
-    if (manifest[j.manifestKey]) return false;
+    if (manifest[j.manifestKey] && !opts.force) return false;
     const v = resolveVoice(j.speaker);
     if (v.voiceId.startsWith("TODO_") && !opts.includeTodo) return false;
     return true;
