@@ -6,7 +6,10 @@ import { bigint, boolean, int, json, mysqlEnum, mysqlTable, text, timestamp, var
 export const users = mysqlTable("users", {
   id: int("id").autoincrement().primaryKey(),
   openId: varchar("openId", { length: 64 }).notNull().unique(),
-  name: text("name"),
+  // Bounded varchar so a malicious caller can't paste megabytes of
+  // data into a display-name field. Any sane username fits in 256
+  // characters; downstream UI was already assuming short strings.
+  name: varchar("name", { length: 256 }),
   email: varchar("email", { length: 320 }),
   loginMethod: varchar("loginMethod", { length: 64 }),
   role: mysqlEnum("role", ["user", "moderator", "admin"]).default("user").notNull(),
@@ -25,6 +28,11 @@ export const users = mysqlTable("users", {
   createdAtIdx: index("idx_users_created_at").on(table.createdAt),
   lastSignedInIdx: index("idx_users_last_signed_in").on(table.lastSignedIn),
   signupWeekIdx: index("idx_users_signup_week").on(table.signupWeek),
+  // Unique email so the same OAuth provider account can't fabricate
+  // duplicate user rows by varying display name. NULLs are allowed
+  // (multiple users with no email is fine — the unique only fires
+  // when both rows have a non-NULL email).
+  emailIdx: uniqueIndex("uq_users_email").on(table.email),
 }));
 
 export type User = typeof users.$inferSelect;
@@ -731,6 +739,9 @@ export const craftingLog = mysqlTable("crafting_log", {
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 }, (table) => ({
   userIdIdx: index("idx_crafting_log_user_id").on(table.userId),
+  // Composite index landed via migration 0067 — declared here so a
+  // db:push against a divergent dev DB doesn't propose dropping it.
+  userCreatedIdx: index("idx_crafting_log_user_created").on(table.userId, table.createdAt),
 }));
 
 export type CraftingLog = typeof craftingLog.$inferSelect;
@@ -1229,7 +1240,12 @@ export const pvpLeaderboard = mysqlTable("pvp_leaderboard", {
   lastDecayAt: timestamp("lastDecayAt"),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
-});
+}, (table) => ({
+  // Speeds the time-windowed sandbagging-detection scan landed via
+  // migration 0067. Declared here so a db:push diff doesn't propose
+  // dropping it.
+  lastMatchAtIdx: index("idx_pvp_lb_last_match_at").on(table.lastMatchAt),
+}));
 
 export type PvpLeaderboard = typeof pvpLeaderboard.$inferSelect;
 export type InsertPvpLeaderboard = typeof pvpLeaderboard.$inferInsert;
@@ -3747,6 +3763,10 @@ export const analyticsEvents = mysqlTable("analytics_events", {
   idxUserId: index("idx_analytics_user").on(table.userId),
   idxEvent: index("idx_analytics_event").on(table.event),
   idxCreatedAt: index("idx_analytics_created").on(table.createdAt),
+  // Composite landed via migration 0067 — dashboards group by event
+  // name within a time window. Declared here so db:push doesn't
+  // propose dropping it.
+  idxEventCreated: index("idx_analytics_events_name_created").on(table.event, table.createdAt),
 }));
 
 /* ═══════════════════════════════════════════════════════
@@ -5272,7 +5292,11 @@ export const playerProfile = mysqlTable("player_profile", {
 export type PlayerProfileRow = typeof playerProfile.$inferSelect;
 
 export const playerProfileEvents = mysqlTable("player_profile_events", {
-  id: bigint("id", { mode: "number" }).autoincrement().primaryKey(),
+  // bigint with mode:"bigint" so values above Number.MAX_SAFE_INTEGER
+  // (≈ 9×10¹⁵) round-trip without precision loss. Was mode:"number" —
+  // an autoincrement column will hit that ceiling on a long-lived prod
+  // DB and silently misround.
+  id: bigint("id", { mode: "bigint" }).autoincrement().primaryKey(),
   userId: int("userId").notNull(),
   source: varchar("source", { length: 64 }).notNull(),
   /** Arbitrary structured data describing what triggered this
