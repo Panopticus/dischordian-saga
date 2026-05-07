@@ -507,10 +507,14 @@ export const ROOM_DEFINITIONS: RoomDef[] = [
         elaraDialogVoId: "room.cryo-bay.hotspot.cryo-terminal.elara",
       },
       { id: "door-medical", name: "Medical Bay Door", description: "A reinforced door leading to the Medical Bay. Green status light.", x: 87, y: 46, width: 12, height: 38, type: "door", action: "medical-bay" },
-      // Re-anchored 2026-04-28 against live cryo-bay render. The door
-      // sits at the back-centre archway, much lower than the original
-      // y=20. Verify with /ark?debug-hotspots=1 if the room art changes.
-      { id: "door-bridge", name: "Bridge Access", description: "A corridor leading up to Deck 2 — the Command deck.", x: 42, y: 38, width: 16, height: 38, type: "door", action: "bridge" },
+      // Re-anchored 2026-05-07 against live cryo-bay render. Previously
+      // x=42,w=16 placed the bridge door dead-centre over the dead-pod
+      // cluster (x=49,w=16) — the wide bounding box ate the click on the
+      // frosted glass / medical chart / cracked panel beneath it. The
+      // visible bridge door art sits left of the pods, against the
+      // archway between the left-wall door and the dead-pod row.
+      // Verify with /ark?debug-hotspots=1 if the room art changes.
+      { id: "door-bridge", name: "Bridge Access", description: "A corridor leading up to Deck 2 — the Command deck.", x: 22, y: 42, width: 14, height: 34, type: "door", action: "bridge" },
       { id: "data-crystal", name: "Data Crystal", description: "A glowing crystal wedged under a pod. It contains encrypted data.", x: 41, y: 89, width: 6, height: 6, type: "item", action: "data-crystal-alpha", elaraDialog: "A data crystal! These were used by the first wave to store personal logs. This one might contain information about what happened after they woke up.",
         elaraDialogVoId: "room.cryo-bay.hotspot.data-crystal.elara",
       },

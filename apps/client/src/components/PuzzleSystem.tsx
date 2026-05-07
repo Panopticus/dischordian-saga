@@ -541,6 +541,13 @@ function PowerRelayPuzzle({ puzzle, onSolve }: { puzzle: Puzzle; onSolve: () => 
 }
 
 function KeycardPuzzle({ puzzle, hasItem, onSolve }: { puzzle: Puzzle; hasItem: boolean; onSolve: () => void }) {
+  // The hint is opt-in. Surfacing the full solution path the moment the
+  // door opens collapses the murder-mystery into a checklist; the player
+  // sees "BRIDGE ACCESS — DEAD-LOCKED" and is immediately told to take
+  // the data-slate to the Med Bay autopsy console. The hint stays
+  // available, but only when the player asks for it.
+  const [showHint, setShowHint] = useState(false);
+
   return (
     <div className="space-y-4 text-center">
       <div className="w-16 h-16 rounded-full mx-auto flex items-center justify-center" style={{
@@ -571,12 +578,26 @@ function KeycardPuzzle({ puzzle, hasItem, onSolve }: { puzzle: Puzzle; hasItem: 
           <p className="font-mono text-[10px] text-muted-foreground/60 max-w-xs mx-auto">
             You need the <span className="void-text-accent">{puzzle.requiredItem?.replace(/-/g, " ")}</span> to access this area.
           </p>
-          <div className="rounded-md p-3 max-w-xs mx-auto" style={{
-            background: "color-mix(in oklch, var(--energy-premium) 5%, transparent)",
-            border: "1px solid color-mix(in oklch, var(--energy-premium) 15%, transparent)",
-          }}>
-            <p className="font-mono text-[10px] void-text-accent">ELARA: {puzzle.elaraHint}</p>
-          </div>
+          {showHint ? (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="rounded-md p-3 max-w-xs mx-auto"
+              style={{
+                background: "color-mix(in oklch, var(--energy-premium) 5%, transparent)",
+                border: "1px solid color-mix(in oklch, var(--energy-premium) 15%, transparent)",
+              }}
+            >
+              <p className="font-mono text-[10px] void-text-accent">ELARA: {puzzle.elaraHint}</p>
+            </motion.div>
+          ) : (
+            <button
+              onClick={() => setShowHint(true)}
+              className="font-mono text-[10px] void-text-accent transition-colors block mx-auto underline underline-offset-2"
+            >
+              [Ask Elara for Help]
+            </button>
+          )}
         </>
       )}
     </div>

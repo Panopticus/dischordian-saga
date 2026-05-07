@@ -916,12 +916,12 @@ export default function CharacterSheetPage() {
                         Slots whose PNG hasn't shipped yet still fall through
                         to the placeholder rectangle so the silhouette of the
                         character is always visible. */}
-                    <div className="relative" style={{ width: 240 }}>
+                    <div className="relative" style={{ width: 320 }}>
                       {bg3Loadout ? (
                         <PaperDollBG3
                           loadout={bg3Loadout}
                           elementTint={bg3ElementTint}
-                          width={240}
+                          width={320}
                           bodySpecies={bg3BodySpecies}
                           baseSetId={bg3BaseSetId}
                         />
