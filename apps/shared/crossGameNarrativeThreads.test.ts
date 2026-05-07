@@ -1,4 +1,6 @@
 import { describe, expect, it } from "vitest";
+import fs from "fs";
+import path from "path";
 import {
   CROSS_GAME_THREADS,
   getAllBeats,
@@ -108,5 +110,110 @@ describe("crossGameNarrativeThreads", () => {
       (t) => t.participatingGames.length === 3,
     );
     expect(threeGame.length).toBeGreaterThanOrEqual(1);
+  });
+
+  /**
+   * Wiring invariant — every beat must have a fire site somewhere
+   * in the codebase, OR be in the deferred-narrative-wiring baseline.
+   * CONNECTION_AUDIT §6.3 caught 17 beats with no fire site at all
+   * (the entire CADES + DMC half of the registry); this guard
+   * prevents that count from growing while the writers do the
+   * narrative-moment-by-narrative-moment wiring in follow-up PRs.
+   *
+   * A "fire site" is any of:
+   *   - `fireCrossGameBeat("<beat_id>")` in apps/ TS source
+   *     (Loredex side — the helper at apps/client/src/lib/crossGameBeats.ts)
+   *   - `fire_cross_game_beat("<beat_id>")` in games/ GD source
+   *     (CADES + DMC side — the helper added on
+   *      games/{cades-fps,dead-mans-circuit}/autoloads/WebBridge.gd)
+   *
+   * The baseline is a JSON list of beat ids known to lack a fire
+   * site at the time the guard was added. PRs that add a fire site
+   * MUST also remove the corresponding baseline entry; PRs that
+   * introduce a NEW beat must wire it to a fire site or the test
+   * will fail at the new beat (baseline cannot grow without
+   * editing the file directly).
+   */
+  it("every beat has a fire site or is in the deferred-narrative-wiring baseline", () => {
+    const REPO_ROOT = path.resolve(__dirname, "..", "..");
+    const APPS_DIR = path.join(REPO_ROOT, "apps");
+    const GAMES_DIR = path.join(REPO_ROOT, "games");
+    const BASELINE_PATH = path.join(
+      __dirname,
+      "crossGameNarrativeThreads.baseline.json",
+    );
+
+    function readAll(dir: string, exts: string[]): string {
+      let combined = "";
+      const stack = [dir];
+      while (stack.length) {
+        const d = stack.pop()!;
+        let entries: fs.Dirent[];
+        try {
+          entries = fs.readdirSync(d, { withFileTypes: true });
+        } catch {
+          continue;
+        }
+        for (const e of entries) {
+          if (e.name === "node_modules" || e.name === "dist") continue;
+          const full = path.join(d, e.name);
+          if (e.isDirectory()) {
+            stack.push(full);
+          } else if (e.isFile() && exts.some(x => e.name.endsWith(x))) {
+            try {
+              combined += fs.readFileSync(full, "utf-8") + "\n";
+            } catch {
+              // ignore unreadable
+            }
+          }
+        }
+      }
+      return combined;
+    }
+
+    const baseline = (() => {
+      try {
+        return JSON.parse(fs.readFileSync(BASELINE_PATH, "utf-8")) as {
+          deferredNarrativeWiring: string[];
+        };
+      } catch {
+        return { deferredNarrativeWiring: [] };
+      }
+    })();
+    const baselineSet = new Set(baseline.deferredNarrativeWiring);
+
+    const tsText = readAll(APPS_DIR, [".ts", ".tsx"]);
+    const gdText = readAll(GAMES_DIR, [".gd"]);
+
+    const violations: string[] = [];
+    const usedBaseline = new Set<string>();
+    for (const t of CROSS_GAME_THREADS) {
+      for (const b of t.beats) {
+        const tsFire = `fireCrossGameBeat("${b.id}")`;
+        const gdFire = `fire_cross_game_beat("${b.id}")`;
+        if (tsText.includes(tsFire) || gdText.includes(gdFire)) continue;
+        if (baselineSet.has(b.id)) {
+          usedBaseline.add(b.id);
+          continue;
+        }
+        violations.push(
+          `  - ${b.id} (thread ${t.id}, emittedBy ${b.emittedBy}): no fireCrossGameBeat or fire_cross_game_beat callsite, not in baseline`,
+        );
+      }
+    }
+
+    if (violations.length > 0) {
+      throw new Error(
+        `Cross-game beats with no fire site:\n${violations.join("\n")}\n\n` +
+          `Resolve each by either (A) calling fireCrossGameBeat("<id>") at the ` +
+          `canonical narrative moment in apps/ TS code, (B) calling ` +
+          `fire_cross_game_beat("<id>") in the relevant games/ GD scene, or ` +
+          `(C) appending the beat id to ` +
+          `apps/shared/crossGameNarrativeThreads.baseline.json. PREFER A/B; ` +
+          `the baseline is a ratchet that should shrink, not grow. ` +
+          `See docs/audits/CONNECTION_AUDIT_2026-05-07.md §6.3.`,
+      );
+    }
+    expect(violations).toEqual([]);
   });
 });

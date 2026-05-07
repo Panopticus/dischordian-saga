@@ -97,6 +97,32 @@ func send_result(data: Dictionary) -> void:
 	else:
 		print("[DMC] Race Result: ", data)
 
+# Cross-game narrative beats — emit a beat id at a canonical narrative
+# moment in DMC, and the React side forwards it to the
+# crossGameThreads.emit tRPC mutation. The beat id MUST match an
+# entry in apps/shared/crossGameNarrativeThreads.ts. Same protocol +
+# semantics as CADES's WebBridge.fire_cross_game_beat — see the doc
+# comment there for the canonical example. Beats are
+# once-per-account; the local Dictionary just suppresses redundant
+# postMessage spam in the same session.
+func fire_cross_game_beat(beat_id: String) -> void:
+	if beat_id == "":
+		return
+	if _cross_game_beats_emitted.has(beat_id):
+		return
+	_cross_game_beats_emitted[beat_id] = true
+	if is_web:
+		var payload := {"beat_id": beat_id}
+		var json_str := JSON.stringify({"type": "CROSS_GAME_BEAT", "payload": payload})
+		JavaScriptBridge.eval("window.parent.postMessage(" + json_str + ",'*');")
+	else:
+		print("[DMC] cross-game beat (dev mode): ", beat_id)
+
+func has_emitted_cross_game_beat(beat_id: String) -> bool:
+	return _cross_game_beats_emitted.has(beat_id)
+
+var _cross_game_beats_emitted: Dictionary = {}
+
 func _dev_mode_config() -> void:
 	var cfg := {
 		"player_clone": {

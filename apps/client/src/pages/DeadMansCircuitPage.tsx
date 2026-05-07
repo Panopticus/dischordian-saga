@@ -20,6 +20,7 @@ import {
 } from "@shared/deadMansCircuit";
 import { crewMemberToCloneStats, type DmcCloneStats } from "@shared/crewDmcBridge";
 import { useNilmorgVO } from "@/hooks/useNilmorgVO";
+import { fireCrossGameBeat } from "@/lib/crossGameBeats";
 import {
   mergeCircuitSuitBonuses,
   normalizeToCircuitPlayerClone,
@@ -472,6 +473,19 @@ export default function DeadMansCircuitPage() {
           playCinematic(DMC_CINEMATICS.severancePodium, "THE SEVERANCE PRIZE", gotoResults);
         } else {
           gotoResults();
+        }
+      }
+
+      // Cross-game narrative beats — DMC's WebBridge.fire_cross_game_beat
+      // posts CROSS_GAME_BEAT at canonical narrative moments (puzzle
+      // openings, letter decodings, branch-aware closing motifs). The
+      // host forwards the beat id through fireCrossGameBeat which routes
+      // to trpc.crossGameThreads.emit. Beat ids must match an entry in
+      // apps/shared/crossGameNarrativeThreads.ts.
+      if (e.data.type === "CROSS_GAME_BEAT") {
+        const beatId = e.data.payload?.beat_id;
+        if (typeof beatId === "string" && beatId.length > 0) {
+          void fireCrossGameBeat(beatId, { emittedBy: "dead_mans_circuit" });
         }
       }
     };
