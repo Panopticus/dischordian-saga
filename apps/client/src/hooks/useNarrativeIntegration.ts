@@ -339,6 +339,19 @@ export const SLIDESHOW_TRIGGERS: ReadonlyArray<{
     slideshowId: "act-7-convergence-intro",
     completionFlag: "slideshow_act_7_convergence_intro_complete",
   },
+  {
+    // Silence in Heaven · title track. Rev 8:1 — "there was silence
+    // in heaven for about half an hour" — the threshold beat between
+    // the Revelation climax (Act 5 opener) and the final stand. Fires
+    // ONCE after the Act 5 map intro lands so the silence drops as
+    // the moment-of-quiet before what follows. Other SiH tracks stay
+    // album-page-only (CTA-driven from AlbumPage); this is the single
+    // auto-fired track because the title carries the threshold. The
+    // narrative team can extend the table when other beats commit.
+    triggerFlag: "slideshow_act_5_map_intro_complete",
+    slideshowId: "sih-12",
+    completionFlag: "slideshow_sih_12_complete",
+  },
 ];
 
 export function useNarrativeIntegration() {

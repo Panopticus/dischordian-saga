@@ -28,7 +28,10 @@ import {
   type SIHPrologueBeat,
 } from "./silenceInHeavenTracklist";
 import type { SlideshowFrame, SongSlideshowDef } from "./songSlideshow";
-import { album5BackgroundUrl } from "./expansionArt/album5Slideshows";
+import {
+  album5BackgroundUrl,
+  album5PortraitUrl,
+} from "./expansionArt/album5Slideshows";
 
 export type SIHShowStepKind = "song" | "dialog";
 
@@ -168,6 +171,19 @@ function narratorLabel(speaker: SIHPrologueBeat["speaker"]): string {
   return "Both";
 }
 
+/** Where the speaker's portrait sits over the background. The Antiquarian
+ *  always reads from the left (Chronicle on his lap); the Storyteller
+ *  always commands the right (microphone stand). When both speak together
+ *  ("New Babylon. Goddamn.") no single portrait is overlaid — the line
+ *  reads as joint narration. */
+function portraitSideFor(
+  speaker: SIHPrologueBeat["speaker"],
+): "left" | "right" | undefined {
+  if (speaker === "antiquarian") return "left";
+  if (speaker === "storyteller") return "right";
+  return undefined;
+}
+
 function dialogStepToSlideshow(step: SIHDialogShowStep): SongSlideshowDef {
   const beats = step.beats ?? [];
   const beatCount = Math.max(beats.length, 1);
@@ -188,6 +204,10 @@ function dialogStepToSlideshow(step: SIHDialogShowStep): SongSlideshowDef {
           const end = i === beatCount - 1 ? step.durationMs : start + slotMs;
           const bgUrl =
             (b.bgId && album5BackgroundUrl(b.bgId)) || SIH_DIALOG_FALLBACK_BG;
+          const portraitUrl = b.expressionId
+            ? album5PortraitUrl(b.expressionId)
+            : undefined;
+          const portraitSide = portraitSideFor(b.speaker);
           return {
             startMs: start,
             endMs: end,
@@ -195,6 +215,8 @@ function dialogStepToSlideshow(step: SIHDialogShowStep): SongSlideshowDef {
             transition: i === 0 ? "fade" : "dissolve",
             dialogOverlay: `${narratorLabel(b.speaker)} — ${b.line}`,
             dialogSpeakerId: b.speaker,
+            portraitUrl: portraitSide ? portraitUrl : undefined,
+            portraitSide,
           };
         });
   const id = `sih-dialog-${step.albumTrackNumber}`;
@@ -208,6 +230,9 @@ function dialogStepToSlideshow(step: SIHDialogShowStep): SongSlideshowDef {
     priority: "P1",
     frames,
     flagsSetOnComplete: [`slideshow_${id.replace(/-/g, "_")}_complete`],
+    /* Loredex auto-discovery — interludes sit at odd album positions
+     * 1,3,…,37; the matching Loredex entry is `song_sih_<albumPos>`. */
+    unlockLoredexEntry: `song_sih_${step.albumTrackNumber}`,
     reducedMotionFallback: {
       heroImageUrl: SIH_DIALOG_FALLBACK_BG,
       prose: beats.length

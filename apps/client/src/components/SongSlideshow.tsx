@@ -48,6 +48,13 @@ export interface SlideshowFrame {
   durationMs?: number;
   /** Optional subtitle below the lyric (e.g. speaker attribution). */
   subtitle?: string;
+  /** Optional narrator portrait composited over the background — the
+   *  Silence in Heaven dialog interlude renderer drops the speaker's
+   *  expression here so the line lands with a face attached. */
+  portraitSrc?: string;
+  /** Where the portrait sits. Default behaviour without a side is
+   *  not to render the portrait. */
+  portraitSide?: "left" | "right" | "center";
 }
 
 export interface SongSlideshowProps {
@@ -342,6 +349,26 @@ export default function SongSlideshow({
                 alt=""
                 className="absolute inset-0 w-full h-full object-cover"
                 style={{ filter: "brightness(0.6) saturate(0.85)" }}
+              />
+            )}
+
+            {/* Narrator portrait — when the frame declares a portraitSrc
+                (today: Silence in Heaven dialog interludes), composite
+                it over the background at the speaker's side. Skipped
+                entirely when portraitSide is not set. */}
+            {frame.portraitSrc && frame.portraitSide && (
+              <img
+                src={frame.portraitSrc}
+                alt=""
+                className={
+                  "absolute bottom-0 z-[5] h-[78%] max-h-[78%] w-auto object-contain object-bottom pointer-events-none " +
+                  (frame.portraitSide === "left"
+                    ? "left-0 sm:left-4"
+                    : frame.portraitSide === "right"
+                      ? "right-0 sm:right-4"
+                      : "left-1/2 -translate-x-1/2")
+                }
+                style={{ filter: "drop-shadow(0 8px 30px rgba(0,0,0,0.6))" }}
               />
             )}
 

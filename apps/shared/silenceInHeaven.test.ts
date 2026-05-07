@@ -35,10 +35,21 @@ describe("Silence in Heaven", () => {
     }
   });
 
-  it("every frame has a klingPrompt", () => {
+  it("every frame is either authored (klingPrompt) or bound to producer art (album5 imageUrl)", () => {
+    // Tracks where the producer manifest ships more frames than the
+    // SongSlideshowDef declares are rebuilt in the barrel using all
+    // available producer art; the authored klingPrompts on those tracks
+    // are dropped because runtime no longer renders them. Frames in
+    // those tracks carry the production reference via their album5
+    // imageUrl instead.
     for (const track of ALL_SIH_TRACKS) {
       for (const frame of track.frames) {
-        expect(frame.klingPrompt).toBeTruthy();
+        const accounted =
+          Boolean(frame.klingPrompt) ||
+          /\/art\/slideshows\/album5\/T\d{2}\/sih_t\d{2}_f\d{2}\.webp$/.test(
+            frame.imageUrl,
+          );
+        expect(accounted, `Frame in ${track.id} is unaccounted for`).toBe(true);
       }
     }
   });
@@ -119,6 +130,34 @@ describe("Silence in Heaven", () => {
       expect(track.reducedMotionFallback.heroImageUrl).toMatch(
         /\/art\/slideshows\/album5\/T\d{2}\/sih_t\d{2}_f01\.webp$/,
       );
+    }
+  });
+
+  it("every song slideshow declares its song_sih_<2N> Loredex unlock", () => {
+    for (let i = 0; i < ALL_SIH_TRACKS.length; i++) {
+      const songNumber = i + 1;
+      expect(ALL_SIH_TRACKS[i].unlockLoredexEntry).toBe(
+        `song_sih_${songNumber * 2}`,
+      );
+    }
+  });
+
+  it("frame expansion: every track uses all producer frames when the manifest ships more than authored", () => {
+    // Spot-check a few representative tracks where producer count
+    // exceeded the authored frame count (T02=27, T12=24, T18=23).
+    // After expansion each track's frame count should match the
+    // album5 producer count for its T<2N> id.
+    const samples: Array<{ songNumber: number; expectedFrames: number }> = [
+      { songNumber: 1, expectedFrames: 27 }, // sih-01 → T02
+      { songNumber: 6, expectedFrames: 24 }, // sih-06 → T12
+      { songNumber: 12, expectedFrames: 27 }, // sih-12 → T24
+      { songNumber: 18, expectedFrames: 17 }, // sih-18 → T36
+    ];
+    for (const { songNumber, expectedFrames } of samples) {
+      const track = ALL_SIH_TRACKS[songNumber - 1];
+      expect(track.frames.length).toBe(expectedFrames);
+      // Last frame's endMs lands exactly on durationMs.
+      expect(track.frames[track.frames.length - 1].endMs).toBe(track.durationMs);
     }
   });
 });
