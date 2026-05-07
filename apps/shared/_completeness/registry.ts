@@ -27,6 +27,7 @@ import { checkEconomicTransactionCoverage } from "./checks/economicTransactionCo
 import { checkMobileWiring } from "./checks/mobileWiring";
 import { checkListVirtualizationAdoption } from "./checks/listVirtualizationAdoption";
 import { checkAssetPrefetchManifest } from "./checks/assetPrefetchManifest";
+import { checkProcedureRateLimits } from "./checks/procedureRateLimits";
 
 export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
   // ─── Card engine ──────────────────────────────────────────
@@ -131,6 +132,14 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
       "Every server router that mutates a currency balance (dream / void_crystals / gems / credits / store_purchases) wraps its mutation in db.transaction(...). Ratcheted; 12 routers found to touch currency surfaces without wrapping at landing — each needs per-router care to pick the right isolation level, see the route-by-route plan in the C3 PR.",
     check: () => checkEconomicTransactionCoverage(),
     ratchet: { target: 0 },
+  },
+  // ─── Server / abuse surfaces ──────────────────────────────
+  {
+    id: "server.procedure_rate_limits",
+    name: "Per-procedure rate limits",
+    description:
+      "procedureRateLimit factory exists + applied to high-risk mutations: store.createCheckout, cardGame.createDeck, cardGame.updateDeck, account.acceptAgreement. Hard parity — removing the decoration silently degrades abuse defense.",
+    check: () => checkProcedureRateLimits(),
   },
   // ─── Server / observability ───────────────────────────────
   {

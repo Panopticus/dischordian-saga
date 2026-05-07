@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { protectedProcedure, publicProcedure, router } from "../_core/trpc";
+import { procedureRateLimit } from "../_core/procedureRateLimit";
 import { getDb } from "../db";
 import { STORE_PRODUCTS, getProduct, getProductsByCategory, getFeaturedProducts } from "../products";
 import { storePurchases, dreamBalance, shipUpgrades, playerBases, userCards, cards, purchaseGrants, cosmeticCatalogOwnership, battlePassProgress, battlePassSeasons, type StorePurchase } from "../../db/schema";
@@ -31,6 +32,11 @@ export const storeRouter = router({
 
   /** Create a Stripe checkout session for a product */
   createCheckout: protectedProcedure
+    // H6 — tight rate limit on a procedure that hits Stripe + has
+    // CC-enumeration / cart-bombing risk. 2 calls per 5 minutes
+    // per user is enough for a real shopper (single checkout +
+    // one refresh) but caps abuse at 24/day worst case.
+    .use(procedureRateLimit({ windowMs: 300_000, max: 2 }))
     .input(z.object({ productKey: z.string(), quantity: z.number().min(1).max(10).default(1) }))
     .mutation(async ({ ctx, input }) => {
       const product = getProduct(input.productKey);

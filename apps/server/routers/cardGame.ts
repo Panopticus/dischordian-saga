@@ -1,6 +1,7 @@
 import { logger } from "../logger";
 import { z } from "zod";
 import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
+import { procedureRateLimit } from "../_core/procedureRateLimit";
 import { getDb } from "../db";
 import { cards, userCards, decks, cardGameMatches, characterSheets, dreamBalance, userProgress, pvpMatches } from "../../db/schema";
 import { eq, and, or, like, inArray, notInArray, sql, desc, asc, type SQL } from "drizzle-orm";
@@ -970,6 +971,10 @@ export const cardGameRouter = router({
   }),
 
   createDeck: protectedProcedure
+    // H6 — deck-slot abuse rate limit. 10 new decks per 10 minutes
+    // per user is generous for legitimate copy-an-existing-deck
+    // workflows but caps a deck-spam attack.
+    .use(procedureRateLimit({ windowMs: 600_000, max: 10 }))
     .input(z.object({
       name: z.string().min(1).max(256),
       description: z.string().optional(),
@@ -1002,6 +1007,10 @@ export const cardGameRouter = router({
     }),
 
   updateDeck: protectedProcedure
+    // H6 — autosave-keystroke spam ceiling. 30/min per user is
+    // 2 saves/sec sustained, well above any real edit cadence
+    // and below the threshold that would actually load the DB.
+    .use(procedureRateLimit({ windowMs: 60_000, max: 30 }))
     .input(z.object({
       deckId: z.number(),
       name: z.string().optional(),
