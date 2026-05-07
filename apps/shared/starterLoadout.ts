@@ -134,6 +134,22 @@ export function classSetId(characterClass: ClassKey): string {
   return CLASS_CUT_TO_SET_ID[CLASS_CUTS[characterClass]];
 }
 
+/** Inventor-catalog set id keyed off the operative's species. Used as
+ *  the paper doll's "base set race" layer — drawn under the class
+ *  armor so the BG3-style sheet reads as race body in species kit
+ *  with class plate over the top. Humans use the Mourner's Coat
+ *  foundation set (the canonical "human" Inventor set). */
+const SPECIES_TO_INVENTOR_SET: Record<StarterSpecies, string> = {
+  human: "the-mourners-coat",
+  demagi: "arcane-rune-regalia",
+  quarchon: "clockwork-exoframe",
+  neyon: "hybrid-vein-panoply",
+};
+
+export function speciesSetId(species: StarterSpecies): string {
+  return SPECIES_TO_INVENTOR_SET[species];
+}
+
 /* ─── Enumerator helpers (used by the snapshot test) ─── */
 
 export const STARTER_SPECIES_LIST: readonly StarterSpecies[] = [

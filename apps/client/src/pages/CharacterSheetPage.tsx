@@ -32,6 +32,7 @@ import type { Loadout } from "@/game/paperDoll/compositePaperDoll";
 import {
   resolveStarterLoadout,
   classSetId,
+  speciesSetId,
   type FoundationKey,
   type StarterSpecies,
 } from "@shared/starterLoadout";
@@ -541,6 +542,15 @@ export default function CharacterSheetPage() {
       : (char.species as StarterSpecies);
   }, [character.data]);
 
+  // "Base set race" — the species/foundation Inventor set drawn under
+  // the class layers so the doll reads as race body in species kit
+  // with class plate over the top (BG3 / BioWare reading). Uses the
+  // same humanity-collapse as bg3BodySpecies so the human Mourner's
+  // Coat wins for humanity-foundation operatives.
+  const bg3BaseSetId = useMemo<string | undefined>(() => {
+    return bg3BodySpecies ? speciesSetId(bg3BodySpecies) : undefined;
+  }, [bg3BodySpecies]);
+
   // Element tint for BG3 — pull the anchor hex out of the palette descriptor.
   const bg3ElementTint = useMemo(() => {
     const el = character.data?.element as ElementKey | undefined;
@@ -913,6 +923,7 @@ export default function CharacterSheetPage() {
                           elementTint={bg3ElementTint}
                           width={240}
                           bodySpecies={bg3BodySpecies}
+                          baseSetId={bg3BaseSetId}
                         />
                       ) : (
                         <PaperDollRenderer
