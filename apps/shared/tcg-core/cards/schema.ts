@@ -836,6 +836,29 @@ export const cardDefinitionSchema = z
       })
       .strict()
       .optional(),
+
+    /* H2 keyword-config fields. Each is optional — absent values
+     * fall back to documented engine defaults when the matching
+     * keyword is present. */
+    growAmount: z
+      .object({
+        power: z.number().int().nonnegative(),
+        health: z.number().int().nonnegative(),
+      })
+      .strict()
+      .optional(),
+    furyCount: z.number().int().min(2).max(5).optional(),
+    infiltrateBonus: z.number().int().min(0).max(5).optional(),
+    overchargeBonus: z.number().int().min(0).max(5).optional(),
+    overchargeSelfDamage: z.number().int().min(0).max(5).optional(),
+    rallyBuff: z
+      .object({
+        power: z.number().int().nonnegative(),
+        health: z.number().int().nonnegative(),
+      })
+      .strict()
+      .optional(),
+    backstabBonus: z.number().int().min(0).max(5).optional(),
   })
   .strict()
   .superRefine((card, ctx) => {
@@ -866,6 +889,12 @@ export const cardDefinitionSchema = z
       }
       seen.add(a.id);
     }
+
+    // H2 — `rally_buff` keyword has no required config field —
+    // engine defaults to {power:1, health:1} when absent — so the
+    // schema doesn't enforce. Mentioned here so future schema
+    // refactors don't accidentally reintroduce a strict check that
+    // breaks the existing rally_buff cards.
   });
 
 export type ValidatedCardDefinition = z.infer<typeof cardDefinitionSchema>;

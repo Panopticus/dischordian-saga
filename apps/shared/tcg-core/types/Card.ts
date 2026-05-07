@@ -229,6 +229,39 @@ export interface CardDefinition {
     reason: string;
     reviewer: string;
   };
+
+  /* ─── H2 keyword-config fields ───────────────────────────────────
+     Optional knobs read by the engine when the corresponding keyword
+     is on `keywords`. Absent fields fall back to documented defaults.
+  */
+
+  /** `grow`: per-turn permanent stat bump. Default {power:1, health:1}. */
+  growAmount?: { power: number; health: number };
+
+  /** `fury`: number of strikes per attack. Default 2. */
+  furyCount?: number;
+
+  /** `infiltrate`: power bonus while on enemy half of the board.
+   *  Default +1. */
+  infiltrateBonus?: number;
+
+  /** `overcharge`: bonus damage on the unit's first attack of the
+   *  match. Default +2. */
+  overchargeBonus?: number;
+  /** `overcharge`: self-damage applied after the first attack
+   *  resolves. Default 2. */
+  overchargeSelfDamage?: number;
+
+  /** `rally_buff`: stat bump applied to friendly adjacents on
+   *  deploy. No default — when the keyword is present this field
+   *  must be set; the Zod superRefine enforces. */
+  rallyBuff?: { power: number; health: number };
+
+  /** `backstab`: power bonus when attacking from "behind" — the
+   *  defender's row is between the attacker and the defender's
+   *  general (i.e. attacker is on the defender's home half).
+   *  Default +2. */
+  backstabBonus?: number;
 }
 
 /**

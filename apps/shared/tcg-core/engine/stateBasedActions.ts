@@ -85,11 +85,19 @@ export function runStateBasedActions(
     for (const key of deadKeys) {
       const entity = draft.board[key];
       if (entity.isGeneral) continue;
-      if (!entity.card.activeKeywords.includes("resurrect")) continue;
-      if (entity.card.counters.has_resurrected === 1) continue;
+      const aks = entity.card.activeKeywords;
+      const hasResurrect = aks.includes("resurrect");
+      const hasRebirth = aks.includes("rebirth");
+      if (!hasResurrect && !hasRebirth) continue;
+      // Both keywords use a counter to prevent looping. resurrect
+      // uses `has_resurrected`; rebirth uses `has_rebirthed` — they
+      // are independent so a unit with both keywords (none ship
+      // today, but the type union allows it) gets one of each.
+      const counterKey = hasResurrect ? "has_resurrected" : "has_rebirthed";
+      if (entity.card.counters[counterKey] === 1) continue;
       entity.card.counters = {
         ...entity.card.counters,
-        has_resurrected: 1,
+        [counterKey]: 1,
       };
       entity.card.currentHealth = entity.card.maxHealth;
       ctx.events.push({

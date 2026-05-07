@@ -99,6 +99,38 @@ export function refreshTurnForPlayer(
     entity.actionsRemaining = entity.card.activeKeywords.includes("celerity")
       ? 2
       : 1;
+
+    // H2 — grow: at the start of the owner's turn, gain `growAmount`
+    // permanent stats. The buff is sourced as `grow:<entityId>:t<turn>`
+    // so each turn's bump is its own buff record (replay-stable +
+    // dispel-stable). Default amount is +1/+1 unless the
+    // CardDefinition specifies otherwise.
+    if (entity.card.activeKeywords.includes("grow")) {
+      const def = ctx.registry.get(entity.card.defId);
+      const growAmount =
+        (def as { growAmount?: { power: number; health: number } } | undefined)
+          ?.growAmount ?? { power: 1, health: 1 };
+      entity.card.currentPower += growAmount.power;
+      entity.card.maxHealth += growAmount.health;
+      entity.card.currentHealth += growAmount.health;
+      entity.card.buffs = [
+        ...entity.card.buffs,
+        {
+          source: `grow:${entity.entityId}:t${draft.turnNumber}`,
+          powerDelta: growAmount.power,
+          healthDelta: growAmount.health,
+          expiresAtTurn: -1, // permanent
+        },
+      ];
+      ctx.events.push({
+        type: "buff_applied",
+        sourceId: entity.entityId,
+        targetId: entity.entityId,
+        powerDelta: growAmount.power,
+        healthDelta: growAmount.health,
+        expiresAtTurn: -1,
+      });
+    }
   }
 
   // Enqueue on_turn_start triggers for the active player's entities.
@@ -220,5 +252,19 @@ export function enqueueTurnEndTriggers(
         context: { triggerSourceId: entity.entityId },
       });
     }
+  }
+
+  // H2 — ephemeral: units owned by the ending side and tagged
+  // `ephemeral` die at end of their owner's turn. Setting
+  // currentHealth to 0 lets SBA Pass 1 collect them through the
+  // canonical death path (on_death triggers, deathwatch, etc. all
+  // fire correctly). The pass runs AFTER the on_turn_end trigger
+  // enqueue so those triggers see the unit alive when they fire —
+  // matches Hearthstone's "die at end of turn" timing.
+  for (const entity of Object.values(draft.board)) {
+    if (entity.card.owner !== endingSide) continue;
+    if (entity.isGeneral) continue;
+    if (!entity.card.activeKeywords.includes("ephemeral")) continue;
+    entity.card.currentHealth = 0;
   }
 }

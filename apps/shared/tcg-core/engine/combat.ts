@@ -34,7 +34,7 @@
  */
 import type { Draft } from "immer";
 import type { GameState, BoardEntity, PlayerState } from "../types/GameState";
-import { posKey } from "../types/GameState";
+import { posKey, BOARD_WIDTH } from "../types/GameState";
 import type { Action, ReduceError } from "../types/Action";
 import type { ReduceCtx } from "./reducer";
 import type { Side } from "../types/Ids";
@@ -128,12 +128,58 @@ export function handleAttack(
   // Flanking (plan §C1) only applies to the *attacker* side — pass
   // the target so effectiveAttackPower can pick up the bonus when
   // an ally is also adjacent to the target.
-  const attackDamage = Math.max(0, effectiveAttackPower(draft, attacker, target));
+  const baseAttackDamage = Math.max(0, effectiveAttackPower(draft, attacker, target));
   const retaliationDamage = isRangedLike ? 0 : Math.max(0, effectivePower(draft, target));
 
-  applyCombatDamage(draft, attacker, target, attackDamage, ctx);
-  if (retaliationDamage > 0) {
-    applyCombatDamage(draft, target, attacker, retaliationDamage, ctx);
+  // H2 — overcharge: bonus on this unit's FIRST attack of the match,
+  // then take self-damage afterwards. The flag is per-CardInstance
+  // so it survives subsequent attacks but resets when the unit
+  // dies + re-spawns (a new instance, fresh flag). Constants; per-
+  // card overrides via CardDefinition.overchargeBonus /
+  // overchargeSelfDamage land with the registry-aware refactor.
+  const isOverchargeFirstAttack =
+    attacker.card.activeKeywords.includes("overcharge") &&
+    !attacker.card.flags.overcharge_used;
+  const overchargeBonus = isOverchargeFirstAttack ? OVERCHARGE_BONUS : 0;
+
+  // H2 — fury: deliver multiple strike-counterstrike pairs in a
+  // single attack action. Default 2; future per-card override via
+  // CardDefinition.furyCount once the registry is reachable here.
+  const strikeCount = attacker.card.activeKeywords.includes("fury") ? 2 : 1;
+
+  for (let strikeIdx = 0; strikeIdx < strikeCount; strikeIdx++) {
+    // For strikes after the first, only continue if both combatants
+    // are still on the board. Strike 0 always lands AND retaliates
+    // (Duelyst's simultaneous damage convention) even if the strike
+    // is lethal — captured at top via `retaliationDamage`.
+    if (strikeIdx > 0 && (attacker.card.currentHealth <= 0 || target.card.currentHealth <= 0)) {
+      break;
+    }
+    // Overcharge bonus only applies to the FIRST strike of the
+    // attack action — subsequent strikes are normal-power.
+    const thisStrike =
+      strikeIdx === 0 ? baseAttackDamage + overchargeBonus : baseAttackDamage;
+    applyCombatDamage(draft, attacker, target, thisStrike, ctx);
+    if (retaliationDamage > 0) {
+      applyCombatDamage(draft, target, attacker, retaliationDamage, ctx);
+    }
+  }
+
+  if (isOverchargeFirstAttack) {
+    attacker.card.flags.overcharge_used = true;
+    if (OVERCHARGE_SELF_DAMAGE > 0 && attacker.card.currentHealth > 0) {
+      attacker.card.currentHealth = Math.max(
+        0,
+        attacker.card.currentHealth - OVERCHARGE_SELF_DAMAGE,
+      );
+      ctx.events.push({
+        type: "damage_dealt",
+        sourceId: attacker.entityId,
+        targetId: attacker.entityId,
+        amount: OVERCHARGE_SELF_DAMAGE,
+        absorbed: false,
+      });
+    }
   }
 
   attacker.hasAttacked = true;
@@ -385,6 +431,26 @@ const PACK_BONUS_PER_ALLY = 1;
  *  the new strategic axis introduced by plan §C1. */
 const FLANKING_BONUS = 2;
 
+/** H2 — infiltrate: power bonus while on the opposing half of the
+ *  board (col-axis split since both generals spawn at the row
+ *  midline, opposite columns). Constant matches ZEAL_BONUS /
+ *  FLANKING_BONUS shape; per-card overrides via
+ *  CardDefinition.infiltrateBonus land when effectivePower gains
+ *  access to the registry. */
+const INFILTRATE_BONUS = 1;
+
+/** H2 — backstab: attacker bonus when striking from the defender's
+ *  "rear" — i.e. the attacker is on the column-axis side opposite
+ *  the defender's general. Constant; per-card overrides land with
+ *  the registry-aware refactor. */
+const BACKSTAB_BONUS = 2;
+
+/** H2 — overcharge: bonus damage on the unit's first attack of the
+ *  match. Then OVERCHARGE_SELF_DAMAGE is applied to the attacker
+ *  itself. */
+const OVERCHARGE_BONUS = 2;
+const OVERCHARGE_SELF_DAMAGE = 2;
+
 export function effectivePower(
   draft: Draft<GameState> | GameState,
   unit: Draft<BoardEntity> | BoardEntity,
@@ -398,6 +464,18 @@ export function effectivePower(
   }
   if (unit.card.activeKeywords.includes("pack")) {
     p += packBonus(draft, unit);
+  }
+  // H2 — infiltrate: bonus power while on the enemy half of the
+  // board. Owner=0 spawns at col 0; their enemy half is cols ≥
+  // midCol (4 on a 9-wide board). Owner=1 inverse. Constant bonus
+  // matches ZEAL_BONUS / FLANKING_BONUS pattern; per-card overrides
+  // (CardDefinition.infiltrateBonus) land when effectivePower
+  // gains access to the registry — see plan §H2 hand-off.
+  if (unit.card.activeKeywords.includes("infiltrate")) {
+    const midCol = Math.floor(BOARD_WIDTH / 2);
+    const onEnemyHalf =
+      unit.card.owner === 0 ? unit.col >= midCol : unit.col <= midCol;
+    if (onEnemyHalf) p += INFILTRATE_BONUS;
   }
   return p;
 }
@@ -432,6 +510,20 @@ export function effectiveAttackPower(
     isFlanking(draft, attacker, target)
   ) {
     p += FLANKING_BONUS;
+  }
+  // H2 — backstab: bonus when the attacker is on the side of the
+  // defender that's closer to the defender's own general — i.e. the
+  // defender is "between" the attacker and the enemy front line, so
+  // the attacker is striking from the defender's rear. Owner-0
+  // defender has its general at col 0 → behind = attacker.col <
+  // target.col. Owner-1 defender's general at col 8 → behind =
+  // attacker.col > target.col.
+  if (attacker.card.activeKeywords.includes("backstab")) {
+    const fromBehind =
+      target.card.owner === 0
+        ? attacker.col < target.col
+        : attacker.col > target.col;
+    if (fromBehind) p += BACKSTAB_BONUS;
   }
   return p;
 }

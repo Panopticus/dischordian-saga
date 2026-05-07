@@ -72,33 +72,15 @@ const KEYWORD_BEHAVIOR_EXEMPT: Readonly<Record<string, string>> = {
   deathwatch:
     "alias — card authors should use the on_any_unit_dies trigger directly. Keyword surfaces UI flavor only; removing requires deleting from the union or wiring auto-trigger-injection at load time",
 
-  // ─── Deferred genuine work ───────────────────────────────────────
-  // Each of these was authored expecting eventual engine support;
-  // each has shipping cards that declare it. The fix in every case
-  // is concrete combat / targeting / state-system code — these are
-  // not vague aspirations.
-  backstab:
-    "DEFERRED: bonus damage attacking from behind. Implementation: combat.ts effectivePower needs a positional check vs. attacker/defender facing direction.",
-  ephemeral:
-    "DEFERRED: dies at end of owner's turn. Implementation: in reducer.ts handleEndTurn, after enqueueTurnEndTriggers, set currentHealth=0 on every ephemeral unit owned by `ending`; SBA cleans them up.",
-  fury:
-    "DEFERRED: multi-attack on a single resolution. Implementation: combat.ts attack pipeline needs to loop the strike-counterstrike for fury units (count = 2 default).",
-  grow:
-    "DEFERRED: stat bump at start of owner's turn. Implementation: in turn.ts refreshTurnForPlayer, after action-counter reset, bump power+health by entity.card.def.growAmount (new field on CardDefinition or default 1) for grow units owned by `side`.",
+  // ─── Blocked on armor system ─────────────────────────────────────
+  // These two keywords share a blocker: the engine currently has no
+  // armor concept distinct from currentHealth. They ship together
+  // with an armor-system PR that introduces an `armor` field on
+  // BoardEntity + an armor-aware applyCombatDamage.
   ignore_armor_3:
-    "DEFERRED: pierces 3 flat armor. Blocked on armor-system: the engine currently has no general-armor concept distinct from currentHealth. Lands together with `pierce`.",
-  infiltrate:
-    "DEFERRED: bonus while on enemy side of the board. Implementation: combat.ts effectivePower needs a board-half check; bonus value tracked alongside packBonus / flankingBonus.",
-  overcharge:
-    "DEFERRED: bonus on first attack then self-damage. Implementation: combat.ts attack pipeline. The s1_thought_virus cards (Host, Source) currently fake it via add_counter / on_damage_dealt patterns; replace those with native overcharge once it lands.",
+    "BLOCKED: pierces 3 flat armor. Engine has no general-armor concept distinct from currentHealth. Lands together with `pierce` once the armor system ships.",
   pierce:
-    "DEFERRED: ignores a portion of enemy armor. Same blocker as ignore_armor_3 — the engine has no armor concept yet. These two keywords ship together with the armor system.",
-  rally_buff:
-    "DEFERRED: on-deploy adjacent buff. Implementation: deploy.ts after the existing on_deploy enqueue, find adjacent friendlies and apply a configured buff. New CardDefinition.rallyBuff field would specify the stat delta.",
-  rebirth:
-    "DEFERRED: returns once at full health on first death. Card.ts comment claims it's in stateBasedActions.ts Pass 1a but the code is absent. Implementation: in stateBasedActions when a rebirth-keyword unit drops to 0 HP, check entity.card.flags.rebirth_used; if false, set currentHealth=maxHealth and flag it true instead of cleaning up.",
-  untargetable:
-    "DEFERRED: cannot be chosen as a single target. Implementation: targeting.ts resolveTargetSelector for any single-target selector excludes entities with this keyword. Spell + activated-ability targeting both flow through that resolver.",
+    "BLOCKED: ignores a portion of enemy armor. Same blocker as ignore_armor_3 — the engine has no armor concept yet. These two keywords ship together with the armor system.",
 };
 
 export function checkKeywordBehaviorCoverage(): RawParityCount {
