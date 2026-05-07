@@ -40,7 +40,26 @@ export function TitleStateUnauth({ theme, showLogin, onAuthSuccess }: TitleState
       onAuthSuccess?.();
     };
     window.addEventListener("message", onMessage);
-    return () => window.removeEventListener("message", onMessage);
+
+    // Fallback for browsers / contexts where the OAuth popup's
+    // postMessage cannot reach us (COOP severs window.opener, popup
+    // blocked from closing, inline script blocked, etc.). Poll for
+    // popup closure and refetch auth.me — the cookies were already
+    // set by the server-side callback regardless of whether the
+    // postMessage round-trip succeeded.
+    const pollId = window.setInterval(() => {
+      const w = popupRef.current;
+      if (!w) return;
+      if (w.closed) {
+        popupRef.current = null;
+        onAuthSuccess?.();
+      }
+    }, 500);
+
+    return () => {
+      window.removeEventListener("message", onMessage);
+      window.clearInterval(pollId);
+    };
   }, [onAuthSuccess]);
 
   const go = (url: string) => {

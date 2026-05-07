@@ -23,6 +23,7 @@ const TransmissionTriggerSchema = z.discriminatedUnion("kind", [
   z.object({ kind: z.literal("flag"), flag: nonEmpty }),
   z.object({ kind: z.literal("room_visited"), roomId: nonEmpty }),
   z.object({ kind: z.literal("apprentice_graduates") }),
+  z.object({ kind: z.literal("loredex_discovered"), entityId: nonEmpty }),
   z.object({ kind: z.literal("always") }),
 ]);
 

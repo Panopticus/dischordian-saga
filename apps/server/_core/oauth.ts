@@ -268,8 +268,19 @@ export function registerOAuthRoutes(app: Express) {
       // close the window so the title page (and its music) keeps
       // playing in the background. Otherwise fall back to a normal
       // redirect for users who hit the callback directly.
+      //
+      // Production CSP forbids inline <script> globally, which used to
+      // freeze this response on a white popup (script blocked → no
+      // postMessage, no close, no redirect). Override the CSP for this
+      // single response with a nonce so the inline script is allowed
+      // here without weakening the global policy.
+      const nonce = randomBytes(16).toString("base64");
+      res.setHeader(
+        "Content-Security-Policy",
+        `default-src 'none'; script-src 'nonce-${nonce}'; base-uri 'none'`,
+      );
       res.type("html").send(`<!doctype html>
-<html><body><script>
+<html><body><script nonce="${nonce}">
 (function () {
   try {
     if (window.opener && !window.opener.closed) {
