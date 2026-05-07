@@ -107,6 +107,80 @@ export async function getReputationFor(
 }
 
 /**
+ * Pure transform — apply a delta to a faction key inside a gameData
+ * blob. Bounded on both sides: the previous value is clamped before
+ * the addition (defense against corrupted state) and the next value
+ * is clamped after (so a +9999 delta can't escape the ±REP_BOUND
+ * range). Exposed for unit testing the math without DB.
+ */
+export function applyDeltaToGameData(
+  gameData: GameDataLike | null | undefined,
+  factionKey: string,
+  delta: number,
+): { nextGameData: GameDataLike; previousValue: number; nextValue: number } {
+  const safe = (gameData ?? {}) as GameDataLike;
+  const rep = readFactionRepFromGameData(safe);
+  const previousValue = boundReputation(rep[factionKey] ?? 0);
+  const proposed = Number.isFinite(delta) ? previousValue + delta : previousValue;
+  const nextValue = boundReputation(proposed);
+  const nextRep = { ...rep, [factionKey]: nextValue };
+  return {
+    nextGameData: { ...safe, factionReputation: nextRep },
+    previousValue,
+    nextValue,
+  };
+}
+
+/**
+ * Apply a bounded delta to one faction's reputation and persist.
+ * Owns the read-modify-write round-trip end-to-end so callers
+ * can't bypass the ±REP_BOUND clamp by composing ad-hoc reads
+ * with their own writes (the bug shape the audit flagged in
+ * tradeContracts.ts before this helper existed).
+ *
+ * Returns null when the DB is unavailable or the row insert/update
+ * fails; otherwise returns the previous and next bounded values.
+ */
+export async function applyFactionReputationDelta(
+  userId: number,
+  factionKey: string,
+  delta: number,
+): Promise<{ previousValue: number; nextValue: number } | null> {
+  try {
+    const db = await getDb();
+    if (!db) return null;
+    const rows = await db
+      .select({ gameData: userProgress.gameData })
+      .from(userProgress)
+      .where(eq(userProgress.userId, userId))
+      .limit(1);
+    const row = rows[0];
+    const { nextGameData, previousValue, nextValue } = applyDeltaToGameData(
+      (row?.gameData as GameDataLike) ?? {},
+      factionKey,
+      delta,
+    );
+    if (row) {
+      await db
+        .update(userProgress)
+        .set({ gameData: nextGameData })
+        .where(eq(userProgress.userId, userId));
+    } else {
+      await db.insert(userProgress).values({ userId, gameData: nextGameData });
+    }
+    return { previousValue, nextValue };
+  } catch (err) {
+    logger.warn("faction_rep_apply_failed", "factionReputationService", {
+      userId,
+      factionKey,
+      delta,
+      err: String(err),
+    });
+    return null;
+  }
+}
+
+/**
  * Bleed every non-zero faction-reputation row toward zero by
  * DECAY_PER_TICK. Idempotent (running twice in a row just decays
  * twice). Fire-and-forget — errors are logged but never throw.

@@ -32,6 +32,7 @@ import { clausesAtSigning } from "../../shared/tradeEmpire/contracts";
 import { isKnownBrokerKey, BROKER_REGISTRY } from "../../shared/tradeEmpire/brokers";
 import type { ContractDef, ContractHiddenClause } from "../../shared/tradeEmpire/contracts";
 import { applySubHouseRepDelta } from "../services/subHouseReputationService";
+import { applyFactionReputationDelta } from "../services/factionReputationService";
 import { postPublicKnowledge } from "../services/publicKnowledgeService";
 import { seasonClockService } from "../services/seasonClockService";
 import { applyDeclarationModifier } from "../../shared/tradeEmpire/declarations";
@@ -184,30 +185,9 @@ async function applyClauseEffects(
           break;
         }
         case "faction_reputation_delta": {
-          // Faction reputation lives at userProgress.gameData.
-          // factionReputation as Record<factionId, number>.
-          const rows = await db
-            .select()
-            .from(userProgress)
-            .where(eq(userProgress.userId, userId))
-            .limit(1);
-          const row = rows[0];
-          type AnyRecord = Record<string, unknown>;
-          const gameData = (row?.gameData as AnyRecord) ?? {};
-          const rep = (gameData.factionReputation as Record<string, number>) ?? {};
-          const next = { ...rep, [eff.factionId]: (rep[eff.factionId] ?? 0) + eff.delta };
-          const nextGameData: AnyRecord = {
-            ...gameData,
-            factionReputation: next,
-          };
-          if (row) {
-            await db
-              .update(userProgress)
-              .set({ gameData: nextGameData })
-              .where(eq(userProgress.userId, userId));
-          } else {
-            await db.insert(userProgress).values({ userId, gameData: nextGameData });
-          }
+          // Bounded read-modify-write owned end-to-end by the service so
+          // an unbounded delta can't escape ±REP_BOUND.
+          await applyFactionReputationDelta(userId, eff.factionId, eff.delta);
           break;
         }
         case "reward_modifier": {
