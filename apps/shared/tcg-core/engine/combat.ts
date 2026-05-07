@@ -222,7 +222,35 @@ function applyCombatDamage(
     });
     return;
   }
-  dest.card.currentHealth = dest.card.currentHealth - damage;
+
+  // Armor + pierce + ignore_armor_3:
+  //
+  // Armor stacks above currentHealth and soaks damage 1-for-1. The
+  // attacker's pierce / ignore_armor_3 keywords reduce the
+  // armor-soak the defender gets to apply.
+  //
+  //   bypassDamage   = floor(damage * PIERCE_FRACTION)  if attacker has `pierce`
+  //   armorInteract  = damage - bypassDamage
+  //   effectiveArmor = max(0, dest.armor - IGNORE_ARMOR_3_VALUE)  if attacker has `ignore_armor_3`
+  //   armorSoak      = min(armorInteract, effectiveArmor)
+  //   hpDamage       = (armorInteract - armorSoak) + bypassDamage
+  //
+  // When dest.armor === 0 the math collapses to hpDamage = damage —
+  // identical to the pre-armor combat model, so existing tests +
+  // cards stay green.
+  let hpDamage = damage;
+  if (dest.card.armor > 0 || damage <= 0) {
+    const hasPierce = source.card.activeKeywords.includes("pierce");
+    const hasIgnoreArmor3 = source.card.activeKeywords.includes("ignore_armor_3");
+    const bypassDamage = hasPierce ? Math.floor(damage * PIERCE_FRACTION) : 0;
+    const armorInteract = damage - bypassDamage;
+    const flatIgnore = hasIgnoreArmor3 ? IGNORE_ARMOR_3_VALUE : 0;
+    const effectiveArmor = Math.max(0, dest.card.armor - flatIgnore);
+    const armorSoak = Math.min(armorInteract, effectiveArmor);
+    dest.card.armor = Math.max(0, dest.card.armor - armorSoak);
+    hpDamage = (armorInteract - armorSoak) + bypassDamage;
+  }
+  dest.card.currentHealth = dest.card.currentHealth - hpDamage;
   ctx.events.push({
     type: "damage_dealt",
     sourceId: source.entityId,
@@ -449,6 +477,15 @@ const BACKSTAB_BONUS = 2;
  *  itself. */
 const OVERCHARGE_BONUS = 2;
 const OVERCHARGE_SELF_DAMAGE = 2;
+
+/** Armor system — `pierce` lets a fraction of incoming damage skip
+ *  the armor-soak entirely; `ignore_armor_3` reduces the effective
+ *  armor by a flat amount before the soak. Both keywords are
+ *  attacker-side and combine cleanly. Cards opt into armor by
+ *  setting `baseArmor` on their CardDefinition; default 0 collapses
+ *  the math to the pre-armor combat model. */
+const PIERCE_FRACTION = 0.5;
+const IGNORE_ARMOR_3_VALUE = 3;
 
 export function effectivePower(
   draft: Draft<GameState> | GameState,

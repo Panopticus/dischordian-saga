@@ -293,6 +293,7 @@ function adaptPlayer(
           currentPower: 0,
           currentHealth: 0,
           maxHealth: 0,
+          armor: 0,
           counters: {},
           activeKeywords: [],
           buffs: [],

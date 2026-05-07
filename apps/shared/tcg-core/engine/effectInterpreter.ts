@@ -431,6 +431,7 @@ export function interpret(
         currentPower: tokenDef?.baseStats?.power ?? 1,
         currentHealth: tokenDef?.baseStats?.health ?? 1,
         maxHealth: tokenDef?.baseStats?.health ?? 1,
+        armor: (tokenDef as { baseArmor?: number } | undefined)?.baseArmor ?? 0,
         counters: {} as Record<string, number>,
         activeKeywords: (tokenDef?.keywords ? [...tokenDef.keywords] : []) as Keyword[],
         buffs: [] as Buff[],
