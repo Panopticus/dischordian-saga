@@ -26,6 +26,7 @@ import { checkDbForeignKeyCoverage } from "./checks/dbForeignKeyCoverage";
 import { checkEconomicTransactionCoverage } from "./checks/economicTransactionCoverage";
 import { checkMobileWiring } from "./checks/mobileWiring";
 import { checkListVirtualizationAdoption } from "./checks/listVirtualizationAdoption";
+import { checkAssetPrefetchManifest } from "./checks/assetPrefetchManifest";
 
 export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
   // ─── Card engine ──────────────────────────────────────────
@@ -153,6 +154,13 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     description:
       "Pages declared in checks/listVirtualizationAdoption.ts ADOPTED_LIST_PAGES still import useListVirtualizer. Catches accidental removal during refactors.",
     check: () => checkListVirtualizationAdoption(),
+  },
+  {
+    id: "client.asset_prefetch_manifest",
+    name: "Asset prefetch manifest",
+    description:
+      "Route-aware prefetch: ASSET_MANIFEST + prefetchRouteAssets exist in apps/client/src/lib/assetPrefetch.ts and App.tsx wires the call into wouter's useLocation() listener.",
+    check: () => checkAssetPrefetchManifest(),
   },
   // ─── Lore ─────────────────────────────────────────────────
   {
