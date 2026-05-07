@@ -377,7 +377,12 @@ function Router() {
         <Route path="/loredex/dreamer-fragments" component={DreamerFragmentsPage} />
         {/* C3 — Loredex relationship graph viewer (focus + 1-hop).
             Reads ?focus=entity_id from the query string; defaults to
-            the focus entity declared in LoredexGraphPage. */}
+            the focus entity declared in LoredexGraphPage.
+            `/loredex` (no sub-path) renders the same hub so the bible's
+            top-level "Loredex" reference resolves; CONNECTION_AUDIT
+            §6.5 caught players following breadcrumbs to "the Loredex"
+            hit the 404 shell. */}
+        <Route path="/loredex" component={LoredexGraphPage} />
         <Route path="/loredex/graph" component={LoredexGraphPage} />
         <Route path="/act2-interlude" component={Act2InterludePage} />
         <Route path="/act2-opening" component={Act2OpeningPage} />
