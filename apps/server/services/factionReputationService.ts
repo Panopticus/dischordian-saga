@@ -15,7 +15,7 @@
    per hourly tick so a one-time max-out doesn't grant
    permanent discounts.
 
-   See docs/operations/TRADE_DIPLOMACY_TODO.md for the
+   See docs/operations/TRADE_DIPLOMACY.md for the
    re-enable rationale.
    ═══════════════════════════════════════════════════════ */
 import { eq } from "drizzle-orm";

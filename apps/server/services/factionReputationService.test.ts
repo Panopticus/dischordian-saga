@@ -23,7 +23,7 @@ import {
    ═══════════════════════════════════════════════════════ */
 
 describe("constants match the doc", () => {
-  it("REP_BOUND is 1000 (matches TRADE_DIPLOMACY_TODO §2 'Bounded math')", () => {
+  it("REP_BOUND is 1000 (matches TRADE_DIPLOMACY §2 'Bounded math')", () => {
     expect(REP_BOUND).toBe(1000);
   });
   it("MAX_TRADE_DISCOUNT is 15% (legacy ceiling)", () => {
