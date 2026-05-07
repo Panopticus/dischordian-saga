@@ -498,6 +498,32 @@ export const effectSchema: z.ZodType<unknown> = z.lazy(() =>
         amount: z.number().int(),
         to: targetRefSchema,
       })
+      .strict()
+      .superRefine((val, ctx) => {
+        // Hand-roll a "use reset_counter instead" hint when authors
+        // try to zero a counter via a large negative amount. -999
+        // was the historical workaround; the engine clamps to 0
+        // (effectInterpreter Math.max(0, current + amount)) but the
+        // shape is brittle: as soon as a counter legitimately holds
+        // > 999, the reset breaks silently. The reset_counter op
+        // (added in B3) is the explicit primitive.
+        if (val.amount <= -100) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message:
+              `add_counter with amount ${val.amount} is the legacy "-999" reset workaround. ` +
+              `Use { op: "reset_counter", counter: "${val.kind}", to: ... } instead — ` +
+              `it's an explicit primitive that doesn't break when counters exceed the workaround value.`,
+            path: ["amount"],
+          });
+        }
+      }),
+    z
+      .object({
+        op: z.literal("reset_counter"),
+        counter: z.string().min(1),
+        to: targetRefSchema,
+      })
       .strict(),
     // Control flow
     z

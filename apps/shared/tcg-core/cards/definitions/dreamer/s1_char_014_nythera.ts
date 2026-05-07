@@ -101,9 +101,8 @@ export const cardDef: CardDefinition = {
             to: { kind: "self" },
           },
           {
-            op: "add_counter",
-            kind: "nythera_kills",
-            amount: -999,
+            op: "reset_counter",
+            counter: "nythera_kills",
             to: { kind: "self" },
           },
         ],

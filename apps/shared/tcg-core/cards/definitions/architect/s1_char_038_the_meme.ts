@@ -103,9 +103,8 @@ export const cardDef: CardDefinition = {
             to: { kind: "self" },
           },
           {
-            op: "add_counter",
-            kind: "meme_kills",
-            amount: -999,
+            op: "reset_counter",
+            counter: "meme_kills",
             to: { kind: "self" },
           },
         ],

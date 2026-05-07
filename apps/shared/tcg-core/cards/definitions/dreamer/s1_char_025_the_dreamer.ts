@@ -86,9 +86,8 @@ export const cardDef: CardDefinition = {
           },
           // Reset the counter so the next 3 kills re-trigger evolve.
           {
-            op: "add_counter",
-            kind: "dreamer_kills",
-            amount: -999,
+            op: "reset_counter",
+            counter: "dreamer_kills",
             to: { kind: "self" },
           },
         ],

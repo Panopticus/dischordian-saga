@@ -103,7 +103,8 @@ export type EffectOp =
   // Resource
   | { op: "gain_mana"; amount: Amount; permanent: boolean }
   // Counters
-  | { op: "add_counter"; kind: string; amount: number; to: TargetRef };
+  | { op: "add_counter"; kind: string; amount: number; to: TargetRef }
+  | { op: "reset_counter"; counter: string; to: TargetRef };
 
 /* ─── Control flow ─── */
 
