@@ -106,6 +106,39 @@ export default function DischordiaOpeningCinematic({
     const video = videoRef.current;
     if (!video) return;
     let cancelled = false;
+    let cueInterval: ReturnType<typeof setInterval> | null = null;
+    // Pre-roll the T01 song once we're inside the last
+    // `SONG_PREROLL_LEAD_S` of the broadcast. We poll on an interval
+    // rather than `timeupdate` because `timeupdate` cadence varies wildly
+    // across browsers/codecs (sometimes ~250ms, sometimes seconds apart)
+    // and on slow devices can skip the threshold entirely. A 250ms
+    // poll is cheap and deterministic; falls back to VIDEO_DURATION_S
+    // if the metadata-derived duration isn't finite. Armed only after
+    // the video has actually started playing — see armCueInterval.
+    const armCueInterval = () => {
+      if (cueInterval || cancelled) return;
+      cueInterval = setInterval(() => {
+        if (songCueFiredRef.current) {
+          if (cueInterval) clearInterval(cueInterval);
+          cueInterval = null;
+          return;
+        }
+        // Require playback to have actually advanced past sample 0
+        // before considering the cue. Belt-and-braces against any
+        // browser-frame where `video.duration` momentarily reports
+        // a value smaller than `SONG_PREROLL_LEAD_S`.
+        if (video.currentTime <= 0) return;
+        const total =
+          Number.isFinite(video.duration) && video.duration > 0
+            ? video.duration
+            : VIDEO_DURATION_S;
+        if (total - video.currentTime <= SONG_PREROLL_LEAD_S) {
+          fireSongCue();
+          if (cueInterval) clearInterval(cueInterval);
+          cueInterval = null;
+        }
+      }, 250);
+    };
     const startPlayback = () => {
       if (cancelled || completedRef.current) return;
       video.muted = false;
@@ -113,6 +146,13 @@ export default function DischordiaOpeningCinematic({
         () => {
           if (cancelled) return;
           setPhase("playing");
+          // The cue-interval is armed by the video's `playing` event
+          // listener (set up below), so both this gesture-backed path
+          // and the tap-to-begin fallback get the same treatment without
+          // re-implementing it twice. Arming only after playback
+          // actually starts keeps an off-by-one frame where
+          // `video.duration < SONG_PREROLL_LEAD_S` from firing the cue
+          // at currentTime=0 (T01 from the start instead of last 10s).
           // Safety timer: video.duration + 2s. If `ended` never
           // fires we bail out gracefully — and signal cinematic-
           // ended so the album intro stage still gets its handoff.
@@ -135,38 +175,24 @@ export default function DischordiaOpeningCinematic({
     const onError = () => {
       if (!cancelled) setPhase("needs-tap");
     };
-    // Pre-roll the T01 song once we're inside the last
-    // `SONG_PREROLL_LEAD_S` of the broadcast. We poll on an interval
-    // rather than `timeupdate` because `timeupdate` cadence varies wildly
-    // across browsers/codecs (sometimes ~250ms, sometimes seconds apart)
-    // and on slow devices can skip the threshold entirely. A 250ms
-    // poll is cheap and deterministic; falls back to VIDEO_DURATION_S
-    // if the metadata-derived duration isn't finite.
-    const cueInterval = setInterval(() => {
-      if (songCueFiredRef.current) {
-        clearInterval(cueInterval);
-        return;
-      }
-      const total =
-        Number.isFinite(video.duration) && video.duration > 0
-          ? video.duration
-          : VIDEO_DURATION_S;
-      if (total - video.currentTime <= SONG_PREROLL_LEAD_S) {
-        fireSongCue();
-        clearInterval(cueInterval);
-      }
-    }, 250);
+    // The `playing` event fires for any audible-playback path —
+    // gesture-backed startPlayback() OR the tap-to-begin fallback.
+    // Hooking the cue-interval arming here means we don't have to
+    // thread armCueInterval through the click handler.
+    const onPlaying = () => armCueInterval();
     if (video.readyState >= 1) {
       // Metadata already buffered (cached load) — start immediately.
       startPlayback();
     } else {
       video.addEventListener("loadedmetadata", onLoaded);
     }
+    video.addEventListener("playing", onPlaying);
     video.addEventListener("error", onError);
     return () => {
       cancelled = true;
-      clearInterval(cueInterval);
+      if (cueInterval) clearInterval(cueInterval);
       video.removeEventListener("loadedmetadata", onLoaded);
+      video.removeEventListener("playing", onPlaying);
       video.removeEventListener("error", onError);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
