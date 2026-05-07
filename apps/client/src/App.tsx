@@ -174,6 +174,7 @@ const GraduateLegionPage = lazy(() => import("./pages/GraduateLegionPage"));
 const TransmissionInboxPage = lazy(() => import("./pages/TransmissionInboxPage"));
 const AntiquariansJournalPage = lazy(() => import("./pages/AntiquariansJournalPage"));
 const AntiquariansIndexPage = lazy(() => import("./pages/AntiquariansIndexPage"));
+const DlcChaptersPage = lazy(() => import("./pages/DlcChaptersPage"));
 const ResearchLabPage = lazy(() => import("./pages/ResearchLabPage"));
 const StorePage = lazy(() => import("./pages/StorePage"));
 const DiscographyPage = lazy(() => import("./pages/DiscographyPage"));
@@ -409,6 +410,7 @@ function Router() {
         <Route path="/transmissions" component={TransmissionInboxPage} />
         <Route path="/antiquarian-journal" component={AntiquariansJournalPage} />
         <Route path="/antiquarian-index" component={AntiquariansIndexPage} />
+        <Route path="/dlc" component={DlcChaptersPage} />
         <Route path="/legion" component={GraduateLegionPage} />
         <Route path="/research-lab" component={ResearchLabPage} />
         <Route path="/forge" component={ForgePage} />
