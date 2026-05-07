@@ -72,15 +72,6 @@ const KEYWORD_BEHAVIOR_EXEMPT: Readonly<Record<string, string>> = {
   deathwatch:
     "alias — card authors should use the on_any_unit_dies trigger directly. Keyword surfaces UI flavor only; removing requires deleting from the union or wiring auto-trigger-injection at load time",
 
-  // ─── Blocked on armor system ─────────────────────────────────────
-  // These two keywords share a blocker: the engine currently has no
-  // armor concept distinct from currentHealth. They ship together
-  // with an armor-system PR that introduces an `armor` field on
-  // BoardEntity + an armor-aware applyCombatDamage.
-  ignore_armor_3:
-    "BLOCKED: pierces 3 flat armor. Engine has no general-armor concept distinct from currentHealth. Lands together with `pierce` once the armor system ships.",
-  pierce:
-    "BLOCKED: ignores a portion of enemy armor. Same blocker as ignore_armor_3 — the engine has no armor concept yet. These two keywords ship together with the armor system.",
 };
 
 export function checkKeywordBehaviorCoverage(): RawParityCount {

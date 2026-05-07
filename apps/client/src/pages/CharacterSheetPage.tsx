@@ -1,6 +1,6 @@
 import { useAuth } from "@/_core/hooks/useAuth";
 import { trpc } from "@/lib/trpc";
-import { getLoginUrl } from "@/const";
+import { getGoogleLoginUrl } from "@/const";
 import { Link } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSearch } from "wouter";
@@ -632,7 +632,7 @@ export default function CharacterSheetPage() {
           <Lock size={48} className="void-text-error mx-auto mb-4" />
           <h2 className="font-display text-xl font-bold tracking-wider mb-2">NEURAL LINK DENIED</h2>
           <p className="font-mono text-xs text-muted-foreground mb-6">Authentication required to access Neural Imprint Reader.</p>
-          <a href={getLoginUrl()} className="inline-flex items-center gap-2 void-btn void-btn-primary font-mono text-sm">
+          <a href={getGoogleLoginUrl()} className="inline-flex items-center gap-2 void-btn void-btn-primary font-mono text-sm">
             <Wifi size={14} /> AUTHENTICATE
           </a>
         </div>

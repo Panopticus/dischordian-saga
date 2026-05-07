@@ -7,7 +7,7 @@
 import { useState, useEffect, useMemo, useCallback, useRef } from "react";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { trpc } from "@/lib/trpc";
-import { getLoginUrl } from "@/const";
+import { getGoogleLoginUrl } from "@/const";
 import { Chessboard } from "react-chessboard";
 import { Chess } from "chess.js";
 import {
@@ -1029,7 +1029,7 @@ export default function ChessPage() {
           <Crown size={48} className="text-primary mx-auto" />
           <h1 className="font-display text-2xl font-bold tracking-wider">THE ARCHITECT'S GAMBIT</h1>
           <p className="font-mono text-sm text-muted-foreground">Login required to play</p>
-          <a href={getLoginUrl()} className="inline-flex items-center gap-2 px-5 py-2.5 rounded-md bg-primary/10 border border-primary/40 text-primary text-sm font-mono hover:bg-primary/20">
+          <a href={getGoogleLoginUrl()} className="inline-flex items-center gap-2 px-5 py-2.5 rounded-md bg-primary/10 border border-primary/40 text-primary text-sm font-mono hover:bg-primary/20">
             LOGIN TO PLAY
           </a>
         </div>

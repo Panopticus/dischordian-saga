@@ -1,6 +1,6 @@
 import { useAuth } from "@/_core/hooks/useAuth";
 import { trpc } from "@/lib/trpc";
-import { getLoginUrl } from "@/const";
+import { getGoogleLoginUrl } from "@/const";
 import { useState, useMemo } from "react";
 import { useSwipeTabs } from "@/hooks/useSwipeTabs";
 import { motion, AnimatePresence } from "framer-motion";
@@ -76,7 +76,7 @@ export default function MarketplacePage() {
             Trade cards, materials, and items with operatives across the network.
           </p>
           <a
-            href={getLoginUrl()}
+            href={getGoogleLoginUrl()}
             className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-primary text-primary-foreground font-mono text-sm"
           >
             LOGIN TO TRADE

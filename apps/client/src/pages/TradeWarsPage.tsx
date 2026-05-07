@@ -8,7 +8,7 @@ import { toast } from "sonner";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { trpc } from "@/lib/trpc";
 import { useAuth } from "@/_core/hooks/useAuth";
-import { getLoginUrl } from "@/const";
+import { getGoogleLoginUrl } from "@/const";
 import { Link } from "wouter";
 import GalaxyMap from "@/components/GalaxyMap";
 import { DIPLOMACY_EVENTS } from "@/data/companionData";
@@ -1790,7 +1790,7 @@ export default function TradeWarsPage() {
           <p className="text-muted-foreground font-mono text-sm mb-2">After the Fall. Before the Empire.</p>
           <p className="text-muted-foreground font-mono text-xs mb-6">Authentication required to access the Inception Ark Command Terminal.</p>
           <a
-            href={getLoginUrl()}
+            href={getGoogleLoginUrl()}
             className="inline-block px-6 py-2 void-bg-success border void-border-success void-text-energy font-mono text-sm void-bg-success transition-colors"
           >
             [ AUTHENTICATE ]

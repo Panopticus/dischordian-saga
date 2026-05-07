@@ -1,7 +1,7 @@
 import { useState, useCallback, useMemo, useRef, useEffect } from "react";
 import { trpc } from "@/lib/trpc";
 import { useAuth } from "@/_core/hooks/useAuth";
-import { getLoginUrl } from "@/const";
+import { getGoogleLoginUrl } from "@/const";
 import { Link } from "wouter";
 import GameCard from "@/components/GameCard";
 import { motion, AnimatePresence } from "framer-motion";
@@ -385,7 +385,7 @@ export default function DeckBuilderPage() {
           <h2 className="font-display text-xl text-foreground mb-2 tracking-wider">DECK BUILDER</h2>
           <p className="text-muted-foreground text-sm mb-6">Authentication required to manage your decks.</p>
           <a
-            href={getLoginUrl()}
+            href={getGoogleLoginUrl()}
             className="inline-block px-6 py-2 bg-primary/20 border border-primary/50 text-primary font-mono text-sm hover:bg-primary/30 transition-colors rounded"
           >
             [ AUTHENTICATE ]

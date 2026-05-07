@@ -8,7 +8,7 @@ import {
   Zap, Shield, Star, Crown, Sparkles, ArrowUp, ArrowDown,
   Package, Users, Skull, Flame, Heart, ChevronRight, Wrench
 } from "lucide-react";
-import { getLoginUrl } from "@/const";
+import { getGoogleLoginUrl } from "@/const";
 
 /* ═══════════════════════════════════════════════════
    ARK DECK DATA

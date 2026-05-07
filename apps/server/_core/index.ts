@@ -503,7 +503,7 @@ async function startServer() {
     }, ONE_HOUR_MS);
     runRetentionTick().catch(e => console.error("[Retention] initial tick error:", e));
 
-    // Faction-reputation decay (docs/operations/TRADE_DIPLOMACY_TODO.md
+    // Faction-reputation decay (docs/operations/TRADE_DIPLOMACY.md
     // §"Decay"). Bleeds every non-zero faction reputation toward 0 by
     // 1 unit per tick so a one-time max-out doesn't grant permanent
     // trade discounts. Idempotent; fire-and-forget.

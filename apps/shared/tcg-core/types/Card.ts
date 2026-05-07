@@ -262,6 +262,13 @@ export interface CardDefinition {
    *  general (i.e. attacker is on the defender's home half).
    *  Default +2. */
   backstabBonus?: number;
+
+  /** Optional starting armor. Armor stacks above currentHealth and
+   *  is consumed before HP on incoming damage. Spawned with this
+   *  value at deploy / mint; runtime mutation lives on the
+   *  CardInstance.armor field. Default 0 (no armor — preserves the
+   *  pre-armor combat math for the bulk of the card pool). */
+  baseArmor?: number;
 }
 
 /**
@@ -312,6 +319,15 @@ export interface CardInstance {
   currentPower: number;
   currentHealth: number;
   maxHealth: number;
+  /**
+   * Armor stack above currentHealth. Soaks incoming damage 1-for-1
+   * before the damage hits HP. Initialised to `def.baseArmor ?? 0`
+   * at mint time. Most cards have armor=0 — the field exists so a
+   * subset of cards (typically generals or "tank" units) can opt
+   * into the soak. The `pierce` and `ignore_armor_3` keywords
+   * interact with this field; see engine/combat.ts:applyCombatDamage.
+   */
+  armor: number;
   /** Flat counters keyed by name (e.g. "forcefield_charges", "stealth_turns"). */
   counters: Record<string, number>;
   /**

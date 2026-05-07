@@ -14,7 +14,7 @@ import { Link } from "wouter";
 import { ArrowLeft, Loader2, Trophy, ShoppingBag, Users, Swords, Compass, Hammer, Layers, TrendingUp } from "lucide-react";
 import { trpc } from "@/lib/trpc";
 import { useAuth } from "@/_core/hooks/useAuth";
-import { getLoginUrl } from "@/const";
+import { getGoogleLoginUrl } from "@/const";
 
 const CATEGORY_ICONS: Record<string, typeof ShoppingBag> = {
   marketplace: ShoppingBag,
@@ -71,7 +71,7 @@ export default function MarketplaceAchievementsPage() {
             Sign in to track your marketplace, social, exploration, and economy milestones.
           </p>
           <a
-            href={getLoginUrl()}
+            href={getGoogleLoginUrl()}
             className="inline-block px-6 py-2 rounded-md bg-primary/15 border border-primary/40 text-primary font-mono text-xs tracking-wider hover:bg-primary/25"
           >
             SIGN IN

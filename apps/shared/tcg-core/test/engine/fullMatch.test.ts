@@ -82,6 +82,7 @@ function installKiller(state: GameState): GameState {
       currentPower: 30,
       currentHealth: 10,
       maxHealth: 10,
+      armor: 0,
       counters: {},
       activeKeywords: [],
       buffs: [],

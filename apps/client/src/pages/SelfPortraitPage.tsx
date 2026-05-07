@@ -22,7 +22,7 @@ import {
   type PlayerProfile,
   type ProfileAxis,
 } from "@shared/playerProfile";
-import { getLoginUrl } from "@/const";
+import { getGoogleLoginUrl } from "@/const";
 
 /** Map an axis value in [-100, 100] to a visual position 0..100
  *  for a horizontal scale. -100 = far left, 0 = center, +100 = far
@@ -85,7 +85,7 @@ export default function SelfPortraitPage() {
     return (
       <div className="min-h-screen flex items-center justify-center p-8">
         <a
-          href={getLoginUrl()}
+          href={getGoogleLoginUrl()}
           className="text-void-text-accent underline"
         >
           Sign in to see your Self-Portrait.

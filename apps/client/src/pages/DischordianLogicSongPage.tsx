@@ -15,7 +15,7 @@
  */
 import { useEffect, useRef, useState } from "react";
 import { useAuth } from "@/_core/hooks/useAuth";
-import { getLoginUrl } from "@/const";
+import { getGoogleLoginUrl } from "@/const";
 import {
   DISCHORDIAN_LOGIC_SLIDES,
   DISCHORDIAN_LOGIC_LYRICS,
@@ -124,7 +124,7 @@ export default function DischordianLogicSongPage() {
   if (!isAuthenticated) {
     return (
       <div className="min-h-screen flex items-center justify-center p-8">
-        <a href={getLoginUrl()} className="text-void-text-accent underline">
+        <a href={getGoogleLoginUrl()} className="text-void-text-accent underline">
           Sign in to play the song.
         </a>
       </div>

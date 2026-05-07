@@ -13,7 +13,7 @@ import { useSound } from "@/contexts/SoundContext";
 import { useGame } from "@/contexts/GameContext";
 import { useSyncStatusStore, selectStatus, selectLastSyncedAt } from "@/stores/syncStatusStore";
 import { useAuth } from "@/_core/hooks/useAuth";
-import { getLoginUrl } from "@/const";
+import { getGoogleLoginUrl } from "@/const";
 import { ARK_THEMES } from "@shared/gamification";
 import { trpc } from "@/lib/trpc";
 import {
@@ -795,7 +795,7 @@ export default function SettingsPage() {
               </button>
             ) : (
               <a
-                href={getLoginUrl()}
+                href={getGoogleLoginUrl()}
                 className="flex items-center gap-1.5 px-3 py-1.5 rounded-md border border-[var(--neon-cyan)]/30 text-[var(--neon-cyan)] font-mono text-[10px] hover:bg-[var(--neon-cyan)]/10 transition-colors shrink-0"
               >
                 <LogIn size={12} />

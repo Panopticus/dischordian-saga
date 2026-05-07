@@ -14,7 +14,7 @@ import { useState, useMemo } from "react";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { trpc } from "@/lib/trpc";
 import MechanicTutorialOverlay from "@/components/MechanicTutorialOverlay";
-import { getLoginUrl } from "@/const";
+import { getGoogleLoginUrl } from "@/const";
 import { Link } from "wouter";
 import {
   ArrowLeft,
@@ -132,7 +132,7 @@ export default function OracleDeckPage() {
     return (
       <div className="min-h-screen flex items-center justify-center p-6">
         <a
-          href={getLoginUrl()}
+          href={getGoogleLoginUrl()}
           className="px-6 py-3 rounded-lg bg-primary text-primary-foreground font-bold"
         >
           Sign in to open the Oracle Deck

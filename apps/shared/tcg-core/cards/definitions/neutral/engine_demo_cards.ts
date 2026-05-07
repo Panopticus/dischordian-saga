@@ -159,8 +159,8 @@ const witness_whose_time_has_come: CardDefinition = {
  *
  *  3-cost 2/3 unit with `zeal`. While adjacent to its general the
  *  unit attacks for +1 (effective 3 power). The bonus is computed
- *  fresh every swing in engine/combat.ts via `effectivePowerWithZeal`,
- *  so moving the general into adjacency mid-turn flips the bonus on
+ *  fresh every swing in engine/combat.ts via `effectivePower`, so
+ *  moving the general into adjacency mid-turn flips the bonus on
  *  immediately. */
 const honor_guard: CardDefinition = {
   id: "s1_neutral_zeal_001" as CardDefinition["id"],
