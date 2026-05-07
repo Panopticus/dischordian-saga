@@ -102,3 +102,37 @@ When writing or following design intent:
 - **`trial_categories` arrays must be sorted** in canonical order (confession < defensive < evidence < narrative < offensive < reactive). The `resolveTrialCategories.test.ts` invariant enforces this.
 - **`reserved: true`** on a CardDefinition means the engine knows the card but pack-opening / deck-builder / reward surfaces filter it out (`isReservedCard()`). Use for retroactively-delivered cards (`burnt_card_placeholder`).
 - **`unlockCondition`** (added in #265) gates cards behind player progression (act_completion / secret / battle_pass / founding_author / authors_edition); evaluated by `apps/shared/tcg-core/rewards/expansionUnlockService.ts`.
+
+## Definition of Shipped — `pnpm ship:check`
+
+A subsystem in this repo is **shipped** when its declared contract (a discriminated union, an enum, a registry, a Zod schema kind, a `references()` declaration) has a runtime that honors every declared item — and a parity test exists to prove it. Scaffolding without runtime is **tracked**, not shipped. The two are not the same.
+
+The gate is `pnpm ship:check`. It walks `apps/shared/_completeness/registry.ts`, runs each subsystem's parity check, and prints a single table:
+
+```
+Subsystem                          Declared  Implemented  Gap  Status
+effect.op handlers                       26           26    0  PASS
+Keyword.* combat behaviors                9            8    1  FAIL  (drain)
+trial_categories coverage               475            7  468  RATCHET
+```
+
+- **PASS** — declared count equals implemented count; hard parity met.
+- **RATCHET** — gap > 0 but ≤ the recorded ceiling in `ratchet-state.json`; allowed but tracked. Cannot regress.
+- **FAIL** — gap > 0 with no ratchet config, or gap exceeds the recorded ceiling. CI fails.
+
+### Rules for Claude
+
+When working in this repo, before declaring any subsystem, feature, or task complete:
+
+1. **Run `pnpm ship:check` and quote the relevant rows.** Do not say "done" without showing the gate's output. If the relevant rows show PASS, the user has a verifiable answer. If they show RATCHET or FAIL, name the gap explicitly.
+2. **Adding new declared types/enums/registries requires a parity test in the same change.** If you add a new variant to a discriminated union, a new enum value, a new schema kind, a new `references()` site, you must also add (or extend) the corresponding entry in `apps/shared/_completeness/registry.ts`. New scaffolding without coverage is itself a ship-check failure waiting to happen.
+3. **Do not silence the gate.** Resist the urge to add `--update-ratchet` after introducing a regression. The flag exists for tightening (recording an improvement), not for normalizing slippage. If the ceiling has slipped, fix the implementation or push a separate PR with explicit reviewer sign-off.
+4. **The gate exists because of an information-asymmetry bug.** Patterns I (Claude) infer from file structure are not equivalent to patterns I read from source. The gate makes "is the runtime actually wired" a mechanical check both of us can run. Treat it as the contract.
+
+Subsystems landing under the gate (rolled out incrementally — see `/root/.claude/plans/now-develop-a-plan-purring-origami.md`):
+
+- Card engine: Effect ops, Trigger kinds, Keyword behaviors, Condition kinds, CardUnlockCondition UI surfaces, narrative-flag producers, replay determinism, stat budget, trial_categories coverage.
+- DB: foreign-key coverage on every `*Id` column.
+- Server: observability wiring (Sentry/OTel non-optional in prod), per-IP rate limit on every `publicProcedure`, transaction wrapping on economic surfaces.
+- Mobile: canvas `touch-action`, list virtualization, store SKU coverage across web+iOS+Android.
+- Lore: `LORE_BIBLE.md` regenerated from `loredex-data.json` (drift test).

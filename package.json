@@ -11,6 +11,7 @@
     "lint": "eslint .",
     "lint:void-energy": "node scripts/void-energy-lint.mjs",
     "migrate:void-energy": "node scripts/void-energy-migrate.mjs",
+    "ship:check": "tsx scripts/ship-check.ts",
     "install-hook:void-energy": "ln -sf ../../scripts/void-energy-pre-commit.sh .git/hooks/pre-commit && echo 'installed .git/hooks/pre-commit → scripts/void-energy-pre-commit.sh'",
     "format": "prettier --write .",
     "test": "vitest run",
