@@ -35,21 +35,31 @@ type AnyRecord = Record<string, unknown>;
 async function readGameData(userId: number): Promise<{
   flags: AnyRecord;
   entitlements: AnyRecord;
+  bloodlineGenerations: Record<string, number>;
   raw: AnyRecord;
 }> {
   const db = await getDb();
-  if (!db) return { flags: {}, entitlements: {}, raw: {} };
+  if (!db) return { flags: {}, entitlements: {}, bloodlineGenerations: {}, raw: {} };
   const rows = await db
     .select()
     .from(userProgress)
     .where(eq(userProgress.userId, userId))
     .limit(1);
   const row = rows[0];
-  if (!row) return { flags: {}, entitlements: {}, raw: {} };
+  if (!row) return { flags: {}, entitlements: {}, bloodlineGenerations: {}, raw: {} };
   const raw = (row.gameData ?? {}) as AnyRecord;
+  const bloodlineGenerations: Record<string, number> = {};
+  const rawGens = raw.bloodlineGenerations;
+  if (rawGens && typeof rawGens === "object") {
+    for (const [k, v] of Object.entries(rawGens as AnyRecord)) {
+      const n = typeof v === "number" ? v : Number(v);
+      if (Number.isFinite(n) && n > 0) bloodlineGenerations[k] = n;
+    }
+  }
   return {
     flags: (raw.narrativeFlags ?? {}) as AnyRecord,
     entitlements: (raw.entitlements ?? {}) as AnyRecord,
+    bloodlineGenerations,
     raw,
   };
 }
@@ -84,10 +94,10 @@ export const dlcChaptersRouter = router({
   /** Chapters whose prerequisites are met AND the player hasn't
    *  already completed. Ordered by parent-section then sequence. */
   listAvailable: protectedProcedure.query(async ({ ctx }) => {
-    const { flags, entitlements } = await readGameData(ctx.user.id);
+    const { flags, entitlements, bloodlineGenerations } = await readGameData(ctx.user.id);
     const out = [];
     for (const chapter of ALL_DLC_CHAPTERS) {
-      const status = deriveDlcChapterStatus({ chapter, flags, entitlements });
+      const status = deriveDlcChapterStatus({ chapter, flags, entitlements, bloodlineGenerations });
       if (status.available && !status.alreadyComplete) {
         out.push({ chapter, status });
       }
@@ -99,10 +109,10 @@ export const dlcChaptersRouter = router({
    *  DLC index UI so locked / completed chapters can show alongside
    *  available ones. */
   listAll: protectedProcedure.query(async ({ ctx }) => {
-    const { flags, entitlements } = await readGameData(ctx.user.id);
+    const { flags, entitlements, bloodlineGenerations } = await readGameData(ctx.user.id);
     return ALL_DLC_CHAPTERS.map((chapter) => ({
       chapter,
-      status: deriveDlcChapterStatus({ chapter, flags, entitlements }),
+      status: deriveDlcChapterStatus({ chapter, flags, entitlements, bloodlineGenerations }),
     }));
   }),
 
@@ -155,7 +165,7 @@ export const dlcChaptersRouter = router({
     .query(async ({ ctx, input }): Promise<DlcChapterStatus | null> => {
       const chapter = getDlcChapter(input.chapterId);
       if (!chapter) return null;
-      const { flags, entitlements } = await readGameData(ctx.user.id);
-      return deriveDlcChapterStatus({ chapter, flags, entitlements });
+      const { flags, entitlements, bloodlineGenerations } = await readGameData(ctx.user.id);
+      return deriveDlcChapterStatus({ chapter, flags, entitlements, bloodlineGenerations });
     }),
 });

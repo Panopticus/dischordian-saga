@@ -28,6 +28,10 @@ export interface DlcChapterGateInput {
   /** Per-player entitlements (battle-pass / founder / etc).
    *  Keyed by entitlement name; truthy = held. */
   readonly entitlements: Readonly<Record<string, unknown>>;
+  /** Bloodline generations completed per BloodClassification.
+   *  Optional — chapters without bloodline_threshold prereqs
+   *  ignore it. Sourced server-side from gameData.bloodlineGenerations. */
+  readonly bloodlineGenerations?: Readonly<Record<string, number>>;
 }
 
 function isTruthy(v: unknown): boolean {
@@ -37,7 +41,10 @@ function isTruthy(v: unknown): boolean {
 /** True iff a single prerequisite is satisfied. */
 export function isPrerequisiteMet(
   prereq: DlcPrerequisite,
-  input: Pick<DlcChapterGateInput, "flags" | "entitlements">,
+  input: Pick<
+    DlcChapterGateInput,
+    "flags" | "entitlements" | "bloodlineGenerations"
+  >,
 ): boolean {
   switch (prereq.kind) {
     case "flag":
@@ -52,6 +59,10 @@ export function isPrerequisiteMet(
       );
     case "entitlement":
       return isTruthy(input.entitlements[prereq.key]);
+    case "bloodline_threshold": {
+      const generations = input.bloodlineGenerations?.[prereq.classification] ?? 0;
+      return generations >= prereq.minGenerations;
+    }
   }
 }
 
@@ -59,13 +70,15 @@ export function isPrerequisiteMet(
 export function deriveDlcChapterStatus(
   input: DlcChapterGateInput,
 ): DlcChapterStatus {
-  const { chapter, flags, entitlements } = input;
+  const { chapter, flags, entitlements, bloodlineGenerations } = input;
   const alreadyComplete = isTruthy(
     flags[dlcChapterCompletionFlag(chapter.id)],
   );
   const missing: DlcPrerequisite[] = [];
   for (const prereq of chapter.prerequisites) {
-    if (!isPrerequisiteMet(prereq, { flags, entitlements })) {
+    if (
+      !isPrerequisiteMet(prereq, { flags, entitlements, bloodlineGenerations })
+    ) {
       missing.push(prereq);
     }
   }
@@ -84,10 +97,16 @@ export function getAvailableDlcChapters(
   chapters: readonly DlcChapter[],
   flags: Readonly<Record<string, unknown>>,
   entitlements: Readonly<Record<string, unknown>>,
+  bloodlineGenerations?: Readonly<Record<string, number>>,
 ): DlcChapter[] {
   const out: DlcChapter[] = [];
   for (const chapter of chapters) {
-    const status = deriveDlcChapterStatus({ chapter, flags, entitlements });
+    const status = deriveDlcChapterStatus({
+      chapter,
+      flags,
+      entitlements,
+      bloodlineGenerations,
+    });
     if (status.available && !status.alreadyComplete) {
       out.push(chapter);
     }

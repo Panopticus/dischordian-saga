@@ -43,6 +43,12 @@ export interface PlayerExpansionState {
    *  "dlc_advocate_01_sacrum_echo"). Sourced from
    *  `gameData.narrativeFlags["dlc_chapter_<id>_complete"]`. */
   readonly completedDlcChapters: ReadonlySet<string>;
+  /** Crew-Bene-Gesserit Breeding Program — generations completed
+   *  per blood classification. Wave-6 gate: 5+ PURE generations
+   *  unlocks the Season-2 Advocate-body coordinate hook. Sourced
+   *  from `gameData.bloodlineGenerations`. Missing classifications
+   *  default to 0. */
+  readonly bloodlineGenerations: Readonly<Record<string, number>>;
 }
 
 /** Default snapshot — nothing unlocked. Useful for tests + unauth flows. */
@@ -53,6 +59,7 @@ export const NULL_PLAYER_EXPANSION_STATE: PlayerExpansionState = Object.freeze({
   hasFoundingAuthor: false,
   hasAuthorsEditionS2: false,
   completedDlcChapters: new Set<string>(),
+  bloodlineGenerations: Object.freeze({}),
 });
 
 /**
@@ -77,6 +84,10 @@ export function evaluateUnlockCondition(
       return cond.season === "s2" ? state.hasAuthorsEditionS2 : false;
     case "dlc_chapter_completion":
       return state.completedDlcChapters.has(cond.chapterId);
+    case "bloodline_threshold": {
+      const gens = state.bloodlineGenerations[cond.classification] ?? 0;
+      return gens >= cond.minGenerations;
+    }
   }
 }
 
@@ -129,6 +140,7 @@ export function makePlayerExpansionState(
     hasFoundingAuthor: boolean;
     hasAuthorsEditionS2: boolean;
     completedDlcChapters: ReadonlyArray<string>;
+    bloodlineGenerations: Readonly<Record<string, number>>;
   }>,
 ): PlayerExpansionState {
   return {
@@ -138,6 +150,7 @@ export function makePlayerExpansionState(
     hasFoundingAuthor: partial.hasFoundingAuthor ?? false,
     hasAuthorsEditionS2: partial.hasAuthorsEditionS2 ?? false,
     completedDlcChapters: new Set(partial.completedDlcChapters ?? []),
+    bloodlineGenerations: { ...(partial.bloodlineGenerations ?? {}) },
   };
 }
 
@@ -151,6 +164,10 @@ export interface PlayerEntitlements {
   battlePassTier?: number;
   hasFoundingAuthor?: boolean;
   hasAuthorsEditionS2?: boolean;
+  /** Bloodline generation counts per BloodClassification.
+   *  Optional — defaults to {} (zero generations across the
+   *  board). Sourced from gameData.bloodlineGenerations. */
+  bloodlineGenerations?: Readonly<Record<string, number>>;
 }
 
 /**
@@ -202,5 +219,6 @@ export function derivePlayerExpansionStateFromFlags(
     hasFoundingAuthor: entitlements.hasFoundingAuthor ?? false,
     hasAuthorsEditionS2: entitlements.hasAuthorsEditionS2 ?? false,
     completedDlcChapters: new Set(completedDlcChapters),
+    bloodlineGenerations: { ...(entitlements.bloodlineGenerations ?? {}) },
   };
 }

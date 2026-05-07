@@ -25,6 +25,13 @@ export type GalacticDanceFactionId = string;
  *  canonical EpochId literal. */
 export type EpochWitnessId = string;
 
+/** Tier of the Breeding Program a chapter sits under. The two
+ *  tiers map to the production bible's split: Mascoteers is the
+ *  Act-1 tutorial loop (~30 minutes); Crew Bene-Gesserit is the
+ *  Act-3+ mainline that culminates in the Season-2 Advocate-body
+ *  hook at 5 generations of PURE bloodline. */
+export type BreedingProgramTier = "mascoteers" | "crew_bene_gesserit";
+
 /** Where a DLC chapter inserts itself in the saga's structure.
  *  The discriminator chooses how the chapter is surfaced in
  *  the UI (which menu, which gate to chain on). */
@@ -36,7 +43,8 @@ export type DlcParentSection =
   | { kind: "hierarchy_arc" }
   | { kind: "endgame" }
   | { kind: "epoch_witness"; epoch: EpochWitnessId; archetype?: string }
-  | { kind: "silence_in_heaven"; trackNumber: number };
+  | { kind: "silence_in_heaven"; trackNumber: number }
+  | { kind: "breeding_program"; tier: BreedingProgramTier };
 
 /** Discriminated union of prerequisites a chapter can require
  *  before becoming available. AND-combined (every prerequisite
@@ -49,6 +57,17 @@ export type DlcPrerequisite =
   | {
       kind: "entitlement";
       key: "foundingAuthor" | "authorsEditionS2" | string;
+    }
+  | {
+      /** Crew-Bene-Gesserit gate. The classification + minGenerations
+       *  pair selects a row in PlayerExpansionState.bloodlineGenerations.
+       *  At Wave 6 the only canonical use is
+       *  { classification: "PURE", minGenerations: 5 } — the Season-2
+       *  Advocate-body coordinate hook. The discriminant is generic
+       *  so future chapters can gate on DEMONIC / SAMSARA / etc. */
+      kind: "bloodline_threshold";
+      classification: string;
+      minGenerations: number;
     };
 
 /** Reward bundle delivered when a chapter completes. All fields

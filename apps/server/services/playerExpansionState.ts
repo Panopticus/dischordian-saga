@@ -86,6 +86,20 @@ export async function getPlayerExpansionState(
     if (m) completedDlcChapters.add(m[1]);
   }
 
+  /* Bloodline generations — Crew-Bene-Gesserit Breeding Program
+   * tracker. Sourced from `gameData.bloodlineGenerations` as a
+   * plain object (BloodClassification → number). Missing or
+   * malformed → empty record (every classification reads as 0
+   * via the `?? 0` in the unlock evaluator). */
+  const bloodlineGenerations: Record<string, number> = {};
+  const rawGens = gameData.bloodlineGenerations;
+  if (rawGens && typeof rawGens === "object") {
+    for (const [k, v] of Object.entries(rawGens as AnyRecord)) {
+      const n = toNumber(v);
+      if (n > 0) bloodlineGenerations[k] = n;
+    }
+  }
+
   return {
     completedActs,
     secretActsRevealed,
@@ -93,6 +107,7 @@ export async function getPlayerExpansionState(
     hasFoundingAuthor: toBool(entitlements.foundingAuthor),
     hasAuthorsEditionS2: toBool(entitlements.authorsEditionS2),
     completedDlcChapters,
+    bloodlineGenerations,
   };
 }
 

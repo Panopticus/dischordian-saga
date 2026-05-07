@@ -100,6 +100,36 @@ describe("expansionUnlockService — evaluateUnlockCondition", () => {
       ),
     ).toBe(false);
   });
+
+  it("bloodline_threshold returns true iff the player meets the per-classification gen count", () => {
+    const s = makePlayerExpansionState({
+      bloodlineGenerations: { PURE: 5, DEMONIC: 12 },
+    });
+    expect(
+      evaluateUnlockCondition(
+        { kind: "bloodline_threshold", classification: "PURE", minGenerations: 5 },
+        s,
+      ),
+    ).toBe(true);
+    expect(
+      evaluateUnlockCondition(
+        { kind: "bloodline_threshold", classification: "PURE", minGenerations: 6 },
+        s,
+      ),
+    ).toBe(false);
+    expect(
+      evaluateUnlockCondition(
+        { kind: "bloodline_threshold", classification: "ADVOCATE", minGenerations: 1 },
+        s,
+      ),
+    ).toBe(false); // ADVOCATE not in the map
+    expect(
+      evaluateUnlockCondition(
+        { kind: "bloodline_threshold", classification: "PURE", minGenerations: 1 },
+        NULL_PLAYER_EXPANSION_STATE,
+      ),
+    ).toBe(false);
+  });
 });
 
 describe("expansionUnlockService — derivePlayerExpansionStateFromFlags (DLC chapter completion)", () => {
@@ -123,6 +153,14 @@ describe("expansionUnlockService — derivePlayerExpansionStateFromFlags (DLC ch
       act_3_complete: true,
     });
     expect(state.completedDlcChapters.size).toBe(0);
+  });
+
+  it("threads bloodlineGenerations through entitlements into the snapshot", () => {
+    const state = derivePlayerExpansionStateFromFlags(
+      {},
+      { bloodlineGenerations: { PURE: 3, NAMED: 1 } },
+    );
+    expect(state.bloodlineGenerations).toEqual({ PURE: 3, NAMED: 1 });
   });
 });
 

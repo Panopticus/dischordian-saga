@@ -17,6 +17,7 @@ import type {
 import { DLC_ADVOCATE_01_SACRUM_ECHO } from "./chapters/dlc_advocate_01_sacrum_echo";
 import { ALL_EPOCH_WITNESS_DLC_CHAPTERS } from "./chapters/epoch_witness";
 import { ALL_HIERARCHY_DLC_CHAPTERS } from "./chapters/hierarchy";
+import { ALL_BREEDING_DLC_CHAPTERS } from "./chapters/breeding";
 
 /** Single source of truth for every DLC chapter. Frozen so a
  *  caller can't accidentally mutate the registry.
@@ -41,6 +42,7 @@ export const ALL_DLC_CHAPTERS: readonly DlcChapter[] = Object.freeze([
   DLC_ADVOCATE_01_SACRUM_ECHO,
   ...ALL_EPOCH_WITNESS_DLC_CHAPTERS,
   ...ALL_HIERARCHY_DLC_CHAPTERS,
+  ...ALL_BREEDING_DLC_CHAPTERS,
 ] as DlcChapter[]);
 
 /* ─── Lookup helpers ─── */
@@ -70,6 +72,8 @@ export function sameParentSection(
       return (
         a.trackNumber === (b as { trackNumber: number }).trackNumber
       );
+    case "breeding_program":
+      return a.tier === (b as { tier: string }).tier;
     case "authority_trial":
     case "advocate_arc":
     case "hierarchy_arc":

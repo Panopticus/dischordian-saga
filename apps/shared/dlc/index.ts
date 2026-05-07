@@ -6,6 +6,7 @@
  * modules. */
 
 export type {
+  BreedingProgramTier,
   DlcChapter,
   DlcChapterStatus,
   DlcParentSection,
