@@ -288,24 +288,31 @@ export const dailyBriefRouter = router({
 
       // Dream tokens
       if (arkResult.resources.dream && arkResult.resources.dream > 0) {
-        const dreamRows = await db.select().from(dreamBalance)
-          .where(eq(dreamBalance.userId, ctx.user.id)).limit(1);
-        if (dreamRows[0]) {
-          await db.update(dreamBalance)
-            .set({
-              dreamTokens: dreamRows[0].dreamTokens + arkResult.resources.dream,
-              totalDreamEarned: dreamRows[0].totalDreamEarned + arkResult.resources.dream,
-            })
-            .where(eq(dreamBalance.userId, ctx.user.id));
-        } else {
-          await db.insert(dreamBalance).values({
-            userId: ctx.user.id,
-            dreamTokens: arkResult.resources.dream,
-            soulBoundDream: 0,
-            dnaCode: 0,
-            totalDreamEarned: arkResult.resources.dream,
-          });
-        }
+        const dreamAmount = arkResult.resources.dream;
+        // Wrap balance read + write in a transaction so a partial
+        // failure between the read and the write rolls back. Plan §C3.
+        // Local `dreamAmount` is captured before the closure to keep
+        // the narrowed `> 0` type inside the tx callback.
+        await db.transaction(async (tx) => {
+          const dreamRows = await tx.select().from(dreamBalance)
+            .where(eq(dreamBalance.userId, ctx.user.id)).limit(1);
+          if (dreamRows[0]) {
+            await tx.update(dreamBalance)
+              .set({
+                dreamTokens: dreamRows[0].dreamTokens + dreamAmount,
+                totalDreamEarned: dreamRows[0].totalDreamEarned + dreamAmount,
+              })
+              .where(eq(dreamBalance.userId, ctx.user.id));
+          } else {
+            await tx.insert(dreamBalance).values({
+              userId: ctx.user.id,
+              dreamTokens: dreamAmount,
+              soulBoundDream: 0,
+              dnaCode: 0,
+              totalDreamEarned: dreamAmount,
+            });
+          }
+        });
       }
 
       // Character XP (citizen)

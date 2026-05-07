@@ -130,15 +130,20 @@ export const tutorialRouter = router({
         })
         .where(eq(tutorialProgress.userId, ctx.user.id));
 
-      // Award gate reward.
+      // Award gate reward. Wrapped in a transaction even though it's
+      // a single update — keeps the gate-reward credit atomic with
+      // any future state-mutation siblings (e.g. recording the grant
+      // on tutorialProgress). Plan §C3.
       const reward = GATE_REWARDS[input.gateNumber];
       if (reward) {
         try {
-          await db.update(dreamBalance)
-            .set({
-              dreamTokens: sql`${dreamBalance.dreamTokens} + ${reward.dreamTokens}`,
-            })
-            .where(eq(dreamBalance.userId, ctx.user.id));
+          await db.transaction(async (tx) => {
+            await tx.update(dreamBalance)
+              .set({
+                dreamTokens: sql`${dreamBalance.dreamTokens} + ${reward.dreamTokens}`,
+              })
+              .where(eq(dreamBalance.userId, ctx.user.id));
+          });
         } catch (e) {
           logger.warn("Failed to award tutorial dream tokens", e);
         }

@@ -61,32 +61,40 @@ export const draftRouter = router({
         if (totalDream < input.entryCost) return { success: false, error: "Not enough Dream tokens" };
       }
 
+      // Wrap tournament creation + auto-join + entry-cost deduction
+      // in one transaction so the player isn't debited if the
+      // tournament insert fails, or auto-join fails after debit, etc.
+      // Plan §C3.
       const code = generateCode();
-      const [result] = await db.insert(draftTournaments).values({
-        tournamentCode: code,
-        maxPlayers: input.maxPlayers,
-        draftRounds: input.draftRounds,
-        cardsPerPick: input.cardsPerPick,
-        entryCost: input.entryCost,
-        prizeMultiplier: 2,
-        creatorId: ctx.user.id,
+      const tournamentId = await db.transaction(async (tx) => {
+        const [result] = await tx.insert(draftTournaments).values({
+          tournamentCode: code,
+          maxPlayers: input.maxPlayers,
+          draftRounds: input.draftRounds,
+          cardsPerPick: input.cardsPerPick,
+          entryCost: input.entryCost,
+          prizeMultiplier: 2,
+          creatorId: ctx.user.id,
+        });
+        const id = Number(result.insertId);
+
+        // Auto-join creator
+        await tx.insert(draftParticipants).values({
+          tournamentId: id,
+          userId: ctx.user.id,
+          pickedCards: [],
+        });
+
+        // Deduct entry cost
+        if (input.entryCost > 0) {
+          await tx.update(dreamBalance)
+            .set({ dreamTokens: sql`GREATEST(0, dreamTokens - ${input.entryCost})` })
+            .where(eq(dreamBalance.userId, ctx.user.id));
+        }
+        return id;
       });
 
-      // Auto-join creator
-      await db.insert(draftParticipants).values({
-        tournamentId: Number(result.insertId),
-        userId: ctx.user.id,
-        pickedCards: [],
-      });
-
-      // Deduct entry cost
-      if (input.entryCost > 0) {
-        await db.update(dreamBalance)
-          .set({ dreamTokens: sql`GREATEST(0, dreamTokens - ${input.entryCost})` })
-          .where(eq(dreamBalance.userId, ctx.user.id));
-      }
-
-      return { success: true, tournamentCode: code, tournamentId: Number(result.insertId) };
+      return { success: true, tournamentCode: code, tournamentId };
     }),
 
   /** Join an existing draft tournament */

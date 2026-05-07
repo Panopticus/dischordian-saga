@@ -4,10 +4,10 @@
 
 ## Table of Contents
 
-- [Characters](#characters) (109)
+- [Characters](#characters) (113)
 - [Factions](#factions) (11)
 - [Locations](#locations) (23)
-- [Concepts](#concepts) (95)
+- [Concepts](#concepts) (109)
 - [Events](#events) (22)
 - [Artifacts](#artifacts) (4)
 - [Songs & Transmissions](#songs-transmissions) (118)
@@ -3966,6 +3966,25 @@ Ith'Rael's greatest achievement was the Rylloh Operation — the centuries-long 
 
 ---
 
+## Mol'Garath
+
+*Also known as: The Unmaker, The Referee, CEO of the Hierarchy*
+
+| Field | Value |
+|-------|-------|
+| **Type** | Character |
+| **Era** | Pre-Fall through Streamed Prism |
+| **Season** | Season 1 |
+| **Affiliation** | Hierarchy of the Damned · CEO |
+| **Status** | Unlocked via DLC chapter dlc_hierarchy_04_molgarath_labyrinth |
+| **Priority** | normal |
+
+### Dossier
+
+Not the Architect's ally. Not the Game Master's enemy. CEO of the Hierarchy, Unmaker by office, but practically — and this is the part the saga keeps quiet about — the endgame referee. The Engineer told only Mol'Garath when he finished the Labyrinth. Mol'Garath has kept the trap-list in a cold room for four hundred years. He hands it to the player who arrives at the chair with the right key.
+
+---
+
 ## Mol'Garath the Unmaker
 
 *Also known as: The Chairman, The CEO of the Damned, The Shadow of Creation*
@@ -4036,6 +4055,25 @@ Ozhul'Vana — The Game Master Arc reference. First unlocked in episode 'Velkraa
 
 ---
 
+## Riri'Ahlia
+
+*Also known as: Malkia (the Taskmaster), Kael's First Friend, The Fallen at Nexon*
+
+| Field | Value |
+|-------|-------|
+| **Type** | Character |
+| **Era** | Streamed Prism (Year 1) |
+| **Season** | Season 1 |
+| **Affiliation** | Hierarchy of the Damned · COO Taskmaster |
+| **Status** | Unlocked via DLC chapter dlc_hierarchy_02_taskmaster_remembered |
+| **Priority** | normal |
+
+### Dossier
+
+Born Malkia. Kael's childhood friend on the Mascoteer training arks. Fell at the Battle of Nexon (Year 17,025 A.A.) with the line 'my pattern is in the swarm' on her lips — the Hierarchy heard it as an audition. Mol'Garath promoted her, renamed her Riri'Ahlia, and dressed the renaming in a vow. Now writes the daily work order in the same handwriting Kael keeps folded in a watchcase from before Nexon. NOT to be confused with Malkia Ukweli the Storyteller — distinct souls, same name, deliberate Hierarchy mirror.
+
+---
+
 ## Riri'Ahlia the Taskmaster
 
 *Also known as: The COO, The Six-Armed Queen, The Engine of the Damned*
@@ -4066,6 +4104,25 @@ Riri'Ahlia was the first demon to recognize that the Architect's organizational 
 - The Advocate
 - The Hierarchy of the Damned
 - The Warlord
+
+---
+
+## Syl'Vex
+
+*Also known as: The Corruptor, The Advocate's Dark Mirror, SVP HR*
+
+| Field | Value |
+|-------|-------|
+| **Type** | Character |
+| **Era** | Late Empire Era |
+| **Season** | Season 1 |
+| **Affiliation** | Hierarchy of the Damned · SVP HR |
+| **Status** | Unlocked via DLC chapter dlc_hierarchy_03_sylvex_temptation |
+| **Priority** | normal |
+
+### Dossier
+
+Cobalt-skinned. Amber-red eyes. Wears the Advocate's face exactly because she is, precisely, every option the Advocate refused. Where the Advocate sealed the Sacrum, Syl'Vex unsealed it. Where the Advocate wove the Blood Weave to defend, Syl'Vex weaves it to convert. Her recruitment pitch is not power — it is relief. She is not stronger than the Advocate; she is more comfortable, and that is the recruitment.
 
 ---
 
@@ -4855,6 +4912,25 @@ Before the Severance, Xeth'Raal operated through mortal intermediaries — corru
 - The Game Master
 - The Hierarchy of the Damned
 - The Shadow Tongue
+
+---
+
+## Yog-Nathal
+
+*Also known as: The Board, The Thing Above the Hierarchy*
+
+| Field | Value |
+|-------|-------|
+| **Type** | Character |
+| **Era** | Beyond Year 1 |
+| **Season** | Season 2 (teased Season 1) |
+| **Affiliation** | Above the Hierarchy of the Damned |
+| **Status** | Unlocked via DLC chapter dlc_hierarchy_05_yog_nathal_teaser |
+| **Priority** | normal |
+
+### Dossier
+
+The entity above Mol'Garath. The Hierarchy writes its name (they will not say it aloud — aloud has consequences) and calls it 'The Board.' They are wrong about both — the Antiquarian does not say which part is wrong. Full arc lands in Season 2; the Season-1 chapter ends at the threshold, with Mol'Garath's chair empty and the door behind it visible for the first time.
 
 ---
 
@@ -6515,6 +6591,25 @@ Audit via Routine — The Degen Arc reference. First unlocked in episode 'The Se
 
 ---
 
+## Blood Weave Crystal Yield Matrix
+
+*Also known as: Crystal Yield*
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+| **Era** | Streamed Prism (Year 1) |
+| **Season** | Season 1 |
+| **Affiliation** | The Advocate's Manifest |
+| **Status** | Unlocked via DLC chapter dlc_breeding_01_crew_unlocks |
+| **Priority** | normal |
+
+### Dossier
+
+Per-cycle crystal yield by bloodline: PURE 1, HYBRID 3, DEMONIC 9, ADVOCATE 12, SAMSARA 6, NAMED 4, UNKNOWN 2. ADVOCATE is densest; PURE returns the least because the bloodline is too clean to refine into crystal at scale. The Advocate's design — patience is the price for the densest endgame yield.
+
+---
+
 ## Brel'Sorrash's First Session
 
 | Field | Value |
@@ -6682,6 +6777,25 @@ Engineer Zero — Vex Solène Arc reference. First unlocked in episode 'The Engi
 ### Dossier
 
 Handoff as Legacy — The Game Master Arc reference. First unlocked in episode 'Velkraal's Final Edit' (game_master.e4). Episode context: Velkraal has chosen his last day. The Hierarchy's vault division has scheduled a custodial-handover ceremony for next month; Velkraal's calendar shows one further Goggles session before then. Investigate which imprint he intends to edit on his last day, what the edit will say, and whether the saga can witness it.
+
+---
+
+## Hierarchy as Bacteria
+
+*Also known as: The Bacterium Metaphor*
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+| **Era** | Beyond Year 1 |
+| **Season** | Season 2 (teased Season 1) |
+| **Affiliation** | Above the Hierarchy |
+| **Status** | Unlocked via DLC chapter dlc_hierarchy_05_yog_nathal_teaser |
+| **Priority** | normal |
+
+### Dossier
+
+The metaphor the Antiquarian was given for Yog-Nathal's relationship to the Hierarchy: the Hierarchy is not Yog-Nathal's servant. The Hierarchy is its bacteria. Bacteria do not serve a body — they do not know there is a body. They live and die at scales the body considers weather. Every COO, SVP, and Director the player walked past in Season 1 was, by this metaphor, weather.
 
 ---
 
@@ -6914,6 +7028,25 @@ Propagated Discipline — Vex Solène Arc reference. First unlocked in episode '
 
 ---
 
+## Pure Bloodline Endgame
+
+*Also known as: The Five Generations Threshold*
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+| **Era** | Streamed Prism (Year 1) |
+| **Season** | Season 1 |
+| **Affiliation** | The Advocate's Long Game |
+| **Status** | Unlocked via DLC chapter dlc_breeding_03_advocate_body_coordinates |
+| **Priority** | normal |
+
+### Dossier
+
+Five PURE-bloodline generations is the threshold the Advocate set for releasing the coordinates of her own body. Lower yield per cycle than any other bloodline; longer wait than any other bloodline. The destination is buried four chapters away from the manifest; she did not name it on the manifest because the player would not have believed her. They believe her at the count of five.
+
+---
+
 ## Seam Discipline
 
 | Field | Value |
@@ -6965,6 +7098,44 @@ The 347,000 Names — Wraith Calder Arc reference. First unlocked in episode 'Th
 
 ---
 
+## The Advocate's Body Coordinates
+
+*Also known as: 7-Omega Coordinates, The Sealed Chamber*
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+| **Era** | Late Empire Era through Streamed Prism |
+| **Season** | Season 2 (revealed Season 1) |
+| **Affiliation** | The Advocate |
+| **Status** | Unlocked via DLC chapter dlc_breeding_03_advocate_body_coordinates · gates Season 2 |
+| **Priority** | normal |
+
+### Dossier
+
+The coordinates of the chamber that holds the Advocate's body, sealed in stasis under 7-Omega clearance in New Babylon. The Empire has not held these coordinates since the Battle of the Seventh Binding. They surface — for the first time in four hundred years — in the player's hand at five PURE-bloodline generations completed, written in the Advocate's hand. Season 2 entry hook.
+
+---
+
+## The Advocate's Dark Mirror
+
+*Also known as: Mirror-Doctrine*
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+| **Era** | Late Empire Era |
+| **Season** | Season 1 |
+| **Affiliation** | Hierarchy of the Damned |
+| **Status** | Unlocked via DLC chapter dlc_hierarchy_03_sylvex_temptation |
+| **Priority** | normal |
+
+### Dossier
+
+The Hierarchy's mirror-doctrine: every saint-class entity is countered by a corruption-class entity in the same body-template, the same voice-register, the same chrome. The corruption-class entity is not stronger — it is more comfortable. Comfort is the recruitment vector. Syl'Vex is the Advocate's mirror; the doctrine implies (but the Antiquarian will not confirm) other mirrors are in the field.
+
+---
+
 ## The Annual Audit
 
 | Field | Value |
@@ -6999,6 +7170,44 @@ The Anonymous Trust Donor — The Degen Arc reference. First unlocked in episode
 
 ---
 
+## The Battle of the Seventh Binding
+
+*Also known as: The Seventh Binding*
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+| **Era** | Late Empire Era |
+| **Season** | Season 1 |
+| **Affiliation** | The Advocate vs. The Hierarchy |
+| **Status** | Unlocked via DLC chapter dlc_breeding_03_advocate_body_coordinates |
+| **Priority** | normal |
+
+### Dossier
+
+Year 16,700 A.A. The Advocate sealed the Sacrum of Severed Silk and shattered a fragment of herself forward through time. The seal cost her the body; the body went into stasis under 7-Omega clearance and the coordinates passed out of every Empire log. The seventh binding because six previous bindings had failed — the Empire's record system numbered them; the Advocate counted them with her remaining hand.
+
+---
+
+## The Board
+
+*Also known as: Yog-Nathal's Cover Name*
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+| **Era** | Beyond Year 1 |
+| **Season** | Season 2 (teased Season 1) |
+| **Affiliation** | Hierarchy of the Damned (their wording) |
+| **Status** | Unlocked via DLC chapter dlc_hierarchy_05_yog_nathal_teaser |
+| **Priority** | normal |
+
+### Dossier
+
+How the Hierarchy refers to Yog-Nathal in writing. They use the corporate metaphor because it is the metaphor they understand and the metaphor that is least likely to summon. The metaphor is incorrect. It is also the only metaphor on file. The Antiquarian uses it under protest.
+
+---
+
 ## The Calibration Pipeline Handoff
 
 | Field | Value |
@@ -7030,6 +7239,44 @@ The Calibration Pipeline Handoff — Vex Solène Arc reference. First unlocked i
 ### Dossier
 
 The Coda — The Degen Arc reference. First unlocked in episode 'The Coda's Books' (degen.e3). Episode context: The Coda is a small Insurgency cadre the Degen quietly funds — most of the saga sees them as a footnote. Their books, examined carefully, show donations that don't match any disclosed Degen revenue stream. Investigate whether the Degen has been routing trustee-protected funds to the Coda — and whether Mol'Vereth's discretion permits the routing.
+
+---
+
+## The Collector's Work
+
+*Also known as: Mission Cards, The Advocate's Letter*
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+| **Era** | Streamed Prism (Year 1) |
+| **Season** | Season 1 |
+| **Affiliation** | The Advocate (via The Collector) |
+| **Status** | Unlocked via DLC chapter dlc_breeding_02_first_pure_cycle |
+| **Priority** | normal |
+
+### Dossier
+
+Per-cycle mission cards surfaced by the Collector and written in the Advocate's voice. Each mission is one instruction the Advocate left for a player born after she sealed herself; the body text changes per bloodline classification, the difficulty tier escalates with generation count. Per Testament v2 §VI Part 4: 'the Collector's Work was always the Advocate's letter to the future.'
+
+---
+
+## The Crew Bene-Gesserit Breeding Program
+
+*Also known as: Breeding Program, Crew Bene-Gesserit*
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+| **Era** | Streamed Prism (Year 1) |
+| **Season** | Season 1 |
+| **Affiliation** | The Advocate / The Collector |
+| **Status** | Unlocked via DLC chapter dlc_breeding_01_crew_unlocks |
+| **Priority** | normal |
+
+### Dossier
+
+The Act-3+ mainline tier of the Breeding Program (the Mascoteers tier is the Act-1 tutorial loop). Tracks bloodline generations across player Arks; per ritual cycle, a Blood-Weave-crystal yield drops based on the carrier's bloodline classification. The Advocate left a manifest. The Collector files the reports. The Advocate adds margin notes the player did not see her write.
 
 ---
 
@@ -7373,6 +7620,44 @@ The Iron Lion Imprint — Jericho Jones Arc reference. First unlocked in episode
 
 ---
 
+## The Labyrinth Annotations
+
+*Also known as: Mol'Garath's Footnotes*
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+| **Era** | Pre-Fall |
+| **Season** | Season 1 |
+| **Affiliation** | The Engineer / Mol'Garath |
+| **Status** | Unlocked via DLC chapter dlc_hierarchy_04_molgarath_labyrinth |
+| **Priority** | normal |
+
+### Dossier
+
+After Mol'Garath's audience unlocks, every Engineer holo-recording surfaces a margin annotation in his voice — a retroactive footnote citing which Architect-designed trap that recording was disassembling. The Engineer left the trap-list at the end of the Labyrinth; Mol'Garath has been keeping it. The annotations ship the receipts.
+
+---
+
+## The Long View Layer
+
+*Also known as: Mol'Garath's Audience*
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+| **Era** | Pre-Fall through Streamed Prism |
+| **Season** | Season 1 |
+| **Affiliation** | Mol'Garath |
+| **Status** | Unlocked via DLC chapter dlc_hierarchy_04_molgarath_labyrinth |
+| **Priority** | normal |
+
+### Dossier
+
+The endgame layer that opens after Mol'Garath's private audience: Labyrinth Annotations, the live traps-being-designed feed, and the final connection on the Hamlet conspiracy board. Per molGarathEndgameLayer.ts. The 'long view' is the calm of a man who has read the last page first and gone back to enjoy the middle.
+
+---
+
 ## The Matrix of Dreams
 
 | Field | Value |
@@ -7521,6 +7806,25 @@ The Redacted Attestation — The Degen Arc reference. First unlocked in episode 
 ### Dossier
 
 The Resurrection Protocols — Wraith Calder Arc reference. First unlocked in episode 'The Stolen Protocols' (wraith.e2). Episode context: Wraith Calder stole the resurrection protocols from the Syndicate of Death and democratised them. The act is canon. The mechanism is not. Investigate where the protocols were stored, how they were extracted, and what the Syndicate gave up to make the theft possible.
+
+---
+
+## The Sacrum of Severed Silk
+
+*Also known as: The Sacrum, Severed Silk, The Advocate's Seal*
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+| **Era** | Late Empire Era |
+| **Season** | Season 1 |
+| **Affiliation** | The Advocate |
+| **Status** | Unlocked via DLC chapter dlc_advocate_01_sacrum_echo |
+| **Priority** | normal |
+
+### Dossier
+
+The relic the Advocate sealed at the Battle of the Seventh Binding (Year 16,700 A.A.). She wove it from severed strands of every Blood Weave technique that should not be reassembled, and she paid for the seal with a fragment of herself. The Sacrum is cool to the touch and older than the Empire that buried it; the Empire forgot the word for it before it learned the word for surveillance. Surfaces piecemeal — fragments only — across the Advocate-arc DLC ladder.
 
 ---
 
@@ -7677,6 +7981,25 @@ The Settlement at the Empty Table — The Degen Arc reference. First unlocked in
 
 ---
 
+## The Seven Bloodlines
+
+*Also known as: Bloodline Classifications*
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+| **Era** | Pre-Fall through Streamed Prism |
+| **Season** | Season 1 |
+| **Affiliation** | The Advocate's Manifest |
+| **Status** | Unlocked via DLC chapter dlc_breeding_01_crew_unlocks |
+| **Priority** | normal |
+
+### Dossier
+
+PURE · HYBRID · DEMONIC · ADVOCATE · SAMSARA · NAMED · UNKNOWN. The seven canonical blood classifications used by the Crew Bene-Gesserit Breeding Program. Each yields a different density of Blood Weave crystal under ritual; corruption pressure varies (DEMONIC carries the highest cost; PURE the lowest, at the cost of patience). See apps/shared/bloodClassification.ts for runtime constants.
+
+---
+
 ## The Seventh Installment
 
 | Field | Value |
@@ -7808,6 +8131,25 @@ The Threshold Doctrine — Jericho Jones Arc reference. First unlocked in episod
 ### Dossier
 
 The Two Listeners — The Seer Arc reference. First unlocked in episode 'The Recording Engineer' (seer.e4). Episode context: Every prophecy in the Seer's archive was recorded by Engineer Zero — Vex Solène under her public credit, and once, on DEC-7710, under a Warlord-fragment alias she requested. The archive's audio fidelity has shaped what the Seer's voice sounds like to every reader who has ever heard a tape. Investigate the engineer's hand on the prophecies — and what would change if Vex closed her own seventh installment.
+
+---
+
+## The Two Malkias
+
+*Also known as: Mirror-Naming, The Hierarchy's Trophy*
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+| **Era** | Late Empire Era |
+| **Season** | Season 1 |
+| **Affiliation** | Hierarchy of the Damned |
+| **Status** | Unlocked via DLC chapter dlc_hierarchy_02_taskmaster_remembered |
+| **Priority** | normal |
+
+### Dossier
+
+There are two beings walking the saga under the name Malkia. Malkia Ukweli — the Storyteller / Enigma — is the album narrator on the side of light. The other Malkia is Riri'Ahlia, COO Taskmaster of the Hierarchy of the Damned, who took the name as a trophy at her promotion. Mol'Garath did not invent the duplication; he found it useful and refused to disambiguate it. Distinguishing the two is its own progression beat (flag two_malkias_distinguished).
 
 ---
 

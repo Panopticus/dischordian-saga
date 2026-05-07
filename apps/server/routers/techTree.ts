@@ -177,17 +177,26 @@ export const techTreeRouter = router({
       const db = await getDb();
       if (!db) return { success: false, error: "Database unavailable" };
 
-      // Check and deduct Dream tokens if required
+      // Check and deduct Dream tokens if required.
+      // Read-then-write wrapped in a transaction so a concurrent
+      // tech-tree purchase can't double-spend Dream below 0. Plan §C3.
       if (cost.dream && cost.dream > 0) {
-        const balRow = await db.select().from(dreamBalance)
-          .where(eq(dreamBalance.userId, ctx.user.id)).limit(1);
-        const currentDream = balRow[0]?.dreamTokens ?? 0;
-        if (currentDream < cost.dream) {
-          return { success: false, error: `Need ${cost.dream} Dream, have ${currentDream}` };
+        const dreamCost = cost.dream;
+        const insufficient = await db.transaction(async (tx) => {
+          const balRow = await tx.select().from(dreamBalance)
+            .where(eq(dreamBalance.userId, ctx.user.id)).limit(1);
+          const currentDream = balRow[0]?.dreamTokens ?? 0;
+          if (currentDream < dreamCost) {
+            return { error: `Need ${dreamCost} Dream, have ${currentDream}` };
+          }
+          await tx.update(dreamBalance)
+            .set({ dreamTokens: sql`${dreamBalance.dreamTokens} - ${dreamCost}` })
+            .where(eq(dreamBalance.userId, ctx.user.id));
+          return null;
+        });
+        if (insufficient) {
+          return { success: false, error: insufficient.error };
         }
-        await db.update(dreamBalance)
-          .set({ dreamTokens: sql`${dreamBalance.dreamTokens} - ${cost.dream}` })
-          .where(eq(dreamBalance.userId, ctx.user.id));
       }
 
       // Check and deduct influence + voidCrystals from gameData resources

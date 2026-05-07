@@ -146,30 +146,40 @@ export const prestigeRouter = router({
           sql`${userArkProgress.roomId} != 'cryo_bay'`,
         ));
 
-      // Reset quest progress
-      await db.delete(dailyQuests)
-        .where(eq(dailyQuests.userId, ctx.user.id));
+      // Wrap quest reset + currency keep + level reset + battle-pass
+      // reset in one transaction so a partial failure can't leave
+      // the player in a half-prestiged state (reset state + retained
+      // currency, or the inverse). Plan §C3.
+      // `progress` is captured outside the closure so the post-tx
+      // narrative-flag write at line ~198 keeps a stable reference.
+      const progress = await db.transaction(async (tx) => {
+        // Reset quest progress
+        await tx.delete(dailyQuests)
+          .where(eq(dailyQuests.userId, ctx.user.id));
 
-      // Currencies: keep 10%
-      if (dreamBal) {
-        const kept = Math.floor(currentDream * 0.10);
-        await db.update(dreamBalance)
-          .set({ dreamTokens: kept })
-          .where(eq(dreamBalance.userId, ctx.user.id));
-      }
+        // Currencies: keep 10%
+        if (dreamBal) {
+          const kept = Math.floor(currentDream * 0.10);
+          await tx.update(dreamBalance)
+            .set({ dreamTokens: kept })
+            .where(eq(dreamBalance.userId, ctx.user.id));
+        }
 
-      // Reset userProgress level (but keep progressData/gameData for achievements)
-      const [progress] = await db.select().from(userProgress)
-        .where(eq(userProgress.userId, ctx.user.id)).limit(1);
-      if (progress) {
-        await db.update(userProgress)
-          .set({ level: 1, xp: 0, points: 0 })
-          .where(eq(userProgress.userId, ctx.user.id));
-      }
+        // Reset userProgress level (but keep progressData/gameData for achievements)
+        const [progressRow] = await tx.select().from(userProgress)
+          .where(eq(userProgress.userId, ctx.user.id)).limit(1);
+        if (progressRow) {
+          await tx.update(userProgress)
+            .set({ level: 1, xp: 0, points: 0 })
+            .where(eq(userProgress.userId, ctx.user.id));
+        }
 
-      // Reset battle pass tier
-      await db.delete(battlePassProgress)
-        .where(eq(battlePassProgress.userId, ctx.user.id));
+        // Reset battle pass tier
+        await tx.delete(battlePassProgress)
+          .where(eq(battlePassProgress.userId, ctx.user.id));
+
+        return progressRow;
+      });
 
       // Reset feature unlocks (re-explore to re-unlock)
       // Keep default features, reset room-discovered ones

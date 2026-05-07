@@ -1,3 +1,11 @@
+// audit-allow-proc: verify
+// (Consumer is apps/client/src/lib/payments/index.ts behind a
+// Capacitor.isNativePlatform() runtime branch, called via the
+// PurchaseDeps.nativeVerifyReceipt callback. No static
+// trpc.iapReceipt.verify call exists at JSX/TSX scan time —
+// the scanner can't follow runtime-platform-conditional dispatch.
+// The waiver documents the wiring; remove once a non-runtime
+// reference exists.)
 /**
  * In-App Purchase receipt-validation router.
  *
