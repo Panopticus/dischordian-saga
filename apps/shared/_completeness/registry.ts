@@ -18,6 +18,8 @@ import { checkTriggerKindCoverage } from "./checks/triggerKindCoverage";
 import { checkKeywordBehaviorCoverage } from "./checks/keywordBehaviorCoverage";
 import { checkUnlockConditionUICoverage } from "./checks/unlockConditionUICoverage";
 import { checkCardStatBudgetCoverage } from "./checks/cardStatBudgetCoverage";
+import { checkNarrativeFlagBridgeCoverage } from "./checks/narrativeFlagBridgeCoverage";
+import { checkTrialCategoryCoverage } from "./checks/trialCategoryCoverage";
 
 export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
   // ─── Card engine ──────────────────────────────────────────
@@ -80,6 +82,30 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     // already printed by balance/balanceAudit.ts). Ratcheted at
     // landing; tightens as designers either rebalance or add
     // documented exceptions.
+    ratchet: { target: 0 },
+  },
+  {
+    id: "tcg.narrative_flag_bridge_coverage",
+    name: "Narrative→TCG flag bridge",
+    description:
+      "Every flag name read by expansionUnlockService.ts (act_N_complete + secret_act_N_revealed for N=1..7) has a setNarrativeFlag(...) writer somewhere in apps/. Without writers, gated cards are permanently locked.",
+    check: () => checkNarrativeFlagBridgeCoverage(),
+    // Half of the bridge is shipped (act_N_complete writers exist
+    // in useNarrativeIntegration.ts), the other half (secret_act_N_revealed)
+    // has no writers yet. Ratcheted; closes when secret-reveal hooks
+    // land.
+    ratchet: { target: 0 },
+  },
+  {
+    id: "tcg.trial_category_coverage",
+    name: "trial_categories coverage",
+    description:
+      "Every non-token, non-reserved CardDefinition declares a non-empty trial_categories array. Cards without categories are unplayable in the §5.8 Authority trial finale (docs/production/act1/authority-trial-phase-mechanic.md).",
+    check: () => checkTrialCategoryCoverage(),
+    // Backfill is the bulk of the work; ratcheted at landing,
+    // tightens per-card as designers fill in the categories. The
+    // §5.8 runtime ships behind a feature flag that requires 100%
+    // coverage.
     ratchet: { target: 0 },
   },
 ];
