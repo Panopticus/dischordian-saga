@@ -185,6 +185,20 @@ function applyCombatDamage(
     absorbed: false,
   });
 
+  // Drain — keyword-driven leech. When a unit with drain deals
+  // un-absorbed combat damage, the source's controller's general
+  // heals for the same amount. Forcefield-absorbed swings do not
+  // drain (matches the on_damage_taken / on_damage_dealt symmetry —
+  // an absorbed swing didn't "deal" damage in the meaningful sense).
+  //
+  // Limit: drain currently fires on COMBAT damage only. Spell damage
+  // routed through the `deal_damage` effect op does not drain. If a
+  // future card needs spell-drain, the effect op becomes the dispatch
+  // site and this comment moves there.
+  if (source.card.activeKeywords.includes("drain")) {
+    applyDrainHeal(draft, source, damage, ctx);
+  }
+
   // Enqueue on_damage_dealt triggers for the source entity, then
   // on_damage_taken for the victim. Order matters: source-side
   // triggers (drain heals, payback, etc.) must enqueue before the
@@ -210,6 +224,49 @@ function applyCombatDamage(
       artifact.durability = artifact.durability - 1;
     }
   }
+}
+
+/**
+ * Heal the source's controlling general by `amount`, capped at the
+ * general's `maxHealth`. Used for drain-keyword leech in
+ * {@link applyCombatDamage}. Emits a `damage_dealt`-shaped heal event
+ * so replays animate the leech and the engine has a per-instance
+ * record of the heal source.
+ *
+ * Closes the dead-`drain` keyword in the ship:check
+ * tcg.keyword_behavior_coverage gate.
+ */
+function applyDrainHeal(
+  draft: Draft<GameState>,
+  source: Draft<BoardEntity>,
+  amount: number,
+  ctx: ReduceCtx,
+): void {
+  if (amount <= 0) return;
+  const ownerSide = source.card.owner as Side;
+  // Find the owner's general entity on the board. The general carries
+  // its current/max health on its CardInstance just like any other
+  // unit; healing past max is clamped.
+  const generalId = draft.players[ownerSide].generalEntityId;
+  let general: Draft<BoardEntity> | undefined;
+  for (const entity of Object.values(draft.board)) {
+    if (entity.entityId === generalId) {
+      general = entity;
+      break;
+    }
+  }
+  if (!general) return; // General is dead — no-op.
+  const before = general.card.currentHealth;
+  const max = general.card.maxHealth;
+  const healed = Math.min(amount, max - before);
+  if (healed <= 0) return;
+  general.card.currentHealth = before + healed;
+  ctx.events.push({
+    type: "healed",
+    sourceId: source.entityId,
+    targetId: general.entityId,
+    amount: healed,
+  });
 }
 
 /**

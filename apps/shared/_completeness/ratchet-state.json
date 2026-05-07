@@ -2,7 +2,7 @@
   "version": 1,
   "worstByEntry": {
     "tcg.trigger_kind_coverage": 0,
-    "tcg.keyword_behavior_coverage": 12,
+    "tcg.keyword_behavior_coverage": 0,
     "tcg.unlock_condition_ui_coverage": 2
   }
 }
