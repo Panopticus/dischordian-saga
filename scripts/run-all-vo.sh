@@ -139,6 +139,16 @@ run_stage "Stage 11 / vo:first-contact"  pnpm vo:first-contact
 run_stage "Stage 12 / vo:story-mode"     pnpm vo:story-mode
 run_stage "Stage 13 / chess-climb"       pnpm tsx apps/scripts/generate-chess-climb-vo.ts
 
+# ── Stage 4b: Room-mystery verb-coin surface ──────────
+# Walks ROOM_MYSTERY_REGISTRY (apps/shared/roomMysteries) plus the
+# legacy cryo bay table and emits one ElevenLabs recording per
+# (voId, speaker) pair. Banded narrations expand to three recordings
+# per band (lucid/fragmented/luminous for Elara; shadow/balanced/warm
+# for the Detective). Idempotent — every voId already in its target
+# manifest is skipped. Without this stage, every Look/Use/Talk click
+# in the Ark Explorer's verb coin falls back to silent text.
+run_stage "Stage 13b / vo:room-mystery"  pnpm vo:room-mystery
+
 # ── Stage 5: Per-character Python generators ──────────
 if [ $SKIP_PYTHON -eq 0 ]; then
   for char in elara human agent_zero antiquarian cades degen locke \
