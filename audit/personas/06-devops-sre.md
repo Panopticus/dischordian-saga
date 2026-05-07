@@ -27,8 +27,8 @@
 - file: /home/user/dischordian-saga/apps/server/_core/index.ts
 - severity: medium
 - category: deploy
-- finding: `grep SIGTERM|SIGINT apps/server` returns nothing. Railway sends SIGTERM on every redeploy (30s grace). 8+ WebSocket surfaces (pvpWs, chessWs, terminusWs, duelystWs, cadesSignalingWs, chessMultiplayer), 6 `setInterval` ticks, Stripe flows — none drained. `Sentry.close()` / `sdk.shutdown()` not invoked; telemetry just before deploy vanishes.
-- fix: Add `process.on("SIGTERM", async () => { server.close(); await Promise.allSettled([Sentry.close(2000), shutdownOTel()]); process.exit(0); })`.
+- finding: `grep SIGTERM|SIGINT apps/server` returns nothing. Railway sends SIGTERM on every redeploy (30s grace). 8+ WebSocket surfaces, 6 `setInterval` ticks, Stripe flows — none drained. `Sentry.close()` / `sdk.shutdown()` not invoked; pre-deploy telemetry vanishes.
+- fix: `process.on("SIGTERM", async () => { server.close(); await Promise.allSettled([Sentry.close(2000), shutdownOTel()]); process.exit(0); })`.
 
 ### F5: `db:migrate` and `db:migrate:prod` are aliases; no `db:push` guard
 - file: /home/user/dischordian-saga/package.json, /home/user/dischordian-saga/railway.toml
@@ -41,13 +41,13 @@
 
 | File | Trigger | Runs | Required? |
 |------|---------|------|-----------|
-| ci.yml | push main/master/claude/**; PR main/master | 3 jobs. `check`: lint, lint:void-energy, ship:check, tsc, vitest, audit (advisory), entity-name (advisory), build, bundle warn. `db-smoke`: MySQL 8, migrate (continue-on-error), `db:smoke`. `e2e`: MySQL 8, migrate (continue-on-error), seed, build, start, Playwright. | PR-required main/master (inferred). |
-| asset-coverage-probe.yml | dispatch; daily 09:00 UTC; PR on `expansionArt/**`, card defs | HEAD-checks every manifest URL against dgrsart S3; skips on fork PRs. | Conditional (path match). |
-| dmc-build.yml | push main on `games/dead-mans-circuit/**`; dispatch | Godot 4.6 (cached) → web export → `assets:upload --only=games` → CDN smoke. | No (deploy). |
-| public-assets-upload.yml | push main on `apps/client/public/{art,audio,videos,music,games,vo,characters,vfx-atlases}/**`; dispatch | `pnpm assets:upload`; ETag-skips. | No (deploy). |
+| ci.yml | push main/master/claude/**; PR main/master | `check`: lint, lint:void-energy, ship:check, tsc, vitest, audit (advisory), entity-name (advisory), build, bundle warn. `db-smoke`: MySQL 8, migrate (continue-on-error), `db:smoke`. `e2e`: MySQL 8, migrate (continue-on-error), seed, build, start, Playwright. | PR-required (inferred). |
+| asset-coverage-probe.yml | dispatch; daily 09:00 UTC; PR on `expansionArt/**`, card defs | HEAD-checks every manifest URL against S3; skips on fork PRs. | Conditional. |
+| dmc-build.yml | push main on `games/dead-mans-circuit/**`; dispatch | Godot 4.6 → web export → `assets:upload --only=games` → CDN smoke. | No (deploy). |
+| public-assets-upload.yml | push main on `apps/client/public/{art,audio,…}/**`; dispatch | `assets:upload`; ETag-skips. | No (deploy). |
 | trade-empire-art-upload.yml | dispatch | Producer ZIP → `upload-trade-empire-art.ts`. | No (manual). |
-| trade-empire-vo-generate.yml | dispatch | ElevenLabs VO + S3 + auto-PR via peter-evans. | No (manual). |
-| ark-rooms-art-upload.yml | dispatch | Producer ZIP → PNG→WebP (sharp-cli) → `assets:upload --only=art`. | No (manual). |
+| trade-empire-vo-generate.yml | dispatch | ElevenLabs VO + S3 + auto-PR. | No (manual). |
+| ark-rooms-art-upload.yml | dispatch | Producer ZIP → PNG→WebP → `assets:upload --only=art`. | No (manual). |
 
 ## Convergence hints
 
