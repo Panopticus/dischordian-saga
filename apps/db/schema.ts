@@ -427,7 +427,14 @@ export const cardGameMatches = mysqlTable("card_game_matches", {
   actionLog: text("actionLog"),
   /** SHA-256 hash of the final game state — desync audit + replay verify. */
   finalStateHash: varchar("finalStateHash", { length: 64 }),
-});
+}, (table) => ({
+  // Hot match-lookup indexes. Without these, every "list my matches"
+  // query falls back to a full scan; the table grows unbounded with
+  // every concluded match. CONNECTION_AUDIT §3.3 caught the gap.
+  player1Idx: index("idx_card_game_matches_player1").on(table.player1Id),
+  player2Idx: index("idx_card_game_matches_player2").on(table.player2Id),
+  statusIdx: index("idx_card_game_matches_status").on(table.status),
+}));
 
 export type CardGameMatch = typeof cardGameMatches.$inferSelect;
 
@@ -1178,7 +1185,13 @@ export const pvpMatches = mysqlTable("pvp_matches", {
   player2EloChange: int("player2EloChange").notNull().default(0),
   startedAt: timestamp("startedAt").defaultNow().notNull(),
   endedAt: timestamp("endedAt"),
-});
+}, (table) => ({
+  // Hot match-lookup indexes — same rationale as cardGameMatches.
+  // CONNECTION_AUDIT §3.3.
+  player1Idx: index("idx_pvp_matches_player1").on(table.player1Id),
+  player2Idx: index("idx_pvp_matches_player2").on(table.player2Id),
+  statusIdx: index("idx_pvp_matches_status").on(table.status),
+}));
 
 export type PvpMatch = typeof pvpMatches.$inferSelect;
 export type InsertPvpMatch = typeof pvpMatches.$inferInsert;
