@@ -23,6 +23,7 @@ import CoNexusMediaPlayer from "./components/CoNexusMediaPlayer";
 import AppShell from "./components/AppShellImmersive";
 import CommandConsole from "./components/CommandConsole";
 import AchievementToast from "./components/AchievementToast";
+import LegendaryAchievementModal from "./components/LegendaryAchievementModal";
 import { CompanionCommentToast } from "./components/companion/CompanionCommentToast";
 import { useGovernanceCommentReplay } from "./hooks/useGovernanceCommentReplay";
 import { useMetaNarratorReplay } from "./hooks/useMetaNarratorReplay";
@@ -730,6 +731,7 @@ function GameGate() {
       <QuestRewardSystem />
       <CoNexusMediaPlayer />
       <AchievementToast />
+      <LegendaryAchievementModal />
       <AchievementUnlockToast />
       <CompanionCommentToast />
       <RememberThisToast />
