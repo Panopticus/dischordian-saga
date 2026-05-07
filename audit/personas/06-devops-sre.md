@@ -6,15 +6,15 @@
 - file: /home/user/dischordian-saga/railway.toml, /home/user/dischordian-saga/.github/workflows/ci.yml:296
 - severity: high
 - category: observability
-- finding: Health exists only as tRPC procedures (`system.health`, `performance.healthCheck`). `railway.toml` sets `healthcheckPath = "/"` — that hits the SPA index, so a broken Express layer with stale static still passes. CI e2e polls `curl http://localhost:3000/api/health` — path registered nowhere; loop falls through to `::warning::`. `ipRateLimit.ts:15` even claims to skip `/api/health`, suggesting the route was intended.
+- finding: Health exists only as tRPC procedures (`system.health`, `performance.healthCheck`). `railway.toml` sets `healthcheckPath = "/"` — hits SPA index, so a broken Express with stale static still passes. CI e2e polls `curl /api/health` — path registered nowhere; falls through to `::warning::`. `ipRateLimit.ts:15` claims to skip `/api/health`, suggesting it was intended.
 - fix: Register `app.get("/api/health", …)` returning `{ ok, dbPing, sentryReady, otelReady }` before CSRF/rate-limit; point `healthcheckPath` and CI's curl at it.
 
 ### F2: Sentry/OTel "required in prod" but loaded as optional dynamic imports — silent observability possible
 - file: /home/user/dischordian-saga/apps/server/sentry.ts, /home/user/dischordian-saga/apps/server/otel.ts, /home/user/dischordian-saga/apps/server/_core/env.ts
 - severity: high
 - category: observability
-- finding: `env.ts:85-89` makes `SENTRY_DSN` and `OTEL_EXPORTER_OTLP_ENDPOINT` boot-required. But `sentry.ts:21-25` wraps `import("@sentry/node")` in try/catch that skips silently if missing; `otel.ts` does the same with variable-specifier dynamic imports. `package.json` lists `@sentry/node` but **no** `@opentelemetry/*` deps. Prod build satisfies env check, emits zero traces. CLAUDE.md's planned ratchet not yet enforced by `ship:check`.
-- fix: Promote `@opentelemetry/sdk-node` + exporters to hard deps; convert both modules to static imports; add ship-check asserting `Sentry.getClient()` and OTel SDK non-null in prod.
+- finding: `env.ts:85-89` makes `SENTRY_DSN` and `OTEL_EXPORTER_OTLP_ENDPOINT` boot-required, but `sentry.ts:21-25` wraps `import("@sentry/node")` in try/catch that skips silently if missing; `otel.ts` mirrors that with variable-specifier dynamic imports. `package.json` lists `@sentry/node` but **no** `@opentelemetry/*` deps. Prod build satisfies env check and emits zero traces. CLAUDE.md's planned ratchet not yet enforced.
+- fix: Promote `@opentelemetry/sdk-node` + exporters to hard deps; convert to static imports; add ship-check asserting `Sentry.getClient()` and OTel SDK non-null in prod.
 
 ### F3: CI gates `db:migrate:prod` with `continue-on-error: true`; ~25 startup `bootstrap*` IIFEs paper over drift
 - file: /home/user/dischordian-saga/.github/workflows/ci.yml:173,277, /home/user/dischordian-saga/apps/server/_core/index.ts:530-689
