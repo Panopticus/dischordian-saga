@@ -15,6 +15,7 @@ import type {
   DlcParentSection,
 } from "./types";
 import { DLC_ADVOCATE_01_SACRUM_ECHO } from "./chapters/dlc_advocate_01_sacrum_echo";
+import { ALL_EPOCH_WITNESS_DLC_CHAPTERS } from "./chapters/epoch_witness";
 
 /** Single source of truth for every DLC chapter. Frozen so a
  *  caller can't accidentally mutate the registry.
@@ -25,9 +26,15 @@ import { DLC_ADVOCATE_01_SACRUM_ECHO } from "./chapters/dlc_advocate_01_sacrum_e
  *    3. Spread it into the array below
  *    4. Run pnpm test apps/shared/dlc — the registry tests will
  *       fail loudly on duplicate ids, sequence collisions, or a
- *       missing canonical completion flag. */
+ *       missing canonical completion flag.
+ *
+ *  Epoch Witness votes (Insurgency / Revelation / Fall) are
+ *  derived from the existing vote payloads in
+ *  `epochWitnessVotesLate.ts` via `buildDlcChapterFromVote()`
+ *  so adding a new vote there auto-registers a DLC chapter. */
 export const ALL_DLC_CHAPTERS: readonly DlcChapter[] = Object.freeze([
   DLC_ADVOCATE_01_SACRUM_ECHO,
+  ...ALL_EPOCH_WITNESS_DLC_CHAPTERS,
 ] as DlcChapter[]);
 
 /* ─── Lookup helpers ─── */
@@ -50,7 +57,7 @@ export function sameParentSection(
       return a.faction === (b as { faction: string }).faction;
     case "epoch_witness":
       return (
-        a.epoch === (b as { epoch: number }).epoch &&
+        a.epoch === (b as { epoch: string }).epoch &&
         a.archetype === (b as { archetype?: string }).archetype
       );
     case "silence_in_heaven":

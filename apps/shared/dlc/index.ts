@@ -15,6 +15,7 @@ export type {
   DlcStepChoice,
   DlcStepSpeakerId,
   DlcStoryEncounterRef,
+  EpochWitnessId,
   GalacticDanceFactionId,
 } from "./types";
 

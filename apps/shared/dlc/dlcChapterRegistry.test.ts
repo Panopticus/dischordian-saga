@@ -94,14 +94,20 @@ describe("sameParentSection", () => {
   it("matches epoch-witness sections by epoch + archetype", () => {
     expect(
       sameParentSection(
-        { kind: "epoch_witness", epoch: 3, archetype: "witness" },
-        { kind: "epoch_witness", epoch: 3, archetype: "witness" },
+        { kind: "epoch_witness", epoch: "age_of_insurgency", archetype: "the_witness" },
+        { kind: "epoch_witness", epoch: "age_of_insurgency", archetype: "the_witness" },
       ),
     ).toBe(true);
     expect(
       sameParentSection(
-        { kind: "epoch_witness", epoch: 3, archetype: "witness" },
-        { kind: "epoch_witness", epoch: 3, archetype: "advocate" },
+        { kind: "epoch_witness", epoch: "age_of_insurgency", archetype: "the_witness" },
+        { kind: "epoch_witness", epoch: "age_of_insurgency", archetype: "the_advocate" },
+      ),
+    ).toBe(false);
+    expect(
+      sameParentSection(
+        { kind: "epoch_witness", epoch: "age_of_insurgency" },
+        { kind: "epoch_witness", epoch: "age_of_revelation" },
       ),
     ).toBe(false);
   });

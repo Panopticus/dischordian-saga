@@ -19,6 +19,12 @@
  *  faction roster when chapters reference one. */
 export type GalacticDanceFactionId = string;
 
+/** EpochId union value as declared in `apps/shared/epochWitnessVotes.ts`.
+ *  Loose string at the DLC layer to keep types decoupled from the
+ *  EpochWitness module's import graph; runtime callers pass the
+ *  canonical EpochId literal. */
+export type EpochWitnessId = string;
+
 /** Where a DLC chapter inserts itself in the saga's structure.
  *  The discriminator chooses how the chapter is surfaced in
  *  the UI (which menu, which gate to chain on). */
@@ -29,7 +35,7 @@ export type DlcParentSection =
   | { kind: "advocate_arc" }
   | { kind: "hierarchy_arc" }
   | { kind: "endgame" }
-  | { kind: "epoch_witness"; epoch: number; archetype?: string }
+  | { kind: "epoch_witness"; epoch: EpochWitnessId; archetype?: string }
   | { kind: "silence_in_heaven"; trackNumber: number };
 
 /** Discriminated union of prerequisites a chapter can require
