@@ -112,7 +112,7 @@ export const userSessions = mysqlTable(
   "user_sessions",
   {
     id: int("id").autoincrement().primaryKey(),
-    userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }).references(() => users.id, { onDelete: "cascade" }),
+    userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
     /** jti from the refresh token. */
     refreshTokenJti: varchar("refreshTokenJti", { length: 64 }).notNull(),
     /** Coarse device identifier — User-Agent string trimmed. */
@@ -358,7 +358,7 @@ export type InsertCard = typeof cards.$inferInsert;
  */
 export const userCards = mysqlTable("user_cards", {
   id: int("id").autoincrement().primaryKey(),
-  userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }).references(() => users.id, { onDelete: "cascade" }),
+  userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
   cardId: varchar("cardId", { length: 128 }).notNull(),
   /** Number of copies owned */
   quantity: int("quantity").notNull().default(1),
@@ -380,7 +380,7 @@ export type UserCard = typeof userCards.$inferSelect;
  */
 export const decks = mysqlTable("decks", {
   id: int("id").autoincrement().primaryKey(),
-  userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }).references(() => users.id, { onDelete: "cascade" }),
+  userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
   name: varchar("name", { length: 256 }).notNull(),
   description: text("description"),
   /** Deck type: crypt (characters) or library (actions/events/items) */
@@ -845,8 +845,13 @@ export const storePurchases = mysqlTable("store_purchases", {
   // financial reconciliation, refund disputes, regulatory access.
   // `restrict` blocks user deletion if any purchases exist; the
   // soft-delete on users.deletedAt is the operational answer.
-  userId: int("userId").notNull().references(() => users.id, { onDelete: "restrict" }).references(() => users.id, { onDelete: "restrict" }),
-  itemId: int("itemId"),
+  userId: int("userId").notNull().references(() => users.id, { onDelete: "restrict" }),
+  // `itemId` removed — the column was unused everywhere in the
+  // server and there is no items / products DB table. The
+  // `productKey` varchar below is the canonical catalog reference,
+  // mapping into the static STORE_PRODUCTS array in
+  // apps/server/products.ts. The drop migration ships in the next
+  // db:generate pass.
   /** Payment method: credits, dream, stripe */
   paymentMethod: mysqlEnum("paymentMethod", ["credits", "dream", "stripe", "void_crystals"]).notNull(),
   /** Stripe checkout session ID */
@@ -1171,10 +1176,10 @@ export const pvpMatches = mysqlTable("pvp_matches", {
    *  a user is deleted — replays and ladder records reference these
    *  rows; the soft-delete on users.deletedAt is the operational
    *  answer to "the user is gone but their matches remain." */
-  player1Id: int("player1Id").notNull().references(() => users.id, { onDelete: "restrict" }).references(() => users.id, { onDelete: "restrict" }),
+  player1Id: int("player1Id").notNull().references(() => users.id, { onDelete: "restrict" }),
   /** Player 2 user ID. Nullable for solo / queue-cancel / bot
    *  matches; FK still applies when set. */
-  player2Id: int("player2Id").references(() => users.id, { onDelete: "restrict" }).references(() => users.id, { onDelete: "restrict" }),
+  player2Id: int("player2Id").references(() => users.id, { onDelete: "restrict" }),
   /** Match status */
   status: mysqlEnum("status", ["waiting", "active", "completed", "abandoned"]).default("waiting").notNull(),
   /** Winner user ID */
@@ -1992,7 +1997,13 @@ export const chatReports = mysqlTable("chat_reports", {
   reporterUserId: int("reporterUserId").notNull().references(() => users.id, { onDelete: "cascade" }),
   reportedUserId: int("reportedUserId").notNull().references(() => users.id, { onDelete: "cascade" }),
   sourceType: mysqlEnum("sourceType", ["guild_chat"]).notNull().default("guild_chat"),
-  sourceMessageId: int("sourceMessageId").notNull(),
+  /** FK to guildChat.id with set null. The schema is intentionally
+   *  decoupled: messageSnapshot persists the offending content even
+   *  if the source message is later deleted (cascade-on-leave-guild,
+   *  mod purge, etc.), so the report retains the audit-trail
+   *  record. set null preserves the snapshot while breaking the
+   *  link cleanly when the source goes away. */
+  sourceMessageId: int("sourceMessageId").references(() => guildChat.id, { onDelete: "set null" }),
   messageSnapshot: text("messageSnapshot").notNull(),
   reason: mysqlEnum("reason", [
     "harassment",
@@ -2713,7 +2724,7 @@ export type SpaceStation = typeof spaceStations.$inferSelect;
 
 export const stationModules = mysqlTable("station_modules", {
   id: int("id").autoincrement().primaryKey(),
-  stationId: int("stationId").notNull(),
+  stationId: int("stationId").notNull().references(() => spaceStations.id, { onDelete: "cascade" }),
   /** Module definition key (from shared/spaceStations.ts) */
   moduleKey: varchar("moduleKey", { length: 64 }).notNull(),
   /** Current level */
@@ -4929,8 +4940,11 @@ export const campaignProgress = mysqlTable("campaign_progress", {
   memoryFragments: json("memoryFragments").$type<string[]>(),
   /** Power-ups gained. */
   powersGained: json("powersGained").$type<string[]>(),
-  /** If a match was played, the cardGameMatch id for replay. */
-  matchId: int("matchId"),
+  /** If a match was played, the cardGameMatch id for replay.
+   *  set null on match deletion: the campaign progress row keeps
+   *  its stars / branchChoices / morality data, just loses the
+   *  replay link. */
+  matchId: int("matchId").references(() => cardGameMatches.id, { onDelete: "set null" }),
   firstCompletedAt: timestamp("firstCompletedAt"),
   lastPlayedAt: timestamp("lastPlayedAt"),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
@@ -5674,8 +5688,10 @@ export type TradeSectorArrivalRow =
 export const tradeOracleFutures = mysqlTable("trade_oracle_futures", {
   id: int("id").autoincrement().primaryKey(),
   userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
-  /** FK to tradeContracts.id — the parent contract instance. */
-  contractId: int("contractId").notNull(),
+  /** FK to tradeContracts.id — the parent contract instance.
+   *  restrict: contracts are financial records; deleting a contract
+   *  with open futures should be blocked, not cascaded. */
+  contractId: int("contractId").notNull().references(() => tradeContracts.id, { onDelete: "restrict" }),
   commodity: mysqlEnum("commodity", [
     "credits",
     "materials",
