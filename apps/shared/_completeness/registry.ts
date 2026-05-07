@@ -20,6 +20,7 @@ import { checkUnlockConditionUICoverage } from "./checks/unlockConditionUICovera
 import { checkCardStatBudgetCoverage } from "./checks/cardStatBudgetCoverage";
 import { checkNarrativeFlagBridgeCoverage } from "./checks/narrativeFlagBridgeCoverage";
 import { checkTrialCategoryCoverage } from "./checks/trialCategoryCoverage";
+import { checkLoreBibleDrift } from "./checks/loreBibleDrift";
 
 export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
   // ─── Card engine ──────────────────────────────────────────
@@ -107,5 +108,13 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     // §5.8 runtime ships behind a feature flag that requires 100%
     // coverage.
     ratchet: { target: 0 },
+  },
+  // ─── Lore ─────────────────────────────────────────────────
+  {
+    id: "lore.bible_drift",
+    name: "LORE_BIBLE.md drift",
+    description:
+      "docs/built/LORE_BIBLE.md exactly matches scripts/generate-lore-bible.ts output from apps/client/src/data/loredex-data.json. The MD is a generated artifact; loredex-data.json is canonical.",
+    check: () => checkLoreBibleDrift(),
   },
 ];
