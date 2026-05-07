@@ -74,6 +74,11 @@ for (const c of CINEMATICS) {
   }
 }
 for (const v of VFX_CLIPS) {
+  // Pending clips are declared in the manifest so the renderer can
+  // still resolve URLs (and gracefully fall back), but the producer
+  // drop hasn't shipped — exclude them from coverage so the audit
+  // doesn't flag a known-missing asset as a regression.
+  if (v.pending) continue;
   jobs.push({ label: "vfx-mp4", key: `${KEY_PREFIX}${v.videoRelPath}`, id: v.id });
   jobs.push({ label: "vfx-keyframes", key: `${KEY_PREFIX}${v.keyframeRelPath}`, id: v.id });
 }

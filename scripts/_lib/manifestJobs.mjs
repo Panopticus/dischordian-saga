@@ -77,6 +77,11 @@ export function collectAllJobs(repoRoot) {
     }
   }
   for (const v of VFX_CLIPS) {
+    // Pending clips stay in the manifest so the renderer can resolve
+    // URLs and fall back gracefully, but the producer drop hasn't
+    // shipped — skip them in the coverage universe so a known-missing
+    // asset doesn't read as a regression.
+    if (v.pending) continue;
     jobs.push({ source: "vfx-mp4", id: v.id, relPath: v.videoRelPath });
     jobs.push({ source: "vfx-keyframes", id: v.id, relPath: v.keyframeRelPath });
   }

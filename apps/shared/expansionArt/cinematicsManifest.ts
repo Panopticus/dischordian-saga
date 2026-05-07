@@ -203,6 +203,11 @@ export interface VfxDef {
   category: VfxCategory;
   videoRelPath: string;
   keyframeRelPath: string;
+  /** Asset is declared but the producer drop hasn't shipped yet.
+   *  CDN coverage scripts skip these so an empty bucket entry doesn't
+   *  read as a regression. The renderer still resolves the URL and
+   *  falls back to a held image on load failure. */
+  pending?: true;
 }
 
 export const VFX_CLIPS: readonly VfxDef[] = [
@@ -323,28 +328,33 @@ export const VFX_CLIPS: readonly VfxDef[] = [
     keyframeRelPath: "art/vfx/hierarchy_mechanics/kf_stock_buyback.webp",
   },
   // dreamer_visions (3) — mid-slideshow Veo flashes per the dual-
-  // faction recruitment plan §Part 1.5. Video assets ship from the
-  // producer drop; the renderer (SongSlideshow.tsx) falls back to
-  // the keyframe still image on video-load failure, so a missing
-  // MP4 degrades gracefully to a held image rather than breaking
-  // the cutscene.
+  // faction recruitment plan §Part 1.5. Producer drop is still
+  // outstanding (mp4s + keyframe webps both pending), so each
+  // entry is flagged `pending: true` and skipped by the CDN
+  // coverage scripts. The renderer (SongSlideshow.tsx) falls back
+  // to the keyframe still image on video-load failure, so until
+  // the assets ship the cutscene degrades to a held empty frame
+  // rather than breaking.
   {
     id: "vfx_substrate_pulse",
     category: "dreamer_visions",
     videoRelPath: "videos/vfx/dreamer_visions/vfx_substrate_pulse.mp4",
     keyframeRelPath: "art/vfx/dreamer_visions/kf_substrate_pulse.webp",
+    pending: true,
   },
   {
     id: "vfx_iris_collapse",
     category: "dreamer_visions",
     videoRelPath: "videos/vfx/dreamer_visions/vfx_iris_collapse.mp4",
     keyframeRelPath: "art/vfx/dreamer_visions/kf_iris_collapse.webp",
+    pending: true,
   },
   {
     id: "vfx_cryo_frost_retreat",
     category: "dreamer_visions",
     videoRelPath: "videos/vfx/dreamer_visions/vfx_cryo_frost_retreat.mp4",
     keyframeRelPath: "art/vfx/dreamer_visions/kf_cryo_frost_retreat.webp",
+    pending: true,
   },
 ];
 
