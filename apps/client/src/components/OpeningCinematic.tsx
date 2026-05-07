@@ -7,15 +7,25 @@
    Elara's first dialog. The audio element is handed to the
    parent via onComplete so it persists beyond this component;
    AwakeningVOPlayer ducks/restores it across each VO line.
+
+   The BEGIN click also explicitly stops the title-screen song
+   (The Enigma's Lament, T01) — TitlePage's unmount cleanup
+   pauses it, but we belt-and-braces it here so a stray resume
+   call can't bleed the lament under Elara's first VO.
+
+   Bed audio rotates through the full 4-track saga playlist on
+   `ended` so music carries through the entire character-creation
+   flow without obvious looping.
    ═══════════════════════════════════════════════════════ */
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { usePlayer } from "@/contexts/PlayerContext";
+import { SAGA_THEMES } from "@/contexts/SagaThemeBGMContext";
 
 const CINEMATIC_VIDEO = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/opening_cinematic_9b899561.mp4";
-/** Canonical saga theme — same track the SagaThemeBGM provider
- *  shuffles on. Starting it here ties the cryo-pod opening to the
- *  rest of the saga musically. */
-export const AWAKENING_BED_URL = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/SagaTheme_0cd5de9a.mp3";
+/** First track in the rotation — the canonical saga theme.
+ *  Exported for the AwakeningPage preload sink. */
+export const AWAKENING_BED_URL = SAGA_THEMES[0].url;
 /** Volume the bed runs at while the cinematic video is the focal
  *  audio — quiet enough not to fight the video, present enough to
  *  bridge into Elara's first line. */
@@ -24,19 +34,19 @@ const BED_VOLUME_UNDER_VIDEO = 0.06;
 interface OpeningCinematicProps {
   /**
    * Called when cinematic is done. Receives the Audio element so parent
-   * can keep it playing, plus a flag indicating whether the video
-   * actually reached its end naturally (true) or whether we bailed out
-   * via a safety timer / the SKIP button / a load error (false). The
-   * parent uses the flag to decide whether to persist the
-   * `loredex_cinematic_seen` localStorage key — we never want to lock
-   * a player out of the cinematic when they never actually finished it.
+   * can keep it playing — the bed walks the SAGA_THEMES playlist on
+   * `ended`, so this same element carries music through every
+   * character-creation step. AwakeningVOPlayer ducks/restores it across
+   * each VO line.
    */
-  onComplete: (themeAudio: HTMLAudioElement | null, reachedEndNaturally: boolean) => void;
+  onComplete: (themeAudio: HTMLAudioElement | null) => void;
 }
 
 export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) {
+  const player = usePlayer();
   const videoRef = useRef<HTMLVideoElement>(null);
   const bedAudioRef = useRef<HTMLAudioElement | null>(null);
+  const bedTrackIdxRef = useRef(0);
   const [fadeOut, setFadeOut] = useState(false);
   const [showSkip, setShowSkip] = useState(false);
   const [videoState, setVideoState] = useState<"loading" | "waiting-for-click" | "playing-muted" | "playing-unmuted" | "needs-tap">("loading");
@@ -68,17 +78,32 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
     const video = videoRef.current;
     if (!video) return;
 
-    // Spin up the looping saga-theme bed alongside the video. It
-    // rides quiet under the cinematic audio and is handed off to
-    // the AwakeningPage in handleComplete; AwakeningVOPlayer ducks
-    // and restores it from there. We construct the element once
-    // and never reset it so playback is continuous through the
-    // visual fade.
+    // Stop any title-screen song (The Enigma's Lament) cleanly. The
+    // route unmount cleanup paused it already, but we belt-and-braces
+    // it here so a stray resume() can't bleed the lament under
+    // Elara's first VO.
+    try { player.pause(); } catch { /* never throws, but defensive */ }
+
+    // Spin up the saga-theme bed alongside the video. It rides quiet
+    // under the cinematic audio and is handed off to the AwakeningPage
+    // in handleComplete; AwakeningVOPlayer ducks and restores it from
+    // there. The bed walks the full SAGA_THEMES playlist on `ended`
+    // so a single Audio element carries music through the cryo-pod
+    // open, Elara's intro, and every character-creation step without
+    // obvious one-track looping.
     if (!bedAudioRef.current) {
-      const bed = new Audio(AWAKENING_BED_URL);
-      bed.loop = true;
+      bedTrackIdxRef.current = 0;
+      const bed = new Audio(SAGA_THEMES[0].url);
+      bed.loop = false;
       bed.preload = "auto";
       bed.volume = BED_VOLUME_UNDER_VIDEO;
+      bed.addEventListener("ended", () => {
+        bedTrackIdxRef.current = (bedTrackIdxRef.current + 1) % SAGA_THEMES.length;
+        bed.src = SAGA_THEMES[bedTrackIdxRef.current].url;
+        // Volume property persists across src changes, so any duck
+        // level set by AwakeningVOPlayer rolls into the next track.
+        bed.play().catch(() => { /* gesture lost — VO will restart */ });
+      });
       bedAudioRef.current = bed;
       bed.play().catch(() => {
         /* autoplay blocked — handleComplete still hands the element
@@ -102,7 +127,7 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
         setVideoState("needs-tap");
       }
     }
-  }, []);
+  }, [player]);
 
   /** Hand off the saga-theme bed (already playing, started by
    *  handleBeginClick) and fade out the cinematic. The bed continues
@@ -113,7 +138,7 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
    *  path before clicking BEGIN, the bed was never created — we
    *  fall back to a paused element so AwakeningVOPlayer can still
    *  start it on the first VO. */
-  const handleComplete = useCallback((reachedEndNaturally: boolean) => {
+  const handleComplete = useCallback(() => {
     if (completedRef.current) return;
     completedRef.current = true;
 
@@ -140,14 +165,12 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
     setTimeout(() => {
       const video = videoRef.current;
       if (video) video.pause();
-      onComplete(themeAudio, reachedEndNaturally);
+      onComplete(themeAudio);
     }, 800);
   }, [onComplete]);
 
-  // When video ends naturally — this is the only path that flags the
-  // cinematic as "seen" in the parent's localStorage.
   const handleVideoEnd = useCallback(() => {
-    handleComplete(true);
+    handleComplete();
   }, [handleComplete]);
 
   // Some browsers (notably iOS Safari with CDN-hosted MP4s) occasionally
@@ -163,7 +186,7 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
     if (endSafetyTimerRef.current) clearTimeout(endSafetyTimerRef.current);
     if (!Number.isFinite(durationSec) || durationSec <= 0) return;
     const ms = Math.min(120_000, Math.ceil(durationSec * 1000) + 2_000);
-    endSafetyTimerRef.current = setTimeout(() => handleComplete(false), ms);
+    endSafetyTimerRef.current = setTimeout(() => handleComplete(), ms);
   }, [handleComplete]);
 
   const handleLoadedMetadata = useCallback(() => {
@@ -196,7 +219,7 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
     if (!v || !Number.isFinite(v.duration) || v.duration <= 0) return;
     if (v.paused) return;
     if (v.currentTime >= v.duration + 0.25) {
-      handleComplete(true);
+      handleComplete();
     }
   }, [handleComplete]);
 
@@ -205,7 +228,7 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
   // next session, so we pass `false`.
   useEffect(() => {
     const t = setTimeout(() => {
-      if (!endSafetyTimerRef.current) handleComplete(false);
+      if (!endSafetyTimerRef.current) handleComplete();
     }, 90_000);
     return () => clearTimeout(t);
   }, [handleComplete]);
@@ -235,7 +258,7 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
           setVideoState("playing-muted");
         } catch {
           // Total failure — skip cinematic. Not a natural end.
-          handleComplete(false);
+          handleComplete();
         }
       }
     } else if (videoState === "playing-muted") {
@@ -271,7 +294,7 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
           onTimeUpdate={handleTimeUpdate}
           onError={() => {
             console.error("[Opening Cinematic] Video failed to load, skipping");
-            handleComplete(false);
+            handleComplete();
           }}
         />
 
@@ -371,7 +394,7 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
                 e.stopPropagation();
                 // SKIP is an explicit player choice, NOT a natural end.
                 // Don't burn the loredex_cinematic_seen flag for them.
-                handleComplete(false);
+                handleComplete();
               }}
               className="absolute bottom-4 right-4 z-50 px-4 py-2 rounded-md font-mono text-xs tracking-wider transition-all"
               style={{

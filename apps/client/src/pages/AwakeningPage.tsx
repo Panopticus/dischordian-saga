@@ -481,12 +481,14 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
   // lands inside the Awakening UI rather than as a toast that doesn't
   // mount until the post-Awakening app surface comes up.
   const [showWatcherAck, setShowWatcherAck] = useState(false);
-  const [showCinematic, setShowCinematic] = useState(() => {
-    // Only show cinematic on first visit (BLACKOUT step = very beginning)
-    if (typeof window === "undefined") return false;
-    const seen = localStorage.getItem("loredex_cinematic_seen");
-    return !seen;
-  });
+  // Always show the opening cinematic at the start of awakening. The
+  // cinematic owns the audio handoff (stops The Enigma's Lament from
+  // the title screen, starts the rotating saga theme bed that carries
+  // through character creation) — gating it on a localStorage "seen"
+  // flag risked Elara starting her first line over a still-running
+  // Enigma's Lament for any player who'd watched the cinematic once
+  // before. SKIP is always available 2s in for veterans.
+  const [showCinematic, setShowCinematic] = useState(true);
 
   const createCitizen = trpc.citizen.createCharacter.useMutation();
   const { awakeningStep, characterChoices } = state;
@@ -730,17 +732,9 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
   // (seen on some mobile browsers where the suspended context's resume
   // promise never settles). Without this, showCinematic stayed true and
   // the game never advanced past the faded-out cinematic.
-  const handleCinematicComplete = useCallback((themeAudio: HTMLAudioElement | null, reachedEndNaturally: boolean) => {
+  const handleCinematicComplete = useCallback((themeAudio: HTMLAudioElement | null) => {
     themeAudioRef.current = themeAudio;
     setShowCinematic(false);
-    // Only persist the "seen" flag when the player actually watched the
-    // cinematic to its end. Safety-timer aborts, SKIP, and load errors
-    // all return false so the player gets another shot next session —
-    // otherwise an unlucky iOS Safari range-request quirk could lock
-    // a player out of the opening cinematic permanently.
-    if (reachedEndNaturally) {
-      try { localStorage.setItem("loredex_cinematic_seen", "1"); } catch { /* storage full */ }
-    }
     // Initialize audio context from the cinematic user interaction — fire
     // and forget; never block the UI transition on this.
     if (!audioInitialized) {
