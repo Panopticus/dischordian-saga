@@ -1,0 +1,90 @@
+name: Asset Coverage Probe
+
+# HEAD-checks every URL exposed by the typed art manifests against the
+# dgrsart S3 bucket. Reports any 404s — i.e. manifest entries whose
+# underlying webp didn't actually upload. Closes the gap CONNECTION_AUDIT
+# §7.1 flagged: the probe script existed but never ran in CI, so asset
+# dropouts during a producer upload could land silently.
+#
+# Triggers:
+#   - workflow_dispatch — manual run from the Actions tab. Lets ops
+#     verify coverage against the live bucket on demand.
+#   - schedule — once per day at 09:00 UTC. Catches drift introduced
+#     out-of-band (manual deletes, S3 lifecycle policy changes, etc.)
+#     without coupling it to a code push.
+#   - pull_request when the manifests, the probe script itself, or any
+#     CardDefinition under apps/shared/tcg-core/cards/definitions/
+#     change. PRs that add new card art references get verified before
+#     merge.
+#
+# Required repo secrets (already configured for the upload workflows):
+#   - AWS_ACCESS_KEY_ID
+#   - AWS_SECRET_ACCESS_KEY
+#
+# When the secrets aren't available (e.g. fork PRs from external
+# contributors), the job logs a clear skip reason and exits 0 rather
+# than failing — the production-side gate runs on the daily schedule
+# and on workflow_dispatch from a maintainer, both of which DO have
+# the secrets.
+
+on:
+  workflow_dispatch:
+  schedule:
+    # 09:00 UTC daily. Adjust to whatever ops cadence makes sense.
+    - cron: "0 9 * * *"
+  pull_request:
+    paths:
+      - "apps/shared/expansionArt/**"
+      - "apps/shared/tradeEmpireArtPrompts.ts"
+      - "apps/shared/tcg-core/cards/definitions/**"
+      - "scripts/_check-art-coverage.mjs"
+      - ".github/workflows/asset-coverage-probe.yml"
+
+# Cancel in-flight runs from the same ref so quick PR pushes don't pile up.
+concurrency:
+  group: asset-coverage-probe-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Skip if AWS secrets are unavailable (fork PR)
+        # Fork PRs from external contributors don't get repo secrets.
+        # Skip rather than fail so the PR check shows green; the daily
+        # schedule + maintainer dispatch keep the bucket actually verified.
+        if: ${{ env.AWS_ACCESS_KEY_ID == '' }}
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        run: |
+          echo "::notice::Skipping asset coverage probe — AWS credentials"
+          echo "::notice::not available in this run (likely a fork PR)."
+          echo "::notice::The maintainer-side daily schedule will catch any"
+          echo "::notice::missing assets independently."
+
+      - name: Run coverage probe
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: us-east-2
+        # Only run when creds are present. The script HEAD-checks every
+        # manifest-declared S3 key; on any miss it exits non-zero with a
+        # list of missing keys. CONNECTION_AUDIT §6.2 caught one such
+        # class (36 allegiance card refs) by hand; this gate prevents
+        # the next instance from landing silently.
+        if: ${{ env.AWS_ACCESS_KEY_ID != '' }}
+        run: node scripts/_check-art-coverage.mjs
