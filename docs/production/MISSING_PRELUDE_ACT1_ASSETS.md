@@ -14,6 +14,22 @@ this file consolidates what is **actually missing** after triple-checking
 against `assets/intermediate/`, both CDNs, `apps/client/public/`, and
 the React component tree.
 
+> **CDN audit — 2026-05-07.** All 15 Prelude beat MP4s, all 11 Prelude
+> room WebPs, 18/19 Prelude VFX webms, and the *Last Words* prelude-cut
+> mp3 are LIVE on `dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public`
+> (HEAD 200). Statuses below have been updated from MISSING/INTERMEDIATE
+> to `DONE-CDN-PRIMARY`. Four Prelude beat MP4s ship at the §19.2 path
+> convention rather than the canonical filename in this doc — those
+> rows are flagged inline (Beats A.5, B, C, I).
+>
+> **Still genuinely outstanding** (verified 403): the three Act 1
+> finale cutscenes (`welcome-to-celebration.mp4`, `to-be-the-human.mp4`,
+> `hacking-reality.mp4`), all five Act 1 room WebPs, all four Act 1
+> matchup WebPs, all Act 1 card-art WebPs, and the
+> `film-damage-overlay.webm` Prelude VFX (Note: a `film-damage.webm`
+> without the `-overlay` suffix IS live; reconcile naming with
+> `preludeSequence.ts`).
+
 ---
 
 ## 0. How to use this doc
@@ -134,7 +150,7 @@ Prelude total runtime = 465s of short beats + ~490s of Beat J long-form
 
 **Output:** `apps/client/public/videos/prelude/prelude-beat-a-awakening.mp4`
 **Duration:** 35s @ 24fps, 16:9
-**Status:** MISSING
+**Status:** DONE-CDN-PRIMARY (also published as `prelude-beat-a-cryo-wake.mp4` per §19.2 convention; both keys live)
 **Bible:** `PRELUDE_SHIP_READY_BIBLE.md` §3
 **Source prompts:** `docs/production/prelude-asset-build/prompts/cutscenes/prelude-beat-a-awakening_{start_frame,end_frame,motion}.txt`
 
@@ -168,7 +184,7 @@ start; over-shoulder/behind for end frame if any body is shown).
 ### §1.A.2 Room art — Cryo Bay
 
 **Output (local):** `apps/client/public/art/rooms/room-cryo-bay.png` + `room-cryo-bay.webp`
-**Status:** INTERMEDIATE — `assets/intermediate/prelude/rooms/room-cryo-bay_original.png`
+**Status:** DONE-CDN-PRIMARY (intermediate source: `assets/intermediate/prelude/rooms/room-cryo-bay_original.png`)
 **Also on legacy CDN** (`DONE-CDN-LEGACY`):
 `https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/cryo-bay_2da49870.png`
 — wired in `apps/client/src/components/InlineShipMap.tsx:50`.
@@ -206,7 +222,7 @@ aspect-ratio repair):
 
 **Output:** `apps/client/public/videos/prelude/prelude-beat-a5-corridor.mp4`
 **Duration:** 15s @ 24fps, 16:9 · wordless
-**Status:** MISSING
+**Status:** DONE-CDN-PRIMARY — published at §19.2 path `prelude-beat-a5-corridor-first-steps.mp4`; this canonical filename is NOT on CDN, resolve via the §19.2 name
 **Bible:** §4
 
 **Dependencies:**
@@ -231,7 +247,7 @@ audio system).
 ### §1.A.5.2 Room art — Corridor
 
 **Output:** `apps/client/public/art/rooms/room-corridor.png` + `.webp`
-**Status:** INTERMEDIATE — `assets/intermediate/prelude/rooms/room-corridor_original.png`
+**Status:** DONE-CDN-PRIMARY (intermediate source: `assets/intermediate/prelude/rooms/room-corridor_original.png`)
 **Legacy CDN:** not wired in `InlineShipMap.tsx` (corridors are transitional, not map nodes).
 **Action:** PNG→WebP convert, place locally, upload to primary CDN.
 
@@ -253,7 +269,7 @@ None. Breath beat is wordless by design (Bible §4.5).
 
 **Output:** `apps/client/public/videos/prelude/prelude-beat-b-escape.mp4`
 **Duration:** 20s @ 24fps, 16:9 · wordless motion, no VO
-**Status:** MISSING
+**Status:** DONE-CDN-PRIMARY — published at §19.2 path `prelude-beat-b-corridor-escape.mp4`; this canonical filename is NOT on CDN, resolve via the §19.2 name
 **Bible:** §5
 
 **Dependencies:**
@@ -317,7 +333,7 @@ None. Cutscene is wordless mechanism sequence.
 
 **Output:** `apps/client/public/videos/prelude/prelude-beat-c-crew-and-incubators.mp4`
 **Duration:** 35s @ 24fps, 16:9
-**Status:** MISSING
+**Status:** DONE-CDN-PRIMARY — published at §19.2 path `prelude-beat-c-engineering-role-choice.mp4`; this canonical filename is NOT on CDN, resolve via the §19.2 name
 **Bible:** §6
 
 **Dependencies:**
@@ -347,7 +363,7 @@ spritesheet.
 ### §1.C.2 Room art — Engineering
 
 **Output:** `apps/client/public/art/rooms/room-engineering.png` + `.webp`
-**Status:** INTERMEDIATE — `assets/intermediate/prelude/rooms/room-engineering_original.png`
+**Status:** DONE-CDN-PRIMARY (intermediate source: `assets/intermediate/prelude/rooms/room-engineering_original.png`)
 **Legacy CDN:** `https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/engineering_554605d2.png` (`DONE-CDN-LEGACY`)
 **Action:** PNG→WebP, drop at canonical path, upload.
 
@@ -390,7 +406,7 @@ MOTION:
 
 **Output:** `apps/client/public/videos/prelude/prelude-beat-c5-window.mp4`
 **Duration:** 20s @ 24fps, 16:9
-**Status:** MISSING
+**Status:** DONE-CDN-PRIMARY
 **Bible:** §7
 
 **Dependencies:**
@@ -468,7 +484,7 @@ MOTION:
 
 **Output:** `apps/client/public/videos/prelude/prelude-beat-d-cargo-bay.mp4`
 **Duration:** 30s @ 24fps, 16:9
-**Status:** MISSING
+**Status:** DONE-CDN-PRIMARY
 **Bible:** §8
 
 **Dependencies:**
@@ -496,7 +512,7 @@ MOTION:
 ### §1.D.2 Room art — Cargo Hold
 
 **Output:** `apps/client/public/art/rooms/room-cargo-hold.png` + `.webp`
-**Status:** INTERMEDIATE — `assets/intermediate/prelude/rooms/room-cargo-hold_original.png`
+**Status:** DONE-CDN-PRIMARY (intermediate source: `assets/intermediate/prelude/rooms/room-cargo-hold_original.png`)
 **Legacy CDN:** `https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/cargo-hold_9df574a9.png` (`DONE-CDN-LEGACY`)
 **Action:** PNG→WebP, canonical path, upload.
 
@@ -550,7 +566,7 @@ MOTION:
 
 **Output:** `apps/client/public/videos/prelude/prelude-beat-d5-galley.mp4`
 **Duration:** 25s @ 24fps, 16:9
-**Status:** MISSING
+**Status:** DONE-CDN-PRIMARY
 **Bible:** §9
 
 **Dependencies:**
@@ -575,7 +591,7 @@ MOTION:
 ### §1.D.5.2 Room art — Galley
 
 **Output:** `apps/client/public/art/rooms/room-galley.png` + `.webp`
-**Status:** INTERMEDIATE — `assets/intermediate/prelude/rooms/room-galley_original.png`
+**Status:** DONE-CDN-PRIMARY (intermediate source: `assets/intermediate/prelude/rooms/room-galley_original.png`)
 **Legacy CDN:** not wired (galley is not a map node in InlineShipMap).
 **Action:** PNG→WebP, canonical path, upload.
 
@@ -600,7 +616,7 @@ MOTION:
 
 **Output:** `apps/client/public/videos/prelude/prelude-beat-e-mess-hall-flashback.mp4`
 **Duration:** 45s @ 24fps, 16:9
-**Status:** MISSING
+**Status:** DONE-CDN-PRIMARY
 **Bible:** §10
 
 This beat is the Prelude's most complex single-clip cutscene — 3 acts
@@ -650,7 +666,7 @@ NOT solid characters.
 ### §1.E.2 Room art — Mess Hall
 
 **Output:** `apps/client/public/art/rooms/room-mess-hall.png` + `.webp`
-**Status:** INTERMEDIATE — `assets/intermediate/prelude/rooms/room-mess-hall_original.png`
+**Status:** DONE-CDN-PRIMARY (intermediate source: `assets/intermediate/prelude/rooms/room-mess-hall_original.png`)
 **Legacy CDN:** not wired in InlineShipMap (mess hall isn't a map node in the current schematic UI).
 **Action:** PNG→WebP, canonical path, upload.
 
@@ -695,7 +711,7 @@ MOTION:
 
 **Output:** `apps/client/public/videos/prelude/prelude-beat-f-briefing-room.mp4`
 **Duration:** 30s @ 24fps, 16:9
-**Status:** MISSING
+**Status:** DONE-CDN-PRIMARY
 **Bible:** §11
 
 **Dependencies:**
@@ -731,7 +747,7 @@ over the Veo render in post.
 ### §1.F.2 Room art — Briefing Room
 
 **Output:** `apps/client/public/art/rooms/room-briefing-room.png` + `.webp`
-**Status:** INTERMEDIATE — `assets/intermediate/prelude/rooms/room-briefing-room_original.png`
+**Status:** DONE-CDN-PRIMARY (intermediate source: `assets/intermediate/prelude/rooms/room-briefing-room_original.png`)
 **Legacy CDN:** not in `InlineShipMap.tsx` hash list.
 **Action:** PNG→WebP, canonical path, upload.
 
@@ -782,7 +798,7 @@ MOTION:
 
 **Output:** `apps/client/public/videos/prelude/prelude-beat-f5-empty-chair.mp4`
 **Duration:** 90s @ 24fps, 16:9
-**Status:** MISSING
+**Status:** DONE-CDN-PRIMARY
 **Bible:** §12
 
 **Split-render advised.** 90s is at or past Veo 3.1's comfortable
@@ -833,7 +849,7 @@ Reuses `room-briefing-room.png` from §1.F.2. No new still.
 
 **Output:** `apps/client/public/videos/prelude/prelude-beat-g-medical-bay.mp4`
 **Duration:** 25s @ 24fps, 16:9 · wordless
-**Status:** MISSING
+**Status:** DONE-CDN-PRIMARY
 **Bible:** §13
 
 **Dependencies:**
@@ -861,7 +877,7 @@ Reuses `room-briefing-room.png` from §1.F.2. No new still.
 ### §1.G.2 Room art — Medical Bay
 
 **Output:** `apps/client/public/art/rooms/room-medical-bay.png` + `.webp`
-**Status:** INTERMEDIATE — `assets/intermediate/prelude/rooms/room-medical-bay_original.png`
+**Status:** DONE-CDN-PRIMARY (intermediate source: `assets/intermediate/prelude/rooms/room-medical-bay_original.png`)
 **Legacy CDN:** `https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/medical-bay_f5c9cffe.png` (`DONE-CDN-LEGACY`)
 **Also on legacy CDN (state-aware variants, 4 frames)** — see
 `docs/production/ASSET_URLS.md` Medical Bay Section F:
@@ -899,7 +915,7 @@ None. Wordless beat by bible design.
 
 **Output:** `apps/client/public/videos/prelude/prelude-beat-h-comms-array.mp4`
 **Duration:** 25s @ 24fps, 16:9
-**Status:** MISSING
+**Status:** DONE-CDN-PRIMARY
 **Bible:** §14
 
 **Dependencies:**
@@ -930,7 +946,7 @@ memo display).
 ### §1.H.2 Room art — Comms Array
 
 **Output:** `apps/client/public/art/rooms/room-comms-array.png` + `.webp`
-**Status:** INTERMEDIATE — `assets/intermediate/prelude/rooms/room-comms-array_original.png`
+**Status:** DONE-CDN-PRIMARY (intermediate source: `assets/intermediate/prelude/rooms/room-comms-array_original.png`)
 **Legacy CDN:** `https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/comms-array_cd8062dd.png` (`DONE-CDN-LEGACY`)
 **Action:** PNG→WebP, canonical path, upload.
 
@@ -958,7 +974,7 @@ memo display).
 
 **Output:** `apps/client/public/videos/prelude/prelude-beat-h5-memo-pile.mp4`
 **Duration:** 20s @ 24fps, 16:9 · wordless
-**Status:** MISSING
+**Status:** DONE-CDN-PRIMARY
 **Bible:** §15
 
 **Dependencies:**
@@ -1019,7 +1035,7 @@ None. Wordless breath beat.
 
 **Output:** `apps/client/public/videos/prelude/prelude-beat-i-bridge-witnessing-activate.mp4`
 **Duration:** 40s @ 24fps, 16:9 · wordless · contains HOLD-FOR-INPUT beat
-**Status:** MISSING
+**Status:** DONE-CDN-PRIMARY — published at §19.2 path `prelude-beat-i-bridge-witnessing.mp4` (no `-activate` suffix); this canonical filename is NOT on CDN, resolve via the §19.2 name. Confirm whether the live render is single-segment or pre-input/post-input split per the note below.
 **Bible:** §16
 
 Note: Veo 3.1 cannot render an indefinite "hold for player input" beat.
@@ -1059,7 +1075,7 @@ warmth → dim back.
 ### §1.I.2 Room art — Bridge
 
 **Output:** `apps/client/public/art/rooms/room-bridge.png` + `.webp`
-**Status:** INTERMEDIATE — `assets/intermediate/prelude/rooms/room-bridge_original.png`
+**Status:** DONE-CDN-PRIMARY (intermediate source: `assets/intermediate/prelude/rooms/room-bridge_original.png`)
 **Legacy CDN:** `https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/bridge_5da73f83.png` (`DONE-CDN-LEGACY`)
 **Also:** `apps/client/src/components/ResponsiveImage.tsx:16` references the local path `src="/art/rooms/room-bridge.png"` directly — this hard-coded path MUST be satisfied for the bridge component to render correctly.
 **Action:** PNG→WebP, canonical path, upload. Validate that `preludeReadiness.test.ts`'s bridge-existence assertion passes.
@@ -1095,9 +1111,7 @@ None. Wordless beat.
 
 **Output:** `apps/client/public/videos/prelude/prelude-beat-j-archives.mp4`
 **Target total duration:** 490_000 ms ≈ 8m10s @ 24fps, 16:9
-**Status:** MISSING — 1 partial arrival clip already sitting in
-`assets/intermediate/prelude/cutscenes/prelude-beat-j-archives-arrival-clip.mp4`
-(Acts 1–2 only, ~30s). Use it as the first chunk; render the rest.
+**Status:** DONE-CDN-PRIMARY — `prelude-beat-j-archives.mp4` is published. Verify whether the live key is the full 8m10s split-and-concat target or only the partial arrival chunk noted in the intermediate path below; if partial, render remaining segments and re-concat.
 **Bible:** §17
 
 **CRITICAL PRODUCTION NOTE.** Veo 3.1 is not designed for single 8-minute
@@ -1154,7 +1168,7 @@ handles the indefinite hold and resolution fade.
 ### §1.J.2 Room art — Archives
 
 **Output:** `apps/client/public/art/rooms/room-archives.png` + `.webp`
-**Status:** INTERMEDIATE — `assets/intermediate/prelude/rooms/room-archives_original.png`
+**Status:** DONE-CDN-PRIMARY (intermediate source: `assets/intermediate/prelude/rooms/room-archives_original.png`)
 **Legacy CDN:** `https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/archives_cb00ab0a.png` (`DONE-CDN-LEGACY`)
 **Action:** PNG→WebP, canonical path, upload. The Archives still is
 reused by `Act1CardLadderPage`, `Act6CardLadderPage`, and
@@ -1255,7 +1269,7 @@ script doc (not in `apps/shared/*VoManifest.json`).
 ### §1.J.5 Song — *Last Words* (prelude cut)
 
 **Output:** `apps/client/public/audio/music/song_last_words_prelude_cut.mp3`
-**Status:** MISSING (or owned by canon-expansion pipeline — status TBD)
+**Status:** DONE-CDN-PRIMARY
 **Canon:** `CANON_REV_7_ORACLE_VEX_EXPANSION.md §5.6.9`
 **Lyrics anchor:** first chorus line "Freedom of thought is worth dying for" triggers the Light/Dark choice UI at ~7:58 inside Beat J.
 
