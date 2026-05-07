@@ -84,6 +84,8 @@ import { useGearSync } from "./hooks/useGearSync";
 import { useAuth } from "./_core/hooks/useAuth";
 import { useAnalytics } from "./hooks/useAnalytics";
 import { useTutorialOrchestrator } from "./hooks/useTutorialOrchestrator";
+import { useAutoTutorial } from "./hooks/useAutoTutorial";
+import AutoTutorialPrompt from "./components/AutoTutorialPrompt";
 import { syncFromServer, initSync } from "@/lib/settingsSync";
 import { detectQualityTier, applyQualityTierToDOM } from "@/lib/qualityTier";
 import { installViewTransitions } from "@/lib/viewTransitions";
@@ -637,6 +639,19 @@ function GameGate() {
     checkTutorial({ currentRoom });
   }, [location, checkTutorial]);
 
+  // ── A.12b Auto-tutorial prompt — fires on first visit to any route
+  // whose triggerRoute is registered in LORE_TUTORIALS. Mounting here at
+  // the GameGate level means all 30+ authored tutorials ship — previously
+  // only /cards and /fight consumed the hook directly, so 28 tutorials
+  // were dormant.
+  const {
+    autoTutorial,
+    showAutoTutorial,
+    launchTutorial,
+    dismissTutorial,
+    snoozeTutorial,
+  } = useAutoTutorial(location);
+
   // ── A.13 Settings Sync — sync settings from server once after auth
   const trpcUtils = trpc.useUtils();
   const settingsSynced = useRef(false);
@@ -735,6 +750,17 @@ function GameGate() {
           gameData={state as unknown as Record<string, unknown>}
           onComplete={handleRecapDismiss}
           onClose={handleRecapDismiss}
+        />
+      )}
+      {/* A.12b Auto-tutorial prompt — single mount point so every
+          LORE_TUTORIALS entry with a triggerRoute fires on first visit. */}
+      {autoTutorial && (
+        <AutoTutorialPrompt
+          tutorial={autoTutorial}
+          show={showAutoTutorial}
+          onLaunch={launchTutorial}
+          onDismiss={dismissTutorial}
+          onSnooze={snoozeTutorial}
         />
       )}
       <CommandConsole elaraTTS={elaraTTS}>
