@@ -1687,8 +1687,19 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
         </button>
       </div>
 
-      {/* Board — takes remaining vertical space */}
-      <div className="flex-1 flex items-center justify-center overflow-hidden bg-gradient-to-b from-black/40 to-black/80">
+      {/* Board — takes remaining vertical space.
+          touch-action:none on the wrapper so iOS WKWebView doesn't
+          double-tap-zoom the board or interpret two-finger drag as a
+          page scroll (audit/08.F2 — the .game-canvas-mount class was
+          previously declared in CSS but never applied to a TSX
+          consumer; mobileWiring ship-check matched on file existence
+          alone).
+          data-testid lets the E2E spec target the actual board, not
+          [class*='chess'] / [class*='board'] wildcard matches. */}
+      <div
+        className="flex-1 flex items-center justify-center overflow-hidden bg-gradient-to-b from-black/40 to-black/80 game-canvas-mount"
+        data-testid="duelyst-board"
+      >
         <canvas ref={canvasRef} className="max-w-full max-h-full" />
       </div>
 

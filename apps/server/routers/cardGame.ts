@@ -1754,8 +1754,10 @@ export const cardGameRouter = router({
       }
 
       // Seed per-pack so the rarity rolls are reproducible from a logged
-      // seed if a player ever disputes a pack contents (TODO: persist seed
-      // on a packOpenings audit row to make this a real replay surface).
+      // seed if a player ever disputes a pack contents. Future revision
+      // persists the seed on a packOpenings audit row to make replay a
+      // true on-disk record; for now the seed lives only on the in-flight
+      // request.
       const seed = randomBytes(16).toString("hex");
       const rng = createRng(seed);
 

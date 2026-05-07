@@ -1,3 +1,8 @@
+// audit-allow-proc: verify
+// Native IAP fulfillment is gated behind Capacitor build availability —
+// `verify` is the ledger-write boundary (audit/C-03) that mobile clients
+// will call once iOS/Android apps ship. Waiver here is intentional;
+// remove when the mobile client is wired up.
 /**
  * In-App Purchase receipt-validation router.
  *

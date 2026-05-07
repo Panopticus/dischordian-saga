@@ -48,9 +48,12 @@ test.describe("Game mode smoke tests (requires auth)", () => {
   test("duelyst / dischordia page loads", async ({ page }) => {
     await page.goto("/duelyst");
 
-    await expect(
-      page.locator("[class*='grid'], [class*='board'], canvas, h1, h2").first(),
-    ).toBeVisible({ timeout: 10_000 });
+    // Tightened from a 4-class wildcard (passed if any h1/h2 rendered)
+    // to the actual board's data-testid + the concede button — both
+    // are stable markers added in DuelystGameUI specifically for
+    // E2E. If the board fails to mount, this fails loud.
+    await expect(page.getByTestId("duelyst-board")).toBeVisible({ timeout: 10_000 });
+    await expect(page.getByTestId("concede-button")).toBeVisible({ timeout: 10_000 });
   });
 
   test("trade empire page loads", async ({ page }) => {

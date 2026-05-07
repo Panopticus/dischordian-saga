@@ -61,9 +61,10 @@ describe("Wave 1 — GameState schema carries narratorBond", () => {
   });
 
   it("provider value surfaces both methods to consumers", () => {
-    // Both names appear in the final `value={{ ... }}` object
-    // that GameContext.Provider uses.
-    const valueBlockMatch = ctxSrc.match(/<GameContext\.Provider[\s\S]*?\}\}>/);
+    // Both names appear in the final useMemo'd value object that
+    // GameContext.Provider uses (audit/C-04 wrapped the previously-
+    // inline value to stabilize identity across renders).
+    const valueBlockMatch = ctxSrc.match(/const value = useMemo\(\(\) => \(\{[\s\S]*?\}\),\s*\[/);
     expect(valueBlockMatch).not.toBeNull();
     expect(valueBlockMatch![0]).toContain("adjustNarratorBond");
     expect(valueBlockMatch![0]).toContain("getNarratorBond");

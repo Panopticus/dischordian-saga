@@ -62,7 +62,8 @@ describe("Wave 1 — GameContext exposes completeRecruitmentMission", () => {
   });
 
   it("provider value surfaces completeRecruitmentMission to consumers", () => {
-    const valueBlockMatch = ctxSrc.match(/<GameContext\.Provider[\s\S]*?\}\}>/);
+    // useMemo'd value (audit/C-04).
+    const valueBlockMatch = ctxSrc.match(/const value = useMemo\(\(\) => \(\{[\s\S]*?\}\),\s*\[/);
     expect(valueBlockMatch).not.toBeNull();
     expect(valueBlockMatch![0]).toContain("completeRecruitmentMission");
   });

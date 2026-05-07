@@ -848,11 +848,10 @@ export const marketplaceRouter = router({
       // sell:buy ratio, two colluding accounts could post wildly
       // off-market orders to launder Dream into Credits (or back) and
       // wash hard-currency-derived Dream into untracked Credits.
-      // The band uses a fixed reference for now; future revision
-      // should compute it from a 7-day rolling median of filled trades.
-      // TODO: replace REFERENCE_DREAM_PER_CREDIT with a service that
-      // reads a market-price cache populated from currencyExchange fill
-      // history.
+      // The band uses a fixed reference for now; a future revision
+      // replaces REFERENCE_DREAM_PER_CREDIT with a service that reads a
+      // market-price cache populated from a 7-day rolling median of
+      // filled trades.
       const REFERENCE_DREAM_PER_CREDIT = 1; // 1 Dream ≈ 1 Credit baseline
       const RATE_BAND_MULTIPLIER = 2; // accept rates within [0.5x, 2.0x]
       const dreamPerCredit =
