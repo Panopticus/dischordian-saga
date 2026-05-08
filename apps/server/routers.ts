@@ -128,6 +128,7 @@ import { crewRouter } from "./routers/crew";
 import { resurrectionRouter } from "./routers/resurrection";
 import { hellboxRouter } from "./routers/hellbox";
 import { npcRecruitRouter } from "./routers/npcRecruit";
+import { commonsRouter } from "./routers/commons";
 import { storyModeRouter } from "./routers/storyMode";
 import { tutorialRouter } from "./routers/tutorial";
 import { collectionRouter } from "./routers/collection";
@@ -290,6 +291,7 @@ export const appRouter = router({
   resurrection: resurrectionRouter,
   hellbox: hellboxRouter,
   npcRecruit: npcRecruitRouter,
+  commons: commonsRouter,
   storyMode: storyModeRouter,
   tutorial: tutorialRouter,
   engineerLogs: engineerLogsRouter,
