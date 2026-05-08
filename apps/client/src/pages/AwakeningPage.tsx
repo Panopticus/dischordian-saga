@@ -7,6 +7,7 @@ import { useGame, type AwakeningStep } from "@/contexts/GameContext";
 import AwakeningCharacterPreview from "@/pages/awakening/AwakeningCharacterPreview";
 import { useGamification } from "@/contexts/GamificationContext";
 import { useSound } from "@/contexts/SoundContext";
+import { usePlayer } from "@/contexts/PlayerContext";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLocation } from "wouter";
 import { trpc } from "@/lib/trpc";
@@ -465,6 +466,7 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
   const { state, advanceAwakening, setCharacterChoice, completeAwakening, setAwakeningStep } = useGame();
   const { discoverEntry } = useGamification();
   const { initAudio, setRoomAmbience, playSFX, audioReady } = useSound();
+  const player = usePlayer();
   const [, navigate] = useLocation();
   const [nameInput, setNameInput] = useState("");
   const [screenOpacity, setScreenOpacity] = useState(0);
@@ -492,6 +494,17 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
 
   const createCitizen = trpc.citizen.createCharacter.useMutation();
   const { awakeningStep, characterChoices } = state;
+
+  // The Enigma's Lament was riding under the title screen until the
+  // route unmounted; mount-time pause is a belt-and-suspenders so the
+  // song can never bleed into the cryo-pod cinematic. OpeningCinematic
+  // also pauses on the BEGIN click — together these close the StrictMode
+  // double-mount race that otherwise leaked T01 under the awakening.
+  useEffect(() => {
+    try { player.pause(); } catch { /* swallow — best-effort silence */ }
+    // Mount-only: we just want a single pause when entering the page.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Initialize audio on first user interaction
   const handleInitAudio = useCallback(async () => {

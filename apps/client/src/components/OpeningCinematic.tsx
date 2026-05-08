@@ -10,12 +10,14 @@
    ═══════════════════════════════════════════════════════ */
 import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { SAGA_THEMES } from "@/contexts/SagaThemeBGMContext";
+import { usePlayer } from "@/contexts/PlayerContext";
 
-const CINEMATIC_VIDEO = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/opening_cinematic_9b899561.mp4";
-/** Canonical saga theme — same track the SagaThemeBGM provider
- *  shuffles on. Starting it here ties the cryo-pod opening to the
- *  rest of the saga musically. */
-export const AWAKENING_BED_URL = "https://d2xsxph8kpxj0f.cloudfront.net/310419663032080159/2quXz2C2n5hMfqc8hNVW3h/SagaTheme_0cd5de9a.mp3";
+// The legacy Cloudfront cinematic (`opening_cinematic_9b899561.mp4`) was
+// retired and now returns 403 host_not_allowed. The cryo-pod opening
+// clip on the live asset bucket — the same MP4 that backs the awakening
+// CRYO_OPEN beat — plays in its place.
+const CINEMATIC_VIDEO = "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/videos/awakening/CRYO_OPEN.mp4";
 /** Volume the bed runs at while the cinematic video is the focal
  *  audio — quiet enough not to fight the video, present enough to
  *  bridge into Elara's first line. */
@@ -35,14 +37,30 @@ interface OpeningCinematicProps {
 }
 
 export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) {
+  const player = usePlayer();
   const videoRef = useRef<HTMLVideoElement>(null);
   const bedAudioRef = useRef<HTMLAudioElement | null>(null);
+  // Index into SAGA_THEMES; each `ended` event advances by one so the
+  // four-theme rotation keeps continuous music under the cinematic
+  // and through every Elara dialog beat that follows.
+  const themeIdxRef = useRef<number>(Math.floor(Math.random() * SAGA_THEMES.length));
   const [fadeOut, setFadeOut] = useState(false);
   const [showSkip, setShowSkip] = useState(false);
   const [videoState, setVideoState] = useState<"loading" | "waiting-for-click" | "playing-muted" | "playing-unmuted" | "needs-tap">("loading");
   const completedRef = useRef(false);
   const userClickedRef = useRef(false);
   const endSafetyTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Advance the bed to the next saga theme. Bound to the audio element's
+  // `ended` event so the rotation continues seamlessly across the cinematic
+  // → dialog handoff (the same Audio instance is handed to AwakeningPage).
+  const advanceTheme = useCallback(() => {
+    const audio = bedAudioRef.current;
+    if (!audio) return;
+    themeIdxRef.current = (themeIdxRef.current + 1) % SAGA_THEMES.length;
+    audio.src = SAGA_THEMES[themeIdxRef.current].url;
+    audio.play().catch(() => { /* autoplay policy mid-rotation — rare */ });
+  }, []);
 
   // Show skip button after a short delay — visible regardless of playback state
   // so users can always escape if the video fails to start.
@@ -68,17 +86,23 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
     const video = videoRef.current;
     if (!video) return;
 
-    // Spin up the looping saga-theme bed alongside the video. It
-    // rides quiet under the cinematic audio and is handed off to
-    // the AwakeningPage in handleComplete; AwakeningVOPlayer ducks
-    // and restores it from there. We construct the element once
-    // and never reset it so playback is continuous through the
-    // visual fade.
+    // The Enigma's Lament was riding under the title screen; the cryo-pod
+    // cinematic is a hard scene break, so silence it the instant the
+    // operator commits to BEGIN. Route-unmount cleanup on TitlePage is
+    // the canonical chokepoint, but it can race the awakening mount in
+    // dev/StrictMode — pausing the player here closes that gap.
+    try { player.pause(); } catch { /* swallow — pause is best-effort */ }
+
+    // Spin up the saga-theme bed alongside the video. The bed rotates
+    // through the four saga themes via `advanceTheme` on each `ended`,
+    // so the music never goes silent under the dialog beats. The Audio
+    // element is constructed once and handed off to AwakeningPage in
+    // handleComplete; AwakeningVOPlayer ducks and restores it from there.
     if (!bedAudioRef.current) {
-      const bed = new Audio(AWAKENING_BED_URL);
-      bed.loop = true;
+      const bed = new Audio(SAGA_THEMES[themeIdxRef.current].url);
       bed.preload = "auto";
       bed.volume = BED_VOLUME_UNDER_VIDEO;
+      bed.addEventListener("ended", advanceTheme);
       bedAudioRef.current = bed;
       bed.play().catch(() => {
         /* autoplay blocked — handleComplete still hands the element
@@ -102,7 +126,7 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
         setVideoState("needs-tap");
       }
     }
-  }, []);
+  }, [player, advanceTheme]);
 
   /** Hand off the saga-theme bed (already playing, started by
    *  handleBeginClick) and fade out the cinematic. The bed continues
@@ -124,10 +148,14 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
 
     let themeAudio = bedAudioRef.current;
     if (!themeAudio) {
-      themeAudio = new Audio(AWAKENING_BED_URL);
-      themeAudio.loop = true;
+      // Player skipped BEGIN (SKIP / safety-timer / load-error). Build a
+      // paused element so AwakeningVOPlayer can still kick off the bed on
+      // Elara's first line, and wire the same rotation listener so the
+      // four-theme cycle starts as soon as that first track ends.
+      themeAudio = new Audio(SAGA_THEMES[themeIdxRef.current].url);
       themeAudio.volume = 0;
       themeAudio.preload = "auto";
+      themeAudio.addEventListener("ended", advanceTheme);
       bedAudioRef.current = themeAudio;
     }
 
@@ -142,7 +170,7 @@ export default function OpeningCinematic({ onComplete }: OpeningCinematicProps) 
       if (video) video.pause();
       onComplete(themeAudio, reachedEndNaturally);
     }, 800);
-  }, [onComplete]);
+  }, [onComplete, advanceTheme]);
 
   // When video ends naturally — this is the only path that flags the
   // cinematic as "seen" in the parent's localStorage.
