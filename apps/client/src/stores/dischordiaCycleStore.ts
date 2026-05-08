@@ -87,7 +87,6 @@ export async function hydrateDischordiaFromServer(): Promise<void> {
   } catch (err) {
     // Fail-quiet — hydration is best-effort. The local store
     // retains its default state if the server is unreachable.
-    // eslint-disable-next-line no-console
     console.warn("[DischordiaCycle] hydrate failed:", err);
   }
 }
@@ -138,7 +137,6 @@ export const useDischordiaCycleStore = create<DischordiaCycleStore>((set, get) =
         .catch((err: unknown) => {
           // Best-effort. The local store already updated and the
           // next hydrate cycle will reconcile any drift.
-          // eslint-disable-next-line no-console
           console.warn("[DischordiaCycle] server write failed:", err);
         });
     }

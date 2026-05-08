@@ -131,7 +131,6 @@ export default function VortexIncursionPage() {
         })
         .catch((err) => {
           // Best-effort — the local store already advanced.
-          // eslint-disable-next-line no-console
           console.warn("[vortexIncursion] report failed:", err);
         });
     }

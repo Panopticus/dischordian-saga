@@ -61,7 +61,6 @@ export function AnimatedCutscenePlayer({
   const handleShotError = useCallback(() => {
     if (!warnedRef.current) {
       warnedRef.current = true;
-      // eslint-disable-next-line no-console
       console.warn(
         `[cutscene] missing video asset for ${definition.id} ` +
           `(shot ${shotIndex} of ${definition.shotCount}); ` +

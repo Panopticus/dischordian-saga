@@ -54,7 +54,7 @@ let voManifest: Record<string, ManifestEntry> = {};
 try {
   // Vite's dynamic-import tolerance is fine here — the manifest
   // may be empty at dev time but the import is static for build.
-  // eslint-disable-next-line @typescript-eslint/no-var-requires, @typescript-eslint/no-require-imports
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   voManifest = require("@shared/romanceScenesVoManifest.json") as Record<
     string,
     ManifestEntry

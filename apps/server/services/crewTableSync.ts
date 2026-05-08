@@ -272,7 +272,6 @@ export async function syncCrewStateToTables(userId: number, state: CrewState): P
     }
   } catch (err) {
     // Best-effort. The JSON blob is authoritative.
-    // eslint-disable-next-line no-console
     console.warn("[crew] syncCrewStateToTables failed:", err);
   }
 }

@@ -1972,7 +1972,6 @@ function migrateGameState(parsed: Partial<GameState>): GameState {
     !(window as unknown as { __txMigrationWarned?: boolean }).__txMigrationWarned
   ) {
     (window as unknown as { __txMigrationWarned?: boolean }).__txMigrationWarned = true;
-    // eslint-disable-next-line no-console
     console.warn(
       "[Transmissions] Legacy save contains %d `ep0-N` id(s) that may originally have referred to Spaces In Between episodes. Treating as Epoch 0. If any SIB episode looks unwatched, re-watch it to restore credit.",
       collidable.length,
