@@ -26,7 +26,7 @@ export const pack2_neutral_ambassador_veron: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/ambassador_veron.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "The neutral ground was the first ground.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -43,7 +43,7 @@ export const pack2_neutral_arena_aspirant: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/arena_aspirant.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "The neutral ground was the first ground.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -60,7 +60,7 @@ export const pack2_neutral_arena_champion: CardDefinition = {
   keywords: ["celerity"],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/arena_champion.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "What you call neutral, the Empire calls undecided.",
   rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 0,
@@ -77,7 +77,7 @@ export const pack2_neutral_arena_legend: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/arena_legend.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "The neutral ground was the first ground.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -94,7 +94,7 @@ export const pack2_neutral_arena_veteran: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/arena_veteran.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "The neutral ground was the first ground.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -111,7 +111,7 @@ export const pack2_neutral_ark_defender: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/ark_defender.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "Some doors are open to everyone, including the wind.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -128,7 +128,7 @@ export const pack2_neutral_ark_emergency_protocol: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/ark_emergency_protocol.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "Civilians of the war they did not start.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -145,7 +145,7 @@ export const pack2_neutral_battle_hardened_companion: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/battle_hardened_companion.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "Civilians of the war they did not start.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -162,7 +162,7 @@ export const pack2_neutral_black_market_dealer: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/black_market_dealer.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "What you call neutral, the Empire calls undecided.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -179,7 +179,7 @@ export const pack2_neutral_bloodline_inheritor: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/bloodline_inheritor.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "Some doors are open to everyone, including the wind.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -196,7 +196,7 @@ export const pack2_neutral_bond_of_trust: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/bond_of_trust.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "What you call neutral, the Empire calls undecided.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -213,7 +213,7 @@ export const pack2_neutral_border_scout: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/border_scout.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "Walks both shores. Trusted by neither tide.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -230,7 +230,7 @@ export const pack2_neutral_bounty_board: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/bounty_board.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "What you call neutral, the Empire calls undecided.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -247,7 +247,7 @@ export const pack2_neutral_building_the_architect: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/building_the_architect.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "The neutral ground was the first ground.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -264,7 +264,7 @@ export const pack2_neutral_charitable_spirit: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/charitable_spirit.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "The neutral ground was the first ground.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -281,7 +281,7 @@ export const pack2_neutral_compassion_protocol: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/compassion_protocol.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "Some doors are open to everyone, including the wind.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -298,7 +298,7 @@ export const pack2_neutral_courier_sprite: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/courier_sprite.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "Walks both shores. Trusted by neither tide.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -315,7 +315,7 @@ export const pack2_neutral_dedicated_operative: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/dedicated_operative.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "Some doors are open to everyone, including the wind.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -332,7 +332,7 @@ export const pack2_neutral_dimensional_rift: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/dimensional_rift.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "The neutral ground was the first ground.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -349,7 +349,7 @@ export const pack2_neutral_dischordian_logic_song: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/dischordian_logic_song.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "What you call neutral, the Empire calls undecided.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -366,7 +366,7 @@ export const pack2_neutral_dischordian_logic_spell: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/dischordian_logic_spell.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "Some doors are open to everyone, including the wind.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -383,7 +383,7 @@ export const pack2_neutral_draft_master: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/draft_master.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "Civilians of the war they did not start.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -400,7 +400,7 @@ export const pack2_neutral_drifter: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/drifter.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "The neutral ground was the first ground.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -417,7 +417,7 @@ export const pack2_neutral_echo_chamber: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/echo_chamber.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "What you call neutral, the Empire calls undecided.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -434,7 +434,7 @@ export const pack2_neutral_echo_of_the_fall: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/echo_of_the_fall.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "Some doors are open to everyone, including the wind.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -451,7 +451,7 @@ export const pack2_neutral_elara_advocate: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/elara_advocate.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "The neutral ground was the first ground.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -468,7 +468,7 @@ export const pack2_neutral_elara_awakened: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/elara_awakened.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "Some doors are open to everyone, including the wind.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -485,7 +485,7 @@ export const pack2_neutral_elara_general: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/elara_general.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "What you call neutral, the Empire calls undecided.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -502,7 +502,7 @@ export const pack2_neutral_elara_ship_intelligence: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/elara_ship_intelligence.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "Some doors are open to everyone, including the wind.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -519,7 +519,7 @@ export const pack2_neutral_elaras_final_gift: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/elaras_final_gift.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "Some doors are open to everyone, including the wind.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -536,7 +536,7 @@ export const pack2_neutral_elaras_guidance: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/elaras_guidance.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "Some doors are open to everyone, including the wind.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -553,7 +553,7 @@ export const pack2_neutral_emergency_protocol: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/emergency_protocol.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "The neutral ground was the first ground.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -570,7 +570,7 @@ export const pack2_neutral_evolved_familiar: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/evolved_familiar.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "What you call neutral, the Empire calls undecided.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -587,7 +587,7 @@ export const pack2_neutral_field_medic: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/field_medic.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "Walks both shores. Trusted by neither tide.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -604,7 +604,7 @@ export const pack2_neutral_field_medic_vote: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/field_medic_vote.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "Survival is its own ideology.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -621,7 +621,7 @@ export const pack2_neutral_first_ascension: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/first_ascension.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "What you call neutral, the Empire calls undecided.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -638,7 +638,7 @@ export const pack2_neutral_graduated_operative: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/graduated_operative.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "What you call neutral, the Empire calls undecided.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -655,7 +655,7 @@ export const pack2_neutral_guild_founder: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/guild_founder.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "What you call neutral, the Empire calls undecided.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -672,7 +672,7 @@ export const pack2_neutral_guild_officer: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/guild_officer.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "The neutral ground was the first ground.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -689,7 +689,7 @@ export const pack2_neutral_halls_blessing: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/halls_blessing.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "All sides recruit them. Few sides keep them.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -706,7 +706,7 @@ export const pack2_neutral_hired_blade: CardDefinition = {
   keywords: ["rush"],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/hired_blade.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "Their flag is the absence of a flag.",
   rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 0,
@@ -723,7 +723,7 @@ export const pack2_neutral_hired_gun: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/hired_gun.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "Some doors are open to everyone, including the wind.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -740,7 +740,7 @@ export const pack2_neutral_holiday_feast: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/holiday_feast.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "Civilians of the war they did not start.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -757,7 +757,7 @@ export const pack2_neutral_holiday_surprise: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/holiday_surprise.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "All sides recruit them. Few sides keep them.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -774,7 +774,7 @@ export const pack2_neutral_honored_rival: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/honored_rival.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "What you call neutral, the Empire calls undecided.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -791,7 +791,7 @@ export const pack2_neutral_incubator_prime: CardDefinition = {
   keywords: ["celerity"],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/incubator_prime.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "Civilians of the war they did not start.",
   rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 0,
@@ -808,7 +808,7 @@ export const pack2_neutral_ironclad_veteran: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/ironclad_veteran.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "Some doors are open to everyone, including the wind.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -825,7 +825,7 @@ export const pack2_neutral_judgment_day: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/judgment_day.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "What you call neutral, the Empire calls undecided.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -842,7 +842,7 @@ export const pack2_neutral_legions_wisdom: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/legions_wisdom.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "Some doors are open to everyone, including the wind.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -859,7 +859,7 @@ export const pack2_neutral_lip_service: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/lip_service.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "Walks both shores. Trusted by neither tide.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -876,7 +876,7 @@ export const pack2_neutral_lucky_break: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/lucky_break.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "Civilians of the war they did not start.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -893,7 +893,7 @@ export const pack2_neutral_lucky_spinner: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/lucky_spinner.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "What you call neutral, the Empire calls undecided.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -910,7 +910,7 @@ export const pack2_neutral_neutral_observer: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/neutral_observer.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "The neutral ground was the first ground.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -927,7 +927,7 @@ export const pack2_neutral_nonos: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/nonos.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "Civilians of the war they did not start.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -944,7 +944,7 @@ export const pack2_neutral_nythera_awakened: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/nythera_awakened.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "Some doors are open to everyone, including the wind.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -961,7 +961,7 @@ export const pack2_neutral_nythera_general: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/nythera_general.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "Civilians of the war they did not start.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -978,7 +978,7 @@ export const pack2_neutral_nythera_ship_intelligence: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/nythera_ship_intelligence.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "Some doors are open to everyone, including the wind.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -995,7 +995,7 @@ export const pack2_neutral_objective_secured: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/objective_secured.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "What you call neutral, the Empire calls undecided.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -1012,7 +1012,7 @@ export const pack2_neutral_quintessence_guardian: CardDefinition = {
   keywords: ["provoke"],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/quintessence_guardian.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "Some doors are open to everyone, including the wind.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -1029,7 +1029,7 @@ export const pack2_neutral_raid_champion: CardDefinition = {
   keywords: ["celerity"],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/raid_champion.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "What you call neutral, the Empire calls undecided.",
   rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 0,
@@ -1046,7 +1046,7 @@ export const pack2_neutral_rally_the_warband: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/rally_the_warband.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "The neutral ground was the first ground.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -1063,7 +1063,7 @@ export const pack2_neutral_ruin_stalker: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/ruin_stalker.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "The neutral ground was the first ground.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -1080,7 +1080,7 @@ export const pack2_neutral_scrapyard_golem: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/scrapyard_golem.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "What you call neutral, the Empire calls undecided.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -1097,7 +1097,7 @@ export const pack2_neutral_season_one_commemorative: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/season_one_commemorative.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "What you call neutral, the Empire calls undecided.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -1114,7 +1114,7 @@ export const pack2_neutral_seasons_end: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/seasons_end.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "Walks both shores. Trusted by neither tide.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -1131,7 +1131,7 @@ export const pack2_neutral_shades_of_grey: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/shades_of_grey.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "What you call neutral, the Empire calls undecided.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -1148,7 +1148,7 @@ export const pack2_neutral_sixth_sense: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/sixth_sense.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "Civilians of the war they did not start.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -1165,7 +1165,7 @@ export const pack2_neutral_smugglers_cache: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/smugglers_cache.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "What you call neutral, the Empire calls undecided.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -1182,7 +1182,7 @@ export const pack2_neutral_supply_runner: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/supply_runner.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "Some doors are open to everyone, including the wind.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -1199,7 +1199,7 @@ export const pack2_neutral_the_balanced_witness: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/the_balanced_witness.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "Trade does not care who is winning.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -1216,7 +1216,7 @@ export const pack2_neutral_the_book_of_daniel_2: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/the_book_of_daniel_2.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "Civilians of the war they did not start.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -1233,7 +1233,7 @@ export const pack2_neutral_the_burnt_card: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/the_burnt_card.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "Some doors are open to everyone, including the wind.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -1250,7 +1250,7 @@ export const pack2_neutral_the_detective: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/the_detective.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "Every faction's drift catches them differently.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -1267,7 +1267,7 @@ export const pack2_neutral_the_enigmas_lament: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/the_enigmas_lament.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "Some doors are open to everyone, including the wind.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -1284,7 +1284,7 @@ export const pack2_neutral_the_game_master: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/the_game_master.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "The neutral ground was the first ground.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -1301,7 +1301,7 @@ export const pack2_neutral_the_inception: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/the_inception.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "Some doors are open to everyone, including the wind.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -1318,7 +1318,7 @@ export const pack2_neutral_the_programmer: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/the_programmer.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "Walks both shores. Trusted by neither tide.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -1335,7 +1335,7 @@ export const pack2_neutral_the_seer: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/the_seer.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "Walks both shores. Trusted by neither tide.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -1352,7 +1352,7 @@ export const pack2_neutral_the_student: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/the_student.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "The neutral ground was the first ground.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -1369,7 +1369,7 @@ export const pack2_neutral_the_two_witnesses: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/the_two_witnesses.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "Civilians of the war they did not start.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -1386,7 +1386,7 @@ export const pack2_neutral_threefold_reborn: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/threefold_reborn.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "Civilians of the war they did not start.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -1403,7 +1403,7 @@ export const pack2_neutral_traces_of_something_spiritual: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/traces_of_something_spiritual.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "What you call neutral, the Empire calls undecided.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -1420,7 +1420,7 @@ export const pack2_neutral_transcended_one: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/transcended_one.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "Survival is its own ideology.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -1437,7 +1437,7 @@ export const pack2_neutral_trusted_ally: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/trusted_ally.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "The neutral ground was the first ground.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -1454,7 +1454,7 @@ export const pack2_neutral_undefeated_drafter: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/undefeated_drafter.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "Civilians of the war they did not start.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -1471,7 +1471,7 @@ export const pack2_neutral_universal_adapter: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/universal_adapter.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "Civilians of the war they did not start.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -1488,7 +1488,7 @@ export const pack2_neutral_unscathed_victor: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/unscathed_victor.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "Walks both shores. Trusted by neither tide.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -1505,7 +1505,7 @@ export const pack2_neutral_void_crystal: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/void_crystal.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "What you call neutral, the Empire calls undecided.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -1522,7 +1522,7 @@ export const pack2_neutral_void_touched_specimen: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/void_touched_specimen.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "Civilians of the war they did not start.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -1539,7 +1539,7 @@ export const pack2_neutral_wandering_merchant: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/neutral/wandering_merchant.webp"),
-  flavorText: "Outside every faction; visible to all.",
+  flavorText: "Walks both shores. Trusted by neither tide.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,

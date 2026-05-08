@@ -26,7 +26,7 @@ export const pack2_architect_architects_mandate: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/architect/architects_mandate.webp"),
-  flavorText: "Of the architect.",
+  flavorText: "Geometry knows what flesh forgets.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -43,7 +43,7 @@ export const pack2_architect_architects_mockery: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/architect/architects_mockery.webp"),
-  flavorText: "Of the architect.",
+  flavorText: "Geometry knows what flesh forgets.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -60,7 +60,7 @@ export const pack2_architect_architects_schematic: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/architect/architects_schematic.webp"),
-  flavorText: "Of the architect.",
+  flavorText: "Geometry knows what flesh forgets.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -77,7 +77,7 @@ export const pack2_architect_archive_wyrm: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/architect/archive_wyrm.webp"),
-  flavorText: "Of the architect.",
+  flavorText: "The blueprint exists before the building.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -94,7 +94,7 @@ export const pack2_architect_arena_architect: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/architect/arena_architect.webp"),
-  flavorText: "Of the architect.",
+  flavorText: "Geometry knows what flesh forgets.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -111,7 +111,7 @@ export const pack2_architect_arena_enforcer: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/architect/arena_enforcer.webp"),
-  flavorText: "Of the architect.",
+  flavorText: "The scaffold remembers every cut.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -128,7 +128,7 @@ export const pack2_architect_arena_protocol: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/architect/arena_protocol.webp"),
-  flavorText: "Of the architect.",
+  flavorText: "Design is the only honest argument.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -145,7 +145,7 @@ export const pack2_architect_bronze_scarab: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/architect/bronze_scarab.webp"),
-  flavorText: "Of the architect.",
+  flavorText: "Every line drawn is a line refused.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -162,7 +162,7 @@ export const pack2_architect_calculated_checkmate: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/architect/calculated_checkmate.webp"),
-  flavorText: "Of the architect.",
+  flavorText: "Geometry knows what flesh forgets.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -179,7 +179,7 @@ export const pack2_architect_calculated_retreat: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/architect/calculated_retreat.webp"),
-  flavorText: "Of the architect.",
+  flavorText: "The blueprint exists before the building.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -196,7 +196,7 @@ export const pack2_architect_chrome_archon: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/architect/chrome_archon.webp"),
-  flavorText: "Of the architect.",
+  flavorText: "The blueprint exists before the building.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -213,7 +213,7 @@ export const pack2_architect_cipher_logics_edge: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/architect/cipher_logics_edge.webp"),
-  flavorText: "Of the architect.",
+  flavorText: "The blueprint exists before the building.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -230,7 +230,7 @@ export const pack2_architect_cipher_serpent: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/architect/cipher_serpent.webp"),
-  flavorText: "Of the architect.",
+  flavorText: "The blueprint exists before the building.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -247,7 +247,7 @@ export const pack2_architect_collectors_trophy: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/architect/collectors_trophy.webp"),
-  flavorText: "Of the architect.",
+  flavorText: "Plans within plans within plans.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -264,7 +264,7 @@ export const pack2_architect_corrupted_ark_fragment: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/architect/corrupted_ark_fragment.webp"),
-  flavorText: "Of the architect.",
+  flavorText: "Geometry knows what flesh forgets.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -281,7 +281,7 @@ export const pack2_architect_data_hatchling: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/architect/data_hatchling.webp"),
-  flavorText: "Of the architect.",
+  flavorText: "We measure twice. Then we measure the measurer.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -298,7 +298,7 @@ export const pack2_architect_dr_lyra_vox: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/architect/dr_lyra_vox.webp"),
-  flavorText: "Of the architect.",
+  flavorText: "Order is what we owe to the void.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -315,7 +315,7 @@ export const pack2_architect_game_masters_challenge: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/architect/game_masters_challenge.webp"),
-  flavorText: "Of the architect.",
+  flavorText: "The blueprint exists before the building.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -332,7 +332,7 @@ export const pack2_architect_general_alarik: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/architect/general_alarik.webp"),
-  flavorText: "Of the architect.",
+  flavorText: "We measure twice. Then we measure the measurer.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -349,7 +349,7 @@ export const pack2_architect_general_binath_vii: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/architect/general_binath_vii.webp"),
-  flavorText: "Of the architect.",
+  flavorText: "Geometry knows what flesh forgets.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -366,7 +366,7 @@ export const pack2_architect_general_prometheus: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/architect/general_prometheus.webp"),
-  flavorText: "Of the architect.",
+  flavorText: "The blueprint exists before the building.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -383,7 +383,7 @@ export const pack2_architect_gilt_juggernaut: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/architect/gilt_juggernaut.webp"),
-  flavorText: "Of the architect.",
+  flavorText: "The blueprint exists before the building.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -400,7 +400,7 @@ export const pack2_architect_grand_design: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/architect/grand_design.webp"),
-  flavorText: "Of the architect.",
+  flavorText: "Every line drawn is a line refused.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -417,7 +417,7 @@ export const pack2_architect_grandmasters_gambit: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/architect/grandmasters_gambit.webp"),
-  flavorText: "Of the architect.",
+  flavorText: "The blueprint exists before the building.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -434,7 +434,7 @@ export const pack2_architect_inception_ark_sentry: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/architect/inception_ark_sentry.webp"),
-  flavorText: "Of the architect.",
+  flavorText: "Design is the only honest argument.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -451,7 +451,7 @@ export const pack2_architect_iron_beetle: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/architect/iron_beetle.webp"),
-  flavorText: "Of the architect.",
+  flavorText: "The blueprint exists before the building.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -468,7 +468,7 @@ export const pack2_architect_master_engineer: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/architect/master_engineer.webp"),
-  flavorText: "Of the architect.",
+  flavorText: "The blueprint exists before the building.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -485,7 +485,7 @@ export const pack2_architect_master_of_rlyeh: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/architect/master_of_rlyeh.webp"),
-  flavorText: "Of the architect.",
+  flavorText: "Geometry knows what flesh forgets.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -502,7 +502,7 @@ export const pack2_architect_module_integration: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/architect/module_integration.webp"),
-  flavorText: "Of the architect.",
+  flavorText: "The blueprint exists before the building.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -519,7 +519,7 @@ export const pack2_architect_panoptic_elara: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/architect/panoptic_elara.webp"),
-  flavorText: "Of the architect.",
+  flavorText: "We measure twice. Then we measure the measurer.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -536,7 +536,7 @@ export const pack2_architect_panoptic_lockdown: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/architect/panoptic_lockdown.webp"),
-  flavorText: "Of the architect.",
+  flavorText: "The blueprint exists before the building.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -553,7 +553,7 @@ export const pack2_architect_panoptic_warden_foucault: CardDefinition = {
   keywords: ["provoke"],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/architect/panoptic_warden_foucault.webp"),
-  flavorText: "Of the architect.",
+  flavorText: "Geometry knows what flesh forgets.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -570,7 +570,7 @@ export const pack2_architect_panopticon_override: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/architect/panopticon_override.webp"),
-  flavorText: "Of the architect.",
+  flavorText: "The blueprint exists before the building.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -587,7 +587,7 @@ export const pack2_architect_pazaak_champion: CardDefinition = {
   keywords: ["celerity"],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/architect/pazaak_champion.webp"),
-  flavorText: "Of the architect.",
+  flavorText: "The scaffold remembers every cut.",
   rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 0,
@@ -604,7 +604,7 @@ export const pack2_architect_perfect_clone: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/architect/perfect_clone.webp"),
-  flavorText: "Of the architect.",
+  flavorText: "The blueprint exists before the building.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -621,7 +621,7 @@ export const pack2_architect_predetermined_outcome: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/architect/predetermined_outcome.webp"),
-  flavorText: "Of the architect.",
+  flavorText: "Plans within plans within plans.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -638,7 +638,7 @@ export const pack2_architect_protocol_enforcer: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/architect/protocol_enforcer.webp"),
-  flavorText: "Of the architect.",
+  flavorText: "The blueprint exists before the building.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -655,7 +655,7 @@ export const pack2_architect_protocol_override: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/architect/protocol_override.webp"),
-  flavorText: "Of the architect.",
+  flavorText: "The blueprint exists before the building.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -672,7 +672,7 @@ export const pack2_architect_recursive_calibration: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/architect/recursive_calibration.webp"),
-  flavorText: "Of the architect.",
+  flavorText: "Geometry knows what flesh forgets.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -689,7 +689,7 @@ export const pack2_architect_schematic_override: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/architect/schematic_override.webp"),
-  flavorText: "Of the architect.",
+  flavorText: "Geometry knows what flesh forgets.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -706,7 +706,7 @@ export const pack2_architect_schematic_sentinel: CardDefinition = {
   keywords: ["provoke"],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/architect/schematic_sentinel.webp"),
-  flavorText: "Of the architect.",
+  flavorText: "Geometry knows what flesh forgets.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -723,7 +723,7 @@ export const pack2_architect_senator_elara_voss: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/architect/senator_elara_voss.webp"),
-  flavorText: "Of the architect.",
+  flavorText: "The scaffold remembers every cut.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -740,7 +740,7 @@ export const pack2_architect_station_commander: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/architect/station_commander.webp"),
-  flavorText: "Of the architect.",
+  flavorText: "The blueprint exists before the building.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -757,7 +757,7 @@ export const pack2_architect_surveillance_probe: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/architect/surveillance_probe.webp"),
-  flavorText: "Of the architect.",
+  flavorText: "The blueprint exists before the building.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -774,7 +774,7 @@ export const pack2_architect_system_purge: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/architect/system_purge.webp"),
-  flavorText: "Of the architect.",
+  flavorText: "The blueprint exists before the building.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -791,7 +791,7 @@ export const pack2_architect_terminus_bulwark: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/architect/terminus_bulwark.webp"),
-  flavorText: "Of the architect.",
+  flavorText: "The blueprint exists before the building.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -808,7 +808,7 @@ export const pack2_architect_the_architect_general: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/architect/the_architect_general.webp"),
-  flavorText: "Of the architect.",
+  flavorText: "The blueprint exists before the building.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -825,7 +825,7 @@ export const pack2_architect_the_architect_legendary: CardDefinition = {
   keywords: ["celerity"],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/architect/the_architect_legendary.webp"),
-  flavorText: "Of the architect.",
+  flavorText: "Geometry knows what flesh forgets.",
   rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 0,
@@ -842,7 +842,7 @@ export const pack2_architect_the_authority: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/architect/the_authority.webp"),
-  flavorText: "Of the architect.",
+  flavorText: "Geometry knows what flesh forgets.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -859,7 +859,7 @@ export const pack2_architect_the_collector_battle: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/architect/the_collector_battle.webp"),
-  flavorText: "Of the architect.",
+  flavorText: "The blueprint exists before the building.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -876,7 +876,7 @@ export const pack2_architect_the_collector_puppet: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/architect/the_collector_puppet.webp"),
-  flavorText: "Of the architect.",
+  flavorText: "Geometry knows what flesh forgets.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -893,7 +893,7 @@ export const pack2_architect_the_conexus: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/architect/the_conexus.webp"),
-  flavorText: "Of the architect.",
+  flavorText: "The blueprint exists before the building.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -910,7 +910,7 @@ export const pack2_architect_the_detective_architect: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/architect/the_detective_architect.webp"),
-  flavorText: "Of the architect.",
+  flavorText: "Geometry knows what flesh forgets.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -927,7 +927,7 @@ export const pack2_architect_the_game_master: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/architect/the_game_master.webp"),
-  flavorText: "Of the architect.",
+  flavorText: "The blueprint exists before the building.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -944,7 +944,7 @@ export const pack2_architect_the_humans_trust: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/architect/the_humans_trust.webp"),
-  flavorText: "Of the architect.",
+  flavorText: "Geometry knows what flesh forgets.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -961,7 +961,7 @@ export const pack2_architect_the_jailer_architect: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/architect/the_jailer_architect.webp"),
-  flavorText: "Of the architect.",
+  flavorText: "Geometry knows what flesh forgets.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -978,7 +978,7 @@ export const pack2_architect_the_meme: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/architect/the_meme.webp"),
-  flavorText: "Of the architect.",
+  flavorText: "The blueprint exists before the building.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -995,7 +995,7 @@ export const pack2_architect_the_necromancer_architect: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/architect/the_necromancer_architect.webp"),
-  flavorText: "Of the architect.",
+  flavorText: "Geometry knows what flesh forgets.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -1012,7 +1012,7 @@ export const pack2_architect_the_politician: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/architect/the_politician.webp"),
-  flavorText: "Of the architect.",
+  flavorText: "Order is what we owe to the void.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -1029,7 +1029,7 @@ export const pack2_architect_the_twelfth_archon: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/architect/the_twelfth_archon.webp"),
-  flavorText: "Of the architect.",
+  flavorText: "The scaffold remembers every cut.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -1046,7 +1046,7 @@ export const pack2_architect_three_moves: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/architect/three_moves.webp"),
-  flavorText: "Of the architect.",
+  flavorText: "Geometry knows what flesh forgets.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -1063,7 +1063,7 @@ export const pack2_architect_white_oracle: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/architect/white_oracle.webp"),
-  flavorText: "Of the architect.",
+  flavorText: "Geometry knows what flesh forgets.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,

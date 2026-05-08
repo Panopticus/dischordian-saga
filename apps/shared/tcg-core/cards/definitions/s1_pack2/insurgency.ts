@@ -26,7 +26,7 @@ export const pack2_insurgency_agent_zero_general: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/agent_zero_general.webp"),
-  flavorText: "Of the insurgency.",
+  flavorText: "We were here before the maps.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -43,7 +43,7 @@ export const pack2_insurgency_agent_zero_legendary: CardDefinition = {
   keywords: ["celerity"],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/agent_zero_legendary.webp"),
-  flavorText: "Of the insurgency.",
+  flavorText: "The street remembers what the records lose.",
   rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 0,
@@ -60,7 +60,7 @@ export const pack2_insurgency_agent_zero_reborn: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/agent_zero_reborn.webp"),
-  flavorText: "Of the insurgency.",
+  flavorText: "We were here before the maps.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -77,7 +77,7 @@ export const pack2_insurgency_ambush_protocol: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/ambush_protocol.webp"),
-  flavorText: "Of the insurgency.",
+  flavorText: "We were here before the maps.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -94,7 +94,7 @@ export const pack2_insurgency_covert_operative: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/covert_operative.webp"),
-  flavorText: "Of the insurgency.",
+  flavorText: "We were here before the maps.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -111,7 +111,7 @@ export const pack2_insurgency_dead_frequency_jam: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/dead_frequency_jam.webp"),
-  flavorText: "Of the insurgency.",
+  flavorText: "Cut the wire. The signal was lying anyway.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -128,7 +128,7 @@ export const pack2_insurgency_dead_signal_burst: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/dead_signal_burst.webp"),
-  flavorText: "Of the insurgency.",
+  flavorText: "The street remembers what the records lose.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -145,7 +145,7 @@ export const pack2_insurgency_echo_the_resonance: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/echo_the_resonance.webp"),
-  flavorText: "Of the insurgency.",
+  flavorText: "There is no front line. There is only timing.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -162,7 +162,7 @@ export const pack2_insurgency_encrypted_broadcast: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/encrypted_broadcast.webp"),
-  flavorText: "Of the insurgency.",
+  flavorText: "We were here before the maps.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -179,7 +179,7 @@ export const pack2_insurgency_flicker_fiend: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/flicker_fiend.webp"),
-  flavorText: "Of the insurgency.",
+  flavorText: "The street remembers what the records lose.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -196,7 +196,7 @@ export const pack2_insurgency_fresh_recruit: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/fresh_recruit.webp"),
-  flavorText: "Of the insurgency.",
+  flavorText: "We were here before the maps.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -213,7 +213,7 @@ export const pack2_insurgency_fungal_colossus: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/fungal_colossus.webp"),
-  flavorText: "Of the insurgency.",
+  flavorText: "The street remembers what the records lose.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -230,7 +230,7 @@ export const pack2_insurgency_guerrilla_cell: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/guerrilla_cell.webp"),
-  flavorText: "Of the insurgency.",
+  flavorText: "The street remembers what the records lose.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -247,7 +247,7 @@ export const pack2_insurgency_guerrilla_strike: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/guerrilla_strike.webp"),
-  flavorText: "Of the insurgency.",
+  flavorText: "We were here before the maps.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -264,7 +264,7 @@ export const pack2_insurgency_i_love_war: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/i_love_war.webp"),
-  flavorText: "Of the insurgency.",
+  flavorText: "There is no front line. There is only timing.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -281,7 +281,7 @@ export const pack2_insurgency_inferno_djinn: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/inferno_djinn.webp"),
-  flavorText: "Of the insurgency.",
+  flavorText: "The street remembers what the records lose.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -298,7 +298,7 @@ export const pack2_insurgency_insurgent_commander: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/insurgent_commander.webp"),
-  flavorText: "Of the insurgency.",
+  flavorText: "Compliance is the slowest violence.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -315,7 +315,7 @@ export const pack2_insurgency_intel_leak: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/intel_leak.webp"),
-  flavorText: "Of the insurgency.",
+  flavorText: "We were here before the maps.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -332,7 +332,7 @@ export const pack2_insurgency_iron_lion_general: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/iron_lion_general.webp"),
-  flavorText: "Of the insurgency.",
+  flavorText: "We were here before the maps.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -349,7 +349,7 @@ export const pack2_insurgency_iron_lion_legendary: CardDefinition = {
   keywords: ["celerity"],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/iron_lion_legendary.webp"),
-  flavorText: "Of the insurgency.",
+  flavorText: "We were here before the maps.",
   rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 0,
@@ -366,7 +366,7 @@ export const pack2_insurgency_jericho_jones: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/jericho_jones.webp"),
-  flavorText: "Of the insurgency.",
+  flavorText: "Compliance is the slowest violence.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -383,7 +383,7 @@ export const pack2_insurgency_kael: CardDefinition = {
   keywords: ["rush"],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/kael.webp"),
-  flavorText: "Of the insurgency.",
+  flavorText: "We were here before the maps.",
   rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 0,
@@ -400,7 +400,7 @@ export const pack2_insurgency_kael_the_recruiter: CardDefinition = {
   keywords: ["rush"],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/kael_the_recruiter.webp"),
-  flavorText: "Of the insurgency.",
+  flavorText: "We were here before the maps.",
   rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 0,
@@ -417,7 +417,7 @@ export const pack2_insurgency_liberation_protocol: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/liberation_protocol.webp"),
-  flavorText: "Of the insurgency.",
+  flavorText: "The street remembers what the records lose.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -434,7 +434,7 @@ export const pack2_insurgency_master_spy: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/master_spy.webp"),
-  flavorText: "Of the insurgency.",
+  flavorText: "We were here before the maps.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -451,7 +451,7 @@ export const pack2_insurgency_mission_briefing: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/mission_briefing.webp"),
-  flavorText: "Of the insurgency.",
+  flavorText: "We were here before the maps.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -468,7 +468,7 @@ export const pack2_insurgency_mycelial_bloom: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/mycelial_bloom.webp"),
-  flavorText: "Of the insurgency.",
+  flavorText: "We were here before the maps.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -485,7 +485,7 @@ export const pack2_insurgency_rebel_arsenal: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/rebel_arsenal.webp"),
-  flavorText: "Of the insurgency.",
+  flavorText: "The street remembers what the records lose.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -502,7 +502,7 @@ export const pack2_insurgency_rebel_yell: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/rebel_yell.webp"),
-  flavorText: "Of the insurgency.",
+  flavorText: "The street remembers what the records lose.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -519,7 +519,7 @@ export const pack2_insurgency_rebels_conviction: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/rebels_conviction.webp"),
-  flavorText: "Of the insurgency.",
+  flavorText: "There is no front line. There is only timing.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -536,7 +536,7 @@ export const pack2_insurgency_saboteur: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/saboteur.webp"),
-  flavorText: "Of the insurgency.",
+  flavorText: "We were here before the maps.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -553,7 +553,7 @@ export const pack2_insurgency_safe_house: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/safe_house.webp"),
-  flavorText: "Of the insurgency.",
+  flavorText: "The street remembers what the records lose.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -570,7 +570,7 @@ export const pack2_insurgency_scorched_earth: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/scorched_earth.webp"),
-  flavorText: "Of the insurgency.",
+  flavorText: "We were here before the maps.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -587,7 +587,7 @@ export const pack2_insurgency_signal_booster: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/signal_booster.webp"),
-  flavorText: "Of the insurgency.",
+  flavorText: "There is no front line. There is only timing.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -604,7 +604,7 @@ export const pack2_insurgency_signal_intercept: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/signal_intercept.webp"),
-  flavorText: "Of the insurgency.",
+  flavorText: "We were here before the maps.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -621,7 +621,7 @@ export const pack2_insurgency_signal_operative: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/signal_operative.webp"),
-  flavorText: "Of the insurgency.",
+  flavorText: "We were here before the maps.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -638,7 +638,7 @@ export const pack2_insurgency_signal_repeater: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/signal_repeater.webp"),
-  flavorText: "Of the insurgency.",
+  flavorText: "There is no front line. There is only timing.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -655,7 +655,7 @@ export const pack2_insurgency_smugglers_cache: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/smugglers_cache.webp"),
-  flavorText: "Of the insurgency.",
+  flavorText: "Every Authority arrests itself in time.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -672,7 +672,7 @@ export const pack2_insurgency_spark_imp: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/spark_imp.webp"),
-  flavorText: "Of the insurgency.",
+  flavorText: "We were here before the maps.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -689,7 +689,7 @@ export const pack2_insurgency_spore_seedling: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/spore_seedling.webp"),
-  flavorText: "Of the insurgency.",
+  flavorText: "The street remembers what the records lose.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -706,7 +706,7 @@ export const pack2_insurgency_supply_drop: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/supply_drop.webp"),
-  flavorText: "Of the insurgency.",
+  flavorText: "The street remembers what the records lose.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -723,7 +723,7 @@ export const pack2_insurgency_the_engineer_insurgency: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/the_engineer_insurgency.webp"),
-  flavorText: "Of the insurgency.",
+  flavorText: "We were here before the maps.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -740,7 +740,7 @@ export const pack2_insurgency_the_eyes: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/the_eyes.webp"),
-  flavorText: "Of the insurgency.",
+  flavorText: "Compliance is the slowest violence.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -757,7 +757,7 @@ export const pack2_insurgency_the_hierophant: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/the_hierophant.webp"),
-  flavorText: "Of the insurgency.",
+  flavorText: "The street remembers what the records lose.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -774,7 +774,7 @@ export const pack2_insurgency_the_nomad: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/the_nomad.webp"),
-  flavorText: "Of the insurgency.",
+  flavorText: "The street remembers what the records lose.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -791,7 +791,7 @@ export const pack2_insurgency_the_oracle_insurgency: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/the_oracle_insurgency.webp"),
-  flavorText: "Of the insurgency.",
+  flavorText: "We were here before the maps.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -808,7 +808,7 @@ export const pack2_insurgency_the_recruiter: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/the_recruiter.webp"),
-  flavorText: "Of the insurgency.",
+  flavorText: "We were here before the maps.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -825,7 +825,7 @@ export const pack2_insurgency_the_shadow_tongue: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/the_shadow_tongue.webp"),
-  flavorText: "Of the insurgency.",
+  flavorText: "Every Authority arrests itself in time.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -842,7 +842,7 @@ export const pack2_insurgency_void_flame_runner: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/void_flame_runner.webp"),
-  flavorText: "Of the insurgency.",
+  flavorText: "Cut the wire. The signal was lying anyway.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -859,7 +859,7 @@ export const pack2_insurgency_wraith_calder: CardDefinition = {
   keywords: ["ephemeral"],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/wraith_calder.webp"),
-  flavorText: "Of the insurgency.",
+  flavorText: "Cut the wire. The signal was lying anyway.",
   rulesVersion: "1.1.0",
   trial_categories: ["narrative"] as const,
   verdict_delta: 0,
@@ -876,7 +876,7 @@ export const pack2_insurgency_zeros_parting_gift: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/insurgency/zeros_parting_gift.webp"),
-  flavorText: "Of the insurgency.",
+  flavorText: "The street remembers what the records lose.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,

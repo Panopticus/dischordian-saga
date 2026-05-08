@@ -26,7 +26,7 @@ export const pack2_new_babylon_adjudicar_locke: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/new_babylon/adjudicar_locke.webp"),
-  flavorText: "Of the new babylon.",
+  flavorText: "The Ledger does not forget. The Ledger forgives nothing.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -43,7 +43,7 @@ export const pack2_new_babylon_adjudicator_locke: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/new_babylon/adjudicator_locke.webp"),
-  flavorText: "Of the new babylon.",
+  flavorText: "Citizenship is the most expensive thing you'll never own.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -60,7 +60,7 @@ export const pack2_new_babylon_akai_shi: CardDefinition = {
   keywords: ["rush"],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/new_babylon/akai_shi.webp"),
-  flavorText: "Of the new babylon.",
+  flavorText: "Stamp twice. Sign once. Bury the rest.",
   rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 0,
@@ -77,7 +77,7 @@ export const pack2_new_babylon_akai_shi_red_death: CardDefinition = {
   keywords: ["rush"],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/new_babylon/akai_shi_red_death.webp"),
-  flavorText: "Of the new babylon.",
+  flavorText: "The Authority does not rule by force. It rules by file.",
   rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 0,
@@ -94,7 +94,7 @@ export const pack2_new_babylon_auros_the_honor: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/new_babylon/auros_the_honor.webp"),
-  flavorText: "Of the new babylon.",
+  flavorText: "Compliance saves time. Time was never yours.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -111,7 +111,7 @@ export const pack2_new_babylon_blood_tax: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/new_babylon/blood_tax.webp"),
-  flavorText: "Of the new babylon.",
+  flavorText: "Citizenship is the most expensive thing you'll never own.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -128,7 +128,7 @@ export const pack2_new_babylon_bounty_notice: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/new_babylon/bounty_notice.webp"),
-  flavorText: "Of the new babylon.",
+  flavorText: "The Authority does not rule by force. It rules by file.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -145,7 +145,7 @@ export const pack2_new_babylon_casino_mogul: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/new_babylon/casino_mogul.webp"),
-  flavorText: "Of the new babylon.",
+  flavorText: "Citizenship is the most expensive thing you'll never own.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -162,7 +162,7 @@ export const pack2_new_babylon_citadel_guardian: CardDefinition = {
   keywords: ["provoke"],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/new_babylon/citadel_guardian.webp"),
-  flavorText: "Of the new babylon.",
+  flavorText: "There is a form for that. Submit in triplicate.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -179,7 +179,7 @@ export const pack2_new_babylon_crystal_archive_guard: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/new_babylon/crystal_archive_guard.webp"),
-  flavorText: "Of the new babylon.",
+  flavorText: "Citizenship is the most expensive thing you'll never own.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -196,7 +196,7 @@ export const pack2_new_babylon_crystal_senator: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/new_babylon/crystal_senator.webp"),
-  flavorText: "Of the new babylon.",
+  flavorText: "The Ledger does not forget. The Ledger forgives nothing.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -213,7 +213,7 @@ export const pack2_new_babylon_crystal_vault: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/new_babylon/crystal_vault.webp"),
-  flavorText: "Of the new babylon.",
+  flavorText: "Citizenship is the most expensive thing you'll never own.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -230,7 +230,7 @@ export const pack2_new_babylon_debt_collector: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/new_babylon/debt_collector.webp"),
-  flavorText: "Of the new babylon.",
+  flavorText: "The Authority does not rule by force. It rules by file.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -247,7 +247,7 @@ export const pack2_new_babylon_district_enforcer: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/new_babylon/district_enforcer.webp"),
-  flavorText: "Of the new babylon.",
+  flavorText: "The Authority does not rule by force. It rules by file.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -264,7 +264,7 @@ export const pack2_new_babylon_economic_sanctions: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/new_babylon/economic_sanctions.webp"),
-  flavorText: "Of the new babylon.",
+  flavorText: "The Authority does not rule by force. It rules by file.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -281,7 +281,7 @@ export const pack2_new_babylon_fenra_the_moon_tyrant: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/new_babylon/fenra_the_moon_tyrant.webp"),
-  flavorText: "Of the new babylon.",
+  flavorText: "Citizenship is the most expensive thing you'll never own.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -298,7 +298,7 @@ export const pack2_new_babylon_galactic_tycoon: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/new_babylon/galactic_tycoon.webp"),
-  flavorText: "Of the new babylon.",
+  flavorText: "Compliance saves time. Time was never yours.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -315,7 +315,7 @@ export const pack2_new_babylon_governor_thane: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/new_babylon/governor_thane.webp"),
-  flavorText: "Of the new babylon.",
+  flavorText: "The Authority does not rule by force. It rules by file.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -332,7 +332,7 @@ export const pack2_new_babylon_high_roller: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/new_babylon/high_roller.webp"),
-  flavorText: "Of the new babylon.",
+  flavorText: "Compliance saves time. Time was never yours.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -349,7 +349,7 @@ export const pack2_new_babylon_hostile_acquisition: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/new_babylon/hostile_acquisition.webp"),
-  flavorText: "Of the new babylon.",
+  flavorText: "Procedure is the prayer the empire understands.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -366,7 +366,7 @@ export const pack2_new_babylon_hostile_takeover: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/new_babylon/hostile_takeover.webp"),
-  flavorText: "Of the new babylon.",
+  flavorText: "The trial began when you were born.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -383,7 +383,7 @@ export const pack2_new_babylon_iron_decree: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/new_babylon/iron_decree.webp"),
-  flavorText: "Of the new babylon.",
+  flavorText: "The Authority does not rule by force. It rules by file.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -400,7 +400,7 @@ export const pack2_new_babylon_leveraged_buyout: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/new_babylon/leveraged_buyout.webp"),
-  flavorText: "Of the new babylon.",
+  flavorText: "The Authority does not rule by force. It rules by file.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -417,7 +417,7 @@ export const pack2_new_babylon_liquidation_sale: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/new_babylon/liquidation_sale.webp"),
-  flavorText: "Of the new babylon.",
+  flavorText: "The Authority does not rule by force. It rules by file.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -434,7 +434,7 @@ export const pack2_new_babylon_lockes_favor: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/new_babylon/lockes_favor.webp"),
-  flavorText: "Of the new babylon.",
+  flavorText: "The Ledger does not forget. The Ledger forgives nothing.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -451,7 +451,7 @@ export const pack2_new_babylon_lockes_inner_circle: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/new_babylon/lockes_inner_circle.webp"),
-  flavorText: "Of the new babylon.",
+  flavorText: "Citizenship is the most expensive thing you'll never own.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -468,7 +468,7 @@ export const pack2_new_babylon_market_crash: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/new_babylon/market_crash.webp"),
-  flavorText: "Of the new babylon.",
+  flavorText: "Citizenship is the most expensive thing you'll never own.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -485,7 +485,7 @@ export const pack2_new_babylon_market_manipulation: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/new_babylon/market_manipulation.webp"),
-  flavorText: "Of the new babylon.",
+  flavorText: "Compliance saves time. Time was never yours.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -502,7 +502,7 @@ export const pack2_new_babylon_master_soldier: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/new_babylon/master_soldier.webp"),
-  flavorText: "Of the new babylon.",
+  flavorText: "The Authority does not rule by force. It rules by file.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -519,7 +519,7 @@ export const pack2_new_babylon_merchants_fortune: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/new_babylon/merchants_fortune.webp"),
-  flavorText: "Of the new babylon.",
+  flavorText: "Citizenship is the most expensive thing you'll never own.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -536,7 +536,7 @@ export const pack2_new_babylon_nebula_shark: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/new_babylon/nebula_shark.webp"),
-  flavorText: "Of the new babylon.",
+  flavorText: "The Authority does not rule by force. It rules by file.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -553,7 +553,7 @@ export const pack2_new_babylon_propaganda_herald: CardDefinition = {
   keywords: ["flying"],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/new_babylon/propaganda_herald.webp"),
-  flavorText: "Of the new babylon.",
+  flavorText: "The Authority does not rule by force. It rules by file.",
   rulesVersion: "1.1.0",
   trial_categories: ["reactive"] as const,
   verdict_delta: 0,
@@ -570,7 +570,7 @@ export const pack2_new_babylon_riri_ahlia_taskmaster: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/new_babylon/riri_ahlia_taskmaster.webp"),
-  flavorText: "Of the new babylon.",
+  flavorText: "The Authority does not rule by force. It rules by file.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -587,7 +587,7 @@ export const pack2_new_babylon_sector_warden: CardDefinition = {
   keywords: ["provoke"],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/new_babylon/sector_warden.webp"),
-  flavorText: "Of the new babylon.",
+  flavorText: "The Authority does not rule by force. It rules by file.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -604,7 +604,7 @@ export const pack2_new_babylon_senator_voss: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/new_babylon/senator_voss.webp"),
-  flavorText: "Of the new babylon.",
+  flavorText: "The Ledger does not forget. The Ledger forgives nothing.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -621,7 +621,7 @@ export const pack2_new_babylon_shadow_route_manifest: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/new_babylon/shadow_route_manifest.webp"),
-  flavorText: "Of the new babylon.",
+  flavorText: "Citizenship is the most expensive thing you'll never own.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -638,7 +638,7 @@ export const pack2_new_babylon_spire_assassin: CardDefinition = {
   keywords: ["rush"],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/new_babylon/spire_assassin.webp"),
-  flavorText: "Of the new babylon.",
+  flavorText: "Citizenship is the most expensive thing you'll never own.",
   rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 0,
@@ -655,7 +655,7 @@ export const pack2_new_babylon_syndicate_broker: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/new_babylon/syndicate_broker.webp"),
-  flavorText: "Of the new babylon.",
+  flavorText: "Citizenship is the most expensive thing you'll never own.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -672,7 +672,7 @@ export const pack2_new_babylon_syndicate_contract: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/new_babylon/syndicate_contract.webp"),
-  flavorText: "Of the new babylon.",
+  flavorText: "Citizenship is the most expensive thing you'll never own.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -689,7 +689,7 @@ export const pack2_new_babylon_syndicate_enforcer: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/new_babylon/syndicate_enforcer.webp"),
-  flavorText: "Of the new babylon.",
+  flavorText: "The Authority does not rule by force. It rules by file.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -706,7 +706,7 @@ export const pack2_new_babylon_syndicate_foreman: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/new_babylon/syndicate_foreman.webp"),
-  flavorText: "Of the new babylon.",
+  flavorText: "The Authority does not rule by force. It rules by file.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -723,7 +723,7 @@ export const pack2_new_babylon_syndicate_overlord: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/new_babylon/syndicate_overlord.webp"),
-  flavorText: "Of the new babylon.",
+  flavorText: "Compliance saves time. Time was never yours.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -740,7 +740,7 @@ export const pack2_new_babylon_tax_collector: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/new_babylon/tax_collector.webp"),
-  flavorText: "Of the new babylon.",
+  flavorText: "Compliance saves time. Time was never yours.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -757,7 +757,7 @@ export const pack2_new_babylon_territory_commander: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/new_babylon/territory_commander.webp"),
-  flavorText: "Of the new babylon.",
+  flavorText: "The Ledger does not forget. The Ledger forgives nothing.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -774,7 +774,7 @@ export const pack2_new_babylon_the_authority_nb: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/new_babylon/the_authority_nb.webp"),
-  flavorText: "Of the new babylon.",
+  flavorText: "Citizenship is the most expensive thing you'll never own.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -791,7 +791,7 @@ export const pack2_new_babylon_the_human_nb: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/new_babylon/the_human_nb.webp"),
-  flavorText: "Of the new babylon.",
+  flavorText: "Compliance saves time. Time was never yours.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -808,7 +808,7 @@ export const pack2_new_babylon_trade_captain: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/new_babylon/trade_captain.webp"),
-  flavorText: "Of the new babylon.",
+  flavorText: "Stamp twice. Sign once. Bury the rest.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -825,7 +825,7 @@ export const pack2_new_babylon_trade_embargo: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/new_babylon/trade_embargo.webp"),
-  flavorText: "Of the new babylon.",
+  flavorText: "The Authority does not rule by force. It rules by file.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -842,7 +842,7 @@ export const pack2_new_babylon_trade_enforcer: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/new_babylon/trade_enforcer.webp"),
-  flavorText: "Of the new babylon.",
+  flavorText: "The Ledger does not forget. The Ledger forgives nothing.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -859,7 +859,7 @@ export const pack2_new_babylon_trade_scout: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/new_babylon/trade_scout.webp"),
-  flavorText: "Of the new babylon.",
+  flavorText: "Citizenship is the most expensive thing you'll never own.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -876,7 +876,7 @@ export const pack2_new_babylon_tribunal_magistrate: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/new_babylon/tribunal_magistrate.webp"),
-  flavorText: "Of the new babylon.",
+  flavorText: "The Authority does not rule by force. It rules by file.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -893,7 +893,7 @@ export const pack2_new_babylon_war_dividend: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/new_babylon/war_dividend.webp"),
-  flavorText: "Of the new babylon.",
+  flavorText: "Citizenship is the most expensive thing you'll never own.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
