@@ -283,6 +283,20 @@ export const tradingRouter = router({
       const newStatus = trade.senderId === ctx.user.id ? "cancelled" : "declined";
       await db.update(cardTrades).set({ status: newStatus as any }).where(eq(cardTrades.id, input.tradeId));
 
+      // If the receiver declined, notify the sender so they know the
+      // trade was rejected. Cancellations (sender pulling their own
+      // offer) skip the notification since the sender already knows.
+      if (newStatus === "declined") {
+        db.insert(notifications).values({
+          userId: trade.senderId,
+          type: "trade_declined",
+          title: "Trade Declined",
+          message: `${ctx.user.name || "An operative"} declined your trade offer.`,
+          actionUrl: "/trading",
+          metadata: { tradeId: input.tradeId },
+        }).catch(e => logger.error("[Trading] trade_declined notification failed:", e));
+      }
+
       return { success: true };
     }),
 

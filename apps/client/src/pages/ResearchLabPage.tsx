@@ -208,14 +208,14 @@ export default function ResearchLabPage() {
                 <span className="font-display text-xs sm:text-sm font-bold void-text-system">
                   {dreamBal?.dream ?? 0}
                 </span>
-                <span className="font-mono text-[8px] sm:text-[9px] void-text-system hidden sm:inline">DREAM</span>
+                <span className="font-mono text-[8px] sm:text-[9px] void-text-system hidden sm:inline">DREAM</span> {/* void-ignore — micro label text */}
               </div>
               <div className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg void-bg-error border void-border-error">
                 <Crown size={12} className="void-text-error sm:!w-3.5 sm:!h-3.5" />
                 <span className="font-display text-xs sm:text-sm font-bold void-text-error">
                   {dreamBal?.soulBoundDream ?? 0}
                 </span>
-                <span className="font-mono text-[8px] sm:text-[9px] void-text-error hidden sm:inline">SOUL</span>
+                <span className="font-mono text-[8px] sm:text-[9px] void-text-error hidden sm:inline">SOUL</span> {/* void-ignore — micro label text */}
               </div>
             </div>
           </div>

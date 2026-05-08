@@ -217,9 +217,9 @@ function DiegeticBootSequence({ skipAnimation = false }: { skipAnimation?: boole
       aria-hidden
       style={{
         fontFamily: "monospace",
-        fontSize: "11px",
+        fontSize: "11px" /* void-ignore — terminal monospace size */,
         letterSpacing: "0.2em",
-        color: "rgba(0, 255, 255, 0.7)",
+        color: "color-mix(in oklch, var(--energy-primary) 70%, transparent)",
         marginBottom: "1.5rem",
         textAlign: "left",
         display: "inline-block",
@@ -246,7 +246,7 @@ function DiegeticBootSequence({ skipAnimation = false }: { skipAnimation?: boole
                 mode="decode"
                 speed={55}
                 showCursor={false}
-                style={{ color: "rgba(51, 226, 230, 0.95)" }}
+                style={{ color: "color-mix(in oklch, var(--energy-primary) 95%, transparent)" }}
               />
             ) : (
               line
@@ -657,7 +657,7 @@ export default function TitlePage({ onDismiss }: TitlePageProps = {}) {
           text. Once the handshake snaps shut (Confirm path) or the
           shame flash completes (Look Away path), the chrome reveals. */}
       {handshakeDone && (
-      <div style={{ position: "relative", zIndex: 3, textAlign: "center", padding: "2rem", maxWidth: "min(900px, 94vw)", marginLeft: "auto", marginRight: "auto" }}>
+      <div style={{ position: "relative", zIndex: 3, textAlign: "center", padding: "2rem", maxWidth: "min(900px, 94vw)" /* void-ignore — page-wrapper max width */, marginLeft: "auto", marginRight: "auto" }}>
         {/* Wordmark. The legacy raster logo read THE DISCHORDIAN SAGA;
             we render the new name as type so it can theme-tint, audio-
             react, and resize without an art pass. GlitchFx chroma is
@@ -682,7 +682,7 @@ export default function TitlePage({ onDismiss }: TitlePageProps = {}) {
               // wrapping span; we use filter:drop-shadow here so the
               // audio-reactive accent glow stacks instead of clobbering
               // the chroma. Inline `textShadow` would override.
-              filter: `drop-shadow(0 0 calc(20px + var(--audio-bass, 0) * 28px) ${toRgba(theme.palette.accent, 0.5)})`,
+              filter: `drop-shadow(0 0 calc(var(--space-sm) + var(--audio-bass, 0) * var(--space-md)) ${toRgba(theme.palette.accent, 0.5)})`,
               transition: "filter 60ms linear",
               lineHeight: 1,
             }}
@@ -958,5 +958,5 @@ function toRgba(hex: string, alpha: number): string {
   const r = (n >> 16) & 0xff;
   const g = (n >> 8) & 0xff;
   const b = n & 0xff;
-  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`; // void-ignore — generic hex→rgba converter utility
 }

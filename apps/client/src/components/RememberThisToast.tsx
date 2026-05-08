@@ -50,7 +50,7 @@ export default function RememberThisToast() {
   }, [current, promoteNext]);
 
   const npc = current ? FACTION_NPCS[current.npcId] : null;
-  const color = npc?.color || "#33e2e6";
+  const color = npc?.color || "var(--energy-primary)";
 
   return (
     <ToastSlot

@@ -44,20 +44,16 @@ const APPS_DIR = path.join(REPO_ROOT, "apps");
  * `audit-allow: pending-feature` doc-comments in schema.ts (e.g. the
  * Phase D.5 trade-empire cluster). Those are tracked elsewhere.
  *
- * History: `cards.nftTokenId` and `cards.nftPerks` used to be tracked
- * here; both were removed from schema.ts when the NFT plumbing was
- * deleted. New orphan columns added here = the gate's reminder to
- * either ship the consumer or document the deferral.
+ * History:
+ * - `cards.nftTokenId` and `cards.nftPerks` (deleted 2026-05-08
+ *   alongside the residual NFT plumbing).
+ * - `characterSheets.avatarUrl` (deleted 2026-05-08; column had zero
+ *   readers, no UI surface ever consumed it).
+ *
+ * Empty list = no live orphans tracked. Adding entries here is a
+ * promise to either ship the consumer or document the deferral.
  */
-const TRACKED_COLUMNS: ReadonlyArray<DeclaredColumn> = [
-  {
-    qualified: "characterSheets.avatarUrl",
-    ignorePathFragments: ["apps/db/", "apps/scripts/", "_completeness/"],
-    consumerPatterns: [".avatarUrl", "avatarUrl:"],
-    purpose:
-      "portrait URL on character_sheets rows; no reader in client or server",
-  },
-];
+const TRACKED_COLUMNS: ReadonlyArray<DeclaredColumn> = [];
 
 export function checkSchemaOrphanColumns(): RawParityCount {
   const missing: string[] = [];

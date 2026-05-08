@@ -232,7 +232,8 @@ export default function ArkOrientation({ forceShow = false, onComplete }: Props)
               left: highlightRect.left,
               width: highlightRect.width,
               height: highlightRect.height,
-              boxShadow: "0 0 20px rgba(167,139,250,0.3), inset 0 0 20px rgba(167,139,250,0.1)",
+              boxShadow:
+                "0 0 var(--space-sm) color-mix(in oklch, var(--energy-system) 30%, transparent), inset 0 0 var(--space-sm) color-mix(in oklch, var(--energy-system) 10%, transparent)",
             }}
             transition={{ type: "spring", stiffness: 200, damping: 25 }}
           />

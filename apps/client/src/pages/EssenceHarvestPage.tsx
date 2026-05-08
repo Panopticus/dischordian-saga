@@ -92,7 +92,7 @@ export default function EssenceHarvestPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-black via-[#1a001a] to-black text-white p-4 md:p-8">
+    <div className="min-h-screen void-bg-canvas text-white p-4 md:p-8">
       <div className="max-w-7xl mx-auto">
         {/* ─── Header ─── */}
         <div className="flex items-center justify-between mb-6 border-b void-border-system pb-4">
@@ -181,13 +181,13 @@ export default function EssenceHarvestPage() {
                     <div
                       className="aspect-square mb-3 rounded flex items-center justify-center overflow-hidden border border-black/50"
                       style={{
-                        background: `radial-gradient(circle, ${def.color}44 0%, #000 70%)`,
+                        background: `radial-gradient(circle, ${def.color}44 0%, var(--bg-void) 70%)`,
                       }}
                     >
                       {isOwned ? (
                         <div
                           className="text-5xl font-bold"
-                          style={{ color: def.color, textShadow: `0 0 20px ${def.color}` }}
+                          style={{ color: def.color, textShadow: `0 0 var(--space-sm) ${def.color}` }}
                         >
                           {def.name.slice(0, 1)}
                         </div>
@@ -244,7 +244,7 @@ export default function EssenceHarvestPage() {
                 animate={{ scale: 1, y: 0 }}
                 exit={{ scale: 0.9, y: 20 }}
                 onClick={e => e.stopPropagation()}
-                className={`max-w-2xl w-full bg-[#0a000a] border-2 rounded-lg p-6 ${RARITY_BORDER_CLASS[rarity]}`}
+                className={`max-w-2xl w-full void-bg-surface border-2 rounded-lg p-6 ${RARITY_BORDER_CLASS[rarity]}`}
               >
                 <div className="flex items-start justify-between mb-4">
                   <div>

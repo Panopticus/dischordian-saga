@@ -1167,18 +1167,18 @@ export default function PvpArenaPage() {
               into the existing Act 1 ladder, which uses DuelystAI
               client-side (no server matchmaking, no ELO impact). */}
           {botFallbackSeconds !== null && (
-            <div className="mb-4 rounded-md border border-amber-500/40 bg-amber-950/30 p-3 text-left">
-              <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-amber-300/90 mb-1">
+            <div className="mb-4 rounded-md border void-border void-bg-sunk p-3 text-left">
+              <p className="font-mono text-[11px] uppercase tracking-[0.2em] void-text-accent mb-1">
                 NO OPPONENTS FOUND
               </p>
-              <p className="font-mono text-xs text-amber-100/85 leading-relaxed mb-3">
+              <p className="font-mono text-xs void-text-accent leading-relaxed mb-3">
                 You've been alone in the queue for {botFallbackSeconds}s. The
                 queue stays live — but you can practice now and rejoin
                 later.
               </p>
               <button
                 onClick={() => navigate("/act1-ladder")}
-                className="px-4 py-1.5 border border-amber-400/60 text-amber-100 font-mono text-xs rounded hover:bg-amber-400/15 transition-colors"
+                className="px-4 py-1.5 border void-border void-text-accent font-mono text-xs rounded void-bg-sunk transition-colors"
               >
                 PRACTICE VS AI &gt;
               </button>
@@ -1478,7 +1478,7 @@ export default function PvpArenaPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               className={`relative ${!isSpectating ? "cursor-pointer" : ""} ${
-                !isSpectating && !card.hasAttacked && !card.justDeployed && isMyTurn ? "ring-1 ring-green-400/30" : ""
+                !isSpectating && !card.hasAttacked && !card.justDeployed && isMyTurn ? "ring-1 ring-[color-mix(in_oklch,var(--energy-success)_30%,transparent)]" : ""
               } ${attackerCard === card.instanceId ? "ring-2 ring-primary" : ""}`}
               onClick={() => {
                 if (!isSpectating && isMyTurn && !card.hasAttacked && !card.justDeployed) {

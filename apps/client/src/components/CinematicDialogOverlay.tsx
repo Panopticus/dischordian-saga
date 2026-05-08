@@ -79,7 +79,7 @@ export default function CinematicDialogOverlay({
           className="absolute inset-0 pointer-events-none"
           style={{
             background:
-              "radial-gradient(ellipse at center, transparent 45%, rgba(0,0,0,0.55) 100%)",
+              "radial-gradient(ellipse at center, transparent 45%, color-mix(in oklch, var(--bg-void) 55%, transparent) 100%)",
           }}
         />
         <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/85 via-black/45 to-transparent pointer-events-none" />

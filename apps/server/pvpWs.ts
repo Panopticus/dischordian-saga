@@ -6,7 +6,7 @@ import type { Server } from "http";
 import { z } from "zod";
 import { initPvpBattle, processPvpAction, getPlayerView, calculateEloChange, getRankTier, type PvpBattleState, type PvpAction, type DeckCard } from "@shared/pvpBattle";
 import { getDb } from "./db";
-import { pvpMatches, pvpLeaderboard, pvpSeasons, pvpSeasonRecords } from "../db/schema";
+import { pvpMatches, pvpLeaderboard, pvpSeasons, pvpSeasonRecords, notifications } from "../db/schema";
 import { classifyDeck, getArchetypeAdvantage } from "@shared/cardArchetypes";
 import { canSendEmote, recordEmoteSend, validateEmote, ALL_EMOTES, type EmoteRateState } from "@shared/pvpEmotes";
 import { filterMessage } from "@shared/moderation/profanityFilter";
@@ -349,6 +349,34 @@ async function startMatch(p1: ConnectedPlayer, p2: ConnectedPlayer) {
   send(p1.ws, { type: "MATCH_FOUND", matchId, opponentName: p2.userName, opponentUserId: p2.userId, opponentElo: p2.elo, yourSide: "player1" });
   send(p2.ws, { type: "MATCH_FOUND", matchId, opponentName: p1.userName, opponentUserId: p1.userId, opponentElo: p1.elo, yourSide: "player2" });
 
+  // Persist a pvp_challenge notification for each side so the bell shows
+  // an inbox record of the matchup (in addition to the live WS push).
+  try {
+    const dbN = await getDb();
+    if (dbN) {
+      await dbN.insert(notifications).values([
+        {
+          userId: p1.userId,
+          type: "pvp_challenge",
+          title: "PvP Match Started",
+          message: `Matched against ${p2.userName} (ELO ${p2.elo}).`,
+          actionUrl: "/pvp",
+          metadata: { matchId, opponentUserId: p2.userId, opponentName: p2.userName },
+        },
+        {
+          userId: p2.userId,
+          type: "pvp_challenge",
+          title: "PvP Match Started",
+          message: `Matched against ${p1.userName} (ELO ${p1.elo}).`,
+          actionUrl: "/pvp",
+          metadata: { matchId, opponentUserId: p1.userId, opponentName: p1.userName },
+        },
+      ]);
+    }
+  } catch (e) {
+    logger.error("[PvP] pvp_challenge notification failed:", e);
+  }
+
   // Send initial game state
   send(p1.ws, { type: "GAME_STATE", state: getPlayerView(state, p1.userId) });
   send(p2.ws, { type: "GAME_STATE", state: getPlayerView(state, p2.userId) });
@@ -527,6 +555,28 @@ async function endMatch(match: ActiveMatch) {
       // Update season records
       await updateSeasonRecords(db, winnerPlayer.userId, winnerPlayer.elo + winnerChange, true);
       await updateSeasonRecords(db, loserPlayer.userId, loserPlayer.elo + loserChange, false);
+
+      // Persist pvp_result notifications for both sides so the inbox
+      // reflects wins/losses even if the player closed the tab before
+      // the GAME_OVER push landed.
+      await db.insert(notifications).values([
+        {
+          userId: winnerPlayer.userId,
+          type: "pvp_result",
+          title: "PvP Victory",
+          message: `You defeated ${loserPlayer.userName} (+${winnerChange} ELO).`,
+          actionUrl: "/pvp",
+          metadata: { matchId: match.matchId, won: true, eloChange: winnerChange, opponentUserId: loserPlayer.userId },
+        },
+        {
+          userId: loserPlayer.userId,
+          type: "pvp_result",
+          title: "PvP Defeat",
+          message: `You lost to ${winnerPlayer.userName} (${loserChange} ELO).`,
+          actionUrl: "/pvp",
+          metadata: { matchId: match.matchId, won: false, eloChange: loserChange, opponentUserId: winnerPlayer.userId },
+        },
+      ]);
     }
   } catch (e) {
     console.error("[PvP] Failed to update match results:", e);

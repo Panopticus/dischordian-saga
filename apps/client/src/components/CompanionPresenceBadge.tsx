@@ -103,7 +103,7 @@ function Slot({
           className="w-1.5 h-1.5 rounded-full"
           style={{
             background: speaking ? accent : `color-mix(in oklch, ${accent} 25%, transparent)`,
-            boxShadow: speaking ? `0 0 6px ${accent}` : "none",
+            boxShadow: speaking ? `0 0 6px ${accent}` /* void-ignore — micro presence-dot glow */ : "none",
             transition: "background 0.25s ease, box-shadow 0.25s ease",
           }}
         />

@@ -121,7 +121,7 @@ export default function GraduateLegionPage() {
           </div>
           <button
             onClick={() => { setShowLetters(!showLetters); if (!showLetters) markLettersRead(); }}
-            className="relative flex items-center gap-1.5 px-3 py-1.5 rounded border border-border/40 hover:bg-muted/20 font-mono text-[10px] uppercase tracking-wider"
+            className="relative flex items-center gap-1.5 px-3 py-1.5 rounded border border-border/40 hover:bg-muted/20 font-mono text-[10px] uppercase tracking-wider" /* void-ignore — 10px micro-button text */
             data-testid="letters-toggle"
           >
             <Mail size={12} /> Letters

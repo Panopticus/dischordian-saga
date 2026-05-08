@@ -199,7 +199,8 @@ export default function CompanionFarewell({ onLetGo, onRedemption }: Props) {
                 <div
                   className="w-28 h-28 mx-auto rounded-full border-2 void-border-error bg-card/40 flex items-center justify-center overflow-hidden"
                   style={{
-                    boxShadow: "0 0 30px color-mix(in oklch, var(--energy-error) 20%, transparent), 0 0 60px color-mix(in oklch, var(--energy-error) 10%, transparent)",
+                    boxShadow:
+                      "0 0 var(--space-md) color-mix(in oklch, var(--energy-error) 20%, transparent), 0 0 var(--space-2xl) color-mix(in oklch, var(--energy-error) 10%, transparent)",
                   }}
                 >
                   {event.portraitUrl ? (

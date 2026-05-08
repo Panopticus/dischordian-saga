@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Bell, X, Check, CheckCheck, Trash2, Loader2,
-  Store, Swords, Gavel, Shield, Gift, Star,
+  Store, Swords, Gavel, Gift, Star,
   Trophy, Crown, Users, Flag, Scroll, Zap,
   ArrowLeftRight, ShoppingCart, MessageSquare, Radio
 } from "lucide-react";
@@ -32,7 +32,6 @@ const TYPE_ICONS: Record<string, typeof Bell> = {
   epoch_quest: Crown,
   achievement: Trophy,
   battle_pass_reward: Zap,
-  syndicate_quest: Shield,
   system: Bell,
   meme_broadcast: Radio,
   prestige_dialog: Star,
@@ -63,7 +62,6 @@ const TYPE_COLORS: Record<string, string> = {
   epoch_quest: "void-text-system",
   achievement: "void-text-accent",
   battle_pass_reward: "void-text-system",
-  syndicate_quest: "void-text-energy",
   system: "text-muted-foreground",
   meme_broadcast: "void-text-error",
   prestige_dialog: "void-text-accent",

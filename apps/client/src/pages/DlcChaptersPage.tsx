@@ -127,7 +127,7 @@ function ChapterRow({
   const statusColor = status.alreadyComplete
     ? "text-primary/70 border-primary/30"
     : status.available
-      ? "text-emerald-400 border-emerald-400/30"
+      ? "void-text-energy void-border-success"
       : "text-muted-foreground/60 border-border/30";
 
   return (
