@@ -244,7 +244,7 @@ export default function CompetitiveArenaPage() {
                     transition={{ delay: i * 0.04 }}
                     className={`border rounded-lg p-3 text-center transition-all ${
                       isCurrent
-                        ? "void-border void-bg-sunk ring-1 ring-orange-500/10"
+                        ? "void-border void-bg-sunk ring-1 ring-primary/10"
                         : isAchieved
                         ? "void-border-success void-bg-success"
                         : "border-border/10 bg-card/10 opacity-50"

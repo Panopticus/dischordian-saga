@@ -105,7 +105,9 @@ import { guildHallRouter } from "./routers/guildHall";
 import { guildContractsRouter } from "./routers/guildContracts";
 import { tradeEmpireRouter } from "./routers/tradeEmpire";
 import { tradeMissionsRouter } from "./routers/tradeMissions";
+import { globalAlignmentRouter } from "./routers/globalAlignment";
 import { petBattlesRouter } from "./routers/petBattles";
+import { petBreedingRouter } from "./routers/petBreeding";
 import { seedDataRouter } from "./routers/seedData";
 import { analyticsRouter } from "./routers/analytics";
 import { settingsRouter } from "./routers/settings";
@@ -151,6 +153,7 @@ import { sessionsRouter } from "./routers/sessions";
 import { rumRouter } from "./routers/rum";
 import { blocksRouter } from "./routers/blocks";
 import { supportRouter } from "./routers/support";
+import { soulStonesRouter } from "./routers/soulStones";
 
 export const appRouter = router({
   collection: collectionRouter,
@@ -259,7 +262,10 @@ export const appRouter = router({
   guildContracts: guildContractsRouter,
   tradeEmpire: tradeEmpireRouter,
   tradeMissions: tradeMissionsRouter,
+  globalAlignment: globalAlignmentRouter,
+  soulStones: soulStonesRouter,
   petBattles: petBattlesRouter,
+  petBreeding: petBreedingRouter,
   seedData: seedDataRouter,
   analytics: analyticsRouter,
   settings: settingsRouter,

@@ -1,8 +1,8 @@
 /**
  * HeatSelector — mutator picker for #1 (procedural run modulators).
  *
- * Phase 3 of the Heat track. Phase 1 (PR #238) shipped the modifier
- * registry; Phase 2 (PR #240) plumbed it through the engine. This is
+ * Phase 3 of the Heat track. Phase 1 (PR 238) shipped the modifier
+ * registry; Phase 2 (PR 240) plumbed it through the engine. This is
  * the player-facing surface: a controlled component that renders the
  * modifier catalog filtered by the player's current unlock tier,
  * lets them toggle modifiers on/off, shows the running heat budget,

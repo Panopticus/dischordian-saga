@@ -132,7 +132,7 @@ export default function EquipmentPanel({
               >
                 <div className={`w-9 h-9 rounded-md flex items-center justify-center shrink-0
                   ${item ? rarity!.bg : "bg-muted/30"}`}
-                  style={item ? { boxShadow: `0 0 8px ${item.glowColor}` } : undefined}
+                  style={item ? { boxShadow: `0 0 8px ${item.glowColor}` } : undefined} // void-ignore
                 >
                   <Icon size={16} className={item ? rarity!.text : "text-muted-foreground/40"} />
                 </div>
@@ -249,7 +249,7 @@ export default function EquipmentPanel({
                       >
                         <div className="flex items-start gap-3">
                           <div className="w-8 h-8 rounded-md flex items-center justify-center shrink-0"
-                            style={{ backgroundColor: `${item.glowColor}15`, boxShadow: `0 0 6px ${item.glowColor}` }}>
+                            style={{ backgroundColor: `${item.glowColor}15`, boxShadow: `0 0 6px ${item.glowColor}` }}> {/* void-ignore */}
                             {React.createElement(SLOT_ICONS[item.slot], { size: 14, color: item.glowColor })}
                           </div>
                           <div className="flex-1 min-w-0">

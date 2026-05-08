@@ -614,6 +614,44 @@ async function startServer() {
       console.error("[ConvergenceClimax] initial tick error:", e),
     );
 
+    // NARRATIVE_ARCHITECTURE.md §0 — Global Light/Dark alignment meter.
+    // SUMs character-sheet morality + pressureEvents (moralityHumanity /
+    // moralityMachine) into the singleton row at global_alignment.id=1.
+    // Read by Hierarchy invasion cadence, Architect-Triggered Events,
+    // Soul Stones drop rates, and the GlobalAlignmentMeter component.
+    // Hourly is plenty — the meter shifts on the order of days, and the
+    // try/catch ensures a stuck recompute never kills the other ticks.
+    const { recomputeGlobalAlignment } = await import(
+      "../services/globalAlignmentService"
+    );
+    setInterval(() => {
+      recomputeGlobalAlignment().catch(e =>
+        console.error("[GlobalAlignment] recompute tick error:", e),
+      );
+    }, ONE_HOUR_MS);
+    recomputeGlobalAlignment().catch(e =>
+      console.error("[GlobalAlignment] initial recompute error:", e),
+    );
+
+    // Soul Stones — weekly soft-cap reset. Per
+    // docs/design/SOUL_STONES_SYSTEM.md §1.2, combat-source drops
+    // are capped at 15 stones per week per player. The reset job
+    // zeroes `weeklyCollected` and bumps `weekResetAt` on any row
+    // that's been past the one-week boundary. Hourly tick is fine —
+    // the test is "weekResetAt < now - 1w" so the granularity is
+    // the player's first eligible tick after the boundary.
+    const { tickSoulStoneWeeklyResets } = await import(
+      "../services/soulStonesService"
+    );
+    setInterval(() => {
+      tickSoulStoneWeeklyResets().catch(e =>
+        console.error("[SoulStones] weekly reset tick error:", e),
+      );
+    }, ONE_HOUR_MS);
+    tickSoulStoneWeeklyResets().catch(e =>
+      console.error("[SoulStones] initial weekly reset error:", e),
+    );
+
     // Witnessing §3 — load the community Dischordia Cycle meter
     // from MySQL into the in-memory cache on startup. If the DB
     // has no row yet (fresh install), seeds defaults. Falls back

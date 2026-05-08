@@ -54,7 +54,7 @@ export function HolidayDialogTicker({ npcId, className }: HolidayTickerProps) {
   if (!active || lines.length === 0) return null;
   const current = lines[idx];
   return (
-    <div className={`rounded-xl border void-border bg-gradient-to-r from-red-950/30 via-amber-950/20 to-green-950/30 p-3 ${className ?? ""}`}>
+    <div className={`rounded-xl border void-border void-bg-sunk p-3 ${className ?? ""}`}>
       <div className="flex items-center gap-2 mb-1">
         <Gift className="w-3 h-3 void-text-accent" />
         <span className="font-display text-[10px] uppercase tracking-widest void-text-accent">

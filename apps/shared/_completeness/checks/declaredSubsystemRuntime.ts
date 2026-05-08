@@ -61,7 +61,7 @@ const ARTIFACTS: ReadonlyArray<DeclaredArtifact> = [
     description:
       "schema table or column tracking per-player Soul Stone counts by state (red / violet / gold) — see SOUL_STONES_SYSTEM.md §1.1",
     present: () =>
-      /\bsoulStones\s*:\s*mysqlTable|\bsoul_stones\s*=\s*mysqlTable|redSoulStones|violetSoulStones|goldSoulStones/.test(
+      /\bsoulStones\b\s*=\s*mysqlTable|\bsoulStones\s*:\s*mysqlTable|\bsoul_stones\s*=\s*mysqlTable|redSoulStones|violetSoulStones|goldSoulStones/.test(
         schemaSrc(),
       ),
   },
@@ -117,7 +117,7 @@ const ARTIFACTS: ReadonlyArray<DeclaredArtifact> = [
     description:
       "schema table tracking breeding pairs and offspring (petBreeding / breedingPair / specimenBreeding)",
     present: () =>
-      /\bpetBreeding\s*=\s*mysqlTable|\bbreedingPair\s*=\s*mysqlTable|\bspecimenBreeding\s*=\s*mysqlTable/.test(
+      /\bpetBreedingPairs\s*=\s*mysqlTable|\bpetBreeding\s*=\s*mysqlTable|\bbreedingPair\s*=\s*mysqlTable|\bspecimenBreeding\s*=\s*mysqlTable/.test(
         schemaSrc(),
       ),
   },
@@ -137,7 +137,7 @@ const ARTIFACTS: ReadonlyArray<DeclaredArtifact> = [
     present: () =>
       anyMatch(
         SERVER_DIR,
-        /\bpetBreeding\s*[:=]\s*router|\bbreedingRouter\b|\.petBreeding\.start/,
+        /\bpetBreedingRouter\b|\bbreedingRouter\b|\bpetBreeding\s*[:=]\s*router|\.petBreeding\.start/,
       ),
   },
   {

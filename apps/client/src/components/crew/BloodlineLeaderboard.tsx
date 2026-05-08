@@ -56,7 +56,7 @@ export default function BloodlineLeaderboard() {
             {bloodlines.data!.map((row: any, i: number) => {
               const bl = FOUNDING_BLOODLINES[row.bloodlineKey as BloodlineId];
               const name = (row.metadata?.name ?? bl?.name ?? row.bloodlineKey) as string;
-              const color = (row.metadata?.color ?? bl?.color ?? "#666") as string;
+              const color = (row.metadata?.color ?? bl?.color ?? "var(--text-muted)") as string;
               return (
                 <div
                   key={`${row.userId}-${row.bloodlineKey}`}
@@ -108,7 +108,7 @@ export default function BloodlineLeaderboard() {
                   className="flex items-center gap-2 p-2 border border-border/30 bg-card/40 rounded"
                   style={{
                     borderLeftWidth: "3px",
-                    borderLeftColor: bl?.color ?? "#666",
+                    borderLeftColor: bl?.color ?? "var(--text-muted)",
                   }}
                 >
                   <span className="w-6 text-right font-mono text-[10px] text-muted-foreground">

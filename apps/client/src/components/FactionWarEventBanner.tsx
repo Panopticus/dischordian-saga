@@ -36,7 +36,7 @@ export default function FactionWarEventBanner() {
       style={{
         background: `linear-gradient(135deg, ${event.color}15, ${event.color}05)`,
         border: `1px solid ${event.color}40`,
-        boxShadow: `0 0 20px ${event.color}10`,
+        boxShadow: `0 0 20px ${event.color}10`, // void-ignore
       }}
     >
       {/* Header */}

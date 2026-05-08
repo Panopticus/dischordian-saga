@@ -155,7 +155,7 @@ export function CorruptibleBio({
           <span key={i} className="relative inline-block">
             <span
               className="line-through decoration-red-500 decoration-2"
-              style={{ color: "rgba(220, 60, 60, 0.6)" }}
+              style={{ color: "color-mix(in oklch, var(--energy-error) 60%, transparent)" }}
             >
               {t.word}
             </span>

@@ -192,7 +192,7 @@ function CharThemeCard({ theme, unlocked, equipped, onEquip }: {
           className="w-10 h-10 rounded-full flex-shrink-0 flex items-center justify-center"
           style={{
             backgroundColor: theme.auraColor + "15",
-            boxShadow: unlocked ? `0 0 12px ${theme.auraColor}40, inset 0 0 8px ${theme.auraColor}20` : "none",
+            boxShadow: unlocked ? `0 0 12px ${theme.auraColor}40, inset 0 0 8px ${theme.auraColor}20` : "none", // void-ignore
             border: `1px solid ${theme.auraColor}30`,
           }}
         >

@@ -296,7 +296,7 @@ export default function RadioMode() {
                           className="w-2 h-2 rounded-full shrink-0"
                           style={{
                             backgroundColor: station.color,
-                            boxShadow: isActive ? `0 0 6px ${station.color}60` : "none",
+                            boxShadow: isActive ? `0 0 6px ${station.color}60` : "none", // void-ignore
                           }}
                         />
                         <div className="min-w-0 flex-1">

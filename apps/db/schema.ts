@@ -7158,3 +7158,80 @@ export const tradeAgencyStanding = mysqlTable("trade_agency_standing", {
   byUserAgency: uniqueIndex("byUserAgency").on(t.userId, t.agencyId),
 }));
 export type TradeAgencyStandingRow = typeof tradeAgencyStanding.$inferSelect;
+
+/* ─────────────────────────────────────────────────────────────────
+ * GLOBAL ALIGNMENT METER (NARRATIVE_ARCHITECTURE.md §0)
+ * Singleton row tracking the community-wide Light/Dark balance.
+ * Each player contributes their `users.lightAlignment` and
+ * `users.darkAlignment` to the running totals; an hourly cron
+ * recomputes the aggregate. Read by Hierarchy invasion cadence,
+ * Architect-Triggered Events, and the client meter component.
+ * ───────────────────────────────────────────────────────────────── */
+export const globalAlignment = mysqlTable("global_alignment", {
+  id: int("id").autoincrement().primaryKey(),
+  /** Sum of users.lightAlignment across all active players. */
+  lightTotal: int("lightTotal").notNull().default(0),
+  /** Sum of users.darkAlignment across all active players. */
+  darkTotal: int("darkTotal").notNull().default(0),
+  /** Players counted in the last aggregation. */
+  playerCount: int("playerCount").notNull().default(0),
+  /** When the aggregate was last recomputed. */
+  computedAt: timestamp("computedAt").defaultNow().notNull(),
+  /** Phase derived from balance: "light_dominant" / "balanced" / "dark_dominant". */
+  phase: mysqlEnum("phase", ["light_dominant", "balanced", "dark_dominant"]).notNull().default("balanced"),
+});
+export type GlobalAlignmentRow = typeof globalAlignment.$inferSelect;
+
+/* ─────────────────────────────────────────────────────────────────
+ * SOUL STONES (docs/design/SOUL_STONES_SYSTEM.md)
+ * Per-player counts of soul-stone fragments by state. Each stone is
+ * collected as `violet` (neutral), then chosen: corrupt → red, or
+ * purify → gold. Counts feed Demon-Pet summoning (red) and Divine
+ * Light investments (gold). The choice is permanent per stone.
+ * ───────────────────────────────────────────────────────────────── */
+export const soulStones = mysqlTable("soul_stones", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }).unique(),
+  /** Unprocessed stones awaiting a corrupt/purify choice. */
+  violetCount: int("violetCount").notNull().default(0),
+  /** Stones the player corrupted; counts toward demon-pet summoning. */
+  redCount: int("redCount").notNull().default(0),
+  /** Stones the player purified; counts toward divine-light investments. */
+  goldCount: int("goldCount").notNull().default(0),
+  /** Lifetime collection count for Loredex / progression hooks. */
+  lifetimeCollected: int("lifetimeCollected").notNull().default(0),
+  /** Weekly soft-cap accumulator (15/week from combat sources). Reset by cron. */
+  weeklyCollected: int("weeklyCollected").notNull().default(0),
+  /** Last weekly reset boundary (UTC midnight Monday). */
+  weekResetAt: timestamp("weekResetAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull().onUpdateNow(),
+});
+export type SoulStonesRow = typeof soulStones.$inferSelect;
+
+/* ─────────────────────────────────────────────────────────────────
+ * PET BREEDING (docs/production/BREEDING_SYSTEM_ART_PROMPTS.md)
+ * Pair-based breeding: parentA + parentB → offspring with combined
+ * traits. `status` walks queued → incubating → ready → claimed/cancelled.
+ * Offspring stats are computed at completion and stored in the
+ * resolved row for audit reconstruction.
+ * ───────────────────────────────────────────────────────────────── */
+export const petBreedingPairs = mysqlTable("pet_breeding_pairs", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  parentAId: int("parentAId").notNull().references(() => playerPets.id, { onDelete: "cascade" }),
+  parentBId: int("parentBId").notNull().references(() => playerPets.id, { onDelete: "cascade" }),
+  status: mysqlEnum("status", [
+    "queued", "incubating", "ready", "claimed", "cancelled",
+  ]).notNull().default("queued"),
+  /** Server time the pair was queued. */
+  queuedAt: timestamp("queuedAt").defaultNow().notNull(),
+  /** Server time incubation started (null until incubating). */
+  startedAt: timestamp("startedAt"),
+  /** Server time the offspring was ready for claim. */
+  readyAt: timestamp("readyAt"),
+  /** Resolved offspring blueprint (species, element, stat seed). */
+  offspringPayload: json("offspringPayload").$type<Record<string, unknown>>(),
+}, (t) => ({
+  byUserStatus: index("byUserStatus").on(t.userId, t.status),
+}));
+export type PetBreedingPairRow = typeof petBreedingPairs.$inferSelect;

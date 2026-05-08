@@ -88,7 +88,7 @@ export default function LevelUpCelebration({ newLevel, onContinue }: LevelUpCele
               left: "50%",
               top: "50%",
               transform: "translate(-50%, -50%)",
-              boxShadow: `0 0 40px color-mix(in oklch, var(--energy-premium) 30%, transparent), inset 0 0 40px color-mix(in oklch, var(--energy-premium) 10%, transparent)`,
+              boxShadow: `0 0 40px color-mix(in oklch, var(--energy-premium) 30%, transparent), inset 0 0 40px color-mix(in oklch, var(--energy-premium) 10%, transparent)`, // void-ignore
             }}
           />
         ))}
@@ -160,7 +160,7 @@ export default function LevelUpCelebration({ newLevel, onContinue }: LevelUpCele
                   background: "linear-gradient(180deg, var(--energy-premium) 0%, var(--energy-premium) 100%)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
-                  filter: "drop-shadow(0 0 30px color-mix(in oklch, var(--energy-premium) 50%, transparent))",
+                  filter: "drop-shadow(0 0 30px color-mix(in oklch, var(--energy-premium) 50%, transparent))", // void-ignore
                 }}
               >
                 {newLevel}

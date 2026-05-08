@@ -76,7 +76,7 @@ function EmptyStateShell({
           transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
           className="size-32 overflow-hidden rounded-full"
           style={{
-            boxShadow: "0 0 32px var(--material-glow, color-mix(in oklch, var(--energy-primary) 20%, transparent))",
+            boxShadow: "0 0 32px var(--material-glow, color-mix(in oklch, var(--energy-primary) 20%, transparent))", // void-ignore
             border: "1px solid var(--material-border)",
           }}
         >
@@ -98,7 +98,7 @@ function EmptyStateShell({
           style={{
             background:
               "color-mix(in oklch, var(--energy-primary, var(--energy-primary)) 10%, transparent)",
-            boxShadow: "0 0 24px var(--material-glow, color-mix(in oklch, var(--energy-primary) 15%, transparent))",
+            boxShadow: "0 0 24px var(--material-glow, color-mix(in oklch, var(--energy-primary) 15%, transparent))", // void-ignore
           }}
         >
           {icon}

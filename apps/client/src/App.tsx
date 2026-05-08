@@ -61,6 +61,7 @@ import QuestTracker from "./components/QuestTracker";
 import QuestRewardSystem from "./components/QuestRewardSystem";
 import ElaraDialog from "./components/ElaraDialog";
 import CharacterWidget from "./components/CharacterWidget";
+import { CutsceneRouter } from "./components/cutscenes/CutsceneRouter";
 import { DailyRewardPopup } from "./components/DailyRewards";
 import RadioMode from "./components/RadioMode";
 import EasterEggs from "./components/EasterEggs";
@@ -234,6 +235,9 @@ const ResearchMinigamePage = lazy(() => import("./pages/ResearchMinigamePage"));
 const MoralityLeaderboardPage = lazy(() => import("./pages/MoralityLeaderboardPage"));
 const ForgePage = lazy(() => import("./pages/ForgePage"));
 const CompanionHubPage = lazy(() => import("./pages/CompanionHubPage"));
+const MemorialCorridorPage = lazy(() => import("./pages/MemorialCorridorPage"));
+const PetGardenPage = lazy(() => import("./pages/PetGardenPage"));
+const CharacterCreationPage = lazy(() => import("./pages/CharacterCreationPage"));
 const FleetViewerPage = lazy(() => import("./pages/FleetViewerPage"));
 const DiplomacyPage = lazy(() => import("./pages/DiplomacyPage"));
 const FactionWarPage = lazy(() => import("./pages/FactionWarPage"));
@@ -540,6 +544,9 @@ function Router() {
         <Route path="/lore-journal" component={LoreJournalPage} />
         <Route path="/army" component={ArmyManagementPage} />
         <Route path="/awakening">{() => <AwakeningPage />}</Route>
+        <Route path="/memorial-corridor" component={MemorialCorridorPage} />
+        <Route path="/pet-garden" component={PetGardenPage} />
+        <Route path="/character-creation" component={CharacterCreationPage} />
         <Route path="/terms" component={TermsPage} />
         <Route path="/privacy" component={PrivacyPage} />
         <Route path="/cookies" component={CookiePage} />
@@ -805,6 +812,7 @@ function GameGate() {
       <ElaraDialog elaraTTS={elaraTTS} />
       <CompanionHost />
       <CharacterWidget />
+      <CutsceneRouter />
       <DailyRewardPopup />
       <RadioMode />
       <EasterEggs />
