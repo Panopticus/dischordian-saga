@@ -58,7 +58,7 @@ export default defineConfig({
           // chess → chess board only).
           "vendor-pixi": ["pixi.js"],
           "vendor-three": ["three"],
-          "vendor-chess": ["chess.js", "stockfish"],
+          "vendor-chess": ["chess.js"],
           // UI primitives. The full Radix set ships across many
           // pages; bundling them as one chunk means the user
           // downloads it once on first interactive page and
