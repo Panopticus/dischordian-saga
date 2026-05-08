@@ -16,5 +16,9 @@ CREATE TABLE IF NOT EXISTS `pet_breeding_pairs` (
   CONSTRAINT `pet_breeding_pairs_id` PRIMARY KEY(`id`),
   CONSTRAINT `pet_breeding_pairs_userId_users_id_fk`
     FOREIGN KEY (`userId`) REFERENCES `users`(`id`) ON DELETE CASCADE,
+  CONSTRAINT `pet_breeding_pairs_parentAId_player_pets_id_fk`
+    FOREIGN KEY (`parentAId`) REFERENCES `player_pets`(`id`) ON DELETE CASCADE,
+  CONSTRAINT `pet_breeding_pairs_parentBId_player_pets_id_fk`
+    FOREIGN KEY (`parentBId`) REFERENCES `player_pets`(`id`) ON DELETE CASCADE,
   INDEX `byUserStatus` (`userId`, `status`)
 );

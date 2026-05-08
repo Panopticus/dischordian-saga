@@ -32,7 +32,7 @@ export interface ThoughtVirusManifestCutsceneProps {
 export function ThoughtVirusManifestCutscene({
   onComplete,
   reduced,
-}: ThoughtVirusManifestCutsceneProps): JSX.Element {
+}: ThoughtVirusManifestCutsceneProps) {
   return (
     <AnimatedCutscenePlayer
       definition={CUTSCENE_REGISTRY.cutscene_thought_virus_manifests}

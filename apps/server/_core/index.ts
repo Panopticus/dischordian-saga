@@ -572,6 +572,25 @@ async function startServer() {
       console.error("[ConvergenceClimax] initial tick error:", e),
     );
 
+    // NARRATIVE_ARCHITECTURE.md §0 — Global Light/Dark alignment meter.
+    // SUMs character-sheet morality + pressureEvents (moralityHumanity /
+    // moralityMachine) into the singleton row at global_alignment.id=1.
+    // Read by Hierarchy invasion cadence, Architect-Triggered Events,
+    // Soul Stones drop rates, and the GlobalAlignmentMeter component.
+    // Hourly is plenty — the meter shifts on the order of days, and the
+    // try/catch ensures a stuck recompute never kills the other ticks.
+    const { recomputeGlobalAlignment } = await import(
+      "../services/globalAlignmentService"
+    );
+    setInterval(() => {
+      recomputeGlobalAlignment().catch(e =>
+        console.error("[GlobalAlignment] recompute tick error:", e),
+      );
+    }, ONE_HOUR_MS);
+    recomputeGlobalAlignment().catch(e =>
+      console.error("[GlobalAlignment] initial recompute error:", e),
+    );
+
     // Soul Stones — weekly soft-cap reset. Per
     // docs/design/SOUL_STONES_SYSTEM.md §1.2, combat-source drops
     // are capped at 15 stones per week per player. The reset job

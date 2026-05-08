@@ -7171,8 +7171,8 @@ export type SoulStonesRow = typeof soulStones.$inferSelect;
 export const petBreedingPairs = mysqlTable("pet_breeding_pairs", {
   id: int("id").autoincrement().primaryKey(),
   userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
-  parentAId: int("parentAId").notNull(),
-  parentBId: int("parentBId").notNull(),
+  parentAId: int("parentAId").notNull().references(() => playerPets.id, { onDelete: "cascade" }),
+  parentBId: int("parentBId").notNull().references(() => playerPets.id, { onDelete: "cascade" }),
   status: mysqlEnum("status", [
     "queued", "incubating", "ready", "claimed", "cancelled",
   ]).notNull().default("queued"),

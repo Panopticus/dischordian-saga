@@ -19,6 +19,7 @@ apps/client/src/components/AwakeningJournalEntry.tsx
 apps/client/src/components/BattleCompanionSlotHUD.tsx
 apps/client/src/components/BonusToast.tsx
 apps/client/src/components/BranchingMasteryPanel.tsx
+apps/client/src/components/BreedingPanel.tsx
 apps/client/src/components/CargoManifestPanel.tsx
 apps/client/src/components/CharacterBonusesPanel.tsx
 apps/client/src/components/ChessBoard.tsx
@@ -73,6 +74,7 @@ apps/client/src/components/ForgivenessChoicePanel.tsx
 apps/client/src/components/GameErrorBoundary.tsx
 apps/client/src/components/GamePreviewTooltip.tsx
 apps/client/src/components/GlitchFx.tsx
+apps/client/src/components/GlobalAlignmentMeter.tsx
 apps/client/src/components/GuildCutscenePlayer.tsx
 apps/client/src/components/GuildCutsceneQueue.tsx
 apps/client/src/components/HolidayDialogTicker.tsx

@@ -15,6 +15,7 @@
    carry the right name. Branch selection will land in a later
    PR alongside the asset delivery.
    ═══════════════════════════════════════════════════════ */
+import type { ReactElement } from "react";
 import {
   AnimatedCutscenePlayer,
   type AnimatedCutscenePlayerProps,
@@ -34,7 +35,7 @@ export interface BreakingPointCutsceneProps {
 export function BreakingPointCutscene({
   onComplete,
   reduced,
-}: BreakingPointCutsceneProps): JSX.Element {
+}: BreakingPointCutsceneProps) {
   return (
     <AnimatedCutscenePlayer
       definition={CUTSCENE_REGISTRY.cutscene_breaking_point}

@@ -11,6 +11,7 @@
    <AnimatedCutscenePlayer/>; the heavy lifting (shot chain,
    reduced-motion fallback, asset-error handling) lives there.
    ═══════════════════════════════════════════════════════ */
+import type { ReactElement } from "react";
 import {
   AnimatedCutscenePlayer,
   type AnimatedCutscenePlayerProps,
@@ -30,7 +31,7 @@ export interface FirstHumanContactCutsceneProps {
 export function FirstHumanContactCutscene({
   onComplete,
   reduced,
-}: FirstHumanContactCutsceneProps): JSX.Element {
+}: FirstHumanContactCutsceneProps): ReactElement {
   return (
     <AnimatedCutscenePlayer
       definition={CUTSCENE_REGISTRY.cutscene_first_human_contact}

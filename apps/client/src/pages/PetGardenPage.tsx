@@ -22,6 +22,7 @@ import { useCallback, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { useGame } from "@/contexts/GameContext";
 import { MobileNarratorSlot } from "@/components/MobileNarratorSlot";
+import { BreedingPanel } from "@/components/BreedingPanel";
 
 interface PetEntry {
   id: string;
@@ -202,6 +203,14 @@ export default function PetGardenPage() {
             tended today: {tendCounts[selected.id] ?? 0}
           </p>
         </motion.section>
+
+        <section className="mt-10">
+          <BreedingPanel state={game.state} />
+        </section>
+
+        <div className="mt-8">
+          <BreedingPanel state={game.state} />
+        </div>
       </div>
     </div>
   );

@@ -12,6 +12,7 @@
    <AnimatedCutscenePlayer/>; the heavy lifting (shot chain,
    reduced-motion fallback, asset-error handling) lives there.
    ═══════════════════════════════════════════════════════ */
+import type { ReactElement } from "react";
 import {
   AnimatedCutscenePlayer,
   type AnimatedCutscenePlayerProps,
@@ -32,7 +33,7 @@ export interface ElaraMemoryRecoveryCutsceneProps {
 export function ElaraMemoryRecoveryCutscene({
   onComplete,
   reduced,
-}: ElaraMemoryRecoveryCutsceneProps): JSX.Element {
+}: ElaraMemoryRecoveryCutsceneProps): ReactElement {
   return (
     <AnimatedCutscenePlayer
       definition={CUTSCENE_REGISTRY.cutscene_elara_memory_recovery}

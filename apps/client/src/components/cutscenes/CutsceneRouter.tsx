@@ -16,7 +16,7 @@
    Producer asset specs:
    `docs/production/CUTSCENE_SEEDANCE_PROMPTS.md`
    ═══════════════════════════════════════════════════════ */
-import { useMemo } from "react";
+import { useMemo, type ReactElement } from "react";
 import { useGame } from "@/contexts/GameContext";
 import {
   CUTSCENE_REGISTRY,
@@ -31,7 +31,7 @@ import { ThoughtVirusManifestCutscene } from "@/components/cutscenes/ThoughtViru
 type AnimatedCutsceneComponent = (props: {
   onComplete: () => void;
   reduced?: boolean;
-}) => JSX.Element;
+}) => ReactElement;
 
 const COMPONENT_BY_ID: Record<
   CutsceneDefinition["id"],
@@ -44,7 +44,7 @@ const COMPONENT_BY_ID: Record<
   cutscene_thought_virus_manifests: ThoughtVirusManifestCutscene,
 };
 
-export function CutsceneRouter(): JSX.Element | null {
+export function CutsceneRouter(): ReactElement | null {
   const { state, setNarrativeFlag } = useGame();
   const flags = state.narrativeFlags ?? {};
 

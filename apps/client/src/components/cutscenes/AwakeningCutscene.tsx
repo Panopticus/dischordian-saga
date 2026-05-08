@@ -10,6 +10,7 @@
    <AnimatedCutscenePlayer/>; the heavy lifting (shot chain,
    reduced-motion fallback, asset-error handling) lives there.
    ═══════════════════════════════════════════════════════ */
+import type { ReactElement } from "react";
 import {
   AnimatedCutscenePlayer,
   type AnimatedCutscenePlayerProps,
@@ -29,7 +30,7 @@ export interface AwakeningCutsceneProps {
 export function AwakeningCutscene({
   onComplete,
   reduced,
-}: AwakeningCutsceneProps): JSX.Element {
+}: AwakeningCutsceneProps): ReactElement {
   return (
     <AnimatedCutscenePlayer
       definition={CUTSCENE_REGISTRY.cutscene_awakening}

@@ -20,7 +20,7 @@
    - If the first shot 404s or fires `onerror`, we log a
      single console.warn and downgrade to the reduced path.
    ═══════════════════════════════════════════════════════ */
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, type ReactElement } from "react";
 import { assetUrl } from "@/lib/assetUrl";
 import { useReduceMotion } from "@/hooks/useReduceMotion";
 import type { CutsceneDefinition } from "@shared/cutsceneRegistry";
@@ -41,7 +41,7 @@ export function AnimatedCutscenePlayer({
   summary,
   onComplete,
   reduced,
-}: AnimatedCutscenePlayerProps): JSX.Element {
+}: AnimatedCutscenePlayerProps): ReactElement {
   const osReduced = useReduceMotion();
   const [shotIndex, setShotIndex] = useState(1);
   const [assetMissing, setAssetMissing] = useState(false);
