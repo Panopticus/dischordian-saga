@@ -23,7 +23,15 @@ import { z } from "zod";
 
 /* ─── Leaf enums ─── */
 
-export const factionSchema = z.enum([
+/**
+ * Single source of truth for the faction list. The Zod schema below
+ * derives from this `as const` tuple; `Faction` (in types/Card.ts)
+ * derives from the Zod schema. Adding a faction = one edit here.
+ *
+ * Audit/16.F4 — extracting this also makes a `pluginManifest` for
+ * community packs tractable in v1.2.0.
+ */
+export const FACTIONS = [
   "architect",
   "dreamer",
   "insurgency",
@@ -33,7 +41,9 @@ export const factionSchema = z.enum([
   "panopticon",
   "neutral",
   "hierarchy_of_damned",
-]);
+] as const;
+
+export const factionSchema = z.enum(FACTIONS);
 
 export const cardTypeSchema = z.enum([
   "general",

@@ -35,6 +35,8 @@
 import { z } from "zod";
 import { protectedProcedure, router } from "../_core/trpc";
 import { TRPCError } from "@trpc/server";
+import { fulfillPurchase } from "./store";
+import { logger } from "../logger";
 
 const ReceiptInputSchema = z.object({
   platform: z.enum(["ios", "android"]),
@@ -110,16 +112,40 @@ export const iapReceiptRouter = router({
         });
       }
 
-      // Fulfillment is intentionally minimal here — the existing
-      // storePurchases.fulfilled flag drives downstream content
-      // grants. Wiring product-key → entitlement granting is in
-      // apps/server/routers/store.ts; this route hands off via the
-      // shared `recordIapFulfillment` helper (added when the helper
-      // module lands).
-      return {
-        ok: true as const,
-        orderId: `${input.platform}:${input.transactionId}`,
-        message: "Receipt verified upstream. Fulfillment runs through storePurchases.",
-      };
+      // audit/12.F3 — actually grant the entitlement now that
+      // RevenueCat has confirmed the receipt. fulfilmentId is keyed on
+      // (platform, transactionId) which is the natural idempotency
+      // boundary for native receipts — Apple/Google retry the same
+      // transactionId; RevenueCat normalises both. The unique index
+      // on `purchase_grants.fulfillmentId` (synthesiseFulfillmentId
+      // path) prevents double-credit on retry.
+      const fulfillmentId = `iap:${input.platform}:${input.transactionId}`;
+      try {
+        const result = await fulfillPurchase(
+          ctx.user.id,
+          input.productId,
+          1,
+          fulfillmentId,
+        );
+        return {
+          ok: true as const,
+          orderId: fulfillmentId,
+          alreadyFulfilled: result.alreadyFulfilled,
+          message: result.alreadyFulfilled
+            ? "Receipt already fulfilled (idempotent)."
+            : "Receipt verified and entitlement granted.",
+        };
+      } catch (err) {
+        logger.error("[iapReceipt] fulfillment failed", {
+          userId: ctx.user.id,
+          productId: input.productId,
+          fulfillmentId,
+          err,
+        });
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: `Receipt verified but fulfillment failed: ${(err as Error).message}`,
+        });
+      }
     }),
 });

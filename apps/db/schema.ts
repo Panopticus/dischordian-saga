@@ -1444,6 +1444,9 @@ export const cardTrades = mysqlTable("card_trades", {
 }, (table) => ({
   senderIdIdx: index("idx_card_trades_sender_id").on(table.senderId),
   receiverIdIdx: index("idx_card_trades_receiver_id").on(table.receiverId),
+  // audit/03.F5 — composite (senderId,receiverId) lives in 0067_indexes_and_fks.sql
+  // but had no Drizzle declaration; pnpm db:push would propose dropping it. Mirror it here.
+  pairIdx: index("idx_card_trades_pair").on(table.senderId, table.receiverId),
 }));
 export type CardTrade = typeof cardTrades.$inferSelect;
 export type InsertCardTrade = typeof cardTrades.$inferInsert;

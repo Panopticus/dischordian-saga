@@ -209,6 +209,68 @@ describe("playQuantumRoulette", () => {
       "thought_virus", "antiquarian", "hierarchy",
     ]).toContain(landed);
   });
+
+  // audit/12.F1 — kind dictates faction-count.
+  it("rejects straight bets with !=1 factions", () => {
+    expect(() =>
+      playQuantumRoulette(25, "straight", ["architect", "insurgency"], createRng("x")),
+    ).toThrow(/exactly 1/);
+  });
+  it("rejects adjacent bets with !=2 factions", () => {
+    expect(() =>
+      playQuantumRoulette(25, "adjacent", ["architect"], createRng("x")),
+    ).toThrow(/exactly 2/);
+  });
+  it("rejects half bets with !=3 factions", () => {
+    expect(() =>
+      playQuantumRoulette(25, "half", ["architect", "insurgency"], createRng("x")),
+    ).toThrow(/exactly 3/);
+  });
+});
+
+describe("casino RTP parity (audit/12.F1)", () => {
+  // Empirical RTP — run each game many times and assert the long-run
+  // payout-per-bet ratio is below 0.92 (i.e. ≥8% house edge). Rough
+  // ceiling matches typical commercial slot RTP and rules out the
+  // pre-fix +18% player edge silently shipping.
+  function rtp(fn: () => { payout: number }, bet: number, n: number): number {
+    let total = 0;
+    for (let i = 0; i < n; i++) total += fn().payout;
+    return total / (bet * n);
+  }
+  const N = 50_000;
+
+  it("voidSlots RTP ≤ 0.92", () => {
+    const rng = createRng("rtp_slots");
+    const r = rtp(() => playVoidSlots(10, rng), 10, N);
+    expect(r).toBeLessThanOrEqual(0.92);
+  });
+
+  it("quantumRoulette straight RTP ≤ 0.92", () => {
+    const rng = createRng("rtp_rstr");
+    const r = rtp(() => playQuantumRoulette(10, "straight", ["architect"], rng), 10, N);
+    expect(r).toBeLessThanOrEqual(0.92);
+  });
+
+  it("quantumRoulette adjacent RTP ≤ 0.92", () => {
+    const rng = createRng("rtp_radj");
+    const r = rtp(
+      () => playQuantumRoulette(10, "adjacent", ["architect", "insurgency"], rng),
+      10,
+      N,
+    );
+    expect(r).toBeLessThanOrEqual(0.92);
+  });
+
+  it("quantumRoulette half RTP ≤ 0.92", () => {
+    const rng = createRng("rtp_rhalf");
+    const r = rtp(
+      () => playQuantumRoulette(10, "half", ["architect", "insurgency", "new_babylon"], rng),
+      10,
+      N,
+    );
+    expect(r).toBeLessThanOrEqual(0.92);
+  });
 });
 
 describe("playPazaak21", () => {

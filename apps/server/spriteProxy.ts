@@ -231,20 +231,13 @@ export function registerSpriteProxy(app: Express) {
       const errMsg = err instanceof Error ? err.message : String(err);
       console.error(`[SpriteProxy] Error processing ${url}: ${errMsg}`);
       
-      // Fallback: try to serve the original image
-      try {
-        const fallbackResponse = await fetch(url);
-        if (fallbackResponse.ok) {
-          const fallbackBuffer = Buffer.from(await fallbackResponse.arrayBuffer());
-          res.set({
-            "Content-Type": "image/png",
-            "Cache-Control": "public, max-age=3600",
-          });
-          return res.send(fallbackBuffer);
-        }
-      } catch { /* ignore fallback errors */ }
-      
-      res.status(500).json({ error: "Failed to process sprite" });
+      // audit/02.F5 — the prior fallback re-fetched outside MAX_FETCH_BYTES
+      // and hardcoded Content-Type to image/png, so an upstream that returned
+      // arbitrary bytes would land in our cache mistyped. The Sharp pipeline
+      // already covered the legitimate "transient transcode failure" case
+      // via cache eviction. Returning the unprocessed bytes wasn't worth the
+      // type-spoofing + cache-poisoning risk.
+      res.status(502).json({ error: "Failed to process sprite" });
     }
   });
 }

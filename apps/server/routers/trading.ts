@@ -195,6 +195,7 @@ export const tradingRouter = router({
    * field so the UI can render the negotiation chain.
    */
   counterOffer: protectedProcedure
+    .use(procedureRateLimit({ windowMs: 60_000, max: 30 }))
     .input(z.object({
       tradeId: z.number(),
       senderCards: z.array(tradeCardSchema).min(0),
@@ -271,6 +272,7 @@ export const tradingRouter = router({
 
   /** Decline a trade offer */
   declineTrade: protectedProcedure
+    .use(procedureRateLimit({ windowMs: 60_000, max: 30 }))
     .input(z.object({ tradeId: z.number() }))
     .mutation(async ({ ctx, input }) => {
       const db = await getDb();

@@ -45,6 +45,7 @@ async function getRandomCardPool(db: NonNullable<Awaited<ReturnType<typeof getDb
 export const draftRouter = router({
   /** Create a new draft tournament */
   create: protectedProcedure
+    .use(procedureRateLimit({ windowMs: 60_000, max: 30 }))
     .input(z.object({
       maxPlayers: z.number().min(2).max(8).default(2),
       draftRounds: z.number().min(5).max(30).default(15),
@@ -92,6 +93,7 @@ export const draftRouter = router({
 
   /** Join an existing draft tournament */
   join: protectedProcedure
+    .use(procedureRateLimit({ windowMs: 60_000, max: 30 }))
     .input(z.object({ tournamentCode: z.string().min(4).max(8) }))
     .mutation(async ({ ctx, input }) => {
       const db = await getDb();

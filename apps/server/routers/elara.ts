@@ -159,10 +159,15 @@ export const elaraRouter = router({
   }),
 
   // Send a message to Elara and get a response with dialog choices.
+  // protectedProcedure (audit/02.F7) — Elara is the in-game companion
+  // for signed-in players; gating on auth gives us a stable per-user
+  // bucket for the rate limit, blocks anonymous LLM-cost amplification
+  // entirely, and aligns with the consumers (ElaraDialog,
+  // CompanionHubPage) which already render only inside the gated UI.
   // Rate-limited because each call dispatches a paid LLM request with
-  // up to 32k max_tokens — without a per-user bucket an anonymous loop
+  // up to 32k max_tokens — without a per-user bucket a single account
   // is a credit-card incinerator the moment ELARA_LLM=on flips.
-  chat: publicProcedure
+  chat: protectedProcedure
     .use(procedureRateLimit({ windowMs: 60_000, max: 5 }))
     .input(z.object({
       message: z.string().min(1).max(2000),

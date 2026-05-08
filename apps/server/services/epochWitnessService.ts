@@ -64,9 +64,18 @@ export const epochWitnessService = {
     await db.insert(epochVoteTallies).values({ voteId, totalVotes: 1, [optionCol]: 1 })
       .onDuplicateKeyUpdate({ set: { totalVotes: sql`${epochVoteTallies.totalVotes} + 1`, [optionCol]: sql`${(epochVoteTallies as unknown as Record<string, unknown>)[optionCol]} + 1` } });
 
-    await db.insert(playerEpochProgress).values({ userId, epochsVoted: { [voteDef.epoch]: [voteId] } })
-      .onDuplicateKeyUpdate({ set: { epochsVoted: sql`JSON_SET(COALESCE(${playerEpochProgress.epochsVoted}, '{}'), '$."${sql.raw(voteDef.epoch)}"', JSON_ARRAY_APPEND(COALESCE(JSON_EXTRACT(${playerEpochProgress.epochsVoted}, '$."${sql.raw(voteDef.epoch)}"'), JSON_ARRAY()), '$', ${voteId}))` } })
-      .catch(() => { /* best effort */ });
+    // audit/02.F6 — voteDef.epoch comes from ALL_VOTES (server-side static),
+    // but defensively validate the epoch shape against [a-z0-9_-]+ before
+    // using sql.raw to interpolate into a JSON path. If the validator
+    // ever loosens or a vote ships with an exotic epoch slug, we fail
+    // closed instead of injecting raw SQL.
+    if (!/^[a-zA-Z0-9_-]+$/.test(voteDef.epoch)) {
+      logger.error("[epochWitness] refused unsafe epoch slug", { epoch: voteDef.epoch });
+    } else {
+      await db.insert(playerEpochProgress).values({ userId, epochsVoted: { [voteDef.epoch]: [voteId] } })
+        .onDuplicateKeyUpdate({ set: { epochsVoted: sql`JSON_SET(COALESCE(${playerEpochProgress.epochsVoted}, '{}'), '$."${sql.raw(voteDef.epoch)}"', JSON_ARRAY_APPEND(COALESCE(JSON_EXTRACT(${playerEpochProgress.epochsVoted}, '$."${sql.raw(voteDef.epoch)}"'), JSON_ARRAY()), '$', ${voteId}))` } })
+        .catch(() => { /* best effort */ });
+    }
 
     try {
       await ripple.emit("epoch_vote_cast", { userId, voteId, epoch: voteDef.epoch, optionChosen });
