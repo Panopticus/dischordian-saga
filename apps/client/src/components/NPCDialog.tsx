@@ -18,6 +18,7 @@ import { useGame } from "@/contexts/GameContext";
 import { GIFT_ITEMS, calculateGiftResult, type GiftItem, type NpcId, type GiftItemId } from "@/game/npcGifts";
 import { useNPCPhysics } from "@/engine/useVoidEngine";
 import { useDialogVO } from "@/hooks/useDialogVO";
+import { useVariant } from "@/hooks/useVariant";
 import { getNPCPortrait } from "@/game/npcPortraits";
 import { AnimatedPortrait } from "./AnimatedPortrait";
 import { getAmbientReference } from "@/game/ambientStorytelling";
@@ -217,6 +218,12 @@ export default function NPCDialog({ npcId, scene, onClose, onChoice }: NPCDialog
 
   // Void Energy: shift document physics to match this NPC's manifestation while dialog is open
   useNPCPhysics(npc.manifestation, true);
+
+  // audit/10.F1 — npc_line surface variant. Authored morality /
+  // trust / act-aware tone overlay; renders as an additional
+  // italic line below the main scene text when a registry entry
+  // matches.
+  const npcLineVariant = useVariant("npc_line", npcId);
 
   // KineticText reveal state
   const [isTyping, setIsTyping] = useState(true);
@@ -511,6 +518,21 @@ export default function NPCDialog({ npcId, scene, onClose, onChoice }: NPCDialog
               </div>
               <p className="font-mono text-[10px] italic text-foreground/75 leading-relaxed">
                 "{archonWhisper.utterance.text}"
+              </p>
+            </motion.div>
+          )}
+
+          {/* Variant tone overlay — morality/trust/act-aware line */}
+          {npcLineVariant && showChoices && (
+            <motion.div
+              initial={{ opacity: 0, y: -4 }}
+              animate={{ opacity: 0.85, y: 0 }}
+              className="mt-2 p-2 rounded border-l-2 void-border void-bg-sunk"
+              data-testid="npc-line-variant"
+              data-variant-id={npcLineVariant.id}
+            >
+              <p className="font-mono text-[10px] italic text-foreground/80 leading-relaxed">
+                {npcLineVariant.text}
               </p>
             </motion.div>
           )}

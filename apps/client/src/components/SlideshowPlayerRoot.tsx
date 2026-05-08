@@ -25,6 +25,7 @@ import {
 import { getDynamicLionFrames } from "@shared/memorableMoments";
 import { useGame } from "@/contexts/GameContext";
 import { useActVO } from "@/hooks/useActVO";
+import { useVariant } from "@/hooks/useVariant";
 import { discoverLoredexEntries } from "@/lib/discoverLoredex";
 
 export function SlideshowPlayerRoot() {
@@ -153,6 +154,14 @@ export function SlideshowPlayerRoot() {
     [slideshowDef],
   );
 
+  // audit/10.F1 — transmission surface variant. Authored framing
+  // text overlays the slideshow when morality/trust/act gating
+  // matches. Null = no overlay (the slideshow plays bare).
+  const transmissionVariant = useVariant(
+    "transmission",
+    slideshowDef?.id,
+  );
+
   if (!active || !slideshowDef) return null;
 
   // Acts 2-7 AAA Final — when the def declares a videoUrl and the
@@ -189,8 +198,25 @@ export function SlideshowPlayerRoot() {
     />
   );
 
+  const wrapped = transmissionVariant ? (
+    <div className="relative w-full h-full">
+      {inner}
+      <div
+        className="absolute left-0 right-0 bottom-0 px-6 pb-6 pointer-events-none"
+        data-testid="transmission-variant-line"
+        data-variant-id={transmissionVariant.id}
+      >
+        <p className="font-mono text-xs leading-relaxed max-w-2xl mx-auto text-center text-[color:color-mix(in_oklch,var(--neon-cyan)_70%,white)] drop-shadow-[0_0_8px_color-mix(in_oklch,var(--energy-primary)_40%,transparent)]">
+          {transmissionVariant.text}
+        </p>
+      </div>
+    </div>
+  ) : (
+    inner
+  );
+
   if (matrixFrameActive) {
-    return <MatrixFrame title={slideshowDef.title}>{inner}</MatrixFrame>;
+    return <MatrixFrame title={slideshowDef.title}>{wrapped}</MatrixFrame>;
   }
-  return inner;
+  return wrapped;
 }

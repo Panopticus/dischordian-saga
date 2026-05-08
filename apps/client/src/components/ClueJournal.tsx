@@ -5,6 +5,7 @@
    ═══════════════════════════════════════════════════════ */
 import { useState, useMemo } from "react";
 import { useGame } from "@/contexts/GameContext";
+import { useVariant } from "@/hooks/useVariant";
 import {
   BookOpen, Diamond, MessageCircle, Eye, Link2, Trophy,
   Lock, Unlock, ChevronRight, ChevronDown, Sparkles,
@@ -451,6 +452,14 @@ export default function ClueJournal({ onClose }: ClueJournalProps) {
   // gameplay count, not the size of the legacy CLUES array.
   const totalClues = useMemo(() => getAllAuthoredClues().length, []);
 
+  // audit/10.F1 — journal surface variant. The seed registry uses
+  // `journal_act{N}_page` targetIds; resolve against the current
+  // narrative act so per-act journal tone surfaces in the log tab.
+  const journalVariant = useVariant(
+    "journal",
+    `journal_act${state.narrativeAct ?? 0}_page`,
+  );
+
   // Sources actually present in the journal so the filter dropdown
   // doesn't list rooms the player hasn't logged anything in yet.
   const knownSources = useMemo(() => {
@@ -556,6 +565,17 @@ export default function ClueJournal({ onClose }: ClueJournalProps) {
               exit={{ opacity: 0, x: 20 }}
               className="p-4"
             >
+              {journalVariant && (
+                <div
+                  className="mb-4 rounded-md p-3 border-l-2 border-primary/40 bg-primary/5"
+                  data-testid="journal-variant-line"
+                  data-variant-id={journalVariant.id}
+                >
+                  <p className="font-mono text-xs italic leading-relaxed text-foreground/80">
+                    {journalVariant.text}
+                  </p>
+                </div>
+              )}
               <AwakeningJournalEntry />
               {/* Milestone entries appear after the Awakening entry */}
               <div className="mt-4">

@@ -35,6 +35,13 @@ export const LoredexEntrySchema = z.object({
   image: z.string().optional().default(""),
   priority: z.string().optional().default("normal"),
   streaming_links: z.any().optional(),
+  /**
+   * audit/14.F1 — optional cluster tag. Future LOREDEX UI can
+   * filter / group entries by cluster; readers that don't care
+   * ignore the field. Empty string and undefined both mean
+   * "no cluster".
+   */
+  cluster: z.string().optional().default(""),
 });
 
 export const LoredexRelationshipSchema = z.object({
