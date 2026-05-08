@@ -106,9 +106,18 @@ async function tryInitOTel(): Promise<void> {
     );
   } catch (err) {
     // Any of: packages not installed, OTLP endpoint unreachable at
-    // init, SDK version mismatch. Degrade silently — every consumer
-    // becomes a no-op.
+    // init, SDK version mismatch.
     const msg = err instanceof Error ? err.message : String(err);
+    // audit/06.F2 — fail loud in prod. If OTEL_ENABLED was set the
+    // operator expects tracing; silent disable hides observability
+    // gaps. Dev keeps the warn-and-degrade so local builds without
+    // OTel packages still boot.
+    if (process.env.NODE_ENV === "production" && process.env.OTEL_ENABLED) {
+      logger.error(
+        "[OTel] init failed in production with OTEL_ENABLED set: " + msg,
+      );
+      process.exit(2);
+    }
     logger.warn(
       "[OTel] init failed — tracing disabled (no behavioral impact): " + msg,
     );

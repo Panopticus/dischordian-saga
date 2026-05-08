@@ -1,4 +1,4 @@
-import { Suspense, lazy, useState, useEffect, useRef, useCallback, type ReactNode, type ComponentType } from "react";
+import { Suspense, lazy, useState, useEffect, useRef, useCallback, useMemo, type ReactNode, type ComponentType } from "react";
 import { MotionConfig } from "framer-motion";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -613,21 +613,31 @@ function GameGate() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // audit/04.F6 — split the truthy-flag Set computation from the
+  // companion-context push so a stability/light shift doesn't rebuild
+  // the Set on every Object.entries walk. Memoise the Set against
+  // narrativeFlags only; the push effect re-fires on any of the three.
+  const truthyFlagSet = useMemo(
+    () =>
+      new Set(
+        Object.entries(state.narrativeFlags ?? {})
+          .filter(([, v]) => v)
+          .map(([k]) => k),
+      ),
+    [state.narrativeFlags],
+  );
+
   // F13 — sync GameContext state into the companion scheduler so band
   // gates + flag-gated lines see fresh data without an explicit push.
   useEffect(() => {
     setCompanionContext({
       elaraStability: state.elaraStability ?? 10,
       humanLight: state.humanLight ?? -20,
-      flags: new Set(
-        Object.entries(state.narrativeFlags ?? {})
-          .filter(([, v]) => v)
-          .map(([k]) => k),
-      ),
+      flags: truthyFlagSet,
       // Act inference: default 0 until explicit feature wires it.
       act: state.narrativeFlags?.act_started ? 1 : 0,
     });
-  }, [state.elaraStability, state.humanLight, state.narrativeFlags]);
+  }, [state.elaraStability, state.humanLight, truthyFlagSet, state.narrativeFlags?.act_started]);
 
   // ── A.12 Tutorial Orchestrator — check tutorials on route changes
   const { checkTutorial } = useTutorialOrchestrator();

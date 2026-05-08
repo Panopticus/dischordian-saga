@@ -1610,6 +1610,15 @@ export const marketListings = mysqlTable("market_listings", {
   createdAtIdx: index("idx_market_listings_created_at").on(table.createdAt),
   statusIdx: index("idx_market_listings_status").on(table.status),
   sellerIdIdx: index("idx_market_listings_seller_id").on(table.sellerId),
+  // audit/04.F4 — marketplace.searchListings filters on (status,
+  // itemType, createdAt). The status-only index above forced a
+  // filesort + leading-wildcard LIKE scan on every page. The
+  // composite covers the hot path; itemName needs a FULLTEXT in a
+  // follow-up migration (Drizzle's MySQL adapter doesn't expose
+  // FULLTEXT yet, so we rely on a manual `ALTER TABLE … ADD
+  // FULLTEXT` once db:migrate flow stabilises).
+  statusItemCreatedIdx: index("idx_market_listings_status_item_created")
+    .on(table.status, table.itemType, table.createdAt),
 }));
 export type MarketListing = typeof marketListings.$inferSelect;
 
