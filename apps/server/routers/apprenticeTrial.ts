@@ -11,6 +11,7 @@ import { apprenticeTrialCompletions } from "../../db/schema";
 import { eq, and, desc, sql } from "drizzle-orm";
 import { TRPCError } from "@trpc/server";
 import { awardEligibleTitles } from "../services/titleService";
+import { writeNarrativeFlag } from "../services/narrativeFlagService";
 
 export const apprenticeTrialRouter = router({
   /** Record a cohort completion — called by client when a cohort concludes. */
@@ -54,6 +55,24 @@ export const apprenticeTrialRouter = router({
         graduated: input.graduated,
         daySurvived: input.daySurvived,
       });
+
+      // audit/10.F5 — graduation now writes a sticky narrative
+      // flag so the variant resolver / companion comments / ask
+      // topics can reference the player's apprentice journey
+      // without re-querying the completions table. Idempotent
+      // (unique index absorbs re-writes from cohort replay).
+      if (input.graduated) {
+        await writeNarrativeFlag(
+          ctx.user.id,
+          `apprentice_trial_completed_${input.archetype}`,
+          "apprentice_trial",
+        );
+        await writeNarrativeFlag(
+          ctx.user.id,
+          "apprentice_trial_graduated_any",
+          "apprentice_trial",
+        );
+      }
       return { ok: true, titlesGranted: granted };
     }),
 
