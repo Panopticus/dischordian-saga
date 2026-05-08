@@ -764,6 +764,7 @@ regenerate them, just point producers at them**. They have not been archived.
 
 | File | Purpose |
 |---|---|
+| `docs/production/NANO_BANANA_VEO_FULL_PROMPT_BOOK.md` | **Drag-and-drop prompt book** for every video deliverable in §3 of this doc. Nano Banana 2 keyframes + Veo 3.1 motion + ElevenLabs voice direction; frame-chained (end of shot N = start of shot N+1); no-music rule, VFX + dialog only |
 | `docs/TCG_ART_SPEC.md` (+ ADDENDUM)            | Card-art Nano Banana 2 prompts (206 illustrations + frames + keyword icons) |
 | `docs/NANO_BANANA_*` (6 files)                 | Allegiance / class / element-dim-race / NPC-imprint card prompts |
 | `docs/FNORD23_MUSIC_PROMPTS.md`                | Suno prompts for OUTERGROOVE engineer-log instrumentals |

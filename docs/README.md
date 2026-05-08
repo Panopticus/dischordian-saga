@@ -40,6 +40,7 @@ Files under `production/` are now narrowly-scoped tool-specific prompt sheets,
 referenced from §6 of that doc.
 
 **Active reference docs (don't archive)**
+- `NANO_BANANA_VEO_FULL_PROMPT_BOOK.md` — full Nano Banana 2 + Veo 3.1 prompt book for every video deliverable in `ART_DEPARTMENT_PRODUCTION.md` §3 (frame-chained, no-music rule, VFX + dialog only)
 - `VOICE_OVER_BIBLE.md` — ElevenLabs voice profiles + pipeline
 - `LIVING_CHARACTER_SHEET_ART_BRIEF.md` — 6-track character rig + cosmetics
 - `GUILD_CUTSCENE_BIBLE.md` — guild signature-cutscene Veo prompts
