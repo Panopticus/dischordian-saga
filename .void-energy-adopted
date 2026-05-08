@@ -60,6 +60,7 @@ apps/client/src/components/DlcChapterPlayer.tsx
 apps/client/src/components/DnaDeviceOfferDialog.tsx
 apps/client/src/components/DreamProphecyFlash.tsx
 apps/client/src/components/DreamerVisionPlayer.tsx
+apps/client/src/components/DuplicateWarning.tsx
 apps/client/src/components/ElementalCombosPanel.tsx
 apps/client/src/components/EmptyBunk.tsx
 apps/client/src/components/ErrorBoundary.tsx
