@@ -1,6 +1,6 @@
 import { useAuth } from "@/_core/hooks/useAuth";
 import { trpc } from "@/lib/trpc";
-import { getLoginUrl } from "@/const";
+import { getGoogleLoginUrl } from "@/const";
 import { useState } from "react";
 import { useSwipeTabs } from "@/hooks/useSwipeTabs";
 import { motion, AnimatePresence } from "framer-motion";
@@ -62,7 +62,7 @@ export default function QuestBoardPage() {
           <p className="text-muted-foreground font-mono text-sm mb-6">
             Login to access daily, weekly, and epoch missions with exclusive rewards.
           </p>
-          <Button onClick={() => window.location.href = getLoginUrl()} className="bg-primary text-primary-foreground">
+          <Button onClick={() => window.location.href = getGoogleLoginUrl()} className="bg-primary text-primary-foreground">
             LOGIN TO ACCESS
           </Button>
         </div>

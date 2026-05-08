@@ -14,7 +14,7 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import { useGame } from "@/contexts/GameContext";
 import { generateStarterDeck, type StarterCard } from "@/components/StarterDeckViewer";
 import { toast } from "sonner";
-import { getLoginUrl } from "@/const";
+import { getGoogleLoginUrl } from "@/const";
 
 export default function CardChallengePage() {
   const { user, isAuthenticated } = useAuth();
@@ -57,7 +57,7 @@ export default function CardChallengePage() {
   }, [gameState.characterChoices]);
 
   const handleChallenge = (targetUserId: number) => {
-    if (!isAuthenticated) { window.location.href = getLoginUrl(); return; }
+    if (!isAuthenticated) { window.location.href = getGoogleLoginUrl(); return; }
     createChallenge.mutate({
       targetUserId,
       attackerDeck: playerDeck.map((c: StarterCard) => ({
@@ -272,7 +272,7 @@ export default function CardChallengePage() {
                     </div>
                   ) : (
                     <button onClick={() => {
-                      if (!isAuthenticated) { window.location.href = getLoginUrl(); return; }
+                      if (!isAuthenticated) { window.location.href = getGoogleLoginUrl(); return; }
                       setSelectedTarget(player.userId);
                     }}
                       className="px-3 py-1.5 rounded-md font-mono text-[10px] tracking-wider bg-primary/5 border border-primary/10 text-primary/60 hover:text-primary hover:bg-primary/10 hover:border-primary/30 transition-all opacity-0 group-hover:opacity-100 flex items-center gap-1">

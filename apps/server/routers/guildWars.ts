@@ -13,7 +13,7 @@ import {
   guildWars, guildWarContributions, guilds, guildMembers,
   notifications, dreamBalance, marketTaxPool,
 } from "../../db/schema";
-import { fetchCitizenData, fetchPotentialNftData, resolveGuildWarBonuses } from "../traitResolver";
+import { fetchCitizenData, resolveGuildWarBonuses } from "../traitResolver";
 import { getConsequences } from "../services/universeConsequences";
 import { pressureService } from "../services/pressureService";
 import { warEventCutscene } from "@shared/expansionArt/guildCutsceneVoMap";
@@ -133,11 +133,8 @@ export const guildWarsRouter = router({
       }
 
       // Fetch citizen trait bonuses for guild wars
-      const [warCitizen, warNft] = await Promise.all([
-        fetchCitizenData(ctx.user.id),
-        fetchPotentialNftData(ctx.user.id),
-      ]);
-      const warTb = resolveGuildWarBonuses(warCitizen, warNft);
+      const warCitizen = await fetchCitizenData(ctx.user.id);
+      const warTb = resolveGuildWarBonuses(warCitizen);
 
       // Calculate points — apply trait multiplier
       const basePoints = POINT_VALUES[input.source] || 10;
@@ -356,10 +353,36 @@ export const guildWarsRouter = router({
         endsAt,
         status: "active",
       });
+      const warId = Number(result[0].insertId);
+
+      // Notify every guild member in the two participating factions
+      // that a faction war has started over their territory.
+      try {
+        const { or } = await import("drizzle-orm");
+        const participants = await db
+          .select({ userId: guildMembers.userId })
+          .from(guildMembers)
+          .innerJoin(guilds, eq(guildMembers.guildId, guilds.id))
+          .where(or(eq(guilds.faction, input.factionA), eq(guilds.faction, input.factionB)));
+        if (participants.length > 0) {
+          await db.insert(notifications).values(
+            participants.map((p) => ({
+              userId: p.userId,
+              type: "faction_war" as const,
+              title: `Faction War: ${input.name}`,
+              message: `${input.factionA} vs ${input.factionB} over ${input.territory}.`,
+              actionUrl: `/guild-wars/${warId}`,
+              metadata: { warId, factionA: input.factionA, factionB: input.factionB, territory: input.territory },
+            })),
+          );
+        }
+      } catch (e) {
+        logger.error("[GuildWars] faction_war notification failed:", e);
+      }
 
       return {
         success: true,
-        warId: Number(result[0].insertId),
+        warId,
         // F.3.1 cinematic — clients render <GuildCutscenePlayer csId
         // voLineId /> from this trigger when the war banner mounts.
         cutscene: warEventCutscene("war_declared"),

@@ -7,7 +7,7 @@ import { getDb } from "../db";
 import { cards, userCards, decks, cardGameMatches, characterSheets, dreamBalance, userProgress, pvpMatches } from "../../db/schema";
 import { eq, and, or, like, inArray, notInArray, sql, desc, asc, type SQL } from "drizzle-orm";
 import { createRng, rngPick } from "@shared/tcg-core/engine/rng";
-import { fetchCitizenData, fetchPotentialNftData, resolveCardGameBonuses } from "../traitResolver";
+import { fetchCitizenData, resolveCardGameBonuses } from "../traitResolver";
 import { getPlayerExpansionState, getLockedCardIds } from "../services/playerExpansionState";
 import { trackAiResult, trackCollectionSize } from "../achievementTracker";
 import { ripple } from "../services/rippleEngine";
@@ -546,47 +546,53 @@ export const cardGameRouter = router({
         return { success: false, message: `Not enough gems (need ${bundle.gemCost}, have ${bal?.gems ?? 0})` };
       }
 
-      // Deduct gems first.
-      await db.update(dreamBalance)
-        .set({ gems: (bal.gems ?? 0) - bundle.gemCost })
-        .where(eq(dreamBalance.userId, ctx.user.id));
-
-      // Grant the bundle payload.
-      if ("credits" in bundle.grants) {
-        const [sheet] = await db.select().from(characterSheets)
-          .where(eq(characterSheets.userId, ctx.user.id)).limit(1);
-        if (sheet) {
-          await db.update(characterSheets)
-            .set({ credits: (sheet.credits ?? 0) + bundle.grants.credits })
-            .where(eq(characterSheets.userId, ctx.user.id));
-        }
-      }
-      if ("dream" in bundle.grants) {
-        await db.update(dreamBalance)
-          .set({ dreamTokens: sql`${dreamBalance.dreamTokens} + ${bundle.grants.dream}` })
+      // Wrap deduction + bundle-payload grant in a transaction so a
+      // partial failure (e.g. credit-grant after gems were debited)
+      // rolls back. Without this, a player could be charged gems
+      // without receiving the bundle on retry. Plan §C3.
+      await db.transaction(async (tx) => {
+        // Deduct gems first.
+        await tx.update(dreamBalance)
+          .set({ gems: (bal.gems ?? 0) - bundle.gemCost })
           .where(eq(dreamBalance.userId, ctx.user.id));
-      }
-      if ("packs" in bundle.grants) {
-        // Stash as a virtual inventory entry on userProgress for now.
-        const rows = await db.select().from(userProgress)
-          .where(and(eq(userProgress.userId, ctx.user.id), eq(userProgress.franchiseId, "dischordian-saga")))
-          .limit(1);
-        const existing = rows[0];
-        const gameData = (existing?.gameData ?? {}) as Record<string, unknown>;
-        const pendingPacks = Number(gameData.pendingPacks ?? 0) + bundle.grants.packs;
-        const nextGameData = { ...gameData, pendingPacks };
-        if (existing) {
-          await db.update(userProgress)
-            .set({ gameData: nextGameData })
-            .where(and(eq(userProgress.userId, ctx.user.id), eq(userProgress.franchiseId, "dischordian-saga")));
-        } else {
-          await db.insert(userProgress).values({
-            userId: ctx.user.id,
-            franchiseId: "dischordian-saga",
-            gameData: nextGameData,
-          });
+
+        // Grant the bundle payload.
+        if ("credits" in bundle.grants) {
+          const [sheet] = await tx.select().from(characterSheets)
+            .where(eq(characterSheets.userId, ctx.user.id)).limit(1);
+          if (sheet) {
+            await tx.update(characterSheets)
+              .set({ credits: (sheet.credits ?? 0) + bundle.grants.credits })
+              .where(eq(characterSheets.userId, ctx.user.id));
+          }
         }
-      }
+        if ("dream" in bundle.grants) {
+          await tx.update(dreamBalance)
+            .set({ dreamTokens: sql`${dreamBalance.dreamTokens} + ${bundle.grants.dream}` })
+            .where(eq(dreamBalance.userId, ctx.user.id));
+        }
+        if ("packs" in bundle.grants) {
+          // Stash as a virtual inventory entry on userProgress for now.
+          const rows = await tx.select().from(userProgress)
+            .where(and(eq(userProgress.userId, ctx.user.id), eq(userProgress.franchiseId, "dischordian-saga")))
+            .limit(1);
+          const existing = rows[0];
+          const gameData = (existing?.gameData ?? {}) as Record<string, unknown>;
+          const pendingPacks = Number(gameData.pendingPacks ?? 0) + bundle.grants.packs;
+          const nextGameData = { ...gameData, pendingPacks };
+          if (existing) {
+            await tx.update(userProgress)
+              .set({ gameData: nextGameData })
+              .where(and(eq(userProgress.userId, ctx.user.id), eq(userProgress.franchiseId, "dischordian-saga")));
+          } else {
+            await tx.insert(userProgress).values({
+              userId: ctx.user.id,
+              franchiseId: "dischordian-saga",
+              gameData: nextGameData,
+            });
+          }
+        }
+      });
 
       return {
         success: true,
@@ -1169,11 +1175,8 @@ export const cardGameRouter = router({
       const aiDrawPile = aiShuffled.slice(5, 20).map(c => ({ cardId: c.cardId, quantity: 1 }));
 
       // ═══ CITIZEN TRAIT BONUSES ═══
-      const [citizen, nft] = await Promise.all([
-        fetchCitizenData(ctx.user.id),
-        fetchPotentialNftData(ctx.user.id),
-      ]);
-      const traitBonuses = resolveCardGameBonuses(citizen, nft);
+      const citizen = await fetchCitizenData(ctx.user.id);
+      const traitBonuses = resolveCardGameBonuses(citizen);
 
       // Apply Living Universe consequences to card stats
       const fx = await getConsequences();

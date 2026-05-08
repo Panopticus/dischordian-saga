@@ -51,7 +51,7 @@ export const cardDef: CardDefinition = {
   trial_categories: ["narrative"] as const,
   verdict_delta: 2,
   balanceException: {
-    reason: "Reward/prestige card: designer-tuned outside the standard curve for narrative role; not part of the regular deck-builder balance pool. UNDER curve by 22%.",
-    reviewer: "2026-05-stat-curve-recalibration",
+    reason: "Reward-tier card from the eidolon grant. On-deploy draw is the per-card value. Stats held below ladder curve to keep narrative-unlock cards out of competitive must-include slots.",
+    reviewer: "panopticus",
   },
 };

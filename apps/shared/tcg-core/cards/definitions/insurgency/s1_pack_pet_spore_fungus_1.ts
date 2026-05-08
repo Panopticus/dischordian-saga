@@ -53,7 +53,7 @@ export const cardDef: CardDefinition = {
   trial_categories: ["defensive", "reactive"] as const,
   verdict_delta: 1,
   balanceException: {
-    reason: "Pet/companion card: smaller stat profile by design (companions are flavor-tier units, not main board threats). UNDER curve by 33%.",
-    reviewer: "2026-05-stat-curve-recalibration",
+    reason: "Pet engine: 0/2 body with on-death spore-token summon is the swarm-seed pattern; raw stats below curve because the value is the chain that follows it dying.",
+    reviewer: "panopticus",
   },
 };

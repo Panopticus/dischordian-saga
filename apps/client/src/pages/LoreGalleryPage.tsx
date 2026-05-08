@@ -134,7 +134,7 @@ const ALL_FRAGMENTS: LoreFragment[] = [
   // Visions
   { id: "v1", title: "The Dreamer's Prophecy", era: "visions", content: "When the last star dims and the hull grows cold, a child of no species will stand at the probability gate. They will be given a choice no one should have to make: save everything, or save everyone. They are not the same.", achievementId: "all_companions", achievementName: "Full Crew", hint: "Recruit all companions.", rarity: "legendary" },
   { id: "v2", title: "Tomorrow's Echo", era: "visions", content: "The probability lattice occasionally glitches. For a fraction of a second, the Ark exists in every possible future simultaneously. Those who witness it report seeing themselves -- older, different, sometimes terrifying.", achievementId: "prestige_1", achievementName: "Second Awakening", hint: "Complete your first Prestige cycle.", rarity: "epic" },
-  { id: "v3", title: "Fragment #404", era: "visions", content: "[THIS FRAGMENT HAS BEEN REDACTED BY ORDER OF THE ARCHITECT. IF YOU ARE READING THIS, THE REDACTION HAS FAILED. RUN.]", achievementId: "hidden_achievement", achievementName: "???", hint: "Some secrets are not meant to be found.", rarity: "legendary" },
+  { id: "v3", title: "Fragment #404", era: "visions", content: "[THIS FRAGMENT HAS BEEN REDACTED BY ORDER OF THE ARCHITECT. IF YOU ARE READING THIS, THE REDACTION HAS FAILED. RUN.]", achievementId: "hidden_achievement", achievementName: "???", hint: "Some secrets are not meant to be found.", rarity: "legendary" }, // void-ignore — "#404" is narrative numbering inside a string
 ];
 
 /* ─── RARITY CONFIG ─── */
@@ -231,7 +231,7 @@ export default function LoreGalleryPage({ unlockedAchievements = new Set() }: Pr
           initial={{ width: 0 }}
           animate={{ width: `${(discoveredCount / totalCount) * 100}%` }}
           transition={{ duration: 1, ease: "easeOut" }}
-          className="h-full bg-gradient-to-r from-amber-600 to-amber-400 rounded-full"
+          className="h-full void-bg-success rounded-full"
         />
       </div>
 

@@ -29,13 +29,6 @@ import { assetUrl } from "@/lib/assetUrl";
 /** Total tease duration in seconds (includes the 3s fade-out). */
 export const LAST_WORDS_TEASE_DURATION_S = 35;
 
-/**
- * @deprecated Alias for LAST_WORDS_TEASE_DURATION_S, retained so
- * the existing LastWordsWitnessing consumer doesn't need a
- * coordinated rename in the same PR as this restructure.
- */
-export const LAST_WORDS_SONG_DURATION_S = LAST_WORDS_TEASE_DURATION_S;
-
 /** Path to the tease MP3 (35s trim of the full song with fade-out). */
 export const LAST_WORDS_SONG_URL =
   assetUrl("audio/music/song_last_words_prelude_tease.mp3");

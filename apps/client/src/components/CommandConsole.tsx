@@ -197,7 +197,6 @@ const SYSTEMS: SystemDef[] = [
       { path: "/achievements", label: "ACHIEVEMENTS", icon: Trophy, desc: "Achievement gallery", hintFlag: "sheet_known_achievements" },
       { path: "/leaderboard", label: "LEADERBOARD", icon: Trophy, desc: "Top operatives", hintFlag: "sheet_known_leaderboard" },
       { path: "/potentials", label: "THE POTENTIALS", icon: Gem, desc: "Potential collection", hintFlag: "sheet_known_potential" },
-      { path: "/potentials/leaderboard", label: "POTENTIAL RANKS", icon: Crown, desc: "Potential holder rankings", hintFlag: "sheet_known_potential" },
     ],
   },
   {

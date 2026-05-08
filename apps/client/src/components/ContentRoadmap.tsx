@@ -73,7 +73,7 @@ const SEASONS: Season[] = [
       "500 Void Crystals + 1,500 viralExposures bonus",
     ],
     theme: "warlord",
-    color: "#FF4444",
+    color: "var(--energy-error)",
     isCurrent: false,
   },
 ];
@@ -169,7 +169,7 @@ export default function ContentRoadmap({ onClose, onPin, isPinned = false }: Con
         className="w-full max-w-2xl max-h-[85vh] bg-black/95 border border-white/10 rounded-2xl overflow-hidden flex flex-col"
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-5 py-4 border-b border-white/10 bg-gradient-to-r from-purple-500/10 to-transparent flex-shrink-0">
+        <div className="flex items-center justify-between px-5 py-4 border-b border-white/10 bg-gradient-to-r void-bg-system flex-shrink-0">
           <div className="flex items-center gap-3">
             <Calendar size={20} className="void-text-system" />
             <h2 className="font-display text-lg tracking-[0.15em] text-white">

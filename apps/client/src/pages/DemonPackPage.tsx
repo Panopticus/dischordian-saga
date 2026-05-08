@@ -1,6 +1,6 @@
 import { useAuth } from "@/_core/hooks/useAuth";
 import { trpc } from "@/lib/trpc";
-import { getLoginUrl } from "@/const";
+import { getGoogleLoginUrl } from "@/const";
 import { Link } from "wouter";
 import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -107,7 +107,7 @@ export default function DemonPackPage() {
 
   const handleOpenPack = useCallback((packType: "standard" | "premium" | "infernal") => {
     if (!isAuthenticated) {
-      window.location.href = getLoginUrl();
+      window.location.href = getGoogleLoginUrl();
       return;
     }
     setSelectedPack(packType);

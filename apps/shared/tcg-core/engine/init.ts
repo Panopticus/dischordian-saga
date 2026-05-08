@@ -400,6 +400,7 @@ export function makeCardInstance(
   const def = registry.get(defId);
   const power = def?.baseStats?.power ?? 0;
   const health = def?.baseStats?.health ?? 1;
+  const armor = (def as { baseArmor?: number } | undefined)?.baseArmor ?? 0;
   const keywords = def?.keywords ? [...def.keywords] : [];
   const emptyBuffs: Buff[] = [];
   return {
@@ -409,6 +410,7 @@ export function makeCardInstance(
     currentPower: power,
     currentHealth: health,
     maxHealth: health,
+    armor,
     counters: {},
     activeKeywords: keywords,
     buffs: emptyBuffs,

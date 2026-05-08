@@ -25,9 +25,6 @@ const buildStartUrl = (provider: "google" | "discord" | "github") => {
 
 export const getGoogleLoginUrl = () => buildStartUrl("google");
 
-/** @deprecated Use getGoogleLoginUrl instead */
-export const getLoginUrl = getGoogleLoginUrl;
-
 export const getDiscordLoginUrl = () => {
   if (!import.meta.env.VITE_DISCORD_CLIENT_ID) return null;
   return buildStartUrl("discord");

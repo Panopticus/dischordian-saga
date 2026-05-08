@@ -42,7 +42,11 @@
     "0067_indexes_and_fks",
     "0068_user_blocks",
     "0069_support_impersonation_grants",
-    "0070_user_cohort_columns"
+    "0070_user_cohort_columns",
+    "0071_drop_nft_card_columns",
+    "0072_drop_dead_notification_variants",
+    "0073_trade_missions",
+    "0074_drop_character_sheets_avatar_url"
   ],
   "knownPrefixCollisions": [
     "0037",

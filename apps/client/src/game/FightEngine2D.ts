@@ -1056,7 +1056,7 @@ export class FightEngine2D {
   private aiProfile: AIDifficultyProfile;
   private callbacks: FightCallbacks2D;
 
-  // Economy bonuses (from crafted items, premium, NFT, suit-set adapters)
+  // Economy bonuses (from crafted items, premium, suit-set adapters)
   public playerDamageBonus = 0;   // Percent bonus to P1 damage
   public playerDefenseBonus = 0;  // Percent bonus to P1 defense (damage reduction)
   public playerSpeedBonus = 0;    // Percent bonus to P1 speed

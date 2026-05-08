@@ -13,6 +13,7 @@ import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 import HolographicElara from "@/components/HolographicElara";
 import OpeningCinematic from "@/components/OpeningCinematic";
+import { MobileNarratorSlot } from "@/components/MobileNarratorSlot";
 import { resolveRoomStateAsset } from "@/game/roomStateAssets";
 import { getAwakeningCinematic } from "@shared/awakeningCinematicPrompts";
 import { observe as observeWatcher } from "@/lib/watcher";
@@ -281,7 +282,8 @@ function ElaraDialogBox({
             width: "100%",
             background: "linear-gradient(135deg, var(--bg-void) 0%, var(--bg-spotlight) 100%)",
             border: "1px solid color-mix(in oklch, var(--energy-primary) 20%, transparent)",
-            boxShadow: "0 0 30px color-mix(in oklch, var(--energy-primary) 5%, transparent), inset 0 1px 0 color-mix(in oklch, var(--energy-primary) 10%, transparent)",
+            boxShadow:
+              "0 0 var(--space-md) color-mix(in oklch, var(--energy-primary) 5%, transparent), inset 0 1px 0 color-mix(in oklch, var(--energy-primary) 10%, transparent)",
           }}
         >
           {/* Scanline effect */}
@@ -792,13 +794,19 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
 
 
   return (
-    <div className="fixed inset-0 z-[100] overflow-y-auto overflow-x-hidden" style={{ background: "#000" }} onClick={handleInitAudio}>
+    <div className="fixed inset-0 z-[100] overflow-y-auto overflow-x-hidden" style={{ background: "var(--bg-void)" }} onClick={handleInitAudio}>
       {/* Growing dossier card — accretes in the top-right as the
           player answers species / class / element / alignment. Gives
           them a live "look at who you're becoming" beat instead of
           waiting for the post-awakening summary. pointer-events-none
           so it never intercepts dialog clicks. */}
       <AwakeningCharacterPreview choices={characterChoices} />
+
+      {/* Mobile Narrator Slot — first contact (NARRATIVE_ARCHITECTURE.md §1.4 beat 1). */}
+      <MobileNarratorSlot
+        roomId="cryo_bay"
+        flags={new Set(["narrator_beat_1_interference"])}
+      />
 
       {/* Background layer — prefers a Kling cinematic for the current
           awakening step (Bioware-style video backdrop), falling back to
@@ -870,7 +878,8 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
             transition={{ duration: 3 }}
             className="absolute inset-0 z-10 pointer-events-none"
             style={{
-              background: "radial-gradient(ellipse at center, transparent 30%, rgba(100,180,255,0.15) 70%, rgba(100,180,255,0.3) 100%)",
+              background:
+                "radial-gradient(ellipse at center, transparent 30%, color-mix(in oklch, var(--electric-blue) 15%, transparent) 70%, color-mix(in oklch, var(--electric-blue) 30%, transparent) 100%)",
             }}
           />
         )}
@@ -1176,14 +1185,14 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
               left: "50%",
               transform: "translateX(-50%)",
               zIndex: 60,
-              maxWidth: "min(620px, 92vw)",
+              maxWidth: "min(620px, 92vw)" /* void-ignore — uplink toast max width */,
               padding: "0.85rem 1.25rem",
               borderRadius: 6,
-              background: "rgba(0,0,0,0.82)",
-              border: "1px solid rgba(255,60,64,0.55)",
-              boxShadow: "0 0 22px rgba(255,60,64,0.22)",
+              background: "color-mix(in oklch, var(--bg-void) 82%, transparent)",
+              border: "1px solid color-mix(in oklch, var(--energy-error) 55%, transparent)",
+              boxShadow: "0 0 var(--space-sm) color-mix(in oklch, var(--energy-error) 22%, transparent)",
               fontFamily: "'JetBrains Mono', 'Fira Code', monospace",
-              color: "#ffe4e6",
+              color: "color-mix(in oklch, var(--energy-error) 30%, var(--text-primary))",
               display: "flex",
               alignItems: "center",
               gap: "0.65rem",
@@ -1195,8 +1204,8 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
                 width: 8,
                 height: 8,
                 borderRadius: "50%",
-                background: "#ff3c40",
-                boxShadow: "0 0 10px rgba(255,60,64,0.85)",
+                background: "var(--energy-error)",
+                boxShadow: "0 0 10px color-mix(in oklch, var(--energy-error) 85%, transparent)" /* void-ignore — micro alert dot glow */,
                 flexShrink: 0,
               }}
             />
@@ -1206,7 +1215,7 @@ export default function AwakeningPage({ elaraTTS }: { elaraTTS?: any }) {
                   fontSize: "0.6rem",
                   letterSpacing: "0.32em",
                   textTransform: "uppercase",
-                  color: "rgba(255,120,124,0.85)",
+                  color: "color-mix(in oklch, var(--energy-error) 60%, var(--text-primary))",
                   marginBottom: "0.2rem",
                 }}
               >

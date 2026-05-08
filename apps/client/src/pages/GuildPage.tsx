@@ -9,7 +9,7 @@ import {
   Trophy, Swords, UserPlus, LogOut, Check, X, ArrowUp, Clock,
   ScrollText
 } from "lucide-react";
-import { getLoginUrl } from "@/const";
+import { getGoogleLoginUrl } from "@/const";
 import { EmptyGuildHall } from "@/components/EmptyStates";
 import { GuildCutsceneQueue } from "@/components/GuildCutsceneQueue";
 import type { CutsceneTrigger } from "@shared/expansionArt/guildCutsceneVoMap";
@@ -41,12 +41,12 @@ export default function GuildPage() {
   if (!isAuthenticated) {
     return (
       <div className="min-h-screen relative overflow-hidden flex items-center justify-center p-8 grid-bg">
-      <LivingBackground src="https://dgrsart.s3.us-east-2.amazonaws.com/page-backgrounds/GLD-001_guild-hall.jpg" accent="#dc2626" opacity={0.13} particleCount={4} scanlines={false} />
+      <LivingBackground src="https://dgrsart.s3.us-east-2.amazonaws.com/page-backgrounds/GLD-001_guild-hall.jpg" accent="var(--energy-error)" opacity={0.13} particleCount={4} scanlines={false} />
         <div className="text-center">
           <Shield size={48} className="text-primary mx-auto mb-4 opacity-50" />
           <h2 className="font-display text-xl font-bold mb-2">SYNDICATE ACCESS</h2>
           <p className="font-mono text-sm text-muted-foreground mb-4">Authentication required to access Syndicate operations.</p>
-          <a href={getLoginUrl()} className="inline-flex items-center gap-2 void-btn void-btn-primary font-mono text-sm">
+          <a href={getGoogleLoginUrl()} className="inline-flex items-center gap-2 void-btn void-btn-primary font-mono text-sm">
             AUTHENTICATE <ChevronRight size={14} />
           </a>
         </div>
@@ -686,7 +686,7 @@ function GuildChat() {
   const reversed = [...(messages || [])].reverse();
 
   return (
-    <div className="flex flex-col" style={{ height: "calc(100dvh - 280px)" }}>
+    <div className="flex flex-col" style={{ height: "calc(100dvh - 280px)" }} /* void-ignore — comms panel viewport offset */>
       <h3 className="font-display text-xs font-bold tracking-[0.2em] text-muted-foreground flex items-center gap-2 mb-3">
         <MessageSquare size={13} className="text-primary" /> SYNDICATE COMMS
       </h3>
@@ -1046,7 +1046,7 @@ function GuildContracts() {
               key={c.id}
               className={`p-4 rounded-lg border transition-colors ${
                 completed
-                  ? "void-bg-success border-emerald-700/40"
+                  ? "void-bg-success void-border-success"
                   : ready
                     ? "void-bg-system void-border-system"
                     : "bg-card/30 border-border/20"
@@ -1073,7 +1073,7 @@ function GuildContracts() {
                   <div
                     className={`h-full transition-all duration-500 ${
                       completed
-                        ? "bg-emerald-400"
+                        ? "void-bg-success"
                         : ready
                           ? "bg-primary"
                           : "bg-muted-foreground/40"
@@ -1146,7 +1146,7 @@ function GuildTerritoryMap() {
   const FACTION_MAP: Record<string, { color: string; glow: string; label: string; icon: typeof Shield }> = {
     empire: { color: "var(--energy-error)", glow: "color-mix(in oklch, var(--energy-error) 40%, transparent)", label: "EMPIRE", icon: Crown },
     insurgency: { color: "var(--energy-primary)", glow: "color-mix(in oklch, var(--energy-primary) 40%, transparent)", label: "INSURGENCY", icon: Shield },
-    neutral: { color: "#ffb74d", glow: "color-mix(in oklch, var(--energy-premium) 40%, transparent)", label: "NEUTRAL", icon: Flag },
+    neutral: { color: "var(--energy-premium)", glow: "color-mix(in oklch, var(--energy-premium) 40%, transparent)", label: "NEUTRAL", icon: Flag },
   };
 
   const TERRITORY_POSITIONS = [
@@ -1208,12 +1208,12 @@ function GuildTerritoryMap() {
       {/* Territory Map — SVG hex grid */}
       <div className="relative rounded-lg border border-border/30 overflow-hidden" style={{
         background: "linear-gradient(180deg, var(--bg-void) 0%, var(--bg-depth) 100%)",
-        minHeight: "320px",
+        minHeight: "320px" /* void-ignore — territory map minimum canvas height */,
       }}>
         {/* Grid background */}
         <div className="absolute inset-0 opacity-10" style={{
           backgroundImage: "radial-gradient(circle, color-mix(in oklch, var(--energy-primary) 30%, transparent) 1px, transparent 1px)",
-          backgroundSize: "30px 30px",
+          backgroundSize: "30px 30px" /* void-ignore — territory grid pattern repeat */,
         }} />
 
         {/* Connection lines between territories */}
@@ -1277,7 +1277,7 @@ function GuildTerritoryMap() {
                     ? `${factionStyle.color}66`
                     : "color-mix(in oklch, var(--text-primary) 15%, transparent)",
                   boxShadow: isSelected
-                    ? `0 0 20px ${isContested ? "color-mix(in oklch, var(--energy-system) 40%, transparent)" : factionStyle?.glow || "color-mix(in oklch, var(--energy-primary) 20%, transparent)"}`
+                    ? `0 0 var(--space-sm) ${isContested ? "color-mix(in oklch, var(--energy-system) 40%, transparent)" : factionStyle?.glow || "color-mix(in oklch, var(--energy-primary) 20%, transparent)"}`
                     : "none",
                 }}
               >
@@ -1292,7 +1292,7 @@ function GuildTerritoryMap() {
 
               {/* Territory name label */}
               <div className="absolute top-full mt-1 left-1/2 -translate-x-1/2 whitespace-nowrap">
-                <span className={`font-mono text-[8px] sm:text-[9px] tracking-wider ${
+                <span className={`font-mono text-[8px] sm:text-[9px] tracking-wider ${ /* void-ignore — micro territory label sizing */
                   isContested ? "void-text-system" : factionStyle ? `text-[${factionStyle.color}]` : "text-muted-foreground/50"
                 }`}>
                   {territory.name.replace("The ", "").split("'s")[0].toUpperCase().slice(0, 12)}

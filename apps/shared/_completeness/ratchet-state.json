@@ -10,6 +10,13 @@
     "db.foreign_key_coverage": 11,
     "db.economic_transaction_coverage": 11,
     "a11y.void_contrast_coverage": 10,
-    "content.card_flavor_quality": 112
+    "content.card_flavor_quality": 112,
+    "narrative.global_alignment_meter": 4,
+    "narrative.mobile_narrator_adoption": 5,
+    "narrative.shadow_tongue_room_coverage": 0,
+    "narrative.cutscene_components": 5,
+    "design.declared_subsystem_runtime": 8,
+    "schema.no_orphan_columns": 1,
+    "schema.notification_enum_producers": 14
   }
 }

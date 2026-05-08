@@ -1,4 +1,4 @@
-import { getLoginUrl } from "@/const";
+import { getGoogleLoginUrl } from "@/const";
 import { trpc } from "@/lib/trpc";
 import { TRPCClientError } from "@trpc/client";
 import { useCallback, useEffect, useMemo } from "react";
@@ -44,7 +44,7 @@ function writeCachedMe<T>(data: T | null): void {
 }
 
 export function useAuth(options?: UseAuthOptions) {
-  const { redirectOnUnauthenticated = false, redirectPath = getLoginUrl() } =
+  const { redirectOnUnauthenticated = false, redirectPath = getGoogleLoginUrl() } =
     options ?? {};
   const utils = trpc.useUtils();
 

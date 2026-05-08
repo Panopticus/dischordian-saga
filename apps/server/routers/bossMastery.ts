@@ -8,7 +8,7 @@ import { router, protectedProcedure, publicProcedure } from "../_core/trpc";
 import { getDb } from "../db";
 import { logger } from "../logger";
 import { grantCardReward } from "../services/cardRewardService";
-import { bossMastery } from "../../db/schema";
+import { bossMastery, notifications } from "../../db/schema";
 import { eq, and, desc } from "drizzle-orm";
 import {
   BOSS_MASTERY_DEFS, getBossMasteryLevel, getNextMasteryReward,
@@ -98,6 +98,17 @@ export const bossMasteryRouter = router({
           } catch (e) {
             logger.warn("Failed to grant boss mastery card reward", e);
           }
+
+          // Notify the player they reached a new mastery tier for this boss.
+          const bossLabel = def?.bossName || input.bossKey;
+          db.insert(notifications).values({
+            userId: ctx.user.id,
+            type: "boss_mastery",
+            title: `Mastery Level ${newMasteryLevel}: ${bossLabel}`,
+            message: `You reached Mastery Level ${newMasteryLevel} against ${bossLabel}.`,
+            actionUrl: `/boss-mastery/${input.bossKey}`,
+            metadata: { bossKey: input.bossKey, masteryLevel: newMasteryLevel, kills: newKills },
+          }).catch(e => logger.warn("[BossMastery] notification failed", e));
         }
 
         return {

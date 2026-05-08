@@ -41,7 +41,7 @@ export const cardDef: CardDefinition = {
   trial_categories: ["defensive"] as const,
   verdict_delta: 1,
   balanceException: {
-    reason: "Pet/companion card: smaller stat profile by design (companions are flavor-tier units, not main board threats). OVER curve by 33%.",
-    reviewer: "2026-05-stat-curve-recalibration",
+    reason: "Pet flavor-tier unit: provoke is the value, sub-curve stat profile keeps pet rewards from competing with main-board threats.",
+    reviewer: "panopticus",
   },
 };

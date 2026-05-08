@@ -30,6 +30,14 @@ import { checkAssetPrefetchManifest } from "./checks/assetPrefetchManifest";
 import { checkProcedureRateLimits } from "./checks/procedureRateLimits";
 import { checkVoidContrastCoverage } from "./checks/voidContrastCoverage";
 import { checkCardFlavorQuality } from "./checks/cardFlavorQuality";
+import { checkGlobalAlignmentMeter } from "./checks/globalAlignmentMeter";
+import { checkMobileNarratorAdoption } from "./checks/mobileNarratorAdoption";
+import { checkShadowTongueRoomCoverage } from "./checks/shadowTongueRoomCoverage";
+import { checkCutsceneComponents } from "./checks/cutsceneComponents";
+import { checkDeclaredSubsystemRuntime } from "./checks/declaredSubsystemRuntime";
+import { checkGovernanceRouterPresence } from "./checks/governanceRouterPresence";
+import { checkSchemaOrphanColumns } from "./checks/schemaOrphanColumns";
+import { checkNotificationEnumProducers } from "./checks/notificationEnumProducers";
 
 export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
   // ─── Card engine ──────────────────────────────────────────
@@ -205,6 +213,78 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     description:
       "Every card with flavorText has length ≥20 and does not match a known boilerplate template (see apps/shared/_completeness/checks/cardFlavorQuality.ts BOILERPLATE_PATTERNS).",
     check: () => checkCardFlavorQuality(),
+    ratchet: { target: 0 },
+  },
+  // ─── Narrative — designs the gate did not previously cover ───
+  // Added 2026-05-08 alongside docs/design/INCOMPLETE_DESIGNS_AUDIT_2026-05-08.md.
+  // Each entry surfaces a documented design that lacks runtime — the
+  // mechanical-gate counterparts to the audit's prose findings. New
+  // entries land RATCHET on first run; ship:check --update-ratchet
+  // records the seed ceiling. Closing them = building the runtime.
+  {
+    id: "narrative.global_alignment_meter",
+    name: "Global Light/Dark meter",
+    description:
+      "NARRATIVE_ARCHITECTURE.md §0 calls for a server-aggregated Light/Dark meter that the Hierarchy invasion cadence and Architect events read from. Per-player morality exists; the global aggregate does not. Tracks four artifacts: schema column, server aggregator, tRPC reader, client component.",
+    check: () => checkGlobalAlignmentMeter(),
+    ratchet: { target: 0 },
+  },
+  {
+    id: "narrative.mobile_narrator_adoption",
+    name: "Mobile Narrator page adoption",
+    description:
+      "MobileNarratorSlot ships full runtime but only one page mounts it. Each page in EXPECTED_NARRATOR_PAGES is a design-mandated narrator surface — adding a page is a design decision, removing one without justification is a regression.",
+    check: () => checkMobileNarratorAdoption(),
+    ratchet: { target: 0 },
+  },
+  {
+    id: "narrative.shadow_tongue_room_coverage",
+    name: "Shadow Tongue room coverage",
+    description:
+      "STREAMED_PRISM_MYSTERY_ENGINE.md §1 enumerates 26 universal + 6 species-exclusive rooms. Every room must (a) be registered in ROOM_MYSTERY_REGISTRY and (b) have a non-empty source module. Catches dead-click rooms.",
+    check: () => checkShadowTongueRoomCoverage(),
+    ratchet: { target: 0 },
+  },
+  {
+    id: "narrative.cutscene_components",
+    name: "Animated cutscene components",
+    description:
+      "ANIMATED_CUTSCENES.md names five cutscenes (Awakening, First Human Contact, Elara Memory Recovery, Breaking Point, Thought Virus Manifests). Each must have a component or registered literal id in apps/client/src — otherwise the named beat fires nothing.",
+    check: () => checkCutsceneComponents(),
+    ratchet: { target: 0 },
+  },
+  // ─── Declared subsystems — designs landed in docs, not code ──
+  {
+    id: "design.declared_subsystem_runtime",
+    name: "Declared subsystem runtime",
+    description:
+      "Three large designs (Soul Stones, Pet Breeding, Living Character Sheet) are documented but unbuilt. Tracks 11 runtime artifacts (schema tables, shared modules, tRPC routers, client components). Each missing artifact is a piece of design with no runtime.",
+    check: () => checkDeclaredSubsystemRuntime(),
+    ratchet: { target: 0 },
+  },
+  // ─── Governance ──────────────────────────────────────────────
+  {
+    id: "server.governance_router_present",
+    name: "Governance Hub router presence",
+    description:
+      "GovernanceHubPage.tsx must keep its tRPC wiring (no MOCK_ literal regression) and the architectConsole router must keep getActiveVotes + submitVote. Page-side and server-side move together.",
+    check: () => checkGovernanceRouterPresence(),
+  },
+  // ─── Schema hygiene ──────────────────────────────────────────
+  {
+    id: "schema.no_orphan_columns",
+    name: "No orphan columns in live tables",
+    description:
+      "Tracked columns (currently characterSheets.avatarUrl) must have at least one consumer outside apps/db/. Adding a new orphan-prone column to a live table = adding a row here.",
+    check: () => checkSchemaOrphanColumns(),
+    ratchet: { target: 0 },
+  },
+  {
+    id: "schema.notification_enum_producers",
+    name: "notifications.type producers",
+    description:
+      "Every variant in the notifications.type enum must have at least one `type: \"<variant>\"` writer in apps/server/. Catches enum members the engine renders for but the server never emits.",
+    check: () => checkNotificationEnumProducers(),
     ratchet: { target: 0 },
   },
 ];

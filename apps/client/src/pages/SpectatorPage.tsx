@@ -8,7 +8,7 @@ import {
   Zap, Shield, Star, Radio, Gamepad2, RefreshCw, ArrowLeft,
   ChevronDown, ChevronUp
 } from "lucide-react";
-import { getLoginUrl } from "@/const";
+import { getGoogleLoginUrl } from "@/const";
 
 /* ═══ TYPES ═══ */
 interface PvpActiveMatch {
@@ -39,7 +39,7 @@ function MiniChessBoard({ fen }: { fen: string }) {
             for (let i = 0; i < parseInt(ch); i++) {
               const isLight = (r + col) % 2 === 0;
               cells.push(
-                <div key={`${r}-${col}`} className={`aspect-square flex items-center justify-center text-[6px] sm:text-[8px] ${isLight ? "void-bg-canvas" : "void-bg-canvas"}`} />
+                <div key={`${r}-${col}`} className={`aspect-square flex items-center justify-center text-[6px] sm:text-[8px] ${isLight ? "void-bg-canvas" : "void-bg-canvas"}`} /> /* void-ignore — chess-cell micro typography */
               );
               col++;
             }
@@ -373,7 +373,7 @@ export default function SpectatorPage() {
           <Eye size={48} className="text-primary mx-auto mb-4 opacity-50" />
           <h2 className="font-display text-xl font-bold mb-2">SPECTATOR ACCESS</h2>
           <p className="font-mono text-sm text-muted-foreground mb-4">Authentication required to watch live matches.</p>
-          <a href={getLoginUrl()} className="inline-flex items-center gap-2 void-btn void-btn-primary font-mono text-sm">
+          <a href={getGoogleLoginUrl()} className="inline-flex items-center gap-2 void-btn void-btn-primary font-mono text-sm">
             AUTHENTICATE <ChevronRight size={14} />
           </a>
         </div>

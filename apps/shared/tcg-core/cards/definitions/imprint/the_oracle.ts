@@ -45,8 +45,8 @@ export const the_oracle_t2: CardDefinition = {
   trial_categories: ["offensive"] as const,
   verdict_delta: 1,
   balanceException: {
-    reason: "General / imprint variant: signature legendary balance; raw-stat curve doesn't apply to one-of leader units. UNDER curve by 29%.",
-    reviewer: "2026-05-stat-curve-recalibration",
+    reason: "Imprint-tier scaling design (T2): stats stay below curve so tier upgrades land mechanic-side. T2 adds dispel — buff-removal is the per-card value at 3 mana.",
+    reviewer: "panopticus",
   },
 };
 
@@ -77,8 +77,8 @@ export const the_oracle_t3: CardDefinition = {
   trial_categories: ["narrative", "offensive"] as const,
   verdict_delta: 2,
   balanceException: {
-    reason: "General / imprint variant: signature legendary balance; raw-stat curve doesn't apply to one-of leader units. UNDER curve by 22%.",
-    reviewer: "2026-05-stat-curve-recalibration",
+    reason: "Imprint-tier scaling design (T3): stats below curve so tier upgrades land mechanic-side. T3 adds on-deploy draw on top of T2 dispel. The keyword + ability stack is the per-tier reward.",
+    reviewer: "panopticus",
   },
 };
 

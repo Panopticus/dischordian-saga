@@ -6,7 +6,7 @@ import {
   Package, Gem, Flame, Sparkles, ChevronRight, Loader2,
   Trash2, AlertTriangle, Check, Zap
 } from "lucide-react";
-import { getLoginUrl } from "@/const";
+import { getGoogleLoginUrl } from "@/const";
 import { toast } from "sonner";
 import { useSwipeTabs } from "@/hooks/useSwipeTabs";
 import { EmptyInventory } from "@/components/EmptyStates";
@@ -43,7 +43,7 @@ export default function InventoryPage() {
           <Package size={48} className="text-primary mx-auto mb-4 opacity-50" />
           <h2 className="font-display text-xl font-bold mb-2">INVENTORY</h2>
           <p className="font-mono text-sm text-muted-foreground mb-4">Authentication required to access your inventory.</p>
-          <a href={getLoginUrl()} className="inline-flex items-center gap-2 void-btn void-btn-primary font-mono text-sm">
+          <a href={getGoogleLoginUrl()} className="inline-flex items-center gap-2 void-btn void-btn-primary font-mono text-sm">
             AUTHENTICATE <ChevronRight size={14} />
           </a>
         </div>

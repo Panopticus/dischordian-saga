@@ -72,6 +72,7 @@ function makeArtifactCard(
     currentPower: 0,
     currentHealth: 0,
     maxHealth: 0,
+    armor: 0,
     counters: {},
     activeKeywords: [],
     buffs: [],
@@ -255,6 +256,7 @@ describe("artifact durability loss", () => {
       currentPower: 2,
       currentHealth: 10,
       maxHealth: 10,
+      armor: 0,
     });
     // Enemy attacks P0 general. To do this, make it P1's turn and have
     // the enemy attack. Actually — use P0's general attacking the enemy,
@@ -282,6 +284,7 @@ describe("artifact durability loss", () => {
       currentPower: 1,
       currentHealth: 10,
       maxHealth: 10,
+      armor: 0,
     });
     // General attacks enemy, takes 1 retaliation → durability goes to 0 → SBA cleans up.
     const r = reduce(
@@ -315,6 +318,7 @@ describe("artifact durability loss", () => {
       currentPower: 5,
       currentHealth: 10,
       maxHealth: 10,
+      armor: 0,
     });
     const r = reduce(
       s,

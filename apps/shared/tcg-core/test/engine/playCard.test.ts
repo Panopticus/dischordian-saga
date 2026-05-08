@@ -76,6 +76,7 @@ function giveCardToHand(
       currentPower: opts.currentPower ?? def.baseStats?.power ?? 0,
       currentHealth: opts.currentHealth ?? def.baseStats?.health ?? 1,
       maxHealth: opts.maxHealth ?? def.baseStats?.health ?? 1,
+      armor: 0,
       counters: {},
       activeKeywords: def.keywords ? [...def.keywords] : [],
       buffs: [],

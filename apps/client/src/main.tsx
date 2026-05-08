@@ -5,7 +5,7 @@ import { httpBatchLink, TRPCClientError } from "@trpc/client";
 import { createRoot } from "react-dom/client";
 import superjson from "superjson";
 import App from "./App";
-import { getLoginUrl } from "./const";
+import { getGoogleLoginUrl } from "./const";
 import { reportError } from "@/stores/errorToastStore";
 // #88 Telemetry — Sentry side-effect init.
 // apps/client/src/lib/sentry.ts runs Sentry.init at module top-level

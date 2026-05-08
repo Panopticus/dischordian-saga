@@ -869,6 +869,11 @@ export const cardDefinitionSchema = z
       .strict()
       .optional(),
     backstabBonus: z.number().int().min(0).max(5).optional(),
+    /** Starting armor stack. Soaks damage 1-for-1 before HP. Most
+     *  cards omit this (default 0); generals and tank-style units
+     *  opt in. The `pierce` and `ignore_armor_3` keywords reduce
+     *  the soak — see engine/combat.ts:applyCombatDamage. */
+    baseArmor: z.number().int().min(0).max(20).optional(),
   })
   .strict()
   .superRefine((card, ctx) => {

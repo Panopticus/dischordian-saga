@@ -25,8 +25,8 @@ export const time_01: CardDefinition = {
   trial_categories: ["evidence"] as const,
   verdict_delta: 1,
   balanceException: {
-    reason: "Ability-driven design: raw stats traded for build-around effect text; the curve over-predicts stats for cards whose power lives in their abilities. UNDER curve by 29%.",
-    reviewer: "2026-05-stat-curve-recalibration",
+    reason: "Grow snowball: +1/+1 at start of owner's turn. Antiquarian's late-game-scaling archetype. Sub-curve printed line is the floor; effective ceiling is unbounded across long games.",
+    reviewer: "panopticus",
   },
 };
 
@@ -37,7 +37,7 @@ export const time_02: CardDefinition = {
   cardType: "unit",
   rarity: "rare",
   cost: 4,
-  baseStats: { power: 3, health: 4 },
+  baseStats: { power: 2, health: 3 },
   keywords: ["grow", "rebirth"],
   abilities: [],
   art: assetUrl("art/cards/dimension/s1_dim_time_02.webp"),
@@ -47,8 +47,8 @@ export const time_02: CardDefinition = {
   trial_categories: ["defensive"] as const,
   verdict_delta: 1,
   balanceException: {
-    reason: "Ability-driven design: raw stats traded for build-around effect text; the curve over-predicts stats for cards whose power lives in their abilities. UNDER curve by 22%.",
-    reviewer: "2026-05-stat-curve-recalibration",
+    reason: "Grow + rebirth combo: stat ceiling is unbounded — grows every turn, rebirth carries the grown maxHealth across death. Printed 2/3 floor compensates; effective stats reach curve by turn 3 and exceed it thereafter.",
+    reviewer: "panopticus",
   },
 };
 

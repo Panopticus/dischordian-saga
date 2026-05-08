@@ -14,7 +14,7 @@ import { useState, useMemo } from "react";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { trpc } from "@/lib/trpc";
 import MechanicTutorialOverlay from "@/components/MechanicTutorialOverlay";
-import { getLoginUrl } from "@/const";
+import { getGoogleLoginUrl } from "@/const";
 import { Link } from "wouter";
 import {
   ArrowLeft,
@@ -132,7 +132,7 @@ export default function OracleDeckPage() {
     return (
       <div className="min-h-screen flex items-center justify-center p-6">
         <a
-          href={getLoginUrl()}
+          href={getGoogleLoginUrl()}
           className="px-6 py-3 rounded-lg bg-primary text-primary-foreground font-bold"
         >
           Sign in to open the Oracle Deck
@@ -393,7 +393,7 @@ function ReadingView({
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -10 }}
-      className="rounded-lg border void-border-system bg-gradient-to-br from-violet-500/5 to-transparent p-6 space-y-4"
+      className="rounded-lg border void-border-system void-bg-system p-6 space-y-4"
     >
       <div className="flex items-center justify-between">
         <h2 className="font-display text-lg font-bold tracking-wider">

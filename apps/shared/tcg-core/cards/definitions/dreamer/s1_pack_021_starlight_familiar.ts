@@ -46,7 +46,7 @@ export const cardDef: CardDefinition = {
   trial_categories: ["narrative", "offensive", "reactive"] as const,
   verdict_delta: 1,
   balanceException: {
-    reason: "Ability-driven design: raw stats traded for build-around effect text; the curve over-predicts stats for cards whose power lives in their abilities. UNDER curve by 33%.",
-    reviewer: "2026-05-stat-curve-recalibration",
+    reason: "1/1 cycler design: small flier body, on-death draw replaces the card. Sub-curve printed stats are the trade for guaranteed card-replacement at 1 mana.",
+    reviewer: "panopticus",
   },
 };

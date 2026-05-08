@@ -104,6 +104,7 @@ import { masteryTreeRouter } from "./routers/masteryTree";
 import { guildHallRouter } from "./routers/guildHall";
 import { guildContractsRouter } from "./routers/guildContracts";
 import { tradeEmpireRouter } from "./routers/tradeEmpire";
+import { tradeMissionsRouter } from "./routers/tradeMissions";
 import { petBattlesRouter } from "./routers/petBattles";
 import { seedDataRouter } from "./routers/seedData";
 import { analyticsRouter } from "./routers/analytics";
@@ -257,6 +258,7 @@ export const appRouter = router({
   guildHall: guildHallRouter,
   guildContracts: guildContractsRouter,
   tradeEmpire: tradeEmpireRouter,
+  tradeMissions: tradeMissionsRouter,
   petBattles: petBattlesRouter,
   seedData: seedDataRouter,
   analytics: analyticsRouter,

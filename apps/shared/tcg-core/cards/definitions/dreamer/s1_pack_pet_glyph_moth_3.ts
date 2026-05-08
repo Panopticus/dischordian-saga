@@ -60,7 +60,7 @@ export const cardDef: CardDefinition = {
   trial_categories: ["narrative"] as const,
   verdict_delta: 2,
   balanceException: {
-    reason: "Pet/companion card: smaller stat profile by design (companions are flavor-tier units, not main board threats). UNDER curve by 27%.",
-    reviewer: "2026-05-stat-curve-recalibration",
+    reason: "Pet engine (anthem): 3/5 flier + on-deploy permanent +1/+0 to all friendly units. Anthem effects across multiple units far exceed per-card stats; sub-curve printed line is the trade for global board buff.",
+    reviewer: "panopticus",
   },
 };

@@ -123,7 +123,7 @@ async function captureCelebrationTeachingSet(
   }
   return { captured };
 }
-import { fetchCitizenData, fetchPotentialNftData, resolveChessBonuses } from "../traitResolver";
+import { fetchCitizenData, resolveChessBonuses } from "../traitResolver";
 import { ripple } from "../services/rippleEngine";
 import { checkFeatureFlag } from "../middleware/featureFlag";
 import { getConsequences } from "../services/universeConsequences";
@@ -630,11 +630,8 @@ export const chessRouter = router({
       }
 
       // Fetch citizen trait bonuses for chess
-      const [chessCitizen, chessNft] = await Promise.all([
-        fetchCitizenData(ctx.user.id),
-        fetchPotentialNftData(ctx.user.id),
-      ]);
-      const chessTb = resolveChessBonuses(chessCitizen, chessNft);
+      const chessCitizen = await fetchCitizenData(ctx.user.id);
+      const chessTb = resolveChessBonuses(chessCitizen);
 
       // Apply time bonus from traits
       const adjustedTimeMs = (input.timeControl * 1000) + (chessTb.timeBonus * 1000);
@@ -1320,19 +1317,23 @@ export const chessRouter = router({
         awarded = puzzle.xpReward;
 
         // Award Dream tokens equal to the puzzle's XP reward.
-        const bal = await db.select().from(dreamBalance)
-          .where(eq(dreamBalance.userId, ctx.user.id)).limit(1);
-        if (bal[0]) {
-          await db.update(dreamBalance)
-            .set({ dreamTokens: sql`${dreamBalance.dreamTokens} + ${awarded}` })
-            .where(eq(dreamBalance.userId, ctx.user.id));
-        } else {
-          await db.insert(dreamBalance).values({
-            userId: ctx.user.id,
-            dreamTokens: awarded,
-            soulBoundDream: 0,
-          });
-        }
+        // Wrapped so the read-then-write can't double-credit on
+        // concurrent puzzle-solve requests. Plan §C3.
+        await db.transaction(async (tx) => {
+          const bal = await tx.select().from(dreamBalance)
+            .where(eq(dreamBalance.userId, ctx.user.id)).limit(1);
+          if (bal[0]) {
+            await tx.update(dreamBalance)
+              .set({ dreamTokens: sql`${dreamBalance.dreamTokens} + ${awarded}` })
+              .where(eq(dreamBalance.userId, ctx.user.id));
+          } else {
+            await tx.insert(dreamBalance).values({
+              userId: ctx.user.id,
+              dreamTokens: awarded,
+              soulBoundDream: 0,
+            });
+          }
+        });
 
         // Award civil skill XP (tactics training counts as chess study).
         const { awardCivilXp } = await import("../civilSkillHelper");
@@ -2588,11 +2589,8 @@ async function processGameEnd(
     .where(eq(chessGames.id, game.id));
 
   // Calculate and give rewards — apply trait bonuses
-  const [endCitizen, endNft] = await Promise.all([
-    fetchCitizenData(playerId),
-    fetchPotentialNftData(playerId),
-  ]);
-  const endChessTb = resolveChessBonuses(endCitizen, endNft);
+  const endCitizen = await fetchCitizenData(playerId);
+  const endChessTb = resolveChessBonuses(endCitizen);
   const baseRewards = calculateRewards(game.mode, game.aiDifficulty || 3, playerWon, eloChange);
   const rewards = { ...baseRewards } as typeof baseRewards & { traitMultiplier: number; traitSources: string[] };
   const combinedMultiplier = endChessTb.rewardMultiplier * endChessTb.dreamMultiplier;

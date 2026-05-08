@@ -1,14 +1,14 @@
 /**
  * Zeal keyword runtime tests — Phase H2.
  *
- * Engine handler is `effectivePowerWithZeal` (combat.ts:259+),
+ * Engine handler is `effectivePower` (combat.ts:259+),
  * applied at attack + retaliation damage calc. The bonus is +1 power
  * while the unit is king-adjacent to its owner's general; it falls
  * off the moment the general moves out of reach.
  */
 import { describe, it, expect } from "vitest";
 import { produce } from "immer";
-import { effectivePowerWithZeal } from "../../engine/combat";
+import { effectivePower } from "../../engine/combat";
 import { buildBareState, placeUnit } from "../fixtures/stateBuilder";
 import type { EntityId } from "../../types/Ids";
 
@@ -19,7 +19,7 @@ describe("zeal keyword", () => {
     const unit = s.board["1,1"];
     expect(unit).toBeDefined();
     expect(unit!.card.activeKeywords.includes("zeal")).toBe(false);
-    expect(effectivePowerWithZeal(s, unit!)).toBe(unit!.card.currentPower);
+    expect(effectivePower(s, unit!)).toBe(unit!.card.currentPower);
   });
 
   it("does not buff a zealous unit when no general is adjacent", () => {
@@ -31,7 +31,7 @@ describe("zeal keyword", () => {
       if (cell) cell.card.activeKeywords = ["zeal"];
     });
     const unit = s.board["3,4"]!;
-    expect(effectivePowerWithZeal(s, unit)).toBe(unit.card.currentPower);
+    expect(effectivePower(s, unit)).toBe(unit.card.currentPower);
   });
 
   it("buffs +1 when adjacent to friendly general", () => {
@@ -54,7 +54,7 @@ describe("zeal keyword", () => {
     });
     const unit = s.board[`${targetRow},${c + 1}`]!;
     const base = unit.card.currentPower;
-    expect(effectivePowerWithZeal(s, unit)).toBe(base + 1);
+    expect(effectivePower(s, unit)).toBe(base + 1);
   });
 
   it("ignores enemy generals (no cross-side zeal)", () => {
@@ -81,6 +81,6 @@ describe("zeal keyword", () => {
     const unit = s.board[
       `${enemyGeneral.row},${enemyGeneral.col === 0 ? 1 : enemyGeneral.col - 1}`
     ]!;
-    expect(effectivePowerWithZeal(s, unit)).toBe(unit.card.currentPower);
+    expect(effectivePower(s, unit)).toBe(unit.card.currentPower);
   });
 });

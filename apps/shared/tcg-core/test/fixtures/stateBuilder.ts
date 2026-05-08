@@ -125,7 +125,7 @@ export function makeCardInstance(
   entityId: string,
   defId: string,
   owner: Side,
-  opts: Partial<Pick<CardInstance, "currentPower" | "currentHealth" | "maxHealth">> = {}
+  opts: Partial<Pick<CardInstance, "currentPower" | "currentHealth" | "maxHealth" | "armor">> = {}
 ): CardInstance {
   return {
     entityId: entityId as CardInstance["entityId"],
@@ -134,6 +134,7 @@ export function makeCardInstance(
     currentPower: opts.currentPower ?? 2,
     currentHealth: opts.currentHealth ?? 3,
     maxHealth: opts.maxHealth ?? 3,
+    armor: opts.armor ?? 0,
     counters: {},
     activeKeywords: [],
     buffs: [],

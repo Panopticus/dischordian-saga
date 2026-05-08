@@ -127,7 +127,7 @@ export default function FightLeaderboardPage() {
               ) : (
                 <div className="space-y-2">
                   {/* Header row */}
-                  <div className="hidden sm:grid grid-cols-12 gap-2 px-4 py-2 font-mono text-[10px] text-muted-foreground/50 tracking-wider">
+                  <div className="hidden sm:grid grid-cols-12 gap-2 px-4 py-2 font-mono text-[10px] text-muted-foreground/50 tracking-wider"> {/* void-ignore — micro tabular header text */}
                     <div className="col-span-1">#</div>
                     <div className="col-span-3">OPERATIVE</div>
                     <div className="col-span-2">RANK</div>

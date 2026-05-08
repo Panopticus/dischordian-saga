@@ -68,7 +68,7 @@ export function CrewBonusStrip() {
 
   return (
     <div className="px-4 py-2 border-b void-border">
-      <div className="flex items-center gap-3 rounded-lg px-3 py-1.5 border void-border-success bg-gradient-to-r from-green-950/30 via-amber-950/20 to-red-950/30">
+      <div className="flex items-center gap-3 rounded-lg px-3 py-1.5 border void-border-success void-bg-success">
         <div className="flex items-center gap-1 text-[10px] font-mono uppercase tracking-widest void-text-accent shrink-0">
           <Sparkles className="w-3 h-3" />
           Crew Holiday Bonus

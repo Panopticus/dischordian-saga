@@ -9,7 +9,7 @@ import {
   Lock, Palette, Eye, Shield, Swords, Flame,
   Heart, Zap, Package
 } from "lucide-react";
-import { getLoginUrl } from "@/const";
+import { getGoogleLoginUrl } from "@/const";
 import { ACHIEVEMENT_CHAINS, type AchievementChain } from "@/game/achievementChains";
 import { useGame } from "@/contexts/GameContext";
 import { useGamification } from "@/contexts/GamificationContext";

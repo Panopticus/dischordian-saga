@@ -1,6 +1,6 @@
 import { useAuth } from "@/_core/hooks/useAuth";
 import { trpc } from "@/lib/trpc";
-import { getLoginUrl } from "@/const";
+import { getGoogleLoginUrl } from "@/const";
 import { useState, useMemo } from "react";
 import { Link, useLocation } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
@@ -236,7 +236,7 @@ export default function CitizenCreationPage() {
             Authentication required to create your Citizen.
           </p>
           <a
-            href={getLoginUrl()}
+            href={getGoogleLoginUrl()}
             className="inline-flex items-center gap-2 void-btn void-btn-primary font-mono text-sm"
           >
             AUTHENTICATE
@@ -553,7 +553,7 @@ export default function CitizenCreationPage() {
                       label="ATK"
                       color="red"
                     />
-                    <p className="font-mono text-[10px] text-muted-foreground mt-1 ml-[68px] sm:ml-[92px]">
+                    <p className="font-mono text-[10px] text-muted-foreground mt-1 ml-[68px] sm:ml-[92px]"> {/* void-ignore — DotRating-aligned label offset */}
                       Melee & ranged damage output
                     </p>
                   </div>
@@ -572,7 +572,7 @@ export default function CitizenCreationPage() {
                       label="DEF"
                       color="cyan"
                     />
-                    <p className="font-mono text-[10px] text-muted-foreground mt-1 ml-[68px] sm:ml-[92px]">
+                    <p className="font-mono text-[10px] text-muted-foreground mt-1 ml-[68px] sm:ml-[92px]"> {/* void-ignore — DotRating-aligned label offset */}
                       Armor rating & damage reduction
                     </p>
                   </div>
@@ -591,7 +591,7 @@ export default function CitizenCreationPage() {
                       label="VIT"
                       color="amber"
                     />
-                    <p className="font-mono text-[10px] text-muted-foreground mt-1 ml-[68px] sm:ml-[92px]">
+                    <p className="font-mono text-[10px] text-muted-foreground mt-1 ml-[68px] sm:ml-[92px]"> {/* void-ignore — DotRating-aligned label offset */}
                       Maximum health pool
                     </p>
                   </div>

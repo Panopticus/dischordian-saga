@@ -150,8 +150,8 @@ const witness_whose_time_has_come: CardDefinition = {
   trial_categories: ["narrative", "reactive"] as const,
   verdict_delta: 1,
   balanceException: {
-    reason: "Ability-driven design: raw stats traded for build-around effect text; the curve over-predicts stats for cards whose power lives in their abilities. UNDER curve by 29%.",
-    reviewer: "2026-05-stat-curve-recalibration",
+    reason: "Conditional buff card: 2/3 floor; if damage_dealt_match >= 4 the unit becomes 4/5 effective on deploy (= 9 stats, on curve). Sub-curve printed line reflects the floor; the if-branch is the ceiling.",
+    reviewer: "panopticus",
   },
 };
 
@@ -159,8 +159,8 @@ const witness_whose_time_has_come: CardDefinition = {
  *
  *  3-cost 2/3 unit with `zeal`. While adjacent to its general the
  *  unit attacks for +1 (effective 3 power). The bonus is computed
- *  fresh every swing in engine/combat.ts via `effectivePowerWithZeal`,
- *  so moving the general into adjacency mid-turn flips the bonus on
+ *  fresh every swing in engine/combat.ts via `effectivePower`, so
+ *  moving the general into adjacency mid-turn flips the bonus on
  *  immediately. */
 const honor_guard: CardDefinition = {
   id: "s1_neutral_zeal_001" as CardDefinition["id"],
@@ -179,8 +179,8 @@ const honor_guard: CardDefinition = {
   trial_categories: ["defensive", "offensive"] as const,
   verdict_delta: 0,
   balanceException: {
-    reason: "Ability-driven design: raw stats traded for build-around effect text; the curve over-predicts stats for cards whose power lives in their abilities. UNDER curve by 29%.",
-    reviewer: "2026-05-stat-curve-recalibration",
+    reason: "Zeal-conditional design: 2/3 is the floor; effective 3/3 when the general is adjacent (the conditional activation). Bumping the printed line would trivialize the conditional and create a 3-mana staple — the under-curve printed stats are the cost of the design.",
+    reviewer: "panopticus",
   },
 };
 
@@ -208,8 +208,8 @@ const wolfpack_initiate: CardDefinition = {
   trial_categories: ["offensive"] as const,
   verdict_delta: 0,
   balanceException: {
-    reason: "Ability-driven design: raw stats traded for build-around effect text; the curve over-predicts stats for cards whose power lives in their abilities. UNDER curve by 40%.",
-    reviewer: "2026-05-stat-curve-recalibration",
+    reason: "Pack snowball mechanic: pack scales +1 power per other ally with the same defId. Solo printed stats are floor; with 2 copies effective stats reach curve, with 4 copies far exceed it. Sub-curve printed line is intentional to prevent solo over-stat.",
+    reviewer: "panopticus",
   },
 };
 
@@ -270,8 +270,8 @@ const the_reading_room: CardDefinition = {
   trial_categories: ["narrative", "reactive"] as const,
   verdict_delta: 1,
   balanceException: {
-    reason: "Ability-driven design: raw stats traded for build-around effect text; the curve over-predicts stats for cards whose power lives in their abilities. UNDER curve by 29%.",
-    reviewer: "2026-05-stat-curve-recalibration",
+    reason: "Card-engine ability: draws 1 on every spell played while on-board. Sub-curve printed stats compensate for unbounded per-event card-value generation in spell-heavy decks.",
+    reviewer: "panopticus",
   },
 };
 
@@ -366,8 +366,8 @@ const the_anchor_of_kael: CardDefinition = {
   trial_categories: ["defensive", "evidence"] as const,
   verdict_delta: 0,
   balanceException: {
-    reason: "Aggressive low-cost utility: stats traded down OR up against the curve to reach a specific play pattern (rush threat, sticky blocker, etc.). OVER curve by 33%.",
-    reviewer: "2026-05-stat-curve-recalibration",
+    reason: "Structure tank: cannot move or attack (structure keyword). Above-curve HP is the design role — the unit is a positional anchor, not a threat. The +33% printed-vs-curve stats reflect that structures pay the entire stat budget into HP because they have no offensive output.",
+    reviewer: "panopticus",
   },
 };
 

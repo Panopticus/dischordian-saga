@@ -69,14 +69,14 @@ export function getUnlockConditionDisplay(
     case "dlc_chapter_completion":
       return {
         kind: "dlc_chapter_completion",
-        chip: "DLC chapter",
-        description: `Unlocks once you complete the DLC chapter ${cond.chapterId}.`,
+        chip: `Finish DLC ${cond.chapterId}`,
+        description: `Unlocks when you complete the "${cond.chapterId}" DLC chapter.`,
       };
     case "bloodline_threshold":
       return {
         kind: "bloodline_threshold",
-        chip: `${cond.classification} ×${cond.minGenerations}`,
-        description: `Requires ${cond.minGenerations} generations of the ${cond.classification} bloodline.`,
+        chip: `${cond.classification} gen ${cond.minGenerations}+`,
+        description: `Unlocks once your ${cond.classification} bloodline reaches generation ${cond.minGenerations} or higher.`,
       };
   }
 }

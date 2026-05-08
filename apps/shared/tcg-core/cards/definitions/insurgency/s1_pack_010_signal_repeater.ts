@@ -44,7 +44,7 @@ export const cardDef: CardDefinition = {
   trial_categories: ["confession"] as const,
   verdict_delta: -2,
   balanceException: {
-    reason: "Ability-driven design: raw stats traded for build-around effect text; the curve over-predicts stats for cards whose power lives in their abilities. UNDER curve by 29%.",
-    reviewer: "2026-05-stat-curve-recalibration",
+    reason: "Cycler engine: 2/3 body + on-death draw 2 = effective 2-card cycle for a 3-mana investment. Sub-curve printed line is the trade for the strong on-death replacement.",
+    reviewer: "panopticus",
   },
 };

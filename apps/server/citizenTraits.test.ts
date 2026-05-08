@@ -6,7 +6,6 @@ import {
   resolveCraftingBonuses,
   resolveExplorationBonuses,
   type CitizenData,
-  type PotentialNftData,
 } from "../shared/citizenTraits";
 
 /* ─── Test Fixtures ─── */
@@ -47,22 +46,13 @@ const neyonOracle: CitizenData = {
   level: 3,
 };
 
-const testNft: PotentialNftData = {
-  tokenId: 1,
-  level: 50,
-  nftClass: "warrior",
-  weapon: "sword",
-  specie: "human",
-  claimCount: 1,
-};
-
 /* ═══════════════════════════════════════════════════
    CARD GAME BONUSES
    ═══════════════════════════════════════════════════ */
 
 describe("resolveCardGameBonuses", () => {
   it("returns zero bonuses when no citizen is provided", () => {
-    const result = resolveCardGameBonuses(null, null);
+    const result = resolveCardGameBonuses(null);
     expect(result.hpBonus).toBe(0);
     expect(result.globalAttackBonus).toBe(0);
     expect(result.globalHealthBonus).toBe(0);
@@ -72,7 +62,7 @@ describe("resolveCardGameBonuses", () => {
   });
 
   it("returns zero bonuses when citizen is undefined", () => {
-    const result = resolveCardGameBonuses(undefined, undefined);
+    const result = resolveCardGameBonuses(undefined);
     expect(result.hpBonus).toBe(0);
     expect(result.breakdown).toHaveLength(0);
   });
@@ -146,14 +136,6 @@ describe("resolveCardGameBonuses", () => {
     const lv1Result = resolveCardGameBonuses(lv1);
     const lv5Result = resolveCardGameBonuses(lv5);
     expect(lv5Result.hpBonus).toBeGreaterThan(lv1Result.hpBonus);
-  });
-
-  it("applies NFT level multiplier when NFT is provided", () => {
-    const withoutNft = resolveCardGameBonuses(baseCitizen, null);
-    const withNft = resolveCardGameBonuses(baseCitizen, testNft);
-    // NFT at level 50 should provide a multiplier > 1.0
-    expect(withNft.hpBonus).toBeGreaterThanOrEqual(withoutNft.hpBonus);
-    expect(withNft.breakdown.some(b => b.source.includes("Potential"))).toBe(true);
   });
 
   it("generates breakdown entries for each bonus source", () => {
@@ -240,11 +222,6 @@ describe("resolveFightGameBonuses", () => {
     expect(highResult.hpBonus).toBeGreaterThan(lowResult.hpBonus);
   });
 
-  it("applies NFT multiplier to fight bonuses", () => {
-    const withoutNft = resolveFightGameBonuses(baseCitizen, null);
-    const withNft = resolveFightGameBonuses(baseCitizen, testNft);
-    expect(withNft.hpBonus).toBeGreaterThanOrEqual(withoutNft.hpBonus);
-  });
 });
 
 /* ═══════════════════════════════════════════════════
@@ -290,12 +267,6 @@ describe("resolveExplorationBonuses", () => {
     expect(result.breakdown.length).toBeGreaterThanOrEqual(1);
   });
 
-  it("applies NFT bonuses to exploration", () => {
-    const withoutNft = resolveExplorationBonuses(baseCitizen, null);
-    const withNft = resolveExplorationBonuses(baseCitizen, testNft);
-    // NFT should boost exploration bonuses
-    expect(withNft.discoveryXpBonus).toBeGreaterThanOrEqual(withoutNft.discoveryXpBonus);
-  });
 });
 
 /* ═══════════════════════════════════════════════════

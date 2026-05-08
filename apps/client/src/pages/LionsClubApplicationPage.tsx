@@ -285,7 +285,7 @@ export default function LionsClubApplicationPage() {
 
   return (
     <div className="mx-auto max-w-3xl p-6 space-y-6">
-      <Card className="border-amber-600/40 bg-amber-500/5">
+      <Card className="void-border void-bg-sunk">
         <CardHeader>
           <CardTitle>This is a real service organization</CardTitle>
         </CardHeader>

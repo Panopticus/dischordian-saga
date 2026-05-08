@@ -73,7 +73,7 @@ export const cardDef: CardDefinition = {
   trial_categories: ["narrative"] as const,
   verdict_delta: 2,
   balanceException: {
-    reason: "Ability-driven design: raw stats traded for build-around effect text; the curve over-predicts stats for cards whose power lives in their abilities. UNDER curve by 35%.",
-    reviewer: "2026-05-stat-curve-recalibration",
+    reason: "Legendary ability-driven: on-deploy silence + permanent +4/+4. After deploy the unit is effectively 7/12 plus the silence has stripped an enemy threat. Sub-curve printed line is the floor; the immediate post-deploy state is far above curve.",
+    reviewer: "panopticus",
   },
 };

@@ -156,7 +156,7 @@ export default function AdventureInventoryDrawer({ open, onClose }: Props) {
             background: "color-mix(in oklch, var(--bg-void) 92%, transparent)",
             borderLeft: "1px solid var(--glass-border)",
             boxShadow: "0 0 var(--space-xl) color-mix(in oklch, var(--energy-primary) 20%, transparent)",
-            backdropFilter: "blur(12px)",
+            backdropFilter: "blur(var(--physics-blur, 12px))" /* void-ignore — 12px fallback when --physics-blur unset */,
           }}
         >
           <div

@@ -3,7 +3,6 @@ import * as fs from "fs";
 import * as path from "path";
 import { assetUrl } from "../client/src/lib/assetUrl";
 import {
-  LAST_WORDS_SONG_DURATION_S,
   LAST_WORDS_SONG_URL,
   LAST_WORDS_TEASE_DURATION_S,
   SLIDE_TIMELINE,
@@ -75,11 +74,6 @@ describe("Last Words tease timeline — structural", () => {
   it("tease duration is 30-45 seconds (tease, not the full song)", () => {
     expect(LAST_WORDS_TEASE_DURATION_S).toBeGreaterThanOrEqual(30);
     expect(LAST_WORDS_TEASE_DURATION_S).toBeLessThan(45);
-  });
-
-  it("deprecated LAST_WORDS_SONG_DURATION_S alias equals the tease duration", () => {
-    // Back-compat alias for the existing LastWordsWitnessing consumer.
-    expect(LAST_WORDS_SONG_DURATION_S).toBe(LAST_WORDS_TEASE_DURATION_S);
   });
 
   it("every slide's phase is one of the 5 canonical tease phases", () => {

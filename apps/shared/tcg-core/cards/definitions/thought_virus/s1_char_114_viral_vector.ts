@@ -63,7 +63,7 @@ export const cardDef: CardDefinition = {
   trial_categories: ["narrative", "offensive", "reactive"] as const,
   verdict_delta: 2,
   balanceException: {
-    reason: "Ability-driven design: raw stats traded for build-around effect text; the curve over-predicts stats for cards whose power lives in their abilities. UNDER curve by 29%.",
-    reviewer: "2026-05-stat-curve-recalibration",
+    reason: "Death-rattle control: on-death applies permanent -1/-1 to adjacent enemies. The unit is a removal trade dressed as a body; sub-curve printed stats compensate for the persistent debuff.",
+    reviewer: "panopticus",
   },
 };

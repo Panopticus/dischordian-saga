@@ -63,7 +63,8 @@ export default function DiscoveryGate({
           style={{
             background: "linear-gradient(135deg, color-mix(in oklch, var(--energy-error) 10%, transparent) 0%, color-mix(in oklch, var(--energy-error) 5%, transparent) 100%)",
             border: "1px solid color-mix(in oklch, var(--energy-error) 25%, transparent)",
-            boxShadow: "0 0 30px color-mix(in oklch, var(--energy-error) 10%, transparent), inset 0 0 20px color-mix(in oklch, var(--energy-error) 5%, transparent)",
+            boxShadow:
+              "0 0 var(--space-md) color-mix(in oklch, var(--energy-error) 10%, transparent), inset 0 0 var(--space-sm) color-mix(in oklch, var(--energy-error) 5%, transparent)",
           }}
         >
           <Lock size={32} className="void-text-error" />

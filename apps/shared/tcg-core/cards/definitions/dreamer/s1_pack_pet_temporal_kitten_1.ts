@@ -52,7 +52,7 @@ export const cardDef: CardDefinition = {
   trial_categories: ["offensive"] as const,
   verdict_delta: 1,
   balanceException: {
-    reason: "Pet/companion card: smaller stat profile by design (companions are flavor-tier units, not main board threats). UNDER curve by 33%.",
-    reviewer: "2026-05-stat-curve-recalibration",
+    reason: "Pet engine: 1/1 rush + on-death draw — immediate impact + free card replacement at 1 mana. Sub-curve printed stats are the trade for both lines of value.",
+    reviewer: "panopticus",
   },
 };

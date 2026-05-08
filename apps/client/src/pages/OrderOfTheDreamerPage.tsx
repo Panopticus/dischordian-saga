@@ -115,7 +115,7 @@ export default function OrderOfTheDreamerPage() {
 
   return (
     <div className="mx-auto max-w-4xl p-6 space-y-6">
-      <Card className="border-amber-600/40 bg-amber-500/5">
+      <Card className="void-border void-bg-sunk">
         <CardHeader>
           <CardTitle>This is a real service organization</CardTitle>
         </CardHeader>
@@ -208,7 +208,7 @@ export default function OrderOfTheDreamerPage() {
                 key={tier.trophyId}
                 className={`rounded border p-3 ${
                   unlocked
-                    ? "border-amber-600/60 bg-amber-500/5"
+                    ? "void-border void-bg-sunk"
                     : "opacity-60"
                 }`}
               >
@@ -247,7 +247,7 @@ export default function OrderOfTheDreamerPage() {
                 key={badge.badgeId}
                 className={`rounded border p-3 text-center ${
                   unlocked
-                    ? "border-amber-600/60 bg-amber-500/5"
+                    ? "void-border void-bg-sunk"
                     : "opacity-60"
                 }`}
               >

@@ -68,7 +68,7 @@ export const cardDef: CardDefinition = {
   trial_categories: ["defensive", "narrative"] as const,
   verdict_delta: 2,
   balanceException: {
-    reason: "Ability-driven design: raw stats traded for build-around effect text; the curve over-predicts stats for cards whose power lives in their abilities. UNDER curve by 29%.",
-    reviewer: "2026-05-stat-curve-recalibration",
+    reason: "Legendary ability-driven: 3/7 tanky body + on-deploy heal-all + draw. The on-deploy is a heal spell + cantrip stapled together. Sub-curve printed stats reflect the cost of the spell-equivalent value.",
+    reviewer: "panopticus",
   },
 };

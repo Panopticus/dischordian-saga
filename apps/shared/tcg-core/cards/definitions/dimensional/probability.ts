@@ -85,8 +85,8 @@ export const prob_03: CardDefinition = {
   trial_categories: ["narrative"] as const,
   verdict_delta: 2,
   balanceException: {
-    reason: "Ability-driven design: raw stats traded for build-around effect text; the curve over-predicts stats for cards whose power lives in their abilities. UNDER curve by 29%.",
-    reviewer: "2026-05-stat-curve-recalibration",
+    reason: "Legendary ability-driven: flying + dispel + on-deploy draw 3 + 2 mana this turn. The on-deploy alone is ~5 cards of effective value. Sub-curve printed stats compensate for the extreme per-card resource generation.",
+    reviewer: "panopticus",
   },
 };
 

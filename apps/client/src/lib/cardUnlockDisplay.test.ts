@@ -25,7 +25,7 @@ const FIXTURES: Record<
   battle_pass: { kind: "battle_pass", tier: 50 },
   founding_author: { kind: "founding_author" },
   authors_edition: { kind: "authors_edition", season: "s2" },
-  dlc_chapter_completion: { kind: "dlc_chapter_completion", chapterId: "ch1" },
+  dlc_chapter_completion: { kind: "dlc_chapter_completion", chapterId: "wave6" },
   bloodline_threshold: { kind: "bloodline_threshold", classification: "ADVOCATE", minGenerations: 3 },
 };
 

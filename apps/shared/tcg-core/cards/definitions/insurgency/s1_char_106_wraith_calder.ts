@@ -33,7 +33,7 @@ export const cardDef: CardDefinition = {
   cardType: "unit",
   rarity: "rare",
   cost: 4,
-  baseStats: { power: 3, health: 4 },
+  baseStats: { power: 2, health: 3 },
   keywords: ["rebirth"],
   abilities: [
     // --- Death Explosion: deal 2 damage to all adjacent enemies on death ---
@@ -63,7 +63,7 @@ export const cardDef: CardDefinition = {
   trial_categories: ["defensive", "offensive"] as const,
   verdict_delta: 1,
   balanceException: {
-    reason: "Ability-driven design: raw stats traded for build-around effect text; the curve over-predicts stats for cards whose power lives in their abilities. UNDER curve by 22%.",
-    reviewer: "2026-05-stat-curve-recalibration",
+    reason: "Rebirth + on-death AOE combo: effective stats = 2/6 across two lives, plus up to 4 damage of free AOE on death triggers. Printed line stays at 2/3 floor so the keyword combo carries the value.",
+    reviewer: "panopticus",
   },
 };

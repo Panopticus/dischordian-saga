@@ -376,7 +376,7 @@ function ChroniclePanel() {
               className="void-surface p-3"
               style={{
                 borderColor: "color-mix(in oklch, var(--energy-premium) 15%, transparent)",
-                background: "rgba(20,15,10,0.6)",
+                background: "color-mix(in oklch, var(--bg-sunk) 60%, transparent)",
               }}
             >
               <div className="flex items-center justify-between mb-1.5">
@@ -732,7 +732,7 @@ export default function GovernanceHubPage() {
                 className={`void-btn font-mono text-[9px] tracking-wider flex items-center gap-1.5 whitespace-nowrap ve-compact-ok ${
                   mobileTab === t.id ? "void-btn-primary" : ""
                 }`}
-                style={{ minHeight: "36px", minWidth: "unset", padding: "6px 12px" }}
+                style={{ minHeight: "36px", minWidth: "unset", padding: "6px 12px" }} /* void-ignore — fixed mobile tab geometry */
               >
                 <t.icon size={12} /> {t.label}
               </button>
@@ -771,7 +771,7 @@ export default function GovernanceHubPage() {
           </div>
 
           {/* ═══ DESKTOP LAYOUT (lg+) — 3-column grid ═══ */}
-          <div className="hidden lg:grid lg:grid-cols-[280px_1fr_260px] gap-4">
+          <div className="hidden lg:grid lg:grid-cols-[280px_1fr_260px] gap-4"> {/* void-ignore — 3-column desktop layout sidebar widths */}
             {/* LEFT — Chronicle */}
             <div>
               <ChroniclePanel />

@@ -27,7 +27,7 @@ import { z } from "zod";
 import { TRPCError } from "@trpc/server";
 import { and, desc, eq, gt, inArray, isNull, or, sql } from "drizzle-orm";
 
-import { announcements, announcementViews } from "../../db/schema";
+import { announcements, announcementViews, notifications, users } from "../../db/schema";
 import { getDb } from "../db";
 import { adminProcedure, protectedProcedure, publicProcedure, router } from "../_core/trpc";
 
@@ -287,6 +287,34 @@ export const announcementsRouter = router({
         }
         throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: msg });
       }
+
+      // High-priority announcements fan out as `system` notifications
+      // so authed players see the broadcast in their notification
+      // bell, not just on the title screen. Normal-priority rows
+      // stay title-only to avoid flooding the bell.
+      if (input.priority === "high") {
+        try {
+          const audience = input.audience;
+          const targetUsers = audience === "unauth"
+            ? []
+            : await db.select({ id: users.id }).from(users);
+          if (targetUsers.length > 0) {
+            await db.insert(notifications).values(
+              targetUsers.map(u => ({
+                userId: u.id,
+                type: "system" as const,
+                title: input.title,
+                message: input.body ?? "Broadcast from Architect's Console",
+                actionUrl: input.linkUrl ?? "/announcements",
+                metadata: { slug: input.slug, category: input.category, priority: input.priority },
+              })),
+            );
+          }
+        } catch {
+          /* best-effort fanout; the announcement itself already wrote */
+        }
+      }
+
       return { success: true } as const;
     }),
 

@@ -14,7 +14,7 @@
 import { useMemo, useState, useEffect } from "react";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { trpc } from "@/lib/trpc";
-import { getLoginUrl } from "@/const";
+import { getGoogleLoginUrl } from "@/const";
 import {
   CHESS_TUTORIAL_GATE_4_5,
   type DialogCue,
@@ -53,7 +53,7 @@ export default function ChessPrincesGamePage() {
   if (!isAuthenticated) {
     return (
       <div className="min-h-screen flex items-center justify-center p-8">
-        <a href={getLoginUrl()} className="text-void-text-accent underline">
+        <a href={getGoogleLoginUrl()} className="text-void-text-accent underline">
           Sign in to play the Prince's Game.
         </a>
       </div>

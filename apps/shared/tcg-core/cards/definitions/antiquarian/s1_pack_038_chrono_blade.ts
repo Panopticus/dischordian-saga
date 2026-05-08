@@ -37,7 +37,7 @@ export const cardDef: CardDefinition = {
   trial_categories: ["offensive"] as const,
   verdict_delta: 1,
   balanceException: {
-    reason: "Ability-driven design: raw stats traded for build-around effect text; the curve over-predicts stats for cards whose power lives in their abilities. UNDER curve by 22%.",
-    reviewer: "2026-05-stat-curve-recalibration",
+    reason: "Celerity ability-driven: 4/3 + 2 actions per turn = 8 effective damage potential per turn-cycle. Sub-curve printed stats compensate for the doubled damage cadence.",
+    reviewer: "panopticus",
   },
 };

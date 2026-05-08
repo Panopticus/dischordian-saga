@@ -64,7 +64,7 @@ export const cardDef: CardDefinition = {
   trial_categories: ["narrative", "offensive", "reactive"] as const,
   verdict_delta: 2,
   balanceException: {
-    reason: "Ability-driven design: raw stats traded for build-around effect text; the curve over-predicts stats for cards whose power lives in their abilities. UNDER curve by 22%.",
-    reviewer: "2026-05-stat-curve-recalibration",
+    reason: "Snowball + armor-pierce: rush + pierce + on-kill +2/+0 permanent. Pierce now actually fires post-armor system (PR #488). The on-kill snowball is the per-card ceiling; sub-curve printed stats are the floor.",
+    reviewer: "panopticus",
   },
 };

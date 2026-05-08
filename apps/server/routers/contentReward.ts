@@ -8,7 +8,7 @@ import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
 import { getDb, type DrizzleDb } from "../db";
 import { contentParticipation, contentRewards, userCards, dreamBalance, cards } from "../../db/schema";
 import { eq, and, sql } from "drizzle-orm";
-import { fetchCitizenData, fetchPotentialNftData, resolveExplorationBonuses, nftLevelMultiplier } from "../traitResolver";
+import { fetchCitizenData, resolveExplorationBonuses } from "../traitResolver";
 import { ripple } from "../services/rippleEngine";
 
 // ═══ REWARD DEFINITIONS (in-code for fast access) ═══
@@ -79,27 +79,32 @@ async function grantRandomCard(db: DrizzleDb, userId: number, rarityPool: string
 }
 
 async function grantDream(db: DrizzleDb, userId: number, amount: number) {
-  const existing = await db.select()
-    .from(dreamBalance)
-    .where(eq(dreamBalance.userId, userId))
-    .limit(1);
+  // Wrap balance read-then-write in a single transaction so a
+  // partial failure between the existence check and the write
+  // can't leave the user double-credited or un-credited. Plan §C3.
+  await db.transaction(async (tx) => {
+    const existing = await tx.select()
+      .from(dreamBalance)
+      .where(eq(dreamBalance.userId, userId))
+      .limit(1);
 
-  if (existing.length > 0) {
-    await db.update(dreamBalance)
-      .set({
-        dreamTokens: sql`${dreamBalance.dreamTokens} + ${amount}`,
-        totalDreamEarned: sql`${dreamBalance.totalDreamEarned} + ${amount}`,
-      })
-      .where(eq(dreamBalance.userId, userId));
-  } else {
-    await db.insert(dreamBalance).values({
-      userId,
-      dreamTokens: amount,
-      totalDreamEarned: amount,
-      soulBoundDream: 0,
-      dnaCode: 0,
-    });
-  }
+    if (existing.length > 0) {
+      await tx.update(dreamBalance)
+        .set({
+          dreamTokens: sql`${dreamBalance.dreamTokens} + ${amount}`,
+          totalDreamEarned: sql`${dreamBalance.totalDreamEarned} + ${amount}`,
+        })
+        .where(eq(dreamBalance.userId, userId));
+    } else {
+      await tx.insert(dreamBalance).values({
+        userId,
+        dreamTokens: amount,
+        totalDreamEarned: amount,
+        soulBoundDream: 0,
+        dnaCode: 0,
+      });
+    }
+  });
 }
 
 export const contentRewardRouter = router({
@@ -157,16 +162,12 @@ export const contentRewardRouter = router({
         const rewards: { type: string; value: string; quantity: number }[] = [];
 
         // Fetch citizen trait bonuses for reward multipliers
-        const [rewardCitizen, rewardNft] = await Promise.all([
-          fetchCitizenData(ctx.user.id),
-          fetchPotentialNftData(ctx.user.id),
-        ]);
-        const exploreTb = resolveExplorationBonuses(rewardCitizen, rewardNft);
-        const nftMult = nftLevelMultiplier(rewardNft);
+        const rewardCitizen = await fetchCitizenData(ctx.user.id);
+        const exploreTb = resolveExplorationBonuses(rewardCitizen);
 
-        // Grant Dream tokens — boosted by citizen traits + NFT level
+        // Grant Dream tokens — boosted by citizen traits
         if (rewardDef.dreamTokens > 0) {
-          const boostedDream = Math.floor(rewardDef.dreamTokens * (1 + exploreTb.dreamBonus) * nftMult);
+          const boostedDream = Math.floor(rewardDef.dreamTokens * (1 + exploreTb.dreamBonus));
           await grantDream(db, ctx.user.id, boostedDream);
           rewards.push({ type: "dream", value: String(boostedDream), quantity: boostedDream });
         }

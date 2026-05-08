@@ -545,7 +545,7 @@ async function startServer() {
     }, ONE_HOUR_MS);
     runRetentionTick().catch(e => console.error("[Retention] initial tick error:", e));
 
-    // Faction-reputation decay (docs/operations/TRADE_DIPLOMACY_TODO.md
+    // Faction-reputation decay (docs/operations/TRADE_DIPLOMACY.md
     // §"Decay"). Bleeds every non-zero faction reputation toward 0 by
     // 1 unit per tick so a one-time max-out doesn't grant permanent
     // trade discounts. Idempotent; fire-and-forget.
@@ -559,6 +559,59 @@ async function startServer() {
     }, ONE_HOUR_MS);
     runFactionReputationDecayTick().catch(e =>
       console.error("[FactionReputation] initial decay error:", e),
+    );
+
+    // Phase D.5 — Trade route saturation decay. Bleeds the per-sector
+    // oversupply meter back toward zero (5 pts/hr) so an idle route
+    // recovers from a price crash. Bumps happen at trade-completion
+    // sites in tradeEmpire.ts (completeMission + recordRouteRun). See
+    // schema doc-comment at apps/db/schema.ts:6974 (audit-allow:
+    // pending-feature Phase D.5) and the consumer service at
+    // apps/server/services/tradeRouteSaturationService.ts.
+    const { decaySaturation } = await import(
+      "../services/tradeRouteSaturationService"
+    );
+    setInterval(() => {
+      decaySaturation().catch(e =>
+        console.error("[TradeRouteSaturation] decay tick error:", e),
+      );
+    }, ONE_HOUR_MS);
+    decaySaturation().catch(e =>
+      console.error("[TradeRouteSaturation] initial decay error:", e),
+    );
+
+    // Phase D.5 — Research race tick. Pending rows whose deadlineMs
+    // has elapsed are resolved as `rival_won` and the player gets a
+    // notification. See schema doc-comment at apps/db/schema.ts:6993
+    // and the consumer service at
+    // apps/server/services/tradeResearchRaceService.ts.
+    const { tickResearchRaces } = await import(
+      "../services/tradeResearchRaceService"
+    );
+    setInterval(() => {
+      tickResearchRaces().catch(e =>
+        console.error("[TradeResearchRace] tick error:", e),
+      );
+    }, ONE_HOUR_MS);
+    tickResearchRaces().catch(e =>
+      console.error("[TradeResearchRace] initial tick error:", e),
+    );
+
+    // Phase D.5 — Convergence climax doom-clock tick. Opens the
+    // climax window when convergence ≥ 100 and auto-resolves it 72h
+    // later if the player misses their choice. See schema doc-comment
+    // at apps/db/schema.ts:7048 and the consumer service at
+    // apps/server/services/convergenceClimaxService.ts.
+    const { tickConvergenceClimax } = await import(
+      "../services/convergenceClimaxService"
+    );
+    setInterval(() => {
+      tickConvergenceClimax().catch(e =>
+        console.error("[ConvergenceClimax] tick error:", e),
+      );
+    }, ONE_HOUR_MS);
+    tickConvergenceClimax().catch(e =>
+      console.error("[ConvergenceClimax] initial tick error:", e),
     );
 
     // Witnessing §3 — load the community Dischordia Cycle meter

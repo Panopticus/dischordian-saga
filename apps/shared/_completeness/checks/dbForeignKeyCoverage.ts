@@ -95,18 +95,59 @@ function isFkShaped(name: string): boolean {
   return false;
 }
 
+/**
+ * Column-level exemption list. Each entry is a `<table>.<column>`
+ * key paired with a documented reason. Exempting a column counts
+ * it as "implemented" in the parity totals — the exemption itself
+ * is the runtime contract.
+ *
+ * Use exemption sparingly. The right reasons are:
+ *   - The column IS the FK target, not a source (e.g. unique
+ *     non-PK columns other tables reference).
+ *   - The value is a static enum-like int, not a database row id.
+ *   - The referent lives outside the database (loredex JSON,
+ *     external service identifier, etc.).
+ *   - Cursor / sentinel patterns whose semantics are broken by
+ *     a real FK constraint.
+ *   - Intentional decoupling for audit-trail use cases where a
+ *     persisted snapshot replaces the live link.
+ *
+ * Wrong reasons (should be a real FK instead):
+ *   - "the target table doesn't exist yet"  (add the table)
+ *   - "we'll wire it later"                  (wire it now)
+ *   - "the column is unused"                 (drop the column)
+ */
+const FK_SHAPE_EXEMPT: Readonly<Record<string, string>> = {
+  "tw_sectors.sectorId":
+    "FK target column itself — other tables reference twSectors.sectorId; this column IS the unique key, not a source.",
+  "citizen_characters.neyonTokenId":
+    "Static enum-like value (1..10 per the column comment); no neyon_tokens table exists or is planned.",
+  "circuit_identity_chains.loredexEntryId":
+    "References loredex-data.json (JSON-backed, not a DB table). The canonical varchar form lives at cards.loredexEntryId; the int form here appears vestigial but is kept until a column-drop migration audits its use.",
+  "trade_news_cursor.lastSeenEventId":
+    "Cursor-pattern column with `0` sentinel meaning 'no events seen yet'. A real FK rejects the sentinel; making the column nullable changes its semantics. Intentional decoupling.",
+};
+
 export function checkDbForeignKeyCoverage(): RawParityCount {
   const src = fs.readFileSync(SCHEMA_PATH, "utf-8");
   const cols = extractColumns(src);
   const offenders: string[] = [];
   let implemented = 0;
   for (const col of cols) {
+    const key = `${col.table}.${col.column}`;
     if (col.hasReferences) {
       implemented++;
       continue;
     }
+    if (FK_SHAPE_EXEMPT[key]) {
+      // Treat exempt columns as implemented. The exemption itself
+      // is the documented runtime contract — see FK_SHAPE_EXEMPT
+      // above for the rules on when an exemption is appropriate.
+      implemented++;
+      continue;
+    }
     offenders.push(
-      `${col.table}.${col.column}: int FK-shaped column without .references() — orphan risk on user/parent delete`,
+      `${key}: int FK-shaped column without .references() — orphan risk on user/parent delete`,
     );
   }
   return {

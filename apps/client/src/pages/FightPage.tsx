@@ -15,7 +15,6 @@ import {
   ChevronLeft, ChevronRight, Gamepad2, AlertTriangle, Skull,
   Target, BookOpen, Play, X, Info, Crown, Eye, Gem,
 } from "lucide-react";
-import { calculateTraitBonuses } from "@shared/traitBonuses";
 import { useGamification } from "@/contexts/GamificationContext";
 import { useContentReward } from "@/components/ContentRewardToast";
 import { useGame } from "@/contexts/GameContext";
@@ -111,11 +110,6 @@ export default function FightPage() {
   });
   const introVideoRef = useRef<HTMLVideoElement>(null);
 
-  // NFT holder perks removed — blockchain backend stripped
-  const holderPerks = null as any;
-
-  // Trait bonuses from NFT Potentials removed
-  const traitBonuses = { data: null as any };
   const activeBonuses = null as { total: { hp: number; attack: number; defense: number; speed: number }; breakdown: { source: string; bonus: { attack: number; defense: number; hp: number; speed: number; label: string; color: string } }[] } | null;
 
   // Citizen character sheet bonuses
@@ -543,39 +537,6 @@ export default function FightPage() {
             </Link>
           </div>
 
-          {/* NFT Holder Perks Badge */}
-          {holderPerks?.isHolder && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.5 }}
-              className="mt-5 max-w-xs mx-auto w-full"
-            >
-              <Link href="/potentials">
-                <div className="rounded-lg border overflow-hidden cursor-pointer hover:brightness-110 transition-all"
-                  style={{
-                    borderColor: "rgba(147,51,234,0.4)",
-                    background: "linear-gradient(135deg, rgba(147,51,234,0.12) 0%, color-mix(in oklch, var(--energy-primary) 6%, transparent) 100%)",
-                  }}
-                >
-                  <div className="flex items-center gap-3 px-3 py-2">
-                    <div className="p-1.5 rounded void-bg-system">
-                      <Gem size={14} className="void-text-system" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="font-display text-[10px] tracking-wider void-text-system">
-                        {holderPerks.perks.title}
-                      </div>
-                      <div className="font-mono text-[8px] void-text-system">
-                        {holderPerks.claimedCount} Potential{holderPerks.claimedCount !== 1 ? "s" : ""} claimed • {Math.round((holderPerks.perks.fightPointsMultiplier - 1) * 100)}% bonus points
-                      </div>
-                    </div>
-                    <div className="font-mono text-[9px] void-text-system">→</div>
-                  </div>
-                </div>
-              </Link>
-            </motion.div>
-          )}
 
           {/* Tutorial trigger */}
           <div className="w-full max-w-xs mt-4">
@@ -1256,7 +1217,7 @@ export default function FightPage() {
 
           {/* Fighter detail panel — desktop */}
           <div className="hidden lg:flex w-72 border-l border-border/60 p-4 flex-col">
-            <FighterDetailPanel fighter={displayFighter} traitBonuses={activeBonuses} activePotential={traitBonuses.data?.activePotential} />
+            <FighterDetailPanel fighter={displayFighter} traitBonuses={activeBonuses} />
           </div>
         </div>
 
@@ -1503,9 +1464,7 @@ export default function FightPage() {
       (selectedDifficulty.id === "nightmare" ? 100 : selectedDifficulty.id === "hard" ? 60 : selectedDifficulty.id === "normal" ? 40 : 20)
       * selectedDifficulty.pointsMultiplier
     ) : 0;
-    const nftMultiplier = holderPerks?.perks.fightPointsMultiplier || 1.0;
-    const ptGain = Math.round(basePt * nftMultiplier);
-    const bonusPt = ptGain - basePt;
+    const ptGain = basePt;
 
     // Letter grade — derived from what the match actually reports
     // (winner + perfect flag) × difficulty, since FightArena2D doesn't
@@ -1585,22 +1544,11 @@ export default function FightPage() {
               <div className="px-4 py-2 rounded bg-muted/40 border border-border/60">
                 <div className="font-mono text-[10px] text-muted-foreground/60">POINTS</div>
                 <div className="font-display text-lg void-text-accent">+{ptGain}</div>
-                {bonusPt > 0 && (
-                  <div className="font-mono text-[8px] void-text-system">
-                    +{bonusPt} POTENTIAL BONUS
-                  </div>
-                )}
               </div>
               <div className="px-4 py-2 rounded bg-muted/40 border border-border/60">
                 <div className="font-mono text-[10px] text-muted-foreground/60">STREAK</div>
                 <div className="font-display text-lg void-text-energy">{gam.gameSave.winStreak}</div>
               </div>
-              {holderPerks?.isHolder && (
-                <div className="px-4 py-2 rounded border" style={{ background: "rgba(147,51,234,0.1)", borderColor: "rgba(147,51,234,0.3)" }}>
-                  <div className="font-mono text-[10px] void-text-system">TITLE</div>
-                  <div className="font-display text-xs void-text-system">{holderPerks.perks.title}</div>
-                </div>
-              )}
             </div>
           )}
 
@@ -1735,10 +1683,9 @@ function FighterCard({ fighter, available, selected, onSelect, onHover, onLeave,
 /* ═══════════════════════════════════════════════════════
    FIGHTER DETAIL PANEL — Stats sidebar
    ═══════════════════════════════════════════════════════ */
-function FighterDetailPanel({ fighter, traitBonuses: bonuses, activePotential }: {
+function FighterDetailPanel({ fighter, traitBonuses: bonuses }: {
   fighter: FighterData | null;
   traitBonuses?: { total: { attack: number; defense: number; hp: number; speed: number }; breakdown: Array<{ source: string; bonus: { attack: number; defense: number; hp: number; speed: number; label: string; color: string } }> } | null;
-  activePotential?: { tokenId: number; name: string; level: number; nftClass: string | null; weapon: string | null; specie: string | null } | null;
 }) {
   if (!fighter) {
     return (
@@ -1765,34 +1712,6 @@ function FighterDetailPanel({ fighter, traitBonuses: bonuses, activePotential }:
         <StatBar label="DEF" value={fighter.defense} max={12} icon={<Shield size={10} />} color="var(--energy-success)" bonus={bonuses?.total.defense} />
         <StatBar label="SPD" value={fighter.speed} max={12} icon={<Wind size={10} />} color="var(--energy-primary)" bonus={bonuses?.total.speed} />
       </div>
-
-      {/* Trait Bonuses from NFT Potentials */}
-      {bonuses && bonuses.breakdown.length > 0 && (
-        <div className="rounded-md border void-border-system void-bg-system p-2 mb-3">
-          <div className="flex items-center gap-1.5 mb-1.5">
-            <Gem size={10} className="void-text-system" />
-            <span className="font-mono text-[9px] font-bold void-text-system tracking-wider">POTENTIAL TRAIT BONUSES</span>
-          </div>
-          {activePotential && (
-            <div className="font-mono text-[8px] void-text-system mb-1.5">
-              via {activePotential.name} (Lv.{activePotential.level})
-            </div>
-          )}
-          <div className="space-y-0.5">
-            {bonuses.breakdown.map((b, i) => (
-              <div key={i} className="flex items-center justify-between">
-                <span className="font-mono text-[8px]" style={{ color: b.bonus.color }}>{b.bonus.label}</span>
-                <span className="font-mono text-[8px] text-muted-foreground/60">
-                  {b.bonus.attack > 0 && `+${b.bonus.attack} ATK `}
-                  {b.bonus.defense > 0 && `+${b.bonus.defense} DEF `}
-                  {b.bonus.hp > 0 && `+${b.bonus.hp} HP `}
-                  {b.bonus.speed > 0 && `+${b.bonus.speed} SPD`}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
 
       <div className="rounded-md border p-2" style={{ borderColor: fighter.special.color + "40", background: fighter.special.color + "10" }}>
         <div className="flex items-center gap-1.5 mb-1">

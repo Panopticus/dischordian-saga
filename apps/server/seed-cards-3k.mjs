@@ -92,7 +92,7 @@ for (const n of NEYONS) {
     season: "Season 1",
     disciplines: JSON.stringify(["Neyon Mastery", `${n.cls.charAt(0).toUpperCase() + n.cls.slice(1)} Discipline`]),
     keywords: JSON.stringify(["neyon", "potential", n.cls, "legendary"]),
-    unlockMethod: "nft",
+    unlockMethod: "starter",
     unlockCondition: null,
     isActive: true,
   });

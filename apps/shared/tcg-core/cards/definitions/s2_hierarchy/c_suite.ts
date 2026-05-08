@@ -177,8 +177,8 @@ export const cto_skarn_iterate: CardDefinition = {
   trial_categories: ["evidence"] as const,
   verdict_delta: -1,
   balanceException: {
-    reason: "Ability-driven design: raw stats traded for build-around effect text; the curve over-predicts stats for cards whose power lives in their abilities. UNDER curve by 35%.",
-    reviewer: "2026-05-stat-curve-recalibration",
+    reason: "Legendary draw engine: 5/8 body + draws 1 at start of every owner's turn. Permanent card-engine; 5+ cards of effective value over the unit's lifespan. Sub-curve printed stats compensate for the unbounded draw advantage.",
+    reviewer: "panopticus",
   },
 };
 
@@ -219,8 +219,8 @@ export const cmo_vex_drelm: CardDefinition = {
   trial_categories: ["narrative"] as const,
   verdict_delta: -1,
   balanceException: {
-    reason: "Ability-driven design: raw stats traded for build-around effect text; the curve over-predicts stats for cards whose power lives in their abilities. UNDER curve by 40%.",
-    reviewer: "2026-05-stat-curve-recalibration",
+    reason: "Legendary sweeper: 5/7 + dispel + on-deploy global -1 power debuff to all enemies this turn. The on-deploy turns a turn into a tempo-positive board reset. Sub-curve printed stats reflect the cost of the spell-equivalent on-deploy.",
+    reviewer: "panopticus",
   },
 };
 
@@ -260,8 +260,8 @@ export const chro_mor_vethic: CardDefinition = {
   trial_categories: ["defensive", "reactive"] as const,
   verdict_delta: -1,
   balanceException: {
-    reason: "Ability-driven design: raw stats traded for build-around effect text; the curve over-predicts stats for cards whose power lives in their abilities. UNDER curve by 35%.",
-    reviewer: "2026-05-stat-curve-recalibration",
+    reason: "Legendary tank + draw engine: 4/9 with provoke + draws 1 when any friendly Hierarchy unit dies. Provoke locks adjacent enemies onto the tank; the draw engine generates per-death value. Sub-curve printed stats compensate for the dual-axis value.",
+    reviewer: "panopticus",
   },
 };
 

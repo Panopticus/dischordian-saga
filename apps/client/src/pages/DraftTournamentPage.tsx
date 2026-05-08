@@ -4,7 +4,7 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { trpc } from "@/lib/trpc";
-import { getLoginUrl } from "@/const";
+import { getGoogleLoginUrl } from "@/const";
 import { Link } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -242,7 +242,7 @@ export default function DraftTournamentPage() {
   /* ─── HANDLERS ─── */
   const handleStartDraft = useCallback(async () => {
     if (!isAuthenticated) {
-      window.location.href = getLoginUrl();
+      window.location.href = getGoogleLoginUrl();
       return;
     }
     const result = await createDraft.mutateAsync({});

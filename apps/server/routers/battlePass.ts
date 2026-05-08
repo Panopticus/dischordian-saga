@@ -5,7 +5,7 @@ import { getDb } from "../db";
 import { battlePassSeasons, battlePassProgress, dreamBalance, notifications } from "../../db/schema";
 import { eq, and, desc, sql } from "drizzle-orm";
 import { TRPCError } from "@trpc/server";
-import { fetchCitizenData, fetchPotentialNftData, resolveQuestBonuses } from "../traitResolver";
+import { fetchCitizenData, resolveQuestBonuses } from "../traitResolver";
 import { logger } from "../logger";
 import {
   getTierFromXp, getTierProgress, getXpSource, MAX_TIER,
@@ -122,11 +122,8 @@ export const battlePassRouter = router({
       const p = progress[0]!;
 
       // Apply trait XP multiplier to battle pass XP
-      const [bpCitizen, bpNft] = await Promise.all([
-        fetchCitizenData(ctx.user.id),
-        fetchPotentialNftData(ctx.user.id),
-      ]);
-      const bpTb = resolveQuestBonuses(bpCitizen, bpNft);
+      const bpCitizen = await fetchCitizenData(ctx.user.id);
+      const bpTb = resolveQuestBonuses(bpCitizen);
       const adjustedXp = Math.round(input.xp * bpTb.battlePassXpMultiplier);
 
       // Apply prestige multiplier on top of trait bonus
@@ -299,6 +296,17 @@ export const battlePassRouter = router({
       });
 
       const reward = claimResult.reward;
+
+      // Notify the player the tier reward landed in their inventory.
+      // Fire-and-forget; reward already wrote inside the transaction.
+      db.insert(notifications).values({
+        userId: ctx.user.id,
+        type: "battle_pass_reward",
+        title: `Battle Pass Tier ${input.tier} Reward`,
+        message: `You claimed your ${input.track} tier ${input.tier} reward.`,
+        actionUrl: "/battle-pass",
+        metadata: { tier: input.tier, track: input.track },
+      }).catch((e) => logger.error("[BattlePass] reward notification failed:", e));
 
       // T9.17: if the reward bag includes a `titleKey`, grant the
       // title via the unified user_titles table. Forwards-compat —
