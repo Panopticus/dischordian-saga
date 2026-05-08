@@ -52,7 +52,12 @@ export type FightPhase2D = "intro" | "round_announce" | "fighting" | "finish_him
 export type { FighterState2D };
 
 export type AIStyle2D = "aggressive" | "defensive" | "evasive" | "balanced";
-export type Difficulty2D = "recruit" | "soldier" | "veteran" | "archon";
+// Difficulty2D + AIDifficultyProfile + AI_PROFILES live in ./fightAi
+// (Step 3a of the FightEngine2D split). Re-export so existing
+// callers don't break.
+export { type Difficulty2D, type AIDifficultyProfile, AI_PROFILES } from "./fightAi";
+import type { Difficulty2D, AIDifficultyProfile } from "./fightAi";
+import { AI_PROFILES, adaptAggression, idealDistanceFor } from "./fightAi";
 
 export interface TouchInput2D {
   type: "tap" | "swipe_left" | "swipe_right" | "swipe_up" | "swipe_down" | "hold_start" | "hold_end" | "double_tap" | "triple_tap" | "none";
@@ -538,47 +543,6 @@ const ARCHETYPE_JUMP_FORCE: Record<FighterArchetype, number> = {
   balanced: 13, glass_cannon: 15, tricky: 14, tank: 9,
 };
 
-/* ═══════════════════════════════════════════════════════
-   AI DIFFICULTY PROFILES
-   ═══════════════════════════════════════════════════════ */
-
-interface AIDifficultyProfile {
-  reactionFrames: number;     // How many frames AI waits before reacting
-  comboAccuracy: number;      // 0-1, chance of continuing combo
-  blockRate: number;          // 0-1, chance of blocking on reaction
-  antiAirRate: number;        // 0-1, chance of anti-airing jumps
-  whiffPunishRate: number;    // 0-1, chance of punishing whiffed attacks
-  specialUseRate: number;     // 0-1, how often AI uses specials
-  mistakeRate: number;        // 0-1, chance of random mistake
-  aggressionBase: number;     // 0-1, base aggression level
-}
-
-const AI_PROFILES: Record<Difficulty2D, AIDifficultyProfile> = {
-  // Easy: approachable, lets player learn. Slow reactions, frequent mistakes,
-  // rarely blocks or punishes. Feels like sparring a beginner.
-  recruit: {
-    reactionFrames: 35, comboAccuracy: 0.2, blockRate: 0.15, antiAirRate: 0.05,
-    whiffPunishRate: 0.05, specialUseRate: 0.1, mistakeRate: 0.35, aggressionBase: 0.35,
-  },
-  // Normal: solid opponent, blocks sometimes, can chain 2-hit combos.
-  // Reacts to jump-ins occasionally. Feels like a competent player.
-  soldier: {
-    reactionFrames: 20, comboAccuracy: 0.5, blockRate: 0.4, antiAirRate: 0.25,
-    whiffPunishRate: 0.25, specialUseRate: 0.25, mistakeRate: 0.18, aggressionBase: 0.5,
-  },
-  // Hard: reads your patterns, blocks most attacks, punishes mistakes.
-  // Chains full combos and uses specials strategically. Fair but demanding.
-  veteran: {
-    reactionFrames: 12, comboAccuracy: 0.7, blockRate: 0.6, antiAirRate: 0.5,
-    whiffPunishRate: 0.5, specialUseRate: 0.45, mistakeRate: 0.08, aggressionBase: 0.6,
-  },
-  // Nightmare: near-frame-perfect reactions, optimal combos, ruthless punishes.
-  // Still makes rare mistakes to keep it beatable.
-  archon: {
-    reactionFrames: 5, comboAccuracy: 0.9, blockRate: 0.8, antiAirRate: 0.75,
-    whiffPunishRate: 0.75, specialUseRate: 0.65, mistakeRate: 0.04, aggressionBase: 0.7,
-  },
-};
 
 /* ═══════════════════════════════════════════════════════
    MAIN ENGINE CLASS
@@ -2385,22 +2349,16 @@ export class FightEngine2D {
     const dist = Math.abs(ai.x - player.x);
     const profile = this.aiProfile;
 
-    // Dynamic aggression — adapts based on health ratio
+    // audit/01.F4 Step 3a — adaptAggression is the pure helper now
+    // exported from ./fightAi. Behaviour identical to the inline
+    // logic that lived here previously; extracting it lets the
+    // upcoming AI-controller refactor (Step 3b) reuse the same
+    // adaptation model without duplicating the magic numbers.
     const aiHealthRatio = ai.hp / ai.maxHp;
     const playerHealthRatio = player.hp / player.maxHp;
-    let aggression = profile.aggressionBase;
-
-    // Comeback mechanic: AI gets more aggressive when losing
-    if (aiHealthRatio < 0.3 && playerHealthRatio > 0.5) {
-      aggression = Math.min(0.9, aggression + 0.3);
-      ai.aiReactDelay = Math.max(4, profile.reactionFrames - 8); // Faster reactions when desperate
-    } else if (aiHealthRatio > 0.7 && playerHealthRatio < 0.3) {
-      // Ease off when dominating (more fun for player)
-      aggression = Math.max(0.2, aggression - 0.15);
-      ai.aiReactDelay = profile.reactionFrames + 4;
-    } else {
-      ai.aiReactDelay = profile.reactionFrames;
-    }
+    const adapted = adaptAggression(profile, aiHealthRatio, playerHealthRatio);
+    const aggression = adapted.aggression;
+    ai.aiReactDelay = adapted.reactDelay;
 
     // Mistake check
     if (Math.random() < profile.mistakeRate) {
@@ -2488,7 +2446,9 @@ export class FightEngine2D {
     if (!this.isActionable(ai)) return;
 
     const arch = ai.data.frameProfile.archetype;
-    const idealDist = arch === "zoner" ? 400 : arch === "grappler" ? 80 : arch === "rushdown" ? 100 : 180;
+    // audit/01.F4 Step 3a — same magic numbers, now sourced from the
+    // shared helper in ./fightAi for cross-module reuse.
+    const idealDist = idealDistanceFor(arch);
 
     if (dist > idealDist + 50) {
       // Move closer
