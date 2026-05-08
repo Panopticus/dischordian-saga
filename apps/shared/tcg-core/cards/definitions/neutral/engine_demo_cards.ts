@@ -179,8 +179,8 @@ const honor_guard: CardDefinition = {
   trial_categories: ["defensive", "offensive"] as const,
   verdict_delta: 0,
   balanceException: {
-    reason: "Ability-driven design: raw stats traded for build-around effect text; the curve over-predicts stats for cards whose power lives in their abilities. UNDER curve by 29%.",
-    reviewer: "2026-05-stat-curve-recalibration",
+    reason: "Zeal-conditional design: 2/3 is the floor; effective 3/3 when the general is adjacent (the conditional activation). Bumping the printed line would trivialize the conditional and create a 3-mana staple — the under-curve printed stats are the cost of the design.",
+    reviewer: "panopticus",
   },
 };
 
