@@ -688,7 +688,7 @@ export type TWPlayerState = typeof twPlayerState.$inferSelect;
 export const twColonies = mysqlTable("tw_colonies", {
   id: int("id").autoincrement().primaryKey(),
   userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
-  sectorId: int("sectorId").notNull(),
+  sectorId: int("sectorId").notNull().references(() => twSectors.id, { onDelete: "cascade" }),
   planetName: varchar("planetName", { length: 256 }).notNull(),
   /** Colony level (1-5) determines income multiplier */
   level: int("level").notNull().default(1),
@@ -725,7 +725,7 @@ export const twGameLog = mysqlTable("tw_game_log", {
   userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
   action: varchar("action", { length: 64 }).notNull(),
   details: json("details").$type<Record<string, unknown>>(),
-  sectorId: int("sectorId"),
+  sectorId: int("sectorId").references(() => twSectors.id, { onDelete: "set null" }),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 }, (table) => ({
   userIdIdx: index("idx_tw_game_log_user_id").on(table.userId),
@@ -967,7 +967,7 @@ export const playerBases = mysqlTable("player_bases", {
   /** Name of the base */
   baseName: varchar("baseName", { length: 128 }).notNull().default("Outpost Alpha"),
   /** Sector where the base is located */
-  sectorId: int("sectorId").notNull(),
+  sectorId: int("sectorId").notNull().references(() => twSectors.id, { onDelete: "cascade" }),
   /** Base level (1-10) */
   level: int("level").notNull().default(1),
   /** Resource storage capacity */
@@ -1326,7 +1326,7 @@ export type InsertPvpSeason = typeof pvpSeasons.$inferInsert;
 export const pvpSeasonRecords = mysqlTable("pvp_season_records", {
   id: int("id").autoincrement().primaryKey(),
   userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
-  seasonId: int("seasonId").notNull(),
+  seasonId: int("seasonId").notNull().references(() => pvpSeasons.id, { onDelete: "cascade" }),
   /** Peak ELO achieved during the season */
   peakElo: int("peakElo").notNull().default(1000),
   /** Final ELO at season end */
@@ -1392,7 +1392,7 @@ export type InsertDraftTournament = typeof draftTournaments.$inferInsert;
  */
 export const draftParticipants = mysqlTable("draft_participants", {
   id: int("id").autoincrement().primaryKey(),
-  tournamentId: int("tournamentId").notNull(),
+  tournamentId: int("tournamentId").notNull().references(() => draftTournaments.id, { onDelete: "cascade" }),
   userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
   /** JSON array of picked card IDs */
   pickedCards: json("pickedCards").$type<string[]>().notNull(),
@@ -1507,7 +1507,7 @@ export type InsertFeatureUnlock = typeof featureUnlocks.$inferInsert;
  */
 export const warTerritories = mysqlTable("war_territories", {
   id: int("id").autoincrement().primaryKey(),
-  sectorId: int("sectorId").notNull(),
+  sectorId: int("sectorId").notNull().references(() => twSectors.id, { onDelete: "cascade" }),
   /** Controlling faction */
   faction: mysqlEnum("faction", ["empire", "insurgency"]),
   /** Control points (0-100). 50 = contested, >50 = faction leans, 100 = fully controlled */
@@ -1515,7 +1515,7 @@ export const warTerritories = mysqlTable("war_territories", {
   /** Number of times this sector has been contested */
   contestCount: int("contestCount").notNull().default(0),
   /** Current season ID */
-  seasonId: int("seasonId").notNull().default(1),
+  seasonId: int("seasonId").notNull().default(1).references(() => warSeasons.id, { onDelete: "cascade" }),
   /** Last capture event timestamp */
   lastCaptured: timestamp("lastCaptured"),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
@@ -1531,7 +1531,7 @@ export type WarTerritory = typeof warTerritories.$inferSelect;
 export const warContributions = mysqlTable("war_contributions", {
   id: int("id").autoincrement().primaryKey(),
   userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
-  sectorId: int("sectorId").notNull(),
+  sectorId: int("sectorId").notNull().references(() => twSectors.id, { onDelete: "cascade" }),
   faction: mysqlEnum("faction", ["empire", "insurgency"]).notNull(),
   /** Type of contribution */
   actionType: mysqlEnum("actionType", [
@@ -1544,7 +1544,7 @@ export const warContributions = mysqlTable("war_contributions", {
   ]).notNull(),
   /** Points contributed */
   points: int("points").notNull().default(1),
-  seasonId: int("seasonId").notNull().default(1),
+  seasonId: int("seasonId").notNull().default(1).references(() => warSeasons.id, { onDelete: "cascade" }),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 }, (table) => ({
   userIdIdx: index("idx_war_contributions_user_id").on(table.userId),
@@ -1640,8 +1640,8 @@ export type MarketBuyOrder = typeof marketBuyOrders.$inferSelect;
  */
 export const marketTransactions = mysqlTable("market_transactions", {
   id: int("id").autoincrement().primaryKey(),
-  listingId: int("listingId"),
-  buyOrderId: int("buyOrderId"),
+  listingId: int("listingId").references(() => marketListings.id, { onDelete: "set null" }),
+  buyOrderId: int("buyOrderId").references(() => marketBuyOrders.id, { onDelete: "set null" }),
   sellerId: int("sellerId").notNull().references(() => users.id, { onDelete: "cascade" }),
   buyerId: int("buyerId").notNull().references(() => users.id, { onDelete: "cascade" }),
   itemType: mysqlEnum("itemType", ["card", "material", "crafted_item"]).notNull(),
@@ -1693,7 +1693,7 @@ export type MarketAuction = typeof marketAuctions.$inferSelect;
  */
 export const auctionBids = mysqlTable("auction_bids", {
   id: int("id").autoincrement().primaryKey(),
-  auctionId: int("auctionId").notNull(),
+  auctionId: int("auctionId").notNull().references(() => marketAuctions.id, { onDelete: "cascade" }),
   bidderId: int("bidderId").notNull().references(() => users.id, { onDelete: "cascade" }),
   bidAmount: int("bidAmount").notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
@@ -1880,7 +1880,7 @@ export type BattlePassSeason = typeof battlePassSeasons.$inferSelect;
 export const battlePassProgress = mysqlTable("battle_pass_progress", {
   id: int("id").autoincrement().primaryKey(),
   userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
-  seasonId: int("seasonId").notNull(),
+  seasonId: int("seasonId").notNull().references(() => battlePassSeasons.id, { onDelete: "cascade" }),
   /** Current XP in this season */
   currentXp: int("currentXp").notNull().default(0),
   /** Current tier reached */
@@ -2026,7 +2026,7 @@ export const chatReports = mysqlTable("chat_reports", {
   reporterUserId: int("reporterUserId").notNull().references(() => users.id, { onDelete: "cascade" }),
   reportedUserId: int("reportedUserId").notNull().references(() => users.id, { onDelete: "cascade" }),
   sourceType: mysqlEnum("sourceType", ["guild_chat"]).notNull().default("guild_chat"),
-  sourceMessageId: int("sourceMessageId").notNull(),
+  sourceMessageId: int("sourceMessageId").notNull().references(() => guildChat.id, { onDelete: "set null" }),
   messageSnapshot: text("messageSnapshot").notNull(),
   reason: mysqlEnum("reason", [
     "harassment",
@@ -2143,7 +2143,7 @@ export type GuildWar = typeof guildWars.$inferSelect;
 
 export const guildWarContributions = mysqlTable("guild_war_contributions", {
   id: int("id").autoincrement().primaryKey(),
-  warId: int("warId").notNull(),
+  warId: int("warId").notNull().references(() => guildWars.id, { onDelete: "cascade" }),
   guildId: int("guildId").notNull().references(() => guilds.id, { onDelete: "cascade" }),
   userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
   points: int("points").notNull().default(0),
@@ -2281,7 +2281,7 @@ export type ChessPuzzleProgress = typeof chessPuzzleProgress.$inferSelect;
  *  values to the client. */
 export const chessTournamentParticipants = mysqlTable("chess_tournament_participants", {
   id: int("id").autoincrement().primaryKey(),
-  tournamentId: int("tournamentId").notNull(),
+  tournamentId: int("tournamentId").notNull().references(() => chessTournaments.id, { onDelete: "cascade" }),
   userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
   userName: varchar("userName", { length: 128 }).notNull(),
   /** 2× actual score — divide by 2 for display. */
@@ -2300,7 +2300,7 @@ export type ChessTournamentParticipant = typeof chessTournamentParticipants.$inf
 /** Per-round pairings for a chess tournament, linked to the chess_games row that resolves them. */
 export const chessTournamentPairings = mysqlTable("chess_tournament_pairings", {
   id: int("id").autoincrement().primaryKey(),
-  tournamentId: int("tournamentId").notNull(),
+  tournamentId: int("tournamentId").notNull().references(() => chessTournaments.id, { onDelete: "cascade" }),
   round: int("round").notNull(),
   whiteId: int("whiteId").notNull().references(() => users.id, { onDelete: "cascade" }),
   blackId: int("blackId").notNull().references(() => users.id, { onDelete: "cascade" }),
@@ -2645,7 +2645,7 @@ export type AchievementTraitProgressRow = typeof achievementTraitProgress.$infer
 
 export const syndicateWorlds = mysqlTable("syndicate_worlds", {
   id: int("id").autoincrement().primaryKey(),
-  guildId: int("guildId").notNull().unique(),
+  guildId: int("guildId").notNull().unique().references(() => guilds.id, { onDelete: "cascade" }),
   /** World biome type */
   biome: varchar("biome", { length: 32 }).notNull().default("forge_world"),
   /** World name (customizable) */
@@ -2677,7 +2677,7 @@ export type SyndicateWorld = typeof syndicateWorlds.$inferSelect;
 
 export const syndicateBuildings = mysqlTable("syndicate_buildings", {
   id: int("id").autoincrement().primaryKey(),
-  worldId: int("worldId").notNull(),
+  worldId: int("worldId").notNull().references(() => syndicateWorlds.id, { onDelete: "cascade" }),
   /** Building definition key (from shared/syndicateWorlds.ts) */
   buildingKey: varchar("buildingKey", { length: 64 }).notNull(),
   /** Current level */
@@ -2747,7 +2747,7 @@ export type SpaceStation = typeof spaceStations.$inferSelect;
 
 export const stationModules = mysqlTable("station_modules", {
   id: int("id").autoincrement().primaryKey(),
-  stationId: int("stationId").notNull(),
+  stationId: int("stationId").notNull().references(() => spaceStations.id, { onDelete: "cascade" }),
   /** Module definition key (from shared/spaceStations.ts) */
   moduleKey: varchar("moduleKey", { length: 64 }).notNull(),
   /** Current level */
@@ -2808,12 +2808,12 @@ export type TowerPlacement = typeof towerPlacements.$inferSelect;
 export const raidLogs = mysqlTable("raid_logs", {
   id: int("id").autoincrement().primaryKey(),
   /** Attacker user ID */
-  attackerId: int("attackerId").notNull(),
+  attackerId: int("attackerId").notNull().references(() => users.id, { onDelete: "cascade" }),
   /** Defender: station or world */
   defenderType: mysqlEnum("defenderType", ["station", "world"]).notNull(),
-  defenderId: int("defenderId").notNull(),
+  defenderId: int("defenderId").notNull().references(() => users.id, { onDelete: "cascade" }),
   /** Defender user ID (for station) or guild ID (for world) */
-  defenderOwnerId: int("defenderOwnerId").notNull(),
+  defenderOwnerId: int("defenderOwnerId").notNull().references(() => users.id, { onDelete: "set null" }),
   /** Raid result */
   result: mysqlEnum("result", ["victory", "defeat", "draw"]).notNull(),
   /** Stars earned (0-3) */
@@ -3056,7 +3056,7 @@ export const pvpRatings = mysqlTable("pvp_ratings", {
   userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
   gameType: varchar("gameType", { length: 50 }).notNull(),
   mmr: int("mmr").notNull().default(1200),
-  seasonId: int("seasonId").notNull().default(1),
+  seasonId: int("seasonId").notNull().default(1).references(() => pvpSeasons.id, { onDelete: "cascade" }),
   seasonRank: int("seasonRank").notNull().default(0),
   seasonWins: int("seasonWins").notNull().default(0),
   seasonLosses: int("seasonLosses").notNull().default(0),
@@ -3094,7 +3094,7 @@ export type PlayerQuartersRow = typeof playerQuarters.$inferSelect;
 export const quarterVisits = mysqlTable("quarter_visits", {
   id: int("id").primaryKey().autoincrement(),
   ownerId: int("ownerId").notNull().references(() => users.id, { onDelete: "cascade" }),
-  visitorId: int("visitorId").notNull(),
+  visitorId: int("visitorId").notNull().references(() => users.id, { onDelete: "cascade" }),
   visitedAt: timestamp("visitedAt").defaultNow().notNull(),
 });
 export type QuarterVisitRow = typeof quarterVisits.$inferSelect;
@@ -3102,8 +3102,8 @@ export type QuarterVisitRow = typeof quarterVisits.$inferSelect;
 /* ─── FRIENDLY CHALLENGES ─── */
 export const friendlyChallenges = mysqlTable("friendly_challenges", {
   id: int("id").primaryKey().autoincrement(),
-  challengerId: int("challengerId").notNull(),
-  opponentId: int("opponentId"),
+  challengerId: int("challengerId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  opponentId: int("opponentId").references(() => users.id, { onDelete: "cascade" }),
   gameType: varchar("gameType", { length: 50 }).notNull(),
   rules: json("rules").$type<string[]>(),
   status: varchar("status", { length: 20 }).notNull().default("pending"),
@@ -3131,7 +3131,7 @@ export type CoopRaidRow = typeof coopRaids.$inferSelect;
 
 export const raidContributions = mysqlTable("raid_contributions", {
   id: int("id").primaryKey().autoincrement(),
-  raidId: int("raidId").notNull(),
+  raidId: int("raidId").notNull().references(() => raidLogs.id, { onDelete: "cascade" }),
   userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
   damageDealt: int("damageDealt").notNull().default(0),
   healingDone: int("healingDone").notNull().default(0),
@@ -3198,7 +3198,7 @@ export type CosmeticCatalogOwnershipRow = typeof cosmeticCatalogOwnership.$infer
 /* ─── DONATIONS ─── */
 export const donations = mysqlTable("donations", {
   id: int("id").primaryKey().autoincrement(),
-  donorId: int("donorId").notNull(),
+  donorId: int("donorId").notNull().references(() => users.id, { onDelete: "cascade" }),
   guildId: int("guildId").notNull().references(() => guilds.id, { onDelete: "cascade" }),
   donationType: varchar("donationType", { length: 20 }).notNull(),
   itemKey: varchar("itemKey", { length: 100 }),
@@ -3223,7 +3223,7 @@ export type DonationReputationRow = typeof donationReputation.$inferSelect;
 export const friends = mysqlTable("friends", {
   id: int("id").primaryKey().autoincrement(),
   userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
-  friendId: int("friendId").notNull(),
+  friendId: int("friendId").notNull().references(() => users.id, { onDelete: "cascade" }),
   status: varchar("status", { length: 20 }).notNull().default("pending"),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
@@ -3232,8 +3232,8 @@ export type FriendRow = typeof friends.$inferSelect;
 
 export const directMessages = mysqlTable("direct_messages", {
   id: int("id").primaryKey().autoincrement(),
-  fromUserId: int("fromUserId").notNull(),
-  toUserId: int("toUserId").notNull(),
+  fromUserId: int("fromUserId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  toUserId: int("toUserId").notNull().references(() => users.id, { onDelete: "cascade" }),
   content: text("content").notNull(),
   readAt: timestamp("readAt"),
   sentAt: timestamp("sentAt").defaultNow().notNull(),
@@ -3242,7 +3242,7 @@ export type DirectMessageRow = typeof directMessages.$inferSelect;
 
 export const guildRecruitment = mysqlTable("guild_recruitment", {
   id: int("id").primaryKey().autoincrement(),
-  guildId: int("guildId").notNull().unique(),
+  guildId: int("guildId").notNull().unique().references(() => guilds.id, { onDelete: "cascade" }),
   description: text("description").notNull(),
   requirements: text("requirements"),
   status: varchar("status", { length: 20 }).notNull().default("open"),
@@ -3596,7 +3596,7 @@ export const adminEvents = mysqlTable("admin_events", {
 // ═══ ARCHITECT'S CONSOLE — Audit Log ═══
 export const adminAuditLog = mysqlTable("admin_audit_log", {
   id: int("id").primaryKey().autoincrement(),
-  adminId: int("adminId").notNull(),
+  adminId: int("adminId").notNull().references(() => users.id, { onDelete: "set null" }),
   action: varchar("action", { length: 128 }).notNull(),
   details: json("details"),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
@@ -4413,7 +4413,7 @@ export const circuitSeasons = mysqlTable("circuit_seasons", {
   /** Universe event ids that were active when the season was last ticked. Snapshot for modifier resolution. */
   activeUniverseEvents: json("activeUniverseEvents").$type<string[]>().default([]),
   /** User id of the season's #1 finisher when the season was closed. Used for the Severance Prize. */
-  championUserId: int("championUserId"),
+  championUserId: int("championUserId").references(() => users.id, { onDelete: "set null" }),
   closedAt: timestamp("closedAt"),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 });
@@ -4423,7 +4423,7 @@ export type CircuitSeasonRow = typeof circuitSeasons.$inferSelect;
 export const circuitRaceResults = mysqlTable("circuit_race_results", {
   id: int("id").autoincrement().primaryKey(),
   userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
-  seasonId: int("seasonId").notNull(),
+  seasonId: int("seasonId").notNull().references(() => circuitSeasons.id, { onDelete: "cascade" }),
   cloneDesignation: varchar("cloneDesignation", { length: 64 }).notNull(),
   finishPosition: int("finishPosition").notNull(),
   totalTimeMs: int("totalTimeMs").notNull(),
@@ -4445,7 +4445,7 @@ export type CircuitRaceResultRow = typeof circuitRaceResults.$inferSelect;
 export const circuitLeaderboard = mysqlTable("circuit_leaderboard", {
   id: int("id").autoincrement().primaryKey(),
   userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
-  seasonId: int("seasonId").notNull(),
+  seasonId: int("seasonId").notNull().references(() => circuitSeasons.id, { onDelete: "cascade" }),
   totalCp: int("totalCp").notNull().default(0),
   racesCompleted: int("racesCompleted").notNull().default(0),
   bestPosition: int("bestPosition").notNull().default(99),
@@ -4468,7 +4468,7 @@ export type CircuitLeaderboardRow = typeof circuitLeaderboard.$inferSelect;
 export const circuitClones = mysqlTable("circuit_clones", {
   id: int("id").autoincrement().primaryKey(),
   userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
-  seasonId: int("seasonId").notNull(),
+  seasonId: int("seasonId").notNull().references(() => circuitSeasons.id, { onDelete: "cascade" }),
   designation: varchar("designation", { length: 64 }).notNull(),
   neuralSync: int("neuralSync").notNull().default(80),
   velocityCeilingPct: int("velocityCeilingPct").notNull().default(100),
@@ -4511,7 +4511,7 @@ export type CircuitIdentityChainRow = typeof circuitIdentityChains.$inferSelect;
 export const circuitSideQuestProgress = mysqlTable("circuit_side_quest_progress", {
   id: int("id").autoincrement().primaryKey(),
   userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
-  seasonId: int("seasonId").notNull(),
+  seasonId: int("seasonId").notNull().references(() => circuitSeasons.id, { onDelete: "cascade" }),
   questKey: varchar("questKey", { length: 64 }).notNull(),
   progress: int("progress").notNull().default(0),
   target: int("target").notNull(),
@@ -4527,7 +4527,7 @@ export type CircuitSideQuestProgressRow = typeof circuitSideQuestProgress.$infer
 
 export const codexContributions = mysqlTable("codex_contributions", {
   id: int("id").autoincrement().primaryKey(),
-  authorId: int("authorId").notNull(),
+  authorId: int("authorId").notNull().references(() => users.id, { onDelete: "set null" }),
   category: mysqlEnum("category", [
     "theory",
     "analysis",
@@ -4552,7 +4552,7 @@ export type CodexContributionRow = typeof codexContributions.$inferSelect;
 
 export const codexVotes = mysqlTable("codex_votes", {
   id: int("id").autoincrement().primaryKey(),
-  contributionId: int("contributionId").notNull(),
+  contributionId: int("contributionId").notNull().references(() => codexContributions.id, { onDelete: "cascade" }),
   userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
   direction: mysqlEnum("direction", ["up", "down"]).notNull(),
 }, (table) => ({
@@ -4669,7 +4669,7 @@ export const casinoJackpotPool = mysqlTable("casino_jackpot_pool", {
   /** Lifetime Dream paid out from this pool. */
   totalPaidOut: int("totalPaidOut").notNull().default(0),
   /** userId of the last winner, if any. */
-  lastWinnerId: int("lastWinnerId"),
+  lastWinnerId: int("lastWinnerId").references(() => users.id, { onDelete: "set null" }),
   lastWinAt: timestamp("lastWinAt"),
   /** When the most recent claim was broadcast to players. Lets
    *  claimJackpot avoid double-sending notifications on retries. */
@@ -4754,7 +4754,7 @@ export type XmasJulyProgressRow = typeof xmasJulyProgress.$inferSelect;
 export const xmasJulyGifts = mysqlTable("xmas_july_gifts", {
   id: int("id").autoincrement().primaryKey(),
   senderId: int("senderId").notNull().references(() => users.id, { onDelete: "cascade" }),
-  recipientId: int("recipientId").notNull(),
+  recipientId: int("recipientId").notNull().references(() => users.id, { onDelete: "cascade" }),
   /** Gift kind — "gift_box", "candy_cane", etc. */
   giftType: varchar("giftType", { length: 64 }).notNull(),
   /** Custom message from sender */
@@ -5269,7 +5269,7 @@ export type InsertAnnouncement = typeof announcements.$inferInsert;
 export const announcementViews = mysqlTable("announcement_views", {
   id: int("id").autoincrement().primaryKey(),
   userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
-  announcementId: int("announcementId").notNull(),
+  announcementId: int("announcementId").notNull().references(() => announcements.id, { onDelete: "cascade" }),
   firstSeenAt: timestamp("firstSeenAt").defaultNow().notNull(),
   /** Set when the user explicitly closes the transmission. null
    *  while still passively-viewed. */
@@ -6085,8 +6085,8 @@ export const discoveryEvents = mysqlTable("discovery_events", {
   /** Stable key, e.g. "kael_fragment_F4", "secret_act_3_revealed",
    *  "conspiracy_thought_virus_solved". */
   eventKey: varchar("eventKey", { length: 96 }).notNull().unique(),
-  firstDiscovererUserId: int("firstDiscovererUserId").notNull(),
-  firstDiscovererGuildId: int("firstDiscovererGuildId"),
+  firstDiscovererUserId: int("firstDiscovererUserId").notNull().references(() => users.id, { onDelete: "set null" }),
+  firstDiscovererGuildId: int("firstDiscovererGuildId").references(() => guilds.id, { onDelete: "set null" }),
   discoveredAt: timestamp("discoveredAt").defaultNow().notNull(),
   /** When this event triggered a server-wide reveal (i.e. flipped
    *  unlock state for every player). NULL = not yet promoted. */
@@ -6258,7 +6258,7 @@ export type GuildQuestProgressRow = typeof guildQuestProgress.$inferSelect;
  *  large table. */
 export const guildCosmetics = mysqlTable("guild_cosmetics", {
   id: int("id").autoincrement().primaryKey(),
-  guildId: int("guildId").notNull().unique(),
+  guildId: int("guildId").notNull().unique().references(() => guilds.id, { onDelete: "cascade" }),
   bannerKey: varchar("bannerKey", { length: 64 }),
   mottoText: varchar("mottoText", { length: 80 }),
   emblemKey: varchar("emblemKey", { length: 64 }),
@@ -6278,7 +6278,7 @@ export const guildStash = mysqlTable("guild_stash", {
   itemType: varchar("itemType", { length: 32 }).notNull(),
   itemKey: varchar("itemKey", { length: 96 }).notNull(),
   quantity: int("quantity").notNull().default(1),
-  depositorUserId: int("depositorUserId").notNull(),
+  depositorUserId: int("depositorUserId").notNull().references(() => users.id, { onDelete: "set null" }),
   depositedAt: timestamp("depositedAt").defaultNow().notNull(),
 }, (table) => ({
   guildIdIdx: index("idx_guild_stash_guild_id").on(table.guildId),
@@ -6335,7 +6335,7 @@ export const tradeSectorControl = mysqlTable("trade_sector_control", {
   id: int("id").autoincrement().primaryKey(),
   sectorId: varchar("sectorId", { length: 64 }).notNull(),
   /** Current "Sector Lord" — null between control windows. */
-  lordUserId: int("lordUserId"),
+  lordUserId: int("lordUserId").references(() => users.id, { onDelete: "set null" }),
   /** Anchor for the weekly window. */
   weekStart: timestamp("weekStart").notNull(),
   /** JSON: { [userId]: contributionScore } */
@@ -6355,8 +6355,8 @@ export type TradeSectorControl = typeof tradeSectorControl.$inferSelect;
 export const tradeOracleDuels = mysqlTable("trade_oracle_duels", {
   id: int("id").autoincrement().primaryKey(),
   duelId: varchar("duelId", { length: 64 }).notNull().unique(),
-  callerUserId: int("callerUserId").notNull(),
-  putUserId: int("putUserId").notNull(),
+  callerUserId: int("callerUserId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  putUserId: int("putUserId").notNull().references(() => users.id, { onDelete: "cascade" }),
   sectorId: varchar("sectorId", { length: 64 }).notNull(),
   strikePrice: int("strikePrice").notNull(),
   /** Spot price at settlement. */
@@ -6390,8 +6390,8 @@ export type CadesPvpMatch = typeof cadesPvpMatches.$inferSelect;
 export const tdLiveSieges = mysqlTable("td_live_sieges", {
   id: int("id").autoincrement().primaryKey(),
   siegeId: varchar("siegeId", { length: 64 }).notNull().unique(),
-  attackerUserId: int("attackerUserId").notNull(),
-  defenderUserId: int("defenderUserId").notNull(),
+  attackerUserId: int("attackerUserId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  defenderUserId: int("defenderUserId").notNull().references(() => users.id, { onDelete: "cascade" }),
   /** Wave snapshot when raid concluded. */
   waveCount: int("waveCount").notNull().default(0),
   /** 0–3 stars. */
@@ -6408,14 +6408,14 @@ export type TdLiveSiege = typeof tdLiveSieges.$inferSelect;
 export const guildWarSkirmishes = mysqlTable("guild_war_skirmishes", {
   id: int("id").autoincrement().primaryKey(),
   skirmishId: varchar("skirmishId", { length: 64 }).notNull().unique(),
-  guildAId: int("guildAId").notNull(),
-  guildBId: int("guildBId").notNull(),
+  guildAId: int("guildAId").notNull().references(() => guilds.id, { onDelete: "cascade" }),
+  guildBId: int("guildBId").notNull().references(() => guilds.id, { onDelete: "cascade" }),
   /** JSON: { card_duel?: matchId, chess?: gameId, td_live?: siegeId, cades?: matchId } */
   mode_match_ids: json("modeMatchIds").$type<Record<string, string>>().notNull().default({}),
   /** JSON: { [gameType]: "guild_a" | "guild_b" | "tied" | "pending" } */
   modeOutcomes: json("modeOutcomes").$type<Record<string, string>>().notNull().default({}),
   /** Final winner once enough modes resolve. */
-  winnerGuildId: int("winnerGuildId"),
+  winnerGuildId: int("winnerGuildId").references(() => guilds.id, { onDelete: "set null" }),
   status: mysqlEnum("status", ["proposed", "accepted", "active", "completed", "abandoned"]).notNull().default("proposed"),
   declaredAt: timestamp("declaredAt").defaultNow().notNull(),
   acceptedAt: timestamp("acceptedAt"),
@@ -6431,8 +6431,8 @@ export const guildWarSkirmishMatches = mysqlTable("guild_war_skirmish_matches", 
   skirmishId: varchar("skirmishId", { length: 64 }).notNull(),
   /** Mode: "card_duel" | "chess" | "td_live" | "cades" */
   mode: varchar("mode", { length: 32 }).notNull(),
-  guildAPlayerId: int("guildAPlayerId").notNull(),
-  guildBPlayerId: int("guildBPlayerId").notNull(),
+  guildAPlayerId: int("guildAPlayerId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  guildBPlayerId: int("guildBPlayerId").notNull().references(() => users.id, { onDelete: "cascade" }),
   /** Underlying match id in the per-mode table. */
   underlyingMatchId: varchar("underlyingMatchId", { length: 64 }),
   /** Outcome: "guild_a" | "guild_b" | "tied" | "pending" */
@@ -6495,18 +6495,18 @@ export type CompetitiveRatingsBackfillRow = typeof competitiveRatingsBackfill.$i
    ═══════════════════════════════════════════════════════ */
 export const pvpModerationReports = mysqlTable("pvp_moderation_reports", {
   id: int("id").autoincrement().primaryKey(),
-  reporterId: int("reporterId").notNull(),
+  reporterId: int("reporterId").notNull().references(() => users.id, { onDelete: "cascade" }),
   /** "motto" | "banner" | "title" | "guild_name" */
   targetKind: varchar("targetKind", { length: 32 }).notNull(),
   /** id of the offending record (guildId for motto/banner, userId for title). */
-  targetId: int("targetId").notNull(),
+  targetId: int("targetId").notNull().references(() => users.id, { onDelete: "cascade" }),
   /** Snapshot of the offending text for audit (mottoes can be edited). */
   contentSnapshot: text("contentSnapshot"),
   reason: varchar("reason", { length: 64 }).notNull(),
   /** Free-text. Up to 500 chars. */
   details: text("details"),
   status: mysqlEnum("status", ["open", "resolved_action", "resolved_no_action", "duplicate"]).notNull().default("open"),
-  resolvedByUserId: int("resolvedByUserId"),
+  resolvedByUserId: int("resolvedByUserId").references(() => users.id, { onDelete: "set null" }),
   resolvedAt: timestamp("resolvedAt"),
   resolutionNotes: text("resolutionNotes"),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
@@ -6592,7 +6592,7 @@ export type DreamerAwarenessRow = typeof dreamerAwareness.$inferSelect;
 export const parties = mysqlTable("parties", {
   id: int("id").autoincrement().primaryKey(),
   partyId: varchar("partyId", { length: 64 }).notNull().unique(),
-  leaderUserId: int("leaderUserId").notNull(),
+  leaderUserId: int("leaderUserId").notNull().references(() => users.id, { onDelete: "cascade" }),
   /** Mode the party is preparing for. Affects max member count. */
   mode: mysqlEnum("mode", ["card_2v2", "card_coop", "card_ffa", "open"]).notNull().default("open"),
   /** Open parties accept join requests; closed only honors invites. */
@@ -6638,7 +6638,7 @@ export const partyInvites = mysqlTable("party_invites", {
   id: int("id").autoincrement().primaryKey(),
   partyId: varchar("partyId", { length: 64 }).notNull(),
   invitedUserId: int("invitedUserId").notNull().references(() => users.id, { onDelete: "cascade" }),
-  invitedByUserId: int("invitedByUserId").notNull(),
+  invitedByUserId: int("invitedByUserId").notNull().references(() => users.id, { onDelete: "cascade" }),
   status: mysqlEnum("status", ["pending", "accepted", "declined", "expired"]).notNull().default("pending"),
   expiresAt: timestamp("expiresAt").notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),

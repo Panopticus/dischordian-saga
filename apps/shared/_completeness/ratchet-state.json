@@ -7,7 +7,7 @@
     "tcg.card_stat_budget_coverage": 0,
     "tcg.narrative_flag_bridge_coverage": 0,
     "tcg.trial_category_coverage": 0,
-    "db.foreign_key_coverage": 74,
+    "db.foreign_key_coverage": 11,
     "db.economic_transaction_coverage": 11
   }
 }
