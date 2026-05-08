@@ -94,7 +94,7 @@ const e1: EpisodeDefinition = {
   contentBundle: {
     songId: "T11_severance_threnody",
     slideshowId: "T11_severance_threnody",
-    loredexUnlocks: [],
+    loredexUnlocks: ["loredex.bond_on_the_table", "loredex.vex_maestro_opening_line"],
     dropAt: "episode_close",
   },
 };
@@ -181,7 +181,7 @@ const e2: EpisodeDefinition = {
   contentBundle: {
     songId: "T11_severance_threnody",
     slideshowId: "T11_severance_threnody_b",
-    loredexUnlocks: [],
+    loredexUnlocks: ["loredex.auditor_klessa", "loredex.broker_of_nilmorg"],
     dropAt: "episode_mid",
   },
 };
@@ -283,7 +283,7 @@ const e3: EpisodeDefinition = {
   contentBundle: {
     songId: "T11_severance_threnody",
     slideshowId: "T11_severance_threnody_c",
-    loredexUnlocks: [],
+    loredexUnlocks: ["loredex.broker_back_room", "loredex.year_one_redacted_witness"],
     dropAt: "episode_close",
   },
 };
@@ -370,7 +370,7 @@ const e4: EpisodeDefinition = {
   contentBundle: {
     songId: "T11_severance_threnody",
     slideshowId: "T11_severance_threnody_d",
-    loredexUnlocks: [],
+    loredexUnlocks: ["loredex.apprentice_oath", "loredex.first_chair_test"],
     dropAt: "episode_open",
   },
 };
@@ -463,7 +463,7 @@ const e5: EpisodeDefinition = {
   contentBundle: {
     songId: "T11_severance_threnody",
     slideshowId: "T11_severance_threnody_e",
-    loredexUnlocks: [],
+    loredexUnlocks: ["loredex.solene_the_broker", "loredex.severance_inheritance_protocol", "loredex.year_one_witness_recovered"],
     conspiracyDiscoveries: ["severance.bond_was_archive"],
     dropAt: "episode_close",
   },

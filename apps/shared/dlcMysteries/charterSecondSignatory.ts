@@ -95,7 +95,7 @@ const e1: EpisodeDefinition = {
   contentBundle: {
     songId: "T14_schism_anthem",
     slideshowId: "T14_schism_anthem",
-    loredexUnlocks: [],
+    loredexUnlocks: ["loredex.mirror_charter", "loredex.eighth_sigil"],
     dropAt: "episode_close",
   },
 };
@@ -182,7 +182,7 @@ const e2: EpisodeDefinition = {
   contentBundle: {
     songId: "T14_schism_anthem",
     slideshowId: "T14_schism_anthem_b",
-    loredexUnlocks: [],
+    loredexUnlocks: ["loredex.house_solven", "loredex.kassel_solven", "loredex.eighth_clause"],
     dropAt: "episode_mid",
   },
 };
@@ -284,7 +284,7 @@ const e3: EpisodeDefinition = {
   contentBundle: {
     songId: "T14_schism_anthem",
     slideshowId: "T14_schism_anthem_c",
-    loredexUnlocks: [],
+    loredexUnlocks: ["loredex.heron_archivist", "loredex.house_vyn", "loredex.house_marek", "loredex.house_othisen"],
     dropAt: "episode_close",
   },
 };
@@ -371,7 +371,7 @@ const e4: EpisodeDefinition = {
   contentBundle: {
     songId: "T14_schism_anthem",
     slideshowId: "T14_schism_anthem_d",
-    loredexUnlocks: [],
+    loredexUnlocks: ["loredex.silence_as_vote", "loredex.architect_first_correction"],
     dropAt: "episode_open",
   },
 };
@@ -464,7 +464,7 @@ const e5: EpisodeDefinition = {
   contentBundle: {
     songId: "T14_schism_anthem",
     slideshowId: "T14_schism_anthem_e",
-    loredexUnlocks: [],
+    loredexUnlocks: ["loredex.charter_addendum_year_2", "loredex.kassel_solven_speech", "loredex.heron_named_aloud"],
     conspiracyDiscoveries: ["charter.fourth_epoch_scrub_corrected"],
     dropAt: "episode_close",
   },
