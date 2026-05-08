@@ -43,6 +43,7 @@ import { cardDef as s1_spell_232_fossil_record } from "./definitions/antiquarian
 import { cardDef as s1_spell_233_era_shift } from "./definitions/antiquarian/s1_spell_233_era_shift.ts";
 import { cardDef as s1_spell_234_preservation_field } from "./definitions/antiquarian/s1_spell_234_preservation_field.ts";
 import { cardDef as s1_spell_235_age_of_silence } from "./definitions/antiquarian/s1_spell_235_age_of_silence.ts";
+import { cardDef as s1_zeal_004_relic_acolyte } from "./definitions/antiquarian/s1_zeal_004_relic_acolyte.ts";
 
 /* ─── Architect ─── */
 import { cardDef as gen_architect } from "./definitions/architect/gen_architect.ts";
@@ -108,6 +109,7 @@ import { cardDef as s1_spell_203_calculated_retreat } from "./definitions/archit
 import { cardDef as s1_spell_204_architects_mandate } from "./definitions/architect/s1_spell_204_architects_mandate.ts";
 import { cardDef as s1_spell_205_panoptic_lockdown } from "./definitions/architect/s1_spell_205_panoptic_lockdown.ts";
 import { cardDef as s1_warlord_three_moves } from "./definitions/architect/s1_warlord_three_moves.ts";
+import { cardDef as s1_zeal_002_engine_warden } from "./definitions/architect/s1_zeal_002_engine_warden.ts";
 
 /* ─── Dreamer ─── */
 import { cardDef as gen_dreamer } from "./definitions/dreamer/gen_dreamer.ts";
@@ -224,6 +226,7 @@ import { cardDef as s1_spell_208_rebel_yell } from "./definitions/insurgency/s1_
 import { cardDef as s1_spell_209_safe_house } from "./definitions/insurgency/s1_spell_209_safe_house.ts";
 import { cardDef as s1_spell_210_intel_leak } from "./definitions/insurgency/s1_spell_210_intel_leak.ts";
 import { cardDef as s1_spell_211_scorched_earth } from "./definitions/insurgency/s1_spell_211_scorched_earth.ts";
+import { cardDef as s1_zeal_003_oath_keeper } from "./definitions/insurgency/s1_zeal_003_oath_keeper.ts";
 
 /* ─── Neutral ─── */
 import { cardDef as gen_neutral } from "./definitions/neutral/gen_neutral.ts";
@@ -361,6 +364,7 @@ import { cardDef as s1_spell_226_crystal_vault } from "./definitions/new_babylon
 import { cardDef as s1_spell_227_leveraged_buyout } from "./definitions/new_babylon/s1_spell_227_leveraged_buyout.ts";
 import { cardDef as s1_spell_228_economic_sanctions } from "./definitions/new_babylon/s1_spell_228_economic_sanctions.ts";
 import { cardDef as s1_spell_229_liquidation_sale } from "./definitions/new_babylon/s1_spell_229_liquidation_sale.ts";
+import { cardDef as s1_zeal_005_compliance_zealot } from "./definitions/new_babylon/s1_zeal_005_compliance_zealot.ts";
 
 /* ─── Panopticon ─── */
 import { cardDef as s1_char_050_warden_prime } from "./definitions/panopticon/s1_char_050_warden_prime.ts";
@@ -545,6 +549,7 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   s1_spell_233_era_shift,
   s1_spell_234_preservation_field,
   s1_spell_235_age_of_silence,
+  s1_zeal_004_relic_acolyte,
   gen_architect,
   gen_authority,
   s1_char_006_dr_lyra_vox,
@@ -608,6 +613,7 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   s1_spell_204_architects_mandate,
   s1_spell_205_panoptic_lockdown,
   s1_warlord_three_moves,
+  s1_zeal_002_engine_warden,
   gen_dreamer,
   s1_char_005_destiny,
   s1_char_014_nythera,
@@ -720,6 +726,7 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   s1_spell_209_safe_house,
   s1_spell_210_intel_leak,
   s1_spell_211_scorched_earth,
+  s1_zeal_003_oath_keeper,
   gen_neutral,
   gen_programmer,
   gen_game_master_original,
@@ -853,6 +860,7 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   s1_spell_227_leveraged_buyout,
   s1_spell_228_economic_sanctions,
   s1_spell_229_liquidation_sale,
+  s1_zeal_005_compliance_zealot,
   s1_char_050_warden_prime,
   s1_char_051_oculus_sentinel,
   s1_char_052_compliance_officer,
