@@ -397,146 +397,198 @@ to the music registry or remap the scene cues. Audio assets exist in Album 5
 
 ---
 
-## 4. Canon character roster
+## 4. Canon character roster — OFFICIAL
 
-113 characters total. Full descriptions live in `docs/built/LORE_BIBLE.md`
-(78,157 words, Rev 7, auto-generated from `loredex-data.json`). This section is
-the **art-relevant** distillation: every character that needs visual reference,
-sorted by faction.
+> **Visual canon = the reference images, not any prior text bible.**
+> Every previous "art bible" is archived (see §7). The descriptions below
+> were derived from the producer-curated `canon_refs/` photo set and the
+> shipped CDN equivalents under `npcs/`, `art/portraits/`, `art/cards/`,
+> and `characters/`. When commissioning new art, **always pull the
+> reference image first** and treat the text below as a tag-line summary
+> for prompt context, not as a substitute for the picture.
+>
+> CDN root: `https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/`
 
-### 4.1 Archons (12)
+### 4.1 Hero canon set — 24 characters with shipped reference art
 
-| Character | Visual canon | Card | VO | Cutscene refs |
-|---|---|---|---|---|
-| The Architect | Final-form throne; Panopticon iconography | ✓ | ✓ | Acts 4, 6, 7 |
-| The Programmer / Antiquarian | Dr. Daniel Cross; revealed identity in Act 7 | ✓ | ✓ | Act 7, 17,000 A.A. |
-| The Watcher | Japanese man, ponytail, white outfit, all-seeing-eye tattoo | ✓ | ✓ | Story-mode ch 5 |
-| The Meme | Shape-shifting; broadcast static; mascot variants | ✓ | ✓ | Ep 02, ep 09 |
-| The Collector | DNA/machine-code harvester; Inception Ark facility | ✓ | ✓ | Story-mode ch 8, 12 |
-| The Shadow Tongue | SVP Comms & Propaganda; voice-of-static | ✓ | ✓ | Living-universe event |
-| The Warlord | (classified) Thought-Virus host body Dr. Lyra Vox | ✓ | ✓ | Hierarchy story arc |
-| The Politician | Engineered manipulator; New Babylon governor | ✓ | ✓ | Acts 4–5 |
-| The Warden | Panopticon overseer; Thought-Virus dev partner | ✓ | ✓ | Acts 5–6 |
-| The Authority | Six-citizen merge; New Babylon arbiter | ✓ | ✓ (empty manifest) | Act 5 |
-| The Vortex | Annihilation entity; star-system devastator | ✓ | ✓ | Act 7 background |
-| The Game Master | Dual form: dark-haired man w/ blue trench coat OR robot | ✓ | ✓ | Story-mode ch 11; Zenon |
-| The Human / Detective / Student / Seeker | Last Archon; Mechronis grad; phase-shifts visually | ✓ | ✓ | All acts |
-| The Necromancer | Dark-elf magician; spiky white hair; red+black robe; red steampunk goggles | ✓ | ✓ | Story-mode ch 6 |
+Each row gives:
+- **Producer canon ref** = original reference photo (`canon_refs/<file>`).
+  These live on the producer machine; do not regenerate, request from producer if needed.
+- **Shipped CDN equivalents** = the in-game assets every commission must match.
+- **Canon description** = the official one-line tag derived from the reference picture.
 
-### 4.2 Insurgency (8)
-
-| Character | Visual canon | Card | VO |
+| Character | Producer canon ref | Shipped CDN equivalents | Canon description |
 |---|---|---|---|
-| Iron Lion (legacy) | Last Great Human General; battle-worn | ✓ | ✓ |
-| Iron Lion (Jericho Jones) | Trainee; Heart-of-Time arc | ✓ | needs |
-| Agent Zero | Combat / espionage specialist; black-on-black | ✓ | ✓ |
-| The Eyes | Synthetic Watcher protégé; infiltrator | ✓ | ✓ |
-| The Nomad | Hood + mask, cyber-warfare | ✓ | ✓ |
-| Kael / The Recruiter | Pre-Source; mentor figure | ✓ | ✓ |
-| The Oracle | Prophet; abducted → becomes The Jailer | ✓ | ✓ |
-| The White Oracle | Liberated; partners with The Enigma | ✓ | ✓ |
+| **Elara** | `ElaraNow.webp` | `characters/elara/idle_hologram.avif`, `characters/elara/viseme.avif`, `art/portraits/act1/portrait-elara.png`, `art/portraits/elara/elara_<stabilityBand>.png` | Young woman, black wavy hair, blue eyes, grey-teal tessellated geometric top, ethereal/digital materiality |
+| **The Human** | `A12TheHuman.png` | `characters/the_human/front_turnaround.avif`, `art/portraits/act1/portrait-human.png`, `art/portraits/human/human_<lightBand>.png` | Rugged 40s–50s man, crimson beard, fedora, glowing red-orange eyes, dark charcoal long coat with high collar |
+| **The Engineer** | `I4TheEngineer.png` | `npcs/engineer_bust.png`, `npcs/engineer/{blink_triptych, breathing_loop, viseme_grid, expressions/expression_sheet}.png`, `art/portraits/act1/portrait-engineer.png` | Black man, short dreadlocks, red brass steampunk goggles, deep red military coat, brass utility belt |
+| **The Eyes** | `T5ATheEyes.png` | `npcs/eyes_bust.png`, `npcs/eyes/{blink_triptych, breathing_loop, viseme_grid, expressions/expression_sheet}.png` | Young East Asian woman, pink bob haircut, white tactical bodysuit, black handgun |
+| **The Game Master** | `A10TheGameMaster.png` | `npcs/gamemaster_bust.png`, `art/cards/architect/the_game_master.webp`, `art/cards/neutral/the_game_master.webp`, `art/cards/gen_game_master_original.webp`, `art/portraits/act1/portrait-gamemaster.png` | Fully mechanical cyborg skull, blue-painted metal skull, red goggle-eyepieces, blue military trench coat |
+| **Kael — Phase 1 (Recruiter)** | `T3A The Recruiter.png` | `npcs/kael_recruiter_bust.png` | Muscular man, brown dreadlocks, white ICL armor, blue-green eyes |
+| **Kael — Phase 3 (Source)** | `T3C The Source.png` | `npcs/kael_source_bust.png` | Same man transformed: grey-blue skin, stone-like dreadlocks, chrome gauntlets |
+| **Iron Lion** | `I1TheIronLion.png` | `npcs/iron_lion_bust.png`, `art/portraits/act1/portrait-iron-lion.png` | White bald man, auburn beard, white power armor, black lion-head logo |
+| **The Watcher** | `A4TheWatcher.png` | `npcs/watcher_bust.png`, `art/portraits/act1/portrait-watcher.png` | East Asian androgynous figure, black topknot, third-eye tattoo, white face mask, white robes |
+| **The Architect** | `A1Architect.png` | `npcs/architect_bust.png`, `npcs/architect/{blink_triptych, breathing_loop, viseme_grid, expressions/expression_sheet}.png` | Dark hooded entity, black angular demonic mask, amber eyes, star medallion |
+| **The Necromancer** | `A11TheNecromancer.png` | `npcs/necromancer_bust.png`, `art/portraits/act1/portrait-necromancer.png` | Elf-like ears, white spiky hair, red-tinted glasses, black coat with red-lined collar |
+| **The Collector** | `A3.TheCollector.webp` | `npcs/collector_bust.png`, `npcs/collector/{blink_triptych, breathing_loop, viseme_grid, expressions/expression_sheet}.png`, `art/portraits/act1/portrait-collector.png` | Hooded figure, dark robes, red glowing claws, glass tank behind |
+| **The Warlord** | `A6TheWarlord.png` | `npcs/warlord_bust.png`, `art/portraits/act1/portrait-warlord.png` | Young woman, platinum blonde, yellow hooded jacket, face tattoos, green eyes |
+| **The Meme / Palimpsest Host** | `A5TheMeme.png` | `npcs/meme_palimpsest_bust.png`, `art/portraits/act1/portrait-meme.png` | Older man, silver-grey hair, dark suit, cybernetic prosthetic hands, holographic face scan |
+| **Agent Zero** | `I3AgentZero.png` | `npcs/agent_zero_bust.png`, `npcs/agent_zero/{blink_triptych, breathing_loop, viseme_grid, expressions/expression_sheet}.png`, `art/portraits/act1/portrait-agent-zero.png`, `characters/agent_zero/bust_static.webp` | Woman, dark auburn hair, purple hood and face mask, amber eyes, purple-black tactical armor |
+| **The Seer** | `N4TheSeer.png` | `npcs/seer_bust.png`, `art/portraits/act1/portrait-seer.png` | Blue-skinned female angel, black hair, amber eyes, dark robes, flaming sword, white wings |
+| **The DeGen** | `N8TheDeGen.png` | `npcs/degen_bust.png`, `npcs/degen/{blink_triptych, breathing_loop, viseme_grid, expressions/expression_sheet}.png`, `art/portraits/act1/portrait-degen.png` | Blue-skinned bald male, pointed ears, amber eyes, tribal tattoos, olive military vest |
+| **The Enigma** | `N11TheEnigma.png` | `npcs/enigma_bust.png`, `npcs/enigma/{blink_triptych, breathing_loop, viseme_grid, expressions/expression_sheet}.png`, `art/portraits/act1/portrait-enigma.png` | Black woman, long dreadlocks, navy military trench coat, gold buttons |
+| **Nilmorg** | `nilmorg_neutral.png` | `npcs/nilmorg_bust.png`, `art/dmc/environments/dmc_env_nilmorg-platform_1920x1080.jpg`, `videos/dmc/dmc_cin_nilmorg-{chair,lipsync,speaks}.mp4` | Bald grey-skinned humanoid, amber eyes, steepled hands with silver spheres, charcoal suit |
+| **The Programmer** | `Programmer.webp` | `npcs/programmer_bust.png` | Young man, flat cap, red-tinted steampunk goggles, navy high-collar jacket |
+| **Adjudicator Locke** | `Z10AdjudicarLocke.png` | `npcs/adjudicator_locke_bust.png`, `npcs/adjudicator_locke/{blink_triptych, breathing_loop, viseme_grid, expressions/expression_sheet}.png` | Young woman, purple hair, cybernetic eye patch, purple leather jacket, gold chains |
+| **The Shadow Tongue** | `T9A The Shadow Tongue.png` | `npcs/shadow_tongue_bust.png`, `characters/shadow_tongue/viseme_hyper.avif` | Dark hooded wraith, hidden face, dark blue robes, red-glowing claws |
+| **The Antiquarian** | `Z1 The Antiquarian.png` | `npcs/antiquarian_bust.png`, `npcs/antiquarian/{blink_triptych, breathing_loop, viseme_grid, expressions/expression_sheet}.png` | Older man, silver-grey hair/beard, black velvet frock coat with gold embroidery |
+| **CoNexus / The Authority** | `A2 CoNexus.png` | `npcs/conexus_authority.png` | Cosmic entity — dark sphere with teal circuit patterns, energy rings, lightning bolts |
 
-### 4.3 Hierarchy of the Damned (10 executives)
+### 4.2 Spectral / cosmic entities — derived from shipped art
 
-All have card art live (s2_hierarchy/_art.ts, 127 entries). Visual canon below.
+These have **no producer canon photo** but ship with full NPC asset suites
+(viseme + blink + breathing + expressions + bust). The shipped art IS the canon.
 
-| Role | Character | Description |
+| Character | Shipped CDN canon | Description (read from sprite) |
 |---|---|---|
-| CEO/Chair    | Mol'Garath the Unmaker | Predates time; shadow of creation; not born, discovered |
-| CFO          | Xeth'Raal the Debt Collector | Accountant; ledger of ruin |
-| COO          | Riri'Ahlia the Taskmaster | Six-armed warrior-queen; demon-legion commander |
-| SVP Acquisitions | Drael'Mon the Harvester | Centaur-like; tendrils; crown of collapsed stars |
-| SVP R&D      | Zyr'Koth the Flayer | Lab coat of dimensional membranes |
-| SVP HR       | Syl'Vex the Corruptor | Most human-looking; androgynous; perfect tailored suit |
-| SVP Comms    | The Shadow Tongue | (also an Archon — see §4.1) |
-| Director Special Projects | Ith'Rael the Whisperer | Translucent humanoid of whispers; suit of static |
-| Director Security | Varkul the Blood Lord | Vampiric; commands undead; blood-magic |
-| Director Operations | Fenra the Moon Tyrant | Lycanthropic; executive coat + reading glasses |
+| **Eidola** | `npcs/eidola_bust.png` + `npcs/eidola/{blink_triptych, breathing_loop, viseme_grid, expressions/expression_sheet}.png` + 5 reward eidolon cards (`art/cards/s1_reward_eidolon_{auros, cipher, echo, lux, strain}.webp`) | Spectral entity rigged for full lip-sync; treat the bust as the master and the eidolon cards as elemental aspect variants |
+| **Matrikala** | `npcs/matrikala_bust.png` + `npcs/matrikala/{blink_triptych, breathing_loop, viseme_grid, expressions/expression_sheet}.png` | Cosmic entity rigged for full lip-sync; bust is master |
 
-### 4.4 Ne-Yons (8)
+### 4.3 Mechronis Academy professors — 12 characters
 
-The Dreamer · The Judge · The Inventor · The Storm · The Silence · The Knowledge ·
-The Degen (8th Ne-Yon, casino host, golden eye-shaped Heart-of-Time ship) ·
-The Resurrectionist.
+All ship as `art/mechronis/professors/professor_<name>.png` (portrait) plus
+`art/classrooms/classroom-<name>.jpg` (their teaching environment). Use the
+professor portrait as the bust canon.
 
-### 4.5 Potentials (8+)
+`aoki` · `greenshaw` · `halverez` · `kanevas` · `kasra` · `mireille` ·
+`orphic` · `proctor` · `vasara` · `vellis` · `vent` · `vex`
 
-The Wolf · Wraith Calder · Akai Shi · Jericho Jones · Nythera · The Forgotten ·
-The Host · Marion Kell.
+(Vent is also lore-side "The Inventor" — see `art/cards/dreamer/the_inventor.webp`
+for the in-fiction narrative variant.)
 
-### 4.6 Ark companions (6 imprints)
+### 4.4 Hierarchy of the Damned — 127 cards already shipped
 
-Elara (holographic AI, Ark-1047 guide) · The Human (companion form) · Kael (companion) ·
-Agent Zero (imprint) · Adjudicar Locke (New Babylon politician companion) · Max (origin TBD).
+Full set lives at `art/expansions/hierarchy-of-damned/<rarity>/...webp`,
+manifested in `apps/shared/expansionArt/hierarchyOfDamned.ts`. C-suite roles
+have dedicated bust paths under `art/expansions/hierarchy-of-damned/c-suite/`
+(e.g. `s2_hierarchy_cmo_vex_drelm.webp`). Treat each shipped card as the
+canon for that role; commission only when extending to new variants
+(turnaround, lip-sync, viseme grid).
 
-### 4.7 Mechronis Academy professors (12)
+### 4.5 Insurgency Potentials — shipped on character cards
 
-These all have VO manifests and card art but need visual canon — see §5.
+| Character | Canon CDN |
+|---|---|
+| **Jericho Jones** | `art/cards/insurgency/jericho_jones.webp` |
+| **Wraith Calder** | `art/cards/insurgency/wraith_calder.webp` + sprite frames (`wraith_calder_crouch{,_kick,_punch}.png`) — has fight-engine sprite set |
+| **Akai Shi** | `art/cards/class/akai_shi_first_apprentice.webp` + `art/cards/imprint/akai_shi_t{1,2,3}.webp` + `art/cards/imprint/_grids/akai_shi_tier_grid.webp` |
+| **Nythera** | `art/cards/dreamer/nythera.webp` + `art/cards/neutral/nythera_{awakened, general, ship_intelligence}.webp` |
+| **The Wolf** | search `art/cards/` for `the_wolf` variants — shipped under `cards/insurgency/` |
+| **The Forgotten** | `art/cards/<faction>/the_forgotten.webp` (s1_char_029) |
+| **The Host** | `npcs/eidola/...` (Host shares the Eidola rig — corrupted ark-consciousness uses Eidola's spectral form as base) |
+| **Marion Kell** | **NO ART** — see §5.2 (intentionally erased character; needs commissioned glitch-frames) |
 
-Aoki · Greenshaw · Halverez · Kanevas · Kasra · Mireille · Orphic · Proctor · Vasara ·
-Vellis · Vent · Vex.
+### 4.6 Companions, supporting, mascoteers
 
-### 4.8 Independent / supporting
+| Character | Canon CDN |
+|---|---|
+| **Max** (companion) | `art/cards/s1_reward_companion_max.webp` |
+| **The Clone** | pick by system: `art/cards/architect/perfect_clone.webp`, `art/cards/s1_reward_crew_clone.webp`, `art/cards/thought_virus/clone_racer.webp`, env: `art/dmc/environments/dmc_env_clone-vat_1920x1080.jpg` |
+| **Darren Fessler** | `art/crew/darren-fessler-badge.png` (badge only — bust would be a useful add-on, not blocking) |
+| **Prince** | `art/celebration/mascoteers/mascoteer_prince.png` |
+| **Mascoteers** (12) | `art/celebration/mascoteers/mascoteer_{conni, corey, gary, minnie, prince, red, sprout, thazu, unblink, vernon, wanda, wayne}.png` |
+| **Minnie** (rigged) | `characters/minnie/{bust, blink, breathing, expressions, viseme}.avif` |
+| **The Student / The Seeker** | These are early-phase identities of **The Human** — same canon (`A12TheHuman.png`). Render as Human-with-different-wardrobe; not a separate character |
+| **Vex (Mechronis professor)** | `art/mechronis/professors/professor_vex.png` |
+| **Vex Drelm** (Hierarchy CMO) | `art/expansions/hierarchy-of-damned/c-suite/s2_hierarchy_cmo_vex_drelm.webp` — **distinct entity** from the professor and from Vex Solène |
+| **Vex Solène** (Ne-Yon agent) | placeholder aliases to `characters/agent_zero/bust_static.webp`. Dedicated bust would upgrade quality but is not blocking |
 
-The Seer · Senator Elara Voss · Dr. Lyra Vox · Ambassador Veron · Panoptic Elara ·
-The Enigma · The Hierophant · The Star Whisperer · Destiny (Ark-1047 AI) · The Source ·
-The Clone · The Overseer · Darren Fessler · Vex Solène · Nilmorg · Eidola.
+### 4.7 Lore-only characters (no art commissioned, may not need any)
 
-### 4.9 Generals & factions
+These exist in `loredex-data.json` and `LORE_BIBLE.md` but have no shipped art
+and no current scene that requires it. Commission only if a new system surfaces
+them visually:
 
-General Prometheus · General Binath-VII · General Alarik · Master of R'lyeh ·
-The Council of Harmony · The League · The Terminus Swarm · The Syndicate of Death ·
-The Thought Virus · The Awakened Clone Army · The Wraith of Death.
+The Dreamer · The Judge · The Inventor (lore — the system-card variant ships
+as `art/cards/dreamer/the_inventor.webp` via Vent) · The Storm · The Silence ·
+The Knowledge · The Resurrectionist · The Politician · The Warden ·
+The Vortex · The Hierophant · The Star Whisperer · The Oracle · The Jailer ·
+The White Oracle · The Nomad · Senator Elara Voss · Dr. Lyra Vox ·
+Ambassador Veron · Panoptic Elara · Destiny (Ark-1047 AI) · The Source ·
+The Overseer · General Prometheus · General Binath-VII · General Alarik ·
+Master of R'lyeh · The Council of Harmony · The League · The Terminus Swarm ·
+The Syndicate of Death · The Thought Virus · The Awakened Clone Army ·
+The Wraith of Death.
 
 ---
 
-## 5. Characters needing canon descriptions ⚠️
+## 5. Genuine art gaps — characters needing NEW commissions
 
-These characters appear in cards, cutscenes, and/or VO but lack a visual canon
-in `LORE_BIBLE.md`. **Please upload canon descriptions for each — they will be
-folded directly into §4 of this document.**
+**Audit on 2026-05-08 verified that only 3 named characters have no shipped
+art on the CDN.** Every other character previously flagged as "needing canon
+descriptions" has either a producer canon-ref photo, a shipped CDN bust /
+portrait / card, or both — see §4 for the official mapping.
 
-### High priority (3+ cutscene refs, art commission imminent)
+Skip ahead to §5.2 for the three real gaps. §5.1 below is retained only as a
+quick-reference index of the 24 characters whose canon already exists, in case
+a producer asks "where's the canon for X?"
 
-1. **Nilmorg** — appears in 4+ DMC cinematics; SVP of Kinetic Acquisition; voice exists
-2. **Jericho Jones** — Iron Lion in training; Heart-of-Time arc; killed Akai Shi
-3. **Wraith Calder** — Potentials member, resurrected Year 107,652 A.A.
-4. **Akai Shi** — Potentials member; Battle of Thaloria; energy/healing master
-5. **The Clone** — Oracle DNA clone; breaks free in Panopticon labs
-6. **Nythera** — dual heritage harvested DNA + machine code; 83,000-year consciousness
-7. **Marion Kell** — performance-review analyst; erased by Shadow Tongue; partial restore
-8. **Darren Fessler** — Palimpsest Season 1 segment producer; deceased Episode 12
+### 5.1 Already-have-canon index (cross-ref to §4)
 
-### Mechronis Academy professors (medium priority — have VO + card, need visual)
+All have full canon listed in §4. Quick lookup:
 
-9.  **Aoki**
-10. **Greenshaw**
-11. **Halverez**
-12. **Kanevas** *(also referenced as Kanesvas in some manifests — please disambiguate)*
-13. **Kasra**
-14. **Matrikala**
-15. **Mireille**
-16. **Orphic**
-17. **Proctor**
-18. **Vasara**
-19. **Vellis**
-20. **Vent**
-21. **Eidola**
-22. **Prince** *(royalty theme; existing VO references "toy-soldier" and "diploma" beats)*
+| Previously flagged | Where to find canon in §4 |
+|---|---|
+| Nilmorg, Jericho Jones, Wraith Calder, Akai Shi, The Clone, Nythera, Darren Fessler, Prince, Max, The Student/Seeker | §4.1 (heroes), §4.5 (Potentials), §4.6 (companions/mascoteers) |
+| Aoki, Greenshaw, Halverez, Kanevas, Kasra, Mireille, Orphic, Proctor, Vasara, Vellis, Vent, Vex (Mechronis) | §4.3 (Mechronis professors) |
+| Eidola, Matrikala | §4.2 (spectral entities, full rigging) |
+| Vex Solène, Vex Drelm (Hierarchy CMO), Game Master | §4.6 / §4.4 / §4.1 — disambiguated |
 
-### Lower priority (referenced but minimal canon)
+### 5.2 Genuine gaps — need NEW art
 
-23. **Vex Solène** — Ne-Yon agent; Degen counterpart; first-wave Potential
-24. **The Student / The Seeker** — early phases of The Human; need visual differentiation arc
-25. **Left Game Master** — thin angular man, charcoal 3-piece suit, grey hair, rectangular spectacles *(partial canon exists in `acts-2-7-aaa-final/character_canon_map.md`)*
-26. **Right Game Master** — shorter, warm; dark unkempt hair; open-collar cotton shirt; pencil behind ear *(partial canon exists)*
-27. **Max** — companion option; origin and visual TBD
+Only **3 named characters** have no shipped art on the CDN. Each should be
+commissioned with the canon details below.
 
-> **How to provide:** drop a markdown block per character with the keys: `name`,
-> `also_known_as`, `species`, `silhouette`, `wardrobe`, `signature_props`,
-> `palette`, `expression_default`, `motion_signature`, `voice_direction_oneliner`.
-> I will splice these directly into §4 and update `loredex-data.json` so the
-> next `pnpm run lore:build` regenerates LORE_BIBLE.md with the full canon.
+#### 1. Marion Kell
+
+- **Lore status:** Fully canonized in `apps/client/src/data/loredex-data.json` and
+  `apps/shared/theInventor.ts` (rich biography).
+- **Visual canon (from lore):** Female, performance-review analyst on Ark 1047
+  ~400 years pre-Fall. Erased from Chronicle by the Shadow Tongue. Maintained
+  outside standard channels by the Inventor. Appears three times in The
+  Palimpsest Season 1 — and the visual must be **deliberately glitched /
+  shimmery / partial**, NOT a full portrait, because the character's identity
+  is "erased and being routed back through broadcast layers".
+- **Required deliverables:**
+  1. **Episode 4 ghost-contestant frame** — full body on Palimpsest stage,
+     uncast, badge clipped to coat reading "MARION KELL" (must be readable on
+     slow-mo replay).
+  2. **Episode 9 backwards-crawl name card** — typography-only beat; her name
+     scrolling reversed across a casualty crawl. (Already partly possible with
+     CSS; flag if a still asset is wanted.)
+  3. **Episode 13 shimmering mourner** — mid-distance figure at Darren
+     Fessler's funeral, faintly shimmering, gait-matched to her pre-edit
+     records. Renders behind a slight chromatic-aberration wash.
+
+#### 2. Left Game Master (NEW character, Acts 2–7)
+
+- **Visual canon** (already authored in
+  `docs/production/acts-2-7-aaa-final/character_canon_map.md`):
+  Thin angular man, charcoal 3-piece suit, grey hair, rectangular spectacles.
+- **Required:** Bust portrait + 3-pose reference sheet. Distinct from existing
+  cyborg-skull "The Game Master" (`canon_refs/A10TheGameMaster.png`).
+
+#### 3. Right Game Master (NEW character, Acts 2–7)
+
+- **Visual canon:** Shorter, warm; dark unkempt hair; open-collar cotton shirt;
+  pencil behind ear.
+- **Required:** Bust portrait + 3-pose reference sheet. Pair with Left GM as a
+  visual diptych.
+
+> **Note on Vex Solène:** her LORE_BIBLE.md image currently aliases to the Agent
+> Zero bust (`characters/agent_zero/bust_static.webp`) as a temporary stand-in.
+> A dedicated bust would be a quality upgrade but is not strictly blocking — the
+> placeholder ships today.
 
 ---
 
