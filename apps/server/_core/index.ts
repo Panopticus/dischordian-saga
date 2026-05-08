@@ -713,6 +713,18 @@ async function startServer() {
       console.error("[DreamerAwarenessBootstrap] failed:", e),
     );
 
+    // Unified Roster — crew_members column extensions + 5 new tables
+    // for Resurrection Protocols, Hellbox restoration, apprentice gift
+    // log + romance arc + personal-quest progress, and NPC world-death
+    // state. New schema on the unified-roster branch; the journal flow
+    // is mid-cutover, so we bootstrap until the next reconciliation.
+    const { bootstrapUnifiedRosterTables } = await import(
+      "../services/unifiedRosterBootstrap"
+    );
+    bootstrapUnifiedRosterTables().catch((e) =>
+      console.error("[UnifiedRosterBootstrap] failed:", e),
+    );
+
     // World-weave tables — yearly_events / yearly_event_participation /
     // ripple_events / memorial_inscriptions. Schema is in apps/db/schema.ts
     // but no drizzle migration ships yet (journal drift); same idempotent

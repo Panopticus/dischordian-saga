@@ -68,6 +68,23 @@ export type Gender = "female" | "male" | "non-binary";
 
 export type PodStatus = "empty" | "gestating" | "ready" | "malfunction";
 
+/** How this crew member came to exist. Drives downstream behavior
+ *  (e.g. demon corruption decay, NPC world-death teardown on recruited
+ *  death, Hellbox resurrection eligibility). */
+export type CrewProductionPath =
+  | "bred"        // born via breeding (the original/default path)
+  | "trained"     // graduated apprentice trial
+  | "cloned"      // Resurrection Protocol Stage 1 (Archive seed)
+  | "resurrected" // Resurrection Protocol Stage 2 (Hellbox restoration of a fallen named member)
+  | "summoned"    // bound via soul-stone ritual (demon)
+  | "recruited";  // instantiated from a tier-5 NPC imprint
+
+export interface CrewBiographyEntry {
+  cycle: number;
+  text: string;
+  tag: "mission" | "bond" | "event" | "betrayal" | "epitaph";
+}
+
 export interface SerializedCrewMember {
   id: string;
   name: string;
@@ -89,7 +106,17 @@ export interface SerializedCrewMember {
   maxAge: number;
   missionHistory: string[];
   relationships: Record<string, number>;
-  deathRecord?: { cycle: number; cause: string; lastWords: string };
+  deathRecord?: {
+    cycle: number;
+    cause: string;
+    lastWords: string;
+    /** Archetype-keyed epitaph from generateEpitaph(). Set at death time. */
+    epitaph?: string;
+    /** True if the member was in an active romance at time of death. */
+    romanced?: boolean;
+    /** Personal-quest stage at death (0..3); informs mourning depth. */
+    personalQuestStage?: number;
+  };
   birthCycle: number;
   /** Founder flag — the first member of a bloodline, set at hatch time. */
   isFounder?: boolean;
@@ -98,6 +125,42 @@ export interface SerializedCrewMember {
    *  procedural CrewPortrait. Used for named bootstrap founders and
    *  future narrative-significant crew. */
   portraitOverrideId?: string;
+
+  /* ─── Unified-roster fields (cloning / summoning / apprentice / NPC) ─── */
+
+  /** Origin of this crew member. Optional for back-compat: pre-migration
+   *  rows are treated as "bred". Always set on new instantiation. */
+  productionPath?: CrewProductionPath;
+  /** Apprentice archetype tag. Required for productionPath="trained";
+   *  optional for "summoned" (heretic/revenant/oracle); other paths may
+   *  set it for narrative coloring. Drives epitaph, mourning, banter,
+   *  personal-quest selection, romance arc. */
+  archetype?: import("./apprentices").ApprenticeArchetype;
+  /** Auto-appended biography entries (mission outcomes, bonds, events). */
+  biography?: CrewBiographyEntry[];
+  /** Personal-quest progress (loyalty-mission-shaped). Stage 0 = locked,
+   *  1..3 = stages reached. Stage 3 is the breaking point. */
+  personalQuestStage?: number;
+  /** Resolution of the breaking-point choice. "deepened" → romance lockable;
+   *  "broken" → triggers apprenticeBetrayal descent. Null until stage 3. */
+  personalQuestResolution?: "deepened" | "broken" | null;
+
+  /* productionPath="resurrected" / "cloned" */
+  /** Decay applied per resurrection generation. 0 = pristine, +N per cycle. */
+  cloneDegradation?: number;
+  /** Predecessor's id, if this member is a Hellbox-restored copy. */
+  resurrectedFromId?: string;
+
+  /* productionPath="summoned" */
+  /** Soul-stone id this demon is bound to. Purifying the stone breaks bond. */
+  boundStoneId?: string;
+  /** Demon corruption value (0..100). Rises slowly while bound. */
+  corruption?: number;
+
+  /* productionPath="recruited" */
+  /** Canonical NPC key (vex_solene | wraith_calder | locke | jericho_jones |
+   *  akai_shi). Death of this member triggers the worldDeathHandler. */
+  linkedNpcKey?: string;
 }
 
 export interface SerializedBloodline {
@@ -284,7 +347,65 @@ export interface CrewState {
   generation2Reached: boolean;
   dmcClonesSent: number;
   dmcClonesLost: number;
+
+  /* ─── Unified-roster state (cloning/summoning/apprentice/NPC) ─── */
+
+  /** Ambient ghost effects emitted post-permadeath. Polled by
+   *  CrewAmbientTicker; FIFO-capped at MAX_GHOST_EFFECTS. */
+  ghosts?: GhostEffectEntry[];
+
+  /** Side-effects produced by the crew tick that need to be drained
+   *  by the server router after each tick — writes to auxiliary
+   *  tables (npc_world_death_state, resurrection_protocols_quests,
+   *  transmissions inbox, etc.). The tick itself stays pure; the
+   *  router consumes & clears this queue. */
+  pendingSideEffects?: PendingCrewSideEffect[];
 }
+
+/** A side-effect emitted by a tick. Drained by the server router. */
+export type PendingCrewSideEffect =
+  | {
+      kind: "npc_world_death";
+      npcKey: string;
+      killedMemberKey: string;
+      diedAtCycle: number;
+      diedAtMs: number;
+    }
+  | {
+      kind: "open_resurrection_quest";
+      npcKey: string;
+      killedMemberKey: string;
+      deathCycle: number;
+      diedAtMs: number;
+    }
+  | {
+      kind: "mourning_sweep";
+      deceasedNpcKey: string;
+      deceasedMemberKey: string;
+      diedAtMs: number;
+    }
+  | {
+      kind: "apprentice_obituary";
+      deceasedMemberKey: string;
+      archetype: string;
+      diedAtMs: number;
+    };
+
+/** Ambient ghost-effect entry written when a crew member dies. */
+export interface GhostEffectEntry {
+  /** id of the deceased crew member. */
+  fromMemberId: string;
+  /** archetype-tagged effect type. */
+  type: "dialogue_mention" | "object_appearance" | "ambient_sound" | "presence";
+  /** literal text or asset id, depending on type. */
+  payload: string;
+  /** wall-clock ms when the effect was created. */
+  createdAt: number;
+  /** ms after which the effect expires from the active feed. */
+  expiresAt: number;
+}
+
+export const MAX_GHOST_EFFECTS = 24;
 
 export const CREW_STATE_VERSION = 1;
 export const MAX_CREW_CAPACITY = 12;
@@ -340,6 +461,7 @@ export function createDefaultCrewState(): CrewState {
     generation2Reached: false,
     dmcClonesSent: 0,
     dmcClonesLost: 0,
+    ghosts: [],
   };
 }
 

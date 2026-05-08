@@ -1,0 +1,170 @@
+[
+  {
+    "id": "martyr_female_greet_1",
+    "character": "apprentice_martyr_female",
+    "text": "I'm yours. You don't have to thank me — please don't.",
+    "emotion": "soft",
+    "bucket": "greet",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "martyr_female_greet_2",
+    "character": "apprentice_martyr_female",
+    "text": "Tell me what you need. I'll cover the rest.",
+    "emotion": "ready",
+    "bucket": "greet",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "martyr_female_ambient_1",
+    "character": "apprentice_martyr_female",
+    "text": "I packed the kit twice. I'll pack it once more before sleep.",
+    "emotion": "low",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "martyr_female_ambient_2",
+    "character": "apprentice_martyr_female",
+    "text": "Eat. I already did. Promise.",
+    "emotion": "wry",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "martyr_female_ambient_3",
+    "character": "apprentice_martyr_female",
+    "text": "If you're cold, take my jacket. I run warm.",
+    "emotion": "warm",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "martyr_female_deploy_1",
+    "character": "apprentice_martyr_female",
+    "text": "Whoever's taking the worst hit, that's me.",
+    "emotion": "set",
+    "bucket": "deploy",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "martyr_female_deploy_2",
+    "character": "apprentice_martyr_female",
+    "text": "Stay behind me. I'll tell you when it's over.",
+    "emotion": "set",
+    "bucket": "deploy",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "martyr_female_outcome_won",
+    "character": "apprentice_martyr_female",
+    "text": "We're all back. That's the only outcome that counts.",
+    "emotion": "warm",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "martyr_female_outcome_wounded",
+    "character": "apprentice_martyr_female",
+    "text": "It's nothing. Don't make a fuss. Don't.",
+    "emotion": "edged",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "martyr_female_outcome_saw_death",
+    "character": "apprentice_martyr_female",
+    "text": "I should have been ahead of her. I'm sorry.",
+    "emotion": "raw",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "martyr_female_outcome_other_died",
+    "character": "apprentice_martyr_female",
+    "text": "It should have been me. Tell whoever asks: it should have been me.",
+    "emotion": "mourning",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "martyr_female_event_loredex",
+    "character": "apprentice_martyr_female",
+    "text": "I'll memorize it. Then someone else can rest.",
+    "emotion": "soft",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "martyr_female_event_mission_dispatch",
+    "character": "apprentice_martyr_female",
+    "text": "Whoever takes the worst hit — let it be me.",
+    "emotion": "set",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "martyr_female_banter_thanks",
+    "character": "apprentice_martyr_female",
+    "text": "Please. Don't thank me. It makes the work harder.",
+    "emotion": "edged",
+    "bucket": "banter",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "martyr_female_banter_rest",
+    "character": "apprentice_martyr_female",
+    "text": "I rest when you do. Not before. Not after.",
+    "emotion": "warm",
+    "bucket": "banter",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "martyr_female_quest_1_open",
+    "character": "apprentice_martyr_female",
+    "text": "There's a mission only I can take. Let me have it. Don't trade me out.",
+    "emotion": "set",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "martyr_female_quest_2_mid",
+    "character": "apprentice_martyr_female",
+    "text": "It went sideways. I made it. Barely. Don't make me promise to be careful.",
+    "emotion": "raw",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "martyr_female_quest_3_break",
+    "character": "apprentice_martyr_female",
+    "text": "The next one has my name on it. If you pull me out, I'll go anyway. Choose what you want me to know.",
+    "emotion": "raw",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "martyr_female_romance_spark",
+    "character": "apprentice_martyr_female",
+    "text": "Don't catch me. Walk with me to the edge.",
+    "emotion": "soft",
+    "bucket": "romance",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "martyr_female_romance_courtship",
+    "character": "apprentice_martyr_female",
+    "text": "I'm learning to be received. It's harder than giving.",
+    "emotion": "tender",
+    "bucket": "romance",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "martyr_female_romance_committed",
+    "character": "apprentice_martyr_female",
+    "text": "I let you keep me. That's the most generous thing I've done.",
+    "emotion": "warm",
+    "bucket": "romance",
+    "file": "shared/apprenticeVoiceLines.ts"
+  }
+]

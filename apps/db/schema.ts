@@ -4875,7 +4875,35 @@ export const crewMembers = mysqlTable("crew_members", {
   birthCycle: int("birthCycle").notNull().default(0),
   missionHistory: json("missionHistory").$type<string[]>().default([]).notNull(),
   relationships: json("relationships").$type<Record<string, number>>().default({}).notNull(),
-  deathRecord: json("deathRecord").$type<{ cycle: number; cause: string; lastWords: string } | null>(),
+  deathRecord: json("deathRecord").$type<{
+    cycle: number;
+    cause: string;
+    lastWords: string;
+    epitaph?: string;
+    romanced?: boolean;
+    personalQuestStage?: number;
+  } | null>(),
+  /** "bred"|"trained"|"cloned"|"resurrected"|"summoned"|"recruited". Nullable
+   *  for back-compat with rows that predate the unified-roster migration. */
+  productionPath: varchar("productionPath", { length: 16 }),
+  /** Apprentice archetype tag. */
+  archetype: varchar("archetype", { length: 24 }),
+  /** Auto-appended biography entries. */
+  biography: json("biography").$type<{ cycle: number; text: string; tag: string }[]>().default([]).notNull(),
+  /** Personal-quest stage (0..3). */
+  personalQuestStage: int("personalQuestStage").notNull().default(0),
+  /** "deepened" | "broken" | null — set at stage 3 breaking point. */
+  personalQuestResolution: varchar("personalQuestResolution", { length: 16 }),
+  /** Resurrection decay 0..N. */
+  cloneDegradation: int("cloneDegradation").notNull().default(0),
+  /** Predecessor id for Hellbox-restored crew. */
+  resurrectedFromId: varchar("resurrectedFromId", { length: 64 }),
+  /** Soul-stone id this demon is bound to. */
+  boundStoneId: varchar("boundStoneId", { length: 64 }),
+  /** Demon corruption 0..100. */
+  corruption: int("corruption").notNull().default(0),
+  /** Canonical NPC key for productionPath="recruited". */
+  linkedNpcKey: varchar("linkedNpcKey", { length: 32 }),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 }, (table) => ({
@@ -4883,6 +4911,8 @@ export const crewMembers = mysqlTable("crew_members", {
   userIdx: index("idx_crew_member_user").on(table.userId),
   bloodlineIdx: index("idx_crew_member_bloodline").on(table.bloodlineKey),
   statusIdx: index("idx_crew_member_status").on(table.status),
+  productionPathIdx: index("idx_crew_member_production_path").on(table.productionPath),
+  linkedNpcIdx: index("idx_crew_member_linked_npc").on(table.linkedNpcKey),
 }));
 
 export type CrewMemberRow = typeof crewMembers.$inferSelect;
@@ -7349,6 +7379,109 @@ export const petBreedingPairs = mysqlTable("pet_breeding_pairs", {
   byUserStatus: index("byUserStatus").on(t.userId, t.status),
 }));
 export type PetBreedingPairRow = typeof petBreedingPairs.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
+   UNIFIED ROSTER — supporting tables
+   See plan: /root/.claude/plans/add-in-the-cloning-compressed-hare.md
+   ═══════════════════════════════════════════════════════ */
+
+/** Per-user Blood Weave alignment tracker. Each Hellbox resurrection
+ *  increments alignmentValue and unlocks one curated Hierarchy /
+ *  Game-Master / Blood-Weave loredex entry from the reveal pool. */
+export const bloodWeaveAlignment = mysqlTable("blood_weave_alignment", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }).unique(),
+  /** Cumulative Hellbox resurrections performed. */
+  resurrectionsPerformed: int("resurrectionsPerformed").notNull().default(0),
+  /** Hidden alignment value. Higher → closer to Hierarchy. Gates story branches. */
+  alignmentValue: int("alignmentValue").notNull().default(0),
+  /** Loredex entry ids already revealed via Stage 3 Blood Weave attunement. */
+  revealedEntries: json("revealedEntries").$type<string[]>().default([]).notNull(),
+  /** Loredex entries the player had unlocked but unread that were stripped
+   *  by Hellbox memory-loss events. Surfaced in MemorialWall as "lost". */
+  strippedEntries: json("strippedEntries").$type<string[]>().default([]).notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull().onUpdateNow(),
+});
+export type BloodWeaveAlignmentRow = typeof bloodWeaveAlignment.$inferSelect;
+
+/** Per-crew-member personal-quest progress. One row per (user, member). */
+export const apprenticePersonalQuestProgress = mysqlTable("apprentice_personal_quest_progress", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  /** Crew memberKey (matches crewMembers.memberKey). */
+  memberKey: varchar("memberKey", { length: 64 }).notNull(),
+  /** Apprentice archetype (zealot|ghost|...). */
+  archetype: varchar("archetype", { length: 24 }).notNull(),
+  /** Stage 0..3. Stage 3 is the breaking-point choice. */
+  stage: int("stage").notNull().default(0),
+  /** "deepened" | "broken" | null. */
+  resolution: varchar("resolution", { length: 16 }),
+  /** Stage start timestamps for VO/animation pacing. */
+  stageStartedAt: json("stageStartedAt").$type<Record<string, number>>().default({}).notNull(),
+  /** Quest-specific narrative flags accumulated across stages. */
+  flags: json("flags").$type<Record<string, unknown>>().default({}).notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull().onUpdateNow(),
+}, (t) => ({
+  userMemberIdx: uniqueIndex("uq_apq_user_member").on(t.userId, t.memberKey),
+  userIdx: index("idx_apq_user").on(t.userId),
+}));
+export type ApprenticePersonalQuestProgressRow = typeof apprenticePersonalQuestProgress.$inferSelect;
+
+/** Gift log: tracks what the player has given to which crew member.
+ *  Bond delta is computed at give-time from apprenticeGifts.ts. */
+export const apprenticeGiftLog = mysqlTable("apprentice_gift_log", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  memberKey: varchar("memberKey", { length: 64 }).notNull(),
+  giftId: varchar("giftId", { length: 64 }).notNull(),
+  /** Bond delta applied (positive for likes, negative for dislikes). */
+  bondDelta: int("bondDelta").notNull(),
+  /** "like" | "dislike" | "neutral". */
+  reaction: varchar("reaction", { length: 16 }).notNull(),
+  givenAt: timestamp("givenAt").defaultNow().notNull(),
+}, (t) => ({
+  userMemberIdx: index("idx_agl_user_member").on(t.userId, t.memberKey),
+}));
+export type ApprenticeGiftLogRow = typeof apprenticeGiftLog.$inferSelect;
+
+/** NPC world-presence state. When a recruited NPC's crew instance dies,
+ *  we mark them dead-in-world here; canonical NPC dialog/quests/banter
+ *  read from this row to lock down. */
+export const npcWorldDeathState = mysqlTable("npc_world_death_state", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  /** Canonical NPC key (vex_solene|wraith_calder|locke|jericho_jones|akai_shi). */
+  npcKey: varchar("npcKey", { length: 32 }).notNull(),
+  /** Crew memberKey of the recruited instance that died. */
+  killedMemberKey: varchar("killedMemberKey", { length: 64 }).notNull(),
+  /** Cycle (in-game) the death occurred. */
+  diedAtCycle: int("diedAtCycle").notNull(),
+  diedAt: timestamp("diedAt").defaultNow().notNull(),
+}, (t) => ({
+  userNpcIdx: uniqueIndex("uq_nwds_user_npc").on(t.userId, t.npcKey),
+  userIdx: index("idx_nwds_user").on(t.userId),
+}));
+export type NpcWorldDeathStateRow = typeof npcWorldDeathState.$inferSelect;
+
+/** Romance archetype-arc state. Extends the existing CrewRomance shape
+ *  (which lives in crewPersistence's CrewState.romances JSON blob) with a
+ *  durable per-couple arc tracker keyed by the two crew memberKeys. */
+export const apprenticeRomanceArc = mysqlTable("apprentice_romance_arc", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  memberKeyA: varchar("memberKeyA", { length: 64 }).notNull(),
+  memberKeyB: varchar("memberKeyB", { length: 64 }).notNull(),
+  /** "spark" | "courtship" | "consummation" | "committed" | "ended". */
+  stage: varchar("stage", { length: 16 }).notNull().default("spark"),
+  /** Loredex entry id unlocked at consummation; null until reached. */
+  loredexEntryId: varchar("loredexEntryId", { length: 96 }),
+  startedAt: timestamp("startedAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull().onUpdateNow(),
+}, (t) => ({
+  userPairIdx: uniqueIndex("uq_ara_user_pair").on(t.userId, t.memberKeyA, t.memberKeyB),
+  userIdx: index("idx_ara_user").on(t.userId),
+}));
+export type ApprenticeRomanceArcRow = typeof apprenticeRomanceArc.$inferSelect;
 
 /* ═══════════════════════════════════════════════════════
    WORLD WEAVE — yearly events, ripple ledger, memorial plaza

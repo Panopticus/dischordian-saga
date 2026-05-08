@@ -11,7 +11,19 @@ import { apprenticeTrialCompletions } from "../../db/schema";
 import { eq, and, desc, sql } from "drizzle-orm";
 import { TRPCError } from "@trpc/server";
 import { awardEligibleTitles } from "../services/titleService";
+import {
+  loadCrewState,
+  saveCrewState,
+  addCrewMemberToState,
+} from "../services/crewState";
+import { instantiateApprenticeAsCrewMember } from "../../shared/apprenticeToCrew";
+import type { ApprenticeArchetype } from "../../shared/apprentices";
 import { writeNarrativeFlag } from "../services/narrativeFlagService";
+
+const APPRENTICE_ARCHETYPE_KEYS: ReadonlyArray<ApprenticeArchetype> = [
+  "zealot", "ghost", "scholar", "revenant", "artisan", "oracle",
+  "wanderer", "martyr", "heretic", "jester", "sentinel", "prodigal",
+];
 
 export const apprenticeTrialRouter = router({
   /** Record a cohort completion — called by client when a cohort concludes. */
@@ -56,11 +68,41 @@ export const apprenticeTrialRouter = router({
         daySurvived: input.daySurvived,
       });
 
-      // audit/10.F5 — graduation now writes a sticky narrative
-      // flag so the variant resolver / companion comments / ask
-      // topics can reference the player's apprentice journey
-      // without re-querying the completions table. Idempotent
-      // (unique index absorbs re-writes from cohort replay).
+      /* On graduation: instantiate the apprentice as a crew member with
+       * productionPath="trained". The apprentice now lives in the
+       * unified crew system — banter, missions, romance, gifts, personal
+       * quests all flow through `crewMembers`. */
+      let crewInstantiated = false;
+      if (
+        input.graduated &&
+        APPRENTICE_ARCHETYPE_KEYS.includes(input.archetype as ApprenticeArchetype)
+      ) {
+        try {
+          const state = await loadCrewState(ctx.user.id);
+          if (state) {
+            const member = instantiateApprenticeAsCrewMember({
+              name: input.apprenticeName,
+              archetype: input.archetype as ApprenticeArchetype,
+              gender: "non-binary",
+              trialDaysSurvived: input.daySurvived,
+              now: Date.now(),
+            });
+            const next = addCrewMemberToState(state, member);
+            if (next !== state) {
+              await saveCrewState(ctx.user.id, next);
+              crewInstantiated = true;
+            }
+          }
+        } catch {
+          // Best-effort — title grant still succeeded.
+        }
+      }
+
+      // audit/10.F5 — graduation also writes sticky narrative flags so
+      // the variant resolver / companion comments / ask topics can
+      // reference the player's apprentice journey without re-querying
+      // the completions table. Idempotent (unique index absorbs
+      // re-writes from cohort replay).
       if (input.graduated) {
         await writeNarrativeFlag(
           ctx.user.id,
@@ -73,7 +115,8 @@ export const apprenticeTrialRouter = router({
           "apprentice_trial",
         );
       }
-      return { ok: true, titlesGranted: granted };
+
+      return { ok: true, titlesGranted: granted, crewInstantiated };
     }),
 
   /** Recent cohort completions for a user. */

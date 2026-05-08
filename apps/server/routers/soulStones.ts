@@ -30,12 +30,17 @@ import { soulStones } from "../../db/schema";
 import {
   corruptSoulStone,
   purifySoulStone,
-  summonDemonPet,
+  summonDemonCrewMember,
   WEEKLY_COLLECT_CAP,
   DEMON_PET_SUMMON_COST,
   type SoulStoneCounts,
 } from "@shared/soulStones";
 import { ensureSoulStonesRow, awardCombatDropStone } from "../services/soulStonesService";
+import {
+  loadCrewState,
+  saveCrewState,
+  addCrewMemberToState,
+} from "../services/crewState";
 
 function dbUnavailable(): never {
   throw new TRPCError({ code: "INTERNAL_SERVER_ERROR", message: "Database unavailable" });
@@ -138,35 +143,82 @@ export const soulStonesRouter = router({
     });
   }),
 
-  /** Summon a Demon Pet by spending DEMON_PET_SUMMON_COST red stones. */
-  summon: protectedProcedure.mutation(async ({ ctx }) => {
-    const db = await getDb();
-    if (!db) dbUnavailable();
-    await ensureSoulStonesRow(ctx.user.id);
-    return db.transaction(async (tx) => {
-      const [row] = await tx
-        .select()
-        .from(soulStones)
-        .where(eq(soulStones.userId, ctx.user.id))
-        .limit(1);
-      if (!row) throw new TRPCError({ code: "NOT_FOUND", message: "No soul-stone row" });
-      const result = summonDemonPet(rowToCounts(row));
-      if (!result) {
-        throw new TRPCError({
-          code: "BAD_REQUEST",
-          message: `Need at least ${DEMON_PET_SUMMON_COST} red stones`,
+  /** Summon a Demon by spending DEMON_PET_SUMMON_COST red stones. The
+   *  demon is instantiated as a unified-roster crew member with
+   *  `productionPath="summoned"` and bound to the soul-stone of record
+   *  (`boundStoneId`). Purifying that stone later will break the bond
+   *  via `breakDemonBond` — see `apps/shared/soulStones.ts`. */
+  summon: protectedProcedure
+    .input(
+      z
+        .object({
+          /** Stable id of the bound soul-stone of record. The router
+           *  generates one if the client doesn't supply (the actual
+           *  red stones consumed are fungible — this id is the
+           *  *binding contract*, used for purification break later). */
+          boundStoneId: z.string().min(1).max(64).optional(),
+        })
+        .optional(),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) dbUnavailable();
+      await ensureSoulStonesRow(ctx.user.id);
+      const boundStoneId =
+        input?.boundStoneId ?? `stone-${String(ctx.user.id)}-${Date.now()}`;
+      const txResult = await db.transaction(async (tx) => {
+        const [row] = await tx
+          .select()
+          .from(soulStones)
+          .where(eq(soulStones.userId, ctx.user.id))
+          .limit(1);
+        if (!row) throw new TRPCError({ code: "NOT_FOUND", message: "No soul-stone row" });
+        const result = summonDemonCrewMember(rowToCounts(row), {
+          boundStoneId,
+          userId: ctx.user.id,
         });
+        if (!result) {
+          throw new TRPCError({
+            code: "BAD_REQUEST",
+            message: `Need at least ${DEMON_PET_SUMMON_COST} red stones`,
+          });
+        }
+        await tx
+          .update(soulStones)
+          .set({ redCount: result.newCounts.redCount })
+          .where(eq(soulStones.id, row.id));
+        return result;
+      });
+
+      /* Push the summoned demon onto the unified crew roster. Best-effort
+       * — if crew state is missing or save fails, the stones were spent
+       * and the bound-stone id is recorded; the player can re-attempt
+       * via a recovery surface. We log nothing visible but do not throw,
+       * matching the apprenticeTrial graduation pattern. */
+      let crewInstantiated = false;
+      try {
+        const state = await loadCrewState(ctx.user.id);
+        if (state) {
+          const next = addCrewMemberToState(state, txResult.member);
+          if (next !== state) {
+            await saveCrewState(ctx.user.id, next);
+            crewInstantiated = true;
+          }
+        }
+      } catch {
+        // Best-effort.
       }
-      await tx
-        .update(soulStones)
-        .set({ redCount: result.newCounts.redCount })
-        .where(eq(soulStones.id, row.id));
+
       return {
         success: true as const,
-        redSpent: result.redSpent,
-        counts: result.newCounts,
-        petPlaceholder: result.petPlaceholder,
+        redSpent: txResult.redSpent,
+        counts: txResult.newCounts,
+        member: txResult.member,
+        loredexUnlock: txResult.loredexUnlock,
+        crewInstantiated,
+        boundStoneId,
+        // Back-compat for the soul-stone Definition-of-Shipped gate.
+        petPlaceholder: txResult.petPlaceholder,
       };
-    });
-  }),
+    }),
 });

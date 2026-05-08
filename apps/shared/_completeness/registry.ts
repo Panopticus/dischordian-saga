@@ -38,6 +38,8 @@ import { checkDeclaredSubsystemRuntime } from "./checks/declaredSubsystemRuntime
 import { checkGovernanceRouterPresence } from "./checks/governanceRouterPresence";
 import { checkSchemaOrphanColumns } from "./checks/schemaOrphanColumns";
 import { checkNotificationEnumProducers } from "./checks/notificationEnumProducers";
+import { checkApprenticeAuthoringCoverage } from "./checks/apprenticeAuthoringCoverage";
+import { checkCommonsSceneCoverage } from "./checks/commonsSceneCoverage";
 import { checkWovenSystemRippleCoverage } from "./checks/wovenSystemRippleCoverage";
 import { checkYearlyEventRuntime } from "./checks/yearlyEventRuntime";
 import { checkSevenSealRuntime } from "./checks/sevenSealRuntime";
@@ -290,6 +292,28 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     description:
       "Every variant in the notifications.type enum must have at least one `type: \"<variant>\"` writer in apps/server/. Catches enum members the engine renders for but the server never emits.",
     check: () => checkNotificationEnumProducers(),
+    ratchet: { target: 0 },
+  },
+  // ─── Apprentice authoring depth ──────────────────────────────
+  {
+    id: "apprentice.authoring_coverage",
+    name: "Apprentice authoring per archetype",
+    description:
+      "Every ApprenticeArchetype has identity, ≥ 1 banter pair, ≥ 2 reactive comments, ≥ 1 gift catalog match, ≥ 1 commons scene, and 2 VO line files (female + male).",
+    check: () => checkApprenticeAuthoringCoverage(),
+    // Hard parity target — but ratcheted during the rollout pass.
+    // Once every archetype is fully covered the ratchet config is
+    // removed and the gate becomes hard parity.
+    ratchet: { target: 0 },
+  },
+  {
+    id: "commons.scene_coverage",
+    name: "Commons scene pairing coverage",
+    description:
+      "Every (archetype × archetype) and (archetype × recruited-NPC) pairing has at least one scene in commonsScenePool.ts. Triads count for all three pairwise edges.",
+    check: () => checkCommonsSceneCoverage(),
+    // Ratcheted — full coverage is a long-tail authoring goal; the
+    // gate enforces no-regress as the pool grows.
     ratchet: { target: 0 },
   },
   // ─── World — woven-systems integration (the Two-Ripple Rule) ──

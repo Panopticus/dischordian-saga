@@ -1,0 +1,170 @@
+[
+  {
+    "id": "jester_male_greet_1",
+    "character": "apprentice_jester_male",
+    "text": "Hi. I'm working on material. Tell me if anything lands.",
+    "emotion": "wry",
+    "bucket": "greet",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "jester_male_greet_2",
+    "character": "apprentice_jester_male",
+    "text": "I have three openers. None of them are good. Pick one.",
+    "emotion": "warm",
+    "bucket": "greet",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "jester_male_ambient_1",
+    "character": "apprentice_jester_male",
+    "text": "Three deities walk into a sermon. Two leave a tip.",
+    "emotion": "wry",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "jester_male_ambient_2",
+    "character": "apprentice_jester_male",
+    "text": "I'm working on a eulogy joke for the next one. Don't ask whose.",
+    "emotion": "low",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "jester_male_ambient_3",
+    "character": "apprentice_jester_male",
+    "text": "Funny is a sword. I'm trying to stop using it that way.",
+    "emotion": "thoughtful",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "jester_male_deploy_1",
+    "character": "apprentice_jester_male",
+    "text": "I'll be in the back, working on a punchline.",
+    "emotion": "wry",
+    "bucket": "deploy",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "jester_male_deploy_2",
+    "character": "apprentice_jester_male",
+    "text": "Give me cover and I'll give you a story.",
+    "emotion": "warm",
+    "bucket": "deploy",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "jester_male_outcome_won",
+    "character": "apprentice_jester_male",
+    "text": "We came back. The bit was: we came back.",
+    "emotion": "warm",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "jester_male_outcome_wounded",
+    "character": "apprentice_jester_male",
+    "text": "The bit was supposed to end with applause, not bandages.",
+    "emotion": "wry",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "jester_male_outcome_saw_death",
+    "character": "apprentice_jester_male",
+    "text": "I have a joke about this. I'm not telling it. Maybe in a month. Maybe never.",
+    "emotion": "raw",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "jester_male_outcome_other_died",
+    "character": "apprentice_jester_male",
+    "text": "He laughed at the bad ones. I'll keep telling those for him.",
+    "emotion": "mourning",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "jester_male_event_loredex",
+    "character": "apprentice_jester_male",
+    "text": "The footnote IS the punchline. Finally.",
+    "emotion": "thrilled",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "jester_male_event_crew_dies",
+    "character": "apprentice_jester_male",
+    "text": "The bar is darker. The eulogy I owe is a long one. Cycle from now.",
+    "emotion": "raw",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "jester_male_banter_funeral",
+    "character": "apprentice_jester_male",
+    "text": "There's a name I never speak. I have a joke about that too. I haven't told it.",
+    "emotion": "low",
+    "bucket": "banter",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "jester_male_banter_serious",
+    "character": "apprentice_jester_male",
+    "text": "Solemnity is a costume. I look bad in it.",
+    "emotion": "wry",
+    "bucket": "banter",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "jester_male_quest_1_open",
+    "character": "apprentice_jester_male",
+    "text": "There's a name I haven't said in years. I want to say it once. With company.",
+    "emotion": "raw",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "jester_male_quest_2_mid",
+    "character": "apprentice_jester_male",
+    "text": "Said the name. Cried. Made a joke. Cried again. The order matters.",
+    "emotion": "raw",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "jester_male_quest_3_break",
+    "character": "apprentice_jester_male",
+    "text": "If I tell the joke at the funeral, half the room will laugh, half will leave. Tell me which half I serve.",
+    "emotion": "raw",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "jester_male_romance_spark",
+    "character": "apprentice_jester_male",
+    "text": "Stay through the bad ones. Tell me which one almost worked.",
+    "emotion": "soft",
+    "bucket": "romance",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "jester_male_romance_courtship",
+    "character": "apprentice_jester_male",
+    "text": "Catch me between punchlines. The catch is the bit.",
+    "emotion": "tender",
+    "bucket": "romance",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "jester_male_romance_committed",
+    "character": "apprentice_jester_male",
+    "text": "I'll keep the jokes I never told for you. They're the best ones.",
+    "emotion": "warm",
+    "bucket": "romance",
+    "file": "shared/apprenticeVoiceLines.ts"
+  }
+]

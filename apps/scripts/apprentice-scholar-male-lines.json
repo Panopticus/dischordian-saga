@@ -1,0 +1,170 @@
+[
+  {
+    "id": "scholar_male_greet_1",
+    "character": "apprentice_scholar_male",
+    "text": "I'm reading three things at once. Sit. I'll catch up.",
+    "emotion": "warm",
+    "bucket": "greet",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "scholar_male_greet_2",
+    "character": "apprentice_scholar_male",
+    "text": "Welcome. Mind the stack on the chair — it's the third draft.",
+    "emotion": "ready",
+    "bucket": "greet",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "scholar_male_ambient_1",
+    "character": "apprentice_scholar_male",
+    "text": "Footnote fourteen contradicts the body. I'll let the body speak first.",
+    "emotion": "thoughtful",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "scholar_male_ambient_2",
+    "character": "apprentice_scholar_male",
+    "text": "The Antiquarian's last catalogue has a missing entry between 87 and 89. Curious.",
+    "emotion": "curious",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "scholar_male_ambient_3",
+    "character": "apprentice_scholar_male",
+    "text": "Read it twice. The second read is the one that means something.",
+    "emotion": "calm",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "scholar_male_deploy_1",
+    "character": "apprentice_scholar_male",
+    "text": "Field notes will be available after.",
+    "emotion": "ready",
+    "bucket": "deploy",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "scholar_male_deploy_2",
+    "character": "apprentice_scholar_male",
+    "text": "I'll write a footnote when I'm sure. Until then I'll do.",
+    "emotion": "steady",
+    "bucket": "deploy",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "scholar_male_outcome_won",
+    "character": "apprentice_scholar_male",
+    "text": "Three citations richer. Tonight's draft will sing.",
+    "emotion": "warm",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "scholar_male_outcome_wounded",
+    "character": "apprentice_scholar_male",
+    "text": "Everything's documentable. Including the wound. I'll log it after the bandage.",
+    "emotion": "wry",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "scholar_male_outcome_saw_death",
+    "character": "apprentice_scholar_male",
+    "text": "I'll write his epitaph the way he would have edited it. With cuts.",
+    "emotion": "mourning",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "scholar_male_outcome_other_died",
+    "character": "apprentice_scholar_male",
+    "text": "He would have wanted the publication. I'll add his name to the byline.",
+    "emotion": "mourning",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "scholar_male_event_loredex",
+    "character": "apprentice_scholar_male",
+    "text": "The footnote answers it. Three other footnotes correct themselves.",
+    "emotion": "thrilled",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "scholar_male_event_journal_read",
+    "character": "apprentice_scholar_male",
+    "text": "Read it twice. Once for the words, once for the silences.",
+    "emotion": "soft",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "scholar_male_banter_evidence",
+    "character": "apprentice_scholar_male",
+    "text": "I respect intuition. I publish evidence.",
+    "emotion": "edged",
+    "bucket": "banter",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "scholar_male_banter_argue",
+    "character": "apprentice_scholar_male",
+    "text": "Bring me the rebuttal. Bring me two. I'll annotate yours.",
+    "emotion": "warm",
+    "bucket": "banter",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "scholar_male_quest_1_open",
+    "character": "apprentice_scholar_male",
+    "text": "There's a banned interpretation of the Founder's Theorem. I want to defend it before the Antiquarian.",
+    "emotion": "set",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "scholar_male_quest_2_mid",
+    "character": "apprentice_scholar_male",
+    "text": "Three drafts in. Two I burned. The third I sent to you to read first.",
+    "emotion": "raw",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "scholar_male_quest_3_break",
+    "character": "apprentice_scholar_male",
+    "text": "If I publish this, half the disciplines will deny me. Half will cite me. Tell me which half I should mind.",
+    "emotion": "raw",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "scholar_male_romance_spark",
+    "character": "apprentice_scholar_male",
+    "text": "I have an annotated copy I'd rather you read with me.",
+    "emotion": "soft",
+    "bucket": "romance",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "scholar_male_romance_courtship",
+    "character": "apprentice_scholar_male",
+    "text": "I write to you in marginalia. You write back in books I haven't read yet.",
+    "emotion": "tender",
+    "bucket": "romance",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "scholar_male_romance_committed",
+    "character": "apprentice_scholar_male",
+    "text": "Let the disciplines call us footnotes to each other. We'll be the only one cited.",
+    "emotion": "warm",
+    "bucket": "romance",
+    "file": "shared/apprenticeVoiceLines.ts"
+  }
+]

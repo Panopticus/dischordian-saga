@@ -1,0 +1,170 @@
+[
+  {
+    "id": "revenant_female_greet_1",
+    "character": "apprentice_revenant_female",
+    "text": "I came back. That's most of the introduction.",
+    "emotion": "low",
+    "bucket": "greet",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "revenant_female_greet_2",
+    "character": "apprentice_revenant_female",
+    "text": "Welcome. I'll tell you which parts of my story you can ask about.",
+    "emotion": "set",
+    "bucket": "greet",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "revenant_female_ambient_1",
+    "character": "apprentice_revenant_female",
+    "text": "I had a debt list in my coat pocket when I died. I keep finding new copies.",
+    "emotion": "low",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "revenant_female_ambient_2",
+    "character": "apprentice_revenant_female",
+    "text": "There's a hum in this corridor that wasn't there before. Or after. Hard to tell.",
+    "emotion": "wry",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "revenant_female_ambient_3",
+    "character": "apprentice_revenant_female",
+    "text": "Sleep doesn't take me anywhere new. That's fine. I'm not done with here.",
+    "emotion": "still",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "revenant_female_deploy_1",
+    "character": "apprentice_revenant_female",
+    "text": "I've done this corridor before. Not the same way.",
+    "emotion": "set",
+    "bucket": "deploy",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "revenant_female_deploy_2",
+    "character": "apprentice_revenant_female",
+    "text": "Don't worry about me dying. I'm bad at it.",
+    "emotion": "wry",
+    "bucket": "deploy",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "revenant_female_outcome_won",
+    "character": "apprentice_revenant_female",
+    "text": "Crossed two names off. Three to go.",
+    "emotion": "low",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "revenant_female_outcome_wounded",
+    "character": "apprentice_revenant_female",
+    "text": "Hurts the same. That's a relief, somehow.",
+    "emotion": "wry",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "revenant_female_outcome_saw_death",
+    "character": "apprentice_revenant_female",
+    "text": "I know what she're feeling. I'll go sit with the body for a while.",
+    "emotion": "mourning",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "revenant_female_outcome_other_died",
+    "character": "apprentice_revenant_female",
+    "text": "She got there before me. Add her name to my list. I'll finish what she started.",
+    "emotion": "mourning",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "revenant_female_event_loredex",
+    "character": "apprentice_revenant_female",
+    "text": "That fragment? Mine. I think.",
+    "emotion": "low",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "revenant_female_event_resurrection",
+    "character": "apprentice_revenant_female",
+    "text": "Welcome back. Don't try to remember everything at once. The hour after's the worst.",
+    "emotion": "warm",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "revenant_female_banter_died",
+    "character": "apprentice_revenant_female",
+    "text": "Yes I died. No I won't tell you how. Yes you can ask in three cycles.",
+    "emotion": "edged",
+    "bucket": "banter",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "revenant_female_banter_finish",
+    "character": "apprentice_revenant_female",
+    "text": "There are five names I owe. Three are still alive. We could go.",
+    "emotion": "set",
+    "bucket": "banter",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "revenant_female_quest_1_open",
+    "character": "apprentice_revenant_female",
+    "text": "First name on the debt list lives two sectors over. I'd like company.",
+    "emotion": "set",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "revenant_female_quest_2_mid",
+    "character": "apprentice_revenant_female",
+    "text": "Found three. Two thanked me. One slammed the door.",
+    "emotion": "wry",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "revenant_female_quest_3_break",
+    "character": "apprentice_revenant_female",
+    "text": "The last name on the list — it's mine. I don't know how to settle that one yet.",
+    "emotion": "raw",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "revenant_female_romance_spark",
+    "character": "apprentice_revenant_female",
+    "text": "Slow steps. I came back walking funny.",
+    "emotion": "soft",
+    "bucket": "romance",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "revenant_female_romance_courtship",
+    "character": "apprentice_revenant_female",
+    "text": "I die a little less when you laugh. Don't tell anyone.",
+    "emotion": "tender",
+    "bucket": "romance",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "revenant_female_romance_committed",
+    "character": "apprentice_revenant_female",
+    "text": "I came back to finish what I'd left. I'm staying for what I've found.",
+    "emotion": "warm",
+    "bucket": "romance",
+    "file": "shared/apprenticeVoiceLines.ts"
+  }
+]

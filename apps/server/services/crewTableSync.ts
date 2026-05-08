@@ -79,6 +79,18 @@ export async function syncCrewStateToTables(userId: number, state: CrewState): P
         missionHistory: m.missionHistory,
         relationships: m.relationships,
         deathRecord: m.deathRecord ?? null,
+        // Unified-roster fields (PR: cloning/summoning/apprentice/NPC).
+        // Nullable for back-compat: legacy rows had no productionPath.
+        productionPath: m.productionPath ?? null,
+        archetype: m.archetype ?? null,
+        biography: m.biography ?? [],
+        personalQuestStage: m.personalQuestStage ?? 0,
+        personalQuestResolution: m.personalQuestResolution ?? null,
+        cloneDegradation: m.cloneDegradation ?? 0,
+        resurrectedFromId: m.resurrectedFromId ?? null,
+        boundStoneId: m.boundStoneId ?? null,
+        corruption: m.corruption ?? 0,
+        linkedNpcKey: m.linkedNpcKey ?? null,
       };
       const existing = await db
         .select()

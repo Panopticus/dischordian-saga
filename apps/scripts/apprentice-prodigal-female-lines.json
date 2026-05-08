@@ -1,0 +1,170 @@
+[
+  {
+    "id": "prodigal_female_greet_1",
+    "character": "apprentice_prodigal_female",
+    "text": "I'm back. Don't make a thing of it.",
+    "emotion": "wry",
+    "bucket": "greet",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "prodigal_female_greet_2",
+    "character": "apprentice_prodigal_female",
+    "text": "Hi. Late. I know.",
+    "emotion": "low",
+    "bucket": "greet",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "prodigal_female_ambient_1",
+    "character": "apprentice_prodigal_female",
+    "text": "I left because the orthodoxy made me lonely. I came back because the road did.",
+    "emotion": "low",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "prodigal_female_ambient_2",
+    "character": "apprentice_prodigal_female",
+    "text": "Plain bread is the best meal I never appreciated.",
+    "emotion": "soft",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "prodigal_female_ambient_3",
+    "character": "apprentice_prodigal_female",
+    "text": "Three cycles in. I keep meaning to leave. I keep not.",
+    "emotion": "wry",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "prodigal_female_deploy_1",
+    "character": "apprentice_prodigal_female",
+    "text": "I'll do the work. I'm earning back trust the slow way.",
+    "emotion": "set",
+    "bucket": "deploy",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "prodigal_female_deploy_2",
+    "character": "apprentice_prodigal_female",
+    "text": "Tell me where you need me. I'll be there. I'll stay.",
+    "emotion": "warm",
+    "bucket": "deploy",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "prodigal_female_outcome_won",
+    "character": "apprentice_prodigal_female",
+    "text": "Came back with the team. That's two things in a row.",
+    "emotion": "warm",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "prodigal_female_outcome_wounded",
+    "character": "apprentice_prodigal_female",
+    "text": "I'm here. I came back. Same lesson. Bigger price.",
+    "emotion": "wry",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "prodigal_female_outcome_saw_death",
+    "character": "apprentice_prodigal_female",
+    "text": "I'd left her before. I came back to a goodbye I didn't earn.",
+    "emotion": "raw",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "prodigal_female_outcome_other_died",
+    "character": "apprentice_prodigal_female",
+    "text": "She held a seat for me when I was gone. I'll hold her seat now.",
+    "emotion": "mourning",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "prodigal_female_event_loredex",
+    "character": "apprentice_prodigal_female",
+    "text": "Familiar. I think I read this in another life.",
+    "emotion": "thoughtful",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "prodigal_female_event_costly_choice",
+    "character": "apprentice_prodigal_female",
+    "text": "I've made the cheaper version. Yours is harder to come back from.",
+    "emotion": "set",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "prodigal_female_banter_late",
+    "character": "apprentice_prodigal_female",
+    "text": "Yes. Late. Move on.",
+    "emotion": "edged",
+    "bucket": "banter",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "prodigal_female_banter_seat",
+    "character": "apprentice_prodigal_female",
+    "text": "Someone kept the seat. Tonight, it's mine.",
+    "emotion": "warm",
+    "bucket": "banter",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "prodigal_female_quest_1_open",
+    "character": "apprentice_prodigal_female",
+    "text": "There's a person I left. I owe them the version of me that came back.",
+    "emotion": "set",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "prodigal_female_quest_2_mid",
+    "character": "apprentice_prodigal_female",
+    "text": "Found them. They didn't recognize me. I'm not sure I do, either.",
+    "emotion": "raw",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "prodigal_female_quest_3_break",
+    "character": "apprentice_prodigal_female",
+    "text": "They asked if I was staying. I don't know what to say. Tell me what staying looks like.",
+    "emotion": "raw",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "prodigal_female_romance_spark",
+    "character": "apprentice_prodigal_female",
+    "text": "Witness me coming back. Slow.",
+    "emotion": "soft",
+    "bucket": "romance",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "prodigal_female_romance_courtship",
+    "character": "apprentice_prodigal_female",
+    "text": "You don't ask why I left. That's why I'm here.",
+    "emotion": "tender",
+    "bucket": "romance",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "prodigal_female_romance_committed",
+    "character": "apprentice_prodigal_female",
+    "text": "I'm back for good. Don't say it. I'll remember if you don't.",
+    "emotion": "warm",
+    "bucket": "romance",
+    "file": "shared/apprenticeVoiceLines.ts"
+  }
+]

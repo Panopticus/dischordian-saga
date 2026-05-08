@@ -1,0 +1,170 @@
+[
+  {
+    "id": "oracle_female_greet_1",
+    "character": "apprentice_oracle_female",
+    "text": "I knew you'd be the one to come. The dream was clear about the boots.",
+    "emotion": "wry",
+    "bucket": "greet",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "oracle_female_greet_2",
+    "character": "apprentice_oracle_female",
+    "text": "Welcome. I dreamt this conversation. I'll let you write the actual lines.",
+    "emotion": "soft",
+    "bucket": "greet",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "oracle_female_ambient_1",
+    "character": "apprentice_oracle_female",
+    "text": "There's a colour I don't have a name for yet. It's coming.",
+    "emotion": "wondering",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "oracle_female_ambient_2",
+    "character": "apprentice_oracle_female",
+    "text": "I dreamt the manifest. Two of the names changed. I won't tell you which yet.",
+    "emotion": "still",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "oracle_female_ambient_3",
+    "character": "apprentice_oracle_female",
+    "text": "I'll know an hour after. Hold the question that long.",
+    "emotion": "calm",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "oracle_female_deploy_1",
+    "character": "apprentice_oracle_female",
+    "text": "Don't take the southern corridor. I can't tell you why yet.",
+    "emotion": "set",
+    "bucket": "deploy",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "oracle_female_deploy_2",
+    "character": "apprentice_oracle_female",
+    "text": "I dreamt this hallway. The dream was wrong about the floor.",
+    "emotion": "wry",
+    "bucket": "deploy",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "oracle_female_outcome_won",
+    "character": "apprentice_oracle_female",
+    "text": "It went almost the way I dreamt. The 'almost' is the interesting part.",
+    "emotion": "thoughtful",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "oracle_female_outcome_wounded",
+    "character": "apprentice_oracle_female",
+    "text": "The dream warned me. I half-listened. Half is enough sometimes.",
+    "emotion": "wry",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "oracle_female_outcome_saw_death",
+    "character": "apprentice_oracle_female",
+    "text": "I dreamt her once. She were laughing. I'll keep that one.",
+    "emotion": "still",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "oracle_female_outcome_other_died",
+    "character": "apprentice_oracle_female",
+    "text": "I'd seen her face in the dream-list two cycles back. I didn't say. I should have.",
+    "emotion": "raw",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "oracle_female_event_loredex",
+    "character": "apprentice_oracle_female",
+    "text": "I knew this one was next. The order is right.",
+    "emotion": "thrilled",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "oracle_female_event_voltari",
+    "character": "apprentice_oracle_female",
+    "text": "I dreamt that static. It was singing in my mother's voice.",
+    "emotion": "still",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "oracle_female_banter_specifics",
+    "character": "apprentice_oracle_female",
+    "text": "Specifics narrow the dream. I'll give you a colour, not a name.",
+    "emotion": "edged",
+    "bucket": "banter",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "oracle_female_banter_share",
+    "character": "apprentice_oracle_female",
+    "text": "Sleep next to me sometime. I'll let you in on a small one.",
+    "emotion": "soft",
+    "bucket": "banter",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "oracle_female_quest_1_open",
+    "character": "apprentice_oracle_female",
+    "text": "I dreamt a death. She survived. I want to find out why my dream was wrong.",
+    "emotion": "set",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "oracle_female_quest_2_mid",
+    "character": "apprentice_oracle_female",
+    "text": "The survivor doesn't want to be found. I understand that. We still need to ask.",
+    "emotion": "raw",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "oracle_female_quest_3_break",
+    "character": "apprentice_oracle_female",
+    "text": "If I tell her what I dreamt, the next dream might come. If I don't, I lose the last warning. Choose with me.",
+    "emotion": "raw",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "oracle_female_romance_spark",
+    "character": "apprentice_oracle_female",
+    "text": "I dreamt this. Don't ruin it by being predictable.",
+    "emotion": "soft",
+    "bucket": "romance",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "oracle_female_romance_courtship",
+    "character": "apprentice_oracle_female",
+    "text": "I'm half-elsewhere. The other half is here. With you.",
+    "emotion": "tender",
+    "bucket": "romance",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "oracle_female_romance_committed",
+    "character": "apprentice_oracle_female",
+    "text": "Every dream from now on has you in it. That's not a choice. It's a given.",
+    "emotion": "warm",
+    "bucket": "romance",
+    "file": "shared/apprenticeVoiceLines.ts"
+  }
+]

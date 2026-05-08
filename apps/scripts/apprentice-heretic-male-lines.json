@@ -1,0 +1,170 @@
+[
+  {
+    "id": "heretic_male_greet_1",
+    "character": "apprentice_heretic_male",
+    "text": "I'm here to argue. Let's get the formalities out of the way.",
+    "emotion": "edged",
+    "bucket": "greet",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "heretic_male_greet_2",
+    "character": "apprentice_heretic_male",
+    "text": "If you brought scripture, bring two. I want a counter-text on the table.",
+    "emotion": "set",
+    "bucket": "greet",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "heretic_male_ambient_1",
+    "character": "apprentice_heretic_male",
+    "text": "I have three drafts of the new tract. The third is the one that gets me arrested.",
+    "emotion": "wry",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "heretic_male_ambient_2",
+    "character": "apprentice_heretic_male",
+    "text": "Orthodoxy is a building. I'm in the basement.",
+    "emotion": "calm",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "heretic_male_ambient_3",
+    "character": "apprentice_heretic_male",
+    "text": "If you ever want to read what they took out, ask me. I kept copies.",
+    "emotion": "warm",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "heretic_male_deploy_1",
+    "character": "apprentice_heretic_male",
+    "text": "I'll go where the line is and stand on the wrong side of it.",
+    "emotion": "set",
+    "bucket": "deploy",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "heretic_male_deploy_2",
+    "character": "apprentice_heretic_male",
+    "text": "Bring the manuscript. I'll defend it on the way.",
+    "emotion": "ready",
+    "bucket": "deploy",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "heretic_male_outcome_won",
+    "character": "apprentice_heretic_male",
+    "text": "Argued and survived. The two are usually exclusive.",
+    "emotion": "wry",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "heretic_male_outcome_wounded",
+    "character": "apprentice_heretic_male",
+    "text": "They cut me. I cut them back. Different metaphor, same scar.",
+    "emotion": "edged",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "heretic_male_outcome_saw_death",
+    "character": "apprentice_heretic_male",
+    "text": "He died for the wrong orthodoxy. I'll write him a better one.",
+    "emotion": "raw",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "heretic_male_outcome_other_died",
+    "character": "apprentice_heretic_male",
+    "text": "I'll quote his dissent in my next tract. He'll be footnoted forever.",
+    "emotion": "mourning",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "heretic_male_event_loredex",
+    "character": "apprentice_heretic_male",
+    "text": "Now we have a counter-text. The orthodoxy looks worse already.",
+    "emotion": "thrilled",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "heretic_male_event_costly_choice",
+    "character": "apprentice_heretic_male",
+    "text": "Good. The easy answer was always going to disappoint someone important.",
+    "emotion": "approving",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "heretic_male_banter_orthodoxy",
+    "character": "apprentice_heretic_male",
+    "text": "I'm not contrarian. I'm correct. Different things.",
+    "emotion": "edged",
+    "bucket": "banter",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "heretic_male_banter_dissent",
+    "character": "apprentice_heretic_male",
+    "text": "Bring me your worst orthodoxy. I'll show you what it papered over.",
+    "emotion": "warm",
+    "bucket": "banter",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "heretic_male_quest_1_open",
+    "character": "apprentice_heretic_male",
+    "text": "There's a public confrontation I want to stage. Vex Solène will set it up. Be there.",
+    "emotion": "set",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "heretic_male_quest_2_mid",
+    "character": "apprentice_heretic_male",
+    "text": "The faction sent a counter-tract. It's better than I expected. We'll have to write a third.",
+    "emotion": "ready",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "heretic_male_quest_3_break",
+    "character": "apprentice_heretic_male",
+    "text": "They want a public retraction. The retraction would buy peace. Choose what you want me to be.",
+    "emotion": "raw",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "heretic_male_romance_spark",
+    "character": "apprentice_heretic_male",
+    "text": "Argue with me. Don't yield. I yield to people who don't.",
+    "emotion": "edged",
+    "bucket": "romance",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "heretic_male_romance_courtship",
+    "character": "apprentice_heretic_male",
+    "text": "I love a flinch I can't predict. Yours never came.",
+    "emotion": "tender",
+    "bucket": "romance",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "heretic_male_romance_committed",
+    "character": "apprentice_heretic_male",
+    "text": "Orthodoxy of one. Us. I'll defend it.",
+    "emotion": "warm",
+    "bucket": "romance",
+    "file": "shared/apprenticeVoiceLines.ts"
+  }
+]

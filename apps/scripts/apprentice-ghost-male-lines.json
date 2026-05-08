@@ -1,0 +1,170 @@
+[
+  {
+    "id": "ghost_male_greet_1",
+    "character": "apprentice_ghost_male",
+    "text": "You found me. That's rarer than you think.",
+    "emotion": "low",
+    "bucket": "greet",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "ghost_male_greet_2",
+    "character": "apprentice_ghost_male",
+    "text": "Don't say my name in the hallway. I'll come to you.",
+    "emotion": "private",
+    "bucket": "greet",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "ghost_male_ambient_1",
+    "character": "apprentice_ghost_male",
+    "text": "I was already here.",
+    "emotion": "flat",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "ghost_male_ambient_2",
+    "character": "apprentice_ghost_male",
+    "text": "The cameras blink at the same intervals. It's almost a song.",
+    "emotion": "wry",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "ghost_male_ambient_3",
+    "character": "apprentice_ghost_male",
+    "text": "Three exits from this room. Four if you count the obvious one.",
+    "emotion": "calm",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "ghost_male_deploy_1",
+    "character": "apprentice_ghost_male",
+    "text": "I'll take the angle nobody's watching.",
+    "emotion": "set",
+    "bucket": "deploy",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "ghost_male_deploy_2",
+    "character": "apprentice_ghost_male",
+    "text": "If I'm not back, I left.",
+    "emotion": "edged",
+    "bucket": "deploy",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "ghost_male_outcome_won",
+    "character": "apprentice_ghost_male",
+    "text": "Quietly. Better that way.",
+    "emotion": "low",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "ghost_male_outcome_wounded",
+    "character": "apprentice_ghost_male",
+    "text": "I knew the room. I missed the floor.",
+    "emotion": "wry",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "ghost_male_outcome_saw_death",
+    "character": "apprentice_ghost_male",
+    "text": "I noticed him before I knew I was watching. He won't be unnoticed now.",
+    "emotion": "still",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "ghost_male_outcome_other_died",
+    "character": "apprentice_ghost_male",
+    "text": "I memorized the path he walked. It deserves a witness.",
+    "emotion": "still",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "ghost_male_event_loredex",
+    "character": "apprentice_ghost_male",
+    "text": "There's another shape in the gap. I'll mark it.",
+    "emotion": "low",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "ghost_male_event_npc_dies",
+    "character": "apprentice_ghost_male",
+    "text": "I noticed him. He knew that. I think it mattered to him.",
+    "emotion": "still",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "ghost_male_banter_visible",
+    "character": "apprentice_ghost_male",
+    "text": "Don't put me in the photograph. I'll be in the photograph.",
+    "emotion": "wry",
+    "bucket": "banter",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "ghost_male_banter_quiet",
+    "character": "apprentice_ghost_male",
+    "text": "I keep a list of people who notice me. It's short. You're on it.",
+    "emotion": "soft",
+    "bucket": "banter",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "ghost_male_quest_1_open",
+    "character": "apprentice_ghost_male",
+    "text": "Someone's been watching him. He don't know yet. I want to know who first.",
+    "emotion": "edged",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "ghost_male_quest_2_mid",
+    "character": "apprentice_ghost_male",
+    "text": "I followed the watcher home. The address was familiar. That's not coincidence.",
+    "emotion": "set",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "ghost_male_quest_3_break",
+    "character": "apprentice_ghost_male",
+    "text": "He's seeing me back. I can stop being unseen now. Or I can keep going.",
+    "emotion": "raw",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "ghost_male_romance_spark",
+    "character": "apprentice_ghost_male",
+    "text": "Don't say it out loud. I heard you anyway.",
+    "emotion": "soft",
+    "bucket": "romance",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "ghost_male_romance_courtship",
+    "character": "apprentice_ghost_male",
+    "text": "Months of glances. I counted every one. Don't count yours.",
+    "emotion": "tender",
+    "bucket": "romance",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "ghost_male_romance_committed",
+    "character": "apprentice_ghost_male",
+    "text": "I'll stay seen. With you. Only with you.",
+    "emotion": "warm",
+    "bucket": "romance",
+    "file": "shared/apprenticeVoiceLines.ts"
+  }
+]
