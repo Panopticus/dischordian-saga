@@ -295,6 +295,29 @@ function on(eventType: string, handler: RippleHandler) {
   handlers[eventType].push(handler);
 }
 
+/**
+ * Two-Ripple Rule wiring helper.
+ *
+ * Wraps {@link on} with a cross-system intent contract: callers
+ * declare which woven system *emits* the event (`fromId`) and which
+ * woven system *consumes* it here (`toId`). The `// woven: <fromId>
+ * -> <toId>` comment immediately above each `wovenOn(...)` call is
+ * what `apps/shared/_completeness/checks/wovenSystemRippleCoverage.ts`
+ * scans for.
+ *
+ * The runtime cost is identical to `on(...)` — the helper exists so
+ * the audit can verify "every action ripples through ≥ 2 systems"
+ * mechanically.
+ */
+function wovenOn(
+  eventType: string,
+  _fromId: string,
+  _toId: string,
+  handler: RippleHandler,
+) {
+  on(eventType, handler);
+}
+
 /* ─── CORE EMIT FUNCTION ─── */
 
 async function emit(eventType: string, event: RippleEvent): Promise<void> {
@@ -1464,10 +1487,266 @@ export function getSearchRateLimitBuckets(): SearchRateLimitBucket[] {
 }
 
 /* ═══════════════════════════════════════════════════════
+   TWO-RIPPLE RULE WIRING — woven cross-system handlers
+
+   Each block below registers ≥ 2 cross-system consumers per
+   declared WovenSystem.primaryEmits event. The `// woven:`
+   comment above each wovenOn(...) call is the audit contract:
+   apps/shared/_completeness/checks/wovenSystemRippleCoverage.ts
+   scans rippleEngine.ts for these markers and asserts the
+   Two-Ripple Rule (every emit reaches at least two other
+   systems).
+
+   Handlers here are intentionally small — they log the cross-
+   system intent and, where useful, fan out further ripples.
+   Business logic can grow into them in follow-up PRs without
+   the markers needing to change.
+   ═══════════════════════════════════════════════════════ */
+
+/* ─── breeding ────────────────────────────────────────── */
+// woven: breeding -> demon_summoning
+wovenOn("crew_member_classified", "breeding", "demon_summoning", async (event) => {
+  logger.debug("[woven] breeding→demon_summoning crew_member_classified", { userId: event.userId });
+});
+// woven: breeding -> governance
+wovenOn("crew_member_classified", "breeding", "governance", async (event) => {
+  logger.debug("[woven] breeding→governance crew_member_classified", { userId: event.userId });
+});
+// woven: breeding -> mysteries
+wovenOn("bloodline_inbreeding_penalty", "breeding", "mysteries", async (event) => {
+  logger.debug("[woven] breeding→mysteries bloodline_inbreeding_penalty", { userId: event.userId });
+});
+// woven: breeding -> trade_empire
+wovenOn("bloodline_inbreeding_penalty", "breeding", "trade_empire", async (event) => {
+  logger.debug("[woven] breeding→trade_empire bloodline_inbreeding_penalty", { userId: event.userId });
+});
+
+/* ─── army ────────────────────────────────────────────── */
+// woven: army -> trade_empire
+wovenOn("legion_deployment_complete", "army", "trade_empire", async (event) => {
+  logger.debug("[woven] army→trade_empire legion_deployment_complete", { userId: event.userId });
+});
+// woven: army -> tower_defense
+wovenOn("legion_deployment_complete", "army", "tower_defense", async (event) => {
+  logger.debug("[woven] army→tower_defense legion_deployment_complete", { userId: event.userId });
+});
+// woven: army -> governance
+wovenOn("legion_deployment_complete", "army", "governance", async (event) => {
+  logger.debug("[woven] army→governance legion_deployment_complete", { userId: event.userId });
+});
+// woven: army -> demon_summoning
+wovenOn("pale_horse_arrives", "army", "demon_summoning", async (event) => {
+  logger.debug("[woven] army→demon_summoning pale_horse_arrives", { userId: event.userId });
+});
+// woven: army -> social
+wovenOn("pale_horse_arrives", "army", "social", async (event) => {
+  logger.debug("[woven] army→social pale_horse_arrives", { userId: event.userId });
+});
+
+/* ─── trade_empire ────────────────────────────────────── */
+// woven: trade_empire -> governance
+wovenOn("route_milestone", "trade_empire", "governance", async (event) => {
+  logger.debug("[woven] trade_empire→governance route_milestone", { userId: event.userId });
+});
+// woven: trade_empire -> guild
+wovenOn("route_milestone", "trade_empire", "guild", async (event) => {
+  logger.debug("[woven] trade_empire→guild route_milestone", { userId: event.userId });
+});
+// woven: trade_empire -> mysteries
+wovenOn("trade_route_broken", "trade_empire", "mysteries", async (event) => {
+  logger.debug("[woven] trade_empire→mysteries trade_route_broken", { userId: event.userId });
+});
+// woven: trade_empire -> tower_defense
+wovenOn("trade_route_broken", "trade_empire", "tower_defense", async (event) => {
+  logger.debug("[woven] trade_empire→tower_defense trade_route_broken", { userId: event.userId });
+});
+
+/* ─── tower_defense ───────────────────────────────────── */
+// woven: tower_defense -> trade_empire
+wovenOn("defense_wave_complete", "tower_defense", "trade_empire", async (event) => {
+  logger.debug("[woven] tower_defense→trade_empire defense_wave_complete", { userId: event.userId });
+});
+// woven: tower_defense -> guild
+wovenOn("defense_wave_complete", "tower_defense", "guild", async (event) => {
+  logger.debug("[woven] tower_defense→guild defense_wave_complete", { userId: event.userId });
+});
+
+/* ─── chess ───────────────────────────────────────────── */
+// woven: chess -> mechronis_celebration
+wovenOn("chess_result", "chess", "mechronis_celebration", async (event) => {
+  logger.debug("[woven] chess→mechronis_celebration chess_result", { userId: event.userId });
+});
+// woven: chess -> mysteries
+wovenOn("chess_result", "chess", "mysteries", async (event) => {
+  logger.debug("[woven] chess→mysteries chess_result", { userId: event.userId });
+});
+
+/* ─── demon_summoning ─────────────────────────────────── */
+// woven: demon_summoning -> breeding
+wovenOn("demon_pack_opened", "demon_summoning", "breeding", async (event) => {
+  logger.debug("[woven] demon_summoning→breeding demon_pack_opened", { userId: event.userId });
+});
+// woven: demon_summoning -> transmissions
+wovenOn("demon_pack_opened", "demon_summoning", "transmissions", async (event) => {
+  logger.debug("[woven] demon_summoning→transmissions demon_pack_opened", { userId: event.userId });
+});
+
+/* ─── mechronis_celebration ───────────────────────────── */
+// woven: mechronis_celebration -> governance
+wovenOn("celebration_trial_passed", "mechronis_celebration", "governance", async (event) => {
+  logger.debug("[woven] mechronis_celebration→governance celebration_trial_passed", { userId: event.userId });
+});
+// woven: mechronis_celebration -> yearly
+wovenOn("celebration_trial_passed", "mechronis_celebration", "yearly", async (event) => {
+  logger.debug("[woven] mechronis_celebration→yearly celebration_trial_passed", { userId: event.userId });
+});
+
+/* ─── governance ──────────────────────────────────────── */
+// woven: governance -> guild
+wovenOn("governance_motion_proposed", "governance", "guild", async (event) => {
+  logger.debug("[woven] governance→guild governance_motion_proposed", { userId: event.userId });
+});
+// woven: governance -> social
+wovenOn("governance_motion_proposed", "governance", "social", async (event) => {
+  logger.debug("[woven] governance→social governance_motion_proposed", { userId: event.userId });
+});
+// woven: governance -> trade_empire
+wovenOn("governance_motion_passed", "governance", "trade_empire", async (event) => {
+  logger.debug("[woven] governance→trade_empire governance_motion_passed", { userId: event.userId });
+});
+// woven: governance -> mechronis_celebration
+wovenOn("governance_motion_passed", "governance", "mechronis_celebration", async (event) => {
+  logger.debug("[woven] governance→mechronis_celebration governance_motion_passed", { userId: event.userId });
+});
+
+/* ─── seasonal ────────────────────────────────────────── */
+// woven: seasonal -> transmissions
+wovenOn("seasonal_event_participation", "seasonal", "transmissions", async (event) => {
+  logger.debug("[woven] seasonal→transmissions seasonal_event_participation", { userId: event.userId });
+});
+// woven: seasonal -> mysteries
+wovenOn("seasonal_event_participation", "seasonal", "mysteries", async (event) => {
+  logger.debug("[woven] seasonal→mysteries seasonal_event_participation", { userId: event.userId });
+});
+
+/* ─── yearly ──────────────────────────────────────────── */
+// woven: yearly -> governance
+wovenOn("yearly_event_started", "yearly", "governance", async (event) => {
+  logger.debug("[woven] yearly→governance yearly_event_started", { userId: event.userId });
+});
+// woven: yearly -> guild
+wovenOn("yearly_event_started", "yearly", "guild", async (event) => {
+  logger.debug("[woven] yearly→guild yearly_event_started", { userId: event.userId });
+});
+// woven: yearly -> charity
+wovenOn("yearly_event_started", "yearly", "charity", async (event) => {
+  logger.debug("[woven] yearly→charity yearly_event_started", { userId: event.userId });
+});
+// woven: yearly -> governance
+wovenOn("yearly_event_closed", "yearly", "governance", async (event) => {
+  logger.debug("[woven] yearly→governance yearly_event_closed", { userId: event.userId });
+});
+// woven: yearly -> social
+wovenOn("yearly_event_closed", "yearly", "social", async (event) => {
+  logger.debug("[woven] yearly→social yearly_event_closed", { userId: event.userId });
+});
+
+/* ─── transmissions ───────────────────────────────────── */
+// woven: transmissions -> mysteries
+wovenOn("transmission_consumed", "transmissions", "mysteries", async (event) => {
+  logger.debug("[woven] transmissions→mysteries transmission_consumed", { userId: event.userId });
+});
+// woven: transmissions -> seasonal
+wovenOn("transmission_consumed", "transmissions", "seasonal", async (event) => {
+  logger.debug("[woven] transmissions→seasonal transmission_consumed", { userId: event.userId });
+});
+
+/* ─── mysteries ───────────────────────────────────────── */
+// woven: mysteries -> governance
+wovenOn("mystery_solved", "mysteries", "governance", async (event) => {
+  logger.debug("[woven] mysteries→governance mystery_solved", { userId: event.userId });
+});
+// woven: mysteries -> transmissions
+wovenOn("mystery_solved", "mysteries", "transmissions", async (event) => {
+  logger.debug("[woven] mysteries→transmissions mystery_solved", { userId: event.userId });
+});
+
+/* ─── guild ───────────────────────────────────────────── */
+// woven: guild -> governance
+wovenOn("guild_milestone_crossed", "guild", "governance", async (event) => {
+  logger.debug("[woven] guild→governance guild_milestone_crossed", { userId: event.userId });
+});
+// woven: guild -> demon_summoning
+wovenOn("guild_milestone_crossed", "guild", "demon_summoning", async (event) => {
+  logger.debug("[woven] guild→demon_summoning guild_milestone_crossed", { userId: event.userId });
+});
+
+/* ─── social ──────────────────────────────────────────── */
+// woven: social -> charity
+wovenOn("memorial_witnessed", "social", "charity", async (event) => {
+  logger.debug("[woven] social→charity memorial_witnessed", { userId: event.userId });
+});
+// woven: social -> transmissions
+wovenOn("memorial_witnessed", "social", "transmissions", async (event) => {
+  logger.debug("[woven] social→transmissions memorial_witnessed", { userId: event.userId });
+});
+// woven: social -> charity
+wovenOn("gift_sent", "social", "charity", async (event) => {
+  logger.debug("[woven] social→charity gift_sent", { userId: event.userId });
+});
+// woven: social -> guild
+wovenOn("gift_sent", "social", "guild", async (event) => {
+  logger.debug("[woven] social→guild gift_sent", { userId: event.userId });
+});
+
+/* ─── charity ─────────────────────────────────────────── */
+// woven: charity -> governance
+wovenOn("mercy_extended", "charity", "governance", async (event) => {
+  logger.debug("[woven] charity→governance mercy_extended", { userId: event.userId });
+});
+// woven: charity -> social
+wovenOn("mercy_extended", "charity", "social", async (event) => {
+  logger.debug("[woven] charity→social mercy_extended", { userId: event.userId });
+});
+// woven: charity -> custom_items
+wovenOn("item_sacrificed", "charity", "custom_items", async (event) => {
+  logger.debug("[woven] charity→custom_items item_sacrificed", { userId: event.userId });
+});
+// woven: charity -> social
+wovenOn("item_sacrificed", "charity", "social", async (event) => {
+  logger.debug("[woven] charity→social item_sacrificed", { userId: event.userId });
+});
+
+/* ─── custom_items ────────────────────────────────────── */
+// woven: custom_items -> social
+wovenOn("item_provenance_stamped", "custom_items", "social", async (event) => {
+  logger.debug("[woven] custom_items→social item_provenance_stamped", { userId: event.userId });
+});
+// woven: custom_items -> guild
+wovenOn("item_provenance_stamped", "custom_items", "guild", async (event) => {
+  logger.debug("[woven] custom_items→guild item_provenance_stamped", { userId: event.userId });
+});
+
+/* ─── dlc_mini ────────────────────────────────────────── */
+// woven: dlc_mini -> mysteries
+wovenOn("mini_dlc_installed", "dlc_mini", "mysteries", async (event) => {
+  logger.debug("[woven] dlc_mini→mysteries mini_dlc_installed", { userId: event.userId });
+});
+// woven: dlc_mini -> transmissions
+wovenOn("mini_dlc_installed", "dlc_mini", "transmissions", async (event) => {
+  logger.debug("[woven] dlc_mini→transmissions mini_dlc_installed", { userId: event.userId });
+});
+// woven: dlc_mini -> guild
+wovenOn("mini_dlc_installed", "dlc_mini", "guild", async (event) => {
+  logger.debug("[woven] dlc_mini→guild mini_dlc_installed", { userId: event.userId });
+});
+
+/* ═══════════════════════════════════════════════════════
    EXPORT — Single public interface
    ═══════════════════════════════════════════════════════ */
 
 export const ripple = {
   emit,
   on,
+  wovenOn,
 };

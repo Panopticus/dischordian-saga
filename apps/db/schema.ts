@@ -7235,3 +7235,106 @@ export const petBreedingPairs = mysqlTable("pet_breeding_pairs", {
   byUserStatus: index("byUserStatus").on(t.userId, t.status),
 }));
 export type PetBreedingPairRow = typeof petBreedingPairs.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
+   WORLD WEAVE — yearly events, ripple ledger, memorial plaza
+
+   See:
+     - apps/shared/yearlyEvents.ts (canonical defs)
+     - apps/server/services/yearlyEventScheduler.ts (activates / closes)
+     - apps/server/services/rippleLedgerService.ts (ledger writer)
+     - apps/server/services/worldMoodService.ts (reads via player flags)
+   ═══════════════════════════════════════════════════════ */
+
+/**
+ * One row per scheduled yearly event. The scheduler activates rows
+ * on `anchorMonth/anchorDay` and closes them after `durationDays`,
+ * emitting a governance motion via `closingMotionKey` on close.
+ */
+export const yearlyEvents = mysqlTable("yearly_events", {
+  id: int("id").autoincrement().primaryKey(),
+  /** Stable key — see `apps/shared/yearlyEvents.ts` `YearlyEventKey`. */
+  eventKey: varchar("eventKey", { length: 64 }).notNull(),
+  anchorMonth: int("anchorMonth").notNull(), // 1-12
+  anchorDay: int("anchorDay").notNull(),     // 1-31
+  durationDays: int("durationDays").notNull().default(7),
+  /** Composed via closingMotionKeyForYear(key, year). */
+  closingMotionKey: varchar("closingMotionKey", { length: 96 }),
+  /** Year this row represents (e.g. 2026). */
+  activeYear: int("activeYear").notNull(),
+  activatedAt: timestamp("activatedAt"),
+  resolvedAt: timestamp("resolvedAt"),
+  /**
+   * If activation came from a seal-break override (Severance/Memorial),
+   * the seal number that triggered it. NULL = calendar activation.
+   */
+  triggeredBySeal: int("triggeredBySeal"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => ({
+  uniqEventYear: uniqueIndex("uniq_event_year").on(table.eventKey, table.activeYear),
+  idxActivatedAt: index("idx_yearly_events_activated_at").on(table.activatedAt),
+}));
+export type YearlyEventRow = typeof yearlyEvents.$inferSelect;
+export type InsertYearlyEvent = typeof yearlyEvents.$inferInsert;
+
+/** Per-player participation in a yearly event. */
+export const yearlyEventParticipation = mysqlTable("yearly_event_participation", {
+  id: int("id").autoincrement().primaryKey(),
+  eventId: int("eventId").notNull().references(() => yearlyEvents.id, { onDelete: "cascade" }),
+  userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  contribution: int("contribution").notNull().default(0),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => ({
+  uniqEventUser: uniqueIndex("uniq_event_user").on(table.eventId, table.userId),
+  idxUser: index("idx_yep_user").on(table.userId),
+}));
+export type YearlyEventParticipationRow = typeof yearlyEventParticipation.$inferSelect;
+
+/**
+ * Ripple ledger — every cross-system ripple emit is appended here for
+ * the World Tapestry recent-ripples ticker. A daily prune cron drops
+ * rows older than 30 days.
+ */
+export const rippleEvents = mysqlTable("ripple_events", {
+  id: bigint("id", { mode: "number" }).autoincrement().primaryKey(),
+  eventType: varchar("eventType", { length: 96 }).notNull(),
+  userId: int("userId").references(() => users.id, { onDelete: "set null" }),
+  /** WovenSystemId or "none". */
+  fromSystem: varchar("fromSystem", { length: 48 }),
+  /** JSON array of WovenSystemId values. */
+  toSystems: json("toSystems").$type<string[]>(),
+  /** Truncated event body (no PII). */
+  payload: json("payload").$type<Record<string, unknown> | null>(),
+  emittedAt: timestamp("emittedAt").defaultNow().notNull(),
+}, (table) => ({
+  idxEmittedAt: index("idx_ripple_events_emitted_at").on(table.emittedAt),
+  idxUserEmittedAt: index("idx_ripple_events_user_emitted_at").on(table.userId, table.emittedAt),
+  idxEventType: index("idx_ripple_events_event_type").on(table.eventType),
+}));
+export type RippleEventRow = typeof rippleEvents.$inferSelect;
+export type InsertRippleEvent = typeof rippleEvents.$inferInsert;
+
+/**
+ * Memorial Plaza inscriptions (Phase 5 / Seal V). Each player can
+ * inscribe one imprint name per Memorial Day; high-tier donors can
+ * inscribe to the global plaza visible to every player.
+ */
+export const memorialInscriptions = mysqlTable("memorial_inscriptions", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  /** Free-form imprint name as inscribed. */
+  inscribedName: varchar("inscribedName", { length: 120 }).notNull(),
+  /** Year of the Memorial Day this inscription belongs to. */
+  memorialYear: int("memorialYear").notNull(),
+  /**
+   * "personal" — visible only on this player's quarters
+   * "global"   — visible everywhere; reserved for top donors
+   */
+  scope: mysqlEnum("scope", ["personal", "global"]).notNull().default("personal"),
+  inscribedAt: timestamp("inscribedAt").defaultNow().notNull(),
+}, (table) => ({
+  uniqUserYear: uniqueIndex("uniq_memorial_user_year").on(table.userId, table.memorialYear, table.inscribedName),
+  idxYearScope: index("idx_memorial_year_scope").on(table.memorialYear, table.scope),
+}));
+export type MemorialInscriptionRow = typeof memorialInscriptions.$inferSelect;
+export type InsertMemorialInscription = typeof memorialInscriptions.$inferInsert;

@@ -16,6 +16,7 @@
  *                   advocate_sacrum_first_fragment_collected
  */
 import type { DlcChapter } from "../../types";
+import type { MiniDlcManifest } from "../../miniDlcManifest";
 import { DLC_ADVOCATE_01_STEPS } from "./steps";
 
 export const DLC_ADVOCATE_01_SACRUM_ECHO: DlcChapter = {
@@ -41,4 +42,39 @@ export const DLC_ADVOCATE_01_SACRUM_ECHO: DlcChapter = {
     "advocate_sealed_chronicle_unlocked",
     "advocate_sacrum_first_fragment_collected",
   ],
+};
+
+/**
+ * Mini-DLC five-system manifest (Phase 5 of the world-weave plan).
+ *
+ * Adopts this back-catalog DLC into the Two-Ripple Rule by declaring
+ * the five canonical surfaces it touches. Each ref is *static
+ * scaffold* — runtime wiring (mystery seeder pickup, transmission
+ * track audio, etc.) lands per-surface in follow-up PRs.
+ */
+export const DLC_ADVOCATE_01_MINI_MANIFEST: MiniDlcManifest = {
+  id: "dlc_advocate_01_sacrum_echo",
+  title: "Sacrum Echo",
+  sealRequired: 2,
+  yearlyAffinity: null,
+  moodImpact: { conquest: 0.05 },
+  newMysterySeed: { seedId: "advocate.sacrum_echo.first_fragment" },
+  newTransmissionTrack: {
+    trackId: "T_ADVOCATE_01",
+    albumKey: "T_ADVOCATE_01",
+  },
+  newCustomItem: {
+    itemId: "advocate.sealed_chronicle_pin",
+    assetSlug: "art/items/advocate/sealed_chronicle_pin.png",
+  },
+  newGuildContract: {
+    contractKey: "advocate.fragment_relay",
+    summary: "Relay Sacrum fragments between guild halls for shared progress.",
+  },
+  newGovernanceMotion: {
+    motionKey: "advocate_sealed_chronicle_oversight",
+  },
+  optionalCardDef: {
+    cardId: "advocate_sealed_chronicle_card",
+  },
 };
