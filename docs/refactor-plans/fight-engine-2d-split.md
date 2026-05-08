@@ -51,11 +51,26 @@ Cut **lines 213-560** (`getStandingHurtBoxes`, `getCrouchingHurtBoxes`, `getAirH
 
 **Smoke**: throw a punch, confirm a hit registers and damage flashes.
 
-### Commit 3 — Extract AI (~1 hour, ~700 LOC moved)
+### Commit 3 — Extract AI (split: 3a data-only LANDED; 3b behavior DEFERRED)
 
-Cut all AI methods (`updateAi`, `chooseAiAction`, etc.) and `AIDifficultyProfile` into `fightAi.ts`. The AI module exposes `decideNextAction(fighter, opponent, profile, frame)` returning an action enum; the engine class's `update()` loop calls it.
+**Step 3a (~30 min, data-only) — LANDED in PR after the May 2026 audit-fix sprint.** Extracted into `apps/client/src/game/fightAi.ts`:
+- `Difficulty2D` enum
+- `AIDifficultyProfile` interface
+- `AI_PROFILES` table (4 tiers)
+- Pure helpers: `adaptAggression(profile, aiHpRatio, playerHpRatio)` and `idealDistanceFor(archetype)`
+- 15 unit tests pinning the table monotonicity (reactionFrames descending; blockRate / antiAirRate / whiffPunishRate ascending; mistakeRate descending), the comeback/mercy aggression bands, and the per-archetype distances.
 
-**Smoke**: fight an AI opponent, confirm it still attacks and blocks.
+`processAI` in `FightEngine2D.ts` now calls into `adaptAggression` and `idealDistanceFor` for the same magic numbers, but otherwise stays in the class. Behaviour is identical because the helpers were extracted from the literal inline code.
+
+**Step 3b (~2 hours, behavior + smoke required) — DEFERRED.** `processAI` is 218 lines that today mutates fighter state directly via `this.changeState`, `this.activateSpecial`, `this.isInAttackState`, `this.isInRecovery`, `this.isActionable`. Extracting to a pure `decideNextAction(fighter, opponent, profile, frame): AiDecision` requires:
+1. Defining the `AiDecision` discriminated union (block / anti-air / whiff-punish / combo-continue / special / approach / retreat / attack / idle).
+2. Reworking `processAI` to RETURN a decision rather than mutate.
+3. Having the engine class interpret the decision via a `applyAiDecision(ai, decision)` method.
+
+That's a behavioral refactor with no test coverage; per the audit it ships in its own PR with manual smoke between every step (fight an AI opponent at each tier, verify the AI still attacks / blocks / anti-airs / punishes whiff / chains combos).
+
+**Smoke for 3a**: fight an AI opponent at any tier, verify the AI still attacks and blocks.
+**Smoke for 3b**: per-tier verification — recruit makes obvious mistakes, soldier blocks half the time, veteran punishes whiff, archon chains full combos.
 
 ### Commit 4 — Extract renderer (~2 hours, ~1,200 LOC moved)
 
