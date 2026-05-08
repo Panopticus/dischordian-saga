@@ -17,7 +17,7 @@ that is wired into the game today, plus everything that still needs to be made.
 2. [Live asset inventory (what exists today)](#2-live-asset-inventory-what-exists-today)
 3. [Production queue (what still needs to be made)](#3-production-queue-what-still-needs-to-be-made)
 4. [Canon character roster](#4-canon-character-roster)
-5. [Characters needing canon descriptions ⚠️](#5-characters-needing-canon-descriptions-️)
+5. [Genuine art gaps + canon-ref deliveries](#5-genuine-art-gaps--characters-needing-new-commissions)
 6. [Tools & prompt templates](#6-tools--prompt-templates)
 7. [Doc archive ledger](#7-doc-archive-ledger)
 
@@ -501,7 +501,9 @@ canon for that role; commission only when extending to new variants
 | **The Student / The Seeker** | These are early-phase identities of **The Human** — same canon (`A12TheHuman.png`). Render as Human-with-different-wardrobe; not a separate character |
 | **Vex (Mechronis professor)** | `art/mechronis/professors/professor_vex.png` |
 | **Vex Drelm** (Hierarchy CMO) | `art/expansions/hierarchy-of-damned/c-suite/s2_hierarchy_cmo_vex_drelm.webp` — **distinct entity** from the professor and from Vex Solène |
-| **Vex Solène** (Ne-Yon agent) | placeholder aliases to `characters/agent_zero/bust_static.webp`. Dedicated bust would upgrade quality but is not blocking |
+| **Vex Solène** (Ne-Yon agent) | `art/portraits/vex_solene/bust.png` (delivered 2026-05-08 — see §5.2). Yellow waxed raincoat hood, red-lensed brass goggles up on hood, purple half-mask, amber eyes, auburn hair, neon-city rain backdrop |
+| **Left & Right Game Master** (Acts 2–7 diptych) | `art/portraits/game-masters/{left,right,diptych}.png` (delivered 2026-05-08 — see §5.2). Demonic-elven hybrid pair with crack-tattoos, red cybernetic right eyes, compass pendants. **Distinct from `npcs/gamemaster_bust.png` cyborg-skull canon** — that one is the Archon; these two are the Acts 2–7 in-fiction co-hosts |
+| **Marion Kell** | `art/palimpsest/marion_kell/episode_4_live_feed.png` + `bust_clean.png` (delivered 2026-05-08 — see §5.2). Glitched CRT live-feed frame, dark wavy hair, contestant badge "CONTESTANT 17 — MARION KELL", chromatic aberration enforces "erased and re-routed" lore |
 
 ### 4.7 Lore-only characters (no art commissioned, may not need any)
 
@@ -544,51 +546,120 @@ All have full canon listed in §4. Quick lookup:
 | Eidola, Matrikala | §4.2 (spectral entities, full rigging) |
 | Vex Solène, Vex Drelm (Hierarchy CMO), Game Master | §4.6 / §4.4 / §4.1 — disambiguated |
 
-### 5.2 Genuine gaps — need NEW art
+### 5.2 Reference set delivered 2026-05-08 — formerly-gap characters
 
-Only **3 named characters** have no shipped art on the CDN. Each should be
-commissioned with the canon details below.
+Producer-supplied canon reference images for the four characters that
+previously had no shipped art. **These images ARE the canon.** Save them at
+the indicated CDN paths and treat them as the source of truth for any future
+commission.
 
-#### 1. Marion Kell
+Stored in repo at `docs/canon-refs/2026-05-08/` for archival; CDN upload paths
+listed below.
 
-- **Lore status:** Fully canonized in `apps/client/src/data/loredex-data.json` and
-  `apps/shared/theInventor.ts` (rich biography).
-- **Visual canon (from lore):** Female, performance-review analyst on Ark 1047
-  ~400 years pre-Fall. Erased from Chronicle by the Shadow Tongue. Maintained
-  outside standard channels by the Inventor. Appears three times in The
-  Palimpsest Season 1 — and the visual must be **deliberately glitched /
-  shimmery / partial**, NOT a full portrait, because the character's identity
-  is "erased and being routed back through broadcast layers".
-- **Required deliverables:**
-  1. **Episode 4 ghost-contestant frame** — full body on Palimpsest stage,
-     uncast, badge clipped to coat reading "MARION KELL" (must be readable on
-     slow-mo replay).
-  2. **Episode 9 backwards-crawl name card** — typography-only beat; her name
-     scrolling reversed across a casualty crawl. (Already partly possible with
-     CSS; flag if a still asset is wanted.)
-  3. **Episode 13 shimmering mourner** — mid-distance figure at Darren
-     Fessler's funeral, faintly shimmering, gait-matched to her pre-edit
-     records. Renders behind a slight chromatic-aberration wash.
+#### 1. The Two Game Masters — Left & Right (canon diptych)
 
-#### 2. Left Game Master (NEW character, Acts 2–7)
+The pair share a single character-design DNA — they are two halves of one
+gestalt entity, presented as a diptych. Both are **demonic-elven hybrids**
+(pointed ears, occult-aristocrat suits) with matching crackline scarification
+running across face, neck, and hands; matching cybernetic right-eye implants
+glowing red; matching ornate compass-rose pendants; matching tabletop-game
+ritual setting (gothic chamber, candelabras, tarot/dice/hex-map, looming
+red-eyed mech-skeletal AI silhouette in the background — strongly suggestive
+of The Architect overseeing them).
 
-- **Visual canon** (already authored in
-  `docs/production/acts-2-7-aaa-final/character_canon_map.md`):
-  Thin angular man, charcoal 3-piece suit, grey hair, rectangular spectacles.
-- **Required:** Bust portrait + 3-pose reference sheet. Distinct from existing
-  cyborg-skull "The Game Master" (`canon_refs/A10TheGameMaster.png`).
+- **Suggested CDN paths:**
+  - `art/portraits/game-masters/left.png`
+  - `art/portraits/game-masters/right.png`
+  - `art/portraits/game-masters/diptych.png` (joined image used in Acts 2–7 cinematics)
 
-#### 3. Right Game Master (NEW character, Acts 2–7)
+**Left Game Master** (femme-presenting):
+- Pale skin webbed with fine **black crack-line tattoos** across face, neck, chest, and hands
+- Dark hair pulled back, neat and tight against the scalp
+- **Cybernetic right eye** — red glowing iris set in a brass/black socket, hairline scar branching from it
+- Pointed elven ears
+- Black 3-piece **pinstripe blazer with peaked lapels**, dark V-neck under it; **gold compass-rose pendant** on a long chain
+- Rings on fingers; **black-painted nails**, almost-claws
+- Neutral, observing expression — the player's case-officer / inquisitor half of the pair
+- Pose: hand at temple, elbow on game-table
 
-- **Visual canon:** Shorter, warm; dark unkempt hair; open-collar cotton shirt;
-  pencil behind ear.
-- **Required:** Bust portrait + 3-pose reference sheet. Pair with Left GM as a
-  visual diptych.
+**Right Game Master** (masc-presenting):
+- Same skin and crack-line tattoos as Left (matching pair)
+- **Dark curling hair** with two short **upward-curving goat horns** at the temples
+- Stubble / short beard
+- **Cybernetic right eye** — same red iris / brass socket as Left (mirror)
+- Pointed elven ears
+- Open-collar **white cotton shirt** under a black blazer; same compass-rose pendant
+- Rings, dark nails; pen/stylus held between fingers
+- Wry, half-smiling expression — the player's tempter / dealmaker half of the pair
+- Pose: hand at temple, elbow on game-table (mirror of Left)
 
-> **Note on Vex Solène:** her LORE_BIBLE.md image currently aliases to the Agent
-> Zero bust (`characters/agent_zero/bust_static.webp`) as a temporary stand-in.
-> A dedicated bust would be a quality upgrade but is not strictly blocking — the
-> placeholder ships today.
+**Background canon (both):**
+- Gothic chamber, dim warm candle-light from candelabras
+- Hex-map / dice / dice-cup / tarot scattered on the table foreground
+- **Towering red-eyed mech-skeleton silhouette** behind both — represents The Architect's gaze; render with low-key rim-lighting only
+- Banners with sigils of skulls / wheels / occult symbols hanging behind them
+
+**Voice direction one-liner:** Two halves of one mind speaking in perfect alternation; Left speaks in clinical absolutes, Right speaks in seductive contingencies.
+
+#### 2. Vex Solène
+
+Cyberpunk-steampunk operative; **Ne-Yon agent / Degen counterpart**. Read on the
+image as a lone figure in a rain-blurred neon city, hood up, mask up, eyes
+amber and visible.
+
+- **Suggested CDN paths:**
+  - `art/portraits/vex_solene/bust.png`
+  - `npcs/vex_solene_bust.png` (matching the canonical NPC-bust convention)
+
+**Visual canon:**
+- Young woman, mid-20s
+- **Long auburn / dark-red hair** flowing loose, wind-blown
+- **Amber / orange eyes**, intense
+- **Yellow weathered hooded raincoat** — distressed, waxed-canvas finish, hood up
+- **Red-lensed brass steampunk goggles** pushed up onto the hood (visible at forehead level)
+- **Purple cloth half-mask** over nose and mouth (matches a purple corset/bra under the open jacket)
+- Brass / leather **steampunk pauldron and arm bracers** with gear motifs
+- Color palette: high-saturation **yellow + purple + brass + red goggle-lens** — instantly recognisable silhouette
+- Background: rain-blurred neon cyberpunk city (magenta + red signage), cinematic shallow DOF
+
+**This image supersedes the Agent Zero alias placeholder.** Update
+`LORE_BIBLE.md` Vex Solène entry to reference `art/portraits/vex_solene/bust.png`
+once uploaded, and remove the `characters/agent_zero/bust_static.webp` alias.
+
+**Voice direction one-liner:** Wry, low-register, half-amused — talks like she
+already knows how the conversation ends and is waiting for you to catch up.
+
+#### 3. Marion Kell
+
+This image **resolves the Episode 4 ghost-contestant deliverable from §3** —
+it is the live-feed frame from Palimpsest Season 1 Episode 4, "The Gauntlet".
+
+- **Suggested CDN paths:**
+  - `art/palimpsest/marion_kell/episode_4_live_feed.png`
+  - `art/palimpsest/marion_kell/bust_clean.png` (a non-glitched bust extracted for badge / pre-edit-record callbacks)
+
+**Visual canon:**
+- Young woman, late 20s, pale skin, damp **dark wavy hair** (rain or sweat from the Gauntlet round)
+- Dark, haunted eyes — direct gaze into camera
+- Headphones around neck (broadcast-headset, off-duty)
+- Dark-red shirt under unbuttoned black cardigan/jacket
+- **Lanyard badge clipped to chest reading "CONTESTANT 17 — MARION KELL"** (must be legible on slow-mo)
+- Composed but exhausted — the only contestant making eye contact through the lens
+- **Other contestants visible blurred in background** with badge numbers 18, 19, 22 — they are aware of the camera; Marion is aware of the **player**
+
+**Frame chrome (must ship together):**
+- "LIVE FEED" red-dot indicator, top-left
+- "EPISODE 4 / THE GAUNTLET" caption, top-right
+- "PLAYERS REMAINING / 23" counter, bottom-left
+- "MEME CORPORATION" watermark, bottom-right
+- Heavy CRT scanlines + chromatic aberration + slight RGB-channel separation
+- The chromatic-aberration band is **subtly stronger over Marion's body than the others** — this is the visual cue that her presence is being routed through a broadcast layer she should not still be on
+
+**Episode 9 + Episode 13 deliverables (still needed):**
+- *Episode 9*: typography-only beat — name reversed across casualty crawl. Use the same MEME CORPORATION chrome, no portrait.
+- *Episode 13*: re-render the same Marion bust at mid-distance, in funeral attire, with **chromatic-aberration intensity x2 + occasional digital sparkle pixels**, gait-matched to a pre-edit record (have animator pull the Episode 4 walk cycle as reference). Render at Darren Fessler's graveside.
+
+**Voice direction one-liner:** Quiet, measured, unsurprised — she has been preserved across an erasure and intends to be heard exactly once per episode.
 
 ---
 
