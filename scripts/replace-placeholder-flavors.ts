@@ -116,6 +116,46 @@ const FLAVOR_POOLS: Record<string, ReadonlyArray<string>> = {
     "What you call neutral, the Empire calls undecided.",
     "Their flag is the absence of a flag.",
   ],
+  // audit/11.F4 — second sweep. Three new pools targeting the
+  // remaining boilerplate patterns.
+  hierarchy_director: [
+    "Synergy in the slaughterhouse.",
+    "There is a deck for that. There has always been a deck for that.",
+    "Headcount is a verb in this corridor.",
+    "The Q3 review will be conducted in your absence.",
+    "Promotions are a closed-loop function. So are demotions.",
+    "The org chart is a circulatory system. Yours is being adjusted.",
+    "Performance review: pending. Performance: terminal.",
+    "Every desk in this floor is a debt the company collects in person.",
+    "Roadmap items resolve themselves. The road is the resolution.",
+    "Your pipeline is full. So is the disposal chute.",
+    "Optimisation is what happens when nobody is allowed to leave.",
+    "We do not lay off. We discontinue.",
+  ],
+  allegiance_oath: [
+    "The oath was older than the bearer. The bearer was made for it.",
+    "Vows do not break. The vow-bearer breaks under them.",
+    "Loyalty is a load-bearing wall. Pull it; the room falls.",
+    "Every banner has a cost. The cost is the bannerman.",
+    "We do not swear lightly. We swear once, completely, and against the day.",
+    "What we are sworn to, we become.",
+    "The first oath was a sentence. The last is a name.",
+    "Allegiance pays its tithe in posture, then in pulse.",
+    "We carry the line not because it is right but because we said we would.",
+    "The pledge does not hold the pledger. The pledger holds the pledge.",
+  ],
+  class_signature: [
+    "School first. Self after. The blade does not negotiate.",
+    "Form is the slowest weapon. It is also the most certain.",
+    "Every stance is a memory the body refuses to lose.",
+    "The school does not teach you to fight. It teaches you to be present.",
+    "Discipline is patience with a sharp edge.",
+    "First posture, last posture, only posture.",
+    "We rehearse our deaths so the living motion is exact.",
+    "The signature is not in the strike. It is in the silence after.",
+    "What the school took, the school returns — calibrated.",
+    "Mastery is the moment you stop choosing.",
+  ],
 };
 
 interface Replacement {
@@ -157,6 +197,16 @@ const FACTION_BOILERPLATE_RE =
 /** Bulk neutral filler — cards reachable to every faction. */
 const NEUTRAL_BOILERPLATE_RE =
   /flavorText:\s*"Outside every faction;\s*visible to all\."/g;
+/** audit/11.F4 second-sweep patterns. Each maps to one of the three
+ *  new pools above. The patterns are exact-string matches against the
+ *  template lines that the s2_hierarchy / allegiance / class card
+ *  generators emitted by default. */
+const HIERARCHY_DIRECTOR_BOILERPLATE_RE =
+  /flavorText:\s*"Another seat at another table that did not need to exist\."/g;
+const ALLEGIANCE_OATH_BOILERPLATE_RE =
+  /flavorText:\s*"The oath holds; the bearer remains\."/g;
+const CLASS_SIGNATURE_BOILERPLATE_RE =
+  /flavorText:\s*"A class signature\.\s*The school speaks through every blade\."/g;
 const ID_RE = /\bid:\s*"([^"]+)"/;
 
 function rewrite(text: string, filePath: string): { text: string; count: number } {
@@ -205,6 +255,36 @@ function rewrite(text: string, filePath: string): { text: string; count: number 
         `"${escaped}"`,
       );
       count++;
+      continue;
+    }
+    // audit/11.F4 second-sweep patterns
+    const secondSweep: Array<{ re: RegExp; pool: string; literal: string }> = [
+      {
+        re: HIERARCHY_DIRECTOR_BOILERPLATE_RE,
+        pool: "hierarchy_director",
+        literal: '"Another seat at another table that did not need to exist."',
+      },
+      {
+        re: ALLEGIANCE_OATH_BOILERPLATE_RE,
+        pool: "allegiance_oath",
+        literal: '"The oath holds; the bearer remains."',
+      },
+      {
+        re: CLASS_SIGNATURE_BOILERPLATE_RE,
+        pool: "class_signature",
+        literal: '"A class signature. The school speaks through every blade."',
+      },
+    ];
+    for (const sweep of secondSweep) {
+      sweep.re.lastIndex = 0;
+      if (!sweep.re.test(line)) continue;
+      const cardId = enclosingId[i] ?? `${path.basename(filePath)}:${i}`;
+      const next = pickFlavor(sweep.pool, cardId);
+      if (!next) break;
+      const escaped = next.replace(/"/g, '\\"');
+      lines[i] = line.replace(sweep.literal, `"${escaped}"`);
+      count++;
+      break;
     }
   }
   return { text: lines.join("\n"), count };

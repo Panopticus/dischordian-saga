@@ -3728,6 +3728,8 @@ const THE_DEGEN_MYSTERY: MysteryDefinition = {
 /** Every authored mystery in the saga. The runtime reads against
  *  this array and trusts that ids are unique (enforced by the
  *  episodeMysteries.test.ts validity probe — see §10). */
+import { DLC_MYSTERIES } from "./dlcMysteries";
+
 export const MYSTERY_DEFINITIONS: ReadonlyArray<MysteryDefinition> = [
   WRAITH_CALDER_MYSTERY,
   JERICHO_JONES_MYSTERY,
@@ -3735,6 +3737,7 @@ export const MYSTERY_DEFINITIONS: ReadonlyArray<MysteryDefinition> = [
   VEX_SOLENE_MYSTERY,
   GAME_MASTER_MYSTERY,
   THE_DEGEN_MYSTERY,
+  ...DLC_MYSTERIES,
 ];
 
 /** Find a mystery by id. Returns null when not authored — the

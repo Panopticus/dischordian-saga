@@ -9,7 +9,7 @@
  * (accept / decline / deflect), which writes `act1_closingChoice`.
  *
  * Canonical references:
- *   docs/production/UNIVERSAL_PROMPTING_DOC_PRELUDE_ACT1.md §9
+ *   docs/archive/2026-05-08-superseded/UNIVERSAL_PROMPTING_DOC_PRELUDE_ACT1.md §9
  *   docs/production/act1-asset-build/prompts/voice/section6_antiquarian.csv
  *   docs/production/act1/reference/enigma-gaze-timeline.csv
  *   docs/production/act1/reference/enigma-branch-deltas.md

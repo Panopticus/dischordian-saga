@@ -48,5 +48,4 @@ export const NEUTRAL_CYCLE_C_BOSS_DECK: readonly string[] = Object.freeze([
 ]);
 
 /** Compile-time invariant: deck is exactly 39 cards (Dischordia standard). */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const _deckSizeInvariant: 39 = NEUTRAL_CYCLE_C_BOSS_DECK.length as 39;

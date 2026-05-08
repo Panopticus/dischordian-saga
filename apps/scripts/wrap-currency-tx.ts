@@ -55,7 +55,7 @@ const TARGET_FILES = [
 // Tolerates the standard formatting in these files (4 vs 6 space
 // indent depending on procedure depth).
 const PATTERN =
-  /^(\s+)const \[bal\] = await db\.select\(\)\.from\(dreamBalance\)\.where\(eq\(dreamBalance\.userId, (\w+(?:\.\w+)*)\)\)\.limit\(1\);\n\1if \(bal\) \{\n\1  await db\.update\(dreamBalance\)\n\1    \.set\(\{ dreamTokens: sql`dreamTokens \+ \$\{(\w+(?:\.\w+)*)\}` \}\)\n\1    \.where\(eq\(dreamBalance\.userId, \w+(?:\.\w+)*\)\);\n\1\} else \{\n\1  await db\.insert\(dreamBalance\)\.values\(\{ userId: \w+(?:\.\w+)*, dreamTokens: \w+(?:\.\w+)*, soulBoundDream: 0 \}\);\n\1\}/gm;
+  /^(\s+)const \[bal\] = await db\.select\(\)\.from\(dreamBalance\)\.where\(eq\(dreamBalance\.userId, (\w+(?:\.\w+)*)\)\)\.limit\(1\);\n\1if \(bal\) \{\n\1 {2}await db\.update\(dreamBalance\)\n\1 {4}\.set\(\{ dreamTokens: sql`dreamTokens \+ \$\{(\w+(?:\.\w+)*)\}` \}\)\n\1 {4}\.where\(eq\(dreamBalance\.userId, \w+(?:\.\w+)*\)\);\n\1\} else \{\n\1 {2}await db\.insert\(dreamBalance\)\.values\(\{ userId: \w+(?:\.\w+)*, dreamTokens: \w+(?:\.\w+)*, soulBoundDream: 0 \}\);\n\1\}/gm;
 
 let totalRewrites = 0;
 let touchedFiles = 0;

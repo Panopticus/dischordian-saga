@@ -80,6 +80,9 @@ import { spaceStationRouter } from "./routers/spaceStation";
 import { towerDefenseRouter } from "./routers/towerDefense";
 import { prestigeQuestRouter } from "./routers/prestigeQuests";
 import { seasonalEventsRouter } from "./routers/seasonalEvents";
+import { yearlyEventsRouter } from "./routers/yearlyEvents";
+import { worldMoodRouter } from "./routers/worldMood";
+import { memorialPlazaRouter } from "./routers/memorialPlaza";
 import { replaySystemRouter } from "./routers/replaySystem";
 import { personalQuartersRouter } from "./routers/personalQuarters";
 import { friendlyChallengesRouter } from "./routers/friendlyChallenges";
@@ -104,6 +107,7 @@ import { masteryTreeRouter } from "./routers/masteryTree";
 import { guildHallRouter } from "./routers/guildHall";
 import { guildContractsRouter } from "./routers/guildContracts";
 import { tradeEmpireRouter } from "./routers/tradeEmpire";
+import { colonyCommerceRouter } from "./routers/colonyCommerce";
 import { tradeMissionsRouter } from "./routers/tradeMissions";
 import { globalAlignmentRouter } from "./routers/globalAlignment";
 import { petBattlesRouter } from "./routers/petBattles";
@@ -242,6 +246,9 @@ export const appRouter = router({
   towerDefense: towerDefenseRouter,
   prestigeQuest: prestigeQuestRouter,
   seasonalEvents: seasonalEventsRouter,
+  yearlyEvents: yearlyEventsRouter,
+  worldMood: worldMoodRouter,
+  memorialPlaza: memorialPlazaRouter,
   replay: replaySystemRouter,
   personalQuarters: personalQuartersRouter,
   friendlyChallenge: friendlyChallengesRouter,
@@ -266,6 +273,7 @@ export const appRouter = router({
   guildHall: guildHallRouter,
   guildContracts: guildContractsRouter,
   tradeEmpire: tradeEmpireRouter,
+  colonyCommerce: colonyCommerceRouter,
   tradeMissions: tradeMissionsRouter,
   globalAlignment: globalAlignmentRouter,
   soulStones: soulStonesRouter,
@@ -437,7 +445,7 @@ export const appRouter = router({
     // (appRouter.arkThemes.get / arkThemes.set). The inline
     // gamification.getTheme / gamification.setTheme pair was
     // never referenced by client code; this extraction closes
-    // docs/design/FULL-PROJECT-AUDIT.md's "arkThemes accessed
+    // docs/archive/2026-05-08-superseded/FULL-PROJECT-AUDIT.md's "arkThemes accessed
     // inline" finding.
   }),
 });

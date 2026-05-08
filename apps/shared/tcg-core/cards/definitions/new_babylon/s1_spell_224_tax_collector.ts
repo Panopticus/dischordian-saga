@@ -44,6 +44,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Payment is due. The currency is flexible. The deadline is not.",
   rulesVersion: "1.1.0",
-  trial_categories: ["offensive"] as const,
+  trial_categories: ["evidence", "offensive"] as const,
   verdict_delta: 1,
 };

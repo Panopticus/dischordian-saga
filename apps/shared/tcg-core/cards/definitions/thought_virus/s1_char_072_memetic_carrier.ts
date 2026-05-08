@@ -17,7 +17,7 @@ export const cardDef: CardDefinition = {
   rarity: "common",
   cost: 2,
   baseStats: { power: 2, health: 3 },
-  keywords: ["deathwatch"],
+  keywords: [],
   abilities: [
     {
       id: "mc_deathwatch_power" as CardDefinition["abilities"][number]["id"],
@@ -28,8 +28,7 @@ export const cardDef: CardDefinition = {
         duration: { kind: "permanent" },
         to: { kind: "self" },
       },
-    },
-  ],
+    }],
   art: assetUrl("art/cards/s1_char_072.webp"),
   flavorText:
     "It does not spread through contact. It spreads through comprehension.",

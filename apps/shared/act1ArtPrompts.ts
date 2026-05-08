@@ -2,7 +2,7 @@
    ACT 1 ART PROMPTS — canonical prompt catalog
 
    Nano Banana 2 prompts for the Act 1 asset delivery queue
-   per docs/production/ACT_1_SHIP_READY_BIBLE.md §22.
+   per docs/archive/2026-05-08-superseded/ACT_1_SHIP_READY_BIBLE.md §22.
 
    This module defines the canonical, canonical-id-keyed prompt
    set. apps/scripts/generate-act1-art-csv.ts consumes it to

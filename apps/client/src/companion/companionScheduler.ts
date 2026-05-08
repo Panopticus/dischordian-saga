@@ -23,7 +23,6 @@ const LINE_REGISTRY: Map<string, CompanionLine> = new Map();
 function registerLines(lines: readonly CompanionLine[]) {
   for (const line of lines) {
     if (LINE_REGISTRY.has(line.lineId) && process.env.NODE_ENV !== "production") {
-      // eslint-disable-next-line no-console
       console.warn(`[companionScheduler] duplicate lineId: ${line.lineId}`);
     }
     LINE_REGISTRY.set(line.lineId, line);
@@ -143,7 +142,6 @@ export function enqueue(lineIdOrRef: string): boolean {
   const line = LINE_REGISTRY.get(resolvedId);
   if (!line) {
     if (process.env.NODE_ENV !== "production") {
-      // eslint-disable-next-line no-console
       console.warn(`[companionScheduler] unknown lineId: ${lineIdOrRef}`);
     }
     return false;

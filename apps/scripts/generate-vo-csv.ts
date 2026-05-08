@@ -25,7 +25,7 @@
      pnpm vo:generate-csv --output-dir <dir>
      pnpm vo:generate-csv --priority P0        # override row priority
 
-   CSV column contract (matches docs/production/SHIP_READY_ASSET_BIBLE.md §4):
+   CSV column contract (matches docs/archive/2026-05-08-superseded/SHIP_READY_ASSET_BIBLE.md §4):
      id,character,voice_profile,stability,similarity,style,
      speaker_boost,text,direction,priority
 

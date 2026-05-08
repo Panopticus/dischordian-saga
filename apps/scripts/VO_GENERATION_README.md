@@ -190,7 +190,7 @@ All 107 spine lines have real ElevenLabs voice IDs. Run `pnpm vo:spine`
 to generate the full batch.
 
 Presets + direction live in
-`docs/production/ACTS_2_THROUGH_7_ASSET_BIBLE.md` §0 (voice registry).
+`docs/archive/2026-05-08-superseded/ACTS_2_THROUGH_7_ASSET_BIBLE.md` §0 (voice registry).
 
 ### Voice IDs filled in 2026-04-23
 

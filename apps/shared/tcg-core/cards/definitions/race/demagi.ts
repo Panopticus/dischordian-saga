@@ -35,7 +35,7 @@ export const demagi_02: CardDefinition = {
   rarity: "rare",
   cost: 3,
   baseStats: { power: 3, health: 4 },
-  keywords: ["drain", "deathwatch"],
+  keywords: ["drain"],
   abilities: [],
   art: assetUrl("art/cards/race/s1_race_demagi_02.webp"),
   flavorText:
@@ -53,7 +53,7 @@ export const demagi_03: CardDefinition = {
   rarity: "legendary",
   cost: 6,
   baseStats: { power: 6, health: 7 },
-  keywords: ["drain", "deathwatch", "provoke"],
+  keywords: ["drain", "provoke"],
   abilities: [],
   art: assetUrl("art/cards/race/s1_race_demagi_03.webp"),
   flavorText:
@@ -64,5 +64,4 @@ export const demagi_03: CardDefinition = {
 };
 
 export const DEMAGI_RACE_CARDS: readonly CardDefinition[] = Object.freeze([
-  demagi_01, demagi_02, demagi_03,
-]);
+  demagi_01, demagi_02, demagi_03]);

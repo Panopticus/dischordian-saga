@@ -3201,6 +3201,18 @@ export const cosmeticCatalogOwnership = mysqlTable("cosmetic_catalog_ownership",
   pricePaid: int("pricePaid").notNull().default(0),
   /** Optional: SKU key that granted this when source="bundle". */
   bundleSkuKey: varchar("bundleSkuKey", { length: 100 }),
+  /**
+   * World-weave provenance — the latest seal broken, active yearly
+   * event, and dominant horseman at craft/grant time. Forward-only;
+   * never backfilled on existing rows. Drives the cosmetic-tooltip
+   * "Forged under the Pale Horse, Severance Year 3" line.
+   */
+  provenance: json("provenance").$type<{
+    latestSeal?: number;
+    activeYearly?: string;
+    dominantHorseman?: "conquest" | "war" | "famine" | "death";
+    stampedAt?: string;
+  } | null>(),
   grantedAt: timestamp("grantedAt").defaultNow().notNull(),
 }, (table) => ({
   userIdIdx: index("idx_cosmetic_catalog_ownership_user").on(table.userId),
@@ -5928,6 +5940,108 @@ export type TradeEmpireUserAggregateRow =
   typeof tradeEmpireUserAggregates.$inferSelect;
 
 /* ═══════════════════════════════════════════════════════
+   COLONY COMMERCE TABLES — Trade Empire Phase B extension.
+   Three normalized tables backing the Veska / Inception-Ark
+   founding-lane surface. See apps/shared/tradeEmpire/colonyCommerce.ts
+   for the type + economics canon and apps/server/routers/colonyCommerce.ts
+   for the runtime.
+   ═══════════════════════════════════════════════════════ */
+
+/**
+ * Active colony lane. One row per founding voyage in flight; on
+ * arrival, the row's status flips to "arrived" and a colonyWorlds
+ * row is created in the same transaction.
+ */
+export const colonyLanes = mysqlTable("colony_lanes", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  /** Stable lane id (e.g., "lane_<userId>_<bloodlineKey>_<sectorId>_<signedAt>"). */
+  laneId: varchar("laneId", { length: 192 }).notNull(),
+  sectorId: varchar("sectorId", { length: 128 }).notNull(),
+  /** ColonyVesselClass — colony_ship_basic / arkforge / panoptic. */
+  vesselClass: varchar("vesselClass", { length: 64 }).notNull(),
+  /**
+   * Bloodline being seeded. References crewBloodlines.bloodlineKey
+   * via the (userId, bloodlineKey) composite — application-level FK,
+   * not a hard SQL FK because crewBloodlines.bloodlineKey is unique
+   * only within (userId, bloodlineKey).
+   */
+  bloodlineKey: varchar("bloodlineKey", { length: 64 }).notNull(),
+  signedAt: bigint("signedAt", { mode: "number" }).notNull(),
+  durationMs: bigint("durationMs", { mode: "number" }).notNull(),
+  /** Dream tokens charged at signing, AFTER founding-tariff + founder discounts. */
+  tariffPaid: int("tariffPaid").notNull().default(0),
+  /** "in_voyage" | "arrived" | "abandoned" */
+  status: varchar("status", { length: 24 }).notNull().default("in_voyage"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => ({
+  userIdIdx: index("idx_colony_lanes_user_id").on(table.userId),
+  userLaneUniq: uniqueIndex("uniq_colony_lanes_user_lane").on(
+    table.userId,
+    table.laneId,
+  ),
+  userStatusIdx: index("idx_colony_lanes_user_status").on(
+    table.userId,
+    table.status,
+  ),
+}));
+export type ColonyLaneRow = typeof colonyLanes.$inferSelect;
+export type InsertColonyLane = typeof colonyLanes.$inferInsert;
+
+/**
+ * Founded colony world. One row per seeded sector. The colony's
+ * generation count ticks via recordGenerationTick; first export
+ * fires when the count crosses FIRST_EXPORT_GENERATION (= 2).
+ */
+export const colonyWorlds = mysqlTable("colony_worlds", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  /** Stable colony id (mirrors the lane id that birthed it for traceability). */
+  colonyId: varchar("colonyId", { length: 192 }).notNull(),
+  sectorId: varchar("sectorId", { length: 128 }).notNull(),
+  bloodlineKey: varchar("bloodlineKey", { length: 64 }).notNull(),
+  /** Veska's harbor ledger writes the colony's name on signing. */
+  name: varchar("name", { length: 128 }).notNull(),
+  foundedAt: timestamp("foundedAt").defaultNow().notNull(),
+  currentGeneration: int("currentGeneration").notNull().default(1),
+  /** ms-since-epoch of the last export tick; null until first export. */
+  lastExportAt: bigint("lastExportAt", { mode: "number" }),
+  totalExportValue: int("totalExportValue").notNull().default(0),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  userIdIdx: index("idx_colony_worlds_user_id").on(table.userId),
+  userColonyUniq: uniqueIndex("uniq_colony_worlds_user_colony").on(
+    table.userId,
+    table.colonyId,
+  ),
+  userSectorIdx: index("idx_colony_worlds_user_sector").on(
+    table.userId,
+    table.sectorId,
+  ),
+}));
+export type ColonyWorldRow = typeof colonyWorlds.$inferSelect;
+export type InsertColonyWorld = typeof colonyWorlds.$inferInsert;
+
+/**
+ * Per-user founder progress. Single row per user; updated on each
+ * arrival to keep the founder-tier and discount-bps hot-readable
+ * without a COUNT over colonyWorlds.
+ */
+export const colonyFounderProgress = mysqlTable("colony_founder_progress", {
+  userId: int("userId").primaryKey().references(() => users.id, { onDelete: "cascade" }),
+  totalColoniesFounded: int("totalColoniesFounded").notNull().default(0),
+  /** 0..4 — see resolveFounderTier in colonyCommerce.ts. */
+  founderTier: int("founderTier").notNull().default(0),
+  /** Last time founderTier ticked up; null if no tier crossed yet. */
+  lastTierAt: timestamp("lastTierAt"),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+export type ColonyFounderProgressRow =
+  typeof colonyFounderProgress.$inferSelect;
+export type InsertColonyFounderProgress =
+  typeof colonyFounderProgress.$inferInsert;
+
+/* ═══════════════════════════════════════════════════════
    PHASE 6 INFRASTRUCTURE — Per-NPC ask-topics + dialog tree state
    See apps/shared/npcs/askTopics.ts (AskTopic registry) +
    apps/shared/npcs/dialogTrees/ (per-NPC trees) +
@@ -7239,7 +7353,7 @@ export const soulStones = mysqlTable("soul_stones", {
 export type SoulStonesRow = typeof soulStones.$inferSelect;
 
 /* ─────────────────────────────────────────────────────────────────
- * PET BREEDING (docs/production/BREEDING_SYSTEM_ART_PROMPTS.md)
+ * PET BREEDING (docs/archive/2026-05-08-superseded/BREEDING_SYSTEM_ART_PROMPTS.md)
  * Pair-based breeding: parentA + parentB → offspring with combined
  * traits. `status` walks queued → incubating → ready → claimed/cancelled.
  * Offspring stats are computed at completion and stored in the
@@ -7368,3 +7482,106 @@ export const apprenticeRomanceArc = mysqlTable("apprentice_romance_arc", {
   userIdx: index("idx_ara_user").on(t.userId),
 }));
 export type ApprenticeRomanceArcRow = typeof apprenticeRomanceArc.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
+   WORLD WEAVE — yearly events, ripple ledger, memorial plaza
+
+   See:
+     - apps/shared/yearlyEvents.ts (canonical defs)
+     - apps/server/services/yearlyEventScheduler.ts (activates / closes)
+     - apps/server/services/rippleLedgerService.ts (ledger writer)
+     - apps/server/services/worldMoodService.ts (reads via player flags)
+   ═══════════════════════════════════════════════════════ */
+
+/**
+ * One row per scheduled yearly event. The scheduler activates rows
+ * on `anchorMonth/anchorDay` and closes them after `durationDays`,
+ * emitting a governance motion via `closingMotionKey` on close.
+ */
+export const yearlyEvents = mysqlTable("yearly_events", {
+  id: int("id").autoincrement().primaryKey(),
+  /** Stable key — see `apps/shared/yearlyEvents.ts` `YearlyEventKey`. */
+  eventKey: varchar("eventKey", { length: 64 }).notNull(),
+  anchorMonth: int("anchorMonth").notNull(), // 1-12
+  anchorDay: int("anchorDay").notNull(),     // 1-31
+  durationDays: int("durationDays").notNull().default(7),
+  /** Composed via closingMotionKeyForYear(key, year). */
+  closingMotionKey: varchar("closingMotionKey", { length: 96 }),
+  /** Year this row represents (e.g. 2026). */
+  activeYear: int("activeYear").notNull(),
+  activatedAt: timestamp("activatedAt"),
+  resolvedAt: timestamp("resolvedAt"),
+  /**
+   * If activation came from a seal-break override (Severance/Memorial),
+   * the seal number that triggered it. NULL = calendar activation.
+   */
+  triggeredBySeal: int("triggeredBySeal"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => ({
+  uniqEventYear: uniqueIndex("uniq_event_year").on(table.eventKey, table.activeYear),
+  idxActivatedAt: index("idx_yearly_events_activated_at").on(table.activatedAt),
+}));
+export type YearlyEventRow = typeof yearlyEvents.$inferSelect;
+export type InsertYearlyEvent = typeof yearlyEvents.$inferInsert;
+
+/** Per-player participation in a yearly event. */
+export const yearlyEventParticipation = mysqlTable("yearly_event_participation", {
+  id: int("id").autoincrement().primaryKey(),
+  eventId: int("eventId").notNull().references(() => yearlyEvents.id, { onDelete: "cascade" }),
+  userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  contribution: int("contribution").notNull().default(0),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => ({
+  uniqEventUser: uniqueIndex("uniq_event_user").on(table.eventId, table.userId),
+  idxUser: index("idx_yep_user").on(table.userId),
+}));
+export type YearlyEventParticipationRow = typeof yearlyEventParticipation.$inferSelect;
+
+/**
+ * Ripple ledger — every cross-system ripple emit is appended here for
+ * the World Tapestry recent-ripples ticker. A daily prune cron drops
+ * rows older than 30 days.
+ */
+export const rippleEvents = mysqlTable("ripple_events", {
+  id: bigint("id", { mode: "number" }).autoincrement().primaryKey(),
+  eventType: varchar("eventType", { length: 96 }).notNull(),
+  userId: int("userId").references(() => users.id, { onDelete: "set null" }),
+  /** WovenSystemId or "none". */
+  fromSystem: varchar("fromSystem", { length: 48 }),
+  /** JSON array of WovenSystemId values. */
+  toSystems: json("toSystems").$type<string[]>(),
+  /** Truncated event body (no PII). */
+  payload: json("payload").$type<Record<string, unknown> | null>(),
+  emittedAt: timestamp("emittedAt").defaultNow().notNull(),
+}, (table) => ({
+  idxEmittedAt: index("idx_ripple_events_emitted_at").on(table.emittedAt),
+  idxUserEmittedAt: index("idx_ripple_events_user_emitted_at").on(table.userId, table.emittedAt),
+  idxEventType: index("idx_ripple_events_event_type").on(table.eventType),
+}));
+export type RippleEventRow = typeof rippleEvents.$inferSelect;
+export type InsertRippleEvent = typeof rippleEvents.$inferInsert;
+
+/**
+ * Memorial Plaza inscriptions (Phase 5 / Seal V). Each player can
+ * inscribe one imprint name per Memorial Day; high-tier donors can
+ * inscribe to the global plaza visible to every player.
+ */
+export const memorialInscriptions = mysqlTable("memorial_inscriptions", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  /** Free-form imprint name as inscribed. */
+  inscribedName: varchar("inscribedName", { length: 120 }).notNull(),
+  /** Year of the Memorial Day this inscription belongs to. */
+  memorialYear: int("memorialYear").notNull(),
+  /**
+   * "personal" — visible only on this player's quarters
+   * "global"   — visible everywhere; reserved for top donors
+   */
+  scope: mysqlEnum("scope", ["personal", "global"]).notNull().default("personal"),
+  inscribedAt: timestamp("inscribedAt").defaultNow().notNull(),
+}, (table) => ({
+  uniqUserYear: uniqueIndex("uniq_memorial_user_year").on(table.userId, table.memorialYear, table.inscribedName),
+  idxYearScope: index("idx_memorial_year_scope").on(table.memorialYear, table.scope),
+}));
+export type MemorialInscriptionRow = typeof memorialInscriptions.$inferSelect;
+export type InsertMemorialInscription = typeof memorialInscriptions.$inferInsert;

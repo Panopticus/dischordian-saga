@@ -45,7 +45,7 @@ const entries = JSON.parse(
 ) as EngineerLineEntry[];
 
 describe("engineer-lines.json", () => {
-  it("has exactly one entry per ENGINEER_LOGS catalog entry (42 expected today)", () => {
+  it("has exactly one entry per ENGINEER_LOGS catalog entry (45 expected today — 42 + 3 system tutors)", () => {
     expect(entries.length).toBe(ENGINEER_LOGS.length);
   });
 

@@ -36,7 +36,7 @@ export const the_necromancer_t2: CardDefinition = {
   rarity: "uncommon",
   cost: 3,
   baseStats: { power: 3, health: 3 },
-  keywords: ["deathwatch"],
+  keywords: [],
   abilities: [],
   art: assetUrl("art/cards/imprint/necromancer_t2.webp"),
   flavorText:
@@ -54,7 +54,7 @@ export const the_necromancer_t3: CardDefinition = {
   rarity: "rare",
   cost: 4,
   baseStats: { power: 4, health: 4 },
-  keywords: ["deathwatch", "rebirth"],
+  keywords: ["rebirth"],
   abilities: [],
   art: assetUrl("art/cards/imprint/necromancer_t3.webp"),
   flavorText:
@@ -72,7 +72,7 @@ export const the_necromancer_t4: CardDefinition = {
   rarity: "epic",
   cost: 5,
   baseStats: { power: 5, health: 5 },
-  keywords: ["deathwatch", "rebirth"],
+  keywords: ["rebirth"],
   abilities: [
     {
       id: "nec_t4_heal_on_kill" as CardDefinition["abilities"][number]["id"],
@@ -82,8 +82,7 @@ export const the_necromancer_t4: CardDefinition = {
         amount: { kind: "const", value: 2 },
         to: { kind: "self" },
       },
-    },
-  ],
+    }],
   art: assetUrl("art/cards/imprint/necromancer_t4.webp"),
   flavorText:
     "Deathwatch. Rebirth. Heals for 2 when he deals damage. Every strike leaves a flower of bone-white light behind where the target used to stand.",
@@ -100,7 +99,7 @@ export const the_necromancer_t5: CardDefinition = {
   rarity: "legendary",
   cost: 7,
   baseStats: { power: 6, health: 7 },
-  keywords: ["deathwatch", "rebirth", "drain"],
+  keywords: ["rebirth", "drain"],
   abilities: [],
   art: assetUrl("art/cards/imprint/necromancer_t5.webp"),
   flavorText:
@@ -115,5 +114,4 @@ export const THE_NECROMANCER_IMPRINT_SET: readonly CardDefinition[] = Object.fre
   the_necromancer_t2,
   the_necromancer_t3,
   the_necromancer_t4,
-  the_necromancer_t5,
-]);
+  the_necromancer_t5]);

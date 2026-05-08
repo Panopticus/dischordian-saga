@@ -31,7 +31,7 @@ export const cardDef: CardDefinition = {
   rarity: "epic",
   cost: 5,
   baseStats: { power: 4, health: 5 },
-  keywords: ["deathwatch"],
+  keywords: [],
   abilities: [
     {
       id: "kpz_deathwatch_ping" as CardDefinition["abilities"][number]["id"],
@@ -41,8 +41,7 @@ export const cardDef: CardDefinition = {
         amount: { kind: "const", value: 1 },
         to: { kind: "enemy_general" },
       },
-    },
-  ],
+    }],
   art: assetUrl("art/cards/s1_pack_id_kael_patient_zero.webp"),
   flavorText:
     "The infection spreads through grief. Every death feeds the signal.",

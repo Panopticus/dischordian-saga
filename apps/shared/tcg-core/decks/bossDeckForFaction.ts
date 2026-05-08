@@ -37,7 +37,6 @@ const PANOPTICON_BOSS_DECK: readonly string[] = Object.freeze([
 ]);
 
 // Compile-time deck-size invariant.
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const _panopticonSize: 39 = PANOPTICON_BOSS_DECK.length as 39;
 
 /**

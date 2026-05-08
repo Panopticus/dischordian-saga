@@ -377,13 +377,15 @@ import { ENGINEER_LOGS_FACTIONS } from "./engineerLogs_factions";
 import { ENGINEER_LOGS_BLOODBORN } from "./engineerLogs_bloodborn";
 import { ENGINEER_LOGS_TRIGGERS } from "./engineerLogs_triggers";
 import { ENGINEER_LOGS_LIONS_CLUB } from "./engineerLogs_lionsClub";
+import { ENGINEER_LOGS_SYSTEM_TUTORS } from "./engineerLogs_systemTutors";
 
 /**
  * All Engineer's Logs currently authored.
  * Phase A6-A12 complete: 5 seed keywords + 4 keyword batches
  * (20 total), 7 factions, 7 bloodborn spells, 7 triggers = 41
- * logs out of the ~46 target. The remaining slots are reserved
- * for additional keywords that get added in future card sets.
+ * logs out of the ~46 target. Phase B (discovery-gate sheet)
+ * adds 3 system-tutor logs (crafting / dream substrate / respec)
+ * delivered as Engineer's Logs instead of live cinematics.
  */
 export const ENGINEER_LOGS: readonly EngineerLog[] = Object.freeze([
   LOG_KEYWORD_PROVOKE,
@@ -398,6 +400,7 @@ export const ENGINEER_LOGS: readonly EngineerLog[] = Object.freeze([
   ...ENGINEER_LOGS_BLOODBORN,
   ...ENGINEER_LOGS_TRIGGERS,
   ...ENGINEER_LOGS_LIONS_CLUB,
+  ...ENGINEER_LOGS_SYSTEM_TUTORS,
 ]);
 
 /**

@@ -7,7 +7,7 @@ import { assetUrl } from "@/lib/assetUrl";
    SVP of Kinetic Acquisition, Hierarchy of the Damned.
    
    Asset source: s3://dgrsart/dmc_game_assets.zip
-   Production doc: docs/production/DEAD_MANS_CIRCUIT_PRODUCTION.md
+   Production doc: docs/archive/2026-05-08-superseded/DEAD_MANS_CIRCUIT_PRODUCTION.md
    ═══════════════════════════════════════════════════════ */
 
 /* ─── ENVIRONMENT ART (1920×1080 JPG) ─── */

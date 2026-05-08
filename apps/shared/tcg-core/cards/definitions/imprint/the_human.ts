@@ -79,8 +79,7 @@ export const the_human_t3: CardDefinition = {
         amount: { kind: "const", value: 1 },
         who: "self",
       },
-    },
-  ],
+    }],
   art: assetUrl("art/cards/imprint/human_t3.webp"),
   flavorText:
     "Backstab. On deploy, draw a card. He does not enter a room without already having read the case file the room is about.",
@@ -100,7 +99,7 @@ export const the_human_t4: CardDefinition = {
   rarity: "epic",
   cost: 5,
   baseStats: { power: 5, health: 5 },
-  keywords: ["backstab", "deathwatch"],
+  keywords: ["backstab"],
   abilities: [
     {
       id: "th_t4_draw" as CardDefinition["abilities"][number]["id"],
@@ -110,8 +109,7 @@ export const the_human_t4: CardDefinition = {
         amount: { kind: "const", value: 1 },
         who: "self",
       },
-    },
-  ],
+    }],
   art: assetUrl("art/cards/imprint/human_t4.webp"),
   flavorText:
     "Backstab. Deathwatch. On deploy, draw a card. Every corpse is a paragraph in a case file he has been writing since Mechronis. He reads from them on the way to work.",
@@ -133,7 +131,7 @@ export const the_human_t5: CardDefinition = {
   rarity: "legendary",
   cost: 6,
   baseStats: { power: 6, health: 7 },
-  keywords: ["backstab", "deathwatch"],
+  keywords: ["backstab"],
   abilities: [
     {
       id: "th_t5_draw" as CardDefinition["abilities"][number]["id"],
@@ -143,8 +141,7 @@ export const the_human_t5: CardDefinition = {
         amount: { kind: "const", value: 2 },
         who: "self",
       },
-    },
-  ],
+    }],
   art: assetUrl("art/cards/imprint/human_t5.webp"),
   flavorText:
     "Backstab. Deathwatch. On deploy, draw two cards. The Twelfth Archon was appointed by a Panopticon that did not yet understand what kind of organism it was appointing. He has been writing his response ever since, and it is long, and it has footnotes, and you are probably in it.",
@@ -159,5 +156,4 @@ export const THE_HUMAN_IMPRINT_SET: readonly CardDefinition[] = Object.freeze([
   the_human_t2,
   the_human_t3,
   the_human_t4,
-  the_human_t5,
-]);
+  the_human_t5]);

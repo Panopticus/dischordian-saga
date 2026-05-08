@@ -80,9 +80,9 @@ Classification: SHIPPED (runtime + DB + tests) / PARTIAL / SCAFFOLDED (data-only
 
 ### UNBUILT (production briefs with no runtime)
 
-- **Pet/Specimen Breeding** (`docs/production/BREEDING_SYSTEM_ART_PROMPTS.md`). No `petBreeding` / `breedingPair` table. `crewBreeding.ts` + test exists but is roster lineage logic, not the breeding mechanic the brief describes; `bloodClassification.ts` is lore-only. Listed in `featureRoadmap.ts`.
+- **Pet/Specimen Breeding** (`docs/archive/2026-05-08-superseded/BREEDING_SYSTEM_ART_PROMPTS.md`; folded into `docs/ART_DEPARTMENT_PRODUCTION.md` §2.16 + §6). No `petBreeding` / `breedingPair` table. `crewBreeding.ts` + test exists but is roster lineage logic, not the breeding mechanic the brief describes; `bloodClassification.ts` is lore-only. Listed in `featureRoadmap.ts`.
 - **Living Character Sheet** (`docs/production/LIVING_CHARACTER_SHEET_ART_BRIEF.md`). **Zero hits** for `livingCharacterSheet` / `LivingCharacterSheet` anywhere in `apps/`. Pure art brief.
-- **Dead Man's Circuit** (`docs/production/DEAD_MANS_CIRCUIT_PRODUCTION.md`). Lives as an external Godot project under `games/dead-mans-circuit/`. Only bridges (`apps/shared/crewDmcBridge.ts`, `crossGameNarrativeThreads.ts`) exist in this monorepo — by design, but flagging it for audit completeness.
+- **Dead Man's Circuit** (`docs/archive/2026-05-08-superseded/DEAD_MANS_CIRCUIT_PRODUCTION.md`; folded into `docs/ART_DEPARTMENT_PRODUCTION.md` §3.3 + §2.11). Lives as an external Godot project under `games/dead-mans-circuit/`. Only bridges (`apps/shared/crewDmcBridge.ts`, `crossGameNarrativeThreads.ts`) exist in this monorepo — by design, but flagging it for audit completeness.
 
 ---
 

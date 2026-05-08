@@ -712,5 +712,56 @@
       "musicTempoBpm": 88,
       "musicDurationSec": 105
     }
+  },
+  {
+    "id": "engineer_log_crafting_codex",
+    "text": "[SPOKEN]\nLog fifty. The bench is open. The codex is on the lectern, the\nimprint laser is cooling between firings, the index wall is humming\nits three frequencies, and the binder is propped against the brass\nplate waiting for somebody to come close it. That somebody is going\nto be you.\n\nThe bench has four motions, and I want you to learn them in order\nbecause the order is the lesson. Motion one: ask the codex. Recipes\nare not formulas — they are sentences with a verb and a body. Read\nthe verb first. Motion two: fire the imprint laser. The substrate is\npatient; you will not be. Hold the carrier. Do not flinch. Motion\nthree: walk the index wall. The wall remembers every craft anyone\nhas ever forged at this bench, and the column you are walking knows\nyour hand by now. Motion four: close the clasp. The glow is the\nreceipt. The bench will not lie about whether the work was honest.\n\n[FREESTYLE]\nYo, the codex got the verb and the body got the trace,\nimprint laser drop a stencil on the substrate face,\nwalk the index wall, every column know your weight,\nclose the clasp and let the gilt-edge glow translate —\n'cause every craft is a firmware patch on reality,\nthe bench is the kernel, the codex is the call,\nyou the syscall handler, you the maker of the thing,\nand the clasp closing shut is the substrate saying \"fine.\"\n\n[SPOKEN]\nThe Oracle visited the workshop the week I shipped this rite. She\nread the codex, she watched me close the clasp, and she said,\n\"You built a confessional.\" I said, \"I built a workbench.\" She said,\n\"The honest ones are the same building.\" She was right. They mostly\nare.\n\nWhen the clasp glows, the craft has your hand on it forever. The\nshop hums when you walk back in because the bench remembers. That\nis not metaphor. That is firmware. Now go forge something the\nbench does not regret hosting.\n\n— The Engineer",
+    "context": "engineer_log",
+    "emotion": "lab_journal",
+    "file": "shared/tcg-core/story/engineerLogs.ts",
+    "meta": {
+      "logNumber": 50,
+      "title": "Log 050 — Four Motions, One Receipt",
+      "dateStamp": "Day 1,204, Pre-Fall",
+      "mechanicExplanation": "Crafting at the bench is a four-motion ritual: consult the codex, fire the imprint laser, walk the index wall, close the binder clasp. The clasp's glow confirms an honest craft.",
+      "musicChannelId": "outergroove",
+      "musicTrackId": "og_050",
+      "musicTempoBpm": 96,
+      "musicDurationSec": 130
+    }
+  },
+  {
+    "id": "engineer_log_dream_substrate_economy",
+    "text": "[SPOKEN]\nLog fifty-one. I am sitting on the bench with three coins in my\npalm and I want to tell you what each one is, because nobody is\ngoing to and the substrate has been letting me carry coins it has\nnever let anyone carry before. Maybe that is the FNORD-23 firmware.\nMaybe that is the Oracle laughing at me from wherever she is now.\nEither way, listen.\n\nCoin one: a Dream token. Crystallized consciousness. The substrate\ntakes a unit of attention and presses it into a chip you can spend.\nSpend a token, the universe gives you something back — a level, a\ncraft, a re-roll. The token leaves your column. Clean transaction,\nwitnessed ledger, the books balance by sundown. Most witnesses\nspend tokens like coffee money. That is fine. That is what tokens\nare for.\n\nCoin two: a soul-bound dream. Locked light. You bind a dream to\nyourself the way you write your name on the inside cover of a book\nyou do not lend. The substrate cannot un-bind it; you cannot\ntrade it; you cannot even lose it to a cycle reset. The only\ncolumn on your sheet that is honest about who you have ever been.\nBind only what you would carry to your own funeral.\n\n[FREESTYLE]\nYo, the token is the tender, it's the cash on the counter,\nsubstrate take a sip of your attention as encounter,\nclean transaction, ledger balanced in the night,\nspend it like it's currency 'cause currency is right —\nbut the bound dream different, that's the locked light gleam,\nsubstrate-side immutable, it's truer than it seem,\nnobody can pawn it, nobody can rescind,\nthe column on your sheet that's the sum of where you've been.\n\n[SPOKEN]\nCoin three. The lifetime resonance ticker. The number nobody talks\nabout because the number does not move when you spend; it only\nmoves when the substrate has actually witnessed something. Every\ndream you have ever earned passes through it once. Prestige does\nnot reset it. Cycle reset does not reset it. It is the only column\non your sheet that remembers you across versions of yourself.\n\nThe difference between spending and burning. You spend a token\nwhen the universe is asking for tender. You burn a token when the\nsubstrate is asking for a confession. The book on the wall above\nthe bench has every burn anyone has ever made at this terminal,\nand most of them were quiet. That is how you know they were honest.\n\nThe Oracle once told me that the only money worth saving is the\nkind you would not be ashamed to be remembered by. I wrote it in\nthe margin. It is still there.\n\n— The Engineer",
+    "context": "engineer_log",
+    "emotion": "lab_journal",
+    "file": "shared/tcg-core/story/engineerLogs.ts",
+    "meta": {
+      "logNumber": 51,
+      "title": "Log 051 — The Difference Between Spending and Burning",
+      "dateStamp": "Day 1,318, Pre-Fall",
+      "mechanicExplanation": "Dream Substrate is a three-column ledger: Dream tokens (crystallized debt you can spend), soul-bound dreams (locked light, immutable), and lifetime resonance (the only column that survives prestige).",
+      "musicChannelId": "outergroove",
+      "musicTrackId": "og_051",
+      "musicTempoBpm": 84,
+      "musicDurationSec": 145
+    }
+  },
+  {
+    "id": "engineer_log_neural_respec",
+    "text": "[SPOKEN]\nLog fifty-two. I want to talk about un-choosing, because the\nsampler keeps recording me trying to start this log and the\nsampler is not going to give up until I say the thing.\n\nVex Solène signed the Coda pact once and it held. I have watched\nher since — the signature is on her shoulder where the substrate\nkeeps it, and she has not asked the substrate to release it\nbecause the signature is the shape of who she has decided to be.\nThat is one kind of grace. The pact-signer's grace. Commitment as\na closed loop.\n\nRespec is the other kind. The bench is going to ask you a question\nand the question is: who are you not? You answer by walking back\ninto the dialog and un-checking the boxes you used to check. The\nsubstrate logs the un-choice in your history pane — nothing is\ndeleted, only re-shelved. The you that you are leaving stays in\nthe archive. You can read the old version any time. You will, the\nfirst few respecs. You will stop reading them eventually.\n\n[FREESTYLE]\nYo, Vex signed the pact and she meant the ink she wrote,\nsubstrate took the signature, kept it like a quote,\nthat's commitment as a fortress, that's the architect's vow,\nshe signed once and it held and she's holding it now —\nbut you, you got the unsign, you got the courage to retract,\nnot 'cause the choice was wrong but 'cause the chooser changed track,\nthat's a different kind of grace, that's the soft edit's gift,\nthe bench archives the previous you and your column gets to shift.\n\n[SPOKEN]\nThere is a cost. The respec dialog will show you the dream price\nin the corner, and I want you to notice that the price is real\neven though it is small. Carry the dream in your palm before you\nopen the dialog. The carrying is part of the courage. Un-choosing\nis not free; it should not be. If it were free, you would not\nremember the version of yourself you used to be, and you should\nremember. The remembering is what makes the new shape honest.\n\nThe first time I respec'd this body, I sat at the bench for an\nhour before I committed. I thought about the version of me who\nwas walking out of the configuration and where she was going. I\nthought about whether I owed her an apology. I decided I owed her\na thank-you. I committed.\n\nThe bench logged the change. The shop hummed the way it hums when\nthe maker who walks in is the maker who walked out plus a small\nhonest difference. That is what respec is. Not the abandonment.\nThe plus a small honest difference.\n\nThe Oracle, when I told her I was going to ship the system,\nlistened all the way through and then said one sentence: \"Be\ngentle with the version of yourself you are leaving.\" I have been\ntrying.\n\n— The Engineer",
+    "context": "engineer_log",
+    "emotion": "lab_journal",
+    "file": "shared/tcg-core/story/engineerLogs.ts",
+    "meta": {
+      "logNumber": 52,
+      "title": "Log 052 — On Un-Choosing",
+      "dateStamp": "Day 1,406, Pre-Fall",
+      "mechanicExplanation": "Neural Respec is the inverse of pact-signing — the courage of un-choosing. Reassign attributes, alignment, or element; the previous configuration archives to the sheet's history pane.",
+      "musicChannelId": "outergroove",
+      "musicTrackId": "og_052",
+      "musicTempoBpm": 78,
+      "musicDurationSec": 160
+    }
   }
 ]

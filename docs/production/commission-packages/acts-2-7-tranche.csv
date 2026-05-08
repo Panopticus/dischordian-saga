@@ -10,7 +10,7 @@ asset_id,type,tool,prompt_ref,output_path,dependencies,status,notes
 # locally, which we cannot verify from the CDN. Music for Act 2 is
 # partially shipped (3/4 stingers); Act 3 music is fully outstanding.
 # ─── ACT 2 OPENERS + VFX + CINEMATICS + MUSIC ──────────────────────────────
-vfx_act2_substrate_layer,still,procedural,ACTS_2_TO_7_PRODUCTION_BIBLE.md §1.1,apps/client/public/vfx-atlases/acts/act-2/substrate_layer.png,,delivered,Procedural — Substance 3D tile
+vfx_act2_substrate_layer,still,procedural,docs/ART_DEPARTMENT_PRODUCTION.md §1.1,apps/client/public/vfx-atlases/acts/act-2/substrate_layer.png,,delivered,Procedural — Substance 3D tile
 vfx_act2_bench_glow_light,still,procedural,§1.1,apps/client/public/vfx-atlases/acts/act-2/bench_glow_light.png,,delivered,
 vfx_act2_bench_glow_dark,still,procedural,§1.1,apps/client/public/vfx-atlases/acts/act-2/bench_glow_dark.png,,delivered,
 vfx_act2_chess_depth_ring,still,procedural,§1.1,apps/client/public/vfx-atlases/acts/act-2/chess_depth_ring.png,,delivered,8 concentric annuli

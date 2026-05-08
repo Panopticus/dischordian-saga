@@ -153,7 +153,6 @@ export default function FamilyTreeView({ state }: Props) {
       }
     }
     setLineCoords(coords);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [nodes, filter, zoom, pan]);
 
   if (all.length === 0) {

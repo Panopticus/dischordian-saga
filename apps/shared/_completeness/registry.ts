@@ -40,6 +40,11 @@ import { checkSchemaOrphanColumns } from "./checks/schemaOrphanColumns";
 import { checkNotificationEnumProducers } from "./checks/notificationEnumProducers";
 import { checkApprenticeAuthoringCoverage } from "./checks/apprenticeAuthoringCoverage";
 import { checkCommonsSceneCoverage } from "./checks/commonsSceneCoverage";
+import { checkWovenSystemRippleCoverage } from "./checks/wovenSystemRippleCoverage";
+import { checkYearlyEventRuntime } from "./checks/yearlyEventRuntime";
+import { checkSevenSealRuntime } from "./checks/sevenSealRuntime";
+import { checkMiniDlcFiveSystemCoverage } from "./checks/miniDlcFiveSystemCoverage";
+import { checkSevenSealEpigraphCoverage } from "./checks/sevenSealEpigraphCoverage";
 
 export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
   // ─── Card engine ──────────────────────────────────────────
@@ -158,7 +163,7 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     id: "server.observability_wiring",
     name: "Observability wiring",
     description:
-      "SENTRY_DSN + OTEL_EXPORTER_OTLP_ENDPOINT required in env (fail-fast in prod), prom-client metrics module exposed at /metrics, tRPC procedures auto-instrumented, per-IP rate limit on /api.",
+      "SENTRY_DSN + OTEL_EXPORTER_OTLP_ENDPOINT wired into env with loud prod warning when unset, prom-client metrics module exposed at /metrics, tRPC procedures auto-instrumented, per-IP rate limit on /api.",
     check: () => checkObservabilityWiring(),
   },
   // ─── Mobile / native ──────────────────────────────────────
@@ -310,5 +315,47 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     // Ratcheted — full coverage is a long-tail authoring goal; the
     // gate enforces no-regress as the pool grows.
     ratchet: { target: 0 },
+  },
+  // ─── World — woven-systems integration (the Two-Ripple Rule) ──
+  // Added 2026-05-08 alongside docs/design/INCOMPLETE_DESIGNS_AUDIT
+  // follow-up. WOVEN_SYSTEMS registry declares 17 surfaces; ripple-
+  // engine wiring is audited per declared emit.
+  {
+    id: "world.woven_two_ripple_rule",
+    name: "Woven systems Two-Ripple Rule",
+    description:
+      "Every WovenSystem.primaryEmits event must have ≥ 2 cross-system handler registrations in rippleEngine.ts carrying a `// woven: <fromId> -> <toId>` comment. Lands at RATCHET; closes when wovenOn() helper + handler tagging catches up to the 17-system registry.",
+    check: () => checkWovenSystemRippleCoverage(),
+    ratchet: { target: 0 },
+  },
+  {
+    id: "world.yearly_event_runtime",
+    name: "Yearly event runtime",
+    description:
+      "The four canonical yearly anchors (Foundation Day, Severance, Mechronis Festival, Memorial Day) require shared definition + server router + scheduler service + DB schema. Lands at RATCHET — only the shared definition exists today.",
+    check: () => checkYearlyEventRuntime(),
+    ratchet: { target: 0 },
+  },
+  {
+    id: "narrative.seven_seal_runtime",
+    name: "Seven Seals canon",
+    description:
+      "Hard parity on the seven-seals data structure: 7 entries, seals I–IV bind to the four horsemen in order, seals IV/V declare unlocksYearly, every seal carries a non-empty fallSummary. The actual epigraph prose is content authored separately.",
+    check: () => checkSevenSealRuntime(),
+  },
+  {
+    id: "narrative.mini_dlc_five_system_coverage",
+    name: "Mini-DLC five-system coverage",
+    description:
+      "Every mini-DLC manifest under apps/shared/dlc/chapters/**/manifest.ts must declare the five required refs (mystery seed, transmission track, custom item, guild contract, governance motion). Lands at RATCHET; back-catalog manifests need backfill in a follow-up.",
+    check: () => checkMiniDlcFiveSystemCoverage(),
+    ratchet: { target: 0 },
+  },
+  {
+    id: "narrative.seven_seal_epigraphs",
+    name: "Seven Seals Daniel Cross epigraphs",
+    description:
+      "Every seal in apps/shared/sevenSeals.ts must have an authored epigraph in apps/shared/sevenSealsEpigraphs.ts (openingLine ≤ 80 chars, body 200–600 chars, attribution + citation non-empty). Hard parity — missing epigraphs degrade the SealEpigraphCinematic to the fall-summary fallback.",
+    check: () => checkSevenSealEpigraphCoverage(),
   },
 ];

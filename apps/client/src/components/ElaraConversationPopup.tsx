@@ -318,7 +318,7 @@ export function ElaraConversationPopup({
     }
     a.addEventListener("ended", advance);
     return () => a.removeEventListener("ended", advance);
-  }, [phase, humanVO.audio, pickedChoice]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [phase, humanVO.audio, pickedChoice]);  
 
   // Drive the Detective's line. The Detective uses the same humanVO
   // hook (humanVoManifest.json gains detective-namespaced ids when VO
@@ -339,7 +339,7 @@ export function ElaraConversationPopup({
     }
     a.addEventListener("ended", advance);
     return () => a.removeEventListener("ended", advance);
-  }, [phase, humanVO.audio, pickedChoice]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [phase, humanVO.audio, pickedChoice]);  
 
   // Drive the Elara follow-up.
   useEffect(() => {
@@ -358,7 +358,7 @@ export function ElaraConversationPopup({
     }
     a.addEventListener("ended", advance);
     return () => a.removeEventListener("ended", advance);
-  }, [phase, elaraVO.audio, pickedChoice]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [phase, elaraVO.audio, pickedChoice]);  
 
   // Close the popup once we hit the "closed" phase.
   useEffect(() => {

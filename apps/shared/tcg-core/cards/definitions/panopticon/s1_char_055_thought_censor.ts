@@ -40,6 +40,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "She does not burn books. She burns the desire to read them.",
   rulesVersion: "1.1.0",
-  trial_categories: ["defensive"] as const,
+  trial_categories: ["confession", "defensive"] as const,
   verdict_delta: 1,
 };

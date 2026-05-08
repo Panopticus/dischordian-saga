@@ -53,7 +53,7 @@ export const tv_alleg_t3: CardDefinition = {
   rarity: "rare",
   cost: 4,
   baseStats: { power: 4, health: 5 },
-  keywords: ["drain", "deathwatch"],
+  keywords: ["drain"],
   abilities: [],
   art: assetUrl("art/cards/allegiance/s1_alleg_thought_virus_t3.webp"),
   flavorText:
@@ -71,7 +71,7 @@ export const tv_alleg_t4: CardDefinition = {
   rarity: "rare",
   cost: 4,
   baseStats: { power: 5, health: 5 },
-  keywords: ["drain", "deathwatch"],
+  keywords: ["drain"],
   abilities: [],
   art: assetUrl("art/cards/allegiance/s1_alleg_thought_virus_t4.webp"),
   flavorText:
@@ -89,7 +89,7 @@ export const tv_alleg_t5: CardDefinition = {
   rarity: "epic",
   cost: 5,
   baseStats: { power: 6, health: 6 },
-  keywords: ["drain", "deathwatch", "forcefield"],
+  keywords: ["drain", "forcefield"],
   abilities: [],
   art: assetUrl("art/cards/allegiance/s1_alleg_thought_virus_t5.webp"),
   flavorText:
@@ -107,7 +107,7 @@ export const tv_alleg_t6: CardDefinition = {
   rarity: "legendary",
   cost: 7,
   baseStats: { power: 7, health: 9 },
-  keywords: ["drain", "deathwatch", "forcefield"],
+  keywords: ["drain", "forcefield"],
   abilities: [
     {
       id: "tv_alleg_t6_heal" as CardDefinition["abilities"][number]["id"],
@@ -117,8 +117,7 @@ export const tv_alleg_t6: CardDefinition = {
         amount: { kind: "const", value: 8 },
         to: { kind: "friendly_general" },
       },
-    },
-  ],
+    }],
   art: assetUrl("art/cards/allegiance/s1_alleg_thought_virus_t6.webp"),
   flavorText:
     "Unlocked by winning 100 Thought Virus matches. Drain. Deathwatch. Forcefield. On deploy, heal your general for 8. The Thought Virus Champion is the Source briefly personally interested in whether or not you intend to survive the game you are currently playing.",
@@ -128,5 +127,4 @@ export const tv_alleg_t6: CardDefinition = {
 };
 
 export const THOUGHT_VIRUS_ALLEGIANCE_CARDS: readonly CardDefinition[] = Object.freeze([
-  tv_alleg_t1, tv_alleg_t2, tv_alleg_t3, tv_alleg_t4, tv_alleg_t5, tv_alleg_t6,
-]);
+  tv_alleg_t1, tv_alleg_t2, tv_alleg_t3, tv_alleg_t4, tv_alleg_t5, tv_alleg_t6]);

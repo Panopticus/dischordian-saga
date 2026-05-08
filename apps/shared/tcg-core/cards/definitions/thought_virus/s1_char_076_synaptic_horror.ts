@@ -17,7 +17,7 @@ export const cardDef: CardDefinition = {
   rarity: "epic",
   cost: 6,
   baseStats: { power: 7, health: 6 },
-  keywords: ["backstab", "deathwatch"],
+  keywords: ["backstab"],
   abilities: [
     {
       id: "sh_deathwatch_grow" as CardDefinition["abilities"][number]["id"],
@@ -28,8 +28,7 @@ export const cardDef: CardDefinition = {
         duration: { kind: "permanent" },
         to: { kind: "self" },
       },
-    },
-  ],
+    }],
   art: assetUrl("art/cards/s1_char_076.webp"),
   flavorText:
     "It lives in the gap between a dying thought and the silence that follows.",

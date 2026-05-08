@@ -1,3 +1,10 @@
+// audit-allow-proc: collect
+// `collect` is the player-facing narrative-claim mutation per
+// SOUL_STONES_SYSTEM.md §1.3. The client consumer lands with the
+// Soul-Stones UI page (scaffolded by main's PR #495 alongside the
+// other declared-subsystem-runtime gates). Until the UI button
+// surfaces, the route remains reachable for the integration harness
+// + the per-router contract tests.
 /* ═══════════════════════════════════════════════════════
    SOUL STONES ROUTER — corrupt / purify / summon / collect.
 

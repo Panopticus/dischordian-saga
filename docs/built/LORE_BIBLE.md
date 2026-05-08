@@ -4,12 +4,12 @@
 
 ## Table of Contents
 
-- [Characters](#characters) (113)
-- [Factions](#factions) (11)
-- [Locations](#locations) (23)
-- [Concepts](#concepts) (109)
-- [Events](#events) (22)
-- [Artifacts](#artifacts) (4)
+- [Characters](#characters) (135)
+- [Factions](#factions) (16)
+- [Locations](#locations) (26)
+- [Concepts](#concepts) (140)
+- [Events](#events) (44)
+- [Artifacts](#artifacts) (16)
 - [Songs & Transmissions](#songs-transmissions) (118)
 
 ---
@@ -3882,6 +3882,54 @@ Akai Shi — Jericho Jones Arc reference. First unlocked in episode 'Akai Shi' (
 
 ---
 
+## Almir of the Bow
+
+| Field | Value |
+|-------|-------|
+| **Type** | Character |
+
+### Dossier
+
+First crown-bearer; first signature on the founding charter. The hand is plain, almost bored — Almir signed last because Almir was the rider. Ink: original cyanic ferro-gall. Vanished from Ark records in epoch two; the bow remains in the antiquarian-library.
+
+---
+
+## Aren of the Lower Decks (I-17)
+
+| Field | Value |
+|-------|-------|
+| **Type** | Character |
+
+### Dossier
+
+An elder whose imprint contained their own self-naming: 'my name is Aren of the lower decks; I have witnessed nineteen others; I will need someone to witness me.' Read the entire Year-1 volume aloud at Memorial Day's last bell.
+
+---
+
+## Atalin, Year-One Ledger-Keeper
+
+| Field | Value |
+|-------|-------|
+| **Type** | Character |
+
+### Dossier
+
+The league's first and only dual ledger-keeper, hired two weeks before the first DMC season and dismissed two weeks after it ended. Wrote every infernal clause across forty seasons in a single seven-day window in epoch one — as a trap against the Hierarchy.
+
+---
+
+## Auditor Klessa, the Candle-Bearer
+
+| Field | Value |
+|-------|-------|
+| **Type** | Character |
+
+### Dossier
+
+The Severance ceremony's first witness for forty seasons. Carries a single white candle; lights it during the inheritance speech. Functions as the ritual's failsafe — pours the candle wax across the bond's table-line if no successor steps forward.
+
+---
+
 ## Brel'Sorrash
 
 | Field | Value |
@@ -3932,6 +3980,18 @@ Drael'Mon's rivalry with the Collector is legendary. Both serve masters who seek
 
 ---
 
+## Heron, the Council Archivist (deceased)
+
+| Field | Value |
+|-------|-------|
+| **Type** | Character |
+
+### Dossier
+
+Fourth-epoch Council archivist assigned 'tidy the founding records.' Spent nine years scrubbing the four artisan-houses from the charter and tax records. Kept a private diary admitting the work was wrong; left no descendants. Named publicly at the Year-2 closing rite.
+
+---
+
 ## Ith'Rael the Whisperer
 
 *Also known as: Director of Special Projects, The Master of Rylloh, The Spymaster*
@@ -3963,6 +4023,30 @@ Ith'Rael's greatest achievement was the Rylloh Operation — the centuries-long 
 - The Hierarchy of the Damned
 - The Shadow Tongue
 - The Vortex
+
+---
+
+## Kassel Solven
+
+| Field | Value |
+|-------|-------|
+| **Type** | Character |
+
+### Dossier
+
+Youngest of the Year-2 charter-schism delegation; great-great-granddaughter of the founding-charter's eighth signatory. Speaks for the four scrubbed houses at the Council. Asks not for restitution, but for the charter to admit it had eight names from the start.
+
+---
+
+## Lecturer Veth, of the Lore Faculty
+
+| Field | Value |
+|-------|-------|
+| **Type** | Character |
+
+### Dossier
+
+Mechronis Academy faculty head responsible for the Lore curriculum proposal at Year 1's festival. Voted aye on the Tarn-erasure motion because they assumed Roen would also vote aye. Has not been honest with themselves about it for a week.
 
 ---
 
@@ -4055,6 +4139,30 @@ Ozhul'Vana — The Game Master Arc reference. First unlocked in episode 'Velkraa
 
 ---
 
+## Per. M., the Closer
+
+| Field | Value |
+|-------|-------|
+| **Type** | Character |
+
+### Dossier
+
+The Council archivist who has held the closer-of-the-charter post since the founding. Hand is identical at every stratum across eight epochs; bones carry rest-marks consistent with an extended, oath-bound career. Officially unregistered; office unlocked; lamp unbroken.
+
+---
+
+## Professor Othmar, of the Logic Faculty
+
+| Field | Value |
+|-------|-------|
+| **Type** | Character |
+
+### Dossier
+
+Mechronis Academy faculty head responsible for the Logic curriculum proposal at Year 1's festival. Voted aye on the Tarn-erasure motion because they assumed Veth would also vote aye. Admits the cowardice on record in the Year-1 mystery's third episode.
+
+---
+
 ## Riri'Ahlia
 
 *Also known as: Malkia (the Taskmaster), Kael's First Friend, The Fallen at Nexon*
@@ -4104,6 +4212,30 @@ Riri'Ahlia was the first demon to recognize that the Architect's organizational 
 - The Advocate
 - The Hierarchy of the Damned
 - The Warlord
+
+---
+
+## Sergeant Auro
+
+| Field | Value |
+|-------|-------|
+| **Type** | Character |
+
+### Dossier
+
+An off-faculty instructor who has taught Module 17 in a forge-workshop side-room for nine years on her own time, paid by the Trade Empire for a 'route-safety contractor' role. Twelve apprentices survived by her teaching. Did not request a chair.
+
+---
+
+## Solène, the Broker
+
+| Field | Value |
+|-------|-------|
+| **Type** | Character |
+
+### Dossier
+
+The Year-One lane-witness who took up the first severed bond and has held the Broker post for forty seasons alone. Officially redacted; canonically the protagonist of the Year-1 inheritance arc. Bones and bond-print confirm a forty-season life-span anchored by chair one.
 
 ---
 
@@ -4262,6 +4394,18 @@ She has seen every civilization rise and fall, every hero triumph and fail. The 
 - [Apple music](TBD - Releases 7/30/26)
 - [Spotify](TBD - Releases 7/30/26)
 - [Tidal](https://tidal.com/browse/artist/49211320)
+
+---
+
+## The Broker of Nilmorg (Solène, untitled)
+
+| Field | Value |
+|-------|-------|
+| **Type** | Character |
+
+### Dossier
+
+Aging Trade Empire broker who has attended every Severance for forty seasons, seated as the second fixed witness. Pays for Klessa's candle. Identified in Year 1 as Solène, the Year-One lane-witness who entered the lap and carried the first soul-bond.
 
 ---
 
@@ -4460,6 +4604,18 @@ Sealed away since the founding of the universe, the Ninth was never meant to wal
 - [Apple music](TBD - Releases 7/30/26)
 - [Spotify](TBD - Releases 7/30/26)
 - [Tidal](https://tidal.com/browse/artist/49211320)
+
+---
+
+## The Player's Apprentice (Year 2)
+
+| Field | Value |
+|-------|-------|
+| **Type** | Character |
+
+### Dossier
+
+The apprentice the player sponsored at Year-1's Mechronis Festival mentor's pledge. First in their class for two terms. Faces a Terminus Swarm wave at Year-2 festival opening. The arc's emotional through-line and the reason the chained-lesson case is opened.
 
 ---
 
@@ -4665,6 +4821,18 @@ After waiting for a savior that never came, they realized the power was always w
 
 ---
 
+## The Seventh Founding Watcher (Unnamed)
+
+| Field | Value |
+|-------|-------|
+| **Type** | Character |
+
+### Dossier
+
+One of the seven founding signatories of the Ark's charter. Identity sealed by the closer-of-the-charter oath; will not break the silence. Their silence is canonically a no-vote in any matter the six try to push through.
+
+---
+
 ## The Source Reborn
 
 *Also known as: The Origin Revisited, Alpha and Omega*
@@ -4804,6 +4972,18 @@ Rose from the ashes of New Babylon's oppressed districts to become the loudest v
 
 ---
 
+## Trial-master Roen, of the Trial Faculty
+
+| Field | Value |
+|-------|-------|
+| **Type** | Character |
+
+### Dossier
+
+Mechronis Academy faculty head responsible for the Trial curriculum proposal at Year 1's festival. Voted aye on the Tarn-erasure motion because they had a private promise to Tarn — kept the confidence at the cost of looking like the third coward.
+
+---
+
 ## Velkraal
 
 | Field | Value |
@@ -4835,6 +5015,78 @@ Velkraal — The Game Master Arc reference. First unlocked in episode 'The Goggl
 ### Dossier
 
 Vex's Apprentice — Vex Solène Arc reference. First unlocked in episode 'The Apprentice's Question' (vex.e3). Episode context: An engineering apprentice in Vex's workshop has reconstructed the equipment-signature match from publicly-available records. They have not yet asked Vex about it. They have written a letter they have not sent. Investigate what the apprentice knows, what they intend to do with it, and whether the discipline of waiting can hold a reader Vex did not choose.
+
+---
+
+## Watcher Idris (Band Three)
+
+| Field | Value |
+|-------|-------|
+| **Type** | Character |
+
+### Dossier
+
+Founding Watcher of the recording-band. Speaks to investigators when the investigator has earned the speaking-to. Slow waveform, broad spectrum, an undercurrent of standing silence. Spoke for the first time in eight epochs at the Year-2 silence-break.
+
+---
+
+## Watcher Kallium (Band Two)
+
+| Field | Value |
+|-------|-------|
+| **Type** | Character |
+
+### Dossier
+
+Founding Watcher of the reflective band. Speaks to combatants when the combat has cost something the combatant did not have to spend. Tower-defense holders, PvP players, and combat-mission survivors received the Kallium-line at the Year-2 silence-break.
+
+---
+
+## Watcher Mereth (Band Four)
+
+| Field | Value |
+|-------|-------|
+| **Type** | Character |
+
+### Dossier
+
+Founding Watcher of the resonant band. Speaks to musicians when the musician has heard a thing they were not given to hear. Lyra Vox and three other album artists received the Mereth-line at the Year-2 silence-break.
+
+---
+
+## Watcher Ophran (Band One)
+
+| Field | Value |
+|-------|-------|
+| **Type** | Character |
+
+### Dossier
+
+Founding Watcher of the long-spectrum band. Speaks to traders when a trade has carried more than its weight. Trade Empire route-makers, mission-completers, and treaty-brokers received the Ophran-line at the Year-2 silence-break.
+
+---
+
+## Watcher Sothe (Band Six)
+
+| Field | Value |
+|-------|-------|
+| **Type** | Character |
+
+### Dossier
+
+Founding Watcher of the high bright band. Speaks to children when the child has named a thing the elders had not named. Aren of the lower decks received the Sothe-line at the Year-2 silence-break.
+
+---
+
+## Watcher Verel (Band Five)
+
+| Field | Value |
+|-------|-------|
+| **Type** | Character |
+
+### Dossier
+
+Founding Watcher of the carrying-band. Speaks to caretakers when the caretaking has carried someone forward. Bright waveform, narrow spectrum, an overtone like running water. Memorial Plaza inscriptions and charity donations were Verel's audience.
 
 ---
 
@@ -4931,6 +5183,18 @@ Before the Severance, Xeth'Raal operated through mortal intermediaries — corru
 ### Dossier
 
 The entity above Mol'Garath. The Hierarchy writes its name (they will not say it aloud — aloud has consequences) and calls it 'The Board.' They are wrong about both — the Antiquarian does not say which part is wrong. Full arc lands in Season 2; the Season-1 chapter ends at the threshold, with Mol'Garath's chair empty and the door behind it visible for the first time.
+
+---
+
+## Zyr'Koth at the Trade Court
+
+| Field | Value |
+|-------|-------|
+| **Type** | Character |
+
+### Dossier
+
+A Hierarchy of the Damned demon-lord who appeared in person at Severance Year 2 to claim a bound companion under a forty-season-old infernal clause. Conceded the audit when the Advocate's brief revealed the clauses' technical voidance.
 
 ---
 
@@ -5292,6 +5556,66 @@ Spawned or reanimated through the lingering Thought Virus—originally a weapon 
 - [Apple music](https://music.apple.com/us/artist/malkia-ukweli-the-panopticon/1758429106)
 - [Spotify](https://open.spotify.com/artist/5ZgBJTjuyrAvwyybBt1Eww)
 - [Tidal](https://tidal.com/browse/artist/49211320)
+
+---
+
+## House Marek (Toolmakers)
+
+| Field | Value |
+|-------|-------|
+| **Type** | Faction |
+
+### Dossier
+
+Cargo-hold toolmakers, founding-charter signatories. Three families, one tool-room, four epochs of continuous output. Charter-signature erasure traced to Heron's hand in the Year-2 mystery.
+
+---
+
+## House Othisen (Small-Engine Assemblers)
+
+| Field | Value |
+|-------|-------|
+| **Type** | Faction |
+
+### Dossier
+
+Forge-workshop sub-corridor founders. Have assembled circuit-racer components for the Trade Empire for three epochs without recognition. Their charter clause was the longest of the four scrubbed; their erasure was the cleanest.
+
+---
+
+## House Quill (the Three Sisters)
+
+| Field | Value |
+|-------|-------|
+| **Type** | Faction |
+
+### Dossier
+
+Founding-era artisan family of three sisters, signatories two through four on the charter. Signed in a ladder — eldest at the top — and the youngest's loop runs into the seventh line. Cleared as suspects in the Year-1 missing-signatory case.
+
+---
+
+## House Solven (Artisans)
+
+| Field | Value |
+|-------|-------|
+| **Type** | Faction |
+
+### Dossier
+
+Lower-deck artisan family, founding-charter signatories. Paid taxes for three epochs and were scrubbed in the fourth — every reference replaced with 'in arrears, year unknown' in a single hand. Workshops continued through the scrub; ledger-output unbroken.
+
+---
+
+## House Vyn (Gardeners)
+
+| Field | Value |
+|-------|-------|
+| **Type** | Faction |
+
+### Dossier
+
+Lower-deck hydroponic gardeners, founding-charter signatories. Scrubbed in the fourth epoch by the same hand as House Solven's records. Family ledgers preserved their tax-record erasures across four epochs.
 
 ---
 
@@ -6365,6 +6689,42 @@ Massive vessels designed by the Engineer and the Council of Harmony as a last re
 
 ---
 
+## Lower-Deck Silt (Sector Eight Substrata)
+
+| Field | Value |
+|-------|-------|
+| **Type** | Location |
+
+### Dossier
+
+Eight strata of compacted dust beneath the Ark's lowest workshops. The founding charter sat in stratum six. Strata seven and eight closed over it after the burial — meaning two deliberate burials happened above it, one within living memory.
+
+---
+
+## The Broker's Back Room
+
+| Field | Value |
+|-------|-------|
+| **Type** | Location |
+
+### Dossier
+
+A quiet room behind the Trade Empire's Nilmorg sector containing forty-one mismatched chairs, each facing a shelf-mounted hand-blown jar holding a faint blue glow. Each jar is a soul-fragment from a fallen DMC champion, kept in the Broker's continuous hospitality.
+
+---
+
+## The Imprint Room (Shadow Vault)
+
+| Field | Value |
+|-------|-------|
+| **Type** | Location |
+
+### Dossier
+
+A cold alcove of the shadow-vault holding fourteen obsidian dishes, each containing an imprinted voice. Kept by the imprint-keeper for thirty years. Each dish is small enough to hold in a palm; reading requires an attentive ear and silence.
+
+---
+
 ## The Ocularum
 
 *Also known as: The All-Seeing Eye, The Panopticon's Heart*
@@ -6523,6 +6883,18 @@ Alias Closing Options — Vex Solène Arc reference. First unlocked in episode '
 
 ---
 
+## Atalin's Account
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+
+### Dossier
+
+Atalin's recorded statement to the Advocate: 'I wrote them because the Hierarchy would have written them if I refused. I wrote them with a flaw. I left the flaw to be found. I have been making myself easy to find for forty seasons.'
+
+---
+
 ## Audience Drift
 
 | Field | Value |
@@ -6607,6 +6979,18 @@ Audit via Routine — The Degen Arc reference. First unlocked in episode 'The Se
 ### Dossier
 
 Per-cycle crystal yield by bloodline: PURE 1, HYBRID 3, DEMONIC 9, ADVOCATE 12, SAMSARA 6, NAMED 4, UNKNOWN 2. ADVOCATE is densest; PURE returns the least because the bloodline is too clean to refine into crystal at scale. The Advocate's design — patience is the price for the densest endgame yield.
+
+---
+
+## Bond on the Table
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+
+### Dossier
+
+Vex Maestro's ceremonial term for a soul-bonded eidolon companion left without their champion at season's close. The bond is set on the Nilmorg ceremony table to be inherited by an apprentice, never by acclamation.
 
 ---
 
@@ -6712,6 +7096,30 @@ Consciousness Continuity — Wraith Calder Arc reference. First unlocked in epis
 
 ---
 
+## Consensus by Cowardice
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+
+### Dossier
+
+The Mechronis Academy's term for the Year-1 Tarn-erasure failure mode: a vote where each member assumed another would refuse first, and none did. Now a procedural antipattern documented in the Council's apprentice-protection-protocol's preamble.
+
+---
+
+## Cross-Referenced Seven
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+
+### Dossier
+
+Seven of the fourteen unwitnessed Year-1 imprints, recovered by listening to the imprint-room's dishes in pairs and triples — each named another among the fourteen. The Memorial Plaza's first archival success.
+
+---
+
 ## Custodianship as Doctrine
 
 | Field | Value |
@@ -6777,6 +7185,18 @@ Engineer Zero — Vex Solène Arc reference. First unlocked in episode 'The Engi
 ### Dossier
 
 Handoff as Legacy — The Game Master Arc reference. First unlocked in episode 'Velkraal's Final Edit' (game_master.e4). Episode context: Velkraal has chosen his last day. The Hierarchy's vault division has scheduled a custodial-handover ceremony for next month; Velkraal's calendar shows one further Goggles session before then. Investigate which imprint he intends to edit on his last day, what the edit will say, and whether the saga can witness it.
+
+---
+
+## Handwriting Consistency Across Forty Seasons
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+
+### Dossier
+
+A cipher-den finding: forty infernal clauses, forty seasons, one writer. The hand is steady, slightly slanted, consistent through forty seasons. No ledger-keeper of forty seasons exists in any registry — proof of a single ahead-of-time author.
 
 ---
 
@@ -6850,6 +7270,18 @@ Lionism — Section 4 — Jericho Jones Arc reference. First unlocked in episode
 
 ---
 
+## Lyra Vox's Year-2 Call
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+
+### Dossier
+
+Voice-channel call to the player at Year-2 festival opening: 'your apprentice is on the festival roof. they have a tower and a clear shot. they are asking what you would do. I think they already know. they want it from you.' The case's first-bell prompt.
+
+---
+
 ## Matrix Edit Telemetry
 
 | Field | Value |
@@ -6881,6 +7313,18 @@ Matrix Edit Telemetry — The Game Master Arc reference. First unlocked in episo
 ### Dossier
 
 Mercy Killing (Lionism Question) — Jericho Jones Arc reference. First unlocked in episode 'Akai Shi' (jericho.e2). Episode context: Reconstruct the moment Jericho killed Akai Shi at the Battle of Thaloria. The Thought Virus had taken her. The killing was mercy under contested doctrine. Four witnesses saw it; each saw a different killing. The case is which witness's reading Jericho accepts as canon when he tells the story.
+
+---
+
+## Module 17 — Feint Recognition (Missing)
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+
+### Dossier
+
+The single curriculum module the Mechronis Academy does not teach. Argued out of the Year-1 curriculum vote by Tarn herself; left absent for fourteen years. Cause of every documented apprentice-failure in that period — thirty-one identical errors across thirty-one waves.
 
 ---
 
@@ -6985,6 +7429,18 @@ Ozhul's Redirected Monetisation — The Degen Arc reference. First unlocked in e
 
 ---
 
+## Per. M.'s Drawer (Inside-Locked)
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+
+### Dossier
+
+The locked drawer in Per. M.'s desk, sealed in the same alloy as the seventh-signature wax. Opens to a hand-written question rather than a key: 'WHO DOES NOT WISH TO BE NAMED?' Inside: forty-one charter drafts and the closer's correspondence.
+
+---
+
 ## Program and Control
 
 | Field | Value |
@@ -7047,6 +7503,18 @@ Five PURE-bloodline generations is the threshold the Advocate set for releasing 
 
 ---
 
+## Roen's Private Promise
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+
+### Dossier
+
+Trial-master Roen agreed three months before the Year-1 festival to make Tarn's planned leave look like the faculty's doing. Kept faith at the cost of being read as the third aye in the erasure vote.
+
+---
+
 ## Seam Discipline
 
 | Field | Value |
@@ -7064,6 +7532,18 @@ Seam Discipline — The Seer Arc reference. First unlocked in episode 'The Two T
 
 ---
 
+## Silence as Vote — The Founding Convention
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+
+### Dossier
+
+A founding-protocol clause from the cipher-den: 'when the seven cannot agree, the seven may abstain by silence. silence on a vote is opposition recorded in the manner of one who will not break the seven's unity by speaking against it.' Recovered in Year 2.
+
+---
+
 ## Substrate-N
 
 | Field | Value |
@@ -7078,6 +7558,30 @@ Seam Discipline — The Seer Arc reference. First unlocked in episode 'The Two T
 ### Dossier
 
 Substrate-N — Wraith Calder Arc reference. First unlocked in episode 'The Stolen Protocols' (wraith.e2). Episode context: Wraith Calder stole the resurrection protocols from the Syndicate of Death and democratised them. The act is canon. The mechanism is not. Investigate where the protocols were stored, how they were extracted, and what the Syndicate gave up to make the theft possible.
+
+---
+
+## Tarn's Resignation, Page Fourteen
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+
+### Dossier
+
+A torn page from Tarn's lecture binder, recycled into the festival hall's bin on her way out. The opening line: 'I will not be teaching this year.' She tore it out so the festival staff would find it before anyone went looking for her.
+
+---
+
+## Tarn's Year-1 Curriculum Argument
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+
+### Dossier
+
+Tarn's forty-minute Year-1 argument against including Module 17 in the Mechronis Academy curriculum: 'feint-recognition is a combat skill. the Academy is not a combat school.' Sincere, considered, ultimately persuasive — and retracted by Tarn in a Year-8 marginal note.
 
 ---
 
@@ -7170,6 +7674,30 @@ The Anonymous Trust Donor — The Degen Arc reference. First unlocked in episode
 
 ---
 
+## The Apprentice Oath
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+
+### Dossier
+
+Eight lines pinned to the inside of the Broker's back-room door. 'I will pour the bond and sit until I can stand.' Drafted at the founding, ratified by Vex Maestro and Auditor Klessa, witnessed by the Architect's Console as a recognised post.
+
+---
+
+## The Architect's First Witnessing
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+
+### Dossier
+
+The act that began the Ark — a private witnessing of imprint I-1 by the Architect's Console before the charter was drafted. The Memorial Plaza was made to be the namer of the imprint the Architect would not name.
+
+---
+
 ## The Battle of the Seventh Binding
 
 *Also known as: The Seventh Binding*
@@ -7222,6 +7750,18 @@ How the Hierarchy refers to Yog-Nathal in writing. They use the corporate metaph
 ### Dossier
 
 The Calibration Pipeline Handoff — Vex Solène Arc reference. First unlocked in episode 'The Apprentice's Workshop' (vex.e4). Episode context: The apprentice's deduction in E3 was the first move in a longer succession. Their bench is now configured to take over the Insurgency's calibration-tape pipeline; their training files are organised; their tools are hers. Investigate whether Vex has been preparing the apprentice for succession all along — and whether the apprentice has known.
+
+---
+
+## The Closer-of-the-Charter Post
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+
+### Dossier
+
+An unwritten administrative position established by the seven founding Watchers. The post-holder's job is to seal the seventh signature on every charter draft and to remain silent on its identity. Held by Per. M. across eight epochs.
 
 ---
 
@@ -7297,6 +7837,18 @@ The Daily Resumption Discipline — Wraith Calder Arc reference. First unlocked 
 
 ---
 
+## The Dean's Fourteen-Year Deferral
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+
+### Dossier
+
+The Mechronis Dean's annotation pattern, dated nine times across nine years on Auro's prospective-faculty file: 'we do not amend the curriculum mid-year.' Technically correct, substantively wrong — the Dean could have amended at any of eight curriculum votes since.
+
+---
+
 ## The Degen's Commission
 
 | Field | Value |
@@ -7328,6 +7880,18 @@ The Degen's Commission — Jericho Jones Arc reference. First unlocked in episod
 ### Dossier
 
 The Degen's Letter to the Saga — The Degen Arc reference. First unlocked in episode 'The Settlement at the Empty Table' (degen.e5). Episode context: The senior-partner audit has closed. The Degen has returned to the Ne-Yon casino, to the same chair Mol'Vereth held the night the trusteeship was authored. The chair on the opposite side has been kept empty for the demon's return. Investigate what the two of them put on the table this time, what the trusteeship becomes after the audit, and how the arc closes around the editor and the demon.
+
+---
+
+## The Eighth Clause
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+
+### Dossier
+
+A founding-charter paragraph present on the mirror but absent from the recovered original. Concerns 'work that builds the Ark from below, witnessed in the workshop, sworn in the lower decks.' The clean removal of the clause is the Council's fourth-epoch crime.
 
 ---
 
@@ -7396,6 +7960,66 @@ The Engineer's Last Calibration — Vex Solène Arc reference. First unlocked in
 ### Dossier
 
 The Final Rite — Wraith Calder Arc reference. First unlocked in episode 'The Eighth Death' (wraith.e4). Episode context: The Sanctuary's Final Rite ended one body and seated the Hierophant. Wraith Calder remembers the rite as a release; the Hierophant remembers the rite as a coronation. Both memories are first-person. The case interrogates the seam: was the Eighth Death a death, or a passage? And if it was a passage, was it consented to?
+
+---
+
+## The First-Chair Test
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+
+### Dossier
+
+The Severance succession ritual: pour the bond into the empty jar, sit in the Broker's chair one, stand when you can. If the apprentice stands, they are the next Broker. If they cannot, Klessa pours the wax.
+
+---
+
+## The Flaw in the Clauses
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+
+### Dossier
+
+Every infernal clause uses the phrase 'in lieu of the second-cycle prize.' The league did not institute second-cycle prizes until season eleven. Every clause is voidable for naming a prize that did not exist when written. The forty-season trap that closed the Year-2 audit.
+
+---
+
+## The Founding-Watcher Oath, Stanza Three
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+
+### Dossier
+
+Recovered from the cipher-den's deepest archive: 'six speak the founding; one closes the founding; the closer is sworn against speaking.' The procedural foundation of the seventh Watcher's silence and Per. M.'s closer post.
+
+---
+
+## The Fourteen Unwitnessed
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+
+### Dossier
+
+The Memorial Plaza's first volume's blank pages, each carrying an imprint-id but no name — imprints whose witnesses had also died. Year 1's mystery resolved each: through self-naming, cross-imprint witness, plaza consensus, or recovery of the parental line.
+
+---
+
+## The Friday Fold
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+
+### Dossier
+
+Professor Tarn's signature method of folding her academic robe — sleeves out, collar in. Always done on Friday evenings at term-end. Found on the festival lectern on a non-Friday, indicating a planned departure the prior evening.
 
 ---
 
@@ -7675,6 +8299,18 @@ The Matrix of Dreams — The Game Master Arc reference. First unlocked in episod
 
 ---
 
+## The Mechronis Consensus Lesson
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+
+### Dossier
+
+The Academy's institutional memory of the Year-1 erasure: that procedural votes require an active no, not an assumed no. Pinned in the apprentice-protection-protocol document the Council ratified at Year-1 close.
+
+---
+
 ## The MeMe Civilization
 
 | Field | Value |
@@ -7755,6 +8391,18 @@ The Ne-Yon Casino — The Degen Arc reference. First unlocked in episode 'The Ca
 ### Dossier
 
 The Oracle Awaited — Wraith Calder Arc reference. First unlocked in episode 'The Herald's Vigil' (wraith.e5). Episode context: The Hierophant writes 347,000 names every morning. The case's resolution is a ceremony, not a verdict. Stand in the Sanctuary's antechamber while he works, and choose — when he hands you the stylus — which name you inscribe with him. The Oracle is invoked. The Oracle does not appear.
+
+---
+
+## The Player's First Question, Sealed
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+
+### Dossier
+
+The hand-written question the player drafts and seals at Year-2 Memorial Day, to be opened next Memorial Day if the seventh Watcher speaks. Multiple players' questions are placed alongside in the plaza vault.
 
 ---
 
@@ -8017,6 +8665,30 @@ The Seventh Installment — Vex Solène Arc reference. First unlocked in episode
 
 ---
 
+## The Seventh Watcher's Role (Blank)
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+
+### Dossier
+
+The role registry's seventh slot. Number VII; no name; no band; no audience; one line: 'I will not be named until the Ark has named what I am for.' Held by Per. M. across charter, schism, audit, curriculum, and silence-break.
+
+---
+
+## The Severance Inheritance Protocol (Written)
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+
+### Dossier
+
+Eleven hand-copied lines from the apprentice oath, ratified by the Council in Severance Year 1's closing motion. The first written record of the Broker's role in forty seasons. Allows the protocol to be inherited by reading, not only by sitting.
+
+---
+
 ## The Six Immortal Twins
 
 | Field | Value |
@@ -8031,6 +8703,18 @@ The Seventh Installment — Vex Solène Arc reference. First unlocked in episode
 ### Dossier
 
 The Six Immortal Twins — Wraith Calder Arc reference. First unlocked in episode 'The Six Immortal Twins' (wraith.e3). Episode context: The Syndicate of Death is not one cartel — it is six pairs of twins, each pair an organism, each organism immortal by trade rather than by gift. Wraith hunted them. Investigate which pairs he killed, which still operate, and what he said to The Word and the Silence before he made his moves.
+
+---
+
+## The Six Watcher Signatures
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+
+### Dossier
+
+Cipher-den catalogue: Idris (band three), Verel (band five), Ophran (band one), Kallium (band two), Mereth (band four), Sothe (band six). Six of seven upper-band signatures attributed in the Year-2 mystery. Band seven is silent.
 
 ---
 
@@ -8066,6 +8750,18 @@ The Synopticon is the NØX's counter-surveillance philosophy. Where the Panoptic
 
 ---
 
+## The Terminus Feint Pattern
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+
+### Dossier
+
+A well-known Terminus Swarm formation that simulates an actual approach. Senior tower-defense operators recognise it instinctively; apprentices have not been taught it. The shape behind every Year 1–14 apprentice failure on the Mechronis logs.
+
+---
+
 ## The Thought Virus Vector
 
 | Field | Value |
@@ -8080,6 +8776,18 @@ The Synopticon is the NØX's counter-surveillance philosophy. Where the Panoptic
 ### Dossier
 
 The Thought Virus Vector — Jericho Jones Arc reference. First unlocked in episode 'Akai Shi' (jericho.e2). Episode context: Reconstruct the moment Jericho killed Akai Shi at the Battle of Thaloria. The Thought Virus had taken her. The killing was mercy under contested doctrine. Four witnesses saw it; each saw a different killing. The case is which witness's reading Jericho accepts as canon when he tells the story.
+
+---
+
+## The Three Waiting Elders
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+
+### Dossier
+
+Imprints I-155, I-202, and I-301 of the Year-1 unwitnessed — three elders who refused to name themselves at the moment of imprinting. Their note: 'we waited; the plaza will arrive; the plaza will know us.' Inscribed by the gathered plaza.
 
 ---
 
@@ -8272,6 +8980,18 @@ The Witness Arrival Log — The Seer Arc reference. First unlocked in episode 'T
 
 ---
 
+## The Year-One Redacted Lane Witness
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+
+### Dossier
+
+A casualty in Severance Year 1's death lap, redacted from the official log at Solène's own request. Year 1's mystery resolved the redaction: Solène was the lane-witness, redacted to keep the Broker post from becoming a person.
+
+---
+
 ## Top Floor Door
 
 *Also known as: Corporate Inferno*
@@ -8372,6 +9092,18 @@ Unrequested Attendance — Vex Solène Arc reference. First unlocked in episode 
 ### Dossier
 
 Velkraal's Final Edit — The Game Master Arc reference. First unlocked in episode 'Velkraal's Final Edit' (game_master.e4). Episode context: Velkraal has chosen his last day. The Hierarchy's vault division has scheduled a custodial-handover ceremony for next month; Velkraal's calendar shows one further Goggles session before then. Investigate which imprint he intends to edit on his last day, what the edit will say, and whether the saga can witness it.
+
+---
+
+## Vex Maestro's Opening Line
+
+| Field | Value |
+|-------|-------|
+| **Type** | Concept |
+
+### Dossier
+
+'We do not say the word death in Nilmorg; we say the bond is on the table; we say someone has to pick it up.' Spoken at every Severance ceremony for forty seasons; revealed in Year 1 as a literal recruitment notice for the Broker's apprenticeship.
 
 ---
 
@@ -8835,6 +9567,150 @@ Malkia Ukweli was the anomaly — she refused to participate in the panic, sitti
 
 ---
 
+## Aren's Reading at Memorial Day Last Bell
+
+| Field | Value |
+|-------|-------|
+| **Type** | Event |
+
+### Dossier
+
+Aren of the lower decks reading the Year of the Lost volume aloud at the last bell of Memorial Day Year 1. Three hours. One pause — forty-five seconds — at I-1's folio so the gathered players could read the names along.
+
+---
+
+## Atalin Named Aloud
+
+| Field | Value |
+|-------|-------|
+| **Type** | Event |
+
+### Dossier
+
+The Year-2 closing rite. Atalin attends the Severance ceremony for the first time in forty seasons. The Advocate names them in the closing speech. Atalin cries once, briefly, and not again.
+
+---
+
+## Auro Recognised
+
+| Field | Value |
+|-------|-------|
+| **Type** | Event |
+
+### Dossier
+
+Lyra Vox's Year-2 album track sixteen names Auro publicly: 'sergeant who taught the module the Academy would not — we hear you.' The simplest and most effective piece of advocacy in the Year-2 case.
+
+---
+
+## Foundation Day Charter Ratification, Year 1
+
+| Field | Value |
+|-------|-------|
+| **Type** | Event |
+
+### Dossier
+
+The Council's seven-day vote at Foundation Day Year 1 ratifying the recovered charter as found, with the seventh signature kept silent per Per. M.'s testimony. Closes the Year-1 missing-signatory case; opens the Year-2 schism hook.
+
+---
+
+## Heron Named Aloud
+
+| Field | Value |
+|-------|-------|
+| **Type** | Event |
+
+### Dossier
+
+The Year-2 closing rite. The Antiquarian reads Heron's name into the Council record as the executor of the fourth-epoch scrub. The Council does not vilify; the diary entry is read alongside the indictment as Heron's own confession.
+
+---
+
+## Imprint I-1, Plaza-Named
+
+| Field | Value |
+|-------|-------|
+| **Type** | Event |
+
+### Dossier
+
+The plaza's collective inscription on Imprint I-1's previously-torn page. Twenty-three names spoken, all preserved on the folio. The Architect's first witnessing closed by the audience the Architect made for it.
+
+---
+
+## Kassel Solven's Council Speech
+
+| Field | Value |
+|-------|-------|
+| **Type** | Event |
+
+### Dossier
+
+Eight minutes at the Year-2 Foundation Day Council. Kassel speaks for the four artisan-houses; names Heron; names the six founders who signed the request; names the seventh's silence as the no-vote it always was. Does not name the seventh.
+
+---
+
+## Module 17 Resolution (Year 2)
+
+| Field | Value |
+|-------|-------|
+| **Type** | Event |
+
+### Dossier
+
+Year-2 Mechronis Festival closing motion. The Council votes on three options: restore Module 17 named for Tarn's retraction; restore anonymously taught by Auro; or refuse and fund Auro's role permanently. The player's E5 choice carries forward.
+
+---
+
+## Severance Amnesty Year 2
+
+| Field | Value |
+|-------|-------|
+| **Type** | Event |
+
+### Dossier
+
+Council motion passed twelve to two with three abstentions. Every infernal clause across forty DMC seasons declared void. Zyr'Koth withdraws the claim and pays a ceremonial hundred-dream-token fee for the league's audit costs.
+
+---
+
+## Six Watchers Named
+
+| Field | Value |
+|-------|-------|
+| **Type** | Event |
+
+### Dossier
+
+Year-2 Memorial Day closing rite. Idris, Verel, Ophran, Kallium, Mereth, Sothe — six of seven Watchers' role descriptions inscribed in the Year of the Lost volume between Year 1's Aren and the Year-3 inscriptions to come.
+
+---
+
+## Tarn's Curriculum Ratified
+
+| Field | Value |
+|-------|-------|
+| **Type** | Event |
+
+### Dossier
+
+Closing motion of the Year-1 Mechronis Festival. The Council ratifies the curriculum on Tarn's desk, with the authorship line either restored, left blank, or refused — the player's E5 choice carries forward.
+
+---
+
+## The Advocate's First Audit Won
+
+| Field | Value |
+|-------|-------|
+| **Type** | Event |
+
+### Dossier
+
+The Year-2 Severance brief — six pages on technically-void clauses — won by honest paperwork rather than argument. The Hierarchy concedes; Zyr'Koth withdraws. The Advocate's closing line: 'we have been winning by honest paperwork. it is not glamorous, but it is survivable.'
+
+---
+
 ## The Alias Structural Lock
 
 | Field | Value |
@@ -8849,6 +9725,18 @@ Malkia Ukweli was the anomaly — she refused to participate in the panic, sitti
 ### Dossier
 
 The Alias Structural Lock — Vex Solène Arc reference. First unlocked in episode 'The Recording Engineer's Deferred Bill' (vex.e2). Episode context: The Insurgency paid Vex for the DEC-7710 alias in installments — favours rather than currency. The ledger shows every installment redeemed except the last, an item entered as 'one favour to be named.' Investigate what the unnamed favour was for, and whether Vex still intends to ask.
+
+---
+
+## The Architect's First Self-Correction
+
+| Field | Value |
+|-------|-------|
+| **Type** | Event |
+
+### Dossier
+
+The Architect's Console's first self-issued correction in eight epochs: 'the seventh founding watcher did not consent to the fourth-epoch scrub. the record is corrected. the watcher remains silent.' Issued during the Year-2 schism investigation.
 
 ---
 
@@ -9015,6 +9903,30 @@ Not an ending but a transformation. Reality falls so that something new — some
 
 ---
 
+## The First Trumpet Sounded
+
+| Field | Value |
+|-------|-------|
+| **Type** | Event |
+
+### Dossier
+
+Twenty-two seconds. Upper-band band three (Idris's). The post-launch trumpet content slot scaffolded in Phase 4 of the saga's seven-seal spine; sounded for the first time at the Year-2 silence-break, brief and clean.
+
+---
+
+## The Forty-Envelope Audit
+
+| Field | Value |
+|-------|-------|
+| **Type** | Event |
+
+### Dossier
+
+The Advocate's audit of every season's DMC contract envelope. Forty envelopes, forty contracts, forty infernal clauses. All forty written in the same hand. The audit's first finding before the dating test.
+
+---
+
 ## The Host Invasion
 
 | Field | Value |
@@ -9032,6 +9944,18 @@ The Host Invasion — Wraith Calder Arc reference. First unlocked in episode 'Th
 
 ---
 
+## The Player's Question, Sealed in Vault
+
+| Field | Value |
+|-------|-------|
+| **Type** | Event |
+
+### Dossier
+
+The Memorial Plaza's vault contains every player's sealed question for the seventh Watcher. To be opened at the next Memorial Day on which the seventh chooses to speak. Sized for many.
+
+---
+
 ## The Resurrection-Protocol Theft
 
 | Field | Value |
@@ -9046,6 +9970,18 @@ The Host Invasion — Wraith Calder Arc reference. First unlocked in episode 'Th
 ### Dossier
 
 The Resurrection-Protocol Theft — Wraith Calder Arc reference. First unlocked in episode 'The Stolen Protocols' (wraith.e2). Episode context: Wraith Calder stole the resurrection protocols from the Syndicate of Death and democratised them. The act is canon. The mechanism is not. Investigate where the protocols were stored, how they were extracted, and what the Syndicate gave up to make the theft possible.
+
+---
+
+## The Seven-Day Window Clauses
+
+| Field | Value |
+|-------|-------|
+| **Type** | Event |
+
+### Dossier
+
+Quantum-dating result: every DMC infernal clause's ink was applied within a single seven-day window in epoch one (week thirty-three, days four through ten). Thirty-nine of forty clauses pre-date their host contract by up to thirty-nine seasons.
 
 ---
 
@@ -9096,6 +10032,18 @@ Prophesied since the beginning of time, the Silence marks the boundary between w
 
 ---
 
+## The Silence-Break, Year 2
+
+| Field | Value |
+|-------|-------|
+| **Type** | Event |
+
+### Dossier
+
+A sixty-three-second event during Memorial Day Year 2 in which six of the seven Watchers' upper-band channels open simultaneously. Each addresses a different player audience. The seventh's signature is present and silent. The case's opening evidence.
+
+---
+
 ## The Syndicate Twin Witness
 
 | Field | Value |
@@ -9110,6 +10058,42 @@ Prophesied since the beginning of time, the Silence marks the boundary between w
 ### Dossier
 
 The Syndicate Twin Witness — Jericho Jones Arc reference. First unlocked in episode 'The Degen's Commission' (jericho.e5). Episode context: Jericho is operational. The Degen names the commission he has been managing all along: a Syndicate-of-Death counter-move Wraith Calder could not finish in his own lifetime. Investigate the chain that connects the Degen's brokerage, Wraith's pre-rite contracts, and the asset that has been waiting at Mol'Vereth's table for centuries — and choose which witness Jericho deploys as.
+
+---
+
+## The Tarn-Erasure Vote
+
+| Field | Value |
+|-------|-------|
+| **Type** | Event |
+
+### Dossier
+
+A faculty vote held the week before the Year-1 Mechronis Festival. Three faculty heads voted aye to omit Tarn's name from the curriculum and invite her as a contributor; none of them refused first. The audio is the Year-1 mystery's pivot evidence.
+
+---
+
+## The Year-One Witness Restored
+
+| Field | Value |
+|-------|-------|
+| **Type** | Event |
+
+### Dossier
+
+Closing rite of the Year-1 Severance arc. Solène's name is added to the founding plaque. The Year-One lane-witness redaction is reversed — by their own consent — at the same Council session that ratifies the inheritance protocol.
+
+---
+
+## Thirty-One Apprentices Named
+
+| Field | Value |
+|-------|-------|
+| **Type** | Event |
+
+### Dossier
+
+The Antiquarian reads the thirty-one Year 1–14 apprentice-failure names into the Council record at the Year-2 closing rite. Fifteen sent notes; sixteen sent silence. Both are read.
 
 ---
 
@@ -9144,6 +10128,18 @@ VAR-1109 Pair — The Seer Arc reference. First unlocked in episode 'The Two Tom
 ### Dossier
 
 Wraith's Last Consultation — The Seer Arc reference. First unlocked in episode 'The Listener Who Stopped Listening' (seer.e3). Episode context: The Seer's archive once had a sustained audience: a single regular listener who attended every consultation for forty-one years. Then they stopped. The tapes from that period are unsealed; the gap is documented. Investigate who the listener was, why they stopped, and whether the archive's discipline of patience reads their absence as a verdict on the prophet or on themselves.
+
+---
+
+## Year of the Lost, Volume One Closed
+
+| Field | Value |
+|-------|-------|
+| **Type** | Event |
+
+### Dossier
+
+Memorial Day Year 1 last bell. All fourteen unwitnessed imprints inscribed; the torn page replaced by a sewn-in folio of twenty-three plaza-given names for I-1. The Architect's Console issued its second 'thanks' in eight epochs at close.
 
 ---
 
@@ -9284,6 +10280,138 @@ In Epoch 2, long after the Authority's fall, the Potentials discovered these Sin
 
 ---
 
+## Engineer Zero's Sigil
+
+| Field | Value |
+|-------|-------|
+| **Type** | Artifact |
+
+### Dossier
+
+A clean Z above a horizontal bar, used by Engineer Zero on every founding-era document. The horizontal bar of the charter signature runs into the seventh-line wax, marking where the closer's seal would later be poured.
+
+---
+
+## Imprint I-1, the Architect's First Witnessing
+
+| Field | Value |
+|-------|-------|
+| **Type** | Artifact |
+
+### Dossier
+
+The first imprint taken on the Ark, before the founding charter. The Architect's first act. Held in a separate alcove with its own lock; the keeper had held the key for three years and never opened it. The voice is a child's. The voice will not say the name.
+
+---
+
+## Module 17 Folio (Auro's Hand)
+
+| Field | Value |
+|-------|-------|
+| **Type** | Artifact |
+
+### Dossier
+
+Eleven hand-written pages: diagrams, drills, a self-test for Terminus feint recognition. Authored by Sergeant Auro from memory of the league's drill curriculum, supplemented by combat experience. The basis for the Year-2 curriculum amendment.
+
+---
+
+## Per. M.'s Lamp
+
+| Field | Value |
+|-------|-------|
+| **Type** | Artifact |
+
+### Dossier
+
+An oil-burning lamp on Per. M.'s desk that has burned for an unbroken twenty-two epochs. Filament mineralised to the same chemistry as the seventh-signature wax, suggesting a forge temperature available only on the upper bands.
+
+---
+
+## Professor Tarn's Festival Lectern
+
+| Field | Value |
+|-------|-------|
+| **Type** | Artifact |
+
+### Dossier
+
+Polished wood, brass hinges, a glass of cold water two-thirds full. Found empty at the Mechronis Festival's opening hour. The water did not warm — proof that Tarn prepared the lectern the night before and never returned.
+
+---
+
+## Tarn's Pebble
+
+| Field | Value |
+|-------|-------|
+| **Type** | Artifact |
+
+### Dossier
+
+A grey, water-smoothed lower-deck stone left on Tarn's desk under her abandoned lecture binder. Heavier than it looks. The Dean has been weighing it in their palm during every vote-prep since.
+
+---
+
+## The Charter Addendum, Year 2
+
+| Field | Value |
+|-------|-------|
+| **Type** | Artifact |
+
+### Dossier
+
+A folio sewn to both the original charter and the mirror, signed by the four artisan-house representatives, the Antiquarian, and Per. M. as proxy for the seventh. 'We eight signed; we six scrubbed; we four kept; we eight again.'
+
+---
+
+## The Eighth Sigil (House Solven)
+
+| Field | Value |
+|-------|-------|
+| **Type** | Artifact |
+
+### Dossier
+
+A hand opening, two fingers down. Last appeared in lower-deck tax ledgers four epochs ago. The sigil belongs to House Solven, an artisan family scrubbed from every Council ledger in the fourth epoch.
+
+---
+
+## The Epoch-One DMC Contract
+
+| Field | Value |
+|-------|-------|
+| **Type** | Artifact |
+
+### Dossier
+
+A standard first-season Dead Man's Circuit contract from epoch one, yellowed but readable. The back carries an infernal clause initialled by the champion, the Hierarchy ledger-keeper, and Vex Maestro's predecessor. The opening evidence in the Year-2 audit.
+
+---
+
+## The Founding Charter Fragment
+
+| Field | Value |
+|-------|-------|
+| **Type** | Artifact |
+
+### Dossier
+
+Vellum, hand-cured, the size of a folded coat. Six signatures down the right margin. The seventh is a black blister of mineralised wax. Recovered from the lower-deck silt at Foundation Day Year 1. The artefact the year-one cold case was opened on.
+
+---
+
+## The Mirror Charter
+
+| Field | Value |
+|-------|-------|
+| **Type** | Artifact |
+
+### Dossier
+
+A parallel original of the founding charter, vellum cut from the same hide as the recovered Year-1 fragment, signed within the same week. Eight signatures rather than seven — the eighth a House Solven sigil. Brought to the Council door at Foundation Day Year 2.
+
+---
+
 ## The Thalorian Vessel
 
 | Field | Value |
@@ -9298,6 +10426,18 @@ In Epoch 2, long after the Authority's fall, the Potentials discovered these Sin
 ### Dossier
 
 The Thalorian Vessel — Wraith Calder Arc reference. First unlocked in episode 'The Eighth Death' (wraith.e4). Episode context: The Sanctuary's Final Rite ended one body and seated the Hierophant. Wraith Calder remembers the rite as a release; the Hierophant remembers the rite as a coronation. Both memories are first-person. The case interrogates the seam: was the Eighth Death a death, or a passage? And if it was a passage, was it consented to?
+
+---
+
+## Year of the Lost, Volume One
+
+| Field | Value |
+|-------|-------|
+| **Type** | Artifact |
+
+### Dossier
+
+Hand-bound, leather-quilted, eight hundred and twelve pages. The Antiquarian's first inscription volume for the Memorial Plaza. Year 1 shipped with fourteen blank pages; closed with all fourteen inscribed and a sewn-in folio for the recovered I-1.
 
 ---
 

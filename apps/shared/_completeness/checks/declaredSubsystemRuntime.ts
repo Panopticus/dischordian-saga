@@ -8,7 +8,7 @@
  *     dual-path corruption/purification economy with Demon-Pet summoning
  *     and Divine-Light investments. Casino-game files mention a derived
  *     "soulStones" reward token, but the dual-path system is absent.
- *   - Pet/Specimen Breeding (docs/production/BREEDING_SYSTEM_ART_PROMPTS.md)
+ *   - Pet/Specimen Breeding (docs/archive/2026-05-08-superseded/BREEDING_SYSTEM_ART_PROMPTS.md)
  *     — pet pairing, lineage, and offspring generation. No DB table, no
  *     router, no engine surface.
  *   - Living Character Sheet (docs/production/LIVING_CHARACTER_SHEET_ART_BRIEF.md)
@@ -110,7 +110,7 @@ const ARTIFACTS: ReadonlyArray<DeclaredArtifact> = [
       ),
   },
 
-  // ─── Pet/Specimen Breeding (docs/production/BREEDING_SYSTEM_ART_PROMPTS.md) ──
+  // ─── Pet/Specimen Breeding (docs/archive/2026-05-08-superseded/BREEDING_SYSTEM_ART_PROMPTS.md) ──
   {
     subsystem: "pet_breeding",
     id: "schema:breeding_pairs",

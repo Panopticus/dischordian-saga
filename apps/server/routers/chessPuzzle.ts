@@ -30,7 +30,6 @@ export const chessPuzzleRouter = router({
   puzzleOfTheDay: protectedProcedure.query(async () => {
     const day = currentDayOfYear();
     const puzzle = getDailyPuzzle(day);
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { solutionMoves: _s, ...rest } = puzzle;
     return { day, puzzle: rest };
   }),

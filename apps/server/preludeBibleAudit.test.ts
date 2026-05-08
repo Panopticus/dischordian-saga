@@ -11,9 +11,15 @@ import { ENGINEER_RECORDINGS } from "../shared/engineerRecordings";
 /* ═══════════════════════════════════════════════════════
    PRELUDE BIBLE AUDIT — cross-check of "existing" claims
 
-   docs/production/PRELUDE_SHIP_READY_BIBLE.md names lots of asset
-   paths that it claims are "existing" (from a prior production
-   run or a separate canon expansion). This test scans the Bible
+   The Prelude bible was archived in the 2026-05-08
+   production-doc collapse and now lives at
+   docs/archive/2026-05-08-superseded/PRELUDE_SHIP_READY_BIBLE.md.
+   It is preserved verbatim as a frozen asset-path snapshot;
+   live production guidance moved to docs/ART_DEPARTMENT_PRODUCTION.md.
+
+   The bible names lots of asset paths that it claims are
+   "existing" (from a prior production run or a separate canon
+   expansion). This test scans the Bible
    for every asset path it mentions, subtracts the known-new
    registry from apps/shared/preludeSequence.ts, and verifies
    what's left:
@@ -41,7 +47,7 @@ import { ENGINEER_RECORDINGS } from "../shared/engineerRecordings";
    ═══════════════════════════════════════════════════════ */
 
 const REPO_ROOT = path.resolve(__dirname, "..", "..");
-const BIBLE_PATH = "docs/production/PRELUDE_SHIP_READY_BIBLE.md";
+const BIBLE_PATH = "docs/archive/2026-05-08-superseded/PRELUDE_SHIP_READY_BIBLE.md";
 
 /** public/{art,audio,videos,music,games} are gitignored (served from S3).
  *  Skip the on-disk asset claims block when those dirs aren't locally

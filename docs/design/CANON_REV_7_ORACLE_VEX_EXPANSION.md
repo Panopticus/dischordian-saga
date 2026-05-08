@@ -218,7 +218,7 @@ For the full Act 3 asset bible (future document), The Coda requires:
 | The Second Chair "ghost Engineer" dialog portrait — not a person, a waveform | Nano Banana 2 still | P0 |
 | 12 unique Coda mission briefing backgrounds (one per faction × 2 tracks) | Nano Banana 2 stills | P1 |
 
-These are Act 3 deliverables and are **not** included in `PRELUDE_SHIP_READY_BIBLE.md`. They will be the backbone of a future `ACT3_SHIP_READY_BIBLE.md`.
+These are Act 3 deliverables and are **not** included in the Prelude bible (archived at `docs/archive/2026-05-08-superseded/PRELUDE_SHIP_READY_BIBLE.md`). Production-queue tracking for Act 3 lives in `docs/ART_DEPARTMENT_PRODUCTION.md` §3.4.
 
 ---
 
@@ -361,13 +361,13 @@ The reveal is delivered in three stages, all of them in Acts 4–5 (none in the 
 
 This is the only CoNexus seed in the Prelude. It must not be larger than this.
 
-See §5 of this document and §16 of `PRELUDE_SHIP_READY_BIBLE.md` (Beat I) for the exact frame insertion.
+See §5 of this document and §16 of the archived Prelude bible at `docs/archive/2026-05-08-superseded/PRELUDE_SHIP_READY_BIBLE.md` (Beat I) for the exact frame insertion.
 
 ### 4.6 Narrative hygiene rules (for all writers)
 
 1. **Nobody says the word "CoNexus" in the Prelude.** Not Elara, not the Human, not the Prince audio logs, not system notifications. The closest any Prelude text comes is the inside-the-bloom eye frame in Beat I.
 2. **Nobody says the phrase "machine god" before Act 5.** Not even hypothetically. Not even in a "sometimes I wonder if —" rhetorical throwaway. Any line that looks like a machine-god seed gets cut.
-3. **Kanevas remains, in the Prelude and Acts 1–3, a standard Mechronis Academy headmaster.** His existing portrait prompt at `docs/production/MECHRONIS_ART_PROMPTS.md:19-35` and his Celebration-era classroom at `docs/production/CELEBRATION_MECHRONIS_ART_PROMPTS.md:52` remain canonical and unaltered. His reveal as the CoNexus interface layer is an Act 4 event.
+3. **Kanevas remains, in the Prelude and Acts 1–3, a standard Mechronis Academy headmaster.** His existing portrait prompt (archived at `docs/archive/2026-05-08-superseded/MECHRONIS_ART_PROMPTS.md:19-35`; folded into `docs/ART_DEPARTMENT_PRODUCTION.md` §2.16 + §6) and his Celebration-era classroom (archived at `docs/archive/2026-05-08-superseded/CELEBRATION_MECHRONIS_ART_PROMPTS.md:52`; folded into the same doc's §2.16) remain canonical and unaltered. His reveal as the CoNexus interface layer is an Act 4 event.
 4. **The Architect's self-image is preserved.** In the Prelude and Acts 1–3 the Architect believes it is the top of the hierarchy. Any dialog that undermines the Architect's self-perception before Act 5 is a spoiler and must be caught in review.
 5. **The app is named Dischordia in every surface the player sees.** The name CoNexus Instance 0017 exists only in device-side metadata that the player discovers in Act 4 Cell 2, not in the PWA manifest or UI. `apps/client/public/manifest.json` continues to identify the app as "Loredex OS - The Dischordian Saga" with no reference to CoNexus.
 
@@ -377,7 +377,7 @@ See §5 of this document and §16 of `PRELUDE_SHIP_READY_BIBLE.md` (Beat I) for 
 
 ### 5.1 Purpose and integration
 
-These five audio logs are **the directly-actionable Prelude content** from this canon expansion. They extend the existing 7-recording set in `apps/shared/engineerRecordings.ts` with five new entries that establish the Oracle arc and give the player the foundational seed for the Engineer's character — his awe, his despair, his diagnosis, and his final choice. They voice in the **The Prince** profile defined in `docs/production/PRELUDE_SHIP_READY_BIBLE.md` Section 2.
+These five audio logs are **the directly-actionable Prelude content** from this canon expansion. They extend the existing 7-recording set in `apps/shared/engineerRecordings.ts` with five new entries that establish the Oracle arc and give the player the foundational seed for the Engineer's character — his awe, his despair, his diagnosis, and his final choice. They voice in the **The Prince** profile defined in Section 2 of the archived Prelude bible at `docs/archive/2026-05-08-superseded/PRELUDE_SHIP_READY_BIBLE.md`.
 
 **Distribution across the Prelude:**
 

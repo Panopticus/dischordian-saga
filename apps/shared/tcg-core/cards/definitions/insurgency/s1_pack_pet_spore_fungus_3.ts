@@ -32,7 +32,7 @@ export const cardDef: CardDefinition = {
   rarity: "epic",
   cost: 5,
   baseStats: { power: 3, health: 7 },
-  keywords: ["deathwatch"],
+  keywords: [],
   abilities: [
     {
       id: "fc_deathwatch_grow" as CardDefinition["abilities"][number]["id"],
@@ -43,8 +43,7 @@ export const cardDef: CardDefinition = {
         duration: { kind: "permanent" },
         to: { kind: "self" },
       },
-    },
-  ],
+    }],
   art: assetUrl("art/cards/s1_pack_pet_spore_fungus_3.webp"),
   flavorText:
     "It feeds on the fallen. Every battlefield is a garden.",

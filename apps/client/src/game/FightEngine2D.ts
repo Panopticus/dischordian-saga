@@ -16,14 +16,29 @@ import { getCharacterSpecials, type CharacterSpecials, type SpecialMove } from "
 import { getCharacterConfig } from "./CharacterModel3D";
 import { FightSoundManager } from "./FightSoundManager";
 import { getAnimation2D, resolveFrame, clearAnimationCache, preloadFighterSheets, type PoseAnimation, type SpriteFrame } from "./SpriteAnimator";
-
-type PoseKey = "idle" | "attack" | "block" | "hit" | "ko" | "victory"
-  | "walkForward" | "walkBack" | "crouch" | "dash"
-  | "lightPunch" | "mediumPunch" | "heavyPunch"
-  | "lightKick" | "mediumKick" | "heavyKick"
-  | "crouchPunch" | "crouchKick" | "sweep"
-  | "jump" | "jumpAttack" | "grab"
-  | "knockdown" | "dizzy" | "special" | "taunt";
+// audit/01.F4 — pure frame-data layer extracted into its own module.
+// FightEngine2D imports the constants, types, and functions from
+// fightFrameData; the module owns no state, so there's no circular
+// risk and no behavior change.
+import {
+  FIGHTER_HEIGHT,
+  METER_PER_HIT,
+  getStandingHurtBoxes,
+  getCrouchingHurtBoxes,
+  getAirHurtBoxes,
+  aabbOverlap,
+  toWorld,
+  buildMoveData,
+  buildSpecialMoveData,
+  stateToPose,
+  POSE_FALLBACK,
+  type AABB,
+  type HurtBoxSet,
+  type HitBox,
+  type MoveFrameData,
+  type PoseKey,
+  type FighterState2D,
+} from "./fightFrameData";
 
 /* ═══════════════════════════════════════════════════════
    EXPORTED TYPES
@@ -31,25 +46,18 @@ type PoseKey = "idle" | "attack" | "block" | "hit" | "ko" | "victory"
 
 export type FightPhase2D = "intro" | "round_announce" | "fighting" | "finish_him" | "ko" | "round_end" | "match_end";
 
-export type FighterState2D =
-  | "idle" | "walk_fwd" | "walk_back"
-  | "crouch_down" | "crouch" | "crouch_up" | "crouch_turn"
-  | "dash_fwd" | "dash_back"
-  | "jump_start" | "jump_up" | "jump_fwd" | "jump_back" | "jump_land"
-  | "light_1" | "light_2" | "light_3"
-  | "light_kick" | "medium_kick" | "heavy_kick"
-  | "crouch_light" | "crouch_medium" | "crouch_heavy"
-  | "jump_light" | "jump_medium" | "jump_heavy"
-  | "medium" | "heavy_charge" | "heavy_release"
-  | "special_1" | "special_2" | "special_3"
-  | "block_stand" | "block_crouch" | "blockstun"
-  | "hitstun" | "knockdown" | "getup" | "launched" | "air_hitstun"
-  | "parry_stun" | "finish_stun" | "ko" | "victory"
-  | "throw_startup" | "throw_whiff" | "thrown"
-  | "taunt";
+// FighterState2D is canonically declared in fightFrameData.ts so the
+// pure-function frame-data layer can consume it. Re-export so existing
+// callers that imported it from FightEngine2D don't break.
+export type { FighterState2D };
 
 export type AIStyle2D = "aggressive" | "defensive" | "evasive" | "balanced";
-export type Difficulty2D = "recruit" | "soldier" | "veteran" | "archon";
+// Difficulty2D + AIDifficultyProfile + AI_PROFILES live in ./fightAi
+// (Step 3a of the FightEngine2D split). Re-export so existing
+// callers don't break.
+export { type Difficulty2D, type AIDifficultyProfile, AI_PROFILES } from "./fightAi";
+import type { Difficulty2D, AIDifficultyProfile } from "./fightAi";
+import { AI_PROFILES, adaptAggression, idealDistanceFor } from "./fightAi";
 
 export interface TouchInput2D {
   type: "tap" | "swipe_left" | "swipe_right" | "swipe_up" | "swipe_down" | "hold_start" | "hold_end" | "double_tap" | "triple_tap" | "none";
@@ -137,7 +145,7 @@ const FIXED_DT = 1000 / 60;   // 60fps fixed timestep
 
 // Fighter dimensions
 const FIGHTER_WIDTH = 80;
-const FIGHTER_HEIGHT = 200;
+// FIGHTER_HEIGHT is owned by ./fightFrameData (audit/01.F4) — imported above.
 const FIGHTER_DRAW_WIDTH = 180;  // Visual sprite width
 const FIGHTER_DRAW_HEIGHT = 280; // Visual sprite height
 
@@ -173,7 +181,7 @@ const MAX_JUGGLE_POINTS = 8;
 
 // Meter
 const MAX_METER = 300;
-const METER_PER_HIT = 8;
+// METER_PER_HIT is owned by ./fightFrameData (audit/01.F4) — imported above.
 const METER_PER_DAMAGE = 0.15;
 
 // Camera
@@ -181,332 +189,12 @@ const CAMERA_LERP = 0.08;
 const CAMERA_MIN_ZOOM = 0.85;
 const CAMERA_MAX_ZOOM = 1.15;
 
-/* ═══════════════════════════════════════════════════════
-   HITBOX / HURTBOX SYSTEM (AABB)
-   ═══════════════════════════════════════════════════════ */
+// audit/01.F4 — AABB / HurtBoxSet / HitBox types are imported from
+// ./fightFrameData. The pure frame-data + collision functions
+// (getStandingHurtBoxes, getCrouchingHurtBoxes, getAirHurtBoxes,
+// aabbOverlap, toWorld) live there too.
 
-interface AABB {
-  x: number;      // left edge relative to fighter center
-  y: number;      // top edge relative to fighter feet
-  w: number;      // width
-  h: number;      // height
-}
 
-interface HurtBoxSet {
-  head: AABB;
-  body: AABB;
-  legs: AABB;
-}
-
-interface HitBox extends AABB {
-  damage: number;
-  hitstun: number;
-  blockstun: number;
-  pushbackHit: number;
-  pushbackBlock: number;
-  meterGain: number;
-  juggleCost: number;
-  launchForce: number;    // 0 = no launch, >0 = vertical launch velocity
-  knockdownForce: number; // 0 = no knockdown, >0 = knockdown
-  type: "high" | "mid" | "low" | "overhead" | "unblockable";
-}
-
-/** Default hurtboxes for standing fighter */
-function getStandingHurtBoxes(facingRight: boolean): HurtBoxSet {
-  const dir = facingRight ? 1 : -1;
-  return {
-    head: { x: -15 * dir, y: -FIGHTER_HEIGHT, w: 40, h: 45 },
-    body: { x: -20 * dir, y: -FIGHTER_HEIGHT + 45, w: 50, h: 70 },
-    legs: { x: -20 * dir, y: -FIGHTER_HEIGHT + 115, w: 50, h: 85 },
-  };
-}
-
-function getCrouchingHurtBoxes(facingRight: boolean): HurtBoxSet {
-  const dir = facingRight ? 1 : -1;
-  return {
-    head: { x: -15 * dir, y: -130, w: 40, h: 35 },
-    body: { x: -20 * dir, y: -95, w: 55, h: 50 },
-    legs: { x: -25 * dir, y: -45, w: 60, h: 45 },
-  };
-}
-
-function getAirHurtBoxes(facingRight: boolean): HurtBoxSet {
-  const dir = facingRight ? 1 : -1;
-  return {
-    head: { x: -15 * dir, y: -50, w: 40, h: 30 },
-    body: { x: -20 * dir, y: -20, w: 50, h: 40 },
-    legs: { x: -15 * dir, y: 20, w: 45, h: 40 },
-  };
-}
-
-/** AABB overlap test — world coordinates */
-function aabbOverlap(a: { x: number; y: number; w: number; h: number }, b: { x: number; y: number; w: number; h: number }): boolean {
-  return a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
-}
-
-/** Convert a local-space AABB to world space given fighter position */
-function toWorld(box: AABB, fx: number, fy: number, facingRight: boolean): { x: number; y: number; w: number; h: number } {
-  const worldX = facingRight ? fx + box.x : fx - box.x - box.w;
-  return { x: worldX, y: fy + box.y, w: box.w, h: box.h };
-}
-
-/* ═══════════════════════════════════════════════════════
-   FRAME DATA — Per-move timing and hitbox data
-   ═══════════════════════════════════════════════════════ */
-
-interface MoveFrameData {
-  startup: number;
-  active: number;
-  recovery: number;
-  hitbox: HitBox;        // Active during active frames
-  cancelWindow: number;  // Frames during active+recovery where cancel is allowed
-}
-
-/** Build frame data for a move based on archetype and frame profile */
-function buildMoveData(
-  profile: FrameProfile,
-  move: "light_1" | "light_2" | "light_3" | "medium" | "heavy_release" |
-        "light_kick" | "medium_kick" | "heavy_kick" |
-        "crouch_light" | "crouch_medium" | "crouch_heavy" |
-        "jump_light" | "jump_medium" | "jump_heavy"
-): MoveFrameData {
-  const baseDmg = 30 * profile.damageMult;
-  const baseRange = 70 * profile.rangeMult;
-  const baseHitstun = 12 * profile.hitstunMult;
-  const basePushback = 4 * profile.pushbackMult;
-
-  switch (move) {
-    case "light_1":
-      return {
-        startup: profile.lightStartup,
-        active: 3,
-        recovery: profile.lightRecovery,
-        hitbox: {
-          x: 20, y: -FIGHTER_HEIGHT + 50, w: baseRange * 0.8, h: 40,
-          damage: baseDmg * 0.6, hitstun: baseHitstun * 0.8, blockstun: Math.floor(baseHitstun * 0.5),
-          pushbackHit: basePushback * 0.5, pushbackBlock: basePushback * 0.7,
-          meterGain: METER_PER_HIT, juggleCost: 1, launchForce: 0, knockdownForce: 0,
-          type: "high",
-        },
-        cancelWindow: 8,
-      };
-    case "light_2":
-      return {
-        startup: profile.lightStartup + 1,
-        active: 3,
-        recovery: profile.lightRecovery + 2,
-        hitbox: {
-          x: 20, y: -FIGHTER_HEIGHT + 60, w: baseRange * 0.85, h: 45,
-          damage: baseDmg * 0.7, hitstun: baseHitstun * 0.9, blockstun: Math.floor(baseHitstun * 0.55),
-          pushbackHit: basePushback * 0.6, pushbackBlock: basePushback * 0.8,
-          meterGain: METER_PER_HIT, juggleCost: 1, launchForce: 0, knockdownForce: 0,
-          type: "mid",
-        },
-        cancelWindow: 6,
-      };
-    case "light_3":
-      return {
-        startup: profile.lightStartup + 2,
-        active: 4,
-        recovery: profile.lightRecovery + 3,
-        hitbox: {
-          x: 20, y: -FIGHTER_HEIGHT + 55, w: baseRange * 0.9, h: 50,
-          damage: baseDmg * 0.8, hitstun: baseHitstun, blockstun: Math.floor(baseHitstun * 0.6),
-          pushbackHit: basePushback * 0.7, pushbackBlock: basePushback * 0.9,
-          meterGain: METER_PER_HIT, juggleCost: 2, launchForce: 0, knockdownForce: 0,
-          type: "mid",
-        },
-        cancelWindow: 5,
-      };
-    case "medium":
-      return {
-        startup: profile.mediumStartup,
-        active: 4,
-        recovery: profile.mediumRecovery,
-        hitbox: {
-          x: 15, y: -FIGHTER_HEIGHT + 40, w: baseRange, h: 55,
-          damage: baseDmg, hitstun: baseHitstun * 1.2, blockstun: Math.floor(baseHitstun * 0.7),
-          pushbackHit: basePushback, pushbackBlock: basePushback * 1.2,
-          meterGain: METER_PER_HIT * 1.5, juggleCost: 2, launchForce: 0, knockdownForce: 0,
-          type: "mid",
-        },
-        cancelWindow: 6,
-      };
-    case "heavy_release":
-      return {
-        startup: profile.heavyStartup,
-        active: 5,
-        recovery: profile.heavyRecovery,
-        hitbox: {
-          x: 10, y: -FIGHTER_HEIGHT + 30, w: baseRange * 1.2, h: 70,
-          damage: baseDmg * 1.8, hitstun: baseHitstun * 1.5, blockstun: Math.floor(baseHitstun * 0.9),
-          pushbackHit: basePushback * 1.5, pushbackBlock: basePushback * 1.8,
-          meterGain: METER_PER_HIT * 2, juggleCost: 3, launchForce: 6, knockdownForce: 0,
-          type: "mid",
-        },
-        cancelWindow: 4,
-      };
-    case "crouch_light":
-      return {
-        startup: profile.lightStartup,
-        active: 3,
-        recovery: profile.lightRecovery,
-        hitbox: {
-          x: 15, y: -50, w: baseRange * 0.85, h: 30,
-          damage: baseDmg * 0.5, hitstun: baseHitstun * 0.7, blockstun: Math.floor(baseHitstun * 0.4),
-          pushbackHit: basePushback * 0.3, pushbackBlock: basePushback * 0.5,
-          meterGain: METER_PER_HIT * 0.8, juggleCost: 1, launchForce: 0, knockdownForce: 0,
-          type: "low",
-        },
-        cancelWindow: 8,
-      };
-    case "crouch_medium":
-      return {
-        startup: profile.mediumStartup,
-        active: 4,
-        recovery: profile.mediumRecovery + 2,
-        hitbox: {
-          x: 10, y: -60, w: baseRange * 1.1, h: 35,
-          damage: baseDmg * 0.85, hitstun: baseHitstun, blockstun: Math.floor(baseHitstun * 0.6),
-          pushbackHit: basePushback * 0.7, pushbackBlock: basePushback,
-          meterGain: METER_PER_HIT * 1.2, juggleCost: 2, launchForce: 0, knockdownForce: 0,
-          type: "low",
-        },
-        cancelWindow: 5,
-      };
-    case "crouch_heavy":
-      return {
-        startup: profile.heavyStartup + 2,
-        active: 5,
-        recovery: profile.heavyRecovery + 4,
-        hitbox: {
-          x: 5, y: -40, w: baseRange * 1.3, h: 40,
-          damage: baseDmg * 1.4, hitstun: baseHitstun * 1.3, blockstun: Math.floor(baseHitstun * 0.8),
-          pushbackHit: basePushback * 1.2, pushbackBlock: basePushback * 1.5,
-          meterGain: METER_PER_HIT * 1.8, juggleCost: 3, launchForce: 8, knockdownForce: 5,
-          type: "low",
-        },
-        cancelWindow: 3,
-      };
-    case "jump_light":
-      return {
-        startup: 3,
-        active: 6,
-        recovery: 4,
-        hitbox: {
-          x: 15, y: -30, w: baseRange * 0.7, h: 50,
-          damage: baseDmg * 0.5, hitstun: baseHitstun * 0.8, blockstun: Math.floor(baseHitstun * 0.5),
-          pushbackHit: basePushback * 0.3, pushbackBlock: basePushback * 0.5,
-          meterGain: METER_PER_HIT * 0.8, juggleCost: 1, launchForce: 0, knockdownForce: 0,
-          type: "overhead",
-        },
-        cancelWindow: 0,
-      };
-    case "jump_medium":
-      return {
-        startup: 5,
-        active: 5,
-        recovery: 6,
-        hitbox: {
-          x: 10, y: -20, w: baseRange * 0.85, h: 55,
-          damage: baseDmg * 0.9, hitstun: baseHitstun * 1.1, blockstun: Math.floor(baseHitstun * 0.65),
-          pushbackHit: basePushback * 0.5, pushbackBlock: basePushback * 0.8,
-          meterGain: METER_PER_HIT * 1.2, juggleCost: 2, launchForce: 0, knockdownForce: 0,
-          type: "overhead",
-        },
-        cancelWindow: 0,
-      };
-    case "jump_heavy":
-      return {
-        startup: 7,
-        active: 4,
-        recovery: 10,
-        hitbox: {
-          x: 5, y: -10, w: baseRange * 1.1, h: 65,
-          damage: baseDmg * 1.5, hitstun: baseHitstun * 1.4, blockstun: Math.floor(baseHitstun * 0.85),
-          pushbackHit: basePushback * 1.2, pushbackBlock: basePushback * 1.5,
-          meterGain: METER_PER_HIT * 2, juggleCost: 3, launchForce: 0, knockdownForce: 4,
-          type: "overhead",
-        },
-        cancelWindow: 0,
-      };
-    // ═══ KICK ATTACKS ═══
-    case "light_kick":
-      return {
-        startup: profile.lightStartup + 1,
-        active: 4,
-        recovery: profile.lightRecovery + 1,
-        hitbox: {
-          x: 20, y: -FIGHTER_HEIGHT + 100, w: baseRange * 0.9, h: 50,
-          damage: baseDmg * 0.65, hitstun: baseHitstun * 0.85, blockstun: Math.floor(baseHitstun * 0.5),
-          pushbackHit: basePushback * 0.6, pushbackBlock: basePushback * 0.8,
-          meterGain: METER_PER_HIT, juggleCost: 1, launchForce: 0, knockdownForce: 0,
-          type: "mid",
-        },
-        cancelWindow: 7,
-      };
-    case "medium_kick":
-      return {
-        startup: profile.mediumStartup + 1,
-        active: 5,
-        recovery: profile.mediumRecovery + 1,
-        hitbox: {
-          x: 15, y: -FIGHTER_HEIGHT + 80, w: baseRange * 1.1, h: 55,
-          damage: baseDmg * 1.1, hitstun: baseHitstun * 1.15, blockstun: Math.floor(baseHitstun * 0.7),
-          pushbackHit: basePushback * 1.1, pushbackBlock: basePushback * 1.3,
-          meterGain: METER_PER_HIT * 1.5, juggleCost: 2, launchForce: 0, knockdownForce: 0,
-          type: "mid",
-        },
-        cancelWindow: 5,
-      };
-    case "heavy_kick":
-      return {
-        startup: profile.heavyStartup + 2,
-        active: 5,
-        recovery: profile.heavyRecovery + 2,
-        hitbox: {
-          x: 10, y: -FIGHTER_HEIGHT + 70, w: baseRange * 1.3, h: 70,
-          damage: baseDmg * 1.9, hitstun: baseHitstun * 1.5, blockstun: Math.floor(baseHitstun * 0.95),
-          pushbackHit: basePushback * 1.6, pushbackBlock: basePushback * 2.0,
-          meterGain: METER_PER_HIT * 2.2, juggleCost: 3, launchForce: 5, knockdownForce: 3,
-          type: "mid",
-        },
-        cancelWindow: 3,
-      };
-  }
-}
-
-/* ═══════════════════════════════════════════════════════
-   SPECIAL MOVE FRAME DATA
-   ═══════════════════════════════════════════════════════ */
-
-function buildSpecialMoveData(special: SpecialMove, level: 1 | 2 | 3, profile: FrameProfile): MoveFrameData {
-  const baseDmg = 30 * profile.damageMult;
-  const baseRange = 70 * profile.rangeMult;
-  const baseHitstun = 12 * profile.hitstunMult;
-  const basePushback = 4 * profile.pushbackMult;
-  const dmgMult = special.damage * (1 + (level - 1) * 0.3);
-
-  return {
-    startup: special.startupFrames ?? (10 + (level - 1) * 3),
-    active: special.activeFrames ?? (6 + level * 2),
-    recovery: special.recoveryFrames ?? (15 + (level - 1) * 5),
-    hitbox: {
-      x: 10, y: -FIGHTER_HEIGHT + 30, w: baseRange * (1.2 + level * 0.15), h: 80,
-      damage: baseDmg * dmgMult,
-      hitstun: Math.floor(baseHitstun * (1.5 + level * 0.2)),
-      blockstun: Math.floor(baseHitstun * (0.9 + level * 0.1)),
-      pushbackHit: basePushback * (1.5 + level * 0.3),
-      pushbackBlock: basePushback * (2 + level * 0.3),
-      meterGain: 0, // Specials cost meter, don't gain
-      juggleCost: level + 1,
-      launchForce: level >= 2 ? 8 + level * 2 : 0,
-      knockdownForce: level >= 3 ? 6 : 0,
-      type: "mid",
-    },
-    cancelWindow: 0,
-  };
-}
 
 /* ═══════════════════════════════════════════════════════
    PROJECTILE
@@ -655,102 +343,6 @@ interface SpriteSheet {
   taunt: HTMLImageElement | null;
 }
 
-// PoseKey defined at top of file
-
-/** Map fighter state to the most specific pose key available.
- *  The renderer will fall back to base poses if the extended pose isn't loaded. */
-function stateToPose(state: FighterState2D): PoseKey {
-  switch (state) {
-    // Movement
-    case "walk_fwd":       return "walkForward";
-    case "walk_back":      return "walkBack";
-    case "dash_fwd":       return "dash";
-    case "dash_back":      return "dash";
-    // Crouch
-    case "crouch_down":
-    case "crouch":
-    case "crouch_up":
-    case "crouch_turn":    return "crouch";
-    // Jump
-    case "jump_start":
-    case "jump_up":
-    case "jump_fwd":
-    case "jump_back":      return "jump";
-    case "jump_land":      return "idle";
-    // Standing attacks
-    case "light_1":
-    case "light_2":
-    case "light_3":        return "lightPunch";
-    case "medium":         return "mediumPunch";
-    case "heavy_charge":
-    case "heavy_release":  return "heavyPunch";
-    // Kick attacks
-    case "light_kick":     return "lightKick";
-    case "medium_kick":    return "mediumKick";
-    case "heavy_kick":     return "heavyKick";
-    // Crouch attacks
-    case "crouch_light":   return "crouchPunch";
-    case "crouch_medium":  return "crouchKick";
-    case "crouch_heavy":   return "sweep";
-    // Air attacks
-    case "jump_light":
-    case "jump_medium":
-    case "jump_heavy":     return "jumpAttack";
-    // Specials
-    case "special_1":
-    case "special_2":
-    case "special_3":      return "special";
-    // Throw
-    case "throw_startup":  return "grab";
-    case "throw_whiff":    return "grab";
-    // Defense
-    case "block_stand":
-    case "block_crouch":
-    case "blockstun":
-    case "parry_stun":     return "block";
-    // Damage
-    case "hitstun":
-    case "air_hitstun":
-    case "launched":
-    case "thrown":
-    case "finish_stun":    return "hit";
-    // Down states
-    case "knockdown":      return "knockdown";
-    case "ko":             return "ko";
-    case "getup":          return "dizzy";
-    // Taunt
-    case "taunt":          return "taunt";
-    // Win
-    case "victory":        return "victory";
-    // Default
-    case "idle":
-    default:               return "idle";
-  }
-}
-
-/** Fallback chain: if the specific pose sprite isn't loaded, degrade gracefully */
-const POSE_FALLBACK: Partial<Record<PoseKey, PoseKey>> = {
-  walkForward: "idle",
-  walkBack: "idle",
-  crouch: "block",
-  dash: "attack",
-  lightPunch: "attack",
-  mediumPunch: "attack",
-  heavyPunch: "attack",
-  lightKick: "attack",
-  mediumKick: "attack",
-  heavyKick: "attack",
-  crouchPunch: "attack",
-  crouchKick: "attack",
-  sweep: "attack",
-  jump: "idle",
-  jumpAttack: "attack",
-  grab: "attack",
-  knockdown: "ko",
-  dizzy: "hit",
-  special: "attack",
-  taunt: "victory",
-};
 
 /* ═══════════════════════════════════════════════════════
    INPUT SYSTEM — Keyboard + Touch
@@ -951,47 +543,6 @@ const ARCHETYPE_JUMP_FORCE: Record<FighterArchetype, number> = {
   balanced: 13, glass_cannon: 15, tricky: 14, tank: 9,
 };
 
-/* ═══════════════════════════════════════════════════════
-   AI DIFFICULTY PROFILES
-   ═══════════════════════════════════════════════════════ */
-
-interface AIDifficultyProfile {
-  reactionFrames: number;     // How many frames AI waits before reacting
-  comboAccuracy: number;      // 0-1, chance of continuing combo
-  blockRate: number;          // 0-1, chance of blocking on reaction
-  antiAirRate: number;        // 0-1, chance of anti-airing jumps
-  whiffPunishRate: number;    // 0-1, chance of punishing whiffed attacks
-  specialUseRate: number;     // 0-1, how often AI uses specials
-  mistakeRate: number;        // 0-1, chance of random mistake
-  aggressionBase: number;     // 0-1, base aggression level
-}
-
-const AI_PROFILES: Record<Difficulty2D, AIDifficultyProfile> = {
-  // Easy: approachable, lets player learn. Slow reactions, frequent mistakes,
-  // rarely blocks or punishes. Feels like sparring a beginner.
-  recruit: {
-    reactionFrames: 35, comboAccuracy: 0.2, blockRate: 0.15, antiAirRate: 0.05,
-    whiffPunishRate: 0.05, specialUseRate: 0.1, mistakeRate: 0.35, aggressionBase: 0.35,
-  },
-  // Normal: solid opponent, blocks sometimes, can chain 2-hit combos.
-  // Reacts to jump-ins occasionally. Feels like a competent player.
-  soldier: {
-    reactionFrames: 20, comboAccuracy: 0.5, blockRate: 0.4, antiAirRate: 0.25,
-    whiffPunishRate: 0.25, specialUseRate: 0.25, mistakeRate: 0.18, aggressionBase: 0.5,
-  },
-  // Hard: reads your patterns, blocks most attacks, punishes mistakes.
-  // Chains full combos and uses specials strategically. Fair but demanding.
-  veteran: {
-    reactionFrames: 12, comboAccuracy: 0.7, blockRate: 0.6, antiAirRate: 0.5,
-    whiffPunishRate: 0.5, specialUseRate: 0.45, mistakeRate: 0.08, aggressionBase: 0.6,
-  },
-  // Nightmare: near-frame-perfect reactions, optimal combos, ruthless punishes.
-  // Still makes rare mistakes to keep it beatable.
-  archon: {
-    reactionFrames: 5, comboAccuracy: 0.9, blockRate: 0.8, antiAirRate: 0.75,
-    whiffPunishRate: 0.75, specialUseRate: 0.65, mistakeRate: 0.04, aggressionBase: 0.7,
-  },
-};
 
 /* ═══════════════════════════════════════════════════════
    MAIN ENGINE CLASS
@@ -2798,22 +2349,16 @@ export class FightEngine2D {
     const dist = Math.abs(ai.x - player.x);
     const profile = this.aiProfile;
 
-    // Dynamic aggression — adapts based on health ratio
+    // audit/01.F4 Step 3a — adaptAggression is the pure helper now
+    // exported from ./fightAi. Behaviour identical to the inline
+    // logic that lived here previously; extracting it lets the
+    // upcoming AI-controller refactor (Step 3b) reuse the same
+    // adaptation model without duplicating the magic numbers.
     const aiHealthRatio = ai.hp / ai.maxHp;
     const playerHealthRatio = player.hp / player.maxHp;
-    let aggression = profile.aggressionBase;
-
-    // Comeback mechanic: AI gets more aggressive when losing
-    if (aiHealthRatio < 0.3 && playerHealthRatio > 0.5) {
-      aggression = Math.min(0.9, aggression + 0.3);
-      ai.aiReactDelay = Math.max(4, profile.reactionFrames - 8); // Faster reactions when desperate
-    } else if (aiHealthRatio > 0.7 && playerHealthRatio < 0.3) {
-      // Ease off when dominating (more fun for player)
-      aggression = Math.max(0.2, aggression - 0.15);
-      ai.aiReactDelay = profile.reactionFrames + 4;
-    } else {
-      ai.aiReactDelay = profile.reactionFrames;
-    }
+    const adapted = adaptAggression(profile, aiHealthRatio, playerHealthRatio);
+    const aggression = adapted.aggression;
+    ai.aiReactDelay = adapted.reactDelay;
 
     // Mistake check
     if (Math.random() < profile.mistakeRate) {
@@ -2901,7 +2446,9 @@ export class FightEngine2D {
     if (!this.isActionable(ai)) return;
 
     const arch = ai.data.frameProfile.archetype;
-    const idealDist = arch === "zoner" ? 400 : arch === "grappler" ? 80 : arch === "rushdown" ? 100 : 180;
+    // audit/01.F4 Step 3a — same magic numbers, now sourced from the
+    // shared helper in ./fightAi for cross-module reuse.
+    const idealDist = idealDistanceFor(arch);
 
     if (dist > idealDist + 50) {
       // Move closer

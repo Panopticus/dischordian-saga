@@ -3,7 +3,7 @@
 
    Seasonal overlay assets for The Degen's Casino during
    the Christmas in July event. Art prompts for each asset
-   live in `docs/production/CHRISTMAS_IN_JULY_ART_BIBLE.md`.
+   live in `docs/archive/2026-05-08-superseded/CHRISTMAS_IN_JULY_ART_BIBLE.md`.
 
    Assets are served from the same S3 bucket as the regular
    casino assets, under a `christmas_in_july_2026/` prefix

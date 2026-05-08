@@ -52,7 +52,7 @@ interface Settings {
 
 /**
  * Per-speaker ElevenLabs voice_settings. Align with the presets in
- * docs/production/ACTS_2_THROUGH_7_ASSET_BIBLE.md §0 voice registry
+ * docs/archive/2026-05-08-superseded/ACTS_2_THROUGH_7_ASSET_BIBLE.md §0 voice registry
  * AND the emotion descriptors in each line. `zephyr_9` and
  * `game_master_right` use placeholder tunings that will still
  * generate sensibly if the user provides any reasonable voice ID.
