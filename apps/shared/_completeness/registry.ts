@@ -42,6 +42,7 @@ import { checkWovenSystemRippleCoverage } from "./checks/wovenSystemRippleCovera
 import { checkYearlyEventRuntime } from "./checks/yearlyEventRuntime";
 import { checkSevenSealRuntime } from "./checks/sevenSealRuntime";
 import { checkMiniDlcFiveSystemCoverage } from "./checks/miniDlcFiveSystemCoverage";
+import { checkSevenSealEpigraphCoverage } from "./checks/sevenSealEpigraphCoverage";
 
 export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
   // ─── Card engine ──────────────────────────────────────────
@@ -325,5 +326,12 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
       "Every mini-DLC manifest under apps/shared/dlc/chapters/**/manifest.ts must declare the five required refs (mystery seed, transmission track, custom item, guild contract, governance motion). Lands at RATCHET; back-catalog manifests need backfill in a follow-up.",
     check: () => checkMiniDlcFiveSystemCoverage(),
     ratchet: { target: 0 },
+  },
+  {
+    id: "narrative.seven_seal_epigraphs",
+    name: "Seven Seals Daniel Cross epigraphs",
+    description:
+      "Every seal in apps/shared/sevenSeals.ts must have an authored epigraph in apps/shared/sevenSealsEpigraphs.ts (openingLine ≤ 80 chars, body 200–600 chars, attribution + citation non-empty). Hard parity — missing epigraphs degrade the SealEpigraphCinematic to the fall-summary fallback.",
+    check: () => checkSevenSealEpigraphCoverage(),
   },
 ];
