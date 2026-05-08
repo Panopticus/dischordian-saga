@@ -2,7 +2,7 @@
    PET BREEDING ROUTER
 
    tRPC surface for the breeding queue declared in
-   docs/production/BREEDING_SYSTEM_ART_PROMPTS.md. Persists
+   docs/archive/2026-05-08-superseded/BREEDING_SYSTEM_ART_PROMPTS.md. Persists
    breeding pairs in `pet_breeding_pairs` (apps/db/schema.ts);
    resolves offspring at completion via `breedPets()` in
    `apps/shared/petBreeding.ts`.

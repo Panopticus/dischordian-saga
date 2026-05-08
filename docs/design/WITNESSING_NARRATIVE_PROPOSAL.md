@@ -1506,7 +1506,7 @@ So Act 4.5 is actually **two parallel tracks**:
 ### 10.1 Dead Man's Circuit
 
 The project already has a `dead_mans_circuit/` directory and a
-production doc (`docs/production/DEAD_MANS_CIRCUIT_PRODUCTION.md`).
+production doc (`docs/archive/2026-05-08-superseded/DEAD_MANS_CIRCUIT_PRODUCTION.md`).
 This proposal treats it as the **identity-fork interlude** between
 the Prisoner's death and the Iron Lion's last stand.
 
@@ -2240,7 +2240,7 @@ This is what the game has been trying to say all along.
 - `client/src/game/livingArk.ts` — Room system foundation
 - `client/src/data/narrativeActs.ts` — Act structure foundation
 - `docs/design/ANIMATED_CUTSCENES.md` — Existing cutscene pipeline
-- `docs/production/MISSING_CUTSCENES.md` — 46 cutscene backlog this
+- `docs/archive/2026-05-08-superseded/MISSING_CUTSCENES.md` — 46 cutscene backlog this
   proposal partially resolves
 
 ---

@@ -8,7 +8,7 @@
  * Writes apps/scripts/chess-climb-lines.json. Overwrites on each run.
  *
  * Speaker handling (both registers use the same voice id per
- * docs/production/chess-vo-direction.md — "one actor, two registers"):
+ * docs/archive/2026-05-08-superseded/chess-vo-direction.md — "one actor, two registers"):
  *   - game_master_corrupted → Arena register (menacing/performative)
  *   - game_master_celebration → tutor register (warm/patient)
  *

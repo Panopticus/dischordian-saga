@@ -51,7 +51,7 @@ bindings land in subsequent revisions.
 - `docs/design/CANON_REV_7_ORACLE_VEX_EXPANSION.md` — Warlord
   retcon, Two Witnesses Part 2 hygiene rules, and Act 1 Vex
   non-appearance rule
-- `docs/production/PRELUDE_SHIP_READY_BIBLE.md` — pattern source
+- `docs/archive/2026-05-08-superseded/PRELUDE_SHIP_READY_BIBLE.md` — pattern source
   for per-beat sections; Beat J's Archives scene is the direct
   lead-in to Section 6 below
 - `docs/production/VOICE_OVER_BIBLE.md` — voice profiles for

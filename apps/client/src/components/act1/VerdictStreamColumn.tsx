@@ -12,7 +12,7 @@
  *
  * SCAFFOLD. Full UX spec at:
  *   docs/production/act1/public-witness-ui-spec.md
- *   docs/production/UNIVERSAL_PROMPTING_DOC_PRELUDE_ACT1.md §7.2
+ *   docs/archive/2026-05-08-superseded/UNIVERSAL_PROMPTING_DOC_PRELUDE_ACT1.md §7.2
  *
  * Visual treatment:
  *   - 20% right-hand rail

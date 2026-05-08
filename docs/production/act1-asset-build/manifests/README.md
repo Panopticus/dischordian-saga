@@ -2,7 +2,7 @@
 
 Mirror of `docs/production/prelude-asset-build/` for Act 1 scope.
 Source-of-truth narrative spec is
-`docs/production/UNIVERSAL_PROMPTING_DOC_PRELUDE_ACT1.md`.
+`docs/archive/2026-05-08-superseded/UNIVERSAL_PROMPTING_DOC_PRELUDE_ACT1.md`.
 
 ## Counts
 

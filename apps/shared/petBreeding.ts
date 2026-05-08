@@ -1,7 +1,7 @@
 /* ═══════════════════════════════════════════════════════
    PET BREEDING — pure offspring computation
 
-   docs/production/BREEDING_SYSTEM_ART_PROMPTS.md describes the
+   docs/archive/2026-05-08-superseded/BREEDING_SYSTEM_ART_PROMPTS.md describes the
    pair-→-offspring pipeline for the pet breeding queue. This
    module is the deterministic core: given two parent pets, it
    produces a single offspring blueprint. The server router

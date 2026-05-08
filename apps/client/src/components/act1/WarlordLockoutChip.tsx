@@ -10,7 +10,7 @@
  *
  * SCAFFOLD. Full UX spec at:
  *   docs/production/act1/warlord-three-move-mechanic.md
- *   docs/production/UNIVERSAL_PROMPTING_DOC_PRELUDE_ACT1.md §7.4
+ *   docs/archive/2026-05-08-superseded/UNIVERSAL_PROMPTING_DOC_PRELUDE_ACT1.md §7.4
  */
 
 export interface WarlordLockoutChipProps {

@@ -385,7 +385,7 @@ Lore anchor: The Human is a resurrection — pieced back together by the Ark acr
 
 ### 1C — PLAYER 3D BASE MESHES (4 SPECIES × 2 SEXES = 8 MESHES)
 
-Canon source: `apps/shared/starterLoadout.ts:STARTER_SPECIES_LIST` = `["demagi","quarchon","neyon","human"]`. Species lore: `docs/production/BREEDING_SYSTEM_ART_PROMPTS.md` §1B–1G + `ART_SOUND_MUSIC_RESOURCES.md` Ne-Yon entries.
+Canon source: `apps/shared/starterLoadout.ts:STARTER_SPECIES_LIST` = `["demagi","quarchon","neyon","human"]`. Species lore: `docs/archive/2026-05-08-superseded/BREEDING_SYSTEM_ART_PROMPTS.md` §1B–1G + `docs/archive/2026-05-08-superseded/ART_SOUND_MUSIC_RESOURCES.md` Ne-Yon entries (both archived 2026-05-08; folded into `docs/ART_DEPARTMENT_PRODUCTION.md` §2.16 / §1).
 
 Classes (engineer, oracle, assassin, soldier, spy) are NOT separate meshes — they drive gear loadout via Track B. Element + Foundation drive shader presets + accent color, not geometry. So: **8 base meshes total**, each a nude-body rig with per-species shader traits, deformed by gear at runtime.
 
@@ -1676,7 +1676,7 @@ Standard 15-panel at 85% baseline openness (he speaks economically, like a man w
 
 #### 2P.8 — Integration with DMC game-mode
 
-The Dead Man's Circuit (`/circuit`) game-mode cinematics (CIN-031/CIN-032 in `SHIP_READY_ASSET_BIBLE.md`) were written against the OLD carnival-showman Nilmorg. Those cinematics need AUDIT:
+The Dead Man's Circuit (`/circuit`) game-mode cinematics (CIN-031/CIN-032 in the archived `docs/archive/2026-05-08-superseded/SHIP_READY_ASSET_BIBLE.md`; folded into `docs/ART_DEPARTMENT_PRODUCTION.md` §3) were written against the OLD carnival-showman Nilmorg. Those cinematics need AUDIT:
 - CIN-031 ("kart-line countdown"): the "theatrical GO! shout" beat needs to be re-specced with Nilmorg as a demon-executive CONTRACTING RACERS at the starting line, not a showman rousing a crowd. He still counts down, but with restrained executive precision — no theatrical grin, no microphone flourishing.
 - CIN-032 ("severance trophy ceremony"): the gracious-smile beat stays intact — it is still the gracious smile that precedes the severance — but delivered by the demon-executive who steeples his fingers in front of his yellow eyes, not an emcee.
 
@@ -2838,7 +2838,7 @@ When certain narrative/state events occur, a full-character-sheet overlay plays 
 
 ### 9.0 — Overview
 
-Consolidates every Veo 3.1 / Seedance 2.0 motion clip referenced throughout Parts 1–8. Each entry gives: **START FRAME** (Nano Banana 2 still), **END FRAME** (Nano Banana 2 still), and **MOTION PROMPT** (Veo 3.1 or Seedance 2.0 directive). Render workflow per SHIP_READY_ASSET_BIBLE.md §2 protocol: render start and end keyframes first in Nano Banana 2 at matching resolution, upload both as keyframes to Veo 3.1, paste motion prompt, render.
+Consolidates every Veo 3.1 / Seedance 2.0 motion clip referenced throughout Parts 1–8. Each entry gives: **START FRAME** (Nano Banana 2 still), **END FRAME** (Nano Banana 2 still), and **MOTION PROMPT** (Veo 3.1 or Seedance 2.0 directive). Render workflow per the archived SHIP_READY_ASSET_BIBLE.md §2 protocol (`docs/archive/2026-05-08-superseded/SHIP_READY_ASSET_BIBLE.md`; folded into `docs/ART_DEPARTMENT_PRODUCTION.md` §3): render start and end keyframes first in Nano Banana 2 at matching resolution, upload both as keyframes to Veo 3.1, paste motion prompt, render.
 
 **Total cinematics: 11 primary + 3 audit-flagged regenerations.**
 
@@ -3115,7 +3115,7 @@ Consolidates every Veo 3.1 / Seedance 2.0 motion clip referenced throughout Part
 
 ### 9.12 — Audit-flagged regenerations
 
-Three existing cinematics in the SHIP_READY_ASSET_BIBLE.md were specced against wrong canon and need replacement. They are not P0 blockers (game functions without them) but MUST be replaced before any public demo using those game-modes.
+Three existing cinematics in the archived SHIP_READY_ASSET_BIBLE.md (`docs/archive/2026-05-08-superseded/SHIP_READY_ASSET_BIBLE.md`; folded into `docs/ART_DEPARTMENT_PRODUCTION.md` §3) were specced against wrong canon and need replacement. They are not P0 blockers (game functions without them) but MUST be replaced before any public demo using those game-modes.
 
 #### CIN-013 Degen discovery — **DEPRECATE**
 
@@ -3254,7 +3254,7 @@ This file has gone through multiple canonical correction passes as the user has 
 
 ## END OF PRODUCTION BIBLE
 
-> This document is the canonical art production bible for the Living Character Sheet initiative of Dischordian Saga. It supersedes scattered canon references in `docs/production/COMPLETE_ART_PROMPT_BIBLE.md`, `VISUAL_PRODUCTION_BIBLE.md`, `MISSING_ART_PROMPTS.md`, and the various act-specific asset builds — WHERE THOSE FILES CONFLICT WITH THIS ONE, THIS ONE WINS (per 2026-04-22 user canonical-correction passes).
+> This document is the canonical art production bible for the Living Character Sheet initiative of Dischordian Saga. It supersedes scattered canon references in the now-archived `COMPLETE_ART_PROMPT_BIBLE.md`, `VISUAL_PRODUCTION_BIBLE.md`, and `MISSING_ART_PROMPTS.md` (all under `docs/archive/2026-05-08-superseded/`; folded into `docs/ART_DEPARTMENT_PRODUCTION.md`), and the various act-specific asset builds — WHERE THOSE FILES CONFLICT WITH THIS ONE, THIS ONE WINS (per 2026-04-22 user canonical-correction passes).
 >
 > Updates to this file should trigger a bump to the 10.3 change log and a git commit with a `CANONICAL` tag in the message.
 

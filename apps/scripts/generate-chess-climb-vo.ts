@@ -3,7 +3,7 @@
  *
  * Reads apps/scripts/chess-climb-lines.json, generates each line via
  * ElevenLabs with register-specific voice_settings (per
- * docs/production/chess-vo-direction.md "one actor, two registers"),
+ * docs/archive/2026-05-08-superseded/chess-vo-direction.md "one actor, two registers"),
  * uploads to s3://dgrsvoices/GameMaster+Voices/climb/<id>.mp3, and
  * merges results into apps/shared/gamemasterVoManifest.json.
  *

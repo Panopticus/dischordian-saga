@@ -1,5 +1,5 @@
 -- ─────────────────────────────────────────────────────────────────
--- Pet Breeding (docs/production/BREEDING_SYSTEM_ART_PROMPTS.md).
+-- Pet Breeding (docs/archive/2026-05-08-superseded/BREEDING_SYSTEM_ART_PROMPTS.md).
 -- Pair-based breeding queue; offspring traits resolved at completion.
 -- ─────────────────────────────────────────────────────────────────
 

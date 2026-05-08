@@ -2,7 +2,7 @@
    PRELUDE SEQUENCE — Ship-ready asset manifest
 
    Structured registry of the 15 Prelude beats and every asset each
-   beat consumes, matching docs/production/PRELUDE_SHIP_READY_BIBLE.md
+   beat consumes, matching docs/archive/2026-05-08-superseded/PRELUDE_SHIP_READY_BIBLE.md
    Section 19 (Asset Delivery Checklist) exactly.
 
    Canonical authority: PRELUDE_SHIP_READY_BIBLE.md §19. Any

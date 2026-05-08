@@ -9,7 +9,7 @@ import { assetUrl } from "@/lib/assetUrl";
    when the image is missing.
 
    Asset source: s3://dgrsart/optional_components_assets.zip
-   Art Bible: docs/production/OPTIONAL_COMPONENTS_ART_BIBLE.md
+   Art Bible: docs/archive/2026-05-08-superseded/OPTIONAL_COMPONENTS_ART_BIBLE.md
    ═══════════════════════════════════════════════════════ */
 
 /* ─── SECTION 1: Empty State Illustrations (13) ─── */
