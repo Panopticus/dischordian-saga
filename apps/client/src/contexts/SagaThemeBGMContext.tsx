@@ -10,34 +10,31 @@ import { createContext, useContext, useState, useCallback, useEffect, useRef, ty
 import { usePlayer } from "./PlayerContext";
 
 /* ─── SAGA THEME PLAYLIST ─── */
-// The original `SagaTheme*.mp3` masters lived on a legacy Cloudfront
-// distribution that has been retired (`host_not_allowed`). Until the
-// purpose-cut saga-theme masters land in `cdn/client-public/audio/`,
-// the playlist points at four album1 tracks that are alive on the live
-// asset bucket so background music actually plays. Swap each `url` back
-// to the saga-theme master once it's uploaded — the public IDs/titles
-// here are stable so consumer surfaces (SoundControls, ducking) don't
-// have to change.
+// Source files live under `apps/client/public/audio/themes/` and ship
+// to S3 via `pnpm assets:upload` (mirrored to `cdn/client-public/audio/
+// themes/`). The four masters are the producer's purpose-cut Saga
+// Theme set; the rotation cycles through them under the awakening
+// cinematic and every dialog beat that follows.
 const SAGA_THEMES = [
   {
     id: "saga-theme-original",
     title: "Saga Theme (Original)",
-    url: "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/audio/album1/T02.mp3",
+    url: "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/audio/themes/saga-theme-original.mp3",
   },
   {
     id: "saga-theme-1",
     title: "Saga Theme I",
-    url: "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/audio/album1/T03.mp3",
+    url: "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/audio/themes/saga-theme-1.mp3",
   },
   {
     id: "saga-theme-2",
     title: "Saga Theme II",
-    url: "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/audio/album1/T04.mp3",
+    url: "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/audio/themes/saga-theme-2.mp3",
   },
   {
     id: "saga-theme-3",
     title: "Saga Theme III",
-    url: "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/audio/album1/T05.mp3",
+    url: "https://dgrsart.s3.us-east-2.amazonaws.com/cdn/client-public/audio/themes/saga-theme-3.mp3",
   },
 ];
 
