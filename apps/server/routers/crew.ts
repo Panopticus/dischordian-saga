@@ -50,6 +50,7 @@ import { CREW_BALANCE } from "../../shared/crewBalance";
 import { applyTick as sharedApplyTick } from "../../shared/crewTick";
 import { distributeCrewXp } from "../../shared/crewXpCredit";
 import { syncCrewStateToTables } from "../services/crewTableSync";
+import { BLOODLINE_MATURITY_GEN } from "../../shared/tradeEmpire/colonyCommerce";
 
 const FRANCHISE = "dischordian-saga";
 
@@ -115,6 +116,33 @@ export const crewRouter = router({
     const ticked = applyTick(state);
     if (ticked !== state) await saveState(ctx.user.id, ticked);
     return ticked;
+  }),
+
+  /**
+   * getMatureBloodlines — bloodlines stable enough to seed a colony.
+   *
+   * Consumed by apps/server/routers/colonyCommerce.ts to gate
+   * Veska's signColonyLane mutation: a bloodline must have reached
+   * BLOODLINE_MATURITY_GEN generations before the founder can route
+   * a colony ship around it. This is the canonical breeding →
+   * colony-commerce handoff query.
+   *
+   * Returns: id, name, generation count, active traits — enough for
+   * the founding-lane UI to render a bloodline picker.
+   */
+  getMatureBloodlines: protectedProcedure.query(async ({ ctx }) => {
+    const state = await loadState(ctx.user.id);
+    const ticked = applyTick(state);
+    if (ticked !== state) await saveState(ctx.user.id, ticked);
+    return Object.values(ticked.bloodlines)
+      .filter((bl) => bl.generationCount >= BLOODLINE_MATURITY_GEN)
+      .map((bl) => ({
+        id: bl.id,
+        name: bl.name,
+        generationCount: bl.generationCount,
+        activeTraits: bl.activeTraits,
+        founderTemplateId: bl.founderTemplateId,
+      }));
   }),
 
   /* ─── Bloodline founding ─── */

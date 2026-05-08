@@ -106,6 +106,7 @@ import { masteryTreeRouter } from "./routers/masteryTree";
 import { guildHallRouter } from "./routers/guildHall";
 import { guildContractsRouter } from "./routers/guildContracts";
 import { tradeEmpireRouter } from "./routers/tradeEmpire";
+import { colonyCommerceRouter } from "./routers/colonyCommerce";
 import { tradeMissionsRouter } from "./routers/tradeMissions";
 import { globalAlignmentRouter } from "./routers/globalAlignment";
 import { petBattlesRouter } from "./routers/petBattles";
@@ -265,6 +266,7 @@ export const appRouter = router({
   guildHall: guildHallRouter,
   guildContracts: guildContractsRouter,
   tradeEmpire: tradeEmpireRouter,
+  colonyCommerce: colonyCommerceRouter,
   tradeMissions: tradeMissionsRouter,
   globalAlignment: globalAlignmentRouter,
   soulStones: soulStonesRouter,
