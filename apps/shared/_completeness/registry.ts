@@ -41,6 +41,7 @@ import { checkNotificationEnumProducers } from "./checks/notificationEnumProduce
 import { checkApprenticeAuthoringCoverage } from "./checks/apprenticeAuthoringCoverage";
 import { checkCommonsSceneCoverage } from "./checks/commonsSceneCoverage";
 import { checkRecruitmentChainCoverage } from "./checks/recruitmentChainCoverage";
+import { checkApprenticeDialogueCoverage } from "./checks/apprenticeDialogueCoverage";
 import { checkWovenSystemRippleCoverage } from "./checks/wovenSystemRippleCoverage";
 import { checkYearlyEventRuntime } from "./checks/yearlyEventRuntime";
 import { checkSevenSealRuntime } from "./checks/sevenSealRuntime";
@@ -323,6 +324,13 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     description:
       "Every recruitable NPC has a complete authored chain in recruitmentQuests.ts: briefing, ≥ 3 stages with ≥ 2 choices each, all three terminal outcomes (loyal / tense / refused) reachable, no dangling stage references.",
     check: () => checkRecruitmentChainCoverage(),
+  },
+  {
+    id: "apprentice.dialogue_coverage",
+    name: "Apprentice branching dialogues",
+    description:
+      "Every ApprenticeArchetype has all four BioWare-style branching topics (past / calling / mortality / us) with non-empty openers, ≥ 3 entry choices per topic, and at least one choice that opens a follow-up node.",
+    check: () => checkApprenticeDialogueCoverage(),
   },
   // ─── World — woven-systems integration (the Two-Ripple Rule) ──
   // Added 2026-05-08 alongside docs/design/INCOMPLETE_DESIGNS_AUDIT

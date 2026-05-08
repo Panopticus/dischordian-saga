@@ -430,5 +430,257 @@
     "emotion": "tender",
     "bucket": "romance",
     "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "heretic_female_dlg_past_opener_0",
+    "character": "apprentice_heretic_female",
+    "text": "Eleven pages, seventeen citations. I was sixteen. I argued the orthodoxy of seasonal feasts had been written by a single committee in two days.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "heretic_female_dlg_past_opener_1",
+    "character": "apprentice_heretic_female",
+    "text": "I was right. They expelled me from the academy. The committee did, in fact, exist.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "heretic_female_dlg_past_h_past_warm_reply_0",
+    "character": "apprentice_heretic_female",
+    "text": "I have three copies. The original handwritten draft is in my workshop. I take it out at every Foundation Day. The disciplines have asked for it. They will not get it.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "heretic_female_dlg_past_h_past_probe_reply_0",
+    "character": "apprentice_heretic_female",
+    "text": "That orthodoxies fight harder than they argue. The fight is the orthodoxy's confession. I have, since, learned to read the fight.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "heretic_female_dlg_past_h_past_probe_h_past_probe_deep_reply_0",
+    "character": "apprentice_heretic_female",
+    "text": "That the cycle is older than they admit. The Resurrectionist's name appears in three pre-canonical texts. The disciplines have stopped citing them. I have started.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "heretic_female_dlg_past_h_past_probe_h_past_probe_back_reply_0",
+    "character": "apprentice_heretic_female",
+    "text": "Always. The fights are the loudest part of any canon. The loudness is the data.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "heretic_female_dlg_past_h_past_cold_reply_0",
+    "character": "apprentice_heretic_female",
+    "text": "I was. I also had the citations. The two are not mutually exclusive. The committee was real.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "heretic_female_dlg_calling_opener_0",
+    "character": "apprentice_heretic_female",
+    "text": "The one that says the Resurrection Protocols are a closed system.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "heretic_female_dlg_calling_opener_1",
+    "character": "apprentice_heretic_female",
+    "text": "The protocols are a public mechanism. The disciplines have made them private. I am trying to make them public again. It is going slowly.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "heretic_female_dlg_calling_h_call_warm_reply_0",
+    "character": "apprentice_heretic_female",
+    "text": "Then we publish jointly. Your name on the masthead. Mine on the body. The disciplines will not be able to dismiss us as a single agitator. We will be a movement of two.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "heretic_female_dlg_calling_h_call_probe_reply_0",
+    "character": "apprentice_heretic_female",
+    "text": "The next orthodoxy forms within a cycle. I will read its early literature. I will write the next tract. The work does not end. The work changes shape.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "heretic_female_dlg_calling_h_call_probe_h_call_probe_deep_reply_0",
+    "character": "apprentice_heretic_female",
+    "text": "It does. The tiredness is part of the work. The disciplines who do not get tired are the disciplines who have stopped writing. I would rather be tired than ossified.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "heretic_female_dlg_calling_h_call_probe_h_call_probe_back_reply_0",
+    "character": "apprentice_heretic_female",
+    "text": "Cite me badly, even. Bad citation is better than silence. The disciplines feed on silence.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "heretic_female_dlg_calling_h_call_cold_reply_0",
+    "character": "apprentice_heretic_female",
+    "text": "Probably. The losing is the most valuable part. The next heretic will read my losses and lose less.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "heretic_female_dlg_mortality_opener_0",
+    "character": "apprentice_heretic_female",
+    "text": "If I die, print every tract I have, finished or not. Even the ones I disowned.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "heretic_female_dlg_mortality_opener_1",
+    "character": "apprentice_heretic_female",
+    "text": "Especially the ones I disowned. The disowning was political. The arguments are still there.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "heretic_female_dlg_mortality_h_mort_warm_reply_0",
+    "character": "apprentice_heretic_female",
+    "text": "Then the disciplines will be unable to canonise me cleanly. The mess is the legacy I want. Mess is the only thing they have not learned to weaponise.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "heretic_female_dlg_mortality_h_mort_probe_reply_0",
+    "character": "apprentice_heretic_female",
+    "text": "Yes. I have written tracts about being misread. The tracts will also be misread. That's the most useful misreading: the disciplines confessing their own habits.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "heretic_female_dlg_mortality_h_mort_probe_h_mort_probe_deep_reply_0",
+    "character": "apprentice_heretic_female",
+    "text": "Then we'll have a good archive. The next heretic will start from the annotations. I am, for once, content with being a citation.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "heretic_female_dlg_mortality_h_mort_probe_h_mort_probe_back_reply_0",
+    "character": "apprentice_heretic_female",
+    "text": "Doing your best is the heresy I want most. Heresy is, mostly, doing your best in public.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "heretic_female_dlg_mortality_h_mort_cold_reply_0",
+    "character": "apprentice_heretic_female",
+    "text": "Then you will canonise me. I have been working my whole life to avoid that. I will haunt you politely.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "heretic_female_dlg_us_opener_0",
+    "character": "apprentice_heretic_female",
+    "text": "Yes. Always. Don't agree to keep the peace.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "heretic_female_dlg_us_opener_1",
+    "character": "apprentice_heretic_female",
+    "text": "The peace is the orthodoxy I am most afraid of, with you.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "heretic_female_dlg_us_h_us_warm_reply_0",
+    "character": "apprentice_heretic_female",
+    "text": "Then I will be more right, less often. The trade is, on balance, the best deal I have ever struck. The peace will be honest. I will love it.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "heretic_female_dlg_us_h_us_probe_reply_0",
+    "character": "apprentice_heretic_female",
+    "text": "Then I will tell you. I will not enjoy it. I will do it anyway. Then we will write it down. The next heretic will read both of our names on the masthead.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "heretic_female_dlg_us_h_us_probe_h_us_probe_deep_reply_0",
+    "character": "apprentice_heretic_female",
+    "text": "Then we are, in a way, the orthodoxy of two. Smaller. Honest. Disagreeable when we need to be. I am, for the first time, comfortable inside an orthodoxy.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "heretic_female_dlg_us_h_us_probe_h_us_probe_step_reply_0",
+    "character": "apprentice_heretic_female",
+    "text": "I won't. The enjoyment ruins the lesson. I have learned that the hard way. Twice.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "heretic_female_dlg_us_h_us_cold_reply_0",
+    "character": "apprentice_heretic_female",
+    "text": "Then I will write a tract about the peace you are buying. You will read it. We will, eventually, argue about the tract. The work will continue.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
   }
 ]

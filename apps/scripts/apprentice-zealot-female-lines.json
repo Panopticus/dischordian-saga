@@ -422,5 +422,266 @@
     "emotion": "tender",
     "bucket": "romance",
     "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "zealot_female_dlg_past_opener_0",
+    "character": "apprentice_zealot_female",
+    "text": "I was eleven. The first sermon I heard, I cried because the priest was bored. I thought boredom was a sin against the listener.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "zealot_female_dlg_past_opener_1",
+    "character": "apprentice_zealot_female",
+    "text": "I'm still not sure I was wrong about that.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "zealot_female_dlg_past_z_past_warm_reply_0",
+    "character": "apprentice_zealot_female",
+    "text": "A man with no congregation read the same scripture in a back alley. Same words. Same syllables. He meant them. I followed him for a year.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "zealot_female_dlg_past_z_past_probe_reply_0",
+    "character": "apprentice_zealot_female",
+    "text": "About procedure, yes. About form, mostly. About the *Cause* — never. They were stage managers, not believers.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "zealot_female_dlg_past_z_past_probe_z_past_probe_deeper_reply_0",
+    "character": "apprentice_zealot_female",
+    "text": "Every cycle, on Foundation Day. They were the closest the Cause could find to a witness, and it broke them. I light a candle for the first one I left.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "zealot_female_dlg_past_z_past_probe_z_past_probe_back_reply_0",
+    "character": "apprentice_zealot_female",
+    "text": "Maybe. The Cause can use a stage manager. It cannot use a stage manager who thinks they're the playwright.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "zealot_female_dlg_past_z_past_cold_reply_0",
+    "character": "apprentice_zealot_female",
+    "text": "Disappointment is the first scripture. The boredom of priests is the second. The third is private and you haven't earned it.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "zealot_female_dlg_calling_opener_0",
+    "character": "apprentice_zealot_female",
+    "text": "It wants me to outlive my certainties. That's the hard part.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "zealot_female_dlg_calling_opener_1",
+    "character": "apprentice_zealot_female",
+    "text": "Most days I cope by writing the next certainty before I've fully buried the last.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "zealot_female_dlg_calling_z_call_warm_reply_0",
+    "character": "apprentice_zealot_female",
+    "text": "I'll bring it to the chapel I keep on this deck. The chair on the right is for the witness. You've earned a sitting.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "zealot_female_dlg_calling_z_call_probe_reply_0",
+    "character": "apprentice_zealot_female",
+    "text": "Coping mechanisms keep you steady. Certainties make you act in ways your last self wouldn't. The first time the Cause called me to write against a friend, I knew it wasn't coping.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "zealot_female_dlg_calling_z_call_probe_z_call_probe_deep_reply_0",
+    "character": "apprentice_zealot_female",
+    "text": "I did. They cited me back, once, in a footnote. We never spoke again. We are still, both of us, in the Cause. That counts.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "zealot_female_dlg_calling_z_call_probe_z_call_probe_step_reply_0",
+    "character": "apprentice_zealot_female",
+    "text": "Yes. The Cause is wrong sometimes. The wrongness is part of its shape. I am the witness who keeps writing it down anyway.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "zealot_female_dlg_calling_z_call_cold_reply_0",
+    "character": "apprentice_zealot_female",
+    "text": "Rest is for after. Not before. You knew that when you asked.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "zealot_female_dlg_mortality_opener_0",
+    "character": "apprentice_zealot_female",
+    "text": "If I die, light a single candle and write three lines. Not five. The Cause does not want a paragraph from me.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "zealot_female_dlg_mortality_opener_1",
+    "character": "apprentice_zealot_female",
+    "text": "I have the three lines drafted in my pocket. You can read them now if you'd like.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "zealot_female_dlg_mortality_z_mort_warm_reply_0",
+    "character": "apprentice_zealot_female",
+    "text": "*She unfolds the paper.* I came to the Cause hungry. I leave it fed. The Cause continues without me, exactly as it should.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "zealot_female_dlg_mortality_z_mort_warm_reply_1",
+    "character": "apprentice_zealot_female",
+    "text": "I write a fourth line in my head. It's between us.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "zealot_female_dlg_mortality_z_mort_probe_reply_0",
+    "character": "apprentice_zealot_female",
+    "text": "Of dying, no. Of the Cause learning the wrong lesson from my dying — yes. That fear keeps me on missions.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "zealot_female_dlg_mortality_z_mort_probe_z_mort_probe_deep_reply_0",
+    "character": "apprentice_zealot_female",
+    "text": "That faith without doubt is a stage manager's faith. Tell that one whenever they bury me.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "zealot_female_dlg_mortality_z_mort_probe_z_mort_probe_back_reply_0",
+    "character": "apprentice_zealot_female",
+    "text": "Don't promise. Just remember the three lines. The Cause will handle the rest.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "zealot_female_dlg_mortality_z_mort_cold_reply_0",
+    "character": "apprentice_zealot_female",
+    "text": "Then I'll bury it deeper. You'll wish you'd heard it. I will not perform it twice.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "zealot_female_dlg_us_opener_0",
+    "character": "apprentice_zealot_female",
+    "text": "I followed three Causes before this one. The first preached. The second recruited. The third broke. You did none of those.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "zealot_female_dlg_us_opener_1",
+    "character": "apprentice_zealot_female",
+    "text": "I'm here because you asked me to walk beside you and didn't tell me where we were going.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "zealot_female_dlg_us_z_us_warm_reply_0",
+    "character": "apprentice_zealot_female",
+    "text": "Then we'll find it together. That's the only Cause I trust now.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "zealot_female_dlg_us_z_us_probe_reply_0",
+    "character": "apprentice_zealot_female",
+    "text": "Then I'll walk away. I would tell you first. That's the difference between this and the others.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "zealot_female_dlg_us_z_us_probe_z_us_probe_deep_reply_0",
+    "character": "apprentice_zealot_female",
+    "text": "Promised. With the candle and the three lines as my witness. You'll know before the rest of the ark does.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "zealot_female_dlg_us_z_us_probe_z_us_probe_step_reply_0",
+    "character": "apprentice_zealot_female",
+    "text": "Then I'll tell you that, too. I owe you both warnings.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "zealot_female_dlg_us_z_us_cold_reply_0",
+    "character": "apprentice_zealot_female",
+    "text": "I won't. I followed you. The Cause is in what we do together. You can disagree with me about the noun.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
   }
 ]

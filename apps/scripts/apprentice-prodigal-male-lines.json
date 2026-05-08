@@ -430,5 +430,257 @@
     "emotion": "tender",
     "bucket": "romance",
     "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "prodigal_male_dlg_past_opener_0",
+    "character": "apprentice_prodigal_male",
+    "text": "I was nineteen. I left a town that loved me badly. I left at three in the morning with a small bag. I did not say goodbye.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "prodigal_male_dlg_past_opener_1",
+    "character": "apprentice_prodigal_male",
+    "text": "I walked for two cycles. I came back two cycles later. The town had not noticed.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "prodigal_male_dlg_past_p_past_warm_reply_0",
+    "character": "apprentice_prodigal_male",
+    "text": "Because the goodbye would have been a lie. The town wanted me to stay. I wanted to leave. The lie would have been: 'I'll be back.' I did come back. The lie still would have been a lie.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "prodigal_male_dlg_past_p_past_probe_reply_0",
+    "character": "apprentice_prodigal_male",
+    "text": "Nothing useful. I walked. I worked four jobs. I learned the shape of leaving from the inside. The shape was less interesting than the books had suggested.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "prodigal_male_dlg_past_p_past_probe_p_past_probe_deep_reply_0",
+    "character": "apprentice_prodigal_male",
+    "text": "Yes. Mostly. The town had grown a little while I was gone. So had I. The shapes did not quite line up. They lined up better than they had before.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "prodigal_male_dlg_past_p_past_probe_p_past_probe_back_reply_0",
+    "character": "apprentice_prodigal_male",
+    "text": "It is. The lesson is, mostly, that you are still you in a different room. The room does the rest.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "prodigal_male_dlg_past_p_past_cold_reply_0",
+    "character": "apprentice_prodigal_male",
+    "text": "Yes. I served the apprenticeship. I am still serving. You are not the first to call it cowardice. You are the latest. I will, mostly, take the comment.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "prodigal_male_dlg_calling_opener_0",
+    "character": "apprentice_prodigal_male",
+    "text": "The cycle ran out. I had run out of money and patience and excuses. I had also run out of the version of me who could leave forever.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "prodigal_male_dlg_calling_opener_1",
+    "character": "apprentice_prodigal_male",
+    "text": "Coming back was not noble. Coming back was logistics. The nobility came after.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "prodigal_male_dlg_calling_p_call_warm_reply_0",
+    "character": "apprentice_prodigal_male",
+    "text": "Quiet. I helped my mother with her garden. I apologised to a baker. I sat on a bench for an hour every morning. The bench did most of the work.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "prodigal_male_dlg_calling_p_call_probe_reply_0",
+    "character": "apprentice_prodigal_male",
+    "text": "Twice. Once at the third cycle. Once at the fifth. I did not. I am not sure why. The bench, possibly. The garden. The baker.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "prodigal_male_dlg_calling_p_call_probe_p_call_probe_deep_reply_0",
+    "character": "apprentice_prodigal_male",
+    "text": "Don't. The bench was the bench. I cannot reproduce it. I'll find a substitute. The substitute will be enough. It usually is.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "prodigal_male_dlg_calling_p_call_probe_p_call_probe_back_reply_0",
+    "character": "apprentice_prodigal_male",
+    "text": "I will. The staying is a job. I am, finally, employed.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "prodigal_male_dlg_calling_p_call_cold_reply_0",
+    "character": "apprentice_prodigal_male",
+    "text": "Possibly. Probably not. The leaving is a habit I am, slowly, retiring. You will know when I retire it fully.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "prodigal_male_dlg_mortality_opener_0",
+    "character": "apprentice_prodigal_male",
+    "text": "Don't apologise for me. The apologies are mine to make. I have made some. I will make more.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "prodigal_male_dlg_mortality_opener_1",
+    "character": "apprentice_prodigal_male",
+    "text": "If I die, finish the apologies. There's a list. It's in my bunk.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "prodigal_male_dlg_mortality_p_mort_warm_reply_0",
+    "character": "apprentice_prodigal_male",
+    "text": "Then the list is not abandoned. That is the only continuity I want. Most of the people on the list do not need an apology. They will appreciate the gesture.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "prodigal_male_dlg_mortality_p_mort_probe_reply_0",
+    "character": "apprentice_prodigal_male",
+    "text": "The baker. My mother. The teacher I never thanked. The friend I left at three in the morning. The friend I left at noon. Eleven names. The eleventh is a stranger I owe a small debt.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "prodigal_male_dlg_mortality_p_mort_probe_p_mort_probe_deep_reply_0",
+    "character": "apprentice_prodigal_male",
+    "text": "Then the list closes. They will be confused. The confusion is, in fact, the apology. The apology will land twice that way.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "prodigal_male_dlg_mortality_p_mort_probe_p_mort_probe_back_reply_0",
+    "character": "apprentice_prodigal_male",
+    "text": "Even ten is enough. I am, by now, content with partial closure.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "prodigal_male_dlg_mortality_p_mort_cold_reply_0",
+    "character": "apprentice_prodigal_male",
+    "text": "Then the list ends with me. It will, mostly, be okay. It will not be the closure I had hoped for. I will haunt the unfinished entries. Politely.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "prodigal_male_dlg_us_opener_0",
+    "character": "apprentice_prodigal_male",
+    "text": "Yes. I am earning it. I have been earning it since the first cycle.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "prodigal_male_dlg_us_opener_1",
+    "character": "apprentice_prodigal_male",
+    "text": "If you ever stop letting me earn it, I will be more lost than I have ever been. Don't stop.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "prodigal_male_dlg_us_p_us_warm_reply_0",
+    "character": "apprentice_prodigal_male",
+    "text": "Then I have a seat I can refuse to take. That is, in fact, the only kind of seat I have ever been able to keep.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "prodigal_male_dlg_us_p_us_probe_reply_0",
+    "character": "apprentice_prodigal_male",
+    "text": "Showing up. Showing up again. Showing up the cycle after the bad mission. Showing up at the funeral I would otherwise have left. The simple things. The hard ones, in practice.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "prodigal_male_dlg_us_p_us_probe_p_us_probe_deep_reply_0",
+    "character": "apprentice_prodigal_male",
+    "text": "Then we are, mostly, earning together. The earning becomes a kind of mutuality. I had not expected mutuality at this stage. I am, surprised by it.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "prodigal_male_dlg_us_p_us_probe_p_us_probe_step_reply_0",
+    "character": "apprentice_prodigal_male",
+    "text": "I will. The trust is the most valuable currency I have. I will spend it carefully.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "prodigal_male_dlg_us_p_us_cold_reply_0",
+    "character": "apprentice_prodigal_male",
+    "text": "I will try. The trying may take cycles. The cycles will, mostly, be okay. I will, in any case, be here at the end of them.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
   }
 ]

@@ -430,5 +430,266 @@
     "emotion": "tender",
     "bucket": "romance",
     "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "jester_female_dlg_past_opener_0",
+    "character": "apprentice_jester_female",
+    "text": "I was twelve. The funeral of a neighbour. I made a remark. Everyone laughed.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "jester_female_dlg_past_opener_1",
+    "character": "apprentice_jester_female",
+    "text": "I have been chasing the lightness of that room ever since.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "jester_female_dlg_past_j_past_warm_reply_0",
+    "character": "apprentice_jester_female",
+    "text": "The neighbour's name was Boris. I said: 'Boris is finally getting some peace and quiet.' Boris, who lived alone, hated quiet. The remark was kind. The remark was true. The remark was a joke.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "jester_female_dlg_past_j_past_warm_reply_1",
+    "character": "apprentice_jester_female",
+    "text": "I learned that day that comedy is information, delivered fast.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "jester_female_dlg_past_j_past_probe_reply_0",
+    "character": "apprentice_jester_female",
+    "text": "His widow noticed. She thanked me at the wake. She gave me a brandy I was too young to drink. I drank it. I have been working since.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "jester_female_dlg_past_j_past_probe_j_past_probe_deep_reply_0",
+    "character": "apprentice_jester_female",
+    "text": "No. The funerals taught me everything. The weddings I am still learning. The ordinary days are the hardest. They have no setup.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "jester_female_dlg_past_j_past_probe_j_past_probe_back_reply_0",
+    "character": "apprentice_jester_female",
+    "text": "He did. He was the first audience that taught me silence is also a laugh, when it's the right kind.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "jester_female_dlg_past_j_past_cold_reply_0",
+    "character": "apprentice_jester_female",
+    "text": "Yes. The grim is the setup. The laugh is the punchline. The punchline does not erase the setup. Both are, at all times, true.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "past"
+  },
+  {
+    "id": "jester_female_dlg_calling_opener_0",
+    "character": "apprentice_jester_female",
+    "text": "Because the alternative is silence in a room that has just had a hard hour.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "jester_female_dlg_calling_opener_1",
+    "character": "apprentice_jester_female",
+    "text": "I would rather be hated for the bad joke than absent for the good one.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "jester_female_dlg_calling_j_call_warm_reply_0",
+    "character": "apprentice_jester_female",
+    "text": "A pun. Twelve cycles ago. A wedding. The bride's mother slapped me. The bride married me anyway. We were married for three weeks. The pun outlasted the marriage. So did I. So did she.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "jester_female_dlg_calling_j_call_probe_reply_0",
+    "character": "apprentice_jester_female",
+    "text": "Three friendships. One marriage. A teaching post. A line of credit. I have, mostly, settled the accounts. Two of the friendships came back. The marriage did not. The line of credit died with my reputation.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "jester_female_dlg_calling_j_call_probe_j_call_probe_deep_reply_0",
+    "character": "apprentice_jester_female",
+    "text": "I have a joke about that question. I do not tell it. The not-telling is the answer.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "jester_female_dlg_calling_j_call_probe_j_call_probe_back_reply_0",
+    "character": "apprentice_jester_female",
+    "text": "Two of three. Most jobs are not that good a hit rate. I am, mostly, content.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "jester_female_dlg_calling_j_call_cold_reply_0",
+    "character": "apprentice_jester_female",
+    "text": "I have. Twice. The first time lasted six minutes. The second lasted nine. The crew were quieter. They did not know I had stopped. They were sadder. I have not tried since.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "calling"
+  },
+  {
+    "id": "jester_female_dlg_mortality_opener_0",
+    "character": "apprentice_jester_female",
+    "text": "Three drafts. None land. I keep working.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "jester_female_dlg_mortality_opener_1",
+    "character": "apprentice_jester_female",
+    "text": "The one that lands will arrive too late. That is, in itself, a punchline.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "jester_female_dlg_mortality_j_mort_warm_reply_0",
+    "character": "apprentice_jester_female",
+    "text": "First draft: 'I told them my last words would be a joke. The joke was that there were no last words.' I do not love it. The structure is sound. The execution is too tidy. Real funerals are not tidy.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "jester_female_dlg_mortality_j_mort_probe_reply_0",
+    "character": "apprentice_jester_female",
+    "text": "I will write it. You will tell it. You will tell it badly. The badness will land. That is the only way it works.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "jester_female_dlg_mortality_j_mort_probe_j_mort_probe_deep_reply_0",
+    "character": "apprentice_jester_female",
+    "text": "Thank you. Most jokes are improved by a bad delivery. Mine, especially. The badness is the proof of love.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "jester_female_dlg_mortality_j_mort_probe_j_mort_probe_back_reply_0",
+    "character": "apprentice_jester_female",
+    "text": "Doing what you can is the only delivery I want. The room will fill in the rest.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "jester_female_dlg_mortality_j_mort_cold_reply_0",
+    "character": "apprentice_jester_female",
+    "text": "Then the joke goes unread. The joke will haunt the wake. You will reach for it. You will not find it. That is, in fact, the punchline.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "mortality"
+  },
+  {
+    "id": "jester_female_dlg_us_opener_0",
+    "character": "apprentice_jester_female",
+    "text": "You don't laugh on cue. You laugh when something is funny.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "jester_female_dlg_us_opener_1",
+    "character": "apprentice_jester_female",
+    "text": "Most people do the opposite. You are, in this small way, irreplaceable.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "jester_female_dlg_us_j_us_warm_reply_0",
+    "character": "apprentice_jester_female",
+    "text": "Then I will be more honest with you than with anyone else. The bad jokes will get bad faster. The good jokes will arrive better. We will both improve. I had not expected to improve at this stage.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "jester_female_dlg_us_j_us_probe_reply_0",
+    "character": "apprentice_jester_female",
+    "text": "The serious one. About my brother. You haven't laughed because it isn't ready. You will laugh when it is. I will know. We will both know.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "jester_female_dlg_us_j_us_probe_j_us_probe_deep_reply_0",
+    "character": "apprentice_jester_female",
+    "text": "He died at the wedding. The pun joke. The same wedding. The bride's mother was his mother. The slap was both of ours. I am still working on the joke. You will hear it when it lands.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "jester_female_dlg_us_j_us_probe_j_us_probe_step_reply_0",
+    "character": "apprentice_jester_female",
+    "text": "Wait. The waiting is part of the joke. So is the brother. So am I.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
+  },
+  {
+    "id": "jester_female_dlg_us_j_us_cold_reply_0",
+    "character": "apprentice_jester_female",
+    "text": "Then I will be quiet. You will miss the noise. So will I. We will, mostly, both pretend we don't.",
+    "emotion": "dialogue",
+    "bucket": "dialogue",
+    "file": "shared/apprenticeDialogues.ts",
+    "dialogueTopic": "us"
   }
 ]

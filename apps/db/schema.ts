@@ -7517,6 +7517,32 @@ export const recruitmentQuestProgress = mysqlTable("recruitment_quest_progress",
 }));
 export type RecruitmentQuestProgressRow = typeof recruitmentQuestProgress.$inferSelect;
 
+/** Per-(user, memberKey, topicId) record of a played BioWare-style
+ *  dialogue topic. The choices the player picked for each node along
+ *  the way are recorded so re-opening the topic shows "(heard)" and
+ *  surfaces the path that was taken. The same memberKey can play any
+ *  of the four topics (past / calling / mortality / us) once each. */
+export const apprenticeDialogueProgress = mysqlTable("apprentice_dialogue_progress", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  /** Crew memberKey of the apprentice the dialog is with. */
+  memberKey: varchar("memberKey", { length: 64 }).notNull(),
+  /** Topic id (e.g. "scholar_past"). */
+  topicId: varchar("topicId", { length: 64 }).notNull(),
+  /** Choice ids picked, in order — entry choice first, then any
+   *  follow-up choices the player selected. */
+  pathChoices: json("pathChoices").$type<string[]>().default([]).notNull(),
+  /** Narrative flags set by the chosen branches. */
+  flagsSet: json("flagsSet").$type<string[]>().default([]).notNull(),
+  /** Cumulative bond delta applied by this conversation. */
+  bondDeltaApplied: int("bondDeltaApplied").notNull().default(0),
+  playedAt: timestamp("playedAt").defaultNow().notNull(),
+}, (t) => ({
+  userMemberTopicIdx: uniqueIndex("uq_adp_user_member_topic").on(t.userId, t.memberKey, t.topicId),
+  userMemberIdx: index("idx_adp_user_member").on(t.userId, t.memberKey),
+}));
+export type ApprenticeDialogueProgressRow = typeof apprenticeDialogueProgress.$inferSelect;
+
 /* ═══════════════════════════════════════════════════════
    WORLD WEAVE — yearly events, ripple ledger, memorial plaza
 
