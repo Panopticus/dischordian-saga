@@ -53,7 +53,16 @@ const TOKEN_PAIRS: Array<{ fg: string; bg: string; threshold: number }> = [
  *  Until that lands, the list is empty — FAIL with declared=N
  *  implemented=0 is the floor we ratchet against. */
 const MEASURED: Pair[] = [
-  // (intentionally empty — populated by the audit-contrast tool)
+  { fg: "--energy-primary", bg: "--bg-void", measuredRatio: 12.88, threshold: 4.5 },
+  { fg: "--energy-secondary", bg: "--bg-void", measuredRatio: 8.81, threshold: 4.5 },
+  { fg: "--energy-success", bg: "--bg-surface", measuredRatio: 8.49, threshold: 4.5 },
+  { fg: "--energy-error", bg: "--bg-surface", measuredRatio: 5.14, threshold: 4.5 },
+  { fg: "--energy-premium", bg: "--bg-void", measuredRatio: 8.81, threshold: 3 },
+  { fg: "--energy-system", bg: "--bg-void", measuredRatio: 6.48, threshold: 4.5 },
+  { fg: "--energy-accent", bg: "--bg-surface", measuredRatio: 8.30, threshold: 4.5 },
+  { fg: "--energy-primary-hc", bg: "--bg-void-hc", measuredRatio: 12.88, threshold: 4.5 },
+  { fg: "--energy-error-hc", bg: "--bg-surface-hc", measuredRatio: 5.14, threshold: 4.5 },
+  { fg: "--energy-success-hc", bg: "--bg-surface-hc", measuredRatio: 8.49, threshold: 4.5 },
 ];
 
 export function checkVoidContrastCoverage(): RawParityCount {
