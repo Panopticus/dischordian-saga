@@ -130,3 +130,42 @@ The `.sql` and journal files themselves still live one level up at
 `apps/db/` per `drizzle.config.ts`. Moving them into this subdirectory
 is a Step-2 decision; doing it before the cutover would just relocate
 the drift.
+
+## Step 2 cutover — runbook
+
+The mechanical part of Step 2 is automated by
+`scripts/generate-baseline-migration.ts`. The script:
+
+1. Verifies the target DB is empty (refuses to clobber a populated DB).
+2. Runs `pnpm drizzle-kit push` to apply the current schema.
+3. Captures the resulting schema via `mysqldump --no-data` and writes
+   `apps/db/0071_baseline_v1.sql`.
+4. Appends an entry to `apps/db/meta/_journal.json` for the new
+   baseline.
+5. Prints a manual follow-up checklist (archive old .sql files, reset
+   migration-drift.baseline.json, mark-as-applied on prod-shaped DBs,
+   drop the bootstrap* IIFEs, switch CI to `db:migrate`).
+
+Run on a separate branch (recommended `db/baseline-0071`):
+
+```bash
+# 1. Spin up an empty MySQL.
+docker run --rm -d --name baseline-mysql \
+  -e MYSQL_ROOT_PASSWORD=baseline_pw \
+  -e MYSQL_DATABASE=loredex_baseline \
+  -p 3307:3306 mysql:8.0
+# Wait for it to come up.
+
+# 2. Generate the baseline migration.
+DATABASE_URL=mysql://root:baseline_pw@127.0.0.1:3307/loredex_baseline \
+  pnpm tsx scripts/generate-baseline-migration.ts
+
+# 3. Commit apps/db/0071_baseline_v1.sql + meta/_journal.json on a
+# branch, NOT main. The follow-up PR archives 0000-0070.sql and
+# resets the drift baseline.
+```
+
+The script is idempotent in spirit — running it twice produces the
+same SQL (modulo MySQL ordering quirks) — but committing the second
+run on top of the first would create a duplicate journal entry, so
+revert one before re-committing if the schema changes mid-cutover.
