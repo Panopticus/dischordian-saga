@@ -22,6 +22,7 @@
     "format": "prettier --write .",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
+    "test:integration": "vitest run apps/server/**/*.integration.test.ts",
     "test:e2e": "playwright test --config apps/e2e/playwright.config.ts",
     "seed:e2e-user": "tsx apps/scripts/seed-e2e-user.ts",
     "db:push": "drizzle-kit push",
