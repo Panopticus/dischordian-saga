@@ -161,7 +161,7 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     id: "server.observability_wiring",
     name: "Observability wiring",
     description:
-      "SENTRY_DSN + OTEL_EXPORTER_OTLP_ENDPOINT required in env (fail-fast in prod), prom-client metrics module exposed at /metrics, tRPC procedures auto-instrumented, per-IP rate limit on /api.",
+      "SENTRY_DSN + OTEL_EXPORTER_OTLP_ENDPOINT wired into env with loud prod warning when unset, prom-client metrics module exposed at /metrics, tRPC procedures auto-instrumented, per-IP rate limit on /api.",
     check: () => checkObservabilityWiring(),
   },
   // ─── Mobile / native ──────────────────────────────────────

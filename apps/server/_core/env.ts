@@ -77,13 +77,13 @@ export const ENV = {
   stripeSecretKey: optional("STRIPE_SECRET_KEY", process.env.STRIPE_SECRET_KEY),
   stripeWebhookSecret: optional("STRIPE_WEBHOOK_SECRET", process.env.STRIPE_WEBHOOK_SECRET),
 
-  // Observability — required in production (silent observability is
-  // a leading cause of post-launch incidents going unnoticed). The
-  // `required()` helper throws at boot in production if either is
-  // absent; in development they're advisory and the integrations
-  // gracefully no-op when unset.
-  sentryDsn: required("SENTRY_DSN", process.env.SENTRY_DSN),
-  otelEndpoint: required(
+  // Observability — strongly encouraged in production (silent
+  // observability is a leading cause of post-launch incidents going
+  // unnoticed) but not boot-fatal. Missing values emit a loud
+  // production warning below; the Sentry/OTel integrations gracefully
+  // no-op when unset (see apps/server/sentry.ts, apps/server/otel.ts).
+  sentryDsn: optional("SENTRY_DSN", process.env.SENTRY_DSN),
+  otelEndpoint: optional(
     "OTEL_EXPORTER_OTLP_ENDPOINT",
     process.env.OTEL_EXPORTER_OTLP_ENDPOINT,
   ),
@@ -122,4 +122,20 @@ const missing = [
 
 if (missing.length > 0 && !isProduction) {
   console.warn(`[ENV] Development mode — ${missing.length} vars missing: ${missing.join(", ")}`);
+}
+
+// Loud production warning when observability is unconfigured. Boot
+// proceeds (the Sentry/OTel integrations no-op gracefully) but the
+// gap surfaces in logs so operators notice silent observability.
+if (isProduction) {
+  const missingObservability = [
+    !ENV.sentryDsn && "SENTRY_DSN",
+    !ENV.otelEndpoint && "OTEL_EXPORTER_OTLP_ENDPOINT",
+  ].filter(Boolean);
+  if (missingObservability.length > 0) {
+    console.error(
+      `[ENV] Production observability not fully wired — missing: ${missingObservability.join(", ")}. ` +
+      `Errors will not be reported to Sentry / traces will not be exported.`,
+    );
+  }
 }
