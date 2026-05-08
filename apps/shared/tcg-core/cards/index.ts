@@ -113,6 +113,7 @@ import { cardDef as s1_spell_205_panoptic_lockdown } from "./definitions/archite
 import { cardDef as s1_warlord_three_moves } from "./definitions/architect/s1_warlord_three_moves.ts";
 import { cardDef as s1_zeal_002_engine_warden } from "./definitions/architect/s1_zeal_002_engine_warden.ts";
 import { cardDef as s1_struct_002_observation_pylon } from "./definitions/architect/s1_struct_002_observation_pylon.ts";
+import { cardDef as s1_blast_002_arc_lance } from "./definitions/architect/s1_blast_002_arc_lance.ts";
 
 /* ─── Dreamer ─── */
 import { cardDef as gen_dreamer } from "./definitions/dreamer/gen_dreamer.ts";
@@ -234,6 +235,7 @@ import { cardDef as s1_spell_211_scorched_earth } from "./definitions/insurgency
 import { cardDef as s1_zeal_003_oath_keeper } from "./definitions/insurgency/s1_zeal_003_oath_keeper.ts";
 import { cardDef as s1_resurrect_003_ghost_cell_runner } from "./definitions/insurgency/s1_resurrect_003_ghost_cell_runner.ts";
 import { cardDef as s1_pack_005_cell_runner } from "./definitions/insurgency/s1_pack_005_cell_runner.ts";
+import { cardDef as s1_blast_003_strafe_runner } from "./definitions/insurgency/s1_blast_003_strafe_runner.ts";
 
 /* ─── Neutral ─── */
 import { cardDef as gen_neutral } from "./definitions/neutral/gen_neutral.ts";
@@ -375,6 +377,7 @@ import { cardDef as s1_spell_228_economic_sanctions } from "./definitions/new_ba
 import { cardDef as s1_spell_229_liquidation_sale } from "./definitions/new_babylon/s1_spell_229_liquidation_sale.ts";
 import { cardDef as s1_zeal_005_compliance_zealot } from "./definitions/new_babylon/s1_zeal_005_compliance_zealot.ts";
 import { cardDef as s1_struct_004_audit_tower } from "./definitions/new_babylon/s1_struct_004_audit_tower.ts";
+import { cardDef as s1_blast_005_audit_artillery } from "./definitions/new_babylon/s1_blast_005_audit_artillery.ts";
 
 /* ─── Panopticon ─── */
 import { cardDef as s1_char_050_warden_prime } from "./definitions/panopticon/s1_char_050_warden_prime.ts";
@@ -442,6 +445,7 @@ import { cardDef as s1_spell_221_cognitive_decay } from "./definitions/thought_v
 import { cardDef as s1_spell_222_terminal_stage } from "./definitions/thought_virus/s1_spell_222_terminal_stage.ts";
 import { cardDef as s1_spell_223_spore_burst } from "./definitions/thought_virus/s1_spell_223_spore_burst.ts";
 import { cardDef as s1_resurrect_002_persistent_strain } from "./definitions/thought_virus/s1_resurrect_002_persistent_strain.ts";
+import { cardDef as s1_blast_004_pyre_swarm } from "./definitions/thought_virus/s1_blast_004_pyre_swarm.ts";
 
 /* ─── Tokens ─── */
 import { cardDef as tok_calculation } from "./tokens/tok_calculation";
@@ -629,6 +633,7 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   s1_warlord_three_moves,
   s1_zeal_002_engine_warden,
   s1_struct_002_observation_pylon,
+  s1_blast_002_arc_lance,
   gen_dreamer,
   s1_char_005_destiny,
   s1_char_014_nythera,
@@ -746,6 +751,7 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   s1_zeal_003_oath_keeper,
   s1_resurrect_003_ghost_cell_runner,
   s1_pack_005_cell_runner,
+  s1_blast_003_strafe_runner,
   gen_neutral,
   gen_programmer,
   gen_game_master_original,
@@ -883,6 +889,7 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   s1_spell_229_liquidation_sale,
   s1_zeal_005_compliance_zealot,
   s1_struct_004_audit_tower,
+  s1_blast_005_audit_artillery,
   s1_char_050_warden_prime,
   s1_char_051_oculus_sentinel,
   s1_char_052_compliance_officer,
@@ -946,6 +953,7 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   s1_spell_222_terminal_stage,
   s1_spell_223_spore_burst,
   s1_resurrect_002_persistent_strain,
+  s1_blast_004_pyre_swarm,
   tok_calculation,
   tok_dream_wisp_1_1,
   tok_infected_2_2,
