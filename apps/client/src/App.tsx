@@ -277,6 +277,7 @@ const DonationPage = lazy(() => import("./pages/DonationPage"));
 const LionsClubApplicationPage = lazy(() => import("./pages/LionsClubApplicationPage"));
 const OrderOfTheDreamerPage = lazy(() => import("./pages/OrderOfTheDreamerPage"));
 const SocialPage = lazy(() => import("./pages/SocialPage"));
+const RoleplayHubPage = lazy(() => import("./pages/RoleplayHubPage"));
 const LoreJournalPage = lazy(() => import("./pages/LoreJournalPage"));
 const ArmyManagementPage = lazy(() => import("./pages/ArmyManagementPage"));
 const ShipSchematicMap = lazy(() => import("./components/ShipSchematicMap"));
@@ -542,6 +543,8 @@ function Router() {
         <Route path="/lions-club/apply" component={LionsClubApplicationPage} />
         <Route path="/order-of-the-dreamer" component={OrderOfTheDreamerPage} />
         <Route path="/social" component={SocialPage} />
+        <Route path="/roleplay" component={RoleplayHubPage} />
+        <Route path="/dossier/:userId" component={RoleplayHubPage} />
         <Route path="/lore-journal" component={LoreJournalPage} />
         <Route path="/army" component={ArmyManagementPage} />
         <Route path="/awakening">{() => <AwakeningPage />}</Route>

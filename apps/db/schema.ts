@@ -7585,3 +7585,275 @@ export const memorialInscriptions = mysqlTable("memorial_inscriptions", {
 }));
 export type MemorialInscriptionRow = typeof memorialInscriptions.$inferSelect;
 export type InsertMemorialInscription = typeof memorialInscriptions.$inferInsert;
+
+/* ═══════════════════════════════════════════════════════════════════
+   ROLEPLAY MODULE — identity, recognition, ledger, confession.
+
+   These tables back the public-facing RP surface: a Dossier (the
+   "RP card"), the Chosen-vs-True-Name Recognition mechanic, the
+   Witnessed Ledger ticker, the weekly Confession Booth, and the
+   faction-wide encrypted-relay / bureaucratic-bulletin channel.
+
+   The tables are intentionally additive — they reference users /
+   guilds / decks but do not modify those tables, so they can land
+   independently and bootstrap on cold-start without touching the
+   migration journal.
+   ═══════════════════════════════════════════════════════════════════ */
+
+/**
+ * Roleplay Dossier — public-facing RP card. One row per user.
+ *
+ * - `chosenName`   what the Insurgency calls them (visible always)
+ * - `trueName`     what the Authority calls them (gated by Recognition)
+ * - `pronouns`     in-character form-of-address ("called Vessel")
+ * - `bio`          500-char in-character self-description
+ * - `innerVoice`   one of the seven INNER_VOICE_PROFILES axes
+ * - `factionAlleg` declared loyalty (empire/insurgency/neutral/witness)
+ * - `motto`        single line shown to opponents at match start
+ * - `sigilArt`     asset slug for the dossier sigil
+ * - `recognitionMode`
+ *      "private"  — only friends with explicit recognition see trueName
+ *      "open"     — trueName visible to anyone who visits the dossier
+ *      "sealed"   — even friends must be granted; locked by default
+ */
+export const roleplayDossier = mysqlTable("roleplay_dossier", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().unique().references(() => users.id, { onDelete: "cascade" }),
+  chosenName: varchar("chosenName", { length: 64 }),
+  trueName: varchar("trueName", { length: 64 }),
+  pronouns: varchar("pronouns", { length: 48 }),
+  bio: varchar("bio", { length: 500 }),
+  innerVoice: mysqlEnum("innerVoice", [
+    "aggression", "mercy", "curiosity", "conformity",
+    "vigilance", "vulnerability", "wit",
+  ]),
+  factionAllegiance: mysqlEnum("factionAllegiance", [
+    "empire", "insurgency", "neutral", "witness", "unaligned",
+  ]).notNull().default("unaligned"),
+  motto: varchar("motto", { length: 140 }),
+  sigilArt: varchar("sigilArt", { length: 128 }),
+  recognitionMode: mysqlEnum("recognitionMode", ["private", "open", "sealed"]).notNull().default("private"),
+  /** Player's declared "calling" — chosen archetype label (Vessel, Cell-Runner, Witness, Archon, etc.) */
+  calling: varchar("calling", { length: 48 }),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+export type RoleplayDossierRow = typeof roleplayDossier.$inferSelect;
+export type InsertRoleplayDossier = typeof roleplayDossier.$inferInsert;
+
+/**
+ * Recognitions — one user has been granted permission to see another
+ * user's `trueName` on their dossier. Asymmetric: A → B means A can
+ * see B's true name. B does not automatically see A's.
+ */
+export const roleplayRecognitions = mysqlTable("roleplay_recognitions", {
+  id: int("id").autoincrement().primaryKey(),
+  /** The user who is granting recognition (whose true name is being revealed). */
+  granterUserId: int("granterUserId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  /** The user who is being granted recognition (who can now see the granter's true name). */
+  granteeUserId: int("granteeUserId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  /** Optional in-character note attached to the recognition ceremony. */
+  ceremonyNote: varchar("ceremonyNote", { length: 280 }),
+  grantedAt: timestamp("grantedAt").defaultNow().notNull(),
+}, (table) => ({
+  uniqGrant: uniqueIndex("uniq_roleplay_recognition").on(table.granterUserId, table.granteeUserId),
+  idxGrantee: index("idx_roleplay_recognition_grantee").on(table.granteeUserId),
+}));
+export type RoleplayRecognitionRow = typeof roleplayRecognitions.$inferSelect;
+
+/**
+ * Deck Oaths — extends decks with RP-flavor metadata. One row per deck.
+ * Kept separate from `decks` so the existing deck builder doesn't need
+ * a schema-shape change.
+ */
+export const deckOaths = mysqlTable("deck_oaths", {
+  id: int("id").autoincrement().primaryKey(),
+  deckId: int("deckId").notNull().unique().references(() => decks.id, { onDelete: "cascade" }),
+  userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  /** One-line motto shown to opponent at match start. */
+  oath: varchar("oath", { length: 140 }),
+  /** Long-form deck lore (1000 char IC justification). */
+  lore: text("lore"),
+  /** Card id flagged as the deck's signature ("the piece they're known for"). */
+  signatureCardId: varchar("signatureCardId", { length: 96 }),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  idxUser: index("idx_deck_oaths_user").on(table.userId),
+}));
+export type DeckOathRow = typeof deckOaths.$inferSelect;
+
+/**
+ * Guild Charter — extends guilds with RP-flavor + faction-lock.
+ *
+ * Once `factionLockedUntil` is set, the guild's `faction` cannot be
+ * changed before that date. Default lock: 30 days from charter signing.
+ * The charter is also the trigger for the founding cutscene event.
+ */
+export const guildCharters = mysqlTable("guild_charters", {
+  id: int("id").autoincrement().primaryKey(),
+  guildId: int("guildId").notNull().unique().references(() => guilds.id, { onDelete: "cascade" }),
+  /** The IC guild motto (separate from MOTD, which is OOC announcements). */
+  oath: varchar("oath", { length: 280 }),
+  /** Guild's preferred vocabulary tier — "rite" (Insurgency), "edict" (Empire), "weave" (Witness), "compact" (neutral). */
+  vocabularyTier: mysqlEnum("vocabularyTier", ["rite", "edict", "weave", "compact"]).notNull().default("compact"),
+  /** Whom the guild swore in front of — name of presiding companion. */
+  presidingCompanion: varchar("presidingCompanion", { length: 48 }),
+  signedByUserId: int("signedByUserId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  signedAt: timestamp("signedAt").defaultNow().notNull(),
+  factionLockedUntil: timestamp("factionLockedUntil"),
+});
+export type GuildCharterRow = typeof guildCharters.$inferSelect;
+
+/**
+ * Guild Cells — sub-groups within a guild. 2-6 cells per guild,
+ * each with its own name, color, and chapter-style hierarchy.
+ *
+ * Cell vocabulary varies by guild faction:
+ *   Insurgency  — "cells"
+ *   Empire      — "chambers"
+ *   Witness     — "circles"
+ *   Neutral     — "chapters"
+ */
+export const guildCells = mysqlTable("guild_cells", {
+  id: int("id").autoincrement().primaryKey(),
+  guildId: int("guildId").notNull().references(() => guilds.id, { onDelete: "cascade" }),
+  name: varchar("name", { length: 64 }).notNull(),
+  /** Hex-token reference (already in arkThemes palette) — UI accent. */
+  paletteToken: varchar("paletteToken", { length: 32 }),
+  /** Free-form ethos — what this cell stands for, IC. */
+  ethos: varchar("ethos", { length: 280 }),
+  leaderUserId: int("leaderUserId").references(() => users.id, { onDelete: "set null" }),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => ({
+  uniqGuildName: uniqueIndex("uniq_guild_cell_name").on(table.guildId, table.name),
+  idxGuild: index("idx_guild_cells_guild").on(table.guildId),
+}));
+export type GuildCellRow = typeof guildCells.$inferSelect;
+
+/**
+ * Guild cell membership — a guild member belongs to at most one cell.
+ */
+export const guildCellMembers = mysqlTable("guild_cell_members", {
+  id: int("id").autoincrement().primaryKey(),
+  cellId: int("cellId").notNull().references(() => guildCells.id, { onDelete: "cascade" }),
+  userId: int("userId").notNull().unique().references(() => users.id, { onDelete: "cascade" }),
+  joinedAt: timestamp("joinedAt").defaultNow().notNull(),
+}, (table) => ({
+  idxCell: index("idx_guild_cell_members_cell").on(table.cellId),
+}));
+export type GuildCellMemberRow = typeof guildCellMembers.$inferSelect;
+
+/**
+ * Faction Channel — encrypted relay (Insurgency) / bureaucratic
+ * bulletin (Empire) / weave (Witness). One global feed per faction;
+ * read-only to guildless players, writable by faction-aligned guilds.
+ */
+export const factionChannelPosts = mysqlTable("faction_channel_posts", {
+  id: int("id").autoincrement().primaryKey(),
+  faction: mysqlEnum("faction", ["empire", "insurgency", "witness", "neutral"]).notNull(),
+  authorUserId: int("authorUserId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  /** Author's guild at time of post (denormalized; survives guild changes). */
+  authorGuildId: int("authorGuildId").references(() => guilds.id, { onDelete: "set null" }),
+  authorChosenName: varchar("authorChosenName", { length: 64 }),
+  message: varchar("message", { length: 500 }).notNull(),
+  /** Post tone: "intel" (Insurgency), "edict" (Empire), "vision" (Witness), "notice" (neutral). */
+  tone: mysqlEnum("tone", ["intel", "edict", "vision", "notice", "rumor"]).notNull().default("notice"),
+  /** Pinned posts surface above the chronological feed. */
+  pinned: boolean("pinned").notNull().default(false),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => ({
+  idxFactionCreated: index("idx_faction_channel_faction_created").on(table.faction, table.createdAt),
+}));
+export type FactionChannelPostRow = typeof factionChannelPosts.$inferSelect;
+
+/**
+ * Witnessed Ledger Pins — curated, named entries surfaced on the
+ * public Witnessed Ledger. The base feed is `rippleEvents`; pins are
+ * the editorial layer ("The Antiquarian's column").
+ */
+export const witnessedLedgerPins = mysqlTable("witnessed_ledger_pins", {
+  id: int("id").autoincrement().primaryKey(),
+  /** Subject of the pin (the player whose action is recorded). */
+  subjectUserId: int("subjectUserId").references(() => users.id, { onDelete: "set null" }),
+  /** Headline as the Antiquarian would write it. */
+  headline: varchar("headline", { length: 200 }).notNull(),
+  /** Body — 500-char IC chronicle. */
+  body: text("body"),
+  /** Free-form tag for filtering: "naming", "war", "tribunal", "romance", "death", etc. */
+  category: varchar("category", { length: 32 }).notNull().default("chronicle"),
+  /** Optional ripple event id linking to the underlying world-event. */
+  rippleEventId: bigint("rippleEventId", { mode: "number" }),
+  pinnedAt: timestamp("pinnedAt").defaultNow().notNull(),
+}, (table) => ({
+  idxPinnedAt: index("idx_witnessed_ledger_pinned_at").on(table.pinnedAt),
+  idxSubject: index("idx_witnessed_ledger_subject").on(table.subjectUserId),
+}));
+export type WitnessedLedgerPinRow = typeof witnessedLedgerPins.$inferSelect;
+
+/**
+ * Confessions — weekly Confession Booth submissions. One IC
+ * confession per player per week, chosen Trial card category, voted
+ * by the community using the existing trial_categories vocabulary.
+ */
+export const confessions = mysqlTable("confessions", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  /** ISO-week identifier ("2026-W19") — one confession per user per week. */
+  weekKey: varchar("weekKey", { length: 8 }).notNull(),
+  /** The IC confession text. */
+  text: varchar("text", { length: 500 }).notNull(),
+  /** Trial category claimed by the confessor — must be one of the
+   *  six canonical sorted-order categories. */
+  trialCategory: mysqlEnum("trialCategory", [
+    "confession", "defensive", "evidence", "narrative", "offensive", "reactive",
+  ]).notNull(),
+  /** Aggregate vote tallies, denormalized for cheap reads. */
+  acquittals: int("acquittals").notNull().default(0),
+  condemnations: int("condemnations").notNull().default(0),
+  abstentions: int("abstentions").notNull().default(0),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => ({
+  uniqUserWeek: uniqueIndex("uniq_confession_user_week").on(table.userId, table.weekKey),
+  idxWeek: index("idx_confession_week").on(table.weekKey),
+}));
+export type ConfessionRow = typeof confessions.$inferSelect;
+
+/**
+ * Confession votes — one vote per user per confession. Vote outcome
+ * is one of the trial-judgment archetypes.
+ */
+export const confessionVotes = mysqlTable("confession_votes", {
+  id: int("id").autoincrement().primaryKey(),
+  confessionId: int("confessionId").notNull().references(() => confessions.id, { onDelete: "cascade" }),
+  voterUserId: int("voterUserId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  verdict: mysqlEnum("verdict", ["acquit", "condemn", "abstain"]).notNull(),
+  /** Optional 140-char IC reasoning. */
+  reasoning: varchar("reasoning", { length: 140 }),
+  votedAt: timestamp("votedAt").defaultNow().notNull(),
+}, (table) => ({
+  uniqVoterConfession: uniqueIndex("uniq_confession_vote").on(table.confessionId, table.voterUserId),
+  idxConfession: index("idx_confession_votes_confession").on(table.confessionId),
+}));
+export type ConfessionVoteRow = typeof confessionVotes.$inferSelect;
+
+/**
+ * Guild Rites — scheduled in-character events: Naming Ceremonies,
+ * Witnessings, Tribunals, Investitures. One row per scheduled rite.
+ */
+export const guildRites = mysqlTable("guild_rites", {
+  id: int("id").autoincrement().primaryKey(),
+  guildId: int("guildId").notNull().references(() => guilds.id, { onDelete: "cascade" }),
+  riteType: mysqlEnum("riteType", ["naming", "witnessing", "tribunal", "investiture", "rite_of_passage", "other"]).notNull(),
+  title: varchar("title", { length: 140 }).notNull(),
+  description: text("description"),
+  scheduledAt: timestamp("scheduledAt").notNull(),
+  hostUserId: int("hostUserId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  /** Cell scoping — null means the whole guild attends. */
+  cellId: int("cellId").references(() => guildCells.id, { onDelete: "set null" }),
+  status: mysqlEnum("status", ["scheduled", "live", "concluded", "cancelled"]).notNull().default("scheduled"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => ({
+  idxGuildScheduled: index("idx_guild_rites_guild_scheduled").on(table.guildId, table.scheduledAt),
+}));
+export type GuildRiteRow = typeof guildRites.$inferSelect;
