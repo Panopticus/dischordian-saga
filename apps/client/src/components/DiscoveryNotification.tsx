@@ -104,8 +104,9 @@ export default function DiscoveryNotification() {
             style={{
               background: "linear-gradient(135deg, color-mix(in oklch, var(--energy-primary) 15%, transparent) 0%, var(--glass-border) 100%)",
               border: "1px solid color-mix(in oklch, var(--energy-primary) 35%, transparent)",
-              backdropFilter: "blur(20px)",
-              boxShadow: "0 0 30px color-mix(in oklch, var(--energy-primary) 15%, transparent), 0 8px 32px color-mix(in oklch, var(--bg-void) 40%, transparent)",
+              backdropFilter: "blur(var(--physics-blur, 20px))" /* void-ignore — 20px fallback */,
+              boxShadow:
+                "0 0 var(--space-md) color-mix(in oklch, var(--energy-primary) 15%, transparent), 0 var(--space-xs) var(--space-lg) color-mix(in oklch, var(--bg-void) 40%, transparent)",
             }}
           >
             {/* Icon */}

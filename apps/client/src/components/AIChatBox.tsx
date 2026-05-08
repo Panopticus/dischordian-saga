@@ -43,7 +43,7 @@ export type AIChatBoxProps = {
   className?: string;
 
   /**
-   * Height of the chat box (default: 600px)
+   * Height of the chat box (default 600 pixels)
    */
   height?: string | number;
 

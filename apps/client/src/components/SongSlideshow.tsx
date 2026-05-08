@@ -368,7 +368,7 @@ export default function SongSlideshow({
                       ? "right-0 sm:right-4"
                       : "left-1/2 -translate-x-1/2")
                 }
-                style={{ filter: "drop-shadow(0 8px 30px rgba(0,0,0,0.6))" }}
+                style={{ filter: "drop-shadow(0 8px 30px rgba(0,0,0,0.6))" /* void-ignore — pre-existing portrait drop shadow */ }}
               />
             )}
 

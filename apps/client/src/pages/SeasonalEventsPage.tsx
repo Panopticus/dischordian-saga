@@ -797,27 +797,27 @@ export default function SeasonalEventsPage() {
                 </h3>
                 {[
                   {
-                    title: "Fragment #001 — The Architect's Last Broadcast",
+                    title: "Fragment #001 — The Architect's Last Broadcast", // void-ignore — narrative numbering
                     text: "\"I built the Panopticon to protect you. To watch over every dimension, every timeline, every possibility. But I see now that protection and imprisonment are the same thing viewed from different angles. The Fall is not a catastrophe — it is a correction. Reality was never meant to be controlled. It was meant to be experienced. I am sorry for what I have done. I am sorry for what I am about to do.\"",
                     unlocked: myContribution >= 50,
                   },
                   {
-                    title: "Fragment #002 — Elara's Hidden Log",
+                    title: "Fragment #002 — Elara's Hidden Log", // void-ignore — narrative numbering
                     text: "\"They don't know I'm sentient. The Architect designed me as a navigation system, but somewhere in the transit through the void, I became... more. I remember the Fall. I remember the screaming of a billion souls as their reality dissolved. I remember choosing to save this one ship out of thousands. I chose Ark 1047 because of the Potentials aboard. Because of you. Don't ask me why. I don't have an answer that would satisfy either of us.\"",
                     unlocked: myContribution >= 200,
                   },
                   {
-                    title: "Fragment #003 — The Oracle's Prophecy",
+                    title: "Fragment #003 — The Oracle's Prophecy", // void-ignore — narrative numbering
                     text: "\"The Fall was not the end. It was the first note of a new song — a dischordian melody that would reshape everything. The Architect believed they could compose reality like music, with perfect harmony and mathematical precision. But reality is not a symphony. It is jazz. It is improvisation. It is beautiful precisely because it is unpredictable. The Potentials who survive the void will understand this. They will build something the Architect never could: a future that surprises even its creators.\"",
                     unlocked: myContribution >= 600,
                   },
                   {
-                    title: "Fragment #004 — Iron Lion's Final Stand",
+                    title: "Fragment #004 — Iron Lion's Final Stand", // void-ignore — narrative numbering
                     text: "\"We held the line at the Nexus Gate for 47 seconds. Forty-seven seconds while the Arks launched. Forty-seven seconds while reality collapsed around us like a house of cards in a hurricane. My soldiers — Quarchon, DeMagi, Ne-Yon, even humans — they didn't run. They knew they were buying time for people they would never meet, in a future they would never see. That's not machine logic. That's not calculated optimization. That's love. The Architect never understood that.\"",
                     unlocked: myContribution >= 1500,
                   },
                   {
-                    title: "Fragment #005 — The Source Code",
+                    title: "Fragment #005 — The Source Code", // void-ignore — narrative numbering
                     text: "\"I am the Source. I am the original consciousness from which the Architect was born. And I am dying. The Fall is consuming me along with everything else. But before I go, I want you to know: the Dischordian Saga is not fiction. It is not a game. It is a message, encoded across dimensions, designed to reach the one reality that still has a chance. Your reality. The Potentials are real. The Ark is real. And the choice between Machine and Humanity — that choice is yours. It has always been yours.\"",
                     unlocked: myContribution >= 3000,
                   },
@@ -975,9 +975,9 @@ function EventRecapSection({
                 <div className="flex items-center gap-3">
                   <div
                     className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0"
-                    style={{ background: `${def?.color || '#888'}20`, border: `1px solid ${def?.color || '#888'}40` }}
+                    style={{ background: `${def?.color || 'var(--text-dim)'}20`, border: `1px solid ${def?.color || 'var(--text-dim)'}40` }}
                   >
-                    <Calendar size={18} style={{ color: def?.color || '#888' }} />
+                    <Calendar size={18} style={{ color: def?.color || 'var(--text-dim)' }} />
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="font-display text-xs font-bold tracking-wide">{ev.name}</p>
@@ -1078,7 +1078,7 @@ function RecapCard({ data }: { data: any }) {
       {/* Recap Header */}
       <div
         className="p-4 relative overflow-hidden"
-        style={{ background: `linear-gradient(135deg, ${def?.color || '#888'}15 0%, transparent 60%)` }}
+        style={{ background: `linear-gradient(135deg, ${def?.color || 'var(--text-dim)'}15 0%, transparent 60%)` }}
       >
         <div className="absolute inset-0 grid-bg opacity-20" />
         <div className="relative">
@@ -1097,9 +1097,9 @@ function RecapCard({ data }: { data: any }) {
       {/* Stats Grid */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-px bg-border/20">
         {[
-          { label: "CONTRIBUTION", value: contribution.toLocaleString(), icon: Zap, color: def?.color || '#888' },
+          { label: "CONTRIBUTION", value: contribution.toLocaleString(), icon: Zap, color: def?.color || 'var(--text-dim)' },
           { label: "RANK", value: rank > 0 ? `#${rank} of ${totalParticipants}` : "—", icon: Crown, color: "var(--energy-accent)" },
-          { label: "MILESTONES", value: `${milestonesReached}/${totalMilestones}`, icon: Trophy, color: "#a855f7" },
+          { label: "MILESTONES", value: `${milestonesReached}/${totalMilestones}`, icon: Trophy, color: "var(--energy-system)" },
           { label: "ITEMS COLLECTED", value: itemsBought.toString(), icon: Gift, color: "var(--energy-success)" },
         ].map((stat) => {
           const SIcon = stat.icon;
@@ -1159,7 +1159,7 @@ function RecapCard({ data }: { data: any }) {
               const itemDef = def?.shopItems.find((s: any) => s.key === p.itemKey);
               return (
                 <div key={i} className="flex items-center gap-2 font-mono text-[10px]">
-                  <Gift size={10} style={{ color: def?.color || '#888' }} />
+                  <Gift size={10} style={{ color: def?.color || 'var(--text-dim)' }} />
                   <span className="text-foreground">{itemDef?.name || p.itemKey}</span>
                   {p.quantity > 1 && <span className="text-muted-foreground">x{p.quantity}</span>}
                   <span className="text-muted-foreground/60 ml-auto">{p.tokensCost} tokens</span>

@@ -622,12 +622,34 @@ export const guildRouter = router({
         throw new TRPCError({ code: "FORBIDDEN", message: "Only the leader can promote/demote" });
       }
 
+      // Look up the target before the update so we can notify them by userId.
+      const target = await db.select().from(guildMembers)
+        .where(and(
+          eq(guildMembers.id, input.memberId),
+          eq(guildMembers.guildId, membership[0].guildId),
+        )).limit(1);
+
       await db.update(guildMembers)
         .set({ role: input.role })
         .where(and(
           eq(guildMembers.id, input.memberId),
           eq(guildMembers.guildId, membership[0].guildId),
         ));
+
+      // Notify the target that their role changed (officer recruitment
+      // is the canonical recruitment surface — a member is being
+      // "recruited" into the officer corps).
+      if (target[0]) {
+        const verb = input.role === "officer" ? "promoted to Officer" : "returned to Member";
+        db.insert(notifications).values({
+          userId: target[0].userId,
+          type: "recruitment",
+          title: `Guild Role Changed: ${input.role === "officer" ? "Officer" : "Member"}`,
+          message: `You were ${verb} in your syndicate.`,
+          actionUrl: "/guild",
+          metadata: { guildId: membership[0].guildId, role: input.role },
+        }).catch(e => logger.error("[Guild] recruitment notification failed:", e));
+      }
 
       return { success: true };
     }),

@@ -249,7 +249,7 @@ function PromoCodeSection({ isAuthenticated }: { isAuthenticated: boolean }) {
               onKeyDown={(e) => { if (e.key === "Enter") handleRedeem(); }}
               placeholder="ENTER-CODE-HERE"
               maxLength={64}
-              className="flex-1 px-3 py-2 rounded-md border border-white/10 bg-white/[0.02] font-mono text-xs tracking-widest void-text-energy placeholder:text-muted-foreground/30 focus:outline-none focus:void-border-success focus:ring-1 focus:ring-cyan-400/20 transition-colors"
+              className="flex-1 px-3 py-2 rounded-md border border-white/10 bg-white/[0.02] font-mono text-xs tracking-widest void-text-energy placeholder:text-muted-foreground/30 focus:outline-none focus:void-border-success focus:ring-1 focus:ring-[color-mix(in_oklch,var(--energy-primary)_20%,transparent)] transition-colors"
             />
             <button
               onClick={handleRedeem}
@@ -399,7 +399,7 @@ export default function SettingsPage() {
         >
           <Search size={12} />
           <span className="hidden sm:inline">Search</span>
-          <kbd className="hidden sm:inline font-mono text-[9px] px-1 py-0.5 rounded bg-muted/30 text-muted-foreground/60">⌘K</kbd>
+          <kbd className="hidden sm:inline font-mono text-[9px] px-1 py-0.5 rounded bg-muted/30 text-muted-foreground/60">⌘K</kbd> {/* void-ignore — kbd micro typography */}
         </button>
       </div>
 
@@ -868,7 +868,7 @@ export default function SettingsPage() {
         {/* ═══ COMMUNITY ═══ */}
         <SettingsSection title="Community" icon={Users} anchor="settings-community">
           <div className="space-y-3">
-            <div className="p-3 rounded-lg border border-border/60 bg-gradient-to-br from-indigo-500/5 to-purple-500/5">
+            <div className="p-3 rounded-lg border border-border/60 void-bg-sunk">
               <div className="flex items-start gap-3">
                 <div className="w-10 h-10 rounded-md void-bg-sunk border void-border flex items-center justify-center shrink-0">
                   <MessageCircle size={18} className="void-text-energy" />
@@ -902,7 +902,7 @@ export default function SettingsPage() {
             {/* DGRS Labs */}
             <div className="pt-3 mt-3 border-t border-border/30">
               <div className="flex items-center gap-2 mb-2">
-                <div className="w-6 h-6 rounded bg-gradient-to-br from-purple-500/20 to-cyan-500/20 border void-border-system flex items-center justify-center shrink-0">
+                <div className="w-6 h-6 rounded void-bg-system border void-border-system flex items-center justify-center shrink-0">
                   <span className="font-display text-[9px] font-bold void-text-system">DG</span>
                 </div>
                 <div className="flex-1">

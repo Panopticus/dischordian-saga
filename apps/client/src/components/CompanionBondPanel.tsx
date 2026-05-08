@@ -84,7 +84,7 @@ export default function CompanionBondPanel({ petId, petName, bond, moralityScore
             <motion.div
               initial={{ width: 0 }}
               animate={{ width: `${b.bond}%` }}
-              className="h-full bg-gradient-to-r from-rose-500 to-pink-400"
+              className="h-full bg-gradient-to-r void-bg-error"
             />
           </div>
           {/* Bond milestones */}
@@ -112,7 +112,7 @@ export default function CompanionBondPanel({ petId, petName, bond, moralityScore
               <span className="font-mono text-[10px] void-text-premium tabular-nums">{b.injury}/100</span>
             </div>
             <div className="h-1 void-bg-canvas rounded-full overflow-hidden">
-              <div className="h-full bg-gradient-to-r from-yellow-500 to-red-500" style={{ width: `${b.injury}%` }} />
+              <div className="h-full bg-gradient-to-r void-bg-error" style={{ width: `${b.injury}%` }} />
             </div>
           </div>
         )}

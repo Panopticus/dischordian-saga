@@ -469,8 +469,6 @@ export const characterSheets = mysqlTable("character_sheets", {
   activeShipTheme: varchar("activeShipTheme", { length: 128 }),
   /** Active character theme ID (from morality unlockables) */
   activeCharacterTheme: varchar("activeCharacterTheme", { length: 128 }),
-  /** Avatar/portrait URL */
-  avatarUrl: text("avatarUrl"),
   /** Equipped items JSON */
   equipment: json("equipment").$type<Record<string, unknown>>(),
   /** Unlocked abilities */
@@ -1777,7 +1775,7 @@ export const notifications = mysqlTable("notifications", {
     "market_sold", "market_buy_filled",
     "faction_war", "guild_invite", "guild_message", "guild_war_victory",
     "daily_reset", "daily_login", "quest_complete", "weekly_quest", "epoch_quest",
-    "achievement", "battle_pass_reward", "syndicate_quest",
+    "achievement", "battle_pass_reward",
     "boss_mastery", "seasonal_event", "recruitment",
     "system",
     // ── Ripple-engine narrative notifications (server/services/rippleEngine.ts) ──
@@ -7060,3 +7058,56 @@ export const convergenceClimaxState = mysqlTable("convergence_climax_state", {
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });
 export type ConvergenceClimaxStateRow = typeof convergenceClimaxState.$inferSelect;
+
+/**
+ * Trade Empire — Coda Agency mission loop, vertical slice.
+ *
+ * Per `docs/design/CANON_REV_7_ORACLE_VEX_EXPANSION.md` §2 (The Coda)
+ * and `docs/design/INCOMPLETE_DESIGNS_AUDIT_2026-05-08.md` §6 item 1:
+ * the Coda Agency mission system is the lateral overlay on Trade
+ * Empire that delivers the Vex Solène / Engineer Zero reveal cadence.
+ * This first slice ships a single working flow — browse → accept →
+ * complete → reward — backed by a small typed catalog
+ * (`apps/shared/tradeMissionCatalog.ts`).
+ */
+export const tradeMissions = mysqlTable("trade_missions", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  /** Mission catalog id — keys into apps/shared/tradeMissionCatalog.ts. */
+  missionDefId: varchar("missionDefId", { length: 64 }).notNull(),
+  /** lifecycle */
+  status: mysqlEnum("status", [
+    "available", "active", "completed", "failed", "expired",
+  ]).notNull().default("available"),
+  /** Optional Vex/Coda agency id if the mission is faction-aligned. */
+  agencyId: varchar("agencyId", { length: 64 }),
+  /** Server time the mission was offered (for expiry math). */
+  offeredAt: timestamp("offeredAt").defaultNow().notNull(),
+  /** Server time the player accepted (null until accepted). */
+  acceptedAt: timestamp("acceptedAt"),
+  /** Server time the mission completed (null until done). */
+  completedAt: timestamp("completedAt"),
+  /** Reward payload as JSON — credits, dream, cards, narrative flags. */
+  rewardPayload: json("rewardPayload").$type<Record<string, unknown>>(),
+}, (t) => ({
+  byUser: index("byUser").on(t.userId, t.status),
+}));
+export type TradeMissionRow = typeof tradeMissions.$inferSelect;
+
+/**
+ * Per-(user, agencyId) standing tally. Each Coda mission completion
+ * applies +/- standing per its rewardPayload. The CANON Rev 7
+ * `coda_faction_standing` tier table (neutral / client / operative /
+ * lieutenant / inner_circle) is computed from the integer standing
+ * value at read-time; this table just stores the raw points.
+ */
+export const tradeAgencyStanding = mysqlTable("trade_agency_standing", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  agencyId: varchar("agencyId", { length: 64 }).notNull(),
+  standing: int("standing").notNull().default(0),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull().onUpdateNow(),
+}, (t) => ({
+  byUserAgency: uniqueIndex("byUserAgency").on(t.userId, t.agencyId),
+}));
+export type TradeAgencyStandingRow = typeof tradeAgencyStanding.$inferSelect;

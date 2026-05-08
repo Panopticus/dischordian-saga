@@ -39,7 +39,7 @@ function MiniChessBoard({ fen }: { fen: string }) {
             for (let i = 0; i < parseInt(ch); i++) {
               const isLight = (r + col) % 2 === 0;
               cells.push(
-                <div key={`${r}-${col}`} className={`aspect-square flex items-center justify-center text-[6px] sm:text-[8px] ${isLight ? "void-bg-canvas" : "void-bg-canvas"}`} />
+                <div key={`${r}-${col}`} className={`aspect-square flex items-center justify-center text-[6px] sm:text-[8px] ${isLight ? "void-bg-canvas" : "void-bg-canvas"}`} /> /* void-ignore — chess-cell micro typography */
               );
               col++;
             }

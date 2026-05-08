@@ -286,6 +286,17 @@ export const battlePassRouter = router({
 
       const reward = claimResult.reward;
 
+      // Notify the player the tier reward landed in their inventory.
+      // Fire-and-forget; reward already wrote inside the transaction.
+      db.insert(notifications).values({
+        userId: ctx.user.id,
+        type: "battle_pass_reward",
+        title: `Battle Pass Tier ${input.tier} Reward`,
+        message: `You claimed your ${input.track} tier ${input.tier} reward.`,
+        actionUrl: "/battle-pass",
+        metadata: { tier: input.tier, track: input.track },
+      }).catch((e) => logger.error("[BattlePass] reward notification failed:", e));
+
       // T9.17: if the reward bag includes a `titleKey`, grant the
       // title via the unified user_titles table. Forwards-compat —
       // existing reward bags without titleKey are unaffected.

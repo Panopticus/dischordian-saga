@@ -223,7 +223,7 @@ export default function ChessBoard({
         style={{
           width: "100%",
           aspectRatio: "1",
-          maxWidth: "600px",
+          maxWidth: "600px" /* void-ignore — chessboard responsive max width */,
         }}
       />
 

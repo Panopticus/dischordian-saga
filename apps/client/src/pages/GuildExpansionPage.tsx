@@ -91,7 +91,7 @@ function PerksTab() {
               unlocked
                 ? "border-primary/50 bg-primary/5"
                 : qualifying
-                  ? "border-amber-400/40 bg-amber-400/5"
+                  ? "void-border void-bg-sunk"
                   : "border-border/40 bg-secondary/20 opacity-70"
             }`}
           >
@@ -320,7 +320,7 @@ function StashTab() {
         <div className="space-y-1">
           {(log.data ?? []).map((l) => (
             <div key={l.id} className="font-mono text-[10px] text-muted-foreground border-b border-border/20 py-1">
-              <span className={l.action === "deposit" ? "text-green-400" : "text-amber-400"}>
+              <span className={l.action === "deposit" ? "void-text-energy" : "void-text-accent"}>
                 {l.action.toUpperCase()}
               </span>
               {" "}user {l.userId} · {l.itemType}:{l.itemKey} ×{l.quantity}
