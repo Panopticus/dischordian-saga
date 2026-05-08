@@ -35,6 +35,7 @@ import {
   type ResurrectableNpcKey,
 } from "../../shared/resurrectionProtocols";
 import type { SerializedCrewMember } from "../../shared/crewPersistence";
+import { getProgress as getRecruitmentProgress } from "../services/recruitmentQuestService";
 
 const npcKeyEnum = z.enum(RESURRECTABLE_NPC_KEYS);
 
@@ -166,7 +167,54 @@ export const npcRecruitRouter = router({
             "This NPC's recruited instance has died. Complete the Resurrection Protocols quest before recruiting again — and they may not consent to re-recruitment.",
         });
       }
+
+      // Recruitment now requires a completed chain. The chain replaces
+      // the previous soft-gate noted in the file's docstring. Outcomes:
+      //   - recruited_loyal → high starting loyalty + stat buffs
+      //   - recruited_tense → low starting loyalty + relationship tag
+      //   - refused → router refuses
+      //   - chain not opened or in progress → router refuses with
+      //     guidance to open / advance.
+      const progress = await getRecruitmentProgress(ctx.user.id, input.npcKey);
+      if (progress.outcome === "refused") {
+        throw new TRPCError({
+          code: "PRECONDITION_FAILED",
+          message: `${tpl.displayName} declined recruitment during the chain. They will not return.`,
+        });
+      }
+      if (progress.outcome !== "recruited_loyal" && progress.outcome !== "recruited_tense") {
+        throw new TRPCError({
+          code: "PRECONDITION_FAILED",
+          message:
+            progress.currentStageId === null
+              ? `Open the recruitment chain for ${tpl.displayName} first.`
+              : `Recruitment chain for ${tpl.displayName} is in progress (stage ${progress.currentStageId}). Reach a terminal outcome before recruiting.`,
+        });
+      }
+
       const now = Date.now();
+      const mods = progress.recruitModifiers ?? {};
+      const baseLoyalty =
+        typeof mods.startingLoyalty === "number" ? mods.startingLoyalty : 75;
+      const tweaks = (mods.statTweaks ?? {}) as Record<string, number>;
+      const tweakedStats: SerializedCrewMember["stats"] = {
+        resilience: clampStat(tpl.stats.resilience + (tweaks.resilience ?? 0)),
+        intellect: clampStat(tpl.stats.intellect + (tweaks.intellect ?? 0)),
+        reflexes: clampStat(tpl.stats.reflexes + (tweaks.reflexes ?? 0)),
+        empathy: clampStat(tpl.stats.empathy + (tweaks.empathy ?? 0)),
+        immunity: clampStat(tpl.stats.immunity + (tweaks.immunity ?? 0)),
+        adaptability: clampStat(tpl.stats.adaptability + (tweaks.adaptability ?? 0)),
+      };
+      const tag = mods.relationshipTag;
+      const biographyLine =
+        progress.outcome === "recruited_loyal"
+          ? `${tpl.displayName} joined the crew of the inception ark. Outcome: loyal${
+              tag ? ` (${tag})` : ""
+            }.`
+          : `${tpl.displayName} joined the crew of the inception ark. Outcome: tense${
+              tag ? ` (${tag})` : ""
+            } — they came reluctantly.`;
+
       const member: SerializedCrewMember = {
         id: `npc-${input.npcKey}-${now}`,
         name: tpl.displayName,
@@ -177,12 +225,12 @@ export const npcRecruitRouter = router({
         generation: 1,
         parentIds: null,
         children: [],
-        geneticTraits: [],
+        geneticTraits: tag ? [`recruit_${tag}`] : [],
         role: tpl.role,
-        stats: tpl.stats,
-        morale: 80,
+        stats: tweakedStats,
+        morale: progress.outcome === "recruited_loyal" ? 80 : 60,
         health: 100,
-        loyalty: 75,
+        loyalty: clampStat(baseLoyalty),
         status: "active",
         age: 30,
         maxAge: 80,
@@ -195,13 +243,23 @@ export const npcRecruitRouter = router({
         biography: [
           {
             cycle: 0,
-            text: `${tpl.displayName} joined the crew of the inception ark. Tier-5 imprint recruitment.`,
+            text: biographyLine,
             tag: "event",
           },
         ],
       };
       const next = addCrewMemberToState(state, member);
       await saveCrewState(ctx.user.id, next);
-      return { ok: true, memberKey: member.id, alreadyRecruited: false };
+      return {
+        ok: true,
+        memberKey: member.id,
+        alreadyRecruited: false,
+        outcome: progress.outcome,
+        relationshipTag: tag ?? null,
+      };
     }),
 });
+
+function clampStat(n: number): number {
+  return Math.max(1, Math.min(100, Math.round(n)));
+}
