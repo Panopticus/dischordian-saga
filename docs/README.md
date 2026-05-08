@@ -1,11 +1,14 @@
 # Documentation Structure
 
-**Start here:** [`DISCHORDIAN_SAGA_PRODUCTION_BIBLE.md`](./DISCHORDIAN_SAGA_PRODUCTION_BIBLE.md) is the single consolidated source of truth. It covers game scope, narrative status, systems index, design system, production pipelines, canon rules, the active TODO list, and a reference appendix pointing to the docs below.
+**Start here:**
+- For game design / engineering: [`DISCHORDIAN_SAGA_PRODUCTION_BIBLE.md`](./DISCHORDIAN_SAGA_PRODUCTION_BIBLE.md) — the consolidated game-design source of truth.
+- For art / audio / video production: [`ART_DEPARTMENT_PRODUCTION.md`](./ART_DEPARTMENT_PRODUCTION.md) — drag-and-drop production document with live asset inventory, production queue, canon character roster, and a list of characters that still need canon descriptions. (Generated 2026-05-08 from a direct audit of code + manifests.)
 
-Everything else in this folder is a deeper reference for a specific area, reached from the bible's appendix.
+Everything else in this folder is a deeper reference for a specific area, reached from one of those two documents.
 
 ## Top-level
-- `DISCHORDIAN_SAGA_PRODUCTION_BIBLE.md` — the consolidated bible (start here)
+- `ART_DEPARTMENT_PRODUCTION.md` — single drag-and-drop production doc (start here for art / audio / video)
+- `DISCHORDIAN_SAGA_PRODUCTION_BIBLE.md` — the consolidated design + engineering bible
 - `README.md` — this file
 
 ## `built/` — canonical lore
@@ -23,7 +26,6 @@ Docs describing current design intent for systems still in flight. Each is still
 - `CANON_REV_7_ORACLE_VEX_EXPANSION.md` — Rev 7 canon expansion
 - `DISCHORDIAN_SAGA_FULL_GAME_LAYOUT.md` — full-game layout reference
 - `EXPANSION_BIBLE.md` — Dialog Wheel + Breaking Point + corruption visuals
-- `FULL-PROJECT-AUDIT.md` — project-wide audit
 - `NARRATIVE_ARCHITECTURE.md` — story structure blueprint
 - `SOUL_STONES_SYSTEM.md` — soul stones mechanic design
 - `VOICE_ACTING_PIPELINE.md` — voice acting pipeline design
@@ -32,43 +34,36 @@ Docs describing current design intent for systems still in flight. Each is still
 - `YEAR_ONE_EVENTS_CALENDAR_V2.md` — live events calendar
 
 ## `production/` — asset generation specs
-Docs that tell the production team how to generate assets.
 
-**Master bibles**
-- `PRODUCTION_BIBLE.md` — master production doc
-- `SHIP_READY_ASSET_BIBLE.md` — post-Prelude asset prompts (Nano Banana 2 + Seedance + ElevenLabs), 46 game modes
-- `PRELUDE_SHIP_READY_BIBLE.md` — Prelude production bible (15 beats)
-- `ACT1_NARRATIVE_STRUCTURE.md` — Act 1 production bible (status: skeleton)
-- `ALL_ACTS_ROADMAP.md` — Acts 1–7 production roadmap
-- `UNIVERSAL_PROMPTING_DOC_PRELUDE_ACT1.md` — unified prompting doc
-- `ART_PRODUCTION_BIBLE.md` — art-specific
-- `VISUAL_PRODUCTION_BIBLE.md` — image/video prompts + reference sheets
-- `VOICE_OVER_BIBLE.md` — ElevenLabs specs + script roster
-- `COMPLETE_ART_PROMPT_BIBLE.md` — Soul Stones, Eidolons, Spectral, VFX (~112 assets)
+The umbrella production doc is now `../ART_DEPARTMENT_PRODUCTION.md` (top level).
+Files under `production/` are now narrowly-scoped tool-specific prompt sheets,
+referenced from §6 of that doc.
 
-**Per-environment & per-category**
-- Per-environment bibles: `CASINO_EXPANSION_ART_BIBLE.md`, `CHRISTMAS_IN_JULY_ART_BIBLE.md`, `LORE_GALLERY_ART_BIBLE.md`, `PARALLAX_ROOMS_ART_BIBLE.md`, `PLAYER_CABIN_ART_BIBLE.md`, `GAME_MODE_ENVIRONMENTS_ART_BIBLE.md`, `OPTIONAL_COMPONENTS_ART_BIBLE.md`, `STORY_MODE_ART_BIBLE.md`
-- Card-art prompts: `BREEDING_SYSTEM_ART_PROMPTS.md`, `CELEBRATION_ART_PROMPTS.md`, `CELEBRATION_MECHRONIS_ART_PROMPTS.md`, `MECHRONIS_ART_PROMPTS.md`, `PAGE_BACKGROUND_ART_PROMPTS.md`
-
-**Open backlogs**
-- `MISSING_CUTSCENES.md` — 46-cinematic backlog
-- `MISSING_ART_PROMPTS.md` — remaining batch of art stills
-- `WRITING_AUDIT_AND_REVISIONS.md` — writing audit & fix instructions
-
-**Asset registries & audit**
-- `ASSET_URLS.md` — generated CDN URLs
-- `FIGHT_CDN_URLS.md` — fighting-game CDN assets
-- `ART_SOUND_MUSIC_RESOURCES.md` — external asset resource spec
+**Active reference docs (don't archive)**
+- `VOICE_OVER_BIBLE.md` — ElevenLabs voice profiles + pipeline
+- `LIVING_CHARACTER_SHEET_ART_BRIEF.md` — 6-track character rig + cosmetics
+- `GUILD_CUTSCENE_BIBLE.md` — guild signature-cutscene Veo prompts
+- `CASINO_EXPANSION_ART_BIBLE.md` — casino expansion prompts
+- `CADES_SFX_PROMPTS.md` — CADES FPS Suno SFX prompts
+- `dreamer-vision-veo-flashes.md` — Veo prompts for the 3 missing dreamer flashes
+- `CUTSCENE_SEEDANCE_PROMPTS.md` — Seedance 2.0 cutscene prompts
+- `ACT1_NARRATIVE_STRUCTURE.md` — Act 1 narrative structure
+- `ALL_ACTS_ROADMAP.md` — Acts 1–7 roadmap
+- `WRITING_AUDIT_AND_REVISIONS.md` — writing audit & fixes
+- `ASSET_URLS.md` / `FIGHT_CDN_URLS.md` / `FIGHTER_LORE_CROSSREF.md` — registries
 - `CONSISTENCY_GATE.md` — approval checklist
-- `DEAD_MANS_CIRCUIT_PRODUCTION.md` — Dead Man's Circuit asset plan
-- `FIGHTER_LORE_CROSSREF.md` — fighter ↔ Loredex cross-reference
-- `CADES_SFX_PROMPTS.md` — SFX prompts for Cade
+- `CHOICE_IMPACT_PRODUCER_HANDOFF.md` — producer handoff
+- `ENGINE_DEMO_CARDS_ART_HANDOFF.md` — engine demo handoff
+- `ACT1_TAUNTS_PIPELINE_OPS_HANDOFF.md` — taunts pipeline ops
+- `GUILD_CUTSCENE_PORTAL_CHAMBER_FOLLOW_UP.md` — portal-chamber follow-up
 
 **Asset-build workspaces**
 - `prelude-asset-build/` — Prelude workspace (manifest + CSVs + conversion follow-up)
 - `act1-asset-build/`, `act1/` — Act 1 workspaces
-- `prompts/` — raw generation prompts
-- `elara-vo-script.md` — Elara voice script
+- `acts-2-7-aaa-final/` — Acts 2-7 final delivery workspace
+- `commission-packages/` — per-tool commission package examples
+- `prompts/` — raw generation prompts (Kling Omni act/mechanic intros, Suno music, Cades FPS)
+- `vo-batches/` — VO batch processing
 
 ## `narrative-audit/`
 Audit output that still drives remediation work.
@@ -84,6 +79,7 @@ Audit output that still drives remediation work.
 ## `archive/`
 Read-only historical reference. Don't update.
 - `legacy-reference/LOREDEX_OS_DEVELOPER_HANDOFF.md` — early dev onboarding
+- `2026-05-08-superseded/` — 40 production / art / asset bibles collapsed into `ART_DEPARTMENT_PRODUCTION.md` on 2026-05-08; see ledger in §7 of that doc
 
 ---
 
