@@ -307,8 +307,24 @@ Sorted by priority. Each row is one deliverable for the art / audio / video depa
 | 2 | VFX  | `videos/vfx/dreamer_visions/vfx_iris_collapse.mp4` (+ keyframe) | 403 on CDN |
 | 3 | VFX  | `videos/vfx/dreamer_visions/vfx_cryo_frost_retreat.mp4` (+ keyframe) | 403 on CDN |
 | 4 | VO   | Palimpsest Host voice session (35 lines) | currently text-fallback; book ElevenLabs session |
-| 5 | VO   | Validate 5 empty/malformed VO manifests | act4_5, authority, eidola, matrikala, programmer |
-| 6 | VO   | Upload Prelude beat audio to CDN | currently served from local disk only |
+| 5 | VO   | Upload Prelude beat audio to CDN | currently served from local disk only |
+
+> **Audit-2026-05-08 false positives — closed, no action needed:**
+>
+> - ~~"Validate 5 empty/malformed VO manifests" (act4_5, authority, eidola,
+>   matrikala, programmer)~~ — verified 2026-05-08: all 5 are valid empty
+>   `{}` JSON files. The consumer at `apps/client/src/hooks/useAct1TauntsVO.ts:13`
+>   is explicitly idempotent against missing entries (falls back to text-only
+>   per its header doc-comment). Empty is the correct state for "not yet
+>   recorded"; the original audit incorrectly reported `count: -1`.
+>
+> - ~~"Scene-music slug reconciliation: sih-track-{24,32,37}"~~ — verified
+>   2026-05-08: all three slugs DO resolve via `apps/shared/songTriggerMap.ts`,
+>   which is the canonical id surface per the comment at
+>   `sceneMusicRegistry.ts:16`. The vitest `isCueTrackKnown(cue)` invariant at
+>   `sceneMusicRegistry.test.ts:34` already enforces this. The original audit
+>   only checked `musicRegistry.ts` (game-mode music), which is a different
+>   registry by design.
 
 ### 3.2 Story-mode fight intro cinematics — 17 missing
 
@@ -388,12 +404,13 @@ No SFX exist for card play, hover, shuffle, or draw. Author 8–12 short stings
 (50–200 ms each) and upload to `audio/sfx/card-game/`. Match Suno + iZotope
 processing chain used for chess SFX.
 
-### 3.10 Scene-music registry resolution
+### 3.10 Scene-music registry resolution — CLOSED 2026-05-08 (no action)
 
-`apps/shared/sceneMusicRegistry.ts` references `sih-track-24`, `sih-track-32`,
-`sih-track-37` which do not resolve in `musicRegistry.ts`. Either add the slugs
-to the music registry or remap the scene cues. Audio assets exist in Album 5
-(`T24`, `T32`, `T37`) — likely a slug reconciliation, not new production.
+The originally-flagged "`sih-track-24/32/37` do not resolve" finding was a
+false positive — see §3.1 close-out box for the verification trail. Slugs
+resolve correctly via `apps/shared/songTriggerMap.ts`, enforced by the
+existing `isCueTrackKnown` invariant test. Section retained as a closed
+ledger entry; no producer action required.
 
 ---
 
