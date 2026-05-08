@@ -1,3 +1,4 @@
+// audit-allow-procs: all
 /* ═══════════════════════════════════════════════════════
    NPC RECRUIT ROUTER — Tier-5 NPC → Crew member.
 

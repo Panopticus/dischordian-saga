@@ -702,6 +702,18 @@ async function startServer() {
       console.error("[DreamerAwarenessBootstrap] failed:", e),
     );
 
+    // Unified Roster — crew_members column extensions + 5 new tables
+    // for Resurrection Protocols, Hellbox restoration, apprentice gift
+    // log + romance arc + personal-quest progress, and NPC world-death
+    // state. New schema on the unified-roster branch; the journal flow
+    // is mid-cutover, so we bootstrap until the next reconciliation.
+    const { bootstrapUnifiedRosterTables } = await import(
+      "../services/unifiedRosterBootstrap"
+    );
+    bootstrapUnifiedRosterTables().catch((e) =>
+      console.error("[UnifiedRosterBootstrap] failed:", e),
+    );
+
     // Ensure citizen_characters.foundation exists. Migration 0054 is
     // orphaned from _journal.json; without this column every SELECT
     // against citizen_characters fails ("Unknown column 'foundation'")

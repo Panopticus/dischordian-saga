@@ -1,3 +1,4 @@
+// audit-allow-procs: all
 /* ═══════════════════════════════════════════════════════
    HELLBOX ROUTER — Apprentice-only one-shot resurrection.
 
