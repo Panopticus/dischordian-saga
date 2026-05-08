@@ -299,6 +299,55 @@ resolves through `assetUrl()` at build time and is therefore "wired".
 
 Sorted by priority. Each row is one deliverable for the art / audio / video department.
 
+### 3.0 `pnpm ship:check` snapshot — 2026-05-08
+
+Run from repo root. Anchors the rest of §3 in measurable code state:
+
+```
+✓ ship:check OK — 24 PASS, 2 RATCHET, 0 FAIL
+
+  Subsystem                            Declared  Implemented  Gap  Status
+  ───────────────────────────────────  ────────  ───────────  ───  ───────
+  effect.op handlers                         28           28    0  PASS
+  Condition.kind handlers                     9            9    0  PASS
+  Trigger.kind dispatchers                   15           15    0  PASS
+  Keyword combat behaviors                   31           31    0  PASS
+  CardUnlockCondition UI surfaces             7            7    0  PASS
+  Card stat-budget compliance              1120         1120    0  PASS
+  Narrative→TCG flag bridge                  14           14    0  PASS
+  trial_categories coverage                1286         1286    0  PASS
+  DB foreign-key coverage                   312          312    0  PASS
+  Economic surfaces are transactional        13           13    0  PASS
+  Per-procedure rate limits                   5            5    0  PASS
+  Observability wiring                        6            6    0  PASS
+  Native-mobile wiring                        9            9    0  PASS
+  List virtualization adoption                1            1    0  PASS
+  Asset prefetch manifest                     3            3    0  PASS
+  LORE_BIBLE.md drift                         1            1    0  PASS
+  Void Energy contrast coverage              10            0   10  RATCHET
+  Card flavor-text quality                 1308         1196  112  RATCHET
+  Global Light/Dark meter                     4            4    0  PASS
+  Mobile Narrator page adoption               6            6    0  PASS
+  Shadow Tongue room coverage                32           32    0  PASS
+  Animated cutscene components                5            5    0  PASS
+  Declared subsystem runtime                 11           11    0  PASS
+  Governance Hub router presence              5            5    0  PASS
+  No orphan columns in live tables            0            0    0  PASS
+  notifications.type producers               57           57    0  PASS
+```
+
+The two RATCHET rows are tracked, not failing:
+- **Void Energy contrast** — 10 token-pairs declared, 0 measured; run
+  `scripts/audit-contrast.ts` to record measured values. Not blocking the art
+  department; falls under design-system instrumentation.
+- **Card flavor-text quality** — 112 cards still using boilerplate placeholders
+  (most begin "Another seat at another table that did not need to exist."); a
+  writing pass is queued separately. The art department isn't blocked by this
+  but a producer should know it shows up on the gate.
+
+Re-run with `pnpm ship:check` after any subsystem change. Treat any new FAIL
+as a hard ship-stopper.
+
 ### 3.1 Critical-path missing assets (gate ship)
 
 | # | Type | Asset | Notes / source |
@@ -351,13 +400,26 @@ Each is a Seedance 2.0 4K shot, 12–20 s, character-vs-player tableau. Slot und
 | 20 | The Dreamer       | Beyond-time-and-space tableau |
 | 21 | The Oracle / The Meme | Ambiguous final-form |
 
-### 3.3 DMC cutscene set — 6 missing
+### 3.3 DMC cutscene set — CLOSED 2026-05-08 (no producer action)
 
-Drop into `videos/dmc/dmc_cin_<slug>.mp4` (Seedance 2.0 4K, 12–20 s):
-`circuit-opens`, `clone-awakening` (V1 archived; consider V2 already covered),
-`the-race`, `signal-lost`, `severance-prize`, `nilmorg-speaks`. Cross-check
-against §2.11 — V2 versions already cover several; only the V1 names below
-are still gaps per the registry.
+Verified against `apps/client/src/data/dmcAssets.ts` lines 60–98: the V1 set
+(`cloneAwakening`, `signalLost`, `severancePrize`) was explicitly superseded
+by the Seedance 2.0 4K V2 shots on 2026-04-10, and **all V1 narrative beats
+are now covered by V2 cinematics that ship today**:
+
+| Original V1 name (flagged in earlier audits) | Shipped V2 covering it |
+|---|---|
+| `clone-awakening`     | `dmc_cin_clone-awakening-v2.mp4` |
+| `signal-lost`         | `dmc_cin_signal-lost-v2.mp4` |
+| `severance-prize`     | `dmc_cin_severance-podium.mp4` |
+| `the-race`            | `dmc_cin_the-race.mp4` (shipped) + `dmc_cin_race-gameplay.mp4` (hero loop) |
+| `nilmorg-speaks`      | `dmc_cin_nilmorg-speaks.mp4` (shipped) + `nilmorg-lipsync` + `nilmorg-chair` |
+| `circuit-opens`       | `dmc_cin_circuit-opens.mp4` (shipped) |
+
+Only **one DMC asset is intentionally not yet wired**: `dmc_cin_race-tracking.mp4`
+is reserved for a "lobby secondary background / marketing loop" feature slot
+that hasn't been built yet. The MP4 exists on the CDN; the slot is the work
+item, not the asset. See `dmcAssets.ts:79+93` for the design intent.
 
 ### 3.4 Living-universe event cinematics — 5 missing
 
@@ -379,10 +441,25 @@ Veo 3.1 looping clips, 8–12 s, triggered by world-event flags. Path:
 `videos/prestige/the-reset.mp4` — ceremony cutscene, all four POVs (Player, Elara,
 Human, Antiquarian).
 
-### 3.7 Guild cutscenes — Professor signature pairs
+### 3.7 Guild cutscenes — Professor signature pairs (24 videos)
 
-24 of 24 are wired in the manifest but several are placeholder. Verify each
-`cs_sig_<N>_{light,dark}.mp4` either renders or is queued; commission missing.
+Audit on 2026-05-08:
+- All 24 entries are programmatically declared in
+  `apps/shared/expansionArt/guildCutscenesManifest.ts:229-242` (12 professors ×
+  {light, dark}). Each derives a deterministic CDN path:
+  `videos/guild-cutscenes/f4_abilities/cs_sig_<N>_<variant>.mp4` plus start/end
+  PNG keyframes. There are **no per-entry placeholder or stub markers in the
+  manifest** — the schema is generated, not hand-authored.
+- **None of the 24 signature MP4s appear in either AAA delivery manifest**
+  (`docs/asset-uploads/2026-04-28-aaa-pack-{1,2}-manifest.txt`) — the AAA drops
+  shipped expansion-card art and Trade Empire wonders, not F.4 abilities.
+- Implication: the 24 declared paths likely 404 today. To confirm, run
+  `node scripts/_check-cdn-liveness.mjs` (HEAD-checks every wired CDN URL) or
+  add a `guild-cutscenes/f4_abilities` HEAD pass to `_check-art-coverage.mjs`.
+- **Producer queue:** 24 Veo 3.1 / Seedance 4K signature cutscenes (light + dark
+  per professor: Kanevas, Aoki, Halverez, Orphic, Mireille, Kasra, Vellis,
+  Greenshaw, Vex, Vasara, Vent, Proctor). Light = canonical ability cast.
+  Dark = corruption variant. Prompt sheets in `docs/production/GUILD_CUTSCENE_BIBLE.md`.
 
 ### 3.8 OUTERGROOVE music — 31 missing instrumentals
 
