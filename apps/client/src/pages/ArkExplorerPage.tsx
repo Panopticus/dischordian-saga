@@ -24,6 +24,7 @@ import {
 } from "@/game/livingArk";
 import { processArkEvent, type ArkEventResult } from "@/game/arkEventHandler";
 import { useDailyBrief } from "@/hooks/useDailyBrief";
+import { useVariant } from "@/hooks/useVariant";
 import PageMeta from "@/components/PageMeta";
 import LivingShipSensorOverlay from "@/components/LivingShipSensorOverlay";
 import RoomAmbientLife from "@/components/RoomAmbientLife";
@@ -1276,6 +1277,11 @@ export default function ArkExplorerPage() {
   const currentRoom = state.currentRoomId ? getRoomDef(state.currentRoomId) : null;
   const currentRoomState = state.currentRoomId ? getRoomState(state.currentRoomId) : null;
 
+  // audit/10.F1 — morality / trust / act-aware variant for the
+  // current room. Resolves null when nothing matches; the room
+  // description renders the variant text below the default.
+  const roomVariant = useVariant("room", state.currentRoomId ?? undefined);
+
   // Witnessing §1.2 + §1.4 + §2.7 — compute the canonical
   // NarratorRoomId and the active narrative beat flag set for the
   // current room. Memoized per (room, visit-count, engineer-hook
@@ -2177,6 +2183,15 @@ export default function ArkExplorerPage() {
             border: "1px solid var(--glass-border)",
           }}>
             <p className="font-mono text-xs text-muted-foreground/80 leading-relaxed">{currentRoom.description}</p>
+            {roomVariant && (
+              <p
+                className="font-mono text-xs leading-relaxed mt-2 pt-2 border-t border-[var(--glass-border)] text-[color:color-mix(in_oklch,var(--neon-cyan)_70%,white)]"
+                data-testid="room-variant-line"
+                data-variant-id={roomVariant.id}
+              >
+                {roomVariant.text}
+              </p>
+            )}
           </div>
 
           {/* Room features */}
