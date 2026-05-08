@@ -59,7 +59,7 @@ export const cardDef: CardDefinition = {
   trial_categories: ["defensive", "narrative"] as const,
   verdict_delta: 2,
   balanceException: {
-    reason: "Reward/prestige card: designer-tuned outside the standard curve for narrative role; not part of the regular deck-builder balance pool. UNDER curve by 22%.",
-    reviewer: "2026-05-stat-curve-recalibration",
+    reason: "Reward-tier card from the graduate grant. On-deploy permanent +1/+1 to a friendly is the value (= effective 4/5 split across two units). Stats below ladder curve to balance the persistent buff.",
+    reviewer: "panopticus",
   },
 };

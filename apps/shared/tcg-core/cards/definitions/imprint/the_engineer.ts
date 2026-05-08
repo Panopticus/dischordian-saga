@@ -57,8 +57,8 @@ export const the_engineer_t2: CardDefinition = {
   trial_categories: ["narrative"] as const,
   verdict_delta: 1,
   balanceException: {
-    reason: "General / imprint variant: signature legendary balance; raw-stat curve doesn't apply to one-of leader units. UNDER curve by 29%.",
-    reviewer: "2026-05-stat-curve-recalibration",
+    reason: "Imprint-tier scaling design (T2): stats stay below curve so tier upgrades land mechanic-side. T2 adds the on-deploy draw; T3 deepens to draw 2. The player feels tier growth as an ability acquisition curve.",
+    reviewer: "panopticus",
   },
 };
 
@@ -89,8 +89,8 @@ export const the_engineer_t3: CardDefinition = {
   trial_categories: ["narrative"] as const,
   verdict_delta: 2,
   balanceException: {
-    reason: "General / imprint variant: signature legendary balance; raw-stat curve doesn't apply to one-of leader units. UNDER curve by 22%.",
-    reviewer: "2026-05-stat-curve-recalibration",
+    reason: "Imprint-tier scaling design (T3): stats below curve so tier upgrades land mechanic-side. T3 deepens the on-deploy draw to draw 2 — the player feels tier growth as escalating ability strength.",
+    reviewer: "panopticus",
   },
 };
 

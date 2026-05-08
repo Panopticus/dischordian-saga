@@ -49,7 +49,7 @@ export const cardDef: CardDefinition = {
   trial_categories: ["reactive"] as const,
   verdict_delta: 1,
   balanceException: {
-    reason: "Reward/prestige card: designer-tuned outside the standard curve for narrative role; not part of the regular deck-builder balance pool. UNDER curve by 29%.",
-    reviewer: "2026-05-stat-curve-recalibration",
+    reason: "Reward-tier card from the spy-class grant. Aggressive 3/2 statline + backstab + on-kill draw fits the assassin archetype. Stats held below ladder curve to prevent class rewards from gating competitive play.",
+    reviewer: "panopticus",
   },
 };

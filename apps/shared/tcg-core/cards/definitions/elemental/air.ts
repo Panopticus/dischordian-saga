@@ -32,8 +32,8 @@ export const air_01: CardDefinition = {
   trial_categories: ["narrative", "offensive"] as const,
   verdict_delta: 1,
   balanceException: {
-    reason: "Thematic-pool card (element / class kit): stat profile shaped by thematic role rather than the curve. UNDER curve by 40%.",
-    reviewer: "2026-05-stat-curve-recalibration",
+    reason: "Element-kit baseline: 1/2 flier with on-deploy draw is the air-element template. The kit's design lives in value-text-not-stats (drawing, repositioning, dispelling).",
+    reviewer: "panopticus",
   },
 };
 

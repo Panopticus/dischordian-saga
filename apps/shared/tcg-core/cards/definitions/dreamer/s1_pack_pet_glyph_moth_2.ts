@@ -61,7 +61,7 @@ export const cardDef: CardDefinition = {
   trial_categories: ["defensive", "narrative", "offensive", "reactive"] as const,
   verdict_delta: 2,
   balanceException: {
-    reason: "Pet/companion card: smaller stat profile by design (companions are flavor-tier units, not main board threats). UNDER curve by 29%.",
-    reviewer: "2026-05-stat-curve-recalibration",
+    reason: "Pet engine: 2/3 flier + on-death permanent +1/+1 buff to adjacents. Pet form factor with real on-death value; printed stats reflect the body-cost, the death-rattle is the per-card payoff.",
+    reviewer: "panopticus",
   },
 };

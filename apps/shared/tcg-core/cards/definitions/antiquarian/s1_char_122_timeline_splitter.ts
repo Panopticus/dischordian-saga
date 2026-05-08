@@ -63,7 +63,7 @@ export const cardDef: CardDefinition = {
   trial_categories: ["narrative", "offensive"] as const,
   verdict_delta: 2,
   balanceException: {
-    reason: "Ability-driven design: raw stats traded for build-around effect text; the curve over-predicts stats for cards whose power lives in their abilities. UNDER curve by 27%.",
-    reviewer: "2026-05-stat-curve-recalibration",
+    reason: "Removal/control utility: 3/5 body + on-deploy bounce-enemy-to-hand. The card is a bounce spell stapled to a tanky body. Sub-curve printed line is the cost of the spell-equivalent on-deploy effect.",
+    reviewer: "panopticus",
   },
 };
