@@ -24,15 +24,30 @@ export const users = mysqlTable("users", {
   installSource: varchar("installSource", { length: 32 }),
   /** A/B variant assignment at signup (e.g. "tutorial-v2:control"). */
   abVariant: varchar("abVariant", { length: 64 }),
+
+  // ─── Age verification (audit/15.R4 — COPPA + GDPR-K) ────────────
+  /** Self-attested date of birth, ISO yyyy-MM-dd. Required to use
+   *  the app; null until the AgeVerifyPage is completed. We store
+   *  the raw date (not a derived "is_adult" boolean) so geo-policy
+   *  changes can be re-evaluated without re-asking the user. */
+  dateOfBirth: varchar("dateOfBirth", { length: 10 }),
+  /** ISO 3166-1 alpha-2 country code captured at age-verification
+   *  time. Used to apply the EU 16+ minimum vs the global 13+
+   *  minimum. Sourced from CF-IPCountry / X-Forwarded-Country with
+   *  fallback to remote-address GeoIP. */
+  ageVerificationCountry: varchar("ageVerificationCountry", { length: 2 }),
+  /** Timestamp of the age-verification submission. The presence of
+   *  this field is the gate the protected routes check; null →
+   *  redirect to /age-verify. */
+  ageVerifiedAt: timestamp("ageVerifiedAt"),
 }, (table) => ({
   createdAtIdx: index("idx_users_created_at").on(table.createdAt),
   lastSignedInIdx: index("idx_users_last_signed_in").on(table.lastSignedIn),
   signupWeekIdx: index("idx_users_signup_week").on(table.signupWeek),
-  // Unique email so the same OAuth provider account can't fabricate
-  // duplicate user rows by varying display name. NULLs are allowed
-  // (multiple users with no email is fine — the unique only fires
-  // when both rows have a non-NULL email).
   emailIdx: uniqueIndex("uq_users_email").on(table.email),
+  // Lookup queries on the age-verify gate; small index but the
+  // protected-route middleware reads ageVerifiedAt on every request.
+  ageVerifiedIdx: index("idx_users_age_verified").on(table.ageVerifiedAt),
 }));
 
 export type User = typeof users.$inferSelect;
