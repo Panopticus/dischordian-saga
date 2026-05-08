@@ -21,6 +21,7 @@ import {
   Radio, Skull, Terminal, Volume2
 } from "lucide-react";
 import { useGame } from "@/contexts/GameContext";
+import { useVariant } from "@/hooks/useVariant";
 import TransmissionDisplay from "@/components/TransmissionDisplay";
 import type { TransmissionMessage } from "@/components/TransmissionDisplay";
 import DialogWheel from "@/components/DialogWheel";
@@ -114,6 +115,26 @@ export default function NarrativeEngine({ tutorial, onComplete, onDismiss }: Nar
 
   const currentStep = stepIndex >= 0 ? filteredSteps[stepIndex] : null;
   const isLastStep = stepIndex >= filteredSteps.length - 1;
+
+  // audit/10.F1 — wheel_followup variant. Authored seed entries
+  // key on the choice's setFlag (e.g. act3_path_transparent_chosen,
+  // act4_pathA_architect_chosen). Resolve against the most recent
+  // choice's primary set-flag; renders below the wheel during the
+  // response phase so the player sees the world's reaction
+  // alongside the companion line.
+  const wheelFollowupTargetId = (() => {
+    if (!selectedChoice) return undefined;
+    if (selectedChoice.setFlag) return selectedChoice.setFlag;
+    if (selectedChoice.setFlags && selectedChoice.setFlags.length > 0) {
+      return selectedChoice.setFlags[0];
+    }
+    if (selectedChoice.flag) return selectedChoice.flag;
+    return selectedChoice.id;
+  })();
+  const wheelFollowupVariant = useVariant(
+    "wheel_followup",
+    wheelFollowupTargetId,
+  );
 
   // Template variable replacement
   const fillTemplate = useCallback((text: string) => {
@@ -691,6 +712,21 @@ export default function NarrativeEngine({ tutorial, onComplete, onDismiss }: Nar
                   showHeaders={false}
                   onAllComplete={() => setTransmissionComplete(true)}
                 />
+
+                {/* Wheel-followup variant — world's reaction beat */}
+                {transmissionComplete && wheelFollowupVariant && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="mt-3 p-3 rounded-md border-l-2 border-accent/40 bg-accent/5"
+                    data-testid="wheel-followup-variant"
+                    data-variant-id={wheelFollowupVariant.id}
+                  >
+                    <p className="font-mono text-xs italic leading-relaxed text-foreground/80">
+                      {wheelFollowupVariant.text}
+                    </p>
+                  </motion.div>
+                )}
 
                 {/* Rewards earned */}
                 {transmissionComplete && selectedChoice.rewards && selectedChoice.rewards.length > 0 && (
