@@ -95,7 +95,7 @@ const e1: EpisodeDefinition = {
   contentBundle: {
     songId: "T17_first_trumpet",
     slideshowId: "T17_first_trumpet",
-    loredexUnlocks: [],
+    loredexUnlocks: ["loredex.silence_break_year_2", "loredex.six_watcher_signatures"],
     dropAt: "episode_close",
   },
 };
@@ -182,7 +182,7 @@ const e2: EpisodeDefinition = {
   contentBundle: {
     songId: "T17_first_trumpet",
     slideshowId: "T17_first_trumpet_b",
-    loredexUnlocks: [],
+    loredexUnlocks: ["loredex.watcher_idris", "loredex.watcher_verel"],
     dropAt: "episode_mid",
   },
 };
@@ -275,7 +275,7 @@ const e3: EpisodeDefinition = {
   contentBundle: {
     songId: "T17_first_trumpet",
     slideshowId: "T17_first_trumpet_c",
-    loredexUnlocks: [],
+    loredexUnlocks: ["loredex.watcher_ophran", "loredex.watcher_kallium", "loredex.watcher_mereth", "loredex.watcher_sothe"],
     dropAt: "episode_close",
   },
 };
@@ -362,7 +362,7 @@ const e4: EpisodeDefinition = {
   contentBundle: {
     songId: "T17_first_trumpet",
     slideshowId: "T17_first_trumpet_d",
-    loredexUnlocks: [],
+    loredexUnlocks: ["loredex.seventh_watcher_role_blank", "loredex.player_first_question_sealed"],
     dropAt: "episode_open",
   },
 };
@@ -455,7 +455,7 @@ const e5: EpisodeDefinition = {
   contentBundle: {
     songId: "T17_first_trumpet",
     slideshowId: "T17_first_trumpet_e",
-    loredexUnlocks: [],
+    loredexUnlocks: ["loredex.six_watchers_named", "loredex.first_trumpet_sounded", "loredex.player_question_sealed"],
     conspiracyDiscoveries: ["memorial.seventh_watcher_silence_year_2"],
     dropAt: "episode_close",
   },

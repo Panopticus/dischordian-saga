@@ -96,7 +96,7 @@ const e1: EpisodeDefinition = {
   contentBundle: {
     songId: "T15_the_audit",
     slideshowId: "T15_the_audit",
-    loredexUnlocks: [],
+    loredexUnlocks: ["loredex.zyrkoth_at_the_court", "loredex.epoch_one_dmc_contract"],
     dropAt: "episode_close",
   },
 };
@@ -183,7 +183,7 @@ const e2: EpisodeDefinition = {
   contentBundle: {
     songId: "T15_the_audit",
     slideshowId: "T15_the_audit_b",
-    loredexUnlocks: [],
+    loredexUnlocks: ["loredex.forty_envelope_audit", "loredex.handwriting_consistency"],
     dropAt: "episode_mid",
   },
 };
@@ -285,7 +285,7 @@ const e3: EpisodeDefinition = {
   contentBundle: {
     songId: "T15_the_audit",
     slideshowId: "T15_the_audit_c",
-    loredexUnlocks: [],
+    loredexUnlocks: ["loredex.atalin_year_one", "loredex.seven_day_window_clauses"],
     dropAt: "episode_close",
   },
 };
@@ -372,7 +372,7 @@ const e4: EpisodeDefinition = {
   contentBundle: {
     songId: "T15_the_audit",
     slideshowId: "T15_the_audit_d",
-    loredexUnlocks: [],
+    loredexUnlocks: ["loredex.atalin_account", "loredex.the_flaw_in_the_clauses"],
     dropAt: "episode_open",
   },
 };
@@ -465,7 +465,7 @@ const e5: EpisodeDefinition = {
   contentBundle: {
     songId: "T15_the_audit",
     slideshowId: "T15_the_audit_e",
-    loredexUnlocks: [],
+    loredexUnlocks: ["loredex.severance_amnesty_year_2", "loredex.atalin_named_aloud", "loredex.advocate_first_audit_won"],
     conspiracyDiscoveries: ["severance.infernal_audit_cleared"],
     dropAt: "episode_close",
   },

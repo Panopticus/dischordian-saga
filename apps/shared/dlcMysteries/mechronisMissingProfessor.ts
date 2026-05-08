@@ -94,7 +94,7 @@ const e1: EpisodeDefinition = {
   contentBundle: {
     songId: "T12_faculty_convocation",
     slideshowId: "T12_faculty_convocation",
-    loredexUnlocks: [],
+    loredexUnlocks: ["loredex.tarn_lectern", "loredex.tarn_friday_fold"],
     dropAt: "episode_close",
   },
 };
@@ -181,7 +181,7 @@ const e2: EpisodeDefinition = {
   contentBundle: {
     songId: "T12_faculty_convocation",
     slideshowId: "T12_faculty_convocation_b",
-    loredexUnlocks: [],
+    loredexUnlocks: ["loredex.othmar_logic", "loredex.veth_lore", "loredex.roen_trial"],
     dropAt: "episode_mid",
   },
 };
@@ -283,7 +283,7 @@ const e3: EpisodeDefinition = {
   contentBundle: {
     songId: "T12_faculty_convocation",
     slideshowId: "T12_faculty_convocation_c",
-    loredexUnlocks: [],
+    loredexUnlocks: ["loredex.erasure_vote", "loredex.consensus_by_cowardice"],
     dropAt: "episode_close",
   },
 };
@@ -370,7 +370,7 @@ const e4: EpisodeDefinition = {
   contentBundle: {
     songId: "T12_faculty_convocation",
     slideshowId: "T12_faculty_convocation_d",
-    loredexUnlocks: [],
+    loredexUnlocks: ["loredex.tarn_resignation", "loredex.roen_private_promise"],
     dropAt: "episode_open",
   },
 };
@@ -463,7 +463,7 @@ const e5: EpisodeDefinition = {
   contentBundle: {
     songId: "T12_faculty_convocation",
     slideshowId: "T12_faculty_convocation_e",
-    loredexUnlocks: [],
+    loredexUnlocks: ["loredex.tarn_curriculum_ratified", "loredex.mechronis_consensus_lesson", "loredex.tarn_pebble"],
     conspiracyDiscoveries: ["mechronis.consensus_by_cowardice"],
     dropAt: "episode_close",
   },

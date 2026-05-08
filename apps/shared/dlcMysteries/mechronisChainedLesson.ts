@@ -95,7 +95,7 @@ const e1: EpisodeDefinition = {
   contentBundle: {
     songId: "T16_apprentices_hymn",
     slideshowId: "T16_apprentices_hymn",
-    loredexUnlocks: [],
+    loredexUnlocks: ["loredex.apprentice_year_two", "loredex.lyra_vox_call_year_two"],
     dropAt: "episode_close",
   },
 };
@@ -182,7 +182,7 @@ const e2: EpisodeDefinition = {
   contentBundle: {
     songId: "T16_apprentices_hymn",
     slideshowId: "T16_apprentices_hymn_b",
-    loredexUnlocks: [],
+    loredexUnlocks: ["loredex.module_17_missing", "loredex.terminus_feint_pattern"],
     dropAt: "episode_mid",
   },
 };
@@ -284,7 +284,7 @@ const e3: EpisodeDefinition = {
   contentBundle: {
     songId: "T16_apprentices_hymn",
     slideshowId: "T16_apprentices_hymn_c",
-    loredexUnlocks: [],
+    loredexUnlocks: ["loredex.sergeant_auro", "loredex.module_17_folio"],
     dropAt: "episode_close",
   },
 };
@@ -371,7 +371,7 @@ const e4: EpisodeDefinition = {
   contentBundle: {
     songId: "T16_apprentices_hymn",
     slideshowId: "T16_apprentices_hymn_d",
-    loredexUnlocks: [],
+    loredexUnlocks: ["loredex.tarn_curriculum_argument", "loredex.dean_fourteen_year_deferral"],
     dropAt: "episode_open",
   },
 };
@@ -464,7 +464,7 @@ const e5: EpisodeDefinition = {
   contentBundle: {
     songId: "T16_apprentices_hymn",
     slideshowId: "T16_apprentices_hymn_e",
-    loredexUnlocks: [],
+    loredexUnlocks: ["loredex.module_17_resolution", "loredex.thirty_one_apprentices_named", "loredex.auro_recognised"],
     conspiracyDiscoveries: ["mechronis.chained_lesson_resolved"],
     dropAt: "episode_close",
   },

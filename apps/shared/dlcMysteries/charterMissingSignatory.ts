@@ -97,7 +97,7 @@ const e1: EpisodeDefinition = {
   contentBundle: {
     songId: "T10_charter_hymn",
     slideshowId: "T10_charter_hymn",
-    loredexUnlocks: [],
+    loredexUnlocks: ["loredex.charter_fragment", "loredex.lower_deck_silt"],
     dropAt: "episode_close",
   },
 };
@@ -184,7 +184,7 @@ const e2: EpisodeDefinition = {
   contentBundle: {
     songId: "T10_charter_hymn",
     slideshowId: "T10_charter_hymn_b",
-    loredexUnlocks: [],
+    loredexUnlocks: ["loredex.almir_of_the_bow", "loredex.engineer_zero_sigil", "loredex.house_quill_three"],
     dropAt: "episode_mid",
   },
 };
@@ -286,7 +286,7 @@ const e3: EpisodeDefinition = {
   contentBundle: {
     songId: "T10_charter_hymn",
     slideshowId: "T10_charter_hymn_c",
-    loredexUnlocks: [],
+    loredexUnlocks: ["loredex.per_m_archivist", "loredex.mineralised_lamp"],
     dropAt: "episode_close",
   },
 };
@@ -373,7 +373,7 @@ const e4: EpisodeDefinition = {
   contentBundle: {
     songId: "T10_charter_hymn",
     slideshowId: "T10_charter_hymn_d",
-    loredexUnlocks: [],
+    loredexUnlocks: ["loredex.founding_watcher_oath", "loredex.the_closer_post"],
     dropAt: "episode_open",
   },
 };
@@ -466,7 +466,7 @@ const e5: EpisodeDefinition = {
   contentBundle: {
     songId: "T10_charter_hymn",
     slideshowId: "T10_charter_hymn_e",
-    loredexUnlocks: [],
+    loredexUnlocks: ["loredex.charter_ratification_year_1", "loredex.the_unnamed_watcher", "loredex.per_m_post"],
     conspiracyDiscoveries: ["charter.silence_is_the_signatory"],
     dropAt: "episode_close",
   },

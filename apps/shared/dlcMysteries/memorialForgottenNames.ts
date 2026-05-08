@@ -96,7 +96,7 @@ const e1: EpisodeDefinition = {
   contentBundle: {
     songId: "T13_eulogy_of_imprints",
     slideshowId: "T13_eulogy_of_imprints",
-    loredexUnlocks: [],
+    loredexUnlocks: ["loredex.year_of_the_lost_volume", "loredex.fourteen_unwitnessed"],
     dropAt: "episode_close",
   },
 };
@@ -183,7 +183,7 @@ const e2: EpisodeDefinition = {
   contentBundle: {
     songId: "T13_eulogy_of_imprints",
     slideshowId: "T13_eulogy_of_imprints_b",
-    loredexUnlocks: [],
+    loredexUnlocks: ["loredex.imprint_room", "loredex.aren_of_the_lower_decks"],
     dropAt: "episode_mid",
   },
 };
@@ -285,7 +285,7 @@ const e3: EpisodeDefinition = {
   contentBundle: {
     songId: "T13_eulogy_of_imprints",
     slideshowId: "T13_eulogy_of_imprints_c",
-    loredexUnlocks: [],
+    loredexUnlocks: ["loredex.cross_referenced_seven", "loredex.three_waiting_elders"],
     dropAt: "episode_close",
   },
 };
@@ -372,7 +372,7 @@ const e4: EpisodeDefinition = {
   contentBundle: {
     songId: "T13_eulogy_of_imprints",
     slideshowId: "T13_eulogy_of_imprints_d",
-    loredexUnlocks: [],
+    loredexUnlocks: ["loredex.imprint_i1", "loredex.architect_first_witnessing"],
     dropAt: "episode_open",
   },
 };
@@ -465,7 +465,7 @@ const e5: EpisodeDefinition = {
   contentBundle: {
     songId: "T13_eulogy_of_imprints",
     slideshowId: "T13_eulogy_of_imprints_e",
-    loredexUnlocks: [],
+    loredexUnlocks: ["loredex.year_of_the_lost_complete", "loredex.imprint_i1_named", "loredex.aren_reading"],
     conspiracyDiscoveries: ["memorial.architect_first_witnessing"],
     dropAt: "episode_close",
   },
