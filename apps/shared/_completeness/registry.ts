@@ -38,6 +38,10 @@ import { checkDeclaredSubsystemRuntime } from "./checks/declaredSubsystemRuntime
 import { checkGovernanceRouterPresence } from "./checks/governanceRouterPresence";
 import { checkSchemaOrphanColumns } from "./checks/schemaOrphanColumns";
 import { checkNotificationEnumProducers } from "./checks/notificationEnumProducers";
+import { checkWovenSystemRippleCoverage } from "./checks/wovenSystemRippleCoverage";
+import { checkYearlyEventRuntime } from "./checks/yearlyEventRuntime";
+import { checkSevenSealRuntime } from "./checks/sevenSealRuntime";
+import { checkMiniDlcFiveSystemCoverage } from "./checks/miniDlcFiveSystemCoverage";
 
 export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
   // ─── Card engine ──────────────────────────────────────────
@@ -285,6 +289,41 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     description:
       "Every variant in the notifications.type enum must have at least one `type: \"<variant>\"` writer in apps/server/. Catches enum members the engine renders for but the server never emits.",
     check: () => checkNotificationEnumProducers(),
+    ratchet: { target: 0 },
+  },
+  // ─── World — woven-systems integration (the Two-Ripple Rule) ──
+  // Added 2026-05-08 alongside docs/design/INCOMPLETE_DESIGNS_AUDIT
+  // follow-up. WOVEN_SYSTEMS registry declares 17 surfaces; ripple-
+  // engine wiring is audited per declared emit.
+  {
+    id: "world.woven_two_ripple_rule",
+    name: "Woven systems Two-Ripple Rule",
+    description:
+      "Every WovenSystem.primaryEmits event must have ≥ 2 cross-system handler registrations in rippleEngine.ts carrying a `// woven: <fromId> -> <toId>` comment. Lands at RATCHET; closes when wovenOn() helper + handler tagging catches up to the 17-system registry.",
+    check: () => checkWovenSystemRippleCoverage(),
+    ratchet: { target: 0 },
+  },
+  {
+    id: "world.yearly_event_runtime",
+    name: "Yearly event runtime",
+    description:
+      "The four canonical yearly anchors (Foundation Day, Severance, Mechronis Festival, Memorial Day) require shared definition + server router + scheduler service + DB schema. Lands at RATCHET — only the shared definition exists today.",
+    check: () => checkYearlyEventRuntime(),
+    ratchet: { target: 0 },
+  },
+  {
+    id: "narrative.seven_seal_runtime",
+    name: "Seven Seals canon",
+    description:
+      "Hard parity on the seven-seals data structure: 7 entries, seals I–IV bind to the four horsemen in order, seals IV/V declare unlocksYearly, every seal carries a non-empty fallSummary. The actual epigraph prose is content authored separately.",
+    check: () => checkSevenSealRuntime(),
+  },
+  {
+    id: "narrative.mini_dlc_five_system_coverage",
+    name: "Mini-DLC five-system coverage",
+    description:
+      "Every mini-DLC manifest under apps/shared/dlc/chapters/**/manifest.ts must declare the five required refs (mystery seed, transmission track, custom item, guild contract, governance motion). Lands at RATCHET; back-catalog manifests need backfill in a follow-up.",
+    check: () => checkMiniDlcFiveSystemCoverage(),
     ratchet: { target: 0 },
   },
 ];
