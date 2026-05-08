@@ -266,7 +266,7 @@ export function SpriteCharacter({
               width: `${box.width * 100}%`,
               height: `${box.height * 100}%`,
               border: "1px dashed magenta",
-              boxShadow: "0 0 0 1px rgba(0,0,0,0.4) inset",
+              boxShadow: "0 0 0 1px color-mix(in oklch, var(--bg-void) 40%, transparent) inset",
               pointerEvents: "none",
               zIndex: 5,
             }}

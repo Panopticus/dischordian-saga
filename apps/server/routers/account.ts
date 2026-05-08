@@ -41,6 +41,7 @@ import {
 import { eq, and } from "drizzle-orm";
 import { createHash } from "crypto";
 import { logger } from "../logger";
+import { evaluateAgePolicy } from "@shared/agePolicy";
 
 /**
  * Current policy versions. Bump the value here when the policy text
@@ -50,9 +51,9 @@ import { logger } from "../logger";
  * Use ISO date prefixes so versions sort lexicographically.
  */
 export const CURRENT_AGREEMENT_VERSIONS = {
-  terms_of_service: "2026-05-05",
-  privacy_policy: "2026-05-05",
-  cookie_policy: "2026-05-05",
+  terms_of_service: "2026-05-08",
+  privacy_policy: "2026-05-08",
+  cookie_policy: "2026-05-08",
 } as const;
 
 const AgreementType = z.enum(["terms_of_service", "privacy_policy", "cookie_policy"]);
@@ -291,5 +292,88 @@ export const accountRouter = router({
         .catch(() => {});
 
       return { ok: true };
+    }),
+
+  /* ─── Age verification (audit/15.R4 — COPPA + GDPR-K) ───────────
+   *
+   * The client posts a self-attested ISO yyyy-MM-dd date of birth.
+   * The server pulls the user's geo from CF-IPCountry (preferred)
+   * or X-Forwarded-Country with a fallback to "unknown" (which the
+   * policy treats as EEA-strict). evaluateAgePolicy decides
+   * allowed / blocked; the row update only happens on allowed.
+   *
+   * This is intentionally one-shot: a user who reports an age below
+   * the threshold is locked out — they can re-attempt only via
+   * support (we don't expose a re-submit endpoint to discourage
+   * just-trying-again-with-a-different-date abuse).
+   */
+  getAgeVerificationStatus: protectedProcedure.query(async ({ ctx }) => {
+    return {
+      verified: !!ctx.user.ageVerifiedAt,
+      ageVerifiedAt: ctx.user.ageVerifiedAt ?? null,
+      country: ctx.user.ageVerificationCountry ?? null,
+    };
+  }),
+
+  submitAgeVerification: protectedProcedure
+    .use(procedureRateLimit({ windowMs: 3_600_000, max: 5 }))
+    .input(
+      z.object({
+        dateOfBirth: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "DOB must be ISO yyyy-MM-dd"),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const db = await getDb();
+      if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
+
+      // Already verified — short-circuit; we don't allow re-submit.
+      if (ctx.user.ageVerifiedAt) {
+        return { ok: true, alreadyVerified: true };
+      }
+
+      // Geo-detect from edge headers. Cloudflare sets CF-IPCountry;
+      // some load balancers set X-Forwarded-Country. We accept either,
+      // upper-cased, 2 letters; anything else falls through to null
+      // and the policy applies the EEA-strict default.
+      const headerCountry =
+        (ctx.req.headers["cf-ipcountry"] as string | undefined) ??
+        (ctx.req.headers["x-forwarded-country"] as string | undefined) ??
+        null;
+      const country =
+        headerCountry && /^[A-Za-z]{2}$/.test(headerCountry)
+          ? headerCountry.toUpperCase()
+          : null;
+
+      const verdict = evaluateAgePolicy(input.dateOfBirth, country);
+      if (!verdict.allowed) {
+        // Don't write the failed DOB to the row — the user can't
+        // retry, and storing a sub-minimum DOB on a long-lived row
+        // is more PII than we need.
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message:
+            verdict.reason === "malformed_dob"
+              ? "Date of birth is malformed."
+              : `You must be at least ${verdict.minAge} years old to use this service.`,
+          cause: { reason: verdict.reason, minAge: verdict.minAge },
+        });
+      }
+
+      await db
+        .update(users)
+        .set({
+          dateOfBirth: input.dateOfBirth,
+          ageVerificationCountry: country,
+          ageVerifiedAt: new Date(),
+        })
+        .where(eq(users.id, ctx.user.id));
+
+      return {
+        ok: true,
+        alreadyVerified: false,
+        ageYears: verdict.ageYears,
+        minAge: verdict.minAge,
+        country,
+      };
     }),
 });

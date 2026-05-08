@@ -57,6 +57,7 @@ import { z } from "zod";
 import { logger } from "../logger";
 import { eq, and, or, desc, asc, sql, gte, lte, like, inArray } from "drizzle-orm";
 import { protectedProcedure, router } from "../_core/trpc";
+import { procedureRateLimit } from "../_core/procedureRateLimit";
 import { getDb, type DrizzleDb } from "../db";
 import {
   marketListings, marketBuyOrders, marketTransactions,
@@ -123,6 +124,7 @@ export const marketplaceRouter = router({
   /** Create a new sell listing */
   createListing: protectedProcedure
     .use(checkFeatureFlag("marketplace"))
+    .use(procedureRateLimit({ windowMs: 60_000, max: 30 }))
     .input(z.object({
       itemType: z.enum(["card", "material", "crafted_item"]),
       itemId: z.string(),
@@ -215,6 +217,7 @@ export const marketplaceRouter = router({
 
   /** Buy a listing */
   buyListing: protectedProcedure
+    .use(procedureRateLimit({ windowMs: 60_000, max: 30 }))
     .input(z.object({
       listingId: z.number(),
       quantity: z.number().min(1).default(1),
@@ -635,6 +638,7 @@ export const marketplaceRouter = router({
      ────────────────────────────────────────────── */
 
   createAuction: protectedProcedure
+    .use(procedureRateLimit({ windowMs: 60_000, max: 10 }))
     .input(z.object({
       itemType: z.enum(["card", "material", "crafted_item"]),
       itemId: z.string(),
@@ -679,66 +683,104 @@ export const marketplaceRouter = router({
       return { success: true, auctionId: Number(result.insertId) };
     }),
 
-  /** Place a bid on an auction */
+  /** Place a bid on an auction.
+   *
+   *  Atomic: balance check, escrow, prior-bidder refund, auction update,
+   *  bid log all run inside one db.transaction. Three exploits the
+   *  prior implementation allowed are closed here:
+   *
+   *    1. TOCTOU on endsAt — two bids arriving in the final ms could
+   *       both pass the time check. Now: anti-snipe extension bumps
+   *       endsAt to NOW()+60s when a bid lands inside the last minute.
+   *
+   *    2. Lost update on currentBid — concurrent higher bids could
+   *       silently overwrite. Now: the auction UPDATE includes
+   *       `currentBid < newBid` so 0 affected rows means
+   *       "outbid in flight".
+   *
+   *    3. Crash mid-escrow burned funds. Now: a transaction rolls
+   *       back the deduct if any later step fails.
+   */
   placeBid: protectedProcedure
+    .use(procedureRateLimit({ windowMs: 60_000, max: 60 }))
     .input(z.object({ auctionId: z.number(), bidAmount: z.number().min(1) }))
     .mutation(async ({ ctx, input }) => {
       const db = await getDb();
       if (!db) throw new Error("Database unavailable");
-      const auction = await db.select().from(marketAuctions)
-        .where(and(eq(marketAuctions.id, input.auctionId), eq(marketAuctions.status, "active")))
-        .limit(1);
-      if (!auction[0]) throw new Error("Auction not found or ended");
-      if (auction[0].sellerId === ctx.user.id) throw new Error("Cannot bid on your own auction");
-      if (new Date() > auction[0].endsAt) throw new Error("Auction has ended");
 
-      const minBid = auction[0].currentBid > 0
-        ? auction[0].currentBid + auction[0].bidIncrement
-        : auction[0].startingBid;
-      if (input.bidAmount < minBid) throw new Error(`Minimum bid is ${minBid} Dream`);
+      return await db.transaction(async (tx) => {
+        const [auction] = await tx.select().from(marketAuctions)
+          .where(and(eq(marketAuctions.id, input.auctionId), eq(marketAuctions.status, "active")))
+          .limit(1);
+        if (!auction) throw new Error("Auction not found or ended");
+        if (auction.sellerId === ctx.user.id) throw new Error("Cannot bid on your own auction");
+        if (new Date() > auction.endsAt) throw new Error("Auction has ended");
 
-      // Verify buyer has funds
-      const bal = await db.select().from(dreamBalance).where(eq(dreamBalance.userId, ctx.user.id)).limit(1);
-      if (!bal[0] || bal[0].dreamTokens < input.bidAmount) throw new Error("Insufficient Dream tokens");
+        const minBid = auction.currentBid > 0
+          ? auction.currentBid + auction.bidIncrement
+          : auction.startingBid;
+        if (input.bidAmount < minBid) throw new Error(`Minimum bid is ${minBid} Dream`);
 
-      // Escrow new bid
-      await db.update(dreamBalance)
-        .set({ dreamTokens: sql`${dreamBalance.dreamTokens} - ${input.bidAmount}` })
-        .where(eq(dreamBalance.userId, ctx.user.id));
+        // Conditional escrow — fails closed if balance dropped between
+        // the previous (informational) check and this write.
+        const escrowResult = await tx.execute(sql`
+          UPDATE dream_balance
+          SET dream_tokens = dream_tokens - ${input.bidAmount}
+          WHERE user_id = ${ctx.user.id} AND dream_tokens >= ${input.bidAmount}
+        `);
+        const escrowed = (escrowResult as unknown as Array<{ affectedRows?: number }>)[0]?.affectedRows ?? 0;
+        if (escrowed === 0) throw new Error("Insufficient Dream tokens");
 
-      // Refund previous highest bidder
-      if (auction[0].highestBidderId && auction[0].currentBid > 0) {
-        await db.update(dreamBalance)
-          .set({ dreamTokens: sql`${dreamBalance.dreamTokens} + ${auction[0].currentBid}` })
-          .where(eq(dreamBalance.userId, auction[0].highestBidderId));
-        // Notify outbid
-        await db.insert(notifications).values({
-          userId: auction[0].highestBidderId,
-          type: "auction_outbid",
-          title: "You've been outbid!",
-          message: `Someone bid ${input.bidAmount} Dream on ${auction[0].itemName}. Your ${auction[0].currentBid} Dream has been refunded.`,
-          actionUrl: "/marketplace",
+        // Conditional auction update — anti-lost-update guard. If
+        // another bidder beat us between SELECT above and this UPDATE,
+        // affectedRows=0 and we abort (transaction rollback returns
+        // the escrow).
+        const updateResult = await tx.execute(sql`
+          UPDATE market_auctions
+          SET current_bid = ${input.bidAmount},
+              highest_bidder_id = ${ctx.user.id},
+              ends_at = GREATEST(ends_at, DATE_ADD(NOW(), INTERVAL 60 SECOND))
+          WHERE id = ${input.auctionId}
+            AND status = 'active'
+            AND current_bid < ${input.bidAmount}
+        `);
+        const updated = (updateResult as unknown as Array<{ affectedRows?: number }>)[0]?.affectedRows ?? 0;
+        if (updated === 0) {
+          throw new Error("Outbid in flight — please try a higher bid");
+        }
+
+        // Refund previous highest bidder. Safe inside the tx — if
+        // anything below throws, the deduct on us AND this credit
+        // both roll back.
+        if (auction.highestBidderId && auction.currentBid > 0) {
+          await tx.update(dreamBalance)
+            .set({ dreamTokens: sql`${dreamBalance.dreamTokens} + ${auction.currentBid}` })
+            .where(eq(dreamBalance.userId, auction.highestBidderId));
+          await tx.insert(notifications).values({
+            userId: auction.highestBidderId,
+            type: "auction_outbid",
+            title: "You've been outbid!",
+            message: `Someone bid ${input.bidAmount} Dream on ${auction.itemName}. Your ${auction.currentBid} Dream has been refunded.`,
+            actionUrl: "/marketplace",
+          });
+        }
+
+        await tx.insert(auctionBids).values({
+          auctionId: input.auctionId,
+          bidderId: ctx.user.id,
+          bidAmount: input.bidAmount,
         });
-      }
 
-      // Update auction
-      await db.update(marketAuctions)
-        .set({ currentBid: input.bidAmount, highestBidderId: ctx.user.id })
-        .where(eq(marketAuctions.id, input.auctionId));
-
-      // Record bid
-      await db.insert(auctionBids).values({
-        auctionId: input.auctionId,
-        bidderId: ctx.user.id,
-        bidAmount: input.bidAmount,
+        return { success: true, currentBid: input.bidAmount, buyoutHit: auction.buyoutPrice > 0 && input.bidAmount >= auction.buyoutPrice };
+      }).then(async (result) => {
+        // Buyout path — if the bid hit buyout, resolve outside the
+        // transaction (resolveAuction expects the top-level db handle
+        // and does its own writes).
+        if (result.buyoutHit) {
+          await resolveAuction(db, input.auctionId);
+        }
+        return { success: true, currentBid: result.currentBid };
       });
-
-      // Check buyout
-      if (auction[0].buyoutPrice > 0 && input.bidAmount >= auction[0].buyoutPrice) {
-        await resolveAuction(db, input.auctionId);
-      }
-
-      return { success: true, currentBid: input.bidAmount };
     }),
 
   /** Get active auctions */
@@ -787,6 +829,7 @@ export const marketplaceRouter = router({
      ────────────────────────────────────────────── */
 
   createExchangeOrder: protectedProcedure
+    .use(procedureRateLimit({ windowMs: 60_000, max: 10 }))
     .input(z.object({
       sellCurrency: z.enum(["dream", "credits"]),
       sellAmount: z.number().min(1).max(999999),
@@ -798,33 +841,64 @@ export const marketplaceRouter = router({
       if (!db) throw new Error("Database unavailable");
       if (input.sellCurrency === input.buyCurrency) throw new Error("Cannot exchange same currency");
 
-      // Escrow sell amount
-      if (input.sellCurrency === "dream") {
-        const bal = await db.select().from(dreamBalance).where(eq(dreamBalance.userId, ctx.user.id)).limit(1);
-        if (!bal[0] || bal[0].dreamTokens < input.sellAmount) throw new Error("Insufficient Dream");
-        await db.update(dreamBalance)
-          .set({ dreamTokens: sql`${dreamBalance.dreamTokens} - ${input.sellAmount}` })
-          .where(eq(dreamBalance.userId, ctx.user.id));
-      } else {
-        const ps = await db.select().from(twPlayerState).where(eq(twPlayerState.userId, ctx.user.id)).limit(1);
-        if (!ps[0] || ps[0].credits < input.sellAmount) throw new Error("Insufficient credits");
-        await db.update(twPlayerState)
-          .set({ credits: sql`${twPlayerState.credits} - ${input.sellAmount}` })
-          .where(eq(twPlayerState.userId, ctx.user.id));
+      // Reference rate band — without an upper/lower bound on the
+      // sell:buy ratio, two colluding accounts could post wildly
+      // off-market orders to launder Dream into Credits (or back) and
+      // wash hard-currency-derived Dream into untracked Credits.
+      // The band uses a fixed reference for now; a future revision
+      // replaces REFERENCE_DREAM_PER_CREDIT with a service that reads a
+      // market-price cache populated from a 7-day rolling median of
+      // filled trades.
+      const REFERENCE_DREAM_PER_CREDIT = 1; // 1 Dream ≈ 1 Credit baseline
+      const RATE_BAND_MULTIPLIER = 2; // accept rates within [0.5x, 2.0x]
+      const dreamPerCredit =
+        input.sellCurrency === "dream"
+          ? input.sellAmount / input.buyAmount
+          : input.buyAmount / input.sellAmount;
+      const minRate = REFERENCE_DREAM_PER_CREDIT / RATE_BAND_MULTIPLIER;
+      const maxRate = REFERENCE_DREAM_PER_CREDIT * RATE_BAND_MULTIPLIER;
+      if (dreamPerCredit < minRate || dreamPerCredit > maxRate) {
+        throw new Error(
+          `Exchange rate ${dreamPerCredit.toFixed(2)} Dream/Credit is outside the allowed band [${minRate.toFixed(2)}, ${maxRate.toFixed(2)}]`,
+        );
       }
 
-      const [result] = await db.insert(currencyExchange).values({
-        userId: ctx.user.id,
-        sellCurrency: input.sellCurrency,
-        sellAmount: input.sellAmount,
-        buyCurrency: input.buyCurrency,
-        buyAmount: input.buyAmount,
+      return await db.transaction(async (tx) => {
+        // Conditional escrow — fails closed if balance dropped under us.
+        if (input.sellCurrency === "dream") {
+          const r = await tx.execute(sql`
+            UPDATE dream_balance
+            SET dream_tokens = dream_tokens - ${input.sellAmount}
+            WHERE user_id = ${ctx.user.id} AND dream_tokens >= ${input.sellAmount}
+          `);
+          const affected = (r as unknown as Array<{ affectedRows?: number }>)[0]?.affectedRows ?? 0;
+          if (affected === 0) throw new Error("Insufficient Dream");
+        } else {
+          const r = await tx.execute(sql`
+            UPDATE tw_player_state
+            SET credits = credits - ${input.sellAmount}
+            WHERE user_id = ${ctx.user.id} AND credits >= ${input.sellAmount}
+          `);
+          const affected = (r as unknown as Array<{ affectedRows?: number }>)[0]?.affectedRows ?? 0;
+          if (affected === 0) throw new Error("Insufficient credits");
+        }
+
+        const [result] = await tx.insert(currencyExchange).values({
+          userId: ctx.user.id,
+          sellCurrency: input.sellCurrency,
+          sellAmount: input.sellAmount,
+          buyCurrency: input.buyCurrency,
+          buyAmount: input.buyAmount,
+        });
+
+        return { orderId: Number(result.insertId) };
+      }).then(async ({ orderId }) => {
+        // Match-making runs outside the transaction (it does its own
+        // writes against multiple users; a long tx would hold locks
+        // across the matching loop).
+        await tryMatchExchangeOrders(db, orderId, ctx.user.id, input);
+        return { success: true, orderId };
       });
-
-      // Try to match with existing orders
-      await tryMatchExchangeOrders(db, Number(result.insertId), ctx.user.id, input);
-
-      return { success: true, orderId: Number(result.insertId) };
     }),
 
   cancelExchangeOrder: protectedProcedure

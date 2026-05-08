@@ -10,6 +10,13 @@
  * The legacy userProgress.gameData.tradeEmpire JSON blob is no longer
  * read or written; existing rows are migrated by
  * apps/scripts/backfill-trade-empire-blob.ts.
+ *
+ * Phase D.5 procedures (getConvergenceClimaxState, getSectorSaturation)
+ * land schema-first per the audit-allow comments at apps/db/schema.ts:6974
+ * and 7048; client UI for the doom clock + saturation HUD is the next
+ * deliverable in the Phase D.5 plan.
+ *
+ * audit-allow-proc: getConvergenceClimaxState, getSectorSaturation
  */
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
@@ -726,6 +733,19 @@ export const tradeEmpireRouter = router({
 
       // Cross-system: feed Dead Man's Circuit "Kinetic Acquisition" side quest
       await ripple.emit("trade_run_complete", { userId: ctx.user.id, missionId: mission.id });
+
+      // Phase D.5 — bump per-sector saturation so the oversupply meter
+      // grows on every trade run. Decay loop runs hourly on the server.
+      // See apps/server/services/tradeRouteSaturationService.ts and the
+      // schema doc-comment at apps/db/schema.ts:6974.
+      try {
+        const { bumpSaturation } = await import(
+          "../services/tradeRouteSaturationService"
+        );
+        await bumpSaturation(mission.sectorId);
+      } catch (saturationErr) {
+        console.warn("[Saturation] mission bump failed", saturationErr);
+      }
 
       // Tier 4 quest progression + Tier 1 title nudge.
       recordQuestEvent({ kind: "trade_mission_completed", userId: ctx.user.id }).catch(() => {});
@@ -1593,6 +1613,19 @@ export const tradeEmpireRouter = router({
         }
       }
 
+      // Phase D.5 — saturation bump on the destination sector. Routes
+      // and missions both feed the same per-sector oversupply meter so
+      // grinding either path crashes prices on that sector. See
+      // apps/server/services/tradeRouteSaturationService.ts.
+      try {
+        const { bumpSaturation } = await import(
+          "../services/tradeRouteSaturationService"
+        );
+        await bumpSaturation(input.toSectorId);
+      } catch (saturationErr) {
+        console.warn("[Saturation] route bump failed", saturationErr);
+      }
+
       return {
         success: true,
         runCount: newRunCount,
@@ -1600,6 +1633,55 @@ export const tradeEmpireRouter = router({
         tiersCrossedThisRun: tiersCrossed,
         npcAcknowledgments,
       };
+    }),
+
+  /**
+   * Phase D.5 — read the singleton convergence climax state (the
+   * "doom clock"). Returns the current convergence score, phase
+   * (dormant | open | resolved), and the open-window timestamps.
+   * Lazily creates the row on first read.
+   *
+   * See apps/db/schema.ts:7048 and the consumer service at
+   * apps/server/services/convergenceClimaxService.ts.
+   */
+  getConvergenceClimaxState: protectedProcedure.query(async () => {
+    const { getConvergenceClimaxState } = await import(
+      "../services/convergenceClimaxService"
+    );
+    const row = await getConvergenceClimaxState();
+    if (!row) {
+      return {
+        convergence: 0,
+        phase: "dormant" as const,
+        openedAt: null as Date | null,
+        closesAtMs: null as number | null,
+        resolutionKey: null as string | null,
+      };
+    }
+    return {
+      convergence: row.convergence,
+      phase: row.phase,
+      openedAt: row.openedAt,
+      closesAtMs: row.closesAtMs,
+      resolutionKey: row.resolutionKey,
+    };
+  }),
+
+  /**
+   * Phase D.5 — read the per-sector saturation score (0..200). The
+   * client pairs this with `applySaturationToPrice` (or the server's
+   * `effectivePriceForSector`) to render the oversupply price-crash
+   * indicator on the trade UI. See
+   * apps/server/services/tradeRouteSaturationService.ts.
+   */
+  getSectorSaturation: protectedProcedure
+    .input(z.object({ sectorId: z.string() }))
+    .query(async ({ input }) => {
+      const { getSaturation } = await import(
+        "../services/tradeRouteSaturationService"
+      );
+      const saturation = await getSaturation(input.sectorId);
+      return { sectorId: input.sectorId, saturation };
     }),
 
   /** Pressure-driven price modifiers (plan §C4). Returns the per-good

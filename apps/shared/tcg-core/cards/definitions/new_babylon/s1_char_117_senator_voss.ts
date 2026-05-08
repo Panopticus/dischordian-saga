@@ -26,7 +26,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
-import { assetUrl } from "../../../../../client/src/lib/assetUrl";
+import { assetUrl } from "@shared/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_117" as CardDefinition["id"],
   name: "Senator Voss",
@@ -61,7 +61,7 @@ export const cardDef: CardDefinition = {
   flavorText:
     "The vote was unanimous. It always is, when the dissenters have already been recycled.",
   rulesVersion: "1.1.0",
-  trial_categories: ["narrative"] as const,
+  trial_categories: ["confession", "narrative"] as const,
   verdict_delta: 2,
   balanceException: {
     reason: "Sacrifice-then-summon ability: sacrifice a friendly + summon a 5/5 token. Net: trade one body for a 5/5 + the Voss 3/4. Sub-curve printed stats reflect the cost of the sacrifice mechanic; combined effective stats far exceed curve.",

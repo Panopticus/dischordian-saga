@@ -19,6 +19,7 @@ import { performanceMiddleware } from "../performanceMonitor";
 import { sentryErrorHandler, waitForSentry } from "../sentry";
 import { waitForOTel } from "../otel";
 import { metricsHandler } from "../metrics";
+import { sql } from "drizzle-orm";
 import { publicIpRateLimit } from "../ipRateLimit";
 
 function isPortAvailable(port: number): Promise<boolean> {
@@ -98,10 +99,16 @@ async function startServer() {
             eventType: event.type,
             source: "stripe",
           });
+        } else if (process.env.NODE_ENV === "production") {
+          // Fail-closed in prod: if the DB is missing, layer-A
+          // idempotency cannot run. Returning 5xx asks Stripe to retry
+          // (it will, with backoff) rather than silently letting a
+          // non-checkout event slip past with no replay guard.
+          console.error("[Webhook] DB unavailable in production; refusing to process without idempotency layer A");
+          return res.status(503).json({ error: "service_unavailable_db_required" });
         }
-        // If db is null (tests / local without MySQL) the layer-A
-        // check is bypassed; layer B still applies in production where
-        // db is always present.
+        // In non-prod with a missing db, both layers are bypassed —
+        // acceptable for local dev where Stripe isn't actually firing.
       } catch (err: unknown) {
         const msg = err instanceof Error ? err.message : String(err);
         if (/duplicate|unique/i.test(msg)) {
@@ -313,6 +320,41 @@ async function startServer() {
   // currency counters.
   app.get("/metrics", metricsHandler);
 
+  // /api/health — Railway healthcheck + CI readiness probe.
+  // Mounted BEFORE per-IP rate limit and CSRF so that orchestrators
+  // and CI can hit it without ceremony. Returns 200 only if the
+  // process is alive AND the DB ping succeeds (so a stale-static
+  // SPA doesn't fool railway into thinking the server is healthy
+  // when Express has actually crashed).
+  app.get("/api/health", async (req, res) => {
+    const out: { ok: boolean; uptimeSec: number; dbPing?: boolean; sentryReady?: boolean; otelReady?: boolean } = {
+      ok: true,
+      uptimeSec: Math.floor(process.uptime()),
+    };
+    try {
+      const { getDb } = await import("../db");
+      const db = await getDb();
+      if (db) {
+        await db.execute(sql`SELECT 1`);
+        out.dbPing = true;
+      } else {
+        out.dbPing = false;
+        out.ok = false;
+      }
+    } catch {
+      out.dbPing = false;
+      out.ok = false;
+    }
+    try {
+      const Sentry = await import("@sentry/node");
+      out.sentryReady = !!Sentry.getClient();
+    } catch {
+      out.sentryReady = false;
+    }
+    out.otelReady = !!(process.env.OTEL_EXPORTER_OTLP_ENDPOINT);
+    res.status(out.ok ? 200 : 503).json(out);
+  });
+
   // D3 — Per-IP token-bucket rate limit on every unauthenticated
   // surface (everything not gated by the OAuth callback or the
   // protectedProcedure auth check). Uses the existing
@@ -519,6 +561,97 @@ async function startServer() {
       console.error("[FactionReputation] initial decay error:", e),
     );
 
+    // Phase D.5 — Trade route saturation decay. Bleeds the per-sector
+    // oversupply meter back toward zero (5 pts/hr) so an idle route
+    // recovers from a price crash. Bumps happen at trade-completion
+    // sites in tradeEmpire.ts (completeMission + recordRouteRun). See
+    // schema doc-comment at apps/db/schema.ts:6974 (audit-allow:
+    // pending-feature Phase D.5) and the consumer service at
+    // apps/server/services/tradeRouteSaturationService.ts.
+    const { decaySaturation } = await import(
+      "../services/tradeRouteSaturationService"
+    );
+    setInterval(() => {
+      decaySaturation().catch(e =>
+        console.error("[TradeRouteSaturation] decay tick error:", e),
+      );
+    }, ONE_HOUR_MS);
+    decaySaturation().catch(e =>
+      console.error("[TradeRouteSaturation] initial decay error:", e),
+    );
+
+    // Phase D.5 — Research race tick. Pending rows whose deadlineMs
+    // has elapsed are resolved as `rival_won` and the player gets a
+    // notification. See schema doc-comment at apps/db/schema.ts:6993
+    // and the consumer service at
+    // apps/server/services/tradeResearchRaceService.ts.
+    const { tickResearchRaces } = await import(
+      "../services/tradeResearchRaceService"
+    );
+    setInterval(() => {
+      tickResearchRaces().catch(e =>
+        console.error("[TradeResearchRace] tick error:", e),
+      );
+    }, ONE_HOUR_MS);
+    tickResearchRaces().catch(e =>
+      console.error("[TradeResearchRace] initial tick error:", e),
+    );
+
+    // Phase D.5 — Convergence climax doom-clock tick. Opens the
+    // climax window when convergence ≥ 100 and auto-resolves it 72h
+    // later if the player misses their choice. See schema doc-comment
+    // at apps/db/schema.ts:7048 and the consumer service at
+    // apps/server/services/convergenceClimaxService.ts.
+    const { tickConvergenceClimax } = await import(
+      "../services/convergenceClimaxService"
+    );
+    setInterval(() => {
+      tickConvergenceClimax().catch(e =>
+        console.error("[ConvergenceClimax] tick error:", e),
+      );
+    }, ONE_HOUR_MS);
+    tickConvergenceClimax().catch(e =>
+      console.error("[ConvergenceClimax] initial tick error:", e),
+    );
+
+    // NARRATIVE_ARCHITECTURE.md §0 — Global Light/Dark alignment meter.
+    // SUMs character-sheet morality + pressureEvents (moralityHumanity /
+    // moralityMachine) into the singleton row at global_alignment.id=1.
+    // Read by Hierarchy invasion cadence, Architect-Triggered Events,
+    // Soul Stones drop rates, and the GlobalAlignmentMeter component.
+    // Hourly is plenty — the meter shifts on the order of days, and the
+    // try/catch ensures a stuck recompute never kills the other ticks.
+    const { recomputeGlobalAlignment } = await import(
+      "../services/globalAlignmentService"
+    );
+    setInterval(() => {
+      recomputeGlobalAlignment().catch(e =>
+        console.error("[GlobalAlignment] recompute tick error:", e),
+      );
+    }, ONE_HOUR_MS);
+    recomputeGlobalAlignment().catch(e =>
+      console.error("[GlobalAlignment] initial recompute error:", e),
+    );
+
+    // Soul Stones — weekly soft-cap reset. Per
+    // docs/design/SOUL_STONES_SYSTEM.md §1.2, combat-source drops
+    // are capped at 15 stones per week per player. The reset job
+    // zeroes `weeklyCollected` and bumps `weekResetAt` on any row
+    // that's been past the one-week boundary. Hourly tick is fine —
+    // the test is "weekResetAt < now - 1w" so the granularity is
+    // the player's first eligible tick after the boundary.
+    const { tickSoulStoneWeeklyResets } = await import(
+      "../services/soulStonesService"
+    );
+    setInterval(() => {
+      tickSoulStoneWeeklyResets().catch(e =>
+        console.error("[SoulStones] weekly reset tick error:", e),
+      );
+    }, ONE_HOUR_MS);
+    tickSoulStoneWeeklyResets().catch(e =>
+      console.error("[SoulStones] initial weekly reset error:", e),
+    );
+
     // Witnessing §3 — load the community Dischordia Cycle meter
     // from MySQL into the in-memory cache on startup. If the DB
     // has no row yet (fresh install), seeds defaults. Falls back
@@ -714,6 +847,49 @@ async function startServer() {
   server.listen(port, () => {
     console.log(`Server running on http://localhost:${port}/`);
   });
+
+  // Graceful shutdown — drain in-flight requests + WebSocket connections,
+  // flush Sentry/OTel, then exit. Railway sends SIGTERM on every redeploy
+  // (with a 30s grace window). Without this, in-flight Stripe webhooks,
+  // PvP/chess match ticks, and tRPC requests get killed mid-flight.
+  let shuttingDown = false;
+  const shutdown = async (signal: string) => {
+    if (shuttingDown) return;
+    shuttingDown = true;
+    console.log(`[shutdown] ${signal} received — draining…`);
+    const closed = new Promise<void>((resolve) => {
+      server.close((err) => {
+        if (err) console.error("[shutdown] server.close error:", err);
+        resolve();
+      });
+    });
+    // Bound the wait so the platform's SIGKILL doesn't preempt us.
+    const timeout = new Promise<void>((resolve) => setTimeout(resolve, 25_000));
+    await Promise.race([closed, timeout]);
+    try {
+      const Sentry = await import("@sentry/node");
+      await Sentry.close(2_000);
+    } catch (err) {
+      console.error("[shutdown] Sentry.close failed:", err);
+    }
+    try {
+      // shutdownOTel is optional — older otel.ts revisions don't export
+      // it. Cast through unknown so TS doesn't complain about an absent
+      // member; runtime check guards execution.
+      const otelMod = (await import("../otel")) as unknown as {
+        shutdownOTel?: () => Promise<void>;
+      };
+      if (typeof otelMod.shutdownOTel === "function") {
+        await otelMod.shutdownOTel();
+      }
+    } catch (err) {
+      void err;
+    }
+    console.log("[shutdown] done");
+    process.exit(0);
+  };
+  process.on("SIGTERM", () => void shutdown("SIGTERM"));
+  process.on("SIGINT", () => void shutdown("SIGINT"));
 }
 
 startServer().catch(console.error);

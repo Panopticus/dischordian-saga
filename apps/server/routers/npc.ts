@@ -33,6 +33,7 @@ import {
   npcAskTopicHistory,
   npcDialogTreeState,
   eidolonBonds,
+  notifications,
   playerProfile as playerProfileTable,
 } from "../../db/schema";
 import { and, desc, eq } from "drizzle-orm";
@@ -265,6 +266,21 @@ async function applyTrustDelta(
       trust: nextTrust,
       lastInteractionAt: new Date(),
     });
+  }
+
+  // Deep-trust milestone: fires the first time a player crosses
+  // trust >= 80 for an NPC. Uses the prev/next boundary to make the
+  // notification a one-shot per crossing (re-crosses after a drop
+  // also fire, which mirrors how the band gates rewatchable scenes).
+  if (current.trust < 80 && nextTrust >= 80) {
+    db.insert(notifications).values({
+      userId,
+      type: "deep_trust",
+      title: "Deep Trust Reached",
+      message: `Your bond with ${npcKey.replace(/_/g, " ")} crossed Deep Trust (80).`,
+      actionUrl: `/npc/${npcKey}`,
+      metadata: { npcKey, trust: nextTrust },
+    }).catch((e) => logger?.error?.("[NPC] deep_trust notification failed", e));
   }
 
   return resolveTrustState(userId, npcKey);

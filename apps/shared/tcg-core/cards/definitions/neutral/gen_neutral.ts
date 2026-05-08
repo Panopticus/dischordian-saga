@@ -18,7 +18,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
-import { assetUrl } from "../../../../../client/src/lib/assetUrl";
+import { assetUrl } from "@shared/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "gen_neutral" as CardDefinition["id"],
   name: "Elara",
@@ -43,6 +43,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Created to serve the Empire. Chose to protect the Potentials instead. Compassion is the most defiant subroutine.",
   rulesVersion: "1.1.0",
-  trial_categories: ["defensive"] as const,
+  trial_categories: ["confession", "defensive"] as const,
   verdict_delta: 1,
 };

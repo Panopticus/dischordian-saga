@@ -1,4 +1,4 @@
-import { assetUrl } from "../client/src/lib/assetUrl";
+import { assetUrl } from "@shared/lib/assetUrl";
 /* ═══════════════════════════════════════════════════════
    THE MEME'S BROADCASTS — Transmissions Through Time
 

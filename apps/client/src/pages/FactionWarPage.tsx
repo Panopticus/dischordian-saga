@@ -391,7 +391,7 @@ export default function FactionWarPage() {
                           fw.playerFaction === "empire"
                             ? "void-border void-bg-sunk void-bg-sunk"
                             : "void-border-error void-bg-error void-bg-error"
-                        } ${showContributeEffect ? "ring-2 ring-amber-400/50" : ""}`}
+                        } ${showContributeEffect ? "ring-2 ring-primary/50" : ""}`}
                       >
                         <Zap size={14} className="mx-auto mb-1 void-text-accent" />
                         <p className="font-mono text-[10px] font-bold">{opt.label}</p>

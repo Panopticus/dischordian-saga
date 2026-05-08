@@ -37,8 +37,16 @@ pnpm db:push              # drizzle-kit push — diff schema → DB and apply
                           #   safe on out-of-sync DBs)
 pnpm db:generate          # drizzle-kit generate — author a journaled migration
 pnpm db:migrate           # drizzle-kit migrate — apply journaled migrations in
-                          #   order (use for production deploys with a known
-                          #   journal; will refuse if reality diverged from it)
+                          #   order. Currently the journal has drifted from
+                          #   the on-disk .sql files (see apps/db/migrations/
+                          #   migration-drift.baseline.json), so CI runs
+                          #   migrate with continue-on-error and the server
+                          #   compensates with bootstrap* IIFEs at startup.
+                          #   Production schema is enforced by application
+                          #   cold-boot today; reconciling the journal is
+                          #   tracked in apps/db/migrations/README.md
+                          #   step 2 (collapse history into a single
+                          #   0071_baseline_v1).
 pnpm db:smoke             # apps/scripts/db-fresh-smoke.ts — full schema sanity
 ```
 

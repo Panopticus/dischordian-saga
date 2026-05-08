@@ -25,7 +25,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
-import { assetUrl } from "../../../../../client/src/lib/assetUrl";
+import { assetUrl } from "@shared/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_116" as CardDefinition["id"],
   name: "Neural Plague Carrier",
@@ -34,7 +34,7 @@ export const cardDef: CardDefinition = {
   rarity: "uncommon",
   cost: 4,
   baseStats: { power: 3, health: 5 },
-  keywords: ["deathwatch"],
+  keywords: [],
   abilities: [
     // --- Plague Feed: gain +1/+0 when any unit dies ---
     {
@@ -46,8 +46,7 @@ export const cardDef: CardDefinition = {
         duration: { kind: "permanent" },
         to: { kind: "self" },
       },
-    },
-  ],
+    }],
   art: assetUrl("art/cards/s1_char_116.webp"),
   flavorText:
     "It smiles when soldiers fall. Not from malice — the Virus has rewired joy to the frequency of dying screams.",

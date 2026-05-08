@@ -31,10 +31,12 @@ describe("vite.config.ts — manualChunks vendor-split contract", () => {
     expect(viteConfigSrc).toMatch(/"vendor-three":\s*\["three"\]/);
   });
 
-  it("splits chess.js + stockfish into a dedicated chunk", () => {
+  it("splits chess.js into a dedicated chunk", () => {
+    // Stockfish (GPL-3.0) was removed in audit/15.R1 in favor of a
+    // permissively-licensed pure-TS engine built on chess.js.
     expect(viteConfigSrc).toContain("vendor-chess");
     expect(viteConfigSrc).toContain('"chess.js"');
-    expect(viteConfigSrc).toContain('"stockfish"');
+    expect(viteConfigSrc).not.toContain('"stockfish"');
   });
 
   // React + data layer — used everywhere but stable size, so chunking

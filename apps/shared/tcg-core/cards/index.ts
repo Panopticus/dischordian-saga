@@ -493,6 +493,11 @@ import { S2_HIERARCHY_ANALYSTS } from "./definitions/s2_hierarchy/analysts";
 import { S2_HIERARCHY_INTERNS } from "./definitions/s2_hierarchy/interns";
 import { S2_HIERARCHY_ACT_EXCLUSIVES } from "./definitions/s2_hierarchy/act_exclusives";
 import { S2_HIERARCHY_SPECIAL_EDITIONS } from "./definitions/s2_hierarchy/special_editions";
+// Lord-tier Hierarchy cards added by main alongside the
+// hierarchyOfTheDamned design pass — single-card defs, spread inline.
+import { lord_master_of_rlyeh } from "./definitions/s2_hierarchy/master_of_rlyeh";
+import { lord_pale_emissary } from "./definitions/s2_hierarchy/pale_emissary";
+import { lord_reckoning_daughter } from "./definitions/s2_hierarchy/reckoning_daughter";
 
 /* ─── Pack 2 base-set net-new (Phase D2) ─── */
 import { ALL_S1_PACK2_CARDS } from "./definitions/s1_pack2";
@@ -970,6 +975,9 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   ...S2_HIERARCHY_INTERNS,
   ...S2_HIERARCHY_ACT_EXCLUSIVES,
   ...S2_HIERARCHY_SPECIAL_EDITIONS,
+  lord_master_of_rlyeh,
+  lord_pale_emissary,
+  lord_reckoning_daughter,
   /* Pack 2 base-set net-new (530 cards across 13 categories) */
   ...ALL_S1_PACK2_CARDS,
   /* Mechronis Professor signature spells (24 cards) */

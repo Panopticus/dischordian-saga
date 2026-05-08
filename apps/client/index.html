@@ -2,7 +2,11 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover" />
+    <!-- audit/08.F5 — drop maximum-scale=1; per-canvas .game-canvas-mount
+         { touch-action: none } already prevents pinch-zoom INSIDE the
+         game surfaces, so blocking it globally is hostile on lore/text
+         routes where users may need to zoom into long-form passages. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>Loredex OS - The Dischordian Saga</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

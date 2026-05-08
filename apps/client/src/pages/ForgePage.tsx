@@ -508,7 +508,7 @@ export default function ForgePage() {
                     <div className="space-y-2">
                       <div className="h-3 rounded-full bg-muted/40 overflow-hidden">
                         <motion.div
-                          className="h-full rounded-full bg-gradient-to-r from-orange-500 to-amber-400"
+                          className="h-full rounded-full bg-gradient-to-r void-bg-success"
                           style={{ width: `${craftProgress * 100}%` }}
                         />
                       </div>
@@ -566,7 +566,7 @@ export default function ForgePage() {
                         disabled={!craftCheck.canCraft}
                         className={`w-full py-3 rounded-lg font-display text-sm font-bold tracking-[0.2em] transition-all flex items-center justify-center gap-2
                           ${craftCheck.canCraft
-                            ? "bg-gradient-to-r from-orange-600 to-amber-500 text-foreground hover:from-orange-500 hover:to-amber-400 shadow-lg shadow-orange-500/20"
+                            ? "bg-gradient-to-r void-bg-success text-foreground hover:opacity-90"
                             : "bg-muted/30 text-muted-foreground/30 cursor-not-allowed border border-border/20"
                           }`}
                       >

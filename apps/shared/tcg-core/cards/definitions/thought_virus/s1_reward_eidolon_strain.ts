@@ -21,7 +21,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
-import { assetUrl } from "../../../../../client/src/lib/assetUrl";
+import { assetUrl } from "@shared/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_eidolon_strain" as CardDefinition["id"],
   name: "Strain, the Redeemed",
@@ -30,7 +30,7 @@ export const cardDef: CardDefinition = {
   rarity: "rare",
   cost: 4,
   baseStats: { power: 4, health: 4 },
-  keywords: ["deathwatch"],
+  keywords: [],
   abilities: [
     {
       id: "str_deathwatch_grow" as CardDefinition["abilities"][number]["id"],
@@ -41,8 +41,7 @@ export const cardDef: CardDefinition = {
         duration: { kind: "permanent" },
         to: { kind: "self" },
       },
-    },
-  ],
+    }],
   art: assetUrl("art/cards/s1_reward_eidolon_strain.webp"),
   flavorText:
     "It was a plague once. Now it grieves for every life it took. The grief makes it stronger — and that is its final cruelty.",

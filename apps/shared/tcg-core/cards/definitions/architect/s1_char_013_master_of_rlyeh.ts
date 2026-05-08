@@ -21,7 +21,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
-import { assetUrl } from "../../../../../client/src/lib/assetUrl";
+import { assetUrl } from "@shared/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_013" as CardDefinition["id"],
   name: "Master of R\u2019lyeh",

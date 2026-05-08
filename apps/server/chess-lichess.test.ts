@@ -31,7 +31,11 @@ describe("Stockfish Worker Module", () => {
   });
 
   it("has correct difficulty scaling for AI tiers", () => {
-    // Neyons should have low depth/skill
+    // Neyons should have low depth/skill; the Architect tops out the
+    // ladder. The depth ceiling dropped from 18+ to 6 in audit/15.R1
+    // when Stockfish (GPL-3.0) was replaced with the pure-TS engine —
+    // Neyons remain shallower than the Architect, the differentiation
+    // lives mostly in skillLevel + contempt + moveTime now.
     const neyonSparkMatch = workerContent.match(/neyon_spark:\s*\{[^}]*depth:\s*(\d+)/);
     const architectMatch = workerContent.match(/the_architect:\s*\{[^}]*depth:\s*(\d+)/);
     expect(neyonSparkMatch).toBeTruthy();
@@ -40,7 +44,7 @@ describe("Stockfish Worker Module", () => {
     const architectDepth = parseInt(architectMatch![1]);
     expect(neyonDepth).toBeLessThan(architectDepth);
     expect(neyonDepth).toBeLessThanOrEqual(5);
-    expect(architectDepth).toBeGreaterThanOrEqual(18);
+    expect(architectDepth).toBeGreaterThanOrEqual(6);
   });
 
   it("has correct skill levels for AI tiers", () => {
@@ -52,17 +56,21 @@ describe("Stockfish Worker Module", () => {
     expect(parseInt(architectSkill![1])).toBe(20); // Maximum skill
   });
 
-  it("uses CDN URL for Stockfish WASM", () => {
-    expect(workerContent).toContain("cloudfront.net");
-    expect(workerContent).toContain("stockfish");
+  it("backs the engine with the permissive in-process implementation (no Stockfish bundling)", () => {
+    // audit/15.R1: Stockfish (GPL-3.0) was replaced with a pure-TS
+    // engine built on chess.js (BSD-2-Clause). The worker file is
+    // now a facade.
+    expect(workerContent).toContain("PermissiveChessEngine");
+    expect(workerContent).not.toMatch(/cloudfront\.net.+stockfish/i);
   });
 
-  it("implements UCI protocol commands", () => {
-    expect(workerContent).toContain('"uci"');
-    expect(workerContent).toContain('"ucinewgame"');
-    expect(workerContent).toContain('"isready"');
-    expect(workerContent).toContain("position fen");
-    expect(workerContent).toContain("bestmove");
+  it("preserves the UCI-style facade API", () => {
+    // The class names + methods are preserved so callers don't
+    // change. UCI command literals are not in this file anymore;
+    // the engine is no longer a UCI-protocol consumer.
+    expect(workerContent).toContain("getBestMove");
+    expect(workerContent).toContain("evaluatePosition");
+    expect(workerContent).toContain("postGameAnalyze");
   });
 
   it("exports singleton getter and destroyer", () => {
@@ -70,9 +78,11 @@ describe("Stockfish Worker Module", () => {
     expect(workerContent).toContain("export function destroyStockfishEngine");
   });
 
-  it("parses evaluation from info lines", () => {
-    expect(workerContent).toContain("score cp");
-    expect(workerContent).toContain("score mate");
+  it("returns evaluations in centipawn / mate format", () => {
+    // The new engine returns { evalCp, mate } directly instead of
+    // parsing UCI `score cp` / `score mate` text. Same downstream
+    // shape; the parser is internal to permissiveChessEngine.ts.
+    expect(workerContent).toContain("evalCp");
   });
 
   it("has quick play presets", () => {

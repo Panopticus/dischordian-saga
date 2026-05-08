@@ -51,7 +51,7 @@ export default function ScrollIndicator({
   }, [checkScroll]);
 
   // Build gradient color string — fallback to dark bg
-  const color = fadeColor || "hsl(var(--background))";
+  const color = fadeColor || "var(--bg-canvas)";
   const gradientLeft = `linear-gradient(to right, ${color} 0%, transparent 100%)`;
   const gradientRight = `linear-gradient(to left, ${color} 0%, transparent 100%)`;
 

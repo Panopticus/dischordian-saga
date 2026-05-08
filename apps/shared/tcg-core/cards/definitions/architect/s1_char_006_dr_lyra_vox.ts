@@ -21,7 +21,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
-import { assetUrl } from "../../../../../client/src/lib/assetUrl";
+import { assetUrl } from "@shared/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_006" as CardDefinition["id"],
   name: "Dr. Lyra Vox",
@@ -92,6 +92,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "A brilliant scientist and a key figure within the AI Empire, renowned for her groundbreaking work in neural interface technology.",
   rulesVersion: "1.1.0",
-  trial_categories: ["evidence", "reactive"] as const,
+  trial_categories: ["confession", "evidence", "reactive"] as const,
   verdict_delta: 1,
 };

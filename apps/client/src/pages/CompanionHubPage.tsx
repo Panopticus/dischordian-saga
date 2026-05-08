@@ -16,6 +16,7 @@ import {
 import HolographicElara from "@/components/HolographicElara";
 import { Streamdown } from "streamdown";
 import CutsceneOverlay, { QUEST_CUTSCENES, type CutsceneData } from "@/components/CutsceneOverlay";
+import { MobileNarratorSlot } from "@/components/MobileNarratorSlot";
 import { AtmosphereScope } from "@/engine/AtmosphereScope";
 import LivingPortrait from "@/components/LivingPortrait";
 import CompanionTierCeremony from "@/components/CompanionTierCeremony";
@@ -397,6 +398,11 @@ export default function CompanionHubPage() {
           the first time the player crosses each. Self-seeds on first
           render so re-opening the Hub at a high tier doesn't re-fire. */}
       <CompanionTierCeremony level={level} companionName={selectedCompanion.name} />
+      {/* Mobile Narrator Slot — Yin/Yang Elara/Human banter
+          (NARRATIVE_ARCHITECTURE.md §2). */}
+      <div className="mb-4">
+        <MobileNarratorSlot roomId="captains_quarters" />
+      </div>
       <div className="max-w-4xl mx-auto">
         {/* Back Button */}
         <button

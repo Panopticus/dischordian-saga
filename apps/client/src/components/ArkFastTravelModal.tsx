@@ -137,7 +137,7 @@ export default function ArkFastTravelModal({
             style={{
               background: "color-mix(in oklch, var(--bg-void) 94%, transparent)",
               borderColor: "color-mix(in oklch, var(--energy-primary) 25%, transparent)",
-              boxShadow: "0 0 60px color-mix(in oklch, var(--energy-primary) 15%, transparent)",
+              boxShadow: "0 0 var(--space-2xl) color-mix(in oklch, var(--energy-primary) 15%, transparent)",
             }}
             onClick={(e) => e.stopPropagation()}
             role="dialog"

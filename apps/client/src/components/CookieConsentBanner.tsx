@@ -86,10 +86,14 @@ export function CookieConsentBanner() {
       </h2>
       <p id="cookie-consent-body" style={{ fontSize: 14, lineHeight: 1.4 }}>
         Loredex OS uses cookies for essential session login. With your
-        consent, we also collect anonymous gameplay analytics to improve
-        balance and detect bugs. See our{" "}
-        <a href="/legal/privacy" style={{ textDecoration: "underline" }}>
+        consent, we also collect pseudonymous gameplay analytics to
+        improve balance and detect bugs. See our{" "}
+        <a href="/privacy" style={{ textDecoration: "underline" }}>
           Privacy Policy
+        </a>{" "}
+        and{" "}
+        <a href="/cookies" style={{ textDecoration: "underline" }}>
+          Cookie Policy
         </a>
         .
       </p>

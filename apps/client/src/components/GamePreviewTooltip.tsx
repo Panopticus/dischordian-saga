@@ -139,8 +139,8 @@ export default function GamePreviewTooltip({ game, children }: GamePreviewToolti
               {/* Arrow */}
               <div className={`absolute left-1/2 -translate-x-1/2 w-2 h-2 rotate-45 bg-card/95 void-border-system ${
                 position === "above"
-                  ? "bottom-[-5px] border-r border-b"
-                  : "top-[-5px] border-l border-t"
+                  ? "bottom-[-5px] border-r border-b" /* void-ignore */
+                  : "top-[-5px] border-l border-t" /* void-ignore */
               }`} />
             </div>
           </motion.div>

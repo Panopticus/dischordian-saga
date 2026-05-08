@@ -8,7 +8,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
-import { assetUrl } from "../../../../../client/src/lib/assetUrl";
+import { assetUrl } from "@shared/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_055" as CardDefinition["id"],
   name: "Thought Censor",
@@ -40,6 +40,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "She does not burn books. She burns the desire to read them.",
   rulesVersion: "1.1.0",
-  trial_categories: ["defensive"] as const,
+  trial_categories: ["confession", "defensive"] as const,
   verdict_delta: 1,
 };

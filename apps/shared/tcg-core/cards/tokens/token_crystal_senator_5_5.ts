@@ -10,7 +10,7 @@
  */
 import type { CardDefinition } from "../../index";
 
-import { assetUrl } from "../../../../client/src/lib/assetUrl";
+import { assetUrl } from "@shared/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "token_crystal_senator_5_5" as CardDefinition["id"],
   name: "Crystal Senator",

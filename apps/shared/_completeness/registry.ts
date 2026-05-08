@@ -28,6 +28,8 @@ import { checkMobileWiring } from "./checks/mobileWiring";
 import { checkListVirtualizationAdoption } from "./checks/listVirtualizationAdoption";
 import { checkAssetPrefetchManifest } from "./checks/assetPrefetchManifest";
 import { checkProcedureRateLimits } from "./checks/procedureRateLimits";
+import { checkVoidContrastCoverage } from "./checks/voidContrastCoverage";
+import { checkCardFlavorQuality } from "./checks/cardFlavorQuality";
 import { checkGlobalAlignmentMeter } from "./checks/globalAlignmentMeter";
 import { checkMobileNarratorAdoption } from "./checks/mobileNarratorAdoption";
 import { checkShadowTongueRoomCoverage } from "./checks/shadowTongueRoomCoverage";
@@ -36,6 +38,10 @@ import { checkDeclaredSubsystemRuntime } from "./checks/declaredSubsystemRuntime
 import { checkGovernanceRouterPresence } from "./checks/governanceRouterPresence";
 import { checkSchemaOrphanColumns } from "./checks/schemaOrphanColumns";
 import { checkNotificationEnumProducers } from "./checks/notificationEnumProducers";
+import { checkWovenSystemRippleCoverage } from "./checks/wovenSystemRippleCoverage";
+import { checkYearlyEventRuntime } from "./checks/yearlyEventRuntime";
+import { checkSevenSealRuntime } from "./checks/sevenSealRuntime";
+import { checkMiniDlcFiveSystemCoverage } from "./checks/miniDlcFiveSystemCoverage";
 
 export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
   // ─── Card engine ──────────────────────────────────────────
@@ -187,6 +193,32 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
       "docs/built/LORE_BIBLE.md exactly matches scripts/generate-lore-bible.ts output from apps/client/src/data/loredex-data.json. The MD is a generated artifact; loredex-data.json is canonical.",
     check: () => checkLoreBibleDrift(),
   },
+  // ─── Accessibility ────────────────────────────────────────
+  {
+    // audit/07.F5 — Void Energy fg/bg token pairs must hit WCAG AA
+    // contrast. Currently a RATCHET starting at the worst case
+    // (zero pairs measured) — populated by scripts/audit-contrast.ts
+    // (planned) which renders the page in headless Chrome and reads
+    // computed colours.
+    id: "a11y.void_contrast_coverage",
+    name: "Void Energy contrast coverage",
+    description:
+      "Every fg/bg pair in apps/shared/_completeness/checks/voidContrastCoverage.ts TOKEN_PAIRS has a measured WCAG contrast ratio above its threshold (≥4.5 for normal text, ≥3 for large).",
+    check: () => checkVoidContrastCoverage(),
+    ratchet: { target: 0 },
+  },
+  // ─── Content quality ──────────────────────────────────────
+  {
+    // audit/11.F4 — sweep boilerplate "Of the X." / "Outside every
+    // faction…" placeholder flavors. Wave 3.3 closed 409; class/
+    // imprint/allegiance lines remain.
+    id: "content.card_flavor_quality",
+    name: "Card flavor-text quality",
+    description:
+      "Every card with flavorText has length ≥20 and does not match a known boilerplate template (see apps/shared/_completeness/checks/cardFlavorQuality.ts BOILERPLATE_PATTERNS).",
+    check: () => checkCardFlavorQuality(),
+    ratchet: { target: 0 },
+  },
   // ─── Narrative — designs the gate did not previously cover ───
   // Added 2026-05-08 alongside docs/design/INCOMPLETE_DESIGNS_AUDIT_2026-05-08.md.
   // Each entry surfaces a documented design that lacks runtime — the
@@ -257,6 +289,41 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     description:
       "Every variant in the notifications.type enum must have at least one `type: \"<variant>\"` writer in apps/server/. Catches enum members the engine renders for but the server never emits.",
     check: () => checkNotificationEnumProducers(),
+    ratchet: { target: 0 },
+  },
+  // ─── World — woven-systems integration (the Two-Ripple Rule) ──
+  // Added 2026-05-08 alongside docs/design/INCOMPLETE_DESIGNS_AUDIT
+  // follow-up. WOVEN_SYSTEMS registry declares 17 surfaces; ripple-
+  // engine wiring is audited per declared emit.
+  {
+    id: "world.woven_two_ripple_rule",
+    name: "Woven systems Two-Ripple Rule",
+    description:
+      "Every WovenSystem.primaryEmits event must have ≥ 2 cross-system handler registrations in rippleEngine.ts carrying a `// woven: <fromId> -> <toId>` comment. Lands at RATCHET; closes when wovenOn() helper + handler tagging catches up to the 17-system registry.",
+    check: () => checkWovenSystemRippleCoverage(),
+    ratchet: { target: 0 },
+  },
+  {
+    id: "world.yearly_event_runtime",
+    name: "Yearly event runtime",
+    description:
+      "The four canonical yearly anchors (Foundation Day, Severance, Mechronis Festival, Memorial Day) require shared definition + server router + scheduler service + DB schema. Lands at RATCHET — only the shared definition exists today.",
+    check: () => checkYearlyEventRuntime(),
+    ratchet: { target: 0 },
+  },
+  {
+    id: "narrative.seven_seal_runtime",
+    name: "Seven Seals canon",
+    description:
+      "Hard parity on the seven-seals data structure: 7 entries, seals I–IV bind to the four horsemen in order, seals IV/V declare unlocksYearly, every seal carries a non-empty fallSummary. The actual epigraph prose is content authored separately.",
+    check: () => checkSevenSealRuntime(),
+  },
+  {
+    id: "narrative.mini_dlc_five_system_coverage",
+    name: "Mini-DLC five-system coverage",
+    description:
+      "Every mini-DLC manifest under apps/shared/dlc/chapters/**/manifest.ts must declare the five required refs (mystery seed, transmission track, custom item, guild contract, governance motion). Lands at RATCHET; back-catalog manifests need backfill in a follow-up.",
+    check: () => checkMiniDlcFiveSystemCoverage(),
     ratchet: { target: 0 },
   },
 ];

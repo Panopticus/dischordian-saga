@@ -5,6 +5,7 @@ import { z } from "zod";
 import { logger } from "../logger";
 import { eq, and, or, desc, sql } from "drizzle-orm";
 import { protectedProcedure, router } from "../_core/trpc";
+import { procedureRateLimit } from "../_core/procedureRateLimit";
 import { getDb } from "../db";
 import { trackTradeComplete, trackCollectionSize } from "../achievementTracker";
 import { cardTrades, userCards, dreamBalance, users, notifications } from "../../db/schema";
@@ -15,6 +16,7 @@ const tradeCardSchema = z.object({ cardId: z.string(), quantity: z.number().min(
 export const tradingRouter = router({
   /** Create a trade offer */
   createOffer: protectedProcedure
+    .use(procedureRateLimit({ windowMs: 60_000, max: 20 }))
     .input(z.object({
       receiverId: z.number(),
       senderCards: z.array(tradeCardSchema).min(0),
@@ -69,6 +71,7 @@ export const tradingRouter = router({
     }),
   /** Accept a trade offer */
   acceptTrade: protectedProcedure
+    .use(procedureRateLimit({ windowMs: 60_000, max: 30 }))
     .input(z.object({ tradeId: z.number() }))
     .mutation(async ({ ctx, input }) => {
       const db = await getDb();
@@ -192,6 +195,7 @@ export const tradingRouter = router({
    * field so the UI can render the negotiation chain.
    */
   counterOffer: protectedProcedure
+    .use(procedureRateLimit({ windowMs: 60_000, max: 30 }))
     .input(z.object({
       tradeId: z.number(),
       senderCards: z.array(tradeCardSchema).min(0),
@@ -268,6 +272,7 @@ export const tradingRouter = router({
 
   /** Decline a trade offer */
   declineTrade: protectedProcedure
+    .use(procedureRateLimit({ windowMs: 60_000, max: 30 }))
     .input(z.object({ tradeId: z.number() }))
     .mutation(async ({ ctx, input }) => {
       const db = await getDb();
@@ -282,6 +287,20 @@ export const tradingRouter = router({
 
       const newStatus = trade.senderId === ctx.user.id ? "cancelled" : "declined";
       await db.update(cardTrades).set({ status: newStatus as any }).where(eq(cardTrades.id, input.tradeId));
+
+      // If the receiver declined, notify the sender so they know the
+      // trade was rejected. Cancellations (sender pulling their own
+      // offer) skip the notification since the sender already knows.
+      if (newStatus === "declined") {
+        db.insert(notifications).values({
+          userId: trade.senderId,
+          type: "trade_declined",
+          title: "Trade Declined",
+          message: `${ctx.user.name || "An operative"} declined your trade offer.`,
+          actionUrl: "/trading",
+          metadata: { tradeId: input.tradeId },
+        }).catch(e => logger.error("[Trading] trade_declined notification failed:", e));
+      }
 
       return { success: true };
     }),

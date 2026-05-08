@@ -134,13 +134,13 @@ export default function StorePage() {
                 <div className="flex items-center gap-1.5 px-2 sm:px-3 py-1 sm:py-1.5 rounded-md void-bg-system border void-border-system">
                   <Gem size={12} className="void-text-system" />
                   <span className="font-mono text-xs sm:text-sm void-text-system">{dreamBalance.dreamTokens}</span>
-                  <span className="font-mono text-[9px] sm:text-[10px] void-text-system">DREAM</span>
+                  <span className="font-mono text-[9px] sm:text-[10px] void-text-system">DREAM</span> {/* void-ignore — micro currency label */}
                 </div>
                 {dreamBalance.soulBoundDream > 0 && (
                   <div className="flex items-center gap-1.5 px-2 sm:px-3 py-1 sm:py-1.5 rounded-md void-bg-error border void-border-error">
                     <Crown size={12} className="void-text-error" />
                     <span className="font-mono text-xs sm:text-sm void-text-error">{dreamBalance.soulBoundDream}</span>
-                    <span className="font-mono text-[9px] sm:text-[10px] void-text-error">SOUL</span>
+                    <span className="font-mono text-[9px] sm:text-[10px] void-text-error">SOUL</span> {/* void-ignore — micro currency label */}
                   </div>
                 )}
               </div>
@@ -390,23 +390,23 @@ export default function StorePage() {
               PURCHASE HISTORY
             </h2>
             <div className="void-surface overflow-x-auto">
-              <table className="w-full min-w-[320px]">
+              <table className="w-full min-w-[320px]"> {/* void-ignore — table minimum width for horizontal scroll */}
                 <thead>
                   <tr className="border-b border-border/20">
-                    <th className="text-left font-mono text-[9px] sm:text-[10px] text-muted-foreground tracking-wider p-2 sm:p-3">ITEM</th>
-                    <th className="text-left font-mono text-[9px] sm:text-[10px] text-muted-foreground tracking-wider p-2 sm:p-3">METHOD</th>
-                    <th className="text-left font-mono text-[9px] sm:text-[10px] text-muted-foreground tracking-wider p-2 sm:p-3 hidden sm:table-cell">QTY</th>
-                    <th className="text-left font-mono text-[9px] sm:text-[10px] text-muted-foreground tracking-wider p-2 sm:p-3">DATE</th>
+                    <th className="text-left font-mono text-[9px] sm:text-[10px] text-muted-foreground tracking-wider p-2 sm:p-3">ITEM</th> {/* void-ignore — micro table header */}
+                    <th className="text-left font-mono text-[9px] sm:text-[10px] text-muted-foreground tracking-wider p-2 sm:p-3">METHOD</th> {/* void-ignore — micro table header */}
+                    <th className="text-left font-mono text-[9px] sm:text-[10px] text-muted-foreground tracking-wider p-2 sm:p-3 hidden sm:table-cell">QTY</th> {/* void-ignore — micro table header */}
+                    <th className="text-left font-mono text-[9px] sm:text-[10px] text-muted-foreground tracking-wider p-2 sm:p-3">DATE</th> {/* void-ignore — micro table header */}
                   </tr>
                 </thead>
                 <tbody>
                   {purchases.slice(0, 20).map((p, i) => (
                     <tr key={i} className="border-b border-border/10 last:border-0">
-                      <td className="p-2 sm:p-3 font-mono text-[10px] sm:text-xs text-foreground max-w-[120px] truncate">
+                      <td className="p-2 sm:p-3 font-mono text-[10px] sm:text-xs text-foreground max-w-[120px] truncate"> {/* void-ignore — table cell typography */}
                         {p.product?.name || p.productKey}
                       </td>
                       <td className="p-2 sm:p-3">
-                        <span className={`font-mono text-[9px] sm:text-[10px] px-1 sm:px-1.5 py-0.5 rounded ${
+                        <span className={`font-mono text-[9px] sm:text-[10px] px-1 sm:px-1.5 py-0.5 rounded ${ /* void-ignore — payment-method micro pill */
                           p.paymentMethod === "stripe" ? "void-bg-sunk void-text-energy" :
                           p.paymentMethod === "dream" ? "void-bg-system void-text-system" :
                           "void-bg-sunk void-text-accent"
@@ -415,7 +415,7 @@ export default function StorePage() {
                         </span>
                       </td>
                       <td className="p-2 sm:p-3 font-mono text-xs text-muted-foreground hidden sm:table-cell">{p.quantity}</td>
-                      <td className="p-2 sm:p-3 font-mono text-[9px] sm:text-[10px] text-muted-foreground">
+                      <td className="p-2 sm:p-3 font-mono text-[9px] sm:text-[10px] text-muted-foreground"> {/* void-ignore — table cell timestamp */}
                         {p.createdAt ? new Date(p.createdAt).toLocaleDateString() : "—"}
                       </td>
                     </tr>

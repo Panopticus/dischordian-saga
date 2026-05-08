@@ -105,9 +105,9 @@ export function ClassMasteryPanel() {
             <div
               className={`h-full rounded-full transition-all duration-500 ${
                 mastery.masteryRank >= 5
-                  ? "bg-gradient-to-r from-red-500 to-amber-500"
+                  ? "bg-gradient-to-r void-bg-error"
                   : mastery.masteryRank >= 3
-                  ? "bg-gradient-to-r from-purple-500 to-blue-500"
+                  ? "bg-gradient-to-r void-bg-system"
                   : "bg-gradient-to-r from-primary to-accent"
               }`}
               style={{ width: `${xpPercent}%` }}

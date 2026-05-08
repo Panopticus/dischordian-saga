@@ -85,14 +85,14 @@ export function pickBestPlay<P>(
   return scoreCandidates(candidates)[0]?.candidate ?? null;
 }
 
-/** Convenience: epsilon-greedy pick — `epsilon` of the time,
- *  pick a random candidate (so the AI isn't strictly
- *  deterministic vs a memorising player). Pass a seedable
- *  rng for tests. */
+/** Epsilon-greedy pick. `rng` is required: pass an Rng from the engine's
+ *  seeded RNG (engine/rng.ts) so AI decisions are reproducible from
+ *  (seed, action log). Math.random was previously the default — that
+ *  silently escaped the determinism contract. */
 export function pickEpsilonGreedy<P>(
   candidates: ReadonlyArray<CandidatePlay<P>>,
   epsilon: number,
-  rng: () => number = Math.random,
+  rng: () => number,
 ): CandidatePlay<P> | null {
   if (candidates.length === 0) return null;
   if (rng() < epsilon) {

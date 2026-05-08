@@ -1,0 +1,30 @@
+## Counts
+TS/TSX files in apps/: 3379
+Test files: 704
+TODO/FIXME/HACK markers: 130
+as any: 404
+ts-ignore/expect-error: 44
+publicProcedure: 199
+procedureRateLimit: 22
+references() FKs: 6
+Math.random in tcg-core: 4
+Hardcoded dgrsart S3 URLs: 46
+aria-* attributes: 411
+
+## Corrections after ground-truthing
+publicProcedure: 199 (raw count includes definitions, not unique procedures)
+procedureRateLimit() callsites on tRPC procedures: 4 (account.ts × 1, cardGame.ts × 2, store.ts × 1) — vs 199 publicProcedure
+Hardcoded CDN URL hosts in code:
+  - https://d2xsxph8kpxj0f.cloudfront.net : 1458 occurrences  ← assetUrl() is bypassed at massive scale
+  - https://dgrsart.s3.us-east-2.amazonaws.com : 44
+  - https://dgrsvoices.s3.us-east-2.amazonaws.com : 11
+
+## Ratchet ground truth (apps/shared/_completeness/ratchet-state.json)
+tcg.trigger_kind_coverage: 0
+tcg.keyword_behavior_coverage: 0
+tcg.unlock_condition_ui_coverage: 0
+tcg.card_stat_budget_coverage: 0
+tcg.narrative_flag_bridge_coverage: 0
+tcg.trial_category_coverage: 0
+db.foreign_key_coverage: 301
+db.economic_transaction_coverage: 12

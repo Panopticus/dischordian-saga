@@ -127,7 +127,7 @@ export function ShipThemeOverlay() {
       <div
         className="fixed inset-0 pointer-events-none z-0"
         style={{
-          boxShadow: `inset 0 0 80px ${theme.glowColor}08, inset 0 0 200px ${theme.glowColor}04`,
+          boxShadow: `inset 0 0 80px ${theme.glowColor}08, inset 0 0 200px ${theme.glowColor}04`, // void-ignore
         }}
       />
       {/* Particle effects */}

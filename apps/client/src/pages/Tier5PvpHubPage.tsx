@@ -309,7 +309,7 @@ function SkirmishTab() {
                         o === "guild_a"
                           ? "border-primary/40 text-primary bg-primary/5"
                           : o === "guild_b"
-                            ? "border-amber-400/40 text-amber-400 bg-amber-400/5"
+                            ? "void-border void-text-accent void-bg-sunk"
                             : "border-border/40 text-muted-foreground"
                       }`}
                     >

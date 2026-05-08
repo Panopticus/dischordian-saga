@@ -15,7 +15,7 @@
      f1_onboarding · f2_daily · f2_emotes · f3_combat · f4_abilities · f5_guild_hall
    ═══════════════════════════════════════════════════════ */
 
-import { assetUrl } from "../../client/src/lib/assetUrl";
+import { assetUrl } from "@shared/lib/assetUrl";
 import { makeAssetManifest } from "./_assetManifest";
 
 export type GuildCutsceneCategory =

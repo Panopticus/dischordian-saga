@@ -6,7 +6,10 @@ import { bigint, boolean, int, json, mysqlEnum, mysqlTable, text, timestamp, var
 export const users = mysqlTable("users", {
   id: int("id").autoincrement().primaryKey(),
   openId: varchar("openId", { length: 64 }).notNull().unique(),
-  name: text("name"),
+  // Bounded varchar so a malicious caller can't paste megabytes of
+  // data into a display-name field. Any sane username fits in 256
+  // characters; downstream UI was already assuming short strings.
+  name: varchar("name", { length: 256 }),
   email: varchar("email", { length: 320 }),
   loginMethod: varchar("loginMethod", { length: 64 }),
   role: mysqlEnum("role", ["user", "moderator", "admin"]).default("user").notNull(),
@@ -21,10 +24,30 @@ export const users = mysqlTable("users", {
   installSource: varchar("installSource", { length: 32 }),
   /** A/B variant assignment at signup (e.g. "tutorial-v2:control"). */
   abVariant: varchar("abVariant", { length: 64 }),
+
+  // ─── Age verification (audit/15.R4 — COPPA + GDPR-K) ────────────
+  /** Self-attested date of birth, ISO yyyy-MM-dd. Required to use
+   *  the app; null until the AgeVerifyPage is completed. We store
+   *  the raw date (not a derived "is_adult" boolean) so geo-policy
+   *  changes can be re-evaluated without re-asking the user. */
+  dateOfBirth: varchar("dateOfBirth", { length: 10 }),
+  /** ISO 3166-1 alpha-2 country code captured at age-verification
+   *  time. Used to apply the EU 16+ minimum vs the global 13+
+   *  minimum. Sourced from CF-IPCountry / X-Forwarded-Country with
+   *  fallback to remote-address GeoIP. */
+  ageVerificationCountry: varchar("ageVerificationCountry", { length: 2 }),
+  /** Timestamp of the age-verification submission. The presence of
+   *  this field is the gate the protected routes check; null →
+   *  redirect to /age-verify. */
+  ageVerifiedAt: timestamp("ageVerifiedAt"),
 }, (table) => ({
   createdAtIdx: index("idx_users_created_at").on(table.createdAt),
   lastSignedInIdx: index("idx_users_last_signed_in").on(table.lastSignedIn),
   signupWeekIdx: index("idx_users_signup_week").on(table.signupWeek),
+  emailIdx: uniqueIndex("uq_users_email").on(table.email),
+  // Lookup queries on the age-verify gate; small index but the
+  // protected-route middleware reads ageVerifiedAt on every request.
+  ageVerifiedIdx: index("idx_users_age_verified").on(table.ageVerifiedAt),
 }));
 
 export type User = typeof users.$inferSelect;
@@ -469,8 +492,6 @@ export const characterSheets = mysqlTable("character_sheets", {
   activeShipTheme: varchar("activeShipTheme", { length: 128 }),
   /** Active character theme ID (from morality unlockables) */
   activeCharacterTheme: varchar("activeCharacterTheme", { length: 128 }),
-  /** Avatar/portrait URL */
-  avatarUrl: text("avatarUrl"),
   /** Equipped items JSON */
   equipment: json("equipment").$type<Record<string, unknown>>(),
   /** Unlocked abilities */
@@ -727,6 +748,9 @@ export const craftingLog = mysqlTable("crafting_log", {
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 }, (table) => ({
   userIdIdx: index("idx_crafting_log_user_id").on(table.userId),
+  // Composite index landed via migration 0067 — declared here so a
+  // db:push against a divergent dev DB doesn't propose dropping it.
+  userCreatedIdx: index("idx_crafting_log_user_created").on(table.userId, table.createdAt),
 }));
 
 export type CraftingLog = typeof craftingLog.$inferSelect;
@@ -780,7 +804,7 @@ export const citizenCharacters = mysqlTable("citizen_characters", {
    */
   suitMaterials: json("suitMaterials").$type<Record<string, number>>(),
   /** If species=neyon, which specific Ne-Yon token ID (1-10) this citizen is tied to */
-  neyonTokenId: int("neyonTokenId"),
+  neyonTokenId: int("neyonTokenId").references(() => users.id, { onDelete: "set null" }),
   /** Is this the player's primary (free) citizen? */
   isPrimary: int("isPrimary").notNull().default(1),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
@@ -1230,7 +1254,12 @@ export const pvpLeaderboard = mysqlTable("pvp_leaderboard", {
   lastDecayAt: timestamp("lastDecayAt"),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
-});
+}, (table) => ({
+  // Speeds the time-windowed sandbagging-detection scan landed via
+  // migration 0067. Declared here so a db:push diff doesn't propose
+  // dropping it.
+  lastMatchAtIdx: index("idx_pvp_lb_last_match_at").on(table.lastMatchAt),
+}));
 
 export type PvpLeaderboard = typeof pvpLeaderboard.$inferSelect;
 export type InsertPvpLeaderboard = typeof pvpLeaderboard.$inferInsert;
@@ -1414,6 +1443,9 @@ export const cardTrades = mysqlTable("card_trades", {
 }, (table) => ({
   senderIdIdx: index("idx_card_trades_sender_id").on(table.senderId),
   receiverIdIdx: index("idx_card_trades_receiver_id").on(table.receiverId),
+  // audit/03.F5 — composite (senderId,receiverId) lives in 0067_indexes_and_fks.sql
+  // but had no Drizzle declaration; pnpm db:push would propose dropping it. Mirror it here.
+  pairIdx: index("idx_card_trades_pair").on(table.senderId, table.receiverId),
 }));
 export type CardTrade = typeof cardTrades.$inferSelect;
 export type InsertCardTrade = typeof cardTrades.$inferInsert;
@@ -1577,6 +1609,15 @@ export const marketListings = mysqlTable("market_listings", {
   createdAtIdx: index("idx_market_listings_created_at").on(table.createdAt),
   statusIdx: index("idx_market_listings_status").on(table.status),
   sellerIdIdx: index("idx_market_listings_seller_id").on(table.sellerId),
+  // audit/04.F4 — marketplace.searchListings filters on (status,
+  // itemType, createdAt). The status-only index above forced a
+  // filesort + leading-wildcard LIKE scan on every page. The
+  // composite covers the hot path; itemName needs a FULLTEXT in a
+  // follow-up migration (Drizzle's MySQL adapter doesn't expose
+  // FULLTEXT yet, so we rely on a manual `ALTER TABLE … ADD
+  // FULLTEXT` once db:migrate flow stabilises).
+  statusItemCreatedIdx: index("idx_market_listings_status_item_created")
+    .on(table.status, table.itemType, table.createdAt),
 }));
 export type MarketListing = typeof marketListings.$inferSelect;
 
@@ -1777,7 +1818,7 @@ export const notifications = mysqlTable("notifications", {
     "market_sold", "market_buy_filled",
     "faction_war", "guild_invite", "guild_message", "guild_war_victory",
     "daily_reset", "daily_login", "quest_complete", "weekly_quest", "epoch_quest",
-    "achievement", "battle_pass_reward", "syndicate_quest",
+    "achievement", "battle_pass_reward",
     "boss_mastery", "seasonal_event", "recruitment",
     "system",
     // ── Ripple-engine narrative notifications (server/services/rippleEngine.ts) ──
@@ -3754,6 +3795,10 @@ export const analyticsEvents = mysqlTable("analytics_events", {
   idxUserId: index("idx_analytics_user").on(table.userId),
   idxEvent: index("idx_analytics_event").on(table.event),
   idxCreatedAt: index("idx_analytics_created").on(table.createdAt),
+  // Composite landed via migration 0067 — dashboards group by event
+  // name within a time window. Declared here so db:push doesn't
+  // propose dropping it.
+  idxEventCreated: index("idx_analytics_events_name_created").on(table.event, table.createdAt),
 }));
 
 /* ═══════════════════════════════════════════════════════
@@ -7162,3 +7207,236 @@ export const convergenceClimaxState = mysqlTable("convergence_climax_state", {
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });
 export type ConvergenceClimaxStateRow = typeof convergenceClimaxState.$inferSelect;
+
+/**
+ * Trade Empire — Coda Agency mission loop, vertical slice.
+ *
+ * Per `docs/design/CANON_REV_7_ORACLE_VEX_EXPANSION.md` §2 (The Coda)
+ * and `docs/design/INCOMPLETE_DESIGNS_AUDIT_2026-05-08.md` §6 item 1:
+ * the Coda Agency mission system is the lateral overlay on Trade
+ * Empire that delivers the Vex Solène / Engineer Zero reveal cadence.
+ * This first slice ships a single working flow — browse → accept →
+ * complete → reward — backed by a small typed catalog
+ * (`apps/shared/tradeMissionCatalog.ts`).
+ */
+export const tradeMissions = mysqlTable("trade_missions", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  /** Mission catalog id — keys into apps/shared/tradeMissionCatalog.ts. */
+  missionDefId: varchar("missionDefId", { length: 64 }).notNull(),
+  /** lifecycle */
+  status: mysqlEnum("status", [
+    "available", "active", "completed", "failed", "expired",
+  ]).notNull().default("available"),
+  /** Optional Vex/Coda agency id if the mission is faction-aligned. */
+  agencyId: varchar("agencyId", { length: 64 }),
+  /** Server time the mission was offered (for expiry math). */
+  offeredAt: timestamp("offeredAt").defaultNow().notNull(),
+  /** Server time the player accepted (null until accepted). */
+  acceptedAt: timestamp("acceptedAt"),
+  /** Server time the mission completed (null until done). */
+  completedAt: timestamp("completedAt"),
+  /** Reward payload as JSON — credits, dream, cards, narrative flags. */
+  rewardPayload: json("rewardPayload").$type<Record<string, unknown>>(),
+}, (t) => ({
+  byUser: index("byUser").on(t.userId, t.status),
+}));
+export type TradeMissionRow = typeof tradeMissions.$inferSelect;
+
+/**
+ * Per-(user, agencyId) standing tally. Each Coda mission completion
+ * applies +/- standing per its rewardPayload. The CANON Rev 7
+ * `coda_faction_standing` tier table (neutral / client / operative /
+ * lieutenant / inner_circle) is computed from the integer standing
+ * value at read-time; this table just stores the raw points.
+ */
+export const tradeAgencyStanding = mysqlTable("trade_agency_standing", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  agencyId: varchar("agencyId", { length: 64 }).notNull(),
+  standing: int("standing").notNull().default(0),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull().onUpdateNow(),
+}, (t) => ({
+  byUserAgency: uniqueIndex("byUserAgency").on(t.userId, t.agencyId),
+}));
+export type TradeAgencyStandingRow = typeof tradeAgencyStanding.$inferSelect;
+
+/* ─────────────────────────────────────────────────────────────────
+ * GLOBAL ALIGNMENT METER (NARRATIVE_ARCHITECTURE.md §0)
+ * Singleton row tracking the community-wide Light/Dark balance.
+ * Each player contributes their `users.lightAlignment` and
+ * `users.darkAlignment` to the running totals; an hourly cron
+ * recomputes the aggregate. Read by Hierarchy invasion cadence,
+ * Architect-Triggered Events, and the client meter component.
+ * ───────────────────────────────────────────────────────────────── */
+export const globalAlignment = mysqlTable("global_alignment", {
+  id: int("id").autoincrement().primaryKey(),
+  /** Sum of users.lightAlignment across all active players. */
+  lightTotal: int("lightTotal").notNull().default(0),
+  /** Sum of users.darkAlignment across all active players. */
+  darkTotal: int("darkTotal").notNull().default(0),
+  /** Players counted in the last aggregation. */
+  playerCount: int("playerCount").notNull().default(0),
+  /** When the aggregate was last recomputed. */
+  computedAt: timestamp("computedAt").defaultNow().notNull(),
+  /** Phase derived from balance: "light_dominant" / "balanced" / "dark_dominant". */
+  phase: mysqlEnum("phase", ["light_dominant", "balanced", "dark_dominant"]).notNull().default("balanced"),
+});
+export type GlobalAlignmentRow = typeof globalAlignment.$inferSelect;
+
+/* ─────────────────────────────────────────────────────────────────
+ * SOUL STONES (docs/design/SOUL_STONES_SYSTEM.md)
+ * Per-player counts of soul-stone fragments by state. Each stone is
+ * collected as `violet` (neutral), then chosen: corrupt → red, or
+ * purify → gold. Counts feed Demon-Pet summoning (red) and Divine
+ * Light investments (gold). The choice is permanent per stone.
+ * ───────────────────────────────────────────────────────────────── */
+export const soulStones = mysqlTable("soul_stones", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }).unique(),
+  /** Unprocessed stones awaiting a corrupt/purify choice. */
+  violetCount: int("violetCount").notNull().default(0),
+  /** Stones the player corrupted; counts toward demon-pet summoning. */
+  redCount: int("redCount").notNull().default(0),
+  /** Stones the player purified; counts toward divine-light investments. */
+  goldCount: int("goldCount").notNull().default(0),
+  /** Lifetime collection count for Loredex / progression hooks. */
+  lifetimeCollected: int("lifetimeCollected").notNull().default(0),
+  /** Weekly soft-cap accumulator (15/week from combat sources). Reset by cron. */
+  weeklyCollected: int("weeklyCollected").notNull().default(0),
+  /** Last weekly reset boundary (UTC midnight Monday). */
+  weekResetAt: timestamp("weekResetAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().notNull().onUpdateNow(),
+});
+export type SoulStonesRow = typeof soulStones.$inferSelect;
+
+/* ─────────────────────────────────────────────────────────────────
+ * PET BREEDING (docs/production/BREEDING_SYSTEM_ART_PROMPTS.md)
+ * Pair-based breeding: parentA + parentB → offspring with combined
+ * traits. `status` walks queued → incubating → ready → claimed/cancelled.
+ * Offspring stats are computed at completion and stored in the
+ * resolved row for audit reconstruction.
+ * ───────────────────────────────────────────────────────────────── */
+export const petBreedingPairs = mysqlTable("pet_breeding_pairs", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  parentAId: int("parentAId").notNull().references(() => playerPets.id, { onDelete: "cascade" }),
+  parentBId: int("parentBId").notNull().references(() => playerPets.id, { onDelete: "cascade" }),
+  status: mysqlEnum("status", [
+    "queued", "incubating", "ready", "claimed", "cancelled",
+  ]).notNull().default("queued"),
+  /** Server time the pair was queued. */
+  queuedAt: timestamp("queuedAt").defaultNow().notNull(),
+  /** Server time incubation started (null until incubating). */
+  startedAt: timestamp("startedAt"),
+  /** Server time the offspring was ready for claim. */
+  readyAt: timestamp("readyAt"),
+  /** Resolved offspring blueprint (species, element, stat seed). */
+  offspringPayload: json("offspringPayload").$type<Record<string, unknown>>(),
+}, (t) => ({
+  byUserStatus: index("byUserStatus").on(t.userId, t.status),
+}));
+export type PetBreedingPairRow = typeof petBreedingPairs.$inferSelect;
+
+/* ═══════════════════════════════════════════════════════
+   WORLD WEAVE — yearly events, ripple ledger, memorial plaza
+
+   See:
+     - apps/shared/yearlyEvents.ts (canonical defs)
+     - apps/server/services/yearlyEventScheduler.ts (activates / closes)
+     - apps/server/services/rippleLedgerService.ts (ledger writer)
+     - apps/server/services/worldMoodService.ts (reads via player flags)
+   ═══════════════════════════════════════════════════════ */
+
+/**
+ * One row per scheduled yearly event. The scheduler activates rows
+ * on `anchorMonth/anchorDay` and closes them after `durationDays`,
+ * emitting a governance motion via `closingMotionKey` on close.
+ */
+export const yearlyEvents = mysqlTable("yearly_events", {
+  id: int("id").autoincrement().primaryKey(),
+  /** Stable key — see `apps/shared/yearlyEvents.ts` `YearlyEventKey`. */
+  eventKey: varchar("eventKey", { length: 64 }).notNull(),
+  anchorMonth: int("anchorMonth").notNull(), // 1-12
+  anchorDay: int("anchorDay").notNull(),     // 1-31
+  durationDays: int("durationDays").notNull().default(7),
+  /** Composed via closingMotionKeyForYear(key, year). */
+  closingMotionKey: varchar("closingMotionKey", { length: 96 }),
+  /** Year this row represents (e.g. 2026). */
+  activeYear: int("activeYear").notNull(),
+  activatedAt: timestamp("activatedAt"),
+  resolvedAt: timestamp("resolvedAt"),
+  /**
+   * If activation came from a seal-break override (Severance/Memorial),
+   * the seal number that triggered it. NULL = calendar activation.
+   */
+  triggeredBySeal: int("triggeredBySeal"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => ({
+  uniqEventYear: uniqueIndex("uniq_event_year").on(table.eventKey, table.activeYear),
+  idxActivatedAt: index("idx_yearly_events_activated_at").on(table.activatedAt),
+}));
+export type YearlyEventRow = typeof yearlyEvents.$inferSelect;
+export type InsertYearlyEvent = typeof yearlyEvents.$inferInsert;
+
+/** Per-player participation in a yearly event. */
+export const yearlyEventParticipation = mysqlTable("yearly_event_participation", {
+  id: int("id").autoincrement().primaryKey(),
+  eventId: int("eventId").notNull().references(() => yearlyEvents.id, { onDelete: "cascade" }),
+  userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  contribution: int("contribution").notNull().default(0),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => ({
+  uniqEventUser: uniqueIndex("uniq_event_user").on(table.eventId, table.userId),
+  idxUser: index("idx_yep_user").on(table.userId),
+}));
+export type YearlyEventParticipationRow = typeof yearlyEventParticipation.$inferSelect;
+
+/**
+ * Ripple ledger — every cross-system ripple emit is appended here for
+ * the World Tapestry recent-ripples ticker. A daily prune cron drops
+ * rows older than 30 days.
+ */
+export const rippleEvents = mysqlTable("ripple_events", {
+  id: bigint("id", { mode: "number" }).autoincrement().primaryKey(),
+  eventType: varchar("eventType", { length: 96 }).notNull(),
+  userId: int("userId").references(() => users.id, { onDelete: "set null" }),
+  /** WovenSystemId or "none". */
+  fromSystem: varchar("fromSystem", { length: 48 }),
+  /** JSON array of WovenSystemId values. */
+  toSystems: json("toSystems").$type<string[]>(),
+  /** Truncated event body (no PII). */
+  payload: json("payload").$type<Record<string, unknown> | null>(),
+  emittedAt: timestamp("emittedAt").defaultNow().notNull(),
+}, (table) => ({
+  idxEmittedAt: index("idx_ripple_events_emitted_at").on(table.emittedAt),
+  idxUserEmittedAt: index("idx_ripple_events_user_emitted_at").on(table.userId, table.emittedAt),
+  idxEventType: index("idx_ripple_events_event_type").on(table.eventType),
+}));
+export type RippleEventRow = typeof rippleEvents.$inferSelect;
+export type InsertRippleEvent = typeof rippleEvents.$inferInsert;
+
+/**
+ * Memorial Plaza inscriptions (Phase 5 / Seal V). Each player can
+ * inscribe one imprint name per Memorial Day; high-tier donors can
+ * inscribe to the global plaza visible to every player.
+ */
+export const memorialInscriptions = mysqlTable("memorial_inscriptions", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  /** Free-form imprint name as inscribed. */
+  inscribedName: varchar("inscribedName", { length: 120 }).notNull(),
+  /** Year of the Memorial Day this inscription belongs to. */
+  memorialYear: int("memorialYear").notNull(),
+  /**
+   * "personal" — visible only on this player's quarters
+   * "global"   — visible everywhere; reserved for top donors
+   */
+  scope: mysqlEnum("scope", ["personal", "global"]).notNull().default("personal"),
+  inscribedAt: timestamp("inscribedAt").defaultNow().notNull(),
+}, (table) => ({
+  uniqUserYear: uniqueIndex("uniq_memorial_user_year").on(table.userId, table.memorialYear, table.inscribedName),
+  idxYearScope: index("idx_memorial_year_scope").on(table.memorialYear, table.scope),
+}));
+export type MemorialInscriptionRow = typeof memorialInscriptions.$inferSelect;
+export type InsertMemorialInscription = typeof memorialInscriptions.$inferInsert;

@@ -83,7 +83,7 @@ export default function SpendingDashboard({
         className="w-full max-w-md bg-black/95 border void-border rounded-2xl overflow-hidden max-h-[85vh] flex flex-col"
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-4 py-3 border-b void-border bg-gradient-to-r from-amber-500/10 to-transparent">
+        <div className="flex items-center justify-between px-4 py-3 border-b void-border void-bg-sunk">
           <div className="flex items-center gap-2">
             <DollarSign size={18} className="void-text-accent" />
             <h2 className="font-display text-lg tracking-[0.2em] void-text-accent">

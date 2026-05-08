@@ -110,7 +110,7 @@ export function CrewHolidayFeed({ playerName = "Captain", limit = 6 }: CrewHolid
     <div className="space-y-3">
       {/* Primary crew activity feed (existing) */}
       {entries.length > 0 && (
-        <div className="bg-gradient-to-br from-red-950/20 via-green-950/20 to-amber-950/20 border void-border rounded-xl p-4">
+        <div className="void-bg-sunk border void-border rounded-xl p-4">
           <div className="flex items-center gap-2 mb-3">
             <Users className="w-4 h-4 void-text-accent" />
             <span className="font-display text-sm void-text-accent">Crew Holiday Chatter</span>
@@ -150,7 +150,7 @@ export function CrewHolidayFeed({ playerName = "Captain", limit = 6 }: CrewHolid
 
       {/* Crew-to-crew gift exchanges — autonomous ticker */}
       {exchanges.length > 0 && (
-        <div className="bg-gradient-to-br from-amber-950/20 to-red-950/20 border void-border rounded-xl p-4">
+        <div className="void-bg-sunk border void-border rounded-xl p-4">
           <div className="flex items-center gap-2 mb-3">
             <Gift className="w-4 h-4 void-text-accent" />
             <span className="font-display text-sm void-text-accent">Crew Gift Exchange</span>

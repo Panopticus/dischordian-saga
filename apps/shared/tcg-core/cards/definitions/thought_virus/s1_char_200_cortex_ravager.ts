@@ -14,7 +14,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
-import { assetUrl } from "../../../../../client/src/lib/assetUrl";
+import { assetUrl } from "@shared/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_200" as CardDefinition["id"],
   name: "Cortex Ravager",
@@ -40,6 +40,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "It does not speak. It does not need to. Every blow is a sentence erased from your memory.",
   rulesVersion: "1.1.0",
-  trial_categories: ["evidence"] as const,
+  trial_categories: ["confession", "evidence", "reactive"] as const,
   verdict_delta: 1,
 };

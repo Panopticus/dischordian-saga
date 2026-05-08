@@ -66,7 +66,7 @@ export default function DailyRewards({
         className="w-full max-w-md bg-black/95 border void-border rounded-2xl overflow-hidden"
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-4 py-3 border-b void-border bg-gradient-to-r from-amber-500/10 to-transparent">
+        <div className="flex items-center justify-between px-4 py-3 border-b void-border void-bg-sunk">
           <div className="flex items-center gap-2">
             <Gift size={18} className="void-text-accent" />
             <h2 className="font-display text-lg tracking-[0.2em] void-text-accent">DAILY REWARDS</h2>
@@ -80,7 +80,7 @@ export default function DailyRewards({
             DAY {currentDay} OF {cycleLength} — STREAK {streak}
           </p>
           <div className="w-full h-1.5 rounded-full bg-white/5 mt-2 overflow-hidden">
-            <div className="h-full rounded-full bg-gradient-to-r from-amber-500 to-amber-400"
+            <div className="h-full rounded-full void-bg-success"
               style={{ width: `${(currentDay / cycleLength) * 100}%` }} />
           </div>
         </div>

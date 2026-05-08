@@ -224,7 +224,7 @@ export default function NarrativeTrigger({
             <div className={`absolute top-0 left-0 right-0 h-0.5 ${
               nextAct.act <= 3
                 ? "bg-gradient-to-r from-transparent via-primary to-transparent"
-                : "bg-gradient-to-r from-transparent via-red-500 to-transparent"
+                : "void-bg-error"
             }`} />
 
             <div className="flex items-center gap-3 px-4 py-3">

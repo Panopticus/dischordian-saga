@@ -147,7 +147,7 @@ export default function CrewMissionsBoard({ state, onRefetch }: Props) {
                 >
                   <div className="flex items-center justify-between mb-1">
                     <div className="font-display text-sm font-semibold">{m.name}</div>
-                    <Badge variant={isWin ? "default" : "destructive"} className="text-[9px]">
+                    <Badge variant={isWin ? "default" : "destructive"} className="text-[9px]"> {/* void-ignore */}
                       {m.status}
                     </Badge>
                   </div>

@@ -9,7 +9,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
-import { assetUrl } from "../../../../../client/src/lib/assetUrl";
+import { assetUrl } from "@shared/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_070" as CardDefinition["id"],
   name: "Patient Zero",
@@ -18,7 +18,7 @@ export const cardDef: CardDefinition = {
   rarity: "legendary",
   cost: 7,
   baseStats: { power: 8, health: 9 },
-  keywords: ["deathwatch", "drain"],
+  keywords: ["drain"],
   abilities: [
     {
       id: "pz_deathwatch_drain" as CardDefinition["abilities"][number]["id"],
@@ -35,8 +35,7 @@ export const cardDef: CardDefinition = {
             op: "heal",
             amount: { kind: "const", value: 1 },
             to: { kind: "self" },
-          },
-        ],
+          }],
       },
     },
     {
@@ -47,8 +46,7 @@ export const cardDef: CardDefinition = {
         amount: { kind: "const", value: 2 },
         to: { kind: "friendly_general" },
       },
-    },
-  ],
+    }],
   art: assetUrl("art/cards/s1_char_070.webp"),
   flavorText:
     "The first mind to crack open and let the signal through. Every infection since has been an echo of that original scream.",

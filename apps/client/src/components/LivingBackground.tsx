@@ -147,7 +147,7 @@ export default function LivingBackground({
         }
         @keyframes lb-particle-${uid} {
           0%, 100% { transform: translateY(0) translateX(0); opacity: 0.1; }
-          50% { transform: translateY(-25px) translateX(8px); opacity: 0.35; }
+          50% { transform: translateY(-25px) translateX(8px); opacity: 0.35; } /* void-ignore */
         }
         .lb-drift-${uid} { animation: lb-drift-${uid} ${driftSpeed}s ease-in-out infinite; }
         .lb-pulse-${uid} { animation: lb-pulse-${uid} ${pulseSpeed}s ease-in-out infinite; }

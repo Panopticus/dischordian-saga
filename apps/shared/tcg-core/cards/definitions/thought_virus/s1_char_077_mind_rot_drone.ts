@@ -8,7 +8,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
-import { assetUrl } from "../../../../../client/src/lib/assetUrl";
+import { assetUrl } from "@shared/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_char_077" as CardDefinition["id"],
   name: "Mind Rot Drone",
@@ -35,6 +35,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "It circles above the battlefield like a vulture — except it feeds on sanity, not carrion.",
   rulesVersion: "1.1.0",
-  trial_categories: ["reactive"] as const,
+  trial_categories: ["confession", "reactive"] as const,
   verdict_delta: 1,
 };

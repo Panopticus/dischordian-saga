@@ -13,7 +13,7 @@
  * collide with the existing s1_ defs.
  */
 import type { CardDefinition } from "../../../index";
-import { assetUrl } from "../../../../../client/src/lib/assetUrl";
+import { assetUrl } from "@shared/lib/assetUrl";
 
 export const pack2_antiquarian_age_ender: CardDefinition = {
   id: "s1_pack2_antiquarian_age_ender" as CardDefinition["id"],
@@ -26,7 +26,7 @@ export const pack2_antiquarian_age_ender: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/age_ender.webp"),
-  flavorText: "Of the antiquarian.",
+  flavorText: "Reading dead languages is a kind of mercy.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -43,7 +43,7 @@ export const pack2_antiquarian_age_of_reckoning: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/age_of_reckoning.webp"),
-  flavorText: "Of the antiquarian.",
+  flavorText: "We do not preserve. We listen to what was preserved.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -60,7 +60,7 @@ export const pack2_antiquarian_age_of_silence: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/age_of_silence.webp"),
-  flavorText: "Of the antiquarian.",
+  flavorText: "We do not preserve. We listen to what was preserved.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -77,7 +77,7 @@ export const pack2_antiquarian_age_walker: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/age_walker.webp"),
-  flavorText: "Of the antiquarian.",
+  flavorText: "All eras file an archive. All archives are wounds.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -94,7 +94,7 @@ export const pack2_antiquarian_antiquarians_referendum: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/antiquarians_referendum.webp"),
-  flavorText: "Of the antiquarian.",
+  flavorText: "Time leaves fingerprints. We dust them.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -111,7 +111,7 @@ export const pack2_antiquarian_archaeological_dig: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/archaeological_dig.webp"),
-  flavorText: "Of the antiquarian.",
+  flavorText: "We do not preserve. We listen to what was preserved.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -128,7 +128,7 @@ export const pack2_antiquarian_chrono_anchor: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/chrono_anchor.webp"),
-  flavorText: "Of the antiquarian.",
+  flavorText: "Time leaves fingerprints. We dust them.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -145,7 +145,7 @@ export const pack2_antiquarian_chrono_blade: CardDefinition = {
   keywords: ["rush"],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/chrono_blade.webp"),
-  flavorText: "Of the antiquarian.",
+  flavorText: "We do not preserve. We listen to what was preserved.",
   rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 0,
@@ -162,7 +162,7 @@ export const pack2_antiquarian_chronoguard_sentinel: CardDefinition = {
   keywords: ["provoke"],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/chronoguard_sentinel.webp"),
-  flavorText: "Of the antiquarian.",
+  flavorText: "All eras file an archive. All archives are wounds.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -179,7 +179,7 @@ export const pack2_antiquarian_chronosplicer: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/chronosplicer.webp"),
-  flavorText: "Of the antiquarian.",
+  flavorText: "All eras file an archive. All archives are wounds.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -196,7 +196,7 @@ export const pack2_antiquarian_complete_archive: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/complete_archive.webp"),
-  flavorText: "Of the antiquarian.",
+  flavorText: "The archivist outlives the archive.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -213,7 +213,7 @@ export const pack2_antiquarian_epoch_rewind: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/epoch_rewind.webp"),
-  flavorText: "Of the antiquarian.",
+  flavorText: "We do not preserve. We listen to what was preserved.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -230,7 +230,7 @@ export const pack2_antiquarian_epoch_walker: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/epoch_walker.webp"),
-  flavorText: "Of the antiquarian.",
+  flavorText: "Reading dead languages is a kind of mercy.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -247,7 +247,7 @@ export const pack2_antiquarian_epoch_watcher: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/epoch_watcher.webp"),
-  flavorText: "Of the antiquarian.",
+  flavorText: "Reading dead languages is a kind of mercy.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -264,7 +264,7 @@ export const pack2_antiquarian_era_guardian: CardDefinition = {
   keywords: ["provoke"],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/era_guardian.webp"),
-  flavorText: "Of the antiquarian.",
+  flavorText: "All eras file an archive. All archives are wounds.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -281,7 +281,7 @@ export const pack2_antiquarian_era_shift: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/era_shift.webp"),
-  flavorText: "Of the antiquarian.",
+  flavorText: "We do not preserve. We listen to what was preserved.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -298,7 +298,7 @@ export const pack2_antiquarian_fossil_record: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/fossil_record.webp"),
-  flavorText: "Of the antiquarian.",
+  flavorText: "All eras file an archive. All archives are wounds.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -315,7 +315,7 @@ export const pack2_antiquarian_fossil_sentinel: CardDefinition = {
   keywords: ["provoke"],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/fossil_sentinel.webp"),
-  flavorText: "Of the antiquarian.",
+  flavorText: "We do not preserve. We listen to what was preserved.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -332,7 +332,7 @@ export const pack2_antiquarian_hourglass_golem: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/hourglass_golem.webp"),
-  flavorText: "Of the antiquarian.",
+  flavorText: "All eras file an archive. All archives are wounds.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -349,7 +349,7 @@ export const pack2_antiquarian_knowledge_keeper: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/knowledge_keeper.webp"),
-  flavorText: "Of the antiquarian.",
+  flavorText: "All eras file an archive. All archives are wounds.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -366,7 +366,7 @@ export const pack2_antiquarian_memory_splice: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/memory_splice.webp"),
-  flavorText: "Of the antiquarian.",
+  flavorText: "We do not preserve. We listen to what was preserved.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -383,7 +383,7 @@ export const pack2_antiquarian_memory_thief: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/memory_thief.webp"),
-  flavorText: "Of the antiquarian.",
+  flavorText: "Time leaves fingerprints. We dust them.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -400,7 +400,7 @@ export const pack2_antiquarian_paradox_acolyte: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/paradox_acolyte.webp"),
-  flavorText: "Of the antiquarian.",
+  flavorText: "Every relic was once a tool. Then a question.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -417,7 +417,7 @@ export const pack2_antiquarian_preservation_field: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/preservation_field.webp"),
-  flavorText: "Of the antiquarian.",
+  flavorText: "All eras file an archive. All archives are wounds.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -434,7 +434,7 @@ export const pack2_antiquarian_questmaster: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/questmaster.webp"),
-  flavorText: "Of the antiquarian.",
+  flavorText: "All eras file an archive. All archives are wounds.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -451,7 +451,7 @@ export const pack2_antiquarian_relic_keeper: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/relic_keeper.webp"),
-  flavorText: "Of the antiquarian.",
+  flavorText: "Time leaves fingerprints. We dust them.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -468,7 +468,7 @@ export const pack2_antiquarian_relic_scholar: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/relic_scholar.webp"),
-  flavorText: "Of the antiquarian.",
+  flavorText: "Every relic was once a tool. Then a question.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -485,7 +485,7 @@ export const pack2_antiquarian_stoic_guardian: CardDefinition = {
   keywords: ["provoke"],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/stoic_guardian.webp"),
-  flavorText: "Of the antiquarian.",
+  flavorText: "Reading dead languages is a kind of mercy.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -502,7 +502,7 @@ export const pack2_antiquarian_temporal_archivist: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/temporal_archivist.webp"),
-  flavorText: "Of the antiquarian.",
+  flavorText: "All eras file an archive. All archives are wounds.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -519,7 +519,7 @@ export const pack2_antiquarian_temporal_collapse: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/temporal_collapse.webp"),
-  flavorText: "Of the antiquarian.",
+  flavorText: "All eras file an archive. All archives are wounds.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -536,7 +536,7 @@ export const pack2_antiquarian_temporal_fracture: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/temporal_fracture.webp"),
-  flavorText: "Of the antiquarian.",
+  flavorText: "All eras file an archive. All archives are wounds.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -553,7 +553,7 @@ export const pack2_antiquarian_the_antiquarian_general: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/the_antiquarian_general.webp"),
-  flavorText: "Of the antiquarian.",
+  flavorText: "All eras file an archive. All archives are wounds.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -570,7 +570,7 @@ export const pack2_antiquarian_the_antiquarian_legendary: CardDefinition = {
   keywords: ["celerity"],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/the_antiquarian_legendary.webp"),
-  flavorText: "Of the antiquarian.",
+  flavorText: "We do not preserve. We listen to what was preserved.",
   rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 0,
@@ -587,7 +587,7 @@ export const pack2_antiquarian_the_archivist_supreme: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/the_archivist_supreme.webp"),
-  flavorText: "Of the antiquarian.",
+  flavorText: "Time leaves fingerprints. We dust them.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -604,7 +604,7 @@ export const pack2_antiquarian_the_programmer: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/the_programmer.webp"),
-  flavorText: "Of the antiquarian.",
+  flavorText: "All eras file an archive. All archives are wounds.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -621,7 +621,7 @@ export const pack2_antiquarian_time_capsule: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/time_capsule.webp"),
-  flavorText: "Of the antiquarian.",
+  flavorText: "All eras file an archive. All archives are wounds.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -638,7 +638,7 @@ export const pack2_antiquarian_timeline_collapse: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/timeline_collapse.webp"),
-  flavorText: "Of the antiquarian.",
+  flavorText: "We do not preserve. We listen to what was preserved.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -655,7 +655,7 @@ export const pack2_antiquarian_timeline_splitter: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/timeline_splitter.webp"),
-  flavorText: "Of the antiquarian.",
+  flavorText: "All eras file an archive. All archives are wounds.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -672,7 +672,7 @@ export const pack2_antiquarian_vaccine_protocol: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/antiquarian/vaccine_protocol.webp"),
-  flavorText: "Of the antiquarian.",
+  flavorText: "We do not preserve. We listen to what was preserved.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,

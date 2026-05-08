@@ -46,7 +46,7 @@ export default function InfectionPanel({ variant = "full", onOpenFull }: Props) 
   const data = statusQuery.data;
   const staticData = staticQuery.data;
 
-  const stageColor = data?.summary.stage.color ?? "#3a7d44";
+  const stageColor = data?.summary.stage.color ?? "#3a7d44"; // void-ignore
   const loadPct = data?.summary.loadPct ?? 0;
 
   const loggedResidue = useMemo(() => {

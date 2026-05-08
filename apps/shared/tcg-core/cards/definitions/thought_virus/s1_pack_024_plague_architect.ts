@@ -19,7 +19,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
-import { assetUrl } from "../../../../../client/src/lib/assetUrl";
+import { assetUrl } from "@shared/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_024" as CardDefinition["id"],
   name: "Plague Architect",
@@ -28,7 +28,7 @@ export const cardDef: CardDefinition = {
   rarity: "uncommon",
   cost: 4,
   baseStats: { power: 3, health: 5 },
-  keywords: ["deathwatch"],
+  keywords: [],
   abilities: [
     {
       id: "pa_deathwatch_grow" as CardDefinition["abilities"][number]["id"],
@@ -39,8 +39,7 @@ export const cardDef: CardDefinition = {
         duration: { kind: "permanent" },
         to: { kind: "self" },
       },
-    },
-  ],
+    }],
   art: assetUrl("art/cards/s1_pack_024.webp"),
   flavorText:
     "Every fallen soldier is a brick. Every scream is mortar. The cathedral rises.",

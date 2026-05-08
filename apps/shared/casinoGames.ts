@@ -70,12 +70,18 @@ export function playVoidSlots(bet: number, rng: () => number): CasinoGameResult 
   const twoSame =
     reels[0] === reels[1] || reels[1] === reels[2] || reels[0] === reels[2];
 
+  // audit/12.F1 — original payouts (degen-triple 50x / other-triple 5x /
+  // twoSame 2x) gave the player a +18% edge: 50/216 + 20/216 + 180/216 =
+  // 250/216 ≈ 1.157 RTP. The casino was a money printer for whales.
+  // New table: degen-triple 50x (kept — it's the headline jackpot),
+  // other-triple 4x, twoSame 1.3x → 50/216 + 16/216 + 117/216 ≈ 0.847 RTP
+  // (~15% house edge), comfortably under the parity-test ceiling of 0.92.
   let multiplier = 0;
   let jackpot = false;
   if (allSame && reels[0] === "degen") { multiplier = 50; jackpot = true; }
   else if (allSame && reels[0] === "void") { multiplier = -1; }
-  else if (allSame) { multiplier = 5; }
-  else if (twoSame) { multiplier = 2; }
+  else if (allSame) { multiplier = 4; }
+  else if (twoSame) { multiplier = 1.3; }
 
   const rawPayout = Math.round(bet * multiplier);
   const payout = Math.max(0, rawPayout);
@@ -183,14 +189,37 @@ export type RouletteFaction = typeof ROULETTE_FACTIONS[number];
 
 export type RouletteBetKind = "straight" | "adjacent" | "half";
 
+/** audit/12.F1 — kind dictates how many factions the player MUST pick.
+ *  Previously the multiplier was fixed but `factions.length` was free,
+ *  so picking 3 factions on "adjacent" (P=0.5, 2.5x) gave +25% edge.
+ *  Now we enforce: straight=1, adjacent=2, half=3 — reducing the bet
+ *  to a degenerate version of an allowed kind throws PRECONDITION. */
+const ROULETTE_REQUIRED_FACTIONS: Record<RouletteBetKind, number> = {
+  straight: 1,
+  adjacent: 2,
+  half: 3,
+};
+
 export function playQuantumRoulette(
   bet: number,
   kind: RouletteBetKind,
   factions: RouletteFaction[],
   rng: () => number,
 ): CasinoGameResult {
+  const required = ROULETTE_REQUIRED_FACTIONS[kind];
+  if (factions.length !== required) {
+    throw new Error(
+      `roulette ${kind} requires exactly ${required} faction(s); got ${factions.length}`,
+    );
+  }
   const landed = ROULETTE_FACTIONS[Math.floor(rng() * ROULETTE_FACTIONS.length)];
   const hit = factions.includes(landed);
+  // EV with the required-faction-count guard above:
+  //   straight (1): P=1/6, 5.0x → 0.833 (16.7% house edge)
+  //   adjacent (2): P=2/6, 2.5x → 0.833 (16.7% house edge)
+  //   half (3):     P=3/6, 1.8x → 0.900 (10.0% house edge)
+  // All three sit under the 0.92 RTP ceiling enforced by the parity
+  // test in casinoGames.test.ts.
   const multipliers = { straight: 5, adjacent: 2.5, half: 1.8 };
   const payout = hit ? Math.round(bet * multipliers[kind]) : 0;
   return { won: hit, payout, jackpot: false, detail: { landed, kind, factions } };

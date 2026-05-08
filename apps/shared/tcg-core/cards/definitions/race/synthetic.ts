@@ -9,7 +9,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
-import { assetUrl } from "../../../../../client/src/lib/assetUrl";
+import { assetUrl } from "@shared/lib/assetUrl";
 export const synth_01: CardDefinition = {
   id: "s1_race_synthetic_01" as CardDefinition["id"],
   name: "Synthetic Worker",
@@ -24,8 +24,7 @@ export const synth_01: CardDefinition = {
       id: "syn01_draw" as CardDefinition["abilities"][number]["id"],
       trigger: { kind: "on_deploy" },
       effect: { op: "draw", amount: { kind: "const", value: 1 }, who: "self" },
-    },
-  ],
+    }],
   art: assetUrl("art/cards/race/s1_race_synthetic_01.webp"),
   flavorText:
     "On deploy, draw 1. A Synthetic Worker was designed by the Architect the week he needed a worker and forgot to ask whether anybody else needed something.",
@@ -60,7 +59,7 @@ export const synth_03: CardDefinition = {
   rarity: "legendary",
   cost: 6,
   baseStats: { power: 6, health: 7 },
-  keywords: ["provoke", "forcefield", "deathwatch"],
+  keywords: ["provoke", "forcefield"],
   abilities: [],
   art: assetUrl("art/cards/race/s1_race_synthetic_03.webp"),
   flavorText:
@@ -71,5 +70,4 @@ export const synth_03: CardDefinition = {
 };
 
 export const SYNTHETIC_RACE_CARDS: readonly CardDefinition[] = Object.freeze([
-  synth_01, synth_02, synth_03,
-]);
+  synth_01, synth_02, synth_03]);

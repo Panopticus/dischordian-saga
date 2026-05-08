@@ -553,7 +553,7 @@ export default function CitizenCreationPage() {
                       label="ATK"
                       color="red"
                     />
-                    <p className="font-mono text-[10px] text-muted-foreground mt-1 ml-[68px] sm:ml-[92px]">
+                    <p className="font-mono text-[10px] text-muted-foreground mt-1 ml-[68px] sm:ml-[92px]"> {/* void-ignore — DotRating-aligned label offset */}
                       Melee & ranged damage output
                     </p>
                   </div>
@@ -572,7 +572,7 @@ export default function CitizenCreationPage() {
                       label="DEF"
                       color="cyan"
                     />
-                    <p className="font-mono text-[10px] text-muted-foreground mt-1 ml-[68px] sm:ml-[92px]">
+                    <p className="font-mono text-[10px] text-muted-foreground mt-1 ml-[68px] sm:ml-[92px]"> {/* void-ignore — DotRating-aligned label offset */}
                       Armor rating & damage reduction
                     </p>
                   </div>
@@ -591,7 +591,7 @@ export default function CitizenCreationPage() {
                       label="VIT"
                       color="amber"
                     />
-                    <p className="font-mono text-[10px] text-muted-foreground mt-1 ml-[68px] sm:ml-[92px]">
+                    <p className="font-mono text-[10px] text-muted-foreground mt-1 ml-[68px] sm:ml-[92px]"> {/* void-ignore — DotRating-aligned label offset */}
                       Maximum health pool
                     </p>
                   </div>

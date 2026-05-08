@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { protectedProcedure, publicProcedure, router } from "../_core/trpc";
+import { procedureRateLimit } from "../_core/procedureRateLimit";
 import { getDb } from "../db";
 import { battlePassSeasons, battlePassProgress, dreamBalance, notifications } from "../../db/schema";
 import { eq, and, desc, sql } from "drizzle-orm";
@@ -72,8 +73,18 @@ export const battlePassRouter = router({
   }),
 
   /* ─── Add XP to battle pass ─── */
+  /**
+   * @deprecated Prefer `addXpFromAction` which validates the source via
+   * server-side `getXpSource(actionType)`. `addXp` accepts a raw XP value
+   * and is therefore exploitable if a rooted/MITM client forges large
+   * values — two posts at the previous max=10000 used to finish the entire
+   * 15750-XP season pass. The cap is now 200 and the procedure is
+   * rate-limited to 5/min/user; remove this handler entirely once all
+   * callers migrate to `addXpFromAction`.
+   */
   addXp: protectedProcedure
-    .input(z.object({ xp: z.number().min(1).max(10000) }))
+    .use(procedureRateLimit({ windowMs: 60_000, max: 5 }))
+    .input(z.object({ xp: z.number().min(1).max(200) }))
     .mutation(async ({ ctx, input }) => {
       const db = await getDb();
       if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
@@ -285,6 +296,17 @@ export const battlePassRouter = router({
       });
 
       const reward = claimResult.reward;
+
+      // Notify the player the tier reward landed in their inventory.
+      // Fire-and-forget; reward already wrote inside the transaction.
+      db.insert(notifications).values({
+        userId: ctx.user.id,
+        type: "battle_pass_reward",
+        title: `Battle Pass Tier ${input.tier} Reward`,
+        message: `You claimed your ${input.track} tier ${input.tier} reward.`,
+        actionUrl: "/battle-pass",
+        metadata: { tier: input.tier, track: input.track },
+      }).catch((e) => logger.error("[BattlePass] reward notification failed:", e));
 
       // T9.17: if the reward bag includes a `titleKey`, grant the
       // title via the unified user_titles table. Forwards-compat —

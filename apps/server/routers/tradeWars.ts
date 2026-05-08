@@ -1,6 +1,16 @@
+/**
+ * Trade Wars router. Phase D.5 adds the explicit `startResearchRace`
+ * procedure that decouples committing to a tech from completing it —
+ * long-running research surfaces invoke it so the rival NPC can tick
+ * in the background. Schema-first per the audit-allow comment at
+ * apps/db/schema.ts:6993; client UI lands in a follow-up.
+ *
+ * audit-allow-proc: startResearchRace
+ */
 import { z } from "zod";
 import { logger } from "../logger";
 import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
+import { procedureRateLimit } from "../_core/procedureRateLimit";
 import { getDb, type DrizzleDb } from "../db";
 import type { TWPlayerState } from "../../db/schema";
 import { twSectors, twPlayerState, twGameLog, twColonies, cards, userCards, users, shipUpgrades, playerBases } from "../../db/schema";
@@ -196,6 +206,7 @@ export const tradeWarsRouter = router({
 
   // Warp to a connected sector
   warp: protectedProcedure
+    .use(procedureRateLimit({ windowMs: 60_000, max: 30 }))
     .input(z.object({ targetSector: z.number() }))
     .mutation(async ({ ctx, input }) => {
       const db = await getDb();
@@ -309,6 +320,7 @@ export const tradeWarsRouter = router({
   // `factionReputation` field is gone (Zod strip-mode silently
   // discards it on the wire if old clients still send it).
   trade: protectedProcedure
+    .use(procedureRateLimit({ windowMs: 60_000, max: 30 }))
     .input(z.object({
       commodity: z.enum(["fuelOre", "organics", "equipment"]),
       action: z.enum(["buy", "sell"]),
@@ -502,6 +514,7 @@ export const tradeWarsRouter = router({
 
   // Buy/upgrade ship at stardock
   upgradeShip: protectedProcedure
+    .use(procedureRateLimit({ windowMs: 60_000, max: 30 }))
     .input(z.object({ shipType: z.string() }))
     .mutation(async ({ ctx, input }) => {
       const db = await getDb();
@@ -548,6 +561,7 @@ export const tradeWarsRouter = router({
 
   // Buy fighters at stardock
   buyFighters: protectedProcedure
+    .use(procedureRateLimit({ windowMs: 60_000, max: 30 }))
     .input(z.object({ quantity: z.number().min(1).max(1000) }))
     .mutation(async ({ ctx, input }) => {
       const db = await getDb();
@@ -917,6 +931,7 @@ export const tradeWarsRouter = router({
 
   // Claim a planet in current sector
   claimPlanet: protectedProcedure
+    .use(procedureRateLimit({ windowMs: 60_000, max: 30 }))
     .input(z.object({
       planetName: z.string().min(1).max(256),
       colonyType: z.enum(["mining", "agriculture", "technology", "military", "trading"]).default("mining"),
@@ -1027,8 +1042,12 @@ export const tradeWarsRouter = router({
     });
   }),
 
-  // Collect income from all colonies
-  collectIncome: protectedProcedure.mutation(async ({ ctx }) => {
+  // Collect income from all colonies. Rate-limited because the underlying
+  // economic loop (looping through colonies, summing income) is a soft
+  // farming target if a script can fire it once per second.
+  collectIncome: protectedProcedure
+    .use(procedureRateLimit({ windowMs: 60_000, max: 12 }))
+    .mutation(async ({ ctx }) => {
     const db = await getDb();
     if (!db) return { success: false, message: "Database unavailable" };
 
@@ -1110,6 +1129,7 @@ export const tradeWarsRouter = router({
 
   // Upgrade a colony
   upgradeColony: protectedProcedure
+    .use(procedureRateLimit({ windowMs: 60_000, max: 30 }))
     .input(z.object({ colonyId: z.number() }))
     .mutation(async ({ ctx, input }) => {
       const db = await getDb();
@@ -1154,6 +1174,7 @@ export const tradeWarsRouter = router({
 
   // Fortify colony (add defense)
   fortifyColony: protectedProcedure
+    .use(procedureRateLimit({ windowMs: 60_000, max: 30 }))
     .input(z.object({ colonyId: z.number(), fighters: z.number().min(1).max(500) }))
     .mutation(async ({ ctx, input }) => {
       const db = await getDb();
@@ -1196,6 +1217,7 @@ export const tradeWarsRouter = router({
   }),
 
   upgradeShipModule: protectedProcedure
+    .use(procedureRateLimit({ windowMs: 60_000, max: 30 }))
     .input(z.object({ upgradeType: z.enum(["hull", "engine", "weapons", "shields", "cargo", "scanner"]) }))
     .mutation(async ({ ctx, input }) => {
       const db = await getDb();
@@ -1279,6 +1301,7 @@ export const tradeWarsRouter = router({
   }),
 
   buildBase: protectedProcedure
+    .use(procedureRateLimit({ windowMs: 60_000, max: 30 }))
     .input(z.object({ sectorId: z.number(), baseName: z.string().min(1).max(64).optional() }))
     .mutation(async ({ ctx, input }) => {
       const db = await getDb();
@@ -1471,11 +1494,52 @@ export const tradeWarsRouter = router({
       await db.update(twPlayerState)
         .set({ unlockedTech: techs, researchPoints: player.researchPoints - tech.cost })
         .where(eq(twPlayerState.userId, ctx.user.id));
+
+      // Phase D.5 — close any pending research-race row for this tech.
+      // The player completed before the rival (or instantly), so they
+      // win the race. See apps/server/services/tradeResearchRaceService.ts
+      // and the schema doc-comment at apps/db/schema.ts:6993.
+      try {
+        const { startResearchRace, markPlayerWon } = await import(
+          "../services/tradeResearchRaceService"
+        );
+        // Idempotent: if no pending race exists, start+immediately-win
+        // records the race historically. If one already started in a
+        // prior call, this just closes it.
+        await startResearchRace(ctx.user.id, input.techId);
+        await markPlayerWon(ctx.user.id, input.techId);
+      } catch (raceErr) {
+        console.warn("[ResearchRace] resolution failed", raceErr);
+      }
+
       return {
         success: true,
         message: `Technology unlocked: ${tech.name}. Effect: ${tech.effect}`,
         researchPoints: player.researchPoints - tech.cost,
         unlockedTech: techs,
+      };
+    }),
+
+  /**
+   * Phase D.5 — explicitly start a research race for a tech without
+   * completing it. Used by long-running research surfaces where the
+   * player commits to a tech and the rival ticks in the background.
+   * See apps/server/services/tradeResearchRaceService.ts.
+   */
+  startResearchRace: protectedProcedure
+    .input(z.object({ techId: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const { startResearchRace } = await import(
+        "../services/tradeResearchRaceService"
+      );
+      const result = await startResearchRace(ctx.user.id, input.techId);
+      if (!result) {
+        return { success: false as const, message: "Could not start research race." };
+      }
+      return {
+        success: true as const,
+        deadlineMs: result.deadlineMs,
+        rivalHouseKey: result.rivalHouseKey,
       };
     }),
 

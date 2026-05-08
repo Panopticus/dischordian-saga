@@ -182,18 +182,21 @@ function rewardForStreak(streak: number): LoginReward {
   return LOGIN_REWARDS.find(r => r.day === cycleDay) ?? LOGIN_REWARDS[0];
 }
 
-/** Helper: generate quests for a period if they don't exist yet */
+/** Helper: generate quests for a period if they don't exist yet.
+ *  Returns `{ rows, freshlyMinted }`; `freshlyMinted` is true the first
+ *  time the player's quest pool is generated for this period (the
+ *  natural "your daily reset just happened" boundary). */
 async function ensureQuestsExist(
   db: NonNullable<Awaited<ReturnType<typeof getDb>>>,
   userId: number,
   templates: QuestTemplate[],
   periodStr: string,
   count: number,
-) {
+): Promise<{ rows: typeof dailyQuests.$inferSelect[]; freshlyMinted: boolean }> {
   const existing = await db.select().from(dailyQuests)
     .where(and(eq(dailyQuests.userId, userId), eq(dailyQuests.questDate, periodStr)));
 
-  if (existing.length > 0) return existing;
+  if (existing.length > 0) return { rows: existing, freshlyMinted: false };
 
   const selected = selectQuests(templates, periodStr, count);
   const toInsert = selected.map(t => ({
@@ -214,10 +217,11 @@ async function ensureQuestsExist(
 
   if (toInsert.length > 0) {
     await db.insert(dailyQuests).values(toInsert);
-    return db.select().from(dailyQuests)
+    const rows = await db.select().from(dailyQuests)
       .where(and(eq(dailyQuests.userId, userId), eq(dailyQuests.questDate, periodStr)));
+    return { rows, freshlyMinted: true };
   }
-  return [];
+  return { rows: [], freshlyMinted: false };
 }
 
 export const dailyQuestsRouter = router({
@@ -230,11 +234,29 @@ export const dailyQuestsRouter = router({
     const week = getWeekStr();
     const epoch = getEpochStr();
 
-    const [daily, weekly, epochQuests] = await Promise.all([
+    const [dailyRes, weeklyRes, epochRes] = await Promise.all([
       ensureQuestsExist(db, ctx.user.id, DAILY_TEMPLATES, today, 5),
       ensureQuestsExist(db, ctx.user.id, WEEKLY_TEMPLATES, week, 5),
       ensureQuestsExist(db, ctx.user.id, EPOCH_TEMPLATES, epoch, 5),
     ]);
+    const daily = dailyRes.rows;
+    const weekly = weeklyRes.rows;
+    const epochQuests = epochRes.rows;
+
+    // Daily-reset notification: fires once per player when the daily
+    // quest pool first rolls to a new day. Idempotent because
+    // freshlyMinted is only true on the insert path; subsequent
+    // getAll calls inside the same UTC day return existing rows.
+    if (dailyRes.freshlyMinted) {
+      db.insert(notifications).values({
+        userId: ctx.user.id,
+        type: "daily_reset",
+        title: "Daily Reset",
+        message: `New daily quests are available for ${today}.`,
+        actionUrl: "/quests",
+        metadata: { questDate: today },
+      }).catch(e => logger.error("[DailyQuests] daily_reset notification failed:", e));
+    }
 
     // Append Living Universe event quests to the daily pool
     const fx = await getConsequences();
@@ -311,6 +333,33 @@ export const dailyQuestsRouter = router({
           title: `Quest Complete: ${record.title}`,
           message: `You completed "${record.title}"! Claim your reward.`,
         });
+
+        // Tier-specific notification on top of the generic
+        // quest_complete. Tier prefix is the canonical tier marker
+        // baked into questId (`d_*` daily, `w_*` weekly, `e_*`
+        // epoch — see DAILY_TEMPLATES / WEEKLY_TEMPLATES /
+        // EPOCH_TEMPLATES). Daily completions stay under
+        // `quest_complete` to avoid notification spam.
+        if (record.questId.startsWith("w_")) {
+          db.insert(notifications).values({
+            userId: ctx.user.id,
+            type: "weekly_quest",
+            title: `Weekly Quest Complete: ${record.title}`,
+            message: `You finished the weekly "${record.title}". Claim your reward.`,
+            actionUrl: "/quests",
+            metadata: { questId: record.questId, bonusReward: record.bonusReward ?? null },
+          }).catch(e => logger.error("[DailyQuests] weekly_quest notification failed:", e));
+        } else if (record.questId.startsWith("e_")) {
+          db.insert(notifications).values({
+            userId: ctx.user.id,
+            type: "epoch_quest",
+            title: `Epoch Quest Complete: ${record.title}`,
+            message: `You finished the epoch "${record.title}". Claim your reward.`,
+            actionUrl: "/quests",
+            metadata: { questId: record.questId, bonusReward: record.bonusReward ?? null },
+          }).catch(e => logger.error("[DailyQuests] epoch_quest notification failed:", e));
+        }
+
         // Battle pass XP: daily quest completion
         battlePassXp.award(ctx.user.id, "daily_quest").catch(() => {});
       }

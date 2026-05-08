@@ -23,7 +23,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
-import { assetUrl } from "../../../../../client/src/lib/assetUrl";
+import { assetUrl } from "@shared/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_pet_glyph_moth_2" as CardDefinition["id"],
   name: "Sigil Moth",
@@ -58,7 +58,7 @@ export const cardDef: CardDefinition = {
   flavorText:
     "Its wings are prayers. Its dust is a blessing.",
   rulesVersion: "1.1.0",
-  trial_categories: ["defensive", "narrative", "offensive", "reactive"] as const,
+  trial_categories: ["confession", "defensive", "narrative", "offensive", "reactive"] as const,
   verdict_delta: 2,
   balanceException: {
     reason: "Pet engine: 2/3 flier + on-death permanent +1/+1 buff to adjacents. Pet form factor with real on-death value; printed stats reflect the body-cost, the death-rattle is the per-card payoff.",

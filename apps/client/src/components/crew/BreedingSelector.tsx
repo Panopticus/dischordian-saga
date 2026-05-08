@@ -116,7 +116,7 @@ export default function BreedingSelector({ state, onBreed }: Props) {
                     className="inline-block w-2 h-2 rounded-full"
                     style={{
                       background:
-                        FOUNDING_BLOODLINES[m.bloodlineId as BloodlineId]?.color ?? "#666",
+                        FOUNDING_BLOODLINES[m.bloodlineId as BloodlineId]?.color ?? "var(--text-muted)",
                     }}
                   />
                   {m.name}
@@ -258,14 +258,14 @@ export default function BreedingSelector({ state, onBreed }: Props) {
                   style={{
                     borderLeftWidth: "3px",
                     borderLeftColor:
-                      FOUNDING_BLOODLINES[parent1.bloodlineId as BloodlineId]?.color ?? "#666",
+                      FOUNDING_BLOODLINES[parent1.bloodlineId as BloodlineId]?.color ?? "var(--text-muted)",
                   }}
                 >
                   <div
                     className="font-display text-[10px]"
                     style={{
                       color:
-                        FOUNDING_BLOODLINES[parent1.bloodlineId as BloodlineId]?.color ?? "#666",
+                        FOUNDING_BLOODLINES[parent1.bloodlineId as BloodlineId]?.color ?? "var(--text-muted)",
                     }}
                   >
                     {FOUNDING_BLOODLINES[parent1.bloodlineId as BloodlineId]?.name ??

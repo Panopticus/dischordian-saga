@@ -86,7 +86,7 @@ export default function DeadMansCircuitCrewPicker({ onClose, onPicked }: Props) 
                       className="inline-block w-2 h-2 rounded-full"
                       style={{
                         background:
-                          FOUNDING_BLOODLINES[m.bloodlineId as BloodlineId]?.color ?? "#666",
+                          FOUNDING_BLOODLINES[m.bloodlineId as BloodlineId]?.color ?? "var(--text-muted)",
                       }}
                     />
                     {m.name}

@@ -80,6 +80,8 @@ import { spaceStationRouter } from "./routers/spaceStation";
 import { towerDefenseRouter } from "./routers/towerDefense";
 import { prestigeQuestRouter } from "./routers/prestigeQuests";
 import { seasonalEventsRouter } from "./routers/seasonalEvents";
+import { yearlyEventsRouter } from "./routers/yearlyEvents";
+import { worldMoodRouter } from "./routers/worldMood";
 import { replaySystemRouter } from "./routers/replaySystem";
 import { personalQuartersRouter } from "./routers/personalQuarters";
 import { friendlyChallengesRouter } from "./routers/friendlyChallenges";
@@ -105,7 +107,10 @@ import { guildHallRouter } from "./routers/guildHall";
 import { guildContractsRouter } from "./routers/guildContracts";
 import { tradeEmpireRouter } from "./routers/tradeEmpire";
 import { colonyCommerceRouter } from "./routers/colonyCommerce";
+import { tradeMissionsRouter } from "./routers/tradeMissions";
+import { globalAlignmentRouter } from "./routers/globalAlignment";
 import { petBattlesRouter } from "./routers/petBattles";
+import { petBreedingRouter } from "./routers/petBreeding";
 import { seedDataRouter } from "./routers/seedData";
 import { analyticsRouter } from "./routers/analytics";
 import { settingsRouter } from "./routers/settings";
@@ -151,6 +156,7 @@ import { sessionsRouter } from "./routers/sessions";
 import { rumRouter } from "./routers/rum";
 import { blocksRouter } from "./routers/blocks";
 import { supportRouter } from "./routers/support";
+import { soulStonesRouter } from "./routers/soulStones";
 
 export const appRouter = router({
   collection: collectionRouter,
@@ -234,6 +240,8 @@ export const appRouter = router({
   towerDefense: towerDefenseRouter,
   prestigeQuest: prestigeQuestRouter,
   seasonalEvents: seasonalEventsRouter,
+  yearlyEvents: yearlyEventsRouter,
+  worldMood: worldMoodRouter,
   replay: replaySystemRouter,
   personalQuarters: personalQuartersRouter,
   friendlyChallenge: friendlyChallengesRouter,
@@ -259,7 +267,11 @@ export const appRouter = router({
   guildContracts: guildContractsRouter,
   tradeEmpire: tradeEmpireRouter,
   colonyCommerce: colonyCommerceRouter,
+  tradeMissions: tradeMissionsRouter,
+  globalAlignment: globalAlignmentRouter,
+  soulStones: soulStonesRouter,
   petBattles: petBattlesRouter,
+  petBreeding: petBreedingRouter,
   seedData: seedDataRouter,
   analytics: analyticsRouter,
   settings: settingsRouter,

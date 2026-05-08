@@ -70,7 +70,7 @@ const KEYWORD_BEHAVIOR_EXEMPT: Readonly<Record<string, string>> = {
   can_attack_this_turn:
     "runtime flag set by rush deployment, not a player-facing keyword (engine state marker)",
   deathwatch:
-    "alias — card authors should use the on_any_unit_dies trigger directly. Keyword surfaces UI flavor only; removing requires deleting from the union or wiring auto-trigger-injection at load time",
+    "alias — audit/09.F5 stripped this keyword from all 25 cards that previously declared it (the keyword chip was UI flavor only with no engine behavior). The keyword stays in the Keyword union for future use; new cards should EITHER author an `on_any_unit_dies` trigger directly OR wait for an auto-injection layer at load time. The current state: zero cards declare `deathwatch`; stays exempt until the union is pruned or auto-injection lands.",
 
 };
 

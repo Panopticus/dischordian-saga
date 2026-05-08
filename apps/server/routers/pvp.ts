@@ -3,6 +3,7 @@
    ═══════════════════════════════════════════════════════ */
 import { z } from "zod";
 import { router, publicProcedure, protectedProcedure } from "../_core/trpc";
+import { procedureRateLimit } from "../_core/procedureRateLimit";
 import { getDb } from "../db";
 import {
   pvpMatches, pvpLeaderboard, pvpDecks, pvpSeasons, pvpSeasonRecords, users, notifications, cards,
@@ -82,15 +83,21 @@ const TIER_THRESHOLDS: Record<string, { min: number; max: number }> = {
 
 export const pvpRouter = router({
   /* ═══ LEADERBOARD ═══ */
-  getLeaderboard: publicProcedure.use(checkFeatureFlag("pvp_arena")).query(async () => {
-    const db = await getDb();
-    if (!db) return [];
-    return db
-      .select()
-      .from(pvpLeaderboard)
-      .orderBy(desc(pvpLeaderboard.elo))
-      .limit(50);
-  }),
+  // Rate-limited because this is a publicProcedure (no auth gate) doing a
+  // table scan + sort. Without a bucket an anonymous loop scrapes the
+  // top-50 hundreds of times per second.
+  getLeaderboard: publicProcedure
+    .use(checkFeatureFlag("pvp_arena"))
+    .use(procedureRateLimit({ windowMs: 60_000, max: 60 }))
+    .query(async () => {
+      const db = await getDb();
+      if (!db) return [];
+      return db
+        .select()
+        .from(pvpLeaderboard)
+        .orderBy(desc(pvpLeaderboard.elo))
+        .limit(50);
+    }),
 
   getMyStats: protectedProcedure.query(async ({ ctx }) => {
     const db = await getDb();

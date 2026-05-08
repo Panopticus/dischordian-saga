@@ -126,7 +126,7 @@ export default function CompanionTierCeremony({ level, companionName }: Props) {
               className="font-display text-5xl md:text-7xl font-black tracking-[0.25em] mb-3"
               style={{
                 color: active.color,
-                textShadow: `0 0 30px color-mix(in oklch, ${active.color} 70%, transparent)`,
+                textShadow: `0 0 var(--space-md) color-mix(in oklch, ${active.color} 70%, transparent)`,
               }}
             >
               <KineticText

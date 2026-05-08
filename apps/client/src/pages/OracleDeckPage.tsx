@@ -393,7 +393,7 @@ function ReadingView({
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -10 }}
-      className="rounded-lg border void-border-system bg-gradient-to-br from-violet-500/5 to-transparent p-6 space-y-4"
+      className="rounded-lg border void-border-system void-bg-system p-6 space-y-4"
     >
       <div className="flex items-center justify-between">
         <h2 className="font-display text-lg font-bold tracking-wider">

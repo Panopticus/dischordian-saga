@@ -52,10 +52,12 @@ test.describe("Stripe checkout — public webhook surface", () => {
       data: "{}",
       headers: { "content-type": "application/json" },
     });
-    // Either 400 (signature failure) or 200 (test bypass). NOT 5xx.
-    expect(res.status()).not.toBe(500);
-    expect(res.status()).not.toBe(502);
-    expect(res.status()).not.toBe(503);
+    // Without a Stripe signature the handler MUST reject with 400
+    // (signature failure). 404 was being silently accepted before —
+    // tightening this catches route-registration regressions.
+    expect(res.status()).toBe(400);
+    const body = await res.text();
+    expect(body.toLowerCase()).toMatch(/signature|webhook/);
   });
 });
 

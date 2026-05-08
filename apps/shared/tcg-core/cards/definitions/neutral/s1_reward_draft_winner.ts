@@ -22,7 +22,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
-import { assetUrl } from "../../../../../client/src/lib/assetUrl";
+import { assetUrl } from "@shared/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_reward_draft_winner" as CardDefinition["id"],
   name: "Draft Master",
@@ -58,6 +58,6 @@ export const cardDef: CardDefinition = {
   flavorText:
     "She builds winning decks from other people's leftovers.",
   rulesVersion: "1.1.0",
-  trial_categories: ["narrative", "offensive"] as const,
+  trial_categories: ["confession", "narrative", "offensive"] as const,
   verdict_delta: 2,
 };

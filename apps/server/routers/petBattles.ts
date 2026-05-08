@@ -8,7 +8,7 @@ import { z } from "zod";
 import { protectedProcedure, router } from "../_core/trpc";
 import { TRPCError } from "@trpc/server";
 import { getDb } from "../db";
-import { playerPets, petBattleHistory, userProgress, dreamBalance } from "../../db/schema";
+import { playerPets, petBattleHistory, userProgress, dreamBalance, notifications } from "../../db/schema";
 import { eq, and, sql, desc } from "drizzle-orm";
 import { companionCombat } from "../services/companionCombat";
 import { petEvolution } from "../services/petEvolution";
@@ -106,6 +106,16 @@ export const petBattlesRouter = router({
         losses: 0,
         kills: 0,
       });
+
+      // Notify the player a new pet has joined their roster.
+      db.insert(notifications).values({
+        userId: ctx.user.id,
+        type: "pet_acquired",
+        title: "New Pet Bonded",
+        message: `${input.name} (${input.species}) joined your roster.`,
+        actionUrl: "/pets",
+        metadata: { petId: input.petId, species: input.species, source: input.source },
+      }).catch(e => logger.error("[PetBattles] pet_acquired notification failed:", e));
 
       return {
         success: true,

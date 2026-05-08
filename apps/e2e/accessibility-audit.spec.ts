@@ -343,9 +343,10 @@ test.describe("Screen reader aria-live regions — public", () => {
     const allLiveRegions = page.locator("[aria-live]");
     const totalCount = await allLiveRegions.count();
 
-    // At minimum, the page infrastructure should support live regions
-    // (they may be dynamically created on interaction)
-    expect(totalCount).toBeGreaterThanOrEqual(0);
+    // The landing page MUST surface the global announce() live region
+    // (mounted in AppShell) plus any page-specific ones. Previous
+    // assertion (>=0) was tautological — passes for any DOM.
+    expect(totalCount, "landing page should mount at least one aria-live region").toBeGreaterThan(0);
 
     // Verify any existing live regions have valid aria-live values
     for (let i = 0; i < totalCount; i++) {

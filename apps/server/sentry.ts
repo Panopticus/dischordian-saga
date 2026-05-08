@@ -19,8 +19,19 @@ async function initSentry() {
 
   try {
     Sentry = await import("@sentry/node");
-  } catch {
-    // @sentry/node is not installed — skip silently
+  } catch (err) {
+    // audit/06.F2 — fail loud in prod. SENTRY_DSN being set means an
+    // operator wired this up; if the package is missing, that's a
+    // build-time misconfiguration we should refuse to silently
+    // tolerate. Dev keeps the silent-skip behaviour so local builds
+    // without @sentry/node still boot.
+    if (process.env.NODE_ENV === "production") {
+      console.error(
+        "[Sentry] SENTRY_DSN set but @sentry/node could not be loaded in production:",
+        err,
+      );
+      process.exit(2);
+    }
     return;
   }
 

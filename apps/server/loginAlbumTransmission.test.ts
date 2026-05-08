@@ -29,6 +29,9 @@ function createAuthContext(): TrpcContext {
     signupWeek: null,
     installSource: null,
     abVariant: null,
+    dateOfBirth: null,
+    ageVerificationCountry: null,
+    ageVerifiedAt: null,
     },
     req: {
       protocol: "https",
