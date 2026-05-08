@@ -46,6 +46,8 @@ import { cardDef as s1_spell_235_age_of_silence } from "./definitions/antiquaria
 import { cardDef as s1_zeal_004_relic_acolyte } from "./definitions/antiquarian/s1_zeal_004_relic_acolyte.ts";
 import { cardDef as s1_struct_005_relic_archive } from "./definitions/antiquarian/s1_struct_005_relic_archive.ts";
 import { cardDef as s1_pack_007_archive_swarm } from "./definitions/antiquarian/s1_pack_007_archive_swarm.ts";
+import { cardDef as s1_curve_001_era_mote } from "./definitions/antiquarian/s1_curve_001_era_mote.ts";
+import { cardDef as s1_curve_006_hourglass_sentinel } from "./definitions/antiquarian/s1_curve_006_hourglass_sentinel.ts";
 
 /* ─── Architect ─── */
 import { cardDef as gen_architect } from "./definitions/architect/gen_architect.ts";
@@ -114,6 +116,8 @@ import { cardDef as s1_warlord_three_moves } from "./definitions/architect/s1_wa
 import { cardDef as s1_zeal_002_engine_warden } from "./definitions/architect/s1_zeal_002_engine_warden.ts";
 import { cardDef as s1_struct_002_observation_pylon } from "./definitions/architect/s1_struct_002_observation_pylon.ts";
 import { cardDef as s1_blast_002_arc_lance } from "./definitions/architect/s1_blast_002_arc_lance.ts";
+import { cardDef as s1_curve_002_schematic_spark } from "./definitions/architect/s1_curve_002_schematic_spark.ts";
+import { cardDef as s1_curve_007_schematic_bastion } from "./definitions/architect/s1_curve_007_schematic_bastion.ts";
 
 /* ─── Dreamer ─── */
 import { cardDef as gen_dreamer } from "./definitions/dreamer/gen_dreamer.ts";
@@ -179,6 +183,8 @@ import { cardDef as s1_spell_216_oracles_blessing } from "./definitions/dreamer/
 import { cardDef as s1_spell_217_dream_weave } from "./definitions/dreamer/s1_spell_217_dream_weave.ts";
 import { cardDef as s1_struct_003_dream_anchor } from "./definitions/dreamer/s1_struct_003_dream_anchor.ts";
 import { cardDef as s1_pack_006_dream_choir } from "./definitions/dreamer/s1_pack_006_dream_choir.ts";
+import { cardDef as s1_curve_003_glimmer_wisp } from "./definitions/dreamer/s1_curve_003_glimmer_wisp.ts";
+import { cardDef as s1_curve_008_vision_anchor } from "./definitions/dreamer/s1_curve_008_vision_anchor.ts";
 
 /* ─── Insurgency ─── */
 import { cardDef as gen_insurgency } from "./definitions/insurgency/gen_insurgency.ts";
@@ -236,6 +242,8 @@ import { cardDef as s1_zeal_003_oath_keeper } from "./definitions/insurgency/s1_
 import { cardDef as s1_resurrect_003_ghost_cell_runner } from "./definitions/insurgency/s1_resurrect_003_ghost_cell_runner.ts";
 import { cardDef as s1_pack_005_cell_runner } from "./definitions/insurgency/s1_pack_005_cell_runner.ts";
 import { cardDef as s1_blast_003_strafe_runner } from "./definitions/insurgency/s1_blast_003_strafe_runner.ts";
+import { cardDef as s1_curve_004_cell_decoy } from "./definitions/insurgency/s1_curve_004_cell_decoy.ts";
+import { cardDef as s1_curve_009_trench_sergeant } from "./definitions/insurgency/s1_curve_009_trench_sergeant.ts";
 
 /* ─── Neutral ─── */
 import { cardDef as gen_neutral } from "./definitions/neutral/gen_neutral.ts";
@@ -378,6 +386,8 @@ import { cardDef as s1_spell_229_liquidation_sale } from "./definitions/new_baby
 import { cardDef as s1_zeal_005_compliance_zealot } from "./definitions/new_babylon/s1_zeal_005_compliance_zealot.ts";
 import { cardDef as s1_struct_004_audit_tower } from "./definitions/new_babylon/s1_struct_004_audit_tower.ts";
 import { cardDef as s1_blast_005_audit_artillery } from "./definitions/new_babylon/s1_blast_005_audit_artillery.ts";
+import { cardDef as s1_curve_005_compliance_watcher } from "./definitions/new_babylon/s1_curve_005_compliance_watcher.ts";
+import { cardDef as s1_curve_010_sector_magistrate } from "./definitions/new_babylon/s1_curve_010_sector_magistrate.ts";
 
 /* ─── Panopticon ─── */
 import { cardDef as s1_char_050_warden_prime } from "./definitions/panopticon/s1_char_050_warden_prime.ts";
@@ -568,6 +578,8 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   s1_zeal_004_relic_acolyte,
   s1_struct_005_relic_archive,
   s1_pack_007_archive_swarm,
+  s1_curve_001_era_mote,
+  s1_curve_006_hourglass_sentinel,
   gen_architect,
   gen_authority,
   s1_char_006_dr_lyra_vox,
@@ -634,6 +646,8 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   s1_zeal_002_engine_warden,
   s1_struct_002_observation_pylon,
   s1_blast_002_arc_lance,
+  s1_curve_002_schematic_spark,
+  s1_curve_007_schematic_bastion,
   gen_dreamer,
   s1_char_005_destiny,
   s1_char_014_nythera,
@@ -697,6 +711,8 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   s1_spell_217_dream_weave,
   s1_struct_003_dream_anchor,
   s1_pack_006_dream_choir,
+  s1_curve_003_glimmer_wisp,
+  s1_curve_008_vision_anchor,
   gen_insurgency,
   s1_char_002_agent_zero,
   s1_char_010_iron_lion,
@@ -752,6 +768,8 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   s1_resurrect_003_ghost_cell_runner,
   s1_pack_005_cell_runner,
   s1_blast_003_strafe_runner,
+  s1_curve_004_cell_decoy,
+  s1_curve_009_trench_sergeant,
   gen_neutral,
   gen_programmer,
   gen_game_master_original,
@@ -890,6 +908,8 @@ export const ALL_CARD_DEFINITIONS: readonly CardDefinition[] = Object.freeze([
   s1_zeal_005_compliance_zealot,
   s1_struct_004_audit_tower,
   s1_blast_005_audit_artillery,
+  s1_curve_005_compliance_watcher,
+  s1_curve_010_sector_magistrate,
   s1_char_050_warden_prime,
   s1_char_051_oculus_sentinel,
   s1_char_052_compliance_officer,
