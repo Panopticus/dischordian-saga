@@ -22,7 +22,7 @@
    scripts/_gen-cinematics-manifest.mjs (re-run after future drops).
    ═══════════════════════════════════════════════════════ */
 
-import { assetUrl } from "../../client/src/lib/assetUrl";
+import { assetUrl } from "@shared/lib/assetUrl";
 import { makeAssetManifest } from "./_assetManifest";
 
 /* ─── Cinematics ─── */

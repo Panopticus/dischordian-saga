@@ -183,7 +183,21 @@ function send(ws: WebSocket | undefined, msg: ServerMessage) {
 }
 
 function broadcastToSpectators(match: ActiveMatch, msg: ServerMessage) {
+  // audit/02.F3 — compute the spectator view ONCE per broadcast tick,
+  // then send the cached buffer to every spectator. The previous loop
+  // re-stringified the state per-recipient, scaling CPU with spectator
+  // count. The deep clone in getSpectatorView is the dominant cost.
+  const isStateMsg = msg.type === "SPECTATE_STATE";
+  const cached = isStateMsg ? JSON.stringify(msg) : null;
   Array.from(match.spectators).forEach(specWs => {
+    if (cached !== null) {
+      try {
+        specWs.send(cached);
+      } catch {
+        /* drop on closed sockets — cleanup runs on next disconnect event */
+      }
+      return;
+    }
     send(specWs, msg);
   });
 }
@@ -1122,6 +1136,17 @@ export function setupPvpWebSocket(server: Server) {
             send(ws, { type: "ERROR", message: "Match not found or already ended" });
             // Send active matches list
             send(ws, { type: "ACTIVE_MATCHES", matches: getActiveMatchesList() });
+            return;
+          }
+
+          // audit/02.F3 — cap spectators per match. Without a cap an
+          // anonymous client could open thousands of WS connections,
+          // each calling SPECTATE on every active match — pinning CPU
+          // on broadcast and saturating memory with the per-spectator
+          // state copy.
+          const MAX_SPECTATORS_PER_MATCH = 200;
+          if (matchToWatch.spectators.size >= MAX_SPECTATORS_PER_MATCH) {
+            send(ws, { type: "ERROR", message: "Match spectator capacity reached" });
             return;
           }
 

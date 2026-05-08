@@ -79,6 +79,36 @@ export default tseslint.config(
     },
   },
   {
+    // audit/01.F3 — apps/shared/** is runtime-agnostic. Importing
+    // from apps/client (via the @ alias OR by relative path) drags
+    // browser-only code into the server bundle and breaks the
+    // dependency direction CLAUDE.md declares (@shared → apps/shared,
+    // @ → apps/client/src; one-way). This rule fails CI if anyone
+    // tries to reach upward.
+    files: ["apps/shared/**/*.{ts,tsx,mts,cts,js,jsx,mjs,cjs}"],
+    rules: {
+      // audit/01.F3 — graduated to "warn" because ~17 existing
+      // breaches (suitAdapters/*.ts → @/game/passiveBonusAggregator,
+      // narrativeValidator.ts → @/game/roomDialogs+storyMode) are
+      // known and tracked. Bumping to "error" lands once those
+      // modules are either moved into apps/shared/ or inverted to
+      // dependency-inject the data. New imports get caught by the
+      // warn level; CI-as-error gating will follow-up.
+      "no-restricted-imports": [
+        "warn",
+        {
+          patterns: [
+            {
+              group: ["@/*", "../client/*", "../../client/*", "../../../client/*"],
+              message:
+                "apps/shared must not import from apps/client. Move shared types/helpers into apps/shared/, or invert the dependency.",
+            },
+          ],
+        },
+      ],
+    },
+  },
+  {
     // Browser runtime context: client code.
     files: ["apps/client/**/*.{ts,tsx,js,jsx}"],
     languageOptions: {

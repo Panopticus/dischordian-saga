@@ -27,6 +27,13 @@ export default defineConfig({
   envDir: path.resolve(ROOT),
   root: path.resolve(ROOT, "apps", "client"),
   publicDir: path.resolve(ROOT, "apps", "client", "public"),
+  // audit/04.F5 — strip console.* and debugger from production builds.
+  // 89 console sites in apps/client/src each cost ~20-100µs in prod
+  // (the call still serialises args even with DevTools closed); zero
+  // diagnostic value once Sentry breadcrumbs cover the same ground.
+  esbuild: {
+    drop: process.env.NODE_ENV === "production" ? ["console", "debugger"] : [],
+  },
   build: {
     outDir: path.resolve(ROOT, "dist/public"),
     emptyOutDir: true,
@@ -58,7 +65,7 @@ export default defineConfig({
           // chess → chess board only).
           "vendor-pixi": ["pixi.js"],
           "vendor-three": ["three"],
-          "vendor-chess": ["chess.js", "stockfish"],
+          "vendor-chess": ["chess.js"],
           // UI primitives. The full Radix set ships across many
           // pages; bundling them as one chunk means the user
           // downloads it once on first interactive page and

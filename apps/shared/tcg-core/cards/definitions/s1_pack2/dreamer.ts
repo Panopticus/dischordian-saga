@@ -13,7 +13,7 @@
  * collide with the existing s1_ defs.
  */
 import type { CardDefinition } from "../../../index";
-import { assetUrl } from "../../../../../client/src/lib/assetUrl";
+import { assetUrl } from "@shared/lib/assetUrl";
 
 export const pack2_dreamer_arcane_monarch: CardDefinition = {
   id: "s1_pack2_dreamer_arcane_monarch" as CardDefinition["id"],
@@ -26,7 +26,7 @@ export const pack2_dreamer_arcane_monarch: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/arcane_monarch.webp"),
-  flavorText: "Of the dreamer.",
+  flavorText: "The dream pays its debts in static.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -43,7 +43,7 @@ export const pack2_dreamer_astral_warden: CardDefinition = {
   keywords: ["provoke"],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/astral_warden.webp"),
-  flavorText: "Of the dreamer.",
+  flavorText: "Wake gently. The signal is fragile.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -60,7 +60,7 @@ export const pack2_dreamer_awakened_neyon: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/awakened_neyon.webp"),
-  flavorText: "Of the dreamer.",
+  flavorText: "Sleep is the longest argument.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -77,7 +77,7 @@ export const pack2_dreamer_chrono_kitten: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/chrono_kitten.webp"),
-  flavorText: "Of the dreamer.",
+  flavorText: "Sleep is the longest argument.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -94,7 +94,7 @@ export const pack2_dreamer_dawn_ascendant: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/dawn_ascendant.webp"),
-  flavorText: "Of the dreamer.",
+  flavorText: "Sleep is the longest argument.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -111,7 +111,7 @@ export const pack2_dreamer_destiny: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/destiny.webp"),
-  flavorText: "Of the dreamer.",
+  flavorText: "The dream pays its debts in static.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -128,7 +128,7 @@ export const pack2_dreamer_dream_sentinel: CardDefinition = {
   keywords: ["provoke"],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/dream_sentinel.webp"),
-  flavorText: "Of the dreamer.",
+  flavorText: "The unconscious is a public square.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -145,7 +145,7 @@ export const pack2_dreamer_dream_walk: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/dream_walk.webp"),
-  flavorText: "Of the dreamer.",
+  flavorText: "The dream pays its debts in static.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -162,7 +162,7 @@ export const pack2_dreamer_dream_weave: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/dream_weave.webp"),
-  flavorText: "Of the dreamer.",
+  flavorText: "Sleep is the longest argument.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -179,7 +179,7 @@ export const pack2_dreamer_echoes_of_the_fall: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/echoes_of_the_fall.webp"),
-  flavorText: "Of the dreamer.",
+  flavorText: "Sleep is the longest argument.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -196,7 +196,7 @@ export const pack2_dreamer_entropy_roll: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/entropy_roll.webp"),
-  flavorText: "Of the dreamer.",
+  flavorText: "Sleep is the longest argument.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -213,7 +213,7 @@ export const pack2_dreamer_epoch_panther: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/epoch_panther.webp"),
-  flavorText: "Of the dreamer.",
+  flavorText: "Wake gently. The signal is fragile.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -230,7 +230,7 @@ export const pack2_dreamer_fates_edge: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/fates_edge.webp"),
-  flavorText: "Of the dreamer.",
+  flavorText: "Sleep is the longest argument.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -247,7 +247,7 @@ export const pack2_dreamer_fox_kit: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/fox_kit.webp"),
-  flavorText: "Of the dreamer.",
+  flavorText: "The dream pays its debts in static.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -264,7 +264,7 @@ export const pack2_dreamer_glyph_larva: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/glyph_larva.webp"),
-  flavorText: "Of the dreamer.",
+  flavorText: "Sleep is the longest argument.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -281,7 +281,7 @@ export const pack2_dreamer_golden_prophecy_shard: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/golden_prophecy_shard.webp"),
-  flavorText: "Of the dreamer.",
+  flavorText: "The dream pays its debts in static.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -298,7 +298,7 @@ export const pack2_dreamer_holographic_apex_fox: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/holographic_apex_fox.webp"),
-  flavorText: "Of the dreamer.",
+  flavorText: "Sleep is the longest argument.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -315,7 +315,7 @@ export const pack2_dreamer_investigators_lens: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/investigators_lens.webp"),
-  flavorText: "Of the dreamer.",
+  flavorText: "Sleep is the longest argument.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -332,7 +332,7 @@ export const pack2_dreamer_lucid_clarity: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/lucid_clarity.webp"),
-  flavorText: "Of the dreamer.",
+  flavorText: "The dream pays its debts in static.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -349,7 +349,7 @@ export const pack2_dreamer_lux_the_light: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/lux_the_light.webp"),
-  flavorText: "Of the dreamer.",
+  flavorText: "Sleep is the longest argument.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -366,7 +366,7 @@ export const pack2_dreamer_master_oracle: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/master_oracle.webp"),
-  flavorText: "Of the dreamer.",
+  flavorText: "Sleep is the longest argument.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -383,7 +383,7 @@ export const pack2_dreamer_minds_eye: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/minds_eye.webp"),
-  flavorText: "Of the dreamer.",
+  flavorText: "Sleep is the longest argument.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -400,7 +400,7 @@ export const pack2_dreamer_nythera: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/nythera.webp"),
-  flavorText: "Of the dreamer.",
+  flavorText: "The dream pays its debts in static.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -417,7 +417,7 @@ export const pack2_dreamer_oracles_blessing: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/oracles_blessing.webp"),
-  flavorText: "Of the dreamer.",
+  flavorText: "The dream pays its debts in static.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -434,7 +434,7 @@ export const pack2_dreamer_oracles_memory_fragment: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/oracles_memory_fragment.webp"),
-  flavorText: "Of the dreamer.",
+  flavorText: "The dream pays its debts in static.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -451,7 +451,7 @@ export const pack2_dreamer_oracles_wrath: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/oracles_wrath.webp"),
-  flavorText: "Of the dreamer.",
+  flavorText: "Sleep is the longest argument.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -468,7 +468,7 @@ export const pack2_dreamer_precognition: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/precognition.webp"),
-  flavorText: "Of the dreamer.",
+  flavorText: "Wake gently. The signal is fragile.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -485,7 +485,7 @@ export const pack2_dreamer_probability_storm: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/probability_storm.webp"),
-  flavorText: "Of the dreamer.",
+  flavorText: "Sleep is the longest argument.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -502,7 +502,7 @@ export const pack2_dreamer_probability_surge: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/probability_surge.webp"),
-  flavorText: "Of the dreamer.",
+  flavorText: "The dream pays its debts in static.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -519,7 +519,7 @@ export const pack2_dreamer_prophecy_incarnate: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/prophecy_incarnate.webp"),
-  flavorText: "Of the dreamer.",
+  flavorText: "Sleep is the longest argument.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -536,7 +536,7 @@ export const pack2_dreamer_prophecy_keeper: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/prophecy_keeper.webp"),
-  flavorText: "Of the dreamer.",
+  flavorText: "Sleep is the longest argument.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -553,7 +553,7 @@ export const pack2_dreamer_prophetic_collapse: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/prophetic_collapse.webp"),
-  flavorText: "Of the dreamer.",
+  flavorText: "The dream pays its debts in static.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -570,7 +570,7 @@ export const pack2_dreamer_reality_anchor: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/reality_anchor.webp"),
-  flavorText: "Of the dreamer.",
+  flavorText: "The unconscious is a public square.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -587,7 +587,7 @@ export const pack2_dreamer_reality_fracture: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/reality_fracture.webp"),
-  flavorText: "Of the dreamer.",
+  flavorText: "Sleep is the longest argument.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -604,7 +604,7 @@ export const pack2_dreamer_resurrection_protocol: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/resurrection_protocol.webp"),
-  flavorText: "Of the dreamer.",
+  flavorText: "Sleep is the longest argument.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -621,7 +621,7 @@ export const pack2_dreamer_sigil_moth: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/sigil_moth.webp"),
-  flavorText: "Of the dreamer.",
+  flavorText: "The dream pays its debts in static.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -638,7 +638,7 @@ export const pack2_dreamer_signal_bearer: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/signal_bearer.webp"),
-  flavorText: "Of the dreamer.",
+  flavorText: "Sleep is the longest argument.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -655,7 +655,7 @@ export const pack2_dreamer_spectral_fox: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/spectral_fox.webp"),
-  flavorText: "Of the dreamer.",
+  flavorText: "Sleep is the longest argument.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -672,7 +672,7 @@ export const pack2_dreamer_starlight_familiar: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/starlight_familiar.webp"),
-  flavorText: "Of the dreamer.",
+  flavorText: "Sleep is the longest argument.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -689,7 +689,7 @@ export const pack2_dreamer_temporal_cat: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/temporal_cat.webp"),
-  flavorText: "Of the dreamer.",
+  flavorText: "The dream pays its debts in static.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -706,7 +706,7 @@ export const pack2_dreamer_the_advocate: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/the_advocate.webp"),
-  flavorText: "Of the dreamer.",
+  flavorText: "The dream pays its debts in static.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -723,7 +723,7 @@ export const pack2_dreamer_the_ascended_oracle: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/the_ascended_oracle.webp"),
-  flavorText: "Of the dreamer.",
+  flavorText: "Sleep is the longest argument.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -740,7 +740,7 @@ export const pack2_dreamer_the_degen: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/the_degen.webp"),
-  flavorText: "Of the dreamer.",
+  flavorText: "Sleep is the longest argument.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -757,7 +757,7 @@ export const pack2_dreamer_the_dreamer_general: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/the_dreamer_general.webp"),
-  flavorText: "Of the dreamer.",
+  flavorText: "Sleep is the longest argument.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -774,7 +774,7 @@ export const pack2_dreamer_the_dreamer_legendary: CardDefinition = {
   keywords: ["celerity"],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/the_dreamer_legendary.webp"),
-  flavorText: "Of the dreamer.",
+  flavorText: "The dream pays its debts in static.",
   rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 0,
@@ -791,7 +791,7 @@ export const pack2_dreamer_the_enigma_epic: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/the_enigma_epic.webp"),
-  flavorText: "Of the dreamer.",
+  flavorText: "The dream pays its debts in static.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -808,7 +808,7 @@ export const pack2_dreamer_the_enigma_legendary: CardDefinition = {
   keywords: ["celerity"],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/the_enigma_legendary.webp"),
-  flavorText: "Of the dreamer.",
+  flavorText: "Sleep is the longest argument.",
   rulesVersion: "1.1.0",
   trial_categories: ["offensive"] as const,
   verdict_delta: 0,
@@ -825,7 +825,7 @@ export const pack2_dreamer_the_forgotten: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/the_forgotten.webp"),
-  flavorText: "Of the dreamer.",
+  flavorText: "We hum what we cannot say.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -842,7 +842,7 @@ export const pack2_dreamer_the_inventor: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/the_inventor.webp"),
-  flavorText: "Of the dreamer.",
+  flavorText: "Sleep is the longest argument.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -859,7 +859,7 @@ export const pack2_dreamer_the_judge: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/the_judge.webp"),
-  flavorText: "Of the dreamer.",
+  flavorText: "Sleep is the longest argument.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -876,7 +876,7 @@ export const pack2_dreamer_the_knowledge: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/the_knowledge.webp"),
-  flavorText: "Of the dreamer.",
+  flavorText: "Sleep is the longest argument.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -893,7 +893,7 @@ export const pack2_dreamer_the_oracle_dreamer: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/the_oracle_dreamer.webp"),
-  flavorText: "Of the dreamer.",
+  flavorText: "We hum what we cannot say.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -910,7 +910,7 @@ export const pack2_dreamer_the_oracle_prophet: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/the_oracle_prophet.webp"),
-  flavorText: "Of the dreamer.",
+  flavorText: "Sleep is the longest argument.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -927,7 +927,7 @@ export const pack2_dreamer_the_prisoner: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/the_prisoner.webp"),
-  flavorText: "Of the dreamer.",
+  flavorText: "Sleep is the longest argument.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -944,7 +944,7 @@ export const pack2_dreamer_the_resurrectionist: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/the_resurrectionist.webp"),
-  flavorText: "Of the dreamer.",
+  flavorText: "The dream pays its debts in static.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -961,7 +961,7 @@ export const pack2_dreamer_the_seer: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/the_seer.webp"),
-  flavorText: "Of the dreamer.",
+  flavorText: "Sleep is the longest argument.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -978,7 +978,7 @@ export const pack2_dreamer_top_floor_door: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/top_floor_door.webp"),
-  flavorText: "Of the dreamer.",
+  flavorText: "Sleep is the longest argument.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -995,7 +995,7 @@ export const pack2_dreamer_vision_cascade: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/vision_cascade.webp"),
-  flavorText: "Of the dreamer.",
+  flavorText: "The dream pays its debts in static.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -1012,7 +1012,7 @@ export const pack2_dreamer_vision_walker: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/vision_walker.webp"),
-  flavorText: "Of the dreamer.",
+  flavorText: "Sleep is the longest argument.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -1029,7 +1029,7 @@ export const pack2_dreamer_vision_weaver: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/vision_weaver.webp"),
-  flavorText: "Of the dreamer.",
+  flavorText: "Sleep is the longest argument.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -1046,7 +1046,7 @@ export const pack2_dreamer_vortex_seal: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/vortex_seal.webp"),
-  flavorText: "Of the dreamer.",
+  flavorText: "The dream pays its debts in static.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,
@@ -1063,7 +1063,7 @@ export const pack2_dreamer_vortex_walker: CardDefinition = {
   keywords: [],
   abilities: [],  // AUTO-DRAFT — design owns balance + abilities pass
   art: assetUrl("art/cards/dreamer/vortex_walker.webp"),
-  flavorText: "Of the dreamer.",
+  flavorText: "Wake gently. The signal is fragile.",
   rulesVersion: "1.1.0",
   trial_categories: ["defensive"] as const,
   verdict_delta: 0,

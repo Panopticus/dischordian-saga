@@ -15,7 +15,7 @@
  * abilities, narrative-only.
  */
 import type { CardDefinition } from "../../../index";
-import { assetUrl } from "../../../../../client/src/lib/assetUrl";
+import { assetUrl } from "@shared/lib/assetUrl";
 
 export const card_locke_sworn_pen_title: CardDefinition = {
   id: "card_locke_sworn_pen_title" as CardDefinition["id"],

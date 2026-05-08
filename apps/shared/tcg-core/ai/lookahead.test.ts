@@ -98,7 +98,7 @@ describe("pickEpsilonGreedy", () => {
   ];
 
   it("returns null on empty input", () => {
-    expect(pickEpsilonGreedy([], 0.5)).toBeNull();
+    expect(pickEpsilonGreedy([], 0.5, () => 0)).toBeNull();
   });
 
   it("picks the best when rng > epsilon", () => {

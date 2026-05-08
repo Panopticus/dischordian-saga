@@ -1134,6 +1134,11 @@ export class FightEngine2D {
     this.ctx = canvas.getContext("2d")!;
     this.canvas.width = GAME_WIDTH;
     this.canvas.height = GAME_HEIGHT;
+    // audit/08.F2 — ensure the touch-action: none rule applies even
+    // if the page-level wrapper forgot the className. The fight HUD
+    // also reads pointer events directly; without this, iOS WKWebView
+    // double-tap zooms the arena.
+    this.canvas.classList.add("game-canvas-mount");
     this.difficulty = difficulty;
     this.aiProfile = AI_PROFILES[difficulty];
     this.callbacks = callbacks;

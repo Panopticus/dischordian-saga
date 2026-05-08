@@ -1,4 +1,4 @@
-import { assetUrl } from "../client/src/lib/assetUrl";
+import { assetUrl } from "@shared/lib/assetUrl";
 /* ═══════════════════════════════════════════════════════
    ACT 2 INTERLUDE DATA — §6 "The Forged Hand"
 

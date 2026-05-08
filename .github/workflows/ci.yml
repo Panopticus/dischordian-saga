@@ -176,6 +176,17 @@ jobs:
       - name: Run fresh-DB smoke test (orphan bootstraps + DDL assertions)
         run: pnpm db:smoke
 
+      - name: Run integration tests (router-level, real MySQL)
+        # audit/C-09: closes the unit-test admission that "transactional
+        # + idempotent paths require a real MySQL fixture." The
+        # integration tests live in *.integration.test.ts and are
+        # skipped in unit-test runs (vitest's `it.skipIf`); they only
+        # execute when INTEGRATION_TEST_DATABASE_URL is set, which is
+        # only in this job.
+        env:
+          INTEGRATION_TEST_DATABASE_URL: ${{ env.DATABASE_URL }}
+        run: pnpm test:integration
+
   # Auth-gated Playwright e2e job (T9.11 / Tier 9 I).
   #
   # This job is the missing wiring for our auth-gated specs. The

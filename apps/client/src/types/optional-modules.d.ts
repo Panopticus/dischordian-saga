@@ -48,6 +48,11 @@ declare module "@sentry/node" {
     message: string,
     level?: "fatal" | "error" | "warning" | "info" | "debug",
   ): void;
+  // Used by /api/health to detect whether Sentry actually initialized
+  // (env vars set + SDK installed); returns undefined if not.
+  export function getClient(): unknown | undefined;
+  // Drains the Sentry transport; called from the SIGTERM handler.
+  export function close(timeoutMs?: number): Promise<boolean>;
 }
 
 declare module "@opentelemetry/sdk-node" {

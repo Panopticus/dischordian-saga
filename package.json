@@ -21,12 +21,14 @@
     "install-hook:void-energy": "ln -sf ../../scripts/void-energy-pre-commit.sh .git/hooks/pre-commit && echo 'installed .git/hooks/pre-commit → scripts/void-energy-pre-commit.sh'",
     "format": "prettier --write .",
     "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "test:integration": "vitest run apps/server/**/*.integration.test.ts",
     "test:e2e": "playwright test --config apps/e2e/playwright.config.ts",
     "seed:e2e-user": "tsx apps/scripts/seed-e2e-user.ts",
-    "db:push": "drizzle-kit push",
+    "db:push": "tsx scripts/guard-db-push.ts && drizzle-kit push",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
-    "db:migrate:prod": "drizzle-kit migrate",
+    "db:migrate:prod": "tsx scripts/guard-db-migrate-prod.ts && drizzle-kit migrate",
     "db:smoke": "tsx apps/scripts/db-fresh-smoke.ts",
     "backfill:trade-empire": "tsx apps/scripts/backfill-trade-empire-blob.ts",
     "optimize:images": "tsx apps/scripts/optimize-images.ts",
@@ -173,7 +175,6 @@
     "socket.io": "^4.8.3",
     "socket.io-client": "^4.8.3",
     "sonner": "^2.0.7",
-    "stockfish": "^18.0.7",
     "streamdown": "^1.4.0",
     "stripe": "^20.4.1",
     "superjson": "^1.13.3",
@@ -203,6 +204,7 @@
     "@types/socket.io": "^3.0.2",
     "@types/ws": "^8.18.1",
     "@vitejs/plugin-react": "^5.0.4",
+    "@vitest/coverage-v8": "^4.1.5",
     "add": "^2.0.6",
     "autoprefixer": "^10.4.20",
     "drizzle-kit": "^0.31.4",
@@ -230,8 +232,7 @@
     "onlyBuiltDependencies": [
       "@tailwindcss/oxide",
       "esbuild",
-      "sharp",
-      "stockfish"
+      "sharp"
     ],
     "overrides": {
       "tailwindcss>nanoid": "3.3.7"

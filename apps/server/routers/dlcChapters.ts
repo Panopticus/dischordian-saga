@@ -1,3 +1,8 @@
+// audit-allow-proc: listAvailable, getProgress, getChapterStatus
+// These three procs are part of the Wave 2 DLC surface; the client
+// today only consumes listAll + markChapterComplete, but the others
+// remain registered as the entry points the upcoming chapter-detail
+// + per-player-progress UIs will call once those pages ship.
 /* ═══════════════════════════════════════════════════════
    DLC CHAPTERS — tRPC router (foundation)
 

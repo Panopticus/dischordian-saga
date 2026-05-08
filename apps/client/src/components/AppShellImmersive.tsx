@@ -19,14 +19,22 @@
    - The UI should be invisible until needed
    - The world should teach the player, not menus
    ═══════════════════════════════════════════════════════ */
-import { useState, type ReactNode } from "react";
+import { lazy, Suspense, useState, type ReactNode } from "react";
 import { Link, useLocation } from "wouter";
 import { useGame } from "@/contexts/GameContext";
 import { usePlayer } from "@/contexts/PlayerContext";
 import {
   Map, Shield, ScrollText, Radio, X, Camera, Home,
 } from "lucide-react";
-import ShaderOverlay from "@/components/ShaderOverlay";
+// Lazy: ShaderOverlay pulls three.js + 5 postprocessing passes
+// (EffectComposer, RenderPass, UnrealBloomPass, ShaderPass, OutputPass)
+// into whichever chunk imports it. Eagerly loading from AppShell put
+// three.js into the *initial* chunk for every route — even /terms,
+// /privacy, /leaderboard. With React.lazy + Suspense it lands in a
+// separate chunk only fetched once the shell mounts; on `quality-low`
+// the component bails out instantly so cellular / low-end devices skip
+// the bloom shader entirely.
+const ShaderOverlay = lazy(() => import("@/components/ShaderOverlay"));
 import AmbientSkybox from "@/components/AmbientSkybox";
 import { VoidAmbientParticles } from "@/engine/VoidAmbientParticles";
 import { trpc } from "@/lib/trpc";
@@ -161,12 +169,16 @@ export default function AppShell({ children, elaraTTS: _elaraTTS }: { children: 
 
   return (
     <div className="min-h-screen flex flex-col relative">
-      {/* ═══ SHADER OVERLAY — Corruption + morality post-processing ═══ */}
-      <ShaderOverlay
-        corruption={Math.max(0, Math.min(1, (virusLoadPct || 0) / 100))}
-        morality={gameState.moralityScore || 0}
-        enabled={!isAwakening}
-      />
+      {/* ═══ SHADER OVERLAY — Corruption + morality post-processing ═══
+          Suspended (no fallback DOM) so the rest of the shell renders
+          immediately while three.js + postprocessing passes load. */}
+      <Suspense fallback={null}>
+        <ShaderOverlay
+          corruption={Math.max(0, Math.min(1, (virusLoadPct || 0) / 100))}
+          morality={gameState.moralityScore || 0}
+          enabled={!isAwakening}
+        />
+      </Suspense>
 
       {/* ═══ AMBIENT SKYBOX — Persistent "you are in space" layer.
           Replaces the faded Ark-control-room still, which read as a

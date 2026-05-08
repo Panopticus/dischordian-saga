@@ -28,6 +28,8 @@ import { checkMobileWiring } from "./checks/mobileWiring";
 import { checkListVirtualizationAdoption } from "./checks/listVirtualizationAdoption";
 import { checkAssetPrefetchManifest } from "./checks/assetPrefetchManifest";
 import { checkProcedureRateLimits } from "./checks/procedureRateLimits";
+import { checkVoidContrastCoverage } from "./checks/voidContrastCoverage";
+import { checkCardFlavorQuality } from "./checks/cardFlavorQuality";
 import { checkGlobalAlignmentMeter } from "./checks/globalAlignmentMeter";
 import { checkMobileNarratorAdoption } from "./checks/mobileNarratorAdoption";
 import { checkShadowTongueRoomCoverage } from "./checks/shadowTongueRoomCoverage";
@@ -186,6 +188,32 @@ export const COMPLETENESS_REGISTRY: ReadonlyArray<CompletenessEntry> = [
     description:
       "docs/built/LORE_BIBLE.md exactly matches scripts/generate-lore-bible.ts output from apps/client/src/data/loredex-data.json. The MD is a generated artifact; loredex-data.json is canonical.",
     check: () => checkLoreBibleDrift(),
+  },
+  // ─── Accessibility ────────────────────────────────────────
+  {
+    // audit/07.F5 — Void Energy fg/bg token pairs must hit WCAG AA
+    // contrast. Currently a RATCHET starting at the worst case
+    // (zero pairs measured) — populated by scripts/audit-contrast.ts
+    // (planned) which renders the page in headless Chrome and reads
+    // computed colours.
+    id: "a11y.void_contrast_coverage",
+    name: "Void Energy contrast coverage",
+    description:
+      "Every fg/bg pair in apps/shared/_completeness/checks/voidContrastCoverage.ts TOKEN_PAIRS has a measured WCAG contrast ratio above its threshold (≥4.5 for normal text, ≥3 for large).",
+    check: () => checkVoidContrastCoverage(),
+    ratchet: { target: 0 },
+  },
+  // ─── Content quality ──────────────────────────────────────
+  {
+    // audit/11.F4 — sweep boilerplate "Of the X." / "Outside every
+    // faction…" placeholder flavors. Wave 3.3 closed 409; class/
+    // imprint/allegiance lines remain.
+    id: "content.card_flavor_quality",
+    name: "Card flavor-text quality",
+    description:
+      "Every card with flavorText has length ≥20 and does not match a known boilerplate template (see apps/shared/_completeness/checks/cardFlavorQuality.ts BOILERPLATE_PATTERNS).",
+    check: () => checkCardFlavorQuality(),
+    ratchet: { target: 0 },
   },
   // ─── Narrative — designs the gate did not previously cover ───
   // Added 2026-05-08 alongside docs/design/INCOMPLETE_DESIGNS_AUDIT_2026-05-08.md.

@@ -393,7 +393,7 @@ function CanvasTransition({
       className="fixed inset-0 z-[100] flex items-center justify-center"
       style={{ background: "var(--bg-void)" }}
     >
-      <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
+      <canvas ref={canvasRef} className="game-canvas-mount absolute inset-0 w-full h-full" />
       <div className="relative z-10 text-center">
         <AnimatePresence mode="wait">
           {phase === "corridor" && (

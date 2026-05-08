@@ -19,6 +19,7 @@ import { performanceMiddleware } from "../performanceMonitor";
 import { sentryErrorHandler, waitForSentry } from "../sentry";
 import { waitForOTel } from "../otel";
 import { metricsHandler } from "../metrics";
+import { sql } from "drizzle-orm";
 import { publicIpRateLimit } from "../ipRateLimit";
 
 function isPortAvailable(port: number): Promise<boolean> {
@@ -98,10 +99,16 @@ async function startServer() {
             eventType: event.type,
             source: "stripe",
           });
+        } else if (process.env.NODE_ENV === "production") {
+          // Fail-closed in prod: if the DB is missing, layer-A
+          // idempotency cannot run. Returning 5xx asks Stripe to retry
+          // (it will, with backoff) rather than silently letting a
+          // non-checkout event slip past with no replay guard.
+          console.error("[Webhook] DB unavailable in production; refusing to process without idempotency layer A");
+          return res.status(503).json({ error: "service_unavailable_db_required" });
         }
-        // If db is null (tests / local without MySQL) the layer-A
-        // check is bypassed; layer B still applies in production where
-        // db is always present.
+        // In non-prod with a missing db, both layers are bypassed —
+        // acceptable for local dev where Stripe isn't actually firing.
       } catch (err: unknown) {
         const msg = err instanceof Error ? err.message : String(err);
         if (/duplicate|unique/i.test(msg)) {
@@ -312,6 +319,41 @@ async function startServer() {
   // exposition for default Node metrics + tRPC histograms + WS /
   // currency counters.
   app.get("/metrics", metricsHandler);
+
+  // /api/health — Railway healthcheck + CI readiness probe.
+  // Mounted BEFORE per-IP rate limit and CSRF so that orchestrators
+  // and CI can hit it without ceremony. Returns 200 only if the
+  // process is alive AND the DB ping succeeds (so a stale-static
+  // SPA doesn't fool railway into thinking the server is healthy
+  // when Express has actually crashed).
+  app.get("/api/health", async (req, res) => {
+    const out: { ok: boolean; uptimeSec: number; dbPing?: boolean; sentryReady?: boolean; otelReady?: boolean } = {
+      ok: true,
+      uptimeSec: Math.floor(process.uptime()),
+    };
+    try {
+      const { getDb } = await import("../db");
+      const db = await getDb();
+      if (db) {
+        await db.execute(sql`SELECT 1`);
+        out.dbPing = true;
+      } else {
+        out.dbPing = false;
+        out.ok = false;
+      }
+    } catch {
+      out.dbPing = false;
+      out.ok = false;
+    }
+    try {
+      const Sentry = await import("@sentry/node");
+      out.sentryReady = !!Sentry.getClient();
+    } catch {
+      out.sentryReady = false;
+    }
+    out.otelReady = !!(process.env.OTEL_EXPORTER_OTLP_ENDPOINT);
+    res.status(out.ok ? 200 : 503).json(out);
+  });
 
   // D3 — Per-IP token-bucket rate limit on every unauthenticated
   // surface (everything not gated by the OAuth callback or the
@@ -767,6 +809,49 @@ async function startServer() {
   server.listen(port, () => {
     console.log(`Server running on http://localhost:${port}/`);
   });
+
+  // Graceful shutdown — drain in-flight requests + WebSocket connections,
+  // flush Sentry/OTel, then exit. Railway sends SIGTERM on every redeploy
+  // (with a 30s grace window). Without this, in-flight Stripe webhooks,
+  // PvP/chess match ticks, and tRPC requests get killed mid-flight.
+  let shuttingDown = false;
+  const shutdown = async (signal: string) => {
+    if (shuttingDown) return;
+    shuttingDown = true;
+    console.log(`[shutdown] ${signal} received — draining…`);
+    const closed = new Promise<void>((resolve) => {
+      server.close((err) => {
+        if (err) console.error("[shutdown] server.close error:", err);
+        resolve();
+      });
+    });
+    // Bound the wait so the platform's SIGKILL doesn't preempt us.
+    const timeout = new Promise<void>((resolve) => setTimeout(resolve, 25_000));
+    await Promise.race([closed, timeout]);
+    try {
+      const Sentry = await import("@sentry/node");
+      await Sentry.close(2_000);
+    } catch (err) {
+      console.error("[shutdown] Sentry.close failed:", err);
+    }
+    try {
+      // shutdownOTel is optional — older otel.ts revisions don't export
+      // it. Cast through unknown so TS doesn't complain about an absent
+      // member; runtime check guards execution.
+      const otelMod = (await import("../otel")) as unknown as {
+        shutdownOTel?: () => Promise<void>;
+      };
+      if (typeof otelMod.shutdownOTel === "function") {
+        await otelMod.shutdownOTel();
+      }
+    } catch (err) {
+      void err;
+    }
+    console.log("[shutdown] done");
+    process.exit(0);
+  };
+  process.on("SIGTERM", () => void shutdown("SIGTERM"));
+  process.on("SIGINT", () => void shutdown("SIGINT"));
 }
 
 startServer().catch(console.error);

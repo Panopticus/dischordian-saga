@@ -10,6 +10,7 @@
 import { z } from "zod";
 import { logger } from "../logger";
 import { publicProcedure, protectedProcedure, router } from "../_core/trpc";
+import { procedureRateLimit } from "../_core/procedureRateLimit";
 import { getDb, type DrizzleDb } from "../db";
 import type { TWPlayerState } from "../../db/schema";
 import { twSectors, twPlayerState, twGameLog, twColonies, cards, userCards, users, shipUpgrades, playerBases } from "../../db/schema";
@@ -205,6 +206,7 @@ export const tradeWarsRouter = router({
 
   // Warp to a connected sector
   warp: protectedProcedure
+    .use(procedureRateLimit({ windowMs: 60_000, max: 30 }))
     .input(z.object({ targetSector: z.number() }))
     .mutation(async ({ ctx, input }) => {
       const db = await getDb();
@@ -318,6 +320,7 @@ export const tradeWarsRouter = router({
   // `factionReputation` field is gone (Zod strip-mode silently
   // discards it on the wire if old clients still send it).
   trade: protectedProcedure
+    .use(procedureRateLimit({ windowMs: 60_000, max: 30 }))
     .input(z.object({
       commodity: z.enum(["fuelOre", "organics", "equipment"]),
       action: z.enum(["buy", "sell"]),
@@ -511,6 +514,7 @@ export const tradeWarsRouter = router({
 
   // Buy/upgrade ship at stardock
   upgradeShip: protectedProcedure
+    .use(procedureRateLimit({ windowMs: 60_000, max: 30 }))
     .input(z.object({ shipType: z.string() }))
     .mutation(async ({ ctx, input }) => {
       const db = await getDb();
@@ -557,6 +561,7 @@ export const tradeWarsRouter = router({
 
   // Buy fighters at stardock
   buyFighters: protectedProcedure
+    .use(procedureRateLimit({ windowMs: 60_000, max: 30 }))
     .input(z.object({ quantity: z.number().min(1).max(1000) }))
     .mutation(async ({ ctx, input }) => {
       const db = await getDb();
@@ -926,6 +931,7 @@ export const tradeWarsRouter = router({
 
   // Claim a planet in current sector
   claimPlanet: protectedProcedure
+    .use(procedureRateLimit({ windowMs: 60_000, max: 30 }))
     .input(z.object({
       planetName: z.string().min(1).max(256),
       colonyType: z.enum(["mining", "agriculture", "technology", "military", "trading"]).default("mining"),
@@ -1036,8 +1042,12 @@ export const tradeWarsRouter = router({
     });
   }),
 
-  // Collect income from all colonies
-  collectIncome: protectedProcedure.mutation(async ({ ctx }) => {
+  // Collect income from all colonies. Rate-limited because the underlying
+  // economic loop (looping through colonies, summing income) is a soft
+  // farming target if a script can fire it once per second.
+  collectIncome: protectedProcedure
+    .use(procedureRateLimit({ windowMs: 60_000, max: 12 }))
+    .mutation(async ({ ctx }) => {
     const db = await getDb();
     if (!db) return { success: false, message: "Database unavailable" };
 
@@ -1119,6 +1129,7 @@ export const tradeWarsRouter = router({
 
   // Upgrade a colony
   upgradeColony: protectedProcedure
+    .use(procedureRateLimit({ windowMs: 60_000, max: 30 }))
     .input(z.object({ colonyId: z.number() }))
     .mutation(async ({ ctx, input }) => {
       const db = await getDb();
@@ -1163,6 +1174,7 @@ export const tradeWarsRouter = router({
 
   // Fortify colony (add defense)
   fortifyColony: protectedProcedure
+    .use(procedureRateLimit({ windowMs: 60_000, max: 30 }))
     .input(z.object({ colonyId: z.number(), fighters: z.number().min(1).max(500) }))
     .mutation(async ({ ctx, input }) => {
       const db = await getDb();
@@ -1205,6 +1217,7 @@ export const tradeWarsRouter = router({
   }),
 
   upgradeShipModule: protectedProcedure
+    .use(procedureRateLimit({ windowMs: 60_000, max: 30 }))
     .input(z.object({ upgradeType: z.enum(["hull", "engine", "weapons", "shields", "cargo", "scanner"]) }))
     .mutation(async ({ ctx, input }) => {
       const db = await getDb();
@@ -1288,6 +1301,7 @@ export const tradeWarsRouter = router({
   }),
 
   buildBase: protectedProcedure
+    .use(procedureRateLimit({ windowMs: 60_000, max: 30 }))
     .input(z.object({ sectorId: z.number(), baseName: z.string().min(1).max(64).optional() }))
     .mutation(async ({ ctx, input }) => {
       const db = await getDb();

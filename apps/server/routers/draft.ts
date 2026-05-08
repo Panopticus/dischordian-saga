@@ -4,6 +4,7 @@
 import { z } from "zod";
 import { eq, and, desc, sql } from "drizzle-orm";
 import { protectedProcedure, publicProcedure, router } from "../_core/trpc";
+import { procedureRateLimit } from "../_core/procedureRateLimit";
 import { getDb } from "../db";
 import {
   draftTournaments, draftParticipants, cards, dreamBalance, userCards,
@@ -44,6 +45,7 @@ async function getRandomCardPool(db: NonNullable<Awaited<ReturnType<typeof getDb
 export const draftRouter = router({
   /** Create a new draft tournament */
   create: protectedProcedure
+    .use(procedureRateLimit({ windowMs: 60_000, max: 30 }))
     .input(z.object({
       maxPlayers: z.number().min(2).max(8).default(2),
       draftRounds: z.number().min(5).max(30).default(15),
@@ -99,6 +101,7 @@ export const draftRouter = router({
 
   /** Join an existing draft tournament */
   join: protectedProcedure
+    .use(procedureRateLimit({ windowMs: 60_000, max: 30 }))
     .input(z.object({ tournamentCode: z.string().min(4).max(8) }))
     .mutation(async ({ ctx, input }) => {
       const db = await getDb();
@@ -209,6 +212,7 @@ export const draftRouter = router({
 
   /** Pick a card during draft */
   pickCard: protectedProcedure
+    .use(procedureRateLimit({ windowMs: 60_000, max: 60 }))
     .input(z.object({ tournamentId: z.number(), cardId: z.string() }))
     .mutation(async ({ ctx, input }) => {
       const db = await getDb();

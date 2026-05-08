@@ -14,6 +14,7 @@
    ═══════════════════════════════════════════════════════ */
 import { z } from "zod";
 import { router, protectedProcedure, publicProcedure, adminProcedure } from "../_core/trpc";
+import { procedureRateLimit } from "../_core/procedureRateLimit";
 import { getDb, type DrizzleDb } from "../db";
 import { logger } from "../logger";
 import { grantCardReward } from "../services/cardRewardService";
@@ -632,6 +633,7 @@ export const casinoRouter = router({
   /** Void Slots — 3 reels, bet multiplied by match tier. */
   playVoidSlots: protectedProcedure
     .use(checkFeatureFlag("casino"))
+    .use(procedureRateLimit({ windowMs: 60_000, max: 30 }))
     .input(z.object({ bet: z.number().min(1).max(1000) }))
     .mutation(async ({ ctx, input }) => {
       const db = await getDb();
@@ -672,6 +674,7 @@ export const casinoRouter = router({
   /** Quantum Roulette — bet on one or more factions. */
   playQuantumRoulette: protectedProcedure
     .use(checkFeatureFlag("casino"))
+    .use(procedureRateLimit({ windowMs: 60_000, max: 30 }))
     .input(z.object({
       bet: z.number().min(1).max(1000),
       kind: z.enum(["straight", "adjacent", "half"]),
@@ -770,6 +773,7 @@ export const casinoRouter = router({
    *  current war state; the client only picks which market to bet on. */
   playFactionWarBet: protectedProcedure
     .use(checkFeatureFlag("casino"))
+    .use(procedureRateLimit({ windowMs: 60_000, max: 30 }))
     .input(z.object({
       bet: z.number().min(10).max(1000),
       betId: z.string(),
@@ -1095,6 +1099,7 @@ export const casinoRouter = router({
    *  audit log. Drains the pool into the player's Dream balance. */
   claimJackpot: protectedProcedure
     .use(checkFeatureFlag("casino"))
+    .use(procedureRateLimit({ windowMs: 60_000, max: 5 }))
     .mutation(async ({ ctx }) => {
       const db = await getDb();
       if (!db) throw new Error("DB unavailable");

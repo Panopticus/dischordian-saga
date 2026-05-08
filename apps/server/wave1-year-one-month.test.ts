@@ -63,7 +63,10 @@ describe("Wave 1 — GameState schema carries yearOneMonth", () => {
   });
 
   it("provider value surfaces both methods to consumers", () => {
-    const valueBlockMatch = ctxSrc.match(/<GameContext\.Provider[\s\S]*?\}\}>/);
+    // The provider value is now built via useMemo for stable identity
+    // (audit/C-04). Match the useMemo body instead of the inline
+    // value={{ ... }} pattern.
+    const valueBlockMatch = ctxSrc.match(/const value = useMemo\(\(\) => \(\{[\s\S]*?\}\),\s*\[/);
     expect(valueBlockMatch).not.toBeNull();
     expect(valueBlockMatch![0]).toContain("advanceYearOneMonth");
     expect(valueBlockMatch![0]).toContain("getYearOneMonth");

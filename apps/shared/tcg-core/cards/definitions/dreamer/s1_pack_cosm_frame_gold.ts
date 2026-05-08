@@ -22,7 +22,7 @@
  */
 import type { CardDefinition } from "../../../index";
 
-import { assetUrl } from "../../../../../client/src/lib/assetUrl";
+import { assetUrl } from "@shared/lib/assetUrl";
 export const cardDef: CardDefinition = {
   id: "s1_pack_cosm_frame_gold" as CardDefinition["id"],
   name: "Golden Prophecy Shard",

@@ -1,4 +1,4 @@
-import { Suspense, lazy, useState, useEffect, useRef, useCallback, type ReactNode, type ComponentType } from "react";
+import { Suspense, lazy, useState, useEffect, useRef, useCallback, useMemo, type ReactNode, type ComponentType } from "react";
 import { MotionConfig } from "framer-motion";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -84,6 +84,8 @@ import { useGearSync } from "./hooks/useGearSync";
 import { useAuth } from "./_core/hooks/useAuth";
 import { useAnalytics } from "./hooks/useAnalytics";
 import { useTutorialOrchestrator } from "./hooks/useTutorialOrchestrator";
+import { useAutoTutorial } from "./hooks/useAutoTutorial";
+import AutoTutorialPrompt from "./components/AutoTutorialPrompt";
 import { syncFromServer, initSync } from "@/lib/settingsSync";
 import { detectQualityTier, applyQualityTierToDOM } from "@/lib/qualityTier";
 import { installViewTransitions } from "@/lib/viewTransitions";
@@ -288,6 +290,7 @@ const NPCInboxPage = lazy(() => import("./game/NPCInboxPage"));
 const AllianceWarPage = lazy(() => import("./game/AllianceWarPage"));
 const TermsPage = lazy(() => import("./pages/TermsPage"));
 const PrivacyPage = lazy(() => import("./pages/PrivacyPage"));
+const CookiePage = lazy(() => import("./pages/CookiePage"));
 const PlanetGalleryPage = lazy(() => import("./pages/PlanetGalleryPage"));
 const SuitGalleryPage = lazy(() => import("./pages/SuitGalleryPage"));
 const GovernanceHubPage = lazy(() => import("./pages/GovernanceHubPage"));
@@ -539,6 +542,7 @@ function Router() {
         <Route path="/awakening">{() => <AwakeningPage />}</Route>
         <Route path="/terms" component={TermsPage} />
         <Route path="/privacy" component={PrivacyPage} />
+        <Route path="/cookies" component={CookiePage} />
         <Route path="/planets" component={PlanetGalleryPage} />
         <Route path="/suit-gallery" component={SuitGalleryPage} />
         <Route path="/governance" component={GovernanceHubPage} />
@@ -609,21 +613,31 @@ function GameGate() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // audit/04.F6 — split the truthy-flag Set computation from the
+  // companion-context push so a stability/light shift doesn't rebuild
+  // the Set on every Object.entries walk. Memoise the Set against
+  // narrativeFlags only; the push effect re-fires on any of the three.
+  const truthyFlagSet = useMemo(
+    () =>
+      new Set(
+        Object.entries(state.narrativeFlags ?? {})
+          .filter(([, v]) => v)
+          .map(([k]) => k),
+      ),
+    [state.narrativeFlags],
+  );
+
   // F13 — sync GameContext state into the companion scheduler so band
   // gates + flag-gated lines see fresh data without an explicit push.
   useEffect(() => {
     setCompanionContext({
       elaraStability: state.elaraStability ?? 10,
       humanLight: state.humanLight ?? -20,
-      flags: new Set(
-        Object.entries(state.narrativeFlags ?? {})
-          .filter(([, v]) => v)
-          .map(([k]) => k),
-      ),
+      flags: truthyFlagSet,
       // Act inference: default 0 until explicit feature wires it.
       act: state.narrativeFlags?.act_started ? 1 : 0,
     });
-  }, [state.elaraStability, state.humanLight, state.narrativeFlags]);
+  }, [state.elaraStability, state.humanLight, truthyFlagSet, state.narrativeFlags?.act_started]);
 
   // ── A.12 Tutorial Orchestrator — check tutorials on route changes
   const { checkTutorial } = useTutorialOrchestrator();
@@ -636,6 +650,19 @@ function GameGate() {
     const currentRoom = roomMap[location] || location.replace(/^\//, "") || undefined;
     checkTutorial({ currentRoom });
   }, [location, checkTutorial]);
+
+  // ── A.12b Auto-tutorial prompt — fires on first visit to any route
+  // whose triggerRoute is registered in LORE_TUTORIALS. Mounting here at
+  // the GameGate level means all 30+ authored tutorials ship — previously
+  // only /cards and /fight consumed the hook directly, so 28 tutorials
+  // were dormant.
+  const {
+    autoTutorial,
+    showAutoTutorial,
+    launchTutorial,
+    dismissTutorial,
+    snoozeTutorial,
+  } = useAutoTutorial(location);
 
   // ── A.13 Settings Sync — sync settings from server once after auth
   const trpcUtils = trpc.useUtils();
@@ -735,6 +762,17 @@ function GameGate() {
           gameData={state as unknown as Record<string, unknown>}
           onComplete={handleRecapDismiss}
           onClose={handleRecapDismiss}
+        />
+      )}
+      {/* A.12b Auto-tutorial prompt — single mount point so every
+          LORE_TUTORIALS entry with a triggerRoute fires on first visit. */}
+      {autoTutorial && (
+        <AutoTutorialPrompt
+          tutorial={autoTutorial}
+          show={showAutoTutorial}
+          onLaunch={launchTutorial}
+          onDismiss={dismissTutorial}
+          onSnooze={snoozeTutorial}
         />
       )}
       <CommandConsole elaraTTS={elaraTTS}>

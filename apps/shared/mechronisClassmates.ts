@@ -1,4 +1,4 @@
-import { assetUrl } from "../client/src/lib/assetUrl";
+import { assetUrl } from "@shared/lib/assetUrl";
 /* ═══════════════════════════════════════════════════════
    MECHRONIS CLASSMATES — Recurring NPC Year-Mates
 

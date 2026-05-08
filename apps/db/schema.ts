@@ -6,7 +6,10 @@ import { bigint, boolean, int, json, mysqlEnum, mysqlTable, text, timestamp, var
 export const users = mysqlTable("users", {
   id: int("id").autoincrement().primaryKey(),
   openId: varchar("openId", { length: 64 }).notNull().unique(),
-  name: text("name"),
+  // Bounded varchar so a malicious caller can't paste megabytes of
+  // data into a display-name field. Any sane username fits in 256
+  // characters; downstream UI was already assuming short strings.
+  name: varchar("name", { length: 256 }),
   email: varchar("email", { length: 320 }),
   loginMethod: varchar("loginMethod", { length: 64 }),
   role: mysqlEnum("role", ["user", "moderator", "admin"]).default("user").notNull(),
@@ -21,10 +24,30 @@ export const users = mysqlTable("users", {
   installSource: varchar("installSource", { length: 32 }),
   /** A/B variant assignment at signup (e.g. "tutorial-v2:control"). */
   abVariant: varchar("abVariant", { length: 64 }),
+
+  // ─── Age verification (audit/15.R4 — COPPA + GDPR-K) ────────────
+  /** Self-attested date of birth, ISO yyyy-MM-dd. Required to use
+   *  the app; null until the AgeVerifyPage is completed. We store
+   *  the raw date (not a derived "is_adult" boolean) so geo-policy
+   *  changes can be re-evaluated without re-asking the user. */
+  dateOfBirth: varchar("dateOfBirth", { length: 10 }),
+  /** ISO 3166-1 alpha-2 country code captured at age-verification
+   *  time. Used to apply the EU 16+ minimum vs the global 13+
+   *  minimum. Sourced from CF-IPCountry / X-Forwarded-Country with
+   *  fallback to remote-address GeoIP. */
+  ageVerificationCountry: varchar("ageVerificationCountry", { length: 2 }),
+  /** Timestamp of the age-verification submission. The presence of
+   *  this field is the gate the protected routes check; null →
+   *  redirect to /age-verify. */
+  ageVerifiedAt: timestamp("ageVerifiedAt"),
 }, (table) => ({
   createdAtIdx: index("idx_users_created_at").on(table.createdAt),
   lastSignedInIdx: index("idx_users_last_signed_in").on(table.lastSignedIn),
   signupWeekIdx: index("idx_users_signup_week").on(table.signupWeek),
+  emailIdx: uniqueIndex("uq_users_email").on(table.email),
+  // Lookup queries on the age-verify gate; small index but the
+  // protected-route middleware reads ageVerifiedAt on every request.
+  ageVerifiedIdx: index("idx_users_age_verified").on(table.ageVerifiedAt),
 }));
 
 export type User = typeof users.$inferSelect;
@@ -725,6 +748,9 @@ export const craftingLog = mysqlTable("crafting_log", {
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 }, (table) => ({
   userIdIdx: index("idx_crafting_log_user_id").on(table.userId),
+  // Composite index landed via migration 0067 — declared here so a
+  // db:push against a divergent dev DB doesn't propose dropping it.
+  userCreatedIdx: index("idx_crafting_log_user_created").on(table.userId, table.createdAt),
 }));
 
 export type CraftingLog = typeof craftingLog.$inferSelect;
@@ -778,7 +804,7 @@ export const citizenCharacters = mysqlTable("citizen_characters", {
    */
   suitMaterials: json("suitMaterials").$type<Record<string, number>>(),
   /** If species=neyon, which specific Ne-Yon token ID (1-10) this citizen is tied to */
-  neyonTokenId: int("neyonTokenId"),
+  neyonTokenId: int("neyonTokenId").references(() => users.id, { onDelete: "set null" }),
   /** Is this the player's primary (free) citizen? */
   isPrimary: int("isPrimary").notNull().default(1),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
@@ -1228,7 +1254,12 @@ export const pvpLeaderboard = mysqlTable("pvp_leaderboard", {
   lastDecayAt: timestamp("lastDecayAt"),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
-});
+}, (table) => ({
+  // Speeds the time-windowed sandbagging-detection scan landed via
+  // migration 0067. Declared here so a db:push diff doesn't propose
+  // dropping it.
+  lastMatchAtIdx: index("idx_pvp_lb_last_match_at").on(table.lastMatchAt),
+}));
 
 export type PvpLeaderboard = typeof pvpLeaderboard.$inferSelect;
 export type InsertPvpLeaderboard = typeof pvpLeaderboard.$inferInsert;
@@ -1412,6 +1443,9 @@ export const cardTrades = mysqlTable("card_trades", {
 }, (table) => ({
   senderIdIdx: index("idx_card_trades_sender_id").on(table.senderId),
   receiverIdIdx: index("idx_card_trades_receiver_id").on(table.receiverId),
+  // audit/03.F5 — composite (senderId,receiverId) lives in 0067_indexes_and_fks.sql
+  // but had no Drizzle declaration; pnpm db:push would propose dropping it. Mirror it here.
+  pairIdx: index("idx_card_trades_pair").on(table.senderId, table.receiverId),
 }));
 export type CardTrade = typeof cardTrades.$inferSelect;
 export type InsertCardTrade = typeof cardTrades.$inferInsert;
@@ -1575,6 +1609,15 @@ export const marketListings = mysqlTable("market_listings", {
   createdAtIdx: index("idx_market_listings_created_at").on(table.createdAt),
   statusIdx: index("idx_market_listings_status").on(table.status),
   sellerIdIdx: index("idx_market_listings_seller_id").on(table.sellerId),
+  // audit/04.F4 — marketplace.searchListings filters on (status,
+  // itemType, createdAt). The status-only index above forced a
+  // filesort + leading-wildcard LIKE scan on every page. The
+  // composite covers the hot path; itemName needs a FULLTEXT in a
+  // follow-up migration (Drizzle's MySQL adapter doesn't expose
+  // FULLTEXT yet, so we rely on a manual `ALTER TABLE … ADD
+  // FULLTEXT` once db:migrate flow stabilises).
+  statusItemCreatedIdx: index("idx_market_listings_status_item_created")
+    .on(table.status, table.itemType, table.createdAt),
 }));
 export type MarketListing = typeof marketListings.$inferSelect;
 
@@ -3752,6 +3795,10 @@ export const analyticsEvents = mysqlTable("analytics_events", {
   idxUserId: index("idx_analytics_user").on(table.userId),
   idxEvent: index("idx_analytics_event").on(table.event),
   idxCreatedAt: index("idx_analytics_created").on(table.createdAt),
+  // Composite landed via migration 0067 — dashboards group by event
+  // name within a time window. Declared here so db:push doesn't
+  // propose dropping it.
+  idxEventCreated: index("idx_analytics_events_name_created").on(table.event, table.createdAt),
 }));
 
 /* ═══════════════════════════════════════════════════════
