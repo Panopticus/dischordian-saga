@@ -290,6 +290,7 @@ const NPCInboxPage = lazy(() => import("./game/NPCInboxPage"));
 const AllianceWarPage = lazy(() => import("./game/AllianceWarPage"));
 const TermsPage = lazy(() => import("./pages/TermsPage"));
 const PrivacyPage = lazy(() => import("./pages/PrivacyPage"));
+const CookiePage = lazy(() => import("./pages/CookiePage"));
 const PlanetGalleryPage = lazy(() => import("./pages/PlanetGalleryPage"));
 const SuitGalleryPage = lazy(() => import("./pages/SuitGalleryPage"));
 const GovernanceHubPage = lazy(() => import("./pages/GovernanceHubPage"));
@@ -541,6 +542,7 @@ function Router() {
         <Route path="/awakening">{() => <AwakeningPage />}</Route>
         <Route path="/terms" component={TermsPage} />
         <Route path="/privacy" component={PrivacyPage} />
+        <Route path="/cookies" component={CookiePage} />
         <Route path="/planets" component={PlanetGalleryPage} />
         <Route path="/suit-gallery" component={SuitGalleryPage} />
         <Route path="/governance" component={GovernanceHubPage} />

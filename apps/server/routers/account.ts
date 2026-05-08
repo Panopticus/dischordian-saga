@@ -51,9 +51,9 @@ import { evaluateAgePolicy } from "@shared/agePolicy";
  * Use ISO date prefixes so versions sort lexicographically.
  */
 export const CURRENT_AGREEMENT_VERSIONS = {
-  terms_of_service: "2026-05-05",
-  privacy_policy: "2026-05-05",
-  cookie_policy: "2026-05-05",
+  terms_of_service: "2026-05-08",
+  privacy_policy: "2026-05-08",
+  cookie_policy: "2026-05-08",
 } as const;
 
 const AgreementType = z.enum(["terms_of_service", "privacy_policy", "cookie_policy"]);

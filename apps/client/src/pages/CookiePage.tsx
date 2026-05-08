@@ -1,7 +1,7 @@
 import { Link } from "wouter";
 import { ChevronLeft } from "lucide-react";
 import { Streamdown } from "streamdown";
-import termsMd from "@/legal/terms.md?raw";
+import cookiesMd from "@/legal/cookies.md?raw";
 
 const VERSION_RE = /<!--\s*version:\s*([\d-]+)\s*-->/;
 
@@ -12,8 +12,8 @@ function parseDocument(raw: string): { version: string; body: string } {
   return { version, body };
 }
 
-export default function TermsPage() {
-  const { version, body } = parseDocument(termsMd);
+export default function CookiePage() {
+  const { version, body } = parseDocument(cookiesMd);
   return (
     <div className="min-h-screen bg-background text-foreground p-6">
       <div className="max-w-3xl mx-auto">
