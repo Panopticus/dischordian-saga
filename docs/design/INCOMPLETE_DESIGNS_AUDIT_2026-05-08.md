@@ -157,20 +157,97 @@ Filtered to design-significant signals (excludes style nits and refactor TODOs).
 
 ---
 
-## §5 — Where the gate cannot yet see (recommended new ship-check entries)
+## §5 — New ship-check entries (LANDED 2026-05-08)
 
-The mechanical gate is green only because these aren't measured. To bring the gate's coverage in line with the actual design surface:
+Eight new entries added to `apps/shared/_completeness/registry.ts` and seeded
+in `ratchet-state.json`. Live results below — the gate now reports
+**18 PASS / 6 RATCHET / 0 FAIL** (was 16 PASS / 0 RATCHET / 0 FAIL).
 
-1. **`narrative.global_alignment`** — assert the doc-mandated Light/Dark meter exists either as a DB column / aggregate or is explicitly EXEMPT.
-2. **`narrative.mobile_narrator_pages`** — assert N pages consume `MobileNarratorSlot`, with adoption ratchet (currently 1 page).
-3. **`narrative.shadow_tongue_room_coverage`** — declared rooms vs rooms with a `roomMysteries/*.ts` module (currently ~9/26).
-4. **`narrative.cutscene_components`** — five named cutscenes from `ANIMATED_CUTSCENES.md` either present as components or EXEMPT.
-5. **`tcg.card_pool_exists`** for Soul Stones, Coda Agency missions, and Pet Breeding — declares the design as a tracked subsystem so future scope expansion either lands runtime or makes the gap visible.
-6. **`server.governance_router_present`** — fails until `GovernanceHubPage` consumes a real tRPC procedure instead of `MOCK_ACTIVE_VOTE`.
-7. **`schema.no_orphan_columns`** — assert `cards.nftTokenId`, `cards.nftPerks`, `characterSheets.avatarUrl` are either consumed or annotated as deferred.
-8. **`schema.notification_enum_producers`** — every `notifications.type` variant has at least one writer.
+| Entry id | Declared | Implemented | Gap | Status |
+|---|---:|---:|---:|---|
+| `narrative.global_alignment_meter` | 4 | 0 | 4 | RATCHET |
+| `narrative.mobile_narrator_adoption` | 6 | 1 | 5 | RATCHET |
+| `narrative.shadow_tongue_room_coverage` | 32 | 32 | 0 | **PASS** |
+| `narrative.cutscene_components` | 5 | 0 | 5 | RATCHET |
+| `design.declared_subsystem_runtime` | 11 | 3 | 8 | RATCHET |
+| `server.governance_router_present` | 5 | 5 | 0 | **PASS** |
+| `schema.no_orphan_columns` | 3 | 0 | 3 | RATCHET |
+| `schema.notification_enum_producers` | 58 | 44 | 14 | RATCHET |
 
-Each maps cleanly into the `apps/shared/_completeness/checks/*.ts` pattern. Adding them is the lowest-effort way to convert "designs the team knows about" into "designs the gate refuses to lose track of."
+Two of the proposed checks (Shadow Tongue rooms, Governance Hub) came back PASS — the audit's prose findings were stale relative to the live tree.
+
+### §5.1 — Every single missing item, enumerated
+
+These are the 39 specific gaps the gate now tracks. Each line is what
+the runtime would need to grow to drop the count by 1.
+
+**`narrative.global_alignment_meter` (gap 4)**
+- `schema:global_alignment_table` — schema column or table named `global_alignment` / `globalAlignment` / `lightDarkMeter` / `alignment_meter` in `apps/db/schema.ts`.
+- `server:aggregate_writer` — server function recomputing the aggregate (`recomputeGlobalAlignment` / `updateLightDarkMeter` / `aggregateAlignment`).
+- `server:trpc_reader` — tRPC procedure exposing the aggregate (e.g. `globalAlignment.get` / `lightDarkMeter.get` / `alignment.global`).
+- `client:meter_component` — client component rendering the meter (`GlobalAlignmentMeter` / `LightDarkMeter` / `GlobalMoralityMeter`).
+
+**`narrative.mobile_narrator_adoption` (gap 5)**
+- `apps/client/src/pages/CompanionHubPage.tsx` — needs `MobileNarratorSlot` import (Yin/Yang dialog routes companion banter through the slot, NARRATIVE_ARCHITECTURE.md §2).
+- `apps/client/src/pages/AwakeningPage.tsx` — needs `MobileNarratorSlot` import (first-contact moment, §1.4 beat 3).
+- `apps/client/src/pages/MemorialCorridorPage.tsx` — page does not exist yet (trust-40 memorial unlock, §1.5).
+- `apps/client/src/pages/PetGardenPage.tsx` — page does not exist yet (post-Prelude pet-bond arc, §2.5).
+- `apps/client/src/pages/CharacterCreationPage.tsx` — page does not exist yet (psych-profile emergence beats, WITNESSING_NARRATIVE_PROPOSAL §0).
+
+**`narrative.cutscene_components` (gap 5)**
+- Cutscene 1 *Awakening* — needs `AwakeningCutscene` / `CutsceneAwakening` component or `cutscene_awakening` registry literal.
+- Cutscene 2 *First Human Contact* — needs `FirstHumanContactCutscene` component or `cutscene_first_human_contact` literal.
+- Cutscene 3 *Elara's Memory Recovery* — needs `ElaraMemoryRecoveryCutscene` component or `cutscene_elara_memory_recovery` literal.
+- Cutscene 4 *The Breaking Point* — needs `BreakingPointCutscene` component or `cutscene_breaking_point` literal.
+- Cutscene 5 *The Thought Virus Manifests* — needs `ThoughtVirusManifestCutscene` component or `cutscene_thought_virus_manifests` literal.
+
+**`design.declared_subsystem_runtime` (gap 8)**
+
+*Soul Stones (4 missing)*
+- `schema:soul_stones_table` — schema table tracking per-player counts by state (red / violet / gold), SOUL_STONES_SYSTEM.md §1.1.
+- `server:soul_stones_router` — tRPC router (`collect` / `purify` / `corrupt` / `summon`).
+- `client:soul_stones_ui` — UI for the corrupt/purify choice (`SoulStoneChoice` / `PurifyStoneDialog` / `SoulStonesPanel`).
+- `design:demon_pet_summoning` — Demon-Pet summoning surface tied to red Soul Stones, §1.3 Path A.
+
+*Pet/Specimen Breeding (3 missing)*
+- `schema:breeding_pairs` — schema table for pairs and offspring (`petBreeding` / `breedingPair` / `specimenBreeding`).
+- `server:breeding_router` — tRPC router (`start` / `complete` / `cancel`).
+- `client:breeding_ui` — pair selector (`BreedingPanel` / `PetBreedingDialog`).
+
+*Living Character Sheet (1 missing)*
+- `client:living_sheet_component` — `LivingCharacterSheet` / `LivingCharSheet` component.
+
+(`shared:purification_module` and `shared:breeding_logic` shipped — incidental matches in `economySimulator.ts` / `crewBreeding.ts` clear those artifacts, which is why implemented = 3.)
+
+**`schema.no_orphan_columns` (gap 3)**
+- `cards.nftTokenId` — NFT linkage column, no consumer outside `apps/db/`.
+- `cards.nftPerks` — per-NFT perk JSON blob, no consumer.
+- `characterSheets.avatarUrl` — portrait URL, no consumer in client or server.
+
+**`schema.notification_enum_producers` (gap 14)** — variants declared in `notifications.type` enum (`apps/db/schema.ts:1777`) with no `type: "<variant>"` writer in `apps/server/`:
+- `battle_pass_reward`
+- `boss_mastery`
+- `daily_reset`
+- `deep_trust`
+- `epoch_quest`
+- `faction_war`
+- `pet_acquired`
+- `pvp_challenge`
+- `pvp_result`
+- `recruitment`
+- `syndicate_quest`
+- `system`
+- `trade_declined`
+- `weekly_quest`
+
+### §5.2 — Why two proposed checks came back PASS
+
+- **`narrative.shadow_tongue_room_coverage`** — `STREAMED_PRISM_MYSTERY_ENGINE.md §1` says "9 of 26 rooms have authored mystery modules"; that planning doc was written before Phase B and Phase C closures. The live `ROOM_MYSTERY_REGISTRY` has 26 universal + 6 species-exclusive entries, every entry resolves to a non-empty source module. The gate will surface a future regression (e.g. a new room added to the design but no module shipped) but the current state is clean.
+- **`server.governance_router_present`** — the prior FULL-PROJECT-AUDIT 2E claim that `GovernanceHubPage.tsx` is on `MOCK_ACTIVE_VOTE` is also stale. The page now consumes `trpc.architectConsole.getActiveVotes.useQuery` and `trpc.architectConsole.submitVote.useMutation`, and the matching procedures exist on the router. The gate now freezes that closure.
+
+### §5.3 — Closing each gap
+
+The mechanical recipe is: build the missing artifact (or rename an existing one to match the check's identifier patterns), then run `pnpm ship:check --update-ratchet` to record the tightened ceiling. The gate enforces monotonicity from there — the gap can shrink, never grow.
 
 ---
 
