@@ -298,6 +298,7 @@ const CookiePage = lazy(() => import("./pages/CookiePage"));
 const PlanetGalleryPage = lazy(() => import("./pages/PlanetGalleryPage"));
 const SuitGalleryPage = lazy(() => import("./pages/SuitGalleryPage"));
 const GovernanceHubPage = lazy(() => import("./pages/GovernanceHubPage"));
+const WorldTapestryPage = lazy(() => import("./pages/WorldTapestryPage"));
 const SoulStonesPage = lazy(() => import("./features/soulStones/SoulStonesPage"));
 const ChristmasCasinoPage = lazy(() => import("./features/events/christmasInJuly/CasinoFloor"));
 const PlayerCabinPage = lazy(() => import("./pages/PlayerCabinPage"));
@@ -553,6 +554,7 @@ function Router() {
         <Route path="/planets" component={PlanetGalleryPage} />
         <Route path="/suit-gallery" component={SuitGalleryPage} />
         <Route path="/governance" component={GovernanceHubPage} />
+        <Route path="/world-tapestry" component={WorldTapestryPage} />
         <Route path="/soul-stones">{() => <GameRoute component={SoulStonesPage} />}</Route>
         <Route path="/christmas-in-july">{() => <GameRoute component={ChristmasCasinoPage} />}</Route>
         <Route path="/cabin" component={PlayerCabinPage} />

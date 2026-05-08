@@ -410,6 +410,120 @@ const REGISTRY: Record<string, VoteRewardPayload> = {
       },
     ],
   },
+
+  // ── Mini-DLC closing motions (Phase 6 / 2-year content slate) ──
+  // Each yearly event closes with a Council vote routed through this
+  // map. The fall-through reward reads here when the DB row's JSON
+  // is missing or malformed. One option per motion — the yearly is
+  // a yes/ratify ceremony, not a binary; the binary case is handled
+  // by the Y2-Q1 Schism row.
+
+  "foundation_charter_renewal_year_1::ratify": {
+    consequences: [
+      { kind: "set_flag", flag: "governance:foundation_charter_year_1_ratified" },
+      { kind: "energy_delta", light: 5 },
+      {
+        kind: "tome_entry",
+        body:
+          "The first charter is read aloud. Six signatures stand. The seventh is wax-eaten on purpose. The reading goes on without it.",
+      },
+    ],
+  },
+
+  "severance_succession_year_1::ratify": {
+    consequences: [
+      { kind: "set_flag", flag: "governance:severance_protocol_year_1_set" },
+      { kind: "energy_delta", dark: 3 },
+      {
+        kind: "tome_entry",
+        body:
+          "We named what we already did: the bond is on the table; the bond chooses one. From this year forward the ritual has a name.",
+      },
+    ],
+  },
+
+  "mechronis_curriculum_vote_year_1::ratify": {
+    consequences: [
+      { kind: "set_flag", flag: "governance:mechronis_curriculum_year_1_set" },
+      { kind: "energy_delta", light: 3 },
+      {
+        kind: "tome_entry",
+        body:
+          "Three faculties wanted three different terms. The Council picked one. The other two will return next year, sharper.",
+      },
+    ],
+  },
+
+  "kael_memorial_inscription_year_1::ratify": {
+    consequences: [
+      { kind: "set_flag", flag: "governance:memorial_inscription_year_1" },
+      { kind: "energy_delta", light: 4, dark: 2 },
+      {
+        kind: "tome_entry",
+        body:
+          "The plaza opens. Each player writes one name. The Antiquarian compiles the year's volume. We grieve in mosaic, not in private.",
+      },
+    ],
+  },
+
+  "foundation_schism_resolution_year_2::ratify_schism": {
+    consequences: [
+      { kind: "set_flag", flag: "governance:charter_schism_ratified" },
+      { kind: "energy_delta", dark: 6 },
+      {
+        kind: "tome_entry",
+        body:
+          "The redacted line is restored. The charter grows a second column. Half the Council leaves the chamber smiling; half leaves silent.",
+      },
+    ],
+  },
+  "foundation_schism_resolution_year_2::close_schism": {
+    consequences: [
+      { kind: "set_flag", flag: "governance:charter_schism_closed" },
+      { kind: "energy_delta", light: 6 },
+      {
+        kind: "tome_entry",
+        body:
+          "The original charter holds. The descendants of the redacted name walk out, and the door does not shut behind them. They will return.",
+      },
+    ],
+  },
+
+  "severance_infernal_amnesty_year_2::ratify": {
+    consequences: [
+      { kind: "set_flag", flag: "governance:infernal_amnesty_year_2" },
+      { kind: "energy_delta", light: 8, dark: -4 },
+      {
+        kind: "tome_entry",
+        body:
+          "Sixty-one hidden clauses are read into the record. The Council voids the ones it can. The Hierarchy accepts the ruling — for now.",
+      },
+    ],
+  },
+
+  "apprentice_protection_protocol_year_2::ratify": {
+    consequences: [
+      { kind: "set_flag", flag: "governance:apprentice_protocol_year_2" },
+      { kind: "energy_delta", light: 5 },
+      {
+        kind: "tome_entry",
+        body:
+          "What the missing professor cost us is now doctrine. No apprentice stands the wall alone again. The curriculum learned its first lesson.",
+      },
+    ],
+  },
+
+  "vigil_continuation_year_2::ratify": {
+    consequences: [
+      { kind: "set_flag", flag: "governance:vigil_year_2_continued" },
+      { kind: "energy_delta", light: 7 },
+      {
+        kind: "tome_entry",
+        body:
+          "The plaza was lit through the night. The Council votes to relight it every month. Six watchers spoke; one stayed silent. We will keep listening.",
+      },
+    ],
+  },
 };
 
 /**

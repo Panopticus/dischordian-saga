@@ -7,14 +7,42 @@ import { z } from "zod";
 import { router, protectedProcedure } from "../_core/trpc";
 import { getDb } from "../db";
 import {
-  donations, donationReputation, guildMembers,
+  donations, donationReputation, guildMembers, yearlyEvents,
 } from "../../db/schema";
-import { eq, and, desc } from "drizzle-orm";
+import { eq, and, desc, isNull } from "drizzle-orm";
 import {
   WEEKLY_LIMITS, REPUTATION_PER_DONATION, getReputationEarned,
   type DonationType,
 } from "../../shared/donationSystem";
 import { ripple } from "../services/rippleEngine";
+import { rippleLedgerService } from "../services/rippleLedgerService";
+import { getYearlyEvent, type YearlyEventKey } from "@shared/yearlyEvents";
+
+/**
+ * Look up a multiplier from the active yearly event (if any). Returns
+ * 1.0 outside any active window. The multiplier is the gameplay
+ * realization of "donations during yearly events get bonuses."
+ */
+async function getActiveDonationMultiplier(): Promise<{
+  multiplier: number;
+  eventKey: YearlyEventKey | null;
+}> {
+  const db = await getDb();
+  if (!db) return { multiplier: 1, eventKey: null };
+  const year = new Date().getUTCFullYear();
+  const rows = await db
+    .select({ eventKey: yearlyEvents.eventKey })
+    .from(yearlyEvents)
+    .where(and(eq(yearlyEvents.activeYear, year), isNull(yearlyEvents.resolvedAt)))
+    .limit(1);
+  const key = rows[0]?.eventKey as YearlyEventKey | undefined;
+  if (!key) return { multiplier: 1, eventKey: null };
+  try {
+    return { multiplier: getYearlyEvent(key).donationMultiplier, eventKey: key };
+  } catch {
+    return { multiplier: 1, eventKey: null };
+  }
+}
 
 export const donationSystemRouter = router({
   /** Get my donation reputation for a guild */
@@ -57,7 +85,10 @@ export const donationSystemRouter = router({
       const limit = WEEKLY_LIMITS[input.donationType as keyof typeof WEEKLY_LIMITS] || 10;
       if (currentWeekly + input.amount > limit) throw new Error("Weekly limit reached");
 
-      const repEarned = getReputationEarned(input.donationType as DonationType, input.amount, {});
+      const baseRep = getReputationEarned(input.donationType as DonationType, input.amount, {});
+      const { multiplier: yearlyMultiplier, eventKey: activeYearlyKey } =
+        await getActiveDonationMultiplier();
+      const repEarned = Math.round(baseRep * yearlyMultiplier);
 
       // Record donation
       await db.insert(donations).values({
@@ -89,7 +120,33 @@ export const donationSystemRouter = router({
 
       await ripple.emit("guild_donation", { userId: ctx.user.id, amount: input.amount, resourceType: input.donationType || "dream" });
 
-      return { donated: true, reputationEarned: repEarned };
+      // Mercy blend — every donation tilts the global Famine + Death
+      // axes a hair downward. Multiplied during yearly events.
+      try {
+        await ripple.emit("mercy_extended", {
+          userId: ctx.user.id,
+          amount: input.amount,
+          yearlyMultiplier,
+          activeYearlyKey,
+        });
+        await rippleLedgerService.record({
+          eventType: "mercy_extended",
+          userId: ctx.user.id,
+          fromSystem: "charity",
+          toSystems: ["governance", "social"],
+          payload: { amount: input.amount, yearlyMultiplier, activeYearlyKey },
+        });
+      } catch {
+        // emit failures are observability-only; donation still landed.
+      }
+
+      return {
+        donated: true,
+        reputationEarned: repEarned,
+        baseReputation: baseRep,
+        yearlyMultiplier,
+        activeYearlyKey,
+      };
     }),
 
   /** Get donation history for a guild */

@@ -165,19 +165,51 @@ export function pressureContribution(p: {
   };
 }
 
+const MERCY_CACHE_TTL_MS = 60_000;
+let _mercyCache: { value: number; expiresAt: number } | null = null;
+
 /**
- * Compute the current Mercy blend — donations + social counter-tick
- * minus Famine and Death. Returns the *positive* magnitude so the
- * mood widget can display it as a single number.
+ * Compute the current Mercy blend — recent donation volume,
+ * normalized to a 0..0.2 magnitude. Soft-saturates at 1000 weekly
+ * donations (mercyOffset → 0.2 at saturation).
  *
- * In environments without DB or when the donation table is missing,
- * returns 0 — Mercy is additive, never required.
+ * Returns 0 on missing DB / missing table — Mercy is additive,
+ * never required.
+ *
+ * Cached 60s in-process so the global mood widget doesn't re-scan
+ * the donations table every page load.
  */
 export async function computeMercyOffset(): Promise<number> {
-  // Stub for now — wire to apps/shared/donationSystem totals + the
-  // social counter-tick aggregator in a follow-up. The gauge handles
-  // mercyOffset === undefined gracefully.
-  return 0;
+  const now = Date.now();
+  if (_mercyCache && _mercyCache.expiresAt > now) {
+    return _mercyCache.value;
+  }
+  const db = await getDb();
+  if (!db) return 0;
+  try {
+    const { donations } = await import("../../db/schema");
+    const { sql } = await import("drizzle-orm");
+    const since = new Date(now - 7 * 24 * 60 * 60 * 1000);
+    const rows = await db
+      .select({
+        total: sql<number>`COALESCE(SUM(${donations.amount}), 0)`.as("total"),
+      })
+      .from(donations)
+      .where(sql`${donations.donatedAt} >= ${since}`);
+    const total = Number(rows[0]?.total ?? 0);
+    // Soft saturation: 0.2 * (total / (total + 1000))
+    const value = 0.2 * (total / (total + 1000));
+    _mercyCache = { value, expiresAt: now + MERCY_CACHE_TTL_MS };
+    return value;
+  } catch (err) {
+    logger.error("[worldMood] computeMercyOffset failed:", err);
+    return 0;
+  }
+}
+
+/** Test-seam: drop the mercy cache. */
+export function _clearMercyCache() {
+  _mercyCache = null;
 }
 
 export const worldMoodService = {

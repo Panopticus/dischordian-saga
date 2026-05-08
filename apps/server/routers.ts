@@ -82,6 +82,7 @@ import { prestigeQuestRouter } from "./routers/prestigeQuests";
 import { seasonalEventsRouter } from "./routers/seasonalEvents";
 import { yearlyEventsRouter } from "./routers/yearlyEvents";
 import { worldMoodRouter } from "./routers/worldMood";
+import { memorialPlazaRouter } from "./routers/memorialPlaza";
 import { replaySystemRouter } from "./routers/replaySystem";
 import { personalQuartersRouter } from "./routers/personalQuarters";
 import { friendlyChallengesRouter } from "./routers/friendlyChallenges";
@@ -241,6 +242,7 @@ export const appRouter = router({
   seasonalEvents: seasonalEventsRouter,
   yearlyEvents: yearlyEventsRouter,
   worldMood: worldMoodRouter,
+  memorialPlaza: memorialPlazaRouter,
   replay: replaySystemRouter,
   personalQuarters: personalQuartersRouter,
   friendlyChallenge: friendlyChallengesRouter,
