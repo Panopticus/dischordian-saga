@@ -1,0 +1,170 @@
+[
+  {
+    "id": "artisan_male_greet_1",
+    "character": "apprentice_artisan_male",
+    "text": "Don't touch the bench. There's a bevel cooling.",
+    "emotion": "set",
+    "bucket": "greet",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "artisan_male_greet_2",
+    "character": "apprentice_artisan_male",
+    "text": "I'll be done in two minutes. Or never. We'll see.",
+    "emotion": "wry",
+    "bucket": "greet",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "artisan_male_ambient_1",
+    "character": "apprentice_artisan_male",
+    "text": "The good ones change colour twice while they cool. I'm watching for the second.",
+    "emotion": "calm",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "artisan_male_ambient_2",
+    "character": "apprentice_artisan_male",
+    "text": "There's a notch I left for the next maker. They'll know what it means.",
+    "emotion": "thoughtful",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "artisan_male_ambient_3",
+    "character": "apprentice_artisan_male",
+    "text": "I'd rather make one true thing slowly than three approximate.",
+    "emotion": "steady",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "artisan_male_deploy_1",
+    "character": "apprentice_artisan_male",
+    "text": "Bringing the kit. Don't break the kit.",
+    "emotion": "set",
+    "bucket": "deploy",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "artisan_male_deploy_2",
+    "character": "apprentice_artisan_male",
+    "text": "I built it. I can fix it in the field. Probably.",
+    "emotion": "wry",
+    "bucket": "deploy",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "artisan_male_outcome_won",
+    "character": "apprentice_artisan_male",
+    "text": "Came back with all my fingers. New record.",
+    "emotion": "warm",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "artisan_male_outcome_wounded",
+    "character": "apprentice_artisan_male",
+    "text": "I'll repair it when the swelling goes down. Both of them.",
+    "emotion": "wry",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "artisan_male_outcome_saw_death",
+    "character": "apprentice_artisan_male",
+    "text": "I'll keep a piece. I'll make him something. Even if he can't hold it.",
+    "emotion": "mourning",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "artisan_male_outcome_other_died",
+    "character": "apprentice_artisan_male",
+    "text": "His signature was on three of my pieces. I'll keep the signatures.",
+    "emotion": "mourning",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "artisan_male_event_loredex",
+    "character": "apprentice_artisan_male",
+    "text": "There's a maker's mark in the entry I didn't see before. I know it.",
+    "emotion": "thrilled",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "artisan_male_event_first_craft",
+    "character": "apprentice_artisan_male",
+    "text": "Watching it cool. The good ones change colour twice.",
+    "emotion": "calm",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "artisan_male_banter_critique",
+    "character": "apprentice_artisan_male",
+    "text": "Critique me when it's cool. Not before.",
+    "emotion": "edged",
+    "bucket": "banter",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "artisan_male_banter_watch",
+    "character": "apprentice_artisan_male",
+    "text": "Sit. The hum's good for the work.",
+    "emotion": "warm",
+    "bucket": "banter",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "artisan_male_quest_1_open",
+    "character": "apprentice_artisan_male",
+    "text": "Last commission for the {npc}. They've waited long enough. Help me deliver it right.",
+    "emotion": "set",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "artisan_male_quest_2_mid",
+    "character": "apprentice_artisan_male",
+    "text": "The piece is finished. I left it on the long table. They haven't picked it up.",
+    "emotion": "raw",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "artisan_male_quest_3_break",
+    "character": "apprentice_artisan_male",
+    "text": "They want me to alter it. The alteration would weaken the joint. Tell me — pride or service?",
+    "emotion": "raw",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "artisan_male_romance_spark",
+    "character": "apprentice_artisan_male",
+    "text": "Hands first. I trust hands.",
+    "emotion": "soft",
+    "bucket": "romance",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "artisan_male_romance_courtship",
+    "character": "apprentice_artisan_male",
+    "text": "I'm building you a thing. It's small. It's heavy. Don't lose it.",
+    "emotion": "tender",
+    "bucket": "romance",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "artisan_male_romance_committed",
+    "character": "apprentice_artisan_male",
+    "text": "I'll outlast the work. The work will outlast me. You — somewhere between.",
+    "emotion": "warm",
+    "bucket": "romance",
+    "file": "shared/apprenticeVoiceLines.ts"
+  }
+]

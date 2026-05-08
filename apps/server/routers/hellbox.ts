@@ -16,6 +16,7 @@ import {
   addCrewMemberToState,
 } from "../services/crewState";
 import { eligibleForHellbox, restoreApprentice, HELLBOX_COST } from "../../shared/hellboxClone";
+import { applyBloodWeaveDelta } from "../services/bloodWeaveService";
 
 export const hellboxRouter = router({
   /** Returns the eligibility result for a given fallen member. */
@@ -74,6 +75,35 @@ export const hellboxRouter = router({
         restored,
       );
       await saveCrewState(ctx.user.id, nextState);
-      return { ok: true, member: restored, cost: HELLBOX_COST };
+
+      /* Stage 3 — Blood Weave attunement. Pushes the alignment +1 and
+       * surfaces any newly-unlocked Hierarchy / Game-Master loredex
+       * entries. Best-effort — restoration succeeded even if the
+       * alignment write fails (it's a tracker, not a gate). */
+      let bloodWeave: Awaited<ReturnType<typeof applyBloodWeaveDelta>> | null = null;
+      try {
+        bloodWeave = await applyBloodWeaveDelta(
+          ctx.user.id,
+          "hellbox_restoration",
+          { alsoCountResurrection: true },
+        );
+      } catch {
+        // Best-effort.
+      }
+
+      return {
+        ok: true,
+        member: restored,
+        cost: HELLBOX_COST,
+        bloodWeave: bloodWeave
+          ? {
+              alignmentValue: bloodWeave.state.alignmentValue,
+              newlyUnlocked: bloodWeave.newlyUnlocked,
+              bandBefore: bloodWeave.bandBefore,
+              bandAfter: bloodWeave.bandAfter,
+              bandCrossed: bloodWeave.bandCrossed,
+            }
+          : null,
+      };
     }),
 });

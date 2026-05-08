@@ -127,6 +127,7 @@ import { dischordiaCycleRouter } from "./routers/dischordiaCycle";
 import { crewRouter } from "./routers/crew";
 import { resurrectionRouter } from "./routers/resurrection";
 import { hellboxRouter } from "./routers/hellbox";
+import { bloodWeaveRouter } from "./routers/bloodWeave";
 import { npcRecruitRouter } from "./routers/npcRecruit";
 import { commonsRouter } from "./routers/commons";
 import { storyModeRouter } from "./routers/storyMode";
@@ -290,6 +291,7 @@ export const appRouter = router({
   crew: crewRouter,
   resurrection: resurrectionRouter,
   hellbox: hellboxRouter,
+  bloodWeave: bloodWeaveRouter,
   npcRecruit: npcRecruitRouter,
   commons: commonsRouter,
   storyMode: storyModeRouter,

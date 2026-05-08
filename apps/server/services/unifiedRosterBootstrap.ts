@@ -139,8 +139,8 @@ export async function bootstrapUnifiedRosterTables(): Promise<void> {
           !msg.includes("duplicate column")
         ) {
           logger.warn(
-            { err: msg, stmt },
             "[unifiedRosterBootstrap] non-fatal column add error",
+            { err: msg, stmt },
           );
         }
       }
@@ -153,8 +153,8 @@ export async function bootstrapUnifiedRosterTables(): Promise<void> {
     logger.info("[unifiedRosterBootstrap] tables ensured");
   } catch (err) {
     logger.error(
-      { err: (err as Error).message },
       "[unifiedRosterBootstrap] failed",
+      { err: (err as Error).message },
     );
   }
 }

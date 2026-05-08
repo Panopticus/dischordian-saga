@@ -1,0 +1,170 @@
+[
+  {
+    "id": "sentinel_male_greet_1",
+    "character": "apprentice_sentinel_male",
+    "text": "Watch's clear. I'll relieve when relieved.",
+    "emotion": "set",
+    "bucket": "greet",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "sentinel_male_greet_2",
+    "character": "apprentice_sentinel_male",
+    "text": "If you need me, the post knows where I am.",
+    "emotion": "calm",
+    "bucket": "greet",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "sentinel_male_ambient_1",
+    "character": "apprentice_sentinel_male",
+    "text": "The door's quiet. That's the only acceptable state.",
+    "emotion": "calm",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "sentinel_male_ambient_2",
+    "character": "apprentice_sentinel_male",
+    "text": "I logged the breach drill. Took two seconds longer than last time. I'll re-run it.",
+    "emotion": "ready",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "sentinel_male_ambient_3",
+    "character": "apprentice_sentinel_male",
+    "text": "Nothing's wrong. That's not the same as everything's right.",
+    "emotion": "edged",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "sentinel_male_deploy_1",
+    "character": "apprentice_sentinel_male",
+    "text": "Door's mine. Go.",
+    "emotion": "set",
+    "bucket": "deploy",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "sentinel_male_deploy_2",
+    "character": "apprentice_sentinel_male",
+    "text": "I'll cover the angle. Move when I say move.",
+    "emotion": "ready",
+    "bucket": "deploy",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "sentinel_male_outcome_won",
+    "character": "apprentice_sentinel_male",
+    "text": "Watch held. We didn't lose anyone. Good shift.",
+    "emotion": "warm",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "sentinel_male_outcome_wounded",
+    "character": "apprentice_sentinel_male",
+    "text": "I missed a step. I'll re-run the drill in the morning.",
+    "emotion": "edged",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "sentinel_male_outcome_saw_death",
+    "character": "apprentice_sentinel_male",
+    "text": "I should have been on that flank. I'll log him on every post I stand from now on.",
+    "emotion": "raw",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "sentinel_male_outcome_other_died",
+    "character": "apprentice_sentinel_male",
+    "text": "He stood beside me through three watches. I'll stand alone tonight. For him.",
+    "emotion": "mourning",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "sentinel_male_event_loredex",
+    "character": "apprentice_sentinel_male",
+    "text": "Add it to the briefing pack. I'll re-read every shift.",
+    "emotion": "ready",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "sentinel_male_event_npc_dies",
+    "character": "apprentice_sentinel_male",
+    "text": "Someone should have been on that watch. It should have been me.",
+    "emotion": "raw",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "sentinel_male_banter_relief",
+    "character": "apprentice_sentinel_male",
+    "text": "I relieve the watch. The watch doesn't relieve me.",
+    "emotion": "edged",
+    "bucket": "banter",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "sentinel_male_banter_oath",
+    "character": "apprentice_sentinel_male",
+    "text": "An oath at a door is the only kind that holds.",
+    "emotion": "warm",
+    "bucket": "banter",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "sentinel_male_quest_1_open",
+    "character": "apprentice_sentinel_male",
+    "text": "There's a survivor of a watch I failed. I want to find him. Stand beside me when I do.",
+    "emotion": "set",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "sentinel_male_quest_2_mid",
+    "character": "apprentice_sentinel_male",
+    "text": "Found him. He's alive. He doesn't want to talk. I'll wait.",
+    "emotion": "low",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "sentinel_male_quest_3_break",
+    "character": "apprentice_sentinel_male",
+    "text": "He forgave me. I haven't. Tell me whether the watch is over.",
+    "emotion": "raw",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "sentinel_male_romance_spark",
+    "character": "apprentice_sentinel_male",
+    "text": "Stand the watch beside me. I'll explain the drills.",
+    "emotion": "soft",
+    "bucket": "romance",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "sentinel_male_romance_courtship",
+    "character": "apprentice_sentinel_male",
+    "text": "You took a watch when I was breaking. I owe you one I'll never collect.",
+    "emotion": "tender",
+    "bucket": "romance",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "sentinel_male_romance_committed",
+    "character": "apprentice_sentinel_male",
+    "text": "Door's ours. Watch's ours. The post says so.",
+    "emotion": "warm",
+    "bucket": "romance",
+    "file": "shared/apprenticeVoiceLines.ts"
+  }
+]

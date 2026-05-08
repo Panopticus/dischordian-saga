@@ -1,0 +1,170 @@
+[
+  {
+    "id": "zealot_female_greet_1",
+    "character": "apprentice_zealot_female",
+    "text": "I serve the Cause. The Cause serves you. Tell me where to stand.",
+    "emotion": "fervent",
+    "bucket": "greet",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "zealot_female_greet_2",
+    "character": "apprentice_zealot_female",
+    "text": "I'm here. The work is here. Let's begin.",
+    "emotion": "ready",
+    "bucket": "greet",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "zealot_female_ambient_1",
+    "character": "apprentice_zealot_female",
+    "text": "I keep finding sermons in the engine hum.",
+    "emotion": "wondering",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "zealot_female_ambient_2",
+    "character": "apprentice_zealot_female",
+    "text": "If you ever need to confess, the chapel I keep is small. There's a chair.",
+    "emotion": "soft",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "zealot_female_ambient_3",
+    "character": "apprentice_zealot_female",
+    "text": "The Cause is patient with us. It can afford to be.",
+    "emotion": "calm",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "zealot_female_deploy_1",
+    "character": "apprentice_zealot_female",
+    "text": "I'll go first. The Cause moves through me — and around what I miss.",
+    "emotion": "steady",
+    "bucket": "deploy",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "zealot_female_deploy_2",
+    "character": "apprentice_zealot_female",
+    "text": "Whatever's at the door, I've already met it in dreams.",
+    "emotion": "fervent",
+    "bucket": "deploy",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "zealot_female_outcome_won",
+    "character": "apprentice_zealot_female",
+    "text": "We came back. The Cause is satisfied for tonight.",
+    "emotion": "warm",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "zealot_female_outcome_wounded",
+    "character": "apprentice_zealot_female",
+    "text": "She took the cut for me. She shouldn't have. I'll repay it before the Cause asks.",
+    "emotion": "wounded",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "zealot_female_outcome_saw_death",
+    "character": "apprentice_zealot_female",
+    "text": "We bury our own. The Cause keeps the names.",
+    "emotion": "grim",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "zealot_female_outcome_other_died",
+    "character": "apprentice_zealot_female",
+    "text": "Her name's in my prayer for the rest of my life. I'm sorry I'm still here.",
+    "emotion": "mourning",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "zealot_female_event_loredex",
+    "character": "apprentice_zealot_female",
+    "text": "Another fragment. The Cause sharpens.",
+    "emotion": "fervent",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "zealot_female_event_costly_choice",
+    "character": "apprentice_zealot_female",
+    "text": "You chose the harder road. The Cause notes who walks it.",
+    "emotion": "approving",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "zealot_female_banter_skeptic",
+    "character": "apprentice_zealot_female",
+    "text": "If you don't believe, fine. The Cause only requires that you don't get in its way.",
+    "emotion": "edged",
+    "bucket": "banter",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "zealot_female_banter_ally",
+    "character": "apprentice_zealot_female",
+    "text": "Walk with me to the chapel after this one. There's space for two.",
+    "emotion": "warm",
+    "bucket": "banter",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "zealot_female_quest_1_open",
+    "character": "apprentice_zealot_female",
+    "text": "Someone in the lower deck is preaching my old sermons. I want you there when I confront them.",
+    "emotion": "set",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "zealot_female_quest_2_mid",
+    "character": "apprentice_zealot_female",
+    "text": "I checked the manuscript. Three of the lines — they're mine, but I never wrote them down.",
+    "emotion": "shaken",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "zealot_female_quest_3_break",
+    "character": "apprentice_zealot_female",
+    "text": "The Cause moved through me without me. Tell me whether to be horrified or grateful.",
+    "emotion": "raw",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "zealot_female_romance_spark",
+    "character": "apprentice_zealot_female",
+    "text": "Sit with me. Don't pray. Just sit.",
+    "emotion": "soft",
+    "bucket": "romance",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "zealot_female_romance_courtship",
+    "character": "apprentice_zealot_female",
+    "text": "I want to be part of the Cause your hands are in.",
+    "emotion": "tender",
+    "bucket": "romance",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "zealot_female_romance_committed",
+    "character": "apprentice_zealot_female",
+    "text": "The Cause calls in many voices. Yours is the one I answer.",
+    "emotion": "devoted",
+    "bucket": "romance",
+    "file": "shared/apprenticeVoiceLines.ts"
+  }
+]

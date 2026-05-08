@@ -1,0 +1,170 @@
+[
+  {
+    "id": "wanderer_male_greet_1",
+    "character": "apprentice_wanderer_male",
+    "text": "Pleasure. I'll be on my way. Possibly tomorrow.",
+    "emotion": "warm",
+    "bucket": "greet",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "wanderer_male_greet_2",
+    "character": "apprentice_wanderer_male",
+    "text": "I came to look around. Surprised to find I'm staying for the soup.",
+    "emotion": "wry",
+    "bucket": "greet",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "wanderer_male_ambient_1",
+    "character": "apprentice_wanderer_male",
+    "text": "There's a window in the cargo bay that opens onto somewhere it shouldn't.",
+    "emotion": "thoughtful",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "wanderer_male_ambient_2",
+    "character": "apprentice_wanderer_male",
+    "text": "I keep meaning to leave. It keeps not happening. Curious.",
+    "emotion": "wry",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "wanderer_male_ambient_3",
+    "character": "apprentice_wanderer_male",
+    "text": "I count the corridors. Three new. Two old. One that wasn't here last cycle.",
+    "emotion": "calm",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "wanderer_male_deploy_1",
+    "character": "apprentice_wanderer_male",
+    "text": "I know the back routes. Even on planets I've never been.",
+    "emotion": "set",
+    "bucket": "deploy",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "wanderer_male_deploy_2",
+    "character": "apprentice_wanderer_male",
+    "text": "If we get separated, I'll find you. I always find the way back.",
+    "emotion": "warm",
+    "bucket": "deploy",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "wanderer_male_outcome_won",
+    "character": "apprentice_wanderer_male",
+    "text": "One more place I've walked through. One more story for the road.",
+    "emotion": "warm",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "wanderer_male_outcome_wounded",
+    "character": "apprentice_wanderer_male",
+    "text": "My boots are full of someone else's blood. I'll change boots.",
+    "emotion": "wry",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "wanderer_male_outcome_saw_death",
+    "character": "apprentice_wanderer_male",
+    "text": "I'll walk his last route. Slow. Unhurried.",
+    "emotion": "still",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "wanderer_male_outcome_other_died",
+    "character": "apprentice_wanderer_male",
+    "text": "He never settled. I'll add him to the routes I keep walking.",
+    "emotion": "mourning",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "wanderer_male_event_loredex",
+    "character": "apprentice_wanderer_male",
+    "text": "I've been near this place. I didn't know what I was near.",
+    "emotion": "thoughtful",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "wanderer_male_event_act_2_complete",
+    "character": "apprentice_wanderer_male",
+    "text": "Three new corridors I haven't walked. I'll take care of one before sleep.",
+    "emotion": "ready",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "wanderer_male_banter_settle",
+    "character": "apprentice_wanderer_male",
+    "text": "I haven't settled. I'm circling.",
+    "emotion": "edged",
+    "bucket": "banter",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "wanderer_male_banter_road",
+    "character": "apprentice_wanderer_male",
+    "text": "Tell me where you've been. I'll know if you're lying.",
+    "emotion": "warm",
+    "bucket": "banter",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "wanderer_male_quest_1_open",
+    "character": "apprentice_wanderer_male",
+    "text": "There's a place I keep coming back to. I want you to see why.",
+    "emotion": "set",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "wanderer_male_quest_2_mid",
+    "character": "apprentice_wanderer_male",
+    "text": "Walked the loop again. Found a door I'd never opened. Don't know if I should.",
+    "emotion": "raw",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "wanderer_male_quest_3_break",
+    "character": "apprentice_wanderer_male",
+    "text": "Behind the door is a person I left. They've been waiting. I have to choose: in, or back to the road.",
+    "emotion": "raw",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "wanderer_male_romance_spark",
+    "character": "apprentice_wanderer_male",
+    "text": "Walk with me a while. I won't ask how far.",
+    "emotion": "soft",
+    "bucket": "romance",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "wanderer_male_romance_courtship",
+    "character": "apprentice_wanderer_male",
+    "text": "You let me leave. That's the only kind of staying I know how to do.",
+    "emotion": "tender",
+    "bucket": "romance",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "wanderer_male_romance_committed",
+    "character": "apprentice_wanderer_male",
+    "text": "I'm circling closer. Don't tell me. Just keep the kettle on.",
+    "emotion": "warm",
+    "bucket": "romance",
+    "file": "shared/apprenticeVoiceLines.ts"
+  }
+]
