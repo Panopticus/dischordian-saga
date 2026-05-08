@@ -17,6 +17,7 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import DuelystGameUI from "./DuelystGameUI";
 import BattleCompanionSlotHUD from "@/components/BattleCompanionSlotHUD";
 import { DeckPickerModal } from "@/components/match/DeckPickerModal";
+import { DeckOathBanner } from "@/components/DeckOathBanner";
 import PackOpening, { type PackCard } from "./PackOpening";
 import CollectionView from "./CollectionView";
 import DeckBuilder from "./DeckBuilder";
@@ -486,6 +487,14 @@ export default function DuelystPage() {
                   <span className="text-muted-foreground">vs</span>
                   <span style={{ color: FACTION_COLORS[opponentFaction] }}>{FACTION_NAMES[opponentFaction]}</span>
                 </div>
+                {/* Roleplay deck-oath banner — surfaces the
+                    player's chosen-deck oath at match-start. Renders
+                    nothing if no oath has been set. */}
+                <DeckOathBanner
+                  mode="banner"
+                  deckId={serverDeckId}
+                  className="max-w-md w-full"
+                />
                 <button onClick={handleStartGame} className="px-8 py-3 bg-primary text-primary-foreground rounded-lg font-mono text-sm font-bold hover:bg-primary/80 transition-colors">
                   BEGIN BATTLE
                 </button>

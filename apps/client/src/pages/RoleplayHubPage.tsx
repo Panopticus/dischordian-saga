@@ -34,6 +34,7 @@ import {
   type InnerVoiceKey,
   type TrialCategoryKey,
 } from "@shared/roleplayChat";
+import { ARK_THEMES } from "@shared/gamification";
 
 type Tab =
   | "dossier"
@@ -110,7 +111,8 @@ function TabButton({
 /* ═══════════════════════════════════════════════════════════════════
    DOSSIER TAB
    ═══════════════════════════════════════════════════════════════════ */
-function DossierTab({ userId }: { userId: number }) {
+function DossierTab({ userId: _userId }: { userId: number }) {
+  void _userId;
   const dossierQuery = trpc.roleplay.getMyDossier.useQuery();
   const upsertMut = trpc.roleplay.upsertMyDossier.useMutation({
     onSuccess: () => {
@@ -130,6 +132,7 @@ function DossierTab({ userId }: { userId: number }) {
   const [innerVoice, setInnerVoice] = useState<InnerVoiceKey | "">("");
   const [factionAllegiance, setFactionAllegiance] = useState<FactionKey | "unaligned">("unaligned");
   const [recognitionMode, setRecognitionMode] = useState<"private" | "open" | "sealed">("private");
+  const [sigilThemeId, setSigilThemeId] = useState<string>("default");
 
   // Hydrate form from query result on first load.
   useMemo(() => {
@@ -143,6 +146,7 @@ function DossierTab({ userId }: { userId: number }) {
     setInnerVoice((d.innerVoice as InnerVoiceKey | null) ?? "");
     setFactionAllegiance((d.factionAllegiance as FactionKey | "unaligned") ?? "unaligned");
     setRecognitionMode((d.recognitionMode as "private" | "open" | "sealed") ?? "private");
+    setSigilThemeId((d as { sigilThemeId?: string | null }).sigilThemeId ?? "default");
   }, [d]);
 
   const recognitionsQuery = trpc.roleplay.listMyRecognitions.useQuery();
@@ -160,6 +164,7 @@ function DossierTab({ userId }: { userId: number }) {
       innerVoice: innerVoice || null,
       factionAllegiance: (factionAllegiance === "unaligned" ? "unaligned" : factionAllegiance) as any,
       recognitionMode,
+      sigilThemeId,
     });
   };
 
@@ -176,6 +181,7 @@ function DossierTab({ userId }: { userId: number }) {
         innerVoice={(innerVoice || null) as InnerVoiceKey | null}
         faction={factionAllegiance}
         recognitionMode={recognitionMode}
+        sigilThemeId={sigilThemeId}
       />
 
       {/* RIGHT: editor */}
@@ -238,6 +244,14 @@ function DossierTab({ userId }: { userId: number }) {
           </select>
         </Field>
 
+        <Field label="Sigil Theme" hint="Drives the palette of your dossier card.">
+          <select className={inputCls} value={sigilThemeId} onChange={e => setSigilThemeId(e.target.value)}>
+            {ARK_THEMES.map(t => (
+              <option key={t.id} value={t.id}>{t.name} — {t.description}</option>
+            ))}
+          </select>
+        </Field>
+
         <div className="flex justify-end pt-2">
           <Button onClick={save} disabled={upsertMut.isPending}>
             {upsertMut.isPending ? "Saving…" : "Save Dossier"}
@@ -259,18 +273,29 @@ function DossierTab({ userId }: { userId: number }) {
 }
 
 function DossierPreview({
-  chosenName, trueName, pronouns, bio, motto, calling, innerVoice, faction, recognitionMode,
+  chosenName, trueName, pronouns, bio, motto, calling, innerVoice, faction, recognitionMode, sigilThemeId,
 }: {
   chosenName: string; trueName: string; pronouns: string; bio: string;
   motto: string; calling: string; innerVoice: InnerVoiceKey | null;
-  faction: string; recognitionMode: string;
+  faction: string; recognitionMode: string; sigilThemeId: string;
 }) {
   const trueNameVisible = recognitionMode === "open";
+  const theme = ARK_THEMES.find(t => t.id === sigilThemeId) ?? ARK_THEMES[0];
+  // Inline style — these palette tokens come from user data, not
+  // tailwind, so the theme ramps render independently of the
+  // void-energy adopted set.
+  const previewStyle = {
+    background: `linear-gradient(180deg, ${theme.colors.panel} 0%, ${theme.colors.bg} 100%)`,
+    borderColor: theme.colors.primary,
+    color: theme.colors.text,
+  } as React.CSSProperties;
   return (
-    <div className="rounded-lg border border-border p-5 bg-gradient-to-b from-cyan-950/30 to-background">
-      <div className="text-[10px] uppercase font-mono tracking-wider text-cyan-400/70 mb-1">Dossier preview</div>
-      <div className="font-display text-3xl tracking-wide">
-        {chosenName || <span className="text-muted-foreground">[unnamed]</span>}
+    <div className="rounded-lg border-2 p-5" style={previewStyle}>
+      <div className="text-[10px] uppercase font-mono tracking-wider mb-1" style={{ color: theme.colors.accent }}>
+        Dossier preview · {theme.name}
+      </div>
+      <div className="font-display text-3xl tracking-wide" style={{ color: theme.colors.glow }}>
+        {chosenName || <span style={{ opacity: 0.5 }}>[unnamed]</span>}
       </div>
       <div className="text-sm text-muted-foreground mb-3">
         {pronouns && <span>{pronouns}</span>}

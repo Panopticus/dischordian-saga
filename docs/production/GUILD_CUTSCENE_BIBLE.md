@@ -1030,6 +1030,266 @@ optional Architect coda line is reserved as a future addition:
 - Asset CDN paths follow the established pattern:
   `cdn/client-public/videos/guild/cs_sorting_ceremony_arrival_post_{house}.{mp4,webm,jpg}`.
 
+#### F.1.5 — `cs_guild_charter_signing`
+
+The founding rite: when the guild leader signs the Charter, the
+guild's faction allegiance locks for 30 days, the vocabulary tier
+takes effect across guild surfaces, and the presiding companion
+witnesses the signing. This cutscene is the social-payoff moment
+that turns "we joined a guild" into "we are a House."
+
+| Field | Value |
+|---|---|
+| Trigger | `roleplay.signGuildCharter` server mutation succeeds (first-time per guild; re-signs replay the cutscene only if `factionLockedUntil` had elapsed) |
+| Duration | 7.5 s |
+| Broadcast scope | Caster (fullscreen, skippable) + guild WS room (inline chat card with start-frame poster, autoplay-with-mute for all online guildmates) |
+| Anchor object | A single quill-stylus hovering above an open obsidian charter-slab; the slab carries one un-inked sigil at frame center, mirrored in both frames |
+| Material | glass — the charter-slab itself reads as translucent obsidian with circuit-traces beneath the surface; the quill reads as solid metal |
+| House palette | Vocabulary-tier driven, NOT guild hex: `rite` → insurgency green `#22c55e` ink; `edict` → empire crimson `#ef4444` ink; `weave` → witness violet `#a855f7` ink; `compact` → cyan `#22d3ee` ink. The presiding companion's accent appears as the rim-light source. |
+| Companion variants | 5 variants for the 5 canonical companions: Elara (cyan rim `#22d3ee`), The Human (rose rim `#f43f5e`), The Antiquarian (amber rim `#fbbf24`), Locke (slate rim `#A8B4C2`), The Seer (violet rim `#a855f7`). Each variant changes ONLY the rim-light source direction + color and the VO line. Camera, anchor, and ink-color stay tier-driven. |
+
+**Nano Banana start frame** — `videos/guild/cs_guild_charter_signing_start_{tier}_{companion}.jpg`
+
+1. Subject and pose: a quill-stylus hovers exactly 8 cm above an
+   open obsidian charter-slab (28 × 18 cm visual size, 12° tilt
+   away from camera so the surface catches highlight along the
+   upper-left edge). The quill is held mid-air by no visible hand —
+   it floats vertical, nib pointing down, perfectly motionless.
+   On the slab's inscription field, a single un-inked sigil sits
+   at exact frame center: an empty ring 6 cm diameter with three
+   inscribed slots arranged 120° apart, each slot carved but unfilled.
+   The companion's silhouette is just visible at the right edge of
+   the frame (cropped at the shoulder, fully out of focus, 8 m back),
+   serving as the rim-light source.
+2. Environment: a circular vow-chamber on the guild's deepest level
+   — Mechronis stonework, no banners yet (that's the end frame).
+   Foreground: the charter-slab on a low obsidian plinth (60 cm
+   tall). Midground: the floating quill. Background: a circular
+   ringwall of unlit standing-glyph posts (9 of them, 60° apart,
+   each glyph carved but dark), then the chamber's shadow void.
+3. Lighting: single key from upper-left at 35°, color-temperature
+   3200K (warm), soft. The companion's rim from the right edge
+   adds a single colored hairline (Elara cyan / Human rose /
+   Antiquarian amber / Locke slate / Seer violet) at 25% intensity.
+   Fill from ankle-fog only. Lens-flare anchor: the quill's nib
+   pinprick highlight.
+4. Color callouts: walls in deep-space `#010020`, plinth and slab in
+   obsidian `#0a0a14`, sigil-ring carving in slate `#3A4A5E`, ink
+   reservoir in the floating quill glows in the **vocabulary-tier
+   ink hex** (cite per the table — `#22c55e` / `#ef4444` / `#a855f7`
+   / `#22d3ee`) at 40% opacity, fog tinted faint cyan `#22d3ee` at
+   8% opacity, companion rim in companion accent.
+5. Material: glass — the slab reads as translucent obsidian with
+   visible circuit-traces beneath; the sigil-ring reads as carved-
+   into-stone (still the slab's surface); the quill reads as solid
+   matte-black metal (deliberate contrast).
+6. Atmosphere: ankle-fog at medium density drifting right-to-left
+   at 2 cm/s. No rising motes yet. The companion's silhouette has a
+   single dust-mote orbital at chest height (slow, visible).
+7. Camera: 50mm prime, eye-level (1.6 m), perpendicular to the slab
+   plane, slight 2° downward tilt to make the slab read as offered
+   *to* the viewer, not displayed.
+8. Negative prompt: no rendered text, no logos, no watermarks, no
+   letterbox bars, no extra fingers, no glyphs that read as letters,
+   no banners (those land in the end frame), no hand visible holding
+   the quill, no other guild members, no fire, no smoke beyond the
+   ankle-fog.
+
+**Nano Banana end frame** — `videos/guild/cs_guild_charter_signing_end_{tier}_{companion}.jpg`
+
+1. Subject and pose: the same quill, now resting horizontally
+   across the charter-slab's upper-right corner (continuity anchor).
+   The sigil-ring at frame center is now fully inked: each of the
+   three carved slots filled with the vocabulary-tier ink hex,
+   connected by three luminous chord-lines. The full sigil emits
+   a soft column of light upward (40 cm tall, 8 cm wide, additive
+   blend). The companion silhouette at the right edge has stepped
+   8 cm closer (still cropped, still out of focus, but warmer
+   rim-light now).
+2. Environment: identical chamber and slab from the start frame
+   (continuity). The 9 standing-glyph posts in the ringwall are
+   now ignited — each glyph filled with the same ink-hex at 60%
+   intensity, casting nine pools of colored light onto the chamber
+   floor in a 9-pointed-star pattern. A circular banner-ring (one
+   per post, so 9 banners) has unfurled from each post's top, every
+   banner bearing the same vow-sigil at smaller scale (16 cm
+   diameter, dimmer ignition than the central sigil).
+3. Lighting: same 3200K key but lifted to 50% intensity. Companion
+   rim now at 70% intensity (the rite acknowledged the witness).
+   Sigil column-of-light emits its own bloom at 100% intensity in
+   the ink-hex. Standing-glyph posts add 9 secondary key sources
+   at 40% intensity each. Lens-flare anchor: the central sigil's
+   topmost slot, blooming a 3-petal flare.
+4. Color callouts: walls still `#010020` but now wash-tinted in the
+   ink-hex on the upper third (15% opacity). Banners in the ink-
+   hex at full saturation. Standing-glyph posts in the same hex.
+   Cyan column from start frame is REPLACED with the ink-hex
+   column (this is the visual punch line: the chamber takes the
+   guild's color).
+5. Material: glass throughout — banners read as holographic vow-
+   surfaces, slab still translucent obsidian, sigil-ring now reads
+   as fully-inked translucent glass plate set into the slab.
+6. Atmosphere: ankle-fog now at heavy density (3 cm rise into
+   ambient). Rising motes seeded at t=4s in the sigil-ring and
+   trailing up the central column (24 motes, ink-hex tinted). The
+   companion's orbital dust-mote count has increased to 4.
+7. Camera: identical 50mm eye-level perpendicular (continuity).
+8. Negative prompt: same as start, plus: no specific human face on
+   the companion (silhouette only), no readable banner text, no
+   UI chrome, no animated sparks past the rim of the central
+   sigil column, no second sigil-ring beyond the central one.
+
+**Veo 3.1 motion prompt** (image-to-video, both stills as conditioning):
+
+1. Camera: slow 50mm push-in along the chamber axis, 0.6 m total
+   travel over 7.5 seconds, no roll, no pan. Easing: cubic-out
+   (deliberate start, settle on the downbeat). Final frame matches
+   the end-frame composition exactly (the conditioning image
+   anchors the resolution).
+2. Subject motion:
+   - t=0.0–1.5s: quill remains motionless, hovering. Companion
+     silhouette at right edge takes one slow step closer (8 cm of
+     parallax travel), rim-light strengthens from 25% → 50%.
+   - t=1.5–2.0s: quill descends 8 cm in cubic-out easing to touch
+     the slab at the first sigil slot.
+   - t=2.0–4.0s: ink flows from the quill nib into each of the
+     three sigil slots in a 120° rotational sequence (slot 1 fills
+     0.5s, slot 2 0.5s, slot 3 0.5s, sigil-ring chord-lines
+     connect over the final 0.5s). Each slot ignition is a discrete
+     flash of bloom at the slot, fading to steady glow.
+   - t=4.0–5.5s: standing-glyph posts in the ringwall ignite in
+     a counter-clockwise wave (9 posts, 0.16s per post) starting
+     from the post directly behind the slab.
+   - t=5.5–6.5s: 9 banners unfurl from their post-tops in a
+     synchronized cascade (300ms per banner, staggered 80ms).
+   - t=6.5–7.5s: central sigil-column of light rises from the
+     fully-inked sigil, growing from 0 → 40 cm height in cubic-
+     out. Quill rotates 90° clockwise about its own center to its
+     final horizontal rest position. Companion rim-light reaches
+     final 70% intensity on t=7.5s.
+3. Atmospheric beat: ankle-fog accelerates from 2 cm/s to 5 cm/s
+   between t=2.0s and t=4.0s as the sigil ignites; rising motes
+   appear at t=4.5s and travel up the central column at 14 cm/s.
+   Companion orbital dust-mote count animates 1 → 4 over t=4.0–7.5s.
+4. Audio cue ties (per E.1):
+   - t=0.0s: low timpani hit on the downbeat (music stem starts).
+   - t=2.0s: first ink-flow chime on the music stem's beat 3.
+   - t=2.5s, t=3.0s, t=3.5s: subsequent slot-fill chimes on each
+     half-beat ascending C5 → E5 → G5.
+   - t=4.0s: chord-line connection lands on beat 7 with a single
+     bowed-cello swell, mid-bus.
+   - t=4.5s: companion VO line starts (line tied to companion
+     variant — see VO section). Ducks -6dB under VO.
+   - t=4.5–5.5s: 9 standing-glyph ignitions sit on a sixteenth-
+     note grid, panned in a 9-step counter-clockwise field.
+   - t=6.5s: banner cascade lands on the music stem's drop.
+   - t=7.5s: final magnetic "click" of the quill settling, -8dB.
+5. Negative motion prompt: no whip pans, no zoom-out, no character
+   speech other than the VO line, no morphing geometry, no flicker
+   on the central sigil after t=4.0s, no second push-in beyond
+   the spec, no companion's full face revealed (silhouette only),
+   no extra ink running off the slab, no posts igniting in any
+   order other than the specified counter-clockwise wave, no fire,
+   no smoke beyond the ankle-fog, no lens dirt.
+
+**VFX**
+
+- Sigil slot ignition: per-slot particle burst (16 particles each,
+  lifetime 350 ms, additive blend, color = ink-hex). 3 bursts total.
+- Sigil chord-lines: GPU-traced lightning-arc between the 3 slots,
+  120ms growth, 0.4 mm width, additive blend.
+- Standing-glyph wave: per-post bloom (8 particles, lifetime 250ms,
+  ink-hex tint), staggered counter-clockwise around the ringwall.
+- Banner unfurl: cloth-sim approximation via 2D mesh deformation
+  (no real cloth-sim cost). Under-light bleeds onto the floor
+  obsidian as a 9-pointed-star reflective smear.
+- Central sigil column: GPU-instanced volumetric beam, 8 cm radius,
+  40 cm height, additive blend, 0–100% intensity over t=6.5–7.5s.
+- Rising motes: 24 simultaneous on screen, GPU-instanced, additive
+  blend, 120-frame loop sprite from `art/vfx/motes_charter_{tier}.webp`.
+- Lens flare bloom: single anamorphic streak, 12° rotation,
+  intensity ramps 0→100% between t=6.5s and t=7.5s, then holds.
+
+**SFX** (bundle: `audio/sfx/guild/cs_guild_charter_signing.ogg` synchronized stems)
+
+- Sub: low rumble swell, 70 Hz fundamental, 7.5 s ramp, peaks at
+  t=7.5s (-12 dB).
+- Mid: crystalline chime cluster on each sigil-slot ignition (3
+  chimes, C5–E5–G5 ascending, half-beat spacing), -10 dB peak each.
+  Bowed-cello swell at t=4.0s (low D3, 1.5 s sustain, -14 dB).
+- Top: 9 staggered glyph-post ignitions (light bell-strikes,
+  100ms each, panned counter-clockwise across stereo field 9
+  positions, -16 dB peak). Paper-and-silk banner-whoosh, stereo-
+  wide, 9 instances staggered 80 ms apart between t=6.5–7.3 s.
+- Transient: deep magnetic "click" on quill final settle at
+  t=7.5 s, -6 dB.
+
+**Music** (`music/guild/cs_guild_charter_signing_bed_{tier}.ogg`)
+
+- 7.5 s loopable bed at 80 BPM in the **vocabulary tier's mode**:
+  - `rite` (Insurgency): Phrygian Dominant, sparse percussion,
+    militant restraint.
+  - `edict` (Empire): Lydian, full brass undertone, ceremonial
+    formality.
+  - `weave` (Witness): whole-tone, choral pad, cosmic quietude.
+  - `compact` (neutral): Dorian, balanced dulcimer + analog pad.
+- Instrumentation: sustained pad (analog warmth) + plucked
+  dulcimer arpeggio on the eighth-note grid + low timpani on the
+  downbeat (t=0). Bowed cello swell at t=4.0s carries the chord-
+  line connection. Drop at t=6.5s = full mode resolution.
+- -18 LUFS, 48 kHz stereo. Ducks -6 dB under VO between t=4.5–6.0s.
+
+**VO** (per companion variant — manifest line ids)
+
+- Elara — `elaraVoManifest.json` line `elara_charter_witness_001` [NEW]
+  - Line: "By this sigil, you are not alone. By this sigil, the
+    record holds. Speak the oath."
+  - Delivery: warm half-confidence, conspiratorial but formal,
+    0.4 s lead silence so it lands at t=4.5 s as the chord-lines
+    finish connecting.
+- The Human — `humanVoManifest.json` line `human_charter_witness_001` [NEW]
+  - Line: "Sign it. Mean it. Not for me — for the next one who
+    shows up at this door wondering if anyone will witness them."
+  - Delivery: low rasp, noir gravity, faint cigarette burn under
+    the line, same 0.4 s lead.
+- The Antiquarian — `antiquarianVoManifest.json` line `antiquarian_charter_witness_001` [NEW]
+  - Line: "Seventeen thousand years I have waited to record one
+    name. Yours. Speak it now, and I will."
+  - Delivery: dry, amused, hint of relief; 0.4 s lead.
+- Locke — `lockeVoManifest.json` line `locke_charter_witness_001` [NEW]
+  - Line: "Charter signed, accountability assigned. The hall
+    knows you now. Don't waste it."
+  - Delivery: clipped administrative warmth, mission-board
+    cadence, 0.4 s lead.
+- The Seer — `seerVoManifest.json` line `seer_charter_witness_001` [NEW]
+  - Line: "I see the threads converging. This sigil holds for
+    thirty days — every weave you make in that time pulls the
+    others tighter."
+  - Delivery: half-prophetic half-weary, breath-pause mid-line,
+    0.4 s lead.
+- Caption (.vtt) authored verbatim from the chosen companion's
+  line. Falls back to text-only display when audio is muted.
+
+**Client integration notes**
+
+- Trigger: `roleplay.signGuildCharter` mutation success path
+  appends a WS event to the guild room: `{ cutsceneId:
+  "cs_guild_charter_signing", actorUserId, guildId, vocabularyTier,
+  presidingCompanion }`.
+- Caster's client: full-screen autoplay via `useCutscene("cs_guild_charter_signing")`,
+  variant resolved by `(vocabularyTier, presidingCompanion)`.
+- Other guildmates online: inline chat card renders the start-frame
+  poster (matching variant) with autoplay-with-mute fallback.
+- Reduced-motion fallback: end-frame poster + caption only; music
+  bed plays.
+- 30-day re-sign: server checks `factionLockedUntil` on the
+  charter row. If the existing lock has elapsed, the cutscene
+  re-plays. Otherwise the mutation is rejected before reaching
+  the cutscene trigger, by design.
+- Asset CDN paths follow the established pattern:
+  `cdn/client-public/videos/guild/cs_guild_charter_signing_{tier}_{companion}.{mp4,webm,jpg}`.
+  4 tiers × 5 companions = 20 variants total.
+
 ### F.2 Daily / weekly engagement (5 entries, 16 sub-clips)
 
 #### F.2.1 — `cs_contract_unlock`

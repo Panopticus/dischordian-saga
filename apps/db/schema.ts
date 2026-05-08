@@ -7635,6 +7635,9 @@ export const roleplayDossier = mysqlTable("roleplay_dossier", {
   recognitionMode: mysqlEnum("recognitionMode", ["private", "open", "sealed"]).notNull().default("private"),
   /** Player's declared "calling" — chosen archetype label (Vessel, Cell-Runner, Witness, Archon, etc.) */
   calling: varchar("calling", { length: 48 }),
+  /** Reference to ARK_THEMES.id (apps/shared/gamification.ts) — drives
+   *  the dossier preview's color palette + sigil ring tint. */
+  sigilThemeId: varchar("sigilThemeId", { length: 64 }).default("default"),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });
@@ -7857,3 +7860,61 @@ export const guildRites = mysqlTable("guild_rites", {
   idxGuildScheduled: index("idx_guild_rites_guild_scheduled").on(table.guildId, table.scheduledAt),
 }));
 export type GuildRiteRow = typeof guildRites.$inferSelect;
+
+/**
+ * User-authored CoNexus Tomes — community-created flash-fiction
+ * fragments slotted into the existing CoNexus universe. The seven
+ * canonical tomes ship in `apps/shared/coNexusTomes.ts`; this table
+ * is the user-generated content (UGC) layer beneath.
+ *
+ * Lifecycle:
+ *   draft      → author can edit freely
+ *   submitted  → frozen, queued for moderation
+ *   published  → publicly readable, juried-curated
+ *   rejected   → returned to author with a moderator note
+ *   retired    → withdrawn from public, kept on record
+ *
+ * Length-budget mirrors canonical tomes: title up to 120 chars,
+ * teaser up to 240, body up to 4000 (200-400 words is the bible
+ * convention; we cap at 4000 to leave headroom).
+ */
+export const userTomes = mysqlTable("user_tomes", {
+  id: int("id").autoincrement().primaryKey(),
+  authorUserId: int("authorUserId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  title: varchar("title", { length: 120 }).notNull(),
+  /** One-line subtitle the Loredex shows before unlock. */
+  teaser: varchar("teaser", { length: 240 }),
+  /** Flash-fiction body — Markdown allowed, no HTML. */
+  body: text("body").notNull(),
+  /** "CoNexus index" the author claims this tome occupies — free text
+   *  like "CoNexus 0319"; not enforced unique. */
+  cycleIndex: varchar("cycleIndex", { length: 32 }),
+  status: mysqlEnum("status", ["draft", "submitted", "published", "rejected", "retired"]).notNull().default("draft"),
+  /** Moderator note attached at publish/reject time. */
+  moderatorNote: varchar("moderatorNote", { length: 500 }),
+  /** User id of the moderator who last touched the row. */
+  moderatedByUserId: int("moderatedByUserId").references(() => users.id, { onDelete: "set null" }),
+  moderatedAt: timestamp("moderatedAt"),
+  /** Aggregate community endorsements; cheap-read. */
+  endorsements: int("endorsements").notNull().default(0),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+}, (table) => ({
+  idxAuthor: index("idx_user_tomes_author").on(table.authorUserId),
+  idxStatus: index("idx_user_tomes_status").on(table.status),
+}));
+export type UserTomeRow = typeof userTomes.$inferSelect;
+
+/**
+ * User tome endorsements — one per user per published tome. Used to
+ * surface community-curated featured tomes on the Loredex.
+ */
+export const userTomeEndorsements = mysqlTable("user_tome_endorsements", {
+  id: int("id").autoincrement().primaryKey(),
+  tomeId: int("tomeId").notNull().references(() => userTomes.id, { onDelete: "cascade" }),
+  userId: int("userId").notNull().references(() => users.id, { onDelete: "cascade" }),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+}, (table) => ({
+  uniqUserTome: uniqueIndex("uniq_user_tome_endorsement").on(table.tomeId, table.userId),
+}));
+export type UserTomeEndorsementRow = typeof userTomeEndorsements.$inferSelect;
