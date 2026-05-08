@@ -166,5 +166,269 @@
     "emotion": "warm",
     "bucket": "romance",
     "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "heretic_female_greet_3",
+    "character": "apprentice_heretic_female",
+    "text": "Welcome. There's a tract on the table. Read it before you sit.",
+    "emotion": "edged",
+    "bucket": "greet",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "heretic_female_greet_4",
+    "character": "apprentice_heretic_female",
+    "text": "Hi. I have new dissent. Same opinions. Better citations.",
+    "emotion": "wry",
+    "bucket": "greet",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "heretic_female_ambient_4",
+    "character": "apprentice_heretic_female",
+    "text": "Three pamphlets out for revision. The third one is the dangerous one.",
+    "emotion": "set",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "heretic_female_ambient_5",
+    "character": "apprentice_heretic_female",
+    "text": "I've been arguing with the Antiquarian for two cycles. He's enjoying it. So am I.",
+    "emotion": "warm",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "heretic_female_ambient_6",
+    "character": "apprentice_heretic_female",
+    "text": "Orthodoxy is a building. I'm in the basement. They left the door unlocked.",
+    "emotion": "calm",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "heretic_female_ambient_7",
+    "character": "apprentice_heretic_female",
+    "text": "If you want to read what they took out, ask me. I keep copies. Multiple. Hidden.",
+    "emotion": "wry",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "heretic_female_ambient_8",
+    "character": "apprentice_heretic_female",
+    "text": "Vex Solène said she'd sing my next dissent. I'm rewriting it for tenor.",
+    "emotion": "thrilled",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "heretic_female_ambient_9",
+    "character": "apprentice_heretic_female",
+    "text": "There's a verse-of-the-day. I've stopped reading it. The verse left a forwarding address.",
+    "emotion": "edged",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "heretic_female_deploy_3",
+    "character": "apprentice_heretic_female",
+    "text": "Bring the manuscript. I'll defend it on the way.",
+    "emotion": "ready",
+    "bucket": "deploy",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "heretic_female_deploy_4",
+    "character": "apprentice_heretic_female",
+    "text": "I'll go where the line is and stand on the wrong side of it.",
+    "emotion": "set",
+    "bucket": "deploy",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "heretic_female_deploy_5",
+    "character": "apprentice_heretic_female",
+    "text": "If they ask for the author, point. I'll claim the work.",
+    "emotion": "ready",
+    "bucket": "deploy",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "heretic_female_outcome_won_2",
+    "character": "apprentice_heretic_female",
+    "text": "Argued and survived. Two for two on missions where that matters.",
+    "emotion": "wry",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "heretic_female_outcome_wounded_2",
+    "character": "apprentice_heretic_female",
+    "text": "They cut me. I cut them back. Different metaphor. Same scar.",
+    "emotion": "edged",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "heretic_female_outcome_close_call",
+    "character": "apprentice_heretic_female",
+    "text": "The orthodoxy almost won that argument. I countered, we lived.",
+    "emotion": "still",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "heretic_female_outcome_routine_lost",
+    "character": "apprentice_heretic_female",
+    "text": "She died for the wrong orthodoxy. I'll write her a better one.",
+    "emotion": "raw",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "heretic_female_event_act_complete",
+    "character": "apprentice_heretic_female",
+    "text": "Another act. Three new orthodoxies to dismantle.",
+    "emotion": "thrilled",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "heretic_female_event_npc_returned",
+    "character": "apprentice_heretic_female",
+    "text": "She're back. I'll quote their dissent in the next tract.",
+    "emotion": "thrilled",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "heretic_female_event_betrayal_warning",
+    "character": "apprentice_heretic_female",
+    "text": "I've been waiting for them to commit. The orthodoxy got there first. Pity.",
+    "emotion": "edged",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "heretic_female_event_relationship_warm",
+    "character": "apprentice_heretic_female",
+    "text": "Two crew bonded. I'll write a tract against the bond. Out of habit.",
+    "emotion": "wry",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "heretic_female_event_demon_summon",
+    "character": "apprentice_heretic_female",
+    "text": "Bound spirits hate the orthodox. I'll sit with one for an hour. We'll get along.",
+    "emotion": "thoughtful",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "heretic_female_event_apprentice_died",
+    "character": "apprentice_heretic_female",
+    "text": "I'll quote her dissent in my next tract. She'll be footnoted forever.",
+    "emotion": "mourning",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "heretic_female_event_recruit_added",
+    "character": "apprentice_heretic_female",
+    "text": "New crew. They argued back the second day. Good sign.",
+    "emotion": "warm",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "heretic_female_event_first_costly_choice",
+    "character": "apprentice_heretic_female",
+    "text": "Good. The easy answer was always going to disappoint someone important.",
+    "emotion": "approving",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "heretic_female_event_loredex_found",
+    "character": "apprentice_heretic_female",
+    "text": "Now we have a counter-text. The orthodoxy looks worse already.",
+    "emotion": "thrilled",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "heretic_female_banter_orthodoxy_2",
+    "character": "apprentice_heretic_female",
+    "text": "I'm not contrarian. I'm correct. Different things.",
+    "emotion": "edged",
+    "bucket": "banter",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "heretic_female_banter_dissent_2",
+    "character": "apprentice_heretic_female",
+    "text": "Bring me your worst orthodoxy. I'll show you what it papered over.",
+    "emotion": "warm",
+    "bucket": "banter",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "heretic_female_banter_publication",
+    "character": "apprentice_heretic_female",
+    "text": "Three tracts in revision. The fourth's already in print. They haven't noticed.",
+    "emotion": "wry",
+    "bucket": "banter",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "heretic_female_quest_2_check",
+    "character": "apprentice_heretic_female",
+    "text": "The faction sent a counter-tract. It's better than I expected. We'll have to write a third.",
+    "emotion": "ready",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "heretic_female_quest_followup_a",
+    "character": "apprentice_heretic_female",
+    "text": "Public confrontation set for next cycle. Vex is rehearsing the chorus. The orthodoxy doesn't know yet.",
+    "emotion": "thrilled",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "heretic_female_quest_resolution_deep",
+    "character": "apprentice_heretic_female",
+    "text": "We won. The orthodoxy retracted. Three new dissenters joined us. The chorus is bigger now.",
+    "emotion": "warm",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "heretic_female_quest_resolution_break",
+    "character": "apprentice_heretic_female",
+    "text": "I retracted. The faction calmed. I'm reading my own tract back. It still holds.",
+    "emotion": "raw",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "heretic_female_romance_argue",
+    "character": "apprentice_heretic_female",
+    "text": "Argue with me. Don't yield. I yield to people who don't.",
+    "emotion": "edged",
+    "bucket": "romance",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "heretic_female_romance_quiet_dissent",
+    "character": "apprentice_heretic_female",
+    "text": "I'd write a tract about you. I haven't. I won't. That's the only orthodoxy I keep.",
+    "emotion": "tender",
+    "bucket": "romance",
+    "file": "shared/apprenticeVoiceLines.ts"
   }
 ]

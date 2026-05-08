@@ -166,5 +166,269 @@
     "emotion": "warm",
     "bucket": "romance",
     "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "martyr_male_greet_3",
+    "character": "apprentice_martyr_male",
+    "text": "Welcome. Sit. I'll be back. I always come back.",
+    "emotion": "soft",
+    "bucket": "greet",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "martyr_male_greet_4",
+    "character": "apprentice_martyr_male",
+    "text": "Tell me what you need. I'll cover it. Don't argue.",
+    "emotion": "ready",
+    "bucket": "greet",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "martyr_male_ambient_4",
+    "character": "apprentice_martyr_male",
+    "text": "I packed three first-aid kits. One is yours. Don't ask which.",
+    "emotion": "low",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "martyr_male_ambient_5",
+    "character": "apprentice_martyr_male",
+    "text": "The bunkroom's cold. I gave my blanket to the new recruit. They're shivering less now.",
+    "emotion": "soft",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "martyr_male_ambient_6",
+    "character": "apprentice_martyr_male",
+    "text": "I rest when you rest. Not before. Not after.",
+    "emotion": "warm",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "martyr_male_ambient_7",
+    "character": "apprentice_martyr_male",
+    "text": "The watch I gave my partner — they're still wearing it. I'm glad.",
+    "emotion": "still",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "martyr_male_ambient_8",
+    "character": "apprentice_martyr_male",
+    "text": "Three meals queued. I'll eat the third one. If there's time.",
+    "emotion": "wry",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "martyr_male_ambient_9",
+    "character": "apprentice_martyr_male",
+    "text": "There's a list of people I'd take a hit for. I'm running out of paper.",
+    "emotion": "edged",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "martyr_male_deploy_3",
+    "character": "apprentice_martyr_male",
+    "text": "I'm at the front. Everyone else is at the rear. I'll be the rear if you need.",
+    "emotion": "set",
+    "bucket": "deploy",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "martyr_male_deploy_4",
+    "character": "apprentice_martyr_male",
+    "text": "Stay behind me. I'll tell you when it's over. I'll mean it.",
+    "emotion": "set",
+    "bucket": "deploy",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "martyr_male_deploy_5",
+    "character": "apprentice_martyr_male",
+    "text": "Whoever's taking the worst hit, that's me. Worth a try, anyway.",
+    "emotion": "edged",
+    "bucket": "deploy",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "martyr_male_outcome_won_2",
+    "character": "apprentice_martyr_male",
+    "text": "Everyone home. The only outcome I track.",
+    "emotion": "warm",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "martyr_male_outcome_wounded_2",
+    "character": "apprentice_martyr_male",
+    "text": "It's nothing. Don't fuss. Please don't.",
+    "emotion": "edged",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "martyr_male_outcome_close_call",
+    "character": "apprentice_martyr_male",
+    "text": "I should have been ahead of him. I was, briefly. The bullet was faster.",
+    "emotion": "raw",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "martyr_male_outcome_routine_lost",
+    "character": "apprentice_martyr_male",
+    "text": "It should have been me. Tell whoever asks: it should have been me.",
+    "emotion": "mourning",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "martyr_male_event_act_complete",
+    "character": "apprentice_martyr_male",
+    "text": "Another act. Another roster of people I haven't lost yet.",
+    "emotion": "warm",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "martyr_male_event_npc_returned",
+    "character": "apprentice_martyr_male",
+    "text": "He're back. I'll bring them tea. The first cup matters most.",
+    "emotion": "warm",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "martyr_male_event_betrayal_warning",
+    "character": "apprentice_martyr_male",
+    "text": "Their corruption is rising. Confront them. I'll be there. I'll catch the fall.",
+    "emotion": "edged",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "martyr_male_event_relationship_warm",
+    "character": "apprentice_martyr_male",
+    "text": "Two crew bonded. Quietly relieved. Less on my list to worry about.",
+    "emotion": "soft",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "martyr_male_event_demon_summon",
+    "character": "apprentice_martyr_male",
+    "text": "Bound spirits need protection too. The bond can break. The carrier shouldn't.",
+    "emotion": "thoughtful",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "martyr_male_event_apprentice_died",
+    "character": "apprentice_martyr_male",
+    "text": "I should have been there. I'll be ahead next time. I promise.",
+    "emotion": "raw",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "martyr_male_event_recruit_added",
+    "character": "apprentice_martyr_male",
+    "text": "New crew. I made up a bunk. Two extra blankets. Just in case.",
+    "emotion": "warm",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "martyr_male_event_first_costly_choice",
+    "character": "apprentice_martyr_male",
+    "text": "You took the harder one. I'll cover the bill.",
+    "emotion": "soft",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "martyr_male_event_war_won",
+    "character": "apprentice_martyr_male",
+    "text": "We won. Tell the cadre. I'll stay up another shift, just to be sure.",
+    "emotion": "calm",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "martyr_male_banter_thanks_2",
+    "character": "apprentice_martyr_male",
+    "text": "Please. Don't thank me. The thanks make the work harder.",
+    "emotion": "edged",
+    "bucket": "banter",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "martyr_male_banter_rest_2",
+    "character": "apprentice_martyr_male",
+    "text": "I'll rest. Eventually. Don't wait up.",
+    "emotion": "warm",
+    "bucket": "banter",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "martyr_male_banter_promise",
+    "character": "apprentice_martyr_male",
+    "text": "Don't ask me to promise to be careful. I won't lie to you.",
+    "emotion": "edged",
+    "bucket": "banter",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "martyr_male_quest_2_check",
+    "character": "apprentice_martyr_male",
+    "text": "It went sideways. I made it. Barely. Don't make me promise to be careful next time. Just don't.",
+    "emotion": "raw",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "martyr_male_quest_followup_a",
+    "character": "apprentice_martyr_male",
+    "text": "The next mission has my name on it. Already. I knew before the briefing.",
+    "emotion": "set",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "martyr_male_quest_resolution_deep",
+    "character": "apprentice_martyr_male",
+    "text": "You let me go. I came back. I'll let myself, next time. Just maybe.",
+    "emotion": "tender",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "martyr_male_quest_resolution_break",
+    "character": "apprentice_martyr_male",
+    "text": "I went. I gave. The team's whole. I'm not. I'm not okay with okay.",
+    "emotion": "raw",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "martyr_male_romance_receive",
+    "character": "apprentice_martyr_male",
+    "text": "I'm learning to be received. It's harder than giving. I'm slow at it.",
+    "emotion": "soft",
+    "bucket": "romance",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "martyr_male_romance_let_in",
+    "character": "apprentice_martyr_male",
+    "text": "Catch me. Walk me to the edge. Hold my hand on the way back.",
+    "emotion": "tender",
+    "bucket": "romance",
+    "file": "shared/apprenticeVoiceLines.ts"
   }
 ]

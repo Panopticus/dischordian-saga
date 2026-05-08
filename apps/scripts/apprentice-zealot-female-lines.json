@@ -166,5 +166,261 @@
     "emotion": "devoted",
     "bucket": "romance",
     "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "zealot_female_greet_3",
+    "character": "apprentice_zealot_female",
+    "text": "Welcome. The chapel's stocked. Walk it twice.",
+    "emotion": "warm",
+    "bucket": "greet",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "zealot_female_greet_4",
+    "character": "apprentice_zealot_female",
+    "text": "You came back. The Cause noted it.",
+    "emotion": "soft",
+    "bucket": "greet",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "zealot_female_ambient_4",
+    "character": "apprentice_zealot_female",
+    "text": "The third stanza of the morning chant has a typo. I won't fix it. The Cause hears the meaning.",
+    "emotion": "wry",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "zealot_female_ambient_5",
+    "character": "apprentice_zealot_female",
+    "text": "I sharpen the candles. It calms me. Don't ask why I keep them sharp.",
+    "emotion": "low",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "zealot_female_ambient_6",
+    "character": "apprentice_zealot_female",
+    "text": "Three creeds today, all from the same hand. Coincidence is rare.",
+    "emotion": "thoughtful",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "zealot_female_ambient_7",
+    "character": "apprentice_zealot_female",
+    "text": "The lower-deck choir hits the harmony I missed last cycle.",
+    "emotion": "warm",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "zealot_female_ambient_8",
+    "character": "apprentice_zealot_female",
+    "text": "I keep a pocket bible. The Cause prefers small books.",
+    "emotion": "soft",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "zealot_female_ambient_9",
+    "character": "apprentice_zealot_female",
+    "text": "Faith is repetition that becomes ritual that becomes truth.",
+    "emotion": "calm",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "zealot_female_deploy_3",
+    "character": "apprentice_zealot_female",
+    "text": "Strap the medallion on me. I want it visible.",
+    "emotion": "set",
+    "bucket": "deploy",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "zealot_female_deploy_4",
+    "character": "apprentice_zealot_female",
+    "text": "Whatever's at the door, the Cause is already through it.",
+    "emotion": "fervent",
+    "bucket": "deploy",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "zealot_female_deploy_5",
+    "character": "apprentice_zealot_female",
+    "text": "Cover me. I'll cover the rest. The Cause covers what's left.",
+    "emotion": "ready",
+    "bucket": "deploy",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "zealot_female_outcome_won_2",
+    "character": "apprentice_zealot_female",
+    "text": "Three names in the prayer tonight. All survived.",
+    "emotion": "warm",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "zealot_female_outcome_wounded_2",
+    "character": "apprentice_zealot_female",
+    "text": "I'll heal in the chapel. Don't bring food.",
+    "emotion": "edged",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "zealot_female_outcome_close_call",
+    "character": "apprentice_zealot_female",
+    "text": "I felt the Cause move me three centimetres. The bullet went where I'd been.",
+    "emotion": "raw",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "zealot_female_outcome_routine_lost",
+    "character": "apprentice_zealot_female",
+    "text": "We came home half. The Cause counts halves.",
+    "emotion": "mourning",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "zealot_female_event_act_complete",
+    "character": "apprentice_zealot_female",
+    "text": "Another act. The Cause keeps reading. We keep turning the page.",
+    "emotion": "calm",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "zealot_female_event_npc_returned",
+    "character": "apprentice_zealot_female",
+    "text": "She came back. The Cause has more practice than we thought.",
+    "emotion": "thrilled",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "zealot_female_event_betrayal_warning",
+    "character": "apprentice_zealot_female",
+    "text": "The whispers are starting. Don't listen to them yet. Ask me first.",
+    "emotion": "edged",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "zealot_female_event_first_pet",
+    "character": "apprentice_zealot_female",
+    "text": "Even a demon-bound pet falls under the Cause. Reluctantly.",
+    "emotion": "wry",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "zealot_female_event_relationship_warm",
+    "character": "apprentice_zealot_female",
+    "text": "I noticed you spent an hour with the Heretic. Good. We need that argument.",
+    "emotion": "approving",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "zealot_female_event_demon_summon",
+    "character": "apprentice_zealot_female",
+    "text": "A bound spirit is still a spirit. The Cause can speak to either.",
+    "emotion": "calm",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "zealot_female_event_apprentice_died",
+    "character": "apprentice_zealot_female",
+    "text": "The Cause holds them now. I'll inscribe their name on the wall myself.",
+    "emotion": "mourning",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "zealot_female_event_war_won",
+    "character": "apprentice_zealot_female",
+    "text": "Victory in the right hands is a sermon nobody had to write.",
+    "emotion": "fervent",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "zealot_female_banter_doubter",
+    "character": "apprentice_zealot_female",
+    "text": "Doubt is a lap on the path. Walk it. Come back when you've finished.",
+    "emotion": "calm",
+    "bucket": "banter",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "zealot_female_banter_practical",
+    "character": "apprentice_zealot_female",
+    "text": "I'll be practical when the Cause asks me to. The Cause has not asked.",
+    "emotion": "wry",
+    "bucket": "banter",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "zealot_female_banter_celebration",
+    "character": "apprentice_zealot_female",
+    "text": "Toast loud enough that the room above us hears. The Cause likes neighbours.",
+    "emotion": "warm",
+    "bucket": "banter",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "zealot_female_quest_2_check",
+    "character": "apprentice_zealot_female",
+    "text": "I confronted the lower-deck preacher. He recognized the lines. He didn't recognize me.",
+    "emotion": "raw",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "zealot_female_quest_followup_a",
+    "character": "apprentice_zealot_female",
+    "text": "He says he wrote them. He's wrong. I think the Cause wrote them through us both.",
+    "emotion": "wondering",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "zealot_female_quest_resolution_deep",
+    "character": "apprentice_zealot_female",
+    "text": "He yielded. We pray together now. Slowly.",
+    "emotion": "warm",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "zealot_female_quest_resolution_break",
+    "character": "apprentice_zealot_female",
+    "text": "He laughed. I left. The Cause is silent about what comes next.",
+    "emotion": "raw",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "zealot_female_romance_jealous",
+    "character": "apprentice_zealot_female",
+    "text": "I'm not the jealous type. I'm the patient type. They're related.",
+    "emotion": "edged",
+    "bucket": "romance",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "zealot_female_romance_proposal",
+    "character": "apprentice_zealot_female",
+    "text": "Marry me at the altar I built. Or anywhere. The altar is portable.",
+    "emotion": "tender",
+    "bucket": "romance",
+    "file": "shared/apprenticeVoiceLines.ts"
   }
 ]

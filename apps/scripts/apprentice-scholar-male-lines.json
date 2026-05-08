@@ -166,5 +166,269 @@
     "emotion": "warm",
     "bucket": "romance",
     "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "scholar_male_greet_3",
+    "character": "apprentice_scholar_male",
+    "text": "Welcome. I'm in chapter four. You can read alongside.",
+    "emotion": "warm",
+    "bucket": "greet",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "scholar_male_greet_4",
+    "character": "apprentice_scholar_male",
+    "text": "Sit. The light's better at this desk.",
+    "emotion": "ready",
+    "bucket": "greet",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "scholar_male_ambient_4",
+    "character": "apprentice_scholar_male",
+    "text": "Annotated source one disagrees with annotated source three. Both annotated by the same author. Curious.",
+    "emotion": "thoughtful",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "scholar_male_ambient_5",
+    "character": "apprentice_scholar_male",
+    "text": "I'm rereading the field notes I wrote last cycle. I was wrong on page two.",
+    "emotion": "wry",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "scholar_male_ambient_6",
+    "character": "apprentice_scholar_male",
+    "text": "There's a transcription error in the Founders' Chronicle. Three centuries of citations have inherited it.",
+    "emotion": "edged",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "scholar_male_ambient_7",
+    "character": "apprentice_scholar_male",
+    "text": "If you have ten minutes, I'll show you the missing volume. It's not missing. It's mis-shelved.",
+    "emotion": "warm",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "scholar_male_ambient_8",
+    "character": "apprentice_scholar_male",
+    "text": "I sleep with the manuscript. Don't tell the Antiquarian.",
+    "emotion": "soft",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "scholar_male_ambient_9",
+    "character": "apprentice_scholar_male",
+    "text": "There are four people in this room. Three of them are mostly metaphor.",
+    "emotion": "wry",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "scholar_male_deploy_3",
+    "character": "apprentice_scholar_male",
+    "text": "I'm bringing the field manual. Annotated.",
+    "emotion": "ready",
+    "bucket": "deploy",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "scholar_male_deploy_4",
+    "character": "apprentice_scholar_male",
+    "text": "I'll cite my sources after. Possibly during.",
+    "emotion": "wry",
+    "bucket": "deploy",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "scholar_male_deploy_5",
+    "character": "apprentice_scholar_male",
+    "text": "Field test of the third chapter. I'd like a peer reviewer in earshot.",
+    "emotion": "set",
+    "bucket": "deploy",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "scholar_male_outcome_won_2",
+    "character": "apprentice_scholar_male",
+    "text": "The chapter holds. I'll publish next cycle.",
+    "emotion": "warm",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "scholar_male_outcome_wounded_2",
+    "character": "apprentice_scholar_male",
+    "text": "Footnoting injuries is harder than I'd hoped.",
+    "emotion": "wry",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "scholar_male_outcome_close_call",
+    "character": "apprentice_scholar_male",
+    "text": "I had the citation in my hand. Then I didn't. Then I did again.",
+    "emotion": "still",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "scholar_male_outcome_routine_lost",
+    "character": "apprentice_scholar_male",
+    "text": "I'll add him to the citations. He would have wanted Vancouver style.",
+    "emotion": "mourning",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "scholar_male_event_act_complete",
+    "character": "apprentice_scholar_male",
+    "text": "Another act. The bibliography updates itself.",
+    "emotion": "thoughtful",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "scholar_male_event_npc_returned",
+    "character": "apprentice_scholar_male",
+    "text": "He returned. The footnotes will need a supplementary edition.",
+    "emotion": "thrilled",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "scholar_male_event_betrayal_warning",
+    "character": "apprentice_scholar_male",
+    "text": "I checked the citations on their last argument. Two are forged.",
+    "emotion": "edged",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "scholar_male_event_relationship_warm",
+    "character": "apprentice_scholar_male",
+    "text": "Two crew co-authoring something in the long table. I'm leaving footnotes on their draft, anonymously.",
+    "emotion": "warm",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "scholar_male_event_demon_summon",
+    "character": "apprentice_scholar_male",
+    "text": "Existing literature on bound spirits is thin. I'll be expanding it.",
+    "emotion": "thoughtful",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "scholar_male_event_apprentice_died",
+    "character": "apprentice_scholar_male",
+    "text": "I'll write the entry. Three drafts. The third one will be the one we keep.",
+    "emotion": "mourning",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "scholar_male_event_recruit_added",
+    "character": "apprentice_scholar_male",
+    "text": "New crew member. I've already read their first paper. We disagree productively.",
+    "emotion": "warm",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "scholar_male_event_first_costly_choice",
+    "character": "apprentice_scholar_male",
+    "text": "Cite the difficult outcome. The textbooks need a new case study.",
+    "emotion": "approving",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "scholar_male_event_loredex_meta",
+    "character": "apprentice_scholar_male",
+    "text": "I have a hypothesis about the Loredex. I'll workshop it with you.",
+    "emotion": "thoughtful",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "scholar_male_banter_evidence_2",
+    "character": "apprentice_scholar_male",
+    "text": "Bring me the rebuttal. With sources.",
+    "emotion": "edged",
+    "bucket": "banter",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "scholar_male_banter_argue_2",
+    "character": "apprentice_scholar_male",
+    "text": "We can disagree productively for hours. Set aside an evening.",
+    "emotion": "warm",
+    "bucket": "banter",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "scholar_male_banter_seminar",
+    "character": "apprentice_scholar_male",
+    "text": "We should hold a seminar. Tonight. Long table. Bring opinions.",
+    "emotion": "ready",
+    "bucket": "banter",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "scholar_male_quest_2_check",
+    "character": "apprentice_scholar_male",
+    "text": "Three drafts in. Each one weaker than the last. I'm rewriting from scratch.",
+    "emotion": "raw",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "scholar_male_quest_followup_a",
+    "character": "apprentice_scholar_male",
+    "text": "The Antiquarian read the third draft. He marked four sentences. I'm keeping all of them.",
+    "emotion": "wondering",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "scholar_male_quest_resolution_deep",
+    "character": "apprentice_scholar_male",
+    "text": "Published. Three corrections in three days. The fourth is yours to send.",
+    "emotion": "warm",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "scholar_male_quest_resolution_break",
+    "character": "apprentice_scholar_male",
+    "text": "Retracted. The disciplines clapped. I'm still reading what I wrote.",
+    "emotion": "raw",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "scholar_male_romance_marginalia",
+    "character": "apprentice_scholar_male",
+    "text": "I write to you in marginalia. Don't read it in order.",
+    "emotion": "soft",
+    "bucket": "romance",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "scholar_male_romance_library",
+    "character": "apprentice_scholar_male",
+    "text": "Meet me in the library at the third turn. Bring nothing.",
+    "emotion": "tender",
+    "bucket": "romance",
+    "file": "shared/apprenticeVoiceLines.ts"
   }
 ]

@@ -86,8 +86,58 @@ export const resurrectionRouter = router({
     if (!state || !state.pendingSideEffects?.length) {
       return { drained: 0 };
     }
+    const { composeObituary } = await import("../../shared/loredexObituary");
+    const { getMourningRemarks, pickMourningVariant } = await import(
+      "../../shared/npcMourningRemarks"
+    );
+
     let store = await loadResurrectionStore(ctx.user.id);
     let drained = 0;
+    let obituaries = [...(state.obituaries ?? [])];
+    const existingObituaryIds = new Set(obituaries.map((o) => o.id));
+
+    /** Helper — compose & dedupe an obituary for a given member. */
+    const ensureObituary = (
+      memberKey: string,
+      missionName: string | undefined,
+      now: number,
+      resurrectionQuestId?: string,
+    ): boolean => {
+      const id = `obituary.${memberKey}`;
+      if (existingObituaryIds.has(id)) return false;
+      const member =
+        state.roster.deceased.find((m) => m.id === memberKey) ??
+        state.roster.members.find((m) => m.id === memberKey);
+      if (!member || !member.deathRecord) return false;
+      const squadMemberKeys = state.roster.members
+        .filter((m) => m.id !== memberKey)
+        .map((m) => m.id)
+        .slice(0, 8);
+      try {
+        const entry = composeObituary({
+          member,
+          squadMemberKeys,
+          missionName,
+          resurrectionQuestId,
+          now,
+        });
+        obituaries = [...obituaries, entry];
+        existingObituaryIds.add(id);
+        return true;
+      } catch {
+        return false;
+      }
+    };
+
+    /** Mourning-remarks queue accumulated for the crew feed. */
+    const mourningFeed: Array<{
+      deceasedKey: string;
+      speakerKey: string;
+      speakerDisplay: string;
+      line: string;
+      diedAtMs: number;
+    }> = [];
+
     for (const eff of state.pendingSideEffects) {
       if (eff.kind === "npc_world_death") {
         if (!isResurrectableNpc(eff.npcKey)) continue;
@@ -118,22 +168,100 @@ export const resurrectionRouter = router({
           store = upsertQuest(store, q);
           drained++;
         }
+        // Obituary for the recruited NPC, linked to the quest if open.
+        const linkedQuest = store.quests.find(
+          (q) =>
+            q.npcKey === eff.npcKey &&
+            q.killedMemberKey === eff.killedMemberKey,
+        );
+        if (
+          ensureObituary(
+            eff.killedMemberKey,
+            undefined,
+            eff.diedAtMs,
+            linkedQuest?.id,
+          )
+        ) {
+          drained++;
+        }
+      } else if (eff.kind === "apprentice_obituary") {
+        if (ensureObituary(eff.deceasedMemberKey, undefined, eff.diedAtMs)) {
+          drained++;
+        }
+      } else if (eff.kind === "mourning_sweep") {
+        // Compose the deceased's obituary too — recruited NPCs without an
+        // open_resurrection_quest still leave an entry behind.
+        ensureObituary(eff.deceasedMemberKey, undefined, eff.diedAtMs);
+        // Build mourning remarks. Speakers come from two pools:
+        //   1. Other recruited NPCs alive on the roster.
+        //   2. Canonical NPCs the lore implies (elara, the_human, etc.) —
+        //      always queued; the UI/dialog layer decides whether the
+        //      speaker is reachable for the current player.
+        const recruitedSpeakerKeys = state.roster.members
+          .filter(
+            (m) =>
+              m.productionPath === "recruited" &&
+              m.linkedNpcKey &&
+              m.id !== eff.deceasedMemberKey &&
+              m.status !== "dead",
+          )
+          .map((m) => m.linkedNpcKey)
+          .filter((k): k is string => Boolean(k));
+        const allRemarks = getMourningRemarks(eff.deceasedNpcKey);
+        for (const remark of allRemarks) {
+          // Recruited speakers must be present on the roster; canonical
+          // speakers (elara, the_human, etc.) always pass through.
+          const isRecruitable = ["vex_solene", "wraith_calder", "locke", "jericho_jones", "akai_shi"].includes(
+            remark.speaker,
+          );
+          if (isRecruitable && !recruitedSpeakerKeys.includes(remark.speaker)) {
+            continue;
+          }
+          const line = pickMourningVariant(remark, eff.diedAtMs);
+          mourningFeed.push({
+            deceasedKey: eff.deceasedNpcKey,
+            speakerKey: remark.speaker,
+            speakerDisplay: remark.speakerDisplay,
+            line,
+            diedAtMs: eff.diedAtMs,
+          });
+        }
+        drained++;
       }
     }
-    if (drained > 0) {
+    if (
+      drained > 0 &&
+      store !== (await loadResurrectionStore(ctx.user.id).catch(() => store))
+    ) {
+      await saveResurrectionStore(ctx.user.id, store);
+    } else if (drained > 0) {
       await saveResurrectionStore(ctx.user.id, store);
     }
-    // Clear the pendingSideEffects on the crew state since we've drained
-    // all the resurrection-related ones. Other consumers (mourning,
-    // obituary) handle their own kinds.
+    // Append mourning lines to the crew feed using the canonical
+    // SerializedFeedEntry shape (see crewPersistence.ts:199).
+    const newFeedEntries = mourningFeed.map((m) => ({
+      id: `mourning_${m.speakerKey}_${m.deceasedKey}_${m.diedAtMs}`,
+      timestamp: m.diedAtMs,
+      roomId: "the_commons",
+      category: "memorial",
+      text: `${m.speakerDisplay}: ${m.line}`,
+      severity: "info" as const,
+      actionable: false,
+    }));
+    // We've drained every kind we know about; clear them all so subsequent
+    // ticks see a clean queue.
     const remaining = state.pendingSideEffects.filter(
       (eff) =>
         eff.kind !== "npc_world_death" &&
-        eff.kind !== "open_resurrection_quest",
+        eff.kind !== "open_resurrection_quest" &&
+        eff.kind !== "apprentice_obituary" &&
+        eff.kind !== "mourning_sweep",
     );
     await saveCrewState(ctx.user.id, {
       ...state,
       pendingSideEffects: remaining,
+      obituaries,
+      feed: [...state.feed, ...newFeedEntries].slice(-200),
     });
     return { drained };
   }),
