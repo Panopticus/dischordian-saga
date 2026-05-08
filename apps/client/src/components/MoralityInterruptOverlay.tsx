@@ -57,7 +57,7 @@ export default function MoralityInterruptOverlay({
                   cy="50"
                   r="46"
                   fill="none"
-                  stroke="rgba(255,255,255,0.15)"
+                  stroke="color-mix(in oklch, var(--text-primary) 15%, transparent)"
                   strokeWidth="2"
                 />
                 <circle

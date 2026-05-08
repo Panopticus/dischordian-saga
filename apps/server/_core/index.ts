@@ -572,6 +572,25 @@ async function startServer() {
       console.error("[ConvergenceClimax] initial tick error:", e),
     );
 
+    // Soul Stones — weekly soft-cap reset. Per
+    // docs/design/SOUL_STONES_SYSTEM.md §1.2, combat-source drops
+    // are capped at 15 stones per week per player. The reset job
+    // zeroes `weeklyCollected` and bumps `weekResetAt` on any row
+    // that's been past the one-week boundary. Hourly tick is fine —
+    // the test is "weekResetAt < now - 1w" so the granularity is
+    // the player's first eligible tick after the boundary.
+    const { tickSoulStoneWeeklyResets } = await import(
+      "../services/soulStonesService"
+    );
+    setInterval(() => {
+      tickSoulStoneWeeklyResets().catch(e =>
+        console.error("[SoulStones] weekly reset tick error:", e),
+      );
+    }, ONE_HOUR_MS);
+    tickSoulStoneWeeklyResets().catch(e =>
+      console.error("[SoulStones] initial weekly reset error:", e),
+    );
+
     // Witnessing §3 — load the community Dischordia Cycle meter
     // from MySQL into the in-memory cache on startup. If the DB
     // has no row yet (fresh install), seeds defaults. Falls back

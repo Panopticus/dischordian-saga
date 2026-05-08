@@ -71,7 +71,7 @@ export default function PurchaseConfirmation({
             className="w-full max-w-sm bg-black/95 border void-border rounded-2xl overflow-hidden"
           >
             {/* Header */}
-            <div className="flex items-center justify-between px-4 py-3 border-b void-border bg-gradient-to-r from-amber-500/10 to-transparent">
+            <div className="flex items-center justify-between px-4 py-3 border-b void-border void-bg-sunk">
               <div className="flex items-center gap-2">
                 <ShieldCheck size={18} className="void-text-accent" />
                 <h2 className="font-display text-lg tracking-[0.2em] void-text-accent">

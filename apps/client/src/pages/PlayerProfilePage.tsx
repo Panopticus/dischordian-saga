@@ -14,6 +14,7 @@ import {
   Compass, BookOpen, Gem, BarChart3
 } from "lucide-react";
 import CharacterBonusesPanel from "@/components/CharacterBonusesPanel";
+import { LivingCharacterSheet } from "@/components/LivingCharacterSheet";
 import { ClassMasteryPanel } from "@/components/ClassMasteryPanel";
 import { SynergyBonusesPanel } from "@/components/SynergyBonusesPanel";
 import { BranchingMasteryPanel } from "@/components/BranchingMasteryPanel";
@@ -317,6 +318,9 @@ export default function PlayerProfilePage() {
             </div>
           </div>
         </motion.div>
+
+        {/* Living Character Sheet — animated dossier (morality, bonds, psych) */}
+        <LivingCharacterSheet />
 
         {/* Character Bonuses — how build affects all game systems */}
         <CharacterBonusesPanel />

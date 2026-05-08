@@ -1434,6 +1434,19 @@ export const cardGameRouter = router({
           input.matchId,
           winnerId === ctx.user.id,
         );
+        // Soul Stones — drop one violet stone per combat win, gated
+        // by the weekly soft-cap (§1.2 SOUL_STONES_SYSTEM.md). Helper
+        // short-circuits when the player has hit their cap, so the
+        // call site doesn't need to gate. Fire-and-forget; a missed
+        // drop isn't worth failing match-end on.
+        if (winnerId === ctx.user.id) {
+          const { awardCombatDropStone } = await import(
+            "../services/soulStonesService"
+          );
+          awardCombatDropStone(ctx.user.id, "combat_win").catch(e =>
+            logger.error("[CardGame] Soul stone drop error:", e),
+          );
+        }
       }
 
       return {

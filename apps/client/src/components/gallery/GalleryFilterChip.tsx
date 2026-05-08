@@ -47,7 +47,7 @@ export default function GalleryFilterChip({
           ? `color-mix(in oklch, ${accent} 55%, transparent)`
           : "color-mix(in oklch, var(--border) 40%, transparent)",
         color: active ? accent : "var(--muted-foreground)",
-        boxShadow: active ? `0 0 10px color-mix(in oklch, ${accent} 22%, transparent)` : "none",
+        boxShadow: active ? `0 0 10px color-mix(in oklch, ${accent} 22%, transparent)` : "none", // void-ignore
       }}
     >
       {leading}

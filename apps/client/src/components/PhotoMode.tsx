@@ -347,7 +347,7 @@ function getFrameStyles(frame: FrameId): string {
     case "portrait":
       return "border-8 border-double void-border";
     case "wanted":
-      return "border-4 void-border bg-gradient-to-b from-amber-900/10 to-transparent";
+      return "border-4 void-border void-bg-sunk";
     case "loredex":
       return "border border-primary/30 bg-gradient-to-br from-primary/5 to-transparent";
     default:

@@ -185,7 +185,7 @@ function TraitRow({ trait, expanded, onToggle }: {
             <div className="flex items-center gap-2 mt-1">
               <div className="flex-1 h-1 void-bg-canvas rounded-full overflow-hidden relative">
                 <div
-                  className={`absolute inset-y-0 left-0 rounded-full transition-all duration-500 ${trait.activeThreshold ? "bg-gradient-to-r from-amber-500 via-slate-300 to-yellow-400" : "void-bg-canvas"}`}
+                  className={`absolute inset-y-0 left-0 rounded-full transition-all duration-500 ${trait.activeThreshold ? "void-bg-success" : "void-bg-canvas"}`}
                   style={{ width: `${progress}%` }}
                 />
                 {/* Threshold ticks */}

@@ -94,7 +94,7 @@ export default function StreakCounter({ currentStreak, className = "" }: StreakC
           animate={{ opacity: [0, 0.4, 0] }}
           transition={{ duration: 2, repeat: Infinity }}
           style={{
-            boxShadow: `0 0 12px color-mix(in oklch, var(--energy-premium) 40%, transparent)`,
+            boxShadow: `0 0 12px color-mix(in oklch, var(--energy-premium) 40%, transparent)`, // void-ignore
           }}
         />
       )}

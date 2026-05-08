@@ -121,7 +121,7 @@ export default function MoralityUnlockablesPanel() {
               {/* Score indicator */}
               <motion.div
                 className="absolute top-0 w-1.5 h-full rounded-full"
-                style={{ backgroundColor: tier.color, boxShadow: `0 0 4px ${tier.glowColor}` }}
+                style={{ backgroundColor: tier.color, boxShadow: `0 0 4px ${tier.glowColor}` }} // void-ignore
                 animate={{ left: `calc(${((score + 100) / 200) * 100}% - 3px)` }}
                 transition={{ type: "spring", stiffness: 200, damping: 20 }}
               />

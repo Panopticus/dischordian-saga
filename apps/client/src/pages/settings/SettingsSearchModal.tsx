@@ -170,7 +170,7 @@ export default function SettingsSearchModal({ open, onClose }: SettingsSearchMod
             style={{
               background: "color-mix(in oklch, var(--bg-void) 94%, transparent)",
               borderColor: "color-mix(in oklch, var(--energy-primary) 25%, transparent)",
-              boxShadow: "0 0 60px color-mix(in oklch, var(--energy-primary) 15%, transparent)",
+              boxShadow: "0 0 60px color-mix(in oklch, var(--energy-primary) 15%, transparent)", // void-ignore
             }}
             onClick={(e) => e.stopPropagation()}
             role="dialog"

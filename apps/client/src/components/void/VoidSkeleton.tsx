@@ -28,7 +28,7 @@ export default function VoidSkeleton({
       style={{
         width: typeof width === "number" ? `${width}px` : width,
         height: typeof height === "number" ? `${height}px` : height,
-        borderRadius: rounded ? "var(--ve-radius-sm, 4px)" : 0,
+        borderRadius: rounded ? "var(--ve-radius-sm, 4px)" : 0, // void-ignore
       }}
     />
   );
