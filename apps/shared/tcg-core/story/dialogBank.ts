@@ -140,7 +140,6 @@ export function resolveDialog(id: string | undefined): DialogScene | undefined {
   if (!id) return undefined;
   const scene = DIALOG_BANK[id];
   if (!scene && process.env.NODE_ENV !== "production") {
-    // eslint-disable-next-line no-console
     console.warn(`[dialogBank] No scene registered for id '${id}'`);
   }
   return scene;

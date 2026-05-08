@@ -454,7 +454,6 @@ export default function TitlePage({ onDismiss }: TitlePageProps = {}) {
       observeWatcher({ kind: "late_night_session", localHour: hour, at: now.getTime() });
     }
     // Mount-only: we want one observation per session-open, not per render.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   /* ─── First-gesture RECONNECT for State C returning users ─── */

@@ -6,7 +6,6 @@
  * constructors below to mint branded values from raw primitives.
  */
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare const _brand: unique symbol;
 type Brand<T, B> = T & { readonly [_brand]: B };
 

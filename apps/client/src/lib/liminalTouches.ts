@@ -150,7 +150,6 @@ export function logBootBanner(score: number): void {
   const w = window as unknown as Record<string, unknown>;
   if (w[FLAG] === true) return;
   w[FLAG] = true;
-  // eslint-disable-next-line no-console
   console.warn(bootBannerForMorality(score));
 }
 

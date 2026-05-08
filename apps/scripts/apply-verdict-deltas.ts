@@ -140,24 +140,20 @@ function main(): void {
       if (r.ok) {
         stats.applied++;
         if (args.dryRun) {
-          // eslint-disable-next-line no-console
           console.log(`[dry] ${p.id}  +=${p.proposed}  (${file})`);
         }
       } else if (r.reason === "already has verdict_delta") {
         stats.skippedAlready++;
       } else {
         stats.errored++;
-        // eslint-disable-next-line no-console
         console.error(`[err] ${p.id}: ${r.reason}`);
       }
     } catch (e) {
       stats.errored++;
-      // eslint-disable-next-line no-console
       console.error(`[err] ${p.id}: ${(e as Error).message}`);
     }
   }
 
-  // eslint-disable-next-line no-console
   console.log(
     `\n${args.dryRun ? "[DRY RUN] " : ""}Done.\n` +
       `  considered:   ${stats.considered}\n` +

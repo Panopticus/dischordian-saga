@@ -119,7 +119,6 @@ export function GuildCutscenePlayer({
 
   if (!def) {
     if (typeof window !== "undefined") {
-      // eslint-disable-next-line no-console
       console.warn(`GuildCutscenePlayer: unknown csId "${csId}"`);
     }
     return null;
