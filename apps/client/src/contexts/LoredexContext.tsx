@@ -27,6 +27,10 @@ export interface LoredexEntry {
   image?: string;
   priority?: string;
   streaming_links?: Record<string, string>;
+  /** audit/14.F1 — optional cluster tag for concept entries
+   *  (imprint_mechanics / witnessing_doctrine / audit_discipline /
+   *  seer_method / lionism_ethics). Empty / undefined = no cluster. */
+  cluster?: string;
   // Song-specific
   album?: string;
   track_number?: number;
