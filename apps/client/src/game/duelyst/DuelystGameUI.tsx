@@ -1700,7 +1700,7 @@ function DuelystGameUI({ playerFaction, opponentFaction, isTutorial = false, onG
         className="flex-1 flex items-center justify-center overflow-hidden bg-gradient-to-b from-black/40 to-black/80 game-canvas-mount"
         data-testid="duelyst-board"
       >
-        <canvas ref={canvasRef} className="max-w-full max-h-full" />
+        <canvas ref={canvasRef} className="game-canvas-mount max-w-full max-h-full" />
       </div>
 
       {/* Player bar: HP + Artifacts + Mana crystals + BBS + End Turn */}
