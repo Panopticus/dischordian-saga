@@ -166,5 +166,269 @@
     "emotion": "warm",
     "bucket": "romance",
     "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "sentinel_female_greet_3",
+    "character": "apprentice_sentinel_female",
+    "text": "Welcome. Watch's quiet. You're cleared.",
+    "emotion": "calm",
+    "bucket": "greet",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "sentinel_female_greet_4",
+    "character": "apprentice_sentinel_female",
+    "text": "I'll relieve when relieved. Standard.",
+    "emotion": "ready",
+    "bucket": "greet",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "sentinel_female_ambient_4",
+    "character": "apprentice_sentinel_female",
+    "text": "Drill ran two seconds long today. I'll re-run at dawn.",
+    "emotion": "edged",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "sentinel_female_ambient_5",
+    "character": "apprentice_sentinel_female",
+    "text": "The door logs report eleven openings. I count thirteen. Two are silent. Worrying.",
+    "emotion": "set",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "sentinel_female_ambient_6",
+    "character": "apprentice_sentinel_female",
+    "text": "I left a chalk mark on the rail. It hasn't moved. That's both reassuring and not.",
+    "emotion": "thoughtful",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "sentinel_female_ambient_7",
+    "character": "apprentice_sentinel_female",
+    "text": "Three watches in a row. Sleep can wait. Sleep should wait. Sleep won't.",
+    "emotion": "wry",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "sentinel_female_ambient_8",
+    "character": "apprentice_sentinel_female",
+    "text": "The cadre rotation's holding. I rest a quarter turn. The gear keeps.",
+    "emotion": "calm",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "sentinel_female_ambient_9",
+    "character": "apprentice_sentinel_female",
+    "text": "An oath at a door is the only kind that holds.",
+    "emotion": "warm",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "sentinel_female_deploy_3",
+    "character": "apprentice_sentinel_female",
+    "text": "Door's mine. Go.",
+    "emotion": "set",
+    "bucket": "deploy",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "sentinel_female_deploy_4",
+    "character": "apprentice_sentinel_female",
+    "text": "I'll cover the angle. Move when I say move.",
+    "emotion": "ready",
+    "bucket": "deploy",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "sentinel_female_deploy_5",
+    "character": "apprentice_sentinel_female",
+    "text": "Three angles. I cover two. Trust the third one.",
+    "emotion": "set",
+    "bucket": "deploy",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "sentinel_female_outcome_won_2",
+    "character": "apprentice_sentinel_female",
+    "text": "Watch held. We didn't lose anyone. Good shift.",
+    "emotion": "warm",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "sentinel_female_outcome_wounded_2",
+    "character": "apprentice_sentinel_female",
+    "text": "I missed a step. I'll re-run the drill in the morning.",
+    "emotion": "edged",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "sentinel_female_outcome_close_call",
+    "character": "apprentice_sentinel_female",
+    "text": "Door held. Threat passed. Three drills. I'll account for the fourth tomorrow.",
+    "emotion": "still",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "sentinel_female_outcome_routine_lost",
+    "character": "apprentice_sentinel_female",
+    "text": "I should have been on that flank. I'll log her on every post I stand from now on.",
+    "emotion": "raw",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "sentinel_female_event_act_complete",
+    "character": "apprentice_sentinel_female",
+    "text": "New layout. New routes. The drill book is updating overnight.",
+    "emotion": "ready",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "sentinel_female_event_npc_returned",
+    "character": "apprentice_sentinel_female",
+    "text": "She're back. I'll add their post to the night rotation. She will appreciate the consistency.",
+    "emotion": "warm",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "sentinel_female_event_betrayal_warning",
+    "character": "apprentice_sentinel_female",
+    "text": "Their watch records have gaps. Three. Not coincidence.",
+    "emotion": "edged",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "sentinel_female_event_relationship_warm",
+    "character": "apprentice_sentinel_female",
+    "text": "Two crew co-watched the alcove. I logged them both as relieved. Honestly.",
+    "emotion": "warm",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "sentinel_female_event_demon_summon",
+    "character": "apprentice_sentinel_female",
+    "text": "A bound spirit needs watching. I'll add a node to the rotation. Just one extra.",
+    "emotion": "thoughtful",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "sentinel_female_event_apprentice_died",
+    "character": "apprentice_sentinel_female",
+    "text": "She stood beside me through three watches. I'll stand alone tonight. For her.",
+    "emotion": "mourning",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "sentinel_female_event_recruit_added",
+    "character": "apprentice_sentinel_female",
+    "text": "New crew. They asked about the door. I told them. We have time.",
+    "emotion": "ready",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "sentinel_female_event_first_costly_choice",
+    "character": "apprentice_sentinel_female",
+    "text": "Difficult call. I'll log it. I'll re-read the log. The log is fine.",
+    "emotion": "calm",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "sentinel_female_event_loredex_found",
+    "character": "apprentice_sentinel_female",
+    "text": "Add it to the briefing pack. I'll re-read every shift.",
+    "emotion": "ready",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "sentinel_female_banter_relief_2",
+    "character": "apprentice_sentinel_female",
+    "text": "I relieve the watch. The watch doesn't relieve me.",
+    "emotion": "edged",
+    "bucket": "banter",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "sentinel_female_banter_oath_2",
+    "character": "apprentice_sentinel_female",
+    "text": "An oath at a door is the only kind that holds.",
+    "emotion": "warm",
+    "bucket": "banter",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "sentinel_female_banter_routine",
+    "character": "apprentice_sentinel_female",
+    "text": "Routine is the work. The work is routine. Don't complicate.",
+    "emotion": "calm",
+    "bucket": "banter",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "sentinel_female_quest_2_check",
+    "character": "apprentice_sentinel_female",
+    "text": "Found her. Alive. Doesn't want to talk. I'll wait. I waited before. I can wait again.",
+    "emotion": "low",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "sentinel_female_quest_followup_a",
+    "character": "apprentice_sentinel_female",
+    "text": "She forgave me. I haven't. The watch I failed was mine.",
+    "emotion": "raw",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "sentinel_female_quest_resolution_deep",
+    "character": "apprentice_sentinel_female",
+    "text": "We share the next watch. She stands beside me. I'll log it as paired.",
+    "emotion": "warm",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "sentinel_female_quest_resolution_break",
+    "character": "apprentice_sentinel_female",
+    "text": "I left the post early. She won't speak to me again. The post is mine forever now.",
+    "emotion": "raw",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "sentinel_female_romance_paired_watch",
+    "character": "apprentice_sentinel_female",
+    "text": "Stand the watch beside me. I'll explain the drills.",
+    "emotion": "soft",
+    "bucket": "romance",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "sentinel_female_romance_relief",
+    "character": "apprentice_sentinel_female",
+    "text": "You took a watch when I was breaking. I owe you one. I'll never collect.",
+    "emotion": "tender",
+    "bucket": "romance",
+    "file": "shared/apprenticeVoiceLines.ts"
   }
 ]

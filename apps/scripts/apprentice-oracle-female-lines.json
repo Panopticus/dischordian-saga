@@ -166,5 +166,269 @@
     "emotion": "warm",
     "bucket": "romance",
     "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "oracle_female_greet_3",
+    "character": "apprentice_oracle_female",
+    "text": "Welcome. The dream said you'd be tired. I made tea.",
+    "emotion": "soft",
+    "bucket": "greet",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "oracle_female_greet_4",
+    "character": "apprentice_oracle_female",
+    "text": "I knew you were coming. The substrate's been thrumming.",
+    "emotion": "wondering",
+    "bucket": "greet",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "oracle_female_ambient_4",
+    "character": "apprentice_oracle_female",
+    "text": "There are three of you in this room. Two are awake. The third is the one I'm watching.",
+    "emotion": "still",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "oracle_female_ambient_5",
+    "character": "apprentice_oracle_female",
+    "text": "The dream-list updated overnight. Two names moved. One is yours.",
+    "emotion": "edged",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "oracle_female_ambient_6",
+    "character": "apprentice_oracle_female",
+    "text": "I dreamt the engine. It dreamt me back. We negotiated.",
+    "emotion": "wry",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "oracle_female_ambient_7",
+    "character": "apprentice_oracle_female",
+    "text": "The colour I don't have a name for came twice last cycle. Three is meaningful.",
+    "emotion": "thoughtful",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "oracle_female_ambient_8",
+    "character": "apprentice_oracle_female",
+    "text": "Sleep this cycle is a workplace. I'll bring my notes back.",
+    "emotion": "calm",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "oracle_female_ambient_9",
+    "character": "apprentice_oracle_female",
+    "text": "Voltari static is the song my mother sang. I've stopped trying not to cry.",
+    "emotion": "raw",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "oracle_female_deploy_3",
+    "character": "apprentice_oracle_female",
+    "text": "I dreamt three exits. The fourth one's a lie.",
+    "emotion": "set",
+    "bucket": "deploy",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "oracle_female_deploy_4",
+    "character": "apprentice_oracle_female",
+    "text": "Take the right corridor. Don't ask. I'll explain in an hour.",
+    "emotion": "edged",
+    "bucket": "deploy",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "oracle_female_deploy_5",
+    "character": "apprentice_oracle_female",
+    "text": "If I tell you what I dreamt, you'll change it. I won't tell you yet.",
+    "emotion": "wry",
+    "bucket": "deploy",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "oracle_female_outcome_won_2",
+    "character": "apprentice_oracle_female",
+    "text": "It went almost the way I dreamt. The almost is the only part that mattered.",
+    "emotion": "thoughtful",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "oracle_female_outcome_wounded_2",
+    "character": "apprentice_oracle_female",
+    "text": "The dream warned me. I half-listened. Half is enough sometimes. Sometimes it isn't.",
+    "emotion": "wry",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "oracle_female_outcome_close_call",
+    "character": "apprentice_oracle_female",
+    "text": "I dreamt my own death three times this cycle. Today wasn't one of them.",
+    "emotion": "still",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "oracle_female_outcome_routine_lost",
+    "character": "apprentice_oracle_female",
+    "text": "I'd seen her. I should have said. I'll say next time.",
+    "emotion": "raw",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "oracle_female_event_act_complete",
+    "character": "apprentice_oracle_female",
+    "text": "Three new dream signatures in the substrate. Two are familiar. One is new.",
+    "emotion": "thoughtful",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "oracle_female_event_npc_returned",
+    "character": "apprentice_oracle_female",
+    "text": "She're back. I dreamt the return. I dreamt the colour of their first room.",
+    "emotion": "warm",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "oracle_female_event_betrayal_warning",
+    "character": "apprentice_oracle_female",
+    "text": "I dreamt them turning. Tonight or the next. Don't trust them with the keys yet.",
+    "emotion": "edged",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "oracle_female_event_relationship_warm",
+    "character": "apprentice_oracle_female",
+    "text": "I dreamt them holding hands. They will. Tonight or the next.",
+    "emotion": "soft",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "oracle_female_event_demon_summon",
+    "character": "apprentice_oracle_female",
+    "text": "Bound spirits show up in dreams as colours I don't have names for.",
+    "emotion": "wondering",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "oracle_female_event_apprentice_died",
+    "character": "apprentice_oracle_female",
+    "text": "I dreamt her once. She were laughing. I'll keep that one. She can borrow it whenever.",
+    "emotion": "still",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "oracle_female_event_first_costly_choice",
+    "character": "apprentice_oracle_female",
+    "text": "The decision you made is the one I dreamt. The one you didn't make is also dreamt.",
+    "emotion": "thoughtful",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "oracle_female_event_loredex_found",
+    "character": "apprentice_oracle_female",
+    "text": "I knew this one was next. The order is right.",
+    "emotion": "thrilled",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "oracle_female_event_voltari_first",
+    "character": "apprentice_oracle_female",
+    "text": "I dreamt that static. It was my mother. It still is.",
+    "emotion": "raw",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "oracle_female_banter_specifics_2",
+    "character": "apprentice_oracle_female",
+    "text": "Specifics narrow the dream. I'll give you a colour. Not a name. Not yet.",
+    "emotion": "edged",
+    "bucket": "banter",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "oracle_female_banter_share_2",
+    "character": "apprentice_oracle_female",
+    "text": "Sleep next to me sometime. I'll let you in on a small one.",
+    "emotion": "soft",
+    "bucket": "banter",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "oracle_female_banter_skeptic",
+    "character": "apprentice_oracle_female",
+    "text": "You don't believe in dreams. Fine. Believe in the colour I described last cycle. The one that turned up the next morning.",
+    "emotion": "wry",
+    "bucket": "banter",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "oracle_female_quest_2_check",
+    "character": "apprentice_oracle_female",
+    "text": "Found the survivor. They don't want me near them. I dreamt that, too.",
+    "emotion": "raw",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "oracle_female_quest_followup_a",
+    "character": "apprentice_oracle_female",
+    "text": "We met. They asked who'd dreamt the wrong vision. I said I had. They forgave me. The forgiveness was hard.",
+    "emotion": "still",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "oracle_female_quest_resolution_deep",
+    "character": "apprentice_oracle_female",
+    "text": "I told the rest. The dream-list is shorter. Sleep is heavier.",
+    "emotion": "warm",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "oracle_female_quest_resolution_break",
+    "character": "apprentice_oracle_female",
+    "text": "I told a lie. The dreams stopped. I'd take them back. I won't.",
+    "emotion": "raw",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "oracle_female_romance_share_dream",
+    "character": "apprentice_oracle_female",
+    "text": "Tonight I'll dream you in. Don't fight it. Tell me what colour the room was.",
+    "emotion": "soft",
+    "bucket": "romance",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "oracle_female_romance_omen_gift",
+    "character": "apprentice_oracle_female",
+    "text": "I left you a riddle in the box. If you solve it, we sleep together tonight.",
+    "emotion": "tender",
+    "bucket": "romance",
+    "file": "shared/apprenticeVoiceLines.ts"
   }
 ]

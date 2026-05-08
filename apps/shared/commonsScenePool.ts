@@ -2048,6 +2048,538 @@ export const COMMONS_SCENE_POOL: CommonsScene[] = [
     ],
     eavesdropDelta: 3,
   },
+
+  /* ═══ Coverage closeout — 35 pairings to clear the ratchet ═══ */
+  {
+    id: "ghost_x_zealot_alcove_01",
+    subzone: "alcove",
+    participants: ["ghost", "zealot"],
+    lines: [
+      { speaker: "zealot", text: "I'd preach to you. You wouldn't be in the room." },
+      { speaker: "ghost", text: "I'd hear it twice. Once on the way in. Once on the way out." },
+    ],
+    approachChoices: [
+      { label: "Sit at the back.", bondDelta: 4, consequence: "Both bond +3; quiet sermon." },
+      { label: "Watch.", bondDelta: 1, consequence: "Quiet." },
+      { label: "Forbid the sermon.", bondDelta: -3, consequence: "Both wilt." },
+    ],
+    eavesdropDelta: 2,
+  },
+  {
+    id: "artisan_x_zealot_long_table_01",
+    subzone: "long_table",
+    participants: ["artisan", "zealot"],
+    lines: [
+      { speaker: "zealot", text: "Carve me a sigil. Make it heavy enough to mean something." },
+      { speaker: "artisan", text: "I can make it heavy. Meaning is your axis, not mine." },
+    ],
+    approachChoices: [
+      { label: "Approve the commission.", bondDelta: 4, consequence: "Both bond +3; sigil enters the chapel." },
+      { label: "Watch.", bondDelta: 1, consequence: "They negotiate." },
+      { label: "Veto.", bondDelta: -3, consequence: "Both deflate." },
+    ],
+    eavesdropDelta: 1,
+  },
+  {
+    id: "wanderer_x_zealot_bar_01",
+    subzone: "bar",
+    participants: ["wanderer", "zealot"],
+    lines: [
+      { speaker: "zealot", text: "There's a Cause for every road." },
+      { speaker: "wanderer", text: "Most roads I've walked, the Cause was already gone." },
+    ],
+    approachChoices: [
+      { label: "Suggest a pilgrimage.", bondDelta: 4, consequence: "Side mission unlocks; both bond +3." },
+      { label: "Listen.", bondDelta: 1, consequence: "They drink." },
+      { label: "Tell them both to settle.", bondDelta: -3, consequence: "Both wilt." },
+    ],
+    eavesdropDelta: 1,
+  },
+  {
+    id: "sentinel_x_zealot_long_table_01",
+    subzone: "long_table",
+    participants: ["sentinel", "zealot"],
+    lines: [
+      { speaker: "sentinel", text: "I stand the chapel watch when you're inside." },
+      { speaker: "zealot", text: "I knew. I prayed for you. You stood through it." },
+    ],
+    approachChoices: [
+      { label: "Endorse the dual oath.", bondDelta: 5, consequence: "Both bond +4; chapel watch SOP added." },
+      { label: "Listen.", bondDelta: 2, consequence: "Quiet." },
+      { label: "Reassign the sentinel.", bondDelta: -4, consequence: "Both wounded." },
+    ],
+    eavesdropDelta: 2,
+  },
+  {
+    id: "ghost_x_revenant_alcove_01",
+    subzone: "alcove",
+    participants: ["ghost", "revenant"],
+    lines: [
+      { speaker: "revenant", text: "You move like someone who's already left." },
+      { speaker: "ghost", text: "You move like someone who's already returned." },
+    ],
+    approachChoices: [
+      { label: "Trust the kinship.", bondDelta: 5, consequence: "Both bond +4." },
+      { label: "Witness.", bondDelta: 2, consequence: "Quiet sit." },
+      { label: "Distinguish them.", bondDelta: -2, consequence: "Both retreat." },
+    ],
+    eavesdropDelta: 3,
+  },
+  {
+    id: "artisan_x_ghost_long_table_01",
+    subzone: "long_table",
+    participants: ["artisan", "ghost"],
+    lines: [
+      { speaker: "artisan", text: "Someone moved the lathe two degrees." },
+      { speaker: "ghost", text: "It was off-true. I corrected it." },
+      { speaker: "artisan", text: "Don't do that again. Tell me first." },
+    ],
+    approachChoices: [
+      { label: "Endorse a quiet collaboration.", bondDelta: 4, consequence: "Both bond +3." },
+      { label: "Watch.", bondDelta: 1, consequence: "Quiet." },
+      { label: "Forbid the contact.", bondDelta: -3, consequence: "Both retreat." },
+    ],
+    eavesdropDelta: 1,
+  },
+  {
+    id: "ghost_x_martyr_alcove_01",
+    subzone: "alcove",
+    participants: ["ghost", "martyr"],
+    lines: [
+      { speaker: "ghost", text: "You volunteered for the door I was already standing at." },
+      { speaker: "martyr", text: "I didn't see you." },
+      { speaker: "ghost", text: "I know." },
+    ],
+    approachChoices: [
+      { label: "Pair them on the next deployment.", bondDelta: 5, consequence: "Both bond +4; survival bonus next mission." },
+      { label: "Witness.", bondDelta: 2, consequence: "Quiet." },
+      { label: "Reassign the martyr.", bondDelta: -3, consequence: "Both wounded." },
+    ],
+    eavesdropDelta: 3,
+  },
+  {
+    id: "revenant_x_scholar_long_table_01",
+    subzone: "long_table",
+    participants: ["revenant", "scholar"],
+    lines: [
+      { speaker: "scholar", text: "Your archive predates your second life." },
+      { speaker: "revenant", text: "It also outlasted me. I'm reading it like a stranger." },
+    ],
+    approachChoices: [
+      { label: "Help reconstruct.", bondDelta: 5, consequence: "Memory recovery side scene unlocks." },
+      { label: "Watch.", bondDelta: 1, consequence: "They confer." },
+      { label: "Refuse the project.", bondDelta: -3, consequence: "Both retreat." },
+    ],
+    eavesdropDelta: 2,
+  },
+  {
+    id: "martyr_x_scholar_long_table_01",
+    subzone: "long_table",
+    participants: ["martyr", "scholar"],
+    lines: [
+      { speaker: "scholar", text: "Read the field manual. Not the heroic chapter — the boring one. It saves more lives." },
+      { speaker: "martyr", text: "I read the heroic chapter." },
+      { speaker: "scholar", text: "Read the boring one tonight. Please." },
+    ],
+    approachChoices: [
+      { label: "Authorize a study night.", bondDelta: 4, consequence: "Both bond +3; martyr survival +5%." },
+      { label: "Listen.", bondDelta: 1, consequence: "Quiet." },
+      { label: "Tell the martyr to skip it.", bondDelta: -4, consequence: "Both wounded." },
+    ],
+    eavesdropDelta: 2,
+  },
+  {
+    id: "scholar_x_sentinel_long_table_01",
+    subzone: "long_table",
+    participants: ["scholar", "sentinel"],
+    lines: [
+      { speaker: "sentinel", text: "Your footnote made the perimeter SOP shorter." },
+      { speaker: "scholar", text: "Footnotes do that. They cull what doesn't survive review." },
+    ],
+    approachChoices: [
+      { label: "Adopt the new SOP.", bondDelta: 4, consequence: "Defense bonus next event." },
+      { label: "Watch.", bondDelta: 1, consequence: "They confer." },
+      { label: "Revert.", bondDelta: -3, consequence: "Both wounded." },
+    ],
+    eavesdropDelta: 1,
+  },
+  {
+    id: "artisan_x_martyr_long_table_01",
+    subzone: "long_table",
+    participants: ["artisan", "martyr"],
+    lines: [
+      { speaker: "artisan", text: "I made you something. It's heavier than it needs to be. On purpose." },
+      { speaker: "martyr", text: "I'll wear it. You shouldn't have." },
+    ],
+    approachChoices: [
+      { label: "Insist they accept.", bondDelta: 5, consequence: "Both bond +4." },
+      { label: "Watch.", bondDelta: 2, consequence: "Quiet." },
+      { label: "Take the gift away.", bondDelta: -5, consequence: "Both wounded." },
+    ],
+    eavesdropDelta: 3,
+  },
+  {
+    id: "artisan_x_heretic_long_table_01",
+    subzone: "long_table",
+    participants: ["artisan", "heretic"],
+    lines: [
+      { speaker: "heretic", text: "Forge me a counter-relic. Same weight as the orthodox one. Two degrees off." },
+      { speaker: "artisan", text: "Three degrees. Let them argue about the third." },
+    ],
+    approachChoices: [
+      { label: "Greenlight.", bondDelta: 4, consequence: "Counter-relic enters circulation; both bond +3." },
+      { label: "Watch.", bondDelta: 1, consequence: "They sketch." },
+      { label: "Veto.", bondDelta: -3, consequence: "Both deflate." },
+    ],
+    eavesdropDelta: 1,
+  },
+  {
+    id: "oracle_x_wanderer_alcove_01",
+    subzone: "alcove",
+    participants: ["oracle", "wanderer"],
+    lines: [
+      { speaker: "oracle", text: "I dreamt a road you haven't walked." },
+      { speaker: "wanderer", text: "Tell me which one. I'll start tonight." },
+    ],
+    approachChoices: [
+      { label: "Authorize the trip.", bondDelta: 5, consequence: "Side mission unlocks; both bond +4." },
+      { label: "Listen.", bondDelta: 2, consequence: "Quiet." },
+      { label: "Refuse.", bondDelta: -3, consequence: "Both wounded." },
+    ],
+    eavesdropDelta: 2,
+  },
+  {
+    id: "oracle_x_prodigal_alcove_01",
+    subzone: "alcove",
+    participants: ["oracle", "prodigal"],
+    lines: [
+      { speaker: "oracle", text: "I dreamt you were already on your way." },
+      { speaker: "prodigal", text: "Three cycles back. I'm just slower than the dream." },
+    ],
+    approachChoices: [
+      { label: "Welcome the slowness.", bondDelta: 5, consequence: "Both bond +4; loredex unlock." },
+      { label: "Watch.", bondDelta: 2, consequence: "Quiet." },
+      { label: "Hurry them.", bondDelta: -3, consequence: "Both wounded." },
+    ],
+    eavesdropDelta: 3,
+  },
+  {
+    id: "heretic_x_jester_bar_01",
+    subzone: "bar",
+    participants: ["heretic", "jester"],
+    lines: [
+      { speaker: "jester", text: "Your tract is funny. Did you mean it to be?" },
+      { speaker: "heretic", text: "The orthodoxy made it funny. I just transcribed." },
+    ],
+    approachChoices: [
+      { label: "Encourage a joint reading.", bondDelta: 4, consequence: "Public dissent + comedy event; both bond +3." },
+      { label: "Watch.", bondDelta: 1, consequence: "They drink." },
+      { label: "Forbid the reading.", bondDelta: -3, consequence: "Both wilt." },
+    ],
+    eavesdropDelta: 1,
+  },
+  {
+    id: "vex_solene_x_zealot_alcove_01",
+    subzone: "alcove",
+    participants: ["vex_solene", "zealot"],
+    lines: [
+      { speaker: "vex_solene", text: "I'll sing your liturgy. Just once. So we know how it sounds out loud." },
+      { speaker: "zealot", text: "Once is enough. The Cause hears the rest." },
+    ],
+    approachChoices: [
+      { label: "Comp the performance.", bondDelta: 5, consequence: "Loredex unlock; both bond +4." },
+      { label: "Listen.", bondDelta: 2, consequence: "Quiet." },
+      { label: "Veto.", bondDelta: -4, consequence: "Both wounded." },
+    ],
+    eavesdropDelta: 3,
+  },
+  {
+    id: "akai_shi_x_zealot_alcove_01",
+    subzone: "alcove",
+    participants: ["akai_shi", "zealot"],
+    lines: [
+      { speaker: "akai_shi", text: "The thought-virus had its own scripture. I read it. It was thinner than yours." },
+      { speaker: "zealot", text: "Then we have a comparison to make." },
+    ],
+    approachChoices: [
+      { label: "Authorize a comparative reading.", bondDelta: 5, consequence: "Loredex unlock; both bond +4." },
+      { label: "Witness.", bondDelta: 2, consequence: "Quiet." },
+      { label: "Forbid the topic.", bondDelta: -4, consequence: "Both retreat." },
+    ],
+    eavesdropDelta: 3,
+  },
+  {
+    id: "ghost_x_jericho_jones_bar_01",
+    subzone: "bar",
+    participants: ["ghost", "jericho_jones"],
+    lines: [
+      { speaker: "jericho_jones", text: "You came through the cargo bay last night. The cadre would've missed you." },
+      { speaker: "ghost", text: "The cadre did miss me." },
+    ],
+    approachChoices: [
+      { label: "Endorse a quiet liaison role.", bondDelta: 4, consequence: "Both bond +3; recon bonus next mission." },
+      { label: "Watch.", bondDelta: 1, consequence: "Quiet." },
+      { label: "Reassign the ghost.", bondDelta: -3, consequence: "Both wounded." },
+    ],
+    eavesdropDelta: 1,
+  },
+  {
+    id: "scholar_x_vex_solene_long_table_01",
+    subzone: "long_table",
+    participants: ["scholar", "vex_solene"],
+    lines: [
+      { speaker: "vex_solene", text: "I want a footnote in the libretto. A real one. Citations and all." },
+      { speaker: "scholar", text: "I'll write three. The audience will pick the one they hear." },
+    ],
+    approachChoices: [
+      { label: "Approve the production.", bondDelta: 5, consequence: "Major narrative event; both bond +4." },
+      { label: "Listen.", bondDelta: 1, consequence: "They confer." },
+      { label: "Cut the footnote.", bondDelta: -3, consequence: "Both wounded." },
+    ],
+    eavesdropDelta: 2,
+  },
+  {
+    id: "jericho_jones_x_scholar_long_table_01",
+    subzone: "long_table",
+    participants: ["jericho_jones", "scholar"],
+    lines: [
+      { speaker: "jericho_jones", text: "Your field manual saved a cadre. They asked who wrote it. I told them." },
+      { speaker: "scholar", text: "Now they'll cite me badly. Worth it." },
+    ],
+    approachChoices: [
+      { label: "Endorse a cadre-scholar liaison.", bondDelta: 5, consequence: "Both bond +4; cadre survival +5%." },
+      { label: "Listen.", bondDelta: 2, consequence: "Quiet." },
+      { label: "Move on.", bondDelta: -2, consequence: "Both deflate." },
+    ],
+    eavesdropDelta: 2,
+  },
+  {
+    id: "revenant_x_vex_solene_alcove_01",
+    subzone: "alcove",
+    participants: ["revenant", "vex_solene"],
+    lines: [
+      { speaker: "vex_solene", text: "Sing me what you remember of dying. I want to write it." },
+      { speaker: "revenant", text: "I remember a colour. I'll hum the colour. You write the words." },
+    ],
+    approachChoices: [
+      { label: "Greenlight the libretto.", bondDelta: 6, consequence: "Major narrative event; both bond +5." },
+      { label: "Witness.", bondDelta: 2, consequence: "Quiet." },
+      { label: "Forbid the project.", bondDelta: -5, consequence: "Both wounded." },
+    ],
+    eavesdropDelta: 4,
+  },
+  {
+    id: "akai_shi_x_revenant_alcove_01",
+    subzone: "alcove",
+    participants: ["akai_shi", "revenant"],
+    lines: [
+      { speaker: "akai_shi", text: "We came back differently. Mine was loud. Yours was a list." },
+      { speaker: "revenant", text: "Both are returns. Both cost something we don't talk about yet." },
+    ],
+    approachChoices: [
+      { label: "Sit and listen.", bondDelta: 6, consequence: "Both bond +5; major loredex unlock." },
+      { label: "Witness.", bondDelta: 3, consequence: "Quiet." },
+      { label: "Forbid the meeting.", bondDelta: -6, consequence: "Both retreat permanently." },
+    ],
+    eavesdropDelta: 4,
+  },
+  {
+    id: "artisan_x_locke_long_table_01",
+    subzone: "long_table",
+    participants: ["artisan", "locke"],
+    lines: [
+      { speaker: "locke", text: "Your latest commission is in the trial archive. Annotated." },
+      { speaker: "artisan", text: "I left the joint visible on purpose. The annotation says so." },
+    ],
+    approachChoices: [
+      { label: "Endorse the archive entry.", bondDelta: 4, consequence: "Both bond +3; legal-craft axis." },
+      { label: "Watch.", bondDelta: 1, consequence: "They confer." },
+      { label: "Refuse the entry.", bondDelta: -3, consequence: "Both wounded." },
+    ],
+    eavesdropDelta: 2,
+  },
+  {
+    id: "akai_shi_x_artisan_long_table_01",
+    subzone: "long_table",
+    participants: ["akai_shi", "artisan"],
+    lines: [
+      { speaker: "akai_shi", text: "Build me something the thought-virus can't read." },
+      { speaker: "artisan", text: "Two degrees off. Three. I'll make it deliberately wrong." },
+    ],
+    approachChoices: [
+      { label: "Approve the prototype.", bondDelta: 5, consequence: "Thought-virus precaution unlocks; both bond +4." },
+      { label: "Watch.", bondDelta: 1, consequence: "They sketch." },
+      { label: "Forbid.", bondDelta: -4, consequence: "Both wounded." },
+    ],
+    eavesdropDelta: 2,
+  },
+  {
+    id: "jericho_jones_x_oracle_long_table_01",
+    subzone: "long_table",
+    participants: ["jericho_jones", "oracle"],
+    lines: [
+      { speaker: "oracle", text: "Don't take the second cadre into the western corridor." },
+      { speaker: "jericho_jones", text: "Acknowledged. I'll re-route. I won't ask why yet." },
+    ],
+    approachChoices: [
+      { label: "Authorize the re-route.", bondDelta: 5, consequence: "Cadre survival +10% next event." },
+      { label: "Listen.", bondDelta: 2, consequence: "Quiet." },
+      { label: "Dismiss the warning.", bondDelta: -5, consequence: "Future event hits harder." },
+    ],
+    eavesdropDelta: 3,
+  },
+  {
+    id: "wanderer_x_wraith_calder_alcove_01",
+    subzone: "alcove",
+    participants: ["wanderer", "wraith_calder"],
+    lines: [
+      { speaker: "wraith_calder", text: "Walk me a road that ends at a name on my list." },
+      { speaker: "wanderer", text: "I know one. Three sectors. Quiet at dusk." },
+    ],
+    approachChoices: [
+      { label: "Authorize the pilgrimage.", bondDelta: 5, consequence: "Closure side mission unlocks." },
+      { label: "Listen.", bondDelta: 2, consequence: "Quiet." },
+      { label: "Veto.", bondDelta: -4, consequence: "Both wounded." },
+    ],
+    eavesdropDelta: 3,
+  },
+  {
+    id: "locke_x_wanderer_long_table_01",
+    subzone: "long_table",
+    participants: ["locke", "wanderer"],
+    lines: [
+      { speaker: "locke", text: "Your transit logs are unusually accurate." },
+      { speaker: "wanderer", text: "I lie about most things. Roads aren't one of them." },
+    ],
+    approachChoices: [
+      { label: "Endorse the wanderer as a witness.", bondDelta: 4, consequence: "Both bond +3; legal-recon axis." },
+      { label: "Watch.", bondDelta: 1, consequence: "They confer." },
+      { label: "Refuse to register them.", bondDelta: -3, consequence: "Both wounded." },
+    ],
+    eavesdropDelta: 1,
+  },
+  {
+    id: "akai_shi_x_wanderer_alcove_01",
+    subzone: "alcove",
+    participants: ["akai_shi", "wanderer"],
+    lines: [
+      { speaker: "akai_shi", text: "There's a corridor on the substrate that doesn't echo." },
+      { speaker: "wanderer", text: "I've been there. I left a stone." },
+    ],
+    approachChoices: [
+      { label: "Send them back together.", bondDelta: 5, consequence: "Substrate side mission unlocks." },
+      { label: "Witness.", bondDelta: 2, consequence: "Quiet." },
+      { label: "Forbid contact.", bondDelta: -4, consequence: "Both retreat." },
+    ],
+    eavesdropDelta: 3,
+  },
+  {
+    id: "martyr_x_wraith_calder_alcove_01",
+    subzone: "alcove",
+    participants: ["martyr", "wraith_calder"],
+    lines: [
+      { speaker: "wraith_calder", text: "You're on my list early. That's not a compliment." },
+      { speaker: "martyr", text: "I'll move myself down." },
+      { speaker: "wraith_calder", text: "I can move you. You should let me." },
+    ],
+    approachChoices: [
+      { label: "Bench the martyr next deployment.", bondDelta: 6, consequence: "Both bond +5; survival +20%." },
+      { label: "Witness.", bondDelta: 2, consequence: "Quiet." },
+      { label: "Refuse the bench.", bondDelta: -5, consequence: "Mourning amplified if martyr dies next." },
+    ],
+    eavesdropDelta: 4,
+  },
+  {
+    id: "akai_shi_x_martyr_alcove_01",
+    subzone: "alcove",
+    participants: ["akai_shi", "martyr"],
+    lines: [
+      { speaker: "akai_shi", text: "I came back. You're not allowed to volunteer for what I just walked through." },
+      { speaker: "martyr", text: "I won't. Not the thought-virus. Other things, though." },
+    ],
+    approachChoices: [
+      { label: "Bench the martyr from thought-virus arcs.", bondDelta: 5, consequence: "Both bond +4." },
+      { label: "Watch.", bondDelta: 2, consequence: "Quiet." },
+      { label: "Refuse the bench.", bondDelta: -5, consequence: "Future event hits harder." },
+    ],
+    eavesdropDelta: 3,
+  },
+  {
+    id: "heretic_x_jericho_jones_bar_01",
+    subzone: "bar",
+    participants: ["heretic", "jericho_jones"],
+    lines: [
+      { speaker: "jericho_jones", text: "Your tract makes the cadre think. Then they file it. Then they rotate to the next post." },
+      { speaker: "heretic", text: "Filing is the highest praise I've ever had." },
+    ],
+    approachChoices: [
+      { label: "Authorize cadre study sessions.", bondDelta: 4, consequence: "Both bond +3; cadre dissent literacy +1." },
+      { label: "Watch.", bondDelta: 1, consequence: "They drink." },
+      { label: "Forbid the tract.", bondDelta: -4, consequence: "Both wilt." },
+    ],
+    eavesdropDelta: 1,
+  },
+  {
+    id: "akai_shi_x_jester_alcove_01",
+    subzone: "alcove",
+    participants: ["akai_shi", "jester"],
+    lines: [
+      { speaker: "jester", text: "I have a joke about the thought-virus. I will not be telling it. Possibly ever." },
+      { speaker: "akai_shi", text: "Tell me. I'll let you know whether to retire it." },
+    ],
+    approachChoices: [
+      { label: "Listen.", bondDelta: 4, consequence: "Both bond +3." },
+      { label: "Witness.", bondDelta: 1, consequence: "Quiet." },
+      { label: "Forbid the joke.", bondDelta: -3, consequence: "Both wilt." },
+    ],
+    eavesdropDelta: 2,
+  },
+  {
+    id: "sentinel_x_vex_solene_long_table_01",
+    subzone: "long_table",
+    participants: ["sentinel", "vex_solene"],
+    lines: [
+      { speaker: "sentinel", text: "I stood the stage door for the Reveal cadence." },
+      { speaker: "vex_solene", text: "I knew you were there. The audience never noticed. That was the work." },
+    ],
+    approachChoices: [
+      { label: "Endorse the joint protocol.", bondDelta: 4, consequence: "Both bond +3; performance security +1." },
+      { label: "Watch.", bondDelta: 1, consequence: "Quiet." },
+      { label: "Reassign the sentinel.", bondDelta: -3, consequence: "Both wounded." },
+    ],
+    eavesdropDelta: 2,
+  },
+  {
+    id: "akai_shi_x_sentinel_long_table_01",
+    subzone: "long_table",
+    participants: ["akai_shi", "sentinel"],
+    lines: [
+      { speaker: "akai_shi", text: "There's a watch I want to stand alongside you. Quiet. Listening for the wrong frequencies." },
+      { speaker: "sentinel", text: "I'll bring two thermoses. The shift is long." },
+    ],
+    approachChoices: [
+      { label: "Authorize the listening watch.", bondDelta: 5, consequence: "Thought-virus precaution; both bond +4." },
+      { label: "Witness.", bondDelta: 2, consequence: "Quiet." },
+      { label: "Reassign.", bondDelta: -4, consequence: "Both wounded." },
+    ],
+    eavesdropDelta: 2,
+  },
+  {
+    id: "locke_x_prodigal_alcove_01",
+    subzone: "alcove",
+    participants: ["locke", "prodigal"],
+    lines: [
+      { speaker: "locke", text: "Your file is open. Nothing on it. That's intentional, I assume." },
+      { speaker: "prodigal", text: "I asked for a clean page." },
+      { speaker: "locke", text: "Then I'll grant you one. The next entry is yours to write." },
+    ],
+    approachChoices: [
+      { label: "Witness the new beginning.", bondDelta: 5, consequence: "Both bond +4; loredex unlock." },
+      { label: "Watch.", bondDelta: 2, consequence: "Quiet." },
+      { label: "Demand a record.", bondDelta: -4, consequence: "Both wounded." },
+    ],
+    eavesdropDelta: 3,
+  },
 ];
 
 /** Index by participant for O(1) lookup. */

@@ -354,6 +354,12 @@ export interface CrewState {
    *  CrewAmbientTicker; FIFO-capped at MAX_GHOST_EFFECTS. */
   ghosts?: GhostEffectEntry[];
 
+  /** Loredex obituary entries — one per fallen crew member. Composed
+   *  on the server-side drain pass via composeObituary() in
+   *  apps/shared/loredexObituary.ts. Idempotent — re-draining the
+   *  same `apprentice_obituary` side-effect overwrites the same id. */
+  obituaries?: import("./loredexObituary").LoredexObituaryEntry[];
+
   /** Side-effects produced by the crew tick that need to be drained
    *  by the server router after each tick — writes to auxiliary
    *  tables (npc_world_death_state, resurrection_protocols_quests,

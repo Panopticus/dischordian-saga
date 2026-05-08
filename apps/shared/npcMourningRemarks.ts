@@ -184,10 +184,50 @@ export function getMourningRemarks(
   return MOURNING_REMARKS[deceasedNpcKey as ResurrectableNpcKey] ?? [];
 }
 
+/** Filter remarks to a single speaker. Returns the matching MourningRemark
+ *  if the (deceased, speaker) edge is authored, else undefined. The drain
+ *  pipeline uses this to build per-speaker mourning feed entries. */
+export function findMourningRemarks(
+  deceasedNpcKey: string,
+  speakerKey: string,
+): MourningRemark | undefined {
+  return getMourningRemarks(deceasedNpcKey).find(
+    (r) => r.speaker === speakerKey,
+  );
+}
+
 /** Deterministic variant pick. */
 export function pickMourningVariant(
   remark: MourningRemark,
   seed: number,
 ): string {
   return remark.variants[Math.abs(seed) % remark.variants.length];
+}
+
+/** Coverage check for the ship-check parity gate. The lore-implied
+ *  edges are: every deceased recruitable NPC has ≥ 2 speakers authored.
+ *  Implementation: count deceased NPCs with len(remarks) >= 2. */
+export function mourningRemarkCoverage(): {
+  declared: number;
+  implemented: number;
+  missing: string[];
+} {
+  const NPCS: ResurrectableNpcKey[] = [
+    "vex_solene",
+    "wraith_calder",
+    "locke",
+    "jericho_jones",
+    "akai_shi",
+  ];
+  const missing: string[] = [];
+  let implemented = 0;
+  for (const npc of NPCS) {
+    const remarks = MOURNING_REMARKS[npc] ?? [];
+    if (remarks.length >= 2) {
+      implemented += 1;
+    } else {
+      missing.push(`${npc}: ${remarks.length} speakers (need ≥ 2)`);
+    }
+  }
+  return { declared: NPCS.length, implemented, missing };
 }

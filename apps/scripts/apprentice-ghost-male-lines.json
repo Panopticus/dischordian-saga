@@ -166,5 +166,269 @@
     "emotion": "warm",
     "bucket": "romance",
     "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "ghost_male_greet_3",
+    "character": "apprentice_ghost_male",
+    "text": "You found the second me. There's a third. Don't look.",
+    "emotion": "low",
+    "bucket": "greet",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "ghost_male_greet_4",
+    "character": "apprentice_ghost_male",
+    "text": "I'd offer tea. You'd say no. Save us both the words.",
+    "emotion": "wry",
+    "bucket": "greet",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "ghost_male_ambient_4",
+    "character": "apprentice_ghost_male",
+    "text": "I counted the engineer's breaths last shift. Eighteen per minute. Stable.",
+    "emotion": "low",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "ghost_male_ambient_5",
+    "character": "apprentice_ghost_male",
+    "text": "Three of you here have me on a list. None of you have it correct.",
+    "emotion": "wry",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "ghost_male_ambient_6",
+    "character": "apprentice_ghost_male",
+    "text": "The maintenance loop on Deck 4 ends in a closet. The closet has a door I haven't opened.",
+    "emotion": "thoughtful",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "ghost_male_ambient_7",
+    "character": "apprentice_ghost_male",
+    "text": "I left a chalk mark on the rail. It's gone. Someone else watches.",
+    "emotion": "edged",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "ghost_male_ambient_8",
+    "character": "apprentice_ghost_male",
+    "text": "My presence is a courtesy. My absence is a verdict.",
+    "emotion": "calm",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "ghost_male_ambient_9",
+    "character": "apprentice_ghost_male",
+    "text": "I've memorized the daily rotations. Yours is off by twelve seconds.",
+    "emotion": "wry",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "ghost_male_deploy_3",
+    "character": "apprentice_ghost_male",
+    "text": "I'll already be inside before the briefing ends.",
+    "emotion": "set",
+    "bucket": "deploy",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "ghost_male_deploy_4",
+    "character": "apprentice_ghost_male",
+    "text": "Don't search for me. I'll be where the lights flicker.",
+    "emotion": "low",
+    "bucket": "deploy",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "ghost_male_deploy_5",
+    "character": "apprentice_ghost_male",
+    "text": "The angle nobody covers is mine.",
+    "emotion": "edged",
+    "bucket": "deploy",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "ghost_male_outcome_won_2",
+    "character": "apprentice_ghost_male",
+    "text": "The watch never knew I was there. That's the win.",
+    "emotion": "low",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "ghost_male_outcome_wounded_2",
+    "character": "apprentice_ghost_male",
+    "text": "I broke pattern once. The floor caught me. Pattern resumes.",
+    "emotion": "wry",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "ghost_male_outcome_close_call",
+    "character": "apprentice_ghost_male",
+    "text": "I was on the wrong side of a door for thirty seconds. They won't know.",
+    "emotion": "still",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "ghost_male_outcome_routine_lost",
+    "character": "apprentice_ghost_male",
+    "text": "He died alone. Nobody else saw. I did. I'll write it down.",
+    "emotion": "mourning",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "ghost_male_event_act_complete",
+    "character": "apprentice_ghost_male",
+    "text": "Three corridors reset. The new layout is mine to learn.",
+    "emotion": "ready",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "ghost_male_event_npc_returned",
+    "character": "apprentice_ghost_male",
+    "text": "He're back. He found me first. He didn't say.",
+    "emotion": "still",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "ghost_male_event_betrayal_warning",
+    "character": "apprentice_ghost_male",
+    "text": "I heard them planning. They didn't see me. I'm reporting now.",
+    "emotion": "edged",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "ghost_male_event_relationship_warm",
+    "character": "apprentice_ghost_male",
+    "text": "Two crew in the alcove. They didn't know I left. I left.",
+    "emotion": "low",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "ghost_male_event_demon_summon",
+    "character": "apprentice_ghost_male",
+    "text": "It looked at me. I'm being remembered by something that shouldn't.",
+    "emotion": "still",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "ghost_male_event_apprentice_died",
+    "character": "apprentice_ghost_male",
+    "text": "I'll watch where he used to walk. The route gets harder.",
+    "emotion": "mourning",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "ghost_male_event_recruit_added",
+    "character": "apprentice_ghost_male",
+    "text": "New crew. They don't see me yet. They will, slowly.",
+    "emotion": "wry",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "ghost_male_event_first_costly_choice",
+    "character": "apprentice_ghost_male",
+    "text": "I noticed your shoulders before your face. The decision was already made.",
+    "emotion": "soft",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "ghost_male_event_dialog_overheard",
+    "character": "apprentice_ghost_male",
+    "text": "I heard them. Don't ask me what. I'll tell you when it matters.",
+    "emotion": "edged",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "ghost_male_banter_visible_2",
+    "character": "apprentice_ghost_male",
+    "text": "Don't introduce me. I introduce myself to who I want.",
+    "emotion": "edged",
+    "bucket": "banter",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "ghost_male_banter_quiet_2",
+    "character": "apprentice_ghost_male",
+    "text": "Sit beside me. Don't fill the silence. I'll fill it if I need to.",
+    "emotion": "soft",
+    "bucket": "banter",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "ghost_male_banter_loud",
+    "character": "apprentice_ghost_male",
+    "text": "Keep your voice down. The room hears better at this hour.",
+    "emotion": "wry",
+    "bucket": "banter",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "ghost_male_quest_2_check",
+    "character": "apprentice_ghost_male",
+    "text": "I followed the watcher. They circled the lower deck three times. I'll write what they were looking at.",
+    "emotion": "set",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "ghost_male_quest_followup_a",
+    "character": "apprentice_ghost_male",
+    "text": "The watcher noticed I noticed. We've reached an understanding.",
+    "emotion": "low",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "ghost_male_quest_resolution_deep",
+    "character": "apprentice_ghost_male",
+    "text": "He sees me now. I'm letting it stay that way. With you.",
+    "emotion": "tender",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "ghost_male_quest_resolution_break",
+    "character": "apprentice_ghost_male",
+    "text": "I broke pattern. He ran. I let him. The watcher is now me.",
+    "emotion": "raw",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "ghost_male_romance_solo",
+    "character": "apprentice_ghost_male",
+    "text": "Don't write about us. I'll know if you do.",
+    "emotion": "edged",
+    "bucket": "romance",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "ghost_male_romance_anonymous_gift",
+    "character": "apprentice_ghost_male",
+    "text": "I left a coin on your bunk. You knew which one.",
+    "emotion": "soft",
+    "bucket": "romance",
+    "file": "shared/apprenticeVoiceLines.ts"
   }
 ]

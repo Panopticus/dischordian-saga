@@ -36,6 +36,7 @@ import { conspiracyRouter } from "./routers/conspiracy";
 import { guildExpansionRouter } from "./routers/guildExpansion";
 import { tier5PvpRouter } from "./routers/tier5Pvp";
 import { apprenticeTrialRouter } from "./routers/apprenticeTrial";
+import { apprenticePersonalQuestsRouter } from "./routers/apprenticePersonalQuests";
 import { pvpModerationRouter } from "./routers/pvpModeration";
 import { pvpTelemetryRouter } from "./routers/pvpTelemetry";
 import { partyRouter } from "./routers/party";
@@ -202,6 +203,7 @@ export const appRouter = router({
   guildExpansion: guildExpansionRouter,
   tier5Pvp: tier5PvpRouter,
   apprenticeTrial: apprenticeTrialRouter,
+  apprenticePersonalQuests: apprenticePersonalQuestsRouter,
   pvpModeration: pvpModerationRouter,
   pvpTelemetry: pvpTelemetryRouter,
   party: partyRouter,

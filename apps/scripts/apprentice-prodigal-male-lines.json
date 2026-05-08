@@ -166,5 +166,269 @@
     "emotion": "warm",
     "bucket": "romance",
     "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "prodigal_male_greet_3",
+    "character": "apprentice_prodigal_male",
+    "text": "Welcome. I'll be in the corner. I'm trying not to be in the corner.",
+    "emotion": "wry",
+    "bucket": "greet",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "prodigal_male_greet_4",
+    "character": "apprentice_prodigal_male",
+    "text": "Hi. Late again. I know.",
+    "emotion": "low",
+    "bucket": "greet",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "prodigal_male_ambient_4",
+    "character": "apprentice_prodigal_male",
+    "text": "I left because the orthodoxy made me lonely. The orthodoxy is leaner now. Good.",
+    "emotion": "low",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "prodigal_male_ambient_5",
+    "character": "apprentice_prodigal_male",
+    "text": "Plain bread is the best meal I never appreciated. I appreciate it now. Three times daily.",
+    "emotion": "soft",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "prodigal_male_ambient_6",
+    "character": "apprentice_prodigal_male",
+    "text": "Three cycles in. I keep meaning to leave. I keep not. I'll keep meaning.",
+    "emotion": "wry",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "prodigal_male_ambient_7",
+    "character": "apprentice_prodigal_male",
+    "text": "The cadre held a seat for me. They didn't tell me. They didn't have to.",
+    "emotion": "warm",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "prodigal_male_ambient_8",
+    "character": "apprentice_prodigal_male",
+    "text": "I owe three apologies. I'll make two. The third one isn't mine.",
+    "emotion": "thoughtful",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "prodigal_male_ambient_9",
+    "character": "apprentice_prodigal_male",
+    "text": "Coming back is hard work. Staying back is harder. I do both. Slowly.",
+    "emotion": "calm",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "prodigal_male_deploy_3",
+    "character": "apprentice_prodigal_male",
+    "text": "I'll do the work. I'm earning back trust the slow way.",
+    "emotion": "set",
+    "bucket": "deploy",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "prodigal_male_deploy_4",
+    "character": "apprentice_prodigal_male",
+    "text": "Tell me where you need me. I'll be there. I'll stay.",
+    "emotion": "warm",
+    "bucket": "deploy",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "prodigal_male_deploy_5",
+    "character": "apprentice_prodigal_male",
+    "text": "If I'm late, I'm not. I'll be early next time. I promise.",
+    "emotion": "wry",
+    "bucket": "deploy",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "prodigal_male_outcome_won_2",
+    "character": "apprentice_prodigal_male",
+    "text": "Came back with the team. That's two things in a row.",
+    "emotion": "warm",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "prodigal_male_outcome_wounded_2",
+    "character": "apprentice_prodigal_male",
+    "text": "I'm here. I came back. Same lesson. Bigger price.",
+    "emotion": "wry",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "prodigal_male_outcome_close_call",
+    "character": "apprentice_prodigal_male",
+    "text": "Almost left mid-mission. I didn't. I'll log the impulse and the choice.",
+    "emotion": "still",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "prodigal_male_outcome_routine_lost",
+    "character": "apprentice_prodigal_male",
+    "text": "He held a seat for me when I was gone. I'll hold his seat now.",
+    "emotion": "mourning",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "prodigal_male_event_act_complete",
+    "character": "apprentice_prodigal_male",
+    "text": "Another act. Another return. I'm getting good at it. Worse at it.",
+    "emotion": "thoughtful",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "prodigal_male_event_npc_returned",
+    "character": "apprentice_prodigal_male",
+    "text": "He're back. I welcomed them. They asked who held their seat. I said I had. I had.",
+    "emotion": "warm",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "prodigal_male_event_betrayal_warning",
+    "character": "apprentice_prodigal_male",
+    "text": "I've made the cheaper version of this leaving. Watch them. They might come back.",
+    "emotion": "edged",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "prodigal_male_event_relationship_warm",
+    "character": "apprentice_prodigal_male",
+    "text": "Two crew bonded. I sat near them. They didn't ask me to leave. Progress.",
+    "emotion": "soft",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "prodigal_male_event_demon_summon",
+    "character": "apprentice_prodigal_male",
+    "text": "Bound spirits return too. The math works the same.",
+    "emotion": "thoughtful",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "prodigal_male_event_apprentice_died",
+    "character": "apprentice_prodigal_male",
+    "text": "He held a seat for me. I'll keep theirs warm. The cadre will know.",
+    "emotion": "mourning",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "prodigal_male_event_recruit_added",
+    "character": "apprentice_prodigal_male",
+    "text": "New crew. I'll be slow with them. I know what new feels like.",
+    "emotion": "soft",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "prodigal_male_event_first_costly_choice",
+    "character": "apprentice_prodigal_male",
+    "text": "I've made the cheaper version. Yours is harder to come back from. Don't.",
+    "emotion": "set",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "prodigal_male_event_loredex_found",
+    "character": "apprentice_prodigal_male",
+    "text": "Familiar. I think I read this in another life. Three lifetimes ago.",
+    "emotion": "thoughtful",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "prodigal_male_banter_late_2",
+    "character": "apprentice_prodigal_male",
+    "text": "Yes. Late. Move on.",
+    "emotion": "edged",
+    "bucket": "banter",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "prodigal_male_banter_seat_2",
+    "character": "apprentice_prodigal_male",
+    "text": "Someone kept the seat. Tonight, it's mine.",
+    "emotion": "warm",
+    "bucket": "banter",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "prodigal_male_banter_apology",
+    "character": "apprentice_prodigal_male",
+    "text": "I owe you an apology. I haven't said it. You haven't asked. We're balanced.",
+    "emotion": "wry",
+    "bucket": "banter",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "prodigal_male_quest_2_check",
+    "character": "apprentice_prodigal_male",
+    "text": "Found them. They didn't recognize me. I'm not sure I do, either.",
+    "emotion": "raw",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "prodigal_male_quest_followup_a",
+    "character": "apprentice_prodigal_male",
+    "text": "They asked if I was staying. I told them yes. I'm trying.",
+    "emotion": "wondering",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "prodigal_male_quest_resolution_deep",
+    "character": "apprentice_prodigal_male",
+    "text": "I stayed. They forgave me. The cadre forgave me. I'm working on me.",
+    "emotion": "tender",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "prodigal_male_quest_resolution_break",
+    "character": "apprentice_prodigal_male",
+    "text": "I left again. They saw me leave. They told me I would. They were right.",
+    "emotion": "raw",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "prodigal_male_romance_simple",
+    "character": "apprentice_prodigal_male",
+    "text": "Witness me coming back. Slow. I'll show up most days. Don't mark them down.",
+    "emotion": "soft",
+    "bucket": "romance",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "prodigal_male_romance_kept_seat",
+    "character": "apprentice_prodigal_male",
+    "text": "You don't ask why I left. That's why I'm here. I'm staying.",
+    "emotion": "tender",
+    "bucket": "romance",
+    "file": "shared/apprenticeVoiceLines.ts"
   }
 ]

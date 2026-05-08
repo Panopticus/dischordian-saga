@@ -166,5 +166,269 @@
     "emotion": "warm",
     "bucket": "romance",
     "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "artisan_female_greet_3",
+    "character": "apprentice_artisan_female",
+    "text": "Welcome. Don't lean on the bench. The varnish is still tacky.",
+    "emotion": "set",
+    "bucket": "greet",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "artisan_female_greet_4",
+    "character": "apprentice_artisan_female",
+    "text": "I'll be done in three breaths. Maybe four.",
+    "emotion": "wry",
+    "bucket": "greet",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "artisan_female_ambient_4",
+    "character": "apprentice_artisan_female",
+    "text": "The hum changes pitch when the metal's right. I'm listening.",
+    "emotion": "calm",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "artisan_female_ambient_5",
+    "character": "apprentice_artisan_female",
+    "text": "I left a notch. Anybody who finishes this after me will know who started.",
+    "emotion": "thoughtful",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "artisan_female_ambient_6",
+    "character": "apprentice_artisan_female",
+    "text": "Three drafts of this hilt before I cut the wood. Most of the work happens before the work.",
+    "emotion": "steady",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "artisan_female_ambient_7",
+    "character": "apprentice_artisan_female",
+    "text": "Sloppy welds outlive the welder. Always.",
+    "emotion": "edged",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "artisan_female_ambient_8",
+    "character": "apprentice_artisan_female",
+    "text": "The Engineer Zero brings me singular pigments. I owe him three lifetimes.",
+    "emotion": "warm",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "artisan_female_ambient_9",
+    "character": "apprentice_artisan_female",
+    "text": "Patina is a story. Don't polish it off.",
+    "emotion": "soft",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "artisan_female_deploy_3",
+    "character": "apprentice_artisan_female",
+    "text": "I'm packing the field-repair kit. Nobody touches the calibration jig.",
+    "emotion": "set",
+    "bucket": "deploy",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "artisan_female_deploy_4",
+    "character": "apprentice_artisan_female",
+    "text": "If something breaks, I'm a kit. The kit is me.",
+    "emotion": "ready",
+    "bucket": "deploy",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "artisan_female_deploy_5",
+    "character": "apprentice_artisan_female",
+    "text": "I'll fix it on the way out. We won't have time on the way in.",
+    "emotion": "wry",
+    "bucket": "deploy",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "artisan_female_outcome_won_2",
+    "character": "apprentice_artisan_female",
+    "text": "Three pieces back, three repairs ahead. I'll start at dawn.",
+    "emotion": "warm",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "artisan_female_outcome_wounded_2",
+    "character": "apprentice_artisan_female",
+    "text": "I'll repair the joint. The joint is me. The metaphor is recursive.",
+    "emotion": "wry",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "artisan_female_outcome_close_call",
+    "character": "apprentice_artisan_female",
+    "text": "The hilt held. Two centimetres further it wouldn't have. The hilt held.",
+    "emotion": "still",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "artisan_female_outcome_routine_lost",
+    "character": "apprentice_artisan_female",
+    "text": "I'll keep one piece for her. Their signature stays. The piece is theirs.",
+    "emotion": "mourning",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "artisan_female_event_act_complete",
+    "character": "apprentice_artisan_female",
+    "text": "Another act. Three new commissions queued.",
+    "emotion": "ready",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "artisan_female_event_npc_returned",
+    "character": "apprentice_artisan_female",
+    "text": "She came back. I'll re-issue the commission they couldn't pick up before.",
+    "emotion": "warm",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "artisan_female_event_betrayal_warning",
+    "character": "apprentice_artisan_female",
+    "text": "Their sigil is two degrees off. Not by accident.",
+    "emotion": "edged",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "artisan_female_event_relationship_warm",
+    "character": "apprentice_artisan_female",
+    "text": "Two crew at the long table. I'll engrave a token. Quietly.",
+    "emotion": "warm",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "artisan_female_event_demon_summon",
+    "character": "apprentice_artisan_female",
+    "text": "I want to study its sigils. Just the ones that don't bite.",
+    "emotion": "thoughtful",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "artisan_female_event_apprentice_died",
+    "character": "apprentice_artisan_female",
+    "text": "I'll make her a memorial. Heavy. On purpose. The Wraith Calder will know what to do with it.",
+    "emotion": "mourning",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "artisan_female_event_recruit_added",
+    "character": "apprentice_artisan_female",
+    "text": "New crew. They asked me what I make. I showed them. Now they're a customer.",
+    "emotion": "warm",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "artisan_female_event_loredex_found",
+    "character": "apprentice_artisan_female",
+    "text": "There's a maker's mark in the entry. I know it. The maker is older than three of our centuries.",
+    "emotion": "thrilled",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "artisan_female_event_recipe_acquired",
+    "character": "apprentice_artisan_female",
+    "text": "Three new recipes. The middle one is interesting. The other two are warnings.",
+    "emotion": "thoughtful",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "artisan_female_banter_critique_2",
+    "character": "apprentice_artisan_female",
+    "text": "Critique me when the work's cool. Not before. Not before.",
+    "emotion": "edged",
+    "bucket": "banter",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "artisan_female_banter_watch_2",
+    "character": "apprentice_artisan_female",
+    "text": "Sit. The hum's good for the work. The hum is half the work.",
+    "emotion": "warm",
+    "bucket": "banter",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "artisan_female_banter_apprentice",
+    "character": "apprentice_artisan_female",
+    "text": "I'd take an apprentice. They'd hate me for the first month. Then they'd be patient.",
+    "emotion": "wry",
+    "bucket": "banter",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "artisan_female_quest_2_check",
+    "character": "apprentice_artisan_female",
+    "text": "The piece is finished. They haven't picked it up. I'll wait. The piece will outlast both of us anyway.",
+    "emotion": "raw",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "artisan_female_quest_followup_a",
+    "character": "apprentice_artisan_female",
+    "text": "They asked me to alter it. The alteration would weaken the joint. I refused. They're upset.",
+    "emotion": "set",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "artisan_female_quest_resolution_deep",
+    "character": "apprentice_artisan_female",
+    "text": "I delivered. They wept on the bench. I left them with it.",
+    "emotion": "warm",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "artisan_female_quest_resolution_break",
+    "character": "apprentice_artisan_female",
+    "text": "I altered. The joint weakened. The piece will fail in three cycles. They asked. I served.",
+    "emotion": "raw",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "artisan_female_romance_handmade",
+    "character": "apprentice_artisan_female",
+    "text": "I made you a thing. It's small. Don't lose it. Don't polish it.",
+    "emotion": "soft",
+    "bucket": "romance",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "artisan_female_romance_workshop",
+    "character": "apprentice_artisan_female",
+    "text": "Stay in the workshop. Don't talk. The hum needs us both.",
+    "emotion": "tender",
+    "bucket": "romance",
+    "file": "shared/apprenticeVoiceLines.ts"
   }
 ]

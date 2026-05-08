@@ -166,5 +166,269 @@
     "emotion": "warm",
     "bucket": "romance",
     "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "revenant_male_greet_3",
+    "character": "apprentice_revenant_male",
+    "text": "Welcome. The list is getting shorter. Slowly.",
+    "emotion": "low",
+    "bucket": "greet",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "revenant_male_greet_4",
+    "character": "apprentice_revenant_male",
+    "text": "I'm okay. I'm here. Both true.",
+    "emotion": "ready",
+    "bucket": "greet",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "revenant_male_ambient_4",
+    "character": "apprentice_revenant_male",
+    "text": "I keep finding things in pockets I don't remember filling.",
+    "emotion": "wry",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "revenant_male_ambient_5",
+    "character": "apprentice_revenant_male",
+    "text": "The third name on my list runs a stall in the lower deck. They didn't recognize me.",
+    "emotion": "low",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "revenant_male_ambient_6",
+    "character": "apprentice_revenant_male",
+    "text": "Sleep takes me to the same hallway twice a week. Different lighting each time.",
+    "emotion": "still",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "revenant_male_ambient_7",
+    "character": "apprentice_revenant_male",
+    "text": "I'm not afraid of dying. I'm tired of starting over.",
+    "emotion": "raw",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "revenant_male_ambient_8",
+    "character": "apprentice_revenant_male",
+    "text": "There's a fifth name I haven't written down. I don't trust myself with it yet.",
+    "emotion": "edged",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "revenant_male_ambient_9",
+    "character": "apprentice_revenant_male",
+    "text": "The cadre patches have changed three times since I died. I'm still learning the new ones.",
+    "emotion": "thoughtful",
+    "bucket": "ambient",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "revenant_male_deploy_3",
+    "character": "apprentice_revenant_male",
+    "text": "I've done worse. Less prepared.",
+    "emotion": "set",
+    "bucket": "deploy",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "revenant_male_deploy_4",
+    "character": "apprentice_revenant_male",
+    "text": "I'll go first. I know the ground.",
+    "emotion": "low",
+    "bucket": "deploy",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "revenant_male_deploy_5",
+    "character": "apprentice_revenant_male",
+    "text": "Three crossings ahead. I marked the first two last cycle.",
+    "emotion": "ready",
+    "bucket": "deploy",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "revenant_male_outcome_won_2",
+    "character": "apprentice_revenant_male",
+    "text": "Crossed off the fourth. The fifth's a problem.",
+    "emotion": "low",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "revenant_male_outcome_wounded_2",
+    "character": "apprentice_revenant_male",
+    "text": "Old wounds. New wounds. Same body. Same accountant.",
+    "emotion": "wry",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "revenant_male_outcome_close_call",
+    "character": "apprentice_revenant_male",
+    "text": "I died in three of the dream variants. Not this one.",
+    "emotion": "still",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "revenant_male_outcome_routine_lost",
+    "character": "apprentice_revenant_male",
+    "text": "His unfinished business is mine now. I'll honor the addition.",
+    "emotion": "mourning",
+    "bucket": "outcome",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "revenant_male_event_act_complete",
+    "character": "apprentice_revenant_male",
+    "text": "Another act. Another set of names I should have written down.",
+    "emotion": "thoughtful",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "revenant_male_event_npc_returned",
+    "character": "apprentice_revenant_male",
+    "text": "He're back. We compare notes on the boundary tonight.",
+    "emotion": "warm",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "revenant_male_event_betrayal_warning",
+    "character": "apprentice_revenant_male",
+    "text": "I've seen this before. The sequence is the same. The face is new.",
+    "emotion": "edged",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "revenant_male_event_relationship_warm",
+    "character": "apprentice_revenant_male",
+    "text": "Two of you bonded in the alcove. I'm glad. The dead don't always get that.",
+    "emotion": "warm",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "revenant_male_event_demon_summon",
+    "character": "apprentice_revenant_male",
+    "text": "Bound spirits remind me of myself. Reluctant company.",
+    "emotion": "low",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "revenant_male_event_apprentice_died",
+    "character": "apprentice_revenant_male",
+    "text": "I know what he're feeling. I'll go sit with the body. Once is enough for the witness.",
+    "emotion": "mourning",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "revenant_male_event_resurrection_complete",
+    "character": "apprentice_revenant_male",
+    "text": "Welcome back. Whatever you remember, write it down. Tonight. While it's loud.",
+    "emotion": "warm",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "revenant_male_event_recruit_added",
+    "character": "apprentice_revenant_male",
+    "text": "Another name to learn. I'll forget it twice and remember the third time.",
+    "emotion": "wry",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "revenant_male_event_first_costly_choice",
+    "character": "apprentice_revenant_male",
+    "text": "Difficult choices age you. I'd know.",
+    "emotion": "low",
+    "bucket": "event",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "revenant_male_banter_died_2",
+    "character": "apprentice_revenant_male",
+    "text": "I'll tell you how I died. Once. After the second mission.",
+    "emotion": "edged",
+    "bucket": "banter",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "revenant_male_banter_finish_2",
+    "character": "apprentice_revenant_male",
+    "text": "I owe a name. We could go this cycle.",
+    "emotion": "set",
+    "bucket": "banter",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "revenant_male_banter_grief",
+    "character": "apprentice_revenant_male",
+    "text": "Grief from the inside is just an extra job to keep up with.",
+    "emotion": "still",
+    "bucket": "banter",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "revenant_male_quest_2_check",
+    "character": "apprentice_revenant_male",
+    "text": "Found the third name. He runs a paint shop now. He cried. I didn't.",
+    "emotion": "raw",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "revenant_male_quest_followup_a",
+    "character": "apprentice_revenant_male",
+    "text": "The fourth name is dead. Already. I'll find the family.",
+    "emotion": "still",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "revenant_male_quest_resolution_deep",
+    "character": "apprentice_revenant_male",
+    "text": "Crossed the last. The list is closed. The pen's heavier than I expected.",
+    "emotion": "warm",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "revenant_male_quest_resolution_break",
+    "character": "apprentice_revenant_male",
+    "text": "I left one name uncrossed. I think I want to leave one. Always.",
+    "emotion": "raw",
+    "bucket": "quest",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "revenant_male_romance_morning",
+    "character": "apprentice_revenant_male",
+    "text": "I wake before you. I count your breaths. It's allowed.",
+    "emotion": "soft",
+    "bucket": "romance",
+    "file": "shared/apprenticeVoiceLines.ts"
+  },
+  {
+    "id": "revenant_male_romance_quiet_walk",
+    "character": "apprentice_revenant_male",
+    "text": "Walk with me. Don't ask. I'll tell you about a corner of my old life.",
+    "emotion": "tender",
+    "bucket": "romance",
+    "file": "shared/apprenticeVoiceLines.ts"
   }
 ]
